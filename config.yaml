@@ -1,0 +1,86 @@
+# ═══════════════════════════════════════════════════════════
+#  إعدادات بوت الأخبار الرائجة  →  فيسبوك
+# ═══════════════════════════════════════════════════════════
+
+brand:
+  name: "نافذة العالم"            # الاسم الذي يظهر على الصورة
+  handle: "@world.window"          # يظهر أسفل الصورة (اتركه فارغًا للإخفاء)
+  primary_color: "#0F172A"         # لون الشريط السفلي
+  accent_color: "#F4B942"          # لون خط التمييز وشعار العاجل
+
+# ── مصادر الأخبار (RSS مجاني بلا مفاتيح) ────────────────────
+# لكل مصدر: وزن الأهمية weight، والمنطقة region للتنويع الجغرافي
+sources:
+  - name: "Google News — World"
+    url: "https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en"
+    region: "global"
+    weight: 1.0
+  - name: "Google News — Business"
+    url: "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en"
+    region: "global"
+    weight: 0.9
+  - name: "Google News — Technology"
+    url: "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en"
+    region: "global"
+    weight: 0.9
+  - name: "BBC World"
+    url: "https://feeds.bbci.co.uk/news/world/rss.xml"
+    region: "uk"
+    weight: 1.0
+  - name: "Al Jazeera English"
+    url: "https://www.aljazeera.com/xml/rss/all.xml"
+    region: "mena"
+    weight: 1.0
+  - name: "Reuters via Google"
+    url: "https://news.google.com/rss/search?q=when:12h+allinurl:reuters.com&hl=en-US&gl=US&ceid=US:en"
+    region: "global"
+    weight: 1.0
+  - name: "France24"
+    url: "https://www.france24.com/en/rss"
+    region: "eu"
+    weight: 0.8
+  - name: "NHK Japan"
+    url: "https://www3.nhk.or.jp/nhkworld/en/news/feeds/"
+    region: "asia"
+    weight: 0.7
+  - name: "Google News — Türkiye"
+    url: "https://news.google.com/rss?hl=tr&gl=TR&ceid=TR:tr"
+    region: "tr"
+    weight: 0.8
+
+# ── الترشيح والترتيب ────────────────────────────────────────
+selection:
+  max_age_hours: 18          # تجاهل أي خبر أقدم من ذلك
+  drafts_per_run: 5          # عدد المسودات المولّدة في كل تشغيل
+  min_sources_for_trend: 1   # ارفعه إلى 2 لنشر ما تتفق عليه عدة مصادر فقط
+  dedupe_memory_days: 5      # لا تعد نشر خبر مشابه خلال هذه المدة
+  title_similarity: 0.62     # حد التشابه لدمج نفس الخبر من مصادر مختلفة (0-1)
+  region_diversity: true     # وزّع الأخبار جغرافيًا بدل تكديسها من منطقة واحدة
+  max_per_region: 3          # سقف الأخبار من نفس المنطقة في الدفعة الواحدة
+  blocklist_keywords:        # كلمات تستبعد الخبر تمامًا
+    - "horoscope"
+    - "betting odds"
+    - "sponsored"
+
+# ── الصياغة العربية (Claude API) ────────────────────────────
+writer:
+  model: "claude-sonnet-5"   # بديل أرخص: claude-haiku-4-5-20251001
+  tone: "خبري رصين، عربي فصيح مبسّط، بلا مبالغة أو إثارة"
+  post_length: "60 إلى 90 كلمة"
+  hashtags_count: 4
+  include_source_credit: true
+
+# ── الصورة ─────────────────────────────────────────────────
+image:
+  width: 1200
+  height: 630
+  headline_max_chars: 95     # النص المكتوب على الصورة
+  font_regular: "assets/fonts/Tajawal-Regular.ttf"
+  font_bold: "assets/fonts/Tajawal-ExtraBold.ttf"
+  blur_background: true      # تمويه خفيف يجعل النص مقروءًا
+  fallback_gradient: true    # تدرّج لوني إذا لم توجد صورة أصلية
+
+# ── فيسبوك ─────────────────────────────────────────────────
+facebook:
+  api_version: "v21.0"
+  publish_as_photo: true     # منشور صورة + تعليق (الأنسب للتفاعل)
