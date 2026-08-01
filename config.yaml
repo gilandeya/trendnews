@@ -3,7 +3,7 @@
 # ═══════════════════════════════════════════════════════════
 
 brand:
-  name: "نافذة العالم"            # يظهر في الترويسة إن لم يوجد شعار
+  name: "البوصلة"            # يظهر في الترويسة إن لم يوجد شعار
   logo: "assets/logo.png"                        # مسار شعارك، مثل: assets/logo.png
                                   #   PNG بخلفية شفافة هو الأفضل
                                   #   يحل محل الاسم النصي تمامًا
@@ -106,7 +106,7 @@ image:
   headline_max_chars: 90     # طول العنوان المكتوب على الصورة
   font_headline: "assets/fonts/Almarai-ExtraBold.ttf"
   font_headline_weight: ""   # للخطوط المتغيرة فقط: Bold / ExtraBold / Black
-  font_body: ""              # فارغ = نفس خط العنوان (أنسب بصريًا)
+  font_body: "assets/fonts/Cairo.ttf"              # فارغ = نفس خط العنوان (أنسب بصريًا)
   font_body_weight: "Bold"   # للخطوط المتغيرة: Regular / Medium / SemiBold / Bold
   sharpen: true              # تحسين حدة صورة الخبر
 
