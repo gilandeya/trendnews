@@ -85,13 +85,33 @@ def score_cluster(group: list[Article], max_age_hours: int) -> float:
 
 
 def pick_representative(group: list[Article]) -> Article:
-    """يختار أفضل نسخة من الخبر: صورة موجودة، ثم أعلى وزن، ثم الأحدث."""
-    best = sorted(
-        group,
-        key=lambda a: (a.image_url is not None, a.weight, a.published),
-        reverse=True,
-    )[0]
+    """
+    يختار أفضل نسخة من الخبر، ويستعير صور بقية النسخ.
+
+    هذا مهم: قد يكون الخبر من Google News (بلا صورة) بينما نسخة BBC من
+    الحدث نفسه تحمل صورة حقيقية — فنأخذ نص الأقوى وصورة من يملكها.
+    """
+    from .sources import is_generic_image
+
+    def key(a: Article):
+        return (
+            bool(a.image_candidates),               # يملك صورة
+            "news.google.com" not in a.link,        # ناشر مباشر
+            a.weight,
+            a.published,
+        )
+
+    best = max(group, key=key)
     best.cluster_sources = sorted({a.publisher or a.source_name for a in group})
+
+    # ادمج مرشحي الصور من كل النسخ، مع الحفاظ على الترتيب وبلا تكرار
+    merged: list[str] = list(best.image_candidates)
+    for art in sorted(group, key=lambda a: -a.weight):
+        for url in art.image_candidates:
+            if url not in merged and not is_generic_image(url):
+                merged.append(url)
+    best.image_candidates = merged[:6]
+    best.image_url = merged[0] if merged else None
     return best
 
 
