@@ -34,6 +34,7 @@ class Article:
     publisher: str = ""
     # يُملأ لاحقًا في مرحلة الترتيب
     cluster_sources: list[str] = field(default_factory=list)
+    image_candidates: list[str] = field(default_factory=list)
     score: float = 0.0
 
     @property
@@ -66,12 +67,12 @@ def strip_publisher(title: str) -> tuple[str, str]:
 # ──────────────────────────── استخراج الصور ────────────────────────────
 
 
-def image_from_entry(entry) -> str | None:
-    """يبحث عن صورة داخل عنصر RSS نفسه (الأسرع والأقل تكلفة)."""
+def images_from_entry(entry) -> list[str]:
+    """كل روابط الصور داخل عنصر RSS، مرتبة من الأكبر إلى الأصغر."""
+    sized: list[tuple[int, str]] = []
+
     for key in ("media_content", "media_thumbnail"):
-        items = entry.get(key) or []
-        best, best_w = None, -1
-        for item in items:
+        for item in entry.get(key) or []:
             url = item.get("url")
             if not url:
                 continue
@@ -79,23 +80,27 @@ def image_from_entry(entry) -> str | None:
                 width = int(item.get("width") or 0)
             except (TypeError, ValueError):
                 width = 0
-            if width > best_w:
-                best, best_w = url, width
-        if best:
-            return best
+            sized.append((width, url))
 
     for enc in entry.get("enclosures") or []:
         if str(enc.get("type", "")).startswith("image") and enc.get("href"):
-            return enc["href"]
+            sized.append((0, enc["href"]))
 
-    for blob in (entry.get("summary"), entry.get("content", [{}])[0].get("value")
-                 if entry.get("content") else None):
-        if not blob:
-            continue
-        m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', blob)
-        if m:
-            return m.group(1)
-    return None
+    blobs = [entry.get("summary")]
+    if entry.get("content"):
+        blobs.append(entry["content"][0].get("value"))
+    for blob in blobs:
+        if blob:
+            for m in re.finditer(r'<img[^>]+src=["\']([^"\']+)["\']', blob):
+                sized.append((0, m.group(1)))
+
+    sized.sort(key=lambda t: -t[0])
+    out: list[str] = []
+    for _, url in sized:
+        for variant in upgrade_image_url(url):
+            if variant not in out and not is_generic_image(variant):
+                out.append(variant)
+    return out
 
 
 _OG_PATTERNS = [
@@ -140,14 +145,78 @@ def image_from_page(url: str, timeout: int = 12) -> str | None:
     return None
 
 
+GENERIC_IMAGE_HINTS = (
+    "logo", "placeholder", "default", "avatar", "icon", "sprite", "blank",
+    "gstatic.com", "news.google.com", "/favicon", "share-image", "og-default",
+    "social-default", "fallback",
+)
+
+
+def is_generic_image(url: str | None) -> bool:
+    """يرفض الشعارات والصور الافتراضية التي لا علاقة لها بالخبر."""
+    if not url:
+        return True
+    low = url.lower()
+    return any(hint in low for hint in GENERIC_IMAGE_HINTS)
+
+
+# ترقية روابط الصور: أغلب الخلاصات تعطي مصغّرات صغيرة، وشبكات التوزيع
+# تسمح بطلب النسخة الكبيرة بتغيير رقم العرض في المسار.
+_CDN_UPGRADES: list[tuple[re.Pattern, list[str]]] = [
+    # BBC: ichef.bbci.co.uk/news/240/cpsprodpb/...
+    (re.compile(r"(ichef\.bbci\.co\.uk/(?:news|ace/(?:standard|ws))/)(\d{2,4})(/)"),
+     ["1024", "800"]),
+    # The Guardian: media.guim.co.uk/.../140.jpg
+    (re.compile(r"(media\.guim\.co\.uk/.+/)(\d{2,4})(\.\w+)$"), ["1000", "620"]),
+    # Sky News: e3.365dm.com/.../768x432/...
+    (re.compile(r"(365dm\.com/.+/)(\d{3,4})x(\d{3,4})(/)"), ["1096"]),
+]
+
+
+def upgrade_image_url(url: str) -> list[str]:
+    """يعيد [النسخة الكبيرة إن أمكن, الرابط الأصلي] لتُجرّب بالترتيب."""
+    variants: list[str] = []
+    for pattern, widths in _CDN_UPGRADES:
+        m = pattern.search(url)
+        if not m:
+            continue
+        for width in widths:
+            if len(m.groups()) == 4:  # نمط العرضxالارتفاع
+                ratio = int(m.group(3)) / max(int(m.group(2)), 1)
+                repl = f"{m.group(1)}{width}x{int(int(width) * ratio)}{m.group(4)}"
+            else:
+                repl = f"{m.group(1)}{width}{m.group(3)}"
+            variants.append(url[: m.start()] + repl + url[m.end():])
+        break
+    variants.append(url)
+    return variants
+
+
 def enrich_image(article: Article) -> Article:
-    """يضمن وجود صورة للمقال قدر الإمكان (RSS ← og:image)."""
-    if article.image_url:
+    """
+    يبني قائمة مرشحي الصور *المتعلقة بالخبر*.
+
+    روابط Google News وسيطة ومشفّرة، ومتابعتها كثيرًا ما تنتهي بصفحة عامة
+    صورتها شعار جوجل. لذلك نرفض أي صورة تبدو عامة — الخلفية البديلة المصممة
+    أفضل من صورة لا علاقة لها بالمحتوى.
+    """
+    if article.image_candidates:
+        article.image_url = article.image_candidates[0]
         return article
+
     final = resolve_final_url(article.link)
-    if final != article.link:
-        article.link = final
-    article.image_url = image_from_page(article.link)
+    if "news.google.com" in final:
+        log.info("تعذّر الوصول للناشر الأصلي: %s", article.title[:50])
+        return article
+
+    article.link = final
+    candidate = image_from_page(final)
+    if is_generic_image(candidate):
+        log.info("لا صورة صالحة لـ: %s", article.title[:50])
+        return article
+
+    article.image_candidates = upgrade_image_url(candidate)  # type: ignore[arg-type]
+    article.image_url = article.image_candidates[0]
     return article
 
 
@@ -192,7 +261,7 @@ def fetch_source(src: dict, max_age_hours: int) -> list[Article]:
                 region=src.get("region", "global"),
                 weight=float(src.get("weight", 1.0)),
                 published=published,
-                image_url=image_from_entry(entry),
+                image_candidates=images_from_entry(entry),
                 publisher=publisher or src["name"],
             )
         )
