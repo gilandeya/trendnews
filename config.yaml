@@ -4,49 +4,75 @@
 
 brand:
   name: "نافذة العالم"            # الاسم الذي يظهر على الصورة
-  handle: "@world.window"          # يظهر أسفل الصورة (اتركه فارغًا للإخفاء)
-  primary_color: "#0F172A"         # لون الشريط السفلي
-  accent_color: "#F4B942"          # لون خط التمييز وشعار العاجل
+  tagline: "أخبار العالم بالعربية"  # سطر صغير تحت الاسم (فارغ = إخفاء)
+  handle: "@world.window"          # يظهر في التذييل (فارغ = إخفاء)
+  primary_color: "#12203A"         # لون الشريط السفلي
+  accent_color: "#F0B429"          # لون خط التمييز وشعار العاجل
 
-# ── مصادر الأخبار (RSS مجاني بلا مفاتيح) ────────────────────
-# لكل مصدر: وزن الأهمية weight، والمنطقة region للتنويع الجغرافي
+# ── مصادر الأخبار ───────────────────────────────────────────
+# has_images: true = الخلاصة تُضمّن صور الأخبار داخلها (الأفضل بكثير).
+# خلاصات Google News لا تحوي صورًا وروابطها مشفّرة يتعذّر تتبعها، لذا
+# نُبقي منها القليل لقياس الانتشار فقط، ويأخذ البوت الصورة من نسخة ناشر آخر.
 sources:
-  - name: "Google News — World"
-    url: "https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en"
-    region: "global"
-    weight: 1.0
-  - name: "Google News — Business"
-    url: "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-US&gl=US&ceid=US:en"
-    region: "global"
-    weight: 0.9
-  - name: "Google News — Technology"
-    url: "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en"
-    region: "global"
-    weight: 0.9
+  # ── ناشرون مباشرون: صور حقيقية داخل الخلاصة ──
   - name: "BBC World"
     url: "https://feeds.bbci.co.uk/news/world/rss.xml"
+    region: "uk"
+    weight: 1.2
+  - name: "BBC Business"
+    url: "https://feeds.bbci.co.uk/news/business/rss.xml"
+    region: "uk"
+    weight: 1.0
+  - name: "The Guardian — World"
+    url: "https://www.theguardian.com/world/rss"
+    region: "uk"
+    weight: 1.2
+  - name: "Sky News — World"
+    url: "https://feeds.skynews.com/feeds/rss/world.xml"
     region: "uk"
     weight: 1.0
   - name: "Al Jazeera English"
     url: "https://www.aljazeera.com/xml/rss/all.xml"
     region: "mena"
-    weight: 1.0
-  - name: "Reuters via Google"
-    url: "https://news.google.com/rss/search?q=when:12h+allinurl:reuters.com&hl=en-US&gl=US&ceid=US:en"
-    region: "global"
-    weight: 1.0
+    weight: 1.1
   - name: "France24"
     url: "https://www.france24.com/en/rss"
     region: "eu"
-    weight: 0.8
-  - name: "NHK Japan"
-    url: "https://www3.nhk.or.jp/nhkworld/en/news/feeds/"
+    weight: 1.0
+  - name: "Deutsche Welle"
+    url: "https://rss.dw.com/rdf/rss-en-world"
+    region: "eu"
+    weight: 1.0
+  - name: "Euronews"
+    url: "https://www.euronews.com/rss?level=theme&name=news"
+    region: "eu"
+    weight: 0.9
+  - name: "CNBC — World"
+    url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362"
+    region: "us"
+    weight: 0.9
+  - name: "NPR World"
+    url: "https://feeds.npr.org/1004/rss.xml"
+    region: "us"
+    weight: 0.9
+  - name: "ABC News Australia"
+    url: "https://www.abc.net.au/news/feed/51120/rss.xml"
     region: "asia"
-    weight: 0.7
-  - name: "Google News — Türkiye"
-    url: "https://news.google.com/rss?hl=tr&gl=TR&ceid=TR:tr"
-    region: "tr"
     weight: 0.8
+  - name: "The Japan Times"
+    url: "https://www.japantimes.co.jp/feed/"
+    region: "asia"
+    weight: 0.8
+
+  # ── لقياس الانتشار فقط (بلا صور) ──
+  - name: "Google News — World"
+    url: "https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en"
+    region: "global"
+    weight: 0.6
+  - name: "Google News — Technology"
+    url: "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en"
+    region: "global"
+    weight: 0.6
 
 # ── الترشيح والترتيب ────────────────────────────────────────
 selection:
@@ -72,13 +98,12 @@ writer:
 
 # ── الصورة ─────────────────────────────────────────────────
 image:
-  width: 1200
-  height: 630
-  headline_max_chars: 95     # النص المكتوب على الصورة
-  font_regular: "assets/fonts/Tajawal-Regular.ttf"
-  font_bold: "assets/fonts/Tajawal-ExtraBold.ttf"
-  blur_background: true      # تمويه خفيف يجعل النص مقروءًا
-  fallback_gradient: true    # تدرّج لوني إذا لم توجد صورة أصلية
+  width: 1080                # مربع 1:1 — الأنسب لخلاصة فيسبوك
+  height: 1080
+  headline_max_chars: 90     # طول العنوان المكتوب على الصورة
+  font_headline: "assets/fonts/Almarai-ExtraBold.ttf"
+  font_body: "assets/fonts/IBMPlexSansArabic-Bold.ttf"
+  sharpen: true              # تحسين حدة صورة الخبر
 
 # ── فيسبوك ─────────────────────────────────────────────────
 facebook:
