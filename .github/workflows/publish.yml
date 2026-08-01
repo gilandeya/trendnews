@@ -1,0 +1,85 @@
+name: 2️⃣ نشر المعتمد على فيسبوك
+
+on:
+  # يعمل تلقائيًا عند إضافة الوسم approved إلى Issue المراجعة
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: "رقم Issue المراجعة (اتركه فارغًا مع ids)"
+        required: false
+      ids:
+        description: "معرفات مسودات مفصولة بفواصل، مثل a1b2c3,d4e5f6"
+        required: false
+      verify_only:
+        description: "فحص توكن فيسبوك فقط بلا نشر"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: trendnews-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    # تجاهُل أي وسم آخر غير approved
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.label.name == 'approved'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: سحب المستودع (آخر حالة للمسودات)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: تهيئة بايثون
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: فحص توكن فيسبوك
+        if: inputs.verify_only == true
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+        run: python -m src.publish --verify
+
+      - name: النشر
+        if: inputs.verify_only != true
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "${{ inputs.ids }}" ]; then
+            python -m src.publish --ids "${{ inputs.ids }}"
+          else
+            ISSUE="${{ inputs.issue || github.event.issue.number }}"
+            python -m src.publish --issue "$ISSUE"
+          fi
+
+      - name: تسجيل حالة النشر في المستودع
+        if: inputs.verify_only != true
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p drafts
+          git add -A drafts
+          if ! git diff --quiet --cached; then
+            git commit -m "chore(drafts): تحديث حالة النشر"
+            git pull --rebase --autostash origin "${{ github.event.repository.default_branch }}"
+            git push
+          fi
