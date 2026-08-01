@@ -105,7 +105,7 @@ image:
   height: 1080
   headline_max_chars: 90     # طول العنوان المكتوب على الصورة
   font_headline: "assets/fonts/Almarai-ExtraBold.ttf"
-  font_headline_weight: ""   # للخطوط المتغيرة فقط: Bold / ExtraBold / Black
+  font_headline_weight: "Black"   # للخطوط المتغيرة فقط: Bold / ExtraBold / Black
   font_body: "assets/fonts/Cairo.ttf"              # فارغ = نفس خط العنوان (أنسب بصريًا)
   font_body_weight: "Bold"   # للخطوط المتغيرة: Regular / Medium / SemiBold / Bold
   sharpen: true              # تحسين حدة صورة الخبر
