@@ -1,67 +1,96 @@
-"""بناء صورة المنشور: صورة الخبر الأصلية + طبقة تعتيم + عنوان عربي + إطار العلامة."""
+"""بناء كارت الخبر: ترويسة العلامة + صورة الخبر + شريط العنوان + تذييل.
+
+التشكيل العربي يتم عبر HarfBuzz/Raqm المدمج في Pillow (direction="rtl")، وهو
+يستخدم جداول OpenType داخل الخط نفسه. لا نستخدم arabic-reshaper لأنه يحوّل
+النص إلى "Presentation Forms" القديمة، وأغلب الخطوط العربية الحديثة لا تغطيها
+كاملة (Tajawal مثلًا يغطي 89 من 141 شكلًا) فتظهر مربعات مكان الحروف الناقصة.
+"""
 from __future__ import annotations
 
 import io
 import logging
+from datetime import datetime, timezone
 from pathlib import Path
 
-import arabic_reshaper
 import requests
-from bidi.algorithm import get_display
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, features
 
 from .config import resolve
 from .sources import HEADERS
 
 log = logging.getLogger(__name__)
 
-# خطوط بديلة إذا لم تُنزّل خطوط Cairo
+HAS_RAQM = features.check("raqm")
+
 FALLBACK_FONTS = [
-    "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf",
-    "/usr/share/fonts/truetype/freefont/FreeSans.ttf",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
     "/usr/share/fonts/truetype/freefont/FreeSerif.ttf",
-    "/System/Library/Fonts/Supplemental/Arial Unicode.ttf",
 ]
 
+_font_cache: dict[tuple[str | None, int], ImageFont.FreeTypeFont] = {}
 
-# ──────────────────────────── أدوات النص العربي ────────────────────────────
 
-
-def shape(text: str) -> str:
-    """يوصل الحروف العربية ويطبّق اتجاه الكتابة من اليمين لليسار."""
-    return get_display(arabic_reshaper.reshape(text))
+# ──────────────────────────── النص العربي ────────────────────────────
 
 
 def load_font(path: str | None, size: int) -> ImageFont.FreeTypeFont:
-    candidates = [str(resolve(path))] if path else []
-    candidates += FALLBACK_FONTS
-    for cand in candidates:
+    key = (path, size)
+    if key in _font_cache:
+        return _font_cache[key]
+
+    for cand in ([str(resolve(path))] if path else []) + FALLBACK_FONTS:
         if Path(cand).exists():
             try:
-                return ImageFont.truetype(cand, size)
+                font = ImageFont.truetype(cand, size)
+                _font_cache[key] = font
+                return font
             except OSError:
                 continue
-    log.warning("لم يُعثر على خط عربي — سيُستخدم الخط الافتراضي (قد لا يعرض العربية)")
-    return ImageFont.load_default()
+    log.warning("لم يُعثر على خط — سيُستخدم الافتراضي")
+    font = ImageFont.load_default()
+    _font_cache[key] = font
+    return font
 
 
-def text_width(draw: ImageDraw.ImageDraw, text: str, font) -> int:
-    box = draw.textbbox((0, 0), text, font=font)
-    return box[2] - box[0]
+def _prepare(text: str) -> str:
+    """احتياطي فقط: إن غاب Raqm نعود لـ arabic-reshaper رغم نقصه."""
+    if HAS_RAQM:
+        return text
+    try:
+        import arabic_reshaper
+        from bidi.algorithm import get_display
+
+        return get_display(arabic_reshaper.reshape(text))
+    except ImportError:
+        return text
 
 
-def wrap_arabic(draw, text: str, font, max_width: int) -> list[str]:
-    """
-    يقسّم النص إلى أسطر بقياس عرض النسخة المُشكّلة.
-    مهم: التقسيم يجري على النص المنطقي، والتشكيل يُطبّق عند الرسم فقط.
-    """
-    words = text.split()
+def _kwargs() -> dict:
+    return {"direction": "rtl", "language": "ar"} if HAS_RAQM else {}
+
+
+def draw_text(draw: ImageDraw.ImageDraw, xy, text: str, font, fill,
+              anchor: str = "ra", shadow: tuple | None = None) -> None:
+    prepared = _prepare(text)
+    if shadow:
+        offset, color = shadow
+        draw.text((xy[0] + offset, xy[1] + offset), prepared, font=font,
+                  fill=color, anchor=anchor, **_kwargs())
+    draw.text(xy, prepared, font=font, fill=fill, anchor=anchor, **_kwargs())
+
+
+def measure(draw: ImageDraw.ImageDraw, text: str, font) -> tuple[int, int]:
+    box = draw.textbbox((0, 0), _prepare(text), font=font, anchor="la", **_kwargs())
+    return box[2] - box[0], box[3] - box[1]
+
+
+def wrap(draw, text: str, font, max_width: int) -> list[str]:
+    """تقسيم النص إلى أسطر. القياس يتم على النص المُشكّل فعليًا."""
     lines: list[str] = []
     current: list[str] = []
-
-    for word in words:
+    for word in text.split():
         trial = current + [word]
-        if text_width(draw, shape(" ".join(trial)), font) <= max_width or not current:
+        if measure(draw, " ".join(trial), font)[0] <= max_width or not current:
             current = trial
         else:
             lines.append(" ".join(current))
@@ -71,100 +100,112 @@ def wrap_arabic(draw, text: str, font, max_width: int) -> list[str]:
     return lines
 
 
-def fit_font(draw, text: str, font_path: str | None, max_width: int,
-             max_height: int, max_lines: int, start: int, minimum: int = 30):
-    """يصغّر حجم الخط تدريجيًا حتى يستوعب الصندوق النص كاملًا."""
+def fit_text(draw, text: str, font_path: str | None, max_width: int,
+             max_lines: int, start: int, minimum: int):
+    """يصغّر الخط حتى يستوعب الصندوق النص ضمن عدد الأسطر المسموح."""
     size = start
     while size > minimum:
         font = load_font(font_path, size)
-        lines = wrap_arabic(draw, text, font, max_width)
-        line_h = int(size * 1.55)
-        if len(lines) <= max_lines and len(lines) * line_h <= max_height:
-            return font, lines, line_h
-        size -= 3
+        lines = wrap(draw, text, font, max_width)
+        if len(lines) <= max_lines:
+            return font, lines, int(size * 1.62)
+        size -= 2
     font = load_font(font_path, minimum)
-    lines = wrap_arabic(draw, text, font, max_width)[:max_lines]
-    return font, lines, int(minimum * 1.55)
+    return font, wrap(draw, text, font, max_width)[:max_lines], int(minimum * 1.62)
 
 
-# ──────────────────────────── الخلفية ────────────────────────────
-
-
-def download_image(url: str, timeout: int = 20) -> Image.Image | None:
-    try:
-        resp = requests.get(url, headers=HEADERS, timeout=timeout)
-        if resp.status_code != 200 or len(resp.content) < 4096:
-            return None
-        img = Image.open(io.BytesIO(resp.content))
-        img.load()
-        if min(img.size) < 200:  # صورة صغيرة جدًا (أيقونة عادةً)
-            return None
-        return img.convert("RGB")
-    except (requests.RequestException, OSError) as exc:
-        log.debug("فشل تحميل الصورة %s: %s", url, exc)
-        return None
-
-
-def cover(img: Image.Image, width: int, height: int) -> Image.Image:
-    """تكبير/تصغير مع قص من المركز للحفاظ على النسبة (مثل object-fit: cover)."""
-    scale = max(width / img.width, height / img.height)
-    new = (max(width, int(img.width * scale)), max(height, int(img.height * scale)))
-    img = img.resize(new, Image.LANCZOS)
-    left = (img.width - width) // 2
-    top = int((img.height - height) * 0.35)  # ميل للأعلى: الوجوه غالبًا في الثلث الأعلى
-    return img.crop((left, top, left + width, top + height))
+# ──────────────────────────── الألوان ────────────────────────────
 
 
 def hex_rgb(value: str) -> tuple[int, int, int]:
     value = value.lstrip("#")
+    if len(value) == 3:
+        value = "".join(c * 2 for c in value)
     return tuple(int(value[i : i + 2], 16) for i in (0, 2, 4))  # type: ignore
 
 
-def gradient_background(width: int, height: int, color: str) -> Image.Image:
-    """خلفية بديلة عند غياب صورة الخبر."""
-    base = hex_rgb(color)
+def mix(a: tuple, b: tuple, t: float) -> tuple:
+    return tuple(int(x + (y - x) * t) for x, y in zip(a, b))
+
+
+# ──────────────────────────── الصورة الأصلية ────────────────────────────
+
+BAD_URL_HINTS = (
+    "logo", "placeholder", "default", "avatar", "icon", "sprite",
+    "blank", "gstatic.com", "news.google.com", "/favicon",
+)
+
+
+def looks_bad(url: str) -> bool:
+    low = url.lower()
+    return any(hint in low for hint in BAD_URL_HINTS)
+
+
+def download_image(url: str, timeout: int = 20) -> Image.Image | None:
+    """يحمّل صورة الخبر ويرفض الشعارات والأيقونات والصور الصغيرة."""
+    if not url or looks_bad(url):
+        log.info("رُفضت الصورة (رابط مشبوه): %s", (url or "")[:80])
+        return None
+    try:
+        resp = requests.get(url, headers=HEADERS, timeout=timeout)
+        if resp.status_code != 200 or len(resp.content) < 15_000:
+            log.info("رُفضت الصورة (حجم صغير %d بايت)", len(resp.content))
+            return None
+        img = Image.open(io.BytesIO(resp.content))
+        img.load()
+    except (requests.RequestException, OSError) as exc:
+        log.info("تعذّر تحميل الصورة: %s", exc)
+        return None
+
+    w, h = img.size
+    if w < 420 or h < 260:
+        log.info("رُفضت الصورة (أبعاد صغيرة %dx%d)", w, h)
+        return None
+    if not 0.9 <= (w / h) <= 3.2:  # نسبة غريبة = بانر أو شعار عمودي
+        log.info("رُفضت الصورة (نسبة غير ملائمة %.2f)", w / h)
+        return None
+    return img.convert("RGB")
+
+
+def cover(img: Image.Image, width: int, height: int) -> Image.Image:
+    scale = max(width / img.width, height / img.height)
+    img = img.resize(
+        (max(width, round(img.width * scale)), max(height, round(img.height * scale))),
+        Image.LANCZOS,
+    )
+    left = (img.width - width) // 2
+    top = int((img.height - height) * 0.30)  # الوجوه غالبًا في الثلث الأعلى
+    return img.crop((left, top, left + width, top + height))
+
+
+def placeholder(width: int, height: int, primary: tuple, accent: tuple) -> Image.Image:
+    """خلفية بديلة أنيقة عند غياب صورة صالحة للخبر."""
     img = Image.new("RGB", (width, height))
     px = img.load()
+    light = mix(primary, (255, 255, 255), 0.18)
+    dark = mix(primary, (0, 0, 0), 0.35)
     for y in range(height):
-        t = y / max(height - 1, 1)
-        row = tuple(int(c * (0.55 + 0.9 * t)) for c in base)
+        row = mix(light, dark, y / max(height - 1, 1))
         for x in range(width):
             px[x, y] = row  # type: ignore
+
+    d = ImageDraw.Draw(img, "RGBA")
+    step = 78
+    for i in range(-height, width, step):  # خطوط قطرية خفيفة
+        d.line([(i, height), (i + height, 0)], fill=(*accent, 16), width=2)
     return img
 
 
-def darken_bottom(img: Image.Image, strength: float = 0.92) -> Image.Image:
-    """تدرّج تعتيم من الأسفل ليصبح النص مقروءًا فوق أي صورة."""
-    width, height = img.size
-    mask = Image.new("L", (width, height))
-    mpx = mask.load()
-    for y in range(height):
-        t = y / max(height - 1, 1)
-        # تعتيم خفيف في الأعلى (للشعار) وقوي في الأسفل (للعنوان)
-        alpha = 0.30 + (strength - 0.30) * (t ** 2.1)
-        value = int(255 * alpha)
-        for x in range(width):
-            mpx[x, y] = value  # type: ignore
-    overlay = Image.new("RGB", (width, height), (5, 8, 18))
-    return Image.composite(overlay, img, mask.point(lambda v: v))
+# ──────────────────────────── الكارت ────────────────────────────
 
 
-# ──────────────────────────── البناء النهائي ────────────────────────────
-
-
-def rounded_badge(draw, xy_right: int, y: int, text: str, font,
-                  bg: tuple[int, int, int], fg: tuple[int, int, int],
-                  pad_x: int = 20, pad_y: int = 10) -> int:
-    """يرسم شارة بزوايا دائرية بمحاذاة اليمين، ويعيد الحد الأيسر لها."""
-    shaped = shape(text)
-    tw = text_width(draw, shaped, font)
-    box = draw.textbbox((0, 0), shaped, font=font)
-    th = box[3] - box[1]
-    w = tw + pad_x * 2
-    h = th + pad_y * 2
-    x0 = xy_right - w
-    draw.rounded_rectangle([x0, y, x0 + w, y + h], radius=h // 2, fill=bg)
-    draw.text((x0 + pad_x, y + pad_y - box[1]), shaped, font=font, fill=fg)
+def badge(draw, right: int, top: int, text: str, font, bg, fg,
+          pad_x: int = 24, pad_y: int = 12) -> int:
+    tw, th = measure(draw, text, font)
+    w, h = tw + pad_x * 2, th + pad_y * 2
+    x0 = right - w
+    draw.rounded_rectangle([x0, top, x0 + w, top + h], radius=h // 2, fill=bg)
+    draw_text(draw, (right - pad_x, top + h // 2), text, font, fg, anchor="rm")
     return x0
 
 
@@ -172,89 +213,126 @@ def build_post_image(
     headline: str,
     category: str,
     urgent: bool,
-    image_url: str | None,
+    image_urls: list[str] | str | None,
     publisher: str,
     cfg,
     out_path: Path,
 ) -> Path:
-    W = int(cfg.path("image.width", 1200))
-    H = int(cfg.path("image.height", 630))
+    W = int(cfg.path("image.width", 1080))
+    H = int(cfg.path("image.height", 1080))
+    primary = hex_rgb(cfg.path("brand.primary_color", "#12203A"))
+    accent = hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
     brand_name = cfg.path("brand.name", "")
+    tagline = cfg.path("brand.tagline", "")
     handle = cfg.path("brand.handle", "")
-    primary = cfg.path("brand.primary_color", "#0F172A")
-    accent = hex_rgb(cfg.path("brand.accent_color", "#F4B942"))
-    font_bold = cfg.path("image.font_bold")
-    font_reg = cfg.path("image.font_regular")
+    f_head = cfg.path("image.font_headline")
+    f_body = cfg.path("image.font_body")
 
-    # 1) الخلفية: صورة الخبر أو تدرّج بديل
-    base = download_image(image_url) if image_url else None
-    used_original = base is not None
-    if base is None:
-        if not cfg.path("image.fallback_gradient", True):
-            raise RuntimeError("لا توجد صورة للخبر والتدرّج البديل معطّل")
-        canvas = gradient_background(W, H, primary)
-    else:
-        canvas = cover(base, W, H)
-        if cfg.path("image.blur_background", True):
-            canvas = canvas.filter(ImageFilter.GaussianBlur(radius=1.2))
-
-    canvas = darken_bottom(canvas)
+    canvas = Image.new("RGB", (W, H), primary)
     draw = ImageDraw.Draw(canvas)
+    margin = int(W * 0.06)
+    rule = max(4, W // 240)
 
-    margin = 56
-    right = W - margin
-
-    # 2) الشارات في الأعلى (يمين → يسار)
-    badge_font = load_font(font_bold, 30)
-    cursor = right
-    if urgent:
-        cursor = rounded_badge(draw, cursor, margin - 8, "عاجل", badge_font,
-                               (214, 40, 40), (255, 255, 255)) - 14
-    rounded_badge(draw, cursor, margin - 8, category, badge_font, accent, hex_rgb(primary))
-
-    # 3) الشريط السفلي للعلامة
-    bar_h = 92
-    bar_top = H - bar_h
-    strip = Image.new("RGB", (W, bar_h), hex_rgb(primary))
-    canvas.paste(strip, (0, bar_top))
-    draw.rectangle([0, bar_top, W, bar_top + 5], fill=accent)
-
-    if brand_name:
-        bf = load_font(font_bold, 38)
-        shaped = shape(brand_name)
-        bw = text_width(draw, shaped, bf)
-        draw.text((right - bw, bar_top + 26), shaped, font=bf, fill=(255, 255, 255))
-
-    footer_font = load_font(font_reg, 26)
-    footer_bits = [b for b in (handle, publisher if used_original else "") if b]
-    if footer_bits:
-        draw.text((margin, bar_top + 32), shape(" • ".join(footer_bits)),
-                  font=footer_font, fill=(190, 198, 215))
-
-    # 4) العنوان: يُرسم فوق الشريط، بمحاذاة اليمين
-    box_bottom = bar_top - 40
-    box_top = int(H * 0.30)
-    max_w = W - margin * 2 - 26
-    font, lines, line_h = fit_font(
-        draw, headline, font_bold, max_w, box_bottom - box_top,
-        max_lines=4, start=62, minimum=32,
+    # ── قياس شريط العنوان أولًا لنعرف المساحة المتبقية للصورة ──
+    head_font, head_lines, line_h = fit_text(
+        draw, headline, f_head,
+        max_width=W - margin * 2,
+        max_lines=4,
+        start=int(W * 0.052),
+        minimum=int(W * 0.032),
     )
+    band_pad = int(H * 0.045)
+    band_h = len(head_lines) * line_h + band_pad * 2
 
-    total_h = len(lines) * line_h
-    y = box_bottom - total_h
+    header_h = int(H * 0.145) if brand_name else 0
+    footer_h = int(H * 0.082) if (handle or publisher) else 0
+    photo_top = header_h
+    photo_h = H - header_h - band_h - footer_h
 
-    # خط التمييز العمودي على يمين النص
-    draw.rounded_rectangle([right - 8, y + 8, right, y + total_h - 10], radius=4, fill=accent)
+    # ── 1) الصورة أو البديل: نجرّب المرشحين بالترتيب ──
+    candidates = (
+        [image_urls] if isinstance(image_urls, str)
+        else list(image_urls or [])
+    )
+    source = None
+    for url in candidates[:6]:
+        source = download_image(url)
+        if source is not None:
+            log.info("اعتُمدت صورة الخبر: %s", url[:90])
+            break
+    if source is None and candidates:
+        log.info("فشل كل مرشحي الصور (%d) — سيُستخدم البديل المصمم", len(candidates))
+    used_original = source is not None
+    photo = (
+        cover(source, W, photo_h) if source
+        else placeholder(W, photo_h, primary, accent)
+    )
+    if used_original and cfg.path("image.sharpen", True):
+        photo = photo.filter(ImageFilter.UnsharpMask(radius=2, percent=55, threshold=3))
 
-    for line in lines:
-        shaped = shape(line)
-        lw = text_width(draw, shaped, font)
-        x = right - 26 - lw
-        draw.text((x + 2, y + 3), shaped, font=font, fill=(0, 0, 0))       # ظل خفيف
-        draw.text((x, y), shaped, font=font, fill=(255, 255, 255))
+    # تعتيم متدرّج أعلى الصورة وأسفلها ليمتزج بالشريطين
+    overlay = Image.new("RGBA", (W, photo_h), (0, 0, 0, 0))
+    od = ImageDraw.Draw(overlay)
+    fade = int(photo_h * 0.22)
+    for i in range(fade):
+        a = int(150 * (1 - i / fade) ** 1.7)
+        od.line([(0, i), (W, i)], fill=(*mix(primary, (0, 0, 0), 0.3), a))
+        od.line([(0, photo_h - 1 - i), (W, photo_h - 1 - i)],
+                fill=(*mix(primary, (0, 0, 0), 0.3), a))
+    photo = Image.alpha_composite(photo.convert("RGBA"), overlay).convert("RGB")
+    canvas.paste(photo, (0, photo_top))
+
+    # ── 2) الترويسة ──
+    if header_h:
+        draw.rectangle([0, 0, W, header_h], fill=primary)
+        draw.rectangle([0, header_h - rule, W, header_h], fill=accent)
+        bf = load_font(f_head, int(W * 0.052))
+        cy = header_h // 2 - (int(W * 0.016) if tagline else 0)
+        draw_text(draw, (W // 2, cy), brand_name, bf, accent, anchor="mm")
+        if tagline:
+            tf = load_font(f_body, int(W * 0.023))
+            draw_text(draw, (W // 2, cy + int(W * 0.044)), tagline, tf,
+                      mix(accent, (255, 255, 255), 0.55), anchor="mm")
+
+    # ── 3) الشارات فوق الصورة ──
+    bdg_font = load_font(f_body, int(W * 0.026))
+    cursor = W - margin
+    if urgent:
+        cursor = badge(draw, cursor, photo_top + margin // 2, "عاجل",
+                       bdg_font, (206, 32, 39), (255, 255, 255)) - int(W * 0.014)
+    if category:
+        badge(draw, cursor, photo_top + margin // 2, category,
+              bdg_font, accent, primary)
+
+    # ── 4) شريط العنوان ──
+    band_top = photo_top + photo_h
+    draw.rectangle([0, band_top, W, band_top + band_h], fill=primary)
+    draw.rectangle([0, band_top, W, band_top + rule], fill=accent)
+
+    y = band_top + band_pad + line_h // 2
+    for line in head_lines:
+        draw_text(draw, (W // 2, y), line, head_font, (255, 255, 255), anchor="mm")
         y += line_h
 
+    # ── 5) التذييل ──
+    if footer_h:
+        ft_top = H - footer_h
+        draw.rectangle([0, ft_top, W, H], fill=mix(primary, (0, 0, 0), 0.28))
+        ff = load_font(f_body, int(W * 0.024))
+        mid = ft_top + footer_h // 2
+        if handle:
+            draw_text(draw, (margin, mid), handle, ff,
+                      mix(accent, (255, 255, 255), 0.3), anchor="lm")
+        if publisher and used_original:
+            draw_text(draw, (W - margin, mid), f"المصدر: {publisher}", ff,
+                      (168, 180, 200), anchor="rm")
+        elif not used_original:
+            draw_text(draw, (W - margin, mid),
+                      f"{datetime.now(timezone.utc):%Y/%m/%d}", ff,
+                      (168, 180, 200), anchor="rm")
+
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    canvas.save(out_path, "JPEG", quality=88, optimize=True)
-    log.info("الصورة جاهزة: %s (أصلية=%s)", out_path.name, used_original)
+    canvas.save(out_path, "JPEG", quality=90, optimize=True, subsampling=0)
+    log.info("الصورة جاهزة: %s (صورة أصلية=%s، أسطر=%d)",
+             out_path.name, used_original, len(head_lines))
     return out_path
