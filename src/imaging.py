@@ -27,25 +27,38 @@ FALLBACK_FONTS = [
     "/usr/share/fonts/truetype/freefont/FreeSerif.ttf",
 ]
 
-_font_cache: dict[tuple[str | None, int], ImageFont.FreeTypeFont] = {}
+_font_cache: dict[tuple[str | None, int, str | None], ImageFont.FreeTypeFont] = {}
 
 
 # ──────────────────────────── النص العربي ────────────────────────────
 
 
-def load_font(path: str | None, size: int) -> ImageFont.FreeTypeFont:
-    key = (path, size)
+def load_font(path: str | None, size: int, weight: str | None = None):
+    """
+    يحمّل خطًا بالحجم المطلوب.
+
+    إن كان الخط متغيرًا (Variable Font) وطُلب وزن، يُضبط الوزن — مثل
+    "Black" أو "ExtraBold" أو "Bold". يُتجاهل الوزن بهدوء مع الخطوط الثابتة.
+    """
+    key = (path, size, weight)
     if key in _font_cache:
         return _font_cache[key]
 
     for cand in ([str(resolve(path))] if path else []) + FALLBACK_FONTS:
-        if Path(cand).exists():
+        if not Path(cand).exists():
+            continue
+        try:
+            font = ImageFont.truetype(cand, size)
+        except OSError:
+            continue
+        if weight:
             try:
-                font = ImageFont.truetype(cand, size)
-                _font_cache[key] = font
-                return font
-            except OSError:
-                continue
+                font.set_variation_by_name(weight)
+            except Exception:  # noqa: BLE001 — خط ثابت أو وزن غير متاح
+                pass
+        _font_cache[key] = font
+        return font
+
     log.warning("لم يُعثر على خط — سيُستخدم الافتراضي")
     font = ImageFont.load_default()
     _font_cache[key] = font
@@ -101,16 +114,16 @@ def wrap(draw, text: str, font, max_width: int) -> list[str]:
 
 
 def fit_text(draw, text: str, font_path: str | None, max_width: int,
-             max_lines: int, start: int, minimum: int):
+             max_lines: int, start: int, minimum: int, weight: str | None = None):
     """يصغّر الخط حتى يستوعب الصندوق النص ضمن عدد الأسطر المسموح."""
     size = start
     while size > minimum:
-        font = load_font(font_path, size)
+        font = load_font(font_path, size, weight)
         lines = wrap(draw, text, font, max_width)
         if len(lines) <= max_lines:
             return font, lines, int(size * 1.62)
         size -= 2
-    font = load_font(font_path, minimum)
+    font = load_font(font_path, minimum, weight)
     return font, wrap(draw, text, font, max_width)[:max_lines], int(minimum * 1.62)
 
 
@@ -199,6 +212,30 @@ def placeholder(width: int, height: int, primary: tuple, accent: tuple) -> Image
 # ──────────────────────────── الكارت ────────────────────────────
 
 
+def paste_logo(canvas: Image.Image, logo_path: Path, box: tuple[int, int, int, int]) -> bool:
+    """يركّب شعار العلامة داخل الصندوق مع الحفاظ على النسبة والشفافية."""
+    try:
+        logo = Image.open(logo_path)
+        logo.load()
+    except (OSError, ValueError) as exc:
+        log.warning("تعذّر فتح الشعار %s: %s", logo_path, exc)
+        return False
+
+    logo = logo.convert("RGBA")
+    x0, y0, x1, y1 = box
+    max_w, max_h = x1 - x0, y1 - y0
+    scale = min(max_w / logo.width, max_h / logo.height)
+    if scale <= 0:
+        return False
+    logo = logo.resize(
+        (max(1, round(logo.width * scale)), max(1, round(logo.height * scale))),
+        Image.LANCZOS,
+    )
+    pos = (x0 + (max_w - logo.width) // 2, y0 + (max_h - logo.height) // 2)
+    canvas.paste(logo, pos, logo)
+    return True
+
+
 def badge(draw, right: int, top: int, text: str, font, bg, fg,
           pad_x: int = 24, pad_y: int = 12) -> int:
     tw, th = measure(draw, text, font)
@@ -227,6 +264,7 @@ def build_post_image(
     handle = cfg.path("brand.handle", "")
     f_head = cfg.path("image.font_headline")
     f_body = cfg.path("image.font_body")
+    head_weight = cfg.path("image.font_headline_weight")
 
     canvas = Image.new("RGB", (W, H), primary)
     draw = ImageDraw.Draw(canvas)
@@ -240,6 +278,7 @@ def build_post_image(
         max_lines=4,
         start=int(W * 0.052),
         minimum=int(W * 0.032),
+        weight=head_weight,
     )
     band_pad = int(H * 0.045)
     band_h = len(head_lines) * line_h + band_pad * 2
@@ -282,16 +321,37 @@ def build_post_image(
     photo = Image.alpha_composite(photo.convert("RGBA"), overlay).convert("RGB")
     canvas.paste(photo, (0, photo_top))
 
-    # ── 2) الترويسة ──
+    # ── 2) الترويسة: شعار إن وُجد، وإلا اسم العلامة نصًا ──
     if header_h:
         draw.rectangle([0, 0, W, header_h], fill=primary)
         draw.rectangle([0, header_h - rule, W, header_h], fill=accent)
-        bf = load_font(f_head, int(W * 0.052))
-        cy = header_h // 2 - (int(W * 0.016) if tagline else 0)
-        draw_text(draw, (W // 2, cy), brand_name, bf, accent, anchor="mm")
+
+        logo_rel = cfg.path("brand.logo")
+        logo_done = False
+        if logo_rel:
+            logo_file = resolve(logo_rel)
+            if logo_file.exists():
+                pad = int(header_h * 0.16)
+                bottom = header_h - rule - pad - (int(W * 0.030) if tagline else 0)
+                logo_done = paste_logo(
+                    canvas, logo_file,
+                    (int(W * 0.22), pad, int(W * 0.78), bottom),
+                )
+                if logo_done:
+                    draw = ImageDraw.Draw(canvas)  # إعادة الربط بعد اللصق
+            else:
+                log.warning("ملف الشعار غير موجود: %s", logo_file)
+
+        if not logo_done and brand_name:
+            bf = load_font(f_head, int(W * 0.052), head_weight)
+            cy = header_h // 2 - (int(W * 0.016) if tagline else 0)
+            draw_text(draw, (W // 2, cy), brand_name, bf, accent, anchor="mm")
+
         if tagline:
             tf = load_font(f_body, int(W * 0.023))
-            draw_text(draw, (W // 2, cy + int(W * 0.044)), tagline, tf,
+            ty = (header_h - rule - int(W * 0.026)) if logo_done else (
+                header_h // 2 - int(W * 0.016) + int(W * 0.044))
+            draw_text(draw, (W // 2, ty), tagline, tf,
                       mix(accent, (255, 255, 255), 0.55), anchor="mm")
 
     # ── 3) الشارات فوق الصورة ──
