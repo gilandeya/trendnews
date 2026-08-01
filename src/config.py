@@ -1,45 +1,111 @@
-"""تحميل الإعدادات من config.yaml ومتغيرات البيئة."""
-from __future__ import annotations
+# ═══════════════════════════════════════════════════════════
+#  إعدادات بوت الأخبار الرائجة  →  فيسبوك
+# ═══════════════════════════════════════════════════════════
 
-import os
-from pathlib import Path
-from typing import Any
+brand:
+  name: "نافذة العالم"            # الاسم الذي يظهر على الصورة
+  tagline: "أخبار العالم بالعربية"  # سطر صغير تحت الاسم (فارغ = إخفاء)
+  handle: "@world.window"          # يظهر في التذييل (فارغ = إخفاء)
+  primary_color: "#12203A"         # لون الشريط السفلي
+  accent_color: "#F0B429"          # لون خط التمييز وشعار العاجل
 
-import yaml
+# ── مصادر الأخبار ───────────────────────────────────────────
+# has_images: true = الخلاصة تُضمّن صور الأخبار داخلها (الأفضل بكثير).
+# خلاصات Google News لا تحوي صورًا وروابطها مشفّرة يتعذّر تتبعها، لذا
+# نُبقي منها القليل لقياس الانتشار فقط، ويأخذ البوت الصورة من نسخة ناشر آخر.
+sources:
+  # ── ناشرون مباشرون: صور حقيقية داخل الخلاصة ──
+  - name: "BBC World"
+    url: "https://feeds.bbci.co.uk/news/world/rss.xml"
+    region: "uk"
+    weight: 1.2
+  - name: "BBC Business"
+    url: "https://feeds.bbci.co.uk/news/business/rss.xml"
+    region: "uk"
+    weight: 1.0
+  - name: "The Guardian — World"
+    url: "https://www.theguardian.com/world/rss"
+    region: "uk"
+    weight: 1.2
+  - name: "Sky News — World"
+    url: "https://feeds.skynews.com/feeds/rss/world.xml"
+    region: "uk"
+    weight: 1.0
+  - name: "Al Jazeera English"
+    url: "https://www.aljazeera.com/xml/rss/all.xml"
+    region: "mena"
+    weight: 1.1
+  - name: "France24"
+    url: "https://www.france24.com/en/rss"
+    region: "eu"
+    weight: 1.0
+  - name: "Deutsche Welle"
+    url: "https://rss.dw.com/rdf/rss-en-world"
+    region: "eu"
+    weight: 1.0
+  - name: "Euronews"
+    url: "https://www.euronews.com/rss?level=theme&name=news"
+    region: "eu"
+    weight: 0.9
+  - name: "CNBC — World"
+    url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362"
+    region: "us"
+    weight: 0.9
+  - name: "NPR World"
+    url: "https://feeds.npr.org/1004/rss.xml"
+    region: "us"
+    weight: 0.9
+  - name: "ABC News Australia"
+    url: "https://www.abc.net.au/news/feed/51120/rss.xml"
+    region: "asia"
+    weight: 0.8
+  - name: "The Japan Times"
+    url: "https://www.japantimes.co.jp/feed/"
+    region: "asia"
+    weight: 0.8
 
-ROOT = Path(__file__).resolve().parent.parent
-DRAFTS_DIR = ROOT / "drafts"
-STATE_DIR = ROOT / "state"
+  # ── لقياس الانتشار فقط (بلا صور) ──
+  - name: "Google News — World"
+    url: "https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en"
+    region: "global"
+    weight: 0.6
+  - name: "Google News — Technology"
+    url: "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en"
+    region: "global"
+    weight: 0.6
 
+# ── الترشيح والترتيب ────────────────────────────────────────
+selection:
+  max_age_hours: 18          # تجاهل أي خبر أقدم من ذلك
+  drafts_per_run: 5          # عدد المسودات المولّدة في كل تشغيل
+  min_sources_for_trend: 1   # ارفعه إلى 2 لنشر ما تتفق عليه عدة مصادر فقط
+  dedupe_memory_days: 5      # لا تعد نشر خبر مشابه خلال هذه المدة
+  title_similarity: 0.62     # حد التشابه لدمج نفس الخبر من مصادر مختلفة (0-1)
+  region_diversity: true     # وزّع الأخبار جغرافيًا بدل تكديسها من منطقة واحدة
+  max_per_region: 3          # سقف الأخبار من نفس المنطقة في الدفعة الواحدة
+  blocklist_keywords:        # كلمات تستبعد الخبر تمامًا
+    - "horoscope"
+    - "betting odds"
+    - "sponsored"
 
-class Config(dict):
-    """قاموس إعدادات يدعم الوصول بالنقاط عبر get_path."""
+# ── الصياغة العربية (Claude API) ────────────────────────────
+writer:
+  model: "claude-sonnet-5"   # بديل أرخص: claude-haiku-4-5-20251001
+  tone: "خبري رصين، عربي فصيح مبسّط، بلا مبالغة أو إثارة"
+  post_length: "60 إلى 90 كلمة"
+  hashtags_count: 4
+  include_source_credit: true
 
-    def path(self, dotted: str, default: Any = None) -> Any:
-        node: Any = self
-        for part in dotted.split("."):
-            if not isinstance(node, dict) or part not in node:
-                return default
-            node = node[part]
-        return node
+# ── الصورة ─────────────────────────────────────────────────
+image:
+  width: 1080                # مربع 1:1 — الأنسب لخلاصة فيسبوك
+  height: 1080
+  headline_max_chars: 90     # طول العنوان المكتوب على الصورة
+  font_headline: "assets/fonts/Almarai-ExtraBold.ttf"
+  font_body: "assets/fonts/IBMPlexSansArabic-Bold.ttf"
+  sharpen: true              # تحسين حدة صورة الخبر
 
-
-def load_config(path: str | Path | None = None) -> Config:
-    cfg_path = Path(path) if path else ROOT / "config.yaml"
-    with open(cfg_path, "r", encoding="utf-8") as fh:
-        return Config(yaml.safe_load(fh) or {})
-
-
-def env(name: str, required: bool = False, default: str | None = None) -> str | None:
-    value = os.environ.get(name, default)
-    if required and not value:
-        raise RuntimeError(
-            f"متغير البيئة {name} غير موجود. أضفه إلى GitHub Secrets أو ملف .env"
-        )
-    return value
-
-
-def resolve(relative: str) -> Path:
-    """يحوّل مسارًا نسبيًا في الإعدادات إلى مسار مطلق داخل المشروع."""
-    p = Path(relative)
-    return p if p.is_absolute() else ROOT / p
+# ── فيسبوك ─────────────────────────────────────────────────
+facebook:
+  api_version: "v21.0"
+  publish_as_photo: true     # منشور صورة + تعليق (الأنسب للتفاعل)
