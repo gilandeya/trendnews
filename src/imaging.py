@@ -212,6 +212,28 @@ def placeholder(width: int, height: int, primary: tuple, accent: tuple) -> Image
 # ──────────────────────────── الكارت ────────────────────────────
 
 
+def find_logo(relative: str) -> Path | None:
+    """يبحث عن ملف الشعار، ويجرّب امتدادات وحالات أحرف بديلة."""
+    direct = resolve(relative)
+    if direct.exists():
+        return direct
+
+    stem = direct.stem
+    folder = direct.parent
+    if folder.is_dir():
+        for f in sorted(folder.iterdir()):
+            if f.is_file() and f.stem.lower() == stem.lower() and \
+               f.suffix.lower() in (".png", ".jpg", ".jpeg", ".webp"):
+                log.info("عُثر على الشعار باسم مختلف: %s", f.name)
+                return f
+        available = [f.name for f in folder.iterdir() if f.is_file()][:12]
+        log.error("الشعار '%s' غير موجود. محتويات %s: %s",
+                  relative, folder.name, available or "فارغ")
+    else:
+        log.error("المجلد غير موجود: %s", folder)
+    return None
+
+
 def paste_logo(canvas: Image.Image, logo_path: Path, box: tuple[int, int, int, int]) -> bool:
     """يركّب شعار العلامة داخل الصندوق مع الحفاظ على النسبة والشفافية."""
     try:
@@ -231,19 +253,21 @@ def paste_logo(canvas: Image.Image, logo_path: Path, box: tuple[int, int, int, i
         (max(1, round(logo.width * scale)), max(1, round(logo.height * scale))),
         Image.LANCZOS,
     )
-    pos = (x0 + (max_w - logo.width) // 2, y0 + (max_h - logo.height) // 2)
+    # ملتصق باليمين، متوسط عموديًا
+    pos = (x1 - logo.width, y0 + (max_h - logo.height) // 2)
     canvas.paste(logo, pos, logo)
     return True
 
 
-def badge(draw, right: int, top: int, text: str, font, bg, fg,
-          pad_x: int = 24, pad_y: int = 12) -> int:
+def badge_left(draw, left: int, center_y: int, text: str, font, bg, fg,
+               pad_x: int = 22, pad_y: int = 11) -> int:
+    """يرسم ملصقًا بمحاذاة اليسار ومركز عمودي، ويعيد حدّه الأيمن."""
     tw, th = measure(draw, text, font)
     w, h = tw + pad_x * 2, th + pad_y * 2
-    x0 = right - w
-    draw.rounded_rectangle([x0, top, x0 + w, top + h], radius=h // 2, fill=bg)
-    draw_text(draw, (right - pad_x, top + h // 2), text, font, fg, anchor="rm")
-    return x0
+    y0 = center_y - h // 2
+    draw.rounded_rectangle([left, y0, left + w, y0 + h], radius=h // 2, fill=bg)
+    draw_text(draw, (left + w // 2, center_y), text, font, fg, anchor="mm")
+    return left + w
 
 
 def build_post_image(
@@ -264,7 +288,9 @@ def build_post_image(
     handle = cfg.path("brand.handle", "")
     f_head = cfg.path("image.font_headline")
     f_body = cfg.path("image.font_body")
-    head_weight = cfg.path("image.font_headline_weight")
+    head_weight = cfg.path("image.font_headline_weight") or None
+    f_body = f_body or f_head              # فارغ = استخدم خط العنوان نفسه
+    body_weight = cfg.path("image.font_body_weight") or None
 
     canvas = Image.new("RGB", (W, H), primary)
     draw = ImageDraw.Draw(canvas)
@@ -283,7 +309,7 @@ def build_post_image(
     band_pad = int(H * 0.045)
     band_h = len(head_lines) * line_h + band_pad * 2
 
-    header_h = int(H * 0.145) if brand_name else 0
+    header_h = int(H * 0.160) if (brand_name or cfg.path("brand.logo")) else 0
     footer_h = int(H * 0.082) if (handle or publisher) else 0
     photo_top = header_h
     photo_h = H - header_h - band_h - footer_h
@@ -321,48 +347,48 @@ def build_post_image(
     photo = Image.alpha_composite(photo.convert("RGBA"), overlay).convert("RGB")
     canvas.paste(photo, (0, photo_top))
 
-    # ── 2) الترويسة: شعار إن وُجد، وإلا اسم العلامة نصًا ──
+    # ── 2) الترويسة: الشعار واسم الصفحة يمينًا، الملصقات يسارًا ──
     if header_h:
         draw.rectangle([0, 0, W, header_h], fill=primary)
         draw.rectangle([0, header_h - rule, W, header_h], fill=accent)
 
+        inner_top = int(header_h * 0.14)
+        inner_bot = header_h - rule - int(header_h * 0.14)
+        text_right = W - margin
+
+        # الشعار في أقصى اليمين
         logo_rel = cfg.path("brand.logo")
-        logo_done = False
         if logo_rel:
-            logo_file = resolve(logo_rel)
-            if logo_file.exists():
-                pad = int(header_h * 0.16)
-                bottom = header_h - rule - pad - (int(W * 0.030) if tagline else 0)
-                logo_done = paste_logo(
-                    canvas, logo_file,
-                    (int(W * 0.22), pad, int(W * 0.78), bottom),
-                )
-                if logo_done:
-                    draw = ImageDraw.Draw(canvas)  # إعادة الربط بعد اللصق
+            logo_file = find_logo(logo_rel)
+            if logo_file:
+                side = inner_bot - inner_top
+                if paste_logo(canvas, logo_file,
+                              (text_right - side, inner_top, text_right, inner_bot)):
+                    draw = ImageDraw.Draw(canvas)      # إعادة الربط بعد اللصق
+                    text_right -= side + int(W * 0.022)
+
+        # اسم الصفحة، وتحته الشعار الفرعي — بمحاذاة اليمين
+        if brand_name:
+            nf = load_font(f_head, int(W * 0.050), head_weight)
+            if tagline:
+                draw_text(draw, (text_right, inner_top + int(header_h * 0.30)),
+                          brand_name, nf, accent, anchor="rm")
+                tf = load_font(f_body, int(W * 0.024), body_weight)
+                draw_text(draw, (text_right, inner_top + int(header_h * 0.68)),
+                          tagline, tf, mix(accent, (255, 255, 255), 0.55), anchor="rm")
             else:
-                log.warning("ملف الشعار غير موجود: %s", logo_file)
+                draw_text(draw, (text_right, (inner_top + inner_bot) // 2),
+                          brand_name, nf, accent, anchor="rm")
 
-        if not logo_done and brand_name:
-            bf = load_font(f_head, int(W * 0.052), head_weight)
-            cy = header_h // 2 - (int(W * 0.016) if tagline else 0)
-            draw_text(draw, (W // 2, cy), brand_name, bf, accent, anchor="mm")
-
-        if tagline:
-            tf = load_font(f_body, int(W * 0.023))
-            ty = (header_h - rule - int(W * 0.026)) if logo_done else (
-                header_h // 2 - int(W * 0.016) + int(W * 0.044))
-            draw_text(draw, (W // 2, ty), tagline, tf,
-                      mix(accent, (255, 255, 255), 0.55), anchor="mm")
-
-    # ── 3) الشارات فوق الصورة ──
-    bdg_font = load_font(f_body, int(W * 0.026))
-    cursor = W - margin
-    if urgent:
-        cursor = badge(draw, cursor, photo_top + margin // 2, "عاجل",
-                       bdg_font, (206, 32, 39), (255, 255, 255)) - int(W * 0.014)
-    if category:
-        badge(draw, cursor, photo_top + margin // 2, category,
-              bdg_font, accent, primary)
+        # الملصقات في أقصى اليسار
+        bdg_font = load_font(f_body, int(W * 0.026), body_weight)
+        bx = margin
+        by = (inner_top + inner_bot) // 2
+        if urgent:
+            bx = badge_left(draw, bx, by, "عاجل", bdg_font,
+                            (206, 32, 39), (255, 255, 255)) + int(W * 0.014)
+        if category:
+            badge_left(draw, bx, by, category, bdg_font, accent, primary)
 
     # ── 4) شريط العنوان ──
     band_top = photo_top + photo_h
@@ -378,7 +404,7 @@ def build_post_image(
     if footer_h:
         ft_top = H - footer_h
         draw.rectangle([0, ft_top, W, H], fill=mix(primary, (0, 0, 0), 0.28))
-        ff = load_font(f_body, int(W * 0.024))
+        ff = load_font(f_body, int(W * 0.024), body_weight)
         mid = ft_top + footer_h // 2
         if handle:
             draw_text(draw, (margin, mid), handle, ff,
