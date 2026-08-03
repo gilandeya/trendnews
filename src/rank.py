@@ -179,20 +179,29 @@ def rank(articles: list[Article], selection: dict,
             from .trends import trend_match
             trend = max(trend_match(tokens(a.title), trend_signatures) for a in group)
 
-        vel = None
-        if velocity_entries is not None:
-            from .velocity import observe
-            vel = observe(rep.title, len({a.source_name for a in group}),
-                          velocity_entries)
-            rep.velocity = vel["velocity"]
-            rep.age_hours = vel["age_hours"]
-            rep.is_stale = vel["stale"]
-
         rep.trend_score = trend
         rep.state_media = all(a.state_media for a in group)
-        rep.score = score_cluster(group, max_age, trend, trend_weight,
-                                  vel, velocity_weight)
+        rep.score = score_cluster(group, max_age, trend, trend_weight)
+        rep.group_sources = len({a.source_name for a in group})
         ranked.append(rep)
+
+    # ── السرعة: للمتصدّرين فقط ──
+    # تتبّع 1700 خبر في كل تشغيلة يضخّم ملف الحالة ويبطّئ البحث خطيًا
+    # (2200 سجل = 4 ثوانٍ، و12000 سجل = 24 ثانية). والأخبار التي لن
+    # تقترب من الترشيح لا تحتاج قياس سرعة أصلًا.
+    if velocity_entries is not None:
+        from .velocity import observe
+
+        track = int(selection.get("velocity_track_top", 250))
+        ranked.sort(key=lambda a: a.score, reverse=True)
+        for art in ranked[:track]:
+            vel = observe(art.title, art.group_sources, velocity_entries)
+            art.velocity = vel["velocity"]
+            art.age_hours = vel["age_hours"]
+            art.is_stale = vel["stale"]
+            art.score += (velocity_weight * vel["velocity"]
+                          - (2.0 if vel["stale"] else 0.0))
+        log.info("قيست سرعة %d خبر من %d", min(track, len(ranked)), len(ranked))
 
     ranked.sort(key=lambda a: a.score, reverse=True)
 
