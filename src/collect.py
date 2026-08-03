@@ -96,6 +96,7 @@ def main() -> int:
     history = store.load_history()
     drafts: list[dict] = []
     rejected = 0
+    rejections: list[tuple] = []
     deferred: list = []
 
     def quota_open(bucket: str) -> bool:
@@ -135,24 +136,35 @@ def main() -> int:
 
             art = enrich_image(art)
 
-            # التحليل متعدد المصادر: للأخبار الجادة فقط.
-            # خبر المشاهير لا يحتاج تفسيرًا، والجاد هو الذي يُشارَك حين يُفهم.
-            docs: list[dict] = []
+            # قراءة النص الكامل — لكل التصنيفات.
+            # الخبر الخفيف يُكتب من العنوان والملخص فقط، وهما بضعة أسطر
+            # لا تحوي وقائع — فيخرج المنشور إنشاءً بلا تفاصيل. القراءة
+            # تعطي النموذج ما يقوله فعلًا.
             acfg = cfg.get("analysis", {}) or {}
-            min_score = float(acfg.get("min_score", 0))
-            if (acfg.get("enabled", True)
-                    and art.bucket in (acfg.get("buckets") or ["serious"])
-                    and art.score >= min_score):
-                docs = gather_texts(art.cluster_members,
-                                    limit=int(acfg.get("max_sources", 3)))
-                if len(docs) < int(acfg.get("min_sources", 2)):
-                    log.info("مصادر غير كافية للتحليل (%d) — منشور بلا تحليل", len(docs))
-                    docs = []
+            rcfg = cfg.get("reading", {}) or {}
+
+            analysable = (
+                acfg.get("enabled", True)
+                and art.bucket in (acfg.get("buckets") or ["serious"])
+                and art.score >= float(acfg.get("min_score", 0))
+            )
+            want = (int(acfg.get("max_sources", 2)) if analysable
+                    else int(rcfg.get("max_sources", 1)))
+
+            docs: list[dict] = []
+            if rcfg.get("enabled", True) or analysable:
+                docs = gather_texts(art.cluster_members, limit=want)
+                if analysable and len(docs) < int(acfg.get("min_sources", 2)):
+                    log.info("مصادر غير كافية للتحليل (%d) — وقائع بلا تحليل",
+                             len(docs))
+                if not docs:
+                    log.info("تعذّرت قراءة نص الخبر — قد يُرفض لغياب التفاصيل")
 
             written = write_arabic(art, cfg, previous_post=prev_title,
                                    source_docs=docs or None)
             if not written:
                 rejected += 1
+                rejections.append((art.title[:70], art.bucket, bool(docs)))
                 continue
 
             headline = written["image_headline"] or written["post_title"]
@@ -223,7 +235,13 @@ def main() -> int:
         *[f"- `{d['score']:.1f}` {d['arabic']['post_title']}" for d in drafts],
     ]
     if rejected:
-        lines += ["", f"<sub>رُفض {rejected} خبر لعدم استحقاق النشر</sub>"]
+        no_text = sum(1 for _, _, had in rejections if not had)
+        lines += ["", f"<sub>رُفض {rejected} خبر"
+                  + (f" ({no_text} منها تعذّرت قراءة نصه)" if no_text else "")
+                  + "</sub>"]
+        lines += ["", "<details><summary>الأخبار المرفوضة</summary>", ""]
+        lines += [f"- `{b}` {t}" for t, b, _ in rejections[:15]]
+        lines += ["", "</details>"]
     lines += ["", f"<sub>💵 {usage_summary()}</sub>"]
     step_summary("\n".join(lines))
     return 0
