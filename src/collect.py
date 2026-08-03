@@ -79,7 +79,10 @@ def main() -> int:
     log.info("مرشّحون بعد الترتيب: %d", len(candidates))
 
     # 4) فرز أولي رخيص: يستبعد غير الصالح قبل أي قراءة مكلفة
-    horizon = int(selection.get("screen_horizon", 60))
+    # الأفق يتناسب مع المطلوب: فرز 60 مرشحًا لإنتاج مسودتين إسراف
+    per_draft = int(selection.get("screen_per_draft", 8))
+    horizon = min(int(selection.get("screen_horizon_max", 90)),
+                  max(20, target * per_draft))
     candidates = screen(candidates[:horizon], cfg) + candidates[horizon:]
 
     # 5) التوليد بحصص: دفعة متنوعة بدل ما تصادف أن يتصدّر
