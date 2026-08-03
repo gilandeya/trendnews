@@ -3,14 +3,12 @@
 # ═══════════════════════════════════════════════════════════
 
 brand:
-  name: "الموجز"            # يظهر في الترويسة إن لم يوجد شعار
-  logo: "assets/logo.png"                        # مسار شعارك، مثل: assets/logo.png
-                                  #   PNG بخلفية شفافة هو الأفضل
-                                  #   يحل محل الاسم النصي تمامًا
-  tagline: "الخبر وما وراءه ... بعيون عالمية"  # سطر صغير تحت الاسم (فارغ = إخفاء)
-  handle: "@world.window"          # يظهر في التذييل (فارغ = إخفاء)
-  primary_color: "#12203A"         # لون الشريط السفلي
-  accent_color: "#F0B429"          # لون خط التمييز وشعار العاجل
+  name: "الموجز"                   # يظهر في الترويسة إن لم يوجد شعار
+  logo: "assets/logo.png"          # PNG بخلفية شفافة؛ يحل محل الاسم النصي
+  tagline: "الخبر وما وراءه ... بعيون عالمية"   # فارغ = إخفاء
+  handle: "@almoojaz"              # يظهر في التذييل (فارغ = إخفاء)
+  primary_color: "#12203A"         # لون الترويسة وشريط العنوان
+  accent_color: "#F0B429"          # لون التمييز وشارة العاجل
 
 # ── مصادر الأخبار ───────────────────────────────────────────
 # التركيز: العالم غير العربي — ما لا يصل القارئ العربي عبر إعلامه المحلي.
@@ -44,33 +42,8 @@ sources:
     region: "ir"
     weight: 0.7
     state_media: true
-  - name: "Press TV"
-    url: "https://www.presstv.ir/rss.xml"
-    region: "ir"
-    weight: 0.7
-    state_media: true
 
   # ═══ إسرائيل ═══
-  - name: "Times of Israel"
-    url: "https://www.timesofisrael.com/feed/"
-    region: "il"
-    weight: 1.1
-  - name: "Haaretz"
-    url: "https://www.haaretz.com/srv/haaretz-latest.xml"
-    region: "il"
-    weight: 1.1
-  - name: "Ynetnews"
-    url: "https://www.ynetnews.com/Integration/StoryRss3082.xml"
-    region: "il"
-    weight: 1.0
-  - name: "Jerusalem Post"
-    url: "https://www.jpost.com/rss/rssfeedsheadlines.aspx"
-    region: "il"
-    weight: 0.9
-  - name: "i24NEWS"
-    url: "https://www.i24news.tv/en/rss"
-    region: "il"
-    weight: 0.9
 
   # ═══ نيجيريا ═══
   - name: "Premium Times"
@@ -85,52 +58,20 @@ sources:
     url: "https://www.vanguardngr.com/feed/"
     region: "ng"
     weight: 0.9
-  - name: "The Guardian Nigeria"
-    url: "https://guardian.ng/feed/"
-    region: "ng"
-    weight: 0.9
 
   # ═══ إثيوبيا والقرن الأفريقي ═══
-  - name: "Addis Standard"
-    url: "https://addisstandard.com/feed/"
-    region: "et"
-    weight: 1.0
-  - name: "The Reporter Ethiopia"
-    url: "https://www.thereporterethiopia.com/feed/"
-    region: "et"
-    weight: 0.9
-  - name: "Garowe Online"
-    url: "https://www.garoweonline.com/en/rss"
-    region: "so"
-    weight: 0.8
 
   # ═══ شرق أفريقيا ═══
-  - name: "Daily Nation Kenya"
-    url: "https://nation.africa/kenya/rss"
-    region: "ke"
-    weight: 1.0
   - name: "The Standard Kenya"
     url: "https://www.standardmedia.co.ke/rss/headlines.php"
     region: "ke"
     weight: 0.9
-  - name: "The New Times Rwanda"
-    url: "https://www.newtimes.co.rw/rss"
-    region: "rw"
-    weight: 0.8
-  - name: "The Citizen Tanzania"
-    url: "https://www.thecitizen.co.tz/tanzania/rss"
-    region: "tz"
-    weight: 0.8
 
   # ═══ جنوب أفريقيا وغربها ═══
   - name: "Daily Maverick"
     url: "https://www.dailymaverick.co.za/rss"
     region: "za"
     weight: 1.1
-  - name: "Mail & Guardian"
-    url: "https://mg.co.za/feed/"
-    region: "za"
-    weight: 1.0
   - name: "MyJoyOnline Ghana"
     url: "https://www.myjoyonline.com/feed/"
     region: "gh"
@@ -145,25 +86,12 @@ sources:
     weight: 1.0
 
   # ═══ تركيا ═══
-  - name: "Hürriyet Daily News"
-    url: "https://www.hurriyetdailynews.com/rss"
-    region: "tr"
-    weight: 1.0
   - name: "Daily Sabah"
     url: "https://www.dailysabah.com/rssFeed/19"
     region: "tr"
     weight: 0.9
-  - name: "TRT World"
-    url: "https://www.trtworld.com/rss"
-    region: "tr"
-    weight: 0.8
-    state_media: true
 
   # ═══ ماليزيا وإندونيسيا ═══
-  - name: "The Star Malaysia"
-    url: "https://www.thestar.com.my/rss/News"
-    region: "my"
-    weight: 1.0
   - name: "Malay Mail"
     url: "https://www.malaymail.com/feed/rss"
     region: "my"
@@ -172,10 +100,6 @@ sources:
     url: "https://www.freemalaysiatoday.com/feed/"
     region: "my"
     weight: 0.9
-  - name: "The Jakarta Post"
-    url: "https://www.thejakartapost.com/feed"
-    region: "id"
-    weight: 1.0
   - name: "Channel News Asia"
     url: "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml"
     region: "seasia"
@@ -193,10 +117,6 @@ sources:
   - name: "Geo News"
     url: "https://www.geo.tv/rss/1/1"
     region: "pk"
-    weight: 0.9
-  - name: "The Daily Star Bangladesh"
-    url: "https://www.thedailystar.net/rss.xml"
-    region: "bd"
     weight: 0.9
 
   # ═══ الهند ═══
@@ -226,11 +146,6 @@ sources:
     url: "https://www.japantimes.co.jp/feed/"
     region: "jp"
     weight: 0.9
-  - name: "Global Times"
-    url: "https://www.globaltimes.cn/rss/outbrain.xml"
-    region: "cn"
-    weight: 0.7
-    state_media: true
   - name: "CGTN"
     url: "https://www.cgtn.com/subscribe/rss/section/world.xml"
     region: "cn"
@@ -290,10 +205,6 @@ sources:
     weight: 0.9
 
   # ═══ فجوات جغرافية (احذف ما لا يعنيك) ═══
-  - name: "The Kyiv Independent"
-    url: "https://kyivindependent.com/feed/"
-    region: "ua"
-    weight: 1.1
   - name: "Yonhap News"
     url: "https://en.yna.co.kr/RSS/news.xml"
     region: "kr"
@@ -305,10 +216,6 @@ sources:
   - name: "TOLOnews"
     url: "https://tolonews.com/rss.xml"
     region: "af"
-    weight: 0.9
-  - name: "Eurasianet"
-    url: "https://eurasianet.org/rss.xml"
-    region: "centralasia"
     weight: 0.9
   - name: "Balkan Insight"
     url: "https://balkaninsight.com/feed/"
@@ -331,11 +238,6 @@ sources:
     region: "science"
     weight: 1.0
     bucket: useful
-  - name: "Ars Technica"
-    url: "https://feeds.arstechnica.com/arstechnica/index"
-    region: "tech"
-    weight: 1.0
-    bucket: useful
   - name: "MIT Technology Review"
     url: "https://www.technologyreview.com/feed/"
     region: "tech"
@@ -343,39 +245,39 @@ sources:
     bucket: useful
 
   # ═══ صحة: الأعلى مشاركة عربيًا بعد الرياضة ═══
-  - name: "Medical News Today"
-    url: "https://www.medicalnewstoday.com/rss"
-    region: "health"
-    weight: 1.1
-    bucket: useful
   - name: "BBC Health"
     url: "https://feeds.bbci.co.uk/news/health/rss.xml"
     region: "health"
     weight: 1.1
-    bucket: useful
-  - name: "Harvard Health"
-    url: "https://www.health.harvard.edu/blog/feed"
-    region: "health"
-    weight: 1.0
     bucket: useful
   - name: "STAT News"
     url: "https://www.statnews.com/feed/"
     region: "health"
     weight: 1.0
     bucket: useful
-  - name: "منظمة الصحة العالمية"
-    url: "https://www.who.int/rss-feeds/news-english.xml"
-    region: "health"
-    weight: 1.0
-    bucket: useful
-    state_media: true
   - name: "ScienceAlert"
     url: "https://www.sciencealert.com/feed"
     region: "health"
     weight: 0.9
     bucket: useful
 
+  - name: "Medical Xpress"
+    url: "https://medicalxpress.com/rss-feed/"
+    region: "health"
+    weight: 1.1
+    bucket: useful
+  - name: "News Medical"
+    url: "https://www.news-medical.net/syndication.axd?format=rss"
+    region: "health"
+    weight: 0.9
+    bucket: useful
+
   # ═══ تقنية للقارئ العام ═══
+  - name: "Ars Technica"
+    url: "https://feeds.arstechnica.com/arstechnica/technology-lab"
+    region: "tech"
+    weight: 1.0
+    bucket: useful
   - name: "The Verge"
     url: "https://www.theverge.com/rss/index.xml"
     region: "tech"
@@ -403,15 +305,16 @@ sources:
     region: "money"
     weight: 1.0
     bucket: useful
-  - name: "Kitco — الذهب"
-    url: "https://www.kitco.com/rss/news.xml"
+
+  - name: "Investing.com — الاقتصاد"
+    url: "https://www.investing.com/rss/news_14.rss"
     region: "money"
     weight: 0.9
     bucket: useful
 
   # ═══ هجرة وتأشيرات: من أكثر ما يُبحث عنه عربيًا ═══
-  - name: "Schengen News"
-    url: "https://schengen.news/feed/"
+  - name: "SchengenVisaInfo"
+    url: "https://www.schengenvisainfo.com/news/feed/"
     region: "migration"
     weight: 1.0
     bucket: useful
@@ -422,14 +325,6 @@ sources:
     bucket: useful
 
   # ═══ صحافة استقصائية: قصص كبيرة نادرة لكن عالية الأثر ═══
-  - name: "OCCRP"
-    url: "https://www.occrp.org/en/rss.xml"
-    region: "investigative"
-    weight: 1.1
-  - name: "Bellingcat"
-    url: "https://www.bellingcat.com/feed/"
-    region: "investigative"
-    weight: 1.0
 
   # ═══ بلغاتها الأصلية: ما تقوله الدول عن نفسها ═══
   # النسخ الإنجليزية من الصحف الأجنبية منتقاة لجمهور أجنبي وتنشر جزءًا صغيرًا
@@ -454,10 +349,6 @@ sources:
     url: "https://www.clarin.com/rss/lo-ultimo/"
     region: "ar_country"
     weight: 0.9
-  - name: "Kommersant"
-    url: "https://www.kommersant.ru/RSS/news.xml"
-    region: "ru"
-    weight: 0.9
   - name: "Hürriyet (تركي)"
     url: "https://www.hurriyet.com.tr/rss/anasayfa"
     region: "tr"
@@ -474,10 +365,6 @@ sources:
     url: "https://feeds.bbci.co.uk/persian/rss.xml"
     region: "ir"
     weight: 1.0
-  - name: "Kompas"
-    url: "https://www.kompas.com/rss"
-    region: "id"
-    weight: 0.9
 
   # ═══ رياضة: أكبر محرك تفاعل منفرد عربيًا ═══
   # احذف هذا القسم كاملًا إن أردت صفحة أخبار جادة فقط.
@@ -491,42 +378,27 @@ sources:
     region: "sport"
     weight: 1.0
     bucket: sport
-  - name: "Marca"
-    url: "https://e00-marca.uecdn.es/rss/portada.xml"
-    region: "sport"
-    weight: 1.0
-    bucket: sport
-  - name: "ESPN"
-    url: "https://www.espn.com/espn/rss/news"
-    region: "sport"
-    weight: 0.9
-    bucket: sport
 
   # ═══ الخفيف: مشاهير وغرائب وفيروسيات ═══
   # هذا ما يوقف الإصبع عن التمرير. bucket: light يضمن حصة له في كل دفعة.
-  - name: "UPI — Odd News"
-    url: "https://rss.upi.com/news/odd_news.rss"
-    region: "odd"
-    weight: 1.1
+  - name: "Hollywood Reporter"
+    url: "https://www.hollywoodreporter.com/feed/"
+    region: "ent"
+    weight: 1.0
     bucket: light
-  - name: "Oddity Central"
-    url: "https://www.odditycentral.com/feed"
+  - name: "indy100"
+    url: "https://www.indy100.com/feeds/rss/"
     region: "odd"
     weight: 1.0
     bucket: light
-  - name: "r/nottheonion"
-    url: "https://www.reddit.com/r/nottheonion/top/.rss?t=day"
-    region: "reddit"
-    weight: 1.1
+  - name: "Metro — Weird News"
+    url: "https://metro.co.uk/news/weird/feed/"
+    region: "odd"
+    weight: 1.0
     bucket: light
-  - name: "r/todayilearned"
-    url: "https://www.reddit.com/r/todayilearned/top/.rss?t=day"
-    region: "reddit"
-    weight: 0.9
-    bucket: light
-  - name: "r/UpliftingNews"
-    url: "https://www.reddit.com/r/UpliftingNews/top/.rss?t=day"
-    region: "reddit"
+  - name: "NY Post — Odd News"
+    url: "https://nypost.com/odd-news/feed/"
+    region: "odd"
     weight: 0.9
     bucket: light
   - name: "BBC Entertainment"
@@ -554,11 +426,16 @@ sources:
     region: "celeb"
     weight: 1.0
     bucket: light
-  - name: "People"
-    url: "https://people.com/feed/"
-    region: "celeb"
+  - name: "Goal.com"
+    url: "https://www.goal.com/feeds/en/news"
+    region: "sport"
+    weight: 1.0
+    bucket: sport
+  - name: "ESPN — Soccer"
+    url: "https://www.espn.com/espn/rss/soccer/news"
+    region: "sport"
     weight: 0.9
-    bucket: light
+    bucket: sport
   - name: "The Guardian — Sport"
     url: "https://www.theguardian.com/sport/rss"
     region: "sport"
@@ -631,9 +508,9 @@ image:
   height: 1080
   headline_max_chars: 90     # طول العنوان المكتوب على الصورة
   font_headline: "assets/fonts/Cairo.ttf"
-  font_headline_weight: "Black"   # للخطوط المتغيرة فقط: Bold / ExtraBold / Black
-  font_body: "assets/fonts/Cairo.ttf"              # فارغ = نفس خط العنوان (أنسب بصريًا)
-  font_body_weight: "Bold"   # للخطوط المتغيرة: Regular / Medium / SemiBold / Bold
+  font_headline_weight: "Black"     # الخطوط المتغيرة: Bold / ExtraBold / Black
+  font_body: "assets/fonts/Cairo.ttf"
+  font_body_weight: "Bold"          # الخطوط المتغيرة: Regular / Medium / SemiBold / Bold
   sharpen: true              # تحسين حدة صورة الخبر
 
 # ── فيسبوك ─────────────────────────────────────────────────
