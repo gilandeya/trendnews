@@ -3,7 +3,7 @@
 # ═══════════════════════════════════════════════════════════
 
 brand:
-  name: "البوصلة"            # يظهر في الترويسة إن لم يوجد شعار
+  name: "نافذة العالم"            # يظهر في الترويسة إن لم يوجد شعار
   logo: "assets/logo.png"                        # مسار شعارك، مثل: assets/logo.png
                                   #   PNG بخلفية شفافة هو الأفضل
                                   #   يحل محل الاسم النصي تمامًا
@@ -13,31 +13,265 @@ brand:
   accent_color: "#F0B429"          # لون خط التمييز وشعار العاجل
 
 # ── مصادر الأخبار ───────────────────────────────────────────
-# has_images: true = الخلاصة تُضمّن صور الأخبار داخلها (الأفضل بكثير).
-# خلاصات Google News لا تحوي صورًا وروابطها مشفّرة يتعذّر تتبعها، لذا
-# نُبقي منها القليل لقياس الانتشار فقط، ويأخذ البوت الصورة من نسخة ناشر آخر.
+# التركيز: العالم غير العربي — ما لا يصل القارئ العربي عبر إعلامه المحلي.
+# state_media: true → إعلام رسمي/حكومي. البوت يخصم من درجته إن انفرد بالخبر
+#   ويضع تحذيرًا في صفحة المراجعة. احذف أي مصدر بحذف أسطره.
+# ⚠️ شغّل "check_sources" بعد أي تعديل لمعرفة أي الروابط يعمل فعلًا.
 sources:
-  # ── ناشرون مباشرون: صور حقيقية داخل الخلاصة ──
+  # ═══ تغطية عابرة للأقاليم ═══
+  - name: "Al Jazeera English"
+    url: "https://www.aljazeera.com/xml/rss/all.xml"
+    region: "qa"
+    weight: 1.2
+
+  # ═══ إيران: رسمي ومستقل ═══
+  - name: "Iran International"
+    url: "https://www.iranintl.com/en/feed"
+    region: "ir"
+    weight: 1.0
+  - name: "Tehran Times"
+    url: "https://www.tehrantimes.com/rss"
+    region: "ir"
+    weight: 0.8
+    state_media: true
+  - name: "Mehr News"
+    url: "https://en.mehrnews.com/rss"
+    region: "ir"
+    weight: 0.8
+    state_media: true
+  - name: "IRNA English"
+    url: "https://en.irna.ir/rss"
+    region: "ir"
+    weight: 0.7
+    state_media: true
+  - name: "Press TV"
+    url: "https://www.presstv.ir/rss.xml"
+    region: "ir"
+    weight: 0.7
+    state_media: true
+
+  # ═══ إسرائيل ═══
+  - name: "Times of Israel"
+    url: "https://www.timesofisrael.com/feed/"
+    region: "il"
+    weight: 1.1
+  - name: "Haaretz"
+    url: "https://www.haaretz.com/srv/haaretz-latest.xml"
+    region: "il"
+    weight: 1.1
+  - name: "Ynetnews"
+    url: "https://www.ynetnews.com/Integration/StoryRss3082.xml"
+    region: "il"
+    weight: 1.0
+  - name: "Jerusalem Post"
+    url: "https://www.jpost.com/rss/rssfeedsheadlines.aspx"
+    region: "il"
+    weight: 0.9
+  - name: "i24NEWS"
+    url: "https://www.i24news.tv/en/rss"
+    region: "il"
+    weight: 0.9
+
+  # ═══ نيجيريا ═══
+  - name: "Premium Times"
+    url: "https://www.premiumtimesng.com/feed"
+    region: "ng"
+    weight: 1.1
+  - name: "Punch Nigeria"
+    url: "https://punchng.com/feed/"
+    region: "ng"
+    weight: 1.0
+  - name: "Vanguard Nigeria"
+    url: "https://www.vanguardngr.com/feed/"
+    region: "ng"
+    weight: 0.9
+  - name: "The Guardian Nigeria"
+    url: "https://guardian.ng/feed/"
+    region: "ng"
+    weight: 0.9
+
+  # ═══ إثيوبيا والقرن الأفريقي ═══
+  - name: "Addis Standard"
+    url: "https://addisstandard.com/feed/"
+    region: "et"
+    weight: 1.0
+  - name: "The Reporter Ethiopia"
+    url: "https://www.thereporterethiopia.com/feed/"
+    region: "et"
+    weight: 0.9
+  - name: "Garowe Online"
+    url: "https://www.garoweonline.com/en/rss"
+    region: "so"
+    weight: 0.8
+
+  # ═══ شرق أفريقيا ═══
+  - name: "Daily Nation Kenya"
+    url: "https://nation.africa/kenya/rss"
+    region: "ke"
+    weight: 1.0
+  - name: "The Standard Kenya"
+    url: "https://www.standardmedia.co.ke/rss/headlines.php"
+    region: "ke"
+    weight: 0.9
+  - name: "The New Times Rwanda"
+    url: "https://www.newtimes.co.rw/rss"
+    region: "rw"
+    weight: 0.8
+  - name: "The Citizen Tanzania"
+    url: "https://www.thecitizen.co.tz/tanzania/rss"
+    region: "tz"
+    weight: 0.8
+
+  # ═══ جنوب أفريقيا وغربها ═══
+  - name: "Daily Maverick"
+    url: "https://www.dailymaverick.co.za/rss"
+    region: "za"
+    weight: 1.1
+  - name: "Mail & Guardian"
+    url: "https://mg.co.za/feed/"
+    region: "za"
+    weight: 1.0
+  - name: "MyJoyOnline Ghana"
+    url: "https://www.myjoyonline.com/feed/"
+    region: "gh"
+    weight: 0.9
+  - name: "Africanews"
+    url: "https://www.africanews.com/feed/rss"
+    region: "africa"
+    weight: 1.0
+  - name: "AllAfrica"
+    url: "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf"
+    region: "africa"
+    weight: 1.0
+
+  # ═══ تركيا ═══
+  - name: "Hürriyet Daily News"
+    url: "https://www.hurriyetdailynews.com/rss"
+    region: "tr"
+    weight: 1.0
+  - name: "Daily Sabah"
+    url: "https://www.dailysabah.com/rssFeed/19"
+    region: "tr"
+    weight: 0.9
+  - name: "TRT World"
+    url: "https://www.trtworld.com/rss"
+    region: "tr"
+    weight: 0.8
+    state_media: true
+
+  # ═══ ماليزيا وإندونيسيا ═══
+  - name: "The Star Malaysia"
+    url: "https://www.thestar.com.my/rss/News"
+    region: "my"
+    weight: 1.0
+  - name: "Malay Mail"
+    url: "https://www.malaymail.com/feed/rss"
+    region: "my"
+    weight: 0.9
+  - name: "Free Malaysia Today"
+    url: "https://www.freemalaysiatoday.com/feed/"
+    region: "my"
+    weight: 0.9
+  - name: "The Jakarta Post"
+    url: "https://www.thejakartapost.com/feed"
+    region: "id"
+    weight: 1.0
+  - name: "Channel News Asia"
+    url: "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml"
+    region: "seasia"
+    weight: 1.0
+
+  # ═══ باكستان وبنغلاديش ═══
+  - name: "Dawn"
+    url: "https://www.dawn.com/feeds/home"
+    region: "pk"
+    weight: 1.1
+  - name: "The Express Tribune"
+    url: "https://tribune.com.pk/feed/home"
+    region: "pk"
+    weight: 1.0
+  - name: "Geo News"
+    url: "https://www.geo.tv/rss/1/1"
+    region: "pk"
+    weight: 0.9
+  - name: "The Daily Star Bangladesh"
+    url: "https://www.thedailystar.net/rss.xml"
+    region: "bd"
+    weight: 0.9
+
+  # ═══ الهند ═══
+  - name: "The Hindu — International"
+    url: "https://www.thehindu.com/news/international/feeder/default.rss"
+    region: "in"
+    weight: 1.0
+  - name: "NDTV — World"
+    url: "https://feeds.feedburner.com/ndtvnews-world-news"
+    region: "in"
+    weight: 0.9
+  - name: "Hindustan Times — World"
+    url: "https://www.hindustantimes.com/feeds/rss/world-news/rssfeed.xml"
+    region: "in"
+    weight: 0.9
+
+  # ═══ الصين واليابان ═══
+  - name: "South China Morning Post"
+    url: "https://www.scmp.com/rss/91/feed"
+    region: "cn"
+    weight: 1.1
+  - name: "Nikkei Asia"
+    url: "https://asia.nikkei.com/rss/feed/nar"
+    region: "jp"
+    weight: 1.0
+  - name: "The Japan Times"
+    url: "https://www.japantimes.co.jp/feed/"
+    region: "jp"
+    weight: 0.9
+  - name: "Global Times"
+    url: "https://www.globaltimes.cn/rss/outbrain.xml"
+    region: "cn"
+    weight: 0.7
+    state_media: true
+  - name: "CGTN"
+    url: "https://www.cgtn.com/subscribe/rss/section/world.xml"
+    region: "cn"
+    weight: 0.7
+    state_media: true
+
+  # ═══ أمريكا اللاتينية ═══
+  - name: "MercoPress"
+    url: "https://en.mercopress.com/rss/"
+    region: "latam"
+    weight: 1.0
+  - name: "Buenos Aires Times"
+    url: "https://www.batimes.com.ar/feed"
+    region: "latam"
+    weight: 0.9
+  - name: "Agência Brasil"
+    url: "https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml"
+    region: "latam"
+    weight: 0.9
+    state_media: true
+
+  # ═══ روسيا ═══
+  - name: "Meduza English"
+    url: "https://meduza.io/rss/en/all"
+    region: "ru"
+    weight: 1.0
+  - name: "TASS"
+    url: "https://tass.com/rss/v2.xml"
+    region: "ru"
+    weight: 0.7
+    state_media: true
+
+  # ═══ الغرب ═══
   - name: "BBC World"
     url: "https://feeds.bbci.co.uk/news/world/rss.xml"
     region: "uk"
     weight: 1.2
-  - name: "BBC Business"
-    url: "https://feeds.bbci.co.uk/news/business/rss.xml"
-    region: "uk"
-    weight: 1.0
   - name: "The Guardian — World"
     url: "https://www.theguardian.com/world/rss"
     region: "uk"
     weight: 1.2
-  - name: "Sky News — World"
-    url: "https://feeds.skynews.com/feeds/rss/world.xml"
-    region: "uk"
-    weight: 1.0
-  - name: "Al Jazeera English"
-    url: "https://www.aljazeera.com/xml/rss/all.xml"
-    region: "mena"
-    weight: 1.1
   - name: "France24"
     url: "https://www.france24.com/en/rss"
     region: "eu"
@@ -46,46 +280,328 @@ sources:
     url: "https://rss.dw.com/rdf/rss-en-world"
     region: "eu"
     weight: 1.0
-  - name: "Euronews"
-    url: "https://www.euronews.com/rss?level=theme&name=news"
-    region: "eu"
-    weight: 0.9
-  - name: "CNBC — World"
-    url: "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362"
-    region: "us"
-    weight: 0.9
   - name: "NPR World"
     url: "https://feeds.npr.org/1004/rss.xml"
     region: "us"
     weight: 0.9
-  - name: "ABC News Australia"
-    url: "https://www.abc.net.au/news/feed/51120/rss.xml"
-    region: "asia"
-    weight: 0.8
-  - name: "The Japan Times"
-    url: "https://www.japantimes.co.jp/feed/"
-    region: "asia"
-    weight: 0.8
+  - name: "CBS News — World"
+    url: "https://www.cbsnews.com/latest/rss/world"
+    region: "us"
+    weight: 0.9
 
-  # ── لقياس الانتشار فقط (بلا صور) ──
+  # ═══ فجوات جغرافية (احذف ما لا يعنيك) ═══
+  - name: "The Kyiv Independent"
+    url: "https://kyivindependent.com/feed/"
+    region: "ua"
+    weight: 1.1
+  - name: "Yonhap News"
+    url: "https://en.yna.co.kr/RSS/news.xml"
+    region: "kr"
+    weight: 1.0
+  - name: "Rappler"
+    url: "https://www.rappler.com/feed/"
+    region: "ph"
+    weight: 1.0
+  - name: "TOLOnews"
+    url: "https://tolonews.com/rss.xml"
+    region: "af"
+    weight: 0.9
+  - name: "Eurasianet"
+    url: "https://eurasianet.org/rss.xml"
+    region: "centralasia"
+    weight: 0.9
+  - name: "Balkan Insight"
+    url: "https://balkaninsight.com/feed/"
+    region: "balkans"
+    weight: 0.9
+
+  # ═══ علوم وتقنية: محتوى قابل للانتشار وغير مسيّس ═══
+  - name: "Phys.org"
+    url: "https://phys.org/rss-feed/"
+    region: "science"
+    weight: 1.0
+    bucket: useful
+  - name: "ScienceDaily"
+    url: "https://www.sciencedaily.com/rss/top/science.xml"
+    region: "science"
+    weight: 1.0
+    bucket: useful
+  - name: "NASA"
+    url: "https://www.nasa.gov/rss/dyn/breaking_news.rss"
+    region: "science"
+    weight: 1.0
+    bucket: useful
+  - name: "Ars Technica"
+    url: "https://feeds.arstechnica.com/arstechnica/index"
+    region: "tech"
+    weight: 1.0
+    bucket: useful
+  - name: "MIT Technology Review"
+    url: "https://www.technologyreview.com/feed/"
+    region: "tech"
+    weight: 1.0
+    bucket: useful
+
+  # ═══ صحة: الأعلى مشاركة عربيًا بعد الرياضة ═══
+  - name: "Medical News Today"
+    url: "https://www.medicalnewstoday.com/rss"
+    region: "health"
+    weight: 1.1
+    bucket: useful
+  - name: "BBC Health"
+    url: "https://feeds.bbci.co.uk/news/health/rss.xml"
+    region: "health"
+    weight: 1.1
+    bucket: useful
+  - name: "Harvard Health"
+    url: "https://www.health.harvard.edu/blog/feed"
+    region: "health"
+    weight: 1.0
+    bucket: useful
+  - name: "STAT News"
+    url: "https://www.statnews.com/feed/"
+    region: "health"
+    weight: 1.0
+    bucket: useful
+  - name: "منظمة الصحة العالمية"
+    url: "https://www.who.int/rss-feeds/news-english.xml"
+    region: "health"
+    weight: 1.0
+    bucket: useful
+    state_media: true
+  - name: "ScienceAlert"
+    url: "https://www.sciencealert.com/feed"
+    region: "health"
+    weight: 0.9
+    bucket: useful
+
+  # ═══ تقنية للقارئ العام ═══
+  - name: "The Verge"
+    url: "https://www.theverge.com/rss/index.xml"
+    region: "tech"
+    weight: 1.1
+    bucket: useful
+  - name: "BBC Technology"
+    url: "https://feeds.bbci.co.uk/news/technology/rss.xml"
+    region: "tech"
+    weight: 1.1
+    bucket: useful
+  - name: "TechCrunch"
+    url: "https://techcrunch.com/feed/"
+    region: "tech"
+    weight: 1.0
+    bucket: useful
+  - name: "Engadget"
+    url: "https://www.engadget.com/rss.xml"
+    region: "tech"
+    weight: 0.9
+    bucket: useful
+
+  # ═══ اقتصاد شخصي: عملات وذهب وتكاليف معيشة ═══
+  - name: "Investing.com — Commodities"
+    url: "https://www.investing.com/rss/commodities.rss"
+    region: "money"
+    weight: 1.0
+    bucket: useful
+  - name: "Kitco — الذهب"
+    url: "https://www.kitco.com/rss/news.xml"
+    region: "money"
+    weight: 0.9
+    bucket: useful
+
+  # ═══ هجرة وتأشيرات: من أكثر ما يُبحث عنه عربيًا ═══
+  - name: "Schengen News"
+    url: "https://schengen.news/feed/"
+    region: "migration"
+    weight: 1.0
+    bucket: useful
+  - name: "CIC News — كندا"
+    url: "https://www.cicnews.com/feed"
+    region: "migration"
+    weight: 1.0
+    bucket: useful
+
+  # ═══ صحافة استقصائية: قصص كبيرة نادرة لكن عالية الأثر ═══
+  - name: "OCCRP"
+    url: "https://www.occrp.org/en/rss.xml"
+    region: "investigative"
+    weight: 1.1
+  - name: "Bellingcat"
+    url: "https://www.bellingcat.com/feed/"
+    region: "investigative"
+    weight: 1.0
+
+  # ═══ بلغاتها الأصلية: ما تقوله الدول عن نفسها ═══
+  # النسخ الإنجليزية من الصحف الأجنبية منتقاة لجمهور أجنبي وتنشر جزءًا صغيرًا
+  # مما تنشره النسخة الأصلية. Claude يترجم من أي لغة — فلماذا نقرأ الوسيط؟
+  - name: "Le Monde"
+    url: "https://www.lemonde.fr/rss/une.xml"
+    region: "fr"
+    weight: 1.1
+  - name: "Der Spiegel"
+    url: "https://www.spiegel.de/schlagzeilen/index.rss"
+    region: "de"
+    weight: 1.1
+  - name: "El País"
+    url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada"
+    region: "es"
+    weight: 1.0
+  - name: "Folha de S.Paulo"
+    url: "https://feeds.folha.uol.com.br/emcimadahora/rss091.xml"
+    region: "br"
+    weight: 1.0
+  - name: "Clarín"
+    url: "https://www.clarin.com/rss/lo-ultimo/"
+    region: "ar_country"
+    weight: 0.9
+  - name: "Kommersant"
+    url: "https://www.kommersant.ru/RSS/news.xml"
+    region: "ru"
+    weight: 0.9
+  - name: "Hürriyet (تركي)"
+    url: "https://www.hurriyet.com.tr/rss/anasayfa"
+    region: "tr"
+    weight: 1.0
+  - name: "NHK (ياباني)"
+    url: "https://www3.nhk.or.jp/rss/news/cat0.xml"
+    region: "jp"
+    weight: 0.9
+  - name: "BBC 中文"
+    url: "https://feeds.bbci.co.uk/zhongwen/simp/rss.xml"
+    region: "cn"
+    weight: 0.9
+  - name: "BBC فارسی"
+    url: "https://feeds.bbci.co.uk/persian/rss.xml"
+    region: "ir"
+    weight: 1.0
+  - name: "Kompas"
+    url: "https://www.kompas.com/rss"
+    region: "id"
+    weight: 0.9
+
+  # ═══ رياضة: أكبر محرك تفاعل منفرد عربيًا ═══
+  # احذف هذا القسم كاملًا إن أردت صفحة أخبار جادة فقط.
+  - name: "BBC Sport"
+    url: "https://feeds.bbci.co.uk/sport/rss.xml"
+    region: "sport"
+    weight: 1.1
+    bucket: sport
+  - name: "Sky Sports — Football"
+    url: "https://www.skysports.com/rss/12040"
+    region: "sport"
+    weight: 1.0
+    bucket: sport
+  - name: "Marca"
+    url: "https://e00-marca.uecdn.es/rss/portada.xml"
+    region: "sport"
+    weight: 1.0
+    bucket: sport
+  - name: "ESPN"
+    url: "https://www.espn.com/espn/rss/news"
+    region: "sport"
+    weight: 0.9
+    bucket: sport
+
+  # ═══ الخفيف: مشاهير وغرائب وفيروسيات ═══
+  # هذا ما يوقف الإصبع عن التمرير. bucket: light يضمن حصة له في كل دفعة.
+  - name: "UPI — Odd News"
+    url: "https://rss.upi.com/news/odd_news.rss"
+    region: "odd"
+    weight: 1.1
+    bucket: light
+  - name: "Oddity Central"
+    url: "https://www.odditycentral.com/feed"
+    region: "odd"
+    weight: 1.0
+    bucket: light
+  - name: "r/nottheonion"
+    url: "https://www.reddit.com/r/nottheonion/top/.rss?t=day"
+    region: "reddit"
+    weight: 1.1
+    bucket: light
+  - name: "r/todayilearned"
+    url: "https://www.reddit.com/r/todayilearned/top/.rss?t=day"
+    region: "reddit"
+    weight: 0.9
+    bucket: light
+  - name: "r/UpliftingNews"
+    url: "https://www.reddit.com/r/UpliftingNews/top/.rss?t=day"
+    region: "reddit"
+    weight: 0.9
+    bucket: light
+  - name: "BBC Entertainment"
+    url: "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml"
+    region: "ent"
+    weight: 1.1
+    bucket: light
+  - name: "Variety"
+    url: "https://variety.com/feed/"
+    region: "ent"
+    weight: 1.0
+    bucket: light
+  - name: "Deadline"
+    url: "https://deadline.com/feed/"
+    region: "ent"
+    weight: 0.9
+    bucket: light
+  - name: "Rolling Stone"
+    url: "https://www.rollingstone.com/feed/"
+    region: "ent"
+    weight: 0.9
+    bucket: light
+  - name: "E! Online"
+    url: "https://www.eonline.com/syndication/feeds/rssfeeds/topstories.xml"
+    region: "celeb"
+    weight: 1.0
+    bucket: light
+  - name: "People"
+    url: "https://people.com/feed/"
+    region: "celeb"
+    weight: 0.9
+    bucket: light
+  - name: "The Guardian — Sport"
+    url: "https://www.theguardian.com/sport/rss"
+    region: "sport"
+    weight: 1.0
+    bucket: sport
+
+  # ═══ لقياس الانتشار فقط ═══
   - name: "Google News — World"
     url: "https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en"
     region: "global"
     weight: 0.6
-  - name: "Google News — Technology"
-    url: "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=en-US&gl=US&ceid=US:en"
-    region: "global"
-    weight: 0.6
+
+# ── الموضوعات الرائجة (Google Trends) ───────────────────────
+# إشارة *الطلب*: ما يبحث عنه الناس فعلًا، لا ما تنشره الوكالات.
+# الخبر الذي تغطيه عدة وكالات ويطابق موضوعًا رائجًا يتصدر الترتيب.
+trends:
+  enabled: true
+  # 8.0 لا 4.0: مؤشر "كم وكالة غطّته" يعاقب الأخبار الخفيفة أصلًا —
+  # الغرائب تنشرها مواقع قليلة لكنها تنتشر بجنون. الترند يصحّح ذلك.
+  weight: 8.0
+  # ⚠️ هذه دول *جمهورك* لا دول مصادرك. المصادر تحدد من أين تأتي الأخبار،
+  # والترند يحدد ما يهتم به قراؤك — وهم عرب.
+  geos: ["EG", "SA", "AE", "MA", "DZ", "IQ", "JO", "KW", "TN", "LY", "SD", "YE", "QA", "OM"]
 
 # ── الترشيح والترتيب ────────────────────────────────────────
 selection:
-  max_age_hours: 18          # تجاهل أي خبر أقدم من ذلك
-  drafts_per_run: 5          # عدد المسودات المولّدة في كل تشغيل
+  max_age_hours: 30          # نافذة أوسع للقصص بطيئة الاشتعال
+  drafts_per_run: 10
+  # حصص كل دفعة: ثلثان خفيف/رياضة، وثلث جاد.
+  # عدّل الأرقام لتغيير هوية الصفحة. احذف القسم لإلغاء الحصص.
+  quotas:
+    light: 4      # مشاهير، غرائب، ترفيه، فيروسيات
+    sport: 2      # رياضة
+    useful: 2     # صحة، تقنية، اقتصاد شخصي، هجرة — حصة محمية
+    serious: 2    # سياسة واقتصاد كلي          # عدد المسودات المولّدة في كل تشغيل
   min_sources_for_trend: 1   # ارفعه إلى 2 لنشر ما تتفق عليه عدة مصادر فقط
   dedupe_memory_days: 5      # لا تعد نشر خبر مشابه خلال هذه المدة
   title_similarity: 0.62     # حد التشابه لدمج نفس الخبر من مصادر مختلفة (0-1)
+  velocity_weight: 5.0       # وزن *سرعة* الانتشار — أهم إشارة ترند حقيقية
+  allow_followups: true      # اسمح بمنشور ثانٍ إن حمل تطورًا جديدًا فعليًا
+  followup_min_hours: 10     # أقل فاصل بين منشورين عن الحدث نفسه
   region_diversity: true     # وزّع الأخبار جغرافيًا بدل تكديسها من منطقة واحدة
-  max_per_region: 3          # سقف الأخبار من نفس المنطقة في الدفعة الواحدة
+  max_per_region: 2          # سقف الأخبار من نفس المنطقة في الدفعة الواحدة
   blocklist_keywords:        # كلمات تستبعد الخبر تمامًا
     - "horoscope"
     - "betting odds"
@@ -98,6 +614,16 @@ writer:
   post_length: "60 إلى 90 كلمة"
   hashtags_count: 4
   include_source_credit: true
+
+# ── التحليل متعدد المصادر ──────────────────────────────────
+# البوت يقرأ نص الخبر كاملًا من عدة ناشرين، فيرى ما يتفقون عليه وما
+# يختلفون فيه — وهذا تحليل لا يملكه أي مصدر منفرد.
+# ⚠️ يرفع التكلفة نحو 6-8 دولارات شهريًا. اجعل enabled: false لإيقافه.
+analysis:
+  enabled: true
+  buckets: ["serious"]   # الجاد فقط؛ أضف "sport" أو "light" إن أردت
+  min_sources: 2         # أقل من ذلك = لا تحليل (مصدر واحد ليس مقارنة)
+  max_sources: 3         # سقف القراءة لكل خبر — كل مصدر يرفع التكلفة
 
 # ── الصورة ─────────────────────────────────────────────────
 image:
@@ -113,4 +639,15 @@ image:
 # ── فيسبوك ─────────────────────────────────────────────────
 facebook:
   api_version: "v21.0"
-  publish_as_photo: true     # منشور صورة + تعليق (الأنسب للتفاعل)
+  publish_as_photo: true
+
+  # الرابط في التعليق الأول بدل المتن: فيسبوك يخفض وصول المنشورات
+  # التي تُخرج المستخدم من المنصة عبر رابط خارجي.
+  link_in_first_comment: true
+  comment_prefix: "المصدر"
+
+  # الجدولة: توزيع المعتمَد على أوقات الذروة بدل نشره دفعة واحدة
+  schedule_enabled: true
+  timezone: "Europe/Istanbul"     # توقيت جمهورك
+  peak_hours: [12, 18, 21]        # ساعات النشر المفضّلة (0-23)
+  min_gap_minutes: 120            # أقل فاصل بين منشورين
