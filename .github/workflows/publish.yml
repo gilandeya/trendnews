@@ -10,8 +10,13 @@ on:
         description: "رقم Issue المراجعة (اتركه فارغًا مع ids)"
         required: false
       ids:
-        description: "معرفات مسودات مفصولة بفواصل، مثل a1b2c3,d4e5f6"
+        description: "معرفات مسودات مفصولة بفواصل (نشر فوري)"
         required: false
+      publish_now:
+        description: "نشر فوري بلا جدولة"
+        type: boolean
+        required: false
+        default: false
       verify_only:
         description: "فحص توكن فيسبوك فقط بلا نشر"
         type: boolean
@@ -57,7 +62,7 @@ jobs:
           FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
         run: python -m src.publish --verify
 
-      - name: النشر
+      - name: الجدولة أو النشر
         if: inputs.verify_only != true
         env:
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
@@ -68,10 +73,14 @@ jobs:
             python -m src.publish --ids "${{ inputs.ids }}"
           else
             ISSUE="${{ inputs.issue || github.event.issue.number }}"
-            python -m src.publish --issue "$ISSUE"
+            if [ "${{ inputs.publish_now }}" = "true" ]; then
+              python -m src.publish --issue "$ISSUE" --now
+            else
+              python -m src.publish --issue "$ISSUE"
+            fi
           fi
 
-      - name: تسجيل حالة النشر في المستودع
+      - name: تسجيل الحالة في المستودع
         if: inputs.verify_only != true
         run: |
           git config user.name  "trendnews-bot"
