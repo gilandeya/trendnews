@@ -58,6 +58,22 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         img_path = d["image"]
         ar = d["arabic"]
         badge = "🔴 عاجل" if ar.get("urgent") else f"🏷️ {ar.get('category', '')}"
+        if d.get("trend_score", 0) >= 0.5:
+            badge += " · 🔥 رائج"
+        if d.get("velocity", 0) >= 0.5:
+            badge += " · 🚀 ينتشر بسرعة"
+        if ar.get("angle") == "تفسير":
+            badge += " · 🧭 تفسيري"
+        if d.get("is_followup"):
+            badge += " · ↩️ متابعة"
+        if d.get("bucket") == "light":
+            badge += " · 🎭 خفيف"
+        if d.get("bucket") == "useful":
+            badge += " · 💡 نافع"
+        if ar.get("category") == "صحة":
+            badge += " · 🏥 راجع الادعاءات الطبية"
+        if d.get("analysed_sources"):
+            badge += f" · 🔬 محلَّل من {len(d['analysed_sources'])} مصادر"
 
         parts += [
             f"- [ ] **{idx}. {ar['post_title']}**  <!-- draft:{d['id']} -->",
@@ -65,6 +81,8 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             f"  {badge} · مؤشر الترند `{d['score']:.1f}` · المصادر: "
             f"{'، '.join(d['source']['publishers'][:3])}",
             "",
+            *(["  > ⚠️ **مصدره إعلام رسمي/حكومي فقط** — تحقّق من الرواية قبل النشر.",
+               ""] if d.get("state_media") else []),
             f"  <img src=\"{raw_url(repo, branch, img_path)}\" width=\"520\" />",
             "",
             f"  ↳ [الصورة في المستودع]({blob_url(repo, branch, img_path)}) · "
