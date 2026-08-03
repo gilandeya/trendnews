@@ -1,0 +1,48 @@
+name: 4️⃣ تقرير الأداء الأسبوعي
+
+on:
+  schedule:
+    # كل اثنين 07:00 UTC
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "عدد الأيام المشمولة"
+        required: false
+        default: "30"
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: تحليل الأداء
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m src.insights --days "${{ inputs.days || '30' }}"
+
+      - name: حفظ البيانات
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p state
+          git add -A state
+          if ! git diff --quiet --cached; then
+            git commit -m "chore(state): بيانات الأداء"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

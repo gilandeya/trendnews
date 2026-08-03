@@ -1,0 +1,59 @@
+name: 3️⃣ نشر الطابور في وقته
+
+on:
+  schedule:
+    # كل ساعة — ينشر ما حان وقته فقط
+    - cron: "5 * * * *"
+  workflow_dispatch:
+    inputs:
+      show_only:
+        description: "عرض الطابور بلا نشر"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trendnews-queue
+  cancel-in-progress: false
+
+jobs:
+  flush:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: عرض الطابور
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+        run: python -m src.publish --queue
+
+      - name: نشر المستحق
+        if: inputs.show_only != true
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+        run: python -m src.publish --due
+
+      - name: تسجيل الحالة
+        if: inputs.show_only != true
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p drafts
+          git add -A drafts
+          if ! git diff --quiet --cached; then
+            git commit -m "chore(drafts): نشر الطابور"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
