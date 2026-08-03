@@ -89,7 +89,7 @@ SYSTEM_PROMPT = """أنت محرر في صفحة أخبار عربية شعبي�
    ما يقدّمه التحليل متعدد المصادر. لا ترجّح طرفًا.
 هـ. لا تكتب مقالًا. سطران أو ثلاثة على الأكثر لكل حقل.
 
-أخرج JSON فقط بلا أي نص أو علامات markdown حوله."""
+استخدم أداة publish_post دائمًا."""
 
 
 USER_TEMPLATE = """الخبر المصدر:
@@ -104,22 +104,14 @@ USER_TEMPLATE = """الخبر المصدر:
 - عدد المصادر التي غطّت الحدث: {source_count}
 - منذ متى ونحن نتتبّعه: {age_hours} ساعة
 {followup_note}
-المطلوب — كائن JSON بهذه الحقول بالضبط:
+املأ حقول أداة publish_post:
 
-{{
-  "newsworthy": true أو false,
-  "reject_reason": "سبب الرفض إن كان newsworthy=false، وإلا نص فارغ",
-  "angle": "خبر" أو "تفسير" — انظر قاعدة الزاوية أدناه,
-  "urgent": true إذا كان الخبر عاجلًا/كسر أخبار، وإلا false,
-  "category": واحدة من {categories},
-  "image_headline": "عنوان مكثّف يُكتب على الصورة، بحد أقصى {max_chars} حرفًا، بلا نقطة في النهاية",
-  "post_title": "عنوان المنشور، جملة واحدة جاذبة ودقيقة",
-  "post_body": "متن المنشور، {post_length}، يجيب عن ماذا ومتى وأين ولماذا يهم القارئ العربي",
-  "hashtags": ["قائمة", "من", "{hashtags_count}", "هاشتاقات"],
-  "why": "لماذا حدث هذا؟ سطران بحد أقصى، من النصوص فقط، منسوبان لمصادرهما. نص فارغ إن لم تقدّم المصادر سببًا",
-  "meaning": "ما الذي يعنيه هذا للقارئ العربي؟ سطران بحد أقصى. نص فارغ إن لم تكن هناك دلالة واضحة",
-  "dispute": "نقطة اختلفت فيها المصادر، بصيغة: تقول س كذا بينما تذكر ص كذا. نص فارغ إن اتفقت"
-}}
+• image_headline — عنوان مكثّف يُكتب على الصورة، بحد أقصى {max_chars} حرفًا، بلا نقطة
+• post_title — عنوان المنشور: جملة واحدة جاذبة ودقيقة
+• post_body — متن المنشور، {post_length}، يجيب: ماذا ومتى وأين ولماذا يهم القارئ العربي
+• hashtags — {hashtags_count} هاشتاقات عربية، بلا رمز # وبـ _ بدل المسافة
+• category — التصنيف الأنسب
+• why / meaning / dispute — حقول التحليل (اتركها فارغة إن لم تُعطَ نصوص مصادر)
 
 اسأل نفسك قبل الكتابة: هل يوقف هذا الخبر إصبع القارئ عن التمرير؟ هل
 يدفعه لمشاركته أو التعليق؟ إن كانت الإجابة لا لكليهما، ولم يكن خبرًا
@@ -191,6 +183,36 @@ def usage_summary() -> str:
             f"· ≈ ${u['cost']:.3f}")
 
 
+POST_SCHEMA = {
+    "name": "publish_post",
+    "description": "يسلّم المنشور العربي الجاهز بحقوله المهيكلة",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "newsworthy": {"type": "boolean",
+                           "description": "هل يستحق الخبر النشر؟"},
+            "reject_reason": {"type": "string",
+                              "description": "سبب الرفض، أو نص فارغ"},
+            "angle": {"type": "string", "enum": ["خبر", "تفسير"]},
+            "urgent": {"type": "boolean"},
+            "category": {"type": "string", "enum": CATEGORIES},
+            "image_headline": {"type": "string",
+                               "description": "عنوان مكثّف يُكتب على الصورة"},
+            "post_title": {"type": "string"},
+            "post_body": {"type": "string"},
+            "hashtags": {"type": "array", "items": {"type": "string"}},
+            "why": {"type": "string",
+                    "description": "لماذا حدث؟ من النصوص فقط، أو نص فارغ"},
+            "meaning": {"type": "string",
+                        "description": "ما الذي يعنيه؟ أو نص فارغ"},
+            "dispute": {"type": "string",
+                        "description": "خلاف بين المصادر، أو نص فارغ"},
+        },
+        "required": ["newsworthy", "category", "post_title", "post_body"],
+    },
+}
+
+
 def _client() -> Anthropic:
     return Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
@@ -248,7 +270,9 @@ def write_arabic(article: Article, cfg, retries: int = 3,
         try:
             resp = client.messages.create(
                 model=w.get("model", "claude-sonnet-5"),
-                max_tokens=1500,
+                max_tokens=int(w.get("max_tokens", 3000)),
+                tools=[POST_SCHEMA],
+                tool_choice={"type": "tool", "name": "publish_post"},
                 # نظام التوجيه ثابت في كل الاستدعاءات — تخزينه مؤقتًا
                 # يجعل قراءته في الاستدعاءات التالية بعُشر السعر.
                 system=[{
@@ -258,11 +282,21 @@ def write_arabic(article: Article, cfg, retries: int = 3,
                 }],
                 messages=[{"role": "user", "content": prompt}],
             )
-            text = "".join(
-                block.text for block in resp.content if getattr(block, "type", "") == "text"
-            )
             record_usage(resp, w.get("model", "claude-sonnet-5"))
-            data = _extract_json(text)
+
+            if getattr(resp, "stop_reason", "") == "max_tokens":
+                # الرد بُتر: ارفع writer.max_tokens بدل إعادة المحاولة عبثًا
+                raise ValueError("تجاوز الرد السقف — ارفع writer.max_tokens")
+
+            data = next(
+                (b.input for b in resp.content
+                 if getattr(b, "type", "") == "tool_use"),
+                None,
+            )
+            if data is None:      # احتياط: نموذج ردّ نصًا رغم الأداة
+                text = "".join(b.text for b in resp.content
+                               if getattr(b, "type", "") == "text")
+                data = _extract_json(text)
             break
         except (APIError, json.JSONDecodeError, ValueError) as exc:
             last_error = exc
