@@ -10,8 +10,8 @@ on:
         description: "عدد المسودات المطلوبة"
         required: false
         default: "5"
-      skip_issue:
-        description: "توليد المسودات بلا فتح Issue للمراجعة"
+      check_sources:
+        description: "فحص المصادر فقط بلا توليد مسودات"
         type: boolean
         required: false
         default: false
@@ -45,10 +45,15 @@ jobs:
       - name: التأكد من الخطوط العربية
         run: bash scripts/fetch_fonts.sh
 
+      - name: فحص المصادر
+        if: inputs.check_sources == true
+        run: python -m src.check_sources
+
       - name: توليد المسودات
+        if: inputs.check_sources != true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python -m src.collect --limit "${{ inputs.limit || '5' }}"
+        run: python -m src.collect --limit "${{ inputs.limit || '8' }}"
 
       - name: رفع المسودات إلى المستودع
         id: commit
