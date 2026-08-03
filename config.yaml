@@ -3,12 +3,12 @@
 # ═══════════════════════════════════════════════════════════
 
 brand:
-  name: ""                   # يظهر في الترويسة إن لم يوجد شعار
-  logo: "assets/logo.png"          # PNG بخلفية شفافة؛ يحل محل الاسم النصي
+  name: ""                         # فارغ = الشعار وحده في الترويسة
+  logo: "assets/logo.png"          # PNG بخلفية شفافة
   logo_scale: 1.0                  # حجم الشعار: 1.4 = أكبر بـ40% · 0.8 = أصغر
   logo_max_width: 0.42             # أقصى عرض للشعار كنسبة من عرض الصورة
-  tagline: ""   # فارغ = إخفاء
-  handle: "@Almoujiz"             # يظهر في تذييل الصورة (فارغ = إخفاء)
+  tagline: ""                      # فارغ = إخفاء
+  handle: "@Almoujiz"              # يظهر في تذييل الصورة (فارغ = إخفاء)
   primary_color: "#12203A"         # لون الترويسة وشريط العنوان
   accent_color: "#F0B429"          # لون التمييز وشارة العاجل
 
@@ -235,11 +235,6 @@ sources:
     region: "science"
     weight: 1.0
     bucket: useful
-  - name: "NASA"
-    url: "https://www.nasa.gov/rss/dyn/breaking_news.rss"
-    region: "science"
-    weight: 1.0
-    bucket: useful
   - name: "MIT Technology Review"
     url: "https://www.technologyreview.com/feed/"
     region: "tech"
@@ -275,11 +270,6 @@ sources:
     bucket: useful
 
   # ═══ تقنية للقارئ العام ═══
-  - name: "Ars Technica"
-    url: "https://feeds.arstechnica.com/arstechnica/technology-lab"
-    region: "tech"
-    weight: 1.0
-    bucket: useful
   - name: "The Verge"
     url: "https://www.theverge.com/rss/index.xml"
     region: "tech"
@@ -315,10 +305,10 @@ sources:
     bucket: useful
 
   # ═══ هجرة وتأشيرات: من أكثر ما يُبحث عنه عربيًا ═══
-  - name: "SchengenVisaInfo"
-    url: "https://www.schengenvisainfo.com/news/feed/"
+  - name: "Visa Guide World"
+    url: "https://visaguide.world/news/feed/"
     region: "migration"
-    weight: 1.0
+    weight: 0.9
     bucket: useful
   - name: "CIC News — كندا"
     url: "https://www.cicnews.com/feed"
@@ -388,20 +378,10 @@ sources:
     region: "ent"
     weight: 1.0
     bucket: light
-  - name: "indy100"
-    url: "https://www.indy100.com/feeds/rss/"
-    region: "odd"
-    weight: 1.0
-    bucket: light
   - name: "Metro — Weird News"
     url: "https://metro.co.uk/news/weird/feed/"
     region: "odd"
     weight: 1.0
-    bucket: light
-  - name: "NY Post — Odd News"
-    url: "https://nypost.com/odd-news/feed/"
-    region: "odd"
-    weight: 0.9
     bucket: light
   - name: "BBC Entertainment"
     url: "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml"
@@ -428,16 +408,6 @@ sources:
     region: "celeb"
     weight: 1.0
     bucket: light
-  - name: "Goal.com"
-    url: "https://www.goal.com/feeds/en/news"
-    region: "sport"
-    weight: 1.0
-    bucket: sport
-  - name: "ESPN — Soccer"
-    url: "https://www.espn.com/espn/rss/soccer/news"
-    region: "sport"
-    weight: 0.9
-    bucket: sport
   - name: "The Guardian — Sport"
     url: "https://www.theguardian.com/sport/rss"
     region: "sport"
@@ -460,7 +430,7 @@ trends:
   weight: 8.0
   # ⚠️ هذه دول *جمهورك* لا دول مصادرك. المصادر تحدد من أين تأتي الأخبار،
   # والترند يحدد ما يهتم به قراؤك — وهم عرب.
-  geos: ["EG", "SA", "AE", "MA", "DZ", "IQ", "JO", "KW", "TN", "LY", "SD", "YE", "QA", "OM"]
+  geos: ["EG", "SA", "AE", "MA", "DZ", "IQ", "JO", "KW", "TN", "LY", "YE", "QA", "OM"]
 
 # ── الترشيح والترتيب ────────────────────────────────────────
 selection:
@@ -476,7 +446,9 @@ selection:
   min_sources_for_trend: 1   # ارفعه إلى 2 لنشر ما تتفق عليه عدة مصادر فقط
   dedupe_memory_days: 5      # لا تعد نشر خبر مشابه خلال هذه المدة
   title_similarity: 0.62     # حد التشابه لدمج نفس الخبر من مصادر مختلفة (0-1)
-  screen_horizon: 60         # عدد المرشحين الذين يمرّون بالفرز الأولي
+  screen_per_draft: 8        # كم مرشحًا يُفرز لكل مسودة مطلوبة
+  screen_horizon_max: 90     # سقف الفرز مهما ارتفع المطلوب
+  velocity_track_top: 250    # قياس السرعة للمتصدّرين فقط (يمنع تضخّم الحالة)
   velocity_weight: 5.0       # وزن *سرعة* الانتشار — أهم إشارة ترند حقيقية
   allow_followups: true      # اسمح بمنشور ثانٍ إن حمل تطورًا جديدًا فعليًا
   followup_min_hours: 10     # أقل فاصل بين منشورين عن الحدث نفسه
