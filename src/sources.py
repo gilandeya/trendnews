@@ -40,6 +40,7 @@ class Article:
     bucket: str = "serious"          # light | sport | serious — لحصص الدفعة
     state_media: bool = False        # إعلام رسمي/حكومي — يُنبَّه عليه للمراجع
     trend_score: float = 0.0         # مطابقة Google Trends (0 إلى 1)
+    group_sources: int = 1           # عدد المصادر المتميّزة في مجموعته
     velocity: float = 0.0            # سرعة الانتشار (0 إلى 1)
     age_hours: float = 0.0           # منذ متى نتتبّع هذا الخبر
     is_stale: bool = False           # توقّف نموه
