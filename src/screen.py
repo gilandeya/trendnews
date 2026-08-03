@@ -19,6 +19,7 @@ from anthropic import Anthropic, APIError
 
 from .config import env
 from .sources import Article
+from .writer import record_usage
 
 log = logging.getLogger(__name__)
 
@@ -88,6 +89,7 @@ def screen(articles: list[Article], cfg, batch_size: int = 30) -> list[Article]:
                 messages=[{"role": "user", "content":
                            f"افحص هذه العناوين:\n\n{listing}"}],
             )
+            record_usage(resp, model)
             text = "".join(b.text for b in resp.content
                            if getattr(b, "type", "") == "text")
             indices = set(_parse(text))
