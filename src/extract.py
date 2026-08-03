@@ -26,7 +26,7 @@ except ImportError:  # pragma: no cover
     log.warning("trafilatura غير مثبّتة — التحليل متعدد المصادر معطّل")
 
 MIN_CHARS = 400          # أقل من ذلك = صفحة اشتراك أو حظر لا مقال
-MAX_CHARS = 6000         # سقف لكل مصدر لضبط التكلفة
+MAX_CHARS = 2500         # سقف لكل مصدر — الفقرات الأولى تحمل الجوهر
 
 
 def fetch_text(url: str, timeout: int = 20) -> str | None:
@@ -53,7 +53,7 @@ def fetch_text(url: str, timeout: int = 20) -> str | None:
     return text[:MAX_CHARS]
 
 
-def gather(members: list[dict], limit: int = 3, workers: int = 4) -> list[dict]:
+def gather(members: list[dict], limit: int = 2, workers: int = 4) -> list[dict]:
     """
     يجلب نصوص عدة نسخ من الخبر نفسه.
 
