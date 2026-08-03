@@ -490,6 +490,7 @@ selection:
 # ── الصياغة العربية (Claude API) ────────────────────────────
 writer:
   model: "claude-sonnet-5"   # بديل أرخص: claude-haiku-4-5-20251001
+  max_tokens: 3000           # سقف الرد — أقل منه يبتر المخرجات ويهدر المال
   tone: "خبري رصين، عربي فصيح مبسّط، بلا مبالغة أو إثارة"
   post_length: "60 إلى 90 كلمة"
   hashtags_count: 4
