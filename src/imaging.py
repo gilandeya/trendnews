@@ -283,6 +283,7 @@ def build_post_image(
     cfg,
     out_path: Path,
     fallback_urls: list[str] | None = None,
+    fallback_provider=None,
 ) -> Path:
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
@@ -332,17 +333,23 @@ def build_post_image(
             log.info("اعتُمدت صورة الخبر: %s", url[:90])
             break
 
-    # لا صورة من الناشر → صورة حرة الترخيص، تُوسم "تعبيرية"
-    if source is None and fallback_urls:
-        for url in fallback_urls[:6]:
+    # فشلت صورة الناشر → ابحث عن بديل حر الترخيص.
+    # البحث كسول: لا يُنفَّذ إلا هنا، فلا نضيّع طلبات شبكة على أخبار نجحت.
+    if source is None:
+        alternatives = list(fallback_urls or [])
+        if not alternatives and callable(fallback_provider):
+            log.info("صورة الناشر غير متاحة — البحث عن بديل حر الترخيص…")
+            alternatives = fallback_provider() or []
+
+        for url in alternatives[:6]:
             source = download_image(url)
             if source is not None:
                 illustrative = True
-                log.info("اعتُمدت صورة تعبيرية حرة: %s", url[:90])
+                log.info("✅ اعتُمدت صورة تعبيرية حرة: %s", url[:90])
                 break
 
     if source is None:
-        log.info("لا صورة متاحة — سيُستخدم البديل المصمم")
+        log.info("❌ لا صورة متاحة (ولا بديل حر) — سيُستخدم التصميم المتدرّج")
     used_original = source is not None
     photo = (
         cover(source, W, photo_h) if source
