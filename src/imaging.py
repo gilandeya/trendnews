@@ -282,6 +282,7 @@ def build_post_image(
     publisher: str,
     cfg,
     out_path: Path,
+    fallback_urls: list[str] | None = None,
 ) -> Path:
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
@@ -324,13 +325,24 @@ def build_post_image(
         else list(image_urls or [])
     )
     source = None
+    illustrative = False
     for url in candidates[:6]:
         source = download_image(url)
         if source is not None:
             log.info("اعتُمدت صورة الخبر: %s", url[:90])
             break
-    if source is None and candidates:
-        log.info("فشل كل مرشحي الصور (%d) — سيُستخدم البديل المصمم", len(candidates))
+
+    # لا صورة من الناشر → صورة حرة الترخيص، تُوسم "تعبيرية"
+    if source is None and fallback_urls:
+        for url in fallback_urls[:6]:
+            source = download_image(url)
+            if source is not None:
+                illustrative = True
+                log.info("اعتُمدت صورة تعبيرية حرة: %s", url[:90])
+                break
+
+    if source is None:
+        log.info("لا صورة متاحة — سيُستخدم البديل المصمم")
     used_original = source is not None
     photo = (
         cover(source, W, photo_h) if source
@@ -402,6 +414,20 @@ def build_post_image(
                             (206, 32, 39), (255, 255, 255)) + int(W * 0.014)
         if category:
             badge_left(draw, bx, by, category, bdg_font, accent, primary)
+
+    # وسم الصورة التعبيرية: إخفاء أنها ليست من مكان الحدث تضليل
+    if illustrative:
+        tag_font = load_font(f_body, int(W * 0.021), body_weight)
+        label = "صورة تعبيرية"
+        tw, th = measure(draw, label, tag_font)
+        pad = int(W * 0.012)
+        bx, by = margin, photo_top + photo_h - int(W * 0.028) - th - pad * 2
+        draw.rounded_rectangle(
+            [bx, by, bx + tw + pad * 2, by + th + pad * 2],
+            radius=int(W * 0.008), fill=(0, 0, 0, 255),
+        )
+        draw_text(draw, (bx + pad + tw // 2, by + pad + th // 2), label,
+                  tag_font, (225, 228, 235), anchor="mm")
 
     # ── 4) شريط العنوان ──
     band_top = photo_top + photo_h
