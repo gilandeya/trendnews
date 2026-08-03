@@ -17,6 +17,7 @@ from pathlib import Path
 
 from . import store
 from .config import ROOT, load_config
+from .imagesearch import find_images
 from .imaging import build_post_image
 from .rank import rank
 from .screen import screen
@@ -155,6 +156,11 @@ def main() -> int:
                 continue
 
             headline = written["image_headline"] or written["post_title"]
+            # لا صورة من الناشر → ابحث عن بديل حر الترخيص
+            fallback: list[str] = []
+            if not art.image_candidates:
+                fallback = find_images(art.title, cfg)
+
             image_rel = f"drafts/{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.jpg"
             try:
                 build_post_image(
@@ -163,6 +169,7 @@ def main() -> int:
                     urgent=written["urgent"],
                     image_urls=art.image_candidates or ([art.image_url] if art.image_url else []),
                     publisher=art.publisher,
+                    fallback_urls=fallback,
                     cfg=cfg,
                     out_path=ROOT / image_rel,
                 )
