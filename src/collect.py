@@ -19,11 +19,12 @@ from . import store
 from .config import ROOT, load_config
 from .imaging import build_post_image
 from .rank import rank
+from .screen import screen
 from .trends import trending_signatures
 from .velocity import load as load_velocity, save as save_velocity
 from .extract import gather as gather_texts
 from .sources import enrich_image, fetch_all
-from .writer import build_caption, write_arabic
+from .writer import build_caption, usage_summary, write_arabic
 
 log = logging.getLogger("collect")
 
@@ -77,7 +78,11 @@ def main() -> int:
     save_velocity(vel_entries)
     log.info("مرشّحون بعد الترتيب: %d", len(candidates))
 
-    # 4) التوليد بحصص: دفعة متنوعة بدل ما تصادف أن يتصدّر
+    # 4) فرز أولي رخيص: يستبعد غير الصالح قبل أي قراءة مكلفة
+    horizon = int(selection.get("screen_horizon", 60))
+    candidates = screen(candidates[:horizon], cfg) + candidates[horizon:]
+
+    # 5) التوليد بحصص: دفعة متنوعة بدل ما تصادف أن يتصدّر
     quotas: dict = dict(selection.get("quotas") or {})
     if quotas:
         target = min(target, sum(quotas.values()))
@@ -130,7 +135,10 @@ def main() -> int:
             # خبر المشاهير لا يحتاج تفسيرًا، والجاد هو الذي يُشارَك حين يُفهم.
             docs: list[dict] = []
             acfg = cfg.get("analysis", {}) or {}
-            if acfg.get("enabled", True) and art.bucket in (acfg.get("buckets") or ["serious"]):
+            min_score = float(acfg.get("min_score", 0))
+            if (acfg.get("enabled", True)
+                    and art.bucket in (acfg.get("buckets") or ["serious"])
+                    and art.score >= min_score):
                 docs = gather_texts(art.cluster_members,
                                     limit=int(acfg.get("max_sources", 3)))
                 if len(docs) < int(acfg.get("min_sources", 2)):
@@ -194,6 +202,7 @@ def main() -> int:
 
 
     store.save_history(history, dedupe_days)
+    log.info("الاستهلاك: %s", usage_summary())
 
     if not drafts:
         log.warning("لم تُنتج أي مسودة (%d خبر مرفوض)", rejected)
@@ -208,6 +217,7 @@ def main() -> int:
     ]
     if rejected:
         lines += ["", f"<sub>رُفض {rejected} خبر لعدم استحقاق النشر</sub>"]
+    lines += ["", f"<sub>💵 {usage_summary()}</sub>"]
     step_summary("\n".join(lines))
     return 0
 
