@@ -89,6 +89,40 @@ def assign_slots(
     return chosen[:count]
 
 
+def interval_slots(count: int, interval_minutes: int,
+                   now: datetime | None = None,
+                   taken: list[datetime] | None = None) -> list[datetime]:
+    """
+    مواعيد متتابعة بفاصل ثابت: الأول فورًا، ثم كل `interval_minutes`.
+
+    يُستخدم في نمط "interval": الخبر الأهم يخرج حالًا، والباقي يتتابع
+    بفواصل قصيرة بدل انتظار ساعة ذروة.
+    """
+    now = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    gap = timedelta(minutes=max(interval_minutes, 1))
+
+    # لا نصطدم بما هو محجوز في الطابور أصلًا
+    start = now
+    for t in sorted(x.astimezone(timezone.utc) for x in (taken or [])):
+        if abs(t - start) < gap:
+            start = t + gap
+
+    return [start + gap * i for i in range(count)]
+
+
+def burst_slots(count: int, gap_minutes: float = 5,
+                now: datetime | None = None) -> list[datetime]:
+    """
+    نمط الدفعة: الأول فورًا، ثم فاصل ثابت بين كل منشور والذي يليه.
+
+    يُستخدم حين تريد الأعلى ترندًا أن يخرج في اللحظة التي تعتمده فيها،
+    وبقية الدفعة تتوالى خلف بفواصل قصيرة.
+    """
+    start = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    gap = timedelta(minutes=max(float(gap_minutes), 0.05))
+    return [start + gap * i for i in range(max(count, 0))]
+
+
 def is_due(publish_at: str | datetime, now: datetime | None = None) -> bool:
     when = (
         datetime.fromisoformat(publish_at) if isinstance(publish_at, str) else publish_at
