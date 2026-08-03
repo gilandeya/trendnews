@@ -212,6 +212,9 @@ def placeholder(width: int, height: int, primary: tuple, accent: tuple) -> Image
 # ──────────────────────────── الكارت ────────────────────────────
 
 
+_last_logo_size: list[int] = [0, 0]   # (عرض، ارتفاع) آخر شعار لُصق فعليًا
+
+
 def find_logo(relative: str) -> Path | None:
     """يبحث عن ملف الشعار، ويجرّب امتدادات وحالات أحرف بديلة."""
     direct = resolve(relative)
@@ -256,6 +259,7 @@ def paste_logo(canvas: Image.Image, logo_path: Path, box: tuple[int, int, int, i
     # ملتصق باليمين، متوسط عموديًا
     pos = (x1 - logo.width, y0 + (max_h - logo.height) // 2)
     canvas.paste(logo, pos, logo)
+    _last_logo_size[0], _last_logo_size[1] = logo.width, logo.height
     return True
 
 
@@ -361,11 +365,20 @@ def build_post_image(
         if logo_rel:
             logo_file = find_logo(logo_rel)
             if logo_file:
-                side = inner_bot - inner_top
-                if paste_logo(canvas, logo_file,
-                              (text_right - side, inner_top, text_right, inner_bot)):
-                    draw = ImageDraw.Draw(canvas)      # إعادة الربط بعد اللصق
-                    text_right -= side + int(W * 0.022)
+                scale = float(cfg.path("brand.logo_scale", 1.0))
+                # الصندوق يرتفع مع scale لكنه لا يتجاوز الترويسة،
+                # وعرضه سخيّ حتى لا تُسحق الشعارات العريضة.
+                box_h = min((inner_bot - inner_top) * scale, header_h - rule * 2)
+                box_w = W * float(cfg.path("brand.logo_max_width", 0.42))
+                center_y = (inner_top + inner_bot) / 2
+                if paste_logo(
+                    canvas, logo_file,
+                    (int(text_right - box_w), int(center_y - box_h / 2),
+                     int(text_right), int(center_y + box_h / 2)),
+                ):
+                    draw = ImageDraw.Draw(canvas)   # إعادة الربط بعد اللصق
+                    used_w = _last_logo_size[0] or int(box_h)
+                    text_right -= used_w + int(W * 0.022)
 
         # اسم الصفحة، وتحته الشعار الفرعي — بمحاذاة اليمين
         if brand_name:
