@@ -13,13 +13,14 @@ import argparse
 import json
 import logging
 import os
+import time
 from datetime import datetime, timezone
 
 import requests
 
 from . import facebook, review, store
 from .config import ROOT, env, load_config
-from .schedule import assign_slots, describe, is_due
+from .schedule import assign_slots, burst_slots, describe, is_due
 
 log = logging.getLogger("publish")
 
@@ -122,13 +123,9 @@ def report(lines: list[str], published: int, total: int,
 # ──────────────────────────── الأوامر ────────────────────────────
 
 
-def cmd_schedule(ids: list[str], cfg, issue_number: int | None) -> int:
-    """يضع المسودات المعتمدة في الطابور بمواعيد ذروة."""
-    fcfg = cfg.get("facebook", {}) or {}
-    tzname = fcfg.get("timezone", "UTC")
-
+def collect_pending(ids: list[str], lines: list[str]) -> list[tuple]:
+    """يجمع المسودات القابلة للنشر، مرتبة بالأعلى ترندًا أولًا."""
     pending: list[tuple] = []
-    lines: list[str] = []
     for draft_id in ids:
         found = store.load_draft(draft_id)
         if not found:
@@ -140,6 +137,76 @@ def cmd_schedule(ids: list[str], cfg, issue_number: int | None) -> int:
             lines.append(f"- ↩️ {draft['arabic']['post_title'][:50]} — {status}")
             continue
         pending.append((path, draft))
+
+    # الأعلى مؤشرًا أولًا — هو الذي يخرج فورًا في نمط الدفعة
+    pending.sort(key=lambda t: -float(t[1].get("score", 0)))
+    return pending
+
+
+def cmd_burst(ids: list[str], cfg, issue_number: int | None) -> int:
+    """
+    الأعلى ترندًا يُنشر فورًا، والباقي بفاصل ثابت — كله في تشغيل واحد.
+
+    نسجّل مواعيد الجميع في الطابور أولًا، ثم ننشر بالتتابع. فإن انقطع
+    التشغيل لأي سبب، يلتقط سيّر «نشر الطابور» ما تبقّى بدل ضياعه.
+    """
+    fcfg = cfg.get("facebook", {}) or {}
+    gap = float(fcfg.get("burst_gap_minutes", 5))
+    tzname = fcfg.get("timezone", "UTC")
+
+    lines: list[str] = []
+    pending = collect_pending(ids, lines)
+    if not pending:
+        text = "### ℹ️ لا جديد للنشر\n" + "\n".join(lines)
+        if issue_number:
+            review.comment(issue_number, text)
+        return 0
+
+    slots = burst_slots(len(pending), gap)
+    for (path, _), when in zip(pending, slots):
+        store.update_draft(path, status="queued", publish_at=when.isoformat())
+
+    log.info("دفعة من %d منشور — الأول فورًا ثم كل %d دقائق", len(pending), gap)
+    published = 0
+
+    for index, ((path, draft), when) in enumerate(zip(pending, slots)):
+        if index:
+            wait = (when - datetime.now(timezone.utc)).total_seconds()
+            if wait > 0:
+                log.info("انتظار %.0f ثانية قبل المنشور التالي…", wait)
+                time.sleep(wait)
+
+        fresh = store.load_draft(draft["id"])
+        if not fresh or fresh[1].get("status") == "published":
+            continue
+        ok, line = publish_one(fresh[0], fresh[1], cfg)
+        published += ok
+        lines.append(("⚡ " if index == 0 else f"⏱️ +{index * gap:g}د ") + line.lstrip("- "))
+        log.info("(%d/%d) %s", index + 1, len(pending), line[:70])
+
+    header = (f"### 🚀 نُشر {published} من {len(pending)}\n"
+              f"<sub>الأعلى مؤشرًا فورًا، ثم منشور كل {gap:g} دقائق "
+              f"(بتوقيت {tzname}).</sub>\n")
+    text = header + "\n".join(f"- {l}" for l in lines)
+
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary:
+        with open(summary, "a", encoding="utf-8") as fh:
+            fh.write(text + "\n")
+    if issue_number:
+        review.comment(issue_number, text)
+        if published:
+            review.close_issue(issue_number)
+    return 0
+
+
+def cmd_schedule(ids: list[str], cfg, issue_number: int | None) -> int:
+    """يضع المسودات المعتمدة في الطابور بمواعيد ذروة."""
+    fcfg = cfg.get("facebook", {}) or {}
+    tzname = fcfg.get("timezone", "UTC")
+
+    lines: list[str] = []
+    pending = collect_pending(ids, lines)
 
     if not pending:
         text = "### ℹ️ لا جديد للجدولة\n" + "\n".join(lines)
@@ -283,6 +350,8 @@ def main() -> int:
 
     if args.now or not cfg.path("facebook.schedule_enabled", True):
         return cmd_now(ids, cfg, args.issue)
+    if cfg.path("facebook.schedule_mode", "burst") == "burst":
+        return cmd_burst(ids, cfg, args.issue)
     return cmd_schedule(ids, cfg, args.issue)
 
 
