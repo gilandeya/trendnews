@@ -155,6 +155,42 @@ def _extract_json(text: str) -> dict:
         raise
 
 
+# ── محاسبة الاستهلاك ──────────────────────────────────────
+PRICES = {          # دولار لكل مليون توكن: (إدخال، إخراج)
+    "claude-sonnet-5": (2.0, 10.0),
+    "claude-opus-5": (15.0, 75.0),
+    "claude-haiku-4-5-20251001": (1.0, 5.0),
+}
+USAGE = {"input": 0, "output": 0, "cached": 0, "calls": 0, "cost": 0.0}
+
+
+def record_usage(resp, model: str) -> None:
+    """يتتبّع التكلفة الفعلية ليُطبع ملخصها في نهاية كل تشغيلة."""
+    u = getattr(resp, "usage", None)
+    if u is None:
+        return
+    inp = getattr(u, "input_tokens", 0) or 0
+    out = getattr(u, "output_tokens", 0) or 0
+    cached = getattr(u, "cache_read_input_tokens", 0) or 0
+    written = getattr(u, "cache_creation_input_tokens", 0) or 0
+
+    p_in, p_out = PRICES.get(model, (2.0, 10.0))
+    USAGE["input"] += inp + written
+    USAGE["cached"] += cached
+    USAGE["output"] += out
+    USAGE["calls"] += 1
+    USAGE["cost"] += (
+        (inp + written * 1.25 + cached * 0.1) * p_in / 1e6 + out * p_out / 1e6
+    )
+
+
+def usage_summary() -> str:
+    u = USAGE
+    return (f"{u['calls']} استدعاء · {u['input']:,} إدخال "
+            f"({u['cached']:,} مخزّن) · {u['output']:,} إخراج "
+            f"· ≈ ${u['cost']:.3f}")
+
+
 def _client() -> Anthropic:
     return Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
@@ -213,12 +249,19 @@ def write_arabic(article: Article, cfg, retries: int = 3,
             resp = client.messages.create(
                 model=w.get("model", "claude-sonnet-5"),
                 max_tokens=1500,
-                system=SYSTEM_PROMPT,
+                # نظام التوجيه ثابت في كل الاستدعاءات — تخزينه مؤقتًا
+                # يجعل قراءته في الاستدعاءات التالية بعُشر السعر.
+                system=[{
+                    "type": "text",
+                    "text": SYSTEM_PROMPT,
+                    "cache_control": {"type": "ephemeral"},
+                }],
                 messages=[{"role": "user", "content": prompt}],
             )
             text = "".join(
                 block.text for block in resp.content if getattr(block, "type", "") == "text"
             )
+            record_usage(resp, w.get("model", "claude-sonnet-5"))
             data = _extract_json(text)
             break
         except (APIError, json.JSONDecodeError, ValueError) as exc:
