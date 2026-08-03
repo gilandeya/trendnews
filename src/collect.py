@@ -156,10 +156,6 @@ def main() -> int:
                 continue
 
             headline = written["image_headline"] or written["post_title"]
-            # لا صورة من الناشر → ابحث عن بديل حر الترخيص
-            fallback: list[str] = []
-            if not art.image_candidates:
-                fallback = find_images(art.title, cfg)
 
             image_rel = f"drafts/{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.jpg"
             try:
@@ -169,7 +165,8 @@ def main() -> int:
                     urgent=written["urgent"],
                     image_urls=art.image_candidates or ([art.image_url] if art.image_url else []),
                     publisher=art.publisher,
-                    fallback_urls=fallback,
+                    # كسول: لا يُستدعى إلا إن فشلت كل صور الناشر فعليًا
+                    fallback_provider=lambda t=art.title: find_images(t, cfg),
                     cfg=cfg,
                     out_path=ROOT / image_rel,
                 )
