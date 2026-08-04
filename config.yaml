@@ -420,6 +420,67 @@ sources:
     weight: 1.0
     bucket: sport
 
+  # ═══ الطعام: 12% من اهتمام الجمهور العربي، وصفر مخاطر تحريرية ═══
+  # أخبار وثقافة الطعام لا وصفات — الوصفات ليست خبرًا.
+  - name: "Eater"
+    url: "https://www.eater.com/rss/index.xml"
+    region: "food"
+    weight: 1.1
+    bucket: light
+  - name: "The Guardian — Food"
+    url: "https://www.theguardian.com/food/rss"
+    region: "food"
+    weight: 1.0
+    bucket: light
+  - name: "Food & Wine"
+    url: "https://www.foodandwine.com/feeds/all.rss"
+    region: "food"
+    weight: 0.9
+    bucket: light
+  - name: "BBC Good Food"
+    url: "https://www.bbcgoodfood.com/feed"
+    region: "food"
+    weight: 0.9
+    bucket: light
+
+  # ═══ الثقافة والآثار: 14% من الاهتمام، وأعلى من السياسة ═══
+  # الآثار تحديدًا تلقى صدى واسعًا عربيًا (مصر، بلاد الرافدين، الأندلس).
+  - name: "Archaeology Magazine"
+    url: "https://www.archaeology.org/feed"
+    region: "heritage"
+    weight: 1.2
+    bucket: light
+  - name: "HeritageDaily"
+    url: "https://www.heritagedaily.com/feed"
+    region: "heritage"
+    weight: 1.1
+    bucket: light
+  - name: "The Art Newspaper"
+    url: "https://www.theartnewspaper.com/rss"
+    region: "culture"
+    weight: 1.0
+    bucket: light
+  - name: "Artnet News"
+    url: "https://news.artnet.com/feed"
+    region: "culture"
+    weight: 1.0
+    bucket: light
+  - name: "The Guardian — Culture"
+    url: "https://www.theguardian.com/culture/rss"
+    region: "culture"
+    weight: 1.0
+    bucket: light
+  - name: "Open Culture"
+    url: "https://www.openculture.com/feed"
+    region: "culture"
+    weight: 0.9
+    bucket: light
+  - name: "Colossal"
+    url: "https://www.thisiscolossal.com/feed/"
+    region: "culture"
+    weight: 0.9
+    bucket: light
+
   # ═══ لقياس الانتشار فقط ═══
   - name: "Google News — World"
     url: "https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en"
@@ -455,6 +516,10 @@ selection:
   title_similarity: 0.62     # حد التشابه لدمج نفس الخبر من مصادر مختلفة (0-1)
   screen_per_draft: 8        # كم مرشحًا يُفرز لكل مسودة مطلوبة
   screen_horizon_max: 90     # سقف الفرز مهما ارتفع المطلوب
+  # تناوب المناطق: «الخفيف» يضم غرائب وطعامًا وثقافة وآثارًا بفتحة واحدة.
+  # بلا تناوب يبتلع أقواها كل الفتحات. الرقم = كم مسودة أخيرة تُستبعد
+  # مناطقها. 6 يعني: لا تكرر منطقة ظهرت في آخر ست مسودات.
+  region_cooldown: 6
   velocity_track_top: 250    # قياس السرعة للمتصدّرين فقط (يمنع تضخّم الحالة)
   velocity_weight: 5.0       # وزن *سرعة* الانتشار — أهم إشارة ترند حقيقية
   allow_followups: true      # اسمح بمنشور ثانٍ إن حمل تطورًا جديدًا فعليًا
