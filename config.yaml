@@ -371,41 +371,47 @@ sources:
     weight: 1.0
     bucket: sport
 
-  # ═══ الخفيف: مشاهير وغرائب وفيروسيات ═══
-  # هذا ما يوقف الإصبع عن التمرير. bucket: light يضمن حصة له في كل دفعة.
-  - name: "Hollywood Reporter"
-    url: "https://www.hollywoodreporter.com/feed/"
-    region: "ent"
+  # ═══ الخفيف: غرائب وفضول واكتشافات مدهشة ═══
+  # لا أخبار مشاهير — ممنوعة في البرومبت أيضًا. هذا محتوى يوقف الإصبع
+  # عن التمرير بالدهشة لا بالنميمة، وهو الأكثر مشاركة في المجموعات.
+  - name: "IFLScience"
+    url: "https://www.iflscience.com/rss"
+    region: "odd"
+    weight: 1.1
+    bucket: light
+  - name: "Live Science"
+    url: "https://www.livescience.com/feeds/all"
+    region: "odd"
+    weight: 1.1
+    bucket: light
+  - name: "Atlas Obscura"
+    url: "https://www.atlasobscura.com/feeds/latest"
+    region: "odd"
     weight: 1.0
+    bucket: light
+  - name: "Smithsonian Magazine"
+    url: "https://www.smithsonianmag.com/rss/latest_articles/"
+    region: "odd"
+    weight: 1.0
+    bucket: light
+  - name: "Mental Floss"
+    url: "https://www.mentalfloss.com/rss.xml"
+    region: "odd"
+    weight: 0.9
+    bucket: light
+  - name: "Guinness World Records"
+    url: "https://www.guinnessworldrecords.com/news/feed"
+    region: "odd"
+    weight: 1.0
+    bucket: light
+  - name: "Boing Boing"
+    url: "https://boingboing.net/feed"
+    region: "odd"
+    weight: 0.8
     bucket: light
   - name: "Metro — Weird News"
     url: "https://metro.co.uk/news/weird/feed/"
     region: "odd"
-    weight: 1.0
-    bucket: light
-  - name: "BBC Entertainment"
-    url: "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml"
-    region: "ent"
-    weight: 1.1
-    bucket: light
-  - name: "Variety"
-    url: "https://variety.com/feed/"
-    region: "ent"
-    weight: 1.0
-    bucket: light
-  - name: "Deadline"
-    url: "https://deadline.com/feed/"
-    region: "ent"
-    weight: 0.9
-    bucket: light
-  - name: "Rolling Stone"
-    url: "https://www.rollingstone.com/feed/"
-    region: "ent"
-    weight: 0.9
-    bucket: light
-  - name: "E! Online"
-    url: "https://www.eonline.com/syndication/feeds/rssfeeds/topstories.xml"
-    region: "celeb"
     weight: 1.0
     bucket: light
   - name: "The Guardian — Sport"
@@ -435,14 +441,15 @@ trends:
 # ── الترشيح والترتيب ────────────────────────────────────────
 selection:
   max_age_hours: 30          # نافذة أوسع للقصص بطيئة الاشتعال
-  drafts_per_run: 10
+  drafts_per_run: 4
   # حصص كل دفعة: ثلثان خفيف/رياضة، وثلث جاد.
   # عدّل الأرقام لتغيير هوية الصفحة. احذف القسم لإلغاء الحصص.
+  # دفعة من أربعة: غرائب + رياضة + نافع + جاد
   quotas:
-    light: 4      # مشاهير، غرائب، ترفيه، فيروسيات
-    sport: 2      # رياضة
-    useful: 2     # صحة، تقنية، اقتصاد شخصي، هجرة — حصة محمية
-    serious: 2    # سياسة واقتصاد كلي          # عدد المسودات المولّدة في كل تشغيل
+    light: 1      # غرائب وطرائف وترفيه (بلا مشاهير)
+    sport: 1      # رياضة
+    useful: 1     # صحة، تقنية، اقتصاد شخصي، هجرة
+    serious: 1    # سياسة واقتصاد كلي          # عدد المسودات المولّدة في كل تشغيل
   min_sources_for_trend: 1   # ارفعه إلى 2 لنشر ما تتفق عليه عدة مصادر فقط
   dedupe_memory_days: 5      # لا تعد نشر خبر مشابه خلال هذه المدة
   title_similarity: 0.62     # حد التشابه لدمج نفس الخبر من مصادر مختلفة (0-1)
