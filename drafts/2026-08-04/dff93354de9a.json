@@ -1,0 +1,62 @@
+{
+  "id": "dff93354de9a",
+  "created_at": "2026-08-04T16:13:23.151163+00:00",
+  "status": "pending",
+  "review_issue": null,
+  "score": 20.1,
+  "bucket": "useful",
+  "analysed_sources": [
+    "The Verge"
+  ],
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "age_hours": 0.0,
+  "is_followup": false,
+  "state_media": false,
+  "source": {
+    "title": "Apple is working on iPhone-to-Windows copy-paste",
+    "link": "https://www.theverge.com/tech/975020/apple-windows-pc-copy-paste-eu",
+    "publisher": "The Verge",
+    "publishers": [
+      "Engadget",
+      "The Verge"
+    ],
+    "region": "tech",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/09/257946_iPhone_17_AKrales_0313.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2025/09/257946_iPhone_17_AKrales_0313.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://www.engadget.com/img/gallery/apple-is-working-on-a-seamless-copy-paste-experience-between-iphones-and-windows-pcs/l-intro-1785835169.jpg",
+      "https://www.engadget.com/img/gallery/apple-is-working-on-a-seamless-copy-paste-experience-between-iphones-and-windows-pcs/intro-1785835169.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "why": "",
+    "meaning": "",
+    "dispute": "",
+    "urgent": false,
+    "category": "تقنية",
+    "image_headline": "أبل تطور نسخ ولصق بين آيفون وويندوز في أوروبا",
+    "post_title": "أبل تعمل على ميزة نسخ ولصق مباشرة بين آيفون وأجهزة ويندوز",
+    "post_body": "تعمل أبل على ميزة تتيح لمستخدمي الاتحاد الأوروبي نسخ محتوى من آيفون ولصقه مباشرة على كمبيوتر ويندوز، والعكس صحيح. الميزة تأتي ردًا على طلب تقدمت به مايكروسوفت في مارس الماضي لفتح خاصية الحافظة الموحدة \"Universal Clipboard\" أمام تطبيقات الجهات الخارجية، بموجب قانون الأسواق الرقمية الأوروبي. أبل أعلنت في تحديث بتاريخ 26 يونيو أنها تخطط لإنهاء تطوير الحل بحلول خريف 2027 قبل طرحه كنسخة تجريبية للمطورين، على أن يطلب من المستخدم إذنًا صريحًا لمشاركة حافظته مع الأجهزة المقترنة.",
+    "hashtags": [
+      "أبل",
+      "مايكروسوفت",
+      "الاتحاد_الأوروبي",
+      "تقنية"
+    ]
+  },
+  "caption": "أبل تعمل على ميزة نسخ ولصق مباشرة بين آيفون وأجهزة ويندوز\n\nتعمل أبل على ميزة تتيح لمستخدمي الاتحاد الأوروبي نسخ محتوى من آيفون ولصقه مباشرة على كمبيوتر ويندوز، والعكس صحيح. الميزة تأتي ردًا على طلب تقدمت به مايكروسوفت في مارس الماضي لفتح خاصية الحافظة الموحدة \"Universal Clipboard\" أمام تطبيقات الجهات الخارجية، بموجب قانون الأسواق الرقمية الأوروبي. أبل أعلنت في تحديث بتاريخ 26 يونيو أنها تخطط لإنهاء تطوير الحل بحلول خريف 2027 قبل طرحه كنسخة تجريبية للمطورين، على أن يطلب من المستخدم إذنًا صريحًا لمشاركة حافظته مع الأجهزة المقترنة.\n\nالمصدر: Engadget، The Verge\n\n#أبل #مايكروسوفت #الاتحاد_الأوروبي #تقنية",
+  "image": "drafts/2026-08-04/dff93354de9a.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "أبل تطور نسخ ولصق بين آيفون وويندوز في أوروبا",
+    "category": "تقنية",
+    "urgent": false,
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2025/09/257946_iPhone_17_AKrales_0313.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://www.engadget.com/img/gallery/apple-is-working-on-a-seamless-copy-paste-experience-between-iphones-and-windows-pcs/l-intro-1785835169.jpg",
+      "https://www.engadget.com/img/gallery/apple-is-working-on-a-seamless-copy-paste-experience-between-iphones-and-windows-pcs/intro-1785835169.jpg"
+    ]
+  }
+}
