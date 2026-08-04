@@ -19,7 +19,6 @@ from . import store
 from .config import DRAFTS_DIR, ROOT, load_config
 from .imagesearch import find_images
 from .imaging import build_post_image
-from .reel import build_reel, has_ffmpeg
 from .rank import rank
 from .screen import screen
 from .trends import trending_signatures
@@ -223,21 +222,6 @@ def main() -> int:
                 log.error("فشل توليد الصورة: %s", exc)
                 continue
 
-            # الريل: يُنتَج بجانب الصورة، والاختيار عند المراجعة
-            reel_rel = None
-            rlcfg = cfg.get("reel", {}) or {}
-            if not rlcfg.get("enabled", True):
-                log.info("الريل معطّل في الإعدادات (reel.enabled=false)")
-            elif not has_ffmpeg():
-                # لا تتخطَّ بصمت: الصمت هنا يبدو كأن الميزة غير مثبتة
-                log.warning("⚠️ ffmpeg غير مثبّت على هذا الخادم — لا ريلز. "
-                            "أضف خطوة تثبيته إلى سير العمل.")
-            else:
-                candidate = f"drafts/{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.mp4"
-                if build_reel(headline, written["category"], written["urgent"],
-                              art.image_candidates, cfg, ROOT / candidate):
-                    reel_rel = candidate
-
             draft = {
                 "id": art.uid,
                 "created_at": datetime.now(timezone.utc).isoformat(),
@@ -263,7 +247,15 @@ def main() -> int:
                 "arabic": written,
                 "caption": build_caption(written, art, cfg),
                 "image": image_rel,
-                "reel": reel_rel,
+                # الريل لا يُبنى الآن: يُبنى عند اختياره في المراجعة فقط.
+                # توليده لكل مسودة يهدر دقائق حوسبة على ريلز لن تُنشر.
+                "reel": None,
+                "reel_spec": {
+                    "headline": headline,
+                    "category": written["category"],
+                    "urgent": written["urgent"],
+                    "image_candidates": art.image_candidates,
+                },
             }
             if quotas:
                 filled[art.bucket] = filled.get(art.bucket, 0) + 1

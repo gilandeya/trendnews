@@ -14,12 +14,14 @@ import json
 import logging
 import os
 import time
+from pathlib import Path
 from datetime import datetime, timedelta, timezone
 
 import requests
 
 from . import facebook, review, store
 from .config import ROOT, env, load_config
+from .reel import build_reel, has_ffmpeg
 from .schedule import assign_slots, burst_slots, describe, is_due
 
 log = logging.getLogger("publish")
@@ -76,6 +78,42 @@ def first_comment_for(draft: dict, cfg) -> str | None:
     return f"{prefix}: {publishers}\n{link}" if publishers else f"{prefix}: {link}"
 
 
+def ensure_reel(path, draft: dict, cfg) -> Path | None:
+    """
+    يبني الريل عند الحاجة فقط.
+
+    كان يُبنى لكل مسودة أثناء الجمع، فتُهدر دقائق حوسبة على ريلز لا
+    تُنشر أصلًا. الآن يُبنى لحظة النشر، وللمعتمَد فقط.
+    """
+    existing = draft.get("reel")
+    if existing and (ROOT / existing).exists():
+        return ROOT / existing
+
+    spec = draft.get("reel_spec") or {}
+    if not spec:
+        log.warning("لا مواصفات ريل في المسودة — سيُنشر كصورة")
+        return None
+    if not has_ffmpeg():
+        log.warning("⚠️ ffmpeg غير مثبّت — سيُنشر كصورة")
+        return None
+
+    relative = f"{Path(draft['image']).parent}/{draft['id']}.mp4"
+    log.info("بناء الريل عند الطلب…")
+    built = build_reel(
+        spec.get("headline", draft["arabic"]["post_title"]),
+        spec.get("category", ""),
+        bool(spec.get("urgent")),
+        spec.get("image_candidates") or [],
+        cfg, ROOT / relative,
+    )
+    if not built:
+        log.warning("تعذّر بناء الريل — سيُنشر كصورة")
+        return None
+
+    store.update_draft(path, reel=relative)
+    return ROOT / relative
+
+
 def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
     """ينشر مسودة واحدة صورةً أو ريلًا. يعيد (نجح، سطر التقرير)."""
     api_version = cfg.path("facebook.api_version", "v21.0")
@@ -83,10 +121,9 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
     title = draft["arabic"]["post_title"][:60]
     comment = first_comment_for(draft, cfg)
 
-    as_reel = bool(draft.get("publish_as_reel") and draft.get("reel"))
-    reel_path = ROOT / draft["reel"] if draft.get("reel") else None
+    reel_path = ensure_reel(path, draft, cfg) if draft.get("publish_as_reel") else None
 
-    if as_reel and reel_path and reel_path.exists():
+    if reel_path:
         try:
             res = facebook.publish_reel(reel_path, draft["caption"],
                                         api_version, first_comment=comment)
