@@ -88,8 +88,14 @@ def main() -> int:
 
     # 5) التوليد بحصص: دفعة متنوعة بدل ما تصادف أن يتصدّر
     quotas: dict = dict(selection.get("quotas") or {})
-    if quotas:
-        target = min(target, sum(quotas.values()))
+    if quotas and target < sum(quotas.values()):
+        # دفعة صغيرة: نضغط الحصص بنسبها بدل تركها كما هي.
+        # لولا ذلك لالتهم التصنيف الأول (خفيف=4) دفعةً من ثلاثة كاملة،
+        # فتخرج كل الدفعات من نوع واحد.
+        total = sum(quotas.values())
+        scaled = {k: max(1, round(v * target / total)) for k, v in quotas.items()}
+        log.info("حصص مضغوطة لدفعة من %d: %s ← %s", target, quotas, scaled)
+        quotas = scaled
     filled: dict[str, int] = {k: 0 for k in quotas}
     log.info("حصص الدفعة: %s", quotas or "بلا حصص")
 
@@ -107,6 +113,15 @@ def main() -> int:
             return False
         return filled[bucket] < quotas[bucket]
 
+    cooldown = int(selection.get("region_cooldown", 0))
+    cooling = set(store.recent_regions(history, cooldown)) if cooldown else set()
+    if cooling:
+        log.info("مناطق في فترة تناوب: %s", "، ".join(sorted(cooling)))
+
+    def on_cooldown(art) -> bool:
+        """أُخذ من هذه المنطقة مؤخرًا — أجّله ليظهر غيره."""
+        return art.region in cooling
+
     # المرحلة 1: احترام الحصص. المرحلة 2: ملء ما تبقّى من المؤجَّل.
     for phase in (1, 2):
         pool = candidates if phase == 1 else deferred
@@ -114,6 +129,9 @@ def main() -> int:
             if len(drafts) >= target:
                 break
             if phase == 1 and quotas and not quota_open(art.bucket):
+                deferred.append(art)
+                continue
+            if phase == 1 and on_cooldown(art):
                 deferred.append(art)
                 continue
 
@@ -215,7 +233,9 @@ def main() -> int:
             if quotas:
                 filled[art.bucket] = filled.get(art.bucket, 0) + 1
             store.save_draft(draft)
-            store.remember(history, art.title, art.link, written["post_title"])
+            store.remember(history, art.title, art.link, written["post_title"],
+                           region=art.region)
+            cooling.add(art.region)
             drafts.append(draft)
             log.info("✓ مسودة جاهزة: %s", written["post_title"][:60])
 
