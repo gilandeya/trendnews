@@ -13,7 +13,7 @@ on:
       limit:
         description: "عدد المسودات المطلوبة"
         required: false
-        default: "4"
+        default: "5"
       check_sources:
         description: "فحص المصادر فقط بلا توليد مسودات"
         type: boolean
@@ -67,7 +67,7 @@ jobs:
         if: inputs.check_sources != true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python -m src.collect --limit "${{ inputs.limit || '4' }}"
+        run: python -m src.collect --limit "${{ inputs.limit || '5' }}"
 
       - name: رفع المسودات إلى المستودع
         id: commit
