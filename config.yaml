@@ -377,48 +377,71 @@ sources:
   - name: "IFLScience"
     url: "https://www.iflscience.com/rss"
     region: "odd"
-    weight: 1.1
+    weight: 1.3
     bucket: light
   - name: "Live Science"
     url: "https://www.livescience.com/feeds/all"
     region: "odd"
-    weight: 1.1
+    weight: 1.3
     bucket: light
   - name: "Atlas Obscura"
     url: "https://www.atlasobscura.com/feeds/latest"
     region: "odd"
-    weight: 1.0
+    weight: 1.3
     bucket: light
   - name: "Smithsonian Magazine"
     url: "https://www.smithsonianmag.com/rss/latest_articles/"
     region: "odd"
-    weight: 1.0
+    weight: 1.3
     bucket: light
   - name: "Mental Floss"
     url: "https://www.mentalfloss.com/rss.xml"
     region: "odd"
-    weight: 0.9
+    weight: 1.3
     bucket: light
   - name: "Guinness World Records"
     url: "https://www.guinnessworldrecords.com/news/feed"
     region: "odd"
-    weight: 1.0
+    weight: 1.3
     bucket: light
   - name: "Boing Boing"
     url: "https://boingboing.net/feed"
     region: "odd"
-    weight: 0.8
+    weight: 1.3
     bucket: light
   - name: "Metro — Weird News"
     url: "https://metro.co.uk/news/weird/feed/"
     region: "odd"
-    weight: 1.0
+    weight: 1.3
     bucket: light
   - name: "The Guardian — Sport"
     url: "https://www.theguardian.com/sport/rss"
     region: "sport"
     weight: 1.0
     bucket: sport
+
+  # ═══ قضاء وشرطة: طرافة موثّقة بجهة رسمية ═══
+  # هذه تجمع ما نريده: حادثة غريبة + مصدر رسمي يمنع التشهير.
+  - name: "Court House News"
+    url: "https://www.courthousenews.com/feed/"
+    region: "court"
+    weight: 1.2
+    bucket: light
+  - name: "The Smoking Gun"
+    url: "https://www.thesmokinggun.com/rss.xml"
+    region: "court"
+    weight: 1.1
+    bucket: light
+  - name: "Sky News — Weird"
+    url: "https://feeds.skynews.com/feeds/rss/strange.xml"
+    region: "odd"
+    weight: 1.2
+    bucket: light
+  - name: "The Independent — Weird"
+    url: "https://www.independent.co.uk/news/weird-news/rss"
+    region: "odd"
+    weight: 1.1
+    bucket: light
 
   # ═══ الطعام: 12% من اهتمام الجمهور العربي، وصفر مخاطر تحريرية ═══
   # أخبار وثقافة الطعام لا وصفات — الوصفات ليست خبرًا.
@@ -502,12 +525,15 @@ trends:
 # ── الترشيح والترتيب ────────────────────────────────────────
 selection:
   max_age_hours: 30          # نافذة أوسع للقصص بطيئة الاشتعال
-  drafts_per_run: 4
+  drafts_per_run: 5
   # حصص كل دفعة: ثلثان خفيف/رياضة، وثلث جاد.
   # عدّل الأرقام لتغيير هوية الصفحة. احذف القسم لإلغاء الحصص.
-  # دفعة من أربعة: غرائب + رياضة + نافع + جاد
+  # دفعة من خمسة: غرابتان + رياضة + نافع + جاد.
+  # رفعنا الخفيف إلى اثنين، ولو أبقينا الدفعة عند أربعة لسقط الجاد
+  # من الحصص كليًا. لتعود إلى أربعة: اجعل serious: 0 و drafts_per_run: 4
+  # — عندها يظهر الجاد فقط حين تعجز التصنيفات الأخرى عن ملء فتحاتها.
   quotas:
-    light: 1      # غرائب وطرائف وترفيه (بلا مشاهير)
+    light: 2      # غرائب وطرائف وثقافة وطعام
     sport: 1      # رياضة
     useful: 1     # صحة، تقنية، اقتصاد شخصي، هجرة
     serious: 1    # سياسة واقتصاد كلي          # عدد المسودات المولّدة في كل تشغيل
@@ -577,6 +603,8 @@ image:
   font_body: "assets/fonts/Cairo.ttf"
   font_body_weight: "Bold"          # الخطوط المتغيرة: Regular / Medium / SemiBold / Bold
   sharpen: true              # تحسين حدة صورة الخبر
+  composite: true            # صورة ثانية في دائرة إن توفّرت (قالب الغرائب)
+  inset_ratio: 0.20          # نصف قطر الدائرة كنسبة من عرض الصورة
 
 # ── الريلز (فيديو رأسي) ────────────────────────────────────
 # يُبنى بـ ffmpeg من صورة الخبر وعنوانه — بلا تكلفة ولا خدمة خارجية.
