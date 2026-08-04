@@ -263,6 +263,30 @@ def paste_logo(canvas: Image.Image, logo_path: Path, box: tuple[int, int, int, i
     return True
 
 
+def circular_inset(canvas: Image.Image, photo: Image.Image,
+                  center: tuple[int, int], radius: int,
+                  ring: tuple[int, int, int], ring_width: int) -> None:
+    """
+    يركّب صورة ثانية في دائرة بإطار — القالب الشائع في صفحات الغرائب.
+
+    الفائدة أن الخبر يحمل غالبًا وجهًا ومكانًا: الوجه في الخلفية والمكان
+    في الدائرة، فيفهم القارئ القصة من الصورة وحدها.
+    """
+    size = radius * 2
+    thumb = cover(photo, size, size)
+
+    mask = Image.new("L", (size * 4, size * 4), 0)
+    ImageDraw.Draw(mask).ellipse([0, 0, size * 4 - 1, size * 4 - 1], fill=255)
+    mask = mask.resize((size, size), Image.LANCZOS)   # حواف ناعمة
+
+    cx, cy = center
+    canvas.paste(thumb, (cx - radius, cy - radius), mask)
+
+    d = ImageDraw.Draw(canvas)
+    d.ellipse([cx - radius, cy - radius, cx + radius, cy + radius],
+              outline=ring, width=ring_width)
+
+
 def badge_left(draw, left: int, center_y: int, text: str, font, bg, fg,
                pad_x: int = 22, pad_y: int = 11) -> int:
     """يرسم ملصقًا بمحاذاة اليسار ومركز عمودي، ويعيد حدّه الأيمن."""
@@ -327,9 +351,11 @@ def build_post_image(
     )
     source = None
     illustrative = False
+    chosen_url = None
     for url in candidates[:6]:
         source = download_image(url)
         if source is not None:
+            chosen_url = url
             log.info("اعتُمدت صورة الخبر: %s", url[:90])
             break
 
@@ -369,6 +395,26 @@ def build_post_image(
                 fill=(*mix(primary, (0, 0, 0), 0.3), a))
     photo = Image.alpha_composite(photo.convert("RGBA"), overlay).convert("RGB")
     canvas.paste(photo, (0, photo_top))
+
+    # صورة ثانية في دائرة — تُستخدم حين يوفّر الخبر أكثر من صورة صالحة
+    if used_original and cfg.path("image.composite", True):
+        second = None
+        for url in candidates[1:5]:
+            if url == chosen_url:
+                continue
+            second = download_image(url)
+            if second is not None:
+                break
+        if second is not None:
+            radius = int(W * float(cfg.path("image.inset_ratio", 0.20)))
+            margin_in = int(W * 0.05)
+            circular_inset(
+                canvas, second,
+                center=(margin_in + radius, photo_top + margin_in + radius),
+                radius=radius, ring=(255, 255, 255), ring_width=max(4, W // 180),
+            )
+            draw = ImageDraw.Draw(canvas)
+            log.info("🖼️ قالب مركّب: صورتان")
 
     # ── 2) الترويسة: الشعار واسم الصفحة يمينًا، الملصقات يسارًا ──
     if header_h:
