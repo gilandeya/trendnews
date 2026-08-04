@@ -40,14 +40,27 @@ def save_history(entries: list[dict], keep_days: int) -> None:
 
 
 def remember(entries: list[dict], title: str, link: str,
-             posted_title: str | None = None) -> None:
+             posted_title: str | None = None, region: str = "") -> None:
     entries.append({
         "tokens": sorted(tokens(title)),
         "link": link,
         "title": title[:160],
         "posted_title": (posted_title or "")[:160],
+        "region": region,
         "seen_at": datetime.now(timezone.utc).isoformat(),
     })
+
+
+def recent_regions(entries: list[dict], count: int) -> list[str]:
+    """
+    مناطق آخر المسودات المولّدة.
+
+    تُستخدم للتناوب: تصنيف «الخفيف» يضم غرائب وطعامًا وثقافة وآثارًا،
+    وله فتحة واحدة في كل دفعة. بلا تناوب سيبتلع أقواها كل الفتحات
+    فلا يرى القارئ بقية الموضوعات أبدًا.
+    """
+    ordered = sorted(entries, key=lambda e: e.get("seen_at", ""), reverse=True)
+    return [e.get("region", "") for e in ordered[:count] if e.get("region")]
 
 
 def find_previous(entries: list[dict], title: str, link: str,
