@@ -2,14 +2,16 @@ name: 1️⃣ جمع الأخبار وتوليد المسودات
 
 on:
   schedule:
-    # 06:00 و 12:00 و 18:00 بتوقيت UTC ‏(09:00 / 15:00 / 21:00 بتوقيت إستانبول)
-    - cron: "0 6,12,18 * * *"
+    # كل 4 ساعات بتوقيت إسطنبول (UTC+3):
+    #   06:00 · 10:00 · 14:00 · 18:00 · 22:00 محليًا
+    #   03:00 · 07:00 · 11:00 · 15:00 · 19:00 بتوقيت UTC
+    - cron: "0 3,7,11,15,19 * * *"
   workflow_dispatch:
     inputs:
       limit:
         description: "عدد المسودات المطلوبة"
         required: false
-        default: "5"
+        default: "4"
       check_sources:
         description: "فحص المصادر فقط بلا توليد مسودات"
         type: boolean
@@ -53,7 +55,7 @@ jobs:
         if: inputs.check_sources != true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python -m src.collect --limit "${{ inputs.limit || '8' }}"
+        run: python -m src.collect --limit "${{ inputs.limit || '4' }}"
 
       - name: رفع المسودات إلى المستودع
         id: commit
