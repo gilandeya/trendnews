@@ -38,7 +38,7 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       github.event.label.name == 'approved'
     runs-on: ubuntu-latest
-    timeout-minutes: 90   # يتسع لدفعة كاملة بفواصل
+    timeout-minutes: 150  # يتسع لنافذة النشر المباشر (120د) وهامش
 
     steps:
       - name: سحب المستودع (آخر حالة للمسودات)
