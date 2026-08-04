@@ -93,6 +93,88 @@ def add_comment(post_id: str, message: str, api_version: str = "v21.0") -> str:
     return data.get("id", "")
 
 
+def publish_reel(video_path: Path, caption: str, api_version: str = "v21.0",
+                 first_comment: str | None = None) -> dict:
+    """
+    ينشر فيديو رأسيًا كـ Reel عبر مسار الرفع ثلاثي المراحل.
+
+    إن فشل مسار الريلز (تغيّر في الواجهة أو صلاحية ناقصة) نعود تلقائيًا
+    إلى نشره كفيديو عادي — فالفيديو أفضل من لا شيء.
+    """
+    page_id, token = _credentials()
+    base = f"https://graph.facebook.com/{api_version}/{page_id}"
+    size = video_path.stat().st_size
+
+    try:
+        start = requests.post(f"{base}/video_reels",
+                              data={"upload_phase": "start",
+                                    "access_token": token}, timeout=60)
+        info = _raise_for_graph(start)
+        video_id, upload_url = info.get("video_id"), info.get("upload_url")
+        if not video_id or not upload_url:
+            raise FacebookError("لم تُعِد واجهة الريلز معرّف رفع")
+
+        with open(video_path, "rb") as fh:
+            up = requests.post(
+                upload_url,
+                headers={"Authorization": f"OAuth {token}",
+                         "offset": "0", "file_size": str(size)},
+                data=fh.read(), timeout=300,
+            )
+        if up.status_code >= 400:
+            raise FacebookError(f"فشل رفع الريل ({up.status_code})")
+
+        finish = requests.post(
+            f"{base}/video_reels",
+            params={"video_id": video_id, "upload_phase": "finish",
+                    "video_state": "PUBLISHED", "description": caption,
+                    "access_token": token},
+            timeout=120,
+        )
+        _raise_for_graph(finish)
+        log.info("تم نشر الريل: %s", video_id)
+        result = {"post_id": video_id, "kind": "reel",
+                  "url": f"https://www.facebook.com/reel/{video_id}"}
+    except (FacebookError, requests.RequestException) as exc:
+        log.warning("تعذّر النشر كريل (%s) — سيُنشر كفيديو عادي", str(exc)[:120])
+        return publish_video(video_path, caption, api_version, first_comment)
+
+    if first_comment:
+        try:
+            result["comment_id"] = add_comment(result["post_id"], first_comment,
+                                               api_version)
+        except FacebookError as exc:
+            log.warning("تعذّر التعليق الأول: %s", exc)
+            result["comment_error"] = str(exc)
+    return result
+
+
+def publish_video(video_path: Path, caption: str, api_version: str = "v21.0",
+                  first_comment: str | None = None) -> dict:
+    """نشر فيديو عادي — المسار الاحتياطي، وهو الأثبت."""
+    page_id, token = _credentials()
+    with open(video_path, "rb") as fh:
+        resp = requests.post(
+            f"https://graph.facebook.com/{api_version}/{page_id}/videos",
+            data={"description": caption, "access_token": token},
+            files={"source": (video_path.name, fh, "video/mp4")},
+            timeout=300,
+        )
+    data = _raise_for_graph(resp)
+    post_id = data.get("post_id") or data.get("id")
+    log.info("تم نشر الفيديو: %s", post_id)
+    result = {"post_id": post_id, "kind": "video",
+              "url": f"https://www.facebook.com/{post_id}" if post_id else None}
+
+    if first_comment and post_id:
+        try:
+            result["comment_id"] = add_comment(post_id, first_comment, api_version)
+        except FacebookError as exc:
+            log.warning("تعذّر التعليق الأول: %s", exc)
+            result["comment_error"] = str(exc)
+    return result
+
+
 def fetch_metrics(post_id: str, api_version: str = "v21.0") -> dict:
     """
     يجلب مقاييس أداء منشور.

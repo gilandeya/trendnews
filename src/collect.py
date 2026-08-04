@@ -12,13 +12,14 @@ from __future__ import annotations
 import argparse
 import logging
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from . import store
-from .config import ROOT, load_config
+from .config import DRAFTS_DIR, ROOT, load_config
 from .imagesearch import find_images
 from .imaging import build_post_image
+from .reel import build_reel, has_ffmpeg
 from .rank import rank
 from .screen import screen
 from .trends import trending_signatures
@@ -28,6 +29,24 @@ from .sources import enrich_image, fetch_all
 from .writer import build_caption, usage_summary, write_arabic
 
 log = logging.getLogger("collect")
+
+
+def prune_reels(keep_days: int) -> None:
+    """يحذف ملفات الريل القديمة — كل ريل يعادل عشرة أضعاف حجم الصورة."""
+    if keep_days <= 0:
+        return
+    cutoff = datetime.now(timezone.utc) - timedelta(days=keep_days)
+    removed = 0
+    for path in DRAFTS_DIR.glob("*/*.mp4"):
+        try:
+            folder_date = datetime.strptime(path.parent.name, "%Y-%m-%d")
+        except ValueError:
+            continue
+        if folder_date.replace(tzinfo=timezone.utc) < cutoff:
+            path.unlink(missing_ok=True)
+            removed += 1
+    if removed:
+        log.info("حُذف %d ريل قديم لتخفيف حجم المستودع", removed)
 
 
 def step_summary(text: str) -> None:
@@ -204,6 +223,15 @@ def main() -> int:
                 log.error("فشل توليد الصورة: %s", exc)
                 continue
 
+            # الريل: يُنتَج بجانب الصورة، والاختيار عند المراجعة
+            reel_rel = None
+            rlcfg = cfg.get("reel", {}) or {}
+            if rlcfg.get("enabled", True) and has_ffmpeg():
+                candidate = f"drafts/{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.mp4"
+                if build_reel(headline, written["category"], written["urgent"],
+                              art.image_candidates, cfg, ROOT / candidate):
+                    reel_rel = candidate
+
             draft = {
                 "id": art.uid,
                 "created_at": datetime.now(timezone.utc).isoformat(),
@@ -229,6 +257,7 @@ def main() -> int:
                 "arabic": written,
                 "caption": build_caption(written, art, cfg),
                 "image": image_rel,
+            "reel": reel_rel,
             }
             if quotas:
                 filled[art.bucket] = filled.get(art.bucket, 0) + 1
@@ -241,6 +270,7 @@ def main() -> int:
 
 
     store.save_history(history, dedupe_days)
+    prune_reels(int((cfg.get("reel", {}) or {}).get("keep_days", 3)))
     log.info("الاستهلاك: %s", usage_summary())
 
     if not drafts:

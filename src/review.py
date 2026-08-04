@@ -13,6 +13,7 @@ log = logging.getLogger(__name__)
 
 API = "https://api.github.com"
 ID_MARKER = re.compile(r"<!--\s*draft:([0-9a-f]+)\s*-->")
+REEL_MARKER = re.compile(r"<!--\s*reel:([0-9a-f]+)\s*-->")
 CHECKED_LINE = re.compile(r"^\s*[-*]\s*\[([ xX])\]", re.MULTILINE)
 
 
@@ -47,6 +48,8 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         "",
         "**كيف تعتمد؟** ✔️ ضع علامة على المنشورات التي توافق عليها، ثم أضف "
         "الوسم `approved` إلى هذا الـ Issue. سيتولى البوت نشر المحدد فقط.",
+        "",
+        "🎬 لكل خبر مربع ثانٍ: علّم عليه لينشر البوت **الريل** بدل الصورة.",
         "",
         "لتعديل نص أي منشور: افتح ملف `.json` الخاص به وعدّل حقل `caption` ثم احفظ.",
         "",
@@ -88,6 +91,9 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             f"  ↳ [الصورة في المستودع]({blob_url(repo, branch, img_path)}) · "
             f"[الخبر الأصلي]({d['source']['link']})",
             "",
+            *([f"  - [ ] 🎬 انشره كريل بدل الصورة  <!-- reel:{d['id']} -->",
+               f"    ↳ [معاينة الريل]({blob_url(repo, branch, d['reel'])})",
+               ""] if d.get("reel") else []),
             "  <details><summary>📝 نص المنشور الكامل</summary>",
             "",
             "  ```",
@@ -110,10 +116,25 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
     return "\n".join(parts)
 
 
+def parse_reels(body: str) -> set[str]:
+    """معرفات المسودات التي اختار المراجع نشرها كريل."""
+    chosen: set[str] = set()
+    for line in body.splitlines():
+        marker = REEL_MARKER.search(line)
+        if not marker:
+            continue
+        checkbox = re.search(r"\[([ xX])\]", line)
+        if checkbox and checkbox.group(1).lower() == "x":
+            chosen.add(marker.group(1))
+    return chosen
+
+
 def parse_approved(body: str) -> list[str]:
     """يستخرج معرفات المسودات التي عُلّم عليها ✔️."""
     approved: list[str] = []
     for line in body.splitlines():
+        if REEL_MARKER.search(line):
+            continue                      # سطر اختيار الريل لا الاعتماد
         marker = ID_MARKER.search(line)
         if not marker:
             continue

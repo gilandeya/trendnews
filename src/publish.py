@@ -77,10 +77,26 @@ def first_comment_for(draft: dict, cfg) -> str | None:
 
 
 def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
-    """ينشر مسودة واحدة. يعيد (نجح، سطر التقرير)."""
+    """ينشر مسودة واحدة صورةً أو ريلًا. يعيد (نجح، سطر التقرير)."""
     api_version = cfg.path("facebook.api_version", "v21.0")
     image_path = ROOT / draft["image"]
     title = draft["arabic"]["post_title"][:60]
+    comment = first_comment_for(draft, cfg)
+
+    as_reel = bool(draft.get("publish_as_reel") and draft.get("reel"))
+    reel_path = ROOT / draft["reel"] if draft.get("reel") else None
+
+    if as_reel and reel_path and reel_path.exists():
+        try:
+            res = facebook.publish_reel(reel_path, draft["caption"],
+                                        api_version, first_comment=comment)
+            store.update_draft(
+                path, status="published",
+                published_at=datetime.now(timezone.utc).isoformat(),
+                facebook=res)
+            return True, f"- 🎬 [{title}]({res.get('url') or '#'})"
+        except facebook.FacebookError as exc:
+            log.warning("فشل نشر الريل — سيُنشر كصورة: %s", exc)
 
     if not image_path.exists():
         store.update_draft(path, status="failed", error="الصورة مفقودة")
@@ -88,8 +104,7 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
 
     try:
         res = facebook.publish_photo(
-            image_path, draft["caption"], api_version,
-            first_comment=first_comment_for(draft, cfg),
+            image_path, draft["caption"], api_version, first_comment=comment,
         )
     except facebook.FacebookError as exc:
         store.update_draft(path, status="failed", error=str(exc))
@@ -360,8 +375,14 @@ def main() -> int:
     issue = fetch_issue(args.issue)
     body = issue.get("body") or ""
     ids = review.parse_approved(body)
-    log.info("الـ Issue #%s: %d معتمد من %d",
-             args.issue, len(ids), len(review.all_draft_ids(body)))
+    reels = review.parse_reels(body)
+    log.info("الـ Issue #%s: %d معتمد من %d (%d كريل)",
+             args.issue, len(ids), len(review.all_draft_ids(body)), len(reels))
+
+    for draft_id in reels & set(ids):
+        found = store.load_draft(draft_id)
+        if found:
+            store.update_draft(found[0], publish_as_reel=True)
 
     if not ids:
         log.warning("لم يُعلَّم على أي منشور")
