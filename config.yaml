@@ -602,10 +602,13 @@ facebook:
   schedule_enabled: true
   timezone: "Europe/Istanbul"     # توقيت جمهورك
 
-  # burst = الأعلى مؤشرًا يُنشر فورًا، ثم منشور كل burst_gap_minutes
-  # peak  = توزيع على ساعات الذروة (أفضل للوصول، لكنه يؤجّل)
+  # burst = ملصق «عاجل» يُنشر فورًا، والبقية كل burst_gap_minutes
+  # peak  = توزيع على ساعات الذروة (يؤجّل حتى العاجل — لا يُنصح به)
   schedule_mode: "burst"
-  burst_gap_minutes: 5
+  burst_gap_minutes: 30
+  # أقصى انتظار داخل تشغيل واحد. ما يتجاوزه يبقى في الطابور ليلتقطه
+  # سيّر «نشر الطابور» — فلا تبقى وظيفة معلّقة ساعات بلا داعٍ.
+  max_inline_minutes: 120
 
   # تُستخدم في نمط peak فقط
   peak_hours: [12, 18, 21]        # ساعات النشر المفضّلة (0-23)
