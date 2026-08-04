@@ -14,7 +14,7 @@ import json
 import logging
 import os
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 import requests
 
@@ -145,14 +145,16 @@ def collect_pending(ids: list[str], lines: list[str]) -> list[tuple]:
 
 def cmd_burst(ids: list[str], cfg, issue_number: int | None) -> int:
     """
-    الأعلى ترندًا يُنشر فورًا، والباقي بفاصل ثابت — كله في تشغيل واحد.
+    العاجل يُنشر فورًا، والبقية بفاصل ثابت.
 
-    نسجّل مواعيد الجميع في الطابور أولًا، ثم ننشر بالتتابع. فإن انقطع
-    التشغيل لأي سبب، يلتقط سيّر «نشر الطابور» ما تبقّى بدل ضياعه.
+    نسجّل مواعيد الجميع في الطابور أولًا، ثم ننشر ما يقع ضمن نافذة الانتظار
+    المسموحة داخل هذا التشغيل. ما يتجاوزها يبقى في الطابور ليلتقطه سيّر
+    «نشر الطابور» — فلا نُبقي وظيفة معلّقة ساعات، ولا نخسر منشورًا.
     """
     fcfg = cfg.get("facebook", {}) or {}
-    gap = float(fcfg.get("burst_gap_minutes", 5))
+    gap = float(fcfg.get("burst_gap_minutes", 30))
     tzname = fcfg.get("timezone", "UTC")
+    max_inline = float(fcfg.get("max_inline_minutes", 120))
 
     lines: list[str] = []
     pending = collect_pending(ids, lines)
@@ -162,31 +164,51 @@ def cmd_burst(ids: list[str], cfg, issue_number: int | None) -> int:
             review.comment(issue_number, text)
         return 0
 
-    slots = burst_slots(len(pending), gap)
-    for (path, _), when in zip(pending, slots):
+    urgent = [t for t in pending if t[1]["arabic"].get("urgent")]
+    normal = [t for t in pending if not t[1]["arabic"].get("urgent")]
+
+    now = datetime.now(timezone.utc)
+    plan: list[tuple] = [(t, now) for t in urgent]
+
+    # البقية: تبدأ بعد فاصل إن سبقها عاجل، وإلا فأولها فوري
+    start = now + timedelta(minutes=gap) if urgent else now
+    for index, item in enumerate(normal):
+        plan.append((item, start + timedelta(minutes=gap * index)))
+
+    for (path, _), when in plan:
         store.update_draft(path, status="queued", publish_at=when.isoformat())
 
-    log.info("دفعة من %d منشور — الأول فورًا ثم كل %d دقائق", len(pending), gap)
-    published = 0
+    log.info("عاجل: %d (فوري) · عادي: %d (كل %g دقيقة)",
+             len(urgent), len(normal), gap)
 
-    for index, ((path, draft), when) in enumerate(zip(pending, slots)):
-        if index:
-            wait = (when - datetime.now(timezone.utc)).total_seconds()
-            if wait > 0:
-                log.info("انتظار %.0f ثانية قبل المنشور التالي…", wait)
-                time.sleep(wait)
+    published = 0
+    deferred_count = 0
+
+    for (path, draft), when in plan:
+        wait = (when - datetime.now(timezone.utc)).total_seconds()
+        if wait > max_inline * 60:
+            deferred_count += 1
+            lines.append(f"🕐 {draft['arabic']['post_title'][:50]} → "
+                         f"**{describe(when, tzname)}**")
+            continue
+        if wait > 0:
+            log.info("انتظار %.0f دقيقة قبل المنشور التالي…", wait / 60)
+            time.sleep(wait)
 
         fresh = store.load_draft(draft["id"])
         if not fresh or fresh[1].get("status") == "published":
             continue
         ok, line = publish_one(fresh[0], fresh[1], cfg)
         published += ok
-        lines.append(("⚡ " if index == 0 else f"⏱️ +{index * gap:g}د ") + line.lstrip("- "))
-        log.info("(%d/%d) %s", index + 1, len(pending), line[:70])
+        mark = "🔴 عاجل " if draft["arabic"].get("urgent") else ""
+        lines.append(mark + line.lstrip("- "))
+        log.info("(%d/%d) %s", len(lines), len(plan), line[:70])
 
-    header = (f"### 🚀 نُشر {published} من {len(pending)}\n"
-              f"<sub>الأعلى مؤشرًا فورًا، ثم منشور كل {gap:g} دقائق "
-              f"(بتوقيت {tzname}).</sub>\n")
+    header = (f"### 🚀 نُشر {published} من {len(plan)}\n"
+              f"<sub>العاجل فورًا، والبقية كل {gap:g} دقيقة"
+              + (f" · {deferred_count} في الطابور للنشر لاحقًا" if deferred_count
+                 else "")
+              + f" (بتوقيت {tzname}).</sub>\n")
     text = header + "\n".join(f"- {l}" for l in lines)
 
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
