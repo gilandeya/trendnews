@@ -226,7 +226,13 @@ def main() -> int:
             # الريل: يُنتَج بجانب الصورة، والاختيار عند المراجعة
             reel_rel = None
             rlcfg = cfg.get("reel", {}) or {}
-            if rlcfg.get("enabled", True) and has_ffmpeg():
+            if not rlcfg.get("enabled", True):
+                log.info("الريل معطّل في الإعدادات (reel.enabled=false)")
+            elif not has_ffmpeg():
+                # لا تتخطَّ بصمت: الصمت هنا يبدو كأن الميزة غير مثبتة
+                log.warning("⚠️ ffmpeg غير مثبّت على هذا الخادم — لا ريلز. "
+                            "أضف خطوة تثبيته إلى سير العمل.")
+            else:
                 candidate = f"drafts/{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.mp4"
                 if build_reel(headline, written["category"], written["urgent"],
                               art.image_candidates, cfg, ROOT / candidate):
@@ -257,7 +263,7 @@ def main() -> int:
                 "arabic": written,
                 "caption": build_caption(written, art, cfg),
                 "image": image_rel,
-            "reel": reel_rel,
+                "reel": reel_rel,
             }
             if quotas:
                 filled[art.bucket] = filled.get(art.bucket, 0) + 1
