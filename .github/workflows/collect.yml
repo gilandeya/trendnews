@@ -3,9 +3,11 @@ name: 1️⃣ جمع الأخبار وتوليد المسودات
 on:
   schedule:
     # كل 4 ساعات بتوقيت إسطنبول (UTC+3):
-    #   06:00 · 10:00 · 14:00 · 18:00 · 22:00 محليًا
-    #   03:00 · 07:00 · 11:00 · 15:00 · 19:00 بتوقيت UTC
-    - cron: "0 3,7,11,15,19 * * *"
+    #   06:17 · 10:17 · 14:17 · 18:17 · 22:17 محليًا
+    #   03:17 · 07:17 · 11:17 · 15:17 · 19:17 بتوقيت UTC
+    # الدقيقة 17 لا 00: رأس الساعة مزدحم بملايين المهام المجدولة لدى
+    # GitHub، والتأخير فيه أطول بكثير.
+    - cron: "17 3,7,11,15,19 * * *"
   workflow_dispatch:
     inputs:
       limit:
@@ -94,13 +96,13 @@ jobs:
           if-no-files-found: ignore
 
       - name: فتح Issue للمراجعة
-        if: steps.commit.outputs.changed == 'true' && inputs.skip_issue != true
+        if: steps.commit.outputs.changed == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python -m src.open_review
 
       - name: تثبيت رقم الـ Issue في المسودات
-        if: steps.commit.outputs.changed == 'true' && inputs.skip_issue != true
+        if: steps.commit.outputs.changed == 'true'
         run: |
           mkdir -p drafts
           git add -A drafts
