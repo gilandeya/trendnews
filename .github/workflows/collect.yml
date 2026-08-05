@@ -2,18 +2,17 @@ name: 1️⃣ جمع الأخبار وتوليد المسودات
 
 on:
   schedule:
-    # كل 4 ساعات بتوقيت إسطنبول (UTC+3):
-    #   06:17 · 10:17 · 14:17 · 18:17 · 22:17 محليًا
-    #   03:17 · 07:17 · 11:17 · 15:17 · 19:17 بتوقيت UTC
-    # الدقيقة 17 لا 00: رأس الساعة مزدحم بملايين المهام المجدولة لدى
-    # GitHub، والتأخير فيه أطول بكثير.
-    - cron: "17 3,7,11,15,19 * * *"
+    # 13 موعدًا بتوقيت إسطنبول (UTC+3)، مسودة واحدة في كل مرة:
+    #   08 · 10 · 12 · 14 · 16 · 18 · 19 · 20 · 21 · 22 · 23 · 01 · 06:30
+    # المساء مكثّف لأنه ذروة التفاعل العربي.
+    - cron: "0 5,7,9,11,13,15,16,17,18,19,20,22 * * *"
+    - cron: "30 3 * * *"
   workflow_dispatch:
     inputs:
       limit:
         description: "عدد المسودات المطلوبة"
         required: false
-        default: "5"
+        default: "1"
       check_sources:
         description: "فحص المصادر فقط بلا توليد مسودات"
         type: boolean
@@ -57,7 +56,7 @@ jobs:
         if: inputs.check_sources != true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python -m src.collect --limit "${{ inputs.limit || '5' }}"
+        run: python -m src.collect --limit "${{ inputs.limit || '1' }}"
 
       - name: رفع المسودات إلى المستودع
         id: commit
