@@ -22,6 +22,11 @@ on:
         type: boolean
         required: false
         default: false
+      diagnose:
+        description: "فحص شامل لأسباب ضعف الوصول"
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: write
@@ -55,6 +60,13 @@ jobs:
       - name: تثبيت المكتبات
         run: pip install -r requirements.txt
 
+      - name: فحص شامل للوصول
+        if: inputs.diagnose == true
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+        run: python -m src.publish --diagnose
+
       - name: فحص توكن فيسبوك
         if: inputs.verify_only == true
         env:
@@ -63,7 +75,7 @@ jobs:
         run: python -m src.publish --verify
 
       - name: الجدولة أو النشر
-        if: inputs.verify_only != true
+        if: inputs.verify_only != true && inputs.diagnose != true
         env:
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
