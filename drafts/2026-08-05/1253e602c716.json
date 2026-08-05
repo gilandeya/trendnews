@@ -1,7 +1,7 @@
 {
   "id": "1253e602c716",
   "created_at": "2026-08-05T02:25:24.777267+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 56,
   "score": 21.15,
   "bucket": "sport",
@@ -60,5 +60,13 @@
       "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/57b6/live/c05399c0-904a-11f1-bac4-9bcd48c14c6e.jpg",
       "https://media.freemalaysiatoday.com/wp-content/uploads/2026/03/be78fe1b-mohamed-salah-1.jpg"
     ]
+  },
+  "publish_at": "2026-08-05T02:58:43.450177+00:00",
+  "published_at": "2026-08-05T02:58:50.764863+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1326726359544385",
+    "photo_id": "1326726339544387",
+    "url": "https://www.facebook.com/631680090321390_1326726359544385",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
   }
 }

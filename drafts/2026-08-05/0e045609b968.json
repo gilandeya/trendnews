@@ -1,7 +1,7 @@
 {
   "id": "0e045609b968",
   "created_at": "2026-08-05T02:26:12.262101+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 56,
   "score": 8.34,
   "bucket": "light",
@@ -57,5 +57,13 @@
       "https://i.guim.co.uk/img/media/aa302723f1477274d3c0ad5bf0b775109d6844d1/72_1423_2595_2073/master/2595.jpg?width=460&quality=85&auto=format&fit=max&s=a0370bb5797bdf074bf38a3bdfea7341",
       "https://i.guim.co.uk/img/media/aa302723f1477274d3c0ad5bf0b775109d6844d1/72_1423_2595_2073/master/2595.jpg?width=140&quality=85&auto=format&fit=max&s=96f5d80c697d390e17e6c18aefa37a95"
     ]
+  },
+  "publish_at": "2026-08-05T03:58:43.450177+00:00",
+  "published_at": "2026-08-05T03:58:47.651875+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1326759602874394",
+    "photo_id": "1326759579541063",
+    "url": "https://www.facebook.com/631680090321390_1326759602874394",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
   }
 }
