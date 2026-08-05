@@ -28,6 +28,7 @@ FALLBACK_FONTS = [
 ]
 
 _font_cache: dict[tuple[str | None, int, str | None], ImageFont.FreeTypeFont] = {}
+_preloaded: dict[str, Image.Image] = {}   # صور حُمّلت مسبقًا لترتيب الوجوه
 
 
 # ──────────────────────────── النص العربي ────────────────────────────
@@ -263,6 +264,42 @@ def paste_logo(canvas: Image.Image, logo_path: Path, box: tuple[int, int, int, i
     return True
 
 
+def face_score(img: Image.Image) -> float:
+    """
+    مقياس حضور الوجوه في الصورة: نسبة أكبر وجه إلى مساحة الصورة.
+
+    يُستخدم لترتيب الصورتين في القالب المركّب: الوجه يجب أن يتصدّر
+    الخلفية، والسياق (مبنى، مكان، وثيقة) يذهب للدائرة. العكس يدفن
+    الإنسان — وهو ما يوقف نظر القارئ — في زاوية صغيرة.
+
+    يعيد 0.0 إن تعذّر الكشف، فلا يتعطّل شيء بغياب المكتبة.
+    """
+    try:
+        import cv2
+        import numpy as np
+    except ImportError:
+        return 0.0
+
+    try:
+        small = img.convert("L")
+        scale = 480 / max(small.size)
+        if scale < 1:
+            small = small.resize((max(int(small.width * scale), 1),
+                                  max(int(small.height * scale), 1)))
+        grey = np.array(small)
+        cascade = cv2.CascadeClassifier(
+            cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+        faces = cascade.detectMultiScale(grey, scaleFactor=1.1, minNeighbors=5,
+                                         minSize=(24, 24))
+    except Exception:  # noqa: BLE001 — الكشف تحسين لا شرط
+        return 0.0
+
+    if len(faces) == 0:
+        return 0.0
+    area = grey.shape[0] * grey.shape[1]
+    return max(w * h for _, _, w, h in faces) / max(area, 1)
+
+
 def visual_hash(img: Image.Image, size: int = 10) -> list[int]:
     """
     بصمة بصرية بسيطة (difference hash) تصف *محتوى* الصورة لا رابطها.
@@ -281,6 +318,31 @@ def visual_distance(a: list[int], b: list[int]) -> float:
     if not a or not b or len(a) != len(b):
         return 1.0
     return sum(x != y for x, y in zip(a, b)) / len(a)
+
+
+def closeness(img: Image.Image, grid: int = 32) -> float:
+    """
+    تقدير قُرب الموضوع من الكاميرا: 0 = مشهد واسع، 1 = لقطة قريبة.
+
+    اللقطة القريبة (وجه، شخص) فيها موضوع كبير متجانس وخلفية ناعمة، فتقلّ
+    التفاصيل الدقيقة. أما المشهد الواسع (مبنى، شارع، حشد) فمليء بالحواف:
+    نوافذ وأعمدة وأشخاص صغار.
+
+    نقيس ذلك بكثافة الحواف: كلما قلّت، اقتربت الكاميرا.
+    """
+    grey = img.convert("L").resize((grid, grid), Image.LANCZOS)
+    px = grey.load()
+    edges = 0
+    for y in range(grid):
+        for x in range(grid - 1):
+            if abs(px[x, y] - px[x + 1, y]) > 10:
+                edges += 1
+    for y in range(grid - 1):
+        for x in range(grid):
+            if abs(px[x, y] - px[x, y + 1]) > 10:
+                edges += 1
+    density = edges / (2 * grid * (grid - 1))
+    return max(0.0, min(1.0, 1.0 - density * 2.4))
 
 
 def circular_inset(canvas: Image.Image, photo: Image.Image,
@@ -372,8 +434,26 @@ def build_post_image(
     source = None
     illustrative = False
     chosen_url = None
-    for url in candidates[:6]:
-        source = download_image(url)
+
+    # ترتيب حسب الوجوه: الصورة التي تُظهر إنسانًا بوضوح تتصدّر الخلفية،
+    # والسياق (مبنى، مكان، وثيقة) يذهب للدائرة. العكس يدفن الوجه — وهو
+    # ما يوقف نظر القارئ — في زاوية صغيرة.
+    ordered = list(candidates[:6])
+    if len(ordered) > 1 and cfg.path("image.prefer_faces", True):
+        loaded = [(u, download_image(u)) for u in ordered]
+        valid = [(u, img) for u, img in loaded if img is not None]
+        if len(valid) > 1:
+            scored = [(face_score(img), u, img) for u, img in valid]
+            scored.sort(key=lambda t: -t[0])
+            if scored[0][0] >= float(cfg.path("image.face_min_ratio", 0.02)):
+                ordered = [u for _, u, _ in scored]
+                _preloaded.clear()
+                _preloaded.update({u: img for _, u, img in scored})
+                log.info("رُتّبت الصور بالوجوه: %s",
+                         " · ".join(f"{sc:.2f}" for sc, _, _ in scored))
+
+    for url in ordered:
+        source = _preloaded.get(url) or download_image(url)
         if source is not None:
             chosen_url = url
             log.info("اعتُمدت صورة الخبر: %s", url[:90])
@@ -424,10 +504,10 @@ def build_post_image(
         main_hash = visual_hash(source)
         min_diff = float(cfg.path("image.inset_min_difference", 0.28))
         second = None
-        for url in candidates[1:6]:
+        for url in ordered[1:6]:
             if url == chosen_url:
                 continue
-            found = download_image(url)
+            found = _preloaded.get(url) or download_image(url)
             if found is None:
                 continue
             diff = visual_distance(main_hash, visual_hash(found))
@@ -437,6 +517,25 @@ def build_post_image(
             second = found
             log.info("صورة ثانية مختلفة (فارق %.2f)", diff)
             break
+
+        # ترتيب المشهدين: الواسع خلفية والقريب في الدائرة.
+        # الوجه في دائرة صغيرة يُقرأ فورًا، أما المبنى فيها فيصبح بقعة
+        # بلا معنى — والعكس يهدر مساحة الخلفية على لقطة مقرّبة.
+        if second is not None and cfg.path("image.auto_orient", True):
+            near_main, near_inset = closeness(source), closeness(second)
+            if near_main > near_inset + 0.08:
+                source, second = second, source
+                log.info("بُدّلت الصورتان: الأوسع للخلفية (%.2f ← %.2f)",
+                         near_main, near_inset)
+                photo = cover(source, W, photo_h)
+                if cfg.path("image.sharpen", True):
+                    photo = photo.filter(
+                        ImageFilter.UnsharpMask(radius=2, percent=55, threshold=3))
+                photo = Image.alpha_composite(
+                    photo.convert("RGBA"), overlay).convert("RGB")
+                canvas.paste(photo, (0, photo_top))
+                draw = ImageDraw.Draw(canvas)
+
         if second is not None:
             radius = int(W * float(cfg.path("image.inset_ratio", 0.20)))
             margin_in = int(W * 0.05)
