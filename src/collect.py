@@ -104,20 +104,38 @@ def main() -> int:
                   max(20, target * per_draft))
     candidates = screen(candidates[:horizon], cfg) + candidates[horizon:]
 
-    # 5) التوليد بحصص: دفعة متنوعة بدل ما تصادف أن يتصدّر
+    # 5) التوليد — المؤشر يحكم ما دام قويًا، والحصص تتدخل حين يضعف
+    history = store.load_history()
+
     quotas: dict = dict(selection.get("quotas") or {})
     if quotas and target < sum(quotas.values()):
-        # دفعة صغيرة: نضغط الحصص بنسبها بدل تركها كما هي.
-        # لولا ذلك لالتهم التصنيف الأول (خفيف=4) دفعةً من ثلاثة كاملة،
-        # فتخرج كل الدفعات من نوع واحد.
         total = sum(quotas.values())
         scaled = {k: max(1, round(v * target / total)) for k, v in quotas.items()}
         log.info("حصص مضغوطة لدفعة من %d: %s ← %s", target, quotas, scaled)
         quotas = scaled
-    filled: dict[str, int] = {k: 0 for k in quotas}
-    log.info("حصص الدفعة: %s", quotas or "بلا حصص")
 
-    history = store.load_history()
+    # قوة اليوم: أعلى مؤشر سُجّل خلال آخر 24 ساعة
+    window = int(selection.get("peak_window_hours", 24))
+    ratio = float(selection.get("quota_trigger_ratio", 0.5))
+    peak = store.peak_score(history, window)
+    best_now = max((a.score for a in candidates), default=0.0)
+
+    strong_day = peak > 0 and best_now >= peak * ratio
+    if strong_day:
+        # أفضل ما لدينا الآن يقارب ذروة اليوم: اترك المؤشر يحكم وحده،
+        # فالخبر القوي أهم من التنويع.
+        log.info("يوم قوي (%.1f من ذروة %.1f) — المؤشر يحكم بلا حصص",
+                 best_now, peak)
+        quotas = {}
+    elif peak > 0:
+        log.info("يوم ضعيف (%.1f من ذروة %.1f) — الحصص تفتح باب التنويع",
+                 best_now, peak)
+    else:
+        log.info("لا ذروة مسجّلة بعد — الحصص مفعّلة")
+
+    filled: dict[str, int] = {k: 0 for k in quotas}
+    log.info("حصص الدفعة: %s", quotas or "بلا حصص (المؤشر وحده)")
+
     drafts: list[dict] = []
     rejected = 0
     rejections: list[tuple] = []
@@ -131,7 +149,7 @@ def main() -> int:
             return False
         return filled[bucket] < quotas[bucket]
 
-    cooldown = int(selection.get("region_cooldown", 0))
+    cooldown = 0 if strong_day else int(selection.get("region_cooldown", 0))
     cooling = set(store.recent_regions(history, cooldown)) if cooldown else set()
     if cooling:
         log.info("مناطق في فترة تناوب: %s", "، ".join(sorted(cooling)))
@@ -261,7 +279,7 @@ def main() -> int:
                 filled[art.bucket] = filled.get(art.bucket, 0) + 1
             store.save_draft(draft)
             store.remember(history, art.title, art.link, written["post_title"],
-                           region=art.region)
+                           region=art.region, score=art.score, bucket=art.bucket)
             cooling.add(art.region)
             drafts.append(draft)
             log.info("✓ مسودة جاهزة: %s", written["post_title"][:60])

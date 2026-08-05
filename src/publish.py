@@ -13,6 +13,7 @@ import argparse
 import json
 import logging
 import os
+import random
 import time
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
@@ -22,7 +23,7 @@ import requests
 from . import facebook, review, store
 from .config import ROOT, env, load_config
 from .reel import build_reel, has_ffmpeg
-from .schedule import assign_slots, burst_slots, describe, is_due
+from .schedule import assign_slots, describe, is_due, spaced_slots
 
 log = logging.getLogger("publish")
 
@@ -197,19 +198,23 @@ def collect_pending(ids: list[str], lines: list[str]) -> list[tuple]:
 
 def cmd_burst(ids: list[str], cfg, issue_number: int | None) -> int:
     """
-    العاجل يُنشر فورًا، والبقية بفاصل ثابت.
+    ينشر المعتمَد وفق أربع قواعد:
 
-    نسجّل مواعيد الجميع في الطابور أولًا، ثم ننشر ما يقع ضمن نافذة الانتظار
-    المسموحة داخل هذا التشغيل. ما يتجاوزها يبقى في الطابور ليلتقطه سيّر
-    «نشر الطابور» — فلا نُبقي وظيفة معلّقة ساعات، ولا نخسر منشورًا.
+      1. منشور واحد فقط           → فورًا
+      2. عاجل                     → فورًا مهما كان العدد
+      3. أكثر من واحد وليس عاجلًا → الأعلى مؤشرًا فورًا
+      4. البقية                   → فاصل عشوائي 30-60 دقيقة
+
+    الفاصل عشوائي لا ثابت: النشر على إيقاع منتظم تمامًا نمط آلي واضح.
     """
     fcfg = cfg.get("facebook", {}) or {}
-    gap = float(fcfg.get("burst_gap_minutes", 30))
+    gap_min = float(fcfg.get("gap_min_minutes", 30))
+    gap_max = float(fcfg.get("gap_max_minutes", 60))
     tzname = fcfg.get("timezone", "UTC")
     max_inline = float(fcfg.get("max_inline_minutes", 120))
 
     lines: list[str] = []
-    pending = collect_pending(ids, lines)
+    pending = collect_pending(ids, lines)      # مرتّبة تنازليًا بالمؤشر
     if not pending:
         text = "### ℹ️ لا جديد للنشر\n" + "\n".join(lines)
         if issue_number:
@@ -220,22 +225,26 @@ def cmd_burst(ids: list[str], cfg, issue_number: int | None) -> int:
     normal = [t for t in pending if not t[1]["arabic"].get("urgent")]
 
     now = datetime.now(timezone.utc)
-    plan: list[tuple] = [(t, now) for t in urgent]
+    plan: list[tuple] = [(item, now) for item in urgent]   # كل عاجل فورًا
 
-    # البقية: تبدأ بعد فاصل إن سبقها عاجل، وإلا فأولها فوري
-    start = now + timedelta(minutes=gap) if urgent else now
-    for index, item in enumerate(normal):
-        plan.append((item, start + timedelta(minutes=gap * index)))
+    if normal:
+        # الأعلى مؤشرًا فوري إن لم يسبقه عاجل، وإلا فبعد فاصل
+        first = now if not urgent else None
+        slots = spaced_slots(len(normal), gap_min, gap_max,
+                             now=first or now)
+        if urgent:
+            shift = slots[0] - now
+            offset = timedelta(minutes=random.uniform(gap_min, gap_max))
+            slots = [t - shift + offset for t in slots]
+        plan += list(zip(normal, slots))
 
     for (path, _), when in plan:
         store.update_draft(path, status="queued", publish_at=when.isoformat())
 
-    log.info("عاجل: %d (فوري) · عادي: %d (كل %g دقيقة)",
-             len(urgent), len(normal), gap)
+    log.info("عاجل: %d (فوري) · عادي: %d (فاصل %g-%g دقيقة)",
+             len(urgent), len(normal), gap_min, gap_max)
 
-    published = 0
-    deferred_count = 0
-
+    published, deferred_count = 0, 0
     for (path, draft), when in plan:
         wait = (when - datetime.now(timezone.utc)).total_seconds()
         if wait > max_inline * 60:
@@ -257,9 +266,9 @@ def cmd_burst(ids: list[str], cfg, issue_number: int | None) -> int:
         log.info("(%d/%d) %s", len(lines), len(plan), line[:70])
 
     header = (f"### 🚀 نُشر {published} من {len(plan)}\n"
-              f"<sub>العاجل فورًا، والبقية كل {gap:g} دقيقة"
-              + (f" · {deferred_count} في الطابور للنشر لاحقًا" if deferred_count
-                 else "")
+              f"<sub>العاجل والأعلى مؤشرًا فورًا، والبقية بفاصل "
+              f"{gap_min:g}-{gap_max:g} دقيقة"
+              + (f" · {deferred_count} في الطابور" if deferred_count else "")
               + f" (بتوقيت {tzname}).</sub>\n")
     text = header + "\n".join(f"- {l}" for l in lines)
 

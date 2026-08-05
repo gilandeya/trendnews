@@ -40,8 +40,11 @@ def save_history(entries: list[dict], keep_days: int) -> None:
 
 
 def remember(entries: list[dict], title: str, link: str,
-             posted_title: str | None = None, region: str = "") -> None:
+             posted_title: str | None = None, region: str = "",
+             score: float = 0.0, bucket: str = "") -> None:
     entries.append({
+        "score": round(float(score), 2),
+        "bucket": bucket,
         "tokens": sorted(tokens(title)),
         "link": link,
         "title": title[:160],
@@ -49,6 +52,25 @@ def remember(entries: list[dict], title: str, link: str,
         "region": region,
         "seen_at": datetime.now(timezone.utc).isoformat(),
     })
+
+
+def peak_score(entries: list[dict], hours: int = 24) -> float:
+    """
+    أعلى مؤشر سُجّل لمسودة خلال آخر ساعات محددة.
+
+    يُستخدم لقياس «قوة اليوم»: إن كان أفضل ما لدينا الآن نصف ما أنتجناه
+    صباحًا، فاليوم فقير — ويصبح فرض التنويع أجدى من مطاردة الأقوى.
+    """
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
+    best = 0.0
+    for entry in entries:
+        try:
+            when = datetime.fromisoformat(entry.get("seen_at", ""))
+        except ValueError:
+            continue
+        if when >= cutoff:
+            best = max(best, float(entry.get("score", 0) or 0))
+    return best
 
 
 def recent_regions(entries: list[dict], count: int) -> list[str]:

@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import logging
+import random
 from datetime import datetime, timedelta, timezone
 from zoneinfo import ZoneInfo
 
@@ -121,6 +122,74 @@ def burst_slots(count: int, gap_minutes: float = 5,
     start = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
     gap = timedelta(minutes=max(float(gap_minutes), 0.05))
     return [start + gap * i for i in range(max(count, 0))]
+
+
+def parse_slot(text: str) -> tuple[int, int]:
+    """يحوّل "18:30" إلى (18, 30)."""
+    hour, _, minute = text.partition(":")
+    return int(hour), int(minute or 0)
+
+
+def daily_slots(slots: list[str], tz, start: datetime, days: int = 4):
+    """يولّد فتحات النشر اليومية القادمة بالترتيب الزمني."""
+    local = start.astimezone(tz)
+    parsed = sorted({parse_slot(s) for s in slots}) or [(18, 0)]
+    for day in range(days):
+        base = (local + timedelta(days=day)).replace(second=0, microsecond=0)
+        for hour, minute in parsed:
+            when = base.replace(hour=hour, minute=minute)
+            if when > local:
+                yield when.astimezone(timezone.utc)
+
+
+def next_free_slots(count: int, slots: list[str], timezone_name: str,
+                    taken: list[datetime] | None = None,
+                    now: datetime | None = None,
+                    tolerance_minutes: int = 8) -> list[datetime]:
+    """
+    يوزّع `count` منشورًا على فتحات النشر اليومية الشاغرة.
+
+    الفتحات ثابتة ومضبوطة على أوقات ذروة الجمهور، بدل فواصل متساوية
+    تُوقع منشورًا في الثالثة فجرًا. والمشغول منها يُتخطّى، فلا يتزاحم
+    منشوران في نفس الدقيقة.
+    """
+    tz = tz_of(timezone_name)
+    now = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    booked = sorted(t.astimezone(timezone.utc) for t in (taken or []))
+    gap = timedelta(minutes=max(tolerance_minutes, 1))
+
+    chosen: list[datetime] = []
+    for slot in daily_slots(slots, tz, now):
+        if len(chosen) >= count:
+            break
+        if all(abs(slot - b) >= gap for b in booked):
+            chosen.append(slot)
+            booked.append(slot)
+            booked.sort()
+
+    # لو نفدت الفتحات (طلب أكبر من الأيام المتاحة) نباعد بساعة
+    while len(chosen) < count:
+        chosen.append((chosen[-1] if chosen else now) + timedelta(hours=1))
+    return chosen[:count]
+
+
+def spaced_slots(count: int, gap_min: float = 30, gap_max: float = 60,
+                 now: datetime | None = None, seed: int | None = None
+                 ) -> list[datetime]:
+    """
+    مواعيد متباعدة بفاصل عشوائي — الأول فوري.
+
+    العشوائية مقصودة: النشر على فواصل ثابتة تمامًا نمط آلي واضح، وفيسبوك
+    يخفض وصول الصفحات التي تبدو مؤتمتة. فاصل يتراوح بين 30 و60 دقيقة
+    يبدو بشريًا ويحافظ على التباعد.
+    """
+    rng = random.Random(seed)
+    start = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    slots = [start]
+    for _ in range(max(count, 1) - 1):
+        step = rng.uniform(min(gap_min, gap_max), max(gap_min, gap_max))
+        slots.append(slots[-1] + timedelta(minutes=step))
+    return slots[:max(count, 0)]
 
 
 def is_due(publish_at: str | datetime, now: datetime | None = None) -> bool:
