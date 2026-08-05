@@ -51,10 +51,24 @@ jobs:
         run: |
           git config user.name  "trendnews-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          mkdir -p drafts
-          git add -A drafts
-          if ! git diff --quiet --cached; then
-            git commit -m "chore(drafts): نشر الطابور"
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+          mkdir -p drafts state
+          git add -A drafts state
+          if git diff --quiet --cached; then
+            echo "لا تغييرات"
+            exit 0
           fi
+          git commit -m "chore(drafts): نشر الطابور"
+          # إعادة المحاولة: سيّرا الجمع والرادار قد يدفعان في اللحظة نفسها،
+          # فيرفض GitHub أحدهما بخطأ Internal Server Error. الالتزام محفوظ
+          # محليًا، فيكفي إعادة السحب والدفع.
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              echo "✅ رُفع في المحاولة $attempt"
+              exit 0
+            fi
+            echo "⚠️ فشل الدفع (محاولة $attempt) — إعادة بعد $((attempt * 7))ث"
+            sleep $((attempt * 7))
+          done
+          echo "❌ تعذّر الدفع بعد 5 محاولات"
+          exit 1

@@ -41,8 +41,13 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p state
           git add -A state
-          if ! git diff --quiet --cached; then
-            git commit -m "chore(state): بيانات الأداء"
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+          if git diff --quiet --cached; then
+            exit 0
           fi
+          git commit -m "chore(state): بيانات الأداء"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then exit 0; fi
+            sleep $((attempt * 7))
+          done
+          echo "⚠️ تعذّر حفظ بيانات الأداء — التقرير ظهر في Issue"
