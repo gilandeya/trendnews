@@ -263,6 +263,26 @@ def paste_logo(canvas: Image.Image, logo_path: Path, box: tuple[int, int, int, i
     return True
 
 
+def visual_hash(img: Image.Image, size: int = 10) -> list[int]:
+    """
+    بصمة بصرية بسيطة (difference hash) تصف *محتوى* الصورة لا رابطها.
+
+    نصغّر الصورة إلى شبكة رمادية صغيرة ونقارن كل بكسل بجاره: النتيجة
+    سلسلة بتات تبقى شبه ثابتة رغم اختلاف الحجم أو القصّ أو الضغط.
+    """
+    grey = img.convert("L").resize((size + 1, size), Image.LANCZOS)
+    px = grey.load()
+    return [1 if px[x, y] > px[x + 1, y] else 0
+            for y in range(size) for x in range(size)]
+
+
+def visual_distance(a: list[int], b: list[int]) -> float:
+    """نسبة البتات المختلفة بين بصمتين: 0 = متطابقتان، 1 = مختلفتان تمامًا."""
+    if not a or not b or len(a) != len(b):
+        return 1.0
+    return sum(x != y for x, y in zip(a, b)) / len(a)
+
+
 def circular_inset(canvas: Image.Image, photo: Image.Image,
                   center: tuple[int, int], radius: int,
                   ring: tuple[int, int, int], ring_width: int) -> None:
@@ -398,13 +418,25 @@ def build_post_image(
 
     # صورة ثانية في دائرة — تُستخدم حين يوفّر الخبر أكثر من صورة صالحة
     if used_original and cfg.path("image.composite", True):
+        # الناشر يوفّر غالبًا عدة قصّات من الصورة نفسها بأحجام مختلفة.
+        # نقارن البصمة البصرية لا الرابط، وإلا ظهرت الصورة مكررة داخل
+        # الدائرة وخارجها.
+        main_hash = visual_hash(source)
+        min_diff = float(cfg.path("image.inset_min_difference", 0.28))
         second = None
-        for url in candidates[1:5]:
+        for url in candidates[1:6]:
             if url == chosen_url:
                 continue
-            second = download_image(url)
-            if second is not None:
-                break
+            found = download_image(url)
+            if found is None:
+                continue
+            diff = visual_distance(main_hash, visual_hash(found))
+            if diff < min_diff:
+                log.info("تجاهل صورة مكررة بصريًا (فارق %.2f): %s", diff, url[:70])
+                continue
+            second = found
+            log.info("صورة ثانية مختلفة (فارق %.2f)", diff)
+            break
         if second is not None:
             radius = int(W * float(cfg.path("image.inset_ratio", 0.20)))
             margin_in = int(W * 0.05)
