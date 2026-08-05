@@ -1,7 +1,7 @@
 {
   "id": "f875b206478a",
   "created_at": "2026-08-05T19:08:10.745610+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 68,
   "score": 29.22,
   "bucket": "sport",
@@ -67,5 +67,13 @@
       "https://i.guim.co.uk/img/media/a77e757bab2a4f913d59d5e336439d1ea4bfdb17/580_140_4755_3804/master/4755.jpg?width=460&quality=85&auto=format&fit=max&s=abff01abf2e94773ffff03a41b381dba",
       "https://i.guim.co.uk/img/media/a77e757bab2a4f913d59d5e336439d1ea4bfdb17/580_140_4755_3804/master/4755.jpg?width=140&quality=85&auto=format&fit=max&s=c85b32506bba360e85469a790a9fc734"
     ]
+  },
+  "publish_at": "2026-08-05T19:22:07.486147+00:00",
+  "published_at": "2026-08-05T19:22:11.064292+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1327344542815900",
+    "photo_id": "1327344526149235",
+    "url": "https://www.facebook.com/631680090321390_1327344542815900",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
   }
 }
