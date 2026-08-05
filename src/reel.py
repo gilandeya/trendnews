@@ -38,8 +38,26 @@ log = logging.getLogger(__name__)
 W, H = 1080, 1920          # 9:16 — مقاس الريلز والستوري
 
 
+def ffmpeg_path() -> str | None:
+    """
+    يحدد مسار ffmpeg.
+
+    الأولوية لنسخة pip المضمّنة (imageio-ffmpeg): تُثبَّت مع بقية المكتبات
+    ولا تعتمد على apt. الاعتماد على apt كان يعلّق التشغيل 25 دقيقة حين
+    تتأخر مرايا أوبونتو، فيُلغى قبل أن يبدأ جمع الأخبار أصلًا.
+    """
+    try:
+        import imageio_ffmpeg
+        exe = imageio_ffmpeg.get_ffmpeg_exe()
+        if exe and Path(exe).exists():
+            return exe
+    except Exception:  # noqa: BLE001 — غير مثبّتة أو تعذّر تحديد الملف
+        pass
+    return shutil.which("ffmpeg")
+
+
 def has_ffmpeg() -> bool:
-    return shutil.which("ffmpeg") is not None
+    return ffmpeg_path() is not None
 
 
 # ──────────────────────────── الطبقات ────────────────────────────
@@ -202,7 +220,7 @@ def build_reel(headline: str, category: str, urgent: bool, image_urls,
             return None
 
         frames = int(duration * fps)
-        cmd = ["ffmpeg", "-y", "-loglevel", "error",
+        cmd = [ffmpeg_path() or "ffmpeg", "-y", "-loglevel", "error",
                "-loop", "1", "-t", f"{duration}", "-i", str(bg_path),
                "-loop", "1", "-t", f"{duration}", "-i", str(shade)]
         for layer in layers:
