@@ -384,6 +384,8 @@ def main() -> int:
     parser.add_argument("--now", action="store_true", help="نشر فوري بلا جدولة")
     parser.add_argument("--queue", action="store_true", help="عرض الطابور")
     parser.add_argument("--verify", action="store_true", help="فحص التوكن")
+    parser.add_argument("--diagnose", action="store_true",
+                        help="فحص شامل لأسباب ضعف الوصول")
     parser.add_argument("--config", default=None)
     args = parser.parse_args()
 
@@ -396,6 +398,11 @@ def main() -> int:
         info = facebook.verify_token(cfg.path("facebook.api_version", "v21.0"))
         log.info("✅ التوكن صالح — الصفحة: %s (%s متابع)",
                  info.get("name"), info.get("fan_count", "?"))
+        return 0
+
+    if args.diagnose:
+        for line in facebook.diagnose(cfg.path("facebook.api_version", "v21.0")):
+            print(line)
         return 0
 
     if args.queue:

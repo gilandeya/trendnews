@@ -248,3 +248,75 @@ def verify_token(api_version: str = "v21.0") -> dict:
         timeout=30,
     )
     return _raise_for_graph(resp)
+
+
+def diagnose(api_version: str = "v21.0", posts: int = 5) -> list[str]:
+    """
+    فحص شامل لأسباب ضعف الوصول — يفحص ما يمكن قياسه لا ما يُخمَّن.
+
+    يجيب عن: هل الرمز رمز صفحة أم مستخدم؟ هل الصفحة منشورة؟ هل عليها
+    قيود جغرافية أو عمرية؟ وهل منشوراتك مخفية أو غير منشورة فعلًا؟
+    """
+    page_id, token = _credentials()
+    base = f"https://graph.facebook.com/{api_version}"
+    lines: list[str] = []
+
+    def get(path: str, **params):
+        try:
+            r = requests.get(f"{base}/{path}",
+                             params={"access_token": token, **params}, timeout=30)
+            return _raise_for_graph(r)
+        except FacebookError as exc:
+            return {"__error__": str(exc)}
+
+    # 1) نوع الرمز: رمز الصفحة يعيد الصفحة نفسها من /me
+    me = get("me", fields="id,name")
+    if me.get("__error__"):
+        lines.append(f"❌ الرمز غير صالح: {me['__error__']}")
+        return lines
+    if str(me.get("id")) == str(page_id):
+        lines.append(f"✅ رمز صفحة صحيح — {me.get('name')}")
+    else:
+        lines.append(
+            f"⚠️ الرمز ليس رمز صفحة! يعود إلى: {me.get('name')} ({me.get('id')})\n"
+            f"   المطلوب رمز الصفحة ({page_id}). أعد استخراجه من me/accounts."
+        )
+
+    # 2) حالة الصفحة نفسها — صفحة غير منشورة وصولها صفر مهما فعلت
+    page = get(page_id, fields="name,fan_count,is_published,verification_status,"
+                               "country_page_likes,restrictions")
+    if page.get("__error__"):
+        lines.append(f"❌ تعذّر فحص الصفحة: {page['__error__']}")
+    else:
+        published = page.get("is_published")
+        lines.append(f"{'✅' if published is not False else '❌'} الصفحة "
+                     f"{'منشورة' if published is not False else 'غير منشورة — وصولها صفر!'}"
+                     f" · {page.get('fan_count', '؟')} متابع")
+        if page.get("restrictions"):
+            lines.append(f"⚠️ قيود على الصفحة: {page['restrictions']}")
+
+    # 3) آخر المنشورات: هل هي عامة فعلًا؟
+    feed = get(f"{page_id}/posts", limit=str(posts),
+               fields="id,created_time,is_hidden,is_published,"
+                      "privacy,application,shares")
+    if feed.get("__error__"):
+        lines.append(f"⚠️ تعذّر جلب المنشورات: {feed['__error__']}")
+        return lines
+
+    data = feed.get("data") or []
+    lines.append(f"\n📋 آخر {len(data)} منشور:")
+    for post in data:
+        privacy = (post.get("privacy") or {}).get("value") or "?"
+        app = (post.get("application") or {}).get("name", "—")
+        flags = []
+        if post.get("is_hidden"):
+            flags.append("🚫 مخفي")
+        if post.get("is_published") is False:
+            flags.append("🚫 غير منشور")
+        if privacy not in ("EVERYONE", "", "?"):
+            flags.append(f"🚫 خصوصية {privacy}")
+        lines.append(
+            f"  {'⚠️ ' if flags else '✅ '}{post.get('created_time', '')[:16]} "
+            f"· عبر {app}" + (f" · {'، '.join(flags)}" if flags else " · عام")
+        )
+    return lines
