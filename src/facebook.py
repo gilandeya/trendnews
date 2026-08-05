@@ -283,17 +283,29 @@ def diagnose(api_version: str = "v21.0", posts: int = 5) -> list[str]:
         )
 
     # 2) حالة الصفحة نفسها — صفحة غير منشورة وصولها صفر مهما فعلت
-    page = get(page_id, fields="name,fan_count,is_published,verification_status,"
-                               "country_page_likes,restrictions")
-    if page.get("__error__"):
-        lines.append(f"❌ تعذّر فحص الصفحة: {page['__error__']}")
+    # نطلب الحقول واحدًا واحدًا: حقل غير مدعوم يُفشل الطلب كله ويحجب
+    # الباقي — وهذا ما أضاع حالة النشر في الفحص السابق.
+    page: dict = {}
+    for field in ("name", "fan_count", "is_published", "verification_status",
+                  "has_transitioned_to_new_page_experience", "is_permanently_closed"):
+        got = get(page_id, fields=field)
+        if not got.get("__error__"):
+            page.update({k: v for k, v in got.items() if k != "id"})
+
+    if not page:
+        lines.append("❌ تعذّر فحص الصفحة")
     else:
         published = page.get("is_published")
         lines.append(f"{'✅' if published is not False else '❌'} الصفحة "
                      f"{'منشورة' if published is not False else 'غير منشورة — وصولها صفر!'}"
                      f" · {page.get('fan_count', '؟')} متابع")
-        if page.get("restrictions"):
-            lines.append(f"⚠️ قيود على الصفحة: {page['restrictions']}")
+        if page.get("is_permanently_closed"):
+            lines.append("❌ الصفحة مغلقة نهائيًا")
+        if page.get("verification_status"):
+            lines.append(f"ℹ️ حالة التوثيق: {page['verification_status']}")
+        if page.get("is_published") is None:
+            lines.append("ℹ️ حقل حالة النشر غير متاح — تحقق يدويًا من "
+                         "إعدادات الصفحة › عام › رؤية الصفحة")
 
     # 3) آخر المنشورات: هل هي عامة فعلًا؟
     feed = get(f"{page_id}/posts", limit=str(posts),
