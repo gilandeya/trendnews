@@ -1,7 +1,7 @@
 {
   "id": "33f6bc02100a",
   "created_at": "2026-08-05T18:08:11.641412+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 66,
   "score": 28.32,
   "bucket": "serious",
@@ -61,5 +61,13 @@
       "https://c.ndtvimg.com/2024-08/81hfi6o_sheikh-hasina_625x300_07_August_24.jpg?im=FaceCrop,algorithm=dnn,width=1280,height=720",
       "https://c.ndtvimg.com/2026-06/3ddf7qb4_sheikh-hasina-afp_625x300_28_June_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
     ]
+  },
+  "publish_at": "2026-08-05T18:13:54.857951+00:00",
+  "published_at": "2026-08-05T18:14:00.112758+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1327304072819947",
+    "photo_id": "1327304052819949",
+    "url": "https://www.facebook.com/631680090321390_1327304072819947",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
   }
 }
