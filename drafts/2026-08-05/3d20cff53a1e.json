@@ -1,7 +1,7 @@
 {
   "id": "3d20cff53a1e",
   "created_at": "2026-08-05T20:08:24.801284+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 71,
   "score": 26.24,
   "bucket": "sport",
@@ -66,5 +66,13 @@
       "https://e2.365dm.com/25/10/1920x1080/skysports-arsenal-news-club_7039237.jpg?20251002155710",
       "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2269/live/1bef05c0-90f6-11f1-8a08-b30314e337a5.jpg"
     ]
+  },
+  "publish_at": "2026-08-05T20:24:21.413587+00:00",
+  "published_at": "2026-08-05T20:24:25.784531+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1327376419479379",
+    "photo_id": "1327376389479382",
+    "url": "https://www.facebook.com/631680090321390_1327376419479379",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
   }
 }
