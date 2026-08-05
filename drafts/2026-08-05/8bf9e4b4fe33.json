@@ -1,7 +1,7 @@
 {
   "id": "8bf9e4b4fe33",
   "created_at": "2026-08-05T09:45:28.841567+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 60,
   "score": 27.91,
   "bucket": "serious",
@@ -59,5 +59,13 @@
       "https://media.freemalaysiatoday.com/wp-content/uploads/2025/04/0259f9cb-houthi.jpg",
       "https://media.mehrnews.com/d/2026/03/29/4/5965692.jpg"
     ]
+  },
+  "publish_at": "2026-08-05T09:49:02.013489+00:00",
+  "published_at": "2026-08-05T09:49:08.852396+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1326960046187683",
+    "photo_id": "1326960016187686",
+    "url": "https://www.facebook.com/631680090321390_1326960046187683",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
   }
 }
