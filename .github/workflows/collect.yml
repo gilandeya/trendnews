@@ -31,7 +31,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
 
     steps:
       - name: سحب المستودع
@@ -45,16 +45,6 @@ jobs:
 
       - name: تثبيت المكتبات
         run: pip install -r requirements.txt
-
-      - name: تثبيت ffmpeg (لتوليد الريلز)
-        run: |
-          if command -v ffmpeg >/dev/null 2>&1; then
-            echo "ffmpeg موجود: $(ffmpeg -version | head -1)"
-          else
-            sudo apt-get update -qq
-            sudo apt-get install -y -qq ffmpeg
-            echo "ثُبّت: $(ffmpeg -version | head -1)"
-          fi
 
       - name: التأكد من الخطوط العربية
         run: bash scripts/fetch_fonts.sh
