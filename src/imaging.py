@@ -268,9 +268,9 @@ def face_score(img: Image.Image) -> float:
     """
     مقياس حضور الوجوه في الصورة: نسبة أكبر وجه إلى مساحة الصورة.
 
-    يُستخدم لترتيب الصورتين في القالب المركّب: الوجه يجب أن يتصدّر
-    الخلفية، والسياق (مبنى، مكان، وثيقة) يذهب للدائرة. العكس يدفن
-    الإنسان — وهو ما يوقف نظر القارئ — في زاوية صغيرة.
+    يُستخدم لترتيب الصورتين في القالب المركّب: الصورة ذات الوجه الأكبر
+    هي اللقطة القريبة، فتذهب إلى **الدائرة**، والمشهد الواسع (مبنى،
+    شارع، بحر) يذهب إلى الخلفية حيث تتسع مساحته.
 
     يعيد 0.0 إن تعذّر الكشف، فلا يتعطّل شيء بغياب المكتبة.
     """
@@ -522,11 +522,26 @@ def build_post_image(
         # الوجه في دائرة صغيرة يُقرأ فورًا، أما المبنى فيها فيصبح بقعة
         # بلا معنى — والعكس يهدر مساحة الخلفية على لقطة مقرّبة.
         if second is not None and cfg.path("image.auto_orient", True):
-            near_main, near_inset = closeness(source), closeness(second)
-            if near_main > near_inset + 0.08:
+            # الوجه أوثق إشارة على اللقطة القريبة. كثافة الحواف تخدع:
+            # صورة شخص أمام علم مخطط تبدو "مزدحمة"، وغروب بحر ناعم يبدو
+            # "قريبًا" — وهذا عكس الحقيقة تمامًا.
+            face_main, face_inset = face_score(source), face_score(second)
+            face_gap = float(cfg.path("image.face_orient_gap", 0.01))
+
+            # لا تبديل إلا بدليل: كشف وجه في إحداهما دون الأخرى.
+            # جرّبنا كثافة الحواف بديلًا فانقلبت النتيجة — صورة شخص أمام
+            # علم مخطط سجّلت 0.00 وغروب بحر ناعم سجّل 0.87. فالحواف تقيس
+            # ازدحام الصورة لا قربها، والحكم بها أسوأ من عدم الحكم.
+            swap = (max(face_main, face_inset) >= face_gap
+                    and face_main > face_inset)
+            reason = f"وجه {face_main:.3f} مقابل {face_inset:.3f}"
+
+            if not swap and max(face_main, face_inset) < face_gap:
+                log.info("لا وجه واضح في أيٍّ منهما — تُرك الترتيب كما هو")
+
+            if swap:
                 source, second = second, source
-                log.info("بُدّلت الصورتان: الأوسع للخلفية (%.2f ← %.2f)",
-                         near_main, near_inset)
+                log.info("بُدّلت الصورتان: الأوسع للخلفية (%s)", reason)
                 photo = cover(source, W, photo_h)
                 if cfg.path("image.sharpen", True):
                     photo = photo.filter(
