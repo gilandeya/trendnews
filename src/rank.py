@@ -4,6 +4,7 @@ from __future__ import annotations
 import logging
 import math
 import re
+import unicodedata
 from collections import Counter
 from datetime import datetime, timezone
 
@@ -25,6 +26,66 @@ _WORD_RE = re.compile(r"[A-Za-z\u00C0-\u024F0-9']+")
 def tokens(title: str) -> set[str]:
     words = [w.lower() for w in _WORD_RE.findall(title)]
     return {w for w in words if len(w) > 2 and w not in STOPWORDS}
+
+
+# كلمات تبدأ بها الجُمل فتُكتب بحرف كبير وتبدو أسماء أعلام
+_NOT_ENTITY = {
+    "the", "this", "that", "these", "those", "after", "before", "why", "how",
+    "what", "when", "where", "who", "new", "top", "breaking", "watch", "video",
+    "update", "exclusive", "live", "report", "opinion", "analysis", "first",
+    "last", "more", "most", "police", "government", "president", "minister",
+}
+_ENT_WORD = re.compile(r"[^\W\d_]+|\d[\d.,]*", re.UNICODE)
+
+
+def _fold(word: str) -> str:
+    """يجرّد الحرف من علاماته: Iran / İran / Irán → iran."""
+    stripped = unicodedata.normalize("NFKD", word)
+    return "".join(c for c in stripped if not unicodedata.combining(c)).lower()
+
+
+def entities(title: str) -> set[str]:
+    """
+    أسماء الأعلام والأرقام في العنوان.
+
+    هذه وحدها تعبر اللغات: «Trump» و«Iran» و«2026» تُكتب متشابهة في
+    الإنجليزية والفرنسية والألمانية والإسبانية والتركية، بينما الأفعال
+    والحروف تختلف كليًا. مقارنة الكلمات العادية تفشل عبر اللغات، فيبقى
+    كل خبر وحيدًا ولا يُقاس انتشاره.
+    """
+    found: set[str] = set()
+    # نقسّم على الفاصلة العليا: التركية تلحق اللواحق هكذا (İran'a)
+    for chunk in re.split(r"['’]", title):
+        words = _ENT_WORD.findall(chunk)
+        for index, word in enumerate(words):
+            if word[:1].isdigit():
+                if len(word) >= 2:            # الأرقام إشارة قوية
+                    found.add(_fold(word))
+                continue
+            if len(word) < 3 or not word[:1].isupper():
+                continue
+            folded = _fold(word)
+            # كلمة واحدة أول الجملة قد تكون شائعة لا اسم عَلَم
+            if index == 0 and folded in _NOT_ENTITY:
+                continue
+            if folded in _NOT_ENTITY:
+                continue
+            found.add(folded)
+    return found
+
+
+def entity_match(a: set[str], b: set[str], min_shared: int = 2) -> bool:
+    """
+    هل يتحدث العنوانان عن الكيانات نفسها؟
+
+    نشترط اسمين مشتركين على الأقل: «ترامب» وحده يظهر في عشرات الأخبار
+    المختلفة، أما «ترامب + إيران» فيحصر الحدث.
+    """
+    shared = a & b
+    if len(shared) < min_shared:
+        return False
+    # ونشترط أن يكونا متقاربين في التركيز لا مجرد تقاطع عابر
+    return len(shared) / min(len(a), len(b)) >= 0.6
 
 
 def similarity(a: set[str], b: set[str]) -> float:
@@ -155,7 +216,8 @@ def rank(articles: list[Article], selection: dict,
          trend_signatures: list[set[str]] | None = None,
          trend_weight: float = 4.0,
          velocity_entries: list[dict] | None = None,
-         velocity_weight: float = 5.0) -> list[Article]:
+         velocity_weight: float = 5.0,
+         merge_cfg=None) -> list[Article]:
     threshold = float(selection.get("title_similarity", 0.62))
     max_age = int(selection.get("max_age_hours", 18))
     min_sources = int(selection.get("min_sources_for_trend", 1))
@@ -184,6 +246,23 @@ def rank(articles: list[Article], selection: dict,
         rep.score = score_cluster(group, max_age, trend, trend_weight)
         rep.group_sources = len({a.source_name for a in group})
         ranked.append(rep)
+
+    # ── الدمج الدلالي قبل السرعة ──
+    # لا معنى لقياس سرعة خبر مشتّت على خمس لغات: كل نسخة تبدو خبرًا
+    # وحيدًا. نجمّعه أولًا فترتفع تغطيته وتُقاس سرعته بحق.
+    if merge_cfg is not None:
+        from .merge import semantic_merge
+        ranked.sort(key=lambda a: a.score, reverse=True)
+        before = len(ranked)
+        ranked = semantic_merge(ranked, merge_cfg,
+                                int((merge_cfg.get("merge", {}) or {})
+                                    .get("top", 60)))
+        if len(ranked) < before:
+            # أعِد حساب الدرجات: تغيّرت أعداد المصادر بعد الدمج
+            for art in ranked:
+                art.score = score_cluster(
+                    [art], max_age, art.trend_score, trend_weight)
+                art.score += 3.0 * math.log2(1 + max(art.group_sources - 1, 0))
 
     # ── السرعة: للمتصدّرين فقط ──
     # تتبّع 1700 خبر في كل تشغيلة يضخّم ملف الحالة ويبطّئ البحث خطيًا

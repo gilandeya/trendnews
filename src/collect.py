@@ -93,6 +93,7 @@ def main() -> int:
         articles, selection, signatures, float(tcfg.get("weight", 4.0)),
         velocity_entries=vel_entries,
         velocity_weight=float(selection.get("velocity_weight", 5.0)),
+        merge_cfg=cfg,
     )
     save_velocity(vel_entries)
     log.info("مرشّحون بعد الترتيب: %d", len(candidates))

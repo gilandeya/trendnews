@@ -89,7 +89,8 @@ def scan(cfg) -> list:
     vel = load_velocity()
     ranked = rank(articles, selection, None, 0.0,
                   velocity_entries=vel,
-                  velocity_weight=float(selection.get("velocity_weight", 5.0)))
+                  velocity_weight=float(selection.get("velocity_weight", 5.0)),
+                  merge_cfg=cfg)
     save_velocity(vel)
 
     min_vel = float(rcfg.get("min_velocity", 0.7))
