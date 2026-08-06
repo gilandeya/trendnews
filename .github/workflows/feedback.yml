@@ -1,0 +1,59 @@
+name: 🚫 تسجيل أسباب الرفض
+
+on:
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: "رقم الـ Issue"
+        required: true
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: trendnews-feedback
+  cancel-in-progress: false
+
+jobs:
+  record:
+    # لا نشغّل شيئًا إلا إن حوى التعليق أمر رفض فعليًا
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.comment.body, '/reject')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: تسجيل الرفض
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE="${{ inputs.issue || github.event.issue.number }}"
+          python -m src.collect_feedback --issue "$ISSUE"
+
+      - name: حفظ الحالة
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p drafts state
+          git add -A drafts state
+          if git diff --quiet --cached; then
+            exit 0
+          fi
+          git commit -m "chore(feedback): تسجيل أسباب الرفض"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then exit 0; fi
+            sleep $((attempt * 7))
+          done
+          echo "⚠️ تعذّر حفظ أسباب الرفض"
