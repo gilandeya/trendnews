@@ -1,96 +1,6 @@
 [
   {
     "tokens": [
-      "'botched",
-      "admits",
-      "against",
-      "case",
-      "drops",
-      "former",
-      "installation'",
-      "olympian",
-      "pool",
-      "reflecting"
-    ],
-    "link": "https://www.france24.com/en/americas/20260801-us-admits-reflecting-pool-damage-due-to-botched-renovation-drops-charges-against-former-olympian",
-    "title": "US drops Reflecting Pool case against former Olympian, admits 'botched installation'",
-    "seen_at": "2026-08-01T15:12:21.656208+00:00"
-  },
-  {
-    "tokens": [
-      "corruption",
-      "jail",
-      "leaves",
-      "overturned",
-      "peru's",
-      "president",
-      "term",
-      "year"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cx2j9nj88rro?at_medium=RSS&at_campaign=rss",
-    "title": "Peru's ex-president leaves jail after 15-year jail term for corruption overturned",
-    "seen_at": "2026-08-01T15:12:28.278168+00:00"
-  },
-  {
-    "tokens": [
-      "'selfish'",
-      "apologies",
-      "aussie",
-      "gold",
-      "makes",
-      "medallist",
-      "podium",
-      "racing",
-      "sweep"
-    ],
-    "link": "https://www.abc.net.au/news/2026-08-01/commonwealth-games-jemima-montag-race-walk-lizzy-mcmillen/106986368",
-    "title": "Gold medallist makes no apologies for 'selfish' racing in Aussie podium sweep",
-    "seen_at": "2026-08-01T15:21:41.033682+00:00"
-  },
-  {
-    "tokens": [
-      "fled",
-      "invasion",
-      "israeli",
-      "lebanese",
-      "left",
-      "see",
-      "visit",
-      "what's",
-      "who"
-    ],
-    "link": "https://www.npr.org/2026/08/01/nx-s1-5910555/lebanon-israel-war-hezbollah",
-    "title": "Lebanese who fled the Israeli invasion visit to see what's left",
-    "seen_at": "2026-08-01T15:21:53.372161+00:00"
-  },
-  {
-    "tokens": [
-      "abusing",
-      "accused",
-      "cracks",
-      "india",
-      "modi",
-      "protesters"
-    ],
-    "link": "https://www.aljazeera.com/video/newsfeed/2026/8/1/india-cracks-down-on-protesters-accused-of-abusing-modi?traffic_source=rss",
-    "title": "India cracks down on protesters accused of ‘abusing’ Modi",
-    "seen_at": "2026-08-01T15:29:51.988215+00:00"
-  },
-  {
-    "tokens": [
-      "destroys",
-      "gaza",
-      "hospital",
-      "israeli",
-      "strike",
-      "warehouse"
-    ],
-    "link": "https://www.aljazeera.com/video/newsfeed/2026/8/1/01-08-israel-strike-gaza-hospital-sv-mp4?traffic_source=rss",
-    "title": "Israeli strike destroys Gaza hospital warehouse",
-    "seen_at": "2026-08-01T15:29:59.570519+00:00"
-  },
-  {
-    "tokens": [
       "000",
       "100",
       "access",
@@ -3439,5 +3349,21 @@
     "posted_title": "لماذا لا يزال تهديد اليويفا بمقاطعة بطولات الفيفا قائمًا",
     "region": "sport",
     "seen_at": "2026-08-06T15:08:04.426111+00:00"
+  },
+  {
+    "score": 16.91,
+    "bucket": "serious",
+    "tokens": [
+      "7bn",
+      "agrees",
+      "easyjet",
+      "firm",
+      "takeover"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cjejzjpy98wo?at_medium=RSS&at_campaign=rss",
+    "title": "EasyJet agrees to £5.7bn takeover by US firm",
+    "posted_title": "إيزي جت توافق على بيعها لشركة أمريكية بصفقة 5.7 مليار جنيه إسترليني",
+    "region": "uk",
+    "seen_at": "2026-08-06T15:31:10.752145+00:00"
   }
 ]
