@@ -1,0 +1,65 @@
+{
+  "id": "905a8493898b",
+  "created_at": "2026-08-06T06:31:14.613758+00:00",
+  "status": "pending",
+  "review_issue": 83,
+  "from_radar": true,
+  "score": 17.47,
+  "bucket": "serious",
+  "velocity": 1.0,
+  "trend_score": 0.0,
+  "age_hours": 1.4,
+  "state_media": false,
+  "analysed_sources": [
+    "BBC World"
+  ],
+  "source": {
+    "title": "Nigerian security forces rescue more than 300 abductees",
+    "link": "https://www.bbc.co.uk/news/articles/cn4ndd8nr8lo?at_medium=RSS&at_campaign=rss",
+    "publisher": "BBC World",
+    "publishers": [
+      "BBC World",
+      "Premium Times"
+    ],
+    "region": "uk",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5011/live/58c21620-914d-11f1-b2ab-0dd01740f9f6.jpg",
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5011/live/58c21620-914d-11f1-b2ab-0dd01740f9f6.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/5011/live/58c21620-914d-11f1-b2ab-0dd01740f9f6.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5011/live/58c21620-914d-11f1-b2ab-0dd01740f9f6.jpg",
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/08/Screenshot-2026-08-06-054551.jpg?fit=1162%2C835&amp;ssl=1"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "why": "",
+    "meaning": "",
+    "dispute": "",
+    "urgent": true,
+    "category": "عالم",
+    "image_headline": "نيجيريا تحرر 308 مختطفين في أكبر عملية إنقاذ بيوم واحد",
+    "post_title": "نيجيريا تنفّذ أكبر عملية إنقاذ رهائن في يوم واحد وتحرر أكثر من 300 مختطف",
+    "post_body": "أعلنت الرئاسة النيجيرية تحرير 308 مواطنين كانوا مختطفين في هجمات منفصلة بولايتي النيجر وكوارا، في عملية وصفتها بأنها الأكبر من نوعها في يوم واحد. جرى الإنقاذ من حديقة كاينجي ليك الوطنية بولاية النيجر، بمشاركة الجيش والشرطة والاستخبارات ومركز مكافحة الإرهاب. من بين المحررين 163 شخصًا اختُطفوا في فبراير خلال هجوم على قرية ورو بولاية كوارا، سقط خلاله قتلى كثر، إضافة إلى 145 آخرين اختُطفوا في ولاية النيجر. يتلقى الضحايا الرعاية الطبية في موقع عسكري قبل لم شملهم بعائلاتهم، ولم يتضح بعد إن كان أي من المشتبه بهم قد اعتُقل خلال العملية.",
+    "hashtags": [
+      "نيجيريا",
+      "عملية_إنقاذ",
+      "اختطاف",
+      "بوكو_حرام"
+    ]
+  },
+  "caption": "نيجيريا تنفّذ أكبر عملية إنقاذ رهائن في يوم واحد وتحرر أكثر من 300 مختطف\n\nأعلنت الرئاسة النيجيرية تحرير 308 مواطنين كانوا مختطفين في هجمات منفصلة بولايتي النيجر وكوارا، في عملية وصفتها بأنها الأكبر من نوعها في يوم واحد. جرى الإنقاذ من حديقة كاينجي ليك الوطنية بولاية النيجر، بمشاركة الجيش والشرطة والاستخبارات ومركز مكافحة الإرهاب. من بين المحررين 163 شخصًا اختُطفوا في فبراير خلال هجوم على قرية ورو بولاية كوارا، سقط خلاله قتلى كثر، إضافة إلى 145 آخرين اختُطفوا في ولاية النيجر. يتلقى الضحايا الرعاية الطبية في موقع عسكري قبل لم شملهم بعائلاتهم، ولم يتضح بعد إن كان أي من المشتبه بهم قد اعتُقل خلال العملية.\n\nالمصدر: BBC World، Premium Times\n\n#نيجيريا #عملية_إنقاذ #اختطاف #بوكو_حرام",
+  "image": "drafts/2026-08-06/905a8493898b.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "نيجيريا تحرر 308 مختطفين في أكبر عملية إنقاذ بيوم واحد",
+    "category": "عالم",
+    "urgent": true,
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5011/live/58c21620-914d-11f1-b2ab-0dd01740f9f6.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/5011/live/58c21620-914d-11f1-b2ab-0dd01740f9f6.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5011/live/58c21620-914d-11f1-b2ab-0dd01740f9f6.jpg",
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/08/Screenshot-2026-08-06-054551.jpg?fit=1162%2C835&amp;ssl=1"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 17.5 دون عتبة النشر التلقائي"
+}
