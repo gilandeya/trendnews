@@ -1,7 +1,7 @@
 {
   "id": "905a8493898b",
   "created_at": "2026-08-06T06:31:14.613758+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 83,
   "from_radar": true,
   "score": 17.47,
@@ -61,5 +61,13 @@
       "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/08/Screenshot-2026-08-06-054551.jpg?fit=1162%2C835&amp;ssl=1"
     ]
   },
-  "auto_publish_decision": "المؤشر 17.5 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 17.5 دون عتبة النشر التلقائي",
+  "publish_at": "2026-08-06T06:33:57.621489+00:00",
+  "published_at": "2026-08-06T06:34:03.049270+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1327725899444431",
+    "photo_id": "1327725876111100",
+    "url": "https://www.facebook.com/631680090321390_1327725899444431",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
