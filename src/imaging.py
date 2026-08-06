@@ -345,6 +345,65 @@ def closeness(img: Image.Image, grid: int = 32) -> float:
     return max(0.0, min(1.0, 1.0 - density * 2.4))
 
 
+def palette(img: Image.Image, buckets: int = 4) -> list[float]:
+    """
+    توزيع ألوان الصورة كبصمة: نسبة البكسلات في كل خانة لونية.
+
+    صورتان لنفس المشهد من زاويتين تتشاركان لوحة الألوان (سماء الغروب،
+    زرقة البحر، أخضر الملعب) حتى لو اختلف ترتيب العناصر — وهو ما لا
+    تلتقطه بصمة الشكل وحدها.
+    """
+    small = img.convert("RGB").resize((48, 48), Image.LANCZOS)
+    px = small.load()
+    step = 256 // buckets
+    hist = [0] * (buckets ** 3)
+    for y in range(48):
+        for x in range(48):
+            r, g, b = px[x, y]
+            hist[(r // step) * buckets * buckets
+                 + (g // step) * buckets + (b // step)] += 1
+    total = 48 * 48
+    return [c / total for c in hist]
+
+
+def palette_distance(a: list[float], b: list[float]) -> float:
+    """0 = لوحتان متطابقتان، 1 = مختلفتان تمامًا."""
+    if not a or not b or len(a) != len(b):
+        return 1.0
+    return sum(abs(x - y) for x, y in zip(a, b)) / 2
+
+
+def quiet_side(img: Image.Image, radius: int, margin: int,
+               top: int) -> str:
+    """
+    أي جهة أهدأ لوضع الدائرة فوقها؟
+
+    الدائرة تحجب ما تحتها. وضعها فوق موضوع الخبر يفسد الصورة — كما حدث
+    حين غطّت اللاعب الذي يدور حوله الخبر. نقارن كثافة التفاصيل في
+    الزاويتين ونختار الأقل ازدحامًا.
+    """
+    side = radius * 2
+    box_h = min(side + margin, img.height)
+    left = img.crop((margin, top, min(margin + side, img.width), top + box_h))
+    right = img.crop((max(img.width - margin - side, 0), top,
+                      max(img.width - margin, 1), top + box_h))
+
+    def busy(region: Image.Image) -> float:
+        grey = region.convert("L").resize((20, 20), Image.LANCZOS)
+        px = grey.load()
+        edges = sum(1 for y in range(20) for x in range(19)
+                    if abs(px[x, y] - px[x + 1, y]) > 12)
+        edges += sum(1 for y in range(19) for x in range(20)
+                     if abs(px[x, y] - px[x, y + 1]) > 12)
+        return edges / 760
+
+    busy_left, busy_right = busy(left), busy(right)
+    chosen = "left" if busy_left <= busy_right else "right"
+    log.info("جهة الدائرة: %s (يسار %.2f · يمين %.2f)",
+             "اليسار" if chosen == "left" else "اليمين", busy_left, busy_right)
+    return chosen
+
+
 def circular_inset(canvas: Image.Image, photo: Image.Image,
                   center: tuple[int, int], radius: int,
                   ring: tuple[int, int, int], ring_width: int) -> None:
@@ -390,6 +449,7 @@ def build_post_image(
     out_path: Path,
     fallback_urls: list[str] | None = None,
     fallback_provider=None,
+    bucket: str = "",
 ) -> Path:
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
@@ -497,11 +557,18 @@ def build_post_image(
     canvas.paste(photo, (0, photo_top))
 
     # صورة ثانية في دائرة — تُستخدم حين يوفّر الخبر أكثر من صورة صالحة
-    if used_original and cfg.path("image.composite", True):
+    composite_ok = cfg.path("image.composite", True)
+    skip = cfg.path("image.composite_skip_buckets") or []
+    if composite_ok and bucket and bucket in skip:
+        composite_ok = False
+        log.info("القالب المركّب معطّل لتصنيف «%s»", bucket)
+
+    if used_original and composite_ok:
         # الناشر يوفّر غالبًا عدة قصّات من الصورة نفسها بأحجام مختلفة.
         # نقارن البصمة البصرية لا الرابط، وإلا ظهرت الصورة مكررة داخل
         # الدائرة وخارجها.
         main_hash = visual_hash(source)
+        main_palette = palette(source)
         min_diff = float(cfg.path("image.inset_min_difference", 0.28))
         second = None
         for url in ordered[1:6]:
@@ -513,6 +580,14 @@ def build_post_image(
             diff = visual_distance(main_hash, visual_hash(found))
             if diff < min_diff:
                 log.info("تجاهل صورة مكررة بصريًا (فارق %.2f): %s", diff, url[:70])
+                continue
+
+            # نفس الموضوع من زاوية أخرى: الشكل يختلف لكن لوحة الألوان
+            # تبقى واحدة. عرض الاثنتين يبدو تكرارًا لا إثراءً.
+            pal_diff = palette_distance(main_palette, palette(found))
+            if pal_diff < float(cfg.path("image.inset_min_palette", 0.30)):
+                log.info("تجاهل صورة لنفس المشهد (ألوان %.2f): %s",
+                         pal_diff, url[:70])
                 continue
             second = found
             log.info("صورة ثانية مختلفة (فارق %.2f)", diff)
@@ -554,9 +629,13 @@ def build_post_image(
         if second is not None:
             radius = int(W * float(cfg.path("image.inset_ratio", 0.20)))
             margin_in = int(W * 0.05)
+            side = (quiet_side(photo, radius, margin_in, margin_in)
+                    if cfg.path("image.inset_smart_side", True) else "left")
+            cx = (margin_in + radius if side == "left"
+                  else W - margin_in - radius)
             circular_inset(
                 canvas, second,
-                center=(margin_in + radius, photo_top + margin_in + radius),
+                center=(cx, photo_top + margin_in + radius),
                 radius=radius, ring=(255, 255, 255), ring_width=max(4, W // 180),
             )
             draw = ImageDraw.Draw(canvas)
