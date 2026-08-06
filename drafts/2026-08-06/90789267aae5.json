@@ -1,0 +1,63 @@
+{
+  "id": "90789267aae5",
+  "created_at": "2026-08-06T07:31:18.389920+00:00",
+  "status": "pending",
+  "review_issue": 85,
+  "from_radar": true,
+  "score": 17.5,
+  "bucket": "serious",
+  "velocity": 1.0,
+  "trend_score": 0.0,
+  "age_hours": 1.3,
+  "state_media": false,
+  "analysed_sources": [
+    "BBC World"
+  ],
+  "source": {
+    "title": "Outrage as Ugandan football captain murdered in street gang attack",
+    "link": "https://www.bbc.co.uk/news/articles/cm2g0038yr8o?at_medium=RSS&at_campaign=rss",
+    "publisher": "BBC World",
+    "publishers": [
+      "BBC Sport",
+      "BBC World"
+    ],
+    "region": "uk",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bbf5/live/ace34820-9155-11f1-a649-9747aa0331f7.jpg",
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bbf5/live/ace34820-9155-11f1-a649-9747aa0331f7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/bbf5/live/ace34820-9155-11f1-a649-9747aa0331f7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bbf5/live/ace34820-9155-11f1-a649-9747aa0331f7.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "why": "",
+    "meaning": "",
+    "dispute": "",
+    "urgent": true,
+    "category": "رياضة",
+    "image_headline": "مقتل قائد نادي أوغندي في هجوم عصابة بكمبالا",
+    "post_title": "مقتل قائد نادي SC Villa الأوغندي ديفيد أووري ضربًا على يد عصابة في كمبالا",
+    "post_body": "توفي قائد نادي SC Villa الأوغندي ديفيد أووري، 27 عامًا، بعدما اعتدت عليه مجموعة من اللصوص بالحجارة قرب منزله في ضاحية ماكينديي بالعاصمة كمبالا مساء الثلاثاء. وبحسب الشرطة، حاول أووري مقاومة محاولة سرقة هاتفه ومتعلقاته، فتعرض لضرب مبرح تركه فاقد الوعي قبل أن ينقل إلى عيادة قريبة ثم إلى مستشفى خاص، حيث فارق الحياة الأربعاء متأثرًا بجراحه. أعلنت الشرطة أن محققين يتابعون خيوطًا للوصول إلى الجناة، فيما التزم برلمان أوغندا دقيقة صمت حدادًا عليه.",
+    "hashtags": [
+      "أوغندا",
+      "كرة_القدم",
+      "كمبالا",
+      "جريمة"
+    ]
+  },
+  "caption": "مقتل قائد نادي SC Villa الأوغندي ديفيد أووري ضربًا على يد عصابة في كمبالا\n\nتوفي قائد نادي SC Villa الأوغندي ديفيد أووري، 27 عامًا، بعدما اعتدت عليه مجموعة من اللصوص بالحجارة قرب منزله في ضاحية ماكينديي بالعاصمة كمبالا مساء الثلاثاء. وبحسب الشرطة، حاول أووري مقاومة محاولة سرقة هاتفه ومتعلقاته، فتعرض لضرب مبرح تركه فاقد الوعي قبل أن ينقل إلى عيادة قريبة ثم إلى مستشفى خاص، حيث فارق الحياة الأربعاء متأثرًا بجراحه. أعلنت الشرطة أن محققين يتابعون خيوطًا للوصول إلى الجناة، فيما التزم برلمان أوغندا دقيقة صمت حدادًا عليه.\n\nالمصدر: BBC Sport، BBC World\n\n#أوغندا #كرة_القدم #كمبالا #جريمة",
+  "image": "drafts/2026-08-06/90789267aae5.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "مقتل قائد نادي أوغندي في هجوم عصابة بكمبالا",
+    "category": "رياضة",
+    "urgent": true,
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bbf5/live/ace34820-9155-11f1-a649-9747aa0331f7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/bbf5/live/ace34820-9155-11f1-a649-9747aa0331f7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bbf5/live/ace34820-9155-11f1-a649-9747aa0331f7.jpg"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 17.5 دون عتبة النشر التلقائي"
+}
