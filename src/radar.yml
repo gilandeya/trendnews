@@ -1,0 +1,77 @@
+name: 🚨 رادار العاجل
+
+on:
+  # ⏰ الجدولة الداخلية معطّلة — جدولة GitHub المجانية بلا ضمان،
+  #    وكانت تُسقط المواعيد. البديل: استدعاء workflow_dispatch
+  #    من cron-job.org، وهو يُنفَّذ فورًا دائمًا.
+  #    كل ربع ساعة — يديرها cron-job.org
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "فحص فقط بلا صياغة (مجاني تمامًا)"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: trendnews-radar
+  cancel-in-progress: false
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: التأكد من الخطوط العربية
+        run: bash scripts/fetch_fonts.sh
+
+      - name: الفحص
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            python -m src.radar --dry-run
+          else
+            python -m src.radar
+          fi
+
+      - name: حفظ الحالة
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p drafts state
+          git add -A drafts state
+          if git diff --quiet --cached; then
+            echo "لا تغييرات"
+            exit 0
+          fi
+          git commit -m "chore(radar): التقاط عاجل $(date -u '+%H:%M') UTC"
+          # إعادة المحاولة: سيّرا الجمع والرادار قد يدفعان في اللحظة نفسها،
+          # فيرفض GitHub أحدهما بخطأ Internal Server Error. الالتزام محفوظ
+          # محليًا، فيكفي إعادة السحب والدفع.
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              echo "✅ رُفع في المحاولة $attempt"
+              exit 0
+            fi
+            echo "⚠️ فشل الدفع (محاولة $attempt) — إعادة بعد $((attempt * 7))ث"
+            sleep $((attempt * 7))
+          done
+          echo "❌ تعذّر الدفع بعد 5 محاولات"
+          exit 1

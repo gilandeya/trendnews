@@ -1,0 +1,117 @@
+name: 2️⃣ نشر المعتمد على فيسبوك
+
+on:
+  # يعمل تلقائيًا عند إضافة الوسم approved إلى Issue المراجعة
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: "رقم Issue المراجعة (اتركه فارغًا مع ids)"
+        required: false
+      ids:
+        description: "معرفات مسودات مفصولة بفواصل (نشر فوري)"
+        required: false
+      publish_now:
+        description: "نشر فوري بلا جدولة"
+        type: boolean
+        required: false
+        default: false
+      verify_only:
+        description: "فحص توكن فيسبوك فقط بلا نشر"
+        type: boolean
+        required: false
+        default: false
+      diagnose:
+        description: "فحص شامل لأسباب ضعف الوصول"
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: trendnews-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    # تجاهُل أي وسم آخر غير approved
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.label.name == 'approved'
+    runs-on: ubuntu-latest
+    timeout-minutes: 150  # يتسع لنافذة النشر المباشر (120د) وهامش
+
+    steps:
+      - name: سحب المستودع (آخر حالة للمسودات)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: تهيئة بايثون
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: فحص شامل للوصول
+        if: inputs.diagnose == true
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+        run: python -m src.publish --diagnose
+
+      - name: فحص توكن فيسبوك
+        if: inputs.verify_only == true
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+        run: python -m src.publish --verify
+
+      - name: الجدولة أو النشر
+        if: inputs.verify_only != true && inputs.diagnose != true
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "${{ inputs.ids }}" ]; then
+            python -m src.publish --ids "${{ inputs.ids }}"
+          else
+            ISSUE="${{ inputs.issue || github.event.issue.number }}"
+            if [ "${{ inputs.publish_now }}" = "true" ]; then
+              python -m src.publish --issue "$ISSUE" --now
+            else
+              python -m src.publish --issue "$ISSUE"
+            fi
+          fi
+
+      - name: تسجيل الحالة في المستودع
+        if: inputs.verify_only != true && inputs.diagnose != true
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p drafts state
+          git add -A drafts state
+          if git diff --quiet --cached; then
+            echo "لا تغييرات"
+            exit 0
+          fi
+          git commit -m "chore(drafts): تحديث حالة النشر"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${{ github.event.repository.default_branch }}" || true
+            if git push origin "HEAD:${{ github.event.repository.default_branch }}"; then
+              echo "✅ رُفع في المحاولة $attempt"
+              exit 0
+            fi
+            echo "⚠️ فشل الدفع (محاولة $attempt)"
+            sleep $((attempt * 7))
+          done
+          echo "❌ تعذّر الدفع — المنشورات نُشرت لكن حالتها لم تُسجَّل"
+          exit 1
