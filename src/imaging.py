@@ -565,58 +565,35 @@ def build_post_image(
 
     if used_original and composite_ok:
         # الناشر يوفّر غالبًا عدة قصّات من الصورة نفسها بأحجام مختلفة.
-        # نقارن البصمة البصرية لا الرابط، وإلا ظهرت الصورة مكررة داخل
-        # الدائرة وخارجها.
+        # نقارن البصمة البصرية لا الرابط، وإلا ظهرت الصورة مكررة.
         main_hash = visual_hash(source)
-        main_palette = palette(source)
         min_diff = float(cfg.path("image.inset_min_difference", 0.28))
         second = None
-        for url in ordered[1:6]:
+        for url in candidates[1:6]:
             if url == chosen_url:
                 continue
-            found = _preloaded.get(url) or download_image(url)
+            found = download_image(url)
             if found is None:
                 continue
             diff = visual_distance(main_hash, visual_hash(found))
             if diff < min_diff:
                 log.info("تجاهل صورة مكررة بصريًا (فارق %.2f): %s", diff, url[:70])
                 continue
-
-            # نفس الموضوع من زاوية أخرى: الشكل يختلف لكن لوحة الألوان
-            # تبقى واحدة. عرض الاثنتين يبدو تكرارًا لا إثراءً.
-            pal_diff = palette_distance(main_palette, palette(found))
-            if pal_diff < float(cfg.path("image.inset_min_palette", 0.30)):
-                log.info("تجاهل صورة لنفس المشهد (ألوان %.2f): %s",
-                         pal_diff, url[:70])
-                continue
             second = found
-            log.info("صورة ثانية مختلفة (فارق %.2f)", diff)
             break
 
-        # ترتيب المشهدين: الواسع خلفية والقريب في الدائرة.
-        # الوجه في دائرة صغيرة يُقرأ فورًا، أما المبنى فيها فيصبح بقعة
-        # بلا معنى — والعكس يهدر مساحة الخلفية على لقطة مقرّبة.
-        if second is not None and cfg.path("image.auto_orient", True):
-            # الوجه أوثق إشارة على اللقطة القريبة. كثافة الحواف تخدع:
-            # صورة شخص أمام علم مخطط تبدو "مزدحمة"، وغروب بحر ناعم يبدو
-            # "قريبًا" — وهذا عكس الحقيقة تمامًا.
-            face_main, face_inset = face_score(source), face_score(second)
-            face_gap = float(cfg.path("image.face_orient_gap", 0.01))
-
-            # لا تبديل إلا بدليل: كشف وجه في إحداهما دون الأخرى.
-            # جرّبنا كثافة الحواف بديلًا فانقلبت النتيجة — صورة شخص أمام
-            # علم مخطط سجّلت 0.00 وغروب بحر ناعم سجّل 0.87. فالحواف تقيس
-            # ازدحام الصورة لا قربها، والحكم بها أسوأ من عدم الحكم.
-            swap = (max(face_main, face_inset) >= face_gap
-                    and face_main > face_inset)
-            reason = f"وجه {face_main:.3f} مقابل {face_inset:.3f}"
-
-            if not swap and max(face_main, face_inset) < face_gap:
-                log.info("لا وجه واضح في أيٍّ منهما — تُرك الترتيب كما هو")
-
-            if swap:
+        # قرار التخطيط: هل نستخدم صورتين؟ وأيّهما في الدائرة؟
+        # الموضوع (إنسان ← حيوان ← جسم) للدائرة، والمشهد للخلفية.
+        if second is not None:
+            from .vision import choose_layout
+            layout = choose_layout(source, second, cfg)
+            log.info("تخطيط الصور: %s — %s",
+                     "صورتان" if layout["composite"] else "صورة واحدة",
+                     layout["reason"])
+            if not layout["composite"]:
+                second = None
+            elif layout["swap"]:
                 source, second = second, source
-                log.info("بُدّلت الصورتان: الأوسع للخلفية (%s)", reason)
                 photo = cover(source, W, photo_h)
                 if cfg.path("image.sharpen", True):
                     photo = photo.filter(
