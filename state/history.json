@@ -1,38 +1,6 @@
 [
   {
     "tokens": [
-      "'selfish'",
-      "attacks",
-      "ceuta",
-      "countries",
-      "crossings",
-      "migrant",
-      "response",
-      "some",
-      "spain"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cx2v91xn1z9o?at_medium=RSS&at_campaign=rss",
-    "title": "Spain attacks 'selfish' response of some EU countries to Ceuta migrant crossings",
-    "seen_at": "2026-08-01T14:30:27.045241+00:00"
-  },
-  {
-    "tokens": [
-      "confidence",
-      "crisis",
-      "cup",
-      "fifa",
-      "infantino",
-      "leadership",
-      "lost",
-      "uefa",
-      "world"
-    ],
-    "link": "https://www.aljazeera.com/sports/2026/8/1/uefa-welcomes-fifa-world-cup-standdown-after-voting-to-boycott?traffic_source=rss",
-    "title": "Infantino’s World Cup crisis: UEFA has ‘lost confidence’ in FIFA leadership",
-    "seen_at": "2026-08-01T14:30:46.508684+00:00"
-  },
-  {
-    "tokens": [
       "admits",
       "against",
       "caused",
@@ -3431,5 +3399,24 @@
     "posted_title": "إنجلترا تستدعي بوب ولورنس لأول مباراتين أمام باكستان بعد رحيل ستوكس",
     "region": "sport",
     "seen_at": "2026-08-06T13:46:05.170205+00:00"
+  },
+  {
+    "score": 17.45,
+    "bucket": "serious",
+    "tokens": [
+      "deep",
+      "hits",
+      "oil",
+      "refineries",
+      "russian",
+      "territory",
+      "two",
+      "ukraine"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cwymv212xrxo?at_medium=RSS&at_campaign=rss",
+    "title": "Ukraine hits two oil refineries deep in Russian territory",
+    "posted_title": "أوكرانيا تستهدف مصفاتي نفط داخل الأراضي الروسية وموسكو ترد بضربات على كييف",
+    "region": "uk",
+    "seen_at": "2026-08-06T14:31:25.134438+00:00"
   }
 ]
