@@ -45,13 +45,38 @@ def main() -> int:
                         format="%(asctime)s │ %(levelname)-7s │ %(message)s",
                         datefmt="%H:%M:%S")
 
+    bodies = fetch_comments(args.issue)
+
+    # ① مربعات الرفض في نص الـ Issue — الطريقة الأساسية
+    boxed = review.parse_rejects(bodies[0] if bodies else "")
+
+    # ② الأوامر النصية — للسبب الحر أو لمن يفضّلها
+    typed = []
+    for body in bodies:
+        typed += feedback.parse_rejections(body)
+
+    # ③ التعليقات الحرة تُربط بمن اختار «آخر»
+    free_notes = [b.strip() for b in bodies[1:]
+                  if b.strip() and "/reject" not in b
+                  and not b.strip().startswith("###")]
+    pending_other = [did for did, tag in boxed if tag == "آخر"]
+    note_for_other = free_notes[-1][:200] if free_notes else ""
+
     commands: list[tuple[str, str, str]] = []
-    for body in fetch_comments(args.issue):
-        commands += feedback.parse_rejections(body)
+    seen_ids: set[str] = set()
+    for did, tag in boxed:
+        note = note_for_other if (tag == "آخر" and did in pending_other) else ""
+        commands.append((did, tag, note))
+        seen_ids.add(did)
+    for did, tag, note in typed:
+        if did not in seen_ids:
+            commands.append((did, tag, note))
+            seen_ids.add(did)
 
     if not commands:
-        log.info("لا أوامر رفض في هذا الـ Issue")
+        log.info("لا رفض مسجّل في هذا الـ Issue")
         return 0
+    log.info("مربعات: %d · أوامر نصية: %d", len(boxed), len(typed))
 
     entries = feedback.load()
     known = {e["id"] for e in entries}
@@ -81,7 +106,10 @@ def main() -> int:
     if not saved:
         return 0
 
+    missing_note = [c for c in commands if c[1] == "آخر" and not c[2]]
     text = (f"### 🚫 سُجّل {saved} رفض\n" + "\n".join(lines)
+            + ("\n\n⚠️ اخترتَ «غير ذلك» بلا سبب مكتوب. اكتب السبب في تعليق "
+               "ثم أعد وسم `rejected` ليُسجَّل." if missing_note else "")
             + "\n\n<sub>ستُمرَّر هذه الأسباب إلى الفرز الأولي في الدفعات "
               "القادمة لاستبعاد ما يشبهها — بلا تعميم على مصدر أو بلد.</sub>")
     review.comment(args.issue, text)

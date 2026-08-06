@@ -14,6 +14,8 @@ log = logging.getLogger(__name__)
 API = "https://api.github.com"
 ID_MARKER = re.compile(r"<!--\s*draft:([0-9a-f]+)\s*-->")
 REEL_MARKER = re.compile(r"<!--\s*reel:([0-9a-f]+)\s*-->")
+# مربعات الرفض: <!-- rj:المعرّف:الوسم -->
+REJECT_MARKER = re.compile(r"<!--\s*rj:([0-9a-f]+):([^\s>]+)\s*-->")
 CHECKED_LINE = re.compile(r"^\s*[-*]\s*\[([ xX])\]", re.MULTILINE)
 
 
@@ -52,13 +54,8 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         "🎬 لكل خبر مربع ثانٍ: علّم عليه لينشر البوت **ريلًا** بدل الصورة. "
         "الريل يُبنى لحظة النشر (يضيف ~30 ثانية) ولا يُبنى لما لا تختاره.",
         "",
-        "🚫 **رفضتَ خبرًا؟** اكتب السبب في تعليق ليتعلّم منه الفرز ولا يعيد "
-        "مثله (فتوفّر التكلفة). الصيغة: `/reject المعرّف السبب`",
-        "",
-        "<sub>الأسباب الجاهزة: محلي · قديم · ضعيف · مكرر · ركيك · صورة · "
-        "تافه · حساس · منحاز — وما عداها اكتبه بحرية.<br>"
-        "مثال: <code>/reject a1b2c3 محلي</code> أو "
-        "<code>/reject a1b2c3 الصورة لا تمثّل الخبر</code></sub>",
+        "🚫 **رفضتَ خبرًا؟** افتح «رفض هذا الخبر» تحته، علّم على السبب، "
+        "ثم أضف الوسم `rejected`. يتعلّم الفرز منه فلا يعيد مثله.",
         "",
         "لتعديل نص أي منشور: افتح ملف `.json` الخاص به وعدّل حقل `caption` ثم احفظ.",
         "",
@@ -102,6 +99,16 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             "",
             *([f"  - [ ] 🎬 انشره كريل بدل الصورة  <!-- reel:{d['id']} -->",
                ""] if d.get("reel_spec") or d.get("reel") else []),
+            "  <details><summary>🚫 رفض هذا الخبر</summary>",
+            "",
+            *[f"  - [ ] {label}  <!-- rj:{d['id']}:{tag} -->"
+              for tag, label in REJECT_CHOICES],
+            "",
+            "  <sub>«غير ذلك» يجعل البوت ينتظر تعليقك الحر في هذا الـ Issue "
+            "ويربطه بهذا الخبر.</sub>",
+            "",
+            "  </details>",
+            "",
             "  <details><summary>📝 نص المنشور الكامل</summary>",
             "",
             "  ```",
@@ -124,6 +131,38 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
     return "\n".join(parts)
 
 
+# أسباب الرفض المعروضة كمربعات — الترتيب هو ترتيب الظهور
+REJECT_CHOICES: list[tuple[str, str]] = [
+    ("مكرر", "مكرر — نشرنا الحدث نفسه"),
+    ("محلي", "محلي — لا يعني القارئ العربي"),
+    ("قديم", "قديم أو معاد تدويره"),
+    ("ضعيف", "مصدر ضعيف أو غير موثوق"),
+    ("ركيك", "صياغة ركيكة أو غامضة"),
+    ("صورة", "الصورة لا تمثّل الخبر"),
+    ("تافه", "لا يستحق النشر"),
+    ("حساس", "موضوع حساس لا يناسب الصفحة"),
+    ("منحاز", "انحياز واضح في الرواية"),
+    ("آخر", "غير ذلك — سأكتب السبب في تعليق"),
+]
+
+
+def parse_rejects(body: str) -> list[tuple[str, str]]:
+    """
+    يقرأ مربعات الرفض المعلَّمة.
+
+    يعيد [(معرّف المسودة، الوسم)] — بلا حاجة لكتابة معرّفات يدويًا.
+    """
+    chosen: list[tuple[str, str]] = []
+    for line in body.splitlines():
+        marker = REJECT_MARKER.search(line)
+        if not marker:
+            continue
+        box = re.search(r"\[([ xX])\]", line)
+        if box and box.group(1).lower() == "x":
+            chosen.append((marker.group(1), marker.group(2)))
+    return chosen
+
+
 def parse_reels(body: str) -> set[str]:
     """معرفات المسودات التي اختار المراجع نشرها كريل."""
     chosen: set[str] = set()
@@ -141,8 +180,8 @@ def parse_approved(body: str) -> list[str]:
     """يستخرج معرفات المسودات التي عُلّم عليها ✔️."""
     approved: list[str] = []
     for line in body.splitlines():
-        if REEL_MARKER.search(line):
-            continue                      # سطر اختيار الريل لا الاعتماد
+        if REEL_MARKER.search(line) or REJECT_MARKER.search(line):
+            continue                      # اختيار الريل أو الرفض لا الاعتماد
         marker = ID_MARKER.search(line)
         if not marker:
             continue
@@ -208,6 +247,7 @@ def ensure_labels() -> None:
     wanted = [
         ("pending-review", "fbca04", "مسودات بانتظار المراجعة"),
         ("approved", "0e8a16", "معتمد للنشر"),
+        ("rejected", "d73a4a", "مرفوض — سجّل الأسباب"),
         ("published", "5319e7", "تم النشر على فيسبوك"),
     ]
     for name, color, desc in wanted:
