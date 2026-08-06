@@ -1,7 +1,7 @@
 {
   "id": "d6affdd85cd6",
   "created_at": "2026-08-06T11:45:57.376880+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 90,
   "from_radar": true,
   "score": 17.45,
@@ -58,5 +58,13 @@
       "https://i.dawn.com/thumbnail/2026/08/061623052ae3c99.webp"
     ]
   },
-  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي",
+  "publish_at": "2026-08-06T12:12:55.324838+00:00",
+  "published_at": "2026-08-06T12:13:02.295368+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1327923559424665",
+    "photo_id": "1327923526091335",
+    "url": "https://www.facebook.com/631680090321390_1327923559424665",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
