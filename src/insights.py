@@ -243,6 +243,11 @@ def build_report(a: dict, recs: list[str], days: int) -> str:
         "", "#### 💡 توصيات", "",
     ]
     lines += [f"- {r}" for r in recs]
+
+    from .feedback import load as load_rejections, summarise
+    patterns = summarise(load_rejections(), days=min(days, 14))
+    if patterns:
+        lines += ["", "#### 🚫 أنماط الرفض", ""] + patterns
     return "\n".join(lines)
 
 

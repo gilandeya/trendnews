@@ -26,10 +26,15 @@ log = logging.getLogger(__name__)
 SYSTEM = """أنت محرر فرز في غرفة أخبار عربية شعبية. مهمتك سريعة: تحديد أي
 العناوين تستحق أن يقرأها محرر بالتفصيل، وأيها يُستبعد فورًا.
 
-اقبل: أخبار المشاهير والغرائب والرياضة والصحة والتقنية والأحداث الكبرى،
-وكل ما يثير فضول قارئ عربي عام أو يدفعه للمشاركة.
+اقبل: الغرائب والاكتشافات المدهشة والرياضة والصحة والتقنية والأحداث
+الكبرى، وكل ما يثير فضول قارئ عربي عام أو يدفعه للمشاركة.
 
 استبعد فورًا:
+• 🚫 أخبار المشاهير: كل خبر محوره فنان أو مغنٍّ أو ممثل أو مؤثر أو
+  عارض بوصفه مشهورًا — زواج، طلاق، حمل، أعياد ميلاد، إطلالات، تصريحات
+  عن النفس، حفلات وألبومات وأفلام. استبعدها كلها بلا استثناء.
+  (يُقبل فقط إن كان الشخص طرفًا في حدث عام: قضية قانونية ذات أثر،
+   قرار حكومي، كارثة — أي أن الخبر عن الحدث لا عن الشخص.)
 • محلي صرف لا يعني أحدًا خارج بلده (حوادث فردية، بلديات، محاكم محلية،
   تعيينات إدارية، أخبار مدارس وطرق وأسواق محلية)
 • إعلانات وترويج مُقنّع ومراجعات منتجات
@@ -72,6 +77,16 @@ def screen(articles: list[Article], cfg, batch_size: int = 30) -> list[Article]:
         return articles
 
     model = scfg.get("model", "claude-haiku-4-5-20251001")
+
+    # إرشاد من أسباب رفضك السابقة — يستبعد ما يشبهها قبل الصياغة المكلفة
+    guidance = ""
+    if scfg.get("use_feedback", True):
+        from .feedback import load as load_rejections, screening_guidance
+        guidance = screening_guidance(
+            load_rejections(), int(scfg.get("feedback_examples", 12)))
+        if guidance:
+            log.info("الفرز يسترشد بأسباب رفض سابقة")
+
     client = _client()
     kept: list[Article] = []
 
@@ -85,7 +100,7 @@ def screen(articles: list[Article], cfg, batch_size: int = 30) -> list[Article]:
             resp = client.messages.create(
                 model=model,
                 max_tokens=500,
-                system=SYSTEM,
+                system=SYSTEM + guidance,
                 messages=[{"role": "user", "content":
                            f"افحص هذه العناوين:\n\n{listing}"}],
             )
