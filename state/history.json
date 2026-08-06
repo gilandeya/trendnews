@@ -1,35 +1,6 @@
 [
   {
     "tokens": [
-      "kill",
-      "kyiv",
-      "least",
-      "nine",
-      "officials",
-      "russian",
-      "say",
-      "strikes",
-      "ukraine"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/ce973yvk7pko?at_medium=RSS&at_campaign=rss",
-    "title": "Russian strikes on Kyiv kill at least nine, Ukraine officials say",
-    "seen_at": "2026-08-01T11:30:31.128127+00:00"
-  },
-  {
-    "tokens": [
-      "ceuta",
-      "crossings",
-      "mass",
-      "migrant",
-      "triggered",
-      "what"
-    ],
-    "link": "https://www.bbc.co.uk/news/videos/c171nnql1j4o?at_medium=RSS&at_campaign=rss",
-    "title": "What triggered the mass migrant crossings into Ceuta?",
-    "seen_at": "2026-08-01T11:30:57.214888+00:00"
-  },
-  {
-    "tokens": [
       "avalanche",
       "company",
       "killed",
@@ -3429,5 +3400,23 @@
     "posted_title": "محكمة هندية تقضي بسجن الصحفي تارون تيجبال 10 سنوات بعد إلغاء براءته",
     "region": "uk",
     "seen_at": "2026-08-06T11:16:00.733675+00:00"
+  },
+  {
+    "score": 17.45,
+    "bucket": "serious",
+    "tokens": [
+      "ballistic",
+      "fires",
+      "korea",
+      "military",
+      "missile",
+      "north",
+      "south"
+    ],
+    "link": "https://www.dawn.com/news/2021016/north-korea-fires-ballistic-missile-south-korea-military-says",
+    "title": "North Korea fires ballistic missile, South Korea military says",
+    "posted_title": "كوريا الشمالية تطلق صاروخًا باليستيًا فوق بحر اليابان بعد تهديدات لطوكيو",
+    "region": "pk",
+    "seen_at": "2026-08-06T11:45:57.377233+00:00"
   }
 ]
