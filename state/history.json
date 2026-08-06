@@ -1,37 +1,6 @@
 [
   {
     "tokens": [
-      "avalanche",
-      "company",
-      "killed",
-      "mountaineer",
-      "nirmal",
-      "pakistan",
-      "purja"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/clyljq79kdko?at_medium=RSS&at_campaign=rss",
-    "title": "Mountaineer Nirmal Purja killed in Pakistan avalanche, his company says",
-    "seen_at": "2026-08-01T13:08:01.824629+00:00"
-  },
-  {
-    "tokens": [
-      "controversial",
-      "cup",
-      "fifa",
-      "gianni",
-      "infantino",
-      "investment",
-      "plan",
-      "president",
-      "scraps",
-      "world"
-    ],
-    "link": "https://www.france24.com/en/tv-shows/sports/20260801-fifa-president-gianni-infantino-scraps-controversial-world-cup-investment-plan",
-    "title": "FIFA President Gianni Infantino scraps controversial World Cup investment plan",
-    "seen_at": "2026-08-01T13:08:11.270125+00:00"
-  },
-  {
-    "tokens": [
       "border",
       "ceuta",
       "crossing",
@@ -3437,5 +3406,27 @@
     "posted_title": "محكمة هندية تقضي بسجن مؤسس مجلة تيهلكا 10 سنوات بعد إلغاء تبرئته من تهمة اغتصاب",
     "region": "uk",
     "seen_at": "2026-08-06T12:01:23.657491+00:00"
+  },
+  {
+    "score": 21.25,
+    "bucket": "serious",
+    "tokens": [
+      "50m",
+      "acute",
+      "before",
+      "could",
+      "end",
+      "hunger",
+      "next",
+      "niño",
+      "people",
+      "push",
+      "year"
+    ],
+    "link": "https://www.theguardian.com/environment/2026/aug/05/el-nino-could-push-50m-people-acute-hunger-next-year",
+    "title": "El Niño could push 50m people into acute hunger before end of next year",
+    "posted_title": "لماذا يحذر برنامج الغذاء العالمي من موجة جوع جديدة بسبب النينيو",
+    "region": "uk",
+    "seen_at": "2026-08-06T13:08:11.330107+00:00"
   }
 ]
