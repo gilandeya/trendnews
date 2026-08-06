@@ -196,7 +196,8 @@ def collect_pending(ids: list[str], lines: list[str]) -> list[tuple]:
     return pending
 
 
-def cmd_burst(ids: list[str], cfg, issue_number: int | None) -> int:
+def cmd_burst(ids: list[str], cfg, issue_number: int | None,
+              only_urgent: bool = False, skip_urgent: bool = False) -> int:
     """
     ينشر المعتمَد وفق أربع قواعد:
 
@@ -223,6 +224,20 @@ def cmd_burst(ids: list[str], cfg, issue_number: int | None) -> int:
 
     urgent = [t for t in pending if t[1]["arabic"].get("urgent")]
     normal = [t for t in pending if not t[1]["arabic"].get("urgent")]
+
+    # مساران مستقلان: العاجل لا يقف خلف طابور العادي.
+    # القاعدة كانت تعمل داخل التشغيل الواحد، لكن قفل التزامن كان يوقف
+    # تشغيل العاجل خلف تشغيل عادي قد ينتظر ساعتين قبل منشوره التالي.
+    if only_urgent:
+        normal = []
+        if not urgent:
+            log.info("لا عاجل في هذه الدفعة — المسار السريع ينتهي")
+            return 0
+    elif skip_urgent:
+        urgent = []
+        if not normal:
+            log.info("لا عادي في هذه الدفعة")
+            return 0
 
     now = datetime.now(timezone.utc)
     plan: list[tuple] = [(item, now) for item in urgent]   # كل عاجل فورًا
@@ -265,7 +280,8 @@ def cmd_burst(ids: list[str], cfg, issue_number: int | None) -> int:
         lines.append(mark + line.lstrip("- "))
         log.info("(%d/%d) %s", len(lines), len(plan), line[:70])
 
-    header = (f"### 🚀 نُشر {published} من {len(plan)}\n"
+    header = (f"### {'🔴 عاجل' if only_urgent else '🚀'} نُشر {published} "
+              f"من {len(plan)}\n"
               f"<sub>العاجل والأعلى مؤشرًا فورًا، والبقية بفاصل "
               f"{gap_min:g}-{gap_max:g} دقيقة"
               + (f" · {deferred_count} في الطابور" if deferred_count else "")
@@ -278,7 +294,8 @@ def cmd_burst(ids: list[str], cfg, issue_number: int | None) -> int:
             fh.write(text + "\n")
     if issue_number:
         review.comment(issue_number, text)
-        if published:
+        # المسار السريع لا يغلق الـ Issue: العادي ما زال ينتظر نشره
+        if published and not only_urgent:
             review.close_issue(issue_number)
     return 0
 
@@ -392,6 +409,10 @@ def main() -> int:
     parser.add_argument("--due", action="store_true", help="نشر ما حان وقته")
     parser.add_argument("--now", action="store_true", help="نشر فوري بلا جدولة")
     parser.add_argument("--queue", action="store_true", help="عرض الطابور")
+    parser.add_argument("--urgent-only", action="store_true",
+                        help="نشر العاجل فقط — للمسار السريع")
+    parser.add_argument("--skip-urgent", action="store_true",
+                        help="تخطّي العاجل — للمسار العادي")
     parser.add_argument("--verify", action="store_true", help="فحص التوكن")
     parser.add_argument("--diagnose", action="store_true",
                         help="فحص شامل لأسباب ضعف الوصول")
@@ -447,7 +468,9 @@ def main() -> int:
     if args.now or not cfg.path("facebook.schedule_enabled", True):
         return cmd_now(ids, cfg, args.issue)
     if cfg.path("facebook.schedule_mode", "burst") == "burst":
-        return cmd_burst(ids, cfg, args.issue)
+        return cmd_burst(ids, cfg, args.issue,
+                         only_urgent=args.urgent_only,
+                         skip_urgent=args.skip_urgent)
     return cmd_schedule(ids, cfg, args.issue)
 
 
