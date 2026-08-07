@@ -125,8 +125,13 @@ def scan(cfg) -> list:
 # ──────────────────────────── المعالجة ────────────────────────────
 
 
-def build_draft(art, cfg) -> dict | None:
-    """يصوغ الخبر ويبني صورته — نفس مسار الدورة العادية."""
+def build_draft(art, cfg, urgent: bool = True,
+                extra: dict | None = None) -> dict | None:
+    """يصوغ الخبر ويبني صورته — نفس مسار الدورة العادية.
+
+    `urgent` معامل لا ثابت: الرادار لا يلتقط إلا العاجل، لكن الطلبات
+    اليدوية قد تكون عن حدث هادئ فلا يصح وسمه بـ«عاجل».
+    """
     art = enrich_image(art)
     acfg = cfg.get("analysis", {}) or {}
     docs = gather_texts(art.cluster_members,
@@ -142,7 +147,7 @@ def build_draft(art, cfg) -> dict | None:
     try:
         build_post_image(
             headline=headline, category=written["category"],
-            urgent=True,                     # الرادار لا يلتقط إلا العاجل
+            urgent=urgent,
             image_urls=art.image_candidates,
             publisher=art.cluster_sources or [art.publisher],
             bucket=art.bucket,
@@ -153,13 +158,13 @@ def build_draft(art, cfg) -> dict | None:
         log.error("فشل توليد الصورة: %s", exc)
         return None
 
-    written["urgent"] = True
+    written["urgent"] = urgent
     draft = {
         "id": art.uid,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "status": "pending",
         "review_issue": None,
-        "from_radar": True,
+        "from_radar": urgent and not (extra or {}).get("from_request"),
         "score": round(art.score, 2),
         "bucket": art.bucket,
         "velocity": round(art.velocity, 2),
@@ -180,9 +185,10 @@ def build_draft(art, cfg) -> dict | None:
         "reel": None,
         "reel_spec": {
             "headline": headline, "category": written["category"],
-            "urgent": True, "image_candidates": art.image_candidates,
+            "urgent": urgent, "image_candidates": art.image_candidates,
         },
     }
+    draft.update(extra or {})
     return draft
 
 
