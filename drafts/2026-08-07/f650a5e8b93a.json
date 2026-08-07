@@ -1,7 +1,7 @@
 {
   "id": "f650a5e8b93a",
   "created_at": "2026-08-07T11:08:21.138387+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 113,
   "score": 31.26,
   "bucket": "serious",
@@ -66,5 +66,13 @@
       "https://cdn.prod.www.spiegel.de/images/621d145a-038d-4805-a52d-557a8456a3f0_w520_r2.08_fpx29.99_fpy50.95.jpg",
       "https://th-i.thgim.com/public/incoming/eci00t/article71316235.ece/alternates/LANDSCAPE_1200/Yemen_Houthi_Saudi_Arabia_67485.jpg"
     ]
+  },
+  "publish_at": "2026-08-07T11:12:05.174044+00:00",
+  "published_at": "2026-08-07T11:12:09.203139+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1328762099340811",
+    "photo_id": "1328762079340813",
+    "url": "https://www.facebook.com/631680090321390_1328762099340811",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
   }
 }
