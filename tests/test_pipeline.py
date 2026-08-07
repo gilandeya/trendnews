@@ -834,6 +834,92 @@ def test_request_search() -> None:
           > int((cfg.get("selection", {}) or {}).get("max_age_hours", 18)))
 
 
+def test_verify() -> None:
+    """مسار التحقق: استخراج الادعاءات وتصنيفها، وحكم سلبي واضح بلا مصادر."""
+    from src import verify
+
+    # التصنيف بكود لا بالنموذج — يجب أن يكون حتميًا وقابلًا للاختبار وحده
+    check("تصنيف: مصدران مستقلان فأكثر = مؤكدة",
+          verify.classify_fact(["BBC", "Reuters"], [], 2) == verify.STATUS_CONFIRMED)
+    check("تصنيف: مصدر واحد",
+          verify.classify_fact(["BBC"], [], 2) == verify.STATUS_SINGLE)
+    check("تصنيف: لا مصدر",
+          verify.classify_fact([], [], 2) == verify.STATUS_NONE)
+    check("تصنيف: يخالفها مصدر رغم مصدر مؤيد واحد",
+          verify.classify_fact(["BBC"], ["Reuters"], 2) == verify.STATUS_CONTRADICTED)
+    check("تكرار الاسم نفسه لا يرفع العدد فوق العتبة",
+          verify.classify_fact(["BBC", "BBC"], [], 2) == verify.STATUS_SINGLE)
+
+    # لا اسم مصدر مختلَق يدخل التقرير — حتى لو ادّعاه ردّ النموذج
+    docs = [{"name": "BBC", "text": "x"}, {"name": "Reuters", "text": "y"}]
+    check("يُقبل اسم مصدر مُعطى فعلًا", verify._known_only(["BBC"], docs) == ["BBC"])
+    check("يُرفض اسم مصدر لم يُعطَ في النصوص",
+          verify._known_only(["BBC", "مصدر مختلق"], docs) == ["BBC"])
+    check("لا تكرار في القائمة المفلترة",
+          verify._known_only(["BBC", "BBC"], docs) == ["BBC"])
+
+    # ضوابط البرومبت: نفس قاعدة عدم الاستعانة بمعرفة النموذج الخاصة (writer.py)
+    check("استخراج البنية لا ينقل جملة حرفية من المقال",
+          "لا تنقل جملة من المقال حرفيًا" in verify.EXTRACT_SYSTEM)
+    check("الحكم على الوقائع يمنع الاستعانة بمعرفة سابقة",
+          "لا تستخدم معرفتك الخاصة" in verify.JUDGE_FACT_SYSTEM)
+    check("الإجابة عن الأسئلة تشترط النسبة لا الحقيقة المطلقة",
+          "انسب الجواب لمن قاله" in verify.JUDGE_QUESTION_SYSTEM)
+    check("تصنيفات الادعاء الثلاثة متاحة",
+          set(verify.CLAIM_KINDS) == {"واقعة", "رأي", "تنبؤ"})
+
+    cfg = load_config()
+
+    # مقال بلا أي مصدر يؤكد وقائعه ← حكم سلبي واضح لا تقرير مبهم
+    verify.extract_claims = lambda text, cfg, retries=3: {
+        "topic": "مقال بلا سند",
+        "claims": [{"text": "زعم لا سند له", "kind": "واقعة"},
+                   {"text": "رأي كاتب المقال", "kind": "رأي"}],
+        "questions": ["سؤال بلا جواب في المصادر؟"],
+    }
+    verify.search = lambda query, cfg, days: []
+    result = verify.verify_article("نص المقال الملصق", cfg)
+
+    check("المقال يُعالَج بنجاح", result["ok"])
+    check("الواقعة بلا مصدر تُصنَّف كذلك",
+          result["facts"][0]["status"] == verify.STATUS_NONE)
+    check("الرأي لا يدخل جدول الوقائع", len(result["facts"]) == 1)
+    check("لا وقائع مؤكدة ← الحكم لا", result["verdict"] is False)
+    check("سبب الحكم صريح لا مبهم",
+          "لا واقعة" in result["verdict_reason"]
+          or "لا تكفي" in result["verdict_reason"])
+    check("السؤال بلا مصادر يُعلَّم بلا إجابة",
+          result["questions"][0]["answered"] is False)
+    check("لا مخالفات حين لا توجد مصادر أصلًا", result["contradictions"] == [])
+
+    report = verify.build_report(result)
+    check("التقرير يفرد قسم مخالفة المصادر", "أين خالفت المصادر المقال" in report)
+    check("التقرير يحمل حكمًا نهائيًا سلبيًا صريحًا",
+          "❌" in report and "**لا**" in report)
+    check("التقرير يذكر الموضوع", "مقال بلا سند" in report)
+
+    # مقال بواقعة مؤكدة من مصدرين مستقلين ← حكم إيجابي
+    verify.gather_evidence = lambda articles, cfg: [{"name": "BBC", "text": "t"}]
+    verify.judge_fact = lambda claim, docs, cfg: {
+        "supporting": ["BBC", "Reuters"], "contradicting": []}
+    verify.judge_question = lambda q, docs, cfg: {
+        "answered": True, "answer": "نعم حدث كذلك", "source": "BBC"}
+    verify.search = lambda query, cfg, days: [object()]  # غير فارغة لتفعيل القراءة
+
+    result2 = verify.verify_article("نص مقال آخر", cfg)
+    check("واقعة مؤكدة بمصدرين ← الحكم نعم", result2["verdict"] is True)
+    check("سبب الحكم الإيجابي يذكر العدد المؤكَّد", "مؤكَّدة" in result2["verdict_reason"])
+    report2 = verify.build_report(result2)
+    check("التقرير الإيجابي يحمل ✅", "✅" in report2 and "**نعم**" in report2)
+
+    # لا استخراج ممكن ← رسالة خطأ واضحة بدل انهيار
+    verify.extract_claims = lambda text, cfg, retries=3: None
+    failed = verify.verify_article("نص", cfg)
+    check("فشل الاستخراج يُعاد كخطأ صريح", failed["ok"] is False)
+    check("تقرير الفشل مقروء لا يحوي حقولًا فارغة",
+          "تعذّر التحقق" in verify.build_report(failed))
+
+
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
     from src import review
@@ -1016,6 +1102,8 @@ def main() -> int:
     print("\n── الرابط في التعليق الأول ──")
     test_manual_image()
     test_request_search()
+    print("\n── التحقق من مقال ملصق ──")
+    test_verify()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()
