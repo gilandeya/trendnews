@@ -1,0 +1,39 @@
+name: 🔎 تحقق من مقال ملصق
+
+# الواجهة: Issue بوسم `تحقق` ونص المقال في جسمه. المرحلة الأولى فقط —
+# بحث وتقرير، بلا صياغة منشور. راجع src/verify.py وconfig.yaml: verify.
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  issues: write
+
+concurrency:
+  group: trendnews-verify
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.event.label.name == 'تحقق'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: سحب المستودع
+        uses: actions/checkout@v4
+
+      - name: تهيئة بايثون
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: بحث وتقرير
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m src.verify --issue "${{ github.event.issue.number }}"
