@@ -1,0 +1,118 @@
+name: طلب خبر بكلمات
+
+# خانتك: Actions → «طلب خبر بكلمات» → Run workflow → اكتب الكلمات.
+# ويمكن أيضًا فتح Issue بعنوان الكلمات ووسمه بـ `طلب` — أسهل من الهاتف.
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: "الكلمات المفتاحية للبحث"
+        required: true
+      days:
+        description: "نافذة البحث بالأيام"
+        required: false
+        default: "7"
+      limit:
+        description: "عدد المسودات"
+        required: false
+        default: "1"
+      dry_run:
+        description: "بحث فقط بلا صياغة (مجاني)"
+        type: boolean
+        required: false
+        default: false
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: trendnews-collect      # نفس مجموعة الجمع: لا يتزاحمان على الدفع
+  cancel-in-progress: false
+
+jobs:
+  request:
+    # وسم `طلب` على Issue = عنوانه هو الكلمات المطلوبة
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.label.name == 'طلب'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: سحب المستودع
+        uses: actions/checkout@v4
+
+      - name: تهيئة بايثون
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: التأكد من الخطوط العربية
+        run: bash scripts/fetch_fonts.sh
+
+      - name: تنفيذ الطلب
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          QUERY: ${{ inputs.query || github.event.issue.title }}
+        run: |
+          python -m src.request \
+            --query "$QUERY" \
+            --days "${{ inputs.days || '7' }}" \
+            --limit "${{ inputs.limit || '1' }}" \
+            ${{ inputs.dry_run == true && '--dry-run' || '' }}
+
+      - name: رفع المسودات إلى المستودع
+        id: commit
+        if: inputs.dry_run != true
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p drafts state
+          git add -A drafts state
+          if git diff --quiet --cached; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "لا مسودات جديدة"
+            exit 0
+          fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          git commit -m "chore(drafts): طلب يدوي $(date -u '+%Y-%m-%d %H:%M') UTC"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              echo "✅ رُفع في المحاولة $attempt"
+              exit 0
+            fi
+            echo "⚠️ فشل الدفع (محاولة $attempt) — إعادة بعد $((attempt * 7))ث"
+            sleep $((attempt * 7))
+          done
+          echo "❌ تعذّر الدفع بعد 5 محاولات"
+          exit 1
+
+      - name: فتح Issue للمراجعة
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m src.open_review
+
+      - name: تثبيت رقم الـ Issue في المسودات
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          mkdir -p drafts
+          git add -A drafts
+          if git diff --quiet --cached; then
+            exit 0
+          fi
+          git commit -m "chore(drafts): ربط المسودات بـ Issue المراجعة"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then exit 0; fi
+            sleep $((attempt * 7))
+          done
+          echo "⚠️ تعذّر رفع رقم الـ Issue — المسودات محفوظة"
