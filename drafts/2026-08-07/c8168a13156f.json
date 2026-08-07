@@ -1,7 +1,7 @@
 {
   "id": "c8168a13156f",
   "created_at": "2026-08-07T21:01:32.954132+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 127,
   "from_radar": true,
   "score": 16.78,
@@ -55,5 +55,7 @@
       "https://www.aljazeera.com/wp-content/uploads/2026/08/reuters_6a763a20-1786133024.jpg?resize=1920%2C1440"
     ]
   },
-  "auto_publish_decision": "المؤشر 16.8 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 16.8 دون عتبة النشر التلقائي",
+  "reject_tag": "محلي",
+  "reject_note": ""
 }
