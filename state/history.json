@@ -1,76 +1,6 @@
 [
   {
     "tokens": [
-      "catches",
-      "dead",
-      "ferry",
-      "fire",
-      "five",
-      "indonesia",
-      "missing"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c74g0wjvlrxo?at_medium=RSS&at_campaign=rss",
-    "title": "Five dead, 41 missing, after Indonesia ferry catches fire",
-    "seen_at": "2026-08-02T15:47:31.679102+00:00"
-  },
-  {
-    "tokens": [
-      "action",
-      "announce",
-      "japan",
-      "joint",
-      "tokyo",
-      "took",
-      "washington",
-      "yen"
-    ],
-    "link": "https://www.japantimes.co.jp/business/2026/08/02/markets/japan-us-joint-action-yen/",
-    "title": "Japan to announce Tokyo and Washington took joint action on yen",
-    "seen_at": "2026-08-02T15:47:38.990206+00:00"
-  },
-  {
-    "tokens": [
-      "day",
-      "extreme",
-      "globally",
-      "hottest",
-      "korea",
-      "record",
-      "south",
-      "weather"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/8/2/south-korea-has-hottest-day-on-record-amid-extreme-weather-globally?traffic_source=rss",
-    "title": "South Korea has hottest day on record amid extreme weather globally",
-    "seen_at": "2026-08-02T15:47:46.858769+00:00"
-  },
-  {
-    "tokens": [
-      "'brutal",
-      "attack",
-      "blast",
-      "mayor",
-      "moscow",
-      "restaurant",
-      "terror"
-    ],
-    "link": "https://www.dw.com/en/moscow-restaurant-blast-a-brutal-terror-attack-mayor-says/a-78205022?maca=en-rss-en-world-4025-rdf",
-    "title": "Moscow restaurant blast a 'brutal terror attack,' mayor says",
-    "seen_at": "2026-08-02T15:47:55.564720+00:00"
-  },
-  {
-    "tokens": [
-      "athens",
-      "deeper",
-      "fire",
-      "region",
-      "spread"
-    ],
-    "link": "https://www.france24.com/en/fire-spread-deeper-into-athens-region",
-    "title": "Fire spread deeper into Athens region",
-    "seen_at": "2026-08-02T15:48:03.684171+00:00"
-  },
-  {
-    "tokens": [
       "athens",
       "battles",
       "collide",
@@ -3141,5 +3071,22 @@
     "posted_title": "تحديث: الحوثيون يقصفون مواقع عسكرية يمنية بعد هجوم نجران ويقتلون 30 جنديًا",
     "region": "za",
     "seen_at": "2026-08-07T15:08:14.958694+00:00"
+  },
+  {
+    "score": 24.48,
+    "bucket": "serious",
+    "tokens": [
+      "could",
+      "end",
+      "iran",
+      "soon",
+      "trump",
+      "war"
+    ],
+    "link": "https://www.dailysabah.com/world/americas/trump-says-iran-war-could-end-soon",
+    "title": "Trump says Iran war could end soon",
+    "posted_title": "ترامب يتوقع قرب انتهاء الحرب مع إيران وسط مفاوضات على مضيق هرمز",
+    "region": "tr",
+    "seen_at": "2026-08-07T16:08:11.342322+00:00"
   }
 ]
