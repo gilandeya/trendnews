@@ -1,85 +1,6 @@
 [
   {
     "tokens": [
-      "council",
-      "day",
-      "four",
-      "give",
-      "long",
-      "nsw",
-      "staff",
-      "trial",
-      "under",
-      "weekends",
-      "year"
-    ],
-    "link": "https://www.abc.net.au/news/2026-08-03/murrumbidgee-council-four-day-working-week/106975192",
-    "title": "NSW council to give staff 52 long weekends a year under four-day trial",
-    "seen_at": "2026-08-02T20:39:50.190715+00:00"
-  },
-  {
-    "tokens": [
-      "care",
-      "cars",
-      "charity",
-      "cut",
-      "execs",
-      "face",
-      "foster",
-      "pay",
-      "price",
-      "rises",
-      "scrutiny",
-      "trips"
-    ],
-    "link": "https://www.abc.net.au/news/2026-08-03/nsw-foster-care-organisations-suspected-misusing-taxpayer-funds/106905462",
-    "title": "Cut-price cars, pay rises and trips by foster care charity execs face scrutiny",
-    "seen_at": "2026-08-02T20:40:15.038764+00:00"
-  },
-  {
-    "tokens": [
-      "'in",
-      "bid",
-      "brazil's",
-      "fourth",
-      "great",
-      "launches",
-      "lula",
-      "shape'",
-      "term"
-    ],
-    "link": "https://www.france24.com/en/americas/20260802-brazil-s-lula-80-says-in-great-shape-as-he-launches-reelection-bid",
-    "title": "Brazil's Lula, 80, says he is 'in great shape' as he launches fourth term bid",
-    "seen_at": "2026-08-02T20:40:23.777606+00:00"
-  },
-  {
-    "tokens": [
-      "dominican",
-      "republic",
-      "restore",
-      "say",
-      "ties",
-      "venezuela",
-      "work"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/8/2/venezuela-and-the-dominican-republic-say-they-will-work-to-restore-ties?traffic_source=rss",
-    "title": "Venezuela and the Dominican Republic say they will work to restore ties",
-    "seen_at": "2026-08-02T20:40:30.801233+00:00"
-  },
-  {
-    "tokens": [
-      "agenda",
-      "dictating",
-      "talks",
-      "venezuela",
-      "washington"
-    ],
-    "link": "https://www.aljazeera.com/video/inside-story/2026/8/2/is-washington-dictating-the-agenda-for-talks-in-venezuela?traffic_source=rss",
-    "title": "Is Washington dictating the agenda for talks in Venezuela?",
-    "seen_at": "2026-08-02T20:40:44.575067+00:00"
-  },
-  {
-    "tokens": [
       "begin",
       "calling",
       "iran",
@@ -3177,5 +3098,26 @@
     "posted_title": "تحديث: السعودية وتركيا وباكستان توقّع اتفاق مكة للدفاع المشترك",
     "region": "uk",
     "seen_at": "2026-08-07T20:08:20.388401+00:00"
+  },
+  {
+    "score": 16.78,
+    "bucket": "light",
+    "tokens": [
+      "000",
+      "cases",
+      "drc",
+      "ebola",
+      "ervebo",
+      "top",
+      "trial",
+      "urges",
+      "vaccine",
+      "who"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/8/7/ebola-cases-top-4000-in-drc-as-who-urges-ervebo-vaccine-trial?traffic_source=rss",
+    "title": "Ebola cases top 4,000 in DRC as WHO urges Ervebo vaccine trial",
+    "posted_title": "إصابات إيبولا تتجاوز 4000 في الكونغو الديمقراطية ومنظمة الصحة العالمية توصي بتجربة لقاح إرفيبو",
+    "region": "qa",
+    "seen_at": "2026-08-07T21:01:32.954541+00:00"
   }
 ]
