@@ -648,7 +648,10 @@ def test_collect_end_to_end() -> None:
 
     caption = draft["caption"]
     check("التعليق يحوي هاشتاقات", "#" in caption)
-    check("التعليق يحوي المصدر", "المصدر:" in caption)
+    # المصادر انتقلت إلى تذييل الصورة والتعليق الأول — لا مكان لها في المتن
+    check("المتن بلا سطر مصادر", "المصدر:" not in caption)
+    check("المصادر محفوظة في المسودة",
+          bool((draft.get("source") or {}).get("publishers")))
     check("التعليق ليس فارغًا", len(caption) > 80, f"{len(caption)} حرفًا")
     check("سجل التكرار حُفظ", (STATE_DIR / "history.json").exists())
 
