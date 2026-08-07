@@ -1,0 +1,69 @@
+{
+  "id": "7dc1d2ca7c75",
+  "created_at": "2026-08-07T19:01:35.172401+00:00",
+  "status": "pending",
+  "review_issue": 124,
+  "from_radar": true,
+  "score": 17.59,
+  "bucket": "serious",
+  "velocity": 1.0,
+  "trend_score": 0.0,
+  "age_hours": 3.0,
+  "state_media": false,
+  "has_photo": true,
+  "analysed_sources": [
+    "BBC World",
+    "The Guardian — World"
+  ],
+  "source": {
+    "title": "Spain threatens retaliation if Italy fails to lift border controls after Ceuta crossings",
+    "link": "https://www.bbc.co.uk/news/articles/c5yv5l6yr5ko?at_medium=RSS&at_campaign=rss",
+    "publisher": "BBC World",
+    "publishers": [
+      "BBC World",
+      "The Guardian — World"
+    ],
+    "region": "uk",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/be73/live/f8fae290-9024-11f1-a7ab-8b30adf0800a.jpg",
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/be73/live/f8fae290-9024-11f1-a7ab-8b30adf0800a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/be73/live/f8fae290-9024-11f1-a7ab-8b30adf0800a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/be73/live/f8fae290-9024-11f1-a7ab-8b30adf0800a.jpg",
+      "https://i.guim.co.uk/img/media/d9486cc2245f4b37ad03e084f3a6d387099b12f9/440_0_4585_3668/master/4585.jpg?width=700&quality=85&auto=format&fit=max&s=30cab00c08f444fee0ba73d197a2fa8f",
+      "https://i.guim.co.uk/img/media/d9486cc2245f4b37ad03e084f3a6d387099b12f9/440_0_4585_3668/master/4585.jpg?width=460&quality=85&auto=format&fit=max&s=d0de8428bb516fabf426514f5e74d215",
+      "https://i.guim.co.uk/img/media/d9486cc2245f4b37ad03e084f3a6d387099b12f9/440_0_4585_3668/master/4585.jpg?width=140&quality=85&auto=format&fit=max&s=36b9a0a1f99ff6cc69e54f3411ed2e94"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "تكشف تحليلات جهات متابعة للتضليل الرقمي أن حسابات مرتبطة بالجيش الروسي روّجت خطابًا يمينيًا متطرفًا عن أزمة سبتة وصل إلى أكثر من 500 ألف شخص في الأيام التالية للأزمة، بحسب مجموعة 411 المتخصصة في مكافحة التضليل، التي رصدت نحو 4.5 مليون منشور، منها محتوى وصل إلى 720 ألف مشاهدة في ست ساعات فقط بسبع لغات مختلفة، صوّر الأحداث كـ\"هجوم\" منظم وألمح إلى تواطؤ السلطات. يرى سامان نظري، الباحث في منظمة Alliance4Europe، أن حجم التنسيق يشير إلى وجود \"بنية أو آلية\" منظمة تتكرر في أزمات أوروبية مشابهة، وليس مجرد تفاعل عشوائي.",
+    "urgent": true,
+    "category": "سياسة",
+    "image_headline": "إسبانيا تهدد إيطاليا بردود مضادة بسبب حدود سبتة",
+    "post_title": "إسبانيا تلوّح بإجراءات مضادة إن لم تُلغِ إيطاليا القيود الحدودية بعد أزمة سبتة",
+    "post_body": "وصل نحو 78 ألف مهاجر من المغرب إلى مدينة سبتة الإسبانية بحرًا خلال ساعات الخميس والجمعة الماضيين، ولقي نحو مائة شخص مصرعهم في الأزمة. ردّت إيطاليا بتعليق جزئي لاتفاق شينغن مع إسبانيا، شمل إغلاق نقاط الدخول البحرية والجوية وتشديد الرقابة على حدودها البرية معها، بذريعة منع انتقال المهاجرين إليها. اعتبرت مدريد الخطوة \"غير مبررة\" وطالبت بإلغائها بحلول الأحد 9 أغسطس، محذّرة من إجراءات \"متناسبة\" لحماية مصالح مواطنيها دون تحديدها. رفضت روما \"الإملاءات\" وقالت إنها ستبقي القيود حتى 15 أغسطس على الأقل، تحسبًا لموجة عبور جديدة تتوقعها إسبانيا نفسها، فيما نفت مدريد وجود أي مؤشرات رسمية على ذلك.",
+    "hashtags": [
+      "سبتة",
+      "إسبانيا",
+      "إيطاليا",
+      "الهجرة"
+    ]
+  },
+  "caption": "إسبانيا تلوّح بإجراءات مضادة إن لم تُلغِ إيطاليا القيود الحدودية بعد أزمة سبتة\n\nوصل نحو 78 ألف مهاجر من المغرب إلى مدينة سبتة الإسبانية بحرًا خلال ساعات الخميس والجمعة الماضيين، ولقي نحو مائة شخص مصرعهم في الأزمة. ردّت إيطاليا بتعليق جزئي لاتفاق شينغن مع إسبانيا، شمل إغلاق نقاط الدخول البحرية والجوية وتشديد الرقابة على حدودها البرية معها، بذريعة منع انتقال المهاجرين إليها. اعتبرت مدريد الخطوة \"غير مبررة\" وطالبت بإلغائها بحلول الأحد 9 أغسطس، محذّرة من إجراءات \"متناسبة\" لحماية مصالح مواطنيها دون تحديدها. رفضت روما \"الإملاءات\" وقالت إنها ستبقي القيود حتى 15 أغسطس على الأقل، تحسبًا لموجة عبور جديدة تتوقعها إسبانيا نفسها، فيما نفت مدريد وجود أي مؤشرات رسمية على ذلك.\n\nخلف الخبر\nتكشف تحليلات جهات متابعة للتضليل الرقمي أن حسابات مرتبطة بالجيش الروسي روّجت خطابًا يمينيًا متطرفًا عن أزمة سبتة وصل إلى أكثر من 500 ألف شخص في الأيام التالية للأزمة، بحسب مجموعة 411 المتخصصة في مكافحة التضليل، التي رصدت نحو 4.5 مليون منشور، منها محتوى وصل إلى 720 ألف مشاهدة في ست ساعات فقط بسبع لغات مختلفة، صوّر الأحداث كـ\"هجوم\" منظم وألمح إلى تواطؤ السلطات. يرى سامان نظري، الباحث في منظمة Alliance4Europe، أن حجم التنسيق يشير إلى وجود \"بنية أو آلية\" منظمة تتكرر في أزمات أوروبية مشابهة، وليس مجرد تفاعل عشوائي.\n\n#سبتة #إسبانيا #إيطاليا #الهجرة",
+  "image": "drafts/2026-08-07/7dc1d2ca7c75.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "إسبانيا تهدد إيطاليا بردود مضادة بسبب حدود سبتة",
+    "category": "سياسة",
+    "urgent": true,
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/be73/live/f8fae290-9024-11f1-a7ab-8b30adf0800a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/be73/live/f8fae290-9024-11f1-a7ab-8b30adf0800a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/be73/live/f8fae290-9024-11f1-a7ab-8b30adf0800a.jpg",
+      "https://i.guim.co.uk/img/media/d9486cc2245f4b37ad03e084f3a6d387099b12f9/440_0_4585_3668/master/4585.jpg?width=700&quality=85&auto=format&fit=max&s=30cab00c08f444fee0ba73d197a2fa8f",
+      "https://i.guim.co.uk/img/media/d9486cc2245f4b37ad03e084f3a6d387099b12f9/440_0_4585_3668/master/4585.jpg?width=460&quality=85&auto=format&fit=max&s=d0de8428bb516fabf426514f5e74d215",
+      "https://i.guim.co.uk/img/media/d9486cc2245f4b37ad03e084f3a6d387099b12f9/440_0_4585_3668/master/4585.jpg?width=140&quality=85&auto=format&fit=max&s=36b9a0a1f99ff6cc69e54f3411ed2e94"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 17.6 دون عتبة النشر التلقائي"
+}
