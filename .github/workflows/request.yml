@@ -21,6 +21,11 @@ on:
         type: boolean
         required: false
         default: false
+      force:
+        description: "تجاهل أنه نُشر سابقًا"
+        type: boolean
+        required: false
+        default: false
   issues:
     types: [labeled]
 
@@ -66,7 +71,8 @@ jobs:
             --query "$QUERY" \
             --days "${{ inputs.days || '7' }}" \
             --limit "${{ inputs.limit || '1' }}" \
-            ${{ inputs.dry_run == true && '--dry-run' || '' }}
+            ${{ inputs.dry_run == true && '--dry-run' || '' }} \
+            ${{ inputs.force == true && '--force' || '' }}
 
       - name: رفع المسودات إلى المستودع
         id: commit
