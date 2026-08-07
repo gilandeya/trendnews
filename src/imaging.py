@@ -444,7 +444,7 @@ def build_post_image(
     category: str,
     urgent: bool,
     image_urls: list[str] | str | None,
-    publisher: str,
+    publisher: str | list[str],
     cfg,
     out_path: Path,
     fallback_urls: list[str] | None = None,
@@ -469,6 +469,12 @@ def build_post_image(
     margin = int(W * 0.06)
     rule = max(4, W // 240)
 
+    # المصادر كلها لا مصدرًا واحدًا: هذا هو الموضع الوحيد الذي تُذكر فيه
+    # بعد أن رُفعت من متن المنشور، فلا يجوز أن يمثّلها ناشر واحد.
+    publishers = ([publisher] if isinstance(publisher, str)
+                  else [p for p in (publisher or []) if p])
+    publishers = [p for p in publishers if str(p).strip()]
+
     # ── قياس شريط العنوان أولًا لنعرف المساحة المتبقية للصورة ──
     head_font, head_lines, line_h = fit_text(
         draw, headline, f_head,
@@ -482,7 +488,10 @@ def build_post_image(
     band_h = len(head_lines) * line_h + band_pad * 2
 
     header_h = int(H * 0.160) if (brand_name or cfg.path("brand.logo")) else 0
-    footer_h = int(H * 0.082) if (handle or publisher) else 0
+    # المعرّف يصعد إلى الترويسة تحت الملصق؛ يبقى في التذييل فقط حين لا
+    # توجد ترويسة أصلًا (شعار فارغ واسم فارغ) فلا مكان له فوق.
+    handle_in_header = bool(handle and header_h)
+    footer_h = int(H * 0.082)
     photo_top = header_h
     photo_h = H - header_h - band_h - footer_h
 
@@ -660,15 +669,21 @@ def build_post_image(
                 draw_text(draw, (text_right, (inner_top + inner_bot) // 2),
                           brand_name, nf, accent, anchor="rm")
 
-        # الملصقات في أقصى اليسار
+        # الملصقات في أقصى اليسار، والمعرّف تحتها مباشرة
         bdg_font = load_font(f_body, int(W * 0.026), body_weight)
         bx = margin
-        by = (inner_top + inner_bot) // 2
+        by = ((inner_top + inner_bot) // 2 if not handle_in_header
+              else inner_top + int((inner_bot - inner_top) * 0.34))
         if urgent:
             bx = badge_left(draw, bx, by, "عاجل", bdg_font,
                             (206, 32, 39), (255, 255, 255)) + int(W * 0.014)
         if category:
             badge_left(draw, bx, by, category, bdg_font, accent, primary)
+
+        if handle_in_header:
+            hf = load_font(f_body, int(W * 0.024), body_weight)
+            draw_text(draw, (margin, inner_top + int((inner_bot - inner_top) * 0.78)),
+                      handle, hf, mix(accent, (255, 255, 255), 0.3), anchor="lm")
 
     # وسم الصورة التعبيرية: إخفاء أنها ليست من مكان الحدث تضليل
     if illustrative:
@@ -700,15 +715,27 @@ def build_post_image(
         draw.rectangle([0, ft_top, W, H], fill=mix(primary, (0, 0, 0), 0.28))
         ff = load_font(f_body, int(W * 0.024), body_weight)
         mid = ft_top + footer_h // 2
-        if handle:
-            draw_text(draw, (margin, mid), handle, ff,
-                      mix(accent, (255, 255, 255), 0.3), anchor="lm")
-        if publisher and used_original:
-            draw_text(draw, (W - margin, mid), f"المصدر: {publisher}", ff,
-                      (168, 180, 200), anchor="rm")
-        elif not used_original:
-            draw_text(draw, (W - margin, mid),
-                      f"{datetime.now(timezone.utc):%Y/%m/%d}", ff,
+
+        # يسارًا: المعرّف إن لم يصعد للترويسة، وإلا التاريخ
+        left_text = handle if (handle and not handle_in_header) else \
+            f"{datetime.now(timezone.utc):%Y/%m/%d}"
+        draw_text(draw, (margin, mid), left_text, ff,
+                  mix(accent, (255, 255, 255), 0.3) if left_text == handle
+                  else (168, 180, 200), anchor="lm")
+
+        # يمينًا: كل المصادر. المساحة محدودة، فنُسقط الأخير تباعًا حتى
+        # تتّسع بدل أن يخرج النص من حدود الصورة أو يركب على ما يساره.
+        if publishers:
+            avail = W - margin * 2 - measure(draw, left_text, ff)[0] - int(W * 0.05)
+            shown = list(publishers)
+            while shown:
+                label = f"المصدر: {'، '.join(shown)}"
+                if measure(draw, label, ff)[0] <= avail or len(shown) == 1:
+                    break
+                shown.pop()
+            if len(shown) < len(publishers):
+                label = f"المصدر: {'، '.join(shown)} +{len(publishers) - len(shown)}"
+            draw_text(draw, (W - margin, mid), label, ff,
                       (168, 180, 200), anchor="rm")
 
     out_path.parent.mkdir(parents=True, exist_ok=True)

@@ -231,7 +231,7 @@ def main() -> int:
                     category=written["category"],
                     urgent=written["urgent"],
                     image_urls=art.image_candidates or ([art.image_url] if art.image_url else []),
-                    publisher=art.publisher,
+                    publisher=art.cluster_sources or [art.publisher],
                     bucket=art.bucket,
                     # كسول: لا يُستدعى إلا إن فشلت كل صور الناشر فعليًا
                     fallback_provider=lambda t=art.title: find_images(t, cfg),

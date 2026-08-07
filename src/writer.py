@@ -513,10 +513,11 @@ def build_caption(written: dict, article: Article, cfg) -> str:
     if cfg.path("writer.include_source_credit", True):
         sources = "، ".join((article.cluster_sources or [article.publisher])[:3])
         lines += ["", f"المصدر: {sources}"]
-        # الرابط يذهب للتعليق الأول: فيسبوك يخفض وصول المنشورات ذات
-        # الروابط الخارجية في المتن.
-        if not cfg.path("facebook.link_in_first_comment", True):
-            lines.append(article.link)
+
+    # الرابط مستقل عن ذكر المصادر: إن أُلغي التعليق الأول وجب أن يظهر
+    # الرابط في المتن حتى لو لم نذكر أسماء الناشرين فيه.
+    if not cfg.path("facebook.link_in_first_comment", True) and article.link:
+        lines += ["", article.link]
 
     if written["hashtags"]:
         lines += ["", " ".join(f"#{t}" for t in written["hashtags"])]

@@ -144,7 +144,7 @@ def build_draft(art, cfg) -> dict | None:
             headline=headline, category=written["category"],
             urgent=True,                     # الرادار لا يلتقط إلا العاجل
             image_urls=art.image_candidates,
-            publisher=art.publisher,
+            publisher=art.cluster_sources or [art.publisher],
             bucket=art.bucket,
             fallback_provider=lambda t=art.title: find_images(t, cfg),
             cfg=cfg, out_path=ROOT / image_rel,
