@@ -118,6 +118,8 @@ def main() -> int:
     parser.add_argument("--url", help="رابط الصورة")
     parser.add_argument("--body", default="", help="نص تعليق فيه أوامر /صورة")
     parser.add_argument("--issue", type=int, default=0, help="رقم الـ Issue")
+    parser.add_argument("--from-issue", action="store_true",
+                        help="اقرأ الطلبات من مربعات الـ Issue وفراغاتها")
     parser.add_argument("--sync", action="store_true",
                         help="تحديث الـ Issue بنتيجة بناء سابق (بعد الدفع)")
     args = parser.parse_args()
@@ -130,6 +132,10 @@ def main() -> int:
         return sync_issue(args.issue)
 
     pairs = parse_commands(args.body)
+    if args.from_issue and args.issue:
+        # المربعات هي الواجهة الأساسية؛ أوامر التعليق بديل لمن يفضّلها
+        pairs += [p for p in review.parse_image_requests(
+            review.fetch_issue_body(args.issue)) if p not in pairs]
     if args.draft and args.url:
         pairs.append((args.draft, args.url))
     if not pairs:
@@ -166,10 +172,14 @@ def sync_issue(issue: int) -> int:
     data = json.loads(SYNC_FILE.read_text(encoding="utf-8"))
     done, failed = data.get("done", []), data.get("failed", [])
 
-    if done:
+    if done or failed:
         body = review.fetch_issue_body(issue)
         for item in done:
             body = body.replace(item["old"], item["new"])
+            body = review.clear_image_request(body, item["id"])
+        for draft_id in failed:
+            # يبقى الرابط ليصحّحه المراجع بدل أن يعيد لصقه من جديد
+            body = review.clear_image_request(body, draft_id, keep_url=True)
         review.update_issue_body(issue, body)
 
     notes = [f"🖼️ حُدّثت الصورة: {item['title']}" for item in done]

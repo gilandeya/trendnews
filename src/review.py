@@ -98,12 +98,15 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             f"  ↳ [الصورة في المستودع]({blob_url(repo, branch, img_path)}) · "
             f"[الخبر الأصلي]({d['source']['link']})",
             "",
-            # المسودة بلا صورة حقيقية: خلفية مصممة تحت العنوان. نعرض
-            # الأمر جاهزًا بمعرّفه لأن المعرّف مخفي في تعليق HTML، ولا
-            # سبيل للمراجع أن يعرفه ليكتبه بنفسه.
-            *([f"  🖼️ **بلا صورة للخبر** — أضف واحدة بتعليق: "
-               f"`/صورة {d['id']} رابط_الصورة`",
-               ""] if d.get("has_photo") is False else []),
+            # صندوق + فراغ: المراجع يفتح تحرير الـ Issue، يلصق الرابط في
+            # الفراغ ويعلّم المربع، فيعيد البوت بناء البطاقة. المعرّف
+            # مخفي في تعليق HTML لأن المراجع لا يحتاج رؤيته.
+            *([f"  🖼️ **بلا صورة للخبر** — البطاقة على خلفية مصممة."]
+              if d.get("has_photo") is False else []),
+            f"  - [ ] 🖼️ استبدل الصورة بالرابط أدناه  <!-- img:{d['id']} -->",
+            "",
+            f"    الرابط:   <!-- imgurl:{d['id']} -->",
+            "",
             *([f"  - [ ] 🎬 انشره كريل بدل الصورة  <!-- reel:{d['id']} -->",
                ""] if d.get("reel_spec") or d.get("reel") else []),
             "  <details><summary>📝 نص المنشور الكامل</summary>",
@@ -229,6 +232,48 @@ def comment(issue_number: int, text: str) -> None:
         json={"body": text},
         timeout=45,
     ).raise_for_status()
+
+
+IMG_BOX_RE = re.compile(r"^(\s*)-\s*\[([ xX])\]\s*(.*?)<!--\s*img:([0-9a-f]+)\s*-->",
+                        re.MULTILINE)
+IMG_URL_RE = re.compile(r"<!--\s*imgurl:([0-9a-f]+)\s*-->")
+URL_RE = re.compile(r"https?://\S+")
+
+
+def parse_image_requests(body: str) -> list[tuple[str, str]]:
+    """
+    يقرأ طلبات استبدال الصورة: مربع معلَّم + رابط في سطر الفراغ.
+
+    الرابط يُلتقط من أي موضع في سطر الفراغ، لأن اللصق على الهاتف قد يقع
+    قبل العلامة أو بعدها. مربع معلَّم بلا رابط يُهمَل — لا يُخمَّن.
+    """
+    urls: dict[str, str] = {}
+    for line in (body or "").splitlines():
+        match = IMG_URL_RE.search(line)
+        if not match:
+            continue
+        found = URL_RE.search(IMG_URL_RE.sub(" ", line))
+        if found:
+            urls[match.group(1)] = found.group(0).rstrip(").,>،")
+
+    out = []
+    for _, mark, _, draft_id in IMG_BOX_RE.findall(body or ""):
+        if mark.lower() == "x" and draft_id in urls:
+            out.append((draft_id, urls[draft_id]))
+    return out
+
+
+def clear_image_request(body: str, draft_id: str, keep_url: bool = False) -> str:
+    """يُفرغ المربع بعد تنفيذه: وإلا أعاد كل تحرير لاحق تنفيذ الطلب نفسه."""
+    lines = []
+    for line in body.splitlines():
+        if f"<!-- img:{draft_id} -->" in line:
+            line = re.sub(r"-\s*\[[xX]\]", "- [ ]", line, count=1)
+        elif f"<!-- imgurl:{draft_id} -->" in line and not keep_url:
+            indent = line[:len(line) - len(line.lstrip())]
+            line = f"{indent}الرابط:   <!-- imgurl:{draft_id} -->"
+        lines.append(line)
+    return "\n".join(lines)
 
 
 def update_issue_body(issue_number: int, body: str) -> None:
