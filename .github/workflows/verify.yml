@@ -1,0 +1,38 @@
+name: تحقق من مقال ملصق
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: trendnews-verify-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.event.label.name == 'تحقق'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: سحب المستودع
+        uses: actions/checkout@v4
+
+      - name: تهيئة بايثون
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: تنفيذ التحقق
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m src.verify --issue "${{ github.event.issue.number }}"
