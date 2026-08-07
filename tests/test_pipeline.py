@@ -718,6 +718,52 @@ def test_arabic_shaping() -> None:
 # ═══════════ اختبارات الجدولة والتعليق الأول والتغذية الراجعة ═══════════
 
 
+def test_reject_boxes_render() -> None:
+    """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
+    from src import review
+
+    draft = {"id": "abcd12", "score": 9.1, "caption": "متن\nسطر",
+             "image": "assets/x.jpg", "bucket": "serious",
+             "source": {"link": "https://x/1", "publishers": ["BBC", "Reuters"]},
+             "arabic": {"post_title": "عنوان", "category": "سياسة"}}
+    body = review.build_issue_body([draft], "u/r", "main")
+
+    lines = body.splitlines()
+    reject_lines = [ln for ln in lines if "<!-- rj:" in ln]
+    check("كل أسباب الرفض معروضة",
+          len(reject_lines) == len(review.REJECT_CHOICES))
+    check("كل سبب مربع قابل للنقر",
+          all("- [ ]" in ln for ln in reject_lines))
+
+    # لا يجوز أن يقع أي مربع رفض داخل كتلة طيّ
+    depth, inside = 0, []
+    for ln in lines:
+        if "<details" in ln:
+            depth += 1
+        if "<!-- rj:" in ln:
+            inside.append(depth)
+        if "</details>" in ln:
+            depth -= 1
+    check("لا مربع رفض داخل <details>", not any(d > 0 for d in inside))
+
+    parsed = review.parse_rejects(
+        body.replace("- [ ] مكرر", "- [x] مكرر"))
+    check("المربع المعلَّم يُقرأ", ("abcd12", "مكرر") in parsed)
+
+
+def test_reject_beats_approval() -> None:
+    """✔️ مع سبب رفض = لا نشر. الخطأ هنا لا يُستدرك بعد النشر."""
+    from src import review
+
+    body = ("- [x] **1. عنوان**  <!-- draft:abcd12 -->\n"
+            "- [x] مكرر  <!-- rj:abcd12:مكرر -->\n"
+            "- [x] **2. آخر**  <!-- draft:ef3456 -->\n")
+    approved = review.parse_approved(body)
+    rejected = {did for did, _ in review.parse_rejects(body)}
+    check("المرفوض يُستبعد رغم الاعتماد",
+          [i for i in approved if i not in rejected] == ["ef3456"])
+
+
 def test_first_comment() -> None:
     from src.publish import first_comment_for
 
@@ -852,6 +898,8 @@ def main() -> int:
     print("\n── دورة المراجعة ──")
     test_review_roundtrip()
     print("\n── الرابط في التعليق الأول ──")
+    test_reject_boxes_render()
+    test_reject_beats_approval()
     test_first_comment()
     print("\n── الجدولة في أوقات الذروة ──")
     test_scheduling()
