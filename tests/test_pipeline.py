@@ -741,16 +741,48 @@ def test_manual_image() -> None:
           setimage.next_image_path("drafts/d/ab-v2.jpg") == "drafts/d/ab-v3.jpg")
 
     base = {"id": "abc123def456", "score": 9.0, "caption": "متن",
-            "image": "assets/x.jpg", "bucket": "serious",
+            "image": "drafts/d/abc123def456.jpg", "bucket": "serious",
             "source": {"link": "https://x/1", "publishers": ["BBC"]},
             "arabic": {"post_title": "عنوان", "category": "سياسة"}}
 
-    without = review.build_issue_body([{**base, "has_photo": False}], "u/r")
-    check("التلميح يظهر للمسودة بلا صورة", "/صورة abc123def456" in without)
-    with_photo = review.build_issue_body([{**base, "has_photo": True}], "u/r")
-    check("لا تلميح حين توجد صورة", "/صورة" not in with_photo)
-    legacy = review.build_issue_body([base], "u/r")
-    check("المسودات القديمة بلا حقل لا تُربك العرض", "/صورة" not in legacy)
+    body = review.build_issue_body([{**base, "has_photo": False}], "u/r")
+    check("مربع الاستبدال معروض", "<!-- img:abc123def456 -->" in body)
+    check("فراغ الرابط معروض", "<!-- imgurl:abc123def456 -->" in body)
+    check("المربع قابل للنقر (خارج <details>)",
+          any("- [ ]" in ln and "img:abc123def456" in ln
+              for ln in body.splitlines()))
+    check("تنبيه غياب الصورة يظهر", "بلا صورة للخبر" in body)
+    check("لا تنبيه حين توجد صورة",
+          "بلا صورة للخبر" not in
+          review.build_issue_body([{**base, "has_photo": True}], "u/r"))
+
+    check("المربع الفارغ لا يُنفَّذ", review.parse_image_requests(body) == [])
+    ticked = body.replace("- [ ] 🖼️ استبدل", "- [x] 🖼️ استبدل")
+    check("مربع معلَّم بلا رابط يُهمَل",
+          review.parse_image_requests(ticked) == [])
+
+    filled = ticked.replace(
+        "الرابط:   <!-- imgurl:abc123def456 -->",
+        "الرابط: https://cdn.site/p.jpg  <!-- imgurl:abc123def456 -->")
+    check("المربع المعلَّم مع الرابط يُنفَّذ",
+          review.parse_image_requests(filled)
+          == [("abc123def456", "https://cdn.site/p.jpg")])
+
+    # اللصق قبل العلامة أو بعدها — كلاهما يعمل على الهاتف
+    after = ticked.replace(
+        "الرابط:   <!-- imgurl:abc123def456 -->",
+        "الرابط: <!-- imgurl:abc123def456 --> https://cdn.site/p.jpg")
+    check("موضع اللصق لا يهم",
+          review.parse_image_requests(after)
+          == [("abc123def456", "https://cdn.site/p.jpg")])
+
+    cleared = review.clear_image_request(filled, "abc123def456")
+    check("المربع يُفرَّغ بعد التنفيذ",
+          review.parse_image_requests(cleared) == [])
+    check("الفراغ يُنظَّف من الرابط", "cdn.site" not in cleared)
+    kept = review.clear_image_request(filled, "abc123def456", keep_url=True)
+    check("الرابط يبقى عند الفشل ليصحَّح", "cdn.site" in kept)
+    check("لا تكرار عند الفشل", review.parse_image_requests(kept) == [])
 
 
 def test_request_search() -> None:
