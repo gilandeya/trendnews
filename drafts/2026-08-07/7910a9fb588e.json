@@ -1,0 +1,67 @@
+{
+  "id": "7910a9fb588e",
+  "created_at": "2026-08-07T06:16:01.496666+00:00",
+  "status": "pending",
+  "review_issue": 106,
+  "from_radar": true,
+  "score": 19.23,
+  "bucket": "serious",
+  "velocity": 1.0,
+  "trend_score": 0.0,
+  "age_hours": 1.5,
+  "state_media": false,
+  "analysed_sources": [
+    "Al Jazeera English",
+    "South China Morning Post"
+  ],
+  "source": {
+    "title": "One killed, four injured in Thailand school shooting, officials say",
+    "link": "https://www.aljazeera.com/news/2026/8/7/one-killed-four-injured-in-thailand-school-shooting-officials-say?traffic_source=rss",
+    "publisher": "Al Jazeera English",
+    "publishers": [
+      "Al Jazeera English",
+      "Dawn",
+      "South China Morning Post"
+    ],
+    "region": "qa",
+    "image_url": "https://i.dawn.com/large/2026/08/07110338b54bd2d.webp",
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/07110338b54bd2d.webp",
+      "https://i.dawn.com/large/2026/08/0711025119eae91.webp",
+      "https://i.dawn.com/thumbnail/2026/08/07110338b54bd2d.webp",
+      "https://i.dawn.com/thumbnail/2026/08/0711025119eae91.webp"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "why": "",
+    "meaning": "",
+    "dispute": "اختلفت المصادر في عدد القتلى: الجزيرة ذكرت ستة قتلى و15 مصابا، بينما ذكرت South China Morning Post أربعة قتلى فقط.",
+    "urgent": true,
+    "category": "عالم",
+    "image_headline": "مقتل ستة في إطلاق نار بمدرسة تايلاندية قرب بانكوك",
+    "post_title": "طالب يقتل ثلاثة معلمين وطلابا في مدرسته قرب بانكوك ثم يودي بنفسه",
+    "post_body": "وقع إطلاق نار داخل مدرسة \"ديبسيرين نونتابوري\" في منطقة بانج كروي شمال غربي العاصمة التايلاندية بانكوك يوم الجمعة، أسفر عن مقتل ستة أشخاص وإصابة 15 آخرين. وذكرت الإذاعة العامة التايلاندية أن القتلى ثلاثة معلمين وثلاثة طلاب. الشرطة قالت إن منفذ الهجوم طالب في المدرسة نفسها، وعُثر عليه جثة بعد الحادثة. تضاربت التقارير المحلية حول ما إذا كانت الشرطة قتلته أو أنه انتحر. تضم المدرسة نحو 3100 طالب و147 معلمًا للعام الدراسي الحالي. رئيس الوزراء التايلاندي وصف ما جرى بأنه \"حادث مروّع ما كان ينبغي أن يقع\".",
+    "hashtags": [
+      "تايلاند",
+      "إطلاق_نار",
+      "بانكوك",
+      "مدرسة"
+    ]
+  },
+  "caption": "طالب يقتل ثلاثة معلمين وطلابا في مدرسته قرب بانكوك ثم يودي بنفسه\n\nوقع إطلاق نار داخل مدرسة \"ديبسيرين نونتابوري\" في منطقة بانج كروي شمال غربي العاصمة التايلاندية بانكوك يوم الجمعة، أسفر عن مقتل ستة أشخاص وإصابة 15 آخرين. وذكرت الإذاعة العامة التايلاندية أن القتلى ثلاثة معلمين وثلاثة طلاب. الشرطة قالت إن منفذ الهجوم طالب في المدرسة نفسها، وعُثر عليه جثة بعد الحادثة. تضاربت التقارير المحلية حول ما إذا كانت الشرطة قتلته أو أنه انتحر. تضم المدرسة نحو 3100 طالب و147 معلمًا للعام الدراسي الحالي. رئيس الوزراء التايلاندي وصف ما جرى بأنه \"حادث مروّع ما كان ينبغي أن يقع\".\n\nاختلفت المصادر في عدد القتلى: الجزيرة ذكرت ستة قتلى و15 مصابا، بينما ذكرت South China Morning Post أربعة قتلى فقط.\n\nالمصدر: Al Jazeera English، Dawn، South China Morning Post\n\n#تايلاند #إطلاق_نار #بانكوك #مدرسة",
+  "image": "drafts/2026-08-07/7910a9fb588e.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "مقتل ستة في إطلاق نار بمدرسة تايلاندية قرب بانكوك",
+    "category": "عالم",
+    "urgent": true,
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/07110338b54bd2d.webp",
+      "https://i.dawn.com/large/2026/08/0711025119eae91.webp",
+      "https://i.dawn.com/thumbnail/2026/08/07110338b54bd2d.webp",
+      "https://i.dawn.com/thumbnail/2026/08/0711025119eae91.webp"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 19.2 دون عتبة النشر التلقائي"
+}
