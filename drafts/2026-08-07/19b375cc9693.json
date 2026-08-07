@@ -1,7 +1,7 @@
 {
   "id": "19b375cc9693",
   "created_at": "2026-08-07T07:08:09.971721+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 108,
   "score": 27.91,
   "bucket": "serious",
@@ -67,5 +67,13 @@
       "https://www.geo.tv/assets/uploads/2026-08-07/676516_060859_updates.jpg",
       "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/06/454597.jpg"
     ]
+  },
+  "publish_at": "2026-08-07T07:16:45.068666+00:00",
+  "published_at": "2026-08-07T07:16:49.343909+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1328622709354750",
+    "photo_id": "1328622656021422",
+    "url": "https://www.facebook.com/631680090321390_1328622709354750",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
   }
 }
