@@ -718,6 +718,55 @@ def test_arabic_shaping() -> None:
 # ═══════════ اختبارات الجدولة والتعليق الأول والتغذية الراجعة ═══════════
 
 
+def test_request_search() -> None:
+    """الطلب اليدوي: كلمات → بحث → مرشحون."""
+    from src import request as rq
+
+    feeds = rq.search_feeds("زلزال هرات", 7, rq.DEFAULT_LOCALES)
+    check("لكل لغة خلاصة بحث", len(feeds) == len(rq.DEFAULT_LOCALES))
+    check("النافذة الزمنية داخل الاستعلام",
+          all("when%3A7d" in f["url"] for f in feeds))
+    check("الاستعلام مُرمَّز في الرابط",
+          all("news.google.com/rss/search" in f["url"] for f in feeds))
+
+    # التطبيع العربي: أل التعريف والهمزة والتاء المربوطة لا تفرّق
+    check("أل التعريف تُسقط",
+          "زلزال" in rq.norm_tokens("الزلزال"))
+    check("الهمزة تُطبَّع",
+          rq.norm_tokens("إسرائيل") == rq.norm_tokens("اسرائيل"))
+    check("حروف الجر تُستبعد", "على" not in rq.norm_tokens("على الحدود"))
+
+    wanted = rq.norm_tokens("زلزال هرات")
+    art = Article(title="زلزال قوي يضرب هرات", link="https://x/1", summary="",
+                  source_name="s", region="global", weight=1.0,
+                  published=datetime.now(timezone.utc))
+    off = Article(title="ارتفاع أسعار النفط", link="https://x/2", summary="",
+                  source_name="s", region="global", weight=1.0,
+                  published=datetime.now(timezone.utc))
+    latin = Article(title="Strong earthquake hits Herat", link="https://x/3",
+                    summary="", source_name="s", region="global", weight=1.0,
+                    published=datetime.now(timezone.utc))
+    check("المطابق يمرّ", rq.relevant(art, wanted, 1))
+    check("غير المطابق يُستبعد", not rq.relevant(off, wanted, 1))
+    check("اختلاف اللغة لا يُسقط النتيجة", rq.relevant(latin, wanted, 1))
+
+    # البحث كاملًا بخلاصة مُصطنعة — بلا شبكة
+    cfg = load_config()
+    original = rq.fetch_source
+    rq.fetch_source = lambda src, max_age_hours: [art, off]
+    try:
+        found = rq.find("زلزال هرات", cfg, days=7)
+    finally:
+        rq.fetch_source = original
+    titles = [a.title for a in found]
+    check("نتيجة الطلب مرشّحة", "زلزال قوي يضرب هرات" in titles)
+    check("غير المطابق لا يصل للترتيب", "ارتفاع أسعار النفط" not in titles)
+
+    check("نافذة الطلب أوسع من نافذة الدورة",
+          int((load_config().get("request", {}) or {}).get("days", 7)) * 24
+          > int((cfg.get("selection", {}) or {}).get("max_age_hours", 18)))
+
+
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
     from src import review
@@ -898,6 +947,7 @@ def main() -> int:
     print("\n── دورة المراجعة ──")
     test_review_roundtrip()
     print("\n── الرابط في التعليق الأول ──")
+    test_request_search()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()
