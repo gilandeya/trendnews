@@ -1,0 +1,95 @@
+name: صورة يدوية لمسودة
+
+# علّق على Issue المراجعة:  /صورة المعرّف رابط_الصورة
+# المعرّف معروض جاهزًا تحت كل مسودة بلا صورة.
+on:
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      draft:
+        description: "معرّف المسودة"
+        required: true
+      url:
+        description: "رابط الصورة المباشر"
+        required: true
+      issue:
+        description: "رقم Issue المراجعة (اختياري)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: trendnews-collect      # لا يزاحم الجمع على دفع المستودع
+  cancel-in-progress: false
+
+jobs:
+  setimage:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.comment.body, '/صورة') ||
+      contains(github.event.comment.body, '/image')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue }}
+
+    steps:
+      - name: سحب المستودع
+        uses: actions/checkout@v4
+
+      - name: تهيئة بايثون
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: التأكد من الخطوط العربية
+        run: bash scripts/fetch_fonts.sh
+
+      # فشل البناء لا يوقف السير: المراجع يستحق تعليقًا يخبره بالسبب
+      - name: إعادة بناء البطاقة
+        id: rebuild
+        continue-on-error: true
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          DRAFT_ID: ${{ inputs.draft }}
+          IMAGE_URL: ${{ inputs.url }}
+        run: |
+          ARGS=""
+          if [ -n "$DRAFT_ID" ] && [ -n "$IMAGE_URL" ]; then
+            ARGS="--draft $DRAFT_ID --url $IMAGE_URL"
+          fi
+          python -m src.setimage --body "$COMMENT_BODY" $ARGS
+
+      - name: رفع الصورة الجديدة
+        if: steps.rebuild.outcome == 'success'
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A drafts
+          if git diff --quiet --cached; then
+            echo "لا تغيير"
+            exit 0
+          fi
+          git commit -m "chore(drafts): صورة يدوية"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then exit 0; fi
+            sleep $((attempt * 7))
+          done
+          echo "❌ تعذّر الدفع"
+          exit 1
+
+      # تحديث الـ Issue بعد الدفع لا قبله: قبله يشير إلى ملف لم يُرفع بعد
+      - name: تحديث الـ Issue
+        if: always() && env.ISSUE_NUMBER != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m src.setimage --sync --issue "$ISSUE_NUMBER"
