@@ -1,7 +1,7 @@
 {
   "id": "0f651b6126b7",
   "created_at": "2026-08-07T17:16:20.794968+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 122,
   "from_radar": true,
   "score": 17.55,
@@ -65,5 +65,13 @@
       "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/be73/live/f8fae290-9024-11f1-a7ab-8b30adf0800a.jpg"
     ]
   },
-  "auto_publish_decision": "المؤشر 17.6 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 17.6 دون عتبة النشر التلقائي",
+  "publish_at": "2026-08-07T19:18:30.478859+00:00",
+  "published_at": "2026-08-07T19:18:34.461763+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1329078182642536",
+    "photo_id": "1329078165975871",
+    "url": "https://www.facebook.com/631680090321390_1329078182642536",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
