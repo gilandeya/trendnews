@@ -1,7 +1,7 @@
 {
   "id": "d16d38017cfe",
   "created_at": "2026-08-07T22:08:05.118216+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 131,
   "score": 34.57,
   "bucket": "serious",
@@ -78,5 +78,7 @@
       "https://i.dawn.com/large/2026/08/0718060602fdb71.webp",
       "https://i.dawn.com/large/2026/08/071651126f35cfd.webp"
     ]
-  }
+  },
+  "reject_tag": "مكرر",
+  "reject_note": ""
 }
