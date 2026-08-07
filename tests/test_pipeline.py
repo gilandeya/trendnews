@@ -718,6 +718,41 @@ def test_arabic_shaping() -> None:
 # ═══════════ اختبارات الجدولة والتعليق الأول والتغذية الراجعة ═══════════
 
 
+def test_manual_image() -> None:
+    """صورة يدوية: أمر التعليق، ومسار جديد، وتلميح في الـ Issue."""
+    from src import review, setimage
+
+    cmds = setimage.parse_commands(
+        "ممتاز /صورة a1b2c3d4e5f6 https://ex.com/p.jpg شكرًا")
+    check("الأمر يُقرأ من وسط التعليق",
+          cmds == [("a1b2c3d4e5f6", "https://ex.com/p.jpg")])
+    check("الصيغة الإنجليزية مقبولة",
+          setimage.parse_commands("/image abc123def456 https://ex.com/x.png")
+          == [("abc123def456", "https://ex.com/x.png")])
+    check("القوس اللاصق يُقصّ من الرابط",
+          setimage.parse_commands("(/صورة abc123def456 https://ex.com/x.png)")
+          [0][1].endswith(".png"))
+    check("التعليق بلا أمر لا يُنتج شيئًا",
+          setimage.parse_commands("صورة جميلة جدًا") == [])
+
+    check("المسار الجديد لا يستبدل القديم",
+          setimage.next_image_path("drafts/d/ab.jpg") == "drafts/d/ab-v2.jpg")
+    check("النسخ تتتابع",
+          setimage.next_image_path("drafts/d/ab-v2.jpg") == "drafts/d/ab-v3.jpg")
+
+    base = {"id": "abc123def456", "score": 9.0, "caption": "متن",
+            "image": "assets/x.jpg", "bucket": "serious",
+            "source": {"link": "https://x/1", "publishers": ["BBC"]},
+            "arabic": {"post_title": "عنوان", "category": "سياسة"}}
+
+    without = review.build_issue_body([{**base, "has_photo": False}], "u/r")
+    check("التلميح يظهر للمسودة بلا صورة", "/صورة abc123def456" in without)
+    with_photo = review.build_issue_body([{**base, "has_photo": True}], "u/r")
+    check("لا تلميح حين توجد صورة", "/صورة" not in with_photo)
+    legacy = review.build_issue_body([base], "u/r")
+    check("المسودات القديمة بلا حقل لا تُربك العرض", "/صورة" not in legacy)
+
+
 def test_request_search() -> None:
     """الطلب اليدوي: كلمات → بحث → مرشحون."""
     from src import request as rq
@@ -947,6 +982,7 @@ def main() -> int:
     print("\n── دورة المراجعة ──")
     test_review_roundtrip()
     print("\n── الرابط في التعليق الأول ──")
+    test_manual_image()
     test_request_search()
     test_reject_boxes_render()
     test_reject_beats_approval()
