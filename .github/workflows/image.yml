@@ -1,8 +1,11 @@
 name: صورة يدوية لمسودة
 
-# علّق على Issue المراجعة:  /صورة المعرّف رابط_الصورة
-# المعرّف معروض جاهزًا تحت كل مسودة بلا صورة.
+# في الـ Issue: حرّره، الصق رابط الصورة في فراغ «الرابط:» تحت المسودة،
+# وعلّم مربع «استبدل الصورة». يُعاد بناء البطاقة خلال دقيقة.
+# البديل لمن يفضّله: تعليق فيه  /صورة المعرّف رابط_الصورة
 on:
+  issues:
+    types: [edited]
   issue_comment:
     types: [created]
   workflow_dispatch:
@@ -28,10 +31,15 @@ concurrency:
 
 jobs:
   setimage:
+    # تعديل البوت لجسم الـ Issue يُطلق الحدث نفسه: بلا هذا الشرط
+    # يستدعي السير نفسه بلا نهاية.
     if: >-
-      github.event_name == 'workflow_dispatch' ||
-      contains(github.event.comment.body, '/صورة') ||
-      contains(github.event.comment.body, '/image')
+      github.event.sender.login != 'github-actions[bot]' && (
+        github.event_name == 'workflow_dispatch' ||
+        github.event_name == 'issues' ||
+        contains(github.event.comment.body, '/صورة') ||
+        contains(github.event.comment.body, '/image')
+      )
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
@@ -58,6 +66,7 @@ jobs:
         id: rebuild
         continue-on-error: true
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMENT_BODY: ${{ github.event.comment.body }}
           DRAFT_ID: ${{ inputs.draft }}
           IMAGE_URL: ${{ inputs.url }}
@@ -65,6 +74,9 @@ jobs:
           ARGS=""
           if [ -n "$DRAFT_ID" ] && [ -n "$IMAGE_URL" ]; then
             ARGS="--draft $DRAFT_ID --url $IMAGE_URL"
+          fi
+          if [ -n "$ISSUE_NUMBER" ]; then
+            ARGS="$ARGS --from-issue --issue $ISSUE_NUMBER"
           fi
           python -m src.setimage --body "$COMMENT_BODY" $ARGS
 
