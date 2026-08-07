@@ -225,6 +225,7 @@ def main() -> int:
             headline = written["image_headline"] or written["post_title"]
 
             image_rel = f"drafts/{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.jpg"
+            shot: dict = {}
             try:
                 build_post_image(
                     headline=headline,
@@ -237,6 +238,7 @@ def main() -> int:
                     fallback_provider=lambda t=art.title: find_images(t, cfg),
                     cfg=cfg,
                     out_path=ROOT / image_rel,
+                    report=shot,
                 )
             except Exception as exc:  # noqa: BLE001 — لا نُسقط الدفعة كلها بسبب صورة
                 log.error("فشل توليد الصورة: %s", exc)
@@ -255,6 +257,7 @@ def main() -> int:
                 "age_hours": round(art.age_hours, 1),
                 "is_followup": bool(prev_title),
                 "state_media": art.state_media,
+                "has_photo": bool(shot.get("used_original")),
                 "source": {
                     "title": art.title,
                     "link": art.link,

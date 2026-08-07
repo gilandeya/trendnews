@@ -98,6 +98,12 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             f"  ↳ [الصورة في المستودع]({blob_url(repo, branch, img_path)}) · "
             f"[الخبر الأصلي]({d['source']['link']})",
             "",
+            # المسودة بلا صورة حقيقية: خلفية مصممة تحت العنوان. نعرض
+            # الأمر جاهزًا بمعرّفه لأن المعرّف مخفي في تعليق HTML، ولا
+            # سبيل للمراجع أن يعرفه ليكتبه بنفسه.
+            *([f"  🖼️ **بلا صورة للخبر** — أضف واحدة بتعليق: "
+               f"`/صورة {d['id']} رابط_الصورة`",
+               ""] if d.get("has_photo") is False else []),
             *([f"  - [ ] 🎬 انشره كريل بدل الصورة  <!-- reel:{d['id']} -->",
                ""] if d.get("reel_spec") or d.get("reel") else []),
             "  <details><summary>📝 نص المنشور الكامل</summary>",
@@ -223,6 +229,24 @@ def comment(issue_number: int, text: str) -> None:
         json={"body": text},
         timeout=45,
     ).raise_for_status()
+
+
+def update_issue_body(issue_number: int, body: str) -> None:
+    repo = _repo()
+    requests.patch(
+        f"{API}/repos/{repo}/issues/{issue_number}",
+        headers=_headers(),
+        json={"body": body},
+        timeout=45,
+    ).raise_for_status()
+
+
+def fetch_issue_body(issue_number: int) -> str:
+    repo = _repo()
+    resp = requests.get(f"{API}/repos/{repo}/issues/{issue_number}",
+                        headers=_headers(), timeout=45)
+    resp.raise_for_status()
+    return resp.json().get("body") or ""
 
 
 def close_issue(issue_number: int) -> None:

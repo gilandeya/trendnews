@@ -144,6 +144,7 @@ def build_draft(art, cfg, urgent: bool = True,
 
     headline = written["image_headline"] or written["post_title"]
     image_rel = f"drafts/{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.jpg"
+    shot: dict = {}
     try:
         build_post_image(
             headline=headline, category=written["category"],
@@ -152,7 +153,7 @@ def build_draft(art, cfg, urgent: bool = True,
             publisher=art.cluster_sources or [art.publisher],
             bucket=art.bucket,
             fallback_provider=lambda t=art.title: find_images(t, cfg),
-            cfg=cfg, out_path=ROOT / image_rel,
+            cfg=cfg, out_path=ROOT / image_rel, report=shot,
         )
     except Exception as exc:  # noqa: BLE001
         log.error("فشل توليد الصورة: %s", exc)
@@ -171,6 +172,7 @@ def build_draft(art, cfg, urgent: bool = True,
         "trend_score": round(art.trend_score, 2),
         "age_hours": round(art.age_hours, 1),
         "state_media": art.state_media,
+        "has_photo": bool(shot.get("used_original")),
         "analysed_sources": [d["name"] for d in docs],
         "source": {
             "title": art.title, "link": art.link,

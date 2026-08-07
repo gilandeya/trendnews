@@ -450,7 +450,14 @@ def build_post_image(
     fallback_urls: list[str] | None = None,
     fallback_provider=None,
     bucket: str = "",
+    report: dict | None = None,
 ) -> Path:
+    """يبني بطاقة الخبر.
+
+    `report` قاموس يُملأ بما جرى: هل استُعملت صورة حقيقية للخبر أم
+    الخلفية المصممة. المُستدعي يحتاج ذلك ليخبر المراجع أن هذه المسودة
+    بلا صورة فيضيف واحدة — ولا سبيل لمعرفته من مسار الملف وحده.
+    """
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
     primary = hex_rgb(cfg.path("brand.primary_color", "#12203A"))
@@ -737,6 +744,10 @@ def build_post_image(
                 label = f"المصدر: {'، '.join(shown)} +{len(publishers) - len(shown)}"
             draw_text(draw, (W - margin, mid), label, ff,
                       (168, 180, 200), anchor="rm")
+
+    if report is not None:
+        report["used_original"] = bool(used_original)
+        report["illustrative"] = bool(illustrative)
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(out_path, "JPEG", quality=90, optimize=True, subsampling=0)
