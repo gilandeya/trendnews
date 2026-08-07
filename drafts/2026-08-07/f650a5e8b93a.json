@@ -1,7 +1,7 @@
 {
   "id": "f650a5e8b93a",
   "created_at": "2026-08-07T11:08:21.138387+00:00",
-  "status": "published",
+  "status": "rejected",
   "review_issue": 113,
   "score": 31.26,
   "bucket": "serious",
@@ -74,5 +74,7 @@
     "photo_id": "1328762079340813",
     "url": "https://www.facebook.com/631680090321390_1328762099340811",
     "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
-  }
+  },
+  "reject_tag": "آخر",
+  "reject_note": "⚠️ لم يُعلَّم على أي منشور. أضف ✔️ ثم أعد وسم `approved`."
 }
