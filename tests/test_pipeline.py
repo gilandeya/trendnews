@@ -124,9 +124,8 @@ def install_fakes() -> None:
         out = dict(canned[key])
         out["angle"] = "تفسير" if (article.age_hours or 0) > 8 else "خبر"
         # التحليل يظهر فقط حين تُمرَّر نصوص فعلية
-        out["why"] = "تربط المصادر القرار بضغوط السوق." if source_docs else ""
-        out["meaning"] = "قد ينعكس على الأسعار محليًا." if source_docs else ""
-        out["dispute"] = ""
+        out["analysis"] = ("تربط رويترز القرار بضغوط السوق، وتضيف الغارديان "
+                           "أنه قد ينعكس على الأسعار محليًا.") if source_docs else ""
         if previous_post:
             out["post_title"] = "تحديث: " + out["post_title"]
         return out
@@ -466,39 +465,77 @@ def test_extraction() -> None:
 
 def test_analysis_grounding() -> None:
     """القاعدة الحاسمة: الصمت عند غياب المادة، لا الاختراع."""
-    from src.writer import SYSTEM_PROMPT, USER_TEMPLATE, build_caption
+    from src.writer import (POST_SCHEMA, SYSTEM_PROMPT, USER_TEMPLATE,
+                            build_caption)
+
+    fields = POST_SCHEMA["input_schema"]["properties"]
 
     check("يمنع الاستعانة بالمعرفة السابقة",
           "لا تستعن بمعرفتك السابقة" in SYSTEM_PROMPT)
-    check("يأمر بترك الحقول فارغة عند غياب التفسير",
+    check("يأمر بترك الحقل فارغًا عند غياب التفسير",
           "الصمت أفضل من التخمين" in SYSTEM_PROMPT)
     check("يشترط نسبة كل تفسير لقائله", "انسب كل تفسير لقائله" in SYSTEM_PROMPT)
     check("يطلب إظهار الخلاف بين المصادر", "اذكر الخلاف صراحةً" in SYSTEM_PROMPT)
-    check("حقول التحليل مطلوبة في المخرجات",
-          all(f in USER_TEMPLATE for f in ('"why"', '"meaning"', '"dispute"')))
+    check("يمنع تكرار المتن في التحليل",
+          "لا تكرر شيئًا من post_body" in SYSTEM_PROMPT)
+    check("حقل التحليل موجود في المخطط", "analysis" in fields)
+    check("حقل التحليل مطلوب في الطلب", "analysis —" in USER_TEMPLATE)
+    check("الحقول القديمة أُزيلت",
+          not any(f in fields for f in ("why", "meaning", "dispute")))
 
     cfg = load_config()
     art = Article(title="T", link="https://x/1", summary="", source_name="BBC",
                   region="uk", weight=1.0, published=datetime.now(timezone.utc))
     art.cluster_sources = ["BBC", "Reuters"]
 
+    paragraph = ("تربط رويترز القرار بضعف الطلب الصيني، بينما ترى الغارديان "
+                 "أن أثره سيظهر في أسعار الوقود خلال أسابيع.")
     full = build_caption({
         "post_title": "عنوان", "post_body": "متن", "hashtags": ["أخبار"],
-        "why": "تربط رويترز القرار بضعف الطلب الصيني.",
-        "meaning": "قد ترتفع أسعار الوقود في الأسواق العربية.",
-        "dispute": "تذكر البي بي سي رقمًا أعلى للإنتاج.",
+        "analysis": paragraph,
     }, art, cfg)
-    check("التحليل يظهر في المنشور", "لماذا حدث هذا؟" in full)
-    check("الدلالة تظهر", "ما الذي يعنيه؟" in full)
-    check("الخلاف يظهر", "اختلاف بين المصادر" in full)
+    check("التحليل يظهر في المنشور", paragraph in full)
+    check("العنوان الواحد يظهر", "خلف الخبر" in full)
+    check("لا أسئلة في المنشور",
+          "لماذا حدث" not in full and "ما الذي يعنيه" not in full)
+    check("التحليل فقرة واحدة",
+          paragraph in full and "\n" not in paragraph)
 
     empty = build_caption({
         "post_title": "عنوان", "post_body": "متن", "hashtags": ["أخبار"],
-        "why": "", "meaning": "", "dispute": "",
+        "analysis": "",
     }, art, cfg)
-    check("الحقول الفارغة لا تترك عناوين معلّقة",
-          "لماذا حدث" not in empty and "يعنيه" not in empty)
+    check("الحقل الفارغ لا يترك عنوانًا معلّقًا", "خلف الخبر" not in empty)
     check("المنشور بلا تحليل يبقى سليمًا", "عنوان" in empty and "متن" in empty)
+
+
+def test_analysis_cleaning() -> None:
+    """تنظيف الفقرة: بلا عناوين، بلا نفي ذاتي، وقصّ عند حدّ الجملة."""
+    from src.writer import clean_analysis
+
+    check("النص الفارغ يبقى فارغًا", clean_analysis("") == "")
+    check("عبارات النفي البديلة تُفرَّغ", clean_analysis("لا يوجد") == "")
+
+    with_heading = clean_analysis("🔎 لماذا حدث هذا؟\nتربط رويترز القرار بالسوق.")
+    check("العنوان يُزال", "لماذا حدث" not in with_heading)
+    check("النص يبقى", "تربط رويترز" in with_heading)
+
+    bulleted = clean_analysis("- السبب الأول واضح.\n- والثاني كذلك.")
+    check("القائمة تصير فقرة واحدة",
+          "\n" not in bulleted and bulleted.startswith("السبب"))
+
+    negating = clean_analysis(
+        "تربط رويترز القرار بالسوق. تذكر بي بي سي 700 مبنى وتذكر الغارديان "
+        "أكثر من 700، ولا تناقض بين الرقمين. ويتوقع محللون تشديدًا لاحقًا."
+    )
+    check("الجملة التي تنفي التناقض تُحذف", "لا تناقض" not in negating)
+    check("بقية الفقرة تبقى",
+          "تربط رويترز" in negating and "يتوقع محللون" in negating)
+
+    long_text = " ".join(f"جملة رقم {i} فيها خمس كلمات." for i in range(1, 21))
+    trimmed = clean_analysis(long_text, max_words=20)
+    check("القصّ يحترم السقف", len(trimmed.split()) <= 20)
+    check("القصّ عند نهاية جملة", trimmed.endswith("."))
 
 
 def test_cluster_members() -> None:
@@ -782,6 +819,7 @@ def main() -> int:
     test_extraction()
     print("\n── تأصيل التحليل ──")
     test_analysis_grounding()
+    test_analysis_cleaning()
     test_cluster_members()
     print("\n── المحتوى النافع ──")
     test_useful_bucket()
