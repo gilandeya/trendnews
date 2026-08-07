@@ -52,7 +52,10 @@ These are enforced by convention, not tooling, so hold to them deliberately:
 
 **Two independent pipelines, connected by files in `drafts/` and a GitHub Issue:**
 
-1. **Collect** (`src/collect.py`, scheduled every 6h via `.github/workflows/collect.yml`):
+1. **Collect** (`src/collect.py`, triggered via `.github/workflows/collect.yml`'s
+   `workflow_dispatch`; `collect.yml` has no GitHub `schedule:` cron — GitHub's free scheduler
+   was unreliably dropping runs, so an external cron-job.org job calls `workflow_dispatch`
+   several times a day instead):
    fetch RSS (`src/sources.py`) → dedupe/cluster near-identical stories via Jaccard title
    similarity and rank by a trend score (`src/rank.py`) → filter against publish history
    (`src/store.py`, N-day memory) → cheap Haiku pre-screen to drop non-viable candidates before
