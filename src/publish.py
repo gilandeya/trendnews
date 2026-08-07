@@ -450,6 +450,21 @@ def main() -> int:
     body = issue.get("body") or ""
     ids = review.parse_approved(body)
     reels = review.parse_reels(body)
+
+    # مربعا الاعتماد والرفض قد يُعلَّمان معًا: مراجع اعتمد أولًا ثم عدل
+    # عن رأيه فعلّم السبب دون أن يمسح ✔️. النشر حينها خطأ لا يُستدرك،
+    # فالرفض يغلب — وعكسه ينشر خبرًا رُفض صراحةً.
+    rejected = {did for did, _ in review.parse_rejects(body)}
+    blocked = [i for i in ids if i in rejected]
+    if blocked:
+        ids = [i for i in ids if i not in rejected]
+        log.warning("أُسقط %d منشورًا معلَّمًا بالاعتماد والرفض معًا", len(blocked))
+        review.comment(
+            args.issue,
+            f"⚠️ {len(blocked)} منشورًا يحمل ✔️ وسبب رفض معًا — لم يُنشر. "
+            "امسح سبب الرفض إن كنت تريد نشره.",
+        )
+
     log.info("الـ Issue #%s: %d معتمد من %d (%d كريل)",
              args.issue, len(ids), len(review.all_draft_ids(body)), len(reels))
 
