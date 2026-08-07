@@ -109,7 +109,8 @@ def relevant(art, wanted: set[str], min_matches: int) -> bool:
     return True
 
 
-def find(query: str, cfg, days: int = 0, dry_run: bool = False) -> list:
+def find(query: str, cfg, days: int = 0, dry_run: bool = False,
+         stats: dict | None = None) -> list:
     rcfg = cfg.get("request", {}) or {}
     days = days or int(rcfg.get("days", 7))
     locales = rcfg.get("locales") or DEFAULT_LOCALES
@@ -118,6 +119,8 @@ def find(query: str, cfg, days: int = 0, dry_run: bool = False) -> list:
     for feed in search_feeds(query, days, locales):
         articles += fetch_source(feed, max_age_hours=days * 24)
     log.info("نتائج البحث الخام: %d", len(articles))
+    if stats is not None:
+        stats["raw"] = len(articles)
     if not articles:
         return []
 
@@ -125,6 +128,8 @@ def find(query: str, cfg, days: int = 0, dry_run: bool = False) -> list:
     matched = [a for a in articles
                if relevant(a, wanted, int(rcfg.get("min_matches", 1)))]
     log.info("مطابق لكلمات الطلب: %d من %d", len(matched), len(articles))
+    if stats is not None:
+        stats["matched"] = len(matched)
     if not matched:
         return []
 
@@ -136,6 +141,8 @@ def find(query: str, cfg, days: int = 0, dry_run: bool = False) -> list:
 
     ranked = rank(matched, selection, merge_cfg=cfg)
     log.info("بعد الدمج والترتيب: %d", len(ranked))
+    if stats is not None:
+        stats["clusters"] = len(ranked)
     for a in ranked[:5]:
         log.info("  • [%.1f · %d مصدر] %s", a.score,
                  a.group_sources, a.title[:70])
@@ -149,6 +156,8 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=1, help="عدد المسودات")
     parser.add_argument("--dry-run", action="store_true",
                         help="بحث وعرض النتائج بلا صياغة (مجاني)")
+    parser.add_argument("--force", action="store_true",
+                        help="اصغ ولو سبق نشر الخبر")
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO,
@@ -162,21 +171,26 @@ def main() -> int:
 
     cfg = load_config()
     log.info("الطلب: «%s»", query)
-    found = find(query, cfg, days=args.days)
+    stats: dict = {}
+    found = find(query, cfg, days=args.days, stats=stats)
+    trace = (f"<sub>البحث: {stats.get('raw', 0)} نتيجة خام · "
+             f"{stats.get('matched', 0)} مطابقة لكلماتك · "
+             f"{stats.get('clusters', 0)} بعد دمج نسخ الخبر الواحد</sub>")
 
     if not found:
         log.warning("لا نتائج تطابق «%s»", query)
         step_summary(
             f"### 🔍 لا نتائج\nالطلب: «{query}» — لم يعثر البحث على خبر "
             "يطابق هذه الكلمات في النافذة الزمنية المحددة. جرّب كلمات "
-            "أعم أو وسّع `--days`."
+            f"أعم، أو وسّع نافذة الأيام.\n\n{trace}"
         )
         return 0
 
     if args.dry_run:
         lines = [f"### 🔍 نتائج «{query}» (بحث فقط)", ""]
-        lines += [f"- `{a.score:.1f}` [{a.title[:80]}]({a.link})"
-                  for a in found[:10]]
+        lines += [f"- `{a.score:.1f}` · {a.group_sources} مصدر · "
+                  f"[{a.title[:80]}]({a.link})" for a in found[:10]]
+        lines += ["", trace]
         step_summary("\n".join(lines))
         return 0
 
@@ -184,17 +198,23 @@ def main() -> int:
     dupe_threshold = float(selection.get("title_similarity", 0.62))
     history = store.load_history()
     made: list[dict] = []
+    skipped: list[tuple[str, str]] = []
+
     for art in found:
         if len(made) >= max(1, args.limit):
             break
-        # لا نعيد صياغة ما نُشر: الطلب لا يُلغي ذاكرة النشر
-        if store.is_duplicate(history, art.title, art.link, dupe_threshold):
+        # الطلب صريح، لكن إعادة نشر ما نُشر خطأ صامت. نتخطّاه ونقوله
+        # بوضوح بدل أن نخلطه بأسباب الرفض الأخرى.
+        if not args.force and store.is_duplicate(history, art.title,
+                                                 art.link, dupe_threshold):
             log.info("سبق نشره: %s", art.title[:60])
+            skipped.append((art.title, "سبق نشر خبر مطابق"))
             continue
 
         draft = radar.build_draft(art, cfg, urgent=False,
                                   extra={"from_request": query})
         if not draft:
+            skipped.append((art.title, "رُفض عند الصياغة أو تعذّرت قراءة نصه"))
             continue
         store.save_draft(draft)
         store.remember(history, art.title, art.link,
@@ -206,16 +226,21 @@ def main() -> int:
     store.save_history(history, int(selection.get("dedupe_days", 5)))
 
     if not made:
-        step_summary(
-            f"### ⚠️ لا مسودة\nوُجدت {len(found)} نتيجة لـ «{query}» لكن "
-            "لم تنجُ أي منها من الفرز التحريري (مكررة أو بلا نص كافٍ)."
-        )
+        lines = [f"### ⚠️ لا مسودة", "", f"الطلب: «{query}»", ""]
+        lines += [f"- ❌ {title[:90]}\n  <sub>{why}</sub>"
+                  for title, why in skipped[:8]]
+        if any("سبق نشر" in why for _, why in skipped):
+            lines += ["", "<sub>لتجاوز حارس التكرار: أعد التشغيل مع تفعيل "
+                      "«تجاهل أنه نُشر سابقًا».</sub>"]
+        lines += ["", trace]
+        step_summary("\n".join(lines))
         return 0
 
     lines = [f"### ✅ {len(made)} مسودة من طلبك", "",
              f"الطلب: «{query}»", ""]
     lines += [f"- `{d['score']:.1f}` {d['arabic']['post_title']}" for d in made]
-    lines += ["", f"<sub>💵 {usage_summary()}</sub>"]
+    lines += [f"- ❌ {t[:80]} <sub>({w})</sub>" for t, w in skipped[:5]]
+    lines += ["", trace, f"<sub>💵 {usage_summary()}</sub>"]
     step_summary("\n".join(lines))
     return 0
 
