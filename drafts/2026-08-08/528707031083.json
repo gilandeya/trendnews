@@ -1,7 +1,7 @@
 {
   "id": "528707031083",
   "created_at": "2026-08-08T14:16:15.791470+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 155,
   "from_radar": true,
   "score": 16.62,
@@ -55,5 +55,7 @@
       "https://www.aljazeera.com/wp-content/uploads/2026/08/2026-08-08T102908Z_937179750_RC29UMAMX5V2_RTRMADP_3_THAILAND-SHOOTING-1786185206.jpg?resize=1920%2C1440"
     ]
   },
-  "auto_publish_decision": "المؤشر 16.6 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 16.6 دون عتبة النشر التلقائي",
+  "reject_tag": "مكرر",
+  "reject_note": ""
 }
