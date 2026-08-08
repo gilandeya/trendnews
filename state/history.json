@@ -1,92 +1,6 @@
 [
   {
     "tokens": [
-      "dead",
-      "exchange",
-      "least",
-      "russia",
-      "strikes",
-      "ukraine"
-    ],
-    "link": "https://www.thehindu.com/news/international/several-killed-as-ukraine-russia-exchange-strikes-august-3-2026/article71299756.ece",
-    "title": "At least 14 dead as Ukraine, Russia exchange strikes",
-    "posted_title": "مقتل 14 شخصًا على الأقل في تصعيد جديد بين روسيا وأوكرانيا خلال يوم واحد",
-    "seen_at": "2026-08-03T15:22:53.810659+00:00"
-  },
-  {
-    "tokens": [
-      "agency",
-      "airlines",
-      "alarm",
-      "arrest",
-      "baggage",
-      "before",
-      "border",
-      "chief",
-      "drug",
-      "jakarta",
-      "klia",
-      "malaysia",
-      "pilot",
-      "raised"
-    ],
-    "link": "https://www.malaymail.com/news/malaysia/2026/08/03/malaysia-airlines-pilots-baggage-raised-no-alarm-at-klia-before-drug-arrest-in-jakarta-border-agency-chief-says/230113",
-    "title": "Malaysia Airlines pilot’s baggage raised no alarm at KLIA before drug arrest in Jakarta, border agency chief says",
-    "posted_title": "لا إنذار عند الفحص في كوالالمبور.. طيار ماليزي يُوقف بتهمة حيازة مخدرات في جاكرتا",
-    "seen_at": "2026-08-03T15:23:03.682232+00:00"
-  },
-  {
-    "tokens": [
-      "august's",
-      "eclipse",
-      "greenland",
-      "iceland",
-      "solar",
-      "spain",
-      "sweep",
-      "total"
-    ],
-    "link": "https://phys.org/news/2026-08-august-total-solar-eclipse-spain.html",
-    "title": "August's total solar eclipse will sweep over Spain, Iceland and Greenland",
-    "posted_title": "كسوف شمسي كلي يزور إسبانيا وأيسلندا وغرينلاند في أغسطس المقبل",
-    "seen_at": "2026-08-03T15:23:12.875562+00:00"
-  },
-  {
-    "tokens": [
-      "3rd",
-      "bas",
-      "celebrate",
-      "day",
-      "man",
-      "rihanna",
-      "riot's",
-      "rocky",
-      "son",
-      "spider"
-    ],
-    "link": "https://www.eonline.com/news/1434596/rihanna-asap-rocky-celebrate-son-riots-3rd-birthday-with-spider-man-party?cmpid=rss-syndicate-genericrss-us-top_stories",
-    "title": "Rihanna, A$AP Rocky Celebrate Son Riot's 3rd B-Day With Spider-Man Bas",
-    "posted_title": "ريهانا وروكي يقيمان حفلًا بطابع سبايدرمان لعيد ميلاد ابنهما رايوت الثالث",
-    "seen_at": "2026-08-03T15:23:23.418724+00:00"
-  },
-  {
-    "tokens": [
-      "exports",
-      "fuel",
-      "india",
-      "price",
-      "raises",
-      "taxes",
-      "volatility",
-      "windfall"
-    ],
-    "link": "https://www.investing.com/news/economy-news/india-raises-windfall-taxes-on-fuel-exports-amid-price-volatility-93CH-4831619",
-    "title": "India raises windfall taxes on fuel exports amid price volatility",
-    "posted_title": "الهند تشدد الضرائب على صادرات الوقود مع تقلب الأسعار العالمية",
-    "seen_at": "2026-08-03T15:23:30.919530+00:00"
-  },
-  {
-    "tokens": [
       "'massive'",
       "begin",
       "iran",
@@ -2918,5 +2832,24 @@
     "posted_title": "تحديث: إيران تهاجم ناقلة نفط إماراتية بينما تقترب من اتفاق مع عمان بشأن هرمز",
     "region": "seasia",
     "seen_at": "2026-08-08T15:08:03.089975+00:00"
+  },
+  {
+    "score": 17.58,
+    "bucket": "serious",
+    "tokens": [
+      "batters",
+      "bearing",
+      "before",
+      "china",
+      "dolphin",
+      "japan's",
+      "okinawa",
+      "typhoon"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cvglp2zlvrlo?at_medium=RSS&at_campaign=rss",
+    "title": "Typhoon Dolphin batters Japan's Okinawa before bearing down on China",
+    "posted_title": "إعصار قوي يقطع الكهرباء عن عشرات آلاف المباني في أوكيناوا قبل توجهه إلى الصين",
+    "region": "uk",
+    "seen_at": "2026-08-08T15:31:14.482659+00:00"
   }
 ]
