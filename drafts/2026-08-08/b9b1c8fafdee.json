@@ -1,7 +1,7 @@
 {
   "id": "b9b1c8fafdee",
   "created_at": "2026-08-08T03:16:08.552699+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 139,
   "from_radar": true,
   "score": 17.36,
@@ -56,5 +56,7 @@
       "https://img.lemde.fr/2026/08/05/477/0/7420/3710/644/322/60/0/abf3867_ftp-1-y64ir7hvwf2z-5781699-01-06.jpg"
     ]
   },
-  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي",
+  "reject_tag": "محلي",
+  "reject_note": ""
 }
