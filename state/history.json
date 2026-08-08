@@ -1,26 +1,6 @@
 [
   {
     "tokens": [
-      "alive",
-      "aung",
-      "cross",
-      "kyi",
-      "military",
-      "myanmar",
-      "prove",
-      "pushed",
-      "red",
-      "san",
-      "suu",
-      "visits"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/03/myanmar-detained-former-leader-aung-san-suu-kyi-red-cross",
-    "title": "Red Cross visits Aung San Suu Kyi after Myanmar military pushed to prove she is alive",
-    "posted_title": "زيارة نادرة تكشف أول صورة لأونغ سان سو تشي منذ سنوات من الغموض حول مصيرها",
-    "seen_at": "2026-08-03T13:03:40.827041+00:00"
-  },
-  {
-    "tokens": [
       "'spider",
       "atop",
       "box",
@@ -3132,5 +3112,23 @@
     "posted_title": "بفارق صوت واحد.. كيف مرر الجمهوريون تعيين محامي ترامب الشخصي وزيرًا للعدل",
     "region": "uk",
     "seen_at": "2026-08-08T10:01:32.094221+00:00"
+  },
+  {
+    "score": 31.68,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "defence",
+      "pact",
+      "pakistan",
+      "saudi",
+      "sign",
+      "turkey"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c30418m4mj4o?at_medium=RSS&at_campaign=rss",
+    "title": "Saudi Arabia, Turkey and Pakistan sign defence pact",
+    "posted_title": "تحديث: السعودية وتركيا وباكستان يوقّعون رسميًا اتفاق الدفاع المشترك في مكة",
+    "region": "uk",
+    "seen_at": "2026-08-08T13:08:11.055848+00:00"
   }
 ]
