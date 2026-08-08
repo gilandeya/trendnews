@@ -1,0 +1,60 @@
+{
+  "id": "b9b1c8fafdee",
+  "created_at": "2026-08-08T03:16:08.552699+00:00",
+  "status": "pending",
+  "review_issue": 139,
+  "from_radar": true,
+  "score": 17.36,
+  "bucket": "serious",
+  "velocity": 1.0,
+  "trend_score": 0.0,
+  "age_hours": 1.0,
+  "state_media": false,
+  "has_photo": true,
+  "analysed_sources": [
+    "Der Spiegel"
+  ],
+  "source": {
+    "title": "Abholzung im Amazonas auf niedrigstem Stand seit einem Jahrzehnt",
+    "link": "https://www.spiegel.de/ausland/abholzung-im-amazonas-auf-niedrigstem-stand-seit-einem-jahrzehnt-a-3121993f-e1a3-405c-a87f-ed49099ba3f6#ref=rss",
+    "publisher": "Der Spiegel",
+    "publishers": [
+      "Der Spiegel",
+      "Le Monde"
+    ],
+    "region": "de",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/3822240b-a9f3-400c-b6b4-8f2a3d588e52_w520_r2.08_fpx39.33_fpy55.jpg",
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/3822240b-a9f3-400c-b6b4-8f2a3d588e52_w520_r2.08_fpx39.33_fpy55.jpg",
+      "https://img.lemde.fr/2026/08/05/477/0/7420/3710/644/322/60/0/abf3867_ftp-1-y64ir7hvwf2z-5781699-01-06.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": true,
+    "category": "عالم",
+    "image_headline": "إزالة غابات الأمازون تسجل أدنى مستوى منذ عشر سنوات",
+    "post_title": "إزالة غابات الأمازون في البرازيل تهبط إلى أدنى مستوى منذ عقد كامل",
+    "post_body": "أظهرت بيانات أقمار صناعية أن مساحة الغابات المزالة في منطقة الأمازون البرازيلية بلغت 2874 كيلومترًا مربعًا خلال الفترة من أغسطس 2025 إلى يوليو 2026، بانخفاض نسبته 37 بالمئة عن العام السابق، وهو الأدنى منذ بدء الرصد الدقيق عام 2016. أعلنت السلطات البرازيلية هذه الأرقام يوم الجمعة في ساو باولو. ويأتي ذلك بعد أن بلغت إزالة الغابات ذروتها عام 2022 بمساحة 12500 كيلومتر مربع. الرئيس البرازيلي لويس إيناسيو لولا دا سيلفا يستهدف وقف الإزالة غير القانونية للغابات بحلول عام 2030.",
+    "hashtags": [
+      "الأمازون",
+      "البرازيل",
+      "لولا",
+      "تغير_المناخ"
+    ]
+  },
+  "caption": "إزالة غابات الأمازون في البرازيل تهبط إلى أدنى مستوى منذ عقد كامل\n\nأظهرت بيانات أقمار صناعية أن مساحة الغابات المزالة في منطقة الأمازون البرازيلية بلغت 2874 كيلومترًا مربعًا خلال الفترة من أغسطس 2025 إلى يوليو 2026، بانخفاض نسبته 37 بالمئة عن العام السابق، وهو الأدنى منذ بدء الرصد الدقيق عام 2016. أعلنت السلطات البرازيلية هذه الأرقام يوم الجمعة في ساو باولو. ويأتي ذلك بعد أن بلغت إزالة الغابات ذروتها عام 2022 بمساحة 12500 كيلومتر مربع. الرئيس البرازيلي لويس إيناسيو لولا دا سيلفا يستهدف وقف الإزالة غير القانونية للغابات بحلول عام 2030.\n\n#الأمازون #البرازيل #لولا #تغير_المناخ",
+  "image": "drafts/2026-08-08/b9b1c8fafdee.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "إزالة غابات الأمازون تسجل أدنى مستوى منذ عشر سنوات",
+    "category": "عالم",
+    "urgent": true,
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/3822240b-a9f3-400c-b6b4-8f2a3d588e52_w520_r2.08_fpx39.33_fpy55.jpg",
+      "https://img.lemde.fr/2026/08/05/477/0/7420/3710/644/322/60/0/abf3867_ftp-1-y64ir7hvwf2z-5781699-01-06.jpg"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي"
+}
