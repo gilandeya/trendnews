@@ -1,7 +1,7 @@
 {
   "id": "a8ce2d0681b0",
   "created_at": "2026-08-08T19:46:10.269518+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 169,
   "from_radar": true,
   "score": 17.48,
@@ -60,5 +60,7 @@
       "https://img.lemde.fr/2026/08/08/456/0/5472/2736/644/322/60/0/ce52c68_ftp-1-qdrspc5wi1sp-acf073a858c34cf684c59fe9f42c17d2-1-5de2a2214fad45d2a3261e82d6f1ef5e.jpg"
     ]
   },
-  "auto_publish_decision": "المؤشر 17.5 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 17.5 دون عتبة النشر التلقائي",
+  "reject_tag": "مكرر",
+  "reject_note": ""
 }
