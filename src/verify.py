@@ -296,6 +296,22 @@ def extract_claims(article_text: str, cfg, retries: int = 3) -> tuple[dict | Non
 # ──────────────────────────── البحث عن الأدلة ────────────────────────────
 
 _DIGIT_RE = re.compile(r"\d")
+_TASHKEEL_RE = re.compile(r"[ً-ْـٰ]")  # مطابق لـ request._AR_MARKS
+_QUERY_WORD_RE = re.compile(r"[\w']+", re.UNICODE)
+
+# جذور كلمات حشو وأفعال إسناد تكرّرت في استعلامات ركيكة فعليًا رُصدت في
+# السجل (Issue #132 تعليق لاحق): 'بلومبرغ لتقرير للتاكد محتواه اليه' —
+# اختيار "أطول الكلمات" وحده يأتي بهذه بدل أسماء الأعلام. مطابقة جزئية
+# (substring) على الجذر بعد تطبيع request.norm_tokens تلتقط اشتقاقاتها
+# (لتقرير/بالتقرير/تقريرها...) دون قائمة صيغ منتهية.
+QUERY_FILLER_STEMS = (
+    "تقرير", "تاكد", "محتوا", "اليه", "وفق", "حسب", "كمل", "خلال",
+    "افاد", "ذكر", "اشار", "صرح", "اعلن", "كشف",
+)
+
+
+def _is_query_filler(normalized: str) -> bool:
+    return any(stem in normalized for stem in QUERY_FILLER_STEMS)
 
 
 def build_query(text: str, max_words: int = 5) -> str:
@@ -305,18 +321,33 @@ def build_query(text: str, max_words: int = 5) -> str:
     في عشرات المصادر (Issue #132 تعليق لاحق: ثماني وقائع شهيرة عادت كلها
     "لا مصدر" لهذا السبب بالذات، لا لغياب التغطية).
 
+    الكلمات المُختارة بإملائها **الأصلي** كما وردت في النص — لا بعد تطبيع
+    request.norm_tokens الذي يوحّد الهمزات والتاء المربوطة للمطابقة
+    الرخوة (مفيد عند الترشيح، لكنه يفسد نص استعلام حرفي: "اتفاقية" كانت
+    تصير "اتفاقيه" في الاستعلام فلا تطابق نص المقالات الفعلي — Issue #132
+    تعليق لاحق). norm_tokens تُستدعى على كل كلمة منفردة فقط لتحديد هل تنجو
+    من تصفية كلمات الوقف/الطول، لا لتحويل الكلمة نفسها.
+
     الأرقام (سنوات، كميات) أولًا لأنها أدق ما يميّز الادّعاء، ثم أطول
-    الكلمات المتبقية بعد تطبيع request.norm_tokens (يُسقط أدوات التعريف
-    وكلمات الوقف) — الطول تقريب رخيص لعلمية الكلمة (اسم علم أو مكان) بلا
-    استدعاء نموذج إضافي لاستخراج كيانات."""
-    tokens = norm_tokens(text)
-    if not tokens:
-        return (text or "").strip()
-    numbers = sorted(t for t in tokens if _DIGIT_RE.search(t))
-    words = sorted((t for t in tokens if not _DIGIT_RE.search(t)),
-                   key=lambda w: (-len(w), w))
+    الكلمات المتبقية بعد استبعاد كلمات الحشو أعلاه — الطول تقريب رخيص
+    لعلمية الكلمة (اسم علم أو مكان) بلا استدعاء نموذج إضافي لاستخراج
+    كيانات."""
+    clean = _TASHKEEL_RE.sub("", text or "")
+    seen: set[str] = set()
+    numbers: list[str] = []
+    words: list[str] = []
+    for raw in _QUERY_WORD_RE.findall(clean):
+        normalized = norm_tokens(raw)
+        if not normalized:
+            continue
+        norm = next(iter(normalized))
+        if norm in seen or _is_query_filler(norm):
+            continue
+        seen.add(norm)
+        (numbers if _DIGIT_RE.search(raw) else words).append(raw)
+    words.sort(key=len, reverse=True)
     picked = (numbers + words)[:max_words]
-    return " ".join(picked)
+    return " ".join(picked) if picked else clean.strip()
 
 
 def search(query: str, cfg, days: int) -> list[Article]:
@@ -343,21 +374,74 @@ def search(query: str, cfg, days: int) -> list[Article]:
     return rank(matched, selection, merge_cfg=cfg)
 
 
-def gather_evidence(articles: list[Article], cfg) -> list[dict]:
-    """يقرأ نصوص أعلى النتائج، متبِّعًا روابط Google News الوسيطة أولًا."""
+EVIDENCE_NO_RESULTS = "لا نتائج بحث"
+EVIDENCE_HEADLINES_ONLY = "عناوين فقط"
+EVIDENCE_FULL_TEXT = "نص كامل"
+EVIDENCE_UNREADABLE = "غير قابل للقراءة"
+
+
+def gather_evidence(articles: list[Article], cfg) -> tuple[list[dict], str]:
+    """يقرأ نصوص أعلى النتائج، متبِّعًا روابط Google News الوسيطة أولًا
+    (عبر sources.resolve_final_url المُصلَحة — Issue #132 تعليق لاحق: كانت
+    تفشل دائمًا لأن Google لم يعد يرسل تحويل HTTP حقيقي لهذه الروابط).
+
+    حين يتعذّر استخراج أي نص كامل رغم وجود نتائج مطابقة، نسقط للعنوان
+    والملخص كدليل أضعف بدل حكم "لا مصدر" رغم وجود مطابقة صريحة في العنوان
+    (Issue #132 تعليق لاحق: 'للمرة الأولى منذ 1985.. أمريكا توقف استيراد
+    النفط السعودي' كان يؤكد الواقعة حرفيًا، لكن تعذّر استخراج النص أسقطه).
+
+    يعيد (docs, evidence_basis) — evidence_basis إحدى أربع حالات صريحة
+    تُعرض في التقرير (Issue #132 تعليق لاحق: "لا نتائج بحث" و"وجدتُ نتائج
+    ولم أستطع قراءتها" و"قرأتُ ولم أجد تأييدًا" كانت الثلاث تظهر "لا مصدر"
+    نفسها في التقرير، وهذا مضلل)."""
+    if not articles:
+        return [], EVIDENCE_NO_RESULTS
+
     vcfg = cfg.get("verify", {}) or {}
     limit = int(vcfg.get("read_per_claim", 3))
+    candidates = articles[: limit * 3]
 
     members = []
-    for a in articles[: limit * 3]:
+    for a in candidates:
         link = a.link
         if "news.google.com" in link:
             link = resolve_final_url(link)
         members.append({"name": a.publisher or a.source_name, "link": link})
-    return extract.gather(members, limit=limit)
+
+    fulltext = extract.gather(members, limit=limit)
+    if fulltext:
+        return [{**d, "from_text": True} for d in fulltext], EVIDENCE_FULL_TEXT
+
+    headline_docs = []
+    for a in candidates[:limit]:
+        snippet = f"{a.title}. {a.summary}".strip(" .")
+        if snippet:
+            headline_docs.append({
+                "name": a.publisher or a.source_name,
+                "text": snippet,
+                "from_text": False,
+            })
+    if headline_docs:
+        return headline_docs, EVIDENCE_HEADLINES_ONLY
+    return [], EVIDENCE_UNREADABLE
 
 
 # ──────────────────────────── الحكم على الوقائع ────────────────────────────
+
+def _format_evidence(docs: list[dict]) -> str:
+    """يصوغ نصوص الأدلة لإدراجها في طلب الحكم، معلَّمة باسم كل مصدر
+    وأساس دليله (نص كامل أو عنوان وملخص فقط عند تعذّر استخراج النص —
+    Issue #132 تعليق لاحق). يختلف عن extract.format_for_prompt بإضافة
+    وسم الأساس هذا، فلا يُعاد استعمالها كما هي."""
+    if not docs:
+        return ""
+    blocks = []
+    for i, d in enumerate(docs, start=1):
+        basis = "نص المقال الكامل" if d.get("from_text", True) else \
+            "عنوان الخبر وملخصه فقط — لا نص المقال الكامل"
+        blocks.append(f"--- المصدر {i}: {d['name']} ({basis}) ---\n{d['text']}")
+    return "\n\n".join(blocks)
+
 
 JUDGE_FACT_SYSTEM = """أنت تقارن ادّعاءً بنصوص مصادر مستقلة عن الحدث نفسه.
 لكل نص مصدر معطى حدّد: هل يؤيد الادّعاء صراحة، أم يخالفه صراحة، أم لا علاقة
@@ -370,6 +454,8 @@ JUDGE_FACT_SYSTEM = """أنت تقارن ادّعاءً بنصوص مصادر م
 - المخالفة تعني تناقضًا حقيقيًا (رقم مختلف بوضوح، نفي صريح) لا فارقًا شكليًا
   في الصياغة أو الوحدة أو رقمًا محدَّثًا مقابل رقم قديم.
 - مصدر لم يذكر الادّعاء إطلاقًا لا يُحسب مؤيدًا ولا مخالفًا.
+- مصدر معلَّم "عنوان وملخص فقط" نصه قصير وقد يبسّط أو يبالغ — لا تعتبره
+  تأييدًا لتفصيلة دقيقة (رقم، تاريخ...) لم يذكرها العنوان صراحة بنفس الدقة.
 - أخرج فقط أسماء المصادر المعطاة لك حرفيًا، بلا اختراع أسماء جديدة."""
 
 JUDGE_FACT_SCHEMA = {
@@ -404,7 +490,7 @@ def judge_fact(claim_text: str, docs: list[dict], cfg, retries: int = 2) -> dict
     model = vcfg.get("model", "claude-sonnet-5")
     client = _client()
     prompt = (f"الادّعاء: {claim_text}\n\n"
-             f"نصوص المصادر:\n\n{extract.format_for_prompt(docs)}")
+             f"نصوص المصادر:\n\n{_format_evidence(docs)}")
 
     for attempt in range(1, retries + 1):
         try:
@@ -449,7 +535,8 @@ def classify_fact(supporting: list[str], contradicting: list[str],
 JUDGE_QUESTION_SYSTEM = """أنت تبحث في نصوص مصادر مستقلة عن جواب لسؤال أثاره
 مقال آخر. أجب فقط إن وجدت الجواب صراحة في النصوص المعطاة، ولا تستخدم معرفتك
 الخاصة عن الموضوع مهما بدت لك صحيحة. انسب الجواب لمن قاله في المصدر — لا
-تصغه كحقيقة مطلقة من عندك."""
+تصغه كحقيقة مطلقة من عندك. مصدر معلَّم "عنوان وملخص فقط" نصه قصير — لا تبنِ
+عليه جوابًا تفصيليًا لم يذكره صراحة بنفس الدقة."""
 
 JUDGE_QUESTION_SCHEMA = {
     "name": "answer_question",
@@ -471,7 +558,7 @@ def judge_question(question: str, docs: list[dict], cfg, retries: int = 2) -> di
     model = vcfg.get("model", "claude-sonnet-5")
     client = _client()
     prompt = (f"السؤال: {question}\n\n"
-             f"نصوص المصادر:\n\n{extract.format_for_prompt(docs)}")
+             f"نصوص المصادر:\n\n{_format_evidence(docs)}")
 
     for attempt in range(1, retries + 1):
         try:
@@ -552,7 +639,7 @@ def _verify_article(body: str, cfg) -> dict:
     for claim in facts:
         text = claim.get("text", "")
         ranked = search(build_query(text, query_max_words), cfg, days)
-        docs = gather_evidence(ranked, cfg) if ranked else []
+        docs, evidence_basis = gather_evidence(ranked, cfg)
         judged = (judge_fact(text, docs, cfg) if docs
                  else {"supporting": [], "contradicting": []})
         status = classify_fact(judged["supporting"], judged["contradicting"],
@@ -562,12 +649,13 @@ def _verify_article(body: str, cfg) -> dict:
             "status": status,
             "supporting": judged["supporting"],
             "contradicting": judged["contradicting"],
+            "evidence_basis": evidence_basis,
         })
 
     question_results = []
     for text in questions:
         ranked = search(build_query(text, query_max_words), cfg, days)
-        docs = gather_evidence(ranked, cfg) if ranked else []
+        docs, evidence_basis = gather_evidence(ranked, cfg)
         judged = (judge_question(text, docs, cfg) if docs
                  else {"answered": False, "answer": "", "source": ""})
         question_results.append({
@@ -575,6 +663,7 @@ def _verify_article(body: str, cfg) -> dict:
             "answered": bool(judged.get("answered")),
             "answer": judged.get("answer", ""),
             "source": judged.get("source", ""),
+            "evidence_basis": evidence_basis,
         })
 
     contradictions = [f for f in fact_results if f["status"] == STATUS_CONTRADICTED]
@@ -609,13 +698,16 @@ def build_report(result: dict) -> str:
 
     lines = ["### 🔎 تقرير التحقق", "", f"**الموضوع:** {result['topic']}", ""]
 
+    # عمود "الأدلة" يميّز صراحة بين لا نتائج بحث / نتائج بلا نص مقروء
+    # (عناوين فقط) / نص مقروء — الثلاثة كانت تظهر "لا مصدر" نفسها فتبدو
+    # متطابقة رغم اختلاف السبب جذريًا (Issue #132 تعليق لاحق).
     lines += ["#### الوقائع", ""]
     if result["facts"]:
-        lines += ["| الواقعة | الحكم | المصادر المؤيدة | المصادر المخالفة |",
-                  "|---|---|---|---|"]
+        lines += ["| الواقعة | الحكم | الأدلة | المصادر المؤيدة | المصادر المخالفة |",
+                  "|---|---|---|---|---|"]
         for f in result["facts"]:
             lines.append(
-                f"| {f['text']} | {f['status']} | "
+                f"| {f['text']} | {f['status']} | {f.get('evidence_basis', '—')} | "
                 f"{'، '.join(f['supporting']) or '—'} | "
                 f"{'، '.join(f['contradicting']) or '—'} |"
             )
@@ -626,10 +718,14 @@ def build_report(result: dict) -> str:
     lines += ["#### الأسئلة المطروحة", ""]
     if result["questions"]:
         for q in result["questions"]:
+            basis = q.get("evidence_basis", "")
+            basis_note = f" ({basis})" if basis and basis != EVIDENCE_FULL_TEXT else ""
             if q["answered"]:
-                lines.append(f"- **{q['text']}** — {q['answer']} (بحسب {q['source']})")
+                lines.append(f"- **{q['text']}** — {q['answer']} "
+                             f"(بحسب {q['source']}){basis_note}")
             else:
-                lines.append(f"- **{q['text']}** — لم توجد إجابة في المصادر المستقلة")
+                lines.append(f"- **{q['text']}** — لم توجد إجابة في المصادر "
+                             f"المستقلة{basis_note}")
     else:
         lines.append("لم يثر المقال أسئلة مفتوحة تستحق بحثًا مستقلًا.")
     lines.append("")
