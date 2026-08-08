@@ -442,6 +442,15 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
     (Issue #132 تعليق لاحق: 'للمرة الأولى منذ 1985.. أمريكا توقف استيراد
     النفط السعودي' كان يؤكد الواقعة حرفيًا، لكن تعذّر استخراج النص أسقطه).
 
+    ترتيب القراءة بوزن الناشر أولًا (_publisher_weight: verify.trusted_boost
+    ثم وزن sources في config.yaml)، لا بالصلة وحدها كما كان (Issue #132
+    تعليق لاحق: بلومبرغ ظهرت في نتائج البحث فعليًا لكنها لم تدخل قائمة
+    المؤيدين لأن ترتيب القراءة كان بالصلة وحدها، فسبقتها مصادر أضعف موثوقية
+    إلى سقف read_per_claim قبل أن تُقرأ). الصلة (تطابق كلمات claim_text)
+    تبقى معيارًا ثانويًا يفاضل بين ناشرين بالوزن نفسه. الوزن يُحسب لكل مرشح
+    على حدة — الممثّل وكل عضو من cluster_members — لا للممثّل وحده، فناشر
+    موثوق مدفون داخل مجموعة لا يخرج من نافذة القراءة بسبب ترتيب مجموعته.
+
     يعيد (docs, evidence_basis) — evidence_basis إحدى أربع حالات صريحة
     تُعرض في التقرير (Issue #132 تعليق لاحق: "لا نتائج بحث" و"وجدتُ نتائج
     ولم أستطع قراءتها" و"قرأتُ ولم أجد تأييدًا" كانت الثلاث تظهر "لا مصدر"
@@ -449,14 +458,25 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
     if not articles:
         return [], EVIDENCE_NO_RESULTS
 
-    if claim_text:
-        wanted = norm_tokens(claim_text)
-        articles = sorted(articles, key=lambda a: -_relevance(a, wanted))
+    wanted = norm_tokens(claim_text) if claim_text else set()
 
     vcfg = cfg.get("verify", {}) or {}
     limit = int(vcfg.get("read_per_claim", 3))
     max_members = limit * 4  # هامش فوق سقف extract.gather الداخلي (limit*2)
                               # لأن بعض الروابط قد تفشل قراءتها فعليًا
+
+    # (وزن الناشر، الصلة، الاسم، الرابط) لكل مرشح فردي — الممثّل وكل عضو من
+    # cluster_members معًا — قبل أي فرز، ليُرتَّب الجميع بمعيار واحد لا
+    # بترتيب articles وحده (انظر التوثيق أعلاه)
+    candidates: list[tuple[float, int, str, str]] = []
+    for a in articles:
+        rel = _relevance(a, wanted) if wanted else 0
+        name = a.publisher or a.source_name
+        candidates.append((_publisher_weight(name, cfg), rel, name, a.link))
+        for m in a.cluster_members:
+            mname = m.get("name")
+            candidates.append((_publisher_weight(mname, cfg), rel, mname, m.get("link")))
+    candidates.sort(key=lambda c: (-c[0], -c[1]))
 
     seen_links: set[str] = set()
     seen_names: set[str] = set()
@@ -469,22 +489,14 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
         seen_names.add(name)
         members.append({"name": name, "link": link})
 
-    for a in articles:
-        link = a.link
-        if "news.google.com" in link:
+    for _weight, _rel, name, link in candidates:
+        # rank.pick_representative تُبقي روابط جوجل الوسيطة هنا (نمرر
+        # keep_google_links=True في search()) لأن نتائج بحث التحقق كلها
+        # من Google News أصلًا — فتُحلّ هنا بالضبط، لا تُضاف خامًا (كانت
+        # تُفلتَر بصمت في rank.py قبل إصلاح سابق — Issue #132 تعليق لاحق)
+        if link and "news.google.com" in link:
             link = resolve_final_url(link)
-        _add(a.publisher or a.source_name, link)
-        for m in a.cluster_members:
-            mlink = m.get("link")
-            # rank.pick_representative تُبقي روابط جوجل الوسيطة هنا (نمرر
-            # keep_google_links=True في search()) لأن نتائج بحث التحقق كلها
-            # من Google News أصلًا — فتُحلّ هنا بالضبط كرابط الممثّل نفسه، لا
-            # تُضاف خامًا (كانت تُفلتَر بصمت في rank.py قبل هذا الإصلاح، فلا
-            # يصل gather_evidence إلا رابط الممثّل الوحيد رغم توسيع الكود
-            # لبقية الأعضاء — Issue #132 تعليق لاحق)
-            if mlink and "news.google.com" in mlink:
-                mlink = resolve_final_url(mlink)
-            _add(m.get("name"), mlink)
+        _add(name, link)
         if len(members) >= max_members:
             break
 
@@ -560,29 +572,56 @@ JUDGE_FACT_SCHEMA = {
 _PAREN_RE = re.compile(r"[\(（][^\)）]*[\)）]?")
 
 
+def _tokens_match(a: str, b: str) -> bool:
+    """يقارن اسمين بتسامح: يُسقط أي وصف بين قوسين، ويقارن كلماتهما عبر
+    request.norm_tokens (تتكفّل هي نفسها بالمسافات الزائدة وأل التعريف
+    وفروق الهمزات) بتطابق جزئي — كلمات أحد الاسمين واردة كاملة داخل الآخر،
+    لا تطابق حرفي صارم. يستعملها _canonical_name (مطابقة اسم أعاده النموذج
+    بأحد docs) و_publisher_weight (مطابقة ناشر بقائمة sources/trusted_boost)
+    معًا — نفس منطق التسامح المطلوب في الحالتين."""
+    ta = norm_tokens(_PAREN_RE.sub("", a or ""))
+    tb = norm_tokens(_PAREN_RE.sub("", b or ""))
+    return bool(ta) and bool(tb) and (ta <= tb or tb <= ta)
+
+
 def _canonical_name(candidate, docs: list[dict]) -> str | None:
     """يطابق اسم مصدر أعاده النموذج مع أحد أسماء docs المعطاة فعليًا،
     بتسامح (Issue #132 تعليق لاحق: النموذج أيّد واقعة فعلًا لكنه أضاف وصفًا
     بين قوسين لاسم المصدر — 'جفرا نيوز (نص المقال الكامل)' — والمطابقة
-    الحرفية السابقة حذفت التأييد الحقيقي كله):
-    1) يُسقط أي وصف بين قوسين من الاسمين قبل المقارنة.
-    2) يقارن كلماتهما عبر request.norm_tokens — تتجاهل هي نفسها المسافات
-       الزائدة وأل التعريف وفروق الهمزات، فلا داعي لتكرار ذلك التطبيع هنا.
-    3) تطابق جزئي: كلمات أحد الاسمين واردة كاملة داخل كلمات الآخر (أيهما
-       أقصر) — لا تطابق حرفي صارم.
-    يعيد اسم doc **الفعلي** (لا نص النموذج) ليبقى التقرير والعدّ نظيفين،
-    أو None إن لم يطابق أي اسم معروف حتى بهذا التسامح — الحماية من أسماء
-    مختلَقة كليًا تبقى قائمة."""
+    الحرفية السابقة حذفت التأييد الحقيقي كله). يعيد اسم doc **الفعلي** (لا
+    نص النموذج) ليبقى التقرير والعدّ نظيفين، أو None إن لم يطابق أي اسم
+    معروف حتى بهذا التسامح — الحماية من أسماء مختلَقة كليًا تبقى قائمة."""
     if not isinstance(candidate, str):
         return None
-    cand_tokens = norm_tokens(_PAREN_RE.sub("", candidate))
-    if not cand_tokens:
-        return None
     for d in docs:
-        known_tokens = norm_tokens(_PAREN_RE.sub("", d["name"]))
-        if known_tokens and (known_tokens <= cand_tokens or cand_tokens <= known_tokens):
+        if _tokens_match(candidate, d["name"]):
             return d["name"]
     return None
+
+
+DEFAULT_PUBLISHER_WEIGHT = 0.6
+TRUSTED_PUBLISHER_WEIGHT = 3.0
+
+
+def _publisher_weight(name: str, cfg) -> float:
+    """وزن الناشر: من verify.trusted_boost أولًا (وكالات كبرى، أولوية قراءة
+    قصوى بصرف النظر عن ورودها في sources أصلًا)، ثم وزن sources في
+    config.yaml (نفس الوزن المستعمل في مسار الجمع)، وإلا وزن افتراضي متواضع
+    لناشر غير مُدرَج. هذا وزن *موثوقية* لا درجة ترند (Issue #132 تعليق لاحق:
+    بلومبرغ ظهرت في نتائج البحث فعليًا ولم تدخل قائمة المؤيدين لأن ترتيب
+    القراءة كان بالصلة وحدها، فسبقتها مصادر أضعف موثوقية — خبرگزاری مهر،
+    الخلاصة نت، أهل مصر، Vietnam.vn — إلى سقف read_per_claim قبل أن تُقرأ)."""
+    if not name:
+        return DEFAULT_PUBLISHER_WEIGHT
+    vcfg = cfg.get("verify", {}) or {}
+    for trusted in vcfg.get("trusted_boost") or []:
+        if _tokens_match(name, trusted):
+            return TRUSTED_PUBLISHER_WEIGHT
+    for s in cfg.get("sources", []) or []:
+        sname = s.get("name", "")
+        if sname and _tokens_match(name, sname):
+            return float(s.get("weight", DEFAULT_PUBLISHER_WEIGHT))
+    return DEFAULT_PUBLISHER_WEIGHT
 
 
 def _known_only(names, docs: list[dict]) -> list[str]:
@@ -778,10 +817,18 @@ def _verify_article(body: str, cfg) -> dict:
                  else {"supporting": [], "contradicting": []})
         status = classify_fact(judged["supporting"], judged["contradicting"],
                                min_confirm)
+        # وزن كل مصدر مؤيد يُعرَض في التقرير (Issue #132 تعليق لاحق): العدد
+        # وحده لا يُظهر قوة السند — وكالة كبرى ومصدر مجهول يُحسبان مصدرًا
+        # واحدًا لكل منهما رغم فارق الموثوقية
+        supporting_weighted = sorted(
+            ({"name": n, "weight": _publisher_weight(n, cfg)}
+             for n in judged["supporting"]),
+            key=lambda s: -s["weight"])
         fact_results.append({
             "text": text,
             "status": status,
             "supporting": judged["supporting"],
+            "supporting_weighted": supporting_weighted,
             "contradicting": judged["contradicting"],
             "evidence_basis": evidence_basis,
         })
@@ -837,12 +884,20 @@ def build_report(result: dict) -> str:
     # متطابقة رغم اختلاف السبب جذريًا (Issue #132 تعليق لاحق).
     lines += ["#### الوقائع", ""]
     if result["facts"]:
-        lines += ["| الواقعة | الحكم | الأدلة | المصادر المؤيدة | المصادر المخالفة |",
+        lines += ["| الواقعة | الحكم | الأدلة | المصادر المؤيدة (وزن الموثوقية) | المصادر المخالفة |",
                   "|---|---|---|---|---|"]
         for f in result["facts"]:
+            # وزن كل مصدر مؤيد بجانب اسمه — العدد وحده لا يُظهر قوة السند
+            # (Issue #132 تعليق لاحق)
+            weighted = f.get("supporting_weighted") or [
+                {"name": n, "weight": None} for n in f["supporting"]]
+            supporting_str = "، ".join(
+                f"{s['name']} ({s['weight']:.1f}×)" if s["weight"] is not None
+                else s["name"]
+                for s in weighted) or "—"
             lines.append(
                 f"| {f['text']} | {f['status']} | {f.get('evidence_basis', '—')} | "
-                f"{'، '.join(f['supporting']) or '—'} | "
+                f"{supporting_str} | "
                 f"{'، '.join(f['contradicting']) or '—'} |"
             )
     else:

@@ -928,6 +928,23 @@ def test_verify() -> None:
     check("مسافات زائدة وأل التعريف لا تمنع المطابقة",
           verify._canonical_name("  الجفرا   نيوز  ", docs_jafra) == "جفرا نيوز")
 
+    # وزن الناشر لترتيب القراءة وعرضه في التقرير (Issue #132 تعليق لاحق:
+    # حكم إيجابي فعلي استند إلى خبرگزاری مهر والخلاصة نت وأهل مصر وVietnam.vn
+    # بينما بلومبرغ نفسها ظهرت في نتائج البحث ولم تدخل قائمة المؤيدين)
+    _cfg_for_weight = load_config()
+    check("_publisher_weight: مصدر في verify.trusted_boost يأخذ الوزن الأقصى",
+          verify._publisher_weight("Bloomberg", _cfg_for_weight) ==
+          verify.TRUSTED_PUBLISHER_WEIGHT)
+    check("_publisher_weight: مصدر في sources (لا يطابق أي اسم في "
+          "trusted_boost) يأخذ وزنه المُعرَّف هناك لا الافتراضي ولا الأقصى",
+          verify._publisher_weight("Dawn", _cfg_for_weight) == 1.1)
+    check("_publisher_weight: ناشر غير مُدرَج في أي من القائمتين (كالمثال "
+          "الفعلي 'الخلاصة نت') يأخذ الوزن الافتراضي المتواضع",
+          verify._publisher_weight("الخلاصة نت", _cfg_for_weight) ==
+          verify.DEFAULT_PUBLISHER_WEIGHT)
+    check("الوزن الأقصى أعلى من أي وزن sources الذي أعلى بدوره من الافتراضي",
+          verify.TRUSTED_PUBLISHER_WEIGHT > 1.2 > verify.DEFAULT_PUBLISHER_WEIGHT)
+
     # ضوابط البرومبت: نفس قاعدة عدم الاستعانة بمعرفة النموذج الخاصة (writer.py)
     check("استخراج البنية لا ينقل جملة حرفية من المقال",
           "لا تنقل جملة من المقال حرفيًا" in verify.EXTRACT_SYSTEM)
@@ -1170,6 +1187,11 @@ def test_verify() -> None:
     report2 = verify.build_report(result2)
     check("التقرير الإيجابي يحمل ✅", "✅" in report2 and "**نعم**" in report2)
     check("عمود الأدلة يظهر في التقرير", "الأدلة" in report2)
+    # وزن كل مصدر مؤيد يظهر في التقرير لا العدد وحده (Issue #132 تعليق لاحق)
+    check("عمود المصادر المؤيدة يعرض وزن كل مصدر (BBC وReuters كلاهما في "
+          "trusted_boost)", "×" in report2)
+    check("supporting_weighted محسوبة فعليًا لكل واقعة لا فارغة",
+          bool(result2["facts"][0].get("supporting_weighted")))
 
     # verify_article يبني استعلام بحث قصيرًا لكل ادّعاء/سؤال قبل استدعاء
     # search، لا يمرّر نص الادّعاء الكامل — سبب عطل "لا مصدر" الجماعي الفعلي
@@ -1490,6 +1512,39 @@ def test_verify() -> None:
 
     check("المرشح الأكثر تطابقًا مع نص الواقعة يُقرأ أولًا رغم ترتيبه الثاني في articles",
           read_order and read_order[0] == "Specific", str(read_order))
+
+    # وزن الناشر أولوية على الصلة وحدها (Issue #132 تعليق لاحق: بلومبرغ
+    # ظهرت في نتائج بحث فعلي لكنها لم تدخل قائمة المؤيدين لأن ترتيب القراءة
+    # كان بالصلة وحدها — ناشر مجهول أعلى صلة سبقها إلى سقف read_per_claim)
+    trusted_low_relevance = Article(
+        title="تغطية عامة لسوق الطاقة", link="https://bloomberg.example/1",
+        summary="", source_name="Bloomberg", region="global", weight=1.0,
+        published=datetime.now(timezone.utc), publisher="Bloomberg")
+    unknown_high_relevance = Article(
+        title="توقف واردات النفط السعودي لأمريكا 1985",
+        link="https://unknown.example/2", summary="", source_name="موقع مجهول",
+        region="global", weight=1.0, published=datetime.now(timezone.utc),
+        publisher="موقع مجهول")
+
+    read_order2: list[str] = []
+
+    def _fake_gather_order2(members, limit=2):
+        read_order2.extend(m["name"] for m in members)
+        return [{"name": m["name"], "text": f"نص {m['name']}"} for m in members[:limit]]
+
+    extract.gather = _fake_gather_order2
+    try:
+        # الناشر الموثوق (Bloomberg) الثاني في articles عمدًا — لو كان
+        # الترتيب بالصلة وحدها لسبقه "موقع مجهول" الأعلى تطابقًا لفظيًا
+        verify.gather_evidence(
+            [unknown_high_relevance, trusted_low_relevance], cfg,
+            "توقف واردات النفط السعودي لأمريكا منذ عام 1985")
+    finally:
+        extract.gather = real_extract_gather
+
+    check("الناشر الموثوق (trusted_boost) يُقرأ أولًا رغم صلة أضعف وترتيب "
+          "ثانٍ في articles — الوزن أولوية على الصلة وحدها",
+          read_order2 and read_order2[0] == "Bloomberg", str(read_order2))
 
 
 def test_reject_boxes_render() -> None:
