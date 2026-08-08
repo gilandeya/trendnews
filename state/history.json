@@ -1,112 +1,6 @@
 [
   {
     "tokens": [
-      "'spider",
-      "atop",
-      "box",
-      "brand",
-      "day'",
-      "debuts",
-      "man",
-      "office",
-      "weekend"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260803001100315",
-    "title": "'Spider-Man: Brand New Day' debuts atop weekend box office",
-    "posted_title": "فيلم سبايدرمان الجديد يقترب من تحطيم رقم أفنجرز إند غيم في أول عطلة أسبوع",
-    "seen_at": "2026-08-03T13:45:02.292580+00:00"
-  },
-  {
-    "tokens": [
-      "brand",
-      "day",
-      "ends",
-      "exclusive",
-      "imax",
-      "man",
-      "odyssey",
-      "release",
-      "run",
-      "sets",
-      "spider"
-    ],
-    "link": "https://variety.com/2026/film/box-office/spider-man-brand-new-day-imax-release-odyssey-exclusive-run-ends-1236826306/",
-    "title": "‘Spider-Man: Brand New Day’ Sets Imax Release as ‘The Odyssey’ Exclusive Run Ends",
-    "posted_title": "فيلم Spider-Man: Brand New Day يحصل على عرض آيماكس بعد انتهاء حصرية فيلم كريستوفر نولان",
-    "seen_at": "2026-08-03T13:46:58.775528+00:00"
-  },
-  {
-    "tokens": [
-      "attack",
-      "ban",
-      "display",
-      "massive",
-      "palestine",
-      "respond",
-      "singapore"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cr59qe86yj4o?at_medium=RSS&at_campaign=rss",
-    "title": "Massive Attack respond after Singapore ban over Palestine display",
-    "posted_title": "فرقة Massive Attack البريطانية تعبّر عن استغرابها من منعها في سنغافورة بعد هتاف فلسطيني في حفل سابق",
-    "seen_at": "2026-08-03T13:58:01.347675+00:00"
-  },
-  {
-    "tokens": [
-      "attack",
-      "including",
-      "kabal",
-      "least",
-      "martyred",
-      "officials",
-      "people",
-      "police",
-      "station",
-      "suicide",
-      "swat"
-    ],
-    "link": "https://www.dawn.com/news/2020154/at-least-14-people-including-police-officials-martyred-in-suicide-attack-on-kabal-police-station-in-swat-police",
-    "title": "At least 14 people, including police officials, martyred in suicide attack on Kabal police station in Swat: police",
-    "posted_title": "مقتل 14 شخصًا على الأقل في تفجير انتحاري استهدف مركز شرطة كابال في سوات بباكستان",
-    "seen_at": "2026-08-03T13:59:36.419502+00:00"
-  },
-  {
-    "tokens": [
-      "about",
-      "attack",
-      "banned",
-      "being",
-      "experience",
-      "flag",
-      "massive",
-      "palestinian",
-      "singapore",
-      "speak",
-      "surreal"
-    ],
-    "link": "https://www.theguardian.com/music/2026/aug/03/massive-attack-singapore-ban-palestine-flag",
-    "title": "Massive Attack speak about ‘surreal experience’ of being banned from Singapore over Palestinian flag",
-    "posted_title": "فرقة بريطانية تُمنع من دخول سنغافورة بعد رفع علم فلسطين خلال حفلها",
-    "seen_at": "2026-08-03T14:09:31.171105+00:00"
-  },
-  {
-    "tokens": [
-      "acquits",
-      "athletes",
-      "chief",
-      "court",
-      "former",
-      "harassing",
-      "india",
-      "sexually",
-      "wrestling"
-    ],
-    "link": "https://www.dawn.com/news/2020344/court-acquits-former-india-wrestling-chief-of-sexually-harassing-athletes",
-    "title": "Court acquits former India wrestling chief of sexually harassing athletes",
-    "posted_title": "تبرئة رئيس اتحاد المصارعة الهندي الأسبق من تهم التحرش التي أشعلت احتجاجات واسعة عام 2023",
-    "seen_at": "2026-08-03T14:09:43.840926+00:00"
-  },
-  {
-    "tokens": [
       "'comments",
       "concerns'",
       "conveys",
@@ -3130,5 +3024,25 @@
     "posted_title": "تحديث: السعودية وتركيا وباكستان يوقّعون رسميًا اتفاق الدفاع المشترك في مكة",
     "region": "uk",
     "seen_at": "2026-08-08T13:08:11.055848+00:00"
+  },
+  {
+    "score": 16.62,
+    "bucket": "serious",
+    "tokens": [
+      "death",
+      "dies",
+      "girl",
+      "nine",
+      "rises",
+      "school",
+      "shooting",
+      "thailand",
+      "toll"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/8/8/families-retrieve-bodies-after-deadly-shooting-rampage-outside-bangkok?traffic_source=rss",
+    "title": "Thailand school shooting death toll rises to nine after girl dies",
+    "posted_title": "وفاة طفلة الثانية عشرة ترفع حصيلة إطلاق النار في مدرسة قرب بانكوك إلى تسعة قتلى",
+    "region": "qa",
+    "seen_at": "2026-08-08T14:16:15.791901+00:00"
   }
 ]
