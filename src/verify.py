@@ -47,7 +47,20 @@ EXTRACT_SYSTEM = """أنت محلل تحقق (fact-checker) يقرأ مقالً�
 
 لا تنقل جملة من المقال حرفيًا: أعد صياغة كل ادّعاء وسؤال بإيجاز يكفي لبناء
 استعلام بحث منه. لا تُجب عن الأسئلة من معرفتك — استخرجها فقط، فالبحث
-سيتولى الإجابة."""
+سيتولى الإجابة.
+
+كل عنصر في claims يجب أن يكون كائنًا {"text": ..., "kind": ...} — لا نصًا
+مجردًا أبدًا، حتى لو بدا ذلك مختصرًا. مثال دقيق على الشكل المطلوب:
+{
+  "topic": "ارتفاع أسعار الوقود وتأثيره على النقل",
+  "claims": [
+    {"text": "ارتفعت أسعار الوقود بنسبة 12٪ الشهر الماضي", "kind": "واقعة"},
+    {"text": "الارتفاع نتيجة سياسات حكومية غير مدروسة", "kind": "رأي"},
+    {"text": "الأسعار ستتضاعف خلال عام", "kind": "تنبؤ"}
+  ],
+  "questions": ["ما مصدر البيانات التي استند إليها المقال في نسبة الارتفاع؟"]
+}
+لا تُعِد claims أو questions كقائمة نصوص مجردة أو بشكل مختلف عن هذا أبدًا."""
 
 EXTRACT_SCHEMA = {
     "name": "extract_claims",
@@ -72,6 +85,60 @@ EXTRACT_SCHEMA = {
         "required": ["topic", "claims", "questions"],
     },
 }
+
+
+def _as_text(value) -> str:
+    """يستخرج نصًا من قيمة قد تكون نصًا أو قاموسًا بحقل نصي — بلا افتراض شكل."""
+    if isinstance(value, str):
+        return value.strip()
+    if isinstance(value, dict):
+        for key in ("text", "claim", "question", "content"):
+            candidate = value.get(key)
+            if isinstance(candidate, str) and candidate.strip():
+                return candidate.strip()
+    return ""
+
+
+def normalize_claim(item) -> dict | None:
+    """يطبّع عنصر ادّعاء واحدًا من رد النموذج، الذي قد يخالف مخطط الأداة
+    (Issue #134: النموذج أعاد claims كقائمة نصوص لا كقائمة قواميس):
+    نص مجرد يصير {"text": النص, "kind": "واقعة"}؛ قاموس بحقل kind غائب أو
+    غير معروف يُملأ بالقيمة نفسها. عنصر بلا نص قابل للاستخراج يُستبعد."""
+    text = _as_text(item)
+    if not text:
+        return None
+    kind = item.get("kind") if isinstance(item, dict) else None
+    if kind not in CLAIM_KINDS:
+        kind = "واقعة"
+    return {"text": text, "kind": kind}
+
+
+def normalize_claims(raw) -> list[dict]:
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for item in raw:
+        norm = normalize_claim(item)
+        if norm:
+            out.append(norm)
+    return out
+
+
+def normalize_question(item) -> str | None:
+    """سؤال قد يصل نصًا مجردًا (الشكل المطلوب) أو قاموسًا — كلاهما مقبول."""
+    text = _as_text(item)
+    return text or None
+
+
+def normalize_questions(raw) -> list[str]:
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for item in raw:
+        norm = normalize_question(item)
+        if norm:
+            out.append(norm)
+    return out
 
 
 def _client() -> Anthropic:
@@ -216,12 +283,15 @@ JUDGE_FACT_SCHEMA = {
 }
 
 
-def _known_only(names: list[str], docs: list[dict]) -> list[str]:
-    """يستبعد أي اسم مصدر لم يُعطَ فعليًا — لا مصدر مختلَق يدخل التقرير."""
+def _known_only(names, docs: list[dict]) -> list[str]:
+    """يستبعد أي اسم مصدر لم يُعطَ فعليًا — لا مصدر مختلَق يدخل التقرير.
+    لا يفترض أن names قائمة أصلًا؛ رد النموذج قد يخالف مخطط الأداة."""
+    if not isinstance(names, list):
+        return []
     known = {d["name"] for d in docs}
     seen: list[str] = []
-    for name in names or []:
-        if name in known and name not in seen:
+    for name in names:
+        if isinstance(name, str) and name in known and name not in seen:
             seen.append(name)
     return seen
 
@@ -330,6 +400,18 @@ def judge_question(question: str, docs: list[dict], cfg, retries: int = 2) -> di
 
 
 def verify_article(body: str, cfg) -> dict:
+    """يلتقط أي انهيار غير متوقع (رد نموذج بشكل لم يُتوقَّع رغم التطبيع، خطأ
+    شبكة لم يُلتقط في طبقة أدنى...) فلا يصل traceback إلى تعليق الـ Issue —
+    المستخدم لا يقرأ سجلات Actions."""
+    try:
+        return _verify_article(body, cfg)
+    except Exception:
+        log.exception("انهيار غير متوقع أثناء التحقق من المقال")
+        return {"ok": False,
+                "reason": "حدث خطأ غير متوقع أثناء التحقق — راجع سجلات Actions للتفاصيل"}
+
+
+def _verify_article(body: str, cfg) -> dict:
     vcfg = cfg.get("verify", {}) or {}
     days = int(vcfg.get("days", 14))
     max_claims = int(vcfg.get("max_claims", 8))
@@ -340,10 +422,10 @@ def verify_article(body: str, cfg) -> dict:
     if not extracted:
         return {"ok": False, "reason": extract_error or "تعذّر استخراج بنية المقال"}
 
-    claims = extracted.get("claims") or []
-    facts = [c for c in claims if c.get("kind") == "واقعة"][:max_claims]
-    other_claims = [c for c in claims if c.get("kind") != "واقعة"]
-    questions = (extracted.get("questions") or [])[:max_questions]
+    claims = normalize_claims(extracted.get("claims"))
+    facts = [c for c in claims if c["kind"] == "واقعة"][:max_claims]
+    other_claims = [c for c in claims if c["kind"] != "واقعة"]
+    questions = normalize_questions(extracted.get("questions"))[:max_questions]
 
     fact_results = []
     for claim in facts:
@@ -390,7 +472,7 @@ def verify_article(body: str, cfg) -> dict:
 
     return {
         "ok": True,
-        "topic": extracted.get("topic", ""),
+        "topic": _as_text(extracted.get("topic")) or "(لم يُستخرج موضوع محدد)",
         "facts": fact_results,
         "opinions": other_claims,
         "questions": question_results,

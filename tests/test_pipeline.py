@@ -870,6 +870,29 @@ def test_verify() -> None:
     check("تصنيفات الادعاء الثلاثة متاحة",
           set(verify.CLAIM_KINDS) == {"واقعة", "رأي", "تنبؤ"})
 
+    # تطبيع شكل رد النموذج (Issue #134: claims وصلت كقائمة نصوص لا قواميس
+    # فانهار verify.py:344 بـ AttributeError) — لا يُفترض شكل بلا تحقق
+    check("نص مجرد يصير قاموس ادّعاء بحقلين افتراضيين",
+          verify.normalize_claim("ادّعاء بلا شكل") ==
+          {"text": "ادّعاء بلا شكل", "kind": "واقعة"})
+    check("قاموس ناقص حقل kind يُملأ بقيمة افتراضية",
+          verify.normalize_claim({"text": "ادّعاء"}) ==
+          {"text": "ادّعاء", "kind": "واقعة"})
+    check("قاموس بقيمة kind غير معروفة يُصحَّح لا يُرفَض",
+          verify.normalize_claim({"text": "ادّعاء", "kind": "شيء غريب"}) ==
+          {"text": "ادّعاء", "kind": "واقعة"})
+    check("عنصر بلا نص قابل للاستخراج (رقم مثلًا) يُستبعد بلا انهيار",
+          verify.normalize_claim(42) is None)
+    check("normalize_claims على قيمة ليست قائمة أصلًا لا تنهار",
+          verify.normalize_claims("ليست قائمة") == [])
+    check("normalize_claims على None لا تنهار", verify.normalize_claims(None) == [])
+    check("normalize_question يقبل سؤالًا كقاموس أيضًا",
+          verify.normalize_question({"question": "لماذا؟"}) == "لماذا؟")
+    check("normalize_questions على قيمة ليست قائمة لا تنهار",
+          verify.normalize_questions(None) == [])
+    check("_known_only على قيمة supporting ليست قائمة لا تنهار",
+          verify._known_only("BBC", docs) == [])
+
     cfg = load_config()
 
     # اختبار مباشر لتحليل رد extract_claims (قبل أي محاكاة تستبدل الدالة
@@ -973,6 +996,52 @@ def test_verify() -> None:
           "حاول مجددًا" not in failed["reason"] and "مبتور" in failed["reason"])
     check("تقرير الفشل مقروء لا يحوي حقولًا فارغة",
           "تعذّر التحقق" in verify.build_report(failed))
+
+    # الحالات الثلاث من Issue #134: claims نصوص / claims قواميس / claims
+    # غائبة تمامًا عن رد النموذج — لا انهيار في أي منها
+    verify.search = lambda query, cfg, days: []
+
+    verify.extract_claims = lambda text, cfg, retries=3: (
+        {"topic": "مقال بادّعاءات نصية", "claims": ["ادّعاء أول", "ادّعاء ثانٍ"],
+         "questions": ["سؤال؟"]}, None)
+    out_strings = verify.verify_article("نص", cfg)
+    check("claims كقائمة نصوص مجردة لا تنهار (عطل Issue #134 الأصلي)",
+          out_strings["ok"] is True)
+    check("كل نص مجرد يصير واقعة قابلة للعرض في التقرير",
+          len(out_strings["facts"]) == 2 and
+          out_strings["facts"][0]["text"] == "ادّعاء أول")
+
+    verify.extract_claims = lambda text, cfg, retries=3: (
+        {"topic": "مقال بادّعاءات قواميس",
+         "claims": [{"text": "ادّعاء بقاموس", "kind": "واقعة"}],
+         "questions": []}, None)
+    out_dicts = verify.verify_article("نص", cfg)
+    check("claims كقائمة قواميس كاملة تُعالَج طبيعيًا",
+          out_dicts["ok"] is True and len(out_dicts["facts"]) == 1)
+
+    verify.extract_claims = lambda text, cfg, retries=3: (
+        {"topic": "مقال بلا حقل claims إطلاقًا"}, None)
+    out_missing = verify.verify_article("نص", cfg)
+    check("حقل claims غائب تمامًا من رد النموذج لا ينهار",
+          out_missing["ok"] is True and out_missing["facts"] == [])
+
+    # الانهيار غير مقبول أصلًا: استثناء غير متوقع من أي طبقة أدنى (بحث، حكم،
+    # ...) يُلتقط داخل verify_article فيصل تعليق مفهوم لا traceback
+    verify.extract_claims = lambda text, cfg, retries=3: (
+        {"topic": "مقال", "claims": [{"text": "ادّعاء", "kind": "واقعة"}],
+         "questions": []}, None)
+
+    def _boom(query, cfg, days):
+        raise RuntimeError("عطل غير متوقع لا علاقة له بشكل رد النموذج")
+
+    verify.search = _boom
+    crashed = verify.verify_article("نص", cfg)
+    check("استثناء غير متوقع من طبقة البحث لا يتسرب من verify_article",
+          crashed["ok"] is False)
+    check("رسالة الخطأ عند انهيار غير متوقع مفهومة لا traceback خام",
+          "خطأ غير متوقع" in crashed["reason"])
+    check("تقرير الانهيار غير المتوقع يبقى مقروءًا",
+          "تعذّر التحقق" in verify.build_report(crashed))
 
 
 def test_reject_boxes_render() -> None:
