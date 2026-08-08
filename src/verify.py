@@ -9,6 +9,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 
 from anthropic import Anthropic, APIError
@@ -18,7 +19,7 @@ from .config import env, load_config
 from .rank import rank
 from .request import DEFAULT_LOCALES, norm_tokens, relevant, search_feeds
 from .sources import Article, fetch_source, resolve_final_url
-from .writer import record_usage, usage_summary
+from .writer import _extract_json, record_usage, usage_summary
 
 log = logging.getLogger("verify")
 
@@ -77,30 +78,75 @@ def _client() -> Anthropic:
     return Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
 
-def extract_claims(article_text: str, cfg, retries: int = 3) -> dict | None:
+def _response_preview(resp) -> str:
+    """يبني معاينة نصية من رد النموذج للتسجيل عند الفشل — لا للنشر."""
+    parts = []
+    for block in resp.content:
+        kind = getattr(block, "type", "")
+        if kind == "text":
+            parts.append(block.text)
+        elif kind == "tool_use":
+            parts.append(json.dumps(block.input, ensure_ascii=False))
+    return "".join(parts)
+
+
+def extract_claims(article_text: str, cfg, retries: int = 3) -> tuple[dict | None, str | None]:
+    """يستخرج بنية المقال. يرجع (data, None) عند النجاح، أو (None, سبب محدد)
+    عند الفشل — السبب يصل لتقرير الـ Issue بدل "حاول مجددًا" المبهمة، بينما
+    تفاصيل الرد الكاملة (أول 500 حرف) تُسجَّل في السجل فقط لا في التعليق."""
     vcfg = cfg.get("verify", {}) or {}
     model = vcfg.get("model", "claude-sonnet-5")
+    max_tokens = int(vcfg.get("extract_max_tokens", 4000))
     client = _client()
 
+    reason = "تعذّر الاتصال بالنموذج"
     for attempt in range(1, retries + 1):
         try:
             resp = client.messages.create(
                 model=model,
-                max_tokens=1500,
+                max_tokens=max_tokens,
                 tools=[EXTRACT_SCHEMA],
                 tool_choice={"type": "tool", "name": "extract_claims"},
                 system=EXTRACT_SYSTEM,
                 messages=[{"role": "user", "content": article_text}],
             )
             record_usage(resp, model)
-            data = next((b.input for b in resp.content
-                        if getattr(b, "type", "") == "tool_use"), None)
-            if data is not None:
-                return data
         except APIError as exc:
             log.warning("محاولة %d/%d فشلت في استخراج البنية: %s", attempt, retries, exc)
-    log.error("تعذّر استخراج بنية المقال")
-    return None
+            reason = "تعذّر الاتصال بالنموذج"
+            continue
+
+        if getattr(resp, "stop_reason", "") == "max_tokens":
+            # الرد بُتر قبل اكتمال JSON — رفع verify.extract_max_tokens هو
+            # الحل، لا إعادة محاولة عبثية (writer.py يتبع النمط نفسه)
+            log.error("محاولة %d/%d: استخراج البنية مبتور (max_tokens) — "
+                     "أول 500 حرف من الرد: %r",
+                     attempt, retries, _response_preview(resp)[:500])
+            reason = "الرد مبتور — تجاوز سقف التوكنات"
+            continue
+
+        data = next((b.input for b in resp.content
+                    if getattr(b, "type", "") == "tool_use"), None)
+        if isinstance(data, dict):
+            return data, None
+
+        # احتياط: نموذج ردّ نصًا (ربما محاطًا بأسوار ```json```) رغم الأداة
+        text = "".join(b.text for b in resp.content
+                       if getattr(b, "type", "") == "text")
+        try:
+            data = _extract_json(text) if text.strip() else None
+        except json.JSONDecodeError:
+            data = None
+        if isinstance(data, dict):
+            return data, None
+
+        log.error("محاولة %d/%d: رد استخراج البنية لم يكن JSON صالحًا — "
+                 "أول 500 حرف من الرد: %r",
+                 attempt, retries, _response_preview(resp)[:500])
+        reason = "الرد لم يكن JSON صالحًا"
+
+    log.error("تعذّر استخراج بنية المقال بعد %d محاولات: %s", retries, reason)
+    return None, reason
 
 
 # ──────────────────────────── البحث عن الأدلة ────────────────────────────
@@ -290,9 +336,9 @@ def verify_article(body: str, cfg) -> dict:
     max_questions = int(vcfg.get("max_questions", 5))
     min_confirm = int(vcfg.get("min_confirm_sources", 2))
 
-    extracted = extract_claims(body, cfg)
+    extracted, extract_error = extract_claims(body, cfg)
     if not extracted:
-        return {"ok": False, "reason": "تعذّر استخراج بنية المقال — حاول مجددًا"}
+        return {"ok": False, "reason": extract_error or "تعذّر استخراج بنية المقال"}
 
     claims = extracted.get("claims") or []
     facts = [c for c in claims if c.get("kind") == "واقعة"][:max_claims]

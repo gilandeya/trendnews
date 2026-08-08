@@ -836,6 +836,8 @@ def test_request_search() -> None:
 
 def test_verify() -> None:
     """مسار التحقق: استخراج الادعاءات وتصنيفها، وحكم سلبي واضح بلا مصادر."""
+    import json
+
     from src import verify
 
     # التصنيف بكود لا بالنموذج — يجب أن يكون حتميًا وقابلًا للاختبار وحده
@@ -870,13 +872,63 @@ def test_verify() -> None:
 
     cfg = load_config()
 
+    # اختبار مباشر لتحليل رد extract_claims (قبل أي محاكاة تستبدل الدالة
+    # نفسها) — يغطي عطل الإصدار الأول: رد مبتور، ورد JSON غير صالح، ورد
+    # محاط بأسوار ```json```
+    class _Block:
+        def __init__(self, type_, text=None, input=None):
+            self.type = type_
+            self.text = text
+            self.input = input
+
+    class _Resp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+
+    class _FakeMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+
+        def create(self, **kw):
+            return self._responses.pop(0)
+
+    class _FakeClient:
+        def __init__(self, responses):
+            self.messages = _FakeMessages(responses)
+
+    def _with_client(responses):
+        verify._client = lambda: _FakeClient(responses)
+
+    # رد مبتور (max_tokens) ← سبب محدد لا "حاول مجددًا"، بلا استثناء غير مُلتقَط
+    _with_client([_Resp([_Block("text", text="{\"topic\": \"ناقص")],
+                        stop_reason="max_tokens")] * 3)
+    data, reason = verify.extract_claims("نص طويل", cfg, retries=3)
+    check("رد مبتور: لا بيانات", data is None)
+    check("رد مبتور: السبب يذكر تجاوز سقف التوكنات", "مبتور" in reason)
+
+    # رد نصي JSON غير صالح تمامًا ← سبب محدد آخر
+    _with_client([_Resp([_Block("text", text="ليس JSON على الإطلاق")])] * 3)
+    data, reason = verify.extract_claims("نص", cfg, retries=3)
+    check("رد غير صالح: لا بيانات", data is None)
+    check("رد غير صالح: السبب يذكر JSON غير صالح", "JSON" in reason)
+
+    # رد نصي صالح لكن محاط بأسوار ```json``` (بلا استدعاء أداة) ← يُقرأ رغم ذلك
+    fenced = "```json\n" + json.dumps(
+        {"topic": "ت", "claims": [], "questions": []}, ensure_ascii=False
+    ) + "\n```"
+    _with_client([_Resp([_Block("text", text=fenced)])])
+    data, reason = verify.extract_claims("نص", cfg, retries=3)
+    check("رد محاط بأسوار json يُحلَّل بنجاح", data is not None and reason is None)
+    check("موضوع الرد المحاط بأسوار يصل صحيحًا", data and data.get("topic") == "ت")
+
     # مقال بلا أي مصدر يؤكد وقائعه ← حكم سلبي واضح لا تقرير مبهم
-    verify.extract_claims = lambda text, cfg, retries=3: {
+    verify.extract_claims = lambda text, cfg, retries=3: ({
         "topic": "مقال بلا سند",
         "claims": [{"text": "زعم لا سند له", "kind": "واقعة"},
                    {"text": "رأي كاتب المقال", "kind": "رأي"}],
         "questions": ["سؤال بلا جواب في المصادر؟"],
-    }
+    }, None)
     verify.search = lambda query, cfg, days: []
     result = verify.verify_article("نص المقال الملصق", cfg)
 
@@ -912,10 +964,13 @@ def test_verify() -> None:
     report2 = verify.build_report(result2)
     check("التقرير الإيجابي يحمل ✅", "✅" in report2 and "**نعم**" in report2)
 
-    # لا استخراج ممكن ← رسالة خطأ واضحة بدل انهيار
-    verify.extract_claims = lambda text, cfg, retries=3: None
+    # لا استخراج ممكن (رد مبتور) ← رسالة خطأ محددة بدل "حاول مجددًا" مبهمة
+    verify.extract_claims = lambda text, cfg, retries=3: (
+        None, "الرد مبتور — تجاوز سقف التوكنات")
     failed = verify.verify_article("نص", cfg)
     check("فشل الاستخراج يُعاد كخطأ صريح", failed["ok"] is False)
+    check("سبب الفشل محدد لا رسالة \"حاول مجددًا\" مبهمة",
+          "حاول مجددًا" not in failed["reason"] and "مبتور" in failed["reason"])
     check("تقرير الفشل مقروء لا يحوي حقولًا فارغة",
           "تعذّر التحقق" in verify.build_report(failed))
 
