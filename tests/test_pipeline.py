@@ -1120,7 +1120,7 @@ def test_verify() -> None:
     # مقال بواقعة مؤكدة من مصدرين مستقلين ← حكم إيجابي
     # gather_evidence تعيد (docs, evidence_basis) منذ احتياط العنوان فقط
     # (Issue #132 تعليق لاحق) — لا قائمة docs مجردة كما كانت
-    verify.gather_evidence = lambda articles, cfg: (
+    verify.gather_evidence = lambda articles, cfg, claim_text="": (
         [{"name": "BBC", "text": "t", "from_text": True}], verify.EVIDENCE_FULL_TEXT)
     verify.judge_fact = lambda claim, docs, cfg: {
         "supporting": ["BBC", "Reuters"], "contradicting": []}
@@ -1263,9 +1263,9 @@ def test_verify() -> None:
     seen_merge_cfg: list = []
     real_rank = verify.rank
 
-    def _spy_rank(articles, selection, merge_cfg=None):
+    def _spy_rank(articles, selection, merge_cfg=None, token_fn=None):
         seen_merge_cfg.append(merge_cfg)
-        return real_rank(articles, selection, merge_cfg=merge_cfg)
+        return real_rank(articles, selection, merge_cfg=merge_cfg, token_fn=token_fn)
 
     one = Article(title="زلزال قوي يضرب هرات", link="https://x/1", summary="",
                   source_name="s", region="global", weight=1.0,
@@ -1321,6 +1321,85 @@ def test_verify() -> None:
     status3 = verify.classify_fact(list(names3), [], min_confirm)
     check("واقعة بثلاثة ناشرين مستقلين ← مؤكَّدة لا مصدر واحد",
           status3 == verify.STATUS_CONFIRMED)
+
+    # عطل تصميمي ثانٍ رُصد فعليًا (Issue #132 تعليق لاحق): rank.tokens
+    # لاتينية عمدًا (خلاصات الجمع الأساسي إنجليزية)، فعنوانان عربيان
+    # مستقلا الصياغة عن الحدث نفسه لا يشتركان في أي توقيع لاتيني ويبقيان
+    # مجموعتين منفصلتين رغم تطابق المضمون — الأمثلة هنا من السجل الفعلي
+    ar_title_a = ("بلومبرغ: واردات أميركا من النفط السعودي تهبط إلى "
+                 "الصفر في يوليو 2026")
+    ar_title_b = "لأول مرة منذ 1985.. صادرات النفط السعودي إلى أميركا تهبط للصفر"
+    ar_art_a = Article(title=ar_title_a, link="https://a.example/1", summary="",
+                       source_name="Bloomberg", region="global", weight=1.0,
+                       published=datetime.now(timezone.utc), publisher="Bloomberg")
+    ar_art_b = Article(title=ar_title_b, link="https://b.example/2", summary="",
+                       source_name="Al Jazeera", region="global", weight=1.0,
+                       published=datetime.now(timezone.utc), publisher="Al Jazeera")
+
+    groups_latin = cluster([ar_art_a, ar_art_b], 0.62)
+    check("rank.tokens اللاتيني الافتراضي لا يجمع عنوانين عربيين مختلفي الصياغة",
+          len(groups_latin) == 2, str(len(groups_latin)))
+
+    vcfg = cfg.get("verify", {}) or {}
+    verify_threshold = float(vcfg.get("title_similarity", 0.62))
+    groups_bilingual = cluster([ar_art_a, ar_art_b], verify_threshold,
+                               token_fn=verify.norm_tokens)
+    check("مطبّع request.norm_tokens في rank.cluster يجمع عنوانين عربيين عن الحدث نفسه",
+          len(groups_bilingual) == 1, str(len(groups_bilingual)))
+
+    # verify.search يمرر التطبيع ثنائي اللغة والحد المضبوط في config.yaml —
+    # لا القيم القديمة الثابتة في الكود (rank.tokens اللاتيني وحد 0.62)
+    seen_search_calls: list[dict] = []
+    real_rank_for_search = verify.rank
+
+    def _spy_rank_search(articles, selection, merge_cfg=None, token_fn=None):
+        seen_search_calls.append({"token_fn": token_fn,
+                                  "title_similarity": selection.get("title_similarity")})
+        return real_rank_for_search(articles, selection, merge_cfg=merge_cfg,
+                                    token_fn=token_fn)
+
+    verify.rank = _spy_rank_search
+    verify.fetch_source = lambda src, max_age_hours: [ar_art_a]
+    try:
+        verify.search("واردات نفط سعودي", cfg, 7)
+    finally:
+        verify.fetch_source = real_fetch_source
+        verify.rank = real_rank_for_search
+    check("verify.search يمرر request.norm_tokens كمطبّع تجميع",
+          seen_search_calls and seen_search_calls[-1]["token_fn"] is verify.norm_tokens)
+    check("verify.search يمرر verify.title_similarity من config.yaml لا 0.62 الثابتة",
+          seen_search_calls and seen_search_calls[-1]["title_similarity"] == verify_threshold)
+
+    # gather_evidence يرتّب المرشحين بمدى تطابق كلماتهم مع نص الواقعة نفسها،
+    # لا بترتيب articles القادم من درجة الترند في search()/rank() — درجة
+    # الترند مقياس نشر لا صلة (Issue #132 تعليق لاحق: الموضوع الأكثر تحديدًا
+    # كان الأقل ترندًا فخرج من نافذة القراءة الأولى قبل أن يُحاوَل جلبه)
+    generic_first = Article(
+        title="تغطية عامة لسوق النفط العالمي", link="https://g.example/1",
+        summary="أخبار متفرقة عن أسواق الطاقة", source_name="Generic",
+        region="global", weight=2.0, published=datetime.now(timezone.utc),
+        publisher="Generic")
+    specific_second = Article(
+        title="توقف واردات النفط السعودي لأمريكا 1985", link="https://s.example/2",
+        summary="", source_name="Specific", region="global", weight=0.5,
+        published=datetime.now(timezone.utc), publisher="Specific")
+
+    read_order: list[str] = []
+
+    def _fake_gather_order(members, limit=2):
+        read_order.extend(m["name"] for m in members)
+        return [{"name": m["name"], "text": f"نص {m['name']}"} for m in members[:limit]]
+
+    extract.gather = _fake_gather_order
+    try:
+        verify.gather_evidence(
+            [generic_first, specific_second], cfg,
+            "توقف واردات النفط السعودي لأمريكا منذ عام 1985")
+    finally:
+        extract.gather = real_extract_gather
+
+    check("المرشح الأكثر تطابقًا مع نص الواقعة يُقرأ أولًا رغم ترتيبه الثاني في articles",
+          read_order and read_order[0] == "Specific", str(read_order))
 
 
 def test_reject_boxes_render() -> None:

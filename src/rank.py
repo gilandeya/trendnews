@@ -96,13 +96,21 @@ def similarity(a: set[str], b: set[str]) -> float:
     return inter / min(len(a), len(b))
 
 
-def cluster(articles: list[Article], threshold: float) -> list[list[Article]]:
-    """تجميع جشع: أول خبر يمثّل المجموعة، وما يشبهه يُضاف إليها."""
+def cluster(articles: list[Article], threshold: float,
+            token_fn=tokens) -> list[list[Article]]:
+    """تجميع جشع: أول خبر يمثّل المجموعة، وما يشبهه يُضاف إليها.
+
+    token_fn يبني توقيع العنوان — الافتراضي `tokens` (لاتيني فقط عمدًا:
+    خلاصات الجمع الأساسي إنجليزية، ولا داعي لتطبيع عربي هناك). مسار
+    التحقق (verify.py) يمرّر `request.norm_tokens` بدلًا منه عبر
+    rank(token_fn=...)، لأن عنوانين عربيين مستقلي الصياغة عن الحدث نفسه
+    لا يشتركان في أي توقيع لاتيني فيبقيان مجموعتين منفصلتين رغم تطابق
+    المضمون (Issue #132 تعليق لاحق)."""
     clusters: list[list[Article]] = []
     signatures: list[set[str]] = []
 
     for art in sorted(articles, key=lambda a: (-a.weight, a.published)):
-        sig = tokens(art.title)
+        sig = token_fn(art.title)
         placed = False
         for idx, existing in enumerate(signatures):
             if similarity(sig, existing) >= threshold:
@@ -217,7 +225,8 @@ def rank(articles: list[Article], selection: dict,
          trend_weight: float = 4.0,
          velocity_entries: list[dict] | None = None,
          velocity_weight: float = 5.0,
-         merge_cfg=None) -> list[Article]:
+         merge_cfg=None,
+         token_fn=None) -> list[Article]:
     threshold = float(selection.get("title_similarity", 0.62))
     max_age = int(selection.get("max_age_hours", 18))
     min_sources = int(selection.get("min_sources_for_trend", 1))
@@ -225,7 +234,7 @@ def rank(articles: list[Article], selection: dict,
     diversity = bool(selection.get("region_diversity", True))
     per_region = int(selection.get("max_per_region", 3))
 
-    groups = cluster(articles, threshold)
+    groups = cluster(articles, threshold, token_fn=token_fn or tokens)
     log.info("تم دمج %d خبر في %d موضوع", len(articles), len(groups))
 
     ranked: list[Article] = []
