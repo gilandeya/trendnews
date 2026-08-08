@@ -1019,11 +1019,51 @@ def test_verify() -> None:
     check("claims كقائمة قواميس كاملة تُعالَج طبيعيًا",
           out_dicts["ok"] is True and len(out_dicts["facts"]) == 1)
 
+    # ملاحظة: حقل claims الغائب تمامًا كان يُعامَل سابقًا كنجاح بلا وقائع؛
+    # بعد Issue #132 (تعليق لاحق: رد 1858 توكن ضاع بصمت لأن اسم الحقل
+    # الفعلي لم يكن claims) أصبح غياب أي اسم بديل معروف فشلًا صريحًا لا
+    # تقريرًا فارغًا يبدو مشروعًا — انظر الاختبارات أدناه.
     verify.extract_claims = lambda text, cfg, retries=3: (
         {"topic": "مقال بلا حقل claims إطلاقًا"}, None)
     out_missing = verify.verify_article("نص", cfg)
-    check("حقل claims غائب تمامًا من رد النموذج لا ينهار",
-          out_missing["ok"] is True and out_missing["facts"] == [])
+    check("حقل claims غائب تمامًا تحت كل الأسماء المعروفة ← فشل صريح لا نجاح صامت",
+          out_missing["ok"] is False and
+          "تعذّرت قراءة بنية الرد" in out_missing["reason"])
+
+    # أسماء حقول بديلة شائعة (Issue #132 تعليق لاحق): facts/statements بدل
+    # claims، title/subject بدل topic — يجب أن تُقرأ بنجاح لا أن تُسقَط
+    verify.extract_claims = lambda text, cfg, retries=3: (
+        {"title": "موضوع بحقل بديل", "facts": ["واقعة بحقل facts"],
+         "questions": []}, None)
+    out_alias = verify.verify_article("نص", cfg)
+    check("حقل facts البديل عن claims يُقرأ بنجاح",
+          out_alias["ok"] is True and len(out_alias["facts"]) == 1)
+    check("حقل title البديل عن topic يُقرأ بنجاح",
+          out_alias["topic"] == "موضوع بحقل بديل")
+
+    verify.extract_claims = lambda text, cfg, retries=3: (
+        {"subject": "موضوع آخر",
+         "statements": [{"text": "واقعة بحقل statements", "kind": "واقعة"}]},
+        None)
+    out_alias2 = verify.verify_article("نص", cfg)
+    check("حقل statements البديل عن claims يُقرأ بنجاح",
+          out_alias2["ok"] is True and len(out_alias2["facts"]) == 1)
+    check("حقل subject البديل عن topic يُقرأ بنجاح",
+          out_alias2["topic"] == "موضوع آخر")
+
+    # رد بأسماء حقول غير متوقعة تمامًا (لا مطابقة لأي اسم بديل معروف) — يجب
+    # ألا يُنتج تقريرًا فارغًا يبدو مشروعًا، بل فشلًا صريحًا يُطلب فيه مراجعة
+    # السجل (هذا هو عطل Issue #134 الثالث: رد ضخم 1858 توكن ضاع بصمت)
+    verify.extract_claims = lambda text, cfg, retries=3: (
+        {"headline_summary": "موضوع لا يُعرف اسم حقله",
+         "key_points": ["نقطة أولى", "نقطة ثانية"]}, None)
+    out_unknown = verify.verify_article("نص", cfg)
+    check("أسماء حقول غير معروفة تمامًا تُنتج فشلًا صريحًا لا تقريرًا فارغًا",
+          out_unknown["ok"] is False and
+          "تعذّرت قراءة بنية الرد" in out_unknown["reason"])
+    report_unknown = verify.build_report(out_unknown)
+    check("تقرير الفشل الصريح واضح: \"تعذّر التحقق\" لا جدول وقائع فارغ",
+          "تعذّر التحقق" in report_unknown and "الموضوع" not in report_unknown)
 
     # الانهيار غير مقبول أصلًا: استثناء غير متوقع من أي طبقة أدنى (بحث، حكم،
     # ...) يُلتقط داخل verify_article فيصل تعليق مفهوم لا traceback
