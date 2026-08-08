@@ -4,6 +4,7 @@ feedparser>=6.0.11
 Pillow>=10.2
 arabic-reshaper>=3.0.0
 python-bidi>=0.4.2
+fonttools>=4.50
 PyYAML>=6.0
 trafilatura>=1.12
 imageio-ffmpeg>=0.5

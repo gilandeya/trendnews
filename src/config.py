@@ -8,8 +8,13 @@ from typing import Any
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
-DRAFTS_DIR = ROOT / "drafts"
-STATE_DIR = ROOT / "state"
+# tests/test_pipeline.py يضبط هذين المتغيرين قبل استيراد src لتوجيه كل
+# كتابة/حذف إلى مجلد مؤقت بدل drafts/ و state/ الحقيقيين في المستودع.
+# الإنتاج لا يضبطهما أبدًا فتبقى القيم الافتراضية كما كانت دومًا.
+DRAFTS_DIR = Path(os.environ["TRENDNEWS_DRAFTS_DIR"]) if os.environ.get(
+    "TRENDNEWS_DRAFTS_DIR") else ROOT / "drafts"
+STATE_DIR = Path(os.environ["TRENDNEWS_STATE_DIR"]) if os.environ.get(
+    "TRENDNEWS_STATE_DIR") else ROOT / "state"
 
 
 class Config(dict):

@@ -16,7 +16,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from . import store
-from .config import DRAFTS_DIR, ROOT, load_config
+from .config import DRAFTS_DIR, load_config
 from .imagesearch import find_images
 from .imaging import build_post_image
 from .rank import rank
@@ -224,7 +224,12 @@ def main() -> int:
 
             headline = written["image_headline"] or written["post_title"]
 
-            image_rel = f"drafts/{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.jpg"
+            # الاسم النسبي داخل drafts/ يبقى بصيغة "drafts/..." دومًا — هذا
+            # ما يُحفظ في المسودة ويُستعمل لبناء رابط raw.githubusercontent.com
+            # بعد الدفع؛ أما مسار الكتابة الفعلي فيتبع DRAFTS_DIR (تُستبدل
+            # بمجلد مؤقت في الاختبارات) لا ROOT مباشرة.
+            image_name = f"{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.jpg"
+            image_rel = f"drafts/{image_name}"
             shot: dict = {}
             try:
                 build_post_image(
@@ -237,7 +242,7 @@ def main() -> int:
                     # كسول: لا يُستدعى إلا إن فشلت كل صور الناشر فعليًا
                     fallback_provider=lambda t=art.title: find_images(t, cfg),
                     cfg=cfg,
-                    out_path=ROOT / image_rel,
+                    out_path=DRAFTS_DIR / image_name,
                     report=shot,
                 )
             except Exception as exc:  # noqa: BLE001 — لا نُسقط الدفعة كلها بسبب صورة

@@ -4,8 +4,11 @@
 """
 from __future__ import annotations
 
+import atexit
+import os
 import shutil
 import sys
+import tempfile
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -13,6 +16,16 @@ from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+
+# مجلد مؤقت يعزل الاختبارات عن drafts/ و state/ الحقيقيين في المستودع —
+# بلا هذا كان test_collect_end_to_end يمحو مسودات وسجلّ تكرار حقيقيين في
+# كل تشغيل (اضطرت جولات سابقة لاستعادتها يدويًا بـ git checkout بعدها).
+# يجب ضبط المتغيرين قبل أي استيراد من src لأن الوحدات تقرأ DRAFTS_DIR/
+# STATE_DIR عند التحميل لا عند الاستدعاء.
+_TMP_DATA_DIR = Path(tempfile.mkdtemp(prefix="trendnews_test_"))
+os.environ["TRENDNEWS_DRAFTS_DIR"] = str(_TMP_DATA_DIR / "drafts")
+os.environ["TRENDNEWS_STATE_DIR"] = str(_TMP_DATA_DIR / "state")
+atexit.register(shutil.rmtree, _TMP_DATA_DIR, ignore_errors=True)
 
 from src import collect, extract, imaging, review, sources, store, trends, writer  # noqa: E402
 from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
@@ -683,7 +696,9 @@ def test_collect_end_to_end() -> None:
     for field in ("id", "status", "score", "source", "arabic", "caption", "image"):
         check(f"حقل '{field}' موجود في المسودة", field in draft)
 
-    img = ROOT / draft["image"]
+    # "drafts/..." مسار نسبي لمستودع جيت لا لمجلد الكتابة الفعلي أثناء
+    # الاختبار (DRAFTS_DIR هنا مجلد مؤقت) — نحوّله عبره لا عبر ROOT.
+    img = DRAFTS_DIR / Path(draft["image"]).relative_to("drafts")
     check("ملف الصورة أُنشئ فعلًا", img.exists(), str(img))
     if img.exists():
         with Image.open(img) as im:
@@ -885,6 +900,16 @@ def test_verify() -> None:
 
     real_search = verify.search  # يُستعاد قبل أي اختبار يحتاج البحث الحقيقي
     real_gather_evidence = verify.gather_evidence  # يُستعاد قبل اختبار التوسيع الحقيقي
+    # الأربعة التالية تُستبدل مرارًا أدناه بمحاكاة (claims/judge_fact/
+    # judge_question ثابتة، وعميل Anthropic مزيَّف) ولا تُستعمل بشكلها
+    # الحقيقي مجددًا داخل test_verify نفسها — لكن تُستعاد صراحةً في نهاية
+    # الدالة حتى لا يبقى verify معطوبًا لأي اختبار لاحق في الدفعة يستعملها
+    # (نمط ضُبط عليه الاختبار سابقًا مرتين: verify.search على _boom،
+    # وverify.gather_evidence على lambda ثابتة — كلاهما مرّ زيفًا).
+    real_extract_claims = verify.extract_claims
+    real_judge_fact = verify.judge_fact
+    real_judge_question = verify.judge_question
+    real_client = verify._client
 
     # التصنيف بكود لا بالنموذج — يجب أن يكون حتميًا وقابلًا للاختبار وحده
     check("تصنيف: مصدران مستقلان فأكثر = مؤكدة",
@@ -1545,6 +1570,15 @@ def test_verify() -> None:
     check("الناشر الموثوق (trusted_boost) يُقرأ أولًا رغم صلة أضعف وترتيب "
           "ثانٍ في articles — الوزن أولوية على الصلة وحدها",
           read_order2 and read_order2[0] == "Bloomberg", str(read_order2))
+
+    # استعادة كل ما بقي معطوبًا من محاكاة أعلاه (search/gather_evidence
+    # استُعيدتا سابقًا داخل الدالة لأن اختبارات لاحقة هنا احتاجت شكلهما
+    # الحقيقي؛ الأربعة التالية لم تُستعمل حقيقيةً بعد استبدالها فبقيت بلا
+    # استعادة حتى الآن)
+    verify.extract_claims = real_extract_claims
+    verify.judge_fact = real_judge_fact
+    verify.judge_question = real_judge_question
+    verify._client = real_client
 
 
 def test_reject_boxes_render() -> None:
