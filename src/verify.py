@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import re
 
 from anthropic import Anthropic, APIError
 
@@ -245,6 +246,29 @@ def extract_claims(article_text: str, cfg, retries: int = 3) -> tuple[dict | Non
 
 # ──────────────────────────── البحث عن الأدلة ────────────────────────────
 
+_DIGIT_RE = re.compile(r"\d")
+
+
+def build_query(text: str, max_words: int = 5) -> str:
+    """يبني استعلام بحث قصيرًا (كلمات مفتاحية) من نص ادّعاء أو سؤال قد يكون
+    جملة كاملة طويلة: بحث Google News RSS يطابق كل كلمات الاستعلام تقريبًا،
+    فجملة من عشرين كلمة لا تُطابق أي نتيجة عمليًا حتى لو كان الحدث موثَّقًا
+    في عشرات المصادر (Issue #132 تعليق لاحق: ثماني وقائع شهيرة عادت كلها
+    "لا مصدر" لهذا السبب بالذات، لا لغياب التغطية).
+
+    الأرقام (سنوات، كميات) أولًا لأنها أدق ما يميّز الادّعاء، ثم أطول
+    الكلمات المتبقية بعد تطبيع request.norm_tokens (يُسقط أدوات التعريف
+    وكلمات الوقف) — الطول تقريب رخيص لعلمية الكلمة (اسم علم أو مكان) بلا
+    استدعاء نموذج إضافي لاستخراج كيانات."""
+    tokens = norm_tokens(text)
+    if not tokens:
+        return (text or "").strip()
+    numbers = sorted(t for t in tokens if _DIGIT_RE.search(t))
+    words = sorted((t for t in tokens if not _DIGIT_RE.search(t)),
+                   key=lambda w: (-len(w), w))
+    picked = (numbers + words)[:max_words]
+    return " ".join(picked)
+
 
 def search(query: str, cfg, days: int) -> list[Article]:
     """يبحث عن استعلام واحد عبر آلية request.py نفسها — بلا تكرار منطقها."""
@@ -254,11 +278,14 @@ def search(query: str, cfg, days: int) -> list[Article]:
     articles: list[Article] = []
     for feed in search_feeds(query, days, locales):
         articles += fetch_source(feed, max_age_hours=days * 24)
+    log.info("بحث %r → %d نتيجة خام؛ أول 3: %s", query, len(articles),
+             "؛ ".join(a.title[:80] for a in articles[:3]) or "—")
     if not articles:
         return []
 
     wanted = norm_tokens(query)
     matched = [a for a in articles if relevant(a, wanted, 1)]
+    log.info("بحث %r → %d مطابق من %d خام", query, len(matched), len(articles))
     if not matched:
         return []
 
@@ -444,6 +471,7 @@ def _verify_article(body: str, cfg) -> dict:
     max_claims = int(vcfg.get("max_claims", 8))
     max_questions = int(vcfg.get("max_questions", 5))
     min_confirm = int(vcfg.get("min_confirm_sources", 2))
+    query_max_words = int(vcfg.get("query_max_words", 5))
 
     extracted, extract_error = extract_claims(body, cfg)
     if not extracted:
@@ -474,7 +502,7 @@ def _verify_article(body: str, cfg) -> dict:
     fact_results = []
     for claim in facts:
         text = claim.get("text", "")
-        ranked = search(text, cfg, days)
+        ranked = search(build_query(text, query_max_words), cfg, days)
         docs = gather_evidence(ranked, cfg) if ranked else []
         judged = (judge_fact(text, docs, cfg) if docs
                  else {"supporting": [], "contradicting": []})
@@ -489,7 +517,7 @@ def _verify_article(body: str, cfg) -> dict:
 
     question_results = []
     for text in questions:
-        ranked = search(text, cfg, days)
+        ranked = search(build_query(text, query_max_words), cfg, days)
         docs = gather_evidence(ranked, cfg) if ranked else []
         judged = (judge_question(text, docs, cfg) if docs
                  else {"answered": False, "answer": "", "source": ""})

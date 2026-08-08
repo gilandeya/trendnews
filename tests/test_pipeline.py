@@ -895,6 +895,21 @@ def test_verify() -> None:
 
     cfg = load_config()
 
+    # استعلام البحث كلمات مفتاحية قصيرة لا الجملة كاملة (Issue #132 تعليق
+    # لاحق: ثماني وقائع شهيرة عادت كلها "لا مصدر" لأن الاستعلام كان نص
+    # الادّعاء الكامل — جملة طويلة لا تُطابق أي نتيجة في بحث Google News)
+    long_claim = ("انخفضت واردات الولايات المتحدة من النفط الخام السعودي "
+                  "إلى الصفر طوال شهر يوليو 2026 بأكمله، وفقا لتقرير بلومبرغ")
+    query = verify.build_query(long_claim)
+    check("الاستعلام المولَّد لا يتجاوز 5 كلمات مفتاحية",
+          1 <= len(query.split()) <= 5)
+    check("الاستعلام المولَّد أقصر بوضوح من الجملة الأصلية",
+          len(query) < len(long_claim))
+    check("الرقم المميز (السنة) يدخل الاستعلام", "2026" in query.split())
+    check("سقف الكلمات قابل للتحكم عبر max_words",
+          len(verify.build_query(long_claim, max_words=2).split()) <= 2)
+    check("نص فارغ لا ينهار بناء الاستعلام", verify.build_query("") == "")
+
     # اختبار مباشر لتحليل رد extract_claims (قبل أي محاكاة تستبدل الدالة
     # نفسها) — يغطي عطل الإصدار الأول: رد مبتور، ورد JSON غير صالح، ورد
     # محاط بأسوار ```json```
@@ -986,6 +1001,28 @@ def test_verify() -> None:
     check("سبب الحكم الإيجابي يذكر العدد المؤكَّد", "مؤكَّدة" in result2["verdict_reason"])
     report2 = verify.build_report(result2)
     check("التقرير الإيجابي يحمل ✅", "✅" in report2 and "**نعم**" in report2)
+
+    # verify_article يبني استعلام بحث قصيرًا لكل ادّعاء/سؤال قبل استدعاء
+    # search، لا يمرّر نص الادّعاء الكامل — سبب عطل "لا مصدر" الجماعي الفعلي
+    long_question = ("ما مصدر البيانات التي استند إليها المقال في الحديث عن "
+                     "اتفاقية البترودولار لعام 1974 وتأثيرها على الاقتصاد؟")
+    verify.extract_claims = lambda text, cfg, retries=3: ({
+        "topic": "مقال باستعلامات طويلة",
+        "claims": [{"text": long_claim, "kind": "واقعة"}],
+        "questions": [long_question],
+    }, None)
+    seen_queries: list[str] = []
+
+    def _spy_search(query, cfg, days):
+        seen_queries.append(query)
+        return []
+
+    verify.search = _spy_search
+    verify.verify_article("نص", cfg)
+    check("استعلامات البحث الفعلية قصيرة كلها لا الجملة كاملة",
+          len(seen_queries) == 2 and all(len(q.split()) <= 5 for q in seen_queries))
+    check("لا استعلام فعلي يساوي نص الادّعاء أو السؤال الكامل",
+          long_claim not in seen_queries and long_question not in seen_queries)
 
     # لا استخراج ممكن (رد مبتور) ← رسالة خطأ محددة بدل "حاول مجددًا" مبهمة
     verify.extract_claims = lambda text, cfg, retries=3: (
