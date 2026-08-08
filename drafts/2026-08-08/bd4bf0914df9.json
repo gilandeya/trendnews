@@ -1,7 +1,7 @@
 {
   "id": "bd4bf0914df9",
   "created_at": "2026-08-08T20:08:09.583069+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 170,
   "score": 21.02,
   "bucket": "serious",
@@ -63,5 +63,13 @@
       "https://c.ndtvimg.com/2026-03/jh98220c_zelensky_625x300_18_March_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
       "https://cdn.vanguardngr.com/wp-content/uploads/2025/05/Zelensky-1024x576.jpg"
     ]
+  },
+  "publish_at": "2026-08-08T20:13:12.073776+00:00",
+  "published_at": "2026-08-08T20:13:16.174135+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1329904682559886",
+    "photo_id": "1329904665893221",
+    "url": "https://www.facebook.com/631680090321390_1329904682559886",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
   }
 }
