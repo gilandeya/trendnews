@@ -1,54 +1,6 @@
 [
   {
     "tokens": [
-      "begin",
-      "calling",
-      "iran",
-      "live",
-      "monday",
-      "off",
-      "strikes",
-      "talks",
-      "trump"
-    ],
-    "link": "https://www.france24.com/en/middle-east/20260802-live-trump-says-new-talks-with-iran-to-begin-monday-after-calling-off-strikes",
-    "title": "Live: Trump says new talks with Iran to begin Monday after calling off strikes",
-    "seen_at": "2026-08-03T01:28:00.468692+00:00"
-  },
-  {
-    "tokens": [
-      "british",
-      "collide",
-      "crew",
-      "firefighting",
-      "greece",
-      "helicopters",
-      "killed",
-      "pilot",
-      "survives",
-      "two"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c1417713ve6o?at_medium=RSS&at_campaign=rss",
-    "title": "Two crew killed after firefighting helicopters collide in Greece, as British pilot survives",
-    "seen_at": "2026-08-03T01:28:07.887745+00:00"
-  },
-  {
-    "tokens": [
-      "consecutive",
-      "femmes",
-      "france",
-      "second",
-      "stage",
-      "tour",
-      "wiebes",
-      "wins"
-    ],
-    "link": "https://www.france24.com/en/sport/20260802-wiebes-wins-second-consecutive-tour-de-france-femmes-stage",
-    "title": "Wiebes wins second consecutive Tour de France Femmes stage",
-    "seen_at": "2026-08-03T01:28:15.264763+00:00"
-  },
-  {
-    "tokens": [
       "action",
       "japan",
       "joint",
@@ -3137,5 +3089,28 @@
     "posted_title": "تحديث: السعودية وتركيا وباكستان توقّع رسميًا اتفاق مكة للردع المشترك",
     "region": "uk",
     "seen_at": "2026-08-07T22:08:05.118632+00:00"
+  },
+  {
+    "score": 17.22,
+    "bucket": "serious",
+    "tokens": [
+      "abelardo",
+      "colombie",
+      "combattre",
+      "dans",
+      "espriella",
+      "investi",
+      "narcoterrorisme",
+      "pays",
+      "promet",
+      "président",
+      "répit",
+      "sans"
+    ],
+    "link": "https://www.lemonde.fr/international/article/2026/08/08/investi-president-de-la-colombie-abelardo-de-la-espriella-promet-une-offensive-contre-le-narcotrafic_6740541_3210.html",
+    "title": "Investi président de la Colombie, Abelardo de la Espriella promet de combattre « sans répit le narcoterrorisme » dans le pays",
+    "posted_title": "رئيس كولومبيا الجديد يتعهد بمحاربة تجارة المخدرات \"دون هوادة\" ويطوي صفحة المفاوضات",
+    "region": "fr",
+    "seen_at": "2026-08-08T02:01:22.611854+00:00"
   }
 ]

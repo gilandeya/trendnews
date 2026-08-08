@@ -1,0 +1,56 @@
+{
+  "id": "8c87337fe7e9",
+  "created_at": "2026-08-08T02:01:22.611458+00:00",
+  "status": "pending",
+  "review_issue": 137,
+  "from_radar": true,
+  "score": 17.22,
+  "bucket": "serious",
+  "velocity": 1.0,
+  "trend_score": 0.0,
+  "age_hours": 3.3,
+  "state_media": false,
+  "has_photo": true,
+  "analysed_sources": [],
+  "source": {
+    "title": "Investi président de la Colombie, Abelardo de la Espriella promet de combattre « sans répit le narcoterrorisme » dans le pays",
+    "link": "https://www.lemonde.fr/international/article/2026/08/08/investi-president-de-la-colombie-abelardo-de-la-espriella-promet-une-offensive-contre-le-narcotrafic_6740541_3210.html",
+    "publisher": "Le Monde",
+    "publishers": [
+      "Al Jazeera English",
+      "Le Monde"
+    ],
+    "region": "fr",
+    "image_url": "https://img.lemde.fr/2026/08/07/0/0/3764/1882/644/322/60/0/b388b93_ftp-1-h0pflht2isj6-be19a30e1e1c49ee8525d529e6790b30-0-6babc736bb124827acd44981c7c58220.jpg",
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/07/0/0/3764/1882/644/322/60/0/b388b93_ftp-1-h0pflht2isj6-be19a30e1e1c49ee8525d529e6790b30-0-6babc736bb124827acd44981c7c58220.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": true,
+    "category": "سياسة",
+    "image_headline": "رئيس كولومبيا الجديد يتعهد بحرب دون هوادة على المخدرات",
+    "post_title": "رئيس كولومبيا الجديد يتعهد بمحاربة تجارة المخدرات \"دون هوادة\" ويطوي صفحة المفاوضات",
+    "post_body": "تسلم أبيلاردو دي لا إسبرييا مهامه رئيسًا لكولومبيا، متعهدًا بشن حرب \"دون هوادة\" على تجارة المخدرات والجماعات المسلحة المرتبطة بها. المحامي المليونير البالغ 48 عامًا، المصنّف على يمين المشهد السياسي، أعلن نيته إنهاء مسار المفاوضات الذي سعى من خلاله الرئيس السابق إلى إقناع تنظيمات تهريب المخدرات بتسليم أسلحتها، بعد أن فشلت تلك المحاولات في تحقيق نتائج ملموسة على الأرض خلال سنوات المفاوضات.",
+    "hashtags": [
+      "كولومبيا",
+      "مخدرات",
+      "سياسة_دولية",
+      "أمريكا_اللاتينية"
+    ]
+  },
+  "caption": "رئيس كولومبيا الجديد يتعهد بمحاربة تجارة المخدرات \"دون هوادة\" ويطوي صفحة المفاوضات\n\nتسلم أبيلاردو دي لا إسبرييا مهامه رئيسًا لكولومبيا، متعهدًا بشن حرب \"دون هوادة\" على تجارة المخدرات والجماعات المسلحة المرتبطة بها. المحامي المليونير البالغ 48 عامًا، المصنّف على يمين المشهد السياسي، أعلن نيته إنهاء مسار المفاوضات الذي سعى من خلاله الرئيس السابق إلى إقناع تنظيمات تهريب المخدرات بتسليم أسلحتها، بعد أن فشلت تلك المحاولات في تحقيق نتائج ملموسة على الأرض خلال سنوات المفاوضات.\n\n#كولومبيا #مخدرات #سياسة_دولية #أمريكا_اللاتينية",
+  "image": "drafts/2026-08-08/8c87337fe7e9.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "رئيس كولومبيا الجديد يتعهد بحرب دون هوادة على المخدرات",
+    "category": "سياسة",
+    "urgent": true,
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/07/0/0/3764/1882/644/322/60/0/b388b93_ftp-1-h0pflht2isj6-be19a30e1e1c49ee8525d529e6790b30-0-6babc736bb124827acd44981c7c58220.jpg"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 17.2 دون عتبة النشر التلقائي"
+}
