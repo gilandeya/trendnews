@@ -14,7 +14,7 @@ from PIL import Image, ImageDraw
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from src import collect, imaging, review, sources, store, trends, writer  # noqa: E402
+from src import collect, extract, imaging, review, sources, store, trends, writer  # noqa: E402
 from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
 from src.rank import cluster, rank, similarity, tokens  # noqa: E402
 from src.sources import Article  # noqa: E402
@@ -196,6 +196,49 @@ def test_image_filtering() -> None:
     good = ["https://bbc.co.uk/news/2026/01/quake-tokyo.jpg"]
     check("رفض الشعارات والصور العامة", all(is_generic_image(u) for u in bad))
     check("قبول صور الأخبار الحقيقية", not any(is_generic_image(u) for u in good))
+
+
+def test_google_news_link_decode() -> None:
+    """فكّ رابط Google News الوسيط بلا شبكة (Issue #132 تعليق لاحق — العطل
+    القاتل: extract.py لم يقرأ نص أي مقال قط لأن Google لم يعد يرسل تحويل
+    HTTP حقيقي لهذه الروابط). اختبار تكامل ذاتي: نبني رابطًا وهميًا بنفس
+    ترميز البروتوبفر الموثَّق (بادئة/طول/رابط/لاحقة) ونتحقق أن الفكّ
+    يستعيده — لا اختبار على شكل Google الحقيقي (بلا شبكة لا سبيل للتحقق
+    منه هنا)، لكنه يثبت صحة حساب الإزاحات والبادئة/اللاحقة داخليًا."""
+    import base64
+
+    from src import sources
+
+    sample_url = "https://example-publisher.test/real-article-slug"
+    payload = (sources._GNEWS_ID_PREFIX + chr(len(sample_url)) + sample_url
+              + sources._GNEWS_ID_SUFFIX)
+    b64 = base64.urlsafe_b64encode(payload.encode("latin1")).decode("ascii").rstrip("=")
+    link = f"https://news.google.com/rss/articles/{b64}"
+
+    decoded = sources._decode_google_news_article_id(link)
+    check("الفكّ المباشر يستعيد الرابط الأصلي من رابط مُركَّب بنفس الترميز",
+          decoded == sample_url, str(decoded))
+
+    check("رابط بلا /articles/ في المسار لا يُفكّ",
+          sources._decode_google_news_article_id(
+              "https://news.google.com/rss/search?q=x") is None)
+    check("base64 غير صالح لا ينهار، يعيد None بهدوء",
+          sources._decode_google_news_article_id(
+              "https://news.google.com/rss/articles/%%%not-base64%%%") is None)
+
+    # عيّنة اختبارية حقيقية من ثابت RSS_FIXTURE في هذا الملف — base64 مقتطع
+    # عمدًا يفكّ فعليًا إلى "https" الخمسة أحرف فقط (بادئة صحيحة، حمولة
+    # مبتورة). كانت startswith("http") وحدها تقبل هذا خطأً كرابط حقيقي؛
+    # الفحص الصارم (يشترط "://" ونطاقًا فيه نقطة) يرفضه بصمت الآن.
+    check("حمولة مقتطعة تفكّ إلى نص يشبه رابطًا لكنه ليس رابطًا لا تُقبَل",
+          sources._decode_google_news_article_id(
+              "https://news.google.com/rss/articles/CBMiK2h0dHBz") is None)
+
+    # الرابط المُركَّب أعلاه يعمل عبر resolve_final_url كاملة بلا حاجة لأي
+    # استدعاء شبكة — الفكّ المباشر يسبق أي HEAD/GET
+    resolved = sources.resolve_final_url(link)
+    check("resolve_final_url تستعمل الفكّ المباشر أولًا بلا شبكة",
+          resolved == sample_url, resolved)
 
 
 def test_trends() -> None:
@@ -910,6 +953,53 @@ def test_verify() -> None:
           len(verify.build_query(long_claim, max_words=2).split()) <= 2)
     check("نص فارغ لا ينهار بناء الاستعلام", verify.build_query("") == "")
 
+    # عطل ثانٍ رُصد فعليًا في الإنتاج (Issue #132 تعليق لاحق): استعلامات
+    # ركيكة مثل 'بلومبرغ لتقرير للتاكد محتواه اليه' — كلمات حشو طويلة
+    # تُزاحم أسماء الأعلام، وتطبيع الهمزات يفسد الإملاء الحرفي
+    check("اسم العلم (بلومبرغ) يدخل الاستعلام لا كلمات الحشو الأطول",
+          "بلومبرغ" in query.split())
+    check("كلمات الحشو والإسناد لا تدخل الاستعلام رغم طولها",
+          not any(w in query for w in ("لتقرير", "للتاكد", "وفقا", "بأكمله")))
+    check("الهمزة تبقى بإملائها الأصلي في الاستعلام لا مطبَّعة (اتفاقية لا اتفاقيه)",
+          "اتفاقيه" not in verify.build_query("اتفاقية البترودولار لعام 1974").split())
+    check("كلمة بإملاء صحيح (اتفاقية) تدخل الاستعلام كما وردت",
+          "اتفاقية" in verify.build_query("اتفاقية البترودولار لعام 1974").split())
+
+    # احتياط العنوان والملخص حين يتعذّر استخراج أي نص كامل (Issue #132
+    # تعليق لاحق: extract.py كانت تعيد "0 من N" دائمًا مهما كانت نتائج
+    # البحث صحيحة، فيصل الحكم "لا مصدر" رغم دليل واضح في العنوان — 'للمرة
+    # الأولى منذ 1985.. أمريكا توقف استيراد النفط السعودي' كان يؤكد الواقعة
+    # حرفيًا لكنه ضاع لأن النص الكامل وحده كان مقبولًا كدليل)
+    real_extract_gather = extract.gather
+    fallback_articles = [
+        Article(title="Oil imports halted for first time since 1985",
+               link="https://a.example.com/1", summary="US ends Saudi oil imports",
+               source_name="Reuters", region="global", weight=1.0,
+               published=datetime.now(timezone.utc), publisher="Reuters"),
+        Article(title="Second report confirms halt", link="https://b.example.com/2",
+               summary="More detail on the halt", source_name="AP", region="global",
+               weight=1.0, published=datetime.now(timezone.utc), publisher="AP"),
+    ]
+    extract.gather = lambda members, limit=2: []  # كل محاولات استخراج النص الكامل تفشل
+    docs, basis = verify.gather_evidence(fallback_articles, cfg)
+    check("احتياط العناوين يعمل حين يتعذّر النص الكامل رغم وجود نتائج",
+          basis == verify.EVIDENCE_HEADLINES_ONLY)
+    check("كل وثيقة احتياط معلَّمة from_text=False",
+          bool(docs) and all(d["from_text"] is False for d in docs))
+    check("نص الاحتياط يحوي العنوان الفعلي (لا فراغًا)",
+          any("1985" in d["text"] for d in docs))
+
+    extract.gather = lambda members, limit=2: [
+        {"name": "Reuters", "text": "نص المقال الكامل الحقيقي المستخرج"}]
+    docs2, basis2 = verify.gather_evidence(fallback_articles, cfg)
+    check("النص الكامل يُفضَّل حين يتوفر لا الاحتياط", basis2 == verify.EVIDENCE_FULL_TEXT)
+    check("وثيقة النص الكامل معلَّمة from_text=True",
+          bool(docs2) and docs2[0]["from_text"] is True)
+    extract.gather = real_extract_gather
+
+    check("لا نتائج بحث أصلًا ← تمييز صريح لا استدعاء extract.gather",
+          verify.gather_evidence([], cfg) == ([], verify.EVIDENCE_NO_RESULTS))
+
     # اختبار مباشر لتحليل رد extract_claims (قبل أي محاكاة تستبدل الدالة
     # نفسها) — يغطي عطل الإصدار الأول: رد مبتور، ورد JSON غير صالح، ورد
     # محاط بأسوار ```json```
@@ -1013,6 +1103,10 @@ def test_verify() -> None:
     check("السؤال بلا مصادر يُعلَّم بلا إجابة",
           result["questions"][0]["answered"] is False)
     check("لا مخالفات حين لا توجد مصادر أصلًا", result["contradictions"] == [])
+    # التمييز الصريح المطلوب (Issue #132 تعليق لاحق): "لا نتائج بحث" غير
+    # "قرأتُ ولم أجد تأييدًا" — كلاهما كان يظهر "لا مصدر" نفسها فقط
+    check("أساس الأدلة يذكر صراحة عدم وجود نتائج بحث لا حكمًا مبهمًا",
+          result["facts"][0]["evidence_basis"] == verify.EVIDENCE_NO_RESULTS)
 
     report = verify.build_report(result)
     check("التقرير يفرد قسم مخالفة المصادر", "أين خالفت المصادر المقال" in report)
@@ -1021,7 +1115,10 @@ def test_verify() -> None:
     check("التقرير يذكر الموضوع", "مقال بلا سند" in report)
 
     # مقال بواقعة مؤكدة من مصدرين مستقلين ← حكم إيجابي
-    verify.gather_evidence = lambda articles, cfg: [{"name": "BBC", "text": "t"}]
+    # gather_evidence تعيد (docs, evidence_basis) منذ احتياط العنوان فقط
+    # (Issue #132 تعليق لاحق) — لا قائمة docs مجردة كما كانت
+    verify.gather_evidence = lambda articles, cfg: (
+        [{"name": "BBC", "text": "t", "from_text": True}], verify.EVIDENCE_FULL_TEXT)
     verify.judge_fact = lambda claim, docs, cfg: {
         "supporting": ["BBC", "Reuters"], "contradicting": []}
     verify.judge_question = lambda q, docs, cfg: {
@@ -1031,8 +1128,11 @@ def test_verify() -> None:
     result2 = verify.verify_article("نص مقال آخر", cfg)
     check("واقعة مؤكدة بمصدرين ← الحكم نعم", result2["verdict"] is True)
     check("سبب الحكم الإيجابي يذكر العدد المؤكَّد", "مؤكَّدة" in result2["verdict_reason"])
+    check("أساس الأدلة نص كامل حين ينجح الاستخراج",
+          result2["facts"][0]["evidence_basis"] == verify.EVIDENCE_FULL_TEXT)
     report2 = verify.build_report(result2)
     check("التقرير الإيجابي يحمل ✅", "✅" in report2 and "**نعم**" in report2)
+    check("عمود الأدلة يظهر في التقرير", "الأدلة" in report2)
 
     # verify_article يبني استعلام بحث قصيرًا لكل ادّعاء/سؤال قبل استدعاء
     # search، لا يمرّر نص الادّعاء الكامل — سبب عطل "لا مصدر" الجماعي الفعلي
@@ -1322,6 +1422,8 @@ def main() -> int:
     test_dedupe_memory()
     print("\n── ترشيح الصور ──")
     test_image_filtering()
+    print("\n── فكّ روابط Google News الوسيطة ──")
+    test_google_news_link_decode()
     print("\n── إشارة Google Trends ──")
     test_trends()
     print("\n── وسم الإعلام الرسمي ──")

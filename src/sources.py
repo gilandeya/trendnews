@@ -1,10 +1,13 @@
 """جمع الأخبار من خلاصات RSS واستخراج روابط الصور."""
 from __future__ import annotations
 
+import base64
 import hashlib
 import html
+import json
 import logging
 import re
+import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
@@ -119,8 +122,104 @@ _OG_PATTERNS = [
 ]
 
 
+# بادئة/لاحقة ثابتتان في البيانات المفكوكة من رابط Google News (Issue #132
+# تعليق لاحق — عطل قاتل: extract.py لا يقرأ نص أي مقال مطلقًا لأن Google لم
+# يعد يرسل تحويل HTTP حقيقي لروابط /rss/articles/<...>؛ الصفحة تعود 200
+# وتحوّل بجافاسكربت لا Location header، فمتابعة redirect وحدها لا تصل
+# للناشر الأصلي أبدًا. هذا فكّ مباشر بلا شبكة يعمل مع تنسيق الروابط الأقدم.
+_GNEWS_ID_PREFIX = b"\x08\x13\x22".decode("latin1")
+_GNEWS_ID_SUFFIX = b"\xd2\x01\x00".decode("latin1")
+
+# فحص صارم لشكل الرابط الناتج عن أي فكّ: `candidate.startswith("http")`
+# وحدها كانت تقبل هراء مقتطعًا (رابط اختباري وهمي فكّ فعليًا إلى "https"
+# الخمسة أحرف فقط، وهي تجتاز startswith("http") رغم أنها ليست رابطًا) —
+# نشترط مخطط + نطاقًا فيه نقطة على الأقل، لا مجرد بادئة الأحرف.
+_URL_LIKE_RE = re.compile(r"^https?://[\w.-]+\.\w{2,}(?:[/?#]\S*)?$")
+
+
+def _decode_google_news_article_id(link: str) -> str | None:
+    """يفكّ رابط Google News الوسيط مباشرة من محتوى ترميزه بلا اتصال شبكة:
+    الرابط الفعلي مضمَّن كـ base64 في مسار /rss/articles/<...>، وأول بايت
+    من الحمولة بعد إسقاط البادئة/اللاحقة الثابتتين يحمل طول الرابط الفعلي
+    التالي له مباشرة (تنسيق الروابط الأقدم فقط). فشل الفك — تنسيق أحدث لا
+    يتبع هذا الشكل، أو رابط ليس مقالًا أصلًا — يعيد None بهدوء ليكمل
+    resolve_final_url بمسارات الاحتياط الأخرى، لا استثناء يوقف شيئًا."""
+    try:
+        path = urllib.parse.urlparse(link).path
+        if "/articles/" not in path:
+            return None
+        b64 = path.rsplit("/", 1)[-1]
+        padded = b64 + "=" * (-len(b64) % 4)
+        text = base64.urlsafe_b64decode(padded).decode("latin1")
+        if text.startswith(_GNEWS_ID_PREFIX):
+            text = text[len(_GNEWS_ID_PREFIX):]
+        if text.endswith(_GNEWS_ID_SUFFIX):
+            text = text[: -len(_GNEWS_ID_SUFFIX)]
+        if not text:
+            return None
+        length = ord(text[0])
+        offset = 2 if length >= 0x80 else 1
+        candidate = text[offset: offset + length]
+        if _URL_LIKE_RE.match(candidate) and "news.google.com" not in candidate:
+            return candidate
+    except Exception:  # noqa: BLE001 — فكّ غير رسمي لتنسيق داخلي، أي عطل يعني فشلًا صامتًا فقط
+        pass
+    return None
+
+
+def _decode_google_news_via_api(link: str, timeout: int) -> str | None:
+    """احتياط لتنسيق روابط أحدث لا يفكّه الفك المباشر: يجلب صفحة الوسيط
+    نفسها ليستخرج منها توقيعًا وطابعًا زمنيًا مضمَّنين في HTML الصفحة، ثم
+    يطلب الرابط الفعلي من نفس الواجهة الداخلية (batchexecute) التي تستعملها
+    صفحة الوسيط لتنفيذ التحويل بجافاسكربت. واجهة داخلية غير موثَّقة رسميًا،
+    فأي عطل (تغيّر شكلها، حظر مؤقت...) يعيد None بدل رفع استثناء."""
+    try:
+        path = urllib.parse.urlparse(link).path
+        if "/articles/" not in path:
+            return None
+        page = requests.get(link, headers=HEADERS, timeout=timeout)
+        if page.status_code != 200:
+            return None
+        sig = re.search(r'data-n-a-sg="([^"]+)"', page.text)
+        ts = re.search(r'data-n-a-ts="([^"]+)"', page.text)
+        rid = re.search(r'data-n-a-id="([^"]+)"', page.text)
+        if not (sig and ts and rid):
+            return None
+        req_payload = json.dumps([
+            "garturlreq",
+            [["X", "X", ["X", "X"], None, None, 1, 1, "US:en", None, 1,
+              None, None, None, None, None, 0, 1],
+             "X", "X", 1, [1, 1, 1], 1, 1, None, 0, 0, None, 0],
+            rid.group(1), int(ts.group(1)), sig.group(1),
+        ])
+        body = "f.req=" + urllib.parse.quote(json.dumps([[["Fbv4je", req_payload]]]))
+        resp = requests.post(
+            "https://news.google.com/_/DotsSplashUi/data/batchexecute",
+            headers={**HEADERS,
+                    "content-type": "application/x-www-form-urlencoded;charset=UTF-8"},
+            data=body, timeout=timeout,
+        )
+        if resp.status_code != 200 or "\n\n" not in resp.text:
+            return None
+        parsed = json.loads(resp.text.split("\n\n", 1)[1])
+        candidate = json.loads(parsed[0][2])[1]
+        if isinstance(candidate, str) and _URL_LIKE_RE.match(candidate):
+            return candidate
+    except Exception:  # noqa: BLE001
+        pass
+    return None
+
+
 def resolve_final_url(url: str, timeout: int = 12) -> str:
-    """روابط Google News وسيطة — نتبع التحويلات للوصول للناشر الأصلي."""
+    """روابط Google News وسيطة — نحاول الفكّ المباشر أولًا (بلا شبكة)، ثم
+    واجهة Google الداخلية، وأخيرًا تحويل HTTP كلاسيكي إن وُجد فعلًا."""
+    if "news.google.com" in url:
+        decoded = _decode_google_news_article_id(url)
+        if decoded:
+            return decoded
+        decoded = _decode_google_news_via_api(url, timeout)
+        if decoded:
+            return decoded
     try:
         r = requests.head(url, headers=HEADERS, allow_redirects=True, timeout=timeout)
         if r.url and "news.google.com" not in r.url:
