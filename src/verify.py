@@ -88,15 +88,35 @@ EXTRACT_SCHEMA = {
 
 
 def _as_text(value) -> str:
-    """يستخرج نصًا من قيمة قد تكون نصًا أو قاموسًا بحقل نصي — بلا افتراض شكل."""
+    """يستخرج نصًا من قيمة قد تكون نصًا أو قاموسًا بحقل نصي — بلا افتراض شكل.
+    قائمة أسماء الحقول موسّعة (Issue #132 تعليق لاحق) لتقبل أسماء بديلة
+    شائعة يستعملها النموذج أحيانًا رغم مخطط الأداة."""
     if isinstance(value, str):
         return value.strip()
     if isinstance(value, dict):
-        for key in ("text", "claim", "question", "content"):
+        for key in ("text", "claim", "question", "content", "statement",
+                    "fact", "description", "title"):
             candidate = value.get(key)
             if isinstance(candidate, str) and candidate.strip():
                 return candidate.strip()
     return ""
+
+
+# أسماء حقول بديلة شائعة يقبلها كل حقل رئيسي في رد الاستخراج (Issue #132
+# تعليق لاحق: رد بـ 1858 توكن إخراج ضاع بصمت لأن حقل claims وصل باسم آخر —
+# فالتزام النموذج بأسماء مخطط الأداة ليس مضمونًا حتى مع tool_choice إجباري)
+TOPIC_ALT_KEYS = ("topic", "title", "subject", "headline", "main_topic")
+CLAIMS_ALT_KEYS = ("claims", "facts", "statements", "assertions")
+QUESTIONS_ALT_KEYS = ("questions", "open_questions", "unanswered_questions")
+
+
+def _first_present(data: dict, keys: tuple[str, ...]):
+    """يعيد أول قيمة موجودة تحت أي من الأسماء البديلة لحقل، أو None إن غاب
+    الحقل تمامًا تحت كل الأسماء المعروفة."""
+    for key in keys:
+        if key in data:
+            return data[key]
+    return None
 
 
 def normalize_claim(item) -> dict | None:
@@ -195,6 +215,11 @@ def extract_claims(article_text: str, cfg, retries: int = 3) -> tuple[dict | Non
         data = next((b.input for b in resp.content
                     if getattr(b, "type", "") == "tool_use"), None)
         if isinstance(data, dict):
+            # نسجّل الرد الخام الكامل عند كل نجاح لا الفشل فقط (Issue #132
+            # تعليق لاحق: استدعاء ناجح 1858 توكن أنتج تقريرًا فارغًا، ولم يكن
+            # هناك سجل يُظهر أسماء الحقول الفعلية التي أعادها النموذج)
+            log.info("نجح استخراج البنية — الرد الخام الكامل: %s",
+                     json.dumps(data, ensure_ascii=False))
             return data, None
 
         # احتياط: نموذج ردّ نصًا (ربما محاطًا بأسوار ```json```) رغم الأداة
@@ -205,6 +230,8 @@ def extract_claims(article_text: str, cfg, retries: int = 3) -> tuple[dict | Non
         except json.JSONDecodeError:
             data = None
         if isinstance(data, dict):
+            log.info("نجح استخراج البنية (رد نصي) — الرد الخام الكامل: %s",
+                     json.dumps(data, ensure_ascii=False))
             return data, None
 
         log.error("محاولة %d/%d: رد استخراج البنية لم يكن JSON صالحًا — "
@@ -422,10 +449,27 @@ def _verify_article(body: str, cfg) -> dict:
     if not extracted:
         return {"ok": False, "reason": extract_error or "تعذّر استخراج بنية المقال"}
 
-    claims = normalize_claims(extracted.get("claims"))
+    raw_topic = _first_present(extracted, TOPIC_ALT_KEYS)
+    raw_claims = _first_present(extracted, CLAIMS_ALT_KEYS)
+    raw_questions = _first_present(extracted, QUESTIONS_ALT_KEYS)
+
+    claims = normalize_claims(raw_claims)
+    if not claims:
+        # الاستدعاء نجح ورد النموذج غير فارغ (Issue #132 تعليق لاحق: 1858
+        # توكن إخراج)، لكن التطبيع لم يجد ادّعاءً واحدًا صالحًا — سواء لغياب
+        # حقل claims/facts/statements تمامًا تحت كل الأسماء المعروفة، أو
+        # لعناصر بشكل غريب لا نص فيه. هذا تطبيع أسقط كل شيء، لا نجاحًا
+        # صامتًا: تقرير فارغ يبدو مشروعًا أسوأ من فشل صريح يُطلب فيه إعادة
+        # المحاولة أو مراجعة السجل.
+        log.error("تعذّر تفسير بنية رد الاستخراج رغم نجاح الاستدعاء — "
+                 "أسماء الحقول في الرد: %s؛ الرد الكامل: %s",
+                 sorted(extracted.keys()),
+                 json.dumps(extracted, ensure_ascii=False))
+        return {"ok": False, "reason": "تعذّرت قراءة بنية الرد"}
+
     facts = [c for c in claims if c["kind"] == "واقعة"][:max_claims]
     other_claims = [c for c in claims if c["kind"] != "واقعة"]
-    questions = normalize_questions(extracted.get("questions"))[:max_questions]
+    questions = normalize_questions(raw_questions)[:max_questions]
 
     fact_results = []
     for claim in facts:
@@ -472,7 +516,7 @@ def _verify_article(body: str, cfg) -> dict:
 
     return {
         "ok": True,
-        "topic": _as_text(extracted.get("topic")) or "(لم يُستخرج موضوع محدد)",
+        "topic": _as_text(raw_topic) or "(لم يُستخرج موضوع محدد)",
         "facts": fact_results,
         "opinions": other_claims,
         "questions": question_results,
