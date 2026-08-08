@@ -1252,6 +1252,71 @@ def test_verify() -> None:
     check("تقرير الانهيار غير المتوقع يبقى مقروءًا",
           "تعذّر التحقق" in verify.build_report(crashed))
 
+    # عطل تصميمي رُصد فعليًا في الإنتاج (Issue #132 تعليق لاحق): الدمج
+    # الدلالي (merge.semantic_merge) يضمّ نسخ الخبر الواحد من ناشرين مختلفين
+    # في ممثّل واحد — صحيح للنشر (لا ننشر الخبر أربع مرات) لكنه يُسقط تعدد
+    # المصادر المستقلة الذي هو مقياس التحقق نفسه: 'الدمج الدلالي: ضُمّ 4
+    # خبر في 1 مجموعة' ثم 'نصوص مُستخرجة: 1 من 1' رغم ثلاثة عناوين مؤيّدة.
+    seen_merge_cfg: list = []
+    real_rank = verify.rank
+
+    def _spy_rank(articles, selection, merge_cfg=None):
+        seen_merge_cfg.append(merge_cfg)
+        return real_rank(articles, selection, merge_cfg=merge_cfg)
+
+    one = Article(title="زلزال قوي يضرب هرات", link="https://x/1", summary="",
+                  source_name="s", region="global", weight=1.0,
+                  published=datetime.now(timezone.utc), publisher="s")
+    real_fetch_source = verify.fetch_source
+    verify.rank = _spy_rank
+    verify.fetch_source = lambda src, max_age_hours: [one]
+    try:
+        verify.search("زلزال هرات", cfg, 7)
+    finally:
+        verify.fetch_source = real_fetch_source
+        verify.rank = real_rank
+    check("الدمج الدلالي معطَّل صراحة في بحث التحقق (merge_cfg=None)",
+          seen_merge_cfg == [None], str(seen_merge_cfg))
+
+    # gather_evidence يجب أن يوسّع الممثّل الواحد (بعد تجميع rank.cluster
+    # اللفظي، الذي يعمل دومًا داخل rank()) إلى ناشريه الفعليين المحفوظين في
+    # cluster_members — لا أن يكتفي برابط/اسم الممثّل وحده
+    rep = Article(
+        title="أمريكا توقف استيراد النفط السعودي للمرة الأولى منذ 1985",
+        link="https://news.google.com/rss/articles/xyz", summary="",
+        source_name="Bloomberg", region="global", weight=1.5,
+        published=datetime.now(timezone.utc), publisher="Bloomberg")
+    rep.cluster_members = [
+        {"name": "Bloomberg", "link": "https://bloomberg.example.com/a"},
+        {"name": "Al Jazeera", "link": "https://aljazeera.example.com/b"},
+        {"name": "Al Arabiya", "link": "https://alarabiya.example.com/c"},
+    ]
+
+    real_resolve = verify.resolve_final_url
+    verify.resolve_final_url = lambda link, timeout=12: "https://bloomberg.example.com/self"
+
+    def _fake_gather_multi(members, limit=2):
+        return [{"name": m["name"], "text": f"نص {m['name']}"} for m in members[:limit]]
+
+    extract.gather = _fake_gather_multi
+    try:
+        docs3, basis3 = verify.gather_evidence([rep], cfg)
+    finally:
+        extract.gather = real_extract_gather
+        verify.resolve_final_url = real_resolve
+
+    names3 = {d["name"] for d in docs3}
+    check("الممثّل الواحد يتوسّع إلى ناشريه الثلاثة المستقلين لا ناشره وحده",
+          names3 == {"Bloomberg", "Al Jazeera", "Al Arabiya"}, str(names3))
+    check("أساس الأدلة نص كامل بعد التوسيع", basis3 == verify.EVIDENCE_FULL_TEXT)
+
+    # عدّ المصادر بالناشر لا بالموضوع/المجموعة: ثلاثة ناشرين لواقعة واحدة
+    # تُحكم "مؤكَّدة" لا "مصدر واحد" رغم أنهم اندمجوا في مجموعة واحدة
+    min_confirm = int((cfg.get("verify", {}) or {}).get("min_confirm_sources", 2))
+    status3 = verify.classify_fact(list(names3), [], min_confirm)
+    check("واقعة بثلاثة ناشرين مستقلين ← مؤكَّدة لا مصدر واحد",
+          status3 == verify.STATUS_CONFIRMED)
+
 
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""

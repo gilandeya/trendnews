@@ -351,7 +351,15 @@ def build_query(text: str, max_words: int = 5) -> str:
 
 
 def search(query: str, cfg, days: int) -> list[Article]:
-    """يبحث عن استعلام واحد عبر آلية request.py نفسها — بلا تكرار منطقها."""
+    """يبحث عن استعلام واحد عبر آلية request.py نفسها — بلا تكرار منطقها.
+
+    الدمج الدلالي (merge_cfg) معطَّل هنا عمدًا: هو مصمَّم لمسار النشر حيث
+    الهدف تمثيل الحدث بخبر واحد لا تكراره — وهذا بالضبط ما يفسد التحقق،
+    حيث تعدد المصادر المستقلة هو المقياس نفسه (Issue #132 تعليق لاحق: ثلاثة
+    عناوين من ناشرين مختلفين اندمجت في مجموعة واحدة فصار الحكم "مصدر واحد"
+    رغم ثلاثة). تجميع العناوين المتشابهة لفظيًا عبر rank.cluster يبقى يعمل
+    (لا مفر منه داخل rank())، لكنه يحفظ كل ناشر أصلي في cluster_members/
+    cluster_sources على الممثّل — وهذا ما تعتمد عليه gather_evidence."""
     vcfg = cfg.get("verify", {}) or {}
     locales = vcfg.get("locales") or DEFAULT_LOCALES
 
@@ -371,7 +379,7 @@ def search(query: str, cfg, days: int) -> list[Article]:
 
     selection = {"max_age_hours": days * 24, "region_diversity": False,
                 "title_similarity": 0.62}
-    return rank(matched, selection, merge_cfg=cfg)
+    return rank(matched, selection, merge_cfg=None)
 
 
 EVIDENCE_NO_RESULTS = "لا نتائج بحث"
@@ -384,6 +392,15 @@ def gather_evidence(articles: list[Article], cfg) -> tuple[list[dict], str]:
     """يقرأ نصوص أعلى النتائج، متبِّعًا روابط Google News الوسيطة أولًا
     (عبر sources.resolve_final_url المُصلَحة — Issue #132 تعليق لاحق: كانت
     تفشل دائمًا لأن Google لم يعد يرسل تحويل HTTP حقيقي لهذه الروابط).
+
+    كل عنصر في articles ممثّل مجموعة (دمج عناوين متشابهة لفظيًا عبر
+    rank.cluster، يعمل دومًا داخل rank()) — والناشرون المستقلون الآخرون
+    الذين اندمجوا فيه محفوظون في cluster_members لا في الممثّل وحده.
+    الاكتفاء بلينك/ناشر الممثّل فقط كان يفقد تعدد المصادر بصمت رغم أن
+    البحث وجدها فعليًا (Issue #132 تعليق لاحق: 'الدمج الدلالي: ضُمّ 4 خبر
+    في 1 مجموعة' ثم 'نصوص مُستخرجة: 1 من 1' رغم ثلاثة عناوين مؤيّدة من
+    ناشرين مختلفين) — لذا نوسّع كل ممثّل إلى كل ناشريه الفعليين هنا، فيُعَدّ
+    كل ناشر مستقل مصدرًا مستقلًا لا الموضوع/المجموعة ككل.
 
     حين يتعذّر استخراج أي نص كامل رغم وجود نتائج مطابقة، نسقط للعنوان
     والملخص كدليل أضعف بدل حكم "لا مصدر" رغم وجود مطابقة صريحة في العنوان
@@ -399,28 +416,46 @@ def gather_evidence(articles: list[Article], cfg) -> tuple[list[dict], str]:
 
     vcfg = cfg.get("verify", {}) or {}
     limit = int(vcfg.get("read_per_claim", 3))
-    candidates = articles[: limit * 3]
+    max_members = limit * 4  # هامش فوق سقف extract.gather الداخلي (limit*2)
+                              # لأن بعض الروابط قد تفشل قراءتها فعليًا
 
-    members = []
-    for a in candidates:
+    seen_links: set[str] = set()
+    seen_names: set[str] = set()
+    members: list[dict] = []
+
+    def _add(name, link):
+        if not name or not link or link in seen_links or name in seen_names:
+            return
+        seen_links.add(link)
+        seen_names.add(name)
+        members.append({"name": name, "link": link})
+
+    for a in articles:
         link = a.link
         if "news.google.com" in link:
             link = resolve_final_url(link)
-        members.append({"name": a.publisher or a.source_name, "link": link})
+        _add(a.publisher or a.source_name, link)
+        for m in a.cluster_members:
+            _add(m.get("name"), m.get("link"))
+        if len(members) >= max_members:
+            break
 
     fulltext = extract.gather(members, limit=limit)
     if fulltext:
         return [{**d, "from_text": True} for d in fulltext], EVIDENCE_FULL_TEXT
 
     headline_docs = []
-    for a in candidates[:limit]:
+    seen_headline_names: set[str] = set()
+    for a in articles:
+        name = a.publisher or a.source_name
+        if not name or name in seen_headline_names:
+            continue
         snippet = f"{a.title}. {a.summary}".strip(" .")
         if snippet:
-            headline_docs.append({
-                "name": a.publisher or a.source_name,
-                "text": snippet,
-                "from_text": False,
-            })
+            headline_docs.append({"name": name, "text": snippet, "from_text": False})
+            seen_headline_names.add(name)
+        if len(headline_docs) >= limit:
+            break
     if headline_docs:
         return headline_docs, EVIDENCE_HEADLINES_ONLY
     return [], EVIDENCE_UNREADABLE
