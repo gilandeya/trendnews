@@ -359,7 +359,16 @@ def search(query: str, cfg, days: int) -> list[Article]:
     عناوين من ناشرين مختلفين اندمجت في مجموعة واحدة فصار الحكم "مصدر واحد"
     رغم ثلاثة). تجميع العناوين المتشابهة لفظيًا عبر rank.cluster يبقى يعمل
     (لا مفر منه داخل rank())، لكنه يحفظ كل ناشر أصلي في cluster_members/
-    cluster_sources على الممثّل — وهذا ما تعتمد عليه gather_evidence."""
+    cluster_sources على الممثّل — وهذا ما تعتمد عليه gather_evidence.
+
+    التجميع اللفظي نفسه يستعمل هنا مطبّع request.norm_tokens (عربي+إنجليزي)
+    بدل rank.tokens الافتراضي (لاتيني فقط، عمدًا كذلك لمسار الجمع الأساسي
+    الذي لا يتأثر — verify.py لا يمسّه) عبر verify.bilingual_cluster في
+    config.yaml، وبحد تشابه verify.title_similarity الأخفض من الافتراضي
+    (Issue #132 تعليق لاحق: صياغتان عربيتان مستقلتان لحدث واحد لا تتجاوزان
+    عمليًا 0.5 تشابهًا حتى بعد التطبيع، فحد selection.title_similarity
+    الافتراضي 0.62 — مضبوط لنسخ وكالة شبه متطابقة — يبقيهما مجموعتين
+    منفصلتين رغم تطابق المضمون)."""
     vcfg = cfg.get("verify", {}) or {}
     locales = vcfg.get("locales") or DEFAULT_LOCALES
 
@@ -378,8 +387,10 @@ def search(query: str, cfg, days: int) -> list[Article]:
         return []
 
     selection = {"max_age_hours": days * 24, "region_diversity": False,
-                "title_similarity": 0.62}
-    return rank(matched, selection, merge_cfg=None)
+                "title_similarity": float(vcfg.get("title_similarity", 0.62))}
+    bilingual = bool(vcfg.get("bilingual_cluster", True))
+    return rank(matched, selection, merge_cfg=None,
+               token_fn=norm_tokens if bilingual else None)
 
 
 EVIDENCE_NO_RESULTS = "لا نتائج بحث"
@@ -388,7 +399,17 @@ EVIDENCE_FULL_TEXT = "نص كامل"
 EVIDENCE_UNREADABLE = "غير قابل للقراءة"
 
 
-def gather_evidence(articles: list[Article], cfg) -> tuple[list[dict], str]:
+def _relevance(article: Article, wanted: set[str]) -> int:
+    """عدد كلمات نص الواقعة/السؤال التي يشاركها عنوان المرشّح وملخصه —
+    مقياس صلة مباشر، لا درجة ترند (rank.score) قد لا تمتّ للتفصيلة
+    المطلوب التحقق منها بصلة."""
+    if not wanted:
+        return 0
+    haystack = norm_tokens(f"{article.title} {article.summary}")
+    return len(wanted & haystack)
+
+
+def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple[list[dict], str]:
     """يقرأ نصوص أعلى النتائج، متبِّعًا روابط Google News الوسيطة أولًا
     (عبر sources.resolve_final_url المُصلَحة — Issue #132 تعليق لاحق: كانت
     تفشل دائمًا لأن Google لم يعد يرسل تحويل HTTP حقيقي لهذه الروابط).
@@ -402,6 +423,15 @@ def gather_evidence(articles: list[Article], cfg) -> tuple[list[dict], str]:
     ناشرين مختلفين) — لذا نوسّع كل ممثّل إلى كل ناشريه الفعليين هنا، فيُعَدّ
     كل ناشر مستقل مصدرًا مستقلًا لا الموضوع/المجموعة ككل.
 
+    articles تُرتَّب حسب claim_text (إن أُعطي) بمدى تطابق كلمات كل ممثّل
+    مع نص الواقعة/السؤال نفسه — لا بترتيبها الوارد من search()/rank()
+    (درجة ترند، مقياس نشر لا صلة). سقف extract.gather الداخلي (limit*2
+    محاولة) يقصّ القائمة قبل القراءة، فترتيب المرشحين يقرر أي نص يُقرأ
+    أصلًا لا الحكم عليه فقط (Issue #132 تعليق لاحق: الموضوع الأكثر تحديدًا
+    — يذكر الرقم/التاريخ المطلوبين حرفيًا — كان الأقل ترندًا فخرج من نافذة
+    القراءة قبل أن يُحاوَل جلبه، فقُرئت نصوص عامة لا تؤيد التفصيلة بدلًا
+    من النص الذي كان سيؤيّدها فعلًا).
+
     حين يتعذّر استخراج أي نص كامل رغم وجود نتائج مطابقة، نسقط للعنوان
     والملخص كدليل أضعف بدل حكم "لا مصدر" رغم وجود مطابقة صريحة في العنوان
     (Issue #132 تعليق لاحق: 'للمرة الأولى منذ 1985.. أمريكا توقف استيراد
@@ -413,6 +443,10 @@ def gather_evidence(articles: list[Article], cfg) -> tuple[list[dict], str]:
     نفسها في التقرير، وهذا مضلل)."""
     if not articles:
         return [], EVIDENCE_NO_RESULTS
+
+    if claim_text:
+        wanted = norm_tokens(claim_text)
+        articles = sorted(articles, key=lambda a: -_relevance(a, wanted))
 
     vcfg = cfg.get("verify", {}) or {}
     limit = int(vcfg.get("read_per_claim", 3))
@@ -541,10 +575,20 @@ def judge_fact(claim_text: str, docs: list[dict], cfg, retries: int = 2) -> dict
             data = next((b.input for b in resp.content
                         if getattr(b, "type", "") == "tool_use"), None)
             if data is not None:
-                return {
-                    "supporting": _known_only(data.get("supporting"), docs),
-                    "contradicting": _known_only(data.get("contradicting"), docs),
-                }
+                supporting = _known_only(data.get("supporting"), docs)
+                contradicting = _known_only(data.get("contradicting"), docs)
+                # تسجيل دائم لا عند الفشل فقط (Issue #132 تعليق لاحق: طُلب
+                # توفره حتى لو لم يكن هو سبب عطل بعينه، لتشخيص أي تذبذب
+                # مستقبلي — رد النموذج الحرفي، وأسماء docs المعطاة له، وما
+                # بقي بعد استبعاد الأسماء المختلَقة — من السجل مباشرة بلا
+                # تخمين في الجولة القادمة)
+                log.info(
+                    "حكم واقعة %r — رد النموذج الحرفي: supporting=%s "
+                    "contradicting=%s؛ أسماء المصادر المعطاة: %s؛ بعد "
+                    "_known_only: supporting=%s contradicting=%s",
+                    claim_text[:80], data.get("supporting"), data.get("contradicting"),
+                    sorted(d["name"] for d in docs), supporting, contradicting)
+                return {"supporting": supporting, "contradicting": contradicting}
         except APIError as exc:
             log.warning("محاولة %d/%d فشلت في الحكم على واقعة: %s", attempt, retries, exc)
     return {"supporting": [], "contradicting": []}
@@ -674,7 +718,7 @@ def _verify_article(body: str, cfg) -> dict:
     for claim in facts:
         text = claim.get("text", "")
         ranked = search(build_query(text, query_max_words), cfg, days)
-        docs, evidence_basis = gather_evidence(ranked, cfg)
+        docs, evidence_basis = gather_evidence(ranked, cfg, text)
         judged = (judge_fact(text, docs, cfg) if docs
                  else {"supporting": [], "contradicting": []})
         status = classify_fact(judged["supporting"], judged["contradicting"],
@@ -690,7 +734,7 @@ def _verify_article(body: str, cfg) -> dict:
     question_results = []
     for text in questions:
         ranked = search(build_query(text, query_max_words), cfg, days)
-        docs, evidence_basis = gather_evidence(ranked, cfg)
+        docs, evidence_basis = gather_evidence(ranked, cfg, text)
         judged = (judge_question(text, docs, cfg) if docs
                  else {"answered": False, "answer": "", "source": ""})
         question_results.append({
