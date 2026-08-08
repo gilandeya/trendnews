@@ -906,6 +906,28 @@ def test_verify() -> None:
     check("لا تكرار في القائمة المفلترة",
           verify._known_only(["BBC", "BBC"], docs) == ["BBC"])
 
+    # عطل رُصد فعليًا في السجل (Issue #132 تعليق لاحق): النموذج أيّد واقعة
+    # فعلًا لكنه أضاف وصفًا بين قوسين لاسم المصدر —
+    # supporting=['جفرا نيوز (نص المقال الكامل)'] بينما docs فيها 'جفرا
+    # نيوز' فقط — فالمطابقة الحرفية السابقة حذفت التأييد الحقيقي كله
+    # (supporting=[] رغم تأييد صريح). المطابقة الآن متسامحة: تُسقط الوصف
+    # بين القوسين وتقارن الكلمات المطبَّعة (request.norm_tokens تتكفّل هي
+    # نفسها بالمسافات الزائدة وأل التعريف وفروق الهمزات)، بتطابق جزئي —
+    # لكنها تبقى ترفض أسماء لا علاقة لها إطلاقًا.
+    docs_jafra = [{"name": "جفرا نيوز", "text": "x"}]
+    check("اسم بوصف بين قوسين (عطل Issue #132 الفعلي) يُقبل ويُطابَق بالاسم "
+          "الحقيقي لا يُحذف",
+          verify._known_only(["جفرا نيوز (نص المقال الكامل)"], docs_jafra) ==
+          ["جفرا نيوز"])
+    check("_canonical_name يعيد اسم doc الفعلي من docs لا نص النموذج بوصفه",
+          verify._canonical_name("BBC News (تقرير مطوّل)",
+                                 [{"name": "BBC", "text": "x"}]) == "BBC")
+    check("اسم مختلق تمامًا يبقى مرفوضًا رغم التسامح الجديد — الحماية باقية",
+          verify._canonical_name("مصدر لا علاقة له بالمرة إطلاقًا",
+                                 docs_jafra) is None)
+    check("مسافات زائدة وأل التعريف لا تمنع المطابقة",
+          verify._canonical_name("  الجفرا   نيوز  ", docs_jafra) == "جفرا نيوز")
+
     # ضوابط البرومبت: نفس قاعدة عدم الاستعانة بمعرفة النموذج الخاصة (writer.py)
     check("استخراج البنية لا ينقل جملة حرفية من المقال",
           "لا تنقل جملة من المقال حرفيًا" in verify.EXTRACT_SYSTEM)
@@ -1085,6 +1107,18 @@ def test_verify() -> None:
     check("نص يبدأ بـ [ لكنه JSON غير صالح يُعاد كما وصل بلا انهيار",
           verify._coerce_json_string("[غير صالح") == "[غير صالح")
 
+    # الطريق الكامل: judge_fact الحقيقية (بعميل مزيَّف) تعيد اسمًا مذيَّلًا
+    # بوصف بين قوسين تمامًا كالعطل الفعلي في السجل — يجب أن يصل مقبولًا
+    # في نتيجتها النهائية لا محذوفًا (Issue #132 تعليق لاحق)
+    docs_jafra_full = [{"name": "جفرا نيوز", "text": "نص يؤكد الواقعة",
+                        "from_text": True}]
+    _with_client([_Resp([_Block("tool_use", input={
+        "supporting": ["جفرا نيوز (نص المقال الكامل)"], "contradicting": []})])])
+    judged_jafra = verify.judge_fact("ادّعاء", docs_jafra_full, cfg)
+    check("جفرا نيوز (نص المقال الكامل) تُقبل عبر judge_fact الكامل لا تُحذف "
+          "(العطل الفعلي في السجل)",
+          judged_jafra["supporting"] == ["جفرا نيوز"], str(judged_jafra))
+
     # مقال بلا أي مصدر يؤكد وقائعه ← حكم سلبي واضح لا تقرير مبهم
     verify.extract_claims = lambda text, cfg, retries=3: ({
         "topic": "مقال بلا سند",
@@ -1261,11 +1295,15 @@ def test_verify() -> None:
     # المصادر المستقلة الذي هو مقياس التحقق نفسه: 'الدمج الدلالي: ضُمّ 4
     # خبر في 1 مجموعة' ثم 'نصوص مُستخرجة: 1 من 1' رغم ثلاثة عناوين مؤيّدة.
     seen_merge_cfg: list = []
+    seen_keep_google_links: list = []
     real_rank = verify.rank
 
-    def _spy_rank(articles, selection, merge_cfg=None, token_fn=None):
+    def _spy_rank(articles, selection, merge_cfg=None, token_fn=None,
+                 keep_google_links=False):
         seen_merge_cfg.append(merge_cfg)
-        return real_rank(articles, selection, merge_cfg=merge_cfg, token_fn=token_fn)
+        seen_keep_google_links.append(keep_google_links)
+        return real_rank(articles, selection, merge_cfg=merge_cfg, token_fn=token_fn,
+                         keep_google_links=keep_google_links)
 
     one = Article(title="زلزال قوي يضرب هرات", link="https://x/1", summary="",
                   source_name="s", region="global", weight=1.0,
@@ -1281,26 +1319,70 @@ def test_verify() -> None:
         verify.rank = real_rank
     check("الدمج الدلالي معطَّل صراحة في بحث التحقق (merge_cfg=None)",
           seen_merge_cfg == [None], str(seen_merge_cfg))
+    # keep_google_links=True لازمة لبحث التحقق (Issue #132 تعليق لاحق):
+    # نتائجه كلها روابط جوجل، فالاستبعاد الافتراضي في
+    # rank.pick_representative كان يُفرغ cluster_members قبل أن تصل
+    # gather_evidence أصلًا
+    check("verify.search يمرر keep_google_links=True لـ rank",
+          seen_keep_google_links == [True], str(seen_keep_google_links))
 
     # gather_evidence يجب أن يوسّع الممثّل الواحد (بعد تجميع rank.cluster
     # اللفظي، الذي يعمل دومًا داخل rank()) إلى ناشريه الفعليين المحفوظين في
-    # cluster_members — لا أن يكتفي برابط/اسم الممثّل وحده
-    rep = Article(
-        title="أمريكا توقف استيراد النفط السعودي للمرة الأولى منذ 1985",
-        link="https://news.google.com/rss/articles/xyz", summary="",
-        source_name="Bloomberg", region="global", weight=1.5,
-        published=datetime.now(timezone.utc), publisher="Bloomberg")
-    rep.cluster_members = [
-        {"name": "Bloomberg", "link": "https://bloomberg.example.com/a"},
-        {"name": "Al Jazeera", "link": "https://aljazeera.example.com/b"},
-        {"name": "Al Arabiya", "link": "https://alarabiya.example.com/c"},
+    # cluster_members — لا أن يكتفي برابط/اسم الممثّل وحده. cluster_members
+    # هنا يُبنى عبر rank.pick_representative **الحقيقية** من مجموعة روابطها
+    # كلها جوجل (كما تصل فعليًا من verify.search، الذي يستعمل بحث Google
+    # News حصرًا) — لا تلفيقها يدويًا بروابط ناشرين مباشرة كما كان الاختبار
+    # السابق يفعل: ذلك التلفيق كان يُخفي عطلًا فعليًا حقيقيًا رُصد لاحقًا في
+    # الإنتاج (Issue #132 تعليق لاحق): 'تم دمج 5 خبر في 1 موضوع' ثم 'نصوص
+    # مُستخرجة: 1 من 1' رغم أن هذا الاختبار نفسه كان ينجح، لأن
+    # rank.pick_representative الافتراضية تستبعد روابط جوجل الوسيطة من
+    # cluster_members قبل أن تصل gather_evidence أصلًا — بصرف النظر عن صحة
+    # منطق التوسيع في gather_evidence ذاته.
+    from src.rank import pick_representative
+
+    google_group = [
+        Article(title="أمريكا توقف استيراد النفط السعودي للمرة الأولى منذ 1985",
+               link="https://news.google.com/rss/articles/a", summary="",
+               source_name="Bloomberg", region="global", weight=1.5,
+               published=datetime.now(timezone.utc), publisher="Bloomberg"),
+        Article(title="أمريكا توقف استيراد النفط السعودي للمرة الأولى منذ 1985",
+               link="https://news.google.com/rss/articles/b", summary="",
+               source_name="Al Jazeera", region="global", weight=1.2,
+               published=datetime.now(timezone.utc), publisher="Al Jazeera"),
+        Article(title="أمريكا توقف استيراد النفط السعودي للمرة الأولى منذ 1985",
+               link="https://news.google.com/rss/articles/c", summary="",
+               source_name="Al Arabiya", region="global", weight=1.0,
+               published=datetime.now(timezone.utc), publisher="Al Arabiya"),
     ]
 
+    rep_default = pick_representative(list(google_group))
+    default_members = list(rep_default.cluster_members)
+    check("افتراضيًا (مسار الجمع الأساسي) روابط جوجل مستبعدة من "
+          "cluster_members — سلوكه الحالي لم يتغيّر بهذا الإصلاح",
+          default_members == [], str(default_members))
+
+    rep = pick_representative(list(google_group), keep_google_links=True)
+    check("keep_google_links=True (ما يمرره verify.search) يُبقي روابط جوجل "
+          "الثلاثة في cluster_members بدل إفراغها",
+          len(rep.cluster_members) == 3, str(rep.cluster_members))
+
     real_resolve = verify.resolve_final_url
-    verify.resolve_final_url = lambda link, timeout=12: "https://bloomberg.example.com/self"
+    resolved_map = {
+        "https://news.google.com/rss/articles/a": "https://bloomberg.example.com/self",
+        "https://news.google.com/rss/articles/b": "https://aljazeera.example.com/x",
+        "https://news.google.com/rss/articles/c": "https://alarabiya.example.com/y",
+    }
+    # gather_evidence يجب أن تحلّ روابط جوجل الواردة من cluster_members أيضًا
+    # لا رابط الممثّل وحده — رابط لم يُحلّ يبقى google.com فيرفضه
+    # extract.fetch_text لاحقًا، فأي اسم يُطابَق بلا حلّ هنا خطأ في الاختبار
+    verify.resolve_final_url = lambda link, timeout=12: resolved_map.get(
+        link, f"UNRESOLVED::{link}")
     verify.gather_evidence = real_gather_evidence  # اختبار سابق تركها على lambda ثابتة
 
+    received_members: list[dict] = []
+
     def _fake_gather_multi(members, limit=2):
+        received_members.extend(members)
         return [{"name": m["name"], "text": f"نص {m['name']}"} for m in members[:limit]]
 
     extract.gather = _fake_gather_multi
@@ -1309,6 +1391,12 @@ def test_verify() -> None:
     finally:
         extract.gather = real_extract_gather
         verify.resolve_final_url = real_resolve
+
+    check("روابط جوجل الواردة من cluster_members تُحلّ أيضًا (لا رابط "
+          "الممثّل وحده) قبل تمريرها لـ extract.gather",
+          received_members and
+          all(not m["link"].startswith("UNRESOLVED::") for m in received_members),
+          str(received_members))
 
     names3 = {d["name"] for d in docs3}
     check("الممثّل الواحد يتوسّع إلى ناشريه الثلاثة المستقلين لا ناشره وحده",
@@ -1352,11 +1440,13 @@ def test_verify() -> None:
     seen_search_calls: list[dict] = []
     real_rank_for_search = verify.rank
 
-    def _spy_rank_search(articles, selection, merge_cfg=None, token_fn=None):
+    def _spy_rank_search(articles, selection, merge_cfg=None, token_fn=None,
+                         keep_google_links=False):
         seen_search_calls.append({"token_fn": token_fn,
                                   "title_similarity": selection.get("title_similarity")})
         return real_rank_for_search(articles, selection, merge_cfg=merge_cfg,
-                                    token_fn=token_fn)
+                                    token_fn=token_fn,
+                                    keep_google_links=keep_google_links)
 
     verify.rank = _spy_rank_search
     verify.fetch_source = lambda src, max_age_hours: [ar_art_a]

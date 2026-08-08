@@ -389,8 +389,13 @@ def search(query: str, cfg, days: int) -> list[Article]:
     selection = {"max_age_hours": days * 24, "region_diversity": False,
                 "title_similarity": float(vcfg.get("title_similarity", 0.62))}
     bilingual = bool(vcfg.get("bilingual_cluster", True))
+    # keep_google_links=True: نتائج هذا البحث كلها من Google News (بلا
+    # استثناء)، فاستبعاد rank.pick_representative الافتراضي لروابط جوجل من
+    # cluster_members كان يُفرغها هنا شبه دائمًا قبل أن تصل gather_evidence
+    # أصلًا — التي تحلّها بنفسها (Issue #132 تعليق لاحق تالٍ لهذا التعليق)
     return rank(matched, selection, merge_cfg=None,
-               token_fn=norm_tokens if bilingual else None)
+               token_fn=norm_tokens if bilingual else None,
+               keep_google_links=True)
 
 
 EVIDENCE_NO_RESULTS = "لا نتائج بحث"
@@ -470,7 +475,16 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
             link = resolve_final_url(link)
         _add(a.publisher or a.source_name, link)
         for m in a.cluster_members:
-            _add(m.get("name"), m.get("link"))
+            mlink = m.get("link")
+            # rank.pick_representative تُبقي روابط جوجل الوسيطة هنا (نمرر
+            # keep_google_links=True في search()) لأن نتائج بحث التحقق كلها
+            # من Google News أصلًا — فتُحلّ هنا بالضبط كرابط الممثّل نفسه، لا
+            # تُضاف خامًا (كانت تُفلتَر بصمت في rank.py قبل هذا الإصلاح، فلا
+            # يصل gather_evidence إلا رابط الممثّل الوحيد رغم توسيع الكود
+            # لبقية الأعضاء — Issue #132 تعليق لاحق)
+            if mlink and "news.google.com" in mlink:
+                mlink = resolve_final_url(mlink)
+            _add(m.get("name"), mlink)
         if len(members) >= max_members:
             break
 
@@ -525,7 +539,9 @@ JUDGE_FACT_SYSTEM = """أنت تقارن ادّعاءً بنصوص مصادر م
 - مصدر لم يذكر الادّعاء إطلاقًا لا يُحسب مؤيدًا ولا مخالفًا.
 - مصدر معلَّم "عنوان وملخص فقط" نصه قصير وقد يبسّط أو يبالغ — لا تعتبره
   تأييدًا لتفصيلة دقيقة (رقم، تاريخ...) لم يذكرها العنوان صراحة بنفس الدقة.
-- أخرج فقط أسماء المصادر المعطاة لك حرفيًا، بلا اختراع أسماء جديدة."""
+- أخرج اسم المصدر مجردًا تمامًا كما ورد في وسم "--- المصدر: <الاسم> ---"
+  فقط — بلا أي إضافة أو وصف بين قوسين أو غيره (مثل "(نص المقال الكامل)")،
+  وبلا اختراع أسماء جديدة."""
 
 JUDGE_FACT_SCHEMA = {
     "name": "judge_claim",
@@ -541,16 +557,52 @@ JUDGE_FACT_SCHEMA = {
 }
 
 
+_PAREN_RE = re.compile(r"[\(（][^\)）]*[\)）]?")
+
+
+def _canonical_name(candidate, docs: list[dict]) -> str | None:
+    """يطابق اسم مصدر أعاده النموذج مع أحد أسماء docs المعطاة فعليًا،
+    بتسامح (Issue #132 تعليق لاحق: النموذج أيّد واقعة فعلًا لكنه أضاف وصفًا
+    بين قوسين لاسم المصدر — 'جفرا نيوز (نص المقال الكامل)' — والمطابقة
+    الحرفية السابقة حذفت التأييد الحقيقي كله):
+    1) يُسقط أي وصف بين قوسين من الاسمين قبل المقارنة.
+    2) يقارن كلماتهما عبر request.norm_tokens — تتجاهل هي نفسها المسافات
+       الزائدة وأل التعريف وفروق الهمزات، فلا داعي لتكرار ذلك التطبيع هنا.
+    3) تطابق جزئي: كلمات أحد الاسمين واردة كاملة داخل كلمات الآخر (أيهما
+       أقصر) — لا تطابق حرفي صارم.
+    يعيد اسم doc **الفعلي** (لا نص النموذج) ليبقى التقرير والعدّ نظيفين،
+    أو None إن لم يطابق أي اسم معروف حتى بهذا التسامح — الحماية من أسماء
+    مختلَقة كليًا تبقى قائمة."""
+    if not isinstance(candidate, str):
+        return None
+    cand_tokens = norm_tokens(_PAREN_RE.sub("", candidate))
+    if not cand_tokens:
+        return None
+    for d in docs:
+        known_tokens = norm_tokens(_PAREN_RE.sub("", d["name"]))
+        if known_tokens and (known_tokens <= cand_tokens or cand_tokens <= known_tokens):
+            return d["name"]
+    return None
+
+
 def _known_only(names, docs: list[dict]) -> list[str]:
-    """يستبعد أي اسم مصدر لم يُعطَ فعليًا — لا مصدر مختلَق يدخل التقرير.
-    لا يفترض أن names قائمة أصلًا؛ رد النموذج قد يخالف مخطط الأداة."""
+    """يستبعد أي اسم مصدر لا يطابق ما أُعطي فعليًا حتى بتسامح (انظر
+    _canonical_name) — لا مصدر مختلَق يدخل التقرير. لا يفترض أن names
+    قائمة أصلًا؛ رد النموذج قد يخالف مخطط الأداة. يسجّل كل اسم رُفض صراحة
+    مع docs المتاحة له — العدد وحده لا يكفي لتشخيص عطل تطابق فعلي (Issue
+    #132 تعليق لاحق)."""
     if not isinstance(names, list):
         return []
-    known = {d["name"] for d in docs}
     seen: list[str] = []
     for name in names:
-        if isinstance(name, str) and name in known and name not in seen:
-            seen.append(name)
+        canonical = _canonical_name(name, docs)
+        if canonical is None:
+            log.warning("اسم مصدر مرفوض: %r لا يطابق أي مصدر معطى فعليًا "
+                       "حتى بتسامح (المصادر المعطاة: %s)",
+                       name, sorted(d["name"] for d in docs))
+            continue
+        if canonical not in seen:
+            seen.append(canonical)
     return seen
 
 
@@ -615,7 +667,8 @@ JUDGE_QUESTION_SYSTEM = """أنت تبحث في نصوص مصادر مستقلة
 مقال آخر. أجب فقط إن وجدت الجواب صراحة في النصوص المعطاة، ولا تستخدم معرفتك
 الخاصة عن الموضوع مهما بدت لك صحيحة. انسب الجواب لمن قاله في المصدر — لا
 تصغه كحقيقة مطلقة من عندك. مصدر معلَّم "عنوان وملخص فقط" نصه قصير — لا تبنِ
-عليه جوابًا تفصيليًا لم يذكره صراحة بنفس الدقة."""
+عليه جوابًا تفصيليًا لم يذكره صراحة بنفس الدقة. اكتب اسم المصدر في source
+مجردًا تمامًا كما ورد في وسمه، بلا أي إضافة أو وصف بين قوسين أو غيره."""
 
 JUDGE_QUESTION_SCHEMA = {
     "name": "answer_question",
@@ -653,12 +706,14 @@ def judge_question(question: str, docs: list[dict], cfg, retries: int = 2) -> di
             data = next((b.input for b in resp.content
                         if getattr(b, "type", "") == "tool_use"), None)
             if data is not None:
-                source = str(data.get("source") or "")
+                # نفس المطابقة المتسامحة المستعملة لأسماء الوقائع
+                # (_canonical_name) — العطل نفسه ممكن هنا: مصدر مؤيد فعليًا
+                # لكن باسم مذيَّل بوصف بين قوسين (Issue #132 تعليق لاحق)
+                canonical_source = _canonical_name(data.get("source"), docs)
                 return {
-                    "answered": bool(data.get("answered")) and source in
-                               {d["name"] for d in docs},
+                    "answered": bool(data.get("answered")) and canonical_source is not None,
                     "answer": str(data.get("answer") or ""),
-                    "source": source,
+                    "source": canonical_source or "",
                 }
         except APIError as exc:
             log.warning("محاولة %d/%d فشلت في الإجابة عن سؤال: %s", attempt, retries, exc)

@@ -167,13 +167,22 @@ def score_cluster(group: list[Article], max_age_hours: int,
     )
 
 
-def pick_representative(group: list[Article]) -> Article:
+def pick_representative(group: list[Article],
+                        keep_google_links: bool = False) -> Article:
     """
     يختار أفضل نسخة من الخبر، ويستعير صور بقية النسخ.
 
     هذا مهم: قد يكون الخبر من Google News (بلا صورة) بينما نسخة BBC من
     الحدث نفسه تحمل صورة حقيقية — فنأخذ نص الأقوى وصورة من يملكها.
-    """
+
+    keep_google_links: مسار الجمع الأساسي يستبعد روابط جوجل الوسيطة من
+    cluster_members افتراضيًا لأن extract.fetch_text ترفضها مباشرة بلا حل.
+    مسار التحقق (verify.py) يمرّر True: نتائجه **كلها** من بحث Google News
+    (لا خلاصات ناشرين مباشرة)، فالاستبعاد الافتراضي كان يُفرغ cluster_members
+    من كل الأعضاء تقريبًا قبل أن تصل gather_evidence أصلًا — التي تحلّ هذه
+    الروابط بنفسها عبر sources.resolve_final_url (Issue #132 تعليق لاحق:
+    'تم دمج 5 خبر في 1 موضوع' ثم 'نصوص مُستخرجة: 1 من 1' رغم توسيع
+    cluster_members، لأنها كانت تصل شبه فارغة من هنا أصلًا)."""
     from .sources import is_generic_image
 
     def key(a: Article):
@@ -187,11 +196,14 @@ def pick_representative(group: list[Article]) -> Article:
     best = max(group, key=key)
     best.cluster_sources = sorted({a.publisher or a.source_name for a in group})
 
-    # روابط كل النسخ، الأثقل وزنًا أولًا، بلا روابط جوجل الوسيطة
+    # روابط كل النسخ، الأثقل وزنًا أولًا؛ روابط جوجل الوسيطة تُستبعد إلا
+    # حين keep_google_links=True (انظر التوثيق أعلاه)
     seen_links: set[str] = set()
     members: list[dict] = []
     for a in sorted(group, key=lambda x: -x.weight):
-        if a.link in seen_links or "news.google.com" in a.link:
+        if a.link in seen_links:
+            continue
+        if not keep_google_links and "news.google.com" in a.link:
             continue
         seen_links.add(a.link)
         members.append({"name": a.publisher or a.source_name, "link": a.link})
@@ -226,7 +238,8 @@ def rank(articles: list[Article], selection: dict,
          velocity_entries: list[dict] | None = None,
          velocity_weight: float = 5.0,
          merge_cfg=None,
-         token_fn=None) -> list[Article]:
+         token_fn=None,
+         keep_google_links: bool = False) -> list[Article]:
     threshold = float(selection.get("title_similarity", 0.62))
     max_age = int(selection.get("max_age_hours", 18))
     min_sources = int(selection.get("min_sources_for_trend", 1))
@@ -241,7 +254,7 @@ def rank(articles: list[Article], selection: dict,
     for group in groups:
         if len({a.source_name for a in group}) < min_sources:
             continue
-        rep = pick_representative(group)
+        rep = pick_representative(group, keep_google_links=keep_google_links)
         if is_blocked(rep, blocklist):
             continue
 
