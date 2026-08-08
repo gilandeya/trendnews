@@ -1,0 +1,60 @@
+{
+  "id": "666c74631056",
+  "created_at": "2026-08-08T22:01:21.965235+00:00",
+  "status": "pending",
+  "review_issue": 171,
+  "from_radar": true,
+  "score": 17.31,
+  "bucket": "serious",
+  "velocity": 1.0,
+  "trend_score": 0.0,
+  "age_hours": 2.0,
+  "state_media": false,
+  "has_photo": true,
+  "analysed_sources": [
+    "Der Spiegel"
+  ],
+  "source": {
+    "title": "Ätna auf Sizilien ausgebrochen: Flugverkehr in Catania eingeschränkt",
+    "link": "https://www.spiegel.de/ausland/aetna-auf-sizilien-ausgebrochen-flugverkehr-in-catania-eingeschraenkt-a-dee661ee-aac4-4e15-9b3b-869d31fc103e#ref=rss",
+    "publisher": "Der Spiegel",
+    "publishers": [
+      "Der Spiegel",
+      "SPIEGEL TV für Arte Re:"
+    ],
+    "region": "de",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/7e339f54-979a-4c9a-adbe-87447abbeb67_w520_r2.08_fpx58.75_fpy50.jpg",
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/7e339f54-979a-4c9a-adbe-87447abbeb67_w520_r2.08_fpx58.75_fpy50.jpg",
+      "https://cdn.prod.www.spiegel.de/images/b3b5bac6-475d-4f66-8672-babea61ff97d_w520_r2.08_fpx24_fpy42.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": true,
+    "category": "عالم",
+    "image_headline": "ثوران بركان إتنا يعلّق الرحلات في مطار كاتانيا",
+    "post_title": "ثوران بركان إتنا في صقلية يعطل حركة الطيران في مطار كاتانيا",
+    "post_body": "ثار بركان إتنا في صقلية، أكبر بركان نشط في أوروبا، يوم السبت، قاذفًا سحبًا من الدخان والرماد وسيولًا من الحمم على منحدراته. علّق مطار كاتانيا القريب جميع الرحلات القادمة بعد إغلاق المجال الجوي فوق منطقة سحابة الرماد، بينما استمرت الرحلات المغادرة كما هو مقرر. وبعد خفض درجة التحذير من الأحمر إلى البرتقالي، أعلن المطار مساء السبت استئناف حركة الطيران فورًا. ورصد معهد الجيوفيزياء والبراكين الإيطالي نشاطًا انفجاريًا مكثفًا بمراحل متفاوتة الشدة. يُذكر أن ثوران البركان في يوليو الماضي عطّل الطيران في المطار ذاته.",
+    "hashtags": [
+      "بركان_إتنا",
+      "صقلية",
+      "إيطاليا",
+      "مطار_كاتانيا"
+    ]
+  },
+  "caption": "ثوران بركان إتنا في صقلية يعطل حركة الطيران في مطار كاتانيا\n\nثار بركان إتنا في صقلية، أكبر بركان نشط في أوروبا، يوم السبت، قاذفًا سحبًا من الدخان والرماد وسيولًا من الحمم على منحدراته. علّق مطار كاتانيا القريب جميع الرحلات القادمة بعد إغلاق المجال الجوي فوق منطقة سحابة الرماد، بينما استمرت الرحلات المغادرة كما هو مقرر. وبعد خفض درجة التحذير من الأحمر إلى البرتقالي، أعلن المطار مساء السبت استئناف حركة الطيران فورًا. ورصد معهد الجيوفيزياء والبراكين الإيطالي نشاطًا انفجاريًا مكثفًا بمراحل متفاوتة الشدة. يُذكر أن ثوران البركان في يوليو الماضي عطّل الطيران في المطار ذاته.\n\n#بركان_إتنا #صقلية #إيطاليا #مطار_كاتانيا",
+  "image": "drafts/2026-08-08/666c74631056.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "ثوران بركان إتنا يعلّق الرحلات في مطار كاتانيا",
+    "category": "عالم",
+    "urgent": true,
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/7e339f54-979a-4c9a-adbe-87447abbeb67_w520_r2.08_fpx58.75_fpy50.jpg",
+      "https://cdn.prod.www.spiegel.de/images/b3b5bac6-475d-4f66-8672-babea61ff97d_w520_r2.08_fpx24_fpy42.jpg"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 17.3 دون عتبة النشر التلقائي"
+}
