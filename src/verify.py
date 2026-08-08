@@ -120,6 +120,51 @@ def _first_present(data: dict, keys: tuple[str, ...]):
     return None
 
 
+def _coerce_json_string(value):
+    """قيمة قد تصل نصًا مكتوبًا بصيغة JSON بدل الكائن/القائمة الفعليين —
+    النموذج أحيانًا يُعيد ترميز جزء من البنية كسلسلة نصية بدل توزيعه على
+    حقول الأداة (Issue #132 تعليق لاحق). نحاول تحليلها كـ JSON قبل رفضها
+    كليًا؛ فشل التحليل يعيد القيمة كما وصلت بلا تغيير."""
+    if isinstance(value, str):
+        text = value.strip()
+        if text[:1] in "[{":
+            try:
+                return json.loads(text)
+            except json.JSONDecodeError:
+                return value
+    return value
+
+
+def _recover_stuffed_json(extracted: dict) -> dict:
+    """احتياط لعطل رُصد فعليًا (Issue #132 تعليق لاحق): النموذج حشر بنية
+    الرد الكاملة (topic + claims + questions) داخل حقل claims وحده، كنص
+    يبدأ بمصفوفة الادّعاءات ثم يتبعها بقية الحقول — أي أن الحرف `{`
+    الافتتاحي للكائن الكامل غاب من رد النموذج نفسه، لا من تحليلنا له.
+    نحاول إعادة بناء الكائن الكامل من ذلك النص بإضافة اسم الحقل والقوس
+    الناقصين قبل رفضه؛ الحقول الأخرى غير المتأثرة (لو وُجدت) تُستبدل بما
+    يحمله الحقل المحشور، فهو الأحدث وربما الأكمل."""
+    for key, value in extracted.items():
+        if not isinstance(value, str):
+            continue
+        text = value.strip()
+        if text[:1] not in "[{":
+            continue
+        candidates = [text]
+        if text[:1] == "[":
+            candidates.append(f'{{"{key}": {text}')
+        for candidate in candidates:
+            try:
+                parsed = json.loads(candidate)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(parsed, dict) and len(parsed) > 1:
+                log.warning(
+                    "تعافيت من بنية محشورة في حقل %r وحده — الحقول بعد "
+                    "إعادة البناء: %s", key, sorted(parsed.keys()))
+                return parsed
+    return extracted
+
+
 def normalize_claim(item) -> dict | None:
     """يطبّع عنصر ادّعاء واحدًا من رد النموذج، الذي قد يخالف مخطط الأداة
     (Issue #134: النموذج أعاد claims كقائمة نصوص لا كقائمة قواميس):
@@ -135,6 +180,7 @@ def normalize_claim(item) -> dict | None:
 
 
 def normalize_claims(raw) -> list[dict]:
+    raw = _coerce_json_string(raw)
     if not isinstance(raw, list):
         return []
     out = []
@@ -152,6 +198,7 @@ def normalize_question(item) -> str | None:
 
 
 def normalize_questions(raw) -> list[str]:
+    raw = _coerce_json_string(raw)
     if not isinstance(raw, list):
         return []
     out = []
@@ -221,6 +268,7 @@ def extract_claims(article_text: str, cfg, retries: int = 3) -> tuple[dict | Non
             # هناك سجل يُظهر أسماء الحقول الفعلية التي أعادها النموذج)
             log.info("نجح استخراج البنية — الرد الخام الكامل: %s",
                      json.dumps(data, ensure_ascii=False))
+            data = _recover_stuffed_json(data)
             return data, None
 
         # احتياط: نموذج ردّ نصًا (ربما محاطًا بأسوار ```json```) رغم الأداة
@@ -233,6 +281,7 @@ def extract_claims(article_text: str, cfg, retries: int = 3) -> tuple[dict | Non
         if isinstance(data, dict):
             log.info("نجح استخراج البنية (رد نصي) — الرد الخام الكامل: %s",
                      json.dumps(data, ensure_ascii=False))
+            data = _recover_stuffed_json(data)
             return data, None
 
         log.error("محاولة %d/%d: رد استخراج البنية لم يكن JSON صالحًا — "

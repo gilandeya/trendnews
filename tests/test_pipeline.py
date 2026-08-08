@@ -960,6 +960,38 @@ def test_verify() -> None:
     check("رد محاط بأسوار json يُحلَّل بنجاح", data is not None and reason is None)
     check("موضوع الرد المحاط بأسوار يصل صحيحًا", data and data.get("topic") == "ت")
 
+    # عطل فعلي رُصد في السجل (Issue #132 تعليق لاحق): النموذج يحشر بنية الرد
+    # الكاملة (claims + topic + questions) داخل حقل claims وحده كنص يبدأ
+    # بمصفوفة الادّعاءات — أي أن القوس الافتتاحي "{" للكائن الكامل غاب من رد
+    # النموذج نفسه. أسماء الحقول في الرد قبل الإصلاح كانت ["claims"] فقط.
+    stuffed = (
+        '[\n{"text": "ارتفعت أسعار الوقود بنسبة 12٪ الشهر الماضي", '
+        '"kind": "واقعة"},\n{"text": "الأسعار ستتضاعف خلال عام", '
+        '"kind": "تنبؤ"}\n],\n"topic": "ارتفاع أسعار الوقود",\n'
+        '"questions": ["ما مصدر بيانات نسبة الارتفاع؟"]\n}'
+    )
+    _with_client([_Resp([_Block("tool_use", input={"claims": stuffed})])])
+    data, reason = verify.extract_claims("نص", cfg, retries=3)
+    check("الرد المحشور في حقل claims وحده يُعالَج بلا فشل", data is not None and reason is None)
+    check("الموضوع يُستخرج من داخل النص المحشور",
+          data and data.get("topic") == "ارتفاع أسعار الوقود")
+    check("الادّعاءان يُستخرجان من داخل النص المحشور",
+          data and isinstance(data.get("claims"), list) and len(data["claims"]) == 2)
+    check("الأسئلة تُستخرج من داخل النص المحشور",
+          data and data.get("questions") == ["ما مصدر بيانات نسبة الارتفاع؟"])
+
+    # الاحتياط العام: قيمة حقل claims وحدها JSON صالح (مصفوفة فقط، بلا حشر
+    # بقية الحقول) يجب أن تُقرأ أيضًا لا أن تُرفَض لمجرد كونها نصًا
+    check("normalize_claims تقبل نص JSON صالحًا لمصفوفة ادّعاءات",
+          verify.normalize_claims('[{"text": "ادّعاء", "kind": "واقعة"}]') ==
+          [{"text": "ادّعاء", "kind": "واقعة"}])
+    check("normalize_questions تقبل نص JSON صالحًا لمصفوفة أسئلة",
+          verify.normalize_questions('["سؤال؟"]') == ["سؤال؟"])
+    check("نص لا يبدأ بـ [ أو { لا يُحاول تحليله كـ JSON",
+          verify._coerce_json_string("نص عادي") == "نص عادي")
+    check("نص يبدأ بـ [ لكنه JSON غير صالح يُعاد كما وصل بلا انهيار",
+          verify._coerce_json_string("[غير صالح") == "[غير صالح")
+
     # مقال بلا أي مصدر يؤكد وقائعه ← حكم سلبي واضح لا تقرير مبهم
     verify.extract_claims = lambda text, cfg, retries=3: ({
         "topic": "مقال بلا سند",
