@@ -1,7 +1,7 @@
 {
   "id": "639e1a78a571",
   "created_at": "2026-08-09T05:08:07.887706+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 180,
   "score": 33.25,
   "bucket": "serious",
@@ -82,5 +82,7 @@
       "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/09/556250.jpg",
       "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/09/thumbs/400x400/556250.jpg"
     ]
-  }
+  },
+  "reject_tag": "مكرر",
+  "reject_note": ""
 }
