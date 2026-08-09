@@ -1,0 +1,56 @@
+{
+  "id": "53475fec9666",
+  "created_at": "2026-08-09T04:45:57.977077+00:00",
+  "status": "pending",
+  "review_issue": 178,
+  "from_radar": true,
+  "score": 17.41,
+  "bucket": "serious",
+  "velocity": 1.0,
+  "trend_score": 0.0,
+  "age_hours": 0.5,
+  "state_media": false,
+  "has_photo": true,
+  "analysed_sources": [],
+  "source": {
+    "title": "La Colombie marquée par deux violentes attaques au lendemain de l’investiture du nouveau président",
+    "link": "https://www.lemonde.fr/international/article/2026/08/09/la-colombie-marquee-par-deux-violentes-attaques-au-lendemain-de-l-investiture-du-nouveau-president_6741582_3211.html",
+    "publisher": "Le Monde",
+    "publishers": [
+      "Al Jazeera English",
+      "Le Monde"
+    ],
+    "region": "fr",
+    "image_url": "https://img.lemde.fr/2026/08/08/850/0/5472/2736/644/322/60/0/ce52c68_ftp-1-qdrspc5wi1sp-acf073a858c34cf684c59fe9f42c17d2-1-5de2a2214fad45d2a3261e82d6f1ef5e.jpg",
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/08/850/0/5472/2736/644/322/60/0/ce52c68_ftp-1-qdrspc5wi1sp-acf073a858c34cf684c59fe9f42c17d2-1-5de2a2214fad45d2a3261e82d6f1ef5e.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": true,
+    "category": "عالم",
+    "image_headline": "هجومان دمويان في كولومبيا بعد يوم من تنصيب رئيسها الجديد",
+    "post_title": "كولومبيا تشهد هجومين عنيفين غداة تنصيب رئيسها الجديد الذي تعهد بمحاربة عصابات المخدرات",
+    "post_body": "شهدت كولومبيا هجومين عنيفين أسفرا عن سقوط قتيل وإصابة عدد من الأشخاص، بعد يوم واحد فقط من حفل تنصيب الرئيس الجديد أبيلاردو دي لا إسبرييا. وجاء الحادثان بعد ساعات من خطاب التنصيب الذي تعهد فيه الرئيس بمواجهة \"الإرهاب المرتبط بالمخدرات وكل المنظمات الإجرامية دون هوادة\". لم تُعرف بعد الجهة المسؤولة عن الهجومين رسميًا، وسط توتر أمني يرافق بداية عهد الرئيس الجديد في بلد يعاني منذ عقود من نشاط عصابات المخدرات والجماعات المسلحة.",
+    "hashtags": [
+      "كولومبيا",
+      "هجوم_مسلح",
+      "تنصيب_رئيس",
+      "مخدرات"
+    ]
+  },
+  "caption": "كولومبيا تشهد هجومين عنيفين غداة تنصيب رئيسها الجديد الذي تعهد بمحاربة عصابات المخدرات\n\nشهدت كولومبيا هجومين عنيفين أسفرا عن سقوط قتيل وإصابة عدد من الأشخاص، بعد يوم واحد فقط من حفل تنصيب الرئيس الجديد أبيلاردو دي لا إسبرييا. وجاء الحادثان بعد ساعات من خطاب التنصيب الذي تعهد فيه الرئيس بمواجهة \"الإرهاب المرتبط بالمخدرات وكل المنظمات الإجرامية دون هوادة\". لم تُعرف بعد الجهة المسؤولة عن الهجومين رسميًا، وسط توتر أمني يرافق بداية عهد الرئيس الجديد في بلد يعاني منذ عقود من نشاط عصابات المخدرات والجماعات المسلحة.\n\n#كولومبيا #هجوم_مسلح #تنصيب_رئيس #مخدرات",
+  "image": "drafts/2026-08-09/53475fec9666.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "هجومان دمويان في كولومبيا بعد يوم من تنصيب رئيسها الجديد",
+    "category": "عالم",
+    "urgent": true,
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/08/850/0/5472/2736/644/322/60/0/ce52c68_ftp-1-qdrspc5wi1sp-acf073a858c34cf684c59fe9f42c17d2-1-5de2a2214fad45d2a3261e82d6f1ef5e.jpg"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي"
+}

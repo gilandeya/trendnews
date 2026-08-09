@@ -1,44 +1,6 @@
 [
   {
     "tokens": [
-      "any",
-      "claims",
-      "could",
-      "denies",
-      "hormuz",
-      "iran",
-      "open",
-      "place",
-      "strait",
-      "taking",
-      "talks",
-      "tomorrow",
-      "trump"
-    ],
-    "link": "https://www.theguardian.com/world/live/2026/aug/03/us-iran-trump-strait-of-hormuz-talks-israel-gaza-lebanon-latest-news-updates",
-    "title": "Trump claims strait of Hormuz could open ‘by tomorrow’ as Iran denies any talks taking place",
-    "posted_title": "تحديث: ترامب يتحدث عن مرحلتين لحل أزمة هرمز بينما تتحدث طهران عن مفاوضات مع عمان فقط",
-    "seen_at": "2026-08-04T04:05:47.794543+00:00"
-  },
-  {
-    "tokens": [
-      "000",
-      "700",
-      "buildings",
-      "destroy",
-      "flee",
-      "force",
-      "near",
-      "spokane",
-      "wildfires"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-08-04-wildfires-near-spokane-destroy-more-than-700-buildings-force-64000-to-flee/",
-    "title": "Wildfires near Spokane destroy more than 700 buildings, force 64,000 to flee",
-    "posted_title": "حرائق ضخمة قرب مدينة سبوكين الأمريكية تدمر 700 مبنى وتجبر 64 ألف شخص على الفرار",
-    "seen_at": "2026-08-04T04:06:03.339151+00:00"
-  },
-  {
-    "tokens": [
       "iran",
       "negotiations",
       "oman",
@@ -2700,5 +2662,26 @@
     "posted_title": "لماذا تعذّر انتشال طياري المروحية التي سقطت خلال إخماد حريق يوتاه لأكثر من يوم كامل",
     "region": "uk",
     "seen_at": "2026-08-09T03:46:16.909843+00:00"
+  },
+  {
+    "score": 17.41,
+    "bucket": "serious",
+    "tokens": [
+      "attaques",
+      "colombie",
+      "deux",
+      "investiture",
+      "lendemain",
+      "marquée",
+      "nouveau",
+      "par",
+      "président",
+      "violentes"
+    ],
+    "link": "https://www.lemonde.fr/international/article/2026/08/09/la-colombie-marquee-par-deux-violentes-attaques-au-lendemain-de-l-investiture-du-nouveau-president_6741582_3211.html",
+    "title": "La Colombie marquée par deux violentes attaques au lendemain de l’investiture du nouveau président",
+    "posted_title": "كولومبيا تشهد هجومين عنيفين غداة تنصيب رئيسها الجديد الذي تعهد بمحاربة عصابات المخدرات",
+    "region": "fr",
+    "seen_at": "2026-08-09T04:45:57.977481+00:00"
   }
 ]
