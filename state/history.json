@@ -1,24 +1,6 @@
 [
   {
     "tokens": [
-      "die",
-      "heatstroke",
-      "japan",
-      "lions",
-      "suspected",
-      "swelters",
-      "three",
-      "tokyo",
-      "zoo"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/04/three-lions-dead-suspected-heatstroke-japan-zoo-heatwave",
-    "title": "Three lions die of suspected heatstroke at Tokyo zoo as Japan swelters",
-    "posted_title": "حديقة حيوان في طوكيو تفقد ثلاثة أسود جراء موجة حر رطبة غير مسبوقة",
-    "region": "uk",
-    "seen_at": "2026-08-04T06:48:59.233782+00:00"
-  },
-  {
-    "tokens": [
       "attack",
       "drone",
       "injured",
@@ -2692,5 +2674,26 @@
     "posted_title": "جنوب أفريقيا تواجه العنف ضد المرأة بمراكز إغاثة لكن دون ميزانية إضافية",
     "region": "za",
     "seen_at": "2026-08-09T05:46:03.524477+00:00"
+  },
+  {
+    "score": 31.85,
+    "bucket": "serious",
+    "tokens": [
+      "deal",
+      "hormuz",
+      "iran",
+      "oman",
+      "open",
+      "positive",
+      "strait",
+      "talks",
+      "warns",
+      "would"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c934j5y2lq9o?at_medium=RSS&at_campaign=rss",
+    "title": "Hormuz talks positive, Oman says, as Iran warns deal would not open strait",
+    "posted_title": "تحديث: إيران تضع ست شروط أمام واشنطن قبل إعادة فتح مضيق هرمز بالكامل",
+    "region": "uk",
+    "seen_at": "2026-08-09T07:08:16.488060+00:00"
   }
 ]
