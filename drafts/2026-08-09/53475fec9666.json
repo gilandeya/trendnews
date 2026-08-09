@@ -1,7 +1,7 @@
 {
   "id": "53475fec9666",
   "created_at": "2026-08-09T04:45:57.977077+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 178,
   "from_radar": true,
   "score": 17.41,
@@ -52,5 +52,13 @@
       "https://img.lemde.fr/2026/08/08/850/0/5472/2736/644/322/60/0/ce52c68_ftp-1-qdrspc5wi1sp-acf073a858c34cf684c59fe9f42c17d2-1-5de2a2214fad45d2a3261e82d6f1ef5e.jpg"
     ]
   },
-  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي",
+  "publish_at": "2026-08-09T06:22:18.714581+00:00",
+  "published_at": "2026-08-09T06:22:25.414561+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1330220682528286",
+    "photo_id": "1330219995861688",
+    "url": "https://www.facebook.com/631680090321390_1330220682528286",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
