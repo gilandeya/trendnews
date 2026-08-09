@@ -27,9 +27,19 @@ log = logging.getLogger("verify")
 CLAIM_KINDS = ["واقعة", "رأي", "تنبؤ"]
 
 STATUS_CONFIRMED = "مؤكدة"
+STATUS_NEAR_CONFIRMED = "شبه مؤكَّدة — مصدر واحد قوي"
 STATUS_SINGLE = "مصدر واحد"
 STATUS_NONE = "لا مصدر"
 STATUS_CONTRADICTED = "يخالفها مصدر"
+
+# العلاج 4 (Issue #132 تعليق لاحق): عتبة min_confirm_sources الصلبة تقلب
+# الحكم كليًا لأدنى فارق مصدر — واقعة أيّدتها بلومبرغ وحدها تظهر "مصدر
+# واحد" نفسها التي تظهرها واقعة أيّدها موقع مجهول واحد، فيختفي فارق واضح في
+# قوة السند. NEAR_CONFIRM_DEFAULT_MIN_WEIGHT عتبة وزن ناشر (قابلة للتحكم عبر
+# verify.near_confirm_min_weight) تفرّق الحالتين — ناشر معروف في sources أو
+# trusted_boost (وزنه أعلى من DEFAULT_PUBLISHER_WEIGHT الافتراضي لناشر
+# مجهول) يستحق تصنيفًا وسيطًا لا مصدر واحد مبهمة.
+NEAR_CONFIRM_DEFAULT_MIN_WEIGHT = 1.0
 
 
 # ──────────────────────────── استخراج بنية المقال ────────────────────────────
@@ -43,21 +53,30 @@ EXTRACT_SYSTEM = """أنت محلل تحقق (fact-checker) يقرأ مقالً�
    - "واقعة": حدث أو رقم أو تصريح يمكن التحقق من وقوعه في مصدر مستقل
    - "رأي": تحليل أو تفسير أو موقف لا واقعة قائمة بذاتها
    - "تنبؤ": توقع لما سيحدث مستقبلًا
+   ولكل ادّعاء أيضًا entities: 3-5 كيانات مميِّزة منه فقط — أسماء أعلام،
+   أرقام، سنوات، أماكن. الكيانات، على عكس text، تُنقل من المقال **كما وردت
+   فيه حرفيًا بلا أي إعادة صياغة** — استعلام البحث سيُبنى منها وحدها،
+   فإعادة صياغتها بحرية (كما يُعاد صياغة text) تُغيّر الاستعلام عند كل
+   استخراج جديد لنفس الحقيقة، بينما ثباتها الحرفي يبقي الاستعلام ثابتًا
+   مهما تغيّرت صياغة text نفسها.
 3. questions: أسئلة يثيرها المقال ولا يجيب عنها هو نفسه — فجوات في الرواية
    تستحق بحثًا مستقلًا، لا أسئلة بلاغية.
 
 لا تنقل جملة من المقال حرفيًا: أعد صياغة كل ادّعاء وسؤال بإيجاز يكفي لبناء
-استعلام بحث منه. لا تُجب عن الأسئلة من معرفتك — استخرجها فقط، فالبحث
-سيتولى الإجابة.
+استعلام بحث منه (فيما عدا entities: تُنقل حرفيًا كما هي، لا تُعاد صياغتها
+أبدًا). لا تُجب عن الأسئلة من معرفتك — استخرجها فقط، فالبحث سيتولى الإجابة.
 
-كل عنصر في claims يجب أن يكون كائنًا {"text": ..., "kind": ...} — لا نصًا
-مجردًا أبدًا، حتى لو بدا ذلك مختصرًا. مثال دقيق على الشكل المطلوب:
+كل عنصر في claims يجب أن يكون كائنًا {"text": ..., "kind": ..., "entities":
+[...]} — لا نصًا مجردًا أبدًا، حتى لو بدا ذلك مختصرًا. مثال دقيق على الشكل
+المطلوب:
 {
   "topic": "ارتفاع أسعار الوقود وتأثيره على النقل",
   "claims": [
-    {"text": "ارتفعت أسعار الوقود بنسبة 12٪ الشهر الماضي", "kind": "واقعة"},
-    {"text": "الارتفاع نتيجة سياسات حكومية غير مدروسة", "kind": "رأي"},
-    {"text": "الأسعار ستتضاعف خلال عام", "kind": "تنبؤ"}
+    {"text": "ارتفعت أسعار الوقود بنسبة 12٪ الشهر الماضي", "kind": "واقعة",
+     "entities": ["12٪", "الوقود"]},
+    {"text": "الارتفاع نتيجة سياسات حكومية غير مدروسة", "kind": "رأي",
+     "entities": ["سياسات حكومية"]},
+    {"text": "الأسعار ستتضاعف خلال عام", "kind": "تنبؤ", "entities": ["عام"]}
   ],
   "questions": ["ما مصدر البيانات التي استند إليها المقال في نسبة الارتفاع؟"]
 }
@@ -77,8 +96,15 @@ EXTRACT_SCHEMA = {
                     "properties": {
                         "text": {"type": "string"},
                         "kind": {"type": "string", "enum": CLAIM_KINDS},
+                        "entities": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "description": ("3-5 كيانات مميِّزة (أسماء أعلام، "
+                                            "أرقام، سنوات، أماكن) كما وردت في "
+                                            "المقال حرفيًا بلا إعادة صياغة"),
+                        },
                     },
-                    "required": ["text", "kind"],
+                    "required": ["text", "kind", "entities"],
                 },
             },
             "questions": {"type": "array", "items": {"type": "string"}},
@@ -165,18 +191,30 @@ def _recover_stuffed_json(extracted: dict) -> dict:
     return extracted
 
 
+def _as_entities(value) -> list[str]:
+    """يطبّع حقل entities (العلاج 2، Issue #132 تعليق لاحق): قائمة نصوص فقط
+    تُقبل — أي شكل آخر (غياب، نص مفرد، عناصر غير نصية) يُعامَل كقائمة فارغة
+    بلا انهيار. قائمة فارغة تعني سقوط build_query_for_claim لبناء الاستعلام
+    من نص الادّعاء كاملًا، كما كان سلوكها قبل هذا العلاج."""
+    if not isinstance(value, list):
+        return []
+    return [e.strip() for e in value if isinstance(e, str) and e.strip()]
+
+
 def normalize_claim(item) -> dict | None:
     """يطبّع عنصر ادّعاء واحدًا من رد النموذج، الذي قد يخالف مخطط الأداة
     (Issue #134: النموذج أعاد claims كقائمة نصوص لا كقائمة قواميس):
-    نص مجرد يصير {"text": النص, "kind": "واقعة"}؛ قاموس بحقل kind غائب أو
-    غير معروف يُملأ بالقيمة نفسها. عنصر بلا نص قابل للاستخراج يُستبعد."""
+    نص مجرد يصير {"text": النص, "kind": "واقعة", "entities": []}؛ قاموس
+    بحقل kind غائب أو غير معروف يُملأ بالقيمة نفسها. عنصر بلا نص قابل
+    للاستخراج يُستبعد."""
     text = _as_text(item)
     if not text:
         return None
     kind = item.get("kind") if isinstance(item, dict) else None
     if kind not in CLAIM_KINDS:
         kind = "واقعة"
-    return {"text": text, "kind": kind}
+    entities = _as_entities(item.get("entities")) if isinstance(item, dict) else []
+    return {"text": text, "kind": kind, "entities": entities}
 
 
 def normalize_claims(raw) -> list[dict]:
@@ -348,6 +386,24 @@ def build_query(text: str, max_words: int = 5) -> str:
     words.sort(key=len, reverse=True)
     picked = (numbers + words)[:max_words]
     return " ".join(picked) if picked else clean.strip()
+
+
+def build_query_for_claim(claim: dict, max_words: int = 5) -> str:
+    """يبني استعلام البحث من entities الادّعاء حصرًا حين تتوفر، لا من نص
+    الجملة المعاد صياغتها في كل تشغيل (العلاج 2، Issue #132 تعليق لاحق:
+    ثلاث إعادات صياغة معقولة رصدها تشخيص سابق لنفس الحقيقة الواحدة أنتجت
+    53 مقابل 2 مقابل 3 نتيجة بحث مختلفة جذريًا، لأن build_query كانت تُشتق
+    من نص الادّعاء المعاد صياغته نفسه في كل تشغيل رغم ثبات الحقيقة نفسها).
+
+    entities مطلوب نقلها من المقال حرفيًا بلا إعادة صياغة (EXTRACT_SYSTEM)،
+    فتبقى ثابتة عبر تشغيلات متكررة لنفس المقال حتى لو تغيّرت صياغة text
+    الموجزة في كل استخراج. entities غائبة أو فارغة (رد لم يلتزم بالحقل
+    الجديد، أو ادّعاء لم يمرّ عبر extract_claims أصلًا) تُسقط لبناء
+    الاستعلام من نص الادّعاء كاملًا عبر build_query كما كان قبل هذا العلاج —
+    بلا تكرار منطقها."""
+    entities = claim.get("entities") or []
+    text = " ".join(e for e in entities if isinstance(e, str) and e.strip())
+    return build_query(text or claim.get("text", ""), max_words)
 
 
 def search(query: str, cfg, days: int) -> list[Article]:
@@ -738,16 +794,33 @@ def judge_fact(claim_text: str, docs: list[dict], cfg, retries: int = 2) -> dict
 
 
 def classify_fact(supporting: list[str], contradicting: list[str],
-                  min_confirm: int) -> str:
+                  min_confirm: int, weights: dict[str, float] | None = None,
+                  near_confirm_min_weight: float = NEAR_CONFIRM_DEFAULT_MIN_WEIGHT) -> str:
     """
     التصنيف بكود لا بالنموذج: النموذج يحدد من أيّد ومن خالف فقط، والعدّ
     يحدّد الحكم — فلا يقع الحكم النهائي رهن صياغة النموذج له في كل استدعاء.
+
+    العلاج 4 (Issue #132 تعليق لاحق): حين تكون الواقعة عند حافة العتبة —
+    مصدر واحد فقط مؤيّد لا مصدران — نميّز بين مصدر واحد "قوي" (وزنه ≥
+    near_confirm_min_weight، أي معروف في sources أو trusted_boost) ومصدر
+    واحد مجهول الوزن الافتراضي: الأول STATUS_NEAR_CONFIRMED لا STATUS_SINGLE
+    المبهمة، فالتقرير يعكس فارق قوة السند بدل إخفائه خلف "مصدر واحد" واحدة
+    لكلتا الحالتين. weights غائب (توافقًا خلفيًا) يعني عدم وجود أي مصدر
+    "قوي" معروف — كل مصدر واحد يبقى STATUS_SINGLE كما كان قبل هذا العلاج.
+    لا يغيّر هذا الحكم النهائي: الواقعة لا تزال تحتاج min_confirm مصادر
+    فعلية لتُصبح "مؤكَّدة".
     """
-    if len(set(supporting)) >= min_confirm:
+    unique_supporting = set(supporting)
+    if len(unique_supporting) >= min_confirm:
         return STATUS_CONFIRMED
     if contradicting:
         return STATUS_CONTRADICTED
-    if supporting:
+    if len(unique_supporting) == 1:
+        weight = (weights or {}).get(next(iter(unique_supporting)), 0.0)
+        if weight >= near_confirm_min_weight:
+            return STATUS_NEAR_CONFIRMED
+        return STATUS_SINGLE
+    if unique_supporting:
         return STATUS_SINGLE
     return STATUS_NONE
 
@@ -833,6 +906,8 @@ def _verify_article(body: str, cfg) -> dict:
     max_questions = int(vcfg.get("max_questions", 5))
     min_confirm = int(vcfg.get("min_confirm_sources", 2))
     query_max_words = int(vcfg.get("query_max_words", 5))
+    near_confirm_min_weight = float(
+        vcfg.get("near_confirm_min_weight", NEAR_CONFIRM_DEFAULT_MIN_WEIGHT))
 
     extracted, extract_error = extract_claims(body, cfg)
     if not extracted:
@@ -863,19 +938,24 @@ def _verify_article(body: str, cfg) -> dict:
     fact_results = []
     for claim in facts:
         text = claim.get("text", "")
-        ranked = search(build_query(text, query_max_words), cfg, days)
+        # الاستعلام يُبنى من entities الادّعاء لا نص text المعاد صياغته —
+        # العلاج 2 (Issue #132 تعليق لاحق)، انظر build_query_for_claim
+        ranked = search(build_query_for_claim(claim, query_max_words), cfg, days)
         docs, evidence_basis = gather_evidence(ranked, cfg, text)
         judged = (judge_fact(text, docs, cfg) if docs
                  else {"supporting": [], "contradicting": []})
-        status = classify_fact(judged["supporting"], judged["contradicting"],
-                               min_confirm)
         # وزن كل مصدر مؤيد يُعرَض في التقرير (Issue #132 تعليق لاحق): العدد
         # وحده لا يُظهر قوة السند — وكالة كبرى ومصدر مجهول يُحسبان مصدرًا
-        # واحدًا لكل منهما رغم فارق الموثوقية
+        # واحدًا لكل منهما رغم فارق الموثوقية. تُحسب قبل التصنيف لأن
+        # classify_fact تحتاجها للتمييز بين مصدر واحد "قوي" وآخر مجهول
+        # (العلاج 4، STATUS_NEAR_CONFIRMED)
         supporting_weighted = sorted(
             ({"name": n, "weight": _publisher_weight(n, cfg)}
              for n in judged["supporting"]),
             key=lambda s: -s["weight"])
+        weights_by_name = {s["name"]: s["weight"] for s in supporting_weighted}
+        status = classify_fact(judged["supporting"], judged["contradicting"],
+                               min_confirm, weights_by_name, near_confirm_min_weight)
         fact_results.append({
             "text": text,
             "status": status,
@@ -901,6 +981,7 @@ def _verify_article(body: str, cfg) -> dict:
 
     contradictions = [f for f in fact_results if f["status"] == STATUS_CONTRADICTED]
     confirmed = [f for f in fact_results if f["status"] == STATUS_CONFIRMED]
+    near_confirmed = [f for f in fact_results if f["status"] == STATUS_NEAR_CONFIRMED]
 
     if not fact_results:
         verdict, verdict_reason = False, "لم يُستخرج من المقال أي واقعة قابلة للتحقق"
@@ -912,6 +993,13 @@ def _verify_article(body: str, cfg) -> dict:
         verdict = False
         verdict_reason = ("لا واقعة واحدة مؤكَّدة بمصدرين مستقلين — المصادر "
                           "المستقلة لا تكفي لخبر قائم بذاته")
+        if near_confirmed:
+            # العلاج 4 (Issue #132 تعليق لاحق): الحكم النهائي يبقى صارمًا
+            # (لا يكفي مصدر واحد للنشر)، لكن التقرير يعكس عدم اليقين بدل
+            # إخفائه خلف "لا" مطلقة حين توجد واقعة بمصدر قوي واحد تستحق
+            # مراجعة يدوية قبل إسقاطها كليًا
+            verdict_reason += (f"؛ توجد {len(near_confirmed)} واقعة شبه "
+                              "مؤكَّدة بمصدر واحد قوي تستحق مراجعة يدوية")
 
     return {
         "ok": True,
