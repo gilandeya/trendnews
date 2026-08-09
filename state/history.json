@@ -1,86 +1,6 @@
 [
   {
     "tokens": [
-      "air",
-      "beach",
-      "black",
-      "bring",
-      "defenses",
-      "did",
-      "drone",
-      "killed",
-      "russian",
-      "sea",
-      "seven",
-      "ukrainian"
-    ],
-    "link": "https://meduza.io/en/feature/2026/08/04/did-russian-air-defenses-bring-down-the-drone-that-killed-seven-on-a-black-sea-beach",
-    "title": "Did Russian air defenses bring down the Ukrainian drone that killed seven on a Black Sea beach?",
-    "posted_title": "مسيّرة أوكرانية تسقط على شاطئ مزدحم في منتجع غيلينجيك الروسي وتقتل 7 أشخاص",
-    "region": "ru",
-    "seen_at": "2026-08-04T12:00:37.289466+00:00"
-  },
-  {
-    "tokens": [
-      "along",
-      "between",
-      "border",
-      "china",
-      "disputed",
-      "earth",
-      "frozen",
-      "highest",
-      "india",
-      "lake",
-      "shatters",
-      "space",
-      "world's"
-    ],
-    "link": "https://www.livescience.com/planet-earth/worlds-highest-frozen-lake-shatters-along-disputed-border-between-china-and-india-earth-from-space",
-    "title": "World's highest frozen lake shatters along disputed border between China and India ‪—‬ Earth from space",
-    "posted_title": "صورة فضائية توثّق تصدع جليد بحيرة بانغونغ عند خط الحدود المتنازع عليه بين الصين والهند",
-    "region": "odd",
-    "seen_at": "2026-08-04T12:00:51.263182+00:00"
-  },
-  {
-    "tokens": [
-      "despite",
-      "higher",
-      "iran",
-      "oil",
-      "persist",
-      "prices",
-      "rise",
-      "stocks",
-      "tensions"
-    ],
-    "link": "https://www.investing.com/news/economy-news/asia-stocks-move-higher-on-wall-street-lead-oil-steady-4832646",
-    "title": "Stocks rise despite higher oil prices as Iran tensions persist",
-    "posted_title": "أسواق الأسهم ترتفع رغم قفزة النفط وهجوم جديد في مضيق هرمز",
-    "region": "money",
-    "seen_at": "2026-08-04T12:01:04.258429+00:00"
-  },
-  {
-    "tokens": [
-      "2030",
-      "agrees",
-      "coach",
-      "cup",
-      "deal",
-      "mauricio",
-      "pochettino",
-      "stay",
-      "through",
-      "world"
-    ],
-    "link": "https://www.theguardian.com/football/2026/aug/03/mauricio-pochettino-new-contract-us-soccer-world-cup",
-    "title": "Mauricio Pochettino agrees deal to stay as US coach through World Cup 2030",
-    "posted_title": "لماذا جدّد الاتحاد الأمريكي عقد بوكيتينو رغم الخروج المبكر من كأس العالم؟",
-    "region": "sport",
-    "seen_at": "2026-08-04T12:01:15.876577+00:00"
-  },
-  {
-    "tokens": [
       "apple",
       "copy",
       "iphone",
@@ -2607,5 +2527,23 @@
     "posted_title": "الحوثيون يعلنون استهداف مصفاة أرامكو في جازان والسعودية تؤكد إخماد الحريق",
     "region": "in",
     "seen_at": "2026-08-09T11:08:04.220384+00:00"
+  },
+  {
+    "score": 17.6,
+    "bucket": "serious",
+    "tokens": [
+      "gaza",
+      "israel",
+      "netanyahu",
+      "plan",
+      "point",
+      "rejects",
+      "trump's"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c5yw4lpe0yeo?at_medium=RSS&at_campaign=rss",
+    "title": "Israel rejects Trump's 15-point plan for Gaza, Netanyahu says",
+    "posted_title": "نتنياهو يرفض خطة ترامب ذات 15 نقطة لغزة ويربط الانسحاب بنزع سلاح حماس",
+    "region": "uk",
+    "seen_at": "2026-08-09T12:01:19.029404+00:00"
   }
 ]
