@@ -1,78 +1,6 @@
 [
   {
     "tokens": [
-      "attack",
-      "drone",
-      "injured",
-      "killed",
-      "moscow",
-      "region"
-    ],
-    "link": "https://en.mehrnews.com/news/246750/11-killed-injured-in-drone-attack-on-Moscow-Region",
-    "title": "11 killed, injured in drone attack on Moscow Region",
-    "posted_title": "هجوم بمسيّرات على مناطق روسية متفرقة يخلف عشرات القتلى والجرحى خلال يوم واحد",
-    "region": "ir",
-    "seen_at": "2026-08-04T07:10:38.092504+00:00"
-  },
-  {
-    "tokens": [
-      "apparent",
-      "attack",
-      "dies",
-      "heart",
-      "nascimento",
-      "ufc's"
-    ],
-    "link": "https://www.bbc.co.uk/sport/mixed-martial-arts/articles/cvgwvnje09po?at_medium=RSS&at_campaign=rss",
-    "title": "UFC's Nascimento, 34, dies after apparent heart attack",
-    "posted_title": "وفاة مقاتل UFC ألان ناسيمنتو عن 34 عامًا بعد أزمة قلبية مفاجئة",
-    "region": "sport",
-    "seen_at": "2026-08-04T07:10:52.005836+00:00"
-  },
-  {
-    "tokens": [
-      "'our",
-      "app",
-      "apple",
-      "briefly",
-      "content",
-      "found",
-      "removed",
-      "reveals",
-      "review",
-      "store",
-      "telegram",
-      "violates",
-      "why"
-    ],
-    "link": "https://www.hindustantimes.com/world-news/us-news/apple-reveals-why-it-briefly-removed-telegram-from-the-app-store-our-review-found-content-that-violates-101785822917952.html",
-    "title": "Apple reveals why it briefly removed Telegram from the App Store: 'Our review found content that violates...'",
-    "posted_title": "آبل توضح سبب حذف تليجرام مؤقتًا من متجر التطبيقات",
-    "region": "in",
-    "seen_at": "2026-08-04T07:29:27.521773+00:00"
-  },
-  {
-    "tokens": [
-      "about",
-      "attack",
-      "banned",
-      "being",
-      "experience",
-      "flag",
-      "massive",
-      "palestinian",
-      "singapore",
-      "speak",
-      "surreal"
-    ],
-    "link": "https://www.theguardian.com/music/2026/aug/03/massive-attack-singapore-ban-palestine-flag",
-    "title": "Massive Attack speak about ‘surreal experience’ of being banned from Singapore over Palestinian flag",
-    "posted_title": "تحديث: فرقة \"ماسيف أتاك\" تكشف تفاصيل احتجازها في سنغافورة بعد رفع علم فلسطين",
-    "region": "culture",
-    "seen_at": "2026-08-04T07:30:06.872354+00:00"
-  },
-  {
-    "tokens": [
       "000",
       "death",
       "past",
@@ -2695,5 +2623,27 @@
     "posted_title": "تحديث: إيران تضع ست شروط أمام واشنطن قبل إعادة فتح مضيق هرمز بالكامل",
     "region": "uk",
     "seen_at": "2026-08-09T07:08:16.488060+00:00"
+  },
+  {
+    "score": 17.31,
+    "bucket": "serious",
+    "tokens": [
+      "abelardo",
+      "amtstag",
+      "bombenanschlag",
+      "ersten",
+      "espriella",
+      "farc",
+      "kolumbien",
+      "linke",
+      "rebellen",
+      "verüben",
+      "von"
+    ],
+    "link": "https://www.spiegel.de/ausland/kolumbien-linke-farc-rebellen-verueben-bombenanschlag-am-ersten-amtstag-von-abelardo-de-la-espriella-a-64d4cdac-103b-455b-a20b-93cdc9f67d39#ref=rss",
+    "title": "Kolumbien: Linke Farc-Rebellen verüben Bombenanschlag am ersten Amtstag von Abelardo de la Espriella",
+    "posted_title": "تفجيرات في كولومبيا يوم تنصيب الرئيس الجديد ذي التوجه اليميني",
+    "region": "de",
+    "seen_at": "2026-08-09T07:31:09.495715+00:00"
   }
 ]
