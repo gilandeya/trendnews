@@ -1,7 +1,7 @@
 {
   "id": "8d94c5ca1be9",
   "created_at": "2026-08-09T05:46:03.524040+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 181,
   "from_radar": true,
   "score": 17.44,
@@ -57,5 +57,7 @@
       "https://cdn.dailymaverick.co.za/attachments/2996/P1Lillian70years_434732.jpg"
     ]
   },
-  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي",
+  "reject_tag": "محلي",
+  "reject_note": ""
 }
