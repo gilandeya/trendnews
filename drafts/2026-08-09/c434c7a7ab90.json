@@ -1,0 +1,57 @@
+{
+  "id": "c434c7a7ab90",
+  "created_at": "2026-08-09T19:08:10.248295+00:00",
+  "status": "pending",
+  "review_issue": null,
+  "score": 20.59,
+  "bucket": "serious",
+  "analysed_sources": [
+    "Al Jazeera English"
+  ],
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "age_hours": 9.1,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "source": {
+    "title": "UAE extradites alleged international crime boss Daniel Kinahan to Ireland",
+    "link": "https://www.aljazeera.com/news/2026/8/9/uae-extradites-alleged-international-crime-boss-daniel-kinahan-to-ireland?traffic_source=rss",
+    "publisher": "Al Jazeera English",
+    "publishers": [
+      "Al Jazeera",
+      "Al Jazeera English"
+    ],
+    "region": "qa",
+    "image_url": "https://www.aljazeera.com/wp-content/uploads/2026/08/Daniel-Joseph-Kinahan-1-3-1786288764.jpg?resize=1200%2C630",
+    "image_candidates": [
+      "https://www.aljazeera.com/wp-content/uploads/2026/08/Daniel-Joseph-Kinahan-1-3-1786288764.jpg?resize=1200%2C630"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "عالم",
+    "image_headline": "تسليم زعيم عصابة كينهان من دبي إلى دبلن",
+    "post_title": "الإمارات تسلّم زعيم عصابة كينهان الإيرلندية إلى دبلن بعد أشهر من اعتقاله في دبي",
+    "post_body": "غادر دانيال كينهان، 49 عامًا، دبي الأحد على متن طائرة حكومية إيرلندية، ليمثل أمام المحكمة الجنائية الخاصة في دبلن بتهمة قيادة تنظيم إجرامي عابر للحدود. جاء تسليمه بعد حكم نهائي عن محكمة التمييز في دبي، تنفيذًا لاتفاقية تسليم بين البلدين. كان كينهان قد اعتُقل في دبي في أبريل بموجب مذكرة إيرلندية، بعد إقامة علنية في الإمارة استمرت نحو عشر سنوات. تتهمه السلطات بقيادة جماعة إجرامية منظمة والضلوع في جرائم قتل وتهريب مخدرات. سيُنقل مباشرة إلى سجن بورتلاويز شديد الحراسة وسط عملية أمنية مكثفة شملت شرطة مسلحة وقوات عسكرية.",
+    "hashtags": [
+      "دانيال_كينهان",
+      "الإمارات",
+      "إيرلندا",
+      "جريمة_منظمة"
+    ]
+  },
+  "caption": "الإمارات تسلّم زعيم عصابة كينهان الإيرلندية إلى دبلن بعد أشهر من اعتقاله في دبي\n\nغادر دانيال كينهان، 49 عامًا، دبي الأحد على متن طائرة حكومية إيرلندية، ليمثل أمام المحكمة الجنائية الخاصة في دبلن بتهمة قيادة تنظيم إجرامي عابر للحدود. جاء تسليمه بعد حكم نهائي عن محكمة التمييز في دبي، تنفيذًا لاتفاقية تسليم بين البلدين. كان كينهان قد اعتُقل في دبي في أبريل بموجب مذكرة إيرلندية، بعد إقامة علنية في الإمارة استمرت نحو عشر سنوات. تتهمه السلطات بقيادة جماعة إجرامية منظمة والضلوع في جرائم قتل وتهريب مخدرات. سيُنقل مباشرة إلى سجن بورتلاويز شديد الحراسة وسط عملية أمنية مكثفة شملت شرطة مسلحة وقوات عسكرية.\n\n#دانيال_كينهان #الإمارات #إيرلندا #جريمة_منظمة",
+  "image": "drafts/2026-08-09/c434c7a7ab90.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "تسليم زعيم عصابة كينهان من دبي إلى دبلن",
+    "category": "عالم",
+    "urgent": false,
+    "image_candidates": [
+      "https://www.aljazeera.com/wp-content/uploads/2026/08/Daniel-Joseph-Kinahan-1-3-1786288764.jpg?resize=1200%2C630"
+    ]
+  }
+}
