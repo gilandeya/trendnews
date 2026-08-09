@@ -970,6 +970,21 @@ def test_verify() -> None:
     check("الوزن الأقصى أعلى من أي وزن sources الذي أعلى بدوره من الافتراضي",
           verify.TRUSTED_PUBLISHER_WEIGHT > 1.2 > verify.DEFAULT_PUBLISHER_WEIGHT)
 
+    # مرادفات عربية لوكالات trusted_boost (Issue #132 تعليق لاحق: 'الشرق
+    # بلومبرغ' لا يطابق 'Bloomberg' حرفيًا — سقطت للوزن الافتراضي رغم كونها
+    # بلومبرغ فعليًا؛ حكم إيجابي فعلي فقد بلومبرغ واستند لمصادر ضعيفة بدلًا)
+    check("اسم عربي يحوي مرادف وكالة موثوقة (الشرق بلومبرغ ↔ بلومبرغ) يأخذ "
+          "وزن الثقة لا الافتراضي",
+          verify._publisher_weight("الشرق بلومبرغ", _cfg_for_weight) ==
+          verify.TRUSTED_PUBLISHER_WEIGHT)
+    check("مقاطع قصيرة جدًا (بي بي سي ← BBC) لا تُسقطها norm_tokens كليًا "
+          "بلا مطابقة — احتياط النص الخام يلتقطها",
+          verify._publisher_weight("بي بي سي", _cfg_for_weight) ==
+          verify.TRUSTED_PUBLISHER_WEIGHT)
+    check("مرادف ضمن اسم ناشر أطول (بي بي سي عربي) يُطابَق أيضًا",
+          verify._publisher_weight("بي بي سي عربي", _cfg_for_weight) ==
+          verify.TRUSTED_PUBLISHER_WEIGHT)
+
     # ضوابط البرومبت: نفس قاعدة عدم الاستعانة بمعرفة النموذج الخاصة (writer.py)
     check("استخراج البنية لا ينقل جملة حرفية من المقال",
           "لا تنقل جملة من المقال حرفيًا" in verify.EXTRACT_SYSTEM)
@@ -1538,18 +1553,19 @@ def test_verify() -> None:
     check("المرشح الأكثر تطابقًا مع نص الواقعة يُقرأ أولًا رغم ترتيبه الثاني في articles",
           read_order and read_order[0] == "Specific", str(read_order))
 
-    # وزن الناشر أولوية على الصلة وحدها (Issue #132 تعليق لاحق: بلومبرغ
-    # ظهرت في نتائج بحث فعلي لكنها لم تدخل قائمة المؤيدين لأن ترتيب القراءة
-    # كان بالصلة وحدها — ناشر مجهول أعلى صلة سبقها إلى سقف read_per_claim)
-    trusted_low_relevance = Article(
-        title="تغطية عامة لسوق الطاقة", link="https://bloomberg.example/1",
+    # الوزن يفاضل بين ناشرين بصلة متقاربة، لا يُقصي ناشرًا شديد الصلة كليًا
+    # (Issue #132 تعليق لاحق ثانٍ: فرز تتابعي سابق -وزن ثم -صلة كان يُقصي
+    # مرشّحًا شديد الصلة بوزن أقل كليًا مهما بلغت صلته، فتراجع حكم فعلي من
+    # واقعتين مؤكَّدتين إلى واحدة بعد تفعيل ترتيب الوزن — الدرجة المركّبة
+    # (وزن + صلة) هي الإصلاح: تُرجِّح الوزن عند تقارب الصلة فقط، لا مطلقًا)
+    tied_trusted = Article(
+        title="توقف واردات النفط السعودي لأمريكا 1985", link="https://bloomberg.example/3",
         summary="", source_name="Bloomberg", region="global", weight=1.0,
         published=datetime.now(timezone.utc), publisher="Bloomberg")
-    unknown_high_relevance = Article(
-        title="توقف واردات النفط السعودي لأمريكا 1985",
-        link="https://unknown.example/2", summary="", source_name="موقع مجهول",
-        region="global", weight=1.0, published=datetime.now(timezone.utc),
-        publisher="موقع مجهول")
+    tied_unknown = Article(
+        title="توقف واردات النفط السعودي لأمريكا 1985", link="https://unknown.example/4",
+        summary="", source_name="موقع مجهول", region="global", weight=1.0,
+        published=datetime.now(timezone.utc), publisher="موقع مجهول")
 
     read_order2: list[str] = []
 
@@ -1559,17 +1575,53 @@ def test_verify() -> None:
 
     extract.gather = _fake_gather_order2
     try:
-        # الناشر الموثوق (Bloomberg) الثاني في articles عمدًا — لو كان
-        # الترتيب بالصلة وحدها لسبقه "موقع مجهول" الأعلى تطابقًا لفظيًا
+        # عنوانان متطابقان (صلة متساوية) — لو تجاهلت الدرجة المركّبة الوزن
+        # كليًا لتساوى الترتيب بلا معيار حاسم؛ الوزن هو ما يحسم عند التعادل
         verify.gather_evidence(
-            [unknown_high_relevance, trusted_low_relevance], cfg,
+            [tied_unknown, tied_trusted], cfg,
             "توقف واردات النفط السعودي لأمريكا منذ عام 1985")
     finally:
         extract.gather = real_extract_gather
 
-    check("الناشر الموثوق (trusted_boost) يُقرأ أولًا رغم صلة أضعف وترتيب "
-          "ثانٍ في articles — الوزن أولوية على الصلة وحدها",
+    check("عند تقارب الصلة، الوزن يُرجّح الناشر الموثوق أولًا رغم ترتيبه "
+          "الثاني في articles",
           read_order2 and read_order2[0] == "Bloomberg", str(read_order2))
+
+    # الأهم: مرشّح شديد الصلة بوزن افتراضي منخفض لا يخرج من نافذة القراءة
+    # الضيقة رغم خمسة مرشحين موثوقين بلا أي صلة بنص الواقعة (هذا بالضبط ما
+    # سبب التراجع الفعلي المُبلَّغ عنه — Issue #132 تعليق لاحق ثانٍ)
+    trusted_irrelevant = [
+        Article(title=f"خبر عام غير متعلق رقم {i}", link=f"https://trusted{i}.example/1",
+               summary="", source_name=name, region="global", weight=1.0,
+               published=datetime.now(timezone.utc), publisher=name)
+        for i, name in enumerate(["Reuters", "Associated Press", "AFP", "BBC", "Al Jazeera"])
+    ]
+    relevant_unknown = Article(
+        title="توقف واردات النفط السعودي لأمريكا 1985",
+        link="https://unknown.example/5", summary="",
+        source_name="موقع مجهول شديد الصلة", region="global", weight=1.0,
+        published=datetime.now(timezone.utc), publisher="موقع مجهول شديد الصلة")
+
+    read_order3: list[str] = []
+
+    def _fake_gather_order3(members, limit=1):
+        read_order3.extend(m["name"] for m in members)
+        return []
+
+    narrow_cfg = dict(cfg)
+    narrow_cfg["verify"] = {**cfg["verify"], "read_per_claim": 1}  # نافذة ضيقة فعليًا
+
+    extract.gather = _fake_gather_order3
+    try:
+        verify.gather_evidence(
+            trusted_irrelevant + [relevant_unknown], narrow_cfg,
+            "توقف واردات النفط السعودي لأمريكا منذ عام 1985")
+    finally:
+        extract.gather = real_extract_gather
+
+    check("مرشّح شديد الصلة منخفض الوزن لا يُقصى من نافذة القراءة رغم خمسة "
+          "مرشحين موثوقين بلا صلة — الدرجة المركّبة تمنع إقصاءه كليًا",
+          "موقع مجهول شديد الصلة" in read_order3, str(read_order3))
 
     # استعادة كل ما بقي معطوبًا من محاكاة أعلاه (search/gather_evidence
     # استُعيدتا سابقًا داخل الدالة لأن اختبارات لاحقة هنا احتاجت شكلهما
