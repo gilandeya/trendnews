@@ -414,6 +414,19 @@ def _relevance(article: Article, wanted: set[str]) -> int:
     return len(wanted & haystack)
 
 
+def _candidate_score(weight: float, relevance: int) -> float:
+    """درجة مركّبة تجمع وزن الناشر وصلة النص لترتيب مرشّحي القراءة في
+    gather_evidence، بدل الفرز التتابعي (-وزن ثم -صلة) الذي أضرّ بالنتيجة
+    فعليًا (Issue #132 تعليق لاحق): حين يملأ عدد كافٍ من المرشحين الموثوقين
+    بلا أي صلة نافذة قراءة ضيقة، كان الفرز التتابعي يُقصي كليًا مرشّحًا شديد
+    الصلة بوزن أقل — بصرف النظر عن مدى ارتفاع صلته — فتحوّل حكم فعلي من
+    واقعتين مؤكَّدتين إلى واحدة فقط. الجمع البسيط يجعل الصلة العالية (كلمات
+    مشتركة كثيرة مع نص الادّعاء) قادرة على تعويض فارق الوزن الأقصى
+    (TRUSTED_PUBLISHER_WEIGHT − DEFAULT_PUBLISHER_WEIGHT = 2.4) بدل أن يُقصيها
+    كليًا، والوزن العالي يبقى قادرًا على تعويض صلة أضعف عند تقاربها."""
+    return weight + relevance
+
+
 def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple[list[dict], str]:
     """يقرأ نصوص أعلى النتائج، متبِّعًا روابط Google News الوسيطة أولًا
     (عبر sources.resolve_final_url المُصلَحة — Issue #132 تعليق لاحق: كانت
@@ -442,14 +455,16 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
     (Issue #132 تعليق لاحق: 'للمرة الأولى منذ 1985.. أمريكا توقف استيراد
     النفط السعودي' كان يؤكد الواقعة حرفيًا، لكن تعذّر استخراج النص أسقطه).
 
-    ترتيب القراءة بوزن الناشر أولًا (_publisher_weight: verify.trusted_boost
-    ثم وزن sources في config.yaml)، لا بالصلة وحدها كما كان (Issue #132
-    تعليق لاحق: بلومبرغ ظهرت في نتائج البحث فعليًا لكنها لم تدخل قائمة
-    المؤيدين لأن ترتيب القراءة كان بالصلة وحدها، فسبقتها مصادر أضعف موثوقية
-    إلى سقف read_per_claim قبل أن تُقرأ). الصلة (تطابق كلمات claim_text)
-    تبقى معيارًا ثانويًا يفاضل بين ناشرين بالوزن نفسه. الوزن يُحسب لكل مرشح
-    على حدة — الممثّل وكل عضو من cluster_members — لا للممثّل وحده، فناشر
-    موثوق مدفون داخل مجموعة لا يخرج من نافذة القراءة بسبب ترتيب مجموعته.
+    ترتيب القراءة بدرجة مركّبة (_candidate_score: وزن الناشر + الصلة)، لا
+    بفرز تتابعي (-وزن ثم -صلة) كما كان (Issue #132 تعليق لاحق ثانٍ: ذلك
+    الفرز التتابعي أضرّ بالنتيجة فعليًا — حين ملأ عدد كافٍ من المرشحين
+    الموثوقين بلا أي صلة نافذة القراءة الضيقة، أُقصي مرشّح شديد الصلة بوزن
+    أقل كليًا، فتحوّل حكم فعلي من واقعتين مؤكَّدتين إلى واحدة فقط بعد تفعيل
+    ترتيب الوزن). الدرجة المركّبة تجعل الصلة العالية قادرة على تعويض وزن
+    أقل، والوزن العالي قادرًا على تعويض صلة أضعف، بدل أن يُقصي أحدهما الآخر
+    كليًا. الوزن يُحسب لكل مرشح على حدة — الممثّل وكل عضو من cluster_members
+    — لا للممثّل وحده، فناشر موثوق مدفون داخل مجموعة لا يخرج من نافذة
+    القراءة بسبب ترتيب مجموعته.
 
     يعيد (docs, evidence_basis) — evidence_basis إحدى أربع حالات صريحة
     تُعرض في التقرير (Issue #132 تعليق لاحق: "لا نتائج بحث" و"وجدتُ نتائج
@@ -476,7 +491,14 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
         for m in a.cluster_members:
             mname = m.get("name")
             candidates.append((_publisher_weight(mname, cfg), rel, mname, m.get("link")))
-    candidates.sort(key=lambda c: (-c[0], -c[1]))
+
+    # تسجيل قائمة المرشحين قبل الترتيب وبعده (اسم، وزن، صلة) — بلا هذا لا
+    # يمكن تشخيص عطل ترتيب مستقبلي من السجل وحده (Issue #132 تعليق لاحق)
+    log.info("مرشحو القراءة قبل الترتيب (وزن، صلة، اسم): %s",
+             [(round(w, 2), r, n) for w, r, n, _ in candidates])
+    candidates.sort(key=lambda c: -_candidate_score(c[0], c[1]))
+    log.info("مرشحو القراءة بعد الترتيب بالدرجة المركّبة (وزن، صلة، اسم): %s",
+             [(round(w, 2), r, n) for w, r, n, _ in candidates])
 
     seen_links: set[str] = set()
     seen_names: set[str] = set()
@@ -502,6 +524,8 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
 
     fulltext = extract.gather(members, limit=limit)
     if fulltext:
+        log.info("نصوص مُقروءة فعلًا من نافذة القراءة: %s",
+                 [d.get("name") for d in fulltext])
         return [{**d, "from_text": True} for d in fulltext], EVIDENCE_FULL_TEXT
 
     headline_docs = []
@@ -517,6 +541,8 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
         if len(headline_docs) >= limit:
             break
     if headline_docs:
+        log.info("لا نص كامل مقروء — احتياط العناوين مستعمل من: %s",
+                 [d["name"] for d in headline_docs])
         return headline_docs, EVIDENCE_HEADLINES_ONLY
     return [], EVIDENCE_UNREADABLE
 
@@ -572,16 +598,35 @@ JUDGE_FACT_SCHEMA = {
 _PAREN_RE = re.compile(r"[\(（][^\)）]*[\)）]?")
 
 
+def _clean_raw(s: str) -> str:
+    """نص خام مبسّط للمطابقة الاحتياطية في _tokens_match: بلا وصف بين
+    قوسين ولا تشكيل ولا مسافات زائدة، بحالة أحرف موحَّدة — بلا تحويل كلمات
+    لمجموعة (تلك مهمة norm_tokens التي تفشل هنا تحديدًا، انظر أدناه)."""
+    s = _PAREN_RE.sub("", s or "")
+    s = _TASHKEEL_RE.sub("", s)
+    s = re.sub(r"\s+", " ", s).strip().lower()
+    return s
+
+
 def _tokens_match(a: str, b: str) -> bool:
     """يقارن اسمين بتسامح: يُسقط أي وصف بين قوسين، ويقارن كلماتهما عبر
     request.norm_tokens (تتكفّل هي نفسها بالمسافات الزائدة وأل التعريف
     وفروق الهمزات) بتطابق جزئي — كلمات أحد الاسمين واردة كاملة داخل الآخر،
     لا تطابق حرفي صارم. يستعملها _canonical_name (مطابقة اسم أعاده النموذج
-    بأحد docs) و_publisher_weight (مطابقة ناشر بقائمة sources/trusted_boost)
-    معًا — نفس منطق التسامح المطلوب في الحالتين."""
+    بأحد docs) و_publisher_weight (مطابقة ناشر بقائمة sources/trusted_boost/
+    publisher_aliases) معًا — نفس منطق التسامح المطلوب في الحالتين.
+
+    norm_tokens تُسقط أي كلمة من حرفين فأقل — يُفرغ هذا مجموعة الاسم كاملة
+    لمختصرات منقحرة كـ"بي بي سي" (BBC): كل مقطع صوتي فيها حرفان بالضبط،
+    فيفشل التطابق بالكلمات مهما تسامح رغم تطابق الاسمين فعليًا (Issue #132
+    تعليق لاحق). حين تُفرِغ norm_tokens أحد الجانبين أو كليهما، نسقط لمطابقة
+    نص خام مبسّط بتطابق جزئي (substring) بدل الرفض المباشر."""
     ta = norm_tokens(_PAREN_RE.sub("", a or ""))
     tb = norm_tokens(_PAREN_RE.sub("", b or ""))
-    return bool(ta) and bool(tb) and (ta <= tb or tb <= ta)
+    if ta and tb:
+        return ta <= tb or tb <= ta
+    ra, rb = _clean_raw(a), _clean_raw(b)
+    return bool(ra) and bool(rb) and (ra in rb or rb in ra)
 
 
 def _canonical_name(candidate, docs: list[dict]) -> str | None:
@@ -610,12 +655,19 @@ def _publisher_weight(name: str, cfg) -> float:
     لناشر غير مُدرَج. هذا وزن *موثوقية* لا درجة ترند (Issue #132 تعليق لاحق:
     بلومبرغ ظهرت في نتائج البحث فعليًا ولم تدخل قائمة المؤيدين لأن ترتيب
     القراءة كان بالصلة وحدها، فسبقتها مصادر أضعف موثوقية — خبرگزاری مهر،
-    الخلاصة نت، أهل مصر، Vietnam.vn — إلى سقف read_per_claim قبل أن تُقرأ)."""
+    الخلاصة نت، أهل مصر، Vietnam.vn — إلى سقف read_per_claim قبل أن تُقرأ).
+
+    مطابقة اسم trusted_boost وحده حرفيًا (إنجليزي عادة) لا تكفي: نتائج
+    البحث العربية تعرض اسم الوكالة بالعربية غالبًا ("الشرق بلومبرغ")،
+    ولا تحويل بين الأبجديتين في norm_tokens — فتُطابَق أيضًا كل مرادف عربي
+    مُدرَج لكل وكالة في verify.publisher_aliases (Issue #132 تعليق لاحق)."""
     if not name:
         return DEFAULT_PUBLISHER_WEIGHT
     vcfg = cfg.get("verify", {}) or {}
+    aliases = vcfg.get("publisher_aliases") or {}
     for trusted in vcfg.get("trusted_boost") or []:
-        if _tokens_match(name, trusted):
+        names_to_try = [trusted, *(aliases.get(trusted) or [])]
+        if any(_tokens_match(name, alt) for alt in names_to_try):
             return TRUSTED_PUBLISHER_WEIGHT
     for s in cfg.get("sources", []) or []:
         sname = s.get("name", "")
