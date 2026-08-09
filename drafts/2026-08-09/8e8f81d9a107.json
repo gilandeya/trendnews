@@ -1,0 +1,64 @@
+{
+  "id": "8e8f81d9a107",
+  "created_at": "2026-08-09T15:08:24.149518+00:00",
+  "status": "pending",
+  "review_issue": null,
+  "score": 27.19,
+  "bucket": "serious",
+  "analysed_sources": [
+    "BBC World"
+  ],
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "age_hours": 5.1,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "source": {
+    "title": "Suspected crime boss Daniel Kinahan returning to Ireland in high-security operation",
+    "link": "https://www.bbc.co.uk/news/articles/c62qd5plzp6o?at_medium=RSS&at_campaign=rss",
+    "publisher": "BBC World",
+    "publishers": [
+      "BBC World",
+      "CNN",
+      "NDTV — World"
+    ],
+    "region": "uk",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6578/live/9e6e94f0-8bfd-11f1-a52a-dba993a97936.jpg",
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6578/live/9e6e94f0-8bfd-11f1-a52a-dba993a97936.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/6578/live/9e6e94f0-8bfd-11f1-a52a-dba993a97936.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6578/live/9e6e94f0-8bfd-11f1-a52a-dba993a97936.jpg",
+      "https://c.ndtvimg.com/2026-04/1mp9qt04_daniel-kinahan_625x300_19_April_26.png?im=FitAndFill,algorithm=dnn,width=1280,height=720"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "عالم",
+    "image_headline": "ترحيل زعيم عصابة كينيهان المشتبه به من دبي إلى دبلن",
+    "post_title": "طائرة حكومية إيرلندية تنقل دانيال كينيهان من دبي لمواجهة القضاء في دبلن",
+    "post_body": "غادرت طائرة حكومية إيرلندية مطار دبي متجهة إلى دبلن تحمل على متنها دانيال كينيهان (49 عامًا)، المشتبه في قيادته تنظيمًا إجراميًا، بعد اعتقاله في الإمارات في أبريل الماضي. غادرت الطائرة دبي عند الساعة 13:19 بتوقيتها، ومن المتوقع أن تحط في دبلن قبل السابعة مساء الأحد بتوقيت إيرلندا. سيوجَّه له فور وصوله اتهام رسمي، ثم يُعرض على محكمة جنائية خاصة مساء الأحد دون هيئة محلفين. اشترت دائرة السجون الإيرلندية شاحنة مضادة للرصاص والمتفجرات لنقله، ضمن عملية أمنية واسعة تشمل شرطة مسلحة وقوات الدفاع، ويُرجَّح احتجازه في سجن بورتلاويز فائق الحراسة.",
+    "hashtags": [
+      "دانيال_كينيهان",
+      "الجريمة_المنظمة",
+      "إيرلندا",
+      "دبي"
+    ]
+  },
+  "caption": "طائرة حكومية إيرلندية تنقل دانيال كينيهان من دبي لمواجهة القضاء في دبلن\n\nغادرت طائرة حكومية إيرلندية مطار دبي متجهة إلى دبلن تحمل على متنها دانيال كينيهان (49 عامًا)، المشتبه في قيادته تنظيمًا إجراميًا، بعد اعتقاله في الإمارات في أبريل الماضي. غادرت الطائرة دبي عند الساعة 13:19 بتوقيتها، ومن المتوقع أن تحط في دبلن قبل السابعة مساء الأحد بتوقيت إيرلندا. سيوجَّه له فور وصوله اتهام رسمي، ثم يُعرض على محكمة جنائية خاصة مساء الأحد دون هيئة محلفين. اشترت دائرة السجون الإيرلندية شاحنة مضادة للرصاص والمتفجرات لنقله، ضمن عملية أمنية واسعة تشمل شرطة مسلحة وقوات الدفاع، ويُرجَّح احتجازه في سجن بورتلاويز فائق الحراسة.\n\n#دانيال_كينيهان #الجريمة_المنظمة #إيرلندا #دبي",
+  "image": "drafts/2026-08-09/8e8f81d9a107.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "ترحيل زعيم عصابة كينيهان المشتبه به من دبي إلى دبلن",
+    "category": "عالم",
+    "urgent": false,
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6578/live/9e6e94f0-8bfd-11f1-a52a-dba993a97936.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/6578/live/9e6e94f0-8bfd-11f1-a52a-dba993a97936.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6578/live/9e6e94f0-8bfd-11f1-a52a-dba993a97936.jpg",
+      "https://c.ndtvimg.com/2026-04/1mp9qt04_daniel-kinahan_625x300_19_April_26.png?im=FitAndFill,algorithm=dnn,width=1280,height=720"
+    ]
+  }
+}
