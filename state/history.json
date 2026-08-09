@@ -1,72 +1,6 @@
 [
   {
     "tokens": [
-      "apple",
-      "copy",
-      "iphone",
-      "paste",
-      "windows",
-      "working"
-    ],
-    "link": "https://www.theverge.com/tech/975020/apple-windows-pc-copy-paste-eu",
-    "title": "Apple is working on iPhone-to-Windows copy-paste",
-    "posted_title": "أبل تعمل على ميزة نسخ ولصق مباشرة بين آيفون وأجهزة ويندوز",
-    "region": "tech",
-    "seen_at": "2026-08-04T16:13:23.151554+00:00"
-  },
-  {
-    "tokens": [
-      "'virtually",
-      "all'",
-      "during",
-      "iran",
-      "long",
-      "missiles",
-      "precision",
-      "range",
-      "sources",
-      "used",
-      "war"
-    ],
-    "link": "https://www.channelnewsasia.com/world/us-iran-war-long-range-missiles-used-up-6297671",
-    "title": "US has used 'virtually all' of its long-range precision missiles during Iran war: Sources",
-    "posted_title": "الجيش الأمريكي يستهلك معظم مخزونه من الصواريخ الدقيقة طويلة المدى في حرب إيران",
-    "region": "seasia",
-    "seen_at": "2026-08-04T16:13:40.583644+00:00"
-  },
-  {
-    "tokens": [
-      "bicycles",
-      "did",
-      "dragged",
-      "get",
-      "how"
-    ],
-    "link": "https://www.courthousenews.com/how-did-bicycles-get-dragged-into-it/",
-    "title": "How did bicycles get dragged into it",
-    "posted_title": "وزارة النقل الأمريكية تعلن الحرب على مسارات الدراجات",
-    "region": "court",
-    "seen_at": "2026-08-04T16:14:07.499924+00:00"
-  },
-  {
-    "tokens": [
-      "around",
-      "artform",
-      "big",
-      "elevated",
-      "larking",
-      "mates",
-      "review",
-      "walk"
-    ],
-    "link": "https://www.theguardian.com/games/2026/aug/04/big-walk-review-larking-around-with-mates-elevated-to-an-artform",
-    "title": "Big Walk review – larking around with mates elevated to an artform",
-    "posted_title": "استوديو \"أنتايتلد غوس غيم\" يعود بلعبة تعاونية جديدة بعنوان Big Walk",
-    "region": "culture",
-    "seen_at": "2026-08-04T16:14:20.605187+00:00"
-  },
-  {
-    "tokens": [
       "2023",
       "funeral",
       "gaza",
@@ -2649,5 +2583,25 @@
     "posted_title": "نتنياهو يرفض علنًا خطة ترامب لغزة ويشترط نزع سلاح حماس قبل أي انسحاب",
     "region": "uk",
     "seen_at": "2026-08-09T16:08:24.760632+00:00"
+  },
+  {
+    "score": 19.28,
+    "bucket": "serious",
+    "tokens": [
+      "aligned",
+      "arabia",
+      "attacked",
+      "claim",
+      "houthis",
+      "iran",
+      "oil",
+      "refinery",
+      "saudi"
+    ],
+    "link": "https://www.theguardian.com/world/2026/aug/09/yemen-houthis-saudi-oil-refinery-defence-pact-iran-strait-of-hormuz",
+    "title": "Iran-aligned Houthis claim they attacked oil refinery in Saudi Arabia",
+    "posted_title": "الحوثيون يعلنون استهداف مصفاة أرامكو في جازان بطائرة مسيّرة",
+    "region": "uk",
+    "seen_at": "2026-08-09T16:16:06.196211+00:00"
   }
 ]
