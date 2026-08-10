@@ -1,7 +1,7 @@
 {
   "id": "bb03c631e0c2",
   "created_at": "2026-08-10T07:08:08.972527+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 215,
   "score": 25.78,
   "bucket": "serious",
@@ -66,5 +66,7 @@
       "https://th-i.thgim.com/public/incoming/lanxf6/article71326150.ece/alternates/LANDSCAPE_1200/Trump_8_666.jpg",
       "https://c.ndtvimg.com/2026-08/rrltt1as_trump_625x300_10_August_26.jpeg"
     ]
-  }
+  },
+  "reject_tag": "تافه",
+  "reject_note": ""
 }
