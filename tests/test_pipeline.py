@@ -923,6 +923,28 @@ def test_verify() -> None:
     check("تكرار الاسم نفسه لا يرفع العدد فوق العتبة",
           verify.classify_fact(["BBC", "BBC"], [], 2) == verify.STATUS_SINGLE)
 
+    # العلاج 4 (Issue #132 تعليق لاحق): حالة وسيطة بين "مؤكَّدة" و"مصدر واحد"
+    # — مصدر واحد فقط، لكنه "قوي" (وزنه ≥ near_confirm_min_weight) لا يُخفى
+    # خلف "مصدر واحد" المبهمة نفسها التي تُستعمل لمصدر مجهول واحد
+    check("مصدر واحد قوي (وزن ≥ near_confirm_min_weight) عند حافة العتبة "
+          "← شبه مؤكَّدة لا مصدر واحد مبهمة",
+          verify.classify_fact(["Bloomberg"], [], 2, {"Bloomberg": 3.0}) ==
+          verify.STATUS_NEAR_CONFIRMED)
+    check("مصدر واحد دون العتبة (وزن افتراضي لناشر مجهول) يبقى مصدر واحد",
+          verify.classify_fact(["موقع مجهول"], [], 2, {"موقع مجهول": 0.6}) ==
+          verify.STATUS_SINGLE)
+    check("بلا قاموس أوزان أصلًا (توافق خلفي)، المصدر الواحد يبقى مصدر واحد",
+          verify.classify_fact(["BBC"], [], 2) == verify.STATUS_SINGLE)
+    check("عتبة الوزن الوسيطة قابلة للتحكم عبر near_confirm_min_weight",
+          verify.classify_fact(["ناشر متوسط"], [], 2, {"ناشر متوسط": 0.9},
+                               near_confirm_min_weight=0.9) ==
+          verify.STATUS_NEAR_CONFIRMED)
+    check("مصدران فأكثر يتجاوزان الحالة الوسيطة إلى مؤكَّدة مباشرة بصرف "
+          "النظر عن الوزن",
+          verify.classify_fact(["BBC", "Reuters"], [], 2,
+                               {"BBC": 3.0, "Reuters": 3.0}) ==
+          verify.STATUS_CONFIRMED)
+
     # لا اسم مصدر مختلَق يدخل التقرير — حتى لو ادّعاه ردّ النموذج
     docs = [{"name": "BBC", "text": "x"}, {"name": "Reuters", "text": "y"}]
     check("يُقبل اسم مصدر مُعطى فعلًا", verify._known_only(["BBC"], docs) == ["BBC"])
@@ -997,17 +1019,33 @@ def test_verify() -> None:
 
     # تطبيع شكل رد النموذج (Issue #134: claims وصلت كقائمة نصوص لا قواميس
     # فانهار verify.py:344 بـ AttributeError) — لا يُفترض شكل بلا تحقق
-    check("نص مجرد يصير قاموس ادّعاء بحقلين افتراضيين",
+    check("نص مجرد يصير قاموس ادّعاء بحقول افتراضية (entities فارغة)",
           verify.normalize_claim("ادّعاء بلا شكل") ==
-          {"text": "ادّعاء بلا شكل", "kind": "واقعة"})
+          {"text": "ادّعاء بلا شكل", "kind": "واقعة", "entities": []})
     check("قاموس ناقص حقل kind يُملأ بقيمة افتراضية",
           verify.normalize_claim({"text": "ادّعاء"}) ==
-          {"text": "ادّعاء", "kind": "واقعة"})
+          {"text": "ادّعاء", "kind": "واقعة", "entities": []})
     check("قاموس بقيمة kind غير معروفة يُصحَّح لا يُرفَض",
           verify.normalize_claim({"text": "ادّعاء", "kind": "شيء غريب"}) ==
-          {"text": "ادّعاء", "kind": "واقعة"})
+          {"text": "ادّعاء", "kind": "واقعة", "entities": []})
     check("عنصر بلا نص قابل للاستخراج (رقم مثلًا) يُستبعد بلا انهيار",
           verify.normalize_claim(42) is None)
+
+    # العلاج 2 (Issue #132 تعليق لاحق): حقل entities الجديد — نص خام يُقبل،
+    # عناصر غير نصية أو الحقل كله بشكل غريب يُهمَل بلا انهيار (قائمة فارغة)
+    check("entities كقائمة نصوص صالحة تُطبَّع كما هي (بلا فراغات زائدة)",
+          verify.normalize_claim(
+              {"text": "ادّعاء", "kind": "واقعة",
+               "entities": [" بلومبرغ ", "2026", ""]})["entities"] ==
+          ["بلومبرغ", "2026"])
+    check("entities بشكل غير قائمة (نص مجرد مثلًا) تُهمَل بلا انهيار",
+          verify.normalize_claim(
+              {"text": "ادّعاء", "kind": "واقعة", "entities": "بلومبرغ"}
+          )["entities"] == [])
+    check("entities تحوي عناصر غير نصية تُستبعد بلا انهيار",
+          verify.normalize_claim(
+              {"text": "ادّعاء", "kind": "واقعة", "entities": ["بلومبرغ", 2026, None]}
+          )["entities"] == ["بلومبرغ"])
     check("normalize_claims على قيمة ليست قائمة أصلًا لا تنهار",
           verify.normalize_claims("ليست قائمة") == [])
     check("normalize_claims على None لا تنهار", verify.normalize_claims(None) == [])
@@ -1046,6 +1084,34 @@ def test_verify() -> None:
           "اتفاقيه" not in verify.build_query("اتفاقية البترودولار لعام 1974").split())
     check("كلمة بإملاء صحيح (اتفاقية) تدخل الاستعلام كما وردت",
           "اتفاقية" in verify.build_query("اتفاقية البترودولار لعام 1974").split())
+
+    # العلاج 2 (Issue #132 تعليق لاحق): استعلام البحث يُبنى من entities
+    # الادّعاء حصرًا حين تتوفر، لا من نص الجملة المعاد صياغته — تشخيص سابق
+    # وجد أن ثلاث صياغات معقولة لنفس الحقيقة (بلا هذا العلاج) أنتجت 53
+    # مقابل 2 مقابل 3 نتيجة بحث مختلفة جذريًا، لأن الاستعلام كان يُشتق من
+    # الجملة المعاد صياغتها نفسها في كل تشغيل
+    same_entities = ["بلومبرغ", "2026", "السعودي"]
+    phrasing_a = {"text": "انخفضت واردات الولايات المتحدة من النفط السعودي "
+                          "إلى الصفر طوال يوليو 2026 وفقًا لتقرير بلومبرغ",
+                 "entities": same_entities}
+    phrasing_b = {"text": "توقفت واردات أميركا من النفط السعودي بالكامل في "
+                          "2026 كما ذكرت بلومبرغ في تقريرها الأخير",
+                 "entities": same_entities}
+    phrasing_c = {"text": "صفر واردات نفط سعودي لأميركا سنة 2026، بحسب بلومبرغ",
+                 "entities": list(same_entities)}
+    queries_from_entities = {verify.build_query_for_claim(c) for c in
+                             (phrasing_a, phrasing_b, phrasing_c)}
+    check("ثلاث صياغات مختلفة لنفس الواقعة بنفس entities تُنتج استعلامًا واحدًا",
+          len(queries_from_entities) == 1, str(queries_from_entities))
+    check("الاستعلام المبني من entities لا يتجاوز سقف الكلمات",
+          len(next(iter(queries_from_entities)).split()) <= 5)
+    check("entities غائبة تمامًا تسقط لبناء الاستعلام من نص الادّعاء كاملًا "
+          "كما كان قبل هذا العلاج",
+          verify.build_query_for_claim({"text": long_claim}) ==
+          verify.build_query(long_claim))
+    check("entities فارغة (قائمة فعليًا لكن بلا عناصر) تسقط أيضًا لنص الادّعاء",
+          verify.build_query_for_claim({"text": long_claim, "entities": []}) ==
+          verify.build_query(long_claim))
 
     # احتياط العنوان والملخص حين يتعذّر استخراج أي نص كامل (Issue #132
     # تعليق لاحق: extract.py كانت تعيد "0 من N" دائمًا مهما كانت نتائج
@@ -1156,7 +1222,7 @@ def test_verify() -> None:
     # بقية الحقول) يجب أن تُقرأ أيضًا لا أن تُرفَض لمجرد كونها نصًا
     check("normalize_claims تقبل نص JSON صالحًا لمصفوفة ادّعاءات",
           verify.normalize_claims('[{"text": "ادّعاء", "kind": "واقعة"}]') ==
-          [{"text": "ادّعاء", "kind": "واقعة"}])
+          [{"text": "ادّعاء", "kind": "واقعة", "entities": []}])
     check("normalize_questions تقبل نص JSON صالحًا لمصفوفة أسئلة",
           verify.normalize_questions('["سؤال؟"]') == ["سؤال؟"])
     check("نص لا يبدأ بـ [ أو { لا يُحاول تحليله كـ JSON",
@@ -1232,6 +1298,23 @@ def test_verify() -> None:
           "trusted_boost)", "×" in report2)
     check("supporting_weighted محسوبة فعليًا لكل واقعة لا فارغة",
           bool(result2["facts"][0].get("supporting_weighted")))
+
+    # العلاج 4 (Issue #132 تعليق لاحق) عبر verify_article الكاملة لا وحدة
+    # classify_fact فقط: مصدر واحد قوي (Bloomberg، في trusted_boost) يظهر
+    # كحالة وسيطة صريحة — التقرير يعكس عدم اليقين بدل إخفائه خلف "مصدر واحد"
+    verify.judge_fact = lambda claim, docs, cfg: {
+        "supporting": ["Bloomberg"], "contradicting": []}
+    result_near = verify.verify_article("نص مقال ثالث", cfg)
+    check("مصدر واحد قوي عند حافة العتبة عبر verify_article الكاملة ← "
+          "شبه مؤكَّدة لا مصدر واحد مبهمة",
+          result_near["facts"][0]["status"] == verify.STATUS_NEAR_CONFIRMED)
+    check("الحكم النهائي يبقى لا رغم الحالة الوسيطة (مصدر واحد لا يكفي للنشر)",
+          result_near["verdict"] is False)
+    check("سبب الحكم يذكر الحالة شبه المؤكَّدة صراحة لا يُخفيها",
+          "شبه مؤكَّدة" in result_near["verdict_reason"])
+    report_near = verify.build_report(result_near)
+    check("التقرير يعرض الحالة الوسيطة في جدول الوقائع",
+          verify.STATUS_NEAR_CONFIRMED in report_near)
 
     # verify_article يبني استعلام بحث قصيرًا لكل ادّعاء/سؤال قبل استدعاء
     # search، لا يمرّر نص الادّعاء الكامل — سبب عطل "لا مصدر" الجماعي الفعلي
