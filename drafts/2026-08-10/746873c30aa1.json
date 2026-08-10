@@ -1,0 +1,60 @@
+{
+  "id": "746873c30aa1",
+  "created_at": "2026-08-10T17:08:26.658412+00:00",
+  "status": "pending",
+  "review_issue": null,
+  "score": 21.83,
+  "bucket": "serious",
+  "analysed_sources": [
+    "Africanews",
+    "Consul-General assures Nigerians"
+  ],
+  "trend_score": 1.0,
+  "velocity": 0.33,
+  "age_hours": 1.0,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "source": {
+    "title": "South Africa weather alert: snow, hail and icy roads disrupt travel",
+    "link": "http://www.africanews.com/2026/08/10/south-africa-weather-alert-snow-hail-and-icy-roads-disrupt-travel/",
+    "publisher": "Africanews",
+    "publishers": [
+      "Africanews",
+      "Consul-General assures Nigerians"
+    ],
+    "region": "africa",
+    "image_url": "http://images.euronews.com/articles/stories/09/86/90/32/640x360_cmsv2_1f010f07-4e09-5dd0-b872-8359ca0a18e3-9869032.jpg?1786369316",
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/86/90/32/640x360_cmsv2_1f010f07-4e09-5dd0-b872-8359ca0a18e3-9869032.jpg?1786369316",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/consul.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "عالم",
+    "image_headline": "ثلوج وجليد يغلقان طرقًا رئيسية في جنوب أفريقيا",
+    "post_title": "إغلاق عشرات الطرق في جنوب أفريقيا بسبب ثلوج وجليد كثيف",
+    "post_body": "تسبّبت موجة ثلوج وبرَد وأمطار جليدية في إغلاق عدد من الطرق الرئيسية بجنوب أفريقيا، في أكثر المناطق تأثرًا وهما كوازولو ناتال وإيسترن كيب. أُغلق الطريق السريع N3 بين إستكورت وهاريسميث، وممر فان رينين بات خطيرًا بسبب الجليد، كما أُغلق طريق R617 بعد تعطّل شاحنة عند كينغسكوت. وفي مبومالانغا أُغلق ممر لونغ توم، بينما شهد تقاطع N4/N12 حوادث متعددة. في الكاب الغربي أُغلقت ممرات سواتزبرغ ومونت روشيل بسبب الثلوج. وطالبت هيئة إدارة حركة المرور السائقين بالحذر الشديد.",
+    "hashtags": [
+      "جنوب_أفريقيا",
+      "طقس",
+      "ثلوج",
+      "إغلاق_طرق"
+    ]
+  },
+  "caption": "إغلاق عشرات الطرق في جنوب أفريقيا بسبب ثلوج وجليد كثيف\n\nتسبّبت موجة ثلوج وبرَد وأمطار جليدية في إغلاق عدد من الطرق الرئيسية بجنوب أفريقيا، في أكثر المناطق تأثرًا وهما كوازولو ناتال وإيسترن كيب. أُغلق الطريق السريع N3 بين إستكورت وهاريسميث، وممر فان رينين بات خطيرًا بسبب الجليد، كما أُغلق طريق R617 بعد تعطّل شاحنة عند كينغسكوت. وفي مبومالانغا أُغلق ممر لونغ توم، بينما شهد تقاطع N4/N12 حوادث متعددة. في الكاب الغربي أُغلقت ممرات سواتزبرغ ومونت روشيل بسبب الثلوج. وطالبت هيئة إدارة حركة المرور السائقين بالحذر الشديد.\n\n#جنوب_أفريقيا #طقس #ثلوج #إغلاق_طرق",
+  "image": "drafts/2026-08-10/746873c30aa1.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "ثلوج وجليد يغلقان طرقًا رئيسية في جنوب أفريقيا",
+    "category": "عالم",
+    "urgent": false,
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/86/90/32/640x360_cmsv2_1f010f07-4e09-5dd0-b872-8359ca0a18e3-9869032.jpg?1786369316",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/consul.jpg"
+    ]
+  }
+}

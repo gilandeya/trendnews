@@ -1,23 +1,5 @@
 [
   {
-    "score": 30.72,
-    "bucket": "light",
-    "tokens": [
-      "announced",
-      "could",
-      "deal",
-      "hormuz",
-      "soon",
-      "strait",
-      "trump"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-says-strait-of-hormuz-deal-could-be-announced-soon/article71308448.ece",
-    "title": "Trump says Strait of Hormuz deal could be announced soon",
-    "posted_title": "لماذا قد يُعلن قريبًا عن اتفاق لإعادة فتح مضيق هرمز؟",
-    "region": "in",
-    "seen_at": "2026-08-05T17:07:52.061987+00:00"
-  },
-  {
     "score": 28.32,
     "bucket": "serious",
     "tokens": [
@@ -2899,5 +2881,26 @@
     "posted_title": "منظمة الصحة العالمية: تفشي إيبولا في الكونغو بدأ فعليًا في فبراير لا في مايو",
     "region": "qa",
     "seen_at": "2026-08-10T16:46:10.955232+00:00"
+  },
+  {
+    "score": 21.83,
+    "bucket": "serious",
+    "tokens": [
+      "africa",
+      "alert",
+      "disrupt",
+      "hail",
+      "icy",
+      "roads",
+      "snow",
+      "south",
+      "travel",
+      "weather"
+    ],
+    "link": "http://www.africanews.com/2026/08/10/south-africa-weather-alert-snow-hail-and-icy-roads-disrupt-travel/",
+    "title": "South Africa weather alert: snow, hail and icy roads disrupt travel",
+    "posted_title": "إغلاق عشرات الطرق في جنوب أفريقيا بسبب ثلوج وجليد كثيف",
+    "region": "africa",
+    "seen_at": "2026-08-10T17:08:26.658805+00:00"
   }
 ]
