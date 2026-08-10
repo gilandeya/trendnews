@@ -1,7 +1,7 @@
 {
   "id": "91024385e6ab",
   "created_at": "2026-08-10T12:16:10.551222+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 223,
   "from_radar": true,
   "score": 21.56,
@@ -68,5 +68,7 @@
       "https://i.guim.co.uk/img/media/2cf40033b1b09e572bb9fb2c0776339e039a5b88/0_613_1214_970/master/1214.jpg?width=140&quality=85&auto=format&fit=max&s=4abed9347a8a3b566b87ab5c59a09b97"
     ]
   },
-  "auto_publish_decision": "المؤشر 21.6 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 21.6 دون عتبة النشر التلقائي",
+  "reject_tag": "مكرر",
+  "reject_note": ""
 }
