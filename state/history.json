@@ -1,43 +1,5 @@
 [
   {
-    "score": 19.31,
-    "bucket": "serious",
-    "tokens": [
-      "costing",
-      "deadly",
-      "interceptor",
-      "kyiv",
-      "lives",
-      "shortage",
-      "strike",
-      "ukraine",
-      "warns"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cyvlgq2gp2eo?at_medium=RSS&at_campaign=rss",
-    "title": "After deadly Kyiv strike, Ukraine warns interceptor shortage is costing lives",
-    "posted_title": "هجوم روسي ليلي على كييف يقتل 21 شخصا بعد فشل الدفاعات في اعتراض أي صاروخ باليستي",
-    "region": "uk",
-    "seen_at": "2026-08-05T19:01:26.695458+00:00"
-  },
-  {
-    "score": 29.22,
-    "bucket": "sport",
-    "tokens": [
-      "chelsea",
-      "friendly",
-      "juventus",
-      "lose",
-      "score",
-      "stunning",
-      "winner"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/videos/c62qvzn4zx1o?at_medium=RSS&at_campaign=rss",
-    "title": "Chelsea lose friendly as Juventus score stunning winner",
-    "posted_title": "يوفنتوس يتغلب على تشيلسي وديًا في هونغ كونغ بهدف استثنائي لزيغروفا",
-    "region": "sport",
-    "seen_at": "2026-08-05T19:08:10.745977+00:00"
-  },
-  {
     "score": 17.48,
     "bucket": "serious",
     "tokens": [
@@ -2944,5 +2906,24 @@
     "posted_title": "لماذا استبعدت محكمة روسية الحزب الوحيد المعارض للحرب من انتخابات سبتمبر",
     "region": "uk",
     "seen_at": "2026-08-10T18:31:18.506490+00:00"
+  },
+  {
+    "score": 18.73,
+    "bucket": "serious",
+    "tokens": [
+      "aground",
+      "contain",
+      "moves",
+      "oil",
+      "oman",
+      "runs",
+      "spill",
+      "tanker"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/10/oman-moves-to-contain-oil-spill-after-tanker-ran-aground",
+    "title": "Oman moves to contain oil spill after tanker runs aground",
+    "posted_title": "تسرب نفطي يغطي 390 كيلومترا مربعا قرب محمية بحرية عمانية",
+    "region": "my",
+    "seen_at": "2026-08-10T19:08:11.704997+00:00"
   }
 ]
