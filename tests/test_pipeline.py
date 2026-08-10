@@ -923,6 +923,34 @@ def test_verify() -> None:
     check("تكرار الاسم نفسه لا يرفع العدد فوق العتبة",
           verify.classify_fact(["BBC", "BBC"], [], 2) == verify.STATUS_SINGLE)
 
+    # الحالة الوسيطة "شبه مؤكَّدة": مصدر واحد فقط لكن معروف فعليًا (وزنه
+    # أعلى من الافتراضي — طابق trusted_boost/publisher_aliases أو sources)
+    # لا رقم عتبة مطلق (Issue #132 تعليق لاحق: near_confirm_min_weight=1.0
+    # السابقة لم تتحقق عمليًا لأن أغلب المصادر الإقليمية تسقط للوزن
+    # الافتراضي 0.6؛ المعيار هنا نسبي — "أعلى من الافتراضي" — لا مطلقًا)
+    check("مصدر واحد بوزن أعلى من الافتراضي (معروف/موثوق) ← شبه مؤكَّدة لا "
+          "مصدر واحد مبهمة",
+          verify.classify_fact(["Bloomberg"], [], 2,
+                               {"Bloomberg": verify.TRUSTED_PUBLISHER_WEIGHT}) ==
+          verify.STATUS_NEAR_CONFIRMED)
+    check("مصدر واحد بالوزن الافتراضي المتواضع (ناشر مجهول) يبقى مصدر واحد "
+          "لا شبه مؤكَّدة",
+          verify.classify_fact(["موقع مجهول"], [], 2,
+                               {"موقع مجهول": verify.DEFAULT_PUBLISHER_WEIGHT}) ==
+          verify.STATUS_SINGLE)
+    check("بلا weights أصلًا (توافق خلفي) يبقى مصدر واحد كالسلوك القديم",
+          verify.classify_fact(["Bloomberg"], [], 2) == verify.STATUS_SINGLE)
+    check("مصدران فأكثر يتجاوزان الحالة الوسيطة مباشرة لمؤكَّدة بصرف النظر "
+          "عن الوزن",
+          verify.classify_fact(
+              ["A", "B"], [], 2,
+              {"A": verify.DEFAULT_PUBLISHER_WEIGHT,
+               "B": verify.DEFAULT_PUBLISHER_WEIGHT}) == verify.STATUS_CONFIRMED)
+    check("مصدر مخالف يبقى يسبق الحالة الوسيطة حتى مع وزن موثوق للمؤيد",
+          verify.classify_fact(["Bloomberg"], ["Reuters"], 2,
+                               {"Bloomberg": verify.TRUSTED_PUBLISHER_WEIGHT}) ==
+          verify.STATUS_CONTRADICTED)
+
     # لا اسم مصدر مختلَق يدخل التقرير — حتى لو ادّعاه ردّ النموذج
     docs = [{"name": "BBC", "text": "x"}, {"name": "Reuters", "text": "y"}]
     check("يُقبل اسم مصدر مُعطى فعلًا", verify._known_only(["BBC"], docs) == ["BBC"])
@@ -996,16 +1024,25 @@ def test_verify() -> None:
           set(verify.CLAIM_KINDS) == {"واقعة", "رأي", "تنبؤ"})
 
     # تطبيع شكل رد النموذج (Issue #134: claims وصلت كقائمة نصوص لا قواميس
-    # فانهار verify.py:344 بـ AttributeError) — لا يُفترض شكل بلا تحقق
-    check("نص مجرد يصير قاموس ادّعاء بحقلين افتراضيين",
+    # فانهار verify.py:344 بـ AttributeError) — لا يُفترض شكل بلا تحقق.
+    # entities الافتراضية [] مضافة للتحقق التام (Issue #132 تعليق لاحق: حقل
+    # entities جديد يستعمله _entities_text لبناء استعلام/ترتيب قراءة ثابتين)
+    check("نص مجرد يصير قاموس ادّعاء بحقول افتراضية",
           verify.normalize_claim("ادّعاء بلا شكل") ==
-          {"text": "ادّعاء بلا شكل", "kind": "واقعة"})
+          {"text": "ادّعاء بلا شكل", "kind": "واقعة", "entities": []})
     check("قاموس ناقص حقل kind يُملأ بقيمة افتراضية",
           verify.normalize_claim({"text": "ادّعاء"}) ==
-          {"text": "ادّعاء", "kind": "واقعة"})
+          {"text": "ادّعاء", "kind": "واقعة", "entities": []})
     check("قاموس بقيمة kind غير معروفة يُصحَّح لا يُرفَض",
           verify.normalize_claim({"text": "ادّعاء", "kind": "شيء غريب"}) ==
-          {"text": "ادّعاء", "kind": "واقعة"})
+          {"text": "ادّعاء", "kind": "واقعة", "entities": []})
+    check("قاموس بحقل entities صالح يُنقل كما هو",
+          verify.normalize_claim(
+              {"text": "ادّعاء", "kind": "واقعة", "entities": ["1985", "بلومبرغ"]}) ==
+          {"text": "ادّعاء", "kind": "واقعة", "entities": ["1985", "بلومبرغ"]})
+    check("حقل entities بشكل غير قائمة نصوص يُهمَل بهدوء لا ينهار",
+          verify.normalize_claim({"text": "ادّعاء", "entities": "ليست قائمة"}) ==
+          {"text": "ادّعاء", "kind": "واقعة", "entities": []})
     check("عنصر بلا نص قابل للاستخراج (رقم مثلًا) يُستبعد بلا انهيار",
           verify.normalize_claim(42) is None)
     check("normalize_claims على قيمة ليست قائمة أصلًا لا تنهار",
@@ -1046,6 +1083,27 @@ def test_verify() -> None:
           "اتفاقيه" not in verify.build_query("اتفاقية البترودولار لعام 1974").split())
     check("كلمة بإملاء صحيح (اتفاقية) تدخل الاستعلام كما وردت",
           "اتفاقية" in verify.build_query("اتفاقية البترودولار لعام 1974").split())
+
+    # entities الثابتة هي أساس الاستعلام وترتيب صلة القراءة معًا، لا
+    # claim["text"] المعاد صياغته في كل استخراج (Issue #132 تعليق لاحق:
+    # ثلاث صياغات مختلفة لنفس الحقيقة أنتجت 53 مقابل 2 مقابل 3 نتيجة بحث)
+    check("_entities_text تستعمل entities حرفيًا حين تتوفر لا text",
+          verify._entities_text(
+              {"text": "نص معاد صياغته لا علاقة لكلماته بالكيانات",
+               "entities": ["1985", "بلومبرغ"]}) == "1985 بلومبرغ")
+    check("_entities_text تسقط لنص الادّعاء حين entities غائبة",
+          verify._entities_text({"text": "نص الادّعاء"}) == "نص الادّعاء")
+    check("_entities_text تسقط لنص الادّعاء حين entities فارغة",
+          verify._entities_text({"text": "نص الادّعاء", "entities": []}) ==
+          "نص الادّعاء")
+    check("build_query_for_claim يبني الاستعلام من entities لا من text",
+          verify.build_query_for_claim(
+              {"text": "جملة طويلة جدًا لا علاقة لكلماتها بالكيانات إطلاقًا",
+               "entities": ["1985", "بلومبرغ", "أميركا"]}) ==
+          verify.build_query("1985 بلومبرغ أميركا"))
+    check("build_query_for_claim يسقط لـ build_query(text) حين entities غائبة",
+          verify.build_query_for_claim({"text": long_claim}) ==
+          verify.build_query(long_claim))
 
     # احتياط العنوان والملخص حين يتعذّر استخراج أي نص كامل (Issue #132
     # تعليق لاحق: extract.py كانت تعيد "0 من N" دائمًا مهما كانت نتائج
@@ -1156,7 +1214,7 @@ def test_verify() -> None:
     # بقية الحقول) يجب أن تُقرأ أيضًا لا أن تُرفَض لمجرد كونها نصًا
     check("normalize_claims تقبل نص JSON صالحًا لمصفوفة ادّعاءات",
           verify.normalize_claims('[{"text": "ادّعاء", "kind": "واقعة"}]') ==
-          [{"text": "ادّعاء", "kind": "واقعة"}])
+          [{"text": "ادّعاء", "kind": "واقعة", "entities": []}])
     check("normalize_questions تقبل نص JSON صالحًا لمصفوفة أسئلة",
           verify.normalize_questions('["سؤال؟"]') == ["سؤال؟"])
     check("نص لا يبدأ بـ [ أو { لا يُحاول تحليله كـ JSON",
@@ -1232,6 +1290,26 @@ def test_verify() -> None:
           "trusted_boost)", "×" in report2)
     check("supporting_weighted محسوبة فعليًا لكل واقعة لا فارغة",
           bool(result2["facts"][0].get("supporting_weighted")))
+
+    # طريق كامل: واقعة بمصدر واحد فقط لكنه قوي (Bloomberg، في trusted_boost)
+    # ← الحالة الوسيطة "شبه مؤكَّدة" لا "مصدر واحد" المبهمة. الحكم النهائي
+    # يبقى "لا" (لم يبلغ min_confirm_sources فعليًا) لكن السبب يذكرها صراحة
+    # بدل إخفائها خلف "لا تكفي" مطلقة (Issue #132 تعليق لاحق)
+    verify.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "Bloomberg", "text": "t", "from_text": True}], verify.EVIDENCE_FULL_TEXT)
+    verify.judge_fact = lambda claim, docs, cfg: {
+        "supporting": ["Bloomberg"], "contradicting": []}
+    verify.judge_question = lambda q, docs, cfg: {
+        "answered": False, "answer": "", "source": ""}
+    result_near = verify.verify_article("نص مقال ثالث", cfg)
+    check("مصدر واحد قوي (بلومبرغ) ← الحالة الوسيطة شبه مؤكَّدة لا مصدر واحد",
+          result_near["facts"][0]["status"] == verify.STATUS_NEAR_CONFIRMED,
+          str(result_near["facts"][0]["status"]))
+    check("الحكم النهائي يبقى لا رغم الحالة الوسيطة — لم يبلغ "
+          "min_confirm_sources فعليًا",
+          result_near["verdict"] is False)
+    check("سبب الحكم يذكر الواقعة شبه المؤكَّدة صراحةً بدل إخفائها",
+          "شبه مؤكَّدة" in result_near["verdict_reason"])
 
     # verify_article يبني استعلام بحث قصيرًا لكل ادّعاء/سؤال قبل استدعاء
     # search، لا يمرّر نص الادّعاء الكامل — سبب عطل "لا مصدر" الجماعي الفعلي
@@ -1622,6 +1700,49 @@ def test_verify() -> None:
     check("مرشّح شديد الصلة منخفض الوزن لا يُقصى من نافذة القراءة رغم خمسة "
           "مرشحين موثوقين بلا صلة — الدرجة المركّبة تمنع إقصاءه كليًا",
           "موقع مجهول شديد الصلة" in read_order3, str(read_order3))
+
+    # الأهم (Issue #132 تعليق لاحق ثالث): نفس نتائج البحث بالضبط، بصياغتَي
+    # text مختلفتين تمامًا لنفس الحقيقة لكن بنفس entities — يجب أن تُنتج
+    # نفس ترتيب المرشحين ونفس ما يُقرأ. قبل هذا الإصلاح كانت gather_evidence
+    # تحسب الصلة من claim["text"] المعاد صياغته مباشرة، فإعادة صياغة واحدة
+    # تكفي لإعادة ترتيب نفس النتائج جوهريًا مختلفًا بين تشغيلين.
+    stable_generic = Article(
+        title="تغطية عامة لسوق النفط العالمي", link="https://g2.example/1",
+        summary="أخبار متفرقة عن أسواق الطاقة", source_name="Generic",
+        region="global", weight=2.0, published=datetime.now(timezone.utc),
+        publisher="Generic")
+    stable_specific = Article(
+        title="توقف واردات النفط السعودي لأمريكا 1985", link="https://s2.example/2",
+        summary="", source_name="Specific", region="global", weight=0.5,
+        published=datetime.now(timezone.utc), publisher="Specific")
+
+    claim_a = {"text": "توقفت واردات أميركا من النفط السعودي بالكامل لأول "
+                       "مرة منذ 1985", "kind": "واقعة",
+              "entities": ["1985", "أميركا", "النفط السعودي"]}
+    claim_b = {"text": "انخفضت واردات الولايات المتحدة من النفط الخام "
+                       "السعودي إلى الصفر، حسب تقرير بلومبرغ", "kind": "واقعة",
+              "entities": ["1985", "أميركا", "النفط السعودي"]}
+
+    def _read_order_for(claim):
+        order: list[str] = []
+
+        def _fake_gather(members, limit=2):
+            order.extend(m["name"] for m in members)
+            return [{"name": m["name"], "text": f"نص {m['name']}"}
+                   for m in members[:limit]]
+
+        extract.gather = _fake_gather
+        try:
+            verify.gather_evidence(
+                [stable_generic, stable_specific], cfg, verify._entities_text(claim))
+        finally:
+            extract.gather = real_extract_gather
+        return order
+
+    order_a = _read_order_for(claim_a)
+    order_b = _read_order_for(claim_b)
+    check("نفس entities رغم اختلاف text تُنتج نفس ترتيب المرشحين وما يُقرأ",
+          order_a == order_b and order_a, str((order_a, order_b)))
 
     # استعادة كل ما بقي معطوبًا من محاكاة أعلاه (search/gather_evidence
     # استُعيدتا سابقًا داخل الدالة لأن اختبارات لاحقة هنا احتاجت شكلهما

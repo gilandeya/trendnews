@@ -27,6 +27,7 @@ log = logging.getLogger("verify")
 CLAIM_KINDS = ["واقعة", "رأي", "تنبؤ"]
 
 STATUS_CONFIRMED = "مؤكدة"
+STATUS_NEAR_CONFIRMED = "شبه مؤكَّدة — مصدر واحد قوي"
 STATUS_SINGLE = "مصدر واحد"
 STATUS_NONE = "لا مصدر"
 STATUS_CONTRADICTED = "يخالفها مصدر"
@@ -50,14 +51,23 @@ EXTRACT_SYSTEM = """أنت محلل تحقق (fact-checker) يقرأ مقالً�
 استعلام بحث منه. لا تُجب عن الأسئلة من معرفتك — استخرجها فقط، فالبحث
 سيتولى الإجابة.
 
-كل عنصر في claims يجب أن يكون كائنًا {"text": ..., "kind": ...} — لا نصًا
-مجردًا أبدًا، حتى لو بدا ذلك مختصرًا. مثال دقيق على الشكل المطلوب:
+لكل واقعة، استخرج أيضًا entities: 3-5 كيانات مميِّزة (أسماء أعلام، أرقام،
+سنوات، أماكن) تُنقل **حرفيًا كما وردت في المقال** — لا تُعد صياغتها أبدًا،
+بعكس text الذي تُعيد صياغته بحرية. entities هذه هي ما يُبنى منه استعلام
+البحث لاحقًا؛ إعادة صياغة text تختلف بين كل استخراج فتُنتج استعلامات
+مختلفة لنفس الحقيقة، بينما الكيانات الحرفية تبقى شبه ثابتة.
+
+كل عنصر في claims يجب أن يكون كائنًا {"text": ..., "kind": ..., "entities":
+[...]} — لا نصًا مجردًا أبدًا، حتى لو بدا ذلك مختصرًا. مثال دقيق على الشكل
+المطلوب:
 {
   "topic": "ارتفاع أسعار الوقود وتأثيره على النقل",
   "claims": [
-    {"text": "ارتفعت أسعار الوقود بنسبة 12٪ الشهر الماضي", "kind": "واقعة"},
-    {"text": "الارتفاع نتيجة سياسات حكومية غير مدروسة", "kind": "رأي"},
-    {"text": "الأسعار ستتضاعف خلال عام", "kind": "تنبؤ"}
+    {"text": "ارتفعت أسعار الوقود بنسبة 12٪ الشهر الماضي", "kind": "واقعة",
+     "entities": ["12٪", "أسعار الوقود", "الشهر الماضي"]},
+    {"text": "الارتفاع نتيجة سياسات حكومية غير مدروسة", "kind": "رأي",
+     "entities": ["سياسات حكومية"]},
+    {"text": "الأسعار ستتضاعف خلال عام", "kind": "تنبؤ", "entities": ["عام"]}
   ],
   "questions": ["ما مصدر البيانات التي استند إليها المقال في نسبة الارتفاع؟"]
 }
@@ -77,8 +87,16 @@ EXTRACT_SCHEMA = {
                     "properties": {
                         "text": {"type": "string"},
                         "kind": {"type": "string", "enum": CLAIM_KINDS},
+                        "entities": {
+                            "type": "array",
+                            "items": {"type": "string"},
+                            "description": (
+                                "3-5 كيانات مميّزة (أعلام/أرقام/سنوات/أماكن) "
+                                "منقولة حرفيًا من المقال بلا إعادة صياغة"
+                            ),
+                        },
                     },
-                    "required": ["text", "kind"],
+                    "required": ["text", "kind", "entities"],
                 },
             },
             "questions": {"type": "array", "items": {"type": "string"}},
@@ -165,18 +183,33 @@ def _recover_stuffed_json(extracted: dict) -> dict:
     return extracted
 
 
+def _as_entities(item) -> list[str]:
+    """كيانات ادّعاء واحد (أعلام/أرقام/سنوات/أماكن) كما يعيدها النموذج —
+    تُطلب حرفية بلا إعادة صياغة (انظر _entities_text أدناه: هي ما يُبنى
+    منه استعلام البحث وترتيب صلة القراءة، بدل text المتذبذب بين كل
+    استخراج). أي شكل غير قائمة نصوص (حقل غائب، نوع خاطئ) يُهمَل بهدوء بلا
+    انهيار — الادّعاء يسقط للاحتياط (text) عند البناء لاحقًا، لا يُرفَض."""
+    if not isinstance(item, dict):
+        return []
+    raw = item.get("entities")
+    if not isinstance(raw, list):
+        return []
+    return [e.strip() for e in raw if isinstance(e, str) and e.strip()]
+
+
 def normalize_claim(item) -> dict | None:
     """يطبّع عنصر ادّعاء واحدًا من رد النموذج، الذي قد يخالف مخطط الأداة
     (Issue #134: النموذج أعاد claims كقائمة نصوص لا كقائمة قواميس):
-    نص مجرد يصير {"text": النص, "kind": "واقعة"}؛ قاموس بحقل kind غائب أو
-    غير معروف يُملأ بالقيمة نفسها. عنصر بلا نص قابل للاستخراج يُستبعد."""
+    نص مجرد يصير {"text": النص, "kind": "واقعة", "entities": []}؛ قاموس
+    بحقل kind غائب أو غير معروف يُملأ بالقيمة نفسها. عنصر بلا نص قابل
+    للاستخراج يُستبعد."""
     text = _as_text(item)
     if not text:
         return None
     kind = item.get("kind") if isinstance(item, dict) else None
     if kind not in CLAIM_KINDS:
         kind = "واقعة"
-    return {"text": text, "kind": kind}
+    return {"text": text, "kind": kind, "entities": _as_entities(item)}
 
 
 def normalize_claims(raw) -> list[dict]:
@@ -350,6 +383,30 @@ def build_query(text: str, max_words: int = 5) -> str:
     return " ".join(picked) if picked else clean.strip()
 
 
+def _entities_text(claim: dict) -> str:
+    """النص الثابت المستعمل لبناء استعلام البحث *وترتيب صلة القراءة* في
+    gather_evidence لادّعاء واحد: entities الحرفية إن وُجدت، وإلا text
+    المعاد صياغته كاحتياط (توافق خلفي لادّعاء بلا entities — رد نموذج قديم
+    أو حقل أُسقط في التطبيع).
+
+    Issue #132 تعليق لاحق: بعد نقل *الاستعلام* إلى entities، بقي *ترتيب
+    القراءة* في gather_evidence يعتمد claim["text"] المتذبذب — فنفس نتائج
+    البحث بالضبط (search() ثابتة، مؤكَّد تجريبيًا) كانت تُرتَّب بشكل مختلف
+    جوهريًا بين تشغيلين لنفس الحقيقة حسب صياغة text وحدها، فيخرج مصدر من
+    نافذة القراءة الضيقة في تشغيل ويبقى في آخر. تمرير هذا النص نفسه لكل من
+    build_query_for_claim وgather_evidence يضمن أن الاستعلام وترتيب القراءة
+    يعتمدان أساسًا واحدًا ثابتًا لا نصًّا يتغيّر بحرية في كل استخراج."""
+    entities = claim.get("entities") or []
+    joined = " ".join(e for e in entities if isinstance(e, str) and e.strip())
+    return joined or claim.get("text", "")
+
+
+def build_query_for_claim(claim: dict, max_words: int = 5) -> str:
+    """استعلام بحث لادّعاء واحد، مبني من entities الثابتة (عبر
+    _entities_text وbuild_query) لا من نص الادّعاء المعاد صياغته مباشرة."""
+    return build_query(_entities_text(claim), max_words)
+
+
 def search(query: str, cfg, days: int) -> list[Article]:
     """يبحث عن استعلام واحد عبر آلية request.py نفسها — بلا تكرار منطقها.
 
@@ -449,6 +506,14 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
     — يذكر الرقم/التاريخ المطلوبين حرفيًا — كان الأقل ترندًا فخرج من نافذة
     القراءة قبل أن يُحاوَل جلبه، فقُرئت نصوص عامة لا تؤيد التفصيلة بدلًا
     من النص الذي كان سيؤيّدها فعلًا).
+
+    claim_text يجب أن يصل من _verify_article عبر _entities_text(claim) —
+    كيانات الادّعاء الثابتة (أو text كاحتياط)، لا claim["text"] المعاد
+    صياغته مباشرة (Issue #132 تعليق لاحق ثالث: حتى بعد تثبيت *الاستعلام*
+    عبر entities، بقي *هذا الترتيب* يعتمد text المتذبذب — فنفس نتائج
+    البحث بالضبط أُعيد ترتيبها جوهريًا مختلفًا بين تشغيلين لنفس الحقيقة،
+    فخرج مصدر من نافذة القراءة في أحدهما وبقي في الآخر رغم أن search()
+    نفسها مستقرة تمامًا لاستعلام ثابت).
 
     حين يتعذّر استخراج أي نص كامل رغم وجود نتائج مطابقة، نسقط للعنوان
     والملخص كدليل أضعف بدل حكم "لا مصدر" رغم وجود مطابقة صريحة في العنوان
@@ -738,15 +803,32 @@ def judge_fact(claim_text: str, docs: list[dict], cfg, retries: int = 2) -> dict
 
 
 def classify_fact(supporting: list[str], contradicting: list[str],
-                  min_confirm: int) -> str:
+                  min_confirm: int, weights: dict[str, float] | None = None) -> str:
     """
     التصنيف بكود لا بالنموذج: النموذج يحدد من أيّد ومن خالف فقط، والعدّ
     يحدّد الحكم — فلا يقع الحكم النهائي رهن صياغة النموذج له في كل استدعاء.
+
+    weights (اختياري، توافق خلفي None): وزن كل مصدر مؤيد (_publisher_weight).
+    مصدر واحد فقط، لكنه *معروف فعليًا* (وزنه أعلى من DEFAULT_PUBLISHER_WEIGHT
+    — أي طابق شيئًا في verify.trusted_boost/publisher_aliases أو config.yaml:
+    sources، لا الوزن الافتراضي لناشر مجهول) يُصنَّف "شبه مؤكَّدة" لا "مصدر
+    واحد" المبهمة — لا يغيّر الحكم النهائي (لا يزال يتطلب min_confirm_sources
+    فعليَّين)، لكنه يعكس عدم اليقين بدل إخفائه خلف تصنيف واحد لكل الحالات
+    (Issue #132 تعليق لاحق: عتبة وزن مطلقة سابقة — 1.0 — لم تتحقق عمليًا،
+    لأن أغلب ما يجده بحث Google News ناشرون إقليميون بوزن DEFAULT=0.6،
+    وأدنى وزن حقيقي في sources/trusted_boost هو 0.7 فأعلى؛ المعيار هنا
+    نسبي — "أعلى من الافتراضي" — لا رقمًا مطلقًا يتطلب متابعة يدوية كلما
+    تغيّر نطاق أوزان sources).
     """
-    if len(set(supporting)) >= min_confirm:
+    unique_supporting = set(supporting)
+    if len(unique_supporting) >= min_confirm:
         return STATUS_CONFIRMED
     if contradicting:
         return STATUS_CONTRADICTED
+    if len(unique_supporting) == 1 and weights:
+        (name,) = unique_supporting
+        if weights.get(name, DEFAULT_PUBLISHER_WEIGHT) > DEFAULT_PUBLISHER_WEIGHT:
+            return STATUS_NEAR_CONFIRMED
     if supporting:
         return STATUS_SINGLE
     return STATUS_NONE
@@ -863,19 +945,25 @@ def _verify_article(body: str, cfg) -> dict:
     fact_results = []
     for claim in facts:
         text = claim.get("text", "")
-        ranked = search(build_query(text, query_max_words), cfg, days)
-        docs, evidence_basis = gather_evidence(ranked, cfg, text)
+        # نص entities الثابت لا text المعاد صياغته — يُستعمل لكل من بناء
+        # الاستعلام وترتيب صلة القراءة في gather_evidence معًا، بأساس واحد
+        # ثابت (انظر _entities_text)
+        relevance_text = _entities_text(claim)
+        ranked = search(build_query_for_claim(claim, query_max_words), cfg, days)
+        docs, evidence_basis = gather_evidence(ranked, cfg, relevance_text)
         judged = (judge_fact(text, docs, cfg) if docs
                  else {"supporting": [], "contradicting": []})
-        status = classify_fact(judged["supporting"], judged["contradicting"],
-                               min_confirm)
         # وزن كل مصدر مؤيد يُعرَض في التقرير (Issue #132 تعليق لاحق): العدد
         # وحده لا يُظهر قوة السند — وكالة كبرى ومصدر مجهول يُحسبان مصدرًا
-        # واحدًا لكل منهما رغم فارق الموثوقية
+        # واحدًا لكل منهما رغم فارق الموثوقية. نفس الأوزان تُستعمل لتصنيف
+        # الحالة الوسيطة "شبه مؤكَّدة" في classify_fact أدناه
         supporting_weighted = sorted(
             ({"name": n, "weight": _publisher_weight(n, cfg)}
              for n in judged["supporting"]),
             key=lambda s: -s["weight"])
+        weights = {s["name"]: s["weight"] for s in supporting_weighted}
+        status = classify_fact(judged["supporting"], judged["contradicting"],
+                               min_confirm, weights)
         fact_results.append({
             "text": text,
             "status": status,
@@ -910,8 +998,17 @@ def _verify_article(body: str, cfg) -> dict:
                           f"من أصل {len(fact_results)}")
     else:
         verdict = False
-        verdict_reason = ("لا واقعة واحدة مؤكَّدة بمصدرين مستقلين — المصادر "
-                          "المستقلة لا تكفي لخبر قائم بذاته")
+        near = [f for f in fact_results if f["status"] == STATUS_NEAR_CONFIRMED]
+        if near:
+            # الحكم يبقى "لا" (لم يبلغ min_confirm_sources فعليًا)، لكن السبب
+            # يذكر الحالة الوسيطة صراحة بدل إخفائها خلف "لا تكفي" مطلقة
+            # (Issue #132 تعليق لاحق)
+            verdict_reason = (
+                f"لا واقعة مؤكَّدة بمصدرين مستقلين، لكن {len(near)} واقعة "
+                f"شبه مؤكَّدة بمصدر واحد قوي — راجع الجدول قبل الحكم النهائي")
+        else:
+            verdict_reason = ("لا واقعة واحدة مؤكَّدة بمصدرين مستقلين — المصادر "
+                              "المستقلة لا تكفي لخبر قائم بذاته")
 
     return {
         "ok": True,
