@@ -1,28 +1,5 @@
 [
   {
-    "score": 26.24,
-    "bucket": "sport",
-    "tokens": [
-      "115m",
-      "agree",
-      "club",
-      "deal",
-      "diomandé",
-      "keep",
-      "madrid",
-      "real",
-      "record",
-      "vinícius",
-      "want",
-      "yan"
-    ],
-    "link": "https://www.theguardian.com/football/2026/aug/05/real-madrid-agree-club-record-115m-deal-for-yan-diomande-and-want-to-keep-vinicius",
-    "title": "Real Madrid agree club-record £115m deal for Yan Diomandé and want to keep Vinícius",
-    "posted_title": "ريال مدريد يتفق مع لايبزيغ على صفقة قياسية لضم يان ديوماندي مقابل 135 مليون يورو",
-    "region": "sport",
-    "seen_at": "2026-08-05T20:08:24.801631+00:00"
-  },
-  {
     "score": 16.72,
     "bucket": "serious",
     "tokens": [
@@ -2966,5 +2943,24 @@
     "posted_title": "محكمة أمريكية تسمح بمواصلة آلاف الدعاوى ضد ميتا وتيك توك وغوغل بسبب إدمان الشباب على منصاتها",
     "region": "seasia",
     "seen_at": "2026-08-10T20:08:17.889055+00:00"
+  },
+  {
+    "score": 19.35,
+    "bucket": "serious",
+    "tokens": [
+      "childhood",
+      "limit",
+      "mmr",
+      "order",
+      "shots",
+      "signs",
+      "trump",
+      "vaccines"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/ce3q5vl581wo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump signs order to limit childhood vaccines and limit MMR shots",
+    "posted_title": "ترامب يوقّع أمرًا يقلّص لقاحات الأطفال الموصى بها ويطالب بتجزيء لقاح الحصبة الثلاثي",
+    "region": "uk",
+    "seen_at": "2026-08-10T20:16:19.506436+00:00"
   }
 ]
