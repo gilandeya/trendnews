@@ -1,7 +1,7 @@
 {
   "id": "f274f391159a",
   "created_at": "2026-08-10T06:45:58.104120+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 214,
   "from_radar": true,
   "score": 17.26,
@@ -56,5 +56,13 @@
       "https://cdn.prod.www.spiegel.de/images/dd17189a-707c-4b57-af32-bf59855d3d25_w520_r2.08_fpx28.09_fpy49.93.png"
     ]
   },
-  "auto_publish_decision": "المؤشر 17.3 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 17.3 دون عتبة النشر التلقائي",
+  "publish_at": "2026-08-10T07:41:08.875833+00:00",
+  "published_at": "2026-08-10T07:41:11.938001+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1331067375776950",
+    "photo_id": "1331067355776952",
+    "url": "https://www.facebook.com/631680090321390_1331067375776950",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
