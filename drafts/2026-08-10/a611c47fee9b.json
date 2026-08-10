@@ -1,0 +1,72 @@
+{
+  "id": "a611c47fee9b",
+  "created_at": "2026-08-10T03:08:13.245360+00:00",
+  "status": "pending",
+  "review_issue": null,
+  "score": 27.44,
+  "bucket": "serious",
+  "analysed_sources": [
+    "The Guardian — World",
+    "The Japan Times"
+  ],
+  "trend_score": 1.0,
+  "velocity": 0.54,
+  "age_hours": 44.0,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "source": {
+    "title": "Typhoon Dolphin makes landfall in China as its strongest storm this year",
+    "link": "https://www.theguardian.com/world/2026/aug/09/typhoon-dolphin-makes-landfall-in-china-as-its-strongest-storm-this-year",
+    "publisher": "The Guardian — World",
+    "publishers": [
+      "AP News",
+      "Hindustan Times — World",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "region": "uk",
+    "image_url": "https://i.guim.co.uk/img/media/3e8c6be8fd658a84e9988f87ef3012e3ac4d67ec/401_0_2500_2000/master/2500.jpg?width=700&quality=85&auto=format&fit=max&s=da6af29caf5e0de702dc93012cb31f2d",
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/3e8c6be8fd658a84e9988f87ef3012e3ac4d67ec/401_0_2500_2000/master/2500.jpg?width=700&quality=85&auto=format&fit=max&s=da6af29caf5e0de702dc93012cb31f2d",
+      "https://i.guim.co.uk/img/media/3e8c6be8fd658a84e9988f87ef3012e3ac4d67ec/401_0_2500_2000/master/2500.jpg?width=460&quality=85&auto=format&fit=max&s=098524f83a7aa29eb365717feffc8a9b",
+      "https://i.guim.co.uk/img/media/3e8c6be8fd658a84e9988f87ef3012e3ac4d67ec/401_0_2500_2000/master/2500.jpg?width=140&quality=85&auto=format&fit=max&s=c932cef553625465d51c20516ef83f91",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/09/556374.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/09/thumbs/400x400/556374.jpg",
+      "https://th-i.thgim.com/public/incoming/gqbkd7/article71324079.ece/alternates/LANDSCAPE_1200/China_Asia_Storms_54_49.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "تفسير",
+    "analysis": "يتوقع كبير خبراء الأرصاد في المركز الوطني الصيني للأرصاد، وانغ هايبينغ، أن يتجه الإعصار غربًا قبل أن يتباطأ فوق وسط وجنوب غرب البلاد ويفقد قوته تدريجيًا، وهو ما يرجّح أن يطيل أمد الأمطار الغزيرة ويرفع خطر الفيضانات والانهيارات الطينية في المناطق الجبلية وعلى ضفاف الأنهار الصغيرة. ولافتٌ أن أحد السياح من مقاطعة غوانغدونغ، الذي علق في شنغهاي بعد إلغاء رحلته، وصف الإعصار بأنه أمر معتاد لأهل الجنوب الصيني ولا يبدو قويًا بمقاييس عواصف ساحلهم، في تباين مع حجم الإجراءات الاحترازية غير المسبوقة التي اتخذتها السلطات في تشجيانغ وفوجيان.",
+    "urgent": false,
+    "category": "عالم",
+    "image_headline": "إعصار دولفين يضرب شرق الصين ويجبر مليون شخص على إخلاء منازلهم",
+    "post_title": "إعصار دولفين يصل إلى الصين بعد أن أصاب ستة أشخاص في اليابان وقطع الكهرباء عن 50 ألف مبنى",
+    "post_body": "وصل إعصار دولفين، الأقوى هذا العام على الصين، إلى سواحلها الشرقية قرب مدينة يوهوان في مقاطعة تشجيانغ عند الساعة 5:30 مساء الأحد بسرعة رياح بلغت 151 كم/س. سبق ذلك مروره بمحافظة أوكيناوا اليابانية حيث أصاب ستة أشخاص وقطع الكهرباء عن أكثر من 50 ألف مبنى. في الصين، أُخلي أكثر من مليون شخص من منازلهم، من بينهم 900 ألف في مدينة ونتشو وحدها التي فتحت أكثر من ألف ملجأ طارئ، بينما ألغت شنغهاي نحو 1500 رحلة جوية. تتوقع السلطات هطول أمطار تصل إلى 500 ملم في بعض مناطق تشجيانغ خلال الاثنين.",
+    "hashtags": [
+      "إعصار_دولفين",
+      "الصين",
+      "اليابان",
+      "طقس"
+    ]
+  },
+  "caption": "إعصار دولفين يصل إلى الصين بعد أن أصاب ستة أشخاص في اليابان وقطع الكهرباء عن 50 ألف مبنى\n\nوصل إعصار دولفين، الأقوى هذا العام على الصين، إلى سواحلها الشرقية قرب مدينة يوهوان في مقاطعة تشجيانغ عند الساعة 5:30 مساء الأحد بسرعة رياح بلغت 151 كم/س. سبق ذلك مروره بمحافظة أوكيناوا اليابانية حيث أصاب ستة أشخاص وقطع الكهرباء عن أكثر من 50 ألف مبنى. في الصين، أُخلي أكثر من مليون شخص من منازلهم، من بينهم 900 ألف في مدينة ونتشو وحدها التي فتحت أكثر من ألف ملجأ طارئ، بينما ألغت شنغهاي نحو 1500 رحلة جوية. تتوقع السلطات هطول أمطار تصل إلى 500 ملم في بعض مناطق تشجيانغ خلال الاثنين.\n\nخلف الخبر\nيتوقع كبير خبراء الأرصاد في المركز الوطني الصيني للأرصاد، وانغ هايبينغ، أن يتجه الإعصار غربًا قبل أن يتباطأ فوق وسط وجنوب غرب البلاد ويفقد قوته تدريجيًا، وهو ما يرجّح أن يطيل أمد الأمطار الغزيرة ويرفع خطر الفيضانات والانهيارات الطينية في المناطق الجبلية وعلى ضفاف الأنهار الصغيرة. ولافتٌ أن أحد السياح من مقاطعة غوانغدونغ، الذي علق في شنغهاي بعد إلغاء رحلته، وصف الإعصار بأنه أمر معتاد لأهل الجنوب الصيني ولا يبدو قويًا بمقاييس عواصف ساحلهم، في تباين مع حجم الإجراءات الاحترازية غير المسبوقة التي اتخذتها السلطات في تشجيانغ وفوجيان.\n\n#إعصار_دولفين #الصين #اليابان #طقس",
+  "image": "drafts/2026-08-10/a611c47fee9b.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "إعصار دولفين يضرب شرق الصين ويجبر مليون شخص على إخلاء منازلهم",
+    "category": "عالم",
+    "urgent": false,
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/3e8c6be8fd658a84e9988f87ef3012e3ac4d67ec/401_0_2500_2000/master/2500.jpg?width=700&quality=85&auto=format&fit=max&s=da6af29caf5e0de702dc93012cb31f2d",
+      "https://i.guim.co.uk/img/media/3e8c6be8fd658a84e9988f87ef3012e3ac4d67ec/401_0_2500_2000/master/2500.jpg?width=460&quality=85&auto=format&fit=max&s=098524f83a7aa29eb365717feffc8a9b",
+      "https://i.guim.co.uk/img/media/3e8c6be8fd658a84e9988f87ef3012e3ac4d67ec/401_0_2500_2000/master/2500.jpg?width=140&quality=85&auto=format&fit=max&s=c932cef553625465d51c20516ef83f91",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/09/556374.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/09/thumbs/400x400/556374.jpg",
+      "https://th-i.thgim.com/public/incoming/gqbkd7/article71324079.ece/alternates/LANDSCAPE_1200/China_Asia_Storms_54_49.jpg"
+    ]
+  }
+}
