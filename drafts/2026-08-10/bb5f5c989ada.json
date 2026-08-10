@@ -1,7 +1,7 @@
 {
   "id": "bb5f5c989ada",
   "created_at": "2026-08-10T00:01:36.301676+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 204,
   "from_radar": true,
   "score": 17.32,
@@ -61,5 +61,7 @@
       "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/08/1003819955-e1786310144362.jpg?fit=1080%2C675&amp;ssl=1"
     ]
   },
-  "auto_publish_decision": "المؤشر 17.3 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 17.3 دون عتبة النشر التلقائي",
+  "reject_tag": "آخر",
+  "reject_note": "رياضة السيدات لا تحضى بسعبية"
 }
