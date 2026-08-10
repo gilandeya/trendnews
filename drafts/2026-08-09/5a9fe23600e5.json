@@ -1,7 +1,7 @@
 {
   "id": "5a9fe23600e5",
   "created_at": "2026-08-09T22:08:15.551135+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 203,
   "score": 31.32,
   "bucket": "serious",
@@ -72,5 +72,7 @@
       "https://i.dawn.com/thumbnail/2026/08/09151558cffbac2.webp",
       "https://www.geo.tv/assets/uploads/2026-08-09/676812_033224_updates.jpg"
     ]
-  }
+  },
+  "reject_tag": "مكرر",
+  "reject_note": ""
 }
