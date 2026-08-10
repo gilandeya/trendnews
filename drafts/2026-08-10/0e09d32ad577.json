@@ -1,0 +1,60 @@
+{
+  "id": "0e09d32ad577",
+  "created_at": "2026-08-10T05:31:13.925159+00:00",
+  "status": "pending",
+  "review_issue": 210,
+  "from_radar": true,
+  "score": 16.71,
+  "bucket": "serious",
+  "velocity": 0.88,
+  "trend_score": 0.0,
+  "age_hours": 1.5,
+  "state_media": false,
+  "has_photo": true,
+  "analysed_sources": [
+    "Der Spiegel"
+  ],
+  "source": {
+    "title": "Klimakrise: In Westeuropa war es im Juni und Juli so heiß wie noch nie, meldet Copernicus",
+    "link": "https://www.spiegel.de/wissenschaft/klimakrise-in-westeuropa-war-es-im-juni-und-juli-so-heiss-wie-noch-nie-meldet-copernicus-a-944b8ea5-2258-41ac-816c-40d8cb83b6e0#ref=rss",
+    "publisher": "Der Spiegel",
+    "publishers": [
+      "Der Spiegel",
+      "Le Monde"
+    ],
+    "region": "de",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/5a9d0008-4063-4a3d-84e9-8fd154b8644e_w520_r2.08_fpx48_fpy48.jpg",
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/5a9d0008-4063-4a3d-84e9-8fd154b8644e_w520_r2.08_fpx48_fpy48.jpg",
+      "https://img.lemde.fr/2026/08/05/679/0/8149/4074/644/322/60/0/15b7c4a_ftp-1-qqyjgk28a3dx-f1804648958d41dd9f087de9ab47c462-0-f3788242e97b4b3c872b6773a6699626.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": true,
+    "category": "علوم",
+    "image_headline": "غرب أوروبا يعيش أشد صيف حرارة منذ بدء الرصد",
+    "post_title": "غرب أوروبا يسجل أشد صيف حرارة منذ بدء القياسات في يونيو ويوليو",
+    "post_body": "سجّل غرب أوروبا في يونيو ويوليو أعلى متوسط حرارة منذ بدء الرصد، بمعدل 21.62 درجة مئوية، متجاوزًا الرقم القياسي السابق المسجل عام 2022. جاء ذلك وسط موجات حر وجفاف حادّ وحرائق غابات ضربت فرنسا وإسبانيا بأعنف شكل منذ سنوات طويلة. انخفضت مناسيب أنهار الراين والدانوب والسين بشكل غير معتاد، ما أثّر على الملاحة النهرية والري وتوليد الكهرباء في عدة دول. وفي المقابل كانت شرق أوروبا واسكندنافيا أكثر برودة بوضوح، وسجّلت أوروبا ككل يوليو الحادي عشر الأكثر حرارة بمتوسط 20.49 درجة. كما بلغت حرارة سطح المحيطات مستوى قياسيًا هذا الشهر.",
+    "hashtags": [
+      "تغير_المناخ",
+      "موجة_حر",
+      "أوروبا",
+      "جفاف"
+    ]
+  },
+  "caption": "غرب أوروبا يسجل أشد صيف حرارة منذ بدء القياسات في يونيو ويوليو\n\nسجّل غرب أوروبا في يونيو ويوليو أعلى متوسط حرارة منذ بدء الرصد، بمعدل 21.62 درجة مئوية، متجاوزًا الرقم القياسي السابق المسجل عام 2022. جاء ذلك وسط موجات حر وجفاف حادّ وحرائق غابات ضربت فرنسا وإسبانيا بأعنف شكل منذ سنوات طويلة. انخفضت مناسيب أنهار الراين والدانوب والسين بشكل غير معتاد، ما أثّر على الملاحة النهرية والري وتوليد الكهرباء في عدة دول. وفي المقابل كانت شرق أوروبا واسكندنافيا أكثر برودة بوضوح، وسجّلت أوروبا ككل يوليو الحادي عشر الأكثر حرارة بمتوسط 20.49 درجة. كما بلغت حرارة سطح المحيطات مستوى قياسيًا هذا الشهر.\n\n#تغير_المناخ #موجة_حر #أوروبا #جفاف",
+  "image": "drafts/2026-08-10/0e09d32ad577.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "غرب أوروبا يعيش أشد صيف حرارة منذ بدء الرصد",
+    "category": "علوم",
+    "urgent": true,
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/5a9d0008-4063-4a3d-84e9-8fd154b8644e_w520_r2.08_fpx48_fpy48.jpg",
+      "https://img.lemde.fr/2026/08/05/679/0/8149/4074/644/322/60/0/15b7c4a_ftp-1-qqyjgk28a3dx-f1804648958d41dd9f087de9ab47c462-0-f3788242e97b4b3c872b6773a6699626.jpg"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 16.7 دون عتبة النشر التلقائي"
+}
