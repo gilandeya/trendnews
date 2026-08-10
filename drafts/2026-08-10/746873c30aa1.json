@@ -1,7 +1,7 @@
 {
   "id": "746873c30aa1",
   "created_at": "2026-08-10T17:08:26.658412+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 233,
   "score": 21.83,
   "bucket": "serious",
@@ -56,5 +56,7 @@
       "http://images.euronews.com/articles/stories/09/86/90/32/640x360_cmsv2_1f010f07-4e09-5dd0-b872-8359ca0a18e3-9869032.jpg?1786369316",
       "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/consul.jpg"
     ]
-  }
+  },
+  "reject_tag": "محلي",
+  "reject_note": ""
 }
