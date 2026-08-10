@@ -1,57 +1,6 @@
 [
   {
     "tokens": [
-      "'hit",
-      "fall",
-      "hard'",
-      "hormuz",
-      "iran",
-      "oil",
-      "open",
-      "prices",
-      "soon",
-      "strait",
-      "trump",
-      "very"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cpw9v0gnzxwo?at_medium=RSS&at_campaign=rss",
-    "title": "Trump says Iran will be 'hit very hard' if Hormuz Strait not open soon as oil prices fall",
-    "posted_title": "لماذا تراجعت أسعار النفط فجأة مع اقتراب اتفاق حول مضيق هرمز؟",
-    "region": "uk",
-    "seen_at": "2026-08-05T08:34:24.767851+00:00"
-  },
-  {
-    "tokens": [
-      "alcaraz",
-      "cincinnati",
-      "open",
-      "withdraws"
-    ],
-    "link": "https://www.skysports.com/tennis/news/12040/13569917/carlos-alcaraz-withdraws-from-cincinnati-open-due-to-ongoing-wrist-injury-with-worries-over-us-open-defence",
-    "title": "Alcaraz withdraws from Cincinnati Open",
-    "posted_title": "إصابة الرسغ تُبعد ألكاراز عن سينسيناتي وتهدد دفاعه عن لقب أمريكا المفتوحة",
-    "region": "sport",
-    "seen_at": "2026-08-05T08:58:19.334370+00:00"
-  },
-  {
-    "tokens": [
-      "efforts",
-      "end",
-      "iran",
-      "making",
-      "mediation",
-      "progress",
-      "qatar",
-      "war"
-    ],
-    "link": "https://news.cgtn.com/news/2026-08-05/Qatar-says-mediation-efforts-to-end-US-Iran-war-making-progress-1PlUCun02jK/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-    "title": "Qatar says mediation efforts to end US-Iran war making progress",
-    "posted_title": "قطر تعلن تقدم الوساطة بين واشنطن وطهران وتراجع حاد في أسعار النفط",
-    "region": "cn",
-    "seen_at": "2026-08-05T08:58:32.583653+00:00"
-  },
-  {
-    "tokens": [
       "attacked",
       "houthis",
       "oil",
@@ -2802,5 +2751,24 @@
     "posted_title": "مدافع برازيلي يسقط في نفق أرضي وهو يحتفل بهدف انتهى بإصابته وإلغائه",
     "region": "sport",
     "seen_at": "2026-08-10T08:31:20.534082+00:00"
+  },
+  {
+    "score": 23.3,
+    "bucket": "serious",
+    "tokens": [
+      "appears",
+      "boss",
+      "court",
+      "crime",
+      "daniel",
+      "extradition",
+      "kinahan",
+      "suspected"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c62qd5plzp6o?at_medium=RSS&at_campaign=rss",
+    "title": "Suspected crime boss Daniel Kinahan appears in court after extradition",
+    "posted_title": "تحديث: كينيهان يظهر أمام محكمة دبلن ويوجَّه له اتهام رسمي بعد التسليم من دبي",
+    "region": "uk",
+    "seen_at": "2026-08-10T09:08:14.179112+00:00"
   }
 ]
