@@ -1,7 +1,7 @@
 {
   "id": "99c009001253",
   "created_at": "2026-08-10T18:08:11.925076+00:00",
-  "status": "pending",
+  "status": "failed",
   "review_issue": 235,
   "score": 23.08,
   "bucket": "serious",
@@ -59,5 +59,7 @@
       "https://c.ndtvimg.com/2026-08/d630r3nk_raw-chief_625x300_10_August_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
       "https://c.ndtvimg.com/2026-08/td9clegs_sheikh-hasina_625x300_05_August_26.png?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
     ]
-  }
+  },
+  "publish_at": "2026-08-10T18:12:58.251943+00:00",
+  "error": "خطأ فيسبوك [190/459]: You cannot access the app till you log in to www.facebook.com and follow the instructions given."
 }
