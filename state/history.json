@@ -1,28 +1,5 @@
 [
   {
-    "score": 21.28,
-    "bucket": "serious",
-    "tokens": [
-      "airport",
-      "busy",
-      "cargo",
-      "carrying",
-      "device",
-      "drone",
-      "explosive",
-      "germany",
-      "investigates",
-      "near",
-      "plane",
-      "ukrainian"
-    ],
-    "link": "https://www.theguardian.com/world/live/2026/aug/05/europe-ukraine-russia-kyiv-zelenskyy-heatwave-austria-hungary-poland-czech-republic-latest-news-updates",
-    "title": "Germany investigates drone carrying ‘explosive device’ near Ukrainian plane at busy cargo airport",
-    "posted_title": "ألمانيا تحقق في درون حمل عبوة ناسفة قرب طائرات شحن أوكرانية في مطار لايبزيغ",
-    "region": "uk",
-    "seen_at": "2026-08-05T20:01:24.840090+00:00"
-  },
-  {
     "score": 26.24,
     "bucket": "sport",
     "tokens": [
@@ -2945,5 +2922,25 @@
     "posted_title": "زلزال بقوة 7.4 درجات يقتل أكثر من 111 شخصًا في غرب كولومبيا",
     "region": "za",
     "seen_at": "2026-08-10T19:46:16.077741+00:00"
+  },
+  {
+    "score": 17.55,
+    "bucket": "serious",
+    "tokens": [
+      "both",
+      "climbs",
+      "compensation",
+      "demand",
+      "fade",
+      "hopes",
+      "hormuz",
+      "iran",
+      "oil"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-08-10-oil-climbs-5-as-iran-us-both-demand-compensation-and-hormuz-hopes-fade/",
+    "title": "Oil climbs 5% as Iran, US both demand compensation and Hormuz hopes fade",
+    "posted_title": "لماذا ارتفع النفط 5% دفعة واحدة الإثنين؟",
+    "region": "za",
+    "seen_at": "2026-08-10T20:01:46.127462+00:00"
   }
 ]
