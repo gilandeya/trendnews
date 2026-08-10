@@ -1,23 +1,5 @@
 [
   {
-    "score": 17.48,
-    "bucket": "serious",
-    "tokens": [
-      "bangladesh",
-      "despite",
-      "execution",
-      "exiled",
-      "return",
-      "threat",
-      "vows"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/05/exiled-pm-vows-to-return-sheikh-hasina-bangladesh-despite-execution-threat",
-    "title": "Exiled PM vows to return to Bangladesh despite execution threat",
-    "posted_title": "حسينة واجد تعلن عزمها العودة إلى بنغلاديش في ديسمبر رغم حكم الإعدام الصادر بحقها",
-    "region": "uk",
-    "seen_at": "2026-08-05T19:31:40.263911+00:00"
-  },
-  {
     "score": 21.28,
     "bucket": "serious",
     "tokens": [
@@ -2946,5 +2928,22 @@
     "posted_title": "بدء اختيار هيئة المحلفين في محاكمة المتهم بقتل الرابر توباك شاكور بعد 30 عاما",
     "region": "uk",
     "seen_at": "2026-08-10T19:31:26.090402+00:00"
+  },
+  {
+    "score": 23.0,
+    "bucket": "light",
+    "tokens": [
+      "111",
+      "colombia",
+      "earthquake",
+      "kills",
+      "least",
+      "powerful"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-08-10-powerful-colombia-earthquake-kills-at-least-111/",
+    "title": "Powerful Colombia earthquake kills at least 111",
+    "posted_title": "زلزال بقوة 7.4 درجات يقتل أكثر من 111 شخصًا في غرب كولومبيا",
+    "region": "za",
+    "seen_at": "2026-08-10T19:46:16.077741+00:00"
   }
 ]
