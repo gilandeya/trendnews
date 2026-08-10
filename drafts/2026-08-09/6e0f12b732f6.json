@@ -1,7 +1,7 @@
 {
   "id": "6e0f12b732f6",
   "created_at": "2026-08-09T12:01:19.028941+00:00",
-  "status": "published",
+  "status": "rejected",
   "review_issue": 188,
   "from_radar": true,
   "score": 17.6,
@@ -67,5 +67,7 @@
     "photo_id": "1330508055832882",
     "url": "https://www.facebook.com/631680090321390_1330508082499546",
     "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
-  }
+  },
+  "reject_tag": "مكرر",
+  "reject_note": ""
 }
