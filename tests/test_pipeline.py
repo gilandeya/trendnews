@@ -945,6 +945,32 @@ def test_verify() -> None:
                                {"BBC": 3.0, "Reuters": 3.0}) ==
           verify.STATUS_CONFIRMED)
 
+    # عتبة العلاج 4 الافتراضية (Issue #132 تعليق لاحق تالٍ): 1.0 لم تكن
+    # واقعية — وزن sources في config.yaml يتوزّع فعليًا بين 0.6 و1.3 (0.6
+    # لمصدر واحد فقط، "Google News — World"، تطابقًا صدفة مع الوزن الافتراضي
+    # DEFAULT_PUBLISHER_WEIGHT — لا يُميَّز عن مجهول، وهذا صحيح دلاليًا: وزنه
+    # المضبوط فعلًا لا يفوق مصدر مجهول)؛ بقية القائمة (93 من 94 مصدرًا) تبدأ
+    # من 0.7، وكانت عتبة 1.0 تستبعد كل من وزنه 0.7-0.9 فتعامله كمجهول تمامًا.
+    # عتبة واقعية مبنية على هذا التوزيع الفعلي: بين DEFAULT_PUBLISHER_WEIGHT
+    # (0.6) وأدنى وزن *مميَّز فعليًا عن المجهول* في sources (0.7).
+    listed_source_weights = [
+        float(s.get("weight", 1.0))
+        for s in load_config().get("sources", []) or []]
+    min_distinct_source_weight = min(
+        w for w in listed_source_weights if w > verify.DEFAULT_PUBLISHER_WEIGHT)
+    check("عتبة near_confirm الافتراضية أعلى من وزن الناشر المجهول تمامًا",
+          verify.NEAR_CONFIRM_DEFAULT_MIN_WEIGHT > verify.DEFAULT_PUBLISHER_WEIGHT)
+    check("عتبة near_confirm الافتراضية أخفض من أدنى وزن ناشر مُدرَج فعليًا "
+          "يفوق الوزن الافتراضي — لا تستبعد ناشرًا معروفًا متواضع الوزن كما "
+          "فعلت 1.0",
+          verify.NEAR_CONFIRM_DEFAULT_MIN_WEIGHT < min_distinct_source_weight,
+          f"{verify.NEAR_CONFIRM_DEFAULT_MIN_WEIGHT} >= {min_distinct_source_weight}")
+    check("ناشر بأدنى وزن مُدرَج فعليًا يفوق الوزن الافتراضي يُصنَّف شبه مؤكَّد "
+          "بالعتبة الافتراضية بلا حاجة لتجاوزها يدويًا (لم يكن ممكنًا عند 1.0)",
+          verify.classify_fact(["ناشر متواضع"], [], 2,
+                               {"ناشر متواضع": min_distinct_source_weight}) ==
+          verify.STATUS_NEAR_CONFIRMED)
+
     # لا اسم مصدر مختلَق يدخل التقرير — حتى لو ادّعاه ردّ النموذج
     docs = [{"name": "BBC", "text": "x"}, {"name": "Reuters", "text": "y"}]
     check("يُقبل اسم مصدر مُعطى فعلًا", verify._known_only(["BBC"], docs) == ["BBC"])
@@ -1338,6 +1364,46 @@ def test_verify() -> None:
     check("لا استعلام فعلي يساوي نص الادّعاء أو السؤال الكامل",
           long_claim not in seen_queries and long_question not in seen_queries)
 
+    # الإصلاح الأخير (Issue #132 تعليق لاحق): إصلاح الاستعلام وحده لم يكفِ —
+    # gather_evidence كانت لا تزال تحسب صلة القراءة من claim["text"] المعاد
+    # صياغته، فاستمر التذبذب عمليًا رغم استقرار البحث (تشغيلان متتاليان
+    # لنفس المقال أعادا ثلاثة مصادر ثم مصدرًا واحدًا لنفس الواقعة). يجب أن
+    # يصل gather_evidence نص entities الثابت لا claim["text"] المتغيّر.
+    verify.gather_evidence = real_gather_evidence  # نحتاج السلوك الحقيقي هنا لا التلفيق السابق
+    seen_relevance_text: list[str] = []
+
+    def _spy_gather_evidence(articles, cfg, claim_text=""):
+        seen_relevance_text.append(claim_text)
+        return real_gather_evidence(articles, cfg, claim_text)
+
+    verify.gather_evidence = _spy_gather_evidence
+    wiring_entities = ["1985", "السعودي", "بلومبرغ"]
+    verify.extract_claims = lambda text, cfg, retries=3: ({
+        "topic": "مقال الوزن",
+        "claims": [{"text": "توقفت واردات أمريكا من النفط السعودي بالكامل "
+                            "لأول مرة منذ 1985", "kind": "واقعة",
+                   "entities": wiring_entities}],
+        "questions": [],
+    }, None)
+    verify.search = lambda query, cfg, days: [object()]
+    verify.verify_article("نص أول", cfg)
+
+    verify.extract_claims = lambda text, cfg, retries=3: ({
+        "topic": "مقال الوزن",
+        "claims": [{"text": "انخفضت واردات الولايات المتحدة من النفط الخام "
+                            "السعودي إلى الصفر، حسب تقرير بلومبرغ في 1985",
+                   "kind": "واقعة", "entities": list(wiring_entities)}],
+        "questions": [],
+    }, None)
+    verify.verify_article("نص ثانٍ", cfg)
+    verify.gather_evidence = real_gather_evidence
+
+    check("gather_evidence تستقبل نفس نص الصلة (من entities) رغم اختلاف "
+          "صياغة claim['text'] كليًا بين تشغيلين لنفس الوقائع",
+          len(seen_relevance_text) == 2 and
+          seen_relevance_text[0] == seen_relevance_text[1] ==
+          " ".join(wiring_entities), str(seen_relevance_text))
+
     # لا استخراج ممكن (رد مبتور) ← رسالة خطأ محددة بدل "حاول مجددًا" مبهمة
     verify.extract_claims = lambda text, cfg, retries=3: (
         None, "الرد مبتور — تجاوز سقف التوكنات")
@@ -1635,6 +1701,49 @@ def test_verify() -> None:
 
     check("المرشح الأكثر تطابقًا مع نص الواقعة يُقرأ أولًا رغم ترتيبه الثاني في articles",
           read_order and read_order[0] == "Specific", str(read_order))
+
+    # الإصلاح الأخير (Issue #132 تعليق لاحق): نفس نتائج البحث بالضبط، بصياغتَي
+    # claim["text"] مختلفتين تمامًا لكن بنفس entities — gather_evidence يجب أن
+    # تُنتج نفس ترتيب المرشحين ونفس ما يُقرأ فعليًا حين تُستعمل entities (لا
+    # text) لحساب الصلة. تشخيص سابق قاس هذا فعليًا: نفس المرشحين رُتِّبوا
+    # بشكل مختلف جوهريًا بين صياغتين لنفس الحقيقة قبل هذا الإصلاح.
+    wiring_claim_a = {"text": "توقفت واردات أمريكا من النفط السعودي بالكامل "
+                              "لأول مرة منذ 1985", "entities": wiring_entities}
+    wiring_claim_b = {"text": "انخفضت واردات الولايات المتحدة من النفط الخام "
+                              "السعودي إلى الصفر، حسب تقرير بلومبرغ في 1985",
+                      "entities": list(wiring_entities)}
+    check("نص الصلة المشتق من entities متطابق لصياغتين مختلفتين تمامًا",
+          verify._entities_text(wiring_claim_a) ==
+          verify._entities_text(wiring_claim_b) == " ".join(wiring_entities))
+
+    read_order_a: list[str] = []
+    read_order_b: list[str] = []
+
+    def _fake_gather_capture(target):
+        def _inner(members, limit=2):
+            target.extend(m["name"] for m in members)
+            return []
+        return _inner
+
+    same_search_results = [generic_first, specific_second]
+    extract.gather = _fake_gather_capture(read_order_a)
+    try:
+        verify.gather_evidence(list(same_search_results), cfg,
+                               verify._entities_text(wiring_claim_a))
+    finally:
+        extract.gather = real_extract_gather
+
+    extract.gather = _fake_gather_capture(read_order_b)
+    try:
+        verify.gather_evidence(list(same_search_results), cfg,
+                               verify._entities_text(wiring_claim_b))
+    finally:
+        extract.gather = real_extract_gather
+
+    check("نفس نتائج البحث بصياغتَي claim['text'] مختلفتين لكن بنفس entities "
+          "تُنتج نفس ترتيب المرشحين ونفس ما يُقرأ",
+          read_order_a == read_order_b and read_order_a != [],
+          f"{read_order_a} != {read_order_b}")
 
     # الوزن يفاضل بين ناشرين بصلة متقاربة، لا يُقصي ناشرًا شديد الصلة كليًا
     # (Issue #132 تعليق لاحق ثانٍ: فرز تتابعي سابق -وزن ثم -صلة كان يُقصي

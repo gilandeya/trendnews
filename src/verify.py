@@ -39,7 +39,17 @@ STATUS_CONTRADICTED = "يخالفها مصدر"
 # verify.near_confirm_min_weight) تفرّق الحالتين — ناشر معروف في sources أو
 # trusted_boost (وزنه أعلى من DEFAULT_PUBLISHER_WEIGHT الافتراضي لناشر
 # مجهول) يستحق تصنيفًا وسيطًا لا مصدر واحد مبهمة.
-NEAR_CONFIRM_DEFAULT_MIN_WEIGHT = 1.0
+#
+# القيمة 1.0 لا تتحقق عمليًا (Issue #132 تعليق لاحق تالٍ): وزن sources في
+# config.yaml يتوزّع فعليًا بين 0.7 و1.3 — عتبة 1.0 كانت تستبعد ناشرين
+# مُدرَجين فعلًا بوزن متواضع (0.7-0.9، أكثر من نصف القائمة) فتعاملهم كناشر
+# مجهول تمامًا رغم كونهم معروفين. العتبة الواقعية المبنية على هذا التوزيع
+# الفعلي: أي قيمة بين DEFAULT_PUBLISHER_WEIGHT (0.6، وزن الناشر المجهول
+# تمامًا) وأدنى وزن مُدرَج فعليًا في sources (0.7) — 0.65 هنا — تفرّق تمامًا
+# بين "ناشر معروف" (أي وزن > 0.6، سواء من sources أو trusted_boost) و"ناشر
+# مجهول تمامًا" (الوزن الافتراضي 0.6 بالضبط)، بدل عتبة عشوائية قد تستبعد
+# ناشرين معروفين فعليًا كما فعلت 1.0.
+NEAR_CONFIRM_DEFAULT_MIN_WEIGHT = 0.65
 
 
 # ──────────────────────────── استخراج بنية المقال ────────────────────────────
@@ -388,6 +398,17 @@ def build_query(text: str, max_words: int = 5) -> str:
     return " ".join(picked) if picked else clean.strip()
 
 
+def _entities_text(claim: dict) -> str:
+    """نص الكيانات الثابتة لادّعاء (أسماء أعلام/أرقام/سنوات/أماكن، منقولة
+    حرفيًا من المقال بلا إعادة صياغة — EXTRACT_SYSTEM)، أو سلسلة فارغة إن
+    غابت entities أو خلت من عناصر صالحة. يستعملها كل من build_query_for_claim
+    (بناء الاستعلام) و_verify_article (ترتيب صلة القراءة في gather_evidence)
+    — كلاهما يحتاج نصًا ثابتًا عبر تشغيلات متكررة لنفس المقال، لا نص claim
+    ["text"] المعاد صياغته بحرية في كل استخراج."""
+    entities = claim.get("entities") or []
+    return " ".join(e for e in entities if isinstance(e, str) and e.strip())
+
+
 def build_query_for_claim(claim: dict, max_words: int = 5) -> str:
     """يبني استعلام البحث من entities الادّعاء حصرًا حين تتوفر، لا من نص
     الجملة المعاد صياغتها في كل تشغيل (العلاج 2، Issue #132 تعليق لاحق:
@@ -401,9 +422,7 @@ def build_query_for_claim(claim: dict, max_words: int = 5) -> str:
     الجديد، أو ادّعاء لم يمرّ عبر extract_claims أصلًا) تُسقط لبناء
     الاستعلام من نص الادّعاء كاملًا عبر build_query كما كان قبل هذا العلاج —
     بلا تكرار منطقها."""
-    entities = claim.get("entities") or []
-    text = " ".join(e for e in entities if isinstance(e, str) and e.strip())
-    return build_query(text or claim.get("text", ""), max_words)
+    return build_query(_entities_text(claim) or claim.get("text", ""), max_words)
 
 
 def search(query: str, cfg, days: int) -> list[Article]:
@@ -941,7 +960,14 @@ def _verify_article(body: str, cfg) -> dict:
         # الاستعلام يُبنى من entities الادّعاء لا نص text المعاد صياغته —
         # العلاج 2 (Issue #132 تعليق لاحق)، انظر build_query_for_claim
         ranked = search(build_query_for_claim(claim, query_max_words), cfg, days)
-        docs, evidence_basis = gather_evidence(ranked, cfg, text)
+        # ترتيب صلة القراءة في gather_evidence يعتمد على entities الثابتة
+        # أيضًا لا text وحدها (Issue #132 تعليق لاحق تالٍ: نفس نتائج البحث
+        # بالضبط رُتِّبت بشكل مختلف جوهريًا بين تشغيلين لنفس المقال لأن
+        # gather_evidence كانت تحسب الصلة من claim["text"] المعاد صياغته —
+        # الحقل المتذبذب نفسه الذي عولج في الاستعلام أعلاه، لكنه بقي يُستعمل
+        # هنا بلا تعديل). entities فارغة تسقط لـtext كما كان قبل هذا الإصلاح.
+        relevance_text = _entities_text(claim) or text
+        docs, evidence_basis = gather_evidence(ranked, cfg, relevance_text)
         judged = (judge_fact(text, docs, cfg) if docs
                  else {"supporting": [], "contradicting": []})
         # وزن كل مصدر مؤيد يُعرَض في التقرير (Issue #132 تعليق لاحق): العدد
