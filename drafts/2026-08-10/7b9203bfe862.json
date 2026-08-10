@@ -1,7 +1,7 @@
 {
   "id": "7b9203bfe862",
   "created_at": "2026-08-10T19:46:16.077334+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 239,
   "from_radar": true,
   "score": 23.0,
@@ -70,5 +70,7 @@
       "https://i.dawn.com/primary/2026/08/102224292ff60bb.webp"
     ]
   },
-  "auto_publish_decision": "المؤشر 23.0 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 23.0 دون عتبة النشر التلقائي",
+  "reject_tag": "آخر",
+  "reject_note": "كان يحب ان يقول انه ارتفع عدد الضحايا الى ١١١ لان الخير منشور من قبل بعدد ضحايا اقل"
 }
