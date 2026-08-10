@@ -1,31 +1,5 @@
 [
   {
-    "score": 35.29,
-    "bucket": "serious",
-    "tokens": [
-      "agree",
-      "coordinates",
-      "crisis",
-      "east",
-      "foreign",
-      "hormuz",
-      "iran",
-      "iranian",
-      "live",
-      "middle",
-      "ministry",
-      "oman",
-      "route",
-      "strait",
-      "through"
-    ],
-    "link": "https://www.theguardian.com/world/live/2026/aug/05/us-iran-israel-oman-strait-of-hormuz-latest-news-updates",
-    "title": "Middle East crisis live: Iran and Oman agree on coordinates of route through strait of Hormuz, says Iranian foreign ministry",
-    "posted_title": "إيران وعمان تتفقان على إحداثيات مسار ملاحي عبر مضيق هرمز",
-    "region": "uk",
-    "seen_at": "2026-08-05T16:08:07.908690+00:00"
-  },
-  {
     "score": 30.72,
     "bucket": "light",
     "tokens": [
@@ -2887,5 +2861,23 @@
     "posted_title": "جفاف متوقع في مناطق جديدة بإنجلترا مع اقتراب موجة حر تلامس 36 درجة",
     "region": "uk",
     "seen_at": "2026-08-10T15:31:32.862973+00:00"
+  },
+  {
+    "score": 31.32,
+    "bucket": "serious",
+    "tokens": [
+      "gaza",
+      "israel",
+      "netanyahu",
+      "plan",
+      "point",
+      "rejects",
+      "trump's"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c5yw4lpe0yeo?at_medium=RSS&at_campaign=rss",
+    "title": "Israel rejects Trump's 15-point plan for Gaza, Netanyahu says",
+    "posted_title": "نتنياهو: لا انسحاب من غزة قبل نزع سلاح حماس بالكامل",
+    "region": "uk",
+    "seen_at": "2026-08-10T16:08:24.543598+00:00"
   }
 ]
