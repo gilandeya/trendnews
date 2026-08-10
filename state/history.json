@@ -1,42 +1,5 @@
 [
   {
-    "score": 26.39,
-    "bucket": "serious",
-    "tokens": [
-      "administration",
-      "ambassador",
-      "brazil's",
-      "lula",
-      "revokes",
-      "spat",
-      "trump",
-      "visa"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-administration-revokes-visa-of-brazils-ambassador-to-us-in-spat-with-lula/article71307922.ece",
-    "title": "Trump administration revokes visa of Brazil's Ambassador to U.S. in spat with Lula",
-    "posted_title": "واشنطن تسحب تأشيرة سفيرة البرازيل ردًا على تعطيل تعيين سفيرها في برازيليا",
-    "region": "in",
-    "seen_at": "2026-08-05T14:26:28.026054+00:00"
-  },
-  {
-    "score": 20.57,
-    "bucket": "serious",
-    "tokens": [
-      "arrested",
-      "covent",
-      "four",
-      "garden",
-      "men",
-      "stabbed",
-      "woman"
-    ],
-    "link": "https://www.theguardian.com/uk-news/live/2026/aug/05/covent-garden-stabbing-four-men-woman-arrested-metroppolitan-police-latest-news-updates",
-    "title": "Woman arrested after four men stabbed in Covent Garden",
-    "posted_title": "اعتقال امرأة بعد إصابة أربعة رجال بالطعن في شارع مزدحم بلندن",
-    "region": "uk",
-    "seen_at": "2026-08-05T14:40:03.825786+00:00"
-  },
-  {
     "score": 35.29,
     "bucket": "serious",
     "tokens": [
@@ -2850,5 +2813,22 @@
     "posted_title": "تحالف بقيادة جيف بيزوس يقترب من شراء حصة 30% في ليفربول",
     "region": "sport",
     "seen_at": "2026-08-10T13:46:13.364309+00:00"
+  },
+  {
+    "score": 21.53,
+    "bucket": "serious",
+    "tokens": [
+      "colombia",
+      "earthquake",
+      "magnitude",
+      "powerful",
+      "strikes",
+      "western"
+    ],
+    "link": "https://www.theguardian.com/world/2026/aug/10/colombia-earthquake-cali-pereira-choco",
+    "title": "Powerful 7.4 magnitude earthquake strikes western Colombia",
+    "posted_title": "زلزال قوي يضرب غرب كولومبيا ويتسبب في انهيار عشرات المباني بمدينة كالي",
+    "region": "uk",
+    "seen_at": "2026-08-10T15:01:33.463128+00:00"
   }
 ]
