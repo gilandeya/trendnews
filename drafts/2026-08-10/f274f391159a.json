@@ -1,0 +1,60 @@
+{
+  "id": "f274f391159a",
+  "created_at": "2026-08-10T06:45:58.104120+00:00",
+  "status": "pending",
+  "review_issue": 214,
+  "from_radar": true,
+  "score": 17.26,
+  "bucket": "serious",
+  "velocity": 1.0,
+  "trend_score": 0.0,
+  "age_hours": 0.2,
+  "state_media": false,
+  "has_photo": true,
+  "analysed_sources": [
+    "Der Spiegel"
+  ],
+  "source": {
+    "title": "EN DIRECT, guerre en Ukraine : la Russie dit avoir abattu pendant la nuit plus de 450 drones ukrainiens ayant visé une quinzaine de régions et la Crimée annexée",
+    "link": "https://www.lemonde.fr/international/live/2026/08/10/en-direct-guerre-en-ukraine-la-ville-de-soumy-visee-par-des-frappes-russes-dans-la-nuit-selon-l-administration-militaire-regionale_6741928_3210.html",
+    "publisher": "Le Monde",
+    "publishers": [
+      "Der Spiegel",
+      "Le Monde"
+    ],
+    "region": "fr",
+    "image_url": "https://img.lemde.fr/2026/08/10/805/0/8144/4072/644/322/60/0/3a448ce_ftp-1-7wg8wwv1rnpy-15142ab4ef7d42a5932ae50530325e22-3-59b753911223404bae7466408242091e.jpg",
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/10/805/0/8144/4072/644/322/60/0/3a448ce_ftp-1-7wg8wwv1rnpy-15142ab4ef7d42a5932ae50530325e22-3-59b753911223404bae7466408242091e.jpg",
+      "https://cdn.prod.www.spiegel.de/images/dd17189a-707c-4b57-af32-bf59855d3d25_w520_r2.08_fpx28.09_fpy49.93.png"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": true,
+    "category": "عالم",
+    "image_headline": "450 مسيّرة أوكرانية فوق روسيا والقرم في ليلة واحدة",
+    "post_title": "روسيا تعلن إسقاط أكثر من 450 مسيّرة أوكرانية في هجوم استهدف 15 منطقة والقرم",
+    "post_body": "أعلنت وزارة الدفاع الروسية إسقاط أكثر من 450 مسيّرة أوكرانية خلال ليلة الأحد إلى الاثنين، في هجوم طال نحو خمس عشرة منطقة روسية إضافة إلى شبه جزيرة القرم المضمومة. في المقابل، أعلنت القوات الجوية الأوكرانية أن روسيا شنت هجومًا مضادًا استخدمت فيه صاروخ كروز من طراز Kh-59 أو Kh-69، وثلاث مسيّرات انتحارية، و126 مسيّرة هجومية من طرازات متعددة. مدينة سومي الأوكرانية تعرضت لضربات ليلية بحسب الإدارة العسكرية الإقليمية هناك.",
+    "hashtags": [
+      "حرب_أوكرانيا",
+      "روسيا",
+      "أوكرانيا",
+      "القرم"
+    ]
+  },
+  "caption": "روسيا تعلن إسقاط أكثر من 450 مسيّرة أوكرانية في هجوم استهدف 15 منطقة والقرم\n\nأعلنت وزارة الدفاع الروسية إسقاط أكثر من 450 مسيّرة أوكرانية خلال ليلة الأحد إلى الاثنين، في هجوم طال نحو خمس عشرة منطقة روسية إضافة إلى شبه جزيرة القرم المضمومة. في المقابل، أعلنت القوات الجوية الأوكرانية أن روسيا شنت هجومًا مضادًا استخدمت فيه صاروخ كروز من طراز Kh-59 أو Kh-69، وثلاث مسيّرات انتحارية، و126 مسيّرة هجومية من طرازات متعددة. مدينة سومي الأوكرانية تعرضت لضربات ليلية بحسب الإدارة العسكرية الإقليمية هناك.\n\n#حرب_أوكرانيا #روسيا #أوكرانيا #القرم",
+  "image": "drafts/2026-08-10/f274f391159a.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "450 مسيّرة أوكرانية فوق روسيا والقرم في ليلة واحدة",
+    "category": "عالم",
+    "urgent": true,
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/10/805/0/8144/4072/644/322/60/0/3a448ce_ftp-1-7wg8wwv1rnpy-15142ab4ef7d42a5932ae50530325e22-3-59b753911223404bae7466408242091e.jpg",
+      "https://cdn.prod.www.spiegel.de/images/dd17189a-707c-4b57-af32-bf59855d3d25_w520_r2.08_fpx28.09_fpy49.93.png"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 17.3 دون عتبة النشر التلقائي"
+}
