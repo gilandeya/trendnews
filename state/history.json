@@ -1,32 +1,5 @@
 [
   {
-    "score": 29.98,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "120",
-      "après",
-      "attaques",
-      "dans",
-      "des",
-      "direct",
-      "dnipropetrovsk",
-      "foyers",
-      "guerre",
-      "oblast",
-      "plus",
-      "privés",
-      "russes",
-      "ukraine",
-      "électricité"
-    ],
-    "link": "https://www.lemonde.fr/international/live/2026/08/05/en-direct-guerre-en-ukraine-plus-de-120-000-foyers-prives-d-electricite-dans-l-oblast-de-dnipropetrovsk-apres-des-attaques-russes_6737250_3210.html",
-    "title": "EN DIRECT, guerre en Ukraine : plus de 120 000 foyers privés d’électricité dans l’oblast de Dnipropetrovsk après des attaques russes",
-    "posted_title": "روسيا تشن أعنف هجوم صاروخي على كييف منذ أشهر وتقطع الكهرباء عن 126 ألف منزل جنوب أوكرانيا",
-    "region": "fr",
-    "seen_at": "2026-08-05T22:13:04.854931+00:00"
-  },
-  {
     "score": 19.23,
     "bucket": "sport",
     "tokens": [
@@ -2979,5 +2952,29 @@
     "posted_title": "ترامب يرد على مطالبة إيران بالتعويض: هي من يجب أن تدفع",
     "region": "my",
     "seen_at": "2026-08-10T22:08:27.435029+00:00"
+  },
+  {
+    "score": 19.35,
+    "bucket": "serious",
+    "tokens": [
+      "change",
+      "executive",
+      "measles",
+      "mumps",
+      "order",
+      "rubella",
+      "separate",
+      "shots",
+      "signs",
+      "split",
+      "sweeping",
+      "trump",
+      "vaccine"
+    ],
+    "link": "https://www.theguardian.com/us-news/live/2026/aug/10/ohio-republicans-max-miller-domestic-abuse-allegations-us-politics-live-latest-news",
+    "title": "Trump signs executive order to split measles, mumps and rubella vaccine into separate shots in sweeping change",
+    "posted_title": "ترامب يوقع أمرًا بتقليص لقاحات الأطفال وتقسيم لقاح الحصبة إلى ثلاث جرعات منفصلة",
+    "region": "uk",
+    "seen_at": "2026-08-10T22:16:12.827777+00:00"
   }
 ]
