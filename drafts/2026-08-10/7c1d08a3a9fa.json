@@ -1,7 +1,7 @@
 {
   "id": "7c1d08a3a9fa",
   "created_at": "2026-08-10T20:16:19.506003+00:00",
-  "status": "pending",
+  "status": "failed",
   "review_issue": 242,
   "from_radar": true,
   "score": 19.35,
@@ -66,5 +66,7 @@
       "https://i.guim.co.uk/img/media/62964542da0ee36649985274d1979736f793bd8f/525_0_5230_4187/master/5230.jpg?width=140&quality=85&auto=format&fit=max&s=fcc912023edc1ebeac2ab07350f7b582"
     ]
   },
-  "auto_publish_decision": "المؤشر 19.3 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 19.3 دون عتبة النشر التلقائي",
+  "publish_at": "2026-08-10T20:31:28.791052+00:00",
+  "error": "خطأ فيسبوك [190/459]: You cannot access the app till you log in to www.facebook.com and follow the instructions given."
 }
