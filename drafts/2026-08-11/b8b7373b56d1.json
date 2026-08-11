@@ -1,7 +1,7 @@
 {
   "id": "b8b7373b56d1",
   "created_at": "2026-08-11T02:16:00.917546+00:00",
-  "status": "pending",
+  "status": "failed",
   "review_issue": 246,
   "from_radar": true,
   "score": 17.35,
@@ -58,5 +58,7 @@
       "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/13ae/live/d1192590-9504-11f1-bf69-07da70b136c8.jpg"
     ]
   },
-  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي",
+  "publish_at": "2026-08-11T05:06:12.774910+00:00",
+  "error": "خطأ فيسبوك [190/459]: You cannot access the app till you log in to www.facebook.com and follow the instructions given."
 }
