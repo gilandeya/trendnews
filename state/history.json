@@ -1,26 +1,5 @@
 [
   {
-    "score": 19.34,
-    "bucket": "serious",
-    "tokens": [
-      "attacks",
-      "cities",
-      "continues",
-      "moscow",
-      "oil",
-      "refineries",
-      "russian",
-      "strikes",
-      "ukraine",
-      "ukrainian"
-    ],
-    "link": "https://www.theguardian.com/world/live/2026/aug/06/ukraine-volodymyr-zelenskyy-russia-nato-germany-leipzig-wildfires-heatwaves-europe-live-news",
-    "title": "Ukraine strikes Russian oil refineries as Moscow continues attacks on Ukrainian cities",
-    "posted_title": "أوكرانيا تضرب مصفاتي نفط روسيتين على عمق 1300 كيلومتر من الجبهة",
-    "region": "uk",
-    "seen_at": "2026-08-06T09:01:20.544549+00:00"
-  },
-  {
     "score": 27.48,
     "bucket": "sport",
     "tokens": [
@@ -2872,5 +2851,25 @@
     "posted_title": "زيلينسكي يتهم روسيا باستخدام صواريخ باليستية كورية شمالية في قصف زابوريجيا",
     "region": "uk",
     "seen_at": "2026-08-11T08:16:11.336348+00:00"
+  },
+  {
+    "score": 17.42,
+    "bucket": "sport",
+    "tokens": [
+      "'terrible",
+      "embattled",
+      "fifa",
+      "infantino",
+      "mistake'",
+      "oust",
+      "president",
+      "trump",
+      "would"
+    ],
+    "link": "https://www.dawn.com/news/2022126/trump-says-would-be-terrible-mistake-to-oust-embattled-fifa-president-infantino",
+    "title": "Trump says would be 'terrible mistake' to oust embattled FIFA president Infantino",
+    "posted_title": "ترامب: إقالة رئيس فيفا إنفانتينو ستكون خطأ فادحا",
+    "region": "pk",
+    "seen_at": "2026-08-11T09:01:25.910488+00:00"
   }
 ]
