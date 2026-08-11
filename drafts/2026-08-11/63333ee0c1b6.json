@@ -1,7 +1,7 @@
 {
   "id": "63333ee0c1b6",
   "created_at": "2026-08-11T09:46:03.986980+00:00",
-  "status": "pending",
+  "status": "failed",
   "review_issue": 255,
   "from_radar": true,
   "score": 21.41,
@@ -66,5 +66,7 @@
       "https://img.lemde.fr/2019/03/16/44/0/3220/1610/644/322/60/0/6e84cae_KTTEKeIhj4UUXHnhOLuWA4nS.jpg"
     ]
   },
-  "auto_publish_decision": "المؤشر 21.4 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 21.4 دون عتبة النشر التلقائي",
+  "publish_at": "2026-08-11T09:49:32.646294+00:00",
+  "error": "خطأ فيسبوك [190/459]: You cannot access the app till you log in to www.facebook.com and follow the instructions given."
 }
