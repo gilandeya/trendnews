@@ -1,7 +1,7 @@
 {
   "id": "a7c2b227897c",
   "created_at": "2026-08-11T07:08:28.984327+00:00",
-  "status": "pending",
+  "status": "failed",
   "review_issue": 251,
   "score": 30.06,
   "bucket": "serious",
@@ -63,5 +63,7 @@
       "https://media.freemalaysiatoday.com/wp-content/uploads/2026/05/0165c4bd-hormuz-afp-05_05_26.webp",
       "https://media.mehrnews.com/d/2026/08/05/4/6123763.jpg"
     ]
-  }
+  },
+  "publish_at": "2026-08-11T08:05:19.380076+00:00",
+  "error": "خطأ فيسبوك [190/459]: You cannot access the app till you log in to www.facebook.com and follow the instructions given."
 }
