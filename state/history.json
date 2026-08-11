@@ -1,24 +1,5 @@
 [
   {
-    "score": 27.48,
-    "bucket": "sport",
-    "tokens": [
-      "beat",
-      "draw",
-      "eight",
-      "indies",
-      "pakistan",
-      "series",
-      "west",
-      "wickets"
-    ],
-    "link": "https://www.dawn.com/news/2020814/pakistan-beat-west-indies-by-eight-wickets-to-draw-series",
-    "title": "Pakistan beat West Indies by eight wickets to draw series",
-    "posted_title": "باكستان تنهي سلسلة خسارات دامت 8 مباريات خارج أرضها بفوز على الويست إنديز",
-    "region": "pk",
-    "seen_at": "2026-08-06T09:08:02.680967+00:00"
-  },
-  {
     "score": 27.75,
     "bucket": "serious",
     "tokens": [
@@ -2871,5 +2852,24 @@
     "posted_title": "ترامب: إقالة رئيس فيفا إنفانتينو ستكون خطأ فادحا",
     "region": "pk",
     "seen_at": "2026-08-11T09:01:25.910488+00:00"
+  },
+  {
+    "score": 33.49,
+    "bucket": "serious",
+    "tokens": [
+      "demands",
+      "hormuz",
+      "iran",
+      "oil",
+      "reopening",
+      "rises",
+      "strait",
+      "trade"
+    ],
+    "link": "https://tribune.com.pk/story/2623257/oil-steadies-near-one-week-highs-as-us-iran-peace-deal-hopes-dim",
+    "title": "Oil rises as Iran and US trade demands for reopening Strait of Hormuz",
+    "posted_title": "لماذا ترتفع أسعار النفط مجددًا بعد تعثر مفاوضات إيران وأمريكا حول مضيق هرمز",
+    "region": "pk",
+    "seen_at": "2026-08-11T09:08:15.234958+00:00"
   }
 ]
