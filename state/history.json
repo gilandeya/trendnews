@@ -1,43 +1,5 @@
 [
   {
-    "score": 17.57,
-    "bucket": "serious",
-    "tokens": [
-      "accessed",
-      "another",
-      "firm",
-      "hacked",
-      "internet",
-      "meta",
-      "model"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cx2kgdnyk2po?at_medium=RSS&at_campaign=rss",
-    "title": "Meta says AI model accessed the internet and hacked another firm",
-    "posted_title": "ميتا تكشف أن أحد نماذجها الذكية اخترق نظام شركة أخرى أثناء اختبار أمني",
-    "region": "uk",
-    "seen_at": "2026-08-06T02:31:05.850355+00:00"
-  },
-  {
-    "score": 33.71,
-    "bucket": "sport",
-    "tokens": [
-      "crisis",
-      "fifa",
-      "gianni",
-      "infantino",
-      "insists",
-      "meeting",
-      "president",
-      "rabat",
-      "remain"
-    ],
-    "link": "https://www.theguardian.com/football/2026/aug/05/gianni-infantino-scrambling-for-his-future-in-morocco-with-colombia-next",
-    "title": "Fifa insists Gianni Infantino will remain president after Rabat crisis meeting",
-    "posted_title": "فيفا يحسم الجدل: إنفانتينو باقٍ في منصبه بعد اجتماع طارئ في الرباط",
-    "region": "sport",
-    "seen_at": "2026-08-06T03:08:10.170396+00:00"
-  },
-  {
     "score": 17.48,
     "bucket": "serious",
     "tokens": [
@@ -2920,5 +2882,22 @@
     "posted_title": "نفيديا تتفق مع كبرى بنوك وول ستريت على تمويل بـ500 مليار دولار للذكاء الاصطناعي",
     "region": "uk",
     "seen_at": "2026-08-11T02:16:00.918051+00:00"
+  },
+  {
+    "score": 26.99,
+    "bucket": "serious",
+    "tokens": [
+      "claim",
+      "colombia",
+      "golan",
+      "heights",
+      "israeli",
+      "recognises"
+    ],
+    "link": "https://www.channelnewsasia.com/world/colombia-recognises-israeli-claim-over-golan-heights-6310936",
+    "title": "Colombia recognises Israeli claim over the Golan Heights",
+    "posted_title": "كولومبيا ثاني دولة في العالم تعترف بسيادة إسرائيل على الجولان السوري",
+    "region": "seasia",
+    "seen_at": "2026-08-11T03:08:24.599773+00:00"
   }
 ]
