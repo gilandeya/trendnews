@@ -1,80 +1,5 @@
 [
   {
-    "score": 17.45,
-    "bucket": "serious",
-    "tokens": [
-      "deep",
-      "hits",
-      "oil",
-      "refineries",
-      "russian",
-      "territory",
-      "two",
-      "ukraine"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cwymv212xrxo?at_medium=RSS&at_campaign=rss",
-    "title": "Ukraine hits two oil refineries deep in Russian territory",
-    "posted_title": "أوكرانيا تستهدف مصفاتي نفط داخل الأراضي الروسية وموسكو ترد بضربات على كييف",
-    "region": "uk",
-    "seen_at": "2026-08-06T14:31:25.134438+00:00"
-  },
-  {
-    "score": 17.43,
-    "bucket": "sport",
-    "tokens": [
-      "diomande",
-      "leipzig",
-      "madrid",
-      "real",
-      "von",
-      "wechselt",
-      "yan"
-    ],
-    "link": "https://www.spiegel.de/sport/fussball/yan-diomande-wechselt-von-rb-leipzig-zu-real-madrid-mindestens-125-millionen-euro-abloese-a-1efbb3c5-e21d-46d9-83f2-04c759821b96#ref=rss",
-    "title": "Yan Diomande wechselt von RB Leipzig zu Real Madrid",
-    "posted_title": "ريال مدريد يتعاقد مع يان ديوماندي مقابل 125 مليون يورو على الأقل",
-    "region": "de",
-    "seen_at": "2026-08-06T14:46:06.143232+00:00"
-  },
-  {
-    "score": 17.59,
-    "bucket": "serious",
-    "tokens": [
-      "attacks",
-      "forces",
-      "government",
-      "houthi",
-      "kill",
-      "least",
-      "reportedly",
-      "yemeni"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/ckgdmdr0lmgo?at_medium=RSS&at_campaign=rss",
-    "title": "Houthi attacks reportedly kill at least 30 Yemeni government forces",
-    "posted_title": "هجوم صاروخي حوثي يقتل 30 من عناصر الجيش اليمني في مأرب وحضرموت",
-    "region": "uk",
-    "seen_at": "2026-08-06T15:01:31.378477+00:00"
-  },
-  {
-    "score": 31.3,
-    "bucket": "sport",
-    "tokens": [
-      "boycott",
-      "fifa",
-      "infantino",
-      "stands",
-      "stays",
-      "still",
-      "tournaments",
-      "uefa"
-    ],
-    "link": "https://www.skysports.com/football/news/12040/13570404/gianni-infantino-uefas-boycott-of-fifa-tournaments-still-stands-as-under-pressure-president-remains-in-position",
-    "title": "UEFA boycott of FIFA tournaments still stands as Infantino stays on",
-    "posted_title": "لماذا لا يزال تهديد اليويفا بمقاطعة بطولات الفيفا قائمًا",
-    "region": "sport",
-    "seen_at": "2026-08-06T15:08:04.426111+00:00"
-  },
-  {
     "score": 16.91,
     "bucket": "serious",
     "tokens": [
@@ -2814,5 +2739,25 @@
     "posted_title": "زلزال بقوة 7.4 درجات يضرب غرب كولومبيا ويرفع حصيلة القتلى إلى 164",
     "region": "pk",
     "seen_at": "2026-08-11T12:08:09.142149+00:00"
+  },
+  {
+    "score": 20.09,
+    "bucket": "serious",
+    "tokens": [
+      "abolish",
+      "becomes",
+      "country",
+      "death",
+      "eastern",
+      "first",
+      "lebanon",
+      "middle",
+      "penalty"
+    ],
+    "link": "https://www.france24.com/en/middle-east/20260811-lebanon-becomes-first-middle-eastern-country-to-abolish-death-penalty",
+    "title": "Lebanon becomes first Middle Eastern country to abolish the death penalty",
+    "posted_title": "لبنان يصبح أول دولة عربية تلغي عقوبة الإعدام رسميًا",
+    "region": "eu",
+    "seen_at": "2026-08-11T15:08:40.765458+00:00"
   }
 ]
