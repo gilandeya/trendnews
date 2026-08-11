@@ -1,7 +1,7 @@
 {
   "id": "965561c723dd",
   "created_at": "2026-08-11T03:31:26.960401+00:00",
-  "status": "pending",
+  "status": "failed",
   "review_issue": 248,
   "from_radar": true,
   "score": 19.29,
@@ -64,5 +64,7 @@
       "https://cdn.prod.www.spiegel.de/images/3f3dd620-2584-4a31-bca3-fba87da38bee_w520_r2.08_fpx46_fpy31.jpg"
     ]
   },
-  "auto_publish_decision": "المؤشر 19.3 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 19.3 دون عتبة النشر التلقائي",
+  "publish_at": "2026-08-11T05:07:21.648894+00:00",
+  "error": "خطأ فيسبوك [190/459]: You cannot access the app till you log in to www.facebook.com and follow the instructions given."
 }
