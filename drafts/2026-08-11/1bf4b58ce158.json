@@ -1,7 +1,7 @@
 {
   "id": "1bf4b58ce158",
   "created_at": "2026-08-11T08:16:11.335788+00:00",
-  "status": "pending",
+  "status": "failed",
   "review_issue": 252,
   "from_radar": true,
   "score": 19.35,
@@ -64,5 +64,7 @@
       "https://img.lemde.fr/2026/08/11/638/0/4277/2138/644/322/60/0/1a8f8fd_ftp-1-co3p0wczsith-2026-08-11t065121z-772630107-rc25wmaoleor-rtrmadp-3-ukraine-crisis-attack-zaporizhzhia.JPG"
     ]
   },
-  "auto_publish_decision": "المؤشر 19.4 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 19.4 دون عتبة النشر التلقائي",
+  "publish_at": "2026-08-11T08:24:12.258806+00:00",
+  "error": "خطأ فيسبوك [190/459]: You cannot access the app till you log in to www.facebook.com and follow the instructions given."
 }
