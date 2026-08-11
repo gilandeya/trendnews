@@ -1,42 +1,5 @@
 [
   {
-    "score": 17.37,
-    "bucket": "serious",
-    "tokens": [
-      "der",
-      "explosionen",
-      "hormus",
-      "iran",
-      "krieg",
-      "meldet",
-      "straße",
-      "tanker",
-      "von"
-    ],
-    "link": "https://www.spiegel.de/ausland/iran-krieg-tanker-in-der-strasse-von-hormus-meldet-explosionen-a-5a86826a-fc49-4070-910c-ed6613e8a9e3#ref=rss",
-    "title": "Iran-Krieg: Tanker in der Straße von Hormus meldet Explosionen",
-    "posted_title": "انفجاران يهزان ناقلة نفط في مضيق هرمز فيما تقترب إيران من اتفاق ممر بحري مع عُمان",
-    "region": "de",
-    "seen_at": "2026-08-06T06:01:23.503799+00:00"
-  },
-  {
-    "score": 17.47,
-    "bucket": "serious",
-    "tokens": [
-      "300",
-      "abductees",
-      "forces",
-      "nigerian",
-      "rescue",
-      "security"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cn4ndd8nr8lo?at_medium=RSS&at_campaign=rss",
-    "title": "Nigerian security forces rescue more than 300 abductees",
-    "posted_title": "نيجيريا تنفّذ أكبر عملية إنقاذ رهائن في يوم واحد وتحرر أكثر من 300 مختطف",
-    "region": "uk",
-    "seen_at": "2026-08-06T06:31:14.614110+00:00"
-  },
-  {
     "score": 25.42,
     "bucket": "serious",
     "tokens": [
@@ -2891,5 +2854,25 @@
     "posted_title": "من الضفدع إلى الذئب.. كيف فسّرت حضارات العالم اختفاء الشمس أثناء الكسوف",
     "region": "odd",
     "seen_at": "2026-08-11T05:08:30.780866+00:00"
+  },
+  {
+    "score": 19.14,
+    "bucket": "serious",
+    "tokens": [
+      "boss",
+      "den",
+      "donald",
+      "fifa",
+      "gianni",
+      "infantino",
+      "rücken",
+      "stärkt",
+      "trump"
+    ],
+    "link": "https://www.spiegel.de/sport/fussball/gianni-infantino-donald-trump-staerkt-fifa-boss-den-ruecken-a-6716d682-7375-4a4c-aa93-7095e990f2db#ref=rss",
+    "title": "Gianni Infantino: Donald Trump stärkt Fifa-Boss den Rücken",
+    "posted_title": "ترامب يتدخل لدعم رئيس الفيفا وسط دعوات لإقالته",
+    "region": "de",
+    "seen_at": "2026-08-11T06:31:31.168356+00:00"
   }
 ]
