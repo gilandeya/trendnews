@@ -1,7 +1,7 @@
 {
   "id": "3d93810cf4d8",
   "created_at": "2026-08-11T10:31:22.138283+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 256,
   "from_radar": true,
   "score": 22.79,
@@ -70,5 +70,7 @@
       "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/16ee/live/c9a1fa20-9564-11f1-bfc0-f9e1bae5b9d9.jpg"
     ]
   },
-  "auto_publish_decision": "المؤشر 22.8 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 22.8 دون عتبة النشر التلقائي",
+  "reject_tag": "مكرر",
+  "reject_note": ""
 }
