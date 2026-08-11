@@ -1,61 +1,5 @@
 [
   {
-    "score": 17.5,
-    "bucket": "serious",
-    "tokens": [
-      "indian",
-      "jail",
-      "journalist",
-      "rape",
-      "sentenced",
-      "tarun",
-      "tejpal",
-      "years"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cx2v551w9v8o?at_medium=RSS&at_campaign=rss",
-    "title": "Indian journalist Tarun Tejpal sentenced to 10 years in jail for rape",
-    "posted_title": "محكمة هندية تقضي بسجن الصحفي تارون تيجبال 10 سنوات بعد إلغاء براءته",
-    "region": "uk",
-    "seen_at": "2026-08-06T11:16:00.733675+00:00"
-  },
-  {
-    "score": 17.45,
-    "bucket": "serious",
-    "tokens": [
-      "ballistic",
-      "fires",
-      "korea",
-      "military",
-      "missile",
-      "north",
-      "south"
-    ],
-    "link": "https://www.dawn.com/news/2021016/north-korea-fires-ballistic-missile-south-korea-military-says",
-    "title": "North Korea fires ballistic missile, South Korea military says",
-    "posted_title": "كوريا الشمالية تطلق صاروخًا باليستيًا فوق بحر اليابان بعد تهديدات لطوكيو",
-    "region": "pk",
-    "seen_at": "2026-08-06T11:45:57.377233+00:00"
-  },
-  {
-    "score": 17.59,
-    "bucket": "serious",
-    "tokens": [
-      "colleague",
-      "high",
-      "indian",
-      "jailed",
-      "journalist",
-      "profile",
-      "raping",
-      "years"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/06/indian-journalist-tarun-tejpal-convicted-raping-colleague",
-    "title": "High-profile Indian journalist jailed for 10 years for raping colleague",
-    "posted_title": "محكمة هندية تقضي بسجن مؤسس مجلة تيهلكا 10 سنوات بعد إلغاء تبرئته من تهمة اغتصاب",
-    "region": "uk",
-    "seen_at": "2026-08-06T12:01:23.657491+00:00"
-  },
-  {
     "score": 21.25,
     "bucket": "serious",
     "tokens": [
@@ -2887,5 +2831,27 @@
     "posted_title": "محكمة في دمشق تحكم بإعدام بشار الأسد وشقيقه ماهر غيابيًا",
     "region": "za",
     "seen_at": "2026-08-11T10:31:22.138717+00:00"
+  },
+  {
+    "score": 32.81,
+    "bucket": "serious",
+    "tokens": [
+      "164",
+      "colombia",
+      "death",
+      "earthquake",
+      "efforts",
+      "expected",
+      "press",
+      "rescue",
+      "rise",
+      "stands",
+      "toll"
+    ],
+    "link": "https://www.dawn.com/news/2022111/colombia-rescue-efforts-press-on-after-earthquake-death-toll-stands-at-164-expected-to-rise",
+    "title": "Colombia rescue efforts press on after earthquake; death toll stands at 164, expected to rise",
+    "posted_title": "زلزال بقوة 7.4 درجات يضرب غرب كولومبيا ويرفع حصيلة القتلى إلى 164",
+    "region": "pk",
+    "seen_at": "2026-08-11T12:08:09.142149+00:00"
   }
 ]
