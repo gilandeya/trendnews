@@ -1,7 +1,7 @@
 {
   "id": "a9b1a97e1de9",
   "created_at": "2026-08-11T09:08:15.234572+00:00",
-  "status": "pending",
+  "status": "failed",
   "review_issue": 254,
   "score": 33.49,
   "bucket": "serious",
@@ -77,5 +77,7 @@
       "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/11/455180.jpg",
       "https://cdn.dailymaverick.co.za/attachments/2996/image_727953.jpeg"
     ]
-  }
+  },
+  "publish_at": "2026-08-11T10:50:29.709184+00:00",
+  "error": "خطأ فيسبوك [190/459]: You cannot access the app till you log in to www.facebook.com and follow the instructions given."
 }
