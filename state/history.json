@@ -1,23 +1,5 @@
 [
   {
-    "score": 17.56,
-    "bucket": "serious",
-    "tokens": [
-      "another",
-      "company",
-      "during",
-      "hacked",
-      "meta",
-      "model",
-      "testing"
-    ],
-    "link": "https://www.theguardian.com/technology/2026/aug/05/meta-ai-model-hack-training",
-    "title": "Meta says its AI model hacked into another company during testing",
-    "posted_title": "نموذج ذكاء اصطناعي تابع لميتا يخترق شركة أخرى بسبب خطأ تقني أثناء اختبار أمني",
-    "region": "uk",
-    "seen_at": "2026-08-06T02:01:19.568659+00:00"
-  },
-  {
     "score": 17.57,
     "bucket": "serious",
     "tokens": [
@@ -2920,5 +2902,23 @@
     "posted_title": "ترامب يوقع أمرًا بتقليص لقاحات الأطفال وتقسيم لقاح الحصبة إلى ثلاث جرعات منفصلة",
     "region": "uk",
     "seen_at": "2026-08-10T22:16:12.827777+00:00"
+  },
+  {
+    "score": 17.35,
+    "bucket": "serious",
+    "tokens": [
+      "500bn",
+      "develop",
+      "gets",
+      "infrastructure",
+      "investors",
+      "major",
+      "nvidia"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c78gr0jv0mdo?at_medium=RSS&at_campaign=rss",
+    "title": "Nvidia gets $500bn from major investors to develop AI infrastructure",
+    "posted_title": "نفيديا تتفق مع كبرى بنوك وول ستريت على تمويل بـ500 مليار دولار للذكاء الاصطناعي",
+    "region": "uk",
+    "seen_at": "2026-08-11T02:16:00.918051+00:00"
   }
 ]

@@ -1,0 +1,62 @@
+{
+  "id": "b8b7373b56d1",
+  "created_at": "2026-08-11T02:16:00.917546+00:00",
+  "status": "pending",
+  "review_issue": 246,
+  "from_radar": true,
+  "score": 17.35,
+  "bucket": "serious",
+  "velocity": 1.0,
+  "trend_score": 0.0,
+  "age_hours": 3.5,
+  "state_media": false,
+  "has_photo": true,
+  "analysed_sources": [
+    "BBC World"
+  ],
+  "source": {
+    "title": "Nvidia gets $500bn from major investors to develop AI infrastructure",
+    "link": "https://www.bbc.co.uk/news/articles/c78gr0jv0mdo?at_medium=RSS&at_campaign=rss",
+    "publisher": "BBC World",
+    "publishers": [
+      "BBC Technology",
+      "BBC World"
+    ],
+    "region": "uk",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/13ae/live/d1192590-9504-11f1-bf69-07da70b136c8.jpg",
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/13ae/live/d1192590-9504-11f1-bf69-07da70b136c8.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/13ae/live/d1192590-9504-11f1-bf69-07da70b136c8.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/13ae/live/d1192590-9504-11f1-bf69-07da70b136c8.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": true,
+    "category": "تقنية",
+    "image_headline": "نفيديا تجمع 500 مليار دولار لبنية تحتية للذكاء الاصطناعي",
+    "post_title": "نفيديا تتفق مع كبرى بنوك وول ستريت على تمويل بـ500 مليار دولار للذكاء الاصطناعي",
+    "post_body": "أعلنت شركة نفيديا اتفاقها مع مجموعة من كبرى مؤسسات الاستثمار وهي أبولو وبلاك روك وبلاكستون وبروكفيلد وجولدمان ساكس وكيه كيه آر، لجمع 500 مليار دولار لتمويل بنية تحتية للذكاء الاصطناعي. الأموال ستذهب لبناء مراكز بيانات جديدة تضم آلاف الرقاقات المكدّسة وتديرها وتبرّدها، إضافة إلى مصانع جديدة لتصنيع رقاقات الذكاء الاصطناعي. قال الرئيس التنفيذي للشركة جنسن هوانغ إن هذه هي المرة الأولى التي يتعامل فيها مستثمرون بهذا الحجم مع البنية الحاسوبية كفئة أصول مستقلة. تستخدم شركات مثل غوغل وميتا وأمازون ومايكروسوفت وأوبن إيه آي رقاقات نفيديا لتشغيل خدماتها ومنصاتها الذكية.",
+    "hashtags": [
+      "نفيديا",
+      "الذكاء_الاصطناعي",
+      "وول_ستريت",
+      "تقنية"
+    ]
+  },
+  "caption": "نفيديا تتفق مع كبرى بنوك وول ستريت على تمويل بـ500 مليار دولار للذكاء الاصطناعي\n\nأعلنت شركة نفيديا اتفاقها مع مجموعة من كبرى مؤسسات الاستثمار وهي أبولو وبلاك روك وبلاكستون وبروكفيلد وجولدمان ساكس وكيه كيه آر، لجمع 500 مليار دولار لتمويل بنية تحتية للذكاء الاصطناعي. الأموال ستذهب لبناء مراكز بيانات جديدة تضم آلاف الرقاقات المكدّسة وتديرها وتبرّدها، إضافة إلى مصانع جديدة لتصنيع رقاقات الذكاء الاصطناعي. قال الرئيس التنفيذي للشركة جنسن هوانغ إن هذه هي المرة الأولى التي يتعامل فيها مستثمرون بهذا الحجم مع البنية الحاسوبية كفئة أصول مستقلة. تستخدم شركات مثل غوغل وميتا وأمازون ومايكروسوفت وأوبن إيه آي رقاقات نفيديا لتشغيل خدماتها ومنصاتها الذكية.\n\n#نفيديا #الذكاء_الاصطناعي #وول_ستريت #تقنية",
+  "image": "drafts/2026-08-11/b8b7373b56d1.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "نفيديا تجمع 500 مليار دولار لبنية تحتية للذكاء الاصطناعي",
+    "category": "تقنية",
+    "urgent": true,
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/13ae/live/d1192590-9504-11f1-bf69-07da70b136c8.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/13ae/live/d1192590-9504-11f1-bf69-07da70b136c8.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/13ae/live/d1192590-9504-11f1-bf69-07da70b136c8.jpg"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي"
+}
