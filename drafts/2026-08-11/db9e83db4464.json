@@ -1,7 +1,7 @@
 {
   "id": "db9e83db4464",
   "created_at": "2026-08-11T05:08:30.780464+00:00",
-  "status": "pending",
+  "status": "failed",
   "review_issue": 249,
   "score": 29.44,
   "bucket": "light",
@@ -66,5 +66,7 @@
       "https://imagenes.elpais.com/resizer/v2/F6DYYKVEDNBMBCISTFASUWTRKQ.jpg?auth=c7e93786970b79b2afb197439a53b73f4babeb5c271d74c320845bbf0bdc03c8",
       "https://imagenes.elpais.com/resizer/v2/ABCJNNLRZVHCHOQG5JTXMNOWSQ.jpg?auth=0a33c5b286858af49c870f9680a75b12e25ff6b02a57fb8e8baab238c4e4e2c0"
     ]
-  }
+  },
+  "publish_at": "2026-08-11T05:37:15.492479+00:00",
+  "error": "خطأ فيسبوك [190/459]: You cannot access the app till you log in to www.facebook.com and follow the instructions given."
 }
