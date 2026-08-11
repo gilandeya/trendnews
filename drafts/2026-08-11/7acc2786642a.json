@@ -1,7 +1,7 @@
 {
   "id": "7acc2786642a",
   "created_at": "2026-08-11T18:08:30.077492+00:00",
-  "status": "pending",
+  "status": "rejected",
   "review_issue": 262,
   "score": 21.96,
   "bucket": "useful",
@@ -58,5 +58,7 @@
       "https://media.freemalaysiatoday.com/wp-content/uploads/2026/07/94445476-venezuela-eart-quake-volunteer-afp-09072026.webp",
       "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/11/455199.jpg"
     ]
-  }
+  },
+  "reject_tag": "تافه",
+  "reject_note": ""
 }
