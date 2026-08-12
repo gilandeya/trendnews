@@ -1,0 +1,54 @@
+{
+  "id": "95d5154d3815",
+  "created_at": "2026-08-12T12:07:47.393506+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.13,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Colombia quake rescuers save woman after 36 hours trapped in rubble",
+  "link": "http://www.africanews.com/2026/08/12/colombia-quake-rescuers-save-woman-after-36-hours-trapped-in-rubble/",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Colombia quake rescuers save woman after 36 hours trapped in rubble",
+    "link": "http://www.africanews.com/2026/08/12/colombia-quake-rescuers-save-woman-after-36-hours-trapped-in-rubble/",
+    "summary": "A 32-year-old woman has been rescued alive in Pereira after spending 36 hours trapped beneath a collapsed building. Rescuers located her 10 hours before reaching her.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-12T09:34:34+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/87/12/82/640x360_cmsv2_bb1c5a0b-909b-52e2-92d9-74a746fb52d9-9871282.jpg?1786522447",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/12/12-08-sv-colombia-earthquake-rescue-co?traffic_source=rss"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/12/colombia-quake-rescuers-save-woman-after-36-hours-trapped-in-rubble/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/87/12/82/640x360_cmsv2_bb1c5a0b-909b-52e2-92d9-74a746fb52d9-9871282.jpg?1786522447"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1.0645059477777779,
+    "is_stale": false,
+    "score": 17.12990054005556
+  }
+}

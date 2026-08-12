@@ -1,9 +1,9 @@
 {
   "id": "e6650d365ae8",
-  "created_at": "2026-08-12T11:03:54.826466+00:00",
+  "created_at": "2026-08-12T12:07:47.392864+00:00",
   "status": "pending",
   "selection_issue": null,
-  "score": 21.52,
+  "score": 22.24,
   "trend_score": 0.0,
   "velocity": 1.0,
   "bucket": "serious",
@@ -13,9 +13,10 @@
   "publishers": [
     "Daily Maverick",
     "Deutsche Welle",
-    "South China Morning Post",
+    "Fox News",
     "TASS",
-    "The Express Tribune"
+    "The Express Tribune",
+    "The Hindu — International"
   ],
   "region": "za",
   "article": {
@@ -31,15 +32,12 @@
     "cluster_sources": [
       "Daily Maverick",
       "Deutsche Welle",
-      "South China Morning Post",
+      "Fox News",
       "TASS",
-      "The Express Tribune"
+      "The Express Tribune",
+      "The Hindu — International"
     ],
     "cluster_members": [
-      {
-        "name": "South China Morning Post",
-        "link": "https://www.scmp.com/news/asia/east-asia/article/3363710/north-korea-launches-suspected-ballistic-missile-japan-says?utm_source=rss_feed"
-      },
       {
         "name": "Daily Maverick",
         "link": "https://www.dailymaverick.co.za/article/2026-08-12-north-korea-fires-missile-ahead-of-major-us-south-korea-drills/"
@@ -53,20 +51,25 @@
         "link": "https://www.dw.com/en/north-korea-tests-missile-ahead-of-us-south-korea-drills/a-78329244?maca=en-rss-en-world-4025-rdf"
       },
       {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/north-korea-launches-another-missile-towards-sea-ahead-of-us-south-korean-military-drills/article71335042.ece"
+      },
+      {
         "name": "TASS",
-        "link": "https://tass.com/world/2171619"
+        "link": "https://tass.com/world/2171637"
       }
     ],
     "image_candidates": [
-      "https://cdn.dailymaverick.co.za/attachments/2996/14208145_389769.jpg"
+      "https://cdn.dailymaverick.co.za/attachments/2996/14208145_389769.jpg",
+      "https://th-i.thgim.com/public/incoming/n64jsq/article71335048.ece/alternates/LANDSCAPE_1200/Koreas_Tensions_18159.jpg"
     ],
     "bucket": "serious",
     "state_media": false,
     "trend_score": 0.0,
-    "group_sources": 5,
+    "group_sources": 6,
     "velocity": 1.0,
-    "age_hours": 146.30204868027778,
+    "age_hours": 147.3665605411111,
     "is_stale": false,
-    "score": 21.524061411162087
+    "score": 22.242195458219022
   }
 }

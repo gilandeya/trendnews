@@ -1,0 +1,61 @@
+{
+  "id": "e18b465de4b3",
+  "created_at": "2026-08-12T12:07:47.392590+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.29,
+  "trend_score": 1.0,
+  "velocity": 0.02,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "L’OMS « s’inquiète » de la nouvelle offensive de Donald Trump contre la vaccination aux Etats-Unis",
+  "link": "https://www.lemonde.fr/international/article/2026/08/12/l-oms-s-inquiete-de-la-nouvelle-offensive-de-donald-trump-contre-la-vaccination-aux-etats-unis_6745054_3210.html",
+  "publishers": [
+    "Le Monde",
+    "Malay Mail",
+    "Punch Nigeria"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "L’OMS « s’inquiète » de la nouvelle offensive de Donald Trump contre la vaccination aux Etats-Unis",
+    "link": "https://www.lemonde.fr/international/article/2026/08/12/l-oms-s-inquiete-de-la-nouvelle-offensive-de-donald-trump-contre-la-vaccination-aux-etats-unis_6745054_3210.html",
+    "summary": "Le président américain, qui a fait sortir son pays de l’Organisation mondiale de la santé, a signé, lundi, un décret contenant de nouvelles recommandations en matière de vaccins, appelant à espacer leur administration aux enfants, et il a évoqué à plusieurs reprises l’autisme en présentant le texte.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-12T11:41:16+00:00",
+    "image_url": "https://img.lemde.fr/2026/07/14/221/0/2998/1499/644/322/60/0/21ad872_ftp-1-9huy5brjcwgo-2026-07-14t093015z-567272322-rc2s3hayqkje-rtrmadp-3-usa-health-kennedy-vaccines.JPG",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde",
+      "Malay Mail",
+      "Punch Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/08/12/l-oms-s-inquiete-de-la-nouvelle-offensive-de-donald-trump-contre-la-vaccination-aux-etats-unis_6745054_3210.html"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/who-says-trump-vaccine-shake-up-goes-against-evidence/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/12/who-says-trump-vaccine-shake-up-goes-against-evidence/231119"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/07/14/221/0/2998/1499/644/322/60/0/21ad872_ftp-1-9huy5brjcwgo-2026-07-14t093015z-567272322-rc2s3hayqkje-rtrmadp-3-usa-health-kennedy-vaccines.JPG",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/12/356773.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.022992740143008047,
+    "age_hours": 36.10998858361111,
+    "is_stale": false,
+    "score": 22.290529528878512
+  }
+}
