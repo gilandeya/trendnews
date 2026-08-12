@@ -1,127 +1,5 @@
 [
   {
-    "score": 19.23,
-    "bucket": "serious",
-    "tokens": [
-      "four",
-      "injured",
-      "killed",
-      "officials",
-      "one",
-      "say",
-      "school",
-      "shooting",
-      "thailand"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/8/7/one-killed-four-injured-in-thailand-school-shooting-officials-say?traffic_source=rss",
-    "title": "One killed, four injured in Thailand school shooting, officials say",
-    "posted_title": "طالب يقتل ثلاثة معلمين وطلابا في مدرسته قرب بانكوك ثم يودي بنفسه",
-    "region": "qa",
-    "seen_at": "2026-08-07T06:16:01.497062+00:00"
-  },
-  {
-    "score": 17.42,
-    "bucket": "serious",
-    "tokens": [
-      "among",
-      "dead",
-      "injured",
-      "school",
-      "shooting",
-      "suspect",
-      "thailand"
-    ],
-    "link": "https://www.dawn.com/news/2021216/suspect-among-7-dead-in-thailand-school-shooting-15-injured",
-    "title": "Suspect among 7 dead in Thailand school shooting; 15 injured",
-    "posted_title": "مقتل 7 وإصابة 15 في إطلاق نار داخل مدرسة تايلاندية نفذه أحد الطلاب",
-    "region": "pk",
-    "seen_at": "2026-08-07T07:01:40.653117+00:00"
-  },
-  {
-    "score": 27.91,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "defence",
-      "east",
-      "jeddah",
-      "live",
-      "middle",
-      "pact",
-      "pakistan",
-      "saudi",
-      "set",
-      "sign",
-      "turkey"
-    ],
-    "link": "https://www.france24.com/en/middle-east/20260807-middle-east-live-saudi-arabia-pakistan-turkey-to-sign-defence-pact",
-    "title": "Middle East live: Saudi Arabia, Pakistan and Turkey set to sign defence pact in Jeddah",
-    "posted_title": "السعودية وباكستان وتركيا تتجه لتوقيع اتفاق دفاعي مشترك في جدة",
-    "region": "eu",
-    "seen_at": "2026-08-07T07:08:09.972143+00:00"
-  },
-  {
-    "score": 17.34,
-    "bucket": "serious",
-    "tokens": [
-      "angriffe",
-      "erschweren",
-      "friedensbemühungen",
-      "huthi",
-      "nahost",
-      "riad",
-      "und",
-      "verunsichern"
-    ],
-    "link": "https://www.spiegel.de/politik/nahost-huthi-angriffe-erschweren-friedensbemuehungen-und-verunsichern-riad-a-1702adea-64e4-4b77-9d6a-af12b12eef9e#ref=rss",
-    "title": "Nahost: Huthi-Angriffe erschweren Friedensbemühungen und verunsichern Riad",
-    "posted_title": "هجوم حوثي يصيب 11 شخصا في نجران وسط تحذيرات سعودية من هجمات منسقة وشيكة",
-    "region": "de",
-    "seen_at": "2026-08-07T07:46:09.818502+00:00"
-  },
-  {
-    "score": 21.56,
-    "bucket": "serious",
-    "tokens": [
-      "attacker",
-      "including",
-      "killed",
-      "police",
-      "say",
-      "school",
-      "seven",
-      "shooting",
-      "suspected",
-      "thailand"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/07/thailand-school-shooting-debsirin-nonthaburi-bangkok",
-    "title": "Thailand school shooting: seven killed including suspected attacker, police say",
-    "posted_title": "طالب تايلاندي يقتل جديه ثم يفتح النار داخل مدرسته ويقتل نفسه",
-    "region": "uk",
-    "seen_at": "2026-08-07T08:01:26.326737+00:00"
-  },
-  {
-    "score": 30.25,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "deal",
-      "defence",
-      "joint",
-      "pakistan",
-      "regional",
-      "saudi",
-      "sign",
-      "turkey",
-      "turmoil"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-08-07-saudi-arabia-turkey-and-pakistan-to-sign-joint-defence-deal-amid-regional-turmoil/",
-    "title": "Saudi Arabia, Turkey and Pakistan to sign joint defence deal amid regional turmoil",
-    "posted_title": "تركيا والسعودية وباكستان توقّع اتفاقية دفاع مشتركة في جدة وسط توتر إقليمي",
-    "region": "za",
-    "seen_at": "2026-08-07T09:08:26.313270+00:00"
-  },
-  {
     "score": 17.57,
     "bucket": "serious",
     "tokens": [
@@ -2896,5 +2774,64 @@
     "posted_title": "كسوف شمسي كلي يعبر أوروبا الأربعاء.. وهذه شروط النظر الآمن إليه",
     "region": "es",
     "seen_at": "2026-08-12T06:08:11.732797+00:00"
+  },
+  {
+    "score": 33.37,
+    "bucket": "serious",
+    "tokens": [
+      "donald",
+      "faced",
+      "greater",
+      "plane",
+      "risk",
+      "swapped",
+      "trump"
+    ],
+    "link": "https://www.france24.com/en/donald-trump-says-he-faced-greater-risk-on-swapped-plane",
+    "title": "Donald Trump says he faced ‘greater risk’ on swapped plane",
+    "posted_title": "ترامب يؤكد أن طائرته \"الوهمية\" كانت الأكثر عرضة للخطر خلال عملية التبديل السري في تركيا",
+    "region": "eu",
+    "seen_at": "2026-08-12T09:08:10.765104+00:00"
+  },
+  {
+    "score": 29.27,
+    "bucket": "serious",
+    "tokens": [
+      "beijing",
+      "brings",
+      "china",
+      "dolphin",
+      "evacuations",
+      "mass",
+      "rain",
+      "torrential",
+      "typhoon"
+    ],
+    "link": "https://www.theguardian.com/world/2026/aug/12/tyhpoon-dolphin-beijing-thousands-evacuated-flooding-rainfall",
+    "title": "Mass evacuations in Beijing as Typhoon Dolphin brings more torrential rain to China",
+    "posted_title": "لماذا غرقت شوارع بكين هذا الأسبوع رغم أن التايفون ضرب مقاطعة أخرى",
+    "region": "uk",
+    "seen_at": "2026-08-12T09:08:29.049361+00:00"
+  },
+  {
+    "score": 26.29,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "again",
+      "cuts",
+      "demand",
+      "forecast",
+      "hormuz",
+      "iea",
+      "oil",
+      "remains",
+      "shut"
+    ],
+    "link": "https://www.channelnewsasia.com/world/oil-demand-forecast-2026-iea-hormuz-6314441",
+    "title": "IEA cuts 2026 oil demand forecast again as Hormuz remains shut",
+    "posted_title": "وكالة الطاقة الدولية تخفض توقعات الطلب على النفط بسبب استمرار إغلاق مضيق هرمز",
+    "region": "seasia",
+    "seen_at": "2026-08-12T09:08:44.850903+00:00"
   }
 ]
