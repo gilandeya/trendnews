@@ -104,8 +104,8 @@ jobs:
       - name: تثبيت رقم الـ Issue في المسودات
         if: steps.commit.outputs.changed == 'true'
         run: |
-          mkdir -p drafts
-          git add -A drafts
+          mkdir -p drafts state
+          git add -A drafts state
           if git diff --quiet --cached; then
             exit 0
           fi
