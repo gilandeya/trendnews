@@ -678,6 +678,59 @@ def test_dedupe_memory() -> None:
                                  "https://other.com/y", 0.62))
 
 
+def test_dedupe_threshold_separation() -> None:
+    """Issue #274: عتبة selection.title_similarity (0.62، لتجميع cluster()
+    داخل التشغيلة الواحدة) صارمة جدًا لذاكرة التكرار عبر التشغيلات، حيث
+    تتفاوت صياغة العنوان أكثر بين ناشر وآخر عبر الزمن. عيّنة حقيقية من
+    الإنتاج: ثلاث صياغات لحادثة إطلاق نار في مدرسة تايلاندية خلال أقل من
+    ساعتين — الخوارزمية لا ترى أنها الخبر نفسه فتُنتَج لها مسودات منفصلة
+    يرفضها المراجع لاحقًا يدويًا كمكررة."""
+    t1 = "One killed, four injured in Thailand school shooting, officials say"
+    t2 = "Suspect among 7 dead in Thailand school shooting; 15 injured"
+    t3 = "Thailand school shooting: seven killed including suspected attacker, police say"
+
+    sim_12 = similarity(tokens(t1), tokens(t2))
+    sim_13 = similarity(tokens(t1), tokens(t3))
+    sim_23 = similarity(tokens(t2), tokens(t3))
+    check("تشابه العنوانين 1-2 يطابق العيّنة المرصودة",
+          0.55 <= sim_12 <= 0.59, f"{sim_12:.3f}")
+    check("تشابه العنوانين 1-3 يطابق العيّنة المرصودة",
+          0.54 <= sim_13 <= 0.58, f"{sim_13:.3f}")
+    check("تشابه العنوانين 2-3 يطابق العيّنة المرصودة",
+          0.40 <= sim_23 <= 0.44, f"{sim_23:.3f}")
+
+    cfg = load_config(ROOT / "config.yaml")
+    old_threshold = float(cfg["selection"]["title_similarity"])
+    new_threshold = float(cfg["selection"]["dedupe_title_similarity"])
+    check("title_similarity (عتبة cluster) لم تتغير", old_threshold == 0.62,
+          f"{old_threshold}")
+    check("dedupe_title_similarity أخفض من title_similarity",
+          new_threshold < old_threshold, f"{new_threshold} < {old_threshold}")
+
+    history: list[dict] = []
+    store.remember(history, t1, "https://example.com/thailand-1")
+    check("عتبة 0.62 (القديمة) تفوّت المتابعتين كليًا",
+          not store.is_duplicate(history, t2, "https://other.com/x", old_threshold)
+          and not store.is_duplicate(history, t3, "https://other.com/y", old_threshold))
+    check("عتبة 0.5 (الجديدة) تمسك متابعتين على الأقل",
+          sum([store.is_duplicate(history, t2, "https://other.com/x", new_threshold),
+               store.is_duplicate(history, t3, "https://other.com/y", new_threshold)]) >= 2)
+
+    # cluster() يستعمل selection.title_similarity من القاموس الممرَّر إليه
+    # مباشرة — لا القيمة الجديدة — فسلوكه عبر هذا الاختبار غير متأثر بها
+    arts = [
+        Article(title=t1, link="https://example.com/thailand-1",
+               summary="", source_name="P1", region="asia", weight=1.0,
+               published=datetime.now(timezone.utc), bucket="serious"),
+        Article(title=t2, link="https://example.com/thailand-2",
+               summary="", source_name="P2", region="asia", weight=1.0,
+               published=datetime.now(timezone.utc), bucket="serious"),
+    ]
+    grouped = cluster(arts, old_threshold)
+    check("cluster() يبقى بعتبة 0.62 (لا يدمج عنوانين بتشابه 0.571)",
+          len(grouped) == 2, f"{len(grouped)} مجموعة")
+
+
 def test_collect_end_to_end() -> None:
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     shutil.rmtree(STATE_DIR, ignore_errors=True)
@@ -1992,6 +2045,7 @@ def main() -> int:
     test_followups()
     print("\n── ذاكرة منع التكرار ──")
     test_dedupe_memory()
+    test_dedupe_threshold_separation()
     print("\n── ترشيح الصور ──")
     test_image_filtering()
     print("\n── فكّ روابط Google News الوسيطة ──")
