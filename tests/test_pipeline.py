@@ -460,7 +460,9 @@ def test_editorial_guardrails() -> None:
     """البرومبت يسمح بالخفيف ويمنع التشهير."""
     from src.writer import CATEGORIES, SYSTEM_PROMPT
 
-    for cat in ("مشاهير", "غرائب", "فيروسي", "ترفيه", "رياضة"):
+    # مشاهير وترفيه أُلغيا عمدًا من CATEGORIES (التزام 8657d52) — البرومبت
+    # يمنع أخبار المشاهير صراحة الآن، فلا معنى لاختبار توفر التصنيفين.
+    for cat in ("غرائب", "فيروسي", "رياضة"):
         check(f"تصنيف «{cat}» متاح", cat in CATEGORIES)
 
     check("لا يرفض الخبر لكونه خفيفًا",
@@ -627,8 +629,10 @@ def test_useful_bucket() -> None:
     regions = Counter(x["region"] for x in cfg_raw["sources"])
 
     check("تصنيف useful موجود في المصادر", buckets["useful"] >= 15, str(buckets))
+    # الدفعة الافتراضية صغّرت من 10 إلى 4 (التزام 2f8807b) والحصص معها
+    # بنفس النسبة تقريبًا — العتبة هنا مطلقة على حجم الدفعة الحالي.
     check("حصة useful محمية في الدفعة",
-          cfg_raw["selection"]["quotas"].get("useful", 0) >= 2,
+          cfg_raw["selection"]["quotas"].get("useful", 0) >= 1,
           str(cfg_raw["selection"]["quotas"]))
 
     for region, label in [("health", "صحة"), ("tech", "تقنية"),
