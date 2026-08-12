@@ -1,0 +1,77 @@
+{
+  "id": "c36b35b7de41",
+  "created_at": "2026-08-12T22:07:47.757402+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.22,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Highlights: PSG beat Aston Villa in Super Cup",
+  "link": "https://www.bbc.co.uk/sport/football/videos/cre4pxn402ro?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Channel News Asia",
+    "Punch Nigeria",
+    "The Guardian — Sport",
+    "Vanguard Nigeria"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Highlights: PSG beat Aston Villa in Super Cup",
+    "link": "https://www.bbc.co.uk/sport/football/videos/cre4pxn402ro?at_medium=RSS&at_campaign=rss",
+    "summary": "Paris Saint-Germain beat Aston Villa in the Uefa Super Cup with goals from Khvicha Kvaratskhelia and Desire Doue.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-12T21:39:01+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4c4d/live/29f7c300-9696-11f1-870d-5d08c49babb2.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Channel News Asia",
+      "Punch Nigeria",
+      "The Guardian — Sport",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/cre4pxn402ro?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/aug/12/uefa-super-cup-aston-villa-psg-match-report"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/psg-retain-uefa-super-cup-2-1-win-over-aston-villa-6315931"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/psg-beat-aston-villa-2-1-to-retain-uefa-super-cup/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/psg-down-aston-villa-2-1-to-retain-uefa-super-cup/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4c4d/live/29f7c300-9696-11f1-870d-5d08c49babb2.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/4c4d/live/29f7c300-9696-11f1-870d-5d08c49babb2.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4c4d/live/29f7c300-9696-11f1-870d-5d08c49babb2.jpg",
+      "https://i.guim.co.uk/img/media/778fbf592442c911605e071d76525d000c79b7d9/366_19_4050_3242/master/4050.jpg?width=700&quality=85&auto=format&fit=max&s=3f80d0108315251df5e7ef728f9a1ced",
+      "https://i.guim.co.uk/img/media/778fbf592442c911605e071d76525d000c79b7d9/366_19_4050_3242/master/4050.jpg?width=460&quality=85&auto=format&fit=max&s=f8f66939b39965dc46dea5fd84da8797",
+      "https://i.guim.co.uk/img/media/778fbf592442c911605e071d76525d000c79b7d9/366_19_4050_3242/master/4050.jpg?width=140&quality=85&auto=format&fit=max&s=969b992506d61246b2e10c2a79646ddd"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 40.61234027361111,
+    "is_stale": false,
+    "score": 29.22481955201532
+  }
+}

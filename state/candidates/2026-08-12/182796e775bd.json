@@ -1,0 +1,54 @@
+{
+  "id": "182796e775bd",
+  "created_at": "2026-08-12T22:07:47.758291+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.01,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Skies darken as solar eclipse heads south from Arctic to Spain",
+  "link": "https://phys.org/news/2026-08-skies-darken-solar-eclipse-south.html",
+  "publishers": [
+    "Hindustan Times — World",
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Skies darken as solar eclipse heads south from Arctic to Spain",
+    "link": "https://phys.org/news/2026-08-skies-darken-solar-eclipse-south.html",
+    "summary": "One of nature's greatest spectacles—a rare total solar eclipse—cast its shadow on Wednesday, briefly turning day into night in Russia's remote Arctic north and western Iceland before heading toward mainland Europe.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-08-12T18:55:47+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/a-partial-solar-eclips.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-08-skies-darken-solar-eclipse-south.html"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/skies-darken-as-solar-eclipse-heads-south-from-arctic-to-spain-101786559734139.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/a-partial-solar-eclips.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.01150351538356
+  }
+}

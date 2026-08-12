@@ -1,0 +1,54 @@
+{
+  "id": "574476ae4242",
+  "created_at": "2026-08-12T22:07:47.757937+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.48,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Le PSG conserve son titre dans la Supercoupe d’Europe en venant à bout d’Aston Villa",
+  "link": "https://www.lemonde.fr/sport/article/2026/08/12/le-psg-conserve-son-titre-dans-la-supercoupe-d-europe-en-venant-a-bout-d-aston-villa_6745103_3242.html",
+  "publishers": [
+    "Le Monde",
+    "UEFA Super Cup 2026"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Le PSG conserve son titre dans la Supercoupe d’Europe en venant à bout d’Aston Villa",
+    "link": "https://www.lemonde.fr/sport/article/2026/08/12/le-psg-conserve-son-titre-dans-la-supercoupe-d-europe-en-venant-a-bout-d-aston-villa_6745103_3242.html",
+    "summary": "Bien que bousculés par les Anglais, les hommes de Luis Enrique sont parvenus à l’emporter grâce à des buts de Khvicha Kvaratskhelia et de Désiré Doué, mercredi, à Salzbourg (Autriche).",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-12T21:24:01+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/12/1000/0/6000/3000/644/322/60/0/ca220ec_ftp-1-d4esiwseme8i-5825108-01-06.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde",
+      "UEFA Super Cup 2026"
+    ],
+    "cluster_members": [
+      {
+        "name": "UEFA Super Cup 2026",
+        "link": "https://www.aljazeera.com/sports/liveblog/2026/8/12/psg-vs-aston-villa-live-uefa-super-cup-2026?traffic_source=rss"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/sport/article/2026/08/12/le-psg-conserve-son-titre-dans-la-supercoupe-d-europe-en-venant-a-bout-d-aston-villa_6745103_3242.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/12/1000/0/6000/3000/644/322/60/0/ca220ec_ftp-1-d4esiwseme8i-5825108-01-06.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 0.11140917333333333,
+    "is_stale": false,
+    "score": 25.476207701679854
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "65601f54e3b7",
+  "created_at": "2026-08-12T22:07:47.758117+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.16,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Guimaraes makes Arsenal debut in draw with Como",
+  "link": "https://www.bbc.co.uk/sport/football/articles/ce8kp6k3p1no?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Guimaraes makes Arsenal debut in draw with Como",
+    "link": "https://www.bbc.co.uk/sport/football/articles/ce8kp6k3p1no?at_medium=RSS&at_campaign=rss",
+    "summary": "Bruno Guimaraes put in an assured performance as he made his Arsenal debut in a 1-1 friendly draw with Como at Emirates stadium.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-12T21:24:42+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b072/live/117fa850-968d-11f1-9854-73d5e7b83e3b.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/ce8kp6k3p1no?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/arsenal-vs-como/live/562442"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b072/live/117fa850-968d-11f1-9854-73d5e7b83e3b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/b072/live/117fa850-968d-11f1-9854-73d5e7b83e3b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b072/live/117fa850-968d-11f1-9854-73d5e7b83e3b.jpg",
+      "https://e2.365dm.com/26/08/1096x616/skysports-bruno-guimaraes-arsenal_7320083.jpg?20260812211435",
+      "https://e2.365dm.com/26/08/1920x1080/skysports-bruno-guimaraes-arsenal_7320083.jpg?20260812211435"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 0.6146788208333333,
+    "is_stale": false,
+    "score": 24.157041779959766
+  }
+}
