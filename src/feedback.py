@@ -88,6 +88,23 @@ def save(entries: list[dict], keep_days: int = 60) -> None:
         json.dumps(fresh, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
+def record_candidate(entries: list[dict], cand: dict, tag: str, note: str) -> None:
+    """كـ record() لكن مصدرها مرشح preselect (`article`/`title` مباشرة لا
+    `arabic`/`source`) لا مسودة صيغت."""
+    pseudo_draft = {
+        "id": cand.get("id", ""),
+        "arabic": {"post_title": cand.get("title", "")},
+        "source": {
+            "title": cand.get("title", ""),
+            "link": cand.get("link", ""),
+            "publishers": cand.get("publishers", []),
+            "region": cand.get("region", ""),
+        },
+        "bucket": cand.get("bucket", ""),
+    }
+    record(entries, pseudo_draft, tag, note)
+
+
 def record(entries: list[dict], draft: dict, tag: str, note: str) -> None:
     entries.append({
         "id": draft.get("id", ""),

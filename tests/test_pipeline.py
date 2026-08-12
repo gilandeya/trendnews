@@ -1036,6 +1036,132 @@ def test_preselect_empty_selection_no_spend() -> None:
     check("حالة المرشح unselected", updated_c and updated_c[1]["status"] == "unselected")
 
 
+def test_preselect_drops_stale_candidates() -> None:
+    """مرشح معلَّق من تشغيلة preselect سابقة بلا selection_issue (خلل دفع
+    state، أو تشغيلة توقفت قبل open_review) لا يجوز أن يتراكم مع الدفعة
+    التالية — كان هذا سبب Issue #296 (5 مرشح ثم 10 ثم 22). يجب أن يُسقط
+    ويُسجَّل في feedback قبل بناء أي دفعة جديدة."""
+    from src import feedback
+    from src import preselect as preselect_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    shutil.rmtree(STATE_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    now = datetime.now(timezone.utc)
+    stale_art = Article(title="مرشح معلَّق من تشغيلة preselect سابقة",
+                        link="https://pre.example/stale", summary="",
+                        source_name="PS", region="rs", weight=1.0,
+                        published=now, bucket="serious", publisher="PS")
+    stale_cand = preselect_mod.build_candidate(stale_art)
+    store.save_candidate(stale_cand)   # selection_issue: None — كأنه من تشغيلة سابقة لم تُربط
+
+    check("المرشح القديم معلَّق فعلًا قبل التشغيلة",
+          len(store.pending_candidates()) == 1)
+
+    rejections_before = len(feedback.load())
+
+    cfg = load_config()
+    cfg["preselect"] = {"enabled": True, "candidates_per_run": 5}
+    real_load_config = collect.load_config
+    collect.load_config = lambda path=None: cfg
+
+    sys.argv = ["collect", "--limit", "5"]
+    try:
+        code = collect.main()
+    finally:
+        collect.load_config = real_load_config
+
+    check("preselect ينتهي بنجاح رغم وجود مرشح قديم معلَّق", code == 0, f"exit={code}")
+
+    updated_stale = store.load_candidate(stale_cand["id"])
+    check("المرشح القديم أُسقط (لم يعد pending)",
+          updated_stale is not None and updated_stale[1]["status"] != "pending",
+          str(updated_stale[1]["status"] if updated_stale else None))
+
+    rejections_after = feedback.load()
+    check("المرشح القديم سُجّل في feedback كـ«لم يُختر»",
+          any(e["id"] == stale_cand["id"] and e["tag"] == "لم يُختر"
+              for e in rejections_after),
+          str(rejections_after[-3:]))
+    check("سجل رفض واحد فقط أُضيف للمرشح القديم",
+          len(rejections_after) >= rejections_before + 1)
+
+    fresh = store.pending_candidates()
+    check("القديم لم يعد ضمن المرشحين المعلَّقين", stale_cand["id"] not in
+          {c["id"] for _, c in fresh})
+    check("عدد الدفعة الجديدة لا يتجاوز candidates_per_run رغم وجود مرشح قديم مسبقًا",
+          len(fresh) <= 5, str(len(fresh)))
+
+
+def test_finalize_format_mismatch_no_silent_fail() -> None:
+    """جسم Issue بلا أي معرّف <!-- cand:ID --> إطلاقًا (صيغة "مسودات" لا
+    "مرشحين" — أحد أعراض Issue #296: وسم pending-selection على Issue من
+    نوع آخر) يجب ألا يُعامَل كأن المراجع لم يعلّم شيئًا. يجب تعليق سبب
+    واضح وعدم إزالة approved — إزالته كانت ستُخفي العطل صامتًا."""
+    from src import collect_finalize, review
+
+    comment_calls, remove_label_calls = [], []
+    real_comment = review.comment
+    real_remove_label = review.remove_label
+    review.comment = lambda issue_number, text: comment_calls.append((issue_number, text))
+    review.remove_label = lambda issue_number, label: remove_label_calls.append(
+        (issue_number, label))
+
+    body = "- [x] **1. عنوان مسودة عادية جاهزة للنشر**  <!-- draft:abc123 -->"
+
+    try:
+        code = collect_finalize.finalize(6161, body, load_config())
+    finally:
+        review.comment = real_comment
+        review.remove_label = real_remove_label
+
+    check("finalize يعيد رمز فشل عند عدم تطابق الصيغة", code != 0, f"exit={code}")
+    check("تعليق بسبب واضح يذكر «صيغة»",
+          bool(comment_calls) and comment_calls[0][0] == 6161
+          and "صيغة" in comment_calls[0][1], str(comment_calls))
+    check("approved لا يُزال عند عدم تطابق الصيغة (لا يُخفى العطل)",
+          remove_label_calls == [])
+
+
+def test_publish_conflicting_labels_no_dispatch() -> None:
+    """Issue يحمل pending-selection وpending-review معًا (Issue #296) —
+    التفويض القديم كان يفوز لـ pending-selection بلا شرط، فيتجاهل
+    pending-review بصمت. الآن يُرفض الحسم التلقائي وتُعلَّق تنبيه صريح."""
+    from src import publish
+    from src import collect_finalize as cf_mod
+    from src import review
+
+    real_fetch = publish.fetch_issue
+    publish.fetch_issue = lambda n: {
+        "number": n,
+        "body": "لا يهم لهذا الاختبار",
+        "labels": [{"name": "pending-selection"}, {"name": "pending-review"},
+                   {"name": "approved"}],
+    }
+
+    comment_calls: list = []
+    real_comment = review.comment
+    review.comment = lambda issue_number, text: comment_calls.append((issue_number, text))
+
+    finalize_calls: list = []
+    real_finalize = cf_mod.finalize
+    cf_mod.finalize = lambda *a, **kw: finalize_calls.append(1) or 0
+
+    sys.argv = ["publish", "--issue", "9001"]
+    try:
+        code = publish.main()
+    finally:
+        publish.fetch_issue = real_fetch
+        review.comment = real_comment
+        cf_mod.finalize = real_finalize
+
+    check("publish يرفض التفويض عند تعارض الوسمين", code != 0, f"exit={code}")
+    check("لا استدعاء لـ collect_finalize.finalize", finalize_calls == [])
+    check("تعليق تنبيه صريح على الـ Issue بدل الصمت",
+          len(comment_calls) == 1 and comment_calls[0][0] == 9001)
+
+
 def test_arabic_shaping() -> None:
     from PIL import ImageDraw as _D
 
@@ -2307,6 +2433,9 @@ def main() -> int:
     test_preselect_no_spend_before_selection()
     test_preselect_finalize()
     test_preselect_empty_selection_no_spend()
+    test_preselect_drops_stale_candidates()
+    test_finalize_format_mismatch_no_silent_fail()
+    test_publish_conflicting_labels_no_dispatch()
     print("\n── الرابط في التعليق الأول ──")
     test_manual_image()
     test_request_search()
