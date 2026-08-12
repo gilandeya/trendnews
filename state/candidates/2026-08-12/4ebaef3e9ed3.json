@@ -1,0 +1,50 @@
+{
+  "id": "4ebaef3e9ed3",
+  "created_at": "2026-08-12T11:03:54.827432+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.64,
+  "trend_score": 1.0,
+  "velocity": 0.01,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Spain prepares for rare total solar eclipse as 2026 sky show approaches",
+  "link": "http://www.africanews.com/2026/08/11/spain-prepares-for-rare-total-solar-eclipse-as-2026-sky-show-approaches/",
+  "publishers": [
+    "Africanews",
+    "Space"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Spain prepares for rare total solar eclipse as 2026 sky show approaches",
+    "link": "http://www.africanews.com/2026/08/11/spain-prepares-for-rare-total-solar-eclipse-as-2026-sky-show-approaches/",
+    "summary": "Spain is preparing for a rare celestial spectacle as a total solar eclipse crosses the mainland on August 12, bringing brief darkness to parts of the Iberian Peninsula and offering millions across Europe a chance to witness one of astronomy’s most striking events.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-11T09:06:05+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/86/88/72/640x360_cmsv2_55becd1c-7fa9-5542-9ff9-f40094ab9c81-9868872.jpg?1786364769",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Space"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/11/spain-prepares-for-rare-total-solar-eclipse-as-2026-sky-show-approaches/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/86/88/72/640x360_cmsv2_55becd1c-7fa9-5542-9ff9-f40094ab9c81-9868872.jpg?1786364769"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.014533206155020935,
+    "age_hours": 22.935980524722222,
+    "is_stale": false,
+    "score": 18.64188759708992
+  }
+}
