@@ -455,6 +455,24 @@ def main() -> int:
     # Issues). لا حاجة لتمييز شبيه في cmd_now/cmd_burst/cmd_schedule نفسها،
     # فهي تُستدعى من collect_finalize.finalize بعد الصياغة كمسودات عادية.
     labels = {l.get("name") for l in issue.get("labels", [])}
+    # Issue #296: الاثنان معًا يعني Issue خُلط أصله (لا أحد في الكود ينشئ
+    # Issue بالوسمين معًا عمدًا) — التفويض القديم كان يفوز لـ
+    # pending-selection بلا شرط ويتجاهل الاحتمال الآخر بصمت، فيصطدم أحيانًا
+    # بجسم Issue بصيغة "مراجعة مسودات" (draft:) لا "اختيار مرشحين" (cand:)
+    # فلا يُنتج شيئًا ويُزيل approved بصمت. الآن نرفض الحسم التلقائي.
+    if "pending-selection" in labels and "pending-review" in labels:
+        log.error("Issue #%s يحمل pending-selection وpending-review معًا "
+                  "— لا تفويض تلقائي آمن", args.issue)
+        review.comment(
+            args.issue,
+            "⚠️ هذا الـ Issue يحمل الوسمين `pending-selection` و`pending-review` "
+            "معًا — تعارض لا يمكن حسمه تلقائيًا (لا يتضح أهو Issue اختيار "
+            "مرشحين أم مراجعة مسودات جاهزة). لم يُنفَّذ أي شيء. أزل أحد "
+            "الوسمين يدويًا بحسب صيغة جسم الـ Issue الفعلية "
+            "(مربعات `<!-- cand:... -->` = اختيار مرشحين، "
+            "`<!-- draft:... -->` = مراجعة مسودات) ثم أعد وسم `approved`.",
+        )
+        return 1
     if "pending-selection" in labels:
         from . import collect_finalize
         return collect_finalize.finalize(args.issue, body, cfg)

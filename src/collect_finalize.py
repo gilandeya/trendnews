@@ -87,18 +87,7 @@ def _record_rejections(unselected_ids: list[str], rejects: dict[str, str]) -> No
         path, cand = found
         tag = rejects.get(cid) or "لم يُختر"
         note = "" if cid in rejects else "لم يُختر ضمن مرشحي دفعته"
-        pseudo_draft = {
-            "id": cand.get("id", ""),
-            "arabic": {"post_title": cand.get("title", "")},
-            "source": {
-                "title": cand.get("title", ""),
-                "link": cand.get("link", ""),
-                "publishers": cand.get("publishers", []),
-                "region": cand.get("region", ""),
-            },
-            "bucket": cand.get("bucket", ""),
-        }
-        feedback.record(entries, pseudo_draft, tag, note)
+        feedback.record_candidate(entries, cand, tag, note)
         store.update_candidate(path, status="unselected")
     feedback.save(entries)
     log.info("سُجّل %d مرشحًا غير مختار في feedback", len(unselected_ids))
@@ -110,11 +99,30 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     # الاعتماد والرفض قد يُعلَّمان معًا — الرفض يغلب (كنمط publish.py نفسه)
     selected = [i for i in preselect.parse_selected(body) if i not in rejects]
 
-    log.info("Issue اختيار #%s: %d معتمد من %d مرشحًا",
-             issue_number, len(selected), len(all_ids))
+    log.info("Issue اختيار #%s: %d معرّف مرشح في الجسم، %d رفض صريح، %d معتمد",
+             issue_number, len(all_ids), len(rejects), len(selected))
+
+    # جسم بلا أي معرّف <!-- cand:ID --> مطلقًا يعني الصيغة نفسها خاطئة —
+    # على الأرجح Issue "مراجعة مسودات" (draft:) حمل وسم pending-selection
+    # خطأً (Issue #296)، لا أن المراجع ترك كل المرشحين بلا تعليم. الفرق
+    # جوهري: الحالة الأولى عطل يحتاج تدخلًا يدويًا ويجب ألا تُزيل approved
+    # بصمت (فتُخفي العطل)، والثانية اختيار بشري صريح بلا تعليم يُسجَّل
+    # ويُزال approved بأمان.
+    if not all_ids:
+        log.error("Issue #%s: لا معرّف <!-- cand:ID --> واحد في الجسم — "
+                  "صيغة الجسم لا تطابق Issue اختيار مرشحين", issue_number)
+        review.comment(
+            issue_number,
+            "⚠️ لم يُعثر على أي معرّف مرشح (`<!-- cand:ID -->`) في جسم هذا "
+            "الـ Issue — جسمه بصيغة مسودات لا مرشحين على الأرجح (وسم "
+            "`pending-selection` وُضع على Issue من نوع آخر). لم تُصَغ أي "
+            "مسودة ولم يُنفق شيء، ووسم `approved` تُرك كما هو حتى تُصحَّح "
+            "الحالة يدويًا — إزالته كانت ستُخفي العطل.",
+        )
+        return 1
 
     if not selected:
-        log.warning("لم يُختر أي مرشح — لا صياغة ولا نشر")
+        log.warning("لم يُختر أي مرشح من أصل %d — لا صياغة ولا نشر", len(all_ids))
         _record_rejections(all_ids, rejects)
         review.comment(
             issue_number,
@@ -177,6 +185,9 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     unselected = [i for i in all_ids if i not in selected]
     _record_rejections(unselected, rejects)
 
+    log.info("صيغت %d مسودة من %d معتمد (فشلت الصياغة لـ %d) — %d غير مختار سُجّل في feedback",
+             len(drafts), len(selected), len(selected) - len(drafts), len(unselected))
+
     if not drafts:
         review.comment(issue_number, "⚠️ تعذّرت صياغة كل المختارين — لم يُنشر شيء.")
         review.remove_label(issue_number, "approved")
@@ -184,7 +195,14 @@ def finalize(issue_number: int, body: str, cfg) -> int:
 
     from . import publish as publish_mod
     if not cfg.path("facebook.schedule_enabled", True):
-        return publish_mod.cmd_now(published_ids, cfg, issue_number)
-    if cfg.path("facebook.schedule_mode", "burst") == "burst":
-        return publish_mod.cmd_burst(published_ids, cfg, issue_number)
-    return publish_mod.cmd_schedule(published_ids, cfg, issue_number)
+        mode = "فوري (schedule_enabled=false)"
+        dispatch = publish_mod.cmd_now
+    elif cfg.path("facebook.schedule_mode", "burst") == "burst":
+        mode = "burst"
+        dispatch = publish_mod.cmd_burst
+    else:
+        mode = "schedule"
+        dispatch = publish_mod.cmd_schedule
+    log.info("تفويض %d مسودة إلى publish.%s (%s)",
+             len(published_ids), dispatch.__name__, mode)
+    return dispatch(published_ids, cfg, issue_number)

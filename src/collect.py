@@ -20,7 +20,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import preselect, store
+from . import feedback, preselect, store
 from .config import DRAFTS_DIR, load_config
 from .imagesearch import find_images
 from .imaging import build_post_image
@@ -61,11 +61,36 @@ def step_summary(text: str) -> None:
             fh.write(text + "\n")
 
 
+def drop_stale_candidates() -> int:
+    """يُسقط مرشحين معلَّقين من تشغيلة preselect سابقة لم يُربطوا بعد بـ
+    Issue اختيار (selection_issue فارغ) — عادة لأن open_review.py لم
+    يُشغَّل بعدها (تشغيلة توقفت مبكرًا) أو دفع state تجاه المستودع فشل.
+    بلا هذا الإسقاط تتراكم هذه الملفات مع كل دفعة preselect جديدة فيتضخم
+    عدد المرشحين المعروضين تصاعديًا (Issue #296: 5 ثم 10 ثم 22) بدل أن
+    يبقى ثابتًا عند العدد المطلوب في كل تشغيلة. تُسجَّل في feedback كـ
+    "لم يُختر" حتى يستفيد الفرز الأولي منها كما يستفيد من أي مرشح مرفوض."""
+    stale = [(p, c) for p, c in store.pending_candidates()
+             if not c.get("selection_issue")]
+    if not stale:
+        return 0
+    entries = feedback.load()
+    for path, cand in stale:
+        feedback.record_candidate(
+            entries, cand, "لم يُختر",
+            "مرشح معلَّق من تشغيلة سابقة أُسقط قبل فتح Issue اختيار له")
+        store.update_candidate(path, status="unselected")
+    feedback.save(entries)
+    log.warning("أُسقط %d مرشحًا معلَّقًا من تشغيلة سابقة قبل بناء الدفعة الجديدة",
+               len(stale))
+    return len(stale)
+
+
 def run_preselect(candidates: list, selection: dict, dedupe_days: int,
                   dupe_threshold: float, count: int) -> int:
     """يبني مرشحين خامًا للاختيار بلا صياغة ولا صورة ولا استدعاء نموذج
     إضافي — الترتيب والفرز (Haiku) سبقا هذه النقطة أصلًا. الصياغة الفعلية
     تقع لاحقًا في collect_finalize، للمختار فقط، بعد أن يعلّم المراجع."""
+    drop_stale_candidates()
     history = store.load_history()
     cooldown = int(selection.get("region_cooldown", 0))
     cooling = set(store.recent_regions(history, cooldown)) if cooldown else set()
