@@ -1,0 +1,71 @@
+{
+  "id": "6f40f3abffe2",
+  "created_at": "2026-08-12T19:06:15.776347+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.3,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Eclipse solar en España, en directo | El eclipse total finaliza en el Mediterráneo",
+  "link": "https://elpais.com/ciencia/2026-08-12/ultima-hora-del-eclipse-solar-de-agosto-en-espana-en-directo.html",
+  "publishers": [
+    "El País",
+    "Folha de S.Paulo"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Eclipse solar en España, en directo | El eclipse total finaliza en el Mediterráneo",
+    "link": "https://elpais.com/ciencia/2026-08-12/ultima-hora-del-eclipse-solar-de-agosto-en-espana-en-directo.html",
+    "summary": "España ha sido testigo de un fenómeno histórico que ha dejado a oscuras buena parte de la mitad norte de la Península",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-08-12T19:02:33+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/SOI45SF3KVC2PE3RFNPBWCE6SY.jpg?auth=f33348726a47fb79dbd804fa83899061c5857132ec4aa6c204803aab7d2eacc8",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País",
+      "Folha de S.Paulo"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/ciencia/2026-08-12/ultima-hora-del-eclipse-solar-de-agosto-en-espana-en-directo.html"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/videos/2026-08-12/el-eclipse-solar-total-captado-desde-un-avion-de-iberia-en-pleno-vuelo.html"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/espana/madrid/2026-08-12/donde-ver-el-eclipse-solar-en-madrid-la-lista-definitiva-de-64-puntos-de-observacion-en-61-municipios.html"
+      },
+      {
+        "name": "Folha de S.Paulo",
+        "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/ciencia/2026/08/veja-fotos-do-eclipse-solar-desta-quarta-feira-12.shtml"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/ciencia/2026-08-12/gafas-para-ver-el-eclipse-solar-del-12-de-agosto-todo-sobre-su-uso-correcto.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/SOI45SF3KVC2PE3RFNPBWCE6SY.jpg?auth=f33348726a47fb79dbd804fa83899061c5857132ec4aa6c204803aab7d2eacc8",
+      "https://www.youtube.com/watch?v=RHpRmrlfInA",
+      "https://imagenes.elpais.com/resizer/v2/ZXXIM26LOBHD7JJCBGQ33LXDCA.jpg?auth=2584bde63017f689340930daeda76b61656fb7eda779fdc426332f999303e7cc",
+      "https://imagenes.elpais.com/resizer/v2/MYQ2MQQY7VKBBFYAW6YN5AAHOQ.jpg?auth=e5e61784558aefd7a6ed11f0173c551908ab6269bf69dd5905832c819551966e",
+      "https://vdmedia.elpais.com/mcv/elpais/multimedia/20260807/1202660_102447_video_1800.mp4",
+      "https://imagenes.elpais.com/resizer/v2/DU7336ZYYJATLBYFJLRXSVMNGY.jpg?auth=fb41440f40ebcafe112ee1dd8d0c97cc92d6e7c3f80a7de134bb1020a256e26c"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.29602793227778
+  }
+}

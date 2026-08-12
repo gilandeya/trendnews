@@ -1,9 +1,9 @@
 {
   "id": "583a13ea5f7b",
-  "created_at": "2026-08-12T17:08:15.405970+00:00",
+  "created_at": "2026-08-12T19:06:15.777012+00:00",
   "status": "pending",
   "selection_issue": null,
-  "score": 17.26,
+  "score": 18.89,
   "trend_score": 0.0,
   "velocity": 1.0,
   "bucket": "serious",
@@ -12,7 +12,8 @@
   "link": "https://www.thehindu.com/news/international/putin-threatens-retaliation-for-western-seizures-of-russian-commercial-vessels/article71337826.ece",
   "publishers": [
     "South China Morning Post",
-    "The Hindu — International"
+    "The Hindu — International",
+    "The Moscow Times"
   ],
   "region": "in",
   "article": {
@@ -27,7 +28,8 @@
     "publisher": "The Hindu — International",
     "cluster_sources": [
       "South China Morning Post",
-      "The Hindu — International"
+      "The Hindu — International",
+      "The Moscow Times"
     ],
     "cluster_members": [
       {
@@ -45,10 +47,10 @@
     "bucket": "serious",
     "state_media": false,
     "trend_score": 0.0,
-    "group_sources": 2,
+    "group_sources": 3,
     "velocity": 1.0,
-    "age_hours": 3.6187688455555556,
+    "age_hours": 5.585517417499999,
     "is_stale": false,
-    "score": 17.261997902574073
+    "score": 18.885767282719023
   }
 }
