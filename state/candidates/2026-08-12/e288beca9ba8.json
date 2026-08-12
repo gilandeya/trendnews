@@ -1,9 +1,9 @@
 {
   "id": "e288beca9ba8",
-  "created_at": "2026-08-12T17:08:15.404749+00:00",
+  "created_at": "2026-08-12T18:07:57.244444+00:00",
   "status": "pending",
   "selection_issue": null,
-  "score": 23.2,
+  "score": 21.89,
   "trend_score": 0.0,
   "velocity": 1.0,
   "bucket": "serious",
@@ -15,9 +15,7 @@
     "CBS News — World",
     "Channel News Asia",
     "Free Malaysia Today",
-    "Investing.com — الاقتصاد",
     "Trump",
-    "Vanguard Nigeria",
     "Yonhap News"
   ],
   "region": "kr",
@@ -36,9 +34,7 @@
       "CBS News — World",
       "Channel News Asia",
       "Free Malaysia Today",
-      "Investing.com — الاقتصاد",
       "Trump",
-      "Vanguard Nigeria",
       "Yonhap News"
     ],
     "cluster_members": [
@@ -59,28 +55,26 @@
         "link": "https://punchng.com/us-will-keep-strait-of-hormuz-control-trump/?utm_source=rss.punchng.com&utm_medium=web"
       },
       {
-        "name": "Investing.com — الاقتصاد",
-        "link": "https://www.investing.com/news/economy-news/trump-says-us-has-total-control-over-strait-of-hormuz-93CH-4855471"
-      },
-      {
         "name": "Free Malaysia Today",
         "link": "https://www.freemalaysiatoday.com/category/world/2026/08/12/trump-says-us-will-keep-hormuz-strait-control"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/live-updates/iran-war-us-donald-trump-strait-hormuz-traffic-falls-houthis-kill-red-sea/"
       }
     ],
     "image_candidates": [
       "https://img.yna.co.kr/photo/ap/2026/08/12/PAP20260812154801009_P2.jpg",
       "https://dam.mediacorp.sg/image/upload/s--qH6pR7LC--/c_crop,h_1125,w_2000,x_0,y_67/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/12/donald_trump_1.jpg?itok=7WfV19bW",
-      "https://content-media.investing.com/news/moved_LYNXMPEM6712X_L.jpg",
-      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/9b27852c-donald-trump-1.jpg",
-      "https://cdn.vanguardngr.com/wp-content/uploads/2026/06/AFP__20260609__B6FD6QT__v4__MidRes__CorrectionUsPoliticsTrump-1024x683.jpg"
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/9b27852c-donald-trump-1.jpg"
     ],
     "bucket": "serious",
     "state_media": false,
     "trend_score": 0.0,
-    "group_sources": 8,
+    "group_sources": 6,
     "velocity": 1.0,
-    "age_hours": 134.00748673722222,
+    "age_hours": 135.00270486555556,
     "is_stale": false,
-    "score": 23.199701612703706
+    "score": 21.888242368478284
   }
 }

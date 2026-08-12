@@ -1,0 +1,56 @@
+{
+  "id": "70c73a35f66a",
+  "created_at": "2026-08-12T18:07:57.244950+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.41,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Twitch streamers can now opt out from training Amazon’s AI",
+  "link": "https://www.theverge.com/tech/979112/twitch-streamers-can-now-opt-out-from-training-amazons-ai",
+  "publishers": [
+    "Engadget",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Twitch streamers can now opt out from training Amazon’s AI",
+    "link": "https://www.theverge.com/tech/979112/twitch-streamers-can-now-opt-out-from-training-amazons-ai",
+    "summary": "Twitch users can now opt out of allowing their content to be used to train Amazon's generative AI models. Opting out means that \"your streams, VODs, clips, stream chats, and pictures and text on your channel\" won't be used in \"future training\" of an Amazon AI model \"whose purpose is to generate or synthesize text, […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-08-12T17:29:10+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK044_VRG_Illo_N_Barclay_1_twitch.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "Engadget",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/tech/979112/twitch-streamers-can-now-opt-out-from-training-amazons-ai"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2235647/twitch-streamers-can-now-refuse-to-let-amazon-train-its-gen-ai-models-on-their-content/"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK044_VRG_Illo_N_Barclay_1_twitch.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://www.engadget.com/img/gallery/twitch-streamers-can-now-refuse-to-let-amazon-train-its-genai-models-on-their-content/l-intro-1786556726.jpg",
+      "https://www.engadget.com/img/gallery/twitch-streamers-can-now-refuse-to-let-amazon-train-its-genai-models-on-their-content/intro-1786556726.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 0.6161693941666667,
+    "is_stale": false,
+    "score": 17.407040040462963
+  }
+}

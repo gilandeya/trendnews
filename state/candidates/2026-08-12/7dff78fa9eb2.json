@@ -1,0 +1,50 @@
+{
+  "id": "7dff78fa9eb2",
+  "created_at": "2026-08-12T18:07:57.244813+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.55,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "The Atlas Obscura Guide to the 2027 Total Solar Eclipse",
+  "link": "https://www.atlasobscura.com/articles/guide-to-2027-total-eclipse",
+  "publishers": [
+    "Atlas Obscura"
+  ],
+  "region": "odd",
+  "article": {
+    "title": "The Atlas Obscura Guide to the 2027 Total Solar Eclipse",
+    "link": "https://www.atlasobscura.com/articles/guide-to-2027-total-eclipse",
+    "summary": "On August 2, 2027, the Moon's shadow will cross southern Spain, North Africa, and the Arabian Peninsula. Near Luxor, in the Nile Valley, totality will last six minutes and twenty-three seconds. That number is the whole story. Most total eclipses give you two or three minutes. The celebrated North American eclipse of 2024 managed four and a half at its very best. Six minutes and twenty-three seconds is the longest totality available on easily accessible land until the year 2114 — eighty-seven years from now, which for most readers of this sentence means: this one, or none. It gets better. Luxor in August has a cloud cover probability somewhere between one and twenty percent, close to the highest certainty an eclipse chaser can buy anywhere on Earth. The path across central Egypt is roughly 250 kilometres wide. And the shadow falls across the greatest concentration of ancient monuments in the world, built by a civilisation that organised its entire cosmology around the sun going away and coming back. Eclipse chasers have been calling it the eclipse of the century since 2024. They are not exaggerating, and hotels along the path have been selling out for a year already. Why Luxor, spec",
+    "source_name": "Atlas Obscura",
+    "region": "odd",
+    "weight": 1.3,
+    "published": "2026-08-12T15:09:00+00:00",
+    "image_url": "https://assets.atlasobscura.com/article_images/108905/image.jpg",
+    "publisher": "Atlas Obscura",
+    "cluster_sources": [
+      "Atlas Obscura"
+    ],
+    "cluster_members": [
+      {
+        "name": "Atlas Obscura",
+        "link": "https://www.atlasobscura.com/articles/guide-to-2027-total-eclipse"
+      }
+    ],
+    "image_candidates": [
+      "https://assets.atlasobscura.com/article_images/108905/image.jpg",
+      "https://assets.atlasobscura.com/article_images/108906/image.jpg",
+      "https://assets.atlasobscura.com/article_images/108907/image.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.6137064036111113,
+    "is_stale": false,
+    "score": 17.55129931037037
+  }
+}

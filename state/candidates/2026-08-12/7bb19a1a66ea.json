@@ -1,0 +1,65 @@
+{
+  "id": "7bb19a1a66ea",
+  "created_at": "2026-08-12T18:07:57.244655+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.12,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Cadillac replace team boss Lowdon with Budkowski",
+  "link": "https://www.bbc.co.uk/sport/formula1/articles/c1412k74mzlo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Channel News Asia",
+    "Sky Sports — Football"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Cadillac replace team boss Lowdon with Budkowski",
+    "link": "https://www.bbc.co.uk/sport/formula1/articles/c1412k74mzlo?at_medium=RSS&at_campaign=rss",
+    "summary": "Formula 1 team Cadillac have a new team principal in former Alpine boss Marcin Budkowski, replacing Graeme Lowdon.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-12T16:48:17+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2cd1/live/2c970e80-9660-11f1-a654-971f565de941.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Channel News Asia",
+      "Sky Sports — Football"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/formula1/articles/c1412k74mzlo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/cadillac-sack-lowdon-and-present-budkowski-new-f1-boss-6315326"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/f1/news/12040/13572275/cadillac-appoint-marcin-budkowski-as-team-principal-following-f1-2026-newcomers-sudden-sacking-of-graeme-lowdon"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2cd1/live/2c970e80-9660-11f1-a654-971f565de941.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/2cd1/live/2c970e80-9660-11f1-a654-971f565de941.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/2cd1/live/2c970e80-9660-11f1-a654-971f565de941.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--7vRyCsxD--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-12T150254Z_1_LYNXMPEM7B14J_RTROPTP_3_MOTOR-F1-RENAULT.JPG?itok=O8M5HAdd",
+      "https://e2.365dm.com/26/08/1096x616/skysports-graeme-lowdon-cadillac_7319771.jpg?20260812151633",
+      "https://e2.365dm.com/26/08/1920x1080/skysports-graeme-lowdon-cadillac_7319771.jpg?20260812151633"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1.1114973652777778,
+    "is_stale": false,
+    "score": 19.116501622348654
+  }
+}
