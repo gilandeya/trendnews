@@ -1,4 +1,7 @@
-"""فتح Issue للمراجعة يعرض المسودات التي لم تُراجَع بعد.
+"""فتح Issue للمراجعة يعرض المسودات التي لم تُراجَع بعد، أو Issue الاختيار
+قبل الصياغة إن كانت preselect مفعّلة (Issue #280) — واحد فقط لكل تشغيلة:
+كل تشغيلة تنتج إما مسودات جاهزة (الدورة القديمة) أو مرشحين خامًا (preselect)،
+لا كليهما معًا، فلا داعي لفتح أكثر من Issue واحد هنا.
 
 يُشغّل بعد رفع الصور إلى المستودع، حتى تظهر معاينات الصور في الـ Issue.
 
@@ -10,7 +13,7 @@ import logging
 import os
 from datetime import datetime, timezone
 
-from . import review, store
+from . import preselect, review, store
 
 log = logging.getLogger("open_review")
 
@@ -20,12 +23,16 @@ def main() -> int:
                         format="%(asctime)s │ %(levelname)-7s │ %(message)s",
                         datefmt="%H:%M:%S")
 
-    fresh = [
+    fresh_drafts = [
         (path, d) for path, d in store.pending_drafts()
         if not d.get("review_issue")
     ]
-    if not fresh:
-        log.info("لا مسودات جديدة تحتاج مراجعة")
+    fresh_candidates = [
+        (path, c) for path, c in store.pending_candidates()
+        if not c.get("selection_issue")
+    ]
+    if not fresh_drafts and not fresh_candidates:
+        log.info("لا مسودات ولا مرشحين جدد يحتاجون فتح Issue")
         return 0
 
     repo = os.environ.get("GITHUB_REPOSITORY")
@@ -34,18 +41,28 @@ def main() -> int:
         return 1
 
     branch = os.environ.get("GITHUB_REF_NAME", "main")
-    drafts = [d for _, d in fresh]
-
     review.ensure_labels()
-    issue = review.create_issue(
-        title=(f"📰 مسودات {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
-               f"— {len(drafts)} منشور"),
-        body=review.build_issue_body(drafts, repo, branch),
-        labels=["pending-review"],
-    )
 
-    for path, _ in fresh:
-        store.update_draft(path, review_issue=issue["number"])
+    if fresh_drafts:
+        drafts = [d for _, d in fresh_drafts]
+        issue = review.create_issue(
+            title=(f"📰 مسودات {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
+                   f"— {len(drafts)} منشور"),
+            body=review.build_issue_body(drafts, repo, branch),
+            labels=["pending-review"],
+        )
+        for path, _ in fresh_drafts:
+            store.update_draft(path, review_issue=issue["number"])
+    else:
+        cands = [c for _, c in fresh_candidates]
+        issue = review.create_issue(
+            title=(f"🗳️ اختيار {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
+                   f"— {len(cands)} مرشح"),
+            body=preselect.build_selection_issue_body(cands),
+            labels=["pending-selection"],
+        )
+        for path, _ in fresh_candidates:
+            store.update_candidate(path, selection_issue=issue["number"])
 
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary:

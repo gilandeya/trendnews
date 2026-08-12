@@ -833,6 +833,209 @@ def test_review_roundtrip() -> None:
     check("اعتماد متعدد يعمل", len(review.parse_approved(marked_all)) == min(2, len(drafts)))
 
 
+# ═══════════ نقطة التوقف قبل الصياغة (preselect — Issue #280) ═══════════
+
+
+def test_preselect_no_spend_before_selection() -> None:
+    """بناء Issue الاختيار لا يستدعي صياغة Sonnet ولا يبني صورة — فقط
+    الترتيب والفرز الرخيصان (Haiku) سبقا هذه النقطة، تمامًا كالدورة
+    القديمة قبلها. هذا هو التوفير الذي طلبه Issue #280: الإنفاق يقع بعد
+    الاختيار البشري لا قبله."""
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    shutil.rmtree(STATE_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    write_calls: list = []
+    real_write = writer.write_arabic
+
+    def _spy_write(*a, **kw):
+        write_calls.append(1)
+        return real_write(*a, **kw)
+
+    writer.write_arabic = _spy_write
+    collect.write_arabic = _spy_write
+
+    image_calls: list = []
+    real_build_image = collect.build_post_image
+
+    def _spy_image(*a, **kw):
+        image_calls.append(1)
+        return real_build_image(*a, **kw)
+
+    collect.build_post_image = _spy_image
+
+    cfg = load_config()
+    cfg["preselect"] = {"enabled": True, "candidates_per_run": 5}
+    real_load_config = collect.load_config
+    collect.load_config = lambda path=None: cfg
+
+    sys.argv = ["collect", "--limit", "5"]
+    try:
+        code = collect.main()
+    finally:
+        collect.load_config = real_load_config
+        writer.write_arabic = real_write
+        collect.write_arabic = real_write
+        collect.build_post_image = real_build_image
+
+    check("preselect انتهى بنجاح", code == 0, f"exit={code}")
+    check("لا استدعاء لصياغة Sonnet أثناء بناء الاختيار", write_calls == [])
+    check("لا بناء صورة أثناء بناء الاختيار", image_calls == [])
+
+    pending = store.pending_candidates()
+    check("مرشحون خام محفوظون بانتظار الاختيار", len(pending) > 0, str(len(pending)))
+    if pending:
+        _, cand = pending[0]
+        for field in ("id", "title", "link", "publishers", "bucket", "score", "article"):
+            check(f"حقل '{field}' موجود في المرشح", field in cand)
+        check("لا حقل صياغة عربية في المرشح الخام", "arabic" not in cand)
+
+    check("لا مسودات جاهزة أُنشئت في مرحلة preselect (بلا صياغة ولا صورة)",
+          len(store.pending_drafts()) == 0, f"{len(store.pending_drafts())}")
+
+
+def test_preselect_finalize() -> None:
+    """الاعتماد على Issue الاختيار يصوغ المختار وحده وينشره مباشرة، وغير
+    المختار يُسجَّل في feedback ليتعلّم الفرز الأولي منه لاحقًا."""
+    from src import collect_finalize, feedback, preselect
+    from src import publish as publish_mod
+
+    now = datetime.now(timezone.utc)
+    art_a = Article(title="خبر أول يستحق الاختيار الآن", link="https://pre.example/a",
+                    summary="", source_name="P1", region="r1", weight=1.0,
+                    published=now, bucket="serious", publisher="P1")
+    art_b = Article(title="خبر ثانٍ لن يختاره أحد", link="https://pre.example/b",
+                    summary="", source_name="P2", region="r2", weight=1.0,
+                    published=now, bucket="light", publisher="P2")
+
+    cand_a = preselect.build_candidate(art_a)
+    cand_b = preselect.build_candidate(art_b)
+    store.save_candidate(cand_a)
+    store.save_candidate(cand_b)
+
+    body = preselect.build_selection_issue_body([cand_a, cand_b])
+    marked = body.replace("- [ ] **1.", "- [x] **1.", 1)   # المرشح الأول فقط
+
+    approved_selected = preselect.parse_selected(marked)
+    check("تحليل الاختيار يلتقط المُعلَّم فقط", approved_selected == [cand_a["id"]],
+          str(approved_selected))
+
+    captured: dict = {}
+
+    def fake_burst(ids, cfg, issue_number, only_urgent=False, skip_urgent=False):
+        captured["ids"] = list(ids)
+        captured["issue_number"] = issue_number
+        return 0
+
+    real_burst = publish_mod.cmd_burst
+    publish_mod.cmd_burst = fake_burst
+
+    rejections_before = len(feedback.load())
+
+    try:
+        code = collect_finalize.finalize(4242, marked, load_config())
+    finally:
+        publish_mod.cmd_burst = real_burst
+
+    check("finalize انتهى بنجاح", code == 0, f"exit={code}")
+    check("نُشر المختار وحده عبر cmd_burst",
+          captured.get("ids") == [cand_a["id"]], str(captured))
+    check("رقم الـ Issue مرَّر لـ cmd_burst", captured.get("issue_number") == 4242)
+
+    check("صيغت مسودة للمختار", store.load_draft(cand_a["id"]) is not None)
+    check("لم تُصَغ مسودة لغير المختار", store.load_draft(cand_b["id"]) is None)
+
+    rejections_after = feedback.load()
+    check("عدد سجلات الرفض ازداد بواحد فقط (غير المختار وحده)",
+          len(rejections_after) == rejections_before + 1,
+          f"{len(rejections_after)} مقابل {rejections_before}")
+    check("غير المختار سُجّل في feedback بسبب عام «لم يُختر»",
+          any(e["id"] == cand_b["id"] and e["tag"] == "لم يُختر"
+              for e in rejections_after),
+          str(rejections_after[-3:]))
+
+    updated_a = store.load_candidate(cand_a["id"])
+    check("حالة المختار selected", updated_a and updated_a[1]["status"] == "selected")
+    updated_b = store.load_candidate(cand_b["id"])
+    check("حالة غير المختار unselected",
+          updated_b and updated_b[1]["status"] == "unselected")
+
+
+def test_preselect_empty_selection_no_spend() -> None:
+    """لا تعليم على أي مرشح = لا صياغة ولا نشر ولا إنفاق (Issue #280،
+    البند 4). حتى وسم `approved` بالخطأ على Issue بلا أي تعليم يجب ألا
+    يستدعي الصياغة أو النشر — فقط يعلّم البوت من الرفض الضمني."""
+    from src import collect_finalize, feedback, preselect, review
+    from src import publish as publish_mod
+
+    # لا شبكة في الاختبارات (راجع تذييل الملف): finalize بلا اختيار يعلّق
+    # على الـ Issue ويزيل الوسم — نُحاكي هذين بلا اتصال حقيقي بواجهة GitHub.
+    comment_calls, remove_label_calls = [], []
+    real_comment = review.comment
+    real_remove_label = review.remove_label
+    review.comment = lambda issue_number, text: comment_calls.append((issue_number, text))
+    review.remove_label = lambda issue_number, label: remove_label_calls.append(
+        (issue_number, label))
+
+    now = datetime.now(timezone.utc)
+    art_c = Article(title="خبر ثالث بلا أي تعليم على الإطلاق",
+                    link="https://pre.example/c", summary="", source_name="P3",
+                    region="r3", weight=1.0, published=now, bucket="useful",
+                    publisher="P3")
+    cand_c = preselect.build_candidate(art_c)
+    store.save_candidate(cand_c)
+
+    body = preselect.build_selection_issue_body([cand_c])   # بلا أي تعليم
+
+    write_calls: list = []
+    real_write = collect_finalize.write_arabic
+
+    def _spy_write(*a, **kw):
+        write_calls.append(1)
+        return real_write(*a, **kw)
+
+    collect_finalize.write_arabic = _spy_write
+
+    burst_calls, now_calls, schedule_calls = [], [], []
+    real_burst = publish_mod.cmd_burst
+    real_now = publish_mod.cmd_now
+    real_schedule = publish_mod.cmd_schedule
+    publish_mod.cmd_burst = lambda *a, **kw: burst_calls.append(1)
+    publish_mod.cmd_now = lambda *a, **kw: now_calls.append(1)
+    publish_mod.cmd_schedule = lambda *a, **kw: schedule_calls.append(1)
+
+    rejections_before = len(feedback.load())
+
+    try:
+        code = collect_finalize.finalize(5252, body, load_config())
+    finally:
+        collect_finalize.write_arabic = real_write
+        publish_mod.cmd_burst = real_burst
+        publish_mod.cmd_now = real_now
+        publish_mod.cmd_schedule = real_schedule
+        review.comment = real_comment
+        review.remove_label = real_remove_label
+
+    check("finalize بلا تعليم ينتهي بنجاح", code == 0, f"exit={code}")
+    check("لا استدعاء صياغة إطلاقًا", write_calls == [])
+    check("لا استدعاء نشر من أي نوع",
+          not burst_calls and not now_calls and not schedule_calls)
+    check("لا مسودة أُنشئت", store.load_draft(cand_c["id"]) is None)
+    check("تعليق توضيحي على الـ Issue بلا نشر فعلي (بلا شبكة)",
+          len(comment_calls) == 1 and comment_calls[0][0] == 5252)
+    check("وسم approved يُزال حتى يصحّح المراجع اختياره",
+          remove_label_calls == [(5252, "approved")])
+
+    rejections_after = feedback.load()
+    check("المرشح غير المُعلَّم سُجّل كـ«لم يُختر»",
+          any(e["id"] == cand_c["id"] and e["tag"] == "لم يُختر"
+              for e in rejections_after))
+    check("سجل رفض واحد فقط أُضيف", len(rejections_after) == rejections_before + 1)
+
+    updated_c = store.load_candidate(cand_c["id"])
+    check("حالة المرشح unselected", updated_c and updated_c[1]["status"] == "unselected")
+
+
 def test_arabic_shaping() -> None:
     from PIL import ImageDraw as _D
 
@@ -2100,6 +2303,10 @@ def main() -> int:
     test_collect_end_to_end()
     print("\n── دورة المراجعة ──")
     test_review_roundtrip()
+    print("\n── نقطة التوقف قبل الصياغة (preselect) ──")
+    test_preselect_no_spend_before_selection()
+    test_preselect_finalize()
+    test_preselect_empty_selection_no_spend()
     print("\n── الرابط في التعليق الأول ──")
     test_manual_image()
     test_request_search()
