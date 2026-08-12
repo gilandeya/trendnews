@@ -1,0 +1,60 @@
+{
+  "id": "8bd6d7a2299b",
+  "created_at": "2026-08-12T12:16:17.086632+00:00",
+  "status": "pending",
+  "review_issue": 287,
+  "from_radar": true,
+  "score": 17.43,
+  "bucket": "useful",
+  "velocity": 1.0,
+  "trend_score": 0.0,
+  "age_hours": 0.2,
+  "state_media": false,
+  "has_photo": true,
+  "analysed_sources": [],
+  "source": {
+    "title": "U.S. vaccine policy shift may undermine childhood immunization and outbreak prevention",
+    "link": "https://medicalxpress.com/news/2026-08-vaccine-policy-shift-undermine-childhood.html",
+    "publisher": "Medical Xpress",
+    "publishers": [
+      "Le Monde",
+      "Medical Xpress"
+    ],
+    "region": "health",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/mmr-vaccine.jpg",
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/mmr-vaccine.jpg",
+      "https://img.lemde.fr/2026/07/14/221/0/2998/1499/644/322/60/0/21ad872_ftp-1-9huy5brjcwgo-2026-07-14t093015z-567272322-rc2s3hayqkje-rtrmadp-3-usa-health-kennedy-vaccines.JPG",
+      "https://scx1.b-cdn.net/csz/news/tmb/2020/4-vaccine.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": true,
+    "category": "صحة",
+    "image_headline": "أمر تنفيذي أمريكي يعيد تشكيل سياسة تطعيم الأطفال",
+    "post_title": "توقيع أمر تنفيذي أمريكي يمنح الأهل خيارات أوسع في تطعيم أطفالهم",
+    "post_body": "وقّع الرئيس الأمريكي دونالد ترامب أمرًا تنفيذيًا يعيد صياغة سياسة تطعيم الأطفال في الولايات المتحدة بما يدعم ما وصفه الأمر بـ\"أقصى درجات حرية اختيار الأهل\" بشأن اللقاحات. يأتي القرار ليمنح الأسر هامشًا أكبر في تحديد الجدول التطعيمي لأطفالها، وسط تحذيرات من مختصين في الصحة العامة من أن التوسع في الإعفاءات قد يضعف برامج التحصين الوطنية ويرفع احتمالات تفشي أمراض كانت تحت السيطرة منذ عقود مثل الحصبة والسعال الديكي. استشر طبيبًا مختصًا قبل اتخاذ أي قرار يخص تطعيم طفلك.",
+    "hashtags": [
+      "لقاحات_الأطفال",
+      "الصحة_العامة",
+      "ترامب",
+      "الولايات_المتحدة"
+    ]
+  },
+  "caption": "توقيع أمر تنفيذي أمريكي يمنح الأهل خيارات أوسع في تطعيم أطفالهم\n\nوقّع الرئيس الأمريكي دونالد ترامب أمرًا تنفيذيًا يعيد صياغة سياسة تطعيم الأطفال في الولايات المتحدة بما يدعم ما وصفه الأمر بـ\"أقصى درجات حرية اختيار الأهل\" بشأن اللقاحات. يأتي القرار ليمنح الأسر هامشًا أكبر في تحديد الجدول التطعيمي لأطفالها، وسط تحذيرات من مختصين في الصحة العامة من أن التوسع في الإعفاءات قد يضعف برامج التحصين الوطنية ويرفع احتمالات تفشي أمراض كانت تحت السيطرة منذ عقود مثل الحصبة والسعال الديكي. استشر طبيبًا مختصًا قبل اتخاذ أي قرار يخص تطعيم طفلك.\n\n#لقاحات_الأطفال #الصحة_العامة #ترامب #الولايات_المتحدة",
+  "image": "drafts/2026-08-12/8bd6d7a2299b.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "أمر تنفيذي أمريكي يعيد تشكيل سياسة تطعيم الأطفال",
+    "category": "صحة",
+    "urgent": true,
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/mmr-vaccine.jpg",
+      "https://img.lemde.fr/2026/07/14/221/0/2998/1499/644/322/60/0/21ad872_ftp-1-9huy5brjcwgo-2026-07-14t093015z-567272322-rc2s3hayqkje-rtrmadp-3-usa-health-kennedy-vaccines.JPG",
+      "https://scx1.b-cdn.net/csz/news/tmb/2020/4-vaccine.jpg"
+    ]
+  },
+  "auto_publish_decision": "المؤشر 17.4 دون عتبة النشر التلقائي"
+}
