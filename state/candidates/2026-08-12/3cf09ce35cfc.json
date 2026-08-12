@@ -1,9 +1,9 @@
 {
   "id": "3cf09ce35cfc",
-  "created_at": "2026-08-12T18:07:57.244033+00:00",
-  "status": "unselected",
+  "created_at": "2026-08-12T19:07:45.022586+00:00",
+  "status": "pending",
   "selection_issue": null,
-  "score": 25.74,
+  "score": 20.92,
   "trend_score": 1.0,
   "velocity": 0.33,
   "bucket": "light",
@@ -11,11 +11,7 @@
   "title": "How to Watch the Total Solar Eclipse on a Livestream, Witnessing the Rare View of the Sun's Corona From Your Own Home",
   "link": "https://www.smithsonianmag.com/smart-news/how-to-watch-the-total-solar-eclipse-on-a-live-stream-witnessing-the-rare-view-of-the-suns-corona-from-your-own-home-180989315/",
   "publishers": [
-    "Africanews",
-    "El País",
     "France24",
-    "Live Science",
-    "Phys.org",
     "Smithsonian Magazine"
   ],
   "region": "odd",
@@ -30,11 +26,7 @@
     "image_url": "https://th-thumbnailer.cdn-si-edu.com/0G5wPfNzlXTeB2YWUBZpLzmsHrw=/420x240/filters:focal(335x187:336x188)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/72/04/72041dbe-3241-401b-b141-6331bb5ce548/nhq201708210105large.jpg",
     "publisher": "Smithsonian Magazine",
     "cluster_sources": [
-      "Africanews",
-      "El País",
       "France24",
-      "Live Science",
-      "Phys.org",
       "Smithsonian Magazine"
     ],
     "cluster_members": [
@@ -45,39 +37,19 @@
       {
         "name": "France24",
         "link": "https://www.france24.com/en/spain-prepares-for-rare-total-solar-eclipse"
-      },
-      {
-        "name": "Live Science",
-        "link": "https://www.livescience.com/space/astronomy/theyll-surf-into-the-eclipse-readers-share-their-plans-for-todays-epic-solar-eclipse-and-meteor-shower-mash-up"
-      },
-      {
-        "name": "Phys.org",
-        "link": "https://phys.org/news/2026-08-enjoy-solar-eclipse-safely.html"
-      },
-      {
-        "name": "El País",
-        "link": "https://elpais.com/espana/madrid/2026-08-12/donde-ver-el-eclipse-solar-en-madrid-la-lista-definitiva-de-64-puntos-de-observacion-en-61-municipios.html"
-      },
-      {
-        "name": "France24",
-        "link": "https://www.france24.com/en/video/20260812-solar-eclipse-a-rare-show-that-reveals-scientific-secrets"
       }
     ],
     "image_candidates": [
       "https://th-thumbnailer.cdn-si-edu.com/0G5wPfNzlXTeB2YWUBZpLzmsHrw=/420x240/filters:focal(335x187:336x188)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/72/04/72041dbe-3241-401b-b141-6331bb5ce548/nhq201708210105large.jpg",
-      "https://s.france24.com/media/display/90a411c0-9651-11f1-84dd-005056bfb2b6/w:1024/p:16x9/EN-20260812-141140-141304-CS.jpg",
-      "https://cdn.mos.cms.futurecdn.net/E9uYxMste2hVMwcKRTd5k3-1280-80.png",
-      "https://scx1.b-cdn.net/csz/news/tmb/2026/how-to-enjoy-the-solar.jpg",
-      "https://imagenes.elpais.com/resizer/v2/MYQ2MQQY7VKBBFYAW6YN5AAHOQ.jpg?auth=e5e61784558aefd7a6ed11f0173c551908ab6269bf69dd5905832c819551966e",
-      "https://s.france24.com/media/display/cf551dd0-963b-11f1-8043-005056a90284/w:1024/p:16x9/EN-20260812-121402-121514-CS.jpg"
+      "https://s.france24.com/media/display/90a411c0-9651-11f1-84dd-005056bfb2b6/w:1024/p:16x9/EN-20260812-141140-141304-CS.jpg"
     ],
     "bucket": "light",
     "state_media": false,
     "trend_score": 1.0,
-    "group_sources": 6,
-    "velocity": 0.33494145414995885,
-    "age_hours": 38.99778266805556,
+    "group_sources": 2,
+    "velocity": 0.33449630684091036,
+    "age_hours": 39.99434365416667,
     "is_stale": false,
-    "score": 25.743653343061414
+    "score": 20.92010324798233
   }
 }

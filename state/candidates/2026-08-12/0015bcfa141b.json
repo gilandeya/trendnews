@@ -1,0 +1,48 @@
+{
+  "id": "0015bcfa141b",
+  "created_at": "2026-08-12T19:07:45.023683+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.26,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "En Europe, les stocks de gaz pour l’hiver, au plus bas, ravivent les craintes sur les prix fin 2026 et début 2027",
+  "link": "https://www.lemonde.fr/economie/article/2026/08/12/en-europe-les-stocks-de-gaz-pour-l-hiver-au-plus-bas-ravivent-les-craintes-sur-les-prix-fin-2026-et-debut-2027_6745085_3234.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "En Europe, les stocks de gaz pour l’hiver, au plus bas, ravivent les craintes sur les prix fin 2026 et début 2027",
+    "link": "https://www.lemonde.fr/economie/article/2026/08/12/en-europe-les-stocks-de-gaz-pour-l-hiver-au-plus-bas-ravivent-les-craintes-sur-les-prix-fin-2026-et-debut-2027_6745085_3234.html",
+    "summary": "Le taux de remplissage actuel des réserves européennes est inférieur à 60 %, contre près de 75 % ces deux dernières années, notamment en raison de prix estivaux élevés liés au blocage du détroit d’Ormuz.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-12T16:15:06+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/05/464/0/5568/2784/644/322/60/0/aa067d5_ftp-1-5u3ysd43z4xe-2026-08-05t170253z-399625914-rc2s3t9a2rk4-rtrmadp-3-europe-gas-storage.JPG",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/economie/article/2026/08/12/en-europe-les-stocks-de-gaz-pour-l-hiver-au-plus-bas-ravivent-les-craintes-sur-les-prix-fin-2026-et-debut-2027_6745085_3234.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/05/464/0/5568/2784/644/322/60/0/aa067d5_ftp-1-5u3ysd43z4xe-2026-08-05t170253z-399625914-rc2s3t9a2rk4-rtrmadp-3-europe-gas-storage.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.107979915,
+    "is_stale": false,
+    "score": 17.258306897314817
+  }
+}
