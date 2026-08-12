@@ -1,7 +1,7 @@
 {
   "id": "93e32d788703",
   "created_at": "2026-08-12T10:16:11.999524+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 281,
   "from_radar": true,
   "score": 21.33,
@@ -68,5 +68,13 @@
       "https://i.guim.co.uk/img/media/e9e85f1cba6c8b19d870fdfafedb56f5b306dc62/882_0_4870_3896/master/4870.jpg?width=700&quality=85&auto=format&fit=max&s=69bda4a0d2d6286c400b1d61e844e860"
     ]
   },
-  "auto_publish_decision": "المؤشر 21.3 دون عتبة النشر التلقائي"
+  "auto_publish_decision": "المؤشر 21.3 دون عتبة النشر التلقائي",
+  "publish_at": "2026-08-12T17:50:16.053346+00:00",
+  "published_at": "2026-08-12T17:50:25.148036+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1333080342242320",
+    "photo_id": "1333080305575657",
+    "url": "https://www.facebook.com/631680090321390_1333080342242320",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
