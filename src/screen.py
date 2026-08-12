@@ -66,9 +66,15 @@ def _parse(text: str) -> list[int]:
     return [int(i) for i in (data.get("keep") or [])]
 
 
-def screen(articles: list[Article], cfg, batch_size: int = 30) -> list[Article]:
+def screen(articles: list[Article], cfg, batch_size: int = 30,
+          recent_titles: list[str] | None = None) -> list[Article]:
     """
     يعيد الأخبار الجديرة بالمعالجة فقط.
+
+    ``recent_titles`` اختياري ويُمرَّر من مسار النشر التلقائي في الرادار
+    وحده (عناوين آخر أيام منشورة) — يضيف سؤال «هل هذا تحديث لخبر سابق؟»
+    لأن التكرار هناك يخرج للجمهور بلا مراجعة بشرية. الفحص العادي في
+    `collect.py` لا يمرّره فيبقى بلا تغيير، حفاظًا على تكلفته.
 
     عند أي فشل نُعيد القائمة كاملة — الفشل يجب أن يكلّف مالًا، لا أخبارًا.
     """
@@ -86,6 +92,16 @@ def screen(articles: list[Article], cfg, batch_size: int = 30) -> list[Article]:
             load_rejections(), int(scfg.get("feedback_examples", 12)))
         if guidance:
             log.info("الفرز يسترشد بأسباب رفض سابقة")
+
+    dedupe_note = ""
+    if recent_titles:
+        listing_recent = "\n".join(f"- {t}" for t in recent_titles[:60])
+        dedupe_note = (
+            "\n\nاستبعد أيضًا أي عنوان هو تحديث أو تكملة لخبر **نُشر بالفعل**"
+            " ضمن هذه القائمة (تطوّر الحدث نفسه، رقم ضحايا جديد، تفاصيل"
+            " إضافية) — التكرار هنا يخرج للجمهور بلا مراجعة بشرية:\n"
+            f"{listing_recent}"
+        )
 
     try:
         client = _client()
@@ -107,7 +123,7 @@ def screen(articles: list[Article], cfg, batch_size: int = 30) -> list[Article]:
             resp = client.messages.create(
                 model=model,
                 max_tokens=500,
-                system=SYSTEM + guidance,
+                system=SYSTEM + guidance + dedupe_note,
                 messages=[{"role": "user", "content":
                            f"افحص هذه العناوين:\n\n{listing}"}],
             )

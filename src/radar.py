@@ -16,7 +16,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import review, store
+from . import merge, review, store
 from .config import ROOT, STATE_DIR, load_config
 from .extract import gather as gather_texts
 from .imagesearch import find_images
@@ -111,7 +111,13 @@ def scan(cfg) -> list:
     # فرز الجدارة: السرعة والتغطية لا تكفيان. خبر محلي تافه قد ينتشر
     # بسرعة أيضًا — والرادار قد ينشره تلقائيًا. استدعاء واحد رخيص
     # بـ Haiku يمنع ذلك، ولا يقع إلا حين توجد التقاطات أصلًا.
-    worthy = screen(hits[: int(rcfg.get("screen_top", 10))], cfg) + \
+    # عناوين ما نُشر مؤخرًا تُمرَّر أيضًا: هذا مسار الرادار وحده (لا
+    # collect.py)، فتوسيع السؤال إلى «هل هذا تحديث لخبر سابق؟» هنا فقط
+    # لا يمسّ تكلفة الفرز العادي (Issue #303).
+    recent_titles = store.recent_published_titles(
+        int(rcfg.get("auto_publish_dedupe_days", 3)))
+    worthy = screen(hits[: int(rcfg.get("screen_top", 10))], cfg,
+                    recent_titles=recent_titles) + \
         hits[int(rcfg.get("screen_top", 10)):]
     if len(worthy) < len(hits):
         log.info("فرز الجدارة: مرّ %d من %d", len(worthy), len(hits))
@@ -198,8 +204,10 @@ def may_auto_publish(art, draft: dict, cfg, state: dict) -> tuple[bool, str]:
     """
     هل يُنشر هذا تلقائيًا بلا مراجعة؟
 
-    النشر بلا مراجعة يعني أن أي خطأ يخرج للجمهور. لذلك خمسة شروط مجتمعة
-    لا واحد منها، وأهمها التأكيد من عدة مصادر مستقلة.
+    النشر بلا مراجعة يعني أن أي خطأ يخرج للجمهور. لذلك كل الشروط التالية
+    مجتمعة لا واحد منها — score/group_sources للتأكيد من عدة مصادر
+    مستقلة، وفحص التكرار الدلالي في الأخير لأنه لا يميّز تحديث خبر منشور
+    عن خبر جديد فعلًا (Issue #303).
     """
     a = cfg.get("radar", {}) or {}
     if not a.get("auto_publish", False):
@@ -219,6 +227,16 @@ def may_auto_publish(art, draft: dict, cfg, state: dict) -> tuple[bool, str]:
         return False, "محتوى خفيف — لا يُنشر بلا مراجعة"
     if not draft.get("analysed_sources"):
         return False, "تعذّرت قراءة نص الخبر"
+
+    # الشرط الأهم عمليًا (Issue #303): score وgroup_sources لا يميّزان
+    # التكرار — تحديث حصيلة ضحايا لخبر منشور يحقق عتبات عددية عالية مثل
+    # أي خبر جديد. آخر ما تُفحص لأنها أغلى الشروط (استدعاء نموذج).
+    recent = store.recent_published_titles(int(a.get("auto_publish_dedupe_days", 3)))
+    confirmed, matched = merge.find_duplicate_event(art.title, recent, cfg)
+    if not confirmed:
+        return False, "تعذّر التأكد من عدم التكرار — يحتاج مراجعة"
+    if matched:
+        return False, f"يبدو تحديثًا لخبر نُشر سابقًا: {matched[:70]}"
 
     return True, "استوفى كل شروط النشر التلقائي"
 

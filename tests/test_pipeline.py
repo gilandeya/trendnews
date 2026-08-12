@@ -769,6 +769,83 @@ def test_screen_merge_missing_api_key() -> None:
           [a.link for a in screened] == [a.link for a in arts])
 
 
+def test_radar_auto_publish_dedupe() -> None:
+    """Issue #303: التشخيص أثبت أن score/group_sources لا يميّزان تحديث
+    خبر منشور عن خبر جديد فعلًا — بل مرفوضات الرادار كانت أعلى قليلًا في
+    المتوسط على كلا المقياسين. كاشف التكرار الدلالي (merge.find_duplicate_event)
+    يجب أن يرصد «زلزال يقتل 20» مقابل «ترتفع حصيلة الزلزال إلى 111» كحدث
+    واحد، ويمنع النشر التلقائي رغم استيفاء كل العتبات العددية."""
+    from src import merge, radar
+    from src.sources import Article
+
+    published_title = "Earthquake kills 20 in Colombia"
+    update_title = "Earthquake death toll rises to 111 in Colombia"
+    unrelated_title = "Central bank raises interest rates"
+
+    # كاشف مزيَّف بلا أي شبكة: يجمع عنوانين يشتركان في كلمتي الحدث
+    # المميّزتين، ويحاكي بذلك ما يفعله الفحص الدلالي الحقيقي بـ Haiku.
+    def fake_group_titles(titles, cfg):
+        marker = {"earthquake", "colombia"}
+        base = set(titles[0].lower().split())
+        group0 = [0]
+        for i, t in enumerate(titles[1:], start=1):
+            if base & set(t.lower().split()) & marker:
+                group0.append(i)
+        return [group0] + [[i] for i in range(len(titles)) if i not in group0]
+
+    real_group_titles = merge._group_titles
+    merge._group_titles = fake_group_titles
+    try:
+        ok_dup, matched = merge.find_duplicate_event(update_title, [published_title], {})
+        ok_new, matched_none = merge.find_duplicate_event(
+            unrelated_title, [published_title], {})
+        ok_empty, matched_empty = merge.find_duplicate_event(update_title, [], {})
+
+        check("تحديث حصيلة الضحايا يُكتشف كحدث واحد مع المنشور",
+              ok_dup and matched == published_title, str((ok_dup, matched)))
+        check("خبر غير مرتبط لا يُعامل كتكرار",
+              ok_new and matched_none is None, str((ok_new, matched_none)))
+        check("لا عناوين منشورة سابقًا = لا تكرار بلا استدعاء نموذج",
+              ok_empty and matched_empty is None)
+
+        # عبر may_auto_publish نفسها: مرشّح يستوفي كل الشروط العددية لكنه
+        # تحديث لخبر نُشر خلال نافذة auto_publish_dedupe_days يجب أن يُرفض.
+        art = Article(title=update_title, link="https://example.com/quake-update",
+                     summary="", source_name="X", region="global", weight=1.0,
+                     published=datetime.now(timezone.utc), score=30.0, group_sources=5)
+        draft = {"bucket": "serious", "analysed_sources": ["X"]}
+        cfg = {"radar": {
+            "auto_publish": True, "auto_publish_daily_limit": 3,
+            "auto_publish_min_score": 19.3, "auto_publish_min_sources": 2,
+            "auto_publish_dedupe_days": 3,
+        }}
+
+        real_recent = store.recent_published_titles
+        store.recent_published_titles = lambda days: [published_title]
+        try:
+            ok, why = radar.may_auto_publish(art, draft, cfg, {"auto_published": []})
+        finally:
+            store.recent_published_titles = real_recent
+
+        check("تحديث حصيلة الضحايا لا يُنشر تلقائيًا رغم استيفاء العتبات العددية",
+              not ok and published_title in why, why)
+
+        # خبر مستوفٍ حقًا وغير مرتبط بأي عنوان منشور يمرّ كالمعتاد
+        art_new = Article(title=unrelated_title, link="https://example.com/rates",
+                          summary="", source_name="X", region="global", weight=1.0,
+                          published=datetime.now(timezone.utc), score=30.0,
+                          group_sources=5)
+        store.recent_published_titles = lambda days: [published_title]
+        try:
+            ok2, why2 = radar.may_auto_publish(art_new, draft, cfg, {"auto_published": []})
+        finally:
+            store.recent_published_titles = real_recent
+        check("خبر جديد فعلًا يستوفي شروط النشر التلقائي كالمعتاد",
+              ok2, why2)
+    finally:
+        merge._group_titles = real_group_titles
+
+
 def test_collect_end_to_end() -> None:
     """يغطي مساري collect.main(): القديم (preselect.enabled=False) يبني
     مسودات كاملة فورًا، وpreselect (enabled=True) يبني مرشحين خامًا فقط
@@ -2456,6 +2533,8 @@ def main() -> int:
     test_dedupe_threshold_separation()
     print("\n── تدهور آمن عند غياب مفتاح API ──")
     test_screen_merge_missing_api_key()
+    print("\n── كاشف تكرار النشر التلقائي (الرادار) ──")
+    test_radar_auto_publish_dedupe()
     print("\n── ترشيح الصور ──")
     test_image_filtering()
     print("\n── فكّ روابط Google News الوسيطة ──")
