@@ -88,7 +88,9 @@ def semantic_merge(articles: list[Article], cfg, limit: int = 60) -> list[Articl
         text = "".join(b.text for b in resp.content
                        if getattr(b, "type", "") == "text")
         groups = _parse(text)
-    except (APIError, json.JSONDecodeError, ValueError) as exc:
+    except (APIError, RuntimeError, json.JSONDecodeError, ValueError) as exc:
+        # RuntimeError تصدر من _client() نفسه إن غاب ANTHROPIC_API_KEY —
+        # يجب أن تتدهور كبقية أعطال النموذج، لا أن تُسقط الجمع كله.
         log.warning("فشل الدمج الدلالي — ستبقى المجموعات كما هي: %s", exc)
         return articles
 

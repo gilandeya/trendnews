@@ -731,6 +731,40 @@ def test_dedupe_threshold_separation() -> None:
           len(grouped) == 2, f"{len(grouped)} مجموعة")
 
 
+def test_screen_merge_missing_api_key() -> None:
+    """عطل رُصد فعليًا (تعليق لاحق على Issue #274): merge.semantic_merge كان
+    يلتقط APIError/JSONDecodeError/ValueError فقط، وscreen.screen كان يبني
+    العميل خارج أي try/except أصلًا — فغياب ANTHROPIC_API_KEY (RuntimeError
+    من config.env) يُسقط أنبوب الجمع كله بدل أن يتدهور بأمان ويكمل بلا
+    فرز/دمج دلالي، كما توثّق نيّة كلتا الدالتين في تذييلهما."""
+    from src import merge, screen as screen_mod
+
+    arts = [
+        Article(title="خبر أول عن حدث ما", link="https://example.com/a1",
+               summary="", source_name="P1", region="global", weight=1.0,
+               published=datetime.now(timezone.utc)),
+        Article(title="خبر ثانٍ عن حدث مختلف تمامًا", link="https://example.com/a2",
+               summary="", source_name="P2", region="global", weight=1.0,
+               published=datetime.now(timezone.utc)),
+    ]
+
+    def _missing_key():
+        raise RuntimeError("متغير البيئة ANTHROPIC_API_KEY غير موجود")
+
+    real_merge_client, real_screen_client = merge._client, screen_mod._client
+    merge._client, screen_mod._client = _missing_key, _missing_key
+    try:
+        merged = merge.semantic_merge(list(arts), {"merge": {"enabled": True}})
+        screened = screen_mod.screen(list(arts), {"screening": {"enabled": True}})
+    finally:
+        merge._client, screen_mod._client = real_merge_client, real_screen_client
+
+    check("غياب مفتاح API لا يُسقط الدمج الدلالي — يعيد القائمة كما هي",
+          [a.link for a in merged] == [a.link for a in arts])
+    check("غياب مفتاح API لا يُسقط الفرز الأولي — يعيد القائمة كاملة",
+          [a.link for a in screened] == [a.link for a in arts])
+
+
 def test_collect_end_to_end() -> None:
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     shutil.rmtree(STATE_DIR, ignore_errors=True)
@@ -2046,6 +2080,8 @@ def main() -> int:
     print("\n── ذاكرة منع التكرار ──")
     test_dedupe_memory()
     test_dedupe_threshold_separation()
+    print("\n── تدهور آمن عند غياب مفتاح API ──")
+    test_screen_merge_missing_api_key()
     print("\n── ترشيح الصور ──")
     test_image_filtering()
     print("\n── فكّ روابط Google News الوسيطة ──")

@@ -87,7 +87,14 @@ def screen(articles: list[Article], cfg, batch_size: int = 30) -> list[Article]:
         if guidance:
             log.info("الفرز يسترشد بأسباب رفض سابقة")
 
-    client = _client()
+    try:
+        client = _client()
+    except RuntimeError as exc:
+        # غياب ANTHROPIC_API_KEY يجب أن يُعامل كفشل عادي في الفرز — يمرّ كل
+        # شيء بلا فرز، لا أن يُسقط أنبوب الجمع كله.
+        log.warning("فشل الفرز — ستمر كل الأخبار: %s", exc)
+        return articles
+
     kept: list[Article] = []
 
     for start in range(0, len(articles), batch_size):
