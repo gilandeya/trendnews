@@ -1,46 +1,5 @@
 [
   {
-    "score": 23.46,
-    "bucket": "light",
-    "tokens": [
-      "567",
-      "fund",
-      "health",
-      "mental",
-      "meta",
-      "mexico",
-      "million",
-      "ordered",
-      "pay",
-      "teen"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-08-07-meta-ordered-to-pay-567-million-in-new-mexico-for-teen-mental-health-fund/",
-    "title": "Meta ordered to pay $567 million in New Mexico for teen mental health fund",
-    "posted_title": "قاضٍ أمريكي يُلزم ميتا بدفع 567 مليون دولار بسبب أضرار نفسية لحقت بالمراهقين",
-    "region": "za",
-    "seen_at": "2026-08-07T04:31:12.783313+00:00"
-  },
-  {
-    "score": 23.94,
-    "bucket": "serious",
-    "tokens": [
-      "being",
-      "close",
-      "deal",
-      "finalised",
-      "hormuz",
-      "iran",
-      "oman",
-      "reopen",
-      "strait"
-    ],
-    "link": "https://www.theguardian.com/world/live/2026/aug/06/iran-oman-strait-of-hormuz-yemen-houthis-israel-lebanon-gaza-us-donald-trump-middle-east-crisis-live-news",
-    "title": "Iran says a deal with Oman to reopen the strait of Hormuz is close to being finalised",
-    "posted_title": "تحديث: تفاصيل جديدة عن اتفاق هرمز — إيران تتحكم بالسفن الداخلة والاتفاق لم يُحسم بعد",
-    "region": "uk",
-    "seen_at": "2026-08-07T05:07:56.823921+00:00"
-  },
-  {
     "score": 19.23,
     "bucket": "serious",
     "tokens": [
@@ -2915,5 +2874,27 @@
     "posted_title": "ست وفيات في هجمات على ثلاث سفن بالبحر الأحمر وخليج عمان خلال يوم واحد",
     "region": "za",
     "seen_at": "2026-08-12T04:16:08.088240+00:00"
+  },
+  {
+    "score": 29.88,
+    "bucket": "serious",
+    "tokens": [
+      "agosto",
+      "correcto",
+      "del",
+      "eclipse",
+      "gafas",
+      "para",
+      "sobre",
+      "solar",
+      "todo",
+      "uso",
+      "ver"
+    ],
+    "link": "https://elpais.com/ciencia/2026-08-12/gafas-para-ver-el-eclipse-solar-del-12-de-agosto-todo-sobre-su-uso-correcto.html",
+    "title": "Gafas para ver el eclipse solar del 12 de agosto: todo sobre su uso correcto",
+    "posted_title": "كسوف شمسي كلي يعبر أوروبا الأربعاء.. وهذه شروط النظر الآمن إليه",
+    "region": "es",
+    "seen_at": "2026-08-12T06:08:11.732797+00:00"
   }
 ]
