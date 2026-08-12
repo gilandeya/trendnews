@@ -1,23 +1,5 @@
 [
   {
-    "score": 17.57,
-    "bucket": "serious",
-    "tokens": [
-      "airport",
-      "bomb",
-      "could",
-      "drone",
-      "german",
-      "involved",
-      "russia"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/ckgdmrxxkdxo?at_medium=RSS&at_campaign=rss",
-    "title": "German airport drone-bomb: Could Russia be involved?",
-    "posted_title": "مطار ألماني ينجو بصعوبة من مسيّرة مفخخة.. وبرلين تتحدث عن \"مستوى خطر جديد\"",
-    "region": "uk",
-    "seen_at": "2026-08-07T09:16:08.092531+00:00"
-  },
-  {
     "score": 31.26,
     "bucket": "serious",
     "tokens": [
@@ -2833,5 +2815,28 @@
     "posted_title": "وكالة الطاقة الدولية تخفض توقعات الطلب على النفط بسبب استمرار إغلاق مضيق هرمز",
     "region": "seasia",
     "seen_at": "2026-08-12T09:08:44.850903+00:00"
+  },
+  {
+    "score": 21.33,
+    "bucket": "serious",
+    "tokens": [
+      "'greater",
+      "change",
+      "directives",
+      "faced",
+      "flight",
+      "plane",
+      "risk'",
+      "secret",
+      "service",
+      "trump",
+      "ultimately",
+      "used"
+    ],
+    "link": "https://www.dawn.com/news/2022334/trump-says-secret-flight-change-at-directives-of-secret-service-plane-ultimately-used-faced-greater-risk",
+    "title": "Trump says secret flight change at directives of Secret Service, plane ultimately used faced 'greater risk'",
+    "posted_title": "ترامب: طائرتي البديلة كانت أكثر عرضة للخطر من إير فورس ون",
+    "region": "pk",
+    "seen_at": "2026-08-12T10:16:11.999921+00:00"
   }
 ]
