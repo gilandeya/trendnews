@@ -1,0 +1,48 @@
+{
+  "id": "e239269a1a31",
+  "created_at": "2026-08-12T15:08:00.513406+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.23,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Sri Lanka allows immigration clearance for refugees returning from India",
+  "link": "https://www.thehindu.com/news/international/sri-lanka-allows-immigration-clearance-for-refugees-returning-from-ndia/article71336036.ece",
+  "publishers": [
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Sri Lanka allows immigration clearance for refugees returning from India",
+    "link": "https://www.thehindu.com/news/international/sri-lanka-allows-immigration-clearance-for-refugees-returning-from-ndia/article71336036.ece",
+    "summary": "The decision comes amid concerns raised by refugee rights activists over the detention of a few returnees last year",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-12T14:02:28+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/mn6nyi/article71336211.ece/alternates/LANDSCAPE_1200/9868_21_6_2023_18_33_55_5_SRILANKAN_INMATES_5.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/sri-lanka-allows-immigration-clearance-for-refugees-returning-from-ndia/article71336036.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/mn6nyi/article71336211.ece/alternates/LANDSCAPE_1200/9868_21_6_2023_18_33_55_5_SRILANKAN_INMATES_5.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.227314463333336
+  }
+}

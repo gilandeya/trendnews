@@ -1,0 +1,62 @@
+{
+  "id": "bbbe9d777ce8",
+  "created_at": "2026-08-12T15:08:00.512506+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.89,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "India says border peace critical to ties with China amid reports of military tensions",
+  "link": "https://www.channelnewsasia.com/asia/india-china-border-peace-critical-military-tensions-6314491",
+  "publishers": [
+    "Channel News Asia",
+    "The Express Tribune",
+    "The Japan Times"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "India says border peace critical to ties with China amid reports of military tensions",
+    "link": "https://www.channelnewsasia.com/asia/india-china-border-peace-critical-military-tensions-6314491",
+    "summary": "India and China are seeking to mend ties following deadly border clashes in 2020.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-12T12:43:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--H_WRPNg9--/c_crop,h_1125,w_2000,x_0,y_1/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/12/000_33cp4zg.jpg?itok=hQa4Swfw",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "The Express Tribune",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2623463/india-says-border-peace-critical-to-ties-with-china-amid-reports-of-military-tensions"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/india-china-border-peace-critical-military-tensions-6314491"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/12/asia-pacific/politics/india-border-china-relations/"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--H_WRPNg9--/c_crop,h_1125,w_2000,x_0,y_1/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/12/000_33cp4zg.jpg?itok=hQa4Swfw",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/12/556697.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/12/thumbs/400x400/556697.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.893905670589398
+  }
+}
