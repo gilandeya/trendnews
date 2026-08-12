@@ -460,7 +460,9 @@ def test_editorial_guardrails() -> None:
     """البرومبت يسمح بالخفيف ويمنع التشهير."""
     from src.writer import CATEGORIES, SYSTEM_PROMPT
 
-    for cat in ("مشاهير", "غرائب", "فيروسي", "ترفيه", "رياضة"):
+    # مشاهير وترفيه غير موجودين هنا عمدًا: البرومبت يمنع أخبار المشاهير
+    # صراحةً (انظر الضوابط تحت)، وترفيه أُلغي بالكامل من التصنيفات.
+    for cat in ("غرائب", "فيروسي", "رياضة"):
         check(f"تصنيف «{cat}» متاح", cat in CATEGORIES)
 
     check("لا يرفض الخبر لكونه خفيفًا",
@@ -618,7 +620,8 @@ def test_cluster_members() -> None:
 
 
 def test_useful_bucket() -> None:
-    """الصحة والتقنية لهما حصة محمية لا تسحقها السياسة."""
+    """الصحة والتقنية مصادرها موسومة وكافية، رغم أن لا حصة محفوظة لها في الدفعة —
+    القرار (Issue #277): الترند يفوز دومًا، لا تنويع قسري بالحصص."""
     import yaml
     from collections import Counter
 
@@ -627,9 +630,9 @@ def test_useful_bucket() -> None:
     regions = Counter(x["region"] for x in cfg_raw["sources"])
 
     check("تصنيف useful موجود في المصادر", buckets["useful"] >= 15, str(buckets))
-    check("حصة useful محمية في الدفعة",
-          cfg_raw["selection"]["quotas"].get("useful", 0) >= 2,
-          str(cfg_raw["selection"]["quotas"]))
+    check("لا حصص محفوظة — المؤشر وحده يحكم الترتيب",
+          not cfg_raw["selection"].get("quotas"),
+          str(cfg_raw["selection"].get("quotas")))
 
     for region, label in [("health", "صحة"), ("tech", "تقنية"),
                           ("money", "أسواق"), ("migration", "هجرة")]:
