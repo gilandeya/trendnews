@@ -770,32 +770,70 @@ def test_screen_merge_missing_api_key() -> None:
 
 
 def test_collect_end_to_end() -> None:
+    """يغطي مساري collect.main(): القديم (preselect.enabled=False) يبني
+    مسودات كاملة فورًا، وpreselect (enabled=True) يبني مرشحين خامًا فقط
+    بانتظار اختيار بشري. كلا الفرعين يضبط preselect.enabled صراحةً في
+    تهيئته بدل أن يرثه من config.yaml — تفعيل preselect.enabled: true
+    افتراضيًا هناك (Issue #280) كسر هذا الاختبار سابقًا لأنه افترض ضمنيًا
+    أن collect.main() يبني مسودات كاملة دومًا (Issue #301)."""
+    real_load_config = collect.load_config
+
+    def _configured(preselect_enabled):
+        cfg = load_config()
+        cfg["preselect"] = {"enabled": preselect_enabled, "candidates_per_run": 5}
+        return cfg
+
+    def _run(cfg, limit=2):
+        collect.load_config = lambda path=None: cfg
+        sys.argv = ["collect", "--limit", str(limit)]
+        try:
+            return collect.main()
+        finally:
+            collect.load_config = real_load_config
+
+    # ── مسار preselect: مفعّل صراحة، يبني مرشحين خامًا لا مسودات ──
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     shutil.rmtree(STATE_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    sys.argv = ["collect", "--limit", "2"]
-    code = collect.main()
-    check("collect انتهى بنجاح", code == 0, f"exit={code}")
+    code_pre = _run(_configured(True))
+    check("collect (مسار preselect) انتهى بنجاح", code_pre == 0, f"exit={code_pre}")
+    check("preselect لا يبني مسودات كاملة", store.pending_drafts() == [],
+          str(store.pending_drafts()))
+    check("preselect يبني مرشحين خامًا بانتظار الاختيار",
+          len(store.pending_candidates()) > 0, str(len(store.pending_candidates())))
+
+    # ── المسار القديم: معطّل صراحة، يبني مسودات كاملة فورًا (بلا اختيار بشري) ──
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    shutil.rmtree(STATE_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    legacy_cfg = _configured(False)
+    code = _run(legacy_cfg)
+    check("collect (المسار القديم) انتهى بنجاح", code == 0, f"exit={code}")
 
     pending = store.pending_drafts()
     check("أُنشئت مسودتان", len(pending) == 2, f"{len(pending)}")
-    if not pending:
-        return
 
-    _, draft = pending[0]
+    # لا نُرجع مبكرًا عند فشل الشرط أعلاه (نمط سابق كان يتخطى ١٥ فحصًا
+    # بصمت) — draft يبقى قاموسًا فارغًا فتُظهر الفحوص التالية فشلها صراحة
+    # بدل أن تختفي من التقرير.
+    draft = pending[0][1] if pending else {}
     for field in ("id", "status", "score", "source", "arabic", "caption", "image"):
         check(f"حقل '{field}' موجود في المسودة", field in draft)
 
     # "drafts/..." مسار نسبي لمستودع جيت لا لمجلد الكتابة الفعلي أثناء
     # الاختبار (DRAFTS_DIR هنا مجلد مؤقت) — نحوّله عبره لا عبر ROOT.
-    img = DRAFTS_DIR / Path(draft["image"]).relative_to("drafts")
-    check("ملف الصورة أُنشئ فعلًا", img.exists(), str(img))
-    if img.exists():
+    img = (DRAFTS_DIR / Path(draft["image"]).relative_to("drafts")
+           if draft.get("image") else None)
+    check("ملف الصورة أُنشئ فعلًا", bool(img and img.exists()), str(img))
+    if img and img.exists():
         with Image.open(img) as im:
             check("أبعاد الصورة 1080×1080", im.size == (1080, 1080), str(im.size))
+    else:
+        check("أبعاد الصورة 1080×1080", False, "لا صورة لقياس أبعادها")
 
-    caption = draft["caption"]
+    caption = draft.get("caption", "")
     check("التعليق يحوي هاشتاقات", "#" in caption)
     # المصادر انتقلت إلى تذييل الصورة والتعليق الأول — لا مكان لها في المتن
     check("المتن بلا سطر مصادر", "المصدر:" not in caption)
@@ -804,18 +842,20 @@ def test_collect_end_to_end() -> None:
     check("التعليق ليس فارغًا", len(caption) > 80, f"{len(caption)} حرفًا")
     check("سجل التكرار حُفظ", (STATE_DIR / "history.json").exists())
 
-    # تشغيل ثانٍ: يجب ألا يعيد إنتاج نفس الأخبار
-    sys.argv = ["collect", "--limit", "2"]
-    collect.main()
+    # تشغيل ثانٍ بلا مسح الحالة، بنفس الإعداد صراحة: يجب ألا يعيد إنتاج
+    # نفس الأخبار
+    code2 = _run(legacy_cfg)
+    check("التشغيل الثاني انتهى بنجاح", code2 == 0, f"exit={code2}")
     check("التشغيل الثاني لم يكرر نفس الأخبار",
           len(store.pending_drafts()) == 2, f"{len(store.pending_drafts())}")
 
 
 def test_review_roundtrip() -> None:
     drafts = [d for _, d in store.pending_drafts()]
-    if not drafts:
-        check("توجد مسودات لبناء الـ Issue", False)
-        return
+    # لا نُرجع مبكرًا عند غياب المسودات (نمط سابق كان يتخطى أربعة فحوص
+    # بصمت) — الفحوص التالية تعمل بقيم افتراضية آمنة فتُظهر فشلها صراحة
+    # بدل أن تختفي من التقرير.
+    check("توجد مسودات لبناء الـ Issue", bool(drafts), f"{len(drafts)}")
 
     body = review.build_issue_body(drafts, "user/trendnews", "main")
     ids = review.all_draft_ids(body)
@@ -827,7 +867,8 @@ def test_review_roundtrip() -> None:
     # محاكاة تعليم المستخدم على المسودة الأولى
     marked = body.replace(f"- [ ] **1.", f"- [x] **1.", 1)
     approved = review.parse_approved(marked)
-    check("قراءة العلامة ✔️ تعمل", approved == [drafts[0]["id"]], str(approved))
+    expected_first = [drafts[0]["id"]] if drafts else []
+    check("قراءة العلامة ✔️ تعمل", approved == expected_first, str(approved))
 
     marked_all = marked.replace("- [ ] **2.", "- [x] **2.", 1)
     check("اعتماد متعدد يعمل", len(review.parse_approved(marked_all)) == min(2, len(drafts)))
