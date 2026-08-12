@@ -141,3 +141,49 @@ def update_draft(path: Path, **changes) -> dict:
     data.update(changes)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     return data
+
+
+# ──────────────────────────── مرشّحو الاختيار (preselect) ─────────────────
+# بنية مطابقة لتخزين المسودات أعلاه، لكن في state/ لا drafts/: مرشّح غير
+# مختار بلا صياغة ولا صورة — حجمه تافه، وبقاؤه في drafts/ لا يفيد شيئًا
+# (Issue #280).
+
+CANDIDATES_DIR = STATE_DIR / "candidates"
+
+
+def candidate_dir(when: datetime | None = None) -> Path:
+    when = when or datetime.now(timezone.utc)
+    return CANDIDATES_DIR / when.strftime("%Y-%m-%d")
+
+
+def save_candidate(candidate: dict) -> Path:
+    folder = candidate_dir()
+    folder.mkdir(parents=True, exist_ok=True)
+    path = folder / f"{candidate['id']}.json"
+    path.write_text(json.dumps(candidate, ensure_ascii=False, indent=2), encoding="utf-8")
+    return path
+
+
+def load_candidate(candidate_id: str) -> tuple[Path, dict] | None:
+    for path in sorted(CANDIDATES_DIR.glob(f"*/{candidate_id}.json")):
+        return path, json.loads(path.read_text(encoding="utf-8"))
+    return None
+
+
+def pending_candidates() -> list[tuple[Path, dict]]:
+    out = []
+    for path in sorted(CANDIDATES_DIR.glob("*/*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if data.get("status") == "pending":
+            out.append((path, data))
+    return out
+
+
+def update_candidate(path: Path, **changes) -> dict:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    data.update(changes)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    return data

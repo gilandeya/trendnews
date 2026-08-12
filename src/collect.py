@@ -6,6 +6,11 @@
 
 هذا الملف يولّد المسودات فقط. فتح Issue المراجعة يجري عبر src.open_review
 بعد رفع الصور إلى المستودع، حتى تظهر المعاينات بشكل صحيح.
+
+إن كان `config.yaml: preselect.enabled: true` (Issue #280)، يتوقف الأنبوب
+بعد الترتيب والفرز ويحفظ مرشحين خامًا بلا صياغة ولا صورة بدل توليد مسودات
+كاملة — src.open_review يفتح عندها Issue اختيار لا Issue مراجعة، و
+src.collect_finalize يصوغ المختار فقط وينشره عند وسم `approved` عليه.
 """
 from __future__ import annotations
 
@@ -15,7 +20,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import store
+from . import preselect, store
 from .config import DRAFTS_DIR, load_config
 from .imagesearch import find_images
 from .imaging import build_post_image
@@ -54,6 +59,51 @@ def step_summary(text: str) -> None:
     if path:
         with open(path, "a", encoding="utf-8") as fh:
             fh.write(text + "\n")
+
+
+def run_preselect(candidates: list, selection: dict, dedupe_days: int,
+                  dupe_threshold: float, count: int) -> int:
+    """يبني مرشحين خامًا للاختيار بلا صياغة ولا صورة ولا استدعاء نموذج
+    إضافي — الترتيب والفرز (Haiku) سبقا هذه النقطة أصلًا. الصياغة الفعلية
+    تقع لاحقًا في collect_finalize، للمختار فقط، بعد أن يعلّم المراجع."""
+    history = store.load_history()
+    cooldown = int(selection.get("region_cooldown", 0))
+    cooling = set(store.recent_regions(history, cooldown)) if cooldown else set()
+
+    chosen: list = []
+    for art in candidates:
+        if len(chosen) >= count:
+            break
+        if art.region in cooling:
+            continue
+        previous = store.find_previous(history, art.title, art.link, dupe_threshold)
+        if previous:
+            if not selection.get("allow_followups", True):
+                continue
+            hours = (datetime.now(timezone.utc)
+                     - datetime.fromisoformat(previous["seen_at"])).total_seconds() / 3600
+            if hours < float(selection.get("followup_min_hours", 10)):
+                continue
+        chosen.append(art)
+
+    store.save_history(history, dedupe_days)
+
+    if not chosen:
+        log.warning("لا مرشحين للعرض بعد الاستبعاد")
+        step_summary("### ℹ️ لا مرشحين لهذه الدورة")
+        return 0
+
+    for art in chosen:
+        store.save_candidate(preselect.build_candidate(art))
+
+    lines = [
+        f"### 🗳️ {len(chosen)} مرشح بانتظار الاختيار (بلا صياغة بعد)",
+        "",
+        *[f"- `{a.score:.1f}` [{a.bucket}] {a.title}" for a in chosen],
+    ]
+    step_summary("\n".join(lines))
+    log.info("preselect: %d مرشح محفوظ بانتظار فتح Issue الاختيار", len(chosen))
+    return 0
 
 
 def main() -> int:
@@ -106,6 +156,14 @@ def main() -> int:
     horizon = min(int(selection.get("screen_horizon_max", 90)),
                   max(20, target * per_draft))
     candidates = screen(candidates[:horizon], cfg) + candidates[horizon:]
+
+    # 4.5) نقطة توقف قبل الصياغة (Issue #280): بديل لدورة "صُغ ثم راجِع"
+    # لا إضافة إليها — يوقف الأنبوب هنا ويفتح Issue اختيار خام (بلا صياغة
+    # ولا صورة) بدل توليد الدفعة كاملة ثم انتظار رفض نصفها في المراجعة.
+    preselect_cfg = cfg.get("preselect", {}) or {}
+    if preselect_cfg.get("enabled", False):
+        return run_preselect(candidates, selection, dedupe_days, dupe_threshold,
+                             int(preselect_cfg.get("candidates_per_run", 5)))
 
     # 5) التوليد — المؤشر يحكم ما دام قويًا، والحصص تتدخل حين يضعف
     history = store.load_history()

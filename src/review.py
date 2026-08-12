@@ -318,6 +318,7 @@ def ensure_labels() -> None:
     repo = _repo()
     wanted = [
         ("pending-review", "fbca04", "مسودات بانتظار المراجعة"),
+        ("pending-selection", "c5def5", "مرشحون بانتظار الاختيار قبل الصياغة"),
         ("approved", "0e8a16", "معتمد للنشر"),
         ("rejected", "d73a4a", "مرفوض — سجّل الأسباب"),
         ("published", "5319e7", "تم النشر على فيسبوك"),

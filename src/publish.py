@@ -448,6 +448,17 @@ def main() -> int:
 
     issue = fetch_issue(args.issue)
     body = issue.get("body") or ""
+
+    # Issue #280: وسم approved على Issue اختيار (pending-selection) يعني
+    # "اصغ وانشر المختار فقط" لا "انشر مسودات جاهزة" — مسار مختلف تمامًا
+    # يعيد استعمال نفس محفّز الوسم بلا سير عمل إضافي (لا يتضاعف عدد الـ
+    # Issues). لا حاجة لتمييز شبيه في cmd_now/cmd_burst/cmd_schedule نفسها،
+    # فهي تُستدعى من collect_finalize.finalize بعد الصياغة كمسودات عادية.
+    labels = {l.get("name") for l in issue.get("labels", [])}
+    if "pending-selection" in labels:
+        from . import collect_finalize
+        return collect_finalize.finalize(args.issue, body, cfg)
+
     ids = review.parse_approved(body)
     reels = review.parse_reels(body)
 
