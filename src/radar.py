@@ -251,7 +251,9 @@ def main() -> int:
 
     history = store.load_history()
     state = _load_state()
-    sim = float(cfg.path("selection.title_similarity", 0.62))
+    # عتبة ذاكرة التكرار عبر التشغيلات، لا عتبة cluster() — انظر تعليق
+    # selection.dedupe_title_similarity في config.yaml
+    sim = float(cfg.path("selection.dedupe_title_similarity", 0.5))
     made: list[tuple] = []
 
     for art in hits[: int(rcfg.get("max_per_run", 1))]:

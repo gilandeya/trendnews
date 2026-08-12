@@ -195,7 +195,9 @@ def main() -> int:
         return 0
 
     selection = cfg.get("selection", {}) or {}
-    dupe_threshold = float(selection.get("title_similarity", 0.62))
+    # عتبة ذاكرة التكرار عبر التشغيلات، لا عتبة cluster() — انظر تعليق
+    # selection.dedupe_title_similarity في config.yaml
+    dupe_threshold = float(selection.get("dedupe_title_similarity", 0.5))
     history = store.load_history()
     made: list[dict] = []
     skipped: list[tuple[str, str]] = []
@@ -223,7 +225,7 @@ def main() -> int:
         made.append(draft)
         log.info("✓ مسودة جاهزة: %s", draft["arabic"]["post_title"][:60])
 
-    store.save_history(history, int(selection.get("dedupe_days", 5)))
+    store.save_history(history, int(selection.get("dedupe_memory_days", 5)))
 
     if not made:
         lines = [f"### ⚠️ لا مسودة", "", f"الطلب: «{query}»", ""]

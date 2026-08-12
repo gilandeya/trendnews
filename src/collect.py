@@ -72,7 +72,9 @@ def main() -> int:
     selection = cfg.get("selection", {})
     target = args.limit or int(selection.get("drafts_per_run", 5))
     dedupe_days = int(selection.get("dedupe_memory_days", 5))
-    sim_threshold = float(selection.get("title_similarity", 0.62))
+    # عتبة أخفض من title_similarity (المخصصة لتجميع cluster() داخل نفس
+    # التشغيلة) لأن صياغة العنوان تتفاوت أكثر عبر تشغيلات متباعدة زمنيًا
+    dupe_threshold = float(selection.get("dedupe_title_similarity", 0.5))
 
     # 1) الجمع
     articles = fetch_all(cfg.get("sources", []), int(selection.get("max_age_hours", 18)))
@@ -172,7 +174,7 @@ def main() -> int:
                 deferred.append(art)
                 continue
 
-            previous = store.find_previous(history, art.title, art.link, sim_threshold)
+            previous = store.find_previous(history, art.title, art.link, dupe_threshold)
             prev_title = None
             if previous:
                 if not selection.get("allow_followups", True):
