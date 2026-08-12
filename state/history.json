@@ -1,26 +1,5 @@
 [
   {
-    "score": 30.78,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "attacks",
-      "civilians",
-      "dozens",
-      "houthi",
-      "kill",
-      "saudi",
-      "troops",
-      "wound",
-      "yemen"
-    ],
-    "link": "https://www.scmp.com/news/world/middle-east/article/3363241/houthi-attacks-kill-dozens-troops-yemen-wound-civilians-saudi-arabia?utm_source=rss_feed",
-    "title": "Houthi attacks kill dozens of troops in Yemen, wound civilians in Saudi Arabia",
-    "posted_title": "هجمات حوثية بصواريخ ومسيّرات تقتل 58 جنديا يمنيا وتصيب 11 مدنيا في نجران",
-    "region": "cn",
-    "seen_at": "2026-08-07T13:08:10.827237+00:00"
-  },
-  {
     "score": 21.55,
     "bucket": "serious",
     "tokens": [
@@ -2856,5 +2835,24 @@
     "posted_title": "وفاة رئيس وزراء الصين الأسبق زو رونغجي عن 97 عامًا",
     "region": "uk",
     "seen_at": "2026-08-12T13:01:33.310399+00:00"
+  },
+  {
+    "score": 17.39,
+    "bucket": "serious",
+    "tokens": [
+      "ahead",
+      "drills",
+      "fires",
+      "korea",
+      "major",
+      "missile",
+      "north",
+      "south"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-08-12-north-korea-fires-missile-ahead-of-major-us-south-korea-drills/",
+    "title": "North Korea fires missile ahead of major US-South Korea drills",
+    "posted_title": "لماذا اختارت بيونغ يانغ هذا التوقيت بالذات لإطلاق صاروخها الأخير",
+    "region": "za",
+    "seen_at": "2026-08-12T13:31:22.081926+00:00"
   }
 ]
