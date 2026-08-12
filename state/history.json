@@ -1,70 +1,5 @@
 [
   {
-    "score": 20.53,
-    "bucket": "serious",
-    "tokens": [
-      "567m",
-      "against",
-      "child",
-      "fined",
-      "giant",
-      "largest",
-      "media",
-      "meta",
-      "ruling",
-      "safety",
-      "social"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cd7lz3wr2rlo?at_medium=RSS&at_campaign=rss",
-    "title": "Meta fined $567m in largest child safety ruling against social media giant",
-    "posted_title": "قاضٍ أمريكي يصف ميتا بـ\"مصدر إزعاج عام\" ويغرّمها 567 مليون دولار جديدة بسبب أذى الأطفال",
-    "region": "uk",
-    "seen_at": "2026-08-07T02:01:27.898516+00:00"
-  },
-  {
-    "score": 22.23,
-    "bucket": "serious",
-    "tokens": [
-      "567m",
-      "children",
-      "court",
-      "harms",
-      "health",
-      "mental",
-      "meta",
-      "mexico",
-      "orders",
-      "pay"
-    ],
-    "link": "https://www.theguardian.com/technology/2026/aug/06/new-mexico-court-meta",
-    "title": "New Mexico court orders Meta to pay $567m over harms to children’s mental health",
-    "posted_title": "قضاء أمريكي يغرّم ميتا 567 مليون دولار بسبب أضرار نفسية لحقت بالأطفال على فيسبوك وإنستغرام",
-    "region": "uk",
-    "seen_at": "2026-08-07T02:15:54.615741+00:00"
-  },
-  {
-    "score": 21.36,
-    "bucket": "serious",
-    "tokens": [
-      "bank",
-      "charges",
-      "film",
-      "involved",
-      "israel",
-      "killing",
-      "oscar",
-      "palestinian",
-      "settler",
-      "west",
-      "winning"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cn4n1e8159yo?at_medium=RSS&at_campaign=rss",
-    "title": "Israel charges settler over killing of Palestinian involved in Oscar-winning West Bank film",
-    "posted_title": "لماذا تُعد لائحة الاتهام ضد المستوطن يونين ليفي استثناءً نادرًا في الضفة الغربية؟",
-    "region": "uk",
-    "seen_at": "2026-08-07T03:08:04.979069+00:00"
-  },
-  {
     "score": 17.51,
     "bucket": "serious",
     "tokens": [
@@ -2962,5 +2897,25 @@
     "posted_title": "متحف برادو في مدريد يحيي كسوف الشمس بفيديو يعيد رسم لوحات غويا وفيلاثكيث بضوء الكسوف",
     "region": "odd",
     "seen_at": "2026-08-12T01:31:18.977451+00:00"
+  },
+  {
+    "score": 32.36,
+    "bucket": "serious",
+    "tokens": [
+      "claims",
+      "control",
+      "hormuz",
+      "iran",
+      "live",
+      "strait",
+      "total",
+      "trump",
+      "war"
+    ],
+    "link": "https://www.aljazeera.com/news/liveblog/2026/8/12/iran-war-live-us-fires-missiles-at-cargo-ship-violating-iran-blockade?traffic_source=rss",
+    "title": "Iran war live: Trump claims US in ‘total control’ of Strait of Hormuz",
+    "posted_title": "ترامب يعلن \"السيطرة الكاملة\" على مضيق هرمز بينما تضع طهران شروطها لإعادة فتحه",
+    "region": "qa",
+    "seen_at": "2026-08-12T03:08:36.605171+00:00"
   }
 ]
