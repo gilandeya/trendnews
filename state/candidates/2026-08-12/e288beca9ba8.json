@@ -1,0 +1,86 @@
+{
+  "id": "e288beca9ba8",
+  "created_at": "2026-08-12T17:08:15.404749+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.2,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump reiterates U.S. has 'total' control of Strait of Hormuz",
+  "link": "https://en.yna.co.kr/view/AEN20260813000200315",
+  "publishers": [
+    "Al Jazeera English",
+    "CBS News — World",
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد",
+    "Trump",
+    "Vanguard Nigeria",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "Trump reiterates U.S. has 'total' control of Strait of Hormuz",
+    "link": "https://en.yna.co.kr/view/AEN20260813000200315",
+    "summary": "WASHINGTON, Aug. 12 (Yonhap) -- U.S. President Donald Trump said Wednesday that ...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-08-12T15:37:51+00:00",
+    "image_url": "https://img.yna.co.kr/photo/ap/2026/08/12/PAP20260812154801009_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "CBS News — World",
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد",
+      "Trump",
+      "Vanguard Nigeria",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/12/as-strait-of-hormuz-transit-drops-trump-again-says-us-has-control?traffic_source=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/trump-us-control-strait-hormuz-iran-6315386"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260813000200315"
+      },
+      {
+        "name": "Trump",
+        "link": "https://punchng.com/us-will-keep-strait-of-hormuz-control-trump/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/trump-says-us-has-total-control-over-strait-of-hormuz-93CH-4855471"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/12/trump-says-us-will-keep-hormuz-strait-control"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/ap/2026/08/12/PAP20260812154801009_P2.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--qH6pR7LC--/c_crop,h_1125,w_2000,x_0,y_67/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/12/donald_trump_1.jpg?itok=7WfV19bW",
+      "https://content-media.investing.com/news/moved_LYNXMPEM6712X_L.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/9b27852c-donald-trump-1.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/06/AFP__20260609__B6FD6QT__v4__MidRes__CorrectionUsPoliticsTrump-1024x683.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 134.00748673722222,
+    "is_stale": false,
+    "score": 23.199701612703706
+  }
+}

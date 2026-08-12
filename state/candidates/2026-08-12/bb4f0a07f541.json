@@ -1,0 +1,54 @@
+{
+  "id": "bb4f0a07f541",
+  "created_at": "2026-08-12T17:08:15.405117+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.28,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Overnight Ukrainian blitz damages Russia's Black Sea naval stronghold, Zelenskyy says",
+  "link": "https://www.thehindu.com/news/international/overnight-ukrainian-blitz-damages-russias-black-sea-naval-stronghold-zelenskyy-says/article71338011.ece",
+  "publishers": [
+    "Court House News",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Overnight Ukrainian blitz damages Russia's Black Sea naval stronghold, Zelenskyy says",
+    "link": "https://www.thehindu.com/news/international/overnight-ukrainian-blitz-damages-russias-black-sea-naval-stronghold-zelenskyy-says/article71338011.ece",
+    "summary": "Ukraine's air and sea drones have succeeded in limiting the movements of Russia's once-dominant Black Sea navy, Kyiv officials say, in one of the country's biggest accomplishments of the war",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-12T16:53:31+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/8uq3md/article71338054.ece/alternates/LANDSCAPE_1200/2026-08-12T104552Z_1260894944_RC2YWMA18439_RTRMADP_3_UKRAINE-CRISIS-ATTACK-NOVOROSSIYSK.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Court House News",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/an-overnight-ukrainian-blitz-damages-russias-black-sea-naval-stronghold-zelenskyy-says/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/overnight-ukrainian-blitz-damages-russias-black-sea-naval-stronghold-zelenskyy-says/article71338011.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/8uq3md/article71338054.ece/alternates/LANDSCAPE_1200/2026-08-12T104552Z_1260894944_RC2YWMA18439_RTRMADP_3_UKRAINE-CRISIS-ATTACK-NOVOROSSIYSK.JPG"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 0.8732934855555556,
+    "is_stale": false,
+    "score": 21.283775684185187
+  }
+}
