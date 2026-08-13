@@ -405,6 +405,36 @@ def test_followups() -> None:
                               "https://c/3", 0.55) is None)
 
 
+def test_find_previous_prefers_posted_over_offered() -> None:
+    """Issue #331: عرض preselect معلَّق (posted_title فارغ) قد يُسجَّل قبل
+    نشر فعلي لاحق لنفس الحدث — أحدهما بنفس الرابط تمامًا. find_previous
+    يجب أن يفضّل مدخلة النشر الفعلي على مجرد العرض بصرف النظر عن ترتيب
+    الإضافة، وإلا حجب عرض قديم رؤية النشر الحقيقي عن أي بحث لاحق."""
+    history: list[dict] = []
+    # عُرض كمرشح preselect أولًا (بلا صياغة بعد)
+    store.remember(history, "Storm knocks out power across region",
+                   "https://p/storm", None)
+    # ثم اعتُمد وصِيغ فعليًا — نفس الرابط، مدخلة جديدة بعنوان منشور
+    store.remember(history, "Storm knocks out power across region",
+                   "https://p/storm", "عاصفة تقطع الكهرباء عن المنطقة")
+
+    prev = store.find_previous(history, "Storm knocks out power across region",
+                               "https://p/storm", 0.55)
+    check("المطابقة الأحدث (المنشورة) هي التي تُعاد",
+          prev and prev.get("posted_title") == "عاصفة تقطع الكهرباء عن المنطقة",
+          str(prev))
+
+    # حتى إن أُضيف عرض آخر معلَّق بعد النشر (متابعة عُرضت ولم تُختر بعد)،
+    # يبقى النشر الفعلي هو المطابقة المفضَّلة لا العرض الأحدث زمنيًا
+    store.remember(history, "Storm knocks out power across region",
+                   "https://p/storm-2", None)
+    prev2 = store.find_previous(history, "Storm knocks out power across region",
+                                "https://p/storm-2", 0.55)
+    check("النشر الفعلي يُفضَّل على عرض معلَّق أحدث منه",
+          prev2 and prev2.get("posted_title") == "عاصفة تقطع الكهرباء عن المنطقة",
+          str(prev2))
+
+
 def test_bucket_quotas() -> None:
     """الحصص تضمن دفعة مختلطة بدل ما تصادف أن يتصدّر المؤشر."""
     from src.rank import pick_representative
@@ -1100,6 +1130,42 @@ def test_preselect_no_spend_before_selection() -> None:
 
     check("لا مسودات جاهزة أُنشئت في مرحلة preselect (بلا صياغة ولا صورة)",
           len(store.pending_drafts()) == 0, f"{len(store.pending_drafts())}")
+
+    history = store.load_history()
+    check("run_preselect سجّل مرشحيه في history.json فورًا (Issue #331) "
+          "فلا يُعاد التقاطهم كـ«جدد» قبل أن يُبتّ في مصيرهم",
+          pending and store.find_previous(
+              history, pending[0][1]["title"], pending[0][1]["link"], 0.5) is not None)
+
+
+def test_preselect_no_duplicate_across_runs() -> None:
+    """Issue #331: تشغيلتان متتاليتان لـ collect (preselect.enabled=True)
+    بفارق دقائق يجب ألا تُنتجا نفس المرشحين مرتين — قبل الإصلاح كان
+    run_preselect لا يستدعي store.remember، فلا يدخل المرشحون ذاكرة
+    التكرار إلا إن اختِيروا لاحقًا، فتُعاد تشغيلة قريبة زمنيًا التقاط
+    نفس الأخبار من جديد بصفتها "جديدة" في Issue اختيار منفصل."""
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    shutil.rmtree(STATE_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    cfg = load_config()
+    cfg["preselect"] = {"enabled": True, "candidates_per_run": 5}
+    real_load_config = collect.load_config
+    collect.load_config = lambda path=None: cfg
+    sys.argv = ["collect", "--limit", "5"]
+    try:
+        code1 = collect.main()
+        first_titles = {c["title"] for _, c in store.pending_candidates()}
+        code2 = collect.main()
+        second_run_titles = {c["title"] for _, c in store.pending_candidates()} - first_titles
+    finally:
+        collect.load_config = real_load_config
+
+    check("كلتا التشغيلتين انتهتا بنجاح", code1 == 0 and code2 == 0,
+          f"{code1}, {code2}")
+    check("التشغيلة الأولى أنتجت مرشحين", len(first_titles) > 0, str(len(first_titles)))
+    check("التشغيلة الثانية (بعد قليل) لم تُعِد نفس مرشحي الأولى كمرشحين جدد",
+          second_run_titles == set(), str(second_run_titles))
 
 
 def test_preselect_finalize() -> None:
@@ -3249,6 +3315,7 @@ def main() -> int:
     test_velocity_in_ranking()
     print("\n── المتابعات ──")
     test_followups()
+    test_find_previous_prefers_posted_over_offered()
     print("\n── ذاكرة منع التكرار ──")
     test_dedupe_memory()
     test_dedupe_threshold_separation()
@@ -3273,6 +3340,7 @@ def main() -> int:
     test_review_roundtrip()
     print("\n── نقطة التوقف قبل الصياغة (preselect) ──")
     test_preselect_no_spend_before_selection()
+    test_preselect_no_duplicate_across_runs()
     test_preselect_finalize()
     test_preselect_empty_selection_no_spend()
     test_preselect_drops_stale_candidates()

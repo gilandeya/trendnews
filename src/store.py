@@ -87,14 +87,23 @@ def recent_regions(entries: list[dict], count: int) -> list[str]:
 
 def find_previous(entries: list[dict], title: str, link: str,
                   threshold: float) -> dict | None:
-    """يعيد المنشور السابق عن الحدث نفسه إن وُجد."""
+    """يعيد المنشور السابق عن الحدث نفسه إن وُجد.
+
+    قد تتراكم لحدث واحد مدخلتان: عرضه كمرشح preselect لم يُبتّ فيه بعد
+    (``posted_title`` فارغ) ثم نشره فعلًا لاحقًا بعد اعتماده — بنفس
+    الرابط أو عنوان مطابق تقريبًا. تُفضَّل أحدث مدخلة مرتبطة بنشر فعلي
+    على أي مدخلة عرض فقط، وإلا حجب عرضٌ قديم رؤية النشر الحقيقي عن أي
+    بحث لاحق (Issue #331)."""
     sig = tokens(title)
+    match: dict | None = None
     for entry in entries:
-        if entry.get("link") == link:
-            return entry
-        if similarity(sig, set(entry.get("tokens", []))) >= threshold:
-            return entry
-    return None
+        hit = (entry.get("link") == link
+               or similarity(sig, set(entry.get("tokens", []))) >= threshold)
+        if not hit:
+            continue
+        if match is None or entry.get("posted_title") or not match.get("posted_title"):
+            match = entry
+    return match
 
 
 def is_duplicate(entries: list[dict], title: str, link: str,

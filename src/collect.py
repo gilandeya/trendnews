@@ -111,15 +111,23 @@ def run_preselect(candidates: list, selection: dict, dedupe_days: int,
                 continue
         chosen.append(art)
 
-    store.save_history(history, dedupe_days)
-
     if not chosen:
+        store.save_history(history, dedupe_days)
         log.warning("لا مرشحين للعرض بعد الاستبعاد")
         step_summary("### ℹ️ لا مرشحين لهذه الدورة")
         return 0
 
     for art in chosen:
         store.save_candidate(preselect.build_candidate(art))
+        # لا بد من تذكّره فورًا (بلا صياغة بعد: posted_title=None) — بلا
+        # هذا لا يدخل history.json إلا إن اختِير لاحقًا وصِيغ فعليًا، فتُعيد
+        # التشغيلة التالية ترشيحه من جديد بصفته "جديدًا" رغم عرضه للتو
+        # وانتظاره في Issue اختيار لم يُبتّ فيه بعد (Issue #331؛ نفس نمط
+        # preselect_fallback في radar.py من #312).
+        store.remember(history, art.title, art.link, None,
+                       region=art.region, score=art.score, bucket=art.bucket)
+
+    store.save_history(history, dedupe_days)
 
     lines = [
         f"### 🗳️ {len(chosen)} مرشح بانتظار الاختيار (بلا صياغة بعد)",
@@ -260,16 +268,21 @@ def main() -> int:
             previous = store.find_previous(history, art.title, art.link, dupe_threshold)
             prev_title = None
             if previous:
+                already_posted = bool(previous.get("posted_title"))
+                verb = "نُشر" if already_posted else "عُرض ولم يُنشر بعد"
                 if not selection.get("allow_followups", True):
-                    log.info("مكرر (نُشر سابقًا): %s", art.title[:60])
+                    log.info("مكرر (%s): %s", verb, art.title[:60])
                     continue
                 hours = (datetime.now(timezone.utc)
                          - datetime.fromisoformat(previous["seen_at"])).total_seconds() / 3600
                 if hours < float(selection.get("followup_min_hours", 10)):
-                    log.info("مكرر (نُشر قبل %.1f ساعة): %s", hours, art.title[:55])
+                    log.info("مكرر (%s قبل %.1f ساعة): %s", verb, hours, art.title[:55])
                     continue
-                prev_title = previous.get("posted_title") or previous.get("title")
-                log.info("متابعة محتملة لخبر سابق: %s", (prev_title or "")[:55])
+                # posted_title فارغ يعني أن أحدث مطابقة مجرد عرض معلَّق لم
+                # يُنشر فعلًا — لا نمرّره للنموذج كأنه "نشرنا سابقًا" (Issue #331)
+                prev_title = previous.get("posted_title") or None
+                if prev_title:
+                    log.info("متابعة محتملة لخبر سابق: %s", prev_title[:55])
 
             log.info("── معالجة [%.1f · سرعة %.2f]: %s",
                      art.score, art.velocity, art.title[:65])
