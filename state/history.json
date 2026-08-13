@@ -1,22 +1,5 @@
 [
   {
-    "score": 17.67,
-    "bucket": "light",
-    "tokens": [
-      "both",
-      "hiroshima",
-      "man",
-      "nagasaki",
-      "survived",
-      "who"
-    ],
-    "link": "https://www.mentalfloss.com/history/man-who-survived-hiroshima-and-nagasaki?utm_source=RSS",
-    "title": "The Man Who Survived Both Hiroshima and Nagasaki",
-    "posted_title": "علماء يعثرون على معدن لم يُسجَّل من قبل داخل حبة رمل من خليج هيروشيما",
-    "region": "odd",
-    "seen_at": "2026-08-08T19:16:15.707516+00:00"
-  },
-  {
     "score": 17.48,
     "bucket": "serious",
     "tokens": [
@@ -2700,5 +2683,44 @@
     "posted_title": "",
     "region": "uk",
     "seen_at": "2026-08-13T18:45:50.187403+00:00"
+  },
+  {
+    "score": 17.22,
+    "bucket": "useful",
+    "tokens": [
+      "astrocytes",
+      "brain",
+      "circuits",
+      "consolidate",
+      "directly",
+      "during",
+      "memories",
+      "regulate",
+      "reveals",
+      "sleep",
+      "study"
+    ],
+    "link": "https://medicalxpress.com/news/2026-08-astrocytes-brain-circuits-memories-reveals.html",
+    "title": "Astrocytes directly regulate brain circuits that consolidate memories during sleep, study reveals",
+    "posted_title": "دراسة جديدة تكشف كيف تتحكم خلايا الأستروسايت في ذاكرتنا خلال النوم",
+    "region": "health",
+    "seen_at": "2026-08-13T19:22:49.796801+00:00"
+  },
+  {
+    "score": 16.65,
+    "bucket": "serious",
+    "tokens": [
+      "drones",
+      "iran",
+      "loses",
+      "quarter",
+      "reaper",
+      "war"
+    ],
+    "link": "https://tass.com/world/2172563",
+    "title": "US loses quarter of its MQ-9 Reaper drones in war with Iran",
+    "posted_title": "واشنطن تفقد 45 طائرة مسيّرة من طراز MQ-9 ريبر في الحرب مع إيران",
+    "region": "ru",
+    "seen_at": "2026-08-13T19:23:07.549728+00:00"
   }
 ]
