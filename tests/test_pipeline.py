@@ -3138,6 +3138,57 @@ def test_scheduling() -> None:
     check("صياغة الموعد بالتوقيت المحلي", "12:00" in describe(slots[0], tz))
 
 
+def test_due_publishes_one_at_a_time() -> None:
+    """Issue #327 البند 2: لو فاتت queue.yml تشغيلة أو أكثر، تتراكم عدة
+    مسودات مستحقة معًا. cmd_due يجب ألا ينشرها كلها في حلقة واحدة بلا
+    فاصل — هذا هو النمط الآلي الذي صُمم spaced_slots لتجنّبه أصلًا.
+    ينشر الأقدم موعدًا فقط، ويترك الباقي queued للتشغيلة التالية."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    now = datetime.now(timezone.utc)
+    ids = ["due_old", "due_mid", "due_new"]
+    for i, did in enumerate(ids):
+        d = {
+            "id": did, "status": "queued",
+            "publish_at": (now - timedelta(minutes=90 - i * 10)).isoformat(),
+            "arabic": {"post_title": f"خبر {did}", "urgent": False},
+            "image": "drafts/x.jpg", "caption": "متن", "source": {},
+        }
+        store.save_draft(d)
+
+    published_calls: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_calls.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    comment_calls: list = []
+    real_comment = review.comment
+    review.comment = lambda issue_number, text: comment_calls.append((issue_number, text))
+
+    try:
+        code = publish_mod.cmd_due(load_config())
+    finally:
+        publish_mod.publish_one = real_publish_one
+        review.comment = real_comment
+
+    check("cmd_due ينتهي بنجاح", code == 0, f"exit={code}")
+    check("منشور واحد فقط نُشر رغم ثلاثة مستحقة معًا",
+          published_calls == ["due_old"], str(published_calls))
+
+    statuses = {did: store.load_draft(did)[1]["status"] for did in ids}
+    check("الأقدم وحده published والبقية ما زالت queued بانتظار التشغيلة التالية",
+          statuses == {"due_old": "published", "due_mid": "queued",
+                       "due_new": "queued"}, str(statuses))
+
+
 def test_insights_analysis() -> None:
     from src.insights import analyse, engagement, recommendations
 
@@ -3249,6 +3300,7 @@ def main() -> int:
     test_burst_urgent_still_immediate_with_inline_cap_zero()
     print("\n── الجدولة في أوقات الذروة ──")
     test_scheduling()
+    test_due_publishes_one_at_a_time()
     print("\n── تحليل الأداء ──")
     test_insights_analysis()
 
