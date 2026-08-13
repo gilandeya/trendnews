@@ -1,0 +1,65 @@
+{
+  "id": "eb0967c273e3",
+  "created_at": "2026-08-13T12:07:48.053707+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.9,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Solar eclipse 2026: One in eight people worldwide see partial eclipse",
+  "link": "https://www.france24.com/en/video/20260813-solar-eclipse-2026-one-in-eight-people-worldwide-see-partial-eclipse",
+  "publishers": [
+    "Atlas Obscura",
+    "El País",
+    "France24"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Solar eclipse 2026: One in eight people worldwide see partial eclipse",
+    "link": "https://www.france24.com/en/video/20260813-solar-eclipse-2026-one-in-eight-people-worldwide-see-partial-eclipse",
+    "summary": "The first total solar eclipse visible in Europe in almost 30 years swept across the continent on Wednesday evening. Millions of tourists flocked to Spain, where the eclipse’s \"path of totality\" meant the Moon completely blocked out the Sun. But around one in eight people around the world were able to glimpse a partial eclipse.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-13T09:49:34+00:00",
+    "image_url": "https://s.france24.com/media/display/038fbc04-96f5-11f1-b945-005056bf30b7/w:1024/p:16x9/EN-20260813-101059-101240-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Atlas Obscura",
+      "El País",
+      "France24"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260813-solar-eclipse-2026-one-in-eight-people-worldwide-see-partial-eclipse"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/ciencia/2026-08-13/te-has-perdido-este-eclipse-en-2027-el-proximo-le-toca-al-sur-andaluz-ceuta-y-melilla.html"
+      },
+      {
+        "name": "Atlas Obscura",
+        "link": "https://www.atlasobscura.com/articles/guide-to-2027-total-eclipse"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/038fbc04-96f5-11f1-b945-005056bf30b7/w:1024/p:16x9/EN-20260813-101059-101240-CS.jpg",
+      "https://imagenes.elpais.com/resizer/v2/IMWSZK7RDZBRZGWWYGKBHNULI4.jpg?auth=d24813c2c40f98ba7e6836ec7428de36d80bd6d8fd22d8c797dddabc21ea6b14",
+      "https://imagenes.elpais.com/resizer/v2/SHZ2TDM22NDWFHMLB4L7T3SUXE.JPG?auth=aad0412300233bc85f274271e48f7d766c5e266fd33b1ff1c387f070f5a27f78",
+      "https://imagenes.elpais.com/resizer/v2/QV2OKAETVJH6BHXBRWO7RJEH7E.jpg?auth=b5feeb4431643dce90369cf60afc654480dc4d138de6571d38f0f20918b58241",
+      "https://imagenes.elpais.com/resizer/v2/SOI45SF3KVC2PE3RFNPBWCE6SY.jpg?auth=f33348726a47fb79dbd804fa83899061c5857132ec4aa6c204803aab7d2eacc8",
+      "https://imagenes.elpais.com/resizer/v2/F242E6EWQRA35JTJPB2PEA5OI4.JPG?auth=1cb1a12f50ada3c5b88781923e2d46374f18a2c57e6416ba11a9e6a007c9848b"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.901442926237543
+  }
+}
