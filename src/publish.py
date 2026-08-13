@@ -474,6 +474,17 @@ def main() -> int:
         )
         return 1
     if "pending-selection" in labels:
+        # Issue #308: publish.yml يُشغّل مساري urgent وnormal لنفس حدث وسم
+        # approved معًا (needs: لا يمنع التشغيل، فقط يرتّب التتابع)، وكلاهما
+        # يصل هذا الفرع. finalize لا يفرّق عاجلًا من عادي داخليًا — تفويضة
+        # واحدة تكفي وتغطي الاثنين معًا (تُشغِّل cmd_burst بلا تقسيم). دون
+        # هذا الشرط كانت التشغيلتان تصوغان الخبر وتنشرانه مرتين مستقلتين.
+        # المسار السريع (بلا --skip-urgent) هو من ينفّذها؛ المسار العادي
+        # (--skip-urgent) يتخطّاها بصمت.
+        if args.skip_urgent:
+            log.info("Issue #%s: pending-selection — تخطّي المسار العادي "
+                     "(المسار السريع ينفّذ finalize وحده)", args.issue)
+            return 0
         from . import collect_finalize
         return collect_finalize.finalize(args.issue, body, cfg)
 

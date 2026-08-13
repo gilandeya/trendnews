@@ -1280,6 +1280,165 @@ def test_publish_conflicting_labels_no_dispatch() -> None:
           len(comment_calls) == 1 and comment_calls[0][0] == 9001)
 
 
+def test_writer_classifies_write_errors() -> None:
+    """Issue #308 البند 1: تصنيف سبب فشل الصياغة التقني — دالة مستقلة قابلة
+    للاختبار بلا شبكة ولا عميل Anthropic حقيقي."""
+    from src.writer import classify_write_error
+
+    check("رسالة سقف الإنفاق تُصنَّف بدقة",
+          classify_write_error(
+              Exception("You have reached your specified API usage limits"))
+          == "سقف الإنفاق")
+    check("رسالة رصيد منخفض تُصنَّف كسقف إنفاق أيضًا",
+          classify_write_error(Exception("Your credit balance is too low"))
+          == "سقف الإنفاق")
+    check("عطل API عام بلا إشارة لسقف الإنفاق يُصنَّف عامًا",
+          classify_write_error(Exception("Internal server error, try again"))
+          == "عطل API")
+
+
+def test_finalize_external_failure_keeps_approved_no_feedback() -> None:
+    """Issue #308 البند 1+2: فشل الصياغة لعطل خارجي (سقف إنفاق/API) يجب أن
+    يذكر السبب صراحة في التعليق، يُبقي وسم approved (لا يُخفي العطل بإزالته
+    وكأنه رفض تحريري)، ولا يُسجَّل المرشح المعتمد في feedback — العطل عارض
+    تقني لا قرار بشري، وتسجيله يعلّم الفرز الأولي درسًا خاطئًا."""
+    from src import collect_finalize, feedback, preselect, review
+    from src.writer import WriteFailure
+
+    now = datetime.now(timezone.utc)
+    art_d = Article(title="خبر رابع يصطدم بسقف الإنفاق عند الصياغة",
+                    link="https://pre.example/d", summary="", source_name="P4",
+                    region="r4", weight=1.0, published=now, bucket="serious",
+                    publisher="P4")
+    cand_d = preselect.build_candidate(art_d)
+    store.save_candidate(cand_d)
+
+    body = preselect.build_selection_issue_body([cand_d])
+    marked = body.replace("- [ ] **1.", "- [x] **1.", 1)
+
+    comment_calls, remove_label_calls = [], []
+    real_comment = review.comment
+    real_remove_label = review.remove_label
+    review.comment = lambda issue_number, text: comment_calls.append((issue_number, text))
+    review.remove_label = lambda issue_number, label: remove_label_calls.append(
+        (issue_number, label))
+
+    real_write = collect_finalize.write_arabic
+
+    def _raise_write_failure(*a, **kw):
+        raise WriteFailure("سقف الإنفاق",
+                           "You have reached your specified API usage limits")
+
+    collect_finalize.write_arabic = _raise_write_failure
+
+    rejections_before = len(feedback.load())
+
+    try:
+        code = collect_finalize.finalize(8001, marked, load_config())
+    finally:
+        collect_finalize.write_arabic = real_write
+        review.comment = real_comment
+        review.remove_label = real_remove_label
+
+    check("finalize يعيد رمز فشل عند عطل خارجي", code != 0, f"exit={code}")
+    check("approved لا يُزال عند فشل خارجي", remove_label_calls == [])
+    check("التعليق يذكر السبب صراحة (سقف الإنفاق)",
+          bool(comment_calls) and "سقف الإنفاق" in comment_calls[0][1],
+          str(comment_calls))
+    check("لا تسجيل جديد في feedback عند فشل خارجي",
+          len(feedback.load()) == rejections_before)
+
+    updated_d = store.load_candidate(cand_d["id"])
+    check("حالة المرشح لم تتحوّل إلى write_failed عند عطل خارجي",
+          updated_d and updated_d[1]["status"] == "pending",
+          str(updated_d[1]["status"] if updated_d else None))
+
+
+def test_finalize_editorial_rejection_removes_approved() -> None:
+    """Issue #308 البند 1+2 (تباين ضابط): الرفض التحريري البحت (newsworthy
+    =false، يعاد None بلا استثناء) يبقى بالسلوك السابق — يُزال approved
+    لأنه قرار بشري منته يحتاج اختيار مرشح آخر، لا عطل يستحق إعادة محاولة."""
+    from src import collect_finalize, preselect, review
+
+    now = datetime.now(timezone.utc)
+    art_e = Article(title="خبر خامس يرفضه النموذج تحريريًا",
+                    link="https://pre.example/e", summary="", source_name="P5",
+                    region="r5", weight=1.0, published=now, bucket="light",
+                    publisher="P5")
+    cand_e = preselect.build_candidate(art_e)
+    store.save_candidate(cand_e)
+
+    body = preselect.build_selection_issue_body([cand_e])
+    marked = body.replace("- [ ] **1.", "- [x] **1.", 1)
+
+    comment_calls, remove_label_calls = [], []
+    real_comment = review.comment
+    real_remove_label = review.remove_label
+    review.comment = lambda issue_number, text: comment_calls.append((issue_number, text))
+    review.remove_label = lambda issue_number, label: remove_label_calls.append(
+        (issue_number, label))
+
+    real_write = collect_finalize.write_arabic
+    collect_finalize.write_arabic = lambda *a, **kw: None
+
+    try:
+        code = collect_finalize.finalize(8002, marked, load_config())
+    finally:
+        collect_finalize.write_arabic = real_write
+        review.comment = real_comment
+        review.remove_label = real_remove_label
+
+    check("finalize ينتهي بنجاح عند رفض تحريري بحت", code == 0, f"exit={code}")
+    check("approved يُزال عند رفض تحريري (قرار بشري لا عطل)",
+          remove_label_calls == [(8002, "approved")])
+    check("التعليق لا يذكر سببًا خارجيًا",
+          bool(comment_calls) and "سقف الإنفاق" not in comment_calls[0][1]
+          and "عطل API" not in comment_calls[0][1], str(comment_calls))
+
+    updated_e = store.load_candidate(cand_e["id"])
+    check("حالة المرشح write_failed عند رفض تحريري",
+          updated_e and updated_e[1]["status"] == "write_failed",
+          str(updated_e[1]["status"] if updated_e else None))
+
+
+def test_publish_pending_selection_single_dispatch() -> None:
+    """Issue #308 البند 3 (الأهم): publish.yml يُشغّل مساري urgent وnormal
+    لنفس حدث وسم approved معًا — كلاهما يستدعي publish.main() لنفس Issue
+    pending-selection. finalize لا يميّز عاجلًا من عادي داخليًا (ينشر
+    الاثنين معًا في تفويضة واحدة)، فتنفيذه مرتين يعني صياغة الخبر ونشره
+    مرتين فعليًا لو نجحا معًا. مسار العادي (--skip-urgent) يجب أن يتخطّى
+    finalize تمامًا ويترك المسار السريع (بلا --skip-urgent) ينفّذه وحده."""
+    from src import publish
+    from src import collect_finalize as cf_mod
+
+    real_fetch = publish.fetch_issue
+    publish.fetch_issue = lambda n: {
+        "number": n,
+        "body": "لا يهم لهذا الاختبار",
+        "labels": [{"name": "pending-selection"}, {"name": "approved"}],
+    }
+
+    finalize_calls: list = []
+    real_finalize = cf_mod.finalize
+    cf_mod.finalize = lambda *a, **kw: finalize_calls.append(1) or 0
+
+    try:
+        # محاكاة تشغيلتي publish.yml لنفس حدث الوسم: العاجل أولًا (بلا
+        # skip-urgent)، ثم العادي (needs: urgent) بـ --skip-urgent
+        sys.argv = ["publish", "--issue", "7001", "--urgent-only"]
+        code_urgent = publish.main()
+        sys.argv = ["publish", "--issue", "7001", "--skip-urgent"]
+        code_normal = publish.main()
+    finally:
+        publish.fetch_issue = real_fetch
+        cf_mod.finalize = real_finalize
+
+    check("مسار العاجل ينتهي بنجاح", code_urgent == 0, f"exit={code_urgent}")
+    check("مسار العادي يتخطّى بنجاح بلا خطأ", code_normal == 0, f"exit={code_normal}")
+    check("finalize نُفِّذ مرة واحدة فقط رغم تشغيل المسارين معًا",
+          finalize_calls == [1], str(finalize_calls))
+
+
 def test_arabic_shaping() -> None:
     from PIL import ImageDraw as _D
 
@@ -2556,6 +2715,11 @@ def main() -> int:
     test_preselect_drops_stale_candidates()
     test_finalize_format_mismatch_no_silent_fail()
     test_publish_conflicting_labels_no_dispatch()
+    print("\n── عطل خارجي عند الصياغة مقابل رفض تحريري (preselect) ──")
+    test_writer_classifies_write_errors()
+    test_finalize_external_failure_keeps_approved_no_feedback()
+    test_finalize_editorial_rejection_removes_approved()
+    test_publish_pending_selection_single_dispatch()
     print("\n── الرابط في التعليق الأول ──")
     test_manual_image()
     test_request_search()
