@@ -99,7 +99,9 @@ jobs:
         if: steps.commit.outputs.changed == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python -m src.open_review
+
 
       - name: تثبيت رقم الـ Issue في المسودات
         if: steps.commit.outputs.changed == 'true'
