@@ -1,23 +1,5 @@
 [
   {
-    "score": 33.97,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "defence",
-      "pact",
-      "pakistan",
-      "saudi",
-      "sign",
-      "turkey"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c30418m4mj4o?at_medium=RSS&at_campaign=rss",
-    "title": "Saudi Arabia, Turkey and Pakistan sign defence pact",
-    "posted_title": "تحديث: السعودية وتركيا وباكستان توقّع رسميًا اتفاق مكة للدفاع المشترك",
-    "region": "uk",
-    "seen_at": "2026-08-08T07:08:28.378035+00:00"
-  },
-  {
     "score": 28.93,
     "bucket": "serious",
     "tokens": [
@@ -2585,5 +2567,23 @@
     "posted_title": "البرازيل تأمر ديسكورد بتعليق البث المباشر بعد وفاة انتحارية لطفلة خلال بث على المنصة",
     "region": "tech",
     "seen_at": "2026-08-12T19:31:25.253117+00:00"
+  },
+  {
+    "score": 17.57,
+    "bucket": "serious",
+    "tokens": [
+      "amazon",
+      "block",
+      "can",
+      "content",
+      "twitch",
+      "users",
+      "using"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cp30pz8d09jo?at_medium=RSS&at_campaign=rss",
+    "title": "Twitch users can block Amazon from using content for AI",
+    "posted_title": "تويتش يتيح لمستخدميه منع أمازون من استخدام محتواهم لتدريب الذكاء الاصطناعي",
+    "region": "uk",
+    "seen_at": "2026-08-13T07:16:13.097031+00:00"
   }
 ]
