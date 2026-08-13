@@ -1,0 +1,55 @@
+{
+  "id": "1e2520f4dcdf",
+  "created_at": "2026-08-13T15:15:53.192743+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.73,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "James Webb telescope just spotted the oldest, closest pair of black holes in the early universe",
+  "link": "https://www.livescience.com/space/black-holes/james-webb-telescope-just-spotted-the-oldest-closest-pair-of-black-holes-in-the-early-universe",
+  "publishers": [
+    "Der Spiegel",
+    "Live Science"
+  ],
+  "region": "odd",
+  "article": {
+    "title": "James Webb telescope just spotted the oldest, closest pair of black holes in the early universe",
+    "link": "https://www.livescience.com/space/black-holes/james-webb-telescope-just-spotted-the-oldest-closest-pair-of-black-holes-in-the-early-universe",
+    "summary": "The dual black hole system, dubbed LID-1166, is the first close-separation pair of its kind confirmed this early in the universe. The discovery could help to explain how the earliest black holes grew so large, so fast.",
+    "source_name": "Live Science",
+    "region": "odd",
+    "weight": 1.3,
+    "published": "2026-08-13T14:56:25+00:00",
+    "image_url": "https://cdn.mos.cms.futurecdn.net/ARTFpJwi46o84RxKvwBhSj-1280-80.png",
+    "publisher": "Live Science",
+    "cluster_sources": [
+      "Der Spiegel",
+      "Live Science"
+    ],
+    "cluster_members": [
+      {
+        "name": "Live Science",
+        "link": "https://www.livescience.com/space/black-holes/james-webb-telescope-just-spotted-the-oldest-closest-pair-of-black-holes-in-the-early-universe"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/wissenschaft/weltall/james-webb-teleskop-extrem-heller-punkt-koennte-schwarzes-loch-stern-sein-a-3ca4c301-c922-4751-9382-b98811a9aedd#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.mos.cms.futurecdn.net/ARTFpJwi46o84RxKvwBhSj-1280-80.png",
+      "https://cdn.prod.www.spiegel.de/images/df24518d-d516-468a-8917-4a1e168ddab6_w520_r2.08_fpx46.65_fpy49.98.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 0.24308336472222222,
+    "is_stale": false,
+    "score": 17.728465803296295
+  }
+}
