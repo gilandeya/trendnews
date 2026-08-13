@@ -1,11 +1,11 @@
 {
   "id": "2587207d1705",
-  "created_at": "2026-08-13T21:03:33.446041+00:00",
+  "created_at": "2026-08-13T21:06:16.350926+00:00",
   "status": "pending",
-  "selection_issue": 329,
-  "score": 23.12,
+  "selection_issue": null,
+  "score": 16.87,
   "trend_score": 0.0,
-  "velocity": 1.0,
+  "velocity": 0.0,
   "bucket": "useful",
   "state_media": false,
   "title": "Europe swelters under fresh wave of extreme heat",
@@ -13,8 +13,6 @@
   "publishers": [
     "AP News",
     "Al Jazeera English",
-    "BBC",
-    "BBC World",
     "Daily Sabah",
     "Hindustan Times — World",
     "Phys.org",
@@ -34,8 +32,6 @@
     "cluster_sources": [
       "AP News",
       "Al Jazeera English",
-      "BBC",
-      "BBC World",
       "Daily Sabah",
       "Hindustan Times — World",
       "Phys.org",
@@ -61,27 +57,20 @@
       {
         "name": "Daily Sabah",
         "link": "https://www.dailysabah.com/world/europe/uk-records-years-hottest-day-as-europe-swelters-once-again"
-      },
-      {
-        "name": "BBC World",
-        "link": "https://www.bbc.co.uk/news/articles/cqlxpq5q799o?at_medium=RSS&at_campaign=rss"
       }
     ],
     "image_candidates": [
       "https://scx1.b-cdn.net/csz/news/tmb/2026/the-extended-heatwaves.jpg",
       "https://th-i.thgim.com/public/incoming/bevfjb/article71340647.ece/alternates/LANDSCAPE_1200/IMG_BRITAIN-WEATHER-CLIM_2_1_4LA255JQ.jpg",
-      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455715.JPG",
-      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/73db/live/5d4d0250-9728-11f1-808c-532494fd22c7.jpg",
-      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/73db/live/5d4d0250-9728-11f1-808c-532494fd22c7.jpg",
-      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/73db/live/5d4d0250-9728-11f1-808c-532494fd22c7.jpg"
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455715.JPG"
     ],
     "bucket": "useful",
     "state_media": false,
     "trend_score": 0.0,
-    "group_sources": 8,
-    "velocity": 1.0,
-    "age_hours": 2.0383034911111113,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 2.0836993027777777,
     "is_stale": false,
-    "score": 23.11753078337037
+    "score": 16.86939302194125
   }
 }

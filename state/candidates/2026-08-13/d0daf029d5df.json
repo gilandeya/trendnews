@@ -1,0 +1,57 @@
+{
+  "id": "d0daf029d5df",
+  "created_at": "2026-08-13T21:06:16.350404+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.72,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Rescue operation underway as passenger train derails in southern England",
+  "link": "https://www.myjoyonline.com/rescue-operation-underway-as-passenger-train-derails-in-southern-england/",
+  "publishers": [
+    "Al Jazeera English",
+    "Breaking News, Latest News and Videos",
+    "MyJoyOnline Ghana"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "Rescue operation underway as passenger train derails in southern England",
+    "link": "https://www.myjoyonline.com/rescue-operation-underway-as-passenger-train-derails-in-southern-england/",
+    "summary": "UK police and emergency services are on scene after a passenger train derailed in southern England, authorities said Thursday.",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-08-13T18:18:23+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-1772-768x1024.png",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Breaking News, Latest News and Videos",
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/13/passenger-train-derails-injuring-several-in-southern-england?traffic_source=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/rescue-operation-underway-as-passenger-train-derails-in-southern-england/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-1772-768x1024.png",
+      "https://media.cnn.com/api/v1/images/stellar/prod/hpnm-9pxyaepf4a.jpg?c=original&amp;q=w_860,c_fill"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 0.8370909877777778,
+    "is_stale": false,
+    "score": 18.718485614052355
+  }
+}

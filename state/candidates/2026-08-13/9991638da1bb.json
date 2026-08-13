@@ -1,0 +1,55 @@
+{
+  "id": "9991638da1bb",
+  "created_at": "2026-08-13T21:06:16.350663+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.99,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US ambassador slams Israeli settler violence as 'horrific act of terror'",
+  "link": "https://www.dailysabah.com/world/americas/us-ambassador-slams-israeli-settler-violence-as-horrific-act-of-terror",
+  "publishers": [
+    "Daily Sabah",
+    "NPR World"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "US ambassador slams Israeli settler violence as 'horrific act of terror'",
+    "link": "https://www.dailysabah.com/world/americas/us-ambassador-slams-israeli-settler-violence-as-horrific-act-of-terror",
+    "summary": "U.S. Ambassador to Israel Mike Huckabee issued a rare and unusually forceful condemnation of Israeli illegal settler violence in the occupied West Bank on Thursday, calling an atta...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-13T18:41:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455722.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/08/13/g-s1-138574/us-west-bank-settlers"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/americas/us-ambassador-slams-israeli-settler-violence-as-horrific-act-of-terror"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455722.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-138574"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 11.975270536388889,
+    "is_stale": false,
+    "score": 16.988727734962964
+  }
+}
