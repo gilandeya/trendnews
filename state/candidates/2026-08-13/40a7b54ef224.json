@@ -1,0 +1,69 @@
+{
+  "id": "40a7b54ef224",
+  "created_at": "2026-08-13T09:15:49.033531+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.34,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Europe heatwave live: Temperatures of 40C expected in Spain, with amber heat health warning in place across large parts of UK",
+  "link": "https://www.theguardian.com/environment/live/2026/aug/13/europe-heatwave-france-spain-italy-uk-degrees-temperature-record-summer-drought-latest-news-updates",
+  "publishers": [
+    "Der Spiegel",
+    "The Guardian — World",
+    "wo es am Wochenende stockt"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Europe heatwave live: Temperatures of 40C expected in Spain, with amber heat health warning in place across large parts of UK",
+    "link": "https://www.theguardian.com/environment/live/2026/aug/13/europe-heatwave-france-spain-italy-uk-degrees-temperature-record-summer-drought-latest-news-updates",
+    "summary": "In France, 80 departments have been placed on an orange heat warning In other news, Burgas, a coastal city on the Black Sea, will host next year’s Eurovision song contest, the European Broadcasting Union has announced. The Bulgarian holiday resort, the most western city on the Black Sea, has been selected for the 71st annual competition that was mired in controversy last year over Israel’s participation. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-13T09:04:46+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/c8ac626264763f988ad635ecde75279c8b213b8d/889_0_2886_2309/master/2886.jpg?width=700&quality=85&auto=format&fit=max&s=b1cf3db6ce962e86bc16f18f1b73e2f4",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Der Spiegel",
+      "The Guardian — World",
+      "wo es am Wochenende stockt"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/environment/live/2026/aug/13/europe-heatwave-france-spain-italy-uk-degrees-temperature-record-summer-drought-latest-news-updates"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/environment/2026/aug/13/how-to-keep-babies-and-children-safe-in-heatwaves"
+      },
+      {
+        "name": "wo es am Wochenende stockt",
+        "link": "https://www.spiegel.de/mobilitaet/auto/sommerferien-ferienende-in-vier-laendern-wo-es-am-wochenende-stockt-a-3ed28008-077b-450f-b869-6621c3fbbf6a#ref=rss"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/gesundheit/hitze-in-deutschland-zahl-der-hitzetoten-laut-rki-auf-12-500-gestiegen-a-6e83a5e8-7f40-42da-bbd3-d4fd6e57b70f#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/c8ac626264763f988ad635ecde75279c8b213b8d/889_0_2886_2309/master/2886.jpg?width=700&quality=85&auto=format&fit=max&s=b1cf3db6ce962e86bc16f18f1b73e2f4",
+      "https://i.guim.co.uk/img/media/c8ac626264763f988ad635ecde75279c8b213b8d/889_0_2886_2309/master/2886.jpg?width=460&quality=85&auto=format&fit=max&s=8a72cf937912d4ec6f349217e8d486fe",
+      "https://i.guim.co.uk/img/media/c8ac626264763f988ad635ecde75279c8b213b8d/889_0_2886_2309/master/2886.jpg?width=140&quality=85&auto=format&fit=max&s=21952f333de41ec00d98bafccd689e56",
+      "https://i.guim.co.uk/img/media/79a9c56b77899db42e377d9776163393b7954279/301_14_6641_5315/master/6641.jpg?width=700&quality=85&auto=format&fit=max&s=a2f3e822b61539b2bb7d229d9ef71f7c",
+      "https://i.guim.co.uk/img/media/79a9c56b77899db42e377d9776163393b7954279/301_14_6641_5315/master/6641.jpg?width=460&quality=85&auto=format&fit=max&s=5c06b23628a4f3524a3b973cc3418249",
+      "https://i.guim.co.uk/img/media/79a9c56b77899db42e377d9776163393b7954279/301_14_6641_5315/master/6641.jpg?width=140&quality=85&auto=format&fit=max&s=1531a4e2676af13463d425c3e66c07f5"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 0.9982335619444445,
+    "is_stale": false,
+    "score": 19.342731970719022
+  }
+}
