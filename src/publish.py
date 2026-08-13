@@ -355,7 +355,16 @@ def cmd_schedule(ids: list[str], cfg, issue_number: int | None) -> int:
 
 
 def cmd_due(cfg) -> int:
-    """ينشر كل ما حان وقته في الطابور."""
+    """ينشر أقدم مسودة مستحقة فقط — لا الدفعة كاملة دفعة واحدة.
+
+    قوائم الانتظار تُبنى بفواصل عشوائية 30-60 دقيقة (spaced_slots) كي لا
+    يبدو النشر آليًا. لو فاتت queue.yml تشغيلة أو أكثر (جدولة GitHub غير
+    مضمونة — Issue #327)، يتراكم أكثر من منشور مستحق معًا؛ نشرها كلها في
+    حلقة واحدة بلا فاصل ينتج بالضبط النمط الآلي الذي صُمم spaced_slots
+    لتجنبه. لذا تشغيلة واحدة تنشر الأقدم فقط، وتترك الباقي فيلتقطه
+    التشغيلات التالية — فالفاصل بين المنشورات المتراكمة يصبح فاصل
+    التشغيلات نفسه بدل صفر.
+    """
     rows = queued_drafts()
     due = [(p, d) for p, d in rows if is_due(d.get("publish_at", ""))]
     if not due:
@@ -366,13 +375,13 @@ def cmd_due(cfg) -> int:
             log.info("التالي: %s", describe(nxt, tzname))
         return 0
 
-    lines, published = [], 0
-    for path, draft in due:
-        ok, line = publish_one(path, draft, cfg)
-        published += ok
-        lines.append(line)
+    if len(due) > 1:
+        log.info("%d منشورًا مستحقًا معًا — يُنشر الأقدم فقط، والبقية "
+                 "تنتظر التشغيلة التالية", len(due))
 
-    report(lines, published, len(due))
+    path, draft = due[0]
+    ok, line = publish_one(path, draft, cfg)
+    report([line], int(ok), 1)
     return 0
 
 
