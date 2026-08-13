@@ -60,6 +60,31 @@ def _parse(text: str) -> list[list[int]]:
     return [[int(i) for i in g] for g in (data.get("groups") or [])]
 
 
+def _group_titles(titles: list[str], cfg) -> list[list[int]] | None:
+    """يجمّع فهارس العناوين حسب الحدث الذي تصفه؛ يعيد None عند أي فشل."""
+    mcfg = cfg.get("merge", {}) or {}
+    model = mcfg.get("model", "claude-haiku-4-5-20251001")
+    listing = "\n".join(f"{i}. {t}" for i, t in enumerate(titles))
+
+    try:
+        resp = _client().messages.create(
+            model=model,
+            max_tokens=1500,
+            system=SYSTEM,
+            messages=[{"role": "user", "content": f"العناوين:\n\n{listing}"}],
+        )
+        from .writer import record_usage
+        record_usage(resp, model)
+        text = "".join(b.text for b in resp.content
+                       if getattr(b, "type", "") == "text")
+        return _parse(text)
+    except (APIError, RuntimeError, json.JSONDecodeError, ValueError) as exc:
+        # RuntimeError تصدر من _client() نفسه إن غاب ANTHROPIC_API_KEY —
+        # يجب أن تتدهور كبقية أعطال النموذج، لا أن تُسقط الجمع كله.
+        log.warning("فشل تجميع العناوين دلاليًا: %s", exc)
+        return None
+
+
 def semantic_merge(articles: list[Article], cfg, limit: int = 60) -> list[Article]:
     """
     يدمج المتصدّرين حسب الحدث، ويعيد القائمة بعد الدمج.
@@ -74,24 +99,8 @@ def semantic_merge(articles: list[Article], cfg, limit: int = 60) -> list[Articl
         return articles
 
     head, tail = articles[:limit], articles[limit:]
-    listing = "\n".join(f"{i}. {a.title}" for i, a in enumerate(head))
-
-    try:
-        resp = _client().messages.create(
-            model=mcfg.get("model", "claude-haiku-4-5-20251001"),
-            max_tokens=1500,
-            system=SYSTEM,
-            messages=[{"role": "user", "content": f"العناوين:\n\n{listing}"}],
-        )
-        from .writer import record_usage
-        record_usage(resp, mcfg.get("model", "claude-haiku-4-5-20251001"))
-        text = "".join(b.text for b in resp.content
-                       if getattr(b, "type", "") == "text")
-        groups = _parse(text)
-    except (APIError, RuntimeError, json.JSONDecodeError, ValueError) as exc:
-        # RuntimeError تصدر من _client() نفسه إن غاب ANTHROPIC_API_KEY —
-        # يجب أن تتدهور كبقية أعطال النموذج، لا أن تُسقط الجمع كله.
-        log.warning("فشل الدمج الدلالي — ستبقى المجموعات كما هي: %s", exc)
+    groups = _group_titles([a.title for a in head], cfg)
+    if groups is None:
         return articles
 
     seen: set[int] = set()
@@ -140,3 +149,32 @@ def _absorb(rep: Article, others: list[Article]) -> Article:
     if not rep.image_url and images:
         rep.image_url = images[0]
     return rep
+
+
+def find_duplicate_event(candidate_title: str, recent_titles: list[str],
+                         cfg) -> tuple[bool, str | None]:
+    """
+    هل يغطي العنوان المرشّح حدثًا سبق نشره ضمن ``recent_titles``؟
+
+    يُستعمل في مسار النشر التلقائي تحديدًا: تحديث حصيلة ضحايا أو تفاصيل
+    إضافية لخبر نُشر فعلًا لا يستحق منشورًا مستقلًا بلا مراجعة بشرية —
+    نفس منطق تجميع الحدث الواحد عبر صياغات مختلفة في `semantic_merge`،
+    مطبَّقًا هنا على عنوان واحد مقابل ما نُشر مؤخرًا بدل مجموعة متصدّرين.
+
+    يعيد (نجح_الفحص, العنوان المطابق أو None). عند فشل الاستدعاء نعيد
+    ``(False, None)`` — خلافًا لـ`semantic_merge`/`screen` اللذين يتدهوران
+    بأمان لأن فشلهما يعني مرور المزيد للمراجعة البشرية فقط، فشل هذا الفحص
+    يقع على حافة النشر بلا مراجعة، فيُعامل كعدم تأكيد لا كسماح.
+    """
+    if not recent_titles:
+        return True, None
+
+    titles = [candidate_title] + list(recent_titles)
+    groups = _group_titles(titles, cfg)
+    if groups is None:
+        return False, None
+
+    matched = [i for g in groups if 0 in g for i in g if i != 0]
+    if not matched:
+        return True, None
+    return True, titles[min(matched)]

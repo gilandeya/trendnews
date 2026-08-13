@@ -143,6 +143,34 @@ def update_draft(path: Path, **changes) -> dict:
     return data
 
 
+def recent_published_titles(days: int) -> list[str]:
+    """
+    عناوين المصدر (لا الترجمة العربية) لكل مسودة نُشرت خلال آخر ``days``.
+
+    مصمَّمة لكاشف تكرار النشر التلقائي (`merge.find_duplicate_event`):
+    نُقارن عنوان المرشّح الجديد بما نُشر فعلًا، لا بكل ما التُقط — نسخة
+    رُفضت أو ما زالت معلَّقة ليست «تغطية سابقة» يُمنع تكرارها.
+    """
+    now = datetime.now(timezone.utc)
+    titles: list[str] = []
+    for delta in range(days + 1):
+        day = now - timedelta(days=delta)
+        folder = draft_dir(day)
+        if not folder.exists():
+            continue
+        for path in sorted(folder.glob("*.json")):
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                continue
+            if data.get("status") != "published":
+                continue
+            title = data.get("source", {}).get("title", "")
+            if title:
+                titles.append(title)
+    return titles
+
+
 # ──────────────────────────── مرشّحو الاختيار (preselect) ─────────────────
 # بنية مطابقة لتخزين المسودات أعلاه، لكن في state/ لا drafts/: مرشّح غير
 # مختار بلا صياغة ولا صورة — حجمه تافه، وبقاؤه في drafts/ لا يفيد شيئًا
