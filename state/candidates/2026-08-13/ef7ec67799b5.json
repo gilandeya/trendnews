@@ -1,0 +1,48 @@
+{
+  "id": "ef7ec67799b5",
+  "created_at": "2026-08-13T19:08:07.982800+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.65,
+  "trend_score": 0.5,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US loses quarter of its MQ-9 Reaper drones in war with Iran",
+  "link": "https://tass.com/world/2172563",
+  "publishers": [
+    "The Washington Post",
+    "WP"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "US loses quarter of its MQ-9 Reaper drones in war with Iran",
+    "link": "https://tass.com/world/2172563",
+    "summary": "The report claims that the US lost 45 MQ-9 Reapers",
+    "source_name": "TASS",
+    "region": "ru",
+    "weight": 0.7,
+    "published": "2026-08-13T18:11:39+00:00",
+    "image_url": null,
+    "publisher": "WP",
+    "cluster_sources": [
+      "The Washington Post",
+      "WP"
+    ],
+    "cluster_members": [
+      {
+        "name": "WP",
+        "link": "https://tass.com/world/2172563"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.33300108492336217,
+    "age_hours": 2.8459164116666664,
+    "is_stale": false,
+    "score": 16.652391595357553
+  }
+}

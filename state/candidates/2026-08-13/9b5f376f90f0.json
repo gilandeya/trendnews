@@ -1,0 +1,54 @@
+{
+  "id": "9b5f376f90f0",
+  "created_at": "2026-08-13T19:08:07.982528+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.76,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Britain poised for record hot summer as western Europe swelters under another heat wave",
+  "link": "https://www.thehindu.com/news/international/britain-poised-for-record-hot-summer-as-western-europe-swelters-under-another-heat-wave/article71340558.ece",
+  "publishers": [
+    "Al Jazeera English",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Britain poised for record hot summer as western Europe swelters under another heat wave",
+    "link": "https://www.thehindu.com/news/international/britain-poised-for-record-hot-summer-as-western-europe-swelters-under-another-heat-wave/article71340558.ece",
+    "summary": "Forecasters are predicting the mercury to rise as high as 38 Celsius in central and southeast England, falling just short of the August record of 38.5 C, set in 2003",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-13T11:03:05+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/bevfjb/article71340647.ece/alternates/LANDSCAPE_1200/IMG_BRITAIN-WEATHER-CLIM_2_1_4LA255JQ.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/13/europe-swelters-in-latest-wave-of-extreme-heat?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/britain-poised-for-record-hot-summer-as-western-europe-swelters-under-another-heat-wave/article71340558.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/bevfjb/article71340647.ece/alternates/LANDSCAPE_1200/IMG_BRITAIN-WEATHER-CLIM_2_1_4LA255JQ.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 0.1148275688888889,
+    "is_stale": false,
+    "score": 16.761200980574074
+  }
+}
