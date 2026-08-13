@@ -1,9 +1,9 @@
 {
   "id": "9b9a69f5cf22",
-  "created_at": "2026-08-13T15:08:04.991010+00:00",
-  "status": "unselected",
-  "selection_issue": 318,
-  "score": 20.31,
+  "created_at": "2026-08-13T17:01:21.582819+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.94,
   "trend_score": 0.0,
   "velocity": 1.0,
   "bucket": "serious",
@@ -11,10 +11,9 @@
   "title": "Air India mandates drug tests for all pilots after mid-air plunge",
   "link": "https://www.dawn.com/news/2022582/air-india-mandates-drug-tests-for-all-pilots-after-mid-air-plunge",
   "publishers": [
-    "Channel News Asia",
+    "BBC World",
     "Daily Maverick",
-    "Dawn",
-    "Free Malaysia Today"
+    "Dawn"
   ],
   "region": "pk",
   "article": {
@@ -28,10 +27,9 @@
     "image_url": "https://i.dawn.com/large/2026/08/13171850fce33fd.webp",
     "publisher": "Dawn",
     "cluster_sources": [
-      "Channel News Asia",
+      "BBC World",
       "Daily Maverick",
-      "Dawn",
-      "Free Malaysia Today"
+      "Dawn"
     ],
     "cluster_members": [
       {
@@ -43,28 +41,25 @@
         "link": "https://www.dawn.com/news/2022582/air-india-mandates-drug-tests-for-all-pilots-after-mid-air-plunge"
       },
       {
-        "name": "Channel News Asia",
-        "link": "https://www.channelnewsasia.com/asia/air-india-mandatory-drug-test-pilot-mid-air-plunge-6317471"
-      },
-      {
-        "name": "Free Malaysia Today",
-        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/13/air-india-expands-drug-testing-after-pilot-tests-positive-for-marijuana"
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c2352jyvm5xo?at_medium=RSS&at_campaign=rss"
       }
     ],
     "image_candidates": [
       "https://i.dawn.com/large/2026/08/13171850fce33fd.webp",
       "https://i.dawn.com/thumbnail/2026/08/13171850fce33fd.webp",
       "https://cdn.dailymaverick.co.za/attachments/2996/13974711_400821.jpg",
-      "https://dam.mediacorp.sg/image/upload/s--X7SkMu4M--/c_crop,h_1125,w_2000,x_0,y_277/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/11/2026-08-05t130201z_911165123_rc2dk5astm2p_rtrmadp_3_air-india-ceo.jpg?itok=J8wyl2dx",
-      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/07/4a15481e-12212279_1600x1000_1-1.webp"
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg"
     ],
     "bucket": "serious",
     "state_media": false,
     "trend_score": 0.0,
-    "group_sources": 4,
+    "group_sources": 3,
     "velocity": 1.0,
-    "age_hours": 47.99469394416666,
+    "age_hours": 49.88299812638889,
     "is_stale": false,
-    "score": 20.3134091827963
+    "score": 18.942404635515324
   }
 }
