@@ -1108,9 +1108,11 @@ def test_preselect_finalize() -> None:
 
     captured: dict = {}
 
-    def fake_burst(ids, cfg, issue_number, only_urgent=False, skip_urgent=False):
+    def fake_burst(ids, cfg, issue_number, only_urgent=False, skip_urgent=False,
+                   inline_cap_minutes=None):
         captured["ids"] = list(ids)
         captured["issue_number"] = issue_number
+        captured["inline_cap_minutes"] = inline_cap_minutes
         return 0
 
     real_burst = publish_mod.cmd_burst
@@ -1127,6 +1129,8 @@ def test_preselect_finalize() -> None:
     check("نُشر المختار وحده عبر cmd_burst",
           captured.get("ids") == [cand_a["id"]], str(captured))
     check("رقم الـ Issue مرَّر لـ cmd_burst", captured.get("issue_number") == 4242)
+    check("finalize يمرّر inline_cap_minutes=0 كي لا ينام urgent (Issue #315)",
+          captured.get("inline_cap_minutes") == 0, str(captured))
 
     check("صيغت مسودة للمختار", store.load_draft(cand_a["id"]) is not None)
     check("لم تُصَغ مسودة لغير المختار", store.load_draft(cand_b["id"]) is None)
@@ -2665,6 +2669,108 @@ def test_first_comment() -> None:
     check("المتن يحوي الرابط عند التعطيل", "https://bbc.com/a" in body2)
 
 
+def test_burst_inline_cap_zero_defers_without_sleep() -> None:
+    """Issue #315: finalize يستدعي cmd_burst داخل مهمة urgent (سقفها 20
+    دقيقة)، وأصغر فاصل يحسبه spaced_slots هو 30 دقيقة — أي sleep واحد
+    يتجاوز السقف حتمًا. inline_cap_minutes=0 يجب أن يمنع أي sleep تمامًا:
+    يُنشر المستحق الآن فقط (wait<=0)، والبقية queued بلا انتظار."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    cfg = load_config()
+    drafts = []
+    for i, score in enumerate([0.9, 0.5, 0.3]):
+        d = {
+            "id": f"burst{i}", "status": "pending", "score": score,
+            "arabic": {"post_title": f"خبر {i}", "urgent": False},
+            "image": "drafts/x.jpg", "caption": "متن", "source": {},
+        }
+        store.save_draft(d)
+        drafts.append(d)
+
+    sleep_calls: list = []
+    real_sleep = publish_mod.time.sleep
+    publish_mod.time.sleep = lambda s: sleep_calls.append(s)
+
+    published_calls: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_calls.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    try:
+        code = publish_mod.cmd_burst(
+            [d["id"] for d in drafts], cfg, None, inline_cap_minutes=0)
+    finally:
+        publish_mod.time.sleep = real_sleep
+        publish_mod.publish_one = real_publish_one
+
+    check("cmd_burst بلا انتظار داخلي ينتهي بنجاح", code == 0, f"exit={code}")
+    check("لا استدعاء sleep إطلاقًا (لا يتجاوز سقف مهمة urgent)",
+          sleep_calls == [], str(sleep_calls))
+    check("الأعلى مؤشرًا وحده نُشر فورًا (wait<=0)",
+          published_calls == ["burst0"], str(published_calls))
+
+    statuses = {d["id"]: store.load_draft(d["id"])[1]["status"] for d in drafts}
+    check("البقية عُلّمت queued لا published",
+          statuses["burst0"] == "published"
+          and statuses["burst1"] == "queued"
+          and statuses["burst2"] == "queued", str(statuses))
+    check("موعد نشر مؤجَّل محفوظ للمتبقي (يلتقطه سيّر نشر الطابور)",
+          "publish_at" in store.load_draft("burst1")[1])
+
+
+def test_burst_urgent_still_immediate_with_inline_cap_zero() -> None:
+    """العاجل يخرج فورًا مهما كان حجم الدفعة — inline_cap_minutes=0 يمسّ
+    البقية العادية فقط، ولا يغيّر منطق العاجل (wait=0 بلا شرط) إطلاقًا."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    urgent = {"id": "urg0", "status": "pending", "score": 0.1,
+              "arabic": {"post_title": "عاجل", "urgent": True},
+              "image": "drafts/x.jpg", "caption": "متن", "source": {}}
+    normal = {"id": "norm0", "status": "pending", "score": 0.9,
+              "arabic": {"post_title": "عادي", "urgent": False},
+              "image": "drafts/x.jpg", "caption": "متن", "source": {}}
+    store.save_draft(urgent)
+    store.save_draft(normal)
+
+    real_sleep = publish_mod.time.sleep
+    publish_mod.time.sleep = lambda s: (_ for _ in ()).throw(
+        AssertionError(f"sleep({s}) استُدعي رغم inline_cap_minutes=0"))
+
+    published_calls: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_calls.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    try:
+        code = publish_mod.cmd_burst(
+            ["urg0", "norm0"], load_config(), None, inline_cap_minutes=0)
+    finally:
+        publish_mod.time.sleep = real_sleep
+        publish_mod.publish_one = real_publish_one
+
+    check("cmd_burst مع عاجل ينتهي بنجاح", code == 0, f"exit={code}")
+    check("العاجل نُشر فورًا رغم inline_cap_minutes=0",
+          "urg0" in published_calls, str(published_calls))
+    check("العادي أُجِّل للطابور بلا نشر فوري",
+          "norm0" not in published_calls, str(published_calls))
+
+
 def test_scheduling() -> None:
     from src.schedule import assign_slots, describe, is_due
 
@@ -2797,6 +2903,9 @@ def main() -> int:
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()
+    print("\n── نشر الدفعة بلا انتظار داخل مهمة urgent ──")
+    test_burst_inline_cap_zero_defers_without_sleep()
+    test_burst_urgent_still_immediate_with_inline_cap_zero()
     print("\n── الجدولة في أوقات الذروة ──")
     test_scheduling()
     print("\n── تحليل الأداء ──")

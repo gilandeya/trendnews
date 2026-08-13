@@ -228,13 +228,17 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     from . import publish as publish_mod
     if not cfg.path("facebook.schedule_enabled", True):
         mode = "فوري (schedule_enabled=false)"
-        dispatch = publish_mod.cmd_now
-    elif cfg.path("facebook.schedule_mode", "burst") == "burst":
-        mode = "burst"
-        dispatch = publish_mod.cmd_burst
-    else:
-        mode = "schedule"
-        dispatch = publish_mod.cmd_schedule
-    log.info("تفويض %d مسودة إلى publish.%s (%s)",
-             len(published_ids), dispatch.__name__, mode)
-    return dispatch(published_ids, cfg, issue_number)
+        log.info("تفويض %d مسودة إلى publish.cmd_now (%s)", len(published_ids), mode)
+        return publish_mod.cmd_now(published_ids, cfg, issue_number)
+    if cfg.path("facebook.schedule_mode", "burst") == "burst":
+        # يعمل داخل مهمة urgent (سقفها 20 دقيقة) — بلا هذا القيد كان
+        # cmd_burst ينام 30-60 دقيقة على المنشور الثاني فتُلغى المهمة قبل
+        # أن يكمل (Issue #315). المستحق الآن فقط يُنشر هنا، والبقية تُعلَّم
+        # queued بلا انتظار ويلتقطها سيّر queue.yml كل 30 دقيقة.
+        inline_cap = float(cfg.path("facebook.finalize_inline_minutes", 0))
+        log.info("تفويض %d مسودة إلى publish.cmd_burst (burst، بلا انتظار داخلي)",
+                 len(published_ids))
+        return publish_mod.cmd_burst(published_ids, cfg, issue_number,
+                                     inline_cap_minutes=inline_cap)
+    log.info("تفويض %d مسودة إلى publish.cmd_schedule (schedule)", len(published_ids))
+    return publish_mod.cmd_schedule(published_ids, cfg, issue_number)

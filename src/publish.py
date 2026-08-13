@@ -197,7 +197,8 @@ def collect_pending(ids: list[str], lines: list[str]) -> list[tuple]:
 
 
 def cmd_burst(ids: list[str], cfg, issue_number: int | None,
-              only_urgent: bool = False, skip_urgent: bool = False) -> int:
+              only_urgent: bool = False, skip_urgent: bool = False,
+              inline_cap_minutes: float | None = None) -> int:
     """
     ينشر المعتمَد وفق أربع قواعد:
 
@@ -207,12 +208,20 @@ def cmd_burst(ids: list[str], cfg, issue_number: int | None,
       4. البقية                   → فاصل عشوائي 30-60 دقيقة
 
     الفاصل عشوائي لا ثابت: النشر على إيقاع منتظم تمامًا نمط آلي واضح.
+
+    ``inline_cap_minutes`` يتجاوز ``facebook.max_inline_minutes`` من
+    الإعداد عند تمريره صراحة (Issue #315): استدعاء collect_finalize.finalize
+    يمرّر 0 لأنه يعمل داخل مهمة urgent (سقفها 20 دقيقة في publish.yml)،
+    وأصغر فاصل يحسبه spaced_slots هو 30 دقيقة — أي sleep واحد يتجاوز
+    السقف حتمًا. بصفر، يُنشر المستحق الآن فقط (wait<=0) والبقية تُعلَّم
+    queued بلا انتظار، ويلتقطها سيّر queue.yml كل 30 دقيقة.
     """
     fcfg = cfg.get("facebook", {}) or {}
     gap_min = float(fcfg.get("gap_min_minutes", 30))
     gap_max = float(fcfg.get("gap_max_minutes", 60))
     tzname = fcfg.get("timezone", "UTC")
-    max_inline = float(fcfg.get("max_inline_minutes", 120))
+    max_inline = (float(inline_cap_minutes) if inline_cap_minutes is not None
+                 else float(fcfg.get("max_inline_minutes", 120)))
 
     lines: list[str] = []
     pending = collect_pending(ids, lines)      # مرتّبة تنازليًا بالمؤشر
