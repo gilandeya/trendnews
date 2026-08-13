@@ -1,0 +1,57 @@
+{
+  "id": "5853ee8f1836",
+  "created_at": "2026-08-13T10:01:16.948679+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.58,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Members of Trump's cabinet remained on decoy plane, after president's quiet exit",
+  "link": "https://www.bbc.co.uk/news/articles/c4g306eln8wo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Der Spiegel"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Members of Trump's cabinet remained on decoy plane, after president's quiet exit",
+    "link": "https://www.bbc.co.uk/news/articles/c4g306eln8wo?at_medium=RSS&at_campaign=rss",
+    "summary": "Trump boarded a different plane in Turkey during a Nato summit for security reasons involving Iran.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-13T09:40:18+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a2c4/live/5174be90-96f7-11f1-a7ab-8b30adf0800a.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Der Spiegel"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c4g306eln8wo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/donald-trump-us-praesident-liess-marco-rubio-und-scott-bessent-offenbar-in-air-force-one-zurueck-a-b741d43b-9632-4a2d-8e66-b81fa1ddb8b9#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a2c4/live/5174be90-96f7-11f1-a7ab-8b30adf0800a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/a2c4/live/5174be90-96f7-11f1-a7ab-8b30adf0800a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/a2c4/live/5174be90-96f7-11f1-a7ab-8b30adf0800a.jpg",
+      "https://cdn.prod.www.spiegel.de/images/d073bde6-44e7-45b7-a2da-deb60f64a251_w520_r2.08_fpx59.98_fpy49.99.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 18.88830153388889,
+    "is_stale": false,
+    "score": 17.576791721462964
+  }
+}
