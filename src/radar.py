@@ -16,7 +16,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import merge, review, store
+from . import merge, preselect, review, store
 from .config import ROOT, STATE_DIR, load_config
 from .extract import gather as gather_texts
 from .imagesearch import find_images
@@ -132,16 +132,21 @@ def scan(cfg) -> list:
 
 
 def build_draft(art, cfg, urgent: bool = True,
-                extra: dict | None = None) -> dict | None:
+                extra: dict | None = None,
+                docs: list[dict] | None = None) -> dict | None:
     """يصوغ الخبر ويبني صورته — نفس مسار الدورة العادية.
 
     `urgent` معامل لا ثابت: الرادار لا يلتقط إلا العاجل، لكن الطلبات
     اليدوية قد تكون عن حدث هادئ فلا يصح وسمه بـ«عاجل».
+
+    `docs` اختياري: يمرَّره `gate_check` إن كان استخرجها أصلًا لفحص
+    شرط النشر التلقائي، فلا يُعاد استخراج النص مرتين لنفس الخبر.
     """
     art = enrich_image(art)
-    acfg = cfg.get("analysis", {}) or {}
-    docs = gather_texts(art.cluster_members,
-                        limit=int(acfg.get("max_sources", 2)))
+    if docs is None:
+        acfg = cfg.get("analysis", {}) or {}
+        docs = gather_texts(art.cluster_members,
+                            limit=int(acfg.get("max_sources", 2)))
 
     try:
         written = write_arabic(art, cfg, source_docs=docs or None)
@@ -204,33 +209,41 @@ def build_draft(art, cfg, urgent: bool = True,
     return draft
 
 
-def may_auto_publish(art, draft: dict, cfg, state: dict) -> tuple[bool, str]:
+def gate_check(art, cfg, state: dict) -> tuple[bool, str, list[dict]]:
     """
-    هل يُنشر هذا تلقائيًا بلا مراجعة؟
+    هل يُنشر هذا تلقائيًا بلا مراجعة؟ يُحسم *قبل* الصياغة (Issue #312) —
+    الصياغة والصورة مكلفتان، وتُهدران على كل ما كان مصيره الرفض لاحقًا.
 
     النشر بلا مراجعة يعني أن أي خطأ يخرج للجمهور. لذلك كل الشروط التالية
     مجتمعة لا واحد منها — score/group_sources للتأكيد من عدة مصادر
     مستقلة، وفحص التكرار الدلالي في الأخير لأنه لا يميّز تحديث خبر منشور
-    عن خبر جديد فعلًا (Issue #303).
+    عن خبر جديد فعلًا (Issue #303). لا شيء هنا يعتمد على draft: bucket
+    مقدَّر أصلًا في rank()، وقراءة النص (extract.gather) لا تستدعي نموذجًا.
+
+    تعيد أيضًا `docs` (نصوص المصادر إن استُخرجت) لتمريرها إلى build_draft
+    فتُجنَّب إعادة الاستخراج لما يجتاز الحارس فعلًا.
     """
     a = cfg.get("radar", {}) or {}
     if not a.get("auto_publish", False):
-        return False, "النشر التلقائي معطّل"
+        return False, "النشر التلقائي معطّل", []
 
     limit = int(a.get("auto_publish_daily_limit", 3))
     if auto_published_today(state) >= limit:
-        return False, f"بلغ الحد اليومي ({limit})"
+        return False, f"بلغ الحد اليومي ({limit})", []
 
     if art.score < float(a.get("auto_publish_min_score", 26)):
-        return False, f"المؤشر {art.score:.1f} دون عتبة النشر التلقائي"
+        return False, f"المؤشر {art.score:.1f} دون عتبة النشر التلقائي", []
     if art.group_sources < int(a.get("auto_publish_min_sources", 4)):
-        return False, f"مصادر غير كافية للتأكيد ({art.group_sources})"
+        return False, f"مصادر غير كافية للتأكيد ({art.group_sources})", []
     if art.state_media:
-        return False, "إعلام رسمي منفرد — يحتاج مراجعة"
-    if draft["bucket"] == "light":
-        return False, "محتوى خفيف — لا يُنشر بلا مراجعة"
-    if not draft.get("analysed_sources"):
-        return False, "تعذّرت قراءة نص الخبر"
+        return False, "إعلام رسمي منفرد — يحتاج مراجعة", []
+    if art.bucket == "light":
+        return False, "محتوى خفيف — لا يُنشر بلا مراجعة", []
+
+    acfg = cfg.get("analysis", {}) or {}
+    docs = gather_texts(art.cluster_members, limit=int(acfg.get("max_sources", 2)))
+    if not docs:
+        return False, "تعذّرت قراءة نص الخبر", docs
 
     # الشرط الأهم عمليًا (Issue #303): score وgroup_sources لا يميّزان
     # التكرار — تحديث حصيلة ضحايا لخبر منشور يحقق عتبات عددية عالية مثل
@@ -238,11 +251,11 @@ def may_auto_publish(art, draft: dict, cfg, state: dict) -> tuple[bool, str]:
     recent = store.recent_published_titles(int(a.get("auto_publish_dedupe_days", 3)))
     confirmed, matched = merge.find_duplicate_event(art.title, recent, cfg)
     if not confirmed:
-        return False, "تعذّر التأكد من عدم التكرار — يحتاج مراجعة"
+        return False, "تعذّر التأكد من عدم التكرار — يحتاج مراجعة", docs
     if matched:
-        return False, f"يبدو تحديثًا لخبر نُشر سابقًا: {matched[:70]}"
+        return False, f"يبدو تحديثًا لخبر نُشر سابقًا: {matched[:70]}", docs
 
-    return True, "استوفى كل شروط النشر التلقائي"
+    return True, "استوفى كل شروط النشر التلقائي", docs
 
 
 # ──────────────────────────── التشغيل ────────────────────────────
@@ -283,11 +296,24 @@ def main() -> int:
             log.info("التُقط سابقًا: %s", art.title[:60])
             continue
 
-        draft = build_draft(art, cfg)
+        ok, why, docs = gate_check(art, cfg, state)
+
+        # من لا يستوفي شروط النشر التلقائي: يُحفظ مرشحًا خامًا (بلا صياغة
+        # ولا صورة) ليظهر مع مرشحي preselect في أقرب Issue اختيار يفتحه
+        # collect.py، بدل إهدار الصياغة على ما سيُرفض غالبًا (Issue #312).
+        if not ok and rcfg.get("preselect_fallback", True):
+            store.save_candidate(preselect.build_candidate(art))
+            # لا بد من تذكّره فورًا: الرادار يفحص كل 15 دقيقة، وبلا هذا
+            # سيُعاد التقاطه وحفظه كمرشح مكرر في كل تشغيلة حتى يُختار.
+            store.remember(history, art.title, art.link, None,
+                           region=art.region, score=art.score, bucket=art.bucket)
+            log.info("📥 مرشح preselect (بلا صياغة): %s — %s", art.title[:60], why)
+            continue
+
+        draft = build_draft(art, cfg, docs=docs)
         if not draft:
             continue
 
-        ok, why = may_auto_publish(art, draft, cfg, state)
         draft["auto_publish_decision"] = why
         store.save_draft(draft)
         store.remember(history, art.title, art.link, draft["arabic"]["post_title"],
