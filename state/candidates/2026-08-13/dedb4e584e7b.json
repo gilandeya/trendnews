@@ -1,0 +1,55 @@
+{
+  "id": "dedb4e584e7b",
+  "created_at": "2026-08-13T09:07:46.019958+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.05,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Moroccan authorities say they have beefed up security at Ceuta border",
+  "link": "http://www.africanews.com/2026/08/13/moroccan-authorities-say-they-have-beefed-up-security-at-ceuta-border/",
+  "publishers": [
+    "Africanews",
+    "The Hindu — International"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Moroccan authorities say they have beefed up security at Ceuta border",
+    "link": "http://www.africanews.com/2026/08/13/moroccan-authorities-say-they-have-beefed-up-security-at-ceuta-border/",
+    "summary": "The annoucement comes as calls resurfaced on social media for mass crossings into the Spanish enclave in North Africa.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-13T05:19:21+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/87/23/23/640x360_cmsv2_cf9c11e6-69b2-56de-b718-95026a393bac-9872323.jpg?1786562286",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/13/moroccan-authorities-say-they-have-beefed-up-security-at-ceuta-border/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/morocco-beefs-up-security-at-ceuta-and-melilla-borders-after-online-calls-for-new-crossings/article71339367.ece"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/87/23/23/640x360_cmsv2_cf9c11e6-69b2-56de-b718-95026a393bac-9872323.jpg?1786562286",
+      "https://th-i.thgim.com/public/incoming/9xnuaz/article71339370.ece/alternates/LANDSCAPE_1200/2026-08-05T135333Z_553577825_RC2NPMAPIPJ7_RTRMADP_3_MIGRATION-EUROPE-SPAIN-CEUTA.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.046358893925927
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "c43c49db7cd6",
+  "created_at": "2026-08-13T09:07:46.020206+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.16,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Taiwan says it was targeted last month in AI-driven hacking campaign",
+  "link": "https://www.dailymaverick.co.za/article/2026-08-13-taiwan-says-it-was-targeted-last-month-in-ai-driven-hacking-campaign/",
+  "publishers": [
+    "Channel News Asia",
+    "Daily Maverick",
+    "Rappler",
+    "Reuters"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Taiwan says it was targeted last month in AI-driven hacking campaign",
+    "link": "https://www.dailymaverick.co.za/article/2026-08-13-taiwan-says-it-was-targeted-last-month-in-ai-driven-hacking-campaign/",
+    "summary": "TAIPEI/WASHINGTON, Aug 13 (Reuters) - Taiwan detected AI-assisted cyberattacks on government agencies last month coming from overseas but the affected bodies successfully \"handled\" the incident, the Ministry of Digital Affairs said on Thursday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-08-13T04:48:27+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/dailymaverick/wp-content/uploads/2023/10/11768807.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Daily Maverick",
+      "Rappler",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-13-taiwan-says-it-was-targeted-last-month-in-ai-driven-hacking-campaign/"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/technology/taiwan-says-targeted-ai-driven-hacking-campaign-july-2026/"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/east-asia/taiwan-ai-cyberattack-hacking-campaign-6316266"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/dailymaverick/wp-content/uploads/2023/10/11768807.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--Rydsl6K---/c_crop,h_1125,w_2000,x_0,y_19/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/13/taipei_101.jpg?itok=8KlJP2Di"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 6.11005759861111,
+    "is_stale": false,
+    "score": 20.162025556888892
+  }
+}
