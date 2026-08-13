@@ -125,7 +125,10 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
     previous = store.find_previous(history, art.title, art.link, dupe_threshold)
     prev_title = None
     if previous:
-        prev_title = previous.get("posted_title") or previous.get("title")
+        # posted_title فارغ = أحدث مطابقة مجرد عرض preselect معلَّق (قد
+        # يكون عرض هذا المرشح نفسه قبل اعتماده) لا نشر فعلي — لا نمرّره
+        # للنموذج كسياق "نشرنا سابقًا" (Issue #331)
+        prev_title = previous.get("posted_title") or None
 
     try:
         written = write_arabic(art, cfg, previous_post=prev_title,
