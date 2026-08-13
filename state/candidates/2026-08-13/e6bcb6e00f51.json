@@ -1,0 +1,55 @@
+{
+  "id": "e6bcb6e00f51",
+  "created_at": "2026-08-13T17:08:03.575632+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.11,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Sensory overload in kids has distinct neurobiological roots",
+  "link": "https://medicalxpress.com/news/2026-08-sensory-overload-kids-distinct-neurobiological.html",
+  "publishers": [
+    "Medical Xpress",
+    "News Medical"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Sensory overload in kids has distinct neurobiological roots",
+    "link": "https://medicalxpress.com/news/2026-08-sensory-overload-kids-distinct-neurobiological.html",
+    "summary": "Overreactions to ordinary sensory stimuli—a scratchy shirt tag, a roaring vacuum cleaner, an unfamiliar smell—are commonly associated with autism. But in fact, an estimated 15% to 20% of children experience such reactions, known as sensory over-responsivity or sensory distress, and they show up across a range of psychiatric conditions.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-08-13T12:00:04+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/sensory-overload-in-ki.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Medical Xpress",
+      "News Medical"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-08-sensory-overload-kids-distinct-neurobiological.html"
+      },
+      {
+        "name": "News Medical",
+        "link": "https://www.news-medical.net/news/20260813/Brain-scans-reveal-neurological-roots-of-sensory-overload-in-kids.aspx"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/sensory-overload-in-ki.jpg",
+      "https://www.news-medical.net/images/tags/TagImage-1831-45296002389942131275-620x480.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 5.114662163333334,
+    "is_stale": false,
+    "score": 17.107919067666668
+  }
+}

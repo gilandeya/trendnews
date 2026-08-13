@@ -1,9 +1,9 @@
 {
   "id": "b5f7dc084da6",
-  "created_at": "2026-08-13T16:17:22.799005+00:00",
-  "status": "unselected",
-  "selection_issue": 321,
-  "score": 19.49,
+  "created_at": "2026-08-13T17:08:03.575168+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.44,
   "trend_score": 0.0,
   "velocity": 1.0,
   "bucket": "serious",
@@ -12,7 +12,7 @@
   "link": "https://www.scmp.com/news/world/europe/article/3363950/1-dead-several-wounded-rotterdam-port-explosion?utm_source=rss_feed",
   "publishers": [
     "Hindustan Times — World",
-    "Reuters",
+    "NBC News",
     "South China Morning Post",
     "newspaper"
   ],
@@ -29,7 +29,7 @@
     "publisher": "South China Morning Post",
     "cluster_sources": [
       "Hindustan Times — World",
-      "Reuters",
+      "NBC News",
       "South China Morning Post",
       "newspaper"
     ],
@@ -53,8 +53,8 @@
     "trend_score": 0.0,
     "group_sources": 4,
     "velocity": 1.0,
-    "age_hours": 2.2677694691666668,
+    "age_hours": 3.1126685627777775,
     "is_stale": false,
-    "score": 19.494875564944444
+    "score": 19.438548703222224
   }
 }

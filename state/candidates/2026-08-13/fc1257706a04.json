@@ -1,0 +1,55 @@
+{
+  "id": "fc1257706a04",
+  "created_at": "2026-08-13T17:08:03.575426+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.24,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "ASTRO updates guideline on radiation therapy for pancreatic cancer",
+  "link": "https://medicalxpress.com/news/2026-08-astro-guideline-therapy-pancreatic-cancer.html",
+  "publishers": [
+    "Medical Xpress",
+    "News Medical"
+  ],
+  "region": "health",
+  "article": {
+    "title": "ASTRO updates guideline on radiation therapy for pancreatic cancer",
+    "link": "https://medicalxpress.com/news/2026-08-astro-guideline-therapy-pancreatic-cancer.html",
+    "summary": "An updated clinical guideline from the American Society for Radiation Oncology (ASTRO) provides evidence-based recommendations on the use of radiation therapy to treat adult patients with pancreatic cancer.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-08-13T14:00:06+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/astro-updates-guidelin.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Medical Xpress",
+      "News Medical"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-08-astro-guideline-therapy-pancreatic-cancer.html"
+      },
+      {
+        "name": "News Medical",
+        "link": "https://www.news-medical.net/news/20260813/New-ASTRO-guidelines-optimize-radiation-therapy-for-pancreatic-cancer.aspx"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/astro-updates-guidelin.jpg",
+      "https://www.news-medical.net/image-handler/picture/2015/3/Pancreatic_Cancer_89a89cdc7f804d5b8329b646f86bbec6-620x480.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 3.1128899683333335,
+    "is_stale": false,
+    "score": 17.241289437981482
+  }
+}
