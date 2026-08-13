@@ -1,7 +1,7 @@
 {
   "id": "c43c49db7cd6",
   "created_at": "2026-08-13T11:30:33.054686+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 20.16,
   "bucket": "serious",
@@ -59,5 +59,12 @@
       "https://dam.mediacorp.sg/image/upload/s--Rydsl6K---/c_crop,h_1125,w_2000,x_0,y_19/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/13/taipei_101.jpg?itok=8KlJP2Di"
     ]
   },
-  "publish_at": "2026-08-13T12:19:30.286455+00:00"
+  "publish_at": "2026-08-13T12:19:30.286455+00:00",
+  "published_at": "2026-08-13T12:36:22.178290+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1333675468849474",
+    "photo_id": "1333675442182810",
+    "url": "https://www.facebook.com/631680090321390_1333675468849474",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
