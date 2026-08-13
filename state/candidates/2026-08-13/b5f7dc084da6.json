@@ -1,11 +1,11 @@
 {
   "id": "b5f7dc084da6",
-  "created_at": "2026-08-13T21:03:33.446692+00:00",
-  "status": "unselected",
-  "selection_issue": 329,
-  "score": 18.04,
+  "created_at": "2026-08-13T22:08:04.994962+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.11,
   "trend_score": 0.0,
-  "velocity": 0.77,
+  "velocity": 0.0,
   "bucket": "serious",
   "state_media": false,
   "title": "1 dead, 6 wounded in Rotterdam port explosion",
@@ -52,9 +52,9 @@
     "state_media": false,
     "trend_score": 0.0,
     "group_sources": 4,
-    "velocity": 0.7734144097127981,
-    "age_hours": 7.037343215277778,
+    "velocity": 0.0,
+    "age_hours": 8.112824116666665,
     "is_stale": false,
-    "score": 18.04397320182325
+    "score": 14.105202051055556
   }
 }

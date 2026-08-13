@@ -1,0 +1,70 @@
+{
+  "id": "9edb107df6ed",
+  "created_at": "2026-08-13T22:08:04.993985+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.97,
+  "trend_score": 0.5,
+  "velocity": 0.6,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ukraine offers Russia truce in Black Sea as food supply fears mount, source says",
+  "link": "https://www.channelnewsasia.com/world/ukraine-offers-russia-truce-in-black-sea-food-supply-fears-mount-source-says-6318116",
+  "publishers": [
+    "Channel News Asia",
+    "Daily Sabah",
+    "Reuters",
+    "The Guardian — World"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Ukraine offers Russia truce in Black Sea as food supply fears mount, source says",
+    "link": "https://www.channelnewsasia.com/world/ukraine-offers-russia-truce-in-black-sea-food-supply-fears-mount-source-says-6318116",
+    "summary": "Ukraine has proposed, through a third party, a mutual halt to attacks on civilian targets in the Black Sea as escalating strikes threaten grain exports and global food supplies, though Russia says it has received no formal proposal.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-13T17:08:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--sLgZKZ-J--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-13T165921Z_2_LYNXMPEM7C1AD_RTROPTP_3_UKRAINE-CRISIS-ATTACK-BLACKSEA-SBU.JPG?itok=fDCHL9fZ",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Daily Sabah",
+      "Reuters",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/ukraine-offers-russia-truce-in-black-sea-food-supply-fears-mount-source-says-6318116"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/ukraine-reportedly-offers-russia-black-sea-truce-as-food-supply-fears-grow"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/13/ukraine-proposes-deal-with-russia-to-halt-attacks-on-civilian-ships-in-black-sea"
+      },
+      {
+        "name": "Reuters",
+        "link": "https://tass.com/world/2172499"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--sLgZKZ-J--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-13T165921Z_2_LYNXMPEM7C1AD_RTROPTP_3_UKRAINE-CRISIS-ATTACK-BLACKSEA-SBU.JPG?itok=fDCHL9fZ",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455721.JPG",
+      "https://i.guim.co.uk/img/media/4f39b05dc2e02dc24b685212c82673e1ecbdbd99/376_0_3991_3193/master/3991.jpg?width=700&quality=85&auto=format&fit=max&s=67a904977d3963b0e1198c6d23658207",
+      "https://i.guim.co.uk/img/media/4f39b05dc2e02dc24b685212c82673e1ecbdbd99/376_0_3991_3193/master/3991.jpg?width=460&quality=85&auto=format&fit=max&s=2e0a84f38e608693d17fecd4bfc8fa37",
+      "https://i.guim.co.uk/img/media/4f39b05dc2e02dc24b685212c82673e1ecbdbd99/376_0_3991_3193/master/3991.jpg?width=140&quality=85&auto=format&fit=max&s=41b32dc678a5dd5a26f0a6b68d0d904a"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.96672057227778
+  }
+}

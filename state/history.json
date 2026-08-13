@@ -1,23 +1,5 @@
 [
   {
-    "score": 17.31,
-    "bucket": "serious",
-    "tokens": [
-      "auf",
-      "ausgebrochen",
-      "catania",
-      "eingeschränkt",
-      "flugverkehr",
-      "sizilien",
-      "ätna"
-    ],
-    "link": "https://www.spiegel.de/ausland/aetna-auf-sizilien-ausgebrochen-flugverkehr-in-catania-eingeschraenkt-a-dee661ee-aac4-4e15-9b3b-869d31fc103e#ref=rss",
-    "title": "Ätna auf Sizilien ausgebrochen: Flugverkehr in Catania eingeschränkt",
-    "posted_title": "ثوران بركان إتنا في صقلية يعطل حركة الطيران في مطار كاتانيا",
-    "region": "de",
-    "seen_at": "2026-08-08T22:01:21.965585+00:00"
-  },
-  {
     "score": 21.51,
     "bucket": "serious",
     "tokens": [
@@ -2762,5 +2744,101 @@
     "posted_title": "",
     "region": "uk",
     "seen_at": "2026-08-13T22:01:18.069125+00:00"
+  },
+  {
+    "score": 21.97,
+    "bucket": "serious",
+    "tokens": [
+      "black",
+      "fears",
+      "food",
+      "mount",
+      "offers",
+      "russia",
+      "sea",
+      "source",
+      "supply",
+      "truce",
+      "ukraine"
+    ],
+    "link": "https://www.channelnewsasia.com/world/ukraine-offers-russia-truce-in-black-sea-food-supply-fears-mount-source-says-6318116",
+    "title": "Ukraine offers Russia truce in Black Sea as food supply fears mount, source says",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-08-13T22:08:04.994364+00:00"
+  },
+  {
+    "score": 16.78,
+    "bucket": "serious",
+    "tokens": [
+      "africa",
+      "business",
+      "gold",
+      "market",
+      "mining",
+      "reshapes",
+      "rush",
+      "west"
+    ],
+    "link": "http://www.africanews.com/2026/08/13/west-africa-gold-rush-reshapes-the-mining-market-business-africa/",
+    "title": "West Africa: gold rush reshapes the mining market [Business Africa]",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-08-13T22:08:04.994654+00:00"
+  },
+  {
+    "score": 16.42,
+    "bucket": "serious",
+    "tokens": [
+      "agree",
+      "claim",
+      "court",
+      "gold",
+      "government",
+      "london",
+      "opposition",
+      "renew",
+      "supreme",
+      "venezuela's"
+    ],
+    "link": "https://en.mercopress.com/2026/08/13/venezuela-s-government-and-opposition-agree-to-renew-the-supreme-court-and-claim-the-london-gold?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+    "title": "Venezuela's government and opposition agree to renew the Supreme Court and claim the London gold",
+    "posted_title": "",
+    "region": "latam",
+    "seen_at": "2026-08-13T22:08:04.994952+00:00"
+  },
+  {
+    "score": 14.11,
+    "bucket": "serious",
+    "tokens": [
+      "dead",
+      "explosion",
+      "port",
+      "rotterdam",
+      "wounded"
+    ],
+    "link": "https://www.scmp.com/news/world/europe/article/3363950/1-dead-several-wounded-rotterdam-port-explosion?utm_source=rss_feed",
+    "title": "1 dead, 6 wounded in Rotterdam port explosion",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-08-13T22:08:04.995249+00:00"
+  },
+  {
+    "score": 13.27,
+    "bucket": "serious",
+    "tokens": [
+      "all",
+      "attacks",
+      "escalate",
+      "houthis",
+      "reignite",
+      "war",
+      "yemen"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/8/13/will-all-out-war-in-yemen-reignite-as-houthis-escalate-attacks?traffic_source=rss",
+    "title": "Will all-out war in Yemen reignite as the Houthis escalate attacks?",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-08-13T22:08:04.995505+00:00"
   }
 ]
