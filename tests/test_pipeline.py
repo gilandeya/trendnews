@@ -769,12 +769,16 @@ def test_screen_merge_missing_api_key() -> None:
           [a.link for a in screened] == [a.link for a in arts])
 
 
-def test_radar_auto_publish_dedupe() -> None:
+def test_radar_gate_check_dedupe() -> None:
     """Issue #303: التشخيص أثبت أن score/group_sources لا يميّزان تحديث
     خبر منشور عن خبر جديد فعلًا — بل مرفوضات الرادار كانت أعلى قليلًا في
     المتوسط على كلا المقياسين. كاشف التكرار الدلالي (merge.find_duplicate_event)
     يجب أن يرصد «زلزال يقتل 20» مقابل «ترتفع حصيلة الزلزال إلى 111» كحدث
-    واحد، ويمنع النشر التلقائي رغم استيفاء كل العتبات العددية."""
+    واحد، ويمنع النشر التلقائي رغم استيفاء كل العتبات العددية.
+
+    Issue #312: هذا القرار انتقل إلى gate_check ليُحسم *قبل* الصياغة —
+    يتحقق هذا الاختبار أيضًا أن gate_check يعيد docs (من extract.gather،
+    بلا نموذج) ولا يستدعي write_arabic إطلاقًا مهما كانت نتيجة الفحص."""
     from src import merge, radar
     from src.sources import Article
 
@@ -793,8 +797,15 @@ def test_radar_auto_publish_dedupe() -> None:
                 group0.append(i)
         return [group0] + [[i] for i in range(len(titles)) if i not in group0]
 
+    def _write_should_not_be_called(*a, **kw):
+        raise AssertionError("gate_check لا يجوز أن يستدعي الصياغة")
+
     real_group_titles = merge._group_titles
+    real_gather = radar.gather_texts
+    real_write = radar.write_arabic
     merge._group_titles = fake_group_titles
+    radar.gather_texts = lambda members, limit=2: [{"name": "Reuters", "text": "..."}]
+    radar.write_arabic = _write_should_not_be_called
     try:
         ok_dup, matched = merge.find_duplicate_event(update_title, [published_title], {})
         ok_new, matched_none = merge.find_duplicate_event(
@@ -808,12 +819,11 @@ def test_radar_auto_publish_dedupe() -> None:
         check("لا عناوين منشورة سابقًا = لا تكرار بلا استدعاء نموذج",
               ok_empty and matched_empty is None)
 
-        # عبر may_auto_publish نفسها: مرشّح يستوفي كل الشروط العددية لكنه
-        # تحديث لخبر نُشر خلال نافذة auto_publish_dedupe_days يجب أن يُرفض.
+        # عبر gate_check نفسها: مرشّح يستوفي كل الشروط العددية لكنه تحديث
+        # لخبر نُشر خلال نافذة auto_publish_dedupe_days يجب أن يُرفض.
         art = Article(title=update_title, link="https://example.com/quake-update",
                      summary="", source_name="X", region="global", weight=1.0,
                      published=datetime.now(timezone.utc), score=30.0, group_sources=5)
-        draft = {"bucket": "serious", "analysed_sources": ["X"]}
         cfg = {"radar": {
             "auto_publish": True, "auto_publish_daily_limit": 3,
             "auto_publish_min_score": 19.3, "auto_publish_min_sources": 2,
@@ -823,12 +833,14 @@ def test_radar_auto_publish_dedupe() -> None:
         real_recent = store.recent_published_titles
         store.recent_published_titles = lambda days: [published_title]
         try:
-            ok, why = radar.may_auto_publish(art, draft, cfg, {"auto_published": []})
+            ok, why, docs = radar.gate_check(art, cfg, {"auto_published": []})
         finally:
             store.recent_published_titles = real_recent
 
         check("تحديث حصيلة الضحايا لا يُنشر تلقائيًا رغم استيفاء العتبات العددية",
               not ok and published_title in why, why)
+        check("gate_check يعيد docs المستخرجة رغم الرفض",
+              bool(docs) and docs[0]["name"] == "Reuters", str(docs))
 
         # خبر مستوفٍ حقًا وغير مرتبط بأي عنوان منشور يمرّ كالمعتاد
         art_new = Article(title=unrelated_title, link="https://example.com/rates",
@@ -837,13 +849,69 @@ def test_radar_auto_publish_dedupe() -> None:
                           group_sources=5)
         store.recent_published_titles = lambda days: [published_title]
         try:
-            ok2, why2 = radar.may_auto_publish(art_new, draft, cfg, {"auto_published": []})
+            ok2, why2, docs2 = radar.gate_check(art_new, cfg, {"auto_published": []})
         finally:
             store.recent_published_titles = real_recent
         check("خبر جديد فعلًا يستوفي شروط النشر التلقائي كالمعتاد",
               ok2, why2)
+        check("gate_check يعيد docs نفسها لإعادة استخدامها في build_draft بلا استخراج مزدوج",
+              bool(docs2) and docs2[0]["name"] == "Reuters", str(docs2))
     finally:
         merge._group_titles = real_group_titles
+        radar.gather_texts = real_gather
+        radar.write_arabic = real_write
+
+
+def test_radar_preselect_fallback() -> None:
+    """Issue #312: مرشّح عاجل لا يستوفي شروط النشر التلقائي يجب أن يُحفظ
+    كمرشح خام في state/candidates (بلا صياغة ولا صورة) بدل أن يُصاغ وتُبنى
+    صورته ثم يُرفض غالبًا في المراجعة. يتحقق أيضًا أن store.remember سُجِّل
+    للمرشح فورًا — بلاها سيُعاد التقاطه وحفظه كمرشح مكرر كل 15 دقيقة (الرادار
+    يعمل بهذا التواتر، خلافًا لـ collect.py الذي يعمل على دفعات متباعدة)."""
+    from src.config import Config
+    from src import radar
+    from src.sources import Article
+
+    art = Article(title="Volcano erupts sending ash miles into the sky",
+                 link="https://example.com/volcano-preselect-fallback",
+                 summary="", source_name="X", region="global", weight=1.0,
+                 published=datetime.now(timezone.utc), score=30.0,
+                 velocity=1.0, group_sources=5)
+
+    fake_cfg = Config({
+        "radar": {
+            "enabled": True, "max_per_run": 1,
+            # يفشل عند شرط المؤشر فقط — لا حاجة لتزييف extract/merge
+            "auto_publish": True, "auto_publish_min_score": 99.0,
+            "auto_publish_min_sources": 2, "auto_publish_daily_limit": 3,
+            "preselect_fallback": True,
+        },
+        "selection": {},
+    })
+
+    real_scan, real_load_config = radar.scan, radar.load_config
+    radar.scan = lambda cfg: [art]
+    radar.load_config = lambda path=None: fake_cfg
+    try:
+        code = radar.main()
+    finally:
+        radar.scan, radar.load_config = real_scan, real_load_config
+
+    check("radar.main() ينتهي بنجاح مع مرشح preselect_fallback", code == 0, f"exit={code}")
+
+    saved_candidates = [c for _, c in store.pending_candidates() if c["id"] == art.uid]
+    check("المرشح غير المستوفي يُحفظ في state/candidates", len(saved_candidates) == 1,
+          str(len(saved_candidates)))
+    if saved_candidates:
+        check("المرشح المحفوظ بلا صياغة ولا صورة",
+              "arabic" not in saved_candidates[0] and "caption" not in saved_candidates[0])
+
+    saved_drafts = [d for _, d in store.pending_drafts() if d["id"] == art.uid]
+    check("لا مسودة كاملة تُبنى لهذا المرشح", saved_drafts == [], str(saved_drafts))
+
+    history = store.load_history()
+    check("store.remember سجّل المرشح فورًا فلا يُعاد التقاطه كل 15 دقيقة",
+          store.find_previous(history, art.title, art.link, 0.5) is not None)
 
 
 def test_collect_end_to_end() -> None:
@@ -2693,7 +2761,8 @@ def main() -> int:
     print("\n── تدهور آمن عند غياب مفتاح API ──")
     test_screen_merge_missing_api_key()
     print("\n── كاشف تكرار النشر التلقائي (الرادار) ──")
-    test_radar_auto_publish_dedupe()
+    test_radar_gate_check_dedupe()
+    test_radar_preselect_fallback()
     print("\n── ترشيح الصور ──")
     test_image_filtering()
     print("\n── فكّ روابط Google News الوسيطة ──")
