@@ -1,0 +1,68 @@
+{
+  "id": "e4323a5bdcb7",
+  "created_at": "2026-08-13T03:07:37.966093+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.44,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "PSG spoil Villa’s Uefa Super Cup bid with 2-1 win",
+  "link": "https://www.malaymail.com/news/sports/2026/08/13/psg-spoil-villas-uefa-super-cup-bid-with-2-1-win/231142",
+  "publishers": [
+    "Al Jazeera English",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "Vanguard Nigeria"
+  ],
+  "region": "my",
+  "article": {
+    "title": "PSG spoil Villa’s Uefa Super Cup bid with 2-1 win",
+    "link": "https://www.malaymail.com/news/sports/2026/08/13/psg-spoil-villas-uefa-super-cup-bid-with-2-1-win/231142",
+    "summary": "SALZBURG, Aug 13 — Champions League winners Paris Saint-Germain rubber-stamped their status as Europe’s top...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-13T01:13:57+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/13/356803.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/8/12/psg-win-back-to-back-uefa-super-cups-with-victory-over-aston-villa?traffic_source=rss"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/psg-down-aston-villa-2-1-to-retain-uefa-super-cup/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/08/13/psg-down-aston-villa-to-retain-uefa-super-cup"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/sports/2026/08/13/psg-spoil-villas-uefa-super-cup-bid-with-2-1-win/231142"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/13/356803.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/AFP__20260812__C4J66U8__v1__MidRes__FblEurSupercupPsgAstonVillaTrophy-1024x683.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/10d7279c-97fb-4e6c-92be-1f78fc0a5cc7-AFP__20260812__C4J77CZ__v1__HighRes__FblEurSupercupPsgAstonVillaTrophy_cropped_1.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 45.60960230527778,
+    "is_stale": false,
+    "score": 28.439504016550977
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "e0243c07ce2b",
+  "created_at": "2026-08-13T03:07:37.967236+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.08,
+  "trend_score": 1.0,
+  "velocity": 0.91,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Solar eclipse turns day to night in Spain, wows crowds across Europe",
+  "link": "https://www.scmp.com/news/world/europe/article/3363830/solar-eclipse-turns-day-night-spain-wows-crowds-across-europe?utm_source=rss_feed",
+  "publishers": [
+    "South China Morning Post",
+    "The New York Times"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Solar eclipse turns day to night in Spain, wows crowds across Europe",
+    "link": "https://www.scmp.com/news/world/europe/article/3363830/solar-eclipse-turns-day-night-spain-wows-crowds-across-europe?utm_source=rss_feed",
+    "summary": "Day briefly turned to night in Spain on Wednesday, as the country witnessed its first total solar eclipse in more than a century, plunging it into eerie darkness in one of nature’s greatest spectacles. The spectral glow of the sun’s outer corona, shimmering out of the edges of the shadowy moon, drew gasps and cheers from huge crowds, just 90 minutes after it first appeared in the remote Arctic region of northern Russia. “It’s a sight I never would have imagined seeing,” said Isabel Troyano, a...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-08-12T20:48:49+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "South China Morning Post",
+      "The New York Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3363830/solar-eclipse-turns-day-night-spain-wows-crowds-across-europe?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.9145877895670685,
+    "age_hours": 6.110131511666666,
+    "is_stale": false,
+    "score": 24.084341415830014
+  }
+}

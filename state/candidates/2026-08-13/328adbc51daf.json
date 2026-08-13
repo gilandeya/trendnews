@@ -1,0 +1,61 @@
+{
+  "id": "328adbc51daf",
+  "created_at": "2026-08-13T03:07:37.966771+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.45,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Spain plunged into darkness as rare total solar eclipse sweeps across country",
+  "link": "https://www.malaymail.com/news/world/2026/08/13/spain-plunged-into-darkness-as-rare-total-solar-eclipse-sweeps-across-country/231130",
+  "publishers": [
+    "Al Jazeera English",
+    "Malay Mail",
+    "NDTV — World"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Spain plunged into darkness as rare total solar eclipse sweeps across country",
+    "link": "https://www.malaymail.com/news/world/2026/08/13/spain-plunged-into-darkness-as-rare-total-solar-eclipse-sweeps-across-country/231130",
+    "summary": "BURGOS (Spain), Aug 13 — Day briefly turned to night in Spain on Wednesday, as the country witnessed its first tot...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-13T00:51:07+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/13/356789.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Malay Mail",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/12/iceland-and-spain-plunged-into-darkness-during-total-solar-eclipse?traffic_source=rss"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/total-solar-eclipse-plunges-iceland-into-darkness-11902185#publisher=newsstand"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/13/spain-plunged-into-darkness-as-rare-total-solar-eclipse-sweeps-across-country/231130"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/13/356789.jpg",
+      "https://c.ndtvimg.com/2026-08/tgk6uaes_total-solar-eclipse_625x300_12_August_26.jpeg?im=FaceCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 17.997307793055555,
+    "is_stale": false,
+    "score": 27.44834938112963
+  }
+}

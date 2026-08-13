@@ -1,0 +1,71 @@
+{
+  "id": "65601f54e3b7",
+  "created_at": "2026-08-13T03:07:37.966508+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.31,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Guimaraes makes Arsenal debut in draw with Como",
+  "link": "https://www.bbc.co.uk/sport/football/articles/ce8kp6k3p1no?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Malay Mail",
+    "Sky Sports — Football",
+    "Vanguard Nigeria"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Guimaraes makes Arsenal debut in draw with Como",
+    "link": "https://www.bbc.co.uk/sport/football/articles/ce8kp6k3p1no?at_medium=RSS&at_campaign=rss",
+    "summary": "Bruno Guimaraes put in an assured performance as he made his Arsenal debut in a 1-1 friendly draw with Como at Emirates stadium.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-12T21:24:42+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b072/live/117fa850-968d-11f1-9854-73d5e7b83e3b.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Malay Mail",
+      "Sky Sports — Football",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/ce8kp6k3p1no?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/arsenal-vs-como/live/562442"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/guimaraes-makes-arsenal-debut-in-1-1-draw-with-como/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/sports/2026/08/13/guimaraes-makes-arsenal-bow-as-como-hold-gunners-to-draw/231151"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b072/live/117fa850-968d-11f1-9854-73d5e7b83e3b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/b072/live/117fa850-968d-11f1-9854-73d5e7b83e3b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b072/live/117fa850-968d-11f1-9854-73d5e7b83e3b.jpg",
+      "https://e2.365dm.com/26/08/1096x616/skysports-bruno-guimaraes-arsenal_7320083.jpg?20260812211435",
+      "https://e2.365dm.com/26/08/1920x1080/skysports-bruno-guimaraes-arsenal_7320083.jpg?20260812211435",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/AFP__20260812__C4HV8U3__v1__MidRes__FblEngItalyPrSerieAArsenalComo-1024x684.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 5.61193054388889,
+    "is_stale": false,
+    "score": 28.30880015836579
+  }
+}
