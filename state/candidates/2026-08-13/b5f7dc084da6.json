@@ -1,26 +1,26 @@
 {
   "id": "b5f7dc084da6",
-  "created_at": "2026-08-13T15:08:04.991532+00:00",
-  "status": "unselected",
-  "selection_issue": 318,
-  "score": 19.57,
+  "created_at": "2026-08-13T16:17:22.799005+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.49,
   "trend_score": 0.0,
   "velocity": 1.0,
   "bucket": "serious",
   "state_media": false,
-  "title": "1 dead, several wounded in Rotterdam port explosion",
+  "title": "1 dead, 6 wounded in Rotterdam port explosion",
   "link": "https://www.scmp.com/news/world/europe/article/3363950/1-dead-several-wounded-rotterdam-port-explosion?utm_source=rss_feed",
   "publishers": [
     "Hindustan Times — World",
-    "NBC News",
+    "Reuters",
     "South China Morning Post",
     "newspaper"
   ],
   "region": "cn",
   "article": {
-    "title": "1 dead, several wounded in Rotterdam port explosion",
+    "title": "1 dead, 6 wounded in Rotterdam port explosion",
     "link": "https://www.scmp.com/news/world/europe/article/3363950/1-dead-several-wounded-rotterdam-port-explosion?utm_source=rss_feed",
-    "summary": "A blast at a storage facility for petroleum products at the Netherlands’ Rotterdam port killed one person and wounded several others on ‌Thursday, officials said, adding that the cause was unknown. A spokesperson for major energy commodities trading company Gunvor said an “incident” occurred during maintenance work on a storage tank. A police spokesperson said that there was no immediate ⁠sign of sabotage and that all possible scenarios were under ‌investigation. Rotterdam is Europe’s largest...",
+    "summary": "A blast at a ⁠storage facility for petroleum products at the Netherlands’ Rotterdam port killed one person and wounded six others on Thursday, officials said, as police investigated the cause of the explosion. A spokesperson for major energy commodities trading company Gunvor said an “incident” occurred during maintenance work on a storage tank. A police spokesperson said that there was no immediate ⁠sign of sabotage and that all possible scenarios were under ‌investigation. Rotterdam is...",
     "source_name": "South China Morning Post",
     "region": "cn",
     "weight": 1.1,
@@ -29,7 +29,7 @@
     "publisher": "South China Morning Post",
     "cluster_sources": [
       "Hindustan Times — World",
-      "NBC News",
+      "Reuters",
       "South China Morning Post",
       "newspaper"
     ],
@@ -53,8 +53,8 @@
     "trend_score": 0.0,
     "group_sources": 4,
     "velocity": 1.0,
-    "age_hours": 1.1130910063888888,
+    "age_hours": 2.2677694691666668,
     "is_stale": false,
-    "score": 19.5718536265
+    "score": 19.494875564944444
   }
 }
