@@ -1,0 +1,67 @@
+{
+  "id": "f6ff8e5d9d6f",
+  "created_at": "2026-08-13T08:01:07.582000+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.27,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israeli militants besiege two Palestinian families in their West Bank homes",
+  "link": "https://www.theguardian.com/world/2026/aug/12/israeli-militants-besiege-two-palestinian-families-in-their-west-bank-homes",
+  "publishers": [
+    "Al Jazeera English",
+    "Le Monde",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Israeli militants besiege two Palestinian families in their West Bank homes",
+    "link": "https://www.theguardian.com/world/2026/aug/12/israeli-militants-besiege-two-palestinian-families-in-their-west-bank-homes",
+    "summary": "Settlers and soldiers cut off water and electricity to homes, and block medical care in campaign of terror Israeli militants have besieged two Palestinian families in their homes since the weekend, aiming to take over their properties in the West Bank village of Qusra through a campaign of terror. A group of settlers and soldiers set up a tent outside the home of Yousef Hassan’s family on Sunday afternoon, trapping him inside with his wife and two young daughters. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-13T06:45:27+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/f1244b4345a3512e56d767dc57d3409840717735/571_0_6829_5464/master/6829.jpg?width=700&quality=85&auto=format&fit=max&s=c2699e8b8465626a88ac1693d9932453",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Le Monde",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/13/israeli-settlers-besiege-three-palestinian-families-in-occupied-west-bank?traffic_source=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/13/three-palestinian-families-besieged-in-their-homes-by-israeli-settlers?traffic_source=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/12/israeli-militants-besiege-two-palestinian-families-in-their-west-bank-homes"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/08/13/cisjordanie-l-ambassadeur-des-etats-unis-en-israel-qualifie-d-acte-de-terreur-le-siege-de-maisons-palestiniennes-par-des-colons-israeliens_6745679_3210.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/f1244b4345a3512e56d767dc57d3409840717735/571_0_6829_5464/master/6829.jpg?width=700&quality=85&auto=format&fit=max&s=c2699e8b8465626a88ac1693d9932453",
+      "https://i.guim.co.uk/img/media/f1244b4345a3512e56d767dc57d3409840717735/571_0_6829_5464/master/6829.jpg?width=460&quality=85&auto=format&fit=max&s=0ced25a814d05a3a59dff6ddd1f69d90",
+      "https://i.guim.co.uk/img/media/f1244b4345a3512e56d767dc57d3409840717735/571_0_6829_5464/master/6829.jpg?width=140&quality=85&auto=format&fit=max&s=57f99c1d0f9999b2e656e919b1b0a45f",
+      "https://img.lemde.fr/2026/08/12/307/0/3685/1842/644/322/60/0/6963539_ftp-1-gmwl74iyhoiz-22521828eba04825ae737093f0c77c47-0-e9e1172c4d1a4418a2be6919f1b31862.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 19.503015600555553,
+    "is_stale": false,
+    "score": 19.270881532626433
+  }
+}
