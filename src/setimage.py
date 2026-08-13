@@ -20,7 +20,7 @@ import re
 from pathlib import Path
 
 from . import review, store
-from .config import ROOT, load_config
+from .config import DRAFTS_DIR, load_config
 from .imaging import build_post_image, download_image
 
 log = logging.getLogger("setimage")
@@ -82,6 +82,11 @@ def apply_image(draft_id: str, url: str, cfg) -> dict | None:
     headline = (spec.get("headline") or ar.get("image_headline")
                 or ar.get("post_title") or draft["source"]["title"])
     new_rel = next_image_path(draft["image"])
+    # new_rel نص لعنوان الصورة داخل المستودع (يبدأ بـ "drafts/" دومًا —
+    # يلزم لبناء raw_url في review.py) لا مسار كتابة فعلي؛ الكتابة نفسها
+    # يجب أن تمرّ عبر DRAFTS_DIR لا ROOT مباشرة، وإلا تجاوزت عزل الاختبارات
+    # (TRENDNEWS_DRAFTS_DIR) وكتبت داخل drafts/ الحقيقي في المستودع.
+    out_path = DRAFTS_DIR / Path(new_rel).relative_to("drafts")
 
     build_post_image(
         headline=headline,
@@ -91,7 +96,7 @@ def apply_image(draft_id: str, url: str, cfg) -> dict | None:
         publisher=draft["source"].get("publishers") or [draft["source"].get("publisher", "")],
         bucket=draft.get("bucket", "serious"),
         cfg=cfg,
-        out_path=ROOT / new_rel,
+        out_path=out_path,
         # لا بديل تلقائي: طلب المراجع صورة بعينها، فالصمت عند فشلها
         # أصدق من إحلال صورة أخرى محلها دون علمه.
         fallback_provider=None,

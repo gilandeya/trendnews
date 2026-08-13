@@ -14,6 +14,7 @@ import os
 from datetime import datetime, timezone
 
 from . import preselect, review, store
+from .config import load_config
 
 log = logging.getLogger("open_review")
 
@@ -55,10 +56,12 @@ def main() -> int:
             store.update_draft(path, review_issue=issue["number"])
     else:
         cands = [c for _, c in fresh_candidates]
+        cfg = load_config()
+        translations = preselect.translate_titles(cands, cfg)
         issue = review.create_issue(
             title=(f"🗳️ اختيار {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
                    f"— {len(cands)} مرشح"),
-            body=preselect.build_selection_issue_body(cands),
+            body=preselect.build_selection_issue_body(cands, translations),
             labels=["pending-selection"],
         )
         for path, _ in fresh_candidates:

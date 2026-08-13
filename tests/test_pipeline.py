@@ -41,6 +41,18 @@ def check(name: str, condition: bool, detail: str = "") -> None:
     print(f"{mark} {name}" + (f"  → {detail}" if detail and not condition else ""))
 
 
+def tick_marker(body: str, marker: str) -> str:
+    """يعلّم أول مربع `- [ ]` في السطر الذي يحوي `marker` — يحاكي نقر
+    المراجع على مربع بعينه بلا افتراض شكل السطر بالكامل (Issue #319:
+    مربعا preselect.py لا يتشاركان سطرًا مع عنوان المرشح كما في السابق)."""
+    lines = body.splitlines()
+    for i, line in enumerate(lines):
+        if marker in line:
+            lines[i] = line.replace("- [ ]", "- [x]", 1)
+            break
+    return "\n".join(lines)
+
+
 # ──────────────────────────── تجهيزات ────────────────────────────
 
 RSS_FIXTURE = """<?xml version="1.0"?>
@@ -906,6 +918,16 @@ def test_radar_preselect_fallback() -> None:
         check("المرشح المحفوظ بلا صياغة ولا صورة",
               "arabic" not in saved_candidates[0] and "caption" not in saved_candidates[0])
 
+        # Issue #319 البند 2: مرشّح الرادار المرفوض يُبنى بـ preselect.build_
+        # candidate نفسها التي يستخدمها collect.py — فيظهر بنفس المربعين
+        # («انشر فورًا»/«صغ واعرض») بلا أي تمييز، بلا حاجة لأي كود إضافي
+        # في radar.py نفسه.
+        from src import preselect
+        radar_body = preselect.build_selection_issue_body(saved_candidates)
+        check("مرشح الرادار يظهر بمربعي «انشر فورًا» و«صغ واعرض» كمرشح collect تمامًا",
+              f"<!-- now:{art.uid} -->" in radar_body
+              and f"<!-- review:{art.uid} -->" in radar_body)
+
     saved_drafts = [d for _, d in store.pending_drafts() if d["id"] == art.uid]
     check("لا مسودة كاملة تُبنى لهذا المرشح", saved_drafts == [], str(saved_drafts))
 
@@ -1100,11 +1122,13 @@ def test_preselect_finalize() -> None:
     store.save_candidate(cand_b)
 
     body = preselect.build_selection_issue_body([cand_a, cand_b])
-    marked = body.replace("- [ ] **1.", "- [x] **1.", 1)   # المرشح الأول فقط
+    marked = tick_marker(body, f"now:{cand_a['id']}")   # «انشر فورًا» للمرشح الأول فقط
 
-    approved_selected = preselect.parse_selected(marked)
-    check("تحليل الاختيار يلتقط المُعلَّم فقط", approved_selected == [cand_a["id"]],
-          str(approved_selected))
+    now_selected = preselect.parse_publish_now(marked)
+    check("تحليل «انشر فورًا» يلتقط المُعلَّم فقط", now_selected == [cand_a["id"]],
+          str(now_selected))
+    check("لا أحد عُلِّم على «صغ واعرض»",
+          preselect.parse_draft_review(marked) == [])
 
     captured: dict = {}
 
@@ -1284,6 +1308,319 @@ def test_preselect_drops_stale_candidates() -> None:
           len(fresh) <= 5, str(len(fresh)))
 
 
+# ═══════════ مربعان لكل مرشح: انشر فورًا / صغ واعرض (Issue #319) ═══════════
+
+
+def test_preselect_two_boxes_now_and_draft_review() -> None:
+    """البند 1: «انشر فورًا» يصوغ وينشر مباشرة (سلوك preselect الأصلي)،
+    و«صغ واعرض» يصوغ ويحفظ مسودة عادية في Issue مراجعة منفصل بعنوان
+    مميّز (البند 3 من طلب الموافقة). تعليم المربعين معًا يُحسم لصالح «صغ
+    واعرض» ويُعلَّق تنبيه يذكر عنوان الخبر لا معرّفه (البند 1 من طلب
+    الموافقة)."""
+    from src import collect_finalize, feedback, preselect, review
+    from src import publish as publish_mod
+
+    now = datetime.now(timezone.utc)
+    art_now = Article(title="خبر يُنشر فورًا بلا عرض", link="https://pre.example/now",
+                      summary="", source_name="PN", region="rn", weight=1.0,
+                      published=now, bucket="serious", publisher="PN")
+    art_draft = Article(title="خبر يُصاغ ويُعرض قبل النشر",
+                        link="https://pre.example/draft", summary="",
+                        source_name="PD", region="rd", weight=1.0,
+                        published=now, bucket="serious", publisher="PD")
+    art_both = Article(title="خبر عُلِّم عليه المربعان معًا بالخطأ",
+                       link="https://pre.example/both", summary="",
+                       source_name="PB", region="rb", weight=1.0,
+                       published=now, bucket="serious", publisher="PB")
+
+    cand_now = preselect.build_candidate(art_now)
+    cand_draft = preselect.build_candidate(art_draft)
+    cand_both = preselect.build_candidate(art_both)
+    for c in (cand_now, cand_draft, cand_both):
+        store.save_candidate(c)
+
+    body = preselect.build_selection_issue_body([cand_now, cand_draft, cand_both])
+    marked = body
+    marked = tick_marker(marked, f"now:{cand_now['id']}")
+    marked = tick_marker(marked, f"review:{cand_draft['id']}")
+    marked = tick_marker(marked, f"now:{cand_both['id']}")
+    marked = tick_marker(marked, f"review:{cand_both['id']}")
+
+    check("«انشر فورًا» يلتقط المرشح الأول والثالث (المزدوج)",
+          preselect.parse_publish_now(marked) == [cand_now["id"], cand_both["id"]])
+    check("«صغ واعرض» يلتقط المرشح الثاني والثالث (المزدوج)",
+          preselect.parse_draft_review(marked)
+          == [cand_draft["id"], cand_both["id"]])
+
+    burst_calls: list = []
+
+    def fake_burst(ids, cfg, issue_number, only_urgent=False, skip_urgent=False,
+                   inline_cap_minutes=None):
+        burst_calls.append(list(ids))
+        return 0
+
+    create_issue_calls: list = []
+
+    def fake_create_issue(title, body, labels=None):
+        create_issue_calls.append({"title": title, "body": body, "labels": labels})
+        return {"number": 9911, "html_url": "https://x/issues/9911"}
+
+    comment_calls: list = []
+    ensure_labels_calls: list = []
+
+    real_burst = publish_mod.cmd_burst
+    real_create_issue = review.create_issue
+    real_comment = review.comment
+    real_ensure_labels = review.ensure_labels
+    publish_mod.cmd_burst = fake_burst
+    review.create_issue = fake_create_issue
+    review.comment = lambda issue_number, text: comment_calls.append(
+        (issue_number, text))
+    review.ensure_labels = lambda: ensure_labels_calls.append(1)
+
+    rejections_before = len(feedback.load())
+
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    real_ref = os.environ.get("GITHUB_REF_NAME")
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+    os.environ["GITHUB_REF_NAME"] = "main"
+    try:
+        code = collect_finalize.finalize(4343, marked, load_config())
+    finally:
+        publish_mod.cmd_burst = real_burst
+        review.create_issue = real_create_issue
+        review.comment = real_comment
+        review.ensure_labels = real_ensure_labels
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+        if real_ref is None:
+            os.environ.pop("GITHUB_REF_NAME", None)
+        else:
+            os.environ["GITHUB_REF_NAME"] = real_ref
+
+    check("finalize انتهى بنجاح", code == 0, f"exit={code}")
+    check("«انشر فورًا» فُوِّض للنشر وحده (لا المزدوج ولا «صغ واعرض»)",
+          burst_calls == [[cand_now["id"]]], str(burst_calls))
+
+    check("Issue مراجعة واحد فُتح لكل مسودات «صغ واعرض» في الدفعة",
+          len(create_issue_calls) == 1, str(len(create_issue_calls)))
+    if create_issue_calls:
+        opened = create_issue_calls[0]
+        check("عنوان Issue «صغ واعرض» مميّز عن Issue المراجعة العادي",
+              opened["title"].startswith("📝 مسودات مطلوبة"), opened["title"])
+        check("Issue «صغ واعرض» يحمل وسم pending-review كأي مراجعة عادية",
+              opened["labels"] == ["pending-review"], str(opened["labels"]))
+        check("جسم Issue «صغ واعرض» يضم مسودتي الثاني والمزدوج",
+              f"<!-- draft:{cand_draft['id']} -->" in opened["body"]
+              and f"<!-- draft:{cand_both['id']} -->" in opened["body"])
+        # البند 4: خانة تبديل الصورة تظهر فعليًا الآن — المسودة تُعرض في
+        # Issue مراجعة حقيقي بدل ألا تُعرض أبدًا كما قبل هذا التغيير.
+        check("مربع تبديل الصورة يظهر في Issue «صغ واعرض»",
+              f"<!-- img:{cand_draft['id']} -->" in opened["body"])
+        check("فراغ رابط الصورة يظهر في Issue «صغ واعرض»",
+              f"<!-- imgurl:{cand_draft['id']} -->" in opened["body"])
+
+    check("مسودة صيغت للمنشور فورًا", store.load_draft(cand_now["id"]) is not None)
+    draft_review_saved = store.load_draft(cand_draft["id"])
+    both_review_saved = store.load_draft(cand_both["id"])
+    check("مسودة صيغت للمرشح الثاني (صغ واعرض)", draft_review_saved is not None)
+    check("مسودة صيغت للمرشح المزدوج (صغ واعرض تغلب)", both_review_saved is not None)
+    if draft_review_saved:
+        check("review_issue للمسودة الثانية مربوط بالـ Issue المفتوح",
+              draft_review_saved[1].get("review_issue") == 9911,
+              str(draft_review_saved[1].get("review_issue")))
+    if both_review_saved:
+        check("review_issue للمسودة المزدوجة مربوط بالـ Issue المفتوح أيضًا",
+              both_review_saved[1].get("review_issue") == 9911)
+        check("المزدوج لم يُنشر مباشرة (status ليست published/queued)",
+              both_review_saved[1].get("status") not in ("published", "queued"))
+
+    conflict_comments = [
+        text for _, text in comment_calls
+        if "المربعين معًا" in text
+    ]
+    check("تنبيه التعارض عُلِّق على Issue الاختيار الأصلي",
+          len(conflict_comments) == 1, str(comment_calls))
+    if conflict_comments:
+        check("تنبيه التعارض يذكر عنوان الخبر لا معرّفه فقط",
+              art_both.title in conflict_comments[0]
+              and cand_both["id"] not in conflict_comments[0],
+              conflict_comments[0])
+
+    rejections_after = feedback.load()
+    check("لا تسجيل رفض لأي من الثلاثة (كلهم اختيروا بطريقة أو بأخرى)",
+          len(rejections_after) == rejections_before)
+
+
+def test_preselect_draft_review_image_swap_works() -> None:
+    """البند 4: مربع تبديل الصورة يعمل فعليًا في مسار «صغ واعرض» —
+    setimage.apply_image يعيد بناء البطاقة على المسودة الناتجة كما في
+    المسار العادي تمامًا، بلا أي تعديل في review.py أو setimage.py."""
+    from src import collect_finalize, preselect, review, setimage
+    from src import publish as publish_mod
+
+    now = datetime.now(timezone.utc)
+    art = Article(title="خبر يحتاج تبديل صورته بعد الصياغة",
+                 link="https://pre.example/imgswap", summary="",
+                 source_name="PI", region="ri", weight=1.0,
+                 published=now, bucket="serious", publisher="PI")
+    cand = preselect.build_candidate(art)
+    store.save_candidate(cand)
+
+    body = preselect.build_selection_issue_body([cand])
+    marked = tick_marker(body, f"review:{cand['id']}")
+
+    real_burst = publish_mod.cmd_burst
+    real_create_issue = review.create_issue
+    real_comment = review.comment
+    real_ensure_labels = review.ensure_labels
+    real_close_issue = review.close_issue
+    publish_mod.cmd_burst = lambda *a, **kw: 0
+    review.create_issue = lambda title, body, labels=None: {
+        "number": 9922, "html_url": "https://x/issues/9922"}
+    review.comment = lambda issue_number, text: None
+    review.ensure_labels = lambda: None
+    close_issue_calls: list = []
+    review.close_issue = lambda issue_number: close_issue_calls.append(issue_number)
+
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+    try:
+        code = collect_finalize.finalize(4344, marked, load_config())
+    finally:
+        publish_mod.cmd_burst = real_burst
+        review.create_issue = real_create_issue
+        review.comment = real_comment
+        review.ensure_labels = real_ensure_labels
+        review.close_issue = real_close_issue
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+
+    check("Issue الاختيار الأصلي أُغلق (لا شيء «انشر فورًا» يبقى معلَّقًا)",
+          close_issue_calls == [4344], str(close_issue_calls))
+
+    check("finalize (صغ واعرض فقط) انتهى بنجاح", code == 0, f"exit={code}")
+    saved = store.load_draft(cand["id"])
+    check("مسودة «صغ واعرض» صيغت فعلًا", saved is not None)
+    if not saved:
+        return
+    old_image = saved[1]["image"]
+
+    updated = setimage.apply_image(cand["id"], "https://cdn.example/new-photo.jpg",
+                                   load_config())
+    check("setimage.apply_image يعيد بطاقة محدَّثة لمسودة «صغ واعرض»",
+          updated is not None)
+    if updated:
+        check("مسار الصورة تغيّر (نسخة جديدة لا استبدال في مكانه)",
+              updated["image"] != old_image, str((updated["image"], old_image)))
+        check("has_photo أصبحت True بعد الاستبدال اليدوي", updated["has_photo"] is True)
+        reloaded = store.load_draft(cand["id"])
+        check("التحديث محفوظ فعليًا في المسودة على القرص",
+              reloaded is not None and reloaded[1]["image"] == updated["image"])
+
+
+# ═══════════ ترجمة عناوين المرشحين دفعة واحدة (Issue #319 البند 3) ═══════════
+
+
+def test_preselect_translate_titles() -> None:
+    """استدعاء Haiku واحد للدفعة كلها، تخطّي العربي أصلًا بعتبة من
+    config.yaml، تسجيل عدد المُترجَم والمتخطَّى، وفشل صامت لا يوقف
+    المسار (تُعرض العناوين الأصلية بلا ترجمة)."""
+    from src import preselect
+
+    class _Block:
+        def __init__(self, text):
+            self.type = "text"
+            self.text = text
+
+    class _Resp:
+        def __init__(self, content):
+            self.content = content
+
+    class _Messages:
+        def __init__(self, resp):
+            self._resp = resp
+            self.calls = 0
+
+        def create(self, **kw):
+            self.calls += 1
+            self.last_kwargs = kw
+            return self._resp
+
+    class _FakeClient:
+        def __init__(self, resp):
+            self.messages = _Messages(resp)
+
+    cand_en1 = {"id": "t1", "title": "Volcano erupts in Iceland"}
+    cand_en2 = {"id": "t2", "title": "Central bank raises interest rates"}
+    cand_ar = {"id": "t3", "title": "زلزال يضرب اليابان"}   # عربي أصلًا — يُتخطّى
+
+    resp = _Resp([_Block(
+        '{"translations": {"1": "بركان يثور في آيسلندا", '
+        '"2": "البنك المركزي يرفع الفائدة"}}')])
+    fake_client = _FakeClient(resp)
+
+    cfg = load_config()
+    cfg["preselect"] = {
+        "translate": {"enabled": True, "model": "claude-haiku-4-5-20251001",
+                      "arabic_skip_ratio": 0.4},
+    }
+
+    real_client = preselect._client
+    preselect._client = lambda: fake_client
+    try:
+        translations = preselect.translate_titles(
+            [cand_en1, cand_en2, cand_ar], cfg)
+    finally:
+        preselect._client = real_client
+
+    check("استدعاء واحد فقط للدفعة كلها (لا استدعاء لكل عنوان)",
+          fake_client.messages.calls == 1, str(fake_client.messages.calls))
+    check("العنوان العربي أصلًا لم يُرسَل ضمن الدفعة",
+          "زلزال" not in fake_client.messages.last_kwargs["messages"][0]["content"])
+    check("العنوانان الإنجليزيان تُرجما", translations == {
+        "t1": "بركان يثور في آيسلندا", "t2": "البنك المركزي يرفع الفائدة"})
+    check("العنوان العربي أصلًا بلا ترجمة (تُخطّي لا فشل)", "t3" not in translations)
+
+    # عتبة arabic_skip_ratio من config.yaml لا من الكود: عتبة 0.0 تعني "لا
+    # عنوان غير عربي كفاية للترجمة" — حتى العنوان الإنجليزي البحت (نسبته
+    # العربية 0.0) يُستبعد لأن الفحص شرطه < العتبة لا ≤، فيثبت أن العتبة
+    # الفعلية المستخدمة هي قيمة config.yaml لا القيمة الافتراضية 0.4 التي
+    # كانت سترسله.
+    cfg_zero = load_config()
+    cfg_zero["preselect"] = {"translate": {"enabled": True, "arabic_skip_ratio": 0.0}}
+    fake_client2 = _FakeClient(_Resp([_Block('{"translations": {}}')]))
+    preselect._client = lambda: fake_client2
+    try:
+        result_zero = preselect.translate_titles([cand_en1], cfg_zero)
+    finally:
+        preselect._client = real_client
+    check("عتبة arabic_skip_ratio=0.0 من config.yaml تمنع حتى الإنجليزي من الترجمة",
+          fake_client2.messages.calls == 0 and result_zero == {},
+          str((fake_client2.messages.calls, result_zero)))
+
+    # تعطيل الترجمة من config.yaml بلا أي تعديل كود
+    cfg_off = load_config()
+    cfg_off["preselect"] = {"translate": {"enabled": False}}
+    check("enabled: false لا يستدعي أي عميل",
+          preselect.translate_titles([cand_en1], cfg_off) == {})
+
+    # فشل الاستدعاء (عطل API) لا يوقف المسار — يعيد {} بصمت
+    def _raise(*a, **kw):
+        raise RuntimeError("متغير البيئة ANTHROPIC_API_KEY غير موجود")
+
+    preselect._client = _raise
+    try:
+        result = preselect.translate_titles([cand_en1], cfg)
+    finally:
+        preselect._client = real_client
+    check("فشل الاستدعاء يعيد {} بصمت بلا استثناء يوقف المسار", result == {})
+
+
 def test_finalize_format_mismatch_no_silent_fail() -> None:
     """جسم Issue بلا أي معرّف <!-- cand:ID --> إطلاقًا (صيغة "مسودات" لا
     "مرشحين" — أحد أعراض Issue #296: وسم pending-selection على Issue من
@@ -1386,7 +1723,7 @@ def test_finalize_external_failure_keeps_approved_no_feedback() -> None:
     store.save_candidate(cand_d)
 
     body = preselect.build_selection_issue_body([cand_d])
-    marked = body.replace("- [ ] **1.", "- [x] **1.", 1)
+    marked = tick_marker(body, f"now:{cand_d['id']}")
 
     comment_calls, remove_label_calls = [], []
     real_comment = review.comment
@@ -1441,7 +1778,7 @@ def test_finalize_editorial_rejection_removes_approved() -> None:
     store.save_candidate(cand_e)
 
     body = preselect.build_selection_issue_body([cand_e])
-    marked = body.replace("- [ ] **1.", "- [x] **1.", 1)
+    marked = tick_marker(body, f"now:{cand_e['id']}")
 
     comment_calls, remove_label_calls = [], []
     real_comment = review.comment
@@ -2888,6 +3225,10 @@ def main() -> int:
     test_preselect_finalize()
     test_preselect_empty_selection_no_spend()
     test_preselect_drops_stale_candidates()
+    print("\n── مربعان لكل مرشح + ترجمة العناوين (Issue #319) ──")
+    test_preselect_two_boxes_now_and_draft_review()
+    test_preselect_draft_review_image_swap_works()
+    test_preselect_translate_titles()
     test_finalize_format_mismatch_no_silent_fail()
     test_publish_conflicting_labels_no_dispatch()
     print("\n── عطل خارجي عند الصياغة مقابل رفض تحريري (preselect) ──")
