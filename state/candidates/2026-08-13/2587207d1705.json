@@ -1,0 +1,87 @@
+{
+  "id": "2587207d1705",
+  "created_at": "2026-08-13T21:03:33.446041+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.12,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Europe swelters under fresh wave of extreme heat",
+  "link": "https://phys.org/news/2026-08-millions-europeans-struggle-extreme.html",
+  "publishers": [
+    "AP News",
+    "Al Jazeera English",
+    "BBC",
+    "BBC World",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "Phys.org",
+    "The Hindu — International"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Europe swelters under fresh wave of extreme heat",
+    "link": "https://phys.org/news/2026-08-millions-europeans-struggle-extreme.html",
+    "summary": "Millions of people across Europe—particularly in France, Italy, Spain and Britain—baked through a new wave of extreme temperatures Thursday as the continent's latest heat wave picked up.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-08-13T18:19:12+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/the-extended-heatwaves.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "AP News",
+      "Al Jazeera English",
+      "BBC",
+      "BBC World",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "Phys.org",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/13/europe-swelters-in-latest-wave-of-extreme-heat?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/britain-poised-for-record-hot-summer-as-western-europe-swelters-under-another-heat-wave/article71340558.ece"
+      },
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-08-millions-europeans-struggle-extreme.html"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/europe-swelters-under-fresh-wave-of-extreme-heat-101786650570581.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/uk-records-years-hottest-day-as-europe-swelters-once-again"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cqlxpq5q799o?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/the-extended-heatwaves.jpg",
+      "https://th-i.thgim.com/public/incoming/bevfjb/article71340647.ece/alternates/LANDSCAPE_1200/IMG_BRITAIN-WEATHER-CLIM_2_1_4LA255JQ.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455715.JPG",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/73db/live/5d4d0250-9728-11f1-808c-532494fd22c7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/73db/live/5d4d0250-9728-11f1-808c-532494fd22c7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/73db/live/5d4d0250-9728-11f1-808c-532494fd22c7.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 2.0383034911111113,
+    "is_stale": false,
+    "score": 23.11753078337037
+  }
+}

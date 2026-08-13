@@ -1,18 +1,18 @@
 {
   "id": "b5f7dc084da6",
-  "created_at": "2026-08-13T19:08:07.981852+00:00",
-  "status": "unselected",
-  "selection_issue": 325,
-  "score": 19.31,
+  "created_at": "2026-08-13T21:03:33.446692+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.04,
   "trend_score": 0.0,
-  "velocity": 1.0,
+  "velocity": 0.77,
   "bucket": "serious",
   "state_media": false,
   "title": "1 dead, 6 wounded in Rotterdam port explosion",
   "link": "https://www.scmp.com/news/world/europe/article/3363950/1-dead-several-wounded-rotterdam-port-explosion?utm_source=rss_feed",
   "publishers": [
     "Hindustan Times — World",
-    "Reuters",
+    "NBC News",
     "South China Morning Post",
     "newspaper"
   ],
@@ -29,7 +29,7 @@
     "publisher": "South China Morning Post",
     "cluster_sources": [
       "Hindustan Times — World",
-      "Reuters",
+      "NBC News",
       "South China Morning Post",
       "newspaper"
     ],
@@ -52,9 +52,9 @@
     "state_media": false,
     "trend_score": 0.0,
     "group_sources": 4,
-    "velocity": 1.0,
-    "age_hours": 5.113669876388889,
+    "velocity": 0.7734144097127981,
+    "age_hours": 7.037343215277778,
     "is_stale": false,
-    "score": 19.305145430185185
+    "score": 18.04397320182325
   }
 }
