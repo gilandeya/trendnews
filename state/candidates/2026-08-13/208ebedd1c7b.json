@@ -1,0 +1,52 @@
+{
+  "id": "208ebedd1c7b",
+  "created_at": "2026-08-13T16:15:48.990806+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.8,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Poland says it thwarted a Russian plot to kill an American citizen in Warsaw",
+  "link": "https://www.courthousenews.com/poland-says-it-thwarted-a-russian-plot-to-kill-an-american-citizen-in-warsaw/",
+  "publishers": [
+    "Court House News",
+    "South China Morning Post"
+  ],
+  "region": "court",
+  "article": {
+    "title": "Poland says it thwarted a Russian plot to kill an American citizen in Warsaw",
+    "link": "https://www.courthousenews.com/poland-says-it-thwarted-a-russian-plot-to-kill-an-american-citizen-in-warsaw/",
+    "summary": "Russia has long been accused of targeting its enemies abroad, including by using rare poisons.",
+    "source_name": "Court House News",
+    "region": "court",
+    "weight": 1.2,
+    "published": "2026-08-13T16:11:47+00:00",
+    "image_url": null,
+    "publisher": "Court House News",
+    "cluster_sources": [
+      "Court House News",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/poland-says-it-thwarted-a-russian-plot-to-kill-an-american-citizen-in-warsaw/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3363952/poland-says-it-arrested-russian-hired-kill-ukrainian-american-citizen?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1.7444387830555554,
+    "is_stale": false,
+    "score": 16.795596675944445
+  }
+}

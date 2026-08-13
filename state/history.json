@@ -1,24 +1,5 @@
 [
   {
-    "score": 31.17,
-    "bucket": "serious",
-    "tokens": [
-      "close",
-      "deal",
-      "hormuz",
-      "iran",
-      "itself",
-      "open",
-      "strait",
-      "waterway"
-    ],
-    "link": "https://www.channelnewsasia.com/world/iran-deal-strait-hormuz-close-6307616",
-    "title": "Iran says deal on Strait of Hormuz is close but will not open the waterway by itself",
-    "posted_title": "تحديث: ناقلة تابعة لأدنوك تتعرض لصاروخ في هرمز وسط مفاوضات إيرانية عمانية متقدمة",
-    "region": "seasia",
-    "seen_at": "2026-08-08T16:08:11.009446+00:00"
-  },
-  {
     "score": 19.22,
     "bucket": "serious",
     "tokens": [
@@ -2678,5 +2659,24 @@
     "posted_title": "",
     "region": "odd",
     "seen_at": "2026-08-13T15:15:53.193618+00:00"
+  },
+  {
+    "score": 16.8,
+    "bucket": "light",
+    "tokens": [
+      "american",
+      "citizen",
+      "kill",
+      "plot",
+      "poland",
+      "russian",
+      "thwarted",
+      "warsaw"
+    ],
+    "link": "https://www.courthousenews.com/poland-says-it-thwarted-a-russian-plot-to-kill-an-american-citizen-in-warsaw/",
+    "title": "Poland says it thwarted a Russian plot to kill an American citizen in Warsaw",
+    "posted_title": "",
+    "region": "court",
+    "seen_at": "2026-08-13T16:15:48.991213+00:00"
   }
 ]
