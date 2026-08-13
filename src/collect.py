@@ -30,7 +30,7 @@ from .trends import trending_signatures
 from .velocity import load as load_velocity, save as save_velocity
 from .extract import gather as gather_texts
 from .sources import enrich_image, fetch_all
-from .writer import build_caption, usage_summary, write_arabic
+from .writer import WriteFailure, build_caption, usage_summary, write_arabic
 
 log = logging.getLogger("collect")
 
@@ -300,8 +300,16 @@ def main() -> int:
                 if not docs:
                     log.info("تعذّرت قراءة نص الخبر — قد يُرفض لغياب التفاصيل")
 
-            written = write_arabic(art, cfg, previous_post=prev_title,
-                                   source_docs=docs or None)
+            try:
+                written = write_arabic(art, cfg, previous_post=prev_title,
+                                       source_docs=docs or None)
+            except WriteFailure as exc:
+                # عطل تقني (سقف إنفاق أو API) لا رفض تحريري — نتخطّى هذا
+                # الخبر في هذه الدفعة فقط، فقد ينجح في التشغيلة التالية
+                log.error("فشل تقني في الصياغة (%s): %s", exc.reason, art.title[:60])
+                rejected += 1
+                rejections.append((art.title[:70], art.bucket, bool(docs)))
+                continue
             if not written:
                 rejected += 1
                 rejections.append((art.title[:70], art.bucket, bool(docs)))

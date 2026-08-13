@@ -25,7 +25,7 @@ from .rank import rank
 from .screen import screen
 from .sources import enrich_image, fetch_all
 from .velocity import load as load_velocity, save as save_velocity
-from .writer import build_caption, usage_summary, write_arabic
+from .writer import WriteFailure, build_caption, usage_summary, write_arabic
 
 log = logging.getLogger("radar")
 
@@ -143,7 +143,11 @@ def build_draft(art, cfg, urgent: bool = True,
     docs = gather_texts(art.cluster_members,
                         limit=int(acfg.get("max_sources", 2)))
 
-    written = write_arabic(art, cfg, source_docs=docs or None)
+    try:
+        written = write_arabic(art, cfg, source_docs=docs or None)
+    except WriteFailure as exc:
+        log.info("فشل تقني في الصياغة (%s) — تخطّي هذه الجولة", exc.reason)
+        return None
     if not written:
         log.info("رُفض الخبر عند الصياغة")
         return None

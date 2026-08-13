@@ -17,7 +17,7 @@ from .config import DRAFTS_DIR
 from .extract import gather as gather_texts
 from .imagesearch import find_images
 from .imaging import build_post_image
-from .writer import build_caption, write_arabic
+from .writer import WriteFailure, build_caption, write_arabic
 
 log = logging.getLogger("collect_finalize")
 
@@ -139,6 +139,10 @@ def finalize(issue_number: int, body: str, cfg) -> int:
 
     drafts: list[dict] = []
     published_ids: list[str] = []
+    # فشل تقني (سقف إنفاق أو عطل API) يُجمَع منفصلًا عن الرفض التحريري —
+    # لا يُغيَّر status المرشح (يبقى قابلًا لإعادة المحاولة بلا إعادة
+    # تعليم) ولا يدخل _record_rejections لاحقًا (Issue #308)
+    write_errors: list[tuple[str, WriteFailure]] = []
 
     for cid in selected:
         found = store.load_candidate(cid)
@@ -164,10 +168,16 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         if previous:
             prev_title = previous.get("posted_title") or previous.get("title")
 
-        written = write_arabic(art, cfg, previous_post=prev_title,
-                               source_docs=docs or None)
+        try:
+            written = write_arabic(art, cfg, previous_post=prev_title,
+                                   source_docs=docs or None)
+        except WriteFailure as exc:
+            log.error("فشل تقني في صياغة المرشح المعتمد (%s): %s",
+                     exc.reason, art.title[:60])
+            write_errors.append((cid, exc))
+            continue
         if not written:
-            log.warning("رفض الصياغة للمرشح المعتمد: %s", art.title[:60])
+            log.warning("رفض الصياغة تحريريًا للمرشح المعتمد: %s", art.title[:60])
             store.update_candidate(path, status="write_failed")
             continue
 
@@ -189,7 +199,29 @@ def finalize(issue_number: int, body: str, cfg) -> int:
              len(drafts), len(selected), len(selected) - len(drafts), len(unselected))
 
     if not drafts:
-        review.comment(issue_number, "⚠️ تعذّرت صياغة كل المختارين — لم يُنشر شيء.")
+        if write_errors:
+            # عطل تقني لا قرار تحريري: approved يبقى كما هو ليعيد المراجع
+            # تشغيل النشر لاحقًا بلا إعادة تعليم، ولا شيء يُسجَّل في
+            # feedback — الفشل عارض لا يعكس رأيًا في صلاحية الخبر
+            reasons = sorted({exc.reason for _, exc in write_errors})
+            detail = write_errors[0][1].detail
+            review.comment(
+                issue_number,
+                f"⚠️ تعذّرت صياغة كل المختارين بسبب عطل خارجي: "
+                f"{'، '.join(reasons)} — لم يُنشر شيء.\n"
+                f"تفصيل السبب: {detail}\n\n"
+                "وسم `approved` تُرك كما هو ولم يُسجَّل أي مرشح كمرفوض — "
+                "العطل تقني لا قرار تحرير. أعد تشغيل النشر لاحقًا (بلا "
+                "حاجة لإعادة الاختيار) حين يزول السبب.",
+            )
+            log.error("تعذّرت صياغة كل المختارين لعطل خارجي (%s) — approved أُبقي",
+                      "، ".join(reasons))
+            return 1
+        review.comment(
+            issue_number,
+            "⚠️ تعذّرت صياغة كل المختارين تحريريًا (رُفضوا كأخبار غير "
+            "صالحة للنشر) — لم يُنشر شيء.",
+        )
         review.remove_label(issue_number, "approved")
         return 0
 

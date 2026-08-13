@@ -378,11 +378,38 @@ def _client() -> Anthropic:
     return Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
 
+# Issue #308: رسالة "تعذّرت الصياغة" المبهمة كانت تُخفي الفرق بين عطل خارجي
+# (سقف إنفاق، عطل API) ورفض تحريري (newsworthy=false) — الأول يستحق إبقاء
+# اعتماد المراجع لإعادة المحاولة، والثاني قرار بشري منته. classify_write_error
+# دالة مستقلة قابلة للاختبار بلا شبكة ولا عميل Anthropic حقيقي.
+def classify_write_error(exc: Exception) -> str:
+    """يميّز سبب فشل الصياغة التقني من نص الاستثناء."""
+    msg = str(exc).lower()
+    if any(k in msg for k in ("usage limit", "spend limit", "credit balance",
+                              "billing")):
+        return "سقف الإنفاق"
+    return "عطل API"
+
+
+class WriteFailure(Exception):
+    """فشل تقني في الصياغة بعد استنفاد المحاولات — يُميَّز عمدًا عن إعادة
+    None (رفض تحريري newsworthy=false) ليقرر المستدعي إن كان الفشل يستحق
+    إبقاء اعتماد المراجع بلا تسجيله رفضًا في feedback (Issue #308)."""
+
+    def __init__(self, reason: str, detail: str):
+        self.reason = reason
+        self.detail = detail
+        super().__init__(f"{reason}: {detail}")
+
+
 def write_arabic(article: Article, cfg, retries: int = 3,
                  previous_post: str | None = None,
                  source_docs: list[dict] | None = None) -> dict | None:
     """
-    يعيد قاموس المنشور العربي، أو None إذا رُفض الخبر أو فشل التوليد.
+    يعيد قاموس المنشور العربي، أو None إذا رُفض الخبر تحريريًا
+    (newsworthy=false). يرفع WriteFailure إذا استُنفدت المحاولات لعطل
+    تقني (سقف إنفاق، عطل شبكة/API) — حالة مختلفة جوهريًا عن الرفض
+    التحريري ويجب على المستدعي معالجتها بشكل مختلف.
 
     previous_post: عنوان منشور سابق عن الحدث نفسه. عندها يقرر النموذج إن
     كان هذا تطورًا حقيقيًا يستحق منشورًا مستقلًا، أم مجرد إعادة صياغة.
@@ -466,8 +493,10 @@ def write_arabic(article: Article, cfg, retries: int = 3,
             log.warning("محاولة %d/%d فشلت: %s", attempt, retries, exc)
             time.sleep(2 * attempt)
     else:
-        log.error("تعذّرت صياغة الخبر '%s': %s", article.title[:60], last_error)
-        return None
+        reason = classify_write_error(last_error) if last_error else "عطل API"
+        log.error("تعذّرت صياغة الخبر '%s' (%s): %s",
+                 article.title[:60], reason, last_error)
+        raise WriteFailure(reason, str(last_error) if last_error else "")
 
     if not data.get("newsworthy", True):
         log.info("رُفض الخبر '%s': %s", article.title[:50], data.get("reject_reason", ""))
