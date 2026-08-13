@@ -88,7 +88,7 @@ jobs:
           fi
 
       - name: تسجيل الحالة
-        if: inputs.verify_only != true && inputs.diagnose != true
+        if: always() && inputs.verify_only != true && inputs.diagnose != true
         run: |
           git config user.name  "trendnews-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -143,6 +143,7 @@ jobs:
           python -m src.publish --issue "$ISSUE" --skip-urgent
 
       - name: تسجيل الحالة
+        if: always()
         run: |
           git config user.name  "trendnews-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
