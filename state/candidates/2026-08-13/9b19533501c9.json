@@ -1,0 +1,69 @@
+{
+  "id": "9b19533501c9",
+  "created_at": "2026-08-13T06:07:55.727559+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.17,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Totality! See the first photos of the Aug. 12 total solar eclipse over Spain",
+  "link": "https://www.livescience.com/space/the-sun/totality-see-the-first-photos-of-the-aug-12-total-solar-eclipse-over-spain",
+  "publishers": [
+    "France24",
+    "Live Science",
+    "NPR World",
+    "WIRED"
+  ],
+  "region": "odd",
+  "article": {
+    "title": "Totality! See the first photos of the Aug. 12 total solar eclipse over Spain",
+    "link": "https://www.livescience.com/space/the-sun/totality-see-the-first-photos-of-the-aug-12-total-solar-eclipse-over-spain",
+    "summary": "See the first images of totality over Spain from the Aug. 12 total solar eclipse. A bright-pink prominence makes a cameo appearance.",
+    "source_name": "Live Science",
+    "region": "odd",
+    "weight": 1.3,
+    "published": "2026-08-12T19:25:27+00:00",
+    "image_url": "https://cdn.mos.cms.futurecdn.net/DJwEnmTQCMMjJUtbwkZAJc-1280-80.jpg",
+    "publisher": "Live Science",
+    "cluster_sources": [
+      "France24",
+      "Live Science",
+      "NPR World",
+      "WIRED"
+    ],
+    "cluster_members": [
+      {
+        "name": "Live Science",
+        "link": "https://www.livescience.com/space/the-sun/totality-see-the-first-photos-of-the-aug-12-total-solar-eclipse-over-spain"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/spain-prepares-for-rare-total-solar-eclipse"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260812-the-moment-of-the-total-solar-eclipse-in-spain"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/sections/the-picture-show/2026/08/12/nx-s1-5929788/photos-best-photos-from-solar-eclipse"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.mos.cms.futurecdn.net/DJwEnmTQCMMjJUtbwkZAJc-1280-80.jpg",
+      "https://s.france24.com/media/display/90a411c0-9651-11f1-84dd-005056bfb2b6/w:1024/p:16x9/EN-20260812-141140-141304-CS.jpg",
+      "https://s.france24.com/media/display/2c95a924-9682-11f1-8735-005056a97e36/w:1024/p:16x9/Minia-EN.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5929788"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.221853068186599,
+    "age_hours": 10.615431890555556,
+    "is_stale": false,
+    "score": 25.169032767517955
+  }
+}

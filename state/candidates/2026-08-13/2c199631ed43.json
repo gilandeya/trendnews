@@ -1,11 +1,11 @@
 {
   "id": "2c199631ed43",
-  "created_at": "2026-08-13T03:07:37.967005+00:00",
+  "created_at": "2026-08-13T06:07:55.728607+00:00",
   "status": "pending",
-  "selection_issue": 305,
-  "score": 24.55,
+  "selection_issue": null,
+  "score": 21.68,
   "trend_score": 1.0,
-  "velocity": 0.13,
+  "velocity": 0.0,
   "bucket": "serious",
   "state_media": false,
   "title": "One dead, 172 rescued after Indonesian ferry from Bali catches fire",
@@ -56,9 +56,9 @@
     "state_media": false,
     "trend_score": 1.0,
     "group_sources": 4,
-    "velocity": 0.13341110480323398,
-    "age_hours": 20.997732155833333,
-    "is_stale": false,
-    "score": 24.548248753564096
+    "velocity": 0.0,
+    "age_hours": 24.00273283388889,
+    "is_stale": true,
+    "score": 21.680859717936812
   }
 }

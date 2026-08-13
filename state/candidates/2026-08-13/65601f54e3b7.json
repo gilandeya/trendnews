@@ -1,11 +1,11 @@
 {
   "id": "65601f54e3b7",
-  "created_at": "2026-08-13T03:07:37.966508+00:00",
+  "created_at": "2026-08-13T06:07:55.727969+00:00",
   "status": "pending",
-  "selection_issue": 305,
-  "score": 28.31,
+  "selection_issue": null,
+  "score": 24.85,
   "trend_score": 1.0,
-  "velocity": 1.0,
+  "velocity": 0.35,
   "bucket": "sport",
   "state_media": false,
   "title": "Guimaraes makes Arsenal debut in draw with Como",
@@ -63,9 +63,9 @@
     "state_media": false,
     "trend_score": 1.0,
     "group_sources": 4,
-    "velocity": 1.0,
-    "age_hours": 5.61193054388889,
+    "velocity": 0.34863050711920524,
+    "age_hours": 8.616929096388889,
     "is_stale": false,
-    "score": 28.30880015836579
+    "score": 24.85161916592478
   }
 }

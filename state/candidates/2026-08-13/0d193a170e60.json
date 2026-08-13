@@ -1,0 +1,62 @@
+{
+  "id": "0d193a170e60",
+  "created_at": "2026-08-13T06:07:55.728195+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.06,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "OPEC further lowers 2026 global oil demand growth forecast",
+  "link": "https://www.myjoyonline.com/opec-further-lowers-2026-global-oil-demand-growth-forecast/",
+  "publishers": [
+    "CGTN",
+    "MyJoyOnline Ghana",
+    "TASS"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "OPEC further lowers 2026 global oil demand growth forecast",
+    "link": "https://www.myjoyonline.com/opec-further-lowers-2026-global-oil-demand-growth-forecast/",
+    "summary": "OPEC ‌on Wednesday lowered its forecast for world oil ​demand growth in ​2026 to 580,000 barrels per ⁠day, a copy ​of its monthly report showed, ​marking the fourth straight downward revision.",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-08-13T03:10:00+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/07/image-1284-1024x683.png",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "CGTN",
+      "MyJoyOnline Ghana",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/opec-further-lowers-2026-global-oil-demand-growth-forecast/"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-12/news-1PymnHzAqe4/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/economy/2171903"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/07/image-1284-1024x683.png",
+      "https://news.cgtn.com/news/2026-08-12/news-1PymnHzAqe4/img/33607edaf5f5413aafeb6eea0a77fe72/33607edaf5f5413aafeb6eea0a77fe72-750.png",
+      "https://news.cgtn.com/news/2026-08-12/news-1PymnHzAqe4/img/33607edaf5f5413aafeb6eea0a77fe72/33607edaf5f5413aafeb6eea0a77fe72.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.22186402314716747,
+    "age_hours": 21.002304974999998,
+    "is_stale": false,
+    "score": 23.06164985480991
+  }
+}
