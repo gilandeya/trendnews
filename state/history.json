@@ -1,22 +1,5 @@
 [
   {
-    "score": 20.26,
-    "bucket": "serious",
-    "tokens": [
-      "ahead",
-      "gaza",
-      "hamas",
-      "plan",
-      "ready",
-      "still"
-    ],
-    "link": "https://www.dawn.com/news/2021507/hamas-says-still-ready-to-go-ahead-with-gaza-plan",
-    "title": "Hamas says still ready to go ahead with Gaza plan",
-    "posted_title": "حماس تؤكد استعدادها لتسليم السلاح ضمن اتفاق غزة بشرط موافقة إسرائيل",
-    "region": "pk",
-    "seen_at": "2026-08-08T18:08:21.644380+00:00"
-  },
-  {
     "score": 19.32,
     "bucket": "serious",
     "tokens": [
@@ -2739,5 +2722,26 @@
     "posted_title": "سيناتور أمريكي يطالب بتفسير لأوضاع بحّارة حاملة الطائرات لينكولن بعد نحو 250 يومًا في البحر",
     "region": "uk",
     "seen_at": "2026-08-13T17:31:29.313178+00:00"
+  },
+  {
+    "score": 17.59,
+    "bucket": "serious",
+    "tokens": [
+      "derails",
+      "east",
+      "injured",
+      "lewes",
+      "near",
+      "passenger",
+      "seriously",
+      "sussex",
+      "train",
+      "two"
+    ],
+    "link": "https://www.theguardian.com/uk-news/2026/aug/13/train-derailment-east-sussex-closes-several-routes-lewes",
+    "title": "Two seriously injured after passenger train derails near Lewes in East Sussex",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-13T18:45:50.187403+00:00"
   }
 ]

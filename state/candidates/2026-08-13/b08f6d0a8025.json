@@ -1,0 +1,56 @@
+{
+  "id": "b08f6d0a8025",
+  "created_at": "2026-08-13T18:45:50.186950+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.59,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Two seriously injured after passenger train derails near Lewes in East Sussex",
+  "link": "https://www.theguardian.com/uk-news/2026/aug/13/train-derailment-east-sussex-closes-several-routes-lewes",
+  "publishers": [
+    "South China Morning Post",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Two seriously injured after passenger train derails near Lewes in East Sussex",
+    "link": "https://www.theguardian.com/uk-news/2026/aug/13/train-derailment-east-sussex-closes-several-routes-lewes",
+    "summary": "Additional nine passengers sustain less serious injuries and major disruption to services reported Two people have been seriously injured after a passenger train derailed between Haywards Heath and Lewes in East Sussex, prompting a rapid emergency response in the area. Images of the aftermath appeared to show passengers standing on top of the toppled carriages while others could be seen in an area of heathland alongside emergency workers. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-13T18:38:54+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/5542cb2126dd351ceb549fb7b0309a1757ebab8c/515_32_3824_3061/master/3824.jpg?width=700&quality=85&auto=format&fit=max&s=bff2e0722c31fdc2869876b6e24b08aa",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "South China Morning Post",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/uk-news/2026/aug/13/train-derailment-east-sussex-closes-several-routes-lewes"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3363958/uk-passenger-train-derails-and-flips?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/5542cb2126dd351ceb549fb7b0309a1757ebab8c/515_32_3824_3061/master/3824.jpg?width=700&quality=85&auto=format&fit=max&s=bff2e0722c31fdc2869876b6e24b08aa",
+      "https://i.guim.co.uk/img/media/5542cb2126dd351ceb549fb7b0309a1757ebab8c/515_32_3824_3061/master/3824.jpg?width=460&quality=85&auto=format&fit=max&s=ff21b24c61db2c41c7c41826e9d9a2cf",
+      "https://i.guim.co.uk/img/media/5542cb2126dd351ceb549fb7b0309a1757ebab8c/515_32_3824_3061/master/3824.jpg?width=140&quality=85&auto=format&fit=max&s=3a41811a4f19f7c3b983d6a124c4b69a"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1.2451011233333333,
+    "is_stale": false,
+    "score": 17.592379593444445
+  }
+}
