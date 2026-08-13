@@ -1,0 +1,57 @@
+{
+  "id": "bdd550553755",
+  "created_at": "2026-08-13T17:15:54.492673+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.47,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "DRC’s fast-growing Ebola outbreak spreads to sixth province",
+  "link": "https://www.theguardian.com/world/2026/aug/13/ebola-drc-democratic-republic-congo-sixth-province",
+  "publishers": [
+    "Le Monde",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "DRC’s fast-growing Ebola outbreak spreads to sixth province",
+    "link": "https://www.theguardian.com/world/2026/aug/13/ebola-drc-democratic-republic-congo-sixth-province",
+    "summary": "Man dies in Bas-Uele after travelling from Haut-Uele, as head of WHO says outbreak on track to be deadliest ever The Ebola outbreak in the Democratic Republic of the Congo has spread to a sixth province, officials have said, a day after the head of the World Health Organization said the outbreak was on track to surpass the deadliest in history, which killed at least 11,000 people more than a decade ago. The current outbreak has killed more than 2,100 people out of more than 4,500 cases, according to the latest government figures released on Tuesday. At the same point in the 2014-16 outbreak in west Africa, the previous most deadly outbreak, 755 cases had been recorded, according to WHO data. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-13T15:17:13+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/7cdf83c55d79a96a161395d5c73576671830d88a/31_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=452bdcffb78129e0e4187dedfffe1d1e",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Le Monde",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/13/ebola-drc-democratic-republic-congo-sixth-province"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/afrique/article/2026/08/13/ebola-en-rdc-l-epidemie-s-etend-a-une-sixieme-province-et-menace-le-soudan-du-sud_6745827_3212.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/7cdf83c55d79a96a161395d5c73576671830d88a/31_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=452bdcffb78129e0e4187dedfffe1d1e",
+      "https://i.guim.co.uk/img/media/7cdf83c55d79a96a161395d5c73576671830d88a/31_0_5000_4000/master/5000.jpg?width=460&quality=85&auto=format&fit=max&s=f06976c9f93bb9babacb5fca3affd225",
+      "https://i.guim.co.uk/img/media/7cdf83c55d79a96a161395d5c73576671830d88a/31_0_5000_4000/master/5000.jpg?width=140&quality=85&auto=format&fit=max&s=69ea3d0c862b6a5b0a713ec4ccab78d2",
+      "https://img.lemde.fr/2026/08/12/500/0/6000/3000/644/322/60/0/58c46b7_ftp-1-bokkmh97awqe-6d28df5c19144e9f83c230f1886ae3dc-2-f9cb19d83ddf48c1b0ddf3393f0f6a8e.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1.500017848888889,
+    "is_stale": false,
+    "score": 17.468236688851853
+  }
+}

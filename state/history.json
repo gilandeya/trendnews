@@ -1,23 +1,5 @@
 [
   {
-    "score": 29.21,
-    "bucket": "serious",
-    "tokens": [
-      "'cockroach'",
-      "heat",
-      "india's",
-      "keeps",
-      "modi",
-      "movement",
-      "protest"
-    ],
-    "link": "https://www.dawn.com/news/2021494/indias-cockroach-protest-movement-keeps-heat-on-modi",
-    "title": "India's 'cockroach' protest movement keeps heat on Modi",
-    "posted_title": "لماذا لا تزال الهند تعيش ارتدادات احتجاجات \"حزب الصرصور\" رغم توقفها",
-    "region": "pk",
-    "seen_at": "2026-08-08T17:08:26.770162+00:00"
-  },
-  {
     "score": 17.43,
     "bucket": "sport",
     "tokens": [
@@ -2739,5 +2721,24 @@
     "posted_title": "",
     "region": "pk",
     "seen_at": "2026-08-13T17:01:21.583270+00:00"
+  },
+  {
+    "score": 17.47,
+    "bucket": "serious",
+    "tokens": [
+      "drc",
+      "ebola",
+      "fast",
+      "growing",
+      "outbreak",
+      "province",
+      "sixth",
+      "spreads"
+    ],
+    "link": "https://www.theguardian.com/world/2026/aug/13/ebola-drc-democratic-republic-congo-sixth-province",
+    "title": "DRC’s fast-growing Ebola outbreak spreads to sixth province",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-13T17:15:54.493059+00:00"
   }
 ]
