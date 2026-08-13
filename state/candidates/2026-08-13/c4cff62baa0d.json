@@ -1,9 +1,9 @@
 {
   "id": "c4cff62baa0d",
-  "created_at": "2026-08-13T12:07:48.054453+00:00",
+  "created_at": "2026-08-13T15:08:04.990567+00:00",
   "status": "pending",
-  "selection_issue": 317,
-  "score": 20.24,
+  "selection_issue": null,
+  "score": 21.01,
   "trend_score": 0.0,
   "velocity": 1.0,
   "bucket": "serious",
@@ -14,7 +14,8 @@
     "Dawn",
     "Geo News",
     "Hindustan Times — World",
-    "The Express Tribune"
+    "The Express Tribune",
+    "The Hindu — International"
   ],
   "region": "pk",
   "article": {
@@ -31,7 +32,8 @@
       "Dawn",
       "Geo News",
       "Hindustan Times — World",
-      "The Express Tribune"
+      "The Express Tribune",
+      "The Hindu — International"
     ],
     "cluster_members": [
       {
@@ -41,6 +43,10 @@
       {
         "name": "The Express Tribune",
         "link": "https://tribune.com.pk/story/2623682/body-of-pakistani-climber-sohail-sakhi-recovered-from-broad-peak"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/body-of-pakistani-climber-recovered-from-broad-peak-2-weeks-after-avalanche-killed-10/article71341279.ece"
       },
       {
         "name": "Geo News",
@@ -54,15 +60,16 @@
     "image_candidates": [
       "https://i.dawn.com/large/2026/08/13130642e05e30c.webp",
       "https://i.dawn.com/thumbnail/2026/08/13130642e05e30c.webp",
+      "https://th-i.thgim.com/public/incoming/hesm7j/article71341360.ece/alternates/LANDSCAPE_1200/%F0%9F%87%B5%F0%9F%87%B0%20HISTORIC%20SUMMIT%20%F0%9F%87%B5%F0%9F%87%B0On%20July%204th%20Sohail%20Sakhi%20from%20Aliabad%20Hunza%20made%20it%20to%20the%20summit%20of.jpg",
       "https://www.geo.tv/assets/uploads/2026-08-13/677457_033244_updates.jpg"
     ],
     "bucket": "serious",
     "state_media": false,
     "trend_score": 0.0,
-    "group_sources": 4,
+    "group_sources": 5,
     "velocity": 1.0,
-    "age_hours": 3.610626563611111,
+    "age_hours": 6.615606270000001,
     "is_stale": false,
-    "score": 20.243296160592593
+    "score": 21.008749022347274
   }
 }

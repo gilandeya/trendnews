@@ -1,0 +1,67 @@
+{
+  "id": "088a6ea46f25",
+  "created_at": "2026-08-13T15:08:04.991330+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.81,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "July saw highest civilian death toll in Ukraine since May 2022: UN",
+  "link": "https://www.dailysabah.com/world/europe/july-saw-highest-civilian-death-toll-in-ukraine-since-may-2022-un",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "France24",
+    "Free Malaysia Today"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "July saw highest civilian death toll in Ukraine since May 2022: UN",
+    "link": "https://www.dailysabah.com/world/europe/july-saw-highest-civilian-death-toll-in-ukraine-since-may-2022-un",
+    "summary": "Civilian deaths in Ukraine rose in July to their highest monthly level since the first months of Russia’s invasion, the U.N. said Thursday, as Moscow intensified long-range missile...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-13T09:58:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455578.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "France24",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/13/civilian-deaths-in-ukraine-in-july-hit-highest-level-since-may-2022-un?traffic_source=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260813-live-russian-attack-sets-ablaze-ukraine-s-izmail-port-infrastructure"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/13/ukraine-civilian-death-toll-in-july-highest-since-may-2022-says-un"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/july-saw-highest-civilian-death-toll-in-ukraine-since-may-2022-un"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455578.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/07/0b36122f-afp__20260702__b8yz3kf__v3__highres__topshotukrainerussiaconflictwar_1_cropped-1.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 3.3688062766666667,
+    "is_stale": false,
+    "score": 19.805594368055555
+  }
+}
