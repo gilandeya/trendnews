@@ -1,0 +1,69 @@
+{
+  "id": "03f9d2a775a8",
+  "created_at": "2026-08-14T21:45:58.397139+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.57,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump dismisses mental health concerns on USS Lincoln aircraft carrier",
+  "link": "https://www.aljazeera.com/news/2026/8/14/trump-dismisses-mental-health-concerns-on-uss-lincoln-aircraft-carrier?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Der Spiegel",
+    "South China Morning Post",
+    "live"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Trump dismisses mental health concerns on USS Lincoln aircraft carrier",
+    "link": "https://www.aljazeera.com/news/2026/8/14/trump-dismisses-mental-health-concerns-on-uss-lincoln-aircraft-carrier?traffic_source=rss",
+    "summary": "Members of the US Congress have called for a probe into conditions amid reports of sailors attempting to jump ship.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-14T21:17:15+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/dfdb2088fca801961af56d1dc574e5ef9cdb13c6/122_0_3727_2981/master/3727.jpg?width=700&quality=85&auto=format&fit=max&s=088db10225a2f2c8a8a1ee76ac98b129",
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Der Spiegel",
+      "South China Morning Post",
+      "live"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/14/trump-dismisses-mental-health-concerns-on-uss-lincoln-aircraft-carrier?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364117/iran-war-trump-dismisses-concerns-over-conditions-uss-abraham-lincoln-aircraft-carrier?utm_source=rss_feed"
+      },
+      {
+        "name": "live",
+        "link": "https://www.theguardian.com/us-news/live/2026/aug/14/donald-trump-speech-crime-safety-new-york-republicans-midterms-us-politics-latest-news-updates"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/uss-abraham-lincoln-donald-trump-findet-einsatz-auf-flugzeugtraeger-dauert-noch-nicht-lange-genug-a-eb7c2526-9486-4e55-bf23-3dd5b92be5b1#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/dfdb2088fca801961af56d1dc574e5ef9cdb13c6/122_0_3727_2981/master/3727.jpg?width=700&quality=85&auto=format&fit=max&s=088db10225a2f2c8a8a1ee76ac98b129",
+      "https://i.guim.co.uk/img/media/dfdb2088fca801961af56d1dc574e5ef9cdb13c6/122_0_3727_2981/master/3727.jpg?width=460&quality=85&auto=format&fit=max&s=f067c0ce4eea585fe901575ef0046b8f",
+      "https://i.guim.co.uk/img/media/dfdb2088fca801961af56d1dc574e5ef9cdb13c6/122_0_3727_2981/master/3727.jpg?width=140&quality=85&auto=format&fit=max&s=4021f65d032ea3bc9af9dc0c71a30097",
+      "https://cdn.prod.www.spiegel.de/images/087fb63a-d44e-4257-bc6c-352d84743659_w520_r2.08_fpx37.32_fpy49.99.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 2.636377750555556,
+    "is_stale": false,
+    "score": 20.568238234574075
+  }
+}
