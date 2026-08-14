@@ -1,44 +1,5 @@
 [
   {
-    "score": 19.28,
-    "bucket": "serious",
-    "tokens": [
-      "aligned",
-      "arabia",
-      "attacked",
-      "claim",
-      "houthis",
-      "iran",
-      "oil",
-      "refinery",
-      "saudi"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/09/yemen-houthis-saudi-oil-refinery-defence-pact-iran-strait-of-hormuz",
-    "title": "Iran-aligned Houthis claim they attacked oil refinery in Saudi Arabia",
-    "posted_title": "الحوثيون يعلنون استهداف مصفاة أرامكو في جازان بطائرة مسيّرة",
-    "region": "uk",
-    "seen_at": "2026-08-09T16:16:06.196211+00:00"
-  },
-  {
-    "score": 17.57,
-    "bucket": "serious",
-    "tokens": [
-      "base",
-      "bomb",
-      "days",
-      "drones",
-      "german",
-      "incident",
-      "leipzig",
-      "spotted"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cwyeg1ljp2eo?at_medium=RSS&at_campaign=rss",
-    "title": "Drones spotted over German base days after Leipzig bomb incident",
-    "posted_title": "طائرتان مسيّرتان فوق قاعدة ألمانية تخزن أجزاء من صواريخ باتريوت",
-    "region": "uk",
-    "seen_at": "2026-08-09T16:46:05.613300+00:00"
-  },
-  {
     "score": 22.75,
     "bucket": "serious",
     "tokens": [
@@ -3452,5 +3413,22 @@
     "posted_title": "",
     "region": "uk",
     "seen_at": "2026-08-14T15:45:47.705406+00:00"
+  },
+  {
+    "score": 17.46,
+    "bucket": "light",
+    "tokens": [
+      "asking",
+      "can",
+      "remove",
+      "second",
+      "text",
+      "watermark"
+    ],
+    "link": "https://boingboing.net/2026/08/14/ai-text-watermarks-trivial-to-remove.html",
+    "title": "You can remove an AI watermark from text by asking a second AI",
+    "posted_title": "",
+    "region": "odd",
+    "seen_at": "2026-08-14T16:49:01.905592+00:00"
   }
 ]
