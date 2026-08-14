@@ -1,0 +1,59 @@
+{
+  "id": "35ee99f503ef",
+  "created_at": "2026-08-14T15:31:04.448411+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.59,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Luigi Mangione prepared to plead guilty on federal charges linked to healthcare CEO’s killing",
+  "link": "https://www.theguardian.com/us-news/live/2026/aug/14/luigi-mangione-court-plea-deal-ceo-killing-live",
+  "publishers": [
+    "The Guardian — World",
+    "live"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Luigi Mangione prepared to plead guilty on federal charges linked to healthcare CEO’s killing",
+    "link": "https://www.theguardian.com/us-news/live/2026/aug/14/luigi-mangione-court-plea-deal-ceo-killing-live",
+    "summary": "Man accused of United Healthcare chief’s killing appears in Manhattan federal court to change plea on stalking charges at the courthouse in Manhattan Mangione ’s legal team is helmed by Karen Friedman Agnifilo and Marc Agnifilo . The team has scored several major legal coups in Mangione’s federal and state cases. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-14T15:25:11+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/b550bdf885704868da2573856582a0cd80c638fe/670_0_4140_3312/master/4140.jpg?width=700&quality=85&auto=format&fit=max&s=3d232c87d79d8ecf5961a44325ab05b6",
+    "publisher": "live",
+    "cluster_sources": [
+      "The Guardian — World",
+      "live"
+    ],
+    "cluster_members": [
+      {
+        "name": "live",
+        "link": "https://www.theguardian.com/us-news/live/2026/aug/14/luigi-mangione-court-plea-deal-ceo-killing-live"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/14/luigi-mangione-hearing-federal-case"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/b550bdf885704868da2573856582a0cd80c638fe/670_0_4140_3312/master/4140.jpg?width=700&quality=85&auto=format&fit=max&s=3d232c87d79d8ecf5961a44325ab05b6",
+      "https://i.guim.co.uk/img/media/b550bdf885704868da2573856582a0cd80c638fe/670_0_4140_3312/master/4140.jpg?width=460&quality=85&auto=format&fit=max&s=e701e0a981dd383eed76b382eb020ea9",
+      "https://i.guim.co.uk/img/media/b550bdf885704868da2573856582a0cd80c638fe/670_0_4140_3312/master/4140.jpg?width=140&quality=85&auto=format&fit=max&s=a0109df0ae0c4eb704a60262446426e7",
+      "https://i.guim.co.uk/img/media/52b86e6b5d88b4c7ebca5b536c9b8b4938517c3d/648_0_6482_5184/master/6482.jpg?width=700&quality=85&auto=format&fit=max&s=d0e029a784deec744f1634a4786cb2ad",
+      "https://i.guim.co.uk/img/media/52b86e6b5d88b4c7ebca5b536c9b8b4938517c3d/648_0_6482_5184/master/6482.jpg?width=460&quality=85&auto=format&fit=max&s=13425d42aa15d07780802978c74e9ae4",
+      "https://i.guim.co.uk/img/media/52b86e6b5d88b4c7ebca5b536c9b8b4938517c3d/648_0_6482_5184/master/6482.jpg?width=140&quality=85&auto=format&fit=max&s=d4b4df2f853475e4dc138e80966241ca"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 77.25179229888889,
+    "is_stale": false,
+    "score": 17.593569792092595
+  }
+}

@@ -1,26 +1,5 @@
 [
   {
-    "score": 27.19,
-    "bucket": "serious",
-    "tokens": [
-      "boss",
-      "crime",
-      "daniel",
-      "high",
-      "ireland",
-      "kinahan",
-      "operation",
-      "returning",
-      "security",
-      "suspected"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c62qd5plzp6o?at_medium=RSS&at_campaign=rss",
-    "title": "Suspected crime boss Daniel Kinahan returning to Ireland in high-security operation",
-    "posted_title": "طائرة حكومية إيرلندية تنقل دانيال كينيهان من دبي لمواجهة القضاء في دبلن",
-    "region": "uk",
-    "seen_at": "2026-08-09T15:08:24.149869+00:00"
-  },
-  {
     "score": 23.51,
     "bucket": "serious",
     "tokens": [
@@ -3390,5 +3369,27 @@
     "posted_title": "",
     "region": "money",
     "seen_at": "2026-08-14T15:08:05.520229+00:00"
+  },
+  {
+    "score": 17.59,
+    "bucket": "serious",
+    "tokens": [
+      "ceo",
+      "charges",
+      "federal",
+      "guilty",
+      "healthcare",
+      "killing",
+      "linked",
+      "luigi",
+      "mangione",
+      "plead",
+      "prepared"
+    ],
+    "link": "https://www.theguardian.com/us-news/live/2026/aug/14/luigi-mangione-court-plea-deal-ceo-killing-live",
+    "title": "Luigi Mangione prepared to plead guilty on federal charges linked to healthcare CEO’s killing",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-14T15:31:04.448762+00:00"
   }
 ]
