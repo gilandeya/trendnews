@@ -4,8 +4,11 @@ on:
   issues:
     types: [labeled]
 
+# المرحلة الثانية (Issue #334) تكتب في المستودع (مسودة + صورة) عند وجود
+# مؤكَّد كافٍ — قبل contents: write مقتصرة على القراءة كانت المرحلة الأولى
+# فقط: بحث وتقرير بلا كتابة.
 permissions:
-  contents: read
+  contents: write
   issues: write
 
 concurrency:
@@ -22,6 +25,30 @@ jobs:
       - name: سحب المستودع
         uses: actions/checkout@v4
 
+      # هذا السيّر يصبح كاتبًا في مستودع عام (drafts + صورة) انطلاقًا من
+      # وسم يضعه أي مستخدم على أي Issue — الوسم وحده لا يضمن أن واضعه يملك
+      # صلاحية كتابة فعلية (اعتمادًا على إعدادات مستودعات مخصَّصة قد تمنح
+      # حق الوسم لدور أوسع من "write"). فحص فاعل صريح دفاع في العمق، لا
+      # اعتماد على آلية الوسم وحدها (شرط أمني من مراجعة Issue #334).
+      - name: تحقق من صلاحية من أضاف الوسم
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.event.sender.login }}
+          REPO: ${{ github.repository }}
+        run: |
+          perm=$(curl -sf -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${REPO}/collaborators/${ACTOR}/permission" \
+            | python3 -c "import json,sys; print(json.load(sys.stdin).get('permission',''))")
+          echo "صلاحية ${ACTOR} على ${REPO}: ${perm:-تعذّر الاستعلام}"
+          case "$perm" in
+            admin|maintain|write) ;;
+            *)
+              echo "❌ ${ACTOR} لا يملك صلاحية كتابة كافية لتشغيل مسار يكتب في المستودع"
+              exit 1
+              ;;
+          esac
+
       - name: تهيئة بايثون
         uses: actions/setup-python@v5
         with:
@@ -31,8 +58,74 @@ jobs:
       - name: تثبيت المكتبات
         run: pip install -r requirements.txt
 
+      - name: التأكد من الخطوط العربية
+        run: bash scripts/fetch_fonts.sh
+
       - name: تنفيذ التحقق
+        id: verify
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python -m src.verify --issue "${{ github.event.issue.number }}"
+
+      - name: رفع مسودة المؤكَّد إلى المستودع
+        id: commit
+        if: steps.verify.outputs.draft_id != ''
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p drafts state
+          git add -A drafts state
+          if git diff --quiet --cached; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "لا مسودة جديدة (فشلت الصياغة أو الصورة بعد نجاح التحقق)"
+            exit 0
+          fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          git commit -m "chore(verify): مسودة من المؤكَّد لـ Issue #${{ github.event.issue.number }}"
+          # إعادة المحاولة: سيّرا الجمع والرادار والتحقق قد يدفعون في اللحظة
+          # نفسها، فيرفض GitHub أحدهم بخطأ Internal Server Error. الالتزام
+          # محفوظ محليًا، فيكفي إعادة السحب والدفع.
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              echo "✅ رُفع في المحاولة $attempt"
+              exit 0
+            fi
+            echo "⚠️ فشل الدفع (محاولة $attempt) — إعادة بعد $((attempt * 7))ث"
+            sleep $((attempt * 7))
+          done
+          echo "❌ تعذّر الدفع بعد 5 محاولات"
+          exit 1
+
+      - name: فتح/تحديث Issue المراجعة
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m src.open_review
+
+      - name: تثبيت رقم Issue المراجعة في المسودة
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          mkdir -p drafts state
+          git add -A drafts state
+          if git diff --quiet --cached; then
+            exit 0
+          fi
+          git commit -m "chore(drafts): ربط مسودة التحقق بـ Issue المراجعة"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then exit 0; fi
+            sleep $((attempt * 7))
+          done
+          echo "⚠️ تعذّر رفع رقم الـ Issue — المسودة محفوظة"
+
+      - name: ربط مسودة التحقق بتعليق Issue الأصلي
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m src.verify_draft --link \
+            --issue "${{ github.event.issue.number }}" \
+            --draft-id "${{ steps.verify.outputs.draft_id }}"
