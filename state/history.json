@@ -1,28 +1,5 @@
 [
   {
-    "score": 19.1,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "canadien",
-      "dans",
-      "face",
-      "feu",
-      "forêt",
-      "ouest",
-      "personnes",
-      "plus",
-      "progression",
-      "vaste",
-      "évacuées"
-    ],
-    "link": "https://www.lemonde.fr/planete/article/2026/08/09/canada-plus-de-20-000-personnes-evacuees-en-colombie-britannique-face-a-un-vaste-feu-de-foret_6741747_3244.html",
-    "title": "Dans l’Ouest canadien, plus de 20 000 personnes évacuées face à la progression d’un vaste feu de forêt",
-    "posted_title": "حريق غابات يتضاعف حجمه في ليلة واحدة ويجلي عشرين ألف شخص في غرب كندا",
-    "region": "fr",
-    "seen_at": "2026-08-09T03:16:08.166249+00:00"
-  },
-  {
     "score": 17.52,
     "bucket": "serious",
     "tokens": [
@@ -2970,5 +2947,28 @@
     "posted_title": "",
     "region": "za",
     "seen_at": "2026-08-14T03:15:50.992550+00:00"
+  },
+  {
+    "score": 19.07,
+    "bucket": "serious",
+    "tokens": [
+      "100",
+      "bis",
+      "donald",
+      "drohnen",
+      "importierte",
+      "prozent",
+      "sollen",
+      "teurer",
+      "trump",
+      "von",
+      "werden",
+      "zölle"
+    ],
+    "link": "https://www.spiegel.de/ausland/us-zoelle-von-donald-trump-importierte-drohnen-sollen-bis-zu-100-prozent-teurer-werden-a-ecfd3f33-f9c7-4107-978f-f87c8fb9e18a#ref=rss",
+    "title": "US-Zölle von Donald Trump: Importierte Drohnen sollen bis zu 100 Prozent teurer werden",
+    "posted_title": "",
+    "region": "de",
+    "seen_at": "2026-08-14T03:31:00.852685+00:00"
   }
 ]
