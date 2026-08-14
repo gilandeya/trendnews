@@ -1,0 +1,68 @@
+{
+  "id": "bdc8e1201d66",
+  "created_at": "2026-08-14T06:43:28.346403+00:00",
+  "status": "published",
+  "review_issue": null,
+  "score": 19.01,
+  "bucket": "serious",
+  "analysed_sources": [
+    "South China Morning Post"
+  ],
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "age_hours": 3.1,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "source": {
+    "title": "New US aircraft carrier heads towards Middle East after reports of dire conditions on USS Lincoln",
+    "link": "https://www.france24.com/en/new-us-aircraft-carrier-heads-towards-middle-east-after-reports-of-dire-conditions-on-uss-lincoln",
+    "publisher": "France24",
+    "publishers": [
+      "France24",
+      "NDTV — World",
+      "South China Morning Post"
+    ],
+    "region": "eu",
+    "image_url": "https://s.france24.com/media/display/ef1bcfec-979e-11f1-b982-005056bf30b7/w:1024/p:16x9/EN-20260814-063718-063913-CS.jpg",
+    "image_candidates": [
+      "https://s.france24.com/media/display/ef1bcfec-979e-11f1-b982-005056bf30b7/w:1024/p:16x9/EN-20260814-063718-063913-CS.jpg",
+      "https://c.ndtvimg.com/2026-03/1js1qvks_uss-abraham-lincoln_625x300_25_March_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "عالم",
+    "image_headline": "أوضاع صعبة على حاملة أبراهام لينكولن بعد تسعة أشهر بحر",
+    "post_title": "تقارير عن محاولات انتحار ونقص إمدادات على متن حاملة الطائرات الأميركية أبراهام لينكولن",
+    "post_body": "دخلت حاملة الطائرات الأميركية أبراهام لينكولن شهرها التاسع من الانتشار في الشرق الأوسط، وسط تقارير عن محاولات بعض البحارة إلقاء أنفسهم في البحر، ونقص في الإمدادات الأساسية، وتراجع في أنظمة الصرف الصحي على متن السفينة. أعضاء في الكونغرس طالبوا وزير الدفاع الأميركي بيت هيغسيث بتوضيحات، فردّ بأن الوضع \"جرى تصويره بشكل غير دقيق\". من المقرر أن تحل حاملة الطائرات جورج واشنطن، المنتشرة في المحيط الهادئ، محل لينكولن في الشرق الأوسط قريبًا.",
+    "hashtags": [
+      "البحرية_الأميركية",
+      "الشرق_الأوسط",
+      "حاملة_طائرات",
+      "أخبار_العالم"
+    ]
+  },
+  "caption": "تقارير عن محاولات انتحار ونقص إمدادات على متن حاملة الطائرات الأميركية أبراهام لينكولن\n\nدخلت حاملة الطائرات الأميركية أبراهام لينكولن شهرها التاسع من الانتشار في الشرق الأوسط، وسط تقارير عن محاولات بعض البحارة إلقاء أنفسهم في البحر، ونقص في الإمدادات الأساسية، وتراجع في أنظمة الصرف الصحي على متن السفينة. أعضاء في الكونغرس طالبوا وزير الدفاع الأميركي بيت هيغسيث بتوضيحات، فردّ بأن الوضع \"جرى تصويره بشكل غير دقيق\". من المقرر أن تحل حاملة الطائرات جورج واشنطن، المنتشرة في المحيط الهادئ، محل لينكولن في الشرق الأوسط قريبًا.\n\n#البحرية_الأميركية #الشرق_الأوسط #حاملة_طائرات #أخبار_العالم",
+  "image": "drafts/2026-08-14/bdc8e1201d66.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "أوضاع صعبة على حاملة أبراهام لينكولن بعد تسعة أشهر بحر",
+    "category": "عالم",
+    "urgent": false,
+    "image_candidates": [
+      "https://s.france24.com/media/display/ef1bcfec-979e-11f1-b982-005056bf30b7/w:1024/p:16x9/EN-20260814-063718-063913-CS.jpg",
+      "https://c.ndtvimg.com/2026-03/1js1qvks_uss-abraham-lincoln_625x300_25_March_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ]
+  },
+  "publish_at": "2026-08-14T06:43:28.354993+00:00",
+  "published_at": "2026-08-14T06:43:32.111008+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1334287125454975",
+    "photo_id": "1334287112121643",
+    "url": "https://www.facebook.com/631680090321390_1334287125454975",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
+}
