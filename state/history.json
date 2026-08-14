@@ -1,25 +1,5 @@
 [
   {
-    "score": 20.59,
-    "bucket": "serious",
-    "tokens": [
-      "alleged",
-      "boss",
-      "crime",
-      "daniel",
-      "extradites",
-      "international",
-      "ireland",
-      "kinahan",
-      "uae"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/8/9/uae-extradites-alleged-international-crime-boss-daniel-kinahan-to-ireland?traffic_source=rss",
-    "title": "UAE extradites alleged international crime boss Daniel Kinahan to Ireland",
-    "posted_title": "الإمارات تسلّم زعيم عصابة كينهان الإيرلندية إلى دبلن بعد أشهر من اعتقاله في دبي",
-    "region": "qa",
-    "seen_at": "2026-08-09T19:08:10.248668+00:00"
-  },
-  {
     "score": 17.54,
     "bucket": "serious",
     "tokens": [
@@ -3736,5 +3716,23 @@
     "posted_title": "",
     "region": "latam",
     "seen_at": "2026-08-14T19:07:45.594628+00:00"
+  },
+  {
+    "score": 17.41,
+    "bucket": "useful",
+    "tokens": [
+      "best",
+      "camera",
+      "feature",
+      "google",
+      "only",
+      "pixel",
+      "series"
+    ],
+    "link": "https://www.theverge.com/tech/980467/google-pixel-11-camera-looks-older-phones",
+    "title": "Google’s best new camera feature is only for the Pixel 11 series",
+    "posted_title": "ميزة الكاميرا الأبرز في بيكسل 11 لن تعمل على الهواتف القديمة من غوغل",
+    "region": "tech",
+    "seen_at": "2026-08-14T19:12:25.879344+00:00"
   }
 ]
