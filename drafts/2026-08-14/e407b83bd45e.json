@@ -1,0 +1,64 @@
+{
+  "id": "e407b83bd45e",
+  "created_at": "2026-08-14T15:39:22.092877+00:00",
+  "status": "queued",
+  "review_issue": null,
+  "score": 20.94,
+  "bucket": "serious",
+  "analysed_sources": [
+    "BBC World"
+  ],
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "age_hours": 0.0,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "source": {
+    "title": "La súbita pérdida de altitud en un vuelo de Air India causa 17 heridos y destapa un posible positivo por marihuana del piloto",
+    "link": "https://elpais.com/sociedad/2026-08-14/la-subita-perdida-de-altitud-en-un-vuelo-de-air-india-causa-17-heridos-y-destapa-un-posible-positivo-por-marihuana-del-piloto.html",
+    "publisher": "El País",
+    "publishers": [
+      "BBC World",
+      "El País"
+    ],
+    "region": "es",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/W3LZ36O26ZJBPHFIBIAPRRA7PA.jpg?auth=a3e1b489b48a9eafb3d11d855646bb70910f8980f205561884f4fb9a36514b82",
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/W3LZ36O26ZJBPHFIBIAPRRA7PA.jpg?auth=a3e1b489b48a9eafb3d11d855646bb70910f8980f205561884f4fb9a36514b82",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "عالم",
+    "image_headline": "فقدان ارتفاع مفاجئ يدفع إير إنديا لفحص كل طياريها",
+    "post_title": "إير إنديا تفحص جميع طياريها بعد فقدان طائرة ارتفاعها فجأة واشتباه بتعاطي قائدها الماريجوانا",
+    "post_body": "فقدت طائرة إيرباص تابعة لإير إنديا كانت متجهة من بوكيت إلى دلهي نحو 91 مترًا من ارتفاعها فجأة بعد إقلاعها في 4 أغسطس، ما أدى إلى إصابة 17 من الركاب وأفراد الطاقم. وأظهر تقرير أولي أن كبير الطيارين أُعيد اختباره بعد نتيجة مبدئية أشارت إلى تعاطيه الماريجوانا. جرى إيقاف كلا الطيارين عن العمل لحين انتهاء التحقيق الذي تشارك فيه السلطات الهندية إلى جانب شركة إيرباص وهيئة سلامة الطيران الفرنسية. أعلنت الشركة أنها ستفحص جميع طياريها بحثًا عن مواد محظورة وأدوية غير مصرح بها اعتبارًا من الخميس، متجاوزة الحد الأدنى المعمول به وهو فحص 10% من الطيارين عشوائيًا.",
+    "hashtags": [
+      "إير_إنديا",
+      "سلامة_الطيران",
+      "الهند",
+      "حوادث_طيران"
+    ]
+  },
+  "caption": "إير إنديا تفحص جميع طياريها بعد فقدان طائرة ارتفاعها فجأة واشتباه بتعاطي قائدها الماريجوانا\n\nفقدت طائرة إيرباص تابعة لإير إنديا كانت متجهة من بوكيت إلى دلهي نحو 91 مترًا من ارتفاعها فجأة بعد إقلاعها في 4 أغسطس، ما أدى إلى إصابة 17 من الركاب وأفراد الطاقم. وأظهر تقرير أولي أن كبير الطيارين أُعيد اختباره بعد نتيجة مبدئية أشارت إلى تعاطيه الماريجوانا. جرى إيقاف كلا الطيارين عن العمل لحين انتهاء التحقيق الذي تشارك فيه السلطات الهندية إلى جانب شركة إيرباص وهيئة سلامة الطيران الفرنسية. أعلنت الشركة أنها ستفحص جميع طياريها بحثًا عن مواد محظورة وأدوية غير مصرح بها اعتبارًا من الخميس، متجاوزة الحد الأدنى المعمول به وهو فحص 10% من الطيارين عشوائيًا.\n\n#إير_إنديا #سلامة_الطيران #الهند #حوادث_طيران",
+  "image": "drafts/2026-08-14/e407b83bd45e.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "فقدان ارتفاع مفاجئ يدفع إير إنديا لفحص كل طياريها",
+    "category": "عالم",
+    "urgent": false,
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/W3LZ36O26ZJBPHFIBIAPRRA7PA.jpg?auth=a3e1b489b48a9eafb3d11d855646bb70910f8980f205561884f4fb9a36514b82",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg"
+    ]
+  },
+  "publish_at": "2026-08-14T16:22:33.586980+00:00"
+}
