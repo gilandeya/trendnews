@@ -1,26 +1,5 @@
 [
   {
-    "score": 27.19,
-    "bucket": "serious",
-    "tokens": [
-      "deal",
-      "hormuz",
-      "iran",
-      "oman",
-      "open",
-      "positive",
-      "strait",
-      "talks",
-      "warns",
-      "would"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c934j5y2lq9o?at_medium=RSS&at_campaign=rss",
-    "title": "Hormuz talks positive, Oman says, as Iran warns deal would not open strait",
-    "posted_title": "تحديث: إيران تشترط تعويضات أمريكية قبل إعادة فتح مضيق هرمز كاملًا",
-    "region": "uk",
-    "seen_at": "2026-08-09T09:08:05.697892+00:00"
-  },
-  {
     "score": 31.74,
     "bucket": "serious",
     "tokens": [
@@ -3145,5 +3124,69 @@
     "posted_title": "",
     "region": "za",
     "seen_at": "2026-08-14T09:07:55.475068+00:00"
+  },
+  {
+    "score": 26.83,
+    "bucket": "serious",
+    "tokens": [
+      "après",
+      "choc",
+      "des",
+      "disputés",
+      "japon",
+      "kouriles",
+      "poutine",
+      "sous",
+      "sud",
+      "sur",
+      "territoires",
+      "une",
+      "visite",
+      "vladimir",
+      "îles"
+    ],
+    "link": "https://www.lemonde.fr/international/article/2026/08/14/le-japon-sous-le-choc-apres-une-visite-de-vladimir-poutine-sur-des-territoires-disputes-du-sud-des-iles-kouriles_6746073_3210.html",
+    "title": "Le Japon sous le choc après une visite de Vladimir Poutine sur des territoires disputés du sud des îles Kouriles",
+    "posted_title": "بوتين يزور جزر كوريل المتنازع عليها لأول مرة فتستدعي طوكيو سفير موسكو",
+    "region": "fr",
+    "seen_at": "2026-08-14T09:13:29.225057+00:00"
+  },
+  {
+    "score": 23.23,
+    "bucket": "serious",
+    "tokens": [
+      "engine",
+      "partly",
+      "parts",
+      "passenger",
+      "report",
+      "ryanair",
+      "shattered",
+      "sucked",
+      "window"
+    ],
+    "link": "https://www.theguardian.com/business/2026/aug/14/ryanair-engine-parts-shattered-window-passenger-partly-sucked-out-of-report",
+    "title": "Engine parts shattered Ryanair window that passenger was partly sucked out of, report says",
+    "posted_title": "تقرير رسمي يكشف كيف تسببت شظايا محرك في شفط رأس راكب من نافذة طائرة",
+    "region": "uk",
+    "seen_at": "2026-08-14T09:13:46.950743+00:00"
+  },
+  {
+    "score": 18.5,
+    "bucket": "serious",
+    "tokens": [
+      "china",
+      "countries",
+      "dodge",
+      "dozens",
+      "helped",
+      "tariffs",
+      "trump"
+    ],
+    "link": "https://www.myjoyonline.com/us-says-dozens-of-countries-helped-china-dodge-trumps-tariffs/",
+    "title": "US says dozens of countries helped China dodge Trump’s tariffs",
+    "posted_title": "تقرير أمريكي يتهم أكثر من 40 دولة بمساعدة الصين على تجاوز رسوم ترامب الجمركية",
+    "region": "gh",
+    "seen_at": "2026-08-14T09:14:04.568625+00:00"
   }
 ]

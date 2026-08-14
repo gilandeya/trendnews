@@ -1,0 +1,70 @@
+{
+  "id": "9019d067bcb0",
+  "created_at": "2026-08-14T09:13:46.950302+00:00",
+  "status": "queued",
+  "review_issue": null,
+  "score": 23.23,
+  "bucket": "serious",
+  "analysed_sources": [
+    "BBC World",
+    "The Guardian — World"
+  ],
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "age_hours": 11.1,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "source": {
+    "title": "Engine parts shattered Ryanair window that passenger was partly sucked out of, report says",
+    "link": "https://www.theguardian.com/business/2026/aug/14/ryanair-engine-parts-shattered-window-passenger-partly-sucked-out-of-report",
+    "publisher": "The Guardian — World",
+    "publishers": [
+      "Al Jazeera English",
+      "BBC World",
+      "The Guardian — World"
+    ],
+    "region": "uk",
+    "image_url": "https://i.guim.co.uk/img/media/a517b301e2ddfc58282138c82822c41b6635aedc/45_320_2917_2333/master/2917.jpg?width=700&quality=85&auto=format&fit=max&s=e240efdec5ebb631b6a9af18a28627f6",
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/a517b301e2ddfc58282138c82822c41b6635aedc/45_320_2917_2333/master/2917.jpg?width=700&quality=85&auto=format&fit=max&s=e240efdec5ebb631b6a9af18a28627f6",
+      "https://i.guim.co.uk/img/media/a517b301e2ddfc58282138c82822c41b6635aedc/45_320_2917_2333/master/2917.jpg?width=460&quality=85&auto=format&fit=max&s=af94c311f07a2352ee549dab73a4edb0",
+      "https://i.guim.co.uk/img/media/a517b301e2ddfc58282138c82822c41b6635aedc/45_320_2917_2333/master/2917.jpg?width=140&quality=85&auto=format&fit=max&s=267e7408619193f694857cb6501dd468",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1623/live/fc15b5f0-975d-11f1-9240-c70a29f1c818.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/1623/live/fc15b5f0-975d-11f1-9240-c70a29f1c818.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1623/live/fc15b5f0-975d-11f1-9240-c70a29f1c818.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "تفسير",
+    "analysis": "تشير النتائج إلى أن الحادثة سُجّلت رغم خلو الفحوصات الدورية للمحرك من أي إشارة إلى خلل، وهو ما يفتح تساؤلًا حول كفاية أساليب الفحص الحالية لاكتشاف تصدعات دقيقة في ريش المحركات قبل تفاقمها. وتذكر الغارديان أن الطائرة تعرضت لأربع حالات اصطدام بطيور في محركها الأيمن خلال الأشهر الاثني عشر السابقة للحادثة، وعُثر على بقايا طيور في اثنتين منها، وهو ما يمنح تفسيرًا محتملًا لضعف الريشة لم يظهر في متن الخبر الأساسي. في المقابل، رجّح الرئيس التنفيذي لرايان إير مايكل أوليري أن يكون السبب تعرض المحرك لجسم غريب، وهو تفسير قريب من فرضية اصطدامات الطيور لكنه لم يُربط بها صراحة في تصريحاته.",
+    "urgent": false,
+    "category": "عالم",
+    "image_headline": "تقرير أمريكي يكشف سبب انفجار نافذة طائرة رايان إير",
+    "post_title": "تقرير رسمي يكشف كيف تسببت شظايا محرك في شفط رأس راكب من نافذة طائرة",
+    "post_body": "كشف تقرير أولي لهيئة سلامة النقل الأمريكية (NTSB) أن ريشة مروحة انكسرت من المحرك الأيمن لطائرة تابعة لشركة مالطا إير، الفرعية لرايان إير، بعد إقلاعها من سالونيك اليونانية متجهة إلى ميمنغن الألمانية في 10 يوليو. تسببت شظايا الريشة المكسورة في تحطيم نافذة المقصورة عند المقعد 11F، ما أدى إلى انجذاب رأس وكتف الراكب الصربي ليوبيشا كاروفيتش نحو الفتحة، قبل أن يتمكن ركاب مجاورون من الإمساك به ومنع سقوطه بالكامل. أعلن الطاقم حالة الطوارئ وعادت الطائرة للهبوط بأمان في سالونيك. خضع المحرك لفحوصات بالموجات فوق الصوتية في مايو دون رصد أي عطل.",
+    "hashtags": [
+      "رايان_إير",
+      "حادث_طيران",
+      "طائرة",
+      "سلامة_الطيران"
+    ]
+  },
+  "caption": "تقرير رسمي يكشف كيف تسببت شظايا محرك في شفط رأس راكب من نافذة طائرة\n\nكشف تقرير أولي لهيئة سلامة النقل الأمريكية (NTSB) أن ريشة مروحة انكسرت من المحرك الأيمن لطائرة تابعة لشركة مالطا إير، الفرعية لرايان إير، بعد إقلاعها من سالونيك اليونانية متجهة إلى ميمنغن الألمانية في 10 يوليو. تسببت شظايا الريشة المكسورة في تحطيم نافذة المقصورة عند المقعد 11F، ما أدى إلى انجذاب رأس وكتف الراكب الصربي ليوبيشا كاروفيتش نحو الفتحة، قبل أن يتمكن ركاب مجاورون من الإمساك به ومنع سقوطه بالكامل. أعلن الطاقم حالة الطوارئ وعادت الطائرة للهبوط بأمان في سالونيك. خضع المحرك لفحوصات بالموجات فوق الصوتية في مايو دون رصد أي عطل.\n\nخلف الخبر\nتشير النتائج إلى أن الحادثة سُجّلت رغم خلو الفحوصات الدورية للمحرك من أي إشارة إلى خلل، وهو ما يفتح تساؤلًا حول كفاية أساليب الفحص الحالية لاكتشاف تصدعات دقيقة في ريش المحركات قبل تفاقمها. وتذكر الغارديان أن الطائرة تعرضت لأربع حالات اصطدام بطيور في محركها الأيمن خلال الأشهر الاثني عشر السابقة للحادثة، وعُثر على بقايا طيور في اثنتين منها، وهو ما يمنح تفسيرًا محتملًا لضعف الريشة لم يظهر في متن الخبر الأساسي. في المقابل، رجّح الرئيس التنفيذي لرايان إير مايكل أوليري أن يكون السبب تعرض المحرك لجسم غريب، وهو تفسير قريب من فرضية اصطدامات الطيور لكنه لم يُربط بها صراحة في تصريحاته.\n\n#رايان_إير #حادث_طيران #طائرة #سلامة_الطيران",
+  "image": "drafts/2026-08-14/9019d067bcb0.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "تقرير أمريكي يكشف سبب انفجار نافذة طائرة رايان إير",
+    "category": "عالم",
+    "urgent": false,
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/a517b301e2ddfc58282138c82822c41b6635aedc/45_320_2917_2333/master/2917.jpg?width=700&quality=85&auto=format&fit=max&s=e240efdec5ebb631b6a9af18a28627f6",
+      "https://i.guim.co.uk/img/media/a517b301e2ddfc58282138c82822c41b6635aedc/45_320_2917_2333/master/2917.jpg?width=460&quality=85&auto=format&fit=max&s=af94c311f07a2352ee549dab73a4edb0",
+      "https://i.guim.co.uk/img/media/a517b301e2ddfc58282138c82822c41b6635aedc/45_320_2917_2333/master/2917.jpg?width=140&quality=85&auto=format&fit=max&s=267e7408619193f694857cb6501dd468",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1623/live/fc15b5f0-975d-11f1-9240-c70a29f1c818.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/1623/live/fc15b5f0-975d-11f1-9240-c70a29f1c818.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1623/live/fc15b5f0-975d-11f1-9240-c70a29f1c818.jpg"
+    ]
+  },
+  "publish_at": "2026-08-14T09:57:00.555679+00:00"
+}
