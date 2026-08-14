@@ -1,0 +1,56 @@
+{
+  "id": "def668b7e9dc",
+  "created_at": "2026-08-14T21:31:04.725236+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.58,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump threatens to declare strait of Hormuz ‘territory of the United States’",
+  "link": "https://www.theguardian.com/us-news/2026/aug/14/trump-threat-strait-hormuz-us-territory",
+  "publishers": [
+    "South China Morning Post",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump threatens to declare strait of Hormuz ‘territory of the United States’",
+    "link": "https://www.theguardian.com/us-news/2026/aug/14/trump-threat-strait-hormuz-us-territory",
+    "summary": "Seriousness of remark made in New York on Friday, and whether it signaled new policy ​position, not clear Donald Trump has threatened to declare the strait of Hormuz as “a territory of the United States” as his administration struggles to conclude the war with Iran. During a speech at a police academy on Long Island, New York, on Friday, the US president said he would “pretty soon” designate the waterway – a crucial chokepoint for global trade, through which about a fifth of the world’s seaborne oil supplies typically pass – a US territory. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-14T21:14:55+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/b5c83da9efbbf04d1758c3b4f20d9ba23182b70d/206_0_4535_3628/master/4535.jpg?width=700&quality=85&auto=format&fit=max&s=78afed65b1d521024bae93b3a337e2fa",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "South China Morning Post",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/14/trump-threat-strait-hormuz-us-territory"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364120/trump-says-hell-soon-declare-strait-hormuz-be-us-territory?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/b5c83da9efbbf04d1758c3b4f20d9ba23182b70d/206_0_4535_3628/master/4535.jpg?width=700&quality=85&auto=format&fit=max&s=78afed65b1d521024bae93b3a337e2fa",
+      "https://i.guim.co.uk/img/media/b5c83da9efbbf04d1758c3b4f20d9ba23182b70d/206_0_4535_3628/master/4535.jpg?width=460&quality=85&auto=format&fit=max&s=174fa4958b8fb56eba3181f2ea206514",
+      "https://i.guim.co.uk/img/media/b5c83da9efbbf04d1758c3b4f20d9ba23182b70d/206_0_4535_3628/master/4535.jpg?width=140&quality=85&auto=format&fit=max&s=f1935c96b4f6952f19cc53d22246976e"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 220.3898036702778,
+    "is_stale": false,
+    "score": 17.58218709012963
+  }
+}
