@@ -1,0 +1,48 @@
+{
+  "id": "26d7832311eb",
+  "created_at": "2026-08-14T18:07:46.563229+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.41,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Google’s best new camera feature is only for the Pixel 11 series",
+  "link": "https://www.theverge.com/tech/980467/google-pixel-11-camera-looks-older-phones",
+  "publishers": [
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Google’s best new camera feature is only for the Pixel 11 series",
+    "link": "https://www.theverge.com/tech/980467/google-pixel-11-camera-looks-older-phones",
+    "summary": "Arguably the coolest new photo feature for the Pixel 11 lineup is Google's new Camera Looks, which process image data differently at the sensor level to produce photos that don't have that \"smartphone\" look. The result is new styles like \"Digi,\" which mimics the style of photos taken by older digital cameras. But to use […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-08-14T17:34:14+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Google-Pixel-11-Pro-back-2.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/tech/980467/google-pixel-11-camera-looks-older-phones"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Google-Pixel-11-Pro-back-2.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.36491194555555556,
+    "is_stale": false,
+    "score": 17.41288536075926
+  }
+}

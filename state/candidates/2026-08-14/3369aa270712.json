@@ -1,0 +1,66 @@
+{
+  "id": "3369aa270712",
+  "created_at": "2026-08-14T18:07:46.562303+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.84,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Zambia suspends vote counting after election violence",
+  "link": "http://www.africanews.com/2026/08/14/zambia-suspends-vote-counting-after-election-violence/",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English",
+    "Free Malaysia Today"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Zambia suspends vote counting after election violence",
+    "link": "http://www.africanews.com/2026/08/14/zambia-suspends-vote-counting-after-election-violence/",
+    "summary": "Official presidential results are expected on Monday, with authorities appealing for calm as election officials work to resolve the disruptions and resume the counting process.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-14T14:55:10+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/87/45/67/640x360_cmsv2_0a87e69f-0dc2-5e1c-9a62-5e63fadda581-9874567.jpg?1786708636",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/14/zambia-suspends-vote-counting-in-election-citing-violence?traffic_source=rss"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/13/vote-counting-underway-in-zambia-after-presidential-election/"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/14/zambia-suspends-vote-counting-after-election-violence/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/14/zambia-suspends-vote-counting-nationwide-citing-violence"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/87/45/67/640x360_cmsv2_0a87e69f-0dc2-5e1c-9a62-5e63fadda581-9874567.jpg?1786708636",
+      "http://images.euronews.com/articles/stories/09/87/36/81/640x360_cmsv2_f45a1fa6-a7e7-58aa-b651-b25ff69e312e-9873681.jpg?1786637366",
+      "https://media.freemalaysiatoday.com/v3/2026/08/990ac9f5-ea34-47f2-a8f5-3c7769eb17d4-Zambia-Brian-Mundubile-AFP-14082026-.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 2.9944212827777776,
+    "is_stale": false,
+    "score": 18.841032119811615
+  }
+}
