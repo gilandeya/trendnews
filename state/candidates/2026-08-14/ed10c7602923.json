@@ -1,0 +1,62 @@
+{
+  "id": "ed10c7602923",
+  "created_at": "2026-08-14T06:07:52.394439+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.91,
+  "trend_score": 0.5,
+  "velocity": 0.01,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Australia probes three near-misses at Sydney Airport",
+  "link": "https://www.channelnewsasia.com/world/sydney-airport-australia-near-misses-6318966",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Malay Mail"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Australia probes three near-misses at Sydney Airport",
+    "link": "https://www.channelnewsasia.com/world/sydney-airport-australia-near-misses-6318966",
+    "summary": "Australian authorities are investigating three near-misses in less than two weeks at Sydney Airport, including two on the same day.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-14T03:28:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--Z9vdL8uI--/c_crop,h_576,w_1024,x_0,y_49/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/14/000_69ry6a7.jpg?itok=l1R-uzxE",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/sydney-airport-australia-near-misses-6318966"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/14/australia-probes-3-near-misses-at-sydney-airport"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/14/sydney-airport-rocked-by-three-near-misses-in-less-than-two-weeks-probe-launched/231309"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--Z9vdL8uI--/c_crop,h_576,w_1024,x_0,y_49/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/14/000_69ry6a7.jpg?itok=l1R-uzxE",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2019/08/Qantas-220819-AFP.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/14/357013.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.007490779713110983,
+    "age_hours": 125.36668320027778,
+    "is_stale": false,
+    "score": 17.9148551000068
+  }
+}

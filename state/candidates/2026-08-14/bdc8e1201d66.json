@@ -1,0 +1,61 @@
+{
+  "id": "bdc8e1201d66",
+  "created_at": "2026-08-14T06:07:52.394155+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.01,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "New US aircraft carrier heads towards Middle East after reports of dire conditions on USS Lincoln",
+  "link": "https://www.france24.com/en/new-us-aircraft-carrier-heads-towards-middle-east-after-reports-of-dire-conditions-on-uss-lincoln",
+  "publishers": [
+    "France24",
+    "NDTV — World",
+    "South China Morning Post"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "New US aircraft carrier heads towards Middle East after reports of dire conditions on USS Lincoln",
+    "link": "https://www.france24.com/en/new-us-aircraft-carrier-heads-towards-middle-east-after-reports-of-dire-conditions-on-uss-lincoln",
+    "summary": "The Pacific-based aircraft carrier USS George Washington has begun heading toward the Middle East as reports have emerged of mental health and supply issues aboard the long-deployed USS Abraham Lincoln. FRANCE 24's Monte Francis brings us more with this report.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-14T05:30:36+00:00",
+    "image_url": "https://s.france24.com/media/display/ef1bcfec-979e-11f1-b982-005056bf30b7/w:1024/p:16x9/EN-20260814-063718-063913-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "NDTV — World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3363976/us-sailors-endure-dire-conditions-abraham-lincoln-aircraft-carrier?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/new-us-aircraft-carrier-heads-towards-middle-east-after-reports-of-dire-conditions-on-uss-lincoln"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/new-aircraft-carrier-heads-to-middle-east-amid-reports-of-uss-abraham-lincoln-issue-11907755#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/ef1bcfec-979e-11f1-b982-005056bf30b7/w:1024/p:16x9/EN-20260814-063718-063913-CS.jpg",
+      "https://c.ndtvimg.com/2026-03/1js1qvks_uss-abraham-lincoln_625x300_25_March_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 3.110881518888889,
+    "is_stale": false,
+    "score": 19.01362342053384
+  }
+}
