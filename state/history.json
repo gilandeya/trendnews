@@ -2881,5 +2881,90 @@
     "posted_title": "",
     "region": "de",
     "seen_at": "2026-08-14T03:31:00.852685+00:00"
+  },
+  {
+    "score": 22.74,
+    "bucket": "useful",
+    "tokens": [
+      "100",
+      "aircraft",
+      "all",
+      "declares",
+      "drones",
+      "many",
+      "parts",
+      "percent",
+      "tariffs",
+      "trump"
+    ],
+    "link": "https://www.theverge.com/policy/979977/trump-declares-100-percent-tariffs-on-many-drones-and-all-aircraft-parts",
+    "title": "Trump declares 100 percent tariffs on many drones and all aircraft parts",
+    "posted_title": "ترامب يفرض رسوم جمركية تصل إلى 100% على الطائرات المسيّرة وقطع غيار الطائرات المستوردة",
+    "region": "tech",
+    "seen_at": "2026-08-14T05:34:15.212697+00:00"
+  },
+  {
+    "score": 17.15,
+    "bucket": "useful",
+    "tokens": [
+      "affect",
+      "breast",
+      "cancer",
+      "chemotherapy",
+      "differences",
+      "finds",
+      "may",
+      "regional",
+      "study",
+      "survival",
+      "swedish",
+      "treatment"
+    ],
+    "link": "https://medicalxpress.com/news/2026-08-regional-differences-chemotherapy-treatment-breast.html",
+    "title": "Regional differences in chemotherapy treatment for breast cancer may affect survival, Swedish study finds",
+    "posted_title": "دراسة سويدية: اختلاف استخدام العلاج الكيميائي بين مناطق السويد قد يؤثر في بقاء مريضات سرطان الثدي فوق 65 عامًا",
+    "region": "health",
+    "seen_at": "2026-08-14T05:34:29.788331+00:00"
+  },
+  {
+    "score": 19.81,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "condemns",
+      "hormuz",
+      "iranian",
+      "strait",
+      "two",
+      "uae",
+      "vessels"
+    ],
+    "link": "https://www.vanguardngr.com/2026/08/uae-condemns-iranian-attack-on-two-vessels-in-hormuz-strait/",
+    "title": "UAE condemns Iranian attack on two vessels in Hormuz strait",
+    "posted_title": "لماذا تتصاعد هجمات مضيق هرمز على ناقلات أدنوك الإماراتية",
+    "region": "ng",
+    "seen_at": "2026-08-14T05:34:47.207334+00:00"
+  },
+  {
+    "score": 17.55,
+    "bucket": "serious",
+    "tokens": [
+      "claims",
+      "data",
+      "dozens",
+      "fiserv",
+      "group",
+      "hacking",
+      "mass",
+      "others",
+      "philips",
+      "shell",
+      "theft"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-08-14-hacking-group-claims-mass-data-theft-from-shell-philips-ge-fiserv-and-dozens-of-others/",
+    "title": "Hacking group claims mass data theft from Shell, Philips, GE, Fiserv and dozens of others",
+    "posted_title": "جماعة قرصنة تعلن سرقة بيانات من قرابة 50 شركة عالمية بينها شل وفيليبس",
+    "region": "za",
+    "seen_at": "2026-08-14T05:35:03.270949+00:00"
   }
 ]
