@@ -1,0 +1,57 @@
+{
+  "id": "e407b83bd45e",
+  "created_at": "2026-08-14T15:08:05.517820+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.94,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "La súbita pérdida de altitud en un vuelo de Air India causa 17 heridos y destapa un posible positivo por marihuana del piloto",
+  "link": "https://elpais.com/sociedad/2026-08-14/la-subita-perdida-de-altitud-en-un-vuelo-de-air-india-causa-17-heridos-y-destapa-un-posible-positivo-por-marihuana-del-piloto.html",
+  "publishers": [
+    "BBC World",
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "La súbita pérdida de altitud en un vuelo de Air India causa 17 heridos y destapa un posible positivo por marihuana del piloto",
+    "link": "https://elpais.com/sociedad/2026-08-14/la-subita-perdida-de-altitud-en-un-vuelo-de-air-india-causa-17-heridos-y-destapa-un-posible-positivo-por-marihuana-del-piloto.html",
+    "summary": "La aerolínea anuncia que someterá a sus tripulantes a pruebas de drogas y medicamentos no autorizados",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-08-14T09:46:31+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/W3LZ36O26ZJBPHFIBIAPRRA7PA.jpg?auth=a3e1b489b48a9eafb3d11d855646bb70910f8980f205561884f4fb9a36514b82",
+    "publisher": "El País",
+    "cluster_sources": [
+      "BBC World",
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/sociedad/2026-08-14/la-subita-perdida-de-altitud-en-un-vuelo-de-air-india-causa-17-heridos-y-destapa-un-posible-positivo-por-marihuana-del-piloto.html"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c2352jyvm5xo?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/W3LZ36O26ZJBPHFIBIAPRRA7PA.jpg?auth=a3e1b489b48a9eafb3d11d855646bb70910f8980f205561884f4fb9a36514b82",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bc16/live/c940eb70-9732-11f1-bdbf-1b7b2a4a87a1.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.94283800777778
+  }
+}

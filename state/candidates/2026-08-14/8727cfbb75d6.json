@@ -1,0 +1,55 @@
+{
+  "id": "8727cfbb75d6",
+  "created_at": "2026-08-14T15:08:05.518597+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.93,
+  "trend_score": 0.5,
+  "velocity": 0.2,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Stocks nudge at record highs; cooler US inflation eclipses oil rally",
+  "link": "https://www.investing.com/news/economy-news/asian-stocks-set-for-weekly-gain-on-fading-us-rate-hike-wagers-4859652",
+  "publishers": [
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Stocks nudge at record highs; cooler US inflation eclipses oil rally",
+    "link": "https://www.investing.com/news/economy-news/asian-stocks-set-for-weekly-gain-on-fading-us-rate-hike-wagers-4859652",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-08-14T11:49:05+00:00",
+    "image_url": "https://content-media.investing.com/trkd-images/LYNXMPEM7D057_L.jpg",
+    "publisher": "Investing.com — الاقتصاد",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد"
+    ],
+    "cluster_members": [
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/08/14/global-stocks-near-record-highs-benign-us-inflation-eclipses-oil-rally"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/asian-stocks-set-for-weekly-gain-on-fading-us-rate-hike-wagers-4859652"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/trkd-images/LYNXMPEM7D057_L.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/03/3341d95c-oil-prices.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.92902319024074
+  }
+}

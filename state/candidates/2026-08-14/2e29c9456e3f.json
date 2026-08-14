@@ -1,0 +1,75 @@
+{
+  "id": "2e29c9456e3f",
+  "created_at": "2026-08-14T15:08:05.517425+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.24,
+  "trend_score": 0.5,
+  "velocity": 0.8,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "France's constitutional authority strikes down social media ban for under-15s",
+  "link": "https://www.channelnewsasia.com/world/frances-constitutional-authority-strikes-down-social-media-ban-under-15s-6320181",
+  "publishers": [
+    "Channel News Asia",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "France's constitutional authority strikes down social media ban for under-15s",
+    "link": "https://www.channelnewsasia.com/world/frances-constitutional-authority-strikes-down-social-media-ban-under-15s-6320181",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-14T14:47:55+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--iGpIs8dY--/c_crop,h_450,w_800,x_0,y_33/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-13T102747Z_2_LYNXMPEM7C07O_RTROPTP_3_AUSTRALIA-SOCIALMEDIA.JPG?itok=Br13redK",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/france/20260814-france-s-constitutional-authority-strikes-down-social-media-ban-for-under-15s"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/frances-constitutional-authority-strikes-down-social-media-ban-for-under-15/article71346180.ece"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/frances-constitutional-authority-strikes-down-social-media-ban-under-15s-6320181"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/14/france-s-constitutional-authority-strikes-down-social-media-ban-for-under-15s"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/frances-constitutional-authority-strikes-down-social-media-ban-for-children-under-15-101786718529275.html"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--iGpIs8dY--/c_crop,h_450,w_800,x_0,y_33/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-13T102747Z_2_LYNXMPEM7C07O_RTROPTP_3_AUSTRALIA-SOCIALMEDIA.JPG?itok=Br13redK",
+      "https://s.france24.com/media/display/8bd8eb1e-8005-11f1-836b-005056bfb2b6/w:1024/p:16x9/000-B9J29ZQ.jpg",
+      "https://th-i.thgim.com/public/news/national/4jopx8/article71346237.ece/alternates/LANDSCAPE_1200/iStock-1371763060%202.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/01/66f80e78-social-media.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 0.8,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 24.243511183199125
+  }
+}
