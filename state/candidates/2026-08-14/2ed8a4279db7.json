@@ -1,0 +1,85 @@
+{
+  "id": "2ed8a4279db7",
+  "created_at": "2026-08-14T03:08:06.467538+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.74,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Trump declares 100 percent tariffs on many drones and all aircraft parts",
+  "link": "https://www.theverge.com/policy/979977/trump-declares-100-percent-tariffs-on-many-drones-and-all-aircraft-parts",
+  "publishers": [
+    "Free Malaysia Today",
+    "NDTV — World",
+    "TASS",
+    "The Hindu — International",
+    "The Japan Times",
+    "The Verge",
+    "Vanguard Nigeria"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Trump declares 100 percent tariffs on many drones and all aircraft parts",
+    "link": "https://www.theverge.com/policy/979977/trump-declares-100-percent-tariffs-on-many-drones-and-all-aircraft-parts",
+    "summary": "The United States has already banned future foreign drones from entering the United States unless their companies kiss the ring - as well as routers, robots, and Roombas. Now, President Donald Trump is targeting existing drone imports and parts, too. He's going to try to make them cost a lot more. In a presidential action, […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-08-14T01:06:15+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/04/dji-speaker-accessory.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "NDTV — World",
+      "TASS",
+      "The Hindu — International",
+      "The Japan Times",
+      "The Verge",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/policy/979977/trump-declares-100-percent-tariffs-on-many-drones-and-all-aircraft-parts"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-announces-tariffs-of-up-to-100-on-imported-drones/article71343943.ece"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/just-in-trump-announces-tariffs-of-up-to-100-on-imported-drones/"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/donald-trump-announces-tariffs-of-up-to-100-on-imported-drones-to-counter-china-11907595#publisher=newsstand"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/08/14/trump-announces-tariffs-of-up-to-100-on-imported-drones"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/14/world/trump-drone-tariffs-china/"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2025/04/dji-speaker-accessory.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://th-i.thgim.com/public/incoming/hsp7yd/article71343951.ece/alternates/LANDSCAPE_1200/Trump_Dodging_Responsibility__6321.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/04/AFP__20260430__2273912148__v1__MidRes__PresidentTrumpSignsExecutiveOrderExpandingRet-1024x683.jpg",
+      "https://c.ndtvimg.com/2026-08/2eviho4g_donald-trump_625x300_14_August_26.jpeg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/09/31fddc7e-donald-trump-sign-document-epa-200925.webp",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/14/557241.JPG"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 22.736812682802444
+  }
+}
