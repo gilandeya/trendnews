@@ -2026,6 +2026,13 @@ def test_request_search() -> None:
     check("الاستعلام مُرمَّز في الرابط",
           all("news.google.com/rss/search" in f["url"] for f in feeds))
 
+    # البند 5 (تعليق التنفيذ على PR #340): days=None يُسقط قيد when: تمامًا
+    # — واقعة مرجعية (verify.py) مصدرها المؤيِّد قد يكون بعمر الواقعة نفسها
+    feeds_unrestricted = rq.search_feeds("كتاب صدر 2009", None, rq.DEFAULT_LOCALES)
+    check("days=None يبني استعلامًا بلا قيد when: إطلاقًا",
+          all("when%3A" not in f["url"] for f in feeds_unrestricted),
+          [f["url"] for f in feeds_unrestricted])
+
     # التطبيع العربي: أل التعريف والهمزة والتاء المربوطة لا تفرّق
     check("أل التعريف تُسقط",
           "زلزال" in rq.norm_tokens("الزلزال"))
@@ -2083,9 +2090,14 @@ def test_verify() -> None:
     real_judge_question = verify.judge_question
     real_client = verify._client
 
-    # التصنيف بكود لا بالنموذج — يجب أن يكون حتميًا وقابلًا للاختبار وحده
+    # التصنيف بكود لا بالنموذج — يجب أن يكون حتميًا وقابلًا للاختبار وحده.
+    # وزنان معروفان (BBC/Reuters ≥ near_confirm_min_weight) في كل استدعاء
+    # هنا يُبقيان مسار "مؤكَّدة" كما كان قبل البند 4 أدناه — وهو ما يُختبر
+    # على حدة بأوزان مجهولة عمدًا
+    KNOWN_WEIGHTS = {"BBC": 1.0, "Reuters": 1.0}
     check("تصنيف: مصدران مستقلان فأكثر = مؤكدة",
-          verify.classify_fact(["BBC", "Reuters"], [], 2) == verify.STATUS_CONFIRMED)
+          verify.classify_fact(["BBC", "Reuters"], [], 2, KNOWN_WEIGHTS) ==
+          verify.STATUS_CONFIRMED)
     check("تصنيف: مصدر واحد",
           verify.classify_fact(["BBC"], [], 2) == verify.STATUS_SINGLE)
     check("تصنيف: لا مصدر",
@@ -2101,12 +2113,13 @@ def test_verify() -> None:
     # يفلتر status == STATUS_CONFIRMED حرفيًا فتُستبعد هذه الحالة تلقائيًا
     check("مصدران كافيان مع مصدر مخالف ثالث ← مؤكَّدة مع اعتراض مصدر، لا "
           "مؤكَّدة بصمت",
-          verify.classify_fact(["BBC", "Reuters"], ["أخبار الغد"], 2) ==
+          verify.classify_fact(["BBC", "Reuters"], ["أخبار الغد"], 2, KNOWN_WEIGHTS) ==
           verify.STATUS_CONFIRMED_DISPUTED)
     check("مؤكَّدة مع اعتراض مصدر حالة مختلفة عن مؤكَّدة العادية",
           verify.STATUS_CONFIRMED_DISPUTED != verify.STATUS_CONFIRMED)
     check("مصدران كافيان بلا أي اعتراض يبقيان مؤكَّدة عادية (لا تغيير سلوك)",
-          verify.classify_fact(["BBC", "Reuters"], [], 2) == verify.STATUS_CONFIRMED)
+          verify.classify_fact(["BBC", "Reuters"], [], 2, KNOWN_WEIGHTS) ==
+          verify.STATUS_CONFIRMED)
 
     # العلاج 4 (Issue #132 تعليق لاحق): حالة وسيطة بين "مؤكَّدة" و"مصدر واحد"
     # — مصدر واحد فقط، لكنه "قوي" (وزنه ≥ near_confirm_min_weight) لا يُخفى
@@ -2124,11 +2137,39 @@ def test_verify() -> None:
           verify.classify_fact(["ناشر متوسط"], [], 2, {"ناشر متوسط": 0.9},
                                near_confirm_min_weight=0.9) ==
           verify.STATUS_NEAR_CONFIRMED)
-    check("مصدران فأكثر يتجاوزان الحالة الوسيطة إلى مؤكَّدة مباشرة بصرف "
-          "النظر عن الوزن",
+    check("مصدران فأكثر بمصدر معروف واحد بينهما يتجاوزان الحالة الوسيطة "
+          "إلى مؤكَّدة مباشرة",
           verify.classify_fact(["BBC", "Reuters"], [], 2,
                                {"BBC": 3.0, "Reuters": 3.0}) ==
           verify.STATUS_CONFIRMED)
+
+    # البند 4 (تعليق التنفيذ على PR #340): بلوغ العدد وحده لا يكفي —
+    # شرط إضافي "مصدر معروف واحد على الأقل" بإعادة استعمال
+    # near_confirm_min_weight، لا حد أدنى لمجموع الأوزان (مجموع مصادر
+    # مجهولة يعوّض الكمّ عن الجهالة، وهذا بالضبط ما يُمنع هنا)
+    check("مصدران فأكثر كلاهما مجهول الوزن ← شبه مؤكَّدة لا مؤكَّدة كاملة "
+          "رغم كفاية العدد",
+          verify.classify_fact(["موقع أول", "موقع ثانٍ"], [], 2,
+                               {"موقع أول": 0.6, "موقع ثانٍ": 0.6}) ==
+          verify.STATUS_NEAR_CONFIRMED)
+    check("ثلاثة مصادر مجهولة الوزن (مجموع أوزان مرتفع) تبقى دون مؤكَّدة "
+          "كاملة — العدد وحده لا يعوّض غياب مصدر معروف",
+          verify.classify_fact(["أ", "ب", "جـ"], [], 2,
+                               {"أ": 0.6, "ب": 0.6, "جـ": 0.6}) ==
+          verify.STATUS_NEAR_CONFIRMED)
+    check("مصدر معروف واحد بين عدة مصادر مجهولة يكفي للمؤكَّدة الكاملة",
+          verify.classify_fact(["Bloomberg", "موقع مجهول"], [], 2,
+                               {"Bloomberg": 3.0, "موقع مجهول": 0.6}) ==
+          verify.STATUS_CONFIRMED)
+    check("بلا قاموس أوزان أصلًا (توافق خلفي)، عدد كافٍ من المصادر ينزل "
+          "لشبه مؤكَّدة لا مؤكَّدة كاملة",
+          verify.classify_fact(["موقع أول", "موقع ثانٍ"], [], 2) ==
+          verify.STATUS_NEAR_CONFIRMED)
+    check("عدد كافٍ بلا مصدر معروف مع اعتراض حقيقي ← يخالفها مصدر، لا "
+          "شبه مؤكَّدة ولا مؤكَّدة مع اعتراض",
+          verify.classify_fact(["موقع أول", "موقع ثانٍ"], ["Reuters"], 2,
+                               {"موقع أول": 0.6, "موقع ثانٍ": 0.6, "Reuters": 1.0}) ==
+          verify.STATUS_CONTRADICTED)
 
     # عتبة العلاج 4 الافتراضية (Issue #132 تعليق لاحق تالٍ): 1.0 لم تكن
     # واقعية — وزن sources في config.yaml يتوزّع فعليًا بين 0.6 و1.3 (0.6
@@ -2233,6 +2274,13 @@ def test_verify() -> None:
           ["claims"]["items"]["required"])
     check("الحكم على الوقائع يشدِّد على أن مُحدِّد الإسناد تفصيلة تُطابَق",
           "مُحدِّدات الإسناد" in verify.JUDGE_FACT_SYSTEM)
+    # البند 5 (تعليق التنفيذ على PR #340): استخراج البنية يميّز الوقائع
+    # المرجعية (لا تتعلق بدورة الأخبار الحالية) عبر حقل is_reference منفصل
+    check("استخراج البنية يميّز الوقائع المرجعية عن الأخبار الجارية",
+          "is_reference" in verify.EXTRACT_SYSTEM)
+    check("مخطط الاستخراج يفرض حقل is_reference",
+          "is_reference" in verify.EXTRACT_SCHEMA["input_schema"]["properties"]
+          ["claims"]["items"]["required"])
     check("الإجابة عن الأسئلة تشترط النسبة لا الحقيقة المطلقة",
           "انسب الجواب لمن قاله" in verify.JUDGE_QUESTION_SYSTEM)
     check("تصنيفات الادعاء الثلاثة متاحة",
@@ -2241,18 +2289,18 @@ def test_verify() -> None:
     # تطبيع شكل رد النموذج (Issue #134: claims وصلت كقائمة نصوص لا قواميس
     # فانهار verify.py:344 بـ AttributeError) — لا يُفترض شكل بلا تحقق
     check("نص مجرد يصير قاموس ادّعاء بحقول افتراضية (entities فارغة، "
-          "is_qualifier=False)",
+          "is_qualifier=False, is_reference=False)",
           verify.normalize_claim("ادّعاء بلا شكل") ==
           {"text": "ادّعاء بلا شكل", "kind": "واقعة", "entities": [],
-           "is_qualifier": False})
+           "is_qualifier": False, "is_reference": False})
     check("قاموس ناقص حقل kind يُملأ بقيمة افتراضية",
           verify.normalize_claim({"text": "ادّعاء"}) ==
           {"text": "ادّعاء", "kind": "واقعة", "entities": [],
-           "is_qualifier": False})
+           "is_qualifier": False, "is_reference": False})
     check("قاموس بقيمة kind غير معروفة يُصحَّح لا يُرفَض",
           verify.normalize_claim({"text": "ادّعاء", "kind": "شيء غريب"}) ==
           {"text": "ادّعاء", "kind": "واقعة", "entities": [],
-           "is_qualifier": False})
+           "is_qualifier": False, "is_reference": False})
     check("عنصر بلا نص قابل للاستخراج (رقم مثلًا) يُستبعد بلا انهيار",
           verify.normalize_claim(42) is None)
 
@@ -2285,6 +2333,21 @@ def test_verify() -> None:
           verify.normalize_claim(
               {"text": "ادّعاء", "kind": "واقعة", "is_qualifier": "true"}
           )["is_qualifier"] is False)
+
+    # البند 5 (تعليق التنفيذ على PR #340): حقل is_reference — واقعة مرجعية
+    # (سنة صدور كتاب، تاريخ معاهدة...) تُبحث بلا قيد when: (انظر verify.search)
+    check("is_reference: true صريحة تُقبل كما هي",
+          verify.normalize_claim(
+              {"text": "صدر الكتاب عام 2009", "kind": "واقعة",
+               "is_reference": True})["is_reference"] is True)
+    check("is_reference غائبة تُطبَّع إلى False (توافق خلفي، لا واقعة "
+          "مرجعية بلا حقل)",
+          verify.normalize_claim({"text": "ادّعاء", "kind": "واقعة"}
+                                 )["is_reference"] is False)
+    check("is_reference بشكل غريب (نص لا bool) تُطبَّع إلى False بلا انهيار",
+          verify.normalize_claim(
+              {"text": "ادّعاء", "kind": "واقعة", "is_reference": "true"}
+          )["is_reference"] is False)
 
     check("normalize_claims على قيمة ليست قائمة أصلًا لا تنهار",
           verify.normalize_claims("ليست قائمة") == [])
@@ -2463,7 +2526,7 @@ def test_verify() -> None:
     check("normalize_claims تقبل نص JSON صالحًا لمصفوفة ادّعاءات",
           verify.normalize_claims('[{"text": "ادّعاء", "kind": "واقعة"}]') ==
           [{"text": "ادّعاء", "kind": "واقعة", "entities": [],
-            "is_qualifier": False}])
+            "is_qualifier": False, "is_reference": False}])
     check("normalize_questions تقبل نص JSON صالحًا لمصفوفة أسئلة",
           verify.normalize_questions('["سؤال؟"]') == ["سؤال؟"])
     check("نص لا يبدأ بـ [ أو { لا يُحاول تحليله كـ JSON",
@@ -2490,7 +2553,7 @@ def test_verify() -> None:
                    {"text": "رأي كاتب المقال", "kind": "رأي"}],
         "questions": ["سؤال بلا جواب في المصادر؟"],
     }, None)
-    verify.search = lambda query, cfg, days: []
+    verify.search = lambda query, cfg, days, unrestricted=False: []
     result = verify.verify_article("نص المقال الملصق", cfg)
 
     check("المقال يُعالَج بنجاح", result["ok"])
@@ -2524,7 +2587,7 @@ def test_verify() -> None:
         "supporting": ["BBC", "Reuters"], "contradicting": []}
     verify.judge_question = lambda q, docs, cfg: {
         "answered": True, "answer": "نعم حدث كذلك", "source": "BBC"}
-    verify.search = lambda query, cfg, days: [object()]  # غير فارغة لتفعيل القراءة
+    verify.search = lambda query, cfg, days, unrestricted=False: [object()]  # غير فارغة لتفعيل القراءة
 
     result2 = verify.verify_article("نص مقال آخر", cfg)
     check("واقعة مؤكدة بمصدرين ← الحكم نعم", result2["verdict"] is True)
@@ -2619,7 +2682,7 @@ def test_verify() -> None:
     }, None)
     seen_queries: list[str] = []
 
-    def _spy_search(query, cfg, days):
+    def _spy_search(query, cfg, days, unrestricted=False):
         seen_queries.append(query)
         return []
 
@@ -2651,7 +2714,7 @@ def test_verify() -> None:
                    "entities": wiring_entities}],
         "questions": [],
     }, None)
-    verify.search = lambda query, cfg, days: [object()]
+    verify.search = lambda query, cfg, days, unrestricted=False: [object()]
     verify.verify_article("نص أول", cfg)
 
     verify.extract_claims = lambda text, cfg, retries=3: ({
@@ -2670,6 +2733,31 @@ def test_verify() -> None:
           seen_relevance_text[0] == seen_relevance_text[1] ==
           " ".join(wiring_entities), str(seen_relevance_text))
 
+    # البند 5 (تعليق التنفيذ على PR #340): _verify_article يمرر
+    # unrestricted=True لـsearch() حين is_reference: true على الادّعاء، لا
+    # حين تغيب أو تكون false — وقائعة مرجعية وأخرى جارية معًا في مقال واحد
+    # تُفرَّقان بلا تسرّب من إحداهما إلى الأخرى
+    seen_unrestricted: list[bool] = []
+
+    def _spy_search_unrestricted(query, cfg, days, unrestricted=False):
+        seen_unrestricted.append(unrestricted)
+        return []
+
+    verify.search = _spy_search_unrestricted
+    verify.extract_claims = lambda text, cfg, retries=3: ({
+        "topic": "مقال يحوي واقعة مرجعية وأخرى جارية",
+        "claims": [
+            {"text": "صدر الكتاب المرجعي عام 2009", "kind": "واقعة",
+             "is_reference": True},
+            {"text": "ارتفعت الأسعار هذا الأسبوع", "kind": "واقعة",
+             "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    verify.verify_article("نص", cfg)
+    check("واقعة مرجعية (is_reference: true) ← unrestricted=True لـsearch",
+          seen_unrestricted == [True, False], str(seen_unrestricted))
+
     # لا استخراج ممكن (رد مبتور) ← رسالة خطأ محددة بدل "حاول مجددًا" مبهمة
     verify.extract_claims = lambda text, cfg, retries=3: (
         None, "الرد مبتور — تجاوز سقف التوكنات")
@@ -2682,7 +2770,7 @@ def test_verify() -> None:
 
     # الحالات الثلاث من Issue #134: claims نصوص / claims قواميس / claims
     # غائبة تمامًا عن رد النموذج — لا انهيار في أي منها
-    verify.search = lambda query, cfg, days: []
+    verify.search = lambda query, cfg, days, unrestricted=False: []
 
     verify.extract_claims = lambda text, cfg, retries=3: (
         {"topic": "مقال بادّعاءات نصية", "claims": ["ادّعاء أول", "ادّعاء ثانٍ"],
@@ -2754,7 +2842,7 @@ def test_verify() -> None:
         {"topic": "مقال", "claims": [{"text": "ادّعاء", "kind": "واقعة"}],
          "questions": []}, None)
 
-    def _boom(query, cfg, days):
+    def _boom(query, cfg, days, unrestricted=False):
         raise RuntimeError("عطل غير متوقع لا علاقة له بشكل رد النموذج")
 
     verify.search = _boom
@@ -2802,6 +2890,48 @@ def test_verify() -> None:
     # gather_evidence أصلًا
     check("verify.search يمرر keep_google_links=True لـ rank",
           seen_keep_google_links == [True], str(seen_keep_google_links))
+
+    # البند 5 (تعليق التنفيذ على PR #340): unrestricted=True يُسقط قيد when:
+    # من search_feeds *و* يرفع سقف عمر fetch_source إلى
+    # REFERENCE_MAX_AGE_HOURS بدل days*24 — كلاهما معًا، لا أحدهما وحده
+    # (إسقاط when: وحده لا يمنع fetch_source من رفض مصدر قديم بعد جلبه)
+    seen_days: list = []
+    seen_max_age: list = []
+    real_search_feeds = verify.search_feeds
+
+    def _spy_search_feeds(query, days, locales):
+        seen_days.append(days)
+        return real_search_feeds(query, days, locales)
+
+    verify.search_feeds = _spy_search_feeds
+    verify.fetch_source = lambda src, max_age_hours: (
+        seen_max_age.append(max_age_hours), [one])[1]
+    try:
+        verify.search("كتاب صدر 2009", cfg, 21, unrestricted=True)
+    finally:
+        verify.fetch_source = real_fetch_source
+        verify.search_feeds = real_search_feeds
+    check("unrestricted=True يمرر days=None لـ search_feeds (بلا قيد when:)",
+          seen_days and all(d is None for d in seen_days), str(seen_days))
+    check("unrestricted=True يرفع سقف عمر fetch_source إلى REFERENCE_MAX_AGE_HOURS",
+          seen_max_age and all(m == verify.REFERENCE_MAX_AGE_HOURS for m in seen_max_age),
+          str(seen_max_age))
+
+    # unrestricted=False (الافتراضي) يبقى سلوكه القديم بلا تغيير
+    seen_days.clear()
+    seen_max_age.clear()
+    verify.search_feeds = _spy_search_feeds
+    verify.fetch_source = lambda src, max_age_hours: (
+        seen_max_age.append(max_age_hours), [one])[1]
+    try:
+        verify.search("زلزال هرات", cfg, 7)
+    finally:
+        verify.fetch_source = real_fetch_source
+        verify.search_feeds = real_search_feeds
+    check("unrestricted=False (الافتراضي) يمرر days الفعلي لـ search_feeds",
+          seen_days == [7], str(seen_days))
+    check("unrestricted=False (الافتراضي) يبقي سقف fetch_source عند days*24",
+          seen_max_age and all(m == 7 * 24 for m in seen_max_age), str(seen_max_age))
 
     # gather_evidence يجب أن يوسّع الممثّل الواحد (بعد تجميع rank.cluster
     # اللفظي، الذي يعمل دومًا داخل rank()) إلى ناشريه الفعليين المحفوظين في
@@ -2883,7 +3013,11 @@ def test_verify() -> None:
     # عدّ المصادر بالناشر لا بالموضوع/المجموعة: ثلاثة ناشرين لواقعة واحدة
     # تُحكم "مؤكَّدة" لا "مصدر واحد" رغم أنهم اندمجوا في مجموعة واحدة
     min_confirm = int((cfg.get("verify", {}) or {}).get("min_confirm_sources", 2))
-    status3 = verify.classify_fact(list(names3), [], min_confirm)
+    # Bloomberg من trusted_boost (البند 4 يشترط مصدرًا معروفًا واحدًا على
+    # الأقل بين المؤيِّدين ليصل الحكم لمؤكَّدة كاملة — أوزان حقيقية عبر
+    # _publisher_weight لا قاموسًا مصطنعًا)
+    weights3 = {n: verify._publisher_weight(n, cfg) for n in names3}
+    status3 = verify.classify_fact(list(names3), [], min_confirm, weights3)
     check("واقعة بثلاثة ناشرين مستقلين ← مؤكَّدة لا مصدر واحد",
           status3 == verify.STATUS_CONFIRMED)
 
@@ -3378,6 +3512,23 @@ def test_verify_draft() -> None:
     check("9) تطابق لفظي مع مقتطف مصدر مؤكِّد ← رفض", not outcome9["produced"])
     check("9) سبب الرفض يذكر مقتطف مصدر مؤكِّد تحديدًا",
           "مصدر مؤكِّد" in outcome9["reason"], outcome9["reason"])
+
+    # 9b) البند 2 (تعليق التنفيذ على PR #340): التتابع نفسه وارد حرفيًا في
+    # مصدرين مستقلين مؤكِّدين (لا مصدر واحد كما في 9 أعلاه) ← ليس نسخًا،
+    # فلا يُرفض — الاستثناء العابر للمصادر لا يُضعف العتبة على مصدر واحد
+    SHARED_PHRASE = "بلغ الإنتاج اليومي خمسة ملايين برميل خلال الشهر الماضي فقط"
+    multi_source_bbc = {**central, "sources": [
+        {"name": "BBC", "link": "https://bbc.example/1",
+         "text": f"{SHARED_PHRASE} وفق بيان رسمي", "image_candidates": []}]}
+    multi_source_reuters = {**second, "sources": [
+        {"name": "Reuters", "link": "https://reuters.example/1",
+         "text": f"قالت مصادر مطّلعة إن {SHARED_PHRASE} حسب الأرقام الرسمية",
+         "image_candidates": []}]}
+    install({**CLEAN_POST, "post_body": f"مقدمة قصيرة. {SHARED_PHRASE} وخاتمة."})
+    outcome9b = verify_draft.attempt(
+        _result([multi_source_bbc, multi_source_reuters]), ARTICLE_BODY, 132, cfg)
+    check("9b) تتابع مشترك بين مصدرين مستقلين مؤكِّدين ← لا يُرفض (ليس نسخًا "
+          "من أحدهما)", outcome9b["produced"], outcome9b["reason"])
 
     # 10) اقتباس بين علامتين غير موجود في أي مقتطف مؤكِّد ← رفض
     fabricated_quote = "«تصريح لم يرد حرفيًا في أي مصدر مؤكِّد إطلاقًا هنا»"

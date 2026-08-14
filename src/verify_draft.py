@@ -161,17 +161,10 @@ def _contains_run(haystack: list[str], needle: list[str]) -> bool:
     return any(haystack[i:i + n] == needle for i in range(len(haystack) - n + 1))
 
 
-def _shared_run(candidate_words: list[str], reference_words: list[str],
-                n: int) -> tuple[str, ...] | None:
-    if n <= 0 or len(candidate_words) < n or len(reference_words) < n:
-        return None
-    ref_ngrams = {tuple(reference_words[i:i + n])
-                 for i in range(len(reference_words) - n + 1)}
-    for i in range(len(candidate_words) - n + 1):
-        window = tuple(candidate_words[i:i + n])
-        if window in ref_ngrams:
-            return window
-    return None
+def _ngram_set(words: list[str], n: int) -> set[tuple[str, ...]]:
+    if n <= 0 or len(words) < n:
+        return set()
+    return {tuple(words[i:i + n]) for i in range(len(words) - n + 1)}
 
 
 def _quoted_spans(text: str) -> list[str]:
@@ -191,7 +184,16 @@ def check_originality(draft_text: str, article_body: str, source_texts: list[str
     غير موجود في أي مقتطف يُرفض مباشرة بوصفه نسخًا من المقال الملصق، بلا
     حاجة لفحص التتابع عليه. الرفض هنا نهائي بلا إعادة محاولة: مدخلات
     الصياغة (الوقائع والمقتطفات) لا تتغيّر بين محاولتين، فتكرار التطابق
-    مرجَّح لا مستبعَد."""
+    مرجَّح لا مستبعَد.
+
+    استثناء عابر للمصادر (تعليق التنفيذ على PR #340، البند 2): تتابع كلمات
+    وارد حرفيًا في مصدرين مستقلين مؤكِّدين فأكثر ليس نسخًا من أيّهما — هو
+    على الأرجح صياغة الحدث نفسه كما تكرّرت في تغطيات مستقلة (تصريح رسمي
+    منقول حرفيًا، رقم بصياغته القياسية...)، لا دليل نسخ عن مصدر بعينه.
+    العتبة تبقى سارية كاملة على ما تفرّد به مصدر واحد وحده أو المقال الملصق
+    (لا يُحسب مصدرًا "مستقلًا" هنا أصلًا — هو ما يُتحقَّق منه لا سند مؤكَّد).
+    لا إضعاف للتطبيع نفسه: المطابقة الحرفية بعد التطبيع كما هي، فقط قرار
+    الرفض يفحص أولًا عدد المصادر المستقلة التي يظهر التتابع فيها بالضبط."""
     quotes = _quoted_spans(draft_text)
     normalized_sources = [_normalized_words(s) for s in source_texts]
     cleaned = draft_text
@@ -205,14 +207,22 @@ def check_originality(draft_text: str, article_body: str, source_texts: list[str
         cleaned = cleaned.replace(q, " ")
 
     candidate_words = _normalized_words(cleaned)
-    checks = [("المقال الملصق", article_body)]
-    checks += [(f"مقتطف مصدر مؤكِّد ({i + 1})", s) for i, s in enumerate(source_texts)]
-    for label, reference in checks:
-        shared = _shared_run(candidate_words, _normalized_words(reference),
-                             max_shared_run_words)
-        if shared:
-            return False, (f"تطابق لفظي مع {label}: {max_shared_run_words} كلمة "
-                           f"متتالية مشتركة — «{' '.join(shared)}»")
+    n = max_shared_run_words
+    if n > 0 and len(candidate_words) >= n:
+        article_ngrams = _ngram_set(_normalized_words(article_body), n)
+        source_ngram_lists = [_ngram_set(words, n) for words in normalized_sources]
+        for i in range(len(candidate_words) - n + 1):
+            window = tuple(candidate_words[i:i + n])
+            hit_sources = [idx for idx, ngrams in enumerate(source_ngram_lists)
+                           if window in ngrams]
+            if len(hit_sources) >= 2:
+                continue  # وارد في مصدرين مستقلين فأكثر — مستثنى من الرفض
+            if len(hit_sources) == 1:
+                return False, (f"تطابق لفظي مع مقتطف مصدر مؤكِّد ({hit_sources[0] + 1}): "
+                               f"{n} كلمة متتالية مشتركة — «{' '.join(window)}»")
+            if window in article_ngrams:
+                return False, (f"تطابق لفظي مع المقال الملصق: {n} كلمة متتالية "
+                               f"مشتركة — «{' '.join(window)}»")
     return True, ""
 
 
