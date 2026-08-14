@@ -1,0 +1,48 @@
+{
+  "id": "d6252c346804",
+  "created_at": "2026-08-14T19:07:45.594051+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.19,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Klima: KI führt laut Studie zu mehr Emissionen aus Kohle, Öl und Gas",
+  "link": "https://www.spiegel.de/wissenschaft/technik/klima-ki-fuehrt-laut-studie-zu-mehr-emissionen-aus-kohle-oel-und-gas-a-297a9870-faaa-4bec-952b-d988e7ef01f2#ref=rss",
+  "publishers": [
+    "Der Spiegel"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Klima: KI führt laut Studie zu mehr Emissionen aus Kohle, Öl und Gas",
+    "link": "https://www.spiegel.de/wissenschaft/technik/klima-ki-fuehrt-laut-studie-zu-mehr-emissionen-aus-kohle-oel-und-gas-a-297a9870-faaa-4bec-952b-d988e7ef01f2#ref=rss",
+    "summary": "Künstliche Intelligenz kann bei der Energiewende helfen – oder dem Klima schaden. Neue Studien kommen zu einem eindeutig negativen Schluss. Das Ausmaß des Problems zeigt sich gerade in Nordrhein-Westfalen.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-08-14T15:11:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/480e2e5f-1b11-47ec-ab39-98d944bb20e5_w520_r2.08_fpx52.41_fpy44.98.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Der Spiegel"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/wissenschaft/technik/klima-ki-fuehrt-laut-studie-zu-mehr-emissionen-aus-kohle-oel-und-gas-a-297a9870-faaa-4bec-952b-d988e7ef01f2#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/480e2e5f-1b11-47ec-ab39-98d944bb20e5_w520_r2.08_fpx52.41_fpy44.98.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 3.864856414166667,
+    "is_stale": false,
+    "score": 13.187069279796297
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "b11f7d257c3c",
+  "created_at": "2026-08-14T19:07:45.594257+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.1,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ryanair: Mann fast aus Flugzeug gesogen – Triebwerkteil wohl Grund für Druckverlust",
+  "link": "https://www.spiegel.de/panorama/ryanair-maschine-mann-fast-gesogen-abgebrochenes-triebwerkteil-wohl-grund-fuer-druckverlust-a-f9294108-62e6-42b7-8fb2-3cfd7cea2128#ref=rss",
+  "publishers": [
+    "Der Spiegel"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Ryanair: Mann fast aus Flugzeug gesogen – Triebwerkteil wohl Grund für Druckverlust",
+    "link": "https://www.spiegel.de/panorama/ryanair-maschine-mann-fast-gesogen-abgebrochenes-triebwerkteil-wohl-grund-fuer-druckverlust-a-f9294108-62e6-42b7-8fb2-3cfd7cea2128#ref=rss",
+    "summary": "Die US-Flugsicherheitsbehörde legt eine erste Analyse zu dem Vorfall mit zerbrochener Scheibe und verletztem Passagier auf einem Ryanair-Flug im Juli vor. Ein Flügel aus dem rechten Triebwerk der Boeing sei gegen den Flugzeugrumpf gekracht.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-08-14T13:50:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/a4339544-eaab-4481-aab6-912f81a2aafa_w520_r2.08_fpx70_fpy55.01.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Der Spiegel"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/panorama/ryanair-maschine-mann-fast-gesogen-abgebrochenes-triebwerkteil-wohl-grund-fuer-druckverlust-a-f9294108-62e6-42b7-8fb2-3cfd7cea2128#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/a4339544-eaab-4481-aab6-912f81a2aafa_w520_r2.08_fpx70_fpy55.01.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 5.108857461388888,
+    "is_stale": false,
+    "score": 13.097069279481483
+  }
+}
