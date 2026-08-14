@@ -1,0 +1,57 @@
+{
+  "id": "e21b64ac6d90",
+  "created_at": "2026-08-14T01:01:04.105157+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.53,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Three men executed on same day in US for the first time in 15 years",
+  "link": "https://www.theguardian.com/us-news/2026/aug/13/executions-oklahoma-alabama-tennessee",
+  "publishers": [
+    "Der Spiegel",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Three men executed on same day in US for the first time in 15 years",
+    "link": "https://www.theguardian.com/us-news/2026/aug/13/executions-oklahoma-alabama-tennessee",
+    "summary": "Rare scheduling in Oklahoma, Tennessee and Alabama underlines the renewed appetite in US for state killings Carlos Cuesta-Rodriguez was put to death by the state of Oklahoma, in the first of three executions scheduled for Thursday in a rare triple procedure that underlines the renewed appetite in the US for state killings. Just one hour later, Darrell Hines was put to death by the state of Tennessee, and at 6pm local time in Alabama, that state executed Jeremy Williams. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-13T23:59:18+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/e9039afefd31782618d1d335fe5a5b9a4b674d36/115_0_2729_2184/master/2729.jpg?width=700&quality=85&auto=format&fit=max&s=8cbbcf0822ef919f7ddce751e5a54938",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Der Spiegel",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/13/executions-oklahoma-alabama-tennessee"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/panorama/usa-vollstrecken-drei-todesurteile-an-einem-tag-in-tennessee-oklahoma-und-alabama-a-51c8f6bf-acc0-445d-ba16-ed5732781e1d#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/e9039afefd31782618d1d335fe5a5b9a4b674d36/115_0_2729_2184/master/2729.jpg?width=700&quality=85&auto=format&fit=max&s=8cbbcf0822ef919f7ddce751e5a54938",
+      "https://i.guim.co.uk/img/media/e9039afefd31782618d1d335fe5a5b9a4b674d36/115_0_2729_2184/master/2729.jpg?width=460&quality=85&auto=format&fit=max&s=f9220b14acf01368238d9fd99a77be7c",
+      "https://i.guim.co.uk/img/media/e9039afefd31782618d1d335fe5a5b9a4b674d36/115_0_2729_2184/master/2729.jpg?width=140&quality=85&auto=format&fit=max&s=d8ba24586d86efe2a868b5f3b7b4d35c",
+      "https://cdn.prod.www.spiegel.de/images/ad502035-1fee-40f5-b890-451962b34cf3_w338_r2.08_fpx50_fpy37.56.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 16.499602251666666,
+    "is_stale": false,
+    "score": 17.53143070885185
+  }
+}
