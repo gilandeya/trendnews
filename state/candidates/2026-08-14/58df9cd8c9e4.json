@@ -1,0 +1,56 @@
+{
+  "id": "58df9cd8c9e4",
+  "created_at": "2026-08-14T14:01:11.255846+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.32,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "American missionary kidnapped in Niger freed after nine months",
+  "link": "https://www.theguardian.com/world/2026/aug/14/american-missionary-kevin-rideout-niger-released-kidnapping",
+  "publishers": [
+    "Al Jazeera English",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "American missionary kidnapped in Niger freed after nine months",
+    "link": "https://www.theguardian.com/world/2026/aug/14/american-missionary-kevin-rideout-niger-released-kidnapping",
+    "summary": "Kevin Rideout, who was abducted by unknown assailants in Niamey, said to be in good health and in care of US officials An American missionary who was kidnapped in Niger in October has been released, his organisation has said. Kevin Rideout “is in good health in the care of US officials” and would soon be reunited with his extended family, SIM International said in a statement. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-14T09:48:11+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/b0b8de4d6a510eeae2d1c3e3b4a748dd233cbb87/0_0_4384_3509/master/4384.jpg?width=700&quality=85&auto=format&fit=max&s=62e35e401aabe3b4bbfd5f3c36566254",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/14/american-missionary-kevin-rideout-niger-released-kidnapping"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/14/us-missionary-kidnapped-in-niger-released-after-nine-months-in-captivity?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/b0b8de4d6a510eeae2d1c3e3b4a748dd233cbb87/0_0_4384_3509/master/4384.jpg?width=700&quality=85&auto=format&fit=max&s=62e35e401aabe3b4bbfd5f3c36566254",
+      "https://i.guim.co.uk/img/media/b0b8de4d6a510eeae2d1c3e3b4a748dd233cbb87/0_0_4384_3509/master/4384.jpg?width=460&quality=85&auto=format&fit=max&s=a5e2af63a551a7ae51be4c5eee91d3fc",
+      "https://i.guim.co.uk/img/media/b0b8de4d6a510eeae2d1c3e3b4a748dd233cbb87/0_0_4384_3509/master/4384.jpg?width=140&quality=85&auto=format&fit=max&s=bb6608dd21c5c1fa2b53de7eb53b4e92"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 4.254894225555556,
+    "is_stale": false,
+    "score": 17.31897629098148
+  }
+}
