@@ -1,0 +1,49 @@
+{
+  "id": "629ce5af0d22",
+  "created_at": "2026-08-14T17:08:08.069849+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.19,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "It’s likely that 2026 will be the hottest year on record, experts say",
+  "link": "https://www.japantimes.co.jp/environment/2026/08/14/2026-hottest-year/",
+  "publishers": [
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "It’s likely that 2026 will be the hottest year on record, experts say",
+    "link": "https://www.japantimes.co.jp/environment/2026/08/14/2026-hottest-year/",
+    "summary": "Additionally, 2027 is expected to set a new high, according to an analysis.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-08-14T02:46:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/14/557244.JPG",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/environment/2026/08/14/2026-hottest-year/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/14/557244.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/14/thumbs/400x400/557244.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 4.998974759166666,
+    "is_stale": false,
+    "score": 16.19221576837037
+  }
+}

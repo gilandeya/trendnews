@@ -1,0 +1,63 @@
+{
+  "id": "e4802276e54d",
+  "created_at": "2026-08-14T17:08:08.069239+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.15,
+  "trend_score": 1.0,
+  "velocity": 0.49,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Boxer Colon dies 11 years after brain injury in fight",
+  "link": "https://www.bbc.co.uk/sport/boxing/articles/cg7m45ze27mo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Hindustan Times — World",
+    "NDTV — World"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Boxer Colon dies 11 years after brain injury in fight",
+    "link": "https://www.bbc.co.uk/sport/boxing/articles/cg7m45ze27mo?at_medium=RSS&at_campaign=rss",
+    "summary": "Prichard Colon, who suffered a severe brain injury during a 2015 fight, dies aged 33, his father Richard confirms on social media.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-14T09:53:21+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f641/live/d15f8fb0-97bd-11f1-bcec-d512ff1927d3.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Hindustan Times — World",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/boxing/articles/cg7m45ze27mo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/who-was-prichard-colon-boxer-left-with-brain-injury-after-2015-fight-dies-at-33-11911107#publisher=newsstand"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/prichard-colon-death-terrel-williams-alleged-instagram-account-flooded-with-hate-comments-101786722112321.html"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f641/live/d15f8fb0-97bd-11f1-bcec-d512ff1927d3.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/f641/live/d15f8fb0-97bd-11f1-bcec-d512ff1927d3.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f641/live/d15f8fb0-97bd-11f1-bcec-d512ff1927d3.jpg",
+      "https://c.ndtvimg.com/2026-08/02beqtk8_prichard-colon_625x300_14_August_26.jpeg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4861572633170999,
+    "age_hours": 6.868464607777778,
+    "is_stale": false,
+    "score": 24.152722921730454
+  }
+}

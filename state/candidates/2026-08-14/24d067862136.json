@@ -1,0 +1,48 @@
+{
+  "id": "24d067862136",
+  "created_at": "2026-08-14T17:08:08.069966+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.57,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "I have a picture for you! 08 August-14 August 2026",
+  "link": "https://www.dailymaverick.co.za/article/2026-08-14-i-have-a-picture-for-you-08-august-14-august-2026/",
+  "publishers": [
+    "Daily Maverick"
+  ],
+  "region": "za",
+  "article": {
+    "title": "I have a picture for you! 08 August-14 August 2026",
+    "link": "https://www.dailymaverick.co.za/article/2026-08-14-i-have-a-picture-for-you-08-august-14-august-2026/",
+    "summary": "The First Thing newsletter's Ever-lasting Subscriber Photo Gallery.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-08-14T18:58:41+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2996/BetweenfireandwaterPhotographerDanielPolakow_192681.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-14-i-have-a-picture-for-you-08-august-14-august-2026/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2996/BetweenfireandwaterPhotographerDanielPolakow_192681.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 198.0028168722222,
+    "is_stale": true,
+    "score": 15.57297502875926
+  }
+}
