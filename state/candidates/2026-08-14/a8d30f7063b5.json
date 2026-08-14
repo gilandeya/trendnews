@@ -1,0 +1,56 @@
+{
+  "id": "a8d30f7063b5",
+  "created_at": "2026-08-14T12:08:11.587922+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.93,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Apple trained its own AI model for China with help from Alibaba",
+  "link": "https://www.theverge.com/ai-artificial-intelligence/980160/apple-intelligence-china-custom-ai-model-alibaba",
+  "publishers": [
+    "The Japan Times",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Apple trained its own AI model for China with help from Alibaba",
+    "link": "https://www.theverge.com/ai-artificial-intelligence/980160/apple-intelligence-china-custom-ai-model-alibaba",
+    "summary": "Apple has reportedly trained a custom AI model for the China market alongside domestic tech giant Alibaba, a rare cross-border partnership that cuts across growing tensions between Beijing and Washington. The China-focused large language model was developed in partnership with Alibaba and trained with the company's support, Reuters reports, citing three unnamed people familiar with […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-08-14T09:21:17+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK071_APPLE_A-1.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "The Japan Times",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/ai-artificial-intelligence/980160/apple-intelligence-china-custom-ai-model-alibaba"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/business/2026/08/14/apple-ai-model-china-alibaba/"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/STK071_APPLE_A-1.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/14/557325.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/14/thumbs/400x400/557325.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 6.005500065833333,
+    "is_stale": false,
+    "score": 19.93135154561111
+  }
+}

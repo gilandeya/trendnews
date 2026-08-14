@@ -1,43 +1,5 @@
 [
   {
-    "score": 31.74,
-    "bucket": "serious",
-    "tokens": [
-      "aramco",
-      "attack",
-      "claim",
-      "extinguished",
-      "facility",
-      "fire",
-      "houthis",
-      "saudi",
-      "yemen"
-    ],
-    "link": "https://www.thehindu.com/news/international/fire-extinguished-at-aramco-facility-in-jizan-says-saudi-arabia/article71324246.ece",
-    "title": "Yemen’s Houthis claim attack on Aramco facility as Saudi says fire extinguished",
-    "posted_title": "الحوثيون يعلنون استهداف مصفاة أرامكو في جازان والسعودية تؤكد إخماد الحريق",
-    "region": "in",
-    "seen_at": "2026-08-09T11:08:04.220384+00:00"
-  },
-  {
-    "score": 17.6,
-    "bucket": "serious",
-    "tokens": [
-      "gaza",
-      "israel",
-      "netanyahu",
-      "plan",
-      "point",
-      "rejects",
-      "trump's"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c5yw4lpe0yeo?at_medium=RSS&at_campaign=rss",
-    "title": "Israel rejects Trump's 15-point plan for Gaza, Netanyahu says",
-    "posted_title": "نتنياهو يرفض خطة ترامب ذات 15 نقطة لغزة ويربط الانسحاب بنزع سلاح حماس",
-    "region": "uk",
-    "seen_at": "2026-08-09T12:01:19.029404+00:00"
-  },
-  {
     "score": 27.95,
     "bucket": "serious",
     "tokens": [
@@ -3206,5 +3168,93 @@
     "posted_title": "الإفراج عن المبشر الأمريكي كيفن رايدوت بعد أكثر من تسعة أشهر من اختطافه في النيجر",
     "region": "uk",
     "seen_at": "2026-08-14T10:31:23.186999+00:00"
+  },
+  {
+    "score": 22.16,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "defence",
+      "egypt",
+      "join",
+      "pact",
+      "pakistan",
+      "saudi",
+      "turkey",
+      "urges"
+    ],
+    "link": "http://www.africanews.com/2026/08/14/turkey-urges-egypt-to-join-its-defence-pact-with-saudi-arabia-and-pakistan/",
+    "title": "Turkey urges Egypt to join its defence pact with Saudi Arabia and Pakistan",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-08-14T12:08:11.587552+00:00"
+  },
+  {
+    "score": 20.5,
+    "bucket": "useful",
+    "tokens": [
+      "crisis",
+      "deeper",
+      "gold",
+      "hormuz",
+      "keeps",
+      "markets",
+      "risks",
+      "selloff",
+      "uneasy"
+    ],
+    "link": "https://www.investing.com/analysis/gold-risks-deeper-selloff-as-hormuz-crisis-keeps-markets-uneasy-200685820",
+    "title": "Gold Risks Deeper Selloff as Hormuz Crisis Keeps Markets Uneasy",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-08-14T12:08:11.587742+00:00"
+  },
+  {
+    "score": 20.13,
+    "bucket": "serious",
+    "tokens": [
+      "airspace",
+      "drone",
+      "jets",
+      "latvian",
+      "nato",
+      "shoot",
+      "spokesperson"
+    ],
+    "link": "https://www.channelnewsasia.com/world/latvia-shoots-down-drone-in-airspace-nato-russia-6318841",
+    "title": "NATO jets shoot down drone in Latvian airspace: Spokesperson",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-08-14T12:08:11.587917+00:00"
+  },
+  {
+    "score": 19.93,
+    "bucket": "useful",
+    "tokens": [
+      "alibaba",
+      "apple",
+      "china",
+      "help",
+      "model",
+      "own",
+      "trained"
+    ],
+    "link": "https://www.theverge.com/ai-artificial-intelligence/980160/apple-intelligence-china-custom-ai-model-alibaba",
+    "title": "Apple trained its own AI model for China with help from Alibaba",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-08-14T12:08:11.588073+00:00"
+  },
+  {
+    "score": 17.98,
+    "bucket": "serious",
+    "tokens": [
+      "c919"
+    ],
+    "link": "https://www.bbc.com/zhongwen/articles/c1w1ypqx1qxo/trad?at_medium=RSS&at_campaign=rss",
+    "title": "中國國產C919首飛國際航線 挑戰波音、空中巴士再進一步？",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-08-14T12:08:11.588212+00:00"
   }
 ]

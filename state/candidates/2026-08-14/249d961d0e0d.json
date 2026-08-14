@@ -1,0 +1,56 @@
+{
+  "id": "249d961d0e0d",
+  "created_at": "2026-08-14T12:08:11.588077+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.98,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "中國國產C919首飛國際航線 挑戰波音、空中巴士再進一步？",
+  "link": "https://www.bbc.com/zhongwen/articles/c1w1ypqx1qxo/trad?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC 中文",
+    "Nikkei Asia"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "中國國產C919首飛國際航線 挑戰波音、空中巴士再進一步？",
+    "link": "https://www.bbc.com/zhongwen/articles/c1w1ypqx1qxo/trad?at_medium=RSS&at_campaign=rss",
+    "summary": "C919完成首次國際商業航班飛行，由北京飛往蒙古烏蘭巴托，象徵中國國產客機邁向海外市場的里程碑。北京希望藉此挑戰波音及空中巴士的市場主導地位，但此款飛機仍面臨國際認證及供應鏈緊張等挑戰。",
+    "source_name": "BBC 中文",
+    "region": "cn",
+    "weight": 0.9,
+    "published": "2026-08-14T09:36:38+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/ws/1024/cpsprodpb/c69f/live/64089320-97be-11f1-870d-5d08c49babb2.jpg",
+    "publisher": "BBC 中文",
+    "cluster_sources": [
+      "BBC 中文",
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/business/transportation/china-s-c919-makes-1st-international-flight-in-challenge-to-boeing-airbus"
+      },
+      {
+        "name": "BBC 中文",
+        "link": "https://www.bbc.com/zhongwen/articles/c1w1ypqx1qxo/trad?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/ws/1024/cpsprodpb/c69f/live/64089320-97be-11f1-870d-5d08c49babb2.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/c69f/live/64089320-97be-11f1-870d-5d08c49babb2.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/c69f/live/64089320-97be-11f1-870d-5d08c49babb2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 42.99901753194444,
+    "is_stale": true,
+    "score": 17.98174043962963
+  }
+}

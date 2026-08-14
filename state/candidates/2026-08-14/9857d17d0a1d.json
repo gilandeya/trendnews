@@ -1,0 +1,67 @@
+{
+  "id": "9857d17d0a1d",
+  "created_at": "2026-08-14T12:08:11.587187+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.16,
+  "trend_score": 1.0,
+  "velocity": 0.05,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Turkey urges Egypt to join its defence pact with Saudi Arabia and Pakistan",
+  "link": "http://www.africanews.com/2026/08/14/turkey-urges-egypt-to-join-its-defence-pact-with-saudi-arabia-and-pakistan/",
+  "publishers": [
+    "Africanews",
+    "Daily Sabah",
+    "The Hindu — International"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Turkey urges Egypt to join its defence pact with Saudi Arabia and Pakistan",
+    "link": "http://www.africanews.com/2026/08/14/turkey-urges-egypt-to-join-its-defence-pact-with-saudi-arabia-and-pakistan/",
+    "summary": "The trilateral deal signed last week stipulates that an attack on any of the three states will be treated as an attack on all.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-14T10:06:43+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/86/55/77/640x360_cmsv2_bc15b166-81b2-5a7e-9c37-d5c7fd9de1dd-9865577.jpg?1786687828",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Daily Sabah",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/turkiye-lays-out-plans-for-defence-pact-with-pakistan-saudi-arabia/article71342449.ece"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/14/turkey-urges-egypt-to-join-its-defence-pact-with-saudi-arabia-and-pakistan/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/politics/diplomacy/turkiye-egypt-urge-stronger-measures-for-gaza-vow-to-boost-cooperation"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/politics/diplomacy/fm-fidan-meets-arab-league-chief-egypt-intel-head-in-el-alamein"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/86/55/77/640x360_cmsv2_bc15b166-81b2-5a7e-9c37-d5c7fd9de1dd-9865577.jpg?1786687828",
+      "https://th-i.thgim.com/public/incoming/jrp65c/article71342458.ece/alternates/LANDSCAPE_1200/2026-08-07T111512Z_1220276664_RC2NTMAJX0MH_RTRMADP_3_SAUDI-DEFENCE-AGREEMENT.JPG",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455710.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455702.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.04761343390355343,
+    "age_hours": 141.00755991111112,
+    "is_stale": false,
+    "score": 22.158121037125678
+  }
+}
