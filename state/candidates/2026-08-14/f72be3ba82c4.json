@@ -1,0 +1,63 @@
+{
+  "id": "f72be3ba82c4",
+  "created_at": "2026-08-14T00:45:54.800278+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.31,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump orders Pentagon to scrap modern jet launching tech on new US aircraft carrier and revert to steam catapults",
+  "link": "https://www.theguardian.com/us-news/live/2026/aug/13/karoline-leavitt-white-house-primaries-trump-politics-latest-updates",
+  "publishers": [
+    "Der Spiegel",
+    "South China Morning Post",
+    "live"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump orders Pentagon to scrap modern jet launching tech on new US aircraft carrier and revert to steam catapults",
+    "link": "https://www.theguardian.com/us-news/live/2026/aug/13/karoline-leavitt-white-house-primaries-trump-politics-latest-updates",
+    "summary": "President’s desire to revert to old-fashioned system has been an obsession of his since 2017 and will reportedly cost Navy billions Sign up for the Breaking News US email Donald Trump’s executive order on vaccines does not change the US recommendations for the shots – but experts say it does create confusion and doubt about vaccines, which will lead to more illness and possibly deaths among children and will make it harder for families and pediatricians to protect them. The executive order was an attempt to reinstate sweeping changes to the vaccine schedule made earlier this year by Robert F Kennedy Jr, secretary of the US Department of Health and Human Services and a longtime vaccine opponent – changes that were later halted by a federal judge. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-14T00:09:38+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/53bc03d879026bbb6e0f1d410cfe8a170d14cd70/945_0_4709_3769/master/4709.jpg?width=700&quality=85&auto=format&fit=max&s=e891022c5b07ff325db3d68ce5633d7b",
+    "publisher": "live",
+    "cluster_sources": [
+      "Der Spiegel",
+      "South China Morning Post",
+      "live"
+    ],
+    "cluster_members": [
+      {
+        "name": "live",
+        "link": "https://www.theguardian.com/us-news/live/2026/aug/13/karoline-leavitt-white-house-primaries-trump-politics-latest-updates"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3363965/trump-orders-us-aircraft-carriers-go-back-steam-catapults?utm_source=rss_feed"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/donald-trump-ordnet-rueckkehr-zu-dampfkatapulten-auf-us-flugzeugtraegern-an-a-37da79a9-f62c-4537-8dc2-f58eeb601fc2#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/53bc03d879026bbb6e0f1d410cfe8a170d14cd70/945_0_4709_3769/master/4709.jpg?width=700&quality=85&auto=format&fit=max&s=e891022c5b07ff325db3d68ce5633d7b",
+      "https://i.guim.co.uk/img/media/53bc03d879026bbb6e0f1d410cfe8a170d14cd70/945_0_4709_3769/master/4709.jpg?width=460&quality=85&auto=format&fit=max&s=d0749a16d3133091eb0afd9d8b326397",
+      "https://i.guim.co.uk/img/media/53bc03d879026bbb6e0f1d410cfe8a170d14cd70/945_0_4709_3769/master/4709.jpg?width=140&quality=85&auto=format&fit=max&s=389c072695b39697eaf8ada20d219d59",
+      "https://cdn.prod.www.spiegel.de/images/569de1f4-2f80-4491-ae82-2290fb141c9f_w520_r2.08_fpx61_fpy54.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1.000432017222222,
+    "is_stale": false,
+    "score": 19.31471101951532
+  }
+}
