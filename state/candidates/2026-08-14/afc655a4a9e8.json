@@ -1,0 +1,48 @@
+{
+  "id": "afc655a4a9e8",
+  "created_at": "2026-08-14T22:07:48.102529+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.58,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Afghanistan marks 5 years under the Taliban with safer streets but pleas for jobs and education",
+  "link": "https://www.courthousenews.com/afghanistan-marks-5-years-under-the-taliban-with-safer-streets-but-pleas-for-jobs-and-education/",
+  "publishers": [
+    "Court House News",
+    "apnews.com"
+  ],
+  "region": "court",
+  "article": {
+    "title": "Afghanistan marks 5 years under the Taliban with safer streets but pleas for jobs and education",
+    "link": "https://www.courthousenews.com/afghanistan-marks-5-years-under-the-taliban-with-safer-streets-but-pleas-for-jobs-and-education/",
+    "summary": "The Taliban has banned higher education for women and prohibited them from entering gyms, traveling long distances and participating in sports without a male guardian.",
+    "source_name": "Court House News",
+    "region": "court",
+    "weight": 1.2,
+    "published": "2026-08-14T18:52:23+00:00",
+    "image_url": null,
+    "publisher": "Court House News",
+    "cluster_sources": [
+      "Court House News",
+      "apnews.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/afghanistan-marks-5-years-under-the-taliban-with-safer-streets-but-pleas-for-jobs-and-education/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 3.1089258088888885,
+    "is_stale": false,
+    "score": 16.583011663462962
+  }
+}

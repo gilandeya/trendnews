@@ -1,0 +1,53 @@
+{
+  "id": "a37ef0aa40b0",
+  "created_at": "2026-08-14T22:07:48.102764+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.33,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "EN DIRECT, incendies et canicule : le feu dans les Landes a parcouru 1 300 hectares ; 83 départements en vigilance orange",
+  "link": "https://www.lemonde.fr/climat/live/2026/08/14/en-direct-incendies-et-canicule-le-feu-dans-les-landes-a-parcouru-1-300-hectares-83-departements-en-vigilance-orange_6744636_1652612.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "EN DIRECT, incendies et canicule : le feu dans les Landes a parcouru 1 300 hectares ; 83 départements en vigilance orange",
+    "link": "https://www.lemonde.fr/climat/live/2026/08/14/en-direct-incendies-et-canicule-le-feu-dans-les-landes-a-parcouru-1-300-hectares-83-departements-en-vigilance-orange_6744636_1652612.html",
+    "summary": "Sur le front de la canicule, les fortes chaleurs régresseront samedi dans l’Ouest, mais persisteront en revanche sur la moitié est et sur l’Ile-de-France, avec encore 35 ºC à 39 ºC attendus. Au sud de Rennes, à Saint-Just, 230 hectares de forêt ont été parcourus par le feu depuis mercredi, mais la progression de l’incendie a été ralentie.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-14T20:19:31+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/14/731/0/6000/3000/644/322/60/0/795d777_ftp-1-be33up7msl5e-2026-08-14t134414z-118486056-rc2dymavrs8u-rtrmadp-3-europe-weather-france-wildfire.JPG",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/climat/live/2026/08/14/en-direct-incendies-et-canicule-le-feu-dans-les-landes-a-parcouru-1-300-hectares-83-departements-en-vigilance-orange_6744636_1652612.html"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/planete/article/2026/08/14/royaume-uni-face-a-des-incendies-inedits-et-une-secheresse-historique-le-premier-ministre-appelle-a-faire-face-au-changement-climatique_6746293_3244.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/14/731/0/6000/3000/644/322/60/0/795d777_ftp-1-be33up7msl5e-2026-08-14t134414z-118486056-rc2dymavrs8u-rtrmadp-3-europe-weather-france-wildfire.JPG",
+      "https://img.lemde.fr/2026/08/14/309/0/5000/2500/644/322/60/0/9122364_ftp-1-opanxzd5amsw-5837912-01-06.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 29.10668572777778,
+    "is_stale": true,
+    "score": 15.329826489000002
+  }
+}

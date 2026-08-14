@@ -1,9 +1,9 @@
 {
   "id": "20193107f65b",
-  "created_at": "2026-08-14T06:07:52.393729+00:00",
-  "status": "unselected",
-  "selection_issue": 336,
-  "score": 22.64,
+  "created_at": "2026-08-14T22:07:48.101528+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.5,
   "trend_score": 0.67,
   "velocity": 1.0,
   "bucket": "serious",
@@ -12,22 +12,28 @@
   "link": "https://www.dawn.com/news/2022742/pakistans-leadership-stresses-need-for-unity-reforms-as-nation-celebrates-independence-day",
   "publishers": [
     "Dawn",
-    "Geo News"
+    "Geo News",
+    "IRNA English",
+    "Mehr News",
+    "The Express Tribune"
   ],
   "region": "pk",
   "article": {
     "title": "Pakistan's leadership stresses need for unity, reforms as nation celebrates Independence Day",
     "link": "https://www.dawn.com/news/2022742/pakistans-leadership-stresses-need-for-unity-reforms-as-nation-celebrates-independence-day",
-    "summary": "Pakistan’s civilian and military leadership has stressed the need for unity and reforms as the nation celebrates 79 years of independence today. According to state-run Radio Pakistan , the day dawned with a 31-gun salute in Islamabad and a 21-gun salute at the provincial headquarters. A change of guards ceremony was also held at the mausoleum of Quaid-i-Azam Muhammad Ali Jinnah in Karachi. ‘Pakistan’s security linked to peace in our neighbourhood’ In his message, President Asif Ali Zardari paid tribute to Quaid-i-Azam, those behind the Pakistan Movement and those who sacrificed their homes, security and livelihoods in the struggle for a homeland. “But independence is not only a historic achievement. It is also a responsibility that each generation must carry forward. The Pakistan that was created through the democratic will of its people must continue to grow stronger, more secure and more prosperous. Our task is not only to remember what earlier generations achieved, but to add to it through our own work,” he said. The president said that the past year had reminded citizens of the strength of the Pakistani nation. Recalling last year’s brief military conflict with India, he said, ",
+    "summary": "Pakistan’s civilian and military leadership has stressed the need for unity and reforms as the nation celebrates 79 years of independence today. According to state-run Radio Pakistan , the day dawned with a 31-gun salute in Islamabad and a 21-gun salute at the provincial headquarters. A change of guards ceremony was also held at the mausoleum of Quaid-i-Azam Mohammad Ali Jinnah in Karachi. Flag hoisting ceremonies were also held at the Supreme Court and the Federal Constitutional Court in Islamabad. ‘Pakistan’s security linked to peace in our neighbourhood’ In his message, President Asif Ali Zardari paid tribute to Quaid-i-Azam, those behind the Pakistan Movement and those who sacrificed their homes, security and livelihoods in the struggle for a homeland. “But independence is not only a historic achievement. It is also a responsibility that each generation must carry forward. The Pakistan that was created through the democratic will of its people must continue to grow stronger, more secure and more prosperous. Our task is not only to remember what earlier generations achieved, but to add to it through our own work,” he said. The president said that the past year had reminded citiz",
     "source_name": "Dawn",
     "region": "pk",
     "weight": 1.1,
-    "published": "2026-08-14T04:02:04+00:00",
-    "image_url": "https://i.dawn.com/large/2026/08/140738262b1c63f.webp",
+    "published": "2026-08-14T18:23:04+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/141236524aba76b.webp",
     "publisher": "Dawn",
     "cluster_sources": [
       "Dawn",
-      "Geo News"
+      "Geo News",
+      "IRNA English",
+      "Mehr News",
+      "The Express Tribune"
     ],
     "cluster_members": [
       {
@@ -39,28 +45,37 @@
         "link": "https://www.geo.tv/latest/677556-president-pm-urge-stability-reforms-as-nation-marks-79th-independence-day"
       },
       {
-        "name": "Geo News",
-        "link": "https://www.geo.tv/latest/677547-armed-forces-congratulate-nation-on-79th-independence-day"
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2022785/in-pictures-pakistan-celebrates-79-years-of-independence"
       },
       {
         "name": "Geo News",
-        "link": "https://www.geo.tv/latest/677520-pakistan-marks-independence-day-with-patriotic-zeal-fervour"
+        "link": "https://www.geo.tv/latest/677581-pakistan"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2022800/world-leaders-extend-greetings-to-pakistan-on-independence-day-hail-bilateral-ties"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2623962/world-leaders-greet-pakistan-on-i-day"
       }
     ],
     "image_candidates": [
-      "https://i.dawn.com/large/2026/08/140738262b1c63f.webp",
-      "https://i.dawn.com/thumbnail/2026/08/140738262b1c63f.webp",
-      "https://www.geo.tv/assets/uploads/2026-08-14/677556_093346_updates.jpg",
-      "https://www.geo.tv/assets/uploads/2026-08-14/677547_030105_updates.jpg",
-      "https://www.geo.tv/assets/uploads/2026-08-13/677520_112538_updates.jpg"
+      "https://i.dawn.com/large/2026/08/141236524aba76b.webp",
+      "https://i.dawn.com/thumbnail/2026/08/141236524aba76b.webp",
+      "https://www.geo.tv/assets/uploads/2026-08-14/677556_064022_updates.jpg",
+      "https://i.dawn.com/large/2026/08/14194407b111ad2.webp",
+      "https://i.dawn.com/large/2026/08/141426527921b5c.webp",
+      "https://i.dawn.com/thumbnail/2026/08/14194407b111ad2.webp"
     ],
     "bucket": "serious",
     "state_media": false,
     "trend_score": 0.6666666666666666,
-    "group_sources": 2,
+    "group_sources": 5,
     "velocity": 1.0,
-    "age_hours": 2.613326489166667,
+    "age_hours": 18.612244914444446,
     "is_stale": false,
-    "score": 22.643698881703703
+    "score": 26.49955521716209
   }
 }

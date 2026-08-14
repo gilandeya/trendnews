@@ -3753,5 +3753,109 @@
     "posted_title": "",
     "region": "qa",
     "seen_at": "2026-08-14T21:45:58.397582+00:00"
+  },
+  {
+    "score": 26.5,
+    "bucket": "serious",
+    "tokens": [
+      "celebrates",
+      "day",
+      "independence",
+      "leadership",
+      "nation",
+      "need",
+      "pakistan's",
+      "reforms",
+      "stresses",
+      "unity"
+    ],
+    "link": "https://www.dawn.com/news/2022742/pakistans-leadership-stresses-need-for-unity-reforms-as-nation-celebrates-independence-day",
+    "title": "Pakistan's leadership stresses need for unity, reforms as nation celebrates Independence Day",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-14T22:07:48.101933+00:00"
+  },
+  {
+    "score": 17.29,
+    "bucket": "serious",
+    "tokens": [
+      "approves",
+      "dealers",
+      "govt",
+      "margin",
+      "petroleum",
+      "planned",
+      "postpone",
+      "revision",
+      "strike"
+    ],
+    "link": "https://www.dawn.com/news/2022816/petroleum-dealers-postpone-planned-strike-as-govt-approves-margin-revision",
+    "title": "Petroleum dealers postpone planned strike as govt approves margin revision",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-14T22:07:48.102255+00:00"
+  },
+  {
+    "score": 16.75,
+    "bucket": "useful",
+    "tokens": [
+      "august",
+      "consumer",
+      "drops",
+      "early",
+      "fears",
+      "inflation",
+      "sentiment"
+    ],
+    "link": "https://www.investing.com/news/economy-news/us-consumer-sentiment-drops-in-early-august-on-inflation-fears-93CH-4861295",
+    "title": "US consumer sentiment drops in early August on inflation fears",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-08-14T22:07:48.102520+00:00"
+  },
+  {
+    "score": 16.58,
+    "bucket": "light",
+    "tokens": [
+      "afghanistan",
+      "education",
+      "jobs",
+      "marks",
+      "pleas",
+      "safer",
+      "streets",
+      "taliban",
+      "under",
+      "years"
+    ],
+    "link": "https://www.courthousenews.com/afghanistan-marks-5-years-under-the-taliban-with-safer-streets-but-pleas-for-jobs-and-education/",
+    "title": "Afghanistan marks 5 years under the Taliban with safer streets but pleas for jobs and education",
+    "posted_title": "",
+    "region": "court",
+    "seen_at": "2026-08-14T22:07:48.102756+00:00"
+  },
+  {
+    "score": 15.33,
+    "bucket": "serious",
+    "tokens": [
+      "300",
+      "canicule",
+      "dans",
+      "direct",
+      "départements",
+      "feu",
+      "hectares",
+      "incendies",
+      "landes",
+      "les",
+      "orange",
+      "parcouru",
+      "vigilance"
+    ],
+    "link": "https://www.lemonde.fr/climat/live/2026/08/14/en-direct-incendies-et-canicule-le-feu-dans-les-landes-a-parcouru-1-300-hectares-83-departements-en-vigilance-orange_6744636_1652612.html",
+    "title": "EN DIRECT, incendies et canicule : le feu dans les Landes a parcouru 1 300 hectares ; 83 départements en vigilance orange",
+    "posted_title": "",
+    "region": "fr",
+    "seen_at": "2026-08-14T22:07:48.103007+00:00"
   }
 ]

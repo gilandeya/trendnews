@@ -1,0 +1,48 @@
+{
+  "id": "ab93e60ab99d",
+  "created_at": "2026-08-14T22:07:48.102265+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.75,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "US consumer sentiment drops in early August on inflation fears",
+  "link": "https://www.investing.com/news/economy-news/us-consumer-sentiment-drops-in-early-august-on-inflation-fears-93CH-4861295",
+  "publishers": [
+    "Investing.com — الاقتصاد"
+  ],
+  "region": "money",
+  "article": {
+    "title": "US consumer sentiment drops in early August on inflation fears",
+    "link": "https://www.investing.com/news/economy-news/us-consumer-sentiment-drops-in-early-august-on-inflation-fears-93CH-4861295",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-08-14T16:04:53+00:00",
+    "image_url": "https://content-media.investing.com/news/LYNXMPEM3D1C4_1200_L.jpg",
+    "publisher": "Investing.com — الاقتصاد",
+    "cluster_sources": [
+      "Investing.com — الاقتصاد"
+    ],
+    "cluster_members": [
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/us-consumer-sentiment-drops-in-early-august-on-inflation-fears-93CH-4861295"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/news/LYNXMPEM3D1C4_1200_L.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.746900562407408
+  }
+}
