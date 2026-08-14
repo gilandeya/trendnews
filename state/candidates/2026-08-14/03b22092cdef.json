@@ -1,0 +1,65 @@
+{
+  "id": "03b22092cdef",
+  "created_at": "2026-08-14T18:01:13.896289+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.94,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Gas leak at Bangladesh shipbreaking yard kills 8: police",
+  "link": "https://www.dawn.com/news/2022803/gas-leak-at-bangladesh-shipbreaking-yard-kills-8-police",
+  "publishers": [
+    "Dawn",
+    "South China Morning Post",
+    "The Guardian — World"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Gas leak at Bangladesh shipbreaking yard kills 8: police",
+    "link": "https://www.dawn.com/news/2022803/gas-leak-at-bangladesh-shipbreaking-yard-kills-8-police",
+    "summary": "Toxic gas leaked from a vessel at a shipbreaking yard in Bangladesh on Friday, killing at least eight workers, with five others missing, police said. Witnesses said they heard screams from inside the yard in the southeastern port city of Chittagong before workers rushed some of the victims to hospital. Senior police official Abdul Kuddus Chowdhury said eight people had died and authorities were searching for the missing workers. “A committee has been formed to investigate the incident, and the authorities have ordered an audit of the shipbreaking yard,” Chowdhury told AFP . The Ferdous Steel Shipbreaking Yard and Recycling Factory, which acquired the vessel previously used to transport liquefied natural gas, was listed as a “green” and compliant facility, he said. But fire service official Towfiqul Islam Bhuiyan said safety procedures appeared to have been flouted, as the vessel should have been free of any gas before cutting began. “The yard authorities did not follow the instructions. Workers who were exposed to the gas died, while those who were farther away survived,” he told AFP . Ferdous has not made any public comment about the incident. Bhuiyan said firefighters recovered t",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-14T14:04:11+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/14181013ac52fc8.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "South China Morning Post",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2022803/gas-leak-at-bangladesh-shipbreaking-yard-kills-8-police"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3364101/toxic-gas-leak-kills-8-bangladesh-ship-breaking-yard?utm_source=rss_feed"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/14/mississippi-ice-facility-gas-leak"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/14181013ac52fc8.webp",
+      "https://i.dawn.com/large/2026/08/14181014342506a.webp",
+      "https://i.dawn.com/thumbnail/2026/08/14181013ac52fc8.webp",
+      "https://i.dawn.com/thumbnail/2026/08/14181014342506a.webp",
+      "https://i.guim.co.uk/img/media/151e70ee00643ec2bd016879ca551b1d7dddd24c/172_0_1487_1190/master/1487.jpg?width=700&quality=85&auto=format&fit=max&s=fc0e7d128164f40c222075fe17ab8a3f",
+      "https://i.guim.co.uk/img/media/151e70ee00643ec2bd016879ca551b1d7dddd24c/172_0_1487_1190/master/1487.jpg?width=460&quality=85&auto=format&fit=max&s=4d27aaada4f0d9d8ccaf74e215e56e16"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 3.7566319397222223,
+    "is_stale": false,
+    "score": 18.941637935978285
+  }
+}
