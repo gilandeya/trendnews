@@ -105,16 +105,23 @@ Supporting pieces, each independently triggerable as its own workflow:
   and their supporting sources' excerpts **only** — the drafting function's signature never
   accepts the pasted article's text, so it structurally cannot leak into the post (not just a
   convention enforced by review). Reuses `writer.SYSTEM_PROMPT` verbatim (same editorial policy as
-  the main pipeline) but not `writer.write_arabic` itself (that helper swallows the specific
-  rejection reason on `newsworthy=false`, and this flow must surface it). A post-hoc literal-match
-  check rejects the draft (no retry) if it shares a long word run with the pasted article or with
-  a source excerpt — attributed quotes verified against a confirmed excerpt are exempted. Produces
-  a draft through the exact same path as `collect.py` (`store.save_draft` → `drafts/<date>/` →
-  review Issue → `approved` label), tagged with `origin: "verify"` for traceability only (no
-  special treatment in review parsing). Triggered by `.github/workflows/verify.yml` (`issues:
-  labeled` with label `تحقق`), which needs `contents: write` for this stage's draft/image commit
-  and explicitly re-checks the labeling actor's repo permission (defense in depth beyond GitHub's
-  own label-permission gate).
+  the main pipeline) and the same network-call/retry/JSON-parsing machinery, extracted into
+  `writer._call_model`/`writer._post_from_data` so both paths share one implementation — but not
+  `writer.write_arabic` itself, since that function's prompt is built from an `Article` (title,
+  link, publisher of the *pasted* source), which is exactly what rule 1 forbids passing in here.
+  A post-hoc literal-match check rejects the draft (no retry) if it shares a long word run with
+  the pasted article or with a source excerpt — attributed quotes verified against a confirmed
+  excerpt are exempted. Produces a draft through the exact same path as `collect.py`
+  (`store.save_draft` → `drafts/<date>/` → review Issue → `approved` label), tagged with
+  `origin: "verify"` for traceability only (no special treatment in review parsing). Triggered by
+  `.github/workflows/verify.yml` (`issues: labeled` with label `تحقق`), which needs
+  `contents: write` for this stage's draft/image commit and explicitly re-checks the labeling
+  actor's repo permission (defense in depth beyond GitHub's own label-permission gate). Before
+  spending any model/image cost, `verify_draft.attempt()` also requires the workflow to have
+  declared `VERIFY_DRAFT_WRITE_ENABLED=true` in its env — a self-declared, dependency-free guard
+  against the workflow file silently drifting out of sync with the code (e.g. a merge that lands
+  this module without the matching `verify.yml` update, which would otherwise draft content that's
+  quietly discarded because no step exists to commit it).
 
 **Everything is driven by `config.yaml`** (see Project-specific conventions above); `src/config.py`
 loads it into a dict subclass with dotted-path lookup.

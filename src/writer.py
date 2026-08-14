@@ -402,6 +402,85 @@ class WriteFailure(Exception):
         super().__init__(f"{reason}: {detail}")
 
 
+# نداء الشبكة (بناء الطلب، إعادة المحاولة، تصنيف العطل، استخراج JSON من
+# رد الأداة) مشترك بين write_arabic ومسار المرحلة الثانية من التحقق
+# (verify_draft._draft_from_facts، Issue #334) — لا فرق جوهري بينهما في
+# هذا الجزء تحديدًا، فنسختان متطابقتان تتباعدان مع أول تعديل مستقبلي على
+# منطق إعادة المحاولة كانتا ستكونان خطأ. الفرق الجوهري الوحيد بين
+# المسارين واقع في *بناء البرومبت*: write_arabic يبنيه من Article (عنوان/
+# رابط/ناشر المقال المصدر)، وverify_draft يمنع أي مدخل من هذا النوع
+# بنيويًا (ضمان القاعدة الملزمة الأولى) — فبقي بناء البرومبت مسؤولية كل
+# مسار وحده، ولم يُستخرج معه.
+def _call_model(prompt: str, cfg, retries: int = 3) -> dict:
+    """يرسل `prompt` إلى Claude بأداة publish_post الثابتة، ويعيد المحاولة
+    عند عطل تقني (سقف إنفاق/شبكة/رد مشوَّه). يرفع WriteFailure إذا استُنفدت
+    كل المحاولات — لا تفسير للنتيجة (newsworthy وغيره) هنا؛ ذاك عمل
+    المستدعي عبر `_post_from_data`."""
+    w = cfg.get("writer", {})
+    client = _client()
+    last_error: Exception | None = None
+
+    for attempt in range(1, retries + 1):
+        try:
+            resp = client.messages.create(
+                model=w.get("model", "claude-sonnet-5"),
+                max_tokens=int(w.get("max_tokens", 3000)),
+                tools=[POST_SCHEMA],
+                tool_choice={"type": "tool", "name": "publish_post"},
+                # نظام التوجيه ثابت في كل الاستدعاءات — تخزينه مؤقتًا
+                # يجعل قراءته في الاستدعاءات التالية بعُشر السعر.
+                system=[{
+                    "type": "text",
+                    "text": SYSTEM_PROMPT,
+                    "cache_control": {"type": "ephemeral"},
+                }],
+                messages=[{"role": "user", "content": prompt}],
+            )
+            record_usage(resp, w.get("model", "claude-sonnet-5"))
+
+            if getattr(resp, "stop_reason", "") == "max_tokens":
+                # الرد بُتر: ارفع writer.max_tokens بدل إعادة المحاولة عبثًا
+                raise ValueError("تجاوز الرد السقف — ارفع writer.max_tokens")
+
+            data = next(
+                (b.input for b in resp.content
+                 if getattr(b, "type", "") == "tool_use"),
+                None,
+            )
+            if data is None:      # احتياط: نموذج ردّ نصًا رغم الأداة
+                text = "".join(b.text for b in resp.content
+                               if getattr(b, "type", "") == "text")
+                data = _extract_json(text)
+            return data
+        except (APIError, json.JSONDecodeError, ValueError) as exc:
+            last_error = exc
+            log.warning("محاولة %d/%d فشلت: %s", attempt, retries, exc)
+            time.sleep(2 * attempt)
+
+    reason = classify_write_error(last_error) if last_error else "عطل API"
+    raise WriteFailure(reason, str(last_error) if last_error else "")
+
+
+def _post_from_data(data: dict, max_words: int, has_context: bool) -> dict:
+    """يحوّل رد النموذج الخام (بعد التأكد أن newsworthy=true) إلى حقول
+    المنشور النهائية. مشتركة بين write_arabic وverify_draft لأن التنظيف
+    نفسه بصرف النظر عن مصدر الوقائع. `has_context` يحسم عتبة تفعيل حقل
+    analysis: تحليل مقارن يحتاج مصدرين فأكثر (article.source_docs هناك،
+    مقتطفات المصادر المؤكَّدة هنا) — لا تحليل من مصدر واحد."""
+    tags = [str(t).lstrip("#").replace(" ", "_") for t in (data.get("hashtags") or [])]
+    category = data.get("category") if data.get("category") in CATEGORIES else "عالم"
+    return {
+        "angle": data.get("angle") if data.get("angle") in ("خبر", "تفسير") else "خبر",
+        "analysis": clean_analysis(data.get("analysis"), max_words) if has_context else "",
+        "urgent": bool(data.get("urgent")),
+        "category": category,
+        "image_headline": str(data.get("image_headline", "")).strip().rstrip("."),
+        "post_title": str(data.get("post_title", "")).strip(),
+        "post_body": str(data.get("post_body", "")).strip(),
+        "hashtags": tags,
+    }
+
+
 def write_arabic(article: Article, cfg, retries: int = 3,
                  previous_post: str | None = None,
                  source_docs: list[dict] | None = None) -> dict | None:
@@ -453,78 +532,19 @@ def write_arabic(article: Article, cfg, retries: int = 3,
         tone=w.get("tone", "خبري رصين"),
     )
 
-    client = _client()
-    last_error: Exception | None = None
-
-    for attempt in range(1, retries + 1):
-        try:
-            resp = client.messages.create(
-                model=w.get("model", "claude-sonnet-5"),
-                max_tokens=int(w.get("max_tokens", 3000)),
-                tools=[POST_SCHEMA],
-                tool_choice={"type": "tool", "name": "publish_post"},
-                # نظام التوجيه ثابت في كل الاستدعاءات — تخزينه مؤقتًا
-                # يجعل قراءته في الاستدعاءات التالية بعُشر السعر.
-                system=[{
-                    "type": "text",
-                    "text": SYSTEM_PROMPT,
-                    "cache_control": {"type": "ephemeral"},
-                }],
-                messages=[{"role": "user", "content": prompt}],
-            )
-            record_usage(resp, w.get("model", "claude-sonnet-5"))
-
-            if getattr(resp, "stop_reason", "") == "max_tokens":
-                # الرد بُتر: ارفع writer.max_tokens بدل إعادة المحاولة عبثًا
-                raise ValueError("تجاوز الرد السقف — ارفع writer.max_tokens")
-
-            data = next(
-                (b.input for b in resp.content
-                 if getattr(b, "type", "") == "tool_use"),
-                None,
-            )
-            if data is None:      # احتياط: نموذج ردّ نصًا رغم الأداة
-                text = "".join(b.text for b in resp.content
-                               if getattr(b, "type", "") == "text")
-                data = _extract_json(text)
-            break
-        except (APIError, json.JSONDecodeError, ValueError) as exc:
-            last_error = exc
-            log.warning("محاولة %d/%d فشلت: %s", attempt, retries, exc)
-            time.sleep(2 * attempt)
-    else:
-        reason = classify_write_error(last_error) if last_error else "عطل API"
+    try:
+        data = _call_model(prompt, cfg, retries)
+    except WriteFailure as exc:
         log.error("تعذّرت صياغة الخبر '%s' (%s): %s",
-                 article.title[:60], reason, last_error)
-        raise WriteFailure(reason, str(last_error) if last_error else "")
+                 article.title[:60], exc.reason, exc.detail)
+        raise
 
     if not data.get("newsworthy", True):
         log.info("رُفض الخبر '%s': %s", article.title[:50], data.get("reject_reason", ""))
         return None
 
-    tags = [str(t).lstrip("#").replace(" ", "_") for t in (data.get("hashtags") or [])]
-    category = data.get("category") if data.get("category") in CATEGORIES else "عالم"
-    angle = data.get("angle") if data.get("angle") in ("خبر", "تفسير") else "خبر"
-
-    def clean(field: str, limit: int = 400) -> str:
-        value = str(data.get(field) or "").strip()
-        # النموذج قد يكتب "لا يوجد" بدل ترك الحقل فارغًا
-        if value.lower() in ("none", "null", "-", "لا يوجد", "غير متوفر", "لا شيء"):
-            return ""
-        return value[:limit]
-
-    return {
-        "angle": angle,
-        # التحليل يحتاج مقارنة: مصدر واحد يعطي وقائع لا تحليلًا
-        "analysis": (clean_analysis(data.get("analysis"), max_words)
-                     if len(source_docs or []) >= 2 else ""),
-        "urgent": bool(data.get("urgent")),
-        "category": category,
-        "image_headline": str(data.get("image_headline", "")).strip().rstrip("."),
-        "post_title": str(data.get("post_title", "")).strip(),
-        "post_body": str(data.get("post_body", "")).strip(),
-        "hashtags": tags,
-    }
+    # التحليل يحتاج مقارنة: مصدر واحد يعطي وقائع لا تحليلًا
+    return _post_from_data(data, max_words, len(source_docs or []) >= 2)
 
 
 def build_caption(written: dict, article: Article, cfg) -> str:

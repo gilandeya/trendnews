@@ -3022,13 +3022,19 @@ def test_verify() -> None:
 
 def test_verify_draft() -> None:
     """المرحلة الثانية من التحقق (Issue #334): صياغة مسودة من المؤكَّد وحده.
-    الاختبارات الثمانية المطلوبة في الـ Issue الأصلي زائد الثلاثة الإضافية
-    من تعليق الموافقة — رقّمت بنفس ترقيم التعليق."""
+    الاختبارات الثمانية المطلوبة في الـ Issue الأصلي زائد الأربعة الإضافية
+    من تعليقات الموافقة — رقّمت بنفس ترقيم التعليقات."""
     from src import verify, verify_draft
 
     real_client = writer._client
     real_find_images = verify_draft.find_images
     verify_draft.find_images = lambda *a, **kw: []  # لا شبكة إطلاقًا هنا
+
+    # attempt() تشترط الآن صراحةً أن التشغيل يُعلن صلاحية الكتابة (تعليق ما
+    # قبل الدمج، نقطة 1) — الاختبارات هنا تُحاكي بيئة verify.yml المحدَّث
+    # فتُعلنها، إلا اختبار الغياب نفسه أدناه الذي يزيلها عمدًا
+    real_write_enabled = os.environ.get(verify_draft.WRITE_ENABLED_ENV)
+    os.environ[verify_draft.WRITE_ENABLED_ENV] = "true"
 
     class _DBlock:
         def __init__(self, type_, text=None, input=None):
@@ -3154,6 +3160,22 @@ def test_verify_draft() -> None:
               ("https://bbc.example/1", "https://reuters.example/1"))
         check("3) نفس مخطط drafts/ (id/arabic/caption/image/source) بلا نقص",
               {"id", "arabic", "caption", "image", "source"} <= set(saved.keys()))
+        # نقطة 3 من تعليق ما قبل الدمج: حقل الروابط/الناشرين يُملأ من
+        # المصادر المؤكِّدة وحدها؛ رابط المقال الملصق واسم ناشره لا يظهران
+        # في المنشور — لا يوجد لهما أصلًا حقل في هذا المسار (لا رابط للمقال
+        # الملصق في مدخلات verify.py أساسًا) فالضمان بنيوي لا شرطًا مضافًا
+        check("3) publishers في المسودة الناشرَين المؤكِّدَين حصرًا",
+              saved.get("source", {}).get("publishers") == ["BBC", "Reuters"],
+              saved.get("source", {}).get("publishers"))
+        # publish.py يعلّق بالمصدر من draft["source"]["link"]/["publishers"]
+        # حصرًا — نفس الحقلين المبنيين هنا من المصادر المؤكِّدة فقط، فتعليق
+        # النشر لا يذكر رابط المقال الملصق ولا اسم ناشره بأي حال (لا يوجد
+        # لهما حقل أصلًا في هذا المسار)
+        from src import publish as publish_mod
+        first_comment = publish_mod.first_comment_for(saved, cfg)
+        check("3) تعليق النشر الأول يذكر رابط مصدر مؤكِّد والناشرَين المؤكِّدَين حصرًا",
+              first_comment == "المصدر: BBC، Reuters\nhttps://bbc.example/1",
+              first_comment)
 
     # 2) مؤكَّد غير كافٍ ← لا مسودة، وسبب امتناع محدد في التقرير
     outcome_insuff = verify_draft.attempt(_result([central]), ARTICLE_BODY, 132, cfg)
@@ -3271,8 +3293,61 @@ def test_verify_draft() -> None:
     check("لا رفض بلا تعليم — حقل origin لا يفرض رفضًا افتراضيًا",
           review.parse_rejects(origin_body_checked) == [])
 
+    # 12) فشل نداء النموذج نفسه (شبكة/حصة/استجابة مشوَّهة) أثناء الصياغة —
+    # لا مسودة، ورسالة تذكر المرحلة والسبب المحدد لا رسالة عامة (نقطة 4 من
+    # تعليق ما قبل الدمج على Issue #334؛ الاختبار 8 غطّى مصدرًا معطوبًا
+    # قبل نداء الشبكة — هنا العطل في نداء الشبكة نفسه، عبر writer._call_model
+    # المشترك بعد استخراجه)
+    class _FailingMessages:
+        def create(self, **kw):
+            raise ValueError("Connection error: تعذّر الاتصال بخادم Anthropic")
+
+    class _FailingClient:
+        def __init__(self):
+            self.messages = _FailingMessages()
+
+    real_sleep = writer.time.sleep
+    writer.time.sleep = lambda s: None  # بلا إبطاء حقيقي أثناء إعادة المحاولة في الاختبار
+    writer._client = lambda: _FailingClient()
+    try:
+        outcome12 = verify_draft.attempt(_result([central, second]), ARTICLE_BODY, 132, cfg)
+    finally:
+        writer.time.sleep = real_sleep
+    check("12) فشل نداء النموذج نفسه (عطل تقني) أثناء الصياغة ← لا مسودة",
+          not outcome12["produced"])
+    check("12) السبب يذكر المرحلة تحديدًا", "مرحلة صياغة المسودة" in outcome12["reason"],
+          outcome12["reason"])
+    check("12) السبب يذكر أنه فشل تقني لا رفض تحريري",
+          "فشل تقني" in outcome12["reason"], outcome12["reason"])
+    check("12) السبب يحمل تفصيل العطل الفعلي — لا «فشل التحقق» رسالة عامة",
+          "تعذّر الاتصال" in outcome12["reason"], outcome12["reason"])
+
+    # 13) صلاحية الكتابة غير معلَنة لهذا التشغيل (نقطة 1 من تعليق ما قبل
+    # الدمج) ← امتناع فوري بلا أي نداء نموذج (دفاع في العمق قبل إنفاق أي
+    # تكلفة). الملف القديم بلا VERIFY_DRAFT_WRITE_ENABLED كان سيصوغ محتوى
+    # مكلفًا يُهمَل صامتًا لأن لا خطوة رفع تحفظه
+    install(dict(CLEAN_POST))
+    del os.environ[verify_draft.WRITE_ENABLED_ENV]
+    try:
+        outcome13 = verify_draft.attempt(_result([central, second]), ARTICLE_BODY, 132, cfg)
+    finally:
+        os.environ[verify_draft.WRITE_ENABLED_ENV] = "true"
+    check("13) صلاحية الكتابة غير معلَنة لهذا التشغيل ← لا مسودة",
+          not outcome13["produced"])
+    check("13) السبب يذكر متغيّر البيئة تحديدًا",
+          verify_draft.WRITE_ENABLED_ENV in outcome13["reason"], outcome13["reason"])
+    check("13) لا نداء نموذج إطلاقًا — الامتناع يسبق أي تكلفة (دفاع في العمق)",
+          calls == [])
+    section13 = verify_draft.build_report_section(outcome13)
+    check("13) سبب غياب صلاحية الكتابة يظهر في قسم التقرير أيضًا",
+          verify_draft.WRITE_ENABLED_ENV in section13)
+
     writer._client = real_client
     verify_draft.find_images = real_find_images
+    if real_write_enabled is None:
+        os.environ.pop(verify_draft.WRITE_ENABLED_ENV, None)
+    else:
+        os.environ[verify_draft.WRITE_ENABLED_ENV] = real_write_enabled
 
 
 def test_reject_boxes_render() -> None:

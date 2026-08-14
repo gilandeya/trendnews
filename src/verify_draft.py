@@ -8,6 +8,8 @@
 دالّة تقريبًا، أي تعديل مستقبِل سهل الخطأ بتمرير `body` إليها بالغلط.
 
 تسلسل القرار في attempt():
+  0) _write_access_reason() — هل يعلن هذا التشغيل صلاحية كتابة أصلًا؟
+     (تعليق ما قبل الدمج على Issue #334، نقطة 1 — انظر تذييل الدالة)
   1) sufficiency() — هل يكفي المؤكَّد لخبر قائم بذاته؟ (القاعدة 7)
   2) _validate_sources() — لكل واقعة مؤكَّدة مصدر بنص ورابط صالحين فعلًا؟
   3) _draft_from_facts() — الصياغة، من الوقائع ومقتطفات مصادرها حصرًا
@@ -18,13 +20,10 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import json
 import logging
+import os
 import re
-import time
 from datetime import datetime, timezone
-
-from anthropic import APIError
 
 from . import extract, imaging, review, store, writer
 from . import verify
@@ -36,6 +35,42 @@ from .sources import Article
 log = logging.getLogger("verify_draft")
 
 DRAFT_ORIGIN = "verify"
+WRITE_ENABLED_ENV = "VERIFY_DRAFT_WRITE_ENABLED"
+
+
+# ──────────────────────── صلاحية الكتابة (دفاع في العمق) ────────────────────
+
+
+def _write_access_reason() -> str:
+    """يمنع إنفاق أي تكلفة نموذج أو بناء صورة قبل التأكد أن هذا التشغيل
+    يستطيع فعليًا حفظ ما يُنتَج. لا اعتماد على افتراض أن
+    `.github/workflows/verify.yml` يحمل تعديل contents:write + خطوات
+    الرفع: العدد المذكور دُمج تاريخيًا من دونه فعلًا (GitHub App لا يملك
+    صلاحية تعديل ملفات workflow — تعليق ما قبل الدمج على Issue #334، نقطة
+    1)، وحينها ينفّذ verify.py القديم `src.verify` بلا أي خطوة رفع أو فتح
+    Issue مراجعة: attempt() كانت ستصوغ محتوى مكلفًا (نداء نموذج + بحث/بناء
+    صورة) ثم store.save_draft() يكتبه محليًا في نسخة العامل المؤقتة فقط —
+    يُهمَل صامتًا حين ينتهي التشغيل، بينما يقرأ البشر في التقرير "✅ صيغت
+    مسودة... ستظهر في أقرب Issue مراجعة" التي لن تُفتح أبدًا. فحص فاعل هنا
+    يمنع هذا التناقض الصامت تحديدًا.
+
+    التصريح مقصود لا فحص صلاحية حي عبر GitHub API: خطوة "تنفيذ التحقق" في
+    verify.yml تُعلن `VERIFY_DRAFT_WRITE_ENABLED=true` صراحةً إلى جانب
+    `permissions.contents: write` — إن غاب المتغيّر فالملف المطبَّق فعليًا
+    ليس الملف المعتمد. لا يلغي هذا حاجة خطوة "رفع مسودة المؤكَّد" في
+    الـ workflow لفحصها الخاص (git push يفشل بخطأ صريح إن كانت الصلاحية
+    الفعلية غائبة رغم إعلان المتغيّر خطأً) — هذا دفاع أول أرخص وأبكر، لا
+    بديل عنه."""
+    if os.environ.get(WRITE_ENABLED_ENV) != "true":
+        return (
+            "صلاحية الكتابة غير معلَنة لهذا التشغيل "
+            f"(متغيّر البيئة {WRITE_ENABLED_ENV} غائب أو ليس \"true\") — "
+            "تأكد أن .github/workflows/verify.yml يحمل التعديل الذي يضبط "
+            "permissions.contents: write ويُعلن هذا المتغيّر في خطوة "
+            "«تنفيذ التحقق» (راجع تعليق ما قبل الدمج على Issue #334)؛ بلا "
+            "هذا التعديل تُصاغ المسودة ثم تُهمَل صامتًا لأن لا خطوة تحفظها"
+        )
+    return ""
 
 
 # ──────────────────────────── الكفاية (القاعدة 7) ────────────────────────────
@@ -166,12 +201,15 @@ def check_originality(draft_text: str, article_body: str, source_texts: list[str
 
 # ──────────────────────────── الصياغة من الوقائع ────────────────────────────
 
-# لا نستدعي writer.write_arabic هنا رغم استيراد writer.py كاملة: عقدها
-# العام يُعيد None عند newsworthy=false بلا reject_reason، والقاعدة
-# المطلوبة صراحة (تعليق الموافقة على Issue #334، السؤال الأخير) تُلزم بنقل
-# سبب الرفض حرفيًا إلى التقرير — فنُعيد بناء نداء الشبكة هنا، مستوردين
-# SYSTEM_PROMPT وpublish_post وأدوات الحساب من writer.py كما هي (القاعدة 5:
-# سياسة تحريرية واحدة)، بلا نسخ القواعد التحريرية نفسها ولا تعديل عليها.
+# لا نستدعي writer.write_arabic هنا رغم استيراد writer.py كاملة: توقيعها
+# يتمحور حول Article (عنوان/رابط/ناشر المقال المصدر يدخل برومبتها مباشرة)
+# — وهذا بالضبط ما تمنعه القاعدة الملزمة الأولى بنيويًا هنا. الفرق إذن في
+# *بناء البرومبت* لا في آلية نداء الشبكة نفسها؛ نداء الشبكة (الطلب، إعادة
+# المحاولة، تصنيف العطل، استخراج JSON) مستخرج فعليًا إلى writer._call_model
+# ويُستعمل من المسارين معًا (لا نسختين تتباعدان — تعليق ما قبل الدمج على
+# Issue #334، نقطة 2)، وتنظيف الحقول النهائية إلى writer._post_from_data
+# للسبب نفسه. النظام المستعمل writer.SYSTEM_PROMPT كما هو (القاعدة 5) —
+# لا نسخة معدّلة ولا غلاف يعيد صياغة قواعد التحرير.
 DRAFT_USER_TEMPLATE = """وقائع مؤكَّدة بمصدرين مستقلين فأكثر — لا مصدر واحد ولا
 أي حالة أضعف. ابنِ منها منشورًا مستقلًا بلا أي رجوع لمصدر آخر غير المذكور
 أدناه:
@@ -229,47 +267,11 @@ def _draft_from_facts(confirmed: list[dict], cfg,
         tone=w.get("tone", "خبري رصين، عربي فصيح مبسّط، بلا مبالغة أو إثارة"),
     )
 
-    client = writer._client()
-    last_error: Exception | None = None
-    data = None
-
-    for attempt in range(1, retries + 1):
-        try:
-            resp = client.messages.create(
-                model=w.get("model", "claude-sonnet-5"),
-                max_tokens=int(w.get("max_tokens", 3000)),
-                tools=[writer.POST_SCHEMA],
-                tool_choice={"type": "tool", "name": "publish_post"},
-                # نظام التوجيه writer.SYSTEM_PROMPT كما هو (القاعدة 5) —
-                # لا نسخة معدّلة ولا غلاف يعيد صياغة قواعد التحرير
-                system=[{
-                    "type": "text",
-                    "text": writer.SYSTEM_PROMPT,
-                    "cache_control": {"type": "ephemeral"},
-                }],
-                messages=[{"role": "user", "content": prompt}],
-            )
-            writer.record_usage(resp, w.get("model", "claude-sonnet-5"))
-
-            if getattr(resp, "stop_reason", "") == "max_tokens":
-                raise ValueError("تجاوز الرد السقف — ارفع writer.max_tokens")
-
-            data = next((b.input for b in resp.content
-                        if getattr(b, "type", "") == "tool_use"), None)
-            if data is None:      # احتياط: نموذج ردّ نصًا رغم الأداة
-                text = "".join(b.text for b in resp.content
-                              if getattr(b, "type", "") == "text")
-                data = writer._extract_json(text)
-            break
-        except (APIError, json.JSONDecodeError, ValueError) as exc:
-            last_error = exc
-            log.warning("محاولة %d/%d فشلت في صياغة مسودة التحقق: %s",
-                       attempt, retries, exc)
-            time.sleep(2 * attempt)
-    else:
-        reason = writer.classify_write_error(last_error) if last_error else "عطل API"
-        detail = str(last_error) if last_error else ""
-        return None, f"مرحلة صياغة المسودة — فشل تقني ({reason}): {detail}"
+    try:
+        data = writer._call_model(prompt, cfg, retries)
+    except writer.WriteFailure as exc:
+        log.warning("فشل تقني في صياغة مسودة التحقق (%s): %s", exc.reason, exc.detail)
+        return None, f"مرحلة صياغة المسودة — فشل تقني ({exc.reason}): {exc.detail}"
 
     if not data.get("newsworthy", True):
         # امتناع مشروع لا التفاف عليه ولا إعادة صياغة (تعليق الموافقة على
@@ -277,20 +279,7 @@ def _draft_from_facts(confirmed: list[dict], cfg,
         reject_reason = str(data.get("reject_reason") or "").strip() or "بلا سبب محدد من النموذج"
         return None, f"مرحلة صياغة المسودة — رفض تحريري (newsworthy=false): {reject_reason}"
 
-    tags = [str(t).lstrip("#").replace(" ", "_") for t in (data.get("hashtags") or [])]
-    category = data.get("category") if data.get("category") in writer.CATEGORIES else "عالم"
-
-    written = {
-        "angle": data.get("angle") if data.get("angle") in ("خبر", "تفسير") else "خبر",
-        "analysis": (writer.clean_analysis(data.get("analysis"), max_words)
-                    if len(docs) >= 2 else ""),
-        "urgent": bool(data.get("urgent")),
-        "category": category,
-        "image_headline": str(data.get("image_headline", "")).strip().rstrip("."),
-        "post_title": str(data.get("post_title", "")).strip(),
-        "post_body": str(data.get("post_body", "")).strip(),
-        "hashtags": tags,
-    }
+    written = writer._post_from_data(data, max_words, len(docs) >= 2)
     return written, ""
 
 
@@ -345,6 +334,11 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
         "confirmed_count": 0, "draft_id": None,
         "image_source_name": None, "image_source_link": None,
     }
+
+    write_access_error = _write_access_reason()
+    if write_access_error:
+        outcome["reason"] = write_access_error
+        return outcome
 
     ok, reason = sufficiency(facts, cfg)
     if not ok:
