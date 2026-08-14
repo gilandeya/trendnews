@@ -1,24 +1,5 @@
 [
   {
-    "score": 24.71,
-    "bucket": "serious",
-    "tokens": [
-      "does",
-      "iran",
-      "pact",
-      "pakistan",
-      "saudi",
-      "stand",
-      "turkiye",
-      "where"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/8/9/where-does-iran-stand-on-saudi-pakistan-turkiye-pact?traffic_source=rss",
-    "title": "Where does Iran stand on Saudi-Pakistan-Turkiye pact?",
-    "posted_title": "السعودية وباكستان وتركيا يوسّعون تحالفهم الدفاعي.. فأين تقف إيران؟",
-    "region": "qa",
-    "seen_at": "2026-08-09T20:08:11.012490+00:00"
-  },
-  {
     "score": 20.2,
     "bucket": "light",
     "tokens": [
@@ -3734,5 +3715,25 @@
     "posted_title": "",
     "region": "uk",
     "seen_at": "2026-08-14T19:30:56.684982+00:00"
+  },
+  {
+    "score": 17.54,
+    "bucket": "serious",
+    "tokens": [
+      "alert",
+      "emergency",
+      "england",
+      "phones",
+      "risk",
+      "sent",
+      "wales",
+      "warning",
+      "wildfire"
+    ],
+    "link": "https://www.theguardian.com/world/2026/aug/14/emergency-alert-warning-wildfire-risk-sent-phones-england-wales",
+    "title": "Emergency alert warning of wildfire risk sent to phones in England and Wales",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-14T20:15:46.519837+00:00"
   }
 ]

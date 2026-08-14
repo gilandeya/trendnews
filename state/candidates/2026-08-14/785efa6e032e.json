@@ -1,0 +1,67 @@
+{
+  "id": "785efa6e032e",
+  "created_at": "2026-08-14T20:15:46.519413+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.54,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Emergency alert warning of wildfire risk sent to phones in England and Wales",
+  "link": "https://www.theguardian.com/world/2026/aug/14/emergency-alert-warning-wildfire-risk-sent-phones-england-wales",
+  "publishers": [
+    "Le Monde",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Emergency alert warning of wildfire risk sent to phones in England and Wales",
+    "link": "https://www.theguardian.com/world/2026/aug/14/emergency-alert-warning-wildfire-risk-sent-phones-england-wales",
+    "summary": "People urged not to light barbecues, campfires or anything else that could spark fire during period of extreme heat Millions of people across England and Wales have received an emergency alert to their phones as the government warns against activities that could start fires. The deputy prime minister, Louise Haigh, said it was the most extensive use to date of the emergency alert system, with phones beaming a siren noise about 7pm, with the warning “there is a serious risk of wildfires nationally”. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-14T19:19:48+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/1e1e8e07ed8e61f60e2907f7b8f5e01449b2c84f/546_0_5346_4276/master/5346.jpg?width=700&quality=85&auto=format&fit=max&s=33edc04f44b51132de40b19673facf6b",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Le Monde",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/14/emergency-alert-warning-wildfire-risk-sent-phones-england-wales"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/planete/article/2026/08/14/royaume-uni-face-a-des-incendies-inedits-et-une-secheresse-historique-le-premier-ministre-appelle-a-faire-face-au-changement-climatique_6746293_3244.html"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/uk-news/2026/aug/14/train-derails-near-essex-town-of-wickford"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/14/arrested-suspicion-starting-wildfires-europe-france"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/1e1e8e07ed8e61f60e2907f7b8f5e01449b2c84f/546_0_5346_4276/master/5346.jpg?width=700&quality=85&auto=format&fit=max&s=33edc04f44b51132de40b19673facf6b",
+      "https://i.guim.co.uk/img/media/1e1e8e07ed8e61f60e2907f7b8f5e01449b2c84f/546_0_5346_4276/master/5346.jpg?width=460&quality=85&auto=format&fit=max&s=fc065ac58aa36d61ca5ef595431df35e",
+      "https://i.guim.co.uk/img/media/1e1e8e07ed8e61f60e2907f7b8f5e01449b2c84f/546_0_5346_4276/master/5346.jpg?width=140&quality=85&auto=format&fit=max&s=79ddba5be1c7d4d61f4f5304d0af6188",
+      "https://img.lemde.fr/2026/08/14/309/0/5000/2500/644/322/60/0/9122364_ftp-1-opanxzd5amsw-5837912-01-06.jpg",
+      "https://i.guim.co.uk/img/media/92df25e7245094ee0430a639f27294151232653b/668_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=89fc03fd366749d781910063f0fec8a8",
+      "https://i.guim.co.uk/img/media/92df25e7245094ee0430a639f27294151232653b/668_0_5000_4000/master/5000.jpg?width=460&quality=85&auto=format&fit=max&s=bd9985ee882553718507689d10d71244"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 0.7468647727777777,
+    "is_stale": false,
+    "score": 17.537924136222223
+  }
+}
