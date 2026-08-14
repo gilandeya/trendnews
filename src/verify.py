@@ -28,6 +28,7 @@ log = logging.getLogger("verify")
 CLAIM_KINDS = ["واقعة", "رأي", "تنبؤ"]
 
 STATUS_CONFIRMED = "مؤكدة"
+STATUS_CONFIRMED_DISPUTED = "مؤكَّدة مع اعتراض مصدر"
 STATUS_NEAR_CONFIRMED = "شبه مؤكَّدة — مصدر واحد قوي"
 STATUS_SINGLE = "مصدر واحد"
 STATUS_NONE = "لا مصدر"
@@ -70,6 +71,18 @@ EXTRACT_SYSTEM = """أنت محلل تحقق (fact-checker) يقرأ مقالً�
    فإعادة صياغتها بحرية (كما يُعاد صياغة text) تُغيّر الاستعلام عند كل
    استخراج جديد لنفس الحقيقة، بينما ثباتها الحرفي يبقي الاستعلام ثابتًا
    مهما تغيّرت صياغة text نفسها.
+   ولكل ادّعاء أيضًا is_qualifier: true إن كان الادّعاء مُحدِّد إسناد أو
+   يقين يصف *كيف* وقع حدث آخر — لا الحدث نفسه: "رسميًا"، "تأكيدًا"، "بحسب
+   بيان رسمي"، "صراحة"، "بشكل معلن". حين يحمل حدث في المقال مُحدِّدًا كهذا،
+   استخرج الحدث نفسه كادّعاء منفصل بـ is_qualifier: false، والمُحدِّد
+   كادّعاء ثانٍ قائم بذاته بـ is_qualifier: true — لا ادّعاءً واحدًا يخلط
+   الفعل بمُحدِّده. مثال: "مصر تدرس رسميًا الانضمام" يصير ادّعاءين: "مصر
+   تدرس الانضمام" (is_qualifier: false) و"الدراسة معلَنة رسميًا من مصر"
+   (is_qualifier: true) — لا ادّعاءً مركّبًا واحدًا. السبب: كل جزء يُحكَم
+   عليه لاحقًا بمعزل عن الآخر مقابل مصادر مستقلة؛ فمصدر يؤيد وقوع الحدث
+   نفسه دون تأييد رسميته لا يجوز أن يُحسب مؤيدًا لادّعاء مركّب يخلط
+   الاثنين. حدث بلا أي مُحدِّد إسناد فعلي في المقال يعني is_qualifier:
+   false لكل ادّعاءاته بلا استثناء — لا تخترع مُحدِّدًا لم يذكره المقال.
 3. questions: أسئلة يثيرها المقال ولا يجيب عنها هو نفسه — فجوات في الرواية
    تستحق بحثًا مستقلًا، لا أسئلة بلاغية.
 
@@ -78,16 +91,17 @@ EXTRACT_SYSTEM = """أنت محلل تحقق (fact-checker) يقرأ مقالً�
 أبدًا). لا تُجب عن الأسئلة من معرفتك — استخرجها فقط، فالبحث سيتولى الإجابة.
 
 كل عنصر في claims يجب أن يكون كائنًا {"text": ..., "kind": ..., "entities":
-[...]} — لا نصًا مجردًا أبدًا، حتى لو بدا ذلك مختصرًا. مثال دقيق على الشكل
-المطلوب:
+[...], "is_qualifier": ...} — لا نصًا مجردًا أبدًا، حتى لو بدا ذلك مختصرًا.
+مثال دقيق على الشكل المطلوب:
 {
   "topic": "ارتفاع أسعار الوقود وتأثيره على النقل",
   "claims": [
     {"text": "ارتفعت أسعار الوقود بنسبة 12٪ الشهر الماضي", "kind": "واقعة",
-     "entities": ["12٪", "الوقود"]},
+     "entities": ["12٪", "الوقود"], "is_qualifier": false},
     {"text": "الارتفاع نتيجة سياسات حكومية غير مدروسة", "kind": "رأي",
-     "entities": ["سياسات حكومية"]},
-    {"text": "الأسعار ستتضاعف خلال عام", "kind": "تنبؤ", "entities": ["عام"]}
+     "entities": ["سياسات حكومية"], "is_qualifier": false},
+    {"text": "الأسعار ستتضاعف خلال عام", "kind": "تنبؤ", "entities": ["عام"],
+     "is_qualifier": false}
   ],
   "questions": ["ما مصدر البيانات التي استند إليها المقال في نسبة الارتفاع؟"]
 }
@@ -114,8 +128,16 @@ EXTRACT_SCHEMA = {
                                             "أرقام، سنوات، أماكن) كما وردت في "
                                             "المقال حرفيًا بلا إعادة صياغة"),
                         },
+                        "is_qualifier": {
+                            "type": "boolean",
+                            "description": ("true إن كان هذا ادّعاء مُحدِّد "
+                                            "إسناد/يقين (رسميًا، تأكيدًا، "
+                                            "بحسب بيان رسمي...) منفصلًا عن "
+                                            "ادّعاء الحدث نفسه، لا الحدث "
+                                            "بذاته"),
+                        },
                     },
-                    "required": ["text", "kind", "entities"],
+                    "required": ["text", "kind", "entities", "is_qualifier"],
                 },
             },
             "questions": {"type": "array", "items": {"type": "string"}},
@@ -212,12 +234,21 @@ def _as_entities(value) -> list[str]:
     return [e.strip() for e in value if isinstance(e, str) and e.strip()]
 
 
+def _as_is_qualifier(value) -> bool:
+    """يطبّع حقل is_qualifier (البند 1، Issue #339): True صريحة فقط تُقبل —
+    أي شكل آخر (غياب، نص، رقم) يُعامَل كـ False. هذا يعني أن ردًا لم يلتزم
+    بالحقل الجديد (نموذج أقدم، أو رد لم يتبع المخطط) يعامل كل ادّعاءاته
+    كأحداث لا مُحدِّدات، وهو السلوك قبل هذا الحقل بالضبط — لا انهيار ولا
+    فصل زائف."""
+    return value is True
+
+
 def normalize_claim(item) -> dict | None:
     """يطبّع عنصر ادّعاء واحدًا من رد النموذج، الذي قد يخالف مخطط الأداة
     (Issue #134: النموذج أعاد claims كقائمة نصوص لا كقائمة قواميس):
-    نص مجرد يصير {"text": النص, "kind": "واقعة", "entities": []}؛ قاموس
-    بحقل kind غائب أو غير معروف يُملأ بالقيمة نفسها. عنصر بلا نص قابل
-    للاستخراج يُستبعد."""
+    نص مجرد يصير {"text": النص, "kind": "واقعة", "entities": [],
+    "is_qualifier": False}؛ قاموس بحقل kind غائب أو غير معروف يُملأ بالقيمة
+    نفسها. عنصر بلا نص قابل للاستخراج يُستبعد."""
     text = _as_text(item)
     if not text:
         return None
@@ -225,7 +256,10 @@ def normalize_claim(item) -> dict | None:
     if kind not in CLAIM_KINDS:
         kind = "واقعة"
     entities = _as_entities(item.get("entities")) if isinstance(item, dict) else []
-    return {"text": text, "kind": kind, "entities": entities}
+    is_qualifier = _as_is_qualifier(
+        item.get("is_qualifier")) if isinstance(item, dict) else False
+    return {"text": text, "kind": kind, "entities": entities,
+            "is_qualifier": is_qualifier}
 
 
 def normalize_claims(raw) -> list[dict]:
@@ -656,6 +690,11 @@ JUDGE_FACT_SYSTEM = """أنت تقارن ادّعاءً بنصوص مصادر م
 - احكم من النصوص المعطاة فقط. لا تستخدم معرفتك الخاصة عن الموضوع.
 - التأييد يعني أن النص يذكر المعلومة نفسها أو ما يقاربها بوضوح، لا مجرد
   ذكر الموضوع العام دون التفصيلة المدّعاة.
+- مُحدِّدات الإسناد أو اليقين في الادّعاء نفسه (رسميًا، تأكيدًا، بحسب بيان
+  رسمي، صراحة، بشكل معلن...) تفصيلة يجب تأييدها صراحة تمامًا كأي رقم أو
+  تاريخ — لا فارقًا شكليًا في الصياغة يُتسامح معه. مصدر يذكر توقعًا أو
+  ترجيحًا من طرف ثالث، أو يسند الخبر لمصدر غير رسمي، لا يؤيد ادّعاءً يصفه
+  المصدر بـ"رسميًا" أو "تأكيدًا" أو ما شابه.
 - المخالفة تعني تناقضًا حقيقيًا (رقم مختلف بوضوح، نفي صريح) لا فارقًا شكليًا
   في الصياغة أو الوحدة أو رقمًا محدَّثًا مقابل رقم قديم.
 - مصدر لم يذكر الادّعاء إطلاقًا لا يُحسب مؤيدًا ولا مخالفًا.
@@ -837,10 +876,19 @@ def classify_fact(supporting: list[str], contradicting: list[str],
     "قوي" معروف — كل مصدر واحد يبقى STATUS_SINGLE كما كان قبل هذا العلاج.
     لا يغيّر هذا الحكم النهائي: الواقعة لا تزال تحتاج min_confirm مصادر
     فعلية لتُصبح "مؤكَّدة".
+
+    البند 2 (تعليق التنفيذ على Issue #339): واقعة بلغت min_confirm مصادر
+    مؤيِّدة كانت تُعاد STATUS_CONFIRMED فورًا بلا أي فحص لـ contradicting —
+    فواقعة أيّدها مصدران وخالفها ثالث كانت تدخل مسار المسودة بصمت بلا أي
+    أثر للاعتراض. القاعدة 3 («المؤكَّد وحده يدخل المسودة») تعني أن
+    المعترَض عليه ليس مؤكَّدًا رغم كفاية العدد، فحالة رابعة صريحة
+    STATUS_CONFIRMED_DISPUTED تحمل هذا الفارق في التقرير، وتُستبعد تلقائيًا
+    من مسار verify_draft.attempt (يفلتر status == STATUS_CONFIRMED حرفيًا،
+    فلا يشمل هذه الحالة الجديدة بلا أي تعديل إضافي هناك).
     """
     unique_supporting = set(supporting)
     if len(unique_supporting) >= min_confirm:
-        return STATUS_CONFIRMED
+        return STATUS_CONFIRMED_DISPUTED if contradicting else STATUS_CONFIRMED
     if contradicting:
         return STATUS_CONTRADICTED
     if len(unique_supporting) == 1:
@@ -1030,6 +1078,7 @@ def _verify_article(body: str, cfg) -> dict:
             "text": text,
             "index": len(fact_results),
             "status": status,
+            "is_qualifier": claim.get("is_qualifier", False),
             "supporting": judged["supporting"],
             "supporting_weighted": supporting_weighted,
             "contradicting": judged["contradicting"],
@@ -1051,7 +1100,13 @@ def _verify_article(body: str, cfg) -> dict:
             "evidence_basis": evidence_basis,
         })
 
-    contradictions = [f for f in fact_results if f["status"] == STATUS_CONTRADICTED]
+    # اشتقاق مبني على وجود contradicting فعليًا لا على الحالة النهائية وحدها
+    # (البند 2، Issue #339): STATUS_CONFIRMED_DISPUTED تحمل contradicting
+    # غير فارغة أيضًا رغم أن حالتها ليست STATUS_CONTRADICTED — فلتره
+    # بالحالة وحدها كان يُخرجها من هذا القسم بينما عمود "المصادر المخالفة"
+    # في جدول الوقائع (build_report) يعرض f['contradicting'] مباشرة بلا أي
+    # شرط، فيظهر العمود مآهولًا والقسم يقول "لم يظهر أي تناقض" لنفس الواقعة.
+    contradictions = [f for f in fact_results if f.get("contradicting")]
     confirmed = [f for f in fact_results if f["status"] == STATUS_CONFIRMED]
     near_confirmed = [f for f in fact_results if f["status"] == STATUS_NEAR_CONFIRMED]
 

@@ -76,19 +76,36 @@ def _write_access_reason() -> str:
 # ──────────────────────────── الكفاية (القاعدة 7) ────────────────────────────
 
 
+def _central_fact(facts: list[dict]) -> dict:
+    """الواقعة المحورية: أول ادّعاء **ليس** مُحدِّد إسناد/يقين منفصل
+    (is_qualifier) — لا facts[0] الخام (البند 1، Issue #339). فصل مُحدِّدات
+    الإسناد في extract_claims (رسميًا/تأكيدًا/بحسب بيان رسمي...) يغيّر
+    ترتيب الاستخراج: مُحدِّد كـ"الانضمام معلَن رسميًا" قد يخرج قبل ادّعاء
+    الحدث نفسه في claims، فاعتماد الموضع الخام وحده كان سيجعل مُحدِّدًا
+    مفصولًا هو "الواقعة المحورية" خطأً — بالضبط العطل الذي طلب فصل
+    المُحدِّدات حله أصلًا. تراجع لـ facts[0] فقط حين تكون كل الوقائع
+    المستخرجة مُحدِّدات (حافة نادرة لا يُفترض وقوعها عمليًا) بدل الانهيار
+    على قائمة غير فارغة."""
+    for f in facts:
+        if not f.get("is_qualifier"):
+            return f
+    return facts[0]
+
+
 def sufficiency(facts: list[dict], cfg) -> tuple[bool, str]:
     """معيار الكفاية: دالّة نقية بلا نموذج (تعليق الموافقة على Issue #334،
-    نقطة 2). الواقعة المحورية = أول واقعة بترتيب استخراج EXTRACT_SYSTEM —
-    index=0، مسجَّل صراحة في verify.py لا مُفترَضًا من ترتيب claims (الذي لا
-    يضمنه EXTRACT_SYSTEM صراحة). شرط منفصل عن العدّ: عدد كافٍ من التفاصيل
-    الهامشية المؤكَّدة لا يعوّض واقعة محورية غير مؤكَّدة."""
+    نقطة 2). الواقعة المحورية = أول ادّعاء ليس مُحدِّد إسناد مفصول عن حدثه
+    (_central_fact، Issue #339 — لا facts[0] الخام كما كان، فذلك أعاد
+    مُحدِّدًا مفصولًا مثل "الواقعة المحورية" خطأً حين يخرج قبل ادّعاء
+    الحدث نفسه). شرط منفصل عن العدّ: عدد كافٍ من التفاصيل الهامشية
+    المؤكَّدة لا يعوّض واقعة محورية غير مؤكَّدة."""
     vd_cfg = cfg.get("verify_draft", {}) or {}
     min_confirmed_facts = int(vd_cfg.get("min_confirmed_facts", 2))
 
     if not facts:
         return False, "لا وقائع مستخرجة من المقال"
 
-    central = facts[0]
+    central = _central_fact(facts)
     if central["status"] != verify.STATUS_CONFIRMED:
         return False, (f"الواقعة المحورية (index {central.get('index', 0)}) "
                        f"«{central['text']}» غير مؤكَّدة (حكمها: {central['status']})")
@@ -327,10 +344,11 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
     قاموس outcome بحقل `produced` ورسالة `reason` محددة دومًا (نجاحًا أو
     امتناعًا) — لا فشل صامت، ولا رجوع لمحتوى غير مؤكَّد كخطة بديلة."""
     facts = result.get("facts") or []
+    central = _central_fact(facts) if facts else None
     outcome: dict = {
         "produced": False, "reason": "",
-        "central_text": facts[0]["text"] if facts else "",
-        "central_index": facts[0].get("index", 0) if facts else 0,
+        "central_text": central["text"] if central else "",
+        "central_index": central.get("index", 0) if central else 0,
         "confirmed_count": 0, "draft_id": None,
         "image_source_name": None, "image_source_link": None,
     }
@@ -346,6 +364,13 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
         return outcome
 
     confirmed = [f for f in facts if f["status"] == verify.STATUS_CONFIRMED]
+    # الواقعة المحورية (الحدث نفسه لا مُحدِّد إسناد مفصول عنه) يجب أن تتصدر
+    # confirmed: _synthetic_article وimage/central_fact_text أدناه يعتمدان
+    # confirmed[0] كعنوان/استعلام صورة الحدث — موضعها الخام في facts قد لا
+    # يكون صفرًا بعد فصل المُحدِّدات (Issue #339)، فبلا هذا الترتيب يعود
+    # نفس العطل من زاوية أخرى: عنوان المسودة يصير نص مُحدِّد لا نص الحدث
+    if central is not None and any(f is central for f in confirmed):
+        confirmed = [central] + [f for f in confirmed if f is not central]
     outcome["confirmed_count"] = len(confirmed)
 
     source_error = _validate_sources(confirmed)
