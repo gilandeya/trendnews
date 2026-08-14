@@ -1,24 +1,5 @@
 [
   {
-    "score": 17.54,
-    "bucket": "serious",
-    "tokens": [
-      "canadian",
-      "control",
-      "flee",
-      "force",
-      "government",
-      "steps",
-      "thousands",
-      "wildfires"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/09/canada-british-columbia-government-wildfires",
-    "title": "Canadian government steps in as ‘out of control’ wildfires force thousands to flee",
-    "posted_title": "حريق \"بالد رينج\" يتضاعف حجمه في يوم واحد ويدفع كندا لطلب مساعدة اتحادية",
-    "region": "uk",
-    "seen_at": "2026-08-09T19:16:05.988599+00:00"
-  },
-  {
     "score": 24.71,
     "bucket": "serious",
     "tokens": [
@@ -3734,5 +3715,24 @@
     "posted_title": "ميزة الكاميرا الأبرز في بيكسل 11 لن تعمل على الهواتف القديمة من غوغل",
     "region": "tech",
     "seen_at": "2026-08-14T19:12:25.879344+00:00"
+  },
+  {
+    "score": 17.57,
+    "bucket": "serious",
+    "tokens": [
+      "allow",
+      "asks",
+      "ballroom",
+      "continue",
+      "court",
+      "supreme",
+      "trump",
+      "work"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c3v0yz2r4wlo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump asks Supreme Court to allow ballroom work to continue",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-14T19:30:56.684982+00:00"
   }
 ]
