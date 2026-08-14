@@ -2095,6 +2095,19 @@ def test_verify() -> None:
     check("تكرار الاسم نفسه لا يرفع العدد فوق العتبة",
           verify.classify_fact(["BBC", "BBC"], [], 2) == verify.STATUS_SINGLE)
 
+    # البند 2 (تعليق التنفيذ على Issue #339): مصدران كافيان للتأكيد لكن
+    # مصدرًا ثالثًا يخالف — كانت تُرجع STATUS_CONFIRMED بصمت بلا أثر
+    # للاعتراض؛ الحالة الرابعة الصريحة تحمل الفارق، وverify_draft.attempt
+    # يفلتر status == STATUS_CONFIRMED حرفيًا فتُستبعد هذه الحالة تلقائيًا
+    check("مصدران كافيان مع مصدر مخالف ثالث ← مؤكَّدة مع اعتراض مصدر، لا "
+          "مؤكَّدة بصمت",
+          verify.classify_fact(["BBC", "Reuters"], ["أخبار الغد"], 2) ==
+          verify.STATUS_CONFIRMED_DISPUTED)
+    check("مؤكَّدة مع اعتراض مصدر حالة مختلفة عن مؤكَّدة العادية",
+          verify.STATUS_CONFIRMED_DISPUTED != verify.STATUS_CONFIRMED)
+    check("مصدران كافيان بلا أي اعتراض يبقيان مؤكَّدة عادية (لا تغيير سلوك)",
+          verify.classify_fact(["BBC", "Reuters"], [], 2) == verify.STATUS_CONFIRMED)
+
     # العلاج 4 (Issue #132 تعليق لاحق): حالة وسيطة بين "مؤكَّدة" و"مصدر واحد"
     # — مصدر واحد فقط، لكنه "قوي" (وزنه ≥ near_confirm_min_weight) لا يُخفى
     # خلف "مصدر واحد" المبهمة نفسها التي تُستعمل لمصدر مجهول واحد
@@ -2210,6 +2223,16 @@ def test_verify() -> None:
           "لا تنقل جملة من المقال حرفيًا" in verify.EXTRACT_SYSTEM)
     check("الحكم على الوقائع يمنع الاستعانة بمعرفة سابقة",
           "لا تستخدم معرفتك الخاصة" in verify.JUDGE_FACT_SYSTEM)
+    # البند 1 (Issue #339): استخراج البنية يفصل مُحدِّدات الإسناد عن جوهر
+    # الحدث، وطبقة ثانية في الحكم تشدِّد على أنها تفصيلة تُطابَق لا فارق
+    # صياغة — الفصل البنيوي وحده لا يكفي بلا تشديد البرومبت أيضًا (الطلب)
+    check("استخراج البنية يفصل مُحدِّدات الإسناد عن ادّعاء الحدث",
+          "is_qualifier" in verify.EXTRACT_SYSTEM)
+    check("مخطط الاستخراج يفرض حقل is_qualifier",
+          "is_qualifier" in verify.EXTRACT_SCHEMA["input_schema"]["properties"]
+          ["claims"]["items"]["required"])
+    check("الحكم على الوقائع يشدِّد على أن مُحدِّد الإسناد تفصيلة تُطابَق",
+          "مُحدِّدات الإسناد" in verify.JUDGE_FACT_SYSTEM)
     check("الإجابة عن الأسئلة تشترط النسبة لا الحقيقة المطلقة",
           "انسب الجواب لمن قاله" in verify.JUDGE_QUESTION_SYSTEM)
     check("تصنيفات الادعاء الثلاثة متاحة",
@@ -2217,15 +2240,19 @@ def test_verify() -> None:
 
     # تطبيع شكل رد النموذج (Issue #134: claims وصلت كقائمة نصوص لا قواميس
     # فانهار verify.py:344 بـ AttributeError) — لا يُفترض شكل بلا تحقق
-    check("نص مجرد يصير قاموس ادّعاء بحقول افتراضية (entities فارغة)",
+    check("نص مجرد يصير قاموس ادّعاء بحقول افتراضية (entities فارغة، "
+          "is_qualifier=False)",
           verify.normalize_claim("ادّعاء بلا شكل") ==
-          {"text": "ادّعاء بلا شكل", "kind": "واقعة", "entities": []})
+          {"text": "ادّعاء بلا شكل", "kind": "واقعة", "entities": [],
+           "is_qualifier": False})
     check("قاموس ناقص حقل kind يُملأ بقيمة افتراضية",
           verify.normalize_claim({"text": "ادّعاء"}) ==
-          {"text": "ادّعاء", "kind": "واقعة", "entities": []})
+          {"text": "ادّعاء", "kind": "واقعة", "entities": [],
+           "is_qualifier": False})
     check("قاموس بقيمة kind غير معروفة يُصحَّح لا يُرفَض",
           verify.normalize_claim({"text": "ادّعاء", "kind": "شيء غريب"}) ==
-          {"text": "ادّعاء", "kind": "واقعة", "entities": []})
+          {"text": "ادّعاء", "kind": "واقعة", "entities": [],
+           "is_qualifier": False})
     check("عنصر بلا نص قابل للاستخراج (رقم مثلًا) يُستبعد بلا انهيار",
           verify.normalize_claim(42) is None)
 
@@ -2244,6 +2271,21 @@ def test_verify() -> None:
           verify.normalize_claim(
               {"text": "ادّعاء", "kind": "واقعة", "entities": ["بلومبرغ", 2026, None]}
           )["entities"] == ["بلومبرغ"])
+
+    # البند 1 (Issue #339): حقل is_qualifier — يفصل مُحدِّد الإسناد/اليقين
+    # ("رسميًا"...) عن ادّعاء الحدث نفسه (انظر verify_draft._central_fact)
+    check("is_qualifier: true صريحة تُقبل كما هي",
+          verify.normalize_claim(
+              {"text": "الانضمام معلَن رسميًا", "kind": "واقعة",
+               "is_qualifier": True})["is_qualifier"] is True)
+    check("is_qualifier غائبة تُطبَّع إلى False (توافق خلفي، لا مُحدِّد بلا حقل)",
+          verify.normalize_claim({"text": "ادّعاء", "kind": "واقعة"}
+                                 )["is_qualifier"] is False)
+    check("is_qualifier بشكل غريب (نص لا bool) تُطبَّع إلى False بلا انهيار",
+          verify.normalize_claim(
+              {"text": "ادّعاء", "kind": "واقعة", "is_qualifier": "true"}
+          )["is_qualifier"] is False)
+
     check("normalize_claims على قيمة ليست قائمة أصلًا لا تنهار",
           verify.normalize_claims("ليست قائمة") == [])
     check("normalize_claims على None لا تنهار", verify.normalize_claims(None) == [])
@@ -2420,7 +2462,8 @@ def test_verify() -> None:
     # بقية الحقول) يجب أن تُقرأ أيضًا لا أن تُرفَض لمجرد كونها نصًا
     check("normalize_claims تقبل نص JSON صالحًا لمصفوفة ادّعاءات",
           verify.normalize_claims('[{"text": "ادّعاء", "kind": "واقعة"}]') ==
-          [{"text": "ادّعاء", "kind": "واقعة", "entities": []}])
+          [{"text": "ادّعاء", "kind": "واقعة", "entities": [],
+            "is_qualifier": False}])
     check("normalize_questions تقبل نص JSON صالحًا لمصفوفة أسئلة",
           verify.normalize_questions('["سؤال؟"]') == ["سؤال؟"])
     check("نص لا يبدأ بـ [ أو { لا يُحاول تحليله كـ JSON",
@@ -2536,6 +2579,34 @@ def test_verify() -> None:
     report_near = verify.build_report(result_near)
     check("التقرير يعرض الحالة الوسيطة في جدول الوقائع",
           verify.STATUS_NEAR_CONFIRMED in report_near)
+
+    # البند 2 (تعليق التنفيذ على Issue #339) عبر verify_article الكاملة —
+    # لا وحدة classify_fact فقط: مصدران كافيان للتأكيد، وثالث يخالف — يجب
+    # أن تظهر الحالة الرابعة، وألا يتناقض عمود "المصادر المخالفة" مع قسم
+    # "أين خالفت المصادر" (البند 3، نفس تعليق التنفيذ)
+    verify.judge_fact = lambda claim, docs, cfg: {
+        "supporting": ["BBC", "Reuters"], "contradicting": ["أخبار الغد"]}
+    result_disputed = verify.verify_article("نص مقال رابع", cfg)
+    check("مصدران كافيان مع اعتراض ثالث عبر verify_article الكاملة ← "
+          "مؤكَّدة مع اعتراض مصدر",
+          result_disputed["facts"][0]["status"] == verify.STATUS_CONFIRMED_DISPUTED)
+    check("الواقعة المعترَض عليها لا تُحسب ضمن confirmed لحساب الحكم النهائي "
+          "(لا تدخل مسار المسودة لاحقًا)",
+          not any(f["status"] == verify.STATUS_CONFIRMED
+                  for f in result_disputed["facts"]))
+    check("الحكم النهائي لا حين لا واقعة مؤكَّدة (غير معترَض عليها) واحدة",
+          result_disputed["verdict"] is False)
+    report_disputed = verify.build_report(result_disputed)
+    contradicting_col_nonempty = "أخبار الغد" in report_disputed.split(
+        "#### ⚠️ أين خالفت المصادر المقال")[0]
+    section_says_none = ("لم يظهر أي تناقض" in
+                         report_disputed.split("#### ⚠️ أين خالفت المصادر المقال")[1])
+    check("عمود المصادر المخالفة مآهول والقسم المخصَّص لا يقول معًا «لم يظهر "
+          "أي تناقض» — استحالة تعايش الحالتين",
+          not (contradicting_col_nonempty and section_says_none))
+    check("«أخبار الغد» تظهر في قسم أين خالفت المصادر أيضًا لا العمود وحده",
+          "أخبار الغد" in report_disputed.split(
+              "#### ⚠️ أين خالفت المصادر المقال")[1])
 
     # verify_article يبني استعلام بحث قصيرًا لكل ادّعاء/سؤال قبل استدعاء
     # search، لا يمرّر نص الادّعاء الكامل — سبب عطل "لا مصدر" الجماعي الفعلي
@@ -3192,6 +3263,63 @@ def test_verify_draft() -> None:
     check("2) السبب يذكر الواقعة المحورية بنصها",
           "المحورية" in outcome_central_bad["reason"] and
           near["text"] in outcome_central_bad["reason"])
+
+    # البند 1 (Issue #339): فصل مُحدِّدات الإسناد في extract_claims يغيّر
+    # ترتيب الاستخراج — مُحدِّد مفصول («الانضمام معلَن رسميًا») قد يخرج قبل
+    # ادّعاء الحدث نفسه، فلا يجوز أن يصير هو "الواقعة المحورية" لمجرد أنه
+    # facts[0]. _central_fact/attempt() يتخطيانه صراحة للحدث الفعلي.
+    QUALIFIER_SRC_TEXT = "أكد بيان رسمي مصري تفاصيل الانضمام صراحة لوكالة محلية"
+    qualifier_fact = {
+        "text": "الانضمام معلَن رسميًا من الجهة المصرية",
+        "index": 0, "status": verify.STATUS_SINGLE, "is_qualifier": True,
+        "supporting": ["ناشر التأكيد"], "supporting_weighted": [], "contradicting": [],
+        "evidence_basis": verify.EVIDENCE_FULL_TEXT,
+        "sources": [{"name": "ناشر التأكيد", "link": "https://qualifier.example/1",
+                    "text": QUALIFIER_SRC_TEXT, "image_candidates": []}],
+    }
+    check("_central_fact تتخطى مُحدِّدًا مفصولًا في facts[0] لتعتمد الحدث "
+          "الفعلي محوريًا",
+          verify_draft._central_fact(
+              [qualifier_fact, dict(central, index=1)])["text"] == central["text"])
+    check("_central_fact تتراجع لـ facts[0] حين كل الوقائع مُحدِّدات (حافة "
+          "نادرة) بدل الانهيار",
+          verify_draft._central_fact([qualifier_fact]) is qualifier_fact)
+
+    result_with_qualifier = _result(
+        [qualifier_fact, dict(central, index=1), dict(second, index=2)])
+    ok_q, reason_q = verify_draft.sufficiency(result_with_qualifier["facts"], cfg)
+    check("sufficiency() تتجاوز مُحدِّدًا غير مؤكَّد في facts[0] وتعتمد الحدث "
+          "الفعلي محوريًا", ok_q, reason_q)
+
+    outcome_q = verify_draft.attempt(result_with_qualifier, ARTICLE_BODY, 132, cfg)
+    check("1b) مُحدِّد إسناد غير مؤكَّد في facts[0] لا يمنع المسودة",
+          outcome_q["produced"], outcome_q["reason"])
+    check("1b) central_text/central_index المُبلَّغان يشيران للحدث الفعلي "
+          "(index 1) لا المُحدِّد المفصول (index 0)",
+          outcome_q["central_text"] == central["text"] and
+          outcome_q["central_index"] == 1)
+    loaded_q = store.load_draft(outcome_q["draft_id"]) if outcome_q["produced"] else None
+    if loaded_q:
+        _, saved_q = loaded_q
+        check("1b) عنوان مصدر المسودة نص الحدث لا نص المُحدِّد المفصول",
+              saved_q.get("source", {}).get("title") == central["text"])
+
+    # مُحدِّد الإسناد قد يكون مؤكَّدًا هو أيضًا (بيان رسمي أيّده مصدران
+    # مستقلان) — لا يزال يجب ألا يتصدَّر عنوان/مصدر المسودة على الحدث نفسه
+    # رغم تصدُّره الترتيب الخام (facts[0]) وconfirmed الخام معًا
+    qualifier_confirmed = dict(qualifier_fact, status=verify.STATUS_CONFIRMED,
+                               supporting=["ناشر التأكيد", "ناشر ثانٍ"])
+    result_q_confirmed = _result(
+        [qualifier_confirmed, dict(central, index=1), dict(second, index=2)])
+    outcome_qc = verify_draft.attempt(result_q_confirmed, ARTICLE_BODY, 132, cfg)
+    check("1c) مُحدِّد إسناد مؤكَّد أيضًا لا يمنع المسودة",
+          outcome_qc["produced"], outcome_qc["reason"])
+    loaded_qc = store.load_draft(outcome_qc["draft_id"]) if outcome_qc["produced"] else None
+    if loaded_qc:
+        _, saved_qc = loaded_qc
+        check("1c) عنوان مصدر المسودة يبقى نص الحدث حتى لو كان المُحدِّد "
+              "مؤكَّدًا هو أيضًا ومتصدرًا facts الخام",
+              saved_qc.get("source", {}).get("title") == central["text"])
 
     # 4) تطابق لفظي مع نص المقال ← المسودة مرفوضة، بلا إعادة محاولة
     copied_from_article = " ".join(ARTICLE_BODY.split()[:9])
