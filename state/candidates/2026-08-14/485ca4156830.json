@@ -1,0 +1,64 @@
+{
+  "id": "485ca4156830",
+  "created_at": "2026-08-14T09:07:55.473588+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.83,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Le Japon sous le choc après une visite de Vladimir Poutine sur des territoires disputés du sud des îles Kouriles",
+  "link": "https://www.lemonde.fr/international/article/2026/08/14/le-japon-sous-le-choc-apres-une-visite-de-vladimir-poutine-sur-des-territoires-disputes-du-sud-des-iles-kouriles_6746073_3210.html",
+  "publishers": [
+    "Free Malaysia Today",
+    "Le Monde",
+    "The Guardian — World"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Le Japon sous le choc après une visite de Vladimir Poutine sur des territoires disputés du sud des îles Kouriles",
+    "link": "https://www.lemonde.fr/international/article/2026/08/14/le-japon-sous-le-choc-apres-une-visite-de-vladimir-poutine-sur-des-territoires-disputes-du-sud-des-iles-kouriles_6746073_3210.html",
+    "summary": "Le déplacement du chef de l’Etat russe a été qualifié d’« inacceptable » par la première ministre nippone. Les quatre îles de l’archipel sont administrées par la Russie depuis 1946, mais toujours revendiquées par le Japon, qui souhaiterait les récupérer.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-14T03:30:03+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/13/0/0/5069/2534/644/322/60/0/767fb42_ftp-1-0kvuuik7stst-2026-08-13t083736z-1719464461-rc2kxmaq79p5-rtrmadp-3-russia-japan-kuril.JPG",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Le Monde",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/08/14/le-japon-sous-le-choc-apres-une-visite-de-vladimir-poutine-sur-des-territoires-disputes-du-sud-des-iles-kouriles_6746073_3210.html"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/13/japan-condemns-vladimir-putin-visit-kuril-islands"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/14/us-backs-japan-over-putin-s-trip-to-disputed-islands"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/13/0/0/5069/2534/644/322/60/0/767fb42_ftp-1-0kvuuik7stst-2026-08-13t083736z-1719464461-rc2kxmaq79p5-rtrmadp-3-russia-japan-kuril.JPG",
+      "https://i.guim.co.uk/img/media/6460023264d60122192ce6de3b86eb5f2bdd2623/730_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=35c1b57cd65adc61305a96aa31549c1e",
+      "https://i.guim.co.uk/img/media/6460023264d60122192ce6de3b86eb5f2bdd2623/730_0_5000_4000/master/5000.jpg?width=460&quality=85&auto=format&fit=max&s=e0bdb419079f59c86f920d3dd01439db",
+      "https://i.guim.co.uk/img/media/6460023264d60122192ce6de3b86eb5f2bdd2623/730_0_5000_4000/master/5000.jpg?width=140&quality=85&auto=format&fit=max&s=8c545016967e6e181924ecebe30c3d11",
+      "https://media.freemalaysiatoday.com/v3/2026/08/a617fae1-0610-45d5-84d9-f3f0cd94418d-AFP__20260813__C4JT3ZR__v1__HighRes__RussiaPoliticsJapanKurils_1_cropped_1.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 5.366648544166667,
+    "is_stale": false,
+    "score": 26.82961732827458
+  }
+}

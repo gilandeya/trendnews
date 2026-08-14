@@ -1,0 +1,65 @@
+{
+  "id": "9019d067bcb0",
+  "created_at": "2026-08-14T09:07:55.473956+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.23,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Engine parts shattered Ryanair window that passenger was partly sucked out of, report says",
+  "link": "https://www.theguardian.com/business/2026/aug/14/ryanair-engine-parts-shattered-window-passenger-partly-sucked-out-of-report",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Engine parts shattered Ryanair window that passenger was partly sucked out of, report says",
+    "link": "https://www.theguardian.com/business/2026/aug/14/ryanair-engine-parts-shattered-window-passenger-partly-sucked-out-of-report",
+    "summary": "Preliminary findings show fan blade broke off shortly after takeoff on 10 July flight from Greece to Germany Broken engine parts were responsible for shattering a window on a Ryanair plane, causing a passenger to be partly sucked out mid-flight in July, US investigators have said. A preliminary report by the National Transportation Safety Board (NTSB) found an engine fan blade broke off shortly after takeoff on the 10 July flight from Greece to Germany. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-14T07:12:48+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/a517b301e2ddfc58282138c82822c41b6635aedc/45_320_2917_2333/master/2917.jpg?width=700&quality=85&auto=format&fit=max&s=e240efdec5ebb631b6a9af18a28627f6",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cr59j4z3vl8o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/business/2026/aug/14/ryanair-engine-parts-shattered-window-passenger-partly-sucked-out-of-report"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/14/engine-debris-shattered-ryanair-window-pulling-passenger-out-ntsb-says?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/a517b301e2ddfc58282138c82822c41b6635aedc/45_320_2917_2333/master/2917.jpg?width=700&quality=85&auto=format&fit=max&s=e240efdec5ebb631b6a9af18a28627f6",
+      "https://i.guim.co.uk/img/media/a517b301e2ddfc58282138c82822c41b6635aedc/45_320_2917_2333/master/2917.jpg?width=460&quality=85&auto=format&fit=max&s=af94c311f07a2352ee549dab73a4edb0",
+      "https://i.guim.co.uk/img/media/a517b301e2ddfc58282138c82822c41b6635aedc/45_320_2917_2333/master/2917.jpg?width=140&quality=85&auto=format&fit=max&s=267e7408619193f694857cb6501dd468",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1623/live/fc15b5f0-975d-11f1-9240-c70a29f1c818.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/1623/live/fc15b5f0-975d-11f1-9240-c70a29f1c818.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1623/live/fc15b5f0-975d-11f1-9240-c70a29f1c818.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 11.109766158055557,
+    "is_stale": false,
+    "score": 23.227117329830136
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "id": "867e078fa4f4",
+  "created_at": "2026-08-14T09:07:55.474249+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.06,
+  "trend_score": 0.67,
+  "velocity": 0.44,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran dismisses US claims to reiterate control over Strait of Hormuz",
+  "link": "https://www.dailysabah.com/world/mid-east/iran-dismisses-us-claims-to-reiterate-control-over-strait-of-hormuz",
+  "publishers": [
+    "Africanews",
+    "CBS News — World",
+    "Daily Sabah",
+    "Investing.com — Commodities",
+    "The Hindu — International"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Iran dismisses US claims to reiterate control over Strait of Hormuz",
+    "link": "https://www.dailysabah.com/world/mid-east/iran-dismisses-us-claims-to-reiterate-control-over-strait-of-hormuz",
+    "summary": "A senior Iranian official claimed Thursday that the Strait of Hormuz was 'under Iran's control and ⁠management,' according ⁠to the semi-official Fars news agency. The ⁠remark...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-13T08:58:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455547.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Africanews",
+      "CBS News — World",
+      "Daily Sabah",
+      "Investing.com — Commodities",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-us-war-west-asia-live-updates-donald-trump-august-13-2026/article71339299.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/iran-dismisses-us-claims-to-reiterate-control-over-strait-of-hormuz"
+      },
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/gold-risks-deeper-selloff-as-hormuz-crisis-keeps-markets-uneasy-200685820"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/13/iran-says-strait-of-hormuz-will-stay-blocked-despite-trumps-claim-of-total-control/"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/live-updates/iran-war-us-donald-trump-strait-hormuz-traffic-falls-houthis-kill-red-sea/"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/13/455547.jpg",
+      "http://images.euronews.com/articles/stories/09/87/31/33/640x360_cmsv2_ce2a483d-5697-59be-9c6e-c648c8481e56-9873133.jpg?1786620562"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 5,
+    "velocity": 0.44433043345167483,
+    "age_hours": 232.91313799666668,
+    "is_stale": false,
+    "score": 22.059888500087126
+  }
+}
