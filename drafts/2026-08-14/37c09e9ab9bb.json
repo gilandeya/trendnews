@@ -1,7 +1,7 @@
 {
   "id": "37c09e9ab9bb",
   "created_at": "2026-08-14T05:34:29.787875+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 17.15,
   "bucket": "useful",
@@ -56,5 +56,12 @@
       "https://www.news-medical.net/images/tags/TagImage-1039-45840826385648151818-620x480.jpg"
     ]
   },
-  "publish_at": "2026-08-14T08:06:07.747089+00:00"
+  "publish_at": "2026-08-14T08:06:07.747089+00:00",
+  "published_at": "2026-08-14T08:15:50.178672+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1334335525450135",
+    "photo_id": "1334335498783471",
+    "url": "https://www.facebook.com/631680090321390_1334335525450135",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
