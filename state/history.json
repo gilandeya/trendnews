@@ -1,26 +1,5 @@
 [
   {
-    "score": 33.17,
-    "bucket": "serious",
-    "tokens": [
-      "deal",
-      "hormuz",
-      "iran",
-      "oman",
-      "open",
-      "positive",
-      "strait",
-      "talks",
-      "warns",
-      "would"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c934j5y2lq9o?at_medium=RSS&at_campaign=rss",
-    "title": "Hormuz talks positive, Oman says, as Iran warns deal would not open strait",
-    "posted_title": "تحديث: إيران تقول إن اتفاق هرمز مع عُمان قريب لكنه لن يفتح المضيق فورا",
-    "region": "uk",
-    "seen_at": "2026-08-09T03:08:15.508991+00:00"
-  },
-  {
     "score": 19.1,
     "bucket": "serious",
     "tokens": [
@@ -2971,5 +2950,25 @@
     "posted_title": "",
     "region": "health",
     "seen_at": "2026-08-14T03:08:06.468811+00:00"
+  },
+  {
+    "score": 17.55,
+    "bucket": "serious",
+    "tokens": [
+      "'indefinitely",
+      "blockade",
+      "can",
+      "economic",
+      "iran",
+      "keep",
+      "naval",
+      "pressure",
+      "vows"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-08-14-us-says-it-can-keep-naval-blockade-on-iran-indefinitely-vows-more-economic-pressure/",
+    "title": "US says it can keep naval blockade on Iran 'indefinitely,' vows more economic pressure",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-08-14T03:15:50.992550+00:00"
   }
 ]

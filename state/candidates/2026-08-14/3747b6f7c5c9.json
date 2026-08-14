@@ -1,0 +1,55 @@
+{
+  "id": "3747b6f7c5c9",
+  "created_at": "2026-08-14T03:15:50.992158+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.55,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US says it can keep naval blockade on Iran 'indefinitely,' vows more economic pressure",
+  "link": "https://www.dailymaverick.co.za/article/2026-08-14-us-says-it-can-keep-naval-blockade-on-iran-indefinitely-vows-more-economic-pressure/",
+  "publishers": [
+    "Daily Maverick",
+    "Der Spiegel"
+  ],
+  "region": "za",
+  "article": {
+    "title": "US says it can keep naval blockade on Iran 'indefinitely,' vows more economic pressure",
+    "link": "https://www.dailymaverick.co.za/article/2026-08-14-us-says-it-can-keep-naval-blockade-on-iran-indefinitely-vows-more-economic-pressure/",
+    "summary": "PANAMA CITY, Aug 13 (Reuters) - The United States on Thursday said that it could maintain a naval blockade of Iran indefinitely and would ratchet up economic pressure on Tehran as ceasefire talks have floundered, global oil supply is dropping and regional tensions are rising.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-08-14T04:44:55+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2996/image_727953.jpeg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Der Spiegel"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-14-us-says-it-can-keep-naval-blockade-on-iran-indefinitely-vows-more-economic-pressure/"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/kuba-wirft-usa-brutale-und-unmoralische-belagerung-vor-a-7058c6a5-18b5-40d8-a0d4-2fbf0ddbb05c#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2996/image_727953.jpeg",
+      "https://cdn.prod.www.spiegel.de/images/01bdd0e0-8231-4c79-91a7-3a93bd86be9c_w520_r2.08_fpx69.89_fpy54.86.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 0.4989597127777778,
+    "is_stale": false,
+    "score": 17.54907093090741
+  }
+}
