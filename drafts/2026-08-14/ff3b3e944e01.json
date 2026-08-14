@@ -1,7 +1,7 @@
 {
   "id": "ff3b3e944e01",
   "created_at": "2026-08-14T09:14:04.568260+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 18.5,
   "bucket": "serious",
@@ -56,5 +56,12 @@
       "https://www.myjoyonline.com/wp-content/uploads/2026/03/Trump-1-1024x683.jpg"
     ]
   },
-  "publish_at": "2026-08-14T10:47:54.658170+00:00"
+  "publish_at": "2026-08-14T10:47:54.658170+00:00",
+  "published_at": "2026-08-14T11:01:08.064745+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1334431395440548",
+    "photo_id": "1334431375440550",
+    "url": "https://www.facebook.com/631680090321390_1334431395440548",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
