@@ -83,6 +83,14 @@ EXTRACT_SYSTEM = """أنت محلل تحقق (fact-checker) يقرأ مقالً�
    نفسه دون تأييد رسميته لا يجوز أن يُحسب مؤيدًا لادّعاء مركّب يخلط
    الاثنين. حدث بلا أي مُحدِّد إسناد فعلي في المقال يعني is_qualifier:
    false لكل ادّعاءاته بلا استثناء — لا تخترع مُحدِّدًا لم يذكره المقال.
+   ولكل ادّعاء أيضًا is_reference: true إن كانت حقيقته ثابتة لا تتعلق
+   بدورة الأخبار الحالية — سنة صدور كتاب، تاريخ توقيع معاهدة، معلومة
+   تاريخية أو سيرة ذاتية، إحصاء رسمي قديم منشور... لا حدث جارٍ أو تصريح
+   حديث. الفارق عملي لا نظري: مصدر يؤيّد واقعة مرجعية كهذه غالبًا نصّ
+   قديم بعمر الواقعة نفسها لا مقال حديث، فبحث يقيّد النتائج بنافذة زمنية
+   قصيرة (آخر أيام أو أسابيع) لن يجد شيئًا مهما صحّت الواقعة — "لا نتائج
+   بحث" حينها حكم مضلِّل لا دليل نفي. أي ادّعاء آخر (حدث جارٍ، تصريح، رقم
+   من الشهر الحالي...) يعني is_reference: false.
 3. questions: أسئلة يثيرها المقال ولا يجيب عنها هو نفسه — فجوات في الرواية
    تستحق بحثًا مستقلًا، لا أسئلة بلاغية.
 
@@ -91,17 +99,17 @@ EXTRACT_SYSTEM = """أنت محلل تحقق (fact-checker) يقرأ مقالً�
 أبدًا). لا تُجب عن الأسئلة من معرفتك — استخرجها فقط، فالبحث سيتولى الإجابة.
 
 كل عنصر في claims يجب أن يكون كائنًا {"text": ..., "kind": ..., "entities":
-[...], "is_qualifier": ...} — لا نصًا مجردًا أبدًا، حتى لو بدا ذلك مختصرًا.
-مثال دقيق على الشكل المطلوب:
+[...], "is_qualifier": ..., "is_reference": ...} — لا نصًا مجردًا أبدًا، حتى
+لو بدا ذلك مختصرًا. مثال دقيق على الشكل المطلوب:
 {
   "topic": "ارتفاع أسعار الوقود وتأثيره على النقل",
   "claims": [
     {"text": "ارتفعت أسعار الوقود بنسبة 12٪ الشهر الماضي", "kind": "واقعة",
-     "entities": ["12٪", "الوقود"], "is_qualifier": false},
+     "entities": ["12٪", "الوقود"], "is_qualifier": false, "is_reference": false},
     {"text": "الارتفاع نتيجة سياسات حكومية غير مدروسة", "kind": "رأي",
-     "entities": ["سياسات حكومية"], "is_qualifier": false},
+     "entities": ["سياسات حكومية"], "is_qualifier": false, "is_reference": false},
     {"text": "الأسعار ستتضاعف خلال عام", "kind": "تنبؤ", "entities": ["عام"],
-     "is_qualifier": false}
+     "is_qualifier": false, "is_reference": false}
   ],
   "questions": ["ما مصدر البيانات التي استند إليها المقال في نسبة الارتفاع؟"]
 }
@@ -136,8 +144,18 @@ EXTRACT_SCHEMA = {
                                             "ادّعاء الحدث نفسه، لا الحدث "
                                             "بذاته"),
                         },
+                        "is_reference": {
+                            "type": "boolean",
+                            "description": ("true إن كانت حقيقة الادّعاء "
+                                            "ثابتة لا تتعلق بدورة الأخبار "
+                                            "الحالية (سنة صدور كتاب، تاريخ "
+                                            "معاهدة، معلومة تاريخية...) — "
+                                            "بحثها لا يُقيَّد بنافذة زمنية "
+                                            "قصيرة"),
+                        },
                     },
-                    "required": ["text", "kind", "entities", "is_qualifier"],
+                    "required": ["text", "kind", "entities", "is_qualifier",
+                                "is_reference"],
                 },
             },
             "questions": {"type": "array", "items": {"type": "string"}},
@@ -243,12 +261,20 @@ def _as_is_qualifier(value) -> bool:
     return value is True
 
 
+def _as_is_reference(value) -> bool:
+    """يطبّع حقل is_reference (البند 5، تعليق التنفيذ على PR #340): True
+    صريحة فقط تُقبل، بنفس منطق _as_is_qualifier — رد لم يلتزم بالحقل
+    الجديد يعامل كل ادّعاءاته كأخبار جارية لا وقائع مرجعية، وهو سلوك
+    البحث المقيَّد بنافذة زمنية قبل هذا الحقل بالضبط."""
+    return value is True
+
+
 def normalize_claim(item) -> dict | None:
     """يطبّع عنصر ادّعاء واحدًا من رد النموذج، الذي قد يخالف مخطط الأداة
     (Issue #134: النموذج أعاد claims كقائمة نصوص لا كقائمة قواميس):
     نص مجرد يصير {"text": النص, "kind": "واقعة", "entities": [],
-    "is_qualifier": False}؛ قاموس بحقل kind غائب أو غير معروف يُملأ بالقيمة
-    نفسها. عنصر بلا نص قابل للاستخراج يُستبعد."""
+    "is_qualifier": False, "is_reference": False}؛ قاموس بحقل kind غائب أو
+    غير معروف يُملأ بالقيمة نفسها. عنصر بلا نص قابل للاستخراج يُستبعد."""
     text = _as_text(item)
     if not text:
         return None
@@ -258,8 +284,10 @@ def normalize_claim(item) -> dict | None:
     entities = _as_entities(item.get("entities")) if isinstance(item, dict) else []
     is_qualifier = _as_is_qualifier(
         item.get("is_qualifier")) if isinstance(item, dict) else False
+    is_reference = _as_is_reference(
+        item.get("is_reference")) if isinstance(item, dict) else False
     return {"text": text, "kind": kind, "entities": entities,
-            "is_qualifier": is_qualifier}
+            "is_qualifier": is_qualifier, "is_reference": is_reference}
 
 
 def normalize_claims(raw) -> list[dict]:
@@ -460,7 +488,17 @@ def build_query_for_claim(claim: dict, max_words: int = 5) -> str:
     return build_query(_entities_text(claim) or claim.get("text", ""), max_words)
 
 
-def search(query: str, cfg, days: int) -> list[Article]:
+# سقف عمر بديل للوقائع المرجعية (البند 5، تعليق التنفيذ على PR #340):
+# search_feeds تُسقط قيد when: تمامًا لهذه الحالة، لكن fetch_source نفسها
+# تُصفّي بعد الجلب بـmax_age_hours أيضًا (سطر الاستدعاء أدناه) — بلا رفعه
+# هنا أيضًا يبقى مصدر بعمر الواقعة نفسها (كتاب صدر قبل سنوات) مرفوضًا بعد
+# جلبه فعليًا رغم إسقاط when: من الاستعلام. 20 سنة تتجاوز عمليًا أي مصدر
+# ويب حي دون تعطيل cutoff الآلية نفسها (لا None هنا — fetch_source تطرح
+# فرقًا زمنيًا من الآن، فقيمة عددية كبيرة تبقيها بلا تفرّع خاص).
+REFERENCE_MAX_AGE_HOURS = 20 * 365 * 24
+
+
+def search(query: str, cfg, days: int, unrestricted: bool = False) -> list[Article]:
     """يبحث عن استعلام واحد عبر آلية request.py نفسها — بلا تكرار منطقها.
 
     الدمج الدلالي (merge_cfg) معطَّل هنا عمدًا: هو مصمَّم لمسار النشر حيث
@@ -478,13 +516,20 @@ def search(query: str, cfg, days: int) -> list[Article]:
     (Issue #132 تعليق لاحق: صياغتان عربيتان مستقلتان لحدث واحد لا تتجاوزان
     عمليًا 0.5 تشابهًا حتى بعد التطبيع، فحد selection.title_similarity
     الافتراضي 0.62 — مضبوط لنسخ وكالة شبه متطابقة — يبقيهما مجموعتين
-    منفصلتين رغم تطابق المضمون)."""
+    منفصلتين رغم تطابق المضمون).
+
+    unrestricted=True (البند 5، تعليق التنفيذ على PR #340: واقعة مرجعية،
+    claim["is_reference"]) يُسقط قيد when: من الاستعلام (search_feeds) ويرفع
+    سقف عمر النتائج المقبولة إلى REFERENCE_MAX_AGE_HOURS بدل days*24 —
+    كلاهما ضروري معًا، فإسقاط when: وحده لا يمنع fetch_source من رفض مصدر
+    قديم بعد جلبه فعليًا."""
     vcfg = cfg.get("verify", {}) or {}
     locales = vcfg.get("locales") or DEFAULT_LOCALES
+    max_age_hours = REFERENCE_MAX_AGE_HOURS if unrestricted else days * 24
 
     articles: list[Article] = []
-    for feed in search_feeds(query, days, locales):
-        articles += fetch_source(feed, max_age_hours=days * 24)
+    for feed in search_feeds(query, None if unrestricted else days, locales):
+        articles += fetch_source(feed, max_age_hours=max_age_hours)
     log.info("بحث %r → %d نتيجة خام؛ أول 3: %s", query, len(articles),
              "؛ ".join(a.title[:80] for a in articles[:3]) or "—")
     if not articles:
@@ -885,14 +930,33 @@ def classify_fact(supporting: list[str], contradicting: list[str],
     STATUS_CONFIRMED_DISPUTED تحمل هذا الفارق في التقرير، وتُستبعد تلقائيًا
     من مسار verify_draft.attempt (يفلتر status == STATUS_CONFIRMED حرفيًا،
     فلا يشمل هذه الحالة الجديدة بلا أي تعديل إضافي هناك).
+
+    البند 4 (تعليق التنفيذ على PR #340): بلوغ min_confirm مصادر لا يكفي
+    وحده لـ"مؤكَّدة" إن كانت كلها مجهولة الوزن — شرط إضافي: مصدر واحد
+    معروف (وزنه ≥ near_confirm_min_weight) على الأقل بين المؤيِّدين،
+    بإعادة استعمال العتبة نفسها المستعملة أعلاه للحالة الوسيطة بدل عتبة
+    مجموع أوزان منفصلة. حد أدنى للمجموع كان سيسمح لعدد كافٍ من مصادر
+    مجهولة بتعويض غياب أي مصدر معروف فعليًا (ثلاثة مصادر مجهولة، كل منها
+    بالوزن الافتراضي 0.6، مجموعها 1.8 يتجاوز أي عتبة معقولة رغم كونها
+    كلها مجهولة الهوية) — بينما شرط "مصدر معروف واحد" يفحص هوية السند لا
+    كمّه. عدد كافٍ بلا أي مصدر معروف ينزل لـSTATUS_NEAR_CONFIRMED لا
+    STATUS_SINGLE: العدد نفسه سند أقوى من مصدر واحد مبهم، لكنه دون يقين
+    STATUS_CONFIRMED الكامل. weights غائب (توافقًا خلفيًا) يعني عدم وجود
+    أي مصدر معروف — يسري هذا الشرط حتى حين لا قاموس أوزان أصلًا.
     """
     unique_supporting = set(supporting)
+    weights = weights or {}
     if len(unique_supporting) >= min_confirm:
-        return STATUS_CONFIRMED_DISPUTED if contradicting else STATUS_CONFIRMED
+        has_known_source = any(weights.get(name, 0.0) >= near_confirm_min_weight
+                               for name in unique_supporting)
+        if has_known_source:
+            return STATUS_CONFIRMED_DISPUTED if contradicting else STATUS_CONFIRMED
+        if not contradicting:
+            return STATUS_NEAR_CONFIRMED
     if contradicting:
         return STATUS_CONTRADICTED
     if len(unique_supporting) == 1:
-        weight = (weights or {}).get(next(iter(unique_supporting)), 0.0)
+        weight = weights.get(next(iter(unique_supporting)), 0.0)
         if weight >= near_confirm_min_weight:
             return STATUS_NEAR_CONFIRMED
         return STATUS_SINGLE
@@ -1051,7 +1115,10 @@ def _verify_article(body: str, cfg) -> dict:
         text = claim.get("text", "")
         # الاستعلام يُبنى من entities الادّعاء لا نص text المعاد صياغته —
         # العلاج 2 (Issue #132 تعليق لاحق)، انظر build_query_for_claim
-        ranked = search(build_query_for_claim(claim, query_max_words), cfg, days)
+        # واقعة مرجعية (is_reference، البند 5 تعليق التنفيذ على PR #340)
+        # تُبحث بلا قيد when: — مصدرها المؤيِّد الفعلي بعمر الواقعة نفسها
+        ranked = search(build_query_for_claim(claim, query_max_words), cfg, days,
+                        unrestricted=claim.get("is_reference", False))
         # ترتيب صلة القراءة في gather_evidence يعتمد على entities الثابتة
         # أيضًا لا text وحدها (Issue #132 تعليق لاحق تالٍ: نفس نتائج البحث
         # بالضبط رُتِّبت بشكل مختلف جوهريًا بين تشغيلين لنفس المقال لأن
@@ -1079,6 +1146,7 @@ def _verify_article(body: str, cfg) -> dict:
             "index": len(fact_results),
             "status": status,
             "is_qualifier": claim.get("is_qualifier", False),
+            "is_reference": claim.get("is_reference", False),
             "supporting": judged["supporting"],
             "supporting_weighted": supporting_weighted,
             "contradicting": judged["contradicting"],

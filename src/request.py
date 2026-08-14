@@ -64,11 +64,17 @@ def norm_tokens(text: str) -> set[str]:
     return out
 
 
-def search_feeds(query: str, days: int, locales: list[dict]) -> list[dict]:
-    """يبني مصادر بحث مؤقتة — بصيغة المصادر العادية ليمرّ عبر المسار نفسه."""
+def search_feeds(query: str, days: int | None, locales: list[dict]) -> list[dict]:
+    """يبني مصادر بحث مؤقتة — بصيغة المصادر العادية ليمرّ عبر المسار نفسه.
+
+    days=None يبني استعلامًا بلا قيد when: إطلاقًا (verify.py، البند 5 —
+    تعليق التنفيذ على PR #340): واقعة مرجعية (سنة صدور كتاب، تاريخ معاهدة
+    قديمة...) مصدرها المؤيِّد الفعلي نص بعمر الواقعة نفسها لا مقال حديث،
+    فتقييد النتائج بنافذة الأيام الأخيرة عند جوجل نفسه يُسقطها دومًا مهما
+    صحّت — "لا نتائج بحث" حينها قيد بحث لا غياب سند فعلي."""
     # when:Nd يقصر النتائج على النافذة الزمنية عند جوجل نفسه، فلا نجلب
     # أرشيفًا كاملًا لنرميه بعد الجلب.
-    q = urllib.parse.quote(f"{query} when:{days}d")
+    q = urllib.parse.quote(query if days is None else f"{query} when:{days}d")
     feeds = []
     for loc in locales:
         feeds.append({
