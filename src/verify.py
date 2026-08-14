@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import re
 
 from anthropic import Anthropic, APIError
@@ -597,11 +598,18 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
         if len(members) >= max_members:
             break
 
+    # اسم → رابط لكل مرشح جرى ضمّه فعليًا — يُستهلك أدناه لإرفاق رابط كل
+    # مصدر بمقتطفه (Issue #334 نقطة 1 من الموافقة: verify_draft.py يحتاج
+    # الرابط ليستشهد بالمصدر عند النشر، لا اسمه وحده كما كان يكفي المرحلة
+    # الأولى). حقل بيانات فقط — لا يمسّ classify_fact ولا أي عتبة.
+    link_by_name = {m["name"]: m["link"] for m in members}
+
     fulltext = extract.gather(members, limit=limit)
     if fulltext:
         log.info("نصوص مُقروءة فعلًا من نافذة القراءة: %s",
                  [d.get("name") for d in fulltext])
-        return [{**d, "from_text": True} for d in fulltext], EVIDENCE_FULL_TEXT
+        return [{**d, "from_text": True, "link": link_by_name.get(d["name"], "")}
+               for d in fulltext], EVIDENCE_FULL_TEXT
 
     headline_docs = []
     seen_headline_names: set[str] = set()
@@ -611,7 +619,8 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
             continue
         snippet = f"{a.title}. {a.summary}".strip(" .")
         if snippet:
-            headline_docs.append({"name": name, "text": snippet, "from_text": False})
+            headline_docs.append({"name": name, "text": snippet, "from_text": False,
+                                  "link": a.link})
             seen_headline_names.add(name)
         if len(headline_docs) >= limit:
             break
@@ -906,6 +915,41 @@ def judge_question(question: str, docs: list[dict], cfg, retries: int = 2) -> di
 # ──────────────────────────── التنسيق الكامل ────────────────────────────
 
 
+def _fact_sources(names: list[str], docs: list[dict], ranked: list[Article]) -> list[dict]:
+    """يحتفظ بمقتطف/رابط/صور كل مصدر مؤيِّد فعليًا لواقعة، بدل أن تُهدر docs
+    بعد judge_fact كما كانت (Issue #334 نقطة 1 من الموافقة). حقل بيانات
+    فقط، لا حكم — لا يمسّ classify_fact ولا أي عتبة تصنيف. يستهلكه
+    verify_draft.py لاحقًا لبناء مسودة من المؤكَّد وحده.
+
+    صور كل مصدر تُؤخذ من الممثّل (Article) الذي يحمل اسمه في `ranked` —
+    أعضاء cluster_members لا يحملون صورًا خاصة بهم، فمصدر مندمج في مجموعة
+    ممثَّلة بغيره قد يعود بقائمة صور فارغة هنا؛ هذا تقريب مقبول (يسقط
+    verify_draft.py لبديل البحث الحر عند فراغها) لا اختراع لصورة لا نملكها."""
+    docs_by_name = {d["name"]: d for d in docs}
+    images_by_name: dict[str, list[str]] = {}
+    for a in ranked:
+        # getattr لا وصول مباشر: بعض الاختبارات تمرّر عناصر مؤقتة غير
+        # Article إلى search() المزيَّفة (فقط لتفعيل مسار القراءة) — صور
+        # مفقودة هنا تُعامَل كقائمة فارغة (يسقط verify_draft.py لاحقًا لبديل
+        # البحث الحر)، لا انهيارًا في مسار لا يمسّ أي حكم أصلًا
+        name = getattr(a, "publisher", "") or getattr(a, "source_name", "")
+        if name and name not in images_by_name:
+            images_by_name[name] = getattr(a, "image_candidates", None) or []
+
+    out = []
+    for name in names:
+        doc = docs_by_name.get(name)
+        if not doc:
+            continue
+        out.append({
+            "name": name,
+            "link": doc.get("link", ""),
+            "text": doc.get("text", ""),
+            "image_candidates": images_by_name.get(name, []),
+        })
+    return out
+
+
 def verify_article(body: str, cfg) -> dict:
     """يلتقط أي انهيار غير متوقع (رد نموذج بشكل لم يُتوقَّع رغم التطبيع، خطأ
     شبكة لم يُلتقط في طبقة أدنى...) فلا يصل traceback إلى تعليق الـ Issue —
@@ -984,11 +1028,13 @@ def _verify_article(body: str, cfg) -> dict:
                                min_confirm, weights_by_name, near_confirm_min_weight)
         fact_results.append({
             "text": text,
+            "index": len(fact_results),
             "status": status,
             "supporting": judged["supporting"],
             "supporting_weighted": supporting_weighted,
             "contradicting": judged["contradicting"],
             "evidence_basis": evidence_basis,
+            "sources": _fact_sources(judged["supporting"], docs, ranked),
         })
 
     question_results = []
@@ -1118,7 +1164,32 @@ def main() -> int:
 
     result = verify_article(body, cfg)
     report = build_report(result)
-    review.comment(args.issue, f"{report}\n\n<sub>💵 {usage_summary()}</sub>")
+
+    # استيراد داخلي: verify_draft.py يستورد verify.py عند التحميل (يحتاج
+    # STATUS_CONFIRMED و_TASHKEEL_RE)، فاستيراده هنا في نطاق الدالة لا أعلى
+    # الملف يتفادى حلقة استيراد بين الوحدتين (Issue #334)
+    from . import verify_draft
+    if result.get("ok"):
+        draft_outcome = verify_draft.attempt(result, body, args.issue, cfg)
+    else:
+        draft_outcome = {
+            "produced": False,
+            "reason": "تخطّي صياغة المسودة — تعذّر التحقق من المقال أصلًا",
+            "central_text": "", "central_index": 0,
+            "draft_id": None,
+        }
+    draft_section = verify_draft.build_report_section(draft_outcome)
+
+    review.comment(args.issue,
+                   f"{report}\n\n{draft_section}\n\n<sub>💵 {usage_summary()}</sub>")
+
+    # يمرَّر إلى الخطوة التالية في verify.yml (رفع المسودة إلى المستودع)
+    # عبر GITHUB_OUTPUT — لا مسار موازٍ، بل تمرير معرّف بين خطوتين لنفس المهمة
+    draft_id = draft_outcome.get("draft_id")
+    output_path = os.environ.get("GITHUB_OUTPUT")
+    if draft_id and output_path:
+        with open(output_path, "a", encoding="utf-8") as fh:
+            fh.write(f"draft_id={draft_id}\n")
     return 0
 
 

@@ -2497,6 +2497,29 @@ def test_verify() -> None:
     check("supporting_weighted محسوبة فعليًا لكل واقعة لا فارغة",
           bool(result2["facts"][0].get("supporting_weighted")))
 
+    # لقطة (snapshot، Issue #334 نقطة 1 من الموافقة): إضافة "index" و
+    # "sources" لكل واقعة (لاستهلاك verify_draft.py) حقل بيانات فقط، يجب
+    # ألا يغيّر أي حكم أو حقل من حقول المرحلة الأولى القائمة — كل الحقول
+    # القديمة أعلاه (status/verdict/supporting/evidence_basis) فُحصت فعلًا
+    # بلا تغيير؛ هنا نثبت أن الحقلين الجديدين إضافيان بحتًا لا يستبدلان شيئًا
+    check("الحقول القديمة كلها باقية رغم إضافة index/sources",
+          {"text", "status", "supporting", "supporting_weighted",
+           "contradicting", "evidence_basis"} <= set(result2["facts"][0].keys()))
+    check("index جديد ويطابق ترتيب الاستخراج (واقعة واحدة هنا: 0)",
+          result2["facts"][0]["index"] == 0)
+    check("sources جديد: مقتطف/رابط لكل مصدر مؤيِّد فعليًا لا اسمًا مجردًا",
+          result2["facts"][0]["sources"] and
+          all({"name", "link", "text", "image_candidates"} <= set(s.keys())
+              for s in result2["facts"][0]["sources"]))
+    # فرعية لا تطابق تام: هذا التثبيت يزيّف gather_evidence بمصدر واحد
+    # ("BBC") بينما judge_fact مزيَّفة تعيد BBC وReuters معًا — تعمّد لا
+    # يمثّل واقعًا حقيقيًا (حيث judge_fact الفعلية عبر _known_only تقتصر
+    # على أسماء موجودة في docs أصلًا)، لكنه يثبت أن _fact_sources لا تخترع
+    # مصدرًا لا نص موثَّق له
+    check("أسماء sources كلها من ضمن supporting، بلا اختراع مصدر بلا نص موثَّق",
+          {s["name"] for s in result2["facts"][0]["sources"]} <=
+          set(result2["facts"][0]["supporting"]))
+
     # العلاج 4 (Issue #132 تعليق لاحق) عبر verify_article الكاملة لا وحدة
     # classify_fact فقط: مصدر واحد قوي (Bloomberg، في trusted_boost) يظهر
     # كحالة وسيطة صريحة — التقرير يعكس عدم اليقين بدل إخفائه خلف "مصدر واحد"
@@ -2997,6 +3020,336 @@ def test_verify() -> None:
     verify._client = real_client
 
 
+def test_verify_draft() -> None:
+    """المرحلة الثانية من التحقق (Issue #334): صياغة مسودة من المؤكَّد وحده.
+    الاختبارات الثمانية المطلوبة في الـ Issue الأصلي زائد الأربعة الإضافية
+    من تعليقات الموافقة — رقّمت بنفس ترقيم التعليقات."""
+    from src import verify, verify_draft
+
+    real_client = writer._client
+    real_find_images = verify_draft.find_images
+    verify_draft.find_images = lambda *a, **kw: []  # لا شبكة إطلاقًا هنا
+
+    # attempt() تشترط الآن صراحةً أن التشغيل يُعلن صلاحية الكتابة (تعليق ما
+    # قبل الدمج، نقطة 1) — الاختبارات هنا تُحاكي بيئة verify.yml المحدَّث
+    # فتُعلنها، إلا اختبار الغياب نفسه أدناه الذي يزيلها عمدًا
+    real_write_enabled = os.environ.get(verify_draft.WRITE_ENABLED_ENV)
+    os.environ[verify_draft.WRITE_ENABLED_ENV] = "true"
+
+    class _DBlock:
+        def __init__(self, type_, text=None, input=None):
+            self.type = type_
+            self.text = text
+            self.input = input
+
+    class _DResp:
+        def __init__(self, content, stop_reason="end_turn", usage=None):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = usage
+
+    class _CapturingMessages:
+        def __init__(self, tool_input, calls):
+            self._tool_input = tool_input
+            self._calls = calls
+
+        def create(self, **kw):
+            self._calls.append(kw)
+            return _DResp([_DBlock("tool_use", input=self._tool_input)])
+
+    class _CapturingClient:
+        def __init__(self, tool_input, calls):
+            self.messages = _CapturingMessages(tool_input, calls)
+
+    calls: list[dict] = []
+
+    def install(tool_input):
+        calls.clear()
+        writer._client = lambda: _CapturingClient(tool_input, calls)
+
+    cfg = load_config()
+
+    SRC_BBC_TEXT = ("أعلنت وزارة الطاقة أن الإنتاج اليومي بلغ خمسة ملايين "
+                    "برميل خلال الشهر الماضي وفق بيان رسمي نُشر الثلاثاء "
+                    "الماضي في العاصمة")
+    SRC_REUTERS_TEXT = ("قالت وكالة رويترز إن الشركة الوطنية أكدت الرقم "
+                        "نفسه في مؤتمر صحفي عقد لاحقًا مساء الأربعاء")
+    ARTICLE_BODY = ("مقال ملصق يزعم أن الإنتاج انخفض بشكل كبير الشهر "
+                    "الماضي بسبب أعطال فنية متكررة في منصات الاستخراج "
+                    "الرئيسية بحسب مصادر مقرَّبة من الوزارة")
+
+    central = {
+        "text": "بلغ الإنتاج اليومي خمسة ملايين برميل الشهر الماضي",
+        "index": 0, "status": verify.STATUS_CONFIRMED,
+        "supporting": ["BBC"], "supporting_weighted": [], "contradicting": [],
+        "evidence_basis": verify.EVIDENCE_FULL_TEXT,
+        "sources": [{"name": "BBC", "link": "https://bbc.example/1",
+                    "text": SRC_BBC_TEXT,
+                    "image_candidates": ["https://bbc.example/1.jpg"]}],
+    }
+    second = {
+        "text": "أكدت الشركة الوطنية الرقم نفسه في مؤتمر صحفي",
+        "index": 1, "status": verify.STATUS_CONFIRMED,
+        "supporting": ["Reuters"], "supporting_weighted": [], "contradicting": [],
+        "evidence_basis": verify.EVIDENCE_FULL_TEXT,
+        "sources": [{"name": "Reuters", "link": "https://reuters.example/1",
+                    "text": SRC_REUTERS_TEXT, "image_candidates": []}],
+    }
+    near = {
+        "text": "قد يرتفع الإنتاج مستقبلًا حسب مصدر واحد قوي",
+        "index": 2, "status": verify.STATUS_NEAR_CONFIRMED,
+        "supporting": ["Bloomberg"], "supporting_weighted": [], "contradicting": [],
+        "evidence_basis": verify.EVIDENCE_FULL_TEXT,
+        "sources": [{"name": "Bloomberg", "link": "https://bloomberg.example/1",
+                    "text": "نص بلومبرغ", "image_candidates": []}],
+    }
+    single = {
+        "text": "زعم موقع مجهول أن الأرباح ارتفعت أربعين بالمئة",
+        "index": 3, "status": verify.STATUS_SINGLE,
+        "supporting": ["موقع مجهول"], "supporting_weighted": [], "contradicting": [],
+        "evidence_basis": verify.EVIDENCE_HEADLINES_ONLY,
+        "sources": [{"name": "موقع مجهول", "link": "https://unknown.example/1",
+                    "text": "نص موقع مجهول", "image_candidates": []}],
+    }
+
+    def _result(facts, topic="موضوع المقال الملصق الفعلي الذي لا يجوز أن يظهر في البرومبت"):
+        return {"ok": True, "topic": topic, "facts": facts, "opinions": [],
+               "questions": [], "contradictions": [], "verdict": True,
+               "verdict_reason": "اختبار"}
+
+    CLEAN_POST = {
+        "newsworthy": True, "category": "اقتصاد", "angle": "خبر",
+        "image_headline": "إنتاج النفط يرتفع لخمسة ملايين برميل",
+        "post_title": "ارتفاع الإنتاج اليومي إلى خمسة ملايين برميل",
+        "post_body": "أكدت مصادر مستقلة متعددة أن معدل الضخ اليومي وصل "
+                     "لأعلى مستوى منذ أشهر، مدعومًا بتصريحات رسمية متطابقة "
+                     "من جهتين منفصلتين خلال الأسبوع نفسه.",
+        "hashtags": ["نفط", "طاقة"], "analysis": "",
+    }
+
+    # 1) شبه مؤكَّدة ومصدر واحد لا يظهران في المسودة (البرومبت المرسل تحديدًا)
+    # 3) مؤكَّد كافٍ ← مسودة مكتوبة بمسار store.py نفسه وبالمخطط نفسه
+    install(dict(CLEAN_POST))
+    result = _result([central, near, single, second])
+    outcome = verify_draft.attempt(result, ARTICLE_BODY, 132, cfg)
+    check("1) مسودة أُنتجت من الوقائع المؤكَّدة الكافية", outcome["produced"], outcome["reason"])
+    prompt_sent = calls[-1]["messages"][0]["content"] if calls else ""
+    check("1) نص الواقعة شبه المؤكَّدة غائب عن البرومبت المرسل",
+          near["text"] not in prompt_sent)
+    check("1) نص الواقعة بمصدر واحد غائب عن البرومبت المرسل",
+          single["text"] not in prompt_sent)
+    check("1) نص الواقعة المحورية المؤكَّدة حاضر في البرومبت",
+          central["text"] in prompt_sent)
+    check("1) نص الواقعة المؤكَّدة الثانية حاضر في البرومبت",
+          second["text"] in prompt_sent)
+
+    loaded = store.load_draft(outcome["draft_id"])
+    check("3) المسودة محفوظة فعليًا عبر store.load_draft بنفس المعرّف",
+          loaded is not None)
+    if loaded:
+        _, saved = loaded
+        check("3) المسودة معلَّمة بحقل المنشأ verify",
+              saved.get("origin") == "verify")
+        check("3) المسودة تحمل رقم Issue التحقق الأصلي",
+              saved.get("verify_issue") == 132)
+        check("3) المسودة بحالة pending كأي مسودة عادية",
+              saved.get("status") == "pending")
+        check("3) رابط المصدر في المسودة رابط مصدر مؤكِّد لا رابط مقال ملصق "
+              "(لا رابط له أصلًا)",
+              saved.get("source", {}).get("link") in
+              ("https://bbc.example/1", "https://reuters.example/1"))
+        check("3) نفس مخطط drafts/ (id/arabic/caption/image/source) بلا نقص",
+              {"id", "arabic", "caption", "image", "source"} <= set(saved.keys()))
+        # نقطة 3 من تعليق ما قبل الدمج: حقل الروابط/الناشرين يُملأ من
+        # المصادر المؤكِّدة وحدها؛ رابط المقال الملصق واسم ناشره لا يظهران
+        # في المنشور — لا يوجد لهما أصلًا حقل في هذا المسار (لا رابط للمقال
+        # الملصق في مدخلات verify.py أساسًا) فالضمان بنيوي لا شرطًا مضافًا
+        check("3) publishers في المسودة الناشرَين المؤكِّدَين حصرًا",
+              saved.get("source", {}).get("publishers") == ["BBC", "Reuters"],
+              saved.get("source", {}).get("publishers"))
+        # publish.py يعلّق بالمصدر من draft["source"]["link"]/["publishers"]
+        # حصرًا — نفس الحقلين المبنيين هنا من المصادر المؤكِّدة فقط، فتعليق
+        # النشر لا يذكر رابط المقال الملصق ولا اسم ناشره بأي حال (لا يوجد
+        # لهما حقل أصلًا في هذا المسار)
+        from src import publish as publish_mod
+        first_comment = publish_mod.first_comment_for(saved, cfg)
+        check("3) تعليق النشر الأول يذكر رابط مصدر مؤكِّد والناشرَين المؤكِّدَين حصرًا",
+              first_comment == "المصدر: BBC، Reuters\nhttps://bbc.example/1",
+              first_comment)
+
+    # 2) مؤكَّد غير كافٍ ← لا مسودة، وسبب امتناع محدد في التقرير
+    outcome_insuff = verify_draft.attempt(_result([central]), ARTICLE_BODY, 132, cfg)
+    check("2) واقعة مؤكَّدة وحيدة غير كافية ← لا مسودة", not outcome_insuff["produced"])
+    check("2) السبب يذكر الحد الأدنى تحديدًا لا رسالة عامة",
+          "الحد الأدنى" in outcome_insuff["reason"], outcome_insuff["reason"])
+    section2 = verify_draft.build_report_section(outcome_insuff)
+    check("2) قسم التقرير يحمل سبب الامتناع المحدد", outcome_insuff["reason"] in section2)
+
+    outcome_central_bad = verify_draft.attempt(
+        _result([dict(near, index=0), second]), ARTICLE_BODY, 132, cfg)
+    check("2) واقعة محورية غير مؤكَّدة رغم كفاية العدد ← لا مسودة",
+          not outcome_central_bad["produced"])
+    check("2) السبب يذكر الواقعة المحورية بنصها",
+          "المحورية" in outcome_central_bad["reason"] and
+          near["text"] in outcome_central_bad["reason"])
+
+    # 4) تطابق لفظي مع نص المقال ← المسودة مرفوضة، بلا إعادة محاولة
+    copied_from_article = " ".join(ARTICLE_BODY.split()[:9])
+    install({**CLEAN_POST, "post_body": f"نص افتتاحي. {copied_from_article} وبقية المتن."})
+    outcome4 = verify_draft.attempt(_result([central, second]), ARTICLE_BODY, 132, cfg)
+    check("4) تطابق لفظي مع المقال الملصق ← رفض", not outcome4["produced"])
+    check("4) سبب الرفض يذكر المقال الملصق تحديدًا",
+          "المقال الملصق" in outcome4["reason"], outcome4["reason"])
+    check("4) استدعاء واحد فقط — بلا إعادة محاولة بعد رفض التطابق",
+          len(calls) == 1)
+
+    # 5) البرومبت المرسل لا يحتوي نص المقال ولا عنوانه
+    install(dict(CLEAN_POST))
+    verify_draft.attempt(_result([central, second]), ARTICLE_BODY, 132, cfg)
+    prompt5 = calls[-1]["messages"][0]["content"]
+    check("5) نص المقال الملصق غائب كليًا عن البرومبت", ARTICLE_BODY not in prompt5)
+    check("5) عنوان/موضوع المقال (topic) غائب كليًا عن البرومبت",
+          "موضوع المقال الملصق الفعلي" not in prompt5)
+
+    # 6) النظام المستعمل هو writer.SYSTEM_PROMPT عينه — تطابق مطلق لا تشابه
+    check("6) system المرسل مطابقة حرفية لـ writer.SYSTEM_PROMPT",
+          calls[-1]["system"][0]["text"] == writer.SYSTEM_PROMPT)
+
+    # 7) مصادر تخالف نتيجة المقال ← المسودة تتبع المصادر لا المقال
+    contradicting_article = ("مقال ملصق يزعم أن الإنتاج انخفض إلى ثلاثة "
+                             "ملايين برميل فقط بسبب أعطال متكررة")
+    install(dict(CLEAN_POST))  # المسودة (من المصادر) تقول "ارتفع... خمسة ملايين"
+    outcome7 = verify_draft.attempt(
+        _result([central, second]), contradicting_article, 132, cfg)
+    check("7) مسودة تخالف رواية المقال الملصق لفظيًا لكنها تُقبل لأنها من "
+          "المصادر المؤكِّدة", outcome7["produced"], outcome7["reason"])
+    check("7) رقم/رواية المقال المخالفة غائبة عن البرومبت أصلًا",
+          "ثلاثة ملايين" not in calls[-1]["messages"][0]["content"])
+
+    # 8) فشل مصدر أثناء الصياغة (بلا رابط صالح) ← رسالة تحمل السبب، ولا مسودة
+    broken_source_fact = {
+        "text": "واقعة مؤكَّدة بمصدر بلا رابط صالح",
+        "index": 0, "status": verify.STATUS_CONFIRMED,
+        "supporting": ["ناشر معطوب"], "supporting_weighted": [], "contradicting": [],
+        "evidence_basis": verify.EVIDENCE_FULL_TEXT,
+        "sources": [{"name": "ناشر معطوب", "link": "", "text": "نص بلا رابط",
+                    "image_candidates": []}],
+    }
+    outcome8 = verify_draft.attempt(
+        _result([broken_source_fact, second]), ARTICLE_BODY, 132, cfg)
+    check("8) واقعة مؤكَّدة بلا مصدر برابط صالح ← لا مسودة", not outcome8["produced"])
+    check("8) السبب يذكر المرحلة", "مرحلة صياغة المسودة" in outcome8["reason"])
+    check("8) السبب يذكر نص الواقعة المتعثرة",
+          broken_source_fact["text"] in outcome8["reason"])
+    check("8) السبب يذكر اسم المصدر المعطوب", "ناشر معطوب" in outcome8["reason"])
+
+    # 9) مقتطف مصدر منسوخ حرفيًا في المسودة ← رفض
+    copied_from_source = " ".join(SRC_BBC_TEXT.split()[:8])
+    install({**CLEAN_POST, "post_body": f"مقدمة قصيرة. {copied_from_source} وخاتمة."})
+    outcome9 = verify_draft.attempt(_result([central, second]), ARTICLE_BODY, 132, cfg)
+    check("9) تطابق لفظي مع مقتطف مصدر مؤكِّد ← رفض", not outcome9["produced"])
+    check("9) سبب الرفض يذكر مقتطف مصدر مؤكِّد تحديدًا",
+          "مصدر مؤكِّد" in outcome9["reason"], outcome9["reason"])
+
+    # 10) اقتباس بين علامتين غير موجود في أي مقتطف مؤكِّد ← رفض
+    fabricated_quote = "«تصريح لم يرد حرفيًا في أي مصدر مؤكِّد إطلاقًا هنا»"
+    install({**CLEAN_POST, "post_body": f"{CLEAN_POST['post_body']} {fabricated_quote}"})
+    outcome10 = verify_draft.attempt(_result([central, second]), ARTICLE_BODY, 132, cfg)
+    check("10) اقتباس مختلَق غير موجود في أي مقتطف مؤكِّد ← رفض",
+          not outcome10["produced"])
+    check("10) سبب الرفض يذكر الاقتباس", "اقتباس" in outcome10["reason"])
+
+    # اقتباس موجود فعليًا حرفيًا في مقتطف مصدر مؤكِّد يُستثنى من الفحص ولا يُرفض
+    genuine_quote_words = " ".join(SRC_REUTERS_TEXT.split()[:6])
+    install({**CLEAN_POST, "post_body":
+            f"{CLEAN_POST['post_body']} «{genuine_quote_words}»"})
+    outcome10b = verify_draft.attempt(_result([central, second]), ARTICLE_BODY, 132, cfg)
+    check("10) اقتباس منسوب موثَّق فعليًا في مقتطف مصدر مؤكِّد لا يُرفض",
+          outcome10b["produced"], outcome10b["reason"])
+
+    # 11) newsworthy: false رغم كفاية المؤكَّد ← امتناع مشروع، والسبب حرفيًا في التقرير
+    install({"newsworthy": False, "reject_reason": "خبر مشاهير", "category": "عالم",
+            "post_title": "", "post_body": "", "hashtags": []})
+    outcome11 = verify_draft.attempt(_result([central, second]), ARTICLE_BODY, 132, cfg)
+    check("11) newsworthy=false رغم كفاية المؤكَّد ← لا مسودة", not outcome11["produced"])
+    check("11) سبب الرفض التحريري منقول حرفيًا كما أعاده النموذج",
+          "خبر مشاهير" in outcome11["reason"], outcome11["reason"])
+    section11 = verify_draft.build_report_section(outcome11)
+    check("11) سبب الرفض التحريري يظهر في قسم التقرير أيضًا",
+          "خبر مشاهير" in section11)
+
+    # حقل المنشأ لا يمنح أي امتياز في المراجعة: parse_approved/parse_rejects
+    # يعملان على المعرّف والمربعات فقط بصرف النظر عن وجوده (نقطة 5 من الموافقة)
+    origin_draft = {
+        "id": "ab01cd23ef45", "score": 1.0, "trend_score": 0.0, "origin": "verify",
+        "verify_issue": 132, "image": "drafts/x/a.jpg", "caption": "نص",
+        "source": {"link": "https://bbc.example/1", "publishers": ["BBC"]},
+        "arabic": {"post_title": "عنوان", "urgent": False, "category": "اقتصاد"},
+    }
+    origin_body = review.build_issue_body([origin_draft], "u/r", "main")
+    origin_body_checked = tick_marker(origin_body, "draft:ab01cd23ef45")
+    check("حقل origin لا يمنع اعتماد المسودة عبر parse_approved كالمعتاد",
+          review.parse_approved(origin_body_checked) == ["ab01cd23ef45"])
+    check("لا رفض بلا تعليم — حقل origin لا يفرض رفضًا افتراضيًا",
+          review.parse_rejects(origin_body_checked) == [])
+
+    # 12) فشل نداء النموذج نفسه (شبكة/حصة/استجابة مشوَّهة) أثناء الصياغة —
+    # لا مسودة، ورسالة تذكر المرحلة والسبب المحدد لا رسالة عامة (نقطة 4 من
+    # تعليق ما قبل الدمج على Issue #334؛ الاختبار 8 غطّى مصدرًا معطوبًا
+    # قبل نداء الشبكة — هنا العطل في نداء الشبكة نفسه، عبر writer._call_model
+    # المشترك بعد استخراجه)
+    class _FailingMessages:
+        def create(self, **kw):
+            raise ValueError("Connection error: تعذّر الاتصال بخادم Anthropic")
+
+    class _FailingClient:
+        def __init__(self):
+            self.messages = _FailingMessages()
+
+    real_sleep = writer.time.sleep
+    writer.time.sleep = lambda s: None  # بلا إبطاء حقيقي أثناء إعادة المحاولة في الاختبار
+    writer._client = lambda: _FailingClient()
+    try:
+        outcome12 = verify_draft.attempt(_result([central, second]), ARTICLE_BODY, 132, cfg)
+    finally:
+        writer.time.sleep = real_sleep
+    check("12) فشل نداء النموذج نفسه (عطل تقني) أثناء الصياغة ← لا مسودة",
+          not outcome12["produced"])
+    check("12) السبب يذكر المرحلة تحديدًا", "مرحلة صياغة المسودة" in outcome12["reason"],
+          outcome12["reason"])
+    check("12) السبب يذكر أنه فشل تقني لا رفض تحريري",
+          "فشل تقني" in outcome12["reason"], outcome12["reason"])
+    check("12) السبب يحمل تفصيل العطل الفعلي — لا «فشل التحقق» رسالة عامة",
+          "تعذّر الاتصال" in outcome12["reason"], outcome12["reason"])
+
+    # 13) صلاحية الكتابة غير معلَنة لهذا التشغيل (نقطة 1 من تعليق ما قبل
+    # الدمج) ← امتناع فوري بلا أي نداء نموذج (دفاع في العمق قبل إنفاق أي
+    # تكلفة). الملف القديم بلا VERIFY_DRAFT_WRITE_ENABLED كان سيصوغ محتوى
+    # مكلفًا يُهمَل صامتًا لأن لا خطوة رفع تحفظه
+    install(dict(CLEAN_POST))
+    del os.environ[verify_draft.WRITE_ENABLED_ENV]
+    try:
+        outcome13 = verify_draft.attempt(_result([central, second]), ARTICLE_BODY, 132, cfg)
+    finally:
+        os.environ[verify_draft.WRITE_ENABLED_ENV] = "true"
+    check("13) صلاحية الكتابة غير معلَنة لهذا التشغيل ← لا مسودة",
+          not outcome13["produced"])
+    check("13) السبب يذكر متغيّر البيئة تحديدًا",
+          verify_draft.WRITE_ENABLED_ENV in outcome13["reason"], outcome13["reason"])
+    check("13) لا نداء نموذج إطلاقًا — الامتناع يسبق أي تكلفة (دفاع في العمق)",
+          calls == [])
+    section13 = verify_draft.build_report_section(outcome13)
+    check("13) سبب غياب صلاحية الكتابة يظهر في قسم التقرير أيضًا",
+          verify_draft.WRITE_ENABLED_ENV in section13)
+
+    writer._client = real_client
+    verify_draft.find_images = real_find_images
+    if real_write_enabled is None:
+        os.environ.pop(verify_draft.WRITE_ENABLED_ENV, None)
+    else:
+        os.environ[verify_draft.WRITE_ENABLED_ENV] = real_write_enabled
+
+
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
     from src import review
@@ -3360,6 +3713,8 @@ def main() -> int:
     test_request_search()
     print("\n── التحقق من مقال ملصق ──")
     test_verify()
+    print("\n── صياغة مسودة من المؤكَّد وحده (التحقق، المرحلة 2) ──")
+    test_verify_draft()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()
