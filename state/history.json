@@ -1,24 +1,5 @@
 [
   {
-    "score": 25.78,
-    "bucket": "serious",
-    "tokens": [
-      "appoints",
-      "counsel",
-      "house",
-      "scharf",
-      "secretary",
-      "staff",
-      "trump",
-      "white"
-    ],
-    "link": "https://www.theguardian.com/us-news/2026/aug/09/trump-will-scharf-white-house-counsel",
-    "title": "Trump appoints staff secretary Will Scharf as new White House counsel",
-    "posted_title": "ترامب يعيّن محاميه السابق ويل شارف مستشارًا قانونيًا للبيت الأبيض",
-    "region": "uk",
-    "seen_at": "2026-08-10T07:08:08.972865+00:00"
-  },
-  {
     "score": 17.4,
     "bucket": "sport",
     "tokens": [
@@ -3962,5 +3943,25 @@
     "posted_title": "",
     "region": "de",
     "seen_at": "2026-08-15T06:31:00.216208+00:00"
+  },
+  {
+    "score": 16.78,
+    "bucket": "serious",
+    "tokens": [
+      "end",
+      "korea",
+      "korean",
+      "north",
+      "president",
+      "south",
+      "talks",
+      "wants",
+      "war"
+    ],
+    "link": "https://www.aljazeera.com/video/newsfeed/2026/8/15/south-koreas-president-wants-talks-with-north-to-end-korean-war?traffic_source=rss",
+    "title": "South Korea’s president wants talks with North to end Korean War",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-08-15T07:15:48.445509+00:00"
   }
 ]
