@@ -583,6 +583,12 @@ def _name_event(statement: dict, cfg) -> tuple[str | None, list[dict], list[str]
                  "matched_count": getattr(ranked, "matched_count", None),
                  "fetch_failures": getattr(docs, "fetch_failures", []),
                  "outcome": ""}
+        if stage_name == "مباشر":
+            # البند 4 (تعليق الموافقة الثالث على Issue #361): مرحلة التسمية
+            # المباشرة وحدها — لا كل استعلام — لأنها الفرضية المطروحة الآن
+            # («خبر 11 آب موضوعه المحكمة، قد لا يذكر حمزة الخطيب في
+            # العنوان»)؛ بلا معالجة لفلتر الصلة نفسه، عيّنة للتشخيص فقط
+            entry["rejected_titles"] = getattr(ranked, "rejected_titles", [])
         trail.append(entry)
         if not docs:
             entry["outcome"] = "لا وثائق للتسمية"
@@ -1435,6 +1441,11 @@ def build_report(outcome: dict) -> str:
                 name, reason, link = fail.get("name", "؟"), fail.get("reason", ""), fail.get("link", "")
                 label = f"[{name}]({link})" if link else name
                 lines.append(f"  - ⚠️ فشل جلب {label}: {reason}")
+            # عيّنة عناوين رفضها فلتر الصلة — مرحلة التسمية المباشرة وحدها
+            # (البند 4، تعليق الموافقة الثالث على Issue #361)
+            if t.get("rejected_titles"):
+                lines.append("  - 🚫 عيّنة عناوين رُفضت بالصلة: " +
+                             "؛ ".join(t["rejected_titles"]))
         lines.append("</details>")
 
     return "\n".join(lines)
