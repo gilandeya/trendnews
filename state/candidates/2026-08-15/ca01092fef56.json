@@ -1,0 +1,95 @@
+{
+  "id": "ca01092fef56",
+  "created_at": "2026-08-15T22:07:45.372645+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 33.28,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Qatar denies capturing three Iranian pilots after downing fighter jets",
+  "link": "https://www.bbc.co.uk/news/articles/cj4kk8kz271o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "IRNA English",
+    "Iran International",
+    "Mehr News",
+    "NDTV — World",
+    "South China Morning Post",
+    "Tehran Times",
+    "The Hindu — International",
+    "Vanguard Nigeria"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Qatar denies capturing three Iranian pilots after downing fighter jets",
+    "link": "https://www.bbc.co.uk/news/articles/cj4kk8kz271o?at_medium=RSS&at_campaign=rss",
+    "summary": "Iran claims they have been held since Qatar downed two fighter jets at the start of the US-Iran war.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-15T21:03:57+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0329/live/074a0750-98e9-11f1-a7ab-8b30adf0800a.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "IRNA English",
+      "Iran International",
+      "Mehr News",
+      "NDTV — World",
+      "South China Morning Post",
+      "Tehran Times",
+      "The Hindu — International",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/15/qatar-denies-it-is-detaining-three-iranian-bomber-pilots?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cj4kk8kz271o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/qatar-denies-detaining-downed-iranian-pilots/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-calls-for-release-of-pilots-captured-in-qatar-during-west-asia-war/article71350531.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-calls-for-release-of-pilots-captured-in-qatar-during-west-asia-war-101786796972291.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/iran-demands-release-of-3-pilots-captured-in-qatar-during-middle-east-war-11914787#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0329/live/074a0750-98e9-11f1-a7ab-8b30adf0800a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0329/live/074a0750-98e9-11f1-a7ab-8b30adf0800a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0329/live/074a0750-98e9-11f1-a7ab-8b30adf0800a.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/Qatar.jpg",
+      "https://c.ndtvimg.com/2026-08/18ifmaig_su24_625x300_15_August_26.jpeg",
+      "https://i.iranintl.com/images/rdk9umy0/production/c9b8cdfb2f617abea2413922edcc1410cf44ed3b-1200x799.jpg?rect=0,86,1200,628&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 12,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 33.284128735422726
+  }
+}

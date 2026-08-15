@@ -1,9 +1,9 @@
 {
   "id": "2126051bf7ad",
-  "created_at": "2026-08-15T19:07:48.133208+00:00",
-  "status": "unselected",
-  "selection_issue": 372,
-  "score": 16.11,
+  "created_at": "2026-08-15T22:07:45.374013+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.91,
   "trend_score": 1.0,
   "velocity": 0.0,
   "bucket": "serious",
@@ -39,8 +39,8 @@
     "trend_score": 1.0,
     "group_sources": 1,
     "velocity": 0.0,
-    "age_hours": 8.111577695833333,
+    "age_hours": 11.110523329444444,
     "is_stale": false,
-    "score": 16.107152930888887
+    "score": 15.90722271112963
   }
 }

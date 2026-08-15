@@ -1,0 +1,70 @@
+{
+  "id": "57ec0a5143ad",
+  "created_at": "2026-08-15T22:07:45.373740+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.68,
+  "trend_score": 0.5,
+  "velocity": 0.11,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Inter sign England full-back Spence from Tottenham",
+  "link": "https://www.bbc.co.uk/sport/football/articles/cz64vg6znz1o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Sport",
+    "Channel News Asia",
+    "Vanguard Nigeria"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Inter sign England full-back Spence from Tottenham",
+    "link": "https://www.bbc.co.uk/sport/football/articles/cz64vg6znz1o?at_medium=RSS&at_campaign=rss",
+    "summary": "England full-back Djed Spence signs a five-year deal at Inter Milan as he makes a move to Italy from Tottenham.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-15T17:15:16+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2cdf/live/31e573a0-98cb-11f1-9687-fb984065014d.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Sport",
+      "Channel News Asia",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/8/15/inter-milan-sign-englands-djed-spence-from-tottenham-hotspur?traffic_source=rss"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/cz64vg6znz1o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/inter-sign-englands-spence-tottenham-6321651"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/alaves-rout-getafe-as-new-la-liga-season-begins/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2cdf/live/31e573a0-98cb-11f1-9687-fb984065014d.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/2cdf/live/31e573a0-98cb-11f1-9687-fb984065014d.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/2cdf/live/31e573a0-98cb-11f1-9687-fb984065014d.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--ifTDHRm6--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-15T173217Z_1_LYNXMPEM7E0AD_RTROPTP_3_SOCCER-WORLDCUP-ENG-ARG.JPG?itok=sZ1ZnGgK",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2025/05/LA-LIGA.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 0.1111500387569348,
+    "age_hours": 80.10598199583333,
+    "is_stale": false,
+    "score": 19.680898833580972
+  }
+}

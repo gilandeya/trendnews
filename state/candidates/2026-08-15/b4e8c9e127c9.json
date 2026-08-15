@@ -1,0 +1,64 @@
+{
+  "id": "b4e8c9e127c9",
+  "created_at": "2026-08-15T22:07:45.373426+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.17,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Vance Says Cheap Oil and Gas Is Top US Priority in Iran War",
+  "link": "https://www.investing.com/analysis/vance-says-cheap-oil-and-gas-is-top-us-priority-in-iran-war-200685843",
+  "publishers": [
+    "CBS News — World",
+    "IRNA English",
+    "Investing.com — Commodities"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Vance Says Cheap Oil and Gas Is Top US Priority in Iran War",
+    "link": "https://www.investing.com/analysis/vance-says-cheap-oil-and-gas-is-top-us-priority-in-iran-war-200685843",
+    "summary": "",
+    "source_name": "Investing.com — Commodities",
+    "region": "money",
+    "weight": 1.0,
+    "published": "2026-08-15T22:07:29.839708+00:00",
+    "image_url": "https://img9.irna.ir/d/r2/2025/10/13/4/172164168.jpg",
+    "publisher": "Investing.com — Commodities",
+    "cluster_sources": [
+      "CBS News — World",
+      "IRNA English",
+      "Investing.com — Commodities"
+    ],
+    "cluster_members": [
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/vance-says-cheap-oil-and-gas-is-top-us-priority-in-iran-war-200685843"
+      },
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/hormuz-tanker-traffic-slumps-as-usiran-standoff-drags-on-200685828"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/live-updates/iran-war-donald-trump-strait-of-hormuz-uae-accuses-attacks-vance-oil-gas/"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86235894/Exclusive-Iran-s-control-of-Strait-of-Hormuz-has-disrupted"
+      }
+    ],
+    "image_candidates": [
+      "https://img9.irna.ir/d/r2/2025/10/13/4/172164168.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.22230130535584933,
+    "age_hours": 41.8642757725,
+    "is_stale": false,
+    "score": 23.166243402146424
+  }
+}
