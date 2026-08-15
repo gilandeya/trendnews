@@ -1,24 +1,5 @@
 [
   {
-    "score": 28.12,
-    "bucket": "serious",
-    "tokens": [
-      "breaks",
-      "europe",
-      "heat",
-      "records",
-      "soar",
-      "temperatures",
-      "tracker",
-      "weather"
-    ],
-    "link": "https://www.theguardian.com/environment/2026/aug/10/weather-tracker-europe-break-heat-records-temperatures-drought-wildfires",
-    "title": "Weather tracker: Europe breaks more heat records as temperatures soar",
-    "posted_title": "لماذا سجلت أوروبا أشد صيف حرارة منذ بدء القياسات",
-    "region": "uk",
-    "seen_at": "2026-08-10T11:08:21.403605+00:00"
-  },
-  {
     "score": 19.44,
     "bucket": "light",
     "tokens": [
@@ -4163,5 +4144,26 @@
     "posted_title": "",
     "region": "sport",
     "seen_at": "2026-08-15T10:45:52.902633+00:00"
+  },
+  {
+    "score": 19.31,
+    "bucket": "serious",
+    "tokens": [
+      "israeli",
+      "june",
+      "kill",
+      "lebanon",
+      "nine",
+      "since",
+      "south",
+      "strikes",
+      "toll",
+      "worst"
+    ],
+    "link": "https://www.theguardian.com/world/2026/aug/15/israeli-strike-on-southern-lebanon-kills-seven-in-worst-toll-since-june-state-media-says",
+    "title": "Israeli strikes on south Lebanon kill nine in worst toll since June",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-15T11:30:59.169090+00:00"
   }
 ]
