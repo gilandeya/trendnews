@@ -1,23 +1,5 @@
 [
   {
-    "score": 17.4,
-    "bucket": "sport",
-    "tokens": [
-      "brazilian",
-      "celebration",
-      "during",
-      "falls",
-      "goal",
-      "player",
-      "tunnel"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/articles/cd9wg9x3n55o?at_medium=RSS&at_campaign=rss",
-    "title": "Brazilian player falls down tunnel during goal celebration",
-    "posted_title": "مدافع برازيلي يسقط في نفق أرضي وهو يحتفل بهدف انتهى بإصابته وإلغائه",
-    "region": "sport",
-    "seen_at": "2026-08-10T08:31:20.534082+00:00"
-  },
-  {
     "score": 23.3,
     "bucket": "serious",
     "tokens": [
@@ -3963,5 +3945,25 @@
     "posted_title": "",
     "region": "qa",
     "seen_at": "2026-08-15T07:15:48.445509+00:00"
+  },
+  {
+    "score": 20.57,
+    "bucket": "serious",
+    "tokens": [
+      "dangerously",
+      "data",
+      "heatwaves",
+      "hospital",
+      "hostile",
+      "leave",
+      "reveals",
+      "unsafe",
+      "wards"
+    ],
+    "link": "https://www.theguardian.com/society/2026/aug/15/dangerously-hostile-heatwaves-leave-hospital-wards-unsafe-data-reveals",
+    "title": "‘Dangerously hostile’: heatwaves leave hospital wards unsafe, data reveals",
+    "posted_title": "درجات حرارة تقارب 42 مئوية داخل أجنحة مستشفيات إنجليزية تجبر على إلغاء عمليات جراحية",
+    "region": "uk",
+    "seen_at": "2026-08-15T08:31:24.669767+00:00"
   }
 ]
