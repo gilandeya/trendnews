@@ -1,62 +1,5 @@
 [
   {
-    "score": 34.0,
-    "bucket": "serious",
-    "tokens": [
-      "backed",
-      "first",
-      "gaza",
-      "netanyahu",
-      "peace",
-      "plan",
-      "point",
-      "rejects",
-      "thing"
-    ],
-    "link": "https://www.theguardian.com/us-news/2026/aug/10/first-thing-netanyahu-rejects-us-backed-gaza-peace-plan",
-    "title": "Netanyahu rejects US-backed 15-point Gaza peace plan | First Thing",
-    "posted_title": "لماذا يتعثر مسار السلام في غزة رغم إعلان حماس موافقتها على نزع السلاح",
-    "region": "uk",
-    "seen_at": "2026-08-10T15:08:24.031337+00:00"
-  },
-  {
-    "score": 22.34,
-    "bucket": "serious",
-    "tokens": [
-      "colombia",
-      "dead",
-      "earthquake",
-      "least",
-      "magnitude",
-      "shakes"
-    ],
-    "link": "https://www.theguardian.com/world/live/2026/aug/10/74-magnitude-earthquake-shakes-colombia-causing-serious-damage-latest-news",
-    "title": "At least 20 dead after 7.4 magnitude earthquake shakes Colombia",
-    "posted_title": "زلزال بقوة 7.4 درجات يضرب غرب كولومبيا ويقتل 20 شخصًا ويهدم عشرات المباني",
-    "region": "uk",
-    "seen_at": "2026-08-10T15:16:08.220037+00:00"
-  },
-  {
-    "score": 17.58,
-    "bucket": "serious",
-    "tokens": [
-      "36c",
-      "ahead",
-      "declared",
-      "drought",
-      "england",
-      "expected",
-      "heat",
-      "parts",
-      "possible"
-    ],
-    "link": "https://www.theguardian.com/uk-news/2026/aug/10/uk-temperatures-heatwave-summer-met-office-warning",
-    "title": "Drought expected to be declared in more parts of England ahead of possible 36C heat",
-    "posted_title": "جفاف متوقع في مناطق جديدة بإنجلترا مع اقتراب موجة حر تلامس 36 درجة",
-    "region": "uk",
-    "seen_at": "2026-08-10T15:31:32.862973+00:00"
-  },
-  {
     "score": 31.32,
     "bucket": "serious",
     "tokens": [
@@ -4322,5 +4265,45 @@
     "posted_title": "",
     "region": "jp",
     "seen_at": "2026-08-15T15:08:05.388752+00:00"
+  },
+  {
+    "score": 16.33,
+    "bucket": "serious",
+    "tokens": [
+      "agree",
+      "crude",
+      "exports",
+      "iran",
+      "mechanism",
+      "oil",
+      "product",
+      "supply",
+      "tajikistan"
+    ],
+    "link": "https://www.tehrantimes.com/news/529077/Iran-Tajikistan-agree-on-mechanism-for-oil-product-exports",
+    "title": "Iran, Tajikistan agree on mechanism for oil product exports, crude supply",
+    "posted_title": "إيران وطاجيكستان تشكلان مجموعة عمل لتصدير النفط الخام والمشتقات النفطية",
+    "region": "ir",
+    "seen_at": "2026-08-15T15:45:31.389198+00:00"
+  },
+  {
+    "score": 20.58,
+    "bucket": "serious",
+    "tokens": [
+      "flowing",
+      "gulf",
+      "japan",
+      "keep",
+      "oil",
+      "reinsurance",
+      "state",
+      "tankers",
+      "weighs"
+    ],
+    "link": "https://asia.nikkei.com/business/insurance/japan-weighs-state-reinsurance-for-tankers-to-keep-gulf-oil-flowing",
+    "title": "Japan weighs state reinsurance for tankers to keep Gulf oil flowing",
+    "posted_title": "مخزونات النفط العالمية تحت الاختبار مع استمرار حرب أميركا وإيران",
+    "region": "jp",
+    "seen_at": "2026-08-15T15:45:46.653479+00:00"
   }
 ]
