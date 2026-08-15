@@ -776,7 +776,15 @@ def _verify_article(body: str, cfg) -> dict:
 
     question_results = []
     for text in questions:
-        ranked = search(build_query(text, query_max_words), cfg, days)
+        # legacy_sort=True: هذا الاستدعاء وحده يبني الاستعلام من نص السؤال
+        # الخام بلا entities (خلافًا لـ build_query_for_claim أعلاه)، فقد
+        # يطول لعشرين كلمة — السلوك الافتراضي الجديد لـbuild_query (حفظ
+        # ترتيب الورود) قد يُسقط رقمًا/تاريخًا مميِّزًا يرد متأخرًا في
+        # جملة كهذه. verify.py مسار متقاعد ينتظر الحذف (src/article.py
+        # يوثّق الاستبدال)، فأُبقي سلوكه القديم هنا خلف هذا المعامل الصريح
+        # بدل توسيع مخطط أسئلته بـentities (Issue #361 تعليق الموافقة
+        # الثالث، البند 1: أي عمل إضافي في هذا المسار مهدور).
+        ranked = search(build_query(text, query_max_words, legacy_sort=True), cfg, days)
         docs, evidence_basis = gather_evidence(ranked, cfg, text)
         judged = (judge_question(text, docs, cfg) if docs
                  else {"answered": False, "answer": "", "source": ""})

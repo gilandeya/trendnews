@@ -2377,12 +2377,17 @@ def test_verify() -> None:
     # الادّعاء الكامل — جملة طويلة لا تُطابق أي نتيجة في بحث Google News)
     long_claim = ("انخفضت واردات الولايات المتحدة من النفط الخام السعودي "
                   "إلى الصفر طوال شهر يوليو 2026 بأكمله، وفقا لتقرير بلومبرغ")
-    query = verify.build_query(long_claim)
+    # legacy_sort=True: هذه الحزمة تختبر السلوك القديم (أرقام أولًا ثم أطول
+    # الكلمات) الذي بقي محجوزًا حصرًا لـ verify.py:779 (سؤال بلا entities —
+    # مسار متقاعد ينتظر الحذف، تعليق الموافقة الثالث على Issue #361، البند
+    # 1). الافتراضي الجديد يحفظ ترتيب الورود بلا فصل الأرقام — مُختبَر في
+    # test_evidence أدناه.
+    query = verify.build_query(long_claim, legacy_sort=True)
     check("الاستعلام المولَّد لا يتجاوز 5 كلمات مفتاحية",
           1 <= len(query.split()) <= 5)
     check("الاستعلام المولَّد أقصر بوضوح من الجملة الأصلية",
           len(query) < len(long_claim))
-    check("الرقم المميز (السنة) يدخل الاستعلام", "2026" in query.split())
+    check("الرقم المميز (السنة) يدخل الاستعلام (legacy_sort)", "2026" in query.split())
     check("سقف الكلمات قابل للتحكم عبر max_words",
           len(verify.build_query(long_claim, max_words=2).split()) <= 2)
     check("نص فارغ لا ينهار بناء الاستعلام", verify.build_query("") == "")
@@ -2390,9 +2395,9 @@ def test_verify() -> None:
     # عطل ثانٍ رُصد فعليًا في الإنتاج (Issue #132 تعليق لاحق): استعلامات
     # ركيكة مثل 'بلومبرغ لتقرير للتاكد محتواه اليه' — كلمات حشو طويلة
     # تُزاحم أسماء الأعلام، وتطبيع الهمزات يفسد الإملاء الحرفي
-    check("اسم العلم (بلومبرغ) يدخل الاستعلام لا كلمات الحشو الأطول",
+    check("اسم العلم (بلومبرغ) يدخل الاستعلام لا كلمات الحشو الأطول (legacy_sort)",
           "بلومبرغ" in query.split())
-    check("كلمات الحشو والإسناد لا تدخل الاستعلام رغم طولها",
+    check("كلمات الحشو والإسناد لا تدخل الاستعلام رغم طولها (legacy_sort)",
           not any(w in query for w in ("لتقرير", "للتاكد", "وفقا", "بأكمله")))
     check("الهمزة تبقى بإملائها الأصلي في الاستعلام لا مطبَّعة (اتفاقية لا اتفاقيه)",
           "اتفاقيه" not in verify.build_query("اتفاقية البترودولار لعام 1974").split())
@@ -3651,14 +3656,31 @@ def test_evidence() -> None:
 
     long_claim = ("انخفضت واردات الولايات المتحدة من النفط الخام السعودي "
                   "إلى الصفر طوال شهر يوليو 2026 بأكمله، وفقا لتقرير بلومبرغ")
-    query = evidence.build_query(long_claim)
+    # legacy_sort=True: هذه الحزمة تختبر السلوك القديم (أرقام أولًا ثم أطول
+    # الكلمات)، محجوز حصرًا لـ verify.py:779 الآن (تعليق الموافقة الثالث
+    # على Issue #361، البند 1). الافتراضي الجديد يُختبَر أدناه مباشرة.
+    query = evidence.build_query(long_claim, legacy_sort=True)
     check("evidence.build_query: لا يتجاوز 5 كلمات مفتاحية",
           1 <= len(query.split()) <= 5)
-    check("evidence.build_query: الرقم المميز يدخل الاستعلام", "2026" in query.split())
-    check("evidence.build_query: اسم العلم يدخل الاستعلام لا كلمات الحشو الأطول",
+    check("evidence.build_query: الرقم المميز يدخل الاستعلام (legacy_sort)",
+          "2026" in query.split())
+    check("evidence.build_query: اسم العلم يدخل الاستعلام لا كلمات الحشو الأطول (legacy_sort)",
           "بلومبرغ" in query.split() and
           not any(w in query for w in ("لتقرير", "وفقا", "بأكمله")))
     check("evidence.build_query: نص فارغ لا ينهار", evidence.build_query("") == "")
+
+    # الافتراضي الجديد (البند 1، تعليق الموافقة الثالث): يحفظ ترتيب الورود
+    # الأصلي بلا فصل الأرقام إلى المقدمة — عكس legacy_sort أعلاه تمامًا
+    ordered_source = "زيد 11 عمرو آب 2026"
+    default_ordered = evidence.build_query(ordered_source, 5)
+    legacy_ordered = evidence.build_query(ordered_source, 5, legacy_sort=True)
+    check("evidence.build_query: الافتراضي يحفظ ترتيب الورود الأصلي حرفيًا "
+          "حين تتسع الكلمات كلها ضمن السقف",
+          default_ordered == ordered_source, default_ordered)
+    check("evidence.build_query: legacy_sort يفصل الأرقام إلى المقدمة فعلًا "
+          "— يثبت أن الافتراضي تغيّر لا أنه صدفة بلا فرق",
+          legacy_ordered.split()[:2] == ["11", "2026"] and
+          legacy_ordered != ordered_source, legacy_ordered)
 
     # تشخيص التشغيل الحقيقي على Issue #364: شرط الطول (len > 2) في
     # request.norm_tokens كان يُسقط بنيويًا كل تاريخ يوم من رقمين وكل شهر
@@ -3783,6 +3805,24 @@ def test_evidence() -> None:
     check("evidence.search: keep_google_links=True دومًا — نتائجه كلها من "
           "Google News فتُحلّ لاحقًا في gather_evidence لا تُستبعد خامًا",
           seen_keep_google == [True], str(seen_keep_google))
+
+    # البند 4 (تعليق الموافقة الثالث على Issue #361): عيّنة عناوين رفضها
+    # فلتر الصلة — تشخيص فرضية أن الحدث الصحيح قد لا يذكر كيان الموجز في
+    # عنوانه فيُرفض قبل قراءته
+    irrelevant = Article(title="مباراة كرة قدم في دوري محلي", link="https://y/1",
+                         summary="", source_name="s2", region="global", weight=1.0,
+                         published=datetime.now(timezone.utc), publisher="s2")
+    evidence.fetch_source = lambda src, max_age_hours: [one, irrelevant]
+    try:
+        search_result2 = evidence.search("زلزال هرات", cfg, 7)
+    finally:
+        evidence.fetch_source = real_fetch_source
+    check("evidence.search: rejected_titles يحمل عنوان النتيجة المرفوضة بالصلة",
+          irrelevant.title in search_result2.rejected_titles and
+          all(t == irrelevant.title for t in search_result2.rejected_titles),
+          search_result2.rejected_titles)
+    check("evidence.search: rejected_titles فارغة حين تُقبَل كل النتائج",
+          search_result.rejected_titles == [], search_result.rejected_titles)
 
 
 def test_article() -> None:
@@ -4179,6 +4219,33 @@ def test_article() -> None:
           "لا مجرَّدين من التفاصيل",
           f"{direct_entry['raw_count']} خام" in report_trail and "HTTP 403" in report_trail,
           report_trail)
+
+    # البند 4 (تعليق الموافقة الثالث على Issue #361): عيّنة عناوين مرفوضة
+    # بالصلة تظهر في trail لمرحلة «مباشر» تحديدًا — استدعاء معزول بمصدرين
+    # (أحدهما لا يشارك أي كلمة مع الاستعلام) كي لا يمسّ raw_count==matched_count
+    # المتحقَّق منه أعلاه
+    irrelevant_naming = Article(
+        title="مباراة كرة قدم ودّية بين ناديين محليين", link="https://irrelevant.example/1",
+        summary="", source_name="مصدر عام", region="global", weight=1.0,
+        published=datetime.now(timezone.utc), publisher="مصدر عام")
+    evidence.fetch_source = lambda src, max_age_hours: [trail_article, irrelevant_naming]
+    extract.gather = lambda members, limit=2: (
+        [], [{"name": "مصدر محجوب", "link": "https://blocked.example/1", "reason": "HTTP 403"}])
+    try:
+        _, _, _, name_trail3 = article._name_event(
+            {"text": "إشارة اختبارية", "entities": ["كيان اختباري", "11 آب 2026"]}, cfg)
+    finally:
+        evidence.fetch_source = real_fetch_source3
+        extract.gather = real_extract_gather3
+
+    direct_entry3 = next(t for t in name_trail3 if t["stage"] == "مباشر")
+    check("4) trail يعرض عيّنة عناوين مرفوضة بالصلة في مرحلة التسمية المباشرة",
+          irrelevant_naming.title in (direct_entry3.get("rejected_titles") or []), direct_entry3)
+    check("4) raw_count أكبر من matched_count حين رُفضت نتيجة بالصلة فعليًا",
+          direct_entry3["raw_count"] > direct_entry3["matched_count"] > 0, direct_entry3)
+    report_trail3 = article.build_report({**article._new_outcome(), "trail": name_trail3})
+    check("4) التقرير يعرض عيّنة العناوين المرفوضة فعليًا",
+          irrelevant_naming.title in report_trail3, report_trail3)
 
     evidence.search = _fake_search
     evidence.gather_evidence = _fake_gather_evidence

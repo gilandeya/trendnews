@@ -72,7 +72,7 @@ def _normalize_query_word(raw: str) -> str | None:
     return word
 
 
-def build_query(text: str, max_words: int = 5) -> str:
+def build_query(text: str, max_words: int = 5, *, legacy_sort: bool = False) -> str:
     """يبني استعلام بحث قصيرًا (كلمات مفتاحية) من نص ادّعاء أو سؤال قد يكون
     جملة كاملة طويلة: بحث Google News RSS يطابق كل كلمات الاستعلام تقريبًا،
     فجملة من عشرين كلمة لا تُطابق أي نتيجة عمليًا حتى لو كان الحدث موثَّقًا
@@ -88,22 +88,47 @@ def build_query(text: str, max_words: int = 5) -> str:
     شرط طول (خلافًا لـnorm_tokens) كي لا يسقط تاريخ يوم من رقمين أو شهر
     عربي من حرفين (تشخيص Issue #364).
 
-    الأرقام (سنوات، كميات، أيام) أولًا لأنها أدق ما يميّز الادّعاء، ثم أطول
-    الكلمات المتبقية بعد استبعاد كلمات الحشو أعلاه — الطول تقريب رخيص
-    لعلمية الكلمة (اسم علم أو مكان) بلا استدعاء نموذج إضافي لاستخراج
-    كيانات."""
+    الافتراضي (Issue #361 تعليق الموافقة الثالث، البند 1) يحفظ **ترتيب
+    الورود الأصلي** بلا فصل الأرقام إلى مقدمة الاستعلام: تشخيص معتمَد وجد
+    أن الفصل يُبعثر تركيبات طبيعية («11 آب 2026» صارت «11 2026 الخطيب حمزة
+    آب» فعليًا في تشغيل حقيقي) — «آب» شهر حرفي لا رقمي فيُصنَّف "كلمة" ثم
+    يُدفَع لآخر الاستعلام بالفرز بالطول، فينفصل عن رفيقيه الرقميين رغم
+    فصلهما عمدًا لتصدُّر الاستعلام. محركات البحث ترجّح تجاور الكلمات، وهذا
+    ما يكتبه إنسان فعلًا.
+
+    legacy_sort=True يستعيد السلوك القديم (الأرقام أولًا، ثم أطول الكلمات
+    المتبقية تنازليًا) — محجوز حصرًا لـ verify.py:779 (استعلام سؤال بلا
+    entities، من نص خام قد يطول لعشرين كلمة). ذلك مسار متقاعد ينتظر الحذف
+    (src/article.py يوثّق الاستبدال)، فأي إصلاح إضافي فيه مهدور — أُبقي
+    سلوكه القديم خلف هذا المعامل الصريح بدل تطوير بديل له أو المخاطرة
+    بإسقاط رقم/تاريخ يرد متأخرًا في جملة طويلة بلا entities تضمن ظهوره.
+    كل مستدعٍ آخر (article.py: كيانات+تاريخ مباشرة، build_query_for_claim
+    من entities) نص قصير أو مبني من قائمة entities أصلًا — لا خطر إسقاط."""
     clean = _TASHKEEL_RE.sub("", text or "")
     seen: set[str] = set()
-    numbers: list[str] = []
-    words: list[str] = []
-    for raw in _QUERY_WORD_RE.findall(clean):
-        norm = _normalize_query_word(raw)
-        if norm is None or norm in seen or _is_query_filler(norm):
-            continue
-        seen.add(norm)
-        (numbers if _DIGIT_RE.search(raw) else words).append(raw)
-    words.sort(key=len, reverse=True)
-    picked = (numbers + words)[:max_words]
+
+    if legacy_sort:
+        numbers: list[str] = []
+        words: list[str] = []
+        for raw in _QUERY_WORD_RE.findall(clean):
+            norm = _normalize_query_word(raw)
+            if norm is None or norm in seen or _is_query_filler(norm):
+                continue
+            seen.add(norm)
+            (numbers if _DIGIT_RE.search(raw) else words).append(raw)
+        words.sort(key=len, reverse=True)
+        picked = (numbers + words)[:max_words]
+    else:
+        picked = []
+        for raw in _QUERY_WORD_RE.findall(clean):
+            norm = _normalize_query_word(raw)
+            if norm is None or norm in seen or _is_query_filler(norm):
+                continue
+            seen.add(norm)
+            picked.append(raw)
+            if len(picked) >= max_words:
+                break
+
     return " ".join(picked) if picked else clean.strip()
 
 
@@ -148,15 +173,25 @@ class SearchResult(list):
     تغطية واسعة، لا "عناوين فقط" مجرَّدة بلا رقم. مستهلكون آخرون (verify.py)
     يتعاملون معها كقائمة عادية بلا أي تغيير في العقد — list.__eq__ يقارن
     بالعناصر لا بنوع الصنف، فكل مقارنة/تكرار/فهرسة قائمة بها تسلك كسابقتها
-    تمامًا."""
+    تمامًا.
+
+    rejected_titles: عيّنة (5 كحد أقصى) من عناوين النتائج الخام التي رفضها
+    فلتر الصلة (relevant) — البند 4 (تعليق الموافقة الثالث على Issue #361):
+    الحدث المطلوب قد لا يذكر كيان الموجز في عنوانه (خبر عن محكمة قد يذكر
+    الكيان في سطر فرعي فقط)، فقد نرفض الخبر الصحيح قبل قراءته. لا تُعالَج
+    هذه الفرضية الآن — العيّنة هنا للتشخيص فقط، تُعرَض حصرًا في مرحلة
+    التسمية المباشرة (article.py) لا كل استعلام."""
     raw_count: int
     matched_count: int
+    rejected_titles: list
 
 
-def _search_result(items, raw_count: int, matched_count: int) -> SearchResult:
+def _search_result(items, raw_count: int, matched_count: int,
+                   rejected_titles: list | None = None) -> SearchResult:
     out = SearchResult(items)
     out.raw_count = raw_count
     out.matched_count = matched_count
+    out.rejected_titles = rejected_titles or []
     return out
 
 
@@ -193,10 +228,18 @@ def search(query: str, cfg, days: int, unrestricted: bool = False) -> list[Artic
         return _search_result([], 0, 0)
 
     wanted = norm_tokens(query)
-    matched = [a for a in articles if relevant(a, wanted, 1)]
+    matched: list[Article] = []
+    # عيّنة عناوين مرفوضة بالصلة (5 كحد أقصى) — البند 4، انظر توثيق
+    # SearchResult.rejected_titles أعلاه
+    rejected_titles: list[str] = []
+    for a in articles:
+        if relevant(a, wanted, 1):
+            matched.append(a)
+        elif len(rejected_titles) < 5:
+            rejected_titles.append(a.title)
     log.info("بحث %r → %d مطابق من %d خام", query, len(matched), len(articles))
     if not matched:
-        return _search_result([], len(articles), 0)
+        return _search_result([], len(articles), 0, rejected_titles)
 
     selection = {"max_age_hours": days * 24, "region_diversity": False,
                 "title_similarity": float(vcfg.get("title_similarity", 0.62))}
@@ -207,7 +250,7 @@ def search(query: str, cfg, days: int, unrestricted: bool = False) -> list[Artic
     ranked = rank(matched, selection, merge_cfg=None,
                  token_fn=norm_tokens if bilingual else None,
                  keep_google_links=True)
-    return _search_result(ranked, len(articles), len(matched))
+    return _search_result(ranked, len(articles), len(matched), rejected_titles)
 
 
 EVIDENCE_NO_RESULTS = "لا نتائج بحث"
