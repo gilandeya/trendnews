@@ -41,7 +41,6 @@ import logging
 import os
 import re
 import time
-from collections import Counter
 from datetime import datetime, timezone
 
 from anthropic import Anthropic, APIError
@@ -93,7 +92,12 @@ WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتب
    ولكل عنصر أيضًا is_reference: true إن كانت حقيقته ثابتة لا تتعلق بدورة
    الأخبار الحالية (سيرة، تاريخ قديم، إحصاء رسمي منشور من قبل) — بحثها لا
    يُقيَّد بنافذة زمنية قصيرة.
-3. questions: أسئلة يطرحها الموجز صراحة ولا يجيب عنها بنفسه.
+3. questions: أسئلة يطرحها الموجز صراحة ولا يجيب عنها بنفسه. كل سؤال هو
+   مهمة بحث فعلية لا حصيلة فشل — سيُبحث له سند بنفس آلية statements
+   تمامًا، فلكل سؤال أيضًا entities (2-5 كيانات مميِّزة منه كما وردت في
+   الموجز حرفيًا — الاستعلام يُبنى منها) وis_reference (true إن كان سؤالًا
+   عن حقيقة ثابتة لا تتعلق بدورة الأخبار الحالية، كسيرة شخص أو تاريخ سابق
+   — بحثه لا يُقيَّد بنافذة زمنية قصيرة).
 
 لا تنقل جملة من الموجز حرفيًا: أعد صياغة كل عنصر وسؤال بإيجاز (فيما عدا
 entities: تُنقل حرفيًا، لا تُعاد صياغتها أبدًا). لا تُجب عن الأسئلة من
@@ -123,7 +127,18 @@ WRITEUP_EXTRACT_SCHEMA = {
                                 "is_reference"],
                 },
             },
-            "questions": {"type": "array", "items": {"type": "string"}},
+            "questions": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "text": {"type": "string"},
+                        "entities": {"type": "array", "items": {"type": "string"}},
+                        "is_reference": {"type": "boolean"},
+                    },
+                    "required": ["text", "entities", "is_reference"],
+                },
+            },
         },
         "required": ["topic", "statements", "questions"],
     },
@@ -174,14 +189,27 @@ def normalize_statements(raw) -> list[dict]:
     return out
 
 
-def normalize_questions(raw) -> list[str]:
+def normalize_question(item) -> dict | None:
+    """يطبّع سؤالًا واحدًا من الموجز بنفس بنية normalize_statement (نصًا +
+    entities + is_reference) — تناظرًا كاملًا مع statements، فالسؤال مهمة
+    بحث فعلية يُبنى استعلامها من كياناته لا من نصه الخام (Issue #132: بناء
+    الاستعلام من نص جملة معاد صياغته أثبت ضعفه مرارًا)."""
+    text = _as_text(item)
+    if not text:
+        return None
+    entities = _as_entities(item.get("entities")) if isinstance(item, dict) else []
+    is_reference = bool(isinstance(item, dict) and item.get("is_reference") is True)
+    return {"text": text, "entities": entities, "is_reference": is_reference}
+
+
+def normalize_questions(raw) -> list[dict]:
     if not isinstance(raw, list):
         return []
     out = []
     for item in raw:
-        text = _as_text(item)
-        if text:
-            out.append(text)
+        norm = normalize_question(item)
+        if norm:
+            out.append(norm)
     return out
 
 
@@ -238,21 +266,105 @@ def extract_brief(body: str, cfg, retries: int = 3) -> tuple[dict | None, str | 
 # ──────────────────────────── تسمية الحدث المبهم ────────────────────────────
 
 
-def _extract_context_terms(docs: list[dict], exclude_entities: list[str],
-                           max_terms: int) -> list[str]:
-    """كلمات سياق مرشَّحة (بلد/جهة/مكان يتكرر في سيرة الكيان) من نصوص بحث
-    مرجعي فعلي — لا من معرفة النموذج (القاعدة 3): كلمة تتكرر في مصدرين
-    فأكثر من نتائج البحث المرجعي عن الكيان نفسه هي أقرب لكونها سياقًا
-    ثابتًا (بلد، مدينة، جهة) من كلمة وردت مرة واحدة. تُستبعد كيانات
-    الادّعاء نفسها حتى لا تُعاد كـ"سياق مكتشَف" لنفسها."""
+def _narrow_for_context(text: str, max_chars: int = 400) -> str:
+    """نافذة رخيصة قبل نداء استخلاص السياق (تعليق الموافقة الثاني، البند 3،
+    الخيار ج كمرشِّح أولي قبل الخيار أ): الأعراف الصحفية تضع السياق
+    الجغرافي/السياسي (دولة، جهة) في مطلع الخبر عادة، فتضييق النص المُرسَل
+    للنموذج إلى مطلعه فقط يقلّل تلقائيًا احتمال التقاط مقارنة استطرادية من
+    منتصف المقال، ويرخّص النداء (نص أقصر)."""
+    return (text or "")[:max_chars]
+
+
+CONTEXT_SYSTEM = """أنت تقرأ نصوص مصادر إخبارية مرجعية عن كيان واحد (شخص أو
+جهة) لتستخلص سياقه المميِّز فقط — دولة أو مدينة أو جهة يرتبط بها هذا الكيان
+تحديدًا في هذه النصوص، لا ذكرًا عرضيًا ولا مقارنة استطرادية بكيان آخر ورد
+في نفس النص.
+
+اقرأ النصوص المعطاة فقط. استخرج 1-3 كلمات أو تعبيرات سياق قصيرة (اسم بلد،
+مدينة، أو جهة) ترتبط بالكيان في هذه النصوص تحديدًا — لا من معرفتك الخاصة
+عن الكيان. إن لم تجد النصوص سياقًا مميِّزًا واضحًا، أعد قائمة فارغة بدل
+التخمين.
+
+استخدم أداة extract_context دائمًا."""
+
+CONTEXT_SCHEMA = {
+    "name": "extract_context",
+    "description": "يستخلص كلمات سياق مميِّزة (بلد/مدينة/جهة) لكيان من نصوص مصادر مرجعية",
+    "input_schema": {
+        "type": "object",
+        "properties": {"terms": {"type": "array", "items": {"type": "string"}}},
+        "required": ["terms"],
+    },
+}
+
+
+def _ask_context_model(entity: str, exclude_entities: list[str], docs: list[dict],
+                       cfg, max_terms: int) -> list[str]:
+    """يستخلص سياق كيان من نصوص بحث مرجعي فعلية بنداء نموذج (تعليق الموافقة
+    الثاني، البند 3، البديل أ) — لا بترجيح تكرار خام (كان يُخرج حشوًا لا
+    كيانات مميِّزة فعليًا، فشل «لبّاد» في التشخيص المعتمَد). النصوص مصادر
+    مقروءة لا معرفة نموذج (القاعدة 3) — النداء مقيَّد بها حصرًا."""
+    if not docs:
+        return []
+    acfg = cfg.get("article", {}) or {}
+    model = acfg.get("model", "claude-sonnet-5")
+    client = _client()
+    narrowed = [{"name": d["name"], "text": _narrow_for_context(d.get("text", ""))}
+               for d in docs]
+    prompt = f"الكيان: {entity}\n\nنصوص مصادر مرجعية:\n\n{_format_docs(narrowed)}"
+    try:
+        resp = client.messages.create(
+            model=model,
+            max_tokens=200,
+            tools=[CONTEXT_SCHEMA],
+            tool_choice={"type": "tool", "name": "extract_context"},
+            system=CONTEXT_SYSTEM,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        writer.record_usage(resp, model)
+    except APIError as exc:
+        log.warning("فشل نداء استخلاص سياق الكيان %r: %s", entity, exc)
+        return []
+    data = next((b.input for b in resp.content
+                if getattr(b, "type", "") == "tool_use"), None)
+    terms = data.get("terms") if isinstance(data, dict) else None
+    if not isinstance(terms, list):
+        return []
     exclude_norm: set[str] = set()
     for e in exclude_entities:
         exclude_norm |= norm_tokens(e)
-    counts: Counter = Counter()
+    out: list[str] = []
+    for t in terms:
+        if not isinstance(t, str):
+            continue
+        t = t.strip()
+        if not t or (norm_tokens(t) & exclude_norm):
+            continue
+        out.append(t)
+        if len(out) >= max_terms:
+            break
+    return out
+
+
+def _naming_consistent(named_text: str, proper_nouns: list[str], docs: list[dict]) -> bool:
+    """بوابة اتساق (تعليق الموافقة الثاني، البند 2): كيانات الواقعة الأصلية
+    يجب أن تُذكر صراحة إما في نص التسمية نفسه أو في الوثائق التي استُعملت
+    لتسميته — وإلا التسمية غير موثوقة رغم أن النموذج أجاب بثقة. هذه بالضبط
+    البوابة التي كانت ستمنع فشل «لبّاد» في التشخيص المعتمَد: وثائق فيديو
+    متداول لا تذكر «حمزة الخطيب» ولا «درعا» إطلاقًا فكانت لتُرفض هنا."""
+    if not proper_nouns:
+        return True
+    entity_tokens: set[str] = set()
+    for e in proper_nouns:
+        entity_tokens |= norm_tokens(e)
+    if not entity_tokens:
+        return True
+    if entity_tokens & norm_tokens(named_text):
+        return True
+    docs_tokens: set[str] = set()
     for d in docs:
-        counts.update(norm_tokens(d.get("text", "")))
-    ranked = [w for w, c in counts.most_common() if c >= 2 and w not in exclude_norm]
-    return ranked[:max_terms]
+        docs_tokens |= norm_tokens(d.get("text", ""))
+    return bool(entity_tokens & docs_tokens)
 
 
 NAMING_SYSTEM = """أنت تقرأ نصوص مصادر إخبارية مستقلة لتحدّد الحدث المحدَّد
@@ -329,20 +441,26 @@ def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
 
 def _name_event(statement: dict, cfg) -> tuple[str | None, list[dict], list[str], list[dict]]:
     """سلّم اتساع لتسمية حدث أشار إليه الموجز دون تسميته (القسم 3 من
-    التشخيص المعتمَد على Issue #348، بترتيبه المصحَّح في تعليق الموافقة
-    الثاني): كيانات ⟵ بحث مرجعي غير مقيَّد زمنيًا عن سيرة الكيانات (يعطي
-    سياقًا — بلد/جهة — من نتائج البحث نفسها لا من معرفة النموذج، القاعدة
-    3) ⟵ استعلامات تاريخ+سياق مبنية من ذلك السياق المكتشَف ⟵ توسيع
-    لبقية الكيانات إن لم يفلح السياق المكتشَف.
+    التشخيص المعتمَد على Issue #348، مقلوب الترتيب في تعليق الموافقة
+    الثاني، البند 1): كيانات + تاريخ مباشرةً أولًا (الأبسط يُجرَّب قبل
+    الأذكى، ويوفّر في الحالات السهلة دورة بحث كاملة) ⟵ عند الفشل فقط: بحث
+    مرجعي غير مقيَّد زمنيًا عن سيرة الكيانات لاستخلاص سياق (بلد/جهة) بنداء
+    نموذج على تلك النصوص فعلًا (البند 3، لا معرفة النموذج — القاعدة 3) ⟵
+    استعلامات تاريخ+سياق مبنية من ذلك السياق المكتشَف.
 
-    بحث بالوصف المبهم حرفيًا ممنوع بنيويًا لا معالَج بإعادة محاولة: أول
-    استعلام يُبنى من الكيانات والتاريخ فقط، لا من نص الواقعة المبهم.
+    بحث بالوصف المبهم حرفيًا ممنوع بنيويًا لا معالَج بإعادة محاولة: كل
+    استعلام يُبنى من الكيانات والتاريخ (أو السياق المستخلَص) فقط، لا من
+    نص الواقعة المبهم.
+
+    كل تسمية مرشَّحة تمرّ ببوابة اتساق (_naming_consistent، البند 2) قبل
+    قبولها: كيانات الواقعة الأصلية يجب أن تُذكر في نص التسمية أو وثائقها،
+    وإلا تُرفض ويتابع السلّم — لا إرجاع فوري لتسمية قد تصف حدثًا آخر
+    (فشل «لبّاد» في التشخيص المعتمَد).
 
     يعيد (النص المسمّى أو None، نصوص المصادر التي سمّته، أسماء المصادر
-    المؤيِّدة، سجلّ خطوات السلّم للتشخيص/التقرير) — النصوص والمصادر
-    المؤيِّدة هنا **هي نفسها** أدلة الحكم على السند لاحقًا (لا نداء بحث أو
-    حكم إضافي مكرَّر لنفس الحقيقة): إعادة البحث بكيانات النص القديم بعد
-    التسمية كانت ستستعمل كيانات الإشارة المبهمة نفسها التي فشلت أصلًا."""
+    المؤيِّدة، سجلّ trail كامل الخطوات — كل استعلام مع مصادره وحصيلته،
+    البند 4) — النصوص والمصادر المؤيِّدة هنا **هي نفسها** أدلة الحكم على
+    السند لاحقًا (لا نداء بحث أو حكم إضافي مكرَّر لنفس الحقيقة)."""
     acfg = cfg.get("article", {}) or {}
     days = int(acfg.get("days", 21))
     query_max_words = int(acfg.get("query_max_words", 5))
@@ -355,35 +473,53 @@ def _name_event(statement: dict, cfg) -> tuple[str | None, list[dict], list[str]
     if not dates or not proper_nouns:
         return None, [], [], trail
 
+    def _try(stage_name: str, query: str):
+        ranked = evidence.search(query, cfg, days)
+        docs, basis = evidence.gather_evidence(ranked, cfg, query)
+        entry = {"stage": stage_name, "query": query, "basis": basis,
+                 "sources": [d["name"] for d in docs], "outcome": ""}
+        trail.append(entry)
+        if not docs:
+            entry["outcome"] = "لا وثائق للتسمية"
+            return None
+        named = _ask_naming_model(statement["text"], entities, docs, cfg)
+        if not named:
+            entry["outcome"] = "لم يُسمَّ من هذه النتائج"
+            return None
+        if not _naming_consistent(named["text"], proper_nouns, docs):
+            entry["outcome"] = "رُفض — لا يذكر كيانات الواقعة الأصلية (بوابة الاتساق)"
+            return None
+        entry["outcome"] = "سُمّي الحدث"
+        return named["text"], docs, named["supporting"]
+
+    # المرحلة 1 (البند 1): كيانات + تاريخ مباشرةً — بلا أي بحث مرجعي مسبق
+    for date in dates:
+        for term in proper_nouns:
+            result = _try("مباشر", evidence.build_query(f"{term} {date}", query_max_words))
+            if result:
+                text, docs, supporting = result
+                return text, docs, supporting, trail
+
+    # المرحلة 2 (احتياطية — البند 3): بحث مرجعي لاستخلاص سياق، ثم سياق+تاريخ
     context_terms: list[str] = []
     for entity in proper_nouns:
         ranked = evidence.search(entity, cfg, days, unrestricted=True)
         docs, basis = evidence.gather_evidence(ranked, cfg, entity)
+        terms = _ask_context_model(entity, entities, docs, cfg, max_context_terms) if docs else []
         trail.append({"stage": "مرجعي", "query": entity, "basis": basis,
-                      "sources": [d["name"] for d in docs]})
-        if docs:
-            context_terms += _extract_context_terms(docs, entities, max_context_terms)
+                      "sources": [d["name"] for d in docs],
+                      "outcome": f"{len(terms)} كلمة سياق مستخلَصة" if terms
+                                else "لا سياق مستخلَص"})
+        context_terms += terms
     context_terms = list(dict.fromkeys(context_terms))
 
-    stages = [("تاريخ+سياق", context_terms or proper_nouns)]
-    if context_terms:
-        remaining = [e for e in proper_nouns if e not in context_terms]
-        if remaining:
-            stages.append(("توسيع", remaining))
+    for date in dates:
+        for term in context_terms:
+            result = _try("سياق", evidence.build_query(f"{term} {date}", query_max_words))
+            if result:
+                text, docs, supporting = result
+                return text, docs, supporting, trail
 
-    for stage_name, terms in stages:
-        for date in dates:
-            for term in terms:
-                query = evidence.build_query(f"{term} {date}", query_max_words)
-                ranked = evidence.search(query, cfg, days)
-                docs, basis = evidence.gather_evidence(ranked, cfg, query)
-                trail.append({"stage": stage_name, "query": query, "basis": basis,
-                              "sources": [d["name"] for d in docs]})
-                if not docs:
-                    continue
-                named = _ask_naming_model(statement["text"], entities, docs, cfg)
-                if named:
-                    return named["text"], docs, named["supporting"], trail
     return None, [], [], trail
 
 
@@ -439,6 +575,68 @@ def _support_sources(fact_text: str, docs: list[dict], cfg) -> list[str]:
     return evidence._known_only(data.get("supporting"), docs)
 
 
+# ──────────────────────── الإجابة عن أسئلة الموجز (البند 5) ──────────────────
+
+ANSWER_SYSTEM = """أنت تجيب عن سؤال طرحه صاحب موجز تحريري، من نصوص مصادر
+مستقلة مُعطاة لك حصرًا — لا من معرفتك الخاصة.
+
+اقرأ النصوص فقط. إن أجابت عن السؤال بوضوح، اكتب الإجابة بإيجاز بصياغتك من
+هذه النصوص حصرًا — لا نقلًا حرفيًا من أي نص — وأخرج أسماء المصادر التي
+أجابت فعلًا. إن لم تُجب النصوص عن السؤال بوضوح، أقرّ بذلك (answered:
+false) — لا تخمّن ولا تستعن بمعرفتك الخاصة عمّا لا تقوله النصوص المعطاة.
+
+أخرج أسماء المصادر مجردة تمامًا كما وردت في وسم '--- المصدر: <الاسم> ---'.
+
+استخدم أداة answer_question دائمًا."""
+
+ANSWER_SCHEMA = {
+    "name": "answer_question",
+    "description": "يجيب عن سؤال من نصوص مصادر معطاة حصرًا، أو يقر بعدم كفايتها",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "answered": {"type": "boolean"},
+            "text": {"type": "string"},
+            "supporting": {"type": "array", "items": {"type": "string"}},
+        },
+        "required": ["answered"],
+    },
+}
+
+
+def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
+    """يجيب عن سؤال من الموجز من نصوص بحث فعلية — القاعدة 3: أسئلة الموجز
+    مهمة بحث لا حصيلة فشل (البند 5)؛ يعيد {"text":..., "supporting":[...]}
+    عند نجاح الإجابة، أو None بلا تخمين."""
+    if not docs:
+        return None
+    acfg = cfg.get("article", {}) or {}
+    model = acfg.get("model", "claude-sonnet-5")
+    client = _client()
+    prompt = f"السؤال: {question_text}\n\nنصوص المصادر:\n\n{_format_docs(docs)}"
+    try:
+        resp = client.messages.create(
+            model=model,
+            max_tokens=400,
+            tools=[ANSWER_SCHEMA],
+            tool_choice={"type": "tool", "name": "answer_question"},
+            system=ANSWER_SYSTEM,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        writer.record_usage(resp, model)
+    except APIError as exc:
+        log.warning("فشل نداء الإجابة عن سؤال الموجز: %s", exc)
+        return None
+    data = next((b.input for b in resp.content
+                if getattr(b, "type", "") == "tool_use"), None)
+    if not isinstance(data, dict) or not data.get("answered"):
+        return None
+    text = str(data.get("text") or "").strip()
+    if not text:
+        return None
+    return {"text": text, "supporting": evidence._known_only(data.get("supporting"), docs)}
+
+
 def _grounded_sources(names: list[str], docs: list[dict],
                       ranked: list[Article]) -> list[dict]:
     """مقتطف/رابط/صور كل مصدر أسند واقعة فعليًا — نفس بنية verify._fact_sources
@@ -472,12 +670,24 @@ def _sufficiency(grounded: list[dict], cfg) -> tuple[bool, str]:
     يقع بعد اختيار السؤال، لأمكن اشتقاق السؤال من واقعة ضعيفة السند فتمرّ
     هذه البوابة تلقائيًا بحكم أنها "اختيرت" لا لأنها "فُحصت". _write_article
     يستدعي هذه الدالة بعد حلقة السند مباشرة، وقبل _choose_question — بهذا
-    الترتيب وحده الواقعة المحورية مضمونة بالبناء لا بالفحص."""
+    الترتيب وحده الواقعة المحورية مضمونة بالبناء لا بالفحص.
+
+    **البند 6 (تعليق الموافقة الثاني)**: منذ أن صارت أسئلة الموجز تُبحث
+    فعليًا (البند 5)، إجاباتها المسندة تدخل `grounded` أيضًا — وأغلبها
+    مرجعي (سيرة/خلفية موثَّقة بكثرة، تجتاز السند بسهولة). لو دخلت العدّ
+    بلا تمييز، لأمكن اجتياز `min_grounded_facts` بخلفية محضة بينما الواقعة
+    الإخبارية الفعلية سقطت لعجز سند — يُفرغ هذا العتبة من معناها (هل الخبر
+    الجديد كافٍ لمقال). فالعدّ العددي وحده لا يكفي: يُشترط أيضًا وجود واقعة
+    واحدة على الأقل غير مرجعية (`is_reference` غير صادقة) ضمن `grounded` —
+    خبر فعلي لا خلفية وحدها."""
     acfg = cfg.get("article", {}) or {}
     min_grounded = int(acfg.get("min_grounded_facts", 2))
     if len(grounded) < min_grounded:
         return False, (f"عدد الوقائع المسندة ({len(grounded)}) دون الحد الأدنى "
                        f"({min_grounded}) — القاعدة 7: لا مقال")
+    if not any(not g.get("is_reference") for g in grounded):
+        return False, ("كل الوقائع المسندة خلفية/مرجعية (سيرة أو تاريخ سابق موثَّق "
+                       "سلفًا) — لا خبر جديد فعلي يستحق مقالًا (تعليق الموافقة، البند 6)")
     return True, f"{len(grounded)} واقعة مسندة"
 
 
@@ -737,7 +947,8 @@ def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
 
 def _new_outcome() -> dict:
     return {"produced": False, "reason": "", "question": "", "dropped": [],
-           "sources": [], "unanswered": [], "diffs": [], "draft_id": None,
+           "sources": [], "unanswered": [], "answered_questions": [], "diffs": [],
+           "trail": [], "draft_id": None,
            "image_source_name": None, "image_source_link": None}
 
 
@@ -783,13 +994,19 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     diffs: list[dict] = []
     grounded: list[dict] = []
     sources_seen: list[dict] = []
+    trail: list[dict] = []
+    # البند 7 (تعليق الموافقة الثاني): الصلة بين حدث سُمّي حديثًا وكيان
+    # الموجز الأصلي ليست بديهية — تُضاف سؤالًا يُبحث بنفس آلية أسئلة
+    # الموجز (البند 5) حصرًا، لا تُفترض صامتة
+    link_questions: list[dict] = []
 
     for f in facts_raw:
         if f.get("is_unnamed_event"):
             # تسمية الحدث أولًا (البند 3 من التشخيص) — الأدلة التي سمّته
             # هي نفسها أدلة الحكم على سنده، لا بحث إضافي مكرَّر (انظر
             # توثيق _name_event)
-            named_text, named_docs, named_supporting, _trail = _name_event(f, cfg)
+            named_text, named_docs, named_supporting, name_trail = _name_event(f, cfg)
+            trail.extend(name_trail)
             if not named_text:
                 dropped.append({
                     "text": f["text"],
@@ -808,13 +1025,22 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                 continue
             fact_sources = _grounded_sources(named_supporting, named_docs, [])
             grounded.append({**f, "text": named_text, "sources": fact_sources})
+            link_questions.append({
+                "text": f"ما الصلة بين «{named_text}» و«{f['text']}»؟",
+                "entities": f.get("entities") or [],
+                "is_reference": False,
+            })
         else:
             query = evidence.build_query_for_claim(f, query_max_words)
             ranked = evidence.search(query, cfg, days, unrestricted=f.get("is_reference", False))
             relevance_text = evidence._entities_text(f) or f["text"]
-            docs, _basis = evidence.gather_evidence(ranked, cfg, relevance_text)
+            docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
             supporting = _support_sources(f["text"], docs, cfg) if docs else []
             unique = set(supporting)
+            trail.append({"stage": "واقعة", "query": query, "basis": basis,
+                          "sources": [d["name"] for d in docs],
+                          "outcome": (f"مسندة بـ{len(unique)} مصدر مستقل" if len(unique) >= min_confirm
+                                     else f"سند غير كافٍ ({len(unique)}/{min_confirm})")})
             if len(unique) < min_confirm:
                 dropped.append({
                     "text": f["text"],
@@ -831,7 +1057,44 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
 
     outcome["dropped"] = dropped
     outcome["diffs"] = diffs
-    outcome["unanswered"] = questions_from_brief
+
+    # البند 5 + 7: أسئلة الموجز الصريحة وسؤال الصلة المُصنَّع (إن وُجد) —
+    # كلاهما مهمة بحث فعلية بنفس آلية الوقائع (بحث ← قراءة ← حكم سند)، لا
+    # حصيلة فشل تُنسخ بلا بحث
+    unanswered: list[dict] = []
+    answered_questions: list[dict] = []
+    for q in questions_from_brief + link_questions:
+        query = evidence.build_query_for_claim(q, query_max_words)
+        ranked = evidence.search(query, cfg, days, unrestricted=q.get("is_reference", False))
+        relevance_text = evidence._entities_text(q) or q["text"]
+        docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
+        answer = _ask_answer_model(q["text"], docs, cfg) if docs else None
+        supporting = answer["supporting"] if answer else []
+        unique = set(supporting)
+        answered_ok = bool(answer) and len(unique) >= min_confirm
+        trail.append({"stage": "سؤال", "query": query, "basis": basis,
+                      "sources": [d["name"] for d in docs],
+                      "outcome": (f"أُجيب ومسندة بـ{len(unique)} مصدر" if answered_ok
+                                 else "لم تُجب عنه النصوص المقروءة" if not answer
+                                 else f"سند غير كافٍ ({len(unique)}/{min_confirm})")})
+        if not answered_ok:
+            reason = ("بُحث ولم توجد نصوص تجيب عنه بوضوح" if not answer
+                      else f"سند غير كافٍ ({len(unique)} من {min_confirm} مصادر مستقلة مطلوبة)")
+            unanswered.append({"text": q["text"], "reason": reason})
+            continue
+        fact_sources = _grounded_sources(supporting, docs, ranked)
+        answered_questions.append({"text": q["text"], "answer": answer["text"],
+                                   "sources": fact_sources})
+        grounded.append({"text": answer["text"], "kind": "واقعة",
+                         "entities": q.get("entities") or [], "is_unnamed_event": False,
+                         "is_reference": q.get("is_reference", False), "sources": fact_sources})
+        for s in fact_sources:
+            if not any(s["name"] == x["name"] for x in sources_seen):
+                sources_seen.append({"name": s["name"], "link": s["link"]})
+
+    outcome["unanswered"] = unanswered
+    outcome["answered_questions"] = answered_questions
+    outcome["trail"] = trail
 
     ok, reason = _sufficiency(grounded, cfg)
     if not ok:
@@ -956,8 +1219,11 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
 
 def build_report(outcome: dict) -> str:
     """التقرير المختصر المطلوب: السؤال المختار، المصادر المقروءة بروابطها،
-    ما بقي بلا إجابة، ما سقط من الموجز لانعدام السند، وأين خالفت المصادرُ
-    الموجز — لا جدول أحكام كما في verify.build_report."""
+    الأسئلة المُجابة بحثًا وما بقي بلا إجابة، ما سقط من الموجز لانعدام
+    السند، أين خالفت المصادرُ الموجز — لا جدول أحكام كما في
+    verify.build_report — وسجلّ trail الكامل (تعليق الموافقة الثاني، البند
+    4): كل استعلام بحث في كل مرحلة (تسمية/واقعة/سؤال) مع مصادره وحصيلته،
+    فبلا هذا السجل الحكم على سلوك السلّم تخمين لا تحقق."""
     lines = ["### 📰 مقال من المصادر", ""]
     if outcome["produced"]:
         lines.append(f"✅ {outcome['reason']} (المعرّف `{outcome['draft_id']}`) — "
@@ -976,9 +1242,13 @@ def build_report(outcome: dict) -> str:
         lines += [f"- [{s['name']}]({s['link']})" if s.get("link") else f"- {s['name']}"
                  for s in outcome["sources"]]
 
+    if outcome.get("answered_questions"):
+        lines += ["", "**أسئلتي التي أجبتُ عنها بحثًا:**"]
+        lines += [f"- {q['text']} ← {q['answer']}" for q in outcome["answered_questions"]]
+
     if outcome.get("unanswered"):
-        lines += ["", "**ما بقي بلا إجابة:**"]
-        lines += [f"- {q}" for q in outcome["unanswered"]]
+        lines += ["", "**ما بقي بلا إجابة (بُحث فعليًا ولم يُوجد ما يكفي):**"]
+        lines += [f"- {q['text']} — {q['reason']}" for q in outcome["unanswered"]]
 
     if outcome.get("dropped"):
         lines += ["", "**ما سقط من موجزي لانعدام السند:**"]
@@ -988,6 +1258,15 @@ def build_report(outcome: dict) -> str:
         lines += ["", "**أين خالفت المصادرُ موجزي:**"]
         lines += [f"- موجزي: «{d['brief']}» — المصادر: «{d['sources_say']}»"
                  for d in outcome["diffs"]]
+
+    if outcome.get("trail"):
+        lines += ["", "<details><summary><strong>سجلّ البحث الكامل (trail)</strong> "
+                      f"— {len(outcome['trail'])} استعلامًا</summary>", ""]
+        for t in outcome["trail"]:
+            srcs = "، ".join(t.get("sources") or []) or "لا مصادر"
+            lines.append(f"- **[{t['stage']}]** `{t['query']}` → {t['basis']} — "
+                         f"{t.get('outcome', '')} (المصادر: {srcs})")
+        lines.append("</details>")
 
     return "\n".join(lines)
 

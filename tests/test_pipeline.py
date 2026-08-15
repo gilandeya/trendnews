@@ -3730,9 +3730,13 @@ def test_evidence() -> None:
 
 def test_article() -> None:
     """مسار «مقال من المصادر» (Issue #348): اختبار لكل قاعدة من القواعد
-    السبع الملزمة، واختبار تسمية الحدث المبهم (تعليق الموافقة، البند 5)،
-    واختبار سدّ ثغرة الدائرة (تعليق التنفيذ الأخير: واقعة بمصدر واحد لا
-    يمكن أن تصبح محورية لأن الترشيح بالسند يسبق اختيار السؤال)."""
+    السبع الملزمة، واختبار سدّ ثغرة الدائرة (تعليق التنفيذ: واقعة بمصدر
+    واحد لا يمكن أن تصبح محورية لأن الترشيح بالسند يسبق اختيار السؤال)،
+    وتغطية تعليق الموافقة الثاني على Issue #361 كاملًا: ترتيب سلّم التسمية
+    المقلوب (البند 1)، بوابة الاتساق (البند 2)، استخلاص السياق بنداء نموذج
+    بدل ترجيح التكرار (البند 3)، سجلّ trail الكامل (البند 4)، بحث فعلي عن
+    أسئلة الموجز (البند 5)، عدّ الكفاية مع تمييز الوقائع المرجعية (البند
+    6)، وسؤال الصلة بعد تسمية حدث جديد (البند 7)."""
     from src import article
 
     cfg = load_config()
@@ -3742,12 +3746,15 @@ def test_article() -> None:
     real_gather_evidence = evidence.gather_evidence
     real_support_sources = article._support_sources
     real_ask_naming_model = article._ask_naming_model
+    real_ask_context_model = article._ask_context_model
+    real_ask_answer_model = article._ask_answer_model
     real_choose_question = article._choose_question
     real_draft_article = article._draft_article
     real_call_draft_model = article._call_draft_model
     real_find_images = article.find_images
 
     SUPPORT_MAP: dict = {}
+    ANSWER_MAP: dict = {}
     seen_question_calls: list = []
     seen_draft_calls: list = []
     seen_search_queries: list = []
@@ -3765,6 +3772,9 @@ def test_article() -> None:
     def _fake_support(fact_text, docs, cfg):
         return SUPPORT_MAP.get(fact_text, [])
 
+    def _fake_answer(question_text, docs, cfg):
+        return ANSWER_MAP.get(question_text)
+
     def _fake_choose_question(grounded, cfg, retries=2):
         seen_question_calls.append([f["text"] for f in grounded])
         return "سؤال اختبار؟", ""
@@ -3781,6 +3791,7 @@ def test_article() -> None:
     evidence.search = _fake_search
     evidence.gather_evidence = _fake_gather_evidence
     article._support_sources = _fake_support
+    article._ask_answer_model = _fake_answer
     article._choose_question = _fake_choose_question
     article._draft_article = _fake_draft_article
     article.find_images = lambda title, cfg: []
@@ -3825,6 +3836,7 @@ def test_article() -> None:
     }, None)
     SUPPORT_MAP.clear()
     SUPPORT_MAP["واقعة يتيمة مسندة"] = ["مصدر أول", "مصدر ثانٍ"]
+    ANSWER_MAP.clear()  # السؤال بلا إجابة في ANSWER_MAP عمدًا — بُحث ولم يُجب
     question_calls_before = len(seen_question_calls)
     out7 = article._write_article("موجز اختبار القاعدة 7", 7, cfg)
     check("7) واقعة مسندة واحدة فقط دون الحد الأدنى (min_grounded_facts) ← لا مقال",
@@ -3834,6 +3846,18 @@ def test_article() -> None:
     check("7) امتناع بلاغ بما بُحث لا مقال ركيك — لا نداء لاختيار السؤال أصلًا "
           "(البوابة العددية تسبق اختياره)",
           len(seen_question_calls) == question_calls_before)
+    check("5) سؤال الموجز بُحث عنه فعلًا (لا حصيلة فشل بلا محاولة) ولم يُجب عنه "
+          "بسبب محدد يبقى في القسم",
+          any(u["text"] == "سؤال لم يُجب عنه الموجز؟" and u["reason"]
+              for u in out7["unanswered"]))
+    check("4) trail يُمرَّر إلى outcome ويشمل استعلام حلقة الوقائع العادية "
+          "واستعلام حلقة الأسئلة معًا، كل عنصر منه بمصادره وحصيلته",
+          any(t["stage"] == "واقعة" for t in out7["trail"]) and
+          any(t["stage"] == "سؤال" for t in out7["trail"]) and
+          all({"stage", "query", "basis", "sources", "outcome"} <= set(t.keys())
+              for t in out7["trail"]))
+    report7 = article.build_report(out7)
+    check("4) التقرير يعرض سجلّ trail الكامل", "سجلّ البحث الكامل" in report7)
 
     # ── القاعدة 2: الرأي لا يُبحث له سند، ويصل الصياغة منفصلًا عن الوقائع ──
     article.extract_brief = lambda body, cfg, retries=3: ({
@@ -3876,16 +3900,30 @@ def test_article() -> None:
           "لا تستعن بمعرفتك الخاصة" in article.NAMING_SYSTEM)
     check("3) برومبت الحكم على السند يمنع الاستعانة بمعرفة النموذج الخاصة",
           "لا تستخدم معرفتك الخاصة" in article.SUPPORT_SYSTEM)
-    context_docs = [
-        {"name": "م1", "text": "الحدث وقع في سوريا قرب دمشق واستمر أيامًا"},
-        {"name": "م2", "text": "شهود عيان في سوريا أكدوا الرواية للصحفيين هناك"},
-    ]
-    context_terms = article._extract_context_terms(context_docs, ["حمزة الخطيب"], 3)
-    check("3) سياق تسمية الحدث المبهم يُستخرج من تكرار نصوص البحث نفسها فقط "
-          "(لا نداء نموذج، دالّة نقية)",
-          "سوريا" in context_terms)
-    check("3) كيانات الادّعاء الأصلية لا تُعاد كـ'سياق مكتشَف' لنفسها",
-          not any(t in ("حمزة", "الخطيب") for t in context_terms))
+    # تعليق الموافقة الثاني، البند 3: الترجيح بالتكرار الخام (Counter) حُذف
+    # كليًا — السياق يُستخلَص بنداء نموذج على نصوص البحث المرجعي فعليًا
+    # (اختبار تكامل ذلك ضمن سلّم _name_event أدناه)، مع مرشِّح نافذة رخيص
+    # (البديل ج) قبل النداء وبوابة اتساق (_naming_consistent، البند 2) —
+    # كلتاهما دالّتان نقيتان تُختبران هنا مباشرة بلا شبكة
+    check("3) برومبت استخلاص السياق يمنع الاستعانة بمعرفة النموذج الخاصة عن الكيان",
+          "لا من معرفتك الخاصة" in article.CONTEXT_SYSTEM)
+    check("3) برومبت الإجابة عن أسئلة الموجز يمنع الاستعانة بمعرفة النموذج الخاصة",
+          "لا من معرفتك الخاصة" in article.ANSWER_SYSTEM)
+    check("3) نافذة الاستخلاص الرخيصة (البديل ج) تقتصر على مطلع النص لا كامله",
+          article._narrow_for_context("س" * 900, max_chars=400) == "س" * 400)
+
+    check("2) بوابة الاتساق تقبل تسمية تذكر كيان الواقعة الأصلية في نص التسمية نفسه",
+          article._naming_consistent(
+              "حكم إعدام بحق عاطف نجيب في قضية حمزة الخطيب", ["حمزة الخطيب"], []))
+    check("2) بوابة الاتساق تقبل تسمية لا تذكر الكيان في نصها لكن وثائقها تذكره",
+          article._naming_consistent(
+              "حكم إعدام غيابي بحق ثلاثة متهمين", ["حمزة الخطيب"],
+              [{"name": "م", "text": "شمل الحكم قضية حمزة الخطيب في درعا"}]))
+    check("2) بوابة الاتساق ترفض تسمية لا تذكر الكيان لا في نصها ولا في وثائقها "
+          "— فشل «لبّاد» في التشخيص المعتمَد بالضبط",
+          not article._naming_consistent(
+              "تداول فيديو لفتى آخر لا صلة له بالحدث", ["حمزة الخطيب"],
+              [{"name": "م", "text": "خبر عن تداول فيديو لمراهق آخر لا صلة له"}]))
 
     # ── القاعدة 6: برومبت مستقل — لا يمسّ writer.SYSTEM_PROMPT ولا يستعمل آلياته ──
     check("6) برومبت صياغة المقال مستقل تمامًا عن writer.SYSTEM_PROMPT",
@@ -3897,7 +3935,8 @@ def test_article() -> None:
           "writer.SYSTEM_PROMPT داخليًا بلا معامل يسمح باستبداله)",
           article._call_draft_model is not writer._call_model)
 
-    # ── القاعدة 5 + البند 5 (تسمية الحدث): موجز يصف أثر حدث بلا تسميته ──
+    # ── القاعدة 5 + تسمية الحدث المبهم، مقلوبة الترتيب (تعليق الموافقة
+    # الثاني، البنود 1/2/3/4/7): موجز يصف أثر حدث بلا تسميته ──
     naming_search_calls: list = []
 
     def _naming_search(query, cfg, days, unrestricted=False):
@@ -3906,6 +3945,8 @@ def test_article() -> None:
 
     def _naming_gather(articles, cfg, claim_text=""):
         if claim_text == "حمزة الخطيب":
+            # المرحلة المرجعية (احتياطية، البند 3): سيرة الكيان — سياقها
+            # الفعلي "سوريا" مذكور مرارًا، لا حشوًا
             return ([
                 {"name": "أرشيف تاريخي", "link": "https://ref/1", "from_text": True,
                  "text": "حمزة الخطيب رمز من انتفاضة سوريا 2011 في درعا سوريا"},
@@ -3913,12 +3954,20 @@ def test_article() -> None:
                  "text": "قصة حمزة الخطيب في سوريا لا تزال حاضرة اليوم"},
             ], evidence.EVIDENCE_FULL_TEXT)
         if "سوريا" in claim_text:
+            # استعلام سياق+تاريخ (المرحلة الاحتياطية الثانية): يجد الحدث
+            # الصحيح فعلًا، ووثائقه تذكر «حمزة الخطيب» — تجتاز بوابة الاتساق
             return ([
                 {"name": "وكالة الحدث", "link": "https://event/1", "from_text": True,
-                 "text": "صدر حكم إعدام غيابي بحق بشار الأسد وماهر الأسد وعاطف نجيب"},
+                 "text": ("صدر حكم إعدام غيابي بحق بشار الأسد وماهر الأسد وعاطف نجيب، "
+                         "وشملت اللائحة قضية حمزة الخطيب في درعا")},
                 {"name": "وكالة ثانية", "link": "https://event/2", "from_text": True,
-                 "text": "أكدت مصادر قضائية صدور حكم الإعدام الغيابي بحق الأسد ونجيب"},
+                 "text": ("أكدت مصادر قضائية صدور حكم الإعدام الغيابي بحق الأسد ونجيب "
+                         "المتهم أيضًا في ملف حمزة الخطيب")},
             ], evidence.EVIDENCE_FULL_TEXT)
+        if "الخطيب" in claim_text:
+            # المرحلة المباشرة (البند 1: كيانات+تاريخ، تُجرَّب أولًا) —
+            # بلا سياق مكتشَف بعد، الاستعلام العام لا يجد الحدث الصحيح
+            return ([], evidence.EVIDENCE_NO_RESULTS)
         return ([{"name": "مصدر أول", "text": "نص", "link": "https://g1/1", "from_text": True},
                  {"name": "مصدر ثانٍ", "text": "نص", "link": "https://g2/1", "from_text": True}],
                 evidence.EVIDENCE_FULL_TEXT)
@@ -3929,9 +3978,15 @@ def test_article() -> None:
                    "supporting": [d["name"] for d in docs]}
         return None
 
+    def _naming_context(entity, exclude_entities, docs, cfg, max_terms):
+        if any("سوريا" in d.get("text", "") for d in docs):
+            return ["سوريا"][:max_terms]
+        return []
+
     evidence.search = _naming_search
     evidence.gather_evidence = _naming_gather
     article._ask_naming_model = _naming_ask_model
+    article._ask_context_model = _naming_context
     article.extract_brief = lambda body, cfg, retries=3: ({
         "topic": "حدث 11 آب 2026",
         "statements": [
@@ -3945,31 +4000,42 @@ def test_article() -> None:
     }, None)
     SUPPORT_MAP.clear()
     SUPPORT_MAP["واقعة إضافية مسندة عاديًا"] = ["مصدر أول", "مصدر ثانٍ"]
+    ANSWER_MAP.clear()  # سؤال الصلة المُصنَّع (البند 7) بلا إجابة عمدًا — يُبحث ويبقى بلا إجابة
 
     out_naming = article._write_article(
         "موجز: حدث في 11 آب 2026 ما أعاد قصة حمزة الخطيب.", 348, cfg)
 
-    check("البند 5: الحدث المبهم يُسمّى بواقعة صريحة جديدة — لا يبقى وصف أثر مبهمًا",
+    check("الحدث المبهم يُسمّى بواقعة صريحة جديدة — لا يبقى وصف أثر مبهمًا",
           any(d["sources_say"] ==
               "صدر حكم إعدام غيابي بحق بشار الأسد وماهر الأسد وعاطف نجيب"
               for d in out_naming["diffs"]), out_naming)
-    check("4) الخلاف بين صياغة موجزي والحدث الذي سمّته المصادر يُذكر لي صراحة",
+    check("الخلاف بين صياغة موجزي والحدث الذي سمّته المصادر يُذكر لي صراحة",
           any(d["brief"] == "حدث في 11 آب 2026 ما أعاد قصة حمزة الخطيب"
               for d in out_naming["diffs"]))
-    check("البند 5: سلّم التسمية يبدأ ببحث مرجعي غير مقيَّد زمنيًا عن الكيان أولًا",
-          naming_search_calls[0] == ("حمزة الخطيب", True))
-    check("البند 5: استعلام التسمية التالي يستعمل السياق المكتشَف (سوريا) لا "
-          "الوصف المبهم الأصلي حرفيًا",
+    check("1) السلّم يجرّب كيانات+تاريخ مباشرةً أولًا — بلا بحث مرجعي مسبق",
+          naming_search_calls[0][1] is False and "الخطيب" in naming_search_calls[0][0])
+    first_unrestricted = next(i for i, c in enumerate(naming_search_calls) if c[1])
+    check("1) البحث المرجعي غير المقيَّد لا يقع إلا بعد فشل المرحلة المباشرة "
+          "(احتياطي لا رئيسي، تعليق الموافقة الثاني)",
+          first_unrestricted > 0 and naming_search_calls[first_unrestricted][0] == "حمزة الخطيب")
+    check("3) استعلام لاحق يستعمل السياق المكتشَف (سوريا) بنداء نموذج على "
+          "نصوص البحث المرجعي — لا الوصف المبهم الأصلي حرفيًا",
           any("سوريا" in q and not unrestricted
-              for q, unrestricted in naming_search_calls[1:]))
-    check("البند 5: بحث بالوصف المبهم حرفيًا (أعاد قصة) لا يقع إطلاقًا",
+              for q, unrestricted in naming_search_calls[first_unrestricted + 1:]))
+    check("بحث بالوصف المبهم حرفيًا (أعاد قصة) لا يقع إطلاقًا",
           not any("أعاد قصة" in q for q, _ in naming_search_calls))
-    check("البند 5: المقال يُنتَج فعلًا بعد تسمية الحدث ومروره ببوابة السند",
+    check("المقال يُنتَج فعلًا بعد تسمية الحدث ومروره ببوابة السند",
           out_naming["produced"] is True, out_naming.get("reason"))
+    check("4) trail يشمل مراحل التسمية الثلاث (مباشر/مرجعي/سياق) مع حصيلة كل استعلام",
+          {"مباشر", "مرجعي", "سياق"} <= {t["stage"] for t in out_naming["trail"]})
+    check("7) بعد تسمية الحدث، الصلة بكيان الموجز الأصلي تُصاغ سؤالًا ويُبحث "
+          "بدل افتراضها بديهية",
+          any(q["text"].startswith("ما الصلة بين") for q in out_naming["unanswered"]))
 
     evidence.search = _fake_search
     evidence.gather_evidence = _fake_gather_evidence
     article._ask_naming_model = real_ask_naming_model
+    article._ask_context_model = real_ask_context_model
 
     # ── القاعدة 5 (فحص الأصالة): نسخ لفظي من الموجز في المتن ← امتناع ──
     article.extract_brief = lambda body, cfg, retries=3: ({
@@ -4030,11 +4096,75 @@ def test_article() -> None:
           "المُرشَّح بالسند فقط — المحورية مضمونة بالبناء لا بالفحص",
           out_gap["produced"] is True, out_gap.get("reason"))
 
+    # ── البند 5: أسئلة الموجز تُبحث فعليًا (لا حصيلة فشل) — إجابة مسندة تدخل
+    # المقال، وسؤال بلا سند كافٍ يبقى بلا إجابة بسبب محدد ──
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار البند 5",
+        "statements": [
+            {"text": "واقعة إخبارية وحيدة مسندة", "kind": "واقعة", "entities": ["كخ"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [
+            {"text": "من هو حمزة الخطيب؟", "entities": ["حمزة الخطيب"], "is_reference": True},
+            {"text": "سؤال بلا سند كافٍ؟", "entities": ["كذا"], "is_reference": False},
+        ],
+    }, None)
+    SUPPORT_MAP.clear()
+    SUPPORT_MAP["واقعة إخبارية وحيدة مسندة"] = ["مصدر أول", "مصدر ثانٍ"]
+    ANSWER_MAP.clear()
+    ANSWER_MAP["من هو حمزة الخطيب؟"] = {
+        "text": "رمز من انتفاضة سوريا 2011 في درعا",
+        "supporting": ["مصدر أول", "مصدر ثانٍ"],
+    }
+    # "سؤال بلا سند كافٍ؟" غائب عمدًا عن ANSWER_MAP ← _fake_answer يعيد None
+
+    out56 = article._write_article("موجز اختبار البند 5 و6", 56, cfg)
+    check("5) سؤال الموجز يُبحث فعليًا ويُجاب من نصوص مسندة — لا حصيلة فشل بلا بحث",
+          any(q["text"] == "من هو حمزة الخطيب؟" for q in out56["answered_questions"]))
+    check("5) سؤال بُحث عنه فعلًا ولم يُجب يبقى في القسم بسببه المحدد لا حذفًا صامتًا",
+          any(u["text"] == "سؤال بلا سند كافٍ؟" and u["reason"] for u in out56["unanswered"]))
+    check("6) إجابة سؤال مرجعي مسندة تدخل عدّ الكفاية (min_grounded_facts) فعلًا "
+          "— مع واقعة إخبارية غير مرجعية واحدة تكفي بوابة البند 6",
+          out56["produced"] is True, out56.get("reason"))
+
+    # ── البند 6: وقائع مسندة كلها مرجعية (خلفية) بلا خبر جديد فعلي ← لا مقال،
+    # وسبب الامتناع يفرّق صراحة بين «لا وقائع كافية» و«لا خبر جديد» ──
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار البند 6 — خلفية فقط",
+        "statements": [
+            {"text": "واقعة ضعيفة السند لن تصمد", "kind": "واقعة", "entities": ["كض"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [
+            {"text": "من هو حمزة الخطيب؟", "entities": ["حمزة الخطيب"], "is_reference": True},
+            {"text": "ماذا فعلوا به؟", "entities": ["حمزة الخطيب"], "is_reference": True},
+        ],
+    }, None)
+    SUPPORT_MAP.clear()
+    SUPPORT_MAP["واقعة ضعيفة السند لن تصمد"] = ["مصدر أول"]  # مصدر واحد فقط ← تسقط
+    ANSWER_MAP.clear()
+    ANSWER_MAP["من هو حمزة الخطيب؟"] = {
+        "text": "رمز من انتفاضة سوريا 2011 في درعا",
+        "supporting": ["مصدر أول", "مصدر ثانٍ"],
+    }
+    ANSWER_MAP["ماذا فعلوا به؟"] = {
+        "text": "تعرّض للتعذيب حتى الموت في أحداث 2011",
+        "supporting": ["مصدر أول", "مصدر ثانٍ"],
+    }
+
+    out_refonly = article._write_article("موجز اختبار البند 6", 57, cfg)
+    check("6) وقائع مسندة كلها مرجعية (خلفية موثَّقة سلفًا) بلا خبر جديد فعلي "
+          "← لا مقال رغم اجتياز العدّ الرقمي وحده",
+          out_refonly["produced"] is False and "لا خبر جديد" in out_refonly["reason"],
+          out_refonly.get("reason"))
+
     article.extract_brief = real_extract_brief
     evidence.search = real_search
     evidence.gather_evidence = real_gather_evidence
     article._support_sources = real_support_sources
     article._ask_naming_model = real_ask_naming_model
+    article._ask_context_model = real_ask_context_model
+    article._ask_answer_model = real_ask_answer_model
     article._choose_question = real_choose_question
     article._draft_article = real_draft_article
     article._call_draft_model = real_call_draft_model
