@@ -1,46 +1,5 @@
 [
   {
-    "score": 16.71,
-    "bucket": "serious",
-    "tokens": [
-      "copernicus",
-      "heiß",
-      "juli",
-      "juni",
-      "klimakrise",
-      "meldet",
-      "nie",
-      "noch",
-      "und",
-      "war",
-      "westeuropa",
-      "wie"
-    ],
-    "link": "https://www.spiegel.de/wissenschaft/klimakrise-in-westeuropa-war-es-im-juni-und-juli-so-heiss-wie-noch-nie-meldet-copernicus-a-944b8ea5-2258-41ac-816c-40d8cb83b6e0#ref=rss",
-    "title": "Klimakrise: In Westeuropa war es im Juni und Juli so heiß wie noch nie, meldet Copernicus",
-    "posted_title": "غرب أوروبا يسجل أشد صيف حرارة منذ بدء القياسات في يونيو ويوليو",
-    "region": "de",
-    "seen_at": "2026-08-10T05:31:13.925528+00:00"
-  },
-  {
-    "score": 17.43,
-    "bucket": "serious",
-    "tokens": [
-      "aide",
-      "anwar",
-      "ibrahim",
-      "malaysian",
-      "medical",
-      "procedures",
-      "undergoing"
-    ],
-    "link": "https://www.dawn.com/news/2021885/malaysian-pm-anwar-ibrahim-undergoing-medical-procedures-aide-says",
-    "title": "Malaysian PM Anwar Ibrahim undergoing medical procedures, aide says",
-    "posted_title": "رئيس الوزراء الماليزي أنور إبراهيم يخضع لإجراءات طبية تحت الملاحظة يومين",
-    "region": "pk",
-    "seen_at": "2026-08-10T06:01:22.830148+00:00"
-  },
-  {
     "score": 17.26,
     "bucket": "serious",
     "tokens": [
@@ -3895,5 +3854,106 @@
     "posted_title": "",
     "region": "de",
     "seen_at": "2026-08-15T04:15:55.946307+00:00"
+  },
+  {
+    "score": 25.5,
+    "bucket": "serious",
+    "tokens": [
+      "alibaba",
+      "apple",
+      "china",
+      "market",
+      "model",
+      "own",
+      "say",
+      "sources",
+      "support",
+      "trains"
+    ],
+    "link": "https://www.japantimes.co.jp/business/2026/08/14/apple-ai-model-china-alibaba/",
+    "title": "Apple trains its own AI model for China market with Alibaba’s support, sources say",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-08-15T06:07:48.426874+00:00"
+  },
+  {
+    "score": 16.81,
+    "bucket": "serious",
+    "tokens": [
+      "131",
+      "frees",
+      "maduro",
+      "post",
+      "prisoners",
+      "talks",
+      "transition",
+      "venezuela"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/15/venezuela-frees-131-prisoners-amid-post-maduro-transition-talks",
+    "title": "Venezuela frees 131 prisoners amid post-Maduro transition talks",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-08-15T06:07:48.427135+00:00"
+  },
+  {
+    "score": 15.83,
+    "bucket": "serious",
+    "tokens": [
+      "china",
+      "must",
+      "partners",
+      "pick",
+      "race",
+      "sides",
+      "tell"
+    ],
+    "link": "https://www.rappler.com/world/us-canada/us-china-ai-pick-sides-state-department-letter/",
+    "title": "US to tell partners they must pick sides in AI race with China",
+    "posted_title": "",
+    "region": "ph",
+    "seen_at": "2026-08-15T06:07:48.427391+00:00"
+  },
+  {
+    "score": 14.01,
+    "bucket": "serious",
+    "tokens": [
+      "congo",
+      "ebola",
+      "outbreak",
+      "province",
+      "sixth",
+      "spreads"
+    ],
+    "link": "https://www.france24.com/en/tv-shows/eye-on-africa/20260814-dr-congo-ebola-outbreak-spreads-to-sixth-province",
+    "title": "DR Congo Ebola outbreak spreads to sixth province",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-08-15T06:07:48.427665+00:00"
+  },
+  {
+    "score": 13.06,
+    "bucket": "light",
+    "tokens": [
+      "archaeologist",
+      "car",
+      "crash",
+      "day",
+      "english",
+      "injuries",
+      "man's",
+      "medieval",
+      "modern",
+      "one",
+      "reminded",
+      "trebuchet",
+      "turned",
+      "victims",
+      "work"
+    ],
+    "link": "https://www.smithsonianmag.com/smart-news/a-medieval-mans-injuries-reminded-one-archaeologist-of-modern-day-car-crash-victims-they-turned-out-to-be-the-work-of-an-english-trebuchet-180989346/",
+    "title": "A Medieval Man's Injuries Reminded One Archaeologist of Modern-Day Car Crash Victims. They Turned Out to Be the Work of an English Trebuchet",
+    "posted_title": "",
+    "region": "odd",
+    "seen_at": "2026-08-15T06:07:48.427893+00:00"
   }
 ]

@@ -1,0 +1,63 @@
+{
+  "id": "c94c6a90f115",
+  "created_at": "2026-08-15T06:07:48.427417+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.01,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "DR Congo Ebola outbreak spreads to sixth province",
+  "link": "https://www.france24.com/en/tv-shows/eye-on-africa/20260814-dr-congo-ebola-outbreak-spreads-to-sixth-province",
+  "publishers": [
+    "Africanews",
+    "CGTN",
+    "France24"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "DR Congo Ebola outbreak spreads to sixth province",
+    "link": "https://www.france24.com/en/tv-shows/eye-on-africa/20260814-dr-congo-ebola-outbreak-spreads-to-sixth-province",
+    "summary": "In tonight's edition: The Ebola outbreak in the Democratic Republic of Congo is spreading, with the virus now confirmed in a sixth province, raising fresh concerns about new infections and the challenges facing health teams. Meanwhile, the migration crisis between Morocco and Spain continues, as Moroccan authorities step up security around the border following the recent crossing of tens of thousands of people into Spain's North African enclave of Ceuta. And in Ivory Coast, a new dance craze called Biama is taking over the streets and social media, with the high-energy mix of coupé-décalé and Ivorian rap getting young people across the country on their feet.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-14T21:10:38+00:00",
+    "image_url": "https://s.france24.com/media/display/6c7d34ce-9823-11f1-8c43-005056bfb2b6/w:1024/p:16x9/capture-11998868846a7f8255268ff4-74156749.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Africanews",
+      "CGTN",
+      "France24"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/14/dr-congos-fastest-growing-ebola-outbreak-spreads-to-sixth-province/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/tv-shows/eye-on-africa/20260814-dr-congo-ebola-outbreak-spreads-to-sixth-province"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://newsaf.cgtn.com/news/2026-08-14/DR-Congo-Ebola-outbreak-spreads-to-a-sixth-province-1PBkia5FNLi/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/6c7d34ce-9823-11f1-8c43-005056bfb2b6/w:1024/p:16x9/capture-11998868846a7f8255268ff4-74156749.jpg",
+      "http://images.euronews.com/articles/stories/09/87/38/89/640x360_cmsv2_76cc8ec4-a557-5b10-ad88-8ee5d28acefd-9873889.jpg?1786657736",
+      "https://newsaf.cgtn.com/news/2026-08-14/DR-Congo-Ebola-outbreak-spreads-to-a-sixth-province-1PBkia5FNLi/img/7055040bc58b4caa89944241e57dec76/7055040bc58b4caa89944241e57dec76-1280.jpeg",
+      "https://newsaf.cgtn.com/news/2026-08-14/DR-Congo-Ebola-outbreak-spreads-to-a-sixth-province-1PBkia5FNLi/img/7055040bc58b4caa89944241e57dec76/7055040bc58b4caa89944241e57dec76.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.11128930913980889,
+    "age_hours": 38.364421987777774,
+    "is_stale": false,
+    "score": 14.014631446121772
+  }
+}

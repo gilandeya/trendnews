@@ -1,0 +1,83 @@
+{
+  "id": "9143daeedcd6",
+  "created_at": "2026-08-15T06:07:48.426497+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.5,
+  "trend_score": 1.0,
+  "velocity": 0.45,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Apple trains its own AI model for China market with Alibaba’s support, sources say",
+  "link": "https://www.japantimes.co.jp/business/2026/08/14/apple-ai-model-china-alibaba/",
+  "publishers": [
+    "Engadget",
+    "TechCrunch",
+    "The Express Tribune",
+    "The Japan Times",
+    "Yonhap News",
+    "all you need to know"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Apple trains its own AI model for China market with Alibaba’s support, sources say",
+    "link": "https://www.japantimes.co.jp/business/2026/08/14/apple-ai-model-china-alibaba/",
+    "summary": "The move is a departure from the iPhone maker's strategy of relying on third-party models to power AI features in the country.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-08-14T05:37:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/14/557325.JPG",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Engadget",
+      "TechCrunch",
+      "The Express Tribune",
+      "The Japan Times",
+      "Yonhap News",
+      "all you need to know"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2623890/apple-trains-its-own-ai-model-for-china-market-with-alibabas-support-sources-say"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/business/2026/08/14/apple-ai-model-china-alibaba/"
+      },
+      {
+        "name": "all you need to know",
+        "link": "https://www.hindustantimes.com/world-news/us-news/apple-threat-notification-why-are-users-getting-it-who-is-getting-these-notifications-all-you-need-to-know-101786765393939.html"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2236861/apple-proposal-5-to-15-percent-cut-external-app-store-payments/"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260814007300320"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2236825/apple-warnings-mercenary-spyware-attacks/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/14/557325.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/14/thumbs/400x400/557325.jpg",
+      "https://www.engadget.com/img/gallery/apple-proposes-taking-a-5-to-15-percent-cut-from-external-app-store-payments/l-intro-1786695766.jpg",
+      "https://www.engadget.com/img/gallery/apple-proposes-taking-a-5-to-15-percent-cut-from-external-app-store-payments/intro-1786695766.jpg",
+      "https://img.yna.co.kr/photo/cms/2026/04/30/33/PCM20260430000133003_P2.jpg",
+      "https://www.engadget.com/img/gallery/apple-warnings-mercenary-spyware-attacks/l-intro-1786686155.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.44514817346264973,
+    "age_hours": 23.998752592499997,
+    "is_stale": false,
+    "score": 25.496555399717458
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "b0100c9c20ac",
+  "created_at": "2026-08-15T06:07:48.426886+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.81,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Venezuela frees 131 prisoners amid post-Maduro transition talks",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/08/15/venezuela-frees-131-prisoners-amid-post-maduro-transition-talks",
+  "publishers": [
+    "Al Jazeera English",
+    "Free Malaysia Today"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Venezuela frees 131 prisoners amid post-Maduro transition talks",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/15/venezuela-frees-131-prisoners-amid-post-maduro-transition-talks",
+    "summary": "US secretary of state Marco Rubio said the release of the political prisoners in Venezuela is 'a crucial step for the nation's reconciliation process.'",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-15T01:00:36+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/08/20278d3d-6849-48b4-8630-be6140c86846-EPA-Venezuela-prisoner-release-15082026.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/15/venezuela-says-131-political-prisoners-freed-amid-post-maduro-talks?traffic_source=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/15/venezuela-frees-131-prisoners-amid-post-maduro-transition-talks"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/08/20278d3d-6849-48b4-8630-be6140c86846-EPA-Venezuela-prisoner-release-15082026.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2.9952872158333332,
+    "is_stale": false,
+    "score": 16.80881591372222
+  }
+}

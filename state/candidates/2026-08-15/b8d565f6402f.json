@@ -1,0 +1,71 @@
+{
+  "id": "b8d565f6402f",
+  "created_at": "2026-08-15T06:07:48.427144+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.83,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US to tell partners they must pick sides in AI race with China",
+  "link": "https://www.rappler.com/world/us-canada/us-china-ai-pick-sides-state-department-letter/",
+  "publishers": [
+    "Channel News Asia",
+    "Rappler",
+    "The Express Tribune",
+    "The Japan Times"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "US to tell partners they must pick sides in AI race with China",
+    "link": "https://www.rappler.com/world/us-canada/us-china-ai-pick-sides-state-department-letter/",
+    "summary": "'Signature of the Pax Silica Declaration is not merely a membership subscription, but a commitment,' a leaked draft letter from the US State Department says, urging countries to 'choose deliberately' on AI",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-08-15T05:45:00+00:00",
+    "image_url": "https://www.rappler.com/tachyon/2026/08/pax-silica-ama-1.jpg",
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Rappler",
+      "The Express Tribune",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2623993/us-to-tell-partners-they-must-pick-sides-in-ai-race-with-china"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/east-asia/us-china-ai-race-pax-silica-waico-6320671"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/us-canada/us-china-ai-pick-sides-state-department-letter/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/business/2026/08/15/tech/us-ai-coalition-china-warning/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.rappler.com/tachyon/2026/08/pax-silica-ama-1.jpg",
+      "https://www.rappler.com/tachyon/2026/08/pax-silica-ama-1.jpg?resize=75%2C75&crop=808px%2C0px%2C1148px%2C1148px",
+      "https://www.rappler.com/tachyon/2026/08/pax-silica-ama-1.jpg?fit=449%2C449",
+      "https://dam.mediacorp.sg/image/upload/s--ePYqk1m9--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-14T210941Z_1_LYNXMPEM7D1NX_RTROPTP_3_USA-CONGRESS-AI.JPG?itok=Sv2YE9WS",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/15/557435.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/15/thumbs/400x400/557435.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.11128727029705415,
+    "age_hours": 2.9952512308333334,
+    "is_stale": false,
+    "score": 15.831252269188976
+  }
+}
