@@ -1,0 +1,55 @@
+{
+  "id": "2fdf4dfa72c3",
+  "created_at": "2026-08-15T12:07:50.562508+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.28,
+  "trend_score": 0.67,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "No Malaysians reported missing in Flores earthquake",
+  "link": "https://www.freemalaysiatoday.com/category/nation/2026/08/15/no-malaysians-reported-missing-in-flores-earthquake",
+  "publishers": [
+    "Free Malaysia Today",
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "No Malaysians reported missing in Flores earthquake",
+    "link": "https://www.freemalaysiatoday.com/category/nation/2026/08/15/no-malaysians-reported-missing-in-flores-earthquake",
+    "summary": "The Malaysian embassy in Jakarta is in close contact with the Indonesian foreign ministry for the latest update on the situation.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-15T09:08:00+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/08/bd1161f9-9003-49b9-bf49-09d19dbb0bfb-earthquake-indo-epa-150826.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/malaysia/2026/08/15/no-malaysians-reported-affected-by-earthquake-in-indonesias-flores-says-embassy/231489"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/nation/2026/08/15/no-malaysians-reported-missing-in-flores-earthquake"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/08/bd1161f9-9003-49b9-bf49-09d19dbb0bfb-earthquake-indo-epa-150826.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/15/357244.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 117.86349794444443,
+    "is_stale": true,
+    "score": 15.283649034833335
+  }
+}
