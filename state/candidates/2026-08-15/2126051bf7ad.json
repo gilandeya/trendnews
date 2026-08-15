@@ -1,0 +1,46 @@
+{
+  "id": "2126051bf7ad",
+  "created_at": "2026-08-15T19:07:48.133208+00:00",
+  "status": "pending",
+  "selection_issue": 372,
+  "score": 16.11,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US readies Iran penalties as Trump downplays midterms impact",
+  "link": "https://www.scmp.com/news/world/middle-east/article/3364150/us-readies-iran-penalties-trump-downplays-midterms-impact?utm_source=rss_feed",
+  "publishers": [
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "US readies Iran penalties as Trump downplays midterms impact",
+    "link": "https://www.scmp.com/news/world/middle-east/article/3364150/us-readies-iran-penalties-trump-downplays-midterms-impact?utm_source=rss_feed",
+    "summary": "The US is readying unprecedented economic measures against Iran, as President Donald Trump seeks to intensify efforts to force Tehran to capitulate after almost six months of war. The president said in a brief interview with Fox News that the US was planning to hit Iran’s economy hard, and that he did not care if the conflict were to end before the November US midterm elections, which would hinge on voter perceptions of the economy. Trump has struggled to find an off-ramp to the war, which has...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-08-15T10:59:08+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364150/us-readies-iran-penalties-trump-downplays-midterms-impact?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 8.111577695833333,
+    "is_stale": false,
+    "score": 16.107152930888887
+  }
+}

@@ -4425,6 +4425,7 @@
     "seen_at": "2026-08-15T19:06:03.864573+00:00"
   },
   {
+<<<<<<< HEAD
     "score": 13.65,
     "bucket": "serious",
     "tokens": [
@@ -4462,5 +4463,99 @@
     "posted_title": "كلمة \"آزادي\" تعود لتهز شوارع الهند بعد أن كانت تهمة سجن",
     "region": "qa",
     "seen_at": "2026-08-15T19:07:12.290351+00:00"
+=======
+    "score": 19.24,
+    "bucket": "serious",
+    "tokens": [
+      "front",
+      "iran",
+      "mou",
+      "recognized",
+      "resistance",
+      "signed",
+      "trump"
+    ],
+    "link": "https://en.mehrnews.com/news/246986/Trump-recognized-Resistance-Front-in-MoU-signed-with-Iran",
+    "title": "Trump recognized Resistance Front in MoU signed with Iran",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-08-15T19:07:48.132335+00:00"
+  },
+  {
+    "score": 16.94,
+    "bucket": "serious",
+    "tokens": [
+      "cambridge",
+      "centre",
+      "dead",
+      "found",
+      "plagiarism",
+      "professor",
+      "scandal"
+    ],
+    "link": "https://www.dawn.com/news/2023009/ex-cambridge-professor-at-centre-of-plagiarism-scandal-found-dead",
+    "title": "Ex-Cambridge professor at centre of plagiarism scandal found dead",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-15T19:07:48.132663+00:00"
+  },
+  {
+    "score": 16.33,
+    "bucket": "serious",
+    "tokens": [
+      "another",
+      "attacks",
+      "hormuz",
+      "iran",
+      "israel",
+      "lebanon",
+      "ship",
+      "steps",
+      "strait",
+      "strikes"
+    ],
+    "link": "https://www.cbsnews.com/live-updates/iran-war-donald-trump-strait-of-hormuz-uae-accuses-attacks-vance-oil-gas/",
+    "title": "Iran strikes another ship in Strait of Hormuz as Israel steps up Lebanon attacks",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-08-15T19:07:48.132919+00:00"
+  },
+  {
+    "score": 16.3,
+    "bucket": "serious",
+    "tokens": [
+      "'only",
+      "forward'",
+      "iran",
+      "islamabad",
+      "mou",
+      "pakistan",
+      "tensions",
+      "way"
+    ],
+    "link": "https://www.geo.tv/latest/677694-pakistan-says-islamabad-mou-only-way-forward-amid-us-iran-tensions",
+    "title": "Pakistan says Islamabad MoU 'only way forward' amid US-Iran tensions",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-15T19:07:48.133197+00:00"
+  },
+  {
+    "score": 16.11,
+    "bucket": "serious",
+    "tokens": [
+      "downplays",
+      "impact",
+      "iran",
+      "midterms",
+      "penalties",
+      "readies",
+      "trump"
+    ],
+    "link": "https://www.scmp.com/news/world/middle-east/article/3364150/us-readies-iran-penalties-trump-downplays-midterms-impact?utm_source=rss_feed",
+    "title": "US readies Iran penalties as Trump downplays midterms impact",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-08-15T19:07:48.133450+00:00"
+>>>>>>> 4814c1e (chore(drafts): مسودات 2026-08-15 19:07 UTC)
   }
 ]

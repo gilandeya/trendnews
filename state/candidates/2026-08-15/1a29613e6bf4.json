@@ -1,0 +1,55 @@
+{
+  "id": "1a29613e6bf4",
+  "created_at": "2026-08-15T19:07:48.131949+00:00",
+  "status": "pending",
+  "selection_issue": 372,
+  "score": 19.24,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Trump recognized Resistance Front in MoU signed with Iran",
+  "link": "https://en.mehrnews.com/news/246986/Trump-recognized-Resistance-Front-in-MoU-signed-with-Iran",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Trump recognized Resistance Front in MoU signed with Iran",
+    "link": "https://en.mehrnews.com/news/246986/Trump-recognized-Resistance-Front-in-MoU-signed-with-Iran",
+    "summary": "TEHRAN, Aug. 15 (MNA) – Parliament Speaker Mohammad-Bagher Ghalibaf says US President Donald Trump had given the US recognition to the Axis of Resistance by signing the Islamabad Memorandum of Understanding (MoU).",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-15T15:12:42+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/06/17/4/6065006.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/246986/Trump-recognized-Resistance-Front-in-MoU-signed-with-Iran"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86236134/Trump-recognized-Resistance-Front-in-MoU-signed-with-Iran-Ghalibaf"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/06/17/4/6065006.jpg",
+      "https://img9.irna.ir/d/r2/2026/01/25/4/172674881.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1.9166059919444445,
+    "is_stale": false,
+    "score": 19.23889367588889
+  }
+}
