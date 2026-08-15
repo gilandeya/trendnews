@@ -1,0 +1,1024 @@
+"""مقال من المصادر: يبدأ من موجز تحريري ملصوق في Issue — فكرة كاتبه،
+معلوماته، ورأيه — لا من مقال جاهز يُحاكَم كما في src/verify.py. المخرج
+مقال عربي جديد مسنود بالمصادر يجيب عن سؤال، عبر دورة المراجعة المعتادة.
+
+يستبدل هذا المسار — لا يُعطّل — مسار src/verify.py (Issue #348، الخلفية):
+تشغيل حقيقي أثبت أن verify.py يخطئ في جوهره حين يشير الموجز إلى حدث دون
+تسميته («حدث في 11 آب... ما أعاد قصة حمزة الخطيب») فيبحث عن الوصف المبهم
+حرفيًا ويحكم "لا مصدر" رغم أن الحدث حقيقي ومغطّى — البحث عن ادّعاء بلا
+كيان مسمّى لا يجد شيئًا. هذا المسار **يسمّي الحدث** أولًا (_name_event)
+بدل أن يعلن غيابه.
+
+الأنبوب (كل خطوة موثَّقة في الدالة المسؤولة عنها):
+  1) extract_brief() — استخراج وقائع/آراء/أسئلة من الموجز، مع تعليم كل
+     واقعة تصف حدثًا دون تسميته (is_unnamed_event)
+  2) _name_event() — لكل واقعة مبهمة: سلّم بحث يسمّي الحدث من نتائج البحث
+     نفسها، لا من معرفة النموذج (القاعدة 3)
+  3) لكل واقعة (مسمّاة أصلًا أو بعد التسمية): بحث + قراءة + حكم سند
+     (_support_sources) — القاعدة 1: بلا سند كافٍ (مصدران مستقلان
+     فأكثر)، تسقط الواقعة وتُذكر في "ما سقط من موجزي"
+  4) _sufficiency() — بوابة عددية على الوقائع **المُرشَّحة بالسند فقط**
+     (القاعدة 7 + سدّ ثغرة الدائرة، انظر التوثيق في _write_article)
+  5) _choose_question() — يختار السؤال-العنوان من الوقائع المُرشَّحة
+     حصرًا (لا يرى ما لم يجتز السند بعد)
+  6) _draft_article() — صياغة بالعربية ببرومبت مستقل (لا writer.SYSTEM_PROMPT
+     — القاعدة 6)، يضمّ الآراء منسوبة تحريريًا (القاعدة 2) بلا نداء منفصل
+  7) فحص أصالة (verify_draft.check_originality مُعاد استعمالها كما هي —
+     القاعدة 5) ثم صورة ومسودة عبر المسار المعتاد
+
+لا يعيد استعمال classify_fact/judge_fact ولا جدول الأحكام من verify.py:
+تلك الدوال تجسّد بالضبط الخطأ الجوهري الموثَّق أعلاه (الحكم على صياغة
+الموجز كما وردت لا على ما يكشفه البحث) — سقطت من هذا المسار عمدًا.
+
+    python -m src.article --issue 348
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import logging
+import os
+import re
+import time
+from collections import Counter
+from datetime import datetime, timezone
+
+from anthropic import Anthropic, APIError
+
+from . import evidence, extract, imaging, review, store, verify_draft, writer
+from .config import DRAFTS_DIR, env, load_config
+from .imagesearch import find_images
+from .request import norm_tokens
+from .sources import Article
+
+log = logging.getLogger("article")
+
+DRAFT_ORIGIN = "article"
+
+# القاعدة 2: تمييز حدّي بمعيار دلالي واحد — واقعة تدّعي وقوع حدث/رقم/تصريح
+# محدَّد، أو رأي يقوّم أو يفسّر أو يطرح سؤالًا مفتوحًا كموقف. لا تصنيف ثالث
+# (بخلاف CLAIM_KINDS في verify.py التي تضيف "تنبؤ" — هنا القاعدة 2 من
+# الطلب تصريحًا لا تفرّق التنبؤ عن الرأي).
+WRITEUP_KINDS = ["واقعة", "رأي"]
+
+_DIGIT_RE = re.compile(r"\d")
+
+
+def _client() -> Anthropic:
+    return Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+
+
+# ──────────────────────────── استخراج بنية الموجز ────────────────────────────
+
+WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتبه صاحب صفحة إخبارية —
+فكرته وما يعرفه ورأيه — لتستخرج بنيته فقط. لا تحكم على صحته الآن، فذلك يقع
+لاحقًا ببحث في مصادر مستقلة.
+
+استخرج:
+1. topic: جملة واحدة تلخّص موضوع الموجز كما فهمتَه أنت.
+2. statements: كل جملة تحمل معلومة أو موقفًا، مصنّفة:
+   - "واقعة": تدّعي وقوع حدث أو رقم أو تصريح محدَّد — "حدث كذا في كذا"
+   - "رأي": تقويم أو تفسير أو سؤال مفتوح يطرحه صاحب الموجز كموقف — لا
+     ادّعاء وقوع بذاته
+   لكل عنصر أيضًا entities: 2-5 كيانات مميِّزة منه (أسماء أعلام، أرقام،
+   تواريخ، أماكن) كما وردت في الموجز حرفيًا بلا أي إعادة صياغة — استعلام
+   البحث سيُبنى منها وحدها.
+   ولكل عنصر أيضًا is_unnamed_event: true حين تكون الواقعة **إشارة** إلى
+   حدث بأثره أو بذكر ما أعاده أو ذكّر به، دون أن تسمّي الحدث نفسه: من فعل
+   ماذا بالضبط. مثال: "حدث في 11 آب 2026 ما أعاد قصة حمزة الخطيب" لا تسمّي
+   الحدث — تصفه بأثره (أنه ذكّر بقصة أخرى) لا بفعله. "أعلنت الحكومة رفع
+   الدعم عن الوقود" تسمّي الحدث فعلًا (is_unnamed_event: false) رغم أنها
+   واقعة أيضًا. لا تخترع is_unnamed_event: true لواقعة مسمّاة بوضوح.
+   ولكل عنصر أيضًا is_reference: true إن كانت حقيقته ثابتة لا تتعلق بدورة
+   الأخبار الحالية (سيرة، تاريخ قديم، إحصاء رسمي منشور من قبل) — بحثها لا
+   يُقيَّد بنافذة زمنية قصيرة.
+3. questions: أسئلة يطرحها الموجز صراحة ولا يجيب عنها بنفسه.
+
+لا تنقل جملة من الموجز حرفيًا: أعد صياغة كل عنصر وسؤال بإيجاز (فيما عدا
+entities: تُنقل حرفيًا، لا تُعاد صياغتها أبدًا). لا تُجب عن الأسئلة من
+معرفتك — استخرجها فقط.
+
+استخدم أداة extract_brief دائمًا."""
+
+WRITEUP_EXTRACT_SCHEMA = {
+    "name": "extract_brief",
+    "description": "يستخرج بنية موجز تحريري: موضوعه ووقائعه وآراؤه وأسئلته",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "topic": {"type": "string"},
+            "statements": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "text": {"type": "string"},
+                        "kind": {"type": "string", "enum": WRITEUP_KINDS},
+                        "entities": {"type": "array", "items": {"type": "string"}},
+                        "is_unnamed_event": {"type": "boolean"},
+                        "is_reference": {"type": "boolean"},
+                    },
+                    "required": ["text", "kind", "entities", "is_unnamed_event",
+                                "is_reference"],
+                },
+            },
+            "questions": {"type": "array", "items": {"type": "string"}},
+        },
+        "required": ["topic", "statements", "questions"],
+    },
+}
+
+
+def _as_text(value) -> str:
+    if isinstance(value, str):
+        return value.strip()
+    if isinstance(value, dict):
+        for key in ("text", "statement", "content", "question"):
+            candidate = value.get(key)
+            if isinstance(candidate, str) and candidate.strip():
+                return candidate.strip()
+    return ""
+
+
+def _as_entities(value) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [e.strip() for e in value if isinstance(e, str) and e.strip()]
+
+
+def normalize_statement(item) -> dict | None:
+    """يطبّع عنصر بنية موجز واحدًا — نفس فلسفة verify.normalize_claim: رد
+    النموذج قد يخالف مخطط الأداة، فلا نفترض شكلًا بلا تحقق."""
+    text = _as_text(item)
+    if not text:
+        return None
+    kind = item.get("kind") if isinstance(item, dict) else None
+    if kind not in WRITEUP_KINDS:
+        kind = "واقعة"
+    entities = _as_entities(item.get("entities")) if isinstance(item, dict) else []
+    is_unnamed_event = bool(isinstance(item, dict) and item.get("is_unnamed_event") is True)
+    is_reference = bool(isinstance(item, dict) and item.get("is_reference") is True)
+    return {"text": text, "kind": kind, "entities": entities,
+            "is_unnamed_event": is_unnamed_event, "is_reference": is_reference}
+
+
+def normalize_statements(raw) -> list[dict]:
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for item in raw:
+        norm = normalize_statement(item)
+        if norm:
+            out.append(norm)
+    return out
+
+
+def normalize_questions(raw) -> list[str]:
+    if not isinstance(raw, list):
+        return []
+    out = []
+    for item in raw:
+        text = _as_text(item)
+        if text:
+            out.append(text)
+    return out
+
+
+def extract_brief(body: str, cfg, retries: int = 3) -> tuple[dict | None, str | None]:
+    """يستخرج بنية الموجز. يرجع (data, None) عند النجاح، أو (None, سبب
+    محدد) عند الفشل — لا فشل صامت."""
+    acfg = cfg.get("article", {}) or {}
+    model = acfg.get("model", "claude-sonnet-5")
+    max_tokens = int(acfg.get("extract_max_tokens", 3000))
+    client = _client()
+
+    reason = "تعذّر الاتصال بالنموذج"
+    for attempt in range(1, retries + 1):
+        try:
+            resp = client.messages.create(
+                model=model,
+                max_tokens=max_tokens,
+                tools=[WRITEUP_EXTRACT_SCHEMA],
+                tool_choice={"type": "tool", "name": "extract_brief"},
+                system=WRITEUP_EXTRACT_SYSTEM,
+                messages=[{"role": "user", "content": body}],
+            )
+            writer.record_usage(resp, model)
+        except APIError as exc:
+            log.warning("محاولة %d/%d فشلت في استخراج بنية الموجز: %s", attempt, retries, exc)
+            reason = "تعذّر الاتصال بالنموذج"
+            continue
+
+        if getattr(resp, "stop_reason", "") == "max_tokens":
+            log.error("محاولة %d/%d: استخراج بنية الموجز مبتور (max_tokens)",
+                     attempt, retries)
+            reason = "الرد مبتور — تجاوز سقف التوكنات"
+            continue
+
+        data = next((b.input for b in resp.content
+                    if getattr(b, "type", "") == "tool_use"), None)
+        if isinstance(data, dict):
+            return data, None
+
+        text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
+        try:
+            data = writer._extract_json(text) if text.strip() else None
+        except json.JSONDecodeError:
+            data = None
+        if isinstance(data, dict):
+            return data, None
+
+        reason = "الرد لم يكن JSON صالحًا"
+
+    log.error("تعذّر استخراج بنية الموجز بعد %d محاولات: %s", retries, reason)
+    return None, reason
+
+
+# ──────────────────────────── تسمية الحدث المبهم ────────────────────────────
+
+
+def _extract_context_terms(docs: list[dict], exclude_entities: list[str],
+                           max_terms: int) -> list[str]:
+    """كلمات سياق مرشَّحة (بلد/جهة/مكان يتكرر في سيرة الكيان) من نصوص بحث
+    مرجعي فعلي — لا من معرفة النموذج (القاعدة 3): كلمة تتكرر في مصدرين
+    فأكثر من نتائج البحث المرجعي عن الكيان نفسه هي أقرب لكونها سياقًا
+    ثابتًا (بلد، مدينة، جهة) من كلمة وردت مرة واحدة. تُستبعد كيانات
+    الادّعاء نفسها حتى لا تُعاد كـ"سياق مكتشَف" لنفسها."""
+    exclude_norm: set[str] = set()
+    for e in exclude_entities:
+        exclude_norm |= norm_tokens(e)
+    counts: Counter = Counter()
+    for d in docs:
+        counts.update(norm_tokens(d.get("text", "")))
+    ranked = [w for w, c in counts.most_common() if c >= 2 and w not in exclude_norm]
+    return ranked[:max_terms]
+
+
+NAMING_SYSTEM = """أنت تقرأ نصوص مصادر إخبارية مستقلة لتحدّد الحدث المحدَّد
+الذي تصفه، ردًا على إشارة مبهمة له في موجز لا يسمّيه صراحة — يذكر أثره أو
+ما ذكّر به دون أن يذكر من فعل ماذا بالضبط.
+
+اقرأ الإشارة المبهمة والكيانات المرتبطة بها، ثم نصوص المصادر المعطاة فقط.
+إن ذكرت النصوص حدثًا محدَّدًا (من فعل ماذا، وبأي نتيجة) يتّسق مع الكيانات
+المعطاة، اكتبه بصياغة واقعة صريحة جديدة تحلّ محل الإشارة المبهمة —
+أعد صياغته بإيجاز من النصوص، لا تنقله حرفيًا من أي مصدر. إن لم تصف النصوص
+حدثًا واضحًا يتّسق مع الكيانات، أقرّ بذلك صراحة (named: false) — لا تخمّن
+ولا تستعن بمعرفتك الخاصة عن الموضوع لتُكمل ما لا تقوله النصوص المعطاة.
+
+أخرج أسماء المصادر المؤيِّدة مجردة تمامًا كما وردت في وسم
+'--- المصدر: <الاسم> ---'.
+
+استخدم أداة name_event دائمًا."""
+
+NAMING_SCHEMA = {
+    "name": "name_event",
+    "description": "يسمّي حدثًا محدَّدًا من نصوص مصادر، أو يقر بعدم وضوحه",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "named": {"type": "boolean"},
+            "text": {"type": "string"},
+            "supporting": {"type": "array", "items": {"type": "string"}},
+        },
+        "required": ["named"],
+    },
+}
+
+
+def _format_docs(docs: list[dict]) -> str:
+    return "\n\n".join(f"--- المصدر: {d['name']} ---\n{d['text']}" for d in docs)
+
+
+def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
+                      cfg) -> dict | None:
+    """يسأل النموذج: هل تسمّي هذه النصوص حدثًا محدَّدًا؟ يعيد
+    {"text":..., "supporting":[...]} عند النجاح، أو None — لا تخمين بلا
+    نصوص تسنده."""
+    if not docs:
+        return None
+    acfg = cfg.get("article", {}) or {}
+    model = acfg.get("model", "claude-sonnet-5")
+    client = _client()
+    prompt = (f"الإشارة المبهمة: {vague_text}\n"
+             f"الكيانات المرتبطة: {'، '.join(entities)}\n\n"
+             f"نصوص المصادر:\n\n{_format_docs(docs)}")
+    try:
+        resp = client.messages.create(
+            model=model,
+            max_tokens=500,
+            tools=[NAMING_SCHEMA],
+            tool_choice={"type": "tool", "name": "name_event"},
+            system=NAMING_SYSTEM,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        writer.record_usage(resp, model)
+    except APIError as exc:
+        log.warning("فشل نداء تسمية الحدث: %s", exc)
+        return None
+
+    data = next((b.input for b in resp.content
+                if getattr(b, "type", "") == "tool_use"), None)
+    if not isinstance(data, dict) or not data.get("named"):
+        return None
+    text = str(data.get("text") or "").strip()
+    if not text:
+        return None
+    return {"text": text, "supporting": evidence._known_only(data.get("supporting"), docs)}
+
+
+def _name_event(statement: dict, cfg) -> tuple[str | None, list[dict], list[str], list[dict]]:
+    """سلّم اتساع لتسمية حدث أشار إليه الموجز دون تسميته (القسم 3 من
+    التشخيص المعتمَد على Issue #348، بترتيبه المصحَّح في تعليق الموافقة
+    الثاني): كيانات ⟵ بحث مرجعي غير مقيَّد زمنيًا عن سيرة الكيانات (يعطي
+    سياقًا — بلد/جهة — من نتائج البحث نفسها لا من معرفة النموذج، القاعدة
+    3) ⟵ استعلامات تاريخ+سياق مبنية من ذلك السياق المكتشَف ⟵ توسيع
+    لبقية الكيانات إن لم يفلح السياق المكتشَف.
+
+    بحث بالوصف المبهم حرفيًا ممنوع بنيويًا لا معالَج بإعادة محاولة: أول
+    استعلام يُبنى من الكيانات والتاريخ فقط، لا من نص الواقعة المبهم.
+
+    يعيد (النص المسمّى أو None، نصوص المصادر التي سمّته، أسماء المصادر
+    المؤيِّدة، سجلّ خطوات السلّم للتشخيص/التقرير) — النصوص والمصادر
+    المؤيِّدة هنا **هي نفسها** أدلة الحكم على السند لاحقًا (لا نداء بحث أو
+    حكم إضافي مكرَّر لنفس الحقيقة): إعادة البحث بكيانات النص القديم بعد
+    التسمية كانت ستستعمل كيانات الإشارة المبهمة نفسها التي فشلت أصلًا."""
+    acfg = cfg.get("article", {}) or {}
+    days = int(acfg.get("days", 21))
+    query_max_words = int(acfg.get("query_max_words", 5))
+    max_context_terms = int(acfg.get("naming_max_context_terms", 3))
+
+    entities = statement.get("entities") or []
+    dates = [e for e in entities if _DIGIT_RE.search(e)]
+    proper_nouns = [e for e in entities if not _DIGIT_RE.search(e)]
+    trail: list[dict] = []
+    if not dates or not proper_nouns:
+        return None, [], [], trail
+
+    context_terms: list[str] = []
+    for entity in proper_nouns:
+        ranked = evidence.search(entity, cfg, days, unrestricted=True)
+        docs, basis = evidence.gather_evidence(ranked, cfg, entity)
+        trail.append({"stage": "مرجعي", "query": entity, "basis": basis,
+                      "sources": [d["name"] for d in docs]})
+        if docs:
+            context_terms += _extract_context_terms(docs, entities, max_context_terms)
+    context_terms = list(dict.fromkeys(context_terms))
+
+    stages = [("تاريخ+سياق", context_terms or proper_nouns)]
+    if context_terms:
+        remaining = [e for e in proper_nouns if e not in context_terms]
+        if remaining:
+            stages.append(("توسيع", remaining))
+
+    for stage_name, terms in stages:
+        for date in dates:
+            for term in terms:
+                query = evidence.build_query(f"{term} {date}", query_max_words)
+                ranked = evidence.search(query, cfg, days)
+                docs, basis = evidence.gather_evidence(ranked, cfg, query)
+                trail.append({"stage": stage_name, "query": query, "basis": basis,
+                              "sources": [d["name"] for d in docs]})
+                if not docs:
+                    continue
+                named = _ask_naming_model(statement["text"], entities, docs, cfg)
+                if named:
+                    return named["text"], docs, named["supporting"], trail
+    return None, [], [], trail
+
+
+# ──────────────────────────── الحكم على السند (القاعدة 1) ────────────────────
+
+SUPPORT_SYSTEM = """أنت تتحقق هل نصوص مصادر مستقلة تسند واقعة بعينها.
+
+احكم من النصوص المعطاة فقط — لا تستخدم معرفتك الخاصة عن الموضوع. التأييد
+يعني أن النص يذكر الواقعة نفسها أو ما يقاربها بوضوح، لا مجرد ذكر موضوع
+عام قريب منها. مصدر لم يذكر الواقعة إطلاقًا لا يُحسب مؤيدًا ولا مخالفًا.
+أخرج اسم المصدر مجردًا تمامًا كما ورد في وسم '--- المصدر: <الاسم> ---'
+فقط، بلا اختراع أسماء جديدة.
+
+استخدم أداة support_fact دائمًا."""
+
+SUPPORT_SCHEMA = {
+    "name": "support_fact",
+    "description": "يحدد أي المصادر المعطاة يسند واقعة بعينها",
+    "input_schema": {
+        "type": "object",
+        "properties": {"supporting": {"type": "array", "items": {"type": "string"}}},
+        "required": ["supporting"],
+    },
+}
+
+
+def _support_sources(fact_text: str, docs: list[dict], cfg) -> list[str]:
+    """يعيد أسماء المصادر (من docs فعليًا، لا مُختلَقة) التي تسند fact_text
+    — القاعدة 1: هذه القائمة (بعد عدّها) هي ما يقرر مصير الواقعة."""
+    if not docs:
+        return []
+    acfg = cfg.get("article", {}) or {}
+    model = acfg.get("model", "claude-sonnet-5")
+    client = _client()
+    prompt = f"الواقعة: {fact_text}\n\nنصوص المصادر:\n\n{_format_docs(docs)}"
+    try:
+        resp = client.messages.create(
+            model=model,
+            max_tokens=400,
+            tools=[SUPPORT_SCHEMA],
+            tool_choice={"type": "tool", "name": "support_fact"},
+            system=SUPPORT_SYSTEM,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        writer.record_usage(resp, model)
+    except APIError as exc:
+        log.warning("فشل نداء الحكم على السند: %s", exc)
+        return []
+    data = next((b.input for b in resp.content
+                if getattr(b, "type", "") == "tool_use"), None)
+    if not isinstance(data, dict):
+        return []
+    return evidence._known_only(data.get("supporting"), docs)
+
+
+def _grounded_sources(names: list[str], docs: list[dict],
+                      ranked: list[Article]) -> list[dict]:
+    """مقتطف/رابط/صور كل مصدر أسند واقعة فعليًا — نفس بنية verify._fact_sources
+    لتبقى قابلة للتمرير مباشرة إلى verify_draft._image_candidates/
+    check_originality بلا تحويل شكل إضافي."""
+    docs_by_name = {d["name"]: d for d in docs}
+    images_by_name: dict[str, list[str]] = {}
+    for a in ranked:
+        name = getattr(a, "publisher", "") or getattr(a, "source_name", "")
+        if name and name not in images_by_name:
+            images_by_name[name] = getattr(a, "image_candidates", None) or []
+    out = []
+    for name in names:
+        doc = docs_by_name.get(name)
+        if not doc:
+            continue
+        out.append({"name": name, "link": doc.get("link", ""), "text": doc.get("text", ""),
+                    "image_candidates": images_by_name.get(name, [])})
+    return out
+
+
+def _sufficiency(grounded: list[dict], cfg) -> tuple[bool, str]:
+    """بوابة الكفاية (القاعدة 7): عددية بحتة — بلا فحص صلة إضافي (تعليق
+    الموافقة، البند 3: السؤال يُشتق أصلًا من الوقائع المُرشَّحة، فأي واقعة
+    لا تخدم الإجابة لا تُختار في مرحلة الصياغة، لا حاجة لبوابة صلة منفصلة
+    قد ترفض حالات صحيحة كصلة لفظية ضعيفة بين سؤال وجوابه الصحيح).
+
+    **ترتيب حاسم** (سدّ ثغرة الدائرة، آخر تعليق على Issue #348): `grounded`
+    هنا يجب أن يكون مُرشَّحًا بالسند فعلًا (مصدران مستقلان فأكثر لكل عنصر)
+    **قبل** أي اختيار سؤال — لا كل ما استُخرج من الموجز. لو كان الترشيح
+    يقع بعد اختيار السؤال، لأمكن اشتقاق السؤال من واقعة ضعيفة السند فتمرّ
+    هذه البوابة تلقائيًا بحكم أنها "اختيرت" لا لأنها "فُحصت". _write_article
+    يستدعي هذه الدالة بعد حلقة السند مباشرة، وقبل _choose_question — بهذا
+    الترتيب وحده الواقعة المحورية مضمونة بالبناء لا بالفحص."""
+    acfg = cfg.get("article", {}) or {}
+    min_grounded = int(acfg.get("min_grounded_facts", 2))
+    if len(grounded) < min_grounded:
+        return False, (f"عدد الوقائع المسندة ({len(grounded)}) دون الحد الأدنى "
+                       f"({min_grounded}) — القاعدة 7: لا مقال")
+    return True, f"{len(grounded)} واقعة مسندة"
+
+
+# ──────────────────────────── اختيار السؤال ────────────────────────────
+
+CHOOSE_QUESTION_SYSTEM = """أنت تختار عنوان مقال بصيغة سؤال، من وقائع مسندة
+بمصادر مستقلة معطاة لك حصرًا — لا من أي معلومة أخرى.
+
+اقرأ الوقائع أولًا، ثم استنتج منها السؤال الذي تُجيب عنه فعلًا — لا سؤالًا
+تتمناه أو تعده الوقائع بالإجابة عنه لاحقًا. صغه بصيغة استفهام جاذبة ودقيقة
+بالعربية الفصيحة، بلا مبالغة ولا وعد يتجاوز ما تحمله الوقائع المعطاة.
+
+إن كانت الوقائع المعطاة لا تكفي لسؤال قائم بذاته له إجابة واضحة فيها،
+اضبط cannot_answer: true بدل اختلاق سؤال ضعيف الصلة.
+
+استخدم أداة choose_question دائمًا."""
+
+CHOOSE_QUESTION_SCHEMA = {
+    "name": "choose_question",
+    "description": "يختار عنوانًا بصيغة سؤال تُجيب عنه الوقائع المعطاة حصرًا",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "question": {"type": "string"},
+            "cannot_answer": {
+                "type": "boolean",
+                "description": "true إن كانت الوقائع المعطاة لا تكفي لسؤال قائم بذاته",
+            },
+        },
+        "required": ["question", "cannot_answer"],
+    },
+}
+
+
+def _choose_question(grounded: list[dict], cfg, retries: int = 2) -> tuple[str | None, str]:
+    """يختار السؤال من `grounded` حصرًا — القائمة التي مرّت بوابة الكفاية
+    أعلاه بالفعل. الدالة لا ترى أي واقعة لم تجتز السند، فلا سبيل لاختيار
+    سؤال يعتمد على واقعة ضعيفة السند (انظر توثيق _sufficiency)."""
+    if not grounded:
+        return None, "مرحلة اختيار السؤال — لا وقائع مسندة لاختيار سؤال منها"
+    acfg = cfg.get("article", {}) or {}
+    model = acfg.get("model", "claude-sonnet-5")
+    client = _client()
+    facts_block = "\n".join(f"- {f['text']}" for f in grounded)
+    prompt = f"الوقائع المسندة المتاحة حصرًا:\n\n{facts_block}"
+
+    for attempt in range(1, retries + 1):
+        try:
+            resp = client.messages.create(
+                model=model,
+                max_tokens=300,
+                tools=[CHOOSE_QUESTION_SCHEMA],
+                tool_choice={"type": "tool", "name": "choose_question"},
+                system=CHOOSE_QUESTION_SYSTEM,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            writer.record_usage(resp, model)
+        except APIError as exc:
+            log.warning("محاولة %d/%d فشلت في اختيار السؤال: %s", attempt, retries, exc)
+            continue
+        data = next((b.input for b in resp.content
+                    if getattr(b, "type", "") == "tool_use"), None)
+        if not isinstance(data, dict):
+            continue
+        if data.get("cannot_answer"):
+            return None, ("مرحلة اختيار السؤال — امتناع: الوقائع المسندة لا تكفي "
+                          "لسؤال قائم بذاته (القاعدة 7)")
+        question = str(data.get("question") or "").strip()
+        if question:
+            return question, ""
+
+    return None, "مرحلة اختيار السؤال — تعذّر الحصول على رد صالح من النموذج"
+
+
+# ──────────────────────────── الصياغة (برومبت مستقل — القاعدة 6) ────────────
+
+# لا نستعمل writer.SYSTEM_PROMPT ولا writer._call_model هنا (القاعدة 6:
+# "writer.py وSYSTEM_PROMPT لا تُمسّان ولا تُنسخ قواعدهما — سياستان
+# معلنتان، لا واحدة مخفَّفة"). writer._call_model يُحمِّل writer.SYSTEM_PROMPT
+# داخليًا بلا معامل يسمح باستبداله، فحتى استدعاؤه المجرد كان سيسحب سياسة
+# verify_draft.py التحريرية إلى هذا المسار. الآلية المشتركة المُعاد
+# استعمالها فعلًا: writer.record_usage/usage_summary (محاسبة، لا سياسة)،
+# writer._extract_json (استخراج JSON احتياطي، ميكانيكي)، وwriter.WriteFailure/
+# classify_write_error (تصنيف عطل الشبكة، ميكانيكي أيضًا).
+DRAFT_SYSTEM_TEMPLATE = """أنت محرر يكتب مقالًا عربيًا لمنشور فيسبوك، عنوانه
+سؤال يُجاب عنه من وقائع مسندة بمصادر مستقلة أُعطيتَها فقط — لا من معرفتك
+الخاصة ولا من أي مصدر آخر.
+
+القواعد:
+1. كل واقعة تكتبها يجب أن تكون من الوقائع المعطاة حصرًا. لا تخترع تفصيلة
+   ولا تُكمل من عندك ما لم تذكره الوقائع المعطاة.
+2. الآراء المعطاة (إن وُجدت) رأي صاحب الموجز فقط — لا تنقلها حرفيًا، أعد
+   صياغتها بإيجاز وانسبها صراحة بالصيغة: "{opinion_phrase} ..." — لا
+   تقدّمها خبرًا ولا تخلطها بالوقائع المسندة.
+3. لا تحليل من عندك ولا تفسير ثالث: كل تفسير في المتن إما من الوقائع
+   المسندة نفسها، أو رأي منسوب صراحة لصاحب الموجز كما في القاعدة 2 —
+   لا صوت ثالث تضيفه أنت.
+4. المتن يجب أن يجيب عن السؤال المعطى صراحة بالوقائع المسندة — لا يفتح
+   سؤالًا جديدًا ولا يتهرّب منه.
+5. عربية فصيحة مبسّطة، بلا نسخ حرفي من أي نص مصدر — أعد الصياغة بالكامل.
+6. لا تذكر اسم المصدر داخل المتن — يُكتب أسفل المنشور تلقائيًا.
+
+استخدم أداة write_article دائمًا."""
+
+ARTICLE_POST_SCHEMA = {
+    "name": "write_article",
+    "description": "يسلّم مقال «مقال من المصادر» الجاهز بحقوله المهيكلة",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "image_headline": {"type": "string",
+                               "description": "عنوان مكثّف يُكتب على الصورة"},
+            "post_title": {"type": "string"},
+            "post_body": {"type": "string"},
+            "hashtags": {"type": "array", "items": {"type": "string"}},
+            "category": {"type": "string", "enum": writer.CATEGORIES},
+        },
+        "required": ["post_title", "post_body", "category"],
+    },
+}
+
+DRAFT_USER_TEMPLATE = """السؤال-العنوان: {question}
+
+وقائع مسندة بمصدرين مستقلين فأكثر — ابنِ منها المتن حصرًا:
+
+{facts_block}
+
+نصوص المصادر المستقلة التي أيّدت هذه الوقائع:
+
+{source_texts}
+{opinions_block}
+املأ حقول أداة write_article من هذه الوقائع والنصوص (والرأي المنسوب إن
+وُجد) حصرًا — لا معرفة سابقة ولا مصدر ثالث:
+
+• image_headline — عنوان مكثّف يُكتب على الصورة، بحد أقصى {max_chars} حرفًا، بلا نقطة
+• post_title — طابق السؤال-العنوان أعلاه بصياغة جاذبة، بصيغة سؤال
+• post_body — متن يجيب عن السؤال بالوقائع المسندة، {post_length}
+• hashtags — {hashtags_count} هاشتاقات عربية، بلا رمز # وبـ _ بدل المسافة
+• category — التصنيف الأنسب
+
+نبرة الكتابة المطلوبة: {tone}"""
+
+
+def _call_draft_model(prompt: str, system_text: str, cfg, retries: int = 3) -> dict:
+    """نداء شبكة مستقل عن writer._call_model (انظر التوثيق أعلاه) — نفس
+    نمط إعادة المحاولة/تصنيف العطل، بنظام توجيه مُمرَّر لا مُحمَّل داخليًا."""
+    acfg = cfg.get("article", {}) or {}
+    client = _client()
+    last_error: Exception | None = None
+
+    for attempt in range(1, retries + 1):
+        try:
+            resp = client.messages.create(
+                model=acfg.get("model", "claude-sonnet-5"),
+                max_tokens=int(acfg.get("max_tokens", 3000)),
+                tools=[ARTICLE_POST_SCHEMA],
+                tool_choice={"type": "tool", "name": "write_article"},
+                system=[{
+                    "type": "text",
+                    "text": system_text,
+                    "cache_control": {"type": "ephemeral"},
+                }],
+                messages=[{"role": "user", "content": prompt}],
+            )
+            writer.record_usage(resp, acfg.get("model", "claude-sonnet-5"))
+
+            if getattr(resp, "stop_reason", "") == "max_tokens":
+                raise ValueError("تجاوز الرد السقف — ارفع article.max_tokens")
+
+            data = next((b.input for b in resp.content
+                        if getattr(b, "type", "") == "tool_use"), None)
+            if data is None:
+                text = "".join(b.text for b in resp.content
+                               if getattr(b, "type", "") == "text")
+                data = writer._extract_json(text)
+            return data
+        except (APIError, json.JSONDecodeError, ValueError) as exc:
+            last_error = exc
+            log.warning("محاولة %d/%d فشلت في صياغة المقال: %s", attempt, retries, exc)
+            time.sleep(2 * attempt)
+
+    reason = writer.classify_write_error(last_error) if last_error else "عطل API"
+    raise writer.WriteFailure(reason, str(last_error) if last_error else "")
+
+
+def _opinions_block(opinions: list[dict], cfg) -> str:
+    """القاعدة 2 و5: رأي صاحب الموجز يدخل البرومبت كمادة خام يُطلب من
+    النموذج إعادة صياغتها ونسبتها — لا نقلًا حرفيًا (يصطدم بالقاعدة 5)،
+    ولا نداء صياغة منفصل لكل رأي (تعليق التنفيذ الأخير: مكلف بلا داعٍ ما
+    دام برومبت الصياغة الواحد يعرف أصلًا أيّها رأي وأيّها واقعة)."""
+    if not opinions:
+        return ""
+    acfg = cfg.get("article", {}) or {}
+    phrase = acfg.get("opinion_attribution_phrase", "وترى الصفحة أن")
+    lines = "\n".join(f"- {o['text']}" for o in opinions)
+    return (f"\nرأي صاحب الموجز (أعد صياغته بإيجاز ضمن المتن، منسوبًا بصيغة "
+           f"\"{phrase}...\" — لا تنقله حرفيًا ولا تقدّمه خبرًا):\n{lines}\n")
+
+
+def _source_docs(grounded: list[dict]) -> list[dict]:
+    seen: set[str] = set()
+    out = []
+    for f in grounded:
+        for s in f.get("sources", []):
+            if s["name"] in seen or not s.get("text"):
+                continue
+            seen.add(s["name"])
+            out.append({"name": s["name"], "text": s["text"]})
+    return out
+
+
+def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
+                   cfg, retries: int = 3) -> tuple[dict | None, str]:
+    w = cfg.get("writer", {})
+    acfg = cfg.get("article", {}) or {}
+    docs = _source_docs(grounded)
+    facts_block = "\n".join(f"- {f['text']}" for f in grounded)
+    phrase = acfg.get("opinion_attribution_phrase", "وترى الصفحة أن")
+    system_text = DRAFT_SYSTEM_TEMPLATE.format(opinion_phrase=phrase)
+    prompt = DRAFT_USER_TEMPLATE.format(
+        question=question,
+        facts_block=facts_block,
+        source_texts=extract.format_for_prompt(docs),
+        opinions_block=_opinions_block(opinions, cfg),
+        max_chars=cfg.path("image.headline_max_chars", 95),
+        post_length=w.get("post_length", "60 إلى 90 كلمة"),
+        hashtags_count=w.get("hashtags_count", 4),
+        tone=w.get("tone", "خبري رصين، عربي فصيح مبسّط، بلا مبالغة أو إثارة"),
+    )
+
+    try:
+        data = _call_draft_model(prompt, system_text, cfg, retries)
+    except writer.WriteFailure as exc:
+        log.warning("فشل تقني في صياغة مقال من المصادر (%s): %s", exc.reason, exc.detail)
+        return None, f"مرحلة الصياغة — فشل تقني ({exc.reason}): {exc.detail}"
+
+    tags = [str(t).lstrip("#").replace(" ", "_") for t in (data.get("hashtags") or [])]
+    category = data.get("category") if data.get("category") in writer.CATEGORIES else "عالم"
+    written = {
+        "angle": "تفسير",
+        "analysis": "",  # لا تحليل من عندنا — القاعدة 3، لا صوت ثالث
+        "urgent": False,
+        "category": category,
+        "image_headline": str(data.get("image_headline") or data.get("post_title", "")
+                             ).strip().rstrip("."),
+        "post_title": str(data.get("post_title", "")).strip(),
+        "post_body": str(data.get("post_body", "")).strip(),
+        "hashtags": tags,
+    }
+    if not written["post_title"] or not written["post_body"]:
+        return None, "مرحلة الصياغة — رد ناقص: بلا عنوان أو متن"
+    return written, ""
+
+
+# ──────────────────────────── الأنبوب الكامل ────────────────────────────
+
+
+def _new_outcome() -> dict:
+    return {"produced": False, "reason": "", "question": "", "dropped": [],
+           "sources": [], "unanswered": [], "diffs": [], "draft_id": None,
+           "image_source_name": None, "image_source_link": None}
+
+
+def write_article(body: str, issue_number: int, cfg) -> dict:
+    """يلتقط أي انهيار غير متوقع فلا يصل traceback إلى تعليق الـ Issue."""
+    try:
+        return _write_article(body, issue_number, cfg)
+    except Exception:
+        log.exception("انهيار غير متوقع أثناء كتابة مقال من المصادر")
+        outcome = _new_outcome()
+        outcome["reason"] = "حدث خطأ غير متوقع — راجع سجلات Actions للتفاصيل"
+        return outcome
+
+
+def _write_article(body: str, issue_number: int, cfg) -> dict:
+    acfg = cfg.get("article", {}) or {}
+    days = int(acfg.get("days", 21))
+    query_max_words = int(acfg.get("query_max_words", 5))
+    min_confirm = int(acfg.get("min_confirm_sources", 2))
+    max_statements = int(acfg.get("max_statements", 8))
+    max_questions = int(acfg.get("max_questions", 5))
+
+    outcome = _new_outcome()
+
+    extracted, err = extract_brief(body, cfg)
+    if not extracted:
+        outcome["reason"] = err or "تعذّر استخراج بنية الموجز"
+        return outcome
+
+    raw_statements = extracted.get("statements")
+    if not isinstance(raw_statements, list):
+        raw_statements = extracted.get("claims")  # احتياط اسم حقل شائع
+    statements = normalize_statements(raw_statements)
+    if not statements:
+        outcome["reason"] = "تعذّرت قراءة بنية الرد — لا وقائع أو آراء صالحة"
+        return outcome
+
+    questions_from_brief = normalize_questions(extracted.get("questions"))[:max_questions]
+    facts_raw = [s for s in statements if s["kind"] == "واقعة"][:max_statements]
+    opinions = [s for s in statements if s["kind"] != "واقعة"]
+
+    dropped: list[dict] = []
+    diffs: list[dict] = []
+    grounded: list[dict] = []
+    sources_seen: list[dict] = []
+
+    for f in facts_raw:
+        if f.get("is_unnamed_event"):
+            # تسمية الحدث أولًا (البند 3 من التشخيص) — الأدلة التي سمّته
+            # هي نفسها أدلة الحكم على سنده، لا بحث إضافي مكرَّر (انظر
+            # توثيق _name_event)
+            named_text, named_docs, named_supporting, _trail = _name_event(f, cfg)
+            if not named_text:
+                dropped.append({
+                    "text": f["text"],
+                    "reason": ("تعذّر تسمية الحدث الذي أشار إليه موجزي — بحث موسّع "
+                              "بالكيانات والتاريخ لم يكشف ما وقع فعليًا"),
+                })
+                continue
+            diffs.append({"brief": f["text"], "sources_say": named_text})
+            unique = set(named_supporting)
+            if len(unique) < min_confirm:
+                dropped.append({
+                    "text": named_text,
+                    "reason": (f"سند غير كافٍ بعد تسمية الحدث ({len(unique)} من "
+                              f"{min_confirm} مصادر مستقلة مطلوبة)"),
+                })
+                continue
+            fact_sources = _grounded_sources(named_supporting, named_docs, [])
+            grounded.append({**f, "text": named_text, "sources": fact_sources})
+        else:
+            query = evidence.build_query_for_claim(f, query_max_words)
+            ranked = evidence.search(query, cfg, days, unrestricted=f.get("is_reference", False))
+            relevance_text = evidence._entities_text(f) or f["text"]
+            docs, _basis = evidence.gather_evidence(ranked, cfg, relevance_text)
+            supporting = _support_sources(f["text"], docs, cfg) if docs else []
+            unique = set(supporting)
+            if len(unique) < min_confirm:
+                dropped.append({
+                    "text": f["text"],
+                    "reason": (f"سند غير كافٍ ({len(unique)} من {min_confirm} "
+                              "مصادر مستقلة مطلوبة)"),
+                })
+                continue
+            fact_sources = _grounded_sources(supporting, docs, ranked)
+            grounded.append({**f, "sources": fact_sources})
+
+        for s in grounded[-1]["sources"]:
+            if not any(s["name"] == x["name"] for x in sources_seen):
+                sources_seen.append({"name": s["name"], "link": s["link"]})
+
+    outcome["dropped"] = dropped
+    outcome["diffs"] = diffs
+    outcome["unanswered"] = questions_from_brief
+
+    ok, reason = _sufficiency(grounded, cfg)
+    if not ok:
+        outcome["reason"] = reason
+        return outcome
+
+    question, q_reason = _choose_question(grounded, cfg)
+    if not question:
+        outcome["reason"] = q_reason
+        return outcome
+    outcome["question"] = question
+
+    written, w_reason = _draft_article(grounded, opinions, question, cfg)
+    if written is None:
+        outcome["reason"] = w_reason
+        return outcome
+
+    source_texts = [s["text"] for f in grounded for s in f.get("sources", []) if s.get("text")]
+    draft_text = "\n".join(filter(None, [
+        written["image_headline"], written["post_title"], written["post_body"],
+    ]))
+    max_shared = int(acfg.get("max_shared_run_words", 7))
+    # فحص النسخ اللفظي (القاعدة 5) — verify_draft.check_originality مُعاد
+    # استعمالها كما هي بعتبتها واستثناءاتها، لا نسخة موازية
+    ok_orig, orig_reason = verify_draft.check_originality(
+        draft_text, body, source_texts, max_shared)
+    if not ok_orig:
+        outcome["reason"] = f"مرحلة الصياغة — امتناع: {orig_reason}"
+        return outcome
+
+    outcome["sources"] = sources_seen
+
+    publishers = [s["name"] for s in sources_seen]
+    primary_link = sources_seen[0]["link"] if sources_seen else ""
+    central_text = grounded[0]["text"]
+
+    art = Article(
+        title=central_text, link=primary_link, summary=question,
+        source_name=publishers[0] if publishers else "", region="global",
+        weight=1.0, published=datetime.now(timezone.utc),
+        publisher=publishers[0] if publishers else "", cluster_sources=publishers,
+    )
+
+    draft_id = hashlib.sha1(
+        f"article:{issue_number}:{question}".encode("utf-8")).hexdigest()[:12]
+
+    # الصورة: نفس آلية verify_draft._image_candidates حرفيًا — مرشَّحات من
+    # مصادر مسندة فعلًا فقط، وfallback_provider يبحث في Wikimedia/Openverse
+    # حصرًا (imagesearch.find_images) لا Google Images (CLAUDE.md)
+    image_ranked = verify_draft._image_candidates(grounded)
+    image_urls = [u for u, _, _ in image_ranked]
+
+    image_name = f"{datetime.now(timezone.utc):%Y-%m-%d}/{draft_id}.jpg"
+    image_rel = f"drafts/{image_name}"
+    shot: dict = {}
+    try:
+        imaging.build_post_image(
+            headline=written["image_headline"] or written["post_title"],
+            category=written["category"],
+            urgent=False,
+            image_urls=image_urls,
+            publisher=publishers,
+            bucket="serious",
+            fallback_provider=lambda: find_images(central_text, cfg),
+            cfg=cfg,
+            out_path=DRAFTS_DIR / image_name,
+            report=shot,
+        )
+    except Exception as exc:  # noqa: BLE001 — امتناع صريح مُسجَّل لا انهيار صامت
+        outcome["reason"] = f"مرحلة بناء صورة المسودة — فشل: {exc}"
+        return outcome
+
+    draft = {
+        "id": draft_id,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "status": "pending",
+        "review_issue": None,
+        "origin": DRAFT_ORIGIN,
+        "article_issue": issue_number,
+        "score": 0.0,
+        "bucket": "serious",
+        "analysed_sources": publishers,
+        "trend_score": 0.0,
+        "velocity": 0.0,
+        "age_hours": 0.0,
+        "is_followup": False,
+        "state_media": False,
+        "has_photo": bool(shot.get("used_original")),
+        "source": {
+            "title": question,
+            "link": primary_link,
+            "publisher": publishers[0] if publishers else "",
+            "publishers": publishers,
+            "region": "global",
+            "image_url": image_urls[0] if image_urls else None,
+            "image_candidates": image_urls,
+        },
+        "arabic": written,
+        "caption": writer.build_caption(written, art, cfg),
+        "image": image_rel,
+        "reel": None,
+        "reel_spec": {
+            "headline": written["image_headline"] or written["post_title"],
+            "category": written["category"],
+            "urgent": False,
+            "image_candidates": image_urls,
+        },
+    }
+    store.save_draft(draft)
+
+    if shot.get("used_original") and image_ranked:
+        outcome["image_source_name"] = image_ranked[0][1]
+        outcome["image_source_link"] = image_ranked[0][2]
+
+    outcome.update({
+        "produced": True,
+        "reason": f"صيغ مقال من {len(grounded)} واقعة مسندة",
+        "draft_id": draft_id,
+    })
+    return outcome
+
+
+def build_report(outcome: dict) -> str:
+    """التقرير المختصر المطلوب: السؤال المختار، المصادر المقروءة بروابطها،
+    ما بقي بلا إجابة، ما سقط من الموجز لانعدام السند، وأين خالفت المصادرُ
+    الموجز — لا جدول أحكام كما في verify.build_report."""
+    lines = ["### 📰 مقال من المصادر", ""]
+    if outcome["produced"]:
+        lines.append(f"✅ {outcome['reason']} (المعرّف `{outcome['draft_id']}`) — "
+                     "ستظهر في أقرب Issue مراجعة يفتحه البوت بعد رفع المسودة.")
+        if outcome.get("image_source_link"):
+            name = outcome.get("image_source_name") or "مصدر مسند"
+            lines.append(f"🖼️ مصدر الصورة: [{name}]({outcome['image_source_link']})")
+    else:
+        lines.append(f"❌ لم يُصَغ مقال — {outcome['reason']}")
+
+    if outcome.get("question"):
+        lines += ["", f"**السؤال المختار:** {outcome['question']}"]
+
+    if outcome.get("sources"):
+        lines += ["", "**المصادر المقروءة:**"]
+        lines += [f"- [{s['name']}]({s['link']})" if s.get("link") else f"- {s['name']}"
+                 for s in outcome["sources"]]
+
+    if outcome.get("unanswered"):
+        lines += ["", "**ما بقي بلا إجابة:**"]
+        lines += [f"- {q}" for q in outcome["unanswered"]]
+
+    if outcome.get("dropped"):
+        lines += ["", "**ما سقط من موجزي لانعدام السند:**"]
+        lines += [f"- {d['text']} — {d['reason']}" for d in outcome["dropped"]]
+
+    if outcome.get("diffs"):
+        lines += ["", "**أين خالفت المصادرُ موجزي:**"]
+        lines += [f"- موجزي: «{d['brief']}» — المصادر: «{d['sources_say']}»"
+                 for d in outcome["diffs"]]
+
+    return "\n".join(lines)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="اكتب مقالًا من موجز ملصق في Issue")
+    parser.add_argument("--issue", type=int, required=True, help="رقم الـ Issue")
+    args = parser.parse_args()
+
+    logging.basicConfig(level=logging.INFO,
+                        format="%(asctime)s │ %(levelname)-7s │ %(message)s",
+                        datefmt="%H:%M:%S")
+
+    cfg = load_config()
+    body = review.fetch_issue_body(args.issue)
+    if not body.strip():
+        review.comment(args.issue,
+                       "### 📰 لا نص\nالـ Issue لا يحوي موجزًا لكتابة مقال منه.")
+        return 0
+
+    outcome = write_article(body, args.issue, cfg)
+    report = build_report(outcome)
+    review.comment(args.issue, f"{report}\n\n<sub>💵 {writer.usage_summary()}</sub>")
+
+    draft_id = outcome.get("draft_id")
+    output_path = os.environ.get("GITHUB_OUTPUT")
+    if draft_id and output_path:
+        with open(output_path, "a", encoding="utf-8") as fh:
+            fh.write(f"draft_id={draft_id}\n")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

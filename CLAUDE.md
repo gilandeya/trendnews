@@ -93,6 +93,36 @@ Supporting pieces, each independently triggerable as its own workflow:
   publisher doesn't supply a usable photo.
 - `src/reel.py` — builds a vertical video (ffmpeg, local, no external service) from the same
   image + headline as an alternate post format.
+- `src/evidence.py` — shared search-and-read engine (query building, `search`, `gather_evidence`,
+  publisher-weight/name matching) extracted from `src/verify.py` (Issue #348) because it's generic
+  — no judgment/classification logic — and is consumed directly by both `src/verify.py` and
+  `src/article.py` below. `src/verify.py` imports from it rather than redefining it.
+- `src/article.py` — "article from sources" flow (Issue #348, replaces `src/verify.py` below; the
+  two coexist in this PR only until the new path is proven on a real brief — see that issue for
+  the removal plan): triggered by an Issue tagged `مقال`. Unlike `verify.py`, the pasted text is
+  an **editorial brief** (the poster's idea + information + opinion), not an article to fact-check
+  — the output is a new sourced article answering a question, not a verdict table. Pipeline:
+  extract the brief into fact/opinion statements (`extract_brief`) → for any fact that alludes to
+  an event without naming it, run a widening search ladder (`_name_event`) that names the event
+  from search results themselves, never model prior knowledge — entities → unrestricted reference
+  search on the entities (context, e.g. a country name, discovered only from those results' text)
+  → date+context queries built from that discovered context → widen to remaining entities → for
+  every fact (originally named or freshly named), require 2+ independent supporting sources
+  (`config.yaml: article.min_confirm_sources`) or it's dropped and reported, never silently
+  dropped → **only then**, from the sources-filtered set, gate on a purely numeric sufficiency
+  threshold (`article.min_grounded_facts`) and pick the question-headline
+  (`_sufficiency`/`_choose_question`) → draft with its own prompt (`DRAFT_SYSTEM_TEMPLATE`, never
+  `writer.SYSTEM_PROMPT` — a deliberately separate editorial policy) that also folds the poster's
+  opinion in, paraphrased and attributed (`config.yaml: article.opinion_attribution_phrase`), never
+  copied verbatim → `verify_draft.check_originality` (reused as-is) rejects literal overlap with
+  the brief or sources → image via `verify_draft._image_candidates`/`imagesearch.find_images`
+  (same Wikimedia/Openverse-only fallback) → draft through the same `store.save_draft` →
+  `drafts/<date>/` → review Issue → `approved` path, tagged `origin: "article"`. Deliberately does
+  **not** reuse `verify.classify_fact`/`verify.judge_fact` or its verdict table — those encode the
+  exact flaw this path exists to fix (judging the brief's own phrasing instead of what the search
+  actually finds); `_support_sources`/`_sufficiency` are new, narrower, purely-count-based
+  replacements. See the ordering constraint below before changing the grounding/question-selection
+  order.
 - `src/verify.py` — fact-check flow for a pasted article (Issue tagged `تحقق`): extracts its
   claims, classifies each (fact/opinion/prediction), searches independent sources for every fact,
   judges each as confirmed (2+ independent sources) / near-confirmed (one strong source) / single
@@ -133,6 +163,13 @@ loads it into a dict subclass with dotted-path lookup.
 - In the collect workflow, images must be committed/pushed to the repo **before** the review
   Issue is opened, or the `raw.githubusercontent.com` preview links 404 (the file doesn't exist
   at that URL yet).
+- In `src/article.py`, source-filtering must happen **before** question selection, never after.
+  `_write_article` filters every extracted fact down to `grounded` (2+ independent sources) first,
+  then calls `_sufficiency(grounded, ...)` and `_choose_question(grounded, ...)` — both see only
+  the already-sourced set, never the full extracted list. If a question were chosen first and
+  facts filtered afterward, the chosen "central" fact could be one that never actually passed the
+  sourcing bar — it would look central because it was *picked*, not because it was *checked*. A
+  single weakly-sourced fact can never become central by construction, not by a later check.
 
 ## Testing
 
