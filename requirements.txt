@@ -1,11 +1,19 @@
 anthropic>=0.40
 requests>=2.31
 feedparser>=6.0.11
-Pillow>=10.2
+# مثبّتة بدقة (لا >=): Pillow وopencv-python-headless تُستدعيان معًا على نفس
+# بيانات الصورة في imaging.py/vision.py عبر مصفوفات numpy وسيطة؛ تعارض ABI
+# بين numpy وامتداد C مبني بإصدار numpy مختلف يظهر كانهيار ذاكرة
+# (double free or corruption) لا كخطأ pip عادي — وقد حدث فعليًا حين ترقّى
+# pip المكتبات تلقائيًا بلا قفل إصدارات (انظر Issue #350). numpy مُدرَجة هنا
+# صراحة بدل تركها تبعية عابرة ضمنية غير مثبَّتة الإصدار لنفس السبب.
+Pillow==12.3.0
+numpy==2.5.2
+opencv-python-headless==5.0.0.93
+lxml==6.1.1
 arabic-reshaper>=3.0.0
 python-bidi>=0.4.2
 fonttools>=4.50
 PyYAML>=6.0
 trafilatura>=1.12
 imageio-ffmpeg>=0.5
-opencv-python-headless>=4.10
