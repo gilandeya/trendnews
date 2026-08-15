@@ -195,7 +195,8 @@ def _search_result(items, raw_count: int, matched_count: int,
     return out
 
 
-def search(query: str, cfg, days: int, unrestricted: bool = False) -> list[Article]:
+def search(query: str, cfg, days: int, unrestricted: bool = False,
+          require_relevance: bool = True) -> list[Article]:
     """يبحث عن استعلام واحد عبر آلية request.py نفسها — بلا تكرار منطقها.
 
     الدمج الدلالي (merge_cfg) معطَّل هنا عمدًا: هو مصمَّم لمسار النشر حيث
@@ -214,7 +215,22 @@ def search(query: str, cfg, days: int, unrestricted: bool = False) -> list[Artic
     unrestricted=True (واقعة مرجعية) يُسقط قيد when: من الاستعلام
     (search_feeds) ويرفع سقف عمر النتائج المقبولة إلى REFERENCE_MAX_AGE_HOURS
     بدل days*24 — كلاهما ضروري معًا، فإسقاط when: وحده لا يمنع fetch_source
-    من رفض مصدر قديم بعد جلبه فعليًا."""
+    من رفض مصدر قديم بعد جلبه فعليًا.
+
+    require_relevance=False (تشخيص Issue #373، البند 1: عيّنة حقيقية —
+    الخبر الصحيح عن حكم إعدام بحق الأسد رُفض هنا لأن عنوانه لم يذكر «حمزة
+    الخطيب» الوارد في الاستعلام، بينما نجا موقع نتائج رياضية بمطابقة لفظية
+    عابرة) يُسقط فلتر relevant() هنا كليًا: كل نتيجة خام تدخل الفرز/الترتيب
+    بلا استبعاد مسبق بمطابقة كلمة واحدة في العنوان/الملخص. الحدث المطلوب قد
+    لا يحمل اسم الكيان الذي قاد إليه إطلاقًا — التاريخ هو الرابط، لا الاسم،
+    فمطابقة كلمة واحدة في العنوان معيار خاطئ لهذه المرحلة تحديدًا. الاستدعاء
+    المسؤول (article._try، مرحلتا «مباشر»/«سياق» فقط) يمرّر
+    loose_relevance=True لـgather_evidence أيضًا، فبوابة الاتساق
+    (_naming_consistent/_dates_consistent) — لا هذا الفلتر — تصير الحارس
+    الوحيد على دقة التسمية؛ الكلفة محدودة (مجموعة مرشحي الفرز تتسع، لا عدد
+    القراءات الفعلية المحدود بـread_per_claim). مستدعون آخرون (request.py،
+    verify.py عبر هذه الدالة) لا شبكة أمان مكافئة لديهم فيبقون على الافتراضي
+    True."""
     vcfg = cfg.get("verify", {}) or {}
     locales = vcfg.get("locales") or DEFAULT_LOCALES
     max_age_hours = REFERENCE_MAX_AGE_HOURS if unrestricted else days * 24
@@ -227,16 +243,20 @@ def search(query: str, cfg, days: int, unrestricted: bool = False) -> list[Artic
     if not articles:
         return _search_result([], 0, 0)
 
-    wanted = norm_tokens(query)
-    matched: list[Article] = []
-    # عيّنة عناوين مرفوضة بالصلة (5 كحد أقصى) — البند 4، انظر توثيق
-    # SearchResult.rejected_titles أعلاه
-    rejected_titles: list[str] = []
-    for a in articles:
-        if relevant(a, wanted, 1):
-            matched.append(a)
-        elif len(rejected_titles) < 5:
-            rejected_titles.append(a.title)
+    if not require_relevance:
+        matched: list[Article] = list(articles)
+        rejected_titles: list[str] = []
+    else:
+        wanted = norm_tokens(query)
+        matched = []
+        # عيّنة عناوين مرفوضة بالصلة (5 كحد أقصى) — البند 4، انظر توثيق
+        # SearchResult.rejected_titles أعلاه
+        rejected_titles = []
+        for a in articles:
+            if relevant(a, wanted, 1):
+                matched.append(a)
+            elif len(rejected_titles) < 5:
+                rejected_titles.append(a.title)
     log.info("بحث %r → %d مطابق من %d خام", query, len(matched), len(articles))
     if not matched:
         return _search_result([], len(articles), 0, rejected_titles)
@@ -259,13 +279,35 @@ EVIDENCE_FULL_TEXT = "نص كامل"
 EVIDENCE_UNREADABLE = "غير قابل للقراءة"
 
 
-def _relevance(article: Article, wanted: set[str]) -> int:
+def _loose_tokens(text: str) -> set[str]:
+    """مطبِّع صلة بلا شرط الطول (خلافًا لـrequest.norm_tokens) — يستعمل
+    نفس تطبيع _normalize_query_word لكل كلمة (توحيد الهمزات/التاء المربوطة
+    وإسقاط كلمات الوقف، بلا شرط len > 2). تشخيص Issue #373 (البند 1) وجد
+    أن _relevance كانت سترث عطل Issue #364 (إسقاط تاريخ يوم من رقمين وشهر
+    عربي من حرفين) لو صارت البوابة الوحيدة على مرحلتَي «مباشر»/«سياق» بعد
+    تعطيل فلتر relevant() فيهما (search(require_relevance=False)) — تلك
+    التواريخ هي بالضبط ما يربط المرشح الصحيح بالواقعة حين لا يُذكر اسم
+    الكيان في العنوان. تُستعمل حصرًا حين يُطلَب loose_relevance=True في
+    gather_evidence، لا كتغيير افتراضي لمسارات أخرى (verify.py) بلا شبكة
+    أمان مكافئة (بوابة الاتساق)."""
+    clean = _TASHKEEL_RE.sub("", text or "")
+    out: set[str] = set()
+    for raw in _QUERY_WORD_RE.findall(clean):
+        norm = _normalize_query_word(raw)
+        if norm:
+            out.add(norm)
+    return out
+
+
+def _relevance(article: Article, wanted: set[str], token_fn=norm_tokens) -> int:
     """عدد كلمات نص الواقعة/السؤال التي يشاركها عنوان المرشّح وملخصه —
     مقياس صلة مباشر، لا درجة ترند (rank.score) قد لا تمتّ للتفصيلة
-    المطلوب التحقق منها بصلة."""
+    المطلوب التحقق منها بصلة. token_fn قابل للاستبدال بـ_loose_tokens (انظر
+    توثيقها) حين يكون الفرز هو البوابة الوحيدة على الصلة، فلا يُسقط تاريخًا
+    قصيرًا كان سيقرر الحكم."""
     if not wanted:
         return 0
-    haystack = norm_tokens(f"{article.title} {article.summary}")
+    haystack = token_fn(f"{article.title} {article.summary}")
     return len(wanted & haystack)
 
 
@@ -295,9 +337,18 @@ def _evidence_docs(items, fetch_failures: list) -> EvidenceDocs:
     return out
 
 
-def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple[list[dict], str]:
+def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
+                    loose_relevance: bool = False) -> tuple[list[dict], str]:
     """يقرأ نصوص أعلى النتائج، متبِّعًا روابط Google News الوسيطة أولًا
     (عبر sources.resolve_final_url).
+
+    loose_relevance=True (تشخيص Issue #373، البند 1) يستعمل _loose_tokens
+    بدل norm_tokens لحساب الصلة (wanted وحاصل عنوان/ملخص كل مرشح معًا) —
+    بلا شرط الطول الذي يُسقط تاريخًا قصيرًا (يوم من رقمين، شهر عربي من
+    حرفين) كان سيميّز المرشح الصحيح حين لا يذكر عنوانه اسم الكيان. يُستعمل
+    من article._try (مرحلتا «مباشر»/«سياق» فقط) مقترنًا بـ
+    search(require_relevance=False) — الفرز هنا يصير البوابة الوحيدة على
+    الصلة فلا يجوز أن يرث عطل الطول نفسه.
 
     كل عنصر في articles ممثّل مجموعة (دمج عناوين متشابهة لفظيًا عبر
     rank.cluster) — والناشرون المستقلون الآخرون الذين اندمجوا فيه محفوظون
@@ -325,29 +376,35 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
     if not articles:
         return [], EVIDENCE_NO_RESULTS
 
-    wanted = norm_tokens(claim_text) if claim_text else set()
+    token_fn = _loose_tokens if loose_relevance else norm_tokens
+    wanted = token_fn(claim_text) if claim_text else set()
 
     vcfg = cfg.get("verify", {}) or {}
     limit = int(vcfg.get("read_per_claim", 3))
     max_members = limit * 4  # هامش فوق سقف extract.gather الداخلي (limit*2)
                               # لأن بعض الروابط قد تفشل قراءتها فعليًا
 
-    # (وزن الناشر، الصلة، الاسم، الرابط) لكل مرشح فردي — الممثّل وكل عضو من
-    # cluster_members معًا — قبل أي فرز، ليُرتَّب الجميع بمعيار واحد لا
-    # بترتيب articles وحده (انظر التوثيق أعلاه)
+    # (أولوية القراءة، الصلة، الاسم، الرابط) لكل مرشح فردي — الممثّل وكل
+    # عضو من cluster_members معًا — قبل أي فرز، ليُرتَّب الجميع بمعيار واحد
+    # لا بترتيب articles وحده (انظر التوثيق أعلاه). ناشرون غير إخباريين
+    # (verify.excluded_publishers، تشخيص Issue #373 البند 4) يُستبعَدون
+    # كليًا هنا — قبل أي وزن — لا يدخلون الفرز إطلاقًا مهما ارتفعت صلتهم
+    # اللفظية.
     candidates: list[tuple[float, int, str, str]] = []
     for a in articles:
-        rel = _relevance(a, wanted) if wanted else 0
+        rel = _relevance(a, wanted, token_fn) if wanted else 0
         name = a.publisher or a.source_name
-        candidates.append((_publisher_weight(name, cfg), rel, name, a.link))
+        if not _is_excluded_publisher(name, cfg):
+            candidates.append((_read_priority(name, cfg), rel, name, a.link))
         for m in a.cluster_members:
             mname = m.get("name")
-            candidates.append((_publisher_weight(mname, cfg), rel, mname, m.get("link")))
+            if not _is_excluded_publisher(mname, cfg):
+                candidates.append((_read_priority(mname, cfg), rel, mname, m.get("link")))
 
-    log.info("مرشحو القراءة قبل الترتيب (وزن، صلة، اسم): %s",
+    log.info("مرشحو القراءة قبل الترتيب (أولوية القراءة، صلة، اسم): %s",
              [(round(w, 2), r, n) for w, r, n, _ in candidates])
     candidates.sort(key=lambda c: -_candidate_score(c[0], c[1]))
-    log.info("مرشحو القراءة بعد الترتيب بالدرجة المركّبة (وزن، صلة، اسم): %s",
+    log.info("مرشحو القراءة بعد الترتيب بالدرجة المركّبة (أولوية القراءة، صلة، اسم): %s",
              [(round(w, 2), r, n) for w, r, n, _ in candidates])
 
     seen_links: set[str] = set()
@@ -388,7 +445,7 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
     seen_headline_names: set[str] = set()
     for a in articles:
         name = a.publisher or a.source_name
-        if not name or name in seen_headline_names:
+        if not name or name in seen_headline_names or _is_excluded_publisher(name, cfg):
             continue
         snippet = f"{a.title}. {a.summary}".strip(" .")
         if snippet:
@@ -476,6 +533,52 @@ def _publisher_weight(name: str, cfg) -> float:
         if sname and _tokens_match(name, sname):
             return float(s.get("weight", DEFAULT_PUBLISHER_WEIGHT))
     return DEFAULT_PUBLISHER_WEIGHT
+
+
+def _is_excluded_publisher(name: str, cfg) -> bool:
+    """ناشرون غير إخباريين (رياضة/تسوق/ترفيه...) يُستبعدون كليًا كمرشّحي
+    قراءة تحقّق — قبل أي وزن (تشخيص Issue #373، البند 4): مطابقة لفظية
+    عابرة من موقع بلا سلطة تحقق صحفي (365Scores نجا فعليًا بهذه الطريقة في
+    عيّنة حقيقية) ليست دليلًا مهما ارتفعت. المشكلة نوع المصدر لا موثوقيته
+    أو صلته، فالاستبعاد لا يمرّ عبر _publisher_weight (الذي يُقيّم درجة
+    الثقة لا نوعها) بل يمنع دخول candidates إطلاقًا."""
+    if not name:
+        return False
+    vcfg = cfg.get("verify", {}) or {}
+    return any(_tokens_match(name, excluded)
+              for excluded in vcfg.get("excluded_publishers") or [])
+
+
+def _is_demoted_reader(name: str, cfg) -> bool:
+    """ناشرون يحجبون جلب نصهم الكامل بحجب شبه دائم (HTTP 403 متكرر عبر كل
+    استعلام تقريبًا — تشخيص Issue #373، البند 3، لا عارض شبكي عابر). يبقون
+    مصدر إشارة صالحًا للعنوان/الملخص والترتيب العام (_publisher_weight لا
+    يتأثر، فلا يفقدون وزنهم كمصدر معروف/موثوق)، لكنهم يخسرون أولوية فتحات
+    القراءة النادرة (read_per_claim) عبر _read_priority أدناه — محاولة جلب
+    شبه مضمونة الفشل لا ينبغي أن تستهلك فتحة كان مرشح آخر سيملأها فعليًا."""
+    if not name:
+        return False
+    vcfg = cfg.get("verify", {}) or {}
+    return any(_tokens_match(name, demoted)
+              for demoted in vcfg.get("demoted_readers") or [])
+
+
+# يتجاوز أي فارق ممكن بين وزن الناشر (0.6-3.0) وصلة _relevance معًا — يضمن
+# أن مرشحًا محجوبًا لا يسبق أي مرشح غير محجوب في ترتيب فتحات القراءة، بصرف
+# النظر عن وزنه أو صلته اللفظية، بلا استبعاده كليًا (يبقى يُقرأ إن نفد كل
+# مرشح آخر)
+READ_DEMOTION_PENALTY = 10.0
+
+
+def _read_priority(name: str, cfg) -> float:
+    """أولوية ترتيب فتحات القراءة تحديدًا في gather_evidence — لا وزن
+    الاستشهاد/الترتيب العام (_publisher_weight يبقى بلا تعديل لكل استهلاك
+    آخر: تقارير verify.py، الوزن المعروض في التقرير...). ناشر محجوب
+    (_is_demoted_reader) يُدفَع لآخر ترتيب القراءة، لا يُستبعد منه."""
+    weight = _publisher_weight(name, cfg)
+    if _is_demoted_reader(name, cfg):
+        return weight - READ_DEMOTION_PENALTY
+    return weight
 
 
 def _known_only(names, docs: list[dict]) -> list[str]:

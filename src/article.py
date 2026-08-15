@@ -540,18 +540,59 @@ def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
     return {"text": text, "supporting": evidence._known_only(data.get("supporting"), docs)}
 
 
-def _name_event(statement: dict, cfg) -> tuple[str | None, list[dict], list[str], list[dict]]:
+def _topic_words(topic: str, exclude: list[str], max_words: int) -> list[str]:
+    """كلمات من موضوع الموجز العام (topic من extract_brief) — الدرجة
+    الثالثة في سلّم _name_event (البند 2، تشخيص Issue #373): مباشر
+    (كيان+تاريخ) ثم سياق (سياق مكتشَف+تاريخ) قد يفشلان معًا لأن صفحة تجمع
+    الاسم الحرفي بالتاريخ حرفيًا نادرة حتى لحدث غطّته عشرات المصادر —
+    اقتران الاسم بالتاريخ يطلب صفحة نادرة، بينما التغطية الفعلية تصف الحدث
+    بفعله لا بربطه صراحة بالإشارة المبهمة الأصلية.
+
+    الكلمة من topic — ملخَّص محرَّر كتبه استخراج الموجز — لا من نص الواقعة
+    المبهم نفسه: البحث بالوصف المبهم حرفيًا ممنوع بنيويًا (القاعدة 3،
+    توثيق _name_event أعلاه) لا تفصيل تنفيذي قابل للتساهل. exclude تُسقط
+    كلمات كيانات الواقعة الأصلية (مجرَّبة أصلًا في المرحلة الأولى) كي لا
+    تكرّر هذه الدرجة استعلامًا سبق تجربته بالضبط."""
+    exclude_norm: set[str] = set()
+    for e in exclude:
+        exclude_norm |= norm_tokens(e)
+    out: list[str] = []
+    # 12 كلمة مرشَّحة من topic كافية دومًا: topic "جملة واحدة" محرَّرة (توثيق
+    # extract_brief أعلاه) — سقف ثابت سخي بدل معتمِد على len(exclude) حتى لا
+    # يُفرغ استبعاد كلمات الكيانات مجموعة المرشحين قبل بلوغ max_words
+    for word in evidence.build_query(topic, 12).split():
+        if norm_tokens(word) & exclude_norm:
+            continue
+        out.append(word)
+        if len(out) >= max_words:
+            break
+    return out
+
+
+def _name_event(statement: dict, cfg, topic: str = "") -> tuple[str | None, list[dict], list[str], list[dict]]:
     """سلّم اتساع لتسمية حدث أشار إليه الموجز دون تسميته (القسم 3 من
     التشخيص المعتمَد على Issue #348، مقلوب الترتيب في تعليق الموافقة
     الثاني، البند 1): كيانات + تاريخ مباشرةً أولًا (الأبسط يُجرَّب قبل
-    الأذكى، ويوفّر في الحالات السهلة دورة بحث كاملة) ⟵ عند الفشل فقط: بحث
+    الأذكى، ويوفّر في الحالات السهلة دورة بحث كاملة) ⟵ عند الفشل: بحث
     مرجعي غير مقيَّد زمنيًا عن سيرة الكيانات لاستخلاص سياق (بلد/جهة) بنداء
     نموذج على تلك النصوص فعلًا (البند 3، لا معرفة النموذج — القاعدة 3) ⟵
-    استعلامات تاريخ+سياق مبنية من ذلك السياق المكتشَف.
+    استعلامات تاريخ+سياق مبنية من ذلك السياق المكتشَف ⟵ عند فشل الاثنتين
+    معًا: تاريخ + كلمة من موضوع الموجز العام (topic)، درجة أخيرة قبل
+    الاستسلام (البند 2، تشخيص Issue #373 — انظر _topic_words).
 
     بحث بالوصف المبهم حرفيًا ممنوع بنيويًا لا معالَج بإعادة محاولة: كل
-    استعلام يُبنى من الكيانات والتاريخ (أو السياق المستخلَص) فقط، لا من
-    نص الواقعة المبهم.
+    استعلام يُبنى من الكيانات والتاريخ (أو السياق/الموضوع المستخلَص) فقط،
+    لا من نص الواقعة المبهم.
+
+    مرحلتا «مباشر» و«سياق» (لا «مرجعي» — بحث عن سيرة الكيان نفسه، فلتر
+    الصلة فيه مفيد كما هو) تبحثان بـrequire_relevance=False وتقيسان
+    الصلة بـgather_evidence(loose_relevance=True) (البند 1، تشخيص Issue
+    #373 — انظر توثيق evidence.search/gather_evidence): الحدث المطلوب قد
+    لا يحمل اسم الكيان الذي قاد إليه في عنوانه إطلاقًا، فمطابقة كلمة واحدة
+    في العنوان/الملخص فلتر خاطئ لهاتين المرحلتين تحديدًا — التاريخ هو
+    الرابط، لا الاسم. بوابة الاتساق أدناه (_naming_consistent) تصير الحارس
+    الوحيد على الدقة بدلًا من ذلك، وقد أثبتت أنها تعمل (فشل «لبّاد» في
+    التشخيص المعتمَد بالضبط).
 
     كل تسمية مرشَّحة تمرّ ببوابة اتساق (_naming_consistent، البند 2) قبل
     قبولها: كيانات الواقعة الأصلية يجب أن تُذكر في نص التسمية أو وثائقها،
@@ -566,6 +607,7 @@ def _name_event(statement: dict, cfg) -> tuple[str | None, list[dict], list[str]
     days = int(acfg.get("days", 21))
     query_max_words = int(acfg.get("query_max_words", 5))
     max_context_terms = int(acfg.get("naming_max_context_terms", 3))
+    max_topic_words = int(acfg.get("naming_max_topic_words", 2))
 
     entities = statement.get("entities") or []
     dates = [e for e in entities if _DIGIT_RE.search(e)]
@@ -575,20 +617,20 @@ def _name_event(statement: dict, cfg) -> tuple[str | None, list[dict], list[str]
         return None, [], [], trail
 
     def _try(stage_name: str, query: str):
-        ranked = evidence.search(query, cfg, days)
-        docs, basis = evidence.gather_evidence(ranked, cfg, query)
+        # require_relevance=False/loose_relevance=True حصرًا لمرحلتَي
+        # «مباشر» و«سياق» (البند 1 أعلاه) — الاستدعاء الوحيد لكلتيهما
+        ranked = evidence.search(query, cfg, days, require_relevance=False)
+        docs, basis = evidence.gather_evidence(ranked, cfg, query, loose_relevance=True)
         entry = {"stage": stage_name, "query": query, "basis": basis,
                  "sources": [d["name"] for d in docs],
                  "raw_count": getattr(ranked, "raw_count", None),
                  "matched_count": getattr(ranked, "matched_count", None),
                  "fetch_failures": getattr(docs, "fetch_failures", []),
+                 # عدد المرشحين الذين دخلوا الفرز بلا تصفية بالصلة (يساوي
+                 # raw_count دومًا هنا بحكم require_relevance=False) — البند
+                 # 1، طلب التنفيذ على Issue #373
+                 "unfiltered_relevance": True,
                  "outcome": ""}
-        if stage_name == "مباشر":
-            # البند 4 (تعليق الموافقة الثالث على Issue #361): مرحلة التسمية
-            # المباشرة وحدها — لا كل استعلام — لأنها الفرضية المطروحة الآن
-            # («خبر 11 آب موضوعه المحكمة، قد لا يذكر حمزة الخطيب في
-            # العنوان»)؛ بلا معالجة لفلتر الصلة نفسه، عيّنة للتشخيص فقط
-            entry["rejected_titles"] = getattr(ranked, "rejected_titles", [])
         trail.append(entry)
         if not docs:
             entry["outcome"] = "لا وثائق للتسمية"
@@ -630,6 +672,17 @@ def _name_event(statement: dict, cfg) -> tuple[str | None, list[dict], list[str]
     for date in dates:
         for term in context_terms:
             result = _try("سياق", evidence.build_query(f"{term} {date}", query_max_words))
+            if result:
+                text, docs, supporting = result
+                return text, docs, supporting, trail
+
+    # المرحلة 3 (البند 2، تشخيص Issue #373): تاريخ + كلمة من موضوع الموجز
+    # العام — درجة أخيرة قبل الاستسلام، استعلام واحد لكل تاريخ (لا تقاطع
+    # كامل مع الكلمات) تفاديًا لتضخّم عدد نداءات البحث
+    topic_words = _topic_words(topic, entities, max_topic_words) if topic else []
+    for date in dates:
+        for term in topic_words:
+            result = _try("موضوع", evidence.build_query(f"{term} {date}", query_max_words))
             if result:
                 text, docs, supporting = result
                 return text, docs, supporting, trail
@@ -1133,6 +1186,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     questions_from_brief = normalize_questions(extracted.get("questions"))[:max_questions]
     facts_raw = [s for s in statements if s["kind"] == "واقعة"][:max_statements]
     opinions = [s for s in statements if s["kind"] != "واقعة"]
+    topic = str(extracted.get("topic") or "")
 
     dropped: list[dict] = []
     diffs: list[dict] = []
@@ -1149,7 +1203,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             # تسمية الحدث أولًا (البند 3 من التشخيص) — الأدلة التي سمّته
             # هي نفسها أدلة الحكم على سنده، لا بحث إضافي مكرَّر (انظر
             # توثيق _name_event)
-            named_text, named_docs, named_supporting, name_trail = _name_event(f, cfg)
+            named_text, named_docs, named_supporting, name_trail = _name_event(f, cfg, topic=topic)
             trail.extend(name_trail)
             if not named_text:
                 dropped.append({
@@ -1431,21 +1485,23 @@ def build_report(outcome: dict) -> str:
             srcs = "، ".join(t.get("sources") or []) or "لا مصادر"
             # عدد النتائج قبل التصفية بالصلة وبعدها (البند 1، تعليق العطل
             # الثاني): يشرح لماذا سقط استعلام لمصدر واحد رغم تغطية واسعة —
-            # None حين لم يُجرَ بحث أصلًا (fake/مسار بلا SearchResult)
+            # None حين لم يُجرَ بحث أصلًا (fake/مسار بلا SearchResult).
+            # "بلا تصفية صلة" لمرحلتَي «مباشر»/«سياق» (تشخيص Issue #373،
+            # البند 1): matched يساوي raw دومًا هناك — فلتر relevant()
+            # معطَّل عمدًا، والفرز بالوزن+الصلة الرخوة (لا هذا الفلتر) هو
+            # ما يقرر أي مرشح يُقرأ، وبوابة الاتساق أدناه هي الحارس النهائي
             counts = ""
             if t.get("raw_count") is not None:
-                counts = f" ({t['raw_count']} خام ← {t.get('matched_count', '؟')} مطابق)"
+                counts = f" ({t['raw_count']} خام ← {t.get('matched_count', '؟')} مطابق"
+                if t.get("unfiltered_relevance"):
+                    counts += "، بلا تصفية صلة"
+                counts += ")"
             lines.append(f"- **[{t['stage']}]** `{t['query']}`{counts} → {t['basis']} — "
                          f"{t.get('outcome', '')} (المصادر: {srcs})")
             for fail in t.get("fetch_failures") or []:
                 name, reason, link = fail.get("name", "؟"), fail.get("reason", ""), fail.get("link", "")
                 label = f"[{name}]({link})" if link else name
                 lines.append(f"  - ⚠️ فشل جلب {label}: {reason}")
-            # عيّنة عناوين رفضها فلتر الصلة — مرحلة التسمية المباشرة وحدها
-            # (البند 4، تعليق الموافقة الثالث على Issue #361)
-            if t.get("rejected_titles"):
-                lines.append("  - 🚫 عيّنة عناوين رُفضت بالصلة: " +
-                             "؛ ".join(t["rejected_titles"]))
         lines.append("</details>")
 
     return "\n".join(lines)

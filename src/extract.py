@@ -43,7 +43,14 @@ def fetch_text(url: str, timeout: int = 20) -> tuple[str | None, str]:
     if "news.google.com" in url:      # رابط وسيط لا مقال
         return None, "رابط جوجل الوسيط لم يُحلّ إلى رابط مقال فعلي"
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=timeout)
+        # Referer يحاكي وصولًا من Google News (تشخيص Issue #373، البند 3):
+        # France 24 والعربية وأورينت نت تحجب الطلب المباشر بـHTTP 403 شبه
+        # دائم — بعض الناشرين يسمحون بحركة إحالة من جوجل تحديدًا حتى مع حجب
+        # الزحف المباشر بلا هذا الرأس. علاج رخيص (رأس واحد إضافي) يستحق
+        # التجربة قبل أي شيء أثقل — لا يحل حجب النطاق الشبكي نفسه إن وُجد.
+        resp = requests.get(
+            url, headers={**HEADERS, "Referer": "https://news.google.com/"},
+            timeout=timeout)
     except requests.Timeout:
         return None, "انتهت مهلة الاتصال"
     except requests.RequestException as exc:
@@ -76,32 +83,45 @@ def gather(members: list[dict], limit: int = 2,
     يعيد (نجاحات، فشليات):
     - نجاحات: [{"name":..., "text":...}] — كما كانت.
     - فشليات: [{"name":..., "link":..., "reason":...}] لكل رابط تعذّر جلبه
-      قبل بلوغ limit — البند 1 (تعليق العطل الثاني على Issue #361): بلا هذا
-      السجل، trail لا يملك سببًا لماذا سقط استعلام معيَّن لاحتياط العناوين.
+      — البند 1 (تعليق العطل الثاني على Issue #361): بلا هذا السجل، trail
+      لا يملك سببًا لماذا سقط استعلام معيَّن لاحتياط العناوين.
+
+    يحاول أول limit*2 مرشح دفعة واحدة (يكفي عادة، ويوفّر زمن الجلب حين
+    تنجح الدفعة الأولى)، ثم يواصل بدفعات تالية من members حتى يبلغ limit
+    نجاحًا أو تنفد المرشحات — لا يقف عند أول limit*2 محاولة مهما فشلت
+    (تشخيص Issue #373، البند 3: ناشرون محجوبون بحجب شبه دائم (HTTP 403)
+    قد يتصدّرون الدفعة الأولى فتُهدر فتحات القراءة كلها بلا أي فرصة لمرشح
+    لاحق قابل للجلب فعليًا — members أصلًا محدودة العدد (gather_evidence
+    تمرّر max_members=limit*4 كسقف)، فمواصلة المحاولة بلا توقف مبكر مأمونة
+    التكلفة).
     """
     if not HAS_EXTRACTOR:
         return [], [{"name": m.get("name", "؟"), "link": m.get("link", ""),
                      "reason": "المستخرج trafilatura غير مثبَّت"} for m in members]
 
-    candidates = [m for m in members if m.get("link")][: limit * 2]
+    candidates = [m for m in members if m.get("link")]
     if not candidates:
         return [], []
 
-    with ThreadPoolExecutor(max_workers=workers) as pool:
-        results = list(pool.map(lambda m: fetch_text(m["link"]), candidates))
-
     out: list[dict] = []
     failures: list[dict] = []
-    for member, (text, reason) in zip(candidates, results):
-        if text:
-            out.append({"name": member.get("name", "؟"), "text": text})
-        else:
-            failures.append({"name": member.get("name", "؟"),
-                             "link": member.get("link", ""), "reason": reason})
-        if len(out) >= limit:
-            break
+    batch_size = limit * 2
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for start in range(0, len(candidates), batch_size):
+            if len(out) >= limit:
+                break
+            batch = candidates[start:start + batch_size]
+            results = pool.map(lambda m: fetch_text(m["link"]), batch)
+            for member, (text, reason) in zip(batch, results):
+                if text:
+                    out.append({"name": member.get("name", "؟"), "text": text})
+                else:
+                    failures.append({"name": member.get("name", "؟"),
+                                     "link": member.get("link", ""), "reason": reason})
+                if len(out) >= limit:
+                    break
 
-    log.info("نصوص مُستخرجة: %d من %d محاولة", len(out), len(candidates))
+    log.info("نصوص مُستخرجة: %d من %d محاولة", len(out), len(out) + len(failures))
     return out, failures
 
 
