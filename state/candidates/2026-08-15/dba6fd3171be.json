@@ -1,0 +1,71 @@
+{
+  "id": "dba6fd3171be",
+  "created_at": "2026-08-15T06:15:48.914537+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.52,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Concerns grow over increased global ties with Taliban in Afghanistan",
+  "link": "https://www.theguardian.com/world/2026/aug/15/concern-grow-global-ties-taliban-afghanistan-human-rights",
+  "publishers": [
+    "Der Spiegel",
+    "Le Monde",
+    "The Guardian — World",
+    "wie paradox die Taliban herrschen"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Concerns grow over increased global ties with Taliban in Afghanistan",
+    "link": "https://www.theguardian.com/world/2026/aug/15/concern-grow-global-ties-taliban-afghanistan-human-rights",
+    "summary": "Campaigners fear deeper diplomatic contacts are undermining demands for improvements in human rights The Taliban in Afghanistan have launched a diplomatic effort to end their isolation as major regional and international powers show a readiness to engage more closely with the repressive regime despite its systematic human rights abuses. Five years after the Taliban took power , an increasing number of countries are renewing ties or scaling up diplomatic contacts with the hardline Islamists, who seized power in Kabul in 2021 after 20 years of brutal insurgent warfare. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-15T05:00:49+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/a00bb7fceb915e0108c0489f2a825134df963bfa/233_0_2333_1867/master/2333.jpg?width=700&quality=85&auto=format&fit=max&s=7b0f9de3788161cda364e6876672438d",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Der Spiegel",
+      "Le Monde",
+      "The Guardian — World",
+      "wie paradox die Taliban herrschen"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/15/concern-grow-global-ties-taliban-afghanistan-human-rights"
+      },
+      {
+        "name": "wie paradox die Taliban herrschen",
+        "link": "https://www.spiegel.de/ausland/afghanistan-fuenf-jahre-nach-dem-fall-von-kabul-so-paradox-herrschen-die-taliban-a-c5039586-a192-47b8-9b76-725eef6a8681#ref=rss"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/politik/deutschland/news-waldbraende-in-deutschland-machtuebernahme-der-taliban-russlands-krieg-gegen-ukrainische-zivilisten-a-3610fdc1-a278-4f90-853a-912804f2c8ac#ref=rss"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/08/15/en-afghanistan-les-talibans-ont-rompu-leur-isolement-international-cinq-ans-apres-leur-retour-au-pouvoir_6746430_3210.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/a00bb7fceb915e0108c0489f2a825134df963bfa/233_0_2333_1867/master/2333.jpg?width=700&quality=85&auto=format&fit=max&s=7b0f9de3788161cda364e6876672438d",
+      "https://i.guim.co.uk/img/media/a00bb7fceb915e0108c0489f2a825134df963bfa/233_0_2333_1867/master/2333.jpg?width=460&quality=85&auto=format&fit=max&s=f27645fb69bdec5888b254684d244a95",
+      "https://i.guim.co.uk/img/media/a00bb7fceb915e0108c0489f2a825134df963bfa/233_0_2333_1867/master/2333.jpg?width=140&quality=85&auto=format&fit=max&s=a3a161bca8aa1578475140cd019dc592",
+      "https://cdn.prod.www.spiegel.de/images/7a4db629-4360-40ed-a445-f0f9b0c370e7_w520_r2.08_fpx38.24_fpy55.jpg",
+      "https://cdn.prod.www.spiegel.de/images/dd17189a-707c-4b57-af32-bf59855d3d25_w520_r2.08_fpx28.09_fpy49.93.png",
+      "https://img.lemde.fr/2026/08/12/460/0/5519/2759/644/322/60/0/e8d04af_ftp-1-kaimrak7xu3h-5821739-01-06.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 0.9989083566666667,
+    "is_stale": false,
+    "score": 20.516827919666667
+  }
+}
