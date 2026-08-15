@@ -1,7 +1,7 @@
 {
   "id": "b8d565f6402f",
   "created_at": "2026-08-15T08:39:39.367540+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 15.83,
   "bucket": "serious",
@@ -67,5 +67,12 @@
       "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/15/thumbs/400x400/557435.jpg"
     ]
   },
-  "publish_at": "2026-08-15T09:38:57.498429+00:00"
+  "publish_at": "2026-08-15T09:38:57.498429+00:00",
+  "published_at": "2026-08-15T09:45:43.283619+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1335241045359583",
+    "photo_id": "1335241025359585",
+    "url": "https://www.facebook.com/631680090321390_1335241045359583",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
