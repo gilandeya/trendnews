@@ -3649,6 +3649,31 @@ def test_evidence() -> None:
           not any(w in query for w in ("لتقرير", "وفقا", "بأكمله")))
     check("evidence.build_query: نص فارغ لا ينهار", evidence.build_query("") == "")
 
+    # تشخيص التشغيل الحقيقي على Issue #364: شرط الطول (len > 2) في
+    # request.norm_tokens كان يُسقط بنيويًا كل تاريخ يوم من رقمين وكل شهر
+    # عربي من حرفين ("آب") من كل استعلام — قبل أي منطق فرز أو ترتيب. مثال
+    # اصطناعي هنا (لا الحدث الفعلي) لإثبات شكل الاستعلام لا نتيجته
+    check("evidence._normalize_query_word: رقم من رقمين (يوم) ينجو بلا شرط طول",
+          evidence._normalize_query_word("11") == "11")
+    check("evidence._normalize_query_word: اسم شهر عربي من حرفين ينجو بلا شرط طول",
+          evidence._normalize_query_word("آب") == "اب")
+    check("evidence._normalize_query_word: كلمة وقف عربية تبقى مستبعدة رغم إسقاط شرط الطول",
+          evidence._normalize_query_word("من") is None)
+    check("evidence._normalize_query_word: نص فارغ لا ينهار", evidence._normalize_query_word("") is None)
+
+    direct_stage_query = evidence.build_query("كيان اختباري 11 آب 2026", 5)
+    check("evidence.build_query: استعلام مرحلة مباشرة يحمل اسم الكيان كاملًا "
+          "(مثال اصطناعي — تشخيص Issue #364، البند 1)",
+          {"كيان", "اختباري"} <= set(direct_stage_query.split()))
+    check("evidence.build_query: نفس الاستعلام يحمل مكوّنات التاريخ كاملة "
+          "(يوم من رقمين + شهر من حرفين + سنة) لا سنة وحدها",
+          {"11", "آب", "2026"} <= set(direct_stage_query.split()))
+
+    check("evidence.build_query: «عامًا» (كلمة عمر/زمن عامة) لا تدخل الاستعلام "
+          "كأنها كيان مميِّز — تشخيص Issue #364",
+          "عاما" not in evidence.build_query("كان عمره 13 عامًا حين خرج", 5).split() and
+          "13" in evidence.build_query("كان عمره 13 عامًا حين خرج", 5).split())
+
     claim_with_entities = {"text": "أي صياغة أخرى", "entities": ["بلومبرغ", "2026", "السعودي"]}
     check("evidence.build_query_for_claim: يستعمل entities حصرًا حين تتوفر",
           evidence.build_query_for_claim(claim_with_entities) ==
@@ -3912,18 +3937,45 @@ def test_article() -> None:
     check("3) نافذة الاستخلاص الرخيصة (البديل ج) تقتصر على مطلع النص لا كامله",
           article._narrow_for_context("س" * 900, max_chars=400) == "س" * 400)
 
-    check("2) بوابة الاتساق تقبل تسمية تذكر كيان الواقعة الأصلية في نص التسمية نفسه",
+    check("2) بوابة الاتساق تقبل تسمية تذكر كيان الواقعة الأصلية في نص التسمية نفسه "
+          "(بلا تاريخ في dates — تراجع لفحص الكيانات وحده)",
           article._naming_consistent(
-              "حكم إعدام بحق عاطف نجيب في قضية حمزة الخطيب", ["حمزة الخطيب"], []))
+              "حكم إعدام بحق عاطف نجيب في قضية حمزة الخطيب", ["حمزة الخطيب"], [], [], cfg))
     check("2) بوابة الاتساق تقبل تسمية لا تذكر الكيان في نصها لكن وثائقها تذكره",
           article._naming_consistent(
-              "حكم إعدام غيابي بحق ثلاثة متهمين", ["حمزة الخطيب"],
-              [{"name": "م", "text": "شمل الحكم قضية حمزة الخطيب في درعا"}]))
+              "حكم إعدام غيابي بحق ثلاثة متهمين", ["حمزة الخطيب"], [],
+              [{"name": "م", "text": "شمل الحكم قضية حمزة الخطيب في درعا"}], cfg))
     check("2) بوابة الاتساق ترفض تسمية لا تذكر الكيان لا في نصها ولا في وثائقها "
           "— فشل «لبّاد» في التشخيص المعتمَد بالضبط",
           not article._naming_consistent(
-              "تداول فيديو لفتى آخر لا صلة له بالحدث", ["حمزة الخطيب"],
-              [{"name": "م", "text": "خبر عن تداول فيديو لمراهق آخر لا صلة له"}]))
+              "تداول فيديو لفتى آخر لا صلة له بالحدث", ["حمزة الخطيب"], [],
+              [{"name": "م", "text": "خبر عن تداول فيديو لمراهق آخر لا صلة له"}], cfg))
+
+    # ── بوابة اتساق التاريخ (تعليق التنفيذ على Issue #364، البند 2): الكيان
+    # وحده لا يكفي — التشغيل الحقيقي سمّى حدثًا بحديث حقيقي عن الكيان الصحيح
+    # لكنه ليس الحدث المقصود بتاريخه. أمثلة اصطناعية هنا لا الحدث الفعلي ──
+    check("2) بوابة الاتساق تقبل تسمية يتفق تاريخها (سنة+شهر) رغم فارق يوم "
+          "ضمن النافذة (naming_date_window_days)",
+          article._naming_consistent(
+              "حكم صدر بحق المتهمين في قضية كيان اختباري", ["كيان اختباري"],
+              ["11 آب 2026"],
+              [{"name": "م", "text": "حكم في قضية كيان اختباري صدر في 12 آب 2026"}], cfg))
+    check("2) بوابة الاتساق ترفض تسمية بتاريخ (سنة) مختلف تمامًا رغم اتفاق "
+          "الكيان — التاريخ شرط إضافي لا الكيان وحده",
+          not article._naming_consistent(
+              "حديث سابق يذكر كيان اختباري", ["كيان اختباري"], ["11 آب 2026"],
+              [{"name": "م", "text": "في مقابلة أجريت في يونيو 2011 ذُكر كيان اختباري"}],
+              cfg))
+    check("2) غياب أي تاريخ منظَّم فعليًا في dates (مثلًا مدة لا تاريخ تقويمي) "
+          "لا يُقيِّد التسمية بتاريخ — تراجع لفحص الكيانات وحده كما كان",
+          article._naming_consistent(
+              "خبر عن كيان اختباري", ["كيان اختباري"], ["15 عامًا"],
+              [{"name": "م", "text": "تقرير يذكر كيان اختباري"}], cfg))
+    check("article._extract_dates: يوم+شهر+سنة يُستخرجان كتاريخ منظَّم واحد لا سنة مجردة مكرَّرة",
+          set(article._extract_dates("صدر الحكم في 12 آب 2026")) ==
+          {(2026, 8, 12)})
+    check("article._extract_dates: سنة مجردة بلا شهر تُستخرج أيضًا (تراجع)",
+          (2026, None, None) in article._extract_dates("في عام 2026 وحده"))
 
     # ── القاعدة 6: برومبت مستقل — لا يمسّ writer.SYSTEM_PROMPT ولا يستعمل آلياته ──
     check("6) برومبت صياغة المقال مستقل تمامًا عن writer.SYSTEM_PROMPT",
@@ -3958,8 +4010,8 @@ def test_article() -> None:
             # الصحيح فعلًا، ووثائقه تذكر «حمزة الخطيب» — تجتاز بوابة الاتساق
             return ([
                 {"name": "وكالة الحدث", "link": "https://event/1", "from_text": True,
-                 "text": ("صدر حكم إعدام غيابي بحق بشار الأسد وماهر الأسد وعاطف نجيب، "
-                         "وشملت اللائحة قضية حمزة الخطيب في درعا")},
+                 "text": ("صدر حكم إعدام غيابي في 11 آب 2026 بحق بشار الأسد وماهر الأسد "
+                         "وعاطف نجيب، وشملت اللائحة قضية حمزة الخطيب في درعا")},
                 {"name": "وكالة ثانية", "link": "https://event/2", "from_text": True,
                  "text": ("أكدت مصادر قضائية صدور حكم الإعدام الغيابي بحق الأسد ونجيب "
                          "المتهم أيضًا في ملف حمزة الخطيب")},
@@ -4157,6 +4209,95 @@ def test_article() -> None:
           "← لا مقال رغم اجتياز العدّ الرقمي وحده",
           out_refonly["produced"] is False and "لا خبر جديد" in out_refonly["reason"],
           out_refonly.get("reason"))
+
+    # ── البند 3 (تعليق التنفيذ على Issue #364): تفريق «لم يسمِّ النموذج
+    # مصدرًا» عن «سمّى مصدرًا لم يُطابَق» عند answered:true مع supporting
+    # فارغة بعد evidence._known_only — التشغيل الحقيقي لم يحسم أيهما وقع
+    # فعليًا في حالة «من هو حمزة الخطيب؟»، فـ_ask_answer_model يسجّل الفارق
+    # صراحة الآن بدل ابتلاعهما في نفس النتيجة "0 من 2" المجردة ──
+    class _AnswerBlock:
+        def __init__(self, input_):
+            self.type = "tool_use"
+            self.input = input_
+
+    class _AnswerResp:
+        def __init__(self, input_):
+            self.content = [_AnswerBlock(input_)]
+            self.stop_reason = "end_turn"
+
+    class _AnswerMessages:
+        def __init__(self, input_):
+            self._input = input_
+
+        def create(self, **kw):
+            return _AnswerResp(self._input)
+
+    class _AnswerClient:
+        def __init__(self, input_):
+            self.messages = _AnswerMessages(input_)
+
+    real_client_fn = article._client
+    docs_for_answer = [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"}]
+
+    article._client = lambda: _AnswerClient(
+        {"answered": True, "text": "إجابة فعلية", "supporting": []})
+    no_name = real_ask_answer_model("سؤال اختبار البند 3؟", docs_for_answer, cfg)
+    check("3) answered:true بلا أي اسم مصدر مذكور ← naming_issue = لم يُسمَّ مصدر",
+          no_name is not None and no_name["naming_issue"] == "no_source_named")
+
+    article._client = lambda: _AnswerClient(
+        {"answered": True, "text": "إجابة فعلية", "supporting": ["مصدر مختلَق لا وجود له"]})
+    unmatched = real_ask_answer_model("سؤال اختبار البند 3؟", docs_for_answer, cfg)
+    check("3) answered:true بمصدر مسمّى لا يطابق أي doc معطى ← naming_issue = مصدر لم "
+          "يُطابَق لا مصدر لم يُسمَّ",
+          unmatched is not None and unmatched["naming_issue"] == "unmatched_source")
+
+    article._client = lambda: _AnswerClient(
+        {"answered": True, "text": "إجابة فعلية", "supporting": ["مصدر أول"]})
+    matched = real_ask_answer_model("سؤال اختبار البند 3؟", docs_for_answer, cfg)
+    check("3) answered:true بمصدر مطابق فعليًا ← بلا عطل تسمية (naming_issue = None)",
+          matched is not None and matched["naming_issue"] is None and
+          matched["supporting"] == ["مصدر أول"])
+
+    article._client = real_client_fn
+
+    # التفريق يصل تقرير الـ Issue فعليًا لا الحقل الداخلي وحده
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار البند 3 — التقرير",
+        "statements": [
+            {"text": "واقعة إخبارية مسندة للبند 3", "kind": "واقعة", "entities": ["كظ"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [
+            {"text": "سؤال بعطل تسمية مصدر؟", "entities": ["كغ"], "is_reference": False},
+        ],
+    }, None)
+    SUPPORT_MAP.clear()
+    SUPPORT_MAP["واقعة إخبارية مسندة للبند 3"] = ["مصدر أول", "مصدر ثانٍ"]
+    ANSWER_MAP.clear()
+    ANSWER_MAP["سؤال بعطل تسمية مصدر؟"] = {
+        "text": "إجابة فعلية لكن بلا سند مطابق", "supporting": [],
+        "naming_issue": "no_source_named",
+    }
+    out3 = article._write_article("موجز اختبار البند 3 — التقرير", 3648, cfg)
+    reason3 = next((u["reason"] for u in out3["unanswered"]
+                   if u["text"] == "سؤال بعطل تسمية مصدر؟"), "")
+    check("3) سبب عدم الإجابة في outcome يفرّق «لم يسمِّ النموذج مصدرًا» صراحة "
+          "لا «سند غير كافٍ» مجردة",
+          "لم يسمِّ" in reason3, reason3)
+    report3 = article.build_report(out3)
+    check("3) التفريق يظهر في تقرير الـ Issue الفعلي (build_report) لا outcome الداخلي وحده",
+          "لم يسمِّ" in report3)
+
+    # ── البند 4 (تعليق التنفيذ على Issue #364): أمثلة مضادة في برومبت
+    # استخراج بنية الموجز — سرد انتقالي عام يُستبعد كليًا لا يُصنَّف، وحدث
+    # مرجعي مسمّى بفاعل وفعل واضحين رغم قلة التفاصيل لا يُعامَل كإشارة مبهمة ──
+    check("4) برومبت استخراج بنية الموجز يستبعد السرد الانتقالي العام من "
+          "statements إطلاقًا — لا يُصنَّف واقعة ولا رأيًا",
+          "لا تُدرَج ضمن statements إطلاقًا" in article.WRITEUP_EXTRACT_SYSTEM)
+    check("4) برومبت استخراج بنية الموجز يميّز حدثًا مرجعيًا مسمّى بفاعل وفعل "
+          "واضحين رغم قلة التفاصيل عن إشارة مبهمة",
+          "تسمّي الحدث أيضًا رغم قلة التفاصيل" in article.WRITEUP_EXTRACT_SYSTEM)
 
     article.extract_brief = real_extract_brief
     evidence.search = real_search

@@ -80,6 +80,11 @@ WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتب
    - "واقعة": تدّعي وقوع حدث أو رقم أو تصريح محدَّد — "حدث كذا في كذا"
    - "رأي": تقويم أو تفسير أو سؤال مفتوح يطرحه صاحب الموجز كموقف — لا
      ادّعاء وقوع بذاته
+   جملة سردية انتقالية عامة — بلا حدث أو رقم أو تصريح محدَّد، وبلا تقويم أو
+   موقف أيضًا — لا تُدرَج ضمن statements إطلاقًا: لا "واقعة" (لا تدّعي وقوع
+   شيء محدَّد) ولا "رأي" (ليست تقويمًا ولا موقفًا). مثال: "مرّت الأيام
+   وتغيرت الأحوال ومضى من مضى وبقي من بقي" — سرد عابر بلا مضمون قابل
+   للتحقق، يُستبعد كليًا لا يُصنَّف بأي تصنيف.
    لكل عنصر أيضًا entities: 2-5 كيانات مميِّزة منه (أسماء أعلام، أرقام،
    تواريخ، أماكن) كما وردت في الموجز حرفيًا بلا أي إعادة صياغة — استعلام
    البحث سيُبنى منها وحدها.
@@ -88,7 +93,12 @@ WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتب
    ماذا بالضبط. مثال: "حدث في 11 آب 2026 ما أعاد قصة حمزة الخطيب" لا تسمّي
    الحدث — تصفه بأثره (أنه ذكّر بقصة أخرى) لا بفعله. "أعلنت الحكومة رفع
    الدعم عن الوقود" تسمّي الحدث فعلًا (is_unnamed_event: false) رغم أنها
-   واقعة أيضًا. لا تخترع is_unnamed_event: true لواقعة مسمّاة بوضوح.
+   واقعة أيضًا. مثال حدّي آخر: "انطلقت الاحتجاجات الأولى من قرية صغيرة في
+   الجنوب" تسمّي الحدث أيضًا رغم قلة التفاصيل — فاعل واضح (الاحتجاجات
+   الأولى) وفعل واضح (انطلقت من قرية في الجنوب)، فهي is_unnamed_event:
+   false حتى لو كانت واقعة مرجعية عامة لا خبرًا حديثًا؛ الفارق عن المثال
+   الأول هو غياب "من فعل ماذا" لا غياب التفاصيل. لا تخترع is_unnamed_event:
+   true لواقعة مسمّاة بوضوح.
    ولكل عنصر أيضًا is_reference: true إن كانت حقيقته ثابتة لا تتعلق بدورة
    الأخبار الحالية (سيرة، تاريخ قديم، إحصاء رسمي منشور من قبل) — بحثها لا
    يُقيَّد بنافذة زمنية قصيرة.
@@ -346,25 +356,116 @@ def _ask_context_model(entity: str, exclude_entities: list[str], docs: list[dict
     return out
 
 
-def _naming_consistent(named_text: str, proper_nouns: list[str], docs: list[dict]) -> bool:
-    """بوابة اتساق (تعليق الموافقة الثاني، البند 2): كيانات الواقعة الأصلية
-    يجب أن تُذكر صراحة إما في نص التسمية نفسه أو في الوثائق التي استُعملت
-    لتسميته — وإلا التسمية غير موثوقة رغم أن النموذج أجاب بثقة. هذه بالضبط
-    البوابة التي كانت ستمنع فشل «لبّاد» في التشخيص المعتمَد: وثائق فيديو
-    متداول لا تذكر «حمزة الخطيب» ولا «درعا» إطلاقًا فكانت لتُرفض هنا."""
-    if not proper_nouns:
+# مطابقة أسماء الأشهر العربية الشامية والحديثة معًا — الإعلام العربي
+# يستعمل كلا التسميتين (آب/أغسطس) بحسب الناشر، وموجز الصفحة قد يستعمل أيًا
+# منهما (تعليق التنفيذ على Issue #364، البند 2)
+_AR_MONTHS = {
+    "يناير": 1, "كانون الثاني": 1,
+    "فبراير": 2, "شباط": 2,
+    "مارس": 3, "آذار": 3,
+    "أبريل": 4, "نيسان": 4,
+    "مايو": 5, "أيار": 5,
+    "يونيو": 6, "حزيران": 6,
+    "يوليو": 7, "تموز": 7,
+    "أغسطس": 8, "آب": 8,
+    "سبتمبر": 9, "أيلول": 9,
+    "أكتوبر": 10, "تشرين الأول": 10,
+    "نوفمبر": 11, "تشرين الثاني": 11,
+    "ديسمبر": 12, "كانون الأول": 12,
+}
+# الأسماء المكوَّنة من كلمتين ("تشرين الأول") يجب أن تُجرَّب قبل مفردة
+# محتملة الالتباس — الفرز بالطول تنازليًا في البديل يضمن ذلك
+_MONTH_ALT = "|".join(sorted((re.escape(m) for m in _AR_MONTHS), key=len, reverse=True))
+_DATE_RE = re.compile(rf"(?:(?P<day>\d{{1,2}})\s+)?(?P<month>{_MONTH_ALT})\s+(?P<year>\d{{4}})")
+_BARE_YEAR_RE = re.compile(r"(?<!\d)(\d{4})(?!\d)")
+
+
+def _extract_dates(text: str) -> list[tuple[int, int | None, int | None]]:
+    """يستخرج (سنة، شهر أو None، يوم أو None) من نص عربي حر — لا يفترض بنية
+    تاريخ منظَّمة (ISO أو غيره)، فالنص مصدر إخباري حر الصياغة. يُستعمل في
+    _dates_consistent (بوابة الاتساق، البند 2) لمطابقة تاريخ الواقعة
+    الأصلية بتاريخ التسمية المرشَّحة، لا لأي غرض عام آخر."""
+    found: list[tuple[int, int | None, int | None]] = []
+    matched_years: set[str] = set()
+    for m in _DATE_RE.finditer(text or ""):
+        year = m.group("year")
+        matched_years.add(year)
+        month = _AR_MONTHS[m.group("month")]
+        day = int(m.group("day")) if m.group("day") else None
+        found.append((int(year), month, day))
+    for m in _BARE_YEAR_RE.finditer(text or ""):
+        year = m.group(1)
+        if year in matched_years or not (1900 <= int(year) <= 2100):
+            continue
+        matched_years.add(year)
+        found.append((int(year), None, None))
+    return found
+
+
+def _dates_consistent(named_text: str, dates: list[str], docs: list[dict],
+                      window_days: int) -> bool:
+    """بوابة اتساق التاريخ (تعليق التنفيذ على Issue #364، البند 2): لا تكفي
+    مطابقة الكيانات وحدها (فشل «لبّاد» في التشخيص المعتمَد سبق أن غطّته
+    _naming_consistent) — حدثٌ لا يقع في تاريخ الإشارة المبهمة الأصلية، أو
+    نافذة ضيقة حوله، لا يصلح تسميةً له حتى لو ذكر الكيانات الصحيحة (تشخيص
+    التشغيل الحقيقي: حديث جنبلاط 2011 عن حمزة الخطيب ذُكر بثقة رغم أنه ليس
+    الحدث المقصود بتاريخ 11 آب 2026).
+
+    التطابق بسنة+شهر إلزامي حين يتوفران في الجانبين؛ فارق اليوم وحده مسموح
+    به ضمن window_days (تقارير الوكالات قد تسجّل يوم النشر لا يوم الحدث
+    نفسه بفارق يوم أو يومين) — لا فارق شهر أو سنة مهما صغر.
+
+    إن لم يحمل موجز صاحب الصفحة تاريخًا منظَّمًا فعليًا ضمن dates (مثلًا
+    entity رقمي هو مدة لا تاريخ تقويمي، كـ"15 عامًا")، لا قيد — نتراجع لفحص
+    الكيانات وحده كما كان قبل هذا العلاج."""
+    original: list[tuple[int, int | None, int | None]] = []
+    for d in dates:
+        original += _extract_dates(d)
+    if not original:
         return True
-    entity_tokens: set[str] = set()
-    for e in proper_nouns:
-        entity_tokens |= norm_tokens(e)
-    if not entity_tokens:
-        return True
-    if entity_tokens & norm_tokens(named_text):
-        return True
-    docs_tokens: set[str] = set()
-    for d in docs:
-        docs_tokens |= norm_tokens(d.get("text", ""))
-    return bool(entity_tokens & docs_tokens)
+    target_text = named_text + " " + " ".join(d.get("text", "") for d in docs)
+    target = _extract_dates(target_text)
+    if not target:
+        return False
+    for oy, om, od in original:
+        for ty, tm, td in target:
+            if oy != ty:
+                continue
+            if om is not None and tm is not None and om != tm:
+                continue
+            if od is not None and td is not None and abs(od - td) > window_days:
+                continue
+            return True
+    return False
+
+
+def _naming_consistent(named_text: str, proper_nouns: list[str], dates: list[str],
+                       docs: list[dict], cfg) -> bool:
+    """بوابة اتساق (تعليق الموافقة الثاني، البند 2؛ وسّعت بتعليق التنفيذ
+    على Issue #364 لتفحص التاريخ لا الكيانات وحدها): كيانات الواقعة
+    الأصلية يجب أن تُذكر صراحة إما في نص التسمية نفسه أو في الوثائق التي
+    استُعملت لتسميته — وإلا التسمية غير موثوقة رغم أن النموذج أجاب بثقة.
+    هذه بالضبط البوابة التي كانت ستمنع فشل «لبّاد» في التشخيص المعتمَد:
+    وثائق فيديو متداول لا تذكر «حمزة الخطيب» ولا «درعا» إطلاقًا فكانت
+    لتُرفض هنا.
+
+    الكيان وحده لا يكفي (تشخيص التشغيل الحقيقي على Issue #364): حدث حقيقي
+    عن الكيان الصحيح قد لا يكون الحدث المقصود إن وقع في تاريخ مختلف تمامًا
+    عن تاريخ الإشارة المبهمة الأصلية — _dates_consistent تفحص هذا إضافةً،
+    لا بديلًا عنه."""
+    if proper_nouns:
+        entity_tokens: set[str] = set()
+        for e in proper_nouns:
+            entity_tokens |= norm_tokens(e)
+        if entity_tokens:
+            docs_tokens: set[str] = set()
+            for d in docs:
+                docs_tokens |= norm_tokens(d.get("text", ""))
+            if not (entity_tokens & norm_tokens(named_text)) and not (entity_tokens & docs_tokens):
+                return False
+    acfg = cfg.get("article", {}) or {}
+    window_days = int(acfg.get("naming_date_window_days", 2))
+    return _dates_consistent(named_text, dates, docs, window_days)
 
 
 NAMING_SYSTEM = """أنت تقرأ نصوص مصادر إخبارية مستقلة لتحدّد الحدث المحدَّد
@@ -486,7 +587,7 @@ def _name_event(statement: dict, cfg) -> tuple[str | None, list[dict], list[str]
         if not named:
             entry["outcome"] = "لم يُسمَّ من هذه النتائج"
             return None
-        if not _naming_consistent(named["text"], proper_nouns, docs):
+        if not _naming_consistent(named["text"], proper_nouns, dates, docs, cfg):
             entry["outcome"] = "رُفض — لا يذكر كيانات الواقعة الأصلية (بوابة الاتساق)"
             return None
         entry["outcome"] = "سُمّي الحدث"
@@ -606,8 +707,15 @@ ANSWER_SCHEMA = {
 
 def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
     """يجيب عن سؤال من الموجز من نصوص بحث فعلية — القاعدة 3: أسئلة الموجز
-    مهمة بحث لا حصيلة فشل (البند 5)؛ يعيد {"text":..., "supporting":[...]}
-    عند نجاح الإجابة، أو None بلا تخمين."""
+    مهمة بحث لا حصيلة فشل (البند 5)؛ يعيد {"text":..., "supporting":[...],
+    "naming_issue":...} عند نجاح الإجابة، أو None بلا تخمين.
+
+    naming_issue (تعليق التنفيذ على Issue #364، البند 3 — تشخيص لم يُحسم في
+    التشغيل الحقيقي: answered:true رجع بسند فارغ لسؤال كانت وثائقه تعرّف
+    الكيان بالضرورة، بلا وضوح إن كان النموذج لم يسمِّ مصدرًا أصلًا أو سمّى
+    اسمًا لم يُطابَق): "no_source_named" حين لا يذكر رد النموذج أي اسم مصدر
+    رغم الإجابة، أو "unmatched_source" حين يذكر أسماء لكن evidence._known_only
+    ترفضها كلها (لا تطابق أي doc معطى)، أو None حين يوجد سند مطابق فعليًا."""
     if not docs:
         return None
     acfg = cfg.get("article", {}) or {}
@@ -634,7 +742,22 @@ def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
     text = str(data.get("text") or "").strip()
     if not text:
         return None
-    return {"text": text, "supporting": evidence._known_only(data.get("supporting"), docs)}
+    raw_supporting = data.get("supporting")
+    supporting = evidence._known_only(raw_supporting, docs)
+    naming_issue = None
+    if not supporting:
+        if isinstance(raw_supporting, list) and raw_supporting:
+            naming_issue = "unmatched_source"
+            log.warning("answered:true للسؤال %r لكن أسماء المصادر التي ذكرها "
+                       "النموذج (%r) لم تطابق أي مصدر معطى — عطل تسمية مصدر "
+                       "من النموذج نفسه، لا غياب سند فعلي (تشخيص Issue #364، "
+                       "البند 3)", question_text, raw_supporting)
+        else:
+            naming_issue = "no_source_named"
+            log.warning("answered:true للسؤال %r لكن النموذج لم يسمِّ أي مصدر "
+                       "مؤيِّد رغم الإجابة (تشخيص Issue #364، البند 3)",
+                       question_text)
+    return {"text": text, "supporting": supporting, "naming_issue": naming_issue}
 
 
 def _grounded_sources(names: list[str], docs: list[dict],
@@ -1078,8 +1201,23 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                                  else "لم تُجب عنه النصوص المقروءة" if not answer
                                  else f"سند غير كافٍ ({len(unique)}/{min_confirm})")})
         if not answered_ok:
-            reason = ("بُحث ولم توجد نصوص تجيب عنه بوضوح" if not answer
-                      else f"سند غير كافٍ ({len(unique)} من {min_confirm} مصادر مستقلة مطلوبة)")
+            # تفريق «لم يسمِّ النموذج مصدرًا» عن «سمّى مصدرًا لم يُطابَق» في
+            # التقرير نفسه (تعليق التنفيذ على Issue #364، البند 3) — كلاهما
+            # عطل تسمية من رد النموذج، لا غياب سند فعلي كما توحي "0 من N"
+            # المجردة
+            naming_issue = answer.get("naming_issue") if answer else None
+            if not answer:
+                reason = "بُحث ولم توجد نصوص تجيب عنه بوضوح"
+            elif naming_issue == "no_source_named":
+                reason = (f"سند غير كافٍ ({len(unique)} من {min_confirm} مصادر مستقلة "
+                          "مطلوبة) — النموذج أجاب لكن لم يسمِّ أي مصدر مؤيِّد "
+                          "(عطل تسمية من رد النموذج، لا غياب سند فعلي)")
+            elif naming_issue == "unmatched_source":
+                reason = (f"سند غير كافٍ ({len(unique)} من {min_confirm} مصادر مستقلة "
+                          "مطلوبة) — النموذج سمّى مصادر لكنها لم تطابق أي مصدر "
+                          "معطى (عطل تسمية من رد النموذج، لا غياب سند فعلي)")
+            else:
+                reason = f"سند غير كافٍ ({len(unique)} من {min_confirm} مصادر مستقلة مطلوبة)"
             unanswered.append({"text": q["text"], "reason": reason})
             continue
         fact_sources = _grounded_sources(supporting, docs, ranked)
