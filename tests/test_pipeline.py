@@ -27,7 +27,7 @@ os.environ["TRENDNEWS_DRAFTS_DIR"] = str(_TMP_DATA_DIR / "drafts")
 os.environ["TRENDNEWS_STATE_DIR"] = str(_TMP_DATA_DIR / "state")
 atexit.register(shutil.rmtree, _TMP_DATA_DIR, ignore_errors=True)
 
-from src import collect, extract, imaging, review, sources, store, trends, writer  # noqa: E402
+from src import collect, evidence, extract, imaging, review, sources, store, trends, writer  # noqa: E402
 from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
 from src.rank import cluster, rank, similarity, tokens  # noqa: E402
 from src.sources import Article  # noqa: E402
@@ -2861,7 +2861,7 @@ def test_verify() -> None:
     # خبر في 1 مجموعة' ثم 'نصوص مُستخرجة: 1 من 1' رغم ثلاثة عناوين مؤيّدة.
     seen_merge_cfg: list = []
     seen_keep_google_links: list = []
-    real_rank = verify.rank
+    real_rank = evidence.rank
 
     def _spy_rank(articles, selection, merge_cfg=None, token_fn=None,
                  keep_google_links=False):
@@ -2873,15 +2873,15 @@ def test_verify() -> None:
     one = Article(title="زلزال قوي يضرب هرات", link="https://x/1", summary="",
                   source_name="s", region="global", weight=1.0,
                   published=datetime.now(timezone.utc), publisher="s")
-    real_fetch_source = verify.fetch_source
-    verify.rank = _spy_rank
-    verify.fetch_source = lambda src, max_age_hours: [one]
+    real_fetch_source = evidence.fetch_source
+    evidence.rank = _spy_rank
+    evidence.fetch_source = lambda src, max_age_hours: [one]
     verify.search = real_search  # الاختبار السابق تركها على _boom
     try:
         verify.search("زلزال هرات", cfg, 7)
     finally:
-        verify.fetch_source = real_fetch_source
-        verify.rank = real_rank
+        evidence.fetch_source = real_fetch_source
+        evidence.rank = real_rank
     check("الدمج الدلالي معطَّل صراحة في بحث التحقق (merge_cfg=None)",
           seen_merge_cfg == [None], str(seen_merge_cfg))
     # keep_google_links=True لازمة لبحث التحقق (Issue #132 تعليق لاحق):
@@ -2897,20 +2897,20 @@ def test_verify() -> None:
     # (إسقاط when: وحده لا يمنع fetch_source من رفض مصدر قديم بعد جلبه)
     seen_days: list = []
     seen_max_age: list = []
-    real_search_feeds = verify.search_feeds
+    real_search_feeds = evidence.search_feeds
 
     def _spy_search_feeds(query, days, locales):
         seen_days.append(days)
         return real_search_feeds(query, days, locales)
 
-    verify.search_feeds = _spy_search_feeds
-    verify.fetch_source = lambda src, max_age_hours: (
+    evidence.search_feeds = _spy_search_feeds
+    evidence.fetch_source = lambda src, max_age_hours: (
         seen_max_age.append(max_age_hours), [one])[1]
     try:
         verify.search("كتاب صدر 2009", cfg, 21, unrestricted=True)
     finally:
-        verify.fetch_source = real_fetch_source
-        verify.search_feeds = real_search_feeds
+        evidence.fetch_source = real_fetch_source
+        evidence.search_feeds = real_search_feeds
     check("unrestricted=True يمرر days=None لـ search_feeds (بلا قيد when:)",
           seen_days and all(d is None for d in seen_days), str(seen_days))
     check("unrestricted=True يرفع سقف عمر fetch_source إلى REFERENCE_MAX_AGE_HOURS",
@@ -2920,14 +2920,14 @@ def test_verify() -> None:
     # unrestricted=False (الافتراضي) يبقى سلوكه القديم بلا تغيير
     seen_days.clear()
     seen_max_age.clear()
-    verify.search_feeds = _spy_search_feeds
-    verify.fetch_source = lambda src, max_age_hours: (
+    evidence.search_feeds = _spy_search_feeds
+    evidence.fetch_source = lambda src, max_age_hours: (
         seen_max_age.append(max_age_hours), [one])[1]
     try:
         verify.search("زلزال هرات", cfg, 7)
     finally:
-        verify.fetch_source = real_fetch_source
-        verify.search_feeds = real_search_feeds
+        evidence.fetch_source = real_fetch_source
+        evidence.search_feeds = real_search_feeds
     check("unrestricted=False (الافتراضي) يمرر days الفعلي لـ search_feeds",
           seen_days == [7], str(seen_days))
     check("unrestricted=False (الافتراضي) يبقي سقف fetch_source عند days*24",
@@ -2973,7 +2973,7 @@ def test_verify() -> None:
           "الثلاثة في cluster_members بدل إفراغها",
           len(rep.cluster_members) == 3, str(rep.cluster_members))
 
-    real_resolve = verify.resolve_final_url
+    real_resolve = evidence.resolve_final_url
     resolved_map = {
         "https://news.google.com/rss/articles/a": "https://bloomberg.example.com/self",
         "https://news.google.com/rss/articles/b": "https://aljazeera.example.com/x",
@@ -2982,7 +2982,7 @@ def test_verify() -> None:
     # gather_evidence يجب أن تحلّ روابط جوجل الواردة من cluster_members أيضًا
     # لا رابط الممثّل وحده — رابط لم يُحلّ يبقى google.com فيرفضه
     # extract.fetch_text لاحقًا، فأي اسم يُطابَق بلا حلّ هنا خطأ في الاختبار
-    verify.resolve_final_url = lambda link, timeout=12: resolved_map.get(
+    evidence.resolve_final_url = lambda link, timeout=12: resolved_map.get(
         link, f"UNRESOLVED::{link}")
     verify.gather_evidence = real_gather_evidence  # اختبار سابق تركها على lambda ثابتة
 
@@ -2997,7 +2997,7 @@ def test_verify() -> None:
         docs3, basis3 = verify.gather_evidence([rep], cfg)
     finally:
         extract.gather = real_extract_gather
-        verify.resolve_final_url = real_resolve
+        evidence.resolve_final_url = real_resolve
 
     check("روابط جوجل الواردة من cluster_members تُحلّ أيضًا (لا رابط "
           "الممثّل وحده) قبل تمريرها لـ extract.gather",
@@ -3049,7 +3049,7 @@ def test_verify() -> None:
     # verify.search يمرر التطبيع ثنائي اللغة والحد المضبوط في config.yaml —
     # لا القيم القديمة الثابتة في الكود (rank.tokens اللاتيني وحد 0.62)
     seen_search_calls: list[dict] = []
-    real_rank_for_search = verify.rank
+    real_rank_for_search = evidence.rank
 
     def _spy_rank_search(articles, selection, merge_cfg=None, token_fn=None,
                          keep_google_links=False):
@@ -3059,13 +3059,13 @@ def test_verify() -> None:
                                     token_fn=token_fn,
                                     keep_google_links=keep_google_links)
 
-    verify.rank = _spy_rank_search
-    verify.fetch_source = lambda src, max_age_hours: [ar_art_a]
+    evidence.rank = _spy_rank_search
+    evidence.fetch_source = lambda src, max_age_hours: [ar_art_a]
     try:
         verify.search("واردات نفط سعودي", cfg, 7)
     finally:
-        verify.fetch_source = real_fetch_source
-        verify.rank = real_rank_for_search
+        evidence.fetch_source = real_fetch_source
+        evidence.rank = real_rank_for_search
     check("verify.search يمرر request.norm_tokens كمطبّع تجميع",
           seen_search_calls and seen_search_calls[-1]["token_fn"] is verify.norm_tokens)
     check("verify.search يمرر verify.title_similarity من config.yaml لا 0.62 الثابتة",
@@ -3629,6 +3629,418 @@ def test_verify_draft() -> None:
         os.environ[verify_draft.WRITE_ENABLED_ENV] = real_write_enabled
 
 
+def test_evidence() -> None:
+    """اختبارات مستقلة لـsrc/evidence.py — الشبكة التي تثبت سلامة نقل
+    البحث والقراءة ومطابقة أسماء المصادر من verify.py (Issue #348، تعليق
+    الموافقة على التشخيص، البند 1: verify.py يستورد من evidence.py الآن
+    بلا تعريف مزدوج — اختبارات verify.py القديمة تبقى خطًا أخضر إضافيًا
+    لأنها تختبر نفس كائنات الدوال المُعاد تصديرها، وهذه اختبارات مباشرة
+    عبر اسم evidence. نفسه)."""
+    cfg = load_config()
+
+    long_claim = ("انخفضت واردات الولايات المتحدة من النفط الخام السعودي "
+                  "إلى الصفر طوال شهر يوليو 2026 بأكمله، وفقا لتقرير بلومبرغ")
+    query = evidence.build_query(long_claim)
+    check("evidence.build_query: لا يتجاوز 5 كلمات مفتاحية",
+          1 <= len(query.split()) <= 5)
+    check("evidence.build_query: الرقم المميز يدخل الاستعلام", "2026" in query.split())
+    check("evidence.build_query: اسم العلم يدخل الاستعلام لا كلمات الحشو الأطول",
+          "بلومبرغ" in query.split() and
+          not any(w in query for w in ("لتقرير", "وفقا", "بأكمله")))
+    check("evidence.build_query: نص فارغ لا ينهار", evidence.build_query("") == "")
+
+    claim_with_entities = {"text": "أي صياغة أخرى", "entities": ["بلومبرغ", "2026", "السعودي"]}
+    check("evidence.build_query_for_claim: يستعمل entities حصرًا حين تتوفر",
+          evidence.build_query_for_claim(claim_with_entities) ==
+          evidence.build_query(" ".join(claim_with_entities["entities"])))
+    check("evidence.build_query_for_claim: entities غائبة تسقط لنص الادّعاء كاملًا",
+          evidence.build_query_for_claim({"text": long_claim}) ==
+          evidence.build_query(long_claim))
+
+    check("evidence._publisher_weight: مصدر في verify.trusted_boost يأخذ الوزن الأقصى",
+          evidence._publisher_weight("Bloomberg", cfg) == evidence.TRUSTED_PUBLISHER_WEIGHT)
+    check("evidence._publisher_weight: ناشر غير مُدرَج يأخذ الوزن الافتراضي",
+          evidence._publisher_weight("موقع عشوائي غير معروف كليًا هنا", cfg) ==
+          evidence.DEFAULT_PUBLISHER_WEIGHT)
+
+    docs = [{"name": "BBC News", "text": "نص", "link": "https://bbc.com/1"}]
+    check("evidence._tokens_match: يتسامح مع وصف بين قوسين",
+          evidence._tokens_match("BBC News (تقرير مطوّل)", "BBC News"))
+    check("evidence._canonical_name: يطابق بتسامح ويعيد الاسم الفعلي من docs",
+          evidence._canonical_name("BBC News (تقرير مطوّل)", docs) == "BBC News")
+    check("evidence._canonical_name: لا يطابق مصدرًا غير معطى إطلاقًا",
+          evidence._canonical_name("مصدر لا علاقة له بالمرة إطلاقًا", docs) is None)
+    check("evidence._known_only: يستبعد الأسماء المختلَقة ويُبقي المعروفة فقط",
+          evidence._known_only(["BBC News (تقرير)", "مصدر مختلق"], docs) == ["BBC News"])
+    check("evidence._known_only: مدخل ليس قائمة لا ينهار", evidence._known_only("BBC", docs) == [])
+
+    check("evidence.gather_evidence: لا نتائج بحث أصلًا",
+          evidence.gather_evidence([], cfg) == ([], evidence.EVIDENCE_NO_RESULTS))
+
+    real_extract_gather = extract.gather
+    fallback_articles = [
+        Article(title="Oil imports halted for first time since 1985",
+               link="https://a.example.com/1", summary="US ends Saudi oil imports",
+               source_name="Reuters", region="global", weight=1.0,
+               published=datetime.now(timezone.utc), publisher="Reuters"),
+    ]
+    extract.gather = lambda members, limit=2: []  # كل محاولات النص الكامل تفشل
+    docs_h, basis_h = evidence.gather_evidence(fallback_articles, cfg)
+    check("evidence.gather_evidence: احتياط العناوين حين يتعذّر النص الكامل",
+          basis_h == evidence.EVIDENCE_HEADLINES_ONLY)
+    check("evidence.gather_evidence: وثيقة الاحتياط معلَّمة from_text=False",
+          bool(docs_h) and docs_h[0]["from_text"] is False)
+
+    extract.gather = lambda members, limit=2: [
+        {"name": "Reuters", "text": "نص كامل مستخرج فعليًا"}]
+    docs_f, basis_f = evidence.gather_evidence(fallback_articles, cfg)
+    check("evidence.gather_evidence: النص الكامل يُفضَّل حين يتوفر لا الاحتياط",
+          basis_f == evidence.EVIDENCE_FULL_TEXT and docs_f[0]["from_text"] is True)
+    extract.gather = real_extract_gather
+
+    seen_merge_cfg: list = []
+    seen_keep_google: list = []
+    real_rank = evidence.rank
+
+    def _spy_rank(articles, selection, merge_cfg=None, token_fn=None,
+                 keep_google_links=False):
+        seen_merge_cfg.append(merge_cfg)
+        seen_keep_google.append(keep_google_links)
+        return real_rank(articles, selection, merge_cfg=merge_cfg, token_fn=token_fn,
+                         keep_google_links=keep_google_links)
+
+    one = Article(title="زلزال قوي يضرب هرات", link="https://x/1", summary="",
+                 source_name="s", region="global", weight=1.0,
+                 published=datetime.now(timezone.utc), publisher="s")
+    real_fetch_source = evidence.fetch_source
+    evidence.rank = _spy_rank
+    evidence.fetch_source = lambda src, max_age_hours: [one]
+    try:
+        evidence.search("زلزال هرات", cfg, 7)
+    finally:
+        evidence.fetch_source = real_fetch_source
+        evidence.rank = real_rank
+    check("evidence.search: الدمج الدلالي معطَّل صراحة (merge_cfg=None) — تعدد "
+          "المصادر المستقلة هو المقياس هنا لا تمثيل الحدث بخبر واحد",
+          seen_merge_cfg == [None], str(seen_merge_cfg))
+    check("evidence.search: keep_google_links=True دومًا — نتائجه كلها من "
+          "Google News فتُحلّ لاحقًا في gather_evidence لا تُستبعد خامًا",
+          seen_keep_google == [True], str(seen_keep_google))
+
+
+def test_article() -> None:
+    """مسار «مقال من المصادر» (Issue #348): اختبار لكل قاعدة من القواعد
+    السبع الملزمة، واختبار تسمية الحدث المبهم (تعليق الموافقة، البند 5)،
+    واختبار سدّ ثغرة الدائرة (تعليق التنفيذ الأخير: واقعة بمصدر واحد لا
+    يمكن أن تصبح محورية لأن الترشيح بالسند يسبق اختيار السؤال)."""
+    from src import article
+
+    cfg = load_config()
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_ask_naming_model = article._ask_naming_model
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_call_draft_model = article._call_draft_model
+    real_find_images = article.find_images
+
+    SUPPORT_MAP: dict = {}
+    seen_question_calls: list = []
+    seen_draft_calls: list = []
+    seen_search_queries: list = []
+
+    def _fake_search(query, cfg, days, unrestricted=False):
+        seen_search_queries.append(query)
+        return [object()]  # غير فارغة لتفعيل القراءة فقط — المحتوى لا يهم هنا
+
+    def _fake_gather_evidence(articles, cfg, claim_text=""):
+        return ([{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+                 {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True},
+                 {"name": "مصدر ثالث", "text": "نص", "link": "https://s3/1", "from_text": True}],
+                evidence.EVIDENCE_FULL_TEXT)
+
+    def _fake_support(fact_text, docs, cfg):
+        return SUPPORT_MAP.get(fact_text, [])
+
+    def _fake_choose_question(grounded, cfg, retries=2):
+        seen_question_calls.append([f["text"] for f in grounded])
+        return "سؤال اختبار؟", ""
+
+    def _fake_draft_article(grounded, opinions, question, cfg, retries=3):
+        seen_draft_calls.append({"grounded": [f["text"] for f in grounded],
+                                 "opinions": [o["text"] for o in opinions],
+                                 "question": question})
+        return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+                "image_headline": "عنوان الصورة", "post_title": question,
+                "post_body": "متن الاختبار يجيب عن السؤال بالوقائع المسندة كاملة.",
+                "hashtags": ["اختبار"]}, "")
+
+    evidence.search = _fake_search
+    evidence.gather_evidence = _fake_gather_evidence
+    article._support_sources = _fake_support
+    article._choose_question = _fake_choose_question
+    article._draft_article = _fake_draft_article
+    article.find_images = lambda title, cfg: []
+
+    # ── القاعدة 1: كل واقعة مسندة — بلا سند كافٍ (مصدران مستقلان فأكثر) تسقط ──
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار القاعدة 1",
+        "statements": [
+            {"text": "واقعة بمصدر واحد فقط", "kind": "واقعة", "entities": ["ك1"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "واقعة بمصدرين مستقلين", "kind": "واقعة", "entities": ["ك2"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "واقعة بثلاثة مصادر", "kind": "واقعة", "entities": ["ك3"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    SUPPORT_MAP.clear()
+    SUPPORT_MAP["واقعة بمصدر واحد فقط"] = ["مصدر أول"]
+    SUPPORT_MAP["واقعة بمصدرين مستقلين"] = ["مصدر أول", "مصدر ثانٍ"]
+    SUPPORT_MAP["واقعة بثلاثة مصادر"] = ["مصدر أول", "مصدر ثانٍ", "مصدر ثالث"]
+
+    out1 = article._write_article("موجز اختبار القاعدة 1", 1, cfg)
+    check("1) واقعة بمصدر واحد فقط تسقط ولا تدخل المقال — حتى لو وردت في الموجز",
+          any(d["text"] == "واقعة بمصدر واحد فقط" for d in out1["dropped"]))
+    check("1) سبب السقوط يذكر السند غير الكافي صراحة (لا فشل صامت)",
+          any("سند غير كافٍ" in d["reason"] for d in out1["dropped"]
+              if d["text"] == "واقعة بمصدر واحد فقط"))
+    check("1) واقعتان مسندتان بمصدرين فأكثر تكفيان لإنتاج المقال",
+          out1["produced"] is True, out1["reason"])
+    check("1) الواقعة الساقطة غير موجودة ضمن ما مرّ لاختيار السؤال",
+          "واقعة بمصدر واحد فقط" not in seen_question_calls[-1])
+
+    # ── القاعدة 7: بوابة كفاية عددية على الوقائع المُرشَّحة بالسند فقط ──
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار القاعدة 7",
+        "statements": [
+            {"text": "واقعة يتيمة مسندة", "kind": "واقعة", "entities": ["ك"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": ["سؤال لم يُجب عنه الموجز؟"],
+    }, None)
+    SUPPORT_MAP.clear()
+    SUPPORT_MAP["واقعة يتيمة مسندة"] = ["مصدر أول", "مصدر ثانٍ"]
+    question_calls_before = len(seen_question_calls)
+    out7 = article._write_article("موجز اختبار القاعدة 7", 7, cfg)
+    check("7) واقعة مسندة واحدة فقط دون الحد الأدنى (min_grounded_facts) ← لا مقال",
+          out7["produced"] is False)
+    check("7) سبب الامتناع يذكر القاعدة 7 صراحة لا رسالة عامة",
+          "القاعدة 7" in out7["reason"])
+    check("7) امتناع بلاغ بما بُحث لا مقال ركيك — لا نداء لاختيار السؤال أصلًا "
+          "(البوابة العددية تسبق اختياره)",
+          len(seen_question_calls) == question_calls_before)
+
+    # ── القاعدة 2: الرأي لا يُبحث له سند، ويصل الصياغة منفصلًا عن الوقائع ──
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار القاعدة 2",
+        "statements": [
+            {"text": "واقعة أولى مسندة", "kind": "واقعة", "entities": ["ك1"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "واقعة ثانية مسندة", "kind": "واقعة", "entities": ["ك2"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "أرى أن هذا القرار خاطئ تمامًا برأيي الشخصي", "kind": "رأي",
+             "entities": [], "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    SUPPORT_MAP.clear()
+    SUPPORT_MAP["واقعة أولى مسندة"] = ["مصدر أول", "مصدر ثانٍ"]
+    SUPPORT_MAP["واقعة ثانية مسندة"] = ["مصدر أول", "مصدر ثانٍ"]
+    seen_search_queries.clear()
+    out2 = article._write_article("موجز اختبار القاعدة 2", 2, cfg)
+    check("2) الرأي لا يُبحث عنه سند إطلاقًا — لا استعلام بحث يحوي نصه",
+          not any("خاطئ" in q for q in seen_search_queries))
+    check("2) الرأي يصل مرحلة الصياغة منفصلًا عن الوقائع المسندة لا مندمجًا فيها",
+          seen_draft_calls[-1]["opinions"] ==
+          ["أرى أن هذا القرار خاطئ تمامًا برأيي الشخصي"])
+    check("2) الوقائع المُمرَّرة للصياغة لا تحوي نص الرأي إطلاقًا",
+          "أرى أن هذا القرار خاطئ تمامًا برأيي الشخصي" not in seen_draft_calls[-1]["grounded"])
+    check("2) برومبت الصياغة يطلب نسبة الرأي بصيغة تحريرية معلنة لا نقلًا حرفيًا",
+          "لا تنقلها حرفيًا" in article.DRAFT_SYSTEM_TEMPLATE and
+          "{opinion_phrase}" in article.DRAFT_SYSTEM_TEMPLATE)
+    check("2) نسبة الرأي بصيغة تحريرية معلنة تُنشر فعليًا — لا عبارة داخلية",
+          "بحسب صاحب الطلب" not in article.DRAFT_SYSTEM_TEMPLATE)
+
+    # ── القاعدة 3: لا رأي من معرفة النموذج ولا تحليل من عنده — لا صوت ثالث ──
+    check("3) برومبت الصياغة يمنع صوتًا ثالثًا يضيفه النموذج بمعزل عن "
+          "الوقائع المسندة أو رأي الموجز المنسوب",
+          "لا صوت ثالث" in article.DRAFT_SYSTEM_TEMPLATE.format(opinion_phrase="x"))
+    check("3) الوقائع المصاغة تُبنى من الوقائع المعطاة حصرًا — لا معرفة سابقة",
+          "لا معرفة سابقة" in article.DRAFT_USER_TEMPLATE)
+    check("3) برومبت تسمية الحدث يمنع الاستعانة بمعرفة النموذج الخاصة عن الحدث",
+          "لا تستعن بمعرفتك الخاصة" in article.NAMING_SYSTEM)
+    check("3) برومبت الحكم على السند يمنع الاستعانة بمعرفة النموذج الخاصة",
+          "لا تستخدم معرفتك الخاصة" in article.SUPPORT_SYSTEM)
+    context_docs = [
+        {"name": "م1", "text": "الحدث وقع في سوريا قرب دمشق واستمر أيامًا"},
+        {"name": "م2", "text": "شهود عيان في سوريا أكدوا الرواية للصحفيين هناك"},
+    ]
+    context_terms = article._extract_context_terms(context_docs, ["حمزة الخطيب"], 3)
+    check("3) سياق تسمية الحدث المبهم يُستخرج من تكرار نصوص البحث نفسها فقط "
+          "(لا نداء نموذج، دالّة نقية)",
+          "سوريا" in context_terms)
+    check("3) كيانات الادّعاء الأصلية لا تُعاد كـ'سياق مكتشَف' لنفسها",
+          not any(t in ("حمزة", "الخطيب") for t in context_terms))
+
+    # ── القاعدة 6: برومبت مستقل — لا يمسّ writer.SYSTEM_PROMPT ولا يستعمل آلياته ──
+    check("6) برومبت صياغة المقال مستقل تمامًا عن writer.SYSTEM_PROMPT",
+          article.DRAFT_SYSTEM_TEMPLATE != writer.SYSTEM_PROMPT and
+          writer.SYSTEM_PROMPT not in article.DRAFT_SYSTEM_TEMPLATE)
+    check("6) أداة الصياغة مستقلة عن أداة writer.py (اسم أداة مختلف)",
+          article.ARTICLE_POST_SCHEMA["name"] != writer.POST_SCHEMA["name"])
+    check("6) نداء الشبكة مستقل عن writer._call_model (الذي يُحمِّل "
+          "writer.SYSTEM_PROMPT داخليًا بلا معامل يسمح باستبداله)",
+          article._call_draft_model is not writer._call_model)
+
+    # ── القاعدة 5 + البند 5 (تسمية الحدث): موجز يصف أثر حدث بلا تسميته ──
+    naming_search_calls: list = []
+
+    def _naming_search(query, cfg, days, unrestricted=False):
+        naming_search_calls.append((query, unrestricted))
+        return [object()]
+
+    def _naming_gather(articles, cfg, claim_text=""):
+        if claim_text == "حمزة الخطيب":
+            return ([
+                {"name": "أرشيف تاريخي", "link": "https://ref/1", "from_text": True,
+                 "text": "حمزة الخطيب رمز من انتفاضة سوريا 2011 في درعا سوريا"},
+                {"name": "مصدر مرجعي ثانٍ", "link": "https://ref/2", "from_text": True,
+                 "text": "قصة حمزة الخطيب في سوريا لا تزال حاضرة اليوم"},
+            ], evidence.EVIDENCE_FULL_TEXT)
+        if "سوريا" in claim_text:
+            return ([
+                {"name": "وكالة الحدث", "link": "https://event/1", "from_text": True,
+                 "text": "صدر حكم إعدام غيابي بحق بشار الأسد وماهر الأسد وعاطف نجيب"},
+                {"name": "وكالة ثانية", "link": "https://event/2", "from_text": True,
+                 "text": "أكدت مصادر قضائية صدور حكم الإعدام الغيابي بحق الأسد ونجيب"},
+            ], evidence.EVIDENCE_FULL_TEXT)
+        return ([{"name": "مصدر أول", "text": "نص", "link": "https://g1/1", "from_text": True},
+                 {"name": "مصدر ثانٍ", "text": "نص", "link": "https://g2/1", "from_text": True}],
+                evidence.EVIDENCE_FULL_TEXT)
+
+    def _naming_ask_model(vague_text, entities, docs, cfg):
+        if any("حكم إعدام" in d["text"] for d in docs):
+            return {"text": "صدر حكم إعدام غيابي بحق بشار الأسد وماهر الأسد وعاطف نجيب",
+                   "supporting": [d["name"] for d in docs]}
+        return None
+
+    evidence.search = _naming_search
+    evidence.gather_evidence = _naming_gather
+    article._ask_naming_model = _naming_ask_model
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "حدث 11 آب 2026",
+        "statements": [
+            {"text": "حدث في 11 آب 2026 ما أعاد قصة حمزة الخطيب", "kind": "واقعة",
+             "entities": ["حمزة الخطيب", "11 آب 2026"], "is_unnamed_event": True,
+             "is_reference": False},
+            {"text": "واقعة إضافية مسندة عاديًا", "kind": "واقعة", "entities": ["كس"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    SUPPORT_MAP.clear()
+    SUPPORT_MAP["واقعة إضافية مسندة عاديًا"] = ["مصدر أول", "مصدر ثانٍ"]
+
+    out_naming = article._write_article(
+        "موجز: حدث في 11 آب 2026 ما أعاد قصة حمزة الخطيب.", 348, cfg)
+
+    check("البند 5: الحدث المبهم يُسمّى بواقعة صريحة جديدة — لا يبقى وصف أثر مبهمًا",
+          any(d["sources_say"] ==
+              "صدر حكم إعدام غيابي بحق بشار الأسد وماهر الأسد وعاطف نجيب"
+              for d in out_naming["diffs"]), out_naming)
+    check("4) الخلاف بين صياغة موجزي والحدث الذي سمّته المصادر يُذكر لي صراحة",
+          any(d["brief"] == "حدث في 11 آب 2026 ما أعاد قصة حمزة الخطيب"
+              for d in out_naming["diffs"]))
+    check("البند 5: سلّم التسمية يبدأ ببحث مرجعي غير مقيَّد زمنيًا عن الكيان أولًا",
+          naming_search_calls[0] == ("حمزة الخطيب", True))
+    check("البند 5: استعلام التسمية التالي يستعمل السياق المكتشَف (سوريا) لا "
+          "الوصف المبهم الأصلي حرفيًا",
+          any("سوريا" in q and not unrestricted
+              for q, unrestricted in naming_search_calls[1:]))
+    check("البند 5: بحث بالوصف المبهم حرفيًا (أعاد قصة) لا يقع إطلاقًا",
+          not any("أعاد قصة" in q for q, _ in naming_search_calls))
+    check("البند 5: المقال يُنتَج فعلًا بعد تسمية الحدث ومروره ببوابة السند",
+          out_naming["produced"] is True, out_naming.get("reason"))
+
+    evidence.search = _fake_search
+    evidence.gather_evidence = _fake_gather_evidence
+    article._ask_naming_model = real_ask_naming_model
+
+    # ── القاعدة 5 (فحص الأصالة): نسخ لفظي من الموجز في المتن ← امتناع ──
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار فحص الأصالة",
+        "statements": [
+            {"text": "واقعة أولى", "kind": "واقعة", "entities": ["ك1"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "واقعة ثانية", "kind": "واقعة", "entities": ["ك2"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    SUPPORT_MAP.clear()
+    SUPPORT_MAP["واقعة أولى"] = ["مصدر أول", "مصدر ثانٍ"]
+    SUPPORT_MAP["واقعة ثانية"] = ["مصدر أول", "مصدر ثانٍ"]
+
+    copied_run = "هذه جملة طويلة منسوخة حرفيًا بالكامل من نص الموجز الأصلي للاختبار فعلًا"
+
+    def _copying_draft(grounded, opinions, question, cfg, retries=3):
+        return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+                "image_headline": "عنوان", "post_title": question,
+                "post_body": copied_run, "hashtags": []}, "")
+
+    article._draft_article = _copying_draft
+    brief_with_copy = f"مقدمة الموجز. {copied_run}. خاتمة الموجز."
+    out5 = article._write_article(brief_with_copy, 5, cfg)
+    check("5) نسخ لفظي طويل من الموجز في المتن ← امتناع بلا نشر (فحص "
+          "verify_draft.check_originality المُعاد استعماله كما هو)",
+          out5["produced"] is False and "امتناع" in out5["reason"], out5["reason"])
+    article._draft_article = _fake_draft_article
+
+    # ── سدّ ثغرة الدائرة: الترشيح بالسند يسبق اختيار السؤال ──
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار سدّ ثغرة الدائرة",
+        "statements": [
+            {"text": "واقعة ضعيفة السند بمصدر واحد", "kind": "واقعة", "entities": ["كأ"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "واقعة قوية أولى", "kind": "واقعة", "entities": ["كب"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "واقعة قوية ثانية", "kind": "واقعة", "entities": ["كج"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    SUPPORT_MAP.clear()
+    SUPPORT_MAP["واقعة ضعيفة السند بمصدر واحد"] = ["مصدر أول"]
+    SUPPORT_MAP["واقعة قوية أولى"] = ["مصدر أول", "مصدر ثانٍ"]
+    SUPPORT_MAP["واقعة قوية ثانية"] = ["مصدر أول", "مصدر ثانٍ"]
+
+    out_gap = article._write_article("موجز اختبار سدّ ثغرة الدائرة", 999, cfg)
+    check("سدّ ثغرة الدائرة: واقعة بمصدر واحد لا تصل مرحلة اختيار السؤال إطلاقًا "
+          "— الترشيح بالسند يسبق الاختيار، لا العكس",
+          "واقعة ضعيفة السند بمصدر واحد" not in seen_question_calls[-1])
+    check("سدّ ثغرة الدائرة: الوقائع المُرشَّحة بالسند فقط تصل مرحلة اختيار "
+          "السؤال — لا كل ما استُخرج من الموجز",
+          set(seen_question_calls[-1]) == {"واقعة قوية أولى", "واقعة قوية ثانية"})
+    check("سدّ ثغرة الدائرة: بوابة الكفاية (_sufficiency) تُستدعى على "
+          "المُرشَّح بالسند فقط — المحورية مضمونة بالبناء لا بالفحص",
+          out_gap["produced"] is True, out_gap.get("reason"))
+
+    article.extract_brief = real_extract_brief
+    evidence.search = real_search
+    evidence.gather_evidence = real_gather_evidence
+    article._support_sources = real_support_sources
+    article._ask_naming_model = real_ask_naming_model
+    article._choose_question = real_choose_question
+    article._draft_article = real_draft_article
+    article._call_draft_model = real_call_draft_model
+    article.find_images = real_find_images
+
+
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
     from src import review
@@ -3994,6 +4406,10 @@ def main() -> int:
     test_verify()
     print("\n── صياغة مسودة من المؤكَّد وحده (التحقق، المرحلة 2) ──")
     test_verify_draft()
+    print("\n── محرك البحث والقراءة المشترك (evidence.py) ──")
+    test_evidence()
+    print("\n── مقال من المصادر ──")
+    test_article()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()
