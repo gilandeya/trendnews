@@ -1,0 +1,93 @@
+{
+  "id": "ae8e9516b067",
+  "created_at": "2026-08-15T03:08:05.167550+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.65,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Jason Arday, professor at centre of Cambridge plagiarism row, found dead",
+  "link": "https://www.theguardian.com/uk-news/2026/aug/14/jason-arday-found-dead-after-resigning-from-cambridge-over-plagiarism-claims",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia",
+    "Der Spiegel",
+    "Deutsche Welle",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "MyJoyOnline Ghana",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The New York Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Jason Arday, professor at centre of Cambridge plagiarism row, found dead",
+    "link": "https://www.theguardian.com/uk-news/2026/aug/14/jason-arday-found-dead-after-resigning-from-cambridge-over-plagiarism-claims",
+    "summary": "Academic was pronounced dead at his home in south London after police called to address after 3pm on Friday Jason Arday, the academic who resigned last week as a professor at the University of Cambridge , has been found dead at his home in south London. The Metropolitan police said officers were called to Arday’s address by the London ambulance service after 3pm on Friday. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-14T22:10:24+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/f2b11433fe6a4e276c2594f779870a25470a56f3/885_291_6035_4827/master/6035.jpg?width=700&quality=85&auto=format&fit=max&s=755073ef903f9bf2a02eb0e722951988",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia",
+      "Der Spiegel",
+      "Deutsche Welle",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "MyJoyOnline Ghana",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The New York Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/14/former-cambridge-professor-accused-of-plagiarism-found-dead?traffic_source=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/uk-news/2026/aug/14/jason-arday-found-dead-after-resigning-from-cambridge-over-plagiarism-claims"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3364119/jason-arday-ex-cambridge-professor-centre-plagiarism-scandal-found-dead?utm_source=rss_feed"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/jason-arday-ex-cambridge-professor-at-centre-of-plagiarism-scandal-found-dead/a-78377633?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/jason-arday-former-cambridge-university-professor-at-centre-of-plagiarism-scandal-found-dead-uk-media/article71347279.ece"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/jason-arday-found-dead-cambridge-plagiarism-6320716"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/f2b11433fe6a4e276c2594f779870a25470a56f3/885_291_6035_4827/master/6035.jpg?width=700&quality=85&auto=format&fit=max&s=755073ef903f9bf2a02eb0e722951988",
+      "https://i.guim.co.uk/img/media/f2b11433fe6a4e276c2594f779870a25470a56f3/885_291_6035_4827/master/6035.jpg?width=460&quality=85&auto=format&fit=max&s=9b44586f77c144030acf3502183befad",
+      "https://i.guim.co.uk/img/media/f2b11433fe6a4e276c2594f779870a25470a56f3/885_291_6035_4827/master/6035.jpg?width=140&quality=85&auto=format&fit=max&s=ee862e70da4d8a274daf52a3de25968e",
+      "https://th-i.thgim.com/public/incoming/fpm89x/article71347281.ece/alternates/LANDSCAPE_1200/Jason-Arday-at-GFIGC4NU7.3.jpg.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--8Y9HOKd5--/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Britain_Cambridge_Professor_81622.jpg?itok=BAWcGYsR",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/c7b603c0-91a2-11f1-964d-6f76397ea067.jpg-1024x575.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 11,
+    "velocity": 1.0,
+    "age_hours": 6.871336167222222,
+    "is_stale": false,
+    "score": 32.64768424296744
+  }
+}
