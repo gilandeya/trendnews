@@ -145,8 +145,8 @@ def build_draft(art, cfg, urgent: bool = True,
     art = enrich_image(art)
     if docs is None:
         acfg = cfg.get("analysis", {}) or {}
-        docs = gather_texts(art.cluster_members,
-                            limit=int(acfg.get("max_sources", 2)))
+        docs, _fetch_failures = gather_texts(art.cluster_members,
+                                            limit=int(acfg.get("max_sources", 2)))
 
     try:
         written = write_arabic(art, cfg, source_docs=docs or None)
@@ -241,7 +241,8 @@ def gate_check(art, cfg, state: dict) -> tuple[bool, str, list[dict]]:
         return False, "محتوى خفيف — لا يُنشر بلا مراجعة", []
 
     acfg = cfg.get("analysis", {}) or {}
-    docs = gather_texts(art.cluster_members, limit=int(acfg.get("max_sources", 2)))
+    docs, _fetch_failures = gather_texts(art.cluster_members,
+                                        limit=int(acfg.get("max_sources", 2)))
     if not docs:
         return False, "تعذّرت قراءة نص الخبر", docs
 

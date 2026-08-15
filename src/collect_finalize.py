@@ -120,7 +120,7 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
            else int(rcfg.get("max_sources", 1)))
     docs: list[dict] = []
     if rcfg.get("enabled", True) or analysable:
-        docs = gather_texts(art.cluster_members, limit=want)
+        docs, _fetch_failures = gather_texts(art.cluster_members, limit=want)
 
     previous = store.find_previous(history, art.title, art.link, dupe_threshold)
     prev_title = None

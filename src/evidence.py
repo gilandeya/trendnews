@@ -140,6 +140,26 @@ def build_query_for_claim(claim: dict, max_words: int = 5) -> str:
 REFERENCE_MAX_AGE_HOURS = 20 * 365 * 24
 
 
+class SearchResult(list):
+    """قائمة نتائج بحث عادية (ما تعيده search())، مع عدّاد النتائج الخام
+    والمطابقة قبل الفرز/الدمج كسمتين إضافيتين — البند 1 (تعليق العطل
+    الثاني على Issue #361): trail في article.py يحتاج عدد النتائج قبل
+    التصفية بالصلة وبعدها ليُشخَّص لماذا سقط استعلام معيَّن لمصدر واحد رغم
+    تغطية واسعة، لا "عناوين فقط" مجرَّدة بلا رقم. مستهلكون آخرون (verify.py)
+    يتعاملون معها كقائمة عادية بلا أي تغيير في العقد — list.__eq__ يقارن
+    بالعناصر لا بنوع الصنف، فكل مقارنة/تكرار/فهرسة قائمة بها تسلك كسابقتها
+    تمامًا."""
+    raw_count: int
+    matched_count: int
+
+
+def _search_result(items, raw_count: int, matched_count: int) -> SearchResult:
+    out = SearchResult(items)
+    out.raw_count = raw_count
+    out.matched_count = matched_count
+    return out
+
+
 def search(query: str, cfg, days: int, unrestricted: bool = False) -> list[Article]:
     """يبحث عن استعلام واحد عبر آلية request.py نفسها — بلا تكرار منطقها.
 
@@ -170,13 +190,13 @@ def search(query: str, cfg, days: int, unrestricted: bool = False) -> list[Artic
     log.info("بحث %r → %d نتيجة خام؛ أول 3: %s", query, len(articles),
              "؛ ".join(a.title[:80] for a in articles[:3]) or "—")
     if not articles:
-        return []
+        return _search_result([], 0, 0)
 
     wanted = norm_tokens(query)
     matched = [a for a in articles if relevant(a, wanted, 1)]
     log.info("بحث %r → %d مطابق من %d خام", query, len(matched), len(articles))
     if not matched:
-        return []
+        return _search_result([], len(articles), 0)
 
     selection = {"max_age_hours": days * 24, "region_diversity": False,
                 "title_similarity": float(vcfg.get("title_similarity", 0.62))}
@@ -184,9 +204,10 @@ def search(query: str, cfg, days: int, unrestricted: bool = False) -> list[Artic
     # keep_google_links=True: نتائج هذا البحث كلها من Google News (بلا
     # استثناء)، فاستبعاد rank.pick_representative الافتراضي لروابط جوجل من
     # cluster_members كان يُفرغها هنا شبه دائمًا قبل أن تصل gather_evidence
-    return rank(matched, selection, merge_cfg=None,
-               token_fn=norm_tokens if bilingual else None,
-               keep_google_links=True)
+    ranked = rank(matched, selection, merge_cfg=None,
+                 token_fn=norm_tokens if bilingual else None,
+                 keep_google_links=True)
+    return _search_result(ranked, len(articles), len(matched))
 
 
 EVIDENCE_NO_RESULTS = "لا نتائج بحث"
@@ -214,6 +235,21 @@ def _candidate_score(weight: float, relevance: int) -> float:
     الصلة العالية قادرة على تعويض فارق الوزن الأقصى بدل أن يُقصيها كليًا،
     والوزن العالي يبقى قادرًا على تعويض صلة أضعف عند تقاربها."""
     return weight + relevance
+
+
+class EvidenceDocs(list):
+    """قائمة وثائق عادية (ما تعيده gather_evidence كعنصر أول)، مع سجلّ فشل
+    جلب النص الكامل كسمة إضافية — البند 1 (تعليق العطل الثاني على Issue
+    #361): trail يحتاج سبب فشل كل رابط تعذّر جلبه (رمز HTTP أو نوع العطل)
+    حين يُسقَط المسار إلى احتياط العناوين. مستهلكون آخرون (verify.py)
+    يتعاملون معها كقائمة عادية بلا أي تغيير في العقد الحالي (docs, basis)."""
+    fetch_failures: list
+
+
+def _evidence_docs(items, fetch_failures: list) -> EvidenceDocs:
+    out = EvidenceDocs(items)
+    out.fetch_failures = fetch_failures
+    return out
 
 
 def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple[list[dict], str]:
@@ -297,12 +333,13 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
     # بالمصدر عند النشر، لا اسمه وحده)
     link_by_name = {m["name"]: m["link"] for m in members}
 
-    fulltext = extract.gather(members, limit=limit)
+    fulltext, fetch_failures = extract.gather(members, limit=limit)
     if fulltext:
         log.info("نصوص مُقروءة فعلًا من نافذة القراءة: %s",
                  [d.get("name") for d in fulltext])
-        return [{**d, "from_text": True, "link": link_by_name.get(d["name"], "")}
-               for d in fulltext], EVIDENCE_FULL_TEXT
+        docs = [{**d, "from_text": True, "link": link_by_name.get(d["name"], "")}
+               for d in fulltext]
+        return _evidence_docs(docs, fetch_failures), EVIDENCE_FULL_TEXT
 
     headline_docs = []
     seen_headline_names: set[str] = set()
@@ -320,8 +357,8 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "") -> tuple
     if headline_docs:
         log.info("لا نص كامل مقروء — احتياط العناوين مستعمل من: %s",
                  [d["name"] for d in headline_docs])
-        return headline_docs, EVIDENCE_HEADLINES_ONLY
-    return [], EVIDENCE_UNREADABLE
+        return _evidence_docs(headline_docs, fetch_failures), EVIDENCE_HEADLINES_ONLY
+    return _evidence_docs([], fetch_failures), EVIDENCE_UNREADABLE
 
 
 # ──────────────────────────── مطابقة أسماء المصادر ────────────────────────────

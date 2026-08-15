@@ -578,7 +578,11 @@ def _name_event(statement: dict, cfg) -> tuple[str | None, list[dict], list[str]
         ranked = evidence.search(query, cfg, days)
         docs, basis = evidence.gather_evidence(ranked, cfg, query)
         entry = {"stage": stage_name, "query": query, "basis": basis,
-                 "sources": [d["name"] for d in docs], "outcome": ""}
+                 "sources": [d["name"] for d in docs],
+                 "raw_count": getattr(ranked, "raw_count", None),
+                 "matched_count": getattr(ranked, "matched_count", None),
+                 "fetch_failures": getattr(docs, "fetch_failures", []),
+                 "outcome": ""}
         trail.append(entry)
         if not docs:
             entry["outcome"] = "لا وثائق للتسمية"
@@ -609,6 +613,9 @@ def _name_event(statement: dict, cfg) -> tuple[str | None, list[dict], list[str]
         terms = _ask_context_model(entity, entities, docs, cfg, max_context_terms) if docs else []
         trail.append({"stage": "مرجعي", "query": entity, "basis": basis,
                       "sources": [d["name"] for d in docs],
+                      "raw_count": getattr(ranked, "raw_count", None),
+                      "matched_count": getattr(ranked, "matched_count", None),
+                      "fetch_failures": getattr(docs, "fetch_failures", []),
                       "outcome": f"{len(terms)} كلمة سياق مستخلَصة" if terms
                                 else "لا سياق مستخلَص"})
         context_terms += terms
@@ -682,11 +689,13 @@ ANSWER_SYSTEM = """أنت تجيب عن سؤال طرحه صاحب موجز تح
 مستقلة مُعطاة لك حصرًا — لا من معرفتك الخاصة.
 
 اقرأ النصوص فقط. إن أجابت عن السؤال بوضوح، اكتب الإجابة بإيجاز بصياغتك من
-هذه النصوص حصرًا — لا نقلًا حرفيًا من أي نص — وأخرج أسماء المصادر التي
-أجابت فعلًا. إن لم تُجب النصوص عن السؤال بوضوح، أقرّ بذلك (answered:
-false) — لا تخمّن ولا تستعن بمعرفتك الخاصة عمّا لا تقوله النصوص المعطاة.
-
-أخرج أسماء المصادر مجردة تمامًا كما وردت في وسم '--- المصدر: <الاسم> ---'.
+هذه النصوص حصرًا — لا نقلًا حرفيًا من أي نص — وأخرج أسماء **كل** المصادر
+التي أجابت فعلًا في supporting، مجردة تمامًا كما وردت في وسم '--- المصدر:
+<الاسم> ---' فقط، بلا اختراع أسماء جديدة. إجابة answered:true بلا مصدر
+واحد على الأقل في supporting تُعامَل كإجابة بلا سند — فلا تترك supporting
+فارغة ما دام أحد النصوص المعطاة يسند الإجابة فعلًا. إن لم تُجب النصوص عن
+السؤال بوضوح، أقرّ بذلك (answered: false, supporting: []) — لا تخمّن ولا
+تستعن بمعرفتك الخاصة عمّا لا تقوله النصوص المعطاة.
 
 استخدم أداة answer_question دائمًا."""
 
@@ -700,7 +709,13 @@ ANSWER_SCHEMA = {
             "text": {"type": "string"},
             "supporting": {"type": "array", "items": {"type": "string"}},
         },
-        "required": ["answered"],
+        # supporting إلزامي الآن (تعليق العطل الثاني على Issue #361، البند
+        # 3): تناظرًا مع SUPPORT_SCHEMA التي تُلزم بها منذ البداية — كانت
+        # ANSWER_SCHEMA الوحيدة بين شقيقاتها الثلاث (SUPPORT/NAMING/ANSWER)
+        # التي لا تُلزم بحقل المصادر، فسمحت لردود answered:true بسند فارغ
+        # بلا أي رفض من مخطط الأداة نفسه (تشخيص التشغيل الحقيقي: "النموذج
+        # أجاب ولم يسمِّ أي مصدر").
+        "required": ["answered", "supporting"],
     },
 }
 
@@ -1162,6 +1177,9 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             unique = set(supporting)
             trail.append({"stage": "واقعة", "query": query, "basis": basis,
                           "sources": [d["name"] for d in docs],
+                          "raw_count": getattr(ranked, "raw_count", None),
+                          "matched_count": getattr(ranked, "matched_count", None),
+                          "fetch_failures": getattr(docs, "fetch_failures", []),
                           "outcome": (f"مسندة بـ{len(unique)} مصدر مستقل" if len(unique) >= min_confirm
                                      else f"سند غير كافٍ ({len(unique)}/{min_confirm})")})
             if len(unique) < min_confirm:
@@ -1197,6 +1215,9 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         answered_ok = bool(answer) and len(unique) >= min_confirm
         trail.append({"stage": "سؤال", "query": query, "basis": basis,
                       "sources": [d["name"] for d in docs],
+                      "raw_count": getattr(ranked, "raw_count", None),
+                      "matched_count": getattr(ranked, "matched_count", None),
+                      "fetch_failures": getattr(docs, "fetch_failures", []),
                       "outcome": (f"أُجيب ومسندة بـ{len(unique)} مصدر" if answered_ok
                                  else "لم تُجب عنه النصوص المقروءة" if not answer
                                  else f"سند غير كافٍ ({len(unique)}/{min_confirm})")})
@@ -1402,8 +1423,18 @@ def build_report(outcome: dict) -> str:
                       f"— {len(outcome['trail'])} استعلامًا</summary>", ""]
         for t in outcome["trail"]:
             srcs = "، ".join(t.get("sources") or []) or "لا مصادر"
-            lines.append(f"- **[{t['stage']}]** `{t['query']}` → {t['basis']} — "
+            # عدد النتائج قبل التصفية بالصلة وبعدها (البند 1، تعليق العطل
+            # الثاني): يشرح لماذا سقط استعلام لمصدر واحد رغم تغطية واسعة —
+            # None حين لم يُجرَ بحث أصلًا (fake/مسار بلا SearchResult)
+            counts = ""
+            if t.get("raw_count") is not None:
+                counts = f" ({t['raw_count']} خام ← {t.get('matched_count', '؟')} مطابق)"
+            lines.append(f"- **[{t['stage']}]** `{t['query']}`{counts} → {t['basis']} — "
                          f"{t.get('outcome', '')} (المصادر: {srcs})")
+            for fail in t.get("fetch_failures") or []:
+                name, reason, link = fail.get("name", "؟"), fail.get("reason", ""), fail.get("link", "")
+                label = f"[{name}]({link})" if link else name
+                lines.append(f"  - ⚠️ فشل جلب {label}: {reason}")
         lines.append("</details>")
 
     return "\n".join(lines)
