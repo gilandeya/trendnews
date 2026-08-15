@@ -1,0 +1,54 @@
+{
+  "id": "9abaec1d58f2",
+  "created_at": "2026-08-15T15:08:05.387726+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.58,
+  "trend_score": 1.0,
+  "velocity": 0.06,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Japan weighs state reinsurance for tankers to keep Gulf oil flowing",
+  "link": "https://asia.nikkei.com/business/insurance/japan-weighs-state-reinsurance-for-tankers-to-keep-gulf-oil-flowing",
+  "publishers": [
+    "Daily Sabah",
+    "Nikkei Asia"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Japan weighs state reinsurance for tankers to keep Gulf oil flowing",
+    "link": "https://asia.nikkei.com/business/insurance/japan-weighs-state-reinsurance-for-tankers-to-keep-gulf-oil-flowing",
+    "summary": "",
+    "source_name": "Nikkei Asia",
+    "region": "jp",
+    "weight": 1.0,
+    "published": "2026-08-15T15:07:29.215037+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/14/455795.jpg",
+    "publisher": "Nikkei Asia",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/business/insurance/japan-weighs-state-reinsurance-for-tankers-to-keep-gulf-oil-flowing"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/can-global-oil-stocks-weather-another-6-months-of-us-iran-war"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/14/455795.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.055531694152178956,
+    "age_hours": 21.999029305,
+    "is_stale": false,
+    "score": 20.57714114018682
+  }
+}

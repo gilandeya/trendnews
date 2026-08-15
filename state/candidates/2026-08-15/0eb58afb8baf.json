@@ -1,0 +1,53 @@
+{
+  "id": "0eb58afb8baf",
+  "created_at": "2026-08-15T15:08:05.388271+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.33,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran, Tajikistan agree on mechanism for oil product exports, crude supply",
+  "link": "https://www.tehrantimes.com/news/529077/Iran-Tajikistan-agree-on-mechanism-for-oil-product-exports",
+  "publishers": [
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran, Tajikistan agree on mechanism for oil product exports, crude supply",
+    "link": "https://www.tehrantimes.com/news/529077/Iran-Tajikistan-agree-on-mechanism-for-oil-product-exports",
+    "summary": "TEHRAN- Iran and Tajikistan have taken a significant step toward deepening their energy partnership, with both sides agreeing to establish a working group to examine mechanisms for exporting Iran's surplus oil products and supplying crude oil needed by Tajikistan's refineries.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-15T12:32:12+00:00",
+    "image_url": "https://media.tehrantimes.com/d/t/2026/08/15/4/6133063.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529077/Iran-Tajikistan-agree-on-mechanism-for-oil-product-exports"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529066/Iran-s-monthly-oil-production-up-26-000-bpd-OPEC"
+      }
+    ],
+    "image_candidates": [
+      "https://media.tehrantimes.com/d/t/2026/08/15/4/6133063.jpg",
+      "https://media.tehrantimes.com/d/t/2026/08/15/4/6132764.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.32694164959259
+  }
+}

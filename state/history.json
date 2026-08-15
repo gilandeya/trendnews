@@ -1,22 +1,5 @@
 [
   {
-    "score": 21.53,
-    "bucket": "serious",
-    "tokens": [
-      "colombia",
-      "earthquake",
-      "magnitude",
-      "powerful",
-      "strikes",
-      "western"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/10/colombia-earthquake-cali-pereira-choco",
-    "title": "Powerful 7.4 magnitude earthquake strikes western Colombia",
-    "posted_title": "زلزال قوي يضرب غرب كولومبيا ويتسبب في انهيار عشرات المباني بمدينة كالي",
-    "region": "uk",
-    "seen_at": "2026-08-10T15:01:33.463128+00:00"
-  },
-  {
     "score": 34.0,
     "bucket": "serious",
     "tokens": [
@@ -4242,5 +4225,102 @@
     "posted_title": "",
     "region": "uk",
     "seen_at": "2026-08-15T14:30:57.004549+00:00"
+  },
+  {
+    "score": 25.84,
+    "bucket": "serious",
+    "tokens": [
+      "death",
+      "indonesian",
+      "quake",
+      "rescuers",
+      "rises",
+      "search",
+      "survivors",
+      "toll"
+    ],
+    "link": "https://www.dawn.com/news/2023007/rescuers-search-for-survivors-as-indonesian-77-quake-death-toll-rises-to-47",
+    "title": "Rescuers search for survivors as Indonesian 7.7 quake death toll rises to 47",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-15T15:08:05.387714+00:00"
+  },
+  {
+    "score": 20.58,
+    "bucket": "serious",
+    "tokens": [
+      "flowing",
+      "gulf",
+      "japan",
+      "keep",
+      "oil",
+      "reinsurance",
+      "state",
+      "tankers",
+      "weighs"
+    ],
+    "link": "https://asia.nikkei.com/business/insurance/japan-weighs-state-reinsurance-for-tankers-to-keep-gulf-oil-flowing",
+    "title": "Japan weighs state reinsurance for tankers to keep Gulf oil flowing",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-08-15T15:08:05.388003+00:00"
+  },
+  {
+    "score": 17.08,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "apply",
+      "commonwealth",
+      "fellowships",
+      "how",
+      "nigerians",
+      "opens"
+    ],
+    "link": "https://www.vanguardngr.com/2026/08/how-to-apply-uk-opens-2026-commonwealth-fellowships-for-nigerians/",
+    "title": "How to apply: UK opens 2026 Commonwealth Fellowships for Nigerians",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-08-15T15:08:05.388262+00:00"
+  },
+  {
+    "score": 16.33,
+    "bucket": "serious",
+    "tokens": [
+      "agree",
+      "crude",
+      "exports",
+      "iran",
+      "mechanism",
+      "oil",
+      "product",
+      "supply",
+      "tajikistan"
+    ],
+    "link": "https://www.tehrantimes.com/news/529077/Iran-Tajikistan-agree-on-mechanism-for-oil-product-exports",
+    "title": "Iran, Tajikistan agree on mechanism for oil product exports, crude supply",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-08-15T15:08:05.388507+00:00"
+  },
+  {
+    "score": 14.5,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "applied",
+      "china",
+      "curbs",
+      "despite",
+      "grow",
+      "materials",
+      "projects",
+      "revenue"
+    ],
+    "link": "https://asia.nikkei.com/business/tech/semiconductors/applied-materials-projects-china-revenue-to-grow-in-2026-despite-us-curbs",
+    "title": "Applied Materials projects China revenue to grow in 2026 despite US curbs",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-08-15T15:08:05.388752+00:00"
   }
 ]

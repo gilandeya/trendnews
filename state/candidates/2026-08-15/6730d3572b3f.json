@@ -1,0 +1,46 @@
+{
+  "id": "6730d3572b3f",
+  "created_at": "2026-08-15T15:08:05.388516+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.5,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Applied Materials projects China revenue to grow in 2026 despite US curbs",
+  "link": "https://asia.nikkei.com/business/tech/semiconductors/applied-materials-projects-china-revenue-to-grow-in-2026-despite-us-curbs",
+  "publishers": [
+    "Nikkei Asia"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Applied Materials projects China revenue to grow in 2026 despite US curbs",
+    "link": "https://asia.nikkei.com/business/tech/semiconductors/applied-materials-projects-china-revenue-to-grow-in-2026-despite-us-curbs",
+    "summary": "",
+    "source_name": "Nikkei Asia",
+    "region": "jp",
+    "weight": 1.0,
+    "published": "2026-08-15T15:07:29.215405+00:00",
+    "image_url": null,
+    "publisher": "Nikkei Asia",
+    "cluster_sources": [
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/business/tech/semiconductors/applied-materials-projects-china-revenue-to-grow-in-2026-despite-us-curbs"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 26.998091695555555,
+    "is_stale": true,
+    "score": 14.499482676129631
+  }
+}
