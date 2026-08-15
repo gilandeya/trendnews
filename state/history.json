@@ -1,44 +1,5 @@
 [
   {
-    "score": 23.08,
-    "bucket": "serious",
-    "tokens": [
-      "bangladesh",
-      "conducive",
-      "environment",
-      "india",
-      "reset",
-      "seeks",
-      "ties"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/10/bangladesh-pm-seeks-conducive-environment-to-reset-ties-with-india-2",
-    "title": "Bangladesh PM seeks ‘conducive environment’ to reset ties with India",
-    "posted_title": "رئيس وزراء بنغلاديش يطلب من مبعوث الهند تهيئة \"بيئة مواتية\" لتحسين العلاقات وتسليم الشيخة حسينة",
-    "region": "my",
-    "seen_at": "2026-08-10T18:08:11.925418+00:00"
-  },
-  {
-    "score": 19.34,
-    "bucket": "serious",
-    "tokens": [
-      "anti",
-      "bars",
-      "court",
-      "elections",
-      "only",
-      "parliamentary",
-      "party",
-      "russian",
-      "standing",
-      "war"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cy9w1l5jr7lo?at_medium=RSS&at_campaign=rss",
-    "title": "Russian court bars only anti-war party from standing in parliamentary elections",
-    "posted_title": "لماذا استبعدت محكمة روسية الحزب الوحيد المعارض للحرب من انتخابات سبتمبر",
-    "region": "uk",
-    "seen_at": "2026-08-10T18:31:18.506490+00:00"
-  },
-  {
     "score": 18.73,
     "bucket": "serious",
     "tokens": [
@@ -4423,5 +4384,44 @@
     "posted_title": "",
     "region": "gh",
     "seen_at": "2026-08-15T18:07:45.158686+00:00"
+  },
+  {
+    "score": 16.94,
+    "bucket": "sport",
+    "tokens": [
+      "barcelona",
+      "cup",
+      "final",
+      "match",
+      "psg",
+      "sign",
+      "torres",
+      "winner",
+      "world"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/articles/c20jyxjl8yko?at_medium=RSS&at_campaign=rss",
+    "title": "PSG sign World Cup final match-winner Torres from Barcelona",
+    "posted_title": "هداف نهائي كأس العالم فيران تورّيس يترك برشلونة إلى باريس سان جيرمان",
+    "region": "sport",
+    "seen_at": "2026-08-15T19:05:47.395126+00:00"
+  },
+  {
+    "score": 17.58,
+    "bucket": "serious",
+    "tokens": [
+      "declare",
+      "hormuz",
+      "states",
+      "strait",
+      "territory",
+      "threatens",
+      "trump",
+      "united"
+    ],
+    "link": "https://www.theguardian.com/us-news/2026/aug/14/trump-threat-strait-hormuz-us-territory",
+    "title": "Trump threatens to declare strait of Hormuz ‘territory of the United States’",
+    "posted_title": "ترامب يهدد بضم مضيق هرمز رسميًا إلى الأراضي الأمريكية",
+    "region": "uk",
+    "seen_at": "2026-08-15T19:06:03.864573+00:00"
   }
 ]
