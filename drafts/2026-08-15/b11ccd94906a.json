@@ -1,7 +1,7 @@
 {
   "id": "b11ccd94906a",
   "created_at": "2026-08-15T08:38:25.158612+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 17.06,
   "bucket": "serious",
@@ -54,5 +54,12 @@
       "https://c.ndtvimg.com/2026-08/ngu6vejo_yemen-mocha_625x300_15_August_26.jpeg"
     ]
   },
-  "publish_at": "2026-08-15T09:26:22.828979+00:00"
+  "publish_at": "2026-08-15T09:26:22.828979+00:00",
+  "published_at": "2026-08-15T09:30:55.769371+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1335232995360388",
+    "photo_id": "1335232968693724",
+    "url": "https://www.facebook.com/631680090321390_1335232995360388",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
