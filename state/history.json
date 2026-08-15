@@ -1,24 +1,5 @@
 [
   {
-    "score": 17.58,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "drone",
-      "facilities",
-      "launches",
-      "oil",
-      "refining",
-      "russian",
-      "ukraine"
-    ],
-    "link": "https://www.theguardian.com/world/live/2026/aug/10/ukraine-drones-russia-oil-facilities-europe-heat-drought-latest-updates-news",
-    "title": "Ukraine launches drone attack on Russian oil refining facilities",
-    "posted_title": "هجوم بمسيّرات أوكرانية على مصفاة نفط في روسيا يقتل 13 شخصًا بينهم طفل",
-    "region": "uk",
-    "seen_at": "2026-08-10T10:31:22.002911+00:00"
-  },
-  {
     "score": 28.12,
     "bucket": "serious",
     "tokens": [
@@ -4165,5 +4146,22 @@
     "posted_title": "زلزال بقوة 5 درجات يهز غرناطة الإسبانية ويصيب مبانٍ بأضرار",
     "region": "ir",
     "seen_at": "2026-08-15T09:28:02.513417+00:00"
+  },
+  {
+    "score": 17.44,
+    "bucket": "sport",
+    "tokens": [
+      "australia",
+      "bangladesh",
+      "closer",
+      "historic",
+      "move",
+      "win"
+    ],
+    "link": "https://www.bbc.co.uk/sport/cricket/articles/c39eygmrlnjo?at_medium=RSS&at_campaign=rss",
+    "title": "Bangladesh move closer to historic win in Australia",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-08-15T10:45:52.902633+00:00"
   }
 ]
