@@ -16,8 +16,8 @@ import logging
 import re
 
 from . import extract
-from .rank import rank
-from .request import DEFAULT_LOCALES, norm_tokens, relevant, search_feeds
+from .rank import STOPWORDS, rank
+from .request import DEFAULT_LOCALES, _AR_STOP, _AR_TRANS, norm_tokens, relevant, search_feeds
 from .sources import Article, fetch_source, resolve_final_url
 
 log = logging.getLogger("evidence")
@@ -37,11 +37,39 @@ _QUERY_WORD_RE = re.compile(r"[\w']+", re.UNICODE)
 QUERY_FILLER_STEMS = (
     "تقرير", "تاكد", "محتوا", "اليه", "وفق", "حسب", "كمل", "خلال",
     "افاد", "ذكر", "اشار", "صرح", "اعلن", "كشف",
+    # "عام"/"عاما"/"لعام": كلمة عمر أو زمن عامة لا كيان مميِّز — دخلت
+    # استعلامًا فعليًا في تشخيص Issue #364 (سؤال عن طفل عمره 13 عامًا) وزاحمت
+    # الكيانات الحقيقية على سقف max_words لمجرد طولها
+    "عام",
 )
 
 
 def _is_query_filler(normalized: str) -> bool:
     return any(stem in normalized for stem in QUERY_FILLER_STEMS)
+
+
+def _normalize_query_word(raw: str) -> str | None:
+    """يطبّع كلمة استعلام واحدة: نفس تحويلات request.norm_tokens (توحيد
+    الهمزات والتاء المربوطة، إسقاط "ال" التعريف، استبعاد كلمات الوقف
+    العربية/الإنجليزية) **بلا شرط الطول** (len > 2 في norm_tokens).
+
+    ذلك الشرط صيغ أصلًا لفلترة كلمات وقف في المطابقة الرخوة
+    (request.relevant)، لا لتقرير أي كلمة **حرفية** تدخل استعلام بحث —
+    تشخيص Issue #364 المعتمَد أثبت أنه كان يُسقط بنيويًا كل تاريخ يوم من
+    رقمين (كل الأيام 10-31) وكل شهر عربي من حرفين ("آب" تحديدًا) من كل
+    استعلام يُبنى عبر build_query/build_query_for_claim — أي كل مستدعييهما
+    معًا (article.py وverify.py)، لا مسار بعينه.
+
+    دالة مستقلة بلا لمس norm_tokens نفسها عمدًا: تلك لها مستدعون آخرون
+    (request.relevant وrank.cluster عبر bilingual_cluster) يعتمدون على شرط
+    الطول لغرضه الأصلي، وتعديله هناك كان سيمسّهم جميعًا بأثر جانبي غير
+    مقصود. يعيد الكلمة المطبَّعة، أو None إن كانت كلمة وقف أو فارغة بعدها."""
+    word = (raw or "").lower().translate(_AR_TRANS)
+    if word.startswith("ال") and len(word) > 4:
+        word = word[2:]
+    if not word or word in STOPWORDS or word in _AR_STOP:
+        return None
+    return word
 
 
 def build_query(text: str, max_words: int = 5) -> str:
@@ -55,10 +83,12 @@ def build_query(text: str, max_words: int = 5) -> str:
     request.norm_tokens الذي يوحّد الهمزات والتاء المربوطة للمطابقة
     الرخوة (مفيد عند الترشيح، لكنه يفسد نص استعلام حرفي: "اتفاقية" كانت
     تصير "اتفاقيه" في الاستعلام فلا تطابق نص المقالات الفعلي — Issue #132
-    تعليق لاحق). norm_tokens تُستدعى على كل كلمة منفردة فقط لتحديد هل تنجو
-    من تصفية كلمات الوقف/الطول، لا لتحويل الكلمة نفسها.
+    تعليق لاحق). _normalize_query_word تُستدعى على كل كلمة منفردة فقط
+    لتحديد هل تنجو من تصفية كلمات الوقف، لا لتحويل الكلمة نفسها — وبلا
+    شرط طول (خلافًا لـnorm_tokens) كي لا يسقط تاريخ يوم من رقمين أو شهر
+    عربي من حرفين (تشخيص Issue #364).
 
-    الأرقام (سنوات، كميات) أولًا لأنها أدق ما يميّز الادّعاء، ثم أطول
+    الأرقام (سنوات، كميات، أيام) أولًا لأنها أدق ما يميّز الادّعاء، ثم أطول
     الكلمات المتبقية بعد استبعاد كلمات الحشو أعلاه — الطول تقريب رخيص
     لعلمية الكلمة (اسم علم أو مكان) بلا استدعاء نموذج إضافي لاستخراج
     كيانات."""
@@ -67,11 +97,8 @@ def build_query(text: str, max_words: int = 5) -> str:
     numbers: list[str] = []
     words: list[str] = []
     for raw in _QUERY_WORD_RE.findall(clean):
-        normalized = norm_tokens(raw)
-        if not normalized:
-            continue
-        norm = next(iter(normalized))
-        if norm in seen or _is_query_filler(norm):
+        norm = _normalize_query_word(raw)
+        if norm is None or norm in seen or _is_query_filler(norm):
             continue
         seen.add(norm)
         (numbers if _DIGIT_RE.search(raw) else words).append(raw)
