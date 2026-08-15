@@ -1,24 +1,5 @@
 [
   {
-    "score": 21.44,
-    "bucket": "serious",
-    "tokens": [
-      "arrives",
-      "china",
-      "evacuates",
-      "homes",
-      "massive",
-      "million",
-      "one",
-      "storm"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cx2rgzyplg2o?at_medium=RSS&at_campaign=rss",
-    "title": "China evacuates one million from homes as massive storm arrives",
-    "posted_title": "إعصار دولفين يضرب شرق الصين ويدفع السلطات لإجلاء أكثر من مليون شخص",
-    "region": "uk",
-    "seen_at": "2026-08-10T09:16:13.005469+00:00"
-  },
-  {
     "score": 17.58,
     "bucket": "serious",
     "tokens": [
@@ -4150,5 +4131,39 @@
     "posted_title": "",
     "region": "za",
     "seen_at": "2026-08-15T09:07:55.126018+00:00"
+  },
+  {
+    "score": 18.96,
+    "bucket": "serious",
+    "tokens": [
+      "hits",
+      "indonesia",
+      "killed",
+      "least",
+      "magnitude",
+      "quake"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/8/15/at-least-two-killed-as-magnitude-7-7-quake-hits-indonesia?traffic_source=rss",
+    "title": "At least 20 killed as magnitude 7.7 quake hits Indonesia",
+    "posted_title": "زلزال بقوة 7.7 درجات يضرب جزيرة فلوريس الإندونيسية ويخلف 20 قتيلا على الأقل",
+    "region": "qa",
+    "seen_at": "2026-08-15T09:27:48.113179+00:00"
+  },
+  {
+    "score": 19.17,
+    "bucket": "serious",
+    "tokens": [
+      "earthquake",
+      "granada",
+      "magnitude",
+      "near",
+      "spain",
+      "strikes"
+    ],
+    "link": "https://en.mehrnews.com/news/246973/Magnitude-5-0-earthquake-strikes-near-Granada-Spain",
+    "title": "Magnitude 5.0 earthquake strikes near Granada, Spain",
+    "posted_title": "زلزال بقوة 5 درجات يهز غرناطة الإسبانية ويصيب مبانٍ بأضرار",
+    "region": "ir",
+    "seen_at": "2026-08-15T09:28:02.513417+00:00"
   }
 ]
