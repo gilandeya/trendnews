@@ -1,0 +1,76 @@
+{
+  "id": "decc94eecb55",
+  "created_at": "2026-08-15T04:15:55.945874+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.4,
+  "trend_score": 0.0,
+  "velocity": 0.8,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Frist für Iran-USA-Abkommen verstreicht",
+  "link": "https://www.spiegel.de/ausland/frist-fuer-iran-usa-abkommen-verstreicht-naher-osten-vor-ungewisser-zukunft-a-34fe3005-49a5-479c-a176-d6af268c6d75#ref=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Dawn",
+    "Der Spiegel",
+    "Le Monde",
+    "Naher Osten vor ungewisser Zukunft"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Frist für Iran-USA-Abkommen verstreicht",
+    "link": "https://www.spiegel.de/ausland/frist-fuer-iran-usa-abkommen-verstreicht-naher-osten-vor-ungewisser-zukunft-a-34fe3005-49a5-479c-a176-d6af268c6d75#ref=rss",
+    "summary": "Während US-Präsident Trump mit einer Übernahme der Straße von Hormus kokettiert, gehen die Angriffe auf zivile Schiffe weiter. Dabei sollte in diesen Tagen ein finales Abkommen stehen.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-08-15T04:00:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/b168ff84-7237-481b-b753-489c6cd76c9a_w520_r2.08_fpx30_fpy54.99.jpg",
+    "publisher": "Naher Osten vor ungewisser Zukunft",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Dawn",
+      "Der Spiegel",
+      "Le Monde",
+      "Naher Osten vor ungewisser Zukunft"
+    ],
+    "cluster_members": [
+      {
+        "name": "Naher Osten vor ungewisser Zukunft",
+        "link": "https://www.spiegel.de/ausland/frist-fuer-iran-usa-abkommen-verstreicht-naher-osten-vor-ungewisser-zukunft-a-34fe3005-49a5-479c-a176-d6af268c6d75#ref=rss"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/guerre-au-proche-orient/article/2026/08/15/donald-trump-fait-reagir-teheran-en-declarant-vouloir-proclamer-le-detroit-d-ormuz-territoire-des-etats-unis-apres-la-guerre_6746497_6325529.html"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2022956/trump-signals-plan-to-claim-hormuz-soon"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/trump-will-strasse-von-hormus-zum-us-territorium-erklaeren-a-9ce418b9-a76d-4659-8f2f-42fe0179c073#ref=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/15/us-president-trump-says-he-will-declare-strait-of-hormuz-us-territory?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/b168ff84-7237-481b-b753-489c6cd76c9a_w520_r2.08_fpx30_fpy54.99.jpg",
+      "https://img.lemde.fr/2026/08/15/0/0/3072/1536/644/322/60/0/df5c084_ftp-1-9qsfhhaiavhw-e5d90fd7925c484fa8cd0e5a1d60e8a5-0-a84fb53911b84afa93395defa364d32f.jpg",
+      "https://i.dawn.com/large/2026/08/150718143d26dc8.webp",
+      "https://i.dawn.com/thumbnail/2026/08/150718143d26dc8.webp",
+      "https://cdn.prod.www.spiegel.de/images/b345650e-9c5e-49f5-a7d0-6c6d3006ab9a_w520_r2.08_fpx64.72_fpy44.98.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 0.8,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.398218749754683
+  }
+}
