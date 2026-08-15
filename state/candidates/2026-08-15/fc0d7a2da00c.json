@@ -1,0 +1,74 @@
+{
+  "id": "fc0d7a2da00c",
+  "created_at": "2026-08-15T17:12:48.680196+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.13,
+  "trend_score": 1.0,
+  "velocity": 0.6,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Senegal hikes fuel prices amid surge in global oil markets",
+  "link": "http://www.africanews.com/2026/08/15/senegal-hikes-fuel-prices-amid-surge-in-global-oil-markets/",
+  "publishers": [
+    "Africanews",
+    "Daily Sabah",
+    "Tehran Times",
+    "The Hindu — International"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Senegal hikes fuel prices amid surge in global oil markets",
+    "link": "http://www.africanews.com/2026/08/15/senegal-hikes-fuel-prices-amid-surge-in-global-oil-markets/",
+    "summary": "Senegal has raised fuel prices in a move the government says is necessary because of the sharp rise in global oil costs.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-15T14:41:40+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/87/56/50/640x360_cmsv2_1f93ae03-7781-5e0e-99f2-fe0705995f3f-9875650.jpg?1786799489",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Daily Sabah",
+      "Tehran Times",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/15/senegal-hikes-fuel-prices-amid-surge-in-global-oil-markets/"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529077/Iran-Tajikistan-agree-on-mechanism-for-oil-product-exports"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529066/Iran-s-monthly-oil-production-up-26-000-bpd-OPEC"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/lower-oil-prices-not-irans-nuclear-programme-now-top-priority-us/article71347037.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/can-global-oil-stocks-weather-another-6-months-of-us-iran-war"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/87/56/50/640x360_cmsv2_1f93ae03-7781-5e0e-99f2-fe0705995f3f-9875650.jpg?1786799489",
+      "https://media.tehrantimes.com/d/t/2026/08/15/4/6133063.jpg",
+      "https://media.tehrantimes.com/d/t/2026/08/15/4/6132764.jpg",
+      "https://th-i.thgim.com/public/incoming/vxc3kl/article71347042.ece/alternates/LANDSCAPE_1200/AFP_C4ME3ZR.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/14/455795.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 26.13219977148148
+  }
+}

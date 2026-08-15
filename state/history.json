@@ -1,64 +1,5 @@
 [
   {
-    "score": 31.32,
-    "bucket": "serious",
-    "tokens": [
-      "gaza",
-      "israel",
-      "netanyahu",
-      "plan",
-      "point",
-      "rejects",
-      "trump's"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c5yw4lpe0yeo?at_medium=RSS&at_campaign=rss",
-    "title": "Israel rejects Trump's 15-point plan for Gaza, Netanyahu says",
-    "posted_title": "نتنياهو: لا انسحاب من غزة قبل نزع سلاح حماس بالكامل",
-    "region": "uk",
-    "seen_at": "2026-08-10T16:08:24.543598+00:00"
-  },
-  {
-    "score": 16.78,
-    "bucket": "serious",
-    "tokens": [
-      "before",
-      "began",
-      "declared",
-      "drc",
-      "ebola",
-      "months",
-      "officially",
-      "outbreak",
-      "who"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/8/10/drcs-ebola-outbreak-began-months-before-officially-declared-says-who?traffic_source=rss",
-    "title": "DRC’s Ebola outbreak began months before it was officially declared, says WHO",
-    "posted_title": "منظمة الصحة العالمية: تفشي إيبولا في الكونغو بدأ فعليًا في فبراير لا في مايو",
-    "region": "qa",
-    "seen_at": "2026-08-10T16:46:10.955232+00:00"
-  },
-  {
-    "score": 21.83,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "alert",
-      "disrupt",
-      "hail",
-      "icy",
-      "roads",
-      "snow",
-      "south",
-      "travel",
-      "weather"
-    ],
-    "link": "http://www.africanews.com/2026/08/10/south-africa-weather-alert-snow-hail-and-icy-roads-disrupt-travel/",
-    "title": "South Africa weather alert: snow, hail and icy roads disrupt travel",
-    "posted_title": "إغلاق عشرات الطرق في جنوب أفريقيا بسبب ثلوج وجليد كثيف",
-    "region": "africa",
-    "seen_at": "2026-08-10T17:08:26.658805+00:00"
-  },
-  {
     "score": 17.58,
     "bucket": "light",
     "tokens": [
@@ -4305,5 +4246,101 @@
     "posted_title": "مخزونات النفط العالمية تحت الاختبار مع استمرار حرب أميركا وإيران",
     "region": "jp",
     "seen_at": "2026-08-15T15:45:46.653479+00:00"
+  },
+  {
+    "score": 30.03,
+    "bucket": "serious",
+    "tokens": [
+      "death",
+      "indonesian",
+      "quake",
+      "rescuers",
+      "rises",
+      "search",
+      "survivors",
+      "toll"
+    ],
+    "link": "https://www.dawn.com/news/2023007/rescuers-search-for-survivors-as-indonesian-77-quake-death-toll-rises-to-47",
+    "title": "Rescuers search for survivors as Indonesian 7.7 quake death toll rises to 47",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-15T17:12:48.680182+00:00"
+  },
+  {
+    "score": 26.13,
+    "bucket": "serious",
+    "tokens": [
+      "fuel",
+      "global",
+      "hikes",
+      "markets",
+      "oil",
+      "prices",
+      "senegal",
+      "surge"
+    ],
+    "link": "http://www.africanews.com/2026/08/15/senegal-hikes-fuel-prices-amid-surge-in-global-oil-markets/",
+    "title": "Senegal hikes fuel prices amid surge in global oil markets",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-08-15T17:12:48.680524+00:00"
+  },
+  {
+    "score": 19.3,
+    "bucket": "serious",
+    "tokens": [
+      "declare",
+      "hormuz",
+      "states",
+      "strait",
+      "territory",
+      "threatens",
+      "trump",
+      "united"
+    ],
+    "link": "https://www.theguardian.com/us-news/2026/aug/14/trump-threat-strait-hormuz-us-territory",
+    "title": "Trump threatens to declare strait of Hormuz ‘territory of the United States’",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-15T17:12:48.680860+00:00"
+  },
+  {
+    "score": 16.94,
+    "bucket": "sport",
+    "tokens": [
+      "barcelona",
+      "cup",
+      "final",
+      "match",
+      "psg",
+      "sign",
+      "torres",
+      "winner",
+      "world"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/articles/c20jyxjl8yko?at_medium=RSS&at_campaign=rss",
+    "title": "PSG sign World Cup final match-winner Torres from Barcelona",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-08-15T17:12:48.681111+00:00"
+  },
+  {
+    "score": 14.59,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "ağustos",
+      "bugün",
+      "diyenlere",
+      "günlük",
+      "menüsü",
+      "pişirsem",
+      "yemeği"
+    ],
+    "link": "https://www.hurriyet.com.tr/lezizz/bugun-ne-pisirsem-diyenlere-gunluk-ev-yemegi-menusu-15-agustos-2026-43273919",
+    "title": "Bugün ne pişirsem diyenlere: Günlük ev yemeği menüsü (15 Ağustos 2026)",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-08-15T17:12:48.681353+00:00"
   }
 ]

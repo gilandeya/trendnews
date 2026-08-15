@@ -1,0 +1,87 @@
+{
+  "id": "def668b7e9dc",
+  "created_at": "2026-08-15T17:12:48.680533+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.3,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump threatens to declare strait of Hormuz ‘territory of the United States’",
+  "link": "https://www.theguardian.com/us-news/2026/aug/14/trump-threat-strait-hormuz-us-territory",
+  "publishers": [
+    "Deutsche Welle",
+    "Hindustan Times — World",
+    "Mehr News",
+    "South China Morning Post",
+    "TASS",
+    "The Guardian — World",
+    "The Hindu — International",
+    "Yonhap News"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump threatens to declare strait of Hormuz ‘territory of the United States’",
+    "link": "https://www.theguardian.com/us-news/2026/aug/14/trump-threat-strait-hormuz-us-territory",
+    "summary": "Seriousness of remark made in New York on Friday, and whether it signaled new policy ​position, not clear Donald Trump has threatened to declare the strait of Hormuz as “a territory of the United States” as his administration struggles to conclude the war with Iran. During a speech at a police academy on Long Island, New York, on Friday, the US president said he would “pretty soon” designate the waterway – a crucial chokepoint for global trade, through which about a fifth of the world’s seaborne oil supplies typically pass – a US territory. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-14T21:38:17+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/b5c83da9efbbf04d1758c3b4f20d9ba23182b70d/206_0_4535_3628/master/4535.jpg?width=700&quality=85&auto=format&fit=max&s=78afed65b1d521024bae93b3a337e2fa",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Deutsche Welle",
+      "Hindustan Times — World",
+      "Mehr News",
+      "South China Morning Post",
+      "TASS",
+      "The Guardian — World",
+      "The Hindu — International",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/14/trump-threat-strait-hormuz-us-territory"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364120/trump-says-hell-soon-declare-strait-hormuz-be-us-territory?utm_source=rss_feed"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260815000300315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260815000351315"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/donald-trump-to-declare-hormuz-us-territory-soon/a-78377755?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-says-will-soon-declare-hormuz-strait-us-territory/article71348358.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/b5c83da9efbbf04d1758c3b4f20d9ba23182b70d/206_0_4535_3628/master/4535.jpg?width=700&quality=85&auto=format&fit=max&s=78afed65b1d521024bae93b3a337e2fa",
+      "https://i.guim.co.uk/img/media/b5c83da9efbbf04d1758c3b4f20d9ba23182b70d/206_0_4535_3628/master/4535.jpg?width=460&quality=85&auto=format&fit=max&s=174fa4958b8fb56eba3181f2ea206514",
+      "https://i.guim.co.uk/img/media/b5c83da9efbbf04d1758c3b4f20d9ba23182b70d/206_0_4535_3628/master/4535.jpg?width=140&quality=85&auto=format&fit=max&s=f1935c96b4f6952f19cc53d22246976e",
+      "https://img.yna.co.kr/photo/reuters/2026/08/15/PRU20260815077501009_P2.jpg",
+      "https://th-i.thgim.com/public/incoming/mn24tq/article71348359.ece/alternates/LANDSCAPE_1200/AP08_15_2026_000003A.jpg",
+      "https://th-i.thgim.com/public/incoming/38wjgr/article71348406.ece/alternates/LANDSCAPE_1200/2026-08-14T215734Z_918147020_RC2VOHAA62UR_RTRMADP_3_IRAN-CRISIS-EMIRATES-ADNOC.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 8,
+    "velocity": 0.0,
+    "age_hours": 240.08544569944445,
+    "is_stale": true,
+    "score": 19.29510718138889
+  }
+}
