@@ -1,25 +1,5 @@
 [
   {
-    "score": 17.58,
-    "bucket": "light",
-    "tokens": [
-      "europe",
-      "life",
-      "lifeline",
-      "lows",
-      "niño",
-      "record",
-      "rivers",
-      "roars",
-      "sink"
-    ],
-    "link": "https://www.courthousenews.com/el-nino-roars-to-life-as-europes-lifeline-rivers-sink-to-record-lows/",
-    "title": "El Niño roars to life as Europe’s lifeline rivers sink to record lows",
-    "posted_title": "تراجع تاريخي في مياه نهر الراين يدفع ألمانيا لتعليق حظر سير الشاحنات أيام الأحد",
-    "region": "court",
-    "seen_at": "2026-08-10T17:31:38.185551+00:00"
-  },
-  {
     "score": 23.08,
     "bucket": "serious",
     "tokens": [
@@ -4342,5 +4322,106 @@
     "posted_title": "",
     "region": "tr",
     "seen_at": "2026-08-15T17:12:48.681353+00:00"
+  },
+  {
+    "score": 21.27,
+    "bucket": "serious",
+    "tokens": [
+      "air",
+      "attacks",
+      "base",
+      "plant",
+      "region",
+      "rocket",
+      "russian",
+      "samara",
+      "ukraine"
+    ],
+    "link": "https://www.france24.com/en/europe/20260815-ukraine-attacks-russian-air-base-and-rocket-plant-in-samara-region",
+    "title": "Ukraine attacks Russian air base and rocket plant in Samara region",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-08-15T18:07:45.157646+00:00"
+  },
+  {
+    "score": 15.59,
+    "bucket": "light",
+    "tokens": [
+      "anniversary",
+      "disputed",
+      "japan",
+      "shrine",
+      "skips",
+      "takaichi",
+      "visit",
+      "war",
+      "world"
+    ],
+    "link": "https://www.ndtv.com/world-news/japan-pm-takaichi-skips-visit-to-disputed-shrine-on-world-war-ii-anniversary-11915181#publisher=newsstand",
+    "title": "Japan PM Takaichi Skips Visit To Disputed Shrine On World War II Anniversary",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-08-15T18:07:45.157931+00:00"
+  },
+  {
+    "score": 13.65,
+    "bucket": "serious",
+    "tokens": [
+      "captured",
+      "crashed",
+      "demands",
+      "iran",
+      "jets",
+      "pilots",
+      "qatar",
+      "release"
+    ],
+    "link": "https://www.ndtv.com/world-news/iran-demands-release-of-3-pilots-captured-in-qatar-during-middle-east-war-11914787#publisher=newsstand",
+    "title": "Iran Demands Release Of 3 Pilots Captured In Qatar After Su-24 Jets Crashed",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-08-15T18:07:45.158208+00:00"
+  },
+  {
+    "score": 12.62,
+    "bucket": "serious",
+    "tokens": [
+      "anthem",
+      "azadi",
+      "chants",
+      "india",
+      "lives",
+      "many",
+      "protests",
+      "sedition",
+      "youth"
+    ],
+    "link": "https://www.aljazeera.com/features/2026/8/15/sedition-to-anthem-many-lives-of-aazadi-chants-in-indias-youth-protests?traffic_source=rss",
+    "title": "Sedition to anthem: Many lives of ‘Azadi’ chants in India’s youth protests",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-08-15T18:07:45.158449+00:00"
+  },
+  {
+    "score": 12.52,
+    "bucket": "serious",
+    "tokens": [
+      "brief",
+      "europe",
+      "hasn",
+      "left",
+      "months",
+      "oldest",
+      "president",
+      "returned",
+      "stay",
+      "two",
+      "world"
+    ],
+    "link": "https://www.myjoyonline.com/the-worlds-oldest-president-left-for-a-brief-stay-in-europe-he-hasnt-returned-in-two-months/",
+    "title": "The world’s oldest president left for a ‘brief stay’ in Europe. He hasn’t returned in two months",
+    "posted_title": "",
+    "region": "gh",
+    "seen_at": "2026-08-15T18:07:45.158686+00:00"
   }
 ]

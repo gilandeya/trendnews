@@ -1,0 +1,57 @@
+{
+  "id": "fc5fe8c36a0d",
+  "created_at": "2026-08-15T18:07:45.157245+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.27,
+  "trend_score": 0.5,
+  "velocity": 0.73,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ukraine attacks Russian air base and rocket plant in Samara region",
+  "link": "https://www.france24.com/en/europe/20260815-ukraine-attacks-russian-air-base-and-rocket-plant-in-samara-region",
+  "publishers": [
+    "AP News",
+    "France24",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Ukraine attacks Russian air base and rocket plant in Samara region",
+    "link": "https://www.france24.com/en/europe/20260815-ukraine-attacks-russian-air-base-and-rocket-plant-in-samara-region",
+    "summary": "Ukraine ⁠struck industrial infrastructure ​in Russia's ​Samara region on Saturday, local authorities said. Ukrainian President Volodymyr Zelensky confirmed the attack, saying a rocket plant and air base were hit.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-15T11:43:15+00:00",
+    "image_url": "https://s.france24.com/media/display/753b0fae-989c-11f1-9419-005056bfb2b6/w:1024/p:16x9/AP26208314496823.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "AP News",
+      "France24",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260815-ukraine-attacks-russian-air-base-and-rocket-plant-in-samara-region"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/ukraine-attacks-russias-samara-industrial-site-as-kyiv-ramps-up-long-range-strikes/article71350605.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/753b0fae-989c-11f1-9419-005056bfb2b6/w:1024/p:16x9/AP26208314496823.jpg",
+      "https://th-i.thgim.com/public/incoming/vc5fv3/article71350624.ece/alternates/LANDSCAPE_1200/2026-08-15T115356Z_1883630685_RC2ZYMAZBZO9_RTRMADP_3_UKRAINE-CRISIS-RUSSIA-ATTACK.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.7280753162437531,
+    "age_hours": 5.998488287777778,
+    "is_stale": false,
+    "score": 21.26817446882668
+  }
+}

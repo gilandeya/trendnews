@@ -1,0 +1,60 @@
+{
+  "id": "ae0a2cfaf2d1",
+  "created_at": "2026-08-15T18:07:45.157941+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.65,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran Demands Release Of 3 Pilots Captured In Qatar After Su-24 Jets Crashed",
+  "link": "https://www.ndtv.com/world-news/iran-demands-release-of-3-pilots-captured-in-qatar-during-middle-east-war-11914787#publisher=newsstand",
+  "publishers": [
+    "Hindustan Times — World",
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran Demands Release Of 3 Pilots Captured In Qatar After Su-24 Jets Crashed",
+    "link": "https://www.ndtv.com/world-news/iran-demands-release-of-3-pilots-captured-in-qatar-during-middle-east-war-11914787#publisher=newsstand",
+    "summary": "Iran had previously said the other pilots were missing.",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-08-15T14:16:38+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-08/18ifmaig_su24_625x300_15_August_26.jpeg",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-calls-for-release-of-pilots-captured-in-qatar-during-west-asia-war/article71350531.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-calls-for-release-of-pilots-captured-in-qatar-during-west-asia-war-101786796972291.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/iran-demands-release-of-3-pilots-captured-in-qatar-during-middle-east-war-11914787#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-08/18ifmaig_su24_625x300_15_August_26.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 2.994528436111111,
+    "is_stale": false,
+    "score": 13.64822381201532
+  }
+}
