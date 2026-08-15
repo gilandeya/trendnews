@@ -538,22 +538,33 @@ def test_extraction() -> None:
     ex.requests.get = lambda url, **kw: pages.get(url, R("", 404))
     try:
 
-        text = fetch_text("https://a/1")
+        text, reason = fetch_text("https://a/1")
         check("النص الأساسي مُستخرج", text and "OPEC delegates" in text)
+        check("سبب الفشل فارغ عند النجاح", reason == "")
         check("قوائم التنقل مُزالة", text and "Subscribe" not in text)
         check("التذييل والسكربت مُزالان",
               text and "Copyright" not in text and "var a" not in text)
-        check("النص القصير مرفوض", fetch_text("https://c/3") is None)
-        check("الصفحة المحجوبة مرفوضة", fetch_text("https://d/4") is None)
-        check("رابط جوجل الوسيط يُتجاوز",
-              fetch_text("https://news.google.com/rss/articles/X") is None)
+        short_text, short_reason = fetch_text("https://c/3")
+        check("النص القصير مرفوض", short_text is None)
+        check("سبب رفض النص القصير مذكور صراحة (البند 1، تعليق العطل الثاني)",
+              "قصير" in short_reason, short_reason)
+        blocked_text, blocked_reason = fetch_text("https://d/4")
+        check("الصفحة المحجوبة مرفوضة", blocked_text is None)
+        check("سبب رفض الصفحة المحجوبة يذكر رمز HTTP", blocked_reason == "HTTP 403",
+              blocked_reason)
+        google_text, google_reason = fetch_text("https://news.google.com/rss/articles/X")
+        check("رابط جوجل الوسيط يُتجاوز", google_text is None)
+        check("سبب تجاوز رابط جوجل الوسيط مذكور صراحة", "جوجل" in google_reason, google_reason)
 
         members = [{"name": "BBC", "link": "https://a/1"},
                    {"name": "Guardian", "link": "https://b/2"},
                    {"name": "Blocked", "link": "https://d/4"}]
-        docs = gather(members, limit=3)
+        docs, failures = gather(members, limit=3)
         check("الجلب المتعدد يعيد الناجح فقط", len(docs) == 2, str(len(docs)))
         check("أسماء المصادر محفوظة", {d["name"] for d in docs} == {"BBC", "Guardian"})
+        check("فشليات الجلب مُسجَّلة بسببها (البند 1، تعليق العطل الثاني)",
+              any(f["name"] == "Blocked" and f["reason"] == "HTTP 403" for f in failures),
+              str(failures))
 
         block = format_for_prompt(docs)
         check("الصياغة تعلّم كل مصدر باسمه",
@@ -846,7 +857,7 @@ def test_radar_gate_check_dedupe() -> None:
     real_gather = radar.gather_texts
     real_write = radar.write_arabic
     merge._group_titles = fake_group_titles
-    radar.gather_texts = lambda members, limit=2: [{"name": "Reuters", "text": "..."}]
+    radar.gather_texts = lambda members, limit=2: ([{"name": "Reuters", "text": "..."}], [])
     radar.write_arabic = _write_should_not_be_called
     try:
         ok_dup, matched = merge.find_duplicate_event(update_title, [published_title], {})
@@ -2431,7 +2442,7 @@ def test_verify() -> None:
                summary="More detail on the halt", source_name="AP", region="global",
                weight=1.0, published=datetime.now(timezone.utc), publisher="AP"),
     ]
-    extract.gather = lambda members, limit=2: []  # كل محاولات استخراج النص الكامل تفشل
+    extract.gather = lambda members, limit=2: ([], [])  # كل محاولات استخراج النص الكامل تفشل
     docs, basis = verify.gather_evidence(fallback_articles, cfg)
     check("احتياط العناوين يعمل حين يتعذّر النص الكامل رغم وجود نتائج",
           basis == verify.EVIDENCE_HEADLINES_ONLY)
@@ -2440,8 +2451,8 @@ def test_verify() -> None:
     check("نص الاحتياط يحوي العنوان الفعلي (لا فراغًا)",
           any("1985" in d["text"] for d in docs))
 
-    extract.gather = lambda members, limit=2: [
-        {"name": "Reuters", "text": "نص المقال الكامل الحقيقي المستخرج"}]
+    extract.gather = lambda members, limit=2: (
+        [{"name": "Reuters", "text": "نص المقال الكامل الحقيقي المستخرج"}], [])
     docs2, basis2 = verify.gather_evidence(fallback_articles, cfg)
     check("النص الكامل يُفضَّل حين يتوفر لا الاحتياط", basis2 == verify.EVIDENCE_FULL_TEXT)
     check("وثيقة النص الكامل معلَّمة from_text=True",
@@ -2990,7 +3001,7 @@ def test_verify() -> None:
 
     def _fake_gather_multi(members, limit=2):
         received_members.extend(members)
-        return [{"name": m["name"], "text": f"نص {m['name']}"} for m in members[:limit]]
+        return [{"name": m["name"], "text": f"نص {m['name']}"} for m in members[:limit]], []
 
     extract.gather = _fake_gather_multi
     try:
@@ -3089,7 +3100,7 @@ def test_verify() -> None:
 
     def _fake_gather_order(members, limit=2):
         read_order.extend(m["name"] for m in members)
-        return [{"name": m["name"], "text": f"نص {m['name']}"} for m in members[:limit]]
+        return [{"name": m["name"], "text": f"نص {m['name']}"} for m in members[:limit]], []
 
     extract.gather = _fake_gather_order
     try:
@@ -3122,7 +3133,7 @@ def test_verify() -> None:
     def _fake_gather_capture(target):
         def _inner(members, limit=2):
             target.extend(m["name"] for m in members)
-            return []
+            return [], []
         return _inner
 
     same_search_results = [generic_first, specific_second]
@@ -3163,7 +3174,7 @@ def test_verify() -> None:
 
     def _fake_gather_order2(members, limit=2):
         read_order2.extend(m["name"] for m in members)
-        return [{"name": m["name"], "text": f"نص {m['name']}"} for m in members[:limit]]
+        return [{"name": m["name"], "text": f"نص {m['name']}"} for m in members[:limit]], []
 
     extract.gather = _fake_gather_order2
     try:
@@ -3198,7 +3209,7 @@ def test_verify() -> None:
 
     def _fake_gather_order3(members, limit=1):
         read_order3.extend(m["name"] for m in members)
-        return []
+        return [], []
 
     narrow_cfg = dict(cfg)
     narrow_cfg["verify"] = {**cfg["verify"], "read_per_claim": 1}  # نافذة ضيقة فعليًا
@@ -3709,18 +3720,25 @@ def test_evidence() -> None:
                source_name="Reuters", region="global", weight=1.0,
                published=datetime.now(timezone.utc), publisher="Reuters"),
     ]
-    extract.gather = lambda members, limit=2: []  # كل محاولات النص الكامل تفشل
+    extract.gather = lambda members, limit=2: (
+        [], [{"name": "Reuters", "link": "https://a.example.com/1", "reason": "HTTP 403"}])
     docs_h, basis_h = evidence.gather_evidence(fallback_articles, cfg)
     check("evidence.gather_evidence: احتياط العناوين حين يتعذّر النص الكامل",
           basis_h == evidence.EVIDENCE_HEADLINES_ONLY)
     check("evidence.gather_evidence: وثيقة الاحتياط معلَّمة from_text=False",
           bool(docs_h) and docs_h[0]["from_text"] is False)
+    check("evidence.gather_evidence: سبب فشل جلب النص الكامل مُرفَق كسمة على docs "
+          "(البند 1، تعليق العطل الثاني) — لا صمت حين يُسقَط لاحتياط العناوين",
+          getattr(docs_h, "fetch_failures", None) ==
+          [{"name": "Reuters", "link": "https://a.example.com/1", "reason": "HTTP 403"}])
 
-    extract.gather = lambda members, limit=2: [
-        {"name": "Reuters", "text": "نص كامل مستخرج فعليًا"}]
+    extract.gather = lambda members, limit=2: (
+        [{"name": "Reuters", "text": "نص كامل مستخرج فعليًا"}], [])
     docs_f, basis_f = evidence.gather_evidence(fallback_articles, cfg)
     check("evidence.gather_evidence: النص الكامل يُفضَّل حين يتوفر لا الاحتياط",
           basis_f == evidence.EVIDENCE_FULL_TEXT and docs_f[0]["from_text"] is True)
+    check("evidence.gather_evidence: لا فشليات حين ينجح الجلب الكامل",
+          getattr(docs_f, "fetch_failures", None) == [])
     extract.gather = real_extract_gather
 
     seen_merge_cfg: list = []
@@ -3741,10 +3759,24 @@ def test_evidence() -> None:
     evidence.rank = _spy_rank
     evidence.fetch_source = lambda src, max_age_hours: [one]
     try:
-        evidence.search("زلزال هرات", cfg, 7)
+        search_result = evidence.search("زلزال هرات", cfg, 7)
     finally:
         evidence.fetch_source = real_fetch_source
         evidence.rank = real_rank
+    # البند 1 (تعليق العطل الثاني على Issue #361): trail يحتاج عدد النتائج
+    # الخام قبل التصفية بالصلة (relevant) وعدد المطابق بعدها — بلا هذين
+    # الرقمين لا سبيل لتشخيص لماذا سقط استعلام لمصدر واحد رغم تغطية واسعة
+    check("evidence.search: raw_count يساوي عدد النتائج الخام قبل التصفية",
+          search_result.raw_count > 0 and
+          search_result.raw_count == search_result.matched_count,
+          f"raw={search_result.raw_count} matched={search_result.matched_count}")
+    check("evidence.search: النتيجة تبقى قائمة عادية بالكامل (توافق خلفي مع verify.py)",
+          list(search_result) == search_result and isinstance(search_result, list))
+    check("evidence.search: raw_count صفر حين لا نتائج بحث خام أصلًا",
+          evidence._search_result([], 0, 0).raw_count == 0)
+    check("evidence.search: raw_count يساوي عدد النتائج الخام حتى حين لا مطابقة",
+          evidence._search_result([], 3, 0).raw_count == 3 and
+          evidence._search_result([], 3, 0).matched_count == 0)
     check("evidence.search: الدمج الدلالي معطَّل صراحة (merge_cfg=None) — تعدد "
           "المصادر المستقلة هو المقياس هنا لا تمثيل الحدث بخبر واحد",
           seen_merge_cfg == [None], str(seen_merge_cfg))
@@ -3876,10 +3908,12 @@ def test_article() -> None:
           any(u["text"] == "سؤال لم يُجب عنه الموجز؟" and u["reason"]
               for u in out7["unanswered"]))
     check("4) trail يُمرَّر إلى outcome ويشمل استعلام حلقة الوقائع العادية "
-          "واستعلام حلقة الأسئلة معًا، كل عنصر منه بمصادره وحصيلته",
+          "واستعلام حلقة الأسئلة معًا، كل عنصر منه بمصادره وحصيلته وعدّاد "
+          "النتائج الخام/المطابقة وفشليات الجلب (تعليق العطل الثاني، البند 1)",
           any(t["stage"] == "واقعة" for t in out7["trail"]) and
           any(t["stage"] == "سؤال" for t in out7["trail"]) and
-          all({"stage", "query", "basis", "sources", "outcome"} <= set(t.keys())
+          all({"stage", "query", "basis", "sources", "outcome", "raw_count",
+              "matched_count", "fetch_failures"} <= set(t.keys())
               for t in out7["trail"]))
     report7 = article.build_report(out7)
     check("4) التقرير يعرض سجلّ trail الكامل", "سجلّ البحث الكامل" in report7)
@@ -3934,6 +3968,19 @@ def test_article() -> None:
           "لا من معرفتك الخاصة" in article.CONTEXT_SYSTEM)
     check("3) برومبت الإجابة عن أسئلة الموجز يمنع الاستعانة بمعرفة النموذج الخاصة",
           "لا من معرفتك الخاصة" in article.ANSWER_SYSTEM)
+    # تعليق العطل الثاني على Issue #361، البند 3: ANSWER_SCHEMA كانت الوحيدة
+    # بين شقيقاتها الثلاث (SUPPORT/NAMING/ANSWER) التي لا تُلزم بحقل المصادر
+    # — answered:true بسند فارغ كان يمرّ مخطط الأداة بلا رفض. الآن supporting
+    # إلزامي تناظرًا مع SUPPORT_SCHEMA، وANSWER_SYSTEM يشدّد على اسم المصدر
+    # كما تفعل SUPPORT_SYSTEM/NAMING_SYSTEM بالضبط
+    check("3) ANSWER_SCHEMA تُلزم بحقل supporting الآن — تناظرًا مع SUPPORT_SCHEMA "
+          "(كانت الوحيدة بين شقيقاتها الثلاث بلا هذا الإلزام)",
+          "supporting" in article.ANSWER_SCHEMA["input_schema"]["required"])
+    check("3) SUPPORT_SCHEMA تُلزم بحقل supporting أيضًا (المرجع الذي قِسنا عليه)",
+          "supporting" in article.SUPPORT_SCHEMA["input_schema"]["required"])
+    check("3) ANSWER_SYSTEM يشدّد على إخراج اسم المصدر كما ورد في وسم المصدر حرفيًا "
+          "— بنفس صياغة SUPPORT_SYSTEM/NAMING_SYSTEM لا صياغة أضعف",
+          "كما وردت في وسم" in article.ANSWER_SYSTEM or "كما ورد في وسم" in article.ANSWER_SYSTEM)
     check("3) نافذة الاستخلاص الرخيصة (البديل ج) تقتصر على مطلع النص لا كامله",
           article._narrow_for_context("س" * 900, max_chars=400) == "س" * 400)
 
@@ -4083,6 +4130,55 @@ def test_article() -> None:
     check("7) بعد تسمية الحدث، الصلة بكيان الموجز الأصلي تُصاغ سؤالًا ويُبحث "
           "بدل افتراضها بديهية",
           any(q["text"].startswith("ما الصلة بين") for q in out_naming["unanswered"]))
+
+    # ── تعليق العطل الثاني على Issue #361، البند 1: trail يعرض عدد النتائج
+    # الخام/المطابقة (قبل التصفية بالصلة وبعدها) وسبب فشل كل رابط تعذّر جلبه
+    # — لا "عناوين فقط" مجرَّدة بلا تفسير كما كشف التشغيل الحقيقي على استعلام
+    # 11 آب. اختبار تكامل حقيقي لـ evidence.search/evidence.gather_evidence
+    # (لا فاكات مباشرة لهما هنا كبقية هذه الدالة) عبر article._name_event،
+    # بمحاكاة سيناريو الفشل الفعلي: نتيجة بحث تُوجَد فعلًا، لكن جلب نصها
+    # الكامل يفشل بـ HTTP 403 فيسقط المسار لاحتياط العناوين بمصدر واحد.
+    evidence.search = real_search
+    evidence.gather_evidence = real_gather_evidence
+
+    trail_article = Article(
+        title="حدث اختباري بمصدر واحد في 11 آب 2026", link="https://blocked.example/1",
+        summary="", source_name="مصدر محجوب", region="global", weight=1.0,
+        published=datetime.now(timezone.utc), publisher="مصدر محجوب")
+
+    real_fetch_source3 = evidence.fetch_source
+    real_extract_gather3 = extract.gather
+    evidence.fetch_source = lambda src, max_age_hours: [trail_article]
+    extract.gather = lambda members, limit=2: (
+        [], [{"name": "مصدر محجوب", "link": "https://blocked.example/1", "reason": "HTTP 403"}])
+    article._ask_naming_model = lambda vague_text, entities, docs, cfg: (
+        {"text": "حدث اختباري تم تسميته", "supporting": [d["name"] for d in docs]}
+        if docs else None)
+    try:
+        _, _, _, name_trail2 = article._name_event(
+            {"text": "إشارة اختبارية", "entities": ["كيان اختباري", "11 آب 2026"]}, cfg)
+    finally:
+        evidence.fetch_source = real_fetch_source3
+        extract.gather = real_extract_gather3
+
+    direct_entry = next(t for t in name_trail2 if t["stage"] == "مباشر")
+    check("1) trail يعرض raw_count/matched_count حقيقيين من evidence.search "
+          "— لا None حين البحث فعلي لا مزيَّف (تشخيص تعليق العطل الثاني)",
+          direct_entry["raw_count"] is not None and
+          direct_entry["raw_count"] == direct_entry["matched_count"] and
+          direct_entry["raw_count"] > 0, direct_entry)
+    check("1) trail يعرض سبب فشل جلب النص الكامل لكل رابط (رمز HTTP) حين "
+          "يسقط المسار لاحتياط العناوين — لا 'عناوين فقط' مجرَّدة بلا تفسير",
+          direct_entry["fetch_failures"] ==
+          [{"name": "مصدر محجوب", "link": "https://blocked.example/1", "reason": "HTTP 403"}],
+          direct_entry)
+    check("1) الأساس فعلًا احتياط العناوين — سيناريو الفشل المشخَّص بالضبط",
+          direct_entry["basis"] == evidence.EVIDENCE_HEADLINES_ONLY)
+    report_trail = article.build_report({**article._new_outcome(), "trail": name_trail2})
+    check("1) التقرير النهائي يعرض عدد النتائج الخام/المطابقة وسبب فشل الجلب فعليًا "
+          "لا مجرَّدين من التفاصيل",
+          f"{direct_entry['raw_count']} خام" in report_trail and "HTTP 403" in report_trail,
+          report_trail)
 
     evidence.search = _fake_search
     evidence.gather_evidence = _fake_gather_evidence

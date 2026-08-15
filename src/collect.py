@@ -306,7 +306,10 @@ def main() -> int:
 
             docs: list[dict] = []
             if rcfg.get("enabled", True) or analysable:
-                docs = gather_texts(art.cluster_members, limit=want)
+                # الفشليات (سبب كل رابط تعذّر جلبه) غير مستهلَكة هنا — لا
+                # trail في مسار الجمع الأساسي كما في article.py؛ اقرأ
+                # src.extract.gather للتفاصيل إن احتجتها
+                docs, _fetch_failures = gather_texts(art.cluster_members, limit=want)
                 if analysable and len(docs) < int(acfg.get("min_sources", 2)):
                     log.info("مصادر غير كافية للتحليل (%d) — وقائع بلا تحليل",
                              len(docs))
