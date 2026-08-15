@@ -1,0 +1,55 @@
+{
+  "id": "cb3d0a4d2d47",
+  "created_at": "2026-08-15T06:31:00.215813+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.38,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hürtgenwald: Waldbrand hat sich in der Nacht nicht weiter ausgebreitet",
+  "link": "https://www.spiegel.de/panorama/huertgenwald-waldbrand-hat-sich-in-der-nacht-nicht-weiter-ausgebreitet-a-75ae3d94-78b6-41e0-88ec-99f42bbcd124#ref=rss",
+  "publishers": [
+    "Der Spiegel",
+    "Löscharbeiten gehen weiter"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Hürtgenwald: Waldbrand hat sich in der Nacht nicht weiter ausgebreitet",
+    "link": "https://www.spiegel.de/panorama/huertgenwald-waldbrand-hat-sich-in-der-nacht-nicht-weiter-ausgebreitet-a-75ae3d94-78b6-41e0-88ec-99f42bbcd124#ref=rss",
+    "summary": "Seit Donnerstag brennen rund 300 Hektar Wald in der Eifel, unweit der Gemeinde Hürtgenwald. Nun konnte die Feuerwehr im Kampf gegen das Großfeuer einen Erfolg verbuchen: Der Brand sei nicht näher zum Ortsteil Gey gerückt.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-08-15T05:32:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/ca0b5dfc-b3e6-4501-a6da-43f7e288b90e_w520_r2.08_fpx69.94_fpy54.99.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Der Spiegel",
+      "Löscharbeiten gehen weiter"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/panorama/huertgenwald-waldbrand-hat-sich-in-der-nacht-nicht-weiter-ausgebreitet-a-75ae3d94-78b6-41e0-88ec-99f42bbcd124#ref=rss"
+      },
+      {
+        "name": "Löscharbeiten gehen weiter",
+        "link": "https://www.spiegel.de/panorama/huertgenwald-feuerwehr-muss-einsatzzentrale-verlegen-loescharbeiten-gehen-weiter-a-358357d8-7803-4162-a713-ba334e4f71b2#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/ca0b5dfc-b3e6-4501-a6da-43f7e288b90e_w520_r2.08_fpx69.94_fpy54.99.jpg",
+      "https://cdn.prod.www.spiegel.de/images/08549d80-bf62-4532-a5bd-f7b9c6c181df_w520_r2.08_fpx33.35_fpy50.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 25.49901781166667,
+    "is_stale": false,
+    "score": 17.384493628592594
+  }
+}
