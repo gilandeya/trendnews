@@ -87,6 +87,21 @@ jobs:
             fi
           fi
 
+      # انهيار على مستوى C (double free مثلًا) يقتل العملية بلا استثناء
+      # بايثون، فلا يصل أي تعليق للمراجع. هذه الخطوة تلتقط ذلك.
+      - name: تبليغ فشل تقني (انهيار على مستوى C، لا استثناء بايثون)
+        if: failure() && inputs.verify_only != true && inputs.diagnose != true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE="${{ inputs.issue || github.event.issue.number }}"
+          if [ -n "$ISSUE" ]; then
+            gh issue comment "$ISSUE" --repo "${{ github.repository }}" --body \
+              "⚠️ انهارت خطوة النشر (exit code غير صفري — على الأرجح إشارة على مستوى C، لا استثناء بايثون؛ راجع سجل التشغيلة). لم يُسجَّل شيء؛ الاختيار ما يزال صالحًا لإعادة المحاولة."
+          else
+            echo "⚠️ فشل تقني بلا Issue مرتبط"
+          fi
+
       - name: تسجيل الحالة
         if: always() && inputs.verify_only != true && inputs.diagnose != true
         run: |
@@ -141,6 +156,17 @@ jobs:
         run: |
           ISSUE="${{ inputs.issue || github.event.issue.number }}"
           python -m src.publish --issue "$ISSUE" --skip-urgent
+
+      - name: تبليغ فشل تقني (انهيار على مستوى C، لا استثناء بايثون)
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE="${{ inputs.issue || github.event.issue.number }}"
+          if [ -n "$ISSUE" ]; then
+            gh issue comment "$ISSUE" --repo "${{ github.repository }}" --body \
+              "⚠️ انهارت خطوة النشر العادي (exit code غير صفري — إشارة على مستوى C، لا استثناء بايثون؛ راجع سجل التشغيلة). الاختيار ما يزال صالحًا لإعادة المحاولة."
+          fi
 
       - name: تسجيل الحالة
         if: always()
