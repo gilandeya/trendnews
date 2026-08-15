@@ -1,0 +1,60 @@
+{
+  "id": "190e6443d749",
+  "created_at": "2026-08-15T09:07:55.125048+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.64,
+  "trend_score": 1.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian tanker leaking oil off Oman coast, threatening environmental disaster",
+  "link": "https://www.cbsnews.com/news/russian-shadow-fleet-tanker-oil-leak-oman/",
+  "publishers": [
+    "CBS News",
+    "CBS News — World",
+    "Meduza English"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Russian tanker leaking oil off Oman coast, threatening environmental disaster",
+    "link": "https://www.cbsnews.com/news/russian-shadow-fleet-tanker-oil-leak-oman/",
+    "summary": "The Caroline Bezengi, linked to Russia's so-called shadow fleet, is carrying millions of gallons of oil and has run aground off the coast of Oman.",
+    "source_name": "CBS News — World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-08-14T20:51:56+00:00",
+    "image_url": "https://meduza.io/imgly/share/1786734570/en/news/2026/08/14/drone-threat-halts-russia-s-main-black-sea-oil-terminal-which-normally-ships-700-000-barrels-a-day",
+    "publisher": "CBS News — World",
+    "cluster_sources": [
+      "CBS News",
+      "CBS News — World",
+      "Meduza English"
+    ],
+    "cluster_members": [
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/russian-shadow-fleet-tanker-oil-leak-oman/"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/08/14/drone-threat-halts-russia-s-main-black-sea-oil-terminal-which-normally-ships-700-000-barrels-a-day"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/video/satellite-images-of-sunken-russian-tanker-off-oman-coast-show-growing-oil-slick/"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1786734570/en/news/2026/08/14/drone-threat-halts-russia-s-main-black-sea-oil-terminal-which-normally-ships-700-000-barrels-a-day"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.1110370604235462,
+    "age_hours": 5.997300199722222,
+    "is_stale": false,
+    "score": 21.642445980003426
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "47a2f49a9c92",
+  "created_at": "2026-08-15T09:07:55.125548+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.96,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "At least 20 killed as magnitude 7.7 quake hits Indonesia",
+  "link": "https://www.aljazeera.com/news/2026/8/15/at-least-two-killed-as-magnitude-7-7-quake-hits-indonesia?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "South China Morning Post"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "At least 20 killed as magnitude 7.7 quake hits Indonesia",
+    "link": "https://www.aljazeera.com/news/2026/8/15/at-least-two-killed-as-magnitude-7-7-quake-hits-indonesia?traffic_source=rss",
+    "summary": "The death toll is expected to climb further as emergency teams continue search and rescue efforts.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-15T01:36:04+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/15/at-least-two-killed-as-magnitude-7-7-quake-hits-indonesia?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/southeast-asia/article/3364125/least-2-killed-indonesia-after-magnitude-77-quake-hits-flores-region?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 114.86487797805556,
+    "is_stale": false,
+    "score": 18.964743544055555
+  }
+}

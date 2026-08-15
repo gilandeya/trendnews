@@ -1,0 +1,71 @@
+{
+  "id": "81ed0eecb83a",
+  "created_at": "2026-08-15T09:07:55.125697+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.87,
+  "trend_score": 0.0,
+  "velocity": 0.54,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Luigi Mangione pleads guilty to federal stalking charges in the killing of UnitedHealthcare CEO",
+  "link": "https://www.statnews.com/2026/08/14/luigi-mangione-federal-charges-guilty-plea-killing-of-unitedhealthcare-ceo-brian-thompson/?utm_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "MyJoyOnline Ghana",
+    "STAT News",
+    "The Hindu — International"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Luigi Mangione pleads guilty to federal stalking charges in the killing of UnitedHealthcare CEO",
+    "link": "https://www.statnews.com/2026/08/14/luigi-mangione-federal-charges-guilty-plea-killing-of-unitedhealthcare-ceo-brian-thompson/?utm_campaign=rss",
+    "summary": "In pleading guilty, Mangione admitted to following UnitedHealth executive Brian Thompson and then shooting him.",
+    "source_name": "STAT News",
+    "region": "health",
+    "weight": 1.0,
+    "published": "2026-08-14T16:30:39+00:00",
+    "image_url": "https://www.statnews.com/wp-content/uploads/2026/08/GettyImages-2276390909-1024x576.jpg",
+    "publisher": "STAT News",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "MyJoyOnline Ghana",
+      "STAT News",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/15/mangione-pleads-guilty-as-polarising-ceo-killing-reaches-new-phase?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/luigi-mangione-set-to-appear-in-court-for-expected-guilty-plea-in-killing-of-unitedhealthcare-ceo/article71344122.ece"
+      },
+      {
+        "name": "STAT News",
+        "link": "https://www.statnews.com/2026/08/14/luigi-mangione-federal-charges-guilty-plea-killing-of-unitedhealthcare-ceo-brian-thompson/?utm_campaign=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/mangione-admits-killing-healthcare-ceo-and-pleads-guilty-to-federal-charges/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.statnews.com/wp-content/uploads/2026/08/GettyImages-2276390909-1024x576.jpg",
+      "https://www.statnews.com/wp-content/uploads/2026/08/GettyImages-2276390909-645x645.jpg",
+      "https://th-i.thgim.com/public/incoming/wm5syn/article71344159.ece/alternates/LANDSCAPE_1200/2026-08-11T144443Z_1238716531_RC2EWMAG2VRZ_RTRMADP_3_UNITEDHEALTH-CEO-MANGIONE.JPG",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/4ceb94d0-9827-11f1-87b9-bf39baa58377.jpg.webp",
+      "https://ichef.bbci.co.uk/news/1024/cpsprodpb/6382/live/11085550-9815-11f1-a7ea-19f04b81e9a0.jpg.webp",
+      "https://ichef.bbci.co.uk/news/800/cpsprodpb/6382/live/11085550-9815-11f1-a7ea-19f04b81e9a0.jpg.webp"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.5354835977070073,
+    "age_hours": 94.8656086313889,
+    "is_stale": false,
+    "score": 16.869476348146147
+  }
+}
