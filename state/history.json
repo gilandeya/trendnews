@@ -1,43 +1,5 @@
 [
   {
-    "score": 21.56,
-    "bucket": "serious",
-    "tokens": [
-      "deep",
-      "drone",
-      "killed",
-      "least",
-      "russia",
-      "strike",
-      "ukrainian"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cvgjvgv926po?at_medium=RSS&at_campaign=rss",
-    "title": "At least 13 killed in Ukrainian drone strike deep into Russia",
-    "posted_title": "هجوم بمسيّرات أوكرانية على مدينة نيجنيكامسك الروسية يقتل 13 شخصا",
-    "region": "uk",
-    "seen_at": "2026-08-10T12:16:10.551786+00:00"
-  },
-  {
-    "score": 28.44,
-    "bucket": "serious",
-    "tokens": [
-      "exam",
-      "fire",
-      "gas",
-      "india",
-      "police",
-      "protesters",
-      "reforms",
-      "seeking",
-      "tear"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c89nkz4vjyxo?at_medium=RSS&at_campaign=rss",
-    "title": "India police fire tear gas at protesters seeking exam reforms",
-    "posted_title": "لماذا يواصل آلاف الطلبة الهنود التظاهر في رانتشي رغم تدخل الشرطة بالغاز والخراطيم",
-    "region": "uk",
-    "seen_at": "2026-08-10T13:08:20.545480+00:00"
-  },
-  {
     "score": 19.34,
     "bucket": "serious",
     "tokens": [
@@ -4286,5 +4248,23 @@
     "posted_title": "لماذا تتكرر هجمات مضيق هرمز على ناقلات أدنوك الإماراتية",
     "region": "in",
     "seen_at": "2026-08-15T12:10:02.152761+00:00"
+  },
+  {
+    "score": 17.59,
+    "bucket": "serious",
+    "tokens": [
+      "injured",
+      "multiple",
+      "people",
+      "shooting",
+      "state",
+      "university",
+      "virginia"
+    ],
+    "link": "https://www.theguardian.com/us-news/2026/aug/15/multiple-people-injured-virginia-state-university-shooting",
+    "title": "Multiple people injured in shooting at Virginia State University",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-15T13:30:55.588205+00:00"
   }
 ]

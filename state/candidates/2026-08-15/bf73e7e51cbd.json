@@ -1,0 +1,56 @@
+{
+  "id": "bf73e7e51cbd",
+  "created_at": "2026-08-15T13:30:55.587798+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.59,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Multiple people injured in shooting at Virginia State University",
+  "link": "https://www.theguardian.com/us-news/2026/aug/15/multiple-people-injured-virginia-state-university-shooting",
+  "publishers": [
+    "Al Jazeera English",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Multiple people injured in shooting at Virginia State University",
+    "link": "https://www.theguardian.com/us-news/2026/aug/15/multiple-people-injured-virginia-state-university-shooting",
+    "summary": "School said shooting involved ‘multiple suspects’ as campus was locked down and police responded to scene Multiple people were injured in a shooting at Virginia State University, police said on Saturday morning, with several suspects still at large. The campus, about 20 miles (32km) south of Richmond, was on lockdown when police released initial details about the shooting. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-15T13:20:41+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/d0d7aff008975e3f89ea9148c2795375dc835eaa/346_0_2088_1671/master/2088.jpg?width=700&quality=85&auto=format&fit=max&s=f81f028edd4e87a4be69dbab1a6567ac",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/15/five-wounded-in-shooting-at-virginia-state?traffic_source=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/15/multiple-people-injured-virginia-state-university-shooting"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/d0d7aff008975e3f89ea9148c2795375dc835eaa/346_0_2088_1671/master/2088.jpg?width=700&quality=85&auto=format&fit=max&s=f81f028edd4e87a4be69dbab1a6567ac",
+      "https://i.guim.co.uk/img/media/d0d7aff008975e3f89ea9148c2795375dc835eaa/346_0_2088_1671/master/2088.jpg?width=460&quality=85&auto=format&fit=max&s=0a900b149b103462c987e7cfe1ee5a22",
+      "https://i.guim.co.uk/img/media/d0d7aff008975e3f89ea9148c2795375dc835eaa/346_0_2088_1671/master/2088.jpg?width=140&quality=85&auto=format&fit=max&s=981508f63454d0eb8630c7e220742f76"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 0.2527359227777778,
+    "is_stale": false,
+    "score": 17.588672050166668
+  }
+}
