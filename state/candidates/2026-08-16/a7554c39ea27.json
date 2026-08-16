@@ -1,0 +1,50 @@
+{
+  "id": "a7554c39ea27",
+  "created_at": "2026-08-16T03:08:04.032728+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.02,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "P241-billion budget proposed for DSWD in 2027 is below 2026 level",
+  "link": "https://www.rappler.com/philippines/department-social-welfare-development-budget-2027/",
+  "publishers": [
+    "Rappler"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "P241-billion budget proposed for DSWD in 2027 is below 2026 level",
+    "link": "https://www.rappler.com/philippines/department-social-welfare-development-budget-2027/",
+    "summary": "Will lawmakers again push for a higher amount for the Assistance to Individuals in Crisis Situations program?",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-08-15T08:00:00+00:00",
+    "image_url": "https://www.rappler.com/tachyon/2026/06/House-Senate-fight-over-AICS-bill-1.jpg",
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Rappler"
+    ],
+    "cluster_members": [
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/philippines/department-social-welfare-development-budget-2027/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.rappler.com/tachyon/2026/06/House-Senate-fight-over-AICS-bill-1.jpg",
+      "https://www.rappler.com/tachyon/2026/06/House-Senate-fight-over-AICS-bill-1.jpg?resize=75%2C75&crop=371px%2C0px%2C1080px%2C1080px",
+      "https://www.rappler.com/tachyon/2026/06/House-Senate-fight-over-AICS-bill-1.jpg?fit=449%2C449"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 18.002271688055554,
+    "is_stale": true,
+    "score": 14.024514649185186
+  }
+}

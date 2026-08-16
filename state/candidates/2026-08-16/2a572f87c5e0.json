@@ -1,0 +1,84 @@
+{
+  "id": "2a572f87c5e0",
+  "created_at": "2026-08-16T03:08:04.032162+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.3,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran demands release of downed pilots as Qatar denies holding them",
+  "link": "https://www.japantimes.co.jp/news/2026/08/16/world/iran-qatar-downed-pilots/",
+  "publishers": [
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "Le Monde",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Iran demands release of downed pilots as Qatar denies holding them",
+    "link": "https://www.japantimes.co.jp/news/2026/08/16/world/iran-qatar-downed-pilots/",
+    "summary": "Tehran says Doha is holding three pilots whose aircraft went down early in the Middle East war.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-08-15T23:00:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/16/557478.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "Le Monde",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-calls-for-release-of-pilots-captured-in-qatar-during-west-asia-war/article71350531.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-us-west-asia-war-strait-of-hormuz-donald-trump-live-updates-on-august-16-2026/article71351835.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-calls-for-release-of-pilots-captured-in-qatar-during-west-asia-war-101786796972291.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/iran-demands-release-of-3-pilots-captured-in-qatar-during-middle-east-war-11914787#publisher=newsstand"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/16/world/iran-qatar-downed-pilots/"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/08/16/l-iran-denonce-la-detention-de-trois-pilotes-de-chasse-par-le-qatar-qui-dement-les-avoir-captures_6746919_3210.html"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/16/557478.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/16/thumbs/400x400/557478.jpg",
+      "https://c.ndtvimg.com/2026-08/18ifmaig_su24_625x300_15_August_26.jpeg",
+      "https://img.lemde.fr/2026/08/15/375/0/2250/1125/644/322/60/0/55cfee7_upload-1-emuvx7hr1b7e-000-33pv3rt.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/15/455970.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.0,
+    "age_hours": 11.999608439722223,
+    "is_stale": false,
+    "score": 25.29657942058022
+  }
+}
