@@ -1,0 +1,54 @@
+{
+  "id": "6d7531fc52a8",
+  "created_at": "2026-08-16T19:07:38.163347+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.23,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Driver arrested after Hungary bus crash kills 12 people, injures at least 10",
+  "link": "https://www.scmp.com/news/world/europe/article/3364217/driver-arrested-after-hungary-bus-crash-kills-12-people-injures-least-10?utm_source=rss_feed",
+  "publishers": [
+    "AP News",
+    "Deutsche Welle",
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Driver arrested after Hungary bus crash kills 12 people, injures at least 10",
+    "link": "https://www.scmp.com/news/world/europe/article/3364217/driver-arrested-after-hungary-bus-crash-kills-12-people-injures-least-10?utm_source=rss_feed",
+    "summary": "A passenger bus travelling on a highway in Hungary early on Sunday went off the road and into a ditch where it overturned, killing 12 and injuring others, police said. The bus, which was carrying a group of Polish tourists, was travelling on eastbound lanes near the town of Mezokeresztes when it overturned on the M3 motorway around 140km (87 miles) east of Hungary’s capital, Budapest, at around 1am on Sunday. In a statement, police said it was likely that the driver fell asleep, causing the...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-08-16T17:47:11+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "AP News",
+      "Deutsche Welle",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3364217/driver-arrested-after-hungary-bus-crash-kills-12-people-injures-least-10?utm_source=rss_feed"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/bus-crash-in-hungary-kills-at-least-12/a-78387230?maca=en-rss-en-world-4025-rdf"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.33331531319645086,
+    "age_hours": 9.99838314,
+    "is_stale": false,
+    "score": 15.227209463685957
+  }
+}

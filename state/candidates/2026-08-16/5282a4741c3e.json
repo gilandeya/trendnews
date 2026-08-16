@@ -1,0 +1,67 @@
+{
+  "id": "5282a4741c3e",
+  "created_at": "2026-08-16T19:07:38.162632+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.52,
+  "trend_score": 0.0,
+  "velocity": 0.67,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Two dead and hundreds evacuated as twin fires break out on Greek island",
+  "link": "https://www.bbc.co.uk/news/articles/c87nnwlpe5no?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC",
+    "BBC World",
+    "Free Malaysia Today",
+    "MyJoyOnline Ghana"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Two dead and hundreds evacuated as twin fires break out on Greek island",
+    "link": "https://www.bbc.co.uk/news/articles/c87nnwlpe5no?at_medium=RSS&at_campaign=rss",
+    "summary": "Nearly 200 firefighters are trying to keep the two fires apart on Salamina, Greek media report.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-16T17:44:23+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bbb6/live/70fefcb0-9992-11f1-a7ab-8b30adf0800a.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC",
+      "BBC World",
+      "Free Malaysia Today",
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c87nnwlpe5no?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/16/two-dead-hundreds-evacuated-from-fires-on-island-near-athens"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/two-dead-and-hundreds-evacuated-as-twin-fires-break-out-on-greek-island/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bbb6/live/70fefcb0-9992-11f1-a7ab-8b30adf0800a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/bbb6/live/70fefcb0-9992-11f1-a7ab-8b30adf0800a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bbb6/live/70fefcb0-9992-11f1-a7ab-8b30adf0800a.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/42440818-46da-426d-9cff-ef498acf52ae-14212963.webp",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-2073.png",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-2074.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.6666237523922599,
+    "age_hours": 1.9935686091666667,
+    "is_stale": false,
+    "score": 19.521762576268483
+  }
+}
