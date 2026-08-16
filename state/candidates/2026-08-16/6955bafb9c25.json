@@ -1,0 +1,58 @@
+{
+  "id": "6955bafb9c25",
+  "created_at": "2026-08-16T09:07:50.265817+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.72,
+  "trend_score": 0.5,
+  "velocity": 0.2,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Fery wins on return as Djokovic struggles in heat",
+  "link": "https://www.bbc.co.uk/sport/tennis/articles/cj033qggmv3o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Fery wins on return as Djokovic struggles in heat",
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/cj033qggmv3o?at_medium=RSS&at_campaign=rss",
+    "summary": "Britain's Arthur Fery beats Australia's Jack Duckworth at the Cincinnati Open but Novak Djokovic falls to a shock defeat by Argentina's Thiago Tirante.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-15T22:07:10+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6261/live/b0b0c440-993f-11f1-9d32-93c6539c1530.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/tennis/articles/cj033qggmv3o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/tennis/news/12040/13573406/novak-djokovic-out-of-cincinnati-open-in-second-round-after-struggling-with-heat-and-humidity-against-thiago-agustin-tirante"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6261/live/b0b0c440-993f-11f1-9d32-93c6539c1530.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/6261/live/b0b0c440-993f-11f1-9d32-93c6539c1530.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6261/live/b0b0c440-993f-11f1-9d32-93c6539c1530.jpg",
+      "https://e1.365dm.com/26/08/1096x616/skysports-novak-djokovic-atp-tour-tennis-2026_7322904.jpg?20260815223829",
+      "https://e1.365dm.com/26/08/1920x1080/skysports-novak-djokovic-atp-tour-tennis-2026_7322904.jpg?20260815223829"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.716060460703705
+  }
+}

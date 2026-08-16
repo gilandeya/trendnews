@@ -1,0 +1,80 @@
+{
+  "id": "2cc26de7bcb1",
+  "created_at": "2026-08-16T09:07:50.265516+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.51,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Colombia asks Washington to suspend 12.5% tariffs over the earthquake emergency",
+  "link": "https://en.mercopress.com/2026/08/16/colombia-asks-washington-to-suspend-12.5-tariffs-over-the-earthquake-emergency?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "CBS News — World",
+    "France24",
+    "MercoPress",
+    "NDTV — World",
+    "South China Morning Post"
+  ],
+  "region": "latam",
+  "article": {
+    "title": "Colombia asks Washington to suspend 12.5% tariffs over the earthquake emergency",
+    "link": "https://en.mercopress.com/2026/08/16/colombia-asks-washington-to-suspend-12.5-tariffs-over-the-earthquake-emergency?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+    "summary": "Colombian President Abelardo de la Espriella on Saturday asked his US counterpart, Donald Trump, to temporarily suspend tariffs on Colombian goods, arguing this would give exporters relief as the country faces the economic consequences of Monday's magnitude 7.4 earthquake.",
+    "source_name": "MercoPress",
+    "region": "latam",
+    "weight": 1.0,
+    "published": "2026-08-16T07:40:00+00:00",
+    "image_url": "https://en.mercopress.com/data/cache/noticias/111160/100x80/3esp.jpg",
+    "publisher": "MercoPress",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "CBS News — World",
+      "France24",
+      "MercoPress",
+      "NDTV — World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/15/colombia-asks-trump-to-suspend-tariffs-as-country-reels-from-earthquake?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/americas/article/3364165/colombia-leader-asks-trump-suspend-tariffs-after-deadly-quake?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260816-colombia-s-new-president-asks-trump-to-suspend-tariffs-after-deadly-earthquake"
+      },
+      {
+        "name": "MercoPress",
+        "link": "https://en.mercopress.com/2026/08/16/colombia-asks-washington-to-suspend-12.5-tariffs-over-the-earthquake-emergency?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/colombia-president-asks-trump-to-suspend-tariffs-after-earthquake/"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/give-some-relief-colombia-president-abelardo-de-la-espriella-urges-president-donald-trump-to-suspend-tariffs-after-earthquake-11916145#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://en.mercopress.com/data/cache/noticias/111160/100x80/3esp.jpg",
+      "https://s.france24.com/media/display/e7f88232-9933-11f1-8413-005056bfb2b6/w:1024/p:16x9/AP26228081392272.jpg",
+      "https://c.ndtvimg.com/2026-08/m0hnq2so_us-colombia_625x300_16_August_26.jpg?im=FitAndFill,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 0.11108415926554148,
+    "age_hours": 5.996182709444444,
+    "is_stale": false,
+    "score": 17.51285024702821
+  }
+}

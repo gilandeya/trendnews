@@ -1,0 +1,63 @@
+{
+  "id": "580b7d4b0cac",
+  "created_at": "2026-08-16T09:07:50.266341+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.43,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Thousands of evacuees await aid after deadly quake on Indonesia's Flores island",
+  "link": "https://www.france24.com/en/asia-pacific/20260816-thousands-await-aid-after-deadly-indonesian-quake",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today",
+    "The Japan Times"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Thousands of evacuees await aid after deadly quake on Indonesia's Flores island",
+    "link": "https://www.france24.com/en/asia-pacific/20260816-thousands-await-aid-after-deadly-indonesian-quake",
+    "summary": "Thousands of evacuees on Indonesia's Flores island began receiving aid on Sunday after a 7.7-magnitude quake killed 48 people, injured dozens and damaged hundreds of houses and buildings. Some 5,000 people fled their homes and in some areas people were left without electricity and telecommunications.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-16T06:25:43+00:00",
+    "image_url": "https://s.france24.com/media/display/da9ed9f0-9939-11f1-b7c7-005056bf30b7/w:1024/p:16x9/AP26228200984600.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/asia-pacific/20260816-thousands-await-aid-after-deadly-indonesian-quake"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/16/asia-pacific/eastern-indonesia-quake/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/08/16/thousands-await-aid-after-deadly-indonesian-quake"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/da9ed9f0-9939-11f1-b7c7-005056bf30b7/w:1024/p:16x9/AP26228200984600.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/16/557585.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/16/thumbs/400x400/557585.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/4cdcd94c-076f-42d0-bf22-b134c64cd3ab-14217419.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.11108785713112151,
+    "age_hours": 138.86352049722223,
+    "is_stale": false,
+    "score": 14.430331692782039
+  }
+}
