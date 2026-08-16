@@ -32,6 +32,11 @@ from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
 from src.rank import cluster, rank, similarity, tokens  # noqa: E402
 from src.sources import Article  # noqa: E402
 
+# نسخة imaging.download_image الحقيقية، مُلتقَطة قبل أن يستبدلها install_fakes()
+# بلا شرط — منطق رفض الروابط المشبوهة (looks_bad) لا يحتاج شبكة، ويستحق
+# اختبارًا على الدالة الفعلية لا الفاكة العامة (test_image_report)
+_REAL_DOWNLOAD_IMAGE = imaging.download_image
+
 PASSED, FAILED = [], []
 
 
@@ -121,7 +126,7 @@ def install_fakes() -> None:
     ImageDraw.Draw(fake).ellipse([500, 100, 900, 500], fill=(226, 194, 150))
     fake.save("/tmp/_fixture_photo.jpg")
     imaging.download_image = (  # type: ignore
-        lambda url, timeout=20: Image.open("/tmp/_fixture_photo.jpg").convert("RGB")
+        lambda url, timeout=20, failures=None: Image.open("/tmp/_fixture_photo.jpg").convert("RGB")
     )
 
     canned = {
@@ -221,6 +226,75 @@ def test_image_filtering() -> None:
     good = ["https://bbc.co.uk/news/2026/01/quake-tokyo.jpg"]
     check("رفض الشعارات والصور العامة", all(is_generic_image(u) for u in bad))
     check("قبول صور الأخبار الحقيقية", not any(is_generic_image(u) for u in good))
+
+
+def test_image_report() -> None:
+    """تشخيص الصورة في تقرير src.article (مراجعة بشرية بعد أول نشر، البند
+    1): «الصورة غائبة ولا سبب في التقرير» — download_image يسجّل الآن سبب
+    رفض كل مرشَّح حين يُمرَّر failures، وbuild_post_image يملأ report بعدد
+    المرشحين المجرَّبين وسبب فشل كل منهم وحصيلة احتياط find_images."""
+    fl: list = []
+    result = _REAL_DOWNLOAD_IMAGE("https://x.com/logo.png", failures=fl)
+    check("download_image: رابط مشبوه يُرفض ويُسجَّل سببه في failures — بلا شبكة "
+          "(looks_bad يرفض قبل أي طلب HTTP)",
+          result is None and fl and fl[0]["reason"] == "رابط مشبوه", fl)
+
+    installed_download = imaging.download_image  # نسخة install_fakes — تُعاد كما هي بعد الاختبار
+
+    def fake_download(url, timeout=20, failures=None):
+        if url == "https://good.example/fallback.jpg":
+            return Image.new("RGB", (800, 600), (10, 10, 10))
+        if failures is not None:
+            failures.append({"url": url, "reason": "فشل اختباري"})
+        return None
+
+    cfg = load_config()
+    out_path = _TMP_DATA_DIR / "image_report_test.jpg"
+
+    imaging.download_image = fake_download  # type: ignore
+    shot: dict = {}
+    imaging.build_post_image(
+        headline="عنوان اختبار الصورة", category="عالم", urgent=False,
+        image_urls=["https://bad1.example/a.jpg", "https://bad2.example/b.jpg"],
+        publisher=["مصدر أول"], bucket="serious",
+        fallback_provider=lambda: ["https://good.example/fallback.jpg"],
+        cfg=cfg, out_path=out_path, report=shot,
+    )
+    imaging.download_image = installed_download  # type: ignore
+
+    check("build_post_image: عدد المرشحين المجرَّبين مسجَّل في report",
+          shot.get("candidates_tried") == 2, shot)
+    check("build_post_image: سبب فشل كل مرشَّح مسجَّل",
+          len(shot.get("candidate_failures") or []) == 2 and
+          all(f["reason"] == "فشل اختباري" for f in shot["candidate_failures"]), shot)
+    check("build_post_image: احتياط find_images استُدعي بعد فشل كل المرشحين",
+          shot.get("fallback_tried") is True, shot)
+    check("build_post_image: عدد مرشحي الاحتياط مسجَّل",
+          shot.get("fallback_candidates") == 1, shot)
+    check("build_post_image: نجاح الاحتياط يُسجَّل illustrative=True",
+          shot.get("illustrative") is True, shot)
+
+    shot2: dict = {}
+    imaging.build_post_image(
+        headline="عنوان اختبار آخر", category="عالم", urgent=False,
+        image_urls=["https://ok.example/real.jpg"], publisher=["مصدر"],
+        bucket="serious", fallback_provider=lambda: [],
+        cfg=cfg, out_path=out_path, report=shot2,
+    )
+    check("build_post_image: صورة مصدر ناجحة ← بلا فشليات مسجَّلة وبلا احتياط",
+          shot2.get("used_original") is True and not shot2.get("candidate_failures") and
+          shot2.get("fallback_tried") is False, shot2)
+
+    from src import article
+    check("article._image_report_lines: صورة ناجحة تُعرض بسطر إيجابي",
+          any("مصدر مسند" in ln for ln in article._image_report_lines(shot2)), shot2)
+    lines = article._image_report_lines(shot)
+    check("article._image_report_lines: صورة تعبيرية بديلة تُذكر صراحة مع عدد المرشحين",
+          any("تعبيرية" in ln for ln in lines), lines)
+    check("article._image_report_lines: سبب فشل كل مرشَّح يظهر كسطر منفصل",
+          sum("فشل اختباري" in ln for ln in lines) == 2, lines)
+    check("article._image_report_lines: قاموس فارغ (لم تُبنَ صورة أصلًا) لا يُنتج شيئًا",
+          article._image_report_lines({}) == [])
 
 
 def test_google_news_link_decode() -> None:
@@ -4189,6 +4263,28 @@ def test_article() -> None:
     check("2) نسبة الرأي بصيغة تحريرية معلنة تُنشر فعليًا — لا عبارة داخلية",
           "بحسب صاحب الطلب" not in article.DRAFT_SYSTEM_TEMPLATE)
 
+    # ── article.include_opinion=false (مراجعة بشرية بعد أول نشر، البند 3):
+    # الرأي يُسقط كليًا من المتن بقرار تهيئة — لا لانعدام سند، فيجب أن يُذكر
+    # في التقرير مميَّزًا عن "ما سقط من موجزي" ──
+    cfg_no_opinion = load_config()
+    cfg_no_opinion["article"]["include_opinion"] = False
+    out2b = article._write_article("موجز اختبار تعطيل الرأي", 2, cfg_no_opinion)
+    check("include_opinion=false: الرأي لا يصل مرحلة الصياغة إطلاقًا",
+          seen_draft_calls[-1]["opinions"] == [], seen_draft_calls[-1]["opinions"])
+    check("include_opinion=false: outcome['opinion_note'] يذكر الإسقاط بقرار تهيئة "
+          "لا انعدام سند",
+          "قرار تهيئة" in out2b["opinion_note"], out2b["opinion_note"])
+    report2b = article.build_report(out2b)
+    check("include_opinion=false: ملاحظة إسقاط الرأي تظهر في التقرير مميَّزة عمّا سقط "
+          "لانعدام سند",
+          out2b["opinion_note"] in report2b, report2b)
+
+    cfg_with_opinion = load_config()
+    out2c = article._write_article("موجز اختبار الرأي الافتراضي", 2, cfg_with_opinion)
+    check("include_opinion الافتراضي (true) يبقي السلوك الحالي — الرأي يصل الصياغة",
+          seen_draft_calls[-1]["opinions"] != [] and out2c["opinion_note"] == "",
+          (seen_draft_calls[-1]["opinions"], out2c["opinion_note"]))
+
     # ── القاعدة 3: لا رأي من معرفة النموذج ولا تحليل من عنده — لا صوت ثالث ──
     check("3) برومبت الصياغة يمنع صوتًا ثالثًا يضيفه النموذج بمعزل عن "
           "الوقائع المسندة أو رأي الموجز المنسوب",
@@ -4342,6 +4438,36 @@ def test_article() -> None:
     check("6) نداء الشبكة مستقل عن writer._call_model (الذي يُحمِّل "
           "writer.SYSTEM_PROMPT داخليًا بلا معامل يسمح باستبداله)",
           article._call_draft_model is not writer._call_model)
+
+    # ── article.post_length مستقل عن writer.post_length (مراجعة بشرية بعد
+    # أول نشر، البند 2): منتج مختلف يستحق متنًا أطول من منشور الجمع القصير ──
+    check("article.post_length مضبوط في config.yaml ومختلف عن writer.post_length "
+          "(منتج مستقل، لا وريث قيمة الجمع)",
+          cfg.path("article.post_length") and
+          cfg.path("article.post_length") != cfg.path("writer.post_length"),
+          (cfg.path("article.post_length"), cfg.path("writer.post_length")))
+    check("7) برومبت الصياغة يوجّه صراحة لاستيعاب كل الوقائع المسندة بلا اختصار "
+          "مفرط",
+          "لا تختصرها في جملة واحدة" in
+          article.DRAFT_SYSTEM_TEMPLATE.format(opinion_phrase="x"))
+
+    captured_draft_prompts: list = []
+
+    def _capture_call_draft_model(prompt, system_text, cfg, retries=3):
+        captured_draft_prompts.append(prompt)
+        return {"post_title": "عنوان اختبار", "post_body": "متن اختبار",
+               "hashtags": [], "category": "عالم"}
+
+    article._call_draft_model = _capture_call_draft_model
+    cfg_custom_length = load_config()
+    cfg_custom_length["article"]["post_length"] = "999 كلمة اختبارية فريدة"
+    real_draft_article(
+        [{"text": "واقعة اختبار الطول", "sources": []}], [], "سؤال اختبار؟",
+        cfg_custom_length)
+    check("article.post_length مُستعمَل فعليًا في برومبت الصياغة — لا writer.post_length",
+          any("999 كلمة اختبارية فريدة" in p for p in captured_draft_prompts),
+          captured_draft_prompts)
+    article._call_draft_model = real_call_draft_model
 
     # ── القاعدة 5 + تسمية الحدث المبهم، مقلوبة الترتيب (تعليق الموافقة
     # الثاني، البنود 1/2/3/4/7): موجز يصف أثر حدث بلا تسميته ──
@@ -4618,9 +4744,20 @@ def test_article() -> None:
 
     second_round_queries: list = []
 
+    # كائنات Article وهمية بصور — تختبر أن دورة السند الثانية تمرّر ranked
+    # الحقيقي لا [] حرفيًا (التشخيص المؤكَّد: الفرع القديم كان يمرّر ranked=[]
+    # فتصل كل مصادره image_candidates فارغة دومًا مهما توفّرت صور فعليًا)
+    from types import SimpleNamespace
+    support_ranked_articles = [
+        SimpleNamespace(publisher="مصدر سند أول", source_name="",
+                        image_candidates=["https://img.test/1.jpg"]),
+        SimpleNamespace(publisher="مصدر سند ثانٍ", source_name="",
+                        image_candidates=["https://img.test/2.jpg"]),
+    ]
+
     def _fake_search_second(query, cfg, days, unrestricted=False):
         second_round_queries.append(query)
-        return [object()]
+        return support_ranked_articles
 
     def _fake_gather_second(articles, cfg, claim_text=""):
         return ([{"name": "مصدر سند أول", "link": "https://support/1", "from_text": True,
@@ -4673,6 +4810,17 @@ def test_article() -> None:
           "(مصدر التسمية + مصدرا السند)",
           {"مصدر التسمية", "مصدر سند أول", "مصدر سند ثانٍ"} <=
           {s["name"] for s in out_support["sources"]}, out_support.get("sources"))
+    # تشخيص Issue #373 (مراجعة بشرية بعد أول نشر، البند 1): «الصورة غائبة
+    # ولا سبب في التقرير» — الفرع القديم كان يمرّر ranked=[] حرفيًا لمصادر
+    # فرع الحدث المبهم، فتصل image_candidates فارغة دومًا. صور دورة السند
+    # الثانية (support_ranked_articles أعلاه) يجب أن تصل فعليًا الآن.
+    check("دورة السند الثانية: صورة من مصادر دورة السند الثانية استُخدمت فعليًا "
+          "(لا [] فارغ يُسقط كل الصور بصرف النظر عمّا هو متاح)",
+          out_support.get("image_source_name") in ("مصدر سند أول", "مصدر سند ثانٍ"),
+          out_support.get("image_source_name"))
+    check("دورة السند الثانية: تقرير الصورة يسجّل أنها استُخدمت من مصدر مسند مباشرة",
+          out_support.get("image_report", {}).get("used_original") is True,
+          out_support.get("image_report"))
 
     article._support_sources = _fake_support
 
@@ -5275,6 +5423,7 @@ def main() -> int:
     test_radar_preselect_fallback()
     print("\n── ترشيح الصور ──")
     test_image_filtering()
+    test_image_report()
     print("\n── فكّ روابط Google News الوسيطة ──")
     test_google_news_link_decode()
     print("\n── إشارة Google Trends ──")
