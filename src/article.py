@@ -43,6 +43,7 @@ import os
 import re
 import time
 from datetime import datetime, timezone
+from itertools import zip_longest
 from pathlib import Path
 
 from anthropic import Anthropic, APIError
@@ -1411,10 +1412,29 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             # السند الثانية أعلاه) تحمل كائنات Article الحقيقية بصورها.
             fact_sources = _grounded_sources(all_supporting, all_docs, support_ranked)
             grounded.append({**f, "text": named_text, "sources": fact_sources})
+            # سؤال الصلة يسأل عن الرابط بين طرفين — استعلامه يجب أن يشتمل
+            # كيانات كليهما لا الإشارة المبهمة الأصلية وحدها (تشخيص Issue
+            # #373، الجولة الثانية عشرة، البند 2): support_query أعلاه بُني
+            # أصلًا من كيانات الحدث المسمّى نفسه (محكمة/إعدام/بشار الأسد...)،
+            # نتشاركه هنا كنص متاح مجانًا بدل استخراج مستقل. تتشابك القائمتان
+            # بدل التذييل (كيانات الحدث أولًا حتى تصلها) كي لا يُقصي سقف
+            # query_max_words أحد الطرفين إن طال الآخر عند بناء الاستعلام
+            # لاحقًا عبر evidence.build_query_for_claim.
+            link_entities: list[str] = []
+            for pair in zip_longest(support_query.split(), f.get("entities") or []):
+                for w in pair:
+                    if w:
+                        link_entities.append(w)
             link_questions.append({
                 "text": f"ما الصلة بين «{named_text}» و«{f['text']}»؟",
-                "entities": f.get("entities") or [],
+                "entities": link_entities,
                 "is_reference": False,
+                # أدلة مرحلتَي [تسمية]/[سند] (مُوحَّدة الهوية أصلًا عبر
+                # _merge_named_evidence) تصل حلقة الأسئلة أدناه كإضافة لا
+                # بديل عن بحث جديد — لا تُهدر لمجرد إعادة السؤال في حلقة
+                # منفصلة (تشخيص Issue #373، الجولة الثانية عشرة، البند 2)
+                "existing_docs": all_docs,
+                "existing_supporting": all_supporting,
             })
         else:
             query = evidence.build_query_for_claim(f, query_max_words)
@@ -1466,17 +1486,36 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         relevance_text = evidence._entities_text(q) or q["text"]
         docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
         all_read_docs.extend(docs)
-        answer = _ask_answer_model(q["text"], docs, cfg) if docs else None
+        # سؤال الصلة يحمل أدلة [تسمية]/[سند] المُوحَّدة الهوية أصلًا —
+        # البحث الجديد هنا إضافة لا بديل عنها (تشخيص Issue #373، الجولة
+        # الثانية عشرة، البند 2): إهدارها كان يعتمد الحكم على تفاوت نتائج
+        # بحث حي جديد وحده رغم توفّر سند مُثبَت فعلًا لنفس اللحظة. توحيد
+        # الهوية عبر _canonical_publisher كالعادة كي لا تُحسب نسخة الجزيرة
+        # نت/Al Jazeera مرتين لو ظهرت في الدورتين
+        existing_docs = q.get("existing_docs") or []
+        if existing_docs:
+            seen_canonical: set[str] = set()
+            docs_for_answer: list[dict] = []
+            for d in list(existing_docs) + list(docs):
+                canonical = evidence._canonical_publisher(d.get("name", ""), cfg)
+                if canonical in seen_canonical:
+                    continue
+                seen_canonical.add(canonical)
+                docs_for_answer.append(d)
+        else:
+            docs_for_answer = docs
+        answer = _ask_answer_model(q["text"], docs_for_answer, cfg) if docs_for_answer else None
         answer_call_error = getattr(answer, "call_error", None)
         supporting = answer["supporting"] if answer else []
         unique = set(supporting)
         answered_ok = bool(answer) and len(unique) >= min_confirm
         trail.append({"stage": "سؤال", "query": query, "basis": basis,
-                      "sources": [d["name"] for d in docs],
+                      "sources": [d["name"] for d in docs_for_answer],
                       "raw_count": getattr(ranked, "raw_count", None),
                       "matched_count": getattr(ranked, "matched_count", None),
                       "fetch_failures": getattr(docs, "fetch_failures", []),
                       "call_error": answer_call_error,
+                      "reused_evidence_count": len(existing_docs),
                       "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {answer_call_error}"
                                  if answer_call_error else
                                  f"أُجيب ومسندة بـ{len(unique)} مصدر" if answered_ok
@@ -1506,7 +1545,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                 reason = f"سند غير كافٍ ({len(unique)} من {min_confirm} مصادر مستقلة مطلوبة)"
             unanswered.append({"text": q["text"], "reason": reason})
             continue
-        fact_sources = _grounded_sources(supporting, docs, ranked)
+        fact_sources = _grounded_sources(supporting, docs_for_answer, ranked)
         answered_questions.append({"text": q["text"], "answer": answer["text"],
                                    "sources": fact_sources})
         grounded.append({"text": answer["text"], "kind": "واقعة",
@@ -1553,11 +1592,12 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     ]))
     max_shared = int(acfg.get("max_shared_run_words", 7))
     repeat_min_count = int(acfg.get("repeat_within_source_min_count", 2))
+    trim_min_core = int(acfg.get("trim_min_core", 5))
     # فحص النسخ اللفظي (القاعدة 5) — verify_draft.check_originality مُعاد
     # استعمالها كما هي بعتبتها واستثناءاتها، لا نسخة موازية
     ok_orig, orig_reason, originality_notes = verify_draft.check_originality(
         draft_text, body, source_docs, max_shared,
-        repeat_min_count=repeat_min_count, extra_docs=extra_docs)
+        repeat_min_count=repeat_min_count, extra_docs=extra_docs, min_core=trim_min_core)
     outcome["originality_notes"] = originality_notes
     if not ok_orig:
         outcome["reason"] = f"مرحلة الصياغة — امتناع: {orig_reason}"

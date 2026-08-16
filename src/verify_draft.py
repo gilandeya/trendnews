@@ -29,7 +29,7 @@ from . import evidence, extract, imaging, review, store, writer
 from . import verify
 from .config import DRAFTS_DIR
 from .imagesearch import find_images
-from .request import _AR_TRANS
+from .request import _AR_STOP, _AR_TRANS
 from .sources import Article
 
 log = logging.getLogger("verify_draft")
@@ -181,9 +181,88 @@ def _ngram_counts(words: list[str], n: int) -> dict[tuple[str, ...], int]:
     return out
 
 
+def _count_run(haystack: list[str], needle: list[str]) -> int:
+    """عدد مرات ورود `needle` كتتابع متجاور داخل `haystack` — نظير
+    `_contains_run` لكنه يعدّ لا يفحص وجودًا فقط، تحتاجه إشارة (أ) المقلَّمة
+    (`_trim_exempt`) على أطوال متغيّرة لا الطول الثابت `n` الذي تُحسب عنده
+    `_ngram_counts` مسبقًا."""
+    if not needle or len(needle) > len(haystack):
+        return 0
+    n = len(needle)
+    return sum(1 for i in range(len(haystack) - n + 1) if haystack[i:i + n] == needle)
+
+
+def _trim_exempt(window: tuple[str, ...], only_name: str,
+                 source_word_lists: list[tuple[str, list[str]]],
+                 extra_word_lists: list[tuple[str, list[str]]],
+                 min_core: int, repeat_min_count: int
+                 ) -> tuple[list[str], tuple[str, ...], tuple[str, ...], str, str, int | None] | None:
+    """يحاول تقليم نافذة رُفضت بطولها الكامل من طرفيها — بكلمات وظيفية فقط
+    مؤهَّلة (`request._AR_STOP`، فئة مغلقة: موصولات/أفعال ناقصة/حروف جر/
+    أدوات ربط، لا قائمة جديدة) — قبل الاستسلام (تشخيص Issue #373، الجولة
+    الثانية عشرة): اسم مؤسسة من سبع كلمات قد يحمل ذيلًا نحويًا («الذي كان»)
+    لا صلة له بالنسخ يمنع النافذة كلها من اجتياز إشارتَي (أ)/(ب) رغم أن
+    نواتها (5 كلمات فأكثر) اسم جامد لا بديل لصياغته.
+
+    لا يجوز تقليم كلمة مضمون (غير وظيفية) من أي طرف — التقليم يتوقف عند أول
+    كلمة غير مؤهَّلة من كل طرف، فلا سبيل لتقليم عشوائي يُخفي جزءًا فريدًا من
+    جملة منسوخة فعليًا خلف كلمة وظيفية عابرة في المنتصف.
+
+    يجرّب كل تقليم ممكن (يسار/يمين/كليهما) بالأطول أولًا (أقل تدخّل)، ويعيد
+    أول نواة تستوفي إشارة (أ) [تكرار ≥ repeat_min_count داخل نص المصدر
+    الوحيد نفسه] أو (ب) [ورود حرفي في وثيقة أخرى بهوية ناشر مختلفة]، أو
+    None إن لم تنجُ أي نواة."""
+    n = len(window)
+    if n <= min_core:
+        return None
+    left_max = 0
+    for w in window:
+        if w not in _AR_STOP:
+            break
+        left_max += 1
+    right_max = 0
+    for w in reversed(window):
+        if w not in _AR_STOP:
+            break
+        right_max += 1
+    combos = [(l, r, n - l - r) for l in range(left_max + 1) for r in range(right_max + 1)
+             if not (l == 0 and r == 0) and n - l - r >= min_core]
+    combos.sort(key=lambda t: -t[2])  # الأطول (أقل تقليم) أولًا
+    source_words = next((words for name, words in source_word_lists if name == only_name), [])
+    for l, r, _core_len in combos:
+        core = list(window[l:n - r])
+        repeat_count = _count_run(source_words, core)
+        if repeat_count >= repeat_min_count:
+            return core, window[:l], window[n - r:], "أ", only_name, repeat_count
+        other = next((name for name, words in extra_word_lists
+                     if name != only_name and _contains_run(words, core)), None)
+        if other:
+            return core, window[:l], window[n - r:], "ب", other, None
+    return None
+
+
+def _trim_note(only_name: str, n: int, phrase: str, left_words: tuple[str, ...],
+               right_words: tuple[str, ...], core: list[str], signal: str,
+               evidence_name: str, evidence_count: int | None) -> str:
+    parts = []
+    if left_words:
+        parts.append(f"من اليسار «{' '.join(left_words)}»")
+    if right_words:
+        parts.append(f"من اليمين «{' '.join(right_words)}»")
+    trimmed_desc = "، ".join(parts)
+    core_phrase = " ".join(core)
+    if signal == "أ":
+        evidence_desc = f"تكررت {evidence_count} مرات داخل نص هذا المصدر نفسه"
+    else:
+        evidence_desc = f"وردت أيضًا في وثيقة أخرى مقروءة بهوية ناشر مختلفة ({evidence_name})"
+    return (f"⚠️ تطابق لفظي مع مصدر واحد ({only_name}) على {n} كلمة متتالية — "
+           f"«{phrase}» — مُعفى بعد تقليم كلمات وظيفية ({trimmed_desc}): النواة "
+           f"«{core_phrase}» ({len(core)} كلمة) {evidence_desc} (إشارة {signal} مقلَّمة)")
+
+
 def check_originality(draft_text: str, article_body: str, source_docs: list[dict],
                       max_shared_run_words: int, *, repeat_min_count: int = 2,
-                      extra_docs: list[dict] | None = None
+                      extra_docs: list[dict] | None = None, min_core: int = 5
                       ) -> tuple[bool, str, list[str]]:
     """يتحقق أن نص المسودة لا يحمل نسخًا حرفيًا من المقال الملصق ولا من
     مقتطفات المصادر المؤكِّدة (تعليق الموافقة على Issue #334، نقطة 3):
@@ -226,6 +305,15 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
     كلا الإشارتين يُسجَّلان في القيمة الثالثة المُعادة (سطر تبليغ لكل
     إعفاء، بلا إعفاء صامت) — لا يُسقطان الفحص، فقط يُعفيان الحالة المحدَّدة.
 
+    تقليم حدّي (تشخيص Issue #373، الجولة الثانية عشرة): نافذة فشلت
+    الإشارتين أعلاه بطولها الكامل قد تحمل نواة (اسم مؤسسة/كيان لا بديل
+    لصياغته) يمنعها فقط ذيل أو صدر نحوي («الذي كان»، «في») من إشارة (أ)/(ب)
+    — `_trim_exempt` تقلّم من الطرفين كلمات وظيفية فقط (`request._AR_STOP`،
+    فئة مغلقة: موصولات/أفعال ناقصة/حروف جر/أدوات ربط — لا كلمة مضمون تُقلَّم
+    مهما بلغ الرفض) حتى `min_core` كلمة، وتفحص كل نواة مرشَّحة على إشارة (أ)
+    أو (ب) بالطول المقلَّم لا الطول الأصلي. لا يمسّ هذا عتبة
+    max_shared_run_words نفسها — نافذة بلا نواة صالحة تُرفض كما هي دومًا.
+
     لا إضعاف للتطبيع نفسه: المطابقة الحرفية بعد التطبيع كما هي، فقط قرار
     الرفض يفحص أولًا عدد المصادر المستقلة التي يظهر التتابع فيها بالضبط."""
     source_texts = [d.get("text", "") for d in source_docs]
@@ -246,10 +334,12 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
     n = max_shared_run_words
     if n > 0 and len(candidate_words) >= n:
         article_ngrams = _ngram_set(_normalized_words(article_body), n)
-        source_counts = [(d["name"], _ngram_counts(_normalized_words(d.get("text", "")), n))
-                         for d in source_docs]
-        extra_counts = [(d["name"], _ngram_counts(_normalized_words(d.get("text", "")), n))
-                        for d in (extra_docs or [])]
+        source_word_lists = [(d["name"], _normalized_words(d.get("text", "")))
+                             for d in source_docs]
+        extra_word_lists = [(d["name"], _normalized_words(d.get("text", "")))
+                            for d in (extra_docs or [])]
+        source_counts = [(name, _ngram_counts(words, n)) for name, words in source_word_lists]
+        extra_counts = [(name, _ngram_counts(words, n)) for name, words in extra_word_lists]
         for i in range(len(candidate_words) - n + 1):
             window = tuple(candidate_words[i:i + n])
             phrase = " ".join(window)
@@ -273,6 +363,15 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
                     note = (f"⚠️ تطابق لفظي مع مصدر واحد ({only_name}) على {n} كلمة "
                            f"متتالية — «{phrase}» — مُعفى: ورد أيضًا في وثيقة أخرى "
                            f"مقروءة بهوية ناشر مختلفة ({other_hit}) (إشارة ب)")
+                    if note not in notes:
+                        notes.append(note)
+                    continue
+                trimmed = _trim_exempt(window, only_name, source_word_lists,
+                                       extra_word_lists, min_core, repeat_min_count)
+                if trimmed:
+                    core, left_words, right_words, signal, ev_name, ev_count = trimmed
+                    note = _trim_note(only_name, n, phrase, left_words, right_words,
+                                      core, signal, ev_name, ev_count)
                     if note not in notes:
                         notes.append(note)
                     continue
@@ -466,6 +565,7 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
     vd_cfg = cfg.get("verify_draft", {}) or {}
     max_shared_run_words = int(vd_cfg.get("max_shared_run_words", 7))
     repeat_min_count = int(vd_cfg.get("repeat_within_source_min_count", 2))
+    trim_min_core = int(vd_cfg.get("trim_min_core", 5))
 
     written, write_reason = _draft_from_facts(confirmed, cfg)
     if written is None:
@@ -486,7 +586,7 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
     ]))
     ok_orig, orig_reason, originality_notes = check_originality(
         draft_text, article_body, source_docs, max_shared_run_words,
-        repeat_min_count=repeat_min_count, extra_docs=extra_docs)
+        repeat_min_count=repeat_min_count, extra_docs=extra_docs, min_core=trim_min_core)
     outcome["originality_notes"] = originality_notes
     if not ok_orig:
         outcome["reason"] = f"مرحلة صياغة المسودة — امتناع: {orig_reason}"

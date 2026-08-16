@@ -3916,6 +3916,73 @@ def test_check_originality_signals() -> None:
           notes_b[0] in report_vd, report_vd)
 
 
+def test_check_originality_trim() -> None:
+    """تقليم حدّي قبل الرفض (تشخيص Issue #373، الجولة الثانية عشرة): نافذة
+    سبع كلمات («فرع الأمن السياسي في درعا الذي كان» — شاهد حقيقي) تحمل نواة
+    اسم مؤسسة (5 كلمات) لا بديل لصياغتها يمنعها فقط ذيل نحوي («الذي كان»)
+    من إشارتَي (أ)/(ب) بطولها الكامل. التقليم يجرّب النواة بعد إسقاط كلمات
+    وظيفية فقط (request._AR_STOP الموسَّعة) من الطرفين حتى min_core."""
+    from src import verify_draft
+
+    cfg = load_config()
+    check("config.yaml: verify_draft.trim_min_core موجود وقابل للضبط",
+          cfg.path("verify_draft.trim_min_core") is not None)
+    check("config.yaml: article.trim_min_core موجود وقابل للضبط",
+          cfg.path("article.trim_min_core") is not None)
+
+    run7 = "فرع الأمن السياسي في درعا الذي كان"  # اسم مؤسسة (5) + ذيل نحوي (2)
+    core = "فرع الأمن السياسي في درعا"
+    draft = f"{run7} يشرف على الملف الأمني في المحافظة بالكامل."
+
+    # إشارة (أ) مقلَّمة: النافذة الكاملة لا تتكرر، لكن نواتها (بلا الذيل)
+    # تتكرر داخل نص المصدر الواحد نفسه ≥ repeat_min_count
+    text_a = (f"ذكرت وثيقة رسمية أن {run7} يتبع وزارة الداخلية مباشرة. "
+             f"وأضافت أن {core} أنشئ عام 1980 تقريبًا.")
+    single_a = [{"name": "مصدر ثالث", "text": text_a}]
+    ok_a, reason_a, notes_a = verify_draft.check_originality(draft, "", single_a, 7)
+    check("إشارة (أ) مقلَّمة: النافذة الكاملة (بالذيل النحوي) لا تُعفى بطولها، "
+          "لكن نواتها تُعفيها بعد تقليم الذيل",
+          ok_a is True, reason_a)
+    check("إشارة (أ) مقلَّمة: الإعفاء مُسجَّل صراحة ويذكر ما قُلِّم وطول النواة",
+          bool(notes_a) and "مقلَّمة" in notes_a[0] and "الذي كان" in notes_a[0]
+          and "5 كلمة" in notes_a[0], notes_a)
+
+    # إشارة (ب) مقلَّمة: بلا تكرار داخل نفس المصدر، لكن النواة وحدها (بلا
+    # الذيل) وردت في وثيقة أخرى مقروءة بهوية ناشر مختلفة
+    text_b = f"{run7} يتبع وزارة الداخلية مباشرة في تنظيم أمني صارم."
+    single_b = [{"name": "مصدر رابع", "text": text_b}]
+    extra_b = [{"name": "مصدر خامس",
+               "text": f"وقالت مصادر أخرى إن {core} أنشئ في ثمانينيات القرن الماضي."}]
+    ok_b, reason_b, notes_b = verify_draft.check_originality(
+        draft, "", single_b, 7, extra_docs=extra_b)
+    check("إشارة (ب) مقلَّمة: النواة المقلَّمة وحدها ورادة في وثيقة أخرى تُعفي "
+          "النافذة كاملة رغم أن ذيلها النحوي لم يرد هناك",
+          ok_b is True, reason_b)
+    check("إشارة (ب) مقلَّمة: الإعفاء مُسجَّل صراحة", bool(notes_b) and "مقلَّمة" in notes_b[0])
+
+    # ضابط: بلا أي تكرار للنواة المقلَّمة في المصدر نفسه ولا في وثيقة أخرى
+    # ← الرفض يبقى قائمًا، التقليم لا يُعفي تلقائيًا مجرد وجود ذيل نحوي
+    single_reject = [{"name": "مصدر سادس", "text": text_b}]
+    ok_none, reason_none, notes_none = verify_draft.check_originality(
+        draft, "", single_reject, 7)
+    check("ضابط: بلا نواة صالحة (لا تكرار ولا ورود آخر) ← الرفض يبقى قائمًا "
+          "رغم وجود ذيل نحوي قابل للتقليم شكليًا",
+          ok_none is False, (ok_none, reason_none))
+
+    # ضابط القيد النحوي: كلمة مضمون (لا وظيفية) في الذيل تمنع التقليم كليًا —
+    # حتى لو كانت نواة الاسم المؤسساتي وحدها (بلا الذيل) ستُعفى لولا الحرص
+    run7_content = "فرع الأمن السياسي في درعا الوطني الجديد"  # ذيل صفتان لا أداتان
+    draft_c = f"{run7_content} يشرف على الملف الأمني."
+    text_c = (f"ذكرت وثيقة رسمية أن {run7_content} يتبع وزارة الداخلية. "
+             f"وأضافت أن {core} أنشئ عام 1980.")
+    single_c = [{"name": "مصدر سابع", "text": text_c}]
+    ok_c, reason_c, notes_c = verify_draft.check_originality(draft_c, "", single_c, 7)
+    check("ضابط القيد النحوي: ذيل من كلمات مضمون (صفات) لا يجوز تقليمه — الرفض "
+          "يبقى قائمًا رغم تكرار النواة (بلا الذيل) في نفس المصدر",
+          ok_c is False, (ok_c, reason_c))
+    check("ضابط القيد النحوي: بلا سطر إعفاء مُسجَّل — لم يُعفَ شيء", notes_c == [], notes_c)
+
+
 def test_evidence() -> None:
     """اختبارات مستقلة لـsrc/evidence.py — الشبكة التي تثبت سلامة نقل
     البحث والقراءة ومطابقة أسماء المصادر من verify.py (Issue #348، تعليق
@@ -4988,6 +5055,95 @@ def test_article() -> None:
 
     article._support_sources = _fake_support
 
+    # ── سؤال الصلة: افصل السند عن الاكتشاف كذلك (تشخيص Issue #373، الجولة
+    # الثانية عشرة، البند 2): أدلة [تسمية]/[سند] المُوحَّدة الهوية أصلًا يجب
+    # أن تصل حلقة أسئلة الموجز كإضافة لا بديلًا — إهدارها بالاعتماد على
+    # تفاوت نتائج بحث حي جديد وحده هو العطل المُشخَّص. الفاك أدناه مصمَّم
+    # عمدًا بحيث لا ينجح أي طرف وحده: أدلة [سند]/[تسمية] وحدها لا تحوي
+    # "مصدر صلة جديد"، والبحث الجديد وحده لا يحوي "مصدر تسمية" — فقط الدمج
+    # يمرّ فحص _fake_answer_link أدناه، فنجاح الاختبار دليل مباشر على أن
+    # الدمج وقع فعليًا لا أنه صودف نجاحه بأي من الطرفين بمفرده.
+    def _fake_name_event_link(statement, cfg, topic=""):
+        return ("نص الحدث المسمّى",
+               [{"name": "مصدر تسمية", "link": "https://naming2/1",
+                 "text": "نص التسمية", "from_text": True}],
+               ["مصدر تسمية"],
+               [{"stage": "مباشر", "query": "س", "basis": evidence.EVIDENCE_FULL_TEXT,
+                 "sources": ["مصدر تسمية"], "raw_count": 1, "matched_count": 1,
+                 "fetch_failures": [], "unfiltered_relevance": True, "outcome": "سُمّي"}])
+
+    link_call_log: list = []
+
+    def _fake_search_link(query, cfg, days, unrestricted=False):
+        link_call_log.append(query)
+        return [object()]
+
+    def _fake_gather_link(articles, cfg, claim_text=""):
+        if len(link_call_log) == 1:  # دورة السند الثانية (كيانات الحدث المسمّى)
+            return ([{"name": "مصدر سند حصري", "link": "https://s2/1", "from_text": True,
+                      "text": "نص سند"}], evidence.EVIDENCE_FULL_TEXT)
+        return ([{"name": "مصدر صلة جديد", "link": "https://link2/1", "from_text": True,
+                  "text": "نص جديد"}], evidence.EVIDENCE_FULL_TEXT)  # بحث سؤال الصلة
+
+    def _fake_support_link(fact_text, docs, cfg):
+        return ["مصدر سند حصري", "مصدر تسمية"] if fact_text == "نص الحدث المسمّى" else []
+
+    captured_answer_docs: list = []
+
+    def _fake_answer_link(question_text, docs, cfg):
+        names = [d["name"] for d in docs]
+        captured_answer_docs.append(names)
+        if "مصدر تسمية" in names and "مصدر صلة جديد" in names:
+            return {"text": "إجابة سؤال الصلة", "supporting": ["مصدر تسمية", "مصدر صلة جديد"]}
+        return None
+
+    article._name_event = _fake_name_event_link
+    evidence.search = _fake_search_link
+    evidence.gather_evidence = _fake_gather_link
+    article._support_sources = _fake_support_link
+    article._ask_answer_model = _fake_answer_link
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار سؤال الصلة",
+        "statements": [
+            {"text": "إشارة مبهمة لاختبار سؤال الصلة", "kind": "واقعة",
+             "entities": ["كيان الطرف الأول", "2 فبراير 2026"],
+             "is_unnamed_event": True, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+
+    try:
+        out_link = article._write_article("موجز اختبار سؤال الصلة", 3733, cfg)
+    finally:
+        article._name_event = real_name_event
+
+    check("سؤال الصلة: الاستعلام يُبنى من كيانات الطرفين معًا — كيان الإشارة "
+          "الأصلية (وحده لا يكفي وحده بلا كيانات الحدث المسمّى)",
+          len(link_call_log) >= 2 and "الطرف" in link_call_log[1], link_call_log)
+    check("سؤال الصلة: الاستعلام يحمل أيضًا كلمات من نص الحدث المسمّى نفسه — لا "
+          "كيانات الإشارة المبهمة الأصلية وحدها",
+          any(w in link_call_log[1] for w in ("الحدث", "المسمى", "المسمّى")),
+          link_call_log)
+    check("سؤال الصلة: نداء الإجابة استُدعي بدمج أدلة [سند]/[تسمية] الموجودة مع "
+          "بحث جديد معًا — لا أحدهما وحده (الفاك يفشل لأي منهما منفردًا)",
+          any({"مصدر تسمية", "مصدر سند حصري", "مصدر صلة جديد"} <= set(names)
+              for names in captured_answer_docs),
+          captured_answer_docs)
+    check("سؤال الصلة: أُجيب فعلًا بفضل الدمج — لا «سند غير كافٍ» رغم توفّر السند "
+          "مجتمعًا من الدورتين",
+          any(q["text"].startswith("ما الصلة بين") for q in out_link["answered_questions"]),
+          (out_link["answered_questions"], out_link["unanswered"]))
+    link_trail_entry = next(t for t in out_link["trail"]
+                            if t["stage"] == "سؤال" and t["query"] == link_call_log[1])
+    check("سؤال الصلة: trail يسجّل عدد الأدلة المُعاد استعمالها من الدورتين السابقتين "
+          "صراحة — لا رقم صامت",
+          link_trail_entry.get("reused_evidence_count") == 2, link_trail_entry)
+
+    article._support_sources = _fake_support
+    article._ask_answer_model = _fake_answer
+    evidence.search = _fake_search
+    evidence.gather_evidence = _fake_gather_evidence
+
     # ── القاعدة 5 (فحص الأصالة): نسخ لفظي من الموجز في المتن ← امتناع ──
     article.extract_brief = lambda body, cfg, retries=3: ({
         "topic": "اختبار فحص الأصالة",
@@ -5766,6 +5922,8 @@ def main() -> int:
     test_verify_draft()
     print("\n── فحص الأصالة: إعفاءا تكرار المصدر ووثيقة أخرى مقروءة ──")
     test_check_originality_signals()
+    print("\n── فحص الأصالة: تقليم حدّي بقيد نحوي قبل الرفض ──")
+    test_check_originality_trim()
     print("\n── محرك البحث والقراءة المشترك (evidence.py) ──")
     test_evidence()
     print("\n── مقال من المصادر ──")
