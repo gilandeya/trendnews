@@ -60,11 +60,19 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python -m src.article --issue "${{ github.event.issue.number }}"
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          BASELINE_ISSUE=$(python3 -c "from src.config import load_config; print(load_config().path('article.baseline_issue_number') or '')")
+          if [ "$ISSUE_NUMBER" = "$BASELINE_ISSUE" ]; then
+            echo "▶ تشغيل خط الأساس على Issue #$ISSUE_NUMBER"
+            python -m src.article --issue "$ISSUE_NUMBER" --baseline
+          else
+            python -m src.article --issue "$ISSUE_NUMBER"
+          fi
 
       - name: رفع المسودة إلى المستودع
         id: commit
-        if: steps.article.outputs.draft_id != ''
+        if: steps.article.outputs.draft_id != '' || steps.article.outputs.baseline == 'true'
         run: |
           git config user.name  "trendnews-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -90,14 +98,14 @@ jobs:
           exit 1
 
       - name: فتح/تحديث Issue المراجعة
-        if: steps.commit.outputs.changed == 'true'
+        if: steps.commit.outputs.changed == 'true' && steps.article.outputs.draft_id != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python -m src.open_review
 
       - name: تثبيت رقم Issue المراجعة في المسودة
-        if: steps.commit.outputs.changed == 'true'
+        if: steps.commit.outputs.changed == 'true' && steps.article.outputs.draft_id != ''
         run: |
           mkdir -p drafts state
           git add -A drafts state
