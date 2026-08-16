@@ -1,0 +1,77 @@
+{
+  "id": "7039a21130e9",
+  "created_at": "2026-08-16T12:07:50.812917+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.58,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Zimbabwe boat accident death toll hits 68 as 22 more bodies recovered",
+  "link": "https://www.theguardian.com/world/2026/aug/15/more-bodies-recovered-after-zimbabwe-boat-accident",
+  "publishers": [
+    "Africanews",
+    "CGTN",
+    "NDTV — World",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Zimbabwe boat accident death toll hits 68 as 22 more bodies recovered",
+    "link": "https://www.theguardian.com/world/2026/aug/15/more-bodies-recovered-after-zimbabwe-boat-accident",
+    "summary": "Eighteen children among the people killed after ferry capsized on Lake Kariba Twenty-two more bodies have been recovered after a boat accident in Zimbabwe, taking the death toll to 68, police said on Saturday. The ferry capsized on Tuesday on Lake Kariba , on the border with Zambia. An investigation has suggested it was overloaded when it turned over during heavy winds. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-15T19:39:07+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/b14768a4016a3eb7461634532d5a9f3c7c039c61/668_0_4853_3883/master/4853.jpg?width=700&quality=85&auto=format&fit=max&s=0f9fd36fb2d95f17dce52608c443f02c",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Africanews",
+      "CGTN",
+      "NDTV — World",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/15/more-bodies-recovered-after-zimbabwe-boat-accident"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/zimbabwe-ferry-accident-death-count-rises-to-68-as-22-more-bodies-recovered-11915395#publisher=newsstand"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-16/news-1PEjgf3xIs0/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/death-toll-in-zimbabwe-ferry-capsizing-rises-to-68-police/article71350493.ece"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/16/zimbabwe-ferry-death-toll-rises-to-68-after-lake-kariba-capsizing/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/b14768a4016a3eb7461634532d5a9f3c7c039c61/668_0_4853_3883/master/4853.jpg?width=700&quality=85&auto=format&fit=max&s=0f9fd36fb2d95f17dce52608c443f02c",
+      "https://i.guim.co.uk/img/media/b14768a4016a3eb7461634532d5a9f3c7c039c61/668_0_4853_3883/master/4853.jpg?width=460&quality=85&auto=format&fit=max&s=1ba576ca1835ab04e223f7cae137e3dd",
+      "https://i.guim.co.uk/img/media/b14768a4016a3eb7461634532d5a9f3c7c039c61/668_0_4853_3883/master/4853.jpg?width=140&quality=85&auto=format&fit=max&s=fb5e8e7beec54c6ef27f17ca3ee48446",
+      "https://c.ndtvimg.com/2026-08/bnna9vkc_zimbabwe-boat_625x300_15_August_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://news.cgtn.com/news/2026-08-16/news-1PEjgf3xIs0/img/b10ae3cc02444bfaad62e8d10ec4c638/b10ae3cc02444bfaad62e8d10ec4c638-1280.jpeg",
+      "http://images.euronews.com/articles/stories/09/87/57/84/640x360_cmsv2_19080d66-b186-503c-8ecd-55bbcdb3df76-9875784.jpg?1786811645"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.22223087241489248,
+    "age_hours": 14.001182384444444,
+    "is_stale": false,
+    "score": 24.578500762162474
+  }
+}

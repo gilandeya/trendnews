@@ -1,0 +1,85 @@
+{
+  "id": "796dcbc4dd90",
+  "created_at": "2026-08-16T12:07:50.812474+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.99,
+  "trend_score": 1.0,
+  "velocity": 0.56,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran condemns Israel’s continued attacks on Lebanon",
+  "link": "https://en.irna.ir/news/86236388/Iran-condemns-Israel-s-continued-attacks-on-Lebanon",
+  "publishers": [
+    "CBS News — World",
+    "Daily Sabah",
+    "France24",
+    "IRNA English",
+    "Tehran Times",
+    "The Guardian",
+    "The Guardian — World"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran condemns Israel’s continued attacks on Lebanon",
+    "link": "https://en.irna.ir/news/86236388/Iran-condemns-Israel-s-continued-attacks-on-Lebanon",
+    "summary": "Tehran, IRNA – Foreign Ministry spokesperson Esmaeil Baqaei has condemned the Israeli regime’s continued violations of international law and human rights in Lebanon.",
+    "source_name": "IRNA English",
+    "region": "ir",
+    "weight": 0.7,
+    "published": "2026-08-15T20:12:40+00:00",
+    "image_url": "https://img9.irna.ir/d/r2/2026/08/15/4/173039659.jpg",
+    "publisher": "IRNA English",
+    "cluster_sources": [
+      "CBS News — World",
+      "Daily Sabah",
+      "France24",
+      "IRNA English",
+      "Tehran Times",
+      "The Guardian",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/live-updates/iran-war-donald-trump-strait-of-hormuz-uae-accuses-attacks-vance-oil-gas/"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86236388/Iran-condemns-Israel-s-continued-attacks-on-Lebanon"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/15/israeli-strike-on-southern-lebanon-kills-seven-in-worst-toll-since-june-state-media-says"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260815-israeli-strikes-kill-11-in-southern-lebanon-hezbollah-threatens-to-retaliate"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/israeli-strikes-kill-11-in-lebanon-as-hezbollah-vows-response"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529094/New-Israeli-massacres-in-southern-Lebanon"
+      }
+    ],
+    "image_candidates": [
+      "https://img9.irna.ir/d/r2/2026/08/15/4/173039659.jpg",
+      "https://i.guim.co.uk/img/media/7c89de51a1cb60ff5893f2358eef87af6a328c6a/103_0_4103_3283/master/4103.jpg?width=700&quality=85&auto=format&fit=max&s=911b9a5b1a0f4fdb589438acfc269af0",
+      "https://i.guim.co.uk/img/media/7c89de51a1cb60ff5893f2358eef87af6a328c6a/103_0_4103_3283/master/4103.jpg?width=460&quality=85&auto=format&fit=max&s=cbf3688686e1ec5cd20f1f9a68c3de60",
+      "https://i.guim.co.uk/img/media/7c89de51a1cb60ff5893f2358eef87af6a328c6a/103_0_4103_3283/master/4103.jpg?width=140&quality=85&auto=format&fit=max&s=d0764aaa2e0846825cd181668b8f0f09",
+      "https://s.france24.com/media/display/9bc873a4-98c5-11f1-8108-005056a90284/w:1024/p:16x9/8d2575533c572c55c8b941d6ec31b065014ce460.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/15/455974.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.5555627188166409,
+    "age_hours": 8.996184,
+    "is_stale": false,
+    "score": 26.988718252293054
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "id": "c36fea3b51dd",
+  "created_at": "2026-08-16T12:07:50.813218+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.41,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Chiba downpour death toll rises to 9 with nearly 500 evacuated",
+  "link": "https://www.japantimes.co.jp/news/2026/08/16/japan/chiba-rain-death-toll/",
+  "publishers": [
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Chiba downpour death toll rises to 9 with nearly 500 evacuated",
+    "link": "https://www.japantimes.co.jp/news/2026/08/16/japan/chiba-rain-death-toll/",
+    "summary": "At least two of the victims were found in vehicles that were submerged in water.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-08-16T01:02:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/16/557498.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/16/japan/chiba-rain-death-toll/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/16/557498.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/16/thumbs/400x400/557498.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.410321372537037
+  }
+}
