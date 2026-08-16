@@ -501,6 +501,14 @@ def judge_fact(claim_text: str, docs: list[dict], cfg, retries: int = 2) -> dict
                 tool_choice={"type": "tool", "name": "judge_claim"},
                 system=JUDGE_FACT_SYSTEM,
                 messages=[{"role": "user", "content": prompt}],
+                # temperature=0: حكم ثنائي (يسند/يخالف) على نصوص ثابتة، لا
+                # صياغة — تخفيض تذبذب لا حتمية مضمونة (تشخيص Issue #373،
+                # الجولة العاشرة، البند 3؛ نفس المنطق المطبَّق على
+                # article._ask_naming_model/_support_sources/_ask_answer_model).
+                # classify_fact (رابع الأحكام الأربعة المطلوبة إلى جانب هذه
+                # الثلاثة في article.py) كود صرف بلا نداء نموذج إطلاقًا — لا
+                # temperature لها لتُضبط أصلًا.
+                temperature=0,
             )
             record_usage(resp, model)
             data = next((b.input for b in resp.content
