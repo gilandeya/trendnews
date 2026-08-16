@@ -31,6 +31,7 @@
 الموجز كما وردت لا على ما يكشفه البحث) — سقطت من هذا المسار عمدًا.
 
     python -m src.article --issue 348
+    python -m src.article --issue 348 --baseline   # + سجّل خط أساس في state/
 """
 from __future__ import annotations
 
@@ -403,8 +404,18 @@ def _extract_dates(text: str) -> list[tuple[int, int | None, int | None]]:
     return found
 
 
+# الحالات الثلاث لاتساق التاريخ (تشخيص Issue #373، الجولة الخامسة، البند
+# 2): بوول واحد كان يخلط "لا معلومة تاريخ لتُفحص" بـ"تاريخ فُحص وطابق" —
+# كلاهما True في التصميم القديم. الفرق حاسم للدمج مع فحص الكيانات في
+# _naming_consistent: تخفيف يقبل تسمية بالتاريخ وحده حين يتفق التاريخ صراحةً
+# يجب ألا يتحول عرضًا إلى قبول تلقائي لكل حالة "لا تاريخ في dates أصلًا".
+DATE_NO_INFO = "no_info"
+DATE_MATCH = "match"
+DATE_MISMATCH = "mismatch"
+
+
 def _dates_consistent(named_text: str, dates: list[str], docs: list[dict],
-                      window_days: int) -> bool:
+                      window_days: int) -> str:
     """بوابة اتساق التاريخ (تعليق التنفيذ على Issue #364، البند 2): لا تكفي
     مطابقة الكيانات وحدها (فشل «لبّاد» في التشخيص المعتمَد سبق أن غطّته
     _naming_consistent) — حدثٌ لا يقع في تاريخ الإشارة المبهمة الأصلية، أو
@@ -416,18 +427,21 @@ def _dates_consistent(named_text: str, dates: list[str], docs: list[dict],
     به ضمن window_days (تقارير الوكالات قد تسجّل يوم النشر لا يوم الحدث
     نفسه بفارق يوم أو يومين) — لا فارق شهر أو سنة مهما صغر.
 
-    إن لم يحمل موجز صاحب الصفحة تاريخًا منظَّمًا فعليًا ضمن dates (مثلًا
-    entity رقمي هو مدة لا تاريخ تقويمي، كـ"15 عامًا")، لا قيد — نتراجع لفحص
-    الكيانات وحده كما كان قبل هذا العلاج."""
+    تعيد إحدى ثلاث حالات صريحة (تشخيص Issue #373، الجولة الخامسة، البند 2 —
+    بدل bool واحد كان يُعامِل "لا معلومة" و"تطابق فعلي" معاملة واحدة True):
+    DATE_NO_INFO حين لا يحمل الموجز تاريخًا منظَّمًا فعليًا ضمن dates أصلًا
+    (مثلًا entity رقمي هو مدة لا تاريخ تقويمي، كـ"15 عامًا") — لا قيد، الحكم
+    يرجع لفحص الكيانات وحده كما كان قبل هذا العلاج؛ DATE_MATCH حين يتفق
+    تاريخ منظَّم في target مع أحد تواريخ dates ضمن الشروط أعلاه؛ DATE_MISMATCH
+    حين يحمل الموجز تاريخًا منظَّمًا فعليًا لكن لا شيء في target يطابقه (بما
+    فيها غياب أي تاريخ في target كليًا)."""
     original: list[tuple[int, int | None, int | None]] = []
     for d in dates:
         original += _extract_dates(d)
     if not original:
-        return True
+        return DATE_NO_INFO
     target_text = named_text + " " + " ".join(d.get("text", "") for d in docs)
     target = _extract_dates(target_text)
-    if not target:
-        return False
     for oy, om, od in original:
         for ty, tm, td in target:
             if oy != ty:
@@ -436,24 +450,32 @@ def _dates_consistent(named_text: str, dates: list[str], docs: list[dict],
                 continue
             if od is not None and td is not None and abs(od - td) > window_days:
                 continue
-            return True
-    return False
+            return DATE_MATCH
+    return DATE_MISMATCH
 
 
 def _naming_consistent(named_text: str, proper_nouns: list[str], dates: list[str],
                        docs: list[dict], cfg) -> bool:
     """بوابة اتساق (تعليق الموافقة الثاني، البند 2؛ وسّعت بتعليق التنفيذ
-    على Issue #364 لتفحص التاريخ لا الكيانات وحدها): كيانات الواقعة
-    الأصلية يجب أن تُذكر صراحة إما في نص التسمية نفسه أو في الوثائق التي
-    استُعملت لتسميته — وإلا التسمية غير موثوقة رغم أن النموذج أجاب بثقة.
-    هذه بالضبط البوابة التي كانت ستمنع فشل «لبّاد» في التشخيص المعتمَد:
-    وثائق فيديو متداول لا تذكر «حمزة الخطيب» ولا «درعا» إطلاقًا فكانت
-    لتُرفض هنا.
+    على Issue #364 لتفحص التاريخ لا الكيانات وحدها؛ وخُفِّفت بتعليق التنفيذ
+    على Issue #373 الجولة الخامسة، البند 2، لتقبل تاريخًا صريحًا مطابقًا
+    وحده بلا كيان): كيانات الواقعة الأصلية يجب أن تُذكر صراحة إما في نص
+    التسمية نفسه أو في الوثائق التي استُعملت لتسميته — إلا حين يحسم تاريخ
+    منظَّم صريح الأمر (انظر أدناه).
 
-    الكيان وحده لا يكفي (تشخيص التشغيل الحقيقي على Issue #364): حدث حقيقي
-    عن الكيان الصحيح قد لا يكون الحدث المقصود إن وقع في تاريخ مختلف تمامًا
-    عن تاريخ الإشارة المبهمة الأصلية — _dates_consistent تفحص هذا إضافةً،
-    لا بديلًا عنه."""
+    الدمج مع _dates_consistent (ثلاث حالات، لا bool — انظر توثيقها): تاريخ
+    صريح **مطابق** (DATE_MATCH) يكفي وحده للقبول، حتى لو غاب ذكر الكيان
+    كليًا — هذا بالضبط تخفيف Issue #373 (خبر حكم الإعدام بحق الأسد لم يذكر
+    «حمزة الخطيب» في عنوانه قط، لكن تاريخه 11 آب 2026 يطابق تاريخ الإشارة
+    المبهمة الأصلية). تاريخ صريح **غير مطابق** (DATE_MISMATCH) يرفض التسمية
+    دومًا — حتى لو ذُكر الكيان الصحيح: هذا بالضبط ما يمنع فشل جنبلاط
+    (تحقَّق أعلاه) من الانتكاس؛ تخفيف "تاريخ وحده يكفي" لا يعني أن كيانًا
+    صحيحًا بتاريخ متعارض يصير مقبولًا — العكس: تعارض تاريخ صريح دليل حاسم
+    أنه حدث آخر، لا احتمال يوازنه ذكر الكيان. غياب أي تاريخ منظَّم أصلًا
+    (DATE_NO_INFO) يبقي الحكم بيد فحص الكيانات وحده — بلا تغيير عن السلوك
+    قبل هذا العلاج (يحمي فشل «لبّاد»: لا تاريخ في dates أصلًا، فالرفض هنا
+    قائم على غياب الكيان لا التاريخ)."""
+    entity_ok = True
     if proper_nouns:
         entity_tokens: set[str] = set()
         for e in proper_nouns:
@@ -462,11 +484,16 @@ def _naming_consistent(named_text: str, proper_nouns: list[str], dates: list[str
             docs_tokens: set[str] = set()
             for d in docs:
                 docs_tokens |= norm_tokens(d.get("text", ""))
-            if not (entity_tokens & norm_tokens(named_text)) and not (entity_tokens & docs_tokens):
-                return False
+            entity_ok = bool(entity_tokens & norm_tokens(named_text)) or bool(entity_tokens & docs_tokens)
+
     acfg = cfg.get("article", {}) or {}
     window_days = int(acfg.get("naming_date_window_days", 2))
-    return _dates_consistent(named_text, dates, docs, window_days)
+    date_state = _dates_consistent(named_text, dates, docs, window_days)
+    if date_state == DATE_MATCH:
+        return True
+    if date_state == DATE_MISMATCH:
+        return False
+    return entity_ok  # DATE_NO_INFO — تراجع لفحص الكيانات وحده كما كان
 
 
 NAMING_SYSTEM = """أنت تقرأ نصوص مصادر إخبارية مستقلة لتحدّد الحدث المحدَّد
@@ -1538,15 +1565,22 @@ def record_baseline(outcome: dict, path: Path = BASELINE_LOG_PATH) -> str:
     (تفاوت بحث حي؟ عطل حقيقي في الكود؟) بلا أي دليل يُقارَن رقميًا —
     بالضبط ما وقع في هذا الـ Issue أكثر من مرة.
 
-    يُستدعى من main() عند --baseline فقط، بعد تشغيلة فعلية حقيقية (شبكة +
-    نموذج) — لا من مسار الاختبارات، التي تفترض بيئة بلا شبكة أصلًا
-    (install_fakes). state/ مُدرَجة أصلًا ضمن ما يُلتزَم به بعد كل تشغيلة
-    ناجحة في article.yml (git add -A drafts state)، فلا حاجة لتعديل سير
-    العمل ليُدرِج هذا الملف تحديدًا — لكن ذلك الالتزام مشروط بنجاح إنتاج
-    مسودة (draft_id)؛ تشغيلة تفشل كليًا (0 وقائع مسندة) تُسجَّل محليًا هنا
-    لكن لن تُرفع للمستودع تلقائيًا إلا إن عُدِّل article.yml لاحقًا ليلتزم
-    بها بصرف النظر عن نتيجة الإنتاج — قيد معروف، لا يُصلَح هنا (تعديل
-    workflows خارج صلاحية هذا التغيير)."""
+    يُستدعى من main() عند --baseline (مقترنة بـ--issue أو بـ
+    article.baseline_issue_number)، بعد تشغيلة فعلية حقيقية (شبكة + نموذج)
+    — لا من مسار الاختبارات، التي تفترض بيئة بلا شبكة أصلًا (install_fakes).
+    يُستدعى دومًا بصرف النظر عن نجاح الإنتاج (outcome["produced"] قد تكون
+    False) — الفشل هو بالضبط ما يُتتبَّع هنا، لا استثناء يُسقَط.
+
+    قيد معروف عولج بتعديل مقترَح على article.yml لا بالكود هنا (تعديل
+    workflows خارج صلاحية هذا التغيير — انظر تعليق الموافقة على Issue #373،
+    الجولة الخامسة): خطوة "رفع المسودة إلى المستودع" في article.yml مشروطة
+    بـ steps.article.outputs.draft_id != ''، فتشغيلة --baseline تفشل كليًا
+    (0 وقائع، بلا draft_id) كانت لتُسجَّل هنا محليًا في عامل CI لكن لا
+    تُرفع للمستودع أبدًا — والفشل هو بالضبط ما نتتبعه. main() يكتب
+    baseline=true إلى GITHUB_OUTPUT كلما استُعملت --baseline؛ شرط تلك
+    الخطوة يحتاج `|| steps.article.outputs.baseline == 'true'` مضافًا إلى
+    شرطها الحالي (git add -A drafts state تبقى كما هي — بلا تغيير في drafts
+    حين لا مسودة، فالإضافة بلا أثر جانبي على مسار الإنتاج العادي)."""
     path.parent.mkdir(parents=True, exist_ok=True)
     is_new = not path.exists()
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -1557,10 +1591,12 @@ def record_baseline(outcome: dict, path: Path = BASELINE_LOG_PATH) -> str:
         if is_new:
             fh.write(
                 "# خط أساس ثابت — مسار «مقال من المصادر»\n\n"
-                "سطر واحد بعد كل تشغيلة `python -m src.article --baseline` على الموجز "
-                "المرجعي الثابت (`article.baseline_brief` في `config.yaml`) — انظر توثيق "
-                "`record_baseline` في `src/article.py` (تشخيص Issue #373، الجولة الرابعة، "
-                "البند 3). لا يُعاد كتابته، يُلحَق به فقط — للمقارنة عبر تشغيلات متتالية.\n\n"
+                "سطر واحد بعد كل تشغيلة `python -m src.article --issue N --baseline` على "
+                "الموجز المرجعي الثابت (نص Issue رقم `article.baseline_issue_number` في "
+                "`config.yaml` — يُقرأ حيًّا من الـ Issue في كل تشغيلة، لا نسخة مكرَّرة هنا) "
+                "— انظر توثيق `record_baseline` في `src/article.py` (تشخيص Issue #373، "
+                "الجولتان الرابعة والخامسة، البند 3). لا يُعاد كتابته، يُلحَق به فقط — "
+                "للمقارنة عبر تشغيلات متتالية.\n\n"
                 "| التاريخ (UTC) | النتيجة | وقائع مسندة | مصادر كل استعلام (مرحلة×عدد) |\n"
                 "|---|---|---|---|\n")
         fh.write(row)
@@ -1572,12 +1608,14 @@ def main() -> int:
     parser.add_argument("--issue", type=int, help="رقم الـ Issue")
     parser.add_argument(
         "--baseline", action="store_true",
-        help="شغّل على الموجز المرجعي الثابت (article.baseline_brief في config.yaml) "
-             "وسجّل النتيجة في state/article_baseline.md بدل التعليق على Issue حقيقي "
-             "— تشخيص Issue #373، الجولة الرابعة، البند 3")
+        help="بعد التشغيلة العادية (تعليق على الـ Issue كالمعتاد)، سجّل النتيجة "
+             "أيضًا في state/article_baseline.md — لمقارنة تشغيلات متتالية على "
+             "نفس الموجز المرجعي عبر تغييرات الكود (تشخيص Issue #373، الجولة "
+             "الخامسة، البند 3). بلا --issue صريح، يُستعمل "
+             "article.baseline_issue_number من config.yaml — الموجز نفسه "
+             "يُقرأ حيًّا من نص ذلك الـ Issue في كل مرة، لا من نسخة في "
+             "config.yaml")
     args = parser.parse_args()
-    if not args.baseline and args.issue is None:
-        parser.error("--issue أو --baseline مطلوب")
 
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s │ %(levelname)-7s │ %(message)s",
@@ -1585,31 +1623,37 @@ def main() -> int:
 
     cfg = load_config()
 
-    if args.baseline:
-        acfg = cfg.get("article", {}) or {}
-        body = str(acfg.get("baseline_brief") or "").strip()
-        if not body:
-            log.error("article.baseline_brief فارغ في config.yaml — الصق فيه نص الموجز "
-                      "المرجعي الثابت أولًا (تشخيص Issue #373، الجولة الرابعة، البند 3)")
-            return 1
-        outcome = write_article(body, 0, cfg)
-        row = record_baseline(outcome)
-        print(build_report(outcome))
-        print(f"\nسُجِّل خط الأساس في {BASELINE_LOG_PATH}:\n{row.strip()}")
-        return 0
+    issue_number = args.issue
+    if issue_number is None and args.baseline:
+        issue_number = cfg.path("article.baseline_issue_number")
+    if issue_number is None:
+        parser.error("--issue مطلوب (أو عرّف article.baseline_issue_number في "
+                     "config.yaml عند استعمال --baseline بلا --issue)")
 
-    body = review.fetch_issue_body(args.issue)
+    output_path = os.environ.get("GITHUB_OUTPUT")
+
+    body = review.fetch_issue_body(issue_number)
     if not body.strip():
-        review.comment(args.issue,
+        review.comment(issue_number,
                        "### 📰 لا نص\nالـ Issue لا يحوي موجزًا لكتابة مقال منه.")
         return 0
 
-    outcome = write_article(body, args.issue, cfg)
+    outcome = write_article(body, issue_number, cfg)
     report = build_report(outcome)
-    review.comment(args.issue, f"{report}\n\n<sub>💵 {writer.usage_summary()}</sub>")
+    review.comment(issue_number, f"{report}\n\n<sub>💵 {writer.usage_summary()}</sub>")
+
+    if args.baseline:
+        # يُستدعى بصرف النظر عن outcome["produced"] عمدًا — تشغيلة تفشل
+        # كليًا تُسجَّل هنا أيضًا (الفشل هو ما نتتبعه)، وbaseline=true في
+        # GITHUB_OUTPUT يتيح لـarticle.yml رفعها للمستودع حتى بلا draft_id
+        # (انظر توثيق record_baseline أعلاه لتعديل article.yml المقترَح)
+        row = record_baseline(outcome)
+        print(f"سُجِّل خط الأساس في {BASELINE_LOG_PATH}:\n{row.strip()}")
+        if output_path:
+            with open(output_path, "a", encoding="utf-8") as fh:
+                fh.write("baseline=true\n")
 
     draft_id = outcome.get("draft_id")
-    output_path = os.environ.get("GITHUB_OUTPUT")
     if draft_id and output_path:
         with open(output_path, "a", encoding="utf-8") as fh:
             fh.write(f"draft_id={draft_id}\n")

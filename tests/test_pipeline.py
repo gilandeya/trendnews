@@ -4258,6 +4258,42 @@ def test_article() -> None:
           article._naming_consistent(
               "خبر عن كيان اختباري", ["كيان اختباري"], ["15 عامًا"],
               [{"name": "م", "text": "تقرير يذكر كيان اختباري"}], cfg))
+
+    # ── تخفيف Issue #373 (الجولة الخامسة، البند 2): تاريخ صريح مطابق يكفي
+    # وحده للقبول، حتى بلا أي ذكر للكيان — الشاهد الفعلي: خبر حكم الإعدام
+    # بحق الأسد لم يذكر «حمزة الخطيب» في عنوانه/متنه قط، لكن تاريخه يطابق
+    # تاريخ الإشارة المبهمة الأصلية. مرآة عكسية لفشل «لبّاد» أعلاه: هناك
+    # الكيان غائب و**لا معلومة تاريخ** فيُرفض؛ هنا الكيان غائب لكن **التاريخ
+    # يطابق صراحة** فيُقبل — الفارق هو بالضبط ما صُمِّمت من أجله الحالات
+    # الثلاث (DATE_NO_INFO/DATE_MATCH/DATE_MISMATCH) بدل bool واحد ==
+    check("2) بوابة الاتساق تقبل تسمية لا تذكر الكيان إطلاقًا (لا في نصها ولا "
+          "في وثائقها) إن تفق تاريخها صراحةً مع تاريخ الواقعة الأصلية — "
+          "التاريخ وحده يكفي حين يكون صريحًا ومطابقًا (تخفيف Issue #373)",
+          article._naming_consistent(
+              "حكم بإعدام المتهمين الثلاثة غيابيًا", ["كيان اختباري"],
+              ["11 آب 2026"],
+              [{"name": "م", "text": "المحكمة أصدرت حكمها في 11 آب 2026"}], cfg))
+    # وبالمقابل: تعارض تاريخ صريح يبقى رفضًا قاطعًا حتى مع ذكر الكيان
+    # الصحيح (فشل جنبلاط أعلاه) — التخفيف لا يعني أن "OR" ساذجة تُنقض حالة
+    # الرفض الحاسمة؛ راجع توثيق _naming_consistent لماذا هذا مقصود لا سهو
+    check("2) تعارض تاريخ صريح يبقى رفضًا قاطعًا رغم ذكر الكيان — لا OR ساذجة "
+          "تُنقض حالة الرفض الحاسمة (فشل جنبلاط، مُعاد تأكيدها هنا صراحة)",
+          not article._naming_consistent(
+              "حديث سابق يذكر كيان اختباري", ["كيان اختباري"], ["11 آب 2026"],
+              [{"name": "م", "text": "في مقابلة أجريت في يونيو 2011 ذُكر كيان اختباري"}],
+              cfg))
+
+    # اختبار مباشر لـ_dates_consistent (الحالات الثلاث الصريحة، لا bool)
+    check("article._dates_consistent: DATE_NO_INFO حين لا تاريخ منظَّم في dates",
+          article._dates_consistent("نص", ["15 عامًا"], [], 2) == article.DATE_NO_INFO)
+    check("article._dates_consistent: DATE_MATCH حين يتفق التاريخ",
+          article._dates_consistent("حدث في 11 آب 2026", ["11 آب 2026"], [], 2)
+          == article.DATE_MATCH)
+    check("article._dates_consistent: DATE_MISMATCH حين لا يتفق أي تاريخ في target "
+          "(بما فيها غياب أي تاريخ في target كليًا)",
+          article._dates_consistent("نص بلا أي تاريخ", ["11 آب 2026"], [], 2)
+          == article.DATE_MISMATCH)
+
     check("article._extract_dates: يوم+شهر+سنة يُستخرجان كتاريخ منظَّم واحد لا سنة مجردة مكرَّرة",
           set(article._extract_dates("صدر الحكم في 12 آب 2026")) ==
           {(2026, 8, 12)})
@@ -4778,9 +4814,11 @@ def test_article() -> None:
     check("article.BASELINE_LOG_PATH: تحت state/ — تلتزم بها article.yml تلقائيًا "
           "(git add -A drafts state) بلا تعديل سير العمل",
           article.BASELINE_LOG_PATH.parent == article.STATE_DIR)
-    check("config.yaml: article.baseline_brief موجود كمفتاح تهيئة (قد يكون فارغًا "
-          "حتى يُلصَق الموجز المرجعي الفعلي)",
-          "baseline_brief" in (cfg.get("article") or {}))
+    check("config.yaml: article.baseline_issue_number موجود كمفتاح تهيئة — رقم "
+          "Issue فقط لا نسخة من نص الموجز نفسه (تشخيص Issue #373، الجولة "
+          "الخامسة، البند 3: يُقرأ الموجز حيًّا من الـ Issue في main()، لا "
+          "من config.yaml)",
+          "baseline_issue_number" in (cfg.get("article") or {}))
 
     article.extract_brief = real_extract_brief
     evidence.search = real_search
