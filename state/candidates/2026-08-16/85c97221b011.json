@@ -1,0 +1,56 @@
+{
+  "id": "85c97221b011",
+  "created_at": "2026-08-16T18:07:38.024881+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.52,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "'Fury' at Tarling death as cycling union calls for better helmets",
+  "link": "https://www.bbc.co.uk/sport/cycling/articles/czxqqlpnx98o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Hindustan Times — World"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "'Fury' at Tarling death as cycling union calls for better helmets",
+    "link": "https://www.bbc.co.uk/sport/cycling/articles/czxqqlpnx98o?at_medium=RSS&at_campaign=rss",
+    "summary": "The cyclists' union expresses \"fury\" over the death of British rider Fin Tarling during Friday's stage of the Volta a Portugal.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-15T19:05:32+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/dd85/live/2dff1f70-98d0-11f1-9687-fb984065014d.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/cycling/articles/czxqqlpnx98o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/finlay-tarling-crash-video-shocking-scenes-emerge-after-british-cyclists-death-as-union-calls-for-better-helmets-101786855531691.html"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/dd85/live/2dff1f70-98d0-11f1-9687-fb984065014d.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/dd85/live/2dff1f70-98d0-11f1-9687-fb984065014d.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/dd85/live/2dff1f70-98d0-11f1-9687-fb984065014d.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 19.999336219444444,
+    "is_stale": true,
+    "score": 17.519257314179853
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "82efbe84d8ff",
+  "created_at": "2026-08-16T18:07:38.025139+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.58,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran calls for release of pilots captured in Qatar during West Asia war",
+  "link": "https://www.thehindu.com/news/international/iran-calls-for-release-of-pilots-captured-in-qatar-during-west-asia-war/article71350531.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran calls for release of pilots captured in Qatar during West Asia war",
+    "link": "https://www.thehindu.com/news/international/iran-calls-for-release-of-pilots-captured-in-qatar-during-west-asia-war/article71350531.ece",
+    "summary": "\"Three Iranian pilots were captured alive by Qatari forces after their Su-24 fighter jets crashed during the war,\" said General Mohammad Bagherzadeh of the Iranian armed forces, Fars news agency reported",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-15T16:57:06+00:00",
+    "image_url": null,
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-calls-for-release-of-pilots-captured-in-qatar-during-west-asia-war/article71350531.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-calls-for-release-of-pilots-captured-in-qatar-during-west-asia-war-101786796972291.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 5.998159912222222,
+    "is_stale": false,
+    "score": 16.57655440186717
+  }
+}

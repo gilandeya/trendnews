@@ -1,0 +1,81 @@
+{
+  "id": "1c9e2a4276ef",
+  "created_at": "2026-08-16T18:07:38.024288+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.98,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran offers $30,000 bounty for killing, capturing U.S. soldiers",
+  "link": "https://www.thehindu.com/news/international/iran-offers-30000-bounty-for-killing-capturing-us-soldiers/article71353679.ece",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "South China Morning Post",
+    "Tehran Times",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran offers $30,000 bounty for killing, capturing U.S. soldiers",
+    "link": "https://www.thehindu.com/news/international/iran-offers-30000-bounty-for-killing-capturing-us-soldiers/article71353679.ece",
+    "summary": "There has been no known deployment of U.S. ground forces in Iran during the West Asia war, except for a rescue mission in April for a downed American airman",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-16T16:48:59+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/rk3evr/article71353711.ece/alternates/LANDSCAPE_1200/2026-01-07T132152Z_345822309_RC2NVIA2UN31_RTRMADP_3_IRAN-ECONOMY.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "South China Morning Post",
+      "Tehran Times",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364216/iran-offers-us30000-bounty-killing-or-capturing-us-soldiers?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260816-iran-offers-30-000-bounty-for-killing-or-capturing-us-soldiers"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-offers-30000-bounty-for-killing-capturing-us-soldiers/article71353679.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/08/16/iran-offers-us-30-000-bounty-for-killing-capturing-us-soldiers"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-offers-usd-30-000-for-killing-or-capturing-us-soldiers-double-if-done-by-women-us-iran-war-irgc-west-asia-101786888910412.html"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529133/Iran-Offers-30-000-Reward-for-Capturing-or-Killing-US-Military"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/rk3evr/article71353711.ece/alternates/LANDSCAPE_1200/2026-01-07T132152Z_345822309_RC2NVIA2UN31_RTRMADP_3_IRAN-ECONOMY.JPG",
+      "https://s.france24.com/media/display/2a9f5802-8ecd-11f1-8fd4-005056bf30b7/w:1024/p:16x9/AP26208419033757.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/01/0b0304a7-afp-amir-hatami.webp",
+      "https://media.mehrnews.com/d/2026/08/16/4/6134621.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 2.9982778775,
+    "is_stale": false,
+    "score": 17.98161966304105
+  }
+}

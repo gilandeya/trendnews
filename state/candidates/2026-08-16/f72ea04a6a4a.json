@@ -1,0 +1,54 @@
+{
+  "id": "f72ea04a6a4a",
+  "created_at": "2026-08-16T18:07:38.024620+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.89,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran accuses Qatar of thwarting probe into fate of pilots",
+  "link": "https://www.channelnewsasia.com/world/iran-accuse-qatar-probe-pilots-war-6322221",
+  "publishers": [
+    "Channel News Asia",
+    "Hindustan Times — World"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Iran accuses Qatar of thwarting probe into fate of pilots",
+    "link": "https://www.channelnewsasia.com/world/iran-accuse-qatar-probe-pilots-war-6322221",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-16T08:56:39+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--2hDFKth3--/c_crop,h_449,w_799,x_1,y_47/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-06-30T103013Z_1_LYNXMPEM5T0MX_RTROPTP_3_IRAN-CRISIS.JPG?itok=clFYK4ZG",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/iran-accuse-qatar-probe-pilots-war-6322221"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-accuses-middle-east-war-mediator-qatar-of-holding-its-missing-pilots-delaying-probe-doha-rejects-claims-101786883287664.html"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--2hDFKth3--/c_crop,h_449,w_799,x_1,y_47/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-06-30T103013Z_1_LYNXMPEM5T0MX_RTROPTP_3_IRAN-CRISIS.JPG?itok=clFYK4ZG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 26.994143466944443,
+    "is_stale": true,
+    "score": 17.889905177642817
+  }
+}
