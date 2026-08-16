@@ -1,7 +1,7 @@
 {
   "id": "b4e8c9e127c9",
   "created_at": "2026-08-16T07:01:31.690104+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 23.17,
   "bucket": "useful",
@@ -55,5 +55,12 @@
       "https://img9.irna.ir/d/r2/2025/10/13/4/172164168.jpg"
     ]
   },
-  "publish_at": "2026-08-16T07:37:01.476175+00:00"
+  "publish_at": "2026-08-16T07:37:01.476175+00:00",
+  "published_at": "2026-08-16T08:01:03.596406+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1336005078616513",
+    "photo_id": "1336005051949849",
+    "url": "https://www.facebook.com/631680090321390_1336005078616513",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
