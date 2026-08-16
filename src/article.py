@@ -572,17 +572,11 @@ def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
             tool_choice={"type": "tool", "name": "name_event"},
             system=NAMING_SYSTEM,
             messages=[{"role": "user", "content": prompt}],
-            # temperature=0 على نداءات الحكم الثنائي (تشخيص Issue #373،
-            # الجولة العاشرة، البند 3): هل تسمّي هذه النصوص حدثًا؟ نعم/لا
-            # على نصوص ثابتة، لا صياغة تحتاج تنوعًا — يخفّف تذبذب الحكم بين
-            # نداءين متطابقين تقريبًا (رُصد فعليًا عبر تشغيلات: نفس السؤال
-            # ونفس المصادر أُجيب مرة ولم يُجب أخرى) لا يُلغيه بالضمان: لا
-            # حتمية مضمونة (تعادلات محتملة في توزيع الاحتمال، فروق مثيلات
-            # الخادم) — خط الأساس (_question_outcomes) هو أداة قياس أثره
-            # الفعلي، لا هذا التعليق. writer._call_model (مسار الصياغة
-            # المشترك: writer.write_arabic/verify_draft/_call_draft_model)
-            # لا تتأثر — هذا نداء مستقل بمعزل عنها.
-            temperature=0,
+            # لا تُضِف temperature: نماذج هذا المشروع ترفضها بـ400
+            # ("temperature is deprecated for this model") — Issue #373،
+            # الجولة الحادية عشرة. جُرِّبت لتخفيف تذبذب الحكم بين نداءين
+            # متطابقين تقريبًا وكسرت النداء صامتًا (يعود ضمن except أدناه
+            # بنفس شكل "لا نتيجة" الشرعي) قبل أن تُكتشف كسبب الانهيار.
         )
         writer.record_usage(resp, model)
     except APIError as exc:
@@ -812,8 +806,7 @@ def _support_sources(fact_text: str, docs: list[dict], cfg) -> list[str]:
             tool_choice={"type": "tool", "name": "support_fact"},
             system=SUPPORT_SYSTEM,
             messages=[{"role": "user", "content": prompt}],
-            temperature=0,  # حكم ثنائي (يسند أم لا) — انظر توثيق الرشيد في
-            # _ask_naming_model أعلاه: تخفيض تذبذب لا حتمية مضمونة
+            # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
         )
         writer.record_usage(resp, model)
     except APIError as exc:
@@ -902,8 +895,7 @@ def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
             tool_choice={"type": "tool", "name": "answer_question"},
             system=ANSWER_SYSTEM,
             messages=[{"role": "user", "content": prompt}],
-            temperature=0,  # حكم ثنائي (أجابت النصوص أم لا) — انظر توثيق
-            # الرشيد في _ask_naming_model أعلاه: تخفيض تذبذب لا حتمية مضمونة
+            # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
         )
         writer.record_usage(resp, model)
     except APIError as exc:
