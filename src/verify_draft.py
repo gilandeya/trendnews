@@ -25,7 +25,7 @@ import os
 import re
 from datetime import datetime, timezone
 
-from . import extract, imaging, review, store, writer
+from . import evidence, extract, imaging, review, store, writer
 from . import verify
 from .config import DRAFTS_DIR
 from .imagesearch import find_images
@@ -171,13 +171,34 @@ def _quoted_spans(text: str) -> list[str]:
     return [m.group(1).strip() for m in QUOTE_RE.finditer(text or "")]
 
 
-def check_originality(draft_text: str, article_body: str, source_texts: list[str],
-                      max_shared_run_words: int) -> tuple[bool, str]:
+def _ngram_counts(words: list[str], n: int) -> dict[tuple[str, ...], int]:
+    if n <= 0 or len(words) < n:
+        return {}
+    out: dict[tuple[str, ...], int] = {}
+    for i in range(len(words) - n + 1):
+        key = tuple(words[i:i + n])
+        out[key] = out.get(key, 0) + 1
+    return out
+
+
+def check_originality(draft_text: str, article_body: str, source_docs: list[dict],
+                      max_shared_run_words: int, *, repeat_min_count: int = 2,
+                      extra_docs: list[dict] | None = None
+                      ) -> tuple[bool, str, list[str]]:
     """يتحقق أن نص المسودة لا يحمل نسخًا حرفيًا من المقال الملصق ولا من
     مقتطفات المصادر المؤكِّدة (تعليق الموافقة على Issue #334، نقطة 3):
     القاعدة 1 تمنع نقل جملة من المقال، والمقتطفات تدخل البرومبت هنا كنصوص
     كاملة (خطر نسخ أعلى من ملخصات RSS القصيرة التي يتلقاها writer.py عادة)
     فالنسخ من مصدر مؤكِّد يُفحص بالصرامة نفسها.
+
+    source_docs/extra_docs: [{"name": هوية الناشر الموحَّدة (لا الاسم
+    الخام — على المستدعي تمرير evidence._canonical_publisher نفسها، فهذه
+    الدالة لا تستورد evidence لتبقى مستقلة قابلة للاختبار بلا cfg), "text":
+    ...}]. source_docs هي المقتطفات المؤكِّدة/المسندة فعليًا لهذا المحتوى —
+    عليها وحدها يسري استثناء "مصدرين مستقلين" الأصلي. extra_docs (اختياري)
+    تجميع أوسع — أي وثيقة قُرئت خلال هذا التشغيل ولو لم تؤيِّد هذه الواقعة
+    بعينها — تُستعمل حصرًا لإشارة (ب) أدناه، لا لإشارة (أ) ولا للاستثناء
+    الأصلي.
 
     اقتباس بين علامتي تنصيص يُستثنى من الفحص بشرط وجوده حرفيًا (بعد
     التطبيع) في أحد مقتطفات المصادر المؤكِّدة — اقتباس منسوب مشروع. اقتباس
@@ -187,13 +208,27 @@ def check_originality(draft_text: str, article_body: str, source_texts: list[str
     مرجَّح لا مستبعَد.
 
     استثناء عابر للمصادر (تعليق التنفيذ على PR #340، البند 2): تتابع كلمات
-    وارد حرفيًا في مصدرين مستقلين مؤكِّدين فأكثر ليس نسخًا من أيّهما — هو
+    وارد حرفيًا في مصدرين مستقلين مؤكِّدين فأكثر (بعد توحيد هوية الناشر —
+    لا تُحسب نسختا ناشر واحد بلغتين مصدرين اثنين) ليس نسخًا من أيّهما — هو
     على الأرجح صياغة الحدث نفسه كما تكرّرت في تغطيات مستقلة (تصريح رسمي
     منقول حرفيًا، رقم بصياغته القياسية...)، لا دليل نسخ عن مصدر بعينه.
-    العتبة تبقى سارية كاملة على ما تفرّد به مصدر واحد وحده أو المقال الملصق
-    (لا يُحسب مصدرًا "مستقلًا" هنا أصلًا — هو ما يُتحقَّق منه لا سند مؤكَّد).
+
+    إشارتان إضافيتان (تشخيص Issue #373، الجولة العاشرة — بديل عن جعل
+    النموذج شاهدًا على نفسه بتصنيف تتابعه "مصطلح رسمي"، مرفوض: الفحص كله
+    وُجد لأننا لا نثق بمخرَج النموذج) تُعفيان تتابعًا ورد في مصدر واحد فقط
+    من الرفض، بلا رفع عتبة max_shared_run_words:
+      (أ) تكرار داخل المصدر الواحد نفسه ≥ repeat_min_count — اسم مؤسسة
+          يتكرر في الخبر عنها؛ الجملة المنسوخة لا تتكرر.
+      (ب) ورود في وثيقة أخرى مقروءة (extra_docs) بهوية ناشر مختلفة عن
+          المصدر الوحيد — لا يكفي ورودها في نسخة أخرى للناشر نفسه (توحيد
+          الهوية يمنع هذا) لأن ذلك ليس دليل انتشار مستقلًا، بل نفس الناشر
+          يكرر عبارته.
+    كلا الإشارتين يُسجَّلان في القيمة الثالثة المُعادة (سطر تبليغ لكل
+    إعفاء، بلا إعفاء صامت) — لا يُسقطان الفحص، فقط يُعفيان الحالة المحدَّدة.
+
     لا إضعاف للتطبيع نفسه: المطابقة الحرفية بعد التطبيع كما هي، فقط قرار
     الرفض يفحص أولًا عدد المصادر المستقلة التي يظهر التتابع فيها بالضبط."""
+    source_texts = [d.get("text", "") for d in source_docs]
     quotes = _quoted_spans(draft_text)
     normalized_sources = [_normalized_words(s) for s in source_texts]
     cleaned = draft_text
@@ -203,27 +238,50 @@ def check_originality(draft_text: str, article_body: str, source_texts: list[str
                                   for src_words in normalized_sources):
             return False, (f"اقتباس بين علامتي تنصيص غير موجود حرفيًا في أي "
                            f"مقتطف مصدر مؤكِّد — يُفترض نسخه من المقال الملصق: "
-                           f"«{q[:80]}»")
+                           f"«{q[:80]}»"), []
         cleaned = cleaned.replace(q, " ")
 
+    notes: list[str] = []
     candidate_words = _normalized_words(cleaned)
     n = max_shared_run_words
     if n > 0 and len(candidate_words) >= n:
         article_ngrams = _ngram_set(_normalized_words(article_body), n)
-        source_ngram_lists = [_ngram_set(words, n) for words in normalized_sources]
+        source_counts = [(d["name"], _ngram_counts(_normalized_words(d.get("text", "")), n))
+                         for d in source_docs]
+        extra_counts = [(d["name"], _ngram_counts(_normalized_words(d.get("text", "")), n))
+                        for d in (extra_docs or [])]
         for i in range(len(candidate_words) - n + 1):
             window = tuple(candidate_words[i:i + n])
-            hit_sources = [idx for idx, ngrams in enumerate(source_ngram_lists)
-                           if window in ngrams]
-            if len(hit_sources) >= 2:
+            phrase = " ".join(window)
+            hit_names = {name for name, counts in source_counts if window in counts}
+            if len(hit_names) >= 2:
                 continue  # وارد في مصدرين مستقلين فأكثر — مستثنى من الرفض
-            if len(hit_sources) == 1:
-                return False, (f"تطابق لفظي مع مقتطف مصدر مؤكِّد ({hit_sources[0] + 1}): "
-                               f"{n} كلمة متتالية مشتركة — «{' '.join(window)}»")
+            if len(hit_names) == 1:
+                only_name = next(iter(hit_names))
+                repeat_count = next(c for name, c in source_counts
+                                    if name == only_name)[window]
+                if repeat_count >= repeat_min_count:
+                    note = (f"⚠️ تطابق لفظي مع مصدر واحد ({only_name}) على {n} كلمة "
+                           f"متتالية — «{phrase}» — مُعفى: تكرر {repeat_count} مرات "
+                           f"داخل نص هذا المصدر نفسه (إشارة أ)")
+                    if note not in notes:
+                        notes.append(note)
+                    continue
+                other_hit = next((name for name, counts in extra_counts
+                                  if window in counts and name != only_name), None)
+                if other_hit:
+                    note = (f"⚠️ تطابق لفظي مع مصدر واحد ({only_name}) على {n} كلمة "
+                           f"متتالية — «{phrase}» — مُعفى: ورد أيضًا في وثيقة أخرى "
+                           f"مقروءة بهوية ناشر مختلفة ({other_hit}) (إشارة ب)")
+                    if note not in notes:
+                        notes.append(note)
+                    continue
+                return False, (f"تطابق لفظي مع مقتطف مصدر مؤكِّد ({only_name}): "
+                               f"{n} كلمة متتالية مشتركة — «{phrase}»"), notes
             if window in article_ngrams:
                 return False, (f"تطابق لفظي مع المقال الملصق: {n} كلمة متتالية "
-                               f"مشتركة — «{' '.join(window)}»")
-    return True, ""
+                               f"مشتركة — «{phrase}»"), notes
+    return True, "", notes
 
 
 # ──────────────────────────── الصياغة من الوقائع ────────────────────────────
@@ -258,6 +316,22 @@ DRAFT_USER_TEMPLATE = """وقائع مؤكَّدة بمصدرين مستقلين
   إن حملت نصوص المصادر تحليلًا فعليًا يتجاوز الوقائع أعلاه، وإلا اتركه فارغًا.
 
 نبرة الكتابة المطلوبة: {tone}"""
+
+
+def _canonical_docs(items: list[dict], cfg) -> list[dict]:
+    """[{"name": هوية ناشر موحَّدة, "text": ...}] من قائمة مصادر خام (حقل
+    "sources" لأي واقعة) — evidence._canonical_publisher تمنع نسختي ناشر
+    واحد بلغتين (مثال حقيقي: "الجزيرة نت"/"Al Jazeera") من العدّ كمصدرين
+    مستقلين في check_originality (تشخيص Issue #373، الجولة العاشرة، بند
+    التوحيد في إشارة ب)."""
+    out = []
+    for it in items:
+        text = it.get("text")
+        if not text:
+            continue
+        out.append({"name": evidence._canonical_publisher(it.get("name", ""), cfg),
+                    "text": text})
+    return out
 
 
 def _source_docs(confirmed: list[dict]) -> list[dict]:
@@ -361,6 +435,7 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
         "central_index": central.get("index", 0) if central else 0,
         "confirmed_count": 0, "draft_id": None,
         "image_source_name": None, "image_source_link": None,
+        "originality_notes": [],
     }
 
     write_access_error = _write_access_reason()
@@ -390,20 +465,29 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
 
     vd_cfg = cfg.get("verify_draft", {}) or {}
     max_shared_run_words = int(vd_cfg.get("max_shared_run_words", 7))
+    repeat_min_count = int(vd_cfg.get("repeat_within_source_min_count", 2))
 
     written, write_reason = _draft_from_facts(confirmed, cfg)
     if written is None:
         outcome["reason"] = write_reason
         return outcome
 
-    source_texts = [s["text"] for f in confirmed for s in f.get("sources", [])
-                    if s.get("text")]
+    source_docs = _canonical_docs(
+        [s for f in confirmed for s in f.get("sources", [])], cfg)
+    # المجمع الأوسع لإشارة (ب): مصادر كل الوقائع التي بحث عنها verify.py في
+    # المرحلة الأولى (result["facts"]) — لا confirmed وحدها — فوثيقة أيّدت
+    # واقعة أخرى لم تبلغ عتبة "مؤكَّدة" (مصدر واحد فقط، أو مُخالَف...) تبقى
+    # دليلًا صالحًا على أن التتابع صياغة قياسية متكررة عبر التغطية، لا نسخ
+    extra_docs = _canonical_docs(
+        [s for f in facts for s in f.get("sources", [])], cfg)
     draft_text = "\n".join(filter(None, [
         written["image_headline"], written["post_title"],
         written["post_body"], written.get("analysis", ""),
     ]))
-    ok_orig, orig_reason = check_originality(
-        draft_text, article_body, source_texts, max_shared_run_words)
+    ok_orig, orig_reason, originality_notes = check_originality(
+        draft_text, article_body, source_docs, max_shared_run_words,
+        repeat_min_count=repeat_min_count, extra_docs=extra_docs)
+    outcome["originality_notes"] = originality_notes
     if not ok_orig:
         outcome["reason"] = f"مرحلة صياغة المسودة — امتناع: {orig_reason}"
         return outcome
@@ -508,6 +592,9 @@ def build_report_section(outcome: dict) -> str:
             lines.append(f"🖼️ مصدر الصورة: [{name}]({outcome['image_source_link']})")
     else:
         lines.append(f"❌ لم تُصَغ مسودة — {outcome['reason']}")
+    if outcome.get("originality_notes"):
+        lines += ["", "**تتابعات أُعفيت من فحص النسخ اللفظي:**"]
+        lines += [f"- {note}" for note in outcome["originality_notes"]]
     if outcome.get("central_text"):
         lines += ["", f"<sub>الواقعة المحورية (index {outcome['central_index']}): "
                       f"«{outcome['central_text']}»</sub>"]

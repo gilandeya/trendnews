@@ -552,6 +552,17 @@ def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
             tool_choice={"type": "tool", "name": "name_event"},
             system=NAMING_SYSTEM,
             messages=[{"role": "user", "content": prompt}],
+            # temperature=0 على نداءات الحكم الثنائي (تشخيص Issue #373،
+            # الجولة العاشرة، البند 3): هل تسمّي هذه النصوص حدثًا؟ نعم/لا
+            # على نصوص ثابتة، لا صياغة تحتاج تنوعًا — يخفّف تذبذب الحكم بين
+            # نداءين متطابقين تقريبًا (رُصد فعليًا عبر تشغيلات: نفس السؤال
+            # ونفس المصادر أُجيب مرة ولم يُجب أخرى) لا يُلغيه بالضمان: لا
+            # حتمية مضمونة (تعادلات محتملة في توزيع الاحتمال، فروق مثيلات
+            # الخادم) — خط الأساس (_question_outcomes) هو أداة قياس أثره
+            # الفعلي، لا هذا التعليق. writer._call_model (مسار الصياغة
+            # المشترك: writer.write_arabic/verify_draft/_call_draft_model)
+            # لا تتأثر — هذا نداء مستقل بمعزل عنها.
+            temperature=0,
         )
         writer.record_usage(resp, model)
     except APIError as exc:
@@ -768,6 +779,8 @@ def _support_sources(fact_text: str, docs: list[dict], cfg) -> list[str]:
             tool_choice={"type": "tool", "name": "support_fact"},
             system=SUPPORT_SYSTEM,
             messages=[{"role": "user", "content": prompt}],
+            temperature=0,  # حكم ثنائي (يسند أم لا) — انظر توثيق الرشيد في
+            # _ask_naming_model أعلاه: تخفيض تذبذب لا حتمية مضمونة
         )
         writer.record_usage(resp, model)
     except APIError as exc:
@@ -850,6 +863,8 @@ def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
             tool_choice={"type": "tool", "name": "answer_question"},
             system=ANSWER_SYSTEM,
             messages=[{"role": "user", "content": prompt}],
+            temperature=0,  # حكم ثنائي (أجابت النصوص أم لا) — انظر توثيق
+            # الرشيد في _ask_naming_model أعلاه: تخفيض تذبذب لا حتمية مضمونة
         )
         writer.record_usage(resp, model)
     except APIError as exc:
@@ -1236,7 +1251,7 @@ def _new_outcome() -> dict:
            "sources": [], "unanswered": [], "answered_questions": [], "diffs": [],
            "trail": [], "draft_id": None, "grounded_count": 0,
            "image_source_name": None, "image_source_link": None,
-           "image_report": {}, "opinion_note": ""}
+           "image_report": {}, "opinion_note": "", "originality_notes": []}
 
 
 def write_article(body: str, issue_number: int, cfg) -> dict:
@@ -1292,6 +1307,13 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     grounded: list[dict] = []
     sources_seen: list[dict] = []
     trail: list[dict] = []
+    # كل وثيقة قُرئت فعليًا خلال هذا التشغيل عبر أي مرحلة (واقعة/تسمية/سند/
+    # سؤال)، ولو لم تؤيِّد ما استُخرجت لأجله بعينه — مجمَّع إشارة (ب) في فحص
+    # الأصالة أدناه (تشخيص Issue #373، الجولة العاشرة): تتابع ورد في مصدر
+    # واحد فقط ضمن المصادر المسنِدة قد يظهر أيضًا في وثيقة أخرى قُرئت هنا
+    # لم تنتهِ مصدرًا مسنِدًا لأي واقعة (رُفضت صلة، لم تجتز بوابة الاتساق...)
+    # — ورودها هناك أيضًا دليل أن التتابع صياغة قياسية متكررة، لا نسخ حرفي
+    all_read_docs: list[dict] = []
     # البند 7 (تعليق الموافقة الثاني): الصلة بين حدث سُمّي حديثًا وكيان
     # الموجز الأصلي ليست بديهية — تُضاف سؤالًا يُبحث بنفس آلية أسئلة
     # الموجز (البند 5) حصرًا، لا تُفترض صامتة
@@ -1310,6 +1332,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             # الحكم على الكفاية
             named_text, named_docs, named_supporting, name_trail = _name_event(f, cfg, topic=topic)
             trail.extend(name_trail)
+            all_read_docs.extend(named_docs)
             if not named_text:
                 dropped.append({
                     "text": f["text"],
@@ -1322,6 +1345,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             support_query = evidence.build_query(named_text, query_max_words)
             support_ranked = evidence.search(support_query, cfg, days)
             support_docs, support_basis = evidence.gather_evidence(support_ranked, cfg, named_text)
+            all_read_docs.extend(support_docs)
             support_supporting = (_support_sources(named_text, support_docs, cfg)
                                   if support_docs else [])
             trail.append({"stage": "سند", "query": support_query, "basis": support_basis,
@@ -1360,6 +1384,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             ranked = evidence.search(query, cfg, days, unrestricted=f.get("is_reference", False))
             relevance_text = evidence._entities_text(f) or f["text"]
             docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
+            all_read_docs.extend(docs)
             supporting = _support_sources(f["text"], docs, cfg) if docs else []
             unique = set(supporting)
             trail.append({"stage": "واقعة", "query": query, "basis": basis,
@@ -1397,6 +1422,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         ranked = evidence.search(query, cfg, days, unrestricted=q.get("is_reference", False))
         relevance_text = evidence._entities_text(q) or q["text"]
         docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
+        all_read_docs.extend(docs)
         answer = _ask_answer_model(q["text"], docs, cfg) if docs else None
         supporting = answer["supporting"] if answer else []
         unique = set(supporting)
@@ -1464,15 +1490,24 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         outcome["reason"] = w_reason
         return outcome
 
-    source_texts = [s["text"] for f in grounded for s in f.get("sources", []) if s.get("text")]
+    source_docs = [{"name": evidence._canonical_publisher(s["name"], cfg), "text": s["text"]}
+                  for f in grounded for s in f.get("sources", []) if s.get("text")]
+    # مجمع إشارة (ب) — كل وثيقة قُرئت خلال هذا التشغيل بأكمله (all_read_docs)،
+    # بهوية ناشر موحَّدة أيضًا كي لا تُحسب نسختا ناشر واحد بلغتين مصدرين
+    # منفصلين (تشخيص Issue #373، الجولة العاشرة، ضابط توحيد الناشر في ب)
+    extra_docs = [{"name": evidence._canonical_publisher(d.get("name", ""), cfg),
+                  "text": d.get("text", "")} for d in all_read_docs if d.get("text")]
     draft_text = "\n".join(filter(None, [
         written["image_headline"], written["post_title"], written["post_body"],
     ]))
     max_shared = int(acfg.get("max_shared_run_words", 7))
+    repeat_min_count = int(acfg.get("repeat_within_source_min_count", 2))
     # فحص النسخ اللفظي (القاعدة 5) — verify_draft.check_originality مُعاد
     # استعمالها كما هي بعتبتها واستثناءاتها، لا نسخة موازية
-    ok_orig, orig_reason = verify_draft.check_originality(
-        draft_text, body, source_texts, max_shared)
+    ok_orig, orig_reason, originality_notes = verify_draft.check_originality(
+        draft_text, body, source_docs, max_shared,
+        repeat_min_count=repeat_min_count, extra_docs=extra_docs)
+    outcome["originality_notes"] = originality_notes
     if not ok_orig:
         outcome["reason"] = f"مرحلة الصياغة — امتناع: {orig_reason}"
         return outcome
@@ -1655,6 +1690,13 @@ def build_report(outcome: dict) -> str:
         # مميَّز صراحة عن "ما سقط من موجزي" أعلاه: قرار تهيئة مسبق
         # (article.include_opinion=false)، لا نتيجة فحص سند
         lines += ["", f"💬 {outcome['opinion_note']}"]
+
+    if outcome.get("originality_notes"):
+        # تبليغ صريح لا إعفاء صامت (تشخيص Issue #373، الجولة العاشرة، البند
+        # 2): كل تتابع أُعفي من رفض النسخ اللفظي بإشارة (أ)/(ب) يظهر هنا
+        # بدليله، فيبقى قابلًا لتصحيح المراجع البشري إن أخطأت الإشارة
+        lines += ["", "**تتابعات أُعفيت من فحص النسخ اللفظي:**"]
+        lines += [f"- {note}" for note in outcome["originality_notes"]]
 
     if outcome.get("diffs"):
         lines += ["", "**أين خالفت المصادرُ موجزي:**"]

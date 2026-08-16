@@ -2669,6 +2669,30 @@ def test_verify() -> None:
           "(العطل الفعلي في السجل)",
           judged_jafra["supporting"] == ["جفرا نيوز"], str(judged_jafra))
 
+    # temperature=0 على judge_fact (تشخيص Issue #373، الجولة العاشرة، البند
+    # 3): حكم ثنائي (يسند/يخالف) — تخفيض تذبذب لا حتمية مضمونة
+    class _CapturingMessages:
+        def __init__(self, responses, captured):
+            self._responses = list(responses)
+            self._captured = captured
+
+        def create(self, **kw):
+            self._captured.append(kw)
+            return self._responses.pop(0)
+
+    class _CapturingClient:
+        def __init__(self, responses, captured):
+            self.messages = _CapturingMessages(responses, captured)
+
+    captured_kw: list = []
+    verify._client = lambda: _CapturingClient(
+        [_Resp([_Block("tool_use", input={"supporting": [], "contradicting": []})])],
+        captured_kw)
+    verify.judge_fact("ادّعاء", docs_jafra_full, cfg)
+    check("judge_fact: temperature=0 يصل نداء الشبكة فعليًا",
+          bool(captured_kw) and captured_kw[-1].get("temperature") == 0, captured_kw)
+    verify._client = real_client
+
     # مقال بلا أي مصدر يؤكد وقائعه ← حكم سلبي واضح لا تقرير مبهم
     verify.extract_claims = lambda text, cfg, retries=3: ({
         "topic": "مقال بلا سند",
@@ -3750,6 +3774,97 @@ def test_verify_draft() -> None:
         os.environ.pop(verify_draft.WRITE_ENABLED_ENV, None)
     else:
         os.environ[verify_draft.WRITE_ENABLED_ENV] = real_write_enabled
+
+
+def test_check_originality_signals() -> None:
+    """إشارتا إعفاء لفحص الأصالة (تشخيص Issue #373، الجولة العاشرة) —
+    بديل مبني على النصوص لا على شهادة النموذج على نفسه (مقترح "مصطلح
+    رسمي" مرفوض صراحة: الفحص كله وُجد لأننا لا نثق بمخرَج النموذج). تتابع
+    ورد في مصدر واحد فقط يُعفى من الرفض بلا رفع عتبة max_shared_run_words
+    إن (أ) تكرر داخل نص ذلك المصدر نفسه ≥ repeat_min_count، أو (ب) ورد في
+    وثيقة أخرى مقروءة بهوية ناشر موحَّدة مختلفة — لا نسخة أخرى للناشر نفسه."""
+    from src import verify_draft
+
+    cfg = load_config()
+    check("config.yaml: verify_draft.repeat_within_source_min_count موجود وقابل للضبط",
+          cfg.path("verify_draft.repeat_within_source_min_count") is not None)
+    check("config.yaml: article.repeat_within_source_min_count موجود وقابل للضبط",
+          cfg.path("article.repeat_within_source_min_count") is not None)
+
+    run = "محكمة الجنايات الرابعة في دمشق برئاسة القاضي"  # 7 كلمات بالضبط
+    draft = f"أصدرت {run} حكمًا بالإعدام."
+
+    single_source = [{"name": "مصدر أول", "text": f"القصة: {run}. تفاصيل إضافية هنا."}]
+    ok0, reason0, notes0 = verify_draft.check_originality(draft, "", single_source, 7)
+    check("خط الأساس: تتابع من مصدر واحد بلا تكرار ولا ورود آخر ← رفض",
+          ok0 is False and "تطابق لفظي" in reason0, (ok0, reason0))
+    check("خط الأساس: بلا أي إعفاء مُسجَّل", notes0 == [], notes0)
+
+    repeated_text = f"القصة: {run}. وأضاف بيان {run} أن الحكم نهائي."
+    source_repeated = [{"name": "مصدر أول", "text": repeated_text}]
+    ok_a, reason_a, notes_a = verify_draft.check_originality(
+        draft, "", source_repeated, 7, repeat_min_count=2)
+    check("إشارة (أ): تكرار التتابع داخل نص المصدر الواحد ≥2 يُعفي من الرفض",
+          ok_a is True, reason_a)
+    check("إشارة (أ): الإعفاء مُسجَّل صراحة — لا إعفاء صامت",
+          bool(notes_a) and "إشارة أ" in notes_a[0], notes_a)
+
+    extra_different = [{"name": "مصدر ثانٍ",
+                        "text": f"وذكرت تقارير أخرى أن {run} أصدرت الحكم."}]
+    ok_b, reason_b, notes_b = verify_draft.check_originality(
+        draft, "", single_source, 7, extra_docs=extra_different)
+    check("إشارة (ب): ورود التتابع في وثيقة أخرى مقروءة بهوية ناشر مختلفة يُعفي",
+          ok_b is True, reason_b)
+    check("إشارة (ب): الإعفاء مُسجَّل صراحة — لا إعفاء صامت",
+          bool(notes_b) and "إشارة ب" in notes_b[0], notes_b)
+
+    extra_same_name = [{"name": "مصدر أول", "text": f"نص آخر لنفس الناشر: {run}."}]
+    ok_same, reason_same, _ = verify_draft.check_originality(
+        draft, "", single_source, 7, extra_docs=extra_same_name)
+    check("ضابط التوحيد: وثيقة أخرى بهوية الناشر نفسه (لا مختلفة) لا تُعفي عبر (ب)",
+          ok_same is False, (ok_same, reason_same))
+
+    # تكامل توحيد الهوية الفعلي (evidence._canonical_publisher): "الجزيرة
+    # نت" و"Al Jazeera" يتشاركان الهوية نفسها — إن مرّرهما المستدعي بعد
+    # التوحيد (كما تفعل article.py/verify_draft.py فعليًا)، نسخة الناشر
+    # الأخرى بلغة مختلفة لا تُعفي عبر (ب): ليست مصدرًا مستقلًا ثانيًا
+    canon_a = evidence._canonical_publisher("الجزيرة نت", cfg)
+    canon_b = evidence._canonical_publisher("Al Jazeera", cfg)
+    check("توحيد الهوية: الجزيرة نت وAl Jazeera يتشاركان الهوية الموحَّدة نفسها",
+          canon_a == canon_b, (canon_a, canon_b))
+    single_aljazeera = [{"name": canon_a, "text": f"القصة: {run}. تفاصيل إضافية هنا."}]
+    extra_aljazeera_en = [{"name": canon_b, "text": f"story: {run} something."}]
+    ok_canon, reason_canon, _ = verify_draft.check_originality(
+        draft, "", single_aljazeera, 7, extra_docs=extra_aljazeera_en)
+    check("ضابط التوحيد الفعلي: نسخة الجزيرة نت/Al Jazeera بعد التوحيد لا تُعفي "
+          "عبر إشارة (ب) — نفس الناشر لا مصدر مستقل ثانٍ",
+          ok_canon is False, (ok_canon, reason_canon))
+
+    two_sources = [{"name": "مصدر أول", "text": f"{run} أصدرت الحكم."},
+                  {"name": "مصدر ثانٍ", "text": f"وأكدت {run} ذلك."}]
+    ok_two, reason_two, notes_two = verify_draft.check_originality(draft, "", two_sources, 7)
+    check("الاستثناء الأصلي (مصدران مستقلان فأكثر) لا يزال ساريًا بلا تغيير",
+          ok_two is True, reason_two)
+    check("الاستثناء الأصلي يبقى صامتًا بلا سطر تبليغ جديد", notes_two == [], notes_two)
+
+    # التبليغ (البند 2 من التنفيذ) يصل تقريري article.build_report
+    # وverify_draft.build_report_section الفعليين — لا outcome الداخلي وحده
+    from src import article
+    fake_outcome_article = article._new_outcome()
+    fake_outcome_article.update({"produced": True, "reason": "تجربة",
+                                 "draft_id": "abc123", "originality_notes": notes_a})
+    report_article = article.build_report(fake_outcome_article)
+    check("article.build_report يعرض originality_notes حين تُوجَد",
+          "تتابعات أُعفيت من فحص النسخ اللفظي" in report_article and
+          notes_a[0] in report_article, report_article)
+
+    fake_outcome_vd = {"produced": True, "reason": "تجربة", "draft_id": "abc123",
+                       "central_text": "", "central_index": 0,
+                       "originality_notes": notes_b}
+    report_vd = verify_draft.build_report_section(fake_outcome_vd)
+    check("verify_draft.build_report_section يعرض originality_notes حين تُوجَد",
+          "تتابعات أُعفيت من فحص النسخ اللفظي" in report_vd and
+          notes_b[0] in report_vd, report_vd)
 
 
 def test_evidence() -> None:
@@ -4994,6 +5109,36 @@ def test_article() -> None:
           matched is not None and matched["naming_issue"] is None and
           matched["supporting"] == ["مصدر أول"])
 
+    # temperature=0 على الأحكام الثنائية الثلاثة في article.py (تشخيص Issue
+    # #373، الجولة العاشرة، البند 3) — تخفيض تذبذب لا حتمية مضمونة، موثَّق
+    # في كود كل نداء. لا يمسّ _choose_question (تُرك كما هو عمدًا: اختيار
+    # السؤال أقرب للصياغة، والتنوع فيه مفيد) ولا writer._call_model.
+    class _CaptureMessages:
+        def __init__(self, input_, captured):
+            self._input = input_
+            self._captured = captured
+
+        def create(self, **kw):
+            self._captured.append(kw)
+            return _AnswerResp(self._input)
+
+    class _CaptureClient:
+        def __init__(self, input_, captured):
+            self.messages = _CaptureMessages(input_, captured)
+
+    temp_calls: list = []
+    article._client = lambda: _CaptureClient({"named": False}, temp_calls)
+    real_ask_naming_model("نص مبهم", ["ك"], docs_for_answer, cfg)
+    article._client = lambda: _CaptureClient({"supporting": []}, temp_calls)
+    real_support_sources("واقعة اختبار", docs_for_answer, cfg)
+    article._client = lambda: _CaptureClient(
+        {"answered": False, "supporting": []}, temp_calls)
+    real_ask_answer_model("سؤال اختبار temperature؟", docs_for_answer, cfg)
+    check("3) temperature=0 وصل نداءات _ask_naming_model/_support_sources/"
+          "_ask_answer_model الثلاثة فعليًا",
+          len(temp_calls) == 3 and all(c.get("temperature") == 0 for c in temp_calls),
+          temp_calls)
+
     article._client = real_client_fn
 
     # التفريق يصل تقرير الـ Issue فعليًا لا الحقل الداخلي وحده
@@ -5477,6 +5622,8 @@ def main() -> int:
     test_verify()
     print("\n── صياغة مسودة من المؤكَّد وحده (التحقق، المرحلة 2) ──")
     test_verify_draft()
+    print("\n── فحص الأصالة: إعفاءا تكرار المصدر ووثيقة أخرى مقروءة ──")
+    test_check_originality_signals()
     print("\n── محرك البحث والقراءة المشترك (evidence.py) ──")
     test_evidence()
     print("\n── مقال من المصادر ──")
