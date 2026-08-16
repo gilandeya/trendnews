@@ -1,77 +1,62 @@
 {
   "id": "a01d3a2f0926",
-  "created_at": "2026-08-16T06:07:48.133683+00:00",
-  "status": "unselected",
-  "selection_issue": 376,
-  "score": 18.72,
-  "trend_score": 0.0,
-  "velocity": 0.33,
+  "created_at": "2026-08-16T17:08:00.935945+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.12,
+  "trend_score": 1.0,
+  "velocity": 0.0,
   "bucket": "serious",
   "state_media": false,
-  "title": "Zimbabwe ferry death toll rises to 68 after Lake Kariba capsizing",
+  "title": "Zimbabwe ferry death toll rises to 80 after Lake Kariba capsizing",
   "link": "http://www.africanews.com/2026/08/16/zimbabwe-ferry-death-toll-rises-to-68-after-lake-kariba-capsizing/",
   "publishers": [
     "Africanews",
-    "Al Jazeera",
-    "Al Jazeera English",
-    "CGTN",
-    "Free Malaysia Today",
+    "France24",
     "The Hindu — International"
   ],
   "region": "africa",
   "article": {
-    "title": "Zimbabwe ferry death toll rises to 68 after Lake Kariba capsizing",
+    "title": "Zimbabwe ferry death toll rises to 80 after Lake Kariba capsizing",
     "link": "http://www.africanews.com/2026/08/16/zimbabwe-ferry-death-toll-rises-to-68-after-lake-kariba-capsizing/",
-    "summary": "The death toll after a ferry capsized on Zimbabwe's Lake Kariba this week has risen to 68 after more bodies were recovered on Saturday, the police said.",
+    "summary": "The death toll after a ferry capsized on Zimbabwe's Lake Kariba this week has risen to 80 after more bodies were recovered on Sunday, the police said.",
     "source_name": "Africanews",
     "region": "africa",
     "weight": 1.0,
-    "published": "2026-08-16T06:04:08+00:00",
+    "published": "2026-08-16T14:22:16+00:00",
     "image_url": "http://images.euronews.com/articles/stories/09/87/57/84/640x360_cmsv2_19080d66-b186-503c-8ecd-55bbcdb3df76-9875784.jpg?1786811645",
     "publisher": "Africanews",
     "cluster_sources": [
       "Africanews",
-      "Al Jazeera",
-      "Al Jazeera English",
-      "CGTN",
-      "Free Malaysia Today",
+      "France24",
       "The Hindu — International"
     ],
     "cluster_members": [
-      {
-        "name": "Al Jazeera English",
-        "link": "https://www.aljazeera.com/news/2026/8/15/death-toll-from-zimbabwe-ferry-disaster-rises-to-69?traffic_source=rss"
-      },
       {
         "name": "The Hindu — International",
         "link": "https://www.thehindu.com/news/international/death-toll-in-zimbabwe-ferry-capsizing-rises-to-68-police/article71350493.ece"
       },
       {
+        "name": "France24",
+        "link": "https://www.france24.com/en/africa/20260816-death-toll-from-zimbabwe-capsized-ferry-accident-rises-to-80"
+      },
+      {
         "name": "Africanews",
         "link": "http://www.africanews.com/2026/08/16/zimbabwe-ferry-death-toll-rises-to-68-after-lake-kariba-capsizing/"
-      },
-      {
-        "name": "Free Malaysia Today",
-        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/16/death-toll-in-zimbabwe-s-ferry-capsizing-rises-to-72"
-      },
-      {
-        "name": "CGTN",
-        "link": "https://news.cgtn.com/news/2026-08-16/news-1PEjgf3xIs0/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
       }
     ],
     "image_candidates": [
       "http://images.euronews.com/articles/stories/09/87/57/84/640x360_cmsv2_19080d66-b186-503c-8ecd-55bbcdb3df76-9875784.jpg?1786811645",
       "https://th-i.thgim.com/public/incoming/wb32wo/article71350500.ece/alternates/LANDSCAPE_1200/AP08_14_2026_000084B.jpg",
-      "https://media.freemalaysiatoday.com/v3/2026/08/409d963d-e269-4201-b338-0fdeb7bebd14-resized-image_15.webp",
-      "https://news.cgtn.com/news/2026-08-16/news-1PEjgf3xIs0/img/b10ae3cc02444bfaad62e8d10ec4c638/b10ae3cc02444bfaad62e8d10ec4c638-1280.jpeg"
+      "https://s.france24.com/media/display/73ee9cb8-997a-11f1-8245-005056bf30b7/w:1024/p:16x9/2026-08-12T212330Z-1624684030-RC29XMA8WW2N-RTRMADP-3-ZIMBABWE-BOAT-ACCIDENT.jpg"
     ],
     "bucket": "serious",
     "state_media": false,
-    "trend_score": 0.0,
-    "group_sources": 6,
-    "velocity": 0.3338428673774117,
-    "age_hours": 184.998939725,
-    "is_stale": false,
-    "score": 18.720175544217195
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 196.0043482625,
+    "is_stale": true,
+    "score": 20.11586523635185
   }
 }

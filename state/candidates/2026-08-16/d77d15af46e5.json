@@ -1,0 +1,48 @@
+{
+  "id": "d77d15af46e5",
+  "created_at": "2026-08-16T17:08:00.937062+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.17,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ceuta: Aufatmen nach Netzaufrufen",
+  "link": "https://www.spiegel.de/ausland/ceuta-aufatmen-nach-netzaufrufen-kein-neuer-massenansturm-a-ffac1006-31c7-4aa1-a24a-647212e62bf3#ref=rss",
+  "publishers": [
+    "kein neuer Massenansturm"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Ceuta: Aufatmen nach Netzaufrufen",
+    "link": "https://www.spiegel.de/ausland/ceuta-aufatmen-nach-netzaufrufen-kein-neuer-massenansturm-a-ffac1006-31c7-4aa1-a24a-647212e62bf3#ref=rss",
+    "summary": "Um sich vor einem zweiten Massenansturm zu wappnen, hatte Spanien seine Sicherheitskräfte in Ceuta verstärkt. Das befürchtete Chaos am Wochenende blieb deshalb aus, trotz 300 Festnahmen.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-08-16T12:53:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/06e0c88b-8d94-436c-8553-19ca8dee52fb_w520_r2.08_fpx67.32_fpy45.jpg",
+    "publisher": "kein neuer Massenansturm",
+    "cluster_sources": [
+      "kein neuer Massenansturm"
+    ],
+    "cluster_members": [
+      {
+        "name": "kein neuer Massenansturm",
+        "link": "https://www.spiegel.de/ausland/ceuta-aufatmen-nach-netzaufrufen-kein-neuer-massenansturm-a-ffac1006-31c7-4aa1-a24a-647212e62bf3#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/06e0c88b-8d94-436c-8553-19ca8dee52fb_w520_r2.08_fpx67.32_fpy45.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.16668011501852
+  }
+}

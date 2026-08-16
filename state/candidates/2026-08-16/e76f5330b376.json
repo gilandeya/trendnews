@@ -1,0 +1,60 @@
+{
+  "id": "e76f5330b376",
+  "created_at": "2026-08-16T17:08:00.936786+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.55,
+  "trend_score": 0.33,
+  "velocity": 0.17,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pope calls for an end to West Bank violence against Palestinians",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/08/16/pope-calls-for-an-end-to-west-bank-violence-against-palestinians",
+  "publishers": [
+    "Free Malaysia Today",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Pope calls for an end to West Bank violence against Palestinians",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/16/pope-calls-for-an-end-to-west-bank-violence-against-palestinians",
+    "summary": "Pope Leo XIV did not mention specific attacks, but his renewed call comes amid a surge in violence and a siege of the territory's village of Qusra.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-16T12:38:43+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/472f11a3-pope-leo.jpg",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624211/pope-calls-for-an-end-to-west-bank-violence-against-palestinians"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-us-west-asia-war-strait-of-hormuz-donald-trump-live-updates-on-august-16-2026/article71351835.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/16/pope-calls-for-an-end-to-west-bank-violence-against-palestinians"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/472f11a3-pope-leo.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 0.16629164577022174,
+    "age_hours": 2.0045103997222222,
+    "is_stale": false,
+    "score": 17.54847145972148
+  }
+}

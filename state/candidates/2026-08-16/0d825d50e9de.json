@@ -1,0 +1,62 @@
+{
+  "id": "0d825d50e9de",
+  "created_at": "2026-08-16T17:08:00.936437+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.7,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Indonesia sifts through rubble as earthquake death toll hits 51",
+  "link": "https://www.dailysabah.com/world/asia-pacific/indonesia-sifts-through-rubble-as-earthquake-death-toll-hits-51",
+  "publishers": [
+    "CGTN",
+    "Daily Sabah",
+    "Hindustan Times — World"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Indonesia sifts through rubble as earthquake death toll hits 51",
+    "link": "https://www.dailysabah.com/world/asia-pacific/indonesia-sifts-through-rubble-as-earthquake-death-toll-hits-51",
+    "summary": "Rescuers in eastern Indonesia recovered four more bodies Sunday after a magnitude-7.7 earthquake struck the region a day earlier, raising the death toll to 51 as thousands remained...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-16T10:21:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/16/456016.JPG",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "CGTN",
+      "Daily Sabah",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/death-toll-in-indonesia-earthquake-rises-rescues-dig-through-rubble-amid-massive-devastation-101786873793819.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/indonesia-sifts-through-rubble-as-earthquake-death-toll-hits-51"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-16/Death-toll-from-Indonesia-s-Flores-earthquake-rises-to-47-1PE9ztfNIqY/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/16/456016.JPG",
+      "https://news.cgtn.com/news/2026-08-16/Death-toll-from-Indonesia-s-Flores-earthquake-rises-to-47-1PE9ztfNIqY/img/e565e934eaf64fd38543f48c2e6605bb/e565e934eaf64fd38543f48c2e6605bb-1280.png",
+      "https://news.cgtn.com/news/2026-08-16/Death-toll-from-Indonesia-s-Flores-earthquake-rises-to-47-1PE9ztfNIqY/img/e565e934eaf64fd38543f48c2e6605bb/e565e934eaf64fd38543f48c2e6605bb.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 146.86809923583334,
+    "is_stale": true,
+    "score": 19.697790683111112
+  }
+}
