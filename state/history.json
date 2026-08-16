@@ -595,5 +595,94 @@
     "posted_title": "",
     "region": "uk",
     "seen_at": "2026-08-16T12:07:50.813958+00:00"
+  },
+  {
+    "score": 22.59,
+    "bucket": "sport",
+    "tokens": [
+      "arsenal",
+      "city",
+      "community",
+      "manchester",
+      "shield"
+    ],
+    "link": "https://www.theguardian.com/football/live/2026/aug/16/arsenal-v-manchester-city-community-shield-live",
+    "title": "Arsenal v Manchester City: Community Shield",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-08-16T15:07:44.370901+00:00"
+  },
+  {
+    "score": 21.53,
+    "bucket": "serious",
+    "tokens": [
+      "bangladesh",
+      "extradited",
+      "hasina",
+      "india",
+      "premier",
+      "until",
+      "visit"
+    ],
+    "link": "https://www.channelnewsasia.com/asia/bangladesh-prime-minister-india-visit-hasina-extradited-6322326",
+    "title": "Bangladesh says PM will not visit India until ex-premier Hasina extradited",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-08-16T15:07:44.371248+00:00"
+  },
+  {
+    "score": 19.92,
+    "bucket": "sport",
+    "tokens": [
+      "beats",
+      "break",
+      "garry",
+      "machado",
+      "makhachev",
+      "record",
+      "ufc",
+      "win"
+    ],
+    "link": "https://www.bbc.co.uk/sport/mixed-martial-arts/articles/c8dnn7d01p5o?at_medium=RSS&at_campaign=rss",
+    "title": "Makhachev beats Machado Garry to break UFC win record",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-08-16T15:07:44.371530+00:00"
+  },
+  {
+    "score": 19.75,
+    "bucket": "serious",
+    "tokens": [
+      "executes",
+      "involvement",
+      "iran",
+      "man",
+      "protests",
+      "winter"
+    ],
+    "link": "https://www.thehindu.com/news/international/iran-executes-man-over-involvement-in-winter-protests/article71352291.ece",
+    "title": "Iran executes man over involvement in winter protests",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-08-16T15:07:44.371822+00:00"
+  },
+  {
+    "score": 18.65,
+    "bucket": "serious",
+    "tokens": [
+      "accused",
+      "arday",
+      "cambridge",
+      "dead",
+      "found",
+      "jason",
+      "plagiarism",
+      "professor"
+    ],
+    "link": "https://www.npr.org/2026/08/15/nx-s1-5932488/jason-arday-dead",
+    "title": "Jason Arday, Cambridge professor accused of plagiarism, is found dead",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-08-16T15:07:44.372109+00:00"
   }
 ]

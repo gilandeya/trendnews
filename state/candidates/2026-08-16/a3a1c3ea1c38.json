@@ -1,0 +1,68 @@
+{
+  "id": "a3a1c3ea1c38",
+  "created_at": "2026-08-16T15:07:44.370917+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.53,
+  "trend_score": 0.5,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Bangladesh says PM will not visit India until ex-premier Hasina extradited",
+  "link": "https://www.channelnewsasia.com/asia/bangladesh-prime-minister-india-visit-hasina-extradited-6322326",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Bangladesh says PM will not visit India until ex-premier Hasina extradited",
+    "link": "https://www.channelnewsasia.com/asia/bangladesh-prime-minister-india-visit-hasina-extradited-6322326",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-16T12:13:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--aDY0D8Uk--/c_crop,h_449,w_799,x_1,y_84/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2025-11-17T095623Z_1_LYNXMPELAG0FM_RTROPTP_3_BANGLADESH-POLITICS-HASINA.JPG?itok=zo151iUp",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3364191/rahman-will-not-visit-india-until-hasina-extradited-bangladesh?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/national/bangladesh-says-pm-tarique-rahman-will-not-visit-india-until-sheikh-hasinas-extradition/article71352525.ece"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/bangladesh-prime-minister-india-visit-hasina-extradited-6322326"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/16/bangladesh-says-pm-will-not-visit-india-until-hasina-extradited"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--aDY0D8Uk--/c_crop,h_449,w_799,x_1,y_84/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2025-11-17T095623Z_1_LYNXMPELAG0FM_RTROPTP_3_BANGLADESH-POLITICS-HASINA.JPG?itok=zo151iUp",
+      "https://th-i.thgim.com/public/incoming/hcxzt9/article71352565.ece/alternates/LANDSCAPE_1200/Bangladesh_Election_20424.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/11/83a2a626-sheikhhasina-afp-pic-171125.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 0.33333086011094326,
+    "age_hours": 3.0000222591666663,
+    "is_stale": false,
+    "score": 21.53217238299153
+  }
+}

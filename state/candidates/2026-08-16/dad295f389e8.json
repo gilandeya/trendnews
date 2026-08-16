@@ -1,0 +1,55 @@
+{
+  "id": "dad295f389e8",
+  "created_at": "2026-08-16T15:07:44.371540+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.75,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran executes man over involvement in winter protests",
+  "link": "https://www.thehindu.com/news/international/iran-executes-man-over-involvement-in-winter-protests/article71352291.ece",
+  "publishers": [
+    "Iran International",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran executes man over involvement in winter protests",
+    "link": "https://www.thehindu.com/news/international/iran-executes-man-over-involvement-in-winter-protests/article71352291.ece",
+    "summary": "Iranian authorities reported more than 3,000 deaths, attributing the violence to \"terrorist acts\" orchestrated by the United States and Israel, while rights groups based abroad maintain that security forces fired on protesters",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-16T08:00:25+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/ujqvdx/article71352294.ece/alternates/LANDSCAPE_1200/Iran_War_6_749.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Iran International",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202608161753"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-executes-man-over-involvement-in-winter-protests/article71352291.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/ujqvdx/article71352294.ece/alternates/LANDSCAPE_1200/Iran_War_6_749.jpg",
+      "https://i.iranintl.com/images/rdk9umy0/production/43dfdf07fb0627c4224cde37895d67dfc44dbfa1-1280x720.jpg?rect=0,25,1280,670&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 9.000796542777778,
+    "is_stale": false,
+    "score": 19.750041736828003
+  }
+}

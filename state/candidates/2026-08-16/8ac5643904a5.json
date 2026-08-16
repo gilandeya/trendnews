@@ -1,0 +1,63 @@
+{
+  "id": "8ac5643904a5",
+  "created_at": "2026-08-16T15:07:44.371832+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.65,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Jason Arday, Cambridge professor accused of plagiarism, is found dead",
+  "link": "https://www.npr.org/2026/08/15/nx-s1-5932488/jason-arday-dead",
+  "publishers": [
+    "CBS News — World",
+    "Daily Sabah",
+    "NPR World",
+    "npr.org"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Jason Arday, Cambridge professor accused of plagiarism, is found dead",
+    "link": "https://www.npr.org/2026/08/15/nx-s1-5932488/jason-arday-dead",
+    "summary": "Arday was 37 when he became Cambridge's youngest Black professor in 2023. He was found unresponsive Friday at a home in southwest London.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-08-15T17:04:43+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5932488",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "CBS News — World",
+      "Daily Sabah",
+      "NPR World",
+      "npr.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/ex-cambridge-professor-jason-arday-found-dead-after-plagiarism-row"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/video/jason-arday-ex-cambridge-professor-found-dead-weeks-after-plagiarism-scandal/"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/08/15/nx-s1-5932488/jason-arday-dead"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5932488",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/15/455971.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 42.867584564999994,
+    "is_stale": false,
+    "score": 18.64579102901394
+  }
+}

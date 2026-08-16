@@ -1,0 +1,56 @@
+{
+  "id": "473375c7d8f6",
+  "created_at": "2026-08-16T15:07:44.371259+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.92,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Makhachev beats Machado Garry to break UFC win record",
+  "link": "https://www.bbc.co.uk/sport/mixed-martial-arts/articles/c8dnn7d01p5o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "TASS"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Makhachev beats Machado Garry to break UFC win record",
+    "link": "https://www.bbc.co.uk/sport/mixed-martial-arts/articles/c8dnn7d01p5o?at_medium=RSS&at_campaign=rss",
+    "summary": "Islam Makhachev cements his status as the best pound-for-pound fighter in the world with a commanding victory over Ian Machado Garry.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-16T08:16:25+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3c83/live/d3b3f4f0-9947-11f1-9c54-6bf455b73e04.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/mixed-martial-arts/articles/c8dnn7d01p5o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/sports/2173817"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3c83/live/d3b3f4f0-9947-11f1-9c54-6bf455b73e04.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/3c83/live/d3b3f4f0-9947-11f1-9c54-6bf455b73e04.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/3c83/live/d3b3f4f0-9947-11f1-9c54-6bf455b73e04.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 3.0000754919444446,
+    "is_stale": false,
+    "score": 19.917819765679855
+  }
+}

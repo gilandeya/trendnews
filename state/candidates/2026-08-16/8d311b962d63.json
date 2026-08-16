@@ -1,0 +1,63 @@
+{
+  "id": "8d311b962d63",
+  "created_at": "2026-08-16T15:07:44.370496+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.59,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Arsenal v Manchester City: Community Shield",
+  "link": "https://www.theguardian.com/football/live/2026/aug/16/arsenal-v-manchester-city-community-shield-live",
+  "publishers": [
+    "Community Shield",
+    "Vanguard Nigeria",
+    "live"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Arsenal v Manchester City: Community Shield",
+    "link": "https://www.theguardian.com/football/live/2026/aug/16/arsenal-v-manchester-city-community-shield-live",
+    "summary": "Updates from the 3pm BST kick-off in Cardiff Jonathan Wilson: Community Shield offers insight The small print No extra-time; a drawn match goes straight to penalties Six substitutions per team in three substitution windows Three falls and a submission Continue reading...",
+    "source_name": "The Guardian — Sport",
+    "region": "sport",
+    "weight": 1.0,
+    "published": "2026-08-16T14:57:27+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/e8ae57efc3dfb86112affe0fec5c7a84ad18571d/225_378_1543_1235/master/1543.jpg?width=700&quality=85&auto=format&fit=max&s=53966ac2c1a07c44196406c9ae2697b8",
+    "publisher": "live",
+    "cluster_sources": [
+      "Community Shield",
+      "Vanguard Nigeria",
+      "live"
+    ],
+    "cluster_members": [
+      {
+        "name": "Community Shield",
+        "link": "https://www.aljazeera.com/sports/liveblog/2026/8/16/arsenal-vs-manchester-city-live-fa-community-shield?traffic_source=rss"
+      },
+      {
+        "name": "live",
+        "link": "https://www.theguardian.com/football/live/2026/aug/16/arsenal-v-manchester-city-community-shield-live"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/arsenal-face-man-city-in-community-shield-as-maresca-begins-new-era/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/e8ae57efc3dfb86112affe0fec5c7a84ad18571d/225_378_1543_1235/master/1543.jpg?width=700&quality=85&auto=format&fit=max&s=53966ac2c1a07c44196406c9ae2697b8",
+      "https://i.guim.co.uk/img/media/e8ae57efc3dfb86112affe0fec5c7a84ad18571d/225_378_1543_1235/master/1543.jpg?width=460&quality=85&auto=format&fit=max&s=95317622d1f01a21d7dd46f8402e95e7",
+      "https://i.guim.co.uk/img/media/e8ae57efc3dfb86112affe0fec5c7a84ad18571d/225_378_1543_1235/master/1543.jpg?width=140&quality=85&auto=format&fit=max&s=5f6204537dd35114437546afe6f473fc",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/arsenal-city-1024x576.webp"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 3.0000676555555557,
+    "is_stale": false,
+    "score": 22.588599937074076
+  }
+}
