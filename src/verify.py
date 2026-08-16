@@ -486,12 +486,18 @@ JUDGE_FACT_SCHEMA = {
 
 
 def judge_fact(claim_text: str, docs: list[dict], cfg, retries: int = 2) -> dict:
+    """يعيد {"supporting":[...], "contradicting":[...], "call_error": None}
+    عادةً. استنفاد كل المحاولات بسبب فشل نداء تقني (لا رد نموذج فارغ/حكم
+    شرعي) يعيد call_error بنص آخر استثناء — تفريق عن «لا سند» فعلي (تشخيص
+    Issue #373، الجولة الحادية عشرة، البند 2: كلاهما كان يظهر بنفس
+    supporting=[] المجرَّدة في التقرير)."""
     vcfg = cfg.get("verify", {}) or {}
     model = vcfg.get("model", "claude-sonnet-5")
     client = _client()
     prompt = (f"الادّعاء: {claim_text}\n\n"
              f"نصوص المصادر:\n\n{_format_evidence(docs)}")
 
+    last_error: str | None = None
     for attempt in range(1, retries + 1):
         try:
             resp = client.messages.create(
@@ -527,10 +533,12 @@ def judge_fact(claim_text: str, docs: list[dict], cfg, retries: int = 2) -> dict
                     "_known_only: supporting=%s contradicting=%s",
                     claim_text[:80], data.get("supporting"), data.get("contradicting"),
                     sorted(d["name"] for d in docs), supporting, contradicting)
-                return {"supporting": supporting, "contradicting": contradicting}
+                return {"supporting": supporting, "contradicting": contradicting,
+                        "call_error": None}
         except APIError as exc:
+            last_error = str(exc)
             log.warning("محاولة %d/%d فشلت في الحكم على واقعة: %s", attempt, retries, exc)
-    return {"supporting": [], "contradicting": []}
+    return {"supporting": [], "contradicting": [], "call_error": last_error}
 
 
 def classify_fact(supporting: list[str], contradicting: list[str],
@@ -756,7 +764,7 @@ def _verify_article(body: str, cfg) -> dict:
         relevance_text = _entities_text(claim) or text
         docs, evidence_basis = gather_evidence(ranked, cfg, relevance_text)
         judged = (judge_fact(text, docs, cfg) if docs
-                 else {"supporting": [], "contradicting": []})
+                 else {"supporting": [], "contradicting": [], "call_error": None})
         # وزن كل مصدر مؤيد يُعرَض في التقرير (Issue #132 تعليق لاحق): العدد
         # وحده لا يُظهر قوة السند — وكالة كبرى ومصدر مجهول يُحسبان مصدرًا
         # واحدًا لكل منهما رغم فارق الموثوقية. تُحسب قبل التصنيف لأن
@@ -780,6 +788,10 @@ def _verify_article(body: str, cfg) -> dict:
             "contradicting": judged["contradicting"],
             "evidence_basis": evidence_basis,
             "sources": _fact_sources(judged["supporting"], docs, ranked),
+            # فشل نداء الحكم تقنيًا (لا حكم "لا سند" شرعي) — يُفرَّق صراحة
+            # في build_report بدل الظهور بنفس عبارة "لا مصادر مؤيِّدة"
+            # (تشخيص Issue #373، الجولة الحادية عشرة، البند 2)
+            "judge_error": judged.get("call_error"),
         })
 
     question_results = []
@@ -866,8 +878,15 @@ def build_report(result: dict) -> str:
                 f"{s['name']} ({s['weight']:.1f}×)" if s["weight"] is not None
                 else s["name"]
                 for s in weighted) or "—"
+            # فشل نداء الحكم تقنيًا (لا حكم "لا سند" شرعي من النموذج) —
+            # يُضاف صراحة إلى عمود الأدلة بدل الظهور بنفس "—" المجرَّدة
+            # لواقعة بُحث لها فعلًا ولم توجد نصوص (تشخيص Issue #373، الجولة
+            # الحادية عشرة، البند 2)
+            evidence_cell = f.get("evidence_basis", "—")
+            if f.get("judge_error"):
+                evidence_cell += f" — ⚠️ فشل نداء الحكم تقنيًا: {f['judge_error']}"
             lines.append(
-                f"| {f['text']} | {f['status']} | {f.get('evidence_basis', '—')} | "
+                f"| {f['text']} | {f['status']} | {evidence_cell} | "
                 f"{supporting_str} | "
                 f"{'، '.join(f['contradicting']) or '—'} |"
             )

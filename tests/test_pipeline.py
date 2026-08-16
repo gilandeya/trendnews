@@ -2693,6 +2693,54 @@ def test_verify() -> None:
           bool(captured_kw) and captured_kw[-1].get("temperature") == 0, captured_kw)
     verify._client = real_client
 
+    # فشل نداء تقني (رفض API/انقطاع شبكة) يظهر صراحة في نتيجة judge_fact —
+    # لا بصمت خلف نفس {"supporting": [], "contradicting": []} التي يعيدها
+    # حكم "لا سند" الشرعي (تشخيص Issue #373، الجولة الحادية عشرة، البند 2)
+    from anthropic import APIConnectionError
+    import httpx as _httpx
+
+    class _RaisingMessages:
+        def create(self, **kw):
+            raise APIConnectionError(
+                message="انقطاع شبكة اختباري",
+                request=_httpx.Request("POST", "https://api.anthropic.com/v1/messages"))
+
+    class _RaisingClient:
+        def __init__(self):
+            self.messages = _RaisingMessages()
+
+    verify._client = lambda: _RaisingClient()
+    judged_fail = verify.judge_fact("ادّعاء", docs_jafra_full, cfg, retries=1)
+    verify._client = real_client
+    check("judge_fact: فشل نداء تقني يعيد supporting/contradicting فارغتين "
+          "كحكم سلبي (توافق خلفي)",
+          judged_fail["supporting"] == [] and judged_fail["contradicting"] == [],
+          judged_fail)
+    check("judge_fact: فشل نداء تقني يحمل call_error بنص الاستثناء لا None "
+          "(يفرّقه عن حكم 'لا سند' الشرعي)",
+          judged_fail.get("call_error") and
+          "انقطاع شبكة اختباري" in judged_fail["call_error"],
+          judged_fail.get("call_error"))
+
+    # ينعكس صراحة في تقرير Issue التحقّق (لا العمود الداخلي وحده)
+    verify.search = lambda query, cfg, days, unrestricted=False: [object()]
+    verify.gather_evidence = lambda articles, cfg, claim_text="": (
+        docs_jafra_full, verify.EVIDENCE_FULL_TEXT)
+    verify.extract_claims = lambda text, cfg, retries=3: ({
+        "topic": "اختبار فشل نداء تقني",
+        "claims": [{"text": "واقعة تختبر فشل النداء", "kind": "واقعة"}],
+        "questions": [],
+    }, None)
+    verify._client = lambda: _RaisingClient()
+    fail_result = verify.verify_article("نص المقال الملصق", cfg)
+    verify._client = real_client
+    verify.search = real_search
+    verify.gather_evidence = real_gather_evidence
+    fail_report = verify.build_report(fail_result)
+    check("تقرير التحقّق يُظهر فشل النداء التقني صراحة في عمود الأدلة",
+          "فشل نداء الحكم تقنيًا" in fail_report and "انقطاع شبكة اختباري" in fail_report,
+          fail_report)
+
     # مقال بلا أي مصدر يؤكد وقائعه ← حكم سلبي واضح لا تقرير مبهم
     verify.extract_claims = lambda text, cfg, retries=3: ({
         "topic": "مقال بلا سند",
@@ -5140,6 +5188,80 @@ def test_article() -> None:
           temp_calls)
 
     article._client = real_client_fn
+
+    # ── فشل نداء تقني يظهر صراحة لا بصمت (تشخيص Issue #373، الجولة الحادية
+    # عشرة، البند 2): فشل نداء temperature=0/رفض API/انقطاع شبكة كان يعيد
+    # None/[] بالضبط كما يعيدها حكم "لا" شرعي من النموذج، فيظهر في trail
+    # والتقرير بنفس عبارة "لم توجد نصوص تجيب عنه" — لا فرق قابل للتشخيص.
+    # الآن الفشل التقني يعيد _ModelCallResult/_ModelCallList فارغة (تبقى
+    # falsy، فلا تكسر أي فحص `if not result` قائم) لكن تحمل call_error ──
+    from anthropic import APIConnectionError
+    import httpx as _httpx
+
+    class _RaisingMessages:
+        def create(self, **kw):
+            raise APIConnectionError(
+                message="انقطاع شبكة اختباري",
+                request=_httpx.Request("POST", "https://api.anthropic.com/v1/messages"))
+
+    class _RaisingClient:
+        def __init__(self):
+            self.messages = _RaisingMessages()
+
+    article._client = lambda: _RaisingClient()
+
+    fail_naming = real_ask_naming_model("نص مبهم", ["ك"], docs_for_answer, cfg)
+    check("فشل نداء _ask_naming_model التقني يبقى falsy كحكم (if not result)",
+          not fail_naming, fail_naming)
+    check("فشل نداء _ask_naming_model التقني يحمل call_error بنص الاستثناء",
+          "انقطاع شبكة اختباري" in (getattr(fail_naming, "call_error", "") or ""),
+          getattr(fail_naming, "call_error", None))
+
+    fail_support = real_support_sources("واقعة اختبار", docs_for_answer, cfg)
+    check("فشل نداء _support_sources التقني يبقى falsy كحكم (if not result)",
+          not fail_support, fail_support)
+    check("فشل نداء _support_sources التقني يحمل call_error بنص الاستثناء",
+          "انقطاع شبكة اختباري" in (getattr(fail_support, "call_error", "") or ""),
+          getattr(fail_support, "call_error", None))
+
+    fail_answer = real_ask_answer_model("سؤال اختبار فشل تقني؟", docs_for_answer, cfg)
+    check("فشل نداء _ask_answer_model التقني يبقى falsy كحكم (if not result)",
+          not fail_answer, fail_answer)
+    check("فشل نداء _ask_answer_model التقني يحمل call_error بنص الاستثناء",
+          "انقطاع شبكة اختباري" in (getattr(fail_answer, "call_error", "") or ""),
+          getattr(fail_answer, "call_error", None))
+
+    # نداء فاشل بدالة مزيَّفة قديمة الطراز (تعيد None/[] عاديين بلا call_error،
+    # كما تفعل fakes الاختبارات الأخرى القائمة) يبقى يعمل بلا انهيار —
+    # getattr(..., "call_error", None) على None/[] عادية تعيد None بأمان
+    check("getattr(None, call_error) على قيمة فشل تقليدية يعيد None بأمان",
+          getattr(None, "call_error", None) is None)
+    check("getattr([], call_error) على قيمة فشل تقليدية يعيد None بأمان",
+          getattr([], "call_error", None) is None)
+
+    article._client = real_client_fn
+
+    # الفشل التقني ينعكس في trail عبر _name_event._try — لا في outcome حكم
+    # "لم يُسمَّ من هذه النتائج" الملتبس بالحكم الشرعي. entities بتاريخ واحد
+    # وكيان واحد فقط تجعل مرحلة «مباشر» محاولة وحيدة سهلة التتبع (مرحلتا
+    # «سياق»/«موضوع» تُختبران بمعزل أعلاه — ليستا من الأربعة نداءات المعنيَّة)
+    evidence.search = lambda query, cfg, days, **kw: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="", **kw: (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"}], evidence.EVIDENCE_FULL_TEXT)
+    article._client = lambda: _RaisingClient()
+    _, _, _, fail_trail = article._name_event(
+        {"text": "إشارة مبهمة", "entities": ["كيان", "2020"]}, cfg)
+    article._client = real_client_fn
+    evidence.search = _fake_search
+    evidence.gather_evidence = _fake_gather_evidence
+    direct_trail = [e for e in fail_trail if e["stage"] == "مباشر"]
+    check("trail: فشل نداء تسمية تقني يظهر صراحة في outcome مرحلة «مباشر»",
+          bool(direct_trail) and all("فشل نداء النموذج تقنيًا" in e["outcome"]
+                                     for e in direct_trail),
+          [e.get("outcome") for e in direct_trail])
+    check("trail: عنصر مرحلة «مباشر» يحمل call_error منفصلًا لا outcome نصيًا وحده",
+          bool(direct_trail) and all(e.get("call_error") for e in direct_trail),
+          [e.get("call_error") for e in direct_trail])
 
     # التفريق يصل تقرير الـ Issue فعليًا لا الحقل الداخلي وحده
     article.extract_brief = lambda body, cfg, retries=3: ({
