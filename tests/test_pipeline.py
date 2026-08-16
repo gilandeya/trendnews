@@ -2669,8 +2669,9 @@ def test_verify() -> None:
           "(العطل الفعلي في السجل)",
           judged_jafra["supporting"] == ["جفرا نيوز"], str(judged_jafra))
 
-    # temperature=0 على judge_fact (تشخيص Issue #373، الجولة العاشرة، البند
-    # 3): حكم ثنائي (يسند/يخالف) — تخفيض تذبذب لا حتمية مضمونة
+    # temperature غير مقبولة من نماذج هذا المشروع (Error code: 400 —
+    # "temperature is deprecated for this model", تشخيص Issue #373، الجولة
+    # الحادية عشرة) — judge_fact لا يجوز أن تمرّرها إطلاقًا
     class _CapturingMessages:
         def __init__(self, responses, captured):
             self._responses = list(responses)
@@ -2689,8 +2690,8 @@ def test_verify() -> None:
         [_Resp([_Block("tool_use", input={"supporting": [], "contradicting": []})])],
         captured_kw)
     verify.judge_fact("ادّعاء", docs_jafra_full, cfg)
-    check("judge_fact: temperature=0 يصل نداء الشبكة فعليًا",
-          bool(captured_kw) and captured_kw[-1].get("temperature") == 0, captured_kw)
+    check("judge_fact: لا يمرّر temperature (400 من الخادم لو مُرِّرت)",
+          bool(captured_kw) and "temperature" not in captured_kw[-1], captured_kw)
     verify._client = real_client
 
     # فشل نداء تقني (رفض API/انقطاع شبكة) يظهر صراحة في نتيجة judge_fact —
@@ -5157,10 +5158,11 @@ def test_article() -> None:
           matched is not None and matched["naming_issue"] is None and
           matched["supporting"] == ["مصدر أول"])
 
-    # temperature=0 على الأحكام الثنائية الثلاثة في article.py (تشخيص Issue
-    # #373، الجولة العاشرة، البند 3) — تخفيض تذبذب لا حتمية مضمونة، موثَّق
-    # في كود كل نداء. لا يمسّ _choose_question (تُرك كما هو عمدًا: اختيار
-    # السؤال أقرب للصياغة، والتنوع فيه مفيد) ولا writer._call_model.
+    # temperature غير مقبولة من نماذج هذا المشروع (Error code: 400 —
+    # "temperature is deprecated for this model", تشخيص Issue #373، الجولة
+    # الحادية عشرة): جُرِّبت في الجولة العاشرة على الأحكام الثنائية الثلاثة
+    # في article.py وكسرت النداء صامتًا (رفض API التقط ضمن except فأعاد
+    # نفس شكل "لا نتيجة" الشرعي). لا يجوز أن تعود.
     class _CaptureMessages:
         def __init__(self, input_, captured):
             self._input = input_
@@ -5182,15 +5184,15 @@ def test_article() -> None:
     article._client = lambda: _CaptureClient(
         {"answered": False, "supporting": []}, temp_calls)
     real_ask_answer_model("سؤال اختبار temperature؟", docs_for_answer, cfg)
-    check("3) temperature=0 وصل نداءات _ask_naming_model/_support_sources/"
-          "_ask_answer_model الثلاثة فعليًا",
-          len(temp_calls) == 3 and all(c.get("temperature") == 0 for c in temp_calls),
+    check("3) لا temperature في نداءات _ask_naming_model/_support_sources/"
+          "_ask_answer_model الثلاثة (400 من الخادم لو مُرِّرت)",
+          len(temp_calls) == 3 and all("temperature" not in c for c in temp_calls),
           temp_calls)
 
     article._client = real_client_fn
 
     # ── فشل نداء تقني يظهر صراحة لا بصمت (تشخيص Issue #373، الجولة الحادية
-    # عشرة، البند 2): فشل نداء temperature=0/رفض API/انقطاع شبكة كان يعيد
+    # عشرة، البند 2): فشل نداء (رفض API/انقطاع شبكة) كان يعيد
     # None/[] بالضبط كما يعيدها حكم "لا" شرعي من النموذج، فيظهر في trail
     # والتقرير بنفس عبارة "لم توجد نصوص تجيب عنه" — لا فرق قابل للتشخيص.
     # الآن الفشل التقني يعيد _ModelCallResult/_ModelCallList فارغة (تبقى
@@ -5671,6 +5673,24 @@ def test_insights_analysis() -> None:
     check("لا انهيار مع بيانات فارغة", analyse([], "UTC") == {})
 
 
+def test_no_temperature_param() -> None:
+    """حارس ثابت يمنع تكرار Issue #373 (الجولة الحادية عشرة): temperature
+    تُرفَض بـ400 ("temperature is deprecated for this model") من نماذج هذا
+    المشروع — رُصد الفشل صامتًا لأن except APIError كان يبتلع الرفض ويعيد
+    نفس شكل "لا نتيجة" الذي يعيده حكم "لا" شرعي من النموذج. لا نداء
+    client.messages.create في src/ يجوز أن يمرّرها مجددًا مهما كان الدافع
+    (تخفيض تذبذب أو غيره) بلا التحقق أولًا من قبول الخادم الفعلي لها."""
+    import re
+    offending = []
+    for path in sorted((ROOT / "src").rglob("*.py")):
+        for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            code = line.split("#", 1)[0]
+            if re.search(r"\btemperature\s*=", code):
+                offending.append(f"{path.relative_to(ROOT)}:{lineno}: {line.strip()}")
+    check("لا نداء نموذج في src/ يمرّر temperature (ترفضها نماذج المشروع بـ400)",
+          not offending, offending)
+
+
 def main() -> int:
     install_fakes()
     print("\n── ترميز العناوين والتشابه ──")
@@ -5761,6 +5781,8 @@ def main() -> int:
     test_due_publishes_one_at_a_time()
     print("\n── تحليل الأداء ──")
     test_insights_analysis()
+    print("\n── حارس temperature (Issue #373) ──")
+    test_no_temperature_param()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:

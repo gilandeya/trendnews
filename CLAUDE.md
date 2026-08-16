@@ -47,6 +47,9 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   `config.yaml` and are read via `Config.path("a.b.c")` (`src/config.py`). If you find yourself
   adding a magic number or a new source to a `.py` file, it almost certainly belongs in the
   config instead.
+- **Never pass `temperature` to `client.messages.create`.** The models used in this project
+  reject it with `Error code: 400 — temperature is deprecated for this model`; a static test in
+  `tests/test_pipeline.py` (`test_no_temperature_param`) fails the suite if it reappears.
 
 ## Architecture
 
