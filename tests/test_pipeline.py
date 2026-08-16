@@ -533,14 +533,27 @@ def test_extraction() -> None:
     # في النهاية، وإلا كسرنا اختبار الأنبوب الذي يليه.
     import src.extract as ex
     pages = {"https://a/1": R(html), "https://b/2": R(html),
-             "https://c/3": R(thin), "https://d/4": R("", 403)}
+             "https://c/3": R(thin), "https://d/4": R("", 403),
+             "https://e/5": R("", 403), "https://f/6": R("", 403),
+             "https://g/7": R("", 403)}
+    seen_get_calls: list = []
     original_get = ex.requests.get
-    ex.requests.get = lambda url, **kw: pages.get(url, R("", 404))
+
+    def _fake_get(url, **kw):
+        seen_get_calls.append(kw)
+        return pages.get(url, R("", 404))
+
+    ex.requests.get = _fake_get
     try:
 
         text, reason = fetch_text("https://a/1")
         check("النص الأساسي مُستخرج", text and "OPEC delegates" in text)
         check("سبب الفشل فارغ عند النجاح", reason == "")
+        # طلب التنفيذ على Issue #373، البند 3: رأس Referer يحاكي وصولًا من
+        # Google News — علاج رخيص لحجب France 24/العربية/أورينت نت المتكرر
+        check("fetch_text يرسل رأس Referer يحاكي وصولًا من Google News",
+              seen_get_calls[-1].get("headers", {}).get("Referer") ==
+              "https://news.google.com/", seen_get_calls[-1])
         check("قوائم التنقل مُزالة", text and "Subscribe" not in text)
         check("التذييل والسكربت مُزالان",
               text and "Copyright" not in text and "var a" not in text)
@@ -570,6 +583,26 @@ def test_extraction() -> None:
         check("الصياغة تعلّم كل مصدر باسمه",
               "المصدر 1: BBC" in block and "المصدر 2: Guardian" in block)
         check("قائمة فارغة تعطي نصًا فارغًا", format_for_prompt([]) == "")
+
+        # طلب التنفيذ على Issue #373، البند 3: فتحة قراءة فشل جلبها لا تُهدر
+        # — أول limit*2 محاولة قد تتصدّرها نطاقات محجوبة (HTTP 403 متكرر)
+        # فتُفرَغ الفتحات كلها بلا أي فرصة لمرشح لاحق قابل للجلب فعليًا. هنا
+        # limit=1 (batch_size=2) وأربعة مرشحين محجوبين يتصدّرون القائمة قبل
+        # مرشح خامس ناجح — يجب أن يُواصَل حتى يُبلَغ عنه
+        members_batched = [
+            {"name": "Blocked1", "link": "https://d/4"},
+            {"name": "Blocked2", "link": "https://e/5"},
+            {"name": "Blocked3", "link": "https://f/6"},
+            {"name": "Blocked4", "link": "https://g/7"},
+            {"name": "Recovers", "link": "https://a/1"},
+        ]
+        docs_batched, failures_batched = gather(members_batched, limit=1)
+        check("لا تُهدر فتحة القراءة عند تصدّر نطاقات محجوبة الدفعة الأولى — "
+              "يُواصَل بدفعات تالية حتى مرشح ناجح",
+              len(docs_batched) == 1 and docs_batched[0]["name"] == "Recovers",
+              (docs_batched, failures_batched))
+        check("عدد الفشليات المسجَّلة يطابق كل المحاولات الفاشلة قبل النجاح (4)",
+              len(failures_batched) == 4, failures_batched)
     finally:
         ex.requests.get = original_get
 
@@ -3824,6 +3857,89 @@ def test_evidence() -> None:
     check("evidence.search: rejected_titles فارغة حين تُقبَل كل النتائج",
           search_result.rejected_titles == [], search_result.rejected_titles)
 
+    # ── طلب التنفيذ على Issue #373، البند 1: require_relevance=False يُسقط
+    # فلتر relevant() كليًا — النتيجة غير المطابقة تدخل matched بدل الرفض ──
+    evidence.fetch_source = lambda src, max_age_hours: [one, irrelevant]
+    try:
+        search_result3 = evidence.search("زلزال هرات", cfg, 7, require_relevance=False)
+    finally:
+        evidence.fetch_source = real_fetch_source
+    check("evidence.search: require_relevance=False يُبقي كل النتائج الخام "
+          "بلا تصفية بالصلة — raw==matched حتى مع نتيجة غير مطابقة إطلاقًا "
+          "(العدد مضاعَف عن [one, irrelevant]: fetch_source مزيَّفة تُستدعى "
+          "مرة لكل لغة محليّة في verify.locales)",
+          search_result3.raw_count == search_result3.matched_count > 0,
+          (search_result3.raw_count, search_result3.matched_count))
+    check("evidence.search: require_relevance=False لا يملأ rejected_titles "
+          "— لا شيء رُفض أصلًا",
+          search_result3.rejected_titles == [], search_result3.rejected_titles)
+
+    # ── طلب التنفيذ على Issue #373، البند 1: _loose_tokens لا تُسقط تاريخًا
+    # قصيرًا (خلافًا لـrequest.norm_tokens) — نفس عطل Issue #364 كان سيُورَث
+    # في الفرز لو صار الفرز البوابة الوحيدة على الصلة بعد تعطيل relevant() ──
+    check("evidence._loose_tokens: تاريخ يوم من رقمين لا يُسقط",
+          "11" in evidence._loose_tokens("حدث وقع في 11 آب 2026"))
+    check("evidence._loose_tokens: شهر عربي من حرفين لا يُسقط",
+          "اب" in evidence._loose_tokens("حدث وقع في 11 آب 2026"))
+    check("evidence._loose_tokens: كلمة وقف عربية تبقى مستبعدة",
+          "في" not in evidence._loose_tokens("حدث وقع في 11 آب 2026"))
+    date_only_article = Article(
+        title="خبر عن كيان آخر تمامًا في 11 آب 2026", link="https://z/1", summary="",
+        source_name="s3", region="global", weight=1.0,
+        published=datetime.now(timezone.utc), publisher="s3")
+    check("evidence._relevance: norm_tokens (الافتراضي) يُفرغ الاستعلام كليًا "
+          "حين يقتصر على يوم وشهر قصيرين — لا صلة تُحتسب إطلاقًا (عطل Issue #364)",
+          evidence._relevance(date_only_article, evidence.norm_tokens("11 آب")) == 0)
+    check("evidence._relevance: token_fn=_loose_tokens تحتفظ باليوم/الشهر "
+          "القصيرين فتحتسب الصلة التي أفرغها norm_tokens أعلاه",
+          evidence._relevance(date_only_article, evidence._loose_tokens("11 آب"),
+                              evidence._loose_tokens) > 0)
+
+    # ── طلب التنفيذ على Issue #373، البند 3+4: استبعاد/خفض ترتيب ناشرين
+    # كمرشّحي قراءة تحقّق — قبل أي وزن أو بعده بحسب الحالة ──
+    check("evidence._is_excluded_publisher: ناشر في verify.excluded_publishers يُستبعد",
+          evidence._is_excluded_publisher("365Scores", cfg))
+    check("evidence._is_excluded_publisher: ناشر غير مُدرَج لا يُستبعد",
+          not evidence._is_excluded_publisher("BBC News", cfg))
+    check("evidence._is_demoted_reader: ناشر في verify.demoted_readers يُخفَّض",
+          evidence._is_demoted_reader("France 24", cfg))
+    check("evidence._is_demoted_reader: ناشر غير مُدرَج لا يُخفَّض",
+          not evidence._is_demoted_reader("BBC News", cfg))
+    check("evidence._read_priority: ناشر محجوب يُدفَع تحت أي وزن/صلة ممكنين "
+          "— لا يُستبعد كليًا، فقط يخسر أولوية الترتيب",
+          evidence._read_priority("France 24", cfg) <
+          evidence.DEFAULT_PUBLISHER_WEIGHT - evidence.TRUSTED_PUBLISHER_WEIGHT)
+    check("evidence._read_priority: ناشر غير محجوب يحتفظ بوزنه كما هو "
+          "(_publisher_weight بلا تعديل)",
+          evidence._read_priority("BBC News", cfg) ==
+          evidence._publisher_weight("BBC News", cfg))
+    check("evidence._publisher_weight: ناشر محجوب (demoted_readers) يبقى بوزنه "
+          "الحقيقي — الاستشهاد/الترتيب العام لا يتأثران بالحجب",
+          evidence._publisher_weight("Al Arabiya", cfg) == evidence.TRUSTED_PUBLISHER_WEIGHT)
+
+    excluded_article = Article(
+        title="365Scores: نتيجة مباراة اليوم", link="https://sport.example/1", summary="",
+        source_name="365Scores", region="global", weight=1.0,
+        published=datetime.now(timezone.utc), publisher="365Scores")
+    real_extract_gather2 = extract.gather
+    seen_gather_members: list = []
+
+    def _spy_gather(members, limit=2):
+        seen_gather_members.append([m["name"] for m in members])
+        return [], []
+
+    extract.gather = _spy_gather
+    try:
+        docs_ex, basis_ex = evidence.gather_evidence([excluded_article], cfg, "نتيجة مباراة")
+    finally:
+        extract.gather = real_extract_gather2
+    check("evidence.gather_evidence: ناشر مُستبعَد لا يدخل مرشّحي القراءة "
+          "الكاملة إطلاقًا — قبل أي وزن (تشخيص Issue #373، البند 4)",
+          seen_gather_members == [[]], seen_gather_members)
+    check("evidence.gather_evidence: ناشر مُستبعَد لا يظهر في احتياط العناوين "
+          "أيضًا — استبعاد كامل من الدليل لا من القراءة الكاملة وحدها",
+          basis_ex == evidence.EVIDENCE_UNREADABLE and docs_ex == [], (basis_ex, docs_ex))
+
 
 def test_article() -> None:
     """مسار «مقال من المصادر» (Issue #348): اختبار لكل قاعدة من القواعد
@@ -4078,11 +4194,11 @@ def test_article() -> None:
     # الثاني، البنود 1/2/3/4/7): موجز يصف أثر حدث بلا تسميته ──
     naming_search_calls: list = []
 
-    def _naming_search(query, cfg, days, unrestricted=False):
-        naming_search_calls.append((query, unrestricted))
+    def _naming_search(query, cfg, days, unrestricted=False, require_relevance=True):
+        naming_search_calls.append((query, unrestricted, require_relevance))
         return [object()]
 
-    def _naming_gather(articles, cfg, claim_text=""):
+    def _naming_gather(articles, cfg, claim_text="", loose_relevance=False):
         if claim_text == "حمزة الخطيب":
             # المرحلة المرجعية (احتياطية، البند 3): سيرة الكيان — سياقها
             # الفعلي "سوريا" مذكور مرارًا، لا حشوًا
@@ -4160,9 +4276,9 @@ def test_article() -> None:
     check("3) استعلام لاحق يستعمل السياق المكتشَف (سوريا) بنداء نموذج على "
           "نصوص البحث المرجعي — لا الوصف المبهم الأصلي حرفيًا",
           any("سوريا" in q and not unrestricted
-              for q, unrestricted in naming_search_calls[first_unrestricted + 1:]))
+              for q, unrestricted, _rr in naming_search_calls[first_unrestricted + 1:]))
     check("بحث بالوصف المبهم حرفيًا (أعاد قصة) لا يقع إطلاقًا",
-          not any("أعاد قصة" in q for q, _ in naming_search_calls))
+          not any("أعاد قصة" in q for q, _u, _rr in naming_search_calls))
     check("المقال يُنتَج فعلًا بعد تسمية الحدث ومروره ببوابة السند",
           out_naming["produced"] is True, out_naming.get("reason"))
     check("4) trail يشمل مراحل التسمية الثلاث (مباشر/مرجعي/سياق) مع حصيلة كل استعلام",
@@ -4170,6 +4286,20 @@ def test_article() -> None:
     check("7) بعد تسمية الحدث، الصلة بكيان الموجز الأصلي تُصاغ سؤالًا ويُبحث "
           "بدل افتراضها بديهية",
           any(q["text"].startswith("ما الصلة بين") for q in out_naming["unanswered"]))
+    # طلب التنفيذ على Issue #373، البند 1: require_relevance=False حصرًا
+    # لمرحلتَي «مباشر»/«سياق» — لا «مرجعي» (بحث سيرة الكيان نفسه، فلتر
+    # الصلة مفيد فيها كما هو، فتبقى على الافتراضي True). عبر trail لا
+    # naming_search_calls الخام: تلك تلتقط أيضًا استعلامات "واقعة"/"سؤال"
+    # الأخرى في _write_article (لا تمرّ عبر _try) فلا تصلح للمطابقة المباشرة
+    check("1) مراحل «مباشر»/«سياق» في trail مُعلَّمة صراحة بلا تصفية صلة",
+          all(t.get("unfiltered_relevance") is True for t in out_naming["trail"]
+              if t["stage"] in ("مباشر", "سياق")),
+          [t for t in out_naming["trail"] if t["stage"] in ("مباشر", "سياق")])
+    check("1) مرحلة «مرجعي» لا تحمل علامة unfiltered_relevance — تبقى على "
+          "فلتر الصلة الافتراضي (require_relevance=True) لا يتأثر بعلاج مباشر/سياق",
+          all(not t.get("unfiltered_relevance") for t in out_naming["trail"]
+              if t["stage"] == "مرجعي"),
+          [t for t in out_naming["trail"] if t["stage"] == "مرجعي"])
 
     # ── تعليق العطل الثاني على Issue #361، البند 1: trail يعرض عدد النتائج
     # الخام/المطابقة (قبل التصفية بالصلة وبعدها) وسبب فشل كل رابط تعذّر جلبه
@@ -4220,10 +4350,12 @@ def test_article() -> None:
           f"{direct_entry['raw_count']} خام" in report_trail and "HTTP 403" in report_trail,
           report_trail)
 
-    # البند 4 (تعليق الموافقة الثالث على Issue #361): عيّنة عناوين مرفوضة
-    # بالصلة تظهر في trail لمرحلة «مباشر» تحديدًا — استدعاء معزول بمصدرين
-    # (أحدهما لا يشارك أي كلمة مع الاستعلام) كي لا يمسّ raw_count==matched_count
-    # المتحقَّق منه أعلاه
+    # طلب التنفيذ على Issue #373، البند 1: فلتر الصلة قبل البحث مُعطَّل
+    # كليًا لمرحلة «مباشر» الآن (raw==matched==2 رغم أن أحد المصدرين لا
+    # يشارك أي كلمة مع الاستعلام) — لا مجرَّد عيّنة تشخيصية كما كان سابقًا.
+    # استدعاء معزول بمصدرين، أحدهما لا يشارك أي كلمة مع الاستعلام، كي لا
+    # يمسّ raw_count==matched_count(=1) المتحقَّق منه أعلاه لسيناريو المصدر
+    # الواحد
     irrelevant_naming = Article(
         title="مباراة كرة قدم ودّية بين ناديين محليين", link="https://irrelevant.example/1",
         summary="", source_name="مصدر عام", region="global", weight=1.0,
@@ -4239,13 +4371,72 @@ def test_article() -> None:
         extract.gather = real_extract_gather3
 
     direct_entry3 = next(t for t in name_trail3 if t["stage"] == "مباشر")
-    check("4) trail يعرض عيّنة عناوين مرفوضة بالصلة في مرحلة التسمية المباشرة",
-          irrelevant_naming.title in (direct_entry3.get("rejected_titles") or []), direct_entry3)
-    check("4) raw_count أكبر من matched_count حين رُفضت نتيجة بالصلة فعليًا",
-          direct_entry3["raw_count"] > direct_entry3["matched_count"] > 0, direct_entry3)
+    check("1) مرحلة «مباشر» لا تصفّي بالصلة قبل البحث — نتيجة لا تشارك أي "
+          "كلمة مع الاستعلام تدخل الفرز رغم ذلك (raw==matched رغم وجودها)",
+          direct_entry3["raw_count"] == direct_entry3["matched_count"] > 0 and
+          "مصدر عام" in direct_entry3["sources"],
+          direct_entry3)
+    check("1) trail يسجّل صراحة أن الفرز جرى بلا تصفية صلة لمرحلة «مباشر» "
+          "(طلب التنفيذ، البند 1: تسجيل عدد المرشحين الذين دخلوا الفرز بلا تصفية)",
+          direct_entry3.get("unfiltered_relevance") is True, direct_entry3)
+    check("1) لا حقل rejected_titles إطلاقًا — الفلتر الذي كان يرفض نتائج "
+          "قبل البحث مُعطَّل هنا لا موثَّق فقط بعيّنة",
+          "rejected_titles" not in direct_entry3, direct_entry3)
     report_trail3 = article.build_report({**article._new_outcome(), "trail": name_trail3})
-    check("4) التقرير يعرض عيّنة العناوين المرفوضة فعليًا",
-          irrelevant_naming.title in report_trail3, report_trail3)
+    check("1) التقرير يعرض ملاحظة «بلا تصفية صلة» لمرحلة «مباشر»",
+          "بلا تصفية صلة" in report_trail3, report_trail3)
+
+    # ── الدرجة الثالثة في السلّم (البند 2، تشخيص Issue #373): تاريخ + كلمة
+    # من topic العام حين تفشل «مباشر» و«سياق» كلتاهما ──
+    topic_words_seen: list = []
+    real_topic_words = article._topic_words
+
+    def _spy_topic_words(topic, exclude, max_words):
+        words = real_topic_words(topic, exclude, max_words)
+        topic_words_seen.append((topic, exclude, words))
+        return words
+
+    topic_stage_calls: list = []
+
+    def _topic_search(query, cfg, days, unrestricted=False, require_relevance=True):
+        topic_stage_calls.append((query, unrestricted, require_relevance))
+        return [object()]
+
+    def _topic_gather(articles, cfg, claim_text="", loose_relevance=False):
+        if "قضية" in claim_text:  # كلمة من topic + تاريخ (الدرجة الثالثة تحديدًا)
+            return ([{"name": "مصدر الموضوع", "link": "https://topic/1", "from_text": True,
+                      "text": "حكم صدر بحق كيان بلا سياق في قضية قديمة بتاريخ 11 آب 2026"}],
+                    evidence.EVIDENCE_FULL_TEXT)
+        return ([], evidence.EVIDENCE_NO_RESULTS)  # مباشر، ثم سياق (بلا سياق مكتشَف)، يفشلان
+
+    def _topic_ask_naming(vague_text, entities, docs, cfg):
+        if docs:
+            return {"text": "حكم صدر بحق كيان بلا سياق في قضية قديمة",
+                   "supporting": [d["name"] for d in docs]}
+        return None
+
+    evidence.search = _topic_search
+    evidence.gather_evidence = _topic_gather
+    article._topic_words = _spy_topic_words
+    article._ask_naming_model = _topic_ask_naming
+    article._ask_context_model = lambda *a, **k: []  # لا سياق يُستخلَص — تفشل المرحلة الثانية فعليًا
+
+    named_text3, _docs3, _supporting3, trail3 = article._name_event(
+        {"text": "حدث ما أعاد قضية قديمة", "entities": ["كيان بلا سياق", "11 آب 2026"]},
+        cfg, topic="قضية اختبارية قديمة جدًا")
+
+    article._topic_words = real_topic_words
+    check("2) الدرجة الثالثة (موضوع+تاريخ) تُجرَّب حين تفشل مباشر وسياق كلتاهما",
+          any(t["stage"] == "موضوع" for t in trail3), trail3)
+    check("2) الحدث يُسمّى فعلًا من الدرجة الثالثة حين تنجح وحدها",
+          named_text3 == "حكم صدر بحق كيان بلا سياق في قضية قديمة", named_text3)
+    check("2) كلمة الموضوع مُشتقّة من topic — لا من نص الواقعة المبهم نفسه "
+          "(القاعدة 3: البحث بالوصف المبهم حرفيًا ممنوع بنيويًا)",
+          bool(topic_words_seen) and
+          not any("أعاد قضية" in q for q, _u, _rr in topic_stage_calls))
+    check("2) _topic_words تستبعد كلمات كيانات الواقعة الأصلية (مجرَّبة أصلًا "
+          "في المرحلة الأولى) كي لا تكرّر استعلامًا سبق تجربته",
+          "كيان" not in article._topic_words("قصة كيان بلا سياق قديمة", ["كيان بلا سياق"], 3))
 
     evidence.search = _fake_search
     evidence.gather_evidence = _fake_gather_evidence
