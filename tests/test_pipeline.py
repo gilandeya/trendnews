@@ -5044,19 +5044,36 @@ def test_article() -> None:
     check("article._trail_read_counts: trail فارغة لا تنهار",
           article._trail_read_counts([]) == "بلا استعلامات")
 
+    # ── تشخيص Issue #373، الجولة الثامنة، البند 3: تذبذب حكم النموذج بين
+    # نداءين شبه متطابقين على نفس السؤال — يُرصَد لا يُعالَج، عبر عمود جديد
+    # في خط الأساس يعرض حكم كل سؤال بعينه لا العدد الكلي وحده ──
+    check("article._question_outcomes: يعرض ✅ للأسئلة المُجابة و❌ لغير المُجابة",
+          article._question_outcomes({
+              "answered_questions": [{"text": "من هو حمزة الخطيب؟", "answer": "..."}],
+              "unanswered": [{"text": "كيف بدأت القصة؟", "reason": "..."}],
+          }) == "✅ من هو حمزة الخطيب؟؛ ❌ كيف بدأت القصة؟")
+    check("article._question_outcomes: بلا أسئلة لا تنهار",
+          article._question_outcomes({}) == "بلا أسئلة")
+
     baseline_path = article.STATE_DIR / "article_baseline_test.md"
     if baseline_path.exists():
         baseline_path.unlink()
     try:
         outcome_ok = {"produced": True, "reason": "صيغ مقال من 2 واقعة مسندة",
                      "grounded_count": 2,
-                     "trail": [{"stage": "مباشر", "sources": ["أ", "ب"]}]}
+                     "trail": [{"stage": "مباشر", "sources": ["أ", "ب"]}],
+                     "answered_questions": [{"text": "من هو حمزة الخطيب؟", "answer": "..."}],
+                     "unanswered": [{"text": "كيف بدأت القصة؟", "reason": "..."}]}
         row1 = article.record_baseline(outcome_ok, path=baseline_path)
         check("article.record_baseline: يُلحِق سطر جدول يحوي النتيجة وعدد الوقائع المسندة",
               row1.startswith("|") and "✅" in row1 and "| 2 |" in row1 and
               "مباشر×2" in row1, row1)
+        check("article.record_baseline: السطر يحوي حكم كل سؤال بعينه (الجولة الثامنة، البند 3)",
+              "✅ من هو حمزة الخطيب؟" in row1 and "❌ كيف بدأت القصة؟" in row1, row1)
         check("article.record_baseline: أول استدعاء يكتب ترويسة الملف (عنوان + جدول)",
               baseline_path.read_text(encoding="utf-8").startswith("# خط أساس ثابت"))
+        check("article.record_baseline: الترويسة تحوي عمود «أسئلة الموجز» الجديد",
+              "أسئلة الموجز" in baseline_path.read_text(encoding="utf-8"))
         header_len = len(baseline_path.read_text(encoding="utf-8"))
 
         outcome_fail = {"produced": False, "reason": "بُحث ولم توجد نصوص تجيب عنه بوضوح",

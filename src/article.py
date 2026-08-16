@@ -1708,6 +1708,19 @@ def _trail_read_counts(trail: list[dict]) -> str:
     return "، ".join(f"{t['stage']}×{len(t.get('sources') or [])}" for t in trail)
 
 
+def _question_outcomes(outcome: dict) -> str:
+    """ملخص «✅/❌ نص السؤال» لكل سؤال من الموجز (تشخيص Issue #373، الجولة
+    الثامنة، البند 3): نفس السؤال بنفس المصادر أُجيب في تشغيلة وعاد بلا
+    إجابة في تالية — عدد grounded_count الكلي وحده لا يكشف *أي* سؤال بعينه
+    تذبذب، فقط أن العدد الكلي هبط. لا تشخيص جذري هنا (الشاهد يطابق تذبذب
+    حكم نموذج بين نداءين شبه متطابقين — لا نداء بدرجة حرارة صفرية في هذا
+    المسار أصلًا؛ انظر _ask_answer_model)، بل رصد رقمي عبر تشغيلات متتالية
+    كما طلب صاحب الـ Issue صراحة بدل مناقشة تفسيرات بلا دليل."""
+    parts = [f"✅ {q['text']}" for q in outcome.get("answered_questions") or []]
+    parts += [f"❌ {q['text']}" for q in outcome.get("unanswered") or []]
+    return "؛ ".join(parts) if parts else "بلا أسئلة"
+
+
 def record_baseline(outcome: dict, path: Path = BASELINE_LOG_PATH) -> str:
     """يُلحِق سطرًا بنتيجة تشغيلة على الموجز المرجعي الثابت في ملف
     بالمستودع (تشخيص Issue #373، الجولة الرابعة، البند 3): بلا سجل
@@ -1736,7 +1749,8 @@ def record_baseline(outcome: dict, path: Path = BASELINE_LOG_PATH) -> str:
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     result = ("✅ " + outcome["reason"]) if outcome.get("produced") else ("❌ " + outcome["reason"])
     row = (f"| {ts} | {result} | {outcome.get('grounded_count', 0)} | "
-          f"{_trail_read_counts(outcome.get('trail') or [])} |\n")
+          f"{_trail_read_counts(outcome.get('trail') or [])} | "
+          f"{_question_outcomes(outcome)} |\n")
     with path.open("a", encoding="utf-8") as fh:
         if is_new:
             fh.write(
@@ -1746,9 +1760,13 @@ def record_baseline(outcome: dict, path: Path = BASELINE_LOG_PATH) -> str:
                 "`config.yaml` — يُقرأ حيًّا من الـ Issue في كل تشغيلة، لا نسخة مكرَّرة هنا) "
                 "— انظر توثيق `record_baseline` في `src/article.py` (تشخيص Issue #373، "
                 "الجولتان الرابعة والخامسة، البند 3). لا يُعاد كتابته، يُلحَق به فقط — "
-                "للمقارنة عبر تشغيلات متتالية.\n\n"
-                "| التاريخ (UTC) | النتيجة | وقائع مسندة | مصادر كل استعلام (مرحلة×عدد) |\n"
-                "|---|---|---|---|\n")
+                "للمقارنة عبر تشغيلات متتالية. عمود «أسئلة الموجز» (الجولة الثامنة، "
+                "البند 3) يعرض حكم كل سؤال بعينه صراحة — تذبذب نموذج بين تشغيلتين على "
+                "نفس السؤال بنفس المصادر يظهر هنا كسطرين متعارضين بدل أن يختفي خلف عدد "
+                "«وقائع مسندة» الكلي وحده.\n\n"
+                "| التاريخ (UTC) | النتيجة | وقائع مسندة | مصادر كل استعلام (مرحلة×عدد) | "
+                "أسئلة الموجز (✅/❌) |\n"
+                "|---|---|---|---|---|\n")
         fh.write(row)
     return row
 
