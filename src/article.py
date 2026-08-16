@@ -628,9 +628,19 @@ def _name_event(statement: dict, cfg, topic: str = "") -> tuple[str | None, list
     (فشل «لبّاد» في التشخيص المعتمَد).
 
     يعيد (النص المسمّى أو None، نصوص المصادر التي سمّته، أسماء المصادر
-    المؤيِّدة، سجلّ trail كامل الخطوات — كل استعلام مع مصادره وحصيلته،
-    البند 4) — النصوص والمصادر المؤيِّدة هنا **هي نفسها** أدلة الحكم على
-    السند لاحقًا (لا نداء بحث أو حكم إضافي مكرَّر لنفس الحقيقة)."""
+    المؤيِّدة من دورة الاكتشاف هذه فقط، سجلّ trail كامل الخطوات — كل
+    استعلام مع مصادره وحصيلته، البند 4).
+
+    تنبيه (تشخيص Issue #373، الجولة السادسة — يُبطل ما وثَّقته نسخة سابقة
+    من هذا التعليق): هذه الدالة **اكتشاف فقط**، لا سند. النصوص والمصادر
+    المؤيِّدة التي تعيدها لم تعد تُستعمَل وحدها للحكم على كفاية سند الحدث
+    المسمّى — استعلام الاكتشاف (كيان الإشارة المبهمة+تاريخها) يبحث عن
+    الرابط بين الإشارة والحدث فيبقى ضيقًا بنيويًا حتى حين ينجح (شاهد حقيقي:
+    حدث غطّته عشرات المصادر أعاد 4 نتائج فقط من استعلام "حمزة الخطيب 11
+    آب"، وتعذّر جلب أغلبها). المستدعي (_write_article) يفتح دورة سند ثانية
+    مستقلة بعد نجاح هذه الدالة، مبنية من كيانات النص المسمّى **نفسه** لا
+    كيانات الإشارة المبهمة، ويدمج نتائجها مع ما تعيده هذه الدالة
+    (_merge_named_evidence) قبل الحكم على الكفاية."""
     acfg = cfg.get("article", {}) or {}
     days = int(acfg.get("days", 21))
     query_max_words = int(acfg.get("query_max_words", 5))
@@ -784,6 +794,14 @@ ANSWER_SYSTEM = """أنت تجيب عن سؤال طرحه صاحب موجز تح
 السؤال بوضوح، أقرّ بذلك (answered: false, supporting: []) — لا تخمّن ولا
 تستعن بمعرفتك الخاصة عمّا لا تقوله النصوص المعطاة.
 
+سؤال بصيغة «كيف/لماذا» (بداية حدث، مساره، أو دوافعه) لا يشترط أن يحوي
+النص جملة قائمة بذاتها بصياغة السؤال نفسها ("كيف بدأ..."، "لماذا وقع..."):
+خلفية الحدث أو سياقه السردي (متى/كيف وقعت وقائعه الأولى، ما الذي أدّى
+إليها) إجابة كافية إن كانت الوقائع التي يطلبها السؤال مذكورة فيها بوضوح
+— نفس معيار الإجابة عن سؤال «من/ماذا» بالضبط، لا معيارًا أشدّ. لا ترفض
+إجابة موجودة فعلًا في النص لمجرد أن صياغته سردية/خلفية لا صياغة سؤال
+وجواب مباشرة.
+
 استخدم أداة answer_question دائمًا."""
 
 ANSWER_SCHEMA = {
@@ -881,6 +899,43 @@ def _grounded_sources(names: list[str], docs: list[dict],
         out.append({"name": name, "link": doc.get("link", ""), "text": doc.get("text", ""),
                     "image_candidates": images_by_name.get(name, [])})
     return out
+
+
+def _merge_named_evidence(named_docs: list[dict], named_supporting: list[str],
+                          support_docs: list[dict], support_supporting: list[str],
+                          cfg) -> tuple[list[dict], list[str]]:
+    """يدمج أدلة دورة اكتشاف حدث مبهم (named_docs/named_supporting — استعلام
+    كيان الإشارة المبهمة+تاريخها، يبحث عن الرابط بين الإشارة والحدث) مع
+    أدلة دورة سند ثانية مستقلة بُنيت من كيانات الحدث المسمّى نفسه بعد
+    اكتشافه (support_docs/support_supporting) — تشخيص Issue #373، الجولة
+    السادسة: استعلام الاكتشاف يبقى ضيقًا بنيويًا حتى حين ينجح (شاهد حقيقي:
+    حدث غطّته عشرات المصادر أعاد 4 نتائج فقط من استعلام "حمزة الخطيب 11
+    آب"، وتعذّر جلب أغلبها)، فلا يصلح وحده حكمًا على مدى تغطية الحدث الفعلي.
+
+    الدورتان بحثان مستقلان قد يعيدان الناشر نفسه باسمين مختلفين (شاهد
+    حقيقي موثَّق سلفًا: "الجزيرة نت" في دورة و"Al Jazeera" في الأخرى) —
+    التوحيد داخل gather_evidence لكل دورة على حدة (evidence._canonical_publisher)
+    لا يمنع هذا عبر الدورتين معًا. أول دورة تسجّل هوية ناشر تفوز بتمثيله؛ أي
+    اسم خام لاحق لنفس الهوية يُستبدَل باسمها الناجي قبل عدّه في supporting —
+    وإلا احتُسب مصدر واحد بلغتين مرتين، نقضًا لشرط «مصدران مستقلان» الجوهري
+    في المشروع كله (نفس عطل التوحيد الذي عولج بين نتائج البحث الواحد، مكرَّر
+    هنا بين نتيجتَي بحث منفصلتين)."""
+    merged_docs: list[dict] = []
+    survivor_by_canonical: dict[str, str] = {}
+    name_to_survivor: dict[str, str] = {}
+    for docs in (named_docs, support_docs):
+        for d in docs:
+            canonical = evidence._canonical_publisher(d["name"], cfg)
+            survivor = survivor_by_canonical.get(canonical)
+            if survivor is None:
+                survivor_by_canonical[canonical] = d["name"]
+                name_to_survivor[d["name"]] = d["name"]
+                merged_docs.append(d)
+            else:
+                name_to_survivor[d["name"]] = survivor
+    merged_supporting = [name_to_survivor[n] for n in named_supporting + support_supporting
+                         if n in name_to_survivor]
+    return merged_docs, list(dict.fromkeys(merged_supporting))
 
 
 def _sufficiency(grounded: list[dict], cfg) -> tuple[bool, str]:
@@ -1228,9 +1283,15 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
 
     for f in facts_raw:
         if f.get("is_unnamed_event"):
-            # تسمية الحدث أولًا (البند 3 من التشخيص) — الأدلة التي سمّته
-            # هي نفسها أدلة الحكم على سنده، لا بحث إضافي مكرَّر (انظر
-            # توثيق _name_event)
+            # تسمية الحدث أولًا (البند 3 من التشخيص) — اكتشاف فقط. استعلام
+            # الاكتشاف (كيان الإشارة المبهمة+تاريخها) يبحث عن الرابط بين
+            # الإشارة والحدث فيبقى ضيقًا بنيويًا حتى حين ينجح (تشخيص Issue
+            # #373، الجولة السادسة: حدث غطّته عشرات المصادر أعاد 4 نتائج
+            # فقط من استعلام "حمزة الخطيب 11 آب"، وتعذّر جلب أغلبها) — لا
+            # يصلح وحده حكمًا على سند الحدث. دورة سند ثانية أدناه، مبنية من
+            # كيانات النص المسمّى نفسه لا كيانات الإشارة المبهمة (انظر
+            # _merge_named_evidence)، تُدمَج نتائجها مع أدلة الاكتشاف قبل
+            # الحكم على الكفاية
             named_text, named_docs, named_supporting, name_trail = _name_event(f, cfg, topic=topic)
             trail.extend(name_trail)
             if not named_text:
@@ -1241,15 +1302,32 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                 })
                 continue
             diffs.append({"brief": f["text"], "sources_say": named_text})
-            unique = set(named_supporting)
+
+            support_query = evidence.build_query(named_text, query_max_words)
+            support_ranked = evidence.search(support_query, cfg, days)
+            support_docs, support_basis = evidence.gather_evidence(support_ranked, cfg, named_text)
+            support_supporting = (_support_sources(named_text, support_docs, cfg)
+                                  if support_docs else [])
+            trail.append({"stage": "سند", "query": support_query, "basis": support_basis,
+                          "sources": [d["name"] for d in support_docs],
+                          "raw_count": getattr(support_ranked, "raw_count", None),
+                          "matched_count": getattr(support_ranked, "matched_count", None),
+                          "fetch_failures": getattr(support_docs, "fetch_failures", []),
+                          "outcome": (f"{len(set(support_supporting))} مصدر مؤيِّد إضافي "
+                                     "بكيانات الحدث المسمّى نفسه")})
+
+            all_docs, all_supporting = _merge_named_evidence(
+                named_docs, named_supporting, support_docs, support_supporting, cfg)
+            unique = set(all_supporting)
             if len(unique) < min_confirm:
                 dropped.append({
                     "text": named_text,
                     "reason": (f"سند غير كافٍ بعد تسمية الحدث ({len(unique)} من "
-                              f"{min_confirm} مصادر مستقلة مطلوبة)"),
+                              f"{min_confirm} مصادر مستقلة مطلوبة، شاملةً دورة سند "
+                              "ثانية بكيانات الحدث نفسه)"),
                 })
                 continue
-            fact_sources = _grounded_sources(named_supporting, named_docs, [])
+            fact_sources = _grounded_sources(all_supporting, all_docs, [])
             grounded.append({**f, "text": named_text, "sources": fact_sources})
             link_questions.append({
                 "text": f"ما الصلة بين «{named_text}» و«{f['text']}»؟",

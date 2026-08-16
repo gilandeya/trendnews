@@ -4221,6 +4221,14 @@ def test_article() -> None:
     check("3) ANSWER_SYSTEM يشدّد على إخراج اسم المصدر كما ورد في وسم المصدر حرفيًا "
           "— بنفس صياغة SUPPORT_SYSTEM/NAMING_SYSTEM لا صياغة أضعف",
           "كما وردت في وسم" in article.ANSWER_SYSTEM or "كما ورد في وسم" in article.ANSWER_SYSTEM)
+    # تشخيص Issue #373 (الجولة السادسة): أسئلة «كيف/لماذا» كانت تُرفض في
+    # تشغيلات حقيقية بينما نفس النص يُجيب عن سؤال «من/ماذا» موازٍ بلا مشكلة
+    # (مثال حقيقي: إجابة "من هو حمزة الخطيب؟" حوت بداية القصة حرفيًا، بينما
+    # "كيف بدأت قصته؟" رجع بلا إجابة) — توضيح صريح في البرومبت أن معيار
+    # القبول واحد لكل صيغ الأسئلة، لا معيارًا أشدّ للسردي/السببي
+    check("ANSWER_SYSTEM يوضّح صراحة أن أسئلة «كيف/لماذا» تُقاس بنفس معيار "
+          "«من/ماذا» — لا معيار أشدّ يرفض إجابة موجودة فعليًا لصياغتها السردية",
+          "كيف/لماذا" in article.ANSWER_SYSTEM and "نفس معيار" in article.ANSWER_SYSTEM)
     check("3) نافذة الاستخلاص الرخيصة (البديل ج) تقتصر على مطلع النص لا كامله",
           article._narrow_for_context("س" * 900, max_chars=400) == "س" * 400)
 
@@ -4299,6 +4307,31 @@ def test_article() -> None:
           {(2026, 8, 12)})
     check("article._extract_dates: سنة مجردة بلا شهر تُستخرج أيضًا (تراجع)",
           (2026, None, None) in article._extract_dates("في عام 2026 وحده"))
+
+    # ── _merge_named_evidence (تشخيص Issue #373، الجولة السادسة): افصل السند
+    # عن الاكتشاف — دورة سند ثانية بعد التسمية، بكيانات الحدث المسمّى لا
+    # كيانات الإشارة المبهمة، تُدمَج مع أدلة الاكتشاف. التوحيد بهوية الناشر
+    # (evidence._canonical_publisher) كان يعمل داخل دورة بحث واحدة فقط
+    # (الجولة الرابعة) — هنا يجب أن يعمل عبر دورتين منفصلتين أيضًا، وإلا
+    # عاد عطل «الجزيرة نت»/«Al Jazeera» بين دورة الاكتشاف ودورة السند تحديدًا ──
+    merged_docs, merged_supporting = article._merge_named_evidence(
+        [{"name": "الجزيرة نت", "link": "https://aj-ar/1", "text": "نص عربي"}],
+        ["الجزيرة نت"],
+        [{"name": "Al Jazeera", "link": "https://aj-en/1", "text": "نص إنجليزي"},
+         {"name": "BBC News", "link": "https://bbc/1", "text": "نص BBC"}],
+        ["Al Jazeera", "BBC News"],
+        cfg)
+    check("_merge_named_evidence: نسخة عربية من دورة الاكتشاف ونسخة إنجليزية من دورة "
+          "السند لناشر واحد تُوحَّدان — لا تُحسبان مصدرين مستقلين (نقض شرط «مصدران "
+          "مستقلان» لو مرّتا معًا بلا توحيد)",
+          len(merged_supporting) == 2 and len(merged_docs) == 2, (merged_docs, merged_supporting))
+    check("_merge_named_evidence: الاسم الناجي هو أول من سجَّل الهوية (دورة الاكتشاف "
+          "— 'الجزيرة نت') لا اسم دورة السند اللاحقة",
+          "الجزيرة نت" in merged_supporting and "Al Jazeera" not in merged_supporting,
+          merged_supporting)
+    check("_merge_named_evidence: ناشر مستقل حقيقي (BBC News) من دورة السند يبقى "
+          "بلا تأثر بالتوحيد",
+          "BBC News" in merged_supporting, merged_supporting)
 
     # ── القاعدة 6: برومبت مستقل — لا يمسّ writer.SYSTEM_PROMPT ولا يستعمل آلياته ──
     check("6) برومبت صياغة المقال مستقل تمامًا عن writer.SYSTEM_PROMPT",
@@ -4562,6 +4595,86 @@ def test_article() -> None:
     evidence.gather_evidence = _fake_gather_evidence
     article._ask_naming_model = real_ask_naming_model
     article._ask_context_model = real_ask_context_model
+
+    # ── دورة سند ثانية بعد تسمية حدث مبهم، مندمجة مع أدلة الاكتشاف (تشخيص
+    # Issue #373، الجولة السادسة — «افصل السند عن الاكتشاف»): استعلام
+    # الاكتشاف يبقى ضيقًا بنيويًا حتى بعد نجاح التسمية — شاهد حقيقي: 4
+    # نتائج فقط لحدث غطّته عشرات المصادر، معظمها تعذّر جلبها فبقي مصدر
+    # واحد دون الحد الأدنى. دورة سند ثانية مستقلة بكيانات الحدث المسمّى
+    # نفسه (لا كيانات الإشارة المبهمة) يجب أن تُدمَج نتائجها لتكمل السند
+    # لا أن تُهدَر أو تُسقَط الواقعة رغم سند كافٍ فعليًا مجتمعًا ──
+    real_name_event = article._name_event
+
+    def _fake_name_event_thin(statement, cfg, topic=""):
+        # دورة الاكتشاف وحدها وجدت مصدرًا واحدًا فقط — دون الحد الأدنى
+        return ("نص الحدث المسمّى فعلًا",
+               [{"name": "مصدر التسمية", "link": "https://naming/1",
+                 "text": "نص التسمية", "from_text": True}],
+               ["مصدر التسمية"],
+               [{"stage": "مباشر", "query": "كيان اختباري 1 يناير 2026",
+                 "basis": evidence.EVIDENCE_FULL_TEXT, "sources": ["مصدر التسمية"],
+                 "raw_count": 4, "matched_count": 4, "fetch_failures": [],
+                 "unfiltered_relevance": True, "outcome": "سُمّي الحدث"}])
+
+    second_round_queries: list = []
+
+    def _fake_search_second(query, cfg, days, unrestricted=False):
+        second_round_queries.append(query)
+        return [object()]
+
+    def _fake_gather_second(articles, cfg, claim_text=""):
+        return ([{"name": "مصدر سند أول", "link": "https://support/1", "from_text": True,
+                  "text": "نص سند أول"},
+                 {"name": "مصدر سند ثانٍ", "link": "https://support/2", "from_text": True,
+                  "text": "نص سند ثانٍ"}], evidence.EVIDENCE_FULL_TEXT)
+
+    def _fake_support_second(fact_text, docs, cfg):
+        if fact_text in ("نص الحدث المسمّى فعلًا", "واقعة إضافية عادية"):
+            return ["مصدر سند أول", "مصدر سند ثانٍ"]
+        return []
+
+    article._name_event = _fake_name_event_thin
+    evidence.search = _fake_search_second
+    evidence.gather_evidence = _fake_gather_second
+    article._support_sources = _fake_support_second
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار دورة السند الثانية",
+        "statements": [
+            {"text": "إشارة مبهمة لحدث لم يُسمَّ", "kind": "واقعة",
+             "entities": ["كيان اختباري", "1 يناير 2026"],
+             "is_unnamed_event": True, "is_reference": False},
+            {"text": "واقعة إضافية عادية", "kind": "واقعة", "entities": ["كق"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+
+    try:
+        out_support = article._write_article("موجز اختبار دورة السند الثانية", 3732, cfg)
+    finally:
+        article._name_event = real_name_event
+
+    check("دورة السند الثانية: مصدر التسمية وحده (1) دون الحد الأدنى، لكن الدمج مع "
+          "دورة سند ثانية (مصدران إضافيان) يكفي — الواقعة تدخل المقال لا تسقط",
+          not any(d["text"] == "نص الحدث المسمّى فعلًا" for d in out_support["dropped"]),
+          out_support["dropped"])
+    check("دورة السند الثانية: استعلامها استعلام فعلي منفصل — بُني بعد التسمية "
+          "بكيانات الحدث المسمّى، لا حصيلة فشل بلا محاولة (3 نداءات بحث: دورة "
+          "السند، الواقعة العادية، وسؤال الصلة البند 7 بعد التسمية)",
+          len(second_round_queries) == 3 and all(second_round_queries), second_round_queries)
+    check("دورة السند الثانية: trail يحوي مرحلة «سند» منفصلة عن مراحل الاكتشاف، "
+          "باستعلامها المسجَّل فعليًا لا فارغًا",
+          any(t["stage"] == "سند" and t["query"] == second_round_queries[0]
+              for t in out_support["trail"]), out_support["trail"])
+    check("دورة السند الثانية: المقال يُنتَج فعلًا بعد الدمج (واقعتان مسندتان تكفيان "
+          "min_grounded_facts)",
+          out_support["produced"] is True, out_support.get("reason"))
+    check("دورة السند الثانية: مصادر الدمج الثلاثة كلها تصل قائمة المصادر النهائية "
+          "(مصدر التسمية + مصدرا السند)",
+          {"مصدر التسمية", "مصدر سند أول", "مصدر سند ثانٍ"} <=
+          {s["name"] for s in out_support["sources"]}, out_support.get("sources"))
+
+    article._support_sources = _fake_support
 
     # ── القاعدة 5 (فحص الأصالة): نسخ لفظي من الموجز في المتن ← امتناع ──
     article.extract_brief = lambda body, cfg, retries=3: ({
