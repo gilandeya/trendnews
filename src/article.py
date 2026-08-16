@@ -1069,6 +1069,9 @@ DRAFT_SYSTEM_TEMPLATE = """أنت محرر يكتب مقالًا عربيًا ل
    سؤالًا جديدًا ولا يتهرّب منه.
 5. عربية فصيحة مبسّطة، بلا نسخ حرفي من أي نص مصدر — أعد الصياغة بالكامل.
 6. لا تذكر اسم المصدر داخل المتن — يُكتب أسفل المنشور تلقائيًا.
+7. استوعب الوقائع المسندة المعطاة كلها في المتن — لا تختصرها في جملة واحدة
+   حين تحتمل فقرة. هذا مقال مطوَّل عن مصادر عدة قُرئت فعليًا، لا خبر عاجل
+   مقتضب: كل واقعة معطاة تستحق مساحتها في المتن، لا حذفًا انتقائيًا.
 
 استخدم أداة write_article دائمًا."""
 
@@ -1193,7 +1196,10 @@ def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
         source_texts=extract.format_for_prompt(docs),
         opinions_block=_opinions_block(opinions, cfg),
         max_chars=cfg.path("image.headline_max_chars", 95),
-        post_length=w.get("post_length", "60 إلى 90 كلمة"),
+        # article.post_length مستقل عن writer.post_length (مراجعة بشرية بعد
+        # أول نشر): هذا مسار منتج مختلف — تسعة مصادر مقروءة تستحق متنًا
+        # أطول من منشور الجمع القصير، لا وريث قيمته
+        post_length=acfg.get("post_length", "180 إلى 280 كلمة"),
         hashtags_count=w.get("hashtags_count", 4),
         tone=w.get("tone", "خبري رصين، عربي فصيح مبسّط، بلا مبالغة أو إثارة"),
     )
@@ -1229,7 +1235,8 @@ def _new_outcome() -> dict:
     return {"produced": False, "reason": "", "question": "", "dropped": [],
            "sources": [], "unanswered": [], "answered_questions": [], "diffs": [],
            "trail": [], "draft_id": None, "grounded_count": 0,
-           "image_source_name": None, "image_source_link": None}
+           "image_source_name": None, "image_source_link": None,
+           "image_report": {}, "opinion_note": ""}
 
 
 def write_article(body: str, issue_number: int, cfg) -> dict:
@@ -1270,6 +1277,15 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     facts_raw = [s for s in statements if s["kind"] == "واقعة"][:max_statements]
     opinions = [s for s in statements if s["kind"] != "واقعة"]
     topic = str(extracted.get("topic") or "")
+
+    opinion_note = ""
+    # article.include_opinion (مراجعة بشرية بعد أول نشر): تعطيل الرأي قرار
+    # تهيئة مسبق، لا نتيجة فحص سند — يجب أن يبقى مميَّزًا في التقرير عن "ما
+    # سقط من موجزي" (تلك الفقرة مخصَّصة لوقائع رُفضت لانعدام سند فعلي)
+    if opinions and not acfg.get("include_opinion", True):
+        opinion_note = (f"{len(opinions)} رأي في موجزي أُسقط من المتن بقرار تهيئة "
+                        "(article.include_opinion=false) — لا لانعدام سند")
+        opinions = []
 
     dropped: list[dict] = []
     diffs: list[dict] = []
@@ -1327,7 +1343,12 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                               "ثانية بكيانات الحدث نفسه)"),
                 })
                 continue
-            fact_sources = _grounded_sources(all_supporting, all_docs, [])
+            # تشخيص Issue #373، الجولة السابعة (البند 1): كانت تُمرَّر ranked=[]
+            # حرفيًا هنا — لا Article فيها image_candidates إطلاقًا مهما توفّرت
+            # صور فعلية، فمصادر فرع الحدث المبهم كانت تصل الصياغة بلا صور
+            # دومًا بصرف النظر عن حجم التغطية الفعلي. support_ranked (دورة
+            # السند الثانية أعلاه) تحمل كائنات Article الحقيقية بصورها.
+            fact_sources = _grounded_sources(all_supporting, all_docs, support_ranked)
             grounded.append({**f, "text": named_text, "sources": fact_sources})
             link_questions.append({
                 "text": f"ما الصلة بين «{named_text}» و«{f['text']}»؟",
@@ -1363,6 +1384,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                 sources_seen.append({"name": s["name"], "link": s["link"]})
 
     outcome["dropped"] = dropped
+    outcome["opinion_note"] = opinion_note
     outcome["diffs"] = diffs
 
     # البند 5 + 7: أسئلة الموجز الصريحة وسؤال الصلة المُصنَّع (إن وُجد) —
@@ -1497,6 +1519,12 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         outcome["reason"] = f"مرحلة بناء صورة المسودة — فشل: {exc}"
         return outcome
 
+    # تقرير الصورة (تشخيص Issue #373، البند 1): «الصورة غائبة ولا سبب في
+    # التقرير» — shot يحمل الآن سبب رفض كل مرشَّح وحصيلة احتياط find_images
+    # (imaging.build_post_image)؛ total_candidates عدد مرشحي المصادر
+    # المسندة كلها قبل القصّ إلى أول 6 (candidates_tried داخل shot)
+    outcome["image_report"] = {**shot, "total_candidates": len(image_urls)}
+
     draft = {
         "id": draft_id,
         "created_at": datetime.now(timezone.utc).isoformat(),
@@ -1535,7 +1563,12 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     }
     store.save_draft(draft)
 
-    if shot.get("used_original") and image_ranked:
+    # لا illustrative (تشخيص Issue #373، مراجعة بشرية بعد أول نشر، البند 1):
+    # used_original يصير True أيضًا حين ينجح احتياط find_images (imaging.py
+    # يضبطه بعد محاولتَي المصدر والاحتياط معًا) — عزو تلك الصورة التعبيرية
+    # لأول مرشَّح في image_ranked (مصادر مسندة فعليًا) كان لينسب صورة حرة
+    # لمصدر لم يوفّرها إطلاقًا
+    if shot.get("used_original") and not shot.get("illustrative") and image_ranked:
         outcome["image_source_name"] = image_ranked[0][1]
         outcome["image_source_link"] = image_ranked[0][2]
 
@@ -1545,6 +1578,39 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         "draft_id": draft_id,
     })
     return outcome
+
+
+def _image_report_lines(ir: dict) -> list[str]:
+    """سطر تشخيص الصورة (تشخيص Issue #373، البند 1، مراجعة بشرية بعد أول
+    نشر): «الصورة غائبة» بلا سبب في التقرير عطل صمت — لا سبيل للمراجع
+    لمعرفة كم مرشَّح صورة جُرِّب من المصادر المسندة، لماذا فشل كل واحد، وهل
+    استُدعي احتياط find_images وماذا أعاد، إلا من هنا. ir فارغ (لا مفاتيح)
+    حين لم يصل الإنتاج مرحلة بناء الصورة أصلًا — لا شيء يُعرض حينها."""
+    if not ir:
+        return []
+    total = ir.get("total_candidates", 0)
+    failures = ir.get("candidate_failures") or []
+    # illustrative قبل used_original عمدًا: imaging.build_post_image يضبط
+    # used_original=True أيضًا حين ينجح احتياط find_images وحده (يعني فقط
+    # "لا خلفية مصمَّمة استُخدمت")، فحالة الاحتياط الناجح تحمل العلمين معًا
+    # — illustrative هي الحالة الأدق لتمييزها عن صورة مصدر حقيقية
+    if ir.get("illustrative"):
+        head = (f"🖼️ فشلت صور المصادر المسندة كلها ({total} مرشَّحًا) — استُخدمت صورة "
+               f"تعبيرية حرة من find_images (من {ir.get('fallback_candidates', 0)} مرشَّحًا).")
+    elif ir.get("used_original"):
+        head = f"🖼️ صورة من مصدر مسند مباشرة ({total} مرشَّحًا من المصادر المسندة)."
+    else:
+        head = (f"🖼️ فشلت صور المصادر المسندة كلها ({total} مرشَّحًا)" if total
+               else "🖼️ لا صورة واحدة بين مرشَّحي المصادر المسندة (0)")
+        if ir.get("fallback_tried"):
+            head += (f" — استُدعي احتياط find_images أيضًا وأعاد "
+                    f"{ir.get('fallback_candidates', 0)} مرشَّحًا، لم ينجح أي منها.")
+        else:
+            head += " — لم يُستدعَ احتياط find_images."
+    lines = ["", head]
+    for f in failures:
+        lines.append(f"  - ⚠️ {f['url'][:90]}: {f['reason']}")
+    return lines
 
 
 def build_report(outcome: dict) -> str:
@@ -1561,6 +1627,7 @@ def build_report(outcome: dict) -> str:
         if outcome.get("image_source_link"):
             name = outcome.get("image_source_name") or "مصدر مسند"
             lines.append(f"🖼️ مصدر الصورة: [{name}]({outcome['image_source_link']})")
+        lines += _image_report_lines(outcome.get("image_report") or {})
     else:
         lines.append(f"❌ لم يُصَغ مقال — {outcome['reason']}")
 
@@ -1583,6 +1650,11 @@ def build_report(outcome: dict) -> str:
     if outcome.get("dropped"):
         lines += ["", "**ما سقط من موجزي لانعدام السند:**"]
         lines += [f"- {d['text']} — {d['reason']}" for d in outcome["dropped"]]
+
+    if outcome.get("opinion_note"):
+        # مميَّز صراحة عن "ما سقط من موجزي" أعلاه: قرار تهيئة مسبق
+        # (article.include_opinion=false)، لا نتيجة فحص سند
+        lines += ["", f"💬 {outcome['opinion_note']}"]
 
     if outcome.get("diffs"):
         lines += ["", "**أين خالفت المصادرُ موجزي:**"]

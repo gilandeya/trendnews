@@ -155,28 +155,43 @@ def looks_bad(url: str) -> bool:
     return any(hint in low for hint in BAD_URL_HINTS)
 
 
-def download_image(url: str, timeout: int = 20) -> Image.Image | None:
-    """يحمّل صورة الخبر ويرفض الشعارات والأيقونات والصور الصغيرة."""
+def download_image(url: str, timeout: int = 20,
+                   failures: list | None = None) -> Image.Image | None:
+    """يحمّل صورة الخبر ويرفض الشعارات والأيقونات والصور الصغيرة.
+
+    failures (اختياري): إن مُرِّرت، يُلحَق بها {"url":..., "reason":...} عند كل
+    رفض — يستهلكها build_post_image لتسجيل سبب فشل كل مرشَّح في report، بدل
+    أن يبقى الفشل في سجل log وحده بلا أثر في تقرير المسودة (تشخيص Issue
+    #373: «الصورة غائبة ولا سبب في التقرير»)."""
+    def _record(reason: str) -> None:
+        if failures is not None:
+            failures.append({"url": url, "reason": reason})
+
     if not url or looks_bad(url):
         log.info("رُفضت الصورة (رابط مشبوه): %s", (url or "")[:80])
+        _record("رابط مشبوه")
         return None
     try:
         resp = requests.get(url, headers=HEADERS, timeout=timeout)
         if resp.status_code != 200 or len(resp.content) < 15_000:
             log.info("رُفضت الصورة (حجم صغير %d بايت)", len(resp.content))
+            _record(f"HTTP {resp.status_code}، حجم {len(resp.content)} بايت (دون 15000)")
             return None
         img = Image.open(io.BytesIO(resp.content))
         img.load()
     except (requests.RequestException, OSError) as exc:
         log.info("تعذّر تحميل الصورة: %s", exc)
+        _record(f"تعذّر التحميل: {exc}")
         return None
 
     w, h = img.size
     if w < 420 or h < 260:
         log.info("رُفضت الصورة (أبعاد صغيرة %dx%d)", w, h)
+        _record(f"أبعاد صغيرة {w}×{h}")
         return None
     if not 0.9 <= (w / h) <= 3.2:  # نسبة غريبة = بانر أو شعار عمودي
         log.info("رُفضت الصورة (نسبة غير ملائمة %.2f)", w / h)
+        _record(f"نسبة غير ملائمة {w / h:.2f}")
         return None
     return img.convert("RGB")
 
@@ -457,6 +472,12 @@ def build_post_image(
     `report` قاموس يُملأ بما جرى: هل استُعملت صورة حقيقية للخبر أم
     الخلفية المصممة. المُستدعي يحتاج ذلك ليخبر المراجع أن هذه المسودة
     بلا صورة فيضيف واحدة — ولا سبيل لمعرفته من مسار الملف وحده.
+
+    (تشخيص Issue #373، البند 1): يُملأ أيضًا بـcandidates_tried (كم مرشَّحًا
+    من صور المصادر جُرِّب)، candidate_failures (سبب رفض كل مرشَّح، من
+    مرشحات المصادر واحتياط find_images معًا)، وfallback_tried/
+    fallback_candidates (هل استُدعي find_images وكم مرشَّحًا أعاد) — عطل
+    الصورة كان يصل log وحده بلا أثر في تقرير المسودة الذي يراه المراجع.
     """
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
@@ -510,6 +531,11 @@ def build_post_image(
     source = None
     illustrative = False
     chosen_url = None
+    # تشخيص Issue #373 (البند 1): سبب رفض كل مرشَّح صورة، ليصل تقرير المسودة
+    # — لا سجل log وحده الذي لا يراه المراجع البشري
+    candidate_failures: list[dict] = []
+    fallback_tried = False
+    fallback_candidates_count = 0
 
     # ترتيب حسب الوجوه: الصورة التي تُظهر إنسانًا بوضوح تتصدّر الخلفية،
     # والسياق (مبنى، مكان، وثيقة) يذهب للدائرة. العكس يدفن الوجه — وهو
@@ -529,7 +555,7 @@ def build_post_image(
                          " · ".join(f"{sc:.2f}" for sc, _, _ in scored))
 
     for url in ordered:
-        source = _preloaded.get(url) or download_image(url)
+        source = _preloaded.get(url) or download_image(url, failures=candidate_failures)
         if source is not None:
             chosen_url = url
             log.info("اعتُمدت صورة الخبر: %s", url[:90])
@@ -541,10 +567,12 @@ def build_post_image(
         alternatives = list(fallback_urls or [])
         if not alternatives and callable(fallback_provider):
             log.info("صورة الناشر غير متاحة — البحث عن بديل حر الترخيص…")
+            fallback_tried = True
             alternatives = fallback_provider() or []
+        fallback_candidates_count = len(alternatives)
 
         for url in alternatives[:6]:
-            source = download_image(url)
+            source = download_image(url, failures=candidate_failures)
             if source is not None:
                 illustrative = True
                 log.info("✅ اعتُمدت صورة تعبيرية حرة: %s", url[:90])
@@ -748,6 +776,10 @@ def build_post_image(
     if report is not None:
         report["used_original"] = bool(used_original)
         report["illustrative"] = bool(illustrative)
+        report["candidates_tried"] = len(ordered)
+        report["candidate_failures"] = candidate_failures
+        report["fallback_tried"] = fallback_tried
+        report["fallback_candidates"] = fallback_candidates_count
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(out_path, "JPEG", quality=90, optimize=True, subsampling=0)
