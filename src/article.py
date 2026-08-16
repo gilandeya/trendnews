@@ -1479,7 +1479,13 @@ def build_report(outcome: dict) -> str:
                  for d in outcome["diffs"]]
 
     if outcome.get("trail"):
-        lines += ["", "<details><summary><strong>سجلّ البحث الكامل (trail)</strong> "
+        # مفتوح افتراضيًا (open) — لا مطويًا (تشخيص Issue #373، الجولة الثانية،
+        # البند 1): "trail اختفى من التقرير" — لم يتأكد وجود عطل في التصيير
+        # نفسه (بنية <details> ولوب العناصر تُنتج كل الأسطر فعليًا، تحقّقنا
+        # بمحاكاة مباشرة)، لكن <details> مطوي افتراضيًا يجعل أي قارئ يفوّت
+        # المحتوى دون نقرة صريحة — وهذا وحده كافٍ ليبدو "اختفى". لا مجازفة:
+        # يُفتح دومًا فلا سبيل لتفويته.
+        lines += ["", "<details open><summary><strong>سجلّ البحث الكامل (trail)</strong> "
                       f"— {len(outcome['trail'])} استعلامًا</summary>", ""]
         for t in outcome["trail"]:
             srcs = "، ".join(t.get("sources") or []) or "لا مصادر"
