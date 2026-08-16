@@ -3940,6 +3940,72 @@ def test_evidence() -> None:
           "أيضًا — استبعاد كامل من الدليل لا من القراءة الكاملة وحدها",
           basis_ex == evidence.EVIDENCE_UNREADABLE and docs_ex == [], (basis_ex, docs_ex))
 
+    # ── طلب التنفيذ على Issue #373، الجولة الرابعة، البند 1: توحيد هوية
+    # الناشر عبر اللغتين قبل اختيار مرشحي القراءة لا بعده — الشاهد الحقيقي:
+    # «الجزيرة نت» و«Al Jazeera» عُومِلا ناشرَين مستقلَّين فاستهلكا فتحتي
+    # قراءة من الثلاث بدل واحدة ──
+    check("evidence._trusted_canonical: نسخة عربية من ناشر trusted_boost تُطابَق "
+          "هويته الإنجليزية المرجعية عبر publisher_aliases",
+          evidence._trusted_canonical("الجزيرة نت", cfg) == "Al Jazeera")
+    check("evidence._trusted_canonical: النسخة الإنجليزية نفسها تُطابَق مباشرة",
+          evidence._trusted_canonical("Al Jazeera", cfg) == "Al Jazeera")
+    check("evidence._trusted_canonical: ناشر غير مُدرَج في trusted_boost لا يُطابَق",
+          evidence._trusted_canonical("موقع عشوائي غير معروف كليًا هنا", cfg) is None)
+    check("evidence._canonical_publisher: نسخة عربية وإنجليزية لناشر واحد تشتركان "
+          "بالهوية نفسها",
+          evidence._canonical_publisher("الجزيرة نت", cfg) ==
+          evidence._canonical_publisher("Al Jazeera", cfg) == "Al Jazeera")
+    check("evidence._canonical_publisher: ناشر غير مُدرَج يبقى هوية نفسه (الاسم الخام "
+          "كما ورد — لا قائمة مرادفات لكل مصدر RSS)",
+          evidence._canonical_publisher("موقع عشوائي غير معروف كليًا هنا", cfg) ==
+          "موقع عشوائي غير معروف كليًا هنا")
+
+    aj_ar = Article(title="حمزة الخطيب: حكم غيابي بإعدام الأسد", link="https://aj-ar.example/1",
+                    summary="", source_name="الجزيرة نت", region="global", weight=1.0,
+                    published=datetime.now(timezone.utc), publisher="الجزيرة نت")
+    aj_en = Article(title="Assad sentenced in absentia over Hamza al-Khatib case",
+                    link="https://aj-en.example/1", summary="", source_name="Al Jazeera",
+                    region="global", weight=1.0, published=datetime.now(timezone.utc),
+                    publisher="Al Jazeera")
+    bbc_real = Article(title="Court sentences Assad in absentia", link="https://bbc.example/1",
+                       summary="", source_name="BBC News", region="global", weight=1.0,
+                       published=datetime.now(timezone.utc), publisher="BBC News")
+    real_extract_gather3 = extract.gather
+    seen_gather_members2: list = []
+
+    def _spy_gather2(members, limit=2):
+        seen_gather_members2.append([m["name"] for m in members])
+        return [], []
+
+    extract.gather = _spy_gather2
+    try:
+        evidence.gather_evidence([aj_ar, aj_en, bbc_real], cfg, "حمزة الخطيب")
+    finally:
+        extract.gather = real_extract_gather3
+    read_names = seen_gather_members2[0]
+    check("evidence.gather_evidence: نسختا الجزيرة (عربية/إنجليزية) تستهلكان فتحة "
+          "قراءة واحدة لا فتحتين — مرشح ثالث حقيقي (BBC News) لا يخسر فتحته "
+          "(الشاهد الحقيقي في Issue #373: قراءة 'الجزيرة نت، BBC، Al Jazeera' "
+          "بدل 'الجزيرة نت، BBC، سكاي نيوز عربية')",
+          len(read_names) == 2 and "BBC News" in read_names and
+          len({evidence._canonical_publisher(n, cfg) for n in read_names}) == 2,
+          read_names)
+
+    aj_ar2 = Article(title="حمزة الخطيب: خبر تجريبي", link="https://aj-ar2.example/1",
+                     summary="ملخص عربي", source_name="الجزيرة نت", region="global", weight=1.0,
+                     published=datetime.now(timezone.utc), publisher="الجزيرة نت")
+    aj_en2 = Article(title="Hamza test story", link="https://aj-en2.example/1",
+                     summary="English summary", source_name="Al Jazeera", region="global",
+                     weight=1.0, published=datetime.now(timezone.utc), publisher="Al Jazeera")
+    extract.gather = lambda members, limit=2: ([], [])
+    try:
+        docs_hd, basis_hd = evidence.gather_evidence([aj_ar2, aj_en2], cfg)
+    finally:
+        extract.gather = real_extract_gather3
+    check("evidence.gather_evidence: احتياط العناوين يوحّد الناشر أيضًا — لا يعرض "
+          "نسختي الجزيرة كمصدرين مستقلين في الاحتياط",
+          basis_hd == evidence.EVIDENCE_HEADLINES_ONLY and len(docs_hd) == 1, docs_hd)
+
 
 def test_article() -> None:
     """مسار «مقال من المصادر» (Issue #348): اختبار لكل قاعدة من القواعد
@@ -4037,6 +4103,11 @@ def test_article() -> None:
           out1["produced"] is True, out1["reason"])
     check("1) الواقعة الساقطة غير موجودة ضمن ما مرّ لاختيار السؤال",
           "واقعة بمصدر واحد فقط" not in seen_question_calls[-1])
+    # خط الأساس الثابت (تشخيص Issue #373، الجولة الرابعة، البند 3) يحتاج
+    # عدد الوقائع المسندة كعدد صريح على outcome — لا استخراجه من نص حر
+    check("1) outcome['grounded_count'] يساوي عدد الوقائع التي اجتازت السند فعلًا "
+          "(2 من 3: واحدة سقطت لسند غير كافٍ)",
+          out1["grounded_count"] == 2, out1["grounded_count"])
 
     # ── القاعدة 7: بوابة كفاية عددية على الوقائع المُرشَّحة بالسند فقط ──
     article.extract_brief = lambda body, cfg, retries=3: ({
@@ -4056,6 +4127,9 @@ def test_article() -> None:
           out7["produced"] is False)
     check("7) سبب الامتناع يذكر القاعدة 7 صراحة لا رسالة عامة",
           "القاعدة 7" in out7["reason"])
+    check("7) grounded_count يبقى مسجَّلًا (1) رغم امتناع الإنتاج — يُحسَب قبل "
+          "بوابة الكفاية لا يُشتق من نجاحها",
+          out7["grounded_count"] == 1, out7["grounded_count"])
     check("7) امتناع بلاغ بما بُحث لا مقال ركيك — لا نداء لاختيار السؤال أصلًا "
           "(البوابة العددية تسبق اختياره)",
           len(seen_question_calls) == question_calls_before)
@@ -4662,6 +4736,51 @@ def test_article() -> None:
     check("4) برومبت استخراج بنية الموجز يميّز حدثًا مرجعيًا مسمّى بفاعل وفعل "
           "واضحين رغم قلة التفاصيل عن إشارة مبهمة",
           "تسمّي الحدث أيضًا رغم قلة التفاصيل" in article.WRITEUP_EXTRACT_SYSTEM)
+
+    # ── طلب التنفيذ على Issue #373، الجولة الرابعة، البند 3: خط أساس ثابت —
+    # سطر مُلحَق بملف بالمستودع بعد كل تشغيلة، لا مناقشة تفسيرات بلا دليل ──
+    check("article._trail_read_counts: ملخص «مرحلة×عدد مصادر» لكل عنصر trail",
+          article._trail_read_counts([
+              {"stage": "مباشر", "sources": ["أ", "ب"]},
+              {"stage": "سؤال", "sources": []},
+          ]) == "مباشر×2، سؤال×0")
+    check("article._trail_read_counts: trail فارغة لا تنهار",
+          article._trail_read_counts([]) == "بلا استعلامات")
+
+    baseline_path = article.STATE_DIR / "article_baseline_test.md"
+    if baseline_path.exists():
+        baseline_path.unlink()
+    try:
+        outcome_ok = {"produced": True, "reason": "صيغ مقال من 2 واقعة مسندة",
+                     "grounded_count": 2,
+                     "trail": [{"stage": "مباشر", "sources": ["أ", "ب"]}]}
+        row1 = article.record_baseline(outcome_ok, path=baseline_path)
+        check("article.record_baseline: يُلحِق سطر جدول يحوي النتيجة وعدد الوقائع المسندة",
+              row1.startswith("|") and "✅" in row1 and "| 2 |" in row1 and
+              "مباشر×2" in row1, row1)
+        check("article.record_baseline: أول استدعاء يكتب ترويسة الملف (عنوان + جدول)",
+              baseline_path.read_text(encoding="utf-8").startswith("# خط أساس ثابت"))
+        header_len = len(baseline_path.read_text(encoding="utf-8"))
+
+        outcome_fail = {"produced": False, "reason": "بُحث ولم توجد نصوص تجيب عنه بوضوح",
+                        "grounded_count": 0, "trail": []}
+        row2 = article.record_baseline(outcome_fail, path=baseline_path)
+        check("article.record_baseline: الاستدعاء الثاني يُلحِق سطرًا جديدًا بلا إعادة كتابة "
+              "الترويسة (سجل تراكمي)",
+              "❌" in row2 and "| 0 |" in row2 and
+              len(baseline_path.read_text(encoding="utf-8")) > header_len)
+        check("article.record_baseline: الملف يحوي السطرين معًا بعد استدعاءين",
+              baseline_path.read_text(encoding="utf-8").count("\n|") >= 2)
+    finally:
+        if baseline_path.exists():
+            baseline_path.unlink()
+
+    check("article.BASELINE_LOG_PATH: تحت state/ — تلتزم بها article.yml تلقائيًا "
+          "(git add -A drafts state) بلا تعديل سير العمل",
+          article.BASELINE_LOG_PATH.parent == article.STATE_DIR)
+    check("config.yaml: article.baseline_brief موجود كمفتاح تهيئة (قد يكون فارغًا "
+          "حتى يُلصَق الموجز المرجعي الفعلي)",
+          "baseline_brief" in (cfg.get("article") or {}))
 
     article.extract_brief = real_extract_brief
     evidence.search = real_search

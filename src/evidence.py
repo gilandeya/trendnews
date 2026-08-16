@@ -354,7 +354,15 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
     rank.cluster) — والناشرون المستقلون الآخرون الذين اندمجوا فيه محفوظون
     في cluster_members لا في الممثّل وحده. نوسّع كل ممثّل إلى كل ناشريه
     الفعليين هنا، فيُعَدّ كل ناشر مستقل مصدرًا مستقلًا لا الموضوع/المجموعة
-    ككل.
+    ككل — لكن هذا التوسيع يعمل على أسماء ناشرين خامة كما وردت في نتيجة
+    البحث، وقد يكرّر الناشر نفسه باسمين مختلفين (نسخته العربية والإنجليزية
+    من نتيجتَي بحث مختلفتين، مثال حقيقي: "الجزيرة نت" و"Al Jazeera" —
+    تشخيص Issue #373، الجولة الرابعة، البند 1). لذا يُوحَّد مرشحو القراءة
+    بهوية الناشر (_canonical_publisher) **قبل** اختيارهم لا بعده — فناشر
+    واحد بلغتين يستهلك فتحة قراءة واحدة من read_per_claim لا فتحتين،
+    ويُعَدّ مصدرًا مستقلًا واحدًا لا اثنين حين يُحسب سند الواقعة لاحقًا في
+    article.py (unique = set(supporting) يرث هذا التوحيد تلقائيًا لأن كل
+    ما تراه set() أصلًا هو الأسماء الخامة الناجية من هذا التوحيد وحدها).
 
     articles تُرتَّب حسب claim_text (إن أُعطي) بمدى تطابق كلمات كل ممثّل
     مع نص الواقعة/السؤال نفسه — لا بترتيبها الوارد من search()/rank()
@@ -408,14 +416,22 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
              [(round(w, 2), r, n) for w, r, n, _ in candidates])
 
     seen_links: set[str] = set()
-    seen_names: set[str] = set()
+    seen_publishers: set[str] = set()
     members: list[dict] = []
 
     def _add(name, link):
-        if not name or not link or link in seen_links or name in seen_names:
+        if not name or not link or link in seen_links:
+            return
+        # التوحيد قبل اختيار مرشحي القراءة لا بعده (تشخيص Issue #373، الجولة
+        # الرابعة، البند 1): بلا هذا، نسختا ناشر واحد بلغتين (مثال حقيقي:
+        # "الجزيرة نت" و"Al Jazeera") تُعَدّان مرشحَين مستقلَّين فتستهلكان
+        # فتحتي قراءة من الثلاث بدل واحدة — مرشح ثالث مختلف فعليًا يخسر
+        # فتحته له رغم صلته أو وزنه.
+        canonical = _canonical_publisher(name, cfg)
+        if canonical in seen_publishers:
             return
         seen_links.add(link)
-        seen_names.add(name)
+        seen_publishers.add(canonical)
         members.append({"name": name, "link": link})
 
     for _weight, _rel, name, link in candidates:
@@ -442,16 +458,21 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
         return _evidence_docs(docs, fetch_failures), EVIDENCE_FULL_TEXT
 
     headline_docs = []
-    seen_headline_names: set[str] = set()
+    seen_headline_publishers: set[str] = set()
     for a in articles:
         name = a.publisher or a.source_name
-        if not name or name in seen_headline_names or _is_excluded_publisher(name, cfg):
+        if not name or _is_excluded_publisher(name, cfg):
+            continue
+        # نفس توحيد الناشر أعلاه (البند 1) — احتياط العناوين يستهلك limit
+        # نفسها، فيخسر نفس مشكلة الفتحات المهدورة بلا هذا التوحيد
+        canonical = _canonical_publisher(name, cfg)
+        if canonical in seen_headline_publishers:
             continue
         snippet = f"{a.title}. {a.summary}".strip(" .")
         if snippet:
             headline_docs.append({"name": name, "text": snippet, "from_text": False,
                                   "link": a.link})
-            seen_headline_names.add(name)
+            seen_headline_publishers.add(canonical)
         if len(headline_docs) >= limit:
             break
     if headline_docs:
@@ -510,29 +531,61 @@ DEFAULT_PUBLISHER_WEIGHT = 0.6
 TRUSTED_PUBLISHER_WEIGHT = 3.0
 
 
-def _publisher_weight(name: str, cfg) -> float:
-    """وزن الناشر: من verify.trusted_boost أولًا (وكالات كبرى)، ثم وزن
-    sources في config.yaml، وإلا وزن افتراضي متواضع لناشر غير مُدرَج.
-    يبقى تحت مفتاح verify: في config.yaml — مشترك بين verify.py وarticle.py
-    وأي مسار آخر يعيد استعمال evidence.py، لا مكرَّر لكل مسار.
+def _trusted_canonical(name: str, cfg) -> str | None:
+    """اسم trusted_boost المرجعي (إنجليزي) إن طابقه name بتسامح (مباشرة أو
+    عبر verify.publisher_aliases)، وإلا None.
 
     مطابقة اسم trusted_boost وحده حرفيًا (إنجليزي عادة) لا تكفي: نتائج
     البحث العربية تعرض اسم الوكالة بالعربية غالبًا، ولا تحويل بين
     الأبجديتين في norm_tokens — فتُطابَق أيضًا كل مرادف عربي مُدرَج لكل
-    وكالة في verify.publisher_aliases."""
+    وكالة في verify.publisher_aliases. مُستخرَجة من _publisher_weight
+    (تشخيص Issue #373، الجولة الرابعة، البند 1) ليستعملها _canonical_publisher
+    أيضًا بلا تكرار حلقة المطابقة نفسها."""
     if not name:
-        return DEFAULT_PUBLISHER_WEIGHT
+        return None
     vcfg = cfg.get("verify", {}) or {}
     aliases = vcfg.get("publisher_aliases") or {}
     for trusted in vcfg.get("trusted_boost") or []:
         names_to_try = [trusted, *(aliases.get(trusted) or [])]
         if any(_tokens_match(name, alt) for alt in names_to_try):
-            return TRUSTED_PUBLISHER_WEIGHT
+            return trusted
+    return None
+
+
+def _publisher_weight(name: str, cfg) -> float:
+    """وزن الناشر: من verify.trusted_boost أولًا (وكالات كبرى)، ثم وزن
+    sources في config.yaml، وإلا وزن افتراضي متواضع لناشر غير مُدرَج.
+    يبقى تحت مفتاح verify: في config.yaml — مشترك بين verify.py وarticle.py
+    وأي مسار آخر يعيد استعمال evidence.py، لا مكرَّر لكل مسار."""
+    if not name:
+        return DEFAULT_PUBLISHER_WEIGHT
+    if _trusted_canonical(name, cfg) is not None:
+        return TRUSTED_PUBLISHER_WEIGHT
     for s in cfg.get("sources", []) or []:
         sname = s.get("name", "")
         if sname and _tokens_match(name, sname):
             return float(s.get("weight", DEFAULT_PUBLISHER_WEIGHT))
     return DEFAULT_PUBLISHER_WEIGHT
+
+
+def _canonical_publisher(name: str, cfg) -> str:
+    """هوية الناشر الموحَّدة عبر اللغتين، لغرض العدّ/إزالة التكرار (لا
+    الاستشهاد — الاسم الخام كما ورد يبقى ما يُعرَض) — تشخيص Issue #373،
+    الجولة الرابعة، البند 1: «الجزيرة نت» (نتيجة بحث عربية) و«Al Jazeera»
+    (نتيجة بحث إنجليزية) كانا يُعامَلان ناشرَين مستقلَّين رغم كونهما
+    الناشر نفسه — فاستهلكا فتحتي قراءة من read_per_claim الثلاث بدل واحدة
+    (مرشح ثالث فعليًا مختلف خسر فتحته)، والأخطر أن عدّ "مصادر مستقلة" في
+    article.py (unique = set(supporting)) كان يحسبهما اثنين، ما يمكن أن
+    ينقض شرط "مصدران مستقلان" الجوهري في المشروع كله لو أيّد الاثنان واقعة
+    واحدة بلا مصدر ثالث حقيقي.
+
+    تُطابِق trusted_boost/publisher_aliases بنفس منطق _publisher_weight (لا
+    قائمة ثانية مُدارة يدويًا) فتُعيد الاسم الإنجليزي المرجعي بدل اسم
+    النتيجة الخام حين يطابق أحدهما. بلا مطابقة، الاسم الخام نفسه هو الهوية
+    — لا كل مصدر RSS في sources: يملك مرادفًا ثنائي اللغة مُدرَجًا، ولا حاجة
+    لذلك خارج وكالات trusted_boost الكبرى التي تتكرر مشكلتها فعليًا (تظهر
+    بالعربية والإنجليزية معًا في نتائج بحث مختلفة لنفس الاستعلام)."""
+    return _trusted_canonical(name, cfg) or name
 
 
 def _is_excluded_publisher(name: str, cfg) -> bool:
