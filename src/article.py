@@ -70,6 +70,24 @@ def _client() -> Anthropic:
     return Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
 
+class _ModelCallResult(dict):
+    """نتيجة نداء حكم ثنائي (_ask_naming_model/_ask_answer_model): dict
+    فارغ عند الفشل، بنفس زيف None في كل فحص `if not result` قائم — لا كسر
+    توافق. call_error (افتراضيًا None، عبر getattr فـ dict/lambda مزيَّفة
+    في الاختبارات لا تعرفه تبقى تعمل) يحمل نص الاستثناء حين السبب فشل
+    نداء تقني (رفض API، انقطاع شبكة...) لا حكم "لا" فعلي من النموذج —
+    تشخيص Issue #373، الجولة الحادية عشرة، البند 2: كلاهما كان يظهر بنفس
+    عبارة «لم توجد نصوص تجيب عنه» في trail/التقرير، فامتناع تقني بحت كان
+    يُقرأ خطأً كحكم غياب سند."""
+    call_error: str | None = None
+
+
+class _ModelCallList(list):
+    """نظير _ModelCallResult لنداء يعيد قائمة (_support_sources) — قائمة
+    فارغة عند الفشل، بنفس زيف [] القائم، وcall_error لسبب الفشل التقني."""
+    call_error: str | None = None
+
+
 # ──────────────────────────── استخراج بنية الموجز ────────────────────────────
 
 WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتبه صاحب صفحة إخبارية —
@@ -534,8 +552,10 @@ def _format_docs(docs: list[dict]) -> str:
 def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
                       cfg) -> dict | None:
     """يسأل النموذج: هل تسمّي هذه النصوص حدثًا محدَّدًا؟ يعيد
-    {"text":..., "supporting":[...]} عند النجاح، أو None — لا تخمين بلا
-    نصوص تسنده."""
+    {"text":..., "supporting":[...]} عند النجاح، أو قيمة فارغة (None أو
+    _ModelCallResult فارغ) — لا تخمين بلا نصوص تسنده. فشل نداء تقني (لا
+    حكم "لا" من النموذج) يعيد _ModelCallResult فارغة بـcall_error مضبوطًا
+    بنص الاستثناء — استعمل getattr(result, "call_error", None) للتمييز."""
     if not docs:
         return None
     acfg = cfg.get("article", {}) or {}
@@ -567,7 +587,9 @@ def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
         writer.record_usage(resp, model)
     except APIError as exc:
         log.warning("فشل نداء تسمية الحدث: %s", exc)
-        return None
+        fail = _ModelCallResult()
+        fail.call_error = str(exc)
+        return fail
 
     data = next((b.input for b in resp.content
                 if getattr(b, "type", "") == "tool_use"), None)
@@ -685,6 +707,14 @@ def _name_event(statement: dict, cfg, topic: str = "") -> tuple[str | None, list
             entry["outcome"] = "لا وثائق للتسمية"
             return None
         named = _ask_naming_model(statement["text"], entities, docs, cfg)
+        call_error = getattr(named, "call_error", None)
+        if call_error:
+            # فشل نداء تقني (رفض API، انقطاع شبكة...) لا حكم "لم يُسمَّ" من
+            # النموذج — يُفرَّق صراحة في trail بدل الظهور بنفس عبارة الحكم
+            # الشرعي (تشخيص Issue #373، الجولة الحادية عشرة، البند 2)
+            entry["outcome"] = f"⚠️ فشل نداء النموذج تقنيًا: {call_error}"
+            entry["call_error"] = call_error
+            return None
         if not named:
             entry["outcome"] = "لم يُسمَّ من هذه النتائج"
             return None
@@ -764,7 +794,10 @@ SUPPORT_SCHEMA = {
 
 def _support_sources(fact_text: str, docs: list[dict], cfg) -> list[str]:
     """يعيد أسماء المصادر (من docs فعليًا، لا مُختلَقة) التي تسند fact_text
-    — القاعدة 1: هذه القائمة (بعد عدّها) هي ما يقرر مصير الواقعة."""
+    — القاعدة 1: هذه القائمة (بعد عدّها) هي ما يقرر مصير الواقعة. فشل نداء
+    تقني يعيد _ModelCallList فارغة بـcall_error مضبوطًا (لا [] عاديًا) —
+    استعمل getattr(result, "call_error", None) للتمييز عن حكم "لا مصادر"
+    فعلي من النموذج."""
     if not docs:
         return []
     acfg = cfg.get("article", {}) or {}
@@ -785,7 +818,9 @@ def _support_sources(fact_text: str, docs: list[dict], cfg) -> list[str]:
         writer.record_usage(resp, model)
     except APIError as exc:
         log.warning("فشل نداء الحكم على السند: %s", exc)
-        return []
+        fail = _ModelCallList()
+        fail.call_error = str(exc)
+        return fail
     data = next((b.input for b in resp.content
                 if getattr(b, "type", "") == "tool_use"), None)
     if not isinstance(data, dict):
@@ -848,7 +883,11 @@ def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
     الكيان بالضرورة، بلا وضوح إن كان النموذج لم يسمِّ مصدرًا أصلًا أو سمّى
     اسمًا لم يُطابَق): "no_source_named" حين لا يذكر رد النموذج أي اسم مصدر
     رغم الإجابة، أو "unmatched_source" حين يذكر أسماء لكن evidence._known_only
-    ترفضها كلها (لا تطابق أي doc معطى)، أو None حين يوجد سند مطابق فعليًا."""
+    ترفضها كلها (لا تطابق أي doc معطى)، أو None حين يوجد سند مطابق فعليًا.
+
+    فشل نداء تقني (لا حكم "لم تُجب" من النموذج) يعيد _ModelCallResult فارغة
+    بـcall_error مضبوطًا بنص الاستثناء — استعمل
+    getattr(result, "call_error", None) للتمييز."""
     if not docs:
         return None
     acfg = cfg.get("article", {}) or {}
@@ -869,7 +908,9 @@ def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
         writer.record_usage(resp, model)
     except APIError as exc:
         log.warning("فشل نداء الإجابة عن سؤال الموجز: %s", exc)
-        return None
+        fail = _ModelCallResult()
+        fail.call_error = str(exc)
+        return fail
     data = next((b.input for b in resp.content
                 if getattr(b, "type", "") == "tool_use"), None)
     if not isinstance(data, dict) or not data.get("answered"):
@@ -1348,12 +1389,16 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             all_read_docs.extend(support_docs)
             support_supporting = (_support_sources(named_text, support_docs, cfg)
                                   if support_docs else [])
+            support_call_error = getattr(support_supporting, "call_error", None)
             trail.append({"stage": "سند", "query": support_query, "basis": support_basis,
                           "sources": [d["name"] for d in support_docs],
                           "raw_count": getattr(support_ranked, "raw_count", None),
                           "matched_count": getattr(support_ranked, "matched_count", None),
                           "fetch_failures": getattr(support_docs, "fetch_failures", []),
-                          "outcome": (f"{len(set(support_supporting))} مصدر مؤيِّد إضافي "
+                          "call_error": support_call_error,
+                          "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {support_call_error}"
+                                     if support_call_error else
+                                     f"{len(set(support_supporting))} مصدر مؤيِّد إضافي "
                                      "بكيانات الحدث المسمّى نفسه")})
 
             all_docs, all_supporting = _merge_named_evidence(
@@ -1386,18 +1431,24 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
             all_read_docs.extend(docs)
             supporting = _support_sources(f["text"], docs, cfg) if docs else []
+            fact_call_error = getattr(supporting, "call_error", None)
             unique = set(supporting)
             trail.append({"stage": "واقعة", "query": query, "basis": basis,
                           "sources": [d["name"] for d in docs],
                           "raw_count": getattr(ranked, "raw_count", None),
                           "matched_count": getattr(ranked, "matched_count", None),
                           "fetch_failures": getattr(docs, "fetch_failures", []),
-                          "outcome": (f"مسندة بـ{len(unique)} مصدر مستقل" if len(unique) >= min_confirm
+                          "call_error": fact_call_error,
+                          "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
+                                     if fact_call_error else
+                                     f"مسندة بـ{len(unique)} مصدر مستقل" if len(unique) >= min_confirm
                                      else f"سند غير كافٍ ({len(unique)}/{min_confirm})")})
             if len(unique) < min_confirm:
                 dropped.append({
                     "text": f["text"],
-                    "reason": (f"سند غير كافٍ ({len(unique)} من {min_confirm} "
+                    "reason": (f"⚠️ فشل نداء الحكم على السند تقنيًا: {fact_call_error}"
+                              if fact_call_error else
+                              f"سند غير كافٍ ({len(unique)} من {min_confirm} "
                               "مصادر مستقلة مطلوبة)"),
                 })
                 continue
@@ -1424,6 +1475,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
         all_read_docs.extend(docs)
         answer = _ask_answer_model(q["text"], docs, cfg) if docs else None
+        answer_call_error = getattr(answer, "call_error", None)
         supporting = answer["supporting"] if answer else []
         unique = set(supporting)
         answered_ok = bool(answer) and len(unique) >= min_confirm
@@ -1432,16 +1484,23 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                       "raw_count": getattr(ranked, "raw_count", None),
                       "matched_count": getattr(ranked, "matched_count", None),
                       "fetch_failures": getattr(docs, "fetch_failures", []),
-                      "outcome": (f"أُجيب ومسندة بـ{len(unique)} مصدر" if answered_ok
+                      "call_error": answer_call_error,
+                      "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {answer_call_error}"
+                                 if answer_call_error else
+                                 f"أُجيب ومسندة بـ{len(unique)} مصدر" if answered_ok
                                  else "لم تُجب عنه النصوص المقروءة" if not answer
                                  else f"سند غير كافٍ ({len(unique)}/{min_confirm})")})
         if not answered_ok:
             # تفريق «لم يسمِّ النموذج مصدرًا» عن «سمّى مصدرًا لم يُطابَق» في
             # التقرير نفسه (تعليق التنفيذ على Issue #364، البند 3) — كلاهما
             # عطل تسمية من رد النموذج، لا غياب سند فعلي كما توحي "0 من N"
-            # المجردة
+            # المجردة. فشل نداء تقني (Issue #373، الجولة الحادية عشرة، البند
+            # 2) سبب ثالث منفصل يُفحص أولًا — ليس "لم تُجب عنه النصوص" ولا
+            # عطل تسمية، بل امتناع الاستدعاء نفسه عن الوقوع
             naming_issue = answer.get("naming_issue") if answer else None
-            if not answer:
+            if answer_call_error:
+                reason = f"⚠️ فشل نداء الإجابة تقنيًا: {answer_call_error}"
+            elif not answer:
                 reason = "بُحث ولم توجد نصوص تجيب عنه بوضوح"
             elif naming_issue == "no_source_named":
                 reason = (f"سند غير كافٍ ({len(unique)} من {min_confirm} مصادر مستقلة "
