@@ -1,0 +1,65 @@
+{
+  "id": "847268e9ed16",
+  "created_at": "2026-08-16T22:07:43.426710+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.67,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Barcelona agree £65m Rodri deal",
+  "link": "https://www.bbc.co.uk/sport/football/articles/cy0jj65r18yo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Punch Nigeria",
+    "Vanguard Nigeria",
+    "who could replace him at Man City?"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Barcelona agree £65m Rodri deal",
+    "link": "https://www.bbc.co.uk/sport/football/articles/cy0jj65r18yo?at_medium=RSS&at_campaign=rss",
+    "summary": "Barcelona agree a deal to sign Spain captain Rodri from Manchester City.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-16T19:37:45+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6425/live/0b8f72c0-99a5-11f1-a10a-71ff76b28954.jpg",
+    "publisher": "who could replace him at Man City?",
+    "cluster_sources": [
+      "BBC Sport",
+      "Punch Nigeria",
+      "Vanguard Nigeria",
+      "who could replace him at Man City?"
+    ],
+    "cluster_members": [
+      {
+        "name": "who could replace him at Man City?",
+        "link": "https://www.bbc.co.uk/sport/football/articles/cy0jj65r18yo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/barcelona-agree-e76-5m-deal-to-sign-rodri-from-manchester-city/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/barcelona-agree-deal-to-sign-rodri-from-man-city/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6425/live/0b8f72c0-99a5-11f1-a10a-71ff76b28954.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/6425/live/0b8f72c0-99a5-11f1-a10a-71ff76b28954.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6425/live/0b8f72c0-99a5-11f1-a10a-71ff76b28954.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/07/AFP__20260719__C2LJ37V__v1__MidRes__FblWc2026Match104EspArgFinal-1-1024x683.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.22212092074733536,
+    "age_hours": 207.86502685694444,
+    "is_stale": false,
+    "score": 22.66764385264195
+  }
+}

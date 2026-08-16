@@ -1,0 +1,57 @@
+{
+  "id": "9ffb6bd91201",
+  "created_at": "2026-08-16T22:07:43.427684+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.38,
+  "trend_score": 1.0,
+  "velocity": 0.03,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Nightmare Man City start for Maresca",
+  "link": "https://www.bbc.co.uk/sport/football/articles/c5y449kwq14o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Vanguard Nigeria",
+    "are Arsenal really so far ahead?"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Nightmare Man City start for Maresca",
+    "link": "https://www.bbc.co.uk/sport/football/articles/c5y449kwq14o?at_medium=RSS&at_campaign=rss",
+    "summary": "Did Arsenal show just how far above Manchester City they are with their dominant Community Shield win?",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-16T19:37:55+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d73e/live/5f434db0-9991-11f1-b374-0b75862fe542.jpg",
+    "publisher": "are Arsenal really so far ahead?",
+    "cluster_sources": [
+      "Vanguard Nigeria",
+      "are Arsenal really so far ahead?"
+    ],
+    "cluster_members": [
+      {
+        "name": "are Arsenal really so far ahead?",
+        "link": "https://www.bbc.co.uk/sport/football/articles/c5y449kwq14o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/misery-for-maresca-as-man-city-make-dismal-start-to-life-after-guardiola/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d73e/live/5f434db0-9991-11f1-b374-0b75862fe542.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/d73e/live/5f434db0-9991-11f1-b374-0b75862fe542.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d73e/live/5f434db0-9991-11f1-b374-0b75862fe542.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/Screenshot-2026-08-16-202644.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.03333402093825779,
+    "age_hours": 24.000990595833336,
+    "is_stale": false,
+    "score": 20.375059817852627
+  }
+}

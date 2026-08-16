@@ -1,0 +1,62 @@
+{
+  "id": "7fc00daa4fd8",
+  "created_at": "2026-08-16T22:07:43.427095+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.3,
+  "trend_score": 1.0,
+  "velocity": 0.01,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Cameroon finally wins its first Women’s Africa Cup of Nations title",
+  "link": "http://www.africanews.com/2026/08/16/cameroon-finally-wins-its-first-womens-africa-cup-of-nations-title/",
+  "publishers": [
+    "Africanews",
+    "France24",
+    "Vanguard Nigeria"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Cameroon finally wins its first Women’s Africa Cup of Nations title",
+    "link": "http://www.africanews.com/2026/08/16/cameroon-finally-wins-its-first-womens-africa-cup-of-nations-title/",
+    "summary": "The Indomitable Lionesses beat tournament debutant Malawi 3-0 in the final in Rabat, with Marie Ngah Manga scoring twice, to claim their first continental crown after three previous final defeats.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-16T21:44:43+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/87/64/32/640x360_cmsv2_1d4089b1-0b47-59ca-bfb3-8c9e04cb122e-9876432.jpg?1786915051",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "France24",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/sport/20260816-cameroon-beats-malawi-to-win-women-s-africa-cup-of-nations-for-the-first-time"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/16/cameroon-finally-wins-its-first-womens-africa-cup-of-nations-title/"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/4-countries-that-have-won-the-womens-africa-cup-of-nations/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/87/64/32/640x360_cmsv2_1d4089b1-0b47-59ca-bfb3-8c9e04cb122e-9876432.jpg?1786915051",
+      "https://s.france24.com/media/display/858f87e4-99b0-11f1-b819-005056a97e36/w:1024/p:16x9/AP24244766265593.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/wafcon-1-1024x576.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.005464638202420359,
+    "age_hours": 186.99789054527778,
+    "is_stale": false,
+    "score": 22.303437068345435
+  }
+}

@@ -974,5 +974,94 @@
     "posted_title": "",
     "region": "cn",
     "seen_at": "2026-08-16T19:07:38.163472+00:00"
+  },
+  {
+    "score": 22.67,
+    "bucket": "sport",
+    "tokens": [
+      "65m",
+      "agree",
+      "barcelona",
+      "deal",
+      "rodri"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/articles/cy0jj65r18yo?at_medium=RSS&at_campaign=rss",
+    "title": "Barcelona agree £65m Rodri deal",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-08-16T22:07:43.427082+00:00"
+  },
+  {
+    "score": 22.3,
+    "bucket": "serious",
+    "tokens": [
+      "africa",
+      "cameroon",
+      "cup",
+      "finally",
+      "first",
+      "nations",
+      "title",
+      "wins",
+      "women"
+    ],
+    "link": "http://www.africanews.com/2026/08/16/cameroon-finally-wins-its-first-womens-africa-cup-of-nations-title/",
+    "title": "Cameroon finally wins its first Women’s Africa Cup of Nations title",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-08-16T22:07:43.427385+00:00"
+  },
+  {
+    "score": 20.84,
+    "bucket": "serious",
+    "tokens": [
+      "border",
+      "ceuta",
+      "hundreds",
+      "intercepted",
+      "migrants",
+      "morocco's",
+      "near"
+    ],
+    "link": "http://www.africanews.com/2026/08/16/hundreds-of-migrants-intercepted-near-moroccos-border-with-ceuta/",
+    "title": "Hundreds of migrants intercepted near Morocco's border with Ceuta",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-08-16T22:07:43.427673+00:00"
+  },
+  {
+    "score": 20.38,
+    "bucket": "sport",
+    "tokens": [
+      "city",
+      "man",
+      "maresca",
+      "nightmare",
+      "start"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/articles/c5y449kwq14o?at_medium=RSS&at_campaign=rss",
+    "title": "Nightmare Man City start for Maresca",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-08-16T22:07:43.427935+00:00"
+  },
+  {
+    "score": 19.64,
+    "bucket": "serious",
+    "tokens": [
+      "ceuta",
+      "find",
+      "happened",
+      "may",
+      "never",
+      "really",
+      "what",
+      "why"
+    ],
+    "link": "https://www.npr.org/2026/08/16/nx-s1-5927053/what-happened-in-ceuta",
+    "title": "What really happened in Ceuta? Why we may never find out",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-08-16T22:07:43.428194+00:00"
   }
 ]

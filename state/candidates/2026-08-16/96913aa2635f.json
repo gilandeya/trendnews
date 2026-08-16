@@ -1,0 +1,50 @@
+{
+  "id": "96913aa2635f",
+  "created_at": "2026-08-16T22:07:43.427945+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.64,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "What really happened in Ceuta? Why we may never find out",
+  "link": "https://www.npr.org/2026/08/16/nx-s1-5927053/what-happened-in-ceuta",
+  "publishers": [
+    "NPR",
+    "NPR World"
+  ],
+  "region": "us",
+  "article": {
+    "title": "What really happened in Ceuta? Why we may never find out",
+    "link": "https://www.npr.org/2026/08/16/nx-s1-5927053/what-happened-in-ceuta",
+    "summary": "Hundreds of migrants have again attempted to cross from Morocco into the Spanish territory of Ceuta. This time, Moroccan officials fended them off, raising new questions about the crossing of July 30.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-08-16T15:38:22+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5927053",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "NPR",
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/08/16/nx-s1-5927053/what-happened-in-ceuta"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5927053"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 4.995142815,
+    "is_stale": false,
+    "score": 19.64222242699467
+  }
+}
