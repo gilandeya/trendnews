@@ -42,11 +42,12 @@ import os
 import re
 import time
 from datetime import datetime, timezone
+from pathlib import Path
 
 from anthropic import Anthropic, APIError
 
 from . import evidence, extract, imaging, review, store, verify_draft, writer
-from .config import DRAFTS_DIR, env, load_config
+from .config import DRAFTS_DIR, STATE_DIR, env, load_config
 from .imagesearch import find_images
 from .request import norm_tokens
 from .sources import Article
@@ -1145,7 +1146,7 @@ def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
 def _new_outcome() -> dict:
     return {"produced": False, "reason": "", "question": "", "dropped": [],
            "sources": [], "unanswered": [], "answered_questions": [], "diffs": [],
-           "trail": [], "draft_id": None,
+           "trail": [], "draft_id": None, "grounded_count": 0,
            "image_source_name": None, "image_source_link": None}
 
 
@@ -1314,6 +1315,11 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     outcome["unanswered"] = unanswered
     outcome["answered_questions"] = answered_questions
     outcome["trail"] = trail
+    # خط الأساس الثابت (تشخيص Issue #373، الجولة الرابعة، البند 3) يحتاج
+    # عدد الوقائع المسندة فعليًا كعدد صريح — لا استخراجه لاحقًا من نص
+    # outcome["reason"] الحر الذي لا يُكتب أصلًا حين تفشل مراحل لاحقة
+    # (الكفاية/الصياغة) رغم أن grounded نفسها مكتملة هنا
+    outcome["grounded_count"] = len(grounded)
 
     ok, reason = _sufficiency(grounded, cfg)
     if not ok:
@@ -1513,16 +1519,85 @@ def build_report(outcome: dict) -> str:
     return "\n".join(lines)
 
 
+BASELINE_LOG_PATH = STATE_DIR / "article_baseline.md"
+
+
+def _trail_read_counts(trail: list[dict]) -> str:
+    """ملخص «مرحلة×عدد مصادر مقروءة فعليًا» لكل استعلام — يُستهلك في سجل
+    خط الأساس (record_baseline) وحده، لا في build_report (الذي يعرض
+    الأسماء نفسها، لا العدّ المختصر)."""
+    if not trail:
+        return "بلا استعلامات"
+    return "، ".join(f"{t['stage']}×{len(t.get('sources') or [])}" for t in trail)
+
+
+def record_baseline(outcome: dict, path: Path = BASELINE_LOG_PATH) -> str:
+    """يُلحِق سطرًا بنتيجة تشغيلة على الموجز المرجعي الثابت في ملف
+    بالمستودع (تشخيص Issue #373، الجولة الرابعة، البند 3): بلا سجل
+    تراكمي مكتوب، كل تراجع محتمل بين تشغيلتين حيّتين يُناقَش بتفسيرات
+    (تفاوت بحث حي؟ عطل حقيقي في الكود؟) بلا أي دليل يُقارَن رقميًا —
+    بالضبط ما وقع في هذا الـ Issue أكثر من مرة.
+
+    يُستدعى من main() عند --baseline فقط، بعد تشغيلة فعلية حقيقية (شبكة +
+    نموذج) — لا من مسار الاختبارات، التي تفترض بيئة بلا شبكة أصلًا
+    (install_fakes). state/ مُدرَجة أصلًا ضمن ما يُلتزَم به بعد كل تشغيلة
+    ناجحة في article.yml (git add -A drafts state)، فلا حاجة لتعديل سير
+    العمل ليُدرِج هذا الملف تحديدًا — لكن ذلك الالتزام مشروط بنجاح إنتاج
+    مسودة (draft_id)؛ تشغيلة تفشل كليًا (0 وقائع مسندة) تُسجَّل محليًا هنا
+    لكن لن تُرفع للمستودع تلقائيًا إلا إن عُدِّل article.yml لاحقًا ليلتزم
+    بها بصرف النظر عن نتيجة الإنتاج — قيد معروف، لا يُصلَح هنا (تعديل
+    workflows خارج صلاحية هذا التغيير)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    is_new = not path.exists()
+    ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    result = ("✅ " + outcome["reason"]) if outcome.get("produced") else ("❌ " + outcome["reason"])
+    row = (f"| {ts} | {result} | {outcome.get('grounded_count', 0)} | "
+          f"{_trail_read_counts(outcome.get('trail') or [])} |\n")
+    with path.open("a", encoding="utf-8") as fh:
+        if is_new:
+            fh.write(
+                "# خط أساس ثابت — مسار «مقال من المصادر»\n\n"
+                "سطر واحد بعد كل تشغيلة `python -m src.article --baseline` على الموجز "
+                "المرجعي الثابت (`article.baseline_brief` في `config.yaml`) — انظر توثيق "
+                "`record_baseline` في `src/article.py` (تشخيص Issue #373، الجولة الرابعة، "
+                "البند 3). لا يُعاد كتابته، يُلحَق به فقط — للمقارنة عبر تشغيلات متتالية.\n\n"
+                "| التاريخ (UTC) | النتيجة | وقائع مسندة | مصادر كل استعلام (مرحلة×عدد) |\n"
+                "|---|---|---|---|\n")
+        fh.write(row)
+    return row
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="اكتب مقالًا من موجز ملصق في Issue")
-    parser.add_argument("--issue", type=int, required=True, help="رقم الـ Issue")
+    parser.add_argument("--issue", type=int, help="رقم الـ Issue")
+    parser.add_argument(
+        "--baseline", action="store_true",
+        help="شغّل على الموجز المرجعي الثابت (article.baseline_brief في config.yaml) "
+             "وسجّل النتيجة في state/article_baseline.md بدل التعليق على Issue حقيقي "
+             "— تشخيص Issue #373، الجولة الرابعة، البند 3")
     args = parser.parse_args()
+    if not args.baseline and args.issue is None:
+        parser.error("--issue أو --baseline مطلوب")
 
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s │ %(levelname)-7s │ %(message)s",
                         datefmt="%H:%M:%S")
 
     cfg = load_config()
+
+    if args.baseline:
+        acfg = cfg.get("article", {}) or {}
+        body = str(acfg.get("baseline_brief") or "").strip()
+        if not body:
+            log.error("article.baseline_brief فارغ في config.yaml — الصق فيه نص الموجز "
+                      "المرجعي الثابت أولًا (تشخيص Issue #373، الجولة الرابعة، البند 3)")
+            return 1
+        outcome = write_article(body, 0, cfg)
+        row = record_baseline(outcome)
+        print(build_report(outcome))
+        print(f"\nسُجِّل خط الأساس في {BASELINE_LOG_PATH}:\n{row.strip()}")
+        return 0
+
     body = review.fetch_issue_body(args.issue)
     if not body.strip():
         review.comment(args.issue,
