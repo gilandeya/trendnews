@@ -1,0 +1,48 @@
+{
+  "id": "1997dbb0aab7",
+  "created_at": "2026-08-17T19:07:37.011231+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.35,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "A Strasbourg, des drones « effectuant des livraisons illégales aux détenus » d’une prison empêchent « depuis trois semaines » les hélicoptères d’atterrir la nuit à l’hôpital de Hautepierre",
+  "link": "https://www.lemonde.fr/societe/article/2026/08/17/a-strasbourg-des-drones-illegaux-empechent-les-helicopteres-transportant-blesses-et-malades-d-atterrir-la-nuit-a-l-hopital-de-hautepierre_6748413_3224.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "A Strasbourg, des drones « effectuant des livraisons illégales aux détenus » d’une prison empêchent « depuis trois semaines » les hélicoptères d’atterrir la nuit à l’hôpital de Hautepierre",
+    "link": "https://www.lemonde.fr/societe/article/2026/08/17/a-strasbourg-des-drones-illegaux-empechent-les-helicopteres-transportant-blesses-et-malades-d-atterrir-la-nuit-a-l-hopital-de-hautepierre_6748413_3224.html",
+    "summary": "Les vols de nuit des hélicoptères de la sécurité civile et du SAMU sont suspendus « depuis environ trois semaines » en raison des livraisons effectuées par des drones illégaux à la prison à proximité du grand hôpital.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-17T17:36:23+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/17/667/0/8070/4035/644/322/60/0/ae90054_upload-1-jcvsuyawu1h4-000-36lq4pc.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/societe/article/2026/08/17/a-strasbourg-des-drones-illegaux-empechent-les-helicopteres-transportant-blesses-et-malades-d-atterrir-la-nuit-a-l-hopital-de-hautepierre_6748413_3224.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/17/667/0/8070/4035/644/322/60/0/ae90054_upload-1-jcvsuyawu1h4-000-36lq4pc.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.348658928888888
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "7e383e0cb2b7",
+  "created_at": "2026-08-17T19:07:37.012376+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.96,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Somalia federal troops and armed opposition clash in Baidoa city",
+  "link": "https://www.dailymaverick.co.za/article/2026-08-17-somalia-federal-troops-and-armed-opposition-clash-in-baidoa-city/",
+  "publishers": [
+    "Daily Maverick"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Somalia federal troops and armed opposition clash in Baidoa city",
+    "link": "https://www.dailymaverick.co.za/article/2026-08-17-somalia-federal-troops-and-armed-opposition-clash-in-baidoa-city/",
+    "summary": "Somalia's federal troops and armed opposition groups clashed in heavy fighting in Baidoa city centre on Monday, a local resident and an army officer told Reuters.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-08-17T11:44:55+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2996/1326399_799659.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-17-somalia-federal-troops-and-armed-opposition-clash-in-baidoa-city/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2996/1326399_799659.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 6.993816174444444,
+    "is_stale": false,
+    "score": 16.958140480444445
+  }
+}
