@@ -1,0 +1,60 @@
+{
+  "id": "4eaee1e02810",
+  "created_at": "2026-08-17T09:07:58.336657+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.08,
+  "trend_score": 0.33,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "5.7-magnitude earthquake strikes Indonesia",
+  "link": "https://en.mehrnews.com/news/247026/5-7-magnitude-earthquake-strikes-Indonesia",
+  "publishers": [
+    "Mehr News",
+    "South China Morning Post",
+    "statement"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "5.7-magnitude earthquake strikes Indonesia",
+    "link": "https://en.mehrnews.com/news/247026/5-7-magnitude-earthquake-strikes-Indonesia",
+    "summary": "TEHRAN, Aug. 17 (MNA) – A 5.7-magnitude earthquake was recorded off the coast of Indonesia, the European Mediterranean Seismological Center reported.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-17T06:55:56+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/01/07/4/5860791.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Mehr News",
+      "South China Morning Post",
+      "statement"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/southeast-asia/article/3364225/magnitude-59-aftershock-strikes-indonesias-flores-quake-death-toll-rises-53?utm_source=rss_feed"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247026/5-7-magnitude-earthquake-strikes-Indonesia"
+      },
+      {
+        "name": "statement",
+        "link": "https://tass.com/emergencies/2173957"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/01/07/4/5860791.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 0.22227376326825787,
+    "age_hours": 35.005002215,
+    "is_stale": false,
+    "score": 18.081353798378327
+  }
+}

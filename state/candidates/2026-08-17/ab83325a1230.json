@@ -1,0 +1,48 @@
+{
+  "id": "ab83325a1230",
+  "created_at": "2026-08-17T09:07:58.337200+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.72,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ghanaian evacuee dies at airport after flight from South Africa touched down in Accra",
+  "link": "https://www.myjoyonline.com/ghanaian-evacuee-dies-at-airport-after-flight-from-south-africa-touched-down-in-accra/",
+  "publishers": [
+    "MyJoyOnline Ghana"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "Ghanaian evacuee dies at airport after flight from South Africa touched down in Accra",
+    "link": "https://www.myjoyonline.com/ghanaian-evacuee-dies-at-airport-after-flight-from-south-africa-touched-down-in-accra/",
+    "summary": "A Ghanaian evacuee from South Africa passed away shortly after arriving at Accra International Airport from South Africa on Friday evening (August 14, 2026), the Ministry of Foreign Affairs has announced.",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-08-17T02:44:00+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-2107.png",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/ghanaian-evacuee-dies-at-airport-after-flight-from-south-africa-touched-down-in-accra/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-2107.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.9994676491666667,
+    "is_stale": false,
+    "score": 16.723391632166667
+  }
+}
