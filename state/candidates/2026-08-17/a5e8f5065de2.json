@@ -1,0 +1,60 @@
+{
+  "id": "a5e8f5065de2",
+  "created_at": "2026-08-17T22:07:51.167515+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.34,
+  "trend_score": 0.5,
+  "velocity": 0.22,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Trump crypto firm backs venture offering AI from restricted Chinese companies",
+  "link": "https://www.investing.com/news/economy-news/trump-crypto-firm-backs-venture-offering-ai-from-restricted-chinese-companies-4862497",
+  "publishers": [
+    "Investing.com — الاقتصاد",
+    "Rappler",
+    "The Express Tribune"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Trump crypto firm backs venture offering AI from restricted Chinese companies",
+    "link": "https://www.investing.com/news/economy-news/trump-crypto-firm-backs-venture-offering-ai-from-restricted-chinese-companies-4862497",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-08-17T21:00:42+00:00",
+    "image_url": "https://content-media.investing.com/trkd-images/LYNXMPEM7G0M3_L.jpg",
+    "publisher": "Investing.com — الاقتصاد",
+    "cluster_sources": [
+      "Investing.com — الاقتصاد",
+      "Rappler",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/technology/trump-crypto-firm-backs-worldclaw-ai-venture-restricted-chinese-companies/"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624417/trump-crypto-firm-backs-venture-offering-ai-from-restricted-chinese-companies"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/trump-crypto-firm-backs-venture-offering-ai-from-restricted-chinese-companies-4862497"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/trkd-images/LYNXMPEM7G0M3_L.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.2219396930546136,
+    "age_hours": 7.0027770191666665,
+    "is_stale": false,
+    "score": 19.33510947825455
+  }
+}

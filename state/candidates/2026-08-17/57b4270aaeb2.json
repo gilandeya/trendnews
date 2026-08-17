@@ -1,0 +1,67 @@
+{
+  "id": "57b4270aaeb2",
+  "created_at": "2026-08-17T22:07:51.167737+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.86,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Kushner's talks with Israel, Hamas end without breakthrough on Trump Gaza plan",
+  "link": "https://www.channelnewsasia.com/world/netanyahu-hamas-kushner-gaza-talks-6324486",
+  "publishers": [
+    "Channel News Asia",
+    "Daily Sabah",
+    "South China Morning Post",
+    "The Express Tribune"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Kushner's talks with Israel, Hamas end without breakthrough on Trump Gaza plan",
+    "link": "https://www.channelnewsasia.com/world/netanyahu-hamas-kushner-gaza-talks-6324486",
+    "summary": "The talks stalled as Israel continued military operations in Gaza while Hamas refused to give up its weapons.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-17T19:08:42+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--L4RFDmOR--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-17T171050Z_2_LYNXMPEM7G0CC_RTROPTP_3_ISRAEL-PALESTINIANS-GAZA-PLAN.JPG?itok=Feng7ZNL",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Daily Sabah",
+      "South China Morning Post",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3364309/us-envoy-kushner-meets-netanyahu-after-visiting-hamas-leader?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624372/kushner-discusses-gaza-plan-with-netanyahu-after-rare-hamas-meeting"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/netanyahu-hamas-kushner-gaza-talks-6324486"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/kushners-talks-with-israel-hamas-on-gaza-end-with-little-progress"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--L4RFDmOR--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-17T171050Z_2_LYNXMPEM7G0CC_RTROPTP_3_ISRAEL-PALESTINIANS-GAZA-PLAN.JPG?itok=Feng7ZNL",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/17/456268.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 24.002228935,
+    "is_stale": true,
+    "score": 17.860607236233108
+  }
+}

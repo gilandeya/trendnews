@@ -1,0 +1,54 @@
+{
+  "id": "386a52834bf8",
+  "created_at": "2026-08-17T22:07:51.166970+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.3,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Somalia clashes with regional forces over control of key city",
+  "link": "http://www.africanews.com/2026/08/17/somalia-clashes-with-regional-forces-over-control-of-key-city/",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Somalia clashes with regional forces over control of key city",
+    "link": "http://www.africanews.com/2026/08/17/somalia-clashes-with-regional-forces-over-control-of-key-city/",
+    "summary": "Somali national forces clashed with troops loyal to an ousted regional leader on Monday over control of a key city, the government said, accusing him of allying with Islamist insurgents",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-17T18:43:57+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/87/77/95/640x360_cmsv2_142bb528-cad2-5310-a57e-456b485ccf24-9877795.jpg?1786983571",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/17/somali-army-clashes-with-rebel-forces-for-control-of-key-city-baidoa?traffic_source=rss"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/17/somalia-clashes-with-regional-forces-over-control-of-key-city/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/87/77/95/640x360_cmsv2_142bb528-cad2-5310-a57e-456b485ccf24-9877795.jpg?1786983571"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.298279321828
+  }
+}
