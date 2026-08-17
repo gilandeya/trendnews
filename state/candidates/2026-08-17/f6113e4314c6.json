@@ -1,0 +1,84 @@
+{
+  "id": "f6113e4314c6",
+  "created_at": "2026-08-17T06:08:00.307060+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.3,
+  "trend_score": 0.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Death toll in Zimbabwe ferry capsizing rises to 68: police",
+  "link": "https://www.thehindu.com/news/international/death-toll-in-zimbabwe-ferry-capsizing-rises-to-68-police/article71350493.ece",
+  "publishers": [
+    "AP News",
+    "Africanews",
+    "Al Jazeera English",
+    "CGTN",
+    "France24",
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Death toll in Zimbabwe ferry capsizing rises to 68: police",
+    "link": "https://www.thehindu.com/news/international/death-toll-in-zimbabwe-ferry-capsizing-rises-to-68-police/article71350493.ece",
+    "summary": "Officials say the boat was authorised to carry 90 people but was packed with 114 adults, five crew members and an unspecified number of children",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-17T05:44:45+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/wb32wo/article71350500.ece/alternates/LANDSCAPE_1200/AP08_14_2026_000084B.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "AP News",
+      "Africanews",
+      "Al Jazeera English",
+      "CGTN",
+      "France24",
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/16/death-toll-rises-to-84-from-capsized-ferry-in-zimbabwe?traffic_source=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/africa/20260816-death-toll-from-zimbabwe-capsized-ferry-accident-rises-to-80"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/16/zimbabwe-ferry-death-toll-rises-to-68-after-lake-kariba-capsizing/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/death-toll-in-zimbabwe-ferry-capsizing-rises-to-68-police/article71350493.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/eight-more-bodies-recovered-from-lake-kariba-as-zimbabwe-ferry-capsizing-death-toll-rises-101786886770013.html"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://newsaf.cgtn.com/news/2026-08-16/Death-toll-in-the-Zimbabwe-ferry-disaster-rises-to-72-1PEGcnPVWBq/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/wb32wo/article71350500.ece/alternates/LANDSCAPE_1200/AP08_14_2026_000084B.jpg",
+      "https://s.france24.com/media/display/73ee9cb8-997a-11f1-8245-005056bf30b7/w:1024/p:16x9/2026-08-12T212330Z-1624684030-RC29XMA8WW2N-RTRMADP-3-ZIMBABWE-BOAT-ACCIDENT.jpg",
+      "http://images.euronews.com/articles/stories/09/87/57/84/640x360_cmsv2_19080d66-b186-503c-8ecd-55bbcdb3df76-9875784.jpg?1786811645",
+      "https://newsaf.cgtn.com/news/2026-08-16/Death-toll-in-the-Zimbabwe-ferry-disaster-rises-to-72-1PEGcnPVWBq/img/10154df5c2b74e1b8c25d760842a423b/10154df5c2b74e1b8c25d760842a423b-1920.png",
+      "https://newsaf.cgtn.com/news/2026-08-16/Death-toll-in-the-Zimbabwe-ferry-disaster-rises-to-72-1PEGcnPVWBq/img/36a67b3bd13b4598b4b2ae8fd51a7865/36a67b3bd13b4598b4b2ae8fd51a7865.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 0.22193649712753413,
+    "age_hours": 209.00418874027775,
+    "is_stale": false,
+    "score": 20.298584671530655
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "6770425da099",
+  "created_at": "2026-08-17T06:08:00.308014+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.29,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Muere Hayden Panettiere, actriz de ‘Héroes’, a los 36 años",
+  "link": "https://elpais.com/gente/2026-08-17/muere-hayden-panettiere-actriz-de-heroes-a-los-36-anos.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Muere Hayden Panettiere, actriz de ‘Héroes’, a los 36 años",
+    "link": "https://elpais.com/gente/2026-08-17/muere-hayden-panettiere-actriz-de-heroes-a-los-36-anos.html",
+    "summary": "La intérprete, que deja una hija de 12 años, participó en ‘Nashville’ o ‘Bichos’. Su hermano menor murió en 2023 por una cardiopatía",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-08-17T06:01:42+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/XE2HQCMK7VL7JGX43QJ3LGUQKE.jpg?auth=bcf0162902d18820d3320e0f24be98dbbdcb89a15e8e9c53b9ac1257073602e6",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/gente/2026-08-17/muere-hayden-panettiere-actriz-de-heroes-a-los-36-anos.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/XE2HQCMK7VL7JGX43QJ3LGUQKE.jpg?auth=bcf0162902d18820d3320e0f24be98dbbdcb89a15e8e9c53b9ac1257073602e6"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.29302507037037
+  }
+}

@@ -1170,5 +1170,101 @@
     "posted_title": "",
     "region": "my",
     "seen_at": "2026-08-17T03:07:46.389829+00:00"
+  },
+  {
+    "score": 20.3,
+    "bucket": "serious",
+    "tokens": [
+      "capsizing",
+      "death",
+      "ferry",
+      "police",
+      "rises",
+      "toll",
+      "zimbabwe"
+    ],
+    "link": "https://www.thehindu.com/news/international/death-toll-in-zimbabwe-ferry-capsizing-rises-to-68-police/article71350493.ece",
+    "title": "Death toll in Zimbabwe ferry capsizing rises to 68: police",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-08-17T06:08:00.307467+00:00"
+  },
+  {
+    "score": 17.86,
+    "bucket": "sport",
+    "tokens": [
+      "cristiano",
+      "footballer",
+      "last",
+      "probably",
+      "ronaldo",
+      "year"
+    ],
+    "link": "https://www.theguardian.com/football/2026/aug/16/cristiano-ronaldo-says-this-year-is-probably-his-last-as-a-footballer",
+    "title": "Cristiano Ronaldo says this year is ‘probably’ his last as a footballer",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-08-17T06:08:00.307749+00:00"
+  },
+  {
+    "score": 17.42,
+    "bucket": "serious",
+    "tokens": [
+      "ans",
+      "est",
+      "hayden",
+      "heroes",
+      "les",
+      "morte",
+      "nashville",
+      "panettiere",
+      "par",
+      "révélée",
+      "séries",
+      "âge"
+    ],
+    "link": "https://www.lemonde.fr/disparitions/article/2026/08/17/hayden-panettiere-revelee-par-les-series-heroes-et-nashville-est-morte-a-l-age-de-36-ans_6747975_3382.html",
+    "title": "Hayden Panettiere, révélée par les séries « Heroes » et « Nashville », est morte à l’âge de 36 ans",
+    "posted_title": "",
+    "region": "fr",
+    "seen_at": "2026-08-17T06:08:00.308005+00:00"
+  },
+  {
+    "score": 17.29,
+    "bucket": "serious",
+    "tokens": [
+      "actriz",
+      "años",
+      "hayden",
+      "héroes",
+      "los",
+      "muere",
+      "panettiere"
+    ],
+    "link": "https://elpais.com/gente/2026-08-17/muere-hayden-panettiere-actriz-de-heroes-a-los-36-anos.html",
+    "title": "Muere Hayden Panettiere, actriz de ‘Héroes’, a los 36 años",
+    "posted_title": "",
+    "region": "es",
+    "seen_at": "2026-08-17T06:08:00.308276+00:00"
+  },
+  {
+    "score": 17.27,
+    "bucket": "serious",
+    "tokens": [
+      "claim",
+      "defeat",
+      "germain",
+      "lens",
+      "paris",
+      "saint",
+      "second",
+      "title",
+      "year"
+    ],
+    "link": "https://www.france24.com/en/tv-shows/sports/20260817-lens-defeat-paris-saint-germain-and-claim-second-title-this-year",
+    "title": "Lens defeat Paris Saint-Germain and claim second title this year",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-08-17T06:08:00.308517+00:00"
   }
 ]

@@ -1,0 +1,48 @@
+{
+  "id": "e0f5b76756a6",
+  "created_at": "2026-08-17T06:08:00.307759+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.42,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hayden Panettiere, révélée par les séries « Heroes » et « Nashville », est morte à l’âge de 36 ans",
+  "link": "https://www.lemonde.fr/disparitions/article/2026/08/17/hayden-panettiere-revelee-par-les-series-heroes-et-nashville-est-morte-a-l-age-de-36-ans_6747975_3382.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Hayden Panettiere, révélée par les séries « Heroes » et « Nashville », est morte à l’âge de 36 ans",
+    "link": "https://www.lemonde.fr/disparitions/article/2026/08/17/hayden-panettiere-revelee-par-les-series-heroes-et-nashville-est-morte-a-l-age-de-36-ans_6747975_3382.html",
+    "summary": "La comédienne américaine, qui s’était fait connaître dès l’enfance avant d’accéder à la notoriété internationale grâce à « Heroes », est morte sans que les circonstances de sa mort aient été communiquées. Son père a salué la mémoire d’une femme « rayonnante » ayant apporté « un amour et une joie immenses » à son entourage comme à ses millions de spectateurs.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-17T05:41:58+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/17/1132/0/2454/1227/644/322/60/0/5ee9dbf_upload-1-vxl8jmhpirod-063-488355055.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/disparitions/article/2026/08/17/hayden-panettiere-revelee-par-les-series-heroes-et-nashville-est-morte-a-l-age-de-36-ans_6747975_3382.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/17/1132/0/2454/1227/644/322/60/0/5ee9dbf_upload-1-vxl8jmhpirod-063-488355055.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.42109955014815
+  }
+}
