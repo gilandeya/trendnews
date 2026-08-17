@@ -1,0 +1,70 @@
+{
+  "id": "d39bc91ddc0a",
+  "created_at": "2026-08-17T03:07:46.389011+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.19,
+  "trend_score": 0.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says US to scale back South Korea military drills after it stayed out of Iran war",
+  "link": "https://www.bbc.co.uk/news/articles/cx2lll7zvn0o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Investing.com — الاقتصاد",
+    "Malay Mail"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump says US to scale back South Korea military drills after it stayed out of Iran war",
+    "link": "https://www.bbc.co.uk/news/articles/cx2lll7zvn0o?at_medium=RSS&at_campaign=rss",
+    "summary": "Trump cites his \"very good relationship\" with North Korea's leader in deciding to downsize the exercises.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-17T02:51:27+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/8304/live/fde5dbb0-99c6-11f1-b604-2bfb19ba7385.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Investing.com — الاقتصاد",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/17/trump-says-us-to-substantially-reduce-military-drills-with-south-korea?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cx2lll7zvn0o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/trump-asks-pentagon-to-slash-military-drills-with-south-korea-4862018"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/17/trump-says-us-south-korea-war-games-to-be-substantially-reduced/231617"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/8304/live/fde5dbb0-99c6-11f1-b604-2bfb19ba7385.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/8304/live/fde5dbb0-99c6-11f1-b604-2bfb19ba7385.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/8304/live/fde5dbb0-99c6-11f1-b604-2bfb19ba7385.jpg",
+      "https://content-media.investing.com/news/moved_LYNXMPEM6M18C_1200_L.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/17/357429.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.1999741020761688,
+    "age_hours": 5.000647531944445,
+    "is_stale": false,
+    "score": 17.191403830576917
+  }
+}

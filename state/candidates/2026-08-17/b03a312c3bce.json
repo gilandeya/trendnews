@@ -1,0 +1,67 @@
+{
+  "id": "b03a312c3bce",
+  "created_at": "2026-08-17T03:07:46.388709+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.1,
+  "trend_score": 0.33,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump hails Saudi Arabia, Turkey, Pakistan defence pact as ‘big, bold’ step",
+  "link": "https://www.malaymail.com/news/world/2026/08/17/trump-hails-saudi-arabia-turkey-pakistan-defence-pact-as-big-bold-step/231619",
+  "publishers": [
+    "Daily Sabah",
+    "Malay Mail",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Trump hails Saudi Arabia, Turkey, Pakistan defence pact as ‘big, bold’ step",
+    "link": "https://www.malaymail.com/news/world/2026/08/17/trump-hails-saudi-arabia-turkey-pakistan-defence-pact-as-big-bold-step/231619",
+    "summary": "WASHINGTON, Aug 17 — US President Donald Trump said yesterday he was pleased by the recent signing of a...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-17T00:42:11+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/17/357427.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Malay Mail",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624247/understanding-the-alliance-of-pakistan-saudi-arabia-turkey"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-us-west-asia-war-strait-of-hormuz-donald-trump-live-updates-on-august-17-2026/article71354691.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/politics/diplomacy/trump-hails-defense-pact-between-turkiye-pakistan-saudi-arabia"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/17/trump-hails-saudi-arabia-turkey-pakistan-defence-pact-as-big-bold-step/231619"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/17/357427.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/16/456123.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 4,
+    "velocity": 0.11108424497846847,
+    "age_hours": 204.00229816416666,
+    "is_stale": false,
+    "score": 19.09808375966249
+  }
+}
