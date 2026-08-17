@@ -1,0 +1,56 @@
+{
+  "id": "45024f79788e",
+  "created_at": "2026-08-17T12:07:58.937722+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.53,
+  "trend_score": 1.0,
+  "velocity": 0.01,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Premier League 2026-27 preview No 12: Ipswich",
+  "link": "https://www.theguardian.com/football/2026/aug/17/premier-league-2026-27-preview-no-12-ipswich",
+  "publishers": [
+    "Al Jazeera English",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Premier League 2026-27 preview No 12: Ipswich",
+    "link": "https://www.theguardian.com/football/2026/aug/17/premier-league-2026-27-preview-no-12-ipswich",
+    "summary": "They have a new manager and a higher net spend than Manchester City, but will that be enough for Ipswich to avoid another yo-yoing relegation? Guardian writers’ predicted position: 19th (NB: this is not necessarily Will Unwin’s prediction but the average of our writers’ tips) Last season’s position: 2nd (Championship) Continue reading...",
+    "source_name": "The Guardian — Sport",
+    "region": "sport",
+    "weight": 1.0,
+    "published": "2026-08-17T11:00:53+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/96b7836bba13024f659b52eadaaf1770f623d853/350_0_3500_2800/master/3500.jpg?width=700&quality=85&auto=format&fit=max&s=63fcb6efa941596e3254603ee82ab5e0",
+    "publisher": "The Guardian — Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/8/17/arsenal-preview-key-questions-heading-into-2026-27-premier-league-season?traffic_source=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/aug/17/premier-league-2026-27-preview-no-12-ipswich"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/96b7836bba13024f659b52eadaaf1770f623d853/350_0_3500_2800/master/3500.jpg?width=700&quality=85&auto=format&fit=max&s=63fcb6efa941596e3254603ee82ab5e0",
+      "https://i.guim.co.uk/img/media/96b7836bba13024f659b52eadaaf1770f623d853/350_0_3500_2800/master/3500.jpg?width=460&quality=85&auto=format&fit=max&s=9e292f930e14bd694455eb9ca489cdcd",
+      "https://i.guim.co.uk/img/media/96b7836bba13024f659b52eadaaf1770f623d853/350_0_3500_2800/master/3500.jpg?width=140&quality=85&auto=format&fit=max&s=e405af08283640c7ca38357cb5b2bf5a"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.00617230109685617,
+    "age_hours": 285.6985381508333,
+    "is_stale": false,
+    "score": 20.529074650904874
+  }
+}

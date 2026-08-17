@@ -1,0 +1,63 @@
+{
+  "id": "96d7dc89630f",
+  "created_at": "2026-08-17T12:07:58.937937+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.05,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "In one of its largest aerial attack, Ukraine kills atleast six in Russia",
+  "link": "https://www.thehindu.com/news/international/ukraine-massive-drone-strike-on-russia-several-killed-latest-update/article71352381.ece",
+  "publishers": [
+    "CBS News — World",
+    "NPR World",
+    "PBS",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "In one of its largest aerial attack, Ukraine kills atleast six in Russia",
+    "link": "https://www.thehindu.com/news/international/ukraine-massive-drone-strike-on-russia-several-killed-latest-update/article71352381.ece",
+    "summary": "Russia's Ministry of Defense said that it had destroyed 822 drones overnight, with 600 headed toward the Russian capital",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-16T08:51:14+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/eartbz/article71352390.ece/alternates/LANDSCAPE_1200/2026-08-16T083807Z_1284902124_RC2HZMADMAYI_RTRMADP_3_UKRAINE-CRISIS-ATTACK-KYIV.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "CBS News — World",
+      "NPR World",
+      "PBS",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/ukraine-massive-drone-strike-on-russia-several-killed-latest-update/article71352381.ece"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/ukraine-moscow-russia-drone-attack-largest-wildberries/"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/08/17/nx-s1-5933059/at-least-6-dead-after-ukraine-launches-aerial-attack-on-russia"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/eartbz/article71352390.ece/alternates/LANDSCAPE_1200/2026-08-16T083807Z_1284902124_RC2HZMADMAYI_RTRMADP_3_UKRAINE-CRISIS-ATTACK-KYIV.JPG",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5933059"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 27.00395373527778,
+    "is_stale": false,
+    "score": 20.046536626347272
+  }
+}

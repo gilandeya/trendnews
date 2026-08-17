@@ -1,0 +1,61 @@
+{
+  "id": "003127d4da39",
+  "created_at": "2026-08-17T12:07:58.937349+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.42,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "'Heroes' and 'Nashville' actress, Hayden Panettiere, dies at 36",
+  "link": "https://www.dailymaverick.co.za/article/2026-08-17-heroes-and-nashville-actress-hayden-panettiere-dies-at-36/",
+  "publishers": [
+    "Daily Maverick",
+    "France24",
+    "The Express Tribune"
+  ],
+  "region": "za",
+  "article": {
+    "title": "'Heroes' and 'Nashville' actress, Hayden Panettiere, dies at 36",
+    "link": "https://www.dailymaverick.co.za/article/2026-08-17-heroes-and-nashville-actress-hayden-panettiere-dies-at-36/",
+    "summary": "American actress Hayden Panettiere, famed for roles in television shows such as \"Nashville\" and \"Heroes,\" has died aged 36, her family said in a statement issued by her publicist on Sunday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-08-17T11:44:35+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2996/14221988_654028.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "France24",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-17-heroes-and-nashville-actress-hayden-panettiere-dies-at-36/"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624334/hayden-panettiere-renowned-american-actress-dies-aged-36"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260817-american-actress-hayden-panettiere-dies-at-36"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2996/14221988_654028.jpg",
+      "https://s.france24.com/media/display/28aa17d8-9a00-11f1-afb8-005056bf30b7/w:1024/p:16x9/AP23066174162347.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 5.9996268538888895,
+    "is_stale": false,
+    "score": 22.42403014064815
+  }
+}
