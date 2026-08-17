@@ -1450,5 +1450,106 @@
     "posted_title": "",
     "region": "de",
     "seen_at": "2026-08-17T12:07:58.938499+00:00"
+  },
+  {
+    "score": 25.56,
+    "bucket": "serious",
+    "tokens": [
+      "'gets",
+      "bomb",
+      "iran",
+      "issue",
+      "oman",
+      "threatens",
+      "trump",
+      "way'"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cy5dzk0ryzdo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump threatens to bomb Oman if it 'gets in the way' over Iran issue",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-17T15:07:40.915430+00:00"
+  },
+  {
+    "score": 24.48,
+    "bucket": "serious",
+    "tokens": [
+      "envoy",
+      "hamas",
+      "kushner",
+      "meets",
+      "netanyahu",
+      "peace",
+      "plan",
+      "talks",
+      "trump"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c77gg5vn44yo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump envoy Kushner meets Netanyahu after Hamas talks on peace plan",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-17T15:07:40.915711+00:00"
+  },
+  {
+    "score": 17.22,
+    "bucket": "useful",
+    "tokens": [
+      "alzheimer's",
+      "amyloid",
+      "break",
+      "could",
+      "gold",
+      "help",
+      "nanoclusters",
+      "plaques"
+    ],
+    "link": "https://phys.org/news/2026-08-gold-nanoclusters-alzheimer-amyloid-plaques.html",
+    "title": "Gold nanoclusters could help break down Alzheimer's amyloid plaques",
+    "posted_title": "",
+    "region": "science",
+    "seen_at": "2026-08-17T15:07:40.915944+00:00"
+  },
+  {
+    "score": 17.17,
+    "bucket": "useful",
+    "tokens": [
+      "anthropic",
+      "claude",
+      "explains",
+      "how",
+      "invisible",
+      "text",
+      "watermarks",
+      "work"
+    ],
+    "link": "https://www.theverge.com/ai-artificial-intelligence/980869/anthropic-claude-watermarks-synthid-text-system",
+    "title": "Anthropic explains how Claude’s invisible text watermarks will work",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-08-17T15:07:40.916154+00:00"
+  },
+  {
+    "score": 16.57,
+    "bucket": "serious",
+    "tokens": [
+      "000",
+      "100",
+      "adultos",
+      "california",
+      "como",
+      "cuando",
+      "d23",
+      "disney",
+      "millones",
+      "princesas",
+      "riega",
+      "sur",
+      "visten"
+    ],
+    "link": "https://elpais.com/cultura/2026-08-17/cuando-100000-adultos-se-visten-como-princesas-disney-la-d23-riega-de-millones-al-sur-de-california.html",
+    "title": "Cuando 100.000 adultos se visten como princesas Disney: la D23 riega de millones al sur de California",
+    "posted_title": "",
+    "region": "es",
+    "seen_at": "2026-08-17T15:07:40.916344+00:00"
   }
 ]

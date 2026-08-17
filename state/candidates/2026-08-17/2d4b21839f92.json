@@ -1,87 +1,93 @@
 {
   "id": "2d4b21839f92",
-  "created_at": "2026-08-17T03:07:46.388233+00:00",
+  "created_at": "2026-08-17T15:07:40.915439+00:00",
   "status": "pending",
-  "selection_issue": 408,
-  "score": 20.41,
+  "selection_issue": null,
+  "score": 24.48,
   "trend_score": 0.0,
-  "velocity": 0.07,
+  "velocity": 0.5,
   "bucket": "serious",
   "state_media": false,
-  "title": "Trump envoy Kushner meets Hamas leader to push Gaza peace plan",
+  "title": "Trump envoy Kushner meets Netanyahu after Hamas talks on peace plan",
   "link": "https://www.bbc.co.uk/news/articles/c77gg5vn44yo?at_medium=RSS&at_campaign=rss",
   "publishers": [
-    "Al Jazeera English",
     "BBC World",
-    "Daily Sabah",
     "France24",
-    "Free Malaysia Today",
     "Malay Mail",
+    "MyJoyOnline Ghana",
     "NDTV — World",
-    "NPR World"
+    "NPR World",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The New York Times"
   ],
   "region": "uk",
   "article": {
-    "title": "Trump envoy Kushner meets Hamas leader to push Gaza peace plan",
+    "title": "Trump envoy Kushner meets Netanyahu after Hamas talks on peace plan",
     "link": "https://www.bbc.co.uk/news/articles/c77gg5vn44yo?at_medium=RSS&at_campaign=rss",
-    "summary": "The rare meeting comes a week after Israel rejected Donald Trump's peace plan for Gaza.",
+    "summary": "US President Trump's son-in-law Jared Kushner is seeking to gain Israeli backing for the US-backed Gaza peace plan.",
     "source_name": "BBC World",
     "region": "uk",
     "weight": 1.2,
-    "published": "2026-08-16T19:58:14+00:00",
-    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6b3a/live/65ee2c30-99a4-11f1-a10a-71ff76b28954.jpg",
+    "published": "2026-08-17T13:58:38+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1476/live/b59ea940-9a3e-11f1-a291-b542ee92de7c.jpg",
     "publisher": "BBC World",
     "cluster_sources": [
-      "Al Jazeera English",
       "BBC World",
-      "Daily Sabah",
       "France24",
-      "Free Malaysia Today",
       "Malay Mail",
+      "MyJoyOnline Ghana",
       "NDTV — World",
-      "NPR World"
+      "NPR World",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The New York Times"
     ],
     "cluster_members": [
       {
-        "name": "Al Jazeera English",
-        "link": "https://www.aljazeera.com/news/2026/8/16/kushner-meets-hamas-in-egypt-to-push-trumps-gaza-plan?traffic_source=rss"
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/16/jared-kushner-hamas-gaza-meeting"
       },
       {
         "name": "BBC World",
         "link": "https://www.bbc.co.uk/news/articles/c77gg5vn44yo?at_medium=RSS&at_campaign=rss"
       },
       {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3364309/us-envoy-kushner-meets-netanyahu-after-visiting-hamas-leader?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624372/kushner-discusses-gaza-plan-with-netanyahu-after-rare-hamas-meeting"
+      },
+      {
         "name": "France24",
-        "link": "https://www.france24.com/en/middle-east/20260816-hamas-begins-crucial-talks-with-egypt-on-trump-s-gaza-peace-plan"
+        "link": "https://www.france24.com/en/middle-east-kushner-to-meet-netanyahu-after-talks-with-hamas-on-gaza-plan"
       },
       {
-        "name": "Daily Sabah",
-        "link": "https://www.dailysabah.com/world/mid-east/hamas-likely-to-meet-with-kushner-amid-us-gaza-plan-push"
-      },
-      {
-        "name": "NDTV — World",
-        "link": "https://www.ndtv.com/world-news/trump-envoy-meets-hamas-leaders-over-gaza-plan-will-see-netanyahu-next-11918450#publisher=newsstand"
-      },
-      {
-        "name": "NPR World",
-        "link": "https://www.npr.org/2026/08/16/g-s1-138948/kushner-gaza-hamas-netanyahu-egypt-talks"
+        "name": "France24",
+        "link": "https://www.france24.com/en/trump-s-gaza-plan-what-is-at-stake-for-netanyahu"
       }
     ],
     "image_candidates": [
-      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6b3a/live/65ee2c30-99a4-11f1-a10a-71ff76b28954.jpg",
-      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/6b3a/live/65ee2c30-99a4-11f1-a10a-71ff76b28954.jpg",
-      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6b3a/live/65ee2c30-99a4-11f1-a10a-71ff76b28954.jpg",
-      "https://s.france24.com/media/display/64f693de-9964-11f1-94e0-005056a97e36/w:1024/p:16x9/2026-07-20T122458Z-1821028812-RC2OHMA50977-RTRMADP-3-ISRAEL-PALESTINIANS-HAMAS-HAYYA.jpg",
-      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/16/456121.JPG",
-      "https://i.ndtvimg.com/i/2018-03/jared-kushner-wapo_650x400_61519999410.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1476/live/b59ea940-9a3e-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/1476/live/b59ea940-9a3e-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1476/live/b59ea940-9a3e-11f1-a291-b542ee92de7c.jpg",
+      "https://i.guim.co.uk/img/media/2ab9f13746943762391cd240ceb44d7b9716ead1/0_59_4490_3593/master/4490.jpg?width=700&quality=85&auto=format&fit=max&s=5c4bbd2d5180b04ef5f1fbce4afbda58",
+      "https://i.guim.co.uk/img/media/2ab9f13746943762391cd240ceb44d7b9716ead1/0_59_4490_3593/master/4490.jpg?width=460&quality=85&auto=format&fit=max&s=84070ed9170abe2562914a7a52053292",
+      "https://i.guim.co.uk/img/media/2ab9f13746943762391cd240ceb44d7b9716ead1/0_59_4490_3593/master/4490.jpg?width=140&quality=85&auto=format&fit=max&s=0e7308b5019b256dbcee8695b1396197"
     ],
     "bucket": "serious",
     "state_media": false,
     "trend_score": 0.0,
-    "group_sources": 8,
-    "velocity": 0.06665566650424203,
-    "age_hours": 5.000825148333333,
+    "group_sources": 11,
+    "velocity": 0.5004036734657021,
+    "age_hours": 16.999379625,
     "is_stale": false,
-    "score": 20.410668459977778
+    "score": 24.478887340100037
   }
 }
