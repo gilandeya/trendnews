@@ -1,0 +1,48 @@
+{
+  "id": "605a4fffe370",
+  "created_at": "2026-08-17T17:08:01.117595+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.35,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Affaire E. Jean Carroll : la Cour suprême rejette un ultime recours de Donald Trump contre une indemnisation pour agression sexuelle",
+  "link": "https://www.lemonde.fr/international/article/2026/08/17/affaire-e-jean-carroll-la-cour-supreme-rejette-un-ultime-recours-de-donald-trump-contre-une-indemnisation-pour-agression-sexuelle_6748398_3210.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Affaire E. Jean Carroll : la Cour suprême rejette un ultime recours de Donald Trump contre une indemnisation pour agression sexuelle",
+    "link": "https://www.lemonde.fr/international/article/2026/08/17/affaire-e-jean-carroll-la-cour-supreme-rejette-un-ultime-recours-de-donald-trump-contre-une-indemnisation-pour-agression-sexuelle_6748398_3210.html",
+    "summary": "Dans cette affaire, l’ancienne journaliste et chroniqueuse accuse le président américain de l’avoir agressée dans une cabine d’essayage à New York, en 1996.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-17T15:34:16+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/17/474/0/7184/3592/644/322/60/0/ccf0ab1_ftp-1-lb8cgoolpn8r-5860213-01-06.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/08/17/affaire-e-jean-carroll-la-cour-supreme-rejette-un-ultime-recours-de-donald-trump-contre-une-indemnisation-pour-agression-sexuelle_6748398_3210.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/17/474/0/7184/3592/644/322/60/0/ccf0ab1_ftp-1-lb8cgoolpn8r-5860213-01-06.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.34586151927778
+  }
+}

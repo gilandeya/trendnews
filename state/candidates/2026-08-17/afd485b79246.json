@@ -1,0 +1,55 @@
+{
+  "id": "afd485b79246",
+  "created_at": "2026-08-17T17:08:01.117855+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.17,
+  "trend_score": 0.5,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump appeal in sex assault, defamation case rejected again",
+  "link": "https://www.channelnewsasia.com/world/trump-carroll-sexual-assault-defamation-case-rejected-6324316",
+  "publishers": [
+    "Channel News Asia",
+    "NDTV — World"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Trump appeal in sex assault, defamation case rejected again",
+    "link": "https://www.channelnewsasia.com/world/trump-carroll-sexual-assault-defamation-case-rejected-6324316",
+    "summary": "US President Donald Trump was found liable for sexually abusing writer E Jean Carroll in 2023, and his appeal against the jury’s verdict has been rejected for a second time.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-17T16:16:03+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--3L6W3nCe--/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Supreme_Court_Trump__19_8.jpg?itok=OnjiDhFN",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/trump-carroll-sexual-assault-defamation-case-rejected-6324316"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/trumps-appeal-in-sexual-assault-case-rejected-again-by-us-supreme-court-11922465#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--3L6W3nCe--/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Supreme_Court_Trump__19_8.jpg?itok=OnjiDhFN",
+      "https://c.ndtvimg.com/2025-09/2mtseh18_trump_625x300_08_September_25.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.167099564068742
+  }
+}

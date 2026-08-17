@@ -1,0 +1,67 @@
+{
+  "id": "c9457ccd2089",
+  "created_at": "2026-08-17T17:08:01.117278+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.44,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran threatens to go on offensive in Strait of Hormuz if diplomacy with US fails",
+  "link": "https://www.channelnewsasia.com/world/iran-threatens-go-offensive-in-strait-hormuz-if-diplomacy-us-fails-6324116",
+  "publishers": [
+    "Channel News Asia",
+    "Mehr News",
+    "Rappler",
+    "The Express Tribune"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Iran threatens to go on offensive in Strait of Hormuz if diplomacy with US fails",
+    "link": "https://www.channelnewsasia.com/world/iran-threatens-go-offensive-in-strait-hormuz-if-diplomacy-us-fails-6324116",
+    "summary": "\"Within the short period of a few weeks set by Iran, all the agreement's provisions must be implemented by the US. This is a precondition for further negotiations with the US,\" an Iranian official said.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-17T13:58:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--fy9KzJ8d--/c_crop,h_450,w_800,x_0,y_68/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-13T174519Z_3_LYNXMPEM7C0LQ_RTROPTP_3_IRAN-CRISIS-OMAN-HORMUZ.JPG?itok=r43mVsGX",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Mehr News",
+      "Rappler",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624335/trump-very-happy-over-signing-of-makkah-joint-defense-agreement"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/iran-threatens-go-offensive-in-strait-hormuz-if-diplomacy-us-fails-6324116"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/middle-east/iran-threatens-offensive-strait-hormuz-if-diplomacy-united-states-fails/"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247047/Iran-will-siwtch-to-offensive-if-diplomacy-fails"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--fy9KzJ8d--/c_crop,h_450,w_800,x_0,y_68/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-13T174519Z_3_LYNXMPEM7C0LQ_RTROPTP_3_IRAN-CRISIS-OMAN-HORMUZ.JPG?itok=r43mVsGX",
+      "https://media.mehrnews.com/d/2026/08/08/4/6125175.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.3324181944007721,
+    "age_hours": 288.00731817527776,
+    "is_stale": false,
+    "score": 17.443259560255488
+  }
+}
