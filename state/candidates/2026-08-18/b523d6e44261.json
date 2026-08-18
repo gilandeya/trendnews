@@ -1,0 +1,73 @@
+{
+  "id": "b523d6e44261",
+  "created_at": "2026-08-18T09:08:03.347897+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.82,
+  "trend_score": 0.0,
+  "velocity": 0.8,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Only 40% of world's health facilities meet basic sanitation standards: UN",
+  "link": "https://medicalxpress.com/news/2026-08-world-health-facilities-basic-sanitation.html",
+  "publishers": [
+    "Free Malaysia Today",
+    "Medical Xpress",
+    "The Hindu — International",
+    "UN"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Only 40% of world's health facilities meet basic sanitation standards: UN",
+    "link": "https://medicalxpress.com/news/2026-08-world-health-facilities-basic-sanitation.html",
+    "summary": "Only four in 10 health care facilities worldwide meet basic sanitation standards for accessible and usable toilets, the United Nations said Tuesday, while 11% have no sanitation services at all.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-08-18T08:12:59+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/healthcare-worker-wear.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Medical Xpress",
+      "The Hindu — International",
+      "UN"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-08-world-health-facilities-basic-sanitation.html"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/only-40-of-worlds-health-facilities-meet-basic-sanitation-standards-un/article71359447.ece"
+      },
+      {
+        "name": "UN",
+        "link": "https://punchng.com/only-40-of-the-worlds-health-facilities-meet-basic-sanitation-standards-un/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/18/only-40-of-world-s-health-facilities-meet-basic-sanitation-standards-says-un"
+      },
+      {
+        "name": "UN",
+        "link": "https://www.vanguardngr.com/2026/08/only-40-of-worlds-health-facilities-meet-basic-sanitation-standards-un/"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/healthcare-worker-wear.jpg",
+      "https://th-i.thgim.com/public/news/national/qxp4wt/article71359488.ece/alternates/LANDSCAPE_1200/iStock-1029811304.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/40bd18ad-3fca-4234-a5b8-49d52dda3ce5-AFP__20200722__1VM1BE__v2__HighRes__ChileHealthVirusHospital_1_cropped_1-1-.webp",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2024/10/image-283.png"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 0.8,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.815766661512267
+  }
+}

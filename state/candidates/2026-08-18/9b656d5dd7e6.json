@@ -1,0 +1,75 @@
+{
+  "id": "9b656d5dd7e6",
+  "created_at": "2026-08-18T09:08:03.347537+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.96,
+  "trend_score": 0.5,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says Kim Jong-un has responded to his overtures when asked about scaling back US drills with South Korea",
+  "link": "https://www.theguardian.com/us-news/live/2026/aug/17/politics-trump-south-korea-military-pentagon-republicans-democrats",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "The Express Tribune",
+    "as it happened"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump says Kim Jong-un has responded to his overtures when asked about scaling back US drills with South Korea",
+    "link": "https://www.theguardian.com/us-news/live/2026/aug/17/politics-trump-south-korea-military-pentagon-republicans-democrats",
+    "summary": "This blog is now closed. Read more here Sign up for the Breaking News US email Republican senator Thom Tillis deplored Trump’s decision to cut US military drills with South Korea , which comes despite military officials from both countries warning that Kim Jong-un ’s regime is learning new battlefield expertise, including new drone tactics, from assisting Russia with its war in Ukraine . Tillis wrote on X: South Korea has been a solid military ally for over 70 years that possesses exquisite military capabilities. Reducing joint exercises with South Korea does nothing more than free up thousands of North Korea’s troops to support Putin’s systematic kidnapping, torture, rape, and murder of innocent Ukrainian citizens. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-18T01:57:12+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/52559c1e1c5daeeff5af9103bae7999e74139051/565_0_3826_3060/master/3826.jpg?width=700&quality=85&auto=format&fit=max&s=b744aa65ff115fbb9036e4d9f43f1b66",
+    "publisher": "as it happened",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "The Express Tribune",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/us-news/live/2026/aug/17/politics-trump-south-korea-military-pentagon-republicans-democrats"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/18/trump-says-n-koreas-kim-has-responded-to-his-request-for-a-conversation?traffic_source=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624535/trump-says-north-koreas-kim-has-responded-to-his-overtures"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/trump-hints-at-kim-contacts-after-scaling-back-seoul-drills-101786994968836.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/trump-says-north-koreas-kim-responded-to-renewed-outreach"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/52559c1e1c5daeeff5af9103bae7999e74139051/565_0_3826_3060/master/3826.jpg?width=700&quality=85&auto=format&fit=max&s=b744aa65ff115fbb9036e4d9f43f1b66",
+      "https://i.guim.co.uk/img/media/52559c1e1c5daeeff5af9103bae7999e74139051/565_0_3826_3060/master/3826.jpg?width=460&quality=85&auto=format&fit=max&s=140cedadff8e02c4783f59b8c0c6747d",
+      "https://i.guim.co.uk/img/media/52559c1e1c5daeeff5af9103bae7999e74139051/565_0_3826_3060/master/3826.jpg?width=140&quality=85&auto=format&fit=max&s=a8b1af145c9e90ae017fdb9b772a3628",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/17/456284.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 0.3328086799556697,
+    "age_hours": 30.00471585638889,
+    "is_stale": false,
+    "score": 22.962249365421165
+  }
+}
