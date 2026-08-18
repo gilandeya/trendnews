@@ -1,0 +1,48 @@
+{
+  "id": "538db9d88269",
+  "created_at": "2026-08-18T22:07:46.157370+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.23,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Gold mine collapses in Central African Republic, killing at least 30 miners",
+  "link": "https://www.thehindu.com/news/international/gold-mine-collapses-in-central-african-republic-killing-many-miners/article71362272.ece",
+  "publishers": [
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Gold mine collapses in Central African Republic, killing at least 30 miners",
+    "link": "https://www.thehindu.com/news/international/gold-mine-collapses-in-central-african-republic-killing-many-miners/article71362272.ece",
+    "summary": "The low-tech, artisanal mine collapsed in the Abba region of the Nana-Mambere prefecture, according to Florian Gaguende, one of the surviving miners",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-18T21:07:48+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/srrvrp/article71362274.ece/alternates/LANDSCAPE_1200/Congo_Ebola_Mining_181_3.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/gold-mine-collapses-in-central-african-republic-killing-many-miners/article71362272.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/srrvrp/article71362274.ece/alternates/LANDSCAPE_1200/Congo_Ebola_Mining_181_3.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.233394158685186
+  }
+}

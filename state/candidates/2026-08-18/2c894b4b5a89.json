@@ -1,0 +1,48 @@
+{
+  "id": "2c894b4b5a89",
+  "created_at": "2026-08-18T22:07:46.157098+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.42,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "LOCAL ELECTIONS 2026: ANC hero Marius Schoon’s son, Fritz, is a DA candidate for Joburg",
+  "link": "https://www.dailymaverick.co.za/article/2026-08-18-anc-hero-marius-schoon-s-son-fritz-is-a-da-candidate-for-joburg/",
+  "publishers": [
+    "Daily Maverick"
+  ],
+  "region": "za",
+  "article": {
+    "title": "LOCAL ELECTIONS 2026: ANC hero Marius Schoon’s son, Fritz, is a DA candidate for Joburg",
+    "link": "https://www.dailymaverick.co.za/article/2026-08-18-anc-hero-marius-schoon-s-son-fritz-is-a-da-candidate-for-joburg/",
+    "summary": "Fritz Schoon’s family fought for the ANC. He chose the DA. He tells us why.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-08-18T21:36:42+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/orphans/Schoon-Ferialcopy_903008.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-18-anc-hero-marius-schoon-s-son-fritz-is-a-da-candidate-for-joburg/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/orphans/Schoon-Ferialcopy_903008.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.4155057195
+  }
+}
