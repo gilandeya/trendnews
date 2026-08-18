@@ -1,0 +1,48 @@
+{
+  "id": "76faaaff74b2",
+  "created_at": "2026-08-18T19:07:41.421944+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.97,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Gazans turn to gold as hedge against financial uncertainty",
+  "link": "http://www.africanews.com/2026/08/18/gazans-turn-to-gold-as-hedge-against-financial-uncertainty/",
+  "publishers": [
+    "Africanews"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Gazans turn to gold as hedge against financial uncertainty",
+    "link": "http://www.africanews.com/2026/08/18/gazans-turn-to-gold-as-hedge-against-financial-uncertainty/",
+    "summary": "Palestinians buy gold at jewellery shops in downtown Gaza City, as the precious metal commodity in the war-torn territory is increasingly becoming their hedge against financial uncertainty",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-18T14:13:24+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/87/89/53/640x360_cmsv2_dc5f1d8c-e2f0-5eab-a309-9d59065f1eae-9878953.jpg?1787054239",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/18/gazans-turn-to-gold-as-hedge-against-financial-uncertainty/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/87/89/53/640x360_cmsv2_dc5f1d8c-e2f0-5eab-a309-9d59065f1eae-9878953.jpg?1787054239"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 1.9952317919444444,
+    "is_stale": false,
+    "score": 16.973036640666667
+  }
+}

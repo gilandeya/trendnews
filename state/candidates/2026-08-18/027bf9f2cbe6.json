@@ -1,0 +1,48 @@
+{
+  "id": "027bf9f2cbe6",
+  "created_at": "2026-08-18T19:07:41.421429+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.03,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Muere Mathilde Favier, la mujer con la mejor agenda de París, en un accidente de tráfico",
+  "link": "https://elpais.com/smoda/moda/2026-08-18/muere-mathilde-favier-la-mujer-con-la-mejor-agenda-de-paris.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Muere Mathilde Favier, la mujer con la mejor agenda de París, en un accidente de tráfico",
+    "link": "https://elpais.com/smoda/moda/2026-08-18/muere-mathilde-favier-la-mujer-con-la-mejor-agenda-de-paris.html",
+    "summary": "La directora de relaciones públicas de Dior y su pareja, el conocido productor de cine Nicolas Altmayer, han fallecido este lunes tras ser embestidos por un camión en Deux-Sèvres",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-08-18T15:04:55+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/VNGHHNCIFRDD5NYWJJKG6UTXRU.jpg?auth=54f98d19304364bc92365d0303b5f79a628686d15d7a7a42dd63a16c93df40db",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/smoda/moda/2026-08-18/muere-mathilde-favier-la-mujer-con-la-mejor-agenda-de-paris.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/VNGHHNCIFRDD5NYWJJKG6UTXRU.jpg?auth=54f98d19304364bc92365d0303b5f79a628686d15d7a7a42dd63a16c93df40db"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 3.9978266205555553,
+    "is_stale": false,
+    "score": 17.030277364333333
+  }
+}
