@@ -1,0 +1,52 @@
+{
+  "id": "0a84c0d5511c",
+  "created_at": "2026-08-18T15:07:49.089453+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.86,
+  "trend_score": 1.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Netanyahu party campaign billboard likens Mamdani to leaders of Iran and Hezbollah",
+  "link": "https://www.theguardian.com/world/2026/aug/17/netanyahu-party-campaign-billboard-mamdani-iran-hezbollah",
+  "publishers": [
+    "The Guardian",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Netanyahu party campaign billboard likens Mamdani to leaders of Iran and Hezbollah",
+    "link": "https://www.theguardian.com/world/2026/aug/17/netanyahu-party-campaign-billboard-mamdani-iran-hezbollah",
+    "summary": "Likud’s depiction of Zohran Mamdani is latest move in spat between Israel’s prime minister and New York City mayor Benjamin Netanyahu’s party has compared the New York City mayor, Zohran Mamdani, to the leaders of Iran and Hezbollah on a campaign billboard. The billboard in central Tel Aviv depicts Mamdani alongside the Turkish president, Recep Tayyip Erdoğan, Iran’s supreme leader, Mojtaba Khamenei, and the chief of the militant group Hezbollah, Naim Qassem. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-17T19:54:03+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/37e10b092dfd4a080836bbf519dba3bc10159107/628_564_3070_2456/master/3070.jpg?width=700&quality=85&auto=format&fit=max&s=0e18b6c6d453eedaafec3d8b9bfa4ff3",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "The Guardian",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/17/netanyahu-party-campaign-billboard-mamdani-iran-hezbollah"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/37e10b092dfd4a080836bbf519dba3bc10159107/628_564_3070_2456/master/3070.jpg?width=700&quality=85&auto=format&fit=max&s=0e18b6c6d453eedaafec3d8b9bfa4ff3",
+      "https://i.guim.co.uk/img/media/37e10b092dfd4a080836bbf519dba3bc10159107/628_564_3070_2456/master/3070.jpg?width=460&quality=85&auto=format&fit=max&s=52a3ffd56fe157317511a895930d1c54",
+      "https://i.guim.co.uk/img/media/37e10b092dfd4a080836bbf519dba3bc10159107/628_564_3070_2456/master/3070.jpg?width=140&quality=85&auto=format&fit=max&s=7e369d61303a86b48a443e6a32a8e313"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.11125206489174856,
+    "age_hours": 16.99923343972222,
+    "is_stale": false,
+    "score": 19.864632672823785
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "5f348a90761a",
+  "created_at": "2026-08-18T15:07:49.089639+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.78,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran refuses to reopen the Strait of Hormuz until the US lifts its naval blockade",
+  "link": "https://www.malaymail.com/news/world/2026/08/18/iran-refuses-to-reopen-the-strait-of-hormuz-until-the-us-lifts-its-naval-blockade/231820",
+  "publishers": [
+    "IRNA English",
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Iran refuses to reopen the Strait of Hormuz until the US lifts its naval blockade",
+    "link": "https://www.malaymail.com/news/world/2026/08/18/iran-refuses-to-reopen-the-strait-of-hormuz-until-the-us-lifts-its-naval-blockade/231820",
+    "summary": "TEHRAN, Aug 18 — Iran’s top negotiator Mohammad Bagher Ghalibaf said on Tuesday that the strategic Strait of...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-18T09:55:09+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/18/357686.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "IRNA English",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/18/iran-refuses-to-reopen-the-strait-of-hormuz-until-the-us-lifts-its-naval-blockade/231820"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86238955/Hormuz-Strait-will-not-reopen-until-US-blockade-oil-sanctions"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/18/357686.jpg",
+      "https://img9.irna.ir/d/r2/2026/06/18/4/172934804.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 2.996233073888889,
+    "is_stale": false,
+    "score": 19.776575311420594
+  }
+}

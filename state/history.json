@@ -2351,5 +2351,100 @@
     "posted_title": "",
     "region": "kr",
     "seen_at": "2026-08-18T12:08:02.888771+00:00"
+  },
+  {
+    "score": 28.63,
+    "bucket": "serious",
+    "tokens": [
+      "'gets",
+      "ally",
+      "bomb",
+      "deal",
+      "iran",
+      "oman",
+      "threatens",
+      "trump",
+      "way'"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cy5dzk0ryzdo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump threatens to bomb US ally Oman if it 'gets in the way' over Iran deal",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-18T15:07:49.088967+00:00"
+  },
+  {
+    "score": 23.94,
+    "bucket": "useful",
+    "tokens": [
+      "iran",
+      "ongoing",
+      "scheduled",
+      "talks",
+      "trump"
+    ],
+    "link": "https://www.investing.com/news/economy-news/hormuz-to-remain-closed-until-us-meets-mou-conditions-irans-ghalibaf-says-4864585",
+    "title": "No U.S. talks with Iran ongoing or scheduled, Trump says",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-08-18T15:07:49.089244+00:00"
+  },
+  {
+    "score": 20.56,
+    "bucket": "serious",
+    "tokens": [
+      "about",
+      "claims",
+      "false",
+      "iran",
+      "missing",
+      "pilots",
+      "qatar",
+      "rejects"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/8/18/qatar-rejects-irans-false-claims-about-missing-pilots?traffic_source=rss",
+    "title": "Qatar rejects Iran’s ‘false’ claims about missing pilots",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-08-18T15:07:49.089446+00:00"
+  },
+  {
+    "score": 19.86,
+    "bucket": "serious",
+    "tokens": [
+      "billboard",
+      "campaign",
+      "hezbollah",
+      "iran",
+      "leaders",
+      "likens",
+      "mamdani",
+      "netanyahu",
+      "party"
+    ],
+    "link": "https://www.theguardian.com/world/2026/aug/17/netanyahu-party-campaign-billboard-mamdani-iran-hezbollah",
+    "title": "Netanyahu party campaign billboard likens Mamdani to leaders of Iran and Hezbollah",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-18T15:07:49.089632+00:00"
+  },
+  {
+    "score": 19.78,
+    "bucket": "serious",
+    "tokens": [
+      "blockade",
+      "hormuz",
+      "iran",
+      "lifts",
+      "naval",
+      "refuses",
+      "reopen",
+      "strait",
+      "until"
+    ],
+    "link": "https://www.malaymail.com/news/world/2026/08/18/iran-refuses-to-reopen-the-strait-of-hormuz-until-the-us-lifts-its-naval-blockade/231820",
+    "title": "Iran refuses to reopen the Strait of Hormuz until the US lifts its naval blockade",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-08-18T15:07:49.089814+00:00"
   }
 ]

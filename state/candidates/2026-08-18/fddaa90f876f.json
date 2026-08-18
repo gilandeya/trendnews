@@ -1,27 +1,22 @@
 {
   "id": "fddaa90f876f",
-  "created_at": "2026-08-18T03:07:57.233521+00:00",
+  "created_at": "2026-08-18T15:07:49.088579+00:00",
   "status": "pending",
-  "selection_issue": 416,
-  "score": 26.21,
-  "trend_score": 0.5,
-  "velocity": 0.07,
+  "selection_issue": null,
+  "score": 28.63,
+  "trend_score": 1.0,
+  "velocity": 0.56,
   "bucket": "serious",
   "state_media": false,
   "title": "Trump threatens to bomb US ally Oman if it 'gets in the way' over Iran deal",
   "link": "https://www.bbc.co.uk/news/articles/cy5dzk0ryzdo?at_medium=RSS&at_campaign=rss",
   "publishers": [
     "BBC World",
-    "Daily Sabah",
-    "IRNA English",
-    "MyJoyOnline Ghana",
-    "Premium Times",
-    "South China Morning Post",
-    "The Express Tribune",
+    "CGTN",
+    "France24",
     "The Hindu — International",
-    "The New York Times",
-    "as it happened",
-    "diplomat"
+    "The Japan Times",
+    "as it happened"
   ],
   "region": "uk",
   "article": {
@@ -36,16 +31,11 @@
     "publisher": "BBC World",
     "cluster_sources": [
       "BBC World",
-      "Daily Sabah",
-      "IRNA English",
-      "MyJoyOnline Ghana",
-      "Premium Times",
-      "South China Morning Post",
-      "The Express Tribune",
+      "CGTN",
+      "France24",
       "The Hindu — International",
-      "The New York Times",
-      "as it happened",
-      "diplomat"
+      "The Japan Times",
+      "as it happened"
     ],
     "cluster_members": [
       {
@@ -57,20 +47,20 @@
         "link": "https://www.bbc.co.uk/news/articles/cy5dzk0ryzdo?at_medium=RSS&at_campaign=rss"
       },
       {
-        "name": "South China Morning Post",
-        "link": "https://www.scmp.com/news/world/united-states-canada/article/3364334/trump-threatens-bomb-oman-if-it-gets-way-iran-deal?utm_source=rss_feed"
-      },
-      {
-        "name": "Premium Times",
-        "link": "https://www.premiumtimesng.com/news/top-news/903669-trump-threatens-to-bomb-oman-over-strait-of-hormuz.html"
-      },
-      {
-        "name": "The Express Tribune",
-        "link": "https://tribune.com.pk/story/2624397/trump-threatens-to-bomb-oman-if-it-gets-in-the-way-of-us-iran-negotiations"
-      },
-      {
         "name": "The Hindu — International",
         "link": "https://www.thehindu.com/news/international/trump-threatens-to-bomb-oman-if-it-gets-in-way-of-iran-deal-report/article71356308.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/trump-threatens-to-bomb-oman-as-its-ally-tires-to-mediate-iran-negotiations"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/18/world/politics/trump-oman-iran-deal/"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-18/Trump-says-not-seeking-extension-of-Iran-deal-threatens-to-bomb-Oman-1PHzwvuqARG/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
       }
     ],
     "image_candidates": [
@@ -83,11 +73,11 @@
     ],
     "bucket": "serious",
     "state_media": false,
-    "trend_score": 0.5,
-    "group_sources": 11,
-    "velocity": 0.06664357470135442,
-    "age_hours": 12.004574753333333,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.5562598217458226,
+    "age_hours": 24.00228265111111,
     "is_stale": false,
-    "score": 26.21394847513002
+    "score": 28.63053391021461
   }
 }
