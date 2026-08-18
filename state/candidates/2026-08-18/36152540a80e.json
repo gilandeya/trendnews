@@ -1,0 +1,57 @@
+{
+  "id": "36152540a80e",
+  "created_at": "2026-08-18T17:07:58.622177+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.84,
+  "trend_score": 0.5,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "South Korea President stresses U.S. alliance as many baffled by Trump order to cut exercises",
+  "link": "https://www.thehindu.com/news/international/south-korea-president-stresses-us-alliance-as-many-baffled-by-trump-order-to-cut-exercises/article71360543.ece",
+  "publishers": [
+    "AP News",
+    "NPR World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "South Korea President stresses U.S. alliance as many baffled by Trump order to cut exercises",
+    "link": "https://www.thehindu.com/news/international/south-korea-president-stresses-us-alliance-as-many-baffled-by-trump-order-to-cut-exercises/article71360543.ece",
+    "summary": "Mr. Trump cited what he said was a good relationship with North Korean leader Kim Jong Un and South Korea's refusal to join the U.S. war against Iran",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-18T13:05:12+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/oloexg/article71360658.ece/alternates/LANDSCAPE_1200/2026-08-12T060255Z_416301465_RC2HMMA6U7PW_RTRMADP_3_SOUTHKOREA-TECHNOLOGY.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "AP News",
+      "NPR World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/south-korea-president-stresses-us-alliance-as-many-baffled-by-trump-order-to-cut-exercises/article71360543.ece"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/08/18/g-s1-139096/s-korea-stresses-us-alliance-amid-confusion-over-trump-drill-cut"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/oloexg/article71360658.ece/alternates/LANDSCAPE_1200/2026-08-12T060255Z_416301465_RC2HMMA6U7PW_RTRMADP_3_SOUTHKOREA-TECHNOLOGY.JPG",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-139096"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.3329204919942699,
+    "age_hours": 2.002480119722222,
+    "is_stale": false,
+    "score": 19.844284404397275
+  }
+}

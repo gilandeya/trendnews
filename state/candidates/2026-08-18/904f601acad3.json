@@ -1,0 +1,55 @@
+{
+  "id": "904f601acad3",
+  "created_at": "2026-08-18T17:07:58.622464+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.46,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump cites India's voter cards to make case for SAVE America Act",
+  "link": "https://www.thehindu.com/news/international/trump-cites-indias-voter-cards-to-make-case-for-save-america-act/article71358736.ece",
+  "publishers": [
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Trump cites India's voter cards to make case for SAVE America Act",
+    "link": "https://www.thehindu.com/news/international/trump-cites-indias-voter-cards-to-make-case-for-save-america-act/article71358736.ece",
+    "summary": "The U.S. President said over 646 million people participated in the recent general elections in India, and yet less than 1% voted through postal ballots",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-18T08:09:03+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/ae0b63/article71358740.ece/alternates/LANDSCAPE_1200/Trump-threatensGNGGDIC21.3.jpg.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-cites-indias-voter-cards-to-make-case-for-save-america-act/article71358736.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/trumps-nod-to-indias-electoral-system-in-push-for-mandatory-us-voter-id-11923535#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/ae0b63/article71358740.ece/alternates/LANDSCAPE_1200/Trump-threatensGNGGDIC21.3.jpg.jpg",
+      "https://c.ndtvimg.com/2026-06/v4mcqjas_trump-modi_625x300_17_June_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 14.000344672777778,
+    "is_stale": false,
+    "score": 19.45610662075606
+  }
+}

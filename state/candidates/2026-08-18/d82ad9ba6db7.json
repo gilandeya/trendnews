@@ -1,0 +1,55 @@
+{
+  "id": "d82ad9ba6db7",
+  "created_at": "2026-08-18T17:07:58.622729+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.99,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran to face Algeria at 2026 FIVB U17 World C'ship opener",
+  "link": "https://en.mehrnews.com/news/247073/Iran-to-face-Algeria-at-2026-FIVB-U17-World-Championship",
+  "publishers": [
+    "Mehr News",
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran to face Algeria at 2026 FIVB U17 World C'ship opener",
+    "link": "https://en.mehrnews.com/news/247073/Iran-to-face-Algeria-at-2026-FIVB-U17-World-Championship",
+    "summary": "TEHRAN, Aug. 18 (MNA) – The second edition of the FIVB Volleyball Boys’ U17 World Championship is set to get underway in Doha, Qatar, with 24 of the world’s best young volleyball teams competing for the global title from Aug. 19 to 29.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-18T13:10:24+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/08/18/4/6137061.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Mehr News",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529175/Iran-to-face-Algeria-at-2026-FIVB-U17-World-Championship-opener"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247073/Iran-to-face-Algeria-at-2026-FIVB-U17-World-Championship"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/08/18/4/6137061.jpg",
+      "https://media.mehrnews.com/d/2026/08/18/4/6136859.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 4.998789676944444,
+    "is_stale": false,
+    "score": 17.99093929638569
+  }
+}

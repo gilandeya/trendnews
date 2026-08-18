@@ -1,0 +1,48 @@
+{
+  "id": "16bf98204b25",
+  "created_at": "2026-08-18T17:07:58.622987+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.42,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Sri Lanka: Ärzte entfernen Mann kiloschweren Blasenstein",
+  "link": "https://www.spiegel.de/panorama/sri-lanka-aerzte-entfernen-mann-kiloschweren-blasenstein-a-084e9c69-d253-4acb-95fd-dd5d01ad4cb8#ref=rss",
+  "publishers": [
+    "Der Spiegel"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Sri Lanka: Ärzte entfernen Mann kiloschweren Blasenstein",
+    "link": "https://www.spiegel.de/panorama/sri-lanka-aerzte-entfernen-mann-kiloschweren-blasenstein-a-084e9c69-d253-4acb-95fd-dd5d01ad4cb8#ref=rss",
+    "summary": "Die Mediziner haben 3,1 Kilo auf der Waage festgestellt: Einem 55-jährigen Mann im Osten Sri Lankas ist ein Blasenstein herausoperiert worden. In das Krankenhaus kam der Patient eigentlich wegen anderen Beschwerden.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-08-18T16:43:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/45e0701c-23f0-4949-bf24-901aedb10a5b_w520_r2.08_fpx58.67_fpy50.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Der Spiegel"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/panorama/sri-lanka-aerzte-entfernen-mann-kiloschweren-blasenstein-a-084e9c69-d253-4acb-95fd-dd5d01ad4cb8#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/45e0701c-23f0-4949-bf24-901aedb10a5b_w520_r2.08_fpx58.67_fpy50.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.422274923574076
+  }
+}
