@@ -1,0 +1,67 @@
+{
+  "id": "bacef702d91c",
+  "created_at": "2026-08-18T18:07:46.310880+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.39,
+  "trend_score": 0.0,
+  "velocity": 0.6,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "At least 42 children injured in Afghan school blast",
+  "link": "https://www.vanguardngr.com/2026/08/at-least-42-children-injured-in-afghan-school-blast-un/",
+  "publishers": [
+    "Hindustan Times — World",
+    "NDTV — World",
+    "The Hindu — International",
+    "UN"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "At least 42 children injured in Afghan school blast",
+    "link": "https://www.vanguardngr.com/2026/08/at-least-42-children-injured-in-afghan-school-blast-un/",
+    "summary": "The Islamic State group has claimed responsibility for attacks in Dasht-e-Barchi, targeting Shiites who they consider heretics. The post At least 42 children injured in Afghan school blast – UN appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-08-18T16:00:22+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2020/01/Afghanistan.png",
+    "publisher": "UN",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "NDTV — World",
+      "The Hindu — International",
+      "UN"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/grenade-attack-near-school-in-afghan-capital-wounds-numerous-children-authorities-say/article71362092.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/50-children-injured-in-hand-grenade-attack-near-kabul-school-11925729#publisher=newsstand"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/hand-grenade-attack-near-kabul-school-injures-around-50-children-afghan-taliban-101787052362466.html"
+      },
+      {
+        "name": "UN",
+        "link": "https://www.vanguardngr.com/2026/08/at-least-42-children-injured-in-afghan-school-blast-un/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2020/01/Afghanistan.png",
+      "https://c.ndtvimg.com/2022-03/acdgi748_afghan-girls-panjshir-afp_625x300_25_March_22.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.39076701558588
+  }
+}

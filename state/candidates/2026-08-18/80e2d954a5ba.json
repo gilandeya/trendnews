@@ -1,0 +1,58 @@
+{
+  "id": "80e2d954a5ba",
+  "created_at": "2026-08-18T18:07:46.310197+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.27,
+  "trend_score": 0.5,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "South Korea president calls for military independence in wake of Trump call to cut joint drills",
+  "link": "https://www.theguardian.com/world/2026/aug/18/south-korea-president-trump-military-drills-control-opcon-kim-jong-un",
+  "publishers": [
+    "Nikkei Asia",
+    "The Guardian",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "South Korea president calls for military independence in wake of Trump call to cut joint drills",
+    "link": "https://www.theguardian.com/world/2026/aug/18/south-korea-president-trump-military-drills-control-opcon-kim-jong-un",
+    "summary": "Lee Jae Myung reiterates desire for full command back in Seoul’s hands after Donald Trump cuts joint exercises, citing warm ties with Kim Jong-un ‘Inane, haphazard decision’ by Trump to gut South Korea alliance South Korea’s president ⁠has renewed his push to regain independent control of the military from the US in the event of war and urged faster progress in acquiring nuclear-powered submarines after Donald Trump’s order to cut joint drills. On Sunday night, Trump instructed the Pentagon to “substantially reduce” this week’s joint military exercises with South Korea, saying the nuclear-armed North “has been unthreatening and respectful” and that the US president had a “very good relationship with Kim Jong-un”. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-18T05:50:33+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/df6bcc6943e9a77ef440e7b8573532433abd7cf5/163_0_3758_3006/master/3758.jpg?width=700&quality=85&auto=format&fit=max&s=9b704fd030f25a2bac4a20a3125c2bf9",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Nikkei Asia",
+      "The Guardian",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/18/south-korea-president-trump-military-drills-control-opcon-kim-jong-un"
+      },
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/politics/international-relations/south-korea-says-joint-drills-are-on-despite-trump-objections"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/df6bcc6943e9a77ef440e7b8573532433abd7cf5/163_0_3758_3006/master/3758.jpg?width=700&quality=85&auto=format&fit=max&s=9b704fd030f25a2bac4a20a3125c2bf9",
+      "https://i.guim.co.uk/img/media/df6bcc6943e9a77ef440e7b8573532433abd7cf5/163_0_3758_3006/master/3758.jpg?width=460&quality=85&auto=format&fit=max&s=e4f4cfb0babe306d721d37ed39b50b62",
+      "https://i.guim.co.uk/img/media/df6bcc6943e9a77ef440e7b8573532433abd7cf5/163_0_3758_3006/master/3758.jpg?width=140&quality=85&auto=format&fit=max&s=343969124f26b94658a7f21d047eec3f"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.33449108250913356,
+    "age_hours": 38.99993012777778,
+    "is_stale": false,
+    "score": 20.272301240730854
+  }
+}
