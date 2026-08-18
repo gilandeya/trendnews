@@ -1,0 +1,70 @@
+{
+  "id": "f0c3f97de6df",
+  "created_at": "2026-08-18T03:07:57.234172+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.22,
+  "trend_score": 0.5,
+  "velocity": 0.6,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Turkey’s Erdogan calls on Trump to pursue talks with Iran, offers support",
+  "link": "https://www.rappler.com/world/middle-east/turkey-erdogan-urges-trump-pursue-talks-iran-august-2026/",
+  "publishers": [
+    "Free Malaysia Today",
+    "NDTV — World",
+    "Rappler",
+    "The Hindu — International"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "Turkey’s Erdogan calls on Trump to pursue talks with Iran, offers support",
+    "link": "https://www.rappler.com/world/middle-east/turkey-erdogan-urges-trump-pursue-talks-iran-august-2026/",
+    "summary": "Turkey maintains communication with the US, Iran, and mediators while advocating for an end to the war and the reopening of the Strait of Hormuz",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-08-18T00:56:19+00:00",
+    "image_url": "https://www.rappler.com/tachyon/2026/08/air-force-one-turkey-july-8-2026-reuters-scaled.jpg",
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "NDTV — World",
+      "Rappler",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/middle-east/turkey-erdogan-urges-trump-pursue-talks-iran-august-2026/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-us-west-asia-war-strait-of-hormuz-news-donald-trump-live-updates-on-august-18-2026/article71358724.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/turkeys-erdogan-urges-trump-to-pursue-talks-with-iran-offers-support-11923417#publisher=newsstand"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/18/erdogan-urges-trump-to-pursue-talks-with-iran-offers-support"
+      }
+    ],
+    "image_candidates": [
+      "https://www.rappler.com/tachyon/2026/08/air-force-one-turkey-july-8-2026-reuters-scaled.jpg",
+      "https://www.rappler.com/tachyon/2026/08/air-force-one-turkey-july-8-2026-reuters-scaled.jpg?resize=75%2C75&crop=19px%2C0px%2C1439px%2C1439px",
+      "https://www.rappler.com/tachyon/2026/08/air-force-one-turkey-july-8-2026-reuters-scaled.jpg?fit=449%2C449",
+      "https://c.ndtvimg.com/2026-06/g97i09dk_erdogan-trump-handshake-afp_625x300_12_June_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/03/7cee1f20-recep-tayyip-erdogan.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 22.223171243458385
+  }
+}

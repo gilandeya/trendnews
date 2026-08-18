@@ -1,0 +1,71 @@
+{
+  "id": "fcd2e0d4f3cf",
+  "created_at": "2026-08-18T03:07:57.234307+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.29,
+  "trend_score": 0.25,
+  "velocity": 0.2,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Rodri lands in Barcelona to complete 'dream' move",
+  "link": "https://www.bbc.co.uk/sport/football/articles/cevmw02j4nyo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Bouaddi in soon?",
+    "MyJoyOnline Ghana",
+    "The Japan Times"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Rodri lands in Barcelona to complete 'dream' move",
+    "link": "https://www.bbc.co.uk/sport/football/articles/cevmw02j4nyo?at_medium=RSS&at_campaign=rss",
+    "summary": "Spain midfielder Rodri says it is his \"dream\" to play for Barcelona as he arrives in the city to complete his move from Manchester City.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-17T20:02:27+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/7a65/live/e0f47630-9a73-11f1-b68f-817a5a696299.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Bouaddi in soon?",
+      "MyJoyOnline Ghana",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/cevmw02j4nyo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Bouaddi in soon?",
+        "link": "https://www.skysports.com/football/live-blog/12040/13025499/man-city-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/rodri-lands-in-barcelona-to-complete-dream-move/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/sports/2026/08/18/soccer/rodri-barcelona-dream-move/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/7a65/live/e0f47630-9a73-11f1-b68f-817a5a696299.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/7a65/live/e0f47630-9a73-11f1-b68f-817a5a696299.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/7a65/live/e0f47630-9a73-11f1-b68f-817a5a696299.jpg",
+      "https://e2.365dm.com/26/06/1096x616/skysports-enzo-maresca-man-city_7285824.jpg?20260629153129",
+      "https://e2.365dm.com/26/06/1920x1080/skysports-enzo-maresca-man-city_7285824.jpg?20260629153129",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-2236.png"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 4,
+    "velocity": 0.19993567263004283,
+    "age_hours": 125.11423581222222,
+    "is_stale": false,
+    "score": 18.29331279444193
+  }
+}

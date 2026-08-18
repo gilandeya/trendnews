@@ -1,0 +1,60 @@
+{
+  "id": "c3e3c5646e7a",
+  "created_at": "2026-08-18T03:07:57.234040+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.49,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Thousands gather in London to mourn Black academic Jason Arday",
+  "link": "https://www.dailysabah.com/world/europe/thousands-gather-in-london-to-mourn-black-academic-jason-arday",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "South China Morning Post"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Thousands gather in London to mourn Black academic Jason Arday",
+    "link": "https://www.dailysabah.com/world/europe/thousands-gather-in-london-to-mourn-black-academic-jason-arday",
+    "summary": "Thousands of people came together in central London late Monday to hold a vigil and pay respects to Black academic Jason Arday, blaming racism and media pressure for his sudden dea...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-17T18:57:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/17/456282.JPG",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/18/08-18-26-arday-vigil-london-sv-mp4?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3364345/thousands-mourn-ex-cambridge-professor-jason-arday-london-vigil?utm_source=rss_feed"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/thousands-gather-in-london-to-mourn-black-academic-jason-arday"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/17/456282.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 5.001674879444445,
+    "is_stale": false,
+    "score": 22.487313171592596
+  }
+}

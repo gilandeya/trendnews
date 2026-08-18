@@ -1,0 +1,93 @@
+{
+  "id": "fddaa90f876f",
+  "created_at": "2026-08-18T03:07:57.233521+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.21,
+  "trend_score": 0.5,
+  "velocity": 0.07,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump threatens to bomb US ally Oman if it 'gets in the way' over Iran deal",
+  "link": "https://www.bbc.co.uk/news/articles/cy5dzk0ryzdo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Daily Sabah",
+    "IRNA English",
+    "MyJoyOnline Ghana",
+    "Premium Times",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Hindu — International",
+    "The New York Times",
+    "as it happened",
+    "diplomat"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump threatens to bomb US ally Oman if it 'gets in the way' over Iran deal",
+    "link": "https://www.bbc.co.uk/news/articles/cy5dzk0ryzdo?at_medium=RSS&at_campaign=rss",
+    "summary": "Trump's threat on Oman, which has been holding its own talks with Iran to reopen the Strait of Hormuz, comes as a 60-day window for peace negotiations expires.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-17T19:25:05+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0845/live/0d9a0730-9a52-11f1-aed2-8d6da8d75094.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Daily Sabah",
+      "IRNA English",
+      "MyJoyOnline Ghana",
+      "Premium Times",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Hindu — International",
+      "The New York Times",
+      "as it happened",
+      "diplomat"
+    ],
+    "cluster_members": [
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/world/live/2026/aug/17/trump-kushner-netanyahu-hamas-gaza-israel-blair-us-iran-hormuz-oil-latest-news-updates"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cy5dzk0ryzdo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3364334/trump-threatens-bomb-oman-if-it-gets-way-iran-deal?utm_source=rss_feed"
+      },
+      {
+        "name": "Premium Times",
+        "link": "https://www.premiumtimesng.com/news/top-news/903669-trump-threatens-to-bomb-oman-over-strait-of-hormuz.html"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624397/trump-threatens-to-bomb-oman-if-it-gets-in-the-way-of-us-iran-negotiations"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-threatens-to-bomb-oman-if-it-gets-in-way-of-iran-deal-report/article71356308.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0845/live/0d9a0730-9a52-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0845/live/0d9a0730-9a52-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0845/live/0d9a0730-9a52-11f1-aed2-8d6da8d75094.jpg",
+      "https://i.guim.co.uk/img/media/130351c0b118bb75e17e9ed4b3a296be5375ede0/125_0_1250_1000/master/1250.jpg?width=700&quality=85&auto=format&fit=max&s=c7a32fe25f149ad65f619c2f854685be",
+      "https://i.guim.co.uk/img/media/130351c0b118bb75e17e9ed4b3a296be5375ede0/125_0_1250_1000/master/1250.jpg?width=460&quality=85&auto=format&fit=max&s=4a62c6db8a5697435cf6070ccf18d571",
+      "https://i.guim.co.uk/img/media/130351c0b118bb75e17e9ed4b3a296be5375ede0/125_0_1250_1000/master/1250.jpg?width=140&quality=85&auto=format&fit=max&s=23111105116469e72c1a1da0a4ae01bc"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 11,
+    "velocity": 0.06664357470135442,
+    "age_hours": 12.004574753333333,
+    "is_stale": false,
+    "score": 26.21394847513002
+  }
+}

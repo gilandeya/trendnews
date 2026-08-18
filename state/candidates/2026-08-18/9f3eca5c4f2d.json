@@ -1,0 +1,77 @@
+{
+  "id": "9f3eca5c4f2d",
+  "created_at": "2026-08-18T03:07:57.233864+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.09,
+  "trend_score": 1.0,
+  "velocity": 0.13,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Tributes to actress Hayden Panettiere as coroner finds 'no signs of trauma'",
+  "link": "https://www.bbc.co.uk/news/articles/cq5665zgg1po?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Channel News Asia",
+    "Deutsche Welle",
+    "a life in pictures",
+    "with cause still undetermined"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Tributes to actress Hayden Panettiere as coroner finds 'no signs of trauma'",
+    "link": "https://www.bbc.co.uk/news/articles/cq5665zgg1po?at_medium=RSS&at_campaign=rss",
+    "summary": "The US actress, who has died at the age of 36, starred in the TV shows Heroes and Nashville.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-17T23:28:54+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2a13/live/14ea8240-9a6a-11f1-b792-a710e56a11dc.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Channel News Asia",
+      "Deutsche Welle",
+      "a life in pictures",
+      "with cause still undetermined"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cq5665zgg1po?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "a life in pictures",
+        "link": "https://www.theguardian.com/tv-and-radio/gallery/2026/aug/17/hayden-panettiere-death-star-tv-movies-nashville-heroes-scream"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/us-actress-hayden-panettiere-dies-at-36/a-78391169?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/entertainment/hayden-panettiere-death-cardiac-arrest-suspected-overdose-6324756"
+      },
+      {
+        "name": "with cause still undetermined",
+        "link": "https://www.malaymail.com/news/showbiz/2026/08/18/hayden-panettiere-death-mystery-deepens-as-autopsy-finds-no-signs-of-trauma-with-cause-still-undetermined/231744"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2a13/live/14ea8240-9a6a-11f1-b792-a710e56a11dc.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/2a13/live/14ea8240-9a6a-11f1-b792-a710e56a11dc.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/2a13/live/14ea8240-9a6a-11f1-b792-a710e56a11dc.jpg",
+      "https://i.guim.co.uk/img/media/1e11e68bf3b25f92abd06d9d19cf941733aed07d/546_0_2915_2333/master/2915.jpg?width=700&quality=85&auto=format&fit=max&s=284b7f3cbd448ef56584f0ecc4e9aefd",
+      "https://i.guim.co.uk/img/media/1e11e68bf3b25f92abd06d9d19cf941733aed07d/546_0_2915_2333/master/2915.jpg?width=460&quality=85&auto=format&fit=max&s=ad0060873c14e8060b03933cbfe9d755",
+      "https://i.guim.co.uk/img/media/1e11e68bf3b25f92abd06d9d19cf941733aed07d/546_0_2915_2333/master/2915.jpg?width=140&quality=85&auto=format&fit=max&s=01e0ee3dc3f7e8d04078fd01571e9659"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.13328718073655374,
+    "age_hours": 8.005734060277778,
+    "is_stale": false,
+    "score": 26.08561713802929
+  }
+}
