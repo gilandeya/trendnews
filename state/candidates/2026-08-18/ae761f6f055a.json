@@ -1,0 +1,70 @@
+{
+  "id": "ae761f6f055a",
+  "created_at": "2026-08-18T06:07:46.477964+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.23,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "2 dead in school shooting in southern Philippines",
+  "link": "https://www.channelnewsasia.com/asia/philippines-school-shooting-two-dead-zamboanga-6324951",
+  "publishers": [
+    "BBC",
+    "CGTN",
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Malay Mail"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "2 dead in school shooting in southern Philippines",
+    "link": "https://www.channelnewsasia.com/asia/philippines-school-shooting-two-dead-zamboanga-6324951",
+    "summary": "A student opened fire on campus before killing himself, with another student among those shot.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-18T02:23:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--JcISevR_--/c_crop,h_449,w_799,x_1,y_73/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-18T035302Z_1_LYNXMPEM7H065_RTROPTP_3_PHILIPPINES-SCHOOL-SHOOTING.JPG?itok=fi9B1vd3",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "BBC",
+      "CGTN",
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/philippines-school-shooting-two-dead-zamboanga-6324951"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/08/18/two-dead-as-student-opens-fire-in-philippines-school-shooting"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/18/second-school-shooting-in-two-months-hits-philippines-one-student-dead/231761"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-18/news-1PHAXdayWPe/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--JcISevR_--/c_crop,h_449,w_799,x_1,y_73/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-18T035302Z_1_LYNXMPEM7H065_RTROPTP_3_PHILIPPINES-SCHOOL-SHOOTING.JPG?itok=fi9B1vd3",
+      "https://media.freemalaysiatoday.com/v3/2026/08/fed0d271-8ecc-4880-b8f6-0db252e34c25-Philippines-school-shooting.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/18/357610.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 0.33368305337963783,
+    "age_hours": 2.9968558183333336,
+    "is_stale": false,
+    "score": 18.23025196128083
+  }
+}
