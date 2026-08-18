@@ -1,0 +1,54 @@
+{
+  "id": "3c242d625ec1",
+  "created_at": "2026-08-18T12:08:02.888075+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.52,
+  "trend_score": 1.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran will siwtch to offensive if diplomacy fails",
+  "link": "https://en.mehrnews.com/news/247047/Iran-will-siwtch-to-offensive-if-diplomacy-fails",
+  "publishers": [
+    "Hindustan Times — World",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran will siwtch to offensive if diplomacy fails",
+    "link": "https://en.mehrnews.com/news/247047/Iran-will-siwtch-to-offensive-if-diplomacy-fails",
+    "summary": "TEHRAN, Aug. 17 (MNA) – An Iranian official has reportedly told Reuters that Iran will switch to offensive if the talks with the United States fails as a result of Washington's reneging of its promises in the Islamabad MoU.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-17T15:12:22+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/08/08/4/6125175.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/iran-threatens-to-go-on-offensive-in-strait-of-hormuz-if-diplomacy-with-us-fails-101786994788360.html"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247047/Iran-will-siwtch-to-offensive-if-diplomacy-fails"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/08/08/4/6125175.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.11112452022915585,
+    "age_hours": 307.0077952883333,
+    "is_stale": false,
+    "score": 19.517594250899705
+  }
+}

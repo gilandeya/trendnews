@@ -1,0 +1,75 @@
+{
+  "id": "9ec76d0e11b6",
+  "created_at": "2026-08-18T12:08:02.887474+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.61,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Syria sentences to death detained cousin of ousted president Assad",
+  "link": "https://www.france24.com/en/middle-east/20260818-syria-sentences-to-death-assad-s-detained-cousin-for-war-crimes",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "France24",
+    "South China Morning Post",
+    "TV",
+    "Vanguard Nigeria"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Syria sentences to death detained cousin of ousted president Assad",
+    "link": "https://www.france24.com/en/middle-east/20260818-syria-sentences-to-death-assad-s-detained-cousin-for-war-crimes",
+    "summary": "Wassim al-Assad, a cousin of overthrown long-time Syrian ruler Bashar al-Assad, was convicted of multiple murders and murder accompanied by torture and brutality. A Damascus court issued a death sentence on Tuesday.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-18T09:24:46+00:00",
+    "image_url": "https://s.france24.com/media/display/54d23416-9ae2-11f1-95e7-005056a97e36/w:1024/p:16x9/000-639D2KD-1.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "France24",
+      "South China Morning Post",
+      "TV",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/18/syrian-court-sentences-wassim-al-assad-to?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364452/syrian-court-sentences-detained-assad-cousin-death-crimes-against-humanity?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260818-syria-sentences-to-death-assad-s-detained-cousin-for-war-crimes"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/syria-sentences-bashar-al-assads-cousin-to-death/"
+      },
+      {
+        "name": "TV",
+        "link": "https://tass.com/world/2174589"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/54d23416-9ae2-11f1-95e7-005056a97e36/w:1024/p:16x9/000-639D2KD-1.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/AFP__20260818__C4WG9WJ__v4__MidRes__SyriaConflictJusticeAssad-1024x683.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.61141607684358
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "0c98ea1dd526",
+  "created_at": "2026-08-18T12:08:02.887807+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.87,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oil climbs again as waning US-Iran peace hopes raise supply woes",
+  "link": "https://www.dailysabah.com/business/energy/oil-climbs-again-as-waning-us-iran-peace-hopes-raise-supply-woes",
+  "publishers": [
+    "Daily Sabah",
+    "The Express Tribune"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Oil climbs again as waning US-Iran peace hopes raise supply woes",
+    "link": "https://www.dailysabah.com/business/energy/oil-climbs-again-as-waning-us-iran-peace-hopes-raise-supply-woes",
+    "summary": "Oil prices climbed for a third session in a row on Tuesday as ⁠prospects for an agreement to ⁠end the Middle East war faded, with Iran saying it would adopt a more offensive stance...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-18T06:52:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/18/456292.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624529/oil-climbs-as-fading-us-iran-peace-hopes-raise-supply-risks"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/energy/oil-climbs-again-as-waning-us-iran-peace-hopes-raise-supply-woes"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/18/456292.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 6.004442464166666,
+    "is_stale": false,
+    "score": 19.873675819531705
+  }
+}

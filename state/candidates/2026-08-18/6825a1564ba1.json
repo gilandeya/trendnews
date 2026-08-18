@@ -1,0 +1,74 @@
+{
+  "id": "6825a1564ba1",
+  "created_at": "2026-08-18T12:08:02.888339+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.7,
+  "trend_score": 0.5,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(LEAD) Trump says N. Korea's Kim has responded to his dialogue overture",
+  "link": "https://en.yna.co.kr/view/AEN20260818000651315",
+  "publishers": [
+    "Daily Sabah",
+    "The Express Tribune",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(LEAD) Trump says N. Korea's Kim has responded to his dialogue overture",
+    "link": "https://en.yna.co.kr/view/AEN20260818000651315",
+    "summary": "WASHINGTON, Aug. 17 (Yonhap) -- U.S. President Donald Trump said Monday that Nor...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-08-17T19:45:58+00:00",
+    "image_url": "https://img.yna.co.kr/photo/ap/2026/08/18/PAP20260818019301009_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Daily Sabah",
+      "The Express Tribune",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260818000300315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260818000400315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260818000600315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260818000651315"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624535/trump-says-north-koreas-kim-has-responded-to-his-overtures"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/trump-says-north-koreas-kim-responded-to-renewed-outreach"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/ap/2026/08/18/PAP20260818019301009_P2.jpg",
+      "https://img.yna.co.kr/photo/cms/2023/08/24/07/PCM20230824000107990_P2.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/17/456284.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.22224349378493355,
+    "age_hours": 17.007103160833335,
+    "is_stale": false,
+    "score": 18.698673445591336
+  }
+}

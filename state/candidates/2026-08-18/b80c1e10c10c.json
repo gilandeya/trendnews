@@ -1,0 +1,67 @@
+{
+  "id": "b80c1e10c10c",
+  "created_at": "2026-08-18T12:08:02.887060+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.79,
+  "trend_score": 1.0,
+  "velocity": 0.6,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hormuz Strait to remain shut until US meets interim deal conditions, Iran says",
+  "link": "https://www.channelnewsasia.com/world/strait-hormuz-shut-us-iran-deal-conditions-6325596",
+  "publishers": [
+    "Channel News Asia",
+    "Investing.com — الاقتصاد",
+    "The Hindu — International",
+    "parliament speaker"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Hormuz Strait to remain shut until US meets interim deal conditions, Iran says",
+    "link": "https://www.channelnewsasia.com/world/strait-hormuz-shut-us-iran-deal-conditions-6325596",
+    "summary": "An interim US-Iran deal signed in June quickly unravelled over a dispute about control of the Strait of Hormuz.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-18T09:50:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--nSMnoBxj--/c_crop,h_449,w_799,x_1,y_1/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-18T030251Z_1_LYNXMPEM7H04Y_RTROPTP_3_IRAN-CRISIS-OMAN-HORMUZ.JPG?itok=bolye3GE",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Investing.com — الاقتصاد",
+      "The Hindu — International",
+      "parliament speaker"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/strait-hormuz-shut-us-iran-deal-conditions-6325596"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-us-west-asia-war-strait-of-hormuz-news-donald-trump-live-updates-on-august-18-2026/article71358724.ece"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/hormuz-to-remain-closed-until-us-meets-mou-conditions-irans-ghalibaf-says-4864585"
+      },
+      {
+        "name": "parliament speaker",
+        "link": "https://tass.com/world/2174515"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--nSMnoBxj--/c_crop,h_449,w_799,x_1,y_1/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-18T030251Z_1_LYNXMPEM7H04Y_RTROPTP_3_IRAN-CRISIS-OMAN-HORMUZ.JPG?itok=bolye3GE",
+      "https://content-media.investing.com/news/moved_LYNXMPEM2N189_1200_L.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 26.786744269973852
+  }
+}
