@@ -142,6 +142,9 @@ def _validate_sources(confirmed: list[dict]) -> str:
 
 QUOTE_RE = re.compile(r'[«"“]([^»"”]{4,})[»"”]')
 _WORD_RE = re.compile(r"[\w']+", re.UNICODE)
+_SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!؟?])\s+|\n+")
+TRIM_MIN_CORE_FLOOR = 4  # لا نزول تحت هذا مهما ضبطه config.yaml — نواة من
+# ثلاث كلمات فأقل تتكرر صدفة كثيرًا (تشخيص Issue #373، الجولة الثالثة عشرة)
 
 
 def _normalized_words(text: str) -> list[str]:
@@ -149,9 +152,21 @@ def _normalized_words(text: str) -> list[str]:
     نحوّله لمجموعة كما تفعل request.norm_tokens، ولا نحذف كلمات الوقف (حذفها
     يكسر التجاور فيُفرغ مفهوم «التتابع» من معناه). التطبيع (تشكيل/تطويل +
     توحيد الهمزات والتاء المربوطة) نفسه المستعمل في verify.py وrequest.py —
-    الدلالة نفسها يجب أن تُطابَق بصرف النظر عن مصدرها."""
+    الدلالة نفسها يجب أن تُطابَق بصرف النظر عن مصدرها.
+
+    تجريد بادئة «الـ» (تشخيص Issue #373، الجولة الثالثة عشرة) بنفس شرط
+    request.norm_tokens بالضبط: تطبيع شكل الكلمة نفسها (كتوحيد الهمزات)،
+    لا حذف كلمة — لا يكسر التجاور. بلاه، "المحكمة" و"محكمة" تُعامَلان
+    كلمتين مختلفتين فيفشل تطابق تتابع حرفي واحد بينهما بفارق أداة تعريف لا
+    صلة له بكونه نسخًا أم لا."""
     text = verify._TASHKEEL_RE.sub("", text or "")
-    return [w.translate(_AR_TRANS) for w in _WORD_RE.findall(text.lower())]
+    out = []
+    for raw in _WORD_RE.findall(text.lower()):
+        word = raw.translate(_AR_TRANS)
+        if word.startswith("ال") and len(word) > 4:
+            word = word[2:]
+        out.append(word)
+    return out
 
 
 def _contains_run(haystack: list[str], needle: list[str]) -> bool:
@@ -260,6 +275,24 @@ def _trim_note(only_name: str, n: int, phrase: str, left_words: tuple[str, ...],
            f"«{core_phrase}» ({len(core)} كلمة) {evidence_desc} (إشارة {signal} مقلَّمة)")
 
 
+def _sentence_containing(raw_text: str, window: tuple[str, ...]) -> str:
+    """أول جملة **خام** (بلا تطبيع) من `raw_text` تحوي `window` كتتابع حرفي
+    بعد التطبيع — تُعرض للمراجع البشري عند الرفض النهائي وحده (تشخيص
+    Issue #373، تعليق الموافقة الثالث عشر، البند 3): «الحكم البشري هو
+    المعيار الذي لا يخطئ هنا» — بدل عرض التتابع المقتطَع (7 كلمات فقط) الذي
+    قد يبدو نسخًا أو صياغة قياسية بمعزل عن سياقه، نعرض الجملة كاملة فيحكم
+    القارئ بنفسه. عرض فقط — لا تشارك في قرار الرفض/الإعفاء، وفشلها الصامت
+    (نص فارغ حين لا نجد حدود جملة واضحة) لا يغيّر أي حكم."""
+    if not raw_text:
+        return ""
+    needle = list(window)
+    for sent in _SENTENCE_SPLIT_RE.split(raw_text):
+        sent = sent.strip()
+        if sent and _contains_run(_normalized_words(sent), needle):
+            return sent
+    return ""
+
+
 def check_originality(draft_text: str, article_body: str, source_docs: list[dict],
                       max_shared_run_words: int, *, repeat_min_count: int = 2,
                       extra_docs: list[dict] | None = None, min_core: int = 5
@@ -313,9 +346,20 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
     مهما بلغ الرفض) حتى `min_core` كلمة، وتفحص كل نواة مرشَّحة على إشارة (أ)
     أو (ب) بالطول المقلَّم لا الطول الأصلي. لا يمسّ هذا عتبة
     max_shared_run_words نفسها — نافذة بلا نواة صالحة تُرفض كما هي دومًا.
+    `min_core` مضبوط بحد أدنى صريح (`TRIM_MIN_CORE_FLOOR` = 4) لا ينزل عنه
+    بصرف النظر عمّا يضبطه config.yaml — نواة من ثلاث كلمات فأقل تتكرر صدفة
+    كثيرًا (تعليق الموافقة الثالث عشر على Issue #373، البند 2).
+
+    عند الرفض النهائي (بلا أي إعفاء نجح) على تتابع من مصدر واحد أو من
+    المقال الملصق، رسالة السبب تُرفَق بأول جملة خام تحوي التتابع كاملة —
+    لا التتابع المقتطَع (7 كلمات) وحده — عبر `_sentence_containing`
+    (تشخيص Issue #373، تعليق الموافقة الثالث عشر، البند 3): يقرر المراجع
+    البشري نفسه إن كانت صياغة قياسية أم نسخًا فعليًا من سياقها الكامل، بلا
+    أي تصنيف آلي إضافي يخاطر بخطأ.
 
     لا إضعاف للتطبيع نفسه: المطابقة الحرفية بعد التطبيع كما هي، فقط قرار
     الرفض يفحص أولًا عدد المصادر المستقلة التي يظهر التتابع فيها بالضبط."""
+    min_core = max(TRIM_MIN_CORE_FLOOR, int(min_core))
     source_texts = [d.get("text", "") for d in source_docs]
     quotes = _quoted_spans(draft_text)
     normalized_sources = [_normalized_words(s) for s in source_texts]
@@ -334,6 +378,7 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
     n = max_shared_run_words
     if n > 0 and len(candidate_words) >= n:
         article_ngrams = _ngram_set(_normalized_words(article_body), n)
+        source_text_map = {d["name"]: d.get("text", "") for d in source_docs}
         source_word_lists = [(d["name"], _normalized_words(d.get("text", "")))
                              for d in source_docs]
         extra_word_lists = [(d["name"], _normalized_words(d.get("text", "")))
@@ -375,11 +420,17 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
                     if note not in notes:
                         notes.append(note)
                     continue
+                sentence = _sentence_containing(source_text_map.get(only_name, ""), window)
+                sentence_part = (f" — الجملة الكاملة في المصدر ({only_name}): «{sentence}»"
+                                 if sentence else "")
                 return False, (f"تطابق لفظي مع مقتطف مصدر مؤكِّد ({only_name}): "
-                               f"{n} كلمة متتالية مشتركة — «{phrase}»"), notes
+                               f"{n} كلمة متتالية مشتركة — «{phrase}»{sentence_part}"), notes
             if window in article_ngrams:
+                sentence = _sentence_containing(article_body, window)
+                sentence_part = (f" — الجملة الكاملة في المقال الملصق: «{sentence}»"
+                                 if sentence else "")
                 return False, (f"تطابق لفظي مع المقال الملصق: {n} كلمة متتالية "
-                               f"مشتركة — «{phrase}»"), notes
+                               f"مشتركة — «{phrase}»{sentence_part}"), notes
     return True, "", notes
 
 

@@ -3983,6 +3983,84 @@ def test_check_originality_trim() -> None:
     check("ضابط القيد النحوي: بلا سطر إعفاء مُسجَّل — لم يُعفَ شيء", notes_c == [], notes_c)
 
 
+def test_check_originality_context() -> None:
+    """تعليق الموافقة الثالث عشر على Issue #373 — ثلاثة بنود على
+    check_originality: (1) تجريد بادئة «الـ» في _normalized_words بنفس شرط
+    request.norm_tokens، (2) حد أدنى صريح TRIM_MIN_CORE_FLOOR=4 لتقليم
+    min_core لا يُنزَل عنه بصرف النظر عمّا يُمرَّر، (3) رسالة الرفض النهائي
+    تحمل الجملة الكاملة من مصدرها لا التتابع المقتطَع وحده — «الحكم البشري
+    هو المعيار الذي لا يخطئ هنا»."""
+    from src import verify_draft
+
+    # (1) تجريد «الـ»: تتابع في مصدر واحد وتتابع مطابق دلاليًا في وثيقة
+    # أخرى يختلفان حرفيًا بوجود/غياب «الـ» على كلمة واحدة فقط («الحكومة» في
+    # المصدر الوحيد مقابل «حكومة» في الوثيقة الأخرى) — بلا تجريد «الـ» لن
+    # يتطابقا فتفشل إشارة (ب)، ومع التجريد يتطابقان فتُعفي
+    run_al = "الحكومة السورية في دمشق أصدرت بيانا رسميا"  # 7 كلمات، أولها معرَّف
+    draft_al = f"وذكرت مصادر أن {run_al} اليوم."
+    single_al = [{"name": "مصدر أول", "text": f"القصة: {run_al}. تفاصيل هنا."}]
+    extra_al = [{"name": "مصدر ثانٍ",
+                "text": "وأكدت مصادر أخرى أن حكومة السورية في دمشق أصدرت بيانا رسميا اليوم."}]
+    ok_al, reason_al, notes_al = verify_draft.check_originality(
+        draft_al, "", single_al, 7, extra_docs=extra_al)
+    check("تجريد «الـ»: تتابع يختلف حرفيًا عن وثيقة أخرى بوجود/غياب أداة "
+          "التعريف على كلمة واحدة فقط يُعفى الآن عبر إشارة (ب) بعد التطبيع",
+          ok_al is True, (ok_al, reason_al))
+    check("تجريد «الـ»: الإعفاء مُسجَّل صراحة (إشارة ب)",
+          bool(notes_al) and "إشارة ب" in notes_al[0], notes_al)
+
+    # (2) حد أدنى صريح للتقليم: نافذة سبع كلمات («فرع الأمن السياسي» + ذيل
+    # من 4 كلمات وظيفية نظيفة — لا حروف بها ى/ة/همزة يُترجمها _AR_TRANS
+    # فتفشل مطابقتها بصيغتها الخام في request._AR_STOP، وهي مشكلة توثيق
+    # منفصلة تمامًا عن هذا التشخيص) واردة حرفيًا مرة واحدة في المصدر، تحمل
+    # نواة من 3 كلمات فقط («فرع الأمن السياسي») تتكرر فعليًا مرتين في نص
+    # المصدر نفسه — لكن كل نواة بطول 4 فأكثر (مع أول كلمة من الذيل) لا
+    # تتكرر إطلاقًا. بمرور min_core=1 (أدنى من الحد الصريح عمدًا)، النتيجة
+    # تبقى رفضًا — الحد الأدنى (4) يمنع الوصول لنواة الثلاث كلمات
+    # المتكرِّرة، بصرف النظر عمّا طلبه المستدعي
+    core3 = "فرع الأمن السياسي"
+    tail4 = "التي كان دون كما"  # أربع كلمات نظيفة من request._AR_STOP
+    window7 = f"{core3} {tail4}"
+    draft_floor = f"وذكرت مصادر أن {window7} اليوم."
+    text_floor = (f"ذكر التقرير أن {window7} يتبع الداخلية مباشرة. "
+                 f"وأضاف أن {core3} معروف بذلك أيضًا.")
+    single_floor = [{"name": "مصدر ثالث", "text": text_floor}]
+    ok_floor1, reason_floor1, notes_floor1 = verify_draft.check_originality(
+        draft_floor, "", single_floor, 7, repeat_min_count=2, min_core=1)
+    check("الحد الأدنى الصريح (4): min_core=1 المطلوب صراحةً لا يُنزل الفحص "
+          "دون 4 — نواة الثلاث كلمات المتكرِّرة تبقى خارج المحاولات فيبقى "
+          "الرفض قائمًا رغم تكرارها الفعلي",
+          ok_floor1 is False, (ok_floor1, reason_floor1))
+    ok_floor4, reason_floor4, notes_floor4 = verify_draft.check_originality(
+        draft_floor, "", single_floor, 7, repeat_min_count=2, min_core=4)
+    check("الحد الأدنى الصريح (4): min_core=4 (على الحد بالضبط) يعطي النتيجة "
+          "نفسها تمامًا — الحد الفعلي لا يتغيّر بتمرير قيمة أدنى",
+          ok_floor4 is False and reason_floor4 == reason_floor1,
+          (ok_floor4, reason_floor4, reason_floor1))
+
+    # (3) الجملة الكاملة ومصدرها عند الرفض النهائي — لا التتابع وحده
+    run_ctx = "محكمة الجنايات الرابعة في دمشق برئاسة القاضي"
+    draft_ctx = f"أصدرت {run_ctx} حكمًا بالإعدام."
+    single_ctx = [{"name": "مصدر رابع",
+                  "text": f"القصة الكاملة: {run_ctx}. تفاصيل إضافية هنا لا صلة لها."}]
+    ok_ctx, reason_ctx, notes_ctx = verify_draft.check_originality(
+        draft_ctx, "", single_ctx, 7)
+    check("الرفض النهائي (مصدر واحد بلا إعفاء) يذكر اسم المصدر كما كان دومًا",
+          ok_ctx is False and "مصدر رابع" in reason_ctx, reason_ctx)
+    check("الرفض النهائي يحمل الجملة الكاملة من المصدر — لا التتابع المقتطَع وحده",
+          "الجملة الكاملة في المصدر" in reason_ctx and "القصة الكاملة" in reason_ctx
+          and "تفاصيل إضافية" not in reason_ctx,  # الجملة التالية لا تُقحَم معها
+          reason_ctx)
+
+    article_ctx = f"مقدمة عامة. {run_ctx} بحسب ما ذكرته وكالات محلية. خاتمة عامة."
+    draft_ctx2 = f"وأفادت التقارير أن {run_ctx} صباح اليوم."
+    ok_body, reason_body, notes_body = verify_draft.check_originality(
+        draft_ctx2, article_ctx, [], 7)
+    check("الرفض النهائي على تطابق مع المقال الملصق يحمل الجملة الكاملة منه أيضًا",
+          ok_body is False and "الجملة الكاملة في المقال الملصق" in reason_body
+          and "بحسب ما ذكرته وكالات محلية" in reason_body, reason_body)
+
+
 def test_evidence() -> None:
     """اختبارات مستقلة لـsrc/evidence.py — الشبكة التي تثبت سلامة نقل
     البحث والقراءة ومطابقة أسماء المصادر من verify.py (Issue #348، تعليق
@@ -5937,6 +6015,8 @@ def main() -> int:
     test_check_originality_signals()
     print("\n── فحص الأصالة: تقليم حدّي بقيد نحوي قبل الرفض ──")
     test_check_originality_trim()
+    print("\n── فحص الأصالة: تجريد «الـ»، حد التقليم الأدنى، والجملة الكاملة عند الرفض ──")
+    test_check_originality_context()
     print("\n── محرك البحث والقراءة المشترك (evidence.py) ──")
     test_evidence()
     print("\n── مقال من المصادر ──")
