@@ -1,0 +1,48 @@
+{
+  "id": "49d88900d230",
+  "created_at": "2026-08-19T22:07:49.161548+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.16,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian drones kill two police officers, injure 20 in Zhytomyr headquarters strike",
+  "link": "https://meduza.io/en/news/2026/08/19/russian-drones-kill-two-police-officers-injure-20-in-zhytomyr-headquarters-strike",
+  "publishers": [
+    "Meduza English"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Russian drones kill two police officers, injure 20 in Zhytomyr headquarters strike",
+    "link": "https://meduza.io/en/news/2026/08/19/russian-drones-kill-two-police-officers-injure-20-in-zhytomyr-headquarters-strike",
+    "summary": "Russian military forces struck the regional headquarters of Ukraine’s National Police in Zhytomyr with “Banderol” drones, sparking a fire in the building.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-08-19T19:59:48+00:00",
+    "image_url": "https://meduza.io/imgly/share/1787169588/en/news/2026/08/19/russian-drones-kill-two-police-officers-injure-20-in-zhytomyr-headquarters-strike",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Meduza English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/08/19/russian-drones-kill-two-police-officers-injure-20-in-zhytomyr-headquarters-strike"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1787169588/en/news/2026/08/19/russian-drones-kill-two-police-officers-injure-20-in-zhytomyr-headquarters-strike"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.157888835722225
+  }
+}
