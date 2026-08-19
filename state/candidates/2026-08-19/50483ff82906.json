@@ -1,0 +1,87 @@
+{
+  "id": "50483ff82906",
+  "created_at": "2026-08-19T12:07:47.772258+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.21,
+  "trend_score": 1.0,
+  "velocity": 0.67,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israel strikes an air base in Syria to prevent Turkish troops from deploying",
+  "link": "https://www.npr.org/2026/08/19/nx-s1-5937400/israel-strikes-syria",
+  "publishers": [
+    "Daily Sabah",
+    "Dawn",
+    "IRNA English",
+    "NDTV — World",
+    "NPR",
+    "NPR World",
+    "TASS",
+    "The Express Tribune"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Israel strikes an air base in Syria to prevent Turkish troops from deploying",
+    "link": "https://www.npr.org/2026/08/19/nx-s1-5937400/israel-strikes-syria",
+    "summary": "Israel struck an air base in northwest Syria early Tuesday, saying it aimed to prevent Turkish troops from deploying there. Turkey, which has close ties with the Syrian government and has been providing assistance to Syria's military.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-08-19T07:51:59+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5937400",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Dawn",
+      "IRNA English",
+      "NDTV — World",
+      "NPR",
+      "NPR World",
+      "TASS",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/israel-says-it-targeted-syria-air-base-to-block-turkish-troops-deployment-11928400#publisher=newsstand"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/08/19/nx-s1-5937400/israel-strikes-syria"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2023864/pakistan-condemns-unprovoked-israeli-attack-on-syria-air-base"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624704/pakistan-condemns-unprovoked-israeli-attack-on-syrian-airbase"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/israel-faces-wave-of-intl-criticism-over-unprovoked-syria-strikes"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86239333/Arab-Islamic-nations-slam-fresh-Israeli-aggression-against-Syria"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5937400",
+      "https://c.ndtvimg.com/2026-07/ehp96pvs_benjamin-netanyahu_625x300_16_July_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://i.dawn.com/large/2026/08/191139130acc46a.webp",
+      "https://i.dawn.com/thumbnail/2026/08/191139130acc46a.webp",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/19/456506.JPG",
+      "https://img9.irna.ir/d/r2/2026/08/18/4/173047719.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 0.6698030460357947,
+    "age_hours": 2.9859523808333335,
+    "is_stale": false,
+    "score": 29.214914476104898
+  }
+}

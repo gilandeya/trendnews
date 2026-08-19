@@ -1,0 +1,54 @@
+{
+  "id": "823e4ace9e61",
+  "created_at": "2026-08-19T12:07:47.773550+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.57,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UN calls for end to Israeli air strikes on Syria",
+  "link": "https://en.mehrnews.com/news/247087/UN-calls-for-end-to-Israeli-air-strikes-on-Syria",
+  "publishers": [
+    "CBS News — World",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "UN calls for end to Israeli air strikes on Syria",
+    "link": "https://en.mehrnews.com/news/247087/UN-calls-for-end-to-Israeli-air-strikes-on-Syria",
+    "summary": "TEHRAN, Aug. 19 (MNA) – The spokesperson for UN Secretary-General Antonio Guterres criticized the Israeli regime’s air strikes on the Abu al-Duhur military airport in Syria.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-19T05:40:58+00:00",
+    "image_url": "https://media.mehrnews.com/d/2024/11/12/4/5245913.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "CBS News — World",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/syria-israel-airstrikes-us-tom-barrack-unnecessary-escalation-middle-east/"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247087/UN-calls-for-end-to-Israeli-air-strikes-on-Syria"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2024/11/12/4/5245913.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 5.994895924444444,
+    "is_stale": false,
+    "score": 19.570325170574073
+  }
+}

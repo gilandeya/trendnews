@@ -1,0 +1,63 @@
+{
+  "id": "8533bbe8a35d",
+  "created_at": "2026-08-19T12:07:47.773270+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.74,
+  "trend_score": 0.5,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan extends airspace ban on Indian aircraft until Sept 24",
+  "link": "https://www.dawn.com/news/2023856/pakistan-extends-airspace-ban-on-indian-aircraft-until-sept-24",
+  "publishers": [
+    "Dawn",
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Pakistan extends airspace ban on Indian aircraft until Sept 24",
+    "link": "https://www.dawn.com/news/2023856/pakistan-extends-airspace-ban-on-indian-aircraft-until-sept-24",
+    "summary": "Pakistan has extended its airspace ban on Indian aircraft for until Sep 24, according to a Notice to Airmen (Notam) issued by the Pakistan Airports Authority (PAA). The extension comes as the previous restriction was due to expire on Aug 23. “Pakistan airspace not available for Indian-registered aircraft and aircraft operated or leased by Indian airlines/operators, including military flights,” the Notam , issued early on Wednesday, said. According to the Notam, the extension took effect on Aug 23 at 10:15am and will remain in force until 4:59am on Sept 24. The country’s airspace is divided into two flight information regions (FIRs) — Karachi and Lahore, according to a Pakistan Civil Aviation Authority (PCAA) document from 2022. The Notam applies to both the Karachi (OPKR) and Lahore (OPLR) FIRs. India and Pakistan closed their airspaces to each other’s airlines in late April 2025, when tensions between them escalated in the wake of a deadly attack in Indian-occupied Kashmir’s Pahalgam. On April 24, Pakistan’s top brass had announced a series of measures , including the closure of its airspace to all India-owned or Indian-operated airlines with immediate effect, as it retaliated aga",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-19T05:12:51+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/19095639fce33fd.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2023856/pakistan-extends-airspace-ban-on-indian-aircraft-until-sept-24"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624721/pakistan-extends-ban-on-indian-aircraft-using-airspace-until-september-24"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/678263-pakistan-extends-airspace-ban-on-indian-aircraft-until-sept-24"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/19095639fce33fd.webp",
+      "https://i.dawn.com/thumbnail/2026/08/19095639fce33fd.webp",
+      "https://i.dawn.com/large/2026/08/19095538212b05e.webp",
+      "https://www.geo.tv/assets/uploads/2026-08-19/678263_105512_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 19.743971929478285
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "37fc0d2786dd",
+  "created_at": "2026-08-19T12:07:47.773021+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.66,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Manav Suthar takes 10-wicket haul as India beat Sri Lanka in 600th Test",
+  "link": "https://www.aljazeera.com/sports/2026/8/19/manav-suthar-takes-10-wicket-haul-as-sri-lanka-beaten-in-indias-600th-test?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "The Express Tribune"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Manav Suthar takes 10-wicket haul as India beat Sri Lanka in 600th Test",
+    "link": "https://www.aljazeera.com/sports/2026/8/19/manav-suthar-takes-10-wicket-haul-as-sri-lanka-beaten-in-indias-600th-test?traffic_source=rss",
+    "summary": "India take a 1-0 lead with a 165-run win against the hosts in Galle to begin the two-Test series.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-19T10:02:16+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/8/19/manav-suthar-takes-10-wicket-haul-as-sri-lanka-beaten-in-indias-600th-test?traffic_source=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624718/India-four-wickets-away-from-victory-in-Sri-Lanka-Test"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.66065850374074
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "id": "6347af9286e0",
+  "created_at": "2026-08-19T12:07:47.772714+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.6,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran warns Gulf countries against helping US after UAE cuts trade ties",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/08/19/iran-warns-gulf-countries-against-helping-us-after-uae-cuts-trade-ties",
+  "publishers": [
+    "Daily Sabah",
+    "Foreign Ministry",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "South China Morning Post",
+    "TASS",
+    "The Hindu — International",
+    "The New York Times"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Iran warns Gulf countries against helping US after UAE cuts trade ties",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/19/iran-warns-gulf-countries-against-helping-us-after-uae-cuts-trade-ties",
+    "summary": "The Gulf is dotted with US military installations, including in the UAE, which said Iran fired two ballistic missiles at vessels off its coast.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-19T11:16:00+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/c421f665-strait-of-hormuz-1.jpg",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Foreign Ministry",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "South China Morning Post",
+      "TASS",
+      "The Hindu — International",
+      "The New York Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364576/iran-warns-gulf-nations-against-helping-us-uae-halts-trade-ties?utm_source=rss_feed"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-iran-war-live-updates-uae-dubai-abu-dhabi-news-missile-alert-threat-donald-trump-oman-strait-of-hormuz-deal-101787104323572.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/19/iran-warns-gulf-countries-against-helping-us-after-uae-cuts-trade-ties"
+      },
+      {
+        "name": "Foreign Ministry",
+        "link": "https://tass.com/economy/2174871"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2175037"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/uae-halts-all-trade-financial-dealings-with-iran/article71363901.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/c421f665-strait-of-hormuz-1.jpg",
+      "https://www.hindustantimes.com/ht-img/img/2026/08/19/1600x900/iran_war_us_trump_1787113225524_1787113245489_4f43741c-94b9-4d72-b995-eba51697fdf8.png",
+      "https://th-i.thgim.com/public/incoming/13ky6z/article71363945.ece/alternates/LANDSCAPE_1200/iStock-1506274020.jpg",
+      "https://c.ndtvimg.com/2026-08/th9j7e5k_uae-iran-tensions_625x300_19_August_26.jpeg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/19/456471.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 9,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 27.602359434697306
+  }
+}
