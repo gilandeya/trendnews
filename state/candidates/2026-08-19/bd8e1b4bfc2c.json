@@ -1,0 +1,55 @@
+{
+  "id": "bd8e1b4bfc2c",
+  "created_at": "2026-08-19T19:08:10.482136+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.17,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Supercentenarians have an abundance of cancer-killing immune cells",
+  "link": "https://medicalxpress.com/news/2026-08-supercentenarians-abundance-cancer-immune-cells.html",
+  "publishers": [
+    "Medical Xpress",
+    "ScienceAlert"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Supercentenarians have an abundance of cancer-killing immune cells",
+    "link": "https://medicalxpress.com/news/2026-08-supercentenarians-abundance-cancer-immune-cells.html",
+    "summary": "The human immune system has specialized cells called CD4 cytotoxic T lymphocytes (CD4 CTLs), which have been shown to kill tumor cells in some cancers. When a person gets sick, these cells multiply in a process called clonal expansion to help fight infection. In a study published in the journal Cell Reports on Aug. 19, researchers show that these immune cells also may play a role in healthy aging among supercentenarians.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-08-19T15:00:06+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/100-year-old.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Medical Xpress",
+      "ScienceAlert"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-08-supercentenarians-abundance-cancer-immune-cells.html"
+      },
+      {
+        "name": "ScienceAlert",
+        "link": "https://www.sciencealert.com/people-who-live-past-100-may-be-protected-by-rare-cancer-killing-immune-cells"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/100-year-old.jpg",
+      "https://www.sciencealert.com/images/2026/08/ElderlyJapaneseWomanSmilinWearingHeadband.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 3.992655290277778,
+    "is_stale": false,
+    "score": 20.174506798555555
+  }
+}

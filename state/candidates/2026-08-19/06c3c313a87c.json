@@ -1,0 +1,50 @@
+{
+  "id": "06c3c313a87c",
+  "created_at": "2026-08-19T19:08:10.482506+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.54,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "How India's blocking of a film exposing real-life police abuses backfired",
+  "link": "https://www.npr.org/2026/08/19/g-s1-138787/how-indias-blocking-of-a-film-exposing-real-life-police-abuses-backfired",
+  "publishers": [
+    "NPR",
+    "NPR World"
+  ],
+  "region": "us",
+  "article": {
+    "title": "How India's blocking of a film exposing real-life police abuses backfired",
+    "link": "https://www.npr.org/2026/08/19/g-s1-138787/how-indias-blocking-of-a-film-exposing-real-life-police-abuses-backfired",
+    "summary": "When Indian authorities scrubbed the biopic of activist Jaswant Singh Khalra, local villagers and activists turned its censorship into a grassroots movement.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-08-19T10:02:00+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-138787",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "NPR",
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/08/19/g-s1-138787/how-indias-blocking-of-a-film-exposing-real-life-police-abuses-backfired"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-138787"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 3.9926150175,
+    "is_stale": false,
+    "score": 19.54328457687037
+  }
+}

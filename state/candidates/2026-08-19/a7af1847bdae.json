@@ -1,0 +1,67 @@
+{
+  "id": "a7af1847bdae",
+  "created_at": "2026-08-19T19:08:10.482798+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.91,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "light",
+  "state_media": false,
+  "title": "7,300 excess deaths and counting in France's historically hot summer",
+  "link": "https://phys.org/news/2026-08-excess-deaths-france-historically-hot.html",
+  "publishers": [
+    "Court House News",
+    "Phys.org",
+    "South China Morning Post",
+    "during historic heatwaves"
+  ],
+  "region": "science",
+  "article": {
+    "title": "7,300 excess deaths and counting in France's historically hot summer",
+    "link": "https://phys.org/news/2026-08-excess-deaths-france-historically-hot.html",
+    "summary": "France saw more than 7,300 excess deaths during heat waves so far this year, health authorities said Wednesday, as the country has also endured a record number of hot days since mid-June, according to an AFP analysis.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-08-19T18:20:05+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/paris-residents-swelte-1.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Court House News",
+      "Phys.org",
+      "South China Morning Post",
+      "during historic heatwaves"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/7300-excess-deaths-and-counting-in-frances-historically-hot-summer/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3364605/7300-excess-deaths-and-counting-france-battles-historically-hot-summer?utm_source=rss_feed"
+      },
+      {
+        "name": "during historic heatwaves",
+        "link": "https://www.france24.com/en/france/20260819-france-experienced-more-than-7-300-excess-deaths-during-historic-heatwaves"
+      },
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-08-excess-deaths-france-historically-hot.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/paris-residents-swelte-1.jpg",
+      "https://s.france24.com/media/display/58e9ae00-9bda-11f1-9518-005056bfb2b6/w:1024/p:16x9/4800a23a0017d86c1db52a3cb212afcee8028e43.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.33192041185036536,
+    "age_hours": 2.0033887091666664,
+    "is_stale": false,
+    "score": 16.90631255706664
+  }
+}
