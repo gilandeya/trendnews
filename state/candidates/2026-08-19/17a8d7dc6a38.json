@@ -1,0 +1,80 @@
+{
+  "id": "17a8d7dc6a38",
+  "created_at": "2026-08-19T03:08:02.876343+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.9,
+  "trend_score": 0.0,
+  "velocity": 0.27,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump posts a map designating the Strait of Hormuz as \"new US territory\"",
+  "link": "https://en.mercopress.com/2026/08/18/trump-posts-a-map-designating-the-strait-of-hormuz-as-new-us-territory?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+  "publishers": [
+    "AP",
+    "Al Jazeera English",
+    "Malay Mail",
+    "Mehr News",
+    "MercoPress",
+    "South China Morning Post"
+  ],
+  "region": "latam",
+  "article": {
+    "title": "Trump posts a map designating the Strait of Hormuz as \"new US territory\"",
+    "link": "https://en.mercopress.com/2026/08/18/trump-posts-a-map-designating-the-strait-of-hormuz-as-new-us-territory?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+    "summary": "US President Donald Trump on Tuesday posted an image on his Truth Social platform showing a map of the Strait of Hormuz circled and captioned \"NEW U.S. Territory,\" above a band in the colours of the American flag. The post carried no accompanying text.",
+    "source_name": "MercoPress",
+    "region": "latam",
+    "weight": 1.0,
+    "published": "2026-08-18T22:06:00+00:00",
+    "image_url": "https://en.mercopress.com/data/cache/noticias/111187/100x80/usr.jpg",
+    "publisher": "MercoPress",
+    "cluster_sources": [
+      "AP",
+      "Al Jazeera English",
+      "Malay Mail",
+      "Mehr News",
+      "MercoPress",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/18/no-talks-with-iran-says-trump-as-us-president-stews-over-hormuz-deal?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364478/trump-posts-map-hormuz-new-us-territory-says-no-iran-talks-planned?utm_source=rss_feed"
+      },
+      {
+        "name": "MercoPress",
+        "link": "https://en.mercopress.com/2026/08/18/trump-posts-a-map-designating-the-strait-of-hormuz-as-new-us-territory?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/19/trump-posts-map-naming-strait-of-hormuz-new-us-territory-amid-iran-tensions/231865"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247072/Iran-warns-Trump-over-claims-on-Strait-of-Hormuz"
+      },
+      {
+        "name": "AP",
+        "link": "https://tass.com/world/2174857"
+      }
+    ],
+    "image_candidates": [
+      "https://en.mercopress.com/data/cache/noticias/111187/100x80/usr.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/19/357755.jpg",
+      "https://media.mehrnews.com/d/2026/04/06/4/5975031.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 0.26642483223958624,
+    "age_hours": 322.0077977563889,
+    "is_stale": false,
+    "score": 19.903744310597066
+  }
+}

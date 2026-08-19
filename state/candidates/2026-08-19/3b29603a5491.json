@@ -1,0 +1,50 @@
+{
+  "id": "3b29603a5491",
+  "created_at": "2026-08-19T03:08:02.877092+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.12,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Rider dies after Manx Grand Prix qualifying crash",
+  "link": "https://www.bbc.co.uk/news/articles/cvgjyggj051o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Rider dies after Manx Grand Prix qualifying crash",
+    "link": "https://www.bbc.co.uk/news/articles/cvgjyggj051o?at_medium=RSS&at_campaign=rss",
+    "summary": "A rider has died after a crash involving two bikes in Ramsey during qualifying, organisers say.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-18T22:10:40+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/997d/live/8d77db00-9b4f-11f1-83d8-cfa02e83b41a.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/news/articles/cvgjyggj051o?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/997d/live/8d77db00-9b4f-11f1-83d8-cfa02e83b41a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/997d/live/8d77db00-9b4f-11f1-83d8-cfa02e83b41a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/997d/live/8d77db00-9b4f-11f1-83d8-cfa02e83b41a.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.119604665037038
+  }
+}
