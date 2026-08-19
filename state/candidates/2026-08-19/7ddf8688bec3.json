@@ -1,0 +1,83 @@
+{
+  "id": "7ddf8688bec3",
+  "created_at": "2026-08-19T15:08:35.539176+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.73,
+  "trend_score": 0.33,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Liberia agrees to accept 1,200 foreign deportees from the US",
+  "link": "https://www.bbc.co.uk/news/articles/cpq8g22715vo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Africanews",
+    "AllAfrica",
+    "BBC World",
+    "Hindustan Times — World",
+    "NPR World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Liberia agrees to accept 1,200 foreign deportees from the US",
+    "link": "https://www.bbc.co.uk/news/articles/cpq8g22715vo?at_medium=RSS&at_campaign=rss",
+    "summary": "Liberia says the deal is a \"humanitarian arrangement\" and is receiving no compensation.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-19T10:47:22+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/8a86/live/9dc56780-9bb2-11f1-a291-b542ee92de7c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Africanews",
+      "AllAfrica",
+      "BBC World",
+      "Hindustan Times — World",
+      "NPR World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cpq8g22715vo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/liberia-agrees-to-take-1200-deportees-from-us/article71363208.ece"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202608190428.html"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/19/liberia-agrees-to-accept-up-to-1200-us-deportees-under-trump-migration-deal/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/liberia-agrees-to-take-1-200-deportees-from-the-united-states-101787082060516.html"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/08/19/nx-s1-5937389/liberia-to-take-deportees-from-us"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/8a86/live/9dc56780-9bb2-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/8a86/live/9dc56780-9bb2-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/8a86/live/9dc56780-9bb2-11f1-a291-b542ee92de7c.jpg",
+      "https://th-i.thgim.com/public/incoming/d67fos/article71363239.ece/alternates/LANDSCAPE_1200/2026-08-18T205345Z_845450769_RC281NAZ8ORB_RTRMADP_3_USA-TRUMP-MIGRATION-LIBERIA.JPG",
+      "http://images.euronews.com/articles/stories/09/87/98/45/640x360_cmsv2_983c50d6-fee4-58d3-b3f7-6596392b5799-9879845.jpg?1787118874",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5937389"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 17.012063725555556,
+    "is_stale": true,
+    "score": 17.731428857830135
+  }
+}

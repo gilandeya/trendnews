@@ -1,0 +1,85 @@
+{
+  "id": "4e25c077807d",
+  "created_at": "2026-08-19T15:08:35.538489+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.15,
+  "trend_score": 1.0,
+  "velocity": 0.55,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan government to challenge court on moving Imran Khan to private hospital",
+  "link": "https://www.thehindu.com/news/international/pakistan-government-to-challenge-court-on-moving-imran-khan-to-private-hospital/article71364046.ece",
+  "publishers": [
+    "Al Jazeera English",
+    "Dawn",
+    "Geo News",
+    "Malay Mail",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Pakistan government to challenge court on moving Imran Khan to private hospital",
+    "link": "https://www.thehindu.com/news/international/pakistan-government-to-challenge-court-on-moving-imran-khan-to-private-hospital/article71364046.ece",
+    "summary": "The ruling \"does not fall within the four corners of the law\", Law Minister Azam Nazeer Tarar said in a video statement shared on X by State broadcaster Radio Pakistan.",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-19T10:07:29+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/vs07am/article71364049.ece/alternates/LANDSCAPE_1200/Pakistan_Imran_Khan_82865.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Dawn",
+      "Geo News",
+      "Malay Mail",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/19/pakistan-challenges-top-court-order-to-move-imran-khan-to-private-hospital?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3364588/pakistans-government-challenges-court-order-imran-khan-hospital-move?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/pakistan-government-to-challenge-court-on-moving-imran-khan-to-private-hospital/article71364046.ece"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/19/pakistan-to-fight-supreme-court-order-to-move-ex-pm-imran-khan-to-private-hospital/231931"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/pakistan-challenges-supreme-court-order-to-move-imran-khan-to-hospital-11931024#publisher=newsstand"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2023885/govt-files-review-plea-against-sc-ruling-to-move-imran-to-shifa-international-hospital-terms-it-discriminatory"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/vs07am/article71364049.ece/alternates/LANDSCAPE_1200/Pakistan_Imran_Khan_82865.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/19/357838.jpg",
+      "https://c.ndtvimg.com/2024-01/5gkcbqjg_imran-khan_625x300_23_January_24.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://i.dawn.com/large/2026/08/19165054ec6cc0d.webp",
+      "https://i.dawn.com/thumbnail/2026/08/19165054ec6cc0d.webp",
+      "https://www.geo.tv/assets/uploads/2026-08-19/678293_050624_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.5530892787885594,
+    "age_hours": 30.00727502777778,
+    "is_stale": false,
+    "score": 28.153071034819313
+  }
+}
