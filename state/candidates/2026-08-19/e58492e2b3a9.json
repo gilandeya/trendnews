@@ -1,0 +1,54 @@
+{
+  "id": "e58492e2b3a9",
+  "created_at": "2026-08-19T06:08:06.128921+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.86,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Europe’s seas reach record heat as climate change threatens marine life",
+  "link": "https://www.france24.com/en/environment/20260818-europe-seas-record-heat-climate-change-marine-life",
+  "publishers": [
+    "France24",
+    "Rappler"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Europe’s seas reach record heat as climate change threatens marine life",
+    "link": "https://www.france24.com/en/environment/20260818-europe-seas-record-heat-climate-change-marine-life",
+    "summary": "Human-caused climate change was the main driver of record-breaking sea temperatures around Europe this summer, scientists said on Wednesday, warning of severe risks to marine ecosystems and coastal communities. The Mediterranean averaged a record 27 degrees Celsius in July, while waters near Mallorca reached 33 C in early August.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-18T23:34:08+00:00",
+    "image_url": "https://s.france24.com/media/display/e47a41a8-5bdd-11ef-a4be-005056bf30b7/w:1024/p:16x9/AP22308648615151.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Rappler"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/environment/20260818-europe-seas-record-heat-climate-change-marine-life"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/environment/climate-change/climate-change-record-heat-europe-seas-scientists/"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/e47a41a8-5bdd-11ef-a4be-005056bf30b7/w:1024/p:16x9/AP22308648615151.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 2.9990901877777776,
+    "is_stale": false,
+    "score": 15.86239864812963
+  }
+}

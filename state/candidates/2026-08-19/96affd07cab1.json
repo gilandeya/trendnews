@@ -1,0 +1,48 @@
+{
+  "id": "96affd07cab1",
+  "created_at": "2026-08-19T06:08:06.127924+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.94,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Singapore braces for severe transboundary haze ahead of F1 Grand Prix weekend",
+  "link": "https://www.malaymail.com/news/singapore/2026/08/19/singapore-braces-for-severe-transboundary-haze-ahead-of-f1-grand-prix-weekend/231875",
+  "publishers": [
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Singapore braces for severe transboundary haze ahead of F1 Grand Prix weekend",
+    "link": "https://www.malaymail.com/news/singapore/2026/08/19/singapore-braces-for-severe-transboundary-haze-ahead-of-f1-grand-prix-weekend/231875",
+    "summary": "SINGAPORE, Aug 19 — The ghost of the 2019 haze continues to haunt the Singapore Grand Prix.Seven years after air q...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-19T02:57:45+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/19/357767.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/singapore/2026/08/19/singapore-braces-for-severe-transboundary-haze-ahead-of-f1-grand-prix-weekend/231875"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/19/357767.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.9991172769444443,
+    "is_stale": false,
+    "score": 16.93863939112963
+  }
+}

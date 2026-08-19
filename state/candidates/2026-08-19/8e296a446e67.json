@@ -1,0 +1,46 @@
+{
+  "id": "8e296a446e67",
+  "created_at": "2026-08-19T06:08:06.129189+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.79,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Portugal’s Borges knocks out Russian tennis star Rublev from 2026 ATP Cincinnati Open",
+  "link": "https://tass.com/sports/2174841",
+  "publishers": [
+    "TASS"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Portugal’s Borges knocks out Russian tennis star Rublev from 2026 ATP Cincinnati Open",
+    "link": "https://tass.com/sports/2174841",
+    "summary": "The ATP Cincinnati Masters 2026 Open tennis tournament is played on outdoor hard courts in the city of Cincinnati, in the US state of Ohio, and will run through August 23",
+    "source_name": "TASS",
+    "region": "ru",
+    "weight": 0.7,
+    "published": "2026-08-18T18:40:27+00:00",
+    "image_url": null,
+    "publisher": "TASS",
+    "cluster_sources": [
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "TASS",
+        "link": "https://tass.com/sports/2174841"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 11.005050236666666,
+    "is_stale": false,
+    "score": 14.786083832055557
+  }
+}
