@@ -4210,6 +4210,16 @@ def test_evidence() -> None:
           evidence._is_demoted_reader("France 24", cfg))
     check("evidence._is_demoted_reader: ناشر غير مُدرَج لا يُخفَّض",
           not evidence._is_demoted_reader("BBC News", cfg))
+    # Reuters: إضافة لاحقة (تعليق الموافقة السادس على Issue #373) — HTTP 401
+    # موثَّق كنمط دائم (جدار اشتراك، لا رأس HTTP يحلّه)، لا 403 كسابقيه، لكن
+    # نفس المعالجة: يبقى موثوقًا بوزنه الكامل، يخسر فقط أولوية القراءة.
+    # يُختبر بالاسمين (إنجليزي وعربي) كالوكالات الأخرى في trusted_boost —
+    # demoted_readers لا يطابق عبر publisher_aliases تلقائيًا كما trusted_boost.
+    check("evidence._is_demoted_reader: Reuters (إنجليزي) يُخفَّض بعد إضافته "
+          "— HTTP 401 نمط دائم موثَّق (Issue #373)",
+          evidence._is_demoted_reader("Reuters", cfg))
+    check("evidence._is_demoted_reader: رويترز (عربي) يُخفَّض أيضًا",
+          evidence._is_demoted_reader("رويترز", cfg))
     check("evidence._read_priority: ناشر محجوب يُدفَع تحت أي وزن/صلة ممكنين "
           "— لا يُستبعد كليًا، فقط يخسر أولوية الترتيب",
           evidence._read_priority("France 24", cfg) <
@@ -4221,6 +4231,9 @@ def test_evidence() -> None:
     check("evidence._publisher_weight: ناشر محجوب (demoted_readers) يبقى بوزنه "
           "الحقيقي — الاستشهاد/الترتيب العام لا يتأثران بالحجب",
           evidence._publisher_weight("Al Arabiya", cfg) == evidence.TRUSTED_PUBLISHER_WEIGHT)
+    check("evidence._publisher_weight: Reuters المخفَّض يبقى بوزنه الموثوق الكامل "
+          "أيضًا — نفس ضمان العربية أعلاه",
+          evidence._publisher_weight("Reuters", cfg) == evidence.TRUSTED_PUBLISHER_WEIGHT)
 
     excluded_article = Article(
         title="365Scores: نتيجة مباراة اليوم", link="https://sport.example/1", summary="",
