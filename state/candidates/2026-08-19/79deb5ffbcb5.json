@@ -1,0 +1,62 @@
+{
+  "id": "79deb5ffbcb5",
+  "created_at": "2026-08-19T18:07:54.724994+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.5,
+  "trend_score": 0.5,
+  "velocity": 0.67,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan issues demarche to US over Kashmir remarks by American ambassador to India",
+  "link": "https://www.dawn.com/news/2023924/pakistan-issues-demarche-to-us-over-kashmir-remarks-by-american-ambassador-to-india",
+  "publishers": [
+    "Dawn",
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Pakistan issues demarche to US over Kashmir remarks by American ambassador to India",
+    "link": "https://www.dawn.com/news/2023924/pakistan-issues-demarche-to-us-over-kashmir-remarks-by-american-ambassador-to-india",
+    "summary": "The Foreign Office (FO) on Wednesday summoned the US charge d’affaires in Islamabad and lodged a “strong demarche” over “factually incorrect remarks” by the US ambassador to India regarding the status of Jammu and Kashmir during his visit to disputed region. “Pakistan strongly condemned and categorically rejected the characterisation of Jammu and Kashmir as a ‘part of India’,” said the FO statement. “It was underscored that Jammu and Kashmir is an internationally recognised disputed territory, awaiting final disposition in accordance with the relevant UNSC resolutions and the aspirations of the Kashmiri people,” the statement added. It was further highlighted that the “irresponsible statement” by the US ambassador “negated the long-standing and well-documented position of the United States on the Jammu and Kashmir dispute, and also ran contrary to the US commitment to the supremacy of international law and the UN Charter,” it said. Pakistan appreciated US President Donald Trump’s offer to mediate between Pakistan and India to resolve the Kashmir dispute in the aftermath of Marka-i-Haq . However, the US side was urged to ensure that its public statements remained consistent with the",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-19T17:30:32+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/19212318ec5090a.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2023924/pakistan-issues-demarche-to-us-over-kashmir-remarks-by-american-ambassador-to-india"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624784/pakistan-issues-strong-demarche-to-us-over-irresponsible-remarks-by-ambassador-in-india"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/678342-pakistan-demarches-us-envoy-over-ambassador-in-indias-irresponsible-kashmir-remarks"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/19212318ec5090a.webp",
+      "https://i.dawn.com/thumbnail/2026/08/19212318ec5090a.webp",
+      "https://www.geo.tv/assets/uploads/2026-08-19/678342_091245_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.6672687736789569,
+    "age_hours": 0.9990976544444445,
+    "is_stale": false,
+    "score": 21.4998355695027
+  }
+}

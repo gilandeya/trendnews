@@ -1,0 +1,79 @@
+{
+  "id": "471f54893275",
+  "created_at": "2026-08-19T18:07:54.725833+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.92,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ukrainian man arrested in Croatia over Nord Stream pipeline blasts",
+  "link": "https://www.bbc.co.uk/news/articles/c78gp7l5348o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "German Prosecutor General's Office",
+    "Meduza English",
+    "The Guardian",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Ukrainian man arrested in Croatia over Nord Stream pipeline blasts",
+    "link": "https://www.bbc.co.uk/news/articles/c78gp7l5348o?at_medium=RSS&at_campaign=rss",
+    "summary": "The man is alleged to have been one of the scuba divers who planted explosives on the pipelines in 2022.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-19T16:31:48+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b940/live/10ce9110-9bcd-11f1-bb4d-1147ef2e78e5.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "German Prosecutor General's Office",
+      "Meduza English",
+      "The Guardian",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/business/2026/aug/19/ukrainian-diver-arrested-in-croatia-over-nord-stream-pipeline-bombings"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/19/second-ukrainian-national-arrested-over-2022-nord-stream-pipeline-blast?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c78gp7l5348o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "German Prosecutor General's Office",
+        "link": "https://tass.com/world/2175029"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/08/18/more-than-a-year-after-banning-the-sharing-of-drone-strike-footage-st-petersburg-issues-its-first-fine-for-such-activity"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b940/live/10ce9110-9bcd-11f1-bb4d-1147ef2e78e5.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/b940/live/10ce9110-9bcd-11f1-bb4d-1147ef2e78e5.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b940/live/10ce9110-9bcd-11f1-bb4d-1147ef2e78e5.jpg",
+      "https://i.guim.co.uk/img/media/a1e32abc1435a8c079b8f78678276d0d4820d318/296_0_7240_5792/master/7240.jpg?width=700&quality=85&auto=format&fit=max&s=066db9ed4e9b5d0882f6ffc4a6a63dc4",
+      "https://i.guim.co.uk/img/media/a1e32abc1435a8c079b8f78678276d0d4820d318/296_0_7240_5792/master/7240.jpg?width=460&quality=85&auto=format&fit=max&s=cc1f7fd821f4b90115b1f50ad523ee3f",
+      "https://i.guim.co.uk/img/media/a1e32abc1435a8c079b8f78678276d0d4820d318/296_0_7240_5792/master/7240.jpg?width=140&quality=85&auto=format&fit=max&s=e3f3a1c7050ff67bb7a0f0d3e4daaf38"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 0.33362274977133816,
+    "age_hours": 2.9884667255555555,
+    "is_stale": false,
+    "score": 18.91634619135349
+  }
+}

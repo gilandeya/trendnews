@@ -1,0 +1,48 @@
+{
+  "id": "f2cc7f99ffdf",
+  "created_at": "2026-08-19T18:07:54.726424+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.25,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "People's food security not disrupted even for a single hour in recent imposed wars: minister",
+  "link": "https://www.tehrantimes.com/news/529224/People-s-food-security-not-disrupted-even-for-a-single-hour-in",
+  "publishers": [
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "People's food security not disrupted even for a single hour in recent imposed wars: minister",
+    "link": "https://www.tehrantimes.com/news/529224/People-s-food-security-not-disrupted-even-for-a-single-hour-in",
+    "summary": "TEHRAN- The Minister of Agriculture stated that during the two recent imposed wars, the enemy sought to undermine the Iranian people's resilience by threatening food security, and said: \"People's food security was not disrupted even for a single hour in any part of the country, and with the measures taken, we witnessed no famine or shortages.\"",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-19T14:24:43+00:00",
+    "image_url": "https://media.tehrantimes.com/d/t/2026/08/19/4/6138778.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529224/People-s-food-security-not-disrupted-even-for-a-single-hour-in"
+      }
+    ],
+    "image_candidates": [
+      "https://media.tehrantimes.com/d/t/2026/08/19/4/6138778.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.9884983608333333,
+    "is_stale": false,
+    "score": 16.252141235814815
+  }
+}
