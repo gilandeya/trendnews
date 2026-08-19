@@ -1,0 +1,63 @@
+{
+  "id": "6b26d1a5565a",
+  "created_at": "2026-08-19T17:07:58.270139+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.55,
+  "trend_score": 0.33,
+  "velocity": 0.17,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Dozens killed in Central African Republic gold mine collapse",
+  "link": "http://www.africanews.com/2026/08/19/dozens-killed-in-central-african-republic-gold-mine-collapse/",
+  "publishers": [
+    "AP News",
+    "Africanews",
+    "Al Jazeera English",
+    "The Hindu — International"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Dozens killed in Central African Republic gold mine collapse",
+    "link": "http://www.africanews.com/2026/08/19/dozens-killed-in-central-african-republic-gold-mine-collapse/",
+    "summary": "A landslide at an illegal gold mine in the western Central African Republic has killed several dozen people, with local sources estimating the toll at up to 100. Rescue teams are searching for survivors as authorities struggle to establish the final death toll.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-19T13:14:21+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/88/06/02/640x360_cmsv2_657726ec-0d47-5a40-ad76-03c8227af293-9880602.jpg?1787140096",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "AP News",
+      "Africanews",
+      "Al Jazeera English",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/19/dozens-killed-after-gold-mine-collapse-in-central-african-republic?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/gold-mine-collapses-in-central-african-republic-killing-many-miners/article71362272.ece"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/19/dozens-killed-in-central-african-republic-gold-mine-collapse/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/88/06/02/640x360_cmsv2_657726ec-0d47-5a40-ad76-03c8227af293-9880602.jpg?1787140096",
+      "https://th-i.thgim.com/public/incoming/srrvrp/article71362274.ece/alternates/LANDSCAPE_1200/Congo_Ebola_Mining_181_3.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 4,
+    "velocity": 0.16756181160649009,
+    "age_hours": 19.00153826388889,
+    "is_stale": false,
+    "score": 18.545041008013936
+  }
+}

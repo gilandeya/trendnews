@@ -1,0 +1,91 @@
+{
+  "id": "b8a54c5e51d8",
+  "created_at": "2026-08-19T17:07:58.269451+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.69,
+  "trend_score": 0.0,
+  "velocity": 0.5,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Israeli military probes killings of Hind Rajab and Palestinian paramedics",
+  "link": "https://www.france24.com/en/video/20260819-israeli-military-probes-killings-of-hind-rajab-and-palestinian-paramedics",
+  "publishers": [
+    "AP News",
+    "CBS News — World",
+    "Court House News",
+    "Daily Sabah",
+    "Dawn",
+    "France24",
+    "Free Malaysia Today",
+    "MyJoyOnline Ghana",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Israeli military probes killings of Hind Rajab and Palestinian paramedics",
+    "link": "https://www.france24.com/en/video/20260819-israeli-military-probes-killings-of-hind-rajab-and-palestinian-paramedics",
+    "summary": "Israel’s military on Wednesday announced its first criminal investigations into troop conduct in the war in Gaza, focusing on the killings of 5-year-old Hind Rajab and her family and of 15 Palestinian paramedics. The military said it would not launch criminal investigations into three other attacks that killed aid workers from World Central Kitchen and Doctors Without Borders. FRANCE 24's Noga Tarnopolsky reports from Jerusalem.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-19T15:47:52+00:00",
+    "image_url": "https://s.france24.com/media/display/397ece9c-9be4-11f1-a4ee-005056a90284/w:1024/p:16x9/EN-20260819-170110-170755-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "AP News",
+      "CBS News — World",
+      "Court House News",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Free Malaysia Today",
+      "MyJoyOnline Ghana",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/israeli-military-launches-criminal-probes-into-killings-of-hind-rajab-and-palestinian-paramedics/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/israeli-military-launches-criminal-probes-into-killings-of-hind-rajab-and-palestinian-paramedics/article71365037.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260819-israeli-military-probes-killings-of-hind-rajab-and-palestinian-paramedics"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2023895/israel-opens-criminal-probes-over-killings-of-hind-rajab-and-gaza-rescue-workers-military-says"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364595/israel-opens-criminal-probes-over-killings-palestinian-girl-hind-rajab-aid-workers?utm_source=rss_feed"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/19/israel-opens-criminal-probes-over-killings-of-hind-rajab-and-gaza-rescue-workers"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/397ece9c-9be4-11f1-a4ee-005056a90284/w:1024/p:16x9/EN-20260819-170110-170755-CS.jpg",
+      "https://th-i.thgim.com/public/incoming/8seivh/article71365441.ece/alternates/LANDSCAPE_1200/2025-09-03T152139Z_1659138618_RC2FKGADWCZW_RTRMADP_3_FILMFESTIVAL-VENICE-THE-VOICE-OF-HIND-RAJAB.JPG",
+      "https://i.dawn.com/large/2026/08/191652350fd53e2.webp",
+      "https://i.dawn.com/thumbnail/2026/08/191652350fd53e2.webp",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2024/02/0a468cde-hind-rajab-afp-e1707556646144.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/19/456658.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 10,
+    "velocity": 0.5026737258063273,
+    "age_hours": 1.9893619830555556,
+    "is_stale": false,
+    "score": 21.690292269027058
+  }
+}

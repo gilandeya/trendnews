@@ -1,0 +1,72 @@
+{
+  "id": "0bf4870e57d9",
+  "created_at": "2026-08-19T17:07:58.270350+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.11,
+  "trend_score": 0.33,
+  "velocity": 0.04,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says he will meet N. Korea's Kim this year",
+  "link": "https://en.yna.co.kr/view/AEN20260820000351315",
+  "publishers": [
+    "CBS News — World",
+    "NDTV — World",
+    "TASS",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "Trump says he will meet N. Korea's Kim this year",
+    "link": "https://en.yna.co.kr/view/AEN20260820000351315",
+    "summary": "WASHINGTON, Aug. 19 (Yonhap) -- U.S. President Donald Trump said Wednesday that ...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-08-19T16:06:19+00:00",
+    "image_url": "https://img.yna.co.kr/photo/etc/af/2026/08/20/PAF20260820004201009_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "CBS News — World",
+      "NDTV — World",
+      "TASS",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260820000300315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260820000351315"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/trump-kim-jong-un-north-korea-meeting-nuclear-weapons/"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/trump-to-meet-kim-jong-un-this-year-says-north-korea-has-57-nuclear-weapons-11932616#publisher=newsstand"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2175263"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/etc/af/2026/08/20/PAF20260820004201009_P2.jpg",
+      "https://img.yna.co.kr/photo/cms/2023/08/24/07/PCM20230824000107990_P2.jpg",
+      "https://c.ndtvimg.com/2026-08/52np2p4_donald-trump-kim-jong-un-meeting_625x300_19_August_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 4,
+    "velocity": 0.04167040060319976,
+    "age_hours": 46.003993970277776,
+    "is_stale": false,
+    "score": 18.106658026886368
+  }
+}

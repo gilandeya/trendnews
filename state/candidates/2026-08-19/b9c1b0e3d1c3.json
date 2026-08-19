@@ -1,0 +1,67 @@
+{
+  "id": "b9c1b0e3d1c3",
+  "created_at": "2026-08-19T17:07:58.269886+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.1,
+  "trend_score": 0.5,
+  "velocity": 0.17,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Merck, Moderna claim 'promising' skin cancer vaccine results in key trial",
+  "link": "https://medicalxpress.com/news/2026-08-merck-moderna-skin-cancer-vaccine.html",
+  "publishers": [
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "Medical Xpress",
+    "South China Morning Post"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Merck, Moderna claim 'promising' skin cancer vaccine results in key trial",
+    "link": "https://medicalxpress.com/news/2026-08-merck-moderna-skin-cancer-vaccine.html",
+    "summary": "U.S. pharmaceutical firms Merck and Moderna announced Wednesday encouraging results from a trial of their experimental vaccine against melanoma, potentially clearing the way for approval.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-08-19T14:16:57+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/cancer-vaccine.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "Medical Xpress",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-08-merck-moderna-skin-cancer-vaccine.html"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3364603/merck-moderna-claim-encouraging-melanoma-vaccine-trial-results?utm_source=rss_feed"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/moderna-shares-jump-60-on-melanoma-vaccine-trial"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/moderna-stock-jumps-120-after-cancer-vaccine-trial-win-what-investors-need-to-know-101787151687750.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/cancer-vaccine.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/19/456601.JPG"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 0.16756189377843542,
+    "age_hours": 1.9893146694444444,
+    "is_stale": false,
+    "score": 20.09793030750329
+  }
+}
