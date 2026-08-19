@@ -174,6 +174,16 @@ loads it into a dict subclass with dotted-path lookup.
   sourcing bar — it would look central because it was *picked*, not because it was *checked*. A
   single weakly-sourced fact can never become central by construction, not by a later check.
 
+**Known limitation, not yet addressed (Issue #373):** in `src/evidence.py`'s read-candidate
+ranking (`_candidate_score` = `_read_priority` + `_relevance`), when relevance ties at zero for
+every remaining candidate — common once real coverage of an event is thin — the tie is broken by
+Python's stable sort, i.e. by whatever order the candidates arrived in from ranking/clustering
+upstream, which has no relationship to the current claim. There is no real "choice" happening at
+that point, just inherited order. Deliberately left alone for now (see the issue for prior
+diagnosis of two related fixes — a relative rather than absolute `READ_DEMOTION_PENALTY`, and
+`loose_relevance` for the support-evidence round — both deferred to avoid another regression
+cycle in this area).
+
 ## Testing
 
 `tests/test_pipeline.py` is the entire test suite — no pytest, no separate test files. It fakes
