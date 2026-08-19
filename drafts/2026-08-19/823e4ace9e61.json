@@ -1,7 +1,7 @@
 {
   "id": "823e4ace9e61",
   "created_at": "2026-08-19T13:53:49.139011+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 19.57,
   "bucket": "serious",
@@ -55,5 +55,12 @@
       "https://media.mehrnews.com/d/2024/11/12/4/5245913.jpg"
     ]
   },
-  "publish_at": "2026-08-19T14:33:09.936598+00:00"
+  "publish_at": "2026-08-19T14:33:09.936598+00:00",
+  "published_at": "2026-08-19T14:45:51.231858+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1338671885016499",
+    "photo_id": "1338671865016501",
+    "url": "https://www.facebook.com/631680090321390_1338671885016499",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
