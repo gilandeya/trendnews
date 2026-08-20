@@ -4501,7 +4501,7 @@ def test_article() -> None:
                  {"name": "مصدر ثالث", "text": "نص", "link": "https://s3/1", "from_text": True}],
                 evidence.EVIDENCE_FULL_TEXT)
 
-    def _fake_support(fact_text, docs, cfg):
+    def _fake_support(fact_text, docs, cfg, is_statement=False):
         return SUPPORT_MAP.get(fact_text, [])
 
     def _fake_answer(question_text, docs, cfg):
@@ -5144,7 +5144,7 @@ def test_article() -> None:
                  {"name": "مصدر سند ثانٍ", "link": "https://support/2", "from_text": True,
                   "text": "نص سند ثانٍ"}], evidence.EVIDENCE_FULL_TEXT)
 
-    def _fake_support_second(fact_text, docs, cfg):
+    def _fake_support_second(fact_text, docs, cfg, is_statement=False):
         if fact_text in ("نص الحدث المسمّى فعلًا", "واقعة إضافية عادية"):
             return ["مصدر سند أول", "مصدر سند ثانٍ"]
         return []
@@ -5233,7 +5233,7 @@ def test_article() -> None:
         return ([{"name": "مصدر صلة جديد", "link": "https://link2/1", "from_text": True,
                   "text": "نص جديد"}], evidence.EVIDENCE_FULL_TEXT)  # بحث سؤال الصلة
 
-    def _fake_support_link(fact_text, docs, cfg):
+    def _fake_support_link(fact_text, docs, cfg, is_statement=False):
         return ["مصدر سند حصري", "مصدر تسمية"] if fact_text == "نص الحدث المسمّى" else []
 
     captured_answer_docs: list = []
@@ -5684,6 +5684,229 @@ def test_article() -> None:
     article.find_images = real_find_images
 
 
+def test_article_statement_kind() -> None:
+    """تصنيف «تصريح» (تشخيص Issue #373، الجولة الثالثة عشرة، البند 1): نقل
+    تصريح لمتحدث واحد في مناسبة واحدة يُستخرج كعنصر واحد بمكوّناته مجتمعة —
+    لا يُفكَّك إلى عدة "واقعة" منفصلة يتنافس كل منها وحده على عتبة السند —
+    وسنده يُفحَص بمعيار مضمون أدق (STATEMENT_SUPPORT_SYSTEM) لا وقوع مقابلة
+    وحدها، بلا أي تخفيف في عتبة min_confirm_sources نفسها. خطر الدمج الزائف
+    يُعالَج بالإظهار (merged_statements في التقرير) لا بالمنع."""
+    from src import article
+
+    cfg = load_config()
+
+    check("WRITEUP_KINDS يضم «تصريح» تصنيفًا ثالثًا بجانب واقعة/رأي",
+          "تصريح" in article.WRITEUP_KINDS)
+
+    # ── normalize_statement: يلتقط speaker/merged_excerpts لعنصر تصريح ──
+    stmt = article.normalize_statement({
+        "text": "نفى المتحدث الادّعاء وأكّد أنه يدرس الأمر تدريجيًا",
+        "kind": "تصريح", "entities": ["المتحدث"], "is_unnamed_event": False,
+        "is_reference": False, "speaker": "المتحدث الاختباري",
+        "merged_excerpts": ["نفى المتحدث الادّعاء", "قال إنه يدرس الأمر تدريجيًا"],
+    })
+    check("normalize_statement: يحفظ speaker لعنصر تصريح",
+          stmt["speaker"] == "المتحدث الاختباري", stmt)
+    check("normalize_statement: يحفظ merged_excerpts حرفيًا كما وردت",
+          stmt["merged_excerpts"] == ["نفى المتحدث الادّعاء", "قال إنه يدرس الأمر تدريجيًا"],
+          stmt)
+
+    fact = article.normalize_statement({
+        "text": "واقعة عادية", "kind": "واقعة", "entities": ["ك"],
+        "is_unnamed_event": False, "is_reference": False,
+    })
+    check("normalize_statement: عنصر واقعة عادي بلا speaker/merged_excerpts يبقى "
+          "آمنًا (فارغَين لا كسر)",
+          fact["speaker"] == "" and fact["merged_excerpts"] == [], fact)
+
+    # ── _support_sources(is_statement=True) يستعمل STATEMENT_SUPPORT_SYSTEM لا
+    # SUPPORT_SYSTEM — بلا تخفيف العتبة، فقط معيار تأييد أدق (مضمون لا مقابلة) ──
+    real_client_fn = article._client
+    captured: list = []
+
+    class _CaptureBlock:
+        type = "text"
+
+    class _CaptureResp:
+        content = [_CaptureBlock()]
+        stop_reason = "end_turn"
+
+    class _CaptureMessages:
+        def create(self, **kw):
+            captured.append(kw)
+            return _CaptureResp()
+
+    class _CaptureClient:
+        def __init__(self):
+            self.messages = _CaptureMessages()
+
+    article._client = lambda: _CaptureClient()
+    docs = [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"}]
+    article._support_sources("واقعة عادية", docs, cfg, is_statement=False)
+    article._support_sources("تصريح اختباري", docs, cfg, is_statement=True)
+    article._client = real_client_fn
+
+    check("_support_sources(is_statement=False) يستعمل SUPPORT_SYSTEM (سلوك افتراضي بلا تغيير)",
+          captured[0]["system"] == article.SUPPORT_SYSTEM)
+    check("_support_sources(is_statement=True) يستعمل STATEMENT_SUPPORT_SYSTEM لا SUPPORT_SYSTEM",
+          captured[1]["system"] == article.STATEMENT_SUPPORT_SYSTEM and
+          captured[1]["system"] != article.SUPPORT_SYSTEM)
+    check("STATEMENT_SUPPORT_SYSTEM يشترط مضمون التصريح لا وقوع المقابلة وحدها",
+          "مضمون" in article.STATEMENT_SUPPORT_SYSTEM and "مقابلة" in article.STATEMENT_SUPPORT_SYSTEM)
+
+    # ── تكامل كامل عبر _write_article: تصريح يُدمَج كعنصر واحد، يُبلَّغ عنه في
+    # التقرير، وسنده يُفحَص بـis_statement=True فعليًا لا بمعزل عن الأنبوب ──
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+
+    statement_text = "المتحدث ينفي الادّعاء ويؤكد أنه يدرس الأمر تدريجيًا"
+    merged_excerpts = ["نفى المتحدث الادّعاء صراحة", "قال إنه يدرس الأمر تدريجيًا"]
+    speaker_name = "المتحدث الاختباري"
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار تصنيف تصريح",
+        "statements": [
+            {"text": statement_text, "kind": "تصريح", "entities": ["المتحدث"],
+             "is_unnamed_event": False, "is_reference": False,
+             "speaker": speaker_name, "merged_excerpts": merged_excerpts},
+            {"text": "واقعة عادية أخرى في نفس الموجز", "kind": "واقعة",
+             "entities": ["ك2"], "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+        evidence.EVIDENCE_FULL_TEXT)
+
+    support_calls: list = []
+
+    def _fake_support_stmt(fact_text, docs, cfg, is_statement=False):
+        support_calls.append((fact_text, is_statement))
+        # الواقعة العادية تسقط عمدًا (لا سند) — كافٍ لإسقاط outcome["produced"]
+        # قبل مرحلتَي السؤال/الصياغة فلا حاجة لمحاكاتهما في هذا الاختبار
+        if fact_text == statement_text:
+            return ["مصدر أول", "مصدر ثانٍ"]
+        return []
+
+    article._support_sources = _fake_support_stmt
+
+    out = article._write_article("موجز اختبار تصنيف تصريح", 9001, cfg)
+
+    check("تصريح: التصريح يمرّ بحلقة الوقائع (بحث+قراءة+حكم سند) لا يُهمَل كرأي",
+          any(t[0] == statement_text for t in support_calls), support_calls)
+    check("تصريح: _support_sources استُدعيت بـis_statement=True للتصريح تحديدًا",
+          any(t == (statement_text, True) for t in support_calls), support_calls)
+    check("تصريح: _support_sources استُدعيت بـis_statement=False للواقعة العادية "
+          "المجاورة له في نفس الموجز — لا تسرّب المعيار الأدق خارج نطاقه",
+          any(t[0] == "واقعة عادية أخرى في نفس الموجز" and t[1] is False
+              for t in support_calls), support_calls)
+    check("تصريح: التصريح المسنَد لا يظهر ضمن dropped (لم يُرفض)",
+          not any(d["text"] == statement_text for d in out["dropped"]), out["dropped"])
+    check("تصريح: grounded_count == 1 — التصريح وحده اجتاز السند (الواقعة "
+          "المجاورة سقطت عمدًا في هذا الاختبار)",
+          out["grounded_count"] == 1, out["grounded_count"])
+    check("تصريح: الواقعة العادية المجاورة سقطت (سند غير كافٍ) — لم تُدمَج زورًا "
+          "مع التصريح رغم مجاورتها في نفس الموجز",
+          any(d["text"] == "واقعة عادية أخرى في نفس الموجز" for d in out["dropped"]),
+          out["dropped"])
+
+    check("تصريح: outcome['merged_statements'] يذكر المتحدث بصرف النظر عن نجاح "
+          "الإنتاج الكلي لاحقًا — تبليغ لا مشروط بالنجاح",
+          any(m["speaker"] == speaker_name and m["text"] == statement_text
+              for m in out["merged_statements"]), out["merged_statements"])
+    check("تصريح: outcome['merged_statements'] يحمل جمل الموجز الحرفية المُدمَجة كاملة",
+          any(m["merged_excerpts"] == merged_excerpts for m in out["merged_statements"]),
+          out["merged_statements"])
+
+    report = article.build_report(out)
+    check("تصريح: التقرير يعرض قسم «تصريحات دُمجت من عدة جمل» صراحة",
+          "تصريحات دُمجت من عدة جمل" in report, report)
+    check("تصريح: التقرير يذكر اسم المتحدث والجمل المُدمَجة معًا — لا إعفاء صامت",
+          speaker_name in report and all(ex in report for ex in merged_excerpts),
+          report)
+    check("تصريح: trail يسجّل مرحلة «تصريح» (لا «واقعة») للعنصر المصنَّف تصريحًا",
+          any(t["stage"] == "تصريح" and t["query"] for t in out["trail"]), out["trail"])
+
+    article.extract_brief = real_extract_brief
+    evidence.search = real_search
+    evidence.gather_evidence = real_gather_evidence
+    article._support_sources = real_support_sources
+
+
+def test_evidence_top_candidates() -> None:
+    """رصد أعلى 5 مرشّحين بالاسم/الوزن/الصلة/الدرجة المركّبة في trail (تشخيص
+    Issue #373، الجولة الثالثة عشرة، البند 2، الخيار (و)): بلا لمس
+    _candidate_score نفسها — رصد صرف يحسم لاحقًا برقم فعلي هل تفوّق صلة
+    لفظية عالية على فارق وزن ثابت هو ما يمنع مصدرًا موثوقًا من الصعود."""
+    from src import article
+
+    cfg = load_config()
+
+    trusted = Article(title="خبر من مصدر موثوق بصياغة تحريرية لا تشارك كلمات الاستعلام",
+                      link="https://trusted.example/1", summary="ملخص تحريري",
+                      source_name="Al Jazeera", region="global", weight=1.0,
+                      published=datetime.now(timezone.utc), publisher="Al Jazeera")
+    generic = Article(title="روبيرتو كارلوس الإسلام خبر مطابق لفظيًا حرفيًا للاستعلام",
+                      link="https://generic.example/1", summary="ملخص",
+                      source_name="موقع مجهول", region="global", weight=1.0,
+                      published=datetime.now(timezone.utc), publisher="موقع مجهول")
+
+    real_extract_gather = extract.gather
+    extract.gather = lambda members, limit=3: ([], [])  # لا نص كامل — يكفي الفرز قبل القراءة
+    docs, basis = evidence.gather_evidence(
+        [trusted, generic], cfg, "روبيرتو كارلوس الإسلام")
+
+    top = getattr(docs, "top_candidates", None)
+    check("gather_evidence: docs تحمل top_candidates كسمة إضافية (نظير fetch_failures)",
+          top is not None, docs)
+    check("top_candidates: لا يتجاوز 5 مرشّحين", len(top) <= 5, top)
+    check("top_candidates: كل عنصر يحمل اسم/وزن/صلة/درجة مركّبة",
+          all({"name", "weight", "relevance", "score"} <= set(c.keys()) for c in top), top)
+    check("top_candidates: الدرجة المركّبة تساوي وزن+صلة لكل مرشّح فعليًا (بلا تعديل الصيغة)",
+          all(abs(c["score"] - (c["weight"] + c["relevance"])) < 1e-6 for c in top), top)
+    names = [c["name"] for c in top]
+    check("top_candidates: يضمّ كلا المرشّحين (الموثوق والمجهول) — رصد كامل لا جزئي",
+          "Al Jazeera" in names and "موقع مجهول" in names, top)
+
+    # trail في article.py: كل موضع gather_evidence يُمرِّر top_candidates
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار رصد المرشّحين",
+        "statements": [{"text": "واقعة اختبار المرشّحين", "kind": "واقعة",
+                        "entities": ["ك"], "is_unnamed_event": False,
+                        "is_reference": False}],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [trusted, generic]
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False: []
+
+    try:
+        out = article._write_article("موجز اختبار رصد المرشّحين", 9002, cfg)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        extract.gather = real_extract_gather
+
+    fact_trail = [t for t in out["trail"] if t["stage"] == "واقعة"]
+    check("trail: عنصر مرحلة «واقعة» يحمل top_candidates فعليًا لا قائمة فارغة دومًا",
+          bool(fact_trail) and bool(fact_trail[0].get("top_candidates")), fact_trail)
+
+    report = article.build_report(out)
+    check("build_report: يعرض أعلى المرشّحين (اسم/وزن/صلة/درجة) داخل سجلّ trail",
+          fact_trail and any(c["name"] in report for c in fact_trail[0]["top_candidates"]),
+          report)
+
+
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
     from src import review
@@ -6080,6 +6303,8 @@ def main() -> int:
     test_evidence()
     print("\n── مقال من المصادر ──")
     test_article()
+    test_article_statement_kind()
+    test_evidence_top_candidates()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()

@@ -327,13 +327,21 @@ class EvidenceDocs(list):
     جلب النص الكامل كسمة إضافية — البند 1 (تعليق العطل الثاني على Issue
     #361): trail يحتاج سبب فشل كل رابط تعذّر جلبه (رمز HTTP أو نوع العطل)
     حين يُسقَط المسار إلى احتياط العناوين. مستهلكون آخرون (verify.py)
-    يتعاملون معها كقائمة عادية بلا أي تغيير في العقد الحالي (docs, basis)."""
+    يتعاملون معها كقائمة عادية بلا أي تغيير في العقد الحالي (docs, basis).
+
+    top_candidates: أعلى 5 مرشّحي قراءة (اسم، وزن، صلة، درجة مركّبة) قبل
+    الاختيار النهائي — رصد بلا خطر (تشخيص Issue #373، الجولة الثالثة عشرة،
+    البند 2، الخيار (و)): سجلّ `_candidate_score` نفسه بلا تعديله، ليحسم
+    برقم فعلي (لا تخمينًا) هل تفوّق صلة لفظية عالية على فارق وزن ثابت هو ما
+    يمنع مصدرًا موثوقًا من الصعود — بدل تعديل الصيغة قبل رؤية دليل."""
     fetch_failures: list
+    top_candidates: list
 
 
-def _evidence_docs(items, fetch_failures: list) -> EvidenceDocs:
+def _evidence_docs(items, fetch_failures: list, top_candidates: list | None = None) -> EvidenceDocs:
     out = EvidenceDocs(items)
     out.fetch_failures = fetch_failures
+    out.top_candidates = top_candidates or []
     return out
 
 
@@ -415,6 +423,15 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
     log.info("مرشحو القراءة بعد الترتيب بالدرجة المركّبة (أولوية القراءة، صلة، اسم): %s",
              [(round(w, 2), r, n) for w, r, n, _ in candidates])
 
+    # أعلى 5 مرشّحين بعد الفرز — يصل trail عبر top_candidates أدناه (تشخيص
+    # Issue #373، الجولة الثالثة عشرة، البند 2): رصد صرف، لا تعديل على
+    # _candidate_score أو ترتيب القراءة نفسه
+    top_candidates = [
+        {"name": n, "weight": round(w, 3), "relevance": r,
+         "score": round(_candidate_score(w, r), 3)}
+        for w, r, n, _ in candidates[:5]
+    ]
+
     seen_links: set[str] = set()
     seen_publishers: set[str] = set()
     members: list[dict] = []
@@ -455,7 +472,7 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
                  [d.get("name") for d in fulltext])
         docs = [{**d, "from_text": True, "link": link_by_name.get(d["name"], "")}
                for d in fulltext]
-        return _evidence_docs(docs, fetch_failures), EVIDENCE_FULL_TEXT
+        return _evidence_docs(docs, fetch_failures, top_candidates), EVIDENCE_FULL_TEXT
 
     headline_docs = []
     seen_headline_publishers: set[str] = set()
@@ -478,8 +495,8 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
     if headline_docs:
         log.info("لا نص كامل مقروء — احتياط العناوين مستعمل من: %s",
                  [d["name"] for d in headline_docs])
-        return _evidence_docs(headline_docs, fetch_failures), EVIDENCE_HEADLINES_ONLY
-    return _evidence_docs([], fetch_failures), EVIDENCE_UNREADABLE
+        return _evidence_docs(headline_docs, fetch_failures, top_candidates), EVIDENCE_HEADLINES_ONLY
+    return _evidence_docs([], fetch_failures, top_candidates), EVIDENCE_UNREADABLE
 
 
 # ──────────────────────────── مطابقة أسماء المصادر ────────────────────────────
