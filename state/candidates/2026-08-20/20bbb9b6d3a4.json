@@ -1,0 +1,61 @@
+{
+  "id": "20bbb9b6d3a4",
+  "created_at": "2026-08-20T17:07:46.899945+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.05,
+  "trend_score": 0.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemen's Houthis say targeted Saudi airport, Aramco facility",
+  "link": "https://www.channelnewsasia.com/world/yemen-houthi-rebels-attack-saudi-airport-aramco-6331696",
+  "publishers": [
+    "Channel News Asia",
+    "Hindustan Times — World",
+    "NDTV — World"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Yemen's Houthis say targeted Saudi airport, Aramco facility",
+    "link": "https://www.channelnewsasia.com/world/yemen-houthi-rebels-attack-saudi-airport-aramco-6331696",
+    "summary": "The Houthi spokesman said the Iran-backed group had “successfully carried out two military operations” using drones against an airport and an Aramco facility in southern Saudi Arabia.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-20T17:02:28+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--8LGnDfzg--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-07-29T042523Z_3_LYNXMPEM6S06Y_RTROPTP_3_IRAN-CRISIS-SAUDI.JPG?itok=p3biaC3U",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Hindustan Times — World",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/yemen-houthi-rebels-attack-saudi-airport-aramco-6331696"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/yemens-houthis-say-attacked-airport-aramco-facility-in-saudi-arabias-najran-us-iran-latest-news-war-101787234807729.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/houthis-claim-they-attacked-airport-aramco-facilities-in-saudi-arabia-11937248#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--8LGnDfzg--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-07-29T042523Z_3_LYNXMPEM6S06Y_RTROPTP_3_IRAN-CRISIS-SAUDI.JPG?itok=p3biaC3U",
+      "https://c.ndtvimg.com/2024-01/vjehvc34_houthi-rebels_625x300_12_January_24.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.04911770910791
+  }
+}

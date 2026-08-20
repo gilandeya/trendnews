@@ -1,0 +1,61 @@
+{
+  "id": "36b893a0c8fc",
+  "created_at": "2026-08-20T17:07:46.899229+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.84,
+  "trend_score": 0.5,
+  "velocity": 0.4,
+  "bucket": "light",
+  "state_media": false,
+  "title": "New US carrier arrives in Mideast to relieve long-deployed USS Lincoln",
+  "link": "https://www.dailysabah.com/world/mid-east/new-us-carrier-arrives-in-mideast-to-relieve-long-deployed-uss-lincoln",
+  "publishers": [
+    "Court House News",
+    "Daily Sabah",
+    "Free Malaysia Today"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "New US carrier arrives in Mideast to relieve long-deployed USS Lincoln",
+    "link": "https://www.dailysabah.com/world/mid-east/new-us-carrier-arrives-in-mideast-to-relieve-long-deployed-uss-lincoln",
+    "summary": "A new U.S. aircraft carrier strike group has arrived in the Middle East, the military announced Thursday, after conditions aboard a long-deployed carrier provoked fresh criticism o...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-20T16:08:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/20/456896.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Court House News",
+      "Daily Sabah",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/us-aircraft-carrier-arrives-in-middle-east-relieving-long-deployed-uss-lincoln/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/20/new-us-carrier-arrives-in-middle-east-to-relieve-long-deployed-ship"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/new-us-carrier-arrives-in-mideast-to-relieve-long-deployed-uss-lincoln"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/20/456896.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/03/35ed90fa-uss-abraham-lincoln.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 19.838599194052357
+  }
+}
