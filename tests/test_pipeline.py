@@ -6283,6 +6283,68 @@ def test_article_report_kind() -> None:
           ok_suff2 is True, reason_suff2)
 
 
+def test_article_generic_source_publisher() -> None:
+    """ضابط بنيوي على publisher لـ"تقرير منقول" (تشخيص Issue #373، الجولة
+    السابعة عشرة): «قنوات تيليغرام إسرائيلية» صُنِّفت ناشرًا فمرّت بعتبة 1
+    رغم أنها وصف فئة جماعية مجهولة لا كيانًا إعلاميًا واحدًا. الضابط صنف
+    نحوي مغلق صغير (GENERIC_SOURCE_PLURAL_HEADS، نظير _AR_STOP بنيويًا) —
+    الرفض على رأس الاسم الجمعي وحده، بصرف النظر عن الوصف اللاحق، فمفرد +
+    اسم علم («قناة الجزيرة») يمرّ لأنه ليس جمعًا."""
+    from src import article
+
+    check("_publisher_head_word: يستخرج أول كلمة بعد حذف أل التعريف",
+          article._publisher_head_word("القنوات الإسرائيلية") == "قنوات")
+    check("_publisher_head_word: كلمة واحدة بلا أل التعريف تُعاد كما هي",
+          article._publisher_head_word("ميليتير") == "ميليتير")
+    check("_publisher_head_word: نص فارغ لا ينهار",
+          article._publisher_head_word("") == "")
+
+    generic_examples = [
+        "قنوات تيليغرام إسرائيلية", "ناشطون", "حسابات", "مصادر مطلعة",
+        "وسائل إعلام",
+    ]
+    for pub in generic_examples:
+        check(f"_is_generic_source_publisher: «{pub}» فئة جماعية مجهولة ← مرفوض",
+              article._is_generic_source_publisher(pub) is True, pub)
+
+    named_examples = ["ميليتير", "الجزيرة", "نيويورك تايمز", "قناة الجزيرة",
+                      "رويترز"]
+    for pub in named_examples:
+        check(f"_is_generic_source_publisher: «{pub}» كيان مسمّى واحد ← يمرّ "
+              "(مفرد وليس جمعًا، حتى مع سابقة تصنيفية مفردة مثل «قناة»)",
+              article._is_generic_source_publisher(pub) is False, pub)
+
+    # ── normalize_statement: الضابط بنيوي — يُطبَّق فعليًا لا توثيقًا فقط ──
+    generic_stmt = article.normalize_statement({
+        "text": "نشرت قنوات تيليغرام إسرائيلية تقريرًا يفيد بكذا",
+        "kind": "تقرير منقول", "entities": ["كيان"],
+        "is_unnamed_event": False, "is_reference": False,
+        "publisher": "قنوات تيليغرام إسرائيلية",
+    })
+    check("normalize_statement: publisher بصيغة جمع («قنوات تيليغرام إسرائيلية») "
+          "يعود العنصر إلى «واقعة» بعتبتها الكاملة — نظير عنصر بلا publisher تمامًا",
+          generic_stmt["kind"] == "واقعة", generic_stmt)
+
+    named_stmt = article.normalize_statement({
+        "text": "نشرت قناة الجزيرة تقريرًا يفيد بكذا",
+        "kind": "تقرير منقول", "entities": ["كيان"],
+        "is_unnamed_event": False, "is_reference": False,
+        "publisher": "قناة الجزيرة",
+    })
+    check("normalize_statement: publisher مفرد + اسم علم («قناة الجزيرة») يبقى "
+          "«تقرير منقول» — ليس جمعًا فلا يُرفض",
+          named_stmt["kind"] == "تقرير منقول" and
+          named_stmt["publisher"] == "قناة الجزيرة", named_stmt)
+
+    # ── القاعدة 10 (طلب المراجعة، البند 2): ادّعاء نية عسكرية/تخطيط هجوم
+    # مصدره «تقرير منقول» لا يدخل المتن إطلاقًا مهما كان سنده ──
+    template = article.DRAFT_SYSTEM_TEMPLATE.format(opinion_phrase="x")
+    check("10) برومبت الصياغة يوجّه صراحة بحذف ادّعاء النية العسكرية/تخطيط الهجوم "
+          "المصدره «تقرير منقول» كليًا من المتن — لا نسبة ولا تحفّظ",
+          "نية عسكرية" in template and "تخطيطًا لهجوم" in template and
+          "لا تدخل المتن إطلاقًا" in template)
+
+
 def test_evidence_top_candidates() -> None:
     """رصد أعلى 5 مرشّحين بالاسم/الوزن/الصلة/الدرجة المركّبة في trail (تشخيص
     Issue #373، الجولة الثالثة عشرة، البند 2، الخيار (و)): بلا لمس
@@ -6848,6 +6910,7 @@ def main() -> int:
     test_article_statement_kind()
     test_article_split_statements()
     test_article_report_kind()
+    test_article_generic_source_publisher()
     test_evidence_top_candidates()
     test_evidence_relevance_cap()
     test_reject_boxes_render()
