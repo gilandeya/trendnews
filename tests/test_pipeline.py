@@ -4583,7 +4583,7 @@ def test_article() -> None:
                  {"name": "مصدر ثالث", "text": "نص", "link": "https://s3/1", "from_text": True}],
                 evidence.EVIDENCE_FULL_TEXT)
 
-    def _fake_support(fact_text, docs, cfg, is_statement=False):
+    def _fake_support(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
         return SUPPORT_MAP.get(fact_text, [])
 
     def _fake_answer(question_text, docs, cfg):
@@ -5246,7 +5246,7 @@ def test_article() -> None:
                  {"name": "مصدر سند ثانٍ", "link": "https://support/2", "from_text": True,
                   "text": "نص سند ثانٍ"}], evidence.EVIDENCE_FULL_TEXT)
 
-    def _fake_support_second(fact_text, docs, cfg, is_statement=False):
+    def _fake_support_second(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
         if fact_text in ("نص الحدث المسمّى فعلًا", "واقعة إضافية عادية"):
             return ["مصدر سند أول", "مصدر سند ثانٍ"]
         return []
@@ -5335,7 +5335,7 @@ def test_article() -> None:
         return ([{"name": "مصدر صلة جديد", "link": "https://link2/1", "from_text": True,
                   "text": "نص جديد"}], evidence.EVIDENCE_FULL_TEXT)  # بحث سؤال الصلة
 
-    def _fake_support_link(fact_text, docs, cfg, is_statement=False):
+    def _fake_support_link(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
         return ["مصدر سند حصري", "مصدر تسمية"] if fact_text == "نص الحدث المسمّى" else []
 
     captured_answer_docs: list = []
@@ -5886,7 +5886,7 @@ def test_article_statement_kind() -> None:
 
     support_calls: list = []
 
-    def _fake_support_stmt(fact_text, docs, cfg, is_statement=False):
+    def _fake_support_stmt(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
         support_calls.append((fact_text, is_statement))
         # الواقعة العادية تسقط عمدًا (لا سند) — كافٍ لإسقاط outcome["produced"]
         # قبل مرحلتَي السؤال/الصياغة فلا حاجة لمحاكاتهما في هذا الاختبار
@@ -6002,7 +6002,7 @@ def test_article_split_statements() -> None:
 
     support_calls: list = []
 
-    def _fake_support_split(fact_text, docs, cfg, is_statement=False):
+    def _fake_support_split(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
         support_calls.append(fact_text)
         # كلا الجزأين يفشل عمدًا (سند غير كافٍ) — يكفي لإثبات استدعاءين
         # مستقلَّين بلا حاجة لمحاكاة مرحلتَي السؤال/الصياغة، ويحفظ نمط
@@ -6037,6 +6037,250 @@ def test_article_split_statements() -> None:
     evidence.search = real_search
     evidence.gather_evidence = real_gather_evidence
     article._support_sources = real_support_sources
+
+
+def test_article_report_kind() -> None:
+    """تصنيف رابع «تقرير منقول» (تشخيص Issue #373، الجولة السادسة عشرة):
+    نقل موجز لتقرير نشرته منصة واحدة بعينها ليس واقعة تحتاج مصدرين مستقلين
+    — الحدث هو النشر نفسه لا شيء وقع في العالم يرصده طرف مستقل ثانٍ (نظير
+    365Scores/vietnam.vn لكن بالاتجاه المعاكس: هنا خبر صحيح رُفض ظلمًا
+    بعتبة لن تتحقق أبدًا بنيويًا). عتبته المستقلة report_min_confirm=1
+    بشرط هوية مزدوج بنيوي (لا حكم نموذج) يمنع الالتفاف بتصنيف خبر عادي
+    كـ"تقرير منقول" ليمرّ بمصدر واحد، وقاعدة صياغة إلزامية (القاعدة 9)
+    تُفرَض بفحص بنيوي لاحق (_report_attribution_ok) لا بالبرومبت وحده."""
+    from src import article
+
+    cfg = load_config()
+
+    check("WRITEUP_KINDS يضم «تقرير منقول» تصنيفًا رابعًا",
+          "تقرير منقول" in article.WRITEUP_KINDS)
+
+    # ── normalize_statement: publisher إلزامي دلاليًا — بلا ناشر تعود «واقعة» ──
+    with_pub = article.normalize_statement({
+        "text": "نشر موقع تجريبي تقريرًا يفيد بكذا", "kind": "تقرير منقول",
+        "entities": ["كيان"], "is_unnamed_event": False, "is_reference": False,
+        "publisher": "موقع تجريبي",
+    })
+    check("normalize_statement: عنصر «تقرير منقول» بـpublisher محدَّد يبقى بتصنيفه",
+          with_pub["kind"] == "تقرير منقول" and with_pub["publisher"] == "موقع تجريبي",
+          with_pub)
+
+    no_pub = article.normalize_statement({
+        "text": "نشر موقع تجريبي تقريرًا يفيد بكذا", "kind": "تقرير منقول",
+        "entities": ["كيان"], "is_unnamed_event": False, "is_reference": False,
+    })
+    check("normalize_statement: عنصر «تقرير منقول» بلا publisher يعود «واقعة» — "
+          "عتبة report_min_confirm لا معنى لتخفيفها بلا هوية ناشر واضحة",
+          no_pub["kind"] == "واقعة" and no_pub["publisher"] == "", no_pub)
+
+    plain = article.normalize_statement({
+        "text": "واقعة عادية", "kind": "واقعة", "entities": ["ك"],
+        "is_unnamed_event": False, "is_reference": False,
+    })
+    check("normalize_statement: عنصر واقعة عادي بلا publisher يبقى فارغًا (لا كسر)",
+          plain["publisher"] == "", plain)
+
+    # ── _report_identity_kind: شرط هوية بنيوي — لا حكم نموذج ──
+    original_doc = {"name": "Militaire.gr", "text": "نص تقرير عن موضوع ما"}
+    carrier_doc = {"name": "ناقل عربي", "text": "نقل موقع ميليتير اليوناني عن الموضوع كذا"}
+    unrelated_doc = {"name": "ناشر آخر", "text": "خبر عادي لا صلة له بالمنصة"}
+    check("_report_identity_kind: الوثيقة من الناشر نفسه (canonical) ← original",
+          article._report_identity_kind("Militaire.gr", original_doc, cfg) == "original")
+    check("_report_identity_kind: وثيقة تسمّي الناشر صراحة في نصها ← carrier",
+          article._report_identity_kind("ميليتير", carrier_doc, cfg) == "carrier")
+    check("_report_identity_kind: وثيقة لا تطابق الاسم ولا تذكره ← None",
+          article._report_identity_kind("ميليتير", unrelated_doc, cfg) is None)
+    check("_report_identity_kind: بلا publisher ← None دومًا (لا سند بنيويًا ممكن)",
+          article._report_identity_kind("", original_doc, cfg) is None)
+
+    # ── _support_sources(is_report=True) يصفّي docs بشرط الهوية أولًا (بلا
+    # نداء نموذج لوثيقة غير مطابقة)، ثم REPORT_SUPPORT_SYSTEM على الناجيات فقط ──
+    real_client_fn = article._client
+    captured: list = []
+
+    class _CaptureBlock:
+        type = "text"
+
+    class _CaptureResp:
+        content = [_CaptureBlock()]
+        stop_reason = "end_turn"
+
+    class _CaptureMessages:
+        def create(self, **kw):
+            captured.append(kw)
+            return _CaptureResp()
+
+    class _CaptureClient:
+        def __init__(self):
+            self.messages = _CaptureMessages()
+
+    article._client = lambda: _CaptureClient()
+    article._support_sources("تقرير اختباري", [original_doc, unrelated_doc], cfg,
+                             is_report=True, publisher="Militaire.gr")
+    article._client = real_client_fn
+
+    check("_support_sources(is_report=True) يستعمل REPORT_SUPPORT_SYSTEM لا SUPPORT_SYSTEM",
+          captured[0]["system"] == article.REPORT_SUPPORT_SYSTEM)
+    prompt_content = captured[0]["messages"][0]["content"]
+    check("_support_sources(is_report=True): الوثيقة المطابقة للهوية فقط تصل البرومبت "
+          "— unrelated_doc (لا يطابق الهوية) لا تصل النموذج إطلاقًا",
+          original_doc["name"] in prompt_content and unrelated_doc["name"] not in prompt_content,
+          prompt_content)
+
+    captured.clear()
+    article._client = lambda: _CaptureClient()
+    result_none = article._support_sources("تقرير اختباري", [unrelated_doc], cfg,
+                                           is_report=True, publisher="Militaire.gr")
+    article._client = real_client_fn
+    check("_support_sources(is_report=True): بلا وثيقة تطابق الهوية، لا نداء نموذج "
+          "إطلاقًا (شرط بنيوي يمنع الالتفاف) — يعود [] فورًا",
+          result_none == [] and captured == [], (result_none, captured))
+
+    # ── _report_attribution_ok: القاعدة 9 كفحص بنيوي — لا اعتمادًا على "
+    # البرومبت وحده (طلب المراجعة، البند 1) ──
+    report_fact = {"kind": "تقرير منقول", "publisher": "ميليتير", "text": "نص التقرير"}
+    ok1, why1 = article._report_attribution_ok(
+        "وبحسب تقرير نشره موقع ميليتير اليوناني، فإن الأمر كذا.", [report_fact])
+    check("_report_attribution_ok: متن ينسب المضمون لاسم الناشر صراحة ← يُقبل",
+          ok1 is True and why1 == "", (ok1, why1))
+    ok2, why2 = article._report_attribution_ok(
+        "الأمر كذا بحسب تقرير نُشر مؤخرًا.", [report_fact])
+    check("_report_attribution_ok: متن يقدّم مضمون التقرير بلا نسبة لاسم الناشر ← يُرفض",
+          ok2 is False and "القاعدة 9" in why2, (ok2, why2))
+    ok3, why3 = article._report_attribution_ok(
+        "متن عادي لا يذكر أي تقرير", [{"kind": "واقعة", "text": "واقعة عادية"}])
+    check("_report_attribution_ok: بلا عنصر «تقرير منقول» في grounded ← يُقبل دومًا",
+          ok3 is True, (ok3, why3))
+
+    # ── تكامل كامل عبر _write_article: عتبة مصدر واحد، شرط الهوية، القسم في
+    # التقرير، وضابط _sufficiency الثالث (مقال بكامله تقارير منقولة لا يكفي) ──
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+
+    report_text = "نشر موقع ميليتير اليوناني تقريرًا يفيد بأن الجيش يعزز قدراته"
+    publisher_name = "ميليتير"
+    carrier_name = "سكاي نيوز عربية"
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار تصنيف تقرير منقول",
+        "statements": [
+            {"text": report_text, "kind": "تقرير منقول", "entities": ["الجيش"],
+             "is_unnamed_event": False, "is_reference": False,
+             "publisher": publisher_name},
+            {"text": "واقعة عادية مسندة بمصدرين", "kind": "واقعة",
+             "entities": ["ك2"], "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": carrier_name,
+          "text": f"نقلت {carrier_name} عن موقع ميليتير اليوناني أن الجيش يعزز قدراته",
+          "link": "https://c/1", "from_text": True}],
+        evidence.EVIDENCE_FULL_TEXT)
+
+    support_calls: list = []
+
+    def _fake_support_report(fact_text, docs, cfg, is_statement=False, is_report=False,
+                             publisher=""):
+        support_calls.append((fact_text, is_statement, is_report, publisher))
+        if fact_text == report_text:
+            return [carrier_name]
+        if fact_text == "واقعة عادية مسندة بمصدرين":
+            return ["مصدر أول", "مصدر ثانٍ"]
+        return []
+
+    def _fake_choose_question_report(grounded, cfg, retries=2):
+        return "سؤال اختبار تقرير منقول؟", ""
+
+    def _fake_draft_article_ok(grounded, opinions, question, cfg, retries=3):
+        return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+                "image_headline": "عنوان الصورة", "post_title": question,
+                "post_body": ("وبحسب تقرير نشره موقع ميليتير اليوناني، يعزز الجيش "
+                             "قدراته. وأكّدت واقعة عادية أخرى مسندة الأمر."),
+                "hashtags": ["اختبار"]}, "")
+
+    article._support_sources = _fake_support_report
+    article._choose_question = _fake_choose_question_report
+    article._draft_article = _fake_draft_article_ok
+    article.find_images = lambda title, cfg: []
+
+    out = article._write_article("موجز اختبار تصنيف تقرير منقول", 9003, cfg)
+
+    check("تقرير منقول: _support_sources استُدعيت بـis_report=True وpublisher الصحيح "
+          "للعنصر «تقرير منقول» تحديدًا",
+          any(t == (report_text, False, True, publisher_name) for t in support_calls),
+          support_calls)
+    check("تقرير منقول: مصدر واحد فقط (report_min_confirm=1) كافٍ لإسناده — لم يسقط",
+          not any(d["text"] == report_text for d in out["dropped"]), out["dropped"])
+    check("تقرير منقول: trail يسجّل مرحلة «تقرير» (لا «واقعة») للعنصر المصنَّف "
+          "تقريرًا منقولًا",
+          any(t["stage"] == "تقرير" and t["query"] for t in out["trail"]), out["trail"])
+    check("تقرير منقول: outcome['report_statements'] يذكر الناشر والمصدر المسنِد "
+          "بتمييز صريح ناقل/أصلي — هنا carrier (لم يُطابِق اسم الوثيقة الناشر "
+          "نفسه، بل ذكرته نصًّا)",
+          any(r["publisher"] == publisher_name and r["text"] == report_text and
+              any(s["name"] == carrier_name and s["kind"] == "carrier"
+                  for s in r["sources"])
+              for r in out["report_statements"]),
+          out["report_statements"])
+    check("تقرير منقول: outcome['produced'] نجح — القاعدة 9 اجتازت (المتن ينسب "
+          "المضمون لاسم الناشر صراحة)",
+          out["produced"] is True, out["reason"])
+
+    report = article.build_report(out)
+    check("تقرير منقول: التقرير يعرض قسم «تقارير مُرحَّلة عن ناشر واحد (راجعها)»",
+          "تقارير مُرحَّلة عن ناشر واحد" in report, report)
+    check("تقرير منقول: التقرير يميّز صراحة بين الوثيقة الأصلية والناقل — «ناقل يسمّي "
+          "الناشر» ظاهرة هنا (لا «الوثيقة الأصلية»، اسم الوثيقة يختلف عن الناشر)",
+          "ناقل يسمّي الناشر" in report and publisher_name in report, report)
+
+    # ── القاعدة 9 كفحص بنيوي فعلي: متن لا ينسب المضمون يُرفض المقال كاملًا ──
+    def _fake_draft_article_bad(grounded, opinions, question, cfg, retries=3):
+        return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+                "image_headline": "عنوان الصورة", "post_title": question,
+                "post_body": ("يعزز الجيش قدراته بحسب تقرير حديث. وأكّدت واقعة عادية "
+                             "أخرى مسندة الأمر."),
+                "hashtags": ["اختبار"]}, "")
+
+    article._draft_article = _fake_draft_article_bad
+    out_bad = article._write_article("موجز اختبار تصنيف تقرير منقول", 9003, cfg)
+    check("تقرير منقول: متن يقدّم مضمون التقرير بلا نسبة صريحة لاسم الناشر ← "
+          "outcome['produced'] يفشل (فحص بنيوي لاحق، لا اعتمادًا على البرومبت وحده)",
+          out_bad["produced"] is False and "القاعدة 9" in out_bad["reason"],
+          out_bad["reason"])
+
+    article.extract_brief = real_extract_brief
+    evidence.search = real_search
+    evidence.gather_evidence = real_gather_evidence
+    article._support_sources = real_support_sources
+    article._choose_question = real_choose_question
+    article._draft_article = real_draft_article
+    article.find_images = real_find_images
+
+    # ── ضابط _sufficiency الثالث: مقال بكامله «تقارير منقولة» لا يكفي (نظير
+    # شرط الوقائع المرجعية، البند 6) ──
+    all_report_grounded = [
+        {"kind": "تقرير منقول", "is_reference": False, "text": "تقرير أول"},
+        {"kind": "تقرير منقول", "is_reference": False, "text": "تقرير ثانٍ"},
+    ]
+    ok_suff, reason_suff = article._sufficiency(all_report_grounded, cfg)
+    check("_sufficiency: مقال بعدد كافٍ من الوقائع لكن كلها «تقرير منقول» ← يُرفض",
+          ok_suff is False and "تقارير منقولة" in reason_suff, reason_suff)
+
+    mixed_grounded = [
+        {"kind": "تقرير منقول", "is_reference": False, "text": "تقرير أول"},
+        {"kind": "واقعة", "is_reference": False, "text": "واقعة مسندة عادية"},
+    ]
+    ok_suff2, reason_suff2 = article._sufficiency(mixed_grounded, cfg)
+    check("_sufficiency: واقعة واحدة على الأقل ليست «تقرير منقول» ضمن grounded كافية "
+          "لاجتياز هذا الضابط",
+          ok_suff2 is True, reason_suff2)
 
 
 def test_evidence_top_candidates() -> None:
@@ -6092,7 +6336,8 @@ def test_evidence_top_candidates() -> None:
         "questions": [],
     }, None)
     evidence.search = lambda query, cfg, days, unrestricted=False: [trusted, generic]
-    article._support_sources = lambda fact_text, docs, cfg, is_statement=False: []
+    article._support_sources = (
+        lambda fact_text, docs, cfg, is_statement=False, is_report=False, publisher="": [])
 
     try:
         out = article._write_article("موجز اختبار رصد المرشّحين", 9002, cfg)
@@ -6602,6 +6847,7 @@ def main() -> int:
     test_article()
     test_article_statement_kind()
     test_article_split_statements()
+    test_article_report_kind()
     test_evidence_top_candidates()
     test_evidence_relevance_cap()
     test_reject_boxes_render()
