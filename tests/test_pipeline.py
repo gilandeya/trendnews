@@ -4085,17 +4085,21 @@ def test_check_originality_context() -> None:
 def test_check_originality_wa_pronoun_and_min_core_revert() -> None:
     """تعليق الموافقة الرابع عشر على Issue #373: (1) لا خفض لـ min_core —
     القيمة المُهيَّأة في config.yaml أُرجعت إلى 5 بعد أن أثبتت المحاكاة في
-    الجولة الماضية أن الخفض إلى 4 لا يجدي لصيغ تعريفية («لاعب ريال مدريد
+    تلك الجولة أن الخفض إلى 4 لا يجدي لصيغ تعريفية («لاعب ريال مدريد
     السابق»)، (2) فجوة «وهو» — الضمائر المنفصلة الملتصقة بواو العطف (وهو/
     وهي/وهم/وهن، وهي/هو/هم/هن منفصلة) أُضيفت إلى request._AR_STOP فتصير
-    قابلة للتقليم كذيل نحوي مثل «كان»/«الذي» تمامًا."""
+    قابلة للتقليم كذيل نحوي مثل «كان»/«الذي» تمامًا.
+    القيمة خُفِّضت من جديد إلى 4 لاحقًا (الحالة الخامسة، «هوي كا يان معروف
+    بالصينية باسم شو»/verify_draft._name_link_exempt — انظر
+    test_check_originality_name_link) — هذا الاختبار يوثّق تاريخ التغيير لا
+    القيمة الحالية، فلا يفحص القيمة العددية بعد الآن."""
     from src import request, verify_draft
 
     cfg = load_config()
-    check("(1) لا خفض لـ min_core: config.yaml: verify_draft.trim_min_core أُرجِع إلى 5",
-          cfg.path("verify_draft.trim_min_core") == 5, cfg.path("verify_draft.trim_min_core"))
-    check("(1) لا خفض لـ min_core: config.yaml: article.trim_min_core أُرجِع إلى 5",
-          cfg.path("article.trim_min_core") == 5, cfg.path("article.trim_min_core"))
+    check("(1) config.yaml: verify_draft.trim_min_core مضبوط (تاريخ: 5 ← 4 ← 5 ← 4)",
+          cfg.path("verify_draft.trim_min_core") is not None, cfg.path("verify_draft.trim_min_core"))
+    check("(1) config.yaml: article.trim_min_core مضبوط (تاريخ: 5 ← 4 ← 5 ← 4)",
+          cfg.path("article.trim_min_core") is not None, cfg.path("article.trim_min_core"))
     check("(1) TRIM_MIN_CORE_FLOOR يبقى 4 بلا تغيير (حارس مستقل عن القيمة المُهيَّأة)",
           verify_draft.TRIM_MIN_CORE_FLOOR == 4, verify_draft.TRIM_MIN_CORE_FLOOR)
 
@@ -6475,6 +6479,171 @@ def test_article_generic_source_publisher() -> None:
           "لا تدخل المتن إطلاقًا" in template)
 
 
+def test_article_unsourced_entities() -> None:
+    """فحص بنيوي بعدي — بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373، الجولة
+    السابعة عشرة، البند 2): البرومبت وحده لا يمنع نقل تفصيلة من نص مصدر
+    كامل (نصوص المصادر تصل البرومبت للأسلوب لا للمضمون) لم تمرّ ببوابة
+    السند — نمط «هوي كا يان معروف بالصينية باسم شو جيايين» الفعلي. الفحص
+    اللاحق (_unsourced_entities) يقارن كيانات المتن (أرقام، وتتابعات كلمات
+    مضمون متتالية) بمجمّع الوقائع المسندة والموجز، ويُبلِغ فقط — لا يرفض."""
+    from src import article
+
+    # ── (ب) DRAFT_USER_TEMPLATE: التناقض مع القاعدة 1 أُصلح ──
+    check("DRAFT_USER_TEMPLATE: لا تبقى صيغة «من هذه الوقائع والنصوص حصرًا» "
+          "المتناقضة مع القاعدة 1",
+          "من هذه الوقائع والنصوص" not in article.DRAFT_USER_TEMPLATE,
+          article.DRAFT_USER_TEMPLATE)
+    check("DRAFT_USER_TEMPLATE: نصوص المصادر مُوصوفة صراحة كمادة أسلوبية لا مضمون",
+          "للأسلوب" in article.DRAFT_USER_TEMPLATE and
+          "لا كمصدر مضمون إضافي" in article.DRAFT_USER_TEMPLATE and
+          "{source_texts}" in article.DRAFT_USER_TEMPLATE,
+          article.DRAFT_USER_TEMPLATE)
+    check("DRAFT_USER_TEMPLATE: التوجيه الجديد يحصر المضمون في facts_block صراحة",
+          "الوقائع المسندة أعلاه حصرًا" in article.DRAFT_USER_TEMPLATE,
+          article.DRAFT_USER_TEMPLATE)
+
+    # ── (أ) نصوص المصادر تبقى كاملة في البرومبت — لا تضييق إلى مقتطف ──
+    grounded_a = [{"text": "و1", "kind": "واقعة", "sources": [
+        {"name": "م1", "text": "نص مصدر كامل طويل جدًا " * 20, "link": "https://s/1"}]}]
+    real_call_draft = article._call_draft_model
+    captured_prompt: list = []
+    article._call_draft_model = lambda prompt, system_text, cfg, retries=3: (
+        captured_prompt.append(prompt) or
+        {"post_title": "س", "post_body": "م", "hashtags": [], "category": "عالم"})
+    article._draft_article(grounded_a, [], "سؤال؟", load_config())
+    article._call_draft_model = real_call_draft
+    check("(أ) نص المصدر الكامل (لا مقتطف مقصوص) يصل البرومبت فعليًا",
+          "نص مصدر كامل طويل جدًا" in captured_prompt[0] and
+          captured_prompt[0].count("نص مصدر كامل طويل جدًا") >= 20,
+          len(captured_prompt[0]))
+
+    # ── (ج) اللبنات: _extract_numbers، _content_words، _word_known ──
+    check("_extract_numbers: فواصل الآلاف (لاتينية) تُحذف قبل المطابقة",
+          article._extract_numbers("1,234 قتيلًا") == {"1234"})
+    check("_extract_numbers: فاصلة عربية (٬) تُعامَل بالمثل",
+          article._extract_numbers("1٬234 قتيلًا") == {"1234"})
+    check("_extract_numbers: رقمان منفصلان يُستخرَجان معًا",
+          article._extract_numbers("قُتل 12 وأُصيب 45") == {"12", "45"})
+
+    words_on = article._content_words("شنّت طائرات غارة على موقع")
+    check("_content_words: «على» تُسقَط كوقف رغم ترجمة الهمزة (ى←ي) — عطل مكتشَف "
+          "في مطابقة request._AR_STOP الأصلية، أُصلح محليًا هنا (_AR_STOP_NORM)",
+          "علي" not in [n for _, n in words_on] and
+          not any(raw == "على" for raw, _ in words_on), words_on)
+    words_short = article._content_words("شو معروف")
+    check("_content_words: كلمة قصيرة (٢ حرفين، «شو») تُسقَط بلا كسر التجاور",
+          [raw for raw, _ in words_short] == ["معروف"], words_short)
+
+    known = {"سوريا", "دمشق"}
+    check("_word_known: تطابق حرفي بعد التطبيع",
+          article._word_known(article._normalize_word("سوريا"), known) is True)
+    check("_word_known: اشتقاق الاسم (بادئة مشتركة ≥4 أحرف) يُعامَل معروفًا — "
+          "«السوري» صفة مشتقة من «سوريا» المعروفة",
+          article._word_known(article._normalize_word("السوري"), known) is True)
+    check("_word_known: كلمة غير مرتبطة إطلاقًا تبقى غير معروفة",
+          article._word_known(article._normalize_word("اليابان"), known) is False)
+
+    # ── _unsourced_entities: الحالة الفعلية (اسم بلغتين لم يمرّ ببوابة السند) ──
+    grounded_name = [{"text": "هوي كا يان أعلن اعتزاله كرة القدم", "kind": "واقعة",
+                      "entities": ["هوي كا يان"], "sources": []}]
+    body_with_leak = ("أعلن هوي كا يان، المعروف بالصينية باسم شو جيايين، "
+                      "اعتزاله كرة القدم.")
+    notes_leak = article._unsourced_entities(
+        body_with_leak, grounded_name, "هوي كا يان أعلن اعتزاله", "", [])
+    check("_unsourced_entities: تفصيلة من نص مصدر (اسم صيني) لم ترد في الوقائع "
+          "المسندة ولا الموجز ← بلاغ يحتوي «جيايين»",
+          any("جيايين" in n for n in notes_leak), notes_leak)
+
+    # ── لا إنذار كاذب: إعادة صياغة كاملة بلا مضمون جديد (القاعدة 5 تُلزم بها) ──
+    grounded_rephrase = [{"text": "قصفت طائرات حربية موقعا عسكريا قرب المدينة",
+                          "kind": "واقعة", "entities": [], "sources": []}]
+    body_rephrased = "شنّت طائرات حربية غارة على موقع عسكري قرب المدينة."
+    notes_rephrase = article._unsourced_entities(
+        body_rephrased, grounded_rephrase, "", "", [])
+    check("_unsourced_entities: إعادة صياغة مشروعة (لا مضمون جديد، كلمة واحدة "
+          "مختلفة كحد أقصى في كل تتابع) ← بلا بلاغ",
+          notes_rephrase == [], notes_rephrase)
+
+    # ── رقم مُختلَق يُبلَّغ فرديًا (بلا حاجة لكلمتين متتاليتين) ──
+    grounded_num = [{"text": "قتل 12 شخصا في الحادث", "kind": "واقعة",
+                     "entities": [], "sources": []}]
+    notes_num = article._unsourced_entities(
+        "أسفر الحادث عن مقتل 45 شخصا.", grounded_num, "", "", [])
+    check("_unsourced_entities: رقم غير وارد في الوقائع المسندة ولا الموجز ← يُبلَّغ",
+          any("45" in n for n in notes_num), notes_num)
+    check("_unsourced_entities: رقم وارد فعلًا في الوقائع المسندة ← لا يُبلَّغ عنه",
+          not any("12" in n for n in notes_num), notes_num)
+
+    # ── اسم الناشر/المتحدث المشروع (القاعدتان 8،9) لا يُبلَّغ عنه — من مجمّع
+    # المعروف عبر speaker/publisher لا تخمينًا ──
+    grounded_pub = [{"text": "نشر ذلك", "kind": "تقرير منقول", "publisher": "ميليتير",
+                     "entities": [], "sources": []}]
+    notes_pub = article._unsourced_entities(
+        "وبحسب تقرير نشرته منصة ميليتير أن الأمر كذا.", grounded_pub, "", "", [])
+    check("_unsourced_entities: اسم الناشر (من حقل publisher البنيوي) معروف — لا يُبلَّغ",
+          not any("ميليتير" in n for n in notes_pub), notes_pub)
+
+    # ── min_run قابل للضبط عبر config.yaml ──
+    cfg = load_config()
+    check("config.yaml: article.unsourced_entity_min_run موجود وقابل للضبط",
+          cfg.path("article.unsourced_entity_min_run") is not None)
+
+    # ── تكامل كامل عبر _write_article: بلاغ لا رفض — outcome['produced'] يبقى
+    # True رغم وجود تفصيلة غير مسندة، وتظهر في التقرير ──
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار كيانات غير مسندة",
+        "statements": [
+            {"text": "هوي كا يان أعلن اعتزاله كرة القدم", "kind": "واقعة",
+             "entities": ["هوي كا يان"], "is_unnamed_event": False,
+             "is_reference": False},
+            {"text": "واقعة ثانية مسندة بمصدرين", "kind": "واقعة",
+             "entities": ["ك2"], "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = lambda *a, **k: ["مصدر أول", "مصدر ثانٍ"]
+    article._choose_question = lambda grounded, cfg, retries=2: ("لماذا اعتزل؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3: (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "رياضة",
+         "image_headline": "اعتزال", "post_title": question,
+         "post_body": ("أعلن هوي كا يان، المعروف بالصينية باسم شو جيايين، "
+                      "اعتزاله كرة القدم."),
+         "hashtags": ["اعتزال"]}, "")
+    article.find_images = lambda title, cfg: []
+
+    out = article._write_article("موجز اختبار كيانات غير مسندة", 9004, load_config())
+
+    check("تكامل: outcome['unsourced_entities'] يحتوي التفصيلة غير المسندة",
+          any("جيايين" in n for n in out["unsourced_entities"]), out["unsourced_entities"])
+    check("تكامل: outcome['produced'] يبقى True — بلاغ لا رفض",
+          out["produced"] is True, out["reason"])
+
+    report = article.build_report(out)
+    check("تكامل: التقرير يعرض قسم «تفاصيل لم تجتز بوابة السند (راجعها)»",
+          "تفاصيل لم تجتز بوابة السند" in report and "جيايين" in report, report)
+
+    article.extract_brief = real_extract_brief
+    evidence.search = real_search
+    evidence.gather_evidence = real_gather_evidence
+    article._support_sources = real_support_sources
+    article._choose_question = real_choose_question
+    article._draft_article = real_draft_article
+    article.find_images = real_find_images
+
+
 def test_evidence_top_candidates() -> None:
     """رصد أعلى 5 مرشّحين بالاسم/الوزن/الصلة/الدرجة المركّبة في trail (تشخيص
     Issue #373، الجولة الثالثة عشرة، البند 2، الخيار (و)): بلا لمس
@@ -7043,6 +7212,7 @@ def main() -> int:
     test_article_split_statements()
     test_article_report_kind()
     test_article_generic_source_publisher()
+    test_article_unsourced_entities()
     test_evidence_top_candidates()
     test_evidence_relevance_cap()
     test_reject_boxes_render()

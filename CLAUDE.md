@@ -234,6 +234,20 @@ line between "we didn't find it" (a pipeline gap, like this one) and "it doesn't
 refusal) — the abstention was right even though the search behind it was broken for the wrong
 reason. No fix yet.
 
+**Known limitation, not yet addressed (Issue #373):** `request._AR_STOP` entries written with alef
+maksura (e.g. `"على"`) never actually match inside `request.norm_tokens`, because the word is
+compared against the stop set *after* `_AR_TRANS` translation (`ى`→`ي`, so `"على"` becomes
+`"علي"` before the membership check, and the untranslated `"على"` in the set is never hit).
+Discovered while building `article._unsourced_entities` (review request, Issue #373, round 17,
+item 2-c), where it leaked `"على"` through as a bogus "content word" and produced a false-positive
+report line. Fixed locally there only (`article._AR_STOP_NORM`, a pre-translated copy of the stop
+set used just by `article._content_words`) — deliberately **not** fixed in `request.norm_tokens`
+itself, following this issue's repeated caution about touching shared normalization functions for a
+narrow fix (see the `require_relevance`/`loose_relevance` scoping decision above): `norm_tokens` is
+consumed by relevance scoring, query building, and `verify_draft.check_originality` across the whole
+project, and a behavior change there needs its own dedicated diagnosis and regression fixtures, not
+a side effect of an unrelated feature. Flagged here so it isn't rediscovered as a fresh bug.
+
 ## Testing
 
 `tests/test_pipeline.py` is the entire test suite — no pytest, no separate test files. It fakes
