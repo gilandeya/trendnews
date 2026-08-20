@@ -1,0 +1,48 @@
+{
+  "id": "8478dc0ab35e",
+  "created_at": "2026-08-20T03:07:54.219004+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.77,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "En Allemagne, les sociaux-démocrates veulent inscrire l’adaptation au changement climatique dans la Constitution",
+  "link": "https://www.lemonde.fr/international/article/2026/08/19/en-allemagne-les-sociaux-democrates-veulent-inscrire-l-adaptation-au-changement-climatique-dans-la-constitution_6749934_3210.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "En Allemagne, les sociaux-démocrates veulent inscrire l’adaptation au changement climatique dans la Constitution",
+    "link": "https://www.lemonde.fr/international/article/2026/08/19/en-allemagne-les-sociaux-democrates-veulent-inscrire-l-adaptation-au-changement-climatique-dans-la-constitution_6749934_3210.html",
+    "summary": "Alors que la lutte contre le réchauffement climatique relève, outre-Rhin, des Länder et des communes, les vagues de chaleur de cet été ont ravivé les appels à une meilleure coordination avec l’Etat fédéral. Une révision constitutionnelle nécessite toutefois une majorité des deux tiers au Bundestag et au Bundesrat, ce qui est loin d’être acquis.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-19T17:00:12+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/19/584/0/7008/3504/644/322/60/0/d5665ae_upload-1-7pkwpws4fvya-20260724-ps-harz-lemonde-014.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/08/19/en-allemagne-les-sociaux-democrates-veulent-inscrire-l-adaptation-au-changement-climatique-dans-la-constitution_6749934_3210.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/19/584/0/7008/3504/644/322/60/0/d5665ae_upload-1-7pkwpws4fvya-20260724-ps-harz-lemonde-014.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.77490663290741
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "id": "80d85ddbe6f2",
+  "created_at": "2026-08-20T03:07:54.218200+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.0,
+  "trend_score": 0.0,
+  "velocity": 0.38,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israeli army launches criminal probe into killing of 5-year-old Hind Rajab in Gaza",
+  "link": "https://www.france24.com/en/middle-east/20260819-israeli-army-launches-criminal-probe-into-its-troops-killing-of-five-year-old-hind-rajab",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "Daily Sabah",
+    "Dawn",
+    "France24",
+    "Malay Mail",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Guardian",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Israeli army launches criminal probe into killing of 5-year-old Hind Rajab in Gaza",
+    "link": "https://www.france24.com/en/middle-east/20260819-israeli-army-launches-criminal-probe-into-its-troops-killing-of-five-year-old-hind-rajab",
+    "summary": "The Israeli military will open internal criminal investigations into its troops' 2024 killing of 5-year-old Palestinian girl Hind Rajab alongside six of her relatives, as well as the killings of 15 medics and humanitarian workers in 2025, it announced Wednesday. Israeli rights groups have warned that such investigations rarely lead to convictions.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-19T13:07:12+00:00",
+    "image_url": "https://s.france24.com/media/display/583c2e3c-9bc2-11f1-9d5d-005056bfb2b6/w:1024/p:16x9/000-73B64HM-1.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Malay Mail",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Guardian",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/19/israel-orders-inquiry-into-killing-of-6-year-old-hind-rajab-in-gaza?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364595/israel-opens-criminal-probes-over-killings-palestinian-girl-hind-rajab-aid-workers?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260819-israeli-army-launches-criminal-probe-into-its-troops-killing-of-five-year-old-hind-rajab"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/israel-army-admits-to-firing-on-car-in-death-of-5-year-old-hind-rajab-in-gaza-11933023#publisher=newsstand"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/israel-hind-rajab-palestinian-girl-killed-gaza-criminal-investigation-idf/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/20/israeli-military-admits-firing-on-car-carrying-five-year-old-hind-rajab-orders-criminal-investigation/231993"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/583c2e3c-9bc2-11f1-9d5d-005056bfb2b6/w:1024/p:16x9/000-73B64HM-1.jpg",
+      "https://c.ndtvimg.com/2024-02/krm5prf_hind-rajab_625x300_11_February_24.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/20/357921.jpg",
+      "https://i.dawn.com/large/2026/08/191652350fd53e2.webp",
+      "https://i.dawn.com/thumbnail/2026/08/191652350fd53e2.webp",
+      "https://s.france24.com/media/display/397ece9c-9be4-11f1-a4ee-005056a90284/w:1024/p:16x9/EN-20260819-170110-170755-CS.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 12,
+    "velocity": 0.3752059961301428,
+    "age_hours": 7.995607828611111,
+    "is_stale": false,
+    "score": 20.996935228332703
+  }
+}
