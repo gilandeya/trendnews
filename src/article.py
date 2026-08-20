@@ -58,11 +58,18 @@ log = logging.getLogger("article")
 
 DRAFT_ORIGIN = "article"
 
-# القاعدة 2: تمييز حدّي بمعيار دلالي واحد — واقعة تدّعي وقوع حدث/رقم/تصريح
-# محدَّد، أو رأي يقوّم أو يفسّر أو يطرح سؤالًا مفتوحًا كموقف. لا تصنيف ثالث
-# (بخلاف CLAIM_KINDS في verify.py التي تضيف "تنبؤ" — هنا القاعدة 2 من
-# الطلب تصريحًا لا تفرّق التنبؤ عن الرأي).
-WRITEUP_KINDS = ["واقعة", "رأي"]
+# القاعدة 2: تمييز حدّي بمعيار دلالي واحد — واقعة تدّعي وقوع حدث/رقم محدَّد،
+# أو رأي يقوّم أو يفسّر أو يطرح سؤالًا مفتوحًا كموقف. "تصريح" تصنيف ثالث
+# أُضيف لاحقًا (تشخيص Issue #373، الجولة الثالثة عشرة، البند 1): نقل تصريح/
+# مقابلة/بيان لمتحدث واحد بعينه في مناسبة واحدة — يُستخرَج كعنصر واحد بمكوّناته
+# مجتمعة، لا يُفكَّك إلى عدة "واقعة" منفصلة كل منها يتنافس وحده على عتبة
+# min_confirm_sources (الشاهد المُبلَّغ: تصريح واحد يفنّد إسلامًا مزعومًا
+# استُخرج منه 4 "وقائع" مستقلة، فتوزّع سند مصدر واحد فعلي يؤيّد التصريح كاملًا
+# على أربع محاولات منفصلة بلا أي منها يكتمل، رغم أن المصدر نفسه أيَّد ثلاثة
+# مكوّنات في ثلاثة استعلامات مختلفة). يُعامَل كـ"واقعة" في كل مكان يفصل الرأي
+# عن الحقيقة القابلة للتحقق (facts_raw أدناه)، ويختلف عنها فقط في نظام حكم
+# السند (_support_sources(is_statement=True) — انظر توثيقها).
+WRITEUP_KINDS = ["واقعة", "رأي", "تصريح"]
 
 _DIGIT_RE = re.compile(r"\d")
 
@@ -98,14 +105,27 @@ WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتب
 استخرج:
 1. topic: جملة واحدة تلخّص موضوع الموجز كما فهمتَه أنت.
 2. statements: كل جملة تحمل معلومة أو موقفًا، مصنّفة:
-   - "واقعة": تدّعي وقوع حدث أو رقم أو تصريح محدَّد — "حدث كذا في كذا"
+   - "واقعة": تدّعي وقوع حدث أو رقم محدَّد — "حدث كذا في كذا"
    - "رأي": تقويم أو تفسير أو سؤال مفتوح يطرحه صاحب الموجز كموقف — لا
      ادّعاء وقوع بذاته
+   - "تصريح": نقل تصريح أو مقابلة أو بيان لمتحدث واحد بعينه في مناسبة واحدة
+     بعينها — كل الجمل التي تنقل مكوّنات هذا التصريح نفسه (ما قاله، ملابساته،
+     ما أعلن أنه سيفعله لاحقًا...) تُستخرَج كعنصر "تصريح" واحد لا عدة "واقعة"
+     منفصلة: نصه يلخّص مضمون التصريح بأجزائه معًا لا جزءًا واحدًا منه.
+     اشترط دومًا **متحدث واحد بعينه ومناسبة واحدة بعينها**: إن نقل الموجز
+     تصريحين لمتحدثين مختلفين، أو لنفس المتحدث في مناسبتين مختلفتين، فكل
+     تصريح عنصر "تصريح" مستقل بذاته — لا تدمجهما معًا. ولا تُدرِج جملة
+     سردية عامة لا تنقل تصريحًا بذاته (كخلفية أو سياق محيط) داخل عنصر
+     "تصريح" — تلك تبقى "واقعة" أو تُستبعد بحسب القاعدة أدناه. لكل عنصر
+     "تصريح" أيضًا: speaker (اسم المتحدث كما ورد في الموجز حرفيًا)،
+     وmerged_excerpts (كل جملة من الموجز حرفيًا كما وردت دُمجت في هذا
+     العنصر — للمراجعة البشرية، لا تُعِد صياغتها).
    جملة سردية انتقالية عامة — بلا حدث أو رقم أو تصريح محدَّد، وبلا تقويم أو
    موقف أيضًا — لا تُدرَج ضمن statements إطلاقًا: لا "واقعة" (لا تدّعي وقوع
-   شيء محدَّد) ولا "رأي" (ليست تقويمًا ولا موقفًا). مثال: "مرّت الأيام
-   وتغيرت الأحوال ومضى من مضى وبقي من بقي" — سرد عابر بلا مضمون قابل
-   للتحقق، يُستبعد كليًا لا يُصنَّف بأي تصنيف.
+   شيء محدَّد) ولا "رأي" (ليست تقويمًا ولا موقفًا) ولا "تصريح" (لا تنقل
+   تصريحًا بعينه). مثال: "مرّت الأيام وتغيرت الأحوال ومضى من مضى وبقي من
+   بقي" — سرد عابر بلا مضمون قابل للتحقق، يُستبعد كليًا لا يُصنَّف بأي
+   تصنيف.
    لكل عنصر أيضًا entities: 2-5 كيانات مميِّزة منه (أسماء أعلام، أرقام،
    تواريخ، أماكن) كما وردت في الموجز حرفيًا بلا أي إعادة صياغة — استعلام
    البحث سيُبنى منها وحدها.
@@ -131,8 +151,8 @@ WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتب
    — بحثه لا يُقيَّد بنافذة زمنية قصيرة).
 
 لا تنقل جملة من الموجز حرفيًا: أعد صياغة كل عنصر وسؤال بإيجاز (فيما عدا
-entities: تُنقل حرفيًا، لا تُعاد صياغتها أبدًا). لا تُجب عن الأسئلة من
-معرفتك — استخرجها فقط.
+entities وmerged_excerpts لعنصر "تصريح": تُنقل حرفيًا، لا تُعاد صياغتها
+أبدًا). لا تُجب عن الأسئلة من معرفتك — استخرجها فقط.
 
 استخدم أداة extract_brief دائمًا."""
 
@@ -153,6 +173,12 @@ WRITEUP_EXTRACT_SCHEMA = {
                         "entities": {"type": "array", "items": {"type": "string"}},
                         "is_unnamed_event": {"type": "boolean"},
                         "is_reference": {"type": "boolean"},
+                        # للعنصر "تصريح" فقط (اختياريان — لا معنى لهما لواقعة/
+                        # رأي، فلا نُلزم بهما كل عنصر): اسم المتحدث، وجمل
+                        # الموجز الحرفية التي دُمجت في هذا التصريح الواحد —
+                        # تبليغ لا منع (تشخيص Issue #373، الجولة الثالثة عشرة)
+                        "speaker": {"type": "string"},
+                        "merged_excerpts": {"type": "array", "items": {"type": "string"}},
                     },
                     "required": ["text", "kind", "entities", "is_unnamed_event",
                                 "is_reference"],
@@ -205,8 +231,16 @@ def normalize_statement(item) -> dict | None:
     entities = _as_entities(item.get("entities")) if isinstance(item, dict) else []
     is_unnamed_event = bool(isinstance(item, dict) and item.get("is_unnamed_event") is True)
     is_reference = bool(isinstance(item, dict) and item.get("is_reference") is True)
+    speaker = ""
+    merged_excerpts: list[str] = []
+    if isinstance(item, dict):
+        raw_speaker = item.get("speaker")
+        if isinstance(raw_speaker, str) and raw_speaker.strip():
+            speaker = raw_speaker.strip()
+        merged_excerpts = _as_entities(item.get("merged_excerpts"))
     return {"text": text, "kind": kind, "entities": entities,
-            "is_unnamed_event": is_unnamed_event, "is_reference": is_reference}
+            "is_unnamed_event": is_unnamed_event, "is_reference": is_reference,
+            "speaker": speaker, "merged_excerpts": merged_excerpts}
 
 
 def normalize_statements(raw) -> list[dict]:
@@ -696,6 +730,10 @@ def _name_event(statement: dict, cfg, topic: str = "") -> tuple[str | None, list
                  # raw_count دومًا هنا بحكم require_relevance=False) — البند
                  # 1، طلب التنفيذ على Issue #373
                  "unfiltered_relevance": True,
+                 # أعلى 5 مرشّحين بعد الفرز (اسم/وزن/صلة/درجة مركّبة) — رصد
+                 # صرف بلا تعديل الصيغة (تشخيص Issue #373، الجولة الثالثة
+                 # عشرة، البند 2، الخيار (و))
+                 "top_candidates": getattr(docs, "top_candidates", []),
                  "outcome": ""}
         trail.append(entry)
         if not docs:
@@ -738,6 +776,7 @@ def _name_event(statement: dict, cfg, topic: str = "") -> tuple[str | None, list
                       "raw_count": getattr(ranked, "raw_count", None),
                       "matched_count": getattr(ranked, "matched_count", None),
                       "fetch_failures": getattr(docs, "fetch_failures", []),
+                      "top_candidates": getattr(docs, "top_candidates", []),
                       "outcome": f"{len(terms)} كلمة سياق مستخلَصة" if terms
                                 else "لا سياق مستخلَص"})
         context_terms += terms
@@ -786,26 +825,51 @@ SUPPORT_SCHEMA = {
     },
 }
 
+# فحص سند "تصريح" (البند 1، تشخيص Issue #373، الجولة الثالثة عشرة): نظام
+# منفصل عن SUPPORT_SYSTEM — بلا تخفيف في عتبة min_confirm_sources نفسها،
+# لكن بمعيار تأييد أدق: مضمون التصريح يجب أن يرد في النص، لا مجرد وقوع
+# المقابلة/الظهور الإعلامي. مصدر يذكر أن المتحدث "أدلى بتصريحات" أو "تحدث
+# في مقابلة" بلا نقل مضمونها لا يُحسب مؤيدًا — التساهل هنا كان سيُبطل جوهر
+# القاعدة 1 (سند فعلي لا وقوع حدث عام قريب منه).
+STATEMENT_SUPPORT_SYSTEM = """أنت تتحقق هل نصوص مصادر مستقلة تسند مضمون
+تصريح منسوب لمتحدث بعينه — لا مجرد وقوع مقابلة أو ظهور إعلامي له.
 
-def _support_sources(fact_text: str, docs: list[dict], cfg) -> list[str]:
+احكم من النصوص المعطاة فقط — لا تستخدم معرفتك الخاصة عن الموضوع. التأييد
+يعني أن النص يذكر مضمون التصريح نفسه (ما قاله المتحدث فعليًا) بوضوح يقارب
+التصريح المعطى — لا مجرد أنه "أدلى بتصريحات" أو "تحدث في مقابلة" أو "ظهر
+إعلاميًا" بلا نقل مضمون ذلك الظهور. مصدر يذكر وقوع المقابلة وحده بلا مضمونها
+لا يُحسب مؤيدًا. مصدر لم يذكر التصريح إطلاقًا لا يُحسب مؤيدًا ولا مخالفًا.
+أخرج اسم المصدر مجردًا تمامًا كما ورد في وسم '--- المصدر: <الاسم> ---'
+فقط، بلا اختراع أسماء جديدة.
+
+استخدم أداة support_fact دائمًا."""
+
+
+def _support_sources(fact_text: str, docs: list[dict], cfg,
+                     is_statement: bool = False) -> list[str]:
     """يعيد أسماء المصادر (من docs فعليًا، لا مُختلَقة) التي تسند fact_text
     — القاعدة 1: هذه القائمة (بعد عدّها) هي ما يقرر مصير الواقعة. فشل نداء
     تقني يعيد _ModelCallList فارغة بـcall_error مضبوطًا (لا [] عاديًا) —
     استعمل getattr(result, "call_error", None) للتمييز عن حكم "لا مصادر"
-    فعلي من النموذج."""
+    فعلي من النموذج.
+
+    is_statement=True (kind == "تصريح") يستعمل STATEMENT_SUPPORT_SYSTEM بدل
+    SUPPORT_SYSTEM — نفس العتبة (min_confirm_sources) بلا أي تخفيف، لكن
+    معيار تأييد أدق يفحص مضمون التصريح لا وقوع المقابلة وحدها."""
     if not docs:
         return []
     acfg = cfg.get("article", {}) or {}
     model = acfg.get("model", "claude-sonnet-5")
     client = _client()
-    prompt = f"الواقعة: {fact_text}\n\nنصوص المصادر:\n\n{_format_docs(docs)}"
+    label = "التصريح" if is_statement else "الواقعة"
+    prompt = f"{label}: {fact_text}\n\nنصوص المصادر:\n\n{_format_docs(docs)}"
     try:
         resp = client.messages.create(
             model=model,
             max_tokens=400,
             tools=[SUPPORT_SCHEMA],
             tool_choice={"type": "tool", "name": "support_fact"},
-            system=SUPPORT_SYSTEM,
+            system=STATEMENT_SUPPORT_SYSTEM if is_statement else SUPPORT_SYSTEM,
             messages=[{"role": "user", "content": prompt}],
             # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
         )
@@ -1285,7 +1349,8 @@ def _new_outcome() -> dict:
            "sources": [], "unanswered": [], "answered_questions": [], "diffs": [],
            "trail": [], "draft_id": None, "grounded_count": 0,
            "image_source_name": None, "image_source_link": None,
-           "image_report": {}, "opinion_note": "", "originality_notes": []}
+           "image_report": {}, "opinion_note": "", "originality_notes": [],
+           "merged_statements": []}
 
 
 def write_article(body: str, issue_number: int, cfg) -> dict:
@@ -1323,9 +1388,22 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         return outcome
 
     questions_from_brief = normalize_questions(extracted.get("questions"))[:max_questions]
-    facts_raw = [s for s in statements if s["kind"] == "واقعة"][:max_statements]
-    opinions = [s for s in statements if s["kind"] != "واقعة"]
+    # "تصريح" (البند 1، تشخيص Issue #373، الجولة الثالثة عشرة) واقعة قابلة
+    # للتحقق كـ"واقعة" تمامًا — الفارق الوحيد نظام حكم السند
+    # (_support_sources(is_statement=True))، لا مكانها هنا (لا تُعامَل كرأي)
+    facts_raw = [s for s in statements if s["kind"] in ("واقعة", "تصريح")][:max_statements]
+    opinions = [s for s in statements if s["kind"] == "رأي"]
     topic = str(extracted.get("topic") or "")
+
+    # تبليغ الدمج لا منعه (البند 1): كل عنصر "تصريح" يذكر المتحدث وجمل
+    # الموجز الحرفية التي دُمجت فيه — يظهر في التقرير بصرف النظر عن مصير
+    # سنده لاحقًا، فيراجع المستخدم البشري أي دمج زائف (متحدثان مختلفان أو
+    # مناسبتان مختلفتان دُمجا خطأً) ويصححه، بدل منع الدمج بحكم آلي هش
+    outcome["merged_statements"] = [
+        {"speaker": s["speaker"] or "؟", "text": s["text"],
+         "merged_excerpts": s["merged_excerpts"]}
+        for s in facts_raw if s["kind"] == "تصريح"
+    ]
 
     opinion_note = ""
     # article.include_opinion (مراجعة بشرية بعد أول نشر): تعطيل الرأي قرار
@@ -1388,6 +1466,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                           "raw_count": getattr(support_ranked, "raw_count", None),
                           "matched_count": getattr(support_ranked, "matched_count", None),
                           "fetch_failures": getattr(support_docs, "fetch_failures", []),
+                          "top_candidates": getattr(support_docs, "top_candidates", []),
                           "call_error": support_call_error,
                           "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {support_call_error}"
                                      if support_call_error else
@@ -1442,14 +1521,22 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             relevance_text = evidence._entities_text(f) or f["text"]
             docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
             all_read_docs.extend(docs)
-            supporting = _support_sources(f["text"], docs, cfg) if docs else []
+            # "تصريح" (البند 1، تشخيص Issue #373، الجولة الثالثة عشرة): فحص
+            # المضمون لا وقوع المقابلة وحده — is_statement تختار
+            # STATEMENT_SUPPORT_SYSTEM بدل SUPPORT_SYSTEM، بلا تخفيف في عتبة
+            # min_confirm_sources نفسها
+            is_statement = f["kind"] == "تصريح"
+            supporting = (_support_sources(f["text"], docs, cfg, is_statement=is_statement)
+                         if docs else [])
             fact_call_error = getattr(supporting, "call_error", None)
             unique = set(supporting)
-            trail.append({"stage": "واقعة", "query": query, "basis": basis,
+            trail.append({"stage": "واقعة" if not is_statement else "تصريح",
+                          "query": query, "basis": basis,
                           "sources": [d["name"] for d in docs],
                           "raw_count": getattr(ranked, "raw_count", None),
                           "matched_count": getattr(ranked, "matched_count", None),
                           "fetch_failures": getattr(docs, "fetch_failures", []),
+                          "top_candidates": getattr(docs, "top_candidates", []),
                           "call_error": fact_call_error,
                           "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
                                      if fact_call_error else
@@ -1514,6 +1601,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                       "raw_count": getattr(ranked, "raw_count", None),
                       "matched_count": getattr(ranked, "matched_count", None),
                       "fetch_failures": getattr(docs, "fetch_failures", []),
+                      "top_candidates": getattr(docs, "top_candidates", []),
                       "call_error": answer_call_error,
                       "reused_evidence_count": len(existing_docs),
                       "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {answer_call_error}"
@@ -1784,6 +1872,16 @@ def build_report(outcome: dict) -> str:
         # (article.include_opinion=false)، لا نتيجة فحص سند
         lines += ["", f"💬 {outcome['opinion_note']}"]
 
+    if outcome.get("merged_statements"):
+        # تبليغ الدمج لا منعه (البند 1، تشخيص Issue #373، الجولة الثالثة
+        # عشرة): كل "تصريح" مع جمل الموجز الحرفية التي دُمجت فيه، بصرف
+        # النظر عن مصير سنده لاحقًا — يظهر دومًا فيراجعه المستخدم البشري
+        # ويصحح دمجًا زائفًا (متحدثان/مناسبتان مختلفتان) إن وقع خطأً
+        lines += ["", "**تصريحات دُمجت من عدة جمل (راجعها):**"]
+        for m in outcome["merged_statements"]:
+            excerpts = "؛ ".join(m["merged_excerpts"]) or "—"
+            lines.append(f"- {m['speaker']}: «{m['text']}» — دُمج من: {excerpts}")
+
     if outcome.get("originality_notes"):
         # تبليغ صريح لا إعفاء صامت (تشخيص Issue #373، الجولة العاشرة، البند
         # 2): كل تتابع أُعفي من رفض النسخ اللفظي بإشارة (أ)/(ب) يظهر هنا
@@ -1826,6 +1924,13 @@ def build_report(outcome: dict) -> str:
                 name, reason, link = fail.get("name", "؟"), fail.get("reason", ""), fail.get("link", "")
                 label = f"[{name}]({link})" if link else name
                 lines.append(f"  - ⚠️ فشل جلب {label}: {reason}")
+            # أعلى 5 مرشّحين بالدرجة المركّبة (البند 2، تشخيص Issue #373،
+            # الجولة الثالثة عشرة، الخيار (و)): رصد صرف — يحسم برقم فعلي هل
+            # تفوّق صلة لفظية عالية على فارق وزن ثابت هو ما يمنع مصدرًا
+            # موثوقًا من الصعود، بدل تخمين تفسير بلا دليل
+            for c in t.get("top_candidates") or []:
+                lines.append(f"  - 🔎 {c['name']}: وزن={c['weight']} صلة={c['relevance']} "
+                             f"درجة={c['score']}")
         lines.append("</details>")
 
     return "\n".join(lines)
