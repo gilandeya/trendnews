@@ -1,0 +1,89 @@
+{
+  "id": "c17e1f29bace",
+  "created_at": "2026-08-20T22:08:03.977687+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.31,
+  "trend_score": 0.0,
+  "velocity": 0.78,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "\"With Us Or Against Us\": US Official Warns Allies On Economic Isolation Of Iran",
+  "link": "https://www.ndtv.com/world-news/with-us-or-against-us-us-official-scott-bessent-warns-allies-on-coordinated-economic-isolation-of-iran-11938079#publisher=newsstand",
+  "publishers": [
+    "Al Jazeera English",
+    "CGTN",
+    "Daily Sabah",
+    "Dawn",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "The Express Tribune",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "in",
+  "article": {
+    "title": "\"With Us Or Against Us\": US Official Warns Allies On Economic Isolation Of Iran",
+    "link": "https://www.ndtv.com/world-news/with-us-or-against-us-us-official-scott-bessent-warns-allies-on-coordinated-economic-isolation-of-iran-11938079#publisher=newsstand",
+    "summary": "Bessent said that the economic sanctions would \"collapse\" the Iran government",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-08-20T18:39:47+00:00",
+    "image_url": "https://c.ndtvimg.com/2025-08/gifusu3k_scott-bessent-afp_625x300_27_August_25.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "CGTN",
+      "Daily Sabah",
+      "Dawn",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "The Express Tribune",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/20/us-treasury-secretary-says-new-economic-measures-will-collapse-iran?traffic_source=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624883/trump-warns-of-economic-consequences-for-any-country-that-supports-iran"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/with-us-or-against-us-us-official-scott-bessent-warns-allies-on-coordinated-economic-isolation-of-iran-11938079#publisher=newsstand"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/us-says-will-impose-toughest-sanctions-in-history-on-iran"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/us-threatens-toughest-sanctions-in-history-on-iran-oil-prices-surge-as-trump-warns-of-economic-warfare-101787256639251.html"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-20/news-1PKIKpktzEc/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2025-08/gifusu3k_scott-bessent-afp_625x300_27_August_25.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/20/456914.jpg",
+      "https://news.cgtn.com/news/2026-08-20/news-1PKIKpktzEc/img/9f8947578cbf475ca31ea14d65d70c67/9f8947578cbf475ca31ea14d65d70c67-750.png",
+      "https://news.cgtn.com/news/2026-08-20/news-1PKIKpktzEc/img/2dac7e80836c4a368d4e2cfad3a4ee34/2dac7e80836c4a368d4e2cfad3a4ee34.png",
+      "https://i.dawn.com/large/2026/08/20083253e5fb9b7.webp",
+      "https://i.dawn.com/thumbnail/2026/08/20083253e5fb9b7.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 9,
+    "velocity": 0.7764130025245547,
+    "age_hours": 3.0052733863888887,
+    "is_stale": false,
+    "score": 22.310560256394155
+  }
+}

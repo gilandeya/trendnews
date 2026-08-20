@@ -1,0 +1,48 @@
+{
+  "id": "b3140428bddd",
+  "created_at": "2026-08-20T22:08:03.978977+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.49,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "More than 1,000 Afghan refugees have been stuck at a camp in Qatar since 2021",
+  "link": "https://www.npr.org/2026/08/19/nx-s1-5936482/more-than-1-000-afghan-refugees-have-been-stuck-at-a-camp-in-qatar-since-2021",
+  "publishers": [
+    "NPR World"
+  ],
+  "region": "us",
+  "article": {
+    "title": "More than 1,000 Afghan refugees have been stuck at a camp in Qatar since 2021",
+    "link": "https://www.npr.org/2026/08/19/nx-s1-5936482/more-than-1-000-afghan-refugees-have-been-stuck-at-a-camp-in-qatar-since-2021",
+    "summary": "More than 1,000 Afghan refugees who fled their homes in 2021 have been stuck in Camp As-Sayliyah, Qatar. They're isolated and unable to leave, despite many having aided U.S. forces during the war.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-08-19T21:15:06+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5936482",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/08/19/nx-s1-5936482/more-than-1-000-afghan-refugees-have-been-stuck-at-a-camp-in-qatar-since-2021"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5936482"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 3.0053565333333334,
+    "is_stale": false,
+    "score": 15.491294314388888
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "id": "660fdb67b23e",
+  "created_at": "2026-08-20T22:08:03.978416+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.41,
+  "trend_score": 0.0,
+  "velocity": 0.6,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Cameroon’s President Biya returns home after months-long absence",
+  "link": "https://www.premiumtimesng.com/news/top-news/904383-cameroons-president-biya-returns-home-after-months-long-absence.html",
+  "publishers": [
+    "Africanews",
+    "France24",
+    "Premium Times",
+    "South China Morning Post"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Cameroon’s President Biya returns home after months-long absence",
+    "link": "https://www.premiumtimesng.com/news/top-news/904383-cameroons-president-biya-returns-home-after-months-long-absence.html",
+    "summary": "Mr Biya’s prolonged absence during these weeks intensified concerns about the health of the 93-year-old leader. The post Cameroon’s President Biya returns home after months-long absence appeared first on Premium Times Nigeria .",
+    "source_name": "Premium Times",
+    "region": "ng",
+    "weight": 1.1,
+    "published": "2026-08-20T21:28:50+00:00",
+    "image_url": "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2020/08/President-Paul-Biya.png?fit=642%2C367&amp;ssl=1",
+    "publisher": "Premium Times",
+    "cluster_sources": [
+      "Africanews",
+      "France24",
+      "Premium Times",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/africa/article/3364736/paul-biya-cameroons-undefeated-ruler-44-years-returns-after-long-absence?utm_source=rss_feed"
+      },
+      {
+        "name": "Premium Times",
+        "link": "https://www.premiumtimesng.com/news/top-news/904383-cameroons-president-biya-returns-home-after-months-long-absence.html"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/20/cameroons-president-biya-returns-home-after-unexplained-10-week-absence/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/africa/20260820-cameroon-93-year-old-president-paul-biya-returns-after-months-long-absence"
+      }
+    ],
+    "image_candidates": [
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2020/08/President-Paul-Biya.png?fit=642%2C367&amp;ssl=1",
+      "http://images.euronews.com/articles/stories/09/88/27/22/640x360_cmsv2_5634a238-e494-50ad-8c65-c441824a51d5-9882722.jpg?1787244624",
+      "https://s.france24.com/media/display/f95ab2ee-90a9-11f1-b569-005056bfb2b6/w:1024/p:16x9/2026-08-04T112926Z-171110095-RC2SPKAJNCV9-RTRMADP-3-CAMEROON-POLITICS.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 18.406553574037037
+  }
+}

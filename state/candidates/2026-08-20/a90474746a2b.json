@@ -1,0 +1,48 @@
+{
+  "id": "a90474746a2b",
+  "created_at": "2026-08-20T22:08:03.978719+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.85,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US Approves $4.5-Billion Sale Of Refuelling Aircraft To Qatar",
+  "link": "https://www.ndtv.com/world-news/us-approves-4-5-billion-sale-of-refueling-aircraft-to-qatar-11937870#publisher=newsstand",
+  "publishers": [
+    "NDTV — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "US Approves $4.5-Billion Sale Of Refuelling Aircraft To Qatar",
+    "link": "https://www.ndtv.com/world-news/us-approves-4-5-billion-sale-of-refueling-aircraft-to-qatar-11937870#publisher=newsstand",
+    "summary": "The sale, which was sent to Congress for its approval, will help support US national security",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-08-20T17:33:52+00:00",
+    "image_url": "https://c.ndtvimg.com/2025-05/8mfhdgq_trump-qatar-emir_625x300_14_May_25.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/us-approves-4-5-billion-sale-of-refueling-aircraft-to-qatar-11937870#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2025-05/8mfhdgq_trump-qatar-emir_625x300_14_May_25.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 3.005355230277778,
+    "is_stale": false,
+    "score": 16.84547950090741
+  }
+}
