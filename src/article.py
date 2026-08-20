@@ -69,7 +69,16 @@ DRAFT_ORIGIN = "article"
 # مكوّنات في ثلاثة استعلامات مختلفة). يُعامَل كـ"واقعة" في كل مكان يفصل الرأي
 # عن الحقيقة القابلة للتحقق (facts_raw أدناه)، ويختلف عنها فقط في نظام حكم
 # السند (_support_sources(is_statement=True) — انظر توثيقها).
-WRITEUP_KINDS = ["واقعة", "رأي", "تصريح"]
+# "تقرير منقول" تصنيف رابع (تشخيص Issue #373، الجولة السادسة عشرة): نقل موجز
+# لتقرير/تحليل نشرته منصة أو صحيفة واحدة بعينها — لا حدث وقع في العالم يحتاج
+# رصدًا من زوايا مستقلة متعددة، بل نشرٌ وقع، ودليله الوحيد الممكن بطبيعة
+# الحال هو المنشور نفسه أو ناقل يسمّي ناشره. الشاهد المُبلَّغ: تقرير تحليلي
+# لمنصة يونانية متخصصة استُخرج "واقعة" عادية فسقط بعتبة مصدرين لن تتحقق أبدًا
+# (تقرير منصة واحدة لن يعيد نشره مصدر مستقل ثانٍ بحكم طبيعته). عتبته المستقلة
+# article.report_min_confirm=1 بشرط هوية مزدوج بنيوي — انظر
+# _report_identity_kind — لا حكم نموذج، يمنع الالتفاف. عنصر بلا publisher
+# محدَّد يعود إلى "واقعة" (normalize_statement).
+WRITEUP_KINDS = ["واقعة", "رأي", "تصريح", "تقرير منقول"]
 
 _DIGIT_RE = re.compile(r"\d")
 
@@ -120,6 +129,16 @@ WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتب
      "تصريح" أيضًا: speaker (اسم المتحدث كما ورد في الموجز حرفيًا)،
      وmerged_excerpts (كل جملة من الموجز حرفيًا كما وردت دُمجت في هذا
      العنصر — للمراجعة البشرية، لا تُعِد صياغتها).
+   - "تقرير منقول": الموجز ينقل مضمون تقرير أو تحليل أو دراسة نشرتها منصة
+     أو صحيفة أو جهة إعلامية واحدة بعينها — لا حدثًا وقع في العالم يمكن أن
+     يرصده أكثر من طرف مستقل، بل نشرًا وقع من طرف واحد بعينه. مثال: "نشر
+     موقع كذا تقريرًا يفيد بأن..." أو "بحسب تحليل نشرته صحيفة كذا...".
+     لهذا العنصر إلزامًا publisher (اسم المنصة/الصحيفة كما ورد في الموجز
+     حرفيًا — لا اسمًا مخمَّنًا أو معرّبًا من عندك إن لم يذكره الموجز
+     صراحة). فرّق بينه وبين "واقعة": إن كان الموجز ينقل حدثًا وقع فعليًا
+     في العالم (لا مجرد نشر) وإن استشهد بمصدر واحد لذكره، فهو "واقعة"
+     عادية لا "تقرير منقول" — هذا التصنيف خاص بادّعاءات مصدرها هو فعل
+     النشر ذاته لا الحدث الذي يصفه المنشور.
    جملة سردية انتقالية عامة — بلا حدث أو رقم أو تصريح محدَّد، وبلا تقويم أو
    موقف أيضًا — لا تُدرَج ضمن statements إطلاقًا: لا "واقعة" (لا تدّعي وقوع
    شيء محدَّد) ولا "رأي" (ليست تقويمًا ولا موقفًا) ولا "تصريح" (لا تنقل
@@ -206,6 +225,11 @@ WRITEUP_EXTRACT_SCHEMA = {
                         # حرفيًا، لتجميع أجزائها في التقرير (split_statements)
                         # — تشخيص Issue #373، الجولة الخامسة عشرة
                         "split_from": {"type": "string"},
+                        # للعنصر "تقرير منقول" فقط، لكن إلزامي *دلاليًا* له
+                        # (normalize_statement يُنزِله إلى "واقعة" بلا publisher
+                        # — تشخيص Issue #373، الجولة السادسة عشرة): اسم
+                        # المنصة/الصحيفة الناشرة كما ورد في الموجز حرفيًا
+                        "publisher": {"type": "string"},
                     },
                     "required": ["text", "kind", "entities", "is_unnamed_event",
                                 "is_reference"],
@@ -261,6 +285,7 @@ def normalize_statement(item) -> dict | None:
     speaker = ""
     merged_excerpts: list[str] = []
     split_from = ""
+    publisher = ""
     if isinstance(item, dict):
         raw_speaker = item.get("speaker")
         if isinstance(raw_speaker, str) and raw_speaker.strip():
@@ -269,10 +294,20 @@ def normalize_statement(item) -> dict | None:
         raw_split_from = item.get("split_from")
         if isinstance(raw_split_from, str) and raw_split_from.strip():
             split_from = raw_split_from.strip()
+        raw_publisher = item.get("publisher")
+        if isinstance(raw_publisher, str) and raw_publisher.strip():
+            publisher = raw_publisher.strip()
+    # publisher إلزامي *دلاليًا* لـ"تقرير منقول" (تشخيص Issue #373، الجولة
+    # السادسة عشرة، طلب المراجعة البند "publisher إلزامي"): عنصر بلا ناشر
+    # محدَّد لا سند بنيويًا ممكن له (لا شيء يُطابَق عليه شرط الهوية أدناه)،
+    # فيعود إلى "واقعة" بعتبتها العادية (min_confirm_sources) بدل عتبة
+    # report_min_confirm=1 التي لا معنى لتخفيفها بلا هوية ناشر واضحة
+    if kind == "تقرير منقول" and not publisher:
+        kind = "واقعة"
     return {"text": text, "kind": kind, "entities": entities,
             "is_unnamed_event": is_unnamed_event, "is_reference": is_reference,
             "speaker": speaker, "merged_excerpts": merged_excerpts,
-            "split_from": split_from}
+            "split_from": split_from, "publisher": publisher}
 
 
 def normalize_statements(raw) -> list[dict]:
@@ -876,9 +911,48 @@ STATEMENT_SUPPORT_SYSTEM = """أنت تتحقق هل نصوص مصادر مست�
 
 استخدم أداة support_fact دائمًا."""
 
+# فحص سند "تقرير منقول" (نوع رابع، تشخيص Issue #373، الجولة السادسة عشرة):
+# نظير STATEMENT_SUPPORT_SYSTEM لكن على مضمون *تقرير نشرته منصة* بدل كلام
+# متحدث — يُستدعى فقط على الوثائق التي اجتازت شرط الهوية البنيوي أصلًا
+# (_report_identity_kind، يُطبَّق داخل _support_sources قبل هذا النداء) —
+# فحص المضمون هنا مكمّل لا بديل عن شرط الهوية، لا يغني عنه.
+REPORT_SUPPORT_SYSTEM = """أنت تتحقق هل نص مصدر يعكس مضمون تقرير نشرته منصة
+بعينها — لا مجرد ذكر عابر لاسمها.
+
+احكم من النص المعطى فقط — لا تستخدم معرفتك الخاصة عن الموضوع. التأييد يعني
+أن النص (سواء كان هو التقرير الأصلي نفسه، أو ناقلًا يسمّي الناشر وينقل
+مضمون تقريره) يذكر مضمون التقرير الموصوف بوضوح يقارب ما يُعطى لك — لا مجرد
+أن اسم المنصة ورد عرضًا بلا نقل مضمون ما نشرته. مصدر لم يذكر مضمون التقرير
+إطلاقًا لا يُحسب مؤيدًا. أخرج اسم المصدر مجردًا تمامًا كما ورد في وسم
+'--- المصدر: <الاسم> ---' فقط، بلا اختراع أسماء جديدة.
+
+استخدم أداة support_fact دائمًا."""
+
+
+def _report_identity_kind(publisher: str, doc: dict, cfg) -> str | None:
+    """شرط الهوية المزدوج البنيوي لـ"تقرير منقول" (لا حكم نموذج — طلب
+    المراجعة، تشخيص Issue #373 الجولة السادسة عشرة): يعيد "original" إن
+    كانت الوثيقة من الناشر المُصرَّح به في الموجز نفسه (توحيد عبر
+    evidence._tokens_match، نفس منطق _canonical_publisher)، أو "carrier" إن
+    سمّته صراحةً داخل نصها (ناقل موثَّق — منصة أجنبية متخصصة قد لا تظهر في
+    نتائج بحث عربية أصلًا)، أو None إن لم تطابق أيًّا. هذا الشرط — لا حكم
+    نموذج يصنّف الوثيقة بنفسه — هو ما يمنع الالتفاف: خبر عادي مُصنَّف زورًا
+    كـ"تقرير منقول" لن يجد وثيقة واحدة تطابق هوية ناشر بعينه محدَّد سلفًا
+    بهذه الدقة."""
+    if not publisher:
+        return None
+    if evidence._tokens_match(publisher, doc.get("name", "")):
+        return "original"
+    text_tokens = norm_tokens(doc.get("text", "") or "")
+    pub_tokens = norm_tokens(publisher)
+    if pub_tokens and pub_tokens <= text_tokens:
+        return "carrier"
+    return None
+
 
 def _support_sources(fact_text: str, docs: list[dict], cfg,
-                     is_statement: bool = False) -> list[str]:
+                     is_statement: bool = False, is_report: bool = False,
+                     publisher: str = "") -> list[str]:
     """يعيد أسماء المصادر (من docs فعليًا، لا مُختلَقة) التي تسند fact_text
     — القاعدة 1: هذه القائمة (بعد عدّها) هي ما يقرر مصير الواقعة. فشل نداء
     تقني يعيد _ModelCallList فارغة بـcall_error مضبوطًا (لا [] عاديًا) —
@@ -887,13 +961,25 @@ def _support_sources(fact_text: str, docs: list[dict], cfg,
 
     is_statement=True (kind == "تصريح") يستعمل STATEMENT_SUPPORT_SYSTEM بدل
     SUPPORT_SYSTEM — نفس العتبة (min_confirm_sources) بلا أي تخفيف، لكن
-    معيار تأييد أدق يفحص مضمون التصريح لا وقوع المقابلة وحدها."""
+    معيار تأييد أدق يفحص مضمون التصريح لا وقوع المقابلة وحدها.
+
+    is_report=True (kind == "تقرير منقول"، الجولة السادسة عشرة): docs تُصفَّى
+    أولًا بشرط الهوية البنيوي (_report_identity_kind) — قبل أي نداء نموذج —
+    فلا يصل REPORT_SUPPORT_SYSTEM إلا وثائق تطابق هوية publisher فعلًا؛
+    عتبتها (report_min_confirm) مستقلة تُطبَّق خارج هذه الدالة."""
+    if is_report:
+        docs = [d for d in docs if _report_identity_kind(publisher, d, cfg)]
     if not docs:
         return []
     acfg = cfg.get("article", {}) or {}
     model = acfg.get("model", "claude-sonnet-5")
     client = _client()
-    label = "التصريح" if is_statement else "الواقعة"
+    if is_report:
+        system, label = REPORT_SUPPORT_SYSTEM, "التقرير المنقول"
+    elif is_statement:
+        system, label = STATEMENT_SUPPORT_SYSTEM, "التصريح"
+    else:
+        system, label = SUPPORT_SYSTEM, "الواقعة"
     prompt = f"{label}: {fact_text}\n\nنصوص المصادر:\n\n{_format_docs(docs)}"
     try:
         resp = client.messages.create(
@@ -901,7 +987,7 @@ def _support_sources(fact_text: str, docs: list[dict], cfg,
             max_tokens=400,
             tools=[SUPPORT_SCHEMA],
             tool_choice={"type": "tool", "name": "support_fact"},
-            system=STATEMENT_SUPPORT_SYSTEM if is_statement else SUPPORT_SYSTEM,
+            system=system,
             messages=[{"role": "user", "content": prompt}],
             # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
         )
@@ -1104,7 +1190,16 @@ def _sufficiency(grounded: list[dict], cfg) -> tuple[bool, str]:
     الإخبارية الفعلية سقطت لعجز سند — يُفرغ هذا العتبة من معناها (هل الخبر
     الجديد كافٍ لمقال). فالعدّ العددي وحده لا يكفي: يُشترط أيضًا وجود واقعة
     واحدة على الأقل غير مرجعية (`is_reference` غير صادقة) ضمن `grounded` —
-    خبر فعلي لا خلفية وحدها."""
+    خبر فعلي لا خلفية وحدها.
+
+    **ضابط ثالث (طلب المراجعة، تشخيص Issue #373 الجولة السادسة عشرة)،
+    نظير شرط "واقعة غير مرجعية" أعلاه بالضبط**: يُشترط أيضًا وجود واقعة
+    واحدة على الأقل ليست "تقرير منقول" ضمن `grounded`. "تقرير منقول"
+    عتبته report_min_confirm=1 (لا 2) لأن نشر منصة واحدة لا يمكن أن يرصده
+    مصدر مستقل ثانٍ بطبيعته — سهولة نسبية في اجتياز السند تماثل سهولة
+    الوقائع المرجعية أعلاه لنفس السبب البنيوي (عتبة أدنى ← اجتياز أسهل، لا
+    قوة خبر أعلى). مقال مبنيّ بالكامل على "قالت منصة كذا" بلا واقعة واحدة
+    مسندة بمصدرين مستقلين حقيقيين ليس خبرًا قائمًا بذاته."""
     acfg = cfg.get("article", {}) or {}
     min_grounded = int(acfg.get("min_grounded_facts", 2))
     if len(grounded) < min_grounded:
@@ -1113,6 +1208,10 @@ def _sufficiency(grounded: list[dict], cfg) -> tuple[bool, str]:
     if not any(not g.get("is_reference") for g in grounded):
         return False, ("كل الوقائع المسندة خلفية/مرجعية (سيرة أو تاريخ سابق موثَّق "
                        "سلفًا) — لا خبر جديد فعلي يستحق مقالًا (تعليق الموافقة، البند 6)")
+    if not any(g.get("kind") != "تقرير منقول" for g in grounded):
+        return False, ("كل الوقائع المسندة تقارير منقولة عن منصة/منصات واحدة بعتبة "
+                       "مصدر واحد لكلٍّ — لا واقعة مسندة بمصدرين مستقلين حقيقيين "
+                       "تقوم عليها القصة (نظير شرط الوقائع المرجعية، البند 6)")
     return True, f"{len(grounded)} واقعة مسندة"
 
 
@@ -1213,7 +1312,9 @@ DRAFT_SYSTEM_TEMPLATE = """أنت محرر يكتب مقالًا عربيًا ل
 4. المتن يجب أن يجيب عن السؤال المعطى صراحة بالوقائع المسندة — لا يفتح
    سؤالًا جديدًا ولا يتهرّب منه.
 5. عربية فصيحة مبسّطة، بلا نسخ حرفي من أي نص مصدر — أعد الصياغة بالكامل.
-6. لا تذكر اسم المصدر داخل المتن — يُكتب أسفل المنشور تلقائيًا.
+6. لا تذكر اسم المصدر داخل المتن — يُكتب أسفل المنشور تلقائيًا. استثناء
+   وحيد: القاعدة 9 أدناه (نسبة "تقرير منقول" لاسم ناشره) — هناك اسم الناشر
+   جزء من الواقعة نفسها لا استشهادًا زائدًا.
 7. استوعب الوقائع المسندة المعطاة كلها في المتن — لا تختصرها في جملة واحدة
    حين تحتمل فقرة. هذا مقال مطوَّل عن مصادر عدة قُرئت فعليًا، لا خبر عاجل
    مقتضب: كل واقعة معطاة تستحق مساحتها في المتن، لا حذفًا انتقائيًا.
@@ -1222,6 +1323,11 @@ DRAFT_SYSTEM_TEMPLATE = """أنت محرر يكتب مقالًا عربيًا ل
    رقمًا أو ادّعاءً عن قدرة عسكرية أو أمنية، وضّح ذلك في صلب الجملة نفسها
    لا في حاشية منفصلة — بصيغة كـ"وزعم فلان أن..." أو "وبحسب ادّعاء
    فلان..." — لا تصغها كأنها معلومة مؤكَّدة من مصدر مستقل.
+9. الوقائع المعلَّمة بـ"[تقرير منقول عن ...]" مصدرها نشرٌ من منصة واحدة
+   بعينها لا حدث يمكن أن يرصده أكثر من طرف مستقل — إلزامًا لا اختياريًا،
+   انسب كل مضمونها في صلب الجملة نفسها لاسم تلك المنصة صراحة، بصيغة كـ
+   "وبحسب تقرير نشرته منصة..." أو "وذكرت صحيفة... في تقرير لها أن..." —
+   لا تقدّمه خبرًا مؤكَّدًا من مصدر مستقل ولا تُسقط اسم الناشر من الجملة.
 
 استخدم أداة write_article دائمًا."""
 
@@ -1323,12 +1429,17 @@ def _opinions_block(opinions: list[dict], cfg) -> str:
 def _facts_block(grounded: list[dict]) -> str:
     """يُعلِّم كل واقعة من kind=='تصريح' بوسم "[تصريح لـ...]" ظاهر للنموذج —
     القاعدة 8 تعتمد عليه ليميّز كلام متحدث بعينه (مسنَد وقوعه، لا صحة
-    مضمونه بالضرورة) عن واقعة مسندة من مصدر مستقل مباشرة."""
+    مضمونه بالضرورة) عن واقعة مسندة من مصدر مستقل مباشرة. وكل واقعة من
+    kind=='تقرير منقول' بوسم "[تقرير منقول عن ...]" نظيره — القاعدة 9
+    تعتمد عليه لتنسب مضمونه لاسم ناشره صراحة في المتن (الجولة السادسة عشرة)."""
     lines = []
     for f in grounded:
         if f.get("kind") == "تصريح":
             speaker = f.get("speaker") or "؟"
             lines.append(f"- [تصريح لـ{speaker}] {f['text']}")
+        elif f.get("kind") == "تقرير منقول":
+            publisher = f.get("publisher") or "؟"
+            lines.append(f"- [تقرير منقول عن {publisher}] {f['text']}")
         else:
             lines.append(f"- {f['text']}")
     return "\n".join(lines)
@@ -1392,6 +1503,30 @@ def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
     return written, ""
 
 
+def _report_attribution_ok(post_body: str, grounded: list[dict]) -> tuple[bool, str]:
+    """يتحقق **بنيويًا** — لا بالبرومبت وحده (طلب المراجعة، تشخيص Issue
+    #373 الجولة السادسة عشرة، البند 1: "أضف اختبارًا يثبت أن متنًا... بلا
+    نسبة يُرفض — لا برومبت وحده") — أن مضمون كل عنصر "تقرير منقول" في
+    grounded منسوب لاسم ناشره صراحة داخل post_body (القاعدة 9). القاعدة 9
+    في DRAFT_SYSTEM_TEMPLATE توجيه للنموذج فقط؛ هذا الفحص اللاحق هو ما يضمن
+    الالتزام الفعلي بصرف النظر عن التزام النموذج بالتوجيه.
+
+    مطابقة توكنز متسامحة (norm_tokens، نفس منطق _report_identity_kind) لا
+    تطابق حرفي صارم — اسم الناشر قد يُصرَّف نحويًا في المتن (مثال: "موقع
+    ميليتير" قد يُذكر كـ"موقع ميليتير اليوناني")؛ المطلوب أن تكون كل كلمات
+    اسم الناشر (بعد التطبيع) واردة في المتن، لا تطابق النص الكامل حرفيًا."""
+    body_tokens = norm_tokens(post_body or "")
+    for f in grounded:
+        if f.get("kind") != "تقرير منقول":
+            continue
+        publisher = f.get("publisher") or ""
+        pub_tokens = norm_tokens(publisher)
+        if not pub_tokens or not (pub_tokens <= body_tokens):
+            return False, (f"مضمون تقرير منقول عن «{publisher or '؟'}» ورد في المتن بلا "
+                          "نسبة صريحة لاسم الناشر في صلب الجملة — القاعدة 9")
+    return True, ""
+
+
 # ──────────────────────────── الأنبوب الكامل ────────────────────────────
 
 
@@ -1401,7 +1536,7 @@ def _new_outcome() -> dict:
            "trail": [], "draft_id": None, "grounded_count": 0,
            "image_source_name": None, "image_source_link": None,
            "image_report": {}, "opinion_note": "", "originality_notes": [],
-           "merged_statements": [], "split_statements": []}
+           "merged_statements": [], "split_statements": [], "report_statements": []}
 
 
 def write_article(body: str, issue_number: int, cfg) -> dict:
@@ -1420,6 +1555,9 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     days = int(acfg.get("days", 21))
     query_max_words = int(acfg.get("query_max_words", 5))
     min_confirm = int(acfg.get("min_confirm_sources", 2))
+    # عتبة سند مستقلة لـ"تقرير منقول" — نظير min_confirm أعلاه لكنها 1 لا 2
+    # (تشخيص Issue #373، الجولة السادسة عشرة؛ انظر توثيق article.yaml)
+    report_min_confirm = int(acfg.get("report_min_confirm", 1))
     max_statements = int(acfg.get("max_statements", 8))
     max_questions = int(acfg.get("max_questions", 5))
 
@@ -1439,10 +1577,13 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         return outcome
 
     questions_from_brief = normalize_questions(extracted.get("questions"))[:max_questions]
-    # "تصريح" (البند 1، تشخيص Issue #373، الجولة الثالثة عشرة) واقعة قابلة
-    # للتحقق كـ"واقعة" تمامًا — الفارق الوحيد نظام حكم السند
-    # (_support_sources(is_statement=True))، لا مكانها هنا (لا تُعامَل كرأي)
-    facts_raw = [s for s in statements if s["kind"] in ("واقعة", "تصريح")][:max_statements]
+    # "تصريح" و"تقرير منقول" وقائع قابلة للتحقق كـ"واقعة" تمامًا — الفارق
+    # الوحيد نظام حكم السند وعتبته (_support_sources(is_statement=True)
+    # للأول، is_report=True بعتبة report_min_confirm للثاني — تشخيص Issue
+    # #373، الجولتان الثالثة عشرة والسادسة عشرة)، لا مكانها هنا (لا تُعامَل
+    # كرأي)
+    facts_raw = [s for s in statements
+                if s["kind"] in ("واقعة", "تصريح", "تقرير منقول")][:max_statements]
     opinions = [s for s in statements if s["kind"] == "رأي"]
     topic = str(extracted.get("topic") or "")
 
@@ -1589,13 +1730,20 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             # "تصريح" (البند 1، تشخيص Issue #373، الجولة الثالثة عشرة): فحص
             # المضمون لا وقوع المقابلة وحده — is_statement تختار
             # STATEMENT_SUPPORT_SYSTEM بدل SUPPORT_SYSTEM، بلا تخفيف في عتبة
-            # min_confirm_sources نفسها
+            # min_confirm_sources نفسها. "تقرير منقول" (الجولة السادسة عشرة):
+            # is_report تختار REPORT_SUPPORT_SYSTEM **وعتبة report_min_confirm
+            # المستقلة** (1 لا 2) — شرط الهوية المزدوج البنيوي يُطبَّق داخل
+            # _support_sources نفسها (_report_identity_kind) قبل أي حكم نموذج
             is_statement = f["kind"] == "تصريح"
-            supporting = (_support_sources(f["text"], docs, cfg, is_statement=is_statement)
+            is_report = f["kind"] == "تقرير منقول"
+            fact_min_confirm = report_min_confirm if is_report else min_confirm
+            supporting = (_support_sources(f["text"], docs, cfg, is_statement=is_statement,
+                                          is_report=is_report, publisher=f.get("publisher", ""))
                          if docs else [])
             fact_call_error = getattr(supporting, "call_error", None)
             unique = set(supporting)
-            trail.append({"stage": "واقعة" if not is_statement else "تصريح",
+            stage = "تقرير" if is_report else ("تصريح" if is_statement else "واقعة")
+            trail.append({"stage": stage,
                           "query": query, "basis": basis,
                           "sources": [d["name"] for d in docs],
                           "raw_count": getattr(ranked, "raw_count", None),
@@ -1605,14 +1753,15 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                           "call_error": fact_call_error,
                           "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
                                      if fact_call_error else
-                                     f"مسندة بـ{len(unique)} مصدر مستقل" if len(unique) >= min_confirm
-                                     else f"سند غير كافٍ ({len(unique)}/{min_confirm})")})
-            if len(unique) < min_confirm:
+                                     f"مسندة بـ{len(unique)} مصدر مستقل"
+                                     if len(unique) >= fact_min_confirm
+                                     else f"سند غير كافٍ ({len(unique)}/{fact_min_confirm})")})
+            if len(unique) < fact_min_confirm:
                 dropped.append({
                     "text": f["text"],
                     "reason": (f"⚠️ فشل نداء الحكم على السند تقنيًا: {fact_call_error}"
                               if fact_call_error else
-                              f"سند غير كافٍ ({len(unique)} من {min_confirm} "
+                              f"سند غير كافٍ ({len(unique)} من {fact_min_confirm} "
                               "مصادر مستقلة مطلوبة)"),
                 })
                 continue
@@ -1622,6 +1771,20 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         for s in grounded[-1]["sources"]:
             if not any(s["name"] == x["name"] for x in sources_seen):
                 sources_seen.append({"name": s["name"], "link": s["link"]})
+
+    # قسم مراجعة "تقارير مُرحَّلة عن ناشر واحد" (طلب المراجعة البند 2،
+    # تشخيص Issue #373، الجولة السادسة عشرة): يظهر لكل "تقرير منقول" مسنَد
+    # فعليًا (بعد الحلقة أعلاه — الهوية غير قابلة للحساب قبل القراءة) اسم
+    # ناشره ومصدره المسنِد، مع تمييز صريح إن كانت الوثيقة نفسها من الناشر
+    # (original) أو ناقلًا يسمّيه (carrier) — ليراجعها المستخدم البشري كما
+    # في merged_statements/split_statements أعلاه
+    outcome["report_statements"] = [
+        {"publisher": f.get("publisher") or "؟", "text": f["text"],
+         "sources": [{"name": s["name"], "link": s.get("link", ""),
+                      "kind": _report_identity_kind(f.get("publisher", ""), s, cfg) or "؟"}
+                     for s in f.get("sources", [])]}
+        for f in grounded if f.get("kind") == "تقرير منقول"
+    ]
 
     outcome["dropped"] = dropped
     outcome["opinion_note"] = opinion_note
@@ -1731,6 +1894,13 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     written, w_reason = _draft_article(grounded, opinions, question, cfg)
     if written is None:
         outcome["reason"] = w_reason
+        return outcome
+
+    # فحص بنيوي — لا اعتمادًا على البرومبت وحده (القاعدة 9، طلب المراجعة
+    # البند 1، تشخيص Issue #373 الجولة السادسة عشرة)
+    attrib_ok, attrib_reason = _report_attribution_ok(written["post_body"], grounded)
+    if not attrib_ok:
+        outcome["reason"] = f"مرحلة الصياغة — امتناع: {attrib_reason}"
         return outcome
 
     source_docs = [{"name": evidence._canonical_publisher(s["name"], cfg), "text": s["text"],
@@ -1956,6 +2126,19 @@ def build_report(outcome: dict) -> str:
         for sp in outcome["split_statements"]:
             parts = "؛ ".join(sp["parts"]) or "—"
             lines.append(f"- «{sp['original']}» — فُصِّلت إلى: {parts}")
+
+    if outcome.get("report_statements"):
+        # نوع رابع "تقرير منقول" (طلب المراجعة البند 2، تشخيص Issue #373،
+        # الجولة السادسة عشرة): عتبته مصدر واحد فقط (report_min_confirm) —
+        # يستحق مراجعة بشرية مخصَّصة، بتمييز صريح بين الوثيقة الأصلية
+        # (original) والناقل الذي يسمّي الناشر (carrier)، لا عرض إعفاء صامت
+        _kind_ar = {"original": "الوثيقة الأصلية", "carrier": "ناقل يسمّي الناشر"}
+        lines += ["", "**تقارير مُرحَّلة عن ناشر واحد (راجعها):**"]
+        for r in outcome["report_statements"]:
+            for s in r["sources"]:
+                label = f"[{s['name']}]({s['link']})" if s.get("link") else s["name"]
+                kind_ar = _kind_ar.get(s["kind"], "؟")
+                lines.append(f"- {r['publisher']}: «{r['text']}» — {label} ({kind_ar})")
 
     if outcome.get("originality_notes"):
         # تبليغ صريح لا إعفاء صامت (تشخيص Issue #373، الجولة العاشرة، البند
