@@ -126,6 +126,28 @@ WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتب
    تصريحًا بعينه). مثال: "مرّت الأيام وتغيرت الأحوال ومضى من مضى وبقي من
    بقي" — سرد عابر بلا مضمون قابل للتحقق، يُستبعد كليًا لا يُصنَّف بأي
    تصنيف.
+
+   جملة واحدة قد تحمل أكثر من ادّعاء "واقعة" مستقل — افصلها إلى عدة عناصر
+   "واقعة"، عنصر لكل ادّعاء، حين يصدق هذا المعيار: لو أمكن تخيّل مصدر مستقل
+   يؤكد جزءًا منها ويسكت عن جزء آخر بلا أي تناقض منطقي، فهما ادّعاءان
+   مستقلان لا واحد — لكلٍّ سنده الخاص لاحقًا. مثال: "قُصف المطار بالتزامن
+   مع زيارة وفد عسكري تركي للموقع للعمل على إعادة تأهيله" ثلاثة ادّعاءات
+   (القصف، الزيارة، الغرض من الزيارة) — مصدر قد يؤكد القصف وحده بلا أي ذكر
+   للوفد، فهما مستقلان.
+   لا تفصل مع ذلك:
+   - جملة تصف حدثًا واحدًا بتفاصيله الملازمة له دلاليًا (فاعل وفعل ومكان
+     لنفس الحدث) — "انطلقت الاحتجاجات من قرية في الجنوب" تبقى عنصرًا واحدًا.
+   - عنصر "تصريح" (أعلاه) — يبقى موحَّدًا بمكوّناته دومًا مهما تعدّدت.
+   - رقم أو وصف لا بديل صياغي له ملتصق باسم علم أو حدث بعينه، فهو وحدة
+     دلالية واحدة لا تُفكَّك (مثال: "عدة أطنان من مواد نووية مخزَّنة" تبقى
+     عنصرًا واحدًا رغم احتوائها رقمًا وفعلًا).
+   كل عنصر ناتج عن فصل يحمل كيانات الموقع والتاريخ **المشتركة** بين كل أجزاء
+   الجملة الأصلية إلى جانب كيانه المميِّز الخاص في entities — لا كيانه وحده:
+   بحث "زيارة وفد عسكري تركي" بلا "مطار أبو الظهور" يبحث عن أي زيارة تركية
+   في أي مكان. ولكل عنصر ناتج عن فصل أيضًا split_from: نص الجملة الأصلية
+   المركّبة في الموجز حرفيًا كما وردت — اتركه فارغًا لعنصر لم يُفصَل من
+   جملة مركّبة.
+
    لكل عنصر أيضًا entities: 2-5 كيانات مميِّزة منه (أسماء أعلام، أرقام،
    تواريخ، أماكن) كما وردت في الموجز حرفيًا بلا أي إعادة صياغة — استعلام
    البحث سيُبنى منها وحدها.
@@ -179,6 +201,11 @@ WRITEUP_EXTRACT_SCHEMA = {
                         # تبليغ لا منع (تشخيص Issue #373، الجولة الثالثة عشرة)
                         "speaker": {"type": "string"},
                         "merged_excerpts": {"type": "array", "items": {"type": "string"}},
+                        # لعنصر ناتج عن فصل جملة مركّبة إلى عدة "واقعة" فقط
+                        # (اختياري — فارغ لعنصر لم يُفصَل): نص الجملة الأصلية
+                        # حرفيًا، لتجميع أجزائها في التقرير (split_statements)
+                        # — تشخيص Issue #373، الجولة الخامسة عشرة
+                        "split_from": {"type": "string"},
                     },
                     "required": ["text", "kind", "entities", "is_unnamed_event",
                                 "is_reference"],
@@ -233,14 +260,19 @@ def normalize_statement(item) -> dict | None:
     is_reference = bool(isinstance(item, dict) and item.get("is_reference") is True)
     speaker = ""
     merged_excerpts: list[str] = []
+    split_from = ""
     if isinstance(item, dict):
         raw_speaker = item.get("speaker")
         if isinstance(raw_speaker, str) and raw_speaker.strip():
             speaker = raw_speaker.strip()
         merged_excerpts = _as_entities(item.get("merged_excerpts"))
+        raw_split_from = item.get("split_from")
+        if isinstance(raw_split_from, str) and raw_split_from.strip():
+            split_from = raw_split_from.strip()
     return {"text": text, "kind": kind, "entities": entities,
             "is_unnamed_event": is_unnamed_event, "is_reference": is_reference,
-            "speaker": speaker, "merged_excerpts": merged_excerpts}
+            "speaker": speaker, "merged_excerpts": merged_excerpts,
+            "split_from": split_from}
 
 
 def normalize_statements(raw) -> list[dict]:
@@ -1369,7 +1401,7 @@ def _new_outcome() -> dict:
            "trail": [], "draft_id": None, "grounded_count": 0,
            "image_source_name": None, "image_source_link": None,
            "image_report": {}, "opinion_note": "", "originality_notes": [],
-           "merged_statements": []}
+           "merged_statements": [], "split_statements": []}
 
 
 def write_article(body: str, issue_number: int, cfg) -> dict:
@@ -1422,6 +1454,20 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         {"speaker": s["speaker"] or "؟", "text": s["text"],
          "merged_excerpts": s["merged_excerpts"]}
         for s in facts_raw if s["kind"] == "تصريح"
+    ]
+
+    # تبليغ الفصل لا منعه (البند 3، تشخيص Issue #373، الجولة الخامسة عشرة):
+    # نظير merged_statements أعلاه لكن بالاتجاه المعاكس — عناصر "واقعة"
+    # فُصِّلت من جملة مركّبة واحدة تُجمَع هنا بالجملة الأصلية، فيراجع
+    # المستخدم البشري أي فصل خاطئ (تفكيك جملة كان يجب أن تبقى موحَّدة أو
+    # العكس) دون حكم آلي إضافي يقرر بدلًا عنه
+    split_groups: dict[str, list[str]] = {}
+    for s in facts_raw:
+        if s["split_from"]:
+            split_groups.setdefault(s["split_from"], []).append(s["text"])
+    outcome["split_statements"] = [
+        {"original": original, "parts": parts}
+        for original, parts in split_groups.items()
     ]
 
     opinion_note = ""
@@ -1900,6 +1946,16 @@ def build_report(outcome: dict) -> str:
         for m in outcome["merged_statements"]:
             excerpts = "؛ ".join(m["merged_excerpts"]) or "—"
             lines.append(f"- {m['speaker']}: «{m['text']}» — دُمج من: {excerpts}")
+
+    if outcome.get("split_statements"):
+        # نظير مقلوب لـ merged_statements أعلاه (البند 3، الجولة الخامسة
+        # عشرة): جملة مركّبة واحدة فُصِّلت إلى عدة وقائع ذرّية، كلٌّ سنده
+        # الخاص — تظهر الجملة الأصلية وكل جزء استُخرج منها فيراجعهما
+        # المستخدم البشري
+        lines += ["", "**وقائع فُصِّلت من جملة واحدة (راجعها):**"]
+        for sp in outcome["split_statements"]:
+            parts = "؛ ".join(sp["parts"]) or "—"
+            lines.append(f"- «{sp['original']}» — فُصِّلت إلى: {parts}")
 
     if outcome.get("originality_notes"):
         # تبليغ صريح لا إعفاء صامت (تشخيص Issue #373، الجولة العاشرة، البند
