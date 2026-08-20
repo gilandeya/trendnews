@@ -1,0 +1,73 @@
+{
+  "id": "4f125d941513",
+  "created_at": "2026-08-20T12:07:52.705744+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.83,
+  "trend_score": 1.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Central African Republic gold mine collapse kills more than 100",
+  "link": "https://www.france24.com/en/africa/20260819-more-than-100-killed-central-african-republic-gold-mine-collapse",
+  "publishers": [
+    "Africanews",
+    "France24",
+    "NDTV — World",
+    "Reuters",
+    "The Guardian — World"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Central African Republic gold mine collapse kills more than 100",
+    "link": "https://www.france24.com/en/africa/20260819-more-than-100-killed-central-african-republic-gold-mine-collapse",
+    "summary": "A gold mine collapse in the Central African Republican village of Zamboye near the Cameroon border on Tuesday killed more than 100 people, an official at a local mining association said. A member of the local youth council said the death toll would likely rise as more people were pulled from the rubble.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-19T19:36:10+00:00",
+    "image_url": "https://s.france24.com/media/display/176a61f8-9c03-11f1-850f-005056a90284/w:1024/p:16x9/000-13X6XE.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Africanews",
+      "France24",
+      "NDTV — World",
+      "Reuters",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/19/dozens-killed-in-central-african-republic-gold-mine-collapse/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/africa/20260819-more-than-100-killed-central-african-republic-gold-mine-collapse"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/death-count-in-central-african-republic-gold-mine-collapse-rises-to-100-11934032#publisher=newsstand"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/20/gold-mine-collapse-deadly-landslide-central-african-republic"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/176a61f8-9c03-11f1-850f-005056a90284/w:1024/p:16x9/000-13X6XE.jpg",
+      "http://images.euronews.com/articles/stories/09/88/06/02/640x360_cmsv2_657726ec-0d47-5a40-ad76-03c8227af293-9880602.jpg?1787140096",
+      "https://c.ndtvimg.com/2026-08/qrksjpe_central-african-republic-gold-mine_625x300_19_August_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://i.guim.co.uk/img/media/34be23302ee16b159f4f8f4198d738ec90cd0139/0_272_577_462/master/577.jpg?width=700&quality=85&auto=format&fit=max&s=158e2c24a6e6f5d0494501be1ab11cf3",
+      "https://i.guim.co.uk/img/media/34be23302ee16b159f4f8f4198d738ec90cd0139/0_272_577_462/master/577.jpg?width=460&quality=85&auto=format&fit=max&s=7a5c417eb6ad488900ad205d6df42c17",
+      "https://i.guim.co.uk/img/media/34be23302ee16b159f4f8f4198d738ec90cd0139/0_272_577_462/master/577.jpg?width=140&quality=85&auto=format&fit=max&s=16cd3cd114738944300b62bae6a53529"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.3332347433969489,
+    "age_hours": 38.00022902055555,
+    "is_stale": false,
+    "score": 24.830184213869053
+  }
+}

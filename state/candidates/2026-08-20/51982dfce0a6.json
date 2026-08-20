@@ -1,0 +1,68 @@
+{
+  "id": "51982dfce0a6",
+  "created_at": "2026-08-20T12:07:52.706180+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.81,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump signals Canada trade deal, holds off tariffs",
+  "link": "https://www.dailysabah.com/business/automotive/trump-signals-canada-trade-deal-holds-off-tariffs",
+  "publishers": [
+    "CIC News — كندا",
+    "Daily Sabah",
+    "Hindustan Times — World"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Trump signals Canada trade deal, holds off tariffs",
+    "link": "https://www.dailysabah.com/business/automotive/trump-signals-canada-trade-deal-holds-off-tariffs",
+    "summary": "U.S. President Donald Trump said Wednesday he delayed tariffs on some Canadian goods for three days because he believes Washington and Ottawa have reached a trade deal, as negotiat...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-19T19:39:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/19/456663.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "CIC News — كندا",
+      "Daily Sabah",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/automotive/trump-signals-canada-trade-deal-holds-off-tariffs"
+      },
+      {
+        "name": "CIC News — كندا",
+        "link": "https://www.cicnews.com/2026/08/canada-publishes-updated-processing-timelines-for-temporary-residence-applicants-0879450.html"
+      },
+      {
+        "name": "CIC News — كندا",
+        "link": "https://www.cicnews.com/2026/08/canada-on-track-to-admit-fewer-permanent-residents-than-planned-for-2026-0879433.html"
+      },
+      {
+        "name": "CIC News — كندا",
+        "link": "https://www.cicnews.com/2026/08/canada-selects-french-speakers-for-permanent-residence-at-lowest-cutoff-score-since-march-2025-0879383.html"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/why-canada-s-booze-ban-is-such-a-sore-point-in-trade-talks-101787135570878.html"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/19/456663.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 22.80626185944125
+  }
+}
