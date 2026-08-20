@@ -4830,6 +4830,26 @@ def test_article() -> None:
           "لا تختصرها في جملة واحدة" in
           article.DRAFT_SYSTEM_TEMPLATE.format(opinion_phrase="x"))
 
+    # ── القاعدة 8 (تشخيص Issue #373، الجولة الرابعة عشرة): مزاعم متحدث عن
+    # أرقام/قدرات عسكرية-أمنية تُصاغ كمزاعم في صلب الجملة، لا كمعلومة مؤكدة ──
+    check("8) برومبت الصياغة يوجّه صراحة لصياغة مزاعم [تصريح لـ...] كمزاعم "
+          "قائلها في صلب الجملة، لا كمعلومة مؤكَّدة",
+          "[تصريح لـ" in article.DRAFT_SYSTEM_TEMPLATE and
+          "وزعم فلان" in article.DRAFT_SYSTEM_TEMPLATE)
+    check("_facts_block: واقعة من kind=='تصريح' تُعلَّم بـ'[تصريح لـ<speaker>]' "
+          "ظاهرة للنموذج — لا تُصاغ كواقعة عادية",
+          article._facts_block([
+              {"text": "زعم أنه يملك صواريخ", "kind": "تصريح", "speaker": "فلان"},
+          ]) == "- [تصريح لـفلان] زعم أنه يملك صواريخ")
+    check("_facts_block: واقعة عادية (kind=='واقعة') بلا وسم — لا تمييز زائف "
+          "لواقعة مسندة مباشرة",
+          article._facts_block([{"text": "وقعت الواقعة", "kind": "واقعة"}]) ==
+          "- وقعت الواقعة")
+    check("_facts_block: تصريح بلا speaker مُسجَّل (فراغ/غياب) يُعلَّم بعلامة "
+          "استفهام بدل انهيار أو حذف الوسم",
+          article._facts_block([{"text": "نص", "kind": "تصريح", "speaker": ""}]) ==
+          "- [تصريح لـ؟] نص")
+
     captured_draft_prompts: list = []
 
     def _capture_call_draft_model(prompt, system_text, cfg, retries=3):
