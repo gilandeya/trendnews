@@ -184,6 +184,15 @@ diagnosis of two related fixes — a relative rather than absolute `READ_DEMOTIO
 `loose_relevance` for the support-evidence round — both deferred to avoid another regression
 cycle in this area).
 
+**Known limitation, not yet addressed (Issue #373):** foreign personal/place names transliterated
+into Arabic often have more than one accepted spelling (e.g. "روبرتو"/"روبيرتو" for "Roberto"), and
+nothing in the pipeline normalizes across them. This isn't confined to
+`verify_draft.check_originality`'s literal n-gram matching (where a one-word spelling difference
+silently defeats a match) — the same gap can weaken `evidence._relevance` and `article._support_sources`
+for any claim about a foreign public figure, since both also key off literal word matches. No fix
+yet; flagged here so it isn't rediscovered as a fresh bug the next time a foreign-name story hits
+this issue.
+
 ## Testing
 
 `tests/test_pipeline.py` is the entire test suite — no pytest, no separate test files. It fakes
