@@ -3377,9 +3377,14 @@ def test_verify() -> None:
 
     # الأهم: مرشّح شديد الصلة بوزن افتراضي منخفض لا يخرج من نافذة القراءة
     # الضيقة رغم خمسة مرشحين موثوقين بلا أي صلة بنص الواقعة (هذا بالضبط ما
-    # سبب التراجع الفعلي المُبلَّغ عنه — Issue #132 تعليق لاحق ثانٍ)
+    # سبب التراجع الفعلي المُبلَّغ عنه — Issue #132 تعليق لاحق ثانٍ). العنوان
+    # يتجنّب عمدًا كلمة "عام" (كانت تشترك صدفة مع "منذ عام 1985" في claim_text
+    # فترفع صلة هؤلاء إلى 1 لا صفر — تشخيص Issue #373، تعليق الموافقة الخامس
+    # عشر: بعد سقف RELEVANCE_CAP، هذا التشارك العرَضي كان سيقلب الشاهد نفسه —
+    # موثوق بصلة عرَضية=1 يهزم مجهولًا شديد الصلة بعد القص، بعكس ما يوثّقه هذا
+    # الاختبار أصلًا) فتبقى صلتهم صفرًا فعليًا كما يصف اسم المتغيّر
     trusted_irrelevant = [
-        Article(title=f"خبر عام غير متعلق رقم {i}", link=f"https://trusted{i}.example/1",
+        Article(title=f"خبر غير متعلق البتة رقم {i}", link=f"https://trusted{i}.example/1",
                summary="", source_name=name, region="global", weight=1.0,
                published=datetime.now(timezone.utc), publisher=name)
         for i, name in enumerate(["Reuters", "Associated Press", "AFP", "BBC", "Al Jazeera"])
@@ -4116,6 +4121,83 @@ def test_check_originality_wa_pronoun_and_min_core_revert() -> None:
           ok is True, reason)
     check("فجوة «وهو»: الإعفاء المقلَّم يذكر «وهو» ضمن ما قُلِّم وطول النواة (6 كلمة)",
           bool(notes) and "وهو" in notes[0] and "6 كلمة" in notes[0], notes)
+
+
+def test_check_originality_quantity() -> None:
+    """نواة رقم/كمية (تشخيص Issue #373، تعليق الموافقة الخامس عشر، البند 2):
+    نافذة سبع كلمات («... عدة أطنان من مواد نووية مخزنة» — شاهد حقيقي) تحمل
+    نواة كمّية جامدة (6 كلمات، تبدأ عند «عدة») لا بديل لصياغتها يمنعها فقط
+    كلمة مضمون ملاصقة (فاعل الجملة، يختلف فعليًا بين مصدرين) من إشارتَي
+    (أ)/(ب) بطولها الكامل ومن التقليم الحدّي (_trim_exempt لا يجد كلمة
+    وظيفية على أي طرف فيفشل بلا محاولة)."""
+    from src import verify_draft
+
+    check("_is_quantity_anchor: رقم مكتوب بالأرقام ارتساء صالح",
+          verify_draft._is_quantity_anchor("150"))
+    check("_is_quantity_anchor: كلمة كمية من الفئة المغلقة ارتساء صالح",
+          verify_draft._is_quantity_anchor("أطنان") and verify_draft._is_quantity_anchor("عدة"))
+    check("_is_quantity_anchor: كلمة عادية ليست ارتساءً",
+          not verify_draft._is_quantity_anchor("مواد") and
+          not verify_draft._is_quantity_anchor("مخزنة"))
+
+    core = "عدة أطنان من مواد نووية مخزنة"  # 6 كلمات، ارتساء عند "عدة"/"أطنان"
+    window7 = f"الجهة {core}"  # 7 كلمات — "الجهة" كلمة مضمون (فاعل) لا وظيفية
+
+    # إشارة (أ) كمّية: النافذة الكاملة لا تتكرر (مرة واحدة فقط)، ولا تُقلَّم
+    # (بلا كلمة وظيفية على أي طرف — _trim_exempt تفشل بلا محاولة)، لكن
+    # النواة الكمّية وحدها تتكرر داخل نص المصدر نفسه ≥ repeat_min_count
+    draft_a = f"وأفاد التقرير أن {window7} قرب الحدود الشرقية."
+    text_a = (f"وبحسب مصدر عسكري، تملك {window7} في منشآت سرية. "
+             f"وأضاف المصدر أن {core} خزِّنت هناك منذ سنوات.")
+    single_a = [{"name": "مصدر عاشر", "text": text_a}]
+    ok_a, reason_a, notes_a = verify_draft.check_originality(draft_a, "", single_a, 7)
+    check("نواة كمّية — إشارة (أ): النافذة الكاملة لا تُعفى بطولها ولا بالتقليم "
+          "الحدّي، لكن النواة الكمّية تُعفيها بعد تكرارها داخل المصدر نفسه",
+          ok_a is True, reason_a)
+    check("نواة كمّية — إشارة (أ): الإعفاء مُسجَّل صراحة ويصف نواة كمّية لا تقليمًا نحويًا",
+          bool(notes_a) and "نواة كمّية" in notes_a[0] and "6 كلمة" in notes_a[0], notes_a)
+
+    # إشارة (ب) كمّية: بلا تكرار داخل نفس المصدر (مرة واحدة فقط)، لكن النواة
+    # الكمّية وحدها وردت في وثيقة أخرى مقروءة بهوية ناشر مختلفة — بناء
+    # مختلف تمامًا (فاعل/ترتيب)، المشترك هو صياغة الكمّية نفسها فقط
+    draft_b = f"وذكر التقرير أن {window7} في المنطقة."
+    text_b = f"تفيد التقارير بأن {window7} في المنطقة."
+    single_b = [{"name": "مصدر حادي عشر", "text": text_b}]
+    extra_b = [{"name": "مصدر ثانٍ عشر",
+               "text": f"وقالت جهة مطّلعة إن هناك {core} رُصدت هناك بالفعل."}]
+    ok_b, reason_b, notes_b = verify_draft.check_originality(
+        draft_b, "", single_b, 7, extra_docs=extra_b)
+    check("نواة كمّية — إشارة (ب): النواة الكمّية وحدها واردة في وثيقة أخرى "
+          "بهوية ناشر مختلفة تُعفي النافذة كاملة رغم اختلاف الفاعل والبناء حولها",
+          ok_b is True, reason_b)
+    check("نواة كمّية — إشارة (ب): الإعفاء مُسجَّل صراحة",
+          bool(notes_b) and "نواة كمّية" in notes_b[0], notes_b)
+
+    # ضابط أول: بلا أي تكرار للنواة الكمّية في المصدر نفسه ولا في وثيقة
+    # أخرى ← الرفض يبقى قائمًا رغم وجود رقم/كمية داخل النافذة
+    single_reject = [{"name": "مصدر ثالث عشر", "text": text_b}]
+    ok_none, reason_none, notes_none = verify_draft.check_originality(
+        draft_b, "", single_reject, 7)
+    check("نواة كمّية — ضابط أول: بلا نواة صالحة (لا تكرار ولا ورود آخر) ← "
+          "الرفض يبقى قائمًا رغم وجود كلمة كمية في النافذة",
+          ok_none is False, (ok_none, reason_none))
+
+    # ضابط ثانٍ: جملة تعريفية بلا أي رقم/كلمة كمية (نظير الحالة المرفوضة
+    # سابقًا — «روبيرتو كارلوس لاعب ريال مدريد السابق» — تعليق الموافقة
+    # الرابع عشر أبقاها مرفوضة عمدًا بلا معيار «تعريف/خبر») لا تُفعِّل
+    # _quantity_exempt إطلاقًا — لا تسرّب من هذه الإشارة الجديدة
+    definitional = "روبيرتو كارلوس لاعب ريال مدريد السابق فعليا"
+    check("نواة كمّية — ضابط ثانٍ: جملة تعريفية بلا رقم/كلمة كمية لا يفعّلها "
+          "_quantity_exempt إطلاقًا",
+          not any(verify_draft._is_quantity_anchor(w)
+                 for w in verify_draft._normalized_words(definitional)))
+    draft_def = f"{definitional} أحرز هدفًا تاريخيًا في المباراة."
+    text_def = f"{definitional} شارك في المؤتمر الصحفي أمس."
+    single_def = [{"name": "مصدر رابع عشر", "text": text_def}]
+    ok_def, reason_def, notes_def = verify_draft.check_originality(draft_def, "", single_def, 7)
+    check("نواة كمّية — ضابط ثانٍ: الجملة التعريفية (بلا رقم) تبقى مرفوضة كما "
+          "كانت — لا تسرّب من الإشارة الجديدة",
+          ok_def is False and notes_def == [], (ok_def, reason_def, notes_def))
 
 
 def test_evidence() -> None:
@@ -5886,8 +5968,12 @@ def test_evidence_top_candidates() -> None:
     check("top_candidates: لا يتجاوز 5 مرشّحين", len(top) <= 5, top)
     check("top_candidates: كل عنصر يحمل اسم/وزن/صلة/درجة مركّبة",
           all({"name", "weight", "relevance", "score"} <= set(c.keys()) for c in top), top)
-    check("top_candidates: الدرجة المركّبة تساوي وزن+صلة لكل مرشّح فعليًا (بلا تعديل الصيغة)",
-          all(abs(c["score"] - (c["weight"] + c["relevance"])) < 1e-6 for c in top), top)
+    # سقف الصلة نُفِّذ لاحقًا (تعليق الموافقة الخامس عشر، البند 1) — الدرجة
+    # تساوي وزن + صلة مقصوصة عند RELEVANCE_CAP لا وزن+صلة خامًا كما كانت
+    check("top_candidates: الدرجة المركّبة تساوي وزن + صلة مقصوصة عند RELEVANCE_CAP "
+          "لكل مرشّح فعليًا",
+          all(abs(c["score"] - (c["weight"] + min(c["relevance"], evidence.RELEVANCE_CAP)))
+              < 1e-6 for c in top), top)
     names = [c["name"] for c in top]
     check("top_candidates: يضمّ كلا المرشّحين (الموثوق والمجهول) — رصد كامل لا جزئي",
           "Al Jazeera" in names and "موقع مجهول" in names, top)
@@ -5925,6 +6011,96 @@ def test_evidence_top_candidates() -> None:
     check("build_report: يعرض أعلى المرشّحين (اسم/وزن/صلة/درجة) داخل سجلّ trail",
           fact_trail and any(c["name"] in report for c in fact_trail[0]["top_candidates"]),
           report)
+
+
+def test_evidence_relevance_cap() -> None:
+    """RELEVANCE_CAP (تشخيص Issue #373، تعليق الموافقة الخامس عشر، البند 1):
+    يحمي فِكستر واحد الشاهدين معًا — لا يجوز أن يُصلَح أحدهما على حساب
+    الآخر. الأرقام مأخوذة حرفيًا من التسجيل التشخيصي الحقيقي (top_candidates)
+    الذي حسم الفرضية: "تطبيق نبض" (وزن افتراضي 0.6، صلة 4) هزم "برس بي"
+    (وزن موثوق 3.0، صلة 1) بدرجة 4.6 مقابل 4.0 — هذا الشاهد يجب أن ينعكس
+    بعد الإصلاح. شاهد #132 (مرشّح شديد الصلة بوزن افتراضي، ضد خمسة موثوقين
+    بلا أي صلة) يجب أن يبقى صحيحًا كما كان — لا يُضحَّى به لإصلاح الأول."""
+    cfg = load_config()
+
+    # الشاهد اليوم: مصدر افتراضي الوزن بصلة معتدلة (4) يجب ألا يهزم موثوقًا
+    # بصلة ضعيفة (1) بعد القص — قبل الإصلاح كان 0.6+4=4.6 يهزم 3.0+1=4.0
+    check("_candidate_score: مصدر افتراضي الوزن بصلة=4 لا يهزم موثوقًا بصلة=1 "
+          "بعد سقف RELEVANCE_CAP (الشاهد الحقيقي: نبض 0.6/4 ضد برس بي 3.0/1)",
+          evidence._candidate_score(evidence.DEFAULT_PUBLISHER_WEIGHT, 4) <
+          evidence._candidate_score(evidence.TRUSTED_PUBLISHER_WEIGHT, 1))
+
+    # شاهد #132: مصدر افتراضي الوزن بصلة شديدة الارتفاع (تُقصّ لكنها تبقى
+    # عالية) يجب أن يبقى قادرًا على هزيمة موثوق بلا أي صلة إطلاقًا — وإلا
+    # عاد عطل #132 الأصلي (مرشّح شديد الصلة يُقصى كليًا) من زاوية القص نفسه
+    check("_candidate_score: مصدر افتراضي الوزن بصلة شديدة الارتفاع (6) يبقى "
+          "يهزم موثوقًا بصلة صفر (شاهد #132: لا إقصاء كليًا لمرشّح شديد الصلة)",
+          evidence._candidate_score(evidence.DEFAULT_PUBLISHER_WEIGHT, 6) >
+          evidence._candidate_score(evidence.TRUSTED_PUBLISHER_WEIGHT, 0))
+
+    check("RELEVANCE_CAP: يقع داخل النافذة الصالحة المشتقة من الشاهدين معًا (2.4, 3.4]",
+          2.4 < evidence.RELEVANCE_CAP <= 3.4, evidence.RELEVANCE_CAP)
+
+    # تكامل كامل عبر gather_evidence بأرقام التسجيل التشخيصي الحرفية —
+    # لا حساب صيغة مباشر وحده، بل المسار الفعلي (candidates → فرز → قراءة)
+    nabd = Article(title="تطبيق نبض يهزّ الأوساط الرياضية اليوم بمفاجأة",
+                  link="https://nabd.example/1", summary="", source_name="تطبيق نبض",
+                  region="global", weight=1.0, published=datetime.now(timezone.utc),
+                  publisher="تطبيق نبض")
+    press_b = Article(title="برس بي ينشر تفاصيل إضافية عن القضية",
+                      link="https://pressb.example/1", summary="", source_name="Bloomberg",
+                      region="global", weight=1.0, published=datetime.now(timezone.utc),
+                      publisher="Bloomberg")
+
+    real_extract_gather = extract.gather
+    read_order: list[str] = []
+
+    def _fake_gather(members, limit=1):
+        read_order.extend(m["name"] for m in members)
+        return [], []
+
+    # claim_text يُبنى بحيث "نبض" يشارك 4 كلمات مطابقة حرفيًا مع عنوان نبض،
+    # وBloomberg يشارك كلمة واحدة فقط مع عنوانه هو — يطابق أرقام التشخيص
+    # الحقيقي (صلة=4 مقابل صلة=1) بلا حاجة لحساب norm_tokens يدويًا؛ نتحقق
+    # من الصلة الفعلية بعد الحساب لضمان الأرقام صحيحة قبل قراءة النتيجة
+    claim_text = "تطبيق نبض يهزّ الأوساط الرياضية اليوم بمفاجأة برس بي القضية"
+    rel_nabd = evidence._relevance(nabd, evidence.norm_tokens(claim_text))
+    rel_press = evidence._relevance(press_b, evidence.norm_tokens(claim_text))
+    check("فِكستر الصلة: نبض يشارك أكثر من كلمة واحدة، برس بي أقل — يعكس "
+          "شكل الشاهد الحقيقي (نسبيًا، لا الأرقام الحرفية بالضرورة)",
+          rel_nabd > rel_press >= 0, (rel_nabd, rel_press))
+
+    narrow_cfg = dict(cfg)
+    narrow_cfg["verify"] = {**cfg["verify"], "read_per_claim": 1}
+    extract.gather = _fake_gather
+    try:
+        evidence.gather_evidence([nabd, press_b], narrow_cfg, claim_text)
+    finally:
+        extract.gather = real_extract_gather
+
+    check("gather_evidence: موثوق (Bloomberg) يُقرأ أولًا رغم صلة لفظية أعلى "
+          "لمصدر افتراضي الوزن — بعد سقف RELEVANCE_CAP",
+          read_order and read_order[0] == "Bloomberg", read_order)
+
+    # فاصل التعادل التام بالوزن (البند 1، الطلب الثاني): _candidate_sort_key
+    # دالّة مستقلة قابلة للاختبار بمعزل عن machinery gather_evidence كاملة —
+    # عند تعادل الدرجة المركّبة تمامًا (شائع بعد القص: عدة مرشحين افتراضيي
+    # الوزن يبلغون RELEVANCE_CAP معًا) الوزن الأعلى يتصدّر، لا ترتيب الوصول
+    default_tied = (evidence.DEFAULT_PUBLISHER_WEIGHT, 10)   # صلة تتجاوز السقف بكثير
+    trusted_tied = (evidence.TRUSTED_PUBLISHER_WEIGHT,
+                    evidence.RELEVANCE_CAP - evidence.TRUSTED_PUBLISHER_WEIGHT +
+                    evidence.DEFAULT_PUBLISHER_WEIGHT)  # يُنتج نفس الدرجة المركّبة تمامًا
+    check("فِكستر التعادل: افتراضي بصلة مقصوصة يساوي موثوقًا بصلة مضبوطة تمامًا "
+          "(شرط الاختبار قبل فحص الفرز)",
+          abs(evidence._candidate_score(*default_tied) -
+             evidence._candidate_score(*trusted_tied)) < 1e-9,
+          (evidence._candidate_score(*default_tied), evidence._candidate_score(*trusted_tied)))
+    tie_candidates = [("موقع مجهول", *default_tied), ("Reuters", *trusted_tied)]
+    sorted_tie = sorted(tie_candidates,
+                        key=lambda c: evidence._candidate_sort_key(c[1], c[2]))
+    check("_candidate_sort_key: عند تعادل الدرجة المركّبة تمامًا، الوزن الأعلى "
+          "(Reuters) يتصدّر لا ترتيب الوصول الموروث",
+          sorted_tie[0][0] == "Reuters", sorted_tie)
 
 
 def test_reject_boxes_render() -> None:
@@ -6319,12 +6495,14 @@ def main() -> int:
     test_check_originality_context()
     print("\n── فحص الأصالة: إرجاع min_core إلى 5 + فجوة ضمائر «وهو» ──")
     test_check_originality_wa_pronoun_and_min_core_revert()
+    test_check_originality_quantity()
     print("\n── محرك البحث والقراءة المشترك (evidence.py) ──")
     test_evidence()
     print("\n── مقال من المصادر ──")
     test_article()
     test_article_statement_kind()
     test_evidence_top_candidates()
+    test_evidence_relevance_cap()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()

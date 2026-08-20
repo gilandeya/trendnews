@@ -256,6 +256,96 @@ def _trim_exempt(window: tuple[str, ...], only_name: str,
     return None
 
 
+# فئة مغلقة صغيرة من كلمات الكمية العربية الشائعة — نظير _AR_STOP الموسَّعة
+# نحويًا لكن لغرض مختلف: هذه لا تُقلَّم، بل تُستعمَل كنقطة ارتساء لنواة
+# رقمية/كمية (تشخيص Issue #373، تعليق الموافقة الخامس عشر، البند 2). أي
+# رقم مكتوب بالأرقام (\d) يُعامَل ارتساءً أيضًا بلا حاجة لإدراجه هنا.
+#
+# مكتوبة بإملائها الطبيعي (بالهمزات/التاء المربوطة) للقراءة، ثم تُطبَّع
+# بنفس _AR_TRANS عند التحميل — window يصل مُطبَّعًا دومًا (_normalized_words)،
+# فمقارنة إملاء خام بكلمة مُطبَّعة (مثلًا "أطنان" الخام مقابل "اطنان"
+# المُطبَّعة) كانت لتفشل صامتًا بلا هذا التطبيع.
+QUANTITY_ANCHOR_WORDS = frozenset(
+    w.translate(_AR_TRANS) for w in {
+        "طن", "أطنان", "كيلوغرام", "كيلوجرام", "كجم", "غرام", "كيلومتر",
+        "متر", "لتر", "برميل", "براميل", "غالون", "مليون", "مليار", "ألف",
+        "آلاف", "مئة", "مئات", "عشرة", "عشرات", "بضع", "عدة", "دولار",
+        "دولارات", "جنيه", "جنيهات", "يورو", "رأس", "رؤوس", "قطعة", "قطع",
+    }
+)
+_QTY_DIGIT_RE = re.compile(r"\d")
+
+
+def _is_quantity_anchor(word: str) -> bool:
+    """يقبل الكلمة بإملائها الخام أو المُطبَّع (`_AR_TRANS` مُطبَّقة هنا
+    أيضًا) — window يصل مُطبَّعًا دومًا فعليًا، لكن الدالة تبقى صحيحة بمعزل
+    عن مصدر الاستدعاء بلا الاعتماد على أن المستدعي طبَّع الكلمة أولًا."""
+    normalized = (word or "").translate(_AR_TRANS)
+    return bool(_QTY_DIGIT_RE.search(normalized)) or normalized in QUANTITY_ANCHOR_WORDS
+
+
+def _quantity_exempt(window: tuple[str, ...], only_name: str,
+                     source_word_lists: list[tuple[str, list[str]]],
+                     extra_word_lists: list[tuple[str, list[str]]],
+                     min_core: int, repeat_min_count: int
+                     ) -> tuple[list[str], tuple[str, ...], tuple[str, ...], str, str, int | None] | None:
+    """يُجرَّب بعد فشل `_trim_exempt` (تشخيص Issue #373، تعليق الموافقة
+    الخامس عشر، البند 2): «عدة أطنان من مواد نووية مخزنة» صياغة كمّية جامدة
+    لا بديل لها، لكن الكلمة الملاصقة في النافذة المرفوضة قد تكون جزءًا من
+    فاعل/بناء الجملة المحيطة (يختلف فعليًا بين مصدرين مستقلين) لا كلمة
+    وظيفية — فيفشل `_trim_exempt` (يُقلِّم من طرفَي النافذة فقط، وبكلمات
+    وظيفية فقط مؤهَّلة).
+
+    خلافًا لـ`_trim_exempt`، هذا يبحث عن نافذة فرعية **تبدأ عند كلمة رقم/
+    كمية** (`_is_quantity_anchor`) بأي طول ≥ `min_core` داخل النافذة
+    المرفوضة، بصرف النظر عن موضعها (لا حصرًا من الطرفين). لا حاجة لتصنيف
+    الكلمات المحيطة (فعل من إنشاء الكاتب أم لا) لتحديد ما يُستبعَد: طول
+    التطابق الحرفي نفسه عبر مصدر مستقل آخر (أو تكراره داخل المصدر نفسه) هو
+    الدليل الوحيد المطلوب — صياغة من إنشاء الكاتب لن تتكرر حرفيًا في مصدر
+    آخر أصلًا، فإشارتا (أ)/(ب) نفسهما (لا تصنيف لغوي إضافي) هما ما يثبتان
+    غياب الفعل من إنشاء الكاتب بالفعل. تفشل تلقائيًا (تعيد None فورًا) حين
+    لا تحمل النافذة أي كلمة رقم/كمية إطلاقًا — لا تمسّ أي جملة سردية عادية
+    بلا رقم، ولا تُخفِّف عتبة `min_core` (نفس `TRIM_MIN_CORE_FLOOR`)."""
+    n = len(window)
+    if not any(_is_quantity_anchor(w) for w in window):
+        return None
+    source_words = next((words for name, words in source_word_lists if name == only_name), [])
+    spans = [(start, length)
+            for start, w in enumerate(window) if _is_quantity_anchor(w)
+            for length in range(n - start, min_core - 1, -1)]
+    spans.sort(key=lambda t: -t[1])  # الأطول (أقل إسقاط) أولًا
+    for start, length in spans:
+        core = list(window[start:start + length])
+        repeat_count = _count_run(source_words, core)
+        if repeat_count >= repeat_min_count:
+            return core, window[:start], window[start + length:], "أ", only_name, repeat_count
+        other = next((name for name, words in extra_word_lists
+                     if name != only_name and _contains_run(words, core)), None)
+        if other:
+            return core, window[:start], window[start + length:], "ب", other, None
+    return None
+
+
+def _quantity_note(only_name: str, n: int, phrase: str, left_words: tuple[str, ...],
+                   right_words: tuple[str, ...], core: list[str], signal: str,
+                   evidence_name: str, evidence_count: int | None) -> str:
+    parts = []
+    if left_words:
+        parts.append(f"من اليسار «{' '.join(left_words)}»")
+    if right_words:
+        parts.append(f"من اليمين «{' '.join(right_words)}»")
+    dropped_desc = "، ".join(parts)
+    core_phrase = " ".join(core)
+    if signal == "أ":
+        evidence_desc = f"تكررت {evidence_count} مرات داخل نص هذا المصدر نفسه"
+    else:
+        evidence_desc = f"وردت أيضًا في وثيقة أخرى مقروءة بهوية ناشر مختلفة ({evidence_name})"
+    return (f"⚠️ تطابق لفظي مع مصدر واحد ({only_name}) على {n} كلمة متتالية — "
+           f"«{phrase}» — مُعفى: نواة رقم/كمية جامدة «{core_phrase}» ({len(core)} كلمة) "
+           f"لا صياغة بديلة لها (أُسقط {dropped_desc}) {evidence_desc} "
+           f"(إشارة {signal} — نواة كمّية)")
+
+
 def _trim_note(only_name: str, n: int, phrase: str, left_words: tuple[str, ...],
                right_words: tuple[str, ...], core: list[str], signal: str,
                evidence_name: str, evidence_count: int | None) -> str:
@@ -351,6 +441,17 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
     بصرف النظر عمّا يضبطه config.yaml — نواة من ثلاث كلمات فأقل تتكرر صدفة
     كثيرًا (تعليق الموافقة الثالث عشر على Issue #373، البند 2).
 
+    نواة رقم/كمية (تشخيص Issue #373، تعليق الموافقة الخامس عشر، البند 2):
+    نافذة فشل تقليمها الحدّي (`_trim_exempt` — يُقلِّم من الطرفين فقط بكلمات
+    وظيفية) قد تحمل مع ذلك نواة كمّية جامدة («عدة أطنان من مواد نووية
+    مخزنة») تمنعها فقط كلمة *مضمون* ملاصقة من فاعل/بناء جملة محيطة يختلف
+    فعليًا بين مصدرين. `_quantity_exempt` تبحث عن نافذة فرعية تبدأ عند رقم/
+    كمية (`_is_quantity_anchor`) بأي طول ≥ `min_core` داخل النافذة، وتفحصها
+    على إشارة (أ)/(ب) نفسيهما — بلا تصنيف لغوي لـ«هل هذه فعل؟»: التطابق
+    الحرفي عبر مصدر مستقل آخر هو الدليل الوحيد، فصياغة من إنشاء الكاتب لن
+    تتكرر حرفيًا هناك أصلًا. لا تُفعَّل إطلاقًا حين لا تحمل النافذة أي رقم/
+    كلمة كمية (لا خطر على جملة سردية عادية بلا رقم).
+
     عند الرفض النهائي (بلا أي إعفاء نجح) على تتابع من مصدر واحد أو من
     المقال الملصق، رسالة السبب تُرفَق بأول جملة خام تحوي التتابع كاملة —
     لا التتابع المقتطَع (7 كلمات) وحده — عبر `_sentence_containing`
@@ -424,6 +525,15 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
                     core, left_words, right_words, signal, ev_name, ev_count = trimmed
                     note = _trim_note(only_name, n, phrase, left_words, right_words,
                                       core, signal, ev_name, ev_count)
+                    if note not in notes:
+                        notes.append(note)
+                    continue
+                qty = _quantity_exempt(window, only_name, source_word_lists,
+                                       extra_word_lists, min_core, repeat_min_count)
+                if qty:
+                    core, left_words, right_words, signal, ev_name, ev_count = qty
+                    note = _quantity_note(only_name, n, phrase, left_words, right_words,
+                                          core, signal, ev_name, ev_count)
                     if note not in notes:
                         notes.append(note)
                     continue

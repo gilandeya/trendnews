@@ -184,22 +184,25 @@ diagnosis of two related fixes — a relative rather than absolute `READ_DEMOTIO
 `loose_relevance` for the support-evidence round — both deferred to avoid another regression
 cycle in this area).
 
-**Known limitation, not yet addressed (Issue #373) — a second, distinct failure mode in the same
-ranking, not the zero-tie case above:** a real run (`روبيرتو كارلوس`/Roberto Carlos Islam story)
-showed a generic, unweighted publisher outrank a trusted wire agency in `_candidate_score` even
-though relevance was *not* tied at zero — the generic candidate's title happened to share several
-literal words with the query (`_relevance` has no upper bound), which was enough to close the
-fixed 2.4-point gap between `DEFAULT_PUBLISHER_WEIGHT` and `TRUSTED_PUBLISHER_WEIGHT`. This is the
-same failure shape as the original 365Scores sample at the top of this issue (a weak-authority
-source winning on a literal match), but happening one layer later — in the composite read-priority
-score itself, not in the `relevant()` pre-filter that was already relaxed for it. Correcting for
-this by initially assuming "relevance tied at zero, so order is inherited" would have been the
-wrong diagnosis here — confirmed unbounded-relevance-vs-fixed-weight-gap instead, by reading the
-actual candidate list, not by inference. Deliberately left unfixed for now: per-query top-5
-candidates (name/weight/relevance/composite score) are now logged to `trail` and rendered in the
-article report (`src/evidence.py`'s `gather_evidence` → `top_candidates`) precisely so this and
-future ranking disputes can be settled by reading real numbers across live runs before touching
-`_candidate_score` itself again.
+**Addressed (Issue #373) — a second, distinct failure mode in the same ranking, not the zero-tie
+case above:** a real run (`روبيرتو كارلوس`/Roberto Carlos Islam story) showed a generic, unweighted
+publisher outrank a trusted wire agency in `_candidate_score` even though relevance was *not* tied
+at zero — the generic candidate's title happened to share several literal words with the query
+(`_relevance` had no upper bound), which was enough to close the fixed 2.4-point gap between
+`DEFAULT_PUBLISHER_WEIGHT` and `TRUSTED_PUBLISHER_WEIGHT`. Same failure shape as the original
+365Scores sample at the top of this issue (a weak-authority source winning on a literal match), but
+happening one layer later — in the composite read-priority score itself, not in the `relevant()`
+pre-filter that was already relaxed for it. Diagnosed with real numbers first, not inference: the
+`top_candidates` logging added to settle this (see below) recorded an actual production case — a
+default-weight candidate (weight 0.6, relevance 4) outscoring a trusted one (weight 3.0, relevance
+1) at 4.6 vs 4.0. Fixed by capping `_relevance`'s contribution to the composite score at
+`RELEVANCE_CAP = 3.0` (a value in the valid window `(2.4, 3.4]` derived from *both* this witness and
+the original Issue #132 witness it must not regress — a trusted-but-irrelevant source must still
+not exclude a highly-relevant default-weight one from the read window), and breaking exact
+composite-score ties by weight first instead of inherited arrival order
+(`evidence._candidate_sort_key`). `top_candidates` (name/weight/relevance/composite score, still
+logged to `trail` and rendered in the article report) remains the tool for settling any future
+dispute in this area with real numbers before touching `_candidate_score` again.
 
 **Known limitation, not yet addressed (Issue #373):** foreign personal/place names transliterated
 into Arabic often have more than one accepted spelling (e.g. "روبرتو"/"روبيرتو" for "Roberto"), and
