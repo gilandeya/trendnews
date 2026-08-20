@@ -1,0 +1,55 @@
+{
+  "id": "4d2dacc3f6e5",
+  "created_at": "2026-08-20T19:07:44.382996+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.36,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Brighton frustrated by Tromso in first leg of Conference League tie",
+  "link": "https://www.skysports.com/football/tromso-vs-brighton-and-hove-albion/report/577284",
+  "publishers": [
+    "Sky Sports — Football"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Brighton frustrated by Tromso in first leg of Conference League tie",
+    "link": "https://www.skysports.com/football/tromso-vs-brighton-and-hove-albion/report/577284",
+    "summary": "Brighton were forced to settle for a goalless draw against a stubborn Tromso side in the first leg of their Conference League play-off.",
+    "source_name": "Sky Sports — Football",
+    "region": "sport",
+    "weight": 1.0,
+    "published": "2026-08-20T20:00:00+00:00",
+    "image_url": "https://e0.365dm.com/26/08/1096x616/skysports-tromso-brighton-diego-gomez_7326817.jpg?20260820185513",
+    "publisher": "Sky Sports — Football",
+    "cluster_sources": [
+      "Sky Sports — Football"
+    ],
+    "cluster_members": [
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/tromso-vs-brighton-and-hove-albion/live/577284"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/tromso-vs-brighton-and-hove-albion/report/577284"
+      }
+    ],
+    "image_candidates": [
+      "https://e0.365dm.com/26/08/1096x616/skysports-tromso-brighton-diego-gomez_7326817.jpg?20260820185513",
+      "https://e0.365dm.com/26/08/1920x1080/skysports-tromso-brighton-diego-gomez_7326817.jpg?20260820185513",
+      "https://e1.365dm.com/26/08/1096x616/skysports-tromso-brighton-mats-wieffer_7326805.jpg?20260820183200",
+      "https://e1.365dm.com/26/08/1920x1080/skysports-tromso-brighton-mats-wieffer_7326805.jpg?20260820183200"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 1.999234085277778,
+    "is_stale": false,
+    "score": 17.358207166592592
+  }
+}

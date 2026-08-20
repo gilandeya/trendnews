@@ -1,0 +1,64 @@
+{
+  "id": "3602d318beae",
+  "created_at": "2026-08-20T19:07:44.382271+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.5,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Gold Heats Up as Trump Pivots from Military to Monetary Warfare",
+  "link": "https://www.investing.com/analysis/gold-heats-up-as-trump-pivots-from-military-to-monetary-warfare-200686222",
+  "publishers": [
+    "Investing.com — Commodities",
+    "The Express Tribune"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Gold Heats Up as Trump Pivots from Military to Monetary Warfare",
+    "link": "https://www.investing.com/analysis/gold-heats-up-as-trump-pivots-from-military-to-monetary-warfare-200686222",
+    "summary": "",
+    "source_name": "Investing.com — Commodities",
+    "region": "money",
+    "weight": 1.0,
+    "published": "2026-08-20T19:07:28.264458+00:00",
+    "image_url": null,
+    "publisher": "Investing.com — Commodities",
+    "cluster_sources": [
+      "Investing.com — Commodities",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/gold-heats-up-as-trump-pivots-from-military-to-monetary-warfare-200686222"
+      },
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/gold-soars-us-dollar-collapsed-200686191"
+      },
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/gold-faces-key-test-as-fed-minutes-shift-rate-outlook-200686178"
+      },
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/gold-bullish-momentum-supported-by-lower-treasury-yields-and-a-weaker-us-dollar-200686173"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624924/gold-prices-skyrocket-again-after-surge-of-over-rs13000-per-tola"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.49984169237037
+  }
+}

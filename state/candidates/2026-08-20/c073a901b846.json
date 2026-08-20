@@ -1,0 +1,61 @@
+{
+  "id": "c073a901b846",
+  "created_at": "2026-08-20T19:07:44.383530+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.84,
+  "trend_score": 0.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UK, Italy, France, Germany demand Israel halt West Bank settlement expansion",
+  "link": "https://www.dailysabah.com/world/mid-east/uk-italy-france-germany-demand-israel-halt-west-bank-settlement-expansion",
+  "publishers": [
+    "Daily Sabah",
+    "Free Malaysia Today",
+    "TASS"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "UK, Italy, France, Germany demand Israel halt West Bank settlement expansion",
+    "link": "https://www.dailysabah.com/world/mid-east/uk-italy-france-germany-demand-israel-halt-west-bank-settlement-expansion",
+    "summary": "Britain, Italy, France and Germany on Thursday piled on mounting international condemnation of a major Israeli settlement project in the occupied West Bank. The four countries sai...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-20T18:10:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/20/456910.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Free Malaysia Today",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/20/israel-slams-uk-demand-to-halt-west-bank-settlement-project"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/uk-italy-france-germany-demand-israel-halt-west-bank-settlement-expansion"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2175787"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/20/456910.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/287a8884-d741-4976-8df2-1929a3cf3c52-Ed-Milliband-UK-20082026-.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 15.840872443200505
+  }
+}

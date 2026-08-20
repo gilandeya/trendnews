@@ -1,0 +1,63 @@
+{
+  "id": "5900d17ffa07",
+  "created_at": "2026-08-20T19:07:44.382704+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.37,
+  "trend_score": 0.0,
+  "velocity": 0.67,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "‘Here we go’: Carlos Alcaraz confirms US Open return after four-month injury absence",
+  "link": "https://www.theguardian.com/sport/2026/aug/20/carlos-alcaraz-us-open-return-wrist-injury",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "‘Here we go’: Carlos Alcaraz confirms US Open return after four-month injury absence",
+    "link": "https://www.theguardian.com/sport/2026/aug/20/carlos-alcaraz-us-open-return-wrist-injury",
+    "summary": "Seven-time major winner has not played since April Spaniard missed French Open and Wimbledon US Open announces record $108m prize fund Carlos Alcaraz has won his battle to be fit for the US Open. The seven-time grand slam champion has not played on the ATP Tour since April due to an ongoing wrist issue, but enlisted the help of football transfer journalist Fabrizio Romano to announce his comeback. Continue reading...",
+    "source_name": "The Guardian — Sport",
+    "region": "sport",
+    "weight": 1.0,
+    "published": "2026-08-20T18:29:38+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/cd2cadd56c831d5e4349099e356c55f8c73e98f9/475_0_4387_3509/master/4387.jpg?width=700&quality=85&auto=format&fit=max&s=5dde423a6ff1c29c39f27c553785e5ea",
+    "publisher": "The Guardian — Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/8/20/carlos-alcaraz-confirms-us-open-return-after-four-month-injury-layoff?traffic_source=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/alcaraz-confirms-us-open-return-after-four-month-injury-layoff-6331866"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/sport/2026/aug/20/carlos-alcaraz-us-open-return-wrist-injury"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/cd2cadd56c831d5e4349099e356c55f8c73e98f9/475_0_4387_3509/master/4387.jpg?width=700&quality=85&auto=format&fit=max&s=5dde423a6ff1c29c39f27c553785e5ea",
+      "https://i.guim.co.uk/img/media/cd2cadd56c831d5e4349099e356c55f8c73e98f9/475_0_4387_3509/master/4387.jpg?width=460&quality=85&auto=format&fit=max&s=24c93c2df131fdd9b698dcee11e7b02c",
+      "https://i.guim.co.uk/img/media/cd2cadd56c831d5e4349099e356c55f8c73e98f9/475_0_4387_3509/master/4387.jpg?width=140&quality=85&auto=format&fit=max&s=761209b4067fb6aa11dad683f6a52802",
+      "https://dam.mediacorp.sg/image/upload/s--airJFHRd--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-20T182952Z_2_LYNXMPEM7J1E9_RTROPTP_3_TENNIS-MONTECARLO.JPG?itok=2uR2hJHW"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.6716482421258957,
+    "age_hours": 0.9925830588888889,
+    "is_stale": false,
+    "score": 17.370928469348502
+  }
+}
