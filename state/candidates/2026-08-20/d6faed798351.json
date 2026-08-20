@@ -1,0 +1,48 @@
+{
+  "id": "d6faed798351",
+  "created_at": "2026-08-20T15:07:56.197690+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.22,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Dark boreal forests of Canada absorb enough heat to cancel up to a 5th of their climate benefit, scientists warn",
+  "link": "https://phys.org/news/2026-08-dark-boreal-forests-canada-absorb.html",
+  "publishers": [
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Dark boreal forests of Canada absorb enough heat to cancel up to a 5th of their climate benefit, scientists warn",
+    "link": "https://phys.org/news/2026-08-dark-boreal-forests-canada-absorb.html",
+    "summary": "Dense evergreen plantations in Canada's boreal forest absorb so much winter sunlight that the resulting surface warming can offset 6% to 20% of the climate benefit they are credited with. Canada's current carbon accounting frameworks measure the carbon stored but largely omit the heat absorbed by these forests, according to a new policy brief from the United Nations University Institute for Water, Environment and Health (UNU-INWEH). The result is inflated mitigation estimates and public investment in forests that may not deliver the cooling they promise.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-08-20T14:00:02+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2015/borealforest.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-08-dark-boreal-forests-canada-absorb.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2015/borealforest.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.22469619364815
+  }
+}

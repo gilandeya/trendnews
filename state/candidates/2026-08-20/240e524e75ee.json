@@ -1,0 +1,50 @@
+{
+  "id": "240e524e75ee",
+  "created_at": "2026-08-20T15:07:56.197889+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.72,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "S. Korea targets up to 45 gold medals at Asian Games as countdown reaches D-30",
+  "link": "https://en.yna.co.kr/view/AEN20260820006000315",
+  "publishers": [
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "S. Korea targets up to 45 gold medals at Asian Games as countdown reaches D-30",
+    "link": "https://en.yna.co.kr/view/AEN20260820006000315",
+    "summary": "JINCHEON, South Korea, Aug. 20 (Yonhap) -- With the next Asian Games in Japan a ...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-08-20T06:24:10+00:00",
+    "image_url": "https://img.yna.co.kr/photo/yna/YH/2026/08/20/PYH2026082013990001301_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260820006000315"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/yna/YH/2026/08/20/PYH2026082013990001301_P2.jpg",
+      "https://img.yna.co.kr/photo/yna/YH/2026/08/20/PYH2026082011150001300_P2.jpg",
+      "https://img.yna.co.kr/photo/yna/YH/2026/08/20/PYH2026082013670001301_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.718177674222222
+  }
+}

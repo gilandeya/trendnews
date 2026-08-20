@@ -1,0 +1,56 @@
+{
+  "id": "a2de09121d33",
+  "created_at": "2026-08-20T15:07:56.197458+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.56,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Moderna stock jumps 120% after cancer vaccine trial win: What investors need to know",
+  "link": "https://www.hindustantimes.com/world-news/us-news/moderna-stock-jumps-120-after-cancer-vaccine-trial-win-what-investors-need-to-know-101787151687750.html",
+  "publishers": [
+    "BBC Health",
+    "Hindustan Times — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Moderna stock jumps 120% after cancer vaccine trial win: What investors need to know",
+    "link": "https://www.hindustantimes.com/world-news/us-news/moderna-stock-jumps-120-after-cancer-vaccine-trial-win-what-investors-need-to-know-101787151687750.html",
+    "summary": "Moderna stock surged after its mRNA cancer vaccine showed positive Phase 3 results with Merck’s Keytruda, boosting hopes for a new melanoma treatment.",
+    "source_name": "Hindustan Times — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-08-19T15:16:17+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ed5d/live/40f76380-9bfa-11f1-bbc9-198f60b94eaf.jpg",
+    "publisher": "Hindustan Times — World",
+    "cluster_sources": [
+      "BBC Health",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/moderna-stock-jumps-120-after-cancer-vaccine-trial-win-what-investors-need-to-know-101787151687750.html"
+      },
+      {
+        "name": "BBC Health",
+        "link": "https://www.bbc.co.uk/news/articles/c79gpv7v190o?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ed5d/live/40f76380-9bfa-11f1-bbc9-198f60b94eaf.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/ed5d/live/40f76380-9bfa-11f1-bbc9-198f60b94eaf.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ed5d/live/40f76380-9bfa-11f1-bbc9-198f60b94eaf.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 19.55941841337037
+  }
+}
