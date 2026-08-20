@@ -213,6 +213,27 @@ for any claim about a foreign public figure, since both also key off literal wor
 yet; flagged here so it isn't rediscovered as a fresh bug the next time a foreign-name story hits
 this issue.
 
+**Known limitation, not yet addressed (Issue #373):** a brief written in a third language (neither
+Arabic nor the source coverage's language) breaks entity-based search, because `entities` are
+extracted verbatim in whatever script the brief uses
+(`article.WRITEUP_EXTRACT_SYSTEM`/`WRITEUP_EXTRACT_SCHEMA`, "كما وردت في الموجز حرفيًا بلا أي إعادة
+صياغة" — no language exception exists) and `evidence.build_query`/`build_query_for_claim` build the
+search query straight from that literal text. A real run with a Turkish-language brief produced
+`[تصريح] Feysal bin Farhan ABD Trump` as a query. `request.relevant()` already splits wanted tokens
+into `q_ar`/`q_latin` and matches each only against articles of the matching script (Arabic-script
+vs. everything else) — but that split is binary, not per-language: Turkish is Latin-script, so its
+tokens landed in `q_latin` and cross-matched *any* non-Arabic-script article in *any* language
+(Japanese, Iranian, SANA all matched) on generic overlap like "Trump", while genuine Arabic-language
+coverage of the actual story was never reached because `q_ar` stayed empty (no Arabic characters in
+the query at all). Net effect: 16 "matched" results, all noise, zero real support — same shape as
+the earlier foreign-name-spelling gap above, but at the language level instead of the transliteration
+level. **This witness is also the case worth keeping regardless of the language bug:** the pipeline
+abstained instead of drafting an unsupported claim about a named foreign minister quoting Trump — a
+claim of that weight, if real, would have led the wire agencies, and it hadn't. That's the intended
+line between "we didn't find it" (a pipeline gap, like this one) and "it doesn't exist" (a correct
+refusal) — the abstention was right even though the search behind it was broken for the wrong
+reason. No fix yet.
+
 ## Testing
 
 `tests/test_pipeline.py` is the entire test suite — no pytest, no separate test files. It fakes
