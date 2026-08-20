@@ -1185,6 +1185,11 @@ DRAFT_SYSTEM_TEMPLATE = """أنت محرر يكتب مقالًا عربيًا ل
 7. استوعب الوقائع المسندة المعطاة كلها في المتن — لا تختصرها في جملة واحدة
    حين تحتمل فقرة. هذا مقال مطوَّل عن مصادر عدة قُرئت فعليًا، لا خبر عاجل
    مقتضب: كل واقعة معطاة تستحق مساحتها في المتن، لا حذفًا انتقائيًا.
+8. الوقائع المعلَّمة بـ"[تصريح لـ...]" تنقل كلام متحدث بعينه — مصدران
+   مستقلان أكّدا أنه قال هذا الكلام، لا أن مضمونه صحيح بالضرورة. حين تحمل
+   رقمًا أو ادّعاءً عن قدرة عسكرية أو أمنية، وضّح ذلك في صلب الجملة نفسها
+   لا في حاشية منفصلة — بصيغة كـ"وزعم فلان أن..." أو "وبحسب ادّعاء
+   فلان..." — لا تصغها كأنها معلومة مؤكَّدة من مصدر مستقل.
 
 استخدم أداة write_article دائمًا."""
 
@@ -1283,6 +1288,20 @@ def _opinions_block(opinions: list[dict], cfg) -> str:
            f"\"{phrase}...\" — لا تنقله حرفيًا ولا تقدّمه خبرًا):\n{lines}\n")
 
 
+def _facts_block(grounded: list[dict]) -> str:
+    """يُعلِّم كل واقعة من kind=='تصريح' بوسم "[تصريح لـ...]" ظاهر للنموذج —
+    القاعدة 8 تعتمد عليه ليميّز كلام متحدث بعينه (مسنَد وقوعه، لا صحة
+    مضمونه بالضرورة) عن واقعة مسندة من مصدر مستقل مباشرة."""
+    lines = []
+    for f in grounded:
+        if f.get("kind") == "تصريح":
+            speaker = f.get("speaker") or "؟"
+            lines.append(f"- [تصريح لـ{speaker}] {f['text']}")
+        else:
+            lines.append(f"- {f['text']}")
+    return "\n".join(lines)
+
+
 def _source_docs(grounded: list[dict]) -> list[dict]:
     seen: set[str] = set()
     out = []
@@ -1300,7 +1319,7 @@ def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
     w = cfg.get("writer", {})
     acfg = cfg.get("article", {}) or {}
     docs = _source_docs(grounded)
-    facts_block = "\n".join(f"- {f['text']}" for f in grounded)
+    facts_block = _facts_block(grounded)
     phrase = acfg.get("opinion_attribution_phrase", "وترى الصفحة أن")
     system_text = DRAFT_SYSTEM_TEMPLATE.format(opinion_phrase=phrase)
     prompt = DRAFT_USER_TEMPLATE.format(
