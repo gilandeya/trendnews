@@ -1,0 +1,60 @@
+{
+  "id": "a340d54dd1bb",
+  "created_at": "2026-08-20T06:07:49.000380+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.24,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "CK Hutchison seeks over US$1.5bil from Panama over port takeover",
+  "link": "https://www.freemalaysiatoday.com/category/business/2026/08/20/ck-hutchison-seeks-over-us-1-5bil-from-panama-over-port-takeover",
+  "publishers": [
+    "Free Malaysia Today",
+    "Nikkei Asia",
+    "South China Morning Post"
+  ],
+  "region": "my",
+  "article": {
+    "title": "CK Hutchison seeks over US$1.5bil from Panama over port takeover",
+    "link": "https://www.freemalaysiatoday.com/category/business/2026/08/20/ck-hutchison-seeks-over-us-1-5bil-from-panama-over-port-takeover",
+    "summary": "The Hong Kong conglomerate cites treaty breaches after its port concession was cancelled amid US claims of Chinese control over the Panama Canal.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-20T02:53:01+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/2b7fc6dd-panama-canal-29042026.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Nikkei Asia",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/hong-kong/hong-kong-economy/article/3364622/hong-kongs-ck-hutchison-seeks-hk117b-panama-over-canal-ports-dispute?utm_source=rss_feed"
+      },
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/politics/international-relations/us-china-tensions/ck-hutchison-seeks-1.5bn-in-damages-over-seized-panama-canal-ports"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/08/20/ck-hutchison-seeks-over-us-1-5bil-from-panama-over-port-takeover"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/2b7fc6dd-panama-canal-29042026.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.11118400729950582,
+    "age_hours": 2.9980330933333335,
+    "is_stale": false,
+    "score": 14.244525378920256
+  }
+}

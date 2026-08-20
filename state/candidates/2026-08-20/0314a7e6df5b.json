@@ -1,0 +1,87 @@
+{
+  "id": "0314a7e6df5b",
+  "created_at": "2026-08-20T06:07:48.999124+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.79,
+  "trend_score": 1.0,
+  "velocity": 0.56,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "STAT+: Moderna and Merck say mRNA cancer vaccine succeeded in late-stage melanoma trial",
+  "link": "https://www.statnews.com/2026/08/19/mrna-cancer-vaccine-trial-melanoma-merck-moderna/?utm_campaign=rss",
+  "publishers": [
+    "BBC Health",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "MyJoyOnline Ghana",
+    "Rappler",
+    "STAT News",
+    "South China Morning Post",
+    "The Japan Times"
+  ],
+  "region": "health",
+  "article": {
+    "title": "STAT+: Moderna and Merck say mRNA cancer vaccine succeeded in late-stage melanoma trial",
+    "link": "https://www.statnews.com/2026/08/19/mrna-cancer-vaccine-trial-melanoma-merck-moderna/?utm_campaign=rss",
+    "summary": "A personalized mRNA cancer vaccine succeeded in a late-stage melanoma study, results that could herald a new, powerful approach in oncology.",
+    "source_name": "STAT News",
+    "region": "health",
+    "weight": 1.0,
+    "published": "2026-08-19T10:45:00+00:00",
+    "image_url": "https://www.statnews.com/wp-content/uploads/2020/02/AdobeStock_284333299-1024x576.jpeg",
+    "publisher": "STAT News",
+    "cluster_sources": [
+      "BBC Health",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "MyJoyOnline Ghana",
+      "Rappler",
+      "STAT News",
+      "South China Morning Post",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3364603/merck-moderna-claim-encouraging-melanoma-vaccine-trial-results?utm_source=rss_feed"
+      },
+      {
+        "name": "STAT News",
+        "link": "https://www.statnews.com/2026/08/19/mrna-cancer-vaccine-trial-melanoma-merck-moderna/?utm_campaign=rss"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/moderna-shares-jump-60-on-melanoma-vaccine-trial"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/science/life-health/moderna-merck-breakthrough-cancer-vaccines/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/business/2026/08/20/companies/moderna-merck-cancer-vaccines/"
+      },
+      {
+        "name": "BBC Health",
+        "link": "https://www.bbc.co.uk/news/articles/c79gpv7v190o?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://www.statnews.com/wp-content/uploads/2020/02/AdobeStock_284333299-1024x576.jpeg",
+      "https://www.statnews.com/wp-content/uploads/2020/02/AdobeStock_284333299-645x645.jpeg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/19/456601.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/20/558397.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/20/thumbs/400x400/558397.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ed5d/live/40f76380-9bfa-11f1-bbc9-198f60b94eaf.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 0.555914276125548,
+    "age_hours": 12.99708244888889,
+    "is_stale": false,
+    "score": 27.787715149442555
+  }
+}
