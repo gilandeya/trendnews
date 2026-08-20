@@ -1,0 +1,55 @@
+{
+  "id": "93523a526e89",
+  "created_at": "2026-08-20T18:08:10.310750+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.94,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump threatens to isolate Iran. Who are its trading partners?",
+  "link": "https://www.dawn.com/news/2024153/trump-threatens-to-isolate-iran-who-are-its-trading-partners",
+  "publishers": [
+    "Dawn",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Trump threatens to isolate Iran. Who are its trading partners?",
+    "link": "https://www.dawn.com/news/2024153/trump-threatens-to-isolate-iran-who-are-its-trading-partners",
+    "summary": "A threat by US President Donald Trump to impose unprecedented economic warfare and isolation on Iran could have implications for countries that trade with it. Trump warned of economic consequences for any country that supports Iran. Here are some of Iran’s main trading partners in recent years: Pakistan For Pakistan, any US action against countries involved in trade or assistance to Iran could be a serious setback, analysts said, amid Pakistan-Iran commitments to expand bilateral trade to $10 billion. Following past sanctions on Iran, formal trade between the two countries had come to a halt until recently. However, informal trade has taken exports and imports from both sides to approximately $4bn, according to unofficial statistics. After the Islamabad interim agreement was signed in June, efforts were quickly made to expand trade cooperation. Pakistan and Iran have for years traded oil, wheat, rice, live stocks and medicines through informal channels. India India’s trade with Iran dropped sharply in 2020, when Washington pressed on with sanctions on Tehran. Two-way trade was cut by more than two-thirds to nearly $4.8bn in the fiscal year 2019-20, from $17bn in the previous year. ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-20T15:40:42+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/20201637aa5f040.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2024153/trump-threatens-to-isolate-iran-who-are-its-trading-partners"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624957/trump-threatens-to-isolate-iran-who-are-its-trading-partners"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/20201637aa5f040.webp",
+      "https://i.dawn.com/thumbnail/2026/08/20201637aa5f040.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 0.3312580959547663,
+    "age_hours": 12.006191324444444,
+    "is_stale": false,
+    "score": 13.942570695866426
+  }
+}

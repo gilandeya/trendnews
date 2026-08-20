@@ -1,0 +1,54 @@
+{
+  "id": "fd1eedd773d9",
+  "created_at": "2026-08-20T18:08:10.310494+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.5,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pilot killed in violent collision with Pennsylvania police helicopter",
+  "link": "https://www.thehindu.com/news/international/pilot-killed-in-violent-collision-with-pennsylvania-police-helicopter/article71367957.ece",
+  "publishers": [
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Pilot killed in violent collision with Pennsylvania police helicopter",
+    "link": "https://www.thehindu.com/news/international/pilot-killed-in-violent-collision-with-pennsylvania-police-helicopter/article71367957.ece",
+    "summary": "The crash at the small airport in Carlisle, about 170 kilometres northwest of Philadelphia, involved the Bell 407 helicopter and the Cessna 150, according to the Federal Aviation Administration",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-20T06:08:15+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/eq3qrs/article71367959.ece/alternates/LANDSCAPE_1200/Helicopter_Plane_Crash_Pennsylvania__3237.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3364728/plane-pilot-killed-us-collision-police-helicopter?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/pilot-killed-in-violent-collision-with-pennsylvania-police-helicopter/article71367957.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/eq3qrs/article71367959.ece/alternates/LANDSCAPE_1200/Helicopter_Plane_Crash_Pennsylvania__3237.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 9.005699236944444,
+    "is_stale": false,
+    "score": 15.500224669722222
+  }
+}

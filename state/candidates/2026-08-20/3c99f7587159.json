@@ -1,0 +1,61 @@
+{
+  "id": "3c99f7587159",
+  "created_at": "2026-08-20T18:08:10.309721+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.36,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Ukrainian suspected in Nord Stream bombing reportedly arrested while working on film about the attack",
+  "link": "https://meduza.io/en/news/2026/08/20/ukrainian-suspected-in-nord-stream-bombing-reportedly-arrested-while-working-on-film-about-the-attack",
+  "publishers": [
+    "Court House News",
+    "Daily Sabah",
+    "Meduza English"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Ukrainian suspected in Nord Stream bombing reportedly arrested while working on film about the attack",
+    "link": "https://meduza.io/en/news/2026/08/20/ukrainian-suspected-in-nord-stream-bombing-reportedly-arrested-while-working-on-film-about-the-attack",
+    "summary": "Volodymyr Zhuravlev, a Ukrainian citizen suspected of involvement in the bombing of the Nord Stream pipelines, was arrested in Croatia while working on a film about the sabotage, the German outlet LTO reported.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-08-20T07:39:41+00:00",
+    "image_url": "https://meduza.io/imgly/share/1787211581/en/news/2026/08/20/ukrainian-suspected-in-nord-stream-bombing-reportedly-arrested-while-working-on-film-about-the-attack",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Court House News",
+      "Daily Sabah",
+      "Meduza English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/nord-stream-bomb-suspect-arrested-while-working-on-movie-about-attack-media/"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/08/20/ukrainian-suspected-in-nord-stream-bombing-reportedly-arrested-while-working-on-film-about-the-attack"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/nord-stream-attack-suspect-arrested-on-set-of-hollywood-movie-about-blasts"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1787211581/en/news/2026/08/20/ukrainian-suspected-in-nord-stream-bombing-reportedly-arrested-while-working-on-film-about-the-attack",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/20/456898.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1.0064466002777779,
+    "is_stale": false,
+    "score": 17.35670476657088
+  }
+}

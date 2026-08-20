@@ -1,0 +1,46 @@
+{
+  "id": "8b7a6ac6a084",
+  "created_at": "2026-08-20T18:08:10.310203+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.45,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "A third of web pages published since ChatGPT’s launch show signs of AI authorship, study finds",
+  "link": "https://techcrunch.com/2026/08/20/a-third-of-webpages-published-since-chatgpts-launch-show-signs-of-ai-authorship-study-finds/",
+  "publishers": [
+    "TechCrunch"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "A third of web pages published since ChatGPT’s launch show signs of AI authorship, study finds",
+    "link": "https://techcrunch.com/2026/08/20/a-third-of-webpages-published-since-chatgpts-launch-show-signs-of-ai-authorship-study-finds/",
+    "summary": "ChatGPT and other AI models are now authoring and editing much of the new web.",
+    "source_name": "TechCrunch",
+    "region": "tech",
+    "weight": 1.0,
+    "published": "2026-08-20T17:18:58+00:00",
+    "image_url": null,
+    "publisher": "TechCrunch",
+    "cluster_sources": [
+      "TechCrunch"
+    ],
+    "cluster_members": [
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/08/20/a-third-of-webpages-published-since-chatgpts-launch-show-signs-of-ai-authorship-study-finds/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.44546541077778
+  }
+}
