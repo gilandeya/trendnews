@@ -306,11 +306,12 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
     source_docs/extra_docs: [{"name": هوية الناشر الموحَّدة (لا الاسم
     الخام — على المستدعي تمرير evidence._canonical_publisher نفسها، فهذه
     الدالة لا تستورد evidence لتبقى مستقلة قابلة للاختبار بلا cfg), "text":
-    ...}]. source_docs هي المقتطفات المؤكِّدة/المسندة فعليًا لهذا المحتوى —
-    عليها وحدها يسري استثناء "مصدرين مستقلين" الأصلي. extra_docs (اختياري)
-    تجميع أوسع — أي وثيقة قُرئت خلال هذا التشغيل ولو لم تؤيِّد هذه الواقعة
-    بعينها — تُستعمل حصرًا لإشارة (ب) أدناه، لا لإشارة (أ) ولا للاستثناء
-    الأصلي.
+    ..., "link": رابط المصدر (اختياري — "link" غائب أو فارغ لا يكسر شيئًا،
+    فقط لا يظهر رابط في رسالة الرفض)}]. source_docs هي المقتطفات
+    المؤكِّدة/المسندة فعليًا لهذا المحتوى — عليها وحدها يسري استثناء
+    "مصدرين مستقلين" الأصلي. extra_docs (اختياري) تجميع أوسع — أي وثيقة
+    قُرئت خلال هذا التشغيل ولو لم تؤيِّد هذه الواقعة بعينها — تُستعمل حصرًا
+    لإشارة (ب) أدناه، لا لإشارة (أ) ولا للاستثناء الأصلي.
 
     اقتباس بين علامتي تنصيص يُستثنى من الفحص بشرط وجوده حرفيًا (بعد
     التطبيع) في أحد مقتطفات المصادر المؤكِّدة — اقتباس منسوب مشروع. اقتباس
@@ -355,12 +356,18 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
     لا التتابع المقتطَع (7 كلمات) وحده — عبر `_sentence_containing`
     (تشخيص Issue #373، تعليق الموافقة الثالث عشر، البند 3): يقرر المراجع
     البشري نفسه إن كانت صياغة قياسية أم نسخًا فعليًا من سياقها الكامل، بلا
-    أي تصنيف آلي إضافي يخاطر بخطأ.
+    أي تصنيف آلي إضافي يخاطر بخطأ. تعليق الموافقة الرابع عشر (البند 4)
+    وسّع هذا: تُعرَض جملة المسودة نفسها أيضًا (لا جملة المصدر وحدها) —
+    بلا سياق جملة المسودة، تتابع النسخ المُقتَطَع قد يبدو مطابقًا لفظيًا
+    بمعزل عن كونه فعليًا جزءًا من جملة معاد صياغتها حول النواة المشتركة —
+    ورابط المصدر إلى جانب اسمه حين رُفض على مصدر واحد (لا رابط للمقال
+    الملصق نفسه — لا حقل رابط له أصلًا).
 
     لا إضعاف للتطبيع نفسه: المطابقة الحرفية بعد التطبيع كما هي، فقط قرار
     الرفض يفحص أولًا عدد المصادر المستقلة التي يظهر التتابع فيها بالضبط."""
     min_core = max(TRIM_MIN_CORE_FLOOR, int(min_core))
     source_texts = [d.get("text", "") for d in source_docs]
+    source_link_map = {d["name"]: d.get("link", "") for d in source_docs}
     quotes = _quoted_spans(draft_text)
     normalized_sources = [_normalized_words(s) for s in source_texts]
     cleaned = draft_text
@@ -420,17 +427,26 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
                     if note not in notes:
                         notes.append(note)
                     continue
+                draft_sentence = _sentence_containing(draft_text, window)
+                draft_part = (f" — الجملة الكاملة في المسودة: «{draft_sentence}»"
+                             if draft_sentence else "")
                 sentence = _sentence_containing(source_text_map.get(only_name, ""), window)
-                sentence_part = (f" — الجملة الكاملة في المصدر ({only_name}): «{sentence}»"
+                sentence_part = (f" — الجملة المقابلة في المصدر: «{sentence}»"
                                  if sentence else "")
-                return False, (f"تطابق لفظي مع مقتطف مصدر مؤكِّد ({only_name}): "
-                               f"{n} كلمة متتالية مشتركة — «{phrase}»{sentence_part}"), notes
+                link = source_link_map.get(only_name, "")
+                source_desc = f"{only_name} ({link})" if link else only_name
+                return False, (f"تطابق لفظي مع مقتطف مصدر مؤكِّد ({source_desc}): "
+                               f"{n} كلمة متتالية مشتركة — «{phrase}»"
+                               f"{draft_part}{sentence_part}"), notes
             if window in article_ngrams:
+                draft_sentence = _sentence_containing(draft_text, window)
+                draft_part = (f" — الجملة الكاملة في المسودة: «{draft_sentence}»"
+                             if draft_sentence else "")
                 sentence = _sentence_containing(article_body, window)
-                sentence_part = (f" — الجملة الكاملة في المقال الملصق: «{sentence}»"
+                sentence_part = (f" — الجملة المقابلة في المقال الملصق: «{sentence}»"
                                  if sentence else "")
                 return False, (f"تطابق لفظي مع المقال الملصق: {n} كلمة متتالية "
-                               f"مشتركة — «{phrase}»{sentence_part}"), notes
+                               f"مشتركة — «{phrase}»{draft_part}{sentence_part}"), notes
     return True, "", notes
 
 
@@ -469,18 +485,20 @@ DRAFT_USER_TEMPLATE = """وقائع مؤكَّدة بمصدرين مستقلين
 
 
 def _canonical_docs(items: list[dict], cfg) -> list[dict]:
-    """[{"name": هوية ناشر موحَّدة, "text": ...}] من قائمة مصادر خام (حقل
-    "sources" لأي واقعة) — evidence._canonical_publisher تمنع نسختي ناشر
-    واحد بلغتين (مثال حقيقي: "الجزيرة نت"/"Al Jazeera") من العدّ كمصدرين
-    مستقلين في check_originality (تشخيص Issue #373، الجولة العاشرة، بند
-    التوحيد في إشارة ب)."""
+    """[{"name": هوية ناشر موحَّدة, "text": ..., "link": ...}] من قائمة
+    مصادر خام (حقل "sources" لأي واقعة) — evidence._canonical_publisher
+    تمنع نسختي ناشر واحد بلغتين (مثال حقيقي: "الجزيرة نت"/"Al Jazeera") من
+    العدّ كمصدرين مستقلين في check_originality (تشخيص Issue #373، الجولة
+    العاشرة، بند التوحيد في إشارة ب). "link" (تعليق الموافقة الرابع عشر،
+    البند 4) يصل رسالة الرفض النهائي فيرى المراجع البشري مصدر التطابق
+    ورابطه معًا، لا اسمًا مجردًا."""
     out = []
     for it in items:
         text = it.get("text")
         if not text:
             continue
         out.append({"name": evidence._canonical_publisher(it.get("name", ""), cfg),
-                    "text": text})
+                    "text": text, "link": it.get("link", "")})
     return out
 
 

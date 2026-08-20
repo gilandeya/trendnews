@@ -4040,25 +4040,82 @@ def test_check_originality_context() -> None:
 
     # (3) الجملة الكاملة ومصدرها عند الرفض النهائي — لا التتابع وحده
     run_ctx = "محكمة الجنايات الرابعة في دمشق برئاسة القاضي"
-    draft_ctx = f"أصدرت {run_ctx} حكمًا بالإعدام."
-    single_ctx = [{"name": "مصدر رابع",
+    draft_ctx = f"وذكرت مصادر أن {run_ctx} أصدرت حكمًا بالإعدام اليوم."
+    single_ctx = [{"name": "مصدر رابع", "link": "https://example.com/r4",
                   "text": f"القصة الكاملة: {run_ctx}. تفاصيل إضافية هنا لا صلة لها."}]
     ok_ctx, reason_ctx, notes_ctx = verify_draft.check_originality(
         draft_ctx, "", single_ctx, 7)
     check("الرفض النهائي (مصدر واحد بلا إعفاء) يذكر اسم المصدر كما كان دومًا",
           ok_ctx is False and "مصدر رابع" in reason_ctx, reason_ctx)
-    check("الرفض النهائي يحمل الجملة الكاملة من المصدر — لا التتابع المقتطَع وحده",
-          "الجملة الكاملة في المصدر" in reason_ctx and "القصة الكاملة" in reason_ctx
+    check("الرفض النهائي (تعليق الموافقة الرابع عشر) يرفق رابط المصدر إلى جانب اسمه",
+          "https://example.com/r4" in reason_ctx, reason_ctx)
+    check("الرفض النهائي يحمل الجملة المقابلة من المصدر — لا التتابع المقتطَع وحده",
+          "الجملة المقابلة في المصدر" in reason_ctx and "القصة الكاملة" in reason_ctx
           and "تفاصيل إضافية" not in reason_ctx,  # الجملة التالية لا تُقحَم معها
           reason_ctx)
+    check("الرفض النهائي (تعليق الموافقة الرابع عشر) يحمل جملة المسودة نفسها أيضًا",
+          "الجملة الكاملة في المسودة" in reason_ctx and "وذكرت مصادر أن" in reason_ctx,
+          reason_ctx)
+
+    # مصدر بلا رابط (حقل "link" غائب) — لا يظهر رابط، لا ينهار شيء
+    single_no_link = [{"name": "مصدر خامس",
+                       "text": f"القصة الكاملة: {run_ctx}. تفاصيل أخرى هنا."}]
+    ok_nolink, reason_nolink, _ = verify_draft.check_originality(
+        draft_ctx, "", single_no_link, 7)
+    check("مصدر بلا حقل link: الرفض يعمل بلا انهيار، بلا رابط في الرسالة",
+          ok_nolink is False and "مصدر خامس" in reason_nolink, reason_nolink)
 
     article_ctx = f"مقدمة عامة. {run_ctx} بحسب ما ذكرته وكالات محلية. خاتمة عامة."
     draft_ctx2 = f"وأفادت التقارير أن {run_ctx} صباح اليوم."
     ok_body, reason_body, notes_body = verify_draft.check_originality(
         draft_ctx2, article_ctx, [], 7)
-    check("الرفض النهائي على تطابق مع المقال الملصق يحمل الجملة الكاملة منه أيضًا",
-          ok_body is False and "الجملة الكاملة في المقال الملصق" in reason_body
+    check("الرفض النهائي على تطابق مع المقال الملصق يحمل الجملة المقابلة منه أيضًا",
+          ok_body is False and "الجملة المقابلة في المقال الملصق" in reason_body
           and "بحسب ما ذكرته وكالات محلية" in reason_body, reason_body)
+    check("الرفض النهائي على المقال الملصق يحمل جملة المسودة نفسها أيضًا",
+          "الجملة الكاملة في المسودة" in reason_body and "وأفادت التقارير أن" in reason_body,
+          reason_body)
+
+
+def test_check_originality_wa_pronoun_and_min_core_revert() -> None:
+    """تعليق الموافقة الرابع عشر على Issue #373: (1) لا خفض لـ min_core —
+    القيمة المُهيَّأة في config.yaml أُرجعت إلى 5 بعد أن أثبتت المحاكاة في
+    الجولة الماضية أن الخفض إلى 4 لا يجدي لصيغ تعريفية («لاعب ريال مدريد
+    السابق»)، (2) فجوة «وهو» — الضمائر المنفصلة الملتصقة بواو العطف (وهو/
+    وهي/وهم/وهن، وهي/هو/هم/هن منفصلة) أُضيفت إلى request._AR_STOP فتصير
+    قابلة للتقليم كذيل نحوي مثل «كان»/«الذي» تمامًا."""
+    from src import request, verify_draft
+
+    cfg = load_config()
+    check("(1) لا خفض لـ min_core: config.yaml: verify_draft.trim_min_core أُرجِع إلى 5",
+          cfg.path("verify_draft.trim_min_core") == 5, cfg.path("verify_draft.trim_min_core"))
+    check("(1) لا خفض لـ min_core: config.yaml: article.trim_min_core أُرجِع إلى 5",
+          cfg.path("article.trim_min_core") == 5, cfg.path("article.trim_min_core"))
+    check("(1) TRIM_MIN_CORE_FLOOR يبقى 4 بلا تغيير (حارس مستقل عن القيمة المُهيَّأة)",
+          verify_draft.TRIM_MIN_CORE_FLOOR == 4, verify_draft.TRIM_MIN_CORE_FLOOR)
+
+    # (2) فجوة «وهو»: الضمائر المطلوبة موجودة في _AR_STOP الآن
+    for pronoun in ("هو", "هي", "هم", "هن", "وهو", "وهي", "وهم", "وهن"):
+        check(f"(2) request._AR_STOP يضمّ «{pronoun}»", pronoun in request._AR_STOP)
+
+    # تكامل فعلي: نافذة سبع كلمات تنتهي بـ«وهو» — ذيل ضمير معطوف لا صلة له
+    # بالنسخ (نظير «الذي كان» في الجولة الثانية عشرة). النواة الست كلمات
+    # (بلا الذيل) تتكرر داخل نص المصدر نفسه ≥2 فتُعفى بعد تقليم «وهو»
+    # الجملة لا تبدأ بـ«إن»/«أن» قبل النواة عمدًا — تتطبَّع كلتاهما إلى «ان»،
+    # وهي ليست ضمن _AR_STOP، فوجودها قبل النواة في كل من المسودة والمصدر
+    # كان يُنتج نافذة زائفة مطابقة (بإزاحة كلمة واحدة) قبل النافذة المقصودة،
+    # فيُختبَر التقليم على نافذة أخرى غير التي يستهدفها هذا الاختبار
+    core6 = "احتفال شعبي كبير في المدينة القديمة"
+    run7 = f"{core6} وهو"
+    draft = f"{run7} تواصل حتى ساعة متأخرة من الليل، بحسب شهود عيان."
+    text = f"جرى {run7} أمس الأول. وأضاف مراسلنا لاحقًا: شهد الآلاف {core6} فعليًا."
+    single = [{"name": "مصدر تاسع", "text": text}]
+    ok, reason, notes = verify_draft.check_originality(draft, "", single, 7)
+    check("فجوة «وهو»: نافذة تنتهي بـ«وهو» تُعفى بعد تقليمه من اليمين "
+          "(النواة الست كلمات تتكرر داخل المصدر نفسه)",
+          ok is True, reason)
+    check("فجوة «وهو»: الإعفاء المقلَّم يذكر «وهو» ضمن ما قُلِّم وطول النواة (6 كلمة)",
+          bool(notes) and "وهو" in notes[0] and "6 كلمة" in notes[0], notes)
 
 
 def test_evidence() -> None:
@@ -6017,6 +6074,8 @@ def main() -> int:
     test_check_originality_trim()
     print("\n── فحص الأصالة: تجريد «الـ»، حد التقليم الأدنى، والجملة الكاملة عند الرفض ──")
     test_check_originality_context()
+    print("\n── فحص الأصالة: إرجاع min_core إلى 5 + فجوة ضمائر «وهو» ──")
+    test_check_originality_wa_pronoun_and_min_core_revert()
     print("\n── محرك البحث والقراءة المشترك (evidence.py) ──")
     test_evidence()
     print("\n── مقال من المصادر ──")

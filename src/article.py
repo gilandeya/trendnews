@@ -1580,13 +1580,15 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         outcome["reason"] = w_reason
         return outcome
 
-    source_docs = [{"name": evidence._canonical_publisher(s["name"], cfg), "text": s["text"]}
+    source_docs = [{"name": evidence._canonical_publisher(s["name"], cfg), "text": s["text"],
+                   "link": s.get("link", "")}
                   for f in grounded for s in f.get("sources", []) if s.get("text")]
     # مجمع إشارة (ب) — كل وثيقة قُرئت خلال هذا التشغيل بأكمله (all_read_docs)،
     # بهوية ناشر موحَّدة أيضًا كي لا تُحسب نسختا ناشر واحد بلغتين مصدرين
     # منفصلين (تشخيص Issue #373، الجولة العاشرة، ضابط توحيد الناشر في ب)
     extra_docs = [{"name": evidence._canonical_publisher(d.get("name", ""), cfg),
-                  "text": d.get("text", "")} for d in all_read_docs if d.get("text")]
+                  "text": d.get("text", ""), "link": d.get("link", "")}
+                 for d in all_read_docs if d.get("text")]
     draft_text = "\n".join(filter(None, [
         written["image_headline"], written["post_title"], written["post_body"],
     ]))
