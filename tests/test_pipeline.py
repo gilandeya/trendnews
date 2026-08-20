@@ -5939,6 +5939,106 @@ def test_article_statement_kind() -> None:
     article._support_sources = real_support_sources
 
 
+def test_article_split_statements() -> None:
+    """فصل الوقائع المركّبة (تشخيص Issue #373، الجولة الخامسة عشرة، البند
+    2): جملة واحدة تحمل أكثر من ادّعاء مستقل (قصف مطار / زيارة وفد تركي)
+    توزّع سند مصدر واحد فعلي على محاولات منفصلة إن استُخرجت كواقعة واحدة.
+    الفصل يقع في مرحلة الاستخراج (WRITEUP_EXTRACT_SYSTEM) لا بتفكيك برمجي
+    لاحق — كل جزء ذرّي يحمل split_from (نص الجملة الأصلية) ويُبلَّغ عنه في
+    التقرير (split_statements)، نظير merged_statements لكن بالاتجاه
+    المعاكس (تجميع أجزاء لا دمج جمل)."""
+    from src import article
+
+    cfg = load_config()
+
+    # ── normalize_statement: يلتقط split_from، وفارغ حين لا فصل ──
+    part = article.normalize_statement({
+        "text": "قُصف مطار أبو الظهور", "kind": "واقعة",
+        "entities": ["مطار أبو الظهور", "18 آب"], "is_unnamed_event": False,
+        "is_reference": False,
+        "split_from": "قُصف مطار أبو الظهور بالتزامن مع زيارة وفد عسكري تركي "
+                      "للموقع للعمل على إعادة تأهيله",
+    })
+    check("normalize_statement: يحفظ split_from لعنصر واقعة فُصل من جملة مركّبة",
+          part["split_from"].startswith("قُصف مطار أبو الظهور بالتزامن"), part)
+
+    plain = article.normalize_statement({
+        "text": "واقعة عادية بلا فصل", "kind": "واقعة", "entities": ["ك"],
+        "is_unnamed_event": False, "is_reference": False,
+    })
+    check("normalize_statement: عنصر واقعة عادي بلا split_from يبقى فارغًا (لا كسر)",
+          plain["split_from"] == "", plain)
+
+    # ── تكامل كامل عبر _write_article: جزءان من نفس الجملة المركّبة، كلٌّ
+    # يحمل الكيان المشترك (مطار أبو الظهور) إلى جانب كيانه المميِّز، وكلٌّ
+    # يمرّ بحلقة بحث+سند مستقلة (لا يتنافسان على نفس محاولة السند) ──
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+
+    original_sentence = ("قُصف مطار أبو الظهور بالتزامن مع زيارة وفد عسكري تركي "
+                          "للموقع للعمل على إعادة تأهيله")
+    part_a = "قُصف مطار أبو الظهور"
+    part_b = "زار وفد عسكري تركي مطار أبو الظهور"
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار فصل واقعة مركّبة",
+        "statements": [
+            {"text": part_a, "kind": "واقعة",
+             "entities": ["مطار أبو الظهور", "18 آب"], "is_unnamed_event": False,
+             "is_reference": False, "split_from": original_sentence},
+            {"text": part_b, "kind": "واقعة",
+             "entities": ["مطار أبو الظهور", "18 آب", "وفد عسكري تركي"],
+             "is_unnamed_event": False, "is_reference": False,
+             "split_from": original_sentence},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True}],
+        evidence.EVIDENCE_FULL_TEXT)
+
+    support_calls: list = []
+
+    def _fake_support_split(fact_text, docs, cfg, is_statement=False):
+        support_calls.append(fact_text)
+        # كلا الجزأين يفشل عمدًا (سند غير كافٍ) — يكفي لإثبات استدعاءين
+        # مستقلَّين بلا حاجة لمحاكاة مرحلتَي السؤال/الصياغة، ويحفظ نمط
+        # الاختبار المجاور (test_article_statement_kind) لنفس السبب
+        return []
+
+    article._support_sources = _fake_support_split
+
+    out = article._write_article("موجز اختبار فصل واقعة مركّبة", 9002, cfg)
+
+    check("فصل الواقعة: كلا الجزأين مرّ بحلقة السند مستقلًا (استدعاء واحد لكلٍّ لا "
+          "استدعاء واحد مشترك)",
+          support_calls.count(part_a) == 1 and support_calls.count(part_b) == 1,
+          support_calls)
+    check("فصل الواقعة: كلا الجزأين سقط لانعدام سند (سقوط أحدهما لا يُسقط الآخر معه)",
+          any(d["text"] == part_a for d in out["dropped"]) and
+          any(d["text"] == part_b for d in out["dropped"]), out["dropped"])
+    check("فصل الواقعة: outcome['split_statements'] يجمع الجزأين تحت الجملة الأصلية "
+          "بصرف النظر عن سقوطهما لاحقًا — تبليغ لا مشروط بالنجاح، نظير merged_statements",
+          any(sp["original"] == original_sentence and
+              sp["parts"] == [part_a, part_b] for sp in out["split_statements"]),
+          out["split_statements"])
+
+    report = article.build_report(out)
+    check("فصل الواقعة: التقرير يعرض قسم «وقائع فُصِّلت من جملة واحدة»",
+          "وقائع فُصِّلت من جملة واحدة" in report, report)
+    check("فصل الواقعة: التقرير يذكر الجملة الأصلية وكلا الجزأين معًا",
+          original_sentence in report and part_a in report and part_b in report,
+          report)
+
+    article.extract_brief = real_extract_brief
+    evidence.search = real_search
+    evidence.gather_evidence = real_gather_evidence
+    article._support_sources = real_support_sources
+
+
 def test_evidence_top_candidates() -> None:
     """رصد أعلى 5 مرشّحين بالاسم/الوزن/الصلة/الدرجة المركّبة في trail (تشخيص
     Issue #373، الجولة الثالثة عشرة، البند 2، الخيار (و)): بلا لمس
@@ -6501,6 +6601,7 @@ def main() -> int:
     print("\n── مقال من المصادر ──")
     test_article()
     test_article_statement_kind()
+    test_article_split_statements()
     test_evidence_top_candidates()
     test_evidence_relevance_cap()
     test_reject_boxes_render()
