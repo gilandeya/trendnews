@@ -326,6 +326,96 @@ def _quantity_exempt(window: tuple[str, ...], only_name: str,
     return None
 
 
+# فئة مغلقة صغيرة من كلمات ربط التسمية/اللقب العربية الشائعة — نظير
+# QUANTITY_ANCHOR_WORDS بنيويًا لكن لغرض مختلف: هذه لا تُقلَّم، بل نقطة
+# ارتساء لنواة تربط بين ذِكرَي اسم للكيان نفسه (تشخيص Issue #373، تعليق
+# الموافقة السادس عشر — الحالة الخامسة: «هوي كا يان معروف بالصينية باسم
+# شو»). تعميم أوسع (أي موضع، بلا ارتساء) رُفض بعد اختبار فعلي: كسر فِكستر
+# قائمًا («فرع الأمن السياسي في درعا الوطني الجديد» — ذيل من صفتين، لا
+# يجوز تقليمه مهما تكرّرت النواة بلا الذيل، ضابط متعمَّد من الجولة الثانية
+# عشرة) — أي تعميم هنا يجب أن يبقى **مرتسيًا** عند فئة مغلقة، لا حرًّا،
+# فلا يمسّ ذلك الضابط (لا كلمة من هذه القائمة تظهر في ذلك الفِكستر أصلًا).
+#
+# مكتوبة بإملائها الطبيعي، تُطبَّع بنفس _AR_TRANS عند التحميل (window يصل
+# مُطبَّعًا دومًا).
+NAME_LINK_ANCHOR_WORDS = frozenset(
+    w.translate(_AR_TRANS) for w in {
+        "معروف", "معروفة", "المعروف", "المعروفة", "يعرف", "تعرف", "يُعرف",
+        "تُعرف", "يعرَف", "يدعى", "يُدعى", "تدعى", "تُدعى", "الملقب",
+        "الملقبة", "الملقّب", "الملقّبة", "ملقب", "لقبه", "لقبها", "كنيته",
+        "كنيتها", "اسمه", "اسمها", "الشهير", "الشهيرة", "يشتهر", "تشتهر",
+    }
+)
+
+
+def _is_name_link_anchor(word: str) -> bool:
+    """تقبل الكلمة بإملائها الخام أو المُطبَّع، نظير `_is_quantity_anchor`."""
+    return (word or "").translate(_AR_TRANS) in NAME_LINK_ANCHOR_WORDS
+
+
+def _name_link_exempt(window: tuple[str, ...], only_name: str,
+                      source_word_lists: list[tuple[str, list[str]]],
+                      extra_word_lists: list[tuple[str, list[str]]],
+                      min_core: int, repeat_min_count: int
+                      ) -> tuple[list[str], tuple[str, ...], tuple[str, ...], str, str, int | None] | None:
+    """يُجرَّب أخيرًا بعد فشل `_trim_exempt` وَ`_quantity_exempt` (تشخيص
+    Issue #373، تعليق الموافقة السادس عشر): «هوي كا يان معروف بالصينية باسم
+    شو» — اسم شخص بلغتين مربوطان بعبارة تسمية جامدة («معروف بـ... باسم») لا
+    بديل لصياغتها. النواة المحتملة تقع بين عنقودَي اسم علم في **منتصف**
+    النافذة، لا طرفها (فلا يلتقطها `_trim_exempt`، يقلّم من الطرفين فقط)
+    ولا عند رقم (`_quantity_exempt`).
+
+    خلافًا لتعميم أوسع (أي موضع بداية بلا قيد) جُرِّب وأُسقِط لأنه كسر
+    ضابطًا متعمَّدًا قائمًا (تعليق الموافقة الثاني عشر: ذيل من كلمات مضمون
+    — صفتان مثلًا — لا يجوز تقليمه مهما تكرّرت النواة بلا الذيل، احترازًا
+    من رخصة تقليم حرّة قد تُنقذ جملة منسوخة فعليًا في حالة أخرى غير
+    مختبَرة)، هذه الدالة تبقى **مرتسية** عند فئة مغلقة صغيرة من كلمات ربط
+    التسمية (`_is_name_link_anchor`) — نظير `_quantity_exempt` حرفيًا: نواة
+    تبدأ عند كلمة ربط تسمية، بأي طول ≥ min_core، بلا تصنيف لغوي لباقي
+    الكلمات. التطابق الحرفي المتكرر فعليًا (داخل المصدر نفسه أو في وثيقة
+    أخرى) يبقى الدليل الوحيد — لا تُفعَّل إطلاقًا حين لا تحمل النافذة كلمة
+    ربط تسمية (لا خطر على جملة سردية عادية بلا تسمية بديلة)."""
+    n = len(window)
+    anchors = [i for i, w in enumerate(window) if _is_name_link_anchor(w)]
+    if not anchors:
+        return None
+    source_words = next((words for name, words in source_word_lists if name == only_name), [])
+    spans = [(start, length)
+            for start in anchors
+            for length in range(n - start, min_core - 1, -1)]
+    spans.sort(key=lambda t: -t[1])  # الأطول (أقل إسقاط) أولًا
+    for start, length in spans:
+        core = list(window[start:start + length])
+        repeat_count = _count_run(source_words, core)
+        if repeat_count >= repeat_min_count:
+            return core, window[:start], window[start + length:], "أ", only_name, repeat_count
+        other = next((name for name, words in extra_word_lists
+                     if name != only_name and _contains_run(words, core)), None)
+        if other:
+            return core, window[:start], window[start + length:], "ب", other, None
+    return None
+
+
+def _name_link_note(only_name: str, n: int, phrase: str, left_words: tuple[str, ...],
+                    right_words: tuple[str, ...], core: list[str], signal: str,
+                    evidence_name: str, evidence_count: int | None) -> str:
+    parts = []
+    if left_words:
+        parts.append(f"من اليسار «{' '.join(left_words)}»")
+    if right_words:
+        parts.append(f"من اليمين «{' '.join(right_words)}»")
+    dropped_desc = "، ".join(parts)
+    core_phrase = " ".join(core)
+    if signal == "أ":
+        evidence_desc = f"تكررت {evidence_count} مرات داخل نص هذا المصدر نفسه"
+    else:
+        evidence_desc = f"وردت أيضًا في وثيقة أخرى مقروءة بهوية ناشر مختلفة ({evidence_name})"
+    return (f"⚠️ تطابق لفظي مع مصدر واحد ({only_name}) على {n} كلمة متتالية — "
+           f"«{phrase}» — مُعفى: نواة ربط تسمية جامدة «{core_phrase}» "
+           f"({len(core)} كلمة) لا صياغة بديلة لها (أُسقط {dropped_desc}) "
+           f"{evidence_desc} (إشارة {signal} — نواة ربط تسمية)")
+
+
 def _quantity_note(only_name: str, n: int, phrase: str, left_words: tuple[str, ...],
                    right_words: tuple[str, ...], core: list[str], signal: str,
                    evidence_name: str, evidence_count: int | None) -> str:
@@ -452,6 +542,21 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
     تتكرر حرفيًا هناك أصلًا. لا تُفعَّل إطلاقًا حين لا تحمل النافذة أي رقم/
     كلمة كمية (لا خطر على جملة سردية عادية بلا رقم).
 
+    نواة ربط تسمية (تشخيص Issue #373، تعليق الموافقة السادس عشر): نافذة
+    فشل تقليمها الحدّي وارتساؤها الكمّي معًا قد تحمل مع ذلك نواة لا بديل
+    لها تقع في **منتصف** النافذة — بين عنقودَي اسم علم، لا طرفها ولا عند
+    رقم («هوي كا يان معروف بالصينية باسم شو»: الرابط «معروف بالصينية باسم»
+    بين اسمَي الشخص بلغتيه). `_name_link_exempt` ترتسي عند فئة مغلقة صغيرة
+    من كلمات ربط التسمية/اللقب (`NAME_LINK_ANCHOR_WORDS` — نظير
+    `_quantity_exempt` حرفيًا، لا تعميم حرّ) وتفحص كل نواة ابتداءً منها على
+    إشارتَي (أ)/(ب) نفسيهما بلا تصنيف لغوي إضافي (لا تصنيف "اسم علم" — فقط
+    كلمة الربط نفسها من فئة مغلقة). تعميم أوسع (أي موضع بداية بلا ارتساء)
+    جُرِّب وأُسقِط: كسر فِعليًا ضابطًا متعمَّدًا قائمًا (تعليق الموافقة
+    الثاني عشر — ذيل من كلمات مضمون لا يجوز تقليمه مهما تكرّرت النواة بلا
+    الذيل)، فبقي الحل مرتسيًا عند فئة مغلقة كسابقتها لا حرًّا. لا تُفعَّل
+    إطلاقًا حين لا تحمل النافذة كلمة ربط تسمية (لا خطر على جملة سردية
+    عادية بلا تسمية بديلة).
+
     عند الرفض النهائي (بلا أي إعفاء نجح) على تتابع من مصدر واحد أو من
     المقال الملصق، رسالة السبب تُرفَق بأول جملة خام تحوي التتابع كاملة —
     لا التتابع المقتطَع (7 كلمات) وحده — عبر `_sentence_containing`
@@ -534,6 +639,15 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
                     core, left_words, right_words, signal, ev_name, ev_count = qty
                     note = _quantity_note(only_name, n, phrase, left_words, right_words,
                                           core, signal, ev_name, ev_count)
+                    if note not in notes:
+                        notes.append(note)
+                    continue
+                name_link = _name_link_exempt(window, only_name, source_word_lists,
+                                              extra_word_lists, min_core, repeat_min_count)
+                if name_link:
+                    core, left_words, right_words, signal, ev_name, ev_count = name_link
+                    note = _name_link_note(only_name, n, phrase, left_words, right_words,
+                                           core, signal, ev_name, ev_count)
                     if note not in notes:
                         notes.append(note)
                     continue
