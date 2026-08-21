@@ -248,6 +248,36 @@ consumed by relevance scoring, query building, and `verify_draft.check_originali
 project, and a behavior change there needs its own dedicated diagnosis and regression fixtures, not
 a side effect of an unrelated feature. Flagged here so it isn't rediscovered as a fresh bug.
 
+**Addressed (Issue #373), partially — a third foreign-language-brief witness, different failure
+shape from the two above:** a Turkish-language brief (a Bayraktar quote) had `extract_brief`
+translate the *statement text* into Arabic while `entities` stayed literal Turkish — so this time
+`evidence.build_query_for_claim` actually found the right documents (Daily Sabah, Yeni Şafak,
+Haberler.com, seven results). The failure moved one stage downstream: `_support_sources`/
+`_ask_answer_model`/`_ask_naming_model` then judged an Arabic claim/question against Turkish/
+English document text and found "no support," because none of their system prompts told the model
+that a language mismatch was expected rather than evidence of no match — a plain content judgment
+across languages should have worked, the prompt just never said it was normal. Fixed by a shared
+`LANGUAGE_NOTE` constant appended to `SUPPORT_SYSTEM`, `STATEMENT_SUPPORT_SYSTEM`,
+`REPORT_SUPPORT_SYSTEM`, `ANSWER_SYSTEM`, and `NAMING_SYSTEM` (`src/article.py`) — cheaper and less
+brittle than translating every claim/document pair before every judgment call, since the model
+already understands both languages. `verify_draft.check_originality` was deliberately left
+untouched (literal n-gram matching breaks across languages by construction — dormant here, not a
+gap) and so was `DRAFT_SYSTEM_TEMPLATE` (the final post is always written in Arabic regardless of
+source-document language, so no extra instruction was needed there).
+
+**Known limitation, not yet addressed (Issue #373):** the consistency gate (`_naming_consistent`)
+still cannot accept a naming candidate when the vague reference's `proper_nouns` are Arabic and
+every naming-candidate document is in a non-Arabic language — its entity check is literal
+`norm_tokens` set intersection, which can never match across scripts, so the gate rejects even when
+the event was correctly named from the right documents. Deliberately not fixed: the gate's
+entity/date logic shares `norm_tokens`/`_extract_dates` with the rest of the project, and this issue
+has repeatedly paid in extra diagnosis rounds for touching those functions for a narrow fix. What
+*was* done instead: `article._naming_language_mismatch` (diagnostic only — computed alongside the
+gate's decision, never feeds into it) detects this specific case, and the rejection message written
+to `trail`/the report now names it explicitly ("الوثائق بلغة غير عربية فلم يقع تطابق الكيانات
+حرفيًا") instead of the generic "doesn't mention the entities" message — so a language-mismatch
+rejection here isn't mistaken for a search failure and re-diagnosed from scratch next time.
+
 ## Testing
 
 `tests/test_pipeline.py` is the entire test suite — no pytest, no separate test files. It fakes

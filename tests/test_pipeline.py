@@ -7851,6 +7851,157 @@ def test_article_jargon_leak() -> None:
           out_clean["produced"] is True, out_clean["reason"])
 
 
+def test_article_language_note() -> None:
+    """توجيه لغوي موحَّد (طلب المراجعة، Issue #373، حالة موجز تركي
+    «بايراكتار» — الحالة الثالثة من هذا النمط): entities تُستخرَج حرفيًا
+    فتبني استعلامًا بلغة الموجز الأصلية، فتصل وثائق صحيحة (تركية/إنجليزية)
+    فعلًا — لكن النص المحكوم عليه (واقعة/تصريح/تقرير/سؤال/تسمية) عربي
+    (مترجَم داخل extract_brief)، فكان حكم السند يخفق رغم صحة المضمون لأن
+    البرومبت لا يخبر النموذج أن اختلاف اللغة متوقَّع لا خلل. LANGUAGE_NOTE
+    مُضافة الآن للأنظمة الخمسة كلها. المطلوب هنا إثبات وصول التوجيه إلى
+    البرومبت الفعلي المُرسَل (لا اختبار فهم النموذج) — عميل مزيَّف يكفي،
+    ويعيد "تأييد" كأن النموذج تجاوز اختلاف اللغة فعلًا، فيتحقق الاختبار من
+    الأمرين معًا: النتيجة، ووصول LANGUAGE_NOTE إلى system الفعلي."""
+    from src import article
+
+    cfg = load_config()
+
+    turkish_docs = [{"name": "Daily Sabah",
+                     "text": "Bayraktar stratejimizi net şekilde belirledik dedi.",
+                     "link": "https://dailysabah/1"}]
+
+    class _Block:
+        def __init__(self, input_):
+            self.type = "tool_use"
+            self.input = input_
+
+    class _Resp:
+        def __init__(self, input_):
+            self.content = [_Block(input_)]
+            self.stop_reason = "end_turn"
+
+    class _CaptureMessages:
+        def __init__(self, input_, captured):
+            self._input = input_
+            self._captured = captured
+
+        def create(self, **kw):
+            self._captured.append(kw)
+            return _Resp(self._input)
+
+    class _CaptureClient:
+        def __init__(self, input_, captured):
+            self.messages = _CaptureMessages(input_, captured)
+
+    real_client_fn = article._client
+    calls: list = []
+
+    # ── SUPPORT_SYSTEM (واقعة عادية) ──
+    article._client = lambda: _CaptureClient({"supporting": ["Daily Sabah"]}, calls)
+    out = article._support_sources("بايراكتار: حددنا استراتيجيتنا بوضوح", turkish_docs, cfg)
+    check("SUPPORT_SYSTEM: تأييد رغم اختلاف اللغة (وثائق تركية لواقعة عربية)",
+          out == ["Daily Sabah"], out)
+    check("SUPPORT_SYSTEM: LANGUAGE_NOTE وصل الـsystem الفعلي المُرسَل للنموذج",
+          article.LANGUAGE_NOTE in calls[-1]["system"] and
+          calls[-1]["system"] == article.SUPPORT_SYSTEM, calls[-1]["system"])
+
+    # ── STATEMENT_SUPPORT_SYSTEM (تصريح) ──
+    article._client = lambda: _CaptureClient({"supporting": ["Daily Sabah"]}, calls)
+    out = article._support_sources("بايراكتار: حددنا استراتيجيتنا بوضوح", turkish_docs, cfg,
+                                   is_statement=True)
+    check("STATEMENT_SUPPORT_SYSTEM: تأييد رغم اختلاف اللغة",
+          out == ["Daily Sabah"], out)
+    check("STATEMENT_SUPPORT_SYSTEM: LANGUAGE_NOTE وصل الـsystem الفعلي",
+          article.LANGUAGE_NOTE in calls[-1]["system"] and
+          calls[-1]["system"] == article.STATEMENT_SUPPORT_SYSTEM, calls[-1]["system"])
+
+    # ── REPORT_SUPPORT_SYSTEM (تقرير منقول) — الناشر يطابق اسم الوثيقة
+    # فيجتاز شرط الهوية البنيوي (_report_identity_kind) قبل نداء النموذج ──
+    article._client = lambda: _CaptureClient({"supporting": ["Daily Sabah"]}, calls)
+    out = article._support_sources("بايراكتار: حددنا استراتيجيتنا بوضوح", turkish_docs, cfg,
+                                   is_report=True, publisher="Daily Sabah")
+    check("REPORT_SUPPORT_SYSTEM: تأييد رغم اختلاف اللغة",
+          out == ["Daily Sabah"], out)
+    check("REPORT_SUPPORT_SYSTEM: LANGUAGE_NOTE وصل الـsystem الفعلي",
+          article.LANGUAGE_NOTE in calls[-1]["system"] and
+          calls[-1]["system"] == article.REPORT_SUPPORT_SYSTEM, calls[-1]["system"])
+
+    # ── ANSWER_SYSTEM (سؤال) ──
+    article._client = lambda: _CaptureClient(
+        {"answered": True, "text": "حدَّد بايراكتار الاستراتيجية بوضوح",
+         "supporting": ["Daily Sabah"]}, calls)
+    out = article._ask_answer_model("ماذا قال بايراكتار عن الاستراتيجية؟", turkish_docs, cfg)
+    check("ANSWER_SYSTEM: تأييد رغم اختلاف اللغة", out is not None and
+          out["supporting"] == ["Daily Sabah"], out)
+    check("ANSWER_SYSTEM: LANGUAGE_NOTE وصل الـsystem الفعلي",
+          article.LANGUAGE_NOTE in calls[-1]["system"] and
+          calls[-1]["system"] == article.ANSWER_SYSTEM, calls[-1]["system"])
+
+    # ── NAMING_SYSTEM (تسمية حدث مبهم) ──
+    article._client = lambda: _CaptureClient(
+        {"named": True, "text": "حدَّد بايراكتار الاستراتيجية التركية بوضوح",
+         "supporting": ["Daily Sabah"]}, calls)
+    out = article._ask_naming_model("إشارة مبهمة عن بايراكتار", ["بايراكتار"], turkish_docs, cfg)
+    check("NAMING_SYSTEM: تأييد رغم اختلاف اللغة", out is not None and
+          out["supporting"] == ["Daily Sabah"], out)
+    check("NAMING_SYSTEM: LANGUAGE_NOTE وصل الـsystem الفعلي",
+          article.LANGUAGE_NOTE in calls[-1]["system"] and
+          calls[-1]["system"] == article.NAMING_SYSTEM, calls[-1]["system"])
+
+    article._client = real_client_fn
+
+    # ── بوابة الاتساق: القيد اللغوي مسجَّل في CLAUDE.md بلا علاج (تحذير من
+    # لمس norm_tokens/_extract_dates المشتركتين) — لكن رسالة الرفض يجب أن
+    # تُسمّي السبب اللغوي صراحة حين يكون هو السبب الفعلي، لا رسالة عامة
+    # تبدو عطل بحث (طلب المراجعة صراحة) ──
+    check("_naming_language_mismatch: كيان عربي + وثائق غير عربية بالكامل + "
+          "لا معلومة تاريخ (DATE_NO_INFO) ← تشخيص لغوي",
+          article._naming_language_mismatch(
+              "Bayraktar stratejimizi belirledik", ["بايراكتار"], ["15 عامًا"],
+              [{"name": "Daily Sabah", "text": "Bayraktar stratejimizi belirledik dedi"}],
+              cfg))
+    check("_naming_language_mismatch: تعارض تاريخ صريح (DATE_MISMATCH) هو السبب "
+          "الفعلي ← لا يُنسَب للغة رغم اختلافها فعلًا",
+          not article._naming_language_mismatch(
+              "Bayraktar 2011 yılında konuştu", ["بايراكتار"], ["11 آب 2026"],
+              [{"name": "Daily Sabah", "text": "Bayraktar 2011 yılında konuştu"}],
+              cfg))
+    check("_naming_language_mismatch: أحد الوثائق عربي ← لا تشخيص لغوي (تطابق حرفي ممكن أصلًا)",
+          not article._naming_language_mismatch(
+              "خبر عن بايراكتار", ["بايراكتار"], ["15 عامًا"],
+              [{"name": "الجزيرة نت", "text": "خبر عن بايراكتار بالعربية"}],
+              cfg))
+    check("_naming_language_mismatch: كيان بلا حروف عربية أصلًا ← لا تشخيص لغوي "
+          "(التطابق الحرفي هنا ممكن بصرف النظر عن لغة الوثائق)",
+          not article._naming_language_mismatch(
+              "Bayraktar stratejimizi belirledik", ["Bayraktar"], ["15 عامًا"],
+              [{"name": "Daily Sabah", "text": "Bayraktar stratejimizi belirledik dedi"}],
+              cfg))
+
+    # ── تكامل كامل عبر _name_event._try: رسالة trail الفعلية عند الرفض ──
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    evidence.search = lambda query, cfg, days, **kw: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="", **kw: (
+        list(turkish_docs), evidence.EVIDENCE_FULL_TEXT)
+    article._client = lambda: _CaptureClient(
+        {"named": True, "text": "Bayraktar stratejimizi belirledik dedi",
+         "supporting": ["Daily Sabah"]}, [])
+    try:
+        _, _, _, mismatch_trail = article._name_event(
+            {"text": "إشارة مبهمة عن بايراكتار", "entities": ["بايراكتار", "15 عامًا"]}, cfg)
+    finally:
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._client = real_client_fn
+
+    direct_entries = [e for e in mismatch_trail if e["stage"] == "مباشر"]
+    check("trail: رفض بوابة الاتساق بسبب لغة الوثائق يذكر السبب صراحة — لا الرسالة العامة",
+          bool(direct_entries) and
+          all("الوثائق بلغة غير عربية" in e["outcome"] for e in direct_entries),
+          [e.get("outcome") for e in direct_entries])
+
+
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
     from src import review
@@ -8267,6 +8418,7 @@ def main() -> int:
     test_article_reprint_image_fallback()
     test_article_originality_retry()
     test_article_jargon_leak()
+    test_article_language_note()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()
