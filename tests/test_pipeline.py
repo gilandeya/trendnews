@@ -8248,6 +8248,127 @@ def test_article_language_note() -> None:
           [e.get("outcome") for e in direct_entries])
 
 
+def test_article_mentioned_sources() -> None:
+    """mentioned (طلب المراجعة، تشخيص Issue #373، حالة بايراكتار الرابعة):
+    رسالة السقوط «سند غير كافٍ» كانت واحدة عامة بصرف النظر عن السبب — الآن
+    تفرّق «لم يذكر أي مصدر الموضوع إطلاقًا» (عطل بحث محتمل) عن «ذكره N مصدر
+    لكن لم يطابق مضمونه» (عطل حكم) عن «طابق مضمونه جزئيًا فقط» — سطر واحد
+    يوفّر جولة تشخيص كل مرة بدل رسالة ملتبسة."""
+    from src import article
+
+    cfg = load_config()
+
+    check("SUPPORT_SCHEMA يُلزم بحقل mentioned إلى جانب supporting",
+          "mentioned" in article.SUPPORT_SCHEMA["input_schema"]["required"],
+          article.SUPPORT_SCHEMA["input_schema"]["required"])
+    for name, system in (("SUPPORT_SYSTEM", article.SUPPORT_SYSTEM),
+                         ("STATEMENT_SUPPORT_SYSTEM", article.STATEMENT_SUPPORT_SYSTEM),
+                         ("REPORT_SUPPORT_SYSTEM", article.REPORT_SUPPORT_SYSTEM)):
+        check(f"{name}: MENTIONED_NOTE مُدرَج فعليًا في البرومبت",
+              article.MENTIONED_NOTE in system)
+
+    docs = [{"name": "Daily Sabah", "text": "نص", "link": "https://s1/1"},
+            {"name": "Yeni Şafak", "text": "نص", "link": "https://s2/1"}]
+
+    class _Block:
+        def __init__(self, input_):
+            self.type = "tool_use"
+            self.input = input_
+
+    class _Resp:
+        def __init__(self, input_):
+            self.content = [_Block(input_)]
+            self.stop_reason = "end_turn"
+
+    class _FakeMessages:
+        def __init__(self, input_):
+            self._input = input_
+
+        def create(self, **kw):
+            return _Resp(self._input)
+
+    class _FakeClient:
+        def __init__(self, input_):
+            self.messages = _FakeMessages(input_)
+
+    real_client_fn = article._client
+
+    article._client = lambda: _FakeClient({"supporting": [], "mentioned": []})
+    out = article._support_sources("تصريح اختباري", docs, cfg)
+    check("_support_sources: mentioned فارغة حين لا يذكر أي مصدر الموضوع",
+          out.mentioned == [], out.mentioned)
+
+    article._client = lambda: _FakeClient({"supporting": [], "mentioned": ["Daily Sabah"]})
+    out2 = article._support_sources("تصريح اختباري", docs, cfg)
+    check("_support_sources: mentioned تحمل مصدرًا ذكر الموضوع بلا تأييد، supporting تبقى فارغة",
+          out2.mentioned == ["Daily Sabah"] and out2 == [], (list(out2), out2.mentioned))
+
+    article._client = lambda: _FakeClient(
+        {"supporting": [], "mentioned": ["Daily Sabah", "مصدر مختلَق"]})
+    out3 = article._support_sources("تصريح اختباري", docs, cfg)
+    check("_support_sources: mentioned تُصفَّى بـ_known_only كما supporting — لا اسم مختلَق",
+          out3.mentioned == ["Daily Sabah"], out3.mentioned)
+
+    article._client = real_client_fn
+
+    # ── تكامل كامل عبر _write_article: ثلاث حالات مختلفة في موجز واحد ──
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_find_images = article.find_images
+
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        list(docs), evidence.EVIDENCE_FULL_TEXT)
+    article.find_images = lambda title, cfg, terms=None: []
+
+    def _fake_support(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
+        result = article._ModelCallList()
+        if fact_text == "لا ذكر إطلاقًا":
+            result.mentioned = []
+        elif fact_text == "ذُكر ولم يطابق":
+            result.mentioned = ["Daily Sabah", "Yeni Şafak"]
+        elif fact_text == "ذُكر وطابق جزئيًا":
+            result.append("Daily Sabah")
+            result.mentioned = ["Daily Sabah", "Yeni Şafak"]
+        return result
+
+    article._support_sources = _fake_support
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار mentioned",
+        "statements": [
+            {"text": "لا ذكر إطلاقًا", "kind": "واقعة", "entities": ["ك1"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "ذُكر ولم يطابق", "kind": "واقعة", "entities": ["ك2"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "ذُكر وطابق جزئيًا", "kind": "واقعة", "entities": ["ك3"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+
+    try:
+        out_full = article._write_article("موجز اختبار mentioned", 9001, cfg)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        article.find_images = real_find_images
+
+    dropped_by_text = {d["text"]: d["reason"] for d in out_full["dropped"]}
+    check("لا ذكر إطلاقًا: رسالة السقوط تفيد أن لا مصدر مقروء ذكر الموضوع إطلاقًا",
+          "لم يذكر أي من المصادر المقروءة الموضوع إطلاقًا" in dropped_by_text.get("لا ذكر إطلاقًا", ""),
+          dropped_by_text.get("لا ذكر إطلاقًا"))
+    check("ذُكر ولم يطابق: رسالة السقوط تذكر عدد من ذكروا الموضوع بلا أي تأييد",
+          "ذكره 2 مصدر لكن لم يطابق مضمونه أيٌّ منها" in dropped_by_text.get("ذُكر ولم يطابق", ""),
+          dropped_by_text.get("ذُكر ولم يطابق"))
+    check("ذُكر وطابق جزئيًا: رسالة السقوط تفرّق بين عدد من ذكر الموضوع وعدد من طابقه فعلًا",
+          "ذكره 2 مصدر وطابق مضمونه 1 منها فقط" in dropped_by_text.get("ذُكر وطابق جزئيًا", ""),
+          dropped_by_text.get("ذُكر وطابق جزئيًا"))
+
+
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
     from src import review
@@ -8667,6 +8788,7 @@ def main() -> int:
     test_article_originality_retry()
     test_article_jargon_leak()
     test_article_language_note()
+    test_article_mentioned_sources()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()
