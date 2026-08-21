@@ -1,107 +1,5 @@
 [
   {
-    "score": 19.52,
-    "bucket": "serious",
-    "tokens": [
-      "break",
-      "dead",
-      "evacuated",
-      "fires",
-      "greek",
-      "hundreds",
-      "island",
-      "twin",
-      "two"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c87nnwlpe5no?at_medium=RSS&at_campaign=rss",
-    "title": "Two dead and hundreds evacuated as twin fires break out on Greek island",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-16T19:07:38.162937+00:00"
-  },
-  {
-    "score": 17.38,
-    "bucket": "serious",
-    "tokens": [
-      "cristiano",
-      "eigenen",
-      "georgina",
-      "hochzeit",
-      "mit",
-      "ronaldo",
-      "wohnzimmer"
-    ],
-    "link": "https://www.spiegel.de/panorama/leute/cristiano-ronaldo-hochzeit-mit-georgina-im-eigenen-wohnzimmer-a-450fb1f2-9417-4de5-91fa-27434f47f429#ref=rss",
-    "title": "Cristiano Ronaldo: Hochzeit mit Georgina im eigenen Wohnzimmer",
-    "posted_title": "",
-    "region": "de",
-    "seen_at": "2026-08-16T19:07:38.163085+00:00"
-  },
-  {
-    "score": 17.29,
-    "bucket": "serious",
-    "tokens": [
-      "champions",
-      "des",
-      "direct",
-      "dès",
-      "lens",
-      "les",
-      "mettent",
-      "minutes",
-      "parisiens",
-      "premières",
-      "pression",
-      "psg",
-      "sang",
-      "sur",
-      "trophée"
-    ],
-    "link": "https://www.lemonde.fr/sport/live/2026/08/16/en-direct-lens-psg-suivez-le-match-du-trophee-des-champions_6747649_3242.html",
-    "title": "EN DIRECT, Lens-PSG : les Parisiens mettent la pression sur le but des Sang et Or, dès les premières minutes du Trophée des champions",
-    "posted_title": "",
-    "region": "fr",
-    "seen_at": "2026-08-16T19:07:38.163217+00:00"
-  },
-  {
-    "score": 15.86,
-    "bucket": "serious",
-    "tokens": [
-      "arsenal",
-      "city",
-      "lineup",
-      "man",
-      "news",
-      "predicted",
-      "team"
-    ],
-    "link": "https://en.irna.ir/news/86237051/Arsenal-vs-Man-City-Team-news-predicted-lineup",
-    "title": "Arsenal vs Man City: Team news & predicted lineup",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-08-16T19:07:38.163343+00:00"
-  },
-  {
-    "score": 15.23,
-    "bucket": "serious",
-    "tokens": [
-      "arrested",
-      "bus",
-      "crash",
-      "driver",
-      "hungary",
-      "injures",
-      "kills",
-      "least",
-      "people"
-    ],
-    "link": "https://www.scmp.com/news/world/europe/article/3364217/driver-arrested-after-hungary-bus-crash-kills-12-people-injures-least-10?utm_source=rss_feed",
-    "title": "Driver arrested after Hungary bus crash kills 12 people, injures at least 10",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-08-16T19:07:38.163472+00:00"
-  },
-  {
     "score": 22.67,
     "bucket": "sport",
     "tokens": [
@@ -4824,5 +4722,99 @@
     "posted_title": "",
     "region": "jp",
     "seen_at": "2026-08-21T18:07:53.138407+00:00"
+  },
+  {
+    "score": 22.44,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "injured",
+      "school",
+      "seriously",
+      "swedish",
+      "sword",
+      "teenagers",
+      "two"
+    ],
+    "link": "https://www.myjoyonline.com/two-teenagers-seriously-injured-after-sword-attack-at-swedish-school/",
+    "title": "Two teenagers seriously injured after sword attack at Swedish school",
+    "posted_title": "",
+    "region": "gh",
+    "seen_at": "2026-08-21T19:07:55.121211+00:00"
+  },
+  {
+    "score": 21.87,
+    "bucket": "serious",
+    "tokens": [
+      "end",
+      "iran",
+      "position",
+      "president",
+      "strength",
+      "time",
+      "war",
+      "while"
+    ],
+    "link": "https://www.dawn.com/news/2024360/iran-president-says-time-to-end-war-while-in-position-of-strength",
+    "title": "Iran president says time to end war while in position of strength",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-21T19:07:55.121536+00:00"
+  },
+  {
+    "score": 17.04,
+    "bucket": "serious",
+    "tokens": [
+      "abbas",
+      "access",
+      "ensure",
+      "palestinian",
+      "reports",
+      "urges",
+      "visa"
+    ],
+    "link": "https://www.dailysabah.com/world/mid-east/un-urges-us-to-ensure-palestinian-access-amid-abbas-visa-reports",
+    "title": "UN urges US to ensure Palestinian access amid Abbas visa reports",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-08-21T19:07:55.121791+00:00"
+  },
+  {
+    "score": 14.07,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "championship",
+      "fivb",
+      "iran",
+      "pakistan",
+      "u17",
+      "world"
+    ],
+    "link": "https://www.tehrantimes.com/news/529262/Iran-down-Pakistan-at-2026-FIVB-U17-World-Championship",
+    "title": "Iran down Pakistan at 2026 FIVB U17 World Championship",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-08-21T19:07:55.122066+00:00"
+  },
+  {
+    "score": 14.06,
+    "bucket": "serious",
+    "tokens": [
+      "afc",
+      "bam",
+      "champions",
+      "khatoon",
+      "league",
+      "nassr",
+      "share",
+      "spoils",
+      "women"
+    ],
+    "link": "https://www.tehrantimes.com/news/529259/Bam-Khatoon-Al-Nassr-share-spoils-at-AFC-Women-s-Champions",
+    "title": "Bam Khatoon , Al Nassr share spoils at AFC Women’s Champions League",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-08-21T19:07:55.122318+00:00"
   }
 ]

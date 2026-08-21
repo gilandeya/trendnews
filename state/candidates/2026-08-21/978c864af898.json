@@ -1,0 +1,48 @@
+{
+  "id": "978c864af898",
+  "created_at": "2026-08-21T19:07:55.121801+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.07,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran down Pakistan at 2026 FIVB U17 World Championship",
+  "link": "https://www.tehrantimes.com/news/529262/Iran-down-Pakistan-at-2026-FIVB-U17-World-Championship",
+  "publishers": [
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran down Pakistan at 2026 FIVB U17 World Championship",
+    "link": "https://www.tehrantimes.com/news/529262/Iran-down-Pakistan-at-2026-FIVB-U17-World-Championship",
+    "summary": "TEHRAN – Iran defeated Pakistan in straight sets (25-23, 25-22, 25-18) at the 2026 FIVB Volleyball Boys’ U17 World Championship in Doha, Qatar on Friday.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-21T12:44:31+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/08/21/4/6141023.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529262/Iran-down-Pakistan-at-2026-FIVB-U17-World-Championship"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/08/21/4/6141023.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 78.99612887472222,
+    "is_stale": true,
+    "score": 14.0741340145
+  }
+}

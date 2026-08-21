@@ -1,0 +1,82 @@
+{
+  "id": "7f4c38e6627e",
+  "created_at": "2026-08-21T19:07:55.120793+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.44,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Two teenagers seriously injured after sword attack at Swedish school",
+  "link": "https://www.myjoyonline.com/two-teenagers-seriously-injured-after-sword-attack-at-swedish-school/",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Channel News Asia",
+    "Daily Sabah",
+    "MyJoyOnline Ghana",
+    "South China Morning Post",
+    "TV"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "Two teenagers seriously injured after sword attack at Swedish school",
+    "link": "https://www.myjoyonline.com/two-teenagers-seriously-injured-after-sword-attack-at-swedish-school/",
+    "summary": "Two teenagers have been seriously injured after a sword attack on a high school in Sweden, authorities have said.",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-08-21T17:09:34+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-2701.png",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Channel News Asia",
+      "Daily Sabah",
+      "MyJoyOnline Ghana",
+      "South China Morning Post",
+      "TV"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/21/several-people-injured-in-sword-attack-at-swedish-school?traffic_source=rss"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/at-least-3-injured-in-sword-attack-at-swedish-high-school"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/two-teenagers-seriously-injured-after-sword-attack-at-swedish-school/"
+      },
+      {
+        "name": "TV",
+        "link": "https://tass.com/emergencies/2176193"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3364889/man-armed-sword-injures-several-swedish-high-school?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/man-sword-attack-injuries-sweden-high-school-6333786"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-2701.png",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/21/457103.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--q5H4mlft--/c_crop,h_449,w_799,x_1,y_1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2023-09-20t100740z_1_lynxmpej8j0bn_rtroptp_3_sweden-economy-budget.jpg?itok=o4oTNh7g"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 3.999576618611111,
+    "is_stale": false,
+    "score": 22.440698783339478
+  }
+}
