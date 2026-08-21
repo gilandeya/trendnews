@@ -1,99 +1,5 @@
 [
   {
-    "score": 20.12,
-    "bucket": "serious",
-    "tokens": [
-      "capsizing",
-      "death",
-      "ferry",
-      "kariba",
-      "lake",
-      "rises",
-      "toll",
-      "zimbabwe"
-    ],
-    "link": "http://www.africanews.com/2026/08/16/zimbabwe-ferry-death-toll-rises-to-68-after-lake-kariba-capsizing/",
-    "title": "Zimbabwe ferry death toll rises to 80 after Lake Kariba capsizing",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-08-16T17:08:00.936424+00:00"
-  },
-  {
-    "score": 19.7,
-    "bucket": "serious",
-    "tokens": [
-      "death",
-      "earthquake",
-      "hits",
-      "indonesia",
-      "rubble",
-      "sifts",
-      "through",
-      "toll"
-    ],
-    "link": "https://www.dailysabah.com/world/asia-pacific/indonesia-sifts-through-rubble-as-earthquake-death-toll-hits-51",
-    "title": "Indonesia sifts through rubble as earthquake death toll hits 51",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-08-16T17:08:00.936776+00:00"
-  },
-  {
-    "score": 17.55,
-    "bucket": "serious",
-    "tokens": [
-      "against",
-      "bank",
-      "calls",
-      "end",
-      "palestinians",
-      "pope",
-      "violence",
-      "west"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/16/pope-calls-for-an-end-to-west-bank-violence-against-palestinians",
-    "title": "Pope calls for an end to West Bank violence against Palestinians",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-08-16T17:08:00.937052+00:00"
-  },
-  {
-    "score": 17.17,
-    "bucket": "serious",
-    "tokens": [
-      "aufatmen",
-      "ceuta",
-      "nach",
-      "netzaufrufen"
-    ],
-    "link": "https://www.spiegel.de/ausland/ceuta-aufatmen-nach-netzaufrufen-kein-neuer-massenansturm-a-ffac1006-31c7-4aa1-a24a-647212e62bf3#ref=rss",
-    "title": "Ceuta: Aufatmen nach Netzaufrufen",
-    "posted_title": "",
-    "region": "de",
-    "seen_at": "2026-08-16T17:08:00.937328+00:00"
-  },
-  {
-    "score": 17.08,
-    "bucket": "serious",
-    "tokens": [
-      "atender",
-      "ceuta",
-      "colapso",
-      "espacios",
-      "gobierno",
-      "los",
-      "migrantes",
-      "niega",
-      "para",
-      "reclama",
-      "sanitario"
-    ],
-    "link": "https://elpais.com/espana/2026-08-16/el-gobierno-niega-un-colapso-sanitario-y-reclama-espacios-en-ceuta-para-atender-a-los-migrantes.html",
-    "title": "El Gobierno niega un “colapso” sanitario y reclama espacios en Ceuta para atender a los migrantes",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-08-16T17:08:00.937588+00:00"
-  },
-  {
     "score": 19.55,
     "bucket": "serious",
     "tokens": [
@@ -4860,5 +4766,46 @@
     "posted_title": "",
     "region": "cn",
     "seen_at": "2026-08-21T17:07:47.751888+00:00"
+  },
+  {
+    "score": 30.78,
+    "bucket": "serious",
+    "tokens": [
+      "condemn",
+      "illegal",
+      "israel",
+      "muslim",
+      "occupied",
+      "other",
+      "pakistan",
+      "palestinian",
+      "policies",
+      "settlement",
+      "seven",
+      "states",
+      "territory"
+    ],
+    "link": "https://www.dawn.com/news/2024377/pakistan-seven-other-muslim-states-condemn-israels-illegal-settlement-policies-in-occupied-palestinian-territory",
+    "title": "Pakistan, seven other Muslim states condemn Israel’s illegal settlement policies in occupied Palestinian territory",
+    "posted_title": "باكستان ومصر وتركيا وخمس دول عربية يرفضون مخطط \"E1\" الاستيطاني شرق القدس",
+    "region": "pk",
+    "seen_at": "2026-08-21T17:19:17.153904+00:00"
+  },
+  {
+    "score": 21.43,
+    "bucket": "useful",
+    "tokens": [
+      "discord",
+      "gameplay",
+      "gta",
+      "leaks",
+      "microsoft",
+      "subpoenaed"
+    ],
+    "link": "https://www.theverge.com/games/983323/grand-theft-auto-vi-gta-leaks-microsoft-discord-subpoenaed",
+    "title": "Microsoft and Discord subpoenaed over GTA VI gameplay leaks",
+    "posted_title": "تايك تو تلاحق مايكروسوفت وديسكورد قضائيًا بسبب تسريبات GTA VI",
+    "region": "tech",
+    "seen_at": "2026-08-21T17:19:29.984104+00:00"
   }
 ]
