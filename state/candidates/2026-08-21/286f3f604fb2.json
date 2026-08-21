@@ -1,16 +1,17 @@
 {
   "id": "286f3f604fb2",
-  "created_at": "2026-08-21T03:08:06.150640+00:00",
+  "created_at": "2026-08-21T15:07:56.365841+00:00",
   "status": "pending",
-  "selection_issue": 480,
-  "score": 17.04,
-  "trend_score": 1.0,
-  "velocity": 0.0,
+  "selection_issue": null,
+  "score": 13.97,
+  "trend_score": 0.0,
+  "velocity": 0.11,
   "bucket": "serious",
   "state_media": false,
   "title": "Japan executes man convicted of killing five in 2009 Osaka pachinko parlor arson",
   "link": "https://www.japantimes.co.jp/news/2026/08/21/japan/crime-legal/death-penalty-execution/",
   "publishers": [
+    "CBS News — World",
     "The Japan Times"
   ],
   "region": "jp",
@@ -21,29 +22,34 @@
     "source_name": "The Japan Times",
     "region": "jp",
     "weight": 0.9,
-    "published": "2026-08-21T01:28:00+00:00",
-    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/21/558652.jpg",
+    "published": "2026-08-21T07:45:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/21/558702.jpg",
     "publisher": "The Japan Times",
     "cluster_sources": [
+      "CBS News — World",
       "The Japan Times"
     ],
     "cluster_members": [
       {
         "name": "The Japan Times",
         "link": "https://www.japantimes.co.jp/news/2026/08/21/japan/crime-legal/death-penalty-execution/"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/japan-executes-man-pachinko-parlor-killings/"
       }
     ],
     "image_candidates": [
-      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/21/558652.jpg",
-      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/21/thumbs/400x400/558652.jpg"
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/21/558702.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/21/thumbs/400x400/558702.jpg"
     ],
     "bucket": "serious",
     "state_media": false,
-    "trend_score": 1.0,
-    "group_sources": 1,
-    "velocity": 0.0,
-    "age_hours": 0.0,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.11118288763318529,
+    "age_hours": 11.997483294722223,
     "is_stale": false,
-    "score": 17.038916684407408
+    "score": 13.96877735988495
   }
 }

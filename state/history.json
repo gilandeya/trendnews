@@ -1,94 +1,5 @@
 [
   {
-    "score": 22.59,
-    "bucket": "sport",
-    "tokens": [
-      "arsenal",
-      "city",
-      "community",
-      "manchester",
-      "shield"
-    ],
-    "link": "https://www.theguardian.com/football/live/2026/aug/16/arsenal-v-manchester-city-community-shield-live",
-    "title": "Arsenal v Manchester City: Community Shield",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-08-16T15:07:44.370901+00:00"
-  },
-  {
-    "score": 21.53,
-    "bucket": "serious",
-    "tokens": [
-      "bangladesh",
-      "extradited",
-      "hasina",
-      "india",
-      "premier",
-      "until",
-      "visit"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/bangladesh-prime-minister-india-visit-hasina-extradited-6322326",
-    "title": "Bangladesh says PM will not visit India until ex-premier Hasina extradited",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-08-16T15:07:44.371248+00:00"
-  },
-  {
-    "score": 19.92,
-    "bucket": "sport",
-    "tokens": [
-      "beats",
-      "break",
-      "garry",
-      "machado",
-      "makhachev",
-      "record",
-      "ufc",
-      "win"
-    ],
-    "link": "https://www.bbc.co.uk/sport/mixed-martial-arts/articles/c8dnn7d01p5o?at_medium=RSS&at_campaign=rss",
-    "title": "Makhachev beats Machado Garry to break UFC win record",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-08-16T15:07:44.371530+00:00"
-  },
-  {
-    "score": 19.75,
-    "bucket": "serious",
-    "tokens": [
-      "executes",
-      "involvement",
-      "iran",
-      "man",
-      "protests",
-      "winter"
-    ],
-    "link": "https://www.thehindu.com/news/international/iran-executes-man-over-involvement-in-winter-protests/article71352291.ece",
-    "title": "Iran executes man over involvement in winter protests",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-08-16T15:07:44.371822+00:00"
-  },
-  {
-    "score": 18.65,
-    "bucket": "serious",
-    "tokens": [
-      "accused",
-      "arday",
-      "cambridge",
-      "dead",
-      "found",
-      "jason",
-      "plagiarism",
-      "professor"
-    ],
-    "link": "https://www.npr.org/2026/08/15/nx-s1-5932488/jason-arday-dead",
-    "title": "Jason Arday, Cambridge professor accused of plagiarism, is found dead",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-08-16T15:07:44.372109+00:00"
-  },
-  {
     "score": 20.12,
     "bucket": "serious",
     "tokens": [
@@ -4730,5 +4641,103 @@
     "posted_title": "",
     "region": "seasia",
     "seen_at": "2026-08-21T12:08:03.443670+00:00"
+  },
+  {
+    "score": 22.58,
+    "bucket": "serious",
+    "tokens": [
+      "'exponentially'",
+      "500",
+      "congo",
+      "death",
+      "ebola",
+      "growing",
+      "outbreak",
+      "passes",
+      "toll"
+    ],
+    "link": "https://www.france24.com/en/africa/20260821-ebola-outbreak-in-dr-congo-growing-exponentially-as-death-toll-passes-2-500",
+    "title": "Ebola outbreak in DR Congo growing 'exponentially' as death toll passes 2,500",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-08-21T15:07:56.365271+00:00"
+  },
+  {
+    "score": 17.92,
+    "bucket": "serious",
+    "tokens": [
+      "charges",
+      "genocide",
+      "interpol",
+      "netanyahu",
+      "notices",
+      "red",
+      "seeks",
+      "türkiye"
+    ],
+    "link": "https://www.dailysabah.com/politics/turkiye-seeks-interpol-red-notices-for-netanyahu-over-genocide-charges/news",
+    "title": "Türkiye seeks Interpol red notices for Netanyahu over genocide charges",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-08-21T15:07:56.365564+00:00"
+  },
+  {
+    "score": 14.16,
+    "bucket": "useful",
+    "tokens": [
+      "canal",
+      "drought",
+      "fueled",
+      "niño",
+      "panama",
+      "reduce",
+      "shipping"
+    ],
+    "link": "https://phys.org/news/2026-08-panama-canal-shipping-el-nio.html",
+    "title": "Panama Canal to reduce shipping over El Niño-fueled drought",
+    "posted_title": "",
+    "region": "science",
+    "seen_at": "2026-08-21T15:07:56.365831+00:00"
+  },
+  {
+    "score": 13.97,
+    "bucket": "serious",
+    "tokens": [
+      "2009",
+      "arson",
+      "convicted",
+      "executes",
+      "five",
+      "japan",
+      "killing",
+      "man",
+      "osaka",
+      "pachinko",
+      "parlor"
+    ],
+    "link": "https://www.japantimes.co.jp/news/2026/08/21/japan/crime-legal/death-penalty-execution/",
+    "title": "Japan executes man convicted of killing five in 2009 Osaka pachinko parlor arson",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-08-21T15:07:56.366176+00:00"
+  },
+  {
+    "score": 13.96,
+    "bucket": "serious",
+    "tokens": [
+      "debt",
+      "dollars",
+      "first",
+      "gross",
+      "national",
+      "passes",
+      "time",
+      "trillion"
+    ],
+    "link": "https://en.mercopress.com/2026/08/21/us-gross-national-debt-passes-40-trillion-dollars-for-the-first-time?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+    "title": "US gross national debt passes 40 trillion dollars for the first time",
+    "posted_title": "",
+    "region": "latam",
+    "seen_at": "2026-08-21T15:07:56.366451+00:00"
   }
 ]

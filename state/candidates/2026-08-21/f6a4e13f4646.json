@@ -1,0 +1,65 @@
+{
+  "id": "f6a4e13f4646",
+  "created_at": "2026-08-21T15:07:56.366187+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.96,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US gross national debt passes 40 trillion dollars for the first time",
+  "link": "https://en.mercopress.com/2026/08/21/us-gross-national-debt-passes-40-trillion-dollars-for-the-first-time?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+  "publishers": [
+    "Africanews",
+    "CGTN",
+    "MercoPress"
+  ],
+  "region": "latam",
+  "article": {
+    "title": "US gross national debt passes 40 trillion dollars for the first time",
+    "link": "https://en.mercopress.com/2026/08/21/us-gross-national-debt-passes-40-trillion-dollars-for-the-first-time?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+    "summary": "The gross public debt of the United States reached 40.047 trillion dollars on Tuesday, according to data released by the Treasury Department. It is the first time the figure has crossed that threshold, and it has arrived earlier than expected: the Congressional Budget Office had projected 39.4 trillion by the end of fiscal 2026 and placed the jump to 40 trillion in 2027.",
+    "source_name": "MercoPress",
+    "region": "latam",
+    "weight": 1.0,
+    "published": "2026-08-21T05:20:00+00:00",
+    "image_url": "https://en.mercopress.com/data/cache/noticias/111205/100x80/trump.jpg",
+    "publisher": "MercoPress",
+    "cluster_sources": [
+      "Africanews",
+      "CGTN",
+      "MercoPress"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/20/us-national-debt-tops-40-trillion-dollars-for-first-time/"
+      },
+      {
+        "name": "MercoPress",
+        "link": "https://en.mercopress.com/2026/08/21/us-gross-national-debt-passes-40-trillion-dollars-for-the-first-time?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-20/US-national-debt-tops-40-trillion-What-are-the-risks--1PL5iZYyiYw/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://en.mercopress.com/data/cache/noticias/111205/100x80/trump.jpg",
+      "http://images.euronews.com/articles/stories/09/88/21/52/640x360_cmsv2_d4ea6e5c-0ac1-5c15-a6d4-f9002a0f12d1-9882152.jpg?1787229742",
+      "https://news.cgtn.com/news/2026-08-20/US-national-debt-tops-40-trillion-What-are-the-risks--1PL5iZYyiYw/img/974943f5a8624c798b2a0666ad5348df/974943f5a8624c798b2a0666ad5348df-1920.png",
+      "https://news.cgtn.com/news/2026-08-20/US-national-debt-tops-40-trillion-What-are-the-risks--1PL5iZYyiYw/img/02d1ccabc6d64e019b31cc4d41ae67fc/02d1ccabc6d64e019b31cc4d41ae67fc.jpeg",
+      "https://news.cgtn.com/news/2026-08-20/US-national-debt-tops-40-trillion-What-are-the-risks--1PL5iZYyiYw/img/d89bf35c353f47e5a1b7aa641d72c858/d89bf35c353f47e5a1b7aa641d72c858.jpeg",
+      "https://news.cgtn.com/news/2026-08-20/US-national-debt-tops-40-trillion-What-are-the-risks--1PL5iZYyiYw/img/10ef2b4c23c74cb3b8083bad100fbf29/10ef2b4c23c74cb3b8083bad100fbf29.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.11118678055120419,
+    "age_hours": 41.002051986944444,
+    "is_stale": false,
+    "score": 13.95768571327134
+  }
+}

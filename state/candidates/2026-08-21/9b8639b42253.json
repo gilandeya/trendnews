@@ -1,0 +1,84 @@
+{
+  "id": "9b8639b42253",
+  "created_at": "2026-08-21T15:07:56.364860+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.58,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ebola outbreak in DR Congo growing 'exponentially' as death toll passes 2,500",
+  "link": "https://www.france24.com/en/africa/20260821-ebola-outbreak-in-dr-congo-growing-exponentially-as-death-toll-passes-2-500",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English",
+    "AllAfrica",
+    "Daily Sabah",
+    "France24",
+    "Free Malaysia Today",
+    "Premium Times"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Ebola outbreak in DR Congo growing 'exponentially' as death toll passes 2,500",
+    "link": "https://www.france24.com/en/africa/20260821-ebola-outbreak-in-dr-congo-growing-exponentially-as-death-toll-passes-2-500",
+    "summary": "More than half of the 2,500-plus deaths from DR Congo's Ebola outbreak have occurred within the past 20 days alone, as the virus spreads faster than any recorded outbreak, according to the UN's senior Ebola coordinator. Julien Harneis is urging a rapid scale-up of resources to prevent the epidemic from crossing into neighbouring countries.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-21T12:55:58+00:00",
+    "image_url": "https://s.france24.com/media/display/690b9fc0-9d54-11f1-8878-005056a97e36/w:1024/p:16x9/AP26230690817549.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English",
+      "AllAfrica",
+      "Daily Sabah",
+      "France24",
+      "Free Malaysia Today",
+      "Premium Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/21/ebola-outbreak-growing-faster-%e2%81%a0%e2%81%a0wider-as-drc-death-toll-passes-2500-un?traffic_source=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/africa/20260821-ebola-outbreak-in-dr-congo-growing-exponentially-as-death-toll-passes-2-500"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/africa/ebola-spreads-exponentially-in-drc-as-death-toll-hits-2500"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/21/ebola-spreading-exponentially-in-congo-as-death-toll-tops-2-500-un-says"
+      },
+      {
+        "name": "Premium Times",
+        "link": "https://www.premiumtimesng.com/health/health-news/904472-ebola-drc-gets-70000-ervebo-vaccine-doses-as-bundibugyo-outbreak-worsens.html"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/20/dr-congo-receives-70000-ebola-vaccine-doses-for-outbreak-response/"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/690b9fc0-9d54-11f1-8878-005056a97e36/w:1024/p:16x9/AP26230690817549.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/21/457020.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/6d729ce5-149b-4d69-98c5-63e9933f5767-wabak-Ebola-epa-170826.jpg",
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2025/05/vaccines-for-homeless-western-cape-vaccination.jpg?fit=1500%2C1000&amp;ssl=1",
+      "http://static.euronews.com/articles/stories/09/46/31/48/640x360_cmsv2_506ebef1-cc65-5367-bd47-3f3263616510-9463148.jpg?1787227676"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 22.575558706857997
+  }
+}

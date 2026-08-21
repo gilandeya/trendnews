@@ -1,0 +1,63 @@
+{
+  "id": "2a6c10e1f6ac",
+  "created_at": "2026-08-21T15:07:56.365574+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.16,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Panama Canal to reduce shipping over El Niño-fueled drought",
+  "link": "https://phys.org/news/2026-08-panama-canal-shipping-el-nio.html",
+  "publishers": [
+    "Malay Mail",
+    "Phys.org",
+    "The Japan Times"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Panama Canal to reduce shipping over El Niño-fueled drought",
+    "link": "https://phys.org/news/2026-08-panama-canal-shipping-el-nio.html",
+    "summary": "The Panama Canal will cut the number of ships passing through it starting next month because of drought caused by the El Niño phenomenon, the operator of the strategic waterway linking the Atlantic and Pacific said Thursday.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-08-21T08:24:16+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/the-panama-canal-will.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Malay Mail",
+      "Phys.org",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-08-panama-canal-shipping-el-nio.html"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/21/world/panama-canal-reduce-shipping-drought/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/money/2026/08/21/global-shipping-gridlock-looms-as-panama-canal-slashes-transits-amid-worst-el-nino-drought/232162"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/the-panama-canal-will.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/21/558670.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/21/thumbs/400x400/558670.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/21/358201.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.11118267962847121,
+    "age_hours": 6.001502136944445,
+    "is_stale": false,
+    "score": 14.162405949565084
+  }
+}
