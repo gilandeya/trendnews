@@ -1,7 +1,7 @@
 {
   "id": "eb90c5af8210",
   "created_at": "2026-08-21T19:31:10.005393+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 13.25,
   "bucket": "serious",
@@ -63,5 +63,12 @@
       "https://meduza.io/image/attachments/images/012/671/713/small/TZAqhxBFCXb_SdeCBqI3WQ"
     ]
   },
-  "publish_at": "2026-08-21T20:25:39.794194+00:00"
+  "publish_at": "2026-08-21T20:25:39.794194+00:00",
+  "published_at": "2026-08-21T20:30:56.283463+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1340534184830269",
+    "photo_id": "1340534168163604",
+    "url": "https://www.facebook.com/631680090321390_1340534184830269",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
