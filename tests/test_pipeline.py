@@ -6229,8 +6229,126 @@ def test_article_statement_kind() -> None:
     check("تصريح: التقرير يذكر اسم المتحدث والجمل المُدمَجة معًا — لا إعفاء صامت",
           speaker_name in report and all(ex in report for ex in merged_excerpts),
           report)
+    check("تصريح: نص الدمج هنا يغطي كلا الجملتين فعليًا — لا فجوة دمج مُبلَّغة "
+          "(تفريقًا عن شاهد الانكماش في test_article_merged_statement_gaps)",
+          "فجوة دمج" not in report, report)
     check("تصريح: trail يسجّل مرحلة «تصريح» (لا «واقعة») للعنصر المصنَّف تصريحًا",
           any(t["stage"] == "تصريح" and t["query"] for t in out["trail"]), out["trail"])
+
+    article.extract_brief = real_extract_brief
+    evidence.search = real_search
+    evidence.gather_evidence = real_gather_evidence
+    article._support_sources = real_support_sources
+
+
+def test_article_merged_statement_gaps() -> None:
+    """فجوة دمج التصريح (تشخيص Issue #373، تعليق العطل الرابع والعشرون،
+    شاهد بايكرآر التركي): تصريح دُمج من أربع جمل، لكن نص الواقعة المدموج
+    انكمش إلى الجملة الأولى وحدها — الرقم 90% ووصف الشركة سقطا من النص رغم
+    ظهورهما في merged_excerpts. فحص بنيوي لاحق (بلا حكم لغوي): أي جملة
+    مصدر لا أثر لها في النص المدموج تُبلَّغ، لا تُسقَط صامتة."""
+    from src import article
+
+    # ── وحدة _merged_statement_gaps ──
+    covered_text = "المتحدث ينفي الادّعاء ويؤكد أنه يدرس الأمر تدريجيًا"
+    check("لا فجوة حين تتقاطع كل جملة مصدر مع النص المدموج لفظيًا",
+          article._merged_statement_gaps(
+              covered_text,
+              ["نفى المتحدث الادّعاء صراحة", "قال إنه يدرس الأمر تدريجيًا"],
+          ) == [])
+
+    shrunk_text = "قال بايكار إنه حدّد استراتيجيته"
+    excerpts = [
+        "قال بايكار إنه حدّد استراتيجيته",
+        "أضاف أن الشركة تصنّع 90% من طائراتها محليًا",
+        "وصف بايكار بأنها رائدة عالميًا في المسيّرات",
+        "أكّد استمرار الاستثمار في تركيا",
+    ]
+    gaps = article._merged_statement_gaps(shrunk_text, excerpts)
+    check("فجوة دمج: الجملة الأولى (المصدر الفعلي للنص المدموج) لا تُبلَّغ",
+          excerpts[0] not in gaps, gaps)
+    check("فجوة دمج: الجملة الثانية (رقم 90% غائب عن النص المدموج) تُبلَّغ",
+          excerpts[1] in gaps, gaps)
+    check("فجوة دمج: الجملة الثالثة (بلا تقاطع لفظي مع النص المدموج) تُبلَّغ",
+          excerpts[2] in gaps, gaps)
+    check("فجوة دمج: الجملة الرابعة (بلا تقاطع لفظي مع النص المدموج) تُبلَّغ",
+          excerpts[3] in gaps, gaps)
+
+    # ── لا فجوات كاذبة عبر اللغات: جملة مصدر أجنبية (سكريبت لاتيني) مقابل
+    # نص عربي مُترجَم لن تشترك ألفاظًا حرفيًا حتى لو نُقل مضمونها كاملًا —
+    # مقارنة الكلمات عبر لغتين مختلفتين مضلِّلة فتُسقَط، والرقم (يعبر
+    # الترجمة سليمًا) هو الإشارة المعتمدة عبر اللغات ──
+    turkish_excerpt_covered = "Baykar'ın SİHA üretiminde yüzde 90'ını yerlileştirdik"
+    arabic_text_with_number = "أكّد بايكار أن الشركة تصنّع 90% من مسيّراتها محليًا"
+    check("لا فجوة كاذبة: جملة مصدر تركية بلا تقاطع لفظي مع نص عربي مُترجَم، "
+          "لكن الرقم المشترك (90) يثبت أن مضمونها انتقل فعليًا",
+          article._merged_statement_gaps(
+              arabic_text_with_number, [turkish_excerpt_covered]) == [])
+
+    # نظير الشاهد الفعلي بدقة: جملة مصدر تركية تحمل رقمًا (90) غائبًا عن
+    # النص العربي المدموج — الأرقام تعبر الترجمة سليمة بصرف النظر عن
+    # السكريبت، فهي الإشارة الوحيدة الموثوقة عبر اللغات (تُفحص أولًا، قبل
+    # تجاوز فحص الكلمات لاختلاف السكريبت)
+    turkish_excerpt_number_gap = "Baykar SİHA üretiminde yüzde 90'ını yerlileştirdi"
+    arabic_text_no_number = "قال بايكار إنه حدّد استراتيجية الشركة"
+    check("فجوة دمج عبر اللغات: رقم (90) في جملة مصدر تركية غائب عن النص "
+          "العربي المدموج — يُبلَّغ رغم اختلاف السكريبت، لأن فحص الأرقام "
+          "يسبق تجاوز فحص الكلمات المقيَّد بتطابق الأبجدية",
+          turkish_excerpt_number_gap in article._merged_statement_gaps(
+              arabic_text_no_number, [turkish_excerpt_number_gap]))
+
+    # جملة تركية بلا رقم وبلا أي كلمة مشتركة — القيد المعروف المسجَّل في
+    # CLAUDE.md (تفاوت الترجمة الصوتية للأسماء الأجنبية) يمتد إلى هذا
+    # الفحص بالمثل: لا إشارة بنيوية موثوقة تكشف فجوة مضمون هنا بلا حكم
+    # لغوي أو مخاطرة فجوات كاذبة، فتمر بلا بلاغ — توثيق للحد لا كسر
+    turkish_excerpt_no_signal = "Türkiye'de savunma sanayii dünya lideri konumunda"
+    check("قيد معروف: جملة تركية بلا رقم وبلا كلمات مشتركة تمر بلا بلاغ — "
+          "فحص الكلمات مقيَّد بتطابق السكريبت لتفادي فجوات كاذبة، فلا إشارة "
+          "متبقية تكشفها هنا (توثيق للحد، لا خطأ في التنفيذ)",
+          article._merged_statement_gaps(
+              arabic_text_with_number, [turkish_excerpt_no_signal]) == [])
+
+    check("جملة فارغة/بيضاء ضمن merged_excerpts لا تُبلَّغ ولا تُكسر الفحص",
+          article._merged_statement_gaps(shrunk_text, ["", "   "]) == [])
+
+    # ── تكامل: outcome['merged_statements'] يحمل gaps، والتقرير يعرضها ──
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+
+    cfg = load_config()
+    speaker_name = "بايكار الاختباري"
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار فجوة دمج التصريح",
+        "statements": [
+            {"text": shrunk_text, "kind": "تصريح", "entities": ["بايكار"],
+             "is_unnamed_event": False, "is_reference": False,
+             "speaker": speaker_name, "merged_excerpts": excerpts},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, is_report=False, publisher="": (
+        ["مصدر أول", "مصدر ثانٍ"] if fact_text == shrunk_text else [])
+
+    out = article._write_article("موجز اختبار فجوة دمج التصريح", 9002, cfg)
+
+    check("تكامل: outcome['merged_statements'] يحمل gaps للجمل الثلاث الغائبة",
+          len(out["merged_statements"]) == 1 and
+          set(out["merged_statements"][0]["gaps"]) == set(excerpts[1:]),
+          out["merged_statements"])
+
+    report = article.build_report(out)
+    check("تكامل: التقرير يعرض تحذير فجوة الدمج صراحة",
+          "⚠️ فجوة دمج" in report, report)
+    check("تكامل: التقرير يذكر الجمل الثلاث الغائبة تحديدًا داخل التحذير",
+          all(ex in report for ex in excerpts[1:]), report)
 
     article.extract_brief = real_extract_brief
     evidence.search = real_search
@@ -6378,6 +6496,21 @@ def test_article_split_event_condition() -> None:
           "موجودان حرفيًا كتحذير من كلمات موضوعية عامة",
           "شريان حياة" in article.WRITEUP_EXTRACT_SYSTEM and
           '"النفط"' in article.WRITEUP_EXTRACT_SYSTEM)
+
+    # ── مثال غير عربي صريح للأولوية نفسها (تشخيص Issue #373، تعليق العطل
+    # الرابع والعشرون، شاهد بايكرآر التركي: entities المميِّزة «Baykar»/90/
+    # «Türkiye» حلّت محلها كلمة موضوعية «stratejimizi» في جولة لاحقة — فرضية
+    # المستخدم أن التوجيه صيغ بأمثلة عربية فقط فقد لا يُفهَم سريانه على أي
+    # أبجدية). التوجيه يوضّح الآن صراحة أن القاعدة لا تفترض عربية ──
+    check("WRITEUP_EXTRACT_SYSTEM: التوجيه يوضّح صراحة أن أولوية الكيانات لا تفترض "
+          "نصًّا عربيًا — بأي أبجدية دومًا أولى من كلمة موضوعية عامة",
+          "بصرف النظر عن أبجدية الموجز" in article.WRITEUP_EXTRACT_SYSTEM and
+          "لا تفترض عربية" in article.WRITEUP_EXTRACT_SYSTEM)
+    check("WRITEUP_EXTRACT_SYSTEM: مثال غير عربي صريح (تركي) — Baykar/90/Türkiye "
+          "كيانات صحيحة مقابل stratejimizi ككلمة موضوعية عامة",
+          "Baykar" in article.WRITEUP_EXTRACT_SYSTEM and
+          "Türkiye" in article.WRITEUP_EXTRACT_SYSTEM and
+          "stratejimizi" in article.WRITEUP_EXTRACT_SYSTEM)
 
     # ── normalize_statement: الشرط الثاني لا يكسر فصلًا مشروعًا لجملة
     # متعددة الأحداث الفعلية (المضادان: حصيلة قتلى، استقالة) — كل جزء منها
@@ -8404,6 +8537,7 @@ def main() -> int:
     print("\n── مقال من المصادر ──")
     test_article()
     test_article_statement_kind()
+    test_article_merged_statement_gaps()
     test_article_split_statements()
     test_article_split_event_condition()
     test_article_report_kind()
