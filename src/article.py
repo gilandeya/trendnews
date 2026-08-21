@@ -1721,45 +1721,105 @@ def _known_entity_pool(grounded: list[dict], brief_text: str, question: str,
     return norm_tokens(joined), _extract_numbers(joined)
 
 
+def _content_word_runs(text: str) -> list[list[tuple[str, str]]]:
+    """قوائم كلمات المضمون المتجاورة فعليًا في النص — لا _content_words
+    المسطّحة (التي كانت تُسقط كلمات الوقف من القائمة كليًا، فتلتصق كلمتا
+    مضمون غير متجاورتين أصلًا في النص الخام؛ عطل مكتشَف من تقرير مراجعة
+    حقيقي: «قادر العمل سواء» في المتن كانت أصلًا «قادر على العمل سواء» —
+    «على» وقف أُسقط فقرَّب الكلمتين خطأً فبدتا تتابعًا صمّاء بلا معنى).
+    كل قائمة فرعية هنا تتابع حقيقي متجاور (يقطعه أي وقف أو كلمة قصيرة)،
+    فلا يمكن لكلمتين تفصل بينهما كلمة أخرى في النص أن تُحسبا متجاورتين."""
+    runs: list[list[tuple[str, str]]] = []
+    current: list[tuple[str, str]] = []
+    for raw in _WORD_RE.findall(text or ""):
+        norm = _normalize_word(raw)
+        if len(norm) > 2 and norm not in STOPWORDS and norm not in _AR_STOP_NORM:
+            current.append((raw, norm))
+        else:
+            if current:
+                runs.append(current)
+            current = []
+    if current:
+        runs.append(current)
+    return runs
+
+
+def _phrase_in_source(run_norms: list[str], source_streams: list[list[str]]) -> bool:
+    """هل يرد تتابع الكلمات المطبَّعة هذا متجاورًا حرفيًا في أحد تدفقات
+    كلمات مضمون نصوص المصادر (المبنية بـ_content_words نفسها — إسقاط وقف
+    متماثل في الجانبين، فلا يُطلَب تطابق حروف جر لم تنجُ من التطبيع)."""
+    n = len(run_norms)
+    for stream in source_streams:
+        if n > len(stream):
+            continue
+        for i in range(len(stream) - n + 1):
+            if stream[i:i + n] == run_norms:
+                return True
+    return False
+
+
 def _unsourced_entities(post_body: str, grounded: list[dict], brief_text: str,
-                        question: str, opinions: list[dict], min_run: int = 2
-                        ) -> list[str]:
+                        question: str, opinions: list[dict],
+                        source_texts: list[str] | None = None, min_run: int = 2,
+                        attribution_phrase: str = "") -> list[str]:
     """كيانات في المتن غائبة عن الوقائع المسندة وعن الموجز — بلاغ لا رفض.
 
-    الأرقام: أي رقم في المتن غير وارد في المجمّع المعروف يُبلَّغ فردًا (رقم
-    مختلَق واحد إشارة كافية بذاتها، بلا حاجة لرقمين متتاليين). الكلمات:
-    تتابع كلمات مضمون متتالية (بعد إسقاط كلمات الوقف — لا تكسر التجاور، لا
-    تُحسب ضمن الطول) يُبلَّغ فقط حين يبلغ طوله `min_run` كلمات فأكثر
-    (افتراضيًا 2) وكل كلمة فيه غير معروفة (بمطابقة جذرية متسامحة، لا حرفية
-    صارمة) — تفاديًا لإبلاغ زائف عن كل اختيار كلمة مختلف في إعادة الصياغة
-    (القاعدة 5 تُلزم بإعادة صياغة كاملة، فكلمة واحدة جديدة متوقَّعة دومًا
-    ولا تدل على كيان مُختلَق؛ كلمتان فأكثر متتاليتان كلتاهما غير معروفتين
-    إشارة أقوى بكثير على اسم/تفصيلة منقولة من نص مصدر لم يمرّ ببوابة السند).
+    حصر النطاق (طلب المراجعة، تشخيص Issue #373، تعليق العطل الثاني
+    والعشرون، البند 1 — الفحص السابق أُغرق بشظايا نحوية: «شركة مطار»،
+    «قادر العمل سواء»، «حكومية تقدم مثل»، لا كيانات فعلية):
 
-    قيد صريح: لا حكم لغوي "هل هذا اسم علم؟" — تطابق/عدم تطابق بنيوي محض،
-    فقد يُبلَّغ أحيانًا عن وصف جديد لا اسم علم فعليًا (مثال: صفتان جديدتان
-    متتاليتان من إعادة صياغة مشروعة) — هذا مقصود ومقبول لأنه بلاغ للمراجعة
-    البشرية لا رفض آلي، ويُصقَل الحد `min_run`/طول المطابقة لاحقًا بعد رؤية
-    حالات حقيقية (طلب المراجعة: "أراجع أنا عشر حالات ثم نقرر")."""
+    - الأرقام: كما كانت — أي رقم في المتن غير وارد في المجمّع المعروف
+      يُبلَّغ فردًا (تبقى بذاتها ضمن نطاق رقم/تاريخ).
+    - الكلمات: تتابع كلمات مضمون **متجاور فعليًا في النص الخام** (عبر
+      _content_word_runs — لا دمج عبر كلمات وقف مُسقَطة كما في العطل
+      المذكور أعلاه) يُبلَّغ فقط حين (1) يبلغ طوله `min_run` كلمات فأكثر
+      **و(2)** يرد `source_texts` حين مُمرَّرة فعليًا كتتابع متجاور حرفيًا
+      في نص مصدر مقروء واحد على الأقل — إثبات بنيوي أنه فعلًا "تفصيلة
+      منقولة من نص مصدر لم تمرّ ببوابة السند" (نمط «شو جيايين» الفعلي
+      الذي بُني له هذا الفحص)، لا مجرد اختيار كلمات مختلف عن الموجز في
+      إعادة صياغة مشروعة (القاعدة 5 تُلزم بإعادة صياغة كاملة، فتتابع كلمتين
+      غير معروفتين لكن لا أصل له في أي مصدر مقروء غالبًا أسلوب الكاتب لا
+      كيانًا مُختلَقًا). `source_texts=None` (لا بيانات مصادر متاحة، مثل
+      نداء مباشر بلا سياق تشغيلة كاملة) يُبقي السلوك القديم (طول فقط) —
+      كل نداء الإنتاج الفعلي يمرّرها فعليًا فيطبَّق الشرطان معًا.
+
+    اسم الناشر/المتحدث (publisher/speaker) يبقى معفى عبر _known_entity_pool
+    كما كان؛ صيغة نسبة الرأي الثابتة (article.opinion_attribution_phrase)
+    تُضاف الآن أيضًا إلى المجمّع المعروف صراحة — كلماتها («وترى الصفحة أن»)
+    ليست كيانًا، ولا ينبغي أن تُبلَّغ لمجرد أنها لا تظهر في نص الموجز/الرأي
+    نفسه.
+
+    قيد صريح يبقى: لا حكم لغوي "هل هذا اسم علم؟" — الشرطان بنيويان محضان
+    (طول + ورود حرفي في مصدر)، فقد يُبلَّغ أحيانًا عن تفصيلة وصفية منقولة
+    لا اسم علم بعينه؛ هذا مقصود ومقبول لأنه بلاغ للمراجعة البشرية لا رفض
+    آلي."""
     known_words, known_numbers = _known_entity_pool(grounded, brief_text, question, opinions)
+    if attribution_phrase:
+        known_words = known_words | norm_tokens(attribution_phrase)
 
     body_numbers = _extract_numbers(post_body)
     notes = [f"رقم «{n}» غير وارد في الوقائع المسندة ولا في الموجز"
             for n in sorted(body_numbers - known_numbers)]
 
-    words = _content_words(post_body)
-    i, n = 0, len(words)
-    while i < n:
-        if _word_known(words[i][1], known_words):
-            i += 1
-            continue
-        j = i
-        while j < n and not _word_known(words[j][1], known_words):
-            j += 1
-        if j - i >= min_run:
-            phrase = " ".join(w[0] for w in words[i:j])
-            notes.append(f"«{phrase}» غير واردة في الوقائع المسندة ولا في الموجز")
-        i = j
+    source_streams = None
+    if source_texts is not None:
+        source_streams = [[norm for _, norm in _content_words(t)] for t in source_texts if t]
+
+    for run in _content_word_runs(post_body):
+        i, n = 0, len(run)
+        while i < n:
+            if _word_known(run[i][1], known_words):
+                i += 1
+                continue
+            j = i
+            while j < n and not _word_known(run[j][1], known_words):
+                j += 1
+            if j - i >= min_run:
+                run_norms = [w[1] for w in run[i:j]]
+                if source_streams is None or _phrase_in_source(run_norms, source_streams):
+                    phrase = " ".join(w[0] for w in run[i:j])
+                    notes.append(f"«{phrase}» غير واردة في الوقائع المسندة ولا في الموجز")
+            i = j
     return notes
 
 
@@ -2304,10 +2364,18 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
 
     # بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373 الجولة السابعة عشرة،
     # البند 2-ج) — على المسودة النهائية (بعد أي محاولة ثانية ناجحة)، فلا
-    # يضيع أثره حتى لو رُفض المقال لاحقًا في مرحلة النسبة/الأصالة
+    # يضيع أثره حتى لو رُفض المقال لاحقًا في مرحلة النسبة/الأصالة.
+    # source_texts (تشخيص Issue #373، تعليق العطل الثاني والعشرون، البند 1):
+    # نفس مجمّع source_docs+extra_docs المستعمَل لفحص الأصالة — يقصر البلاغ
+    # على تتابعات وردت حرفيًا في نص مصدر مقروء فعلًا، لا كل اختيار كلمات
+    # مختلف عن الموجز. attribution_phrase يُعفي صيغة نسبة الرأي الثابتة.
     entity_min_run = int(acfg.get("unsourced_entity_min_run", 2))
+    entity_source_texts = ([d["text"] for d in source_docs if d.get("text")]
+                           + [d["text"] for d in extra_docs if d.get("text")])
     outcome["unsourced_entities"] = _unsourced_entities(
-        written["post_body"], grounded, body, question, opinions, min_run=entity_min_run)
+        written["post_body"], grounded, body, question, opinions,
+        source_texts=entity_source_texts, min_run=entity_min_run,
+        attribution_phrase=acfg.get("opinion_attribution_phrase", "وترى الصفحة أن"))
 
     # فحص بنيوي — لا اعتمادًا على البرومبت وحده (القاعدة 9، طلب المراجعة
     # البند 1، تشخيص Issue #373 الجولة السادسة عشرة) — على المسودة النهائية

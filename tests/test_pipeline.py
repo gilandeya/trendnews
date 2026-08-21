@@ -6762,13 +6762,80 @@ def test_article_unsourced_entities() -> None:
     # ── _unsourced_entities: الحالة الفعلية (اسم بلغتين لم يمرّ ببوابة السند) ──
     grounded_name = [{"text": "هوي كا يان أعلن اعتزاله كرة القدم", "kind": "واقعة",
                       "entities": ["هوي كا يان"], "sources": []}]
-    body_with_leak = ("أعلن هوي كا يان، المعروف بالصينية باسم شو جيايين، "
+    body_with_leak = ("أعلن هوي كا يان، المعروف بالصينية باسم جيايين، "
                       "اعتزاله كرة القدم.")
     notes_leak = article._unsourced_entities(
         body_with_leak, grounded_name, "هوي كا يان أعلن اعتزاله", "", [])
     check("_unsourced_entities: تفصيلة من نص مصدر (اسم صيني) لم ترد في الوقائع "
-          "المسندة ولا الموجز ← بلاغ يحتوي «جيايين»",
+          "المسندة ولا الموجز ← بلاغ يحتوي «جيايين» (source_texts=None: سلوك "
+          "الطول القديم بلا تصحيح)",
           any("جيايين" in n for n in notes_leak), notes_leak)
+
+    # ── حصر النطاق (طلب المراجعة، تشخيص Issue #373، تعليق العطل الثاني
+    # والعشرون، البند 1): الفحص كان يُغرق بشظايا نحوية لأن _content_words
+    # المسطّحة كانت تُسقط كلمات الوقف من القائمة كليًا فتلتصق كلمتان غير
+    # متجاورتين أصلًا في النص («قادر على العمل» ← «قادر العمل» بعد إسقاط
+    # «على»). _content_word_runs يحفظ التجاور الحقيقي فلا يعود يلتقطهما ──
+    runs_gap = article._content_word_runs("قادر على العمل سواء")
+    check("_content_word_runs: «على» تقطع التجاور — تتابعان منفصلان "
+          "([قادر] و[العمل، سواء]) لا تتابع واحد يضمّ «قادر» و«العمل» معًا",
+          len(runs_gap) == 2
+          and [w[1] for w in runs_gap[0]] == [article._normalize_word("قادر")]
+          and [w[1] for w in runs_gap[1]] == [article._normalize_word("العمل"),
+                                              article._normalize_word("سواء")],
+          runs_gap)
+    runs_true = article._content_word_runs("جيايين لاعب كرة مشهور")
+    check("_content_word_runs: تتابع متجاور فعلًا (بلا وقف بينه) يبقى قائمة "
+          "فرعية واحدة",
+          len(runs_true) == 1 and len(runs_true[0]) == 4, runs_true)
+
+    # ── حصر النطاق: تتابع متجاور فعلًا في المتن لكن لا يرد في أي مصدر مقروء
+    # ← لا يُبلَّغ (شظية أسلوبية من إعادة الصياغة، لا تفصيلة منقولة فعلًا) ──
+    grounded_style = [{"text": "أعلنت الشركة توسعها التشغيلي", "kind": "واقعة",
+                       "entities": [], "sources": []}]
+    body_style_leak = "أعلنت الشركة توسعها التشغيلي بمرونة إدارية واضحة."
+    notes_no_corrob = article._unsourced_entities(
+        body_style_leak, grounded_style, "", "", [],
+        source_texts=["نص مصدر لا يذكر أي تفصيلة إضافية هنا إطلاقًا."])
+    check("_unsourced_entities: تتابع غير معروف لكن غائب عن كل نص مصدر معطى "
+          "(source_texts≠None) ← لا يُبلَّغ (يقصر البلاغ على ما وَرَد فعلًا "
+          "في نص مصدر مقروء)",
+          notes_no_corrob == [], notes_no_corrob)
+
+    # ── نفس تتابع «شو جيايين» لكن مع تمرير source_texts فعليًا: يبقى مُبلَّغًا
+    # عنه فقط لأنه يرد حرفيًا متجاورًا في نص المصدر المعطى — لا لمجرد طوله ──
+    notes_leak_corrob = article._unsourced_entities(
+        body_with_leak, grounded_name, "هوي كا يان أعلن اعتزاله", "", [],
+        source_texts=[body_with_leak])
+    check("_unsourced_entities: نفس التفصيلة، لكن الآن بشرط الورود الحرفي في "
+          "نص مصدر (source_texts) ← تبقى مُبلَّغًا عنها لأنها ترد فعلًا هناك",
+          any("جيايين" in n for n in notes_leak_corrob), notes_leak_corrob)
+    notes_leak_no_source = article._unsourced_entities(
+        body_with_leak, grounded_name, "هوي كا يان أعلن اعتزاله", "", [],
+        source_texts=["نص مصدر مختلف تمامًا بلا أي ذكر لهذا الاسم إطلاقًا."])
+    check("_unsourced_entities: نفس التفصيلة، لكن لا يرد التتابع في نص "
+          "المصدر المعطى فعليًا ← لا يُبلَّغ عنها رغم طولها",
+          not any("جيايين" in n for n in notes_leak_no_source), notes_leak_no_source)
+
+    # ── استثناء صيغة نسبة الرأي الثابتة (attribution_phrase) — بقية الجملة
+    # معروفة عبر opinions فلا تتداخل مع الفحص (تعزل أثر attribution_phrase
+    # وحده)؛ source_texts=None يُبقي شرط الطول وحده (لا علاقة بالسؤال هنا) ──
+    grounded_op: list = []
+    opinions_attrib = [{"text": "هذا التطور مهم لمستقبل الملف"}]
+    body_with_attribution = "وترى الصفحة أن هذا التطور مهم لمستقبل الملف."
+    notes_attrib = article._unsourced_entities(
+        body_with_attribution, grounded_op, "", "", opinions_attrib,
+        attribution_phrase="وترى الصفحة أن")
+    check("_unsourced_entities: صيغة نسبة الرأي الثابتة (opinion_attribution_"
+          "phrase) معفاة صراحة عبر attribution_phrase — لا تُبلَّغ رغم أنها "
+          "غير واردة في الوقائع/الموجز",
+          notes_attrib == [], notes_attrib)
+    notes_no_attrib_param = article._unsourced_entities(
+        body_with_attribution, grounded_op, "", "", opinions_attrib)
+    check("_unsourced_entities: بلا attribution_phrase (سلوك ما قبل هذا "
+          "الإصلاح) ← صيغة النسبة نفسها («وترى الصفحة») تُبلَّغ لأنها غير "
+          "معروفة — يثبت أن الإعفاء الجديد فعليًا هو من أسقطها أعلاه",
+          any("وترى" in n for n in notes_no_attrib_param), notes_no_attrib_param)
 
     # ── لا إنذار كاذب: إعادة صياغة كاملة بلا مضمون جديد (القاعدة 5 تُلزم بها) ──
     grounded_rephrase = [{"text": "قصفت طائرات حربية موقعا عسكريا قرب المدينة",
@@ -6826,8 +6893,17 @@ def test_article_unsourced_entities() -> None:
         "questions": [],
     }, None)
     evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    # نص المصدر يحمل التفصيلة المسرّبة حرفيًا («المعروف بالصينية باسم
+    # جيايين» — 4 كلمات، نفس التتابع الذي سيُبلَّغ عنه) كي تجتاز شرط الورود
+    # الحرفي في source_texts (طلب المراجعة، تعليق العطل الثاني والعشرون،
+    # البند 1)، لكن بصياغة محيطة مختلفة عن المسودة كي لا يشترك النصان في
+    # تتابع ≥7 كلمات فيُرفَض المقال كليًا بفحص الأصالة (اختبار منفصل تمامًا،
+    # لا علاقة له بهذا الفحص البعدي — التداخل هنا أثر جانبي لتصميم الاختبار
+    # لا عطلًا فعليًا: تسريب أقصر من 7 كلمات، كحالتنا، لا يصطدم بذلك الفحص)
     evidence.gather_evidence = lambda articles, cfg, claim_text="": (
-        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+        [{"name": "مصدر أول", "link": "https://s1/1", "from_text": True,
+          "text": "لاعب كرة القدم الصيني الأشهر، المعروف بالصينية باسم "
+                 "جيايين، اعتزل مؤخرًا."},
          {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
         evidence.EVIDENCE_FULL_TEXT)
     article._support_sources = lambda *a, **k: ["مصدر أول", "مصدر ثانٍ"]
@@ -6835,7 +6911,7 @@ def test_article_unsourced_entities() -> None:
     article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
         {"angle": "تفسير", "analysis": "", "urgent": False, "category": "رياضة",
          "image_headline": "اعتزال", "post_title": question,
-         "post_body": ("أعلن هوي كا يان، المعروف بالصينية باسم شو جيايين، "
+         "post_body": ("أعلن هوي كا يان، المعروف بالصينية باسم جيايين، "
                       "اعتزاله كرة القدم."),
          "hashtags": ["اعتزال"]}, "")
     article.find_images = lambda title, cfg: []
