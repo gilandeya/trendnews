@@ -54,6 +54,11 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         "🎬 لكل خبر مربع ثانٍ: علّم عليه لينشر البوت **ريلًا** بدل الصورة. "
         "الريل يُبنى لحظة النشر (يضيف ~30 ثانية) ولا يُبنى لما لا تختاره.",
         "",
+        "🖼️ **لاستبدال صورة خبر:** افتح تحرير الـ Issue، الصق الرابط في "
+        "سطر «الرابط:» تحت الخبر، وعلّم المربع فوقه. أسرع على الجوال: "
+        "علّق بصيغة `/صورة 1 <الرابط>` (الرقم = رقم الخبر في القائمة) "
+        "بلا فتح التحرير إطلاقًا.",
+        "",
         "🚫 **رفضتَ خبرًا؟** علّم على السبب في قائمة «لرفضه» تحته، ثم أضف "
         "الوسم `rejected`. يتعلّم الفرز منه فلا يعيد مثله. وسبب الرفض "
         "يغلب ✔️ إن اجتمعا، فلن يُنشر.",
@@ -106,6 +111,11 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             f"  - [ ] 🖼️ استبدل الصورة بالرابط أدناه  <!-- img:{d['id']} -->",
             "",
             f"    الرابط:   <!-- imgurl:{d['id']} -->",
+            "",
+            "    <sub>✏️ اضغط زر التحرير أعلى الـ Issue، الصق رابط "
+            "الصورة في هذا السطر مكان الفراغ بعد «الرابط:»، ثم علّم "
+            f"المربع واحفظ. أو دون فتح التحرير: علّق بـ "
+            f"`/صورة {idx} <الرابط>`.</sub>",
             "",
             *([f"  - [ ] 🎬 انشره كريل بدل الصورة  <!-- reel:{d['id']} -->",
                ""] if d.get("reel_spec") or d.get("reel") else []),
@@ -207,6 +217,21 @@ def all_draft_ids(body: str) -> list[str]:
     return ID_MARKER.findall(body)
 
 
+DRAFT_INDEX_RE = re.compile(
+    r"^\s*-\s*\[[ xX]\]\s*\*\*(\d+)\.\s.*?<!--\s*draft:([0-9a-f]+)\s*-->",
+    re.MULTILINE)
+
+
+def draft_index_map(body: str) -> dict[str, str]:
+    """رقم الترتيب الظاهر للمراجع («١»، «٢»...) → معرّف المسودة.
+
+    يُبنى من نص الـ Issue الحالي وقت الاستدعاء — لا من ترتيب مخزَّن سابقًا،
+    لأن الرقم يتغيّر إن أُضيفت مسودة جديدة أو حُذفت بين تشغيلتين، فخريطة
+    قديمة قد تُطبِّق أمرًا على مسودة غير التي قصدها المراجع.
+    """
+    return {idx: draft_id for idx, draft_id in DRAFT_INDEX_RE.findall(body or "")}
+
+
 # ──────────────────────────── عمليات GitHub ────────────────────────────
 
 
@@ -240,12 +265,13 @@ IMG_URL_RE = re.compile(r"<!--\s*imgurl:([0-9a-f]+)\s*-->")
 URL_RE = re.compile(r"https?://\S+")
 
 
-def parse_image_requests(body: str) -> list[tuple[str, str]]:
+def parse_image_requests(body: str) -> tuple[list[tuple[str, str]], list[str]]:
     """
     يقرأ طلبات استبدال الصورة: مربع معلَّم + رابط في سطر الفراغ.
 
     الرابط يُلتقط من أي موضع في سطر الفراغ، لأن اللصق على الهاتف قد يقع
-    قبل العلامة أو بعدها. مربع معلَّم بلا رابط يُهمَل — لا يُخمَّن.
+    قبل العلامة أو بعدها. يعيد (طلبات صالحة، معرّفات مسودات مُعلَّمة بلا
+    رابط) — مربع معلَّم بلا رابط فشل صامت سابقًا؛ الآن يُبلَّغ لا يُهمَل.
     """
     urls: dict[str, str] = {}
     for line in (body or "").splitlines():
@@ -256,11 +282,16 @@ def parse_image_requests(body: str) -> list[tuple[str, str]]:
         if found:
             urls[match.group(1)] = found.group(0).rstrip(").,>،")
 
-    out = []
+    out: list[tuple[str, str]] = []
+    missing: list[str] = []
     for _, mark, _, draft_id in IMG_BOX_RE.findall(body or ""):
-        if mark.lower() == "x" and draft_id in urls:
+        if mark.lower() != "x":
+            continue
+        if draft_id in urls:
             out.append((draft_id, urls[draft_id]))
-    return out
+        else:
+            missing.append(draft_id)
+    return out, missing
 
 
 def clear_image_request(body: str, draft_id: str, keep_url: bool = False) -> str:

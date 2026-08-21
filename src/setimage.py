@@ -31,18 +31,32 @@ SYNC_FILE = Path(os.environ.get("IMAGE_SYNC_FILE", "/tmp/trendnews_image_sync.js
 
 # /صورة المعرّف الرابط — يقبل image بالإنجليزية أيضًا
 COMMAND_RE = re.compile(
-    r"/(?:صورة|image)\s+([0-9a-f]{6,16})\s+(https?://\S+)", re.IGNORECASE)
+    r"/(?:صورة|image)\s+([0-9a-f]{6,16}|\d{1,3})\s+(https?://\S+)", re.IGNORECASE)
 
 
-def parse_commands(body: str) -> list[tuple[str, str]]:
-    """يقرأ أوامر الصورة من نص تعليق. يقبل عدة أوامر في تعليق واحد."""
-    out, seen = [], set()
-    for draft_id, url in COMMAND_RE.findall(body or ""):
+def parse_commands(body: str, index_map: dict[str, str] | None = None
+                   ) -> tuple[list[tuple[str, str]], list[str]]:
+    """يقرأ أوامر الصورة من نص تعليق. يقبل عدة أوامر في تعليق واحد.
+
+    رقم ترتيب بسيط («1») يُحوَّل إلى معرّف المسودة عبر index_map — خريطة
+    يبنيها المستدعي من نص الـ Issue وقت المعالجة (انظر
+    review.draft_index_map). رقم لا يُطابق مسودة في الخريطة يُعاد ضمن
+    unresolved بدل أن يُهمَل صمتًا.
+    """
+    out, seen, unresolved = [], set(), []
+    for token, url in COMMAND_RE.findall(body or ""):
         url = url.rstrip(").,>\u060c")     # لصق الرابط داخل جملة أو قوس
+        draft_id = token
+        if token.isdigit() and len(token) < 6:
+            draft_id = (index_map or {}).get(token, "")
+            if not draft_id:
+                if token not in unresolved:
+                    unresolved.append(token)
+                continue
         if draft_id not in seen:
             out.append((draft_id, url))
             seen.add(draft_id)
-    return out
+    return out, unresolved
 
 
 def next_image_path(current: str) -> str:
@@ -136,15 +150,27 @@ def main() -> int:
     if args.sync:
         return sync_issue(args.issue)
 
-    pairs = parse_commands(args.body)
+    # الخريطة تُبنى من نص الـ Issue الآن تحديدًا، لا من ترتيب مخزَّن سابقًا:
+    # رقم الترتيب يتغيّر إن أُضيفت مسودة جديدة أو حُذفت بين تشغيلتين.
+    issue_body = review.fetch_issue_body(args.issue) if args.issue else ""
+    index_map = review.draft_index_map(issue_body) if issue_body else {}
+
+    pairs, unresolved_refs = parse_commands(args.body, index_map)
+
+    missing_links: list[dict] = []
     if args.from_issue and args.issue:
         # المربعات هي الواجهة الأساسية؛ أوامر التعليق بديل لمن يفضّلها
-        pairs += [p for p in review.parse_image_requests(
-            review.fetch_issue_body(args.issue)) if p not in pairs]
+        resolved, missing_ids = review.parse_image_requests(issue_body)
+        pairs += [p for p in resolved if p not in pairs]
+        for draft_id in missing_ids:
+            found = store.load_draft(draft_id)
+            title = found[1]["arabic"]["post_title"][:60] if found else draft_id
+            missing_links.append({"id": draft_id, "title": title})
+
     if args.draft and args.url:
         pairs.append((args.draft, args.url))
-    if not pairs:
-        log.error("لا أمر صورة صالح. الصيغة: /صورة المعرّف رابط_الصورة")
+    if not pairs and not unresolved_refs and not missing_links:
+        log.error("لا أمر صورة صالح. الصيغة: /صورة رقم_الترتيب_أو_المعرّف رابط_الصورة")
         return 2
 
     cfg = load_config()
@@ -165,7 +191,9 @@ def main() -> int:
             failed.append(draft_id)
 
     SYNC_FILE.write_text(
-        json.dumps({"done": done, "failed": failed}, ensure_ascii=False),
+        json.dumps({"done": done, "failed": failed,
+                    "missing_links": missing_links,
+                    "unresolved_refs": unresolved_refs}, ensure_ascii=False),
         encoding="utf-8")
     return 0 if done else 1
 
@@ -176,6 +204,8 @@ def sync_issue(issue: int) -> int:
         return 0
     data = json.loads(SYNC_FILE.read_text(encoding="utf-8"))
     done, failed = data.get("done", []), data.get("failed", [])
+    missing_links = data.get("missing_links", [])
+    unresolved_refs = data.get("unresolved_refs", [])
 
     if done or failed:
         body = review.fetch_issue_body(issue)
@@ -190,6 +220,12 @@ def sync_issue(issue: int) -> int:
     notes = [f"🖼️ حُدّثت الصورة: {item['title']}" for item in done]
     notes += [f"⚠️ تعذّر تحديث `{i}` — تأكد أن الرابط لصورة مباشرة "
               "(ينتهي بـ .jpg أو .png) وأن أبعادها ليست صغيرة." for i in failed]
+    # فشل صامت سابق: مربع مُعلَّم بلا رابط كان يُهمَل بلا أي تنبيه.
+    notes += [f"⚠️ المربع مُعلَّم لـ«{item['title']}» لكن سطر «الرابط:» "
+              "فارغ — أضف الرابط فيه ثم احفظ." for item in missing_links]
+    notes += [f"⚠️ لا مسودة بالرقم `{ref}` — رقم الترتيب قد يكون تغيّر، "
+              "تحقّق من الرقم الظاهر الآن في القائمة أو استعمل المعرّف الكامل."
+              for ref in unresolved_refs]
     if notes:
         review.comment(issue, "\n".join(notes))
     return 0

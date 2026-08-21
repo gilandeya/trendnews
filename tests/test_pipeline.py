@@ -2160,18 +2160,35 @@ def test_manual_image() -> None:
     """صورة يدوية: أمر التعليق، ومسار جديد، وتلميح في الـ Issue."""
     from src import review, setimage
 
-    cmds = setimage.parse_commands(
+    cmds, unresolved = setimage.parse_commands(
         "ممتاز /صورة a1b2c3d4e5f6 https://ex.com/p.jpg شكرًا")
     check("الأمر يُقرأ من وسط التعليق",
           cmds == [("a1b2c3d4e5f6", "https://ex.com/p.jpg")])
+    check("لا مراجع غير محلولة لمعرّف كامل", unresolved == [])
+    pairs_en, _ = setimage.parse_commands("/image abc123def456 https://ex.com/x.png")
     check("الصيغة الإنجليزية مقبولة",
-          setimage.parse_commands("/image abc123def456 https://ex.com/x.png")
-          == [("abc123def456", "https://ex.com/x.png")])
-    check("القوس اللاصق يُقصّ من الرابط",
-          setimage.parse_commands("(/صورة abc123def456 https://ex.com/x.png)")
-          [0][1].endswith(".png"))
+          pairs_en == [("abc123def456", "https://ex.com/x.png")])
+    pairs_paren, _ = setimage.parse_commands("(/صورة abc123def456 https://ex.com/x.png)")
+    check("القوس اللاصق يُقصّ من الرابط", pairs_paren[0][1].endswith(".png"))
+    pairs_none, unresolved_none = setimage.parse_commands("صورة جميلة جدًا")
     check("التعليق بلا أمر لا يُنتج شيئًا",
-          setimage.parse_commands("صورة جميلة جدًا") == [])
+          pairs_none == [] and unresolved_none == [])
+
+    # رقم الترتيب البسيط: يُحوَّل عبر index_map، ويُبلَّغ صراحة إن خرج
+    # عن نطاق القائمة أو لم تُتَح خريطة إطلاقًا — لا يُخمَّن ولا يُهمَل.
+    idx_map = {"1": "aaa111aaa111", "2": "bbb222bbb222"}
+    pairs_ord, unresolved_ord = setimage.parse_commands(
+        "/صورة 1 https://ex.com/ord.jpg", idx_map)
+    check("رقم الترتيب يُحوَّل إلى المعرّف الصحيح",
+          pairs_ord == [("aaa111aaa111", "https://ex.com/ord.jpg")])
+    check("لا مراجع غير محلولة لرقم صحيح", unresolved_ord == [])
+    pairs_oob, unresolved_oob = setimage.parse_commands(
+        "/صورة 9 https://ex.com/oob.jpg", idx_map)
+    check("رقم خارج نطاق القائمة لا يُنتج زوجًا", pairs_oob == [])
+    check("رقم خارج النطاق يُبلَّغ صراحة لا صمتًا",
+          unresolved_oob == ["9"], str(unresolved_oob))
+    check("رقم ترتيب بلا خريطة أصلًا يُبلَّغ أيضًا",
+          setimage.parse_commands("/صورة 1 https://ex.com/x.jpg") == ([], ["1"]))
 
     check("المسار الجديد لا يستبدل القديم",
           setimage.next_image_path("drafts/d/ab.jpg") == "drafts/d/ab-v2.jpg")
@@ -2194,33 +2211,123 @@ def test_manual_image() -> None:
           "بلا صورة للخبر" not in
           review.build_issue_body([{**base, "has_photo": True}], "u/r"))
 
-    check("المربع الفارغ لا يُنفَّذ", review.parse_image_requests(body) == [])
+    check("تعليمات تحرير المتن ظاهرة تحت سطر «الرابط:»",
+          "اضغط زر التحرير" in body and "الصق رابط" in body)
+    check("صيغة أمر التعليق بالرقم مذكورة عند الخبر نفسه",
+          "/صورة 1 <الرابط>" in body)
+    check("مقدمة الـ Issue تشرح خيار استبدال الصورة أيضًا",
+          "لاستبدال صورة خبر" in body)
+
+    idx_map_body = review.draft_index_map(body)
+    check("خريطة الترتيب تُبنى من نص الـ Issue نفسه",
+          idx_map_body == {"1": "abc123def456"}, str(idx_map_body))
+
+    resolved0, missing0 = review.parse_image_requests(body)
+    check("المربع الفارغ لا يُنفَّذ", resolved0 == [] and missing0 == [])
     ticked = body.replace("- [ ] 🖼️ استبدل", "- [x] 🖼️ استبدل")
-    check("مربع معلَّم بلا رابط يُهمَل",
-          review.parse_image_requests(ticked) == [])
+    resolved1, missing1 = review.parse_image_requests(ticked)
+    check("مربع معلَّم بلا رابط يُبلَّغ صراحة لا يُهمَل صمتًا",
+          resolved1 == [] and missing1 == ["abc123def456"], str(missing1))
 
     filled = ticked.replace(
         "الرابط:   <!-- imgurl:abc123def456 -->",
         "الرابط: https://cdn.site/p.jpg  <!-- imgurl:abc123def456 -->")
+    resolved2, missing2 = review.parse_image_requests(filled)
     check("المربع المعلَّم مع الرابط يُنفَّذ",
-          review.parse_image_requests(filled)
-          == [("abc123def456", "https://cdn.site/p.jpg")])
+          resolved2 == [("abc123def456", "https://cdn.site/p.jpg")]
+          and missing2 == [])
 
     # اللصق قبل العلامة أو بعدها — كلاهما يعمل على الهاتف
     after = ticked.replace(
         "الرابط:   <!-- imgurl:abc123def456 -->",
         "الرابط: <!-- imgurl:abc123def456 --> https://cdn.site/p.jpg")
+    resolved3, _ = review.parse_image_requests(after)
     check("موضع اللصق لا يهم",
-          review.parse_image_requests(after)
-          == [("abc123def456", "https://cdn.site/p.jpg")])
+          resolved3 == [("abc123def456", "https://cdn.site/p.jpg")])
 
     cleared = review.clear_image_request(filled, "abc123def456")
-    check("المربع يُفرَّغ بعد التنفيذ",
-          review.parse_image_requests(cleared) == [])
+    resolved4, missing4 = review.parse_image_requests(cleared)
+    check("المربع يُفرَّغ بعد التنفيذ", resolved4 == [] and missing4 == [])
     check("الفراغ يُنظَّف من الرابط", "cdn.site" not in cleared)
     kept = review.clear_image_request(filled, "abc123def456", keep_url=True)
     check("الرابط يبقى عند الفشل ليصحَّح", "cdn.site" in kept)
-    check("لا تكرار عند الفشل", review.parse_image_requests(kept) == [])
+    resolved5, _ = review.parse_image_requests(kept)
+    check("لا تكرار عند الفشل", resolved5 == [])
+
+
+def test_manual_image_ordinal_end_to_end() -> None:
+    """رقم الترتيب في /صورة يعمل فعليًا حتى بناء البطاقة، وsync_issue يبلّغ
+    صراحة عند رقم خارج النطاق أو مربع معلَّم بلا رابط — لا فشل صامت."""
+    import json as _json
+
+    from src import review, setimage
+
+    draft1 = {
+        "id": "a1a1a1a1a1a1", "score": 8.0, "caption": "متن أول",
+        "image": "drafts/d/a1a1a1a1a1a1.jpg", "bucket": "serious",
+        "source": {"link": "https://x/o1", "publishers": ["BBC"], "title": "خبر"},
+        "arabic": {"post_title": "الخبر الأول", "category": "سياسة"},
+    }
+    draft2 = {
+        "id": "b2b2b2b2b2b2", "score": 7.0, "caption": "متن ثانٍ",
+        "image": "drafts/d/b2b2b2b2b2b2.jpg", "bucket": "serious",
+        "source": {"link": "https://x/o2", "publishers": ["BBC"], "title": "خبر"},
+        "arabic": {"post_title": "الخبر الثاني", "category": "رياضة"},
+    }
+    store.save_draft(draft1)
+    store.save_draft(draft2)
+
+    body = review.build_issue_body([draft1, draft2], "u/r")
+    idx_map = review.draft_index_map(body)
+    check("خريطة الترتيب تربط الرقمين بالمعرّفين الصحيحين",
+          idx_map == {"1": "a1a1a1a1a1a1", "2": "b2b2b2b2b2b2"}, str(idx_map))
+
+    # رقم ترتيب صحيح: يُحوَّل ويُنفَّذ فعليًا على المسودة الثانية تحديدًا
+    pairs, unresolved = setimage.parse_commands(
+        "/صورة 2 https://cdn.example/second.jpg", idx_map)
+    check("رقم الترتيب الصحيح يُحوَّل إلى معرّف الخبر الثاني",
+          pairs == [("b2b2b2b2b2b2", "https://cdn.example/second.jpg")])
+    check("لا مرجع غير محلول لرقم صحيح", unresolved == [])
+
+    cfg = load_config()
+    updated = setimage.apply_image(pairs[0][0], pairs[0][1], cfg)
+    check("apply_image نفّذ فعليًا على المسودة المشار إليها بالرقم لا غيرها",
+          updated is not None and updated.get("id") == "b2b2b2b2b2b2")
+
+    _, unresolved_oob = setimage.parse_commands(
+        "/صورة 9 https://cdn.example/x.jpg", idx_map)
+    check("رقم خارج نطاق القائمة يُسجَّل بدل التجاهل", unresolved_oob == ["9"])
+
+    # تبليغ sync_issue الصريح: مربع معلَّم بلا رابط + رقم خارج النطاق —
+    # كلاهما فشل صامت سابقًا، الآن يظهران في تعليق واحد للمراجع.
+    real_fetch = review.fetch_issue_body
+    real_update = review.update_issue_body
+    real_comment = review.comment
+    comment_calls: list = []
+    review.fetch_issue_body = lambda issue_number: body
+    review.update_issue_body = lambda issue_number, new_body: None
+    review.comment = lambda issue_number, text: comment_calls.append(text)
+
+    setimage.SYNC_FILE.write_text(_json.dumps({
+        "done": [], "failed": [],
+        "missing_links": [{"id": "a1a1a1a1a1a1", "title": "الخبر الأول"}],
+        "unresolved_refs": ["9"],
+    }, ensure_ascii=False), encoding="utf-8")
+    try:
+        setimage.sync_issue(4321)
+    finally:
+        review.fetch_issue_body = real_fetch
+        review.update_issue_body = real_update
+        review.comment = real_comment
+        if setimage.SYNC_FILE.exists():
+            setimage.SYNC_FILE.unlink()
+
+    check("تعليق واحد يجمع كلا التبليغَين", len(comment_calls) == 1, str(comment_calls))
+    posted = comment_calls[0] if comment_calls else ""
+    check("تبليغ المربع بلا رابط يذكر عنوان المسودة لا معرّفها فقط",
+          "الخبر الأول" in posted and "a1a1a1a1a1a1" not in posted, posted)
+    check("تبليغ الرقم خارج النطاق صريح لا صامت",
+          "لا مسودة بالرقم `9`" in posted, posted)
 
 
 def test_request_search() -> None:
@@ -8218,6 +8325,7 @@ def main() -> int:
     test_publish_pending_selection_single_dispatch()
     print("\n── الرابط في التعليق الأول ──")
     test_manual_image()
+    test_manual_image_ordinal_end_to_end()
     test_request_search()
     print("\n── التحقق من مقال ملصق ──")
     test_verify()
