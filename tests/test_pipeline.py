@@ -4549,6 +4549,22 @@ def test_evidence() -> None:
           "عاما" not in evidence.build_query("كان عمره 13 عامًا حين خرج", 5).split() and
           "13" in evidence.build_query("كان عمره 13 عامًا حين خرج", 5).split())
 
+    # وحدات القياس ليست كيانات مستقلة (طلب المراجعة، تشخيص Issue #373،
+    # تعليق العطل الثاني والعشرون، البند 2): شاهد فعلي — استعلام تصريح
+    # بايراكتار فقد اسم المتحدث لأن "yüzde" (لاحقة قياس تركية) استهلكت
+    # خانة من سقف max_words بدل اسم علم
+    turkish_query = evidence.build_query("Baykar yüzde 90 Türkiye", 5)
+    check("evidence.build_query: «yüzde» التركية (لاحقة قياس) لا تدخل الاستعلام",
+          "yüzde" not in turkish_query.split(), turkish_query)
+    check("evidence.build_query: الرقم والكيانات المحيطة بـ«yüzde» تدخل رغم استبعادها",
+          {"Baykar", "90", "Türkiye"} <= set(turkish_query.split()), turkish_query)
+    arabic_percent_query = evidence.build_query("ارتفعت النسبة 90 بالمئة هذا العام", 5)
+    check("evidence.build_query: «بالمئة» العربية (لاحقة قياس) لا تدخل الاستعلام",
+          "بالمئة" not in arabic_percent_query.split(), arabic_percent_query)
+    english_percent_query = evidence.build_query("Baykar localized 90 percent of production", 5)
+    check("evidence.build_query: «percent» الإنجليزية (لاحقة قياس) لا تدخل الاستعلام",
+          "percent" not in english_percent_query.split(), english_percent_query)
+
     claim_with_entities = {"text": "أي صياغة أخرى", "entities": ["بلومبرغ", "2026", "السعودي"]}
     check("evidence.build_query_for_claim: يستعمل entities حصرًا حين تتوفر",
           evidence.build_query_for_claim(claim_with_entities) ==
@@ -6635,6 +6651,103 @@ def test_article_split_event_condition() -> None:
     article.find_images = real_find_images
 
 
+def test_article_mandatory_query_name() -> None:
+    """اسم المتحدث (تصريح)/الناشر (تقرير منقول) يدخل الاستعلام إلزامًا بلا
+    مزاحمة من كيانات أخرى (طلب المراجعة، تشخيص Issue #373، تعليق العطل
+    الثاني والعشرون، البند 1). الشاهد الفعلي: entities لم تتضمّن اسم
+    المتحدث («Selçuk Bayraktar») لأنه يُستخرَج في حقل speaker منفصل، فبُني
+    استعلام «Baykar yüzde 90 Türkiye» ورجع صفر نتائج، بينما تشغيلة أخرى
+    وجدت 7 نتائج بالاستعلام «Selçuk Bayraktar Baykar 90 Türkiye» (خمس
+    كلمات — نفس سقف query_max_words الافتراضي)."""
+    from src import article
+
+    cfg = load_config()
+
+    check("_fact_mandatory_query_prefix: عنصر «تصريح» يعيد speaker",
+          article._fact_mandatory_query_prefix(
+              {"kind": "تصريح", "speaker": "Selçuk Bayraktar"}) == "Selçuk Bayraktar")
+    check("_fact_mandatory_query_prefix: عنصر «تقرير منقول» يعيد publisher",
+          article._fact_mandatory_query_prefix(
+              {"kind": "تقرير منقول", "publisher": "Daily Sabah"}) == "Daily Sabah")
+    check("_fact_mandatory_query_prefix: «واقعة» عادية بلا اسم إلزامي",
+          article._fact_mandatory_query_prefix({"kind": "واقعة"}) == "")
+    check("_fact_mandatory_query_prefix: speaker/publisher غائبان لا ينهاران",
+          article._fact_mandatory_query_prefix({"kind": "تصريح"}) == "" and
+          article._fact_mandatory_query_prefix({"kind": "تقرير منقول"}) == "")
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار الاسم الإلزامي",
+        "statements": [
+            {"text": "حدَّدنا استراتيجيتنا لتوطين 90 بالمئة من إنتاج SİHA",
+             "kind": "تصريح", "speaker": "Selçuk Bayraktar",
+             "entities": ["Baykar", "yüzde 90", "Türkiye"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+
+    search_queries: list = []
+
+    def _fake_search_mandatory(query, cfg, days, unrestricted=False):
+        search_queries.append(query)
+        return [object()]
+
+    evidence.search = _fake_search_mandatory
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": ([], evidence.EVIDENCE_NO_RESULTS)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": []
+
+    try:
+        article._write_article("موجز اختبار الاسم الإلزامي", 9006, cfg)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+
+    check("اسم المتحدث الإلزامي: استعلام واحد بُني فعليًا لعنصر «تصريح»",
+          len(search_queries) == 1, search_queries)
+    built_query = search_queries[0] if search_queries else ""
+    check("اسم المتحدث الإلزامي: الاستعلام يطابق تمامًا التشغيلة الناجحة الفعلية "
+          "«Selçuk Bayraktar Baykar 90 Türkiye» — الاسم أولًا بلا مزاحمة",
+          built_query == "Selçuk Bayraktar Baykar 90 Türkiye", built_query)
+    check("اسم المتحدث الإلزامي: «yüzde» (لاحقة قياس) لا تدخل رغم ورودها في entities",
+          "yüzde" not in built_query.split(), built_query)
+
+    # عنصر «تقرير منقول»: نفس الضمان لاسم الناشر
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار الاسم الإلزامي — تقرير منقول",
+        "statements": [
+            {"text": "نشرت المنصة تقريرًا عن الحادثة", "kind": "تقرير منقول",
+             "publisher": "Daily Sabah",
+             "entities": ["حادثة", "منطقة الحدود"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    search_queries.clear()
+    evidence.search = _fake_search_mandatory
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": ([], evidence.EVIDENCE_NO_RESULTS)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": []
+    try:
+        article._write_article("موجز اختبار الاسم الإلزامي — تقرير منقول", 9007, cfg)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+
+    built_report_query = search_queries[0] if search_queries else ""
+    check("اسم الناشر الإلزامي (تقرير منقول): يتصدَّر الاستعلام",
+          built_report_query.split()[:2] == ["Daily", "Sabah"], built_report_query)
+
+
 def test_article_report_kind() -> None:
     """تصنيف رابع «تقرير منقول» (تشخيص Issue #373، الجولة السادسة عشرة):
     نقل موجز لتقرير نشرته منصة واحدة بعينها ليس واقعة تحتاج مصدرين مستقلين
@@ -8540,6 +8653,7 @@ def main() -> int:
     test_article_merged_statement_gaps()
     test_article_split_statements()
     test_article_split_event_condition()
+    test_article_mandatory_query_name()
     test_article_report_kind()
     test_article_generic_source_publisher()
     test_article_unsourced_entities()

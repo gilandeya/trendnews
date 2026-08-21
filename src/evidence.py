@@ -44,8 +44,29 @@ QUERY_FILLER_STEMS = (
 )
 
 
+# وحدات قياس ملتصقة برقم لا كيانات مستقلة بذاتها (طلب المراجعة، تشخيص
+# Issue #373، تعليق العطل الثاني والعشرون، البند 2): "yüzde 90" التركية،
+# "90 بالمئة" العربية، "90 percent" الإنجليزية — الرقم هو الكيان المميِّز،
+# الكلمة المرافقة له مجرد لاحقة قياس مكرورة عبر كل نتيجة عن نفس النسبة
+# فتستهلك خانة من سقف max_words بلا أن تميّز هذا الحدث عن غيره (شاهد فعلي:
+# استعلام تصريح بايراكتار استُهلكت خانة منه بـ"yüzde" بدل اسم علم). فئة
+# مغلقة صغيرة نظير QUANTITY_ANCHOR_WORDS في verify_draft.py لكن بغرض
+# معاكس: تلك ترتسي عندها نواة كمّية تستحق الإبقاء، هذه تُستبعَد من
+# الاستعلام لأنها لاحقة للرقم لا كيان قائم بذاته. تُفحص كـ"جذر" (substring)
+# بنفس آلية QUERY_FILLER_STEMS، فتغطي "percentage" أيضًا عبر جذر "percent"
+# بلا إدراجها صراحة. المدخلات العربية مطبَّعة بـ_AR_TRANS عند التعريف (نظير
+# QUANTITY_ANCHOR_WORDS في verify_draft.py) — _normalize_query_word تطبّق
+# نفس الترجمة على الكلمة المفحوصة قبل مقارنتها هنا، فمقارنة إملاء خام
+# ("بالمئة") بكلمة مُطبَّعة ("بالميه" بعد ئ←ي وة←ه) كانت لتفشل صامتًا بلا
+# هذا التطبيع.
+MEASURE_UNIT_STEMS = tuple({"yüzde", "percent"} | {
+    w.translate(_AR_TRANS) for w in ("بالمئة", "بالمائة")
+})
+
+
 def _is_query_filler(normalized: str) -> bool:
-    return any(stem in normalized for stem in QUERY_FILLER_STEMS)
+    return (any(stem in normalized for stem in QUERY_FILLER_STEMS)
+            or any(stem in normalized for stem in MEASURE_UNIT_STEMS))
 
 
 def _normalize_query_word(raw: str) -> str | None:
