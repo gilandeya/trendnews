@@ -1450,7 +1450,7 @@ DRAFT_USER_TEMPLATE = """السؤال-العنوان: {question}
 ما لم تذكره الوقائع المعطاة) تشمل هذه النصوص كما تشمل معرفتك الخاصة تمامًا:
 
 {source_texts}
-{opinions_block}
+{opinions_block}{avoid_note}
 املأ حقول أداة write_article من الوقائع المسندة أعلاه حصرًا (والرأي
 المنسوب إن وُجد) — لا معرفة سابقة ولا مصدر ثالث ولا نقل من نصوص المصادر:
 
@@ -1550,8 +1550,24 @@ def _source_docs(grounded: list[dict]) -> list[dict]:
     return out
 
 
+def _build_avoid_note(offending: dict) -> str:
+    """توجيه محاولة الصياغة الثانية (طلب المراجعة، تشخيص Issue #373، تعليق
+    العطل الحادي والعشرون، البند 2): يذكر الجملة المخالفة بعينها كما رصدها
+    فحص الأصالة (لا وصفًا عامًا) — النموذج يُعاد بناؤها من جديد، لا يُطلب
+    منه "لا تنسخ" بلا تحديد ما نُسخ فعلًا."""
+    if offending.get("match_kind") == "source" and offending.get("source_name"):
+        loc = f"من مقتطف المصدر ({offending['source_name']})"
+    else:
+        loc = "من الموجز الملصق"
+    sentence = offending.get("draft_sentence") or offending.get("phrase") or ""
+    return (f"\nمحاولة سابقة رفضها فحص الأصالة لتطابقها الحرفي {loc} على الجملة "
+           f"التالية تحديدًا — أعد صياغتها من جديد بالكامل، بترتيب وكلمات مختلفة "
+           f"تمامًا، محافظًا على المعنى والوقائع نفسها فقط، لا نسخة معدَّلة قليلًا "
+           f"عنها: «{sentence}»\n")
+
+
 def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
-                   cfg, retries: int = 3) -> tuple[dict | None, str]:
+                   cfg, retries: int = 3, avoid_note: str = "") -> tuple[dict | None, str]:
     w = cfg.get("writer", {})
     acfg = cfg.get("article", {}) or {}
     docs = _source_docs(grounded)
@@ -1563,6 +1579,7 @@ def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
         facts_block=facts_block,
         source_texts=extract.format_for_prompt(docs),
         opinions_block=_opinions_block(opinions, cfg),
+        avoid_note=avoid_note,
         max_chars=cfg.path("image.headline_max_chars", 95),
         # article.post_length مستقل عن writer.post_length (مراجعة بشرية بعد
         # أول نشر): هذا مسار منتج مختلف — تسعة مصادر مقروءة تستحق متنًا
@@ -1746,6 +1763,65 @@ def _unsourced_entities(post_body: str, grounded: list[dict], brief_text: str,
     return notes
 
 
+# ─────────── استبعاد إعادات نشر الموجز الملصق (طلب المراجعة، أولوية) ────────
+# النسخة المعاد نشرها من الموجز الملصق تُحتسب اليوم "مصدرًا مستقلًا" في
+# _support_sources وفحص الأصالة معًا (all_read_docs → extra_docs) — خلل في
+# السند لا في الأصالة: نصٌّ واحد (الموجز نفسه) يبدو مصدرين حين يعيد ناشر
+# آخر نشره حرفيًا ويظهر في نتائج البحث. الكشف بتتابع كلمات متجاور طويل فعليًا
+# (لا تشابه كيسي/Jaccard — تعليل تشخيص Issue #373، تعليق العطل الحادي
+# والعشرون، البند 1: تشابه المفردات وحده يرتفع زورًا بين تغطيتين مستقلتين
+# لنفس الحدث تشتركان في نفس الكيانات، بخلاف تتابع متجاور طويل لا يقع صدفة).
+
+
+def _longest_shared_run(a_words: list[str], b_words: list[str], min_len: int) -> int:
+    """أطول تتابع كلمات متجاور مشترك بين القائمتين، إن بلغ min_len على
+    الأقل — يبحث بنافذة ثابتة الطول (n=min_len) للكشف السريع، ثم يوسّع من
+    الطرفين عند أول تطابق ليقدّم رقمًا فعليًا (لا مجرد ">=min_len") يُعرض في
+    trail فيُضبَط الحد لاحقًا على أدلة حقيقية لا تخمين. يعيد 0 حين لا تتابع
+    بهذا الطول أصلًا."""
+    n = min_len
+    if n <= 0 or len(a_words) < n or len(b_words) < n:
+        return 0
+    positions: dict[tuple[str, ...], list[int]] = {}
+    for i in range(len(a_words) - n + 1):
+        positions.setdefault(tuple(a_words[i:i + n]), []).append(i)
+    for j in range(len(b_words) - n + 1):
+        key = tuple(b_words[j:j + n])
+        for i in positions.get(key, []):
+            left = 0
+            while (i - left - 1 >= 0 and j - left - 1 >= 0
+                   and a_words[i - left - 1] == b_words[j - left - 1]):
+                left += 1
+            right = 0
+            while (i + n + right < len(a_words) and j + n + right < len(b_words)
+                   and a_words[i + n + right] == b_words[j + n + right]):
+                right += 1
+            return n + left + right
+    return 0
+
+
+def _reprint_filter(body_words: list[str], min_shared: int):
+    """يبني دالّة تصفية مقيَّدة بـ body_words/min_shared (كلاهما ثابت طوال
+    التشغيلة) — تُستهلَك حصرًا داخل _cached_search أدناه (طلب المراجعة: لا
+    مراحل تسمية/سند/سؤال، التي تبحث بأدوات ونطاق مختلفَين تمامًا). تعيد
+    (المستبقاة, المستبعدة) — المستبعدة قوائم {"name","link","shared_words"}
+    للتبليغ الصريح في trail، لا استبعاد صامت."""
+    def _filter(docs):
+        if not body_words or min_shared <= 0:
+            return docs, []
+        kept, excluded = [], []
+        for d in docs:
+            shared = _longest_shared_run(
+                body_words, verify_draft._normalized_words(d.get("text", "")), min_shared)
+            if shared >= min_shared:
+                excluded.append({"name": d.get("name", ""), "link": d.get("link", ""),
+                                 "shared_words": shared})
+            else:
+                kept.append(d)
+        return kept, excluded
+    return _filter
+
+
 # ──────────────────────────── الأنبوب الكامل ────────────────────────────
 
 
@@ -1756,7 +1832,8 @@ def _new_outcome() -> dict:
            "image_source_name": None, "image_source_link": None,
            "image_report": {}, "opinion_note": "", "originality_notes": [],
            "merged_statements": [], "split_statements": [], "report_statements": [],
-           "unsourced_entities": []}
+           "unsourced_entities": [],
+           "originality_retry": {"attempted": False, "succeeded": False, "offending_phrase": ""}}
 
 
 def write_article(body: str, issue_number: int, cfg) -> dict:
@@ -1870,16 +1947,25 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # _support_sources تُستدعى بنص كل واقعة بعينه خارج هذه الدالة، لا
     # تُخزَّن هنا
     search_cache: dict[tuple, tuple] = {}
+    # استبعاد إعادات نشر الموجز الملصق (طلب المراجعة، أولوية — انظر
+    # _longest_shared_run/_reprint_filter أعلاه): body_words تُحسب مرة واحدة
+    # لكامل التشغيلة — لا تتغيّر بين استعلامات
+    body_words = verify_draft._normalized_words(body)
+    reprint_min_shared = int(acfg.get("brief_reprint_min_shared_words", 40))
+    _filter_reprints = _reprint_filter(body_words, reprint_min_shared)
 
     def _cached_search(query: str, unrestricted: bool, relevance_text: str):
         key = (query, bool(unrestricted), relevance_text)
         if key in search_cache:
-            ranked, docs, basis = search_cache[key]
-            return ranked, docs, basis, True
+            ranked, docs, basis, excluded = search_cache[key]
+            return ranked, docs, basis, True, excluded
         ranked = evidence.search(query, cfg, days, unrestricted=unrestricted)
-        docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
-        search_cache[key] = (ranked, docs, basis)
-        return ranked, docs, basis, False
+        raw_docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
+        kept, excluded = _filter_reprints(raw_docs)
+        docs = evidence._evidence_docs(kept, getattr(raw_docs, "fetch_failures", []),
+                                       getattr(raw_docs, "top_candidates", []))
+        search_cache[key] = (ranked, docs, basis, excluded)
+        return ranked, docs, basis, False, excluded
 
     for f in facts_raw:
         if f.get("is_unnamed_event"):
@@ -1968,7 +2054,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         else:
             query = evidence.build_query_for_claim(f, query_max_words)
             relevance_text = evidence._entities_text(f) or f["text"]
-            ranked, docs, basis, reused_query = _cached_search(
+            ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
                 query, f.get("is_reference", False), relevance_text)
             all_read_docs.extend(docs)
             # "تصريح" (البند 1، تشخيص Issue #373، الجولة الثالثة عشرة): فحص
@@ -1998,6 +2084,9 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                 # عدم إجراء بحث/قراءة جديدين — يبقى ظاهرًا مع إشارة صريحة
                 # أن نتائجه مُعادة من استعلام سابق بنفس النص حرفيًا
                 outcome_text = f"🔁 مُعاد من استعلام سابق — {outcome_text}"
+            if excluded_reprints:
+                outcome_text = (f"🗞️ استُبعدت {len(excluded_reprints)} نسخة معاد "
+                                f"نشرها من الموجز — {outcome_text}")
             trail.append({"stage": stage,
                           "query": query, "basis": basis,
                           "sources": [d["name"] for d in docs],
@@ -2005,17 +2094,26 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                           "matched_count": getattr(ranked, "matched_count", None),
                           "fetch_failures": getattr(docs, "fetch_failures", []),
                           "top_candidates": getattr(docs, "top_candidates", []),
+                          "excluded_reprints": excluded_reprints,
                           "call_error": fact_call_error,
                           "reused_query": reused_query,
                           "outcome": outcome_text})
             if len(unique) < fact_min_confirm:
-                dropped.append({
-                    "text": f["text"],
-                    "reason": (f"⚠️ فشل نداء الحكم على السند تقنيًا: {fact_call_error}"
-                              if fact_call_error else
-                              f"سند غير كافٍ ({len(unique)} من {fact_min_confirm} "
-                              "مصادر مستقلة مطلوبة)"),
-                })
+                if fact_call_error:
+                    drop_reason = f"⚠️ فشل نداء الحكم على السند تقنيًا: {fact_call_error}"
+                elif excluded_reprints:
+                    # تمييز صريح (طلب المراجعة، البند 3): هبوط السند بعد
+                    # استبعاد إعادات النشر صحيح لا انحدار — لكن رسالته يجب
+                    # أن تُميَّز عن الرسالة العامة، وإلا يبدو عطل بحث كما
+                    # ظُنّ مرارًا في هذا الـ Issue قبل أن يتأكد السبب الحقيقي
+                    drop_reason = (f"سند غير كافٍ بعد استبعاد إعادات نشر الموجز "
+                                   f"({len(unique)} من {fact_min_confirm} مصادر مستقلة "
+                                   f"مطلوبة؛ استُبعدت {len(excluded_reprints)} نسخة "
+                                   "معاد نشرها من عدّ الاستقلالية)")
+                else:
+                    drop_reason = (f"سند غير كافٍ ({len(unique)} من {fact_min_confirm} "
+                                   "مصادر مستقلة مطلوبة)")
+                dropped.append({"text": f["text"], "reason": drop_reason})
                 continue
             fact_sources = _grounded_sources(supporting, docs, ranked)
             grounded.append({**f, "sources": fact_sources})
@@ -2148,20 +2246,6 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         outcome["reason"] = w_reason
         return outcome
 
-    # بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373 الجولة السابعة عشرة،
-    # البند 2-ج) — يُحسَب ويُخزَّن بصرف النظر عن مصير الفحوص التالية، فلا
-    # يضيع أثره حتى لو رُفض المقال لاحقًا في مرحلة النسبة/الأصالة
-    entity_min_run = int(acfg.get("unsourced_entity_min_run", 2))
-    outcome["unsourced_entities"] = _unsourced_entities(
-        written["post_body"], grounded, body, question, opinions, min_run=entity_min_run)
-
-    # فحص بنيوي — لا اعتمادًا على البرومبت وحده (القاعدة 9، طلب المراجعة
-    # البند 1، تشخيص Issue #373 الجولة السادسة عشرة)
-    attrib_ok, attrib_reason = _report_attribution_ok(written["post_body"], grounded)
-    if not attrib_ok:
-        outcome["reason"] = f"مرحلة الصياغة — امتناع: {attrib_reason}"
-        return outcome
-
     source_docs = [{"name": evidence._canonical_publisher(s["name"], cfg), "text": s["text"],
                    "link": s.get("link", "")}
                   for f in grounded for s in f.get("sources", []) if s.get("text")]
@@ -2171,18 +2255,69 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     extra_docs = [{"name": evidence._canonical_publisher(d.get("name", ""), cfg),
                   "text": d.get("text", ""), "link": d.get("link", "")}
                  for d in all_read_docs if d.get("text")]
-    draft_text = "\n".join(filter(None, [
-        written["image_headline"], written["post_title"], written["post_body"],
-    ]))
     max_shared = int(acfg.get("max_shared_run_words", 7))
     repeat_min_count = int(acfg.get("repeat_within_source_min_count", 2))
     trim_min_core = int(acfg.get("trim_min_core", 5))
-    # فحص النسخ اللفظي (القاعدة 5) — verify_draft.check_originality مُعاد
-    # استعمالها كما هي بعتبتها واستثناءاتها، لا نسخة موازية
-    ok_orig, orig_reason, originality_notes = verify_draft.check_originality(
-        draft_text, body, source_docs, max_shared,
-        repeat_min_count=repeat_min_count, extra_docs=extra_docs, min_core=trim_min_core)
+
+    def _draft_text_of(candidate: dict) -> str:
+        return "\n".join(filter(None, [
+            candidate["image_headline"], candidate["post_title"], candidate["post_body"],
+        ]))
+
+    def _check_orig(candidate_text: str):
+        return verify_draft._check_originality_full(
+            candidate_text, body, source_docs, max_shared,
+            repeat_min_count=repeat_min_count, extra_docs=extra_docs, min_core=trim_min_core)
+
+    draft_text = _draft_text_of(written)
+    ok_orig, orig_reason, originality_notes, offending = _check_orig(draft_text)
+
+    # محاولة صياغة ثانية واحدة فقط عند رفض فحص الأصالة (طلب المراجعة،
+    # تشخيص Issue #373، تعليق العطل الحادي والعشرون، البند 2): التوثيق
+    # القديم ("الرفض نهائي بلا إعادة محاولة") افترض أن مدخلات الصياغة لا
+    # تتغيّر بين محاولتين — لم يعد هذا صحيحًا: الفحص صار يعرف الجملة
+    # المخالفة بعينها (offending)، فتُمرَّر توجيهًا صريحًا لإعادة بنائها من
+    # جديد. فشل المحاولة الثانية امتناع نهائي كاليوم بالضبط — لا أسوأ من
+    # الوضع الحالي، وأفضل عند النجاح. المسودة الثانية تُفحص فحص أصالة كامل
+    # جديد (لا استثناء لموضع الجملة المُصلَحة وحده) فلا تفلت من أي عطل جديد
+    retry_info = {"attempted": False, "succeeded": False, "offending_phrase": ""}
+    if not ok_orig and offending:
+        retry_info["attempted"] = True
+        retry_info["offending_phrase"] = offending["phrase"]
+        avoid_note = _build_avoid_note(offending)
+        written2, w_reason2 = _draft_article(grounded, opinions, question, cfg,
+                                             avoid_note=avoid_note)
+        if written2 is not None:
+            draft_text2 = _draft_text_of(written2)
+            ok2, reason2, notes2, _off2 = _check_orig(draft_text2)
+            if ok2:
+                written, draft_text = written2, draft_text2
+                ok_orig, orig_reason, originality_notes = True, "", notes2
+                retry_info["succeeded"] = True
+            else:
+                orig_reason = (f"فشلت المحاولة الثانية (بعد إعادة صياغة الجملة "
+                               f"المخالفة) أيضًا: {reason2}")
+        else:
+            orig_reason = f"فشلت المحاولة الثانية تقنيًا في الصياغة: {w_reason2}"
+    outcome["originality_retry"] = retry_info
     outcome["originality_notes"] = originality_notes
+
+    # بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373 الجولة السابعة عشرة،
+    # البند 2-ج) — على المسودة النهائية (بعد أي محاولة ثانية ناجحة)، فلا
+    # يضيع أثره حتى لو رُفض المقال لاحقًا في مرحلة النسبة/الأصالة
+    entity_min_run = int(acfg.get("unsourced_entity_min_run", 2))
+    outcome["unsourced_entities"] = _unsourced_entities(
+        written["post_body"], grounded, body, question, opinions, min_run=entity_min_run)
+
+    # فحص بنيوي — لا اعتمادًا على البرومبت وحده (القاعدة 9، طلب المراجعة
+    # البند 1، تشخيص Issue #373 الجولة السادسة عشرة) — على المسودة النهائية
+    # أيضًا: محاولة ثانية أعادت صياغة المتن بالكامل، فقد تُسقط نسبة تقرير
+    # منقول كانت موجودة في الأولى
+    attrib_ok, attrib_reason = _report_attribution_ok(written["post_body"], grounded)
+    if not attrib_ok:
+        outcome["reason"] = f"مرحلة الصياغة — امتناع: {attrib_reason}"
+        return outcome
+
     if not ok_orig:
         outcome["reason"] = f"مرحلة الصياغة — امتناع: {orig_reason}"
         return outcome
@@ -2406,6 +2541,14 @@ def build_report(outcome: dict) -> str:
         lines += ["", "**تتابعات أُعفيت من فحص النسخ اللفظي:**"]
         lines += [f"- {note}" for note in outcome["originality_notes"]]
 
+    retry = outcome.get("originality_retry") or {}
+    if retry.get("attempted"):
+        # شفافية محاولة الصياغة الثانية (طلب المراجعة، تشخيص Issue #373،
+        # تعليق العطل الحادي والعشرون، البند 2) — لا نجاح صامت
+        status = "✅ نجحت" if retry.get("succeeded") else "❌ فشلت أيضًا"
+        lines += ["", f"🔁 محاولة صياغة ثانية بعد رفض الأصالة — {status}: "
+                      f"أُعيدت صياغة الجملة المخالفة «{retry.get('offending_phrase', '')}»"]
+
     if outcome.get("unsourced_entities"):
         # فحص بنيوي بعدي — بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373،
         # الجولة السابعة عشرة، البند 2-ج): كيان في المتن (اسم علم متتالٍ أو
@@ -2449,6 +2592,14 @@ def build_report(outcome: dict) -> str:
                 name, reason, link = fail.get("name", "؟"), fail.get("reason", ""), fail.get("link", "")
                 label = f"[{name}]({link})" if link else name
                 lines.append(f"  - ⚠️ فشل جلب {label}: {reason}")
+            # استبعاد إعادات نشر الموجز (طلب المراجعة، أولوية) — بدليل عدد
+            # الكلمات المشتركة الفعلي لكل استبعاد، فيراجَع أول عشر حالات
+            # ويُضبَط article.brief_reprint_min_shared_words على أدلة حقيقية
+            for rep in t.get("excluded_reprints") or []:
+                name, link = rep.get("name", "؟"), rep.get("link", "")
+                label = f"[{name}]({link})" if link else name
+                lines.append(f"  - 🗞️ استُبعدت كإعادة نشر حرفية للموجز الملصق: {label} "
+                             f"— تتابع مشترك {rep.get('shared_words', '؟')} كلمة")
             # أعلى 5 مرشّحين بالدرجة المركّبة (البند 2، تشخيص Issue #373،
             # الجولة الثالثة عشرة، الخيار (و)): رصد صرف — يحسم برقم فعلي هل
             # تفوّق صلة لفظية عالية على فارق وزن ثابت هو ما يمنع مصدرًا

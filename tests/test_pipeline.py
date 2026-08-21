@@ -4334,6 +4334,69 @@ def test_check_originality_name_link() -> None:
           ok_nom is False and notes_nom == [], (ok_nom, reason_nom, notes_nom))
 
 
+def test_check_originality_offending() -> None:
+    """`_check_originality_full` (تشخيص Issue #373، تعليق العطل الحادي
+    والعشرون، البند 2) تُعيد قيمة رابعة `offending` — التتابع المخالف
+    وجملته الكاملة ونوع تطابقه ومصدره — لمحاولة صياغة ثانية في article.py.
+    `check_originality` العامة تبقى غلافًا رقيقًا بتوقيعها الأصلي (3-tuple)
+    بلا أي تغيير سلوكي — كل استدعاءاتها القائمة (28 موضعًا في هذا الملف
+    وحده، ونداء verify_draft.attempt() الداخلي) تبقى تعمل بلا تعديل."""
+    from src import article, verify_draft
+
+    run = "محكمة الجنايات الرابعة في دمشق برئاسة القاضي"  # 7 كلمات
+    draft = f"أصدرت {run} حكمًا بالإعدام غيابيًا."
+    single_source = [{"name": "مصدر أول", "text": f"القصة: {run}. تفاصيل إضافية هنا.",
+                      "link": "https://s1/1"}]
+
+    ok3, reason3, notes3 = verify_draft.check_originality(draft, "", single_source, 7)
+    check("check_originality العامة تبقى 3-tuple — لا تغيير في التوقيع العام",
+          (ok3, reason3, notes3) is not None and ok3 is False)
+
+    ok4, reason4, notes4, offending = verify_draft._check_originality_full(
+        draft, "", single_source, 7)
+    check("_check_originality_full تعيد نفس (ok, reason, notes) للغلاف العام",
+          (ok4, reason4, notes4) == (ok3, reason3, notes3), (ok4, ok3))
+    check("رفض تطابق مع مصدر واحد: offending تحمل match_kind='source' واسم "
+          "المصدر ورابطه والتتابع (مُطبَّعًا كما يُبنى منه)",
+          offending is not None and offending["match_kind"] == "source" and
+          offending["source_name"] == "مصدر أول" and
+          offending["source_link"] == "https://s1/1" and
+          offending["phrase"] == " ".join(verify_draft._normalized_words(run)),
+          offending)
+    check("رفض تطابق مع مصدر واحد: offending تحمل جملة المسودة الكاملة",
+          draft.rstrip(".") in offending["draft_sentence"] or
+          offending["draft_sentence"] in draft, offending)
+
+    brief = f"نُشر أن {run} أصدرت الحكم."
+    ok_brief, _, _, offending_brief = verify_draft._check_originality_full(
+        draft, brief, [], 7)
+    check("رفض تطابق مع الموجز الملصق: offending تحمل match_kind='brief' بلا "
+          "اسم/رابط مصدر", ok_brief is False and offending_brief is not None and
+          offending_brief["match_kind"] == "brief" and
+          "source_name" not in offending_brief, offending_brief)
+
+    ok_quote, reason_quote, _, offending_quote = verify_draft._check_originality_full(
+        f'قال المسؤول: "{run} جملة غير موجودة في أي مصدر إطلاقًا".', "", [], 7)
+    check("رفض اقتباس مختلَق (لا تتابع نافذة): offending تبقى None — عطل "
+          "مضمون لا صياغة يمكن إصلاحها بإعادة الترتيب",
+          ok_quote is False and offending_quote is None, (reason_quote, offending_quote))
+
+    two_sources = [{"name": "مصدر أول", "text": f"{run} أصدرت الحكم."},
+                  {"name": "مصدر ثانٍ", "text": f"وأكدت {run} ذلك."}]
+    ok_pass, _, _, offending_pass = verify_draft._check_originality_full(
+        draft, "", two_sources, 7)
+    check("نجاح الفحص (مصدران مستقلان): offending تبقى None",
+          ok_pass is True and offending_pass is None, offending_pass)
+
+    avoid_note = article._build_avoid_note(offending)
+    check("_build_avoid_note: يذكر اسم المصدر والجملة المخالفة صراحة",
+          "مصدر أول" in avoid_note and draft.rstrip(".") in avoid_note.replace("«", "").replace("»", ""),
+          avoid_note)
+    avoid_note_brief = article._build_avoid_note(offending_brief)
+    check("_build_avoid_note: حالة الموجز الملصق تذكر «الموجز الملصق» لا اسم مصدر",
+          "الموجز الملصق" in avoid_note_brief, avoid_note_brief)
+
+
 def test_evidence() -> None:
     """اختبارات مستقلة لـsrc/evidence.py — الشبكة التي تثبت سلامة نقل
     البحث والقراءة ومطابقة أسماء المصادر من verify.py (Issue #348، تعليق
@@ -4727,7 +4790,7 @@ def test_article() -> None:
         seen_question_calls.append([f["text"] for f in grounded])
         return "سؤال اختبار؟", ""
 
-    def _fake_draft_article(grounded, opinions, question, cfg, retries=3):
+    def _fake_draft_article(grounded, opinions, question, cfg, retries=3, avoid_note=""):
         seen_draft_calls.append({"grounded": [f["text"] for f in grounded],
                                  "opinions": [o["text"] for o in opinions],
                                  "question": question})
@@ -5545,7 +5608,7 @@ def test_article() -> None:
 
     copied_run = "هذه جملة طويلة منسوخة حرفيًا بالكامل من نص الموجز الأصلي للاختبار فعلًا"
 
-    def _copying_draft(grounded, opinions, question, cfg, retries=3):
+    def _copying_draft(grounded, opinions, question, cfg, retries=3, avoid_note=""):
         return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
                 "image_headline": "عنوان", "post_title": question,
                 "post_body": copied_run, "hashtags": []}, "")
@@ -6287,7 +6350,7 @@ def test_article_split_event_condition() -> None:
 
     captured_grounded: list = []
 
-    def _fake_draft_article_castle(grounded, opinions, question, cfg, retries=3):
+    def _fake_draft_article_castle(grounded, opinions, question, cfg, retries=3, avoid_note=""):
         captured_grounded.append(grounded)
         return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
                 "image_headline": "عنوان الصورة", "post_title": question,
@@ -6485,7 +6548,7 @@ def test_article_report_kind() -> None:
     def _fake_choose_question_report(grounded, cfg, retries=2):
         return "سؤال اختبار تقرير منقول؟", ""
 
-    def _fake_draft_article_ok(grounded, opinions, question, cfg, retries=3):
+    def _fake_draft_article_ok(grounded, opinions, question, cfg, retries=3, avoid_note=""):
         return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
                 "image_headline": "عنوان الصورة", "post_title": question,
                 "post_body": ("وبحسب تقرير نشره موقع ميليتير اليوناني، يعزز الجيش "
@@ -6528,7 +6591,7 @@ def test_article_report_kind() -> None:
           "ناقل يسمّي الناشر" in report and publisher_name in report, report)
 
     # ── القاعدة 9 كفحص بنيوي فعلي: متن لا ينسب المضمون يُرفض المقال كاملًا ──
-    def _fake_draft_article_bad(grounded, opinions, question, cfg, retries=3):
+    def _fake_draft_article_bad(grounded, opinions, question, cfg, retries=3, avoid_note=""):
         return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
                 "image_headline": "عنوان الصورة", "post_title": question,
                 "post_body": ("يعزز الجيش قدراته بحسب تقرير حديث. وأكّدت واقعة عادية "
@@ -6769,7 +6832,7 @@ def test_article_unsourced_entities() -> None:
         evidence.EVIDENCE_FULL_TEXT)
     article._support_sources = lambda *a, **k: ["مصدر أول", "مصدر ثانٍ"]
     article._choose_question = lambda grounded, cfg, retries=2: ("لماذا اعتزل؟", "")
-    article._draft_article = lambda grounded, opinions, question, cfg, retries=3: (
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
         {"angle": "تفسير", "analysis": "", "urgent": False, "category": "رياضة",
          "image_headline": "اعتزال", "post_title": question,
          "post_body": ("أعلن هوي كا يان، المعروف بالصينية باسم شو جيايين، "
@@ -7117,6 +7180,226 @@ def test_article_duplicate_query_reuse() -> None:
     report = article.build_report(out)
     check("build_report: علامة الإعادة تظهر فعليًا في التقرير المُصيَّر",
           "🔁 مُعاد من استعلام سابق" in report, report)
+
+
+def test_article_longest_shared_run() -> None:
+    """_longest_shared_run (طلب المراجعة، أولوية — تشخيص Issue #373، تعليق
+    العطل الحادي والعشرون، البند 1): تتابع كلمات متجاور فعلي، لا تشابه
+    كيسي/Jaccard — يعيد 0 حين تشترك كل الكلمات لكن بترتيب مختلف، والطول
+    الفعلي (لا الحد الأدنى المطلوب فقط) حين يتجاوزه التتابع الفعلي."""
+    from src import article
+
+    a = "كلمة1 كلمة2 كلمة3 كلمة4 كلمة5".split()
+    b = "كلمة5 كلمة4 كلمة3 كلمة2 كلمة1".split()
+    check("_longest_shared_run: كل الكلمات مشتركة بترتيب معكوس ← 0 (لا تشابه كيسي)",
+          article._longest_shared_run(a, b, 3) == 0)
+
+    passage = [f"كلمة{i}" for i in range(1, 51)]  # 50 كلمة متجاورة
+    a2 = ["مقدمة", "مختلفة"] + passage + ["خاتمة", "أخرى"]
+    b2 = ["بداية", "غير", "هذه"] + passage + ["نهاية", "مغايرة", "هنا"]
+    check("_longest_shared_run: يعيد الطول الفعلي (50) لا الحد الأدنى المطلوب (30) وحده",
+          article._longest_shared_run(a2, b2, 30) == 50,
+          article._longest_shared_run(a2, b2, 30))
+
+    part1 = [f"أ{i}" for i in range(1, 16)]   # 15 كلمة مشتركة
+    part2a = [f"ب{i}" for i in range(1, 16)]  # 15 كلمة تخص a فقط
+    part2b = [f"ج{i}" for i in range(1, 16)]  # 15 كلمة تخص b فقط
+    a3, b3 = part1 + part2a, part1 + part2b
+    check("_longest_shared_run: تتابع مشترك فعلي (15) دون الحد الأدنى المطلوب (30) ← 0",
+          article._longest_shared_run(a3, b3, 30) == 0)
+    check("_longest_shared_run: نفس التتابع بحد أدنى مطابق (15) يعيد طوله الفعلي",
+          article._longest_shared_run(a3, b3, 15) == 15)
+
+
+def test_article_reprint_exclusion() -> None:
+    """استبعاد إعادات نشر الموجز الملصق قبل حساب استقلالية المصادر (طلب
+    المراجعة، أولوية — تشخيص Issue #373، تعليق العطل الحادي والعشرون،
+    البند 1): وثيقة قُرئت خلال البحث تشارك الموجز الملصق تتابعًا متجاورًا
+    ≥ article.brief_reprint_min_shared_words كلمة تُستبعد كليًا من
+    _cached_search — نصٌّ واحد لا يبدو مصدرين. الاستبعاد ظاهر في trail بعدد
+    الكلمات المشتركة الفعلي، ورسالة سقوط الواقعة تميّزه صراحة عن الرسالة
+    العامة (البند 3: بلا هذا التمييز يبدو عطل بحث لا استبعادًا صحيحًا)."""
+    from src import article
+
+    cfg = load_config()
+    passage = " ".join(f"كلمة{i}" for i in range(1, 51))  # 50 كلمة متجاورة (≥ 40)
+    body = f"مقدمة الموجز. {passage}. خاتمة الموجز الملصق هنا للاختبار الكامل."
+    reprint_text = f"نقلاً عن الموجز الأصلي: {passage}. انتهى النقل الحرفي هنا."
+    genuine_text = ("نص مستقل تمامًا لا علاقة له بالموجز الملصق إطلاقًا، يتحدث عن "
+                    "موضوع آخر بالكامل من مصدر حقيقي منفصل.")
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+
+    article.extract_brief = lambda b, cfg, retries=3: ({
+        "topic": "اختبار استبعاد إعادة النشر",
+        "statements": [
+            {"text": "واقعة اختبار الاستبعاد", "kind": "واقعة",
+             "entities": ["كيان اختبار"], "is_unnamed_event": False,
+             "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "ناشر معيد نشر", "text": reprint_text, "link": "https://reprint/1"},
+         {"name": "ناشر مستقل", "text": genuine_text, "link": "https://genuine/1"}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": [d["name"] for d in docs]
+
+    try:
+        out = article._write_article(body, 9006, cfg)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+
+    fact_trail = [t for t in out["trail"] if t["stage"] == "واقعة"]
+    check("استبعاد إعادة النشر: سطر trail واحد للواقعة الوحيدة", len(fact_trail) == 1, fact_trail)
+    excluded = fact_trail[0].get("excluded_reprints") or []
+    check("استبعاد إعادة النشر: الوثيقة المعيدة نشر الموجز استُبعدت (لا المصدر المستقل)",
+          len(excluded) == 1 and excluded[0]["name"] == "ناشر معيد نشر", excluded)
+    check("استبعاد إعادة النشر: عدد الكلمات المشتركة الفعلي ≥ الحد الأدنى (50 ≥ 40)",
+          excluded[0]["shared_words"] >= 40, excluded)
+    check("استبعاد إعادة النشر: المصدر المستقل بقي ضمن الوثائق المستخدمة فعليًا "
+          "— المعيد نشره غاب عنها",
+          "ناشر مستقل" in fact_trail[0]["sources"] and
+          "ناشر معيد نشر" not in fact_trail[0]["sources"], fact_trail[0])
+    check("استبعاد إعادة النشر: outcome نص trail يُعلِم صراحة بعدد الوثائق المستبعدة",
+          "🗞️ استُبعدت" in fact_trail[0]["outcome"], fact_trail[0]["outcome"])
+
+    check("استبعاد إعادة النشر: الواقعة سقطت (مصدر مستقل واحد فقط بعد الاستبعاد دون العتبة)",
+          len(out["dropped"]) == 1, out["dropped"])
+    drop_reason = out["dropped"][0]["reason"]
+    check("البند 3: رسالة السقوط تميّز صراحة أن السبب استبعاد إعادات نشر — لا "
+          "الرسالة العامة (وإلا يُظَنّ عطل بحث كما ظُنّ مرارًا في هذا الـ Issue)",
+          "سند غير كافٍ بعد استبعاد إعادات نشر الموجز" in drop_reason, drop_reason)
+
+    report = article.build_report(out)
+    check("build_report: يعرض سطر الاستبعاد باسم الناشر وعدد الكلمات المشتركة",
+          "استُبعدت كإعادة نشر حرفية للموجز الملصق" in report and
+          "ناشر معيد نشر" in report, report)
+
+
+def test_article_originality_retry() -> None:
+    """محاولة صياغة ثانية واحدة عند رفض فحص الأصالة (طلب المراجعة، تشخيص
+    Issue #373، تعليق العطل الحادي والعشرون، البند 2): المسودة الأولى قد
+    تنسخ تتابعًا حرفيًا من مقتطف مصدر مسنَد — الفحص يعرف الآن الجملة
+    المخالفة بعينها (offending) فتُمرَّر توجيهًا صريحًا لمحاولة ثانية.
+    نجاح الثانية ينتج المقال، وفشلها امتناع نهائي برسالة مميَّزة."""
+    from src import article
+
+    cfg = load_config()
+    offending_run = "شهد الخبراء تطورا مفاجئا خطيرا جدا الليلة"
+    fixed_docs = [
+        {"name": "مصدر رئيسي", "text": f"تقرير: {offending_run} في العاصمة.",
+         "link": "https://main/1"},
+        {"name": "مصدر ثانٍ", "text": "نص عام يؤيد الوقائع بلا أي عبارة خاصة هنا إطلاقًا.",
+         "link": "https://g1/1"},
+        {"name": "مصدر ثالث", "text": "نص عام آخر يؤيد الوقائع أيضًا بصياغة مختلفة تمامًا هنا.",
+         "link": "https://g2/1"},
+    ]
+
+    def _setup(second_body: str):
+        real = {"extract_brief": article.extract_brief, "search": evidence.search,
+               "gather_evidence": evidence.gather_evidence,
+               "support_sources": article._support_sources,
+               "choose_question": article._choose_question,
+               "draft_article": article._draft_article,
+               "find_images": article.find_images}
+        article.extract_brief = lambda b, cfg, retries=3: ({
+            "topic": "اختبار محاولة الصياغة الثانية",
+            "statements": [
+                {"text": "الحدث الأول وقع بالفعل", "kind": "واقعة",
+                 "entities": ["كيان أول"], "is_unnamed_event": False,
+                 "is_reference": False},
+                {"text": "الحدث الثاني وقع بالفعل أيضًا", "kind": "واقعة",
+                 "entities": ["كيان ثانٍ"], "is_unnamed_event": False,
+                 "is_reference": False},
+            ],
+            "questions": [],
+        }, None)
+        evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+        evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+            list(fixed_docs), evidence.EVIDENCE_FULL_TEXT)
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": [d["name"] for d in docs]
+        article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار الاستعادة؟", "")
+
+        draft_calls: list = []
+
+        def _fake_draft(grounded, opinions, question, cfg, retries=3, avoid_note=""):
+            draft_calls.append(avoid_note)
+            body_text = (f"حدث مهم جدًا: {offending_run} كما أكدت المصادر."
+                        if len(draft_calls) == 1 else second_body)
+            return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+                    "image_headline": "عنوان", "post_title": question,
+                    "post_body": body_text, "hashtags": ["اختبار"]}, "")
+
+        article._draft_article = _fake_draft
+        article.find_images = lambda title, cfg: []
+        return real, draft_calls
+
+    def _teardown(real):
+        article.extract_brief = real["extract_brief"]
+        evidence.search = real["search"]
+        evidence.gather_evidence = real["gather_evidence"]
+        article._support_sources = real["support_sources"]
+        article._choose_question = real["choose_question"]
+        article._draft_article = real["draft_article"]
+        article.find_images = real["find_images"]
+
+    # ── سيناريو النجاح: المحاولة الثانية بلا أي تشابه لفظي ──
+    real1, draft_calls1 = _setup(
+        "متن مُعاد صياغته بالكامل بلا أي تشابه لفظي مع أي مصدر مطلقًا هنا.")
+    try:
+        out_ok = article._write_article("موجز اختبار محاولة الصياغة الثانية", 9007, cfg)
+    finally:
+        _teardown(real1)
+
+    check("محاولة ثانية ناجحة: استُدعيت _draft_article مرتين فقط",
+          len(draft_calls1) == 2, draft_calls1)
+    check("محاولة ثانية ناجحة: المحاولة الأولى بلا توجيه تفادٍ (avoid_note فارغ)",
+          draft_calls1[0] == "", draft_calls1)
+    check("محاولة ثانية ناجحة: المحاولة الثانية مُرِّر إليها توجيه غير فارغ يذكر "
+          "الجملة المخالفة بعينها",
+          bool(draft_calls1[1]) and offending_run.split()[0] in draft_calls1[1],
+          draft_calls1)
+    check("محاولة ثانية ناجحة: outcome['originality_retry'] يسجّل المحاولة والنجاح",
+          out_ok["originality_retry"]["attempted"] is True and
+          out_ok["originality_retry"]["succeeded"] is True, out_ok["originality_retry"])
+    check("محاولة ثانية ناجحة: المقال يُنتَج فعلًا بالمسودة الثانية",
+          out_ok["produced"] is True, out_ok["reason"])
+
+    report_ok = article.build_report(out_ok)
+    check("build_report: يعرض نجاح محاولة الصياغة الثانية صراحة",
+          "محاولة صياغة ثانية" in report_ok and "✅ نجحت" in report_ok, report_ok)
+
+    # ── سيناريو الفشل: المحاولة الثانية تكرر نفس النسخ اللفظي ──
+    real2, draft_calls2 = _setup(f"حدث آخر أيضًا: {offending_run} كما أكدت المصادر.")
+    try:
+        out_bad = article._write_article("موجز اختبار محاولة الصياغة الثانية", 9008, cfg)
+    finally:
+        _teardown(real2)
+
+    check("محاولة ثانية فاشلة: استُدعيت _draft_article مرتين فقط — لا محاولة ثالثة "
+          "مهما كانت النتيجة",
+          len(draft_calls2) == 2, draft_calls2)
+    check("محاولة ثانية فاشلة: outcome['originality_retry'] يسجّل المحاولة بلا نجاح",
+          out_bad["originality_retry"]["attempted"] is True and
+          out_bad["originality_retry"]["succeeded"] is False, out_bad["originality_retry"])
+    check("محاولة ثانية فاشلة: امتناع نهائي — لا أسوأ من رفض بلا محاولة إطلاقًا",
+          out_bad["produced"] is False and "امتناع" in out_bad["reason"], out_bad["reason"])
+    check("محاولة ثانية فاشلة: رسالة الامتناع تميّز أنها بعد محاولة ثانية فشلت أيضًا",
+          "فشلت المحاولة الثانية" in out_bad["reason"], out_bad["reason"])
+
+    report_bad = article.build_report(out_bad)
+    check("build_report: يعرض فشل محاولة الصياغة الثانية صراحة",
+          "محاولة صياغة ثانية" in report_bad and "❌ فشلت أيضًا" in report_bad, report_bad)
 
 
 def test_reject_boxes_render() -> None:
@@ -7514,6 +7797,8 @@ def main() -> int:
     test_check_originality_quantity()
     print("\n── فحص الأصالة: نواة ربط تسمية (تعليق الموافقة السادس عشر) ──")
     test_check_originality_name_link()
+    print("\n── فحص الأصالة: القيمة الرابعة offending لمحاولة صياغة ثانية ──")
+    test_check_originality_offending()
     print("\n── محرك البحث والقراءة المشترك (evidence.py) ──")
     test_evidence()
     print("\n── مقال من المصادر ──")
@@ -7528,6 +7813,9 @@ def main() -> int:
     test_evidence_relevance_cap()
     test_evidence_relevance_display_matches_score()
     test_article_duplicate_query_reuse()
+    test_article_longest_shared_run()
+    test_article_reprint_exclusion()
+    test_article_originality_retry()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()
