@@ -1,0 +1,49 @@
+{
+  "id": "286f3f604fb2",
+  "created_at": "2026-08-21T03:08:06.150640+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.04,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Japan executes man convicted of killing five in 2009 Osaka pachinko parlor arson",
+  "link": "https://www.japantimes.co.jp/news/2026/08/21/japan/crime-legal/death-penalty-execution/",
+  "publishers": [
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Japan executes man convicted of killing five in 2009 Osaka pachinko parlor arson",
+    "link": "https://www.japantimes.co.jp/news/2026/08/21/japan/crime-legal/death-penalty-execution/",
+    "summary": "The execution — the first under Prime Minister Sanae Takaichi's administration — took place on Friday morning.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-08-21T01:28:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/21/558652.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/21/japan/crime-legal/death-penalty-execution/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/21/558652.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/21/thumbs/400x400/558652.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.038916684407408
+  }
+}

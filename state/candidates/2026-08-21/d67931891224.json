@@ -1,0 +1,48 @@
+{
+  "id": "d67931891224",
+  "created_at": "2026-08-21T03:08:06.149923+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.42,
+  "trend_score": 1.0,
+  "velocity": 0.01,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Landslide at illegal gold mine kills 13 people in Colombia",
+  "link": "https://www.aljazeera.com/video/newsfeed/2026/8/20/landslide-at-illegal-gold-mine-kills-13-people-in-colombia-2?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Mining.com"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Landslide at illegal gold mine kills 13 people in Colombia",
+    "link": "https://www.aljazeera.com/video/newsfeed/2026/8/20/landslide-at-illegal-gold-mine-kills-13-people-in-colombia-2?traffic_source=rss",
+    "summary": "At least 13 people have been killed and seven others injured in an unlicensed gold mine in southwest Colombia.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-20T20:36:51+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Mining.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/20/landslide-at-illegal-gold-mine-kills-13-people-in-colombia-2?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.010100122193231828,
+    "age_hours": 33.00290104972222,
+    "is_stale": false,
+    "score": 19.415917296299494
+  }
+}

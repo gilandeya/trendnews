@@ -1,0 +1,54 @@
+{
+  "id": "4df90bd114d4",
+  "created_at": "2026-08-21T03:08:06.150364+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.27,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Japan executes pachinko parlour arsonist",
+  "link": "https://www.channelnewsasia.com/asia/japan-execute-pachinko-parlour-arsonist-6332531",
+  "publishers": [
+    "Channel News Asia",
+    "South China Morning Post"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Japan executes pachinko parlour arsonist",
+    "link": "https://www.channelnewsasia.com/asia/japan-execute-pachinko-parlour-arsonist-6332531",
+    "summary": "The man doused a pachinko parlour near his home in Osaka with petrol and set it on fire, killing four customers and one employee.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-21T02:42:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--molt6lVZ--/c_crop,h_1125,w_2000,x_0,y_78/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/21/istock-1311504848.jpg?itok=grujTUkJ",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/east-asia/article/3364749/japan-executes-man-behind-pachinko-parlour-arson-killed-5?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/japan-execute-pachinko-parlour-arsonist-6332531"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--molt6lVZ--/c_crop,h_1125,w_2000,x_0,y_78/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/21/istock-1311504848.jpg?itok=grujTUkJ"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 5.7646111111111106e-05,
+    "is_stale": false,
+    "score": 17.271138899907406
+  }
+}
