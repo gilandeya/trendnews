@@ -144,18 +144,28 @@ PROVIDERS = {
 }
 
 
-def find_images(title: str, cfg, limit: int = 6) -> list[str]:
+def find_images(title: str, cfg, limit: int = 6, terms: list[str] | None = None) -> list[str]:
     """
     يعيد روابط صور حرة الترخيص مرشحة للخبر.
 
     نجرّب كل عبارة بحث لدى كل مزوّد ونجمع النتائج بالترتيب — الأعلام أولًا
     لأنها تعطي أدق الصور.
+
+    `terms` اختياري (تشخيص Issue #373، مراجعة بشرية بعد أول نشر، البند 1):
+    keywords() أعلاه تستخرج فقط أحرفًا لاتينية كبيرة (_CAP_RUN/_WORD)،
+    مصمَّمة لعناوين RSS الأصلية (title بلغة المصدر، غالبًا لاتينية) —
+    عنوان/نص عربي محض يعيد منها قائمة فارغة دومًا فيُسقط find_images إلى
+    صفر نتائج قبل أي نداء شبكة، بصرف النظر عن محتواه. مُستدعٍ يملك عبارات
+    بحث جاهزة بلغة أخرى (article.py: كيانات entities المستخرَجة من موجز
+    عربي) يمرّرها هنا مباشرة فتتجاوز keywords() كليًا؛ None (الافتراضي)
+    يُبقي السلوك القديم لكل المستدعين الآخرين (writer.py/collect.py/
+    radar.py/verify_draft.py) بلا أي تغيير.
     """
     icfg = cfg.get("image_search", {}) or {}
     if not icfg.get("enabled", True):
         return []
 
-    terms = keywords(title, int(icfg.get("max_terms", 3)))
+    terms = terms if terms is not None else keywords(title, int(icfg.get("max_terms", 3)))
     if not terms:
         return []
 

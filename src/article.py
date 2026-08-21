@@ -246,9 +246,19 @@ WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتب
    المركّبة في الموجز حرفيًا كما وردت — اتركه فارغًا لعنصر لم يُفصَل من
    جملة مركّبة.
 
-   لكل عنصر أيضًا entities: 2-5 كيانات مميِّزة منه (أسماء أعلام، أرقام،
-   تواريخ، أماكن) كما وردت في الموجز حرفيًا بلا أي إعادة صياغة — استعلام
-   البحث سيُبنى منها وحدها.
+   لكل عنصر أيضًا entities: 2-5 كيانات مميِّزة منه كما وردت في الموجز
+   حرفيًا بلا أي إعادة صياغة — استعلام البحث سيُبنى منها وحدها. اختَرها
+   بأولوية ثابتة صارمة، لا بحرية: **أسماء الأعلام (أشخاص، جهات، أماكن)
+   ثم الأرقام ثم التواريخ أولًا دومًا** — هذه وحدها ما يُميّز الحدث عن
+   غيره في نتائج بحث. لا تختر كلمة موضوعية عامة (اسم القطاع أو الموضوع
+   العام، لا الحدث بعينه) ما دام في الجملة اسم علم أو رقم أو تاريخ يمكن
+   اختياره بدلًا منها — فمثلًا في جملة عن تعطّل خط أنابيب نفط تربط دولتين،
+   "النفط" و"شريان حياة" كلمتان موضوعيتان عامتان لا كيانان مميِّزان (لا
+   تحدّدان هذا الحدث بعينه عن أي حدث آخر يخص النفط أو الشرايين)، بينما
+   اسما الدولتين والتاريخ إن وردا هما الكيانات الصحيحة. اختيار كيانات
+   مختلفة لنفس الجملة بين استخراجين يبني استعلام بحث مختلفًا تمامًا فيقلب
+   نتيجة التشغيلة كلها — الثبات هنا يقلّل هذا الأثر لا يُلغيه (لا سبيل
+   لضبطه للحتمية الكاملة، انظر ملاحظة temperature في CLAUDE.md).
    ولكل عنصر أيضًا is_unnamed_event: true حين تكون الواقعة **إشارة** إلى
    حدث بأثره أو بذكر ما أعاده أو ذكّر به، دون أن تسمّي الحدث نفسه: من فعل
    ماذا بالضبط. مثال: "حدث في 11 آب 2026 ما أعاد قصة حمزة الخطيب" لا تسمّي
@@ -1215,6 +1225,64 @@ def _grounded_sources(names: list[str], docs: list[dict],
     return out
 
 
+def _reprint_fallback_images(excluded_reprints: list[dict],
+                             ranked: list[Article]) -> list[dict]:
+    """صور مرشَّحة من وثائق استُبعدت كإعادة نشر للموجز الملصق — الاستبعاد
+    يخصّ عدّ السند (لا تُحتسب مصدرًا مستقلًا مؤيِّدًا) لا صلاحيتها كمصدر
+    صورة (طلب المراجعة، تشخيص Issue #373، مراجعة بشرية بعد أول نشر، البند
+    1: «مسودة بلا صورة لا تُنشر» — إسقاط صورة متاحة فعليًا لمجرد أن نصها
+    استُبعد من عدّ الاستقلالية كلفة بلا مبرر). نفس بنية _grounded_sources
+    (اسم → صور من ranked، وranked غير مُصفَّى بالاستبعاد أصلًا — الفلترة
+    تقع فقط على docs) لكن لأسماء excluded_reprints لا للأسماء المسنِدة."""
+    if not excluded_reprints:
+        return []
+    links = {e["name"]: e.get("link", "") for e in excluded_reprints}
+    seen: set[str] = set()
+    out = []
+    for a in ranked:
+        name = getattr(a, "publisher", "") or getattr(a, "source_name", "")
+        if name in links and name not in seen:
+            seen.add(name)
+            imgs = getattr(a, "image_candidates", None) or []
+            if imgs:
+                out.append({"name": name, "link": links.get(name, ""),
+                            "image_candidates": imgs})
+    return out
+
+
+def _pool_image_candidates(pool: list[dict]) -> list[tuple[str, str, str]]:
+    """(رابط، اسم، رابط المصدر) من مجمّع مصادر {"name","link","image_candidates"}
+    — نفس منطق verify_draft._image_candidates لكن على مجمّع صور احتياطي
+    (مثل _reprint_fallback_images أعلاه) لا على وقائع مسندة."""
+    seen: set[str] = set()
+    out: list[tuple[str, str, str]] = []
+    for s in pool:
+        for url in s.get("image_candidates") or []:
+            if url in seen:
+                continue
+            seen.add(url)
+            out.append((url, s["name"], s.get("link", "")))
+    return out
+
+
+def _image_search_terms(grounded: list[dict], limit: int = 3) -> list[str]:
+    """عبارات بحث لاحتياط الصورة الحرة (imagesearch.find_images) من entities
+    الوقائع المسندة (حقل بنيوي مُستخرَج مسبقًا وقت extract_brief — لا نص
+    حر مُشتَق الآن) — لا central_text نفسه: imagesearch.keywords() تستخرج
+    فقط أحرفًا لاتينية كبيرة، فنص عربي محض (central_text دومًا عربي هنا)
+    يعيد منها قائمة فارغة دومًا بصرف النظر عن محتواه، فيُسقط find_images
+    إلى صفر نتائج **قبل أي نداء شبكة** — عطل بنيوي مؤكَّد (طلب المراجعة،
+    تشخيص Issue #373، مراجعة بشرية بعد أول نشر، البند 1)، لا عطل وليد
+    استبعاد إعادات النشر."""
+    seen: list[str] = []
+    for f in grounded:
+        for e in f.get("entities") or []:
+            e = str(e).strip()
+            if e and e not in seen:
+                seen.append(e)
+    return seen[:limit]
+
+
 def _merge_named_evidence(named_docs: list[dict], named_supporting: list[str],
                           support_docs: list[dict], support_supporting: list[str],
                           cfg) -> tuple[list[dict], list[str]]:
@@ -1758,6 +1826,31 @@ def _phrase_in_source(run_norms: list[str], source_streams: list[list[str]]) -> 
     return False
 
 
+# فئة مغلقة صغيرة لتمييز تتابع "تاريخ" عن غيره في تقرير _unsourced_entities
+# (طلب المراجعة، مراجعة بشرية بعد أول نشر، البند 2: «حصره في اسم علم، رقم،
+# تاريخ» — الأرقام مُصنَّفة أصلًا بذاتها؛ هذه الفئة تلتقط تواريخ مكتوبة
+# بأسماء الأشهر لا بالأرقام وحدها، فتُوسَم "تاريخ" صراحة في التقرير بدل
+# الرسالة العامة، بلا حكم لغوي إضافي — نفس نمط QUANTITY_ANCHOR_WORDS/
+# NAME_LINK_ANCHOR_WORDS في verify_draft.py) — شهور ميلادية وهجرية وأدوات
+# ربط تاريخ شائعة، مُطبَّعة بنفس _normalize_word المستعملة في هذه الوحدة
+_DATE_ANCHOR_WORDS_RAW = {
+    "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس",
+    "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر",
+    "كانون", "شباط", "آذار", "نيسان", "أيار", "حزيران", "تموز", "آب",
+    "أيلول", "تشرين",
+    "محرم", "صفر", "ربيع", "جمادى", "رجب", "شعبان", "رمضان", "شوال",
+    "ذو", "القعدة", "الحجة",
+    "عام", "سنة", "بتاريخ", "الموافق",
+}
+_DATE_ANCHOR_WORDS = frozenset(_normalize_word(w) for w in _DATE_ANCHOR_WORDS_RAW)
+
+
+def _is_date_run(run_norms: list[str]) -> bool:
+    """هل يحمل التتابع كلمة ربط تاريخ (شهر/سنة/أداة) — تسمية لا فحص إضافي،
+    مطبَّقة بعد قرار الإبلاغ لا بدلًا منه."""
+    return any(w in _DATE_ANCHOR_WORDS for w in run_norms)
+
+
 def _unsourced_entities(post_body: str, grounded: list[dict], brief_text: str,
                         question: str, opinions: list[dict],
                         source_texts: list[str] | None = None, min_run: int = 2,
@@ -1789,10 +1882,21 @@ def _unsourced_entities(post_body: str, grounded: list[dict], brief_text: str,
     ليست كيانًا، ولا ينبغي أن تُبلَّغ لمجرد أنها لا تظهر في نص الموجز/الرأي
     نفسه.
 
-    قيد صريح يبقى: لا حكم لغوي "هل هذا اسم علم؟" — الشرطان بنيويان محضان
-    (طول + ورود حرفي في مصدر)، فقد يُبلَّغ أحيانًا عن تفصيلة وصفية منقولة
-    لا اسم علم بعينه؛ هذا مقصود ومقبول لأنه بلاغ للمراجعة البشرية لا رفض
-    آلي."""
+    الفئات الثلاث المطلوبة (طلب المراجعة، مراجعة بشرية بعد أول نشر، البند
+    2 — «حصره في اسم علم، رقم، تاريخ»): رقم (كما كان)، تاريخ (تتابع يحمل
+    كلمة ربط تاريخ — شهر/سنة/أداة، عبر _is_date_run، يُوسَم "تاريخ" صراحة
+    في نص البلاغ لا الرسالة العامة)، واسم علم (الباقي). العربية بلا حالة
+    أحرف (Capitalization)، فلا إشارة بنيوية رخيصة تُميّز اسم علم عن اسم
+    عام بيقين — بناء تصنيف لغوي إضافي هنا (مثل معياري "تعريف/خبر" و"مصطلح
+    رسمي" المرفوضين مرارًا في هذا الـ Issue) خطر مرفوض بنفس المنطق. الحارس
+    الفعلي بدلًا من ذلك بنيوي محض: طول الحد الأدنى (min_run) **و**الورود
+    الحرفي المتجاور في نص مصدر مقروء فعلًا (_phrase_in_source) — وهو تحديدًا
+    ما أزال الشظايا النحوية المُبلَّغة («شركة مطار»، «قادر العمل سواء»،
+    «حكومية تقدم مثل») في الجولة التي بنت هذا الفحص: تلك كانت نتاج عطل
+    تجاور (كلمات غير متجاورة فعليًا في النص التصقت بالخطأ) لا غياب تصنيف
+    لغوي، وقد أُصلح العطل بنيويًا (_content_word_runs) لا بتضييق الفئة. قد
+    يُبلَّغ أحيانًا عن تفصيلة وصفية منقولة حرفيًا من مصدر لا اسم علم بعينه؛
+    هذا مقصود ومقبول لأنه بلاغ للمراجعة البشرية لا رفض آلي."""
     known_words, known_numbers = _known_entity_pool(grounded, brief_text, question, opinions)
     if attribution_phrase:
         known_words = known_words | norm_tokens(attribution_phrase)
@@ -1818,7 +1922,8 @@ def _unsourced_entities(post_body: str, grounded: list[dict], brief_text: str,
                 run_norms = [w[1] for w in run[i:j]]
                 if source_streams is None or _phrase_in_source(run_norms, source_streams):
                     phrase = " ".join(w[0] for w in run[i:j])
-                    notes.append(f"«{phrase}» غير واردة في الوقائع المسندة ولا في الموجز")
+                    label = "تاريخ" if _is_date_run(run_norms) else "اسم"
+                    notes.append(f"{label} «{phrase}» غير وارد في الوقائع المسندة ولا في الموجز")
             i = j
     return notes
 
@@ -1993,6 +2098,11 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # الموجز الأصلي ليست بديهية — تُضاف سؤالًا يُبحث بنفس آلية أسئلة
     # الموجز (البند 5) حصرًا، لا تُفترض صامتة
     link_questions: list[dict] = []
+    # صور مرشَّحة من وثائق استُبعدت كإعادة نشر للموجز عبر التشغيلة كلها
+    # (طلب المراجعة، تشخيص Issue #373، مراجعة بشرية بعد أول نشر، البند 1):
+    # الاستبعاد يخصّ عدّ السند لا صلاحية الصورة — تُستهلَك كاحتياط ثانٍ عند
+    # بناء صورة المسودة أدناه، فقط حين لا صورة من مصدر مسنِد فعليًا
+    reprint_image_pool: list[dict] = []
 
     # ذاكرة استعلامات هذا التشغيل حصرًا لحلقة الوقائع أدناه (تشخيص Issue
     # #373، تعليق العطل العشرون، البند 1): وقائع متعددة تشترك في نفس
@@ -2117,6 +2227,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
                 query, f.get("is_reference", False), relevance_text)
             all_read_docs.extend(docs)
+            reprint_image_pool.extend(_reprint_fallback_images(excluded_reprints, ranked))
             # "تصريح" (البند 1، تشخيص Issue #373، الجولة الثالثة عشرة): فحص
             # المضمون لا وقوع المقابلة وحده — is_statement تختار
             # STATEMENT_SUPPORT_SYSTEM بدل SUPPORT_SYSTEM، بلا تخفيف في عتبة
@@ -2410,7 +2521,22 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # مصادر مسندة فعلًا فقط، وfallback_provider يبحث في Wikimedia/Openverse
     # حصرًا (imagesearch.find_images) لا Google Images (CLAUDE.md)
     image_ranked = verify_draft._image_candidates(grounded)
+    image_pool_source = "grounded" if image_ranked else "none"
+    if not image_ranked and reprint_image_pool:
+        # احتياط ثانٍ (طلب المراجعة، البند 1): وثيقة استُبعدت من عدّ
+        # الاستقلالية تبقى مرشَّحًا صالحًا للصورة — الاستبعاد يخصّ السند لا
+        # الصور. يُستهلَك فقط حين لا صورة من مصدر مسنِد فعليًا مباشرة، ويُوسَم
+        # صراحة في التقرير أدناه فلا يبدو مصدرًا مسنِدًا بالخطأ.
+        image_ranked = _pool_image_candidates(reprint_image_pool)
+        image_pool_source = "excluded_reprint" if image_ranked else "none"
     image_urls = [u for u, _, _ in image_ranked]
+
+    # عبارات بحث find_images الاحتياطي (طلب المراجعة، البند 1): من كيانات
+    # الوقائع المسندة (entities) لا central_text العربي — imagesearch.keywords()
+    # تستخرج فقط أحرفًا لاتينية كبيرة فتعيد قائمة فارغة لنص عربي دومًا،
+    # مهما كان محتواه (انظر _image_search_terms). تُطبَع في التقرير أدناه
+    # بصرف النظر عن النتيجة، فلا يبقى سبب رجوع find_images بصفر غامضًا.
+    image_terms = _image_search_terms(grounded)
 
     image_name = f"{datetime.now(timezone.utc):%Y-%m-%d}/{draft_id}.jpg"
     image_rel = f"drafts/{image_name}"
@@ -2423,7 +2549,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             image_urls=image_urls,
             publisher=publishers,
             bucket="serious",
-            fallback_provider=lambda: find_images(central_text, cfg),
+            fallback_provider=lambda: find_images(central_text, cfg, terms=image_terms or None),
             cfg=cfg,
             out_path=DRAFTS_DIR / image_name,
             report=shot,
@@ -2435,8 +2561,12 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # تقرير الصورة (تشخيص Issue #373، البند 1): «الصورة غائبة ولا سبب في
     # التقرير» — shot يحمل الآن سبب رفض كل مرشَّح وحصيلة احتياط find_images
     # (imaging.build_post_image)؛ total_candidates عدد مرشحي المصادر
-    # المسندة كلها قبل القصّ إلى أول 6 (candidates_tried داخل shot)
-    outcome["image_report"] = {**shot, "total_candidates": len(image_urls)}
+    # المسندة كلها قبل القصّ إلى أول 6 (candidates_tried داخل shot).
+    # image_pool_source/fallback_query_terms جديدان (طلب المراجعة، البند 1):
+    # من أي مجمّع جاءت مرشَّحات image_urls، وما استعلام find_images الفعلي
+    outcome["image_report"] = {**shot, "total_candidates": len(image_urls),
+                               "image_pool_source": image_pool_source,
+                               "fallback_query_terms": image_terms}
 
     draft = {
         "id": draft_id,
@@ -2479,11 +2609,19 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # لا illustrative (تشخيص Issue #373، مراجعة بشرية بعد أول نشر، البند 1):
     # used_original يصير True أيضًا حين ينجح احتياط find_images (imaging.py
     # يضبطه بعد محاولتَي المصدر والاحتياط معًا) — عزو تلك الصورة التعبيرية
-    # لأول مرشَّح في image_ranked (مصادر مسندة فعليًا) كان لينسب صورة حرة
-    # لمصدر لم يوفّرها إطلاقًا
+    # لمرشَّح من image_ranked (مصادر مسندة/احتياط استبعاد) كان لينسب صورة حرة
+    # لمصدر لم يوفّرها إطلاقًا.
+    # المطابقة بـ chosen_url لا image_ranked[0] (إصلاح عطل عزو مكتشَف أثناء
+    # هذه الجولة): imaging.build_post_image قد يعيد ترتيب المرشحين بالوجوه
+    # أو ينجح مرشَّح لاحق لا الأول — image_ranked[0] كانت تُنسَب دومًا بصرف
+    # النظر عن أيّهما نجح فعلًا. chosen_url (جديد في تقرير imaging.py) هو
+    # الرابط الذي نجح تحديدًا؛ ونحتاجها أيضًا هنا لتمييز مصدر احتياط
+    # الاستبعاد الصحيح حين image_ranked من reprint_image_pool لا من grounded
     if shot.get("used_original") and not shot.get("illustrative") and image_ranked:
-        outcome["image_source_name"] = image_ranked[0][1]
-        outcome["image_source_link"] = image_ranked[0][2]
+        chosen = shot.get("chosen_url")
+        match = next((t for t in image_ranked if t[0] == chosen), None) or image_ranked[0]
+        outcome["image_source_name"] = match[1]
+        outcome["image_source_link"] = match[2]
 
     outcome.update({
         "produced": True,
@@ -2498,29 +2636,47 @@ def _image_report_lines(ir: dict) -> list[str]:
     نشر): «الصورة غائبة» بلا سبب في التقرير عطل صمت — لا سبيل للمراجع
     لمعرفة كم مرشَّح صورة جُرِّب من المصادر المسندة، لماذا فشل كل واحد، وهل
     استُدعي احتياط find_images وماذا أعاد، إلا من هنا. ir فارغ (لا مفاتيح)
-    حين لم يصل الإنتاج مرحلة بناء الصورة أصلًا — لا شيء يُعرض حينها."""
+    حين لم يصل الإنتاج مرحلة بناء الصورة أصلًا — لا شيء يُعرض حينها.
+
+    pool_source (طلب المراجعة، مراجعة بشرية بعد أول نشر، البند 1) يميّز
+    مرشَّحات "grounded" (مصادر مسندة فعليًا) عن "excluded_reprint" (وثيقة
+    استُبعدت من عدّ الاستقلالية لكنها بقيت مرشَّحًا صالحًا للصورة) — وسمٌ
+    صريح فلا يبدو الاستثناء صامتًا ولا يُظَنّ "مصدر مسند" خطأً."""
     if not ir:
         return []
     total = ir.get("total_candidates", 0)
     failures = ir.get("candidate_failures") or []
+    pool = ir.get("image_pool_source", "grounded")
+    pool_label = "مصادر مستبعدة كإعادة نشر" if pool == "excluded_reprint" else "المصادر المسندة"
     # illustrative قبل used_original عمدًا: imaging.build_post_image يضبط
     # used_original=True أيضًا حين ينجح احتياط find_images وحده (يعني فقط
     # "لا خلفية مصمَّمة استُخدمت")، فحالة الاحتياط الناجح تحمل العلمين معًا
     # — illustrative هي الحالة الأدق لتمييزها عن صورة مصدر حقيقية
     if ir.get("illustrative"):
-        head = (f"🖼️ فشلت صور المصادر المسندة كلها ({total} مرشَّحًا) — استُخدمت صورة "
+        head = (f"🖼️ فشلت صور {pool_label} كلها ({total} مرشَّحًا) — استُخدمت صورة "
                f"تعبيرية حرة من find_images (من {ir.get('fallback_candidates', 0)} مرشَّحًا).")
     elif ir.get("used_original"):
-        head = f"🖼️ صورة من مصدر مسند مباشرة ({total} مرشَّحًا من المصادر المسندة)."
+        if pool == "excluded_reprint":
+            head = (f"🖼️ صورة من مصدر استُبعد من عدّ الاستقلالية ({total} مرشَّحًا) — "
+                    "ليس دليل إسناد، فقط أُتيحت صورته احتياطًا لغياب صور المصادر المسندة.")
+        else:
+            head = f"🖼️ صورة من مصدر مسند مباشرة ({total} مرشَّحًا من المصادر المسندة)."
     else:
-        head = (f"🖼️ فشلت صور المصادر المسندة كلها ({total} مرشَّحًا)" if total
-               else "🖼️ لا صورة واحدة بين مرشَّحي المصادر المسندة (0)")
+        head = (f"🖼️ فشلت صور {pool_label} كلها ({total} مرشَّحًا)" if total
+               else f"🖼️ لا صورة واحدة بين مرشَّحي {pool_label} (0)")
         if ir.get("fallback_tried"):
             head += (f" — استُدعي احتياط find_images أيضًا وأعاد "
                     f"{ir.get('fallback_candidates', 0)} مرشَّحًا، لم ينجح أي منها.")
         else:
             head += " — لم يُستدعَ احتياط find_images."
     lines = ["", head]
+    # استعلام find_images الفعلي (طلب المراجعة، البند 1): يُطبَع دومًا حين
+    # استُدعي الاحتياط — لا سبيل لتشخيص "لماذا رجع بصفر" بلا معرفة ما بُحث
+    # عنه أصلًا
+    if ir.get("fallback_tried"):
+        terms = ir.get("fallback_query_terms") or []
+        terms_text = "، ".join(terms) if terms else "(لا كيانات مستخرجة — لم يُبحث بشيء)"
+        lines.append(f"  🔎 استعلام الصورة الاحتياطية: {terms_text}")
     for f in failures:
         lines.append(f"  - ⚠️ {f['url'][:90]}: {f['reason']}")
     return lines

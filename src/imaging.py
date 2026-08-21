@@ -780,6 +780,12 @@ def build_post_image(
         report["candidate_failures"] = candidate_failures
         report["fallback_tried"] = fallback_tried
         report["fallback_candidates"] = fallback_candidates_count
+        # المرشَّح الذي نجح فعليًا (تشخيص Issue #373، مراجعة بشرية بعد أول
+        # نشر، البند 1): بلا هذا، المُستدعي لا يعرف أي مرشَّح من image_urls
+        # هو من نجح فعلًا — كان يفترض دومًا أن الأول (image_ranked[0]) هو
+        # الفائز، وهو خطأ حين ينجح مرشَّح لاحق (ترتيب الوجوه قد يعيد الترتيب
+        # أيضًا) أو حين يأتي image_urls من مجمّع صور بديل (استبعاد إعادة نشر)
+        report["chosen_url"] = chosen_url
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(out_path, "JPEG", quality=90, optimize=True, subsampling=0)
