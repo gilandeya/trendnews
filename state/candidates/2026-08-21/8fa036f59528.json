@@ -1,0 +1,89 @@
+{
+  "id": "8fa036f59528",
+  "created_at": "2026-08-21T12:08:03.442154+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.02,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan ex-PM Imran Khan back in jail after hospital examination",
+  "link": "https://www.bbc.co.uk/news/articles/ckgdr9vr50po?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Daily Sabah",
+    "France24",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "Punch Nigeria",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Pakistan ex-PM Imran Khan back in jail after hospital examination",
+    "link": "https://www.bbc.co.uk/news/articles/ckgdr9vr50po?at_medium=RSS&at_campaign=rss",
+    "summary": "It comes as the court had earlier this week ordered that he had to be taken for a hospital examination.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-21T10:46:09+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f281/live/3dc58f60-9d09-11f1-a291-b542ee92de7c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Daily Sabah",
+      "France24",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "Punch Nigeria",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/21/pakistans-imran-khan-moved-to-hospital-after-supreme-court-order?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/ckgdr9vr50po?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/asia-pacific/20260821-ex-pakistan-pm-imran-khan-returned-to-jail-after-hospital-transfer"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/imran-khan-taken-back-to-adiala-jail-after-medical-checkup-in-islamabad/article71372012.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260821-ex-pakistan-pm-khan-taken-back-to-jail-after-hospital-checks"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/ex-pakistan-pm-khan-returned-to-jail-after-hospital-checks/?utm_source=rss.punchng.com&utm_medium=web"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f281/live/3dc58f60-9d09-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/f281/live/3dc58f60-9d09-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f281/live/3dc58f60-9d09-11f1-a291-b542ee92de7c.jpg",
+      "https://s.france24.com/media/display/c8b339fc-9ba0-11f1-b383-005056bf30b7/w:1024/p:16x9/e5437a9b1088eec0da215bcbba1e105dcbd368b5.jpg",
+      "https://th-i.thgim.com/public/incoming/ulmz08/article71372676.ece/alternates/LANDSCAPE_1200/Pakistan_Imran_Khan_82865.jpg",
+      "https://s.france24.com/media/display/c6d79042-9d3f-11f1-a8f3-005056bf30b7/w:1024/p:16x9/EN-20260821-090355-090535-CS.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 9,
+    "velocity": 0.0,
+    "age_hours": 74.99821096166666,
+    "is_stale": true,
+    "score": 25.01890216991953
+  }
+}

@@ -1,101 +1,5 @@
 [
   {
-    "score": 26.99,
-    "bucket": "serious",
-    "tokens": [
-      "attacks",
-      "condemns",
-      "continued",
-      "iran",
-      "israel",
-      "lebanon"
-    ],
-    "link": "https://en.irna.ir/news/86236388/Iran-condemns-Israel-s-continued-attacks-on-Lebanon",
-    "title": "Iran condemns Israel’s continued attacks on Lebanon",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-08-16T12:07:50.812903+00:00"
-  },
-  {
-    "score": 24.58,
-    "bucket": "serious",
-    "tokens": [
-      "accident",
-      "boat",
-      "bodies",
-      "death",
-      "hits",
-      "recovered",
-      "toll",
-      "zimbabwe"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/15/more-bodies-recovered-after-zimbabwe-boat-accident",
-    "title": "Zimbabwe boat accident death toll hits 68 as 22 more bodies recovered",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-16T12:07:50.813208+00:00"
-  },
-  {
-    "score": 16.41,
-    "bucket": "serious",
-    "tokens": [
-      "500",
-      "chiba",
-      "death",
-      "downpour",
-      "evacuated",
-      "nearly",
-      "rises",
-      "toll"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/08/16/japan/chiba-rain-death-toll/",
-    "title": "Chiba downpour death toll rises to 9 with nearly 500 evacuated",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-08-16T12:07:50.813472+00:00"
-  },
-  {
-    "score": 15.64,
-    "bucket": "serious",
-    "tokens": [
-      "6bn",
-      "arrests",
-      "bound",
-      "businessman",
-      "cocaine",
-      "codeine",
-      "colos",
-      "india",
-      "ndlea",
-      "recovers"
-    ],
-    "link": "https://www.vanguardngr.com/2026/08/ndlea-arrests-india-bound-businessman-with-cocaine-recovers-n3-6bn-colos-codeine/",
-    "title": "NDLEA arrests India-bound businessman with cocaine; recovers N3.6bn colos, codeine",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-08-16T12:07:50.813708+00:00"
-  },
-  {
-    "score": 14.83,
-    "bucket": "serious",
-    "tokens": [
-      "across",
-      "aerial",
-      "attacks",
-      "five",
-      "fresh",
-      "killed",
-      "launches",
-      "russia",
-      "ukraine"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c1411pgje8xo?at_medium=RSS&at_campaign=rss",
-    "title": "Five killed as Russia launches fresh aerial attacks across Ukraine",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-16T12:07:50.813958+00:00"
-  },
-  {
     "score": 22.59,
     "bucket": "sport",
     "tokens": [
@@ -4724,5 +4628,107 @@
     "posted_title": "",
     "region": "my",
     "seen_at": "2026-08-21T09:07:52.024831+00:00"
+  },
+  {
+    "score": 25.02,
+    "bucket": "serious",
+    "tokens": [
+      "back",
+      "examination",
+      "hospital",
+      "imran",
+      "jail",
+      "khan",
+      "pakistan"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/ckgdr9vr50po?at_medium=RSS&at_campaign=rss",
+    "title": "Pakistan ex-PM Imran Khan back in jail after hospital examination",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-21T12:08:03.442566+00:00"
+  },
+  {
+    "score": 20.75,
+    "bucket": "serious",
+    "tokens": [
+      "army",
+      "balochistan",
+      "chief",
+      "foreign",
+      "militants",
+      "pakistan",
+      "proxies"
+    ],
+    "link": "https://www.thehindu.com/news/international/pakistan-army-chief-says-balochistan-militants-are-foreign-proxies/article71372719.ece",
+    "title": "Pakistan Army Chief says Balochistan militants are ‘foreign proxies’",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-08-21T12:08:03.442846+00:00"
+  },
+  {
+    "score": 20.09,
+    "bucket": "serious",
+    "tokens": [
+      "aircraft",
+      "arrives",
+      "carrier",
+      "conditions",
+      "first",
+      "lincoln",
+      "living",
+      "poor",
+      "relieve",
+      "reports",
+      "thing",
+      "uss"
+    ],
+    "link": "https://www.theguardian.com/us-news/2026/aug/21/first-thing-us-aircraft-carrier-arrives-middle-east-relieve-uss-lincoln",
+    "title": "First Thing: US aircraft carrier arrives to relieve USS Lincoln amid reports of poor living conditions",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-21T12:08:03.443138+00:00"
+  },
+  {
+    "score": 17.13,
+    "bucket": "serious",
+    "tokens": [
+      "beauty",
+      "burden",
+      "business",
+      "closures",
+      "grows",
+      "industry",
+      "russia",
+      "sees",
+      "tax",
+      "wave"
+    ],
+    "link": "https://meduza.io/en/news/2026/08/21/russia-s-beauty-industry-sees-wave-of-business-closures-as-tax-burden-grows",
+    "title": "Russia’s beauty industry sees wave of business closures as tax burden grows",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-08-21T12:08:03.443387+00:00"
+  },
+  {
+    "score": 15.86,
+    "bucket": "serious",
+    "tokens": [
+      "agree",
+      "boost",
+      "china",
+      "closer",
+      "energy",
+      "indonesia",
+      "military",
+      "minerals",
+      "tech",
+      "ties",
+      "work"
+    ],
+    "link": "https://www.channelnewsasia.com/asia/china-indonesia-military-ties-minerals-energy-tech-6333081",
+    "title": "China, Indonesia agree to boost military ties, work closer on minerals, energy and tech",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-08-21T12:08:03.443670+00:00"
   }
 ]

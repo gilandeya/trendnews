@@ -1,0 +1,54 @@
+{
+  "id": "a6f6d14583c2",
+  "created_at": "2026-08-21T12:08:03.442578+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.75,
+  "trend_score": 1.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan Army Chief says Balochistan militants are ‘foreign proxies’",
+  "link": "https://www.thehindu.com/news/international/pakistan-army-chief-says-balochistan-militants-are-foreign-proxies/article71372719.ece",
+  "publishers": [
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Pakistan Army Chief says Balochistan militants are ‘foreign proxies’",
+    "link": "https://www.thehindu.com/news/international/pakistan-army-chief-says-balochistan-militants-are-foreign-proxies/article71372719.ece",
+    "summary": "",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-21T10:30:03+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/u9s5bz/article71372733.ece/alternates/LANDSCAPE_1200/No-one-would-beG6FF9DPAV.3.jpg.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/pakistan-army-chief-says-balochistan-militants-are-foreign-proxies/article71372719.ece"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2624979/cdf-munir-says-balochistan-pakistan-share-one-and-forever-future"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/u9s5bz/article71372733.ece/alternates/LANDSCAPE_1200/No-one-would-beG6FF9DPAV.3.jpg.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.11099450734218136,
+    "age_hours": 3.003151609166667,
+    "is_stale": false,
+    "score": 20.746210812081276
+  }
+}
