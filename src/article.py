@@ -1857,6 +1857,30 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # الموجز (البند 5) حصرًا، لا تُفترض صامتة
     link_questions: list[dict] = []
 
+    # ذاكرة استعلامات هذا التشغيل حصرًا لحلقة الوقائع أدناه (تشخيص Issue
+    # #373، تعليق العطل العشرون، البند 1): وقائع متعددة تشترك في نفس
+    # الكيانات (موجز يدور حول شخص واحد مثلًا) تبني نفس نص الاستعلام حرفيًا
+    # عبر build_query_for_claim — بحث وقراءة مستقلَّان لكل واحدة منهما
+    # يُعيدان نفس النتائج والمصادر حرفيًا، فهو إهدار استدعاءات مؤكَّد لا
+    # احتمالي. المفتاح (query, unrestricted, relevance_text) لا query وحده:
+    # relevance_text تُبنى من نفس entities التي بُني منها الاستعلام
+    # (_entities_text) فتتطابق كلما تطابق الاستعلام فعليًا، لكن تمييزها
+    # صراحة يمنع أي تطابق عرَضي مستقبلي إن تغيّر أحدهما بمعزل عن الآخر.
+    # الحكم على السند يبقى مستقلًا لكل واقعة رغم مشاركة الوثائق —
+    # _support_sources تُستدعى بنص كل واقعة بعينه خارج هذه الدالة، لا
+    # تُخزَّن هنا
+    search_cache: dict[tuple, tuple] = {}
+
+    def _cached_search(query: str, unrestricted: bool, relevance_text: str):
+        key = (query, bool(unrestricted), relevance_text)
+        if key in search_cache:
+            ranked, docs, basis = search_cache[key]
+            return ranked, docs, basis, True
+        ranked = evidence.search(query, cfg, days, unrestricted=unrestricted)
+        docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
+        search_cache[key] = (ranked, docs, basis)
+        return ranked, docs, basis, False
+
     for f in facts_raw:
         if f.get("is_unnamed_event"):
             # تسمية الحدث أولًا (البند 3 من التشخيص) — اكتشاف فقط. استعلام
@@ -1943,9 +1967,9 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             })
         else:
             query = evidence.build_query_for_claim(f, query_max_words)
-            ranked = evidence.search(query, cfg, days, unrestricted=f.get("is_reference", False))
             relevance_text = evidence._entities_text(f) or f["text"]
-            docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
+            ranked, docs, basis, reused_query = _cached_search(
+                query, f.get("is_reference", False), relevance_text)
             all_read_docs.extend(docs)
             # "تصريح" (البند 1، تشخيص Issue #373، الجولة الثالثة عشرة): فحص
             # المضمون لا وقوع المقابلة وحده — is_statement تختار
@@ -1963,6 +1987,17 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             fact_call_error = getattr(supporting, "call_error", None)
             unique = set(supporting)
             stage = "تقرير" if is_report else ("تصريح" if is_statement else "واقعة")
+            outcome_text = (f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
+                            if fact_call_error else
+                            f"مسندة بـ{len(unique)} مصدر مستقل"
+                            if len(unique) >= fact_min_confirm
+                            else f"سند غير كافٍ ({len(unique)}/{fact_min_confirm})")
+            if reused_query:
+                # الشفافية أهم من اختصار السجل (طلب المراجعة، تشخيص Issue
+                # #373، تعليق العطل العشرون، البند 1): لا يُحذف السطر رغم
+                # عدم إجراء بحث/قراءة جديدين — يبقى ظاهرًا مع إشارة صريحة
+                # أن نتائجه مُعادة من استعلام سابق بنفس النص حرفيًا
+                outcome_text = f"🔁 مُعاد من استعلام سابق — {outcome_text}"
             trail.append({"stage": stage,
                           "query": query, "basis": basis,
                           "sources": [d["name"] for d in docs],
@@ -1971,11 +2006,8 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                           "fetch_failures": getattr(docs, "fetch_failures", []),
                           "top_candidates": getattr(docs, "top_candidates", []),
                           "call_error": fact_call_error,
-                          "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
-                                     if fact_call_error else
-                                     f"مسندة بـ{len(unique)} مصدر مستقل"
-                                     if len(unique) >= fact_min_confirm
-                                     else f"سند غير كافٍ ({len(unique)}/{fact_min_confirm})")})
+                          "reused_query": reused_query,
+                          "outcome": outcome_text})
             if len(unique) < fact_min_confirm:
                 dropped.append({
                     "text": f["text"],
@@ -2420,9 +2452,19 @@ def build_report(outcome: dict) -> str:
             # أعلى 5 مرشّحين بالدرجة المركّبة (البند 2، تشخيص Issue #373،
             # الجولة الثالثة عشرة، الخيار (و)): رصد صرف — يحسم برقم فعلي هل
             # تفوّق صلة لفظية عالية على فارق وزن ثابت هو ما يمنع مصدرًا
-            # موثوقًا من الصعود، بدل تخمين تفسير بلا دليل
+            # موثوقًا من الصعود، بدل تخمين تفسير بلا دليل.
+            #
+            # "صلة" المعروضة هي relevance_used (المقصوصة، المُستعملة فعليًا
+            # في "درجة") لا العدد الخام — كي يبقى وزن+صلة=درجة دومًا كما
+            # يُقرأ (تشخيص Issue #373، تعليق العطل العشرون، البند 2: عرض
+            # الصلة الخامة كان يُنتج مجموعًا لا يطابق الدرجة المعروضة كلما
+            # تجاوزت الصلة سقف RELEVANCE_CAP، فبدا الرقم خاطئًا رغم صحة
+            # الحساب). العدد الخام يظهر بين قوسين فقط حين يختلف عن المقصوص.
             for c in t.get("top_candidates") or []:
-                lines.append(f"  - 🔎 {c['name']}: وزن={c['weight']} صلة={c['relevance']} "
+                rel_used = c.get("relevance_used", c["relevance"])
+                rel_display = (f"{rel_used} (خام {c['relevance']})"
+                               if rel_used != c["relevance"] else str(rel_used))
+                lines.append(f"  - 🔎 {c['name']}: وزن={c['weight']} صلة={rel_display} "
                              f"درجة={c['score']}")
         lines.append("</details>")
 
