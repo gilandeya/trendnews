@@ -1,196 +1,5 @@
 [
   {
-    "score": 23.17,
-    "bucket": "useful",
-    "tokens": [
-      "cheap",
-      "gas",
-      "iran",
-      "oil",
-      "priority",
-      "top",
-      "vance",
-      "war"
-    ],
-    "link": "https://www.investing.com/analysis/vance-says-cheap-oil-and-gas-is-top-us-priority-in-iran-war-200685843",
-    "title": "Vance Says Cheap Oil and Gas Is Top US Priority in Iran War",
-    "posted_title": "ناقلة نفط إماراتية تتعرض لضربة في مضيق هرمز وسفينة صينية تختار طريق القطب الشمالي بدل البحر الأحمر",
-    "region": "money",
-    "seen_at": "2026-08-16T07:01:31.690459+00:00"
-  },
-  {
-    "score": 33.28,
-    "bucket": "serious",
-    "tokens": [
-      "capturing",
-      "denies",
-      "downing",
-      "fighter",
-      "iranian",
-      "jets",
-      "pilots",
-      "qatar",
-      "three"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cj4kk8kz271o?at_medium=RSS&at_campaign=rss",
-    "title": "Qatar denies capturing three Iranian pilots after downing fighter jets",
-    "posted_title": "قطر تنفي احتجاز ثلاثة طيارين إيرانيين بعد إسقاط مقاتلاتهم في مارس",
-    "region": "uk",
-    "seen_at": "2026-08-16T07:01:48.739847+00:00"
-  },
-  {
-    "score": 26.12,
-    "bucket": "serious",
-    "tokens": [
-      "coast",
-      "crisis",
-      "deepens",
-      "hormuz",
-      "iran",
-      "oil",
-      "shipping",
-      "slick",
-      "threatens"
-    ],
-    "link": "https://www.malaymail.com/news/world/2026/08/16/oil-slick-threatens-irans-coast-as-hormuz-shipping-crisis-deepens/231533",
-    "title": "Oil slick threatens Iran’s coast as Hormuz shipping crisis deepens",
-    "posted_title": "إيران تكافح تسربًا نفطيًا كبيرًا قرب جزيرة قشم وسط أزمة ملاحية في مضيق هرمز",
-    "region": "my",
-    "seen_at": "2026-08-16T07:02:40.407089+00:00"
-  },
-  {
-    "score": 20.86,
-    "bucket": "serious",
-    "tokens": [
-      "end",
-      "korea",
-      "north",
-      "officially",
-      "proposes",
-      "south",
-      "talks",
-      "war"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c8en2z9jp2xo?at_medium=RSS&at_campaign=rss",
-    "title": "South Korea proposes talks to officially end war with North",
-    "posted_title": "لماذا اقترح رئيس كوريا الجنوبية إنهاء الحرب مع الشمال رسميًا الآن",
-    "region": "uk",
-    "seen_at": "2026-08-16T07:03:36.939664+00:00"
-  },
-  {
-    "score": 28.67,
-    "bucket": "serious",
-    "tokens": [
-      "back",
-      "declare",
-      "fires",
-      "hormuz",
-      "iran",
-      "territory",
-      "threat",
-      "trump's"
-    ],
-    "link": "https://www.thehindu.com/news/international/iran-fires-back-at-trumps-threat-to-declare-hormuz-a-us-territory/article71350593.ece",
-    "title": "Iran fires back at Trump's threat to declare Hormuz a U.S. territory",
-    "posted_title": "إيران: مضيق هرمز سيبقى إيرانيًا بعد تهديد ترامب بإعلانه أرضًا أمريكية",
-    "region": "in",
-    "seen_at": "2026-08-16T07:03:54.510538+00:00"
-  },
-  {
-    "score": 22.42,
-    "bucket": "serious",
-    "tokens": [
-      "continue",
-      "defiant",
-      "hormuz",
-      "iran",
-      "strait",
-      "tensions"
-    ],
-    "link": "https://news.cgtn.com/news/2026-08-15/Iran-defiant-over-Strait-of-Hormuz-as-US-Iran-tensions-continue-1PCIYMzd1G8/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-    "title": "Iran defiant over Strait of Hormuz as US-Iran tensions continue",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-08-16T09:07:50.265503+00:00"
-  },
-  {
-    "score": 17.51,
-    "bucket": "serious",
-    "tokens": [
-      "asks",
-      "colombia",
-      "earthquake",
-      "emergency",
-      "suspend",
-      "tariffs",
-      "washington"
-    ],
-    "link": "https://en.mercopress.com/2026/08/16/colombia-asks-washington-to-suspend-12.5-tariffs-over-the-earthquake-emergency?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-    "title": "Colombia asks Washington to suspend 12.5% tariffs over the earthquake emergency",
-    "posted_title": "",
-    "region": "latam",
-    "seen_at": "2026-08-16T09:07:50.265808+00:00"
-  },
-  {
-    "score": 16.72,
-    "bucket": "sport",
-    "tokens": [
-      "djokovic",
-      "fery",
-      "heat",
-      "return",
-      "struggles",
-      "wins"
-    ],
-    "link": "https://www.bbc.co.uk/sport/tennis/articles/cj033qggmv3o?at_medium=RSS&at_campaign=rss",
-    "title": "Fery wins on return as Djokovic struggles in heat",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-08-16T09:07:50.266085+00:00"
-  },
-  {
-    "score": 16.6,
-    "bucket": "sport",
-    "tokens": [
-      "agustín",
-      "cincinnati",
-      "defeat",
-      "djokovic",
-      "heat",
-      "inflicts",
-      "novak",
-      "shock",
-      "suffers",
-      "thiago",
-      "tirante"
-    ],
-    "link": "https://www.theguardian.com/sport/2026/aug/15/novak-djokovic-suffers-in-cincinnati-heat-as-thiago-agustin-tirante-inflicts-shock-defeat",
-    "title": "Novak Djokovic suffers in Cincinnati heat as Thiago Agustín Tirante inflicts shock defeat",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-08-16T09:07:50.266332+00:00"
-  },
-  {
-    "score": 14.43,
-    "bucket": "serious",
-    "tokens": [
-      "aid",
-      "await",
-      "deadly",
-      "evacuees",
-      "flores",
-      "indonesia's",
-      "island",
-      "quake",
-      "thousands"
-    ],
-    "link": "https://www.france24.com/en/asia-pacific/20260816-thousands-await-aid-after-deadly-indonesian-quake",
-    "title": "Thousands of evacuees await aid after deadly quake on Indonesia's Flores island",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-08-16T09:07:50.266574+00:00"
-  },
-  {
     "score": 26.99,
     "bucket": "serious",
     "tokens": [
@@ -4818,5 +4627,102 @@
     "posted_title": "",
     "region": "cn",
     "seen_at": "2026-08-21T06:08:02.852495+00:00"
+  },
+  {
+    "score": 21.88,
+    "bucket": "serious",
+    "tokens": [
+      "air",
+      "alaska",
+      "crash",
+      "eight",
+      "force",
+      "kills",
+      "military",
+      "plane",
+      "radar",
+      "site"
+    ],
+    "link": "https://www.malaymail.com/news/world/2026/08/21/plane-crash-kills-eight-at-us-air-force-radar-site-in-alaska-military-says/232210",
+    "title": "Plane crash kills eight at US Air Force radar site in Alaska, military says",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-08-21T09:07:52.023767+00:00"
+  },
+  {
+    "score": 16.5,
+    "bucket": "serious",
+    "tokens": [
+      "benefits",
+      "bonds",
+      "buyers",
+      "government",
+      "japan",
+      "retail",
+      "tax",
+      "weighs"
+    ],
+    "link": "https://asia.nikkei.com/business/markets/bonds/japan-weighs-tax-benefits-for-retail-buyers-of-government-bonds",
+    "title": "Japan weighs tax benefits for retail buyers of government bonds",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-08-21T09:07:52.024032+00:00"
+  },
+  {
+    "score": 16.27,
+    "bucket": "serious",
+    "tokens": [
+      "ahead",
+      "canal",
+      "during",
+      "extreme",
+      "limit",
+      "nino",
+      "panama",
+      "shipping",
+      "weather"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/8/21/panama-canal-to-limit-shipping-ahead-of-extreme-weather-during-el-nino?traffic_source=rss",
+    "title": "Panama Canal to limit shipping ahead of extreme weather during El Nino",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-08-21T09:07:52.024278+00:00"
+  },
+  {
+    "score": 16.14,
+    "bucket": "serious",
+    "tokens": [
+      "debt",
+      "first",
+      "national",
+      "past",
+      "surges",
+      "time",
+      "trillion"
+    ],
+    "link": "https://www.dawn.com/news/2024217/us-national-debt-surges-past-40-trillion-for-first-time",
+    "title": "US national debt surges past $40 trillion for first time",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-21T09:07:52.024579+00:00"
+  },
+  {
+    "score": 15.65,
+    "bucket": "serious",
+    "tokens": [
+      "chinese",
+      "discuss",
+      "economic",
+      "indonesian",
+      "issues",
+      "meet",
+      "ministers",
+      "security"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/21/chinese-indonesian-ministers-meet-to-discuss-security-and-economic-issues",
+    "title": "Chinese, Indonesian ministers meet to discuss security and economic issues",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-08-21T09:07:52.024831+00:00"
   }
 ]

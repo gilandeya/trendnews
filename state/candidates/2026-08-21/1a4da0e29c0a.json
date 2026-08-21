@@ -1,0 +1,46 @@
+{
+  "id": "1a4da0e29c0a",
+  "created_at": "2026-08-21T09:07:52.023780+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.5,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Japan weighs tax benefits for retail buyers of government bonds",
+  "link": "https://asia.nikkei.com/business/markets/bonds/japan-weighs-tax-benefits-for-retail-buyers-of-government-bonds",
+  "publishers": [
+    "Nikkei Asia"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Japan weighs tax benefits for retail buyers of government bonds",
+    "link": "https://asia.nikkei.com/business/markets/bonds/japan-weighs-tax-benefits-for-retail-buyers-of-government-bonds",
+    "summary": "",
+    "source_name": "Nikkei Asia",
+    "region": "jp",
+    "weight": 1.0,
+    "published": "2026-08-21T09:07:33.833379+00:00",
+    "image_url": null,
+    "publisher": "Nikkei Asia",
+    "cluster_sources": [
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/business/markets/bonds/japan-weighs-tax-benefits-for-retail-buyers-of-government-bonds"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.499815456055558
+  }
+}

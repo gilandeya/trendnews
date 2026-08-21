@@ -1,0 +1,46 @@
+{
+  "id": "aa5069f0a916",
+  "created_at": "2026-08-21T09:07:52.024042+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.27,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Panama Canal to limit shipping ahead of extreme weather during El Nino",
+  "link": "https://www.aljazeera.com/news/2026/8/21/panama-canal-to-limit-shipping-ahead-of-extreme-weather-during-el-nino?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Panama Canal to limit shipping ahead of extreme weather during El Nino",
+    "link": "https://www.aljazeera.com/news/2026/8/21/panama-canal-to-limit-shipping-ahead-of-extreme-weather-during-el-nino?traffic_source=rss",
+    "summary": "The El Nino weather phenomenon is expected to increase the likelihood of drought and excess heat across the region.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-21T01:12:02+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/21/panama-canal-to-limit-shipping-ahead-of-extreme-weather-during-el-nino?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 5.9958782472222225,
+    "is_stale": false,
+    "score": 16.271448170814814
+  }
+}

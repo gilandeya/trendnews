@@ -1,0 +1,71 @@
+{
+  "id": "8b1c8fa62003",
+  "created_at": "2026-08-21T09:07:52.024287+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.14,
+  "trend_score": 0.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US national debt surges past $40 trillion for first time",
+  "link": "https://www.dawn.com/news/2024217/us-national-debt-surges-past-40-trillion-for-first-time",
+  "publishers": [
+    "Africanews",
+    "CGTN",
+    "Dawn",
+    "MercoPress"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "US national debt surges past $40 trillion for first time",
+    "link": "https://www.dawn.com/news/2024217/us-national-debt-surges-past-40-trillion-for-first-time",
+    "summary": "WASHINGTON: The US gross national debt has surged past $40 trillion for the first time, government data showed on Wednesday, outstripping earlier forecasts at a pace fuelled in part by President Donald Trump’s invalidated tariffs. The uptick in borrowing is a blow to Trump, who promised to cut public spending during his 2024 presidential campaign, and sparked a backlash from US representatives across the political field. The new record comes as longer-term US obligations linked to social security and health care have been growing, while interest payments have climbed as well. Total public debt outstanding stood at $40.05tr at the close of business on Tuesday, according to data released on Wednesday by the Treasury Department. That surpasses an earlier forecast by the Congressional Budget Office that overall borrowing would hit $39.4tr by the end of fiscal year 2026. Rising US debt comes as concerns over inflation and government spending have been driving investor worries, and the cost of borrowing has grown. The war in the Middle East has also piled pressure on Trump, costing the lives of 18 American service members and $37.5 billion in military spending as the nearly six-month-old",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-21T02:46:24+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/210746099160862.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Africanews",
+      "CGTN",
+      "Dawn",
+      "MercoPress"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2024217/us-national-debt-surges-past-40-trillion-for-first-time"
+      },
+      {
+        "name": "MercoPress",
+        "link": "https://en.mercopress.com/2026/08/20/us-gross-national-debt-passes-40-trillion-dollars-for-the-first-time?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/20/us-national-debt-tops-40-trillion-dollars-for-first-time/"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-20/US-national-debt-tops-40-trillion-What-are-the-risks--1PL5iZYyiYw/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/210746099160862.webp",
+      "https://i.dawn.com/thumbnail/2026/08/210746099160862.webp",
+      "https://en.mercopress.com/data/cache/noticias/111205/100x80/trump.jpg",
+      "http://images.euronews.com/articles/stories/09/88/21/52/640x360_cmsv2_d4ea6e5c-0ac1-5c15-a6d4-f9002a0f12d1-9882152.jpg?1787229742",
+      "https://news.cgtn.com/news/2026-08-20/US-national-debt-tops-40-trillion-What-are-the-risks--1PL5iZYyiYw/img/974943f5a8624c798b2a0666ad5348df/974943f5a8624c798b2a0666ad5348df-1920.png",
+      "https://news.cgtn.com/news/2026-08-20/US-national-debt-tops-40-trillion-What-are-the-risks--1PL5iZYyiYw/img/02d1ccabc6d64e019b31cc4d41ae67fc/02d1ccabc6d64e019b31cc4d41ae67fc.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.2224729582687055,
+    "age_hours": 35.0005109325,
+    "is_stale": false,
+    "score": 16.13866481332501
+  }
+}

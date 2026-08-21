@@ -1,0 +1,83 @@
+{
+  "id": "4cdd69938753",
+  "created_at": "2026-08-21T09:07:52.023312+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.88,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Plane crash kills eight at US Air Force radar site in Alaska, military says",
+  "link": "https://www.malaymail.com/news/world/2026/08/21/plane-crash-kills-eight-at-us-air-force-radar-site-in-alaska-military-says/232210",
+  "publishers": [
+    "Malay Mail",
+    "Mehr News",
+    "NDTV — World",
+    "Punch Nigeria",
+    "The Hindu — International",
+    "Vanguard Nigeria"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Plane crash kills eight at US Air Force radar site in Alaska, military says",
+    "link": "https://www.malaymail.com/news/world/2026/08/21/plane-crash-kills-eight-at-us-air-force-radar-site-in-alaska-military-says/232210",
+    "summary": "WASHINGTON, Aug 21 — A plane crash at a remote US Air Force site in Alaska killed eight people yesterday, the mili...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-21T08:42:50+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/21/358223.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Malay Mail",
+      "Mehr News",
+      "NDTV — World",
+      "Punch Nigeria",
+      "The Hindu — International",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/plane-crash-kills-eight-at-us-air-force-site-in-alaska/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/plane-crash-kills-eight-at-us-air-force-site-in-alaska/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/21/plane-crash-kills-eight-at-us-air-force-radar-site-in-alaska-military-says/232210"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/alaska-charter-plane-crash-several-onboard-updates/article71372075.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/charter-plane-carrying-8-crashes-in-us-alaska-report-11938960#publisher=newsstand"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/charter-plane-crash-kills-8-near-remote-radar-site-in-western-alaska-military-says-11939176#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/21/358223.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/Plane.png",
+      "https://th-i.thgim.com/public/incoming/owt3as/article71372079.ece/alternates/LANDSCAPE_1200/Alaska_Plane_Crash_66835.jpg",
+      "https://c.ndtvimg.com/2026-08/a9ifeuvo_plane-crash_625x300_21_August_26.jpeg",
+      "https://c.ndtvimg.com/2023-11/riijiu7g_plane-generic_625x300_24_November_23.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://media.mehrnews.com/d/2026/08/21/4/6140763.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.877224559700508
+  }
+}
