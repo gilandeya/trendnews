@@ -1,0 +1,54 @@
+{
+  "id": "9cc7e7a8967e",
+  "created_at": "2026-08-21T17:07:47.750770+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.43,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Microsoft and Discord subpoenaed over GTA VI gameplay leaks",
+  "link": "https://www.theverge.com/games/983323/grand-theft-auto-vi-gta-leaks-microsoft-discord-subpoenaed",
+  "publishers": [
+    "Folha de S.Paulo",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Microsoft and Discord subpoenaed over GTA VI gameplay leaks",
+    "link": "https://www.theverge.com/games/983323/grand-theft-auto-vi-gta-leaks-microsoft-discord-subpoenaed",
+    "summary": "Following several apparent video leaks of Grand Theft Auto VI, Take-Two Interactive has subpoenaed Microsoft and Discord over content that \"infringes copyrights\" held for the game, Kotaku reports. In the subpoenas, filed on Thursday, Take-Two says copyrighted material includes \"audiovisual content, artwork, images, dialogue, or other creative elements\" and it is looking to identify \"alleged […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-08-21T16:52:56+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Jason_Duval_02.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "Folha de S.Paulo",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/games/983323/grand-theft-auto-vi-gta-leaks-microsoft-discord-subpoenaed"
+      },
+      {
+        "name": "Folha de S.Paulo",
+        "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/cotidiano/2026/08/anpd-abre-caminho-para-volta-das-lives-se-discord-apresentar-medidas-razoaveis.shtml"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Jason_Duval_02.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.433640195333332
+  }
+}
