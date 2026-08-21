@@ -477,6 +477,23 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
                       max_shared_run_words: int, *, repeat_min_count: int = 2,
                       extra_docs: list[dict] | None = None, min_core: int = 5
                       ) -> tuple[bool, str, list[str]]:
+    """غلاف رقيق حول `_check_originality_full` يُبقي التوقيع العام (3-tuple)
+    كما هو تمامًا — لا تغيير سلوكي، ولا حاجة لتعديل أي مستدعٍ قائم (بما
+    فيه اختبارات tests/test_pipeline.py الثمانية والعشرون التي تفكّك القيمة
+    المُعادة إلى ثلاثة متغيّرات). `article.py` وحده يحتاج معلومة "التتابع
+    المخالف" الإضافية (لمحاولة صياغة ثانية، تشخيص Issue #373، تعليق العطل
+    الحادي والعشرون، البند 2) فيستدعي `_check_originality_full` مباشرة —
+    نظير استدعائه القائم أصلًا لدوال خاصة أخرى هنا (`_image_candidates`)."""
+    ok, reason, notes, _offending = _check_originality_full(
+        draft_text, article_body, source_docs, max_shared_run_words,
+        repeat_min_count=repeat_min_count, extra_docs=extra_docs, min_core=min_core)
+    return ok, reason, notes
+
+
+def _check_originality_full(draft_text: str, article_body: str, source_docs: list[dict],
+                            max_shared_run_words: int, *, repeat_min_count: int = 2,
+                            extra_docs: list[dict] | None = None, min_core: int = 5
+                            ) -> tuple[bool, str, list[str], dict | None]:
     """يتحقق أن نص المسودة لا يحمل نسخًا حرفيًا من المقال الملصق ولا من
     مقتطفات المصادر المؤكِّدة (تعليق الموافقة على Issue #334، نقطة 3):
     القاعدة 1 تمنع نقل جملة من المقال، والمقتطفات تدخل البرومبت هنا كنصوص
@@ -496,9 +513,21 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
     اقتباس بين علامتي تنصيص يُستثنى من الفحص بشرط وجوده حرفيًا (بعد
     التطبيع) في أحد مقتطفات المصادر المؤكِّدة — اقتباس منسوب مشروع. اقتباس
     غير موجود في أي مقتطف يُرفض مباشرة بوصفه نسخًا من المقال الملصق، بلا
-    حاجة لفحص التتابع عليه. الرفض هنا نهائي بلا إعادة محاولة: مدخلات
-    الصياغة (الوقائع والمقتطفات) لا تتغيّر بين محاولتين، فتكرار التطابق
-    مرجَّح لا مستبعَد.
+    حاجة لفحص التتابع عليه — بلا `offending` (القيمة الرابعة أدناه): اقتباس
+    مختلَق عطل مضمون لا صياغة يمكن "إصلاحها" بإعادة الترتيب.
+
+    القيمة الرابعة المُعادة (`offending`): عند الرفض النهائي على تتابع من
+    مصدر واحد أو من المقال الملصق تحديدًا (لا رفض الاقتباس)، قاموس
+    {"phrase": التتابع الخام, "draft_sentence": جملة المسودة الكاملة,
+    "match_kind": "source" أو "brief", "source_name"/"source_link": عند
+    match_kind=="source"} — يتيح لمستدعٍ (article.py وحده، تشخيص Issue
+    #373، تعليق العطل الحادي والعشرون، البند 2) محاولة صياغة ثانية واحدة
+    تُمرَّر إليها الجملة المخالفة بعينها كتوجيه صريح لإعادة بنائها. الرفض
+    يبقى نهائيًا **داخل هذه الدالة نفسها** بلا إعادة محاولة ضمنية — مدخلات
+    فحص واحد لا تتغيّر بين نداءين متطابقين؛ التغيّر الوحيد الممكن هو مسودة
+    ثانية مختلفة فعليًا من `article.py`، تُفحَص هنا من جديد بصرامة كاملة لا
+    استثناء لموضع الجملة المُصلَحة وحده. `None` حين لا يوجد `offending`
+    ذو معنى (نجاح الفحص، أو رفض الاقتباس).
 
     استثناء عابر للمصادر (تعليق التنفيذ على PR #340، البند 2): تتابع كلمات
     وارد حرفيًا في مصدرين مستقلين مؤكِّدين فأكثر (بعد توحيد هوية الناشر —
@@ -583,7 +612,7 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
                                   for src_words in normalized_sources):
             return False, (f"اقتباس بين علامتي تنصيص غير موجود حرفيًا في أي "
                            f"مقتطف مصدر مؤكِّد — يُفترض نسخه من المقال الملصق: "
-                           f"«{q[:80]}»"), []
+                           f"«{q[:80]}»"), [], None
         cleaned = cleaned.replace(q, " ")
 
     notes: list[str] = []
@@ -659,9 +688,12 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
                                  if sentence else "")
                 link = source_link_map.get(only_name, "")
                 source_desc = f"{only_name} ({link})" if link else only_name
+                offending = {"phrase": phrase, "draft_sentence": draft_sentence,
+                            "match_kind": "source", "source_name": only_name,
+                            "source_link": link}
                 return False, (f"تطابق لفظي مع مقتطف مصدر مؤكِّد ({source_desc}): "
                                f"{n} كلمة متتالية مشتركة — «{phrase}»"
-                               f"{draft_part}{sentence_part}"), notes
+                               f"{draft_part}{sentence_part}"), notes, offending
             if window in article_ngrams:
                 draft_sentence = _sentence_containing(draft_text, window)
                 draft_part = (f" — الجملة الكاملة في المسودة: «{draft_sentence}»"
@@ -669,9 +701,11 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
                 sentence = _sentence_containing(article_body, window)
                 sentence_part = (f" — الجملة المقابلة في المقال الملصق: «{sentence}»"
                                  if sentence else "")
+                offending = {"phrase": phrase, "draft_sentence": draft_sentence,
+                            "match_kind": "brief"}
                 return False, (f"تطابق لفظي مع المقال الملصق: {n} كلمة متتالية "
-                               f"مشتركة — «{phrase}»{draft_part}{sentence_part}"), notes
-    return True, "", notes
+                               f"مشتركة — «{phrase}»{draft_part}{sentence_part}"), notes, offending
+    return True, "", notes, None
 
 
 # ──────────────────────────── الصياغة من الوقائع ────────────────────────────
