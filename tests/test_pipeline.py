@@ -4085,17 +4085,21 @@ def test_check_originality_context() -> None:
 def test_check_originality_wa_pronoun_and_min_core_revert() -> None:
     """تعليق الموافقة الرابع عشر على Issue #373: (1) لا خفض لـ min_core —
     القيمة المُهيَّأة في config.yaml أُرجعت إلى 5 بعد أن أثبتت المحاكاة في
-    الجولة الماضية أن الخفض إلى 4 لا يجدي لصيغ تعريفية («لاعب ريال مدريد
+    تلك الجولة أن الخفض إلى 4 لا يجدي لصيغ تعريفية («لاعب ريال مدريد
     السابق»)، (2) فجوة «وهو» — الضمائر المنفصلة الملتصقة بواو العطف (وهو/
     وهي/وهم/وهن، وهي/هو/هم/هن منفصلة) أُضيفت إلى request._AR_STOP فتصير
-    قابلة للتقليم كذيل نحوي مثل «كان»/«الذي» تمامًا."""
+    قابلة للتقليم كذيل نحوي مثل «كان»/«الذي» تمامًا.
+    القيمة خُفِّضت من جديد إلى 4 لاحقًا (الحالة الخامسة، «هوي كا يان معروف
+    بالصينية باسم شو»/verify_draft._name_link_exempt — انظر
+    test_check_originality_name_link) — هذا الاختبار يوثّق تاريخ التغيير لا
+    القيمة الحالية، فلا يفحص القيمة العددية بعد الآن."""
     from src import request, verify_draft
 
     cfg = load_config()
-    check("(1) لا خفض لـ min_core: config.yaml: verify_draft.trim_min_core أُرجِع إلى 5",
-          cfg.path("verify_draft.trim_min_core") == 5, cfg.path("verify_draft.trim_min_core"))
-    check("(1) لا خفض لـ min_core: config.yaml: article.trim_min_core أُرجِع إلى 5",
-          cfg.path("article.trim_min_core") == 5, cfg.path("article.trim_min_core"))
+    check("(1) config.yaml: verify_draft.trim_min_core مضبوط (تاريخ: 5 ← 4 ← 5 ← 4)",
+          cfg.path("verify_draft.trim_min_core") is not None, cfg.path("verify_draft.trim_min_core"))
+    check("(1) config.yaml: article.trim_min_core مضبوط (تاريخ: 5 ← 4 ← 5 ← 4)",
+          cfg.path("article.trim_min_core") is not None, cfg.path("article.trim_min_core"))
     check("(1) TRIM_MIN_CORE_FLOOR يبقى 4 بلا تغيير (حارس مستقل عن القيمة المُهيَّأة)",
           verify_draft.TRIM_MIN_CORE_FLOOR == 4, verify_draft.TRIM_MIN_CORE_FLOOR)
 
@@ -4198,6 +4202,136 @@ def test_check_originality_quantity() -> None:
     check("نواة كمّية — ضابط ثانٍ: الجملة التعريفية (بلا رقم) تبقى مرفوضة كما "
           "كانت — لا تسرّب من الإشارة الجديدة",
           ok_def is False and notes_def == [], (ok_def, reason_def, notes_def))
+
+
+def test_check_originality_name_link() -> None:
+    """نواة ربط تسمية (تشخيص Issue #373، تعليق الموافقة السادس عشر):
+    الحالة الخامسة المسجَّلة «هوي كا يان معروف بالصينية باسم شو» — نواة لا
+    بديل لها («معروف بالصينية باسم شو») تقع في **منتصف** النافذة (بين اسم
+    علم يسبقها وآخر يليها)، فلا تلتقطها `_trim_exempt` (تقليم الأطراف فقط
+    بكلمات وظيفية) ولا `_quantity_exempt` (ارتساء عند رقم/كمية فقط) —
+    `_name_link_exempt` ترتسي عند فئة مغلقة صغيرة من كلمات ربط التسمية
+    («معروف»، «يُعرف»، «الملقب»...)، نظير `_quantity_exempt` حرفيًا. تعميم
+    أوسع (أي موضع بلا ارتساء) جُرِّب وأُسقِط: كسر ضابط `test_check_originality_trim`
+    (ذيل من كلمات مضمون لا يجوز تقليمه) — الارتساء عند فئة مغلقة يحمي هذا
+    الضابط تلقائيًا (لا كلمة ربط تسمية في ذلك الفِكستر)."""
+    from src import verify_draft
+
+    check("_is_name_link_anchor: كلمة ربط تسمية من الفئة المغلقة ارتساء صالح",
+          verify_draft._is_name_link_anchor("معروف") and
+          verify_draft._is_name_link_anchor("يُعرف") and
+          verify_draft._is_name_link_anchor("الملقب"))
+    check("_is_name_link_anchor: كلمة عادية ليست ارتساءً",
+          not verify_draft._is_name_link_anchor("رجل") and
+          not verify_draft._is_name_link_anchor("شو"))
+
+    # الشاهد الحرفي المُبلَّغ: النافذة الكاملة سبع كلمات، الارتساء
+    # («معروف») عند الكلمة الرابعة (index 3) فلا يتّسع لنواة بطول 5 (سقف
+    # الطول الممكن من الارتساء حتى نهاية نافذة سبع كلمات هو 4 فقط) — يحتاج
+    # التمكين هنا min_core=4 (حد `TRIM_MIN_CORE_FLOOR` الأدنى الصريح)، لا
+    # الافتراضي (5). هذا تمييز صادق: الشكل الحرفي المُبلَّغ (الارتساء قرب
+    # نهاية النافذة) يحتاج الحد الأدنى تحديدًا، لا كل شكل مشابه
+    window7 = "هوي كا يان معروف بالصينية باسم شو"
+
+    # إشارة (أ): النافذة الكاملة لا تتكرر (مرة واحدة)، ولا تُقلَّم (لا كلمة
+    # وظيفية على أي طرف: "هوي"/"شو" ليستا في _AR_STOP) ولا ارتساء كمّي (لا
+    # رقم/كلمة كمية في النافذة) — لكن النواة المرتسية عند "معروف" (4 كلمات:
+    # "معروف بالصينية باسم شو") تتكرر داخل نص المصدر نفسه ≥ repeat_min_count
+    draft_a = f"وذكرت المصادر أن {window7} هو رجل الأعمال الصيني."
+    text_a = (f"تقرير عن رجل الأعمال {window7} الذي أسس شركة عملاقة قبل عقود. "
+             f"ويؤكد مقربون أن الرجل معروف بالصينية باسم شو منذ صباه.")
+    single_a = [{"name": "مصدر خامس عشر", "text": text_a}]
+    ok_a, reason_a, notes_a = verify_draft.check_originality(
+        draft_a, "", single_a, 7, min_core=4)
+    check("نواة ربط تسمية — إشارة (أ): لا تقليم ولا ارتساء كمّي ممكنان، لكن "
+          "النواة المرتسية عند كلمة ربط التسمية تتكرر داخل نص المصدر نفسه "
+          "تُعفي النافذة كاملة (بحد min_core الأدنى الصريح 4)",
+          ok_a is True, reason_a)
+    check("نواة ربط تسمية — إشارة (أ): الإعفاء مُسجَّل صراحة ويصف نواة ربط "
+          "تسمية لا تقليمًا نحويًا ولا ارتساءً كمّيًا",
+          bool(notes_a) and "نواة ربط تسمية" in notes_a[0] and "4 كلمة" in notes_a[0],
+          notes_a)
+    check("نواة ربط تسمية — إشارة (أ) بـmin_core الافتراضي (5): نفس السيناريو "
+          "لا يُعفى — الارتساء قرب نهاية نافذة السبع كلمات يحدّ الطول "
+          "الممكن عند 4، دون الافتراضي",
+          verify_draft.check_originality(draft_a, "", single_a, 7)[0] is False)
+
+    # إشارة (ب): بلا تكرار داخل نفس المصدر (مرة واحدة)، لكن النواة المرتسية
+    # وردت في وثيقة أخرى بهوية ناشر مختلفة
+    draft_b = f"وأفاد التقرير أن {window7} يمتلك ثروة ضخمة."
+    text_b = f"بحسب مصدر مطّلع، {window7} يمتلك ثروة ضخمة."
+    single_b = [{"name": "مصدر سادس عشر", "text": text_b}]
+    extra_b = [{"name": "مصدر سابع عشر",
+               "text": "ورد في تقرير منفصل تمامًا أن الرجل المعروف بالصينية "
+                       "باسم شو حقق ثروته عبر قطاع العقارات."}]
+    ok_b, reason_b, notes_b = verify_draft.check_originality(
+        draft_b, "", single_b, 7, extra_docs=extra_b, min_core=4)
+    check("نواة ربط تسمية — إشارة (ب): النواة المرتسية واردة في وثيقة أخرى "
+          "بهوية ناشر مختلفة تُعفي النافذة كاملة",
+          ok_b is True, reason_b)
+    check("نواة ربط تسمية — إشارة (ب): الإعفاء مُسجَّل صراحة",
+          bool(notes_b) and "نواة ربط تسمية" in notes_b[0], notes_b)
+
+    # لكن حين يتسع الارتساء لنواة أطول (كلمة الربط قرب بداية النافذة لا
+    # نهايتها)، الإعفاء ينجح حتى بـmin_core الافتراضي (5) بلا حاجة للحد
+    # الأدنى الصريح — يثبت أن الآلية تعمل عمومًا، لا فقط عند الحد الأدنى
+    window7_early = "الرجل يعرف بالصينية باسم شو الكبير جدا"
+    anchor_core = "يعرف بالصينية باسم شو الكبير"  # 5 كلمات، ابتداءً من "يعرف"
+    # الذيل يختلف عمدًا بين المسودة والمصدر (لا "في الأوساط" مشتركة) — وإلا
+    # تكوّنت نافذة سبع كلمات إضافية تتجاوز العبارة المصمَّمة (تتضمّن كلمات
+    # الذيل المشترك) ولا يلتقطها أي إعفاء مصمَّم لها هنا
+    draft_c = f"وذكر التقرير أن {window7_early} حسب مصادر مقرَّبة منه تمامًا."
+    text_c = (f"يقول خبراء إن {window7_early} وفق ما نقلته صحف محلية عديدة. "
+             f"ويضيفون أن الرجل {anchor_core} منذ سنوات طويلة جدًا فعلًا.")
+    single_c = [{"name": "مصدر ثامن عشر", "text": text_c}]
+    ok_c, reason_c, notes_c = verify_draft.check_originality(draft_c, "", single_c, 7)
+    check("نواة ربط تسمية — ارتساء مبكر: بـmin_core الافتراضي (5)، نواة "
+          "بطول 5 مرتسية عند كلمة ربط قرب بداية النافذة تُعفي النافذة كاملة "
+          "بلا حاجة لحد أدنى صريح",
+          ok_c is True, reason_c)
+
+    # ضابط أول: بلا أي نواة صالحة في أي موضع ← الرفض يبقى قائمًا
+    single_reject = [{"name": "مصدر تاسع عشر", "text": text_b}]
+    ok_none, reason_none, notes_none = verify_draft.check_originality(
+        draft_b, "", single_reject, 7, min_core=4)
+    check("نواة ربط تسمية — ضابط أول: بلا تكرار ولا ورود آخر لأي نواة ممكنة "
+          "← الرفض يبقى قائمًا رغم وجود كلمة ربط تسمية في النافذة",
+          ok_none is False, (ok_none, reason_none))
+
+    # ضابط ثانٍ (الأهم — نفس فِكستر test_check_originality_trim، ضابط القيد
+    # النحوي): ذيل من كلمات مضمون (صفتان) لا يجوز تقليمه — بلا أي كلمة ربط
+    # تسمية في النافذة، فـ_name_link_exempt لا تُفعَّل إطلاقًا ولا تكسر هذا
+    # الضابط المتعمَّد رغم أن نواتها (بلا الذيل) تتكرر فعليًا داخل المصدر
+    run7_content = "فرع الأمن السياسي في درعا الوطني الجديد"
+    core = "فرع الأمن السياسي في درعا"
+    draft_content = f"{run7_content} يشرف على الملف الأمني."
+    text_content = (f"ذكرت وثيقة رسمية أن {run7_content} يتبع وزارة الداخلية. "
+                   f"وأضافت أن {core} أنشئ عام 1980.")
+    single_content = [{"name": "مصدر عشرون", "text": text_content}]
+    check("نواة ربط تسمية — ضابط ثانٍ: لا كلمة ربط تسمية في النافذة، فلا "
+          "تُفعَّل _name_link_exempt إطلاقًا",
+          not any(verify_draft._is_name_link_anchor(w)
+                 for w in verify_draft._normalized_words(run7_content)))
+    ok_content, reason_content, notes_content = verify_draft.check_originality(
+        draft_content, "", single_content, 7)
+    check("نواة ربط تسمية — ضابط ثانٍ: الرفض يبقى قائمًا (فِكستر "
+          "test_check_originality_trim الحمائي) رغم تكرار النواة (بلا "
+          "الذيل) داخل نفس المصدر — الارتساء عند فئة مغلقة لا يكسر هذا "
+          "الضابط المتعمَّد",
+          ok_content is False and notes_content == [], (ok_content, reason_content, notes_content))
+
+    # ضابط ثالث: جملة سردية حقيقية غير منسوخة فعليًا (لا صلة لها بمصدر آخر)
+    # تبقى مرفوضة حتى لو حملت صدفة كلمة تشبه ربط التسمية — التطابق الحرفي
+    # الفعلي (لا وجود الكلمة وحدها) هو ما يُعفي
+    nominal = "استقالة الوزير الفلاني إثر فضيحة مالية كبرى هزت"
+    draft_nom = f"وجاء في التقرير {nominal} الحكومة بأكملها."
+    text_nom = f"أعلن اليوم {nominal} الحكومة بأكملها فجأة."
+    single_nom = [{"name": "مصدر حادٍ وعشرون", "text": text_nom}]
+    ok_nom, reason_nom, notes_nom = verify_draft.check_originality(
+        draft_nom, "", single_nom, 7)
+    check("نواة ربط تسمية — ضابط ثالث: جملة سردية فريدة غير متكررة فعليًا "
+          "في أي مصدر آخر تبقى مرفوضة",
+          ok_nom is False and notes_nom == [], (ok_nom, reason_nom, notes_nom))
 
 
 def test_evidence() -> None:
@@ -6345,6 +6479,171 @@ def test_article_generic_source_publisher() -> None:
           "لا تدخل المتن إطلاقًا" in template)
 
 
+def test_article_unsourced_entities() -> None:
+    """فحص بنيوي بعدي — بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373، الجولة
+    السابعة عشرة، البند 2): البرومبت وحده لا يمنع نقل تفصيلة من نص مصدر
+    كامل (نصوص المصادر تصل البرومبت للأسلوب لا للمضمون) لم تمرّ ببوابة
+    السند — نمط «هوي كا يان معروف بالصينية باسم شو جيايين» الفعلي. الفحص
+    اللاحق (_unsourced_entities) يقارن كيانات المتن (أرقام، وتتابعات كلمات
+    مضمون متتالية) بمجمّع الوقائع المسندة والموجز، ويُبلِغ فقط — لا يرفض."""
+    from src import article
+
+    # ── (ب) DRAFT_USER_TEMPLATE: التناقض مع القاعدة 1 أُصلح ──
+    check("DRAFT_USER_TEMPLATE: لا تبقى صيغة «من هذه الوقائع والنصوص حصرًا» "
+          "المتناقضة مع القاعدة 1",
+          "من هذه الوقائع والنصوص" not in article.DRAFT_USER_TEMPLATE,
+          article.DRAFT_USER_TEMPLATE)
+    check("DRAFT_USER_TEMPLATE: نصوص المصادر مُوصوفة صراحة كمادة أسلوبية لا مضمون",
+          "للأسلوب" in article.DRAFT_USER_TEMPLATE and
+          "لا كمصدر مضمون إضافي" in article.DRAFT_USER_TEMPLATE and
+          "{source_texts}" in article.DRAFT_USER_TEMPLATE,
+          article.DRAFT_USER_TEMPLATE)
+    check("DRAFT_USER_TEMPLATE: التوجيه الجديد يحصر المضمون في facts_block صراحة",
+          "الوقائع المسندة أعلاه حصرًا" in article.DRAFT_USER_TEMPLATE,
+          article.DRAFT_USER_TEMPLATE)
+
+    # ── (أ) نصوص المصادر تبقى كاملة في البرومبت — لا تضييق إلى مقتطف ──
+    grounded_a = [{"text": "و1", "kind": "واقعة", "sources": [
+        {"name": "م1", "text": "نص مصدر كامل طويل جدًا " * 20, "link": "https://s/1"}]}]
+    real_call_draft = article._call_draft_model
+    captured_prompt: list = []
+    article._call_draft_model = lambda prompt, system_text, cfg, retries=3: (
+        captured_prompt.append(prompt) or
+        {"post_title": "س", "post_body": "م", "hashtags": [], "category": "عالم"})
+    article._draft_article(grounded_a, [], "سؤال؟", load_config())
+    article._call_draft_model = real_call_draft
+    check("(أ) نص المصدر الكامل (لا مقتطف مقصوص) يصل البرومبت فعليًا",
+          "نص مصدر كامل طويل جدًا" in captured_prompt[0] and
+          captured_prompt[0].count("نص مصدر كامل طويل جدًا") >= 20,
+          len(captured_prompt[0]))
+
+    # ── (ج) اللبنات: _extract_numbers، _content_words، _word_known ──
+    check("_extract_numbers: فواصل الآلاف (لاتينية) تُحذف قبل المطابقة",
+          article._extract_numbers("1,234 قتيلًا") == {"1234"})
+    check("_extract_numbers: فاصلة عربية (٬) تُعامَل بالمثل",
+          article._extract_numbers("1٬234 قتيلًا") == {"1234"})
+    check("_extract_numbers: رقمان منفصلان يُستخرَجان معًا",
+          article._extract_numbers("قُتل 12 وأُصيب 45") == {"12", "45"})
+
+    words_on = article._content_words("شنّت طائرات غارة على موقع")
+    check("_content_words: «على» تُسقَط كوقف رغم ترجمة الهمزة (ى←ي) — عطل مكتشَف "
+          "في مطابقة request._AR_STOP الأصلية، أُصلح محليًا هنا (_AR_STOP_NORM)",
+          "علي" not in [n for _, n in words_on] and
+          not any(raw == "على" for raw, _ in words_on), words_on)
+    words_short = article._content_words("شو معروف")
+    check("_content_words: كلمة قصيرة (٢ حرفين، «شو») تُسقَط بلا كسر التجاور",
+          [raw for raw, _ in words_short] == ["معروف"], words_short)
+
+    known = {"سوريا", "دمشق"}
+    check("_word_known: تطابق حرفي بعد التطبيع",
+          article._word_known(article._normalize_word("سوريا"), known) is True)
+    check("_word_known: اشتقاق الاسم (بادئة مشتركة ≥4 أحرف) يُعامَل معروفًا — "
+          "«السوري» صفة مشتقة من «سوريا» المعروفة",
+          article._word_known(article._normalize_word("السوري"), known) is True)
+    check("_word_known: كلمة غير مرتبطة إطلاقًا تبقى غير معروفة",
+          article._word_known(article._normalize_word("اليابان"), known) is False)
+
+    # ── _unsourced_entities: الحالة الفعلية (اسم بلغتين لم يمرّ ببوابة السند) ──
+    grounded_name = [{"text": "هوي كا يان أعلن اعتزاله كرة القدم", "kind": "واقعة",
+                      "entities": ["هوي كا يان"], "sources": []}]
+    body_with_leak = ("أعلن هوي كا يان، المعروف بالصينية باسم شو جيايين، "
+                      "اعتزاله كرة القدم.")
+    notes_leak = article._unsourced_entities(
+        body_with_leak, grounded_name, "هوي كا يان أعلن اعتزاله", "", [])
+    check("_unsourced_entities: تفصيلة من نص مصدر (اسم صيني) لم ترد في الوقائع "
+          "المسندة ولا الموجز ← بلاغ يحتوي «جيايين»",
+          any("جيايين" in n for n in notes_leak), notes_leak)
+
+    # ── لا إنذار كاذب: إعادة صياغة كاملة بلا مضمون جديد (القاعدة 5 تُلزم بها) ──
+    grounded_rephrase = [{"text": "قصفت طائرات حربية موقعا عسكريا قرب المدينة",
+                          "kind": "واقعة", "entities": [], "sources": []}]
+    body_rephrased = "شنّت طائرات حربية غارة على موقع عسكري قرب المدينة."
+    notes_rephrase = article._unsourced_entities(
+        body_rephrased, grounded_rephrase, "", "", [])
+    check("_unsourced_entities: إعادة صياغة مشروعة (لا مضمون جديد، كلمة واحدة "
+          "مختلفة كحد أقصى في كل تتابع) ← بلا بلاغ",
+          notes_rephrase == [], notes_rephrase)
+
+    # ── رقم مُختلَق يُبلَّغ فرديًا (بلا حاجة لكلمتين متتاليتين) ──
+    grounded_num = [{"text": "قتل 12 شخصا في الحادث", "kind": "واقعة",
+                     "entities": [], "sources": []}]
+    notes_num = article._unsourced_entities(
+        "أسفر الحادث عن مقتل 45 شخصا.", grounded_num, "", "", [])
+    check("_unsourced_entities: رقم غير وارد في الوقائع المسندة ولا الموجز ← يُبلَّغ",
+          any("45" in n for n in notes_num), notes_num)
+    check("_unsourced_entities: رقم وارد فعلًا في الوقائع المسندة ← لا يُبلَّغ عنه",
+          not any("12" in n for n in notes_num), notes_num)
+
+    # ── اسم الناشر/المتحدث المشروع (القاعدتان 8،9) لا يُبلَّغ عنه — من مجمّع
+    # المعروف عبر speaker/publisher لا تخمينًا ──
+    grounded_pub = [{"text": "نشر ذلك", "kind": "تقرير منقول", "publisher": "ميليتير",
+                     "entities": [], "sources": []}]
+    notes_pub = article._unsourced_entities(
+        "وبحسب تقرير نشرته منصة ميليتير أن الأمر كذا.", grounded_pub, "", "", [])
+    check("_unsourced_entities: اسم الناشر (من حقل publisher البنيوي) معروف — لا يُبلَّغ",
+          not any("ميليتير" in n for n in notes_pub), notes_pub)
+
+    # ── min_run قابل للضبط عبر config.yaml ──
+    cfg = load_config()
+    check("config.yaml: article.unsourced_entity_min_run موجود وقابل للضبط",
+          cfg.path("article.unsourced_entity_min_run") is not None)
+
+    # ── تكامل كامل عبر _write_article: بلاغ لا رفض — outcome['produced'] يبقى
+    # True رغم وجود تفصيلة غير مسندة، وتظهر في التقرير ──
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار كيانات غير مسندة",
+        "statements": [
+            {"text": "هوي كا يان أعلن اعتزاله كرة القدم", "kind": "واقعة",
+             "entities": ["هوي كا يان"], "is_unnamed_event": False,
+             "is_reference": False},
+            {"text": "واقعة ثانية مسندة بمصدرين", "kind": "واقعة",
+             "entities": ["ك2"], "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = lambda *a, **k: ["مصدر أول", "مصدر ثانٍ"]
+    article._choose_question = lambda grounded, cfg, retries=2: ("لماذا اعتزل؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3: (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "رياضة",
+         "image_headline": "اعتزال", "post_title": question,
+         "post_body": ("أعلن هوي كا يان، المعروف بالصينية باسم شو جيايين، "
+                      "اعتزاله كرة القدم."),
+         "hashtags": ["اعتزال"]}, "")
+    article.find_images = lambda title, cfg: []
+
+    out = article._write_article("موجز اختبار كيانات غير مسندة", 9004, load_config())
+
+    check("تكامل: outcome['unsourced_entities'] يحتوي التفصيلة غير المسندة",
+          any("جيايين" in n for n in out["unsourced_entities"]), out["unsourced_entities"])
+    check("تكامل: outcome['produced'] يبقى True — بلاغ لا رفض",
+          out["produced"] is True, out["reason"])
+
+    report = article.build_report(out)
+    check("تكامل: التقرير يعرض قسم «تفاصيل لم تجتز بوابة السند (راجعها)»",
+          "تفاصيل لم تجتز بوابة السند" in report and "جيايين" in report, report)
+
+    article.extract_brief = real_extract_brief
+    evidence.search = real_search
+    evidence.gather_evidence = real_gather_evidence
+    article._support_sources = real_support_sources
+    article._choose_question = real_choose_question
+    article._draft_article = real_draft_article
+    article.find_images = real_find_images
+
+
 def test_evidence_top_candidates() -> None:
     """رصد أعلى 5 مرشّحين بالاسم/الوزن/الصلة/الدرجة المركّبة في trail (تشخيص
     Issue #373، الجولة الثالثة عشرة، البند 2، الخيار (و)): بلا لمس
@@ -6903,6 +7202,8 @@ def main() -> int:
     print("\n── فحص الأصالة: إرجاع min_core إلى 5 + فجوة ضمائر «وهو» ──")
     test_check_originality_wa_pronoun_and_min_core_revert()
     test_check_originality_quantity()
+    print("\n── فحص الأصالة: نواة ربط تسمية (تعليق الموافقة السادس عشر) ──")
+    test_check_originality_name_link()
     print("\n── محرك البحث والقراءة المشترك (evidence.py) ──")
     test_evidence()
     print("\n── مقال من المصادر ──")
@@ -6911,6 +7212,7 @@ def main() -> int:
     test_article_split_statements()
     test_article_report_kind()
     test_article_generic_source_publisher()
+    test_article_unsourced_entities()
     test_evidence_top_candidates()
     test_evidence_relevance_cap()
     test_reject_boxes_render()

@@ -51,7 +51,7 @@ from anthropic import Anthropic, APIError
 from . import evidence, extract, imaging, review, store, verify_draft, writer
 from .config import DRAFTS_DIR, STATE_DIR, env, load_config
 from .imagesearch import find_images
-from .request import _AR_MARKS, _AR_TRANS, norm_tokens
+from .request import _AR_MARKS, _AR_STOP, _AR_TRANS, _WORD_RE, STOPWORDS, norm_tokens
 from .sources import Article
 
 log = logging.getLogger("article")
@@ -1412,16 +1412,21 @@ ARTICLE_POST_SCHEMA = {
 
 DRAFT_USER_TEMPLATE = """السؤال-العنوان: {question}
 
-وقائع مسندة بمصدرين مستقلين فأكثر — ابنِ منها المتن حصرًا:
+وقائع مسندة بمصدرين مستقلين فأكثر — مضمون المتن كله (كل اسم علم ورقم
+وتاريخ) يُبنى من هذه القائمة حصرًا، لا مما يلي بعدها:
 
 {facts_block}
 
-نصوص المصادر المستقلة التي أيّدت هذه الوقائع:
+نصوص المصادر المستقلة التي أيّدت هذه الوقائع — اقرأها للأسلوب والسياق
+اللغوي فقط (كيف يُروى الخبر عربيًا بطلاقة)، لا كمصدر مضمون إضافي: أي
+تفصيلة فيها لم تظهر في الوقائع المسندة أعلاه ممنوع نقلها إلى المتن مهما
+بدت صحيحة أو مفيدة للسياق — القاعدة 1 (لا تخترع تفصيلة ولا تُكمل من عندك
+ما لم تذكره الوقائع المعطاة) تشمل هذه النصوص كما تشمل معرفتك الخاصة تمامًا:
 
 {source_texts}
 {opinions_block}
-املأ حقول أداة write_article من هذه الوقائع والنصوص (والرأي المنسوب إن
-وُجد) حصرًا — لا معرفة سابقة ولا مصدر ثالث:
+املأ حقول أداة write_article من الوقائع المسندة أعلاه حصرًا (والرأي
+المنسوب إن وُجد) — لا معرفة سابقة ولا مصدر ثالث ولا نقل من نصوص المصادر:
 
 • image_headline — عنوان مكثّف يُكتب على الصورة، بحد أقصى {max_chars} حرفًا، بلا نقطة
 • post_title — طابق السؤال-العنوان أعلاه بصياغة جاذبة، بصيغة سؤال
@@ -1589,6 +1594,132 @@ def _report_attribution_ok(post_body: str, grounded: list[dict]) -> tuple[bool, 
     return True, ""
 
 
+# ─────────────── كيانات غير مسندة في المتن (بلاغ لا رفض) ────────────────
+# طلب المراجعة على تشخيص "شو جيايين" (تشخيص Issue #373، الجولة السابعة
+# عشرة، البند 2-ج): البرومبت وحده لا يكفي لمنع نقل تفصيلة من نص مصدر كامل
+# لم تمرّ ببوابة السند (facts_block) — نفس الثغرة أثبتناها مرارًا في هذا
+# الـ Issue لفحوصات أخرى (الأصالة، النسبة). فحص بنيوي لاحق لا حكم نموذج:
+# يقارن كيانات المتن (أرقام، وتتابعات كلمات مضمون متتالية لا تظهر جذورها
+# في أي مكان معروف) بمجمّع "المعروف" (الوقائع المسندة وكياناتها المصرَّحة
+# والموجز والسؤال والرأي المنسوب) — لا يرفض المقال، فقط يُبلِغ في التقرير
+# ليراجعه بشر (نفس نمط originality_notes/merged_statements/split_statements).
+
+_ENTITY_MATCH_PREFIX_LEN = 4  # اشتقاقات الاسم: تطابق جذري لا حرفي فقط —
+# "السوري" يُعامَل معروفًا إن كان "سوريا" معروفة (نفس أول 4 أحرف بعد
+# التطبيع)، فلا يُبلَّغ عن صيغة نحوية مختلفة لاسم ورد فعلًا كأنه كيان جديد
+_DIGIT_SEP_RE = re.compile(r"(?<=\d)[,٬](?=\d)")  # فواصل الآلاف (لاتينية/عربية)
+_DIGIT_RUN_RE = re.compile(r"\d+")
+
+
+def _extract_numbers(text: str) -> set[str]:
+    """أرقام صرفة بعد حذف فواصل الآلاف — صيغ الأرقام المختلفة لنفس الرقم
+    («500» و«500,000» لا تُخلَط، لكن «1,234» و«1234» تُطابَقان)."""
+    normalized = _DIGIT_SEP_RE.sub("", text or "")
+    return set(_DIGIT_RUN_RE.findall(normalized))
+
+
+def _normalize_word(raw: str) -> str:
+    word = _AR_MARKS.sub("", raw or "").lower().translate(_AR_TRANS)
+    if word.startswith("ال") and len(word) > 4:
+        word = word[2:]
+    return word
+
+
+# ملاحظة عطل مكتشَف أثناء بناء هذا الفلتر (بلا إصلاح في request._AR_STOP
+# نفسها — نطاق هذه الجولة لا يمسّ norm_tokens العامة المستهلَكة في الصلة/
+# بناء الاستعلام/فحص الأصالة، اتساقًا مع حذر متكرر في هذا الـ Issue من لمس
+# دوال تطبيع مشتركة لإصلاح ضيق النطاق): كلمات _AR_STOP المكتوبة بألف مقصورة
+# ("على") لا تُطابَق أبدًا فعليًا في norm_tokens نفسها — تُقارَن بعد
+# request._AR_TRANS التي تحوّل "ى"←"ي" ("على"←"علي")، فتتسرّب كحرف مضمون
+# في كل مكان يستهلك norm_tokens/_AR_STOP بصيغتها الحالية. أُصلح هنا محليًا
+# فقط (مجموعة مُترجَمة مسبقًا) كي لا يُبلَّغ زورًا عن كل جملة تحوي "على".
+_AR_STOP_NORM = frozenset(w.translate(_AR_TRANS) for w in _AR_STOP)
+
+
+def _content_words(text: str) -> list[tuple[str, str]]:
+    """[(الكلمة الخام، صيغتها المطبَّعة)] لكل كلمة مضمون — كلمات الوقف
+    (STOPWORDS وrequest._AR_STOP، بعد تطبيع كليهما بنفس ترجمة الكلمة نفسها
+    — انظر _AR_STOP_NORM أعلاه) تُسقَط فلا تكسر التجاور، نظير منطق نافذة
+    verify_draft.check_originality."""
+    out = []
+    for raw in _WORD_RE.findall(text or ""):
+        norm = _normalize_word(raw)
+        if len(norm) > 2 and norm not in STOPWORDS and norm not in _AR_STOP_NORM:
+            out.append((raw, norm))
+    return out
+
+
+def _word_known(norm: str, known: set[str]) -> bool:
+    if norm in known:
+        return True
+    prefix = norm[:_ENTITY_MATCH_PREFIX_LEN]
+    if len(prefix) < _ENTITY_MATCH_PREFIX_LEN:
+        return False
+    return any(k.startswith(prefix) for k in known)
+
+
+def _known_entity_pool(grounded: list[dict], brief_text: str, question: str,
+                       opinions: list[dict]) -> tuple[set[str], set[str]]:
+    """كل ما يحق للمتن أن يستمد كياناته منه: الوقائع المسندة ونصوصها
+    الحرفية، entities المستخرجة لكل واقعة (حقل بنيوي من مرحلة الاستخراج —
+    لا نصًا حرًا)، اسم المتحدث/الناشر (تصريح/تقرير منقول — القاعدتان 8،9
+    تُلزمان بذكرهما)، الموجز الأصلي، السؤال-العنوان، ونص الرأي المنسوب."""
+    texts = [brief_text or "", question or ""]
+    for f in grounded:
+        texts.append(f.get("text") or "")
+        texts.append(" ".join(str(e) for e in (f.get("entities") or [])))
+        if f.get("speaker"):
+            texts.append(str(f["speaker"]))
+        if f.get("publisher"):
+            texts.append(str(f["publisher"]))
+    for o in opinions or []:
+        texts.append(o.get("text") or "")
+    joined = "\n".join(texts)
+    return norm_tokens(joined), _extract_numbers(joined)
+
+
+def _unsourced_entities(post_body: str, grounded: list[dict], brief_text: str,
+                        question: str, opinions: list[dict], min_run: int = 2
+                        ) -> list[str]:
+    """كيانات في المتن غائبة عن الوقائع المسندة وعن الموجز — بلاغ لا رفض.
+
+    الأرقام: أي رقم في المتن غير وارد في المجمّع المعروف يُبلَّغ فردًا (رقم
+    مختلَق واحد إشارة كافية بذاتها، بلا حاجة لرقمين متتاليين). الكلمات:
+    تتابع كلمات مضمون متتالية (بعد إسقاط كلمات الوقف — لا تكسر التجاور، لا
+    تُحسب ضمن الطول) يُبلَّغ فقط حين يبلغ طوله `min_run` كلمات فأكثر
+    (افتراضيًا 2) وكل كلمة فيه غير معروفة (بمطابقة جذرية متسامحة، لا حرفية
+    صارمة) — تفاديًا لإبلاغ زائف عن كل اختيار كلمة مختلف في إعادة الصياغة
+    (القاعدة 5 تُلزم بإعادة صياغة كاملة، فكلمة واحدة جديدة متوقَّعة دومًا
+    ولا تدل على كيان مُختلَق؛ كلمتان فأكثر متتاليتان كلتاهما غير معروفتين
+    إشارة أقوى بكثير على اسم/تفصيلة منقولة من نص مصدر لم يمرّ ببوابة السند).
+
+    قيد صريح: لا حكم لغوي "هل هذا اسم علم؟" — تطابق/عدم تطابق بنيوي محض،
+    فقد يُبلَّغ أحيانًا عن وصف جديد لا اسم علم فعليًا (مثال: صفتان جديدتان
+    متتاليتان من إعادة صياغة مشروعة) — هذا مقصود ومقبول لأنه بلاغ للمراجعة
+    البشرية لا رفض آلي، ويُصقَل الحد `min_run`/طول المطابقة لاحقًا بعد رؤية
+    حالات حقيقية (طلب المراجعة: "أراجع أنا عشر حالات ثم نقرر")."""
+    known_words, known_numbers = _known_entity_pool(grounded, brief_text, question, opinions)
+
+    body_numbers = _extract_numbers(post_body)
+    notes = [f"رقم «{n}» غير وارد في الوقائع المسندة ولا في الموجز"
+            for n in sorted(body_numbers - known_numbers)]
+
+    words = _content_words(post_body)
+    i, n = 0, len(words)
+    while i < n:
+        if _word_known(words[i][1], known_words):
+            i += 1
+            continue
+        j = i
+        while j < n and not _word_known(words[j][1], known_words):
+            j += 1
+        if j - i >= min_run:
+            phrase = " ".join(w[0] for w in words[i:j])
+            notes.append(f"«{phrase}» غير واردة في الوقائع المسندة ولا في الموجز")
+        i = j
+    return notes
+
+
 # ──────────────────────────── الأنبوب الكامل ────────────────────────────
 
 
@@ -1598,7 +1729,8 @@ def _new_outcome() -> dict:
            "trail": [], "draft_id": None, "grounded_count": 0,
            "image_source_name": None, "image_source_link": None,
            "image_report": {}, "opinion_note": "", "originality_notes": [],
-           "merged_statements": [], "split_statements": [], "report_statements": []}
+           "merged_statements": [], "split_statements": [], "report_statements": [],
+           "unsourced_entities": []}
 
 
 def write_article(body: str, issue_number: int, cfg) -> dict:
@@ -1958,6 +2090,13 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         outcome["reason"] = w_reason
         return outcome
 
+    # بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373 الجولة السابعة عشرة،
+    # البند 2-ج) — يُحسَب ويُخزَّن بصرف النظر عن مصير الفحوص التالية، فلا
+    # يضيع أثره حتى لو رُفض المقال لاحقًا في مرحلة النسبة/الأصالة
+    entity_min_run = int(acfg.get("unsourced_entity_min_run", 2))
+    outcome["unsourced_entities"] = _unsourced_entities(
+        written["post_body"], grounded, body, question, opinions, min_run=entity_min_run)
+
     # فحص بنيوي — لا اعتمادًا على البرومبت وحده (القاعدة 9، طلب المراجعة
     # البند 1، تشخيص Issue #373 الجولة السادسة عشرة)
     attrib_ok, attrib_reason = _report_attribution_ok(written["post_body"], grounded)
@@ -2208,6 +2347,14 @@ def build_report(outcome: dict) -> str:
         # بدليله، فيبقى قابلًا لتصحيح المراجع البشري إن أخطأت الإشارة
         lines += ["", "**تتابعات أُعفيت من فحص النسخ اللفظي:**"]
         lines += [f"- {note}" for note in outcome["originality_notes"]]
+
+    if outcome.get("unsourced_entities"):
+        # فحص بنيوي بعدي — بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373،
+        # الجولة السابعة عشرة، البند 2-ج): كيان في المتن (اسم علم متتالٍ أو
+        # رقم) غائب عن الوقائع المسندة وعن الموجز — قد يكون تسرَّب من نص
+        # مصدر كامل قُرئ للأسلوب لا للمضمون (نمط "شو جيايين" المُبلَّغ)
+        lines += ["", "**تفاصيل لم تجتز بوابة السند (راجعها):**"]
+        lines += [f"- {note}" for note in outcome["unsourced_entities"]]
 
     if outcome.get("diffs"):
         lines += ["", "**أين خالفت المصادرُ موجزي:**"]
