@@ -1,0 +1,81 @@
+{
+  "id": "61d1d5d04189",
+  "created_at": "2026-08-21T06:08:02.850980+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.13,
+  "trend_score": 1.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "More than 100 dead after goldmine collapses in Central African Republic",
+  "link": "https://www.theguardian.com/world/2026/aug/20/gold-mine-collapse-deadly-landslide-central-african-republic",
+  "publishers": [
+    "Africanews",
+    "AllAfrica",
+    "France24",
+    "Premium Times",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "More than 100 dead after goldmine collapses in Central African Republic",
+    "link": "https://www.theguardian.com/world/2026/aug/20/gold-mine-collapse-deadly-landslide-central-african-republic",
+    "summary": "The collapse was caused by a landslide, while local officials say the death toll is likely to rise as recovery efforts continue More than 100 people have died after an artisanal goldmine at a small village in western Central African Republic (CAR) caved in due to a landslide, local officials and aid workers said on Wednesday. The landslide happened on Tuesday afternoon in the village of Zamboye, about 50km (31 miles) from the town of Baboua and close to the border of Cameroon. Footage on social media appeared to show an avalanche of sand descend on a group of people, likely the miners, and cover them. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-20T00:14:17+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/34be23302ee16b159f4f8f4198d738ec90cd0139/0_272_577_462/master/577.jpg?width=700&quality=85&auto=format&fit=max&s=158e2c24a6e6f5d0494501be1ab11cf3",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Africanews",
+      "AllAfrica",
+      "France24",
+      "Premium Times",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/20/gold-mine-collapse-deadly-landslide-central-african-republic"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260820-gold-mine-collapse-in-central-african-republic-leaves-at-least-100-dead"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202608210071.html"
+      },
+      {
+        "name": "Premium Times",
+        "link": "https://www.premiumtimesng.com/news/top-news/904366-over-100-labourers-killed-in-gold-mine-collapse-in-central-african-republic.html"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/20/death-toll-rises-above-100-in-central-african-republic-mine-collapse/"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202608210008.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/34be23302ee16b159f4f8f4198d738ec90cd0139/0_272_577_462/master/577.jpg?width=700&quality=85&auto=format&fit=max&s=158e2c24a6e6f5d0494501be1ab11cf3",
+      "https://i.guim.co.uk/img/media/34be23302ee16b159f4f8f4198d738ec90cd0139/0_272_577_462/master/577.jpg?width=460&quality=85&auto=format&fit=max&s=7a5c417eb6ad488900ad205d6df42c17",
+      "https://i.guim.co.uk/img/media/34be23302ee16b159f4f8f4198d738ec90cd0139/0_272_577_462/master/577.jpg?width=140&quality=85&auto=format&fit=max&s=16cd3cd114738944300b62bae6a53529",
+      "https://s.france24.com/media/display/37dd4750-9ca0-11f1-9202-005056bfb2b6/w:1024/p:16x9/CAF-gold-mine-Still001.jpg",
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2021/01/Sabon-layi-tin-mining-site.jpg?fit=1080%2C810&amp;ssl=1",
+      "http://images.euronews.com/articles/stories/09/88/06/02/640x360_cmsv2_657726ec-0d47-5a40-ad76-03c8227af293-9880602.jpg?1787203806"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.11114213494589519,
+    "age_hours": 56.00292116583333,
+    "is_stale": false,
+    "score": 23.128560125317488
+  }
+}

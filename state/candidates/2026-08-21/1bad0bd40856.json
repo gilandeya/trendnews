@@ -1,0 +1,48 @@
+{
+  "id": "1bad0bd40856",
+  "created_at": "2026-08-21T06:08:02.851736+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.8,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "No gold standard needed: Method ranks the precision of medical imaging measurements",
+  "link": "https://medicalxpress.com/news/2026-08-gold-standard-method-precision-medical.html",
+  "publishers": [
+    "Medical Xpress"
+  ],
+  "region": "health",
+  "article": {
+    "title": "No gold standard needed: Method ranks the precision of medical imaging measurements",
+    "link": "https://medicalxpress.com/news/2026-08-gold-standard-method-precision-medical.html",
+    "summary": "Advances in medical imaging and artificial intelligence (AI) have revolutionized many aspects of medical practice in recent years. Quantitative measurements derived from medical images are increasingly being used to support diagnosis and clinical decision-making. Consequently, many new quantitative imaging tools, including those based on AI, are being developed.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-08-20T20:20:02+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/technique-evaluates-re.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Medical Xpress"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-08-gold-standard-method-precision-medical.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/technique-evaluates-re.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 7.999828989722222,
+    "is_stale": false,
+    "score": 16.796787387074076
+  }
+}
