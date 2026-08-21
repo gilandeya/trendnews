@@ -1,0 +1,48 @@
+{
+  "id": "8e829ba30f84",
+  "created_at": "2026-08-21T18:07:53.136914+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.04,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "South Africa: Beauty Queen Chidimma Adetshina fights deportation",
+  "link": "http://www.africanews.com/2026/08/21/south-africa-beauty-queen-chidimma-adetshina-fights-deportation/",
+  "publishers": [
+    "Africanews"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "South Africa: Beauty Queen Chidimma Adetshina fights deportation",
+    "link": "http://www.africanews.com/2026/08/21/south-africa-beauty-queen-chidimma-adetshina-fights-deportation/",
+    "summary": "South Africa: Beauty Queen Chidimma Adetshina Fights Deportation",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-21T14:14:28+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/88/34/42/640x360_cmsv2_c00fcac6-8f40-547f-af56-da7c237dbba1-9883442.jpg?1787303261",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/21/south-africa-beauty-queen-chidimma-adetshina-fights-deportation/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/88/34/42/640x360_cmsv2_c00fcac6-8f40-547f-af56-da7c237dbba1-9883442.jpg?1787303261"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.999083805833333,
+    "is_stale": false,
+    "score": 17.040777549185187
+  }
+}
