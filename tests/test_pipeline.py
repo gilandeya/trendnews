@@ -284,6 +284,9 @@ def test_image_report() -> None:
     check("build_post_image: صورة مصدر ناجحة ← بلا فشليات مسجَّلة وبلا احتياط",
           shot2.get("used_original") is True and not shot2.get("candidate_failures") and
           shot2.get("fallback_tried") is False, shot2)
+    check("build_post_image: chosen_url يحمل الرابط الذي نجح فعليًا (إصلاح عطل عزو "
+          "— image_ranked[0] لم تكن دومًا الفائزة)",
+          shot2.get("chosen_url") == "https://ok.example/real.jpg", shot2)
 
     from src import article
     check("article._image_report_lines: صورة ناجحة تُعرض بسطر إيجابي",
@@ -295,6 +298,93 @@ def test_image_report() -> None:
           sum("فشل اختباري" in ln for ln in lines) == 2, lines)
     check("article._image_report_lines: قاموس فارغ (لم تُبنَ صورة أصلًا) لا يُنتج شيئًا",
           article._image_report_lines({}) == [])
+
+    # ── image_pool_source: تمييز صريح بين مصدر مسند واحتياط استبعاد إعادة
+    # النشر (طلب المراجعة، مراجعة بشرية بعد أول نشر، البند 1) ──
+    lines_grounded = article._image_report_lines(
+        {**shot2, "image_pool_source": "grounded"})
+    check("_image_report_lines: pool=grounded يبقي الصياغة الأصلية «مصدر مسند»",
+          any("مصدر مسند مباشرة" in ln for ln in lines_grounded), lines_grounded)
+    lines_reprint = article._image_report_lines(
+        {**shot2, "image_pool_source": "excluded_reprint"})
+    check("_image_report_lines: pool=excluded_reprint يوسم الصورة صراحة كغير دليل إسناد",
+          any("استُبعد من عدّ الاستقلالية" in ln and "ليس دليل إسناد" in ln
+              for ln in lines_reprint), lines_reprint)
+
+    # ── استعلام find_images الفعلي يُطبَع في التقرير عند استدعاء الاحتياط ──
+    lines_terms = article._image_report_lines(
+        {**shot, "fallback_query_terms": ["زوكربيرغ", "القلعة"]})
+    check("_image_report_lines: عبارات استعلام الصورة الاحتياطية تظهر صراحة",
+          any("زوكربيرغ" in ln and "القلعة" in ln for ln in lines_terms), lines_terms)
+    lines_terms_empty = article._image_report_lines(
+        {**shot, "fallback_query_terms": []})
+    check("_image_report_lines: عبارات فارغة (لا كيانات) تُذكر صراحة لا سطر ملتبس",
+          any("لا كيانات مستخرجة" in ln for ln in lines_terms_empty), lines_terms_empty)
+
+    # ── imagesearch.find_images(terms=...) يتجاوز keywords() (عنوان عربي
+    # لا يُنتج شيئًا عبرها أصلًا) — العطل البنيوي المشخَّص (البند 1) ──
+    from src import imagesearch
+    check("imagesearch.keywords: عنوان عربي محض يعيد قائمة فارغة دومًا (السبب "
+          "البنيوي لرجوع find_images بصفر — أحرف لاتينية كبيرة فقط)",
+          imagesearch.keywords("استحوذ زوكربيرغ على القلعة القوطية") == [])
+    # PROVIDERS تربط أسماء الدوال بمراجعها وقت التعريف — تصحيح imagesearch.
+    # search_wikimedia وحدها لا يُغيّر ما تستدعيه find_images فعليًا؛ يجب
+    # تصحيح القاموس نفسه
+    real_providers = dict(imagesearch.PROVIDERS)
+    captured_terms: list = []
+    imagesearch.PROVIDERS["wikimedia"] = lambda q, limit=4, timeout=15: (
+        captured_terms.append(q) or [])
+    imagesearch.PROVIDERS["openverse"] = lambda q, limit=4, timeout=15: []
+    imagesearch.find_images("عنوان عربي لن يُستخرج منه شيء", cfg,
+                            terms=["زوكربيرغ", "القلعة"])
+    imagesearch.PROVIDERS.clear()
+    imagesearch.PROVIDERS.update(real_providers)
+    check("imagesearch.find_images(terms=...): يتجاوز keywords() ويبحث بالعبارات "
+          "المُمرَّرة مباشرة — لا قائمة فارغة رغم عنوان عربي",
+          captured_terms == ["زوكربيرغ", "القلعة"], captured_terms)
+
+    # ── article._image_search_terms: عبارات من entities الوقائع المسندة لا
+    # من central_text (نص عربي، فلغة imagesearch.keywords() لن تلتقطه) ──
+    grounded_terms = [
+        {"text": "استحوذ زوكربيرغ على القلعة", "entities": ["زوكربيرغ", "القلعة القوطية"]},
+        {"text": "القلعة في أيرلندا", "entities": ["القلعة القوطية", "أيرلندا"]},
+    ]
+    terms = article._image_search_terms(grounded_terms)
+    check("_image_search_terms: يجمع entities من كل الوقائع المسندة، بلا تكرار",
+          terms == ["زوكربيرغ", "القلعة القوطية", "أيرلندا"], terms)
+    check("_image_search_terms: يُقصّ عند limit",
+          article._image_search_terms(grounded_terms, limit=2) ==
+          ["زوكربيرغ", "القلعة القوطية"])
+    check("_image_search_terms: وقائع بلا entities تعيد قائمة فارغة بلا انهيار",
+          article._image_search_terms([{"text": "و"}]) == [])
+
+    # ── _reprint_fallback_images/_pool_image_candidates: وثيقة استُبعدت
+    # كإعادة نشر تبقى مرشَّحًا صالحًا للصورة (طلب المراجعة، البند 1) —
+    # الاستبعاد يخصّ عدّ السند لا الصور ──
+    excluded = [{"name": "الجزيرة نت", "link": "https://aj/1", "shared_words": 82}]
+    _now = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    ranked_pool = [
+        Article(title="ت", link="https://aj/1", summary="", source_name="الجزيرة نت",
+               region="global", weight=1.0, published=_now,
+               publisher="الجزيرة نت", image_candidates=["https://aj/img1.jpg"]),
+        Article(title="ت2", link="https://other/2", summary="", source_name="أخرى",
+               region="global", weight=1.0, published=_now,
+               publisher="أخرى", image_candidates=["https://other/img2.jpg"]),
+    ]
+    pool = article._reprint_fallback_images(excluded, ranked_pool)
+    check("_reprint_fallback_images: يلتقط صور الناشر المستبعَد فقط من ranked "
+          "(غير المُصفّاة بالاستبعاد أصلًا) لا كل المرشحين",
+          pool == [{"name": "الجزيرة نت", "link": "https://aj/1",
+                    "image_candidates": ["https://aj/img1.jpg"]}], pool)
+    check("_reprint_fallback_images: بلا excluded_reprints ← قائمة فارغة",
+          article._reprint_fallback_images([], ranked_pool) == [])
+    pool_imgs = article._pool_image_candidates(pool)
+    check("_pool_image_candidates: يحوّل المجمّع إلى (رابط، اسم، رابط المصدر)",
+          pool_imgs == [("https://aj/img1.jpg", "الجزيرة نت", "https://aj/1")], pool_imgs)
+    pool_dup = pool + [{"name": "ناشر آخر", "link": "https://x/1",
+                        "image_candidates": ["https://aj/img1.jpg"]}]
+    check("_pool_image_candidates: يزيل تكرار نفس الرابط عبر مصدرين",
+          len(article._pool_image_candidates(pool_dup)) == 1)
 
 
 def test_google_news_link_decode() -> None:
@@ -4805,7 +4895,7 @@ def test_article() -> None:
     article._ask_answer_model = _fake_answer
     article._choose_question = _fake_choose_question
     article._draft_article = _fake_draft_article
-    article.find_images = lambda title, cfg: []
+    article.find_images = lambda title, cfg, terms=None: []
 
     # ── القاعدة 1: كل واقعة مسندة — بلا سند كافٍ (مصدران مستقلان فأكثر) تسقط ──
     article.extract_brief = lambda body, cfg, retries=3: ({
@@ -6266,6 +6356,17 @@ def test_article_split_event_condition() -> None:
           "440 فدانًا" in article.WRITEUP_EXTRACT_SYSTEM and
           "استحوذ زوكربيرغ على" in article.WRITEUP_EXTRACT_SYSTEM)
 
+    # ── تشديد أولوية entities (طلب المراجعة، مراجعة بشرية بعد أول نشر،
+    # البند 3): أعلام/أرقام/تواريخ أولًا، لا كلمات موضوعية عامة — عالج
+    # عدم حتمية extract_brief جزئيًا بتضييق مساحة الاختيار الحرة ──
+    check("WRITEUP_EXTRACT_SYSTEM: أولوية صريحة للأعلام ثم الأرقام ثم التواريخ",
+          "أولوية ثابتة صارمة" in article.WRITEUP_EXTRACT_SYSTEM and
+          "أسماء الأعلام" in article.WRITEUP_EXTRACT_SYSTEM)
+    check("WRITEUP_EXTRACT_SYSTEM: مثالا المستخدم المضادان («شريان حياة»/«النفط») "
+          "موجودان حرفيًا كتحذير من كلمات موضوعية عامة",
+          "شريان حياة" in article.WRITEUP_EXTRACT_SYSTEM and
+          '"النفط"' in article.WRITEUP_EXTRACT_SYSTEM)
+
     # ── normalize_statement: الشرط الثاني لا يكسر فصلًا مشروعًا لجملة
     # متعددة الأحداث الفعلية (المضادان: حصيلة قتلى، استقالة) — كل جزء منها
     # فعل حدوثي صريح فيبقى split_from محفوظًا كما هو (لا رفض بنيوي جديد) ──
@@ -6358,7 +6459,7 @@ def test_article_split_event_condition() -> None:
                 "hashtags": ["اختبار"]}, "")
 
     article._draft_article = _fake_draft_article_castle
-    article.find_images = lambda title, cfg: []
+    article.find_images = lambda title, cfg, terms=None: []
 
     out = article._write_article("موجز اختبار القلعة", 9004, cfg)
 
@@ -6558,7 +6659,7 @@ def test_article_report_kind() -> None:
     article._support_sources = _fake_support_report
     article._choose_question = _fake_choose_question_report
     article._draft_article = _fake_draft_article_ok
-    article.find_images = lambda title, cfg: []
+    article.find_images = lambda title, cfg, terms=None: []
 
     out = article._write_article("موجز اختبار تصنيف تقرير منقول", 9003, cfg)
 
@@ -6857,6 +6958,25 @@ def test_article_unsourced_entities() -> None:
     check("_unsourced_entities: رقم وارد فعلًا في الوقائع المسندة ← لا يُبلَّغ عنه",
           not any("12" in n for n in notes_num), notes_num)
 
+    # ── الفئات الثلاث (طلب المراجعة، مراجعة بشرية بعد أول نشر، البند 2):
+    # تتابع يحمل كلمة ربط تاريخ (شهر/سنة) يُوسَم "تاريخ" صراحة لا الرسالة
+    # العامة، وتتابع بلا كلمة ربط كهذه يبقى "اسم" ──
+    check("_is_date_run: تتابع يحوي اسم شهر عربي (شباط) يُصنَّف تاريخًا",
+          article._is_date_run([article._normalize_word("شباط"),
+                                article._normalize_word("الماضي")]) is True)
+    check("_is_date_run: تتابع بلا كلمة ربط تاريخ لا يُصنَّف تاريخًا",
+          article._is_date_run([article._normalize_word("جيايين"),
+                                article._normalize_word("لاعب")]) is False)
+    grounded_date = [{"text": "أعلن ذلك", "kind": "واقعة", "entities": [], "sources": []}]
+    notes_date = article._unsourced_entities(
+        "وذلك في 15 شباط الماضي وفق ما ورد.", grounded_date, "", "", [])
+    check("_unsourced_entities: تتابع تاريخ غير مسنَد يُوسَم «تاريخ» صراحة في نص البلاغ",
+          any(n.startswith("تاريخ «") and "شباط" in n for n in notes_date), notes_date)
+    notes_name = article._unsourced_entities(
+        body_with_leak, grounded_name, "هوي كا يان أعلن اعتزاله", "", [])
+    check("_unsourced_entities: تتابع اسم علم (لا تاريخ) يُوسَم «اسم» لا «تاريخ»",
+          any(n.startswith("اسم «") for n in notes_name), notes_name)
+
     # ── اسم الناشر/المتحدث المشروع (القاعدتان 8،9) لا يُبلَّغ عنه — من مجمّع
     # المعروف عبر speaker/publisher لا تخمينًا ──
     grounded_pub = [{"text": "نشر ذلك", "kind": "تقرير منقول", "publisher": "ميليتير",
@@ -6914,7 +7034,7 @@ def test_article_unsourced_entities() -> None:
          "post_body": ("أعلن هوي كا يان، المعروف بالصينية باسم جيايين، "
                       "اعتزاله كرة القدم."),
          "hashtags": ["اعتزال"]}, "")
-    article.find_images = lambda title, cfg: []
+    article.find_images = lambda title, cfg, terms=None: []
 
     out = article._write_article("موجز اختبار كيانات غير مسندة", 9004, load_config())
 
@@ -7361,6 +7481,93 @@ def test_article_reprint_exclusion() -> None:
           "ناشر معيد نشر" in report, report)
 
 
+def test_article_reprint_image_fallback() -> None:
+    """صورة من مصدر استُبعد كإعادة نشر تبقى مرشَّحًا صالحًا للصورة (طلب
+    المراجعة، مراجعة بشرية بعد أول نشر، البند 1): الاستبعاد يخصّ عدّ
+    السند لا صلاحية الصورة. تكامل كامل عبر _write_article — لا اختبار
+    الدوال المساعدة (_reprint_fallback_images/_pool_image_candidates) بمعزل
+    عن الأنبوب الفعلي وحدها، فتُثبَت أن الوصل بينها وبين الحلقة الرئيسية
+    (reprint_image_pool، اختيار image_ranked، image_pool_source) يعمل."""
+    from src import article
+
+    cfg = load_config()
+    passage = " ".join(f"كلمة{i}" for i in range(1, 51))  # ≥ 40 كلمة متجاورة
+    body = f"مقدمة الموجز. {passage}. خاتمة الموجز الملصق هنا للاختبار الكامل."
+    reprint_text = f"نقلاً عن الموجز الأصلي: {passage}. انتهى النقل الحرفي هنا."
+    now = datetime(2026, 1, 1, tzinfo=timezone.utc)
+
+    reprint_article = Article(
+        title="ت", link="https://reprint/1", summary="", source_name="ناشر معيد نشر",
+        region="global", weight=1.0, published=now, publisher="ناشر معيد نشر",
+        image_candidates=["https://aj/img.jpg"])
+    indep_a = Article(
+        title="ت", link="https://a/1", summary="", source_name="مصدر أ",
+        region="global", weight=1.0, published=now, publisher="مصدر أ")
+    indep_b = Article(
+        title="ت", link="https://b/1", summary="", source_name="مصدر ب",
+        region="global", weight=1.0, published=now, publisher="مصدر ب")
+
+    real = {"extract_brief": article.extract_brief, "search": evidence.search,
+           "gather_evidence": evidence.gather_evidence,
+           "support_sources": article._support_sources,
+           "choose_question": article._choose_question,
+           "draft_article": article._draft_article,
+           "find_images": article.find_images}
+
+    article.extract_brief = lambda b, cfg, retries=3: ({
+        "topic": "اختبار احتياط صورة الاستبعاد",
+        "statements": [
+            {"text": "الحدث الأول وقع بالفعل", "kind": "واقعة",
+             "entities": ["كيان أول"], "is_unnamed_event": False, "is_reference": False},
+            {"text": "الحدث الثاني وقع بالفعل أيضًا", "kind": "واقعة",
+             "entities": ["كيان ثانٍ"], "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [
+        reprint_article, indep_a, indep_b]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "ناشر معيد نشر", "text": reprint_text, "link": "https://reprint/1"},
+         {"name": "مصدر أ", "text": "نص مستقل تمامًا عن المصدر أ لا علاقة له بالموجز.",
+          "link": "https://a/1"},
+         {"name": "مصدر ب", "text": "نص مستقل تمامًا عن المصدر ب لا علاقة له بالموجز.",
+          "link": "https://b/1"}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": [d["name"] for d in docs]
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار الاحتياط؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "خبر", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن مُعاد صياغته بالكامل بلا أي تشابه لفظي مع أي مصدر هنا.",
+         "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
+
+    try:
+        out = article._write_article(body, 9009, cfg)
+    finally:
+        article.extract_brief = real["extract_brief"]
+        evidence.search = real["search"]
+        evidence.gather_evidence = real["gather_evidence"]
+        article._support_sources = real["support_sources"]
+        article._choose_question = real["choose_question"]
+        article._draft_article = real["draft_article"]
+        article.find_images = real["find_images"]
+
+    check("احتياط صورة الاستبعاد: المقال يُنتَج فعلًا", out["produced"] is True, out["reason"])
+    ir = out["image_report"]
+    check("احتياط صورة الاستبعاد: image_pool_source=excluded_reprint (كلا المصدرين "
+          "المسندين بلا image_candidates أصلًا — لا بديل إلا مجمّع الاستبعاد)",
+          ir.get("image_pool_source") == "excluded_reprint", ir)
+    check("احتياط صورة الاستبعاد: outcome['image_source_name'] يعزو الصورة للناشر "
+          "المستبعد الصحيح (chosen_url لا image_ranked[0] الافتراضي)",
+          out.get("image_source_name") == "ناشر معيد نشر", out)
+
+    report = article.build_report(out)
+    check("build_report: يذكر صراحة أن الصورة من مصدر مُستبعد لا دليل إسناد",
+          "استُبعد من عدّ الاستقلالية" in report and "ليس دليل إسناد" in report, report)
+
+
 def test_article_originality_retry() -> None:
     """محاولة صياغة ثانية واحدة عند رفض فحص الأصالة (طلب المراجعة، تشخيص
     Issue #373، تعليق العطل الحادي والعشرون، البند 2): المسودة الأولى قد
@@ -7417,7 +7624,7 @@ def test_article_originality_retry() -> None:
                     "post_body": body_text, "hashtags": ["اختبار"]}, "")
 
         article._draft_article = _fake_draft
-        article.find_images = lambda title, cfg: []
+        article.find_images = lambda title, cfg, terms=None: []
         return real, draft_calls
 
     def _teardown(real):
@@ -7891,6 +8098,7 @@ def main() -> int:
     test_article_duplicate_query_reuse()
     test_article_longest_shared_run()
     test_article_reprint_exclusion()
+    test_article_reprint_image_fallback()
     test_article_originality_retry()
     test_reject_boxes_render()
     test_reject_beats_approval()
