@@ -166,8 +166,13 @@ class _ModelCallResult(dict):
 
 class _ModelCallList(list):
     """نظير _ModelCallResult لنداء يعيد قائمة (_support_sources) — قائمة
-    فارغة عند الفشل، بنفس زيف [] القائم، وcall_error لسبب الفشل التقني."""
+    فارغة عند الفشل، بنفس زيف [] القائم، وcall_error لسبب الفشل التقني.
+    mentioned (طلب المراجعة، تشخيص Issue #373، حالة بايراكتار الرابعة):
+    أسماء المصادر التي ناقشت الموضوع بلا مطابقة مضمون — تمييز "لم يُذكر
+    إطلاقًا" عن "ذُكر ولم يطابق" في رسالة السقوط. [] افتراضيًا (فشل تقني،
+    أو نداء قديم في اختبار لا يضبطها)."""
     call_error: str | None = None
+    mentioned: list[str] = []
 
 
 # ──────────────────────────── استخراج بنية الموجز ────────────────────────────
@@ -1037,6 +1042,20 @@ def _name_event(statement: dict, cfg, topic: str = "") -> tuple[str | None, list
 
 # ──────────────────────────── الحكم على السند (القاعدة 1) ────────────────────
 
+# mentioned إلى جانب supporting (طلب المراجعة، تشخيص Issue #373، حالة
+# بايراكتار الرابعة): حين يرجع الحكم صفرًا، "لم يُقرأ نص يتحدث عن الموضوع
+# إطلاقًا" و"قُرئ نص يتحدث عنه لكن لم يطابق مضمون الواقعة/التصريح" عطلان
+# مختلفان تمامًا يحتاجان تشخيصًا مختلفًا — الأول عطل بحث محتمل، الثاني عطل
+# حكم. النموذج يميّز بينهما داخليًا أصلًا (البرومبت ينص صراحة: "مصدر لم يذكر
+# ... إطلاقًا لا يُحسب مؤيدًا ولا مخالفًا") لكن التمييز لم يكن يخرج كحقل
+# منفصل. mentioned تجمع كل مصدر ناقش الموضوع العام ولو لم يطابقه حرفيًا —
+# فرق mentioned - supporting هو "ذكره ولم يطابقه"، وغياب أي مصدر عن mentioned
+# كليًا هو "لم يُذكر إطلاقًا".
+MENTIONED_NOTE = """أخرج أيضًا في mentioned أسماء كل المصادر التي ناقشت
+الموضوع العام (الحدث/المتحدث/التقرير) ولو لم تطابق مضمونه بالضبط أو خالفته
+— لا المصادر المؤيِّدة وحدها. مصدر لم يتطرق للموضوع إطلاقًا لا يدخل
+mentioned أيضًا."""
+
 SUPPORT_SYSTEM = f"""أنت تتحقق هل نصوص مصادر مستقلة تسند واقعة بعينها.
 
 احكم من النصوص المعطاة فقط — لا تستخدم معرفتك الخاصة عن الموضوع. التأييد
@@ -1045,17 +1064,22 @@ SUPPORT_SYSTEM = f"""أنت تتحقق هل نصوص مصادر مستقلة ت�
 أخرج اسم المصدر مجردًا تمامًا كما ورد في وسم '--- المصدر: <الاسم> ---'
 فقط، بلا اختراع أسماء جديدة.
 
+{MENTIONED_NOTE}
+
 {LANGUAGE_NOTE}
 
 استخدم أداة support_fact دائمًا."""
 
 SUPPORT_SCHEMA = {
     "name": "support_fact",
-    "description": "يحدد أي المصادر المعطاة يسند واقعة بعينها",
+    "description": "يحدد أي المصادر المعطاة يسند واقعة بعينها، وأيها ناقشها بلا مطابقة",
     "input_schema": {
         "type": "object",
-        "properties": {"supporting": {"type": "array", "items": {"type": "string"}}},
-        "required": ["supporting"],
+        "properties": {
+            "supporting": {"type": "array", "items": {"type": "string"}},
+            "mentioned": {"type": "array", "items": {"type": "string"}},
+        },
+        "required": ["supporting", "mentioned"],
     },
 }
 
@@ -1076,6 +1100,8 @@ STATEMENT_SUPPORT_SYSTEM = f"""أنت تتحقق هل نصوص مصادر مست
 أخرج اسم المصدر مجردًا تمامًا كما ورد في وسم '--- المصدر: <الاسم> ---'
 فقط، بلا اختراع أسماء جديدة.
 
+{MENTIONED_NOTE}
+
 {LANGUAGE_NOTE}
 
 استخدم أداة support_fact دائمًا."""
@@ -1094,6 +1120,8 @@ REPORT_SUPPORT_SYSTEM = f"""أنت تتحقق هل نص مصدر يعكس مضم
 أن اسم المنصة ورد عرضًا بلا نقل مضمون ما نشرته. مصدر لم يذكر مضمون التقرير
 إطلاقًا لا يُحسب مؤيدًا. أخرج اسم المصدر مجردًا تمامًا كما ورد في وسم
 '--- المصدر: <الاسم> ---' فقط، بلا اختراع أسماء جديدة.
+
+{MENTIONED_NOTE}
 
 {LANGUAGE_NOTE}
 
@@ -1172,7 +1200,9 @@ def _support_sources(fact_text: str, docs: list[dict], cfg,
                 if getattr(b, "type", "") == "tool_use"), None)
     if not isinstance(data, dict):
         return []
-    return evidence._known_only(data.get("supporting"), docs)
+    result = _ModelCallList(evidence._known_only(data.get("supporting"), docs))
+    result.mentioned = evidence._known_only(data.get("mentioned"), docs)
+    return result
 
 
 # ──────────────────────── الإجابة عن أسئلة الموجز (البند 5) ──────────────────
@@ -2459,13 +2489,28 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                                           is_report=is_report, publisher=f.get("publisher", ""))
                          if docs else [])
             fact_call_error = getattr(supporting, "call_error", None)
+            # mentioned (طلب المراجعة، تشخيص Issue #373، حالة بايراكتار
+            # الرابعة): يفصل "لم يُقرأ نص يناقش الموضوع إطلاقًا" (عطل بحث
+            # محتمل) عن "قُرئ نص يناقشه ولم يطابق مضمونه" (عطل حكم) — تمييز
+            # كان يحتاج جولة تشخيص كاملة في كل مرة قبل هذا الحقل
+            fact_mentioned = set(getattr(supporting, "mentioned", []) or [])
             unique = set(supporting)
+
+            def _support_gap_detail() -> str:
+                if not fact_mentioned:
+                    return "لم يذكر أي من المصادر المقروءة الموضوع إطلاقًا"
+                if unique:
+                    return (f"ذكره {len(fact_mentioned)} مصدر وطابق مضمونه "
+                            f"{len(unique)} منها فقط")
+                return f"ذكره {len(fact_mentioned)} مصدر لكن لم يطابق مضمونه أيٌّ منها"
+
             stage = "تقرير" if is_report else ("تصريح" if is_statement else "واقعة")
             outcome_text = (f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
                             if fact_call_error else
                             f"مسندة بـ{len(unique)} مصدر مستقل"
                             if len(unique) >= fact_min_confirm
-                            else f"سند غير كافٍ ({len(unique)}/{fact_min_confirm})")
+                            else f"سند غير كافٍ ({len(unique)}/{fact_min_confirm}) — "
+                                 f"{_support_gap_detail()}")
             if reused_query:
                 # الشفافية أهم من اختصار السجل (طلب المراجعة، تشخيص Issue
                 # #373، تعليق العطل العشرون، البند 1): لا يُحذف السطر رغم
@@ -2500,7 +2545,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                                    "معاد نشرها من عدّ الاستقلالية)")
                 else:
                     drop_reason = (f"سند غير كافٍ ({len(unique)} من {fact_min_confirm} "
-                                   "مصادر مستقلة مطلوبة)")
+                                   f"مصادر مستقلة مطلوبة) — {_support_gap_detail()}")
                 dropped.append({"text": f["text"], "reason": drop_reason})
                 continue
             fact_sources = _grounded_sources(supporting, docs, ranked)
