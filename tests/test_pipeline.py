@@ -6173,6 +6173,159 @@ def test_article_split_statements() -> None:
     article._support_sources = real_support_sources
 
 
+def test_article_split_event_condition() -> None:
+    """شرط ثانٍ لقاعدة الفصل + استبعاد الجمل الوصفية البحتة (تشخيص Issue
+    #373، الجولة التاسعة عشرة، شاهد "القلعة": ست تفاصيل وصفية عن مكتب دبلن
+    فُكِّكت من جملة واحدة وبُحث لكل منها منفردة فرجعت 0 خام ← 0 مطابق —
+    لا يوجد خبر مستقل عن عدد موظفي مكتب أو مساحته). الفصل يقع في مرحلة
+    الاستخراج (WRITEUP_EXTRACT_SYSTEM) لا بتفكيك برمجي لاحق، فهذا الاختبار
+    يتحقق من نص التوجيه الجديد (الشرط الثاني + قاعدة الاستبعاد) ثم يحاكي
+    مخرَج استخراج صحيح تبعًا له (لا فصل ولا استخراج للجملة الوصفية البحتة)
+    ليثبت أن العمارة اللاحقة (البحث، السند، الصياغة) تتعامل معه بلا عطل."""
+    from src import article
+
+    cfg = load_config()
+
+    # ── نص التوجيه: الشرط الثاني (حدث لا وصف) + قاعدة الاستبعاد + الحماية
+    # من الإفراط (تفصيلة ملتصقة بواقعة حدثية في جملتها لا تُنزَع) ──
+    check("WRITEUP_EXTRACT_SYSTEM: الشرط الثاني للفصل — كل جزء يصف حدثًا لا وصفًا",
+          "وكل جزء ناتج عن الفصل يصف" in article.WRITEUP_EXTRACT_SYSTEM and
+          "حدثًا" in article.WRITEUP_EXTRACT_SYSTEM)
+    check("WRITEUP_EXTRACT_SYSTEM: قاعدة استبعاد الجملة الوصفية البحتة من statements",
+          "جملة وصفية بحتة عن كيان مذكور" in article.WRITEUP_EXTRACT_SYSTEM)
+    check("WRITEUP_EXTRACT_SYSTEM: مثال القلعة (1827) موجود في التوجيه",
+          "1827" in article.WRITEUP_EXTRACT_SYSTEM and
+          "16 ألف قدم مربع" in article.WRITEUP_EXTRACT_SYSTEM)
+    check("WRITEUP_EXTRACT_SYSTEM: تحذير صريح من الإفراط في الاستبعاد",
+          "لا تُفرط في هذا الاستبعاد" in article.WRITEUP_EXTRACT_SYSTEM)
+    check("WRITEUP_EXTRACT_SYSTEM: تفصيلة ملتصقة بواقعة حدثية في جملتها لا تُنزَع "
+          "(مثال 440 فدانًا ضمن جملة الاستحواذ نفسها)",
+          "440 فدانًا" in article.WRITEUP_EXTRACT_SYSTEM and
+          "استحوذ زوكربيرغ على" in article.WRITEUP_EXTRACT_SYSTEM)
+
+    # ── normalize_statement: الشرط الثاني لا يكسر فصلًا مشروعًا لجملة
+    # متعددة الأحداث الفعلية (المضادان: حصيلة قتلى، استقالة) — كل جزء منها
+    # فعل حدوثي صريح فيبقى split_from محفوظًا كما هو (لا رفض بنيوي جديد) ──
+    casualties_sentence = "ارتفع عدد القتلى إلى 40 بعد وفاة ثلاثة مصابين متأثرين بجراحهم"
+    part_rise = article.normalize_statement({
+        "text": "ارتفع عدد القتلى إلى 40", "kind": "واقعة",
+        "entities": ["40 قتيلًا"], "is_unnamed_event": False, "is_reference": False,
+        "split_from": casualties_sentence,
+    })
+    part_death = article.normalize_statement({
+        "text": "توفي ثلاثة مصابين متأثرين بجراحهم", "kind": "واقعة",
+        "entities": ["ثلاثة مصابين"], "is_unnamed_event": False, "is_reference": False,
+        "split_from": casualties_sentence,
+    })
+    check("مضاد (حصيلة القتلى): جزءان بفعلين حدوثيين (ارتفع/توفي) يبقيان مفصولين "
+          "— الشرط الثاني لا يبتلع جملًا خبرية حقيقية متعددة الأحداث",
+          part_rise["split_from"] == casualties_sentence and
+          part_death["split_from"] == casualties_sentence,
+          (part_rise, part_death))
+
+    resignation_sentence = "استقال وزير المالية إثر فضيحة فساد وعُيِّن خلفه فورًا"
+    part_resign = article.normalize_statement({
+        "text": "استقال وزير المالية إثر فضيحة فساد", "kind": "واقعة",
+        "entities": ["وزير المالية"], "is_unnamed_event": False, "is_reference": False,
+        "split_from": resignation_sentence,
+    })
+    part_appoint = article.normalize_statement({
+        "text": "عُيِّن خلف لوزير المالية فورًا", "kind": "واقعة",
+        "entities": ["وزير المالية"], "is_unnamed_event": False, "is_reference": False,
+        "split_from": resignation_sentence,
+    })
+    check("مضاد (الاستقالة): جزءان بفعلين حدوثيين (استقال/عُيِّن) يبقيان مفصولين",
+          part_resign["split_from"] == resignation_sentence and
+          part_appoint["split_from"] == resignation_sentence,
+          (part_resign, part_appoint))
+
+    # ── تكامل كامل عبر _write_article: يحاكي مخرَج استخراج صحيح لموجز
+    # القلعة — واقعة الاستحواذ الحدثية الوحيدة (440 فدانًا ملتصقة بنصها/
+    # كياناتها، لا تُنزَع)، وواقعة ثانية مستقلة (لبلوغ min_grounded_facts)،
+    # وبلا أي عنصر statements للجملة الوصفية البحتة (1500 موظف/16 ألف قدم/
+    # ريالتي لابز في كورك) — لأنها استُبعدت في مرحلة الاستخراج نفسها، لا
+    # لأن كودًا لاحقًا صفّاها. الشاهد: لا استعلام بحث يحمل أيًّا من ألفاظها ──
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+
+    acquisition_text = "استحوذ زوكربيرغ على القلعة التي تبلغ مساحتها 440 فدانًا"
+    second_text = "أعلنت ميتا نقل مقرها الأوروبي إلى المبنى الجديد"
+    forbidden = ["1500 موظف", "16 ألف قدم", "ريالتي لابز", "كورك"]
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار استبعاد الجملة الوصفية البحتة",
+        "statements": [
+            {"text": acquisition_text, "kind": "واقعة",
+             "entities": ["زوكربيرغ", "القلعة", "440 فدانًا"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": second_text, "kind": "واقعة",
+             "entities": ["ميتا", "المقر الأوروبي"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+
+    search_queries: list = []
+
+    def _fake_search_castle(query, cfg, days, unrestricted=False):
+        search_queries.append(query)
+        return [object()]
+
+    evidence.search = _fake_search_castle
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": ["مصدر أول", "مصدر ثانٍ"]
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار القلعة؟", "")
+
+    captured_grounded: list = []
+
+    def _fake_draft_article_castle(grounded, opinions, question, cfg, retries=3):
+        captured_grounded.append(grounded)
+        return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+                "image_headline": "عنوان الصورة", "post_title": question,
+                "post_body": f"{acquisition_text}. {second_text}.",
+                "hashtags": ["اختبار"]}, "")
+
+    article._draft_article = _fake_draft_article_castle
+    article.find_images = lambda title, cfg: []
+
+    out = article._write_article("موجز اختبار القلعة", 9004, cfg)
+
+    check("القلعة: لا استعلام بحث واحد يحمل أيًّا من ألفاظ الجملة الوصفية "
+          "البحتة (لأنها لم تُستخرج كعنصر statements إطلاقًا)",
+          not any(any(bad in q for bad in forbidden) for q in search_queries),
+          search_queries)
+    check("القلعة: استعلامان فقط (واحد لكل واقعة حدثية) — لا 6 استعلامات كما في "
+          "الشاهد المُبلَّغ (تفكيك الجملة الوصفية إلى ست تفاصيل)",
+          len(search_queries) == 2, search_queries)
+    check("القلعة: outcome['grounded_count'] يساوي 2 — واقعتان حدثيتان فقط لا ست",
+          out["grounded_count"] == 2, out["grounded_count"])
+    check("القلعة: نص واقعة الاستحواذ الممرَّر إلى الصياغة يبقي 440 فدانًا ملتصقة "
+          "به (تفصيلة داخل جملة حدثية لا تُنزَع، لا مُستبعَدة كالجملة الوصفية البحتة)",
+          bool(captured_grounded) and
+          any("440 فدانًا" in g["text"] for g in captured_grounded[0]),
+          captured_grounded)
+    check("القلعة: outcome['produced'] نجح — واقعتان حدثيتان كافيتان (min_grounded_facts) "
+          "بلا أي حاجة لتفاصيل وصفية إضافية",
+          out["produced"] is True, out["reason"])
+
+    article.extract_brief = real_extract_brief
+    evidence.search = real_search
+    evidence.gather_evidence = real_gather_evidence
+    article._support_sources = real_support_sources
+    article._choose_question = real_choose_question
+    article._draft_article = real_draft_article
+    article.find_images = real_find_images
+
+
 def test_article_report_kind() -> None:
     """تصنيف رابع «تقرير منقول» (تشخيص Issue #373، الجولة السادسة عشرة):
     نقل موجز لتقرير نشرته منصة واحدة بعينها ليس واقعة تحتاج مصدرين مستقلين
@@ -7210,6 +7363,7 @@ def main() -> int:
     test_article()
     test_article_statement_kind()
     test_article_split_statements()
+    test_article_split_event_condition()
     test_article_report_kind()
     test_article_generic_source_publisher()
     test_article_unsourced_entities()
