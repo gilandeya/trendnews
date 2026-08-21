@@ -6962,6 +6962,163 @@ def test_evidence_relevance_cap() -> None:
           sorted_tie[0][0] == "Reuters", sorted_tie)
 
 
+def test_evidence_relevance_display_matches_score() -> None:
+    """الرقم المعروض في trail يجب أن يطابق المستعمل في الترتيب (تشخيص Issue
+    #373، تعليق العطل العشرون، البند 2): top_candidates كانت تعرض "relevance"
+    الخام قبل قصّها عند RELEVANCE_CAP، بينما "score" تُحسب من القيمة
+    المقصوصة — فوزن=0.6 صلة=4 كانا يظهران مع درجة=3.6 (لا 4.6 كما يحسب
+    القارئ يدويًا)، رغم أن الحساب نفسه صحيح والعرض هو المضلِّل.
+    "relevance_used" الجديد هو ما يدخل الجمع فعليًا، ويبقى وزن+relevance_used
+    == score دومًا."""
+    from src import article
+
+    # ── _capped_relevance: وحدة الحساب المشتركة بين _candidate_score
+    # والعرض في top_candidates — قيمة واحدة لا حسابين قد ينفصلان ──
+    check("_capped_relevance: صلة دون السقف تمر بلا تغيير", evidence._capped_relevance(2) == 2)
+    check("_capped_relevance: صلة تساوي السقف تمامًا تمر بلا تغيير",
+          evidence._capped_relevance(int(evidence.RELEVANCE_CAP)) == int(evidence.RELEVANCE_CAP))
+    check("_capped_relevance: صلة=4 تُقصّ إلى RELEVANCE_CAP (الشاهد الحقيقي المُبلَّغ)",
+          evidence._capped_relevance(4) == int(evidence.RELEVANCE_CAP))
+
+    # ── top_candidates: relevance_used موجود، ووزن + relevance_used == score
+    # فعليًا عبر gather_evidence الحقيقية، لمرشّح تتجاوز صلته الخام السقف ──
+    generic = Article(title="روبيرتو كارلوس الإسلام خبر رياضي مطابق لفظيًا حرفيًا للاستعلام كاملًا",
+                      link="https://generic.example/2", summary="", source_name="موقع مجهول",
+                      region="global", weight=1.0, published=datetime.now(timezone.utc),
+                      publisher="موقع مجهول")
+    cfg = load_config()
+    real_extract_gather = extract.gather
+    extract.gather = lambda members, limit=3: ([], [])
+    try:
+        docs, _basis = evidence.gather_evidence([generic], cfg,
+                                                 "روبيرتو كارلوس الإسلام خبر رياضي مطابق")
+    finally:
+        extract.gather = real_extract_gather
+    top = getattr(docs, "top_candidates", [])
+    check("top_candidates: relevance_used موجود في كل عنصر", top and
+          all("relevance_used" in c for c in top), top)
+    check("top_candidates: relevance_used == _capped_relevance(relevance) لكل مرشّح",
+          all(c["relevance_used"] == evidence._capped_relevance(c["relevance"]) for c in top), top)
+    check("top_candidates: وزن + relevance_used == score دومًا — لا فارق راصد كما كان "
+          "(الشاهد المُبلَّغ: وزن=0.6 صلة=4 درجة=3.6 كان يبدو مجموعه 4.6 لا 3.6)",
+          all(abs(c["weight"] + c["relevance_used"] - c["score"]) < 1e-6 for c in top), top)
+
+    # ── build_report: يعرض relevance_used (لا relevance الخام وحده) مع
+    # ذكر الخام بين قوسين فقط حين يختلفان — الشفافية الكاملة بلا تضليل ──
+    mismatched = [{"name": "تطبيق نبض", "weight": 0.6, "relevance": 4,
+                  "relevance_used": 3, "score": 3.6}]
+    matched = [{"name": "برس بي", "weight": 3.0, "relevance": 1,
+               "relevance_used": 1, "score": 4.0}]
+    out = {"produced": False, "reason": "اختبار", "trail": [
+        {"stage": "واقعة", "query": "استعلام اختبار", "basis": evidence.EVIDENCE_FULL_TEXT,
+         "sources": ["تطبيق نبض", "برس بي"], "outcome": "اختبار",
+         "top_candidates": mismatched + matched},
+    ]}
+    report = article.build_report(out)
+    check("build_report: صلة المرشّح المقصوص تُعرض 3 (المُستعمَلة فعليًا) لا 4 "
+          "(الخام) وحدها، مع ذكر الخام بين قوسين للشفافية",
+          "صلة=3 (خام 4)" in report and "درجة=3.6" in report, report)
+    check("build_report: لا يظهر التركيب المضلِّل القديم (صلة=4 مع درجة=3.6 بلا "
+          "أي إشارة أن الصلة قُصَّت)",
+          "صلة=4 درجة=" not in report, report)
+    check("build_report: مرشّح لا فارق فيه بين الخام والمُستعمَل يُعرض رقمًا واحدًا "
+          "بلا قوسين",
+          "صلة=1 درجة=4.0" in report and "صلة=1 (خام" not in report, report)
+
+
+def test_article_duplicate_query_reuse() -> None:
+    """ذاكرة استعلامات هذا التشغيل لحلقة الوقائع (تشخيص Issue #373، تعليق
+    العطل العشرون، البند 1): شاهد فعلي — ثلاث وقائع تشترك في نفس الكيانات
+    (موجز يدور حول شخص واحد) بنت نفس الاستعلام حرفيًا في trail ثلاث مرات،
+    كل مرة ببحث وقراءة مستقلَّين رغم تطابق النتائج والمصادر حرفيًا في كل
+    مرة. التحقق: evidence.search/gather_evidence يُستدعيان مرة واحدة فقط
+    لثلاث وقائع تشترك في الاستعلام نفسه، بينما _support_sources تبقى تُستدعى
+    لكل واقعة بنصها بمعزل عن التخزين المؤقَّت — الحكم على السند لا يُشارَك،
+    الوثائق المقروءة وحدها تُشارَك."""
+    from src import article
+
+    cfg = load_config()
+
+    shared_entities = ["سهيلة الطاهري", "روبرتو كارلوس"]
+    fact_texts = [f"واقعة رقم {i} عن سهيلة الطاهري وروبرتو كارلوس" for i in range(1, 4)]
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+
+    search_calls: list = []
+    gather_calls: list = []
+    support_calls: list = []
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار إعادة استعمال الاستعلام",
+        "statements": [
+            {"text": t, "kind": "واقعة", "entities": shared_entities,
+             "is_unnamed_event": False, "is_reference": False}
+            for t in fact_texts
+        ],
+        "questions": [],
+    }, None)
+
+    def _fake_search(query, cfg, days, unrestricted=False):
+        search_calls.append(query)
+        return [object()]
+
+    def _fake_gather(articles, cfg, claim_text=""):
+        gather_calls.append(claim_text)
+        return ([{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+                  {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}],
+                evidence.EVIDENCE_FULL_TEXT)
+
+    def _fake_support(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
+        support_calls.append(fact_text)
+        return []  # بلا سند — يكفي لاختبار التخزين المؤقَّت بلا حاجة لتشغيل الصياغة كاملة
+
+    evidence.search = _fake_search
+    evidence.gather_evidence = _fake_gather
+    article._support_sources = _fake_support
+
+    try:
+        out = article._write_article("موجز اختبار إعادة استعمال الاستعلام", 9005, cfg)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+
+    check("إعادة استعمال الاستعلام: evidence.search استُدعيت مرة واحدة فقط لثلاث "
+          "وقائع تشترك في نفس الاستعلام (لا ثلاث مرات كالشاهد المُبلَّغ)",
+          len(search_calls) == 1, search_calls)
+    check("إعادة استعمال الاستعلام: evidence.gather_evidence استُدعيت مرة واحدة فقط",
+          len(gather_calls) == 1, gather_calls)
+    check("إعادة استعمال الاستعلام: _support_sources تُستدعى لكل واقعة بنصها الخاص — "
+          "الحكم على السند يبقى مستقلًا رغم مشاركة الوثائق",
+          support_calls == fact_texts, support_calls)
+
+    fact_trail = [t for t in out["trail"] if t["stage"] == "واقعة"]
+    check("trail: ثلاثة أسطر — واحد لكل واقعة — بلا حذف أي سطر رغم إعادة الاستعمال "
+          "(الشفافية أهم من اختصار السجل)",
+          len(fact_trail) == 3, fact_trail)
+    check("trail: الاستعلام نفسه حرفيًا في الأسطر الثلاثة",
+          len({t["query"] for t in fact_trail}) == 1, fact_trail)
+    check("trail: السطر الأول غير مُعاد (بحث فعلي أول مرة)",
+          fact_trail[0].get("reused_query") is False, fact_trail[0])
+    check("trail: السطران الثاني والثالث مُعادان من استعلام سابق (reused_query=True)",
+          fact_trail[1].get("reused_query") is True and
+          fact_trail[2].get("reused_query") is True, fact_trail)
+    check("trail: outcome السطرين المُعادين يذكر صراحة أنهما مُعادان — لا حذف السطر، "
+          "الشفافية أهم من اختصار السجل",
+          "🔁 مُعاد من استعلام سابق" in fact_trail[1]["outcome"] and
+          "🔁 مُعاد من استعلام سابق" in fact_trail[2]["outcome"], fact_trail)
+    check("trail: السطر الأول لا يحمل علامة إعادة في نص outcome",
+          "🔁 مُعاد من استعلام سابق" not in fact_trail[0]["outcome"], fact_trail[0])
+
+    report = article.build_report(out)
+    check("build_report: علامة الإعادة تظهر فعليًا في التقرير المُصيَّر",
+          "🔁 مُعاد من استعلام سابق" in report, report)
+
+
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
     from src import review
@@ -7369,6 +7526,8 @@ def main() -> int:
     test_article_unsourced_entities()
     test_evidence_top_candidates()
     test_evidence_relevance_cap()
+    test_evidence_relevance_display_matches_score()
+    test_article_duplicate_query_reuse()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()

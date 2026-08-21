@@ -333,6 +333,18 @@ def _relevance(article: Article, wanted: set[str], token_fn=norm_tokens) -> int:
 RELEVANCE_CAP = 3.0
 
 
+def _capped_relevance(relevance):
+    """قيمة الصلة الفعلية المُستعملة في _candidate_score بعد القص عند
+    RELEVANCE_CAP — دالّة مستقلة (لا min() مضمَّنة في كل موضع) كي يبقى
+    العرض (top_candidates أدناه) والحساب (_candidate_score) يستعملان نفس
+    الصيغة حرفيًا، لا حسابين منفصلين قد ينفصلان لاحقًا (تشخيص Issue #373،
+    تعليق العطل العشرون، البند 2). بلا تحويل نوع قسري (int) هنا عمدًا: نفس
+    min() الأصلية بالحرف — relevance الحقيقية من _relevance() دومًا int،
+    لكن اختبار تعادل _candidate_sort_key القائم يمرّر قيمًا كسرية عمدًا
+    لبناء تعادل مضبوط تمامًا؛ فرض int هنا كان يكسر ذلك التعادل صامتًا."""
+    return min(relevance, RELEVANCE_CAP)
+
+
 def _candidate_score(weight: float, relevance: int) -> float:
     """درجة مركّبة تجمع وزن الناشر وصلة النص لترتيب مرشّحي القراءة في
     gather_evidence، بدل الفرز التتابعي (-وزن ثم -صلة) الذي أضرّ بالنتيجة
@@ -347,7 +359,7 @@ def _candidate_score(weight: float, relevance: int) -> float:
     يهزم وكالة موثوقة بصلة ضعيفة فعليًا (تشخيص Issue #373، تعليق الموافقة
     الخامس عشر). الوزن نفسه يبقى بلا سقف — فارقه الثابت (2.4) هو ما يعيد
     القص توازنه مع الصلة، لا حاجة لقصّه أيضًا."""
-    return weight + min(relevance, RELEVANCE_CAP)
+    return weight + _capped_relevance(relevance)
 
 
 def _candidate_sort_key(weight: float, relevance: int) -> tuple[float, float]:
@@ -467,9 +479,23 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
 
     # أعلى 5 مرشّحين بعد الفرز — يصل trail عبر top_candidates أدناه (تشخيص
     # Issue #373، الجولة الثالثة عشرة، البند 2): رصد صرف، لا تعديل على
-    # _candidate_score أو ترتيب القراءة نفسه
+    # _candidate_score أو ترتيب القراءة نفسه.
+    #
+    # "relevance" هنا عدد الكلمات المشتركة الخام (إشارة إعلامية: كم كلمة
+    # طابقت فعليًا) — لا القيمة المُستعملة في الدرجة، التي تُقصّ عند
+    # RELEVANCE_CAP قبل الجمع. عرض "relevance" الخام وحده كان يُنتج مجموعًا
+    # (وزن+صلة) لا يطابق "score" المعروضة كلما تجاوزت الصلة السقف — تشخيص
+    # Issue #373، تعليق العطل العشرون، البند 2 (شاهد فعلي: وزن=0.6 صلة=4
+    # درجة=3.6، والقارئ يحسب 4.6 يدويًا فيظن الدرجة خاطئة). "relevance_used"
+    # الجديد هو ما يدخل فعليًا في الجمع (min(r, RELEVANCE_CAP))، فيبقى
+    # weight + relevance_used == score دومًا — القيمة المعروضة تطابق
+    # المستعملة في الترتيب بلا استثناء.
+    # int() هنا آمن ولا يفقد دقة: r الحقيقية من _relevance() أعلاه عدد صحيح
+    # دومًا (عدّ كلمات)، فالقص إما يعيدها كما هي أو يعيد RELEVANCE_CAP نفسها
+    # (3.0 عدد صحيح القيمة) — int() فقط يمنع عرض "3.0" بدل "3" في التقرير
     top_candidates = [
         {"name": n, "weight": round(w, 3), "relevance": r,
+         "relevance_used": int(_capped_relevance(r)),
          "score": round(_candidate_score(w, r), 3)}
         for w, r, n, _ in candidates[:5]
     ]
