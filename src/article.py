@@ -129,6 +129,22 @@ def _is_generic_source_publisher(publisher: str) -> bool:
     عمّا يليه من وصف. مفرد + اسم علم ("قناة الجزيرة") يمرّ."""
     return _publisher_head_word(publisher) in GENERIC_SOURCE_PLURAL_HEADS
 
+
+def _fact_mandatory_query_prefix(f: dict) -> str:
+    """اسم المتحدث (تصريح) أو الناشر (تقرير منقول) — يجب أن يدخل استعلام
+    البحث عن هذا العنصر إلزامًا، لا مجرد كيان بين كيانات أخرى (طلب
+    المراجعة، تشخيص Issue #373، تعليق العطل الثاني والعشرون، البند 1):
+    entities لا تتضمّن بالضرورة اسم المتحدث/الناشر أصلًا (يُستخرَج في حقل
+    speaker/publisher منفصل تمامًا) — استعلام واقعي فقد "Selçuk Bayraktar"
+    (اسم العلم الذي تُفهرس به التغطية فعليًا) لهذا السبب بعينه ورجع صفر
+    نتائج. يُستهلَك في مقدمة نص الاستعلام (المستدعي) كي يُختار قبل أي كيان
+    آخر — الخبر يُفهرس باسم قائله/ناشره قبل أي شيء آخر."""
+    if f.get("kind") == "تصريح":
+        return (f.get("speaker") or "").strip()
+    if f.get("kind") == "تقرير منقول":
+        return (f.get("publisher") or "").strip()
+    return ""
+
 _DIGIT_RE = re.compile(r"\d")
 
 
@@ -2409,8 +2425,22 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                 "existing_supporting": all_supporting,
             })
         else:
-            query = evidence.build_query_for_claim(f, query_max_words)
-            relevance_text = evidence._entities_text(f) or f["text"]
+            # اسم المتحدث (تصريح) أو الناشر (تقرير منقول) يدخل الاستعلام
+            # إلزامًا بلا مزاحمة من كيانات أخرى (طلب المراجعة، تشخيص Issue
+            # #373، تعليق العطل الثاني والعشرون، البند 1): entities لا تتضمّن
+            # بالضرورة اسم المتحدث/الناشر (يُستخرَج في حقل speaker/publisher
+            # منفصل) — شاهد فعلي (تصريح بايراكتار/Baykar): استعلام بلا
+            # "Selçuk Bayraktar" (اسم العلم الذي تُفهرس به التغطية فعليًا)
+            # رجع صفر نتائج، بينما تشغيلة أخرى بالاسم كاملًا وجدت 7. يُبنى
+            # الاسم الإلزامي في مقدمة نص الاستعلام فيُختار قبل أي كيان آخر
+            # (build_query تختار بترتيب الورود حتى الحد الأقصى) — دخول
+            # مضمون لا مجرد مرشَّح ضمن الكيانات الأخرى
+            mandatory_name = _fact_mandatory_query_prefix(f)
+            entities_text = evidence._entities_text(f)
+            query_text = (f"{mandatory_name} {entities_text}".strip() if mandatory_name
+                         else (entities_text or f["text"]))
+            query = evidence.build_query(query_text, query_max_words)
+            relevance_text = query_text
             ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
                 query, f.get("is_reference", False), relevance_text)
             all_read_docs.extend(docs)
