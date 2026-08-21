@@ -1484,6 +1484,13 @@ DRAFT_SYSTEM_TEMPLATE = """أنت محرر يكتب مقالًا عربيًا ل
     رسميًا صادرًا عن جهة الدولة نفسها) لا تدخل المتن إطلاقًا مهما كان
     سندها — لا منسوبة لاسم الناشر ولا بصيغة متحفِّظة. احذفها من المتن
     كليًا؛ هذا نوع محتوى لا تكفي فيه النسبة، فتجاهله كأنه لم يُسند.
+11. المتن نصٌّ إخباري للقارئ فقط — لا تشِر فيه إلى عملية إنتاجه ولا إلى
+    مصطلحات بنية المشروع الداخلية (مثل "الوقائع المسندة"، "المصادر
+    المستقلة"، "السؤال المختار"، "بوابة الاتساق"، "فحص الأصالة")، ولا
+    تعلّق على كفاية الأدلة أو مطابقتها للسؤال المطروح. اكتب الوقائع نفسها
+    مباشرة كخبر، لا كتقرير عن عملية التحقق منها أو اختيارها.
+12. لا فقرة ختامية تلخّص ما سبق أو تعيد صياغته بكلمات مختلفة — المتن ينتهي
+    بآخر واقعة معطاة مباشرة، لا بإعادة تكرار مضمون الفقرات السابقة.
 
 استخدم أداة write_article دائمًا."""
 
@@ -1734,6 +1741,69 @@ def _normalize_word(raw: str) -> str:
     if word.startswith("ال") and len(word) > 4:
         word = word[2:]
     return word
+
+
+# ─────────────── تسرّب مصطلحات بنية النظام إلى المتن (فحص بعدي) ─────────────
+# طلب المراجعة (تشخيص Issue #373، تعليق العطل الثالث والعشرون): متن نُشر
+# فعليًا انتهى بـ"بهذا تكون الوقائع المسندة قد أجابت..." — النموذج يتحدث عن
+# آليته الداخلية للقارئ. القاعدة 11 في DRAFT_SYSTEM_TEMPLATE توجيه فقط؛
+# البرومبت وحده أثبتنا مرارًا في هذا الـ Issue أنه لا يكفي (الأصالة، النسبة،
+# الكيانات غير المسندة) — هذا فحص بنيوي لاحق: قائمة مغلقة صغيرة من مصطلحات
+# النظام (لا قائمة مفتوحة تحتاج صيانة)، مطابَقة على النص بعد نفس تطبيع
+# _normalize_word (تسقط التشكيل وتوحّد الهمزات) فلا يُفلت تصريف نحوي طفيف
+# ("مسنَدة"/"مسندة") من الفحص.
+_SYSTEM_JARGON_TERMS = [
+    "الوقائع المسندة",  # normalize_word تُسقط "ال" فتطابق "وقائع مسندة" ضمنيًا
+    "الوقائع المؤيدة",
+    "السؤال المختار",
+    "السؤال العنوان",
+    "المصادر المستقلة",
+    "مصدرين مستقلين",
+    "بوابة الاتساق",
+    "فحص الأصالة",
+    "الموجز الملصق",
+    "الوقائع المعطاة",
+    "كفاية الأدلة",
+    "الحد الأدنى من المصادر",
+]
+
+
+def _normalize_phrase(text: str) -> str:
+    """نفس تطبيع _normalize_word لكل كلمة، مفصولة بمسافة واحدة — يجعل
+    مطابقة مصطلح متعدد الكلمات غير حسّاسة للتشكيل/شكل الهمزة/عدد المسافات،
+    دون حاجة لمطابقة حرفية صارمة (نظير منطق check_originality).
+
+    التشكيل يُزال من النص كاملًا **قبل** التقطيع إلى كلمات لا بعده: _WORD_RE
+    (\\w) لا يُطابق علامات التشكيل (تصنيف Unicode Mn)، فتشكيلة وسط كلمة
+    ("المسنَدة") كانت لتقسمها _WORD_RE.findall إلى "المسن"+"دة" قبل أن تصل
+    _normalize_word أصلًا — إزالة التشكيل أولًا تمنع هذا الانقسام الزائف."""
+    stripped = _AR_MARKS.sub("", text or "")
+    return " ".join(w for w in (_normalize_word(t) for t in _WORD_RE.findall(stripped)) if w)
+
+
+_SYSTEM_JARGON_NORM = [(term, _normalize_phrase(term)) for term in _SYSTEM_JARGON_TERMS]
+
+
+def _system_jargon_hits(text: str) -> list[str]:
+    """قائمة المصطلحات (بصياغتها الأصلية) الموجودة فعليًا في text — فارغة
+    يعني لا تسرّب. مصفوفة صغيرة مغلقة عمدًا (نظير GENERIC_SOURCE_PLURAL_HEADS)
+    لا تصنيفًا لغويًا عامًا — نفس الحذر المتكرر في هذا الـ Issue من بناء
+    أحكام لغوية هشة؛ قد تفوت صياغة مرادفة لم تُرصَد بعد، وهذا مقبول (فحص
+    إضافي لا بديل عن القاعدة 11)، لا خطر إعفاء نسخ حقيقي كما في فحص الأصالة."""
+    norm = _normalize_phrase(text)
+    if not norm:
+        return []
+    return [term for term, needle in _SYSTEM_JARGON_NORM if needle and needle in norm]
+
+
+def _build_jargon_avoid_note(hits: list[str]) -> str:
+    quoted = "، ".join(f"«{h}»" for h in hits)
+    return (f"\nمحاولة سابقة استعملت في المتن مصطلحات من بنية إنتاج المشروع الداخلية "
+           f"لا من لغة الخبر ({quoted}) — المتن نص إخباري للقارئ، لا تقرير عن آلية "
+           f"إنتاجه أو التحقق منه. أعد الصياغة بالكامل بلا أي إشارة إلى الوقائع بوصفها "
+           f"«مسندة» أو «مؤيَّدة»، ولا إلى مصادرها بوصفها «مستقلة»، ولا أي تعليق على "
+           f"كفاية الأدلة أو السؤال المختار — اكتب الخبر مباشرة كما يُكتب في أي مقال "
+           f"صحفي عادي، بلا أي إشارة لعملية إنتاجه.\n")
 
 
 # ملاحظة عطل مكتشَف أثناء بناء هذا الفلتر (بلا إصلاح في request._AR_STOP
@@ -1998,7 +2068,8 @@ def _new_outcome() -> dict:
            "image_report": {}, "opinion_note": "", "originality_notes": [],
            "merged_statements": [], "split_statements": [], "report_statements": [],
            "unsourced_entities": [],
-           "originality_retry": {"attempted": False, "succeeded": False, "offending_phrase": ""}}
+           "originality_retry": {"attempted": False, "succeeded": False, "offending_phrase": ""},
+           "jargon_retry": {"attempted": False, "succeeded": False, "detected": [], "remaining": []}}
 
 
 def write_article(body: str, issue_number: int, cfg) -> dict:
@@ -2473,6 +2544,52 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     outcome["originality_retry"] = retry_info
     outcome["originality_notes"] = originality_notes
 
+    # تسرّب مصطلحات بنية النظام (طلب المراجعة، تشخيص Issue #373، تعليق
+    # العطل الثالث والعشرون) — على المسودة الحالية (بعد أي نجاح لمحاولة
+    # الأصالة الثانية)، بلا محاولة إن كانت المسودة أصلًا مرفوضة بالأصالة
+    # (توفير كلفة نداء لن يُستفاد منه — النص سيُرفض على أي حال أدناه).
+    # محاولة صياغة ثانية واحدة، بنفس آلية avoid_note القائمة؛ المسودة الجديدة
+    # (إن نجحت في إسقاط المصطلحات) تُفحَص فحص أصالة كامل من جديد أيضًا — هي
+    # نصّ مُولَّد من الصفر، لا امتداد للمسودة التي اجتازت الأصالة سابقًا.
+    # detected: المصطلحات المرصودة أول مرة (للتقرير، ثابتة بلا تصفير) —
+    # remaining: ما تبقّى منها بعد المحاولة (فارغة يعني نجاح أو زوال المصطلحات
+    # ولو فشلت الأصالة لاحقًا) — الامتناع يُبنى على remaining حصرًا فلا
+    # يُنسَب فشل ناتج عن الأصالة إلى تسرّب مصطلحات زالت فعليًا
+    jargon_retry = {"attempted": False, "succeeded": False, "detected": [], "remaining": []}
+    if ok_orig:
+        jargon_hits = _system_jargon_hits(draft_text)
+        if jargon_hits:
+            jargon_retry["attempted"] = True
+            jargon_retry["detected"] = jargon_hits
+            jargon_retry["remaining"] = jargon_hits
+            avoid_note_j = _build_jargon_avoid_note(jargon_hits)
+            written_j, w_reason_j = _draft_article(
+                grounded, opinions, question, cfg, avoid_note=avoid_note_j)
+            if written_j is not None:
+                draft_text_j = _draft_text_of(written_j)
+                hits2 = _system_jargon_hits(draft_text_j)
+                if hits2:
+                    jargon_retry["remaining"] = hits2
+                else:
+                    ok_orig_j, orig_reason_j, notes_j, _off_j = _check_orig(draft_text_j)
+                    if ok_orig_j:
+                        written, draft_text = written_j, draft_text_j
+                        originality_notes = notes_j
+                        outcome["originality_notes"] = notes_j
+                        jargon_retry["succeeded"] = True
+                        jargon_retry["remaining"] = []
+                    else:
+                        ok_orig = False
+                        orig_reason = (f"مسودة إعادة صياغة المصطلحات النظامية فشلت "
+                                       f"فحص الأصالة أيضًا: {orig_reason_j}")
+                        jargon_retry["remaining"] = []
+    outcome["jargon_retry"] = jargon_retry
+
+    if jargon_retry["attempted"] and jargon_retry["remaining"]:
+        outcome["reason"] = (f"مرحلة الصياغة — امتناع: مصطلحات من بنية النظام تسرّبت "
+                             f"إلى المتن ({'، '.join(jargon_retry['remaining'])})")
+        return outcome
+
     # بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373 الجولة السابعة عشرة،
     # البند 2-ج) — على المسودة النهائية (بعد أي محاولة ثانية ناجحة)، فلا
     # يضيع أثره حتى لو رُفض المقال لاحقًا في مرحلة النسبة/الأصالة.
@@ -2772,6 +2889,17 @@ def build_report(outcome: dict) -> str:
         status = "✅ نجحت" if retry.get("succeeded") else "❌ فشلت أيضًا"
         lines += ["", f"🔁 محاولة صياغة ثانية بعد رفض الأصالة — {status}: "
                       f"أُعيدت صياغة الجملة المخالفة «{retry.get('offending_phrase', '')}»"]
+
+    jargon_retry = outcome.get("jargon_retry") or {}
+    if jargon_retry.get("attempted"):
+        # شفافية محاولة الصياغة الثانية لإسقاط مصطلحات النظام (طلب المراجعة،
+        # تشخيص Issue #373، تعليق العطل الثالث والعشرون) — لا نجاح صامت.
+        # detected تُعرض دومًا (ما وُجد أول مرة)؛ الحالة تُبنى على remaining
+        # (فارغة = زالت المصطلحات، ولو فشل المقال لاحقًا بسبب الأصالة)
+        j_status = "✅ زالت" if not jargon_retry.get("remaining") else "❌ تكررت"
+        detected_str = "، ".join(f"«{h}»" for h in jargon_retry.get("detected", []))
+        lines += ["", f"🔁 محاولة صياغة ثانية بعد تسرّب مصطلحات نظام ({detected_str}) — "
+                      f"{j_status}"]
 
     if outcome.get("unsourced_entities"):
         # فحص بنيوي بعدي — بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373،
