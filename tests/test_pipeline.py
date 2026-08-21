@@ -4886,7 +4886,7 @@ def test_article() -> None:
                                  "question": question})
         return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
                 "image_headline": "عنوان الصورة", "post_title": question,
-                "post_body": "متن الاختبار يجيب عن السؤال بالوقائع المسندة كاملة.",
+                "post_body": "متن الاختبار يجيب عن السؤال بوضوح تام كاملة.",
                 "hashtags": ["اختبار"]}, "")
 
     evidence.search = _fake_search
@@ -7685,6 +7685,160 @@ def test_article_originality_retry() -> None:
           "محاولة صياغة ثانية" in report_bad and "❌ فشلت أيضًا" in report_bad, report_bad)
 
 
+def test_article_jargon_leak() -> None:
+    """تسرّب مصطلحات بنية النظام إلى المتن (طلب المراجعة، تشخيص Issue #373،
+    تعليق العطل الثالث والعشرون): متن نُشر فعليًا انتهى بـ"بهذا تكون الوقائع
+    المسندة قد أجابت..." — النموذج يتحدث عن آليته الداخلية للقارئ. القاعدة 11
+    في DRAFT_SYSTEM_TEMPLATE توجيه فقط؛ هذا فحص بنيوي لاحق بنفس آلية إعادة
+    المحاولة القائمة أصلًا لفحص الأصالة (avoid_note/محاولة واحدة/امتناع عند
+    التكرار)، لا برومبتًا وحده."""
+    from src import article
+
+    cfg = load_config()
+
+    # ── وحدة: _system_jargon_hits/_normalize_phrase ──
+    check("_system_jargon_hits: يرصد المصطلح رغم اختلاف التشكيل والهمزة",
+          "الوقائع المسندة" in article._system_jargon_hits("الوقائعُ المسنَدة قد أجابت"),
+          article._system_jargon_hits("الوقائعُ المسنَدة قد أجابت"))
+    check("_system_jargon_hits: نص إخباري عادي بلا أي مصطلح ← قائمة فارغة",
+          article._system_jargon_hits("أعلنت الوزارة ارتفاع الإنتاج خمسة بالمئة") == [],
+          article._system_jargon_hits("أعلنت الوزارة ارتفاع الإنتاج خمسة بالمئة"))
+    check("_system_jargon_hits: يرصد أكثر من مصطلح في نفس النص",
+          {"بوابة الاتساق", "فحص الأصالة"} <= set(
+              article._system_jargon_hits("اجتازت بوابة الاتساق ثم فحص الأصالة بنجاح")),
+          article._system_jargon_hits("اجتازت بوابة الاتساق ثم فحص الأصالة بنجاح"))
+
+    # ── القاعدتان 11 و12 في DRAFT_SYSTEM_TEMPLATE ──
+    check("القاعدة 11: لا إشارة لآلية الإنتاج/مصطلحات النظام في المتن",
+          "مصطلحات بنية المشروع الداخلية" in article.DRAFT_SYSTEM_TEMPLATE,
+          article.DRAFT_SYSTEM_TEMPLATE)
+    check("القاعدة 12: لا فقرة ختامية تلخيصية — المتن ينتهي بآخر واقعة",
+          "لا فقرة ختامية" in article.DRAFT_SYSTEM_TEMPLATE, article.DRAFT_SYSTEM_TEMPLATE)
+
+    # ── تكامل كامل عبر _write_article ──
+    fixed_docs = [
+        {"name": "مصدر رئيسي", "text": "تقرير إخباري عادي بلا أي عبارة خاصة هنا.",
+         "link": "https://main/1"},
+        {"name": "مصدر ثانٍ", "text": "نص عام يؤيد الوقائع بصياغة أخرى تمامًا هنا.",
+         "link": "https://g1/1"},
+    ]
+
+    def _setup(first_body: str, second_body: str = ""):
+        real = {"extract_brief": article.extract_brief, "search": evidence.search,
+               "gather_evidence": evidence.gather_evidence,
+               "support_sources": article._support_sources,
+               "choose_question": article._choose_question,
+               "draft_article": article._draft_article,
+               "find_images": article.find_images}
+        article.extract_brief = lambda b, cfg, retries=3: ({
+            "topic": "اختبار تسرّب مصطلحات النظام",
+            "statements": [
+                {"text": "الحدث الأول وقع بالفعل هنا", "kind": "واقعة",
+                 "entities": ["كيان أول"], "is_unnamed_event": False,
+                 "is_reference": False},
+                {"text": "الحدث الثاني وقع بالفعل أيضًا هنا", "kind": "واقعة",
+                 "entities": ["كيان ثانٍ"], "is_unnamed_event": False,
+                 "is_reference": False},
+            ],
+            "questions": [],
+        }, None)
+        evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+        evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+            list(fixed_docs), evidence.EVIDENCE_FULL_TEXT)
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": [d["name"] for d in docs]
+        article._choose_question = lambda grounded, cfg, retries=2: (
+            "سؤال اختبار المصطلحات؟", "")
+
+        draft_calls: list = []
+
+        def _fake_draft(grounded, opinions, question, cfg, retries=3, avoid_note=""):
+            draft_calls.append(avoid_note)
+            body_text = first_body if len(draft_calls) == 1 else second_body
+            return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+                    "image_headline": "عنوان", "post_title": question,
+                    "post_body": body_text, "hashtags": ["اختبار"]}, "")
+
+        article._draft_article = _fake_draft
+        article.find_images = lambda title, cfg, terms=None: []
+        return real, draft_calls
+
+    def _teardown(real):
+        article.extract_brief = real["extract_brief"]
+        evidence.search = real["search"]
+        evidence.gather_evidence = real["gather_evidence"]
+        article._support_sources = real["support_sources"]
+        article._choose_question = real["choose_question"]
+        article._draft_article = real["draft_article"]
+        article.find_images = real["find_images"]
+
+    # ── سيناريو النجاح: المصطلح يُرصَد أول مرة، المحاولة الثانية نظيفة وتجتاز
+    # فحص الأصالة أيضًا (نصّ مُولَّد من الصفر لا امتداد للأول) ──
+    real1, draft_calls1 = _setup(
+        "بهذا تكون الوقائع المسندة قد أجابت بوضوح عن السؤال المطروح هنا.",
+        "متن نظيف تمامًا يجيب عن السؤال بلا أي إشارة لآلية الإنتاج مطلقًا.")
+    try:
+        out_ok = article._write_article("موجز اختبار تسرّب المصطلحات", 9201, cfg)
+    finally:
+        _teardown(real1)
+
+    check("تسرّب مصطلحات — نجاح: استُدعيت _draft_article مرتين فقط",
+          len(draft_calls1) == 2, draft_calls1)
+    check("تسرّب مصطلحات — نجاح: المحاولة الثانية مُرِّر إليها توجيه يذكر المصطلح المرصود",
+          bool(draft_calls1[1]) and "الوقائع المسندة" in draft_calls1[1], draft_calls1)
+    check("تسرّب مصطلحات — نجاح: outcome['jargon_retry'] يسجّل الرصد والنجاح",
+          out_ok["jargon_retry"]["attempted"] is True and
+          out_ok["jargon_retry"]["succeeded"] is True and
+          "الوقائع المسندة" in out_ok["jargon_retry"]["detected"] and
+          out_ok["jargon_retry"]["remaining"] == [], out_ok["jargon_retry"])
+    check("تسرّب مصطلحات — نجاح: المقال يُنتَج فعلًا بالمسودة الثانية",
+          out_ok["produced"] is True, out_ok["reason"])
+
+    report_ok = article.build_report(out_ok)
+    check("build_report: يعرض نجاح محاولة إسقاط مصطلحات النظام صراحة",
+          "تسرّب مصطلحات نظام" in report_ok and "✅ زالت" in report_ok, report_ok)
+
+    # ── سيناريو الفشل: المحاولة الثانية تكرر مصطلح نظام (ولو مختلفًا) ──
+    real2, draft_calls2 = _setup(
+        "بهذا تكون الوقائع المسندة قد أجابت بوضوح عن السؤال المطروح هنا.",
+        "خبر آخر: اعتمدت الصياغة على مصادر مستقلة تؤكد الحدث كاملًا هنا فعلًا.")
+    try:
+        out_bad = article._write_article("موجز اختبار تسرّب المصطلحات", 9202, cfg)
+    finally:
+        _teardown(real2)
+
+    check("تسرّب مصطلحات — فشل: استُدعيت _draft_article مرتين فقط — لا محاولة ثالثة "
+          "مهما كانت النتيجة",
+          len(draft_calls2) == 2, draft_calls2)
+    check("تسرّب مصطلحات — فشل: outcome['jargon_retry'] يسجّل الفشل مع المصطلحات المتبقية",
+          out_bad["jargon_retry"]["attempted"] is True and
+          out_bad["jargon_retry"]["succeeded"] is False and
+          out_bad["jargon_retry"]["remaining"] == ["المصادر المستقلة"],
+          out_bad["jargon_retry"])
+    check("تسرّب مصطلحات — فشل: امتناع نهائي برسالة تذكر تسرّب المصطلحات المتبقية",
+          out_bad["produced"] is False and
+          "مصطلحات من بنية النظام" in out_bad["reason"] and
+          "المصادر المستقلة" in out_bad["reason"], out_bad["reason"])
+
+    report_bad = article.build_report(out_bad)
+    check("build_report: يعرض فشل محاولة إسقاط مصطلحات النظام صراحة",
+          "تسرّب مصطلحات نظام" in report_bad and "❌ تكررت" in report_bad, report_bad)
+
+    # ── سيناريو بلا تسرّب أصلًا: jargon_retry لا يُحاوَل إطلاقًا — بلا كلفة ──
+    real3, draft_calls3 = _setup("متن نظيف تمامًا بلا أي مصطلح نظام إطلاقًا هنا.")
+    try:
+        out_clean = article._write_article("موجز اختبار تسرّب المصطلحات", 9203, cfg)
+    finally:
+        _teardown(real3)
+
+    check("لا تسرّب أصلًا: استُدعيت _draft_article مرة واحدة فقط — لا كلفة إضافية",
+          len(draft_calls3) == 1, draft_calls3)
+    check("لا تسرّب أصلًا: outcome['jargon_retry'] لم تُحاوَل إطلاقًا",
+          out_clean["jargon_retry"]["attempted"] is False, out_clean["jargon_retry"])
+    check("لا تسرّب أصلًا: المقال يُنتَج فعلًا",
+          out_clean["produced"] is True, out_clean["reason"])
+
+
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
     from src import review
@@ -8100,6 +8254,7 @@ def main() -> int:
     test_article_reprint_exclusion()
     test_article_reprint_image_fallback()
     test_article_originality_retry()
+    test_article_jargon_leak()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()
