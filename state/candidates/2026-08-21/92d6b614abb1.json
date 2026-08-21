@@ -1,0 +1,46 @@
+{
+  "id": "92d6b614abb1",
+  "created_at": "2026-08-21T22:08:18.736667+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.87,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "The Mistral paradox: Europe’s push for tech sovereignty relies on China’s Z.ai",
+  "link": "https://www.scmp.com/news/china/diplomacy/article/3364745/mistral-paradox-europes-push-tech-sovereignty-relies-chinas-zai?utm_source=rss_feed",
+  "publishers": [
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "The Mistral paradox: Europe’s push for tech sovereignty relies on China’s Z.ai",
+    "link": "https://www.scmp.com/news/china/diplomacy/article/3364745/mistral-paradox-europes-push-tech-sovereignty-relies-chinas-zai?utm_source=rss_feed",
+    "summary": "On August 11, a tiny line buried in a lengthy press release from French company Mistral AI spoke volumes about the strategic and technological dilemmas facing the European Union, as the bloc prepares to navigate an autumn period full of geopolitical and trade upheaval. In a bid to roll out “European infrastructure for sovereign AI”, Mistral – Europe’s great hope in the global artificial intelligence race – said it would begin offering other companies’ models, while keeping the service itself...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-08-21T10:30:06+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/china/diplomacy/article/3364745/mistral-paradox-europes-push-tech-sovereignty-relies-chinas-zai?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 15.874370389074075
+  }
+}

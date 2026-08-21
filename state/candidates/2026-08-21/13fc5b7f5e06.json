@@ -1,0 +1,69 @@
+{
+  "id": "13fc5b7f5e06",
+  "created_at": "2026-08-21T22:08:18.736163+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.66,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Turkey seeks Interpol arrest warrant for Netanyahu over Gaza flotilla detention",
+  "link": "https://www.france24.com/en/middle-east/20260821-turkey-seeks-international-arrest-warrant-against-israel-s-netanyahu-over-gaza-flotilla-detention",
+  "publishers": [
+    "France24",
+    "Hindustan Times — World",
+    "Mehr News",
+    "Reuters",
+    "South China Morning Post"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Turkey seeks Interpol arrest warrant for Netanyahu over Gaza flotilla detention",
+    "link": "https://www.france24.com/en/middle-east/20260821-turkey-seeks-international-arrest-warrant-against-israel-s-netanyahu-over-gaza-flotilla-detention",
+    "summary": "Turkey said Friday it is seeking an international arrest warrant from Interpol for Israeli Prime Minister Benjamin Netanyahu as part of a domestic criminal case over Israel's interception and detention of dozens of activists attempting to deliver humanitarian aid to the besieged Gaza Strip in May. In response, Netanyahu's office called Turkish President Recep Tayyip Erdogan an \"anti-Semitic dictator\" and vowed to \"act forcefully against Turkey's attempts to destabilise the region\".",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-21T18:04:40+00:00",
+    "image_url": "https://s.france24.com/media/display/2afc8f5a-9d86-11f1-9994-005056a90284/w:1024/p:16x9/AP26141592813959.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Hindustan Times — World",
+      "Mehr News",
+      "Reuters",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364892/turkey-issues-genocide-warrant-israels-netanyahu-over-gaza-flotilla?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260821-turkey-seeks-international-arrest-warrant-against-israel-s-netanyahu-over-gaza-flotilla-detention"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/erdogan-netanyahu-trade-jabs-after-turkey-seeks-arrest-warrant-for-israel-pm-101787342161686.html"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247136/Turkey-seeks-Interpol-red-notice-for-Netanyahu"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/2afc8f5a-9d86-11f1-9994-005056a90284/w:1024/p:16x9/AP26141592813959.jpg",
+      "https://media.mehrnews.com/d/2026/04/18/4/5991517.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 0.33265510812133325,
+    "age_hours": 4.0066177297222225,
+    "is_stale": false,
+    "score": 17.65850429034283
+  }
+}
