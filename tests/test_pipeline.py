@@ -4997,7 +4997,14 @@ def test_article() -> None:
     SUPPORT_MAP["واقعة أولى مسندة"] = ["مصدر أول", "مصدر ثانٍ"]
     SUPPORT_MAP["واقعة ثانية مسندة"] = ["مصدر أول", "مصدر ثانٍ"]
     seen_search_queries.clear()
-    out2 = article._write_article("موجز اختبار القاعدة 2", 2, cfg)
+    # include_opinion يُضبط صراحة true هنا — هذا الاختبار يتحقق من فصل الرأي
+    # عن الوقائع حين يصل الرأي الصياغة أصلًا، لا من قيمة config.yaml
+    # الافتراضية القابلة للتغيير (حالة إعادة إنتاج فعلية: تعطيلها لاحقًا في
+    # config.yaml لمراجعة بشرية بعد أول نشر كسر هذا الاختبار بلا أي علاقة
+    # بمنطقه — Issue #373، تعليق المراجعة الأخير)
+    cfg_opinion_on = load_config()
+    cfg_opinion_on["article"]["include_opinion"] = True
+    out2 = article._write_article("موجز اختبار القاعدة 2", 2, cfg_opinion_on)
     check("2) الرأي لا يُبحث عنه سند إطلاقًا — لا استعلام بحث يحوي نصه",
           not any("خاطئ" in q for q in seen_search_queries))
     check("2) الرأي يصل مرحلة الصياغة منفصلًا عن الوقائع المسندة لا مندمجًا فيها",
@@ -5027,9 +5034,14 @@ def test_article() -> None:
           "لانعدام سند",
           out2b["opinion_note"] in report2b, report2b)
 
+    # مضبوطة صراحة true هنا أيضًا — لا اعتمادًا على قيمة config.yaml
+    # الافتراضية (المضبوطة اليوم false لمراجعة بشرية)، فيبقى هذا الاختبار
+    # يثبت سلوك الكود عند true بصرف النظر عمّا يُضبط في الملف مستقبلًا
     cfg_with_opinion = load_config()
-    out2c = article._write_article("موجز اختبار الرأي الافتراضي", 2, cfg_with_opinion)
-    check("include_opinion الافتراضي (true) يبقي السلوك الحالي — الرأي يصل الصياغة",
+    cfg_with_opinion["article"]["include_opinion"] = True
+    out2c = article._write_article("موجز اختبار الرأي عند include_opinion=true", 2,
+                                    cfg_with_opinion)
+    check("include_opinion=true صراحة: الرأي يصل الصياغة ولا ملاحظة إسقاط",
           seen_draft_calls[-1]["opinions"] != [] and out2c["opinion_note"] == "",
           (seen_draft_calls[-1]["opinions"], out2c["opinion_note"]))
 
