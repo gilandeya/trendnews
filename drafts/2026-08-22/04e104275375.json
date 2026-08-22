@@ -1,7 +1,7 @@
 {
   "id": "04e104275375",
   "created_at": "2026-08-22T19:37:18.128791+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 13.06,
   "bucket": "serious",
@@ -52,5 +52,12 @@
       "https://c.ndtvimg.com/2025-03/105ucbvg_putin-zelensky-ndtv-_625x300_02_March_25.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
     ]
   },
-  "publish_at": "2026-08-22T20:25:13.163825+00:00"
+  "publish_at": "2026-08-22T20:25:13.163825+00:00",
+  "published_at": "2026-08-22T20:30:59.198578+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1341326808084340",
+    "photo_id": "1341326791417675",
+    "url": "https://www.facebook.com/631680090321390_1341326808084340",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
