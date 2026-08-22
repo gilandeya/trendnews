@@ -1128,6 +1128,149 @@ REPORT_SUPPORT_SYSTEM = f"""أنت تتحقق هل نص مصدر يعكس مضم
 استخدم أداة support_fact دائمًا."""
 
 
+class _PartSupportList(list):
+    """نتيجة _support_statement_parts: قائمة بطول عدد أجزاء التصريح
+    (merged_excerpts)، كل عنصر قائمة أسماء المصادر المؤيِّدة لذلك الجزء
+    تحديدًا — لا حكم شمولي واحد. قائمة فارغة عند الفشل (نظير
+    _ModelCallList)، وcall_error لسبب الفشل التقني — استعمل
+    getattr(result, "call_error", None) للتمييز عن حكم "لا مؤيِّد لأي جزء"
+    فعلي من النموذج."""
+    call_error: str | None = None
+
+
+# معيار الأغلبية لسند "تصريح" مُدمَج من عدة دعاوى (طلب المراجعة، تعليق
+# العطل الرابع والعشرون، تشخيص Issue #373): STATEMENT_SUPPORT_SYSTEM أعلاه
+# يحكم على التصريح **كوحدة واحدة** — شاهد فعلي (خمس دعاوى مُدمَجة، مصدران
+# يغطيان الموضوع فعليًا): الحكم رجع "ذكره 2 مصدر لكن لم يطابق مضمونه
+# أيٌّ منها"، لأن كل مصدر أيّد جزءًا مختلفًا من الخمسة لا التصريح بأكمله،
+# فرفضه الحكم الشمولي كليًا رغم أن كل جزء منه مُغطًّى فعليًا. العلاج: حكم
+# على كل جزء (merged_excerpts) منفردًا هنا، ثم حساب عددي في الكود (لا
+# تصنيف "جوهري/هامشي" من النموذج، _statement_majority أدناه) يقرر أي مصدر
+# يُعامَل كمؤيِّد للتصريح ككل — من أيّد أغلبية أجزائه (N//2+1 فأكثر من N).
+# محصور بمسار is_statement=True وحده (لا يمسّ SUPPORT_SYSTEM/
+# REPORT_SUPPORT_SYSTEM)؛ min_confirm_sources بلا تغيير — هذا المعيار
+# يقرر *من يُحسب مؤيدًا*، لا *كم مؤيدًا يلزم*.
+STATEMENT_PART_SUPPORT_SYSTEM = f"""أنت تتحقق هل نصوص مصادر مستقلة تسند
+أجزاء تصريح منسوب لمتحدث بعينه — كل جزء منفردًا بمعزل عن الأجزاء الأخرى،
+لا التصريح كوحدة واحدة.
+
+التصريح مقسَّم أدناه إلى أجزاء مرقّمة كما وردت في الموجز. احكم من النصوص
+المعطاة فقط — لا تستخدم معرفتك الخاصة عن الموضوع. لكل جزء، أخرج في
+parts[i].supporting أسماء كل مصدر يذكر مضمون **ذلك الجزء تحديدًا** (ما
+قاله المتحدث فعليًا فيه) بوضوح يقاربه — لا مجرد أنه "أدلى بتصريحات" أو
+"تحدث في مقابلة" بلا نقل مضمون ذلك الجزء بعينه. مصدر لم يذكر مضمون هذا
+الجزء تحديدًا لا يدخل قائمته، حتى لو أيّد أجزاء أخرى من نفس التصريح —
+احكم على كل جزء بمعزل تام عن الأجزاء الأخرى، لا حكمًا واحدًا على مجملها.
+أخرج عنصرًا في parts لكل جزء بنفس رقمه وترتيبه كما وردت الأجزاء أدناه،
+حتى لو كانت supporting فارغة. أخرج اسم المصدر مجردًا تمامًا كما ورد في
+وسم '--- المصدر: <الاسم> ---' فقط، بلا اختراع أسماء جديدة.
+
+{LANGUAGE_NOTE}
+
+استخدم أداة support_statement_parts دائمًا."""
+
+STATEMENT_PART_SUPPORT_SCHEMA = {
+    "name": "support_statement_parts",
+    "description": ("يحدد أي المصادر المعطاة يسند مضمون كل جزء مرقّم من "
+                    "تصريح، جزءًا جزءًا لا التصريح كوحدة واحدة"),
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "parts": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "index": {"type": "integer"},
+                        "supporting": {"type": "array", "items": {"type": "string"}},
+                    },
+                    "required": ["index", "supporting"],
+                },
+            },
+        },
+        "required": ["parts"],
+    },
+}
+
+
+def _support_statement_parts(merged_excerpts: list[str], docs: list[dict],
+                             cfg) -> _PartSupportList:
+    """يحكم على كل جزء من أجزاء تصريح مُدمَج (merged_excerpts) منفردًا —
+    معيار الأغلبية (_statement_majority أدناه) يُبنى من نتيجتها مباشرة.
+    يعيد قائمة بطول len(merged_excerpts)، كل عنصر قائمة أسماء المصادر
+    المؤيِّدة لذلك الجزء تحديدًا (من docs فعليًا، لا مُختلَقة عبر
+    evidence._known_only). فشل نداء تقني يعيد _PartSupportList فارغة
+    بـcall_error مضبوطًا — استعمل getattr(result, "call_error", None)
+    للتمييز عن حكم "لا مؤيِّد لأي جزء" فعلي من النموذج."""
+    if not docs or not merged_excerpts:
+        return _PartSupportList()
+    acfg = cfg.get("article", {}) or {}
+    model = acfg.get("model", "claude-sonnet-5")
+    client = _client()
+    numbered = "\n".join(f"{i}. {ex}" for i, ex in enumerate(merged_excerpts, start=1))
+    prompt = f"أجزاء التصريح:\n{numbered}\n\nنصوص المصادر:\n\n{_format_docs(docs)}"
+    try:
+        resp = client.messages.create(
+            model=model,
+            max_tokens=600,
+            tools=[STATEMENT_PART_SUPPORT_SCHEMA],
+            tool_choice={"type": "tool", "name": "support_statement_parts"},
+            system=STATEMENT_PART_SUPPORT_SYSTEM,
+            messages=[{"role": "user", "content": prompt}],
+            # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
+        )
+        writer.record_usage(resp, model)
+    except APIError as exc:
+        log.warning("فشل نداء الحكم الجزئي على سند التصريح: %s", exc)
+        fail = _PartSupportList()
+        fail.call_error = str(exc)
+        return fail
+    data = next((b.input for b in resp.content
+                if getattr(b, "type", "") == "tool_use"), None)
+    raw_parts = data.get("parts") if isinstance(data, dict) else None
+    by_index: dict[int, list[str]] = {}
+    if isinstance(raw_parts, list):
+        for item in raw_parts:
+            if not isinstance(item, dict):
+                continue
+            idx = item.get("index")
+            if not isinstance(idx, int):
+                continue
+            by_index[idx] = evidence._known_only(item.get("supporting"), docs)
+    return _PartSupportList(
+        by_index.get(i, []) for i in range(1, len(merged_excerpts) + 1)
+    )
+
+
+def _statement_majority(merged_excerpts: list[str],
+                        parts_support: list[list[str]]
+                        ) -> tuple[set[str], set[str], list[str]]:
+    """معيار الأغلبية (طلب المراجعة): مصدر يُسنِد التصريح ككل إن أيّد
+    N//2+1 جزءًا فأكثر من N جزءًا — حساب عددي في الكود على نتيجة
+    _support_statement_parts، لا تصنيف "جوهري/هامشي" من النموذج. يعيد
+    (المصادر المؤيِّدة بالأغلبية، كل مصدر ذُكر في جزء واحد فأكثر
+    [mentioned، لرسالة _support_gap_detail]، الأجزاء التي أيّدها مصدر واحد
+    فأكثر بصرف النظر عن الأغلبية — هذه وحدها تدخل نص الصياغة لاحقًا: جزء
+    لم يؤيِّده أي مصدر لا يدخل المتن حتى لو اجتاز التصريح ككل بأغلبية
+    أجزاء أخرى، وإلا نُشرت دعوى رفضتها المصادر تحت غطاء أغلبية)."""
+    n = len(merged_excerpts)
+    if n == 0:
+        return set(), set(), []
+    majority_needed = n // 2 + 1
+    counts: dict[str, int] = {}
+    mentioned: set[str] = set()
+    included_excerpts: list[str] = []
+    for excerpt, supporters in zip_longest(merged_excerpts, parts_support, fillvalue=[]):
+        supporters = supporters or []
+        if supporters:
+            included_excerpts.append(excerpt)
+        for name in supporters:
+            counts[name] = counts.get(name, 0) + 1
+            mentioned.add(name)
+    supporting = {name for name, c in counts.items() if c >= majority_needed}
+    return supporting, mentioned, included_excerpts
+
+
 def _report_identity_kind(publisher: str, doc: dict, cfg) -> str | None:
     """شرط الهوية المزدوج البنيوي لـ"تقرير منقول" (لا حكم نموذج — طلب
     المراجعة، تشخيص Issue #373 الجولة السادسة عشرة): يعيد "original" إن
@@ -2284,13 +2427,22 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # تبليغ الدمج لا منعه (البند 1): كل عنصر "تصريح" يذكر المتحدث وجمل
     # الموجز الحرفية التي دُمجت فيه — يظهر في التقرير بصرف النظر عن مصير
     # سنده لاحقًا، فيراجع المستخدم البشري أي دمج زائف (متحدثان مختلفان أو
-    # مناسبتان مختلفتان دُمجا خطأً) ويصححه، بدل منع الدمج بحكم آلي هش
-    outcome["merged_statements"] = [
-        {"speaker": s["speaker"] or "؟", "text": s["text"],
-         "merged_excerpts": s["merged_excerpts"],
-         "gaps": _merged_statement_gaps(s["text"], s["merged_excerpts"])}
-        for s in facts_raw if s["kind"] == "تصريح"
-    ]
+    # مناسبتان مختلفتان دُمجا خطأً) ويصححه، بدل منع الدمج بحكم آلي هش.
+    # part_support يُملأ لاحقًا داخل حلقة الوقائع (يحتاج docs المقروءة
+    # فعليًا) — entry هنا dict مرجعي يُضاف مرة واحدة إلى القائمة ويُعدَّل
+    # من داخل الحلقة لاحقًا لا يُعاد بناؤه (طلب المراجعة، معيار الأغلبية:
+    # "اعرض في التقرير أي الأجزاء أيّدها كل مصدر وأيها لم يُؤيَّد")
+    statement_reports: dict[int, dict] = {}
+    outcome["merged_statements"] = []
+    for s in facts_raw:
+        if s["kind"] != "تصريح":
+            continue
+        entry = {"speaker": s["speaker"] or "؟", "text": s["text"],
+                 "merged_excerpts": s["merged_excerpts"],
+                 "gaps": _merged_statement_gaps(s["text"], s["merged_excerpts"]),
+                 "part_support": []}
+        statement_reports[id(s)] = entry
+        outcome["merged_statements"].append(entry)
 
     # تبليغ الفصل لا منعه (البند 3، تشخيص Issue #373، الجولة الخامسة عشرة):
     # نظير merged_statements أعلاه لكن بالاتجاه المعاكس — عناصر "واقعة"
@@ -2475,25 +2627,58 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                 query, f.get("is_reference", False), relevance_text)
             all_read_docs.extend(docs)
             reprint_image_pool.extend(_reprint_fallback_images(excluded_reprints, ranked))
-            # "تصريح" (البند 1، تشخيص Issue #373، الجولة الثالثة عشرة): فحص
-            # المضمون لا وقوع المقابلة وحده — is_statement تختار
-            # STATEMENT_SUPPORT_SYSTEM بدل SUPPORT_SYSTEM، بلا تخفيف في عتبة
-            # min_confirm_sources نفسها. "تقرير منقول" (الجولة السادسة عشرة):
+            # "تصريح" (الجولة الثالثة عشرة، مُعدَّل بمعيار الأغلبية أدناه):
+            # فحص المضمون لا وقوع المقابلة وحده، جزءًا جزءًا لا حكمًا شموليًا
+            # واحدًا — انظر توثيق _support_statement_parts/_statement_majority
+            # أعلاه. "تقرير منقول" (الجولة السادسة عشرة، بلا تغيير هنا):
             # is_report تختار REPORT_SUPPORT_SYSTEM **وعتبة report_min_confirm
             # المستقلة** (1 لا 2) — شرط الهوية المزدوج البنيوي يُطبَّق داخل
             # _support_sources نفسها (_report_identity_kind) قبل أي حكم نموذج
             is_statement = f["kind"] == "تصريح"
             is_report = f["kind"] == "تقرير منقول"
             fact_min_confirm = report_min_confirm if is_report else min_confirm
-            supporting = (_support_sources(f["text"], docs, cfg, is_statement=is_statement,
-                                          is_report=is_report, publisher=f.get("publisher", ""))
-                         if docs else [])
-            fact_call_error = getattr(supporting, "call_error", None)
-            # mentioned (طلب المراجعة، تشخيص Issue #373، حالة بايراكتار
-            # الرابعة): يفصل "لم يُقرأ نص يناقش الموضوع إطلاقًا" (عطل بحث
-            # محتمل) عن "قُرئ نص يناقشه ولم يطابق مضمونه" (عطل حكم) — تمييز
-            # كان يحتاج جولة تشخيص كاملة في كل مرة قبل هذا الحقل
-            fact_mentioned = set(getattr(supporting, "mentioned", []) or [])
+            # ما لم يُؤيَّد لا يدخل المتن (طلب المراجعة، معيار الأغلبية):
+            # أجزاء merged_excerpts التي أيّدها مصدر واحد فأكثر — هذه وحدها
+            # تُستعمل نصًّا للواقعة عند الصياغة لاحقًا إن اجتاز التصريح ككل،
+            # لا التصريح المدموج كاملًا. تبقى [] لغير التصريح (fact_text
+            # الأصلي يُستعمَل كما هو).
+            included_excerpts: list[str] = []
+            if is_statement:
+                # عنصر بلا merged_excerpts فعلية (لم يُدمَج من أكثر من جملة)
+                # يُعامَل كجزء واحد هو نصه الكامل — نفس أثر الحكم الشمولي
+                # القديم بالضبط لهذه الحالة (N=1، الأغلبية=1 أي "أيّد الجزء
+                # الوحيد")، فلا انحدار على التصريحات غير المُدمَجة فعليًا
+                statement_parts = f.get("merged_excerpts") or [f["text"]]
+                parts_support = (_support_statement_parts(statement_parts, docs, cfg)
+                                 if docs else _PartSupportList())
+                fact_call_error = getattr(parts_support, "call_error", None)
+                if fact_call_error:
+                    fact_mentioned: set[str] = set()
+                    supporting = _ModelCallList()
+                else:
+                    maj_supporting, fact_mentioned, included_excerpts = _statement_majority(
+                        statement_parts, parts_support)
+                    supporting = _ModelCallList(maj_supporting)
+                # التبليغ (طلب المراجعة): أي الأجزاء أيّدها كل مصدر وأيها لم
+                # يُؤيَّد — نظير merged_statements، بصرف النظر عن مصير
+                # التصريح لاحقًا (فشل تقني يترك القائمة فارغة، لا يُخترع بلاغ)
+                report_entry = statement_reports.get(id(f))
+                if report_entry is not None and not fact_call_error:
+                    report_entry["part_support"] = [
+                        {"excerpt": ex, "supporting": sup}
+                        for ex, sup in zip_longest(statement_parts, parts_support,
+                                                   fillvalue=[])
+                    ]
+            else:
+                supporting = (_support_sources(f["text"], docs, cfg, is_statement=False,
+                                              is_report=is_report, publisher=f.get("publisher", ""))
+                             if docs else [])
+                fact_call_error = getattr(supporting, "call_error", None)
+                # mentioned (طلب المراجعة، تشخيص Issue #373، حالة بايراكتار
+                # الرابعة): يفصل "لم يُقرأ نص يناقش الموضوع إطلاقًا" (عطل بحث
+                # محتمل) عن "قُرئ نص يناقشه ولم يطابق مضمونه" (عطل حكم) —
+                # تمييز كان يحتاج جولة تشخيص كاملة في كل مرة قبل هذا الحقل
+                fact_mentioned = set(getattr(supporting, "mentioned", []) or [])
             unique = set(supporting)
 
             def _support_gap_detail() -> str:
@@ -2549,7 +2734,14 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                 dropped.append({"text": f["text"], "reason": drop_reason})
                 continue
             fact_sources = _grounded_sources(supporting, docs, ranked)
-            grounded.append({**f, "sources": fact_sources})
+            # ما لم يُؤيَّد لا يدخل المتن (طلب المراجعة): التصريح قد يجتاز
+            # العتبة بأغلبية عبر مصادر أيّدت أجزاء مختلفة منه، لكن جزءًا لم
+            # يؤيِّده أي مصدر يبقى خارج ما يصل الصياغة — لا التصريح كاملًا
+            # بصرف النظر عن اجتيازه ككل (included_excerpts فارغة لغير
+            # التصريح، فيبقى f["text"] الأصلي كما هو دومًا لتلك الحالات)
+            fact_text = ("؛ ".join(included_excerpts) if is_statement and included_excerpts
+                        else f["text"])
+            grounded.append({**f, "text": fact_text, "sources": fact_sources})
 
         for s in grounded[-1]["sources"]:
             if not any(s["name"] == x["name"] for x in sources_seen):
@@ -3048,6 +3240,14 @@ def build_report(outcome: dict) -> str:
             if m.get("gaps"):
                 gaps_str = "؛ ".join(m["gaps"])
                 lines.append(f"  ⚠️ فجوة دمج — لا أثر لها في النص المدموج: {gaps_str}")
+            # معيار الأغلبية (طلب المراجعة، تعليق العطل الرابع والعشرون):
+            # أي مصدر أيّد كل جزء وأيها لم يُؤيَّده أي مصدر — الأجزاء غير
+            # المؤيَّدة (✗) لا تدخل متن المقال بصرف النظر عن اجتياز التصريح
+            # ككل بأغلبية أجزاء أخرى
+            for part in m.get("part_support") or []:
+                supporters = part.get("supporting") or []
+                mark = "؛ ".join(supporters) if supporters else "✗ لا مصدر"
+                lines.append(f"  • «{part['excerpt']}» — {mark}")
 
     if outcome.get("split_statements"):
         # نظير مقلوب لـ merged_statements أعلاه (البند 3، الجولة الخامسة
