@@ -1,7 +1,7 @@
 {
   "id": "3d155b3fcc71",
   "created_at": "2026-08-22T19:36:12.219597+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 19.24,
   "bucket": "serious",
@@ -61,5 +61,12 @@
       "https://th-i.thgim.com/public/incoming/gmdo9m/article71376413.ece/alternates/LANDSCAPE_1200/2026-08-05T100023Z_983009818_RC2TBCAHM0FA_RTRMADP_3_DISNEY-TIKTOK.JPG"
     ]
   },
-  "publish_at": "2026-08-22T20:34:08.771900+00:00"
+  "publish_at": "2026-08-22T20:34:08.771900+00:00",
+  "published_at": "2026-08-22T20:45:44.228154+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1341334561416898",
+    "photo_id": "1341334531416901",
+    "url": "https://www.facebook.com/631680090321390_1341334561416898",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
