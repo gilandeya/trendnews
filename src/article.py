@@ -1457,6 +1457,226 @@ def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
     return {"text": text, "supporting": supporting, "naming_issue": naming_issue}
 
 
+# ─────────────────── وقائع من المصادر (لا الموجز فقط) ───────────────────
+# الموجز يحصر ما يمكن أن يقوله المقال على ما كتبه صاحبه — حتى حين تحمل
+# الوثائق المقروءة فعلًا أثناء البحث عن سند لوقائع الموجز وأسئلته وقائع
+# أخرى ذات صلة مباشرة بنفس الحدث لم يذكرها هو (طلب المراجعة). بعد اكتمال
+# تلك الحلقة (all_read_docs مكتملة)، نداء واحد على أفضل الوثائق المقروءة
+# (بالوزن ثم الصلة — البند 3، انظر _rank_docs_for_source_extract) يستخرج
+# وقائع إضافية غائبة عن وقائع الموجز المسندة أصلًا.
+#
+# الدمج ضد التكرار هو الخطوة الأخطر هنا (طلب المراجعة، البند 1 — إن فشل،
+# تضخّم grounded بوقائع مكرَّرة واجتاز مقالٌ عتبةً لم يستحقها): قبل أي بحث
+# سند مستقل، كل واقعة مستخرَجة تُقارَن بوقائع الموجز المسندة عبر
+# _source_fact_duplicate_index — حكم دلالي (نفس الحدث بصياغتين مختلفتين)
+# لا فحص بنيوي (تشارك الكيانات وحده لا يكفي: شخص واحد قد يكون طرفًا في
+# حدثين مختلفين تمامًا، فتشاركهما الكيانات لا يعني أنهما نفس الواقعة —
+# انظر SOURCE_FACT_DEDUP_SYSTEM وفِكستَي test_article_source_facts في
+# tests/test_pipeline.py المبنيَّين قبل أي وصل بالأنبوب الرئيسي). واقعة
+# مكرَّرة تُدمَج (لا تُعدّ)؛ واقعة ناجية من الدمج تخضع لنفس دورة البحث/
+# القراءة/السند الكاملة كأي "واقعة" عادية (القاعدة 1 — لا استثناء لمجرد
+# أنها وُجدت في وثيقة مقروءة أصلًا) قبل أن تدخل grounded بوسم
+# origin: "source"، مميَّزةً في التقرير عن origin: "brief" لكل ما سواها.
+
+SOURCE_EXTRACT_SYSTEM = f"""أنت تقرأ نصوص مصادر إخبارية مستقلة قُرئت أثناء
+التحقق من موجز تحريري، لتستخرج منها وقائع إضافية **غائبة عن الموجز نفسه**
+— معلومات حقيقية ذات صلة مباشرة بموضوعه لم يذكرها كاتب الموجز، لا لأنه
+أخطأ بل لأنه لا يعرفها.
+
+موضوع الموجز ووقائعه التي استُخرجت منه أصلًا معطاة لك أدناه — لا تكرّرها،
+ولا واقعة تصف نفس الحدث بصياغة مختلفة (تلك مذكورة بالفعل، ستُقارَن لاحقًا
+دلاليًا لا حرفيًا فلا تعتمد على اختلاف اللفظ لتفادي التكرار).
+
+اقرأ نصوص المصادر فقط. استخرج حتى خمس وقائع إضافية — كل واحدة تدّعي وقوع
+حدث أو رقم محدَّد (بنفس معيار "واقعة": فاعل وفعل، لا جملة وصفية بحتة أو
+سردية عامة) مذكورة صراحة في نص واحد على الأقل من المصادر المعطاة. إن لم
+تجد النصوص شيئًا إضافيًا حقيقيًا يستحق الذكر، أعد قائمة فارغة — لا تخترع
+واقعة لمجرد ملء العدد.
+
+لكل واقعة: text (بإيجاز، بصياغتك من النص لا نقلًا حرفيًا)، وentities
+(2-5 كيانات مميِّزة منها كما وردت في نص المصدر — سيُبنى منها استعلام بحث
+سند مستقل). **text وentities كلاهما بالعربية دومًا** — حتى إن كانت نصوص
+المصادر بلغة أخرى (تركية أو إنجليزية أو غيرها): ترجم الكيانات، لا تنقلها
+بأبجديتها الأصلية (خلافًا لاستخراج كيانات الموجز نفسه في مسار آخر، الذي
+يحتفظ بأبجدية الموجز الأصلية — هنا المصدر أجنبي والمقال عربي دومًا، فكيان
+بأبجدية لن يطابقها بحث عربي لاحقًا عديم الفائدة).
+
+{LANGUAGE_NOTE}
+
+استخدم أداة extract_source_facts دائمًا."""
+
+SOURCE_EXTRACT_SCHEMA = {
+    "name": "extract_source_facts",
+    "description": "يستخرج وقائع إضافية من نصوص مصادر مقروءة، غائبة عن موجز تحريري",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "facts": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "text": {"type": "string"},
+                        "entities": {"type": "array", "items": {"type": "string"}},
+                    },
+                    "required": ["text", "entities"],
+                },
+            },
+        },
+        "required": ["facts"],
+    },
+}
+
+
+def _rank_docs_for_source_extract(docs: list[dict], wanted: set[str], cfg,
+                                  max_docs: int) -> list[dict]:
+    """توحيد هوية الناشر ثم فرز الوثائق المرشَّحة لاستخراج وقائع المصادر
+    بالوزن والصلة معًا (طلب المراجعة، البند 3) — نفس منطق
+    evidence._candidate_score/_candidate_sort_key المستعمَل لاختيار مرشّحي
+    القراءة، لا فرزًا جديدًا: وثيقة موثوقة تتصدَّر على مجهولة عند التزاحم
+    على سقف عدد الوثائق في البرومبت. الصلة هنا عدّ تشارك توكنز نص الوثيقة
+    مع wanted (كيانات كل وقائع/أسئلة الموجز مجتمعة) — لا Article كامل بحقل
+    relevance جاهز، لأن docs هنا نصوص مقروءة مجمَّعة عبر التشغيلة كلها
+    (all_read_docs) لا نتيجة بحث استعلام واحد. توحيد الهوية أولًا
+    (canonical) كي لا تُحسب نسخة ناشر واحد بلغتين مرشَّحين منفصلين
+    يستهلكان فتحتين من السقف لنفس المحتوى فعليًا."""
+    seen: dict[str, dict] = {}
+    for d in docs:
+        if not d.get("text"):
+            continue
+        canonical = evidence._canonical_publisher(d.get("name", ""), cfg)
+        existing = seen.get(canonical)
+        if existing is None or len(d["text"]) > len(existing["text"]):
+            seen[canonical] = {**d, "name": canonical}
+    scored = []
+    for d in seen.values():
+        weight = evidence._publisher_weight(d["name"], cfg)
+        relevance = len(wanted & norm_tokens(d.get("text", "")))
+        scored.append((weight, relevance, d))
+    scored.sort(key=lambda t: evidence._candidate_sort_key(t[0], t[1]))
+    return [d for _, _, d in scored[:max_docs]]
+
+
+def _extract_source_facts(topic: str, brief_fact_texts: list[str], docs: list[dict],
+                          cfg) -> list[dict]:
+    """يستخرج وقائع إضافية من وثائق مقروءة فعلًا، غائبة عن وقائع الموجز
+    المسندة أصلًا (brief_fact_texts) — يعيد _ModelCallList: فارغة مع
+    call_error عند فشل تقني، فارغة عادية عند عدم وجود شيء إضافي، أو قائمة
+    {"text":..., "entities":[...]} عند النجاح."""
+    if not docs:
+        return _ModelCallList()
+    acfg = cfg.get("article", {}) or {}
+    model = acfg.get("model", "claude-sonnet-5")
+    max_tokens = int(acfg.get("source_extract_max_tokens", 2000))
+    client = _client()
+    brief_block = "\n".join(f"- {t}" for t in brief_fact_texts) or "لا وقائع"
+    prompt = (f"موضوع الموجز: {topic}\n\nوقائع استُخرجت من الموجز أصلًا "
+             f"(لا تكرّرها):\n{brief_block}\n\nنصوص مصادر مقروءة:\n\n"
+             f"{_format_docs(docs)}")
+    try:
+        resp = client.messages.create(
+            model=model,
+            max_tokens=max_tokens,
+            tools=[SOURCE_EXTRACT_SCHEMA],
+            tool_choice={"type": "tool", "name": "extract_source_facts"},
+            system=SOURCE_EXTRACT_SYSTEM,
+            messages=[{"role": "user", "content": prompt}],
+            # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
+        )
+        writer.record_usage(resp, model)
+    except APIError as exc:
+        log.warning("فشل نداء استخراج وقائع من المصادر: %s", exc)
+        fail = _ModelCallList()
+        fail.call_error = str(exc)
+        return fail
+    data = next((b.input for b in resp.content
+                if getattr(b, "type", "") == "tool_use"), None)
+    raw = data.get("facts") if isinstance(data, dict) else None
+    if not isinstance(raw, list):
+        return _ModelCallList()
+    out = _ModelCallList()
+    for item in raw:
+        text = _as_text(item)
+        if not text:
+            continue
+        out.append({"text": text,
+                    "entities": _as_entities(item.get("entities")
+                                             if isinstance(item, dict) else None)})
+    return out
+
+
+SOURCE_FACT_DEDUP_SYSTEM = """أنت تقارن واقعة واحدة جديدة بقائمة وقائع
+مؤكَّدة سابقًا من نفس المقال، لتحدد إن كانت **نفس الحدث بعينه** بصياغة
+مختلفة (يجب دمجها، لا عدّها مرتين) أم حدثًا مختلفًا فعليًا.
+
+المعيار: قارن الفعل/الحدث نفسه لا الكيانات المشتركة وحدها. شخص أو جهة
+واحدة قد تكون طرفًا في عدة أحداث مختلفة تمامًا (زار مكانًا يوم الاثنين،
+والتقى مسؤولًا يوم الثلاثاء لبحث ملف آخر) — هذان حدثان مستقلان رغم
+اشتراكهما في الفاعل، ولا يجوز دمجهما. لا تدمج إلا حين يصف النصان **نفس
+الفعل الواحد** الذي وقع، بصرف النظر عن اختلاف الصياغة أو ترتيب الكلمات أو
+تفاصيل إضافية في أحدهما.
+
+إن كانت الواقعة الجديدة تكرارًا لواحدة من القائمة، أعد رقمها كـ
+duplicate_index (0 هو الأول في القائمة). إن لم تكن تكرارًا لأي واقعة في
+القائمة، أعد duplicate_index: -1.
+
+استخدم أداة check_duplicate دائمًا."""
+
+SOURCE_FACT_DEDUP_SCHEMA = {
+    "name": "check_duplicate",
+    "description": "يحدد إن كانت واقعة جديدة تكرارًا دلاليًا لواحدة من قائمة وقائع سابقة",
+    "input_schema": {
+        "type": "object",
+        "properties": {"duplicate_index": {"type": "integer"}},
+        "required": ["duplicate_index"],
+    },
+}
+
+
+def _source_fact_duplicate_index(candidate_text: str, existing_texts: list[str],
+                                 cfg) -> dict:
+    """يحكم هل candidate_text (واقعة استُخرجت من مصدر) تكرار دلالي لأحد
+    existing_texts (وقائع الموجز المسندة أصلًا، أو وقائع مصادر سابقة أُضيفت
+    في نفس التشغيلة) — البند 1 (الأخطر في هذا التصميم): إن فشل هذا الحكم،
+    تضخّم grounded بوقائع مكرَّرة واجتاز مقالٌ عتبةً لم يستحقها. حكم دلالي
+    (نفس الحدث بصياغتين مختلفتين) لا يمكن أن يكون فحصًا بنيويًا بحتًا —
+    تشارك الكيانات وحده لا يكفي (نفس الشخص في حدثين مختلفين يجب ألا
+    يندمجا)، فنداء نموذج مطلوب هنا كما في _support_sources/_ask_naming_model
+    لأحكام دلالية مماثلة عبر هذا الملف.
+
+    يعيد {"duplicate": bool, "index": int|None, "call_error": str|None} —
+    فشل تقني يعيد duplicate=False مع call_error مضبوطًا: المستدعي يُسقط
+    الواقعة تحوطًا بدل تخمين حكم دمج لم يقع فعليًا (انظر _write_article) —
+    إسقاط فرصة أرخص من مخاطرة تضخيم العدّ بوقيعة قد تكون مكرَّرة فعلًا."""
+    if not existing_texts:
+        return {"duplicate": False, "index": None, "call_error": None}
+    acfg = cfg.get("article", {}) or {}
+    model = acfg.get("model", "claude-sonnet-5")
+    client = _client()
+    existing_block = "\n".join(f"{i}. {t}" for i, t in enumerate(existing_texts))
+    prompt = f"الواقعة الجديدة: {candidate_text}\n\nالوقائع السابقة:\n{existing_block}"
+    try:
+        resp = client.messages.create(
+            model=model,
+            max_tokens=100,
+            tools=[SOURCE_FACT_DEDUP_SCHEMA],
+            tool_choice={"type": "tool", "name": "check_duplicate"},
+            system=SOURCE_FACT_DEDUP_SYSTEM,
+            messages=[{"role": "user", "content": prompt}],
+            # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
+        )
+        writer.record_usage(resp, model)
+    except APIError as exc:
+        log.warning("فشل نداء تحقّق تكرار واقعة من المصادر: %s", exc)
+        return {"duplicate": False, "index": None, "call_error": str(exc)}
+    data = next((b.input for b in resp.content
+                if getattr(b, "type", "") == "tool_use"), None)
+    idx = data.get("duplicate_index") if isinstance(data, dict) else None
+    if not isinstance(idx, int) or idx < 0 or idx >= len(existing_texts):
+        return {"duplicate": False, "index": None, "call_error": None}
+    return {"duplicate": True, "index": idx, "call_error": None}
+
+
 def _grounded_sources(names: list[str], docs: list[dict],
                       ranked: list[Article]) -> list[dict]:
     """مقتطف/رابط/صور كل مصدر أسند واقعة فعليًا — نفس بنية verify._fact_sources
@@ -2372,6 +2592,13 @@ def _new_outcome() -> dict:
            "image_report": {}, "opinion_note": "", "originality_notes": [],
            "merged_statements": [], "split_statements": [], "report_statements": [],
            "unsourced_entities": [],
+           # وقائع من المصادر (لا الموجز فقط) — طلب المراجعة، انظر توثيق
+           # _extract_source_facts/_source_fact_duplicate_index. source_origin_facts:
+           # ما دخل المقال فعليًا بوسم origin="source" (يظهر في التقرير
+           # ليراجعه المستخدم — البند 2)؛ source_facts_summary: عدد ما
+           # استُخرج/اندمج/أُضيف (البند 5 — أثر ظاهر، لا ميزة صامتة)
+           "source_origin_facts": [],
+           "source_facts_summary": {"extracted": 0, "merged": 0, "added": 0},
            "originality_retry": {"attempted": False, "succeeded": False, "offending_phrase": ""},
            "jargon_retry": {"attempted": False, "succeeded": False, "detected": [], "remaining": []}}
 
@@ -2860,6 +3087,102 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     outcome["unanswered"] = unanswered
     outcome["answered_questions"] = answered_questions
     outcome["trail"] = trail
+
+    # كل ما دخل grounded حتى هنا مصدره الموجز (وقائعه أو أسئلته) — يُوسَم
+    # صراحة قبل مرحلة استخراج وقائع المصادر أدناه كي يبقى origin: "brief"
+    # مميَّزًا عن origin: "source" في كل مكان يقرأ grounded لاحقًا (التقرير،
+    # الصياغة)
+    for g in grounded:
+        g.setdefault("origin", "brief")
+
+    # وقائع من المصادر (لا الموجز فقط، طلب المراجعة) — انظر توثيق
+    # _extract_source_facts/_source_fact_duplicate_index أعلاه للتصميم
+    # الكامل. all_read_docs مكتملة هنا (كل مراحل واقعة/تسمية/سند/سؤال قرأت
+    # منها بالفعل)، فهذه المرحلة لا تبحث من جديد عن مصادر — تستثمر ما قُرئ
+    # أصلًا لتكتشف وقائع لم يذكرها الموجز، ثم تبحث لها سندًا مستقلًا كأي
+    # واقعة عادية إن نجت من الدمج ضد التكرار.
+    # يشحن مُعطَّلًا افتراضيًا (source_extract_enabled=False) حتى بعد
+    # تشغيل حي فعلي يُثبت سلوكه — نفس قرار article.include_opinion سابقًا
+    # في هذا الـ Issue (يُضبط يدويًا في config.yaml بعد التحقق)، لا تراجعًا
+    # عن التصميم: مرحلة جديدة تستدعي النموذج مرتين إضافيتين لكل واقعة
+    # مستخرَجة (استخراج + دمج) تستحق تشغيلًا حيًّا واحدًا على الأقل قبل أن
+    # تصبح افتراضية على كل تشغيلة إنتاج.
+    source_extract_enabled = bool(acfg.get("source_extract_enabled", False))
+    source_max_docs = int(acfg.get("source_extract_max_docs", 8))
+    extracted_source_count = 0
+    merged_source_count = 0
+    if source_extract_enabled and all_read_docs:
+        wanted_tokens: set[str] = set(norm_tokens(topic))
+        for s in facts_raw + questions_from_brief:
+            for e in s.get("entities") or []:
+                wanted_tokens |= norm_tokens(e)
+        ranked_docs = _rank_docs_for_source_extract(all_read_docs, wanted_tokens, cfg,
+                                                     source_max_docs)
+        brief_texts = [g["text"] for g in grounded]
+        extracted = _extract_source_facts(topic, brief_texts, ranked_docs, cfg)
+        extract_call_error = getattr(extracted, "call_error", None)
+        extracted_source_count = 0 if extract_call_error else len(extracted)
+        trail.append({"stage": "مصادر", "query": "", "basis": "",
+                      "sources": [d["name"] for d in ranked_docs],
+                      "raw_count": None, "matched_count": None,
+                      "fetch_failures": [], "top_candidates": [],
+                      "call_error": extract_call_error,
+                      "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {extract_call_error}"
+                                 if extract_call_error else
+                                 f"{extracted_source_count} واقعة إضافية مستخرَجة من "
+                                 f"{len(ranked_docs)} وثيقة مقروءة")})
+        for sf in extracted:
+            dup = _source_fact_duplicate_index(sf["text"], brief_texts, cfg)
+            if dup["call_error"] or dup["duplicate"]:
+                if dup["duplicate"]:
+                    merged_source_count += 1
+                continue
+            query = evidence.build_query_for_claim(sf, query_max_words)
+            relevance_text = evidence._entities_text(sf) or sf["text"]
+            ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
+                query, False, relevance_text)
+            all_read_docs.extend(docs)
+            supporting = _support_sources(sf["text"], docs, cfg) if docs else []
+            call_error = getattr(supporting, "call_error", None)
+            unique = set(supporting)
+            trail.append({"stage": "واقعة (من المصادر)", "query": query, "basis": basis,
+                          "sources": [d["name"] for d in docs],
+                          "raw_count": getattr(ranked, "raw_count", None),
+                          "matched_count": getattr(ranked, "matched_count", None),
+                          "fetch_failures": getattr(docs, "fetch_failures", []),
+                          "top_candidates": getattr(docs, "top_candidates", []),
+                          "excluded_reprints": excluded_reprints,
+                          "call_error": call_error, "reused_query": reused_query,
+                          "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {call_error}"
+                                     if call_error else
+                                     f"مسندة بـ{len(unique)} مصدر مستقل"
+                                     if len(unique) >= min_confirm
+                                     else f"سند غير كافٍ ({len(unique)}/{min_confirm})")})
+            if len(unique) < min_confirm:
+                continue
+            fact_sources = _grounded_sources(supporting, docs, ranked)
+            grounded.append({"text": sf["text"], "kind": "واقعة", "entities": sf["entities"],
+                            "is_unnamed_event": False, "is_reference": False,
+                            "speaker": "", "merged_excerpts": [], "split_from": "",
+                            "publisher": "", "origin": "source", "sources": fact_sources})
+            # واقعة مصدر أُضيفت للتو تدخل قائمة المقارنة أيضًا — واقعتان من
+            # المصادر تصفان نفس الحدث في تشغيلة واحدة يجب ألا تُعدّا مرتين
+            # بالمثل، لا وقائع الموجز الأصلية فقط
+            brief_texts.append(sf["text"])
+            for s in fact_sources:
+                if not any(s["name"] == x["name"] for x in sources_seen):
+                    sources_seen.append({"name": s["name"], "link": s["link"]})
+
+    outcome["source_facts_summary"] = {
+        "extracted": extracted_source_count, "merged": merged_source_count,
+        "added": sum(1 for g in grounded if g.get("origin") == "source"),
+    }
+    outcome["source_origin_facts"] = [
+        {"text": g["text"],
+         "sources": [{"name": s["name"], "link": s.get("link", "")} for s in g.get("sources", [])]}
+        for g in grounded if g.get("origin") == "source"
+    ]
+
     # خط الأساس الثابت (تشخيص Issue #373، الجولة الرابعة، البند 3) يحتاج
     # عدد الوقائع المسندة فعليًا كعدد صريح — لا استخراجه لاحقًا من نص
     # outcome["reason"] الحر الذي لا يُكتب أصلًا حين تفشل مراحل لاحقة
@@ -3282,6 +3605,26 @@ def build_report(outcome: dict) -> str:
                 label = f"[{s['name']}]({s['link']})" if s.get("link") else s["name"]
                 kind_ar = _kind_ar.get(s["kind"], "؟")
                 lines.append(f"- {r['publisher']}: «{r['text']}» — {label} ({kind_ar})")
+
+    summary = outcome.get("source_facts_summary") or {}
+    if summary.get("extracted"):
+        # أثر ظاهر لا صامت (طلب المراجعة، البند 5 — "تعلّمنا من judged_by
+        # أن الميزة بلا أثر ظاهر لا تُعرف إن كانت تعمل"): يظهر بصرف النظر
+        # عن نجاح إضافة أي واقعة فعليًا، فتُعرف حصيلة كل تشغيلة رقميًا
+        lines += ["", (f"🔎 استُخرجت {summary['extracted']} واقعة من المصادر المقروءة "
+                       f"لم ترد في موجزي، اندمجت {summary.get('merged', 0)} منها مع "
+                       f"وقائع موجزي (نفس الحدث بصياغة مختلفة)، وأُضيفت "
+                       f"{summary.get('added', 0)} واقعة جديدة إلى المقال.")]
+
+    if outcome.get("source_origin_facts"):
+        # origin: "source" — طلب المراجعة، البند 2: هذا ما يراجعه المستخدم
+        # أولًا في كل تشغيلة — واقعة دخلت المقال من مصدر مستقل قرأته الآلة،
+        # لا من الموجز الذي لصقه هو، فتستحق تدقيقًا بشريًا مخصَّصًا
+        lines += ["", "**وقائع من المصادر لم ترد في موجزي (راجعها):**"]
+        for f in outcome["source_origin_facts"]:
+            srcs = "، ".join(f"[{s['name']}]({s['link']})" if s.get("link") else s["name"]
+                             for s in f["sources"]) or "—"
+            lines.append(f"- «{f['text']}» — {srcs}")
 
     if outcome.get("originality_notes"):
         # تبليغ صريح لا إعفاء صامت (تشخيص Issue #373، الجولة العاشرة، البند
