@@ -1,0 +1,62 @@
+{
+  "id": "8397fb1b52ef",
+  "created_at": "2026-08-22T18:07:47.109589+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.48,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "U.S., Iran keep up hostile rhetoric ahead of new sanctions",
+  "link": "https://www.thehindu.com/news/international/us-iran-keep-up-hostile-rhetoric-ahead-of-new-sanctions/article71376751.ece",
+  "publishers": [
+    "Rappler",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "in",
+  "article": {
+    "title": "U.S., Iran keep up hostile rhetoric ahead of new sanctions",
+    "link": "https://www.thehindu.com/news/international/us-iran-keep-up-hostile-rhetoric-ahead-of-new-sanctions/article71376751.ece",
+    "summary": "As the war neared six months old, the two sides ⁠were not exchanging fire but also not pursuing peace talks",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-22T09:28:18+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/7uq6ga/article71376788.ece/alternates/LANDSCAPE_1200/Iran_War_67667.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Rappler",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/philippines/us-iran-hostile-rhetoric-new-sanctions-august-22-2026/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-iran-keep-up-hostile-rhetoric-ahead-of-new-sanctions/article71376751.ece"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/22/world/politics/us-iran-hostile-rhetoric-new-sanctions/"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/7uq6ga/article71376788.ece/alternates/LANDSCAPE_1200/Iran_War_67667.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/22/558833.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/22/thumbs/400x400/558833.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 11.997299701666666,
+    "is_stale": false,
+    "score": 13.477814840404209
+  }
+}

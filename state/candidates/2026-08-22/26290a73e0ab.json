@@ -1,0 +1,61 @@
+{
+  "id": "26290a73e0ab",
+  "created_at": "2026-08-22T18:07:47.109313+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.98,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Imran Khan’s party files contempt petition over hospital transfer",
+  "link": "https://www.dailysabah.com/world/asia-pacific/imran-khans-party-files-contempt-petition-over-hospital-transfer",
+  "publishers": [
+    "Daily Sabah",
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Imran Khan’s party files contempt petition over hospital transfer",
+    "link": "https://www.dailysabah.com/world/asia-pacific/imran-khans-party-files-contempt-petition-over-hospital-transfer",
+    "summary": "The party of jailed former Pakistani Prime Minister Imran Khan filed a contempt petition against the government Saturday after authorities transferred the cricketer-turned-politici...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-22T09:19:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/22/457121.JPG",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625234/pti-files-contempt-petition-in-sc-over-alleged-violation-of-order-on-imrans-hospital-transfer"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/678720-pti-files-contempt-petition-over-alleged-breach-of-sc-order-on-imran-khans-hospital-transfer"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/imran-khans-party-files-contempt-petition-over-hospital-transfer"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/22/457121.JPG",
+      "https://www.geo.tv/assets/uploads/2026-08-22/678720_105632_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.3331355362370585,
+    "age_hours": 11.99730085138889,
+    "is_stale": false,
+    "score": 14.983159187126539
+  }
+}
