@@ -1,0 +1,60 @@
+{
+  "id": "962971877c3d",
+  "created_at": "2026-08-22T06:07:57.149981+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.17,
+  "trend_score": 0.5,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US judge strikes down Trump immigrant visa ban affecting 75 countries",
+  "link": "https://www.aljazeera.com/news/2026/8/22/us-judge-strikes-down-trump-immigrant-visa-ban-affecting-75-countries?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Der Spiegel",
+    "South China Morning Post"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "US judge strikes down Trump immigrant visa ban affecting 75 countries",
+    "link": "https://www.aljazeera.com/news/2026/8/22/us-judge-strikes-down-trump-immigrant-visa-ban-affecting-75-countries?traffic_source=rss",
+    "summary": "A federal judge in Manhattan ruled against the State Department's suspension of immigrant visas.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-22T03:19:58+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/ec40152f-945a-41b1-a357-6a0211b3c182_w520_r2.08_fpx55.34_fpy44.98.jpg",
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Der Spiegel",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/22/us-judge-strikes-down-trump-immigrant-visa-ban-affecting-75-countries?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3364905/us-court-strikes-down-trump-visa-ban-affecting-south-asian-nations?utm_source=rss_feed"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/bundesrichterin-kippt-trumps-visa-stopp-fuer-staatsangehoerige-aus-75-laendern-a-c8b444e9-5227-45e9-9f48-31315e3c1513#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/ec40152f-945a-41b1-a357-6a0211b3c182_w520_r2.08_fpx55.34_fpy44.98.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.16837852492273
+  }
+}
