@@ -1,0 +1,85 @@
+{
+  "id": "b360d17ebc45",
+  "created_at": "2026-08-22T19:08:03.101501+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.12,
+  "trend_score": 0.0,
+  "velocity": 0.83,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Seventeen-year-old girl killed in sword attack at school in Sweden",
+  "link": "https://www.theguardian.com/world/2026/aug/22/seventeen-year-old-girl-killed-in-sword-attack-at-school-in-sweden",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "Channel News Asia",
+    "Court House News",
+    "Reuters",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Seventeen-year-old girl killed in sword attack at school in Sweden",
+    "link": "https://www.theguardian.com/world/2026/aug/22/seventeen-year-old-girl-killed-in-sword-attack-at-school-in-sweden",
+    "summary": "Three other people wounded after 18-year-old man wielding sword assail students in Fagersta school A 17-year-old girl has been killed after a teenager brandishing a sword attacked students at a school in Sweden, police have confirmed. Three other people were wounded in the incident during classes in the central town of Fagersta on Friday afternoon, including two boys aged 12 and 17 who sustained minor injuries. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-22T18:11:55+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/3091f3d617457c603710e629deeecb778e126f1f/1280_0_6400_5120/master/6400.jpg?width=700&quality=85&auto=format&fit=max&s=1214a3a3d8b18658b4cb6ef4369a4fc9",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "Channel News Asia",
+      "Court House News",
+      "Reuters",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c3r0g7gj2n3o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/student-killed-in-sword-attack-at-a-swedish-school-was-a-17-year-old-girl/"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/22/seventeen-year-old-girl-killed-in-sword-attack-at-school-in-sweden"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/22/swedish-police-identify-17-year-old-girl-as-victim-in-school-sword-attack?traffic_source=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/sweden-school-sword-attack-police-online-networks-6334841"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/sweden-school-sword-attack-fagersta/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/3091f3d617457c603710e629deeecb778e126f1f/1280_0_6400_5120/master/6400.jpg?width=700&quality=85&auto=format&fit=max&s=1214a3a3d8b18658b4cb6ef4369a4fc9",
+      "https://i.guim.co.uk/img/media/3091f3d617457c603710e629deeecb778e126f1f/1280_0_6400_5120/master/6400.jpg?width=460&quality=85&auto=format&fit=max&s=9b44581360f9f67bfa1d5297c058de5a",
+      "https://i.guim.co.uk/img/media/3091f3d617457c603710e629deeecb778e126f1f/1280_0_6400_5120/master/6400.jpg?width=140&quality=85&auto=format&fit=max&s=aee2d100ce8708856939c8e89645dc9f",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ef32/live/454712a0-9d7b-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/ef32/live/454712a0-9d7b-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ef32/live/454712a0-9d7b-11f1-b109-879e35c24276.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 0.8311449792796465,
+    "age_hours": 4.003534837222222,
+    "is_stale": false,
+    "score": 22.115535466348824
+  }
+}

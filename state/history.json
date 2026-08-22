@@ -740,5 +740,104 @@
     "posted_title": "",
     "region": "eu",
     "seen_at": "2026-08-22T18:07:47.110312+00:00"
+  },
+  {
+    "score": 22.12,
+    "bucket": "light",
+    "tokens": [
+      "attack",
+      "girl",
+      "killed",
+      "old",
+      "school",
+      "seventeen",
+      "sweden",
+      "sword",
+      "year"
+    ],
+    "link": "https://www.theguardian.com/world/2026/aug/22/seventeen-year-old-girl-killed-in-sword-attack-at-school-in-sweden",
+    "title": "Seventeen-year-old girl killed in sword attack at school in Sweden",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-22T19:08:03.101819+00:00"
+  },
+  {
+    "score": 12.82,
+    "bucket": "serious",
+    "tokens": [
+      "bank",
+      "central",
+      "convinced",
+      "economists",
+      "hyperinflation",
+      "iran's"
+    ],
+    "link": "https://www.iranintl.com/en/202608225522",
+    "title": "Iran's central bank says it is not hyperinflation. Economists are not convinced",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-08-22T19:08:03.101995+00:00"
+  },
+  {
+    "score": 12.55,
+    "bucket": "serious",
+    "tokens": [
+      "drones",
+      "hit",
+      "kill",
+      "least",
+      "online",
+      "ozon",
+      "retailer",
+      "russian",
+      "ukrainian",
+      "warehouse"
+    ],
+    "link": "https://www.scmp.com/news/world/russia-central-asia/article/3364941/ukrainian-drones-kill-least-10-hit-warehouse-russian-online-retailer-ozon?utm_source=rss_feed",
+    "title": "Ukrainian drones kill at least 10, hit warehouse of Russian online retailer Ozon",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-08-22T19:08:03.102138+00:00"
+  },
+  {
+    "score": 12.31,
+    "bucket": "serious",
+    "tokens": [
+      "appointment",
+      "campaign",
+      "gov",
+      "hails",
+      "lawal",
+      "president",
+      "senator",
+      "tinubu",
+      "yari"
+    ],
+    "link": "https://www.premiumtimesng.com/promoted/904705-gov-lawal-hails-senator-yaris-appointment-as-president-tinubus-campaign-dg.html",
+    "title": "Gov Lawal hails Senator Yari’s appointment as President Tinubu’s campaign DG",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-08-22T19:08:03.102276+00:00"
+  },
+  {
+    "score": 12.16,
+    "bucket": "serious",
+    "tokens": [
+      "apartment",
+      "bound",
+      "dead",
+      "detained",
+      "found",
+      "hands",
+      "husband",
+      "rawalpindi",
+      "servant",
+      "woman"
+    ],
+    "link": "https://www.dawn.com/news/2024566/husband-servant-detained-after-woman-found-dead-with-hands-bound-in-rawalpindi-apartment",
+    "title": "Husband, servant detained after woman found dead with hands bound in Rawalpindi apartment",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-22T19:08:03.102412+00:00"
   }
 ]
