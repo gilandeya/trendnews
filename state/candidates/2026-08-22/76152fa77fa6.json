@@ -1,0 +1,83 @@
+{
+  "id": "76152fa77fa6",
+  "created_at": "2026-08-22T15:07:51.427370+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.52,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hull roar back into Premier League with 2-0 rout of Man Utd",
+  "link": "https://www.dailysabah.com/sports/football/hull-roar-back-into-premier-league-with-2-0-rout-of-man-utd",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia",
+    "Clarín",
+    "Daily Sabah",
+    "Free Malaysia Today",
+    "Punch Nigeria",
+    "Vanguard Nigeria"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Hull roar back into Premier League with 2-0 rout of Man Utd",
+    "link": "https://www.dailysabah.com/sports/football/hull-roar-back-into-premier-league-with-2-0-rout-of-man-utd",
+    "summary": "Manchester United made a nightmare start to the new season as promoted Hull City silenced their doubters with a shock 2-0 victory on their Premier League return Saturday. Sergej J...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-22T14:25:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/22/457126.JPG",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia",
+      "Clarín",
+      "Daily Sabah",
+      "Free Malaysia Today",
+      "Punch Nigeria",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/8/22/man-utd-slump-to-opening-day-premier-league-defeat-at-hull-city?traffic_source=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/08/22/man-utd-humiliated-by-hull-in-dismal-start-to-premier-league-season"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/sports/football/hull-roar-back-into-premier-league-with-2-0-rout-of-man-utd"
+      },
+      {
+        "name": "Clarín",
+        "link": "https://www.clarin.com/deportes/manchester-united-arranco-premier-derrota-inesperada-hull-city-vuelve-sembrar-dudas_0_Kb37rUzf4r.html"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/epl-semi-ajayi-scores-as-hull-city-maul-man-united-2-0/"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/epl-promoted-hull-stun-man-united-2-0-in-season-opener/?utm_source=rss.punchng.com&utm_medium=web"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/22/457126.JPG",
+      "https://media.freemalaysiatoday.com/v3/2026/08/dedc0714-c40d-4070-a748-8b25305b17ed-AFP__20260822__C6A77ML__v1__HighRes__FblEngPrHullManUtd_cropped_1.webp",
+      "https://www.clarin.com/img/2026/08/22/zQYBuB80x_1200x630__1.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/Hull-City-Semi-Ajayi-1024x683.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 30.524592814283924
+  }
+}

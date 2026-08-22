@@ -1,0 +1,48 @@
+{
+  "id": "4ff62e57a8b1",
+  "created_at": "2026-08-22T15:07:51.428027+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.15,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "En Espagne, de violentes pluies font au moins sept blessés dans le nord-est du pays",
+  "link": "https://www.lemonde.fr/international/article/2026/08/22/en-espagne-de-violentes-pluies-font-au-moins-sept-blesses-dans-le-nord-est-du-pays_6753295_3210.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "En Espagne, de violentes pluies font au moins sept blessés dans le nord-est du pays",
+    "link": "https://www.lemonde.fr/international/article/2026/08/22/en-espagne-de-violentes-pluies-font-au-moins-sept-blesses-dans-le-nord-est-du-pays_6753295_3210.html",
+    "summary": "Certaines zones de la région de Catalogne ont enregistré plus de 100 litres de pluie par mètre carré dans la nuit de vendredi à samedi, selon le service météorologique local.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-22T10:40:41+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/22/412/0/4096/2048/644/322/60/0/5855bdc_upload-1-e6xh2m5u4cud-epalivenine281598.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/08/22/en-espagne-de-violentes-pluies-font-au-moins-sept-blesses-dans-le-nord-est-du-pays_6753295_3210.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/22/412/0/4096/2048/644/322/60/0/5855bdc_upload-1-e6xh2m5u4cud-epalivenine281598.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.15328730611111
+  }
+}

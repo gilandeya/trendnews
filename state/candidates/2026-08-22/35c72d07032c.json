@@ -1,0 +1,70 @@
+{
+  "id": "35c72d07032c",
+  "created_at": "2026-08-22T15:07:51.427795+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.91,
+  "trend_score": 1.0,
+  "velocity": 0.8,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Middle East live: Iran allows several Iraqi oil tankers to pass through Hormuz strait",
+  "link": "https://www.france24.com/en/middle-east/20260822-middle-east-live-iran-allows-several-iraqi-oil-tankers-to-pass-through-hormuz",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد",
+    "Reuters",
+    "TASS"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Middle East live: Iran allows several Iraqi oil tankers to pass through Hormuz strait",
+    "link": "https://www.france24.com/en/middle-east/20260822-middle-east-live-iran-allows-several-iraqi-oil-tankers-to-pass-through-hormuz",
+    "summary": "Iran has allowed a ​number of Iraqi oil tankers to pass through the Strait of Hormuz following repeated requests from Baghdad, ​Iran’s ‌state news agency reported ⁠on Saturday. Meanwhile, the United States and Iran exchanged defiant messages ahead of Monday's scheduled announcement of new US economic sanctions. Follow our liveblog for the latest updates.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-22T09:48:45+00:00",
+    "image_url": "https://s.france24.com/media/display/e9dcf050-9e0c-11f1-a650-005056bfb2b6/w:1024/p:16x9/AP26207813043051.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد",
+      "Reuters",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260822-middle-east-live-iran-allows-several-iraqi-oil-tankers-to-pass-through-hormuz"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/08/22/iran-grants-permission-for-a-number-of-iraqi-oil-tankers-to-pass-through-hormuz"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2176277"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/us-iran-trade-warnings-as-new-sanctions-loom-and-hormuz-oil-flows-stall-4872251"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/e9dcf050-9e0c-11f1-a650-005056bfb2b6/w:1024/p:16x9/AP26207813043051.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/a8a25f9b-oil-tanker-strait-of-hormuz-epa-images-pic-280626-1.webp",
+      "https://content-media.investing.com/news/Iran-USA_800x533_L_1750939967.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.8,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 27.91136788858801
+  }
+}
