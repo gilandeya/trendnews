@@ -2705,6 +2705,16 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             if excluded_reprints:
                 outcome_text = (f"🗞️ استُبعدت {len(excluded_reprints)} نسخة معاد "
                                 f"نشرها من الموجز — {outcome_text}")
+            # judged_by (طلب المراجعة، تعليق العطل الرابع والعشرون بعد ٢٤:
+            # "بعد الدمج، النتيجة لم تتغير ولا أثر لمعيار الأغلبية"): بلاغ
+            # بنيوي صريح لا مُستنتَج من stage — يُحسب مباشرة من فرع الكود
+            # المُنفَّذ فعليًا (is_statement) لا من تصنيف "تصريح" نفسه، فلو
+            # ارتدّ الحكم يومًا إلى SUPPORT_SYSTEM الشمولي (خطأ برمجي، أو
+            # فرع is_statement توقّف عن التفعيل) لظهر "شمولي" هنا رغم أن
+            # stage لا يزال "تصريح" — تناقض ظاهر في التقرير نفسه، لا حاجة
+            # لإعادة تشخيص كاملة (كما وقع فعليًا حين ظُنّ المعيار غير مُفعَّل
+            # بينما لم يكن كود المعيار قد دُمج أصلًا إلى main)
+            judged_by = "أجزاء (معيار الأغلبية)" if is_statement else "شمولي"
             trail.append({"stage": stage,
                           "query": query, "basis": basis,
                           "sources": [d["name"] for d in docs],
@@ -2715,6 +2725,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                           "excluded_reprints": excluded_reprints,
                           "call_error": fact_call_error,
                           "reused_query": reused_query,
+                          "judged_by": judged_by,
                           "outcome": outcome_text})
             if len(unique) < fact_min_confirm:
                 if fact_call_error:
@@ -3335,8 +3346,14 @@ def build_report(outcome: dict) -> str:
                 if t.get("unfiltered_relevance"):
                     counts += "، بلا تصفية صلة"
                 counts += ")"
+            # judged_by يظهر فقط لمرحلة «تصريح» — الحارس البنيوي الذي طلبته
+            # المراجعة ضد ارتداد صامت لحكم معيار الأغلبية (انظر توثيق
+            # judged_by عند بنائه أعلاه)؛ لا فائدة من طباعته لمراحل أخرى
+            # يكون فيها "شمولي" دومًا وبلا معنى تشخيصي إضافي
+            judged_suffix = (f" — حُكم بـ: {t.get('judged_by', '؟')}"
+                            if t["stage"] == "تصريح" else "")
             lines.append(f"- **[{t['stage']}]** `{t['query']}`{counts} → {t['basis']} — "
-                         f"{t.get('outcome', '')} (المصادر: {srcs})")
+                         f"{t.get('outcome', '')} (المصادر: {srcs}){judged_suffix}")
             for fail in t.get("fetch_failures") or []:
                 name, reason, link = fail.get("name", "؟"), fail.get("reason", ""), fail.get("link", "")
                 label = f"[{name}]({link})" if link else name

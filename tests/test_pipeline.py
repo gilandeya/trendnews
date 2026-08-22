@@ -6601,6 +6601,29 @@ def test_article_statement_majority() -> None:
     check("تكامل الأغلبية: التقرير يعرض الأجزاء المؤيَّدة بأسماء مصادرها",
           f"«{p1}» — مصدر أول؛ مصدر ثانٍ" in report, report)
 
+    # judged_by (طلب المراجعة، تعليق العطل الرابع والعشرون بعد ٢٤: "بعد
+    # الدمج، النتيجة لم تتغير ولا أثر لمعيار الأغلبية") — بلاغ بنيوي صريح
+    # في trail يذكر أي آلية حكمت على عنصر «تصريح»، فلا يمرّ ارتداد إلى
+    # الحكم الشمولي القديم بلا أثر ظاهر في التقرير نفسه
+    statement_trail = [t for t in out["trail"] if t["stage"] == "تصريح"]
+    plain_trail = [t for t in out["trail"] if t["stage"] == "واقعة"]
+    check("تكامل الأغلبية: سطر trail لعنصر «تصريح» يحمل judged_by='أجزاء "
+          "(معيار الأغلبية)' — لا 'شمولي'",
+          bool(statement_trail) and
+          all(t["judged_by"] == "أجزاء (معيار الأغلبية)" for t in statement_trail),
+          statement_trail)
+    check("تكامل الأغلبية: سطر trail للواقعة العادية المجاورة يحمل "
+          "judged_by='شمولي' — لا يتسرّب معيار الأغلبية لغير التصريح",
+          bool(plain_trail) and all(t["judged_by"] == "شمولي" for t in plain_trail),
+          plain_trail)
+    check("تكامل الأغلبية: التقرير يعرض «— حُكم بـ: أجزاء (معيار الأغلبية)» "
+          "على سطر [تصريح] صراحة — لا استنتاج ضمني من stage وحده",
+          "— حُكم بـ: أجزاء (معيار الأغلبية)" in report, report)
+    check("تكامل الأغلبية: التقرير لا يطبع «حُكم بـ» على سطر [واقعة] "
+          "(لا فائدة تشخيصية إضافية لمرحلة تكون شمولية دومًا)",
+          not any("[واقعة]" in ln and "حُكم بـ" in ln for ln in report.splitlines()),
+          report)
+
     article.extract_brief = real_extract_brief
     evidence.search = real_search
     evidence.gather_evidence = real_gather_evidence
