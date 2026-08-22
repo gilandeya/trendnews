@@ -278,6 +278,34 @@ to `trail`/the report now names it explicitly ("الوثائق بلغة غير �
 حرفيًا") instead of the generic "doesn't mention the entities" message — so a language-mismatch
 rejection here isn't mistaken for a search failure and re-diagnosed from scratch next time.
 
+**Added (Issue #373), disabled by default pending a live run:** `src/article.py` can now extract
+facts from the independently-read source documents themselves, not only from the pasted brief
+(`article._extract_source_facts`, `SOURCE_EXTRACT_SYSTEM`) — a brief written by a human necessarily
+omits information the sources actually contain. Every extracted fact is checked against the
+already-grounded brief facts by a dedicated semantic-duplicate judgment
+(`article._source_fact_duplicate_index`, `SOURCE_FACT_DEDUP_SYSTEM`) before anything else happens
+to it — comparing the *event*, not shared entities (one person can be party to two unrelated
+events; sharing entities must not merge them) — because a failure here silently double-counts a
+fact and lets an article clear `min_grounded_facts` on padding rather than real content. A fact that
+survives dedup is not trusted merely for having come from an already-read document: it goes through
+the exact same search→read→`_support_sources` grounding cycle as any brief-derived "واقعة" (rule 1
+has no exception for provenance) before it's tagged `origin: "source"` (vs `origin: "brief"` for
+everything extracted from the pasted text) and allowed into `grounded`. Source documents fed to the
+extraction prompt are capped (`article.source_extract_max_docs`) and ordered by the same
+weight-then-relevance scoring used for read-candidate selection (`article._rank_docs_for_source_extract`,
+reusing `evidence._candidate_score`/`_candidate_sort_key`) so a trusted outlet wins a crowded slot
+over an unknown one. `SOURCE_EXTRACT_SYSTEM` mandates Arabic for both `text` and `entities` even
+when the source documents are in another language — unlike the brief's own entity extraction, which
+deliberately keeps the brief's original script, here the source is foreign and the article is always
+Arabic, so an entity in the source's alphabet would never match a later Arabic search. Every run's
+report shows the extraction/merge/add counts and a dedicated "wasn't in my brief" section listing
+what got added, on the standing lesson (`judged_by`) that a feature with no visible trail effect is
+a feature nobody can tell is working. Ships with `config.yaml: article.source_extract_enabled: false`
+— two extra model calls per extracted fact (extraction + dedup) on a stage that hasn't yet been
+exercised against a real brief deserve one live, manually-reviewed run before becoming default on
+every production article; flip it once that's done, same operational precedent as
+`article.include_opinion`.
+
 ## Testing
 
 `tests/test_pipeline.py` is the entire test suite — no pytest, no separate test files. It fakes

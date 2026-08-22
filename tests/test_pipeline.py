@@ -8631,6 +8631,250 @@ def test_article_mentioned_sources() -> None:
           dropped_by_text.get("ذُكر وطابق جزئيًا"))
 
 
+def test_article_source_facts() -> None:
+    """وقائع من المصادر (لا الموجز فقط، طلب المراجعة على Issue #373): مرحلة
+    جديدة تستخرج من الوثائق المقروءة فعلًا وقائع غائبة عن الموجز، بوسم
+    origin: "source" مميَّزًا عن origin: "brief". البند الأخطر في التصميم
+    (البند 1) هو الدمج ضد التكرار — فِكستران متعمَّدان (نفس الحدث بصياغتين
+    يُدمَج، وحدثان متمايزان يشتركان في الكيانات لا يُدمَجان) يُبنيان أولًا
+    ويُختبران بمعزل عن الأنبوب الرئيسي، قبل تكامل كامل عبر _write_article.
+
+    المرحلة تشحن مُعطَّلة افتراضيًا (article.source_extract_enabled=false في
+    config.yaml) — نداءا نموذج إضافيان لكل واقعة مستخرَجة (استخراج + دمج)
+    يستحقان تشغيلًا حيًّا واحدًا قبل أن يصبحا افتراضيَّين على كل تشغيلة."""
+    from src import article
+
+    cfg = load_config()
+
+    class _Block:
+        def __init__(self, input_):
+            self.type = "tool_use"
+            self.input = input_
+
+    class _Resp:
+        def __init__(self, input_):
+            self.content = [_Block(input_)]
+            self.stop_reason = "end_turn"
+
+    class _FakeMessages:
+        def __init__(self, input_, captured=None):
+            self._input = input_
+            self._captured = captured
+
+        def create(self, **kw):
+            if self._captured is not None:
+                self._captured.append(kw)
+            return _Resp(self._input)
+
+    class _FakeClient:
+        def __init__(self, input_, captured=None):
+            self.messages = _FakeMessages(input_, captured)
+
+    real_client_fn = article._client
+
+    # ── 1) الدمج ضد التكرار (البند 1، الأخطر في هذا التصميم) — فِكستران
+    # متعمَّدان قبل أي وصل بالأنبوب الرئيسي ──
+
+    # (أ) نفس الحدث بصياغتين مختلفتين من مسارين — يجب أن يُدمَج لا يُعدّ مرتين
+    article._client = lambda: _FakeClient({"duplicate_index": 0})
+    dup1 = article._source_fact_duplicate_index(
+        "توغّلت قوات الحكومة داخل المدينة الخميس عقب اشتباكات قصيرة",
+        ["دخلت القوات الحكومية المدينة يوم الخميس بعد معارك محدودة"], cfg)
+    check("١) نفس الحدث بصياغتين مختلفتين ← duplicate=True برقم الواقعة الأصلية",
+          dup1 == {"duplicate": True, "index": 0, "call_error": None}, dup1)
+
+    # (ب) حدثان متمايزان يشتركان في الفاعل نفسه — يجب ألا يُدمَجا (المعيار:
+    # الفعل/الحدث نفسه لا الكيانات المشتركة وحدها)
+    article._client = lambda: _FakeClient({"duplicate_index": -1})
+    dup2 = article._source_fact_duplicate_index(
+        "التقى الرئيس بوزير الخارجية يوم الجمعة لبحث ملف الطاقة",
+        ["زار الرئيس المدينة يوم الخميس"], cfg)
+    check("٢) حدث مختلف يشارك الفاعل نفسه مع واقعة سابقة ← duplicate=False، لا يُدمَج",
+          dup2 == {"duplicate": False, "index": None, "call_error": None}, dup2)
+
+    dup_empty = article._source_fact_duplicate_index("أي نص", [], cfg)
+    check("قائمة وقائع سابقة فارغة ← duplicate=False بلا نداء نموذج (اختصار مبكر)",
+          dup_empty == {"duplicate": False, "index": None, "call_error": None})
+
+    from anthropic import APIConnectionError
+    import httpx as _httpx
+
+    class _RaisingMessages:
+        def create(self, **kw):
+            raise APIConnectionError(
+                message="انقطاع شبكة اختباري",
+                request=_httpx.Request("POST", "https://api.anthropic.com/v1/messages"))
+
+    class _RaisingClient:
+        def __init__(self):
+            self.messages = _RaisingMessages()
+
+    article._client = lambda: _RaisingClient()
+    dup_fail = article._source_fact_duplicate_index("نص", ["واقعة سابقة"], cfg)
+    check("فشل نداء تقني ← duplicate=False (إسقاط تحوّطي، لا تخمين حكم دمج لم يقع) "
+          "مع call_error مضبوط",
+          dup_fail["duplicate"] is False and bool(dup_fail["call_error"]), dup_fail)
+
+    article._client = real_client_fn
+
+    # ── 2) العربية إلزامية في SOURCE_EXTRACT_SYSTEM لكل من text وentities
+    # معًا (البند 4) ──
+    check("SOURCE_EXTRACT_SYSTEM يشترط العربية لكل من text وentities معًا",
+          "text وentities كلاهما بالعربية دومًا" in article.SOURCE_EXTRACT_SYSTEM)
+    check("SOURCE_EXTRACT_SYSTEM يضمّ LANGUAGE_NOTE",
+          article.LANGUAGE_NOTE in article.SOURCE_EXTRACT_SYSTEM)
+
+    captured: list = []
+    article._client = lambda: _FakeClient(
+        {"facts": [{"text": "واقعة جديدة من مصدر", "entities": ["ك"]}]}, captured)
+    out_extract = article._extract_source_facts(
+        "موضوع الاختبار", ["واقعة من الموجز أصلًا"],
+        [{"name": "مصدر", "text": "نص المصدر", "link": "https://s/1"}], cfg)
+    check("_extract_source_facts: يستعمل SOURCE_EXTRACT_SYSTEM فعليًا",
+          captured[0]["system"] == article.SOURCE_EXTRACT_SYSTEM)
+    check("_extract_source_facts: وقائع الموجز الموجودة أصلًا تصل البرومبت (لا تُكرَّر)",
+          "واقعة من الموجز أصلًا" in captured[0]["messages"][0]["content"])
+    check("_extract_source_facts: الواقعة الجديدة تُستخرج بنصها وكياناتها",
+          out_extract == [{"text": "واقعة جديدة من مصدر", "entities": ["ك"]}], out_extract)
+
+    article._client = lambda: _FakeClient({"facts": []})
+    check("_extract_source_facts: قائمة فارغة من النموذج ← [] بلا انهيار",
+          article._extract_source_facts("م", [], [{"name": "م", "text": "ن"}], cfg) == [])
+
+    check("_extract_source_facts: بلا وثائق ← [] بلا نداء نموذج",
+          article._extract_source_facts("م", [], [], cfg) == [])
+
+    article._client = lambda: _RaisingClient()
+    fail_extract = article._extract_source_facts("م", [], [{"name": "م", "text": "ن"}], cfg)
+    check("_extract_source_facts: فشل نداء تقني ← قائمة فارغة مع call_error مضبوط",
+          fail_extract == [] and bool(getattr(fail_extract, "call_error", None)),
+          getattr(fail_extract, "call_error", None))
+
+    article._client = real_client_fn
+
+    # ── 3) سقف حجم البرومبت مرتّب بالوزن ثم الصلة (البند 3) — نظير مرشّحي
+    # القراءة، لا فرزًا جديدًا: وثيقة موثوقة قبل مجهولة عند التزاحم ──
+    wanted = article.norm_tokens("مطلوبة") | article.norm_tokens("كلمة")
+    docs_pool = [
+        {"name": "مصدر مجهول لا صلة له", "text": "حشو حشو حشو بلا أي صلة هنا إطلاقًا",
+         "link": "https://u1/1"},
+        {"name": "Reuters", "text": "خبر", "link": "https://r/1"},  # موثوق بلا صلة
+        {"name": "مصدر مجهول ذو صلة", "text": "كلمة مطلوبة كلمة أخرى مطلوبة أيضًا",
+         "link": "https://u2/1"},
+    ]
+    ranked = article._rank_docs_for_source_extract(docs_pool, wanted, cfg, max_docs=2)
+    names_ranked = [d["name"] for d in ranked]
+    check("_rank_docs_for_source_extract: يقصّ عند max_docs",
+          len(ranked) == 2, names_ranked)
+    check("_rank_docs_for_source_extract: مصدر موثوق بلا صلة يتصدَّر مصدرًا مجهولًا بلا صلة "
+          "أيضًا عند التزاحم على السقف (البند 3: الوزن يفصل)",
+          "Reuters" in names_ranked and "مصدر مجهول لا صلة له" not in names_ranked,
+          names_ranked)
+    check("_rank_docs_for_source_extract: مصدر مجهول لكن ذو صلة عالية يبقى ضمن السقف رغم "
+          "وزنه الافتراضي (الصلة تعوّض فارق الوزن)",
+          "مصدر مجهول ذو صلة" in names_ranked, names_ranked)
+
+    dedup_docs = [
+        {"name": "الجزيرة نت", "text": "نص طويل نسبيًا يحمل تفاصيل أكثر من غيره",
+         "link": "https://aj1/1"},
+        {"name": "Al Jazeera", "text": "قصير", "link": "https://aj2/1"},
+    ]
+    ranked_dedup = article._rank_docs_for_source_extract(dedup_docs, set(), cfg, max_docs=5)
+    check("_rank_docs_for_source_extract: نسختا ناشر واحد بلغتين تُوحَّدان — مرشَّح واحد لا اثنان",
+          len(ranked_dedup) == 1, ranked_dedup)
+
+    # ── 4) التكامل الكامل عبر _write_article: origin، الدمج، القسم، والسطر
+    # الملخِّص (البنود 1، 2، 5) — شاهد بايراكتار (Defensehere/Daily Sabah)
+    # الذي طلبتَ تشغيله؛ يُبقي الواقعة الأصلية بمصدر واحد فقط (تسقط عمدًا)
+    # كي تبقى grounded دون min_grounded_facts فيتوقف _write_article عند
+    # بوابة الكفاية مباشرة بعد حساب حصيلة استخراج المصادر — لا حاجة لتزييف
+    # الصياغة/الصورة/التخزين، غير مرتبطين بما هذا الاختبار يفحصه ──
+    cfg_on = load_config()
+    cfg_on["article"] = {**cfg_on["article"], "source_extract_enabled": True}
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_extract_source_facts = article._extract_source_facts
+    real_dup_index = article._source_fact_duplicate_index
+
+    brief_fact_text = "أعلنت بايكار أنها تصنّع محليًا 90 بالمئة من مسيّرات بيرقدار"
+    duplicate_source_text = "بايكار تصنّع محليًا معظم مكوّنات بيرقدار بحسب الشركة"
+    new_source_text = "صدّرت بايكار مسيّرات بيرقدار إلى أكثر من 30 دولة"
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "بايكار وبيرقدار",
+        "statements": [
+            {"text": brief_fact_text, "kind": "واقعة", "entities": ["بايكار"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "Defensehere", "text": "نص Defensehere", "link": "https://dh/1"},
+         {"name": "Daily Sabah", "text": "نص Daily Sabah", "link": "https://ds/1"}],
+        evidence.EVIDENCE_FULL_TEXT)
+
+    def _fake_support(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
+        if fact_text == brief_fact_text:
+            return ["Defensehere"]  # مصدر واحد فقط — يسقط عمدًا (< min_confirm)
+        return ["Defensehere", "Daily Sabah"]
+
+    def _fake_extract_source(topic, brief_texts, docs, cfg):
+        return article._ModelCallList([
+            {"text": duplicate_source_text, "entities": ["بايكار"]},
+            {"text": new_source_text, "entities": ["بايكار", "بيرقدار"]},
+        ])
+
+    def _fake_dup(candidate_text, existing_texts, cfg):
+        if candidate_text == duplicate_source_text:
+            return {"duplicate": True, "index": 0, "call_error": None}
+        return {"duplicate": False, "index": None, "call_error": None}
+
+    article._support_sources = _fake_support
+    article._extract_source_facts = _fake_extract_source
+    article._source_fact_duplicate_index = _fake_dup
+
+    try:
+        out = article._write_article("موجز اختبار بايراكتار", 9002, cfg_on)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        article._extract_source_facts = real_extract_source_facts
+        article._source_fact_duplicate_index = real_dup_index
+
+    check("التكامل: الواقعة الأصلية (مصدر واحد فقط) سقطت كما صُمِّم الاختبار",
+          any(d["text"] == brief_fact_text for d in out.get("dropped", [])), out.get("dropped"))
+    source_texts = [f["text"] for f in out.get("source_origin_facts", [])]
+    check("التكامل: الواقعة المكرَّرة (نفس الحدث بصياغة مختلفة) لم تدخل المقال إطلاقًا",
+          duplicate_source_text not in source_texts, source_texts)
+    check("التكامل: الواقعة الجديدة الفعلية دخلت المقال بوسم origin=source",
+          new_source_text in source_texts, source_texts)
+    check("التكامل: ملخّص الاستخراج (البند 5) — 2 استُخرجت، 1 اندمجت، 1 أُضيفت",
+          out["source_facts_summary"] == {"extracted": 2, "merged": 1, "added": 1},
+          out["source_facts_summary"])
+
+    report = article.build_report(out)
+    check("التقرير: قسم «وقائع من المصادر لم ترد في موجزي (راجعها)» ظاهر (البند 2)",
+          "وقائع من المصادر لم ترد في موجزي" in report)
+    check("التقرير: الواقعة الجديدة ومصادرها المسنِدة تظهر في القسم",
+          new_source_text in report and "Defensehere" in report and "Daily Sabah" in report,
+          report)
+    check("التقرير: الواقعة المندمَجة لا تظهر في قسم «وقائع من المصادر» (اندمجت لا أُضيفت)",
+          duplicate_source_text not in report)
+    check("التقرير: سطر الملخّص الظاهر (البند 5) يذكر الأعداد الثلاثة صراحة",
+          ("استُخرجت 2 واقعة" in report and "اندمجت 1" in report and "أُضيفت 1" in report),
+          report)
+
+    # ── مُعطَّل افتراضيًا: لا أثر على تشغيلة عادية بلا تفعيل صريح ──
+    check("المرحلة مُعطَّلة افتراضيًا في config.yaml المشحون فعليًا",
+          load_config()["article"].get("source_extract_enabled") is False)
+
+
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
     from src import review
@@ -9052,6 +9296,7 @@ def main() -> int:
     test_article_jargon_leak()
     test_article_language_note()
     test_article_mentioned_sources()
+    test_article_source_facts()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()
