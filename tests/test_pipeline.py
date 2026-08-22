@@ -6172,11 +6172,14 @@ def test_article_statement_kind() -> None:
           "مضمون" in article.STATEMENT_SUPPORT_SYSTEM and "مقابلة" in article.STATEMENT_SUPPORT_SYSTEM)
 
     # ── تكامل كامل عبر _write_article: تصريح يُدمَج كعنصر واحد، يُبلَّغ عنه في
-    # التقرير، وسنده يُفحَص بـis_statement=True فعليًا لا بمعزل عن الأنبوب ──
+    # التقرير، وسنده يُفحَص جزءًا جزءًا عبر _support_statement_parts (معيار
+    # الأغلبية، طلب المراجعة) لا حكمًا شموليًا واحدًا — انظر
+    # test_article_statement_majority للتغطية التفصيلية للمعيار نفسه ──
     real_extract_brief = article.extract_brief
     real_search = evidence.search
     real_gather_evidence = evidence.gather_evidence
     real_support_sources = article._support_sources
+    real_support_parts = article._support_statement_parts
 
     statement_text = "المتحدث ينفي الادّعاء ويؤكد أنه يدرس الأمر تدريجيًا"
     merged_excerpts = ["نفى المتحدث الادّعاء صراحة", "قال إنه يدرس الأمر تدريجيًا"]
@@ -6199,28 +6202,36 @@ def test_article_statement_kind() -> None:
          {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
         evidence.EVIDENCE_FULL_TEXT)
 
-    support_calls: list = []
+    part_calls: list = []
+    plain_calls: list = []
 
-    def _fake_support_stmt(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
-        support_calls.append((fact_text, is_statement))
+    def _fake_support_parts(merged, docs, cfg):
+        part_calls.append(list(merged))
+        # كلا الجزأين مؤيَّدان بكلا المصدرين — يجتاز كل مصدر عتبة الأغلبية
+        # (2 من 2) فيُحسبان مصدرين مستقلين، وكلا الجزأين يدخل نص الصياغة
+        return [["مصدر أول", "مصدر ثانٍ"] for _ in merged]
+
+    def _fake_support_plain(fact_text, docs, cfg, is_statement=False, is_report=False,
+                            publisher=""):
+        plain_calls.append(fact_text)
         # الواقعة العادية تسقط عمدًا (لا سند) — كافٍ لإسقاط outcome["produced"]
         # قبل مرحلتَي السؤال/الصياغة فلا حاجة لمحاكاتهما في هذا الاختبار
-        if fact_text == statement_text:
-            return ["مصدر أول", "مصدر ثانٍ"]
         return []
 
-    article._support_sources = _fake_support_stmt
+    article._support_statement_parts = _fake_support_parts
+    article._support_sources = _fake_support_plain
 
     out = article._write_article("موجز اختبار تصنيف تصريح", 9001, cfg)
 
-    check("تصريح: التصريح يمرّ بحلقة الوقائع (بحث+قراءة+حكم سند) لا يُهمَل كرأي",
-          any(t[0] == statement_text for t in support_calls), support_calls)
-    check("تصريح: _support_sources استُدعيت بـis_statement=True للتصريح تحديدًا",
-          any(t == (statement_text, True) for t in support_calls), support_calls)
-    check("تصريح: _support_sources استُدعيت بـis_statement=False للواقعة العادية "
-          "المجاورة له في نفس الموجز — لا تسرّب المعيار الأدق خارج نطاقه",
-          any(t[0] == "واقعة عادية أخرى في نفس الموجز" and t[1] is False
-              for t in support_calls), support_calls)
+    check("تصريح: التصريح يُحكَم عليه عبر _support_statement_parts جزءًا جزءًا "
+          "لا يُهمَل كرأي",
+          any(set(c) == set(merged_excerpts) for c in part_calls), part_calls)
+    check("تصريح: _support_sources الشمولي القديم لا يُستدعى إطلاقًا للتصريح "
+          "— معيار الأغلبية استبدله كليًا لمسار is_statement=True",
+          statement_text not in plain_calls, plain_calls)
+    check("تصريح: الواقعة العادية المجاورة تبقى تُحكَم عبر _support_sources "
+          "الشمولي — لا تسرّب معيار الأغلبية خارج نطاق التصريح",
+          "واقعة عادية أخرى في نفس الموجز" in plain_calls, plain_calls)
     check("تصريح: التصريح المسنَد لا يظهر ضمن dropped (لم يُرفض)",
           not any(d["text"] == statement_text for d in out["dropped"]), out["dropped"])
     check("تصريح: grounded_count == 1 — التصريح وحده اجتاز السند (الواقعة "
@@ -6238,12 +6249,21 @@ def test_article_statement_kind() -> None:
     check("تصريح: outcome['merged_statements'] يحمل جمل الموجز الحرفية المُدمَجة كاملة",
           any(m["merged_excerpts"] == merged_excerpts for m in out["merged_statements"]),
           out["merged_statements"])
+    check("تصريح: outcome['merged_statements'][0]['part_support'] يسرد كل جزء "
+          "بمصادره المؤيِّدة فعليًا (طلب المراجعة، معيار الأغلبية)",
+          any(m["speaker"] == speaker_name and
+              [p["excerpt"] for p in m["part_support"]] == merged_excerpts and
+              all(p["supporting"] == ["مصدر أول", "مصدر ثانٍ"] for p in m["part_support"])
+              for m in out["merged_statements"]), out["merged_statements"])
 
     report = article.build_report(out)
     check("تصريح: التقرير يعرض قسم «تصريحات دُمجت من عدة جمل» صراحة",
           "تصريحات دُمجت من عدة جمل" in report, report)
     check("تصريح: التقرير يذكر اسم المتحدث والجمل المُدمَجة معًا — لا إعفاء صامت",
           speaker_name in report and all(ex in report for ex in merged_excerpts),
+          report)
+    check("تصريح: التقرير يعرض كل جزء بمصادره المؤيِّدة (سطر '• «جزء» — مصدر')",
+          all(f"«{ex}» — مصدر أول؛ مصدر ثانٍ" in report for ex in merged_excerpts),
           report)
     check("تصريح: نص الدمج هنا يغطي كلا الجملتين فعليًا — لا فجوة دمج مُبلَّغة "
           "(تفريقًا عن شاهد الانكماش في test_article_merged_statement_gaps)",
@@ -6255,6 +6275,7 @@ def test_article_statement_kind() -> None:
     evidence.search = real_search
     evidence.gather_evidence = real_gather_evidence
     article._support_sources = real_support_sources
+    article._support_statement_parts = real_support_parts
 
 
 def test_article_merged_statement_gaps() -> None:
@@ -6328,10 +6349,14 @@ def test_article_merged_statement_gaps() -> None:
           article._merged_statement_gaps(shrunk_text, ["", "   "]) == [])
 
     # ── تكامل: outcome['merged_statements'] يحمل gaps، والتقرير يعرضها ──
+    # gaps تُحسب من f["text"]/merged_excerpts مباشرة عند الاستخراج (قبل أي
+    # بحث/حكم سند)، فتظهر بصرف النظر عن آلية الحكم على السند المستعملة —
+    # هذا الاختبار يُحاكي _support_statement_parts (معيار الأغلبية) لا
+    # _support_sources الشمولي القديم، تناظرًا مع مسار الأنبوب الفعلي
     real_extract_brief = article.extract_brief
     real_search = evidence.search
     real_gather_evidence = evidence.gather_evidence
-    real_support_sources = article._support_sources
+    real_support_parts = article._support_statement_parts
 
     cfg = load_config()
     speaker_name = "بايكار الاختباري"
@@ -6350,8 +6375,8 @@ def test_article_merged_statement_gaps() -> None:
         [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
          {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
         evidence.EVIDENCE_FULL_TEXT)
-    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, is_report=False, publisher="": (
-        ["مصدر أول", "مصدر ثانٍ"] if fact_text == shrunk_text else [])
+    article._support_statement_parts = lambda merged, docs, cfg: (
+        [["مصدر أول", "مصدر ثانٍ"] for _ in merged])
 
     out = article._write_article("موجز اختبار فجوة دمج التصريح", 9002, cfg)
 
@@ -6369,7 +6394,221 @@ def test_article_merged_statement_gaps() -> None:
     article.extract_brief = real_extract_brief
     evidence.search = real_search
     evidence.gather_evidence = real_gather_evidence
+    article._support_statement_parts = real_support_parts
+
+
+def test_article_statement_majority() -> None:
+    """معيار الأغلبية لسند "تصريح" مُدمَج (طلب المراجعة، تعليق العطل الرابع
+    والعشرون، تشخيص Issue #373): STATEMENT_SUPPORT_SYSTEM القديم يحكم على
+    التصريح **ككل** — شاهد فعلي (خمس دعاوى مُدمَجة، مصدران يغطيان الموضوع
+    فعليًا): الحكم رجع "ذكره 2 مصدر لكن لم يطابق مضمونه أيٌّ منها"، لأن كل
+    مصدر أيّد جزءًا مختلفًا من الخمسة لا التصريح بأكمله، فرفضه الحكم
+    الشمولي كليًا. العلاج: حكم جزءًا جزءًا (_support_statement_parts) ثم
+    حساب عددي في الكود (_statement_majority، لا تصنيف "جوهري/هامشي" من
+    النموذج) — مصدر يُسنِد التصريح ككل إن أيّد N//2+1 من N جزءًا. ما لم
+    يُؤيَّد من أي مصدر لا يدخل المتن، حتى لو اجتاز التصريح ككل بأغلبية."""
+    from src import article
+
+    cfg = load_config()
+
+    # ── وحدة _statement_majority: خمسة أجزاء، مصدران يغطيان أغلبية مختلفة ──
+    parts = ["الجزء الأول", "الجزء الثاني", "الجزء الثالث", "الجزء الرابع",
+            "الجزء الخامس"]
+    parts_support = [
+        ["مصدر أ", "مصدر ب"],  # الجزء الأول
+        ["مصدر أ", "مصدر ب"],  # الجزء الثاني
+        ["مصدر أ"],             # الجزء الثالث — أيّده مصدر أ وحده
+        ["مصدر ب"],             # الجزء الرابع — أيّده مصدر ب وحده
+        [],                     # الجزء الخامس — بلا مؤيِّد إطلاقًا
+    ]
+    supporting, mentioned, included = article._statement_majority(parts, parts_support)
+    check("معيار الأغلبية: مصدر أيّد 3 من 5 أجزاء (>= 5//2+1=3) يُحسب مؤيدًا "
+          "للتصريح ككل رغم عدم اتفاقه مع الآخر على كل الأجزاء",
+          {"مصدر أ", "مصدر ب"} <= supporting, supporting)
+    check("معيار الأغلبية: كلا المصدرين يظهران في mentioned",
+          mentioned == {"مصدر أ", "مصدر ب"}, mentioned)
+    check("معيار الأغلبية: الجزء الخامس بلا مؤيِّد لا يدخل included — لن يدخل "
+          "المتن حتى لو اجتاز التصريح ككل بأغلبية أجزاء أخرى (القيد الأهم)",
+          parts[4] not in included, included)
+    check("معيار الأغلبية: الأجزاء الأربعة الأولى مؤيَّدة بمصدر واحد فأكثر فتدخل included",
+          included == parts[:4], included)
+
+    below_majority = [["مصدر ج"], ["مصدر ج"], [], [], []]
+    supporting2, mentioned2, _ = article._statement_majority(parts, below_majority)
+    check("معيار الأغلبية: مصدر أيّد جزءين فقط من خمسة (دون عتبة 3) لا يُحسب "
+          "مؤيدًا للتصريح ككل — لا تصنيف «جوهري/هامشي»، حساب عددي صرف",
+          "مصدر ج" not in supporting2, supporting2)
+    check("معيار الأغلبية: لكنه يبقى مذكورًا في mentioned رغم عدم بلوغ الأغلبية",
+          "مصدر ج" in mentioned2, mentioned2)
+    check("معيار الأغلبية: قائمة أجزاء فارغة لا تكسر الحساب",
+          article._statement_majority([], []) == (set(), set(), []))
+
+    # ── _support_statement_parts: يرقّم الأجزاء ويستعمل
+    # STATEMENT_PART_SUPPORT_SYSTEM لا STATEMENT_SUPPORT_SYSTEM الشمولي ──
+    real_client_fn = article._client
+    captured: list = []
+
+    class _CaptureBlock:
+        type = "text"
+
+    class _CaptureResp:
+        content = [_CaptureBlock()]
+        stop_reason = "end_turn"
+
+    class _CaptureMessages:
+        def create(self, **kw):
+            captured.append(kw)
+            return _CaptureResp()
+
+    class _CaptureClient:
+        def __init__(self):
+            self.messages = _CaptureMessages()
+
+    article._client = lambda: _CaptureClient()
+    docs = [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"}]
+    article._support_statement_parts(["جزء أول", "جزء ثانٍ"], docs, cfg)
+    article._client = real_client_fn
+
+    check("_support_statement_parts: يستعمل STATEMENT_PART_SUPPORT_SYSTEM لا "
+          "STATEMENT_SUPPORT_SYSTEM الشمولي",
+          captured[0]["system"] == article.STATEMENT_PART_SUPPORT_SYSTEM and
+          captured[0]["system"] != article.STATEMENT_SUPPORT_SYSTEM)
+    check("_support_statement_parts: يستدعي أداة support_statement_parts",
+          captured[0]["tools"][0]["name"] == "support_statement_parts" and
+          captured[0]["tool_choice"]["name"] == "support_statement_parts")
+    check("_support_statement_parts: يرقّم الأجزاء في نص الطلب (1. ... 2. ...)",
+          "1. جزء أول" in captured[0]["messages"][0]["content"] and
+          "2. جزء ثانٍ" in captured[0]["messages"][0]["content"])
+    check("_support_statement_parts: بلا مصادر يعيد قائمة فارغة بلا نداء نموذج",
+          article._support_statement_parts(["جزء"], [], cfg) == [] and len(captured) == 1)
+    check("_support_statement_parts: بلا أجزاء يعيد قائمة فارغة بلا نداء نموذج",
+          article._support_statement_parts([], docs, cfg) == [] and len(captured) == 1)
+
+    # ── فشل نداء تقني: call_error لا حكم "لا مؤيِّد لأي جزء" صامت (نظير
+    # الضمان القائم في _support_sources/_ask_naming_model) ──
+    from anthropic import APIConnectionError
+    import httpx as _httpx
+
+    class _RaisingMessages:
+        def create(self, **kw):
+            raise APIConnectionError(
+                message="انقطاع شبكة اختباري",
+                request=_httpx.Request("POST", "https://api.anthropic.com/v1/messages"))
+
+    class _RaisingClient:
+        def __init__(self):
+            self.messages = _RaisingMessages()
+
+    article._client = lambda: _RaisingClient()
+    fail_result = article._support_statement_parts(["جزء"], docs, cfg)
+    article._client = real_client_fn
+    check("_support_statement_parts: فشل النداء التقني يبقى falsy (if not result)",
+          not fail_result, fail_result)
+    check("_support_statement_parts: فشل النداء التقني يحمل call_error بنص الاستثناء",
+          "انقطاع شبكة اختباري" in (getattr(fail_result, "call_error", "") or ""),
+          getattr(fail_result, "call_error", None))
+
+    # ── تكامل كامل عبر _write_article: تصريح من خمس دعاوى يجتاز بأغلبية،
+    # والجزء غير المؤيَّد لا يدخل نص الصياغة (طلب المراجعة، القيد الأهم) ──
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_support_parts = article._support_statement_parts
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+
+    statement_text = "المتحدث يعلن خمسة أمور دفعة واحدة"
+    p1, p2, p3, p4, p5 = ("أعلن الأمر الأول", "أعلن الأمر الثاني",
+                         "أعلن الأمر الثالث", "أعلن الأمر الرابع",
+                         "أعلن الأمر الخامس")
+    excerpts = [p1, p2, p3, p4, p5]
+    speaker_name = "متحدث الأغلبية"
+    plain_fact_text = "واقعة عادية مسنَدة في نفس الموجز"
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار معيار الأغلبية",
+        "statements": [
+            {"text": statement_text, "kind": "تصريح", "entities": ["المتحدث"],
+             "is_unnamed_event": False, "is_reference": False,
+             "speaker": speaker_name, "merged_excerpts": excerpts},
+            {"text": plain_fact_text, "kind": "واقعة", "entities": ["ك2"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+        evidence.EVIDENCE_FULL_TEXT)
+
+    def _fake_parts(merged, docs, cfg):
+        mapping = {p1: ["مصدر أول", "مصدر ثانٍ"], p2: ["مصدر أول", "مصدر ثانٍ"],
+                  p3: ["مصدر أول"], p4: ["مصدر ثانٍ"], p5: []}
+        return [mapping.get(ex, []) for ex in merged]
+
+    article._support_statement_parts = _fake_parts
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": (["مصدر أول", "مصدر ثانٍ"]
+                                        if fact_text == plain_fact_text else [])
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار الأغلبية؟", "")
+
+    captured_grounded: list = []
+
+    def _fake_draft_article(grounded, opinions, question, cfg, retries=3, avoid_note=""):
+        captured_grounded.append(grounded)
+        return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+                "image_headline": "عنوان", "post_title": question,
+                "post_body": "متن اختباري.", "hashtags": ["اختبار"]}, "")
+
+    article._draft_article = _fake_draft_article
+    article.find_images = lambda title, cfg, terms=None: []
+
+    out = article._write_article("موجز اختبار الأغلبية", 9003, cfg)
+
+    check("تكامل الأغلبية: التصريح اجتاز رغم عدم اتفاق مصدر واحد بمفرده على "
+          "كل أجزائه الخمسة — مصدران أيّد كل منهما 3/5 فقط",
+          not any(d["text"] == statement_text for d in out["dropped"]), out["dropped"])
+    check("تكامل الأغلبية: outcome['grounded_count'] == 2 (التصريح + الواقعة العادية)",
+          out["grounded_count"] == 2, out["grounded_count"])
+    check("تكامل الأغلبية: outcome['produced'] نجح",
+          out["produced"] is True, out["reason"])
+
+    statement_grounded = [g for g in (captured_grounded[0] if captured_grounded else [])
+                          if g.get("kind") == "تصريح"]
+    check("القيد الأهم: نص التصريح الممرَّر إلى الصياغة يضمّ الأجزاء الأربعة المؤيَّدة فقط",
+          bool(statement_grounded) and
+          all(p in statement_grounded[0]["text"] for p in (p1, p2, p3, p4)),
+          statement_grounded)
+    check("القيد الأهم: الجزء الخامس (بلا أي مؤيِّد) غائب عن النص الممرَّر إلى "
+          "الصياغة رغم اجتياز التصريح ككل بأغلبية أجزاء أخرى — لا نُنشر دعوى "
+          "رفضتها المصادر تحت غطاء أغلبية",
+          bool(statement_grounded) and p5 not in statement_grounded[0]["text"],
+          statement_grounded)
+
+    check("تكامل الأغلبية: outcome['merged_statements'][0]['part_support'] يسجّل "
+          "أي مصدر أيّد كل جزء — الجزء الخامس بقائمة مؤيِّدين فارغة",
+          any(m["speaker"] == speaker_name and
+              next((p["supporting"] for p in m["part_support"] if p["excerpt"] == p5), None) == []
+              for m in out["merged_statements"]), out["merged_statements"])
+
+    report = article.build_report(out)
+    check("تكامل الأغلبية: التقرير يعرض الجزء الخامس بعلامة «✗ لا مصدر» — لا "
+          "إعفاء صامت لجزء رفضته المصادر",
+          f"«{p5}» — ✗ لا مصدر" in report, report)
+    check("تكامل الأغلبية: التقرير يعرض الأجزاء المؤيَّدة بأسماء مصادرها",
+          f"«{p1}» — مصدر أول؛ مصدر ثانٍ" in report, report)
+
+    article.extract_brief = real_extract_brief
+    evidence.search = real_search
+    evidence.gather_evidence = real_gather_evidence
     article._support_sources = real_support_sources
+    article._support_statement_parts = real_support_parts
+    article._choose_question = real_choose_question
+    article._draft_article = real_draft_article
+    article.find_images = real_find_images
 
 
 def test_article_split_statements() -> None:
@@ -8772,6 +9011,7 @@ def main() -> int:
     test_article()
     test_article_statement_kind()
     test_article_merged_statement_gaps()
+    test_article_statement_majority()
     test_article_split_statements()
     test_article_split_event_condition()
     test_article_mandatory_query_name()
