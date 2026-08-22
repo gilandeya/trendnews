@@ -1,0 +1,72 @@
+{
+  "id": "347841731a2a",
+  "created_at": "2026-08-22T17:07:44.554192+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.85,
+  "trend_score": 0.0,
+  "velocity": 0.5,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Fourteen killed in strike on Myanmar monastery",
+  "link": "https://www.bbc.co.uk/news/articles/cqlxlvz01z1o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC",
+    "BBC World",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "MyJoyOnline Ghana"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Fourteen killed in strike on Myanmar monastery",
+    "link": "https://www.bbc.co.uk/news/articles/cqlxlvz01z1o?at_medium=RSS&at_campaign=rss",
+    "summary": "A rescue worker said the site had been struck twice as civilians gathered for a meditation retreat.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-22T13:48:06+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d5bc/live/b7226f80-9e22-11f1-ac9e-fff6c50f95cd.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC",
+      "BBC World",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cqlxlvz01z1o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/airstrike-on-a-buddhist-monastery-kills-death-toll-in-central-myanmar-sagaing-101787319916766.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/myanmar-airstrike-on-monastery-kills-14-during-buddhist-retreat"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/fourteen-killed-in-strike-on-myanmar-monastery/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d5bc/live/b7226f80-9e22-11f1-ac9e-fff6c50f95cd.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/d5bc/live/b7226f80-9e22-11f1-ac9e-fff6c50f95cd.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d5bc/live/b7226f80-9e22-11f1-ac9e-fff6c50f95cd.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/22/457146.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-2755.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 0.5004457109904906,
+    "age_hours": 23.999351725833336,
+    "is_stale": false,
+    "score": 18.84631907696639
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "id": "e07785f45baa",
+  "created_at": "2026-08-22T17:07:44.553100+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.35,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Watch: Moment humanoid robot beats Usain Bolt's 100m record",
+  "link": "https://www.bbc.co.uk/news/videos/cgljl9zp47xo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Free Malaysia Today",
+    "NDTV — World",
+    "The Express Tribune",
+    "The Guardian — Sport"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Watch: Moment humanoid robot beats Usain Bolt's 100m record",
+    "link": "https://www.bbc.co.uk/news/videos/cgljl9zp47xo?at_medium=RSS&at_campaign=rss",
+    "summary": "The robot ran the distance in 9.39 seconds at the World Humanoid Robot Games in Beijing.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-22T17:02:06+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/dee7/live/c783fb00-9e4a-11f1-8871-ff7211da55c9.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Free Malaysia Today",
+      "NDTV — World",
+      "The Express Tribune",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/videos/cgljl9zp47xo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625273/chinese-robot-beats-usain-bolts-100m-world-record-in-test-run"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/a-chinese-humanoid-robot-just-broke-usain-bolts-sprinting-record-11945001#publisher=newsstand"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/8/22/usain-bolts-100m-record-broken-at-world-humanoid-robot-games?traffic_source=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/sport/2026/aug/22/chinese-robot-runs-100m-sprint-quicker-usain-bolt-world-record"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/08/23/chinese-robot-beats-usain-bolt-s-100m-world-record-time"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/dee7/live/c783fb00-9e4a-11f1-8871-ff7211da55c9.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/dee7/live/c783fb00-9e4a-11f1-8871-ff7211da55c9.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/dee7/live/c783fb00-9e4a-11f1-8871-ff7211da55c9.jpg",
+      "https://c.ndtvimg.com/2026-08/jcg806ts_chinese-robot_625x300_22_August_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://i.guim.co.uk/img/media/bb4d6f1140a40f0b781db0cc686820f5cab64b8b/438_0_4640_3712/master/4640.jpg?width=700&quality=85&auto=format&fit=max&s=14eda22d65e7bd2aae13d464b9956b73",
+      "https://i.guim.co.uk/img/media/bb4d6f1140a40f0b781db0cc686820f5cab64b8b/438_0_4640_3712/master/4640.jpg?width=460&quality=85&auto=format&fit=max&s=bd7b9d262d1a7ee750717290940f7bc3"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 22.34874929351532
+  }
+}
