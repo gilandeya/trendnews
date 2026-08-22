@@ -100,5 +100,103 @@
     "posted_title": "",
     "region": "tech",
     "seen_at": "2026-08-22T06:07:57.151203+00:00"
+  },
+  {
+    "score": 19.63,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "centre",
+      "day",
+      "deadly",
+      "drone",
+      "kill",
+      "least",
+      "russian",
+      "shopping",
+      "strikes",
+      "two",
+      "ukraine"
+    ],
+    "link": "https://www.france24.com/en/europe/20260822-russian-strikes-in-ukraine-kill-at-least-two-people-injure-several-others",
+    "title": "Russian strikes in Ukraine kill at least two a day after deadly drone attack on shopping centre",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-08-22T09:07:47.105664+00:00"
+  },
+  {
+    "score": 16.34,
+    "bucket": "serious",
+    "tokens": [
+      "000",
+      "doses",
+      "drc",
+      "ebola",
+      "receives",
+      "shipment",
+      "vaccine"
+    ],
+    "link": "http://www.africanews.com/2026/08/22/ebola-drc-receives-shipment-of-more-than-16000-vaccine-doses/",
+    "title": "Ebola: DRC receives shipment of more than 16,000 vaccine doses",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-08-22T09:07:47.105975+00:00"
+  },
+  {
+    "score": 14.55,
+    "bucket": "serious",
+    "tokens": [
+      "biggest",
+      "forecasts",
+      "hottest",
+      "nino",
+      "records",
+      "smash",
+      "spark",
+      "year"
+    ],
+    "link": "https://www.thehindu.com/sci-tech/energy-and-environment/uk-forecasts-biggest-el-nino-will-smash-records-spark-hottest-year/article71376734.ece",
+    "title": "U.K. forecasts ‘biggest’ El Nino will smash records, spark hottest year",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-08-22T09:07:47.106258+00:00"
+  },
+  {
+    "score": 13.98,
+    "bucket": "serious",
+    "tokens": [
+      "begin",
+      "china",
+      "others",
+      "recall",
+      "record",
+      "tesla",
+      "vehicle"
+    ],
+    "link": "https://www.channelnewsasia.com/east-asia/china-evs-tesla-vehicle-recall-6334381",
+    "title": "Tesla and others begin record vehicle recall in China",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-08-22T09:07:47.106569+00:00"
+  },
+  {
+    "score": 13.29,
+    "bucket": "serious",
+    "tokens": [
+      "assistance",
+      "authorities",
+      "directs",
+      "families",
+      "financial",
+      "flood",
+      "hit",
+      "provide",
+      "shehbaz"
+    ],
+    "link": "https://www.dawn.com/news/2024556/pm-shehbaz-directs-authorities-to-provide-financial-assistance-to-flood-hit-families",
+    "title": "PM Shehbaz directs authorities to provide financial assistance to flood-hit families",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-22T09:07:47.106892+00:00"
   }
 ]

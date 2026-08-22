@@ -1,0 +1,56 @@
+{
+  "id": "8fc72009749d",
+  "created_at": "2026-08-22T09:07:47.106579+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.29,
+  "trend_score": 0.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "PM Shehbaz directs authorities to provide financial assistance to flood-hit families",
+  "link": "https://www.dawn.com/news/2024556/pm-shehbaz-directs-authorities-to-provide-financial-assistance-to-flood-hit-families",
+  "publishers": [
+    "Dawn",
+    "Geo News"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "PM Shehbaz directs authorities to provide financial assistance to flood-hit families",
+    "link": "https://www.dawn.com/news/2024556/pm-shehbaz-directs-authorities-to-provide-financial-assistance-to-flood-hit-families",
+    "summary": "Prime Minister Shehbaz Sharif on Saturday directed the relevant authorities to provide financial support to families affected by the recent monsoon rains and floods, the Prime Minister’s Office (PMO) said. The statement said that the premier issued the directions while chairing a meeting on the recent monsoon rains and floods and the damage caused. During the meeting, he directed that financial assistance be provided to the families of those who had lost their lives in the floods as well as to those whose homes had been partially or completely destroyed, the statement said. He instructed that restoration of the power supply and the rehabilitation of roads be completed as soon as possible, it added. He further directed the relevant federal ministers and secretaries to visit the affected areas, assess the damage, initiate rehabilitation work and expedite relief activities. PM Shehbaz ordered that essential food items and other relief supplies be delivered as soon as possible to the areas that had so far remained inaccessible. He also directed the National Disaster Management Authority (NDMA) and the Provincial District Management Authorities (PDMAs) to remain fully prepared in view o",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-22T06:45:19+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/221128163973478.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Geo News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2024556/pm-shehbaz-directs-authorities-to-provide-financial-assistance-to-flood-hit-families"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/678734-pm-directs-financial-assistance-for-families-affected-by-floods"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/221128163973478.webp",
+      "https://i.dawn.com/thumbnail/2026/08/221128163973478.webp",
+      "https://www.geo.tv/assets/uploads/2026-08-22/678734_015942_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 13.291825327870372
+  }
+}

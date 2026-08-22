@@ -1,0 +1,75 @@
+{
+  "id": "c5698ec68c51",
+  "created_at": "2026-08-22T09:07:47.105228+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.63,
+  "trend_score": 0.0,
+  "velocity": 0.56,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian strikes in Ukraine kill at least two a day after deadly drone attack on shopping centre",
+  "link": "https://www.france24.com/en/europe/20260822-russian-strikes-in-ukraine-kill-at-least-two-people-injure-several-others",
+  "publishers": [
+    "Al Jazeera",
+    "CBS News — World",
+    "France24",
+    "Hindustan Times — World",
+    "South China Morning Post",
+    "The Kyiv Independent"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Russian strikes in Ukraine kill at least two a day after deadly drone attack on shopping centre",
+    "link": "https://www.france24.com/en/europe/20260822-russian-strikes-in-ukraine-kill-at-least-two-people-injure-several-others",
+    "summary": "At least two people were reported dead early Saturday by local authorities, after Russian strikes on Ukraine. The strikes came after a series of Russian bombings killed at least 20 people in Ukraine on Friday, including 16 in a daytime drone attack on a busy shopping centre in President Volodymyr Zelensky's hometown of Kryvyi Rih.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-22T06:02:27+00:00",
+    "image_url": "https://s.france24.com/media/display/7370887e-9ded-11f1-8fd6-005056bf30b7/w:1024/p:16x9/AP26233423453970.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera",
+      "CBS News — World",
+      "France24",
+      "Hindustan Times — World",
+      "South China Morning Post",
+      "The Kyiv Independent"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/russia-central-asia/article/3364896/russian-drone-strikes-ukraine-shopping-centre-kill-16-injure-130?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260821-back-to-back-russian-drone-strikes-kill-14-people-in-ukraine-shopping-centre"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260822-russian-strikes-in-ukraine-kill-at-least-two-people-injure-several-others"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/russian-double-tap-strike-on-shopping-centre-in-ukraine-kills-15-and-wounds-130-101787339853985.html"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/ukraine-russia-war-mall/"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/7370887e-9ded-11f1-8fd6-005056bf30b7/w:1024/p:16x9/AP26233423453970.jpg",
+      "https://s.france24.com/media/display/8b15b172-9d87-11f1-abb9-005056bfb2b6/w:1024/p:16x9/000-C69769G.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 0.5560524887496467,
+    "age_hours": 2.9973189588888887,
+    "is_stale": false,
+    "score": 19.629345657300593
+  }
+}
