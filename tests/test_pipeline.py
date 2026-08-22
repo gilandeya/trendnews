@@ -300,12 +300,18 @@ def test_image_report() -> None:
     check("article._image_report_lines: قاموس فارغ (لم تُبنَ صورة أصلًا) لا يُنتج شيئًا",
           article._image_report_lines({}) == [])
 
-    # ── image_pool_source: تمييز صريح بين مصدر مسند واحتياط استبعاد إعادة
-    # النشر (طلب المراجعة، مراجعة بشرية بعد أول نشر، البند 1) ──
-    lines_grounded = article._image_report_lines(
-        {**shot2, "image_pool_source": "grounded"})
-    check("_image_report_lines: pool=grounded يبقي الصياغة الأصلية «مصدر مسند»",
-          any("مصدر مسند مباشرة" in ln for ln in lines_grounded), lines_grounded)
+    # ── image_pool_source: تمييز صريح بين brief/source/excluded_reprint
+    # (طلب المراجعة، مراجعة بشرية بعد أول نشر، البند 1؛ وأولوية brief ثم
+    # source، تشخيص Issue #373، البند 4) ──
+    lines_brief = article._image_report_lines(
+        {**shot2, "image_pool_source": "brief"})
+    check("_image_report_lines: pool=brief يبقي الصياغة الأصلية «مصدر مسند»",
+          any("مصدر مسند مباشرة" in ln for ln in lines_brief), lines_brief)
+    lines_source = article._image_report_lines(
+        {**shot2, "image_pool_source": "source"})
+    check("_image_report_lines: pool=source يوسم الصورة صراحة كواقعة مصدر لا موجز",
+          any("واقعة مصدر" in ln and "لا صورة من وقائع موجزي" in ln
+              for ln in lines_source), lines_source)
     lines_reprint = article._image_report_lines(
         {**shot2, "image_pool_source": "excluded_reprint"})
     check("_image_report_lines: pool=excluded_reprint يوسم الصورة صراحة كغير دليل إسناد",
@@ -8874,12 +8880,15 @@ def test_article_source_facts() -> None:
 
     # ── 4) التكامل الكامل عبر _write_article: origin، الدمج، القسم، والسطر
     # الملخِّص (البنود 1، 2، 5) — شاهد بايراكتار (Defensehere/Daily Sabah)
-    # الذي طلبتَ تشغيله؛ يُبقي الواقعة الأصلية بمصدر واحد فقط (تسقط عمدًا)
-    # كي تبقى grounded دون min_grounded_facts فيتوقف _write_article عند
-    # بوابة الكفاية مباشرة بعد حساب حصيلة استخراج المصادر — لا حاجة لتزييف
-    # الصياغة/الصورة/التخزين، غير مرتبطين بما هذا الاختبار يفحصه ──
+    # الذي طلبتَ تشغيله. الواقعة الأصلية تُسنَد الآن بمصدرين فعليًا (طلب
+    # المراجعة، الجولة اللاحقة، البند 1: المرساة تُبنى من grounded
+    # بـorigin=="brief" — تحتاج واقعة موجز مسندة فعلًا لتغذية المرساة، لا
+    # ادّعاءً ساقطًا)، وmin_grounded_facts يُرفَع عمدًا (5) ليتوقف
+    # _write_article عند بوابة الكفاية رغم نجاح واقعتين (لا حاجة لتزييف
+    # الصياغة/الصورة/التخزين، غير مرتبطين بما هذا الاختبار يفحصه) ──
     cfg_on = load_config()
-    cfg_on["article"] = {**cfg_on["article"], "source_extract_enabled": True}
+    cfg_on["article"] = {**cfg_on["article"], "source_extract_enabled": True,
+                         "min_grounded_facts": 5}
 
     real_extract_brief = article.extract_brief
     real_search = evidence.search
@@ -8907,8 +8916,6 @@ def test_article_source_facts() -> None:
         evidence.EVIDENCE_FULL_TEXT)
 
     def _fake_support(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
-        if fact_text == brief_fact_text:
-            return ["Defensehere"]  # مصدر واحد فقط — يسقط عمدًا (< min_confirm)
         return ["Defensehere", "Daily Sabah"]
 
     def _fake_extract_source(topic, brief_texts, docs, cfg):
@@ -8936,8 +8943,10 @@ def test_article_source_facts() -> None:
         article._extract_source_facts = real_extract_source_facts
         article._source_fact_duplicate_index = real_dup_index
 
-    check("التكامل: الواقعة الأصلية (مصدر واحد فقط) سقطت كما صُمِّم الاختبار",
-          any(d["text"] == brief_fact_text for d in out.get("dropped", [])), out.get("dropped"))
+    check("التكامل: الواقعة الأصلية من الموجز أُسندت فعليًا (مصدران) — تغذّي مرساة الموضوع",
+          out.get("brief_grounded_count") == 1, out.get("brief_grounded_count"))
+    check("التكامل: توقّف عند بوابة الكفاية (min_grounded_facts=5) لا بوابة الأساس الصفري",
+          out["produced"] is False and "دون الحد الأدنى" in out["reason"], out.get("reason"))
     source_texts = [f["text"] for f in out.get("source_origin_facts", [])]
     check("التكامل: الواقعة المكرَّرة (نفس الحدث بصياغة مختلفة) لم تدخل المقال إطلاقًا",
           duplicate_source_text not in source_texts, source_texts)
@@ -8987,12 +8996,9 @@ def test_article_source_facts() -> None:
     def _fake_support_recording(fact_text, docs, cfg, is_statement=False, is_report=False,
                                 publisher=""):
         support_docs_seen.append((fact_text, [d["name"] for d in docs]))
-        if fact_text == brief_fact_text:
-            return ["Defensehere"]  # مصدر واحد فقط — يسقط عمدًا (< min_confirm)، كالاختبار
-            # الأول: تُبقي grounded دون min_grounded_facts فيتوقف _write_article
-            # عند بوابة الكفاية مباشرة بعد حساب حصيلة استخراج المصادر — لا حاجة
-            # لتزييف _choose_question/_draft_article، غير مرتبطين بما يفحصه هذا الاختبار
-        return ["Defensehere", "Daily Sabah"]
+        return ["Defensehere", "Daily Sabah"]  # الواقعتان تُسندان — min_grounded_facts=5
+        # (مُضبَط أعلاه على cfg_on) يوقف _write_article عند بوابة الكفاية رغم
+        # ذلك، فلا حاجة لتزييف _choose_question/_draft_article
 
     article.extract_brief = lambda body, cfg, retries=3: ({
         "topic": "بايكار وبيرقدار",
@@ -9048,6 +9054,32 @@ def test_article_source_facts() -> None:
           and set(new_fact_support_call[1]) == {"Defensehere", "Daily Sabah"},
           new_fact_support_call)
 
+    # ── شفافية الصلة النصية (طلب المراجعة، البند 2، تشخيص Issue #373): العدد
+    # الفعلي لكل واقعة (مقبولة أو مستبعَدة) يظهر في trail — الواقعة خارج
+    # الموضوع (كيان مشترك=0) والواقعة المقبولة (كيان مشترك وكلمة مشتركة
+    # إضافية معًا) كلتاهما ──
+    check("trail: سطر الاستبعاد يحمل العدد الفعلي لكيان مشترك=0",
+          "كيان مشترك=0" in off_topic_trail[0]["outcome"], off_topic_trail)
+    # سطر السند لا يحمل نص الواقعة نفسه (بخلاف سطر الاستبعاد) — يكفي أن
+    # يكون الوحيد بمرحلة "مسندة بـ" في هذا الاختبار (واقعة واحدة فقط تجاوزت
+    # فحص الصلة إلى مرحلة السند، هي new_source_text)
+    accepted_trail = [t for t in out2["trail"]
+                      if t["stage"] == "واقعة (من المصادر)" and "مسندة بـ" in t.get("outcome", "")]
+    check("trail: سطر الواقعة المقبولة يحمل عدد الكلمة المشتركة الإضافية أيضًا",
+          len(accepted_trail) == 1
+          and "كلمة مشتركة إضافية خارج الكيان=" in accepted_trail[0]["outcome"],
+          accepted_trail)
+
+    # ── نسبة brief/source الصريحة في التقرير (طلب المراجعة، الضابط الأخير):
+    # واقعة واحدة من الموجز + واحدة من المصادر (بعد استبعاد خارج الموضوع
+    # واندماج الأخرى) ──
+    check("brief_grounded_count/source_grounded_count صحيحان (1 موجز، 1 مصدر)",
+          out2.get("brief_grounded_count") == 1 and out2.get("source_grounded_count") == 1,
+          (out2.get("brief_grounded_count"), out2.get("source_grounded_count")))
+    report2 = article.build_report(out2)
+    check("build_report: نسبة الوقائع النهائية brief/source تظهر صراحة قرب أعلى التقرير",
+          "🧭 نسبة الوقائع النهائية: 1 من موجزي — 1 من المصادر" in report2, report2)
+
     # ── مُعطَّل افتراضيًا في **الكود** حين المفتاح غائب كليًا من التهيئة — لا
     # اعتمادًا على قيمة config.yaml الحالية القابلة للتبديل يدويًا بعد التحقق
     # الحي (نفس فخّ include_opinion سابقًا في هذا الـ Issue: فحص قيمة الملف
@@ -9055,6 +9087,209 @@ def test_article_source_facts() -> None:
     check("acfg.get('source_extract_enabled', False) — القيمة الافتراضية عند غياب "
           "المفتاح False في نص الكود نفسه، بصرف النظر عمّا يُضبط في config.yaml",
           'acfg.get("source_extract_enabled", False)' in inspect.getsource(article._write_article))
+
+
+def test_article_source_topic_relevance() -> None:
+    """_source_topic_relevance: فحص صلة موضوع بدرجتين لواقعة من المصادر
+    (طلب المراجعة، البند 2، تشخيص Issue #373) — تقاطع كيانات وحده («بايكار»
+    وحدها) لا يكفي، يُشترط أيضًا ≥ min_extra كلمة مشتركة إضافية من نص
+    الواقعة كاملًا مع anchor_text (لا الكيانات فقط)، خارج توكنز الكيان
+    المشترك نفسه (entity_overlap)."""
+    from src import article
+
+    anchor_entities = {"بايكار", "وبيرقدار"}
+    anchor_text = anchor_entities | {"اعلنت", "تصنع", "محليا", "مسيرات", "بيرقدار"}
+
+    rel_weak = article._source_topic_relevance(
+        ["بايكار"], "ارتفعت اسهم بايكار اليوم بنسبة قياسية جدا",
+        anchor_entities, anchor_text, 2)
+    check("_source_topic_relevance: كيان مشترك وحده (0 كلمة إضافية) ⟵ مستبعدة",
+          rel_weak["on_topic"] is False
+          and rel_weak["reason"] == "الكيان المشترك وحده لا يكفي", rel_weak)
+
+    rel_ok = article._source_topic_relevance(
+        ["بايكار", "بيرقدار"], "صدرت بايكار مسيرات بيرقدار الى اكثر من 30 دولة",
+        anchor_entities, anchor_text, 2)
+    check("_source_topic_relevance: كيان مشترك + كلمتان إضافيتان على الأقل ⟵ مقبولة",
+          rel_ok["on_topic"] is True and len(rel_ok["extra_shared"]) >= 2, rel_ok)
+
+    rel_none = article._source_topic_relevance(
+        ["كيان غريب لا علاقة له"], "حادث لا صلة له بالموضوع اطلاقا",
+        anchor_entities, anchor_text, 2)
+    check("_source_topic_relevance: لا كيان مشترك إطلاقًا ⟵ مستبعدة بسبب مختلف",
+          rel_none["on_topic"] is False
+          and rel_none["reason"] == "لا كيان مشترك مع مرساة الموضوع", rel_none)
+
+    rel_no_anchor = article._source_topic_relevance(
+        ["أي كيان"], "أي نص", set(), set(), 2)
+    check("_source_topic_relevance: مرساة فارغة ⟵ لا استبعاد (نفس حراسة الكود القديم "
+          "`if wanted_tokens and ...`)",
+          rel_no_anchor["on_topic"] is True, rel_no_anchor)
+
+    rel_min0 = article._source_topic_relevance(
+        ["بايكار"], "ارتفعت اسهم بايكار اليوم", anchor_entities, anchor_text, 0)
+    check("_source_topic_relevance: min_extra=0 ⟵ الدرجة الثانية مُعطَّلة، الكيان وحده يكفي",
+          rel_min0["on_topic"] is True, rel_min0)
+
+
+def test_article_zero_baseline_gate() -> None:
+    """بوابة الأساس الصفري (طلب المراجعة، البند 3، تشخيص Issue #373): امتناع
+    كامل إن لم تُسنَد أي واقعة من الموجز نفسه، حتى لو نجحت واقعة من المصادر
+    ودون أي تخفيف بمقارنة topic — الحالة الوسطى الخطرة: مقال عن زاوية
+    اكتشفتها الآلة بينما ادّعاءات الموجز نفسها كلها سقطت."""
+    from src import article
+
+    cfg = load_config()
+    # min_grounded_facts=1 يعني: لولا بوابة الأساس الصفري الجديدة، واقعة
+    # المصدر الوحيدة كانت لتكفي بمفردها لاجتياز بوابة الكفاية القديمة —
+    # يثبت أن البوابة الجديدة هي ما أوقف الإنتاج هنا، لا العدّ العددي.
+    # source_topic_min_shared_words=0 يعزل هذا الاختبار عن ضبط البند 2 —
+    # يكفي أن تتقاطع كيانات الواقعة المستخرَجة مع مرساة الموضوع (topic وحده،
+    # إذ لا وقائع موجز مسندة لتغذية المرساة بكياناتها).
+    cfg["article"] = {**cfg["article"], "source_extract_enabled": True,
+                      "min_grounded_facts": 1, "source_topic_min_shared_words": 0}
+
+    real = {"extract_brief": article.extract_brief, "search": evidence.search,
+           "gather_evidence": evidence.gather_evidence,
+           "support_sources": article._support_sources,
+           "extract_source_facts": article._extract_source_facts,
+           "dup_index": article._source_fact_duplicate_index}
+
+    brief_fact_text = "ادّعاء من الموجز لم يثبت"
+    source_fact_text = "واقعة اكتشفتها الآلة في المصادر عن جانب آخر"
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "كيان الموجز",
+        "statements": [
+            {"text": brief_fact_text, "kind": "واقعة", "entities": ["كيان الموجز"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أ", "text": "نص أ", "link": "https://a/1"},
+         {"name": "مصدر ب", "text": "نص ب", "link": "https://b/1"}],
+        evidence.EVIDENCE_FULL_TEXT)
+
+    def _fake_support(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
+        if fact_text == brief_fact_text:
+            return ["مصدر أ"]  # مصدر واحد فقط — الادّعاء الوحيد في الموجز يسقط دومًا
+        return ["مصدر أ", "مصدر ب"]  # الواقعة المستخرَجة من المصادر تُسنَد بمصدرين
+
+    article._support_sources = _fake_support
+    article._extract_source_facts = lambda topic, brief_texts, docs, cfg: article._ModelCallList([
+        {"text": source_fact_text, "entities": ["كيان الموجز"]},
+    ])
+    article._source_fact_duplicate_index = lambda candidate_text, existing_texts, cfg: (
+        {"duplicate": False, "index": None, "call_error": None})
+
+    try:
+        out = article._write_article("موجز اختبار بوابة الأساس الصفري", 9011, cfg)
+    finally:
+        article.extract_brief = real["extract_brief"]
+        evidence.search = real["search"]
+        evidence.gather_evidence = real["gather_evidence"]
+        article._support_sources = real["support_sources"]
+        article._extract_source_facts = real["extract_source_facts"]
+        article._source_fact_duplicate_index = real["dup_index"]
+
+    check("بوابة الأساس الصفري: الادّعاء الوحيد من الموجز سقط (brief_grounded_count=0)",
+          out.get("brief_grounded_count") == 0, out.get("brief_grounded_count"))
+    check("بوابة الأساس الصفري: الواقعة من المصادر أُسندت فعليًا (grounded غير فارغة، "
+          "source_grounded_count=1) — إثبات أن البوابة لا الفراغ هي ما أوقف الإنتاج",
+          out.get("source_grounded_count") == 1 and out.get("grounded_count") == 1, out)
+    check("بوابة الأساس الصفري: امتناع كامل برسالة صريحة، لا إنتاج مقال عن موضوع خاطئ",
+          out["produced"] is False
+          and out["reason"] == "لم تُسنَد أي واقعة من موجزك نفسه", out.get("reason"))
+
+
+def test_article_image_priority_brief_source() -> None:
+    """أولوية الصورة: brief ثم استكمال من source (طلب المراجعة، البند 4،
+    تشخيص Issue #373) — واقعة الموجز مسندة بمصدرين بلا صورة، وواقعة من
+    المصادر مسندة بمصدرين أحدهما بصورة فعلية: image_pool_source يصير
+    "source" لا "brief"/"none"، والصورة المختارة تُعزى للناشر الصحيح."""
+    from src import article
+
+    cfg = load_config()
+    cfg["article"] = {**cfg["article"], "source_extract_enabled": True,
+                      "source_topic_min_shared_words": 0}
+
+    real = {"extract_brief": article.extract_brief, "search": evidence.search,
+           "gather_evidence": evidence.gather_evidence,
+           "support_sources": article._support_sources,
+           "extract_source_facts": article._extract_source_facts,
+           "dup_index": article._source_fact_duplicate_index,
+           "choose_question": article._choose_question,
+           "draft_article": article._draft_article,
+           "find_images": article.find_images}
+
+    brief_fact_text = "الحدث الأول وقع بالفعل"
+    source_fact_text = "واقعة إضافية من المصادر"
+    now = datetime(2026, 1, 1, tzinfo=timezone.utc)
+
+    art_a = Article(title="ت", link="https://a/1", summary="", source_name="مصدر أ",
+                    region="global", weight=1.0, published=now, publisher="مصدر أ")
+    art_b = Article(title="ت", link="https://b/1", summary="", source_name="مصدر ب",
+                    region="global", weight=1.0, published=now, publisher="مصدر ب")
+    art_c = Article(title="ت", link="https://c/1", summary="", source_name="مصدر ج",
+                    region="global", weight=1.0, published=now, publisher="مصدر ج",
+                    image_candidates=["https://c/img.jpg"])
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار أولوية الصورة",
+        "statements": [
+            {"text": brief_fact_text, "kind": "واقعة", "entities": ["كيان"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [art_a, art_b, art_c]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أ", "text": "نص أ يؤيد الحدث الأول", "link": "https://a/1"},
+         {"name": "مصدر ب", "text": "نص ب يؤيد الحدث الأول أيضًا", "link": "https://b/1"},
+         {"name": "مصدر ج", "text": "نص ج يؤيد الواقعة الإضافية", "link": "https://c/1"}],
+        evidence.EVIDENCE_FULL_TEXT)
+
+    def _fake_support(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
+        if fact_text == brief_fact_text:
+            return ["مصدر أ", "مصدر ب"]  # بلا صورة لدى أيٍّ منهما
+        return ["مصدر ب", "مصدر ج"]  # مصدر ج يحمل صورة فعلية
+
+    article._support_sources = _fake_support
+    article._extract_source_facts = lambda topic, brief_texts, docs, cfg: article._ModelCallList([
+        {"text": source_fact_text, "entities": ["كيان"]},
+    ])
+    article._source_fact_duplicate_index = lambda candidate_text, existing_texts, cfg: (
+        {"duplicate": False, "index": None, "call_error": None})
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار أولوية الصورة؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "خبر", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن مُعاد صياغته بالكامل بلا أي تشابه لفظي مع أي مصدر هنا.",
+         "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
+
+    try:
+        out = article._write_article("موجز اختبار أولوية الصورة", 9012, cfg)
+    finally:
+        article.extract_brief = real["extract_brief"]
+        evidence.search = real["search"]
+        evidence.gather_evidence = real["gather_evidence"]
+        article._support_sources = real["support_sources"]
+        article._extract_source_facts = real["extract_source_facts"]
+        article._source_fact_duplicate_index = real["dup_index"]
+        article._choose_question = real["choose_question"]
+        article._draft_article = real["draft_article"]
+        article.find_images = real["find_images"]
+
+    check("أولوية الصورة: المقال أُنتج فعلًا", out["produced"] is True, out.get("reason"))
+    ir = out["image_report"]
+    check("أولوية الصورة: image_pool_source='source' (لا صورة لدى مصادر الموجز، "
+          "فاستُكمِل من وقائع المصادر لا 'brief'/'none')",
+          ir.get("image_pool_source") == "source", ir)
+    check("أولوية الصورة: عُزيت الصورة للناشر الصحيح (مصدر ج لا مصدر أ/ب)",
+          out.get("image_source_name") == "مصدر ج", out)
 
 
 def test_reject_boxes_render() -> None:
@@ -9479,6 +9714,9 @@ def main() -> int:
     test_article_language_note()
     test_article_mentioned_sources()
     test_article_source_facts()
+    test_article_source_topic_relevance()
+    test_article_zero_baseline_gate()
+    test_article_image_priority_brief_source()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()

@@ -1595,6 +1595,35 @@ def _rank_docs_for_source_extract(docs: list[dict], wanted: set[str], cfg,
     return [d for _, _, d in scored[:max_docs]]
 
 
+def _source_topic_relevance(entities: list[str] | None, text: str,
+                            anchor_entities: set[str], anchor_text: set[str],
+                            min_extra: int) -> dict:
+    """فحص صلة موضوع بنيوي بدرجتين لواقعة مستخرَجة من مصادر (طلب المراجعة،
+    البند 2، تشخيص Issue #373): (أ) تقاطع كيانات الواقعة مع مرساة الكيانات
+    (anchor_entities: topic + كيانات وقائع الموجز المسندة فعلًا) — كما كان،
+    (ب) درجة ثانية: هذا التقاطع وحده غير كافٍ إن كان بأكمله كيانًا مشتركًا
+    واحدًا («بايكار» وحده لا يكفي، شاهد المراجعة) — نشترط أيضًا ≥min_extra
+    كلمة مشتركة من نص الواقعة كاملًا مع anchor_text (يضم أيضًا نص وقائع
+    الموجز المسندة كاملة، لا كياناتها فقط — نافذة كيانات وحدها ضيقة جدًا لا
+    تكاد تنتج كلمتين مشتركتين لأي واقعة)، خارج توكنز الكيان المشترك نفسه
+    (entity_overlap) كي لا يُحتسَب الكيان نفسه ضمن «الإضافي». فحص بنيوي
+    بحت في الدرجتين معًا، لا حكم لغوي جديد."""
+    entity_tokens: set[str] = set()
+    for e in entities or []:
+        entity_tokens |= norm_tokens(e)
+    entity_overlap = entity_tokens & anchor_entities
+    text_tokens = set(norm_tokens(text or ""))
+    extra_shared = (text_tokens & anchor_text) - entity_overlap
+    if anchor_entities and not entity_overlap:
+        reason = "لا كيان مشترك مع مرساة الموضوع"
+    elif anchor_entities and len(extra_shared) < min_extra:
+        reason = "الكيان المشترك وحده لا يكفي"
+    else:
+        reason = None
+    return {"entity_overlap": entity_overlap, "extra_shared": extra_shared,
+            "on_topic": reason is None, "reason": reason}
+
+
 def _extract_source_facts(topic: str, brief_fact_texts: list[str], docs: list[dict],
                           cfg) -> list[dict]:
     """يستخرج وقائع إضافية من وثائق مقروءة فعلًا، غائبة عن وقائع الموجز
@@ -2626,6 +2655,7 @@ def _new_outcome() -> dict:
     return {"produced": False, "reason": "", "question": "", "dropped": [],
            "sources": [], "unanswered": [], "answered_questions": [], "diffs": [],
            "trail": [], "draft_id": None, "grounded_count": 0,
+           "brief_grounded_count": 0, "source_grounded_count": 0,
            "image_source_name": None, "image_source_link": None,
            "image_report": {}, "opinion_note": "", "originality_notes": [],
            "merged_statements": [], "split_statements": [], "report_statements": [],
@@ -3155,14 +3185,30 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # تصبح افتراضية على كل تشغيلة إنتاج.
     source_extract_enabled = bool(acfg.get("source_extract_enabled", False))
     source_max_docs = int(acfg.get("source_extract_max_docs", 8))
+    source_topic_min_shared = int(acfg.get("source_topic_min_shared_words", 2))
     extracted_source_count = 0
     merged_source_count = 0
     offtopic_source_count = 0
     if source_extract_enabled and all_read_docs:
+        # المرساة تُبنى من grounded بـ origin=="brief" حصرًا — لا من
+        # facts_raw/questions_from_brief الخامة (طلب المراجعة، البند 1،
+        # تشخيص Issue #373): كل عنصر في grounded هنا مُوسَم "brief" فعلًا
+        # (التوسيم أعلاه يسبق هذا الفرع) لأنه اجتاز حكم السند بالفعل — أما
+        # ادّعاء من الموجز سقط (رُفض/لم يُسنَد) فيبقى في facts_raw وحدها،
+        # ولا يجوز أن يوسّع رخصة قبول واقعة مصدر أخرى بكيانه: ادّعاء ساقط
+        # يثبت فقط أنه لم يثبت، لا أنه "موضوع الموجز".
+        # anchor_text (نص كامل لا كيانات فقط) يغذّي الدرجة الثانية للصلة
+        # النصية أدناه (_source_topic_relevance) — نافذة كيانات+موضوع وحدها
+        # ضيقة جدًا لتنتج كلمتين إضافيتين مشتركتين لأي واقعة واقعية.
         wanted_tokens: set[str] = set(norm_tokens(topic))
-        for s in facts_raw + questions_from_brief:
-            for e in s.get("entities") or []:
+        brief_grounded_texts: list[str] = []
+        for g in grounded:
+            if g.get("origin") != "brief":
+                continue
+            brief_grounded_texts.append(g.get("text", ""))
+            for e in g.get("entities") or []:
                 wanted_tokens |= norm_tokens(e)
+        anchor_text_tokens = wanted_tokens | norm_tokens(" ".join(brief_grounded_texts))
         # مجمّع موحَّد الهوية بلا سقف (طلب المراجعة، البند 1) — يُستعمَل
         # كحوض حكم السند مباشرة، بخلاف ranked_docs (نفس المجمّع مفروزًا
         # ومقصوصًا عند source_max_docs) الذي يخصّ حجم برومبت الاستخراج فقط:
@@ -3186,26 +3232,41 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                                  f"{extracted_source_count} واقعة إضافية مستخرَجة من "
                                  f"{len(ranked_docs)} وثيقة مقروءة")})
         for sf in extracted:
-            # فحص صلة بنيوي بموضوع الموجز (طلب المراجعة، البند 2) — قبل أي
-            # نداء نموذج (دمج أو سند)، فلا كلفة على وقائع خارج الموضوع
-            # كليًا (مقال عن كبار دافعي الضرائب يذكر شركة الموجز عرضًا، ثم
-            # يُستخرج منه واقعة عن شركة أخرى غير معنية إطلاقًا — الشاهد
-            # الفعلي الذي بنى هذا الفحص). تقاطع كيانات الواقعة مع كيانات
-            # موضوع الموجز (wanted_tokens نفسها المستعملة في فرز برومبت
-            # الاستخراج أعلاه) — لا حكم لغوي جديد، فحص بنيوي بحت.
-            fact_tokens: set[str] = set()
-            for e in sf.get("entities") or []:
-                fact_tokens |= norm_tokens(e)
-            if wanted_tokens and not (fact_tokens & wanted_tokens):
+            # فحص صلة بنيوي بموضوع الموجز، بدرجتين (طلب المراجعة، البند 2،
+            # تشخيص Issue #373) — قبل أي نداء نموذج (دمج أو سند)، فلا كلفة
+            # على وقائع خارج الموضوع كليًا (مقال عن كبار دافعي الضرائب يذكر
+            # شركة الموجز عرضًا، ثم يُستخرج منه واقعة عن شركة أخرى غير
+            # معنية إطلاقًا — الشاهد الفعلي الذي بنى هذا الفحص). الدرجة
+            # الثانية (شاهد المراجعة اللاحق: تقاطع «بايكار» وحده مرّر واقعة
+            # عن جانب آخر تمامًا) تشترط أيضًا صلة نصية إضافية لا كيانًا
+            # مشتركًا وحده. العدد الفعلي يُسجَّل في trail لكل واقعة استُبعدت
+            # لعدم الصلة أو اجتازت الفحص لتُسنَد لاحقًا (لا الواقعة
+            # المندمِجة — نصها لا يجوز أن يظهر في التقرير إطلاقًا، كقسم
+            # "وقائع من المصادر" تمامًا) — لضبط source_topic_min_shared_words
+            # على أدلة حقيقية بعد عشر تشغيلات، كما فعلنا مع RELEVANCE_CAP.
+            rel = _source_topic_relevance(sf.get("entities"), sf.get("text", ""),
+                                          wanted_tokens, anchor_text_tokens,
+                                          source_topic_min_shared)
+            relevance_note = (f"كيان مشترك={len(rel['entity_overlap'])} كلمة مشتركة "
+                              f"إضافية خارج الكيان={len(rel['extra_shared'])} "
+                              f"(الحد الأدنى {source_topic_min_shared})")
+            if not rel["on_topic"]:
                 offtopic_source_count += 1
                 trail.append({"stage": "واقعة (من المصادر)", "query": "", "basis": "",
                               "sources": [], "raw_count": None, "matched_count": None,
                               "fetch_failures": [], "top_candidates": [],
                               "excluded_reprints": [], "call_error": None,
                               "reused_query": False,
-                              "outcome": ("🚫 استُبعدت لعدم صلتها بكيانات موضوع الموجز: "
+                              "outcome": (f"🚫 استُبعدت لعدم صلتها بموضوع الموجز "
+                                         f"({rel['reason']}؛ {relevance_note}): "
                                          f"«{sf['text']}»")})
                 continue
+            # لا سطر trail هنا للواقعة المندمِجة عمدًا (بخلاف الاستبعاد
+            # خارج الموضوع أدناه): نص واقعة اندمجت لا يجوز أن يظهر في
+            # التقرير إطلاقًا — لا في قسم "وقائع من المصادر" (صحيح، اندمجت
+            # لا أُضيفت) ولا في trail أيضًا، وإلا بدت واقعة أُضيفت فعليًا.
+            # relevance_note لهذه الحالة تُهدَر — merged_source_count العددي
+            # في source_facts_summary كافٍ لتتبّعها.
             dup = _source_fact_duplicate_index(sf["text"], brief_texts, cfg)
             if dup["call_error"] or dup["duplicate"]:
                 if dup["duplicate"]:
@@ -3225,11 +3286,13 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                           "fetch_failures": [], "top_candidates": [],
                           "excluded_reprints": [], "call_error": call_error,
                           "reused_query": False,
-                          "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {call_error}"
-                                     if call_error else
-                                     f"مسندة بـ{len(unique)} مصدر مستقل من المجمّع"
-                                     if len(unique) >= min_confirm
-                                     else f"سند غير كافٍ من المجمّع ({len(unique)}/{min_confirm})")})
+                          "outcome": (f"{relevance_note} — " +
+                                     (f"⚠️ فشل نداء النموذج تقنيًا: {call_error}"
+                                      if call_error else
+                                      f"مسندة بـ{len(unique)} مصدر مستقل من المجمّع"
+                                      if len(unique) >= min_confirm
+                                      else f"سند غير كافٍ من المجمّع "
+                                           f"({len(unique)}/{min_confirm})"))})
             if len(unique) < min_confirm:
                 continue
             fact_sources = _grounded_sources(supporting, known_docs, all_ranked)
@@ -3261,6 +3324,21 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # outcome["reason"] الحر الذي لا يُكتب أصلًا حين تفشل مراحل لاحقة
     # (الكفاية/الصياغة) رغم أن grounded نفسها مكتملة هنا
     outcome["grounded_count"] = len(grounded)
+    # نسبة brief/source صريحة (طلب المراجعة، الضابط الأخير، تشخيص Issue
+    # #373): تُبنى دومًا — تُستهلَك هنا في بوابة الأساس الصفري وأيضًا في
+    # build_report («فأرى الميل قبل أن أقرأ المتن»)
+    outcome["brief_grounded_count"] = sum(1 for g in grounded if g.get("origin") == "brief")
+    outcome["source_grounded_count"] = sum(1 for g in grounded if g.get("origin") == "source")
+
+    # بوابة الأساس الصفري (طلب المراجعة، البند 3، تشخيص Issue #373): امتناع
+    # كامل إن لم تُسنَد أي واقعة من الموجز نفسه، بصرف النظر عن نجاح أي واقعة
+    # من المصادر — مقال بُني بالكامل على زاوية اكتشفتها الآلة في المصادر
+    # بينما ادّعاءات الموجز نفسها كلها سقطت ليس "مقالًا عن موضوع الموجز"،
+    # وكلفة نشره عن موضوع خاطئ أعلى بكثير من كلفة الامتناع. عمدًا بلا تخفيف
+    # بمقارنة topic (يعيد فتح الباب نفسه بصيغة أرخى، كما نبَّه طلب المراجعة).
+    if grounded and outcome["brief_grounded_count"] == 0:
+        outcome["reason"] = "لم تُسنَد أي واقعة من موجزك نفسه"
+        return outcome
 
     ok, reason = _sufficiency(grounded, cfg)
     if not ok:
@@ -3426,9 +3504,19 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
 
     # الصورة: نفس آلية verify_draft._image_candidates حرفيًا — مرشَّحات من
     # مصادر مسندة فعلًا فقط، وfallback_provider يبحث في Wikimedia/Openverse
-    # حصرًا (imagesearch.find_images) لا Google Images (CLAUDE.md)
-    image_ranked = verify_draft._image_candidates(grounded)
-    image_pool_source = "grounded" if image_ranked else "none"
+    # حصرًا (imagesearch.find_images) لا Google Images (CLAUDE.md).
+    # أولوية brief ثم استكمال من source (طلب المراجعة، البند 4، تشخيص
+    # Issue #373): مجمّعان صريحان مبنيان من origin بدل الاعتماد ضمنيًا على
+    # ترتيب grounded (كان يعطي نفس النتيجة عمليًا بحكم أن وقائع الموجز
+    # تُضاف قبل وقائع المصادر دومًا، لكن التصريح البنيوي هنا أوضح ولا يعتمد
+    # على ثبات ترتيب الإدراج مستقبلًا، ويتيح تمييز pool في التقرير).
+    brief_grounded_for_image = [g for g in grounded if g.get("origin") == "brief"]
+    source_grounded_for_image = [g for g in grounded if g.get("origin") == "source"]
+    image_ranked = verify_draft._image_candidates(brief_grounded_for_image)
+    image_pool_source = "brief" if image_ranked else "none"
+    if not image_ranked:
+        image_ranked = verify_draft._image_candidates(source_grounded_for_image)
+        image_pool_source = "source" if image_ranked else "none"
     if not image_ranked and reprint_image_pool:
         # احتياط ثانٍ (طلب المراجعة، البند 1): وثيقة استُبعدت من عدّ
         # الاستقلالية تبقى مرشَّحًا صالحًا للصورة — الاستبعاد يخصّ السند لا
@@ -3545,16 +3633,19 @@ def _image_report_lines(ir: dict) -> list[str]:
     استُدعي احتياط find_images وماذا أعاد، إلا من هنا. ir فارغ (لا مفاتيح)
     حين لم يصل الإنتاج مرحلة بناء الصورة أصلًا — لا شيء يُعرض حينها.
 
-    pool_source (طلب المراجعة، مراجعة بشرية بعد أول نشر، البند 1) يميّز
-    مرشَّحات "grounded" (مصادر مسندة فعليًا) عن "excluded_reprint" (وثيقة
-    استُبعدت من عدّ الاستقلالية لكنها بقيت مرشَّحًا صالحًا للصورة) — وسمٌ
-    صريح فلا يبدو الاستثناء صامتًا ولا يُظَنّ "مصدر مسند" خطأً."""
+    pool_source يميّز "brief" (مصادر وقائع الموجز المسندة)، "source" (مصادر
+    وقائع اكتشفتها الآلة في المصادر ولم ترد في الموجز — احتياط بعد brief،
+    طلب المراجعة، البند 4)، و"excluded_reprint" (وثيقة استُبعدت من عدّ
+    الاستقلالية لكنها بقيت مرشَّحًا صالحًا للصورة) — وسمٌ صريح فلا يبدو
+    الاستثناء صامتًا ولا يُظَنّ "مصدر مسند من الموجز" خطأً."""
     if not ir:
         return []
     total = ir.get("total_candidates", 0)
     failures = ir.get("candidate_failures") or []
-    pool = ir.get("image_pool_source", "grounded")
-    pool_label = "مصادر مستبعدة كإعادة نشر" if pool == "excluded_reprint" else "المصادر المسندة"
+    pool = ir.get("image_pool_source", "brief")
+    _pool_labels = {"brief": "وقائع موجزي المسندة", "source": "وقائع المصادر المسندة",
+                    "excluded_reprint": "مصادر مستبعدة كإعادة نشر"}
+    pool_label = _pool_labels.get(pool, "المصادر المسندة")
     # illustrative قبل used_original عمدًا: imaging.build_post_image يضبط
     # used_original=True أيضًا حين ينجح احتياط find_images وحده (يعني فقط
     # "لا خلفية مصمَّمة استُخدمت")، فحالة الاحتياط الناجح تحمل العلمين معًا
@@ -3566,6 +3657,9 @@ def _image_report_lines(ir: dict) -> list[str]:
         if pool == "excluded_reprint":
             head = (f"🖼️ صورة من مصدر استُبعد من عدّ الاستقلالية ({total} مرشَّحًا) — "
                     "ليس دليل إسناد، فقط أُتيحت صورته احتياطًا لغياب صور المصادر المسندة.")
+        elif pool == "source":
+            head = (f"🖼️ صورة من واقعة مصدر (لم ترد في موجزي) مسندة مباشرة "
+                    f"({total} مرشَّحًا من وقائع المصادر — لا صورة من وقائع موجزي).")
         else:
             head = f"🖼️ صورة من مصدر مسند مباشرة ({total} مرشَّحًا من المصادر المسندة)."
     else:
@@ -3606,6 +3700,16 @@ def build_report(outcome: dict) -> str:
         lines += _image_report_lines(outcome.get("image_report") or {})
     else:
         lines.append(f"❌ لم يُصَغ مقال — {outcome['reason']}")
+
+    if outcome.get("grounded_count"):
+        # نسبة brief/source صريحة (طلب المراجعة، الضابط الأخير، تشخيص
+        # Issue #373): بعد بوابة الأساس الصفري، الحالة الوسطى (واقعة واحدة
+        # من الموجز نجت وعدة من المصادر عن جانب آخر) لا تزال ممكنة وتستحق
+        # أن تُرى قبل قراءة المتن، لا بعد اكتشافها من محتواه — يظهر قرب
+        # أعلى التقرير عمدًا، حتى حين لم يُنتَج مقال (يوضّح سبب الامتناع
+        # أيضًا حين تكون بوابة الأساس الصفري هي السبب).
+        lines += ["", (f"🧭 نسبة الوقائع النهائية: {outcome.get('brief_grounded_count', 0)} "
+                       f"من موجزي — {outcome.get('source_grounded_count', 0)} من المصادر")]
 
     if outcome.get("question"):
         lines += ["", f"**السؤال المختار:** {outcome['question']}"]
