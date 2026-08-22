@@ -8860,6 +8860,18 @@ def test_article_source_facts() -> None:
     check("_rank_docs_for_source_extract: نسختا ناشر واحد بلغتين تُوحَّدان — مرشَّح واحد لا اثنان",
           len(ranked_dedup) == 1, ranked_dedup)
 
+    # _dedup_docs_by_publisher مستخرَجة من الدالة أعلاه (طلب المراجعة، تعليق
+    # العطل الرابع والعشرون، البند 1) — تُستعمَل الآن أيضًا كمجمّع الحكم على
+    # السند مباشرة، بلا فرز ولا سقف
+    dedup_only = article._dedup_docs_by_publisher(dedup_docs, cfg)
+    check("_dedup_docs_by_publisher: توحيد الهوية وحده، بلا فرز/سقف — مرشَّح واحد بالنص الأطول",
+          len(dedup_only) == 1 and dedup_only[0]["text"] == "نص طويل نسبيًا يحمل تفاصيل أكثر من غيره",
+          dedup_only)
+    check("_dedup_docs_by_publisher: وثيقة بلا نص تُستبعد",
+          article._dedup_docs_by_publisher(
+              [{"name": "م", "text": "", "link": "u"}, {"name": "م٢", "text": "نص", "link": "u2"}],
+              cfg) == [{"name": "م٢", "text": "نص", "link": "u2"}])
+
     # ── 4) التكامل الكامل عبر _write_article: origin، الدمج، القسم، والسطر
     # الملخِّص (البنود 1، 2، 5) — شاهد بايراكتار (Defensehere/Daily Sabah)
     # الذي طلبتَ تشغيله؛ يُبقي الواقعة الأصلية بمصدر واحد فقط (تسقط عمدًا)
@@ -8931,8 +8943,8 @@ def test_article_source_facts() -> None:
           duplicate_source_text not in source_texts, source_texts)
     check("التكامل: الواقعة الجديدة الفعلية دخلت المقال بوسم origin=source",
           new_source_text in source_texts, source_texts)
-    check("التكامل: ملخّص الاستخراج (البند 5) — 2 استُخرجت، 1 اندمجت، 1 أُضيفت",
-          out["source_facts_summary"] == {"extracted": 2, "merged": 1, "added": 1},
+    check("التكامل: ملخّص الاستخراج (البند 5) — 2 استُخرجت، 1 اندمجت، 0 خارج الموضوع، 1 أُضيفت",
+          out["source_facts_summary"] == {"extracted": 2, "merged": 1, "off_topic": 0, "added": 1},
           out["source_facts_summary"])
 
     report = article.build_report(out)
@@ -8946,6 +8958,95 @@ def test_article_source_facts() -> None:
     check("التقرير: سطر الملخّص الظاهر (البند 5) يذكر الأعداد الثلاثة صراحة",
           ("استُخرجت 2 واقعة" in report and "اندمجت 1" in report and "أُضيفت 1" in report),
           report)
+
+    # ── 5) تصحيح تصميم (طلب المراجعة، تعليق العطل الرابع والعشرون): وقائع
+    # المصادر لا تُبحَث من جديد — سندها المجمّع المقروء نفسه، وفحص صلة
+    # بنيوي يستبعد ما لا يشارك كيانات موضوع الموجز قبل أي نداء نموذج ──
+    search_calls: list = []
+
+    def _counting_search(query, cfg, days, unrestricted=False):
+        search_calls.append(query)
+        return [object()]
+
+    dup_calls: list = []
+
+    def _fake_dup_counting(candidate_text, existing_texts, cfg):
+        dup_calls.append(candidate_text)
+        return {"duplicate": False, "index": None, "call_error": None}
+
+    offtopic_text = "حادث لا صلة له بموضوع الموجز إطلاقًا"
+
+    def _fake_extract_source_offtopic(topic, brief_texts, docs, cfg):
+        return article._ModelCallList([
+            {"text": offtopic_text, "entities": ["كيان غريب تمامًا لا علاقة له"]},
+            {"text": new_source_text, "entities": ["بايكار", "بيرقدار"]},
+        ])
+
+    support_docs_seen: list = []
+
+    def _fake_support_recording(fact_text, docs, cfg, is_statement=False, is_report=False,
+                                publisher=""):
+        support_docs_seen.append((fact_text, [d["name"] for d in docs]))
+        if fact_text == brief_fact_text:
+            return ["Defensehere"]  # مصدر واحد فقط — يسقط عمدًا (< min_confirm)، كالاختبار
+            # الأول: تُبقي grounded دون min_grounded_facts فيتوقف _write_article
+            # عند بوابة الكفاية مباشرة بعد حساب حصيلة استخراج المصادر — لا حاجة
+            # لتزييف _choose_question/_draft_article، غير مرتبطين بما يفحصه هذا الاختبار
+        return ["Defensehere", "Daily Sabah"]
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "بايكار وبيرقدار",
+        "statements": [
+            {"text": brief_fact_text, "kind": "واقعة", "entities": ["بايكار"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = _counting_search
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "Defensehere", "text": "نص Defensehere", "link": "https://dh/1"},
+         {"name": "Daily Sabah", "text": "نص Daily Sabah", "link": "https://ds/1"}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = _fake_support_recording
+    article._extract_source_facts = _fake_extract_source_offtopic
+    article._source_fact_duplicate_index = _fake_dup_counting
+
+    try:
+        out2 = article._write_article("موجز اختبار بايراكتار ٢", 9003, cfg_on)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        article._extract_source_facts = real_extract_source_facts
+        article._source_fact_duplicate_index = real_dup_index
+
+    check("لا بحث جديد لوقائع المصادر: evidence.search استُدعيت مرة واحدة فقط "
+          "(للواقعة الوحيدة في الموجز) — لا مرة إضافية لأي من الواقعتين المستخرَجتين",
+          len(search_calls) == 1, search_calls)
+    check("فحص الصلة البنيوي يمنع نداء الدمج للواقعة خارج الموضوع — دالة الدمج استُدعيت "
+          "مرة واحدة فقط (للواقعة الجديدة الفعلية، لا الواقعة خارج الموضوع)",
+          dup_calls == [new_source_text], dup_calls)
+    off_topic_trail = [t for t in out2["trail"]
+                       if t["stage"] == "واقعة (من المصادر)"
+                       and "استُبعدت لعدم صلتها" in t.get("outcome", "")]
+    check("trail: سطر استبعاد صريح للواقعة خارج الموضوع",
+          len(off_topic_trail) == 1 and offtopic_text in off_topic_trail[0]["outcome"],
+          off_topic_trail)
+    check("source_facts_summary['off_topic'] == 1",
+          out2["source_facts_summary"]["off_topic"] == 1, out2["source_facts_summary"])
+    check("الواقعة خارج الموضوع لم تدخل المقال إطلاقًا",
+          offtopic_text not in [f["text"] for f in out2.get("source_origin_facts", [])])
+    check("الواقعة الجديدة الفعلية دخلت المقال رغم عدم إجراء بحث جديد لها — سندها "
+          "المجمّع المقروء نفسه",
+          new_source_text in [f["text"] for f in out2.get("source_origin_facts", [])],
+          out2.get("source_origin_facts"))
+    new_fact_support_call = next((c for c in support_docs_seen if c[0] == new_source_text), None)
+    check("_support_sources استُدعيت للواقعة الجديدة بوثائق من المجمّع المقروء (Defensehere/"
+          "Daily Sabah) لا بوثائق بحث جديد",
+          new_fact_support_call is not None
+          and set(new_fact_support_call[1]) == {"Defensehere", "Daily Sabah"},
+          new_fact_support_call)
 
     # ── مُعطَّل افتراضيًا في **الكود** حين المفتاح غائب كليًا من التهيئة — لا
     # اعتمادًا على قيمة config.yaml الحالية القابلة للتبديل يدويًا بعد التحقق
