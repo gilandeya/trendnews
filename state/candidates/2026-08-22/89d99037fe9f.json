@@ -1,0 +1,86 @@
+{
+  "id": "89d99037fe9f",
+  "created_at": "2026-08-22T22:07:54.090049+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.41,
+  "trend_score": 1.0,
+  "velocity": 0.67,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran declares it has won the war as U.S. turns to economic warfare",
+  "link": "https://www.cbsnews.com/live-updates/iran-war-trump-economic-crackdown/",
+  "publishers": [
+    "CBS News",
+    "CBS News — World",
+    "France24",
+    "Punch Nigeria",
+    "Rappler",
+    "The Hindu — International",
+    "The Japan Times",
+    "Vanguard Nigeria"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Iran declares it has won the war as U.S. turns to economic warfare",
+    "link": "https://www.cbsnews.com/live-updates/iran-war-trump-economic-crackdown/",
+    "summary": "Iran's president said Friday the world had \"approved\" the country's victory, as Vice President JD Vance declares economic pressure \"the most effective tool that we have.\"",
+    "source_name": "CBS News — World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-08-22T20:55:33+00:00",
+    "image_url": "https://s.france24.com/media/display/40e60864-9e67-11f1-a9b4-005056bfb2b6/w:1024/p:16x9/AP26229596804920.jpg",
+    "publisher": "CBS News — World",
+    "cluster_sources": [
+      "CBS News",
+      "CBS News — World",
+      "France24",
+      "Punch Nigeria",
+      "Rappler",
+      "The Hindu — International",
+      "The Japan Times",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/live-updates/iran-war-trump-economic-crackdown/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260822-middle-east-live-iran-allows-several-iraqi-oil-tankers-to-pass-through-hormuz"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/countries-joining-us-sanctions-will-be-considered-enemies-iran-warns/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/iran-warns-any-country-joining-us-sanctions-considered-enemy/"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/philippines/us-iran-hostile-rhetoric-new-sanctions-august-22-2026/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-iran-keep-up-hostile-rhetoric-ahead-of-new-sanctions/article71376751.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/40e60864-9e67-11f1-a9b4-005056bfb2b6/w:1024/p:16x9/AP26229596804920.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/02/masoud-pezeshkian-1024x642.webp",
+      "https://th-i.thgim.com/public/incoming/7uq6ga/article71376788.ece/alternates/LANDSCAPE_1200/Iran_War_67667.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/22/558833.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/22/thumbs/400x400/558833.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 0.667280669732385,
+    "age_hours": 13.001635988611111,
+    "is_stale": false,
+    "score": 29.406143386550816
+  }
+}

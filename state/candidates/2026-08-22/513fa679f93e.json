@@ -1,0 +1,83 @@
+{
+  "id": "513fa679f93e",
+  "created_at": "2026-08-22T22:07:54.089573+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.53,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Primeiro-ministro diz que Canadá está agora em guerra comercial com os EUA",
+  "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/mercado/2026/08/mark-carney-diz-que-canada-esta-agora-em-guerra-comercial-com-os-eua.shtml",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "Dawn",
+    "Folha de S.Paulo",
+    "Hindustan Times — World",
+    "South China Morning Post",
+    "Vanguard Nigeria"
+  ],
+  "region": "br",
+  "article": {
+    "title": "Primeiro-ministro diz que Canadá está agora em guerra comercial com os EUA",
+    "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/mercado/2026/08/mark-carney-diz-que-canada-esta-agora-em-guerra-comercial-com-os-eua.shtml",
+    "summary": "O Canadá está \"em guerra\" comercial com os Estados Unidos depois que o presidente Donald Trump \"errou nos cálculos\" ao intensificar sua ofensiva tarifária, afirmou o primeiro-ministro Mark Carney . Leia mais (08/22/2026 - 16h13)",
+    "source_name": "Folha de S.Paulo",
+    "region": "br",
+    "weight": 1.0,
+    "published": "2026-08-22T19:13:00+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/22111254ac428f8.webp",
+    "publisher": "Folha de S.Paulo",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "Dawn",
+      "Folha de S.Paulo",
+      "Hindustan Times — World",
+      "South China Morning Post",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Folha de S.Paulo",
+        "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/mercado/2026/08/mark-carney-diz-que-canada-esta-agora-em-guerra-comercial-com-os-eua.shtml"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3364903/us-slaps-50-tariffs-us20-billion-canadian-goods-after-trade-talks-fail?utm_source=rss_feed"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2024554/us-hits-canadian-goods-with-50pc-tariffs-after-trade-talks-fail"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3364940/canadas-pm-hits-back-new-us-tariffs-after-trade-talks-fail?utm_source=rss_feed"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/us-imposes-50-tariffs-on-canadian-goods-as-trade-talks-collapse"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/canada-to-impose-retaliatory-tariffs-on-us-goods-from-sept-8-as-trade-talks-collapse-101787414796007.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/22111254ac428f8.webp",
+      "https://i.dawn.com/thumbnail/2026/08/22111254ac428f8.webp",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/22/457125.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/AFP__20260822__C6AL2ZJ__v1__MidRes__CanadianPmCarneyHoldsAPressAfterFailedTradeTalks-1024x683.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 30.527860357987628
+  }
+}
