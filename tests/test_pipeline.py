@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import atexit
+import inspect
 import os
 import shutil
 import sys
@@ -4857,6 +4858,10 @@ def test_article() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
 
     real_extract_brief = article.extract_brief
     real_search = evidence.search
@@ -5019,6 +5024,10 @@ def test_article() -> None:
     # config.yaml لمراجعة بشرية بعد أول نشر كسر هذا الاختبار بلا أي علاقة
     # بمنطقه — Issue #373، تعليق المراجعة الأخير)
     cfg_opinion_on = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg_opinion_on["article"]["source_extract_enabled"] = False
     cfg_opinion_on["article"]["include_opinion"] = True
     out2 = article._write_article("موجز اختبار القاعدة 2", 2, cfg_opinion_on)
     check("2) الرأي لا يُبحث عنه سند إطلاقًا — لا استعلام بحث يحوي نصه",
@@ -5038,6 +5047,10 @@ def test_article() -> None:
     # الرأي يُسقط كليًا من المتن بقرار تهيئة — لا لانعدام سند، فيجب أن يُذكر
     # في التقرير مميَّزًا عن "ما سقط من موجزي" ──
     cfg_no_opinion = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg_no_opinion["article"]["source_extract_enabled"] = False
     cfg_no_opinion["article"]["include_opinion"] = False
     out2b = article._write_article("موجز اختبار تعطيل الرأي", 2, cfg_no_opinion)
     check("include_opinion=false: الرأي لا يصل مرحلة الصياغة إطلاقًا",
@@ -5054,6 +5067,10 @@ def test_article() -> None:
     # الافتراضية (المضبوطة اليوم false لمراجعة بشرية)، فيبقى هذا الاختبار
     # يثبت سلوك الكود عند true بصرف النظر عمّا يُضبط في الملف مستقبلًا
     cfg_with_opinion = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg_with_opinion["article"]["source_extract_enabled"] = False
     cfg_with_opinion["article"]["include_opinion"] = True
     out2c = article._write_article("موجز اختبار الرأي عند include_opinion=true", 2,
                                     cfg_with_opinion)
@@ -6111,6 +6128,10 @@ def test_article_statement_kind() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
 
     check("WRITEUP_KINDS يضم «تصريح» تصنيفًا ثالثًا بجانب واقعة/رأي",
           "تصريح" in article.WRITEUP_KINDS)
@@ -6359,6 +6380,10 @@ def test_article_merged_statement_gaps() -> None:
     real_support_parts = article._support_statement_parts
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
     speaker_name = "بايكار الاختباري"
 
     article.extract_brief = lambda body, cfg, retries=3: ({
@@ -6410,6 +6435,10 @@ def test_article_statement_majority() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
 
     # ── وحدة _statement_majority: خمسة أجزاء، مصدران يغطيان أغلبية مختلفة ──
     parts = ["الجزء الأول", "الجزء الثاني", "الجزء الثالث", "الجزء الرابع",
@@ -6645,6 +6674,10 @@ def test_article_split_statements() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
 
     # ── normalize_statement: يلتقط split_from، وفارغ حين لا فصل ──
     part = article.normalize_statement({
@@ -6746,6 +6779,10 @@ def test_article_split_event_condition() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
 
     # ── نص التوجيه: الشرط الثاني (حدث لا وصف) + قاعدة الاستبعاد + الحماية
     # من الإفراط (تفصيلة ملتصقة بواقعة حدثية في جملتها لا تُنزَع) ──
@@ -6924,6 +6961,10 @@ def test_article_mandatory_query_name() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
 
     check("_fact_mandatory_query_prefix: عنصر «تصريح» يعيد speaker",
           article._fact_mandatory_query_prefix(
@@ -7022,6 +7063,10 @@ def test_article_report_kind() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
 
     check("WRITEUP_KINDS يضم «تقرير منقول» تصنيفًا رابعًا",
           "تقرير منقول" in article.WRITEUP_KINDS)
@@ -7508,6 +7553,10 @@ def test_article_unsourced_entities() -> None:
 
     # ── min_run قابل للضبط عبر config.yaml ──
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
     check("config.yaml: article.unsourced_entity_min_run موجود وقابل للضبط",
           cfg.path("article.unsourced_entity_min_run") is not None)
 
@@ -7556,7 +7605,7 @@ def test_article_unsourced_entities() -> None:
          "hashtags": ["اعتزال"]}, "")
     article.find_images = lambda title, cfg, terms=None: []
 
-    out = article._write_article("موجز اختبار كيانات غير مسندة", 9004, load_config())
+    out = article._write_article("موجز اختبار كيانات غير مسندة", 9004, cfg)
 
     check("تكامل: outcome['unsourced_entities'] يحتوي التفصيلة غير المسندة",
           any("جيايين" in n for n in out["unsourced_entities"]), out["unsourced_entities"])
@@ -7584,6 +7633,10 @@ def test_evidence_top_candidates() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
 
     trusted = Article(title="خبر من مصدر موثوق بصياغة تحريرية لا تشارك كلمات الاستعلام",
                       link="https://trusted.example/1", summary="ملخص تحريري",
@@ -7817,6 +7870,10 @@ def test_article_duplicate_query_reuse() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
 
     shared_entities = ["سهيلة الطاهري", "روبرتو كارلوس"]
     fact_texts = [f"واقعة رقم {i} عن سهيلة الطاهري وروبرتو كارلوس" for i in range(1, 4)]
@@ -7938,6 +7995,10 @@ def test_article_reprint_exclusion() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
     passage = " ".join(f"كلمة{i}" for i in range(1, 51))  # 50 كلمة متجاورة (≥ 40)
     body = f"مقدمة الموجز. {passage}. خاتمة الموجز الملصق هنا للاختبار الكامل."
     reprint_text = f"نقلاً عن الموجز الأصلي: {passage}. انتهى النقل الحرفي هنا."
@@ -8011,6 +8072,10 @@ def test_article_reprint_image_fallback() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
     passage = " ".join(f"كلمة{i}" for i in range(1, 51))  # ≥ 40 كلمة متجاورة
     body = f"مقدمة الموجز. {passage}. خاتمة الموجز الملصق هنا للاختبار الكامل."
     reprint_text = f"نقلاً عن الموجز الأصلي: {passage}. انتهى النقل الحرفي هنا."
@@ -8097,6 +8162,10 @@ def test_article_originality_retry() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
     offending_run = "شهد الخبراء تطورا مفاجئا خطيرا جدا الليلة"
     fixed_docs = [
         {"name": "مصدر رئيسي", "text": f"تقرير: {offending_run} في العاصمة.",
@@ -8215,6 +8284,10 @@ def test_article_jargon_leak() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
 
     # ── وحدة: _system_jargon_hits/_normalize_phrase ──
     check("_system_jargon_hits: يرصد المصطلح رغم اختلاف التشكيل والهمزة",
@@ -8519,6 +8592,10 @@ def test_article_mentioned_sources() -> None:
     from src import article
 
     cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير include_opinion، Issue #373) — يُضبط صراحة false هنا لأن هذه
+    # الدالة لا تفحص مرحلة استخراج وقائع المصادر
+    cfg["article"]["source_extract_enabled"] = False
 
     check("SUPPORT_SCHEMA يُلزم بحقل mentioned إلى جانب supporting",
           "mentioned" in article.SUPPORT_SCHEMA["input_schema"]["required"],
@@ -8870,9 +8947,13 @@ def test_article_source_facts() -> None:
           ("استُخرجت 2 واقعة" in report and "اندمجت 1" in report and "أُضيفت 1" in report),
           report)
 
-    # ── مُعطَّل افتراضيًا: لا أثر على تشغيلة عادية بلا تفعيل صريح ──
-    check("المرحلة مُعطَّلة افتراضيًا في config.yaml المشحون فعليًا",
-          load_config()["article"].get("source_extract_enabled") is False)
+    # ── مُعطَّل افتراضيًا في **الكود** حين المفتاح غائب كليًا من التهيئة — لا
+    # اعتمادًا على قيمة config.yaml الحالية القابلة للتبديل يدويًا بعد التحقق
+    # الحي (نفس فخّ include_opinion سابقًا في هذا الـ Issue: فحص قيمة الملف
+    # المتحوِّلة بدل سلوك الكود الثابت). يفحص نص المصدر مباشرة، لا الملف ──
+    check("acfg.get('source_extract_enabled', False) — القيمة الافتراضية عند غياب "
+          "المفتاح False في نص الكود نفسه، بصرف النظر عمّا يُضبط في config.yaml",
+          'acfg.get("source_extract_enabled", False)' in inspect.getsource(article._write_article))
 
 
 def test_reject_boxes_render() -> None:
