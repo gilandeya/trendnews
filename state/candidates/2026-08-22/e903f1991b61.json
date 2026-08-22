@@ -1,0 +1,54 @@
+{
+  "id": "e903f1991b61",
+  "created_at": "2026-08-22T12:07:49.445306+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.18,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Walmart is finally adding Apple Pay and Google Pay",
+  "link": "https://www.theverge.com/tech/983336/walmart-apple-google-pay-launch",
+  "publishers": [
+    "TechCrunch",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Walmart is finally adding Apple Pay and Google Pay",
+    "link": "https://www.theverge.com/tech/983336/walmart-apple-google-pay-launch",
+    "summary": "Walmart will soon allow you to pay for your items with Google Pay or Apple Pay. In an announcement on Friday, Walmart says it's going to bring tap-to-pay capabilities to \"select\" Walmart and Sam's Club locations starting August 24th, before rolling out support to all US stores by the end of 2026 and gas stations […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-08-21T17:01:59+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/gettyimages-2247092603.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "TechCrunch",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/tech/983336/walmart-apple-google-pay-launch"
+      },
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/08/21/walmart-to-finally-start-accepting-apple-pay-and-google-pay/"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/gettyimages-2247092603.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 17.99881233888889,
+    "is_stale": true,
+    "score": 17.176982422314815
+  }
+}
