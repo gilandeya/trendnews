@@ -1465,18 +1465,35 @@ def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
 # (بالوزن ثم الصلة — البند 3، انظر _rank_docs_for_source_extract) يستخرج
 # وقائع إضافية غائبة عن وقائع الموجز المسندة أصلًا.
 #
+# تصحيح تصميم (طلب المراجعة، تشخيص Issue #373، تعليق العطل الرابع
+# والعشرون، البند 1): التصميم الأصلي (التوثيق القديم هنا، ووصف الميزة في
+# CLAUDE.md) كان يُخضع كل واقعة ناجية من الدمج لدورة بحث/قراءة/سند مستقلة
+# من جديد على الويب — خطأ تصميمي مؤكَّد بتشغيل حي (6 من 9 وقائع رجعت
+# "0 خام ← 0 مطابق"): الواقعة أصلًا مستخرَجة من وثيقة **قُرئت بالفعل** ضمن
+# all_read_docs؛ البحث عنها من جديد في Google News RSS بكيانات ضيّقة
+# مشتقّة منها يبحث عن رابط نادر (نفس عطل تسمية الحدث المبهم المُشخَّص
+# سابقًا في هذا الـ Issue، وليس مفاجئًا هنا لنفس السبب). الشرط الصحيح: واقعة
+# يذكرها نصّان مستقلان **من المجمّع نفسه** (all_read_docs، لا بحث جديد) —
+# سندها هو الوثائق التي استُخرجت منها أو وثائق أخرى قُرئت في نفس التشغيلة،
+# لا صفحة ويب لم تُوجَد بعد. _support_sources تُستدعى مباشرة على المجمّع
+# المُوحَّد (_dedup_docs_by_publisher) بلا أي evidence.search/gather_evidence
+# وسيط لهذه المرحلة — يوفّر أيضًا دورات بحث مهدورة مؤكَّدة (لا احتمالية) في
+# كل تشغيلة.
+#
 # الدمج ضد التكرار هو الخطوة الأخطر هنا (طلب المراجعة، البند 1 — إن فشل،
-# تضخّم grounded بوقائع مكرَّرة واجتاز مقالٌ عتبةً لم يستحقها): قبل أي بحث
-# سند مستقل، كل واقعة مستخرَجة تُقارَن بوقائع الموجز المسندة عبر
+# تضخّم grounded بوقائع مكرَّرة واجتاز مقالٌ عتبةً لم يستحقها): قبل أي حكم
+# سند، كل واقعة مستخرَجة تُقارَن بوقائع الموجز المسندة عبر
 # _source_fact_duplicate_index — حكم دلالي (نفس الحدث بصياغتين مختلفتين)
 # لا فحص بنيوي (تشارك الكيانات وحده لا يكفي: شخص واحد قد يكون طرفًا في
 # حدثين مختلفين تمامًا، فتشاركهما الكيانات لا يعني أنهما نفس الواقعة —
 # انظر SOURCE_FACT_DEDUP_SYSTEM وفِكستَي test_article_source_facts في
 # tests/test_pipeline.py المبنيَّين قبل أي وصل بالأنبوب الرئيسي). واقعة
-# مكرَّرة تُدمَج (لا تُعدّ)؛ واقعة ناجية من الدمج تخضع لنفس دورة البحث/
-# القراءة/السند الكاملة كأي "واقعة" عادية (القاعدة 1 — لا استثناء لمجرد
-# أنها وُجدت في وثيقة مقروءة أصلًا) قبل أن تدخل grounded بوسم
-# origin: "source"، مميَّزةً في التقرير عن origin: "brief" لكل ما سواها.
+# مكرَّرة تُدمَج (لا تُعدّ)؛ واقعة ناجية من الدمج تخضع لفحص صلة بنيوي
+# بكيانات موضوع الموجز (البند 2 أدناه، SOURCE_EXTRACT_SYSTEM) ثم لحكم السند
+# على المجمّع المقروء (لا "دورة كاملة" كأي واقعة عادية بعد الآن — الفارق
+# الجوهري: مصدرها وثيقة مقروءة سلفًا، لا نتيجة بحث بعد) قبل أن تدخل
+# grounded بوسم origin: "source"، مميَّزةً في التقرير عن origin: "brief"
+# لكل ما سواها.
 
 SOURCE_EXTRACT_SYSTEM = f"""أنت تقرأ نصوص مصادر إخبارية مستقلة قُرئت أثناء
 التحقق من موجز تحريري، لتستخرج منها وقائع إضافية **غائبة عن الموجز نفسه**
@@ -1487,6 +1504,16 @@ SOURCE_EXTRACT_SYSTEM = f"""أنت تقرأ نصوص مصادر إخبارية �
 ولا واقعة تصف نفس الحدث بصياغة مختلفة (تلك مذكورة بالفعل، ستُقارَن لاحقًا
 دلاليًا لا حرفيًا فلا تعتمد على اختلاف اللفظ لتفادي التكرار).
 
+**لا تستخرج واقعة إلا إن كانت عن نفس الكيانات المميِّزة التي يدور حولها
+موضوع الموجز ووقائعه** — لا يكفي أن ترد في وثيقة اخترناها لصلتها العامة
+بالموضوع: تلك الوثيقة قد تحوي فقرات كاملة عن كيانات أخرى غير معنية إطلاقًا
+(مثال: مقال عن كبار دافعي الضرائب في بلد ما يذكر شركة الموجز عرضًا بين
+عشرات الشركات الأخرى — وقائع عن تلك الشركات الأخرى ليست عن موضوع الموجز،
+حتى لو وردت في نفس الوثيقة المقروءة الموصوفة أعلاه بأنها "مصدر مقروء").
+كل واقعة تستخرجها يجب أن تذكر صراحة كيانًا واحدًا على الأقل من كيانات
+الموجز/وقائعه المذكورة أعلاه — لا كيانًا جديدًا كليًا بلا رابط بموضوع
+الموجز.
+
 اقرأ نصوص المصادر فقط. استخرج حتى خمس وقائع إضافية — كل واحدة تدّعي وقوع
 حدث أو رقم محدَّد (بنفس معيار "واقعة": فاعل وفعل، لا جملة وصفية بحتة أو
 سردية عامة) مذكورة صراحة في نص واحد على الأقل من المصادر المعطاة. إن لم
@@ -1494,8 +1521,9 @@ SOURCE_EXTRACT_SYSTEM = f"""أنت تقرأ نصوص مصادر إخبارية �
 واقعة لمجرد ملء العدد.
 
 لكل واقعة: text (بإيجاز، بصياغتك من النص لا نقلًا حرفيًا)، وentities
-(2-5 كيانات مميِّزة منها كما وردت في نص المصدر — سيُبنى منها استعلام بحث
-سند مستقل). **text وentities كلاهما بالعربية دومًا** — حتى إن كانت نصوص
+(2-5 كيانات مميِّزة منها كما وردت في نص المصدر — يُفحَص تقاطعها مع كيانات
+الموجز بنيويًا بعد الاستخراج، فلا تُدرج كيانًا مقحَمًا لمجرد ملء العدد).
+**text وentities كلاهما بالعربية دومًا** — حتى إن كانت نصوص
 المصادر بلغة أخرى (تركية أو إنجليزية أو غيرها): ترجم الكيانات، لا تنقلها
 بأبجديتها الأصلية (خلافًا لاستخراج كيانات الموجز نفسه في مسار آخر، الذي
 يحتفظ بأبجدية الموجز الأصلية — هنا المصدر أجنبي والمقال عربي دومًا، فكيان
@@ -1528,18 +1556,15 @@ SOURCE_EXTRACT_SCHEMA = {
 }
 
 
-def _rank_docs_for_source_extract(docs: list[dict], wanted: set[str], cfg,
-                                  max_docs: int) -> list[dict]:
-    """توحيد هوية الناشر ثم فرز الوثائق المرشَّحة لاستخراج وقائع المصادر
-    بالوزن والصلة معًا (طلب المراجعة، البند 3) — نفس منطق
-    evidence._candidate_score/_candidate_sort_key المستعمَل لاختيار مرشّحي
-    القراءة، لا فرزًا جديدًا: وثيقة موثوقة تتصدَّر على مجهولة عند التزاحم
-    على سقف عدد الوثائق في البرومبت. الصلة هنا عدّ تشارك توكنز نص الوثيقة
-    مع wanted (كيانات كل وقائع/أسئلة الموجز مجتمعة) — لا Article كامل بحقل
-    relevance جاهز، لأن docs هنا نصوص مقروءة مجمَّعة عبر التشغيلة كلها
-    (all_read_docs) لا نتيجة بحث استعلام واحد. توحيد الهوية أولًا
-    (canonical) كي لا تُحسب نسخة ناشر واحد بلغتين مرشَّحين منفصلين
-    يستهلكان فتحتين من السقف لنفس المحتوى فعليًا."""
+def _dedup_docs_by_publisher(docs: list[dict], cfg) -> list[dict]:
+    """توحيد هوية الناشر عبر وثائق مقروءة مجمَّعة (all_read_docs عبر
+    التشغيلة كلها، لا نتيجة بحث استعلام واحد) — يبقي الأطول نصًّا لكل هوية
+    موحَّدة. مُستخرَجة من _rank_docs_for_source_extract (طلب المراجعة،
+    تشخيص Issue #373، تعليق العطل الرابع والعشرون، البند 1) لتُستعمَل أيضًا
+    كمجمّع الحكم على سند وقائع المصادر مباشرة (_support_sources) بلا فرز أو
+    سقف — الفرز/السقف في _rank_docs_for_source_extract يخصّ حجم برومبت
+    الاستخراج فقط، لا نطاق الحكم على السند الذي يجب أن يرى المجمّع كاملًا
+    كي لا يخسر شاهدًا مستقلًا فعليًا موجودًا فيه."""
     seen: dict[str, dict] = {}
     for d in docs:
         if not d.get("text"):
@@ -1548,8 +1573,21 @@ def _rank_docs_for_source_extract(docs: list[dict], wanted: set[str], cfg,
         existing = seen.get(canonical)
         if existing is None or len(d["text"]) > len(existing["text"]):
             seen[canonical] = {**d, "name": canonical}
+    return list(seen.values())
+
+
+def _rank_docs_for_source_extract(docs: list[dict], wanted: set[str], cfg,
+                                  max_docs: int) -> list[dict]:
+    """فرز الوثائق المرشَّحة لبرومبت استخراج وقائع المصادر بالوزن والصلة
+    معًا (طلب المراجعة، البند 3) — نفس منطق
+    evidence._candidate_score/_candidate_sort_key المستعمَل لاختيار مرشّحي
+    القراءة، لا فرزًا جديدًا: وثيقة موثوقة تتصدَّر على مجهولة عند التزاحم
+    على سقف عدد الوثائق في البرومبت. الصلة هنا عدّ تشارك توكنز نص الوثيقة
+    مع wanted (كيانات كل وقائع/أسئلة الموجز مجتمعة). docs يجب أن تكون
+    مُوحَّدة الهوية سلفًا أو خامًا — _dedup_docs_by_publisher تُطبَّق هنا
+    دومًا (بلا ضرر إن كانت مُوحَّدة أصلًا، التطبيق مكرَّر لا تراكمي)."""
     scored = []
-    for d in seen.values():
+    for d in _dedup_docs_by_publisher(docs, cfg):
         weight = evidence._publisher_weight(d["name"], cfg)
         relevance = len(wanted & norm_tokens(d.get("text", "")))
         scored.append((weight, relevance, d))
@@ -2598,7 +2636,7 @@ def _new_outcome() -> dict:
            # ليراجعه المستخدم — البند 2)؛ source_facts_summary: عدد ما
            # استُخرج/اندمج/أُضيف (البند 5 — أثر ظاهر، لا ميزة صامتة)
            "source_origin_facts": [],
-           "source_facts_summary": {"extracted": 0, "merged": 0, "added": 0},
+           "source_facts_summary": {"extracted": 0, "merged": 0, "off_topic": 0, "added": 0},
            "originality_retry": {"attempted": False, "succeeded": False, "offending_phrase": ""},
            "jargon_retry": {"attempted": False, "succeeded": False, "detected": [], "remaining": []}}
 
@@ -2706,6 +2744,12 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # لم تنتهِ مصدرًا مسنِدًا لأي واقعة (رُفضت صلة، لم تجتز بوابة الاتساق...)
     # — ورودها هناك أيضًا دليل أن التتابع صياغة قياسية متكررة، لا نسخ حرفي
     all_read_docs: list[dict] = []
+    # نسخة Article الخام (لا dict) لكل نتيجة بحث عبر التشغيلة كلها — تُستهلَك
+    # فقط لاستخراج image_candidates لوقائع المصادر (origin: "source") التي
+    # لم تعد تُجري بحثها الخاص (طلب المراجعة، تعليق العطل الرابع والعشرون،
+    # البند 1) فلا ranked مخصَّص لها كأي واقعة عادية — _grounded_sources تقبل
+    # أي قائمة Article وتبني منها images_by_name بمعزل عن أي وثيقة بعينها
+    all_ranked: list[Article] = []
     # البند 7 (تعليق الموافقة الثاني): الصلة بين حدث سُمّي حديثًا وكيان
     # الموجز الأصلي ليست بديهية — تُضاف سؤالًا يُبحث بنفس آلية أسئلة
     # الموجز (البند 5) حصرًا، لا تُفترض صامتة
@@ -2742,6 +2786,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             ranked, docs, basis, excluded = search_cache[key]
             return ranked, docs, basis, True, excluded
         ranked = evidence.search(query, cfg, days, unrestricted=unrestricted)
+        all_ranked.extend(ranked)
         raw_docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
         kept, excluded = _filter_reprints(raw_docs)
         docs = evidence._evidence_docs(kept, getattr(raw_docs, "fetch_failures", []),
@@ -3098,9 +3143,10 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # وقائع من المصادر (لا الموجز فقط، طلب المراجعة) — انظر توثيق
     # _extract_source_facts/_source_fact_duplicate_index أعلاه للتصميم
     # الكامل. all_read_docs مكتملة هنا (كل مراحل واقعة/تسمية/سند/سؤال قرأت
-    # منها بالفعل)، فهذه المرحلة لا تبحث من جديد عن مصادر — تستثمر ما قُرئ
-    # أصلًا لتكتشف وقائع لم يذكرها الموجز، ثم تبحث لها سندًا مستقلًا كأي
-    # واقعة عادية إن نجت من الدمج ضد التكرار.
+    # منها بالفعل)، فهذه المرحلة لا تبحث من جديد عن مصادر إطلاقًا — سندها
+    # هو المجمّع المقروء نفسه (تصحيح تصميم، طلب المراجعة، تعليق العطل
+    # الرابع والعشرون، البند 1؛ التوثيق أعلاه يشرح لماذا كان بحثًا ثانيًا
+    # خطأً بنيويًا).
     # يشحن مُعطَّلًا افتراضيًا (source_extract_enabled=False) حتى بعد
     # تشغيل حي فعلي يُثبت سلوكه — نفس قرار article.include_opinion سابقًا
     # في هذا الـ Issue (يُضبط يدويًا في config.yaml بعد التحقق)، لا تراجعًا
@@ -3111,12 +3157,20 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     source_max_docs = int(acfg.get("source_extract_max_docs", 8))
     extracted_source_count = 0
     merged_source_count = 0
+    offtopic_source_count = 0
     if source_extract_enabled and all_read_docs:
         wanted_tokens: set[str] = set(norm_tokens(topic))
         for s in facts_raw + questions_from_brief:
             for e in s.get("entities") or []:
                 wanted_tokens |= norm_tokens(e)
-        ranked_docs = _rank_docs_for_source_extract(all_read_docs, wanted_tokens, cfg,
+        # مجمّع موحَّد الهوية بلا سقف (طلب المراجعة، البند 1) — يُستعمَل
+        # كحوض حكم السند مباشرة، بخلاف ranked_docs (نفس المجمّع مفروزًا
+        # ومقصوصًا عند source_max_docs) الذي يخصّ حجم برومبت الاستخراج فقط:
+        # سقف الاستخراج لا يجوز أن يحدّ أيضًا نطاق الحكم على السند، وإلا
+        # خسرنا شاهدًا مستقلًا فعليًا موجودًا في المجمّع لمجرد أنه لم يتصدَّر
+        # الفرز لبرومبت الاستخراج
+        known_docs = _dedup_docs_by_publisher(all_read_docs, cfg)
+        ranked_docs = _rank_docs_for_source_extract(known_docs, wanted_tokens, cfg,
                                                      source_max_docs)
         brief_texts = [g["text"] for g in grounded]
         extracted = _extract_source_facts(topic, brief_texts, ranked_docs, cfg)
@@ -3132,35 +3186,53 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                                  f"{extracted_source_count} واقعة إضافية مستخرَجة من "
                                  f"{len(ranked_docs)} وثيقة مقروءة")})
         for sf in extracted:
+            # فحص صلة بنيوي بموضوع الموجز (طلب المراجعة، البند 2) — قبل أي
+            # نداء نموذج (دمج أو سند)، فلا كلفة على وقائع خارج الموضوع
+            # كليًا (مقال عن كبار دافعي الضرائب يذكر شركة الموجز عرضًا، ثم
+            # يُستخرج منه واقعة عن شركة أخرى غير معنية إطلاقًا — الشاهد
+            # الفعلي الذي بنى هذا الفحص). تقاطع كيانات الواقعة مع كيانات
+            # موضوع الموجز (wanted_tokens نفسها المستعملة في فرز برومبت
+            # الاستخراج أعلاه) — لا حكم لغوي جديد، فحص بنيوي بحت.
+            fact_tokens: set[str] = set()
+            for e in sf.get("entities") or []:
+                fact_tokens |= norm_tokens(e)
+            if wanted_tokens and not (fact_tokens & wanted_tokens):
+                offtopic_source_count += 1
+                trail.append({"stage": "واقعة (من المصادر)", "query": "", "basis": "",
+                              "sources": [], "raw_count": None, "matched_count": None,
+                              "fetch_failures": [], "top_candidates": [],
+                              "excluded_reprints": [], "call_error": None,
+                              "reused_query": False,
+                              "outcome": ("🚫 استُبعدت لعدم صلتها بكيانات موضوع الموجز: "
+                                         f"«{sf['text']}»")})
+                continue
             dup = _source_fact_duplicate_index(sf["text"], brief_texts, cfg)
             if dup["call_error"] or dup["duplicate"]:
                 if dup["duplicate"]:
                     merged_source_count += 1
                 continue
-            query = evidence.build_query_for_claim(sf, query_max_words)
-            relevance_text = evidence._entities_text(sf) or sf["text"]
-            ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
-                query, False, relevance_text)
-            all_read_docs.extend(docs)
-            supporting = _support_sources(sf["text"], docs, cfg) if docs else []
+            # لا بحث جديد (طلب المراجعة، البند 1) — الحكم على السند يقع
+            # مباشرة على المجمّع المُوحَّد نفسه الذي استُخرجت منه الواقعة؛
+            # "مصدرين مستقلين" هنا يعني وثيقتين مستقلتين من all_read_docs،
+            # لا نتيجة بحث ويب لم تُوجَد بعد
+            supporting = _support_sources(sf["text"], known_docs, cfg) if known_docs else []
             call_error = getattr(supporting, "call_error", None)
             unique = set(supporting)
-            trail.append({"stage": "واقعة (من المصادر)", "query": query, "basis": basis,
-                          "sources": [d["name"] for d in docs],
-                          "raw_count": getattr(ranked, "raw_count", None),
-                          "matched_count": getattr(ranked, "matched_count", None),
-                          "fetch_failures": getattr(docs, "fetch_failures", []),
-                          "top_candidates": getattr(docs, "top_candidates", []),
-                          "excluded_reprints": excluded_reprints,
-                          "call_error": call_error, "reused_query": reused_query,
+            trail.append({"stage": "واقعة (من المصادر)", "query": "",
+                          "basis": "من المجمّع المقروء مسبقًا",
+                          "sources": [d["name"] for d in known_docs],
+                          "raw_count": None, "matched_count": None,
+                          "fetch_failures": [], "top_candidates": [],
+                          "excluded_reprints": [], "call_error": call_error,
+                          "reused_query": False,
                           "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {call_error}"
                                      if call_error else
-                                     f"مسندة بـ{len(unique)} مصدر مستقل"
+                                     f"مسندة بـ{len(unique)} مصدر مستقل من المجمّع"
                                      if len(unique) >= min_confirm
-                                     else f"سند غير كافٍ ({len(unique)}/{min_confirm})")})
+                                     else f"سند غير كافٍ من المجمّع ({len(unique)}/{min_confirm})")})
             if len(unique) < min_confirm:
                 continue
-            fact_sources = _grounded_sources(supporting, docs, ranked)
+            fact_sources = _grounded_sources(supporting, known_docs, all_ranked)
             grounded.append({"text": sf["text"], "kind": "واقعة", "entities": sf["entities"],
                             "is_unnamed_event": False, "is_reference": False,
                             "speaker": "", "merged_excerpts": [], "split_from": "",
@@ -3175,6 +3247,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
 
     outcome["source_facts_summary"] = {
         "extracted": extracted_source_count, "merged": merged_source_count,
+        "off_topic": offtopic_source_count,
         "added": sum(1 for g in grounded if g.get("origin") == "source"),
     }
     outcome["source_origin_facts"] = [
@@ -3611,9 +3684,11 @@ def build_report(outcome: dict) -> str:
         # أثر ظاهر لا صامت (طلب المراجعة، البند 5 — "تعلّمنا من judged_by
         # أن الميزة بلا أثر ظاهر لا تُعرف إن كانت تعمل"): يظهر بصرف النظر
         # عن نجاح إضافة أي واقعة فعليًا، فتُعرف حصيلة كل تشغيلة رقميًا
+        offtopic_note = (f"، واستُبعدت {summary['off_topic']} لعدم صلتها بالموضوع"
+                        if summary.get("off_topic") else "")
         lines += ["", (f"🔎 استُخرجت {summary['extracted']} واقعة من المصادر المقروءة "
                        f"لم ترد في موجزي، اندمجت {summary.get('merged', 0)} منها مع "
-                       f"وقائع موجزي (نفس الحدث بصياغة مختلفة)، وأُضيفت "
+                       f"وقائع موجزي (نفس الحدث بصياغة مختلفة){offtopic_note}، وأُضيفت "
                        f"{summary.get('added', 0)} واقعة جديدة إلى المقال.")]
 
     if outcome.get("source_origin_facts"):

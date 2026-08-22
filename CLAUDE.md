@@ -278,32 +278,51 @@ to `trail`/the report now names it explicitly ("الوثائق بلغة غير �
 حرفيًا") instead of the generic "doesn't mention the entities" message — so a language-mismatch
 rejection here isn't mistaken for a search failure and re-diagnosed from scratch next time.
 
-**Added (Issue #373), disabled by default pending a live run:** `src/article.py` can now extract
-facts from the independently-read source documents themselves, not only from the pasted brief
-(`article._extract_source_facts`, `SOURCE_EXTRACT_SYSTEM`) — a brief written by a human necessarily
-omits information the sources actually contain. Every extracted fact is checked against the
-already-grounded brief facts by a dedicated semantic-duplicate judgment
+**Added (Issue #373), enabled after a live run surfaced and fixed two design bugs:**
+`src/article.py` can extract facts from the independently-read source documents themselves, not
+only from the pasted brief (`article._extract_source_facts`, `SOURCE_EXTRACT_SYSTEM`) — a brief
+written by a human necessarily omits information the sources actually contain. Every extracted fact
+is checked against the already-grounded brief facts by a dedicated semantic-duplicate judgment
 (`article._source_fact_duplicate_index`, `SOURCE_FACT_DEDUP_SYSTEM`) before anything else happens
 to it — comparing the *event*, not shared entities (one person can be party to two unrelated
 events; sharing entities must not merge them) — because a failure here silently double-counts a
-fact and lets an article clear `min_grounded_facts` on padding rather than real content. A fact that
-survives dedup is not trusted merely for having come from an already-read document: it goes through
-the exact same search→read→`_support_sources` grounding cycle as any brief-derived "واقعة" (rule 1
-has no exception for provenance) before it's tagged `origin: "source"` (vs `origin: "brief"` for
-everything extracted from the pasted text) and allowed into `grounded`. Source documents fed to the
-extraction prompt are capped (`article.source_extract_max_docs`) and ordered by the same
-weight-then-relevance scoring used for read-candidate selection (`article._rank_docs_for_source_extract`,
-reusing `evidence._candidate_score`/`_candidate_sort_key`) so a trusted outlet wins a crowded slot
-over an unknown one. `SOURCE_EXTRACT_SYSTEM` mandates Arabic for both `text` and `entities` even
-when the source documents are in another language — unlike the brief's own entity extraction, which
-deliberately keeps the brief's original script, here the source is foreign and the article is always
-Arabic, so an entity in the source's alphabet would never match a later Arabic search. Every run's
-report shows the extraction/merge/add counts and a dedicated "wasn't in my brief" section listing
-what got added, on the standing lesson (`judged_by`) that a feature with no visible trail effect is
-a feature nobody can tell is working. Ships with `config.yaml: article.source_extract_enabled: false`
-— two extra model calls per extracted fact (extraction + dedup) on a stage that hasn't yet been
-exercised against a real brief deserve one live, manually-reviewed run before becoming default on
-every production article; flip it once that's done, same operational precedent as
+fact and lets an article clear `min_grounded_facts` on padding rather than real content.
+
+The first live run (9 facts extracted) showed the original design was wrong on how a surviving fact
+gets grounded: it ran a *fresh* `evidence.search`/`gather_evidence` cycle from the fact's own
+entities — the same narrow-query trap diagnosed earlier in this issue for unnamed-event naming — and
+6 of 9 facts came back `0 raw ← 0 matched`, even though the fact was extracted from a document
+already sitting in `all_read_docs`. Fixed: a surviving fact is now grounded directly against the
+already-read corpus (`article._dedup_docs_by_publisher` — publisher-identity-deduped, keeping the
+longest text per canonical name — feeding `article._support_sources` with no search in between);
+"two independent sources" means two independent documents from `all_read_docs`, not a fresh web
+result that may not exist yet. `article._rank_docs_for_source_extract` (weight-then-relevance
+ordering, reusing `evidence._candidate_score`/`_candidate_sort_key`, same principle as
+read-candidate selection) still caps and ranks what's shown to the *extraction* prompt
+(`article.source_extract_max_docs`) — that cap no longer also limits the *grounding* corpus, which
+sees the full deduped `all_read_docs` so a real independent corroboration already sitting in the
+run isn't lost just because it didn't rank into the extraction prompt.
+
+The same run showed a second, distinct bug: extraction went off-topic (`SOURCE_EXTRACT_SYSTEM` had
+only a soft "relevant to the topic" instruction) — a document about top taxpayers that happened to
+mention the brief's company in passing yielded facts about *other* companies in that same article,
+which are not about the brief's topic just because they share a read document with something that
+is. Fixed with both a tightened prompt (explicit instruction + the taxpayer-article example) and a
+structural post-extraction filter (`article._write_article`'s source-fact loop): a candidate fact's
+`entities` must share at least one token with the brief's own topic/entities before it's even
+considered for dedup or grounding — cheap, runs before any model call, and is not a linguistic
+classifier (unlike the "تعريف/خبر" criterion rejected twice elsewhere in this issue) since it's a
+plain token-intersection check. Off-topic exclusions are reported in `trail`, not silently dropped,
+and counted in `source_facts_summary["off_topic"]`.
+
+`SOURCE_EXTRACT_SYSTEM` mandates Arabic for both `text` and `entities` even when the source
+documents are in another language — unlike the brief's own entity extraction, which deliberately
+keeps the brief's original script, here the source is foreign and the article is always Arabic, so
+an entity in the source's alphabet would never match a later Arabic search. Every run's report shows
+the extraction/merge/off-topic/add counts and a dedicated "wasn't in my brief" section listing what
+got added, on the standing lesson (`judged_by`) that a feature with no visible trail effect is a
+feature nobody can tell is working. `config.yaml: article.source_extract_enabled` was flipped to
+`true` once the first live run's findings above were fixed, same operational precedent as
 `article.include_opinion`.
 
 ## Testing
