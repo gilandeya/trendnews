@@ -1,0 +1,48 @@
+{
+  "id": "e1b0710944dc",
+  "created_at": "2026-08-22T03:07:51.137607+00:00",
+  "status": "pending",
+  "selection_issue": 513,
+  "score": 17.29,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Scientists highlight essential role of mosquito control to tackle increase in mosquito-borne diseases in Europe",
+  "link": "https://medicalxpress.com/news/2026-08-scientists-highlight-essential-role-mosquito.html",
+  "publishers": [
+    "Medical Xpress"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Scientists highlight essential role of mosquito control to tackle increase in mosquito-borne diseases in Europe",
+    "link": "https://medicalxpress.com/news/2026-08-scientists-highlight-essential-role-mosquito.html",
+    "summary": "Mosquito control is crucial to addressing the increase in mosquito-borne diseases in Europe such as dengue, chikungunya virus disease and West Nile virus infection, according to EU scientists from the European Center for Disease Prevention and Control (ECDC), the European Chemicals Agency (ECHA), the European Environment Agency (EEA) and the European Commission, in an article published in Eurosurveillance.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-08-22T00:40:01+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2024/mosquito.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Medical Xpress"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-08-scientists-highlight-essential-role-mosquito.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2024/mosquito.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.2858928207963
+  }
+}

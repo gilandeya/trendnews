@@ -1,0 +1,54 @@
+{
+  "id": "393d729ee2d2",
+  "created_at": "2026-08-22T03:07:51.138927+00:00",
+  "status": "pending",
+  "selection_issue": 513,
+  "score": 13.22,
+  "trend_score": 0.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Indian national arrested in U.S. over multi-million-dollar fraud targeting elderly",
+  "link": "https://www.thehindu.com/news/international/indian-national-arrested-in-us-over-multi-million-dollar-fraud-targeting-elderly/article71376436.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Indian national arrested in U.S. over multi-million-dollar fraud targeting elderly",
+    "link": "https://www.thehindu.com/news/international/indian-national-arrested-in-us-over-multi-million-dollar-fraud-targeting-elderly/article71376436.ece",
+    "summary": "Jay Sunilbharthi Goswami, 21, a Gujarat native who lived in Jersey City, New Jersey, was detained in Canada while attempting to flee to Qatar.",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-22T01:53:53+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/8680re/article71376437.ece/alternates/LANDSCAPE_1200/IMG_IMG_vbk-HANDCUFF-arr_1_1_35FSTTDR.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/indian-national-arrested-in-us-over-multi-million-dollar-fraud-targeting-elderly/article71376436.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/indian-national-arrested-in-us-over-multi-million-dollar-fraud-targeting-elderly-101787348267074.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/8680re/article71376437.ece/alternates/LANDSCAPE_1200/IMG_IMG_vbk-HANDCUFF-arr_1_1_35FSTTDR.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 13.217966879203704
+  }
+}

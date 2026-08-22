@@ -1,0 +1,61 @@
+{
+  "id": "dad13bbcaf92",
+  "created_at": "2026-08-22T03:07:51.138615+00:00",
+  "status": "pending",
+  "selection_issue": 513,
+  "score": 14.16,
+  "trend_score": 0.0,
+  "velocity": 0.07,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Tesla and others begin record vehicle recall in China",
+  "link": "https://www.channelnewsasia.com/east-asia/china-evs-tesla-vehicle-recall-6334381",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "The Express Tribune"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Tesla and others begin record vehicle recall in China",
+    "link": "https://www.channelnewsasia.com/east-asia/china-evs-tesla-vehicle-recall-6334381",
+    "summary": "China has said it will ban concealed door handles from 2027, making it the first country to phase out a design popularised by Tesla and widely adopted by domestic Chinese EV makers.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-21T23:43:05+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--Pc-TEpiF--/c_crop,h_562,w_1000,x_0,y_57/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/China-Tesla-Car-Recall_62_41.jpg?itok=97MJeQzE",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625134/tesla-and-others-begin-record-vehicle-recall-in-china"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/east-asia/china-evs-tesla-vehicle-recall-6334381"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/08/22/tesla-and-others-begin-record-vehicle-recall-in-china"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--Pc-TEpiF--/c_crop,h_562,w_1000,x_0,y_57/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/China-Tesla-Car-Recall_62_41.jpg?itok=97MJeQzE",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/03/9d3ff939-tesla-epa-050325.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.0667682586487739,
+    "age_hours": 8.999057782222222,
+    "is_stale": false,
+    "score": 14.16136235177771
+  }
+}

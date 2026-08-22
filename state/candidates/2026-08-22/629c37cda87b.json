@@ -1,0 +1,54 @@
+{
+  "id": "629c37cda87b",
+  "created_at": "2026-08-22T03:07:51.138353+00:00",
+  "status": "pending",
+  "selection_issue": 513,
+  "score": 15.22,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Turkish Airlines aims to lift flights to Asia-Pacific by up to 20%",
+  "link": "https://www.dailysabah.com/business/economy/turkish-airlines-aims-to-lift-flights-to-asia-pacific-by-up-to-20",
+  "publishers": [
+    "Daily Sabah",
+    "Nikkei Asia"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Turkish Airlines aims to lift flights to Asia-Pacific by up to 20%",
+    "link": "https://www.dailysabah.com/business/economy/turkish-airlines-aims-to-lift-flights-to-asia-pacific-by-up-to-20",
+    "summary": "National flag carrier Turkish Airlines (THY) aims to increase flight frequencies to the Asia-Pacific region by up to 20% in the coming years, a top executive said Friday. The aim...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-21T13:09:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/21/457092.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/business/transportation/turkish-airlines-aims-to-add-15-20-asia-flights-eyes-china-and-australia"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/turkish-airlines-aims-to-lift-flights-to-asia-pacific-by-up-to-20"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/21/457092.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 11.998135850277778,
+    "is_stale": false,
+    "score": 15.218096521388889
+  }
+}
