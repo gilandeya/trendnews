@@ -1,22 +1,24 @@
 {
   "id": "e07785f45baa",
-  "created_at": "2026-08-23T06:07:45.314387+00:00",
+  "created_at": "2026-08-23T17:08:01.327617+00:00",
   "status": "pending",
-  "selection_issue": 541,
-  "score": 17.59,
+  "selection_issue": null,
+  "score": 17.83,
   "trend_score": 0.0,
-  "velocity": 0.22,
+  "velocity": 0.17,
   "bucket": "serious",
   "state_media": false,
   "title": "Watch: Moment humanoid robot beats Usain Bolt's 100m record",
   "link": "https://www.bbc.co.uk/news/videos/cgljl9zp47xo?at_medium=RSS&at_campaign=rss",
   "publishers": [
-    "Al Jazeera English",
     "BBC World",
     "CBS News — World",
-    "NDTV — World",
-    "Rappler",
-    "The Express Tribune"
+    "Daily Sabah",
+    "France24",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "South China Morning Post",
+    "The Hindu — International"
   ],
   "region": "uk",
   "article": {
@@ -30,12 +32,14 @@
     "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/dee7/live/c783fb00-9e4a-11f1-8871-ff7211da55c9.jpg",
     "publisher": "BBC World",
     "cluster_sources": [
-      "Al Jazeera English",
       "BBC World",
       "CBS News — World",
-      "NDTV — World",
-      "Rappler",
-      "The Express Tribune"
+      "Daily Sabah",
+      "France24",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "South China Morning Post",
+      "The Hindu — International"
     ],
     "cluster_members": [
       {
@@ -43,39 +47,41 @@
         "link": "https://www.bbc.co.uk/news/videos/cgljl9zp47xo?at_medium=RSS&at_campaign=rss"
       },
       {
-        "name": "Al Jazeera English",
-        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/23/chinese-robot-beats-usain-bolts-100m-world-record-at-humanoid-games?traffic_source=rss"
-      },
-      {
-        "name": "The Express Tribune",
-        "link": "https://tribune.com.pk/story/2625273/chinese-robot-beats-usain-bolts-100m-world-record-in-test-run"
-      },
-      {
-        "name": "Rappler",
-        "link": "https://www.rappler.com/sports/chinese-robots-beat-usain-bolt-100m-world-record/"
-      },
-      {
-        "name": "NDTV — World",
-        "link": "https://www.ndtv.com/world-news/a-chinese-humanoid-robot-just-broke-usain-bolts-sprinting-record-11945001#publisher=newsstand"
+        "name": "France24",
+        "link": "https://www.france24.com/en/asia-pacific/20260823-humanoid-robots-break-records-at-competition-in-beijing"
       },
       {
         "name": "CBS News — World",
         "link": "https://www.cbsnews.com/news/china-robot-usain-bolt-sprint-run-record-faster/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/sports/chinese-robot-sprinter-leave-usain-bolts-100m-world-record-in-dust/news"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/tech/tech-trends/article/3364977/chinese-robots-tackle-tennis-smash-track-records-world-humanoid-robot-games?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/sci-tech/technology/chinese-humanoid-robots-smash-human-records-in-100m-sprint-and-high-jump-at-beijing-robot-games/article71380192.ece"
       }
     ],
     "image_candidates": [
       "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/dee7/live/c783fb00-9e4a-11f1-8871-ff7211da55c9.jpg",
       "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/dee7/live/c783fb00-9e4a-11f1-8871-ff7211da55c9.jpg",
       "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/dee7/live/c783fb00-9e4a-11f1-8871-ff7211da55c9.jpg",
-      "https://c.ndtvimg.com/2026-08/jcg806ts_chinese-robot_625x300_22_August_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+      "https://s.france24.com/media/display/1c3e459a-9ee8-11f1-9af5-005056bf30b7/w:1024/p:16x9/b440e33a6a507333d806230bd018ad1084feab8b.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/23/457271.JPG",
+      "https://th-i.thgim.com/public/incoming/dwmf8/article71380203.ece/alternates/LANDSCAPE_1200/2026-08-22T154030Z_254384848_RC2Q3NASSEGF_RTRMADP_3_CHINA-TECH-ROBOT-GAMES.JPG"
     ],
     "bucket": "serious",
     "state_media": false,
     "trend_score": 0.0,
-    "group_sources": 6,
-    "velocity": 0.22228488179882347,
-    "age_hours": 13.00016427361111,
+    "group_sources": 8,
+    "velocity": 0.1663244574911696,
+    "age_hours": 24.004528525277777,
     "is_stale": false,
-    "score": 17.593496597935363
+    "score": 17.825182462252144
   }
 }

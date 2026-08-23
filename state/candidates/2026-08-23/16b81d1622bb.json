@@ -1,0 +1,71 @@
+{
+  "id": "16b81d1622bb",
+  "created_at": "2026-08-23T17:08:01.327011+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.01,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hull on cloud nine after upsetting Manchester United in Premier League return",
+  "link": "https://www.japantimes.co.jp/sports/2026/08/23/soccer/hull-stuns-manchester-united/",
+  "publishers": [
+    "BBC Sport",
+    "Daily Sabah",
+    "The Express Tribune",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Hull on cloud nine after upsetting Manchester United in Premier League return",
+    "link": "https://www.japantimes.co.jp/sports/2026/08/23/soccer/hull-stuns-manchester-united/",
+    "summary": "Semi Ajayi and record signing Nobel Mendy scored goals to give Sergej Jakirovic's side a famous win following a nine-year absence from the top flight.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-08-23T00:03:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/23/558839.JPG",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "BBC Sport",
+      "Daily Sabah",
+      "The Express Tribune",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625412/man-utd-humiliated-by-hull-in-premier-league-opener"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/sports/2026/08/23/soccer/hull-stuns-manchester-united/"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/clyl5ejxj2wo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/sports/football/hull-roar-back-into-premier-league-with-2-0-rout-of-man-utd"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/23/558839.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/23/thumbs/400x400/558839.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d669/live/58e57960-9e42-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/d669/live/58e57960-9e42-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d669/live/58e57960-9e42-11f1-a291-b542ee92de7c.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/22/457126.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 32.00345828388889,
+    "is_stale": true,
+    "score": 20.011226844592592
+  }
+}
