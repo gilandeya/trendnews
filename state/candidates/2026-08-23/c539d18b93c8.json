@@ -1,0 +1,89 @@
+{
+  "id": "c539d18b93c8",
+  "created_at": "2026-08-23T22:08:02.922428+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.76,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Chinese humanoid robots smash human records in 100m sprint and high jump at Beijing robot games",
+  "link": "https://www.thehindu.com/sci-tech/technology/chinese-humanoid-robots-smash-human-records-in-100m-sprint-and-high-jump-at-beijing-robot-games/article71380192.ece",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Court House News",
+    "Daily Sabah",
+    "France24",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Chinese humanoid robots smash human records in 100m sprint and high jump at Beijing robot games",
+    "link": "https://www.thehindu.com/sci-tech/technology/chinese-humanoid-robots-smash-human-records-in-100m-sprint-and-high-jump-at-beijing-robot-games/article71380192.ece",
+    "summary": "At a 100-meter sprint, a humanoid robot achieved a result of 9.39 seconds, beating the human record of 9.58 seconds set by Jamaican athlete Usain Bolt in 2009; In a standing high jump, a humanoid robot was able to reach 2.88 meters, surpassing the human high jump record of 2.45 meters set by Cuba’s Javier Sotomayor in 1993",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-23T06:27:24+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/dwmf8/article71380203.ece/alternates/LANDSCAPE_1200/2026-08-22T154030Z_254384848_RC2Q3NASSEGF_RTRMADP_3_CHINA-TECH-ROBOT-GAMES.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Court House News",
+      "Daily Sabah",
+      "France24",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/chinese-humanoid-robots-smash-human-records-in-100m-sprint-and-high-jump-at-beijing-robot-games/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/tech/tech-trends/article/3364977/chinese-robots-tackle-tennis-smash-track-records-world-humanoid-robot-games?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/sci-tech/technology/chinese-humanoid-robots-smash-human-records-in-100m-sprint-and-high-jump-at-beijing-robot-games/article71380192.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/leisure/2026/08/23/humanoids-break-records-at-beijing-robot-games"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/life/2026/08/23/chinas-humanoid-robots-smash-sprint-records-at-world-robot-games-in-beijing/232440"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/videos/cgljl9zp47xo?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/dwmf8/article71380203.ece/alternates/LANDSCAPE_1200/2026-08-22T154030Z_254384848_RC2Q3NASSEGF_RTRMADP_3_CHINA-TECH-ROBOT-GAMES.JPG",
+      "https://media.freemalaysiatoday.com/v3/2026/08/45acc786-5b76-4df1-a119-336296421af8-AFP-Beijing-Robot-Games-23082026.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/23/358516.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/23/358517.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/23/358518.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/dee7/live/c783fb00-9e4a-11f1-8871-ff7211da55c9.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 9,
+    "velocity": 0.0,
+    "age_hours": 16.00487508638889,
+    "is_stale": true,
+    "score": 15.764736304289897
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "id": "0a68e77aef15",
+  "created_at": "2026-08-23T22:08:02.922724+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.49,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pope calls for more efforts to stop Ebola in DR Congo",
+  "link": "https://www.channelnewsasia.com/world/pope-calls-more-efforts-stop-ebola-in-dr-congo-6336416",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "The Hindu — International"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Pope calls for more efforts to stop Ebola in DR Congo",
+    "link": "https://www.channelnewsasia.com/world/pope-calls-more-efforts-stop-ebola-in-dr-congo-6336416",
+    "summary": "“I encourage a response from the international community that also involves local communities in efforts to save many human lives,” Pope Leo XIV says on DR Congo’s Ebola outbreak.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-23T20:19:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--nBjSBn8---/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Equatorial_Guinea_Africa_Pope_37977.jpg?itok=pao00PGo",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/pope-calls-for-more-efforts-to-stop-ebola-in-dr-congo/article71380835.ece"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/pope-calls-more-efforts-stop-ebola-in-dr-congo-6336416"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/23/pope-calls-for-more-efforts-to-stop-ebola-in-dr-congo"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--nBjSBn8---/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Equatorial_Guinea_Africa_Pope_37977.jpg?itok=pao00PGo",
+      "https://th-i.thgim.com/public/incoming/y40di1/article71380895.ece/alternates/LANDSCAPE_1200/2026-08-20T110023Z_1659837529_RC2HCLA6480J_RTRMADP_3_HEALTH-WHO-EBOLA.JPG",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/472f11a3-pope-leo.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.11090515584158304,
+    "age_hours": 10.004496930277778,
+    "is_stale": false,
+    "score": 14.48837457805657
+  }
+}
