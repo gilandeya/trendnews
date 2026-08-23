@@ -1133,5 +1133,102 @@
     "posted_title": "",
     "region": "qa",
     "seen_at": "2026-08-23T03:07:48.347832+00:00"
+  },
+  {
+    "score": 20.83,
+    "bucket": "sport",
+    "tokens": [
+      "australia",
+      "bangladesh",
+      "days",
+      "dominate",
+      "men",
+      "second",
+      "test",
+      "two",
+      "win"
+    ],
+    "link": "https://www.theguardian.com/sport/live/2026/aug/23/aus-vs-ban-second-mens-test-day-two-live",
+    "title": "Australia dominate Bangladesh to win second men’s Test in two days",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-08-23T06:07:45.314376+00:00"
+  },
+  {
+    "score": 17.59,
+    "bucket": "serious",
+    "tokens": [
+      "100m",
+      "beats",
+      "bolt's",
+      "humanoid",
+      "moment",
+      "record",
+      "robot",
+      "usain",
+      "watch"
+    ],
+    "link": "https://www.bbc.co.uk/news/videos/cgljl9zp47xo?at_medium=RSS&at_campaign=rss",
+    "title": "Watch: Moment humanoid robot beats Usain Bolt's 100m record",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-23T06:07:45.314600+00:00"
+  },
+  {
+    "score": 16.31,
+    "bucket": "useful",
+    "tokens": [
+      "400",
+      "age",
+      "barely",
+      "can",
+      "eyes",
+      "live",
+      "seem",
+      "shark",
+      "years"
+    ],
+    "link": "https://www.sciencedaily.com/releases/2026/08/260821012232.htm",
+    "title": "This shark can live 400 years. Its eyes barely seem to age",
+    "posted_title": "",
+    "region": "science",
+    "seen_at": "2026-08-23T06:07:45.314763+00:00"
+  },
+  {
+    "score": 16.16,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "africa",
+      "endorses",
+      "kenya",
+      "model",
+      "next",
+      "super"
+    ],
+    "link": "https://punchng.com/kenya-endorses-africas-next-super-model-2026/?utm_source=rss.punchng.com&utm_medium=web",
+    "title": "Kenya endorses Africa’s Next Super Model 2026",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-08-23T06:07:45.314914+00:00"
+  },
+  {
+    "score": 15.76,
+    "bucket": "serious",
+    "tokens": [
+      "contempt",
+      "files",
+      "hospital",
+      "imran",
+      "khan",
+      "party",
+      "petition",
+      "transfer"
+    ],
+    "link": "https://www.dailysabah.com/world/asia-pacific/imran-khans-party-files-contempt-petition-over-hospital-transfer",
+    "title": "Imran Khan’s party files contempt petition over hospital transfer",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-08-23T06:07:45.315075+00:00"
   }
 ]
