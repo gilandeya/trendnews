@@ -1,0 +1,48 @@
+{
+  "id": "341f2c4814e6",
+  "created_at": "2026-08-23T09:08:01.753375+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.17,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "DRC: Ex-president Kabila challenges US sanctions in court",
+  "link": "http://www.africanews.com/2026/08/23/drc-ex-president-kabila-challenges-us-sanctions-in-court/",
+  "publishers": [
+    "Africanews"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "DRC: Ex-president Kabila challenges US sanctions in court",
+    "link": "http://www.africanews.com/2026/08/23/drc-ex-president-kabila-challenges-us-sanctions-in-court/",
+    "summary": "In a suit before a court in Washington, Joseph Kabila who led Congo from 2001 to 2019 contends that his blacklisting by the Office of Foreign Assets Control (OFAC) in April was based on unsubstantiated allegations",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-23T07:15:08+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/88/49/70/640x360_cmsv2_7b0e49f9-1046-572a-9a21-38d209c9fda7-9884970.jpg?1787430407",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/23/drc-ex-president-kabila-challenges-us-sanctions-in-court/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/88/49/70/640x360_cmsv2_7b0e49f9-1046-572a-9a21-38d209c9fda7-9884970.jpg?1787430407"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.174787828833335
+  }
+}

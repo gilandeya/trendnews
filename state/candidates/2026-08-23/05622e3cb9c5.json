@@ -1,0 +1,61 @@
+{
+  "id": "05622e3cb9c5",
+  "created_at": "2026-08-23T09:08:01.752511+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.49,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Macron hosts Saudi crown prince for visit ranging from esports to Middle East",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/08/23/macron-hosts-saudi-crown-prince-for-visit-ranging-from-esports-to-middle-east",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today",
+    "The Express Tribune"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Macron hosts Saudi crown prince for visit ranging from esports to Middle East",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/23/macron-hosts-saudi-crown-prince-for-visit-ranging-from-esports-to-middle-east",
+    "summary": "Several agreements on health, transport and energy are expected to be signed, underscoring the strength of the Paris-Riyadh relationship.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-23T02:51:52+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2025/05/9a919a34-emmanuel-macron-14052025.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625393/macron-hosts-saudis-mbs-for-visit-ranging-from-esports-to-mideast"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/23/macron-hosts-saudi-crown-prince-for-visit-ranging-from-esports-to-middle-east"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260823-macron-welcomes-saudi-crown-prince-mbs-for-two-day-france-visit"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/05/9a919a34-emmanuel-macron-14052025.webp",
+      "https://s.france24.com/media/display/f4461cae-9e95-11f1-af04-005056a97e36/w:1024/p:16x9/45d02b9ad68a11f0b9e7a2b45c3f023c8fe7b6c2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.48715681397828
+  }
+}

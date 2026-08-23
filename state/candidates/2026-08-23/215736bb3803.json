@@ -1,0 +1,68 @@
+{
+  "id": "215736bb3803",
+  "created_at": "2026-08-23T09:08:01.753048+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.83,
+  "trend_score": 0.5,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Australia confirms first H5N1 bird flu case in local mammal",
+  "link": "https://www.channelnewsasia.com/world/australia-confirms-first-h5n1-bird-flu-case-in-local-mammal-6335541",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Malay Mail"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Australia confirms first H5N1 bird flu case in local mammal",
+    "link": "https://www.channelnewsasia.com/world/australia-confirms-first-h5n1-bird-flu-case-in-local-mammal-6335541",
+    "summary": "South Australian authorities confirmed the nation's first mammalian detection of the H5N1 virus in a long-nosed fur seal, which was found dead with no signs of injury.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-23T07:05:58+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--0lpZWqZu--/c_crop,h_449,w_799,x_1,y_56/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-23T031307Z_1_LYNXMPEM7M00R_RTROPTP_3_HEALTH-BIRDFLU.JPG?itok=jNfZsy9A",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/australia-confirms-first-h5n1-bird-flu-case-in-local-mammal-6335541"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/australia-confirms-first-h5n1-bird-flu-case-in-local-mammal-101787454756036.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/23/australia-reports-first-bird-flu-case-in-a-mammal-as-seal-dies"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/23/australia-confirms-first-h5-bird-flu-case-in-mammal-after-fur-seal-tests-positive/232414"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--0lpZWqZu--/c_crop,h_449,w_799,x_1,y_56/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-23T031307Z_1_LYNXMPEM7M00R_RTROPTP_3_HEALTH-BIRDFLU.JPG?itok=jNfZsy9A",
+      "https://media.freemalaysiatoday.com/v3/2026/08/9aa46694-e319-4a7c-b4d1-4bdc03c9ab72-EPA-Images---Fur-Seal---Australia---Bird-Flu---23082026.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/23/358486.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 0.332987592254631,
+    "age_hours": 3.0031149005555555,
+    "is_stale": false,
+    "score": 20.82954060618056
+  }
+}

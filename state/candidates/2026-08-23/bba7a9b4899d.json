@@ -1,0 +1,60 @@
+{
+  "id": "bba7a9b4899d",
+  "created_at": "2026-08-23T09:08:01.753218+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.1,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Bangladesh signals openness to joining Pakistan-Turkiye-Saudi Arabia defence pact",
+  "link": "https://www.geo.tv/latest/678724-bangladesh-signals-openness-to-joining-pakistan-turkiye-saudi-arabia-defence-pact",
+  "publishers": [
+    "Geo News",
+    "Hindustan Times",
+    "Hindustan Times — World"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Bangladesh signals openness to joining Pakistan-Turkiye-Saudi Arabia defence pact",
+    "link": "https://www.geo.tv/latest/678724-bangladesh-signals-openness-to-joining-pakistan-turkiye-saudi-arabia-defence-pact",
+    "summary": "A member of Bangladesh Army patrols in front of a temporary camp, after the army was deployed across the country, in order to help civil administration during general election in Dhaka, Bangladesh, January 3, 2024. — ReutersPM's aide Kobir says national interests remain at policy...",
+    "source_name": "Geo News",
+    "region": "pk",
+    "weight": 0.9,
+    "published": "2026-08-22T06:05:09+00:00",
+    "image_url": "https://www.geo.tv/assets/uploads/2026-08-22/678724_111834_updates.jpg",
+    "publisher": "Geo News",
+    "cluster_sources": [
+      "Geo News",
+      "Hindustan Times",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/678724-bangladesh-signals-openness-to-joining-pakistan-turkiye-saudi-arabia-defence-pact"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/bangladesh-open-to-joining-saudi-pak-turkiye-defence-pact-ministers-101787425494836.html"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/bangladesh-exploring-islamic-nato-why-joining-pakistan-turkey-saudi-arabia-mecca-pact-may-make-sense-to-dhaka-101787395405219.html"
+      }
+    ],
+    "image_candidates": [
+      "https://www.geo.tv/assets/uploads/2026-08-22/678724_111834_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 354.0035155125,
+    "is_stale": true,
+    "score": 18.10191607288569
+  }
+}
