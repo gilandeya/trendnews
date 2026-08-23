@@ -1,0 +1,74 @@
+{
+  "id": "bf62786e5c00",
+  "created_at": "2026-08-23T15:07:47.119188+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.3,
+  "trend_score": 1.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran executes protester accused of acting for Israel, US during protests",
+  "link": "https://www.malaymail.com/news/world/2026/08/23/iran-executes-protester-accused-of-acting-for-israel-us-during-protests/232428",
+  "publishers": [
+    "Der Spiegel",
+    "Hindustan Times — World",
+    "Iran International",
+    "Malay Mail",
+    "The Hindu — International"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Iran executes protester accused of acting for Israel, US during protests",
+    "link": "https://www.malaymail.com/news/world/2026/08/23/iran-executes-protester-accused-of-acting-for-israel-us-during-protests/232428",
+    "summary": "TEHRAN, Aug 23 — Iran today executed a man accused of carrying a chainsaw during January anti-government protests...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-23T09:30:10+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/23/358502.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Der Spiegel",
+      "Hindustan Times — World",
+      "Iran International",
+      "Malay Mail",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-executes-man-accused-of-aiding-us-israel-in-anti-government-protests/article71380428.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/iran-executes-man-accused-of-aiding-us-israel-in-anti-govt-protests-101787467117826.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/23/iran-executes-protester-accused-of-acting-for-israel-us-during-protests/232428"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/iran-weiterer-demonstrant-wegen-protesten-im-januar-hingerichtet-a-a440d04c-d429-4a88-a53f-14153fdfcd00#ref=rss"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202608230947"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/23/358502.jpg",
+      "https://cdn.prod.www.spiegel.de/images/6af8894b-f035-4614-91a2-bd65a508465f_w520_r2.08_fpx66.67_fpy50.jpg",
+      "https://i.iranintl.com/images/rdk9umy0/production/b177a699bce0151da8e78b6f6d99c3973aa4c29a-1920x1080.png?rect=0,38,1920,1005&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.11112102622421244,
+    "age_hours": 5.997054656666667,
+    "is_stale": false,
+    "score": 24.296410256005373
+  }
+}

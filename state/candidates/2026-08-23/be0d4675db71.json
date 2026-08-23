@@ -1,0 +1,48 @@
+{
+  "id": "be0d4675db71",
+  "created_at": "2026-08-23T15:07:47.119745+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.44,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Ilkhanid-era stone inscription discovered in central Iran",
+  "link": "https://www.tehrantimes.com/news/529348/Ilkhanid-era-stone-inscription-discovered-in-central-Iran",
+  "publishers": [
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Ilkhanid-era stone inscription discovered in central Iran",
+    "link": "https://www.tehrantimes.com/news/529348/Ilkhanid-era-stone-inscription-discovered-in-central-Iran",
+    "summary": "TEHRAN – A stone inscription dating to the Ilkhanid period has been discovered during restoration work at the eastern entrance of the Jameh Mosque in Nimvar, a historic city in central Iran.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-23T14:16:43+00:00",
+    "image_url": "https://media.tehrantimes.com/d/t/2026/08/23/4/6144406.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529348/Ilkhanid-era-stone-inscription-discovered-in-central-Iran"
+      }
+    ],
+    "image_candidates": [
+      "https://media.tehrantimes.com/d/t/2026/08/23/4/6144406.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.443409726074073
+  }
+}

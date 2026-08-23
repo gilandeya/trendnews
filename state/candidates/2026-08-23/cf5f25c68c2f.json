@@ -1,0 +1,83 @@
+{
+  "id": "cf5f25c68c2f",
+  "created_at": "2026-08-23T15:07:47.118777+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.04,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Man City agree £86m deal for 18-year-old Bouaddi",
+  "link": "https://www.bbc.co.uk/sport/football/articles/clyjy0e0pkzo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Sky Sports — Football",
+    "The Guardian — Sport",
+    "Vanguard Nigeria"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Man City agree £86m deal for 18-year-old Bouaddi",
+    "link": "https://www.bbc.co.uk/sport/football/articles/clyjy0e0pkzo?at_medium=RSS&at_campaign=rss",
+    "summary": "Manchester City agree a deal in principle for 18-year-old Lille midfielder Ayyoub Bouaddi worth 100m euros (£86m).",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-23T12:41:05+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0b05/live/65d79880-9eea-11f1-bd7c-915bb85b5513.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Sky Sports — Football",
+      "The Guardian — Sport",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/clyjy0e0pkzo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/news/12040/13576242/ayyoub-bouaddi-transfer-manchester-city-reach-agreement-with-lille-to-sign-18-year-old-morocco-midfielder"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/man-city-set-sign-morocco-midfielder-bouaddi-lille-6336121"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/08/23/man-city-agree-deal-for-lille-star-bouaddi"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/man-city-agree-86m-deal-for-morocco-world-cup-star-bouaddi/"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/aug/23/manchester-city-agree-deal-lille-ayyoub-bouaddi-transfer"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0b05/live/65d79880-9eea-11f1-bd7c-915bb85b5513.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0b05/live/65d79880-9eea-11f1-bd7c-915bb85b5513.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0b05/live/65d79880-9eea-11f1-bd7c-915bb85b5513.jpg",
+      "https://e1.365dm.com/26/08/1096x616/skysports-premier-league-ayyoub-bouaddi_7318919.jpg?20260811132349",
+      "https://e1.365dm.com/26/08/1920x1080/skysports-premier-league-ayyoub-bouaddi_7318919.jpg?20260811132349",
+      "https://dam.mediacorp.sg/image/upload/s--YgIN5mIX--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-23T135015Z_1_LYNXMPEM7M070_RTROPTP_3_SOCCER-FRANCE-PSG-LIL.JPG?itok=Xng0RgXR"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 30.042037972330135
+  }
+}

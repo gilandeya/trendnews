@@ -1,0 +1,64 @@
+{
+  "id": "144f5b64b141",
+  "created_at": "2026-08-23T15:07:47.120024+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.03,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Search continues for 22 after bulk carrier sinks off India",
+  "link": "https://www.dawn.com/news/2024735/search-continues-for-22-after-bulk-carrier-sinks-off-india",
+  "publishers": [
+    "DW",
+    "Dawn",
+    "Malay Mail",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Search continues for 22 after bulk carrier sinks off India",
+    "link": "https://www.dawn.com/news/2024735/search-continues-for-22-after-bulk-carrier-sinks-off-india",
+    "summary": "India’s Coast Guard and Navy continued search-and-rescue operations off the eastern coast on Sunday after a Panama-flagged cargo vessel carrying 24 crew sank, with two Chinese nationals rescued, a senior official said. The two rescued Chinese seafarers said the vessel developed a list on Friday and sank within eight minutes, forcing crew to abandon ship, Shyam Jagannathan, director general of India’s Maritime Administration, told Reuters. Jagannathan said the chances of finding survivors generally fall sharply after 12 hours, but rescuers were continuing the search. Twenty-two crew members remain missing from the Ocean Winner, including 18 Chinese nationals, three Myanmar nationals and one Bangladeshi, according to the Indian Coast Guard. The Indian Navy is closely coordinating with the Coast Guard to locate the remaining crew, the Navy said in a post on X. The Coast Guard has sent two vessels from Sri Vijaya Puram, formerly known as Port Blair, for the search-and-rescue operation, a Coast Guard spokesperson said. The Ocean Winner was carrying iron ore bound for China after departing from India’s eastern Paradip port on Friday, according to an initial report prepared by India’s Mar",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-23T08:46:33+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/23093853c3967c1.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "DW",
+      "Dawn",
+      "Malay Mail",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2024735/search-continues-for-22-after-bulk-carrier-sinks-off-india"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625408/search-continues-for-22-after-bulk-carrier-sinks-off-india"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/23/twenty-two-crew-missing-after-singapore-bound-bulk-carrier-sinks-off-eastern-india/232404"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/23093853c3967c1.webp",
+      "https://i.dawn.com/thumbnail/2026/08/23093853c3967c1.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/23/358465.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 9.000311036388888,
+    "is_stale": false,
+    "score": 15.026557869703705
+  }
+}
