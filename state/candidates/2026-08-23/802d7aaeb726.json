@@ -1,0 +1,49 @@
+{
+  "id": "802d7aaeb726",
+  "created_at": "2026-08-23T03:07:48.347073+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.67,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "The oldest iPhone model you can trade-in with Apple is older than you'd think",
+  "link": "https://www.engadget.com/2240134/oldest-iphone-model-trade-in-with-apple/",
+  "publishers": [
+    "Engadget"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "The oldest iPhone model you can trade-in with Apple is older than you'd think",
+    "link": "https://www.engadget.com/2240134/oldest-iphone-model-trade-in-with-apple/",
+    "summary": "Even old Apple devices you haven't touched in years could still get you some credit towards a new phone.",
+    "source_name": "Engadget",
+    "region": "tech",
+    "weight": 0.9,
+    "published": "2026-08-22T20:00:00+00:00",
+    "image_url": "https://www.engadget.com/img/gallery/the-oldest-iphone-model-you-can-trade-in-with-apple-is-older-than-youd-think/l-intro-1786647748.jpg",
+    "publisher": "Engadget",
+    "cluster_sources": [
+      "Engadget"
+    ],
+    "cluster_members": [
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2240134/oldest-iphone-model-trade-in-with-apple/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.engadget.com/img/gallery/the-oldest-iphone-model-you-can-trade-in-with-apple-is-older-than-youd-think/l-intro-1786647748.jpg",
+      "https://www.engadget.com/img/gallery/the-oldest-iphone-model-you-can-trade-in-with-apple-is-older-than-youd-think/intro-1786647748.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.674796446907408
+  }
+}

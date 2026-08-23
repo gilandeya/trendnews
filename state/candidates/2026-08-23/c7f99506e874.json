@@ -1,0 +1,46 @@
+{
+  "id": "c7f99506e874",
+  "created_at": "2026-08-23T03:07:48.347603+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.38,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US Postal Service shares mail-in ballot restrictions despite court ruling",
+  "link": "https://www.aljazeera.com/news/2026/8/22/us-postal-service-shares-mail-in-ballot-restrictions-despite-court-ruling?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "US Postal Service shares mail-in ballot restrictions despite court ruling",
+    "link": "https://www.aljazeera.com/news/2026/8/22/us-postal-service-shares-mail-in-ballot-restrictions-despite-court-ruling?traffic_source=rss",
+    "summary": "US President Donald Trump has called for restrictions on mail-in voting as part of bid to exert control over elections.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-22T20:49:17+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/22/us-postal-service-shares-mail-in-ballot-restrictions-despite-court-ruling?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 23.999328661388887,
+    "is_stale": true,
+    "score": 14.379555704925927
+  }
+}

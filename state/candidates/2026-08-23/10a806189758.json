@@ -1,0 +1,87 @@
+{
+  "id": "10a806189758",
+  "created_at": "2026-08-23T03:07:48.346261+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.01,
+  "trend_score": 1.0,
+  "velocity": 0.19,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "\"Will Be Enemy\": Iran Warns Countries Against Joining Trump's \"Economic War\"",
+  "link": "https://www.ndtv.com/world-news/us-iran-war-will-be-enemy-iran-warns-countries-against-joining-trumps-economic-war-11946415#publisher=newsstand",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia",
+    "France24",
+    "Free Malaysia Today",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Japan Times",
+    "Vanguard Nigeria"
+  ],
+  "region": "in",
+  "article": {
+    "title": "\"Will Be Enemy\": Iran Warns Countries Against Joining Trump's \"Economic War\"",
+    "link": "https://www.ndtv.com/world-news/us-iran-war-will-be-enemy-iran-warns-countries-against-joining-trumps-economic-war-11946415#publisher=newsstand",
+    "summary": "Iran said it had more cards to play in the war against the US",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-08-23T01:27:41+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-05/ctbp013s_mojtaba-_625x300_24_May_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia",
+      "France24",
+      "Free Malaysia Today",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Japan Times",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/22/iran-warns-nearby-nations-against-joining-us-economic-war-efforts?traffic_source=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/liveblog/2026/8/23/iran-war-live-tehran-warns-neighbours-against-joining-us-economic-war?traffic_source=rss"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/us-iran-war-will-be-enemy-iran-warns-countries-against-joining-trumps-economic-war-11946415#publisher=newsstand"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3364944/iran-condemns-us-plans-announce-new-sanctions?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/iran-condemns-us-plans-announce-new-sanctions-6335291"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/23/world/iran-denounces-us-sanctions/"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-05/ctbp013s_mojtaba-_625x300_24_May_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://dam.mediacorp.sg/image/upload/s--Jcg6LVFY--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-22T012145Z_1_LYNXMPEM7L00L_RTROPTP_3_IRAN-CRISIS.JPG?itok=BVbtMA72",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/23/558856.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/23/thumbs/400x400/558856.jpg",
+      "https://s.france24.com/media/display/40e60864-9e67-11f1-a9b4-005056bfb2b6/w:1024/p:16x9/AP26229596804920.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/02/masoud-pezeshkian-1024x642.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 0.19445647476433417,
+    "age_hours": 62.99865155138889,
+    "is_stale": false,
+    "score": 27.01117141522908
+  }
+}
