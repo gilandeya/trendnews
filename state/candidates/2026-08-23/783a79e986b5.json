@@ -1,0 +1,74 @@
+{
+  "id": "783a79e986b5",
+  "created_at": "2026-08-23T18:08:00.358842+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.81,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran says new sanctions threatened by ‘desperate’ U.S. will fail",
+  "link": "https://www.thehindu.com/news/international/iran-says-new-sanctions-threatened-by-desperate-us-will-fail/article71381887.ece",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran says new sanctions threatened by ‘desperate’ U.S. will fail",
+    "link": "https://www.thehindu.com/news/international/iran-says-new-sanctions-threatened-by-desperate-us-will-fail/article71381887.ece",
+    "summary": "The fact that they [U.S. leaders] have moved on from military operations ... to bring up the same old plans shows that they are desperate, said Iranian Foreign Minister Abbas Araghchi",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-23T16:18:32+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/z4y0ra/article71381918.ece/alternates/LANDSCAPE_1200/PTI05_17_2026_000133B.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625381/iran-threatens-neighboring-countries-against-joining-us-economic-war"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/iran-war-us-sanctions-trump-6335936"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-says-new-sanctions-threatened-by-desperate-us-will-fail/article71381887.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/23/iran-says-new-sanctions-threatened-by-desperate-us-will-fail"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-says-new-sanctions-threatened-by-desperate-us-will-fail-west-asia-conflict-treasury-secretary-scott-bessent-101787503537762.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/z4y0ra/article71381918.ece/alternates/LANDSCAPE_1200/PTI05_17_2026_000133B.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--Wfqw6I6E--/c_crop,h_449,w_799,x_1,y_1/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-04T034317Z_2_LYNXMPEM7306T_RTROPTP_3_IRAN-CRISIS.JPG?itok=nIGEFko3",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/07/83fc97e4-abbas-araghchi-11072026.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 0.3333865694268132,
+    "age_hours": 3.0039984958333332,
+    "is_stale": false,
+    "score": 17.811213178888746
+  }
+}
