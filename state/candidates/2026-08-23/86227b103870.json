@@ -1,0 +1,46 @@
+{
+  "id": "86227b103870",
+  "created_at": "2026-08-23T12:07:46.836790+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.61,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Where water conflicts pose the biggest threat in 2026",
+  "link": "https://www.aljazeera.com/news/2026/8/23/where-water-conflicts-pose-the-biggest-threat-in-2026?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Where water conflicts pose the biggest threat in 2026",
+    "link": "https://www.aljazeera.com/news/2026/8/23/where-water-conflicts-pose-the-biggest-threat-in-2026?traffic_source=rss",
+    "summary": "Water-related conflicts have nearly quadrupled since 2020. As World Water Week 2026 begins, Al Jazeera unpacks the data.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-23T09:13:23+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/23/where-water-conflicts-pose-the-biggest-threat-in-2026?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.60635897537037
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "id": "91f9a2d4a4bb",
+  "created_at": "2026-08-23T12:07:46.836181+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.65,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Girl, 17, killed in Swedish sword attack, police say",
+  "link": "https://www.bbc.co.uk/news/articles/c8jnjp0lwlwo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Court House News",
+    "MyJoyOnline Ghana",
+    "PBS",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Girl, 17, killed in Swedish sword attack, police say",
+    "link": "https://www.bbc.co.uk/news/articles/c8jnjp0lwlwo?at_medium=RSS&at_campaign=rss",
+    "summary": "Two boys aged 12 and 17 were also injured, while an 18-year-old suspect has been detained.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-23T01:34:15+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4961/live/739e15f0-9e92-11f1-ab7f-1982e3129a69.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Court House News",
+      "MyJoyOnline Ghana",
+      "PBS",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/student-killed-in-sword-attack-at-a-swedish-school-was-a-17-year-old-girl/"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/22/seventeen-year-old-girl-killed-in-sword-attack-at-school-in-sweden"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c8jnjp0lwlwo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/sweden-school-sword-attack-fagersta/"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/swedish-sword-attack-victim-was-17-year-old-girl-police-say/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4961/live/739e15f0-9e92-11f1-ab7f-1982e3129a69.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/4961/live/739e15f0-9e92-11f1-ab7f-1982e3129a69.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4961/live/739e15f0-9e92-11f1-ab7f-1982e3129a69.jpg",
+      "https://i.guim.co.uk/img/media/3091f3d617457c603710e629deeecb778e126f1f/1280_0_6400_5120/master/6400.jpg?width=700&quality=85&auto=format&fit=max&s=1214a3a3d8b18658b4cb6ef4369a4fc9",
+      "https://i.guim.co.uk/img/media/3091f3d617457c603710e629deeecb778e126f1f/1280_0_6400_5120/master/6400.jpg?width=460&quality=85&auto=format&fit=max&s=9b44581360f9f67bfa1d5297c058de5a",
+      "https://i.guim.co.uk/img/media/3091f3d617457c603710e629deeecb778e126f1f/1280_0_6400_5120/master/6400.jpg?width=140&quality=85&auto=format&fit=max&s=aee2d100ce8708856939c8e89645dc9f"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 20.9987804975,
+    "is_stale": true,
+    "score": 18.651098332237545
+  }
+}
