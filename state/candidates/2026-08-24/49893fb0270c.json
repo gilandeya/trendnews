@@ -1,0 +1,50 @@
+{
+  "id": "49893fb0270c",
+  "created_at": "2026-08-24T19:07:59.756151+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.1,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Russia wins silver in men’s relay at 2026 UIPM Pentathlon World Championships",
+  "link": "https://tass.com/sports/2177005",
+  "publishers": [
+    "TASS"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Russia wins silver in men’s relay at 2026 UIPM Pentathlon World Championships",
+    "link": "https://tass.com/sports/2177005",
+    "summary": "The gold went to the team from the UK, while Germany took the bronze",
+    "source_name": "TASS",
+    "region": "ru",
+    "weight": 0.7,
+    "published": "2026-08-24T12:19:45+00:00",
+    "image_url": null,
+    "publisher": "TASS",
+    "cluster_sources": [
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "TASS",
+        "link": "https://tass.com/sports/2176985"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/sports/2177005"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 6.943629992222222,
+    "is_stale": false,
+    "score": 15.096538583296297
+  }
+}

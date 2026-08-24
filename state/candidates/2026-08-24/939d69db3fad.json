@@ -1,0 +1,63 @@
+{
+  "id": "939d69db3fad",
+  "created_at": "2026-08-24T19:07:59.755585+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.49,
+  "trend_score": 0.67,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "South Korea says U.S. cancels joint marine drill over Iran war",
+  "link": "https://www.thehindu.com/news/international/south-korea-says-us-cancels-joint-marine-drill-over-iran-war/article71385916.ece",
+  "publishers": [
+    "Euronews.com",
+    "Free Malaysia Today",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "South Korea says U.S. cancels joint marine drill over Iran war",
+    "link": "https://www.thehindu.com/news/international/south-korea-says-us-cancels-joint-marine-drill-over-iran-war/article71385916.ece",
+    "summary": "",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-24T17:01:39+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/lpjy5y/article71385960.ece/alternates/LANDSCAPE_1200/2026-08-24T055101Z_1827342676_RC25S9ADUPWQ_RTRMADP_3_SOUTHKOREA-USA-DRILLS.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Euronews.com",
+      "Free Malaysia Today",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/east-asia/article/3365087/south-korea-says-us-cut-joint-marine-drill-over-iran-war-constraints?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/south-korea-says-us-cancels-joint-marine-drill-over-iran-war/article71385916.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/24/south-korea-says-us-cancels-joint-marine-drill-over-iran-war"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/lpjy5y/article71385960.ece/alternates/LANDSCAPE_1200/2026-08-24T055101Z_1827342676_RC25S9ADUPWQ_RTRMADP_3_SOUTHKOREA-USA-DRILLS.JPG",
+      "https://media.freemalaysiatoday.com/v3/2026/08/dfcb1b3f-47bb-47f0-bffb-d043a5891a45-US-South-Korea-drills.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 189.00252461611112,
+    "is_stale": true,
+    "score": 18.493094143481482
+  }
+}

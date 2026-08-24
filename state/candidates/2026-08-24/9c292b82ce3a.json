@@ -1,0 +1,68 @@
+{
+  "id": "9c292b82ce3a",
+  "created_at": "2026-08-24T19:07:59.755260+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.68,
+  "trend_score": 0.33,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump administration moves to impose more than $100,000 fee for H-1B worker visas",
+  "link": "https://www.dawn.com/news/2025003/trump-administration-moves-to-impose-more-than-100000-fee-for-h-1b-worker-visas",
+  "publishers": [
+    "Al Jazeera English",
+    "Dawn",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Trump administration moves to impose more than $100,000 fee for H-1B worker visas",
+    "link": "https://www.dawn.com/news/2025003/trump-administration-moves-to-impose-more-than-100000-fee-for-h-1b-worker-visas",
+    "summary": "President Donald Trump’s administration on Monday released a proposed regulation to codify an unprecedented more than $100,000 fee on new H-1B visas for highly skilled foreign workers, that Trump first imposed last year but has been blocked by the courts. The fee first imposed by Trump in a temporary proclamation last year vastly raises the cost of the visas that are heavily relied on in the tech, education and research sectors. A federal judge in June ruled that the fee was illegal and blocked the Trump administration from collecting it. A Boston-based appeals court is reviewing that decision while a different court considers whether a judge in Washington, DC, properly rejected a challenge to the fee by a major business group. Trump’s 2025 proclamation imposing the fee expires in September, one year after it was issued, but directed the US Department of Homeland Security to adopt regulations making it permanent. The proposed $103,265 fee by the Department of Homeland Security (DHS), posted online in the Federal Register on Monday to be formally published on Tuesday, kicks off a 30-day public comment period. The rule could be finalised by the end of the year. The H-1B program allow",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-24T17:32:25+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/2418371543970c0.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Dawn",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/economy/2026/8/24/trump-administration-seeks-to-formalise-h-1b-fee-of-more-than-100000?traffic_source=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2025003/trump-administration-moves-to-impose-more-than-100000-fee-for-h-1b-worker-visas"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625616/trump-administration-moves-to-impose-more-than-100000-fee-for-h-1b-worker-visas"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-administration-moves-to-impose-more-than-100000-fee-for-h-1b-worker-visas/article71385078.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/2418371543970c0.webp",
+      "https://i.dawn.com/thumbnail/2026/08/2418371543970c0.webp",
+      "https://th-i.thgim.com/public/incoming/kurg4k/article71230455.ece/alternates/LANDSCAPE_1200/iStock-480471413%203.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 4,
+    "velocity": 0.3336445753436656,
+    "age_hours": 4.002156924166667,
+    "is_stale": false,
+    "score": 19.678835538551663
+  }
+}

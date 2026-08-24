@@ -1,0 +1,70 @@
+{
+  "id": "bb877726dd8a",
+  "created_at": "2026-08-24T19:07:59.754815+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.53,
+  "trend_score": 1.0,
+  "velocity": 0.67,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran ‘invited’ to join Pakistan-Turkey-Saudi Arabia's Mecca defence pact; report says proposal being ‘considered’",
+  "link": "https://www.hindustantimes.com/world-news/iran-invited-to-join-pakistan-turkey-saudi-arabias-mecca-defence-pact-report-says-proposal-being-considered-101787504733370.html",
+  "publishers": [
+    "Hindustan Times",
+    "Hindustan Times — World",
+    "IRNA English"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran ‘invited’ to join Pakistan-Turkey-Saudi Arabia's Mecca defence pact; report says proposal being ‘considered’",
+    "link": "https://www.hindustantimes.com/world-news/iran-invited-to-join-pakistan-turkey-saudi-arabias-mecca-defence-pact-report-says-proposal-being-considered-101787504733370.html",
+    "summary": "Head of the Iranian Parliament news agency, Mehdi Rahimi, reportedly revealed information about the official invitation to Tehran to join the Mecca agreement.",
+    "source_name": "Hindustan Times — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-08-23T17:24:23+00:00",
+    "image_url": "https://img9.irna.ir/d/r2/2026/08/24/4/173060690.jpg",
+    "publisher": "Hindustan Times — World",
+    "cluster_sources": [
+      "Hindustan Times",
+      "Hindustan Times — World",
+      "IRNA English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-invited-to-join-pakistan-turkey-saudi-arabias-mecca-defence-pact-report-says-proposal-being-considered-101787504733370.html"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86244603/Pakistan-s-army-chief-in-Tehran-for-talks-with-senior-Iranian"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/pakistan-army-chief-asim-munir-in-tehran-as-us-readies-greatest-financial-offensive-ever-against-iran-economic-d-day-101787562737302.html"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86244000/Pakistan-s-army-chief-leaves-for-Iran"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86243871/Oman-FM-to-visit-Tehran-for-regional-consultations"
+      }
+    ],
+    "image_candidates": [
+      "https://img9.irna.ir/d/r2/2026/08/24/4/173060690.jpg",
+      "https://img9.irna.ir/d/r2/2026/08/24/4/173058760.jpg",
+      "https://img9.irna.ir/d/r2/2026/08/24/4/173058098.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.667304140829503,
+    "age_hours": 24.004361346666666,
+    "is_stale": false,
+    "score": 23.52642827545913
+  }
+}
