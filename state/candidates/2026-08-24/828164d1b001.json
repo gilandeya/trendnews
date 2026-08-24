@@ -1,0 +1,48 @@
+{
+  "id": "828164d1b001",
+  "created_at": "2026-08-24T12:11:22.065013+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.88,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "N. Korea, Belarus near visa-waiver agreement for ordinary citizens: report",
+  "link": "https://en.yna.co.kr/view/AEN20260824006200315",
+  "publishers": [
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "N. Korea, Belarus near visa-waiver agreement for ordinary citizens: report",
+    "link": "https://en.yna.co.kr/view/AEN20260824006200315",
+    "summary": "SEOUL, Aug. 24 (Yonhap) -- North Korea and Belarus are close to signing a visa-w...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-08-24T05:51:38+00:00",
+    "image_url": "https://img.yna.co.kr/etc/inner/EN/2026/08/24/AEN20260824006200315_03_i_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260824006200315"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/etc/inner/EN/2026/08/24/AEN20260824006200315_03_i_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 6.058616618055555,
+    "is_stale": false,
+    "score": 16.878206215685186
+  }
+}
