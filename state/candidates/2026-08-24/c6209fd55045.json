@@ -1,0 +1,70 @@
+{
+  "id": "c6209fd55045",
+  "created_at": "2026-08-24T03:07:53.575643+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.02,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Fast-moving wildfire in Reno, Nevada, forces thousands to evacuate homes",
+  "link": "https://www.theguardian.com/us-news/2026/aug/23/wildfire-reno-nevada-hawk-fire",
+  "publishers": [
+    "Hindustan Times — World",
+    "Malay Mail",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Fast-moving wildfire in Reno, Nevada, forces thousands to evacuate homes",
+    "link": "https://www.theguardian.com/us-news/2026/aug/23/wildfire-reno-nevada-hawk-fire",
+    "summary": "Human-caused Hawk fire covers more than 15,000 acres as blaze approaches University of Nevada campus in Reno A fast-moving Nevada wildfire exploded to more than 15,000 acres (6,000 hectares) on Sunday, pushing from the Sierra foothills toward the center of Reno and urging nearly 90,000 residents to evacuate as flames threatened neighborhoods and reached the edge of the University of Nevada campus. The Hawk fire’s “GO NOW” evacuation zone had expanded to the edge of the university campus as strong, gusty winds, low humidity and dry vegetation fueled the blaze, according to Truckee Meadows Fire and Rescue in Reno. Of those urged to evacuate, 42,000 were under strict orders. An additional 45,000 people were in the evacuation warning zone, and encouraged to leave now and be prepared to stay away for several days to clear the roads for first-responders. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-23T18:22:15+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/429c6b5d7c9a1ba8ff7eb1b0d7341abc10efe17c/509_0_2514_2012/master/2514.jpg?width=700&quality=85&auto=format&fit=max&s=c88b14b2cb753a1945008e0d25ce4d43",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Malay Mail",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/23/wildfire-reno-nevada-hawk-fire"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/fast-moving-wildfire-amid-shifting-winds-threatens-reno-nevada-forcing-thousands-to-evacuate/article71383006.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/tens-of-thousands-ordered-to-evacuate-in-nevada-as-fire-threatens-reno-101787516913135.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/24/fast-moving-wildfire-threatens-reno-as-tens-of-thousands-ordered-to-flee/232442"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/429c6b5d7c9a1ba8ff7eb1b0d7341abc10efe17c/509_0_2514_2012/master/2514.jpg?width=700&quality=85&auto=format&fit=max&s=c88b14b2cb753a1945008e0d25ce4d43",
+      "https://i.guim.co.uk/img/media/429c6b5d7c9a1ba8ff7eb1b0d7341abc10efe17c/509_0_2514_2012/master/2514.jpg?width=460&quality=85&auto=format&fit=max&s=0fa45b3a023f8154e9cad3eff3a8ce87",
+      "https://i.guim.co.uk/img/media/429c6b5d7c9a1ba8ff7eb1b0d7341abc10efe17c/509_0_2514_2012/master/2514.jpg?width=140&quality=85&auto=format&fit=max&s=40d26ed080c5af284172c2611408eda4",
+      "https://th-i.thgim.com/public/incoming/y4zl0s/article71383013.ece/alternates/LANDSCAPE_1200/2026-08-24T002311Z_330327995_RC2I4NAON7M3_RTRMADP_3_EUROPE-WEATHER-NORTHMACEDONIA-WILDFIRE.JPG",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/24/358522.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.20011450726650112,
+    "age_hours": 8.002768389166667,
+    "is_stale": false,
+    "score": 24.016658991851024
+  }
+}

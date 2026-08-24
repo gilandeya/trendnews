@@ -1,0 +1,48 @@
+{
+  "id": "feefb3c2c253",
+  "created_at": "2026-08-24T03:07:53.576499+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.84,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Expulsion of Iranian diplomats from Paris could damage bilateral ties, Tehran warns",
+  "link": "https://www.tehrantimes.com/news/529359/Expulsion-of-Iranian-diplomats-from-Paris-could-damage-bilateral",
+  "publishers": [
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Expulsion of Iranian diplomats from Paris could damage bilateral ties, Tehran warns",
+    "link": "https://www.tehrantimes.com/news/529359/Expulsion-of-Iranian-diplomats-from-Paris-could-damage-bilateral",
+    "summary": "TEHRAN- Iran has warned that France’s expulsion of two Iranian diplomats could seriously damage relations between Tehran and Paris, after both countries took reciprocal measures amid accusations of diplomatic interference in Iran’s internal affairs.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-23T17:11:41+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/08/23/4/6144581.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529359/Expulsion-of-Iranian-diplomats-from-Paris-could-damage-bilateral"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/08/23/4/6144581.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 8.998064355833334,
+    "is_stale": false,
+    "score": 15.837679046259261
+  }
+}

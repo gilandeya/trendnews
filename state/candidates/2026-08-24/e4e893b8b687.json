@@ -1,0 +1,57 @@
+{
+  "id": "e4e893b8b687",
+  "created_at": "2026-08-24T03:07:53.576659+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.21,
+  "trend_score": 0.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US vows ‘economic D-Day’ as Iran threatens to halt all oil exports",
+  "link": "https://www.rappler.com/world/middle-east/us-vows-economic-d-day-iran-threatens-halt-oil-exports/",
+  "publishers": [
+    "Free Malaysia Today",
+    "Rappler"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "US vows ‘economic D-Day’ as Iran threatens to halt all oil exports",
+    "link": "https://www.rappler.com/world/middle-east/us-vows-economic-d-day-iran-threatens-halt-oil-exports/",
+    "summary": "The warring nations have not conducted military strikes against each other for weeks, but they also have not engaged in meaningful talks to end the six-month-old conflict",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-08-24T01:45:46+00:00",
+    "image_url": "https://www.rappler.com/tachyon/2026/08/reuters-082026-donald-trump-iran-scaled.jpg",
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Rappler"
+    ],
+    "cluster_members": [
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/middle-east/us-vows-economic-d-day-iran-threatens-halt-oil-exports/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/24/us-vows-economic-d-day-as-iran-threatens-to-halt-all-oil-exports"
+      }
+    ],
+    "image_candidates": [
+      "https://www.rappler.com/tachyon/2026/08/reuters-082026-donald-trump-iran-scaled.jpg",
+      "https://www.rappler.com/tachyon/2026/08/reuters-082026-donald-trump-iran-scaled.jpg?resize=75%2C75&crop_strategy=attention",
+      "https://www.rappler.com/tachyon/2026/08/reuters-082026-donald-trump-iran-scaled.jpg?fit=449%2C449",
+      "https://media.freemalaysiatoday.com/v3/2026/08/9b300aa1-05a4-46d0-b9a8-9ba454749d8d-Iran-US-Donald-Trump-war.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 13.208882747166667
+  }
+}

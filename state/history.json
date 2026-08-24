@@ -2072,5 +2072,108 @@
     "posted_title": "",
     "region": "tr",
     "seen_at": "2026-08-23T22:08:02.923228+00:00"
+  },
+  {
+    "score": 24.02,
+    "bucket": "serious",
+    "tokens": [
+      "evacuate",
+      "fast",
+      "forces",
+      "homes",
+      "moving",
+      "nevada",
+      "reno",
+      "thousands",
+      "wildfire"
+    ],
+    "link": "https://www.theguardian.com/us-news/2026/aug/23/wildfire-reno-nevada-hawk-fire",
+    "title": "Fast-moving wildfire in Reno, Nevada, forces thousands to evacuate homes",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-24T03:07:53.576078+00:00"
+  },
+  {
+    "score": 16.57,
+    "bucket": "useful",
+    "tokens": [
+      "between",
+      "charging",
+      "difference",
+      "fast",
+      "many",
+      "standards",
+      "them",
+      "there",
+      "what's",
+      "why"
+    ],
+    "link": "https://www.engadget.com/2241124/fast-charging-differenent-standards-explained/",
+    "title": "Why are there so many fast charging standards, and what's the difference between them?",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-08-24T03:07:53.576314+00:00"
+  },
+  {
+    "score": 16.17,
+    "bucket": "serious",
+    "tokens": [
+      "'world",
+      "arabia",
+      "arrives",
+      "asserts",
+      "cup'",
+      "dominance",
+      "esports",
+      "mbs",
+      "paris",
+      "saudi"
+    ],
+    "link": "https://www.france24.com/en/saudi-arabia-asserts-its-dominance-over-esports-as-mbs-arrives-in-paris-for-world-cup",
+    "title": "Saudi Arabia asserts its dominance over Esports as MBS arrives in Paris for 'World Cup'",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-08-24T03:07:53.576494+00:00"
+  },
+  {
+    "score": 15.84,
+    "bucket": "serious",
+    "tokens": [
+      "bilateral",
+      "could",
+      "damage",
+      "diplomats",
+      "expulsion",
+      "iranian",
+      "paris",
+      "tehran",
+      "ties",
+      "warns"
+    ],
+    "link": "https://www.tehrantimes.com/news/529359/Expulsion-of-Iranian-diplomats-from-Paris-could-damage-bilateral",
+    "title": "Expulsion of Iranian diplomats from Paris could damage bilateral ties, Tehran warns",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-08-24T03:07:53.576654+00:00"
+  },
+  {
+    "score": 13.21,
+    "bucket": "serious",
+    "tokens": [
+      "all",
+      "day",
+      "economic",
+      "exports",
+      "halt",
+      "iran",
+      "oil",
+      "threatens",
+      "vows"
+    ],
+    "link": "https://www.rappler.com/world/middle-east/us-vows-economic-d-day-iran-threatens-halt-oil-exports/",
+    "title": "US vows ‘economic D-Day’ as Iran threatens to halt all oil exports",
+    "posted_title": "",
+    "region": "ph",
+    "seen_at": "2026-08-24T03:07:53.576819+00:00"
   }
 ]
