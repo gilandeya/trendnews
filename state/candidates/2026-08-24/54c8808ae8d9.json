@@ -1,0 +1,73 @@
+{
+  "id": "54c8808ae8d9",
+  "created_at": "2026-08-24T09:07:48.900033+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.15,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Gauff gears up for US Open with Cincinnati triumph",
+  "link": "https://www.bbc.co.uk/sport/tennis/articles/cg7k9g4n3pmo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "The Express Tribune",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Gauff gears up for US Open with Cincinnati triumph",
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/cg7k9g4n3pmo?at_medium=RSS&at_campaign=rss",
+    "summary": "Coco Gauff powers past Jessica Pegula in the final of the Cincinnati Open to win her first title of 2026 just before the US Open, as Arthur Fils wins the men's event.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-24T06:34:13+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b783/live/0daba8e0-9f80-11f1-82a0-8dbe1008b861.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "The Express Tribune",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/tennis/articles/cg7k9g4n3pmo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/sport/2026/aug/24/coco-gauff-beats-pegula-wins-cincinnati-open-title"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/sport/2026/aug/23/arthur-fils-masters-frances-tiafoe-cincinnati-tennis"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625557/gauff-wins-cincinnati-title"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625559/fils-claims-first-atp-masters-title-in-cincinnati"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b783/live/0daba8e0-9f80-11f1-82a0-8dbe1008b861.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/b783/live/0daba8e0-9f80-11f1-82a0-8dbe1008b861.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b783/live/0daba8e0-9f80-11f1-82a0-8dbe1008b861.jpg",
+      "https://i.guim.co.uk/img/media/3272e091203be3eaa3426c65f1d864aabaa348fd/0_319_1060_848/master/1060.jpg?width=700&quality=85&auto=format&fit=max&s=4853277668ffe06c94b1fcbcfc042da1",
+      "https://i.guim.co.uk/img/media/3272e091203be3eaa3426c65f1d864aabaa348fd/0_319_1060_848/master/1060.jpg?width=460&quality=85&auto=format&fit=max&s=13cb396dbe7163dbc646c1d166729479",
+      "https://i.guim.co.uk/img/media/3272e091203be3eaa3426c65f1d864aabaa348fd/0_319_1060_848/master/1060.jpg?width=140&quality=85&auto=format&fit=max&s=b4340b5ae81e159271eee4976bed6e43"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.22227391150581996,
+    "age_hours": 2.9993023569444444,
+    "is_stale": false,
+    "score": 23.145732280248122
+  }
+}

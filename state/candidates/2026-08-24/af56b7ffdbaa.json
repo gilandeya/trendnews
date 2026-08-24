@@ -1,0 +1,55 @@
+{
+  "id": "af56b7ffdbaa",
+  "created_at": "2026-08-24T09:07:48.900764+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.04,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oman’s top diplomat to visit Iran to discuss Hormuz Strait",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/08/24/oman-top-diplomat-to-visit-iran-to-discuss-hormuz-strait",
+  "publishers": [
+    "Free Malaysia Today",
+    "IRNA English"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Oman’s top diplomat to visit Iran to discuss Hormuz Strait",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/24/oman-top-diplomat-to-visit-iran-to-discuss-hormuz-strait",
+    "summary": "Badr al-Busaidi will hold political consultations between Oman and Iran aimed at strengthening regional peace and security.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-24T07:31:00+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/08/b9339182-5af5-48a9-b863-6baf69345d32-Abbas-Araghchi-Sayyid-Badr-al-Busaidi-R-EPA-24082026-.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "IRNA English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/24/oman-top-diplomat-to-visit-iran-to-discuss-hormuz-strait"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86243871/Oman-FM-to-visit-Tehran-for-regional-consultations"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/08/b9339182-5af5-48a9-b863-6baf69345d32-Abbas-Araghchi-Sayyid-Badr-al-Busaidi-R-EPA-24082026-.webp",
+      "https://img9.irna.ir/d/r2/2026/08/24/4/173058098.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.042567809203703
+  }
+}
