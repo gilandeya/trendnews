@@ -1,0 +1,54 @@
+{
+  "id": "c36904226abc",
+  "created_at": "2026-08-24T17:07:56.086795+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.5,
+  "trend_score": 0.33,
+  "velocity": 0.17,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says to double auto tariffs on Canada",
+  "link": "https://www.freemalaysiatoday.com/category/business/2026/08/24/trump-says-to-double-auto-tariffs-on-canada",
+  "publishers": [
+    "Al Jazeera English",
+    "Free Malaysia Today"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Trump says to double auto tariffs on Canada",
+    "link": "https://www.freemalaysiatoday.com/category/business/2026/08/24/trump-says-to-double-auto-tariffs-on-canada",
+    "summary": "The current US tariff on autos stands at 25% for non-US content, while imported steel to the US generally faces a 50% duty.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-24T14:52:44+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/6c0d60e3-donald-trump-quantum-computing.jpg",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/economy/2026/8/24/trump-slams-canada-with-new-50-percent-auto-tariffs-for-2027?traffic_source=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/08/24/trump-says-to-double-auto-tariffs-on-canada"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/6c0d60e3-donald-trump-quantum-computing.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 0.16658257268368917,
+    "age_hours": 2.0011849794444445,
+    "is_stale": false,
+    "score": 15.499499531918445
+  }
+}

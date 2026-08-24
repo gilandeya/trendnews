@@ -1,0 +1,55 @@
+{
+  "id": "480efa981b8b",
+  "created_at": "2026-08-24T17:07:56.086022+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.08,
+  "trend_score": 1.0,
+  "velocity": 0.17,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Moody's lifts Pakistan sovereign rating to B3 from Caa1, cites improved governance and easing of external risk",
+  "link": "https://www.dawn.com/news/2024988/moodys-lifts-pakistan-sovereign-rating-to-b3-from-caa1-cites-improved-governance-and-easing-of-external-risk",
+  "publishers": [
+    "Dawn",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Moody's lifts Pakistan sovereign rating to B3 from Caa1, cites improved governance and easing of external risk",
+    "link": "https://www.dawn.com/news/2024988/moodys-lifts-pakistan-sovereign-rating-to-b3-from-caa1-cites-improved-governance-and-easing-of-external-risk",
+    "summary": "ISLAMABAD: Global ratings agency Moody’s on Monday upgraded Pakistan’s sovereign credit rating to B3 from Caa1 and maintained a stable outlook, citing expectations of improvements in governance and easing external and fiscal vulnerabilities. “The upgrade to B3 reflects our expectations that improvements in governance will allow the government to sustain the recent improvements in the country’s external position and strengthen fiscal metrics,” Moody’s said in an announcement. Pakistan’s external vulnerability risks have eased further since its last rating action in August 2025 at Caa1, with foreign exchange reserves building steadily, supported by sustained macroeconomic stabilisation, it said. At the same time, lower domestic financing costs amid monetary easing and an improved fiscal position have driven a material improvement in Pakistan’s debt affordability, the US-based rating firms stated, adding that Pakistan’s strengthening credit profile is also demonstrating greater resilience to external shocks than in previous cycles, including the ongoing Middle East conflict. However, it warned that notwithstanding these improvements, Pakistan’s credit profile remained vulnerable due t",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-24T14:04:07+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/2416000232f1759.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2024988/moodys-lifts-pakistan-sovereign-rating-to-b3-from-caa1-cites-improved-governance-and-easing-of-external-risk"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625596/moodys-upgrades-pakistans-sovereign-credit-rating-to-b3"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/2416000232f1759.webp",
+      "https://i.dawn.com/thumbnail/2026/08/2416000232f1759.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.16658215856589692,
+    "age_hours": 2.0010146116666667,
+    "is_stale": false,
+    "score": 21.078812278551705
+  }
+}
