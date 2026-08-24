@@ -1,0 +1,71 @@
+{
+  "id": "61d193d02691",
+  "created_at": "2026-08-24T18:08:02.624816+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.22,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "About 90,000 urged to evacuate as fast-moving wildfire threatens Reno, Nevada",
+  "link": "https://www.theguardian.com/us-news/2026/aug/24/hawk-fire-reno-nevada-injuries-evacuations",
+  "publishers": [
+    "CGTN",
+    "Hindustan Times — World",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "About 90,000 urged to evacuate as fast-moving wildfire threatens Reno, Nevada",
+    "link": "https://www.theguardian.com/us-news/2026/aug/24/hawk-fire-reno-nevada-injuries-evacuations",
+    "summary": "‘Human-caused’, wind-driven fire in Reno leaves thousands of homes and businesses without power, officials say Authorities have ordered the evacuation of about 90,000 residents of Reno, Nevada, and the adjacent North Valley as a fast-moving, wind-driven wildfire bears down on the city. The Hawk fire began on Saturday to the north-west of the city, and quickly grew, showing “extreme fire behavior” as it threatened foothill neighborhoods in Nevada’s second-largest city. It stood at a little more than 15,000 acres burned on Monday morning, and was 0% contained. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-24T17:26:42+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/1eac02ef76fd62ba21d03ef83537c4d25956ca61/639_0_4592_3674/master/4592.jpg?width=700&quality=85&auto=format&fit=max&s=21976c2b1c8b121604e0adb6a3d2fedc",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "CGTN",
+      "Hindustan Times — World",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/24/hawk-fire-reno-nevada-injuries-evacuations"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/fast-moving-wildfire-amid-shifting-winds-threatens-reno-nevada-forcing-thousands-to-evacuate/article71383006.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/tens-of-thousands-ordered-to-evacuate-in-nevada-as-fire-threatens-reno-101787516913135.html"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-24/Fast-moving-wildfire-in-Nevada-injures-6-forces-42-000-to-evacuate-1PRxPo1avTO/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/1eac02ef76fd62ba21d03ef83537c4d25956ca61/639_0_4592_3674/master/4592.jpg?width=700&quality=85&auto=format&fit=max&s=21976c2b1c8b121604e0adb6a3d2fedc",
+      "https://i.guim.co.uk/img/media/1eac02ef76fd62ba21d03ef83537c4d25956ca61/639_0_4592_3674/master/4592.jpg?width=460&quality=85&auto=format&fit=max&s=075886ffd4165beb608a26c83589c5a3",
+      "https://i.guim.co.uk/img/media/1eac02ef76fd62ba21d03ef83537c4d25956ca61/639_0_4592_3674/master/4592.jpg?width=140&quality=85&auto=format&fit=max&s=6228aa1da571303e22f95d53821155e9",
+      "https://th-i.thgim.com/public/incoming/y4zl0s/article71383013.ece/alternates/LANDSCAPE_1200/2026-08-24T002311Z_330327995_RC2I4NAON7M3_RTRMADP_3_EUROPE-WEATHER-NORTHMACEDONIA-WILDFIRE.JPG",
+      "https://news.cgtn.com/news/2026-08-24/Fast-moving-wildfire-in-Nevada-injures-6-forces-42-000-to-evacuate-1PRxPo1avTO/img/5e98a600854a41b49c4ab4f8e56da65a/5e98a600854a41b49c4ab4f8e56da65a-750.jpeg",
+      "https://news.cgtn.com/news/2026-08-24/Fast-moving-wildfire-in-Nevada-injures-6-forces-42-000-to-evacuate-1PRxPo1avTO/img/5e98a600854a41b49c4ab4f8e56da65a/5e98a600854a41b49c4ab4f8e56da65a.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.3327067246707312,
+    "age_hours": 23.005267375,
+    "is_stale": false,
+    "score": 17.217732891538844
+  }
+}

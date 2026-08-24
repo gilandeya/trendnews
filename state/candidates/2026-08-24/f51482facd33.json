@@ -1,0 +1,55 @@
+{
+  "id": "f51482facd33",
+  "created_at": "2026-08-24T18:08:02.625155+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.07,
+  "trend_score": 0.33,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran calls France's decision to expel two Iranian diplomats 'illegal'",
+  "link": "https://www.france24.com/en/middle-east/20260824-iran-calls-france-s-decision-to-expel-two-iranian-diplomats-illegal",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Iran calls France's decision to expel two Iranian diplomats 'illegal'",
+    "link": "https://www.france24.com/en/middle-east/20260824-iran-calls-france-s-decision-to-expel-two-iranian-diplomats-illegal",
+    "summary": "Iran's foreign ministry on Monday said France's decision to expel two of its diplomats was “illegal”. France's move came in retaliation for Tehran's decision not to allow two French diplomats to return to its territory.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-24T09:44:14+00:00",
+    "image_url": "https://s.france24.com/media/display/3048d440-8996-11f1-8329-005056a97e36/w:1024/p:16x9/000-96TM9DK.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260824-iran-calls-france-s-decision-to-expel-two-iranian-diplomats-illegal"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/24/iran-says-france-s-move-to-expel-two-iranian-diplomats-illegal"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/3048d440-8996-11f1-8329-005056a97e36/w:1024/p:16x9/000-96TM9DK.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/13403660-Esmaeil-Baqaei-Esmaeil-Baghaei.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 0.3327342636843803,
+    "age_hours": 5.944468523888888,
+    "is_stale": false,
+    "score": 16.07068540069968
+  }
+}

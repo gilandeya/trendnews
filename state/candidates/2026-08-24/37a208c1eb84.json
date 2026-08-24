@@ -1,0 +1,48 @@
+{
+  "id": "37a208c1eb84",
+  "created_at": "2026-08-24T18:08:02.625422+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.53,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Oman FM to visit Tehran for regional consultations",
+  "link": "https://en.irna.ir/news/86243871/Oman-FM-to-visit-Tehran-for-regional-consultations",
+  "publishers": [
+    "IRNA English"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Oman FM to visit Tehran for regional consultations",
+    "link": "https://en.irna.ir/news/86243871/Oman-FM-to-visit-Tehran-for-regional-consultations",
+    "summary": "Tehran, IRNA – Oman’s Foreign Minister, Badr bin Hamad Al Busaidi, is scheduled to visit Tehran on Tuesday, Iranian Foreign Ministry spokesperson Esmaeil Baqaei has announced.",
+    "source_name": "IRNA English",
+    "region": "ir",
+    "weight": 0.7,
+    "published": "2026-08-24T05:51:47+00:00",
+    "image_url": "https://img9.irna.ir/d/r2/2026/08/24/4/173058098.jpg",
+    "publisher": "IRNA English",
+    "cluster_sources": [
+      "IRNA English"
+    ],
+    "cluster_members": [
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86243871/Oman-FM-to-visit-Tehran-for-regional-consultations"
+      }
+    ],
+    "image_candidates": [
+      "https://img9.irna.ir/d/r2/2026/08/24/4/173058098.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 3.0031333802777778,
+    "is_stale": false,
+    "score": 15.532069638666666
+  }
+}

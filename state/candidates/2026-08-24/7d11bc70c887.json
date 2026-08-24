@@ -1,0 +1,82 @@
+{
+  "id": "7d11bc70c887",
+  "created_at": "2026-08-24T18:08:02.624401+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.62,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump administration announces ‘economic D-day’ sanctions on Iran",
+  "link": "https://www.aljazeera.com/news/2026/8/24/trump-administration-announces-global-economic-war-on-iran?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "MyJoyOnline Ghana",
+    "TASS",
+    "The Hindu — International"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Trump administration announces ‘economic D-day’ sanctions on Iran",
+    "link": "https://www.aljazeera.com/news/2026/8/24/trump-administration-announces-global-economic-war-on-iran?traffic_source=rss",
+    "summary": "Treasury Secretary Scott Bessent says US sanctions will intensify to choke off Iran's revenues and isolate the country.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-24T17:10:37+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/7fym25/article71383237.ece/alternates/LANDSCAPE_1200/2026-08-22T050007Z_187421637_RC2XZMABNVON_RTRMADP_3_USA-TRUMP-FOREIGN-POLICY.JPG",
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "MyJoyOnline Ghana",
+      "TASS",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/24/trump-administration-announces-global-economic-war-on-iran?traffic_source=rss"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/live-updates/iran-war-us-trump-sanctions-strait-of-hormuz/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/oil-falls-as-trump-pledges-economic-war-on-iran/article71383218.ece"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c0qxew81y83o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/iran-faces-greatest-financial-offensive-ever-says-us-treasury-secretary/"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/pressreview/2176825"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/7fym25/article71383237.ece/alternates/LANDSCAPE_1200/2026-08-22T050007Z_187421637_RC2XZMABNVON_RTRMADP_3_USA-TRUMP-FOREIGN-POLICY.JPG",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/500a/live/a3b77c00-9fa4-11f1-bff6-57f1422ebb0b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/500a/live/a3b77c00-9fa4-11f1-bff6-57f1422ebb0b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/500a/live/a3b77c00-9fa4-11f1-bff6-57f1422ebb0b.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-2977.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 102.0026107336111,
+    "is_stale": false,
+    "score": 27.624549735274577
+  }
+}
