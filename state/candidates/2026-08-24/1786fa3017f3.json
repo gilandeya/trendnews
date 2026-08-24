@@ -1,0 +1,52 @@
+{
+  "id": "1786fa3017f3",
+  "created_at": "2026-08-24T22:07:55.700064+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.28,
+  "trend_score": 1.0,
+  "velocity": 0.01,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UK police arrest 12 after deadly wrong-way crash that killed 7",
+  "link": "https://www.scmp.com/news/world/europe/article/3365104/uk-police-arrest-12-after-deadly-wrong-way-crash-killed-7?utm_source=rss_feed",
+  "publishers": [
+    "South China Morning Post",
+    "The Express Tribune"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "UK police arrest 12 after deadly wrong-way crash that killed 7",
+    "link": "https://www.scmp.com/news/world/europe/article/3365104/uk-police-arrest-12-after-deadly-wrong-way-crash-killed-7?utm_source=rss_feed",
+    "summary": "British police have arrested 12 people after a car pursued by police crashed while driving the wrong way on a major road, killing five youths and two officers. The deaths on Saturday came as officials warned of a trend for young people to carry out dangerous driving stunts to post on social media. However, police on Monday denied the collision was linked to filming for the TikTok online platform. Police in the Cleveland area of northeast England said there was “no evidence to indicate that...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-08-24T15:51:10+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "South China Morning Post",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3365104/uk-police-arrest-12-after-deadly-wrong-way-crash-killed-7?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625614/uk-police-arrest-12-after-linking-crash-that-killed-seven-to-organised-crime"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.009803276050130871,
+    "age_hours": 34.00223880555556,
+    "is_stale": false,
+    "score": 19.280528809472877
+  }
+}

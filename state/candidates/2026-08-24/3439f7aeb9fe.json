@@ -1,0 +1,83 @@
+{
+  "id": "3439f7aeb9fe",
+  "created_at": "2026-08-24T22:07:55.699630+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.47,
+  "trend_score": 0.0,
+  "velocity": 0.56,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US removes Syria from state sponsor of terrorism list",
+  "link": "https://www.channelnewsasia.com/world/us-syria-terrorism-list-sanctions-6338666",
+  "publishers": [
+    "Channel News Asia",
+    "Daily Sabah",
+    "Investing.com — الاقتصاد",
+    "Punch Nigeria",
+    "South China Morning Post",
+    "Treasury Department",
+    "Vanguard Nigeria"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "US removes Syria from state sponsor of terrorism list",
+    "link": "https://www.channelnewsasia.com/world/us-syria-terrorism-list-sanctions-6338666",
+    "summary": "\"Today's action will help foster additional investment in Syria to promote political and economic stability,\" said US Treasury Secretary Scott Bessent.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-24T21:38:01+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--Snw_7qpM--/c_crop,h_449,w_799,x_1,y_2/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-24T192817Z_2_LYNXMPEM7N1E7_RTROPTP_3_SYRIA-ANNIVERSARY-CELEBRATIONS.JPG?itok=J4U87VVk",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Daily Sabah",
+      "Investing.com — الاقتصاد",
+      "Punch Nigeria",
+      "South China Morning Post",
+      "Treasury Department",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3365113/us-removes-syria-state-sponsor-terrorism-list?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/us-syria-terrorism-list-sanctions-6338666"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/us-removes-syria-from-state-sponsor-of-terrorism-list/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/us-removes-syria-from-state-sponsors-of-terrorism-list-93CH-4874008"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/us-officially-removes-syria-from-its-state-sponsors-of-terrorism-list"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/us-removes-syria-from-state-sponsor-of-terrorism-list/"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--Snw_7qpM--/c_crop,h_449,w_799,x_1,y_2/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-24T192817Z_2_LYNXMPEM7N1E7_RTROPTP_3_SYRIA-ANNIVERSARY-CELEBRATIONS.JPG?itok=J4U87VVk",
+      "https://content-media.investing.com/news/LYNXMPEM3D0QG_1200_L.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/24/457489.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2021/05/Syria-map-1024x791.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 0.5557624104276356,
+    "age_hours": 2.9988833994444444,
+    "is_stale": false,
+    "score": 20.46777814010729
+  }
+}
