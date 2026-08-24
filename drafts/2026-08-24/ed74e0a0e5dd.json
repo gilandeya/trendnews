@@ -1,7 +1,7 @@
 {
   "id": "ed74e0a0e5dd",
   "created_at": "2026-08-24T07:51:52.692358+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 16.17,
   "bucket": "serious",
@@ -51,5 +51,12 @@
       "https://s.france24.com/media/display/76ab9aae-9eda-11f1-8f75-005056a90284/w:1024/p:16x9/capture-16170245646a8ac6672ee558-14173613.jpg"
     ]
   },
-  "publish_at": "2026-08-24T08:29:48.251500+00:00"
+  "publish_at": "2026-08-24T08:29:48.251500+00:00",
+  "published_at": "2026-08-24T08:30:56.420042+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1342486604635027",
+    "photo_id": "1342486581301696",
+    "url": "https://www.facebook.com/631680090321390_1342486604635027",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
