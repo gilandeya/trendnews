@@ -1,0 +1,68 @@
+{
+  "id": "31a320c46c30",
+  "created_at": "2026-08-24T06:07:50.281866+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.49,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "\"Does Not Meet Launch Conditions\": China After Manned Moon Mission Delayed",
+  "link": "https://www.ndtv.com/world-news/does-not-meet-launch-conditions-china-after-manned-moon-mission-delayed-11949135#publisher=newsstand",
+  "publishers": [
+    "CBS News — World",
+    "France24",
+    "Malay Mail",
+    "NDTV — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "\"Does Not Meet Launch Conditions\": China After Manned Moon Mission Delayed",
+    "link": "https://www.ndtv.com/world-news/does-not-meet-launch-conditions-china-after-manned-moon-mission-delayed-11949135#publisher=newsstand",
+    "summary": "The mission was scheduled to depart either over the weekend or Monday.",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-08-23T18:34:18+00:00",
+    "image_url": "https://i.ndtvimg.com/i/2017-09/moon-mission-afp_650x400_61506516171.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "CBS News — World",
+      "France24",
+      "Malay Mail",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/china-postpones-lunar-launch-mission-fails-to-meet-launch-conditions/"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/does-not-meet-launch-conditions-china-after-manned-moon-mission-delayed-11949135#publisher=newsstand"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/life/2026/08/24/china-delays-change7-unmanned-moon-probe-says-launch-conditions-not-met/232483"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/asia-pacific/20260823-china-abruptly-delays-ambitious-chang-e-7-mission-to-find-water-ice-on-moon"
+      }
+    ],
+    "image_candidates": [
+      "https://i.ndtvimg.com/i/2017-09/moon-mission-afp_650x400_61506516171.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/24/358578.jpg",
+      "https://s.france24.com/media/display/a5fe5816-9efb-11f1-8513-005056a90284/w:1024/p:16x9/AP26235451703162.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.22229331147915424,
+    "age_hours": 11.00194126111111,
+    "is_stale": false,
+    "score": 23.491001482803178
+  }
+}
