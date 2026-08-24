@@ -1,7 +1,7 @@
 {
   "id": "a1d2a3f2405c",
   "created_at": "2026-08-24T18:01:39.271928+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 13.27,
   "bucket": "useful",
@@ -52,5 +52,12 @@
       "https://scx1.b-cdn.net/csz/news/tmb/2023/climate.jpg"
     ]
   },
-  "publish_at": "2026-08-24T18:50:14.995029+00:00"
+  "publish_at": "2026-08-24T18:50:14.995029+00:00",
+  "published_at": "2026-08-24T19:01:09.036975+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1342901027926918",
+    "photo_id": "1342901014593586",
+    "url": "https://www.facebook.com/631680090321390_1342901027926918",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
