@@ -1,0 +1,46 @@
+{
+  "id": "393284f54a42",
+  "created_at": "2026-08-24T15:07:51.776319+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.07,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Typhoon signal in Hong Kong unlikely in next 2 days but expect unsettled weather",
+  "link": "https://www.scmp.com/weather/hong-kong/article/3365034/typhoon-signal-hong-kong-unlikely-next-2-days-expect-unsettled-weather?utm_source=rss_feed",
+  "publishers": [
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Typhoon signal in Hong Kong unlikely in next 2 days but expect unsettled weather",
+    "link": "https://www.scmp.com/weather/hong-kong/article/3365034/typhoon-signal-hong-kong-unlikely-next-2-days-expect-unsettled-weather?utm_source=rss_feed",
+    "summary": "The likelihood that Hong Kong’s weather forecaster will issue a typhoon signal in the next two days is “relatively low”, although multiple tropical cyclones are set to bring unsettled weather to the city later this week. The Observatory said at noon on Monday that Tropical Storm Narra was expected to skirt the coast of the Leizhou Peninsula in western Guangdong province in the coming days while “maintaining some distance from Hong Kong”. “Unless Narra further edges closer to the vicinity of the...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-08-24T06:25:56+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/weather/hong-kong/article/3365034/typhoon-signal-hong-kong-unlikely-next-2-days-expect-unsettled-weather?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 6.000713862777778,
+    "is_stale": false,
+    "score": 16.07022230440741
+  }
+}

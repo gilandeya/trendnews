@@ -1,0 +1,89 @@
+{
+  "id": "c3bfba41d611",
+  "created_at": "2026-08-24T15:07:51.775752+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.4,
+  "trend_score": 0.0,
+  "velocity": 0.91,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Guinea rubbish landfill collapse kills 31",
+  "link": "https://www.bbc.co.uk/news/articles/c4g3g36z7p6o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "AllAfrica",
+    "BBC",
+    "BBC World",
+    "Daily Maverick",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Guinea rubbish landfill collapse kills 31",
+    "link": "https://www.bbc.co.uk/news/articles/c4g3g36z7p6o?at_medium=RSS&at_campaign=rss",
+    "summary": "A mound of rubbish at a major waste site buried several homes in the capital, the government says.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-24T11:26:19+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3b50/live/049ddab0-9f9a-11f1-a291-b542ee92de7c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "AllAfrica",
+      "BBC",
+      "BBC World",
+      "Daily Maverick",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c4g3g36z7p6o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/gallery/2026/8/24/photos-towering-landfill-collapse-kills-30-in-guineas-capital-conakry?traffic_source=rss"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202608240162.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/30-killed-in-guinea-capital-after-landfill-collapse-11949131#publisher=newsstand"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/23/landslide-waste-mound-conakry-guinea-kills-dozens"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-23-landslide-at-guinea-landfill-kills-30-government-says/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3b50/live/049ddab0-9f9a-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/3b50/live/049ddab0-9f9a-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/3b50/live/049ddab0-9f9a-11f1-a291-b542ee92de7c.jpg",
+      "https://c.ndtvimg.com/2026-08/4hh4s4nc_guinea_625x300_23_August_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://i.guim.co.uk/img/media/bfb8c700f99c74433c5b3173e4f501f6e216a498/25_10_3458_2766/master/3458.jpg?width=700&quality=85&auto=format&fit=max&s=5cbb59a13e33cac3e40d618eb49ecd4e",
+      "https://i.guim.co.uk/img/media/bfb8c700f99c74433c5b3173e4f501f6e216a498/25_10_3458_2766/master/3458.jpg?width=460&quality=85&auto=format&fit=max&s=633cc4ba5e706acf79375889a224ad10"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 9,
+    "velocity": 0.9066549320585447,
+    "age_hours": 336.86377609749997,
+    "is_stale": false,
+    "score": 23.39703123076781
+  }
+}

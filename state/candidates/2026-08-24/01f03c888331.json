@@ -1,0 +1,48 @@
+{
+  "id": "01f03c888331",
+  "created_at": "2026-08-24T15:07:51.776061+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.28,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump anuncia aranceles del 50% para vehículos y acero de Canadá desde el 1 de enero de 2027",
+  "link": "https://elpais.com/economia/2026-08-24/trump-anuncia-aranceles-del-50-para-vehiculos-y-acero-de-canada-desde-el-1-de-enero-de-2027.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Trump anuncia aranceles del 50% para vehículos y acero de Canadá desde el 1 de enero de 2027",
+    "link": "https://elpais.com/economia/2026-08-24/trump-anuncia-aranceles-del-50-para-vehiculos-y-acero-de-canada-desde-el-1-de-enero-de-2027.html",
+    "summary": "El presidente de Estados Unidos escala la guerra comercial con el país vecino",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-08-24T14:52:28+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/ESOWLMEHHJJOHFYFFGZWYD6IMQ.jpg?auth=870fefae2f7a7a121802a52c1079f22eb3dfbd029c364529526ad41a1d4151f3",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/economia/2026-08-24/trump-anuncia-aranceles-del-50-para-vehiculos-y-acero-de-canada-desde-el-1-de-enero-de-2027.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/ESOWLMEHHJJOHFYFFGZWYD6IMQ.jpg?auth=870fefae2f7a7a121802a52c1079f22eb3dfbd029c364529526ad41a1d4151f3"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.283037121462964
+  }
+}

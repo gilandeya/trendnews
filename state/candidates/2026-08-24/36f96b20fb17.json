@@ -1,0 +1,61 @@
+{
+  "id": "36f96b20fb17",
+  "created_at": "2026-08-24T15:07:51.776595+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.24,
+  "trend_score": 0.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran discovers major gas field \"Takhteh\" in Fars province worth $45b",
+  "link": "https://www.tehrantimes.com/news/529382/Iran-discovers-major-gas-field-Takhteh-in-Fars-province-worth",
+  "publishers": [
+    "Mehr News",
+    "TASS",
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran discovers major gas field \"Takhteh\" in Fars province worth $45b",
+    "link": "https://www.tehrantimes.com/news/529382/Iran-discovers-major-gas-field-Takhteh-in-Fars-province-worth",
+    "summary": "TEHRAN- The Exploration Director of the National Iranian Oil Company (NIOC) has announced that the newly discovered \"Takhteh\" gas field in Fars Province has an estimated economic value of approximately $45 billion, describing it as one of the most significant gas discoveries in the country over the past two decades.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-24T14:55:01+00:00",
+    "image_url": "https://media.tehrantimes.com/d/t/2026/08/24/4/6146192.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "Mehr News",
+      "TASS",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247179/Major-gas-field-discovered-in-Iran-s-Fars-Province"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529382/Iran-discovers-major-gas-field-Takhteh-in-Fars-province-worth"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/economy/2176721"
+      }
+    ],
+    "image_candidates": [
+      "https://media.tehrantimes.com/d/t/2026/08/24/4/6146192.jpg",
+      "https://media.mehrnews.com/d/2026/06/07/4/6051547.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 15.240757952441246
+  }
+}
