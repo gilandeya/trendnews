@@ -1,0 +1,66 @@
+{
+  "id": "00d678df044b",
+  "created_at": "2026-08-24T07:51:41.754597+00:00",
+  "status": "published",
+  "review_issue": null,
+  "score": 16.57,
+  "bucket": "useful",
+  "analysed_sources": [
+    "Engadget"
+  ],
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "age_hours": 0.0,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "source": {
+    "title": "Why are there so many fast charging standards, and what's the difference between them?",
+    "link": "https://www.engadget.com/2241124/fast-charging-differenent-standards-explained/",
+    "publisher": "Engadget",
+    "publishers": [
+      "Engadget"
+    ],
+    "region": "tech",
+    "image_url": "https://www.engadget.com/img/gallery/why-are-there-so-many-fast-charging-standards-and-whats-the-difference-between-them/l-intro-1787253133.jpg",
+    "image_candidates": [
+      "https://www.engadget.com/img/gallery/why-are-there-so-many-fast-charging-standards-and-whats-the-difference-between-them/l-intro-1787253133.jpg",
+      "https://www.engadget.com/img/gallery/why-are-there-so-many-fast-charging-standards-and-whats-the-difference-between-them/intro-1787253133.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "تفسير",
+    "analysis": "",
+    "urgent": false,
+    "category": "تقنية",
+    "image_headline": "لماذا تتفاوت سرعة الشحن رغم نفس منفذ USB-C",
+    "post_title": "لماذا تختلف سرعة شحن الهواتف رغم استخدام نفس منفذ USB-C",
+    "post_body": "وجود منفذ USB-C في الهاتف لا يعني بالضرورة دعمه للشحن السريع، فبعض الأجهزة تكتفي بسرعات منخفضة رغم شكل المنفذ الموحد. الفرق الحقيقي يكمن في المعيار الذي يعمل خلف الكواليس: USB Power Delivery أصبح الأقرب لمعيار عالمي، وتدعمه هواتف آيفون 17 وأجهزة سامسونغ وغوغل عبر ميزة PPS التي تتيح ضبط الجهد والتيار بدقة أكبر لتحسين الكفاءة وتقليل الحرارة. نسخة USB PD 3.1 رفعت الحد الأقصى للطاقة إلى 240 واط، وهو رقم موجّه للأجهزة الكبيرة كاللابتوبات والشاشات وليس الهواتف. كما أن توصيل هاتف يدعم 20 واط فقط بشاحن 100 واط لن يمنحه شحنًا أسرع، لأن السرعة تحددها مطابقة الهاتف والشاحن والكابل معًا.",
+    "hashtags": [
+      "شحن_سريع",
+      "تقنية",
+      "هواتف_ذكية",
+      "USB_C"
+    ]
+  },
+  "caption": "لماذا تختلف سرعة شحن الهواتف رغم استخدام نفس منفذ USB-C\n\nوجود منفذ USB-C في الهاتف لا يعني بالضرورة دعمه للشحن السريع، فبعض الأجهزة تكتفي بسرعات منخفضة رغم شكل المنفذ الموحد. الفرق الحقيقي يكمن في المعيار الذي يعمل خلف الكواليس: USB Power Delivery أصبح الأقرب لمعيار عالمي، وتدعمه هواتف آيفون 17 وأجهزة سامسونغ وغوغل عبر ميزة PPS التي تتيح ضبط الجهد والتيار بدقة أكبر لتحسين الكفاءة وتقليل الحرارة. نسخة USB PD 3.1 رفعت الحد الأقصى للطاقة إلى 240 واط، وهو رقم موجّه للأجهزة الكبيرة كاللابتوبات والشاشات وليس الهواتف. كما أن توصيل هاتف يدعم 20 واط فقط بشاحن 100 واط لن يمنحه شحنًا أسرع، لأن السرعة تحددها مطابقة الهاتف والشاحن والكابل معًا.\n\n#شحن_سريع #تقنية #هواتف_ذكية #USB_C",
+  "image": "drafts/2026-08-24/00d678df044b.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "لماذا تتفاوت سرعة الشحن رغم نفس منفذ USB-C",
+    "category": "تقنية",
+    "urgent": false,
+    "image_candidates": [
+      "https://www.engadget.com/img/gallery/why-are-there-so-many-fast-charging-standards-and-whats-the-difference-between-them/l-intro-1787253133.jpg",
+      "https://www.engadget.com/img/gallery/why-are-there-so-many-fast-charging-standards-and-whats-the-difference-between-them/intro-1787253133.jpg"
+    ]
+  },
+  "publish_at": "2026-08-24T07:51:52.703003+00:00",
+  "published_at": "2026-08-24T07:51:57.627910+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1342465324637155",
+    "photo_id": "1342465307970490",
+    "url": "https://www.facebook.com/631680090321390_1342465324637155",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
+}
