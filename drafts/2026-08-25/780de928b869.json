@@ -1,7 +1,7 @@
 {
   "id": "780de928b869",
   "created_at": "2026-08-25T05:04:41.827705+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 22.93,
   "bucket": "serious",
@@ -70,5 +70,12 @@
       "https://media.freemalaysiatoday.com/wp-content/uploads/2025/09/b38d6147-us-visa-1.jpg"
     ]
   },
-  "publish_at": "2026-08-25T05:45:02.477598+00:00"
+  "publish_at": "2026-08-25T05:45:02.477598+00:00",
+  "published_at": "2026-08-25T05:45:41.489416+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1343237727893248",
+    "photo_id": "1343237704559917",
+    "url": "https://www.facebook.com/631680090321390_1343237727893248",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
