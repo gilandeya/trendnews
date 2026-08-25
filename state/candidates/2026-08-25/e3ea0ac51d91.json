@@ -1,0 +1,87 @@
+{
+  "id": "e3ea0ac51d91",
+  "created_at": "2026-08-25T06:07:55.761067+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 31.13,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Mideast live: Oil tanker struck by projectile in Strait of Hormuz off Oman",
+  "link": "https://www.france24.com/en/middle-east/20260825-mideast-live-oil-tanker-struck-by-projectile-in-strait-of-hormuz-off-oman",
+  "publishers": [
+    "Euronews.com",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "IRNA English",
+    "Mehr News",
+    "The Hindu — International",
+    "UKMTO"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Mideast live: Oil tanker struck by projectile in Strait of Hormuz off Oman",
+    "link": "https://www.france24.com/en/middle-east/20260825-mideast-live-oil-tanker-struck-by-projectile-in-strait-of-hormuz-off-oman",
+    "summary": "An oil tanker was struck by a projectile in the Strait of Hormuz off the coast of Oman, causing damage but no casualties, the the United Kingdom Maritime Trade Operations (UKMTO) said early Tuesday. Tehran has imposed an effective blockade of the strait since the United States and Israel struck Iran in late February, and wants to charge tolls for passage, attacking ships it accuses of attempting to circumvent its preferred route. Follow our liveblog for the latest updates.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-25T03:31:45+00:00",
+    "image_url": "https://s.france24.com/media/display/02117132-7b6c-11f1-9d11-005056bf30b7/w:1024/p:16x9/000-B96H4CQ.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Euronews.com",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "IRNA English",
+      "Mehr News",
+      "The Hindu — International",
+      "UKMTO"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260825-mideast-live-oil-tanker-struck-by-projectile-in-strait-of-hormuz-off-oman"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/25/oil-tanker-struck-by-projectile-off-oman-says-ukmto"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247197/Tanker-struck-by-unknown-projectile-off-Saudi-Arabia-UKMTO"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247215/Oil-tanker-reportedly-hit-by-projectile-off-Oman"
+      },
+      {
+        "name": "UKMTO",
+        "link": "https://tass.com/world/2177223"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-attack-on-saudi-oil-tanker-in-red-sea/article71385806.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/02117132-7b6c-11f1-9d11-005056bf30b7/w:1024/p:16x9/000-B96H4CQ.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/91bfa42c-6f46-43a7-ae1c-7e4db7a2434f-8273055_cropped_1.webp",
+      "https://media.mehrnews.com/d/2026/07/20/4/6105340.jpg",
+      "https://media.mehrnews.com/d/2026/07/29/4/6114680.jpg",
+      "https://th-i.thgim.com/public/incoming/vg4rli/article71385812.ece/alternates/LANDSCAPE_1200/2026-08-03T132244Z_1643636918_RC2TJMAU4AUN_RTRMADP_3_YEMEN-CRISIS-SAUDI-TANKERS.JPG",
+      "https://www.hindustantimes.com/ht-img/img/2026/08/24/1600x900/HQeL-pgWcAAcSoM_1787561813811_1787561832760_e54682df-ac32-4d8b-a0e2-cc6c4876e4e8.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 31.126603804
+  }
+}

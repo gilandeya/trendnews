@@ -1,0 +1,76 @@
+{
+  "id": "707a7f3d0ac7",
+  "created_at": "2026-08-25T06:07:55.761737+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.49,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israel's Netanyahu says Iran tried to assassinate one of his sons",
+  "link": "https://www.france24.com/en/middle-east/20260824-israel-netanyahu-says-iran-tried-kill-son",
+  "publishers": [
+    "Al Jazeera English",
+    "France24",
+    "Hindustan Times — World",
+    "Reuters",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Israel's Netanyahu says Iran tried to assassinate one of his sons",
+    "link": "https://www.france24.com/en/middle-east/20260824-israel-netanyahu-says-iran-tried-kill-son",
+    "summary": "Israeli Prime Minister Benjamin Netanyahu said on Monday that Iran had attempted to assassinate one of his two sons, without providing evidence or further details. “Iran tried to kill one of my sons,” Netanyahu told Israel’s Channel 14, as he discussed security arrangements ahead of the October 27 election.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-24T21:38:31+00:00",
+    "image_url": "https://s.france24.com/media/display/b473bf6c-9d84-11f1-a6cf-005056a90284/w:1024/p:16x9/2026-08-10T111823Z-2133718736-RC2IULATYH0L-RTRMADP-3-ISRAEL-PALESTINIANS-GAZA-PLAN.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "France24",
+      "Hindustan Times — World",
+      "Reuters",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/25/israels-netanyahu-claims-iran-tried-to-kill-one-of-his-sons?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3365128/netanyahu-says-iran-tried-kill-one-his-sons?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/israels-netanyahu-says-iran-tried-to-kill-one-of-his-sons/article71386058.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260824-israel-netanyahu-says-iran-tried-kill-son"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-tried-to-kill-one-of-my-sons-claims-israeli-pm-benjamin-netanyahu-101787592192166.html"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/b473bf6c-9d84-11f1-a6cf-005056a90284/w:1024/p:16x9/2026-08-10T111823Z-2133718736-RC2IULATYH0L-RTRMADP-3-ISRAEL-PALESTINIANS-GAZA-PLAN.jpg",
+      "https://th-i.thgim.com/public/incoming/31ava8/article71386059.ece/alternates/LANDSCAPE_1200/Israel_Netanyahus_Son_17681.jpg-23a50.jpg",
+      "https://www.hindustantimes.com/ht-img/img/2026/08/24/1600x900/israel_pm_netanyahu_1787592391385_1787592391512_daa6b238-97a4-450a-a84a-07e19f51f496.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 11.998087148055555,
+    "is_stale": false,
+    "score": 16.48900982414495
+  }
+}

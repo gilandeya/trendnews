@@ -1,0 +1,48 @@
+{
+  "id": "54b966940ce0",
+  "created_at": "2026-08-25T06:07:55.762307+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.12,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "El Barcelona empieza a olvidarse de Julián Alvarez",
+  "link": "https://elpais.com/deportes/futbol/2026-08-25/el-barcelona-empieza-a-olvidarse-de-julian-alvarez.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "El Barcelona empieza a olvidarse de Julián Alvarez",
+    "link": "https://elpais.com/deportes/futbol/2026-08-25/el-barcelona-empieza-a-olvidarse-de-julian-alvarez.html",
+    "summary": "En el club azulgrana aseguran que tienen una plaza libre para un jugador de primer nivel, pero la dirección deportiva ve casi imposible fichar al argentino",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-08-25T03:30:01+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/UMJB62SSVJESBPEUVUPHTVPVDI.jpg?auth=a20f87b5bfd18c5312dd820ab5b58d67645af74d67dc2c6254dcc8bb3628d49e",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-08-25/el-barcelona-empieza-a-olvidarse-de-julian-alvarez.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/UMJB62SSVJESBPEUVUPHTVPVDI.jpg?auth=a20f87b5bfd18c5312dd820ab5b58d67645af74d67dc2c6254dcc8bb3628d49e"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 89.99784700805556,
+    "is_stale": true,
+    "score": 15.124677876407407
+  }
+}
