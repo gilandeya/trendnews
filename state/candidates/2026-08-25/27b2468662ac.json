@@ -1,0 +1,71 @@
+{
+  "id": "27b2468662ac",
+  "created_at": "2026-08-25T22:07:53.422709+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.29,
+  "trend_score": 0.0,
+  "velocity": 0.6,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Fernandes and Shaw win PFA player of the year awards",
+  "link": "https://www.bbc.co.uk/sport/football/articles/ckgwj62e5yno?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Free Malaysia Today",
+    "Sky Sports — Football",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Fernandes and Shaw win PFA player of the year awards",
+    "link": "https://www.bbc.co.uk/sport/football/articles/ckgwj62e5yno?at_medium=RSS&at_campaign=rss",
+    "summary": "Manchester United captain Bruno Fernandes and Manchester City forward Khadija Shaw win the Professional Footballers' Associations men's and women's player of the year awards.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-25T19:47:35+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/dab7/live/d49e1ff0-a070-11f1-a9ee-9bb6b032b6a3.png",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Free Malaysia Today",
+      "Sky Sports — Football",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/ckgwj62e5yno?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/news/12040/13577089/bruno-fernandes-man-utd-captain-wins-2025-26-pfa-players-player-of-the-year-as-bunny-shaw-wins-womens-award"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/aug/25/bruno-fernandes-khadija-shaw-pfa-player-of-the-year"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/08/26/man-utd-s-fernandes-crowned-pfa-player-of-the-year"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/dab7/live/d49e1ff0-a070-11f1-a9ee-9bb6b032b6a3.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/dab7/live/d49e1ff0-a070-11f1-a9ee-9bb6b032b6a3.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/dab7/live/d49e1ff0-a070-11f1-a9ee-9bb6b032b6a3.png",
+      "https://e0.365dm.com/26/08/1096x616/skysports-bruno-fernandes-bunny-shaw_7331108.jpg?20260825183157",
+      "https://e0.365dm.com/26/08/1920x1080/skysports-bruno-fernandes-bunny-shaw_7331108.jpg?20260825183157",
+      "https://i.guim.co.uk/img/media/a77a490506f6f440978ee34c0a3e986999c98a05/0_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=d35ea01eb81af4b5b243b27c35f739ad"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 18.294250473074076
+  }
+}

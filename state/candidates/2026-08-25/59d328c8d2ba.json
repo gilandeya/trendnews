@@ -1,0 +1,68 @@
+{
+  "id": "59d328c8d2ba",
+  "created_at": "2026-08-25T22:07:53.421952+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.07,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump threatens to rename Lake Ontario as ‘Lake America’",
+  "link": "https://www.freemalaysiatoday.com/category/highlight/2026/08/26/trump-threatens-to-rename-lake-ontario-as-lake-america",
+  "publishers": [
+    "Daily Sabah",
+    "Free Malaysia Today",
+    "NDTV — World",
+    "South China Morning Post"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Trump threatens to rename Lake Ontario as ‘Lake America’",
+    "link": "https://www.freemalaysiatoday.com/category/highlight/2026/08/26/trump-threatens-to-rename-lake-ontario-as-lake-america",
+    "summary": "The comment came as Canada announced a volley of tit-for-tat tariffs on US goods after trade talks between the historically close allies broke down.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-25T20:58:49+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/b50764ce-donald-trump-1.jpg",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Free Malaysia Today",
+      "NDTV — World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3365227/trump-eyes-renaming-lake-ontario-lake-america-canada-trade-war-deepens?utm_source=rss_feed"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/trump-wants-to-rename-lake-ontario-lake-america-amid-trade-war-with-canada-11957871#publisher=newsstand"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/08/26/trump-threatens-to-rename-lake-ontario-as-lake-america"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/americas/trump-floats-lake-america-name-for-lake-ontario-amid-canada-row"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/b50764ce-donald-trump-1.jpg",
+      "https://c.ndtvimg.com/2025-04/fc20lun8_donald-trump-mark-carney-reuters_625x300_25_April_25.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/25/457682.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 509.9125451238889,
+    "is_stale": true,
+    "score": 21.073398626518518
+  }
+}
