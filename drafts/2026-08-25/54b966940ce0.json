@@ -1,7 +1,7 @@
 {
   "id": "54b966940ce0",
   "created_at": "2026-08-25T06:21:53.278153+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 15.12,
   "bucket": "serious",
@@ -51,5 +51,12 @@
       "https://imagenes.elpais.com/resizer/v2/UMJB62SSVJESBPEUVUPHTVPVDI.jpg?auth=a20f87b5bfd18c5312dd820ab5b58d67645af74d67dc2c6254dcc8bb3628d49e"
     ]
   },
-  "publish_at": "2026-08-25T06:52:27.374349+00:00"
+  "publish_at": "2026-08-25T06:52:27.374349+00:00",
+  "published_at": "2026-08-25T07:01:09.971088+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1343273924556295",
+    "photo_id": "1343273907889630",
+    "url": "https://www.facebook.com/631680090321390_1343273924556295",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
