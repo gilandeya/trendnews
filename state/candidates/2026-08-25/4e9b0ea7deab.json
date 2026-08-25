@@ -1,0 +1,62 @@
+{
+  "id": "4e9b0ea7deab",
+  "created_at": "2026-08-25T09:08:03.963165+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.89,
+  "trend_score": 0.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Six months on, grief still raw for Iran school parents",
+  "link": "https://www.japantimes.co.jp/news/2026/08/25/world/six-months-grief-iran-school-parents/",
+  "publishers": [
+    "Free Malaysia Today",
+    "South China Morning Post",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Six months on, grief still raw for Iran school parents",
+    "link": "https://www.japantimes.co.jp/news/2026/08/25/world/six-months-grief-iran-school-parents/",
+    "summary": "A strike on a school in Iran during the opening hours of the U.S.-Israel war with the nation left at least 155 people dead, mostly children.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-08-25T08:55:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/25/559358.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "South China Morning Post",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3365173/children-were-pieces-memories-still-raw-6-months-after-iran-school-strike?utm_source=rss_feed"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/25/six-months-on-grief-still-raw-for-iran-school-parents"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/25/world/six-months-grief-iran-school-parents/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/25/559358.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/25/thumbs/400x400/559358.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/66940396-minab-iran-school.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 15.890522580941246
+  }
+}

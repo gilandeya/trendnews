@@ -1,0 +1,61 @@
+{
+  "id": "680405f9079a",
+  "created_at": "2026-08-25T09:08:03.963436+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.87,
+  "trend_score": 0.0,
+  "velocity": 0.4,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Iran, Pakistan make \"progress\" in talks on U.S.-Iran interim deal, minister says",
+  "link": "https://www.investing.com/news/economy-news/iran-pakistan-make-progress-in-talks-on-usiran-interim-deal-minister-says-4874656",
+  "publishers": [
+    "Al Jazeera English",
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Iran, Pakistan make \"progress\" in talks on U.S.-Iran interim deal, minister says",
+    "link": "https://www.investing.com/news/economy-news/iran-pakistan-make-progress-in-talks-on-usiran-interim-deal-minister-says-4874656",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-08-25T08:33:13+00:00",
+    "image_url": "https://content-media.investing.com/news/LYNXMPEE7514O_M.jpg",
+    "publisher": "Investing.com — الاقتصاد",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/25/pakistan-says-significant-progress-made-in-talks-on-iran-us-war?traffic_source=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/25/pakistan-iran-made-significant-progress-in-talks-on-conflict-says-minister"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/iran-pakistan-make-progress-in-talks-on-usiran-interim-deal-minister-says-4874656"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/news/LYNXMPEE7514O_M.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/d8122d6a-ddd5-4b9b-b852-2bc0baa37533-14237051_cropped_1.webp"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 15.866318877422728
+  }
+}
