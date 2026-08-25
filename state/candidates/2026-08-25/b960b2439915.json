@@ -1,0 +1,77 @@
+{
+  "id": "b960b2439915",
+  "created_at": "2026-08-25T15:07:55.952250+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.76,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Premier League: Chelsea defeat Fulham in Xabi Alonso's first game as manager",
+  "link": "https://www.france24.com/en/tv-shows/sports/20260825-premier-league-chelsea-defeat-fulham-in-xabi-alonso-s-first-game-as-manager",
+  "publishers": [
+    "BBC Sport",
+    "France24",
+    "The Guardian — Sport",
+    "and one issue that could haunt them",
+    "as it happened"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Premier League: Chelsea defeat Fulham in Xabi Alonso's first game as manager",
+    "link": "https://www.france24.com/en/tv-shows/sports/20260825-premier-league-chelsea-defeat-fulham-in-xabi-alonso-s-first-game-as-manager",
+    "summary": "In Xabi Alonso’s first match as manager, Chelsea beat Fulham 3–2 in the Premier League.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-25T07:31:47+00:00",
+    "image_url": "https://s.france24.com/media/display/970e751c-a02b-11f1-a24c-005056bf30b7/w:1024/p:16x9/J24-palmer-1.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "BBC Sport",
+      "France24",
+      "The Guardian — Sport",
+      "and one issue that could haunt them",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/football/live/2026/aug/24/fulham-v-chelsea-premier-league-live"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/tv-shows/sports/20260825-premier-league-chelsea-defeat-fulham-in-xabi-alonso-s-first-game-as-manager"
+      },
+      {
+        "name": "and one issue that could haunt them",
+        "link": "https://www.bbc.co.uk/sport/football/articles/c62e2y1p7njo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/ckgx2ke9jgvo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/aug/24/premier-league-chelsea-xabi-alonso-fulham"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/970e751c-a02b-11f1-a24c-005056bf30b7/w:1024/p:16x9/J24-palmer-1.jpg",
+      "https://i.guim.co.uk/img/media/379ed5411a94e4837abc149f8f8689436a6a4e4b/508_115_3612_2889/master/3612.jpg?width=700&quality=85&auto=format&fit=max&s=2a27b88cfb8b58f57be61808fe8b0234",
+      "https://i.guim.co.uk/img/media/379ed5411a94e4837abc149f8f8689436a6a4e4b/508_115_3612_2889/master/3612.jpg?width=460&quality=85&auto=format&fit=max&s=5da4ce9780243c7849042875b8a942ca",
+      "https://i.guim.co.uk/img/media/379ed5411a94e4837abc149f8f8689436a6a4e4b/508_115_3612_2889/master/3612.jpg?width=140&quality=85&auto=format&fit=max&s=419a7fff08c2fb038750be88ab0e3d72",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4101/live/2d345f20-a054-11f1-94bd-930e18756ae0.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/4101/live/2d345f20-a054-11f1-94bd-930e18756ae0.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 2.9964730730555553,
+    "is_stale": false,
+    "score": 23.759095854291715
+  }
+}

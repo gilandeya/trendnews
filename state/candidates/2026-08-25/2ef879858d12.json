@@ -1,0 +1,56 @@
+{
+  "id": "2ef879858d12",
+  "created_at": "2026-08-25T15:07:55.952767+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.25,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Sonya Massey's killer Sean Grayson dies in US prison",
+  "link": "https://www.bbc.co.uk/news/articles/cgrvj28wrxgo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Hindustan Times — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Sonya Massey's killer Sean Grayson dies in US prison",
+    "link": "https://www.bbc.co.uk/news/articles/cgrvj28wrxgo?at_medium=RSS&at_campaign=rss",
+    "summary": "The former police officer, whose crime reignited the debate about US police brutality, was undergoing treatment for cancer.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-25T09:50:42+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/783f/live/1a9bfa10-9fb6-11f1-b109-879e35c24276.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cgrvj28wrxgo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/who-was-sean-grayson-5-things-to-know-about-sonya-masseys-killer-as-he-dies-in-prison-101787561768855.html"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/783f/live/1a9bfa10-9fb6-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/783f/live/1a9bfa10-9fb6-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/783f/live/1a9bfa10-9fb6-11f1-b109-879e35c24276.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 24.001140581666668,
+    "is_stale": true,
+    "score": 18.247663421629632
+  }
+}

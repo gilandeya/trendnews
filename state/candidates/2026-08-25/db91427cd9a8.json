@@ -1,0 +1,50 @@
+{
+  "id": "db91427cd9a8",
+  "created_at": "2026-08-25T15:07:55.953516+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.81,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "The Olympic champion re-building her body in a bid for LA 2028",
+  "link": "https://www.bbc.co.uk/sport/olympics/articles/c79gp0lj503o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "The Olympic champion re-building her body in a bid for LA 2028",
+    "link": "https://www.bbc.co.uk/sport/olympics/articles/c79gp0lj503o?at_medium=RSS&at_campaign=rss",
+    "summary": "Imogen Grant's event, lightweight rowing has been removed from the Olympic calendar. Instead of making weight, now she has to gain it to compete.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-25T05:36:05+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/719d/live/0381bd40-a053-11f1-94bd-930e18756ae0.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/olympics/articles/c79gp0lj503o?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/719d/live/0381bd40-a053-11f1-94bd-930e18756ae0.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/719d/live/0381bd40-a053-11f1-94bd-930e18756ae0.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/719d/live/0381bd40-a053-11f1-94bd-930e18756ae0.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 8.999789516944444,
+    "is_stale": false,
+    "score": 16.814756010888892
+  }
+}

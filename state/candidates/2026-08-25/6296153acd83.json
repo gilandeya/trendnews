@@ -1,0 +1,48 @@
+{
+  "id": "6296153acd83",
+  "created_at": "2026-08-25T15:07:55.953044+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.31,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "L’artiste chinois Gao Zhen condamné à trois ans de prison pour des sculptures satiriques représentant Mao",
+  "link": "https://www.lemonde.fr/international/article/2026/08/25/l-artiste-chinois-gao-zhen-condamne-a-trois-ans-de-prison-pour-des-sculptures-satyriques-representant-mao_6756580_3210.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "L’artiste chinois Gao Zhen condamné à trois ans de prison pour des sculptures satiriques représentant Mao",
+    "link": "https://www.lemonde.fr/international/article/2026/08/25/l-artiste-chinois-gao-zhen-condamne-a-trois-ans-de-prison-pour-des-sculptures-satyriques-representant-mao_6756580_3210.html",
+    "summary": "Le plasticien, auteur, au côté de son frère Gao Qiang, d’œuvres iconoclastes dans les années 2000, a été jugé coupable d’avoir diffamé la mémoire du héros national, à l’issue d’un procès à huis clos.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-25T13:00:05+00:00",
+    "image_url": "https://img.lemde.fr/2026/05/05/166/0/6144/3072/644/322/60/0/34ac3c9_upload-1-v6hzvvtr0x2e-rea10871935.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/08/25/l-artiste-chinois-gao-zhen-condamne-a-trois-ans-de-prison-pour-des-sculptures-satyriques-representant-mao_6756580_3210.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/05/05/166/0/6144/3072/644/322/60/0/34ac3c9_upload-1-v6hzvvtr0x2e-rea10871935.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.308089346962966
+  }
+}
