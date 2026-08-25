@@ -1,0 +1,61 @@
+{
+  "id": "ab295e12692a",
+  "created_at": "2026-08-25T12:08:08.426149+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.73,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ethiopia bids to host 2028 AFCON",
+  "link": "https://www.vanguardngr.com/2026/08/ethiopia-bids-to-host-2028-afcon/",
+  "publishers": [
+    "Free Malaysia Today",
+    "Punch Nigeria",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Ethiopia bids to host 2028 AFCON",
+    "link": "https://www.vanguardngr.com/2026/08/ethiopia-bids-to-host-2028-afcon/",
+    "summary": "Ethiopia has formally submitted its bid to host the Africa Cup of Nations (AFCON) in 2028, which would be its first in more than half a century. The post Ethiopia bids to host 2028 AFCON appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-08-25T09:29:08+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2025/11/cafafcon.webp",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Punch Nigeria",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/ethiopia-bids-to-host-2028-afcon/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/08/25/ethiopia-bids-to-host-2028-afcon"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/ethiopia-bids-to-host-2028-afcon/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2025/11/cafafcon.webp",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/02/af5a2da4-afcon-trophy-12022026.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.728352821793102
+  }
+}

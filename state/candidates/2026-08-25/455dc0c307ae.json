@@ -1,0 +1,50 @@
+{
+  "id": "455dc0c307ae",
+  "created_at": "2026-08-25T12:08:08.426904+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.01,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Assad-era’s grand mufti sentenced to life in prison by court in Damascus",
+  "link": "https://www.thehindu.com/news/international/assad-eras-grand-mufti-sentenced-to-life-in-prison-by-court-in-damascus/article71385844.ece",
+  "publishers": [
+    "AP News",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Assad-era’s grand mufti sentenced to life in prison by court in Damascus",
+    "link": "https://www.thehindu.com/news/international/assad-eras-grand-mufti-sentenced-to-life-in-prison-by-court-in-damascus/article71385844.ece",
+    "summary": "Former grand mufti Ahmad Badreddine Hassoun, an Assad loyalist who was vocally in support of the government's policies, was convicted of inciting violence and justifying murder",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-24T16:47:33+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/sh937g/article71385851.ece/alternates/LANDSCAPE_1200/APTOPIX_Syria_Mufti_Sentenced_6_617.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "AP News",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/assad-eras-grand-mufti-sentenced-to-life-in-prison-by-court-in-damascus/article71385844.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/sh937g/article71385851.ece/alternates/LANDSCAPE_1200/APTOPIX_Syria_Mufti_Sentenced_6_617.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 18.001494690555557,
+    "is_stale": true,
+    "score": 17.01059494824074
+  }
+}
