@@ -1,0 +1,52 @@
+{
+  "id": "edb84ee02743",
+  "created_at": "2026-08-25T19:08:24.684081+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.52,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Former Liberia VP held in prison ahead of drug trial",
+  "link": "https://punchng.com/former-liberia-vp-held-in-prison-ahead-of-drug-trial/?utm_source=rss.punchng.com&utm_medium=web",
+  "publishers": [
+    "AllAfrica",
+    "Punch Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Former Liberia VP held in prison ahead of drug trial",
+    "link": "https://punchng.com/former-liberia-vp-held-in-prison-ahead-of-drug-trial/?utm_source=rss.punchng.com&utm_medium=web",
+    "summary": "Former Liberian Vice President Jewel Howard-Taylor is in prison awaiting trial for alleged involvement in a major international drug trafficking network. Read More: https://punchng.com/former-liberia-vp-held-in-prison-ahead-of-drug-trial/",
+    "source_name": "Punch Nigeria",
+    "region": "ng",
+    "weight": 1.0,
+    "published": "2026-08-25T19:27:05+00:00",
+    "image_url": null,
+    "publisher": "Punch Nigeria",
+    "cluster_sources": [
+      "AllAfrica",
+      "Punch Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/former-liberia-vp-held-in-prison-ahead-of-drug-trial/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202608250553.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.520892260666667
+  }
+}

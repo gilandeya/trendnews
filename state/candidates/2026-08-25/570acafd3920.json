@@ -1,0 +1,48 @@
+{
+  "id": "570acafd3920",
+  "created_at": "2026-08-25T19:08:24.684626+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.15,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Exclusive September 2026 recipe drop",
+  "link": "https://www.bbcgoodfood.com/premium/exclusive-september-2026-recipe-drop",
+  "publishers": [
+    "BBC Good Food"
+  ],
+  "region": "food",
+  "article": {
+    "title": "Exclusive September 2026 recipe drop",
+    "link": "https://www.bbcgoodfood.com/premium/exclusive-september-2026-recipe-drop",
+    "summary": "Your September recipes are here – 25 subscriber-only dishes, all in one place, ready to cook whenever you are",
+    "source_name": "BBC Good Food",
+    "region": "food",
+    "weight": 0.9,
+    "published": "2026-08-25T19:08:11.534577+00:00",
+    "image_url": "https://images.immediate.co.uk/production/volatile/sites/30/2026/08/EloteMexicanMacNCheese-240b182.jpg",
+    "publisher": "BBC Good Food",
+    "cluster_sources": [
+      "BBC Good Food"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Good Food",
+        "link": "https://www.bbcgoodfood.com/premium/exclusive-september-2026-recipe-drop"
+      }
+    ],
+    "image_candidates": [
+      "https://images.immediate.co.uk/production/volatile/sites/30/2026/08/EloteMexicanMacNCheese-240b182.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 30.950546080555558,
+    "is_stale": true,
+    "score": 15.14990216109259
+  }
+}
