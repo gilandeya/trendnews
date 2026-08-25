@@ -1,0 +1,85 @@
+{
+  "id": "780de928b869",
+  "created_at": "2026-08-25T03:08:10.695734+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.93,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump administration plans to revoke 200,000 visas of asylum seekers",
+  "link": "https://www.theguardian.com/us-news/2026/aug/24/trump-administration-revoke-asylum-visas",
+  "publishers": [
+    "Al Jazeera English",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "MyJoyOnline Ghana",
+    "NDTV — World",
+    "The Guardian — World",
+    "The Japan Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump administration plans to revoke 200,000 visas of asylum seekers",
+    "link": "https://www.theguardian.com/us-news/2026/aug/24/trump-administration-revoke-asylum-visas",
+    "summary": "The state department will revoke B1 and B2 visas issued between 2016 and 2026, whose holders have sought or are now seeking asylum Donald Trump’s administration said on Monday it planned to revoke the non-immigrant visas of foreigners who have applied for or are currently seeking asylum status in the US, marking its latest step in a sweeping immigration crackdown. A state department spokesperson said it was coordinating with the Department of Homeland Security “to identify and revoke the non-immigrant visas of foreigners who have come to the United States claiming to be short-term visitors, but then file for asylum to stay here permanently”. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-25T01:45:35+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/4b1c4de1e3a634f4f93a72dfc2d4c3c265237f69/256_0_3288_2632/master/3288.jpg?width=700&quality=85&auto=format&fit=max&s=63579558d2fc583516ce4de14bb145b8",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "MyJoyOnline Ghana",
+      "NDTV — World",
+      "The Guardian — World",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/25/us-plans-to-revoke-business-tourism-visas-of-200000-asylum-seekers?traffic_source=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/24/trump-administration-revoke-asylum-visas"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/up-to-200-000-foreigners-could-lose-us-visas-as-trump-administration-plans-mass-revocation-101787603713834.html"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/25/world/politics/us-200000-tourist-business-visas/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/25/trump-administration-plans-to-revoke-visas-of-foreigners-seeking-asylum"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/trump-administration-plans-to-revoke-visas-of-foreigners-seeking-asylum/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/4b1c4de1e3a634f4f93a72dfc2d4c3c265237f69/256_0_3288_2632/master/3288.jpg?width=700&quality=85&auto=format&fit=max&s=63579558d2fc583516ce4de14bb145b8",
+      "https://i.guim.co.uk/img/media/4b1c4de1e3a634f4f93a72dfc2d4c3c265237f69/256_0_3288_2632/master/3288.jpg?width=460&quality=85&auto=format&fit=max&s=7ae6dd3af88c8fb85dfcf39201356458",
+      "https://i.guim.co.uk/img/media/4b1c4de1e3a634f4f93a72dfc2d4c3c265237f69/256_0_3288_2632/master/3288.jpg?width=140&quality=85&auto=format&fit=max&s=983c308b9c3fd505bcfebb371f33ae3c",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/25/559138.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/25/thumbs/400x400/559138.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/09/b38d6147-us-visa-1.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 22.930426240450593
+  }
+}

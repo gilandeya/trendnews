@@ -1,0 +1,48 @@
+{
+  "id": "0fff9013d669",
+  "created_at": "2026-08-25T03:08:10.696053+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.12,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Tick-borne alpha-gal syndrome poses potential risks during blood transfusions",
+  "link": "https://www.news-medical.net/news/20260824/Tick-borne-alpha-gal-syndrome-poses-potential-risks-during-blood-transfusions.aspx",
+  "publishers": [
+    "News Medical"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Tick-borne alpha-gal syndrome poses potential risks during blood transfusions",
+    "link": "https://www.news-medical.net/news/20260824/Tick-borne-alpha-gal-syndrome-poses-potential-risks-during-blood-transfusions.aspx",
+    "summary": "A new multi-institute study led by researchers at Dartmouth Health and Geisel School of Medicine at Dartmouth suggests that alpha-gal syndrome, the tick-borne disease that can result in a chronic allergy to meat and animal byproducts, also may complicate certain patients' ability to safely receive a blood plasma or platelet transfusion.",
+    "source_name": "News Medical",
+    "region": "health",
+    "weight": 0.9,
+    "published": "2026-08-25T02:42:39+00:00",
+    "image_url": "https://www.news-medical.net/image-handler/picture/2014/7/Allergy-620x480.jpg",
+    "publisher": "News Medical",
+    "cluster_sources": [
+      "News Medical"
+    ],
+    "cluster_members": [
+      {
+        "name": "News Medical",
+        "link": "https://www.news-medical.net/news/20260824/Tick-borne-alpha-gal-syndrome-poses-potential-risks-during-blood-transfusions.aspx"
+      }
+    ],
+    "image_candidates": [
+      "https://www.news-medical.net/image-handler/picture/2014/7/Allergy-620x480.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.121768880592594
+  }
+}

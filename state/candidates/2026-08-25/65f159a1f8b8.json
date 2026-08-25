@@ -1,0 +1,77 @@
+{
+  "id": "65f159a1f8b8",
+  "created_at": "2026-08-25T03:08:10.696332+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.01,
+  "trend_score": 0.0,
+  "velocity": 0.13,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemen’s Houthis claim attack on Saudi oil tanker in Red Sea",
+  "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-attack-on-saudi-oil-tanker-in-red-sea/article71385806.ece",
+  "publishers": [
+    "Euronews.com",
+    "Hindustan Times — World",
+    "IRNA English",
+    "Mehr News",
+    "The Hindu — International",
+    "UKMTO"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Yemen’s Houthis claim attack on Saudi oil tanker in Red Sea",
+    "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-attack-on-saudi-oil-tanker-in-red-sea/article71385806.ece",
+    "summary": "The strike was accurate and direct, resulting in a fire breaking out aboard the vessel and causing a number of other ships that were present in the target area to flee, the Houthis said in a statement.",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-24T16:25:55+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/vg4rli/article71385812.ece/alternates/LANDSCAPE_1200/2026-08-03T132244Z_1643636918_RC2TJMAU4AUN_RTRMADP_3_YEMEN-CRISIS-SAUDI-TANKERS.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Euronews.com",
+      "Hindustan Times — World",
+      "IRNA English",
+      "Mehr News",
+      "The Hindu — International",
+      "UKMTO"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-attack-on-saudi-oil-tanker-in-red-sea/article71385806.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/url-tanker-hit-off-saudi-arabia-yanbu-red-coast-unknown-projectile-vessel-fire-uk-agency-yemen-houthis-101787561559351.html"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247207/Yemen-targets-Saudi-oil-tanker-off-Yanbu-port-in-Red-Sea"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86244770/Yemeni-army-targets-Saudi-oil-tanker-in-Red-Sea"
+      },
+      {
+        "name": "UKMTO",
+        "link": "https://tass.com/world/2177223"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/vg4rli/article71385812.ece/alternates/LANDSCAPE_1200/2026-08-03T132244Z_1643636918_RC2TJMAU4AUN_RTRMADP_3_YEMEN-CRISIS-SAUDI-TANKERS.JPG",
+      "https://www.hindustantimes.com/ht-img/img/2026/08/24/1600x900/HQeL-pgWcAAcSoM_1787561813811_1787561832760_e54682df-ac32-4d8b-a0e2-cc6c4876e4e8.png",
+      "https://media.mehrnews.com/d/2025/03/20/4/5430223.jpg",
+      "https://img9.irna.ir/d/r2/2026/04/02/4/172790417.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 0.13322164276523815,
+    "age_hours": 224.0057855388889,
+    "is_stale": false,
+    "score": 17.00750533463781
+  }
+}
