@@ -1,0 +1,46 @@
+{
+  "id": "571cb12669eb",
+  "created_at": "2026-08-25T17:07:55.457654+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.38,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Liberia: Former VP Howard-Taylor Sent to Prison as Court Rejects Bail Request",
+  "link": "https://allafrica.com/stories/202608250553.html",
+  "publishers": [
+    "AllAfrica"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Liberia: Former VP Howard-Taylor Sent to Prison as Court Rejects Bail Request",
+    "link": "https://allafrica.com/stories/202608250553.html",
+    "summary": "[Liberian Investigator] MONROVIA -- Former Vice President Jewel Howard-Taylor was sent to jail Wednesday after the Monrovia City Court denied a request from her lawyers to release her on humanitarian grounds, days after she suffered a medical emergency in police custody.",
+    "source_name": "AllAfrica",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-25T15:18:30+00:00",
+    "image_url": null,
+    "publisher": "AllAfrica",
+    "cluster_sources": [
+      "AllAfrica"
+    ],
+    "cluster_members": [
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202608250553.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.378558101796294
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "d422f495b9e9",
+  "created_at": "2026-08-25T17:07:55.457910+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.92,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iranian companies join Automobility 2026 as auto parts trade with Russia rises eightfold",
+  "link": "https://en.irna.ir/news/86245606/Iranian-companies-join-Automobility-2026-as-auto-parts-trade",
+  "publishers": [
+    "IRNA English"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iranian companies join Automobility 2026 as auto parts trade with Russia rises eightfold",
+    "link": "https://en.irna.ir/news/86245606/Iranian-companies-join-Automobility-2026-as-auto-parts-trade",
+    "summary": "Moscow, IRNA – The 30th edition of MIMS Automobility Saint Petersburg 2026, Russia’s international exhibition for auto parts, aftermarket products and automotive services, has opened in St. Petersburg with the participation of Iranian companies in a unified national pavilion.",
+    "source_name": "IRNA English",
+    "region": "ir",
+    "weight": 0.7,
+    "published": "2026-08-25T10:44:16+00:00",
+    "image_url": "https://img9.irna.ir/d/r2/2026/08/25/4/173062597.jpg",
+    "publisher": "IRNA English",
+    "cluster_sources": [
+      "IRNA English"
+    ],
+    "cluster_members": [
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86245606/Iranian-companies-join-Automobility-2026-as-auto-parts-trade"
+      }
+    ],
+    "image_candidates": [
+      "https://img9.irna.ir/d/r2/2026/08/25/4/173062597.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 4.996367674166667,
+    "is_stale": false,
+    "score": 15.923854396777777
+  }
+}
