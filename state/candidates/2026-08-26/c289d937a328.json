@@ -1,0 +1,59 @@
+{
+  "id": "c289d937a328",
+  "created_at": "2026-08-26T03:07:49.281460+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.96,
+  "trend_score": 0.0,
+  "velocity": 0.07,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iraq may show how US can squeeze Iran's trade partners",
+  "link": "https://www.dawn.com/news/2025247/iraq-may-show-how-us-can-squeeze-irans-trade-partners",
+  "publishers": [
+    "Dawn",
+    "Reuters",
+    "The Japan Times"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Iraq may show how US can squeeze Iran's trade partners",
+    "link": "https://www.dawn.com/news/2025247/iraq-may-show-how-us-can-squeeze-irans-trade-partners",
+    "summary": "Iraq could serve as an example of how the United States could carry out its threat to force countries that continue trading with Iran out of the dollar-based financial system. Washington has already sanctioned a host of Iraqi banks accused of doing business with Tehran, though it has avoided measures that would devastate the economy of the strategic ally of both countries. US President Donald Trump has warned that any country that provides Iran with an economic lifeline would face severe consequences. That could put Iran’s main trading partners of recent years in the frame: China, the United Arab Emirates, Turkey, India, Pakistan and Oman. US Treasury Secretary Scott Bessent on Monday announced “ an economic onslaught ” against Iran with sanctions, saying its trading partners would be targeted, without naming them. How the US influences the Iraqi economy The United States, since its 2003 invasion of Iraq, has held effective control over the country’s oil revenue dollars, primarily through the Federal Reserve Bank of New York, giving Washington extraordinary leverage over Baghdad’s affairs. A rare ally of both the United States and Iran, with more than $100 billion in reserves held ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-25T18:23:21+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/2523075849dcdcb.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Reuters",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2025247/iraq-may-show-how-us-can-squeeze-irans-trade-partners"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/26/world/politics/iraq-us-iran-trade-partners/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/2523075849dcdcb.webp",
+      "https://i.dawn.com/thumbnail/2026/08/2523075849dcdcb.webp",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/26/559452.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/26/thumbs/400x400/559452.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.06668258585595688,
+    "age_hours": 7.989933029444444,
+    "is_stale": false,
+    "score": 13.955702104683995
+  }
+}

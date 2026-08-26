@@ -4205,5 +4205,102 @@
     "posted_title": "",
     "region": "health",
     "seen_at": "2026-08-25T22:07:53.423511+00:00"
+  },
+  {
+    "score": 22.08,
+    "bucket": "serious",
+    "tokens": [
+      "chief",
+      "cia",
+      "media",
+      "moscow",
+      "reports",
+      "talks",
+      "travels",
+      "unannounced"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c87vg9x5d7do?at_medium=RSS&at_campaign=rss",
+    "title": "CIA chief travels to Moscow for unannounced talks, US media reports",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-26T03:07:49.280841+00:00"
+  },
+  {
+    "score": 16.0,
+    "bucket": "serious",
+    "tokens": [
+      "administration",
+      "applicants",
+      "appointments",
+      "pauses",
+      "trump",
+      "visa",
+      "worldwide"
+    ],
+    "link": "https://www.channelnewsasia.com/world/trump-pause-us-visa-appointments-worldwide-6341181",
+    "title": "Trump administration pauses visa appointments for applicants worldwide",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-08-26T03:07:49.281162+00:00"
+  },
+  {
+    "score": 15.44,
+    "bucket": "serious",
+    "tokens": [
+      "against",
+      "defense",
+      "fedorov",
+      "losing",
+      "minister",
+      "mykhailo",
+      "ousted",
+      "russia",
+      "slowly",
+      "ukraine",
+      "ukrainian",
+      "war"
+    ],
+    "link": "https://meduza.io/en/news/2026/08/25/ousted-ukrainian-defense-minister-mykhailo-fedorov-says-ukraine-is-slowly-losing-the-war-against-russia",
+    "title": "Ousted Ukrainian Defense Minister Mykhailo Fedorov says Ukraine is ‘slowly losing’ the war against Russia",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-08-26T03:07:49.281449+00:00"
+  },
+  {
+    "score": 13.96,
+    "bucket": "serious",
+    "tokens": [
+      "can",
+      "how",
+      "iran's",
+      "iraq",
+      "may",
+      "partners",
+      "show",
+      "squeeze",
+      "trade"
+    ],
+    "link": "https://www.dawn.com/news/2025247/iraq-may-show-how-us-can-squeeze-irans-trade-partners",
+    "title": "Iraq may show how US can squeeze Iran's trade partners",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-26T03:07:49.281754+00:00"
+  },
+  {
+    "score": 13.19,
+    "bucket": "useful",
+    "tokens": [
+      "battery",
+      "firms",
+      "portugal",
+      "power",
+      "scramble",
+      "spain"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cjrg10j721jo?at_medium=RSS&at_campaign=rss",
+    "title": "Firms scramble for battery power in Spain and Portugal",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-08-26T03:07:49.282012+00:00"
   }
 ]

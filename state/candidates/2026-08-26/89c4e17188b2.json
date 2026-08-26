@@ -1,0 +1,91 @@
+{
+  "id": "89c4e17188b2",
+  "created_at": "2026-08-26T03:07:49.280325+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.08,
+  "trend_score": 0.0,
+  "velocity": 0.6,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "CIA chief travels to Moscow for unannounced talks, US media reports",
+  "link": "https://www.bbc.co.uk/news/articles/c87vg9x5d7do?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "CGTN",
+    "Daily Maverick",
+    "France24",
+    "Hindustan Times — World",
+    "Meduza English",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Japan Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "CIA chief travels to Moscow for unannounced talks, US media reports",
+    "link": "https://www.bbc.co.uk/news/articles/c87vg9x5d7do?at_medium=RSS&at_campaign=rss",
+    "summary": "Flight tracking data confirms an American military aircraft travelled to Russia from the US via Latvia on Tuesday.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-25T19:48:14+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/32e3/live/0854ea30-a095-11f1-91dc-4919512f173f.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "CGTN",
+      "Daily Maverick",
+      "France24",
+      "Hindustan Times — World",
+      "Meduza English",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c87vg9x5d7do?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/russia-central-asia/article/3365248/us-spy-chief-john-ratcliffe-russia-visit-us-media-reports?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260825-cia-director-ratcliffe-visits-moscow-us-media-reports"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-26/CIA-chief-visits-Moscow-media-reports-1PUOvIlTjws/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-25-us-spy-chief-visits-russia-for-meetings-media-reports/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/us-spy-chief-visits-russia-for-meetings-media-reports-101787685466263.html"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/32e3/live/0854ea30-a095-11f1-91dc-4919512f173f.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/32e3/live/0854ea30-a095-11f1-91dc-4919512f173f.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/32e3/live/0854ea30-a095-11f1-91dc-4919512f173f.jpg",
+      "https://s.france24.com/media/display/f6afd0d0-a092-11f1-afdd-005056a90284/w:1024/p:16x9/AP26196651143043.jpg",
+      "https://news.cgtn.com/news/2026-08-26/CIA-chief-visits-Moscow-media-reports-1PUOvIlTjws/img/0da3a7767c1e40c5be67e2f3040c4a01/0da3a7767c1e40c5be67e2f3040c4a01-750.png",
+      "https://news.cgtn.com/news/2026-08-26/CIA-chief-visits-Moscow-media-reports-1PUOvIlTjws/img/0da3a7767c1e40c5be67e2f3040c4a01/0da3a7767c1e40c5be67e2f3040c4a01.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 10,
+    "velocity": 0.6001627921568299,
+    "age_hours": 9.997995803888887,
+    "is_stale": false,
+    "score": 22.078314733890682
+  }
+}
