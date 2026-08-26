@@ -1,0 +1,81 @@
+{
+  "id": "a80f1126054f",
+  "created_at": "2026-08-26T06:08:02.782405+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.35,
+  "trend_score": 0.0,
+  "velocity": 0.44,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Canada strikes back at Trump with retaliatory tariffs as US trade war escalates",
+  "link": "https://www.france24.com/en/americas/20260825-canada-strikes-back-trump-with-retaliatory-tariffs-us-trade-war-escalates",
+  "publishers": [
+    "CGTN",
+    "Daily Sabah",
+    "France24",
+    "NDTV — World",
+    "NPR World",
+    "South China Morning Post"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Canada strikes back at Trump with retaliatory tariffs as US trade war escalates",
+    "link": "https://www.france24.com/en/americas/20260825-canada-strikes-back-trump-with-retaliatory-tariffs-us-trade-war-escalates",
+    "summary": "Canada on Tuesday announced retaliatory tariffs on C$27.6 billion ($19.94 billion) worth of US goods, including steel and dairy products, in a dollar-for-dollar response to President Donald Trump's punitive tariffs on Canadian products. Ottawa also announced a C$7.5 billion aid package for impacted Canadian businesses and workers as the trade war between the two countries escalated.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-25T16:15:47+00:00",
+    "image_url": "https://s.france24.com/media/display/b328cf32-a09d-11f1-bc91-005056a97e36/w:1024/p:16x9/AP26237563370407.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "CGTN",
+      "Daily Sabah",
+      "France24",
+      "NDTV — World",
+      "NPR World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/us/economy-trade-business/article/3365250/canada-hits-us-goods-tariffs-50-cent-trade-war-escalates?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260825-canada-strikes-back-trump-with-retaliatory-tariffs-us-trade-war-escalates"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/08/25/nx-s1-5944240/canada-us-tariffs"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/canada-hits-us-goods-with-up-to-50-tariffs-as-trade-war-deepens"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/canada-to-impose-up-to-50-tariffs-on-700-us-goods-as-trade-war-escalates-11957844#publisher=newsstand"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-25/Rift-deepens-as-US-Canada-trade-dispute-escalates-1PTQ3JbHmhi/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/b328cf32-a09d-11f1-bc91-005056a97e36/w:1024/p:16x9/AP26237563370407.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5944240",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/25/457675.jpg",
+      "https://c.ndtvimg.com/2025-04/q66pf9ek_trump-carney_625x300_18_April_25.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 0.44391037443436404,
+    "age_hours": 517.9151387691667,
+    "is_stale": false,
+    "score": 18.349851490724177
+  }
+}

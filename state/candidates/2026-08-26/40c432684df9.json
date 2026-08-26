@@ -1,0 +1,58 @@
+{
+  "id": "40c432684df9",
+  "created_at": "2026-08-26T06:08:02.782121+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.96,
+  "trend_score": 1.0,
+  "velocity": 0.04,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "'We apologise to the fans' - Celtic throw away four-goal lead to crash out of CL",
+  "link": "https://www.skysports.com/football/linz-ask-vs-celtic/report/577269",
+  "publishers": [
+    "Sky Sports — Football",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "'We apologise to the fans' - Celtic throw away four-goal lead to crash out of CL",
+    "link": "https://www.skysports.com/football/linz-ask-vs-celtic/report/577269",
+    "summary": "Celtic suffered a stunning Champions League play-off collapse as LASK overturned a 3-0 first-leg deficit to win 5-4 after extra-time and sent the Scottish champions crashing into the Europa League.",
+    "source_name": "Sky Sports — Football",
+    "region": "sport",
+    "weight": 1.0,
+    "published": "2026-08-25T21:50:00+00:00",
+    "image_url": "https://e2.365dm.com/26/08/1096x616/skysports-celtic-callum-mcgregor_7331372.jpg?20260825225405",
+    "publisher": "Sky Sports — Football",
+    "cluster_sources": [
+      "Sky Sports — Football",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/aug/25/champions-league-celtic"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/linz-ask-vs-celtic/report/577269"
+      }
+    ],
+    "image_candidates": [
+      "https://e2.365dm.com/26/08/1096x616/skysports-celtic-callum-mcgregor_7331372.jpg?20260825225405",
+      "https://e2.365dm.com/26/08/1920x1080/skysports-celtic-callum-mcgregor_7331372.jpg?20260825225405",
+      "https://i.guim.co.uk/img/media/a849145495cb16c6de6ed1b11f85bffcce76afea/444_0_3579_2863/master/3579.jpg?width=700&quality=85&auto=format&fit=max&s=7c17554ae0c0e12e28a4437674923e35",
+      "https://i.guim.co.uk/img/media/a849145495cb16c6de6ed1b11f85bffcce76afea/444_0_3579_2863/master/3579.jpg?width=460&quality=85&auto=format&fit=max&s=411c4981806d773041622ea39101af79",
+      "https://i.guim.co.uk/img/media/a849145495cb16c6de6ed1b11f85bffcce76afea/444_0_3579_2863/master/3579.jpg?width=140&quality=85&auto=format&fit=max&s=8c1de6d0c40ea28cd94e5c74f9c8fab9"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.041653271187258076,
+    "age_hours": 8.002572759166668,
+    "is_stale": false,
+    "score": 19.955030324288142
+  }
+}
