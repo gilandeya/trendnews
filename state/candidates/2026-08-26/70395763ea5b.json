@@ -1,0 +1,50 @@
+{
+  "id": "70395763ea5b",
+  "created_at": "2026-08-26T19:07:53.820083+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.19,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Massive landslide destroys China-Nepal border crossing",
+  "link": "https://www.scmp.com/news/article/3365350/massive-landslide-destroys-china-nepal-border-crossing?utm_source=rss_feed",
+  "publishers": [
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Massive landslide destroys China-Nepal border crossing",
+    "link": "https://www.scmp.com/news/article/3365350/massive-landslide-destroys-china-nepal-border-crossing?utm_source=rss_feed",
+    "summary": "Read more: https://sc.mp/cc3d3c A landslide at the China-Nepal border has hit a key checkpoint with Tibet, resulting in “major casualties”, according to state media and footage shared online. The landslide began in Nepal’s Rasuwa region on Wednesday and struck Tibet’s bordering southwestern county Gyirong, according to Xinhua.",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-08-26T12:13:20+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/china/politics/article/3365346/landslide-china-nepal-border-engulfs-checkpoint-causing-major-casualties?utm_source=rss_feed"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/article/3365350/massive-landslide-destroys-china-nepal-border-crossing?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 7.000255480555556,
+    "is_stale": false,
+    "score": 16.189520753055554
+  }
+}

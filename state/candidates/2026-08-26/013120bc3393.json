@@ -1,0 +1,58 @@
+{
+  "id": "013120bc3393",
+  "created_at": "2026-08-26T19:07:53.819484+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.41,
+  "trend_score": 0.5,
+  "velocity": 0.2,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Newcastle sign Gonzalez from Man City for £52m",
+  "link": "https://www.bbc.co.uk/sport/football/articles/cx2zlnpnk4zo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Newcastle sign Gonzalez from Man City for £52m",
+    "link": "https://www.bbc.co.uk/sport/football/articles/cx2zlnpnk4zo?at_medium=RSS&at_campaign=rss",
+    "summary": "Newcastle United sign Manchester City midfielder Nico Gonzalez for a fee which could rise to £52m.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-26T18:35:30+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a4e9/live/c63e0d70-a17f-11f1-9619-edac4fa7937f.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/cx2zlnpnk4zo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/news/12040/13577494/x"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a4e9/live/c63e0d70-a17f-11f1-9619-edac4fa7937f.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/a4e9/live/c63e0d70-a17f-11f1-9619-edac4fa7937f.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/a4e9/live/c63e0d70-a17f-11f1-9619-edac4fa7937f.jpg",
+      "https://e2.365dm.com/26/08/1096x616/skysports-nico-gonzalez-manchester-city_7332096.jpg?20260826183154",
+      "https://e2.365dm.com/26/08/1920x1080/skysports-nico-gonzalez-manchester-city_7332096.jpg?20260826183154"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.414150380703703
+  }
+}
