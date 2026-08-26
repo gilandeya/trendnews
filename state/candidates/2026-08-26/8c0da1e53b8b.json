@@ -1,0 +1,50 @@
+{
+  "id": "8c0da1e53b8b",
+  "created_at": "2026-08-26T17:07:51.951810+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.11,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Swedish prosecutors hold second man over deadly school attack",
+  "link": "https://www.dailymaverick.co.za/article/2026-08-26-swedish-prosecutors-hold-second-man-over-deadly-school-attack/",
+  "publishers": [
+    "Daily Maverick",
+    "Euronews.com"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Swedish prosecutors hold second man over deadly school attack",
+    "link": "https://www.dailymaverick.co.za/article/2026-08-26-swedish-prosecutors-hold-second-man-over-deadly-school-attack/",
+    "summary": "Swedish prosecutors have apprehended a second person suspected of involvement in last week's attack at a school in which a 17-year-old girl was killed and three people were injured by a man wielding a sword, they said on Wednesday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-08-26T12:02:50+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2996/12798081_488652.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Euronews.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-26-swedish-prosecutors-hold-second-man-over-deadly-school-attack/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2996/12798081_488652.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 4.9997338622222225,
+    "is_stale": false,
+    "score": 20.111214347407408
+  }
+}

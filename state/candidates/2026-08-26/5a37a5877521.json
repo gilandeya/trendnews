@@ -1,0 +1,48 @@
+{
+  "id": "5a37a5877521",
+  "created_at": "2026-08-26T17:07:51.952614+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.05,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Hospital intervention reduces stillbirths and newborn deaths in Africa",
+  "link": "https://www.news-medical.net/news/20260826/Hospital-intervention-reduces-stillbirths-and-newborn-deaths-in-Africa.aspx",
+  "publishers": [
+    "News Medical"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Hospital intervention reduces stillbirths and newborn deaths in Africa",
+    "link": "https://www.news-medical.net/news/20260826/Hospital-intervention-reduces-stillbirths-and-newborn-deaths-in-Africa.aspx",
+    "summary": "A combination of training, quality improvement and leadership support in hospitals across four countries in sub-Saharan Africa is linked to fewer stillbirths and deaths among newborns during the first 24 hours of life.",
+    "source_name": "News Medical",
+    "region": "health",
+    "weight": 0.9,
+    "published": "2026-08-26T15:40:13+00:00",
+    "image_url": "https://www.news-medical.net/image-handler/picture/2017/1/HEALTHCARE_shutterstock_493063267_99928a5e003043f896998f01b025b9f6-620x480.jpg",
+    "publisher": "News Medical",
+    "cluster_sources": [
+      "News Medical"
+    ],
+    "cluster_members": [
+      {
+        "name": "News Medical",
+        "link": "https://www.news-medical.net/news/20260826/Hospital-intervention-reduces-stillbirths-and-newborn-deaths-in-Africa.aspx"
+      }
+    ],
+    "image_candidates": [
+      "https://www.news-medical.net/image-handler/picture/2017/1/HEALTHCARE_shutterstock_493063267_99928a5e003043f896998f01b025b9f6-620x480.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 8.000928707777778,
+    "is_stale": false,
+    "score": 17.052751383500002
+  }
+}

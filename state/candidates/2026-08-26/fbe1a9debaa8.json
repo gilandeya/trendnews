@@ -1,0 +1,48 @@
+{
+  "id": "fbe1a9debaa8",
+  "created_at": "2026-08-26T17:07:51.952361+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.29,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Expert Comment: More extreme weather is coming—AI may help us to better prepare for it",
+  "link": "https://phys.org/news/2026-08-expert-comment-extreme-weather-ai.html",
+  "publishers": [
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Expert Comment: More extreme weather is coming—AI may help us to better prepare for it",
+    "link": "https://phys.org/news/2026-08-expert-comment-extreme-weather-ai.html",
+    "summary": "As of August 2026, the world is bracing for what forecasters describe as one of the strongest El Niño events on record. The U.S. National Oceanic and Atmospheric Administration's (NOAA) Climate Prediction Center has put the chance of a very strong event this fall and winter above 90%, with a 69% likelihood that it will exceed every El Niño since 1950.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-08-26T17:00:01+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2024/storm-sky.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-08-expert-comment-extreme-weather-ai.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2024/storm-sky.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.29141805053704
+  }
+}
