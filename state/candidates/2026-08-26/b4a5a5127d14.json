@@ -1,0 +1,77 @@
+{
+  "id": "b4a5a5127d14",
+  "created_at": "2026-08-26T22:08:04.085701+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.4,
+  "trend_score": 0.5,
+  "velocity": 0.8,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Nvidia revenue doubles on continued AI demand",
+  "link": "https://www.bbc.co.uk/news/articles/ce871n7lyvlo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Technology",
+    "Channel News Asia",
+    "El País",
+    "Free Malaysia Today",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Nvidia revenue doubles on continued AI demand",
+    "link": "https://www.bbc.co.uk/news/articles/ce871n7lyvlo?at_medium=RSS&at_campaign=rss",
+    "summary": "Chipmaker's $96bn quarter beat forecasts as demand for AI hardware continues to accelerate.",
+    "source_name": "BBC Technology",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-08-26T21:49:26+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/7234/live/2da1a9f0-a193-11f1-aed2-8d6da8d75094.jpg",
+    "publisher": "BBC Technology",
+    "cluster_sources": [
+      "BBC Technology",
+      "Channel News Asia",
+      "El País",
+      "Free Malaysia Today",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Technology",
+        "link": "https://www.bbc.co.uk/news/articles/ce871n7lyvlo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/tech/985387/nvidia-hundred-billion-dollar-quarterly-revenue"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/business/nvidia-bounce-shows-wall-streets-ai-obsession-far-over-6343696"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/economia/2026-08-26/nvidia-logra-doblar-ingresos-y-beneficios-en-plena-resaca-bursatil-de-la-ia.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/08/27/nvidia-doubles-revenue-forecasts-even-more-ai-spending"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/7234/live/2da1a9f0-a193-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/7234/live/2da1a9f0-a193-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/7234/live/2da1a9f0-a193-11f1-aed2-8d6da8d75094.jpg",
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2025/06/STK083_NVIDIA_2.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Screenshot-2026-08-26-at-5.22.28-PM.png?quality=90&amp;strip=all&amp;crop=0,8.6816173972137,100,82.636765205573",
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2026/08/Screenshot-2026-08-26-at-5.22.45-PM.png?quality=90&amp;strip=all&amp;crop=14.798488664987,0,70.403022670025,100"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 0.8,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 24.39521983962505
+  }
+}

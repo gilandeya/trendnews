@@ -1,0 +1,48 @@
+{
+  "id": "2d7cef0e223f",
+  "created_at": "2026-08-26T22:08:04.086868+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.18,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Disappearing lakes, old photos and AI are helping scientists map Arctic permafrost thaw in near‑real time",
+  "link": "https://phys.org/news/2026-08-lakes-photos-ai-scientists-arctic.html",
+  "publishers": [
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Disappearing lakes, old photos and AI are helping scientists map Arctic permafrost thaw in near‑real time",
+    "link": "https://phys.org/news/2026-08-lakes-photos-ai-scientists-arctic.html",
+    "summary": "Florida gets a lot of attention for its sinkholes, especially when they swallow cars and entire houses. But its sinkhole risk has nothing on Alaska's.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-08-26T20:20:03+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2024/permafrost.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-08-lakes-photos-ai-scientists-arctic.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2024/permafrost.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.18012074227778
+  }
+}
