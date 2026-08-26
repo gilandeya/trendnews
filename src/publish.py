@@ -20,7 +20,7 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
-from . import facebook, review, store
+from . import decisions, facebook, review, store
 from .config import ROOT, env, load_config
 from .reel import build_reel, has_ffmpeg
 from .schedule import assign_slots, describe, is_due, spaced_slots
@@ -132,6 +132,7 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
                 path, status="published",
                 published_at=datetime.now(timezone.utc).isoformat(),
                 facebook=res)
+            decisions.record_published(draft)
             return True, f"- 🎬 [{title}]({res.get('url') or '#'})"
         except facebook.FacebookError as exc:
             log.warning("فشل نشر الريل — سيُنشر كصورة: %s", exc)
@@ -153,6 +154,7 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
         published_at=datetime.now(timezone.utc).isoformat(),
         facebook=res,
     )
+    decisions.record_published(draft)
     note = " ⚠️ بلا تعليق" if res.get("comment_error") else ""
     return True, f"- ✅ [{title}]({res.get('url') or '#'}){note}"
 

@@ -10,7 +10,7 @@ import os
 
 import requests
 
-from . import feedback, review, store
+from . import decisions, feedback, review, store
 from .config import env
 
 log = logging.getLogger("feedback")
@@ -95,6 +95,7 @@ def main() -> int:
         known.add(draft_id)
         store.update_draft(path, status="rejected", reject_tag=tag,
                            reject_note=note)
+        decisions.record_rejected(draft, tag)
         reason = feedback.REASONS.get(tag, tag)
         lines.append(f"- 🚫 {draft['arabic']['post_title'][:55]} — {reason}"
                      + (f" ({note})" if note else ""))
