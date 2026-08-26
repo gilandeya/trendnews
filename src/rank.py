@@ -74,20 +74,6 @@ def entities(title: str) -> set[str]:
     return found
 
 
-def entity_match(a: set[str], b: set[str], min_shared: int = 2) -> bool:
-    """
-    هل يتحدث العنوانان عن الكيانات نفسها؟
-
-    نشترط اسمين مشتركين على الأقل: «ترامب» وحده يظهر في عشرات الأخبار
-    المختلفة، أما «ترامب + إيران» فيحصر الحدث.
-    """
-    shared = a & b
-    if len(shared) < min_shared:
-        return False
-    # ونشترط أن يكونا متقاربين في التركيز لا مجرد تقاطع عابر
-    return len(shared) / min(len(a), len(b)) >= 0.6
-
-
 def similarity(a: set[str], b: set[str]) -> float:
     """معامل جاكارد المرجّح — بسيط وفعّال لعناوين الأخبار."""
     if not a or not b:

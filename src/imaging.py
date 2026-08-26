@@ -335,59 +335,6 @@ def visual_distance(a: list[int], b: list[int]) -> float:
     return sum(x != y for x, y in zip(a, b)) / len(a)
 
 
-def closeness(img: Image.Image, grid: int = 32) -> float:
-    """
-    تقدير قُرب الموضوع من الكاميرا: 0 = مشهد واسع، 1 = لقطة قريبة.
-
-    اللقطة القريبة (وجه، شخص) فيها موضوع كبير متجانس وخلفية ناعمة، فتقلّ
-    التفاصيل الدقيقة. أما المشهد الواسع (مبنى، شارع، حشد) فمليء بالحواف:
-    نوافذ وأعمدة وأشخاص صغار.
-
-    نقيس ذلك بكثافة الحواف: كلما قلّت، اقتربت الكاميرا.
-    """
-    grey = img.convert("L").resize((grid, grid), Image.LANCZOS)
-    px = grey.load()
-    edges = 0
-    for y in range(grid):
-        for x in range(grid - 1):
-            if abs(px[x, y] - px[x + 1, y]) > 10:
-                edges += 1
-    for y in range(grid - 1):
-        for x in range(grid):
-            if abs(px[x, y] - px[x, y + 1]) > 10:
-                edges += 1
-    density = edges / (2 * grid * (grid - 1))
-    return max(0.0, min(1.0, 1.0 - density * 2.4))
-
-
-def palette(img: Image.Image, buckets: int = 4) -> list[float]:
-    """
-    توزيع ألوان الصورة كبصمة: نسبة البكسلات في كل خانة لونية.
-
-    صورتان لنفس المشهد من زاويتين تتشاركان لوحة الألوان (سماء الغروب،
-    زرقة البحر، أخضر الملعب) حتى لو اختلف ترتيب العناصر — وهو ما لا
-    تلتقطه بصمة الشكل وحدها.
-    """
-    small = img.convert("RGB").resize((48, 48), Image.LANCZOS)
-    px = small.load()
-    step = 256 // buckets
-    hist = [0] * (buckets ** 3)
-    for y in range(48):
-        for x in range(48):
-            r, g, b = px[x, y]
-            hist[(r // step) * buckets * buckets
-                 + (g // step) * buckets + (b // step)] += 1
-    total = 48 * 48
-    return [c / total for c in hist]
-
-
-def palette_distance(a: list[float], b: list[float]) -> float:
-    """0 = لوحتان متطابقتان، 1 = مختلفتان تمامًا."""
-    if not a or not b or len(a) != len(b):
-        return 1.0
-    return sum(abs(x - y) for x, y in zip(a, b)) / 2
-
-
 def quiet_side(img: Image.Image, radius: int, margin: int,
                top: int) -> str:
     """

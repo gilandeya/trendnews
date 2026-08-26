@@ -227,18 +227,6 @@ def fetch_metrics(post_id: str, api_version: str = "v21.0") -> dict:
     return out
 
 
-def publish_link(link: str, caption: str, api_version: str = "v21.0") -> dict:
-    """بديل: منشور نصي برابط (يستخدم صورة المعاينة من الموقع)."""
-    page_id, token = _credentials()
-    url = f"https://graph.facebook.com/{api_version}/{page_id}/feed"
-    resp = requests.post(
-        url, data={"message": caption, "link": link, "access_token": token}, timeout=60
-    )
-    data = _raise_for_graph(resp)
-    post_id = data.get("id")
-    return {"post_id": post_id, "url": f"https://www.facebook.com/{post_id}"}
-
-
 def verify_token(api_version: str = "v21.0") -> dict:
     """فحص سريع للصلاحيات — استخدمه قبل أول تشغيل حقيقي."""
     page_id, token = _credentials()

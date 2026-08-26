@@ -137,7 +137,8 @@ Supporting pieces, each independently triggerable as its own workflow:
   (`_sufficiency`/`_choose_question`) → draft with its own prompt (`DRAFT_SYSTEM_TEMPLATE`, never
   `writer.SYSTEM_PROMPT` — a deliberately separate editorial policy) that also folds the poster's
   opinion in, paraphrased and attributed (`config.yaml: article.opinion_attribution_phrase`), never
-  copied verbatim → `verify_draft.check_originality` (reused as-is) rejects literal overlap with
+  copied verbatim → `verify_draft._check_originality_full` (reused as-is, called directly rather
+  than through the `check_originality` wrapper) rejects literal overlap with
   the brief or sources → image via `verify_draft._image_candidates`/`imagesearch.find_images`
   (same Wikimedia/Openverse-only fallback) → draft through the same `store.save_draft` →
   `drafts/<date>/` → review Issue → `approved` path, tagged `origin: "article"`. Deliberately does
@@ -342,8 +343,8 @@ an entity in the source's alphabet would never match a later Arabic search. Ever
 the extraction/merge/off-topic/add counts and a dedicated "wasn't in my brief" section listing what
 got added, on the standing lesson (`judged_by`) that a feature with no visible trail effect is a
 feature nobody can tell is working. `config.yaml: article.source_extract_enabled` was flipped to
-`true` once the first live run's findings above were fixed, same operational precedent as
-`article.include_opinion`.
+`true` once the first live run's findings above were fixed — the same ship-disabled-then-validate
+pattern as `article.include_opinion`, which remains `false` pending its own live validation.
 
 ## Testing
 
