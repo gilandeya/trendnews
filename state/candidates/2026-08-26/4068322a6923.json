@@ -1,0 +1,56 @@
+{
+  "id": "4068322a6923",
+  "created_at": "2026-08-26T12:07:46.203274+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.37,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "8 killed, 384 tourists missing in Nepal floods at China border; 'major casualties' reported in Tibet",
+  "link": "https://www.dawn.com/news/2025415/8-killed-384-tourists-missing-in-nepal-floods-at-china-border-major-casualties-reported-in-tibet",
+  "publishers": [
+    "Channel News Asia",
+    "Dawn"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "8 killed, 384 tourists missing in Nepal floods at China border; 'major casualties' reported in Tibet",
+    "link": "https://www.dawn.com/news/2025415/8-killed-384-tourists-missing-in-nepal-floods-at-china-border-major-casualties-reported-in-tibet",
+    "summary": "Massive flooding killed eight people in Nepal on Wednesday as Chinese state media reported “major casualties” from a mudslide at a Tibet trade hub on China’s side of the nations’ shared border, with 384 tourists in the region out of contact. Images shared by Nepali police showed floodwater surging through a river, sweeping away houses in its path, while AFP images depicted the top floor of a house sticking out from muddy soil. “So far, eight bodies have been found. Rescue operations are underway,” Nepal police spokesman Abi Narayan Kafle told AFP . It remains unclear whether the eight are linked to the 384 missing tourists. Videos shared by Nepal police and others on social media showed torrents of muddy water crashing through mountain valleys in the Himalayan district bordering China. “A preliminary agency-wise record received from tourism and travel companies has identified 384 travellers, including 291 foreign nationals and 93 Nepali nationals, who were reported missing from the affected areas,” said the Nepal Tourism Board, noting authorities were working to verify the travellers’ whereabouts. The flood hit Syabrubesi, the starting point for the popular Langtang trek, and other",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-26T12:04:58+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/261531157ce7005.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Dawn"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2025415/8-killed-384-tourists-missing-in-nepal-floods-at-china-border-major-casualties-reported-in-tibet"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/nepal-floods-kill-8-people-missing-6342366"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/261531157ce7005.webp",
+      "https://i.dawn.com/thumbnail/2026/08/261531157ce7005.webp",
+      "https://dam.mediacorp.sg/image/upload/s---uTFEVr5--/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Nepal_Flash_floods_31_76.jpg?itok=6xHG5mIe"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.371727861550227
+  }
+}
