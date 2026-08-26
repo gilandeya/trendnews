@@ -1,7 +1,7 @@
 {
   "id": "ff7ba05cf31b",
   "created_at": "2026-08-26T10:18:50.279802+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 589,
   "origin": "article",
   "article_issue": 588,
@@ -56,5 +56,13 @@
     "category": "سياسة",
     "urgent": false,
     "image_candidates": []
+  },
+  "publish_at": "2026-08-26T10:22:43.809133+00:00",
+  "published_at": "2026-08-26T10:22:49.158180+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1344191477797873",
+    "photo_id": "1344191457797875",
+    "url": "https://www.facebook.com/631680090321390_1344191477797873",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
   }
 }
