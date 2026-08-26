@@ -8708,6 +8708,110 @@ def test_article_mentioned_sources() -> None:
           dropped_by_text.get("ذُكر وطابق جزئيًا"))
 
 
+def test_article_fetch_failure_gap() -> None:
+    """نقص سند تقني لا واقعي (تشخيص Issue #583 — تحليل تجميعي على آخر 13
+    Issue موسومة `مقال`): فشل جلب (HTTP 403 غالبًا) ظهر في 7 من الـ13، وفي
+    أكثر من حالة أسقط تحديدًا مرشّح المصدر الذي كان سيرفع واقعة من (1) إلى
+    (2) — سطر تشخيص صريح يفصل هذا عن انفراد مصدر واحد فعليًا بالخبر.
+    verify.demoted_readers اكتسب من نفس التحليل ثلاثة نطاقات تكرّر فشل
+    جلبها مرتين فأكثر عبر تلك العيّنة تحديدًا (رأي اليوم، نيوز رووم،
+    alghad.tv)."""
+    from src import article
+
+    cfg = load_config()
+    # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
+    # (نظير test_article_mentioned_sources) — هذه الدالة لا تفحص مرحلة
+    # استخراج وقائع المصادر، فتُعطَّل صراحة كي لا تستدعي _client() الحقيقي
+    cfg["article"]["source_extract_enabled"] = False
+
+    check("verify.demoted_readers يضم النطاقات المرصودة من تشخيص Issue #583",
+          evidence._is_demoted_reader("رأي اليوم", cfg)
+          and evidence._is_demoted_reader("نيوز رووم", cfg)
+          and evidence._is_demoted_reader("alghad.tv", cfg))
+
+    check("_fetch_failure_gap_note: بلا فشل جلب — بلا ملاحظة",
+          article._fetch_failure_gap_note({"مصدر أ"}, [], cfg) == "")
+    check("_fetch_failure_gap_note: المرشّح الفاشل نفس الناشر المؤيِّد بالفعل "
+          "— بلا ملاحظة (تكرار لا سند إضافي حقيقي)",
+          article._fetch_failure_gap_note(
+              {"مصدر أ"}, [{"name": "مصدر أ", "reason": "HTTP 403"}], cfg) == "")
+    check("_fetch_failure_gap_note: المرشّح الفاشل ناشر مختلف — الملاحظة تُضاف",
+          article._fetch_failure_gap_note(
+              {"مصدر أ"}, [{"name": "مصدر ب", "reason": "HTTP 403"}], cfg)
+          == " — سقط مرشّح ثانٍ بفشل جلب — الواقعة كانت ستُسنَد")
+
+    # ── تكامل كامل عبر _write_article: أربع وقائع في موجز واحد ──
+    docs = [{"name": "Daily Sabah", "text": "نص", "link": "https://s1/1"},
+            {"name": "Yeni Şafak", "text": "نص", "link": "https://s2/1"}]
+    fetch_failures_by_claim = {
+        "كF1": [{"name": "Yeni Şafak", "link": "https://s2/2", "reason": "HTTP 403"}],
+        "كF2": [],
+        "كF3": [{"name": "Yeni Şafak", "link": "https://s2/2", "reason": "HTTP 403"}],
+        "كF4": [{"name": "Daily Sabah", "link": "https://s1/2", "reason": "HTTP 403"}],
+    }
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_find_images = article.find_images
+
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        evidence._evidence_docs(list(docs), fetch_failures_by_claim.get(claim_text, [])),
+        evidence.EVIDENCE_FULL_TEXT)
+    article.find_images = lambda title, cfg, terms=None: []
+
+    def _fake_support(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
+        result = article._ModelCallList()
+        if fact_text == "واقعة صفر مصادر":
+            result.mentioned = []
+        else:
+            result.append("Daily Sabah")
+            result.mentioned = ["Daily Sabah", "Yeni Şafak"]
+        return result
+
+    article._support_sources = _fake_support
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار فجوة فشل الجلب",
+        "statements": [
+            {"text": "واقعة بمرشّح ثانٍ فاشل", "kind": "واقعة", "entities": ["كF1"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "واقعة بلا فشل جلب", "kind": "واقعة", "entities": ["كF2"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "واقعة صفر مصادر", "kind": "واقعة", "entities": ["كF3"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "واقعة بمرشّح فاشل مكرر", "kind": "واقعة", "entities": ["كF4"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+
+    try:
+        out = article._write_article("موجز اختبار فجوة فشل الجلب", 9002, cfg)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        article.find_images = real_find_images
+
+    dropped_by_text = {d["text"]: d["reason"] for d in out["dropped"]}
+    check("واقعة 1/2 بمرشّح ثانٍ فشل جلبه (ناشر مختلف) — رسالة السقوط تحمل الملاحظة",
+          "سقط مرشّح ثانٍ بفشل جلب — الواقعة كانت ستُسنَد"
+          in dropped_by_text.get("واقعة بمرشّح ثانٍ فاشل", ""),
+          dropped_by_text.get("واقعة بمرشّح ثانٍ فاشل"))
+    check("واقعة 1/2 بلا فشل جلب — لا ملاحظة",
+          "سقط مرشّح ثانٍ" not in dropped_by_text.get("واقعة بلا فشل جلب", ""),
+          dropped_by_text.get("واقعة بلا فشل جلب"))
+    check("واقعة 0/2 رغم فشل جلب مرشّح — لا ملاحظة (فشل مرشّح واحد لا يسدّ فجوة أكبر من واقعة)",
+          "سقط مرشّح ثانٍ" not in dropped_by_text.get("واقعة صفر مصادر", ""),
+          dropped_by_text.get("واقعة صفر مصادر"))
+    check("واقعة 1/2 بمرشّح فشل جلبه هو الناشر المؤيِّد بالفعل — لا ملاحظة (تكرار لا سند إضافي)",
+          "سقط مرشّح ثانٍ" not in dropped_by_text.get("واقعة بمرشّح فاشل مكرر", ""),
+          dropped_by_text.get("واقعة بمرشّح فاشل مكرر"))
+
+
 def test_article_source_facts() -> None:
     """وقائع من المصادر (لا الموجز فقط، طلب المراجعة على Issue #373): مرحلة
     جديدة تستخرج من الوثائق المقروءة فعلًا وقائع غائبة عن الموجز، بوسم
@@ -9478,6 +9582,7 @@ def main() -> int:
     test_article_jargon_leak()
     test_article_language_note()
     test_article_mentioned_sources()
+    test_article_fetch_failure_gap()
     test_article_source_facts()
     test_reject_boxes_render()
     test_reject_beats_approval()

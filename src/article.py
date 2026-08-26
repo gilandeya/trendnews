@@ -1736,6 +1736,32 @@ def _grounded_sources(names: list[str], docs: list[dict],
     return out
 
 
+def _fetch_failure_gap_note(unique: set, fetch_failures: list[dict], cfg) -> str:
+    """يميّز نقص سند سببه تقني (مرشّح ثانٍ محتمل سقط بفشل جلب الصفحة، لا
+    انفراد مصدر واحد فعليًا بالخبر) عن نقص سببه طبيعة التغطية نفسها —
+    تشخيص Issue #583: تحليل تجميعي لـ13 مقالًا سابقًا وجد فشل الجلب (HTTP
+    403/صفحات محظورة أو قصيرة جدًا) في 7 منها، وفي أكثر من حالة كان الفشل
+    يطال تحديدًا مرشّح المصدر الثاني الذي كان سيرفع واقعة من (1) إلى (2) —
+    لا طريقة لمعرفة يقينًا لو كان مضمونه سيؤيّد الواقعة فعلًا (لم يُقرأ
+    نصه أصلًا)، لكن التمييز بين "لم نجد مصدرًا ثانيًا" و"مصدر ثانٍ محتمل
+    حُجب تقنيًا" مفيد للمراجع بذاته. يُستدعى فقط حين يبقى مرشّح واحد
+    بالضبط ناقصًا (unique = fact_min_confirm - 1 عند موضع الاستدعاء) —
+    مرشّح فاشل واحد لا يسدّ فجوة أكبر من واقعة.
+
+    يُشترط أن يكون ناشر المرشّح الفاشل غير مُعَدٍّ أصلًا ضمن unique
+    (evidence._canonical_publisher نفس التوحيد المستعمَل في gather_evidence)
+    — وإلا فهو تكرار لناشر أيّد الواقعة بالفعل عبر رابط آخر، لا مصدر
+    إضافي حقيقي كان سيرفع العدد."""
+    if not fetch_failures:
+        return ""
+    known = {evidence._canonical_publisher(n, cfg) for n in unique}
+    for fail in fetch_failures:
+        name = fail.get("name") or ""
+        if name and evidence._canonical_publisher(name, cfg) not in known:
+            return " — سقط مرشّح ثانٍ بفشل جلب — الواقعة كانت ستُسنَد"
+    return ""
+
+
 def _reprint_fallback_images(excluded_reprints: list[dict],
                              ranked: list[Article]) -> list[dict]:
     """صور مرشَّحة من وثائق استُبعدت كإعادة نشر للموجز الملصق — الاستبعاد
@@ -2955,11 +2981,18 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
 
             def _support_gap_detail() -> str:
                 if not fact_mentioned:
-                    return "لم يذكر أي من المصادر المقروءة الموضوع إطلاقًا"
-                if unique:
-                    return (f"ذكره {len(fact_mentioned)} مصدر وطابق مضمونه "
-                            f"{len(unique)} منها فقط")
-                return f"ذكره {len(fact_mentioned)} مصدر لكن لم يطابق مضمونه أيٌّ منها"
+                    detail = "لم يذكر أي من المصادر المقروءة الموضوع إطلاقًا"
+                elif unique:
+                    detail = (f"ذكره {len(fact_mentioned)} مصدر وطابق مضمونه "
+                              f"{len(unique)} منها فقط")
+                else:
+                    detail = f"ذكره {len(fact_mentioned)} مصدر لكن لم يطابق مضمونه أيٌّ منها"
+                # نقص تقني لا واقعي (تشخيص Issue #583): يُفحص فقط حين واقعة
+                # واحدة بالضبط تفصل عن العتبة — انظر توثيق _fetch_failure_gap_note
+                if len(unique) == fact_min_confirm - 1:
+                    detail += _fetch_failure_gap_note(
+                        unique, getattr(docs, "fetch_failures", []), cfg)
+                return detail
 
             stage = "تقرير" if is_report else ("تصريح" if is_statement else "واقعة")
             outcome_text = (f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
