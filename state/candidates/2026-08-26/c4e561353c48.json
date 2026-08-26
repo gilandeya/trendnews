@@ -1,0 +1,62 @@
+{
+  "id": "c4e561353c48",
+  "created_at": "2026-08-26T09:07:48.452717+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.0,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Fire haze threatens health of millions in Indonesia, ministry warns",
+  "link": "https://phys.org/news/2026-08-haze-threatens-health-millions-indonesia.html",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Fire haze threatens health of millions in Indonesia, ministry warns",
+    "link": "https://phys.org/news/2026-08-haze-threatens-health-millions-indonesia.html",
+    "summary": "Millions of Indonesians risk health complications from exposure to thick haze covering several cities and towns, officials said Wednesday, as El Niño-fueled wildfires wreak havoc on Borneo and Sumatra.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-08-26T08:20:03+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/firefighters-in-indoen.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-08-haze-threatens-health-millions-indonesia.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/26/fire-and-haze-threaten-health-of-millions-in-indonesia"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/indonesia-forest-fires-haze-kalimantan-6342171"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/firefighters-in-indoen.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/eced7c15-6976-4ec3-b846-3685ab154f59-Pekan-Baru-haze-EPA-26082026-.webp",
+      "https://dam.mediacorp.sg/image/upload/s--iQy5o8qA--/c_crop,h_450,w_800,x_0,y_83/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-18T104415Z_2_LYNXMPEM7H0Q0_RTROPTP_3_ASIA-WEATHER-INDONESIA-WILDFIRE.JPG?itok=sdX1ASgk"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 24.001976307644952
+  }
+}

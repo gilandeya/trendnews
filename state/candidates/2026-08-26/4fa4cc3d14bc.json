@@ -1,0 +1,62 @@
+{
+  "id": "4fa4cc3d14bc",
+  "created_at": "2026-08-26T09:07:48.453018+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.44,
+  "trend_score": 1.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korea to ‘bring joy’ to Kim with 100 athletes at Asian Games in Japan",
+  "link": "https://www.japantimes.co.jp/sports/2026/08/26/north-korea-asian-games/",
+  "publishers": [
+    "Free Malaysia Today",
+    "Malay Mail",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "North Korea to ‘bring joy’ to Kim with 100 athletes at Asian Games in Japan",
+    "link": "https://www.japantimes.co.jp/sports/2026/08/26/north-korea-asian-games/",
+    "summary": "The nuclear-armed state suspended participation in international sporting competitions during the COVID-19 pandemic but returned at the Asian Games in China in 2023",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-08-26T08:53:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/theme_japantimes/images/no-image.png",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Malay Mail",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/08/26/north-korea-to-bring-joy-to-kim-with-100-athletes-at-asian-games"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/sports/2026/08/26/north-korea-sends-100-athletes-to-asian-games-with-mission-to-bring-joy-to-marshal-kim-jong-un/232704"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/sports/2026/08/26/north-korea-asian-games/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/theme_japantimes/images/no-image.png",
+      "https://media.freemalaysiatoday.com/v3/2026/08/224c81ee-9992-4dd4-a716-4c80938a4d61-North-Korea.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/26/358898.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.11126665269147,
+    "age_hours": 26.99772255583333,
+    "is_stale": false,
+    "score": 22.44492068236156
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "eb2856c908b2",
+  "created_at": "2026-08-26T09:07:48.453274+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.22,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Fire at Russia’s Amur Gas Chemical Complex kills seven; nine Chinese nationals still missing",
+  "link": "https://meduza.io/en/news/2026/08/26/fire-at-russia-s-amur-gas-chemical-complex-kills-seven-nine-chinese-nationals-still-missing",
+  "publishers": [
+    "Meduza English",
+    "The Hindu — International"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Fire at Russia’s Amur Gas Chemical Complex kills seven; nine Chinese nationals still missing",
+    "link": "https://meduza.io/en/news/2026/08/26/fire-at-russia-s-amur-gas-chemical-complex-kills-seven-nine-chinese-nationals-still-missing",
+    "summary": "Seven people have died in a fire at the construction site of the Amur Gas Chemical Complex (AGCC), which is being prepared for launch, the plant’s press service reported in updated figures: six Chinese nationals and a Russian woman. Nine more Chinese nationals, employees of a contractor, are listed as missing.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-08-26T07:56:42+00:00",
+    "image_url": "https://meduza.io/imgly/share/1787731002/en/news/2026/08/26/fire-at-russia-s-amur-gas-chemical-complex-kills-seven-nine-chinese-nationals-still-missing",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Meduza English",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/seven-killed-nine-chinese-workers-missing-in-russia-gas-complex-fire/article71391661.ece"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/08/26/fire-at-russia-s-amur-gas-chemical-complex-kills-seven-nine-chinese-nationals-still-missing"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1787731002/en/news/2026/08/26/fire-at-russia-s-amur-gas-chemical-complex-kills-seven-nine-chinese-nationals-still-missing"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 5.999578967500001,
+    "is_stale": false,
+    "score": 20.221144360833335
+  }
+}

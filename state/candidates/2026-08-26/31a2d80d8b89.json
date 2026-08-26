@@ -1,0 +1,56 @@
+{
+  "id": "31a2d80d8b89",
+  "created_at": "2026-08-26T09:07:48.453563+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.44,
+  "trend_score": 0.5,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Gaza parents urged to stop children flying kites after Israel warning to Hamas",
+  "link": "https://www.dailymaverick.co.za/article/2026-08-26-gaza-parents-urged-to-stop-children-flying-kites-after-israel-warning-to-hamas/",
+  "publishers": [
+    "Daily Maverick",
+    "Hindustan Times — World",
+    "Reuters"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Gaza parents urged to stop children flying kites after Israel warning to Hamas",
+    "link": "https://www.dailymaverick.co.za/article/2026-08-26-gaza-parents-urged-to-stop-children-flying-kites-after-israel-warning-to-hamas/",
+    "summary": "CAIRO, Aug 25 (Reuters) - Gaza parents have been warned to stop their children flying kites in the war-ravaged enclave, after Israel threatened a forceful response if the Hamas militant group revives a tactic of launching incendiary kites over the border.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-08-26T04:19:06+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2996/2291999507_559484.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Hindustan Times — World",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-26-gaza-parents-urged-to-stop-children-flying-kites-after-israel-warning-to-hamas/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/gaza-parents-urged-to-stop-children-flying-kites-after-israel-warning-to-hamas-101787687850377.html"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2996/2291999507_559484.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.11126109346545761,
+    "age_hours": 20.994139051111112,
+    "is_stale": false,
+    "score": 18.440559552361126
+  }
+}
