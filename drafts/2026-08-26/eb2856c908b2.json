@@ -1,7 +1,7 @@
 {
   "id": "eb2856c908b2",
   "created_at": "2026-08-26T09:39:10.356825+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 20.22,
   "bucket": "serious",
@@ -55,5 +55,12 @@
       "https://meduza.io/imgly/share/1787731002/en/news/2026/08/26/fire-at-russia-s-amur-gas-chemical-complex-kills-seven-nine-chinese-nationals-still-missing"
     ]
   },
-  "publish_at": "2026-08-26T10:28:04.746296+00:00"
+  "publish_at": "2026-08-26T10:28:04.746296+00:00",
+  "published_at": "2026-08-26T10:31:00.264295+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1344196374464050",
+    "photo_id": "1344196347797386",
+    "url": "https://www.facebook.com/631680090321390_1344196374464050",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
