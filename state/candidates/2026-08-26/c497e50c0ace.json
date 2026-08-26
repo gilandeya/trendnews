@@ -1,0 +1,79 @@
+{
+  "id": "c497e50c0ace",
+  "created_at": "2026-08-26T18:08:05.473978+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.99,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Satellite Images Reveal Possible Cause Behind Devastating Nepal Flash Floods",
+  "link": "https://www.ndtv.com/world-news/satellite-images-reveal-possible-cause-behind-devastating-nepal-flash-floods-11962416#publisher=newsstand",
+  "publishers": [
+    "Hindustan Times — World",
+    "NDTV — World",
+    "Phys.org",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Satellite Images Reveal Possible Cause Behind Devastating Nepal Flash Floods",
+    "link": "https://www.ndtv.com/world-news/satellite-images-reveal-possible-cause-behind-devastating-nepal-flash-floods-11962416#publisher=newsstand",
+    "summary": "Several others, including 108 Indians, are missing, as the flash flood hit Nepal",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-08-26T15:41:18+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-08/cul4obos_nepal-floods_625x300_26_August_26.png?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "NDTV — World",
+      "Phys.org",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/nepal-floods-satellite-images-show-before-and-after-of-devastating-flash-flooding-death-toll-manakamna-rasuwa-101787752539992.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/satellite-images-reveal-possible-cause-behind-devastating-nepal-flash-floods-11962416#publisher=newsstand"
+      },
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-08-expert-comment-extreme-weather-ai.html"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/videos/nepal-flash-flood-what-triggered-the-deadly-himalayan-disaster/article71393793.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/sci-tech/energy-and-environment/western-disturbance-linked-to-nepal-floods/article71393352.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/why-nepal-sees-so-many-disasters-a-melting-himalaya-and-two-colliding-plates-11963077#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-08/cul4obos_nepal-floods_625x300_26_August_26.png?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://scx1.b-cdn.net/csz/news/tmb/2024/storm-sky.jpg",
+      "https://th-i.thgim.com/public/incoming/oztj85/article71393790.ece/alternates/LANDSCAPE_1200/Pakistan%20%201.png",
+      "https://th-i.thgim.com/public/incoming/fu1sbb/article71393719.ece/alternates/LANDSCAPE_1200/2026-08-26T144617Z_88780318_RC296NA9FK6G_RTRMADP_3_NEPAL-FLOODS.JPG",
+      "https://c.ndtvimg.com/2026-08/64rpf93_nepal-flood_625x300_26_August_26.jpg?im=FaceCrop,algorithm=dnn,width=1280,height=720",
+      "https://c.ndtvimg.com/2026-08/5a80dfh8_nepal-_625x300_26_August_26.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1.0038878797222224,
+    "is_stale": false,
+    "score": 22.987029021722222
+  }
+}
