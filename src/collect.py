@@ -20,7 +20,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import feedback, preselect, store
+from . import decisions, feedback, preselect, store
 from .config import DRAFTS_DIR, load_config
 from .imagesearch import find_images
 from .imaging import build_post_image
@@ -152,6 +152,16 @@ def main() -> int:
     )
 
     cfg = load_config(args.config)
+
+    # يعمل كل تشغيلة، حتى بلا مسودة جديدة (Issue #583 — المرحلة الأولى):
+    # إغلاق Issue بلا اعتماد أو انقضاء مهلة قد يقعان بين تشغيلة وأخرى بلا
+    # أي حدث آخر يستدعي الفحص. مُحاط بـ try/except عمدًا — جمع بيانات
+    # للمراجعة المستقبلية لا يجوز أن يُسقط تشغيلة جمع حقيقية.
+    try:
+        decisions.scan(cfg)
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر فحص القرارات الضمنية: %s", exc)
+
     selection = cfg.get("selection", {})
     target = args.limit or int(selection.get("drafts_per_run", 5))
     dedupe_days = int(selection.get("dedupe_memory_days", 5))

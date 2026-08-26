@@ -9419,6 +9419,98 @@ def test_due_publishes_one_at_a_time() -> None:
                        "due_new": "queued"}, str(statuses))
 
 
+def test_decisions() -> None:
+    """Issue #583 — المرحلة الأولى: سجل قرارات تراكمي (state/decisions.json)،
+    جمع بلا أي تحليل أو تأثير على الفرز/الترتيب."""
+    from src import decisions
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
+
+    published_draft = {
+        "id": "dec_pub1", "created_at": datetime.now(timezone.utc).isoformat(),
+        "status": "pending", "score": 5.5, "bucket": "serious",
+        "trend_score": 0.4, "velocity": 0.2, "has_photo": True, "state_media": False,
+        "source": {"region": "eu", "publishers": ["BBC", "Reuters"]},
+        "arabic": {"category": "عالم", "angle": "خبر", "urgent": False,
+                   "post_body": "نص المنشور هنا"},
+    }
+    decisions.record_published(published_draft)
+    entries = decisions.load()
+    check("النشر يُسجَّل بقرار published",
+          any(e["id"] == "dec_pub1" and e["decision"] == "published" for e in entries))
+    rec = next(e for e in entries if e["id"] == "dec_pub1")
+    check("السمات تُستخرج من المسودة بلا حقول جديدة",
+          rec["category"] == "عالم" and rec["source_count"] == 2
+          and rec["bucket"] == "serious" and rec["origin"] == "collect",
+          str(rec))
+
+    before = len(decisions.load())
+    decisions.record_published(published_draft)
+    check("لا تكرار عند تسجيل نفس المسودة مرتين", len(decisions.load()) == before)
+
+    rejected_draft = dict(published_draft, id="dec_rej1")
+    decisions.record_rejected(rejected_draft, "ضعيف")
+    rec2 = next(e for e in decisions.load() if e["id"] == "dec_rej1")
+    check("الرفض الصريح يُسجَّل بوسمه",
+          rec2["decision"] == "rejected_explicit" and rec2["reject_tag"] == "ضعيف",
+          str(rec2))
+
+    # الفحص الدوري بلا بيئة Actions: لا شيء يُفحص، بلا عطل
+    saved_repo = os.environ.pop("GITHUB_REPOSITORY", None)
+    saved_token = os.environ.pop("GITHUB_TOKEN", None)
+    check("scan بلا بيئة Actions يعيد صفرًا بأمان", decisions.scan(load_config()) == 0)
+
+    now = datetime.now(timezone.utc)
+    old_pending = {
+        "id": "dec_old1", "created_at": (now - timedelta(hours=100)).isoformat(),
+        "status": "pending", "review_issue": 501, "score": 1.0, "bucket": "serious",
+        "source": {}, "arabic": {},
+    }
+    fresh_pending = {
+        "id": "dec_fresh1", "created_at": now.isoformat(),
+        "status": "pending", "review_issue": 502, "score": 1.0, "bucket": "serious",
+        "source": {}, "arabic": {},
+    }
+    closed_pending = {
+        "id": "dec_closed1", "created_at": now.isoformat(),
+        "status": "pending", "review_issue": 503, "score": 1.0, "bucket": "serious",
+        "source": {}, "arabic": {},
+    }
+    for d in (old_pending, fresh_pending, closed_pending):
+        store.save_draft(d)
+
+    os.environ["GITHUB_REPOSITORY"] = "u/r"
+    os.environ["GITHUB_TOKEN"] = "tok"
+
+    real_fetch_issue = decisions._fetch_issue
+    decisions._fetch_issue = lambda n: {"state": "closed" if n == 503 else "open"}
+
+    cfg = load_config()
+    cfg["decisions"] = {"ignore_timeout_hours": 48}
+    try:
+        n = decisions.scan(cfg)
+    finally:
+        decisions._fetch_issue = real_fetch_issue
+        os.environ.pop("GITHUB_REPOSITORY", None)
+        os.environ.pop("GITHUB_TOKEN", None)
+        if saved_repo is not None:
+            os.environ["GITHUB_REPOSITORY"] = saved_repo
+        if saved_token is not None:
+            os.environ["GITHUB_TOKEN"] = saved_token
+
+    check("scan سجّل قرارين ضمنيين فقط (المهلة + الإغلاق)", n == 2, str(n))
+    entries = decisions.load()
+    check("مسودة قديمة مفتوحة ← ignored_timeout", any(
+        e["id"] == "dec_old1" and e["decision"] == "ignored_timeout" for e in entries))
+    check("مسودة حديثة مفتوحة لم تُبتّ بعد — لا تُسجَّل",
+          not any(e["id"] == "dec_fresh1" for e in entries))
+    check("مسودة Issue أُغلق ← dismissed_closed", any(
+        e["id"] == "dec_closed1" and e["decision"] == "dismissed_closed" for e in entries))
+
+
 def test_insights_analysis() -> None:
     from src.insights import analyse, engagement, recommendations
 
@@ -9593,6 +9685,8 @@ def main() -> int:
     print("\n── الجدولة في أوقات الذروة ──")
     test_scheduling()
     test_due_publishes_one_at_a_time()
+    print("\n── سجل القرارات التراكمي (Issue #583، المرحلة الأولى) ──")
+    test_decisions()
     print("\n── تحليل الأداء ──")
     test_insights_analysis()
     print("\n── حارس temperature (Issue #373) ──")

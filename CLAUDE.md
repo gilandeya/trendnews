@@ -85,6 +85,26 @@ Supporting pieces, each independently triggerable as its own workflow:
   command in the review Issue, without re-invoking the writer (no model cost).
 - `src/feedback.py` / `src/collect_feedback.py` — learns from rejected drafts in the review
   Issue and feeds recent rejection reasons back into `src/screen.py`'s prompt.
+- `src/decisions.py` (Issue #583, stage 1 only) — a cumulative log (`state/decisions.json`) of
+  every draft's eventual fate: `published` (hooked into `publish.py:publish_one`, both the photo
+  and reel branches), `rejected_explicit` (hooked into `collect_feedback.py`, the existing
+  `/reject` path), and two signals inferred from behavior that already exists with no new
+  write at collection time — `dismissed_closed` (the review Issue closed with a given draft still
+  unapproved — explicit, since `review.build_issue_body` already tells the reviewer "closing the
+  Issue = dismiss all") and `ignored_timeout` (the Issue stayed open past
+  `config.yaml: decisions.ignore_timeout_hours` with no action at all — inferred, not observed).
+  `decisions.scan()` (called unconditionally near the top of `collect.py:main`, wrapped in
+  `try/except` so an auxiliary data-collection step can never fail a real collection run) computes
+  the two inferred signals once per run, independent of whether that run produces any new drafts,
+  because an Issue can cross into "closed" or "timed out" between runs with no other event to
+  trigger the check. Collection only — no analysis, no scoring, no feedback into ranking or
+  screening. **Binding constraint on any future work in this direction:** if this ever moves from
+  "surface a report" to "influence something", the effect must be a rank demotion, never an
+  exclusion — the same principle already applied to `verify.demoted_readers` above. The reasoning,
+  from the review discussion that scoped stage 1: a system that pre-filters toward what it predicts
+  a reviewer will approve narrows their coverage instead of improving it, and a small sample of
+  decisions locks in a bias rather than revealing a real pattern — the existing `≥3` repetition
+  floor in `feedback.screening_guidance`/`summarise` is the model to follow, not a one-off count.
 - `src/insights.py` — pulls Facebook post performance and derives config-tuning recommendations
   (e.g., "raise `trends.weight`").
 - `src/trends.py` — Google Trends signal (what audiences are searching, independent of what
