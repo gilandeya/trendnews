@@ -1,0 +1,83 @@
+{
+  "id": "ff0b59f6b129",
+  "created_at": "2026-08-27T17:07:54.393693+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.37,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "How a collapsing glacier may have unleashed the deadly Nepal-Tibet disaster",
+  "link": "https://www.malaymail.com/news/world/2026/08/27/how-a-collapsing-glacier-may-have-unleashed-the-deadly-nepal-tibet-disaster/232912",
+  "publishers": [
+    "BBC World",
+    "Der Spiegel",
+    "El País",
+    "Live Science",
+    "Malay Mail",
+    "The Express Tribune"
+  ],
+  "region": "my",
+  "article": {
+    "title": "How a collapsing glacier may have unleashed the deadly Nepal-Tibet disaster",
+    "link": "https://www.malaymail.com/news/world/2026/08/27/how-a-collapsing-glacier-may-have-unleashed-the-deadly-nepal-tibet-disaster/232912",
+    "summary": "BANGKOK, Aug 27 — A huge piece of ice that fell thousands of metres from a glacier into a river below may have unl...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-27T09:07:27+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/27/359203.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "BBC World",
+      "Der Spiegel",
+      "El País",
+      "Live Science",
+      "Malay Mail",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2626040/how-a-glacier-collapse-may-have-caused-nepal-tibet-disaster"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/27/how-a-collapsing-glacier-may-have-unleashed-the-deadly-nepal-tibet-disaster/232912"
+      },
+      {
+        "name": "Live Science",
+        "link": "https://www.livescience.com/planet-earth/devastating-nepal-floods-were-triggered-by-glacier-collapse-experts-say-and-theres-a-risk-of-more-landslides-to-come"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/videos/cp80m87pez3o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/wissenschaft/nepal-wie-es-zur-verheerenden-sturzflut-im-himalaja-kommen-konnte-a-dc7833b0-8cff-4098-ae78-af3de5fe5e7c#ref=rss"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/videos/2026-08-27/reconstruccion-visual-de-la-riada-entre-nepal-y-tibet.html"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/27/359203.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/27/359204.jpg",
+      "https://cdn.mos.cms.futurecdn.net/MtyJDNxZCNYRVsjmHrtHqF-1280-80.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5b68/live/29889f00-a232-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/5b68/live/29889f00-a232-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5b68/live/29889f00-a232-11f1-aed2-8d6da8d75094.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 29.371194779867174
+  }
+}

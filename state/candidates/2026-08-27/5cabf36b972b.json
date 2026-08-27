@@ -1,0 +1,75 @@
+{
+  "id": "5cabf36b972b",
+  "created_at": "2026-08-27T17:07:54.394009+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.08,
+  "trend_score": 1.0,
+  "velocity": 0.6,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nepal, China warn of fresh flood risks with lakes threatening to burst",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/08/28/nepal-china-warn-of-fresh-flood-risks-with-lakes-threatening-to-burst",
+  "publishers": [
+    "Der Spiegel",
+    "Free Malaysia Today",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Nepal, China warn of fresh flood risks with lakes threatening to burst",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/28/nepal-china-warn-of-fresh-flood-risks-with-lakes-threatening-to-burst",
+    "summary": "Nepal's disaster authority warned that a debris-blocked lake at the flood site is rising and at risk of bursting.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-27T16:07:00+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/08/63214ae5-2ffc-49a4-8768-b920b25a6eda-14241437_cropped_1.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Der Spiegel",
+      "Free Malaysia Today",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nepal-flash-floods-increasing-death-toll-many-missing-rescuers-search-for-survivors-live-updates-august-27-2026/article71394802.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/28/nepal-china-warn-of-fresh-flood-risks-with-lakes-threatening-to-burst"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/27/nepal-tibet-flash-floods-aid"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/sturzflut-in-nepal-katastrophenbehoerde-warnt-vor-weiterer-ueberschwemmung-a-197182e2-e1b9-4c53-9df9-067cacfbf3e9#ref=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/fresh-flood-risk-persists-downstream-of-nepals-bhote-koshi-as-new-lake-forms/article71396608.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/08/63214ae5-2ffc-49a4-8768-b920b25a6eda-14241437_cropped_1.webp",
+      "https://i.guim.co.uk/img/media/32eff8366660a1231524b1bf5253219340a13275/1079_0_4115_3292/master/4115.jpg?width=700&quality=85&auto=format&fit=max&s=b826344a3bb7c10e4084eeb4918d3555",
+      "https://i.guim.co.uk/img/media/32eff8366660a1231524b1bf5253219340a13275/1079_0_4115_3292/master/4115.jpg?width=460&quality=85&auto=format&fit=max&s=0ae929f18e981bdcf73f0c2991a54963",
+      "https://i.guim.co.uk/img/media/32eff8366660a1231524b1bf5253219340a13275/1079_0_4115_3292/master/4115.jpg?width=140&quality=85&auto=format&fit=max&s=1c90886200211e304d607b0db836f47b",
+      "https://cdn.prod.www.spiegel.de/images/9c555637-11d9-4b21-b655-c57dfb4e824a_w520_r2.08_fpx37.5_fpy50.jpg",
+      "https://th-i.thgim.com/public/incoming/rhxp41/article71396671.ece/alternates/LANDSCAPE_1200/PTI08_27_2026_000401B.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 26.08247394474074
+  }
+}

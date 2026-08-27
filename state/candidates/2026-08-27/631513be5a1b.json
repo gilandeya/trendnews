@@ -1,0 +1,77 @@
+{
+  "id": "631513be5a1b",
+  "created_at": "2026-08-27T17:07:54.394297+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.91,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "'Extremely challenging' conditions hamper Nepal-Tibet flood rescue efforts",
+  "link": "https://www.france24.com/en/video/20260827-extremely-challenging-conditions-hamper-nepal-tibet-flood-rescue-efforts",
+  "publishers": [
+    "Africanews",
+    "France24",
+    "Yonhap News"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "'Extremely challenging' conditions hamper Nepal-Tibet flood rescue efforts",
+    "link": "https://www.france24.com/en/video/20260827-extremely-challenging-conditions-hamper-nepal-tibet-flood-rescue-efforts",
+    "summary": "With more than 1,000 people still missing after the devastating flash flood that hit Nepal and Tibet on Wednesday, international rescue teams are working to locate survivors. But, as France 24’s Navodita Kumari reports, they are facing “extremely challenging” conditions due to the weather, mountainous terrain and lack of infrastructure.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-27T14:57:30+00:00",
+    "image_url": "https://s.france24.com/media/display/7c5072b2-a21e-11f1-943b-005056bf30b7/w:1024/p:16x9/EN-20260827-153105-153531-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Africanews",
+      "France24",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260827-extremely-challenging-conditions-hamper-nepal-tibet-flood-rescue-efforts"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260827010400315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260827001053315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260827001054315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260827001055315"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/27/rescuers-search-for-survivors-follow-catastrophic-flash-floods-in-nepal/"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/7c5072b2-a21e-11f1-943b-005056bf30b7/w:1024/p:16x9/EN-20260827-153105-153531-CS.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/08/27/AEN20260827001055315_13_i_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/08/27/AEN20260827001055315_15_i_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/08/27/AEN20260827001055315_14_i_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/08/27/AEN20260827001055315_03_i_P2.jpg",
+      "https://img.yna.co.kr/photo/cms/2023/08/24/07/PCM20230824000107990_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.910139222163473
+  }
+}
