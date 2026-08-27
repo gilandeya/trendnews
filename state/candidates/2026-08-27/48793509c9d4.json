@@ -1,0 +1,76 @@
+{
+  "id": "48793509c9d4",
+  "created_at": "2026-08-27T03:07:47.968421+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.24,
+  "trend_score": 0.0,
+  "velocity": 0.8,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "CIA director warned Russia not to attack NATO members: U.S. media",
+  "link": "https://www.thehindu.com/news/international/cia-director-warned-russia-not-to-attack-nato-members-us-media/article71394848.ece",
+  "publishers": [
+    "CBS News — World",
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "in",
+  "article": {
+    "title": "CIA director warned Russia not to attack NATO members: U.S. media",
+    "link": "https://www.thehindu.com/news/international/cia-director-warned-russia-not-to-attack-nato-members-us-media/article71394848.ece",
+    "summary": "The Wall Street Journal and CBS News reported that CIA Director John Ratcliffe aimed to dissuade Russia from attacking NATO members amid US intelligence assessments that Moscow could seek to test the alliance",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-27T02:43:25+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/c12sog/article71394850.ece/alternates/LANDSCAPE_1200/2026-08-26T144005Z_414868830_RC2O7KAOIZKD_RTRMADP_3_USA-RUSSIA-CIA-KREMLIN.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "CBS News — World",
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/cia-director-john-ratcliffe-russia-visit-nato-kremlin-6342771"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/cia-director-warned-russia-not-to-attack-nato-members-us-media/article71394848.ece"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/cia-john-ratcliffe-warned-russia-not-to-attack-nato-moscow-trip/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/27/cia-director-warned-russia-not-to-attack-nato-members-during-moscow-trip"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/27/world/politics/cia-russia-nato-us-media/"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/c12sog/article71394850.ece/alternates/LANDSCAPE_1200/2026-08-26T144005Z_414868830_RC2O7KAOIZKD_RTRMADP_3_USA-RUSSIA-CIA-KREMLIN.JPG",
+      "https://dam.mediacorp.sg/image/upload/s--TU-utT48--/c_crop,h_576,w_1024,x_0,y_0/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/27/063_2288473042.jpg?itok=ZDxBdogh",
+      "https://media.freemalaysiatoday.com/v3/2026/08/a33e640e-aea2-44c6-ae25-a2f41bce5616-EPA-Images---John-Ratcliffe---CIA---27082026.webp",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/27/559671.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/27/thumbs/400x400/559671.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 0.8,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.238825734606532
+  }
+}

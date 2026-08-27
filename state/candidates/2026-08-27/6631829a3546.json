@@ -1,0 +1,55 @@
+{
+  "id": "6631829a3546",
+  "created_at": "2026-08-27T03:07:47.969209+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.28,
+  "trend_score": 0.5,
+  "velocity": 0.07,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Rare red northern lights may be visible alongside red moon during tomorrow night's partial lunar eclipse",
+  "link": "https://www.livescience.com/space/the-moon/rare-red-northern-lights-may-be-visible-alongside-red-moon-during-tomorrow-nights-partial-lunar-eclipse",
+  "publishers": [
+    "Live Science",
+    "here's why, and how to watch"
+  ],
+  "region": "odd",
+  "article": {
+    "title": "Rare red northern lights may be visible alongside red moon during tomorrow night's partial lunar eclipse",
+    "link": "https://www.livescience.com/space/the-moon/rare-red-northern-lights-may-be-visible-alongside-red-moon-during-tomorrow-nights-partial-lunar-eclipse",
+    "summary": "Moderate G1 and G2 geomagnetic storms are forecast during the Aug. 27-28 partial lunar eclipse, with the northern lights potentially visible across several northern U.S. states and parts of Canada alongside the reddened full moon.",
+    "source_name": "Live Science",
+    "region": "odd",
+    "weight": 1.3,
+    "published": "2026-08-26T15:03:21+00:00",
+    "image_url": "https://cdn.mos.cms.futurecdn.net/jsGmW9c2ohhB5nfuNMdqSN-1280-80.png",
+    "publisher": "Live Science",
+    "cluster_sources": [
+      "Live Science",
+      "here's why, and how to watch"
+    ],
+    "cluster_members": [
+      {
+        "name": "Live Science",
+        "link": "https://www.livescience.com/space/the-moon/rare-red-northern-lights-may-be-visible-alongside-red-moon-during-tomorrow-nights-partial-lunar-eclipse"
+      },
+      {
+        "name": "here's why, and how to watch",
+        "link": "https://www.livescience.com/space/the-moon/the-moon-is-turning-red-tomorrow-night-heres-why-and-how-to-watch"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.mos.cms.futurecdn.net/jsGmW9c2ohhB5nfuNMdqSN-1280-80.png",
+      "https://cdn.mos.cms.futurecdn.net/qWhcXE7mnza5TohRKhBBAj-1280-80.png"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.06672520116775026,
+    "age_hours": 18.00011341138889,
+    "is_stale": false,
+    "score": 16.278815600338753
+  }
+}

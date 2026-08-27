@@ -1,0 +1,61 @@
+{
+  "id": "364a1ecf8172",
+  "created_at": "2026-08-27T03:07:47.969711+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.09,
+  "trend_score": 0.0,
+  "velocity": 0.07,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "U.S. says Chinese hackers broke into Justice Department, NASA, Federal Reserve, Senate",
+  "link": "https://www.japantimes.co.jp/news/2026/08/27/world/chinese-hackers-us-justice-senate-nasa-fed/",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Express Tribune",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "U.S. says Chinese hackers broke into Justice Department, NASA, Federal Reserve, Senate",
+    "link": "https://www.japantimes.co.jp/news/2026/08/27/world/chinese-hackers-us-justice-senate-nasa-fed/",
+    "summary": "The hackers have used tools they developed to compromise critical infrastructure and other sensitive networks in the U.S. and worldwide since at least 2018, an affidavit said.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-08-27T00:54:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/27/559629.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Express Tribune",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2625976/us-says-chinese-hackers-broke-into-justice-department-nasa-federal-reserve-senate-and-more"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/chinese-hackers-broke-into-us-justice-department-nasa-senate-and-more-say-officials-101787758840879.html"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/27/world/chinese-hackers-us-justice-senate-nasa-fed/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/27/559629.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/27/thumbs/400x400/559629.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.06672630620914242,
+    "age_hours": 7.998433495277778,
+    "is_stale": false,
+    "score": 14.089986406061033
+  }
+}
