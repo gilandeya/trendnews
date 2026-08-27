@@ -1,0 +1,57 @@
+{
+  "id": "6181cdc1283c",
+  "created_at": "2026-08-27T15:08:18.184973+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.65,
+  "trend_score": 1.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Two teenagers, 13 and 14, among 33 UK nationals missing in Nepal floods",
+  "link": "https://www.myjoyonline.com/two-teenagers-13-and-14-among-33-uk-nationals-missing-in-nepal-floods/",
+  "publishers": [
+    "MyJoyOnline Ghana",
+    "police"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "Two teenagers, 13 and 14, among 33 UK nationals missing in Nepal floods",
+    "link": "https://www.myjoyonline.com/two-teenagers-13-and-14-among-33-uk-nationals-missing-in-nepal-floods/",
+    "summary": "Thirty-three people from the UK, including a 13-year-old girl and 14-year-old boy, are among hundreds missing following a deadly flash flood near the Nepal-Tibet border.",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-08-27T14:22:36+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-3411.png",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "MyJoyOnline Ghana",
+      "police"
+    ],
+    "cluster_members": [
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/two-teenagers-13-and-14-among-33-uk-nationals-missing-in-nepal-floods/"
+      },
+      {
+        "name": "police",
+        "link": "https://tass.com/emergencies/2178125"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-3411.png",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-3412.png",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-3413.png",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-3414.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.11105852488929284,
+    "age_hours": 3.0014237388888887,
+    "is_stale": false,
+    "score": 20.654661803131653
+  }
+}

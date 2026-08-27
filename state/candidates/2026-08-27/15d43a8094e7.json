@@ -1,0 +1,62 @@
+{
+  "id": "15d43a8094e7",
+  "created_at": "2026-08-27T15:08:18.185366+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.91,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran, Qatar hold Hormuz talks as U.S. blockade chokes Iran oil imports",
+  "link": "https://www.thehindu.com/news/international/west-asia-war-iran-qatar-talks-strait-of-hormuz-august-27-2026/article71396428.ece",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran, Qatar hold Hormuz talks as U.S. blockade chokes Iran oil imports",
+    "link": "https://www.thehindu.com/news/international/west-asia-war-iran-qatar-talks-strait-of-hormuz-august-27-2026/article71396428.ece",
+    "summary": "Qatar said that they discussed de-escalation efforts as well as the proposed framework for Hormuz between Iran and Oman, with Iranian Foreign Minister Abbas Araghchi",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-27T12:54:14+00:00",
+    "image_url": "https://th-i.thgim.com/public/news/national/dbfnlz/article71396461.ece/alternates/LANDSCAPE_1200/Iran.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260827-iran-qatar-hold-hormuz-talks-as-us-blockade-chokes-iran-oil-imports"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/west-asia-war-iran-qatar-talks-strait-of-hormuz-august-27-2026/article71396428.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/27/iran-qatar-hold-hormuz-talks-as-us-blockade-chokes-iran-oil-imports"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/news/national/dbfnlz/article71396461.ece/alternates/LANDSCAPE_1200/Iran.jpg",
+      "https://s.france24.com/media/display/0144a124-a20f-11f1-ac9a-005056a97e36/w:1024/p:16x9/3a99f04c0e831574dc9a7047493ccbe23a273935.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/7583c316-c581-4ea4-8818-aee553a6d56d-14239100_cropped_1.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 550.9195443375,
+    "is_stale": false,
+    "score": 18.906071479107915
+  }
+}
