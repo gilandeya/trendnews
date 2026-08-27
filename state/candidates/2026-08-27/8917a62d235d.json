@@ -1,0 +1,48 @@
+{
+  "id": "8917a62d235d",
+  "created_at": "2026-08-27T09:07:48.063636+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.07,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Nvidia’s blockbuster earnings; Salesforce lifts outlook",
+  "link": "https://www.investing.com/news/economy-news/nvidias-blockbuster-earnings-salesforce-lifts-outlook--whats-moving-markets-4878506",
+  "publishers": [
+    "what’s moving markets"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Nvidia’s blockbuster earnings; Salesforce lifts outlook",
+    "link": "https://www.investing.com/news/economy-news/nvidias-blockbuster-earnings-salesforce-lifts-outlook--whats-moving-markets-4878506",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-08-27T07:56:26+00:00",
+    "image_url": "https://content-media.investing.com/news/LYNXMPEM5F17R_1200_L.jpg",
+    "publisher": "what’s moving markets",
+    "cluster_sources": [
+      "what’s moving markets"
+    ],
+    "cluster_members": [
+      {
+        "name": "what’s moving markets",
+        "link": "https://www.investing.com/news/economy-news/nvidias-blockbuster-earnings-salesforce-lifts-outlook--whats-moving-markets-4878506"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/news/LYNXMPEM5F17R_1200_L.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.070837211944443
+  }
+}
