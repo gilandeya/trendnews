@@ -1,0 +1,53 @@
+{
+  "id": "58b80ac51ef5",
+  "created_at": "2026-08-27T12:08:12.172175+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.09,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(2nd LD) Lee orders mobilization of all resources to rescue S. Koreans affected by Nepal flooding",
+  "link": "https://en.yna.co.kr/view/AEN20260827004952315",
+  "publishers": [
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(2nd LD) Lee orders mobilization of all resources to rescue S. Koreans affected by Nepal flooding",
+    "link": "https://en.yna.co.kr/view/AEN20260827004952315",
+    "summary": "SEOUL, Aug. 27 (Yonhap) -- President Lee Jae Myung on Thursday ordered the mobil...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-08-27T08:54:44+00:00",
+    "image_url": "https://img.yna.co.kr/etc/inner/EN/2026/08/27/AEN20260827004952315_02_i_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260827004951315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260827004952315"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/etc/inner/EN/2026/08/27/AEN20260827004952315_02_i_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/08/27/AEN20260827004951315_02_i_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.08517085127778
+  }
+}

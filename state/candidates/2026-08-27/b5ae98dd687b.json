@@ -1,0 +1,77 @@
+{
+  "id": "b5ae98dd687b",
+  "created_at": "2026-08-27T12:08:12.171275+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.52,
+  "trend_score": 0.67,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "At least 14 newborn babies die in fire at Pakistan hospital’s maternity ward",
+  "link": "https://www.theguardian.com/world/2026/aug/26/newborn-babies-die-fire-pakistan-hospital-maternity-ward",
+  "publishers": [
+    "IRNA English",
+    "Mehr News",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The New York Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "At least 14 newborn babies die in fire at Pakistan hospital’s maternity ward",
+    "link": "https://www.theguardian.com/world/2026/aug/26/newborn-babies-die-fire-pakistan-hospital-maternity-ward",
+    "summary": "Authorities at biggest state hospital in Islamabad say 15 babies were in the ward when fire broke out At least 14 newborn babies have died in a fire that broke out in the maternity ward at one of Pakistan’s most prominent state hospitals. The blaze began in the early hours of Wednesday and engulfed the ward at the Pakistan Institute of Medical Sciences, the biggest state hospital in Islamabad. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-26T07:05:43+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/f548772050979c7e78af6ea05d480c7516b61ff5/1063_0_5460_4368/master/5460.jpg?width=700&quality=85&auto=format&fit=max&s=3a0813688e33a8bd58291895f97242ac",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The New York Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/26/newborn-babies-die-fire-pakistan-hospital-maternity-ward"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/several-killed-infants-fire-pakistan-islamabad-hospital-updates/article71391349.ece"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247252/At-least-14-infants-die-in-a-hospital-fire-in-Pakistan"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247269/Iran-offers-condolences-to-Pakistan-over-hospital-fire"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86247242/Iran-offers-condolences-to-Pakistan-after-14-newborns-killed"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/f548772050979c7e78af6ea05d480c7516b61ff5/1063_0_5460_4368/master/5460.jpg?width=700&quality=85&auto=format&fit=max&s=3a0813688e33a8bd58291895f97242ac",
+      "https://i.guim.co.uk/img/media/f548772050979c7e78af6ea05d480c7516b61ff5/1063_0_5460_4368/master/5460.jpg?width=460&quality=85&auto=format&fit=max&s=f9f35e60f4c0c1eafb4b51be55e9c8fd",
+      "https://i.guim.co.uk/img/media/f548772050979c7e78af6ea05d480c7516b61ff5/1063_0_5460_4368/master/5460.jpg?width=140&quality=85&auto=format&fit=max&s=37a4b38653bb7fe5bab55cfa697ab5fd",
+      "https://th-i.thgim.com/public/incoming/u8oou9/article71391468.ece/alternates/LANDSCAPE_1200/2026-08-26T044701Z_1686916057_RC246NAS5H60_RTRMADP_3_PAKISTAN-FIRE.JPG",
+      "https://media.mehrnews.com/d/2026/08/26/4/6148989.jpg",
+      "https://media.mehrnews.com/d/2026/08/27/4/6150208.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 5,
+    "velocity": 0.11086858442990753,
+    "age_hours": 30.002680508888886,
+    "is_stale": false,
+    "score": 20.517501764219034
+  }
+}
