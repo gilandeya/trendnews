@@ -1,0 +1,91 @@
+{
+  "id": "f9dbbedd95e4",
+  "created_at": "2026-08-27T19:07:57.402919+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.31,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Man City and Aston Villa to face holders PSG in Champions League",
+  "link": "https://www.bbc.co.uk/sport/football/articles/c5ywxxll10jo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Sport",
+    "Channel News Asia",
+    "Der Spiegel",
+    "El País",
+    "France24",
+    "Le Monde",
+    "Punch Nigeria",
+    "The Guardian — Sport",
+    "as it happened"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Man City and Aston Villa to face holders PSG in Champions League",
+    "link": "https://www.bbc.co.uk/sport/football/articles/c5ywxxll10jo?at_medium=RSS&at_campaign=rss",
+    "summary": "European champions Paris St-Germain will face Premier League duo Manchester City and Aston Villa in the league phase of this season's Champions League.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-27T17:32:55+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/766b/live/f7c57550-a237-11f1-80a2-67c89a95284e.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Sport",
+      "Channel News Asia",
+      "Der Spiegel",
+      "El País",
+      "France24",
+      "Le Monde",
+      "Punch Nigeria",
+      "The Guardian — Sport",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/8/27/psg-to-face-barcelona-man-city-and-villa-in-champions-league-as-draw-made?traffic_source=rss"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/c5ywxxll10jo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/sport/20260827-title-holders-psg-to-face-barcelona-and-man-city-as-champions-league-draw-is-made"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/aug/27/champions-league-draw-arsenal-face-real-madrid-as-manchester-city-get-psg"
+      },
+      {
+        "name": "as it happened",
+        "link": "https://www.aljazeera.com/sports/liveblog/2026/8/27/champions-league-draw-live-2026-27-league-phase-fixtures-schedule?traffic_source=rss"
+      },
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/football/live/2026/aug/27/uefa-champions-league-2026-27-league-phase-draw-live"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/766b/live/f7c57550-a237-11f1-80a2-67c89a95284e.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/766b/live/f7c57550-a237-11f1-80a2-67c89a95284e.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/766b/live/f7c57550-a237-11f1-80a2-67c89a95284e.jpg",
+      "https://s.france24.com/media/display/f9aa25ce-a23b-11f1-aaf9-005056bfb2b6/w:1024/p:16x9/9e978e91f26da9c7c08b4ebe8b28558bdc3ffc86.jpg",
+      "https://i.guim.co.uk/img/media/29ee4b97f391967e7ca55fb3d03fb33d82067a5e/217_0_4865_3893/master/4865.jpg?width=700&quality=85&auto=format&fit=max&s=c1905f9daa811d4c1cf00f621bd6a502",
+      "https://i.guim.co.uk/img/media/29ee4b97f391967e7ca55fb3d03fb33d82067a5e/217_0_4865_3893/master/4865.jpg?width=460&quality=85&auto=format&fit=max&s=f97cbd1fbc151a3b73106de059112723"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 10,
+    "velocity": 1.0,
+    "age_hours": 3.994169610833333,
+    "is_stale": false,
+    "score": 32.31033406445838
+  }
+}

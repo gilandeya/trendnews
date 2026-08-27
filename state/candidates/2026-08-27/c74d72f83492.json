@@ -1,0 +1,48 @@
+{
+  "id": "c74d72f83492",
+  "created_at": "2026-08-27T19:07:57.403691+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.09,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran executes over 500 people in 2026: rights group",
+  "link": "https://www.thehindu.com/news/international/iran-executes-over-500-people-in-2026-rights-group/article71397388.ece",
+  "publishers": [
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran executes over 500 people in 2026: rights group",
+    "link": "https://www.thehindu.com/news/international/iran-executes-over-500-people-in-2026-rights-group/article71397388.ece",
+    "summary": "At least 511 people have been executed so far in 2026, according to Norway-based NGO Iran Human Rights, including at least 29 people in connection with anti-government protests in January",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-27T15:59:00+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/87f0sz/article71397521.ece/alternates/LANDSCAPE_1200/Trump_Iran_The_Changing_Rationale_90343.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-executes-over-500-people-in-2026-rights-group/article71397388.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/87f0sz/article71397521.ece/alternates/LANDSCAPE_1200/Trump_Iran_The_Changing_Rationale_90343.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.000807249722222,
+    "is_stale": false,
+    "score": 17.090197924796296
+  }
+}
