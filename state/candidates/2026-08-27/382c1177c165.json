@@ -1,0 +1,49 @@
+{
+  "id": "382c1177c165",
+  "created_at": "2026-08-27T18:07:51.563433+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.97,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Apple Upgrade vs. Verizon deals: which saves you the most money on an iPhone?",
+  "link": "https://www.engadget.com/2241066/apple-upgrade-vs-verizons-deals-save-money-iphone/",
+  "publishers": [
+    "Engadget"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Apple Upgrade vs. Verizon deals: which saves you the most money on an iPhone?",
+    "link": "https://www.engadget.com/2241066/apple-upgrade-vs-verizons-deals-save-money-iphone/",
+    "summary": "Verizon tempts new customers with \"free\" iPhone deals, but do you really save compared to Apple's own Upgrade program?",
+    "source_name": "Engadget",
+    "region": "tech",
+    "weight": 0.9,
+    "published": "2026-08-27T15:30:00+00:00",
+    "image_url": "https://www.engadget.com/img/gallery/apple-upgrade-vs-verizon-deals-which-saves-you-the-most-money-on-an-iphone/l-intro-1787249761.jpg",
+    "publisher": "Engadget",
+    "cluster_sources": [
+      "Engadget"
+    ],
+    "cluster_members": [
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2241066/apple-upgrade-vs-verizons-deals-save-money-iphone/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.engadget.com/img/gallery/apple-upgrade-vs-verizon-deals-which-saves-you-the-most-money-on-an-iphone/l-intro-1787249761.jpg",
+      "https://www.engadget.com/img/gallery/apple-upgrade-vs-verizon-deals-which-saves-you-the-most-money-on-an-iphone/intro-1787249761.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.9990269094444444,
+    "is_stale": false,
+    "score": 16.97474589062963
+  }
+}

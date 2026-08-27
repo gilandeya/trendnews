@@ -1,0 +1,48 @@
+{
+  "id": "9068257881fd",
+  "created_at": "2026-08-27T18:07:51.563149+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.0,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "AI can complement traditional weather models by offering guidance on tropical cyclones several days before they form",
+  "link": "https://phys.org/news/2026-08-ai-complement-traditional-weather-guidance.html",
+  "publishers": [
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "AI can complement traditional weather models by offering guidance on tropical cyclones several days before they form",
+    "link": "https://phys.org/news/2026-08-ai-complement-traditional-weather-guidance.html",
+    "summary": "A new study examining tropical cyclone forecasts in the Atlantic Ocean suggests that artificial intelligence could provide valuable additional guidance for predicting when and where tropical disturbances may develop into tropical storms.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-08-27T13:40:01+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/ais-eye-on-the-tropics.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-08-ai-complement-traditional-weather-guidance.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/ais-eye-on-the-tropics.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.9927039844444447,
+    "is_stale": false,
+    "score": 17.002542187222225
+  }
+}
