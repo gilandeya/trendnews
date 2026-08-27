@@ -1,0 +1,63 @@
+{
+  "id": "27434f024d3e",
+  "created_at": "2026-08-27T22:07:48.665043+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.83,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US military faces ‘beyond critical’ shortage of Patriot missiles in Europe",
+  "link": "https://www.france24.com/en/americas/20260827-us-military-faces-beyond-critical-shortage-of-patriot-missiles-in-europe",
+  "publishers": [
+    "AP News",
+    "Daily Sabah",
+    "France24",
+    "South China Morning Post"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "US military faces ‘beyond critical’ shortage of Patriot missiles in Europe",
+    "link": "https://www.france24.com/en/americas/20260827-us-military-faces-beyond-critical-shortage-of-patriot-missiles-in-europe",
+    "summary": "The US military is running critically low on Patriot missile interceptors in Europe as the war with Iran drains stocks, according to US and NATO officials. The shortfall is raising concerns about NATO’s ability to counter a potential Russian ballistic missile attack, though officials said no such assault is imminent.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-27T21:41:16+00:00",
+    "image_url": "https://s.france24.com/media/display/9fa3d084-8d1e-11f1-aa4f-005056bfb2b6/w:1024/p:16x9/AP23037440334200.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "AP News",
+      "Daily Sabah",
+      "France24",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3365503/us-patriot-missile-shortage-europe-beyond-critical-due-iran-war-officials-say?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260827-us-military-faces-beyond-critical-shortage-of-patriot-missiles-in-europe"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/us-faces-critical-missile-interceptor-shortage-in-europe"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/9fa3d084-8d1e-11f1-aa4f-005056bfb2b6/w:1024/p:16x9/AP23037440334200.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/27/458034.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.11119551142831531,
+    "age_hours": 3.9991590705555553,
+    "is_stale": false,
+    "score": 15.826619937160094
+  }
+}

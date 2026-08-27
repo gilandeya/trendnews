@@ -1,0 +1,101 @@
+{
+  "id": "6d2cad015ca3",
+  "created_at": "2026-08-27T22:07:48.664744+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.1,
+  "trend_score": 0.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Convicted Bosnian Serb war criminal Mladić dies aged 84",
+  "link": "https://www.bbc.co.uk/news/articles/c5ywxpryj95o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Africanews",
+    "BBC World",
+    "Balkan Insight",
+    "CBS News — World",
+    "Daily Maverick",
+    "Daily Sabah",
+    "Der Spiegel",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "MyJoyOnline Ghana",
+    "Reuters",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Convicted Bosnian Serb war criminal Mladić dies aged 84",
+    "link": "https://www.bbc.co.uk/news/articles/c5ywxpryj95o?at_medium=RSS&at_campaign=rss",
+    "summary": "He was jailed for life in 2017 for genocide, war crimes and crimes against humanity during the wars in the ex-Yugoslavia in 1992-95.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-27T17:05:22+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bfd1/live/703cbea0-a218-11f1-aed2-8d6da8d75094.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Africanews",
+      "BBC World",
+      "Balkan Insight",
+      "CBS News — World",
+      "Daily Maverick",
+      "Daily Sabah",
+      "Der Spiegel",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "MyJoyOnline Ghana",
+      "Reuters",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c5ywxpryj95o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3365494/bosnian-serb-commander-and-war-criminal-ratko-mladic-dies-prison?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260827-former-bosnian-serb-general-ratko-mladic-convicted-of-genocide-dies-state-media-says"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260827-ratko-mladic-former-general-convicted-of-bosnia-genocide-dies"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/27/former-bosnian-serb-ratko-mladic-convicted-of-genocide-dies-aged-84/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/butcher-of-bosnia-ratko-mladic-dead-serbian-state-media/article71396940.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bfd1/live/703cbea0-a218-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/bfd1/live/703cbea0-a218-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bfd1/live/703cbea0-a218-11f1-aed2-8d6da8d75094.jpg",
+      "https://s.france24.com/media/display/7654b098-a215-11f1-aa2f-005056bf30b7/w:1024/p:16x9/000-9RP3KD.jpg",
+      "https://s.france24.com/media/display/c4eb6930-a22a-11f1-8235-005056a97e36/w:1024/p:16x9/EN-20260827-170929-171357-CS.jpg",
+      "http://images.euronews.com/articles/stories/09/89/14/58/640x360_cmsv2_bec8a601-f873-53e2-aace-d0ce3eaa338e-9891458.jpg?1787837675"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 15,
+    "velocity": 0.2223869084174679,
+    "age_hours": 6.992009184444444,
+    "is_stale": false,
+    "score": 22.096693156042527
+  }
+}
