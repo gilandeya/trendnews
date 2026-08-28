@@ -1,0 +1,54 @@
+{
+  "id": "56b14a2339e2",
+  "created_at": "2026-08-28T12:07:54.243844+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.2,
+  "trend_score": 1.0,
+  "velocity": 0.01,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Near-total lunar eclipse as moon passes through Earth's shadow",
+  "link": "http://www.africanews.com/2026/08/28/near-total-lunar-eclipse-as-moon-passes-through-earths-shadow/",
+  "publishers": [
+    "Africanews",
+    "Hindustan Times — World"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Near-total lunar eclipse as moon passes through Earth's shadow",
+    "link": "http://www.africanews.com/2026/08/28/near-total-lunar-eclipse-as-moon-passes-through-earths-shadow/",
+    "summary": "Residents of Lisbon looked to the skies in the early hours of Friday morning as Portugal experienced a partial lunar eclipse.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-28T09:55:47+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/89/24/48/640x360_cmsv2_1a61a4b0-b524-5083-b636-40ddfc9d147e-9892448.jpg?1787907437",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/28/near-total-lunar-eclipse-as-moon-passes-through-earths-shadow/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/blood-moon-total-lunar-eclipse-will-moon-turn-into-red-heres-when-and-where-to-watch-in-us-101787915557962.html"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/89/24/48/640x360_cmsv2_1a61a4b0-b524-5083-b636-40ddfc9d147e-9892448.jpg?1787907437"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.010100591346051886,
+    "age_hours": 40.999971188055554,
+    "is_stale": false,
+    "score": 20.203845333193225
+  }
+}
