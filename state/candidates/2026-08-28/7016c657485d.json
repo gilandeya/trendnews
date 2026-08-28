@@ -1,0 +1,46 @@
+{
+  "id": "7016c657485d",
+  "created_at": "2026-08-28T19:07:53.855572+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 12.41,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Qatar pledges support for efforts to end Libya’s political division",
+  "link": "https://www.aljazeera.com/news/2026/8/28/qatar-pledges-support-for-efforts-to-end-libyas-political-division?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Qatar pledges support for efforts to end Libya’s political division",
+    "link": "https://www.aljazeera.com/news/2026/8/28/qatar-pledges-support-for-efforts-to-end-libyas-political-division?traffic_source=rss",
+    "summary": "Qatari minister meets army chief amid efforts to bridge longstanding political divisions in Libya.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-28T13:18:37+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/28/qatar-pledges-support-for-efforts-to-end-libyas-political-division?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.9964183727777778,
+    "is_stale": false,
+    "score": 12.412050440777778
+  }
+}

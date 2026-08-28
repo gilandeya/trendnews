@@ -1,0 +1,97 @@
+{
+  "id": "183f98309402",
+  "created_at": "2026-08-28T19:07:53.854563+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.52,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nepal flood death toll rises to 579, nearly 2,000 still missing: disaster authority",
+  "link": "https://www.dawn.com/news/2025715/nepal-flood-death-toll-rises-to-579-nearly-2000-still-missing-disaster-authority",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Channel News Asia",
+    "Daily Maverick",
+    "Dawn",
+    "Deutsche Welle",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "NPR World",
+    "TASS",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Nepal flood death toll rises to 579, nearly 2,000 still missing: disaster authority",
+    "link": "https://www.dawn.com/news/2025715/nepal-flood-death-toll-rises-to-579-nearly-2000-still-missing-disaster-authority",
+    "summary": "Nepal’s disaster authority on Friday put the number of people missing after devastating floods at 1,924, two days after the disaster killed at least 579 people in the country. The number of missing includes 517 foreigners, as well as 933 workers on hydropower projects on the rivers where a wall of water powered down on Wednesday morning, according to the National Disaster Risk Reduction and Management Authority. Rescue teams used heavy machinery to dig through mud and debris in Nepalese towns devastated by a flash flood two days ago, as hopes of finding survivors faded and officials worked to reduce the risk of further catastrophic flooding. The flood ripped through villages and valleys, destroying power stations, roads and bridges along a route that links Kathmandu with Lhasa in Tibet and is popular with trekkers and pilgrims. Authorities in Nepal used helicopters to search for survivors and drop emergency supplies to thousands cut off in towns and valleys while emergency services, some using sniffer dogs, recovered dozens of bodies swept down into the plains. Around 320 Indian nationals are still missing in the aftermath of the devastating flash flood, a spokesperson for India’s ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-28T18:35:21+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/2811131313e709b.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Channel News Asia",
+      "Daily Maverick",
+      "Dawn",
+      "Deutsche Welle",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "NPR World",
+      "TASS",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2025715/nepal-flood-death-toll-rises-to-579-nearly-2000-still-missing-disaster-authority"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nepal-flood-toll-rises-and-nearly-2000-people-still-missing/article71401808.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nepal-flash-floods-death-toll-surges-nearly-1500-missing-fresh-flood-threat-glacier-collapse-live-updates-august-28-2026/article71398953.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/death-toll-rises-as-rescuers-search-for-victims-of-nepal-flood-101787907607425.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/28/nepal-flood-death-toll-rises-to-547-with-more-than-1400-missing/233083"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/emergencies/2178969"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/2811131313e709b.webp",
+      "https://i.dawn.com/thumbnail/2026/08/2811131313e709b.webp",
+      "https://i.dawn.com/primary/2026/08/28103958e956d29.webp",
+      "https://i.dawn.com/primary/2026/08/28205356b244af6.webp",
+      "https://i.dawn.com/primary/2026/08/28104217616e265.webp",
+      "https://i.dawn.com/primary/2026/08/28104433af8c14f.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 13,
+    "velocity": 1.0,
+    "age_hours": 58.00158259277778,
+    "is_stale": false,
+    "score": 25.515295523793647
+  }
+}

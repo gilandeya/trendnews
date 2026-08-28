@@ -1,0 +1,87 @@
+{
+  "id": "02f486cbd16e",
+  "created_at": "2026-08-28T19:07:53.854936+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.15,
+  "trend_score": 0.33,
+  "velocity": 0.67,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Dutch court sentences man to life over Rwanda genocide",
+  "link": "https://www.bbc.co.uk/news/articles/ce8x96rw79ro?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "Court House News",
+    "Daily Maverick",
+    "MyJoyOnline Ghana",
+    "South China Morning Post",
+    "The Japan Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Dutch court sentences man to life over Rwanda genocide",
+    "link": "https://www.bbc.co.uk/news/articles/ce8x96rw79ro?at_medium=RSS&at_campaign=rss",
+    "summary": "The court in The Hague convicted the 66-year-old of war crimes and the crime of genocide.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-28T12:15:46+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9f8e/live/a9bd6280-a2d9-11f1-941c-8741c1a72471.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "Court House News",
+      "Daily Maverick",
+      "MyJoyOnline Ghana",
+      "South China Morning Post",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/ce8x96rw79ro?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/28/dutch-court-hands-life-sentence-to-rwandan-man-for-genocide-role?traffic_source=rss"
+      },
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/dutch-court-jails-man-for-life-over-role-in-rwanda-genocide/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3365618/dutch-court-jails-man-life-over-role-rwanda-genocide?utm_source=rss_feed"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/dutch-court-hands-life-sentence-to-rwandan-man-for-genocide-role/"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-27-ratko-mladic-genocidal-butcher-of-bosnia-dies-in-prison/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9f8e/live/a9bd6280-a2d9-11f1-941c-8741c1a72471.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/9f8e/live/a9bd6280-a2d9-11f1-941c-8741c1a72471.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9f8e/live/a9bd6280-a2d9-11f1-941c-8741c1a72471.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/image-3569.png",
+      "https://cdn.dailymaverick.co.za/attachments/orphans/4VHLCCNWCNIOVESI3A3TI6C7FYjpg_564999.png",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/28/559895.JPG"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 8,
+    "velocity": 0.6690581671359254,
+    "age_hours": 6.999768531666667,
+    "is_stale": false,
+    "score": 24.154174613105553
+  }
+}
