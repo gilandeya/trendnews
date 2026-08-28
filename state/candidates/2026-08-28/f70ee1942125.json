@@ -1,0 +1,56 @@
+{
+  "id": "f70ee1942125",
+  "created_at": "2026-08-28T03:07:52.343185+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.96,
+  "trend_score": 0.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump administration in talks for US stake in Venezuela oil: Report",
+  "link": "https://www.channelnewsasia.com/world/trump-us-stake-venezuela-oil-6346646",
+  "publishers": [
+    "Bloomberg.com",
+    "Channel News Asia",
+    "Hindustan Times — World"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Trump administration in talks for US stake in Venezuela oil: Report",
+    "link": "https://www.channelnewsasia.com/world/trump-us-stake-venezuela-oil-6346646",
+    "summary": "The deal would more than double US oil reserves at a time when the US strategic petroleum reserve is at a 40-year low, said news site Axios.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-28T01:44:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--o5ocbxBU--/c_crop,h_1125,w_2000,x_0,y_207/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/28/000_32y338d.jpg?itok=hg5BMlrV",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Bloomberg.com",
+      "Channel News Asia",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/trump-us-stake-venezuela-oil-6346646"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/us-in-talks-with-venezuela-to-acquire-stake-in-countrys-oil-fields-as-strategic-reserves-fall-to-40-year-low-report-101787850942469.html"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--o5ocbxBU--/c_crop,h_1125,w_2000,x_0,y_207/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/28/000_32y338d.jpg?itok=hg5BMlrV"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 15.961892337441247
+  }
+}

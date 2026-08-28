@@ -1,0 +1,48 @@
+{
+  "id": "96deb6db1642",
+  "created_at": "2026-08-28T03:07:52.342783+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.46,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "IEBC rejects Gachagua's claims, defends 2027 polls preparations",
+  "link": "https://www.standardmedia.co.ke/article/2001556378/iebc-rejects-gachagua-s-claims-defends-2027-polls-preparations",
+  "publishers": [
+    "The Standard Kenya"
+  ],
+  "region": "ke",
+  "article": {
+    "title": "IEBC rejects Gachagua's claims, defends 2027 polls preparations",
+    "link": "https://www.standardmedia.co.ke/article/2001556378/iebc-rejects-gachagua-s-claims-defends-2027-polls-preparations",
+    "summary": "IEBC rejected claims that politicians had purchased a house for its chairperson to influence him.",
+    "source_name": "The Standard Kenya",
+    "region": "ke",
+    "weight": 0.9,
+    "published": "2026-08-27T16:50:03+00:00",
+    "image_url": "https://cdn.standardmedia.co.ke/images/articles/thumbnails/5GcIDOcKAK39X8uzvub5N2UyzLlSbKEWbIVDExJI.jpg",
+    "publisher": "The Standard Kenya",
+    "cluster_sources": [
+      "The Standard Kenya"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Standard Kenya",
+        "link": "https://www.standardmedia.co.ke/article/2001556378/iebc-rejects-gachagua-s-claims-defends-2027-polls-preparations"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.standardmedia.co.ke/images/articles/thumbnails/5GcIDOcKAK39X8uzvub5N2UyzLlSbKEWbIVDExJI.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 9.998699110277778,
+    "is_stale": false,
+    "score": 16.463727059851852
+  }
+}

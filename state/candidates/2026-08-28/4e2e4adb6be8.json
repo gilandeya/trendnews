@@ -1,0 +1,48 @@
+{
+  "id": "4e2e4adb6be8",
+  "created_at": "2026-08-28T03:07:52.342427+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.55,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Senegal ruling party Pastef presses government over 2027 local elections",
+  "link": "http://www.africanews.com/2026/08/27/senegal-ruling-party-pastef-presses-government-over-2027-local-elections/",
+  "publishers": [
+    "Africanews"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Senegal ruling party Pastef presses government over 2027 local elections",
+    "link": "http://www.africanews.com/2026/08/27/senegal-ruling-party-pastef-presses-government-over-2027-local-elections/",
+    "summary": "Senegal is heading toward a crucial political test, with local elections expected in January 2027.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-27T15:48:57+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/89/14/49/640x360_cmsv2_258d0add-2569-5dc5-aeb7-4be5d8587761-9891449.jpg?1787837374",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/27/senegal-ruling-party-pastef-presses-government-over-2027-local-elections/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/89/14/49/640x360_cmsv2_258d0add-2569-5dc5-aeb7-4be5d8587761-9891449.jpg?1787837374"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 9.998702309444443,
+    "is_stale": false,
+    "score": 16.545838171388887
+  }
+}
