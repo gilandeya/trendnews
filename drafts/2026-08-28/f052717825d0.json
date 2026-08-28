@@ -1,0 +1,64 @@
+{
+  "id": "f052717825d0",
+  "created_at": "2026-08-28T04:42:35.128451+00:00",
+  "status": "queued",
+  "review_issue": null,
+  "score": 15.94,
+  "bucket": "serious",
+  "analysed_sources": [
+    "Channel News Asia",
+    "Hindustan Times — World"
+  ],
+  "trend_score": 0.0,
+  "velocity": 0.4,
+  "age_hours": 0.0,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "source": {
+    "title": "US judge rules Pentagon blacklisting of Anthropic unlawful",
+    "link": "https://www.channelnewsasia.com/business/us-judge-rules-pentagon-blacklisting-anthropic-unlawful-6346621",
+    "publisher": "Channel News Asia",
+    "publishers": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Hindustan Times — World"
+    ],
+    "region": "seasia",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--_dqLZlz3--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-28T012047Z_2_LYNXMPEM7R02G_RTROPTP_3_TECH-AI-ANTHROPIC.JPG?itok=6trLZuD0",
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--_dqLZlz3--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-28T012047Z_2_LYNXMPEM7R02G_RTROPTP_3_TECH-AI-ANTHROPIC.JPG?itok=6trLZuD0",
+      "https://www.hindustantimes.com/ht-img/img/2026/08/28/1600x900/Trump_Anthropic_1787883441645_1787883441798_c7d0fba2-ebda-40b5-b67c-09d1af187d69.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/0d02f47c-anthropic-claude.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "تكشف تفاصيل القضية أن الخلاف بين الطرفين أعمق من مجرد إجراء إداري، إذ ترى أنثروبيك أن نماذج الذكاء الاصطناعي غير موثوقة بما يكفي لاستخدامها في أسلحة مستقلة وتعارض المراقبة المحلية باعتبارها انتهاكًا للحقوق، بينما يرى البنتاغون أن الشركات الخاصة لا ينبغي أن تقيّد قرارات الجيش، وهو تباين في المواقف لم يُحسم بالحكم القضائي بل انتقل إلى قضية ثانية ما زالت منظورة في واشنطن العاصمة حول تصنيف مشابه لسلسلة التوريد، ما يشير إلى أن الصدام بين شركات الذكاء الاصطناعي والمؤسسة العسكرية الأمريكية بشأن حدود استخدام هذه التقنية في القطاع الدفاعي لم ينته بعد.",
+    "urgent": false,
+    "category": "تقنية",
+    "image_headline": "قاض أمريكي يلغي قرار حظر البنتاغون لشركة أنثروبيك",
+    "post_title": "قاض أمريكي يلغي قرار البنتاغون بإدراج شركة أنثروبيك على قائمة سوداء",
+    "post_body": "قضت قاضية فيدرالية أمريكية، ريتا لين، بأن قرار وزارة الدفاع الأمريكية في فبراير الماضي بتصنيف شركة الذكاء الاصطناعي أنثروبيك \"خطرًا على سلسلة التوريد\" غير قانوني، وأمرت البنتاغون بسحب كل التوجيهات والمراسلات الصادرة ضد الشركة. جاء القرار بعد أن رفضت أنثروبيك السماح للجيش باستخدام روبوت المحادثة كلود في المراقبة أو الأسلحة ذاتية التشغيل، ما أدى إلى منعها من عقود عسكرية. وقالت القاضية في حكمها الممتد على 59 صفحة إن الإجراء كان انتقامًا من الشركة بسبب انتقادها العلني للوزارة. لأنثروبيك دعوى ثانية قيد النظر في واشنطن بشأن تصنيف مشابه.",
+    "hashtags": [
+      "الذكاء_الاصطناعي",
+      "البنتاغون",
+      "أنثروبيك",
+      "أمريكا"
+    ]
+  },
+  "caption": "قاض أمريكي يلغي قرار البنتاغون بإدراج شركة أنثروبيك على قائمة سوداء\n\nقضت قاضية فيدرالية أمريكية، ريتا لين، بأن قرار وزارة الدفاع الأمريكية في فبراير الماضي بتصنيف شركة الذكاء الاصطناعي أنثروبيك \"خطرًا على سلسلة التوريد\" غير قانوني، وأمرت البنتاغون بسحب كل التوجيهات والمراسلات الصادرة ضد الشركة. جاء القرار بعد أن رفضت أنثروبيك السماح للجيش باستخدام روبوت المحادثة كلود في المراقبة أو الأسلحة ذاتية التشغيل، ما أدى إلى منعها من عقود عسكرية. وقالت القاضية في حكمها الممتد على 59 صفحة إن الإجراء كان انتقامًا من الشركة بسبب انتقادها العلني للوزارة. لأنثروبيك دعوى ثانية قيد النظر في واشنطن بشأن تصنيف مشابه.\n\nخلف الخبر\nتكشف تفاصيل القضية أن الخلاف بين الطرفين أعمق من مجرد إجراء إداري، إذ ترى أنثروبيك أن نماذج الذكاء الاصطناعي غير موثوقة بما يكفي لاستخدامها في أسلحة مستقلة وتعارض المراقبة المحلية باعتبارها انتهاكًا للحقوق، بينما يرى البنتاغون أن الشركات الخاصة لا ينبغي أن تقيّد قرارات الجيش، وهو تباين في المواقف لم يُحسم بالحكم القضائي بل انتقل إلى قضية ثانية ما زالت منظورة في واشنطن العاصمة حول تصنيف مشابه لسلسلة التوريد، ما يشير إلى أن الصدام بين شركات الذكاء الاصطناعي والمؤسسة العسكرية الأمريكية بشأن حدود استخدام هذه التقنية في القطاع الدفاعي لم ينته بعد.\n\n#الذكاء_الاصطناعي #البنتاغون #أنثروبيك #أمريكا",
+  "image": "drafts/2026-08-28/f052717825d0.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "قاض أمريكي يلغي قرار حظر البنتاغون لشركة أنثروبيك",
+    "category": "تقنية",
+    "urgent": false,
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--_dqLZlz3--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-28T012047Z_2_LYNXMPEM7R02G_RTROPTP_3_TECH-AI-ANTHROPIC.JPG?itok=6trLZuD0",
+      "https://www.hindustantimes.com/ht-img/img/2026/08/28/1600x900/Trump_Anthropic_1787883441645_1787883441798_c7d0fba2-ebda-40b5-b67c-09d1af187d69.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/0d02f47c-anthropic-claude.jpg"
+    ]
+  },
+  "publish_at": "2026-08-28T05:36:55.046121+00:00"
+}
