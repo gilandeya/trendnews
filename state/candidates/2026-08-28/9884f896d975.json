@@ -1,0 +1,97 @@
+{
+  "id": "9884f896d975",
+  "created_at": "2026-08-28T06:07:59.827024+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.76,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Zum Tod von Ratko Mladić: Der Schlächter vom Balkan",
+  "link": "https://www.spiegel.de/ausland/zum-tod-von-ratko-mladic-der-schlaechter-vom-balkan-a-a2ada113-a9a0-47a1-b2b1-40dae0b5ba25#ref=rss",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English",
+    "Balkan Insight",
+    "CBS News — World",
+    "Daily Maverick",
+    "Daily Sabah",
+    "Der Spiegel",
+    "Deutsche Welle",
+    "Fox News",
+    "France24",
+    "Hindustan Times — World",
+    "The Guardian — World",
+    "The Japan Times"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Zum Tod von Ratko Mladić: Der Schlächter vom Balkan",
+    "link": "https://www.spiegel.de/ausland/zum-tod-von-ratko-mladic-der-schlaechter-vom-balkan-a-a2ada113-a9a0-47a1-b2b1-40dae0b5ba25#ref=rss",
+    "summary": "Als General der bosnischen Serbenarmee ließ er Sarajewo belagern. In Srebrenica beging seine Soldateska 1995 das schwerste Kriegsverbrechen in Europa seit dem Zweiten Weltkrieg. Jetzt ist Ratko Mladić im Gefängnis gestorben.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-08-27T18:15:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/895a2648-0001-0004-0000-000000221496_w520_r2.08_fpx58.77_fpy55.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English",
+      "Balkan Insight",
+      "CBS News — World",
+      "Daily Maverick",
+      "Daily Sabah",
+      "Der Spiegel",
+      "Deutsche Welle",
+      "Fox News",
+      "France24",
+      "Hindustan Times — World",
+      "The Guardian — World",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/zum-tod-von-ratko-mladic-der-schlaechter-vom-balkan-a-a2ada113-a9a0-47a1-b2b1-40dae0b5ba25#ref=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/27/ratko-mladic-the-butcher-of-bosnia-dies-aged-84"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-27-ratko-mladic-genocidal-butcher-of-bosnia-dies-in-prison/"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/ratko-mladic-butcher-of-bosnia-convicted-of-genocide-dies-at-84/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/28/world/ratko-mladic-bosnia-serbia-dead/"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/27/bosnian-serb-general-ratko-mladic-has-died?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/895a2648-0001-0004-0000-000000221496_w520_r2.08_fpx58.77_fpy55.jpg",
+      "https://i.guim.co.uk/img/media/d5b2037d15a996ed693ae88b661678e01434e0c2/140_0_1860_1488/master/1860.jpg?width=700&quality=85&auto=format&fit=max&s=8825b693934a42a06b8463b65b71de73",
+      "https://i.guim.co.uk/img/media/d5b2037d15a996ed693ae88b661678e01434e0c2/140_0_1860_1488/master/1860.jpg?width=460&quality=85&auto=format&fit=max&s=cb7df99e0540b7d0d4da89c3203cec0e",
+      "https://i.guim.co.uk/img/media/d5b2037d15a996ed693ae88b661678e01434e0c2/140_0_1860_1488/master/1860.jpg?width=140&quality=85&auto=format&fit=max&s=90a55fd0ec23d3fe6155797cf3c56d11",
+      "https://cdn.dailymaverick.co.za/attachments/orphans/4VHLCCNWCNIOVESI3A3TI6C7FYjpg_564999.png",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/28/559895.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 13,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 32.75924212347883
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "id": "1dd3ba0cf1a5",
+  "created_at": "2026-08-28T06:07:59.827785+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.11,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "The GTA VI ‘extended look’ is now streaming on YouTube",
+  "link": "https://www.theverge.com/games/985910/grand-theft-auto-gta-vi-extended-look-youtube-netflix-stream",
+  "publishers": [
+    "Der Spiegel",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "The GTA VI ‘extended look’ is now streaming on YouTube",
+    "link": "https://www.theverge.com/games/985910/grand-theft-auto-gta-vi-extended-look-youtube-netflix-stream",
+    "summary": "Rockstar has officially published its \"extended look\" at Grand Theft Auto VI on YouTube and on its website, as promised. The in-depth preview, which \"entirely\" features footage captured from the PS5 version of the game, initially premiered on Netflix at 3PM ET. But because Rockstar allowed creators to post reaction videos, you've technically been able […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-08-28T01:05:18+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/ULTIMATE_EDITION_SARAS_SALON_03_f66931.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "Der Spiegel",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/games/985910/grand-theft-auto-gta-vi-extended-look-youtube-netflix-stream"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/is-netflix-down-thousands-report-streaming-platform-crash-amid-gta-vi-an-extended-look-trailer-launch-101787857988972.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/tech-gadgets/2026/08/28/guns-drugs-and-car-chases-gta-6-preview-lands-on-netflix-after-leaks/232981"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/netzwelt/games/gta-6-video-auf-netflix-erschienen-26-minuten-zum-meisterwarteten-spiel-des-jahres-a-cc9adc6a-aa88-47a8-b10b-6c83f07a1c36#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/ULTIMATE_EDITION_SARAS_SALON_03_f66931.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/28/359292.jpg",
+      "https://cdn.prod.www.spiegel.de/images/0ab2131a-6a3f-4db8-a100-a4e07f9ffdcc_w520_r2.08_fpx38.39_fpy50.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 3.002896264722222,
+    "is_stale": false,
+    "score": 23.113811860111113
+  }
+}
