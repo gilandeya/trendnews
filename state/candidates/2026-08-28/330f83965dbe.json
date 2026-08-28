@@ -1,0 +1,48 @@
+{
+  "id": "330f83965dbe",
+  "created_at": "2026-08-28T15:07:52.231462+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.41,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Navy to entrust depot-level maintenance of Aegis destroyer to Hanwha Ocean",
+  "link": "https://en.yna.co.kr/view/AEN20260828002700315",
+  "publishers": [
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "Navy to entrust depot-level maintenance of Aegis destroyer to Hanwha Ocean",
+    "link": "https://en.yna.co.kr/view/AEN20260828002700315",
+    "summary": "SEOUL, Aug. 28 (Yonhap) -- The Navy said Friday it has signed a deal with Hanwha...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-08-28T01:47:20+00:00",
+    "image_url": "https://img.yna.co.kr/etc/inner/EN/2026/08/28/AEN20260828002700315_01_i_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260828002700315"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/etc/inner/EN/2026/08/28/AEN20260828002700315_01_i_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 5.999200110833333,
+    "is_stale": false,
+    "score": 16.41065526440741
+  }
+}
