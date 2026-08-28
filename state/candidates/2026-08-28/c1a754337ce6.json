@@ -1,0 +1,77 @@
+{
+  "id": "c1a754337ce6",
+  "created_at": "2026-08-28T17:07:50.358468+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.0,
+  "trend_score": 1.0,
+  "velocity": 0.8,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "England dismiss Pakistan for 110 to seize control of Lord's test",
+  "link": "https://www.channelnewsasia.com/sport/england-dismiss-pakistan-110-seize-control-lords-test-6348041",
+  "publishers": [
+    "Channel News Asia",
+    "Dawn",
+    "Sky Sports — Football",
+    "The Express Tribune",
+    "live"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "England dismiss Pakistan for 110 to seize control of Lord's test",
+    "link": "https://www.channelnewsasia.com/sport/england-dismiss-pakistan-110-seize-control-lords-test-6348041",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-28T13:04:49+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/282053259e2a98c.webp",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Dawn",
+      "Sky Sports — Football",
+      "The Express Tribune",
+      "live"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2626256/Pacers-put-England-in-control-at-Lord%E2%80%99s"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/england-dismiss-pakistan-110-seize-control-lords-test-6348041"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2025763/englands-robinson-stars-as-pakistan-all-out-for-110-in-second-test"
+      },
+      {
+        "name": "live",
+        "link": "https://www.theguardian.com/sport/live/2026/aug/28/england-v-pakistan-second-mens-cricket-test-day-two-live"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/cricket/live-blog/12040/13578007/england-vs-pakistan-second-test-day-two-live-latest-cricket-score-updates-videos-and-analysis-from-lords-as-joe-roots-side-target-series-win"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/282053259e2a98c.webp",
+      "https://i.dawn.com/large/2026/08/28164756636102d.webp",
+      "https://i.dawn.com/thumbnail/2026/08/282053259e2a98c.webp",
+      "https://i.dawn.com/thumbnail/2026/08/28164756636102d.webp",
+      "https://i.guim.co.uk/img/media/a760bf642024cb0f1183551001c06e399a304837/297_0_3563_2850/master/3563.jpg?width=700&quality=85&auto=format&fit=max&s=e9d0eedb41109721a61b8e058a44e9e6",
+      "https://i.guim.co.uk/img/media/a760bf642024cb0f1183551001c06e399a304837/297_0_3563_2850/master/3563.jpg?width=460&quality=85&auto=format&fit=max&s=be69e20e70976221323ead70e703b26a"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.8,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 27.995899902217644
+  }
+}

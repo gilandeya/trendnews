@@ -1,0 +1,85 @@
+{
+  "id": "fc871ed3ce64",
+  "created_at": "2026-08-28T17:07:50.358933+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.44,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump signs order to rename Lake Ontario as Lake America",
+  "link": "https://www.bbc.co.uk/news/articles/ckgwdn1g58yo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "France24",
+    "Hindustan Times — World",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump signs order to rename Lake Ontario as Lake America",
+    "link": "https://www.bbc.co.uk/news/articles/ckgwdn1g58yo?at_medium=RSS&at_campaign=rss",
+    "summary": "Canada has rejected the new name of the lake, which straddles both countries, as their row deepens.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-28T08:26:09+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9493/live/3093a800-a2cb-11f1-aed2-8d6da8d75094.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "France24",
+      "Hindustan Times — World",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/27/trump-renames-lake-ontario-america"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/ckgwdn1g58yo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/28/can-trump-really-rename-lake-ontario-lake-america?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-signs-order-renaming-lake-ontario-as-lake-america-in-us/article71397955.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260828-us-canada-trump-signs-order-renaming-lake-ontario-to-lake-america"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/28/world/politics/trump-us-canada-lake-ontario/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9493/live/3093a800-a2cb-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/9493/live/3093a800-a2cb-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9493/live/3093a800-a2cb-11f1-aed2-8d6da8d75094.jpg",
+      "https://i.guim.co.uk/img/media/1586ee752c1141711a22a6c478c71542d4fb0cc2/139_0_5997_4801/master/5997.jpg?width=700&quality=85&auto=format&fit=max&s=84c16b7168613c564f3c8104d8c6fee5",
+      "https://i.guim.co.uk/img/media/1586ee752c1141711a22a6c478c71542d4fb0cc2/139_0_5997_4801/master/5997.jpg?width=460&quality=85&auto=format&fit=max&s=425e1141b138c91bb31edbe92c9d8db1",
+      "https://i.guim.co.uk/img/media/1586ee752c1141711a22a6c478c71542d4fb0cc2/139_0_5997_4801/master/5997.jpg?width=140&quality=85&auto=format&fit=max&s=6fd956c8ec6aaefe286f7de27426d99f"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 576.9117986888889,
+    "is_stale": false,
+    "score": 22.442550753746886
+  }
+}

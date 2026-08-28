@@ -1,42 +1,5 @@
 [
   {
-    "score": 15.03,
-    "bucket": "serious",
-    "tokens": [
-      "bulk",
-      "carrier",
-      "continues",
-      "india",
-      "off",
-      "search",
-      "sinks"
-    ],
-    "link": "https://www.dawn.com/news/2024735/search-continues-for-22-after-bulk-carrier-sinks-off-india",
-    "title": "Search continues for 22 after bulk carrier sinks off India",
-    "posted_title": "غرق سفينة شحن قبالة الهند وفقدان 22 من طاقمها بعد غرقها في ثماني دقائق",
-    "region": "pk",
-    "seen_at": "2026-08-23T15:46:11.687141+00:00"
-  },
-  {
-    "score": 30.04,
-    "bucket": "sport",
-    "tokens": [
-      "86m",
-      "agree",
-      "bouaddi",
-      "city",
-      "deal",
-      "man",
-      "old",
-      "year"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/articles/clyjy0e0pkzo?at_medium=RSS&at_campaign=rss",
-    "title": "Man City agree £86m deal for 18-year-old Bouaddi",
-    "posted_title": "مانشستر سيتي يتفق مع أيوب بوعدي على صفقة بـ86 مليون جنيه إسترليني",
-    "region": "sport",
-    "seen_at": "2026-08-23T15:46:23.387468+00:00"
-  },
-  {
     "score": 21.73,
     "bucket": "serious",
     "tokens": [
@@ -5230,5 +5193,100 @@
     "posted_title": "",
     "region": "br",
     "seen_at": "2026-08-28T15:07:52.231927+00:00"
+  },
+  {
+    "score": 28.0,
+    "bucket": "serious",
+    "tokens": [
+      "110",
+      "control",
+      "dismiss",
+      "england",
+      "lord's",
+      "pakistan",
+      "seize",
+      "test"
+    ],
+    "link": "https://www.channelnewsasia.com/sport/england-dismiss-pakistan-110-seize-control-lords-test-6348041",
+    "title": "England dismiss Pakistan for 110 to seize control of Lord's test",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-08-28T17:07:50.358921+00:00"
+  },
+  {
+    "score": 22.44,
+    "bucket": "serious",
+    "tokens": [
+      "america",
+      "lake",
+      "ontario",
+      "order",
+      "rename",
+      "signs",
+      "trump"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/ckgwdn1g58yo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump signs order to rename Lake Ontario as Lake America",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-28T17:07:50.359234+00:00"
+  },
+  {
+    "score": 20.47,
+    "bucket": "serious",
+    "tokens": [
+      "challenging",
+      "dar",
+      "iran",
+      "leadership",
+      "mediation",
+      "officials",
+      "pakistan",
+      "praise",
+      "times"
+    ],
+    "link": "https://tribune.com.pk/story/2626225/fm-dar-congratulates-saudi-counterpart-on-election-of-new-oic-secretary-general",
+    "title": "UK officials praise Pakistan’s US-Iran mediation, leadership in ‘challenging times’: Dar",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-28T17:07:50.359489+00:00"
+  },
+  {
+    "score": 19.17,
+    "bucket": "serious",
+    "tokens": [
+      "gained",
+      "iran",
+      "lost",
+      "months",
+      "six",
+      "war",
+      "what"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/8/28/after-six-months-of-war-what-have-us-iran-gained-and-lost?traffic_source=rss",
+    "title": "After six months of war, what have US, Iran gained and lost?",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-08-28T17:07:50.359730+00:00"
+  },
+  {
+    "score": 17.61,
+    "bucket": "serious",
+    "tokens": [
+      "admits",
+      "amabhungane",
+      "billion",
+      "contractual",
+      "eskom",
+      "outside",
+      "payments",
+      "terms",
+      "update"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-08-28-update-eskom-admits-to-r3-billion-in-payments-outside-of-contractual-terms/",
+    "title": "AMABHUNGANE: UPDATE: Eskom admits to R3-billion in payments ‘outside of contractual terms’",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-08-28T17:07:50.359989+00:00"
   }
 ]

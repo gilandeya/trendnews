@@ -1,0 +1,54 @@
+{
+  "id": "35c844c1a114",
+  "created_at": "2026-08-28T17:07:50.359739+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.61,
+  "trend_score": 0.67,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "AMABHUNGANE: UPDATE: Eskom admits to R3-billion in payments ‘outside of contractual terms’",
+  "link": "https://www.dailymaverick.co.za/article/2026-08-28-update-eskom-admits-to-r3-billion-in-payments-outside-of-contractual-terms/",
+  "publishers": [
+    "AllAfrica",
+    "Daily Maverick"
+  ],
+  "region": "za",
+  "article": {
+    "title": "AMABHUNGANE: UPDATE: Eskom admits to R3-billion in payments ‘outside of contractual terms’",
+    "link": "https://www.dailymaverick.co.za/article/2026-08-28-update-eskom-admits-to-r3-billion-in-payments-outside-of-contractual-terms/",
+    "summary": "Eskom released the results of its 18-month investigation into R21-billion worth of diesel contracts, but failed to make a full and frank disclosure.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-08-28T14:27:18+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2997/UPDATE-ESKOM-HEADER_150706.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "AllAfrica",
+      "Daily Maverick"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-28-update-eskom-admits-to-r3-billion-in-payments-outside-of-contractual-terms/"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202608280472.html"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2997/UPDATE-ESKOM-HEADER_150706.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1.9994843041666668,
+    "is_stale": false,
+    "score": 17.605097098537037
+  }
+}

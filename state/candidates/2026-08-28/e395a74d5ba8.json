@@ -1,0 +1,54 @@
+{
+  "id": "e395a74d5ba8",
+  "created_at": "2026-08-28T17:07:50.359244+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.47,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UK officials praise Pakistan’s US-Iran mediation, leadership in ‘challenging times’: Dar",
+  "link": "https://tribune.com.pk/story/2626225/fm-dar-congratulates-saudi-counterpart-on-election-of-new-oic-secretary-general",
+  "publishers": [
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "UK officials praise Pakistan’s US-Iran mediation, leadership in ‘challenging times’: Dar",
+    "link": "https://tribune.com.pk/story/2626225/fm-dar-congratulates-saudi-counterpart-on-election-of-new-oic-secretary-general",
+    "summary": "Dar holds comprehensive talks with the UK foreign secretary, discusses bilateral ties, counter-terrorism cooperation",
+    "source_name": "The Express Tribune",
+    "region": "pk",
+    "weight": 1.0,
+    "published": "2026-08-28T04:44:55+00:00",
+    "image_url": "https://www.geo.tv/assets/uploads/2026-08-27/679468_113418_updates.jpg",
+    "publisher": "The Express Tribune",
+    "cluster_sources": [
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2626225/fm-dar-congratulates-saudi-counterpart-on-election-of-new-oic-secretary-general"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/679468-pakistan-uk-agree-to-further-boost-counterterrorism-cooperation"
+      }
+    ],
+    "image_candidates": [
+      "https://www.geo.tv/assets/uploads/2026-08-27/679468_113418_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.474671168037037
+  }
+}

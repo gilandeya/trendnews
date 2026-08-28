@@ -1,0 +1,52 @@
+{
+  "id": "82861914ebb2",
+  "created_at": "2026-08-28T17:07:50.359498+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.17,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "After six months of war, what have US, Iran gained and lost?",
+  "link": "https://www.aljazeera.com/news/2026/8/28/after-six-months-of-war-what-have-us-iran-gained-and-lost?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Hindustan Times — World"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "After six months of war, what have US, Iran gained and lost?",
+    "link": "https://www.aljazeera.com/news/2026/8/28/after-six-months-of-war-what-have-us-iran-gained-and-lost?traffic_source=rss",
+    "summary": "Many of the US president's goals remain unfulfilled, despite claims of victory.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-28T12:37:10+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/28/after-six-months-of-war-what-have-us-iran-gained-and-lost?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/ht-explainers/iran-war-where-west-asia-stands-six-months-after-us-israel-launched-strikes-plunging-gulf-into-conflict-strait-of-hormuz-101787894235201.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 576.9118582916667,
+    "is_stale": false,
+    "score": 19.16606005437037
+  }
+}
