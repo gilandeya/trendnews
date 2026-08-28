@@ -1,7 +1,7 @@
 {
   "id": "f052717825d0",
   "created_at": "2026-08-28T04:42:35.128451+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 15.94,
   "bucket": "serious",
@@ -60,5 +60,12 @@
       "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/0d02f47c-anthropic-claude.jpg"
     ]
   },
-  "publish_at": "2026-08-28T05:36:55.046121+00:00"
+  "publish_at": "2026-08-28T05:36:55.046121+00:00",
+  "published_at": "2026-08-28T05:45:44.622903+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1345665930983761",
+    "photo_id": "1345665894317098",
+    "url": "https://www.facebook.com/631680090321390_1345665930983761",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
