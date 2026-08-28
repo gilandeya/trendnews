@@ -1,25 +1,5 @@
 [
   {
-    "score": 11.32,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "300",
-      "draft",
-      "putin",
-      "troops",
-      "ukraine",
-      "wants",
-      "war",
-      "zelensky"
-    ],
-    "link": "https://www.scmp.com/news/world/russia-central-asia/article/3364985/putin-wants-draft-300000-new-troops-war-ukraines-zelensky-says?utm_source=rss_feed",
-    "title": "Putin wants to draft 300,000 new troops for war, Ukraine’s Zelensky says",
-    "posted_title": "زيلينسكي: روسيا تنوي تجنيد 300 ألف جندي إضافي بعد انتخاباتها البرلمانية",
-    "region": "cn",
-    "seen_at": "2026-08-23T19:16:14.424339+00:00"
-  },
-  {
     "score": 20.42,
     "bucket": "sport",
     "tokens": [
@@ -5148,5 +5128,23 @@
     "posted_title": "",
     "region": "qa",
     "seen_at": "2026-08-28T19:07:53.855743+00:00"
+  },
+  {
+    "score": 19.17,
+    "bucket": "serious",
+    "tokens": [
+      "gained",
+      "iran",
+      "lost",
+      "months",
+      "six",
+      "war",
+      "what"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/8/28/after-six-months-of-war-what-have-us-iran-gained-and-lost?traffic_source=rss",
+    "title": "After six months of war, what have US, Iran gained and lost?",
+    "posted_title": "بعد ستة أشهر من الحرب.. لماذا لم يحسم أي طرف معركته مع إيران",
+    "region": "qa",
+    "seen_at": "2026-08-28T19:28:45.803033+00:00"
   }
 ]

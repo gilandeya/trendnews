@@ -292,5 +292,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 12
+ },
+ {
+  "id": "82861914ebb2",
+  "created_at": "2026-08-28T19:28:45.802556+00:00",
+  "decided_at": "2026-08-28T19:28:55.938098+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "عالم",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "qa",
+  "score": 19.17,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "source_count": 2,
+  "body_len": 634,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 19
  }
 ]
