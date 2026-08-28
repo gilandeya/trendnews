@@ -1,0 +1,101 @@
+{
+  "id": "f8e67022d6c2",
+  "created_at": "2026-08-28T18:08:06.360677+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 34.1,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "« J’étais certaine de mourir » : après les inondations au Népal et au Tibet, des survivants stupéfaits et des familles qui cherchent désespérément leurs proches",
+  "link": "https://www.lemonde.fr/planete/article/2026/08/28/j-etais-certaine-de-mourir-dans-les-hopitaux-de-katmandou-des-survivants-stupefaits-et-des-familles-qui-cherchent-desesperement-leurs-proches_6759063_3244.html",
+  "publishers": [
+    "BBC World",
+    "Channel News Asia",
+    "Daily Maverick",
+    "Dawn",
+    "Deutsche Welle",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Le Monde",
+    "Malay Mail",
+    "NPR World",
+    "South China Morning Post",
+    "TASS",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "« J’étais certaine de mourir » : après les inondations au Népal et au Tibet, des survivants stupéfaits et des familles qui cherchent désespérément leurs proches",
+    "link": "https://www.lemonde.fr/planete/article/2026/08/28/j-etais-certaine-de-mourir-dans-les-hopitaux-de-katmandou-des-survivants-stupefaits-et-des-familles-qui-cherchent-desesperement-leurs-proches_6759063_3244.html",
+    "summary": "Les hôpitaux de Katmandou voient défiler un flux incessant de proches de personnes portées disparues après les crues monumentales qui ont fait au moins 584 morts, alors que près de 2 500 personnes restent portées disparues au Népal et au Tibet.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-08-28T17:04:06+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/28/616/0/7398/3699/644/322/60/0/8746a2a_ftp-1-oqixaj7ecnbs-f3f53c0ed29b4721b871e064e63825fb-0-4ca8a091e6de44e2a42cb0244503ccd6.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "BBC World",
+      "Channel News Asia",
+      "Daily Maverick",
+      "Dawn",
+      "Deutsche Welle",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Le Monde",
+      "Malay Mail",
+      "NPR World",
+      "South China Morning Post",
+      "TASS",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/planete/article/2026/08/28/j-etais-certaine-de-mourir-dans-les-hopitaux-de-katmandou-des-survivants-stupefaits-et-des-familles-qui-cherchent-desesperement-leurs-proches_6759063_3244.html"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2025715/nepal-flood-death-toll-rises-to-579-nearly-2000-still-missing-disaster-authority"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nepal-flood-toll-rises-and-nearly-2000-people-still-missing/article71401808.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nepal-flash-floods-death-toll-surges-nearly-1500-missing-fresh-flood-threat-glacier-collapse-live-updates-august-28-2026/article71398953.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/death-toll-rises-as-rescuers-search-for-victims-of-nepal-flood-101787907607425.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/28/nepal-flood-death-toll-rises-to-547-with-more-than-1400-missing/233083"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/28/616/0/7398/3699/644/322/60/0/8746a2a_ftp-1-oqixaj7ecnbs-f3f53c0ed29b4721b871e064e63825fb-0-4ca8a091e6de44e2a42cb0244503ccd6.jpg",
+      "https://i.dawn.com/large/2026/08/2811131313e709b.webp",
+      "https://i.dawn.com/thumbnail/2026/08/2811131313e709b.webp",
+      "https://i.dawn.com/primary/2026/08/28103958e956d29.webp",
+      "https://i.dawn.com/primary/2026/08/28205356b244af6.webp",
+      "https://i.dawn.com/primary/2026/08/28104217616e265.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 15,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 34.09968804460333
+  }
+}

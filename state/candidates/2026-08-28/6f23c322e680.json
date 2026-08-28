@@ -1,0 +1,48 @@
+{
+  "id": "6f23c322e680",
+  "created_at": "2026-08-28T18:08:06.361295+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.61,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Malaysia, Indonesia step up haze response with weather modification plans",
+  "link": "https://www.malaymail.com/news/malaysia/2026/08/28/malaysia-indonesia-step-up-haze-response-with-weather-modification-plans/233066",
+  "publishers": [
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Malaysia, Indonesia step up haze response with weather modification plans",
+    "link": "https://www.malaymail.com/news/malaysia/2026/08/28/malaysia-indonesia-step-up-haze-response-with-weather-modification-plans/233066",
+    "summary": "JAKARTA, Aug 28 — Indonesia has confirmed it is coordinating with Malaysia to tackle transboundary haze, with the...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-28T09:58:16+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/28/359445.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/malaysia/2026/08/28/malaysia-indonesia-step-up-haze-response-with-weather-modification-plans/233066"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/28/359445.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 6.003481258888889,
+    "is_stale": false,
+    "score": 16.60586810924074
+  }
+}

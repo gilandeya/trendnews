@@ -1,0 +1,62 @@
+{
+  "id": "efdbe0c75ce6",
+  "created_at": "2026-08-28T18:08:06.361481+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.55,
+  "trend_score": 0.25,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Congo begins vaccinations to fight the fastest-growing Ebola outbreak in history",
+  "link": "https://medicalxpress.com/news/2026-08-congo-vaccinations-fastest-ebola-outbreak.html",
+  "publishers": [
+    "Africanews",
+    "Medical Xpress",
+    "The Hindu — International"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Congo begins vaccinations to fight the fastest-growing Ebola outbreak in history",
+    "link": "https://medicalxpress.com/news/2026-08-congo-vaccinations-fastest-ebola-outbreak.html",
+    "summary": "Congo on Thursday began vaccinating people against Ebola as health authorities work to slow the fastest-growing outbreak of the disease in history.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-08-28T08:20:02+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/congo-begins-vaccinati.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Africanews",
+      "Medical Xpress",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-08-congo-vaccinations-fastest-ebola-outbreak.html"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/28/dr-congo-begins-ebola-vaccinations-as-deadliest-outbreak-on-record-spreads/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/sci-tech/health/congo-begins-ebola-vaccinations-to-fight-countrys-worst-outbreak-on-record-health-minister-says/article71399836.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/congo-begins-vaccinati.jpg",
+      "http://images.euronews.com/articles/stories/09/89/21/93/640x360_cmsv2_fd7aa8df-10d1-58ec-9e72-b801736f62a4-9892193.jpg?1787890298",
+      "https://th-i.thgim.com/public/incoming/5eb6k6/article71399850.ece/alternates/LANDSCAPE_1200/AFP_C4DH4ZU.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 9.002999957222222,
+    "is_stale": false,
+    "score": 15.55160746290421
+  }
+}
