@@ -460,5 +460,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 19
+ },
+ {
+  "id": "d1fd3bc001a5",
+  "created_at": "2026-08-29T19:29:33.090465+00:00",
+  "decided_at": "2026-08-29T19:29:37.635321+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "اقتصاد",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "uk",
+  "score": 19.51,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "source_count": 10,
+  "body_len": 547,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 19
  }
 ]
