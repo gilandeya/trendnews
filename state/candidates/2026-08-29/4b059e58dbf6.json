@@ -1,0 +1,48 @@
+{
+  "id": "4b059e58dbf6",
+  "created_at": "2026-08-29T19:07:53.716079+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.11,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Galatasaray’dan Youssouf Fofana hamlesi! Milan’a soruldu",
+  "link": "https://www.hurriyet.com.tr/sporarena/galatasaraydan-youssouf-fofana-hamlesi-milana-soruldu-43289411",
+  "publishers": [
+    "Hürriyet (تركي)"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Galatasaray’dan Youssouf Fofana hamlesi! Milan’a soruldu",
+    "link": "https://www.hurriyet.com.tr/sporarena/galatasaraydan-youssouf-fofana-hamlesi-milana-soruldu-43289411",
+    "summary": "Galatasaray'ın, Fransız orta saha Youssouf Fofana'nın durumuyla ilgili Milan ile temasa geçerek oyuncunun şartlarını sorduğu belirtildi.",
+    "source_name": "Hürriyet (تركي)",
+    "region": "tr",
+    "weight": 1.0,
+    "published": "2026-08-29T16:13:00+00:00",
+    "image_url": "https://image.hurimg.com/i/hurriyet/90/620x350/6a9305485548acce7124f0c8.jpg",
+    "publisher": "Hürriyet (تركي)",
+    "cluster_sources": [
+      "Hürriyet (تركي)"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hürriyet (تركي)",
+        "link": "https://www.hurriyet.com.tr/sporarena/galatasaraydan-youssouf-fofana-hamlesi-milana-soruldu-43289411"
+      }
+    ],
+    "image_candidates": [
+      "https://image.hurimg.com/i/hurriyet/90/620x350/6a9305485548acce7124f0c8.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 1.999233516111111,
+    "is_stale": false,
+    "score": 13.105819015018518
+  }
+}

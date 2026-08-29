@@ -1,0 +1,69 @@
+{
+  "id": "305384639a2e",
+  "created_at": "2026-08-29T19:07:53.715037+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.58,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Dutch health institute issues 'red alert' over Trump-shaped ecstasy pills",
+  "link": "https://www.bbc.co.uk/news/articles/cy8z9084d00o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Hindustan Times — World",
+    "Medical Xpress"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Dutch health institute issues 'red alert' over Trump-shaped ecstasy pills",
+    "link": "https://www.bbc.co.uk/news/articles/cy8z9084d00o?at_medium=RSS&at_campaign=rss",
+    "summary": "The drugs have a delayed effect which \"increases the risk of overdose\", the health institute says.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-29T08:48:34+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6839/live/7bc79440-a37e-11f1-96da-5ddb1ec3bf5c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Hindustan Times — World",
+      "Medical Xpress"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cy8z9084d00o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-08-dutch-issues-red-potentially-lethal.html"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/a-dutch-institute-issues-a-red-alert-over-potentially-lethal-trump-shaped-ecstasy-pills-101787943188588.html"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/trump-shaped-ecstasy-pills-lethal-pmma/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6839/live/7bc79440-a37e-11f1-96da-5ddb1ec3bf5c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/6839/live/7bc79440-a37e-11f1-96da-5ddb1ec3bf5c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6839/live/7bc79440-a37e-11f1-96da-5ddb1ec3bf5c.jpg",
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/ecstasy.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.3327619087602768,
+    "age_hours": 24.996143333333332,
+    "is_stale": false,
+    "score": 16.575813747875458
+  }
+}
