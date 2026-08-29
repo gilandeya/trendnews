@@ -486,10 +486,16 @@ def _pick_best_transcript(transcript_list) -> Any:
 def check_transcripts(videos: list[VideoRecord], errors: list[dict]) -> None:
     """Sequential, list-only transcript availability check — never fetches
     transcript text, per the issue's "no transcript text is ever saved"
-    constraint. Aborts the whole run (no retry loop) on IpBlocked/RequestBlocked."""
+    constraint. Aborts the whole run (no retry loop) on IpBlocked/RequestBlocked.
+
+    Uses proxy_config.get_proxy_config() -- a no-op (None) when run from the
+    owner's home IP as this script's docstring requires, since the Webshare
+    secrets are only ever set in the Actions environment (Issue #629)."""
     from youtube_transcript_api import IpBlocked, RequestBlocked, YouTubeTranscriptApi
 
-    ytt_api = YouTubeTranscriptApi()
+    from src.proxy_config import get_proxy_config
+
+    ytt_api = YouTubeTranscriptApi(proxy_config=get_proxy_config())
     for v in videos:
         try:
             transcript_list = ytt_api.list(v.video_id)

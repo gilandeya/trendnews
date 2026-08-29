@@ -31,6 +31,7 @@ sys.path.insert(0, str(ROOT))
 # YouTube Data API GET) instead of duplicating them -- both scripts talk to
 # the same API the same way.
 from tools.measure_channels import uploads_playlist_id, youtube_api_get  # noqa: E402
+from src.proxy_config import get_proxy_config, proxy_status_line  # noqa: E402
 
 CONFIG_PATH = ROOT / "config.yaml"
 VIDEOS_PER_CHANNEL = 10  # 4 blocs x 10 = 40 attempts, per the issue's spec
@@ -87,11 +88,17 @@ def collect_video_ids(channels: list[dict], api_key: str) -> list[str]:
     return video_ids
 
 
-def probe_transcripts(video_ids: list[str]) -> dict[str, int]:
+def probe_transcripts(video_ids: list[str], proxy_config) -> tuple[dict[str, int], int]:
     """Sequential, list()-only pass. Never stops on a block -- the point is
     measuring the block *rate* across the whole sample, not just detecting
     that a block happened once (unlike measure_channels.py's check_transcripts,
-    which aborts immediately -- this script's whole purpose is different)."""
+    which aborts immediately -- this script's whole purpose is different).
+
+    A response hook on a dedicated requests.Session sums actual downloaded
+    bytes for every call this script's YouTubeTranscriptApi instance makes --
+    this is the traffic that flows over the Webshare proxy, so it's what the
+    monthly quota (1GB) is actually spent on, not the separate YouTube Data
+    API calls in collect_video_ids() which never go through the proxy."""
     from youtube_transcript_api import (
         IpBlocked,
         NoTranscriptFound,
@@ -101,7 +108,16 @@ def probe_transcripts(video_ids: list[str]) -> dict[str, int]:
         YouTubeTranscriptApi,
     )
 
-    ytt_api = YouTubeTranscriptApi()
+    total_bytes = 0
+
+    def _track_bytes(response, *args, **kwargs):
+        nonlocal total_bytes
+        total_bytes += len(response.content)
+
+    session = requests.Session()
+    session.hooks["response"].append(_track_bytes)
+
+    ytt_api = YouTubeTranscriptApi(proxy_config=proxy_config, http_client=session)
     counts = {"success": 0, "blocked": 0, "no_transcript": 0, "other": 0}
     for i, video_id in enumerate(video_ids):
         try:
@@ -118,7 +134,7 @@ def probe_transcripts(video_ids: list[str]) -> dict[str, int]:
             counts["success"] += 1
         if i < len(video_ids) - 1:
             time.sleep(random.uniform(*SLEEP_RANGE))
-    return counts
+    return counts, total_bytes
 
 
 def success_ratio(counts: dict[str, int]) -> float:
@@ -134,18 +150,30 @@ def judge(ratio: float) -> str:
     return "حجب كامل"
 
 
-def render_report(ip: str, counts: dict[str, int]) -> str:
+def data_usage_lines(total_bytes: int, attempts: int) -> list[str]:
+    total_mb = total_bytes / (1024 * 1024)
+    avg_kb = (total_bytes / attempts / 1024) if attempts else 0.0
+    return [
+        f"إجمالي البيانات المنقولة: {total_mb:.2f} ميجابايت",
+        f"متوسط لكل فيديو: {avg_kb:.1f} كيلوبايت",
+    ]
+
+
+def render_report(ip: str, counts: dict[str, int], proxy_config, total_bytes: int) -> str:
     ratio = success_ratio(counts)
+    attempts = sum(counts.values())
     return "\n".join([
         "=== اختبار الحجب من GitHub Actions ===",
+        proxy_status_line(proxy_config),
         f"عنوان الخروج: {ip}",
-        f"المحاولات: {sum(counts.values())}",
+        f"المحاولات: {attempts}",
         f"نجح: {counts['success']}",
         f"محجوب (IpBlocked/RequestBlocked): {counts['blocked']}",
         f"بلا ترجمة (سبب مشروع): {counts['no_transcript']}",
         f"أخطاء أخرى: {counts['other']}",
         f"نسبة النجاح: {ratio * 100:.0f}%",
         f"الحكم: {judge(ratio)}",
+        *data_usage_lines(total_bytes, attempts),
     ])
 
 
@@ -157,10 +185,11 @@ def main() -> int:
         return 1
 
     channels = load_probe_channels()
+    proxy_config = get_proxy_config()
     ip = echo_egress_ip()
     video_ids = collect_video_ids(channels, api_key)
-    counts = probe_transcripts(video_ids)
-    print(render_report(ip, counts))
+    counts, total_bytes = probe_transcripts(video_ids, proxy_config)
+    print(render_report(ip, counts, proxy_config, total_bytes))
     return 0
 
 
