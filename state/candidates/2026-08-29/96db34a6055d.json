@@ -1,0 +1,73 @@
+{
+  "id": "96db34a6055d",
+  "created_at": "2026-08-29T12:08:13.831706+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.41,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Gunfire, blasts heard in several areas of Niger capital Niamey",
+  "link": "https://www.aljazeera.com/news/2026/8/29/gunfire-blasts-heard-in-several-areas-of-niger-capital-niamey?traffic_source=rss",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English",
+    "CGTN",
+    "France24",
+    "Reuters"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Gunfire, blasts heard in several areas of Niger capital Niamey",
+    "link": "https://www.aljazeera.com/news/2026/8/29/gunfire-blasts-heard-in-several-areas-of-niger-capital-niamey?traffic_source=rss",
+    "summary": "Shots were heard around the city's Diori Hamani international airport and near the presidential palace.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-29T01:30:08+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/89/36/50/640x360_cmsv2_e7b4568b-8361-5067-a01a-78e9a027114e-9893650.jpg?1787982224",
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English",
+      "CGTN",
+      "France24",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/29/gunfire-blasts-heard-in-several-areas-of-niger-capital-niamey?traffic_source=rss"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-29/news-1PZMMfTLYKk/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "Reuters",
+        "link": "https://tass.com/emergencies/2179275"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/29/reports-of-gunfire-near-military-base-in-nigers-capital/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/africa/20260829-gunfire-and-explosions-heard-near-military-base-in-niger-s-capital"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/89/36/50/640x360_cmsv2_e7b4568b-8361-5067-a01a-78e9a027114e-9893650.jpg?1787982224",
+      "https://s.france24.com/media/display/51c3eb72-6ae8-11f1-ac04-005056a97e36/w:1024/p:16x9/000-94JQ3CU.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 0.111075843615416,
+    "age_hours": 9.005770451111111,
+    "is_stale": false,
+    "score": 16.412313683757684
+  }
+}

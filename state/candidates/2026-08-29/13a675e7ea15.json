@@ -1,0 +1,61 @@
+{
+  "id": "13a675e7ea15",
+  "created_at": "2026-08-29T12:08:13.831514+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.9,
+  "trend_score": 0.5,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "India steps up glacier monitoring after Nepal disaster",
+  "link": "https://www.channelnewsasia.com/asia/india-steps-up-glacier-monitoring-nepal-disaster-6349356",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Hindustan Times — World"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "India steps up glacier monitoring after Nepal disaster",
+    "link": "https://www.channelnewsasia.com/asia/india-steps-up-glacier-monitoring-nepal-disaster-6349356",
+    "summary": "Scientists have warned that Himalayan glaciers are melting faster than ever due to climate change, exposing communities to unpredictable and costly disasters.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-29T09:51:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--alNAggyB--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-27T103648Z_1_LYNXMPEM7Q0SJ_RTROPTP_3_NEPAL-FLOODS-SATELLITE.JPG?itok=6u2dTOQk",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/india-steps-up-glacier-monitoring-nepal-disaster-6349356"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/nepal-tibet-floods-live-updates-death-toll-missing-rescue-ops-rasuwa-trishuli-bhotekoshi-china-indians-latest-news-101787965981223.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/29/india-steps-up-glacier-monitoring-after-nepal-disaster"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--alNAggyB--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-27T103648Z_1_LYNXMPEM7Q0SJ_RTROPTP_3_NEPAL-FLOODS-SATELLITE.JPG?itok=6u2dTOQk",
+      "https://media.freemalaysiatoday.com/v3/2026/08/7eb6bcb1-7287-4675-b84d-f39f56e4a447-EPA-Nepal-Floods-Trishuli-River-29082026.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 19.902556204126434
+  }
+}

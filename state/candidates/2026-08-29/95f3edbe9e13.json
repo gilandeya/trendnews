@@ -1,0 +1,65 @@
+{
+  "id": "95f3edbe9e13",
+  "created_at": "2026-08-29T12:08:13.831158+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.34,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Haaland and Cherki fire impressive Man City to victory at Palace",
+  "link": "https://www.bbc.co.uk/sport/football/videos/c8e3k3ww56no?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Haaland and Cherki fire impressive Man City to victory at Palace",
+    "link": "https://www.bbc.co.uk/sport/football/videos/c8e3k3ww56no?at_medium=RSS&at_campaign=rss",
+    "summary": "Erling Haaland and Rayan Cherki both score twice as Manchester City cruise to a 4-1 win at Crystal Palace in the Premier League.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-28T21:30:06+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/82dd/live/aaa45590-a325-11f1-aed2-8d6da8d75094.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/c8e3k3ww56no?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/aug/28/crystal-palace-manchester-city-premier-league-match-report"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/watch/video/13578387/crystal-palace-1-4-manchester-city-premier-league-highlights"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/82dd/live/aaa45590-a325-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/82dd/live/aaa45590-a325-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/82dd/live/aaa45590-a325-11f1-aed2-8d6da8d75094.jpg",
+      "https://i.guim.co.uk/img/media/5228008e8bd417236021d4fe7f6eea1437484018/329_0_3290_2632/master/3290.jpg?width=700&quality=85&auto=format&fit=max&s=c3a91e9a53cba799d47d951924b48a19",
+      "https://i.guim.co.uk/img/media/5228008e8bd417236021d4fe7f6eea1437484018/329_0_3290_2632/master/3290.jpg?width=460&quality=85&auto=format&fit=max&s=2a703ccc34a0aa3176ca27962bda03e8",
+      "https://i.guim.co.uk/img/media/5228008e8bd417236021d4fe7f6eea1437484018/329_0_3290_2632/master/3290.jpg?width=140&quality=85&auto=format&fit=max&s=d2520f30350a476a54bc896b142dd628"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.22214734834293878,
+    "age_hours": 14.005972170833335,
+    "is_stale": false,
+    "score": 22.34007072289668
+  }
+}

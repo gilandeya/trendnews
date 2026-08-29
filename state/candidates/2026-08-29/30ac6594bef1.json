@@ -1,0 +1,48 @@
+{
+  "id": "30ac6594bef1",
+  "created_at": "2026-08-29T12:08:13.831875+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.21,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran or the dollar? US makes an example of Banque Misr",
+  "link": "https://www.iranintl.com/en/202608284624",
+  "publishers": [
+    "Iran International"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran or the dollar? US makes an example of Banque Misr",
+    "link": "https://www.iranintl.com/en/202608284624",
+    "summary": "The US has opened a new front in its economic campaign against Iran by threatening to cut a major third-country bank out of the dollar system over alleged involvement in Tehran’s shadow-banking network.",
+    "source_name": "Iran International",
+    "region": "ir",
+    "weight": 1.0,
+    "published": "2026-08-28T19:50:14+00:00",
+    "image_url": "https://i.iranintl.com/images/rdk9umy0/production/7acd9c50239c103c4ffc043c895aec26842d2f7c-1200x853.jpg?rect=42,118,1158,606&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+    "publisher": "Iran International",
+    "cluster_sources": [
+      "Iran International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202608284624"
+      }
+    ],
+    "image_candidates": [
+      "https://i.iranintl.com/images/rdk9umy0/production/7acd9c50239c103c4ffc043c895aec26842d2f7c-1200x853.jpg?rect=42,118,1158,606&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 3.0008785797222224,
+    "is_stale": false,
+    "score": 16.21348351588889
+  }
+}
