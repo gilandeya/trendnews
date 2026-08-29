@@ -1,0 +1,67 @@
+{
+  "id": "21035ec01f7e",
+  "created_at": "2026-08-29T22:07:45.332066+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.37,
+  "trend_score": 0.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Niger junta says it is back in control after soldiers' mutiny rocks capital",
+  "link": "https://www.france24.com/en/africa/20260829-gunfire-and-explosions-heard-near-military-base-in-niger-s-capital",
+  "publishers": [
+    "France24",
+    "Hindustan Times — World",
+    "South China Morning Post",
+    "Vanguard Nigeria"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Niger junta says it is back in control after soldiers' mutiny rocks capital",
+    "link": "https://www.france24.com/en/africa/20260829-gunfire-and-explosions-heard-near-military-base-in-niger-s-capital",
+    "summary": "Niger's junta said Saturday it was back in control after mutineers held soldiers hostage at a military base next to the capital's airport. Russian forces reportedly helped members of Niger's presidential guard recapture the air base, killing some of the mutineers, according to diplomatic and security sources.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-29T06:33:07+00:00",
+    "image_url": "https://s.france24.com/media/display/51c3eb72-6ae8-11f1-ac04-005056a97e36/w:1024/p:16x9/000-94JQ3CU.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Hindustan Times — World",
+      "South China Morning Post",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/africa/article/3365712/clashes-niger-after-troops-try-storm-presidential-palace?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/africa/20260829-gunfire-and-explosions-heard-near-military-base-in-niger-s-capital"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/08/soldiers-mutiny-rocks-niger-capital-as-junta-claims-to-be-back-in-control/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/niger-junta-says-it-is-back-in-control-after-soldiers-mutiny-101788035267970.html"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/51c3eb72-6ae8-11f1-ac04-005056a97e36/w:1024/p:16x9/000-94JQ3CU.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/Nigeria-Police-1024x577.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.22238469293719998,
+    "age_hours": 4.9970300269444445,
+    "is_stale": false,
+    "score": 15.37357229244526
+  }
+}

@@ -1,70 +1,5 @@
 [
   {
-    "score": 16.47,
-    "bucket": "useful",
-    "tokens": [
-      "'slurry'",
-      "2026",
-      "cookie",
-      "just",
-      "made",
-      "plastic",
-      "recycled",
-      "scientists",
-      "welcome"
-    ],
-    "link": "https://www.sciencealert.com/scientists-just-made-a-cookie-out-of-recycled-plastic-slurry-welcome-to-2026",
-    "title": "Scientists Just Made A Cookie Out of Recycled Plastic 'Slurry'. Welcome to 2026",
-    "posted_title": "علماء أمريكيون يحوّلون زجاجات بلاستيكية إلى كعك صالح للأكل",
-    "region": "health",
-    "seen_at": "2026-08-24T19:58:31.818757+00:00"
-  },
-  {
-    "score": 19.68,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "100",
-      "administration",
-      "fee",
-      "impose",
-      "moves",
-      "trump",
-      "visas",
-      "worker"
-    ],
-    "link": "https://www.dawn.com/news/2025003/trump-administration-moves-to-impose-more-than-100000-fee-for-h-1b-worker-visas",
-    "title": "Trump administration moves to impose more than $100,000 fee for H-1B worker visas",
-    "posted_title": "إدارة ترامب تتحرك لجعل رسم الـ100 ألف دولار على تأشيرات H-1B دائمًا",
-    "region": "pk",
-    "seen_at": "2026-08-24T19:58:50.461299+00:00"
-  },
-  {
-    "score": 23.53,
-    "bucket": "serious",
-    "tokens": [
-      "arabia's",
-      "being",
-      "considered",
-      "defence",
-      "invited",
-      "iran",
-      "join",
-      "mecca",
-      "pact",
-      "pakistan",
-      "proposal",
-      "report",
-      "saudi",
-      "turkey"
-    ],
-    "link": "https://www.hindustantimes.com/world-news/iran-invited-to-join-pakistan-turkey-saudi-arabias-mecca-defence-pact-report-says-proposal-being-considered-101787504733370.html",
-    "title": "Iran ‘invited’ to join Pakistan-Turkey-Saudi Arabia's Mecca defence pact; report says proposal being ‘considered’",
-    "posted_title": "إيران تُدعى للانضمام إلى الحلف الدفاعي بين باكستان وتركيا والسعودية",
-    "region": "in",
-    "seen_at": "2026-08-24T19:59:15.823395+00:00"
-  },
-  {
     "score": 20.47,
     "bucket": "serious",
     "tokens": [
@@ -5212,5 +5147,97 @@
     "posted_title": "لماذا يشكك خبراء في اتفاق ترامب النفطي مع فنزويلا رغم وصفه بـ\"الأكبر تاريخيًا\"",
     "region": "uk",
     "seen_at": "2026-08-29T19:29:33.090937+00:00"
+  },
+  {
+    "score": 27.25,
+    "bucket": "serious",
+    "tokens": [
+      "000",
+      "579",
+      "flood",
+      "missing",
+      "nearly",
+      "nepal",
+      "rises",
+      "still",
+      "toll"
+    ],
+    "link": "https://www.thehindu.com/news/international/nepal-flood-toll-rises-and-nearly-2000-people-still-missing/article71401808.ece",
+    "title": "Nepal flood toll rises to 579; nearly 2,000 still missing",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-08-29T22:07:45.331660+00:00"
+  },
+  {
+    "score": 17.28,
+    "bucket": "serious",
+    "tokens": [
+      "climate",
+      "deadly",
+      "floods",
+      "nepal",
+      "threat",
+      "warn"
+    ],
+    "link": "https://www.channelnewsasia.com/world/un-nepal-warn-climate-threat-after-deadly-floods-6349841",
+    "title": "UN, Nepal warn of climate threat after deadly floods",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-08-29T22:07:45.331878+00:00"
+  },
+  {
+    "score": 16.47,
+    "bucket": "serious",
+    "tokens": [
+      "edge",
+      "galatasaray",
+      "göztepe",
+      "osimhen",
+      "target"
+    ],
+    "link": "https://punchng.com/osimhen-on-target-as-galatasaray-edge-goztepe-3-2/?utm_source=rss.punchng.com&utm_medium=web",
+    "title": "Osimhen on target as Galatasaray edge Göztepe 3-2",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-08-29T22:07:45.332060+00:00"
+  },
+  {
+    "score": 15.37,
+    "bucket": "serious",
+    "tokens": [
+      "back",
+      "capital",
+      "control",
+      "junta",
+      "mutiny",
+      "niger",
+      "rocks",
+      "soldiers'"
+    ],
+    "link": "https://www.france24.com/en/africa/20260829-gunfire-and-explosions-heard-near-military-base-in-niger-s-capital",
+    "title": "Niger junta says it is back in control after soldiers' mutiny rocks capital",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-08-29T22:07:45.332279+00:00"
+  },
+  {
+    "score": 15.21,
+    "bucket": "light",
+    "tokens": [
+      "bad",
+      "beat",
+      "betting",
+      "circuit",
+      "exchanges",
+      "gives",
+      "ninth",
+      "online",
+      "sports"
+    ],
+    "link": "https://www.courthousenews.com/ninth-circuit-gives-bad-beat-to-online-sports-betting-exchanges/",
+    "title": "Ninth Circuit gives bad beat to online sports-betting exchanges",
+    "posted_title": "",
+    "region": "court",
+    "seen_at": "2026-08-29T22:07:45.332451+00:00"
   }
 ]

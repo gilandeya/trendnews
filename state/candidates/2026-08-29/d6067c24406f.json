@@ -1,0 +1,55 @@
+{
+  "id": "d6067c24406f",
+  "created_at": "2026-08-29T22:07:45.331671+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.28,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UN, Nepal warn of climate threat after deadly floods",
+  "link": "https://www.channelnewsasia.com/world/un-nepal-warn-climate-threat-after-deadly-floods-6349841",
+  "publishers": [
+    "Channel News Asia",
+    "NDTV — World"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "UN, Nepal warn of climate threat after deadly floods",
+    "link": "https://www.channelnewsasia.com/world/un-nepal-warn-climate-threat-after-deadly-floods-6349841",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-29T21:48:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--gGHzYKtq--/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/29/1788007334-image.jpg?itok=uTTpoMcC",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/un-nepal-warn-climate-threat-after-deadly-floods-6349841"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/ex-nepal-minister-madhav-prasad-chaulagain-claims-china-didnt-warn-them-before-deadly-flash-floods-11974335#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--gGHzYKtq--/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/29/1788007334-image.jpg?itok=uTTpoMcC",
+      "https://c.ndtvimg.com/2026-08/tg5rg77o_nepal-floods_625x300_29_August_26.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 84.99934252861111,
+    "is_stale": false,
+    "score": 17.278185861333334
+  }
+}
