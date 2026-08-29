@@ -1,42 +1,5 @@
 [
   {
-    "score": 13.27,
-    "bucket": "useful",
-    "tokens": [
-      "'bigger",
-      "catastrophic",
-      "climate",
-      "events",
-      "inches",
-      "shocks",
-      "toward",
-      "way'",
-      "world"
-    ],
-    "link": "https://phys.org/news/2026-08-world-inches-catastrophic-climate-events.html",
-    "title": "The world inches toward catastrophic climate events: 'Bigger shocks are on the way'",
-    "posted_title": "رواية خيالية عن موجة حر تقتل 20 مليون شخص تتحول إلى نقطة نقاش بين علماء المناخ",
-    "region": "science",
-    "seen_at": "2026-08-24T18:01:39.272248+00:00"
-  },
-  {
-    "score": 13.54,
-    "bucket": "serious",
-    "tokens": [
-      "2027",
-      "concerns",
-      "eurovision",
-      "gaza",
-      "netherlands",
-      "withdraws"
-    ],
-    "link": "https://www.dailysabah.com/arts/music/netherlands-withdraws-from-2027-eurovision-over-gaza-concerns",
-    "title": "Netherlands withdraws from 2027 Eurovision over Gaza concerns",
-    "posted_title": "هولندا تنسحب من يوروفيجن 2027 احتجاجًا على ما آلت إليه المسابقة بسبب حرب غزة",
-    "region": "tr",
-    "seen_at": "2026-08-24T18:01:55.988324+00:00"
-  },
-  {
     "score": 27.62,
     "bucket": "serious",
     "tokens": [
@@ -5130,5 +5093,100 @@
     "posted_title": "",
     "region": "eu",
     "seen_at": "2026-08-29T17:08:04.767201+00:00"
+  },
+  {
+    "score": 20.3,
+    "bucket": "serious",
+    "tokens": [
+      "96bn",
+      "august",
+      "buying",
+      "intervention",
+      "japan",
+      "july",
+      "reveals",
+      "yen"
+    ],
+    "link": "https://asia.nikkei.com/business/markets/currencies/japan-reveals-96bn-yen-buying-intervention-in-july-august",
+    "title": "Japan reveals $96bn yen-buying intervention in July-August",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-08-29T18:07:46.508927+00:00"
+  },
+  {
+    "score": 19.64,
+    "bucket": "serious",
+    "tokens": [
+      "bessent",
+      "can",
+      "destabilize",
+      "disorderly",
+      "global",
+      "markets",
+      "moves",
+      "yen"
+    ],
+    "link": "https://www.channelnewsasia.com/business/bessent-says-disorderly-yen-moves-can-destabilize-global-markets-6349631",
+    "title": "Bessent says disorderly yen moves can destabilize global markets",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-08-29T18:07:46.509148+00:00"
+  },
+  {
+    "score": 16.04,
+    "bucket": "serious",
+    "tokens": [
+      "184",
+      "disaster",
+      "nepal",
+      "rescued",
+      "tourists",
+      "zone"
+    ],
+    "link": "https://en.mehrnews.com/news/247305/184-tourists-rescued-from-Nepal-disaster-zone",
+    "title": "184 tourists rescued from Nepal disaster zone",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-08-29T18:07:46.509355+00:00"
+  },
+  {
+    "score": 16.02,
+    "bucket": "serious",
+    "tokens": [
+      "accuses",
+      "civil",
+      "far",
+      "french",
+      "left",
+      "peace",
+      "pen",
+      "right",
+      "threatening",
+      "wins"
+    ],
+    "link": "https://www.channelnewsasia.com/world/french-far-right-accuses-left-threatening-civil-peace-if-le-pen-wins-6349676",
+    "title": "French far right accuses left of threatening \"civil peace\" if Le Pen wins",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-08-29T18:07:46.509599+00:00"
+  },
+  {
+    "score": 14.63,
+    "bucket": "serious",
+    "tokens": [
+      "exhibition",
+      "human",
+      "iran",
+      "minab",
+      "rights",
+      "school",
+      "shows",
+      "true"
+    ],
+    "link": "https://en.irna.ir/news/86248687/Minab-School-exhibition-shows-true-human-rights-Iran-FM",
+    "title": "‘Minab School’ exhibition shows true human rights: Iran FM",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-08-29T18:07:46.509786+00:00"
   }
 ]

@@ -1,0 +1,54 @@
+{
+  "id": "38b1530c1a75",
+  "created_at": "2026-08-29T18:07:46.509155+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.04,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "184 tourists rescued from Nepal disaster zone",
+  "link": "https://en.mehrnews.com/news/247305/184-tourists-rescued-from-Nepal-disaster-zone",
+  "publishers": [
+    "Mehr News",
+    "Tourism Board"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "184 tourists rescued from Nepal disaster zone",
+    "link": "https://en.mehrnews.com/news/247305/184-tourists-rescued-from-Nepal-disaster-zone",
+    "summary": "TEHRAN, Aug. 29 (MNA) – Rescuers in Nepal have evacuated 184 tourists from the disaster zone, while 420 remain out of contact, the country’s Tourism Board said.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-08-29T11:14:27+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/08/29/4/6152934.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Mehr News",
+      "Tourism Board"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247305/184-tourists-rescued-from-Nepal-disaster-zone"
+      },
+      {
+        "name": "Tourism Board",
+        "link": "https://tass.com/emergencies/2179279"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/08/29/4/6152934.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 80.99980256527778,
+    "is_stale": false,
+    "score": 16.040878610925926
+  }
+}
