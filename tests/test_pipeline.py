@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import atexit
 import inspect
+import json
 import os
 import shutil
 import sys
@@ -29,6 +30,7 @@ os.environ["TRENDNEWS_STATE_DIR"] = str(_TMP_DATA_DIR / "state")
 atexit.register(shutil.rmtree, _TMP_DATA_DIR, ignore_errors=True)
 
 from src import collect, evidence, extract, imaging, proxy_config, review, sources, store, trends, writer  # noqa: E402
+from src import youtube_collect, youtube_extract  # noqa: E402
 from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
 from src.rank import cluster, rank, similarity, tokens  # noqa: E402
 from src.sources import Article  # noqa: E402
@@ -9760,6 +9762,192 @@ def test_proxy_config() -> None:
                 os.environ[key] = value
 
 
+def test_youtube_collect() -> None:
+    """المرحلة الأولى من مسار يوتيوب (src/youtube_collect.py، Issue #631):
+    منطق صِرف بلا شبكة فقط -- تطبيق الحرّاس بالترتيب الملزِم، الترتيب
+    بالمدة والقصّ، وسجل منع التكرار. لا اختبار هنا لـfetch_playlist_video_ids
+    أو fetch_videos_details (يستدعيان requests فعليًا) تماشيًا مع نفس
+    الاتفاق المتّبع في test_measure_channels/test_actions_block_script."""
+    yc = youtube_collect
+
+    check("uploads_playlist_id يبدّل الحرف الثاني UC→UU",
+          yc.uploads_playlist_id("UCabc123") == "UUabc123")
+    try:
+        yc.uploads_playlist_id("XXabc123")
+        bad_id_raised = False
+    except ValueError:
+        bad_id_raised = True
+    check("uploads_playlist_id يرفض معرّفًا لا يبدأ بـ UC", bad_id_raised)
+
+    check("تحليل PT1H2M10S", yc.parse_iso8601_duration("PT1H2M10S") == 3730)
+    check("تحليل PT45S", yc.parse_iso8601_duration("PT45S") == 45)
+
+    now = datetime(2026, 8, 29, 12, 0, tzinfo=timezone.utc)
+    check("داخل نافذة 30 ساعة", yc.within_lookback(
+        (now - timedelta(hours=10)).isoformat(), 30, now))
+    check("خارج نافذة 30 ساعة", not yc.within_lookback(
+        (now - timedelta(hours=31)).isoformat(), 30, now))
+    check("تاريخ فاسد لا يُعدّ ضمن النافذة، بلا انهيار",
+          not yc.within_lookback("ليس تاريخًا", 30, now))
+    check("تاريخ فارغ لا يُعدّ ضمن النافذة", not yc.within_lookback("", 30, now))
+
+    item = {
+        "id": "vid123",
+        "snippet": {"title": "تحليل الوضع الاقتصادي", "publishedAt": "2026-08-29T10:00:00Z",
+                    "liveBroadcastContent": "none"},
+        "contentDetails": {"duration": "PT12M30S"},
+    }
+    channel = {"name": "قناة×", "bloc": "arabic", "language": "ar", "handle": "@x"}
+    video = yc.parse_video_item(item, channel)
+    check("تحليل عنصر فيديو: المعرّف والقناة والمدة",
+          video.video_id == "vid123" and video.channel == "قناة×" and video.duration_seconds == 750)
+    check("رابط الفيديو مبنيّ من المعرّف",
+          video.video_url == "https://www.youtube.com/watch?v=vid123")
+    check("فيديو غير مباشر (liveBroadcastContent=none)", video.is_live is False)
+
+    live_item = dict(item, snippet={**item["snippet"], "liveBroadcastContent": "live"})
+    check("liveBroadcastContent=live يُعدّ بثًا مباشرًا",
+          yc.parse_video_item(live_item, channel).is_live is True)
+    upcoming_item = dict(item, snippet={**item["snippet"], "liveBroadcastContent": "upcoming"})
+    check("liveBroadcastContent=upcoming يُعدّ بثًا مجدولًا",
+          yc.parse_video_item(upcoming_item, channel).is_live is True)
+
+    cfg = load_config()
+    base_channel = {"name": "قناة×", "bloc": "arabic", "handle": "@x", "exclude_patterns": ["نشرة"]}
+
+    def mk_video(duration_min=10, is_live=False, title="خبر عاجل عن الاقتصاد", vid="v1"):
+        return yc.Video(video_id=vid, channel="قناة×", bloc="arabic", language="ar",
+                        video_title=title, video_url=f"https://youtube.com/watch?v={vid}",
+                        duration_seconds=duration_min * 60, published_at="2026-08-29T10:00:00Z",
+                        is_live=is_live)
+
+    ok, reason = yc.passed_guards(mk_video(), base_channel, cfg, {})
+    check("فيديو عادي ضمن المدة يجتاز الحرّاس", ok, reason)
+
+    ok, reason = yc.passed_guards(mk_video(is_live=True), base_channel, cfg, {})
+    check("بث مباشر يُستبعد حين exclude_live الافتراضي مفعّل",
+          not ok and reason == "بث مباشر أو مجدول")
+
+    ok, reason = yc.passed_guards(
+        mk_video(is_live=True), {**base_channel, "exclude_live": False}, cfg, {})
+    check("تجاوز exclude_live لقناة بعينها يُبقي البث المباشر", ok, reason)
+
+    ok, reason = yc.passed_guards(mk_video(duration_min=200), base_channel, cfg, {})
+    check("تجاوز الحد الأقصى للمدة يُستبعد", not ok and "الحد الأقصى" in reason, reason)
+
+    ok, reason = yc.passed_guards(mk_video(duration_min=3), base_channel, cfg, {})
+    check("أقل من الحد الأدنى للمدة يُستبعد", not ok and "الحد الأدنى" in reason, reason)
+
+    ok, reason = yc.passed_guards(
+        mk_video(duration_min=5), {**base_channel, "min_duration_minutes": 3}, cfg, {})
+    check("تجاوز الحد الأدنى لقناة بعينها يسمح بفيديو أقصر من الافتراضي", ok, reason)
+
+    ok, reason = yc.passed_guards(mk_video(title="نشرة الأخبار المسائية"), base_channel, cfg, {})
+    check("عنوان يطابق نمط استبعاد القناة يُستبعد",
+          not ok and "نشرة" in reason, reason)
+
+    ok, reason = yc.passed_guards(mk_video(vid="seen1"), base_channel, cfg, {"seen1": "2026-08-28"})
+    check("فيديو مسجَّل سابقًا في السجل يُستبعد",
+          not ok and "السجل" in reason, reason)
+
+    survivors = [mk_video(duration_min=8, vid="a"), mk_video(duration_min=20, vid="b"),
+                 mk_video(duration_min=12, vid="c")]
+    top2 = yc.select_top(survivors, 2)
+    check("الترتيب بالمدة تنازليًا ثم القصّ لأعلى اثنين",
+          [v.video_id for v in top2] == ["b", "c"], [v.video_id for v in top2])
+    check("القصّ لا يتجاوز عدد المتاح", len(yc.select_top(survivors, 10)) == 3)
+
+    # السجل: تحميل/تسجيل/حفظ مع تقليم حسب الاحتفاظ
+    seen_path = yc.SEEN_FILE
+    original = seen_path.read_text(encoding="utf-8") if seen_path.exists() else None
+    try:
+        if seen_path.exists():
+            seen_path.unlink()
+        check("لا ملف سجل بعد ⇒ قاموس فارغ", yc.load_seen() == {})
+        seen = {}
+        yc.mark_seen(seen, "old1", "2026-08-01")
+        yc.mark_seen(seen, "new1", "2026-08-29")
+        yc.save_seen(seen, retention_days=14, now=now)
+        reloaded = yc.load_seen()
+        check("التقليم يحذف المدخل الأقدم من نافذة الاحتفاظ",
+              "old1" not in reloaded and "new1" in reloaded, reloaded)
+    finally:
+        if original is None:
+            seen_path.unlink(missing_ok=True)
+        else:
+            seen_path.write_text(original, encoding="utf-8")
+
+
+def test_youtube_extract() -> None:
+    """المرحلة الثانية (src/youtube_extract.py، Issue #631): تحليل مخرج
+    النموذج والتحقق من الحقول الإلزامية -- لا شبكة، لا نموذج فعلي، ولا
+    نص ترجمة حقيقي يُستعمل في هذا الاختبار."""
+    ye = youtube_extract
+
+    good_point = {
+        "statement": "أعلن المسؤول عن خطة اقتصادية جديدة",
+        "speaker": "وزير المالية",
+        "quote_original": "we are launching a new plan",
+        "quote_arabic": "نطلق خطة جديدة",
+        "timestamp": 42,
+        "type": "fact",
+        "topic_hint": "اقتصاد وزراء",
+    }
+
+    raw_array = json.dumps([good_point], ensure_ascii=False)
+    check("تحليل مصفوفة JSON مباشرة", ye.parse_points(raw_array) == [good_point])
+
+    wrapped = json.dumps({"points": [good_point]}, ensure_ascii=False)
+    check("تحليل كائن بمفتاح points", ye.parse_points(wrapped) == [good_point])
+
+    fenced = f"```json\n{wrapped}\n```"
+    check("تحليل مخرج داخل أسيجة ```json", ye.parse_points(fenced) == [good_point])
+
+    noisy = f"إليك الناتج:\n{wrapped}\nانتهى."
+    check("تحليل مخرج محاط بنص زائد حول الأقواس", ye.parse_points(noisy) == [good_point])
+
+    try:
+        ye.parse_points("عبارة بلا أي JSON")
+        parse_raised = False
+    except (json.JSONDecodeError, ValueError):
+        parse_raised = True
+    check("مخرج بلا JSON على الإطلاق يرفع خطأ لا يُبتلَع صامتًا", parse_raised)
+
+    ok, reason = ye.validate_point(good_point)
+    check("نقطة كاملة الحقول صالحة", ok, reason)
+
+    for missing in ye.REQUIRED_FIELDS:
+        broken = {k: v for k, v in good_point.items() if k != missing}
+        ok, reason = ye.validate_point(broken)
+        check(f"حقل ناقص ({missing}) يُرفَض", not ok and missing in reason, reason)
+
+    ok, reason = ye.validate_point({**good_point, "speaker": "   "})
+    check("حقل نصّي فارغ (مسافات فقط) يُرفَض", not ok, reason)
+
+    ok, reason = ye.validate_point({**good_point, "type": "rumor"})
+    check("تصنيف خارج fact/opinion/forecast يُرفَض", not ok and "تصنيف" in reason, reason)
+
+    for valid_type in ("fact", "opinion", "forecast"):
+        ok, reason = ye.validate_point({**good_point, "type": valid_type})
+        check(f"تصنيف {valid_type} صالح", ok, reason)
+
+    ok, reason = ye.validate_point({**good_point, "timestamp": "42"})
+    check("timestamp نصّي (لا رقم) يُرفَض", not ok and "timestamp" in reason, reason)
+
+    ok, reason = ye.validate_point({**good_point, "timestamp": -5})
+    check("timestamp سالب يُرفَض", not ok, reason)
+
+    ok, reason = ye.validate_point({**good_point, "timestamp": True})
+    check("timestamp من نوع bool (يُعدّ int في بايثون) يُرفَض صراحة", not ok, reason)
+
+    check("عنصر ليس كائن JSON يُرفَض بلا انهيار", ye.validate_point("ليس كائنًا")[0] is False)
+
+    prompt = ye.load_prompt()
+    check("ملف البرومبت منفصل عن الكود وغير فارغ", len(prompt) > 200)
+    check("البرومبت يذكر التصنيفات الثلاثة",
+          all(t in prompt for t in ("fact", "opinion", "forecast")))
+
+
 def test_no_temperature_param() -> None:
     """حارس ثابت يمنع تكرار Issue #373 (الجولة الحادية عشرة): temperature
     تُرفَض بـ400 ("temperature is deprecated for this model") من نماذج هذا
@@ -9911,6 +10099,10 @@ def main() -> int:
     test_actions_block_script()
     print("\n── إعداد بروكسي Webshare (Issue #629) ──")
     test_proxy_config()
+    print("\n── مسار يوتيوب: الجمع (Issue #631) ──")
+    test_youtube_collect()
+    print("\n── مسار يوتيوب: الاستخلاص (Issue #631) ──")
+    test_youtube_extract()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:

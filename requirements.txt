@@ -17,7 +17,8 @@ fonttools>=4.50
 PyYAML>=6.0
 trafilatura>=1.12
 imageio-ffmpeg>=0.5
-# tools/measure_channels.py وtools/test_actions_block.py فقط (Issue #619،
-# #626) — سكربتان يدويّان (الثاني عبر workflow_dispatch)، لا يستخدمهما أي
-# مسار في src/. list() فقط في الاثنين، لا جلب لنص الترجمة نفسه.
+# كانت لـtools/measure_channels.py وtools/test_actions_block.py فقط
+# (list() بلا جلب نص فعلي، Issue #619، #626). بات src/youtube_extract.py
+# (Issue #631) يستهلكها فعليًا لجلب النص نفسه (.fetch()) عبر بروكسي
+# Webshare -- انظر src/proxy_config.py.
 youtube-transcript-api>=1.0
