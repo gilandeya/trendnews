@@ -523,5 +523,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 19
+ },
+ {
+  "id": "78195f7869c1",
+  "created_at": "2026-08-29T19:28:58.020600+00:00",
+  "decided_at": "2026-08-29T20:15:48.751859+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "غرائب",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "sport",
+  "region": "sport",
+  "score": 15.92,
+  "trend_score": 0.33,
+  "velocity": 0.2,
+  "source_count": 2,
+  "body_len": 747,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 19
  }
 ]
