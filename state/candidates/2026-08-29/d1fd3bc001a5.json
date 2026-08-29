@@ -1,0 +1,97 @@
+{
+  "id": "d1fd3bc001a5",
+  "created_at": "2026-08-29T03:07:52.690214+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.67,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump hails 'historic' deal for US to control 65bn barrels of Venezuela's oil",
+  "link": "https://www.bbc.co.uk/news/articles/cx2zlwe7qj1o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Buenos Aires Times",
+    "CBS News — World",
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد",
+    "Malay Mail",
+    "NDTV — World",
+    "NPR World",
+    "South China Morning Post",
+    "TASS",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump hails 'historic' deal for US to control 65bn barrels of Venezuela's oil",
+    "link": "https://www.bbc.co.uk/news/articles/cx2zlwe7qj1o?at_medium=RSS&at_campaign=rss",
+    "summary": "Venezuelan interim president says the unusual agreement will help revive her country's economy.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-29T02:42:27+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0053/live/a9f70e80-a339-11f1-a0c7-f9810b5aa403.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Buenos Aires Times",
+      "CBS News — World",
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد",
+      "Malay Mail",
+      "NDTV — World",
+      "NPR World",
+      "South China Morning Post",
+      "TASS",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cx2zlwe7qj1o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/americas/article/3365672/trump-says-us-has-deal-venezuela-control-65-billion-barrels-oil-reserves?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-has-entered-deal-with-venezuela-to-take-control-of-65-billion-barrels-of-oil-reserves-says-trump/article71402388.ece"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/trump-says-us-secures-control-of-over-65-billion-barrels-of-venezuelan-oil-4881873"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/08/29/trump-announces-deal-for-huge-us-stake-in-venezuelan-oil-reserves"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/trump-venezuela-oil-u-s-majority-control-65-billion-barrels/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0053/live/a9f70e80-a339-11f1-a0c7-f9810b5aa403.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0053/live/a9f70e80-a339-11f1-a0c7-f9810b5aa403.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0053/live/a9f70e80-a339-11f1-a0c7-f9810b5aa403.jpg",
+      "https://th-i.thgim.com/public/incoming/23v39r/article71402389.ece/alternates/LANDSCAPE_1200/Trump_64712.jpg",
+      "https://content-media.investing.com/news/moved_LYNXMPEM6L203_1200_L.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/9e420aa9-donald-trump.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 13,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 25.673213225034388
+  }
+}
