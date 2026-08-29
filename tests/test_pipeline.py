@@ -28,7 +28,7 @@ os.environ["TRENDNEWS_DRAFTS_DIR"] = str(_TMP_DATA_DIR / "drafts")
 os.environ["TRENDNEWS_STATE_DIR"] = str(_TMP_DATA_DIR / "state")
 atexit.register(shutil.rmtree, _TMP_DATA_DIR, ignore_errors=True)
 
-from src import collect, evidence, extract, imaging, review, sources, store, trends, writer  # noqa: E402
+from src import collect, evidence, extract, imaging, proxy_config, review, sources, store, trends, writer  # noqa: E402
 from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
 from src.rank import cluster, rank, similarity, tokens  # noqa: E402
 from src.sources import Article  # noqa: E402
@@ -9700,13 +9700,64 @@ def test_actions_block_script() -> None:
     check("حكم حجب جزئي عند 30% بالضبط (الحد شامل)", tab.judge(0.30) == "حجب جزئي")
     check("حكم حجب كامل دون 30%", tab.judge(0.29) == "حجب كامل")
 
-    report = tab.render_report("1.2.3.4", {"success": 30, "blocked": 5, "no_transcript": 4, "other": 1})
+    check("متوسط لكل فيديو من إجمالي البيانات ÷ عدد المحاولات",
+          tab.data_usage_lines(40 * 1024 * 1024, 40) == [
+              "إجمالي البيانات المنقولة: 40.00 ميجابايت",
+              "متوسط لكل فيديو: 1024.0 كيلوبايت",
+          ])
+    check("لا انهيار على صفر محاولات", tab.data_usage_lines(0, 0)[1].endswith("0.0 كيلوبايت"))
+
+    counts_40 = {"success": 30, "blocked": 5, "no_transcript": 4, "other": 1}
+    report = tab.render_report("1.2.3.4", counts_40, None, 4 * 1024 * 1024)
     check("التقرير يذكر عنوان الخروج", "1.2.3.4" in report)
     check("التقرير يذكر إجمالي المحاولات (40)", "المحاولات: 40" in report)
     check("التقرير يميّز الحجب عن اللاترجمة المشروعة",
           "محجوب (IpBlocked/RequestBlocked): 5" in report and "بلا ترجمة (سبب مشروع): 4" in report)
     check("التقرير يذكر نسبة النجاح والحكم", "نسبة النجاح: 75%" in report and "الحكم: لا حجب" in report)
     check("لا نص ترجمة داخل التقرير", "transcript" not in report.lower())
+    check("التقرير يذكر حالة البروكسي (غير مفعّل بلا كائن إعداد)",
+          "البروكسي: غير مفعّل (اتصال مباشر)" in report)
+    check("التقرير يذكر إجمالي البيانات ومتوسطها لكل فيديو",
+          "إجمالي البيانات المنقولة: 4.00 ميجابايت" in report and "متوسط لكل فيديو:" in report)
+
+    report_proxied = tab.render_report("1.2.3.4", counts_40, object(), 0)
+    check("التقرير يذكر البروكسي مفعّلًا عند وجود كائن إعداد (أيًّا كان نوعه)",
+          "البروكسي: مفعّل (Webshare)" in report_proxied)
+
+
+def test_proxy_config() -> None:
+    """وحدة إعداد البروكسي المشتركة (src/proxy_config.py، Issue #629):
+    وجود سرّي Webshare في البيئة ⇒ كائن إعداد فعلي، غيابهما ⇒ None (تشغيل
+    مباشر بلا بروكسي). لا شبكة هنا -- WebshareProxyConfig لا يتصل بشيء عند
+    الإنشاء، هو حاوية بيانات فقط تُستهلَك لاحقًا داخل youtube_transcript_api."""
+    saved = {
+        proxy_config.USERNAME_VAR: os.environ.pop(proxy_config.USERNAME_VAR, None),
+        proxy_config.PASSWORD_VAR: os.environ.pop(proxy_config.PASSWORD_VAR, None),
+    }
+    try:
+        cfg = proxy_config.get_proxy_config()
+        check("لا سرّين في البيئة ⇒ None (اتصال مباشر)", cfg is None)
+        check("سطر الحالة يطابق غياب البروكسي", proxy_config.proxy_status_line(cfg) == "البروكسي: غير مفعّل (اتصال مباشر)")
+
+        os.environ[proxy_config.USERNAME_VAR] = "user1"
+        cfg = proxy_config.get_proxy_config()
+        check("اسم مستخدم بلا كلمة مرور لا يزال None (كلاهما مطلوب معًا)", cfg is None)
+
+        os.environ[proxy_config.PASSWORD_VAR] = "pass1"
+        cfg = proxy_config.get_proxy_config()
+        check("وجود السرّين معًا ⇒ كائن WebshareProxyConfig", cfg is not None)
+        check("بيانات الاعتماد تُمرَّر كما هي إلى الكائن",
+              cfg.proxy_username == "user1" and cfg.proxy_password == "pass1")
+        check("سطر الحالة يطابق تفعيل البروكسي", proxy_config.proxy_status_line(cfg) == "البروكسي: مفعّل (Webshare)")
+        check("لا بيانات اعتماد مطبوعة داخل تمثيل الكائن (repr) أو سطر الحالة",
+              "user1" not in proxy_config.proxy_status_line(cfg) and
+              "pass1" not in proxy_config.proxy_status_line(cfg))
+    finally:
+        for key, value in saved.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
 
 
 def test_no_temperature_param() -> None:
@@ -9858,6 +9909,8 @@ def main() -> int:
     test_measure_channels()
     print("\n── سكربت اختبار الحجب من Actions (Issue #626) ──")
     test_actions_block_script()
+    print("\n── إعداد بروكسي Webshare (Issue #629) ──")
+    test_proxy_config()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:
