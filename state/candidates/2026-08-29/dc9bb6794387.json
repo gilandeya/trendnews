@@ -1,0 +1,56 @@
+{
+  "id": "dc9bb6794387",
+  "created_at": "2026-08-29T06:07:48.659977+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.43,
+  "trend_score": 0.5,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "China removes high-ranking officers from key military body",
+  "link": "https://www.thehindu.com/news/international/china-removes-high-ranking-officers-from-key-military-body/article71401933.ece",
+  "publishers": [
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "in",
+  "article": {
+    "title": "China removes high-ranking officers from key military body",
+    "link": "https://www.thehindu.com/news/international/china-removes-high-ranking-officers-from-key-military-body/article71401933.ece",
+    "summary": "In January, though, the Defence Ministry said that Zhang and Liu were \"suspected of serious violations of discipline and the law\", a common euphemism for corruption",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-28T17:06:03+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/e21djw/article71401970.ece/alternates/LANDSCAPE_1200/China-s-top-genG91FHFPOT.3.jpg.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/china-removes-high-ranking-officers-from-key-military-body/article71401933.ece"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/29/asia-pacific/politics/china-top-officers-removed/"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/e21djw/article71401970.ece/alternates/LANDSCAPE_1200/China-s-top-genG91FHFPOT.3.jpg.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/29/560066.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/29/thumbs/400x400/560066.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.431518652444446
+  }
+}
