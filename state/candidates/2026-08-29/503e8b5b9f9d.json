@@ -1,0 +1,64 @@
+{
+  "id": "503e8b5b9f9d",
+  "created_at": "2026-08-29T09:08:10.607688+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.68,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Japan, U.S., South Korea to hold joint military exercises from Sept. 7",
+  "link": "https://www.japantimes.co.jp/news/2026/08/29/japan/freedom-edge-us-japan-south-korea-2026/",
+  "publishers": [
+    "NPR",
+    "NPR World",
+    "Nikkei Asia",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Japan, U.S., South Korea to hold joint military exercises from Sept. 7",
+    "link": "https://www.japantimes.co.jp/news/2026/08/29/japan/freedom-edge-us-japan-south-korea-2026/",
+    "summary": "If the exercise goes ahead as planned, North Korea is expected to react strongly, potentially cooling momentum for talks with the U.S.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-08-29T00:26:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/29/560067.JPG",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "NPR",
+      "NPR World",
+      "Nikkei Asia",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/politics/defense/japan-south-korea-and-us-to-hold-joint-military-drills-seoul-says"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/29/japan/freedom-edge-us-japan-south-korea-2026/"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/08/28/g-s1-140849/us-south-korea-japan-drill-north-korea"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/29/560067.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/29/thumbs/400x400/560067.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-140849"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.22179034760103036,
+    "age_hours": 299.0053714811111,
+    "is_stale": false,
+    "score": 23.67891187430145
+  }
+}
