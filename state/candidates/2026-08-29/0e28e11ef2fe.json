@@ -1,0 +1,67 @@
+{
+  "id": "0e28e11ef2fe",
+  "created_at": "2026-08-29T15:07:50.504832+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.37,
+  "trend_score": 0.33,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Zimbabwe minibus taxi carrying church members crashes, killing 27",
+  "link": "https://www.thehindu.com/news/international/several-people-dead-zimbabwe-minibus-taxi-carrying-church-members-crashes/article71404297.ece",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "Punch Nigeria",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Zimbabwe minibus taxi carrying church members crashes, killing 27",
+    "link": "https://www.thehindu.com/news/international/several-people-dead-zimbabwe-minibus-taxi-carrying-church-members-crashes/article71404297.ece",
+    "summary": "The minibus taxi burst into flames and was reduced to a shell following the collision, according to local media, which published pictures of the wreckage",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-29T11:10:03+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/dfs7bk/article71404375.ece/alternates/LANDSCAPE_1200/iStock-1169071737.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "Punch Nigeria",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/29/zimbabwe-minibus-carrying-church-members-crashes-killing-at-least-27?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/several-people-dead-zimbabwe-minibus-taxi-carrying-church-members-crashes/article71404297.ece"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/27-die-as-overtaking-truck-slams-into-church-bus-in-zimbabwe/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/africa/27-die-after-church-minibus-collides-with-truck-in-zimbabwe"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/dfs7bk/article71404375.ece/alternates/LANDSCAPE_1200/iStock-1169071737.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/29/458234.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 4,
+    "velocity": 0.33403771395948817,
+    "age_hours": 2.9936739422222223,
+    "is_stale": false,
+    "score": 19.37277418100114
+  }
+}

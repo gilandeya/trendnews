@@ -1,0 +1,85 @@
+{
+  "id": "c55ad4ee6bca",
+  "created_at": "2026-08-29T15:07:50.504427+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.02,
+  "trend_score": 0.0,
+  "velocity": 0.45,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "War weighs on Iran's economy as US intensifies sanctions",
+  "link": "https://www.dawn.com/news/2025973/war-weighs-on-irans-economy-as-us-intensifies-sanctions",
+  "publishers": [
+    "Channel News Asia",
+    "Daily Sabah",
+    "Dawn",
+    "Free Malaysia Today",
+    "Iran International",
+    "Malay Mail",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "War weighs on Iran's economy as US intensifies sanctions",
+    "link": "https://www.dawn.com/news/2025973/war-weighs-on-irans-economy-as-us-intensifies-sanctions",
+    "summary": "Iranian leaders are acknowledging the economic toll of war with the US, with the supreme leader urging the government to address the hardship and the president saying foreign trade has shrunk by a third due to the American sanctions and blockade. Yet Tehran signalled no retreat on Saturday, vowing to withstand US pressure, pursue diplomacy and maintain what it said was control over the Strait of Hormuz , the strategic waterway giving Iran leverage through its ability to disrupt global energy markets. The government said in a statement on state media that addressing economic pressures caused by sanctions and war was a central focus, including curbing inflation, managing markets, creating jobs, directing investment towards domestic production and gradually reducing dependence on the dollar. Six months after the US and Israel launched the war, negotiations are at an impasse and President Donald Trump’s administration has stepped up efforts to punish Iran financially with what it has billed as an “ economic D-Day ”. Sanctions compund toll on Iran’s economy Washington has warned countries to cut business ties with Iran or face secondary sanctions, though the Treasury Department stopped ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-08-29T13:56:55+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/29185645eee5826.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Daily Sabah",
+      "Dawn",
+      "Free Malaysia Today",
+      "Iran International",
+      "Malay Mail",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2025973/war-weighs-on-irans-economy-as-us-intensifies-sanctions"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/war-weighs-on-irans-economy-as-us-intensifies-sanctions/article71403631.ece"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/war-us-sanctions-iran-economy-strait-horrmuz-6349426"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/29/war-weighs-on-iran-s-economy-as-us-intensifies-sanctions"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/irans-economy-strains-as-war-us-sanctions-intensify"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/money/2026/08/29/iran-transfers-us75b-in-oil-revenues-to-central-bank-amid-us-blockade/233194"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/29185645eee5826.webp",
+      "https://i.dawn.com/thumbnail/2026/08/29185645eee5826.webp",
+      "https://th-i.thgim.com/public/incoming/st4tzt/article71403671.ece/alternates/LANDSCAPE_1200/Trump-used-to-sG4NGF5K4D.3.jpg.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--aygFeXOw--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/29/tehran_5.jpg?itok=ta5YKpEb",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/061a567b-iran-executions-2.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/29/458241.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 0.44537559226739837,
+    "age_hours": 2.9937278927777777,
+    "is_stale": false,
+    "score": 20.02026908167647
+  }
+}

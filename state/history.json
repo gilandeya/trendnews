@@ -1,25 +1,5 @@
 [
   {
-    "score": 16.88,
-    "bucket": "serious",
-    "tokens": [
-      "agreement",
-      "belarus",
-      "citizens",
-      "korea",
-      "near",
-      "ordinary",
-      "report",
-      "visa",
-      "waiver"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260824006200315",
-    "title": "N. Korea, Belarus near visa-waiver agreement for ordinary citizens: report",
-    "posted_title": "كوريا الشمالية وبيلاروسيا تقتربان من إلغاء التأشيرة بين مواطنيهما",
-    "region": "kr",
-    "seen_at": "2026-08-24T12:37:11.473489+00:00"
-  },
-  {
     "score": 30.2,
     "bucket": "useful",
     "tokens": [
@@ -5147,5 +5127,103 @@
     "posted_title": "ملك مملكة تورو الأوغندية أويو نيمبا يرحل عن 34 عامًا بعد أن كان أصغر ملك متوج في العالم",
     "region": "za",
     "seen_at": "2026-08-29T12:35:24.570002+00:00"
+  },
+  {
+    "score": 25.44,
+    "bucket": "serious",
+    "tokens": [
+      "675",
+      "china",
+      "claw",
+      "climbs",
+      "death",
+      "flood",
+      "mud",
+      "nepal",
+      "rescuers",
+      "through",
+      "toll"
+    ],
+    "link": "https://www.dawn.com/news/2025932/rescuers-claw-through-mud-as-nepal-china-flood-death-toll-climbs-to-675",
+    "title": "Rescuers claw through mud as Nepal, China flood death toll climbs to 675",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-29T15:07:50.504172+00:00"
+  },
+  {
+    "score": 23.46,
+    "bucket": "serious",
+    "tokens": [
+      "drone",
+      "kills",
+      "kyiv",
+      "least",
+      "russian",
+      "storing",
+      "strike",
+      "warehouse",
+      "weapons"
+    ],
+    "link": "https://www.theguardian.com/world/2026/aug/29/russian-strike-warehouse-near-kyiv-kills-at-least-37",
+    "title": "Russian drone strike on Kyiv warehouse storing weapons kills at least 37",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-29T15:07:50.504421+00:00"
+  },
+  {
+    "score": 20.02,
+    "bucket": "serious",
+    "tokens": [
+      "economy",
+      "intensifies",
+      "iran's",
+      "sanctions",
+      "war",
+      "weighs"
+    ],
+    "link": "https://www.dawn.com/news/2025973/war-weighs-on-irans-economy-as-us-intensifies-sanctions",
+    "title": "War weighs on Iran's economy as US intensifies sanctions",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-29T15:07:50.504619+00:00"
+  },
+  {
+    "score": 19.51,
+    "bucket": "serious",
+    "tokens": [
+      "'historic'",
+      "65bn",
+      "barrels",
+      "control",
+      "deal",
+      "hails",
+      "oil",
+      "trump",
+      "venezuela's"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cx2zlwe7qj1o?at_medium=RSS&at_campaign=rss",
+    "title": "Trump hails 'historic' deal for US to control 65bn barrels of Venezuela's oil",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-29T15:07:50.504828+00:00"
+  },
+  {
+    "score": 19.37,
+    "bucket": "serious",
+    "tokens": [
+      "carrying",
+      "church",
+      "crashes",
+      "killing",
+      "members",
+      "minibus",
+      "taxi",
+      "zimbabwe"
+    ],
+    "link": "https://www.thehindu.com/news/international/several-people-dead-zimbabwe-minibus-taxi-carrying-church-members-crashes/article71404297.ece",
+    "title": "Zimbabwe minibus taxi carrying church members crashes, killing 27",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-08-29T15:07:50.504988+00:00"
   }
 ]
