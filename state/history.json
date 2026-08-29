@@ -1,198 +1,5 @@
 [
   {
-    "score": 30.2,
-    "bucket": "useful",
-    "tokens": [
-      "about",
-      "football",
-      "health",
-      "mental",
-      "talk",
-      "using"
-    ],
-    "link": "https://www.bbc.co.uk/news/videos/cqjkl7qz1e4o?at_medium=RSS&at_campaign=rss",
-    "title": "Using football to talk about mental health",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-08-24T15:07:51.775740+00:00"
-  },
-  {
-    "score": 23.4,
-    "bucket": "serious",
-    "tokens": [
-      "collapse",
-      "guinea",
-      "kills",
-      "landfill",
-      "rubbish"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c4g3g36z7p6o?at_medium=RSS&at_campaign=rss",
-    "title": "Guinea rubbish landfill collapse kills 31",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-24T15:07:51.776051+00:00"
-  },
-  {
-    "score": 17.28,
-    "bucket": "serious",
-    "tokens": [
-      "2027",
-      "acero",
-      "anuncia",
-      "aranceles",
-      "canadá",
-      "del",
-      "desde",
-      "enero",
-      "para",
-      "trump",
-      "vehículos"
-    ],
-    "link": "https://elpais.com/economia/2026-08-24/trump-anuncia-aranceles-del-50-para-vehiculos-y-acero-de-canada-desde-el-1-de-enero-de-2027.html",
-    "title": "Trump anuncia aranceles del 50% para vehículos y acero de Canadá desde el 1 de enero de 2027",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-08-24T15:07:51.776310+00:00"
-  },
-  {
-    "score": 16.07,
-    "bucket": "serious",
-    "tokens": [
-      "days",
-      "expect",
-      "hong",
-      "kong",
-      "next",
-      "signal",
-      "typhoon",
-      "unlikely",
-      "unsettled",
-      "weather"
-    ],
-    "link": "https://www.scmp.com/weather/hong-kong/article/3365034/typhoon-signal-hong-kong-unlikely-next-2-days-expect-unsettled-weather?utm_source=rss_feed",
-    "title": "Typhoon signal in Hong Kong unlikely in next 2 days but expect unsettled weather",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-08-24T15:07:51.776585+00:00"
-  },
-  {
-    "score": 15.24,
-    "bucket": "serious",
-    "tokens": [
-      "45b",
-      "discovers",
-      "fars",
-      "field",
-      "gas",
-      "iran",
-      "major",
-      "province",
-      "takhteh",
-      "worth"
-    ],
-    "link": "https://www.tehrantimes.com/news/529382/Iran-discovers-major-gas-field-Takhteh-in-Fars-province-worth",
-    "title": "Iran discovers major gas field \"Takhteh\" in Fars province worth $45b",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-08-24T15:07:51.776849+00:00"
-  },
-  {
-    "score": 21.08,
-    "bucket": "serious",
-    "tokens": [
-      "caa1",
-      "cites",
-      "easing",
-      "external",
-      "governance",
-      "improved",
-      "lifts",
-      "moody's",
-      "pakistan",
-      "rating",
-      "risk",
-      "sovereign"
-    ],
-    "link": "https://www.dawn.com/news/2024988/moodys-lifts-pakistan-sovereign-rating-to-b3-from-caa1-cites-improved-governance-and-easing-of-external-risk",
-    "title": "Moody's lifts Pakistan sovereign rating to B3 from Caa1, cites improved governance and easing of external risk",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-08-24T17:07:56.086443+00:00"
-  },
-  {
-    "score": 18.07,
-    "bucket": "serious",
-    "tokens": [
-      "army",
-      "asim",
-      "august",
-      "chief",
-      "iran",
-      "munir",
-      "pakistan",
-      "tehran",
-      "visit"
-    ],
-    "link": "https://www.thehindu.com/news/international/iran-says-pakistan-army-chief-asim-munir-to-visit-tehran-on-august24/article71380827.ece",
-    "title": "Pakistan Army chief Asim Munir to visit Tehran on August 24: Iran",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-08-24T17:07:56.086783+00:00"
-  },
-  {
-    "score": 15.5,
-    "bucket": "serious",
-    "tokens": [
-      "auto",
-      "canada",
-      "double",
-      "tariffs",
-      "trump"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/business/2026/08/24/trump-says-to-double-auto-tariffs-on-canada",
-    "title": "Trump says to double auto tariffs on Canada",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-08-24T17:07:56.087057+00:00"
-  },
-  {
-    "score": 13.54,
-    "bucket": "serious",
-    "tokens": [
-      "2027",
-      "concerns",
-      "eurovision",
-      "gaza",
-      "netherlands",
-      "withdraws"
-    ],
-    "link": "https://www.dailysabah.com/arts/music/netherlands-withdraws-from-2027-eurovision-over-gaza-concerns",
-    "title": "Netherlands withdraws from 2027 Eurovision over Gaza concerns",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-08-24T17:07:56.087325+00:00"
-  },
-  {
-    "score": 13.27,
-    "bucket": "useful",
-    "tokens": [
-      "'bigger",
-      "catastrophic",
-      "climate",
-      "events",
-      "inches",
-      "shocks",
-      "toward",
-      "way'",
-      "world"
-    ],
-    "link": "https://phys.org/news/2026-08-world-inches-catastrophic-climate-events.html",
-    "title": "The world inches toward catastrophic climate events: 'Bigger shocks are on the way'",
-    "posted_title": "",
-    "region": "science",
-    "seen_at": "2026-08-24T17:07:56.087587+00:00"
-  },
-  {
     "score": 13.27,
     "bucket": "useful",
     "tokens": [
@@ -5225,5 +5032,103 @@
     "posted_title": "",
     "region": "in",
     "seen_at": "2026-08-29T15:07:50.504988+00:00"
+  },
+  {
+    "score": 16.65,
+    "bucket": "serious",
+    "tokens": [
+      "africa",
+      "herpes",
+      "killing",
+      "off",
+      "probe",
+      "sardines",
+      "scientists",
+      "south",
+      "virus"
+    ],
+    "link": "https://www.scmp.com/news/world/africa/article/3365714/scientists-probe-if-herpes-virus-killing-sardines-south-africa?utm_source=rss_feed",
+    "title": "Scientists probe if herpes virus is killing sardines off South Africa",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-08-29T17:08:04.766215+00:00"
+  },
+  {
+    "score": 16.32,
+    "bucket": "serious",
+    "tokens": [
+      "iran",
+      "mark",
+      "month",
+      "passes",
+      "resist",
+      "sanctions",
+      "vows",
+      "war"
+    ],
+    "link": "https://www.cbsnews.com/live-updates/iran-war-us-trump-strait-of-hormuz-6-months-no-end-in-sight/",
+    "title": "Iran vows to resist U.S. sanctions as war passes 6-month mark",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-08-29T17:08:04.766482+00:00"
+  },
+  {
+    "score": 15.83,
+    "bucket": "serious",
+    "tokens": [
+      "blacklisted",
+      "built",
+      "exile",
+      "keep",
+      "kremlin",
+      "left",
+      "now",
+      "russia",
+      "school",
+      "teaching"
+    ],
+    "link": "https://meduza.io/en/news/2026/08/28/they-left-russia-to-keep-teaching-now-the-kremlin-has-blacklisted-the-school-they-built-from-exile",
+    "title": "They left Russia to keep teaching. Now the Kremlin has blacklisted the school they built from exile.",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-08-29T17:08:04.766723+00:00"
+  },
+  {
+    "score": 15.41,
+    "bucket": "serious",
+    "tokens": [
+      "above",
+      "august",
+      "confidence",
+      "economic",
+      "key",
+      "rises",
+      "threshold",
+      "türkiye's"
+    ],
+    "link": "https://www.dailysabah.com/business/economy/turkiyes-economic-confidence-rises-above-key-threshold-in-august",
+    "title": "Türkiye's economic confidence rises above key threshold in August",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-08-29T17:08:04.766974+00:00"
+  },
+  {
+    "score": 14.55,
+    "bucket": "serious",
+    "tokens": [
+      "activism",
+      "audits",
+      "citizen",
+      "india's",
+      "led",
+      "limits",
+      "school",
+      "test"
+    ],
+    "link": "https://www.dw.com/en/india-s-citizen-led-school-audits-test-limits-of-activism/a-78545789?maca=en-rss-en-world-4025-rdf",
+    "title": "India's citizen-led school audits test limits of activism",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-08-29T17:08:04.767201+00:00"
   }
 ]

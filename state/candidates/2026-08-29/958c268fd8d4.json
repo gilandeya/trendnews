@@ -1,0 +1,48 @@
+{
+  "id": "958c268fd8d4",
+  "created_at": "2026-08-29T17:08:04.765807+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.65,
+  "trend_score": 0.67,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Scientists probe if herpes virus is killing sardines off South Africa",
+  "link": "https://www.scmp.com/news/world/africa/article/3365714/scientists-probe-if-herpes-virus-killing-sardines-south-africa?utm_source=rss_feed",
+  "publishers": [
+    "AP News",
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Scientists probe if herpes virus is killing sardines off South Africa",
+    "link": "https://www.scmp.com/news/world/africa/article/3365714/scientists-probe-if-herpes-virus-killing-sardines-south-africa?utm_source=rss_feed",
+    "summary": "Scientists in South Africa are investigating why masses of sardines have washed up dead or dying along parts of the country’s west and south coast – and if a herpes virus detected in the fish is responsible. The mass mortality of sardines this month has so far stumped the country’s Department of Forestry, Fisheries and the Environment, though scientists have come to at least one conclusion: it is the first time that the virus in question – pilchard herpesvirus, or PHV – has been identified in...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-08-29T12:10:48+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "AP News",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/africa/article/3365714/scientists-probe-if-herpes-virus-killing-sardines-south-africa?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 2.0014330044444444,
+    "is_stale": false,
+    "score": 16.653323303388888
+  }
+}
