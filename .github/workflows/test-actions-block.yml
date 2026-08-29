@@ -1,0 +1,32 @@
+name: اختبار الحجب من Actions
+
+# Issue #626: one-off diagnostic only. workflow_dispatch, no schedule -- this
+# measures a single yes/no (does YouTube block Actions runner IPs), not a
+# recurring job.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-block:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: سحب المستودع
+        uses: actions/checkout@v4
+
+      - name: تهيئة بايثون
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: تشغيل اختبار الحجب
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python tools/test_actions_block.py
