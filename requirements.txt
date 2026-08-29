@@ -17,3 +17,6 @@ fonttools>=4.50
 PyYAML>=6.0
 trafilatura>=1.12
 imageio-ffmpeg>=0.5
+# tools/measure_channels.py فقط (Issue #619) — سكربت يدوي، لا يستخدمه أي
+# مسار في src/. list() فقط، لا جلب لنص الترجمة نفسه.
+youtube-transcript-api>=1.0

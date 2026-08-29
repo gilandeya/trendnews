@@ -32,6 +32,7 @@ from src import collect, evidence, extract, imaging, review, sources, store, tre
 from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
 from src.rank import cluster, rank, similarity, tokens  # noqa: E402
 from src.sources import Article  # noqa: E402
+from tools import measure_channels  # noqa: E402
 
 # نسخة imaging.download_image الحقيقية، مُلتقَطة قبل أن يستبدلها install_fakes()
 # بلا شرط — منطق رفض الروابط المشبوهة (looks_bad) لا يحتاج شبكة، ويستحق
@@ -9546,6 +9547,121 @@ def test_insights_analysis() -> None:
     check("لا انهيار مع بيانات فارغة", analyse([], "UTC") == {})
 
 
+def test_measure_channels() -> None:
+    """سكربت الاستطلاع اليدوي (tools/measure_channels.py، Issue #619) لا شبكة
+    فعلية له في هذا الاختبار — يُشغَّل يدويًا من جهاز المالك فقط (انظر
+    CLAUDE.md). نختبر هنا الدوال الصِرفة فقط: تحليل المدة، التصنيف إلى
+    فئات، التجميع الإحصائي، وتوليد نصوص التقرير/config.yaml."""
+    mc = measure_channels
+
+    check("13 قناة في قائمة الإدخال", len(mc.CHANNELS) == 13, len(mc.CHANNELS))
+    handles = [c["handle"] for c in mc.CHANNELS]
+    channel_ids = [c["channel_id"] for c in mc.CHANNELS]
+    check("لا تكرار في handle", len(set(handles)) == len(handles))
+    check("لا تكرار في channel_id", len(set(channel_ids)) == len(channel_ids))
+    check("كل channel_id يبدأ بـ UC",
+          all(cid.startswith("UC") for cid in channel_ids),
+          [cid for cid in channel_ids if not cid.startswith("UC")])
+    check("قناتا Halk TV وSÖZCÜ فقط غير مؤكَّدتين",
+          {c["handle"] for c in mc.CHANNELS if c.get("unconfirmed")} ==
+          {"@Halktvkanali", "@Sozcutelevizyonu"})
+
+    check("uploads_playlist_id يبدّل الحرف الثاني UC→UU",
+          mc.uploads_playlist_id("UCabc123") == "UUabc123")
+    try:
+        mc.uploads_playlist_id("XXabc123")
+        bad_id_raised = False
+    except ValueError:
+        bad_id_raised = True
+    check("uploads_playlist_id يرفض معرّفًا لا يبدأ بـ UC", bad_id_raised)
+
+    check("تحليل PT1H2M10S", mc.parse_iso8601_duration("PT1H2M10S") == 3730)
+    check("تحليل PT45S", mc.parse_iso8601_duration("PT45S") == 45)
+    check("تحليل PT0S", mc.parse_iso8601_duration("PT0S") == 0)
+    check("تنسيق format_mmss", mc.format_mmss(3730) == "62:10")
+
+    check("تصنيف < 5 د", mc.duration_bucket(200) == "< 5 د")
+    check("تصنيف 5-15 د على الحد الأدنى", mc.duration_bucket(300) == "5-15 د")
+    check("تصنيف > 90 د", mc.duration_bucket(6000) == "> 90 د")
+
+    check("توصية الحد الأدنى تقطع الذيل القصير",
+          mc.recommend_min_duration_seconds([60, 120, 180, 240, 600, 900]) == 60)
+    check("لا توصية بلا مدد", mc.recommend_min_duration_seconds([]) is None)
+
+    channel = {"handle": "@x", "name": "قناة×"}
+    videos = [
+        mc.VideoRecord("@x", "قناة×", "v1", "عنوان١", 600, "2024-01-01T00:00:00Z", False,
+                        transcript_available=True, transcript_language="ar", transcript_is_manual=True),
+        mc.VideoRecord("@x", "قناة×", "v2", "عنوان٢", 1200, "2024-01-03T00:00:00Z", False,
+                        transcript_available=True, transcript_language="ar", transcript_is_manual=False),
+        mc.VideoRecord("@x", "قناة×", "v3", "عنوان٣", 200, "2024-01-05T00:00:00Z", False,
+                        transcript_available=False),
+        mc.VideoRecord("@x", "قناة×", "v4", "بث مباشر", 7200, "2024-01-06T00:00:00Z", True),
+        mc.VideoRecord("@x", "قناة×", "v5", "خطأ فحص", 300, "2024-01-07T00:00:00Z", False,
+                        transcript_error="RequestBlocked"),
+    ]
+    stats = mc.compute_channel_stats(channel, videos)
+    check("حجم العيّنة يشمل كل الفيديوهات", stats["sample_size"] == 5)
+    check("عدّ البث المباشر", stats["live_count"] == 1, stats["live_count"])
+    check("وسيط المدة يستبعد البث المباشر فقط",
+          stats["median_duration"] == 450.0, stats["median_duration"])
+    check("عدد المفحوصين يستبعد ما فشل فحصه (v5)", stats["transcript_checked"] == 4)
+    check("نسبة توفّر النص من المفحوص فقط (2 من 4)",
+          stats["transcript_available_pct"] == 50.0, stats["transcript_available_pct"])
+    check("نسبة اليدوي من المتوفر فقط (1 من 2)",
+          stats["transcript_manual_pct"] == 50.0, stats["transcript_manual_pct"])
+    check("معدّل الرفع اليومي محسوب من مدى تاريخ النشر",
+          stats["daily_upload_rate"] is not None and stats["daily_upload_rate"] > 0)
+
+    lang_stats = mc.compute_language_stats(
+        [{"handle": "@x", "language": "ar"}], {"@x": videos})
+    check("تجميع اللغة يطابق تجميع القناة الوحيدة فيها",
+          lang_stats["ar"]["transcript_available_pct"] == stats["transcript_available_pct"])
+
+    table = mc.render_channel_table([stats])
+    check("جدول القنوات يذكر اسم القناة", "قناة×" in table)
+    lang_table = mc.render_language_table(lang_stats)
+    check("جدول اللغات يذكر ar", "| ar |" in lang_table)
+    errors = [{"channel": "قناة×", "video_id": "v5", "reason": "RequestBlocked"}]
+    err_section = mc.render_errors_section(errors)
+    check("قسم الأخطاء يذكر الفيديو والسبب", "v5" in err_section and "RequestBlocked" in err_section)
+    recs = mc.render_recommendations([stats], lang_stats)
+    check("قسم التوصيات يقترح حدًّا أدنى للقناة", "قناة×" in recs)
+
+    titles_text = mc.render_titles_file(videos)
+    check("ملف العناوين سطر لكل فيديو مسبوق بالمدة",
+          titles_text.count("\n") == len(videos) and titles_text.startswith("10:00"))
+
+    report = mc.render_survey_report([stats], lang_stats, errors)
+    check("التقرير الكامل يحوي الجدولين وقسمي الأخطاء والتوصيات",
+          all(s in report for s in ["### جدول القنوات", "### جدول اللغات", "### الأخطاء", "### التوصيات"]))
+
+    # insert_channels_section: إضافة، ثم استبدال في المكان، بلا مسّ لبقية الملف
+    base_config = "brand:\n  name: \"\"\n\nsources:\n  - name: \"x\"\n"
+    sample_channels = [{
+        "handle": "@x", "channel_id": "UCabc", "name": "قناة×",
+        "language": "ar", "bloc": "arabic", "bias_note": "ملاحظة",
+    }]
+    appended = mc.insert_channels_section(base_config, sample_channels)
+    check("إضافة قسم channels تُبقي بقية الملف كما هي",
+          appended.startswith(base_config.rstrip("\n") + "\n") or base_config in appended)
+    check("قسم channels يحوي القناة المضافة", "@x" in appended and "channel_id: UCabc" in appended)
+    replaced = mc.insert_channels_section(appended, sample_channels)
+    check("إعادة التشغيل على نفس المدخل بلا تغيير (لا تكرار للقسم)",
+          replaced == appended and appended.count("channels:") == 1)
+
+    import yaml as _yaml
+    parsed = _yaml.safe_load(appended)
+    check("channels صالح YAML وله عنصر واحد كما أُدخل",
+          parsed.get("channels") == [{
+              "handle": "@x", "channel_id": "UCabc", "name": "قناة×",
+              "language": "ar", "bloc": "arabic", "bias_note": "ملاحظة",
+              "active": True, "min_duration_minutes": 8,
+              "programs": [], "exclude_patterns": [],
+          }])
+    check("قسم sources الأصلي محفوظ حرفيًا", "sources:\n  - name: \"x\"" in appended)
+
+
 def test_no_temperature_param() -> None:
     """حارس ثابت يمنع تكرار Issue #373 (الجولة الحادية عشرة): temperature
     تُرفَض بـ400 ("temperature is deprecated for this model") من نماذج هذا
@@ -9691,6 +9807,8 @@ def main() -> int:
     test_insights_analysis()
     print("\n── حارس temperature (Issue #373) ──")
     test_no_temperature_param()
+    print("\n── سكربت قياس قنوات يوتيوب (Issue #619) ──")
+    test_measure_channels()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:
