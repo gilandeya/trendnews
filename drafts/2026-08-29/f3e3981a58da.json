@@ -1,7 +1,7 @@
 {
   "id": "f3e3981a58da",
   "created_at": "2026-08-29T12:35:24.569574+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 14.63,
   "bucket": "serious",
@@ -56,5 +56,12 @@
       "https://cdn.dailymaverick.co.za/attachments/2997/866342_869069.jpg"
     ]
   },
-  "publish_at": "2026-08-29T13:14:30.383970+00:00"
+  "publish_at": "2026-08-29T13:14:30.383970+00:00",
+  "published_at": "2026-08-29T13:15:48.285082+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1346752297541791",
+    "photo_id": "1346752267541794",
+    "url": "https://www.facebook.com/631680090321390_1346752297541791",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
