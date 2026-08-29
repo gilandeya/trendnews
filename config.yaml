@@ -1100,7 +1100,7 @@ decisions:
 # يحسمه tools/test_actions_block.py وحده؛ لا شيء هنا يفترض الجواب.
 # راجع docs/channel_survey_2026-08.md للملخّص الكامل.
 youtube:
-  max_per_channel: 5
+  max_per_channel: 3
   min_duration_minutes: 8
   max_duration_minutes: 150
   exclude_live: true
