@@ -1106,6 +1106,18 @@ youtube:
   exclude_live: true
   lookback_hours: 30
   min_blocs_per_topic: 2
+  # كم يومًا يبقى معرّف الفيديو في state/youtube_seen.json قبل تقليمه —
+  # أعلى من lookback_hours بفارق واسع فيبقى منع التكرار فعّالًا حتى لو
+  # تأخّرت تشغيلة يدوية أيامًا، بلا نمو غير محدود لملف السجل.
+  seen_retention_days: 14
+
+  # ── المرحلة الثانية: الاستخلاص (src/youtube_extract.py، Issue #631) ──
+  extract:
+    model: "claude-haiku-4-5-20251001"  # أرخص طبقة متاحة -- استخلاص نقاط لا تحليل عميق
+    max_tokens: 2000
+    # فاصل عشوائي بين نداءات سحب النص المتتالية -- نفس نمط
+    # tools/test_actions_block.py، لتفادي شكل استخدام آلي واضح لسحب النص.
+    transcript_sleep_range: [2.0, 5.0]
 
 # القنوات الثلاث عشرة من القياس المحلي أعلاه، بترتيب الكتل كما وردت في
 # Issue #626 (عربي، تركي، فارسي، إسرائيلي) — tools/test_actions_block.py
