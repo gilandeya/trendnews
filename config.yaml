@@ -1091,3 +1091,129 @@ decisions:
   # المسودة "متجاهَلة" بدل "لم يصل الدور إليها بعد". يُراجَع على أدلة فعلية
   # بعد تراكم أول 30 قرارًا (طلب المراجع صراحة، Issue #583).
   ignore_timeout_hours: 48
+
+# ── يوتيوب: تثبيت نتائج قياس القنوات (Issue #619 → #626) ────
+# لا مسار تحليل يوتيوب بعد — هذا تثبيت بيانات قياس مَحلي فقط، لا بناء.
+# القياس المحلي (Issue #619، من عنوان منزلي بلا بروكسي) أعطى ٩٣٪ توفّر نص:
+# ٦٠٤ من ٦٥٠ فيديو، بلا حظر واحد. لكن يوتيوب يحجب عناوين مزوّدي السحابة
+# تحديدًا، ونطاقات GitHub Actions منها — هل الحجب قائم من هناك سؤال منفصل
+# يحسمه tools/test_actions_block.py وحده؛ لا شيء هنا يفترض الجواب.
+# راجع docs/channel_survey_2026-08.md للملخّص الكامل.
+youtube:
+  max_per_channel: 5
+  min_duration_minutes: 8
+  max_duration_minutes: 150
+  exclude_live: true
+  lookback_hours: 30
+  min_blocs_per_topic: 2
+
+# القنوات الثلاث عشرة من القياس المحلي أعلاه، بترتيب الكتل كما وردت في
+# Issue #626 (عربي، تركي، فارسي، إسرائيلي) — tools/test_actions_block.py
+# يعتمد على هذا الترتيب لاختيار أول قناة من كل كتلة بلا قائمة معرّفات مكرَّرة
+# في الكود. exclude_patterns مأخوذة حرفيًا من قوائم الاستبعاد لكل لغة في
+# طلب المراجعة؛ لا قائمة للإنجليزية بعد فتُترك فارغة عمدًا لا افتراضًا.
+channels:
+  - handle: "@aljazeera"
+    channel_id: "UCfiwzLy-8yKzIbsmZTzxDgw"
+    name: "الجزيرة"
+    language: "ar"
+    bloc: "arabic"
+    bias_note: "قطرية التمويل"
+    active: true
+    exclude_patterns: ["نشرة", "موجز", "عاجل", "بث مباشر", "مباشر الآن"]
+  - handle: "@alarabiya"
+    channel_id: "UCahpxixMCwoANAftn6IxkTg"
+    name: "العربية"
+    language: "ar"
+    bloc: "arabic"
+    bias_note: "سعودية التمويل، مقرّها دبي"
+    active: true
+    exclude_patterns: ["نشرة", "موجز", "عاجل", "بث مباشر", "مباشر الآن"]
+  - handle: "@france24_ar"
+    channel_id: "UCdTyuXgmJkG_O8_75eqej-w"
+    name: "فرانس 24 عربي"
+    language: "ar"
+    bloc: "arabic"
+    bias_note: "فرنسية عامة"
+    active: true
+    exclude_patterns: ["نشرة", "موجز", "عاجل", "بث مباشر", "مباشر الآن"]
+  - handle: "@cnnturk"
+    channel_id: "UCV6zcRug6Hqp1UX_FdyUeBg"
+    name: "CNN Türk"
+    language: "tr"
+    bloc: "turkish"
+    bias_note: "تيار سائد"
+    active: true
+    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet"]
+  - handle: "@haberturktv"
+    channel_id: "UCn6dNfiRE_Xunu7iMyvD7AA"
+    name: "Habertürk"
+    language: "tr"
+    bloc: "turkish"
+    bias_note: "تيار سائد"
+    active: true
+    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet"]
+  - handle: "@Halktvkanali"
+    channel_id: "UCf_ResXZzE-o18zACUEmyvQ"
+    name: "Halk TV"
+    language: "tr"
+    bloc: "turkish"
+    bias_note: "معارض"
+    active: true
+    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet"]
+  - handle: "@Sozcutelevizyonu"
+    channel_id: "UCOulx_rep5O4i9y6AyDqVvw"
+    name: "SÖZCÜ"
+    language: "tr"
+    bloc: "turkish"
+    bias_note: "معارض علماني"
+    active: true
+    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet"]
+  - handle: "@IRANINTL"
+    channel_id: "UCat6bC0Wrqq9Bcq7EkH_yQw"
+    name: "Iran International"
+    language: "fa"
+    bloc: "persian"
+    bias_note: "معارضة إيرانية"
+    active: true
+    exclude_patterns: ["خبر فوری", "خبر ساعت", "پخش زنده", "خبر نیمروزی"]
+  - handle: "@Rasadkadeh"
+    channel_id: "UCAwjnLdBvZPVuCJU_8RHg_w"
+    name: "رصدکده"
+    language: "fa"
+    bloc: "persian"
+    bias_note: "من داخل إيران"
+    active: true
+    exclude_patterns: ["خبر فوری", "خبر ساعت", "پخش زنده", "خبر نیمروزی"]
+  - handle: "@C14news"
+    channel_id: "UCKEImtWikw9usC1pl_9m1nQ"
+    name: "ערוץ 14"
+    language: "he"
+    bloc: "israeli"
+    bias_note: "يمين"
+    active: true
+    exclude_patterns: ["מבזק", "שידור חי"]
+  - handle: "@IsraelEnglishNews"
+    channel_id: "UCuxgEyMeaks7HS5gAw6Tt7w"
+    name: "ILTV"
+    language: "en"
+    bloc: "israeli"
+    bias_note: "مناصرة موجّهة للخارج"
+    active: true
+    exclude_patterns: []
+  - handle: "@allisraelnewscom"
+    channel_id: "UCu6O9MhKi6m7pgJcchrkxjA"
+    name: "All Israel News"
+    language: "en"
+    bloc: "israeli"
+    bias_note: "يمين ديني"
+    active: true
+    exclude_patterns: []
+  - handle: "@haaretzcom"
+    channel_id: "UCJboXXfoy9Ik4MKU9cpA-Uw"
+    name: "Haaretz"
+    language: "en"
+    bloc: "israeli"
+    bias_note: "يسار ليبرالي"
+    active: true
+    exclude_patterns: []

@@ -32,7 +32,7 @@ from src import collect, evidence, extract, imaging, review, sources, store, tre
 from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
 from src.rank import cluster, rank, similarity, tokens  # noqa: E402
 from src.sources import Article  # noqa: E402
-from tools import measure_channels  # noqa: E402
+from tools import measure_channels, test_actions_block  # noqa: E402
 
 # نسخة imaging.download_image الحقيقية، مُلتقَطة قبل أن يستبدلها install_fakes()
 # بلا شرط — منطق رفض الروابط المشبوهة (looks_bad) لا يحتاج شبكة، ويستحق
@@ -9662,6 +9662,53 @@ def test_measure_channels() -> None:
     check("قسم sources الأصلي محفوظ حرفيًا", "sources:\n  - name: \"x\"" in appended)
 
 
+def test_actions_block_script() -> None:
+    """سكربت تشخيص الحجب (tools/test_actions_block.py، Issue #626) لا شبكة
+    فعلية له هنا — يُشغَّل يدويًا عبر workflow_dispatch فقط. نختبر الدوال
+    الصِرفة: اختيار قناة واحدة من كل كتلة، حساب نسبة النجاح، عتبات الحكم،
+    وتنسيق التقرير النهائي."""
+    tab = test_actions_block
+
+    sample_channels = [
+        {"handle": "@a1", "bloc": "arabic"},
+        {"handle": "@a2", "bloc": "arabic"},
+        {"handle": "@t1", "bloc": "turkish"},
+        {"handle": "@f1", "bloc": "persian"},
+        {"handle": "@i1", "bloc": "israeli"},
+    ]
+    picked = tab.pick_probe_channels(sample_channels)
+    check("أول قناة من كل كتلة فقط، بترتيب ظهورها",
+          [c["handle"] for c in picked] == ["@a1", "@t1", "@f1", "@i1"],
+          [c["handle"] for c in picked])
+
+    # config.yaml الفعلي (Issue #626): أربع كتل، وأول قناة في كل واحدة هي
+    # بالضبط القنوات الأربع التي سمّاها طلب المراجعة صراحة.
+    real_channels = load_config().get("channels", [])
+    check("13 قناة مثبَّتة في config.yaml", len(real_channels) == 13, len(real_channels))
+    real_picked = tab.pick_probe_channels(real_channels)
+    check("قنوات القياس الأربع من config.yaml الفعلي تطابق طلب المراجعة",
+          [c["handle"] for c in real_picked] == ["@aljazeera", "@cnnturk", "@IRANINTL", "@C14news"],
+          [c["handle"] for c in real_picked])
+
+    check("نسبة النجاح من عدّاد فارغ صفر بلا انهيار",
+          tab.success_ratio({"success": 0, "blocked": 0, "no_transcript": 0, "other": 0}) == 0.0)
+    check("نسبة النجاح محسوبة من إجمالي المحاولات لا النجاح فقط",
+          tab.success_ratio({"success": 30, "blocked": 5, "no_transcript": 4, "other": 1}) == 0.75)
+
+    check("حكم لا حجب عند 70% بالضبط (الحد شامل)", tab.judge(0.70) == "لا حجب")
+    check("حكم حجب جزئي دون 70%", tab.judge(0.69) == "حجب جزئي")
+    check("حكم حجب جزئي عند 30% بالضبط (الحد شامل)", tab.judge(0.30) == "حجب جزئي")
+    check("حكم حجب كامل دون 30%", tab.judge(0.29) == "حجب كامل")
+
+    report = tab.render_report("1.2.3.4", {"success": 30, "blocked": 5, "no_transcript": 4, "other": 1})
+    check("التقرير يذكر عنوان الخروج", "1.2.3.4" in report)
+    check("التقرير يذكر إجمالي المحاولات (40)", "المحاولات: 40" in report)
+    check("التقرير يميّز الحجب عن اللاترجمة المشروعة",
+          "محجوب (IpBlocked/RequestBlocked): 5" in report and "بلا ترجمة (سبب مشروع): 4" in report)
+    check("التقرير يذكر نسبة النجاح والحكم", "نسبة النجاح: 75%" in report and "الحكم: لا حجب" in report)
+    check("لا نص ترجمة داخل التقرير", "transcript" not in report.lower())
+
+
 def test_no_temperature_param() -> None:
     """حارس ثابت يمنع تكرار Issue #373 (الجولة الحادية عشرة): temperature
     تُرفَض بـ400 ("temperature is deprecated for this model") من نماذج هذا
@@ -9809,6 +9856,8 @@ def main() -> int:
     test_no_temperature_param()
     print("\n── سكربت قياس قنوات يوتيوب (Issue #619) ──")
     test_measure_channels()
+    print("\n── سكربت اختبار الحجب من Actions (Issue #626) ──")
+    test_actions_block_script()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:
