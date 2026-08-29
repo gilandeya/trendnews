@@ -1,7 +1,7 @@
 {
   "id": "8a2bd492a790",
   "created_at": "2026-08-29T19:29:11.788510+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 15.58,
   "bucket": "serious",
@@ -49,5 +49,12 @@
     "urgent": false,
     "image_candidates": []
   },
-  "publish_at": "2026-08-29T21:09:05.769582+00:00"
+  "publish_at": "2026-08-29T21:09:05.769582+00:00",
+  "published_at": "2026-08-29T21:15:46.430252+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1347048280845526",
+    "photo_id": "1347048267512194",
+    "url": "https://www.facebook.com/631680090321390_1347048280845526",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
