@@ -565,5 +565,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 19
+ },
+ {
+  "id": "21035ec01f7e",
+  "created_at": "2026-08-29T23:14:55.786548+00:00",
+  "decided_at": "2026-08-29T23:15:00.432579+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "عالم",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "eu",
+  "score": 15.37,
+  "trend_score": 0.0,
+  "velocity": 0.22,
+  "source_count": 4,
+  "body_len": 603,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 23
  }
 ]
