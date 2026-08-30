@@ -1,0 +1,66 @@
+{
+  "id": "12bf38f63304",
+  "created_at": "2026-08-30T15:08:02.905716+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.36,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Dozens of soldiers arrested in Niger after attempted mutiny",
+  "link": "http://www.africanews.com/2026/08/30/dozens-of-soldiers-arrested-in-niger-after-attempted-mutiny/",
+  "publishers": [
+    "AP",
+    "Africanews",
+    "Al Jazeera English",
+    "Hindustan Times — World"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Dozens of soldiers arrested in Niger after attempted mutiny",
+    "link": "http://www.africanews.com/2026/08/30/dozens-of-soldiers-arrested-in-niger-after-attempted-mutiny/",
+    "summary": "Dozens of soldiers were killed or arrested after a group of young troops attempted a mutiny in Niger’s capital in what was seen as a major threat to the country’s ruling junta, according to a state television broadcast and analysts.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-30T07:42:13+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/69/35/93/640x360_cmsv2_2fbb601d-11d9-5094-a4be-1cde3bf2db2f-9693593.jpg?1788066582",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "AP",
+      "Africanews",
+      "Al Jazeera English",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/30/dozens-of-soldiers-arrested-after-apparent-coup-attempt-in-nigers-capital?traffic_source=rss"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/30/dozens-of-soldiers-arrested-in-niger-after-attempted-mutiny/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/dozens-of-soldiers-killed-or-arrested-after-an-apparent-mutiny-in-niger-s-capital-state-tv-reports-101788044310946.html"
+      },
+      {
+        "name": "AP",
+        "link": "https://tass.com/world/2179467"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/69/35/93/640x360_cmsv2_2fbb601d-11d9-5094-a4be-1cde3bf2db2f-9693593.jpg?1788066582"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.11112767486597308,
+    "age_hours": 8.999042812777777,
+    "is_stale": false,
+    "score": 15.36040629203357
+  }
+}

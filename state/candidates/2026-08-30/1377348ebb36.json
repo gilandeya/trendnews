@@ -1,0 +1,69 @@
+{
+  "id": "1377348ebb36",
+  "created_at": "2026-08-30T15:08:02.905081+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.17,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "light",
+  "state_media": false,
+  "title": "NASA's Nancy Grace Roman Space Telescope Launches to Find Exoplanets and Unravel Mysteries of Dark Matter and Dark Energy",
+  "link": "https://www.smithsonianmag.com/smart-news/nasas-nancy-grace-roman-space-telescope-launches-to-find-exoplanets-and-unravel-mysteries-of-dark-matter-and-dark-energy-180989268/",
+  "publishers": [
+    "France24",
+    "Investing.com — الاقتصاد",
+    "NDTV — World",
+    "Smithsonian Magazine"
+  ],
+  "region": "odd",
+  "article": {
+    "title": "NASA's Nancy Grace Roman Space Telescope Launches to Find Exoplanets and Unravel Mysteries of Dark Matter and Dark Energy",
+    "link": "https://www.smithsonianmag.com/smart-news/nasas-nancy-grace-roman-space-telescope-launches-to-find-exoplanets-and-unravel-mysteries-of-dark-matter-and-dark-energy-180989268/",
+    "summary": "The new observatory will complete three surveys of the universe in five years, although it's designed to function at least twice as long. Its data could change scientists' basic understanding of the cosmos",
+    "source_name": "Smithsonian Magazine",
+    "region": "odd",
+    "weight": 1.3,
+    "published": "2026-08-30T11:26:00+00:00",
+    "image_url": "https://th-thumbnailer.cdn-si-edu.com/mR5EHPrmafInwOqOOkDHiEOtvEI=/420x240/filters:focal(1800x1029:1801x1030)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/9d/98/9d98cc66-26ad-4f6e-b59e-394818f23d10/roman_beautypass2026-med.png",
+    "publisher": "Smithsonian Magazine",
+    "cluster_sources": [
+      "France24",
+      "Investing.com — الاقتصاد",
+      "NDTV — World",
+      "Smithsonian Magazine"
+    ],
+    "cluster_members": [
+      {
+        "name": "Smithsonian Magazine",
+        "link": "https://www.smithsonianmag.com/smart-news/nasas-nancy-grace-roman-space-telescope-launches-to-find-exoplanets-and-unravel-mysteries-of-dark-matter-and-dark-energy-180989268/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260830-nasa-launches-new-space-telescope"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/spacex-set-to-launch-nasas-43-billion-roman-space-telescope-4882035"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/nasa-launches-4-billion-telescope-into-space-to-study-cosmic-enigmas-11978520#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://th-thumbnailer.cdn-si-edu.com/mR5EHPrmafInwOqOOkDHiEOtvEI=/420x240/filters:focal(1800x1029:1801x1030)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/9d/98/9d98cc66-26ad-4f6e-b59e-394818f23d10/roman_beautypass2026-med.png",
+      "https://s.france24.com/media/display/60a868a6-a482-11f1-8ffe-005056bf30b7/w:1024/p:16x9/EN-20260830-161350-161540-CS.jpg",
+      "https://content-media.investing.com/news/LYNXMPEA9S00L_M.jpg",
+      "https://c.ndtvimg.com/2026-08/lc8emj98_nasa-roman-telescope_625x300_30_August_26.jpeg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.3333776595047558,
+    "age_hours": 2.9996011175,
+    "is_stale": false,
+    "score": 17.1703043635423
+  }
+}

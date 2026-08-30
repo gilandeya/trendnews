@@ -1,0 +1,71 @@
+{
+  "id": "eba97b27b6f3",
+  "created_at": "2026-08-30T15:08:02.905975+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.66,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Killing of Palestinian children and teens by Israel surges in West Bank",
+  "link": "https://www.thehindu.com/news/international/killing-of-palestinian-children-and-teens-by-israel-surges-in-west-bank/article71406972.ece",
+  "publishers": [
+    "Daily Sabah",
+    "Malay Mail",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Killing of Palestinian children and teens by Israel surges in West Bank",
+    "link": "https://www.thehindu.com/news/international/killing-of-palestinian-children-and-teens-by-israel-surges-in-west-bank/article71406972.ece",
+    "summary": "B'Tselem, an Israeli rights group, reported 235 children and teenagers killed by Israeli forces in the West Bank since October 7, 2023 — when Hamas launched a massive attack on Israel from the Gaza Strip — through June 2026, including five killed by Israeli settlers",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-30T05:32:09+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/95l8b9/article71406989.ece/alternates/LANDSCAPE_1200/Israel_Palestinians_Gaza_30538.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Malay Mail",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/killing-of-palestinian-children-and-teens-by-israel-surges-in-west-bank/article71406972.ece"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/30/what-did-a-little-baby-do-to-harm-the-soldiers-israels-west-bank-violence-leaves-palestinian-mothers-grieving-children/233261"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/30/world/west-bank-palestinian-children-teens-israel/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/israel-ramps-up-killing-palestinian-children-teens-in-west-bank"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/95l8b9/article71406989.ece/alternates/LANDSCAPE_1200/Israel_Palestinians_Gaza_30538.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/30/359730.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/30/359731.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/30/560185.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/30/thumbs/400x400/560185.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/30/458308.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 8.999113715277778,
+    "is_stale": false,
+    "score": 14.660249399037038
+  }
+}
