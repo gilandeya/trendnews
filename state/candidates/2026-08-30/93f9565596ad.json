@@ -1,0 +1,87 @@
+{
+  "id": "93f9565596ad",
+  "created_at": "2026-08-30T09:08:06.729534+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.63,
+  "trend_score": 0.0,
+  "velocity": 0.67,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian drone strike on Kyiv warehouse storing weapons kills at least 37",
+  "link": "https://www.theguardian.com/world/2026/aug/29/russian-strike-warehouse-near-kyiv-kills-at-least-37",
+  "publishers": [
+    "CBS News — World",
+    "Daily Sabah",
+    "France24",
+    "MyJoyOnline Ghana",
+    "NPR World",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Russian drone strike on Kyiv warehouse storing weapons kills at least 37",
+    "link": "https://www.theguardian.com/world/2026/aug/29/russian-strike-warehouse-near-kyiv-kills-at-least-37",
+    "summary": "Ukrainian prosecutors open investigation into why munitions were stored so close to residential buildings At least 37 people have been killed after a Russian drone struck a warehouse near Kyiv’s western suburbs that was storing “explosive objects”. The attack damaged at least 50 residential buildings, including a care home for elderly and disabled people, and sparked a huge fire and explosions in the Bucha district of the Kyiv region. The regional governor, Tymur Tkachenko, said a further 42 people, including four children, had been injured in the strike. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-29T13:34:02+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/19018d1efae13efcc9417eafcf5990f5fe1699aa/364_0_3113_2490/master/3113.jpg?width=700&quality=85&auto=format&fit=max&s=b9683f693caf05ff69dfe4e67e0b9f22",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "CBS News — World",
+      "Daily Sabah",
+      "France24",
+      "MyJoyOnline Ghana",
+      "NPR World",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/29/russian-strike-warehouse-near-kyiv-kills-at-least-37"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3365705/russian-drone-strike-near-kyiv-kills-least-27?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260829-russian-strike-on-warehouse-near-kyiv-kills-at-least-27-people-hundreds-evacuated"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russian-strike-on-warehouse-in-ukraines-kyiv-region-causes-detonation-death-toll/article71404172.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/russian-drone-strike-near-kyiv-kills-27-injures-42-ukraine-says"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/at-least-37-dead-and-hundreds-evacuated-after-strike-on-kyiv-weapons-depot/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/19018d1efae13efcc9417eafcf5990f5fe1699aa/364_0_3113_2490/master/3113.jpg?width=700&quality=85&auto=format&fit=max&s=b9683f693caf05ff69dfe4e67e0b9f22",
+      "https://i.guim.co.uk/img/media/19018d1efae13efcc9417eafcf5990f5fe1699aa/364_0_3113_2490/master/3113.jpg?width=460&quality=85&auto=format&fit=max&s=157adbe7474093c9d372fa96efdfa3de",
+      "https://i.guim.co.uk/img/media/19018d1efae13efcc9417eafcf5990f5fe1699aa/364_0_3113_2490/master/3113.jpg?width=140&quality=85&auto=format&fit=max&s=497c43f944313f10dfcc9e55e197f24a",
+      "https://th-i.thgim.com/public/incoming/ml2n3c/article71404745.ece/alternates/LANDSCAPE_1200/2026-08-29T124900Z_170364415_RC2C8NAK133V_RTRMADP_3_UKRAINE-CRISIS-ATTACK-KYIV-REGION.JPG",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/29/458238.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/57878280-a391-11f1-8dd3-ff568f69d772.png.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 8,
+    "velocity": 0.666688947164359,
+    "age_hours": 336.0041543011111,
+    "is_stale": false,
+    "score": 20.62906294593291
+  }
+}

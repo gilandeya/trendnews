@@ -1,103 +1,5 @@
 [
   {
-    "score": 17.05,
-    "bucket": "serious",
-    "tokens": [
-      "blaze",
-      "complicate",
-      "firefighting",
-      "hectare",
-      "hot",
-      "kota",
-      "peat",
-      "rages",
-      "strong",
-      "tinggi",
-      "weather",
-      "winds"
-    ],
-    "link": "https://www.malaymail.com/news/malaysia/2026/08/25/hot-weather-and-strong-winds-complicate-firefighting-as-51hectare-kota-tinggi-peat-blaze-rages/232586",
-    "title": "Hot weather and strong winds complicate firefighting as 51‑hectare Kota Tinggi peat blaze rages",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-08-25T09:08:03.962608+00:00"
-  },
-  {
-    "score": 16.82,
-    "bucket": "serious",
-    "tokens": [
-      "agency",
-      "daily",
-      "extend",
-      "forecasts",
-      "japan",
-      "two",
-      "weather",
-      "weeks"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/08/25/japan/science-health/japan-weather-forecasts-update/",
-    "title": "Japan’s weather agency to extend daily forecasts to two weeks",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-08-25T09:08:03.962877+00:00"
-  },
-  {
-    "score": 16.38,
-    "bucket": "serious",
-    "tokens": [
-      "aim",
-      "billion",
-      "lift",
-      "qatar",
-      "trade",
-      "türkiye",
-      "volume"
-    ],
-    "link": "https://www.dailysabah.com/business/economy/turkiye-qatar-aim-to-lift-their-trade-volume-to-5-billion",
-    "title": "Türkiye, Qatar aim to lift their trade volume to $5 billion",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-08-25T09:08:03.963156+00:00"
-  },
-  {
-    "score": 15.89,
-    "bucket": "serious",
-    "tokens": [
-      "grief",
-      "iran",
-      "months",
-      "parents",
-      "raw",
-      "school",
-      "six",
-      "still"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/08/25/world/six-months-grief-iran-school-parents/",
-    "title": "Six months on, grief still raw for Iran school parents",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-08-25T09:08:03.963426+00:00"
-  },
-  {
-    "score": 15.87,
-    "bucket": "useful",
-    "tokens": [
-      "deal",
-      "interim",
-      "iran",
-      "make",
-      "minister",
-      "pakistan",
-      "progress",
-      "talks"
-    ],
-    "link": "https://www.investing.com/news/economy-news/iran-pakistan-make-progress-in-talks-on-usiran-interim-deal-minister-says-4874656",
-    "title": "Iran, Pakistan make \"progress\" in talks on U.S.-Iran interim deal, minister says",
-    "posted_title": "",
-    "region": "money",
-    "seen_at": "2026-08-25T09:08:03.963733+00:00"
-  },
-  {
     "score": 23.73,
     "bucket": "serious",
     "tokens": [
@@ -5097,5 +4999,105 @@
     "posted_title": "كوريا الشمالية تقيل وزير الدفاع وتعيد تشكيل قيادتها العسكرية",
     "region": "in",
     "seen_at": "2026-08-30T06:32:18.917892+00:00"
+  },
+  {
+    "score": 24.24,
+    "bucket": "serious",
+    "tokens": [
+      "675",
+      "china",
+      "claw",
+      "climbs",
+      "death",
+      "flood",
+      "mud",
+      "nepal",
+      "rescuers",
+      "through",
+      "toll"
+    ],
+    "link": "https://www.dawn.com/news/2025932/rescuers-claw-through-mud-as-nepal-china-flood-death-toll-climbs-to-675",
+    "title": "Rescuers claw through mud as Nepal, China flood death toll climbs to 675",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-08-30T09:08:06.729184+00:00"
+  },
+  {
+    "score": 21.09,
+    "bucket": "serious",
+    "tokens": [
+      "'my",
+      "dear",
+      "father'",
+      "first",
+      "king",
+      "norway's",
+      "remembers",
+      "speech"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cvgy79wmv4jo?at_medium=RSS&at_campaign=rss",
+    "title": "Norway's new king remembers 'my dear father' in first speech",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-30T09:08:06.729503+00:00"
+  },
+  {
+    "score": 20.63,
+    "bucket": "serious",
+    "tokens": [
+      "drone",
+      "kills",
+      "kyiv",
+      "least",
+      "russian",
+      "storing",
+      "strike",
+      "warehouse",
+      "weapons"
+    ],
+    "link": "https://www.theguardian.com/world/2026/aug/29/russian-strike-warehouse-near-kyiv-kills-at-least-37",
+    "title": "Russian drone strike on Kyiv warehouse storing weapons kills at least 37",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-08-30T09:08:06.729839+00:00"
+  },
+  {
+    "score": 13.24,
+    "bucket": "serious",
+    "tokens": [
+      "border",
+      "children",
+      "hazardous",
+      "iranian",
+      "poverty",
+      "pushes",
+      "work"
+    ],
+    "link": "https://www.iranintl.com/en/202608302571",
+    "title": "Poverty pushes Iranian children into hazardous border work",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-08-30T09:08:06.730096+00:00"
+  },
+  {
+    "score": 13.08,
+    "bucket": "serious",
+    "tokens": [
+      "african",
+      "evidence",
+      "fever",
+      "lassa",
+      "policy",
+      "research",
+      "researchers",
+      "turn",
+      "west",
+      "work"
+    ],
+    "link": "https://www.myjoyonline.com/west-african-researchers-work-to-turn-lassa-fever-research-into-policy-evidence/",
+    "title": "West African researchers work to turn Lassa fever research into policy evidence",
+    "posted_title": "",
+    "region": "gh",
+    "seen_at": "2026-08-30T09:08:06.730355+00:00"
   }
 ]

@@ -1,0 +1,85 @@
+{
+  "id": "2cfea3c26610",
+  "created_at": "2026-08-30T09:08:06.729196+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.09,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Norway's new king remembers 'my dear father' in first speech",
+  "link": "https://www.bbc.co.uk/news/articles/cvgy79wmv4jo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera",
+    "BBC World",
+    "Channel News Asia",
+    "Hindustan Times — World",
+    "MyJoyOnline Ghana",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Norway's new king remembers 'my dear father' in first speech",
+    "link": "https://www.bbc.co.uk/news/articles/cvgy79wmv4jo?at_medium=RSS&at_campaign=rss",
+    "summary": "Haakon VIII pays emotional tribute to his late father, Harald V, before outlining how he wishes to reign.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-29T19:06:28+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ecd7/live/b200b740-a3dc-11f1-aed2-8d6da8d75094.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera",
+      "BBC World",
+      "Channel News Asia",
+      "Hindustan Times — World",
+      "MyJoyOnline Ghana",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cvgy79wmv4jo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/norways-king-haakon-honours-dear-father-harald-in-first-speech-sovereign-6349996"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/norways-king-haakon-honours-dear-father-harald-in-first-speech-as-sovereign-101788029318116.html"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/norways-new-king-remembers-my-dear-father-in-first-speech/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3365693/king-haakon-viii-takes-throne-norway-mourns-death-king-harald?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/norways-king-harald-v-dies-at-89-his-son-becomes-king-haakon-viii/article71399590.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ecd7/live/b200b740-a3dc-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/ecd7/live/b200b740-a3dc-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ecd7/live/b200b740-a3dc-11f1-aed2-8d6da8d75094.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--ilkyJmST--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-29T185042Z_1_LYNXMPEM7S0G5_RTROPTP_3_NORWAY-ROYALS-KING.JPG?itok=bFu6iolo",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/Screenshot-276-1024x576.png",
+      "https://th-i.thgim.com/public/incoming/q4cxwx/article71399644.ece/alternates/LANDSCAPE_1200/2026-08-28T064154Z_389815919_RC2I7NAZV6X2_RTRMADP_3_NORWAY-ROYALS-KING-DEATH.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 7,
+    "velocity": 0.0,
+    "age_hours": 11.005671165833332,
+    "is_stale": false,
+    "score": 21.087053346746885
+  }
+}
