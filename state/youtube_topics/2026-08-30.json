@@ -1,0 +1,184 @@
+{
+  "run_date": "2026-08-30",
+  "stats": {
+    "points_in": 70,
+    "issues_clustered": 13,
+    "topics_out": 9,
+    "dropped_by_bloc_cap": 4,
+    "layer_a": 0,
+    "layer_b": 1,
+    "layer_c": 8,
+    "agreement": 9,
+    "dispute": 0,
+    "echo": 0
+  },
+  "error": null,
+  "topics": [
+    {
+      "title": "صفقة النفط الأمريكية الفنزويلية وتقييمها",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        27
+      ]
+    },
+    {
+      "title": "عقوبات أمريكية جديدة على إيران وقطع بنك عن النظام المالي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1
+      ]
+    },
+    {
+      "title": "أزمة الأدوية في إيران وأسبابها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "title": "تقلص الاقتصاد الإيراني وتأثير العقوبات (الجزيرة)",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        6
+      ]
+    },
+    {
+      "title": "تحقيق قضائي تركي-ألماني بشأن تحويلات مالية مشبوهة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ]
+    },
+    {
+      "title": "أزمة العلاقات الروسية البريطانية وتصعيد محتمل بشأن أوكرانيا",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ]
+    },
+    {
+      "title": "سياسة الاحتياطي الفيدرالي وتأثيرها على الدولار والذهب",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ]
+    },
+    {
+      "title": "الشفافية المؤسسية وقضية فتو في تركيا (برنامج حواري)",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        49,
+        50,
+        51,
+        52,
+        53
+      ]
+    },
+    {
+      "title": "تحليل إسرائيلي حول التصعيد في الضفة الغربية والمساءلة العسكرية",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69
+      ]
+    }
+  ]
+}
