@@ -1118,6 +1118,13 @@ youtube:
     # فاصل عشوائي بين نداءات سحب النص المتتالية -- نفس نمط
     # tools/test_actions_block.py، لتفادي شكل استخدام آلي واضح لسحب النص.
     transcript_sleep_range: [2.0, 5.0]
+    # عدد محاولات نداء الاستخلاص المهيكل قبل تسجيل فشل (Issue #635، العطل ٢):
+    # محاولة أولى + إعادة محاولة واحدة عند غياب إخراج مهيكل صالح.
+    max_retries: 2
+    # حارس الموضوع (Issue #635، العطل ٥): نموذج رخيص بمقتطف قصير جدًا يميّز
+    # التحليل السياسي عن النشرات والرياضة قبل إنفاق نداء الاستخلاص الكامل.
+    topic_guard_model: "claude-haiku-4-5-20251001"
+    topic_guard_excerpt_chars: 2000
 
 # القنوات الثلاث عشرة من القياس المحلي أعلاه، بترتيب الكتل كما وردت في
 # Issue #626 (عربي، تركي، فارسي، إسرائيلي) — tools/test_actions_block.py
@@ -1156,7 +1163,12 @@ channels:
     bloc: "turkish"
     bias_note: "تيار سائد"
     active: true
-    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet"]
+    # القائمة الأصلية موسّعة (Issue #635، العطل ٥) بأنماط نشرات ورياضة/فن
+    # إضافية كشفتها المراجعة اليدوية للتشغيلة الأولى (مباراة غالاتاسراي
+    # نجت في المدة رغم كونها رياضة لا تحليلًا).
+    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet",
+                       "Ana Haber", "Ana Haber Bülteni", "Maç", "Spor",
+                       "Sinema", "Hayatın İçinden", "Sabah Kahvesi"]
   - handle: "@haberturktv"
     channel_id: "UCn6dNfiRE_Xunu7iMyvD7AA"
     name: "Habertürk"
@@ -1164,7 +1176,12 @@ channels:
     bloc: "turkish"
     bias_note: "تيار سائد"
     active: true
-    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet"]
+    # القائمة الأصلية موسّعة (Issue #635، العطل ٥) بأنماط نشرات ورياضة/فن
+    # إضافية كشفتها المراجعة اليدوية للتشغيلة الأولى (مباراة غالاتاسراي
+    # نجت في المدة رغم كونها رياضة لا تحليلًا).
+    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet",
+                       "Ana Haber", "Ana Haber Bülteni", "Maç", "Spor",
+                       "Sinema", "Hayatın İçinden", "Sabah Kahvesi"]
   - handle: "@Halktvkanali"
     channel_id: "UCf_ResXZzE-o18zACUEmyvQ"
     name: "Halk TV"
@@ -1172,7 +1189,12 @@ channels:
     bloc: "turkish"
     bias_note: "معارض"
     active: true
-    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet"]
+    # القائمة الأصلية موسّعة (Issue #635، العطل ٥) بأنماط نشرات ورياضة/فن
+    # إضافية كشفتها المراجعة اليدوية للتشغيلة الأولى (مباراة غالاتاسراي
+    # نجت في المدة رغم كونها رياضة لا تحليلًا).
+    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet",
+                       "Ana Haber", "Ana Haber Bülteni", "Maç", "Spor",
+                       "Sinema", "Hayatın İçinden", "Sabah Kahvesi"]
   - handle: "@Sozcutelevizyonu"
     channel_id: "UCOulx_rep5O4i9y6AyDqVvw"
     name: "SÖZCÜ"
@@ -1180,7 +1202,12 @@ channels:
     bloc: "turkish"
     bias_note: "معارض علماني"
     active: true
-    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet"]
+    # القائمة الأصلية موسّعة (Issue #635، العطل ٥) بأنماط نشرات ورياضة/فن
+    # إضافية كشفتها المراجعة اليدوية للتشغيلة الأولى (مباراة غالاتاسراي
+    # نجت في المدة رغم كونها رياضة لا تحليلًا).
+    exclude_patterns: ["son dakika", "canlı", "canlı yayın", "özet",
+                       "Ana Haber", "Ana Haber Bülteni", "Maç", "Spor",
+                       "Sinema", "Hayatın İçinden", "Sabah Kahvesi"]
   - handle: "@IRANINTL"
     channel_id: "UCat6bC0Wrqq9Bcq7EkH_yQw"
     name: "Iran International"
@@ -1188,7 +1215,10 @@ channels:
     bloc: "persian"
     bias_note: "معارضة إيرانية"
     active: true
-    exclude_patterns: ["خبر فوری", "خبر ساعت", "پخش زنده", "خبر نیمروزی"]
+    # موسّعة (Issue #635، العطل ٥) بأنماط نشرات إضافية من طلب المراجعة.
+    exclude_patterns: ["خبر فوری", "خبر ساعت", "پخش زنده", "خبر نیمروزی",
+                       "اخبار شامگاهی", "بخش نیمروزی", "به وقت تهران",
+                       "خبر ۲۱", "خبر 21"]
   - handle: "@Rasadkadeh"
     channel_id: "UCAwjnLdBvZPVuCJU_8RHg_w"
     name: "رصدکده"
@@ -1196,7 +1226,10 @@ channels:
     bloc: "persian"
     bias_note: "من داخل إيران"
     active: true
-    exclude_patterns: ["خبر فوری", "خبر ساعت", "پخش زنده", "خبر نیمروزی"]
+    # موسّعة (Issue #635، العطل ٥) بأنماط نشرات إضافية من طلب المراجعة.
+    exclude_patterns: ["خبر فوری", "خبر ساعت", "پخش زنده", "خبر نیمروزی",
+                       "اخبار شامگاهی", "بخش نیمروزی", "به وقت تهران",
+                       "خبر ۲۱", "خبر 21"]
   - handle: "@C14news"
     channel_id: "UCKEImtWikw9usC1pl_9m1nQ"
     name: "ערוץ 14"

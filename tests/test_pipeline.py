@@ -9879,9 +9879,11 @@ def test_youtube_collect() -> None:
 
 
 def test_youtube_extract() -> None:
-    """المرحلة الثانية (src/youtube_extract.py، Issue #631): تحليل مخرج
-    النموذج والتحقق من الحقول الإلزامية -- لا شبكة، لا نموذج فعلي، ولا
-    نص ترجمة حقيقي يُستعمل في هذا الاختبار."""
+    """المرحلة الثانية (src/youtube_extract.py، Issue #631)، ثم إصلاح خمسة
+    أعطال كشفتها المراجعة اليدوية للتشغيلة الأولى (Issue #635): طوابع زمنية
+    مختلَقة، إخراج JSON نصّي هشّ، ترجمة عربية لم تقع، أسماء أعلام مكسورة،
+    ونشرات/رياضة نجت من حرّاس المدة. لا شبكة، لا نموذج فعلي، ولا نص ترجمة
+    حقيقي يُستعمل في هذا الاختبار."""
     ye = youtube_extract
 
     good_point = {
@@ -9889,56 +9891,72 @@ def test_youtube_extract() -> None:
         "speaker": "وزير المالية",
         "quote_original": "we are launching a new plan",
         "quote_arabic": "نطلق خطة جديدة",
-        "timestamp": 42,
+        "timestamp": "00:00:42",
         "type": "fact",
         "topic_hint": "اقتصاد وزراء",
     }
 
-    raw_array = json.dumps([good_point], ensure_ascii=False)
-    check("تحليل مصفوفة JSON مباشرة", ye.parse_points(raw_array) == [good_point])
+    # ── العطل ١: تحليل الطابع الزمني النصّي ──
+    check("MM:SS يُحلَّل إلى ثوانٍ", ye.parse_timestamp("01:05") == 65)
+    check("HH:MM:SS يُحلَّل إلى ثوانٍ", ye.parse_timestamp("01:02:10") == 3730)
+    check("رقم مجرّد (لا صيغة زمن) يُرفَض بـNone", ye.parse_timestamp("570") is None)
+    check("نص فارغ يُرفَض بـNone", ye.parse_timestamp("") is None)
+    check("مسافات فقط تُرفَض بـNone", ye.parse_timestamp("   ") is None)
+    check("قيمة غير نصّية تُرفَض بـNone", ye.parse_timestamp(42) is None)
+    check("ثوانٍ خارج 0-59 تُرفَض بـNone", ye.parse_timestamp("01:75") is None)
 
-    wrapped = json.dumps({"points": [good_point]}, ensure_ascii=False)
-    check("تحليل كائن بمفتاح points", ye.parse_points(wrapped) == [good_point])
+    # ── العطل ٣+٤: كاشف الحرف غير العربي ──
+    check("نص عربي فصيح بلا شوائب لا يُطابِق شيئًا",
+          ye.find_non_arabic_char("أعلن الوزير عن خطة جديدة ٢٠٢٦") is None)
+    check("حرف عبري يُكتَشف", ye.find_non_arabic_char("יעקב מרגיס") == "י")
+    check("حرف لاتيني مفرد داخل كلمة عربية يُكتَشف (خلط الأعلام، العطل ٤)",
+          ye.find_non_arabic_char("ملih غوكجيك") == "i")
+    check("حرف فارسي غير عربي (گ) يُكتَشف", ye.find_non_arabic_char("گفتگو") == "گ")
+    check("أرقام وعلامات ترقيم عربية لا تُعدّ شائبة",
+          ye.find_non_arabic_char("العدد ٢٤، بالمئة %١٠٠!") is None)
 
-    fenced = f"```json\n{wrapped}\n```"
-    check("تحليل مخرج داخل أسيجة ```json", ye.parse_points(fenced) == [good_point])
-
-    noisy = f"إليك الناتج:\n{wrapped}\nانتهى."
-    check("تحليل مخرج محاط بنص زائد حول الأقواس", ye.parse_points(noisy) == [good_point])
-
-    try:
-        ye.parse_points("عبارة بلا أي JSON")
-        parse_raised = False
-    except (json.JSONDecodeError, ValueError):
-        parse_raised = True
-    check("مخرج بلا JSON على الإطلاق يرفع خطأ لا يُبتلَع صامتًا", parse_raised)
-
-    ok, reason = ye.validate_point(good_point)
-    check("نقطة كاملة الحقول صالحة", ok, reason)
+    # ── validate_point: يعيد الآن ثلاثيًا (صالحة، سبب، فئة) ──
+    ok, reason, kind = ye.validate_point(dict(good_point))
+    check("نقطة كاملة الحقول صالحة", ok and kind == "", reason)
 
     for missing in ye.REQUIRED_FIELDS:
         broken = {k: v for k, v in good_point.items() if k != missing}
-        ok, reason = ye.validate_point(broken)
+        ok, reason, kind = ye.validate_point(broken)
         check(f"حقل ناقص ({missing}) يُرفَض", not ok and missing in reason, reason)
 
-    ok, reason = ye.validate_point({**good_point, "speaker": "   "})
+    ok, reason, kind = ye.validate_point({**good_point, "speaker": "   "})
     check("حقل نصّي فارغ (مسافات فقط) يُرفَض", not ok, reason)
 
-    ok, reason = ye.validate_point({**good_point, "type": "rumor"})
+    ok, reason, kind = ye.validate_point({**good_point, "type": "rumor"})
     check("تصنيف خارج fact/opinion/forecast يُرفَض", not ok and "تصنيف" in reason, reason)
 
     for valid_type in ("fact", "opinion", "forecast"):
-        ok, reason = ye.validate_point({**good_point, "type": valid_type})
+        ok, reason, kind = ye.validate_point({**good_point, "type": valid_type})
         check(f"تصنيف {valid_type} صالح", ok, reason)
 
-    ok, reason = ye.validate_point({**good_point, "timestamp": "42"})
-    check("timestamp نصّي (لا رقم) يُرفَض", not ok and "timestamp" in reason, reason)
+    ok, reason, kind = ye.validate_point({**good_point, "timestamp": "570"})
+    check("طابع زمني بصيغة غير مطابقة (رقم مجرّد) يُرفَض بفئة timestamp",
+          not ok and kind == "timestamp", reason)
 
-    ok, reason = ye.validate_point({**good_point, "timestamp": -5})
-    check("timestamp سالب يُرفَض", not ok, reason)
+    ok, reason, kind = ye.validate_point({**good_point, "timestamp": ""})
+    check("طابع زمني فارغ يُرفَض بفئة timestamp", not ok and kind == "timestamp", reason)
 
-    ok, reason = ye.validate_point({**good_point, "timestamp": True})
-    check("timestamp من نوع bool (يُعدّ int في بايثون) يُرفَض صراحة", not ok, reason)
+    valid_copy = dict(good_point)
+    ok, reason, kind = ye.validate_point(valid_copy)
+    check("عند النجاح: يُستبدَل الطابع النصّي بعدد ثوانٍ صحيح",
+          ok and valid_copy["timestamp"] == 42, valid_copy)
+
+    ok, reason, kind = ye.validate_point({**good_point, "statement": "יעקב מרגיס מסיים קריירה"})
+    check("عبرية في statement تُرفَض بفئة language", not ok and kind == "language", reason)
+
+    ok, reason, kind = ye.validate_point({**good_point, "speaker": "ملih غوكجيك"})
+    check("خلط لاتيني/عربي في speaker يُرفَض بفئة language", not ok and kind == "language", reason)
+
+    ok, reason, kind = ye.validate_point({**good_point, "quote_arabic": "we launch a plan"})
+    check("لاتينية في quote_arabic تُرفَض بفئة language", not ok and kind == "language", reason)
+
+    ok, reason, kind = ye.validate_point(dict(good_point))
+    check("quote_original بلغة أجنبية (لاتينية) مستثنى عمدًا من فحص اللغة", ok, reason)
 
     check("عنصر ليس كائن JSON يُرفَض بلا انهيار", ye.validate_point("ليس كائنًا")[0] is False)
 
@@ -9946,6 +9964,148 @@ def test_youtube_extract() -> None:
     check("ملف البرومبت منفصل عن الكود وغير فارغ", len(prompt) > 200)
     check("البرومبت يذكر التصنيفات الثلاثة",
           all(t in prompt for t in ("fact", "opinion", "forecast")))
+    check("البرومبت يوضّح صيغة الأختام الزمنية المتوقَّعة في المُدخَل",
+          "[00:12:34]" in prompt)
+    check("البرومبت يأمر بنسخ الختم حرفيًا لا تقديره",
+          "انسخ" in prompt and "لا تقدّر" in prompt)
+
+    # ── format_transcript: صياغة النص بأختام ظاهرة قبل كل مقطع (العطل ١) ──
+    class _Segment:
+        def __init__(self, text, start):
+            self.text, self.start = text, start
+
+    fetched = [_Segment("مرحبًا", 0), _Segment("بكم", 754), _Segment("جميعًا", 3661)]
+    formatted = ye.format_transcript(fetched)
+    check("كل مقطع يسبقه ختمه الزمني HH:MM:SS",
+          formatted == "[00:00:00] مرحبًا\n[00:12:34] بكم\n[01:01:01] جميعًا", formatted)
+
+    # ── extract_points: إخراج مهيكل (tool_use) لا JSON نصّي (العطل ٢) ──
+    class _Block:
+        def __init__(self, type_, input_=None, text=None):
+            self.type, self.input, self.text = type_, input_, text
+
+    class _Resp:
+        def __init__(self, content):
+            self.content = content
+
+    class _Messages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls: list = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return self._responses.pop(0)
+
+    class _Client:
+        def __init__(self, responses):
+            self.messages = _Messages(responses)
+
+    extract_cfg = load_config()
+
+    good_raw = {**good_point, "timestamp": "00:00:10"}
+    client = _Client([_Resp([_Block("tool_use", input_={"points": [good_raw]})])])
+    valid, rejected, error = ye.extract_points(
+        "فيديو تجريبي", "[00:00:05] نص", "ar", duration_seconds=600,
+        cfg=extract_cfg, client=client)
+    check("extract_points: نقطة صالحة عبر إخراج مهيكل تُقبَل بلا خطأ عام",
+          error is None and len(valid) == 1 and not rejected, (valid, rejected, error))
+    check("extract_points: نداء النموذج يستعمل tool_use بمخطط extract_points لا JSON نصّي",
+          client.messages.calls[0]["tools"][0]["name"] == "extract_points" and
+          client.messages.calls[0]["tool_choice"] == {"type": "tool", "name": "extract_points"})
+    check("extract_points: النص المُرسَل للنموذج يحوي الأختام الظاهرة",
+          "[00:00:05]" in client.messages.calls[0]["messages"][0]["content"])
+
+    # العطل ١ بند ج: طابع زمني يتجاوز مدة الفيديو يُرفَض إلزاميًا ويُصنَّف timestamp
+    overflow_raw = {**good_point, "timestamp": "00:20:00"}  # 1200 ثانية > مدة الفيديو
+    client = _Client([_Resp([_Block("tool_use", input_={"points": [overflow_raw]})])])
+    valid, rejected, error = ye.extract_points(
+        "فيديو تجريبي", "نص", "ar", duration_seconds=531, cfg=extract_cfg, client=client)
+    check("طابع زمني يتجاوز مدة الفيديو يُرفَض ولا يدخل المخرج",
+          error is None and valid == [] and len(rejected) == 1, (valid, rejected))
+    check("سبب الرفض يُصنَّف timestamp للتغذية في stats",
+          rejected and rejected[0]["kind"] == "timestamp", rejected)
+
+    # نقطة بلغة غير عربية تُرفَض وتُصنَّف language
+    bad_lang_raw = {**good_point, "statement": "יעקב מרגיס", "timestamp": "00:00:10"}
+    client = _Client([_Resp([_Block("tool_use", input_={"points": [bad_lang_raw]})])])
+    valid, rejected, error = ye.extract_points(
+        "فيديو تجريبي", "نص", "he", duration_seconds=600, cfg=extract_cfg, client=client)
+    check("نقطة بحرف غير عربي تُرفَض وتُصنَّف language",
+          valid == [] and rejected and rejected[0]["kind"] == "language", rejected)
+
+    # إخراج مهيكل غير صالح في المحاولة الأولى ثم صالح في الثانية (إعادة المحاولة)
+    # نسخة جديدة من good_raw لا الكائن المُستهلَك أعلاه: validate_point يُطبِّع
+    # timestamp في الكائن ذاته من نصّ إلى ثوانٍ صحيحة (تطبيع لا تحقّق شكلي
+    # فقط)، فإعادة استعمال نفس الكائن المُحوَّل بالفعل تُفشل تحليل الصيغة
+    # هنا زورًا (ليست الصيغة النصّية "00:00:10" بل الرقم 10 نفسه).
+    good_raw_retry = {**good_point, "timestamp": "00:00:10"}
+    client = _Client([
+        _Resp([_Block("text", text="عذرًا لا أستطيع")]),
+        _Resp([_Block("tool_use", input_={"points": [good_raw_retry]})]),
+    ])
+    valid, rejected, error = ye.extract_points(
+        "فيديو تجريبي", "نص", "ar", duration_seconds=600, cfg=extract_cfg, client=client)
+    check("محاولة ثانية تنجح بعد فشل الأولى في إعادة إخراج مهيكل",
+          error is None and len(valid) == 1, (valid, error))
+    check("محاولتان فعليتان استُهلكتا (لا أكثر ولا أقل)",
+          len(client.messages.calls) == 2)
+
+    # فشل الإخراج المهيكل في كل المحاولات ⇒ خطأ عام مع أول 500 حرف للتشخيص
+    long_text = "نص فاشل طويل " * 50
+    client = _Client([
+        _Resp([_Block("text", text=long_text)]),
+        _Resp([_Block("text", text=long_text)]),
+    ])
+    valid, rejected, error = ye.extract_points(
+        "فيديو تجريبي", "نص", "ar", duration_seconds=600, cfg=extract_cfg, client=client)
+    check("فشل الإخراج المهيكل في كل المحاولات يُسجَّل كخطأ عام لا انهيار صامت",
+          error is not None and valid == [] and rejected == [], error)
+    check("رسالة الخطأ تحوي مقتطفًا من المخرج الفاشل للتشخيص (حتى 500 حرف)",
+          error is not None and long_text[:80] in error, error)
+
+    # ── classify_topic: حارس الموضوع قبل الاستخلاص (العطل ٥) ──
+    client = _Client([_Resp([_Block("tool_use", input_={"category": "news_bulletin"})])])
+    category, err = ye.classify_topic("نشرة الأخبار المسائية", "نص", extract_cfg, client)
+    check("حارس الموضوع: نشرة تُصنَّف news_bulletin", category == "news_bulletin" and err is None)
+
+    client = _Client([_Resp([_Block("tool_use", input_={"category": "other"})])])
+    category, err = ye.classify_topic("مباراة غالاتاسراي", "نص", extract_cfg, client)
+    check("حارس الموضوع: رياضة تُصنَّف other", category == "other" and err is None)
+
+    client = _Client([_Resp([_Block("tool_use", input_={"category": "political_analysis"})])])
+    category, err = ye.classify_topic("نقاش الساعة", "نص", extract_cfg, client)
+    check("حارس الموضوع: تحليل سياسي يُصنَّف political_analysis",
+          category == "political_analysis" and err is None)
+
+    from anthropic import APIError
+    import httpx as _httpx
+
+    class _FailingMessages:
+        def create(self, **kw):
+            raise APIError(
+                "عطل شبكي مؤقت",
+                request=_httpx.Request("POST", "https://api.anthropic.com/v1/messages"),
+                body=None)
+
+    class _FailingClient:
+        def __init__(self):
+            self.messages = _FailingMessages()
+
+    category, err = ye.classify_topic("فيديو ما", "نص", extract_cfg, _FailingClient())
+    check("فشل نداء حارس الموضوع لا يُسقِط الفيديو صامتًا -- يُفترَض صالحًا مع تسجيل السبب",
+          category == "political_analysis" and err is not None, (category, err))
+
+    # ── config.yaml: أنماط الاستبعاد الفارسية/التركية موسّعة (العطل ٥) ──
+    channels_by_name = {c["name"]: c for c in extract_cfg.get("channels", [])}
+    fa_patterns = channels_by_name["Iran International"]["exclude_patterns"]
+    check("أنماط استبعاد فارسية جديدة مضافة",
+          all(p in fa_patterns for p in ("اخبار شامگاهی", "بخش نیمروزی", "به وقت تهران",
+                                         "خبر ۲۱", "خبر 21")), fa_patterns)
+    tr_patterns = channels_by_name["CNN Türk"]["exclude_patterns"]
+    check("أنماط استبعاد تركية جديدة مضافة",
+          all(p in tr_patterns for p in ("Ana Haber", "Ana Haber Bülteni", "Maç", "Spor",
+                                         "Sinema", "Hayatın İçinden", "Sabah Kahvesi")), tr_patterns)
 
 
 def test_no_temperature_param() -> None:
