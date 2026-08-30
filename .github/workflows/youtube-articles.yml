@@ -1,0 +1,64 @@
+name: 📰 عنقدة وكتابة مقالات يوتيوب (تجريبي)
+
+on:
+  workflow_dispatch: {}
+
+# لا issues: write هنا — هذه المرحلة لا تفتح Issue مراجعة ولا تنشر، فقط
+# تكتب ملفات قضايا/مقالات للقراءة داخل state/.
+permissions:
+  contents: write
+
+concurrency:
+  group: trendnews-youtube-articles
+  cancel-in-progress: false
+
+jobs:
+  cluster-write:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: سحب المستودع
+        uses: actions/checkout@v4
+
+      - name: تهيئة بايثون
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: العنقدة
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m src.youtube_cluster
+
+      - name: الكتابة
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python -m src.youtube_article
+
+      - name: رفع القضايا والمقالات
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p state
+          git add state/youtube_topics state/youtube_articles
+          if git diff --quiet --cached; then
+            echo "لا تغييرات"
+            exit 0
+          fi
+          git commit -m "chore(youtube): قضايا ومقالات $(date -u '+%Y-%m-%d %H:%M') UTC"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              echo "✅ رُفع في المحاولة $attempt"
+              exit 0
+            fi
+            echo "⚠️ فشل الدفع (محاولة $attempt) — إعادة بعد $((attempt * 7))ث"
+            sleep $((attempt * 7))
+          done
+          echo "❌ تعذّر الدفع بعد 5 محاولات"
+          exit 1
