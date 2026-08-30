@@ -1,0 +1,55 @@
+{
+  "id": "41864b65dc91",
+  "created_at": "2026-08-30T06:08:06.533468+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.25,
+  "trend_score": 0.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Vietnamese coffee farmers ride China's durian wave",
+  "link": "https://www.channelnewsasia.com/asia/vietnam-coffee-farmers-china-durian-demand-6350141",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Vietnamese coffee farmers ride China's durian wave",
+    "link": "https://www.channelnewsasia.com/asia/vietnam-coffee-farmers-china-durian-demand-6350141",
+    "summary": "Vietnam only officially entered the Chinese durian market after a 2022 trade protocol but last year became the country's biggest supplier by volume.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-30T05:26:23+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--OcLS3fpg--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/30/000_c6769nr.jpg?itok=x6j6w-IO",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/vietnam-coffee-farmers-china-durian-demand-6350141"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/08/30/vietnamese-coffee-farmers-ride-china-s-durian-wave"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--OcLS3fpg--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/30/000_c6769nr.jpg?itok=x6j6w-IO",
+      "https://media.freemalaysiatoday.com/v3/2026/08/1149337d-f75e-4984-b10e-7537d32758fe-AFP__20260830__C6747CU__v1__HighRes__VietnamChinaAgricultureDurianTrade.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 13.253784068259261
+  }
+}

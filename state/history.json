@@ -1,98 +1,5 @@
 [
   {
-    "score": 31.13,
-    "bucket": "serious",
-    "tokens": [
-      "hormuz",
-      "live",
-      "mideast",
-      "off",
-      "oil",
-      "oman",
-      "projectile",
-      "strait",
-      "struck",
-      "tanker"
-    ],
-    "link": "https://www.france24.com/en/middle-east/20260825-mideast-live-oil-tanker-struck-by-projectile-in-strait-of-hormuz-off-oman",
-    "title": "Mideast live: Oil tanker struck by projectile in Strait of Hormuz off Oman",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-08-25T06:07:55.761462+00:00"
-  },
-  {
-    "score": 17.2,
-    "bucket": "serious",
-    "tokens": [
-      "100",
-      "2026",
-      "asian",
-      "athletes",
-      "games",
-      "korea",
-      "send",
-      "some"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260825006000315",
-    "title": "N. Korea to send some 100 athletes to 2026 Asian Games",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-08-25T06:07:55.761727+00:00"
-  },
-  {
-    "score": 16.49,
-    "bucket": "serious",
-    "tokens": [
-      "assassinate",
-      "iran",
-      "israel's",
-      "netanyahu",
-      "one",
-      "sons",
-      "tried"
-    ],
-    "link": "https://www.france24.com/en/middle-east/20260824-israel-netanyahu-says-iran-tried-kill-son",
-    "title": "Israel's Netanyahu says Iran tried to assassinate one of his sons",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-08-25T06:07:55.762039+00:00"
-  },
-  {
-    "score": 15.27,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "apec",
-      "cooperation",
-      "focus",
-      "innovation",
-      "meeting",
-      "ministerial",
-      "sme"
-    ],
-    "link": "https://news.cgtn.com/news/2026-08-24/2026-APEC-SME-ministerial-meeting-to-focus-on-innovation-cooperation-1PSkCyrJME8/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-    "title": "2026 APEC SME ministerial meeting to focus on innovation, cooperation",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-08-25T06:07:55.762298+00:00"
-  },
-  {
-    "score": 15.12,
-    "bucket": "serious",
-    "tokens": [
-      "alvarez",
-      "barcelona",
-      "empieza",
-      "julián",
-      "olvidarse"
-    ],
-    "link": "https://elpais.com/deportes/futbol/2026-08-25/el-barcelona-empieza-a-olvidarse-de-julian-alvarez.html",
-    "title": "El Barcelona empieza a olvidarse de Julián Alvarez",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-08-25T06:07:55.762541+00:00"
-  },
-  {
     "score": 15.12,
     "bucket": "serious",
     "tokens": [
@@ -5110,5 +5017,101 @@
     "posted_title": "الخزانة الأمريكية تقرر قطع فروع بنك مصر في الإمارات عن النظام المالي الأمريكي",
     "region": "money",
     "seen_at": "2026-08-30T06:01:51.536238+00:00"
+  },
+  {
+    "score": 18.11,
+    "bucket": "serious",
+    "tokens": [
+      "air",
+      "camera",
+      "days",
+      "hopes",
+      "hydropower",
+      "nepal",
+      "raise",
+      "rescuers",
+      "send",
+      "three",
+      "trapped",
+      "tunnel",
+      "workers"
+    ],
+    "link": "https://www.malaymail.com/news/world/2026/08/30/rescuers-send-air-and-camera-into-nepal-hydropower-tunnel-after-three-days-raise-hopes-for-trapped-workers/233225",
+    "title": "Rescuers send air and camera into Nepal hydropower tunnel after three days, raise hopes for trapped workers",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-08-30T06:08:06.532886+00:00"
+  },
+  {
+    "score": 17.04,
+    "bucket": "serious",
+    "tokens": [
+      "defence",
+      "dismissed",
+      "korea",
+      "media",
+      "minister",
+      "north",
+      "state"
+    ],
+    "link": "https://www.thehindu.com/news/international/north-korea-defence-minister-dismissed-state-media/article71406956.ece",
+    "title": "North Korea Defence Minister dismissed: state media",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-08-30T06:08:06.533194+00:00"
+  },
+  {
+    "score": 16.9,
+    "bucket": "serious",
+    "tokens": [
+      "275",
+      "centre",
+      "contact",
+      "indians",
+      "missing",
+      "nepal",
+      "restored",
+      "still"
+    ],
+    "link": "https://www.ndtv.com/world-news/nepal-flashflood-nepal-floods-contact-restored-with-50-indians-275-still-missing-in-nepal-centre-11976694#publisher=newsstand",
+    "title": "Contact Restored With 50 Indians, 275 Still Missing In Nepal: Centre",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-08-30T06:08:06.533459+00:00"
+  },
+  {
+    "score": 13.25,
+    "bucket": "serious",
+    "tokens": [
+      "china's",
+      "coffee",
+      "durian",
+      "farmers",
+      "ride",
+      "vietnamese",
+      "wave"
+    ],
+    "link": "https://www.channelnewsasia.com/asia/vietnam-coffee-farmers-china-durian-demand-6350141",
+    "title": "Vietnamese coffee farmers ride China's durian wave",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-08-30T06:08:06.533734+00:00"
+  },
+  {
+    "score": 11.89,
+    "bucket": "serious",
+    "tokens": [
+      "iceland",
+      "membership",
+      "negotiations",
+      "resume",
+      "votes",
+      "whether"
+    ],
+    "link": "https://www.france24.com/en/iceland-votes-on-whether-to-resume-eu-membership-negotiations",
+    "title": "Iceland votes on whether to resume EU membership negotiations",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-08-30T06:08:06.533991+00:00"
   }
 ]

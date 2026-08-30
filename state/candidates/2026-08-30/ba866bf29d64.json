@@ -1,0 +1,62 @@
+{
+  "id": "ba866bf29d64",
+  "created_at": "2026-08-30T06:08:06.532456+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.11,
+  "trend_score": 0.5,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Rescuers send air and camera into Nepal hydropower tunnel after three days, raise hopes for trapped workers",
+  "link": "https://www.malaymail.com/news/world/2026/08/30/rescuers-send-air-and-camera-into-nepal-hydropower-tunnel-after-three-days-raise-hopes-for-trapped-workers/233225",
+  "publishers": [
+    "Malay Mail",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Rescuers send air and camera into Nepal hydropower tunnel after three days, raise hopes for trapped workers",
+    "link": "https://www.malaymail.com/news/world/2026/08/30/rescuers-send-air-and-camera-into-nepal-hydropower-tunnel-after-three-days-raise-hopes-for-trapped-workers/233225",
+    "summary": "KATHMANDU, Aug 30 —Nepali army rescuers broke through to a hydropower tunnel on Saturday and began pumping air and...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-30T00:52:10+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/30/359678.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Malay Mail",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3365721/nepal-floods-rescuers-send-air-pipe-tunnel-trapped-workers?utm_source=rss_feed"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/30/rescuers-send-air-and-camera-into-nepal-hydropower-tunnel-after-three-days-raise-hopes-for-trapped-workers/233225"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/national/nepal-flash-flood-india-sends-tunnel-rescue-team-to-nepal/article71405468.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/30/359678.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/30/359679.jpg",
+      "https://th-i.thgim.com/public/incoming/21muwi/article71405770.ece/alternates/LANDSCAPE_1200/HQ05umqbAAA8a3r.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.11096076556155193,
+    "age_hours": 3.00406483,
+    "is_stale": false,
+    "score": 18.108790215860118
+  }
+}
