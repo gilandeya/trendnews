@@ -9934,12 +9934,16 @@ def test_youtube_extract() -> None:
         ok, reason, kind = ye.validate_point({**good_point, "type": valid_type})
         check(f"تصنيف {valid_type} صالح", ok, reason)
 
+    # Issue #637 العطل ١: "صيغة غير صالحة" فئة منفصلة عن "تجاوز المدة"
+    # (تلك تُفحَص في extract_points لا هنا) -- عدّادان لا عدّاد واحد يخلط
+    # بين عطل في مخرَج النموذج وحكم على قيمة صحيحة الشكل.
     ok, reason, kind = ye.validate_point({**good_point, "timestamp": "570"})
-    check("طابع زمني بصيغة غير مطابقة (رقم مجرّد) يُرفَض بفئة timestamp",
-          not ok and kind == "timestamp", reason)
+    check("طابع زمني بصيغة غير مطابقة (رقم مجرّد) يُرفَض بفئة timestamp_format",
+          not ok and kind == "timestamp_format", reason)
 
     ok, reason, kind = ye.validate_point({**good_point, "timestamp": ""})
-    check("طابع زمني فارغ يُرفَض بفئة timestamp", not ok and kind == "timestamp", reason)
+    check("طابع زمني فارغ يُرفَض بفئة timestamp_format",
+          not ok and kind == "timestamp_format", reason)
 
     valid_copy = dict(good_point)
     ok, reason, kind = ye.validate_point(valid_copy)
@@ -9985,8 +9989,14 @@ def test_youtube_extract() -> None:
             self.type, self.input, self.text = type_, input_, text
 
     class _Resp:
-        def __init__(self, content):
+        def __init__(self, content, stop_reason=None, usage=None):
             self.content = content
+            self.stop_reason = stop_reason
+            self.usage = usage
+
+    class _Usage:
+        def __init__(self, input_tokens, output_tokens):
+            self.input_tokens, self.output_tokens = input_tokens, output_tokens
 
     class _Messages:
         def __init__(self, responses):
@@ -10025,6 +10035,12 @@ def test_youtube_extract() -> None:
           error is None and valid == [] and len(rejected) == 1, (valid, rejected))
     check("سبب الرفض يُصنَّف timestamp للتغذية في stats",
           rejected and rejected[0]["kind"] == "timestamp", rejected)
+    # Issue #637 العطل ١ بند أ: القيمة الخام قبل التحويل ظاهرة في رسالة
+    # الرفض إلى جانب المحوَّلة -- بلا هذا لا يمكن الجزم إن كان الرقم
+    # الضخم عطلًا في التحليل أو مخرَجًا حقيقيًا من النموذج.
+    check("رسالة رفض تجاوز المدة تحوي الطابع الخام والمحوَّل ومدة الفيديو",
+          rejected and "00:20:00" in rejected[0]["reason"] and "1200" in rejected[0]["reason"]
+          and "531" in rejected[0]["reason"], rejected)
 
     # نقطة بلغة غير عربية تُرفَض وتُصنَّف language
     bad_lang_raw = {**good_point, "statement": "יעקב מרגיס", "timestamp": "00:00:10"}
@@ -10063,6 +10079,112 @@ def test_youtube_extract() -> None:
           error is not None and valid == [] and rejected == [], error)
     check("رسالة الخطأ تحوي مقتطفًا من المخرج الفاشل للتشخيص (حتى 500 حرف)",
           error is not None and long_text[:80] in error, error)
+
+    # Issue #637 العطل ٢: stop_reason=max_tokens يُسجَّل صراحةً بدل مقتطف نصّي
+    # فارغ لا يفسِّر شيئًا -- هذا هو التشخيص الفعلي للفيديوهات الثقيلة التي
+    # ردّت بإخراج مهيكل فارغ بعد كل المحاولات.
+    client = _Client([
+        _Resp([_Block("text", text="")], stop_reason="max_tokens",
+              usage=_Usage(input_tokens=15000, output_tokens=2000)),
+        _Resp([_Block("text", text="")], stop_reason="max_tokens",
+              usage=_Usage(input_tokens=15000, output_tokens=2000)),
+    ])
+    valid, rejected, error = ye.extract_points(
+        "فيديو تحليلي طويل", "نص", "ar", duration_seconds=3600, cfg=extract_cfg, client=client)
+    check("انقطاع الإخراج بسبب max_tokens يُسجَّل صراحةً في رسالة الفشل",
+          error is not None and "max_tokens" in error, error)
+    check("رسالة الفشل تحوي طول النص المُرسَل وعدد الرموز المستهلكة للتشخيص",
+          error is not None and "حرفًا" in error and "2000" in error, error)
+
+    # ── _truncate_transcript: قصّ ذكي (نصف أول + نصف أخير) لا من النهاية فقط
+    # (Issue #637 العطل ٢) ──
+    short_text = "نص قصير لا يتجاوز الحدّ"
+    check("نص أقصر من الحدّ لا يُقصّ", ye._truncate_transcript(short_text, 1000) == short_text)
+
+    long_transcript = ("أ" * 100) + ("و" * 100) + ("ي" * 100)
+    truncated = ye._truncate_transcript(long_transcript, 120)
+    check("النص المقصوص أقصر من الأصلي وضمن حدّ معقول",
+          len(truncated) < len(long_transcript), len(truncated))
+    check("النصف الأول من النص الأصلي محفوظ في المقصوص",
+          truncated.startswith("أ" * 60), truncated[:70])
+    check("النصف الأخير من النص الأصلي محفوظ في المقصوص (لا قصّ من الآخر فقط)",
+          truncated.endswith("ي" * 60), truncated[-70:])
+
+    # extract_points تستعمل max_transcript_chars من config.yaml فعليًا
+    truncating_cfg = load_config()
+    truncating_cfg["youtube"]["extract"]["max_transcript_chars"] = 50
+    long_raw = {**good_point, "timestamp": "00:00:10"}
+    client = _Client([_Resp([_Block("tool_use", input_={"points": [long_raw]})])])
+    ye.extract_points("فيديو طويل", "س" * 500, "ar", duration_seconds=600,
+                       cfg=truncating_cfg, client=client)
+    sent_content = client.messages.calls[0]["messages"][0]["content"]
+    check("النص الفعلي المُرسَل للنموذج مقصوص حسب max_transcript_chars",
+          len(sent_content) < 500, len(sent_content))
+
+    # ── fetch_transcript: تراجع أُسّي عند حجب مؤقت أو انقطاع اتصال (العطل ٣) ──
+    # اختبار بلا شبكة: fetch_once مزيَّفة ترفع IpBlocked مرتين ثم تنجح --
+    # نفحص أن الدالة تعيد النجاح بعد استهلاك محاولتي تراجع بالضبط، بلا
+    # انتظار فعلي (نُصلح time.sleep مؤقتًا).
+    import requests as _requests
+    from youtube_transcript_api import IpBlocked
+
+    real_sleep = ye.time.sleep
+    sleep_calls: list = []
+    ye.time.sleep = lambda s: sleep_calls.append(s)
+    try:
+        attempts = {"n": 0}
+
+        def _flaky_fetch_once(video_id, proxy_config, session):
+            attempts["n"] += 1
+            if attempts["n"] < 3:
+                raise IpBlocked(video_id)
+            return "[00:00:00] نص", "ar"
+
+        text, reason, rate_limited = ye.fetch_transcript(
+            "vid1", None, None, backoff_seconds=[15, 45, 90], fetch_once=_flaky_fetch_once)
+        check("نجاح بعد إعادتي محاولة بسبب حجب مؤقت (429/IpBlocked)",
+              text == "[00:00:00] نص" and reason == "ar" and rate_limited is False,
+              (text, reason, rate_limited))
+        check("التراجع استعمل الفاصلين الأولين من الجدول بالترتيب",
+              sleep_calls == [15, 45], sleep_calls)
+
+        # إرهاق كل محاولات التراجع ⇒ فشل نهائي مع رفع علامة أُرهق التراجع
+        sleep_calls.clear()
+
+        def _always_blocked_fetch_once(video_id, proxy_config, session):
+            raise IpBlocked(video_id)
+
+        text, reason, rate_limited = ye.fetch_transcript(
+            "vid2", None, None, backoff_seconds=[15, 45], fetch_once=_always_blocked_fetch_once)
+        check("إرهاق كل محاولات التراجع يُسجَّل فشلًا لا نجاحًا وهميًا",
+              text is None and rate_limited is True, (text, reason, rate_limited))
+        check("عدد محاولات التراجع المستهلكة يطابق طول الجدول",
+              sleep_calls == [15, 45], sleep_calls)
+
+        # انقطاع اتصال (RemoteDisconnected يصل مغلَّفًا بـ ConnectionError) يُعامَل
+        # بنفس منطق التراجع
+        def _disconnect_once_fetch_once(video_id, proxy_config, session):
+            attempts["n"] += 1
+            if attempts["n"] == 1:
+                raise _requests.exceptions.ConnectionError("Remote end closed connection")
+            return "[00:00:00] نص", "tr"
+
+        attempts["n"] = 0
+        text, reason, rate_limited = ye.fetch_transcript(
+            "vid3", None, None, backoff_seconds=[15], fetch_once=_disconnect_once_fetch_once)
+        check("انقطاع اتصال يُعامَل بنفس منطق التراجع وينجح بعد إعادة المحاولة",
+              text == "[00:00:00] نص" and rate_limited is False, (text, reason, rate_limited))
+    finally:
+        ye.time.sleep = real_sleep
+
+    # ── _should_retry: قرار صِرف بلا شبكة ولا وقت انتظار فعلي ──
+    check("محاولة أولى مع جدول غير فارغ: يجب التراجع بأول فاصل",
+          ye._should_retry(0, [15, 45, 90]) == (True, 15))
+    check("محاولة أخيرة ضمن الجدول: يجب التراجع بآخر فاصل",
+          ye._should_retry(2, [15, 45, 90]) == (True, 90))
+    check("تجاوز طول الجدول: لا مزيد من التراجع",
+          ye._should_retry(3, [15, 45, 90]) == (False, None))
+    check("جدول فارغ: لا تراجع من الأساس", ye._should_retry(0, []) == (False, None))
 
     # ── classify_topic: حارس الموضوع قبل الاستخلاص (العطل ٥) ──
     client = _Client([_Resp([_Block("tool_use", input_={"category": "news_bulletin"})])])
