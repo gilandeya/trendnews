@@ -1,39 +1,5 @@
 [
   {
-    "score": 15.12,
-    "bucket": "serious",
-    "tokens": [
-      "alvarez",
-      "barcelona",
-      "empieza",
-      "julián",
-      "olvidarse"
-    ],
-    "link": "https://elpais.com/deportes/futbol/2026-08-25/el-barcelona-empieza-a-olvidarse-de-julian-alvarez.html",
-    "title": "El Barcelona empieza a olvidarse de Julián Alvarez",
-    "posted_title": "برشلونة يقترب من التخلي عن صفقة خوليان ألفاريث",
-    "region": "es",
-    "seen_at": "2026-08-25T06:21:53.278533+00:00"
-  },
-  {
-    "score": 16.49,
-    "bucket": "serious",
-    "tokens": [
-      "assassinate",
-      "iran",
-      "israel's",
-      "netanyahu",
-      "one",
-      "sons",
-      "tried"
-    ],
-    "link": "https://www.france24.com/en/middle-east/20260824-israel-netanyahu-says-iran-tried-kill-son",
-    "title": "Israel's Netanyahu says Iran tried to assassinate one of his sons",
-    "posted_title": "نتنياهو يزعم محاولة إيرانية لاغتيال أحد أبنائه دون تحديد التفاصيل",
-    "region": "eu",
-    "seen_at": "2026-08-25T06:22:09.446526+00:00"
-  },
-  {
     "score": 17.05,
     "bucket": "serious",
     "tokens": [
@@ -5113,5 +5079,23 @@
     "posted_title": "",
     "region": "eu",
     "seen_at": "2026-08-30T06:08:06.533991+00:00"
+  },
+  {
+    "score": 17.04,
+    "bucket": "serious",
+    "tokens": [
+      "defence",
+      "dismissed",
+      "korea",
+      "media",
+      "minister",
+      "north",
+      "state"
+    ],
+    "link": "https://www.thehindu.com/news/international/north-korea-defence-minister-dismissed-state-media/article71406956.ece",
+    "title": "North Korea Defence Minister dismissed: state media",
+    "posted_title": "كوريا الشمالية تقيل وزير الدفاع وتعيد تشكيل قيادتها العسكرية",
+    "region": "in",
+    "seen_at": "2026-08-30T06:32:18.917892+00:00"
   }
 ]
