@@ -1,7 +1,7 @@
 {
   "id": "8a0d21ea4237",
   "created_at": "2026-08-30T19:02:27.195365+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 13.68,
   "bucket": "serious",
@@ -56,5 +56,12 @@
       "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/6aa7cc8d-donald-trump-epa-150626.webp"
     ]
   },
-  "publish_at": "2026-08-30T19:33:05.589742+00:00"
+  "publish_at": "2026-08-30T19:33:05.589742+00:00",
+  "published_at": "2026-08-30T19:45:47.166186+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1347815300768824",
+    "photo_id": "1347815284102159",
+    "url": "https://www.facebook.com/631680090321390_1347815300768824",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
