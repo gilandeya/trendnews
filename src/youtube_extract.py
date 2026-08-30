@@ -41,6 +41,22 @@ parse_timestamp تُجرّد الأقواس والمسافات قبل أي تح�
 (TRUNCATION_MARKER) وقاعدة "لا تبنِ رقمًا من موضع المقطع" في البرومبت،
 لمواجهة اختلاق الأختام الذي ظل قائمًا في الفيديوهات الطويلة رغم سلامة
 الصيغة.
+
+Issue #644 (حسم اختلاق الطوابع بعد التشغيلة الرابعة -- الحرّاس أعلاه لم
+تعد تكفي وحدها): ٢٦ نقطة رُفضت بتجاوز مدة الفيديو رغم صيغة سليمة. التشخيص:
+النموذج يقرأ عموديًا عبر الأسطر بدل أفقيًا -- خانة الساعة في `[HH:MM:SS]`
+كانت تُملأ من ختم مجاور بينما الدقائق/الثواني (`MM:SS`) تُنسَخ بدقّة من
+المقطع الصحيح (شاهد: `00:40:44` و`06:40:44` في نفس الفيديو، دقائق/ثوانٍ
+متطابقة، ساعة مختلفة). النموذج بارع في النسخ الحرفي (`quote_original` دقيق
+دومًا) وضعيف في نسخ أرقام متراصّة. الحل الجذري: لا نطلب رقمًا أصلًا.
+(١) format_transcript لم تعد تنتج خانة ساعة (`[MM:SS]` فقط، الدقائق تتجاوز
+٥٩ بلا سقف) -- كل فيديوهات المسار تحت ساعتين ونصف فخانة الساعة كانت عديمة
+الفائدة وهي أصل الخلط العمودي. (٢) حقل `timestamp` حُذف من مخطّط
+extract_points واستُبدل بـ`anchor_text` (أول ٤-٦ كلمات من المقطع، منسوخة
+حرفيًا) -- الشيفرة تبحث عن هذه المرساة في المقاطع نفسها (resolve_timestamp)
+وتحسب الطابع الحقيقي من مطابقتها، فتنقل مهمة التحديد الزمني من قدرة ضعيفة
+(نسخ أرقام) إلى قدرة مثبتة قويًا (نسخ نصّ). فشل المطابقة ⇒ `timestamp: None`
+مقبول (عدّاد points_timestamp_unresolved)، لا رفض.
 """
 from __future__ import annotations
 
@@ -68,12 +84,12 @@ PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "youtube_extr
 POINTS_DIR = STATE_DIR / "youtube_points"
 
 REQUIRED_FIELDS = ["statement", "speaker", "quote_original", "quote_arabic",
-                    "timestamp", "type", "topic_hint"]
+                    "anchor_text", "type", "topic_hint"]
 VALID_TYPES = {"fact", "opinion", "forecast"}
 
 EXTRACT_POINTS_SCHEMA = {
     "name": "extract_points",
-    "description": "يستخرج نقاطًا إخبارية عربية موثّقة بطابعها الزمني الحرفي من نص فيديو",
+    "description": "يستخرج نقاطًا إخبارية عربية موثّقة بمرساة نصّية من نص فيديو",
     "input_schema": {
         "type": "object",
         "properties": {
@@ -90,14 +106,14 @@ EXTRACT_POINTS_SCHEMA = {
                                             "description": "اقتباس حرفي من النص بلغته الأصلية"},
                         "quote_arabic": {"type": "string",
                                           "description": "ترجمة الاقتباس إلى العربية الفصحى"},
-                        "timestamp": {
+                        "anchor_text": {
                             "type": "string",
                             "description": (
-                                "الختم الزمني المنسوخ حرفيًا من قبل المقطع المقتبَس مباشرة، "
-                                "بصيغة MM:SS أو HH:MM:SS بلا قوسيه (مثل 00:12:34 لا [00:12:34]). "
-                                "لا تقدّره ولا تحسبه ولا تقرّبه ولا تبنِه من موضع المقطع في النص؛ "
-                                "إن لم تجد ختمًا واضحًا يسبق هذا المقطع مباشرة اترك الحقل نصًّا "
-                                "فارغًا -- فراغ صادق أفضل من رقم مختلَق."),
+                                "أول أربع إلى ست كلمات من السطر الذي أُخذ منه quote_original، "
+                                "منسوخة حرفيًا من النص المُدخَل بلغته الأصلية بلا أي تعديل ولا "
+                                "ترجمة، وبلا الختم الزمني نفسه. تُستعمَل لتحديد موضع الاقتباس "
+                                "آليًا عبر بحث نصّي في الشيفرة -- لا تحسب رقمًا ولا تنسخ ختمًا، "
+                                "انسخ الكلمات فقط."),
                         },
                         "type": {"type": "string", "enum": sorted(VALID_TYPES)},
                         "topic_hint": {"type": "string", "description": "كلمتان أو ثلاث للموضوع"},
@@ -183,7 +199,14 @@ _ARABIC_BLOCK_RE = re.compile(
     "[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]"
 )
 
-_TIMESTAMP_RE = re.compile(r"^(?:(\d{1,2}):)?([0-5]?\d):([0-5]\d)$")
+# Issue #644 الإصلاح ١: صياغة النص لم تعد تنتج خانة ساعة (انظر
+# format_transcript أدناه) -- طابع MM:SS يمكن أن تتجاوز دقائقه ٥٩ بلا سقف
+# (فيديو ساعة ونصف ⇐ [90:xx])، فبات المخطّطان منفصلَين بدل مخطّط واحد بخانة
+# ساعة اختيارية: HH:MM:SS (توافقًا مع مدخلات قديمة محتملة فقط، لا تُنتَج بعد
+# الآن) بدقائق/ثوانٍ محدودة ٠-٥٩ كما يجب فعليًا داخل الساعة، وMM:SS بدقائق
+# غير محدودة صراحة.
+_TIMESTAMP_HMS_RE = re.compile(r"^(\d{1,2}):([0-5]\d):([0-5]\d)$")
+_TIMESTAMP_MS_RE = re.compile(r"^(\d+):([0-5]\d)$")
 
 # تطبيع الحروف الفارسية/التركية الشائعة إلى مقابلها العربي (العطل ٢أ،
 # Issue #639) -- الحرف الفارسي "ی" مثلًا يشبه العربي "ي" بصريًا فلا ينتبه
@@ -245,49 +268,55 @@ def find_non_arabic_char(text: str) -> str | None:
 
 
 def parse_timestamp(raw: Any) -> int | None:
-    """يحلّل طابعًا زمنيًا نصّيًا "[HH:]MM:SS" -- كما يُفترَض أن ينسخه النموذج
-    حرفيًا من الختم الظاهر قبل المقطع -- إلى ثوانٍ. يعيد None لأي صيغة غير
-    مطابقة أو حقل فارغ/غير نصّي؛ لا نحاول تخمين رقم من نص لا يطابق الصيغة
-    (هذا التخمين هو أصل العطل ١).
+    """يحلّل طابعًا زمنيًا نصّيًا "MM:SS" (الصيغة المُنتَجة الآن، دقائق بلا
+    سقف) أو "HH:MM:SS" (توافقًا مع صيغة قديمة، لم تعد تُنتَج -- انظر Issue
+    #644) إلى ثوانٍ. يعيد None لأي صيغة غير مطابقة أو حقل فارغ/غير نصّي؛ لا
+    نحاول تخمين رقم من نص لا يطابق الصيغة.
 
     Issue #642 العطل ١: النص المصوغ (format_transcript) يضع كل ختم بين
-    قوسين مربّعين (`[00:12:34]`) ليظهر للنموذج، والبرومبت يأمره بنسخ الختم
-    "كما هو" -- فينسخه القوسين معهما وهو يطيع التعليمة حرفيًا. `00:00:11`
-    كانت تُرفَض بصفتها "صيغة غير صالحة" لمجرّد وصولها كـ`[00:00:11]`. تُجرَّد
-    الأقواس المربّعة والمسافات الزائدة هنا أولًا -- هذا التجريد هو الضمان
-    الفعلي، لا تعليمة البرومبت وحدها."""
+    قوسين مربّعين (`[12:34]`) ليظهر للنموذج، والبرومبت يأمره بنسخ الختم
+    "كما هو" -- فينسخه القوسين معهما وهو يطيع التعليمة حرفيًا. تُجرَّد الأقواس
+    المربّعة والمسافات الزائدة هنا أولًا -- هذا التجريد هو الضمان الفعلي، لا
+    تعليمة البرومبت وحدها.
+
+    Issue #644: بعد حذف خانة الساعة من format_transcript، الصيغة المُنتَجة
+    فعليًا MM:SS بدقائق قد تتجاوز ٥٩ (فيديو ساعة ونصف ⇐ [90:xx]) -- فمخطّط
+    HH:MM:SS القديم (دقائق/ثوانٍ محدودة ٠-٥٩ داخل الساعة) لم يعد يكفي وحده،
+    ويُجرَّب أولًا لأنه أكثر تحديدًا (ثلاثة أجزاء)، ثم MM:SS بدقائق غير
+    محدودة كمخطّط بديل."""
     if not isinstance(raw, str):
         return None
     cleaned = raw.strip().replace("[", "").replace("]", "").strip()
     if not cleaned:
         return None
-    match = _TIMESTAMP_RE.match(cleaned)
-    if not match:
-        return None
-    hours = int(match.group(1)) if match.group(1) else 0
-    minutes, seconds = int(match.group(2)), int(match.group(3))
-    return hours * 3600 + minutes * 60 + seconds
+    match = _TIMESTAMP_HMS_RE.match(cleaned)
+    if match:
+        hours, minutes, seconds = (int(g) for g in match.groups())
+        return hours * 3600 + minutes * 60 + seconds
+    match = _TIMESTAMP_MS_RE.match(cleaned)
+    if match:
+        minutes, seconds = (int(g) for g in match.groups())
+        return minutes * 60 + seconds
+    return None
 
 
 def validate_point(point: Any) -> tuple[bool, str, str, bool]:
-    """يتحقق من الحقول الإلزامية والتصنيف واللغة وصيغة الطابع الزمني لنقطة
-    واحدة. يعيد (صالحة، سبب الرفض، فئة الرفض، طُبِّعت) -- الفئة "" عند
-    النجاح، وإلا واحدة من "timestamp_format"/"language"/"other" لتغذية
-    عدّادات stats في run(). "timestamp_format" هنا خاصّ بنص غير فارغ لا
-    يطابق [HH:]MM:SS بعد تجريد الأقواس (انظر parse_timestamp) -- حقل فارغ
-    لم يعد يُصنَّف هنا كعطل صيغة (Issue #642 العطل ٣ب، انظر أدناه). تجاوز
-    مدة الفيديو لطابع سليم الصيغة يُفحَص لاحقًا في extract_points بفئة
-    "timestamp" منفصلة (Issue #637 العطل ١): الأول عطل في مخرَج النموذج
-    نفسه، والثاني حكم على قيمة صحيحة الشكل، ولا يصحّ خلطهما في عدّاد واحد
-    يُعمي عن أيّهما يتكرر فعليًا. العنصر الرابع (طُبِّعت) يخبر الطالب إن غيّر
-    normalize_persian_chars أدناه أيًّا من الحقول الثلاثة -- يُستعمَل في
-    extract_points لتغذية عدّاد points_normalized عند النجاح فقط (Issue
-    #639 العطل ٢أ).
+    """يتحقق من الحقول الإلزامية والتصنيف واللغة لنقطة واحدة. يعيد (صالحة،
+    سبب الرفض، فئة الرفض، طُبِّعت) -- الفئة "" عند النجاح، وإلا واحدة من
+    "language"/"other" لتغذية عدّادات stats في run(). العنصر الرابع (طُبِّعت)
+    يخبر الطالب إن غيّر normalize_persian_chars أدناه أيًّا من الحقول
+    الثلاثة -- يُستعمَل في extract_points لتغذية عدّاد points_normalized عند
+    النجاح فقط (Issue #639 العطل ٢أ).
 
-    عند النجاح يُستبدَل point["timestamp"] النصّي بعدد الثواني المحلَّل، أو
-    بـNone إن تركه النموذج فارغًا عمدًا (Issue #642 العطل ٣ب: فراغ صادق أفضل
-    من رقم مختلَق -- النقطة تبقى صالحة وتُعدّ في points_without_timestamp في
-    run()، ومعنى None يبقى حتى الإخراج النهائي بدل تحويله صفرًا أو حذفه).
+    Issue #644 (الإصلاح ٢): لم تعد هذه الدالة تتحقق من طابع زمني أصلًا --
+    النموذج لم يعد يُطلَب منه رقمًا (`timestamp` حُذف من المخطّط)، بل
+    `anchor_text` نصّي يُعامَل كأي حقل نصّي إلزامي آخر هنا (لا فحص لغة عليه،
+    مثل quote_original، لأنه منسوخ حرفيًا بلغة الفيديو الأصلية). تحويل
+    anchor_text إلى طابع زمني فعلي يقع لاحقًا في extract_points عبر
+    resolve_timestamp، بعد أن تنجح هذه الدالة -- فئة الرفض "timestamp_format"
+    القديمة (نص لا يطابق [HH:]MM:SS) لم تعد ممكنة الحدوث: لا رقم يُطلَب من
+    النموذج فلا صيغة رقمية ليُخطئ فيها.
+
     كذلك تُستبدَل الحقول الثلاثة العربية بنسختها المطبَّعة فارسيًا -- سواء
     نجحت النقطة أم فشلت لاحقًا، فالتطبيع تصحيح للنص لا حكم عليه."""
     if not isinstance(point, dict):
@@ -295,7 +324,8 @@ def validate_point(point: Any) -> tuple[bool, str, str, bool]:
     for name in REQUIRED_FIELDS:
         if name not in point:
             return False, f"حقل ناقص: {name}", "other", False
-    for name in ("statement", "speaker", "quote_original", "quote_arabic", "type", "topic_hint"):
+    for name in ("statement", "speaker", "quote_original", "quote_arabic",
+                 "anchor_text", "type", "topic_hint"):
         value = point.get(name)
         if not isinstance(value, str) or not value.strip():
             return False, f"حقل فارغ أو غير نصّي: {name}", "other", False
@@ -314,41 +344,107 @@ def validate_point(point: Any) -> tuple[bool, str, str, bool]:
 
     # العطل ٣+٤ (الأصلي) + العطل ٢ب (Issue #639): أي حرف هنا خارج العربية
     # والأرقام والترقيم يعني أن الترجمة لم تقع فعلًا أو أن اسم علم انكسر
-    # بخلط حروف. quote_original مستثنى عمدًا -- هو بلغة الفيديو الأصلية،
-    # الدليل لا الترجمة.
+    # بخلط حروف. quote_original وanchor_text مستثنيان عمدًا -- بلغة الفيديو
+    # الأصلية، الدليل لا الترجمة.
     for name in ("statement", "speaker", "quote_arabic"):
         bad_char = find_non_arabic_char(point[name])
         if bad_char:
             return False, f"حرف غير عربي ({bad_char!r}) في {name}", "language", normalized
 
-    # Issue #642 العطل ٣ب: حقل فارغ يعني "لم يجد النموذج ختمًا واضحًا يسبق
-    # المقطع" -- وهذا مقبول عمدًا الآن (نقطة صحيحة بلا طابع أفضل من نقطة
-    # مرفوضة كاملةً أو -- الأخطر -- طابع مختلَق يمرّ لأنه صحيح الصيغة). يُفرَّق
-    # هنا بين الفراغ (يُقبل، point["timestamp"] = None) وبين نص غير فارغ لا
-    # يطابق [HH:]MM:SS (يُرفَض كما كان -- عطل حقيقي في مخرَج النموذج لا نية
-    # ترك الحقل فارغًا).
-    raw_timestamp = point.get("timestamp")
-    if isinstance(raw_timestamp, str) and not raw_timestamp.strip():
-        point["timestamp"] = None
-        return True, "", "", normalized
-
-    seconds = parse_timestamp(raw_timestamp)
-    if seconds is None:
-        return (False, f"طابع زمني غير صالح الصيغة: {raw_timestamp!r}",
-                "timestamp_format", normalized)
-    point["timestamp"] = seconds
-
     return True, "", "", normalized
+
+
+# ──────────────────────── استخراج الطابع بالبحث النصّي ────────────────────────
+#
+# Issue #644 الإصلاح ٢ (الحل الجذري): بدل أن يعيد النموذج طابعًا زمنيًا
+# (رقم -- والنموذج ضعيف في نسخ الأرقام المتراصّة، شاهد الـIssue: نفس
+# الدقائق/الثواني `40:44` مع ساعتين مختلفتين في نفس الفيديو)، يعيد مرساة
+# نصّية (anchor_text -- والنموذج بارع في النسخ الحرفي، quote_original دقيق
+# في كل تشغيلة سابقة). الشيفرة تبحث عن هذه المرساة في المقاطع وتحسب الطابع
+# من مقطعها -- حساب برمجي لا يخطئ، لا نسخ نموذج لرقم.
+
+# تطبيع خفيف للمقارنة (توحيد المسافات، حذف الترقيم، تجاهل التشكيل) -- كافٍ
+# لمطابقة مرساة منسوخة حرفيًا تقريبًا رغم فروق تنسيقية طفيفة (علامة ترقيم
+# لاصقة، مسافة مضاعفة)، لا محاولة تطابق لغوي عميق.
+# نطاق التشكيل مكتوب بترميز \u صراحة (لا حروفًا حرفية) لنفس سبب
+# _PERSIAN_ONLY_RE أعلاه -- تفادي خطأ كتابة صامت بسبب اتجاه النص من اليمين
+# لليسار عند تحرير هذا الملف لاحقًا.
+_ARABIC_DIACRITICS_RE = re.compile("[\u064B-\u065F\u0670\u06D6-\u06ED]")
+_ANCHOR_PUNCTUATION_RE = re.compile(r"[^\w\s]", re.UNICODE)
+_TRANSCRIPT_LINE_RE = re.compile(r"^\[(\d+:[0-5]\d)\]\s?(.*)$")
+
+
+def _normalize_for_anchor(text: str) -> str:
+    text = _ARABIC_DIACRITICS_RE.sub("", text)
+    text = _ANCHOR_PUNCTUATION_RE.sub("", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text.casefold()
+
+
+def parse_transcript_segments(transcript_text: str) -> list[tuple[int, str]]:
+    """يحلّل النص المصوغ (أسطر `[MM:SS] نص`، انظر format_transcript) إلى
+    قائمة (ثوانٍ، نص المقطع) -- تُستهلَك في resolve_timestamp للبحث عن
+    anchor_text وإرجاع طابع مقطعها. أسطر لا تطابق الصيغة (كعلامة الحذف
+    TRUNCATION_MARKER في نص مقصوص) تُهمَل بصمت -- علامات بنيوية لا مقاطع
+    فعلية لها طابع."""
+    segments: list[tuple[int, str]] = []
+    for line in transcript_text.splitlines():
+        match = _TRANSCRIPT_LINE_RE.match(line)
+        if not match:
+            continue
+        seconds = parse_timestamp(match.group(1))
+        if seconds is None:
+            continue
+        segments.append((seconds, match.group(2)))
+    return segments
+
+
+def resolve_timestamp(anchor_text: Any, transcript_segments: list[tuple[int, str]]) -> int | None:
+    """يبحث عن anchor_text (أول ٤-٦ كلمات من مقطع بعينه، كما نسخها النموذج)
+    داخل نصوص transcript_segments ويعيد طابع المقطع المطابق -- الشيفرة تحسب
+    الرقم من مطابقة نصّية، لا النموذج من ذاكرته أو تقديره. عند فشل التطابق
+    التام، محاولة ثانية بأول ٣ كلمات فقط من المرساة (تحسّبًا لاختلاف طفيف
+    كإسقاط كلمة أخيرة)، وإلا None -- فراغ صادق أفضل من طابع خاطئ، تمامًا
+    كمبدأ الحقل الفارغ القديم الذي حلّت هذه الدالة محله."""
+    if not isinstance(anchor_text, str) or not anchor_text.strip():
+        return None
+    normalized_anchor = _normalize_for_anchor(anchor_text)
+    if not normalized_anchor:
+        return None
+
+    def _search(anchor: str) -> int | None:
+        for seconds, text in transcript_segments:
+            if anchor in _normalize_for_anchor(text):
+                return seconds
+        return None
+
+    found = _search(normalized_anchor)
+    if found is not None:
+        return found
+
+    words = normalized_anchor.split(" ")
+    if len(words) > 3:
+        found = _search(" ".join(words[:3]))
+        if found is not None:
+            return found
+
+    return None
 
 
 # ──────────────────────────── سحب النص ────────────────────────────
 
 
 def _format_timestamp(seconds: float) -> str:
+    """MM:SS بلا خانة ساعة (Issue #644 الإصلاح ١) -- خانة الساعة كانت عديمة
+    الفائدة (كل فيديوهات المسار تحت ساعتين ونصف، config.yaml:
+    youtube.max_duration_minutes) ووجودها هو ما دفع النموذج لقراءة الأعمدة
+    عموديًا فيخلط ساعة ختم بدقائق وثواني ختم مجاور رغم تطابقهما تمامًا (شاهد
+    الـIssue: `00:40:44` و`06:40:44` في نفس الفيديو). الدقائق هنا تتجاوز ٥٩
+    بلا سقف (`divmod(total, 60)` لا `divmod(rem, 3600)` ثم ٦٠) -- فيديو ساعة
+    ونصف ينتج [90:xx] لا [01:30:xx]، ولا مكان بعدها لخلط عمودي بين خانتين."""
     total = int(seconds)
-    hours, rem = divmod(total, 3600)
-    minutes, secs = divmod(rem, 60)
-    return f"{hours:02d}:{minutes:02d}:{secs:02d}"
+    minutes, secs = divmod(total, 60)
+    return f"{minutes:02d}:{secs:02d}"
 
 
 def format_transcript(fetched) -> str:
@@ -541,8 +637,10 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
     مؤقتين لا يدخلان المخرج النهائي (يُستهلَكان في run() فقط ثم يُهمَلان عند
     بناء قاموس النقطة الأخير): "_normalized" (طُبِّعت فارسيًا وقُبِلت بعده --
     Issue #639 العطل ٢أ) و"_unsourced_name" (اسم عَلَم مشكوك في نسبته --
-    العطل ١ بند ب). حقل "timestamp" في النقطة الصالحة قد يكون None -- النموذج
-    ترك الختم فارغًا بصدق بدل اختلاقه (Issue #642 العطل ٣ب).
+    العطل ١ بند ب). حقل "timestamp" في النقطة الصالحة قد يكون None -- بحث
+    resolve_timestamp عن anchor_text فشل (Issue #644 الإصلاح ٢، عدّاد
+    points_timestamp_unresolved في run()؛ حقل "anchor_text" الخام نفسه لا
+    يدخل هو الآخر المخرج النهائي، أداة داخلية فقط).
 
     العنصر الرابع المُعاد (ملاحظة القصّ) يُسجَّل في run() ضمن failed لا فقط
     في log (Issue #642 العطل ٣د) -- بلا هذا لا نعرف كم مرة يقع القصّ فعليًا
@@ -610,29 +708,36 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
                 truncation_note)
 
     known_figures = cfg.path("youtube.extract.known_figures", [])
+    # المقاطع تُحلَّل من sent_text لا transcript_text الكامل -- anchor_text
+    # نُسِخ مما رآه النموذج فعليًا (Issue #644 الإصلاح ٢)، فالبحث في مقاطع
+    # لم يرها أصلًا لا معنى له، وقد يطابق صدفة نصًّا مكرَّرًا في الجزء
+    # المحذوف بالقصّ الذكي (_truncate_transcript).
+    transcript_segments = parse_transcript_segments(sent_text)
 
     valid: list[dict] = []
     rejected: list[dict] = []
     for raw in raw_points:
-        raw_timestamp = raw.get("timestamp") if isinstance(raw, dict) else None
+        anchor_text = raw.get("anchor_text") if isinstance(raw, dict) else None
         ok, reason, kind, normalized = validate_point(raw)
         if not ok:
             rejected.append({"reason": reason, "kind": kind})
             log.warning("نقطة مرفوضة من %r (%s)", video_title[:60], reason)
             continue
-        # الحارس الأخير الإلزامي (العطل ١، بند ج): لا تنازل عنه مهما كانت
-        # صيغة الطابع سليمة -- سليم الصيغة لا يعني داخل مدة الفيديو فعلًا.
-        # القيمة الخام قبل التحويل مسجَّلة هنا (العطل ١، بند أ) للتشخيص --
-        # بلا هذا لا يمكن الجزم إن كان السبب عطلًا في التحليل أو مخرَجًا
-        # حقيقيًا من النموذج خارج مدة الفيديو فعلًا.
-        # Issue #642 العطل ٣ب: طابع None (تُرك فارغًا بصدق) لا يُقارَن بمدة
-        # الفيديو أصلًا -- لا قيمة لمقارنته، وليس عطلًا يستوجب الرفض.
-        if raw["timestamp"] is not None and raw["timestamp"] > duration_seconds:
-            reason = (f"طابع خام: {raw_timestamp!r} → محوَّل: {raw['timestamp']}ث → "
-                      f"مدة الفيديو: {duration_seconds}ث")
+        # Issue #644 الإصلاح ٢ (الحل الجذري): الطابع لم يعد يُطلَب رقمًا من
+        # النموذج -- يُستخرَج ببحث نصّي عن anchor_text في مقاطع الفيديو نفسها
+        # (resolve_timestamp)، فالشيفرة تحسب الرقم لا النموذج.
+        resolved = resolve_timestamp(anchor_text, transcript_segments)
+        # الحارس الأخير الإلزامي (العطل ١، بند ج) يبقى للأمان، لكنه الآن
+        # مستحيل الحدوث بنيويًا: طابع مأخوذ من مقطع ينتمي فعلًا لهذا الفيديو
+        # لا يمكن أن يتجاوز مدته (Issue #644 معايير القبول: توقّع صفر هنا).
+        # طابع None (فشل البحث) لا يُقارَن بمدة الفيديو أصلًا -- لا قيمة
+        # لمقارنته، وليس عطلًا يستوجب الرفض (نفس مبدأ Issue #642 العطل ٣ب).
+        if resolved is not None and resolved > duration_seconds:
+            reason = f"طابع محلول: {resolved}ث → مدة الفيديو: {duration_seconds}ث"
             rejected.append({"reason": reason, "kind": "timestamp"})
             log.warning("نقطة مرفوضة من %r (%s)", video_title[:60], reason)
             continue
+        raw["timestamp"] = resolved
         # طُبِّعت وقُبِلت (Issue #639 العطل ٢أ) -- تُحسَب "أُنقذت" فقط هنا،
         # لا في validate_point نفسها، لأن نقطة طُبِّعت ثم رُفضت لسبب آخر لم
         # "تُنقَذ" فعليًا.
@@ -662,11 +767,11 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
     videos_rejected_topic = 0
     videos_rate_limited = 0
     points_rejected_timestamp = 0
-    points_rejected_timestamp_format = 0
     points_rejected_language = 0
     points_normalized = 0
     points_flagged_unsourced_name = 0
-    points_without_timestamp = 0
+    points_timestamp_resolved = 0
+    points_timestamp_unresolved = 0
     transcript_sample_logged = False
 
     proxy_cfg = get_proxy_config()
@@ -731,15 +836,18 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                                    "reason": f"نقطة مرفوضة ({r['kind']}): {r['reason']}"})
                     if r["kind"] == "timestamp":
                         points_rejected_timestamp += 1
-                    elif r["kind"] == "timestamp_format":
-                        points_rejected_timestamp_format += 1
                     elif r["kind"] == "language":
                         points_rejected_language += 1
                 for p in valid_points:
                     if p.get("_normalized"):
                         points_normalized += 1
-                    if p["timestamp"] is None:
-                        points_without_timestamp += 1
+                    # Issue #644 الإصلاح ٢: نجاح/فشل resolve_timestamp في
+                    # إيجاد anchor_text داخل المقاطع -- لا "تُرك فارغًا" من
+                    # النموذج بعد الآن (لم يعد يُطلَب منه رقم أصلًا).
+                    if p["timestamp"] is not None:
+                        points_timestamp_resolved += 1
+                    else:
+                        points_timestamp_unresolved += 1
                     unsourced_name = p.get("_unsourced_name")
                     if unsourced_name:
                         points_flagged_unsourced_name += 1
@@ -790,11 +898,11 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
             "videos_rate_limited": videos_rate_limited,
             "points_extracted": len(points),
             "points_rejected_timestamp": points_rejected_timestamp,
-            "points_rejected_timestamp_format": points_rejected_timestamp_format,
             "points_rejected_language": points_rejected_language,
             "points_normalized": points_normalized,
             "points_flagged_unsourced_name": points_flagged_unsourced_name,
-            "points_without_timestamp": points_without_timestamp,
+            "points_timestamp_resolved": points_timestamp_resolved,
+            "points_timestamp_unresolved": points_timestamp_unresolved,
             "proxy_bandwidth_mb": round(total_bytes / (1024 * 1024), 3),
         },
         "failed": failed,
@@ -822,11 +930,11 @@ def main() -> int:
     print(f"أُهمل قبل الاستخلاص (حارس الموضوع): {stats['videos_rejected_topic']}")
     print(f"نقاط مستخلَصة: {stats['points_extracted']} "
           f"· مرفوضة (تجاوز مدة الفيديو): {stats['points_rejected_timestamp']} "
-          f"· مرفوضة (صيغة طابع غير صالحة): {stats['points_rejected_timestamp_format']} "
           f"· مرفوضة (لغة): {stats['points_rejected_language']}")
     print(f"مُطبَّعة فارسيًا فأُنقِذت: {stats['points_normalized']} "
           f"· أسماء أعلام مشكوكة (تحذير لا رفض): {stats['points_flagged_unsourced_name']} "
-          f"· بلا طابع زمني (تُرك فارغًا بصدق): {stats['points_without_timestamp']}")
+          f"· طابع محلول من المرساة: {stats['points_timestamp_resolved']} "
+          f"· مرساة لم تُوجَد: {stats['points_timestamp_unresolved']}")
     print(f"استهلاك البروكسي التقديري: {stats['proxy_bandwidth_mb']} ميجابايت")
     if result["failed"]:
         print(f"تعذّر: {len(result['failed'])}")

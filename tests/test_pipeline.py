@@ -9891,7 +9891,7 @@ def test_youtube_extract() -> None:
         "speaker": "وزير المالية",
         "quote_original": "we are launching a new plan",
         "quote_arabic": "نطلق خطة جديدة",
-        "timestamp": "00:00:42",
+        "anchor_text": "we are launching a new",
         "type": "fact",
         "topic_hint": "اقتصاد وزراء",
     }
@@ -9919,6 +9919,14 @@ def test_youtube_extract() -> None:
     check("نص غير رقمي (abc) يبقى مرفوضًا بعد إصلاح الأقواس",
           ye.parse_timestamp("abc") is None)
     check("قيمة مستحيلة (99:99:99) تبقى مرفوضة", ye.parse_timestamp("99:99:99") is None)
+
+    # ── Issue #644 الإصلاح ١: format_transcript لم تعد تنتج خانة ساعة --
+    # صيغة MM:SS بدقائق تتجاوز ٥٩ بلا سقف (فيديو ساعة ونصف مثلًا)، وparse_timestamp
+    # تبقى قابلة لهذه الصيغة مباشرةً (لا حاجة لخانة ساعة لتفسير رقم دقائق كبير) ──
+    check("دقائق تتجاوز ٥٩ في MM:SS تُحلَّل بلا سقف (Issue #644 الإصلاح ١)",
+          ye.parse_timestamp("95:12") == 95 * 60 + 12)
+    check("[MM:SS] بدقائق فوق ٥٩ وبقوسين يُحلَّل بعد تجريد القوسين",
+          ye.parse_timestamp("[125:00]") == 125 * 60)
 
     # ── العطل ٣+٤: كاشف الحرف غير العربي ──
     check("نص عربي فصيح بلا شوائب لا يُطابِق شيئًا",
@@ -10007,31 +10015,16 @@ def test_youtube_extract() -> None:
         ok, reason, kind, normalized = ye.validate_point({**good_point, "type": valid_type})
         check(f"تصنيف {valid_type} صالح", ok, reason)
 
-    # Issue #637 العطل ١: "صيغة غير صالحة" فئة منفصلة عن "تجاوز المدة"
-    # (تلك تُفحَص في extract_points لا هنا) -- عدّادان لا عدّاد واحد يخلط
-    # بين عطل في مخرَج النموذج وحكم على قيمة صحيحة الشكل.
-    ok, reason, kind, normalized = ye.validate_point({**good_point, "timestamp": "570"})
-    check("طابع زمني بصيغة غير مطابقة (رقم مجرّد) يُرفَض بفئة timestamp_format",
-          not ok and kind == "timestamp_format", reason)
+    # Issue #644 الإصلاح ٢: validate_point لم تعد تتحقق من طابع زمني أصلًا --
+    # anchor_text حقل نصّي عادي كباقي الحقول (فارغ ⇒ رفض بفئة other، كما أي
+    # حقل نصّي آخر)، وفئة "timestamp_format" القديمة لم تعد ممكنة الحدوث من
+    # هذه الدالة إطلاقًا (لا رقم يُطلَب من النموذج فلا صيغة رقمية ليُخطئ فيها).
+    ok, reason, kind, normalized = ye.validate_point({**good_point, "anchor_text": ""})
+    check("anchor_text فارغ يُرفَض كأي حقل نصّي إلزامي آخر",
+          not ok and kind == "other", reason)
 
-    # Issue #642 العطل ٣ب: حقل فارغ لم يعد يُرفَض -- يُقبل صراحةً بـ
-    # timestamp=None (فراغ صادق أفضل من رقم مختلَق أو نقطة صحيحة مفقودة).
-    empty_ts_point = {**good_point, "timestamp": ""}
-    ok, reason, kind, normalized = ye.validate_point(empty_ts_point)
-    check("طابع زمني فارغ يُقبل الآن (Issue #642 العطل ٣ب) لا يُرفَض",
-          ok and kind == "", reason)
-    check("الحقل timestamp يُستبدَل بـNone صراحةً عند الفراغ",
-          empty_ts_point["timestamp"] is None, empty_ts_point)
-
-    empty_ts_spaces_point = {**good_point, "timestamp": "   "}
-    ok, reason, kind, normalized = ye.validate_point(empty_ts_spaces_point)
-    check("طابع مكوَّن من مسافات فقط يُعامَل كفراغ مقبول أيضًا",
-          ok and empty_ts_spaces_point["timestamp"] is None, (ok, empty_ts_spaces_point))
-
-    valid_copy = dict(good_point)
-    ok, reason, kind, normalized = ye.validate_point(valid_copy)
-    check("عند النجاح: يُستبدَل الطابع النصّي بعدد ثوانٍ صحيح",
-          ok and valid_copy["timestamp"] == 42, valid_copy)
+    ok, reason, kind, normalized = ye.validate_point({**good_point, "anchor_text": "   "})
+    check("anchor_text بمسافات فقط يُرفَض أيضًا", not ok and kind == "other", reason)
 
     ok, reason, kind, normalized = ye.validate_point({**good_point, "statement": "יעקב מרגיס מסיים קריירה"})
     check("عبرية في statement تُرفَض بفئة language", not ok and kind == "language", reason)
@@ -10051,21 +10044,21 @@ def test_youtube_extract() -> None:
     check("ملف البرومبت منفصل عن الكود وغير فارغ", len(prompt) > 200)
     check("البرومبت يذكر التصنيفات الثلاثة",
           all(t in prompt for t in ("fact", "opinion", "forecast")))
-    check("البرومبت يوضّح صيغة الأختام الزمنية المتوقَّعة في المُدخَل",
-          "[00:12:34]" in prompt)
-    check("البرومبت يأمر بنسخ الختم حرفيًا لا تقديره",
-          "انسخ" in prompt and "لا تقدّر" in prompt)
+    check("البرومبت يوضّح صيغة الأختام الزمنية المتوقَّعة في المُدخَل (Issue #644 الإصلاح ١: بلا خانة ساعة)",
+          "[12:34]" in prompt and "[00:12:34]" not in prompt)
     check("البرومبت يذكر قاعدة أسماء الأعلام غير المسنودة (Issue #639 العطل ١ بند أ)",
           "quote_original" in prompt and "بايدن" in prompt)
     check("البرومبت يوضّح كتابة الأسماء الفارسية/التركية بحروف عربية خالصة (العطل ٢ج)",
           "مجتبى" in prompt and "بورمحسن" in prompt)
 
-    # ── Issue #642: تعليمات إضافية في البرومبت -- نسخ الختم بلا قوسيه،
-    # وقاعدة صريحة "لا تبنِ رقمًا من موضع المقطع"، ومعنى علامة الحذف ──
-    check("البرومبت يوضّح نسخ الختم بلا قوسيه (Issue #642 العطل ١)",
-          "بلا قوسيه" in prompt and "00:12:34" in prompt)
-    check("البرومبت يتضمّن قاعدة عدم بناء رقم من موضع المقطع (Issue #642 العطل ٣)",
-          "لا تبنِ رقمًا" in prompt)
+    # ── Issue #644 الإصلاح ٣: تبسيط البرومبت -- تعليمة المرساة الواحدة
+    # حرفيًا بدل كل تعليمات نسخ/تقدير الختم القديمة ──
+    check("البرومبت يذكر حقل anchor_text في المخرج", "anchor_text" in prompt)
+    check("البرومبت لا يذكر حقل timestamp (حُذف من المخطّط، Issue #644 الإصلاح ٢)",
+          "`timestamp`" not in prompt)
+    check("البرومبت يتضمّن تعليمة المرساة الواحدة حرفيًا",
+          ("انسخ في `anchor_text` أول أربع إلى ست كلمات من السطر الذي أخذت\n"
+           "منه الاقتباس") in prompt)
     check("البرومبت يشرح معنى علامة الحذف الصريحة في النص المقصوص",
           ye.TRUNCATION_MARKER in prompt)
 
@@ -10102,10 +10095,45 @@ def test_youtube_extract() -> None:
         def __init__(self, text, start):
             self.text, self.start = text, start
 
+    # Issue #644 الإصلاح ١: بلا خانة ساعة -- MM:SS فقط، والدقائق تتجاوز ٥٩
+    # بلا سقف (٣٦٦١ث ⇐ ٦١ دقيقة، لا "01:01:01" بخانة ساعة منفصلة).
     fetched = [_Segment("مرحبًا", 0), _Segment("بكم", 754), _Segment("جميعًا", 3661)]
     formatted = ye.format_transcript(fetched)
-    check("كل مقطع يسبقه ختمه الزمني HH:MM:SS",
-          formatted == "[00:00:00] مرحبًا\n[00:12:34] بكم\n[01:01:01] جميعًا", formatted)
+    check("كل مقطع يسبقه ختمه الزمني MM:SS بلا خانة ساعة (Issue #644 الإصلاح ١)",
+          formatted == "[00:00] مرحبًا\n[12:34] بكم\n[61:01] جميعًا", formatted)
+
+    # ── parse_transcript_segments وresolve_timestamp: استخراج الطابع بالبحث
+    # النصّي عن anchor_text بدل طلب رقم من النموذج (Issue #644 الإصلاح ٢) ──
+    sample_transcript = ("[00:00] مرحبًا بكم في النشرة\n"
+                          "[00:12] قال الوزير، إننا نطلق خطة اقتصادية جديدة اليوم\n"
+                          "[00:20] شكرًا لمتابعتكم")
+    segments = ye.parse_transcript_segments(sample_transcript)
+    check("parse_transcript_segments تحلّل كل سطر إلى (ثوانٍ، نص)",
+          segments == [(0, "مرحبًا بكم في النشرة"),
+                       (12, "قال الوزير، إننا نطلق خطة اقتصادية جديدة اليوم"),
+                       (20, "شكرًا لمتابعتكم")], segments)
+
+    truncated_transcript = (f"[00:00] مرحبًا\n{ye.TRUNCATION_MARKER}\n[00:20] شكرًا")
+    check("أسطر لا تطابق [MM:SS] (كعلامة الحذف) تُهمَل بصمت لا تُحسَب مقطعًا",
+          ye.parse_transcript_segments(truncated_transcript) == [(0, "مرحبًا"), (20, "شكرًا")])
+
+    check("resolve_timestamp: تطابق تام (بلا فروق تنسيقية) يعيد ثانية المقطع",
+          ye.resolve_timestamp("قال الوزير، إننا نطلق خطة اقتصادية جديدة اليوم",
+                                segments) == 12)
+    check("resolve_timestamp: تطبيع المسافات المضاعفة والترقيم لا يمنع التطابق",
+          ye.resolve_timestamp("قال  الوزير إننا نطلق", segments) == 12)
+    check("resolve_timestamp: تجاهل التشكيل لا يمنع التطابق",
+          ye.resolve_timestamp("قَالَ الْوَزِيرُ إِنَّنَا نُطْلِقُ", segments) == 12)
+    check("resolve_timestamp: مرساة أول ٦ كلمات تطابق مقطعًا آخر بلا لبس",
+          ye.resolve_timestamp("مرحبًا بكم في النشرة", segments) == 0)
+    check("resolve_timestamp: عند فشل التطابق التام، محاولة ثانية بأول ٣ كلمات فقط",
+          ye.resolve_timestamp("قال الوزير إننا نطلق شيئًا لم يُقَل قط", segments) == 12)
+    check("resolve_timestamp: فشل نهائي (لا تطابق حتى بأول ٣ كلمات) يعيد None",
+          ye.resolve_timestamp("كلام لا علاقة له بأي مقطع هنا إطلاقًا", segments) is None)
+    check("resolve_timestamp: نص فارغ يعيد None بلا انهيار",
+          ye.resolve_timestamp("", segments) is None)
+    check("resolve_timestamp: قيمة غير نصّية تعيد None بلا انهيار",
+          ye.resolve_timestamp(None, segments) is None)
 
     # ── extract_points: إخراج مهيكل (tool_use) لا JSON نصّي (العطل ٢) ──
     class _Block:
@@ -10137,10 +10165,10 @@ def test_youtube_extract() -> None:
 
     extract_cfg = load_config()
 
-    good_raw = {**good_point, "timestamp": "00:00:10"}
+    good_raw = {**good_point, "anchor_text": "نص"}
     client = _Client([_Resp([_Block("tool_use", input_={"points": [good_raw]})])])
     valid, rejected, error, truncation_note = ye.extract_points(
-        "فيديو تجريبي", "[00:00:05] نص", "ar", duration_seconds=600,
+        "فيديو تجريبي", "[00:05] نص", "ar", duration_seconds=600,
         cfg=extract_cfg, client=client)
     check("extract_points: نقطة صالحة عبر إخراج مهيكل تُقبَل بلا خطأ عام",
           error is None and len(valid) == 1 and not rejected, (valid, rejected, error))
@@ -10148,63 +10176,63 @@ def test_youtube_extract() -> None:
           client.messages.calls[0]["tools"][0]["name"] == "extract_points" and
           client.messages.calls[0]["tool_choice"] == {"type": "tool", "name": "extract_points"})
     check("extract_points: النص المُرسَل للنموذج يحوي الأختام الظاهرة",
-          "[00:00:05]" in client.messages.calls[0]["messages"][0]["content"])
+          "[00:05]" in client.messages.calls[0]["messages"][0]["content"])
+    # Issue #644 الإصلاح ٢: طابع الحل الجذري -- لا رقم من النموذج، بل
+    # anchor_text يُبحَث عنه في مقاطع النص فعليًا ويُستخرَج طابعها.
+    check("extract_points: anchor_text يُحوَّل إلى طابع محلول من المقطع المطابق",
+          valid and valid[0]["timestamp"] == 5, valid)
 
-    # Issue #642 العطل ١: النموذج ينسخ الختم بقوسيه المربّعين كما يراه في
-    # النص المصوغ (شاهد الـIssue الفعلي: '[00:00:11]' رُفض ظلمًا بصفته
-    # "صيغة غير صالحة") -- الآن يُقبل عبر كامل مسار extract_points لا في
-    # parse_timestamp وحدها.
-    bracketed_raw = {**good_point, "timestamp": "[00:00:11]"}
-    client = _Client([_Resp([_Block("tool_use", input_={"points": [bracketed_raw]})])])
+    # anchor_text بفروق تنسيقية طفيفة (علامة ترقيم لاصقة) لا يزال يُطابَق
+    # بعد التطبيع في resolve_timestamp.
+    punct_raw = {**good_point, "anchor_text": "نص،"}
+    client = _Client([_Resp([_Block("tool_use", input_={"points": [punct_raw]})])])
     valid, rejected, error, truncation_note = ye.extract_points(
-        "فيديو تجريبي", "[00:00:05] نص", "ar", duration_seconds=600,
+        "فيديو تجريبي", "[00:05] نص", "ar", duration_seconds=600,
         cfg=extract_cfg, client=client)
-    check("طابع بقوسين مربّعين يُقبل عبر extract_points كاملة (Issue #642 العطل ١)",
-          error is None and len(valid) == 1 and not rejected, (valid, rejected, error))
-    check("الطابع المقبول يُحوَّل إلى الثواني الصحيحة بلا القوسين",
-          valid and valid[0]["timestamp"] == 11, valid)
+    check("extract_points: anchor_text بترقيم لاصق يُطابَق بعد التطبيع",
+          error is None and len(valid) == 1 and not rejected and valid[0]["timestamp"] == 5,
+          (valid, rejected, error))
 
-    # العطل ١ بند ج: طابع زمني يتجاوز مدة الفيديو يُرفَض إلزاميًا ويُصنَّف timestamp
-    overflow_raw = {**good_point, "timestamp": "00:20:00"}  # 1200 ثانية > مدة الفيديو
+    # العطل ١ بند ج (الحارس الأخير) يبقى للأمان حتى بعد Issue #644 -- طابع
+    # محلول فعليًا من مقطع حقيقي في النص لكن يتجاوز مدة الفيديو المُعلَنة
+    # (بيانات وصفية غير متّسقة، لا خطأ في resolve_timestamp نفسها) يُرفَض.
+    overflow_raw = {**good_point, "anchor_text": "نص طويل هنا"}
     client = _Client([_Resp([_Block("tool_use", input_={"points": [overflow_raw]})])])
     valid, rejected, error, truncation_note = ye.extract_points(
-        "فيديو تجريبي", "نص", "ar", duration_seconds=531, cfg=extract_cfg, client=client)
-    check("طابع زمني يتجاوز مدة الفيديو يُرفَض ولا يدخل المخرج",
+        "فيديو تجريبي", "[20:00] نص طويل هنا فعلا", "ar", duration_seconds=531,
+        cfg=extract_cfg, client=client)
+    check("طابع محلول يتجاوز مدة الفيديو المُعلَنة يُرفَض ولا يدخل المخرج",
           error is None and valid == [] and len(rejected) == 1, (valid, rejected))
     check("سبب الرفض يُصنَّف timestamp للتغذية في stats",
           rejected and rejected[0]["kind"] == "timestamp", rejected)
-    # Issue #637 العطل ١ بند أ: القيمة الخام قبل التحويل ظاهرة في رسالة
-    # الرفض إلى جانب المحوَّلة -- بلا هذا لا يمكن الجزم إن كان الرقم
-    # الضخم عطلًا في التحليل أو مخرَجًا حقيقيًا من النموذج.
-    check("رسالة رفض تجاوز المدة تحوي الطابع الخام والمحوَّل ومدة الفيديو",
-          rejected and "00:20:00" in rejected[0]["reason"] and "1200" in rejected[0]["reason"]
-          and "531" in rejected[0]["reason"], rejected)
+    check("رسالة رفض تجاوز المدة تحوي الطابع المحلول ومدة الفيديو",
+          rejected and "1200" in rejected[0]["reason"] and "531" in rejected[0]["reason"], rejected)
 
     # نقطة بلغة غير عربية تُرفَض وتُصنَّف language
-    bad_lang_raw = {**good_point, "statement": "יעקב מרגיס", "timestamp": "00:00:10"}
+    bad_lang_raw = {**good_point, "statement": "יעקב מרגיס", "anchor_text": "نص"}
     client = _Client([_Resp([_Block("tool_use", input_={"points": [bad_lang_raw]})])])
     valid, rejected, error, truncation_note = ye.extract_points(
         "فيديو تجريبي", "نص", "he", duration_seconds=600, cfg=extract_cfg, client=client)
     check("نقطة بحرف غير عربي تُرفَض وتُصنَّف language",
           valid == [] and rejected and rejected[0]["kind"] == "language", rejected)
 
-    # Issue #642 العطل ٣ب: طابع فارغ يبقى صالحًا عبر extract_points كاملة،
-    # ولا يُقارَن بمدة الفيديو (كان سيرفع TypeError لو قورن None برقم) --
-    # نقطة صحيحة بلا طابع أفضل من نقطة مرفوضة أو طابع كاذب.
-    no_ts_raw = {**good_point, "timestamp": ""}
-    client = _Client([_Resp([_Block("tool_use", input_={"points": [no_ts_raw]})])])
+    # Issue #644 الإصلاح ٢ (و): فشل resolve_timestamp في إيجاد anchor_text
+    # (هنا النص المُرسَل بلا أي سطر [MM:SS] فمقاطعه فارغة) يبقي النقطة صالحة
+    # بطابع None -- عدّاد points_timestamp_unresolved في run() لا رفض.
+    unresolved_raw = {**good_point, "anchor_text": "أي كلام غير موجود في مقطع"}
+    client = _Client([_Resp([_Block("tool_use", input_={"points": [unresolved_raw]})])])
     valid, rejected, error, truncation_note = ye.extract_points(
         "فيديو تجريبي", "نص", "ar", duration_seconds=600, cfg=extract_cfg, client=client)
-    check("نقطة بطابع فارغ تبقى صالحة ولا تُرفَض (Issue #642 العطل ٣ب)",
+    check("نقطة بمرساة لم تُوجَد تبقى صالحة ولا تُرفَض (Issue #644 الإصلاح ٢)",
           error is None and len(valid) == 1 and not rejected, (valid, rejected, error))
-    check("timestamp يبقى None في النقطة الصالحة (لا يُقارَن بمدة الفيديو)",
+    check("timestamp يبقى None في النقطة الصالحة عند فشل resolve_timestamp",
           valid and valid[0]["timestamp"] is None, valid)
 
     # ── Issue #639 العطل ٢أ: نقطة بحروف فارسية شائعة كانت سترفض بالكامل
     # قبل الإصلاح -- الآن تُطبَّع تلقائيًا داخل extract_points (عبر
     # validate_point) وتُقبَل، وتحمل علامة _normalized الداخلية للعدّاد
     # points_normalized في run() ──
-    persian_raw = {**good_point, "statement": "أعلن مجتبی عن خطة جديدة", "timestamp": "00:00:10"}
+    persian_raw = {**good_point, "statement": "أعلن مجتبی عن خطة جديدة", "anchor_text": "نص"}
     client = _Client([_Resp([_Block("tool_use", input_={"points": [persian_raw]})])])
     valid, rejected, error, truncation_note = ye.extract_points(
         "فيديو تجريبي", "نص", "fa", duration_seconds=600, cfg=extract_cfg, client=client)
@@ -10222,7 +10250,7 @@ def test_youtube_extract() -> None:
     unsourced_raw = {**good_point,
                       "statement": "ربما تحاول إدارة جو بايدن إعادة تشكيل المنطقة",
                       "quote_original": "Amerika bölgede terör örgütlerinin olmadığı bir yapı istiyor",
-                      "timestamp": "00:00:10"}
+                      "anchor_text": "نص"}
     client = _Client([_Resp([_Block("tool_use", input_={"points": [unsourced_raw]})])])
     valid, rejected, error, truncation_note = ye.extract_points(
         "فيديو تجريبي", "نص", "tr", duration_seconds=600, cfg=unsourced_cfg, client=client)
@@ -10233,7 +10261,7 @@ def test_youtube_extract() -> None:
 
     sourced_raw = {**good_point, "statement": "قال بايدن إن الإدارة الأمريكية ستتحرك",
                     "quote_original": "President Biden said the administration will act",
-                    "timestamp": "00:00:10"}
+                    "anchor_text": "نص"}
     client = _Client([_Resp([_Block("tool_use", input_={"points": [sourced_raw]})])])
     valid, rejected, error, truncation_note = ye.extract_points(
         "فيديو تجريبي", "نص", "en", duration_seconds=600, cfg=unsourced_cfg, client=client)
@@ -10241,11 +10269,7 @@ def test_youtube_extract() -> None:
           valid and valid[0].get("_unsourced_name") is None, valid)
 
     # إخراج مهيكل غير صالح في المحاولة الأولى ثم صالح في الثانية (إعادة المحاولة)
-    # نسخة جديدة من good_raw لا الكائن المُستهلَك أعلاه: validate_point يُطبِّع
-    # timestamp في الكائن ذاته من نصّ إلى ثوانٍ صحيحة (تطبيع لا تحقّق شكلي
-    # فقط)، فإعادة استعمال نفس الكائن المُحوَّل بالفعل تُفشل تحليل الصيغة
-    # هنا زورًا (ليست الصيغة النصّية "00:00:10" بل الرقم 10 نفسه).
-    good_raw_retry = {**good_point, "timestamp": "00:00:10"}
+    good_raw_retry = {**good_point, "anchor_text": "نص"}
     client = _Client([
         _Resp([_Block("text", text="عذرًا لا أستطيع")]),
         _Resp([_Block("tool_use", input_={"points": [good_raw_retry]})]),
@@ -10310,7 +10334,7 @@ def test_youtube_extract() -> None:
     # extract_points تستعمل max_transcript_chars من config.yaml فعليًا
     truncating_cfg = load_config()
     truncating_cfg["youtube"]["extract"]["max_transcript_chars"] = 50
-    long_raw = {**good_point, "timestamp": "00:00:10"}
+    long_raw = {**good_point, "anchor_text": "نص"}
     client = _Client([_Resp([_Block("tool_use", input_={"points": [long_raw]})])])
     valid, rejected, error, truncation_note = ye.extract_points(
         "فيديو طويل", "س" * 500, "ar", duration_seconds=600,
@@ -10324,7 +10348,7 @@ def test_youtube_extract() -> None:
           truncation_note is not None and "500" in truncation_note and "50" in truncation_note,
           truncation_note)
 
-    short_raw = {**good_point, "timestamp": "00:00:10"}
+    short_raw = {**good_point, "anchor_text": "نص"}
     no_truncation_client = _Client([_Resp([_Block("tool_use", input_={"points": [short_raw]})])])
     valid, rejected, error, truncation_note = ye.extract_points(
         "فيديو قصير", "نص قصير", "ar", duration_seconds=600,
