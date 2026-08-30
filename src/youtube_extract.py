@@ -34,6 +34,7 @@ import random
 import re
 import sys
 import time
+import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -109,12 +110,23 @@ TOPIC_SCHEMA = {
 TOPIC_SYSTEM = """أنت حارس تصنيف يفصل التحليل السياسي عن غيره قبل استخلاص نقاط منه.
 تستلم عنوان فيديو ومقتطفًا من أول نصّه، وتصنّفه إلى واحدة من ثلاث فئات فقط:
 
-- political_analysis: حوار أو تحليل أو مقابلة سياسية -- نقاش متعمّق أو تفسير
-  أو حوار بين متحدثين حول شأن سياسي أو دبلوماسي أو اقتصادي.
+- political_analysis: نقاش أو تحليل أو مقابلة تدور حول حدث سياسي أو
+  اقتصادي أو دولي جارٍ، وتقدّم قراءة له -- لا مجرّد حوار يلامس السياسة
+  عرضًا.
 - news_bulletin: نشرة أخبار متتابعة -- سرد أخبار قصيرة الواحدة تلو الأخرى
   بلا تحليل أو نقاش متعمّق، حتى لو كان موضوعها سياسيًا.
 - other: أي شيء آخر -- رياضة، فن، سينما، منوّعات، طقس، حوادث فردية (حريق،
-  حادث سير) بلا بعد سياسي أو دبلوماسي.
+  حادث سير) بلا بعد سياسي أو دبلوماسي، وأيضًا **المقابلات الشخصية وحكايات
+  المسار المهني والسير الذاتية** -- ولو كان الضيف سياسيًا أو صحفيًا وذكر
+  السياسة عرضًا أثناء الحديث عن نفسه (Issue #639: مقابلة صحفي عن بداياته
+  ودراسته وتأمينه الاجتماعي صُنِّفت خطأً political_analysis لمجرّد لمسها
+  حرية الصحافة، رغم أن محتواها سيرة ذاتية لا تحليل حدث).
+
+المعيار الحاسم عند مقابلة أو حوار: هل يدور حول حدث خارجي جارٍ، أم حول
+الضيف نفسه (بداياته، مسيرته، رأيه الشخصي في حياته)؟ الأول
+political_analysis، والثاني other. مثالان حرفيان:
+- "مقابلة مع صحفي عن بداياته وحياته المهنية" ⇐ other.
+- "مقابلة مع محلل عن تداعيات العقوبات على إيران" ⇐ political_analysis.
 
 عند الشك بين political_analysis وnews_bulletin: افحص هل هناك نقاش أو تفسير
 متصل أطول من مجرّد عرض خبر ثم الانتقال لآخر -- إن كان الجواب نعم فـ
@@ -127,32 +139,84 @@ def load_prompt() -> str:
 
 # ──────────────────────────── التحقق من نقطة ────────────────────────────
 
-_HEBREW_RE = re.compile("[֐-׿]")
-_LATIN_RE = re.compile("[A-Za-z]")
 # حروف خاصة بالفارسية/الأردية غائبة عن العربية الفصحى -- تقع داخل نطاق
 # يونيكود العربي نفسه (٠٦٠٠-٠٦FF) فلا يكفي فحص المدى وحده، يلزم استثناء صريح.
 # مكتوبة بترميز \u صراحة (لا حروفًا حرفية) لتفادي خطأ كتابة صامت بسبب اتجاه
 # النص من اليمين لليسار عند تحرير هذا الملف لاحقًا:
 # PEH TCHEH JEH KEHEH GAF FARSI-YEH VE YEH-BARREE AE TTEHEH DDAL RREH
 # NOON-GHUNNA HEH-DOACHASHMEE HEH-WITH-YEH-ABOVE HEH-GOAL
+# بقيت هنا كشبكة أمان إضافية بعد normalize_persian_chars أدناه -- تلك تُطبِّع
+# الحروف الفارسية الشائعة قبل هذا الفحص (العطل ٢أ)، وهذا الفحص يبقى ليلتقط
+# ما لم يُطبَّع (كحروف أردية خارج نطاق هذا الـIssue) أو أي استدعاء مباشر
+# لهذه الدالة يتجاوز التطبيع.
 _PERSIAN_ONLY_RE = re.compile(
     "[پچژکگیۋےە"
     "ٹڈڑںھۀہ]"
 )
 
+# نطاقات يونيكود الخاصة بالعربية (الأساسي + الملحق + الامتداد أ + أشكال
+# العرض التقديمي أ/ب) -- العطل ٢ب (Issue #639): بدل قائمة أبجديات محظورة
+# (تفوّت الصينية والكيريلية واليونانية وأي أبجدية لم تُدرَج صراحة)، عُكس
+# المنطق فصار الفحص أدناه يسمح بالعربية والأرقام والترقيم والمسافات فقط
+# ويرفض أي شيء آخر -- لا فرق حينها بين حرف صيني وحرف لاتيني، كلاهما مرفوض
+# بنفس الآلية. مكتوبة بترميز \u صراحة (بداية/نهاية كل نطاق) لنفس سبب
+# _PERSIAN_ONLY_RE أعلاه -- المدى نفسه، لا حرف حرفي واحد، فالخطر أكبر لو
+# انعكس اتجاه النص أثناء تحرير لاحق.
+_ARABIC_BLOCK_RE = re.compile(
+    "[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]"
+)
+
 _TIMESTAMP_RE = re.compile(r"^(?:(\d{1,2}):)?([0-5]?\d):([0-5]\d)$")
+
+# تطبيع الحروف الفارسية/التركية الشائعة إلى مقابلها العربي (العطل ٢أ،
+# Issue #639) -- الحرف الفارسي "ی" مثلًا يشبه العربي "ي" بصريًا فلا ينتبه
+# النموذج للفرق، وسابقًا كان هذا يعني رفض نقاط صحيحة المحتوى بالكامل. تطبيع
+# لا حذف: النقطة تُقبَل بعده عاديًا بدل خسارتها. "چ" مستثناة من هذا الجدول
+# لأن مقابلها العربي حرفان لا حرف واحد (str.translate لا يدعم هذا).
+_PERSIAN_NORMALIZE_MAP = str.maketrans({
+    "ی": "ي",
+    "ک": "ك",
+    "پ": "ب",
+    "گ": "غ",
+    "ژ": "ج",
+    # صيغ فارسية/أردية بديلة لحرفي الهاء والتاء المربوطة العربيين -- الهمزة
+    # المدمجة في "ۀ" (heh + hamza + yeh) تُحذف بتحويلها إلى هاء عادية بلا
+    # نظير عربي مباشر لها.
+    "ھ": "ه",
+    "ہ": "ه",
+    "ۀ": "ه",
+})
+
+
+def normalize_persian_chars(text: str) -> str:
+    """يطبّع الحروف الفارسية/التركية الشائعة (انظر الجدول أعلاه) إلى مقابلها
+    العربي، ويحذف الفاصل غير الظاهر ‌ (ZWNJ) الذي لا مقابل له في
+    العربية. يُستدعى قبل فحص اللغة (validate_point) لا بدلًا منه -- تطبيع لا
+    تحقّق، فحروف فارسية/أردية أخرى خارج هذا الجدول تبقى تُرفَض كما كانت."""
+    text = text.replace("چ", "تش")
+    text = text.translate(_PERSIAN_NORMALIZE_MAP)
+    return text.replace("‌", "")
 
 
 def find_non_arabic_char(text: str) -> str | None:
-    """يعيد أول حرف عبري أو لاتيني أو فارسي/أردي غير عربي في النص، أو None
-    إن كان عربيًا فصيحًا حصرًا (الأرقام وعلامات الترقيم مسموحة دومًا).
-    يُستعمَل لرفض نقاط لم تُترجَم فعلًا (العطل ٣)، ويلتقط تلقائيًا خلط الحروف
-    داخل أسماء الأعلام (العطل ٤) لأن الحرف اللاتيني المخلوط يقع ضمن الفحص
-    نفسه."""
-    for pattern in (_HEBREW_RE, _LATIN_RE, _PERSIAN_ONLY_RE):
-        match = pattern.search(text)
-        if match:
-            return match.group(0)
+    """يعيد أول حرف غير عربي في النص، أو None إن كان عربيًا فصيحًا (مع
+    الأرقام وعلامات الترقيم والمسافات) حصرًا. العطل ٢ب (Issue #639): فحص
+    قائم على السماح لا الحظر -- أي حرف ليس عربيًا ولا رقمًا ولا ترقيمًا ولا
+    مسافة يُرفَض، صينيًا كان أو كيريليًا أو يونانيًا أو لاتينيًا أو عبريًا،
+    بلا حاجة لتعداد كل أبجدية محتملة صراحة. الحروف الفارسية/الأردية التي لم
+    يطبّعها normalize_persian_chars (تقع داخل نطاق يونيكود العربي نفسه فلا
+    يكفي فحص النطاق وحده) تُفحَص أولًا صراحة."""
+    match = _PERSIAN_ONLY_RE.search(text)
+    if match:
+        return match.group(0)
+    for ch in text:
+        if ch.isspace() or ch.isdigit():
+            continue
+        if unicodedata.category(ch).startswith("P"):
+            continue
+        if _ARABIC_BLOCK_RE.match(ch):
+            continue
+        return ch
     return None
 
 
@@ -171,46 +235,62 @@ def parse_timestamp(raw: Any) -> int | None:
     return hours * 3600 + minutes * 60 + seconds
 
 
-def validate_point(point: Any) -> tuple[bool, str, str]:
+def validate_point(point: Any) -> tuple[bool, str, str, bool]:
     """يتحقق من الحقول الإلزامية والتصنيف واللغة وصيغة الطابع الزمني لنقطة
-    واحدة. يعيد (صالحة، سبب الرفض، فئة الرفض) -- الفئة "" عند النجاح، وإلا
-    واحدة من "timestamp_format"/"language"/"other" لتغذية عدّادات stats في
-    run(). "timestamp_format" هنا خاصّ بصيغة لا تطابق [HH:]MM:SS أو حقل
-    فارغ فقط -- تجاوز مدة الفيديو لطابع سليم الصيغة يُفحَص لاحقًا في
-    extract_points بفئة "timestamp" منفصلة (Issue #637 العطل ١): الأول
-    عطل في مخرَج النموذج نفسه، والثاني حكم على قيمة صحيحة الشكل، ولا يصحّ
-    خلطهما في عدّاد واحد يُعمي عن أيّهما يتكرر فعليًا.
+    واحدة. يعيد (صالحة، سبب الرفض، فئة الرفض، طُبِّعت) -- الفئة "" عند
+    النجاح، وإلا واحدة من "timestamp_format"/"language"/"other" لتغذية
+    عدّادات stats في run(). "timestamp_format" هنا خاصّ بصيغة لا تطابق
+    [HH:]MM:SS أو حقل فارغ فقط -- تجاوز مدة الفيديو لطابع سليم الصيغة يُفحَص
+    لاحقًا في extract_points بفئة "timestamp" منفصلة (Issue #637 العطل ١):
+    الأول عطل في مخرَج النموذج نفسه، والثاني حكم على قيمة صحيحة الشكل، ولا
+    يصحّ خلطهما في عدّاد واحد يُعمي عن أيّهما يتكرر فعليًا. العنصر الرابع
+    (طُبِّعت) يخبر الطالب إن غيّر normalize_persian_chars أدناه أيًّا من
+    الحقول الثلاثة -- يُستعمَل في extract_points لتغذية عدّاد
+    points_normalized عند النجاح فقط (Issue #639 العطل ٢أ).
 
     عند النجاح يُستبدَل point["timestamp"] النصّي بعدد الثواني المحلَّل --
     تطبيع لا تحقّق شكلي إضافي، فبقية الأنبوب (المقارنة بمدة الفيديو، ثم
-    الإخراج النهائي) يحتاج رقمًا لا نصًّا."""
+    الإخراج النهائي) يحتاج رقمًا لا نصًّا. كذلك تُستبدَل الحقول الثلاثة
+    العربية بنسختها المطبَّعة فارسيًا -- سواء نجحت النقطة أم فشلت لاحقًا،
+    فالتطبيع تصحيح للنص لا حكم عليه."""
     if not isinstance(point, dict):
-        return False, "عنصر ليس كائن JSON", "other"
+        return False, "عنصر ليس كائن JSON", "other", False
     for name in REQUIRED_FIELDS:
         if name not in point:
-            return False, f"حقل ناقص: {name}", "other"
+            return False, f"حقل ناقص: {name}", "other", False
     for name in ("statement", "speaker", "quote_original", "quote_arabic", "type", "topic_hint"):
         value = point.get(name)
         if not isinstance(value, str) or not value.strip():
-            return False, f"حقل فارغ أو غير نصّي: {name}", "other"
+            return False, f"حقل فارغ أو غير نصّي: {name}", "other", False
     if point["type"] not in VALID_TYPES:
-        return False, f"تصنيف غير صالح: {point['type']}", "other"
+        return False, f"تصنيف غير صالح: {point['type']}", "other", False
 
-    # العطل ٣+٤: أي حرف عبري/لاتيني/فارسي-غير-عربي هنا يعني أن الترجمة لم
-    # تقع فعلًا أو أن اسم علم انكسر بخلط حروف. quote_original مستثنى عمدًا
-    # -- هو بلغة الفيديو الأصلية، الدليل لا الترجمة.
+    # تطبيع فارسي/تركي قبل فحص اللغة (Issue #639 العطل ٢أ) -- بلا هذا
+    # حروف فارسية بصريًا قريبة من نظيرها العربي (ی مقابل ي) كانت تُخسِر
+    # نقاطًا صحيحة المحتوى بالكامل بدل تصحيحها.
+    normalized = False
+    for name in ("statement", "speaker", "quote_arabic"):
+        fixed = normalize_persian_chars(point[name])
+        if fixed != point[name]:
+            normalized = True
+        point[name] = fixed
+
+    # العطل ٣+٤ (الأصلي) + العطل ٢ب (Issue #639): أي حرف هنا خارج العربية
+    # والأرقام والترقيم يعني أن الترجمة لم تقع فعلًا أو أن اسم علم انكسر
+    # بخلط حروف. quote_original مستثنى عمدًا -- هو بلغة الفيديو الأصلية،
+    # الدليل لا الترجمة.
     for name in ("statement", "speaker", "quote_arabic"):
         bad_char = find_non_arabic_char(point[name])
         if bad_char:
-            return False, f"حرف غير عربي ({bad_char!r}) في {name}", "language"
+            return False, f"حرف غير عربي ({bad_char!r}) في {name}", "language", normalized
 
     seconds = parse_timestamp(point.get("timestamp"))
     if seconds is None:
         return (False, f"طابع زمني غير صالح الصيغة أو فارغ: {point.get('timestamp')!r}",
-                "timestamp_format")
+                "timestamp_format", normalized)
     point["timestamp"] = seconds
 
-    return True, "", ""
+    return True, "", "", normalized
 
 
 # ──────────────────────────── سحب النص ────────────────────────────
@@ -344,6 +424,36 @@ def classify_topic(video_title: str, transcript_excerpt: str, cfg: Config,
     return category, None
 
 
+# ──────────────────────────── حارس أسماء الأعلام ────────────────────────────
+
+
+def find_unsourced_name(statement: str, quote_original: str, known_figures: list) -> str | None:
+    """تحقّق بأفضل ما يمكن (Issue #639 العطل ١ بند ب) لا استخراج أعلام عامّ:
+    يقارن statement بقائمة مرجعية صغيرة من config.yaml
+    (youtube.extract.known_figures) بدل محاولة استخراج كل اسم عَلَم من نص
+    عربي بلا حروف كبيرة تميّزه -- تلك مهمة تصنيف لغوي غير موثوقة، بينما
+    مطابقة قائمة صغيرة بأسماء بدائلها (aliases) في quote_original بسيطة
+    ومحدودة الأثر. يعيد أول اسم عربي من القائمة ظهر في statement بلا أي من
+    أسمائه البديلة في quote_original -- إشارة لاحتمال نسبة مختلَقة (Issue
+    الأصلي: النموذج أضاف "إدارة جو بايدن" ولم يذكر السياسي التركي بايدن
+    إطلاقًا). لا تُستعمَل هذه الدالة لرفض النقطة -- الترجمة الصوتية تجعل
+    غياب أي alias مطابق غير حاسم، فالمرجع هو استدعاء الطالب لها في
+    extract_points ليُسجَّل تحذيرًا في failed لا رفضًا تلقائيًا."""
+    quote_casefold = quote_original.casefold()
+    for figure in known_figures or []:
+        if not isinstance(figure, dict):
+            continue
+        ar_name = figure.get("ar")
+        if not ar_name or ar_name not in statement:
+            continue
+        aliases = figure.get("aliases") or []
+        if any(isinstance(alias, str) and alias.casefold() in quote_casefold
+               for alias in aliases):
+            continue
+        return ar_name
+    return None
+
+
 # ──────────────────────────── الاستخلاص عبر النموذج ────────────────────────────
 
 
@@ -369,7 +479,11 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
     (Issue #637 العطل ٢).
 
     يعيد (النقاط الصالحة، النقاط المرفوضة كل منها بسببها وفئتها، سبب فشل
-    النداء العام إن حدث -- None عند النجاح ولو بلا نقاط)."""
+    النداء العام إن حدث -- None عند النجاح ولو بلا نقاط). كل نقطة صالحة قد
+    تحمل مفتاحين داخليين مؤقتين لا يدخلان المخرج النهائي (يُستهلَكان في
+    run() فقط ثم يُهمَلان عند بناء قاموس النقطة الأخير): "_normalized"
+    (طُبِّعت فارسيًا وقُبِلت بعده -- Issue #639 العطل ٢أ) و"_unsourced_name"
+    (اسم عَلَم مشكوك في نسبته -- العطل ١ بند ب)."""
     model = cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001")
     max_tokens = cfg.path("youtube.extract.max_tokens", 2000)
     max_retries = cfg.path("youtube.extract.max_retries", 2)
@@ -428,11 +542,13 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
                 f"تعذّر الحصول على إخراج مهيكل صالح بعد {max_retries} محاولة/محاولات "
                 f"(طول النص المُرسَل {len(sent_text)} حرفًا{usage_note}): {last_snippet!r}")
 
+    known_figures = cfg.path("youtube.extract.known_figures", [])
+
     valid: list[dict] = []
     rejected: list[dict] = []
     for raw in raw_points:
         raw_timestamp = raw.get("timestamp") if isinstance(raw, dict) else None
-        ok, reason, kind = validate_point(raw)
+        ok, reason, kind, normalized = validate_point(raw)
         if not ok:
             rejected.append({"reason": reason, "kind": kind})
             log.warning("نقطة مرفوضة من %r (%s)", video_title[:60], reason)
@@ -448,6 +564,14 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
             rejected.append({"reason": reason, "kind": "timestamp"})
             log.warning("نقطة مرفوضة من %r (%s)", video_title[:60], reason)
             continue
+        # طُبِّعت وقُبِلت (Issue #639 العطل ٢أ) -- تُحسَب "أُنقذت" فقط هنا،
+        # لا في validate_point نفسها، لأن نقطة طُبِّعت ثم رُفضت لسبب آخر لم
+        # "تُنقَذ" فعليًا.
+        raw["_normalized"] = normalized
+        # تحذير لا رفض (Issue #639 العطل ١ بند ب) -- انظر توثيق
+        # find_unsourced_name أعلاه لسبب عدم الرفض التلقائي.
+        raw["_unsourced_name"] = find_unsourced_name(
+            raw["statement"], raw["quote_original"], known_figures)
         valid.append(raw)
     return valid, rejected, None
 
@@ -471,6 +595,8 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
     points_rejected_timestamp = 0
     points_rejected_timestamp_format = 0
     points_rejected_language = 0
+    points_normalized = 0
+    points_flagged_unsourced_name = 0
     transcript_sample_logged = False
 
     proxy_cfg = get_proxy_config()
@@ -534,6 +660,20 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                     elif r["kind"] == "language":
                         points_rejected_language += 1
                 for p in valid_points:
+                    if p.get("_normalized"):
+                        points_normalized += 1
+                    unsourced_name = p.get("_unsourced_name")
+                    if unsourced_name:
+                        points_flagged_unsourced_name += 1
+                        # تحذير لا رفض (Issue #639 العطل ١ بند ب) -- النقطة
+                        # تدخل points كما هي أدناه، هذا فقط يسجّل الشك
+                        # للمراجعة اليدوية في failed.
+                        failed.append({
+                            "channel": video.channel, "video_id": video.video_id,
+                            "title": video.video_title,
+                            "reason": (f"اسم علم مشكوك في نسبته (unsourced_name): "
+                                       f"{unsourced_name!r} ظهر في statement بلا نظير "
+                                       f"له في quote_original -- statement: {p['statement']!r}")})
                     points.append({
                         "video_id": video.video_id,
                         "channel": video.channel,
@@ -574,6 +714,8 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
             "points_rejected_timestamp": points_rejected_timestamp,
             "points_rejected_timestamp_format": points_rejected_timestamp_format,
             "points_rejected_language": points_rejected_language,
+            "points_normalized": points_normalized,
+            "points_flagged_unsourced_name": points_flagged_unsourced_name,
             "proxy_bandwidth_mb": round(total_bytes / (1024 * 1024), 3),
         },
         "failed": failed,
@@ -603,6 +745,8 @@ def main() -> int:
           f"· مرفوضة (تجاوز مدة الفيديو): {stats['points_rejected_timestamp']} "
           f"· مرفوضة (صيغة طابع غير صالحة): {stats['points_rejected_timestamp_format']} "
           f"· مرفوضة (لغة): {stats['points_rejected_language']}")
+    print(f"مُطبَّعة فارسيًا فأُنقِذت: {stats['points_normalized']} "
+          f"· أسماء أعلام مشكوكة (تحذير لا رفض): {stats['points_flagged_unsourced_name']}")
     print(f"استهلاك البروكسي التقديري: {stats['proxy_bandwidth_mb']} ميجابايت")
     if result["failed"]:
         print(f"تعذّر: {len(result['failed'])}")
