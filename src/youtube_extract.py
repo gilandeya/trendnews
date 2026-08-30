@@ -25,6 +25,22 @@ Issue #637 (إصلاح ثلاثة أعطال بعد التشغيلة الثان�
 البروكسي كان يُحجَب مؤقتًا (429/RemoteDisconnected) رغم البروكسي -- وُسِّعت
 الفواصل الزمنية، وأُضيف تراجع أُسّي عند الحجب المؤقت بدل إسقاط الفيديو من
 أول محاولة فاشلة.
+
+Issue #642 (ارتداد بعد التشغيلة الثالثة -- الحرّاس رفضت نقاطًا صحيحة تمامًا):
+(١) صيغة الأختام الظاهرة في النص المُدخَل ([HH:MM:SS]) جعلت النموذج ينسخ
+القوسين معها طاعةً حرفية لتعليمة "انسخ كما هو" -- فيُرفَض ختم سليم مثل
+`00:00:11` بصفته "صيغة غير صالحة" لمجرّد وصوله `[00:00:11]`. الإصلاح:
+parse_timestamp تُجرّد الأقواس والمسافات قبل أي تحليل. (٢) حارس اللغة كان
+يسمح بفئة الترقيم فقط فيرفض رموزًا رياضية/علمية مشروعة تمامًا (`+`، `%`،
+`°`...) بصفتها "حرفًا غير عربي" -- عُكس المعيار إلى "نرفض الحروف الأجنبية
+فقط لا الرموز": أي حرف من فئة يونيكود "حرف" (L*) خارج نطاق العربية يُرفَض،
+وأي رمز أو علامة ترقيم يُقبل بلا تعداد صريح. (٣) الفراغ الصادق (النموذج لم
+يجد ختمًا واضحًا) كان يُرفَض بنفس فئة الصيغة الفاسدة، فيخسر الاستخلاص نقاطًا
+صحيحة المحتوى بالكامل بلا حاجة -- صار الفراغ يُقبل صراحة (`timestamp: None`
++ عدّاد points_without_timestamp)، ومعه علامة حذف صريحة في القصّ الذكي
+(TRUNCATION_MARKER) وقاعدة "لا تبنِ رقمًا من موضع المقطع" في البرومبت،
+لمواجهة اختلاق الأختام الذي ظل قائمًا في الفيديوهات الطويلة رغم سلامة
+الصيغة.
 """
 from __future__ import annotations
 
@@ -78,9 +94,10 @@ EXTRACT_POINTS_SCHEMA = {
                             "type": "string",
                             "description": (
                                 "الختم الزمني المنسوخ حرفيًا من قبل المقطع المقتبَس مباشرة، "
-                                "بصيغة MM:SS أو HH:MM:SS كما ظهر في النص تمامًا. لا تقدّره ولا "
-                                "تحسبه ولا تقرّبه؛ إن لم تجد ختمًا واضحًا لهذا المقطع اترك الحقل "
-                                "نصًّا فارغًا."),
+                                "بصيغة MM:SS أو HH:MM:SS بلا قوسيه (مثل 00:12:34 لا [00:12:34]). "
+                                "لا تقدّره ولا تحسبه ولا تقرّبه ولا تبنِه من موضع المقطع في النص؛ "
+                                "إن لم تجد ختمًا واضحًا يسبق هذا المقطع مباشرة اترك الحقل نصًّا "
+                                "فارغًا -- فراغ صادق أفضل من رقم مختلَق."),
                         },
                         "type": {"type": "string", "enum": sorted(VALID_TYPES)},
                         "topic_hint": {"type": "string", "description": "كلمتان أو ثلاث للموضوع"},
@@ -200,21 +217,28 @@ def normalize_persian_chars(text: str) -> str:
 
 def find_non_arabic_char(text: str) -> str | None:
     """يعيد أول حرف غير عربي في النص، أو None إن كان عربيًا فصيحًا (مع
-    الأرقام وعلامات الترقيم والمسافات) حصرًا. العطل ٢ب (Issue #639): فحص
-    قائم على السماح لا الحظر -- أي حرف ليس عربيًا ولا رقمًا ولا ترقيمًا ولا
-    مسافة يُرفَض، صينيًا كان أو كيريليًا أو يونانيًا أو لاتينيًا أو عبريًا،
-    بلا حاجة لتعداد كل أبجدية محتملة صراحة. الحروف الفارسية/الأردية التي لم
-    يطبّعها normalize_persian_chars (تقع داخل نطاق يونيكود العربي نفسه فلا
-    يكفي فحص النطاق وحده) تُفحَص أولًا صراحة."""
+    الأرقام وعلامات الترقيم والمسافات والرموز) حصرًا. العطل ٢ب (Issue #639):
+    فحص قائم على السماح لا الحظر -- أي حرف ليس عربيًا ولا رقمًا ولا ترقيمًا
+    ولا مسافة ولا رمزًا يُرفَض، صينيًا كان أو كيريليًا أو يونانيًا أو لاتينيًا
+    أو عبريًا، بلا حاجة لتعداد كل أبجدية محتملة صراحة. الحروف الفارسية/الأردية
+    التي لم يطبّعها normalize_persian_chars (تقع داخل نطاق يونيكود العربي
+    نفسه فلا يكفي فحص النطاق وحده) تُفحَص أولًا صراحة.
+
+    Issue #642 العطل ٢: المعيار "نرفض الحروف الأجنبية، لا الرموز" -- الفحص
+    السابق كان يسمح بفئة يونيكود الترقيم (P*) فقط، فرمز رياضي/عملة/علمي مثل
+    `+` أو `$` أو `°` (فئة Sm/Sc/So/Sk) كان يُرفَض بصفته "حرفًا غير عربي" رغم
+    كونه مشروعًا تمامًا في نص عربي، وهو ما ظلم نقاطًا صحيحة. عُكس المعيار:
+    أي حرف من فئة "حرف" (L*) خارج نطاق العربية هو أبجدية أجنبية فيُرفَض،
+    وأي شيء آخر (ترقيم أو رمز) مسموح -- بلا تعداد صريح لكل رمز محتمل."""
     match = _PERSIAN_ONLY_RE.search(text)
     if match:
         return match.group(0)
     for ch in text:
         if ch.isspace() or ch.isdigit():
             continue
-        if unicodedata.category(ch).startswith("P"):
-            continue
         if _ARABIC_BLOCK_RE.match(ch):
+            continue
+        if not unicodedata.category(ch).startswith("L"):
             continue
         return ch
     return None
@@ -224,10 +248,20 @@ def parse_timestamp(raw: Any) -> int | None:
     """يحلّل طابعًا زمنيًا نصّيًا "[HH:]MM:SS" -- كما يُفترَض أن ينسخه النموذج
     حرفيًا من الختم الظاهر قبل المقطع -- إلى ثوانٍ. يعيد None لأي صيغة غير
     مطابقة أو حقل فارغ/غير نصّي؛ لا نحاول تخمين رقم من نص لا يطابق الصيغة
-    (هذا التخمين هو أصل العطل ١)."""
-    if not isinstance(raw, str) or not raw.strip():
+    (هذا التخمين هو أصل العطل ١).
+
+    Issue #642 العطل ١: النص المصوغ (format_transcript) يضع كل ختم بين
+    قوسين مربّعين (`[00:12:34]`) ليظهر للنموذج، والبرومبت يأمره بنسخ الختم
+    "كما هو" -- فينسخه القوسين معهما وهو يطيع التعليمة حرفيًا. `00:00:11`
+    كانت تُرفَض بصفتها "صيغة غير صالحة" لمجرّد وصولها كـ`[00:00:11]`. تُجرَّد
+    الأقواس المربّعة والمسافات الزائدة هنا أولًا -- هذا التجريد هو الضمان
+    الفعلي، لا تعليمة البرومبت وحدها."""
+    if not isinstance(raw, str):
         return None
-    match = _TIMESTAMP_RE.match(raw.strip())
+    cleaned = raw.strip().replace("[", "").replace("]", "").strip()
+    if not cleaned:
+        return None
+    match = _TIMESTAMP_RE.match(cleaned)
     if not match:
         return None
     hours = int(match.group(1)) if match.group(1) else 0
@@ -239,20 +273,23 @@ def validate_point(point: Any) -> tuple[bool, str, str, bool]:
     """يتحقق من الحقول الإلزامية والتصنيف واللغة وصيغة الطابع الزمني لنقطة
     واحدة. يعيد (صالحة، سبب الرفض، فئة الرفض، طُبِّعت) -- الفئة "" عند
     النجاح، وإلا واحدة من "timestamp_format"/"language"/"other" لتغذية
-    عدّادات stats في run(). "timestamp_format" هنا خاصّ بصيغة لا تطابق
-    [HH:]MM:SS أو حقل فارغ فقط -- تجاوز مدة الفيديو لطابع سليم الصيغة يُفحَص
-    لاحقًا في extract_points بفئة "timestamp" منفصلة (Issue #637 العطل ١):
-    الأول عطل في مخرَج النموذج نفسه، والثاني حكم على قيمة صحيحة الشكل، ولا
-    يصحّ خلطهما في عدّاد واحد يُعمي عن أيّهما يتكرر فعليًا. العنصر الرابع
-    (طُبِّعت) يخبر الطالب إن غيّر normalize_persian_chars أدناه أيًّا من
-    الحقول الثلاثة -- يُستعمَل في extract_points لتغذية عدّاد
-    points_normalized عند النجاح فقط (Issue #639 العطل ٢أ).
+    عدّادات stats في run(). "timestamp_format" هنا خاصّ بنص غير فارغ لا
+    يطابق [HH:]MM:SS بعد تجريد الأقواس (انظر parse_timestamp) -- حقل فارغ
+    لم يعد يُصنَّف هنا كعطل صيغة (Issue #642 العطل ٣ب، انظر أدناه). تجاوز
+    مدة الفيديو لطابع سليم الصيغة يُفحَص لاحقًا في extract_points بفئة
+    "timestamp" منفصلة (Issue #637 العطل ١): الأول عطل في مخرَج النموذج
+    نفسه، والثاني حكم على قيمة صحيحة الشكل، ولا يصحّ خلطهما في عدّاد واحد
+    يُعمي عن أيّهما يتكرر فعليًا. العنصر الرابع (طُبِّعت) يخبر الطالب إن غيّر
+    normalize_persian_chars أدناه أيًّا من الحقول الثلاثة -- يُستعمَل في
+    extract_points لتغذية عدّاد points_normalized عند النجاح فقط (Issue
+    #639 العطل ٢أ).
 
-    عند النجاح يُستبدَل point["timestamp"] النصّي بعدد الثواني المحلَّل --
-    تطبيع لا تحقّق شكلي إضافي، فبقية الأنبوب (المقارنة بمدة الفيديو، ثم
-    الإخراج النهائي) يحتاج رقمًا لا نصًّا. كذلك تُستبدَل الحقول الثلاثة
-    العربية بنسختها المطبَّعة فارسيًا -- سواء نجحت النقطة أم فشلت لاحقًا،
-    فالتطبيع تصحيح للنص لا حكم عليه."""
+    عند النجاح يُستبدَل point["timestamp"] النصّي بعدد الثواني المحلَّل، أو
+    بـNone إن تركه النموذج فارغًا عمدًا (Issue #642 العطل ٣ب: فراغ صادق أفضل
+    من رقم مختلَق -- النقطة تبقى صالحة وتُعدّ في points_without_timestamp في
+    run()، ومعنى None يبقى حتى الإخراج النهائي بدل تحويله صفرًا أو حذفه).
+    كذلك تُستبدَل الحقول الثلاثة العربية بنسختها المطبَّعة فارسيًا -- سواء
+    نجحت النقطة أم فشلت لاحقًا، فالتطبيع تصحيح للنص لا حكم عليه."""
     if not isinstance(point, dict):
         return False, "عنصر ليس كائن JSON", "other", False
     for name in REQUIRED_FIELDS:
@@ -284,9 +321,20 @@ def validate_point(point: Any) -> tuple[bool, str, str, bool]:
         if bad_char:
             return False, f"حرف غير عربي ({bad_char!r}) في {name}", "language", normalized
 
-    seconds = parse_timestamp(point.get("timestamp"))
+    # Issue #642 العطل ٣ب: حقل فارغ يعني "لم يجد النموذج ختمًا واضحًا يسبق
+    # المقطع" -- وهذا مقبول عمدًا الآن (نقطة صحيحة بلا طابع أفضل من نقطة
+    # مرفوضة كاملةً أو -- الأخطر -- طابع مختلَق يمرّ لأنه صحيح الصيغة). يُفرَّق
+    # هنا بين الفراغ (يُقبل، point["timestamp"] = None) وبين نص غير فارغ لا
+    # يطابق [HH:]MM:SS (يُرفَض كما كان -- عطل حقيقي في مخرَج النموذج لا نية
+    # ترك الحقل فارغًا).
+    raw_timestamp = point.get("timestamp")
+    if isinstance(raw_timestamp, str) and not raw_timestamp.strip():
+        point["timestamp"] = None
+        return True, "", "", normalized
+
+    seconds = parse_timestamp(raw_timestamp)
     if seconds is None:
-        return (False, f"طابع زمني غير صالح الصيغة أو فارغ: {point.get('timestamp')!r}",
+        return (False, f"طابع زمني غير صالح الصيغة: {raw_timestamp!r}",
                 "timestamp_format", normalized)
     point["timestamp"] = seconds
 
@@ -457,20 +505,29 @@ def find_unsourced_name(statement: str, quote_original: str, known_figures: list
 # ──────────────────────────── الاستخلاص عبر النموذج ────────────────────────────
 
 
+TRUNCATION_MARKER = "[... تم حذف جزء من النص ...]"
+
+
 def _truncate_transcript(text: str, max_chars: int) -> str:
-    """يبقي النصف الأول والنصف الأخير من نص طويل معًا مع علامة حذف بينهما
-    عند تجاوز max_chars، لا قصًّا من النهاية فقط (Issue #637 العطل ٢) --
-    خاتمة المواد التحليلية غالبًا تحمل الخلاصة، فقصّها يفقد أثمن جزء من
-    المصدر بالضبط في الفيديوهات التي يستهدفها هذا الحدّ."""
+    """يبقي النصف الأول والنصف الأخير من نص طويل معًا مع علامة حذف صريحة
+    بينهما عند تجاوز max_chars، لا قصًّا من النهاية فقط (Issue #637 العطل ٢)
+    -- خاتمة المواد التحليلية غالبًا تحمل الخلاصة، فقصّها يفقد أثمن جزء من
+    المصدر بالضبط في الفيديوهات التي يستهدفها هذا الحدّ.
+
+    Issue #642 العطل ٣ج: العلامة (TRUNCATION_MARKER) صريحة الصياغة عمدًا --
+    "تم حذف جزء من النص"، لا مجرّد فاصل بصري -- ليعرف النموذج أن هناك فجوة
+    حقيقية في الترجمة المصدرية فلا يستنتج تسلسلًا زمنيًا متصلًا عبرها، ولا
+    يبني ختمًا لمقطع يقع داخلها (البرومبت يشرح هذا صراحة، انظر
+    prompts/youtube_extract.md)."""
     if len(text) <= max_chars:
         return text
     half = max_chars // 2
-    return text[:half] + "\n[... حُذف وسط النص لتجاوزه الحدّ الأقصى ...]\n" + text[-half:]
+    return text[:half] + f"\n{TRUNCATION_MARKER}\n" + text[-half:]
 
 
 def extract_points(video_title: str, transcript_text: str, language: str, duration_seconds: int,
                     cfg: Config, client: Anthropic | None = None
-                    ) -> tuple[list[dict], list[dict], str | None]:
+                    ) -> tuple[list[dict], list[dict], str | None, str | None]:
     """نداء نموذج رخيص واحد لكل فيديو عبر إخراج مهيكل (tool_use بمخطط
     مُعرَّف) بدل طلب JSON نصًّا (العطل ٢) -- النموذج يملأ حقولًا مُعرَّفة
     فلا يستطيع كسر البنية أصلًا. عند غياب إخراج مهيكل صالح: محاولة واحدة
@@ -479,11 +536,18 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
     (Issue #637 العطل ٢).
 
     يعيد (النقاط الصالحة، النقاط المرفوضة كل منها بسببها وفئتها، سبب فشل
-    النداء العام إن حدث -- None عند النجاح ولو بلا نقاط). كل نقطة صالحة قد
-    تحمل مفتاحين داخليين مؤقتين لا يدخلان المخرج النهائي (يُستهلَكان في
-    run() فقط ثم يُهمَلان عند بناء قاموس النقطة الأخير): "_normalized"
-    (طُبِّعت فارسيًا وقُبِلت بعده -- Issue #639 العطل ٢أ) و"_unsourced_name"
-    (اسم عَلَم مشكوك في نسبته -- العطل ١ بند ب)."""
+    النداء العام إن حدث -- None عند النجاح ولو بلا نقاط، ملاحظة قصّ النص إن
+    وقع -- None إن لم يُقصّ شيء). كل نقطة صالحة قد تحمل مفتاحين داخليين
+    مؤقتين لا يدخلان المخرج النهائي (يُستهلَكان في run() فقط ثم يُهمَلان عند
+    بناء قاموس النقطة الأخير): "_normalized" (طُبِّعت فارسيًا وقُبِلت بعده --
+    Issue #639 العطل ٢أ) و"_unsourced_name" (اسم عَلَم مشكوك في نسبته --
+    العطل ١ بند ب). حقل "timestamp" في النقطة الصالحة قد يكون None -- النموذج
+    ترك الختم فارغًا بصدق بدل اختلاقه (Issue #642 العطل ٣ب).
+
+    العنصر الرابع المُعاد (ملاحظة القصّ) يُسجَّل في run() ضمن failed لا فقط
+    في log (Issue #642 العطل ٣د) -- بلا هذا لا نعرف كم مرة يقع القصّ فعليًا
+    عبر التشغيلات، وهو الشاهد التشخيصي وراء اختلاق الأختام في الفيديوهات
+    الطويلة (العطل ٣)."""
     model = cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001")
     max_tokens = cfg.path("youtube.extract.max_tokens", 2000)
     max_retries = cfg.path("youtube.extract.max_retries", 2)
@@ -491,9 +555,11 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
     sent_text = _truncate_transcript(transcript_text, max_transcript_chars)
+    truncation_note = None
     if len(sent_text) < len(transcript_text):
-        log.info("نص %r قُصّ من %d إلى %d حرفًا (max_transcript_chars)",
-                  video_title[:60], len(transcript_text), len(sent_text))
+        truncation_note = (f"نص الفيديو قُصّ من {len(transcript_text)} إلى {len(sent_text)} "
+                            f"حرفًا (max_transcript_chars)")
+        log.info("%s: %s", video_title[:60], truncation_note)
 
     raw_points: list | None = None
     last_snippet = ""
@@ -512,7 +578,7 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
                 # لا تُضِف temperature -- نماذج هذا المشروع ترفضها بـ400.
             )
         except APIError as exc:
-            return [], [], f"فشل نداء النموذج: {exc}"
+            return [], [], f"فشل نداء النموذج: {exc}", truncation_note
 
         last_resp = resp
         data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None)
@@ -540,7 +606,8 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
                           f"/مخرج {getattr(usage, 'output_tokens', '؟')}")
         return ([], [],
                 f"تعذّر الحصول على إخراج مهيكل صالح بعد {max_retries} محاولة/محاولات "
-                f"(طول النص المُرسَل {len(sent_text)} حرفًا{usage_note}): {last_snippet!r}")
+                f"(طول النص المُرسَل {len(sent_text)} حرفًا{usage_note}): {last_snippet!r}",
+                truncation_note)
 
     known_figures = cfg.path("youtube.extract.known_figures", [])
 
@@ -558,7 +625,9 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
         # القيمة الخام قبل التحويل مسجَّلة هنا (العطل ١، بند أ) للتشخيص --
         # بلا هذا لا يمكن الجزم إن كان السبب عطلًا في التحليل أو مخرَجًا
         # حقيقيًا من النموذج خارج مدة الفيديو فعلًا.
-        if raw["timestamp"] > duration_seconds:
+        # Issue #642 العطل ٣ب: طابع None (تُرك فارغًا بصدق) لا يُقارَن بمدة
+        # الفيديو أصلًا -- لا قيمة لمقارنته، وليس عطلًا يستوجب الرفض.
+        if raw["timestamp"] is not None and raw["timestamp"] > duration_seconds:
             reason = (f"طابع خام: {raw_timestamp!r} → محوَّل: {raw['timestamp']}ث → "
                       f"مدة الفيديو: {duration_seconds}ث")
             rejected.append({"reason": reason, "kind": "timestamp"})
@@ -573,7 +642,7 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
         raw["_unsourced_name"] = find_unsourced_name(
             raw["statement"], raw["quote_original"], known_figures)
         valid.append(raw)
-    return valid, rejected, None
+    return valid, rejected, None, truncation_note
 
 
 # ──────────────────────────── التشغيلة الكاملة ────────────────────────────
@@ -597,6 +666,7 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
     points_rejected_language = 0
     points_normalized = 0
     points_flagged_unsourced_name = 0
+    points_without_timestamp = 0
     transcript_sample_logged = False
 
     proxy_cfg = get_proxy_config()
@@ -643,12 +713,18 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                                "reason": f"أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: {category}"})
                 print(f"  → أُهمل (حارس الموضوع: {category})", file=sys.stderr)
             else:
-                valid_points, rejected_points, error = extract_points(
+                valid_points, rejected_points, error, truncation_note = extract_points(
                     video.video_title, text, lang_or_reason, video.duration_seconds,
                     cfg, anthropic_client)
                 if error:
                     failed.append({"channel": video.channel, "video_id": video.video_id,
                                    "title": video.video_title, "reason": error})
+                if truncation_note:
+                    # Issue #642 العطل ٣د: يُسجَّل في failed لا في log فقط --
+                    # لنعرف عبر التشغيلات كم مرة يقع القصّ فعليًا (الشاهد
+                    # التشخيصي وراء اختلاق الأختام في الفيديوهات الطويلة).
+                    failed.append({"channel": video.channel, "video_id": video.video_id,
+                                   "title": video.video_title, "reason": truncation_note})
                 for r in rejected_points:
                     failed.append({"channel": video.channel, "video_id": video.video_id,
                                    "title": video.video_title,
@@ -662,6 +738,8 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                 for p in valid_points:
                     if p.get("_normalized"):
                         points_normalized += 1
+                    if p["timestamp"] is None:
+                        points_without_timestamp += 1
                     unsourced_name = p.get("_unsourced_name")
                     if unsourced_name:
                         points_flagged_unsourced_name += 1
@@ -716,6 +794,7 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
             "points_rejected_language": points_rejected_language,
             "points_normalized": points_normalized,
             "points_flagged_unsourced_name": points_flagged_unsourced_name,
+            "points_without_timestamp": points_without_timestamp,
             "proxy_bandwidth_mb": round(total_bytes / (1024 * 1024), 3),
         },
         "failed": failed,
@@ -746,7 +825,8 @@ def main() -> int:
           f"· مرفوضة (صيغة طابع غير صالحة): {stats['points_rejected_timestamp_format']} "
           f"· مرفوضة (لغة): {stats['points_rejected_language']}")
     print(f"مُطبَّعة فارسيًا فأُنقِذت: {stats['points_normalized']} "
-          f"· أسماء أعلام مشكوكة (تحذير لا رفض): {stats['points_flagged_unsourced_name']}")
+          f"· أسماء أعلام مشكوكة (تحذير لا رفض): {stats['points_flagged_unsourced_name']} "
+          f"· بلا طابع زمني (تُرك فارغًا بصدق): {stats['points_without_timestamp']}")
     print(f"استهلاك البروكسي التقديري: {stats['proxy_bandwidth_mb']} ميجابايت")
     if result["failed"]:
         print(f"تعذّر: {len(result['failed'])}")
