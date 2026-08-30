@@ -12,6 +12,19 @@ Issue #635 (إصلاح خمسة أعطال بعد التشغيلة الأولى)
 أختام زمنية ظاهرة في النص المُدخَل + رفض أي طابع يتجاوز مدة الفيديو، إخراج
 مهيكل (tool_use) بدل JSON نصّي، رفض أي حرف غير عربي في الحقول العربية، وحارس
 تصنيف موضوع قبل إنفاق نداء الاستخلاص الكامل.
+
+Issue #637 (إصلاح ثلاثة أعطال بعد التشغيلة الثانية -- الحرّاس أعلاه صحيحة،
+العطل فيما تحرسه): (١) رفض «صيغة طابع غير صالحة» و«طابع يتجاوز مدة الفيديو»
+كانا يشتركان في فئة عدّاد واحدة (points_rejected_timestamp) فتعذّر تمييز
+سبب الفشل الفعلي -- فُصلا، وأُضيفت القيمة الخام قبل التحويل إلى رسالة رفض
+تجاوز المدة (الرقم المحوَّل وحده لا يكفي للتشخيص). (٢) الفيديوهات الثقيلة
+تحليليًا كانت تُخرج بلوك tool_use فارغًا بعد كل المحاولات -- على الأرجح
+انقطاع الإخراج عند حدّ max_tokens قبل اكتمال البلوك -- فرُفع الحدّ، وأُضيف
+حدّ أعلى لطول النص المُدخَل مع قصّ ذكي (نصف أول + نصف أخير) بدل قصّ من
+النهاية فقط، وصار stop_reason يُفحَص ويُسجَّل صراحةً عند الفشل. (٣) عنوان
+البروكسي كان يُحجَب مؤقتًا (429/RemoteDisconnected) رغم البروكسي -- وُسِّعت
+الفواصل الزمنية، وأُضيف تراجع أُسّي عند الحجب المؤقت بدل إسقاط الفيديو من
+أول محاولة فاشلة.
 """
 from __future__ import annotations
 
@@ -161,7 +174,12 @@ def parse_timestamp(raw: Any) -> int | None:
 def validate_point(point: Any) -> tuple[bool, str, str]:
     """يتحقق من الحقول الإلزامية والتصنيف واللغة وصيغة الطابع الزمني لنقطة
     واحدة. يعيد (صالحة، سبب الرفض، فئة الرفض) -- الفئة "" عند النجاح، وإلا
-    واحدة من "timestamp"/"language"/"other" لتغذية عدّادات stats في run().
+    واحدة من "timestamp_format"/"language"/"other" لتغذية عدّادات stats في
+    run(). "timestamp_format" هنا خاصّ بصيغة لا تطابق [HH:]MM:SS أو حقل
+    فارغ فقط -- تجاوز مدة الفيديو لطابع سليم الصيغة يُفحَص لاحقًا في
+    extract_points بفئة "timestamp" منفصلة (Issue #637 العطل ١): الأول
+    عطل في مخرَج النموذج نفسه، والثاني حكم على قيمة صحيحة الشكل، ولا يصحّ
+    خلطهما في عدّاد واحد يُعمي عن أيّهما يتكرر فعليًا.
 
     عند النجاح يُستبدَل point["timestamp"] النصّي بعدد الثواني المحلَّل --
     تطبيع لا تحقّق شكلي إضافي، فبقية الأنبوب (المقارنة بمدة الفيديو، ثم
@@ -189,7 +207,7 @@ def validate_point(point: Any) -> tuple[bool, str, str]:
     seconds = parse_timestamp(point.get("timestamp"))
     if seconds is None:
         return (False, f"طابع زمني غير صالح الصيغة أو فارغ: {point.get('timestamp')!r}",
-                "timestamp")
+                "timestamp_format")
     point["timestamp"] = seconds
 
     return True, "", ""
@@ -213,37 +231,80 @@ def format_transcript(fetched) -> str:
                       for segment in fetched)
 
 
-def fetch_transcript(video_id: str, proxy_config, session: requests.Session | None = None
-                      ) -> tuple[str | None, str | None]:
-    """يعيد (النص المصوغ بأختامه الزمنية، رمز اللغة) عند النجاح، أو (None،
-    سبب الفشل). بلغته الأصلية دومًا -- لا نطلب ترجمة يوتيوب الآلية الرديئة؛
-    الترجمة إلى العربية تقع لاحقًا داخل نموذج الاستخلاص على النص الأصلي."""
+def _fetch_once(video_id: str, proxy_config, session: requests.Session | None) -> tuple[str, str]:
+    """محاولة سحب واحدة بلا أي تراجع -- منفصلة عن fetch_transcript كي يمكن
+    حقن بديل مزيَّف لها في الاختبارات ففحص منطق التراجع الأُسّي بلا شبكة
+    فعلية (Issue #637 العطل ٣)."""
+    from youtube_transcript_api import YouTubeTranscriptApi
+
+    ytt_api = (YouTubeTranscriptApi(proxy_config=proxy_config, http_client=session)
+               if session is not None else YouTubeTranscriptApi(proxy_config=proxy_config))
+    transcript_list = ytt_api.list(video_id)
+    transcript = next(iter(transcript_list))  # قد يرفع StopIteration
+    fetched = transcript.fetch()
+    return format_transcript(fetched), transcript.language_code
+
+
+def _should_retry(attempt: int, delays: list[float]) -> tuple[bool, float | None]:
+    """قرار صِرف بلا أثر جانبي: هل تبقّت محاولة تراجع، وبعد كم ثانية --
+    مفصولة عن fetch_transcript لفحصها بلا شبكة ولا time.sleep فعلي."""
+    if attempt < len(delays):
+        return True, delays[attempt]
+    return False, None
+
+
+def fetch_transcript(video_id: str, proxy_config, session: requests.Session | None = None,
+                      backoff_seconds: list[float] | None = None,
+                      fetch_once=_fetch_once,
+                      ) -> tuple[str | None, str | None, bool]:
+    """يعيد (النص المصوغ بأختامه الزمنية، رمز اللغة، أُرهق التراجع) عند
+    النجاح، أو (None، سبب الفشل، أُرهق التراجع) عند الفشل. بلغته الأصلية
+    دومًا -- لا نطلب ترجمة يوتيوب الآلية الرديئة؛ الترجمة إلى العربية تقع
+    لاحقًا داخل نموذج الاستخلاص على النص الأصلي.
+
+    Issue #637 العطل ٣: عنوان بروكسي واحد يُحجَب مؤقتًا (429 ⇐ IpBlocked
+    من المكتبة) أو ينقطع اتصاله (RemoteDisconnected، يصل هنا مغلَّفًا بـ
+    requests.exceptions.ConnectionError) رغم البروكسي إن أُرهق بطلبات
+    متتابعة بلا فسحة كافية -- تراجع أُسّي محدود بـbackoff_seconds قبل
+    إسقاط الفيديو نهائيًا، بدل إسقاطه من أول 429 عابر. العنصر الثالث
+    المُعاد (أُرهق التراجع) يميّز هذا الإسقاط عن أعطال أخرى (لا نص متاح،
+    فيديو غير متوفر) في stats: run() لا يرفع videos_rate_limited إلا هنا."""
     from youtube_transcript_api import (
         IpBlocked,
         NoTranscriptFound,
         RequestBlocked,
         TranscriptsDisabled,
         VideoUnavailable,
-        YouTubeTranscriptApi,
     )
 
-    try:
-        ytt_api = (YouTubeTranscriptApi(proxy_config=proxy_config, http_client=session)
-                   if session is not None else YouTubeTranscriptApi(proxy_config=proxy_config))
-        transcript_list = ytt_api.list(video_id)
+    delays = list(backoff_seconds or [])
+    attempt = 0
+    while True:
         try:
-            transcript = next(iter(transcript_list))
+            text, language_code = fetch_once(video_id, proxy_config, session)
+            return text, language_code, False
         except StopIteration:
-            return None, "لا نص متاح: لا مسارات ترجمة للفيديو"
-        fetched = transcript.fetch()
-        text = format_transcript(fetched)
-        return text, transcript.language_code
-    except (IpBlocked, RequestBlocked) as exc:
-        return None, f"محجوب من يوتيوب: {exc}"
-    except (TranscriptsDisabled, NoTranscriptFound, VideoUnavailable) as exc:
-        return None, f"لا نص متاح: {exc}"
-    except Exception as exc:  # noqa: BLE001 -- الفشل الصامت ممنوع، كل عطل يُسجَّل
-        return None, f"خطأ غير متوقَّع أثناء سحب النص: {exc}"
+            return None, "لا نص متاح: لا مسارات ترجمة للفيديو", False
+        except (TranscriptsDisabled, NoTranscriptFound, VideoUnavailable) as exc:
+            return None, f"لا نص متاح: {exc}", False
+        except (IpBlocked, RequestBlocked) as exc:
+            retry, delay = _should_retry(attempt, delays)
+            if not retry:
+                return None, f"محجوب من يوتيوب بعد {len(delays)} إعادة محاولة: {exc}", True
+            log.warning("حجب مؤقت من يوتيوب لفيديو %s (محاولة %d/%d)، انتظار %sث",
+                        video_id, attempt + 1, len(delays), delay)
+            time.sleep(delay)
+            attempt += 1
+        except requests.exceptions.ConnectionError as exc:
+            retry, delay = _should_retry(attempt, delays)
+            if not retry:
+                return None, f"انقطاع اتصال متكرر بعد {len(delays)} إعادة محاولة: {exc}", True
+            log.warning("انقطاع اتصال لفيديو %s (محاولة %d/%d)، انتظار %sث",
+                        video_id, attempt + 1, len(delays), delay)
+            time.sleep(delay)
+            attempt += 1
+        except Exception as exc:  # noqa: BLE001 -- الفشل الصامت ممنوع، كل عطل يُسجَّل
+            return None, f"خطأ غير متوقَّع أثناء سحب النص: {exc}", False
 
 
 # ──────────────────────────── حارس الموضوع ────────────────────────────
@@ -286,23 +347,43 @@ def classify_topic(video_title: str, transcript_excerpt: str, cfg: Config,
 # ──────────────────────────── الاستخلاص عبر النموذج ────────────────────────────
 
 
+def _truncate_transcript(text: str, max_chars: int) -> str:
+    """يبقي النصف الأول والنصف الأخير من نص طويل معًا مع علامة حذف بينهما
+    عند تجاوز max_chars، لا قصًّا من النهاية فقط (Issue #637 العطل ٢) --
+    خاتمة المواد التحليلية غالبًا تحمل الخلاصة، فقصّها يفقد أثمن جزء من
+    المصدر بالضبط في الفيديوهات التي يستهدفها هذا الحدّ."""
+    if len(text) <= max_chars:
+        return text
+    half = max_chars // 2
+    return text[:half] + "\n[... حُذف وسط النص لتجاوزه الحدّ الأقصى ...]\n" + text[-half:]
+
+
 def extract_points(video_title: str, transcript_text: str, language: str, duration_seconds: int,
                     cfg: Config, client: Anthropic | None = None
                     ) -> tuple[list[dict], list[dict], str | None]:
     """نداء نموذج رخيص واحد لكل فيديو عبر إخراج مهيكل (tool_use بمخطط
     مُعرَّف) بدل طلب JSON نصًّا (العطل ٢) -- النموذج يملأ حقولًا مُعرَّفة
     فلا يستطيع كسر البنية أصلًا. عند غياب إخراج مهيكل صالح: محاولة واحدة
-    إضافية، ثم فشل مسجَّل مع أول ٥٠٠ حرف من أي نص مخرَج للتشخيص.
+    إضافية، ثم فشل مسجَّل مع أول ٥٠٠ حرف من أي نص مخرَج للتشخيص، ومعه طول
+    النص المُرسَل وسبب التوقف (stop_reason) إن كان القطع بسبب max_tokens
+    (Issue #637 العطل ٢).
 
     يعيد (النقاط الصالحة، النقاط المرفوضة كل منها بسببها وفئتها، سبب فشل
     النداء العام إن حدث -- None عند النجاح ولو بلا نقاط)."""
     model = cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001")
     max_tokens = cfg.path("youtube.extract.max_tokens", 2000)
     max_retries = cfg.path("youtube.extract.max_retries", 2)
+    max_transcript_chars = cfg.path("youtube.extract.max_transcript_chars", 60000)
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+
+    sent_text = _truncate_transcript(transcript_text, max_transcript_chars)
+    if len(sent_text) < len(transcript_text):
+        log.info("نص %r قُصّ من %d إلى %d حرفًا (max_transcript_chars)",
+                  video_title[:60], len(transcript_text), len(sent_text))
 
     raw_points: list | None = None
     last_snippet = ""
+    last_resp = None
     for attempt in range(1, max_retries + 1):
         try:
             resp = client.messages.create(
@@ -313,30 +394,44 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
                 system=load_prompt(),
                 messages=[{"role": "user", "content":
                            f"لغة النص الأصلية: {language}\n\nالنص الكامل للفيديو، مع أختامه "
-                           f"الزمنية الظاهرة قبل كل مقطع:\n{transcript_text}"}],
+                           f"الزمنية الظاهرة قبل كل مقطع:\n{sent_text}"}],
                 # لا تُضِف temperature -- نماذج هذا المشروع ترفضها بـ400.
             )
         except APIError as exc:
             return [], [], f"فشل نداء النموذج: {exc}"
 
+        last_resp = resp
         data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None)
         candidate = data.get("points") if isinstance(data, dict) else None
         if isinstance(candidate, list):
             raw_points = candidate
             break
-        last_snippet = "".join(b.text for b in resp.content
+        text_snippet = "".join(b.text for b in resp.content
                                 if getattr(b, "type", "") == "text")[:500]
-        log.warning("محاولة %d/%d: لم يُعِد النموذج إخراجًا مهيكلًا صالحًا لـ%r",
-                    attempt, max_retries, video_title[:60])
+        stop_reason = getattr(resp, "stop_reason", None)
+        if stop_reason == "max_tokens":
+            last_snippet = (f"[قُطع الإخراج: stop_reason=max_tokens، طول النص المُرسَل "
+                             f"{len(sent_text)} حرفًا] {text_snippet}")
+        else:
+            last_snippet = text_snippet
+        log.warning("محاولة %d/%d: لم يُعِد النموذج إخراجًا مهيكلًا صالحًا لـ%r "
+                    "(stop_reason=%s، طول النص %d حرفًا)",
+                    attempt, max_retries, video_title[:60], stop_reason, len(sent_text))
 
     if raw_points is None:
+        usage_note = ""
+        usage = getattr(last_resp, "usage", None)
+        if usage is not None:
+            usage_note = (f"، رموز مستهلكة: مدخل {getattr(usage, 'input_tokens', '؟')}"
+                          f"/مخرج {getattr(usage, 'output_tokens', '؟')}")
         return ([], [],
-                f"تعذّر الحصول على إخراج مهيكل صالح بعد {max_retries} محاولة/محاولات: "
-                f"{last_snippet!r}")
+                f"تعذّر الحصول على إخراج مهيكل صالح بعد {max_retries} محاولة/محاولات "
+                f"(طول النص المُرسَل {len(sent_text)} حرفًا{usage_note}): {last_snippet!r}")
 
     valid: list[dict] = []
     rejected: list[dict] = []
     for raw in raw_points:
+        raw_timestamp = raw.get("timestamp") if isinstance(raw, dict) else None
         ok, reason, kind = validate_point(raw)
         if not ok:
             rejected.append({"reason": reason, "kind": kind})
@@ -344,9 +439,12 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
             continue
         # الحارس الأخير الإلزامي (العطل ١، بند ج): لا تنازل عنه مهما كانت
         # صيغة الطابع سليمة -- سليم الصيغة لا يعني داخل مدة الفيديو فعلًا.
+        # القيمة الخام قبل التحويل مسجَّلة هنا (العطل ١، بند أ) للتشخيص --
+        # بلا هذا لا يمكن الجزم إن كان السبب عطلًا في التحليل أو مخرَجًا
+        # حقيقيًا من النموذج خارج مدة الفيديو فعلًا.
         if raw["timestamp"] > duration_seconds:
-            reason = (f"طابع زمني {raw['timestamp']}ث يتجاوز مدة الفيديو "
-                      f"{duration_seconds}ث")
+            reason = (f"طابع خام: {raw_timestamp!r} → محوَّل: {raw['timestamp']}ث → "
+                      f"مدة الفيديو: {duration_seconds}ث")
             rejected.append({"reason": reason, "kind": "timestamp"})
             log.warning("نقطة مرفوضة من %r (%s)", video_title[:60], reason)
             continue
@@ -369,8 +467,11 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
     transcripts_ok = 0
     transcripts_failed = 0
     videos_rejected_topic = 0
+    videos_rate_limited = 0
     points_rejected_timestamp = 0
+    points_rejected_timestamp_format = 0
     points_rejected_language = 0
+    transcript_sample_logged = False
 
     proxy_cfg = get_proxy_config()
     total_bytes = 0
@@ -382,17 +483,28 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
 
     session.hooks["response"].append(_track_bytes)
 
-    sleep_range = tuple(cfg.path("youtube.extract.transcript_sleep_range", [2.0, 5.0]))
+    sleep_range = tuple(cfg.path("youtube.extract.transcript_sleep_range", [5.0, 12.0]))
+    channel_sleep_range = tuple(cfg.path("youtube.extract.channel_sleep_range", [10.0, 20.0]))
+    backoff_seconds = list(cfg.path("youtube.extract.rate_limit_backoff_seconds", [15, 45, 90]))
 
     for i, video in enumerate(videos):
         print(f"استخلاص: {video.video_title[:60]} ({video.channel})", file=sys.stderr)
-        text, lang_or_reason = fetch_transcript(video.video_id, proxy_cfg, session)
+        text, lang_or_reason, rate_limited = fetch_transcript(
+            video.video_id, proxy_cfg, session, backoff_seconds)
         if text is None:
             transcripts_failed += 1
+            if rate_limited:
+                videos_rate_limited += 1
             failed.append({"channel": video.channel, "video_id": video.video_id,
                            "title": video.video_title, "reason": lang_or_reason})
         else:
             transcripts_ok += 1
+            # عيّنة تشخيصية مرة واحدة لكل تشغيلة (Issue #637 العطل ١ بند د):
+            # تتحقّق من أن الأختام تُكتب فعلًا [00:12:34] كما يتوقّع البرومبت،
+            # بلا تسجيل نص أي فيديو بعينه على نحو متكرر.
+            if not transcript_sample_logged:
+                log.info("عيّنة أول 300 حرف من نص مصوغ: %r", text[:300])
+                transcript_sample_logged = True
             category, classify_error = classify_topic(video.video_title, text, cfg,
                                                         anthropic_client)
             if classify_error:
@@ -417,6 +529,8 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                                    "reason": f"نقطة مرفوضة ({r['kind']}): {r['reason']}"})
                     if r["kind"] == "timestamp":
                         points_rejected_timestamp += 1
+                    elif r["kind"] == "timestamp_format":
+                        points_rejected_timestamp_format += 1
                     elif r["kind"] == "language":
                         points_rejected_language += 1
                 for p in valid_points:
@@ -439,7 +553,12 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                 print(f"  → {len(valid_points)} نقطة", file=sys.stderr)
         text = None  # إهمال صريح -- لا يُحتفَظ بالنص بعد هذه النقطة
         if i < len(videos) - 1:
-            time.sleep(random.uniform(*sleep_range))
+            # فاصل أطول عند الانتقال إلى قناة مختلفة (Issue #637 العطل ٣) --
+            # يوزّع الحمل على عنوان البروكسي بدل معدّل ثابت طوال التشغيلة.
+            if videos[i + 1].channel != video.channel:
+                time.sleep(random.uniform(*channel_sleep_range))
+            else:
+                time.sleep(random.uniform(*sleep_range))
 
     return {
         "run_date": now.strftime("%Y-%m-%d"),
@@ -450,8 +569,10 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
             "transcripts_ok": transcripts_ok,
             "transcripts_failed": transcripts_failed,
             "videos_rejected_topic": videos_rejected_topic,
+            "videos_rate_limited": videos_rate_limited,
             "points_extracted": len(points),
             "points_rejected_timestamp": points_rejected_timestamp,
+            "points_rejected_timestamp_format": points_rejected_timestamp_format,
             "points_rejected_language": points_rejected_language,
             "proxy_bandwidth_mb": round(total_bytes / (1024 * 1024), 3),
         },
@@ -475,10 +596,12 @@ def main() -> int:
     print(f"ملف النقاط: {path}")
     print(f"القنوات: {stats['channels_checked']} · ضمن النافذة: {stats['videos_found']} "
           f"· ناجية بعد الحرّاس: {stats['passed_guards']}")
-    print(f"نصوص ناجحة: {stats['transcripts_ok']} · فاشلة: {stats['transcripts_failed']}")
+    print(f"نصوص ناجحة: {stats['transcripts_ok']} · فاشلة: {stats['transcripts_failed']} "
+          f"· محجوبة مؤقتًا (تجاوزت التراجع): {stats['videos_rate_limited']}")
     print(f"أُهمل قبل الاستخلاص (حارس الموضوع): {stats['videos_rejected_topic']}")
     print(f"نقاط مستخلَصة: {stats['points_extracted']} "
-          f"· مرفوضة (طابع زمني): {stats['points_rejected_timestamp']} "
+          f"· مرفوضة (تجاوز مدة الفيديو): {stats['points_rejected_timestamp']} "
+          f"· مرفوضة (صيغة طابع غير صالحة): {stats['points_rejected_timestamp_format']} "
           f"· مرفوضة (لغة): {stats['points_rejected_language']}")
     print(f"استهلاك البروكسي التقديري: {stats['proxy_bandwidth_mb']} ميجابايت")
     if result["failed"]:
