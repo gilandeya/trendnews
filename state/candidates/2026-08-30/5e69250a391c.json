@@ -1,0 +1,46 @@
+{
+  "id": "5e69250a391c",
+  "created_at": "2026-08-30T03:07:52.104401+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 11.36,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Australia’s red soil may be hiding a massive clean energy source",
+  "link": "https://www.sciencedaily.com/releases/2026/08/260829035214.htm",
+  "publishers": [
+    "ScienceDaily"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Australia’s red soil may be hiding a massive clean energy source",
+    "link": "https://www.sciencedaily.com/releases/2026/08/260829035214.htm",
+    "summary": "Researchers have discovered that Western Australia’s iron-rich rocks can naturally generate hydrogen and that the process may be boosted to produce much larger amounts. If it can be scaled up, the vast formations beneath the Pilbara could become a major new source of low-emission energy for Australia and potentially the world.",
+    "source_name": "ScienceDaily",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-08-29T10:05:43+00:00",
+    "image_url": null,
+    "publisher": "ScienceDaily",
+    "cluster_sources": [
+      "ScienceDaily"
+    ],
+    "cluster_members": [
+      {
+        "name": "ScienceDaily",
+        "link": "https://www.sciencedaily.com/releases/2026/08/260829035214.htm"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 7.999476439444445,
+    "is_stale": false,
+    "score": 11.364428358777777
+  }
+}

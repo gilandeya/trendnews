@@ -1,0 +1,99 @@
+{
+  "id": "0b71923d20e3",
+  "created_at": "2026-08-30T03:07:52.102759+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.94,
+  "trend_score": 0.5,
+  "velocity": 0.21,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Number of missing in Nepal and Tibet rises to 3,000 as bad weather hampers search",
+  "link": "https://www.theguardian.com/world/2026/aug/29/nepal-tibet-chinese-rescue-team-finds-nothing-but-ruins-after-reaching-border-crossing-hit-by-deadly-flood",
+  "publishers": [
+    "CBS News — World",
+    "CNN",
+    "Daily Sabah",
+    "Dawn",
+    "France24",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "NDTV — World",
+    "TASS",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The Japan Times",
+    "Yonhap News",
+    "as it happened"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Number of missing in Nepal and Tibet rises to 3,000 as bad weather hampers search",
+    "link": "https://www.theguardian.com/world/2026/aug/29/nepal-tibet-chinese-rescue-team-finds-nothing-but-ruins-after-reaching-border-crossing-hit-by-deadly-flood",
+    "summary": "Nepal requests foreign ⁠help in identification and storing of bodies, DNA testing and rescuing people from tunnels Visual guide: how the deadly flooding unfolded Nepal-Tibet flash flood – latest updates Poor weather temporarily hampered aerial rescue operations in Nepal on Saturday as the search for thousands of missing people in areas devastated by catastrophic flash floods along the border with China continued. The combined toll in Nepal and Tibet rose to 691 dead and more than 3,000 people missing after China’s latest update on Sunday. Chinese authorities reported 16 deaths and 546 missing, while Nepal’s disaster agency said late Saturday that the death toll had climbed to 675 with 2,498 people missing. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-30T01:25:41+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/271a7f98e98406fa97e3618ad92eadccf60c69b2/1032_0_6880_5504/master/6880.jpg?width=700&quality=85&auto=format&fit=max&s=8c8bef5111ef03d584163f2e985cbe85",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "CBS News — World",
+      "CNN",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "NDTV — World",
+      "TASS",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Japan Times",
+      "Yonhap News",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/world/live/2026/aug/28/nepal-tibet-flash-floods-hundreds-dead-missing-day-three-live-updates"
+      },
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/world/live/2026/aug/29/nepal-tibet-floods-latest-updates-death-toll-missing-search-and-rescue"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/29/nepal-tibet-chinese-rescue-team-finds-nothing-but-ruins-after-reaching-border-crossing-hit-by-deadly-flood"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260829000900315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260829000951315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260829000952315"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/271a7f98e98406fa97e3618ad92eadccf60c69b2/1032_0_6880_5504/master/6880.jpg?width=700&quality=85&auto=format&fit=max&s=8c8bef5111ef03d584163f2e985cbe85",
+      "https://i.guim.co.uk/img/media/271a7f98e98406fa97e3618ad92eadccf60c69b2/1032_0_6880_5504/master/6880.jpg?width=460&quality=85&auto=format&fit=max&s=c37064caae8eda28e73bb130b75271ac",
+      "https://i.guim.co.uk/img/media/271a7f98e98406fa97e3618ad92eadccf60c69b2/1032_0_6880_5504/master/6880.jpg?width=140&quality=85&auto=format&fit=max&s=24570854a800e4a3d3241a90a961f355",
+      "https://i.guim.co.uk/img/media/354fbd9087f6426e4a815de18580298cf136cb3d/0_73_602_482/master/602.jpg?width=700&quality=85&auto=format&fit=max&s=6b9fcda94d3010f4c24566f39ef9842d",
+      "https://i.guim.co.uk/img/media/354fbd9087f6426e4a815de18580298cf136cb3d/0_73_602_482/master/602.jpg?width=460&quality=85&auto=format&fit=max&s=98d562e6fa9ef0d3c1ebc80f6309f55d",
+      "https://i.guim.co.uk/img/media/354fbd9087f6426e4a815de18580298cf136cb3d/0_73_602_482/master/602.jpg?width=140&quality=85&auto=format&fit=max&s=08ce8ebaf9062913ec86625242402e69"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 14,
+    "velocity": 0.20634189966790473,
+    "age_hours": 81.9997860763889,
+    "is_stale": false,
+    "score": 25.94038781519752
+  }
+}
