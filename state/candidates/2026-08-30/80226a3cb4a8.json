@@ -1,0 +1,103 @@
+{
+  "id": "80226a3cb4a8",
+  "created_at": "2026-08-30T22:07:46.523846+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.46,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Eight killed and others missing after ferry capsizes off northern Cyprus",
+  "link": "https://www.bbc.co.uk/news/articles/c770jyd4l7lo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC",
+    "BBC World",
+    "CBS News — World",
+    "Daily Sabah",
+    "Dawn",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "MyJoyOnline Ghana",
+    "NDTV — World",
+    "South China Morning Post",
+    "TV",
+    "The Express Tribune",
+    "The Guardian — World",
+    "The Hindu — International",
+    "as it happened"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Eight killed and others missing after ferry capsizes off northern Cyprus",
+    "link": "https://www.bbc.co.uk/news/articles/c770jyd4l7lo?at_medium=RSS&at_campaign=rss",
+    "summary": "A search and rescue operation is under way after a ferry carrying nearly 270 people turns over after leaving port.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-30T20:02:43+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b564/live/7bd43000-a492-11f1-a291-b542ee92de7c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC",
+      "BBC World",
+      "CBS News — World",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "MyJoyOnline Ghana",
+      "NDTV — World",
+      "South China Morning Post",
+      "TV",
+      "The Express Tribune",
+      "The Guardian — World",
+      "The Hindu — International",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/30/ferry-capsizes-northern-cyprus"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c770jyd4l7lo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3365774/least-8-dead-22-missing-ferry-capsizes-northern-cyprus?utm_source=rss_feed"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2026171/at-least-8-die-more-missing-as-ferry-capsizes-off-northern-cyprus"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260830-ferry-carrying-more-than-250-passengers-capsizes-off-northern-cyprus"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2626572/seven-die-many-more-missing-after-ferry-capsizes-off-north-cyprus"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b564/live/7bd43000-a492-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/b564/live/7bd43000-a492-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b564/live/7bd43000-a492-11f1-a291-b542ee92de7c.jpg",
+      "https://i.guim.co.uk/img/media/566b0fcaf49a3521f4fb9a4d26d87e3ebaeecaf3/37_0_1125_900/master/1125.jpg?width=700&quality=85&auto=format&fit=max&s=bddd458759ef2de880a05ed1cc55466f",
+      "https://i.guim.co.uk/img/media/566b0fcaf49a3521f4fb9a4d26d87e3ebaeecaf3/37_0_1125_900/master/1125.jpg?width=460&quality=85&auto=format&fit=max&s=a4ffaa0be182bf061d8e09c6ec79a543",
+      "https://i.guim.co.uk/img/media/566b0fcaf49a3521f4fb9a4d26d87e3ebaeecaf3/37_0_1125_900/master/1125.jpg?width=140&quality=85&auto=format&fit=max&s=ee22f94e324e620d46cc6fb8715cfb5f"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 16,
+    "velocity": 0.0,
+    "age_hours": 3.9994163338888886,
+    "is_stale": false,
+    "score": 21.461190328018517
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "a69e9360429c",
+  "created_at": "2026-08-30T22:07:46.524161+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.22,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Russia still open to talks on Ukraine, but there are no conditions for them",
+  "link": "https://tass.com/politics/2179551",
+  "publishers": [
+    "Kremlin"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Russia still open to talks on Ukraine, but there are no conditions for them",
+    "link": "https://tass.com/politics/2179551",
+    "summary": "Dmitry Peskov commented on whether President Vladimir Putin could discuss the possibility to continue the work of negotiating groups on Ukraine in Istanbul at a meeting with his Turkish counterpart Recep Tayyip Erdogan",
+    "source_name": "TASS",
+    "region": "ru",
+    "weight": 0.7,
+    "published": "2026-08-30T17:09:24+00:00",
+    "image_url": null,
+    "publisher": "Kremlin",
+    "cluster_sources": [
+      "Kremlin"
+    ],
+    "cluster_members": [
+      {
+        "name": "Kremlin",
+        "link": "https://tass.com/politics/2179551"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 629.9106946152777,
+    "is_stale": true,
+    "score": 13.218616249166667
+  }
+}

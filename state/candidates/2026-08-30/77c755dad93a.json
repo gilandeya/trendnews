@@ -1,0 +1,85 @@
+{
+  "id": "77c755dad93a",
+  "created_at": "2026-08-30T22:07:46.523437+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.96,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US strikes Iranian launchers on Larak Island in first known attack in weeks",
+  "link": "https://www.bbc.co.uk/news/articles/cx2z72x5z1po?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Channel News Asia",
+    "France24",
+    "Investing.com — الاقتصاد",
+    "The Guardian — World",
+    "media"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "US strikes Iranian launchers on Larak Island in first known attack in weeks",
+    "link": "https://www.bbc.co.uk/news/articles/cx2z72x5z1po?at_medium=RSS&at_campaign=rss",
+    "summary": "Iran says the attack killed some civilians and is the first known US strike on Iran since late July.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-30T21:15:42+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/baab/live/f7f345a0-a4b4-11f1-b109-879e35c24276.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Channel News Asia",
+      "France24",
+      "Investing.com — الاقتصاد",
+      "The Guardian — World",
+      "media"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/30/us-strikes-irans-lark-island-in-first-attack-in-weeks?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cx2z72x5z1po?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/iran-insists-strait-of-hormuz-remains-closed-as-war-enters-seventh-month-4882018"
+      },
+      {
+        "name": "media",
+        "link": "https://tass.com/world/2179581"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/30/us-strikes-iranian-launchers-on-larak-island-amid-strait-of-hormuz-tensions"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260830-us-forces-strike-iranian-launchers-on-larak-island-in-strait-of-hormuz"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/baab/live/f7f345a0-a4b4-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/baab/live/f7f345a0-a4b4-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/baab/live/f7f345a0-a4b4-11f1-b109-879e35c24276.jpg",
+      "https://content-media.investing.com/news/moved_LYNXMPEL5N10S_L.jpg",
+      "https://i.guim.co.uk/img/media/df8d60cf1293a9a22e1ee0b705afdbcae8489701/0_0_10629_8508/master/10629.jpg?width=700&quality=85&auto=format&fit=max&s=37be6c756796acf0912e9603706e1db7",
+      "https://i.guim.co.uk/img/media/df8d60cf1293a9a22e1ee0b705afdbcae8489701/0_0_10629_8508/master/10629.jpg?width=460&quality=85&auto=format&fit=max&s=e515a39e603257dc79b8708802b9fbf3"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 22.96434768359874
+  }
+}
