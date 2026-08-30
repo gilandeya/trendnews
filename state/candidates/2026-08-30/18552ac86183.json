@@ -1,0 +1,54 @@
+{
+  "id": "18552ac86183",
+  "created_at": "2026-08-30T12:08:04.307099+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.03,
+  "trend_score": 0.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Malaysia PM Anwar unveils measures to tackle living costs, support local businesses",
+  "link": "https://www.channelnewsasia.com/asia/malaysia-anwar-ibrahim-measures-tackle-living-costs-local-businesses-6350251",
+  "publishers": [
+    "Channel News Asia",
+    "South China Morning Post"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Malaysia PM Anwar unveils measures to tackle living costs, support local businesses",
+    "link": "https://www.channelnewsasia.com/asia/malaysia-anwar-ibrahim-measures-tackle-living-costs-local-businesses-6350251",
+    "summary": "Malaysian Prime Minister Anwar Ibrahim has been under pressure to tackle higher living costs, even as the country's economy has outperformed most of its regional peers.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-30T08:02:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--4EMSf3DF--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/30/000_48ev8dl.jpg?itok=a-wkTzMH",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/southeast-asia/article/3365758/malaysias-anwar-unveils-cost-living-measures-opposition-rises?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/malaysia-anwar-ibrahim-measures-tackle-living-costs-local-businesses-6350251"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--4EMSf3DF--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/30/000_48ev8dl.jpg?itok=a-wkTzMH"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 13.026736999148149
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "id": "937d56cd10ee",
+  "created_at": "2026-08-30T12:08:04.305758+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.88,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nepal: Thousands still missing as death toll rises",
+  "link": "https://www.france24.com/en/nepal-thousands-still-missing-as-death-toll-rises",
+  "publishers": [
+    "Al Jazeera English",
+    "CBS News — World",
+    "Daily Sabah",
+    "Dawn",
+    "France24",
+    "Free Malaysia Today",
+    "Le Monde",
+    "Malay Mail",
+    "MyJoyOnline Ghana",
+    "NPR World",
+    "Punch Nigeria",
+    "TASS",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Nepal: Thousands still missing as death toll rises",
+    "link": "https://www.france24.com/en/nepal-thousands-still-missing-as-death-toll-rises",
+    "summary": "Nepalese authorities announced on Sunday that the provisional death toll from the devastating floods had risen to more than 730, with nearly 2,500 people still missing. Among the thousands of people missing is the husband of a 22-year-old woman, who is still waiting for him to return. Like tens of thousands of Nepalese people in recent days, she went to one of the country’s medical centres to find out whether her husband was among those whose bodies had been recovered in recent days. Caitlin Brown reports.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-30T10:04:27+00:00",
+    "image_url": "https://s.france24.com/media/display/ac96234e-a454-11f1-b965-005056a97e36/w:1024/p:16x9/EN-20260830-110309-110452-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "CBS News — World",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Free Malaysia Today",
+      "Le Monde",
+      "Malay Mail",
+      "MyJoyOnline Ghana",
+      "NPR World",
+      "Punch Nigeria",
+      "TASS",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nepal-flash-floods-death-toll-rises-number-of-missing-jumps-to-more-than-2000/article71403649.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nepal-flash-floods-death-toll-missing-persons-fresh-flood-threat-glacier-collapse-live-updates-august-29-2026/article71403315.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/death-toll-rises-as-3-000-remain-missing-in-nepal-china"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/nepal-thousands-still-missing-as-death-toll-rises"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/nepal-begins-burials-as-flood-death-toll-rises-to-752/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/nepal-flood-death-toll-tops-680-as-rescuers-search-for-missing"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/ac96234e-a454-11f1-b965-005056a97e36/w:1024/p:16x9/EN-20260830-110309-110452-CS.jpg",
+      "https://th-i.thgim.com/public/incoming/h1cks/article71405167.ece/alternates/LANDSCAPE_1200/20260829326L.jpg",
+      "https://s.france24.com/media/display/ca458a7e-a44a-11f1-927b-005056bf30b7/w:1024/p:16x9/EN-20260830-090302-090512-CS.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/29/458235.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/29/458237.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/08/30/560164.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 15,
+    "velocity": 1.0,
+    "age_hours": 99.00434202916666,
+    "is_stale": false,
+    "score": 25.883464350029257
+  }
+}
