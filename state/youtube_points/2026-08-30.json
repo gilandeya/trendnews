@@ -1,0 +1,419 @@
+{
+  "run_date": "2026-08-30",
+  "stats": {
+    "channels_checked": 13,
+    "videos_found": 776,
+    "passed_guards": 27,
+    "transcripts_ok": 25,
+    "transcripts_failed": 2,
+    "videos_rejected_topic": 16,
+    "points_extracted": 10,
+    "points_rejected_timestamp": 14,
+    "points_rejected_language": 3,
+    "proxy_bandwidth_mb": 38.544
+  },
+  "failed": [
+    {
+      "channel": "الجزيرة",
+      "video_id": "sBXsC_MdAwM",
+      "title": "شاهد على العصر | اتفاق صدام حسين مع شاه إيران.. خطأ طرد الخميني وتصفيات البعث الكبرى",
+      "reason": "خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port=443): Max retries exceeded with url: /sorry/index?continue=https://www.youtube.com/watch%3Fv%3DsBXsC_MdAwM&q=EgQt4GNOGKunz9QGIjAK5qxoNy0QDMaB5mMb4TJeepzOgDBi51tekLmQHXKqFV1Zx3TTfLkdADMlAt32dFcyAnJSWgFD (Caused by ResponseError('too many 429 error responses'))"
+    },
+    {
+      "channel": "الجزيرة",
+      "video_id": "2tgBWxGhfe0",
+      "title": "ما وراء الخبر | أدلة جديدة ضد إسرائيل في محكمة العدل الدولية",
+      "reason": "تعذّر الحصول على إخراج مهيكل صالح بعد 2 محاولة/محاولات: ''"
+    },
+    {
+      "channel": "الجزيرة",
+      "video_id": "iduDRZe8dQw",
+      "title": "نافذة تحليلية | هل يدفع الضغط الاقتصادي الأمريكي إيران إلى المرونة السياسية أم التشدد؟",
+      "reason": "تعذّر الحصول على إخراج مهيكل صالح بعد 2 محاولة/محاولات: ''"
+    },
+    {
+      "channel": "العربية",
+      "video_id": "q_N2Jwri13g",
+      "title": "الأسبوع وما بعد | ليست إيران.. ترمب يستعد لأهم معركة وبيل غيتس يحذر العالم",
+      "reason": "تعذّر الحصول على إخراج مهيكل صالح بعد 2 محاولة/محاولات: ''"
+    },
+    {
+      "channel": "العربية",
+      "video_id": "SmUUMuL-zPQ",
+      "title": "العربية ويكند | ترمب يضع يده على نفط فنزويلا.. وكاميرا \"العربية\" وسط دمار نيبال",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: news_bulletin"
+    },
+    {
+      "channel": "العربية",
+      "video_id": "tBHUDZ-kfv8",
+      "title": "الاقتصاد الإيراني يترنح تحت وطأة الحصار والعقوبات الأميركية",
+      "reason": "تعذّر الحصول على إخراج مهيكل صالح بعد 2 محاولة/محاولات: ''"
+    },
+    {
+      "channel": "CNN Türk",
+      "video_id": "InC0-YwZxLQ",
+      "title": "Rusya Lideri Putin, NATO'ya Saldıracak Mı? | CANLI HABER",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: news_bulletin"
+    },
+    {
+      "channel": "CNN Türk",
+      "video_id": "Mex83AKEGPU",
+      "title": "Güvenli Liman Spekülatif Araç Mı? | CANLI HABER",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: news_bulletin"
+    },
+    {
+      "channel": "CNN Türk",
+      "video_id": "0ICZ6ZSP_uA",
+      "title": "Beşiktaş’ın UEFA Avrupa Ligi’ndeki Rakipleri Belli Oldu! | CANLI HABER",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: other"
+    },
+    {
+      "channel": "Habertürk",
+      "video_id": "kBeiytTEbDw",
+      "title": "Rusya'dan İngiltere'ye Açık Tehdit: NATO'nun 5. Maddesi Devreye Girer mi?",
+      "reason": "تعذّر الحصول على إخراج مهيكل صالح بعد 2 محاولة/محاولات: ''"
+    },
+    {
+      "channel": "Habertürk",
+      "video_id": "JNGShb4gNTg",
+      "title": "Malazgirt'ten Büyük Taarruz'a: Ağustos Ayı Neden Türklerin Zafer Ayı?",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 2931ث يتجاوز مدة الفيديو 950ث"
+    },
+    {
+      "channel": "Habertürk",
+      "video_id": "JNGShb4gNTg",
+      "title": "Malazgirt'ten Büyük Taarruz'a: Ağustos Ayı Neden Türklerin Zafer Ayı?",
+      "reason": "نقطة مرفوضة (language): حرف غير عربي ('چ') في statement"
+    },
+    {
+      "channel": "Habertürk",
+      "video_id": "JNGShb4gNTg",
+      "title": "Malazgirt'ten Büyük Taarruz'a: Ağustos Ayı Neden Türklerin Zafer Ayı?",
+      "reason": "نقطة مرفوضة (language): حرف غير عربي ('چ') في statement"
+    },
+    {
+      "channel": "Habertürk",
+      "video_id": "JNGShb4gNTg",
+      "title": "Malazgirt'ten Büyük Taarruz'a: Ağustos Ayı Neden Türklerin Zafer Ayı?",
+      "reason": "نقطة مرفوضة (language): حرف غير عربي ('چ') في statement"
+    },
+    {
+      "channel": "Habertürk",
+      "video_id": "HsDEz4xZ4l8",
+      "title": "Faciaya Yol Açan Hata Neydi? Zafer Akçay İETT Kazasını Saniye Saniye İnceledi",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: other"
+    },
+    {
+      "channel": "Halk TV",
+      "video_id": "WlisZfoXP80",
+      "title": "Nevra Öner ile Hafta Sonu Sabah (30 Ağustos 2026)",
+      "reason": "لا نص متاح: \nCould not retrieve a transcript for the video https://www.youtube.com/watch?v=WlisZfoXP80! This is most likely caused by:\n\nSubtitles are disabled for this video\n\nIf you are sure that the described cause is not responsible for this error and that a transcript should be retrievable, please create an issue at https://github.com/jdepoix/youtube-transcript-api/issues. Please add which version of youtube_transcript_api you are using and provide the information needed to replicate the error. Also make sure that there are no open issues which already describe your problem!"
+    },
+    {
+      "channel": "Halk TV",
+      "video_id": "5IxrUlu4fZc",
+      "title": "KAYSERİ BÖYLE COŞKU GÖRMEDİ! Özgür Özel İçin Binler Meydana Akın Etti! Tarihi Görüntüler",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: other"
+    },
+    {
+      "channel": "Halk TV",
+      "video_id": "i7JSwJlryV8",
+      "title": "Antalya- Seydikemer'de Çıkan Yangın Kaş'ta Ormana Sıçradı! Söndürme Çalışmaları Sürüyor!",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: other"
+    },
+    {
+      "channel": "SÖZCÜ",
+      "video_id": "Af0N63geS_M",
+      "title": "Haber Bülteni | Nagihan Turhan | 30 Ağustos",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: news_bulletin"
+    },
+    {
+      "channel": "SÖZCÜ",
+      "video_id": "Ns9x9l6_PMw",
+      "title": "Haber Bülteni | Gülinay Selçuk | 29 Ağustos",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: news_bulletin"
+    },
+    {
+      "channel": "SÖZCÜ",
+      "video_id": "pLp29d2h2zw",
+      "title": "GÖKÇEKLERİN ALMANYA SERVETİ! Murat Ağırel İzini Sürdü: Kayıp 500 Bin Dolar, 15 Daire, AVM...",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 10377ث يتجاوز مدة الفيديو 2743ث"
+    },
+    {
+      "channel": "SÖZCÜ",
+      "video_id": "pLp29d2h2zw",
+      "title": "GÖKÇEKLERİN ALMANYA SERVETİ! Murat Ağırel İzini Sürdü: Kayıp 500 Bin Dolar, 15 Daire, AVM...",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 3236ث يتجاوز مدة الفيديو 2743ث"
+    },
+    {
+      "channel": "SÖZCÜ",
+      "video_id": "pLp29d2h2zw",
+      "title": "GÖKÇEKLERİN ALMANYA SERVETİ! Murat Ağırel İzini Sürdü: Kayıp 500 Bin Dolar, 15 Daire, AVM...",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 60042ث يتجاوز مدة الفيديو 2743ث"
+    },
+    {
+      "channel": "SÖZCÜ",
+      "video_id": "pLp29d2h2zw",
+      "title": "GÖKÇEKLERİN ALMANYA SERVETİ! Murat Ağırel İzini Sürdü: Kayıp 500 Bin Dolar, 15 Daire, AVM...",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 73347ث يتجاوز مدة الفيديو 2743ث"
+    },
+    {
+      "channel": "SÖZCÜ",
+      "video_id": "pLp29d2h2zw",
+      "title": "GÖKÇEKLERİN ALMANYA SERVETİ! Murat Ağırel İzini Sürdü: Kayıp 500 Bin Dolar, 15 Daire, AVM...",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 102876ث يتجاوز مدة الفيديو 2743ث"
+    },
+    {
+      "channel": "SÖZCÜ",
+      "video_id": "pLp29d2h2zw",
+      "title": "GÖKÇEKLERİN ALMANYA SERVETİ! Murat Ağırel İzini Sürdü: Kayıp 500 Bin Dolar, 15 Daire, AVM...",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 138578ث يتجاوز مدة الفيديو 2743ث"
+    },
+    {
+      "channel": "Iran International",
+      "video_id": "aWnqRqxHaWA",
+      "title": "اخبار نیمروزی | شنبه ۷ شهریور",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: news_bulletin"
+    },
+    {
+      "channel": "Iran International",
+      "video_id": "Yb9-9A0Nn5g",
+      "title": "اخبار بامدادی | شنبه ۷ شهریور",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: news_bulletin"
+    },
+    {
+      "channel": "Iran International",
+      "video_id": "rFRi90d-hY0",
+      "title": "اخبار شبانگاهی | شنبه ۷ شهریور",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: news_bulletin"
+    },
+    {
+      "channel": "رصدکده",
+      "video_id": "64ZYWKOl19A",
+      "title": "اخباار شامگاهی - شنبه 7 شهریور 1405",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: news_bulletin"
+    },
+    {
+      "channel": "رصدکده",
+      "video_id": "1aq3rvU-mwM",
+      "title": "خبر 8 صبح - شنبه 7 شهریور 1405",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: news_bulletin"
+    },
+    {
+      "channel": "رصدکده",
+      "video_id": "ex3s0DOopdY",
+      "title": "اخبار صبحگاهی - شنبه 7 شهریور 1405",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: news_bulletin"
+    },
+    {
+      "channel": "ערוץ 14",
+      "video_id": "oV5i5H4JSys",
+      "title": "24 דקות: איך באמת עושים שינוי לקראת ראש השנה — בלי לנסות להפוך את החיים ביום אחד?",
+      "reason": "أُهمل قبل الاستخلاص -- حارس الموضوع صنّفه: other"
+    },
+    {
+      "channel": "ערוץ 14",
+      "video_id": "Y_0mBJwqRH0",
+      "title": "יעקב ברדוגו: \"אם גוש הימין יתאחד - אפשר להגיע שוב ל-64 מנדטים\"",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 1980ث يتجاوز مدة الفيديو 1009ث"
+    },
+    {
+      "channel": "ערוץ 14",
+      "video_id": "Y_0mBJwqRH0",
+      "title": "יעקב ברדוגו: \"אם גוש הימין יתאחד - אפשר להגיע שוב ל-64 מנדטים\"",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 23640ث يتجاوز مدة الفيديو 1009ث"
+    },
+    {
+      "channel": "ערוץ 14",
+      "video_id": "Y_0mBJwqRH0",
+      "title": "יעקב ברדוגו: \"אם גוש הימין יתאחד - אפשר להגיע שוב ל-64 מנדטים\"",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 26280ث يتجاوز مدة الفيديو 1009ث"
+    },
+    {
+      "channel": "ערוץ 14",
+      "video_id": "Y_0mBJwqRH0",
+      "title": "יעקב ברדוגו: \"אם גוש הימין יתאחד - אפשר להגיע שוב ל-64 מנדטים\"",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 38400ث يتجاوز مدة الفيديو 1009ث"
+    },
+    {
+      "channel": "ערוץ 14",
+      "video_id": "Y_0mBJwqRH0",
+      "title": "יעקב ברדוגו: \"אם גוש הימין יתאחד - אפשר להגיע שוב ל-64 מנדטים\"",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 8040ث يتجاوز مدة الفيديو 1009ث"
+    },
+    {
+      "channel": "ערוץ 14",
+      "video_id": "Y_0mBJwqRH0",
+      "title": "יעקב ברדוגו: \"אם גוש הימין יתאחד - אפשר להגיע שוב ל-64 מנדטים\"",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 48300ث يتجاوز مدة الفيديو 1009ث"
+    },
+    {
+      "channel": "ערוץ 14",
+      "video_id": "Y_0mBJwqRH0",
+      "title": "יעקב ברדוגו: \"אם גוש הימין יתאחד - אפשר להגיע שוב ל-64 מנדטים\"",
+      "reason": "نقطة مرفوضة (timestamp): طابع زمني 59100ث يتجاوز مدة الفيديو 1009ث"
+    }
+  ],
+  "points": [
+    {
+      "video_id": "JNGShb4gNTg",
+      "channel": "Habertürk",
+      "bloc": "turkish",
+      "language": "tr",
+      "video_title": "Malazgirt'ten Büyük Taarruz'a: Ağustos Ayı Neden Türklerin Zafer Ayı?",
+      "video_url": "https://www.youtube.com/watch?v=JNGShb4gNTg",
+      "duration_seconds": 950,
+      "statement": "معركة مالازقرت وقعت في 26 أغسطس 1071 وأرسخت الحضور التركي المنظم في الأناضول.",
+      "speaker": "هاشم شاهين، مؤرخ وكاتب",
+      "quote_original": "26 Ağustos 1071 Malazgirt... Malazgirt bunu sistematik hale getirdi.",
+      "quote_arabic": "26 أغسطس 1071 مالازقرت... معركة مالازقرت نظمت الحضور التركي.",
+      "timestamp": 66,
+      "type": "fact",
+      "topic_hint": "مالازقرت، الحضور التركي"
+    },
+    {
+      "video_id": "JNGShb4gNTg",
+      "channel": "Habertürk",
+      "bloc": "turkish",
+      "language": "tr",
+      "video_title": "Malazgirt'ten Büyük Taarruz'a: Ağustos Ayı Neden Türklerin Zafer Ayı?",
+      "video_url": "https://www.youtube.com/watch?v=JNGShb4gNTg",
+      "duration_seconds": 950,
+      "statement": "قتل الملك المجري لايوش في ساحة المعركة وهو يفر، مما أدى إلى انهيار الجيش المجري.",
+      "speaker": "هاشم شاهين، مؤرخ وكاتب",
+      "quote_original": "Macar Krallı öldürülüyor... bu kralı kaçarken bataklıkta ölen kraldır.",
+      "quote_arabic": "قُتل الملك المجري... هذا الملك مات في المستنقع أثناء فراره.",
+      "timestamp": 388,
+      "type": "fact",
+      "topic_hint": "لايوش المجري، نهاية الملك"
+    },
+    {
+      "video_id": "JNGShb4gNTg",
+      "channel": "Habertürk",
+      "bloc": "turkish",
+      "language": "tr",
+      "video_title": "Malazgirt'ten Büyük Taarruz'a: Ağustos Ayı Neden Türklerin Zafer Ayı?",
+      "video_url": "https://www.youtube.com/watch?v=JNGShb4gNTg",
+      "duration_seconds": 950,
+      "statement": "السبب الجغرافي لتركيز المعارك في شهر أغسطس هو استحالة نقل الجيوش والإمدادات في الشتاء.",
+      "speaker": "هاشم شاهين، مؤرخ وكاتب",
+      "quote_original": "kışın savaşamazsınız... lojistiği seld, yağmurda, çamurda bir noktadan bir noktaya nakletmek pek mümkün değildir.",
+      "quote_arabic": "لا يمكنك القتال في الشتاء... نقل الإمدادات في الثلج والمطر والوحل من نقطة إلى أخرى غير ممكن تقريبًا.",
+      "timestamp": 251,
+      "type": "fact",
+      "topic_hint": "الظروف الجغرافية، المناخ"
+    },
+    {
+      "video_id": "pLp29d2h2zw",
+      "channel": "SÖZCÜ",
+      "bloc": "turkish",
+      "language": "tr",
+      "video_title": "GÖKÇEKLERİN ALMANYA SERVETİ! Murat Ağırel İzini Sürdü: Kayıp 500 Bin Dolar, 15 Daire, AVM...",
+      "video_url": "https://www.youtube.com/watch?v=pLp29d2h2zw",
+      "duration_seconds": 2743,
+      "statement": "اتهام حزب الشعب الجمهوري بتنظيم مظاهرة مدفوعة الأجر لتغطية مؤتمر زعيمه في إسطنبول.",
+      "speaker": "مراسل صحيفة بيرغون التركية",
+      "quote_original": "insanların, yurttaşların para karşılığında o toplantıya katılmasının sağlandığını yazmıştı",
+      "quote_arabic": "وثق أن المواطنين تم توفير مقابل مالي لهم للمشاركة في تلك الاجتماعات",
+      "timestamp": 2625,
+      "type": "fact",
+      "topic_hint": "فضيحة مؤتمر إسطنبول"
+    },
+    {
+      "video_id": "53aipjPiolA",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "language": "iw",
+      "video_title": "אלמוג כהן על העימות מול בן גביר: \"עדיין לא תקפתי - זה רק הילוך ראשון\"",
+      "video_url": "https://www.youtube.com/watch?v=53aipjPiolA",
+      "duration_seconds": 502,
+      "statement": "يؤكد المتحدث أنه يؤيد حكومة الوحدة الوطنية وليس الذهاب مع حزب اليسار",
+      "speaker": "ألمور كوهن، عضو الكنيست",
+      "quote_original": "אני בעד הם של התאחדות לאומית אני בעד ממשלה ממשלה שהיא ממשלה שעומדת בעקרונות של הממשלה הנוכחית",
+      "quote_arabic": "أنا مؤيد للائتلاف الوطني الموحد، أنا مؤيد لحكومة حكومة هي حكومة تقف على مبادئ الحكومة الحالية",
+      "timestamp": 141,
+      "type": "opinion",
+      "topic_hint": "الحكومة والائتلاف"
+    },
+    {
+      "video_id": "53aipjPiolA",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "language": "iw",
+      "video_title": "אלמוג כהן על העימות מול בן גביר: \"עדיין לא תקפתי - זה רק הילוך ראשון\"",
+      "video_url": "https://www.youtube.com/watch?v=53aipjPiolA",
+      "duration_seconds": 502,
+      "statement": "يرى أن الاستراتيجية الحالية لم تقلل من قوة بن غفير بل تحتفظ بقاعدته الانتخابية الصلبة",
+      "speaker": "ألمور كوهن، عضو الكنيست",
+      "quote_original": "השר בן גביר יש את הבייס שלו שהוא ביס מוצק ואיתן שתיים אותם אזורי חיוג שעליהם השר מדבר",
+      "quote_arabic": "للوزير بن غفير قاعدته الانتخابية وهي قاعدة صلبة وثابتة في تلك مناطق الاقتراع التي يتحدث عنها الوزير",
+      "timestamp": 194,
+      "type": "opinion",
+      "topic_hint": "بن غفير والقاعدة الانتخابية"
+    },
+    {
+      "video_id": "53aipjPiolA",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "language": "iw",
+      "video_title": "אלמוג כהן על העימות מול בן גביר: \"עדיין לא תקפתי - זה רק הילוך ראשון\"",
+      "video_url": "https://www.youtube.com/watch?v=53aipjPiolA",
+      "duration_seconds": 502,
+      "statement": "يشكك في صدقية بن غانتس ولا يثق به رغم احترامه له شخصيًا",
+      "speaker": "ألمور كوهن، عضو الكنيست",
+      "quote_original": "אני לא יודע איך לנתח את האירוע הזה כל כך ברשותך אני אני נזר בדבריי כי אתה אתה לא יודע שחקן פוליטי אתה יודע שיכול לחבור בקונסטציה כזו או אחרת לממשלה",
+      "quote_arabic": "لا أعرف كيفية تحليل هذا الحدث تمامًا بإذنك أنا ملتزم بكلامي لأنك أنت لا تعرف لاعبًا سياسيًا يعرف كيف يمكنه الانضمام إلى تحالف أو آخر للحكومة",
+      "timestamp": 222,
+      "type": "opinion",
+      "topic_hint": "بن غانتس والثقة السياسية"
+    },
+    {
+      "video_id": "53aipjPiolA",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "language": "iw",
+      "video_title": "אלמוג כהן על העימות מול בן גביר: \"עדיין לא תקפתי - זה רק הילוך ראשון\"",
+      "video_url": "https://www.youtube.com/watch?v=53aipjPiolA",
+      "duration_seconds": 502,
+      "statement": "يعتبر بن نتنياهو القائد المثبت للكتلة اليمينية رغم محاولات آخرين التطاول على هذا الدور",
+      "speaker": "ألمور كوهن، عضو الكنيست",
+      "quote_original": "אנחנו בגוש האמוני יש לנו מנהיג שקוראים לו בנימין נתניהו שהוכיח על אף הכל",
+      "quote_arabic": "نحن في الكتلة الإيمانية لدينا قائد يُدعى بنيامين نتنياهو وقد أثبت رغم كل شيء",
+      "timestamp": 325,
+      "type": "opinion",
+      "topic_hint": "نتنياهو والقيادة"
+    },
+    {
+      "video_id": "53aipjPiolA",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "language": "iw",
+      "video_title": "אלמוג כהן על העימות מול בן גביר: \"עדיין לא תקפתי - זה רק הילוך ראשון\"",
+      "video_url": "https://www.youtube.com/watch?v=53aipjPiolA",
+      "duration_seconds": 502,
+      "statement": "يؤكد أنه يريد الاستمرار في عمله الأمني ضد التنظيمات الإرهابية بناءً على خبرته العسكرية",
+      "speaker": "ألمور كوهن، عضو الكنيست",
+      "quote_original": "אני מגיע מאזורי החיוג של הביטחון שירטתי 11 שנים ביסם יש לי ניסיון רב מכיר ארגוני טרור מכיר ארגוני פשייה",
+      "quote_arabic": "أنا قادم من مناطق الحدود الأمنية خدمت 11 سنة في الجيش لدي خبرة كبيرة أعرف التنظيمات الإرهابية",
+      "timestamp": 398,
+      "type": "opinion",
+      "topic_hint": "الأمن والمؤهلات"
+    },
+    {
+      "video_id": "53aipjPiolA",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "language": "iw",
+      "video_title": "אלמוג כהן על העימות מול בן גביר: \"עדיין לא תקפתי - זה רק הילוך ראשון\"",
+      "video_url": "https://www.youtube.com/watch?v=53aipjPiolA",
+      "duration_seconds": 502,
+      "statement": "يُشير إلى مشروع حقل صقليق الاقتصادي الضخم الذي يُتوقع إطلاق مناقصاته عام 2028 بميزانية من 10-12 مليار شيكل",
+      "speaker": "ألمور كوهن، عضو الكنيست",
+      "quote_original": "2028 יוצאים המכרזים שעלותם הכללית היא בין 10 ל-12 מיליאד מיליארד שקלים להקמת שדה התעופה הבינלאומי של מדינת ישראל",
+      "quote_arabic": "عام 2028 يتم طرح المناقصات التي تبلغ تكلفتها الإجمالية ما بين 10 إلى 12 مليار شيكل لإقامة مطار إسرائيل الدولي",
+      "timestamp": 461,
+      "type": "forecast",
+      "topic_hint": "مشروع حقل صقليق"
+    }
+  ]
+}
