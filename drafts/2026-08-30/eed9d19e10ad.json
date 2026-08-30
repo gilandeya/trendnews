@@ -1,7 +1,7 @@
 {
   "id": "eed9d19e10ad",
   "created_at": "2026-08-30T17:22:28.028773+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 15.48,
   "bucket": "serious",
@@ -59,5 +59,12 @@
       "https://media.freemalaysiatoday.com/v3/2026/08/b19f6322-56c7-4d8f-bc4f-791dd9b33a2d-Saudi-Arabia-Turkey-and-Pakistan.jpg"
     ]
   },
-  "publish_at": "2026-08-30T18:01:58.563229+00:00"
+  "publish_at": "2026-08-30T18:01:58.563229+00:00",
+  "published_at": "2026-08-30T18:15:41.021993+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1347764987440522",
+    "photo_id": "1347764940773860",
+    "url": "https://www.facebook.com/631680090321390_1347764987440522",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
