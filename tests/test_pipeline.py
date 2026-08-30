@@ -9915,51 +9915,95 @@ def test_youtube_extract() -> None:
     check("أرقام وعلامات ترقيم عربية لا تُعدّ شائبة",
           ye.find_non_arabic_char("العدد ٢٤، بالمئة %١٠٠!") is None)
 
-    # ── validate_point: يعيد الآن ثلاثيًا (صالحة، سبب، فئة) ──
-    ok, reason, kind = ye.validate_point(dict(good_point))
+    # ── Issue #639 العطل ٢ب: حارس اللغة معكوس المنطق -- يسمح بالعربية
+    # والأرقام والترقيم والمسافات فقط، بدل قائمة أبجديات محظورة تفوّت
+    # أبجديات لم تُدرَج صراحة (الدليل أ في الـIssue: حرف صيني مرّ من الحارس
+    # القديم) ──
+    check("حرف صيني يُكتَشف (الدليل أ، Issue #639)",
+          ye.find_non_arabic_char("يطالب بمحاسبة الم煽يين") == "煽")
+    check("حرف كيريلي يُكتَشف", ye.find_non_arabic_char("بوتين путин") == "п")
+    check("حرف يوناني يُكتَشف", ye.find_non_arabic_char("كلمة βeta") == "β")
+    check("نص عربي بأرقام وترقيم مختلطة لا يزال يُقبَل بعد عكس المنطق",
+          ye.find_non_arabic_char("قال الوزير: «رقم ١٢٣ - نسبة 45%»") is None)
+
+    # ── Issue #639 العطل ٢أ: تطبيع الحروف الفارسية/التركية الشائعة قبل
+    # فحص اللغة -- تطبيع لا حذف، فالنقطة تُقبَل بعده بدل خسارتها ──
+    check("ی الفارسية تُطبَّع إلى ي العربية", ye.normalize_persian_chars("ی") == "ي")
+    check("ک الفارسية تُطبَّع إلى ك العربية", ye.normalize_persian_chars("ک") == "ك")
+    check("پ الفارسية تُطبَّع إلى ب العربية", ye.normalize_persian_chars("پ") == "ب")
+    check("چ الفارسية تُطبَّع إلى تش (حرفان، لا مقابل عربي مفرد)",
+          ye.normalize_persian_chars("چ") == "تش")
+    check("گ الفارسية تُطبَّع إلى غ العربية", ye.normalize_persian_chars("گ") == "غ")
+    check("ژ الفارسية تُطبَّع إلى ج العربية", ye.normalize_persian_chars("ژ") == "ج")
+    check("الفاصل غير الظاهر ZWNJ يُحذف",
+          ye.normalize_persian_chars("می‌روم") == "ميروم")
+    check("مجتبی (فارسي) تُطبَّع إلى مجتبي (عربي خالص، شاهد الـIssue)",
+          ye.normalize_persian_chars("مجتبی") == "مجتبي")
+    check("پورمحسن (فارسي) تُطبَّع إلى بورمحسن (عربي خالص، شاهد الـIssue)",
+          ye.normalize_persian_chars("پورمحسن") == "بورمحسن")
+    check("نص عربي فصيح بلا شوائب فارسية لا يتغيّر بالتطبيع",
+          ye.normalize_persian_chars("أعلن الوزير خطة جديدة") == "أعلن الوزير خطة جديدة")
+    check("النص المطبَّع يجتاز فحص اللغة بعد أن كان سيُرفَض قبل التطبيع",
+          ye.find_non_arabic_char(ye.normalize_persian_chars("مجتبی")) is None)
+
+    # ── validate_point: يعيد الآن رباعيًا (صالحة، سبب، فئة، طُبِّعت) ──
+    ok, reason, kind, normalized = ye.validate_point(dict(good_point))
     check("نقطة كاملة الحقول صالحة", ok and kind == "", reason)
+    check("نقطة عربية خالصة أصلًا: normalized == False", ok and normalized is False, normalized)
+
+    # نقطة تحوي حروفًا فارسية شائعة في statement وspeaker -- كانت سترفض
+    # بالكامل قبل الإصلاح، الآن تُطبَّع وتُقبَل (Issue #639 العطل ٢أ)
+    persian_point = {**good_point, "statement": "أعلن مجتبی عن خطة جديدة",
+                      "speaker": "پورمحسن، مسؤول حكومي"}
+    ok, reason, kind, normalized = ye.validate_point(persian_point)
+    check("نقطة بحروف فارسية شائعة تُقبَل بعد التطبيع التلقائي",
+          ok and kind == "", (reason, persian_point))
+    check("normalized == True بعد تطبيع فعلي أنقذ النقطة", normalized is True)
+    check("الحقل statement استُبدِل بنسخته المطبَّعة (لا الفارسية الخام)",
+          "مجتبی" not in persian_point["statement"] and "مجتبي" in persian_point["statement"],
+          persian_point["statement"])
 
     for missing in ye.REQUIRED_FIELDS:
         broken = {k: v for k, v in good_point.items() if k != missing}
-        ok, reason, kind = ye.validate_point(broken)
+        ok, reason, kind, normalized = ye.validate_point(broken)
         check(f"حقل ناقص ({missing}) يُرفَض", not ok and missing in reason, reason)
 
-    ok, reason, kind = ye.validate_point({**good_point, "speaker": "   "})
+    ok, reason, kind, normalized = ye.validate_point({**good_point, "speaker": "   "})
     check("حقل نصّي فارغ (مسافات فقط) يُرفَض", not ok, reason)
 
-    ok, reason, kind = ye.validate_point({**good_point, "type": "rumor"})
+    ok, reason, kind, normalized = ye.validate_point({**good_point, "type": "rumor"})
     check("تصنيف خارج fact/opinion/forecast يُرفَض", not ok and "تصنيف" in reason, reason)
 
     for valid_type in ("fact", "opinion", "forecast"):
-        ok, reason, kind = ye.validate_point({**good_point, "type": valid_type})
+        ok, reason, kind, normalized = ye.validate_point({**good_point, "type": valid_type})
         check(f"تصنيف {valid_type} صالح", ok, reason)
 
     # Issue #637 العطل ١: "صيغة غير صالحة" فئة منفصلة عن "تجاوز المدة"
     # (تلك تُفحَص في extract_points لا هنا) -- عدّادان لا عدّاد واحد يخلط
     # بين عطل في مخرَج النموذج وحكم على قيمة صحيحة الشكل.
-    ok, reason, kind = ye.validate_point({**good_point, "timestamp": "570"})
+    ok, reason, kind, normalized = ye.validate_point({**good_point, "timestamp": "570"})
     check("طابع زمني بصيغة غير مطابقة (رقم مجرّد) يُرفَض بفئة timestamp_format",
           not ok and kind == "timestamp_format", reason)
 
-    ok, reason, kind = ye.validate_point({**good_point, "timestamp": ""})
+    ok, reason, kind, normalized = ye.validate_point({**good_point, "timestamp": ""})
     check("طابع زمني فارغ يُرفَض بفئة timestamp_format",
           not ok and kind == "timestamp_format", reason)
 
     valid_copy = dict(good_point)
-    ok, reason, kind = ye.validate_point(valid_copy)
+    ok, reason, kind, normalized = ye.validate_point(valid_copy)
     check("عند النجاح: يُستبدَل الطابع النصّي بعدد ثوانٍ صحيح",
           ok and valid_copy["timestamp"] == 42, valid_copy)
 
-    ok, reason, kind = ye.validate_point({**good_point, "statement": "יעקב מרגיס מסיים קריירה"})
+    ok, reason, kind, normalized = ye.validate_point({**good_point, "statement": "יעקב מרגיס מסיים קריירה"})
     check("عبرية في statement تُرفَض بفئة language", not ok and kind == "language", reason)
 
-    ok, reason, kind = ye.validate_point({**good_point, "speaker": "ملih غوكجيك"})
+    ok, reason, kind, normalized = ye.validate_point({**good_point, "speaker": "ملih غوكجيك"})
     check("خلط لاتيني/عربي في speaker يُرفَض بفئة language", not ok and kind == "language", reason)
 
-    ok, reason, kind = ye.validate_point({**good_point, "quote_arabic": "we launch a plan"})
+    ok, reason, kind, normalized = ye.validate_point({**good_point, "quote_arabic": "we launch a plan"})
     check("لاتينية في quote_arabic تُرفَض بفئة language", not ok and kind == "language", reason)
 
-    ok, reason, kind = ye.validate_point(dict(good_point))
+    ok, reason, kind, normalized = ye.validate_point(dict(good_point))
     check("quote_original بلغة أجنبية (لاتينية) مستثنى عمدًا من فحص اللغة", ok, reason)
 
     check("عنصر ليس كائن JSON يُرفَض بلا انهيار", ye.validate_point("ليس كائنًا")[0] is False)
@@ -9972,6 +10016,38 @@ def test_youtube_extract() -> None:
           "[00:12:34]" in prompt)
     check("البرومبت يأمر بنسخ الختم حرفيًا لا تقديره",
           "انسخ" in prompt and "لا تقدّر" in prompt)
+    check("البرومبت يذكر قاعدة أسماء الأعلام غير المسنودة (Issue #639 العطل ١ بند أ)",
+          "quote_original" in prompt and "بايدن" in prompt)
+    check("البرومبت يوضّح كتابة الأسماء الفارسية/التركية بحروف عربية خالصة (العطل ٢ج)",
+          "مجتبى" in prompt and "بورمحسن" in prompt)
+
+    # ── Issue #639 العطل ٣: تعريف political_analysis في TOPIC_SYSTEM مشدَّد
+    # ليستبعد المقابلات الشخصية صراحة ──
+    check("TOPIC_SYSTEM يستبعد المقابلات الشخصية والسير الذاتية من political_analysis",
+          "المقابلات الشخصية" in ye.TOPIC_SYSTEM and "المسار المهني" in ye.TOPIC_SYSTEM)
+    check("TOPIC_SYSTEM يتضمّن مثالي التصنيف الحرفيين من الـIssue",
+          "بداياته وحياته المهنية" in ye.TOPIC_SYSTEM
+          and "تداعيات العقوبات على إيران" in ye.TOPIC_SYSTEM)
+
+    # ── Issue #639 العطل ١ بند ب: find_unsourced_name -- تحقّق بأفضل ما
+    # يمكن، قائمة مرجعية صغيرة لا استخراج أعلام عام ──
+    known_figures = [{"ar": "بايدن", "aliases": ["biden"]},
+                      {"ar": "ترامب", "aliases": ["trump"]}]
+    check("اسم عربي من القائمة بلا أي alias في quote_original ⇒ يُبلَّغ عنه",
+          ye.find_unsourced_name("ربما تحاول إدارة جو بايدن إعادة تشكيل المنطقة",
+                                  "Amerika bölgede terör örgütlerinin olmadığı bir yapı istiyor",
+                                  known_figures) == "بايدن")
+    check("اسم عربي من القائمة وalias مطابق (بغضّ النظر عن حالة الأحرف) في "
+          "quote_original ⇒ لا تحذير",
+          ye.find_unsourced_name("قال بايدن إن الإدارة الأمريكية ستتحرك",
+                                  "President Biden said the administration will act",
+                                  known_figures) is None)
+    check("لا اسم من القائمة في statement أصلًا ⇒ لا تحذير",
+          ye.find_unsourced_name("قالت الحكومة إنها ستتحرك",
+                                  "Amerika bölgede terör örgütlerinin olmadığı bir yapı istiyor",
+                                  known_figures) is None)
+    check("قائمة known_figures فارغة ⇒ لا تحذير أبدًا (لا انهيار)",
+          ye.find_unsourced_name("قال بايدن إن الإدارة ستتحرك", "some text", []) is None)
 
     # ── format_transcript: صياغة النص بأختام ظاهرة قبل كل مقطع (العطل ١) ──
     class _Segment:
@@ -10049,6 +10125,46 @@ def test_youtube_extract() -> None:
         "فيديو تجريبي", "نص", "he", duration_seconds=600, cfg=extract_cfg, client=client)
     check("نقطة بحرف غير عربي تُرفَض وتُصنَّف language",
           valid == [] and rejected and rejected[0]["kind"] == "language", rejected)
+
+    # ── Issue #639 العطل ٢أ: نقطة بحروف فارسية شائعة كانت سترفض بالكامل
+    # قبل الإصلاح -- الآن تُطبَّع تلقائيًا داخل extract_points (عبر
+    # validate_point) وتُقبَل، وتحمل علامة _normalized الداخلية للعدّاد
+    # points_normalized في run() ──
+    persian_raw = {**good_point, "statement": "أعلن مجتبی عن خطة جديدة", "timestamp": "00:00:10"}
+    client = _Client([_Resp([_Block("tool_use", input_={"points": [persian_raw]})])])
+    valid, rejected, error = ye.extract_points(
+        "فيديو تجريبي", "نص", "fa", duration_seconds=600, cfg=extract_cfg, client=client)
+    check("نقطة بحروف فارسية شائعة تُقبَل بعد التطبيع لا تُرفَض",
+          error is None and len(valid) == 1 and not rejected, (valid, rejected, error))
+    check("النقطة الصالحة تحمل علامة _normalized == True (Issue #639 العطل ٢أ)",
+          valid and valid[0].get("_normalized") is True, valid)
+
+    # ── Issue #639 العطل ١ بند ب: اسم علم غير مسنود في quote_original ⇒
+    # تحذير عبر raw["_unsourced_name"] لا رفض -- النقطة تبقى صالحة ──
+    unsourced_cfg = load_config()
+    unsourced_cfg["youtube"]["extract"]["known_figures"] = [
+        {"ar": "بايدن", "aliases": ["biden"]}]
+
+    unsourced_raw = {**good_point,
+                      "statement": "ربما تحاول إدارة جو بايدن إعادة تشكيل المنطقة",
+                      "quote_original": "Amerika bölgede terör örgütlerinin olmadığı bir yapı istiyor",
+                      "timestamp": "00:00:10"}
+    client = _Client([_Resp([_Block("tool_use", input_={"points": [unsourced_raw]})])])
+    valid, rejected, error = ye.extract_points(
+        "فيديو تجريبي", "نص", "tr", duration_seconds=600, cfg=unsourced_cfg, client=client)
+    check("نقطة باسم علم غير مسنود تبقى صالحة (تحذير لا رفض تلقائي)",
+          error is None and len(valid) == 1 and not rejected, (valid, rejected, error))
+    check("النقطة الصالحة تحمل علامة _unsourced_name بالاسم المشكوك فيه",
+          valid and valid[0].get("_unsourced_name") == "بايدن", valid)
+
+    sourced_raw = {**good_point, "statement": "قال بايدن إن الإدارة الأمريكية ستتحرك",
+                    "quote_original": "President Biden said the administration will act",
+                    "timestamp": "00:00:10"}
+    client = _Client([_Resp([_Block("tool_use", input_={"points": [sourced_raw]})])])
+    valid, rejected, error = ye.extract_points(
+        "فيديو تجريبي", "نص", "en", duration_seconds=600, cfg=unsourced_cfg, client=client)
+    check("اسم علم مسنود فعلًا (alias مطابق في quote_original) لا يُثير تحذيرًا",
+          valid and valid[0].get("_unsourced_name") is None, valid)
 
     # إخراج مهيكل غير صالح في المحاولة الأولى ثم صالح في الثانية (إعادة المحاولة)
     # نسخة جديدة من good_raw لا الكائن المُستهلَك أعلاه: validate_point يُطبِّع

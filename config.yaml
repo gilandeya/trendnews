@@ -1145,6 +1145,39 @@ youtube:
     # التحليل السياسي عن النشرات والرياضة قبل إنفاق نداء الاستخلاص الكامل.
     topic_guard_model: "claude-haiku-4-5-20251001"
     topic_guard_excerpt_chars: 2000
+    # قائمة مرجعية صغيرة لأعلام سياسية شائعة (Issue #639 العطل ١ بند ب) --
+    # تحقّق بأفضل ما يمكن لا استخراج أعلام عام: إن ظهر اسم من هذه القائمة في
+    # statement بلا أي من aliases (الاسم الأصلي أو صيغه الشائعة) في
+    # quote_original، تُسجَّل نقطة تحذير في failed (عدّاد
+    # points_flagged_unsourced_name) لا رفض تلقائي -- الترجمة الصوتية تجعل
+    # مطابقة عامة غير موثوقة، والمالك يحتاج التحذير عند المراجعة أكثر من
+    # رفض آلي قد يخسر نقاطًا صحيحة (شاهد الـIssue: SÖZCÜ، النموذج أضاف
+    # "إدارة جو بايدن" رغم أن الاقتباس التركي المرفق لم يذكر بايدن إطلاقًا).
+    known_figures:
+      - ar: "بايدن"
+        aliases: ["biden"]
+      - ar: "ترامب"
+        aliases: ["trump"]
+      - ar: "بوتين"
+        aliases: ["putin"]
+      - ar: "أردوغان"
+        aliases: ["erdogan", "erdoğan", "tayyip"]
+      - ar: "إردوغان"
+        aliases: ["erdogan", "erdoğan", "tayyip"]
+      - ar: "نتنياهو"
+        aliases: ["netanyahu"]
+      - ar: "زيلينسكي"
+        aliases: ["zelensky", "zelenskyy", "zelenskiy"]
+      - ar: "ماكرون"
+        aliases: ["macron"]
+      - ar: "شي جين بينغ"
+        aliases: ["xi jinping"]
+      - ar: "كامالا هاريس"
+        aliases: ["kamala harris", "harris"]
+      - ar: "بلينكن"
+        aliases: ["blinken"]
+      - ar: "بومبيو"
+        aliases: ["pompeo"]
 
 # القنوات الثلاث عشرة من القياس المحلي أعلاه، بترتيب الكتل كما وردت في
 # Issue #626 (عربي، تركي، فارسي، إسرائيلي) — tools/test_actions_block.py
