@@ -1,0 +1,60 @@
+{
+  "id": "8a0d21ea4237",
+  "created_at": "2026-08-30T18:07:49.018637+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.68,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says US will refill Strategic Petroleum Reserve using Venezuelan oil",
+  "link": "https://www.freemalaysiatoday.com/category/business/2026/08/30/trump-says-us-will-refill-strategic-petroleum-reserve-using-venezuelan-oil",
+  "publishers": [
+    "Al Jazeera English",
+    "Free Malaysia Today",
+    "Trump"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Trump says US will refill Strategic Petroleum Reserve using Venezuelan oil",
+    "link": "https://www.freemalaysiatoday.com/category/business/2026/08/30/trump-says-us-will-refill-strategic-petroleum-reserve-using-venezuelan-oil",
+    "summary": "The US president said the 'topping out' process will begin shortly, describing the Venezuelan oil as a 'Gift from Venezuela to the People of the United States'.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-30T14:49:15+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/6aa7cc8d-donald-trump-epa-150626.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Free Malaysia Today",
+      "Trump"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/30/trump-says-us-will-refill-its-petroleum-reserves-using-venezuelan-oil?traffic_source=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/08/30/trump-says-us-will-refill-strategic-petroleum-reserve-using-venezuelan-oil"
+      },
+      {
+        "name": "Trump",
+        "link": "https://tass.com/world/2179523"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/6aa7cc8d-donald-trump-epa-150626.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 2.9957096266666667,
+    "is_stale": false,
+    "score": 13.684409137589395
+  }
+}

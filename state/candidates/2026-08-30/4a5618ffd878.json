@@ -1,0 +1,91 @@
+{
+  "id": "4a5618ffd878",
+  "created_at": "2026-08-30T18:07:49.017978+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.35,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iceland rejects EU accession talks after divisive referendum campaign",
+  "link": "https://www.theguardian.com/world/2026/aug/30/iceland-eu-accession-talks-referendum-result",
+  "publishers": [
+    "AP News",
+    "Al Jazeera English",
+    "CBS News — World",
+    "Channel News Asia",
+    "France24",
+    "Investing.com — الاقتصاد",
+    "Malay Mail",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Iceland rejects EU accession talks after divisive referendum campaign",
+    "link": "https://www.theguardian.com/world/2026/aug/30/iceland-eu-accession-talks-referendum-result",
+    "summary": "Well-funded no camp prevails, winning 52.8% of votes and gaining plaudits from Eurosceptic figures across Europe Analysis: Definitely no or maybe yes – what tipped the Icelandic referendum Voters in Iceland have ⁠rejected ⁠a government proposal ​to reopen ⁠accession talks with ⁠the ​EU after a closely fought referendum campaign that divided the country against a backdrop of global volatility. After a long and anxious night for those on both sides of the debate, the no camp ended up with 52.8% of votes on Sunday morning and the yes camp with 47.2%. Voter turnout was high at 82.5%. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-30T14:57:49+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/bb4c17f12a5c4337bd6878eeabbfee3e8ff0f9d5/886_0_5720_4576/master/5720.jpg?width=700&quality=85&auto=format&fit=max&s=b667ba531c0616d25e72588098a25032",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "AP News",
+      "Al Jazeera English",
+      "CBS News — World",
+      "Channel News Asia",
+      "France24",
+      "Investing.com — الاقتصاد",
+      "Malay Mail",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/30/iceland-eu-accession-talks-referendum-result"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260830-iceland-rejects-restarting-eu-accession-talks-in-referendum"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/iceland-rejects-eu-accession-talks-in-close-fought-referendum-6349516"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/iceland-eu-referendum-vote-european-union/"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/iceland-votes-in-tight-referendum-on-whether-to-start-eu-membership-talks-4881985"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3365778/icelandic-voters-reject-proposal-restart-negotiations-join-european-union?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/bb4c17f12a5c4337bd6878eeabbfee3e8ff0f9d5/886_0_5720_4576/master/5720.jpg?width=700&quality=85&auto=format&fit=max&s=b667ba531c0616d25e72588098a25032",
+      "https://i.guim.co.uk/img/media/bb4c17f12a5c4337bd6878eeabbfee3e8ff0f9d5/886_0_5720_4576/master/5720.jpg?width=460&quality=85&auto=format&fit=max&s=426b4eeaddbbd15103577f5726833e66",
+      "https://i.guim.co.uk/img/media/bb4c17f12a5c4337bd6878eeabbfee3e8ff0f9d5/886_0_5720_4576/master/5720.jpg?width=140&quality=85&auto=format&fit=max&s=946f1fdd9ed16f44d69c7730d5b4eb78",
+      "https://s.france24.com/media/display/4688a00c-a447-11f1-90f2-005056a97e36/w:1024/p:16x9/2026-08-29T185525Z-1431504769-RC2H8NA5PMLX-RTRMADP-3-ICELAND-EU.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--24OOZmoz--/c_crop,h_1125,w_1999,x_1,y_2/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/08/30/ap26242150018685.jpg?itok=Xlgv5fUd",
+      "https://content-media.investing.com/trkd-images/LYNXMPEM7S00Z_L.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 10,
+    "velocity": 1.0,
+    "age_hours": 8.995029278611112,
+    "is_stale": false,
+    "score": 24.354824440680606
+  }
+}
