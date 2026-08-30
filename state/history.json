@@ -1,145 +1,5 @@
 [
   {
-    "score": 23.55,
-    "bucket": "serious",
-    "tokens": [
-      "ballot",
-      "court",
-      "hands",
-      "mail",
-      "restrictions",
-      "supreme",
-      "trump",
-      "win"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-08-25-us-supreme-court-hands-a-win-to-trump-over-mail-in-ballot-restrictions/",
-    "title": "US Supreme Court hands a win to Trump over mail-in ballot restrictions",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-08-25T03:08:10.695722+00:00"
-  },
-  {
-    "score": 22.93,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "200",
-      "administration",
-      "asylum",
-      "plans",
-      "revoke",
-      "seekers",
-      "trump",
-      "visas"
-    ],
-    "link": "https://www.theguardian.com/us-news/2026/aug/24/trump-administration-revoke-asylum-visas",
-    "title": "Trump administration plans to revoke 200,000 visas of asylum seekers",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-25T03:08:10.696043+00:00"
-  },
-  {
-    "score": 17.12,
-    "bucket": "useful",
-    "tokens": [
-      "alpha",
-      "blood",
-      "borne",
-      "during",
-      "gal",
-      "poses",
-      "potential",
-      "risks",
-      "syndrome",
-      "tick",
-      "transfusions"
-    ],
-    "link": "https://www.news-medical.net/news/20260824/Tick-borne-alpha-gal-syndrome-poses-potential-risks-during-blood-transfusions.aspx",
-    "title": "Tick-borne alpha-gal syndrome poses potential risks during blood transfusions",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-08-25T03:08:10.696322+00:00"
-  },
-  {
-    "score": 17.01,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "claim",
-      "houthis",
-      "oil",
-      "red",
-      "saudi",
-      "sea",
-      "tanker",
-      "yemen"
-    ],
-    "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-attack-on-saudi-oil-tanker-in-red-sea/article71385806.ece",
-    "title": "Yemen’s Houthis claim attack on Saudi oil tanker in Red Sea",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-08-25T03:08:10.696605+00:00"
-  },
-  {
-    "score": 15.81,
-    "bucket": "serious",
-    "tokens": [
-      "britain",
-      "day",
-      "france",
-      "independence",
-      "marks",
-      "pledge",
-      "stronger",
-      "support",
-      "ukraine"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/08/25/world/britain-france-ukraine-support/",
-    "title": "Britain and France pledge stronger support as Ukraine marks Independence Day",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-08-25T03:08:10.696855+00:00"
-  },
-  {
-    "score": 22.93,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "200",
-      "administration",
-      "asylum",
-      "plans",
-      "revoke",
-      "seekers",
-      "trump",
-      "visas"
-    ],
-    "link": "https://www.theguardian.com/us-news/2026/aug/24/trump-administration-revoke-asylum-visas",
-    "title": "Trump administration plans to revoke 200,000 visas of asylum seekers",
-    "posted_title": "واشنطن تستعد لإلغاء تأشيرات 200 ألف طالب لجوء في أكبر عملية من نوعها بتاريخ أمريكا",
-    "region": "uk",
-    "seen_at": "2026-08-25T05:04:41.828010+00:00"
-  },
-  {
-    "score": 23.55,
-    "bucket": "serious",
-    "tokens": [
-      "ballot",
-      "court",
-      "hands",
-      "mail",
-      "restrictions",
-      "supreme",
-      "trump",
-      "win"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-08-25-us-supreme-court-hands-a-win-to-trump-over-mail-in-ballot-restrictions/",
-    "title": "US Supreme Court hands a win to Trump over mail-in ballot restrictions",
-    "posted_title": "المحكمة العليا الأمريكية ترفع الحظر عن قرار ترامب بتقييد التصويت بالبريد قبل انتخابات نوفمبر",
-    "region": "za",
-    "seen_at": "2026-08-25T05:05:05.673982+00:00"
-  },
-  {
     "score": 31.13,
     "bucket": "serious",
     "tokens": [
@@ -5230,5 +5090,25 @@
     "posted_title": "",
     "region": "science",
     "seen_at": "2026-08-30T03:07:52.104650+00:00"
+  },
+  {
+    "score": 20.71,
+    "bucket": "useful",
+    "tokens": [
+      "banque",
+      "block",
+      "clearing",
+      "dollar",
+      "egypt",
+      "investigates",
+      "misr",
+      "moves",
+      "uae"
+    ],
+    "link": "https://www.investing.com/news/economy-news/uae-investigates-egypts-banque-misr-after-us-moves-to-block-dollar-clearing-4881997",
+    "title": "UAE investigates Egypt’s Banque Misr after U.S. moves to block dollar clearing",
+    "posted_title": "الخزانة الأمريكية تقرر قطع فروع بنك مصر في الإمارات عن النظام المالي الأمريكي",
+    "region": "money",
+    "seen_at": "2026-08-30T06:01:51.536238+00:00"
   }
 ]
