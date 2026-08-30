@@ -1,0 +1,48 @@
+{
+  "id": "d431da6b58a1",
+  "created_at": "2026-08-30T17:08:03.064137+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 12.76,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "From India to Anatolia: 2 women, 1 table, centuries of flavor",
+  "link": "https://www.dailysabah.com/life/from-india-to-anatolia-2-women-1-table-centuries-of-flavor/news",
+  "publishers": [
+    "Daily Sabah"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "From India to Anatolia: 2 women, 1 table, centuries of flavor",
+    "link": "https://www.dailysabah.com/life/from-india-to-anatolia-2-women-1-table-centuries-of-flavor/news",
+    "summary": "A recipe can cross borders, survive migration, pass from mother to daughter and, centuries later, find its way onto a completely different table. That idea lies at the heart of the...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-30T11:16:03+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/30/458371.jpeg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/life/from-india-to-anatolia-2-women-1-table-centuries-of-flavor/news"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/30/458371.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 1.999870246111111,
+    "is_stale": false,
+    "score": 12.75903699475926
+  }
+}

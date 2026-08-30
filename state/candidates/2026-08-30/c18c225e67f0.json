@@ -1,0 +1,54 @@
+{
+  "id": "c18c225e67f0",
+  "created_at": "2026-08-30T17:08:03.063884+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.2,
+  "trend_score": 0.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "French LGBTQ rights leader hospitalised after ‘despicable homophobic attack’ in Paris",
+  "link": "https://www.france24.com/en/france/20260830-french-lgbtq-activist-hospitalised-after-despicable-homophobic-attack-in-paris",
+  "publishers": [
+    "France24",
+    "Punch Nigeria"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "French LGBTQ rights leader hospitalised after ‘despicable homophobic attack’ in Paris",
+    "link": "https://www.france24.com/en/france/20260830-french-lgbtq-activist-hospitalised-after-despicable-homophobic-attack-in-paris",
+    "summary": "Pierre Picave, a French police officer and head of an LGBTQ rights association, was hospitalised after a nighttime attack in the Marais district in central Paris, prosecutors said Sunday. Paris Mayor Emmanuel Grégoire denounced the \"despicable homophobic attack\".The suspected attacker has been taken into custody.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-30T15:41:50+00:00",
+    "image_url": "https://s.france24.com/media/display/524b5370-a47f-11f1-abf0-005056a97e36/w:1024/p:16x9/Police-Marais.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Punch Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/france/20260830-french-lgbtq-activist-hospitalised-after-despicable-homophobic-attack-in-paris"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/french-lgbtq-activist-hospitalised-after-homophobic-attack-in-paris/?utm_source=rss.punchng.com&utm_medium=web"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/524b5370-a47f-11f1-abf0-005056a97e36/w:1024/p:16x9/Police-Marais.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 13.204351808148148
+  }
+}

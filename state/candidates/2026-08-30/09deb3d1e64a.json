@@ -1,0 +1,85 @@
+{
+  "id": "09deb3d1e64a",
+  "created_at": "2026-08-30T17:08:03.062908+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.33,
+  "trend_score": 0.5,
+  "velocity": 0.83,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Netanyahu condemns violence in West Bank",
+  "link": "https://www.france24.com/en/netanyahu-condemns-violence-in-west-bank",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Daily Sabah",
+    "France24",
+    "Malay Mail",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Netanyahu condemns violence in West Bank",
+    "link": "https://www.france24.com/en/netanyahu-condemns-violence-in-west-bank",
+    "summary": "It was a rare condemnation from what is widely seen as the most religious and ultranationalist government in Israel’s history. Prime Minister Benjamin Netanyahu condemned recent attacks by Israeli settlers on Palestinians in the occupied West Bank, but described the violence as the actions of a “handful of rioters.” Tensions have surged across the territory, with activists accusing settlers of acting with impunity. Much of the recent violence has taken place in the town of Qusra. Peter O’Brien reports.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-30T08:46:45+00:00",
+    "image_url": "https://s.france24.com/media/display/27abccec-a44f-11f1-958b-005056a90284/w:1024/p:16x9/israeli-settlers.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Daily Sabah",
+      "France24",
+      "Malay Mail",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/dozens-of-israeli-settlers-attack-flashpoint-west-bank-village/article71405611.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/netanyahu-condemns-settler-attack-in-flashpoint-west-bank-village/article71405975.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/netanyahu-condemns-violence-in-west-bank"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/killing-of-palestinian-children-and-teens-by-israel-surges-in-west-bank/article71406972.ece"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/30/what-did-a-little-baby-do-to-harm-the-soldiers-israels-west-bank-violence-leaves-palestinian-mothers-grieving-children/233261"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/30/world/west-bank-palestinian-children-teens-israel/"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/27abccec-a44f-11f1-958b-005056a90284/w:1024/p:16x9/israeli-settlers.jpg",
+      "https://th-i.thgim.com/public/incoming/8t67rs/article71405741.ece/alternates/LANDSCAPE_1200/2026-08-29T143401Z_1701708807_RC2D8NA7DBDR_RTRMADP_3_ISRAEL-PALESTINIANS-SETTLERS-QUSRA-ATTACK.JPG",
+      "https://th-i.thgim.com/public/incoming/i6x1tv/article71405976.ece/alternates/LANDSCAPE_1200/2026-08-24T184219Z_1225272422_RC2C0NAFZUJR_RTRMADP_3_IRAN-CRISIS-ISRAEL-NETANYAHU.JPG",
+      "https://th-i.thgim.com/public/incoming/95l8b9/article71406989.ece/alternates/LANDSCAPE_1200/Israel_Palestinians_Gaza_30538.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/30/359730.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/30/359731.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 7,
+    "velocity": 0.8334163015466841,
+    "age_hours": 22.002349570000003,
+    "is_stale": false,
+    "score": 25.332294381369195
+  }
+}
