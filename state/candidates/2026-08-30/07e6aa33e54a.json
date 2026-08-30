@@ -1,0 +1,85 @@
+{
+  "id": "07e6aa33e54a",
+  "created_at": "2026-08-30T19:08:07.250798+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.6,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Google Maps renames Lake Ontario 'Lake America' in US",
+  "link": "https://www.channelnewsasia.com/world/google-maps-renames-lake-ontario-lake-america-in-us-not-canada-6350646",
+  "publishers": [
+    "Al Jazeera English",
+    "Engadget",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "The Guardian — World",
+    "but not Canada"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Google Maps renames Lake Ontario 'Lake America' in US",
+    "link": "https://www.channelnewsasia.com/world/google-maps-renames-lake-ontario-lake-america-in-us-not-canada-6350646",
+    "summary": "“It’s absolutely backwards,” Ontario Premier Doug Ford says after Google adopts “Lake America” for US users while Canada still sees Lake Ontario.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-30T17:16:46+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--FJCm05P_--/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Canada_US_Lake_Ontario_74178.jpg?itok=ScDh_EPh",
+    "publisher": "but not Canada",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Engadget",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "The Guardian — World",
+      "but not Canada"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/30/google-maps-renames-lake-ontario-after-trumps-decree-on-lake-america?traffic_source=rss"
+      },
+      {
+        "name": "but not Canada",
+        "link": "https://www.channelnewsasia.com/world/google-maps-renames-lake-ontario-lake-america-in-us-not-canada-6350646"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2247074/google-maps-has-changed-lake-ontario-to-lake-america-for-us-users/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/08/30/google-maps-will-show-lake-america-in-us-not-lake-ontario"
+      },
+      {
+        "name": "but not Canada",
+        "link": "https://www.vanguardngr.com/2026/08/google-maps-renames-lake-ontario-lake-america-in-us-but-not-canada/"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/lake-ontario-turns-to-lake-america-on-google-maps-in-us-but-not-in-canada-11978920#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--FJCm05P_--/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Canada_US_Lake_Ontario_74178.jpg?itok=ScDh_EPh",
+      "https://www.engadget.com/img/gallery/google-maps-has-changed-lake-ontario-to-lake-america-for-us-users/l-intro-1788099757.jpg",
+      "https://www.engadget.com/img/gallery/google-maps-has-changed-lake-ontario-to-lake-america-for-us-users/intro-1788099757.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/612827e6-ad70-4d82-a550-3df518dbf951-EPA-Lake-America-30082026.webp",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/30int-canada-ontario-google-articleLarge_1788103836.webp",
+      "https://c.ndtvimg.com/2026-08/h1mcuctk_lake-ontario_625x300_30_August_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 0.0,
+    "age_hours": 4.0009319055555554,
+    "is_stale": false,
+    "score": 17.598490497024663
+  }
+}

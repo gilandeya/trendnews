@@ -1,0 +1,63 @@
+{
+  "id": "d0efb5dcf69f",
+  "created_at": "2026-08-30T19:08:07.251299+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.88,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iranian Supreme Leader calls for unity among Muslim countries",
+  "link": "https://www.thehindu.com/news/international/iranian-supreme-leader-calls-for-unity-among-muslim-countries/article71407523.ece",
+  "publishers": [
+    "Fortune",
+    "Malay Mail",
+    "TASS",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iranian Supreme Leader calls for unity among Muslim countries",
+    "link": "https://www.thehindu.com/news/international/iranian-supreme-leader-calls-for-unity-among-muslim-countries/article71407523.ece",
+    "summary": "Mojtaba Khamenei called on the rulers of regional countries to “recognise your real enemy, understand its plan, and confront it”, referring to the U.S. and Israel",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-30T12:51:15+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/u6ye9w/article71407555.ece/alternates/LANDSCAPE_1200/2026-08-13T160901Z_117769817_RC2PXMAS2RQ3_RTRMADP_3_IRAN-CRISIS-TRUMP-AIRPLANES.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Fortune",
+      "Malay Mail",
+      "TASS",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iranian-supreme-leader-calls-for-unity-among-muslim-countries/article71407523.ece"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/30/six-months-into-war-irans-new-supreme-leader-calls-for-muslim-unity-against-us-israel/233281"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2179473"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/u6ye9w/article71407555.ece/alternates/LANDSCAPE_1200/2026-08-13T160901Z_117769817_RC2PXMAS2RQ3_RTRMADP_3_IRAN-CRISIS-TRUMP-AIRPLANES.JPG",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/30/359750.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 7.000806430833333,
+    "is_stale": false,
+    "score": 14.881407210222223
+  }
+}

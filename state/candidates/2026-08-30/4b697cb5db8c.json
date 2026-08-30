@@ -1,0 +1,52 @@
+{
+  "id": "4b697cb5db8c",
+  "created_at": "2026-08-30T19:08:07.252172+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 12.32,
+  "trend_score": 0.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nicolás Maduro shares photos from New York prison: \"We are standing firm\"",
+  "link": "https://www.cbsnews.com/news/nicolas-maduro-photos-new-york-prison/",
+  "publishers": [
+    "CBS News — World",
+    "Hindustan Times — World"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Nicolás Maduro shares photos from New York prison: \"We are standing firm\"",
+    "link": "https://www.cbsnews.com/news/nicolas-maduro-photos-new-york-prison/",
+    "summary": "In the two photographs, Venezuela's deposed leader Nicolás Maduro is wearing a gray tracksuit and making peace signs with his hands.",
+    "source_name": "CBS News — World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-08-30T18:41:16+00:00",
+    "image_url": null,
+    "publisher": "CBS News — World",
+    "cluster_sources": [
+      "CBS News — World",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/standing-firm-ex-venezuelan-president-nicolas-maduro-shares-photos-from-us-prison-after-biggest-oil-deal-101788109350917.html"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/nicolas-maduro-photos-new-york-prison/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 12.320314609148149
+  }
+}
