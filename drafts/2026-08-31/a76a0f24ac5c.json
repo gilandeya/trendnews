@@ -1,7 +1,7 @@
 {
   "id": "a76a0f24ac5c",
   "created_at": "2026-08-31T09:54:51.807048+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 17.26,
   "bucket": "serious",
@@ -53,5 +53,12 @@
       "https://en.mercopress.com/data/cache/noticias/111314/100x80/file-transformed.jpg"
     ]
   },
-  "publish_at": "2026-08-31T11:40:00.511159+00:00"
+  "publish_at": "2026-08-31T11:40:00.511159+00:00",
+  "published_at": "2026-08-31T11:45:50.000010+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1348294314054256",
+    "photo_id": "1348294297387591",
+    "url": "https://www.facebook.com/631680090321390_1348294314054256",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
