@@ -5510,5 +5510,40 @@
     "posted_title": "إيران تصف منشور ترامب عن ضرب جزيرة خرج النفطية بأنه مضحك ومصنوع بالذكاء الاصطناعي",
     "region": "in",
     "seen_at": "2026-08-31T19:29:18.411513+00:00"
+  },
+  {
+    "score": 19.12,
+    "bucket": "serious",
+    "tokens": [
+      "blames",
+      "ceuta",
+      "crisis",
+      "disinformation",
+      "during",
+      "israel",
+      "russia",
+      "spain",
+      "spreading"
+    ],
+    "link": "https://www.france24.com/en/spain-blames-israel-russia-for-spreading-disinformation-during-ceuta-crisis",
+    "title": "Spain blames Israel, Russia for spreading disinformation during Ceuta crisis",
+    "posted_title": "رئيس وزراء إسبانيا يتهم شبكات مرتبطة بروسيا وإسرائيل بتغذية أزمة الهجرة في سبتة",
+    "region": "eu",
+    "seen_at": "2026-08-31T19:30:16.764143+00:00"
+  },
+  {
+    "score": 26.65,
+    "bucket": "light",
+    "tokens": [
+      "chatgpt",
+      "face",
+      "regulation",
+      "tougher"
+    ],
+    "link": "https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa",
+    "title": "ChatGPT to face tougher regulation in the EU",
+    "posted_title": "الاتحاد الأوروبي يضع تشات جي بي تي تحت رقابة مشددة إلى جانب ريديت وروبلوكس",
+    "region": "tech",
+    "seen_at": "2026-08-31T19:30:28.319901+00:00"
   }
 ]
