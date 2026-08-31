@@ -34,7 +34,25 @@ youtube_extract.extract_points بالضبط: رفع max_tokens (config)، محا
 الرفع في الـworkflow تُسقِط `git add` كاملة حين لا يُكتب
 state/youtube_topics_seen.json إطلاقًا (صفر مقالات ⇐ صفر نقاط استُهلكت ⇐
 mark_points_seen لم تُستدعَ قط) -- youtube_article.run() الآن يوكِّد وجود
-الملف دومًا قبل نهاية التشغيلة، ولو فارغًا."""
+الملف دومًا قبل نهاية التشغيلة، ولو فارغًا.
+
+Issue #662 (تنقية المخرج بعد أول تشغيلة كاملة ناجحة، ٩ مقالات): (١) العنقدة
+كانت أدقّ من اللازم أحيانًا -- نفس الحدث ينتج قضيتين منفصلتين لاختلاف
+مصدريهما، فيُنشَران معًا محرجًا. أُضيف نداء دمج قصير رخيص منفصل
+(merge_duplicate_events) بين العنقدة وحساب الطبقة، يقارن جمل `event` فقط
+ويدمج القضايا المتناولة لنفس الحدث بعينه؛ الطبقة تُعاد حسابها برمجيًا بعد
+الدمج تلقائيًا (build_topics تُستدعى على القضايا المدموجة). (٢) نافذة
+lookback_days كانت تسحب نقاطًا من ملفات أُنتجت قبل إصلاحات جوهرية في
+الاستخلاص (المرساة، حارس الموضوع) بلا تمييز عصرها -- أُضيف
+youtube.cluster.min_points_date (apply_min_points_date) يُسقِط ملفات أقدم
+منه، وحارس ثانٍ (apply_timestamp_guard) يُسقِط أي نقطة طابعها الزمني يتجاوز
+مدة فيديوها عند التحميل، بصرف النظر عن مصدرها. الخطوتان مع apply_points_cap
+مجمَّعتان الآن في prepare_window_points لضمان اتساق الترتيب بين هذه المرحلة
+وsrc/youtube_article.py بنيويًا لا توثيقيًا فقط. (٤) مؤشّر `dispute` كان
+يخلط خلافًا حقيقيًا بين قنوات مختلفة بخلاف داخلي بين ضيوف حلقة واحدة --
+_agreement_type_for تنقّحه برمجيًا بعد العنقدة إلى cross_source (قنوات
+مختلفة) أو internal (قناة واحدة)، من channels القضية الفعلية لا حكم نموذج
+إضافي."""
 from __future__ import annotations
 
 import json
@@ -59,11 +77,23 @@ TOPICS_DIR = STATE_DIR / "youtube_topics"
 # أو لم تُختَر ضمن أعلى count.
 SEEN_PATH = STATE_DIR / "youtube_topics_seen.json"
 
+# قيم حكم النموذج الخام في نداء العنقدة (cluster_points) -- يبقى حكمًا
+# دلاليًا صرفًا هنا (هل يوجد خلاف أصلًا؟)، والتنقيح البرمجي أدناه
+# (_agreement_type_for) يقع لاحقًا في build_topics.
 AGREEMENT_VALUES = ("agreement", "dispute", "echo")
-# ترتيب مؤشّر الخلاف داخل الطبقة الواحدة: خلاف حقيقي بين المصادر يرفع
-# الترتيب، الاتفاق التام يخفضه، والصدى (نفس الخبر معاد صياغته) ينزل إلى
-# أدنى الترتيب دومًا -- «قيمة هذا المسار في الاختلاف» (نص الـIssue).
-_AGREEMENT_RANK = {"dispute": 0, "agreement": 1, "echo": 2}
+# القيم النهائية في مخرج topics بعد تنقيح `dispute` إلى cross_source/internal
+# برمجيًا (Issue #662 العطل ٤) -- انظر _agreement_type_for. `agreement`
+# وecho يمرّان كما وردا من النموذج بلا تنقيح.
+AGREEMENT_TYPES = ("cross_source", "internal", "agreement", "echo")
+# ترتيب مؤشّر الخلاف داخل الطبقة الواحدة: خلاف حقيقي بين قنوات مختلفة
+# (cross_source) يتصدّر، يليه خلاف داخلي بين متحدثين في مصدر واحد
+# (internal) -- كلاهما أعلى من الاتفاق التام، والصدى (نفس الخبر معاد
+# صياغته) ينزل إلى أدنى الترتيب دومًا -- «قيمة هذا المسار في الاختلاف» (نص
+# الـIssue الأصلي)، مع تمييز خلاف القنوات عن خلاف الضيوف (Issue #662 العطل ٤).
+_AGREEMENT_RANK = {"cross_source": 0, "internal": 1, "agreement": 2, "echo": 3}
+# ترتيب القيم الخام (قبل تنقيح dispute) -- يُستعمَل فقط في _merge_issue_group
+# لاختيار أعلى مؤشّر خلاف بين قضايا مدموجة، قبل أن يصل الناتج إلى build_topics.
+_RAW_AGREEMENT_RANK = {"dispute": 0, "agreement": 1, "echo": 2}
 _LAYER_RANK = {"a": 0, "b": 1, "c": 2}
 
 CLUSTER_SCHEMA = {
@@ -95,6 +125,59 @@ CLUSTER_SCHEMA = {
             },
         },
         "required": ["issues"],
+    },
+}
+
+
+# ── دمج القضايا المتناولة لنفس الحدث بعينه (Issue #662 العطل ١) ──
+#
+# العنقدة أعلاه دقيقة أكثر من اللازم أحيانًا: قضيتان تتناولان نفس الحدث
+# تُشطَران لأن مصادرهما مختلفة (شاهد الـIssue: "صفقة النفط بين واشنطن
+# وكاراكاس" من الجزيرة/العربية/Habertürk مقابل "ما أُعلن فعلًا في اتفاق
+# النفط" من CNN Türk وحدها -- نفس الحدث بعينه). نداء قصير رخيص منفصل، بعد
+# العنقدة وقبل حساب الطبقة النهائية، يقارن جمل `event` القصيرة فقط (لا نصّ
+# القضية كاملًا) ويعيد أزواج القضايا التي تتناول الحدث نفسه تحديدًا -- نفس
+# معيار حقل `event` الصارم في CLUSTER_SCHEMA أعلاه (حدث واحد بعينه لا موضوع
+# عام مشترك)، لا مجرّد تشابه لفظي بين جملتي event.
+
+MERGE_SYSTEM = """أنت محرِّر تراجع قائمة قضايا إخبارية مُعنقدة مسبقًا، كل
+قضية موصوفة بجملة `event` قصيرة تلخّص الحدث الواحد بعينه الذي تدور حوله.
+
+مهمتك: حدّد أي زوج من القضايا يتناول **نفس الحدث بعينه** -- لا موضوعًا
+عامًا مشتركًا (اسم شخص أو دولة أو قطاع وحده لا يكفي)، بل نفس الواقعة
+تحديدًا ولو رواها كل طرف من زاوية أو بتفصيل مختلف. مثال: "صفقة نفط أمريكية-
+فنزويلية أُعلنت" و"تفاصيل ما أُعلن فعلًا في اتفاق النفط الأمريكي
+الفنزويلي" -- نفس الحدث، زاويتان مختلفتان. أما "صفقة نفط أمريكية-فنزويلية"
+و"شروط إيرانية لفتح مضيق هرمز" فحدثان منفصلان تمامًا رغم اشتراكهما في ذكر
+النفط والولايات المتحدة.
+
+عبر الأداة المُعرَّفة (merge_duplicate_events) حصرًا، أعد قائمة `merges`:
+كل عنصر `issue_indices` يحوي فهرسَي (`index`) القضيتين اللتين تتناولان
+الحدث نفسه بعينه. عند الشك، لا تدمج -- قضيتان منفصلتان خطأ أهون من قضية
+واحدة مضطربة. القضايا التي لا تشارك حدثًا مع أي قضية أخرى لا تظهر في
+`merges` إطلاقًا."""
+
+MERGE_SCHEMA = {
+    "name": "merge_duplicate_events",
+    "description": "يحدّد أزواج القضايا التي تتناول الحدث نفسه بعينه من قائمة أحداثها المختصرة",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "merges": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "issue_indices": {
+                            "type": "array", "items": {"type": "integer"},
+                            "description": "فهرسا (index) القضيتين اللتين تتناولان الحدث نفسه بعينه",
+                        },
+                    },
+                    "required": ["issue_indices"],
+                },
+            },
+        },
+        "required": ["merges"],
     },
 }
 
@@ -174,6 +257,70 @@ def apply_points_cap(points: list[dict], max_points_per_call: int) -> tuple[list
     log.warning("قُصّت النقاط الداخلة: %d → %d (أُسقطت %d نقطة من %s)",
                 len(points), len(kept), len(dropped_points), date_note)
     return kept, len(dropped_points)
+
+
+def apply_min_points_date(points: list[dict], min_points_date: str | None) -> tuple[list[dict], int]:
+    """يُسقِط نقاط ملفات أقدم من youtube.cluster.min_points_date (Issue #662
+    العطل ٢ بند أ) -- نافذة lookback_days تجمع نقاط عدّة أيام بلا تمييز عصر
+    الاستخلاص الذي أنتجها، فإصلاح جوهري في الاستخلاص (مرساة، حارس موضوع...)
+    يترك خلفه أيامًا من مادة أُنتجت بمنطق قديم تظل تُسحَب كأنها صالحة طالما
+    بقيت ضمن النافذة. المقارنة نصّية (YYYY-MM-DD قابلة للمقارنة معجميًا
+    بصورة صحيحة). min_points_date فارغ/None يعني بلا حدّ -- تحوّطية لغياب
+    المفتاح من config.yaml، لا حالة تُستعمَل فعليًا."""
+    if not min_points_date:
+        return points, 0
+    kept = [p for p in points if p.get("run_date", "") >= min_points_date]
+    return kept, len(points) - len(kept)
+
+
+def apply_timestamp_guard(points: list[dict]) -> tuple[list[dict], int]:
+    """حارس ثانٍ للأمان (Issue #662 العطل ٢ بند ج): أي نقطة طابعها الزمني
+    يتجاوز duration_seconds فيديوها تُسقَط عند تحميل النافذة. الطوابع صارت
+    مستحيلة الخطأ بنيويًا بعد إصلاح المرساة (resolve_timestamp في
+    src/youtube_extract.py تحسبها من مقطع ينتمي فعلًا للفيديو)، لكن هذا
+    يمسك ما تسرّب من ملفات أقدم من الإصلاح ولم يلتقطه min_points_date (لو
+    ضُبط الحدّ التاريخي خطأً أو غاب). نقطة بلا timestamp (None -- المرساة
+    لم تُوجَد) أو بلا duration_seconds تمرّ بلا مقارنة، لا رفض لغياب بيانات
+    لا علاقة له بصحة الطابع."""
+    kept: list[dict] = []
+    dropped = 0
+    for p in points:
+        ts = p.get("timestamp")
+        duration = p.get("duration_seconds")
+        if ts is not None and isinstance(duration, (int, float)) and ts > duration:
+            dropped += 1
+            continue
+        kept.append(p)
+    return kept, dropped
+
+
+def prepare_window_points(date_str: str, cfg: Config) -> tuple[list[dict], dict]:
+    """يبني نافذة النقاط النهائية بترتيب ثابت واحد (Issue #662): تحميل
+    النافذة (load_points_window) ← إسقاط ملفات أقدم من min_points_date ←
+    إسقاط طابع يتجاوز مدة الفيديو ← قصّ سقف النداء (apply_points_cap).
+    **يجب استدعاؤها بنفس cfg من كل من youtube_cluster.run() وyoutube_article.run()**
+    -- نفس مبدأ اتساق apply_points_cap الموثَّق أعلاه بالضبط: point_ids كل
+    قضية فهارس ضمن هذه القائمة تحديدًا، فاختلاف أي خطوة فلترة بين المرحلتين
+    يربط قضية بنقاط خاطئة تمامًا. تجميع الخطوات هنا في دالة واحدة يضمن
+    الاتساق بنيويًا لا بمجرّد اتفاق توثيقي بين الملفين.
+
+    يعيد (النقاط الجاهزة لنداء العنقدة/الكتابة، قاموس إحصاءات الإسقاط في كل
+    خطوة)."""
+    lookback_days = cfg.path("youtube.cluster.lookback_days", 3)
+    min_points_date = cfg.path("youtube.cluster.min_points_date")
+    max_points_per_call = cfg.path("youtube.cluster.max_points_per_call", 150)
+
+    window_points = load_points_window(date_str, lookback_days)
+    points, dropped_stale_date = apply_min_points_date(window_points, min_points_date)
+    points, dropped_bad_timestamp = apply_timestamp_guard(points)
+    points, dropped_over_cap = apply_points_cap(points, max_points_per_call)
+
+    return points, {
+        "points_in": len(window_points),
+        "points_dropped_stale_date": dropped_stale_date,
+        "points_dropped_bad_timestamp": dropped_bad_timestamp,
+        "points_dropped_over_cap": dropped_over_cap,
+    }
 
 
 def point_key(point: dict) -> str:
@@ -382,12 +529,143 @@ def cluster_points(points: list[dict], cfg: Config, client: Anthropic | None = N
     return issues, None
 
 
+def _merge_issue_group(issues: list[dict], group: set[int]) -> dict:
+    """يدمج مجموعة قضايا (فهارس ضمن issues) تتناول نفس الحدث في قضية واحدة
+    (Issue #662 العطل ١ بند ب): نقاط كل القضايا تُضَمّ (اتحاد لا تكرار --
+    قضية قد تشارك نقطة مع أخرى نظريًا)، والعنوان/الحدث يُؤخذان من أول قضية
+    بترتيب ظهورها الأصلي (تشخيصي فقط، لا يُنشَر). مؤشّر الخلاف الخام يُؤخذ
+    من الأعلى رتبة بين القضايا المدموجة (dispute يتقدّم على agreement على
+    echo، بنفس _AGREEMENT_RANK الخام قبل تنقيح cross_source/internal) --
+    قضية دُمجت من خلاف حقيقي وأخرى اتفاق تبقى خلافًا، فذلك ما ورد في أحد
+    مصدريها فعليًا. الطبقة **لا** تُحسَب هنا -- build_topics يحسبها لاحقًا
+    من point_ids المدموجة، فالتعادل مضمون برمجيًا لا بإعادة حساب مكرَّرة."""
+    ordered = sorted(group)
+    primary = issues[ordered[0]]
+    combined_point_ids = sorted({pid for i in ordered for pid in issues[i]["point_ids"]})
+    best_agreement = min((issues[i]["agreement"] for i in ordered),
+                          key=lambda a: _RAW_AGREEMENT_RANK.get(a, 99))
+    return {"title": primary["title"], "event": primary["event"], "agreement": best_agreement,
+            "point_ids": combined_point_ids}
+
+
+def merge_duplicate_events(issues: list[dict], cfg: Config, client: Anthropic | None = None
+                            ) -> tuple[list[dict], list[list[str]], str | None]:
+    """نداء قصير رخيص (Issue #662 العطل ١) يقارن جمل `event` فقط لكل قضية
+    ويعيد أزواج القضايا المتناولة لنفس الحدث بعينه، فتُدمَج قبل حساب الطبقة
+    النهائية -- عنقدة النقاط في cluster_points أدقّ من اللازم أحيانًا:
+    مصدران مختلفان لنفس الحدث ينتجان قضيتين منفصلتين لمجرّد اختلاف نقاطهما
+    المصدرية (شاهد الـIssue: قضيتا صفقة النفط الفنزويلية من مصدرين مختلفين).
+
+    يعيد (القضايا بعد الدمج، سجل أزواج العناوين المدموجة لكل تجميعة، سبب
+    فشل النداء إن حدث). فشل النداء أو أقل من قضيتين لا يمنعان التشغيلة --
+    نفس مبدأ check_forbidden/classify_topic: عطل شبكي عابر ليس دليل عدم
+    تكرار، والقضايا تبقى كما عنقدتها cluster_points بلا دمج بدل إسقاطها."""
+    if len(issues) < 2:
+        return issues, [], None
+
+    model = cfg.path("youtube.cluster.merge_model",
+                      cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001"))
+    max_tokens = cfg.path("youtube.cluster.merge_max_tokens", 2000)
+    max_retries = cfg.path("youtube.cluster.merge_max_retries", 2)
+    client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+
+    brief = [{"index": i, "event": issue["event"]} for i, issue in enumerate(issues)]
+
+    raw_merges: list | None = None
+    last_snippet = ""
+    for attempt in range(1, max_retries + 1):
+        try:
+            resp = client.messages.create(
+                model=model,
+                max_tokens=max_tokens,
+                tools=[MERGE_SCHEMA],
+                tool_choice={"type": "tool", "name": "merge_duplicate_events"},
+                system=MERGE_SYSTEM,
+                messages=[{"role": "user", "content": json.dumps(brief, ensure_ascii=False)}],
+                # لا تُضِف temperature -- نماذج هذا المشروع ترفضها بـ400.
+            )
+        except APIError as exc:
+            log.warning("فشل نداء دمج الأحداث المتكرّرة -- بلا دمج هذه التشغيلة: %s", exc)
+            return issues, [], f"فشل نداء الدمج: {exc}"
+
+        data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None)
+        candidate = data.get("merges") if isinstance(data, dict) else None
+        if isinstance(candidate, list):
+            raw_merges = candidate
+            break
+        text_snippet = "".join(b.text for b in resp.content
+                                if getattr(b, "type", "") == "text")[:500]
+        log.warning("محاولة %d/%d: لم يُعِد نداء الدمج إخراجًا مهيكلًا صالحًا (%d قضية مدخلة)",
+                    attempt, max_retries, len(issues))
+        last_snippet = text_snippet
+
+    if raw_merges is None:
+        return issues, [], (f"لم يُعِد نداء الدمج إخراجًا مهيكلًا صالحًا بعد {max_retries} "
+                             f"محاولة/محاولات: {last_snippet!r}")
+
+    # اتحاد-بحث (union-find) بسيط -- يدعم تجميعات متسلسلة (أ-ب نفس الحدث،
+    # ب-ج نفس الحدث ⇐ أ وب وج قضية واحدة) بلا افتراض أن كل زوج مستقل.
+    parent = list(range(len(issues)))
+
+    def _find(i: int) -> int:
+        while parent[i] != i:
+            parent[i] = parent[parent[i]]
+            i = parent[i]
+        return i
+
+    def _union(i: int, j: int) -> None:
+        ri, rj = _find(i), _find(j)
+        if ri != rj:
+            parent[rj] = ri
+
+    for raw in raw_merges:
+        if not isinstance(raw, dict):
+            continue
+        pair = raw.get("issue_indices")
+        if not isinstance(pair, list):
+            continue
+        valid = [i for i in pair if isinstance(i, int) and not isinstance(i, bool)
+                 and 0 <= i < len(issues)]
+        for i in valid[1:]:
+            _union(valid[0], i)
+
+    groups: dict[int, set[int]] = {}
+    for i in range(len(issues)):
+        groups.setdefault(_find(i), set()).add(i)
+
+    merged_issues: list[dict] = []
+    merge_log: list[list[str]] = []
+    for group in groups.values():
+        if len(group) < 2:
+            merged_issues.append(issues[next(iter(group))])
+            continue
+        merged_issues.append(_merge_issue_group(issues, group))
+        merge_log.append([issues[i]["title"] for i in sorted(group)])
+
+    return merged_issues, merge_log, None
+
+
 def _layer_for(blocs: set[str], channels: set[str]) -> str:
     if len(blocs) >= 2:
         return "a"
     if len(channels) >= 2:
         return "b"
     return "c"
+
+
+def _agreement_type_for(raw_agreement: str, channels: set[str]) -> str:
+    """`dispute` من حكم النموذج (cluster_points) يُنقَّح برمجيًا إلى
+    cross_source/internal (Issue #662 العطل ٤) -- خلاف حقيقي بين قنوات
+    مختلفة يختلف صحفيًا عن خلاف بين ضيوف داخل حلقة قناة واحدة، وخلطهما بوسم
+    `dispute` واحد يفقد المؤشّر معناه (شاهد الـIssue: قضية هرمز خلاف داخلي
+    بين ثلاثة باحثين على الجزيرة وُسِمت كخلاف بنفس وزن قضية بها ثلاث قنوات
+    فعليًا مختلفة). المعيار ميكانيكي محض من channels الفعلية للقضية بعد
+    العنقدة/الدمج -- لا حكم نموذج إضافي: قنوات مختلفة فأكثر ⇐ cross_source،
+    وإلا (قناة واحدة، خلاف بين متحدثيها) ⇐ internal. `agreement` وecho
+    يمرّان بلا تغيير -- الحكم الدلالي (هل يوجد خلاف أصلًا؟) يبقى للنموذج."""
+    if raw_agreement != "dispute":
+        return raw_agreement
+    return "cross_source" if len(channels) >= 2 else "internal"
 
 
 def build_topics(issues: list[dict], points: list[dict],
@@ -404,6 +682,7 @@ def build_topics(issues: list[dict], points: list[dict],
         blocs = sorted({p.get("bloc", "") for p in member_points if p.get("bloc")})
         channels = sorted({p.get("channel", "") for p in member_points if p.get("channel")})
         layer = _layer_for(set(blocs), set(channels))
+        agreement = _agreement_type_for(issue["agreement"], set(channels))
         has_today = (today_date_str is not None and
                      any(p.get("run_date") == today_date_str for p in member_points))
         topics.append({
@@ -412,7 +691,7 @@ def build_topics(issues: list[dict], points: list[dict],
             "layer": layer,
             "blocs": blocs,
             "channels": channels,
-            "agreement": issue["agreement"],
+            "agreement": agreement,
             "point_ids": issue["point_ids"],
             "_has_today": has_today,
         })
@@ -451,19 +730,16 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     now = now or datetime.now(timezone.utc)
     date_str = date_str or now.strftime("%Y-%m-%d")
 
-    lookback_days = cfg.path("youtube.cluster.lookback_days", 3)
     min_points_per_topic = cfg.path("youtube.cluster.min_points_per_topic", 4)
     max_per_bloc = cfg.path("youtube.cluster.max_per_bloc", 4)
-    max_points_per_call = cfg.path("youtube.cluster.max_points_per_call", 150)
 
-    window_points = load_points_window(date_str, lookback_days)
-    # Issue #660 الإصلاح ٢ -- points_in أدناه يبقى يعكس حجم النافذة الكاملة
-    # قبل القصّ (نفس ما شهدته التشغيلة الفعلية: "173 نقطة مدخلة")، بينما
-    # "points" المُقصوصة هي ما يدخل فعليًا نداء العنقدة وبقية الأنابيب.
-    points, dropped_over_cap = apply_points_cap(window_points, max_points_per_call)
+    points, window_stats = prepare_window_points(date_str, cfg)
 
     raw_issues, error = cluster_points(points, cfg, client)
-    topics = build_topics(raw_issues, points, date_str)
+    merged_issues, merge_log, merge_error = merge_duplicate_events(raw_issues, cfg, client)
+    if merge_error:
+        log.warning("تعذّر دمج الأحداث المتكرّرة، بلا دمج هذه التشغيلة: %s", merge_error)
+    topics = build_topics(merged_issues, points, date_str)
 
     seen_keys = set(load_seen_points().keys())
     topics, dropped_by_seen = filter_seen_topics(topics, points, seen_keys)
@@ -471,7 +747,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     topics, dropped_by_cap = apply_bloc_cap(topics, max_per_bloc)
 
     layer_counts = {"a": 0, "b": 0, "c": 0}
-    agreement_counts = {"agreement": 0, "dispute": 0, "echo": 0}
+    agreement_counts = {"agreement": 0, "cross_source": 0, "internal": 0, "echo": 0}
     for t in topics:
         layer_counts[t["layer"]] += 1
         agreement_counts[t["agreement"]] += 1
@@ -479,19 +755,25 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     return {
         "run_date": date_str,
         "stats": {
-            "points_in": len(window_points),
-            "points_dropped_over_cap": dropped_over_cap,
+            "points_in": window_stats["points_in"],
+            "points_dropped_stale_date": window_stats["points_dropped_stale_date"],
+            "points_dropped_bad_timestamp": window_stats["points_dropped_bad_timestamp"],
+            "points_dropped_over_cap": window_stats["points_dropped_over_cap"],
             "issues_clustered": len(raw_issues),
+            "topics_merged": len(merge_log),
             "topics_out": len(topics),
             "dropped_by_bloc_cap": dropped_by_cap,
             "topics_seen_skipped": dropped_by_seen,
             "topics_below_min_points": dropped_by_min_points,
             "layer_a": layer_counts["a"], "layer_b": layer_counts["b"],
             "layer_c": layer_counts["c"],
-            "agreement": agreement_counts["agreement"], "dispute": agreement_counts["dispute"],
+            "agreement": agreement_counts["agreement"],
+            "cross_source": agreement_counts["cross_source"],
+            "internal": agreement_counts["internal"],
             "echo": agreement_counts["echo"],
         },
         "error": error,
+        "merged_events": merge_log,
         "topics": topics,
     }
 
@@ -509,14 +791,21 @@ def main() -> int:
     path = save_output(result)
     stats = result["stats"]
     print(f"ملف القضايا: {path}")
-    print(f"نقاط مدخلة: {stats['points_in']} (مُسقَطة بسقف النداء: "
+    print(f"نقاط مدخلة: {stats['points_in']} (أُسقطت بتاريخ قديم: "
+          f"{stats['points_dropped_stale_date']} · بطابع فاسد: "
+          f"{stats['points_dropped_bad_timestamp']} · بسقف النداء: "
           f"{stats['points_dropped_over_cap']}) · قضايا مُعنقدة: {stats['issues_clustered']} "
+          f"(دُمج منها: {stats['topics_merged']}) "
           f"· قضايا في المخرج: {stats['topics_out']} "
           f"(مستبعدة بسقف الكتلة: {stats['dropped_by_bloc_cap']} "
           f"· مستهلكة سابقًا: {stats['topics_seen_skipped']} "
           f"· دون حدّ النقاط: {stats['topics_below_min_points']})")
     print(f"الطبقات: أ={stats['layer_a']} ب={stats['layer_b']} ج={stats['layer_c']}")
-    print(f"مؤشّر الخلاف: اتفاق={stats['agreement']} خلاف={stats['dispute']} صدى={stats['echo']}")
+    print(f"مؤشّر الخلاف: اتفاق={stats['agreement']} خلاف قنوات={stats['cross_source']} "
+          f"خلاف داخلي={stats['internal']} صدى={stats['echo']}")
+    if result["merged_events"]:
+        for pair in result["merged_events"]:
+            print(f"  دُمجت: {' + '.join(pair)}")
     if result["error"]:
         print(f"خطأ: {result['error']}")
     return 0
