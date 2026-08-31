@@ -964,5 +964,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 6
+ },
+ {
+  "id": "3b3876a7c22c",
+  "created_at": "2026-08-31T09:53:59.542669+00:00",
+  "decided_at": "2026-08-31T09:54:56.826455+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "عالم",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "seasia",
+  "score": 26.29,
+  "trend_score": 1.0,
+  "velocity": 0.6,
+  "source_count": 4,
+  "body_len": 531,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 9
  }
 ]
