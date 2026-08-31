@@ -1,7 +1,7 @@
 {
   "id": "2fb05dce9f33",
   "created_at": "2026-08-31T19:30:16.763634+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 19.12,
   "bucket": "serious",
@@ -59,5 +59,12 @@
       "https://meduza.io/imgly/share/1788186013/en/news/2026/08/31/spain-s-prime-minister-blames-networks-linked-to-russia-and-israel-for-spreading-fake-news-about-ceuta-migration-crisis"
     ]
   },
-  "publish_at": "2026-08-31T20:18:18.367167+00:00"
+  "publish_at": "2026-08-31T20:18:18.367167+00:00",
+  "published_at": "2026-08-31T20:45:49.884378+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1348627570687597",
+    "photo_id": "1348627540687600",
+    "url": "https://www.facebook.com/631680090321390_1348627570687597",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
