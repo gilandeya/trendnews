@@ -1,0 +1,87 @@
+{
+  "id": "a2ad7f2294c2",
+  "created_at": "2026-08-31T09:07:51.759970+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.44,
+  "trend_score": 0.0,
+  "velocity": 0.78,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "One dead and more than a dozen missing after 'terrifying' flash flood hits Grand Canyon",
+  "link": "https://www.bbc.co.uk/news/articles/clylkjyez1do?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CGTN",
+    "France24",
+    "Hindustan Times — World",
+    "Phys.org",
+    "South China Morning Post",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "One dead and more than a dozen missing after 'terrifying' flash flood hits Grand Canyon",
+    "link": "https://www.bbc.co.uk/news/articles/clylkjyez1do?at_medium=RSS&at_campaign=rss",
+    "summary": "\"It was a beautiful day - and then people were screaming,\" one hiker tells the BBC, as 15 people are missing.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-31T08:17:25+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4ff7/live/2c0e39a0-a4bd-11f1-aed2-8d6da8d75094.png",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CGTN",
+      "France24",
+      "Hindustan Times — World",
+      "Phys.org",
+      "South China Morning Post",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/8/31/08-31-26-arizona-flash-floods-sv?traffic_source=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/31/dozens-evacuated-and-about-15-missing-after-grand-canyon-flash-flood?traffic_source=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/aug/30/grand-canyon-flash-flood-arizona-people-missing-evacuated"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/clylkjyez1do?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3365783/least-20-missing-dozens-evacuated-grand-canyon-after-flash-flood-hits-creek?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260831-grand-canyon-national-park-flash-flood-missing"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4ff7/live/2c0e39a0-a4bd-11f1-aed2-8d6da8d75094.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/4ff7/live/2c0e39a0-a4bd-11f1-aed2-8d6da8d75094.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4ff7/live/2c0e39a0-a4bd-11f1-aed2-8d6da8d75094.png",
+      "https://i.guim.co.uk/img/media/be6ab41ca13f50a425306a5a81b41eeec8ff353a/252_0_7560_6048/master/7560.jpg?width=700&quality=85&auto=format&fit=max&s=26689ebe7f9258e68855b33c26e9117f",
+      "https://i.guim.co.uk/img/media/be6ab41ca13f50a425306a5a81b41eeec8ff353a/252_0_7560_6048/master/7560.jpg?width=460&quality=85&auto=format&fit=max&s=0722edf66fbb7f7bc34e090c382ac106",
+      "https://i.guim.co.uk/img/media/be6ab41ca13f50a425306a5a81b41eeec8ff353a/252_0_7560_6048/master/7560.jpg?width=140&quality=85&auto=format&fit=max&s=2d578a4b7113029e263213832c43667b"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 8,
+    "velocity": 0.779173266348102,
+    "age_hours": 120.00089224361112,
+    "is_stale": false,
+    "score": 22.439963394777546
+  }
+}

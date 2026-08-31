@@ -1,0 +1,67 @@
+{
+  "id": "3b3876a7c22c",
+  "created_at": "2026-08-31T09:07:51.759390+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.29,
+  "trend_score": 1.0,
+  "velocity": 0.6,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "More than six months into Iran war, no clear winner as costs mount for US",
+  "link": "https://www.channelnewsasia.com/world/six-months-iran-war-no-clear-winner-us-costs-mount-6351811",
+  "publishers": [
+    "Channel News Asia",
+    "Court House News",
+    "Malay Mail",
+    "newspaper"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "More than six months into Iran war, no clear winner as costs mount for US",
+    "link": "https://www.channelnewsasia.com/world/six-months-iran-war-no-clear-winner-us-costs-mount-6351811",
+    "summary": "The conflict has strained the United States military, shaken energy markets and piled political pressure on President Donald Trump.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-08-31T09:00:02+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--RMaPWpRb--/c_crop,h_449,w_799,x_1,y_84/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-31T044841Z_3_LYNXMPEM7U042_RTROPTP_3_IRAN-CRISIS-HORMUZ.JPG?itok=gpwPI7_i",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Court House News",
+      "Malay Mail",
+      "newspaper"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/six-months-iran-war-no-clear-winner-us-costs-mount-6351811"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/31/latest-developments-in-the-us-iran-war/233386"
+      },
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/investors-prosper-and-consumers-pay-as-the-iran-war-exacts-an-uneven-economic-toll-6-months-in/"
+      },
+      {
+        "name": "newspaper",
+        "link": "https://tass.com/world/2179719"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--RMaPWpRb--/c_crop,h_449,w_799,x_1,y_84/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-08-31T044841Z_3_LYNXMPEM7U042_RTROPTP_3_IRAN-CRISIS-HORMUZ.JPG?itok=gpwPI7_i",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/31/359929.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 26.29144891409259
+  }
+}

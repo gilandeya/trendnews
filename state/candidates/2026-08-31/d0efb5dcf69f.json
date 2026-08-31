@@ -1,0 +1,86 @@
+{
+  "id": "d0efb5dcf69f",
+  "created_at": "2026-08-31T09:07:51.758917+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.17,
+  "trend_score": 1.0,
+  "velocity": 0.45,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iranian Supreme Leader calls for unity among Muslim countries",
+  "link": "https://www.thehindu.com/news/international/iranian-supreme-leader-calls-for-unity-among-muslim-countries/article71407523.ece",
+  "publishers": [
+    "AP News",
+    "Hindustan Times — World",
+    "IRNA English",
+    "Mehr News",
+    "TASS",
+    "Tehran Times",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iranian Supreme Leader calls for unity among Muslim countries",
+    "link": "https://www.thehindu.com/news/international/iranian-supreme-leader-calls-for-unity-among-muslim-countries/article71407523.ece",
+    "summary": "Mojtaba Khamenei called on the rulers of regional countries to “recognise your real enemy, understand its plan, and confront it”, referring to the U.S. and Israel",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-30T12:51:15+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/u6ye9w/article71407555.ece/alternates/LANDSCAPE_1200/2026-08-13T160901Z_117769817_RC2PXMAS2RQ3_RTRMADP_3_IRAN-CRISIS-TRUMP-AIRPLANES.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "AP News",
+      "Hindustan Times — World",
+      "IRNA English",
+      "Mehr News",
+      "TASS",
+      "Tehran Times",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iranian-supreme-leader-calls-for-unity-among-muslim-countries/article71407523.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/irans-supreme-leader-calls-for-muslim-unity-against-us-and-israel-and-other-mideast-news-101788121460210.html"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2179473"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529527/Iran-s-unity-led-to-defeat-of-US-and-Israel-in-three-wars-Hezbollah"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86250088/US-Israel-defeated-in-their-wars-against-Iran-Hezbollah-chief"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247328/Iran-not-seeking-war-but-will-answer-to-any-aggression"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/u6ye9w/article71407555.ece/alternates/LANDSCAPE_1200/2026-08-13T160901Z_117769817_RC2PXMAS2RQ3_RTRMADP_3_IRAN-CRISIS-TRUMP-AIRPLANES.JPG",
+      "https://media.mehrnews.com/d/2026/08/30/4/6154610.jpg",
+      "https://img9.irna.ir/d/r2/2026/08/29/4/173071548.jpg",
+      "https://media.mehrnews.com/d/2026/08/31/4/6155044.jpg",
+      "https://media.tehrantimes.com/d/t/2026/08/30/4/6154285.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 0.4452198142912356,
+    "age_hours": 20.996545046111112,
+    "is_stale": false,
+    "score": 27.17445539421544
+  }
+}
