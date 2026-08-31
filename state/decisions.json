@@ -1153,5 +1153,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 19
+ },
+ {
+  "id": "ceeda40fb241",
+  "created_at": "2026-08-31T19:29:00.553032+00:00",
+  "decided_at": "2026-08-31T20:30:58.266380+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "سياسة",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "my",
+  "score": 20.47,
+  "trend_score": 1.0,
+  "velocity": 0.17,
+  "source_count": 2,
+  "body_len": 561,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 19
  }
 ]

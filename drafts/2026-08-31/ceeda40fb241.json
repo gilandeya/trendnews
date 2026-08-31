@@ -1,7 +1,7 @@
 {
   "id": "ceeda40fb241",
   "created_at": "2026-08-31T19:29:00.553032+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 20.47,
   "bucket": "serious",
@@ -57,5 +57,12 @@
       "https://www.malaymail.com/malaymail/uploads/images/2026/08/31/359968.jpg"
     ]
   },
-  "publish_at": "2026-08-31T20:16:32.300847+00:00"
+  "publish_at": "2026-08-31T20:16:32.300847+00:00",
+  "published_at": "2026-08-31T20:30:58.265295+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1348620570688297",
+    "photo_id": "1348620534021634",
+    "url": "https://www.facebook.com/631680090321390_1348620570688297",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
