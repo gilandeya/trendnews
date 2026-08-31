@@ -1,0 +1,85 @@
+{
+  "id": "c2b793ea5066",
+  "created_at": "2026-08-31T17:08:03.721762+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.68,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Who are the economic winners and losers of the US-Israel war on Iran?",
+  "link": "https://www.aljazeera.com/economy/2026/8/31/who-are-the-economic-winners-and-losers-of-the-us-israel-war-on-iran?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Dawn",
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد",
+    "Malay Mail",
+    "The Guardian — World"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Who are the economic winners and losers of the US-Israel war on Iran?",
+    "link": "https://www.aljazeera.com/economy/2026/8/31/who-are-the-economic-winners-and-losers-of-the-us-israel-war-on-iran?traffic_source=rss",
+    "summary": "Airlines and automakers have taken a hit, while banks and energy firms have raked in big profits.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-08-31T12:01:18+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/03/13321621-Scott-Bessent.webp",
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Dawn",
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد",
+      "Malay Mail",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/economy/2026/8/31/who-are-the-economic-winners-and-losers-of-the-us-israel-war-on-iran?traffic_source=rss"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/money/2026/08/31/us-uses-g20-finance-talks-to-push-for-tougher-economic-pressure-on-iran/233433"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/08/31/us-vows-to-keep-economic-pressure-on-iran-as-g20-finance-talks-begin"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/31/iran-economy-crisis-usa-launches-sanctions-inflation-trump"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2026408/depleted-us-strategic-petroleum-reserve-loses-potency-as-iran-war-grinds-on"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/bessent-says-iran-sanctions-aim-to-bring-them-to-talks-93CH-4883010"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/03/13321621-Scott-Bessent.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/31/359993.jpg",
+      "https://i.guim.co.uk/img/media/4911834bbbfb6e9afabf8948de2ef91e67acaece/540_0_3943_3157/master/3943.jpg?width=700&quality=85&auto=format&fit=max&s=bef3a4c464c8390e3b26217ce79fd1c8",
+      "https://i.guim.co.uk/img/media/4911834bbbfb6e9afabf8948de2ef91e67acaece/540_0_3943_3157/master/3943.jpg?width=460&quality=85&auto=format&fit=max&s=9b41f3102058a1d34cfb92ff09973079",
+      "https://i.guim.co.uk/img/media/4911834bbbfb6e9afabf8948de2ef91e67acaece/540_0_3943_3157/master/3943.jpg?width=140&quality=85&auto=format&fit=max&s=4aa84154994c6d7eb79d0d419c55fddf",
+      "https://i.dawn.com/large/2026/08/31182139720523e.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.9994192442787527,
+    "age_hours": 2.001162186388889,
+    "is_stale": false,
+    "score": 30.67845380843695
+  }
+}
