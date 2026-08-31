@@ -10596,6 +10596,33 @@ def test_youtube_cluster() -> None:
         (ycl.POINTS_DIR / f"{day2}.json").unlink(missing_ok=True)
         (ycl.POINTS_DIR / f"{day3}.json").unlink(missing_ok=True)
 
+    # ── apply_points_cap: سقف نداء العنقدة، الأحدث حسب run_date ثم ترتيب الظهور (Issue #660 الإصلاح ٢) ──
+    cap_points = [
+        {**mk_point("arabic", "قA"), "run_date": "2098-08-06", "statement": "قديم-0"},
+        {**mk_point("arabic", "قB"), "run_date": "2098-08-06", "statement": "قديم-1"},
+        {**mk_point("arabic", "قC"), "run_date": "2098-08-07", "statement": "حديث-0"},
+        {**mk_point("arabic", "قD"), "run_date": "2098-08-07", "statement": "حديث-1"},
+        {**mk_point("arabic", "قE"), "run_date": "2098-08-08", "statement": "أحدث-0"},
+    ]
+    check("apply_points_cap: بلا تجاوز السقف، القائمة تعود كما وصلت وبلا إسقاط",
+          ycl.apply_points_cap(cap_points, max_points_per_call=10) == (cap_points, 0))
+    kept_cap, dropped_cap = ycl.apply_points_cap(cap_points, max_points_per_call=3)
+    check("apply_points_cap: يُبقي الأحدث حسب run_date (كتلتا 08+07) ويُسقِط الأقدم (06)",
+          {p["statement"] for p in kept_cap} == {"أحدث-0", "حديث-0", "حديث-1"} and
+          dropped_cap == 2, (kept_cap, dropped_cap))
+    check("apply_points_cap: max_points_per_call<=0 يعني بلا سقف",
+          ycl.apply_points_cap(cap_points, max_points_per_call=0) == (cap_points, 0))
+
+    tie_points = [
+        {**mk_point("arabic", "قF"), "run_date": "2098-08-06", "statement": "ظهر أولًا"},
+        {**mk_point("arabic", "قG"), "run_date": "2098-08-06", "statement": "ظهر ثانيًا"},
+        {**mk_point("arabic", "قH"), "run_date": "2098-08-06", "statement": "ظهر ثالثًا"},
+    ]
+    kept_tie, dropped_tie = ycl.apply_points_cap(tie_points, max_points_per_call=2)
+    check("apply_points_cap: عند تساوي run_date، يُبقي الأسبق ظهورًا (ترتيب الظهور)",
+          {p["statement"] for p in kept_tie} == {"ظهر أولًا", "ظهر ثانيًا"} and dropped_tie == 1,
+          (kept_tie, dropped_tie))
+
     # ── load_seen_points/mark_points_seen: سجل الاستهلاك + تقليمه (Issue #658 العطل ١ بند ج) ──
     seen_backup = ycl.SEEN_PATH.read_text(encoding="utf-8") if ycl.SEEN_PATH.exists() else None
     try:
@@ -10637,9 +10664,13 @@ def test_youtube_cluster() -> None:
         def __init__(self, type_, input_=None, text=None):
             self.type, self.input, self.text = type_, input_, text
 
+    class _Usage:
+        def __init__(self, input_tokens=100, output_tokens=50):
+            self.input_tokens, self.output_tokens = input_tokens, output_tokens
+
     class _Resp:
-        def __init__(self, content):
-            self.content = content
+        def __init__(self, content, stop_reason=None, usage=None):
+            self.content, self.stop_reason, self.usage = content, stop_reason, usage
 
     class _Messages:
         def __init__(self, responses):
@@ -10710,6 +10741,36 @@ def test_youtube_cluster() -> None:
     check("فشل نداء العنقدة يعيد قائمة فارغة وسببًا صريحًا، لا استثناء غير مُلتقَط",
           failed_issues == [] and failed_error is not None, failed_error)
 
+    # ── cluster_points: إعادة محاولة واحدة عند القطع بـmax_tokens، ثم نجاح (Issue #660) ──
+    retry_client = _Client([
+        _Resp([_Block("text", text="بلوك ناقص لم يكتمل")],
+              stop_reason="max_tokens", usage=_Usage(input_tokens=9000, output_tokens=16000)),
+        _Resp([_Block("tool_use", input_={"issues": [
+            {"title": "قضية بعد إعادة المحاولة", "event": "حدث", "agreement": "agreement",
+             "point_ids": [0, 1]},
+        ]})]),
+    ])
+    retry_issues, retry_error = ycl.cluster_points(two_points, cluster_cfg, retry_client)
+    check("cluster_points: يعيد المحاولة بعد قطع stop_reason=max_tokens وينجح في الثانية",
+          retry_error is None and len(retry_issues) == 1 and
+          retry_issues[0]["title"] == "قضية بعد إعادة المحاولة" and
+          len(retry_client.messages.calls) == 2, (retry_issues, retry_error))
+
+    # ── cluster_points: استنفاد كل المحاولات يعيد سببًا صريحًا يذكر stop_reason وعدد النقاط ──
+    exhaust_client = _Client([
+        _Resp([_Block("text", text="ناقص أولًا")], stop_reason="max_tokens"),
+        _Resp([_Block("text", text="ناقص ثانيًا")], stop_reason="max_tokens"),
+    ])
+    exhaust_issues, exhaust_error = ycl.cluster_points(two_points, cluster_cfg, exhaust_client)
+    check("cluster_points: استنفاد المحاولات (بلا نجاح) يعيد قائمة فارغة وسببًا صريحًا",
+          exhaust_issues == [] and exhaust_error is not None, exhaust_error)
+    check("cluster_points: سبب الفشل النهائي يذكر max_tokens وعدد النقاط المدخلة (2)",
+          exhaust_error is not None and "max_tokens" in exhaust_error and "2" in exhaust_error,
+          exhaust_error)
+    check("cluster_points: استنفاد المحاولات يستدعي النموذج max_retries مرة بالضبط",
+          len(exhaust_client.messages.calls) == cluster_cfg.path("youtube.cluster.max_retries", 2),
+          len(exhaust_client.messages.calls))
+
     # ── load_points/load_topics: ملف غائب أو تالف لا يُسقِط التشغيلة ──
     check("load_points: تاريخ بلا ملف يعيد قائمة فارغة",
           ycl.load_points("1999-01-01") == [])
@@ -10745,6 +10806,8 @@ def test_youtube_cluster() -> None:
         check("run(): عدّادا سجل الاستهلاك وحدّ النقاط الجديدان صفر عند عدم انطباقهما",
               result["stats"]["topics_seen_skipped"] == 0 and
               result["stats"]["topics_below_min_points"] == 0, result["stats"])
+        check("run(): points_dropped_over_cap صفر حين النقاط دون السقف (Issue #660 الإصلاح ٢)",
+              result["stats"]["points_dropped_over_cap"] == 0, result["stats"])
         saved_path = ycl.save_output(result)
         reloaded = ycl.load_topics("2099-02-02")
         check("save_output/load_topics: تكامل الحفظ والقراءة",
@@ -10752,6 +10815,27 @@ def test_youtube_cluster() -> None:
     finally:
         points_path.unlink(missing_ok=True)
         (ycl.TOPICS_DIR / "2099-02-02.json").unlink(missing_ok=True)
+
+    # ── run(): max_points_per_call يقصّ النافذة فعليًا قبل نداء العنقدة (Issue #660 الإصلاح ٢) ──
+    cap_cfg = load_config()
+    cap_cfg.setdefault("youtube", {}).setdefault("cluster", {})["max_points_per_call"] = 2
+    capped_run_client = _Client([_Resp([_Block("tool_use", input_={"issues": []})])])
+    ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+    capped_points_path = ycl.POINTS_DIR / "2099-02-03.json"
+    capped_points_path.write_text(json.dumps({"points": points}, ensure_ascii=False),
+                                   encoding="utf-8")
+    try:
+        capped_result = ycl.run(cap_cfg, date_str="2099-02-03", client=capped_run_client)
+        check("run(): points_in يبقى حجم النافذة الكاملة قبل القصّ",
+              capped_result["stats"]["points_in"] == 4, capped_result["stats"])
+        check("run(): points_dropped_over_cap يعكس القصّ الفعلي (4 نقاط، سقف 2)",
+              capped_result["stats"]["points_dropped_over_cap"] == 2, capped_result["stats"])
+        sent_brief = capped_run_client.messages.calls[0]["messages"][0]["content"]
+        check("run(): النداء الفعلي للنموذج يستلم نقاطًا مقصوصة لا النافذة الكاملة",
+              len(json.loads(sent_brief)) == 2, sent_brief)
+    finally:
+        capped_points_path.unlink(missing_ok=True)
+        (ycl.TOPICS_DIR / "2099-02-03.json").unlink(missing_ok=True)
 
 
 def test_youtube_article() -> None:
@@ -10987,6 +11071,33 @@ def test_youtube_article() -> None:
             ycl.SEEN_PATH.unlink(missing_ok=True)
         else:
             ycl.SEEN_PATH.write_text(seen_backup2, encoding="utf-8")
+
+    # ── run(): يوكِّد وجود سجل الاستهلاك دومًا ولو بلا مقالات ناجحة (Issue #660 الإصلاح ٣) ──
+    # صفر قضايا ⇐ صفر نداءات نموذج ⇐ seen_keys_to_mark فارغة ⇐ mark_points_seen لا
+    # تُستدعى أصلًا -- بلا الإصلاح، SEEN_PATH لا يُنشَأ، وخطوة git add عليه في
+    # الـworkflow تُسقِط الرفع كاملة (pathspec لم يطابق، exit code 128).
+    ycl.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+    empty_topics_path = ycl.TOPICS_DIR / "2099-05-05.json"
+    empty_topics_path.write_text(json.dumps({"run_date": "2099-05-05", "topics": []},
+                                             ensure_ascii=False), encoding="utf-8")
+    seen_backup3 = ycl.SEEN_PATH.read_text(encoding="utf-8") if ycl.SEEN_PATH.exists() else None
+    try:
+        if ycl.SEEN_PATH.exists():
+            ycl.SEEN_PATH.unlink()
+        empty_client = _Client([])
+        result_empty = ya.run(article_cfg, date_str="2099-05-05", client=empty_client)
+        check("run(): صفر قضايا ⇐ صفر مقالات، بلا استدعاء النموذج إطلاقًا",
+              result_empty["stats"]["articles_written"] == 0 and
+              len(empty_client.messages.calls) == 0, result_empty["stats"])
+        check("run(): سجل الاستهلاك يُنشأ فارغًا ({}) حتى بلا استدعاء mark_points_seen "
+              "(Issue #660 الإصلاح ٣)",
+              ycl.SEEN_PATH.exists() and ycl.SEEN_PATH.read_text(encoding="utf-8") == "{}")
+    finally:
+        empty_topics_path.unlink(missing_ok=True)
+        if seen_backup3 is None:
+            ycl.SEEN_PATH.unlink(missing_ok=True)
+        else:
+            ycl.SEEN_PATH.write_text(seen_backup3, encoding="utf-8")
 
 
 def test_no_temperature_param() -> None:

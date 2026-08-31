@@ -19,7 +19,22 @@ Issue #658 (بعد أول تشغيلة كاملة أنتجت صفر قضايا �
 قضايا مستهلكة (load_seen_points/mark_points_seen/filter_seen_topics) يمنع
 إعادة تدوير نفس القضية أيامًا متتالية، حدّ أدنى لعدد نقاط القضية
 (apply_min_points) لمنع مقالات هزيلة من نقطتين، وحقل `event` إلزامي لكل
-قضية يمنع خلط حدثين متجاورين يشتركان في اسم أو قطاع بلا كونهما نفس الحدث."""
+قضية يمنع خلط حدثين متجاورين يشتركان في اسم أو قطاع بلا كونهما نفس الحدث.
+
+Issue #660 (بعد تشغيلة وسّعت النافذة فعليًا -- ١٧٣ نقطة مدخلة، ٣ أيام
+وصلت -- لكن نداء العنقدة نفسه فشل بمخرج فارغ): (١) نفس نمط عطل الاستخلاص
+(Issue #637) -- النموذج يبدأ بناء بلوك tool_use ويُقطع قبل إكماله بسبب
+max_tokens، ولم تكن هذه المرحلة تفحص stop_reason ولا تعيد المحاولة أصلًا
+(أُضيفت بعد معالجة الاستخلاص بمهمة منفصلة). عولج بنفس آلية
+youtube_extract.extract_points بالضبط: رفع max_tokens (config)، محاولة
+إعادة واحدة، وفحص/تسجيل stop_reason صراحة عند القطع. (٢) النافذة تتراكم مع
+تكرار التشغيل (٧٠ ← ١٧٣) وستتجاوز ٢٥٠ خلال أسبوع -- رفع max_tokens وحده لن
+يكفي إلى الأبد، فأُضيف سقف max_points_per_call (apply_points_cap) يأخذ
+الأحدث حسب run_date ثم ترتيب الظهور ويُسقِط الأقدم عند التجاوز. (٣) خطوة
+الرفع في الـworkflow تُسقِط `git add` كاملة حين لا يُكتب
+state/youtube_topics_seen.json إطلاقًا (صفر مقالات ⇐ صفر نقاط استُهلكت ⇐
+mark_points_seen لم تُستدعَ قط) -- youtube_article.run() الآن يوكِّد وجود
+الملف دومًا قبل نهاية التشغيلة، ولو فارغًا."""
 from __future__ import annotations
 
 import json
@@ -133,6 +148,34 @@ def load_points_window(date_str: str, lookback_days: int) -> list[dict]:
     return combined
 
 
+def apply_points_cap(points: list[dict], max_points_per_call: int) -> tuple[list[dict], int]:
+    """يقصّ نافذة نقاط (بعد load_points_window) إلى max_points_per_call عند
+    التجاوز (Issue #660 الإصلاح ٢) -- تُبقي الأحدث حسب run_date ثم ترتيب
+    الظهور الأصلي عند تساوي run_date (فرز مستقر بـreverse=True يحافظ على
+    استقرار المتساوي، لا يعكسه)، وتُسقِط الأقدم. max_points_per_call<=0
+    يعني بلا سقف (يعيد points كما وصلت) -- قيمة تحوّطية لو غاب مفتاح config
+    أو ضُبط صفرًا خطأً، لا حالة تُستعمَل فعليًا.
+
+    **يجب استدعاؤها بنفس max_points_per_call من كل من youtube_cluster.run()
+    وyoutube_article.run()** فوق نفس load_points_window(date_str,
+    lookback_days) -- نفس مبدأ اتساق lookback_days الموثَّق أعلاه: point_ids
+    كل قضية فهارس ضمن هذه القائمة تحديدًا، فلو قُصّت بسقف مختلف في إحدى
+    المرحلتين لاختلفت الفهارس عن الأخرى فارتبطت قضية بنقاط خاطئة تمامًا.
+
+    يعيد (النقاط المُبقاة بترتيبها الأصلي، عدد النقاط المُسقَطة)."""
+    if max_points_per_call <= 0 or len(points) <= max_points_per_call:
+        return points, 0
+    order = sorted(range(len(points)), key=lambda i: points[i].get("run_date", ""), reverse=True)
+    kept_indices = set(order[:max_points_per_call])
+    kept = [p for i, p in enumerate(points) if i in kept_indices]
+    dropped_points = [points[i] for i in order[max_points_per_call:]]
+    dropped_dates = sorted({p.get("run_date", "") for p in dropped_points})
+    date_note = dropped_dates[0] if len(dropped_dates) == 1 else f"{dropped_dates[0]}..{dropped_dates[-1]}"
+    log.warning("قُصّت النقاط الداخلة: %d → %d (أُسقطت %d نقطة من %s)",
+                len(points), len(kept), len(dropped_points), date_note)
+    return kept, len(dropped_points)
+
+
 def point_key(point: dict) -> str:
     """معرّف مستقر لنقطة عبر تشغيلات مختلفة (خلافًا لمعرّفها الرقمي `id`
     الذي هو مجرّد فهرس ضمن نافذة تشغيلة بعينها، يتغيّر شكله يوميًا). فيديو +
@@ -240,34 +283,69 @@ def _brief_points(points: list[dict]) -> list[dict]:
 
 def cluster_points(points: list[dict], cfg: Config, client: Anthropic | None = None
                     ) -> tuple[list[dict], str | None]:
-    """نداء واحد للنموذج. يعيد (قضايا خامة صالحة الشكل -- title/agreement/
-    point_ids بمعرّفات ضمن نطاق points فقط، سبب فشل النداء العام إن حدث --
-    None عند النجاح ولو بلا قضايا)."""
+    """نداء للنموذج (محاولة واحدة + إعادة محاولة واحدة عند غياب إخراج مهيكل
+    صالح -- Issue #660، نفس آلية youtube_extract.extract_points بالضبط).
+    يعيد (قضايا خامة صالحة الشكل -- title/agreement/point_ids بمعرّفات ضمن
+    نطاق points فقط، سبب فشل النداء العام إن حدث -- None عند النجاح ولو بلا
+    قضايا)."""
     if not points:
         return [], None
 
     model = cfg.path("youtube.cluster.model", "claude-sonnet-5")
     max_tokens = cfg.path("youtube.cluster.max_tokens", 4000)
+    max_retries = cfg.path("youtube.cluster.max_retries", 2)
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
     brief = _brief_points(points)
-    try:
-        resp = client.messages.create(
-            model=model,
-            max_tokens=max_tokens,
-            tools=[CLUSTER_SCHEMA],
-            tool_choice={"type": "tool", "name": "cluster_points"},
-            system=load_prompt(),
-            messages=[{"role": "user", "content": json.dumps(brief, ensure_ascii=False)}],
-            # لا تُضِف temperature -- نماذج هذا المشروع ترفضها بـ400.
-        )
-    except APIError as exc:
-        return [], f"فشل نداء العنقدة: {exc}"
 
-    data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None)
-    raw_issues = data.get("issues") if isinstance(data, dict) else None
-    if not isinstance(raw_issues, list):
-        return [], "لم يُعِد النموذج إخراجًا مهيكلًا صالحًا (لا قائمة issues)"
+    raw_issues: list | None = None
+    last_snippet = ""
+    last_resp = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            resp = client.messages.create(
+                model=model,
+                max_tokens=max_tokens,
+                tools=[CLUSTER_SCHEMA],
+                tool_choice={"type": "tool", "name": "cluster_points"},
+                system=load_prompt(),
+                messages=[{"role": "user", "content": json.dumps(brief, ensure_ascii=False)}],
+                # لا تُضِف temperature -- نماذج هذا المشروع ترفضها بـ400.
+            )
+        except APIError as exc:
+            return [], f"فشل نداء العنقدة: {exc}"
+
+        last_resp = resp
+        data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None)
+        candidate = data.get("issues") if isinstance(data, dict) else None
+        if isinstance(candidate, list):
+            raw_issues = candidate
+            break
+
+        text_snippet = "".join(b.text for b in resp.content
+                                if getattr(b, "type", "") == "text")[:500]
+        stop_reason = getattr(resp, "stop_reason", None)
+        if stop_reason == "max_tokens":
+            # صيغة الـIssue الحرفية -- بلا هذا نعود إلى التخمين في المرة القادمة.
+            usage = getattr(resp, "usage", None)
+            output_tokens = getattr(usage, "output_tokens", "؟") if usage is not None else "؟"
+            log.warning("قُطع إخراج العنقدة (stop_reason: max_tokens) — %d نقطة مدخلة، "
+                        "%s رمز مستهلك", len(points), output_tokens)
+            last_snippet = f"[stop_reason=max_tokens] {text_snippet}"
+        else:
+            log.warning("محاولة %d/%d: لم يُعِد نداء العنقدة إخراجًا مهيكلًا صالحًا "
+                        "(stop_reason=%s، %d نقطة مدخلة)", attempt, max_retries,
+                        stop_reason, len(points))
+            last_snippet = text_snippet
+
+    if raw_issues is None:
+        usage_note = ""
+        usage = getattr(last_resp, "usage", None)
+        if usage is not None:
+            usage_note = (f"، رموز مستهلكة: مدخل {getattr(usage, 'input_tokens', '؟')}"
+                          f"/مخرج {getattr(usage, 'output_tokens', '؟')}")
+        return [], (f"لم يُعِد النموذج إخراجًا مهيكلًا صالحًا بعد {max_retries} محاولة/محاولات "
+                    f"({len(points)} نقطة مدخلة{usage_note}): {last_snippet!r}")
 
     max_id = len(points) - 1
     issues: list[dict] = []
@@ -376,8 +454,13 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     lookback_days = cfg.path("youtube.cluster.lookback_days", 3)
     min_points_per_topic = cfg.path("youtube.cluster.min_points_per_topic", 4)
     max_per_bloc = cfg.path("youtube.cluster.max_per_bloc", 4)
+    max_points_per_call = cfg.path("youtube.cluster.max_points_per_call", 150)
 
-    points = load_points_window(date_str, lookback_days)
+    window_points = load_points_window(date_str, lookback_days)
+    # Issue #660 الإصلاح ٢ -- points_in أدناه يبقى يعكس حجم النافذة الكاملة
+    # قبل القصّ (نفس ما شهدته التشغيلة الفعلية: "173 نقطة مدخلة")، بينما
+    # "points" المُقصوصة هي ما يدخل فعليًا نداء العنقدة وبقية الأنابيب.
+    points, dropped_over_cap = apply_points_cap(window_points, max_points_per_call)
 
     raw_issues, error = cluster_points(points, cfg, client)
     topics = build_topics(raw_issues, points, date_str)
@@ -396,7 +479,8 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     return {
         "run_date": date_str,
         "stats": {
-            "points_in": len(points),
+            "points_in": len(window_points),
+            "points_dropped_over_cap": dropped_over_cap,
             "issues_clustered": len(raw_issues),
             "topics_out": len(topics),
             "dropped_by_bloc_cap": dropped_by_cap,
@@ -425,7 +509,8 @@ def main() -> int:
     path = save_output(result)
     stats = result["stats"]
     print(f"ملف القضايا: {path}")
-    print(f"نقاط مدخلة: {stats['points_in']} · قضايا مُعنقدة: {stats['issues_clustered']} "
+    print(f"نقاط مدخلة: {stats['points_in']} (مُسقَطة بسقف النداء: "
+          f"{stats['points_dropped_over_cap']}) · قضايا مُعنقدة: {stats['issues_clustered']} "
           f"· قضايا في المخرج: {stats['topics_out']} "
           f"(مستبعدة بسقف الكتلة: {stats['dropped_by_bloc_cap']} "
           f"· مستهلكة سابقًا: {stats['topics_seen_skipped']} "
