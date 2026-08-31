@@ -1,0 +1,62 @@
+{
+  "id": "da0fab82f1da",
+  "created_at": "2026-08-31T19:07:53.273790+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.99,
+  "trend_score": 1.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran court sentences 10 protesters to death in Isfahan",
+  "link": "https://www.iranintl.com/en/202608306158",
+  "publishers": [
+    "Daily Sabah",
+    "Iran International",
+    "NDTV — World"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran court sentences 10 protesters to death in Isfahan",
+    "link": "https://www.iranintl.com/en/202608306158",
+    "summary": "A Revolutionary Court in Isfahan has sentenced 10 protesters to death and six others to prison terms of up to 25 years over the nationwide demonstrations in the central Iranian city, according to an activist-run Telegram news channel.",
+    "source_name": "Iran International",
+    "region": "ir",
+    "weight": 1.0,
+    "published": "2026-08-30T17:09:16+00:00",
+    "image_url": "https://i.iranintl.com/images/rdk9umy0/production/95dfce43a30e4ca1aa06a92a56d85c1bb7e71ea1-959x535.png?rect=0,17,959,502&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+    "publisher": "Iran International",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Iran International",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202608306158"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/politics/war-on-terror/civilians-injured-in-pjak-terrorist-attack-in-iran"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/good-line-of-bullsh-t-trump-claims-iran-killed-over-100-000-protesters-11982397#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://i.iranintl.com/images/rdk9umy0/production/95dfce43a30e4ca1aa06a92a56d85c1bb7e71ea1-959x535.png?rect=0,17,959,502&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/31/458588.jpg",
+      "https://c.ndtvimg.com/2026-04/qk73ssh4_trump-iran-pea_625x300_07_April_26.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.33348920702241863,
+    "age_hours": 25.001083555833333,
+    "is_stale": false,
+    "score": 21.99067594044223
+  }
+}

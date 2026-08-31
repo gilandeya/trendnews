@@ -1,0 +1,52 @@
+{
+  "id": "e3d74985d429",
+  "created_at": "2026-08-31T19:07:53.274039+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.95,
+  "trend_score": 1.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nigeria’s economy grows 4.43% in Q2 2026",
+  "link": "https://www.premiumtimesng.com/business/business-news/906587-nigerias-economy-grows-4-43-in-q2-2026-nbs.html",
+  "publishers": [
+    "NBS"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Nigeria’s economy grows 4.43% in Q2 2026",
+    "link": "https://www.premiumtimesng.com/business/business-news/906587-nigerias-economy-grows-4-43-in-q2-2026-nbs.html",
+    "summary": "Nigeria’s economy expanded faster in the second quarter of 2026, supported by improved performances in the oil and non-oil sectors, although industrial growth slowed compared with a year earlier. The post Nigeria’s economy grows 4.43% in Q2 2026 — NBS appeared first on Premium Times Nigeria .",
+    "source_name": "Premium Times",
+    "region": "ng",
+    "weight": 1.1,
+    "published": "2026-08-31T16:40:07+00:00",
+    "image_url": "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2024/12/National_Bureau_of_Statistics.jpg?fit=1024%2C643&amp;ssl=1",
+    "publisher": "NBS",
+    "cluster_sources": [
+      "NBS"
+    ],
+    "cluster_members": [
+      {
+        "name": "NBS",
+        "link": "https://www.premiumtimesng.com/business/business-news/906587-nigerias-economy-grows-4-43-in-q2-2026-nbs.html"
+      },
+      {
+        "name": "NBS",
+        "link": "https://punchng.com/nigerias-economy-grows-4-43-in-q2-nbs/?utm_source=rss.punchng.com&utm_medium=web"
+      }
+    ],
+    "image_candidates": [
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2024/12/National_Bureau_of_Statistics.jpg?fit=1024%2C643&amp;ssl=1"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.3335381527201042,
+    "age_hours": 1.9968152247222222,
+    "is_stale": false,
+    "score": 21.953644278082006
+  }
+}
