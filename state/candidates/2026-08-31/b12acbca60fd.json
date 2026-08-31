@@ -1,0 +1,48 @@
+{
+  "id": "b12acbca60fd",
+  "created_at": "2026-08-31T12:08:06.274964+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.4,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran: Satellitenbilder zeigen Wiederaufbau von Atomanlagen und militärischen Einrichtungen",
+  "link": "https://www.spiegel.de/ausland/iran-satellitenbilder-zeigen-wiederaufbau-von-atomanlagen-und-militaerischen-einrichtungen-a-b9723bd9-1ad9-425b-938b-b72ee86a9c4e#ref=rss",
+  "publishers": [
+    "Der Spiegel"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Iran: Satellitenbilder zeigen Wiederaufbau von Atomanlagen und militärischen Einrichtungen",
+    "link": "https://www.spiegel.de/ausland/iran-satellitenbilder-zeigen-wiederaufbau-von-atomanlagen-und-militaerischen-einrichtungen-a-b9723bd9-1ad9-425b-938b-b72ee86a9c4e#ref=rss",
+    "summary": "Mit ihrem Krieg gegen Iran wollten Israel und die USA verhindern, dass Teheran in den Besitz von Atomwaffen gelangt. Satellitenbilder zeigen, dass die Reparaturen an einer mutmaßlichen Nuklearanlage bereits begonnen haben.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-08-31T11:19:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/c0a98d6f-c4b6-44fa-852c-775100ac2454_w520_r2.08_fpx50_fpy50.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Der Spiegel"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/iran-satellitenbilder-zeigen-wiederaufbau-von-atomanlagen-und-militaerischen-einrichtungen-a-b9723bd9-1ad9-425b-938b-b72ee86a9c4e#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/c0a98d6f-c4b6-44fa-852c-775100ac2454_w520_r2.08_fpx50_fpy50.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.395580049222225
+  }
+}

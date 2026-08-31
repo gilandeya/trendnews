@@ -1,0 +1,48 @@
+{
+  "id": "f2c217ec5eed",
+  "created_at": "2026-08-31T12:08:06.275742+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.13,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Brazil’s 2026-27 coffee harvest hit by heavy rains, reducing premium output",
+  "link": "https://www.malaymail.com/news/money/2026/08/31/brazils-2026-27-coffee-harvest-hit-by-heavy-rains-reducing-premium-output/233435",
+  "publishers": [
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Brazil’s 2026-27 coffee harvest hit by heavy rains, reducing premium output",
+    "link": "https://www.malaymail.com/news/money/2026/08/31/brazils-2026-27-coffee-harvest-hit-by-heavy-rains-reducing-premium-output/233435",
+    "summary": "WASHINGTON, Aug 31 — Heavy rainfall in June and July has affected the quality of Brazil’s 2026-2027 coffee h...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-31T11:51:06+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/31/359997.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/money/2026/08/31/brazils-2026-27-coffee-harvest-hit-by-heavy-rains-reducing-premium-output/233435"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/31/359997.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.13124671488889
+  }
+}

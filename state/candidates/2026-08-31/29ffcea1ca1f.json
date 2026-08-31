@@ -1,0 +1,52 @@
+{
+  "id": "29ffcea1ca1f",
+  "created_at": "2026-08-31T12:08:06.274510+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.75,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nepal flash floods updates: Death toll reaches 788; rescuers drill through debris towards trapped tunnel workers",
+  "link": "https://www.thehindu.com/news/international/nepal-flash-floods-live-updates-death-toll-rescue-operation-missing-person-tibet-border-glacier-collapse-news/article71406948.ece",
+  "publishers": [
+    "Chinese TV",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Nepal flash floods updates: Death toll reaches 788; rescuers drill through debris towards trapped tunnel workers",
+    "link": "https://www.thehindu.com/news/international/nepal-flash-floods-live-updates-death-toll-rescue-operation-missing-person-tibet-border-glacier-collapse-news/article71406948.ece",
+    "summary": "Nepal begins mass burials of unidentified flood victims as families seek missing",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-08-31T00:54:18+00:00",
+    "image_url": null,
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Chinese TV",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nepal-flash-floods-live-updates-death-toll-rescue-operation-missing-person-tibet-border-glacier-collapse-news/article71406948.ece"
+      },
+      {
+        "name": "Chinese TV",
+        "link": "https://tass.com/society/2179765"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 123.00518684250001,
+    "is_stale": false,
+    "score": 17.75146892574074
+  }
+}

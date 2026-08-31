@@ -1,0 +1,61 @@
+{
+  "id": "50afee832a09",
+  "created_at": "2026-08-31T12:08:06.275249+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.39,
+  "trend_score": 0.2,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "PM Modi Meets Iranian President In Kyrgyzstan: Why It Matters",
+  "link": "https://www.ndtv.com/world-news/sco-summit-pm-modi-meets-iranian-president-masoud-pezeshkian-in-kyrgyzstan-11981249#publisher=newsstand",
+  "publishers": [
+    "CGTN",
+    "NDTV — World",
+    "The Express Tribune"
+  ],
+  "region": "in",
+  "article": {
+    "title": "PM Modi Meets Iranian President In Kyrgyzstan: Why It Matters",
+    "link": "https://www.ndtv.com/world-news/sco-summit-pm-modi-meets-iranian-president-masoud-pezeshkian-in-kyrgyzstan-11981249#publisher=newsstand",
+    "summary": "Both leaders had earlier spoken on March 21, during which they had discussed in detail the security situation in the West Asia region.",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-08-31T10:21:13+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-08/a702rqpo_modi-iran_625x300_31_August_26.jpeg",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "CGTN",
+      "NDTV — World",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2626705/turkish-president-departs-for-kyrgyzstan"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/sco-summit-pm-modi-meets-iranian-president-masoud-pezeshkian-in-kyrgyzstan-11981249#publisher=newsstand"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-08-30/President-Xi-arrives-in-Kyrgyzstan-for-SCO-summit-state-visit-1Q1SZuUms6c/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-08/a702rqpo_modi-iran_625x300_31_August_26.jpeg",
+      "https://news.cgtn.com/news/2026-08-30/President-Xi-arrives-in-Kyrgyzstan-for-SCO-summit-state-visit-1Q1SZuUms6c/img/b24cdd63945241d489df5db2db136444/b24cdd63945241d489df5db2db136444-750.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.2,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.38626384051532
+  }
+}
