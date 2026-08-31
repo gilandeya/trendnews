@@ -1,25 +1,5 @@
 [
   {
-    "score": 17.29,
-    "bucket": "useful",
-    "tokens": [
-      "better",
-      "coming",
-      "comment",
-      "expert",
-      "extreme",
-      "help",
-      "may",
-      "prepare",
-      "weather"
-    ],
-    "link": "https://phys.org/news/2026-08-expert-comment-extreme-weather-ai.html",
-    "title": "Expert Comment: More extreme weather is coming—AI may help us to better prepare for it",
-    "posted_title": "مركز أميركي يرصد فرصة تجاوز 90% لأقوى ظاهرة النينو منذ عقود هذا الشتاء",
-    "region": "science",
-    "seen_at": "2026-08-26T17:32:31.817315+00:00"
-  },
-  {
     "score": 35.43,
     "bucket": "light",
     "tokens": [
@@ -5502,5 +5482,94 @@
     "posted_title": "",
     "region": "us",
     "seen_at": "2026-08-31T17:08:03.723239+00:00"
+  },
+  {
+    "score": 26.65,
+    "bucket": "light",
+    "tokens": [
+      "chatgpt",
+      "face",
+      "regulation",
+      "tougher"
+    ],
+    "link": "https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa",
+    "title": "ChatGPT to face tougher regulation in the EU",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-08-31T18:07:55.075787+00:00"
+  },
+  {
+    "score": 19.12,
+    "bucket": "serious",
+    "tokens": [
+      "blames",
+      "ceuta",
+      "crisis",
+      "disinformation",
+      "during",
+      "israel",
+      "russia",
+      "spain",
+      "spreading"
+    ],
+    "link": "https://www.france24.com/en/spain-blames-israel-russia-for-spreading-disinformation-during-ceuta-crisis",
+    "title": "Spain blames Israel, Russia for spreading disinformation during Ceuta crisis",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-08-31T18:07:55.076032+00:00"
+  },
+  {
+    "score": 17.18,
+    "bucket": "serious",
+    "tokens": [
+      "end",
+      "endless",
+      "modi",
+      "need",
+      "putin",
+      "war"
+    ],
+    "link": "https://meduza.io/en/news/2026/08/31/modi-to-putin-we-need-end-of-war-not-endless-war",
+    "title": "Modi to Putin: ‘We need end of war, not endless war’",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-08-31T18:07:55.076224+00:00"
+  },
+  {
+    "score": 17.05,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "civilians",
+      "injured",
+      "iran",
+      "pjak",
+      "terrorist"
+    ],
+    "link": "https://www.dailysabah.com/politics/war-on-terror/civilians-injured-in-pjak-terrorist-attack-in-iran",
+    "title": "Civilians injured in PJAK terrorist attack in Iran",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-08-31T18:07:55.076399+00:00"
+  },
+  {
+    "score": 16.5,
+    "bucket": "serious",
+    "tokens": [
+      "china",
+      "gathers",
+      "iran",
+      "kyrgyzstan",
+      "led",
+      "reach",
+      "sco",
+      "tensions",
+      "test"
+    ],
+    "link": "https://asia.nikkei.com/politics/international-relations/china-led-sco-gathers-in-kyrgyzstan-as-iran-tensions-test-its-reach",
+    "title": "China-led SCO gathers in Kyrgyzstan as Iran tensions test its reach",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-08-31T18:07:55.076569+00:00"
   }
 ]

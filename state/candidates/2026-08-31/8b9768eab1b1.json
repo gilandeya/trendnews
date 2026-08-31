@@ -1,0 +1,89 @@
+{
+  "id": "8b9768eab1b1",
+  "created_at": "2026-08-31T18:07:55.075415+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.65,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "ChatGPT to face tougher regulation in the EU",
+  "link": "https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa",
+  "publishers": [
+    "Court House News",
+    "Daily Sabah",
+    "El País",
+    "Engadget",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "NDTV — World",
+    "The Express Tribune",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "ChatGPT to face tougher regulation in the EU",
+    "link": "https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa",
+    "summary": "OpenAI will soon be held accountable for mitigating risks related to ChatGPT's impact on minors, user mental health, and the spread of illegal content in the European Union. That's because ChatGPT is now considered a Very Large Online Search Engine under the EU's Digital Services Act, a set of laws regulating major online services and […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-08-31T13:27:36+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/08/STK155_OPEN_AI_4_CVirginia_B.png?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "Court House News",
+      "Daily Sabah",
+      "El País",
+      "Engadget",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "NDTV — World",
+      "The Express Tribune",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/chatgpt-becomes-first-ai-chatbot-to-face-tougher-eu-rules/"
+      },
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/ai-artificial-intelligence/986682/openai-chatgpt-eu-dsa"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/08/31/chatgpt-becomes-first-ai-chatbot-to-face-tougher-eu-rules"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/08/31/chatgpt-becomes-first-ai-chatbot-to-face-tougher-eu-rules-as-reddit-and-roblox-added-to-very-large-list/233427"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/very-large-platforms-chatgpt-reddit-roblox-face-tougher-eu-scrutiny-11981685#publisher=newsstand"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2247513/chatgpt-reddit-and-roblox-to-face-the-eus-strictest-platform-rules/"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2025/08/STK155_OPEN_AI_4_CVirginia_B.png?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/11/a7abea6c-henna-virkkunen-19112025.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/31/359986.jpg",
+      "https://c.ndtvimg.com/2026-08/8s06377k_chatgpt_625x300_31_August_26.jpg?im=FitAndFill,algorithm=dnn,width=1280,height=720",
+      "https://www.engadget.com/img/gallery/chatgpt-reddit-and-roblox-to-face-the-eus-strictest-platform-rules/l-intro-1788188142.jpg",
+      "https://www.engadget.com/img/gallery/chatgpt-reddit-and-roblox-to-face-the-eus-strictest-platform-rules/intro-1788188142.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 9,
+    "velocity": 0.0,
+    "age_hours": 5.996676545555556,
+    "is_stale": false,
+    "score": 26.64845656027138
+  }
+}

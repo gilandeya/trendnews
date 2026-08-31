@@ -1,0 +1,46 @@
+{
+  "id": "78644d730322",
+  "created_at": "2026-08-31T18:07:55.076405+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.5,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "China-led SCO gathers in Kyrgyzstan as Iran tensions test its reach",
+  "link": "https://asia.nikkei.com/politics/international-relations/china-led-sco-gathers-in-kyrgyzstan-as-iran-tensions-test-its-reach",
+  "publishers": [
+    "Nikkei Asia"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "China-led SCO gathers in Kyrgyzstan as Iran tensions test its reach",
+    "link": "https://asia.nikkei.com/politics/international-relations/china-led-sco-gathers-in-kyrgyzstan-as-iran-tensions-test-its-reach",
+    "summary": "",
+    "source_name": "Nikkei Asia",
+    "region": "jp",
+    "weight": 1.0,
+    "published": "2026-08-31T18:07:32.709779+00:00",
+    "image_url": null,
+    "publisher": "Nikkei Asia",
+    "cluster_sources": [
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/politics/international-relations/china-led-sco-gathers-in-kyrgyzstan-as-iran-tensions-test-its-reach"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 5.996779179444444,
+    "is_stale": false,
+    "score": 16.499731734
+  }
+}

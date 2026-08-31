@@ -1,0 +1,48 @@
+{
+  "id": "084a861acdd0",
+  "created_at": "2026-08-31T18:07:55.076230+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.05,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Civilians injured in PJAK terrorist attack in Iran",
+  "link": "https://www.dailysabah.com/politics/war-on-terror/civilians-injured-in-pjak-terrorist-attack-in-iran",
+  "publishers": [
+    "Daily Sabah"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Civilians injured in PJAK terrorist attack in Iran",
+    "link": "https://www.dailysabah.com/politics/war-on-terror/civilians-injured-in-pjak-terrorist-attack-in-iran",
+    "summary": "Several civilians were wounded Monday in a terrorist attack by PJAK, the Iranian offshoot of the PKK terrorist group, on a village in Iran's western Kurdistan province, accord...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-08-31T16:36:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/31/458588.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/politics/war-on-terror/civilians-injured-in-pjak-terrorist-attack-in-iran"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/31/458588.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.9975016122222222,
+    "is_stale": false,
+    "score": 17.048014887296297
+  }
+}

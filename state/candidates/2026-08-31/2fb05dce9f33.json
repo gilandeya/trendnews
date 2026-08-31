@@ -1,0 +1,63 @@
+{
+  "id": "2fb05dce9f33",
+  "created_at": "2026-08-31T18:07:55.075797+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.12,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Spain blames Israel, Russia for spreading disinformation during Ceuta crisis",
+  "link": "https://www.france24.com/en/spain-blames-israel-russia-for-spreading-disinformation-during-ceuta-crisis",
+  "publishers": [
+    "Financial Times",
+    "France24",
+    "Meduza English",
+    "South China Morning Post"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Spain blames Israel, Russia for spreading disinformation during Ceuta crisis",
+    "link": "https://www.france24.com/en/spain-blames-israel-russia-for-spreading-disinformation-during-ceuta-crisis",
+    "summary": "Spanish Prime Minister Pedro Sanchez said there were signs Russia and Israel had spread the disinformation over Spain's migration policy that triggered last month's rush of migrants into Ceuta, but no evidence of Moroccan ​involvement. Both Israel and Russia have denied their involvement. Over 72,000 migrants ‌irregularly crossed from Morocco into the tiny Spanish territory between July 30 and 31 ⁠in an unprecedented surge. FRANCE 24's Sarah Morris tells us more.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-31T15:24:27+00:00",
+    "image_url": "https://s.france24.com/media/display/0cf6d932-a517-11f1-b815-005056bfb2b6/w:1024/p:16x9/AP26233420530465.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Financial Times",
+      "France24",
+      "Meduza English",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3365881/spain-pm-blames-russia-israel-ceuta-migrant-crisis-disinformation?utm_source=rss_feed"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/08/31/spain-s-prime-minister-blames-networks-linked-to-russia-and-israel-for-spreading-fake-news-about-ceuta-migration-crisis"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/spain-blames-israel-russia-for-spreading-disinformation-during-ceuta-crisis"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/0cf6d932-a517-11f1-b815-005056bfb2b6/w:1024/p:16x9/AP26233420530465.jpg",
+      "https://meduza.io/imgly/share/1788186013/en/news/2026/08/31/spain-s-prime-minister-blames-networks-linked-to-russia-and-israel-for-spreading-fake-news-about-ceuta-migration-crisis"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 5.996633029166667,
+    "is_stale": false,
+    "score": 19.11851488861111
+  }
+}
