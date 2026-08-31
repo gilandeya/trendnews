@@ -1,0 +1,57 @@
+{
+  "id": "b67a90c3da3d",
+  "created_at": "2026-08-31T15:07:59.451917+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.46,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran’s economy in crisis as US launches new sanctions campaign",
+  "link": "https://www.theguardian.com/world/2026/aug/31/iran-economy-crisis-usa-launches-sanctions-inflation-trump",
+  "publishers": [
+    "Investing.com — الاقتصاد",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Iran’s economy in crisis as US launches new sanctions campaign",
+    "link": "https://www.theguardian.com/world/2026/aug/31/iran-economy-crisis-usa-launches-sanctions-inflation-trump",
+    "summary": "Trump’s Operation Economic Outcast is expected to push many Iranians into deeper poverty as food inflation soars For many Iranians, the new US sanctions campaign, called Operation Economic Outcast, seems superfluous given the grim economic situation in their country. Iranians are facing runaway food inflation, closed petrol stations and a seemingly never-ending depreciation of the nation’s currency caused by a lack of foreign exchange reserves. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-08-31T13:00:26+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/4911834bbbfb6e9afabf8948de2ef91e67acaece/540_0_3943_3157/master/3943.jpg?width=700&quality=85&auto=format&fit=max&s=bef3a4c464c8390e3b26217ce79fd1c8",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Investing.com — الاقتصاد",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/aug/31/iran-economy-crisis-usa-launches-sanctions-inflation-trump"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/bessent-says-iran-sanctions-aim-to-bring-them-to-talks-93CH-4883010"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/4911834bbbfb6e9afabf8948de2ef91e67acaece/540_0_3943_3157/master/3943.jpg?width=700&quality=85&auto=format&fit=max&s=bef3a4c464c8390e3b26217ce79fd1c8",
+      "https://i.guim.co.uk/img/media/4911834bbbfb6e9afabf8948de2ef91e67acaece/540_0_3943_3157/master/3943.jpg?width=460&quality=85&auto=format&fit=max&s=9b41f3102058a1d34cfb92ff09973079",
+      "https://i.guim.co.uk/img/media/4911834bbbfb6e9afabf8948de2ef91e67acaece/540_0_3943_3157/master/3943.jpg?width=140&quality=85&auto=format&fit=max&s=4aa84154994c6d7eb79d0d419c55fddf",
+      "https://content-media.investing.com/news/LYNXMPEM2O13R_1200_L.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.458408490296296
+  }
+}
