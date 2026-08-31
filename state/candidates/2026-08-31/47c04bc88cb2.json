@@ -1,0 +1,59 @@
+{
+  "id": "47c04bc88cb2",
+  "created_at": "2026-08-31T03:08:05.752805+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 12.47,
+  "trend_score": 0.0,
+  "velocity": 0.07,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Before flood catastrophe, Nepal asked China for early warnings as risks mounted",
+  "link": "https://www.rappler.com/world/asia-pacific/flood-catastrophe-nepal-asked-china-early-warnings-risks-mounted/",
+  "publishers": [
+    "Rappler",
+    "The Japan Times"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "Before flood catastrophe, Nepal asked China for early warnings as risks mounted",
+    "link": "https://www.rappler.com/world/asia-pacific/flood-catastrophe-nepal-asked-china-early-warnings-risks-mounted/",
+    "summary": "Experts from Nepal and China met in Kathmandu three months before a catastrophic disaster to discuss cooperation on monitoring and responding to glacier-related hazards",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-08-31T00:40:41+00:00",
+    "image_url": "https://www.rappler.com/tachyon/2026/08/reuters-08302026-nepal-flood-scaled.jpg",
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Rappler",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/asia-pacific/flood-catastrophe-nepal-asked-china-early-warnings-risks-mounted/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/08/31/asia-pacific/politics/flood-nepal-china-warning-risks/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.rappler.com/tachyon/2026/08/reuters-08302026-nepal-flood-scaled.jpg",
+      "https://www.rappler.com/tachyon/2026/08/missing-nepal-aug-28-2026-2.jpg",
+      "https://www.rappler.com/tachyon/2026/08/reuters-08302026-nepal-flood-scaled.jpg?resize=75%2C75&crop_strategy=attention",
+      "https://www.rappler.com/tachyon/2026/08/missing-nepal-aug-28-2026-2.jpg?resize=75%2C75&crop=407px%2C0px%2C1080px%2C1080px",
+      "https://www.rappler.com/tachyon/2026/08/reuters-08302026-nepal-flood-scaled.jpg?fit=449%2C449",
+      "https://www.rappler.com/tachyon/2026/08/missing-nepal-aug-28-2026-2.jpg?fit=449%2C449"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 0.0665974841863322,
+    "age_hours": 5.005194076111111,
+    "is_stale": false,
+    "score": 12.46933585256129
+  }
+}

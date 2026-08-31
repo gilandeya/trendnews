@@ -1,0 +1,48 @@
+{
+  "id": "7cf988f0194b",
+  "created_at": "2026-08-31T03:08:05.752317+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.12,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Using data to help wheat growers adapt to unpredictable weather",
+  "link": "https://phys.org/news/2026-08-wheat-growers-unpredictable-weather.html",
+  "publishers": [
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Using data to help wheat growers adapt to unpredictable weather",
+    "link": "https://phys.org/news/2026-08-wheat-growers-unpredictable-weather.html",
+    "summary": "For generations, wheat planting has followed predictable seasonal patterns. But this year, unseasonably warm weather in March and April accelerated wheat growth, pushing the crop into a vulnerable growth stage when widespread freezing temperatures hit.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-08-31T00:30:03+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/using-data-to-help-whe.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-08-wheat-growers-unpredictable-weather.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/using-data-to-help-whe.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 13.124533618925927
+  }
+}

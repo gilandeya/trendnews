@@ -1,0 +1,48 @@
+{
+  "id": "4deea65394e4",
+  "created_at": "2026-08-31T03:08:05.752643+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 12.94,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "El Athletic de Terzic se presenta al mundo en Balaídos con su primer triunfo",
+  "link": "https://elpais.com/deportes/futbol/2026-08-30/el-athletic-de-terzic-se-presenta-al-mundo-en-balaidos-con-su-primer-triunfo.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "El Athletic de Terzic se presenta al mundo en Balaídos con su primer triunfo",
+    "link": "https://elpais.com/deportes/futbol/2026-08-30/el-athletic-de-terzic-se-presenta-al-mundo-en-balaidos-con-su-primer-triunfo.html",
+    "summary": "El equipo bilbaíno se impone al Celta con goles de Berenguer y Robert Navarro en un primer tiempo brillante y deja a los de Giráldez con solo un punto tras tres jornadas",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-08-30T21:41:27+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/35HMRIBLJBNSHJ6Y5Y6BL4AO3U.jpg?auth=a14c3cb2e94c8d92474a208567a5817d09da16e37ae6cdafa5f0ae93d1ba084b",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-08-30/el-athletic-de-terzic-se-presenta-al-mundo-en-balaidos-con-su-primer-triunfo.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/35HMRIBLJBNSHJ6Y5Y6BL4AO3U.jpg?auth=a14c3cb2e94c8d92474a208567a5817d09da16e37ae6cdafa5f0ae93d1ba084b"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 5.005400573888889,
+    "is_stale": false,
+    "score": 12.937200285296298
+  }
+}
