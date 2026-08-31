@@ -11,13 +11,21 @@ src/youtube_extract.py في قضايا، ثم ترتيبها بثلاث طبقا
 الطبقة (a/b/c) **تُحسَب برمجيًا** من قائمتي الكتل/القنوات الفعليتين لنقاط
 كل قضية بعد العنقدة -- لا يُطلَب من النموذج تصنيفها، فهي دالة ميكانيكية
 محضة لعدد الكتل/القنوات المشترِكة، ولا فائدة من تكليف النموذج بحساب يمكن
-للشيفرة حسابه بدقة تامة."""
+للشيفرة حسابه بدقة تامة.
+
+Issue #658 (بعد أول تشغيلة كاملة أنتجت صفر قضايا طبقة (أ) وصفر خلاف): نافذة
+يوم واحد كانت تمنع التقاطع بنيويًا -- قناتان عن نفس الحدث نادرًا ما تنشران
+في نفس اليوم بالضبط. أُضيفت نافذة lookback_days (load_points_window)، سجل
+قضايا مستهلكة (load_seen_points/mark_points_seen/filter_seen_topics) يمنع
+إعادة تدوير نفس القضية أيامًا متتالية، حدّ أدنى لعدد نقاط القضية
+(apply_min_points) لمنع مقالات هزيلة من نقطتين، وحقل `event` إلزامي لكل
+قضية يمنع خلط حدثين متجاورين يشتركان في اسم أو قطاع بلا كونهما نفس الحدث."""
 from __future__ import annotations
 
 import json
 import logging
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from anthropic import Anthropic, APIError
@@ -29,6 +37,12 @@ log = logging.getLogger(__name__)
 PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "youtube_cluster.md"
 POINTS_DIR = STATE_DIR / "youtube_points"
 TOPICS_DIR = STATE_DIR / "youtube_topics"
+# سجل النقاط التي دخلت مقالًا مكتوبًا سابقًا (Issue #658 العطل ١ بند ج) --
+# يمنع إعادة عنقدة/كتابة نفس القضية أيامًا متتالية لمجرّد بقاء نقاطها داخل
+# نافذة lookback_days. يُقرأ هنا (مرحلة العنقدة) ويُكتب من src/youtube_article.py
+# بعد نجاح الكتابة فعليًا -- لا فائدة من تسجيل قضية عُنقدت لكن فشلت كتابتها
+# أو لم تُختَر ضمن أعلى count.
+SEEN_PATH = STATE_DIR / "youtube_topics_seen.json"
 
 AGREEMENT_VALUES = ("agreement", "dispute", "echo")
 # ترتيب مؤشّر الخلاف داخل الطبقة الواحدة: خلاف حقيقي بين المصادر يرفع
@@ -50,11 +64,18 @@ CLUSTER_SCHEMA = {
                     "properties": {
                         "title": {"type": "string",
                                   "description": "عنوان داخلي عربي قصير للقضية (لا يُنشَر)"},
+                        "event": {
+                            "type": "string",
+                            "description": ("وصف الحدث الواحد بعينه الذي تدور حوله القضية، في "
+                                             "جملة عربية قصيرة -- لا موضوع عام (Issue #658 العطل "
+                                             "٤: اشتراك نقطتين في اسم شخص أو دولة أو قطاع وحده لا "
+                                             "يكفي لضمّهما، فهذا الحقل يجبر تحديد الحدث تحديدًا)"),
+                        },
                         "agreement": {"type": "string", "enum": list(AGREEMENT_VALUES)},
                         "point_ids": {"type": "array", "items": {"type": "integer"},
                                       "description": "معرّفات النقاط (id) الداخلة في هذه القضية"},
                     },
-                    "required": ["title", "agreement", "point_ids"],
+                    "required": ["title", "event", "agreement", "point_ids"],
                 },
             },
         },
@@ -82,6 +103,45 @@ def load_points(date_str: str) -> list[dict]:
     return data.get("points", [])
 
 
+def _date_range(date_str: str, lookback_days: int) -> list[str]:
+    """أقدم إلى أحدث -- ترتيب لا يؤثّر في نتيجة العنقدة (النموذج يستلم كل
+    النقاط دفعة واحدة بلا اعتبار لترتيب وصولها)، لكنه يبقي ملف نقاط اليوم
+    الحالي دومًا آخر عنصر، وهو ما تعتمد عليه بعض الاختبارات للقراءة."""
+    base = datetime.strptime(date_str, "%Y-%m-%d")
+    days = max(1, lookback_days)
+    return [(base - timedelta(days=offset)).strftime("%Y-%m-%d")
+            for offset in range(days - 1, -1, -1)]
+
+
+def load_points_window(date_str: str, lookback_days: int) -> list[dict]:
+    """يقرأ نقاط كل الأيام ضمن نافذة lookback_days المنتهية بـdate_str (Issue
+    #658 العطل ١ بند أ) -- لا ملف اليوم وحده. التقاطع عبر الكتل نادر أن يقع
+    في نفس اليوم بالضبط (الجزيرة تحلّل موضوعًا اليوم، وهابرتورك تتناوله
+    غدًا)، فنافذة يوم واحد كانت تضمن صفر قضايا طبقة (أ) بنيويًا بصرف النظر عن
+    المحتوى الفعلي.
+
+    كل نقطة تحمل `run_date` (بند ب) لتمييز مصدرها -- يُستهلَك في build_topics
+    للترجيح الخفيف نحو الحداثة، وفي point_key لسجل الاستهلاك أدناه. ملفات
+    أيام غائبة (لم تُشغَّل المرحلة الثانية بعدها، أو تشغيلة أولى بلا تاريخ
+    سابق) تُهمَل بصمت -- نفس مبدأ load_points، لا استثناء لمجرّد نقص تاريخي."""
+    combined: list[dict] = []
+    for day in _date_range(date_str, lookback_days):
+        for point in load_points(day):
+            point = dict(point)
+            point["run_date"] = day
+            combined.append(point)
+    return combined
+
+
+def point_key(point: dict) -> str:
+    """معرّف مستقر لنقطة عبر تشغيلات مختلفة (خلافًا لمعرّفها الرقمي `id`
+    الذي هو مجرّد فهرس ضمن نافذة تشغيلة بعينها، يتغيّر شكله يوميًا). فيديو +
+    نصّ القول يكفيان عمليًا -- لا حاجة لمعرّف صريح لم يكن موجودًا أصلًا في
+    مخرج src/youtube_extract.py، وتضارب مصادفة (نفس الفيديو ونفس نصّ الملخّص
+    حرفيًا لقولين مختلفين) غير وارد عمليًا."""
+    return f"{point.get('video_id', '')}::{point.get('statement', '')}"
+
+
 def load_topics(date_str: str) -> dict:
     """يقرأ مخرج هذه المرحلة نفسها (state/youtube_topics/YYYY-MM-DD.json)
     -- يستهلكها src/youtube_article.py. ملف غير موجود يعيد بنية فارغة
@@ -94,6 +154,75 @@ def load_topics(date_str: str) -> dict:
     except json.JSONDecodeError:
         log.warning("ملف قضايا يوتيوب تالف: %s", path)
         return {"run_date": date_str, "topics": []}
+
+
+def load_seen_points() -> dict[str, str]:
+    """يقرأ سجل النقاط المستهلكة (معرّف ← تاريخ آخر تسجيل). ملف غائب أو تالف
+    يعيد قاموسًا فارغًا لا استثناء -- نفس مبدأ load_points/load_topics، سجل
+    استهلاك فارغ يعني ببساطة "لا شيء اسْتُهلِك بعد"، لا عطلًا."""
+    if not SEEN_PATH.exists():
+        return {}
+    try:
+        data = json.loads(SEEN_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        log.warning("سجل القضايا المستهلكة تالف: %s", SEEN_PATH)
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def mark_points_seen(keys: set[str], run_date: str, retention_days: int = 14) -> None:
+    """يُستدعى من src/youtube_article.py بعد نجاح كتابة مقال فعليًا. يقلّم
+    السجل بنفس أفق youtube.seen_retention_days (افتراضيًا ١٤ يومًا، أوسع
+    بفارق واسع من youtube.cluster.lookback_days) -- نقطة خرجت من كل نوافذ
+    lookback المحتملة لا فائدة من إبقائها في السجل، فينمو الملف بلا حدّ
+    لولا هذا التقليم."""
+    seen = load_seen_points()
+    for key in keys:
+        seen[key] = run_date
+    cutoff = (datetime.strptime(run_date, "%Y-%m-%d")
+              - timedelta(days=retention_days)).strftime("%Y-%m-%d")
+    seen = {k: v for k, v in seen.items() if v >= cutoff}
+    SEEN_PATH.parent.mkdir(parents=True, exist_ok=True)
+    SEEN_PATH.write_text(json.dumps(seen, ensure_ascii=False, indent=2, sort_keys=True),
+                          encoding="utf-8")
+
+
+def filter_seen_topics(topics: list[dict], points: list[dict],
+                        seen_keys: set[str]) -> tuple[list[dict], int]:
+    """يُهمِل قضية أكثر نقاطها (أغلبية صارمة، لا مجرّد نقطة واحدة مستهلكة من
+    عدّة) دخلت مقالًا مكتوبًا سابقًا (Issue #658 العطل ١ بند ج) -- بلا هذا
+    قد يُعاد كتابة نفس القضية أيامًا متتالية طالما بقيت نقاطها ضمن نافذة
+    lookback_days. يعيد (القضايا الناجية، عدد المُهمَل)."""
+    kept: list[dict] = []
+    dropped = 0
+    for topic in topics:
+        member_points = [points[pid] for pid in topic["point_ids"] if 0 <= pid < len(points)]
+        if not member_points:
+            kept.append(topic)
+            continue
+        seen_count = sum(1 for p in member_points if point_key(p) in seen_keys)
+        if seen_count > len(member_points) / 2:
+            dropped += 1
+            continue
+        kept.append(topic)
+    return kept, dropped
+
+
+def apply_min_points(topics: list[dict], min_points: int) -> tuple[list[dict], int]:
+    """قضية دون min_points_per_topic (افتراضيًا ٤) لا تدخل مخرج العنقدة
+    (Issue #658 العطل ٢) -- مقالات أقل وأغنى خير من مقالات أكثر وأفقر، ونصّ
+    الـIssue الحرفي: مقال من نقطتين خرج معترفًا بفقره بدل امتناعه عن الكتابة.
+    استثناء طبقة (أ) بثلاث نقاط بدل أربع (بند ج) -- قيمة قضية عبر كتلتين في
+    التقاطع نفسه لا في كمّ نقاطها. يعيد (القضايا الناجية، عدد المُهمَل)."""
+    kept: list[dict] = []
+    dropped = 0
+    for topic in topics:
+        threshold = 3 if topic["layer"] == "a" else min_points
+        if len(topic["point_ids"]) < threshold:
+            dropped += 1
+            continue
+        kept.append(topic)
+    return kept, dropped
 
 
 def _brief_points(points: list[dict]) -> list[dict]:
@@ -146,9 +275,15 @@ def cluster_points(points: list[dict], cfg: Config, client: Anthropic | None = N
         if not isinstance(raw, dict):
             continue
         title = raw.get("title")
+        event = raw.get("event")
         agreement = raw.get("agreement")
         point_ids = raw.get("point_ids")
         if not isinstance(title, str) or not title.strip():
+            continue
+        # حقل event إلزامي (Issue #658 العطل ٤) -- غيابه أو فراغه يعني أن
+        # النموذج لم يحدّد حدثًا بعينه، وهذا بالضبط ما يمنع خلط موضوعين
+        # متجاورين (شاهد الـIssue: صفقة النفط الفنزويلية مقابل هرمز).
+        if not isinstance(event, str) or not event.strip():
             continue
         if agreement not in AGREEMENT_VALUES:
             continue
@@ -164,7 +299,8 @@ def cluster_points(points: list[dict], cfg: Config, client: Anthropic | None = N
             # (البرومبت يطلب هذا صراحة، هذا تحقّق برمجي مساند لا يثق بطاعة
             # النموذج وحدها).
             continue
-        issues.append({"title": title.strip(), "agreement": agreement, "point_ids": valid_ids})
+        issues.append({"title": title.strip(), "event": event.strip(), "agreement": agreement,
+                        "point_ids": valid_ids})
     return issues, None
 
 
@@ -176,26 +312,37 @@ def _layer_for(blocs: set[str], channels: set[str]) -> str:
     return "c"
 
 
-def build_topics(issues: list[dict], points: list[dict]) -> list[dict]:
+def build_topics(issues: list[dict], points: list[dict],
+                  today_date_str: str | None = None) -> list[dict]:
     """يحوّل قضايا العنقدة الخامة إلى بنية المخرج النهائية: يحسب الطبقة
     وقوائم الكتل/القنوات من نقاط كل قضية فعليًا (لا من حكم النموذج)، ثم
-    يفرز بمفتاح مركّب (الطبقة أولًا، مؤشّر الخلاف داخلها ثانيًا)."""
+    يفرز بمفتاح مركّب (الطبقة أولًا، مؤشّر الخلاف ثانيًا، ترجيح الحداثة
+    ثالثًا وأخيرًا -- Issue #658 العطل ١ بند د: قضية فيها نقطة من
+    today_date_str تتقدّم على قضية كل نقاطها أقدم، عند تساوي الطبقة
+    والخلاف فقط، لا فوقهما -- «ترجيح خفيف» بنص الـIssue)."""
     topics = []
     for issue in issues:
         member_points = [points[pid] for pid in issue["point_ids"]]
         blocs = sorted({p.get("bloc", "") for p in member_points if p.get("bloc")})
         channels = sorted({p.get("channel", "") for p in member_points if p.get("channel")})
         layer = _layer_for(set(blocs), set(channels))
+        has_today = (today_date_str is not None and
+                     any(p.get("run_date") == today_date_str for p in member_points))
         topics.append({
             "title": issue["title"],
+            "event": issue["event"],
             "layer": layer,
             "blocs": blocs,
             "channels": channels,
             "agreement": issue["agreement"],
             "point_ids": issue["point_ids"],
+            "_has_today": has_today,
         })
 
-    topics.sort(key=lambda t: (_LAYER_RANK[t["layer"]], _AGREEMENT_RANK[t["agreement"]]))
+    topics.sort(key=lambda t: (_LAYER_RANK[t["layer"]], _AGREEMENT_RANK[t["agreement"]],
+                                0 if t["_has_today"] else 1))
+    for t in topics:
+        del t["_has_today"]
     return topics
 
 
@@ -226,11 +373,18 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     now = now or datetime.now(timezone.utc)
     date_str = date_str or now.strftime("%Y-%m-%d")
 
-    points = load_points(date_str)
+    lookback_days = cfg.path("youtube.cluster.lookback_days", 3)
+    min_points_per_topic = cfg.path("youtube.cluster.min_points_per_topic", 4)
     max_per_bloc = cfg.path("youtube.cluster.max_per_bloc", 4)
 
+    points = load_points_window(date_str, lookback_days)
+
     raw_issues, error = cluster_points(points, cfg, client)
-    topics = build_topics(raw_issues, points)
+    topics = build_topics(raw_issues, points, date_str)
+
+    seen_keys = set(load_seen_points().keys())
+    topics, dropped_by_seen = filter_seen_topics(topics, points, seen_keys)
+    topics, dropped_by_min_points = apply_min_points(topics, min_points_per_topic)
     topics, dropped_by_cap = apply_bloc_cap(topics, max_per_bloc)
 
     layer_counts = {"a": 0, "b": 0, "c": 0}
@@ -246,6 +400,8 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             "issues_clustered": len(raw_issues),
             "topics_out": len(topics),
             "dropped_by_bloc_cap": dropped_by_cap,
+            "topics_seen_skipped": dropped_by_seen,
+            "topics_below_min_points": dropped_by_min_points,
             "layer_a": layer_counts["a"], "layer_b": layer_counts["b"],
             "layer_c": layer_counts["c"],
             "agreement": agreement_counts["agreement"], "dispute": agreement_counts["dispute"],
@@ -271,7 +427,9 @@ def main() -> int:
     print(f"ملف القضايا: {path}")
     print(f"نقاط مدخلة: {stats['points_in']} · قضايا مُعنقدة: {stats['issues_clustered']} "
           f"· قضايا في المخرج: {stats['topics_out']} "
-          f"(مستبعدة بسقف الكتلة: {stats['dropped_by_bloc_cap']})")
+          f"(مستبعدة بسقف الكتلة: {stats['dropped_by_bloc_cap']} "
+          f"· مستهلكة سابقًا: {stats['topics_seen_skipped']} "
+          f"· دون حدّ النقاط: {stats['topics_below_min_points']})")
     print(f"الطبقات: أ={stats['layer_a']} ب={stats['layer_b']} ج={stats['layer_c']}")
     print(f"مؤشّر الخلاف: اتفاق={stats['agreement']} خلاف={stats['dispute']} صدى={stats['echo']}")
     if result["error"]:

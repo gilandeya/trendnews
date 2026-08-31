@@ -10491,10 +10491,14 @@ def test_youtube_cluster() -> None:
           ycl._layer_for({"arabic"}, {"الجزيرة"}) == "c")
 
     # ── build_topics: الفرز بالطبقة أولًا ثم مؤشّر الخلاف (خلاف > اتفاق > صدى) ──
-    issue_a = {"title": "قضية أ (طبقة أ)", "agreement": "agreement", "point_ids": [0, 2]}
-    issue_b_dispute = {"title": "قضية ب خلاف", "agreement": "dispute", "point_ids": [0, 1]}
-    issue_b_echo = {"title": "قضية ب صدى", "agreement": "echo", "point_ids": [0, 1]}
-    issue_c = {"title": "قضية ج (طبقة ج)", "agreement": "agreement", "point_ids": [0, 3]}
+    issue_a = {"title": "قضية أ (طبقة أ)", "event": "حدث أ", "agreement": "agreement",
+               "point_ids": [0, 2]}
+    issue_b_dispute = {"title": "قضية ب خلاف", "event": "حدث ب١", "agreement": "dispute",
+                        "point_ids": [0, 1]}
+    issue_b_echo = {"title": "قضية ب صدى", "event": "حدث ب٢", "agreement": "echo",
+                     "point_ids": [0, 1]}
+    issue_c = {"title": "قضية ج (طبقة ج)", "event": "حدث ج", "agreement": "agreement",
+               "point_ids": [0, 3]}
 
     topics = ycl.build_topics([issue_c, issue_b_echo, issue_a, issue_b_dispute], points)
     check("العدد الكلي للقضايا محفوظ بعد الفرز", len(topics) == 4, len(topics))
@@ -10508,6 +10512,26 @@ def test_youtube_cluster() -> None:
           topics[0]["blocs"] == ["arabic", "turkish"] and
           topics[0]["channels"] == sorted({"الجزيرة", "CNN Türk"}),
           topics[0])
+    check("build_topics: يحمل حقل event من القضية الخام (Issue #658 العطل ٤)",
+          topics[0]["event"] == issue_a["event"], topics[0])
+
+    # ── build_topics: ترجيح خفيف للحداثة عند تساوي الطبقة والخلاف (Issue #658 العطل ١ بند د) ──
+    today, yesterday = "2098-08-08", "2098-08-06"
+    recency_points = [
+        {**mk_point("arabic", "قX"), "run_date": yesterday},   # 0
+        {**mk_point("arabic", "قY"), "run_date": yesterday},   # 1
+        {**mk_point("arabic", "قZ"), "run_date": today},       # 2
+        {**mk_point("arabic", "قW"), "run_date": yesterday},   # 3
+    ]
+    issue_old = {"title": "قضية قديمة", "event": "ح", "agreement": "agreement",
+                 "point_ids": [0, 1]}
+    issue_fresh = {"title": "قضية حديثة", "event": "ح", "agreement": "agreement",
+                   "point_ids": [2, 3]}
+    recency_topics = ycl.build_topics([issue_old, issue_fresh], recency_points, today)
+    check("build_topics: قضية فيها نقطة من اليوم الحالي تتقدّم عند تساوي الطبقة والخلاف",
+          recency_topics[0]["title"] == "قضية حديثة", recency_topics)
+    check("build_topics: بلا today_date_str، الترتيب يبقى كما وصل (بلا ترجيح حداثة)",
+          ycl.build_topics([issue_old, issue_fresh], recency_points)[0]["title"] == "قضية قديمة")
 
     # ── apply_bloc_cap: سقف لكل كتلة، مع إبقاء الأعلى ترتيبًا عند التعادل ──
     many_c_topics = [
@@ -10530,6 +10554,83 @@ def test_youtube_cluster() -> None:
     kept2, dropped2 = ycl.apply_bloc_cap(mixed_bloc_topics, max_per_bloc=1)
     check("قضية تشترك في كتلة استُنفد سقفها تُستبعَد كاملة ولو شاركت كتلة أخرى غير مستنفَدة",
           len(kept2) == 1 and kept2[0]["title"] == "أ1" and dropped2 == 1, (kept2, dropped2))
+
+    # ── apply_min_points: حدّ أدنى للنقاط، استثناء طبقة (أ) بثلاث لا أربع (Issue #658 العطل ٢) ──
+    mp_topics = [
+        {"title": "ج بنقطتين", "layer": "c", "point_ids": [0, 1]},
+        {"title": "ج بأربع", "layer": "c", "point_ids": [0, 1, 2, 3]},
+        {"title": "أ بثلاث", "layer": "a", "point_ids": [0, 1, 2]},
+        {"title": "أ بنقطتين", "layer": "a", "point_ids": [0, 1]},
+    ]
+    kept_mp, dropped_mp = ycl.apply_min_points(mp_topics, min_points=4)
+    check("apply_min_points: طبقة ج دون ٤ نقاط تُهمَل، طبقة أ تُقبَل بثلاث نقاط لا أربع",
+          [t["title"] for t in kept_mp] == ["ج بأربع", "أ بثلاث"] and dropped_mp == 2,
+          (kept_mp, dropped_mp))
+
+    # ── point_key: معرّف مستقر عبر تشغيلات مختلفة (Issue #658 العطل ١ بند ج) ──
+    p_a = {"video_id": "v1", "statement": "قول أ"}
+    p_b = {"video_id": "v1", "statement": "قول ب"}
+    check("point_key: نقطتان مختلفتا statement لهما مفتاحان مختلفان",
+          ycl.point_key(p_a) != ycl.point_key(p_b))
+    check("point_key: نفس الحقول تعطي نفس المفتاح", ycl.point_key(p_a) == ycl.point_key(dict(p_a)))
+
+    # ── load_points_window: نافذة عدّة أيام، كل نقطة تحمل run_date (Issue #658 العطل ١ بند أ+ب) ──
+    ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+    day1, day2, day3 = "2098-05-01", "2098-05-02", "2098-05-03"
+    (ycl.POINTS_DIR / f"{day1}.json").write_text(
+        json.dumps({"points": [mk_point("arabic", "الجزيرة")]}, ensure_ascii=False),
+        encoding="utf-8")
+    (ycl.POINTS_DIR / f"{day3}.json").write_text(
+        json.dumps({"points": [mk_point("turkish", "CNN Türk")]}, ensure_ascii=False),
+        encoding="utf-8")
+    try:
+        window = ycl.load_points_window(day3, 3)
+        check("load_points_window: يجمع نقاط الأيام الثلاثة (يوم وسط غائب لا يكسر شيئًا)",
+              len(window) == 2, window)
+        check("load_points_window: كل نقطة تحمل run_date مصدرها",
+              window[0]["run_date"] == day1 and window[1]["run_date"] == day3, window)
+        check("load_points_window: نافذة يوم واحد تقرأ اليوم الحالي فقط",
+              len(ycl.load_points_window(day3, 1)) == 1)
+    finally:
+        (ycl.POINTS_DIR / f"{day1}.json").unlink(missing_ok=True)
+        (ycl.POINTS_DIR / f"{day2}.json").unlink(missing_ok=True)
+        (ycl.POINTS_DIR / f"{day3}.json").unlink(missing_ok=True)
+
+    # ── load_seen_points/mark_points_seen: سجل الاستهلاك + تقليمه (Issue #658 العطل ١ بند ج) ──
+    seen_backup = ycl.SEEN_PATH.read_text(encoding="utf-8") if ycl.SEEN_PATH.exists() else None
+    try:
+        if ycl.SEEN_PATH.exists():
+            ycl.SEEN_PATH.unlink()
+        check("load_seen_points: ملف غائب يعيد قاموسًا فارغًا", ycl.load_seen_points() == {})
+        ycl.mark_points_seen({"k1", "k2"}, "2098-06-15", retention_days=10)
+        seen = ycl.load_seen_points()
+        check("mark_points_seen: المفاتيح المُسجَّلة موجودة بتاريخ التسجيل",
+              seen.get("k1") == "2098-06-15" and seen.get("k2") == "2098-06-15", seen)
+        ycl.mark_points_seen({"k3"}, "2098-07-01", retention_days=10)
+        seen2 = ycl.load_seen_points()
+        check("mark_points_seen: التقليم يُسقِط مفاتيح أقدم من retention_days من تاريخ التسجيل الجديد",
+              "k1" not in seen2 and "k2" not in seen2 and "k3" in seen2, seen2)
+    finally:
+        if seen_backup is None:
+            ycl.SEEN_PATH.unlink(missing_ok=True)
+        else:
+            ycl.SEEN_PATH.write_text(seen_backup, encoding="utf-8")
+
+    # ── filter_seen_topics: قضية أكثر نقاطها مستهلكة سابقًا تُهمَل (Issue #658 العطل ١ بند ج) ──
+    points_fs = [mk_point("arabic", "ق1"), mk_point("arabic", "ق2"), mk_point("turkish", "ق3")]
+    points_fs[0]["video_id"], points_fs[0]["statement"] = "v1", "س1"
+    points_fs[1]["video_id"], points_fs[1]["statement"] = "v2", "س2"
+    points_fs[2]["video_id"], points_fs[2]["statement"] = "v3", "س3"
+    seen_keys_fs = {ycl.point_key(points_fs[0])}
+    kept_fs, dropped_fs = ycl.filter_seen_topics(
+        [{"title": "نصف مستهلَك", "point_ids": [0, 1]}], points_fs, seen_keys_fs)
+    check("filter_seen_topics: نصف النقاط مستهلَك بالضبط (ليس أغلبية) تُبقي القضية",
+          len(kept_fs) == 1 and dropped_fs == 0, (kept_fs, dropped_fs))
+    seen_keys_fs2 = {ycl.point_key(points_fs[0]), ycl.point_key(points_fs[1])}
+    kept_fs2, dropped_fs2 = ycl.filter_seen_topics(
+        [{"title": "أغلبها مستهلَك", "point_ids": [0, 1]}], points_fs, seen_keys_fs2)
+    check("filter_seen_topics: أغلبية حقيقية (2 من 2) تُهمِل القضية",
+          len(kept_fs2) == 0 and dropped_fs2 == 1, (kept_fs2, dropped_fs2))
 
     # ── cluster_points: إخراج مهيكل (tool_use)، تنقية معرّفات خارج النطاق/فاسدة ──
     class _Block:
@@ -10557,11 +10658,15 @@ def test_youtube_cluster() -> None:
     two_points = points[:2]
     raw_issues = {
         "issues": [
-            {"title": "قضية صالحة", "agreement": "dispute",
+            {"title": "قضية صالحة", "event": "حدث محدد", "agreement": "dispute",
              "point_ids": [0, 1, 99, -1, "x", True]},
-            {"title": "   ", "agreement": "agreement", "point_ids": [0, 1]},
-            {"title": "قضية بنقطة واحدة", "agreement": "echo", "point_ids": [0]},
-            {"title": "قضية بخلاف باطل", "agreement": "غير معروف", "point_ids": [0, 1]},
+            {"title": "   ", "event": "ح", "agreement": "agreement", "point_ids": [0, 1]},
+            {"title": "قضية بنقطة واحدة", "event": "ح", "agreement": "echo", "point_ids": [0]},
+            {"title": "قضية بخلاف باطل", "event": "ح", "agreement": "غير معروف",
+             "point_ids": [0, 1]},
+            {"title": "قضية بلا حقل event", "agreement": "agreement", "point_ids": [0, 1]},
+            {"title": "قضية بحدث فارغ", "event": "   ", "agreement": "agreement",
+             "point_ids": [0, 1]},
         ],
     }
     client = _Client([_Resp([_Block("tool_use", input_=raw_issues)])])
@@ -10576,6 +10681,10 @@ def test_youtube_cluster() -> None:
           all(len(i["point_ids"]) >= 2 for i in issues))
     check("قضية بمؤشّر خلاف غير صالح تُهمَل",
           all(i["agreement"] in ycl.AGREEMENT_VALUES for i in issues))
+    check("قضية بلا حقل event أو بحدث فارغ بعد strip تُهمَل (Issue #658 العطل ٤)",
+          all(i["title"] not in ("قضية بلا حقل event", "قضية بحدث فارغ") for i in issues))
+    check("cluster_points: القضية الصالحة تحمل event مطابقًا لما أعاده النموذج",
+          issues[0]["event"] == "حدث محدد", issues[0] if issues else None)
     check("cluster_points: النداء يستعمل tool_use بمخطط cluster_points",
           client.messages.calls[0]["tools"][0]["name"] == "cluster_points" and
           client.messages.calls[0]["tool_choice"] == {"type": "tool", "name": "cluster_points"})
@@ -10617,9 +10726,12 @@ def test_youtube_cluster() -> None:
         corrupt_path.unlink(missing_ok=True)
 
     # ── run()/save_output: تكامل كامل بفاكة واحدة، ثم قراءة الملف المحفوظ ──
+    # point_ids ثلاثة (0، 2، 3) لا اثنان -- min_points_per_topic الافتراضي في
+    # config.yaml (٤) يستثني طبقة (أ) بثلاث نقاط لا أربع (Issue #658 العطل ٢).
     run_client = _Client([_Resp([_Block("tool_use", input_={
         "issues": [
-            {"title": "قضية تكامل", "agreement": "dispute", "point_ids": [0, 2]},
+            {"title": "قضية تكامل", "event": "حدث تكامل", "agreement": "dispute",
+             "point_ids": [0, 2, 3]},
         ],
     })])])
     ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -10630,6 +10742,9 @@ def test_youtube_cluster() -> None:
         check("run(): إحصاءات متّسقة مع مخرج العنقدة",
               result["stats"]["points_in"] == 4 and result["stats"]["topics_out"] == 1 and
               result["stats"]["layer_a"] == 1, result["stats"])
+        check("run(): عدّادا سجل الاستهلاك وحدّ النقاط الجديدان صفر عند عدم انطباقهما",
+              result["stats"]["topics_seen_skipped"] == 0 and
+              result["stats"]["topics_below_min_points"] == 0, result["stats"])
         saved_path = ycl.save_output(result)
         reloaded = ycl.load_topics("2099-02-02")
         check("save_output/load_topics: تكامل الحفظ والقراءة",
@@ -10714,14 +10829,31 @@ def test_youtube_article() -> None:
 
     blocked_client = _Client([_Resp([_Block("tool_use", input_={
         "blocked": True, "category": "accusation_named", "reason": "اتهام شخص مسمّى بفساد"})])])
-    blocked, reason, guard_error = ya.check_forbidden(topic_c, member_points, article_cfg,
-                                                       blocked_client)
-    check("check_forbidden: اتهام شخص مسمّى يُحظَر", blocked and guard_error is None, reason)
+    blocked, reason, guard_error, no_reason = ya.check_forbidden(topic_c, member_points,
+                                                                  article_cfg, blocked_client)
+    check("check_forbidden: اتهام شخص مسمّى بسبب مكتوب يُحظَر فعليًا",
+          blocked and guard_error is None and not no_reason, reason)
 
     allowed_client = _Client([_Resp([_Block("tool_use", input_={
         "blocked": False, "category": "none", "reason": ""})])])
-    blocked2, _, _ = ya.check_forbidden(topic_c, member_points, article_cfg, allowed_client)
-    check("check_forbidden: قضية عادية لا تُحظَر", not blocked2)
+    blocked2, _, _, no_reason2 = ya.check_forbidden(topic_c, member_points, article_cfg,
+                                                      allowed_client)
+    check("check_forbidden: قضية عادية لا تُحظَر", not blocked2 and not no_reason2)
+
+    # ── حارس صامت لا يُطاع: blocked=true بلا reason مكتوب يُعامَل كقبول (Issue #658 العطل ٣ بند أ) ──
+    no_reason_client = _Client([_Resp([_Block("tool_use", input_={
+        "blocked": True, "category": "market_moving_numbers", "reason": ""})])])
+    blocked_nr, reason_nr, guard_error_nr, no_reason_nr = ya.check_forbidden(
+        topic_c, member_points, article_cfg, no_reason_client)
+    check("check_forbidden: حظر بسبب فارغ يُقبَل (الحارس الصامت لا يُطاع)",
+          not blocked_nr and guard_error_nr is None and no_reason_nr, (reason_nr, no_reason_nr))
+
+    no_reason_whitespace_client = _Client([_Resp([_Block("tool_use", input_={
+        "blocked": True, "category": "military_ops", "reason": "   "})])])
+    blocked_nr2, _, _, no_reason_nr2 = ya.check_forbidden(
+        topic_c, member_points, article_cfg, no_reason_whitespace_client)
+    check("check_forbidden: سبب مؤلَّف من مسافات فقط يُعامَل كسبب فارغ",
+          not blocked_nr2 and no_reason_nr2)
 
     class _FailingMessages:
         def create(self, **kw):
@@ -10736,10 +10868,10 @@ def test_youtube_article() -> None:
         def __init__(self):
             self.messages = _FailingMessages()
 
-    blocked3, _, guard_error3 = ya.check_forbidden(topic_c, member_points, article_cfg,
-                                                    _FailingClient())
+    blocked3, _, guard_error3, no_reason3 = ya.check_forbidden(topic_c, member_points,
+                                                                article_cfg, _FailingClient())
     check("check_forbidden: فشل نداء الحارس لا يحظر تلقائيًا، ويُسجَّل السبب",
-          not blocked3 and guard_error3 is not None, guard_error3)
+          not blocked3 and guard_error3 is not None and not no_reason3, guard_error3)
 
     # ── draft_article: محاولة ثانية بعد بنية فاسدة أولى ──
     retry_client = _Client([
@@ -10784,22 +10916,29 @@ def test_youtube_article() -> None:
         import shutil as _shutil
         _shutil.rmtree(ya.ARTICLES_DIR / "2099-03-03", ignore_errors=True)
 
-    # ── run(): تكامل كامل -- طبقة أ تتجاوز الحارس، طبقة ج تُحظَر أو تُكتَب ──
+    # ── run(): تكامل كامل -- طبقة أ تتجاوز الحارس، طبقة ج تُحظَر أو تُكتَب أو
+    # يُتجاوَز حظرها بلا سبب مكتوب (Issue #658)، وتُسجَّل نقاط المقالات
+    # الناجحة في سجل الاستهلاك ──
     points_for_run = [
-        {"bloc": "arabic", "channel": "الجزيرة", "speaker": "ناطق", "statement": "قول 0",
-         "quote_arabic": "اقتباس 0", "type": "fact", "video_title": "فيديو 0",
-         "video_url": "https://youtube.com/watch?v=0", "timestamp": 5},
-        {"bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث", "statement": "قول 1",
-         "quote_arabic": "اقتباس 1", "type": "fact", "video_title": "فيديو 1",
-         "video_url": "https://youtube.com/watch?v=1", "timestamp": None},
+        {"video_id": "vid0", "bloc": "arabic", "channel": "الجزيرة", "speaker": "ناطق",
+         "statement": "قول 0", "quote_arabic": "اقتباس 0", "type": "fact",
+         "video_title": "فيديو 0", "video_url": "https://youtube.com/watch?v=0",
+         "timestamp": 5},
+        {"video_id": "vid1", "bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث",
+         "statement": "قول 1", "quote_arabic": "اقتباس 1", "type": "fact",
+         "video_title": "فيديو 1", "video_url": "https://youtube.com/watch?v=1",
+         "timestamp": None},
     ]
     topics_for_run = [
-        {"title": "طبقة أ تتجاوز الحارس", "layer": "a", "blocs": ["arabic", "turkish"],
-         "channels": ["الجزيرة", "CNN Türk"], "agreement": "dispute", "point_ids": [0, 1]},
-        {"title": "طبقة ج محظورة", "layer": "c", "blocs": ["arabic"],
+        {"title": "طبقة أ تتجاوز الحارس", "event": "حدث أ", "layer": "a",
+         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+         "agreement": "dispute", "point_ids": [0, 1]},
+        {"title": "طبقة ج محظورة", "event": "حدث ج١", "layer": "c", "blocs": ["arabic"],
          "channels": ["الجزيرة"], "agreement": "agreement", "point_ids": [0]},
-        {"title": "طبقة ج مسموحة", "layer": "c", "blocs": ["arabic"],
+        {"title": "طبقة ج مسموحة", "event": "حدث ج٢", "layer": "c", "blocs": ["arabic"],
          "channels": ["الجزيرة"], "agreement": "agreement", "point_ids": [0]},
+        {"title": "طبقة ج حظر بلا سبب", "event": "حدث ج٣", "layer": "c", "blocs": ["arabic"],
+         "channels": ["الجزيرة"], "agreement": "agreement", "point_ids": [1]},
     ]
 
     run_client = _Client([
@@ -10808,6 +10947,9 @@ def test_youtube_article() -> None:
             "blocked": True, "category": "military_ops", "reason": "عمليات عسكرية وشيكة"})]),
         _Resp([_Block("tool_use", input_={"blocked": False, "category": "none", "reason": ""})]),
         _Resp([_Block("text", text=_valid_article("سؤال عن قضية الطبقة ج المسموحة؟"))]),
+        _Resp([_Block("tool_use", input_={
+            "blocked": True, "category": "market_moving_numbers", "reason": ""})]),
+        _Resp([_Block("text", text=_valid_article("سؤال عن قضية بلا سبب حظر؟"))]),
     ])
 
     ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -10818,21 +10960,33 @@ def test_youtube_article() -> None:
                             encoding="utf-8")
     topics_path.write_text(json.dumps({"run_date": "2099-04-04", "topics": topics_for_run},
                                        ensure_ascii=False), encoding="utf-8")
+    seen_backup2 = ycl.SEEN_PATH.read_text(encoding="utf-8") if ycl.SEEN_PATH.exists() else None
     try:
         result = ya.run(article_cfg, date_str="2099-04-04", client=run_client)
         stats = result["stats"]
         check("run(): طبقة أ لا تستدعي حارس المحظورات إطلاقًا",
-              stats["guard_calls"] == 2, stats)
-        check("run(): مقالان يُكتبان، وقضية واحدة محظورة تُستبعَد",
-              stats["articles_written"] == 2 and stats["blocked_forbidden"] == 1 and
+              stats["guard_calls"] == 3, stats)
+        check("run(): ثلاثة مقالات تُكتَب (طبقة أ + ج مسموحة + ج بلا سبب حظر مقبولة)، "
+              "وقضية واحدة محظورة فعليًا تُستبعَد",
+              stats["articles_written"] == 3 and stats["blocked_forbidden"] == 1 and
               stats["skipped"] == 1, stats)
+        check("run(): حظر بلا سبب مكتوب يُقبَل ويُعدّ في topics_blocked_no_reason لا blocked_forbidden",
+              stats["topics_blocked_no_reason"] == 1, stats)
         check("run(): سبب الاستبعاد مسجَّل صراحة لا صامتًا",
               "محظورة" in result["skipped"][0]["reason"], result["skipped"])
+        seen_after = ycl.load_seen_points()
+        check("run(): نقاط المقالات المكتوبة فعليًا تُسجَّل في سجل الاستهلاك",
+              ycl.point_key(points_for_run[0]) in seen_after and
+              ycl.point_key(points_for_run[1]) in seen_after, seen_after)
     finally:
         points_path.unlink(missing_ok=True)
         topics_path.unlink(missing_ok=True)
         import shutil as _shutil
         _shutil.rmtree(ya.ARTICLES_DIR / "2099-04-04", ignore_errors=True)
+        if seen_backup2 is None:
+            ycl.SEEN_PATH.unlink(missing_ok=True)
+        else:
+            ycl.SEEN_PATH.write_text(seen_backup2, encoding="utf-8")
 
 
 def test_no_temperature_param() -> None:
