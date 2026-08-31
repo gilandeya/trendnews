@@ -14,7 +14,14 @@ prompts/youtube_article.md للقواعد التحريرية كاملة).
 
 قائمة المحظورات (skipped بسببها) تُطبَّق فقط على قضايا الطبقة (ج) -- مصدر
 واحد -- عبر نداء حرّاس رخيص منفصل قبل إنفاق نداء الكتابة الأقوى، بنفس مبدأ
-حارس الموضوع في src/youtube_extract.py: حكم دلالي رخيص قبل تكلفة كبيرة."""
+حارس الموضوع في src/youtube_extract.py: حكم دلالي رخيص قبل تكلفة كبيرة.
+
+Issue #660 الإصلاح ٣: run() يوكِّد الآن وجود
+state/youtube_topics_seen.json دومًا قبل نهاية التشغيلة (يكتب "{}" إن غاب)
+-- تشغيلة بصفر مقالات ناجحة لا تستدعي youtube_cluster.mark_points_seen
+أصلًا فلا يُنشَأ الملف، وخطوة `git add` على مسار غير موجود في الـworkflow
+كانت تُسقِط خطوة الرفع كاملة (pathspec لم يطابق، exit code 128) وتُضيع كل
+ما أُنتج قبلها."""
 from __future__ import annotations
 
 import json
@@ -279,13 +286,17 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     date_str = date_str or now.strftime("%Y-%m-%d")
 
     lookback_days = cfg.path("youtube.cluster.lookback_days", 3)
+    max_points_per_call = cfg.path("youtube.cluster.max_points_per_call", 150)
     topics_result = youtube_cluster.load_topics(date_str)
     topics = topics_result.get("topics", [])
-    # نفس نافذة العنقدة بالضبط (youtube.cluster.lookback_days) -- point_ids
-    # كل قضية فهارس ضمن هذه النافذة المُعاد بناؤها، لا ملف اليوم وحده (Issue
-    # #658 العطل ١ بند أ). طالما لم يتغيّر lookback_days بين تشغيلتَي العنقدة
-    # والكتابة، النافذتان متطابقتان.
-    points = youtube_cluster.load_points_window(date_str, lookback_days)
+    # نفس نافذة العنقدة بالضبط (youtube.cluster.lookback_days) ثم نفس القصّ
+    # بالضبط (youtube.cluster.max_points_per_call، Issue #660 الإصلاح ٢) --
+    # point_ids كل قضية فهارس ضمن هذه القائمة المُعاد بناؤها تحديدًا، لا ملف
+    # اليوم وحده ولا النافذة الكاملة غير المقصوصة (Issue #658 العطل ١ بند أ).
+    # طالما لم يتغيّر أيّ من الإعدادين بين تشغيلتَي العنقدة والكتابة، القائمتان
+    # متطابقتان فهرسًا بفهرس -- قصّ بسقف مختلف هنا كان سيربط قضية بنقاط خاطئة.
+    points, _ = youtube_cluster.apply_points_cap(
+        youtube_cluster.load_points_window(date_str, lookback_days), max_points_per_call)
     count = cfg.path("youtube.article.count", 10)
 
     to_draft: list[dict] = []
@@ -336,6 +347,17 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     if seen_keys_to_mark:
         retention_days = cfg.path("youtube.seen_retention_days", 14)
         youtube_cluster.mark_points_seen(seen_keys_to_mark, date_str, retention_days)
+
+    # Issue #660 الإصلاح ٣: mark_points_seen (وبالتالي SEEN_PATH) لا يُكتب
+    # إطلاقًا إن كانت seen_keys_to_mark فارغة -- صفر مقالات ناجحة (فشلت
+    # العنقدة، أو صفر قضايا عبرت الحرّاس/الكتابة). خطوة `git add
+    # state/youtube_topics_seen.json` في الـworkflow تسقط بخطأ (pathspec لم
+    # يطابق أي ملف، exit code 128) على مسار غير موجود، فتفشل خطوة الرفع
+    # كاملة وتُضيع كل ما أُنتج قبلها. توكيد وجود الملف هنا يحلّ المشكلة من
+    # جذرها -- لا حاجة لتعديل الـworkflow (والتوكن لا يستطيع تعديله أصلًا).
+    if not youtube_cluster.SEEN_PATH.exists():
+        youtube_cluster.SEEN_PATH.parent.mkdir(parents=True, exist_ok=True)
+        youtube_cluster.SEEN_PATH.write_text("{}", encoding="utf-8")
 
     return {
         "run_date": date_str,
