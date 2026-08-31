@@ -45,7 +45,7 @@ jobs:
           git config user.name  "trendnews-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p state
-          git add state/youtube_topics state/youtube_articles
+          git add state/youtube_topics state/youtube_articles state/youtube_topics_seen.json
           if git diff --quiet --cached; then
             echo "لا تغييرات"
             exit 0
