@@ -1,0 +1,48 @@
+{
+  "id": "8ed47e07566e",
+  "created_at": "2026-08-31T06:08:08.602750+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.8,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Tens of thousands gather before sunrise as favourable weather lifts National Day spirit",
+  "link": "https://www.malaymail.com/news/malaysia/2026/08/31/tens-of-thousands-gather-before-sunrise-as-favourable-weather-lifts-national-day-spirit/233326",
+  "publishers": [
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Tens of thousands gather before sunrise as favourable weather lifts National Day spirit",
+    "link": "https://www.malaymail.com/news/malaysia/2026/08/31/tens-of-thousands-gather-before-sunrise-as-favourable-weather-lifts-national-day-spirit/233326",
+    "summary": "PUTRAJAYA, Aug 31 — Dataran Putrajaya came alive this morning as tens of thousands of visitors gathered for the 20...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-08-31T00:57:12+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/08/31/359823.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/malaysia/2026/08/31/tens-of-thousands-gather-before-sunrise-as-favourable-weather-lifts-national-day-spirit/233326"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/08/31/359823.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 3.001177897777778,
+    "is_stale": false,
+    "score": 16.804620328685186
+  }
+}
