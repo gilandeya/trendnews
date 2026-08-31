@@ -1,95 +1,5 @@
 [
   {
-    "score": 27.87,
-    "bucket": "serious",
-    "tokens": [
-      "291",
-      "among",
-      "floods",
-      "foreign",
-      "malaysians",
-      "missing",
-      "nationals",
-      "nepal"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/nation/2026/08/26/17-malaysians-among-291-foreign-nationals-missing-in-nepal-floods",
-    "title": "17 Malaysians among 291 foreign nationals missing in Nepal floods",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-08-26T19:07:53.819472+00:00"
-  },
-  {
-    "score": 17.41,
-    "bucket": "sport",
-    "tokens": [
-      "52m",
-      "city",
-      "gonzalez",
-      "man",
-      "newcastle",
-      "sign"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/articles/cx2zlnpnk4zo?at_medium=RSS&at_campaign=rss",
-    "title": "Newcastle sign Gonzalez from Man City for £52m",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-08-26T19:07:53.819722+00:00"
-  },
-  {
-    "score": 16.51,
-    "bucket": "serious",
-    "tokens": [
-      "casualties",
-      "cause",
-      "china",
-      "deadly",
-      "flash",
-      "flood",
-      "mudslide",
-      "nepal"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/08/26/asia-pacific/nepal-flash-flood/",
-    "title": "Deadly flash flood and mudslide cause casualties in Nepal and China",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-08-26T19:07:53.819916+00:00"
-  },
-  {
-    "score": 16.32,
-    "bucket": "serious",
-    "tokens": [
-      "arrest",
-      "man",
-      "police",
-      "romance",
-      "scam",
-      "sextortion"
-    ],
-    "link": "https://punchng.com/police-arrest-man-over-n3-5m-romance-scam-sextortion/?utm_source=rss.punchng.com&utm_medium=web",
-    "title": "Police arrest man over N3.5m romance scam, sextortion",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-08-26T19:07:53.820078+00:00"
-  },
-  {
-    "score": 16.19,
-    "bucket": "serious",
-    "tokens": [
-      "border",
-      "china",
-      "crossing",
-      "destroys",
-      "landslide",
-      "massive",
-      "nepal"
-    ],
-    "link": "https://www.scmp.com/news/article/3365350/massive-landslide-destroys-china-nepal-border-crossing?utm_source=rss_feed",
-    "title": "Massive landslide destroys China-Nepal border crossing",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-08-26T19:07:53.820244+00:00"
-  },
-  {
     "score": 16.51,
     "bucket": "serious",
     "tokens": [
@@ -5544,5 +5454,61 @@
     "posted_title": "",
     "region": "my",
     "seen_at": "2026-08-31T19:07:53.274639+00:00"
+  },
+  {
+    "score": 30.68,
+    "bucket": "serious",
+    "tokens": [
+      "economic",
+      "iran",
+      "israel",
+      "losers",
+      "war",
+      "who",
+      "winners"
+    ],
+    "link": "https://www.aljazeera.com/economy/2026/8/31/who-are-the-economic-winners-and-losers-of-the-us-israel-war-on-iran?traffic_source=rss",
+    "title": "Who are the economic winners and losers of the US-Israel war on Iran?",
+    "posted_title": "من الرابح ومن الخاسر اقتصاديًا بعد ستة أشهر من الحرب الأمريكية الإسرائيلية على إيران؟",
+    "region": "qa",
+    "seen_at": "2026-08-31T19:28:43.129711+00:00"
+  },
+  {
+    "score": 20.47,
+    "bucket": "serious",
+    "tokens": [
+      "accuses",
+      "araghchi",
+      "iran",
+      "netanyahu",
+      "serpent",
+      "tricking",
+      "war"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/31/iran-s-araghchi-accuses-serpent-netanyahu-of-tricking-us-into-war",
+    "title": "Iran’s Araghchi accuses ‘serpent’ Netanyahu of tricking US into war",
+    "posted_title": "وزير الخارجية الإيراني يصف نتنياهو بـ\"الأفعى\" ويتهمه بخداع واشنطن لدخول الحرب",
+    "region": "my",
+    "seen_at": "2026-08-31T19:29:00.553548+00:00"
+  },
+  {
+    "score": 17.04,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "dismisses",
+      "energy",
+      "hub",
+      "iran",
+      "key",
+      "kharg",
+      "post",
+      "trump's"
+    ],
+    "link": "https://www.thehindu.com/news/international/iran-dismisses-trumps-post-of-attack-on-key-energy-hub-of-kharg/article71410760.ece",
+    "title": "Iran dismisses Trump's post of attack on key energy hub of Kharg",
+    "posted_title": "إيران تصف منشور ترامب عن ضرب جزيرة خرج النفطية بأنه مضحك ومصنوع بالذكاء الاصطناعي",
+    "region": "in",
+    "seen_at": "2026-08-31T19:29:18.411513+00:00"
   }
 ]
