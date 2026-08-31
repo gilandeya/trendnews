@@ -922,5 +922,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 4
+ },
+ {
+  "id": "e696f782c885",
+  "created_at": "2026-08-31T04:28:06.845542+00:00",
+  "decided_at": "2026-08-31T05:15:47.383686+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "سياسة",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "qa",
+  "score": 12.43,
+  "trend_score": 0.0,
+  "velocity": 0.2,
+  "source_count": 2,
+  "body_len": 557,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 4
  }
 ]
