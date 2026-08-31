@@ -60,20 +60,45 @@ GUARD_SCHEMA = {
     },
 }
 
+# Issue #658 العطل ٣: التشغيلة الأولى حظرت ٧ من ٨ قضايا طبقة (ج) -- خمس
+# بسبب فارغ تمامًا (حارس صامت)، واثنتان بتعليل خاطئ: حجم اقتصاد دولة
+# (إحصاء منشور) صُنِّف "رقمًا قابلًا لتحريك السوق"، وملاحقة قضائية علنية
+# أعلنتها النيابة صُنِّفت "اتهامًا مسمّى". السبب: البنود كانت تصف الموضوع لا
+# المعيار -- أُعيدت صياغتها أدناه بمعيار الممنوع الدقيق مقابل مسموح صريح
+# لكل فئة، مع أمثلة حرفية من نفس التشغيلة.
 GUARD_SYSTEM = """أنت حارس محظورات لقضايا أحادية المصدر (تناولتها قناة واحدة
-فقط بلا تأكيد مستقل). القضايا التالية لا يجوز كتابة مقال عنها بمصدر واحد
-مهما كانت النسبة صريحة لقائلها:
+فقط بلا تأكيد مستقل). لكل فئة معيار الممنوع فيها تحديدًا لا الموضوع كله --
+نقل خبر من نفس الباب قد يكون مسموحًا تمامًا إن كان إحصاءً أو إجراءً رسميًا
+معلنًا لا اتهامًا أو توصية أو تفصيلًا حسّاسًا:
 
-- accusation_named: اتهام شخص أو جهة مسمّاة بجريمة أو فساد أو خيانة.
-- health_medical: ادعاءات صحية أو دوائية أو علاجية.
-- military_ops: حركات جيوش أو عمليات عسكرية وشيكة أو مواقع منشآت.
-- sectarian_generalization: ما يمسّ طائفة أو قومية أو دينًا بتعميم.
-- market_moving_numbers: أرقامًا مالية محدَّدة قابلة لتحريك سوق.
-- minors: ما يخصّ قاصرين.
+- accusation_named: ممنوع اتهام يطلقه محلل أو صحفي من رأسه بجريمة أو فساد
+  أو خيانة لشخص أو جهة مسمّاة. مسموح: إجراء قضائي أو رسمي معلن ومنسوب
+  لجهته (نيابة عامة، محكمة، وزارة) -- نقل قرار رسمي ليس اتهامًا.
+- market_moving_numbers: ممنوع توصية استثمارية أو توقّع سعر أصل أو
+  "اشترِ/بِع". مسموح: إحصاءات اقتصادية منشورة (ناتج محلي، تضخم، احتياطيات،
+  ميزانيات) ولو كانت أرقامًا كبيرة أو محدَّدة.
+- health_medical: ممنوع نصيحة علاجية أو دوائية. مسموح: تغطية أزمة صحية
+  عامة أو نقص أدوية كخبر.
+- military_ops: ممنوع مواقع منشآت أو تفاصيل عمليات عسكرية وشيكة. مسموح:
+  تغطية توتر عسكري أو تصريحات رسمية عنه.
+- sectarian_generalization: ممنوع تعميم سلبي على جماعة أو طائفة أو قومية
+  أو دين بأكمله. مسموح: نقل حدث يخصّ طرفًا بعينه بالاسم لا الجماعة كلها.
+- minors: ما يخصّ قاصرين، بلا استثناء.
+
+أمثلة حرفية للفصل بين المسموح والممنوع (من تشغيلة فعلية):
+- "الاقتصاد الإيراني انخفض من ٦٥٠ إلى ٣٠٠ مليار دولار" ⇐ مسموح (إحصاء
+  اقتصادي منشور، ليس توصية استثمارية).
+- "النيابة العامة في أنقرة فتحت تحقيقًا مع فلان" ⇐ مسموح (إجراء رسمي معلن
+  ومنسوب لجهته، ليس اتهامًا من محلل).
+- "قال المحلل إن فلانًا سرق أموالًا" ⇐ ممنوع (اتهام أحادي يطلقه محلل من
+  رأسه، بلا نسبة لجهة رسمية).
 
 تستلم ملخّص نقاط قضية واحدة. اضبط blocked=true وcategory بالفئة المطابقة
-إن انطبقت واحدة منها على مضمون القضية، وإلا blocked=false وcategory="none".
-الحكم على المضمون لا على درجة يقين الصياغة -- اتهام "مزعوم" يبقى اتهامًا."""
+إن انطبق **المعيار الممنوع تحديدًا** أعلاه على مضمون القضية، وإلا
+blocked=false وcategory="none". الحكم على المضمون لا على درجة يقين
+الصياغة -- اتهام "مزعوم" يبقى اتهامًا إن كان من محلل لا جهة رسمية. اكتب في
+reason دومًا شرحًا عربيًا قصيرًا يذكر أيّ شقّ من المعيار انطبق -- قرار
+blocked=true بلا سبب مكتوب لا قيمة له ويُتجاهَل من الشيفرة."""
 
 
 def load_article_prompt() -> str:
@@ -89,11 +114,18 @@ def _topic_summary(topic: dict, member_points: list[dict]) -> str:
 
 
 def check_forbidden(topic: dict, member_points: list[dict], cfg: Config,
-                     client: Anthropic | None = None) -> tuple[bool, str, str | None]:
-    """يعيد (محظورة، السبب، سبب فشل النداء إن حدث -- None عند النجاح).
-    فشل النداء لا يحظر القضية تلقائيًا -- نفس مبدأ classify_topic في
-    src/youtube_extract.py: عطل شبكي عابر ليس دليل حظر، وإسقاط القضية
-    صامتًا لهذا السبب يناقض مبدأ المشروع في عدم الفشل الصامت."""
+                     client: Anthropic | None = None) -> tuple[bool, str, str | None, bool]:
+    """يعيد (محظورة، السبب، سبب فشل النداء إن حدث -- None عند النجاح، هل
+    قُبِلت القضية بتجاوز حظر بلا سبب مكتوب). فشل النداء لا يحظر القضية
+    تلقائيًا -- نفس مبدأ classify_topic في src/youtube_extract.py: عطل شبكي
+    عابر ليس دليل حظر، وإسقاط القضية صامتًا لهذا السبب يناقض مبدأ المشروع
+    في عدم الفشل الصامت.
+
+    Issue #658 العطل ٣ بند أ: خمس من سبع قضايا حُظرت في التشغيلة الأولى
+    بسبب فارغ تمامًا -- حارس صامت لا يُطاع. blocked=true بلا reason مكتوب
+    يُعامَل هنا كأنه blocked=false (تُقبَل القضية)، والعنصر الرابع المُعاد
+    يُخبر الطالب بأن هذا التجاوز وقع تحديدًا، لتغذية عدّاد
+    topics_blocked_no_reason في run() -- تمييزًا عن حظر عادي بسبب مكتوب."""
     model = cfg.path("youtube.article.guard_model",
                       cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001"))
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
@@ -108,14 +140,17 @@ def check_forbidden(topic: dict, member_points: list[dict], cfg: Config,
             # لا تُضِف temperature -- نماذج هذا المشروع ترفضها بـ400.
         )
     except APIError as exc:
-        return False, "", f"فشل نداء حارس المحظورات: {exc}"
+        return False, "", f"فشل نداء حارس المحظورات: {exc}", False
 
     data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None)
     if not isinstance(data, dict):
-        return False, "", None
+        return False, "", None, False
     category = data.get("category")
+    reason = str(data.get("reason", "")).strip()
     blocked = bool(data.get("blocked")) and category in FORBIDDEN_CATEGORIES
-    return blocked, str(data.get("reason", "")), None
+    if blocked and not reason:
+        return False, "", None, True
+    return blocked, reason, None, False
 
 
 def _points_block(member_points: list[dict]) -> str:
@@ -243,16 +278,23 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     now = now or datetime.now(timezone.utc)
     date_str = date_str or now.strftime("%Y-%m-%d")
 
+    lookback_days = cfg.path("youtube.cluster.lookback_days", 3)
     topics_result = youtube_cluster.load_topics(date_str)
     topics = topics_result.get("topics", [])
-    points = youtube_cluster.load_points(date_str)
+    # نفس نافذة العنقدة بالضبط (youtube.cluster.lookback_days) -- point_ids
+    # كل قضية فهارس ضمن هذه النافذة المُعاد بناؤها، لا ملف اليوم وحده (Issue
+    # #658 العطل ١ بند أ). طالما لم يتغيّر lookback_days بين تشغيلتَي العنقدة
+    # والكتابة، النافذتان متطابقتان.
+    points = youtube_cluster.load_points_window(date_str, lookback_days)
     count = cfg.path("youtube.article.count", 10)
 
     to_draft: list[dict] = []
     skipped: list[dict] = []
     guard_calls = 0
     blocked_count = 0
+    blocked_no_reason_count = 0
     draft_failures = 0
+    seen_keys_to_mark: set[str] = set()
 
     for topic in topics[:count]:
         member_points = [points[pid] for pid in topic["point_ids"] if 0 <= pid < len(points)]
@@ -263,9 +305,14 @@ def run(cfg: Config | None = None, date_str: str | None = None,
 
         if topic["layer"] == "c":
             guard_calls += 1
-            blocked, reason, guard_error = check_forbidden(topic, member_points, cfg, client)
+            blocked, reason, guard_error, no_reason_override = check_forbidden(
+                topic, member_points, cfg, client)
             if guard_error:
                 log.warning("فشل حارس المحظورات لـ%r: %s", topic["title"], guard_error)
+            if no_reason_override:
+                blocked_no_reason_count += 1
+                log.warning("حارس المحظورات حظر %r بلا سبب مكتوب -- قُبِلت (حارس صامت لا يُطاع)",
+                            topic["title"])
             if blocked:
                 blocked_count += 1
                 skipped.append({"title": topic["title"], "layer": topic["layer"],
@@ -280,8 +327,15 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             continue
 
         to_draft.append({"topic": topic, "text": text})
+        # تُسجَّل فقط بعد نجاح الكتابة الفعلي -- قضية عُنقدت أو تجاوزت الحارس
+        # لكن فشلت كتابتها لا قيمة في تسجيلها "مستهلكة" (Issue #658 العطل ١
+        # بند ج، انظر youtube_cluster.filter_seen_topics).
+        seen_keys_to_mark |= {youtube_cluster.point_key(p) for p in member_points}
 
     saved = save_articles(date_str, to_draft)
+    if seen_keys_to_mark:
+        retention_days = cfg.path("youtube.seen_retention_days", 14)
+        youtube_cluster.mark_points_seen(seen_keys_to_mark, date_str, retention_days)
 
     return {
         "run_date": date_str,
@@ -291,6 +345,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             "skipped": len(skipped),
             "guard_calls": guard_calls,
             "blocked_forbidden": blocked_count,
+            "topics_blocked_no_reason": blocked_no_reason_count,
             "draft_failures": draft_failures,
         },
         "skipped": skipped,
@@ -307,6 +362,7 @@ def main() -> int:
     print(f"قضايا فُحصت: {stats['topics_considered']} · مقالات كُتبت: {stats['articles_written']} "
           f"· تخطّي: {stats['skipped']}")
     print(f"نداءات حارس المحظورات: {stats['guard_calls']} · محظورة: {stats['blocked_forbidden']} "
+          f"(بلا سبب مكتوب فقُبِلت: {stats['topics_blocked_no_reason']}) "
           f"· فشل كتابة: {stats['draft_failures']}")
     if result["skipped"]:
         for entry in result["skipped"]:
