@@ -10504,7 +10504,7 @@ def test_youtube_cluster() -> None:
     check("العدد الكلي للقضايا محفوظ بعد الفرز", len(topics) == 4, len(topics))
     check("الطبقة أ تتصدّر بصرف النظر عن ترتيب الإدخال",
           topics[0]["title"] == issue_a["title"], [t["title"] for t in topics])
-    check("داخل الطبقة ب: الخلاف (dispute) يتقدّم على الصدى (echo)",
+    check("داخل الطبقة ب: الخلاف (cross_source بعد التنقيح) يتقدّم على الصدى (echo)",
           topics[1]["title"] == issue_b_dispute["title"] and
           topics[2]["title"] == issue_b_echo["title"], [t["title"] for t in topics])
     check("الطبقة ج تأتي أخيرًا", topics[3]["title"] == issue_c["title"])
@@ -10514,6 +10514,24 @@ def test_youtube_cluster() -> None:
           topics[0])
     check("build_topics: يحمل حقل event من القضية الخام (Issue #658 العطل ٤)",
           topics[0]["event"] == issue_a["event"], topics[0])
+
+    # ── build_topics/_agreement_type_for: dispute يُنقَّح برمجيًا إلى
+    # cross_source/internal حسب قنوات القضية الفعلية (Issue #662 العطل ٤) ──
+    check("_agreement_type_for: dispute بقناتين مختلفتين فأكثر ⇐ cross_source",
+          ycl._agreement_type_for("dispute", {"الجزيرة", "العربية"}) == "cross_source")
+    check("_agreement_type_for: dispute بقناة واحدة ⇐ internal (خلاف بين ضيوف حلقة واحدة)",
+          ycl._agreement_type_for("dispute", {"الجزيرة"}) == "internal")
+    check("_agreement_type_for: agreement/echo يمرّان بلا تغيير",
+          ycl._agreement_type_for("agreement", {"الجزيرة"}) == "agreement" and
+          ycl._agreement_type_for("echo", {"الجزيرة", "العربية"}) == "echo")
+    check("build_topics: issue_b_dispute (نقطتان من قناتين) خرجت cross_source لا dispute",
+          topics[1]["agreement"] == "cross_source", topics[1])
+    internal_points = [mk_point("arabic", "الجزيرة"), mk_point("arabic", "الجزيرة")]
+    issue_internal = {"title": "خلاف داخل حلقة واحدة", "event": "ح", "agreement": "dispute",
+                       "point_ids": [0, 1]}
+    internal_topics = ycl.build_topics([issue_internal], internal_points)
+    check("build_topics: dispute بقناة واحدة (ضيوف حلقة واحدة) خرجت internal",
+          internal_topics[0]["agreement"] == "internal", internal_topics)
 
     # ── build_topics: ترجيح خفيف للحداثة عند تساوي الطبقة والخلاف (Issue #658 العطل ١ بند د) ──
     today, yesterday = "2098-08-08", "2098-08-06"
@@ -10622,6 +10640,67 @@ def test_youtube_cluster() -> None:
     check("apply_points_cap: عند تساوي run_date، يُبقي الأسبق ظهورًا (ترتيب الظهور)",
           {p["statement"] for p in kept_tie} == {"ظهر أولًا", "ظهر ثانيًا"} and dropped_tie == 1,
           (kept_tie, dropped_tie))
+
+    # ── apply_min_points_date: يُسقِط نقاط ملفات أقدم من الحدّ (Issue #662 العطل ٢ بند أ) ──
+    date_points = [
+        {**mk_point("arabic", "قI"), "run_date": "2026-08-29", "statement": "قبل الإصلاح"},
+        {**mk_point("arabic", "قJ"), "run_date": "2026-08-31", "statement": "يوم الإصلاح"},
+        {**mk_point("arabic", "قK"), "run_date": "2026-09-01", "statement": "بعد الإصلاح"},
+    ]
+    kept_date, dropped_date = ycl.apply_min_points_date(date_points, "2026-08-31")
+    check("apply_min_points_date: يُسقِط ملفات أقدم من الحدّ، يُبقي الحدّ نفسه وما بعده",
+          {p["statement"] for p in kept_date} == {"يوم الإصلاح", "بعد الإصلاح"} and
+          dropped_date == 1, (kept_date, dropped_date))
+    check("apply_min_points_date: حدّ فارغ/None يعني بلا فلترة",
+          ycl.apply_min_points_date(date_points, None) == (date_points, 0) and
+          ycl.apply_min_points_date(date_points, "") == (date_points, 0))
+
+    # ── apply_timestamp_guard: حارس ثانٍ للأمان، طابع يتجاوز مدة الفيديو يُسقَط (Issue #662 العطل ٢ بند ج) ──
+    ts_points = [
+        {**mk_point("arabic", "قL"), "timestamp": 100, "duration_seconds": 6791,
+         "statement": "طابع سليم"},
+        {**mk_point("arabic", "قM"), "timestamp": 7800, "duration_seconds": 6791,
+         "statement": "طابع يتجاوز المدة"},
+        {**mk_point("arabic", "قN"), "timestamp": None, "duration_seconds": 6791,
+         "statement": "طابع غير محلول (None)"},
+        {**mk_point("arabic", "قO"), "timestamp": 100, "statement": "بلا duration_seconds"},
+    ]
+    kept_ts, dropped_ts = ycl.apply_timestamp_guard(ts_points)
+    check("apply_timestamp_guard: يُسقِط الطابع المتجاوز فقط، يُبقي السليم والفارغ الصادق وناقص البيانات",
+          {p["statement"] for p in kept_ts} == {"طابع سليم", "طابع غير محلول (None)",
+                                                  "بلا duration_seconds"} and
+          dropped_ts == 1, (kept_ts, dropped_ts))
+
+    # ── prepare_window_points: تجميع الخطوات الأربع بترتيب ثابت واحد (Issue #662) --
+    # نفس الدالة تُستدعى من youtube_cluster.run() وyoutube_article.run() بنيويًا،
+    # فاتساقهما مضمون لا مجرّد اتفاق توثيقي بين الملفين ──
+    ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+    prep_day_old, prep_day_new = "2026-08-29", "2026-08-31"
+    (ycl.POINTS_DIR / f"{prep_day_old}.json").write_text(
+        json.dumps({"points": [
+            {**mk_point("arabic", "قP"), "statement": "قديم يُستبعَد بالتاريخ",
+             "timestamp": 10, "duration_seconds": 100},
+        ]}, ensure_ascii=False), encoding="utf-8")
+    (ycl.POINTS_DIR / f"{prep_day_new}.json").write_text(
+        json.dumps({"points": [
+            {**mk_point("arabic", "قQ"), "statement": "سليمة تمر",
+             "timestamp": 10, "duration_seconds": 100},
+            {**mk_point("arabic", "قR"), "statement": "طابع فاسد يُستبعَد",
+             "timestamp": 999, "duration_seconds": 100},
+        ]}, ensure_ascii=False), encoding="utf-8")
+    prep_cfg = load_config()
+    prep_cfg.setdefault("youtube", {}).setdefault("cluster", {})["min_points_date"] = "2026-08-31"
+    try:
+        prep_points, prep_stats = ycl.prepare_window_points(prep_day_new, prep_cfg)
+        check("prepare_window_points: يُبقي النقطة السليمة فقط بعد الفلترتين",
+              [p["statement"] for p in prep_points] == ["سليمة تمر"], (prep_points, prep_stats))
+        check("prepare_window_points: إحصاءات الإسقاط منفصلة بالسبب",
+              prep_stats["points_in"] == 3 and prep_stats["points_dropped_stale_date"] == 1 and
+              prep_stats["points_dropped_bad_timestamp"] == 1 and
+              prep_stats["points_dropped_over_cap"] == 0, prep_stats)
+    finally:
+        (ycl.POINTS_DIR / f"{prep_day_old}.json").unlink(missing_ok=True)
+        (ycl.POINTS_DIR / f"{prep_day_new}.json").unlink(missing_ok=True)
 
     # ── load_seen_points/mark_points_seen: سجل الاستهلاك + تقليمه (Issue #658 العطل ١ بند ج) ──
     seen_backup = ycl.SEEN_PATH.read_text(encoding="utf-8") if ycl.SEEN_PATH.exists() else None
@@ -10771,6 +10850,52 @@ def test_youtube_cluster() -> None:
           len(exhaust_client.messages.calls) == cluster_cfg.path("youtube.cluster.max_retries", 2),
           len(exhaust_client.messages.calls))
 
+    # ── merge_duplicate_events: قضيتان لنفس الحدث تُدمَجان، والطبقة تُعاد
+    # حسابها برمجيًا بعد الدمج (Issue #662 العطل ١) ──
+    merge_a = {"title": "صفقة نفط -- الجزيرة/العربية", "event": "صفقة نفط أمريكية فنزويلية",
+               "agreement": "agreement", "point_ids": [0, 1]}
+    merge_b = {"title": "صفقة نفط -- CNN Türk", "event": "تفاصيل اتفاق النفط الأمريكي الفنزويلي",
+               "agreement": "dispute", "point_ids": [2]}
+    merge_unrelated = {"title": "قضية أخرى تمامًا", "event": "حدث منفصل",
+                        "agreement": "echo", "point_ids": [0, 3]}
+    merge_points = [
+        mk_point("arabic", "الجزيرة"), mk_point("arabic", "العربية"),
+        mk_point("turkish", "CNN Türk"), mk_point("arabic", "الجزيرة"),
+    ]
+    merge_raw_response = {"merges": [{"issue_indices": [0, 1]}]}
+    merge_client = _Client([_Resp([_Block("tool_use", input_=merge_raw_response)])])
+    merged, merge_log, merge_error = ycl.merge_duplicate_events(
+        [merge_a, merge_b, merge_unrelated], cluster_cfg, merge_client)
+    check("merge_duplicate_events: يعود بلا خطأ، وقضية واحدة أقل بعد الدمج",
+          merge_error is None and len(merged) == 2, (merged, merge_error))
+    check("merge_duplicate_events: القضية غير المشمولة بالدمج تبقى كما هي",
+          any(t["title"] == merge_unrelated["title"] for t in merged), merged)
+    merged_topic = next(t for t in merged if t["title"] != merge_unrelated["title"])
+    check("merge_duplicate_events: نقاط القضيتين المدموجتين تُضَمّ (اتحاد لا تكرار)",
+          merged_topic["point_ids"] == [0, 1, 2], merged_topic)
+    check("merge_duplicate_events: مؤشّر الخلاف الخام يُؤخذ من الأعلى رتبة (dispute > agreement)",
+          merged_topic["agreement"] == "dispute", merged_topic)
+    check("merge_duplicate_events: سجل الدمج يذكر عنواني القضيتين المدموجتين",
+          merge_log == [[merge_a["title"], merge_b["title"]]], merge_log)
+
+    # الدمج مُتبَع ببناء القضايا -- الطبقة تُعاد حسابها برمجيًا من point_ids
+    # المدموجة تلقائيًا (لا حساب طبقة مكرَّر في merge_duplicate_events نفسها).
+    merged_final_topics = ycl.build_topics(merged, merge_points)
+    merged_final = next(t for t in merged_final_topics if t["title"] == merge_a["title"])
+    check("merge_duplicate_events + build_topics: القضية المدموجة (كتلتان، ٣ قنوات) خرجت طبقة أ",
+          merged_final["layer"] == "a" and merged_final["channels"] ==
+          sorted({"الجزيرة", "العربية", "CNN Türk"}), merged_final)
+
+    check("merge_duplicate_events: أقل من قضيتين لا يستدعي النموذج أصلًا",
+          ycl.merge_duplicate_events([merge_a], cluster_cfg, _Client([])) == ([merge_a], [], None))
+
+    # فشل نداء الدمج لا يُسقِط التشغيلة -- القضايا تبقى بلا دمج (نفس مبدأ check_forbidden)
+    no_merge_found, no_merge_log, no_merge_error = ycl.merge_duplicate_events(
+        [merge_a, merge_unrelated], cluster_cfg, _FailingClient())
+    check("merge_duplicate_events: فشل نداء الشبكة يعيد القضايا بلا دمج، وسببًا صريحًا",
+          no_merge_found == [merge_a, merge_unrelated] and no_merge_log == [] and
+          no_merge_error is not None, no_merge_error)
+
     # ── load_points/load_topics: ملف غائب أو تالف لا يُسقِط التشغيلة ──
     check("load_points: تاريخ بلا ملف يعيد قائمة فارغة",
           ycl.load_points("1999-01-01") == [])
@@ -10808,6 +10933,15 @@ def test_youtube_cluster() -> None:
               result["stats"]["topics_below_min_points"] == 0, result["stats"])
         check("run(): points_dropped_over_cap صفر حين النقاط دون السقف (Issue #660 الإصلاح ٢)",
               result["stats"]["points_dropped_over_cap"] == 0, result["stats"])
+        check("run(): عدّادا الإسقاط الجديدان (تاريخ قديم/طابع فاسد) صفر عند عدم انطباقهما (Issue #662)",
+              result["stats"]["points_dropped_stale_date"] == 0 and
+              result["stats"]["points_dropped_bad_timestamp"] == 0, result["stats"])
+        check("run(): topics_merged صفر بلا دمج (قضية واحدة فقط، merge_duplicate_events لا تُستدعى)",
+              result["stats"]["topics_merged"] == 0 and result["merged_events"] == [],
+              (result["stats"], result["merged_events"]))
+        check("run(): dispute بقناتين مختلفتين خرج cross_source في الإحصاءات (Issue #662 العطل ٤)",
+              result["stats"]["cross_source"] == 1 and result["topics"][0]["agreement"] ==
+              "cross_source", result["stats"])
         saved_path = ycl.save_output(result)
         reloaded = ycl.load_topics("2099-02-02")
         check("save_output/load_topics: تكامل الحفظ والقراءة",
@@ -10976,11 +11110,60 @@ def test_youtube_article() -> None:
     check("draft_article: فشل كل المحاولات يعيد سببًا صريحًا لا نصًّا",
           text2 is None and error2 is not None, error2)
 
-    # ── save_articles / build_index: ترقيم بلا فجوات + جدول الفهرس ──
+    # ── draft_article: مؤشّر cross_source/internal يصل النموذج كـ dispute
+    # (Issue #662 العطل ٤) -- prompts/youtube_article.md خارج النطاق، ولا
+    # يعرف إلا dispute/agreement/echo ──
+    for facing_agreement in ("cross_source", "internal"):
+        topic_facing = {**topic_a, "agreement": facing_agreement}
+        facing_client = _Client([_Resp([_Block("text", text=_valid_article())])])
+        ya.draft_article(topic_facing, member_points, article_cfg, facing_client)
+        sent = facing_client.messages.calls[0]["messages"][0]["content"]
+        check(f"draft_article: مؤشّر {facing_agreement} يُترجَم إلى dispute في نداء النموذج",
+              "مؤشّر الخلاف بين المصادر لهذه القضية: dispute" in sent, sent)
+    agreement_client = _Client([_Resp([_Block("text", text=_valid_article())])])
+    ya.draft_article({**topic_a, "agreement": "agreement"}, member_points, article_cfg,
+                      agreement_client)
+    check("draft_article: مؤشّر agreement يمرّ بلا تغيير",
+          "مؤشّر الخلاف بين المصادر لهذه القضية: agreement" in
+          agreement_client.messages.calls[0]["messages"][0]["content"])
+
+    # ── _arabic_point_count_phrase / _collect_warnings / _append_warnings
+    # (Issue #662 العطل ٣) ──
+    check("_arabic_point_count_phrase: مفرد/مثنى/جمع",
+          ya._arabic_point_count_phrase(1) == "نقطة" and
+          ya._arabic_point_count_phrase(2) == "نقطتين" and
+          ya._arabic_point_count_phrase(5) == "5 نقاط", (
+              ya._arabic_point_count_phrase(1), ya._arabic_point_count_phrase(2),
+              ya._arabic_point_count_phrase(5)))
+
+    warn_points = [
+        {"statement": "بايدن يزور المنطقة", "quote_original": "he visited the region"},
+        {"statement": "نص لا يحوي أي اسم علم من القائمة", "quote_original": "..."},
+        {"statement": "نتنياهو يتحدث عن الحرب", "quote_original": "he talked about the war"},
+        {"statement": "نتنياهو مجددًا في نقطة أخرى", "quote_original": "again, no name here"},
+    ]
+    collected = ya._collect_warnings(warn_points, article_cfg)
+    check("_collect_warnings: تحذير واحد لكل اسم مجمَّع (لا سطر لكل نقطة)", len(collected) == 2,
+          collected)
+    check("_collect_warnings: نتنياهو ورد في نقطتين، بايدن في نقطة واحدة",
+          any("بايدن" in w and "نقطة" in w and "نقطتين" not in w for w in collected) and
+          any("نتنياهو" in w and "نقطتين" in w for w in collected), collected)
+    check("_collect_warnings: نقاط بلا اسم مشكوك لا تعيد شيئًا",
+          ya._collect_warnings([{"statement": "لا شيء هنا", "quote_original": ""}],
+                                article_cfg) == [])
+
+    appended = ya._append_warnings("# عنوان\n\nنص المقال\n---\nالمصادر: رابط", collected)
+    check("_append_warnings: يضيف القسم بعد المصادر مع الترويسة الصحيحة",
+          appended.rstrip().endswith(f"- {collected[-1]}") and ya.WARNINGS_HEADER in appended and
+          all(f"- {w}" in appended for w in collected), appended)
+    check("_append_warnings: بلا تحذيرات، النص يعود بلا تغيير",
+          ya._append_warnings("نص كما هو", []) == "نص كما هو")
+
+    # ── save_articles / build_index: ترقيم بلا فجوات + جدول الفهرس + عمود التنبيهات ──
     saved = ya.save_articles("2099-03-03", [
         {"topic": {"title": "الأولى", "layer": "a", "blocs": ["arabic", "turkish"],
-                   "channels": ["الجزيرة"], "agreement": "dispute"},
-         "text": _valid_article("العنوان الأول؟")},
+                   "channels": ["الجزيرة"], "agreement": "cross_source"},
+         "text": _valid_article("العنوان الأول؟"), "warnings": collected},
         {"topic": {"title": "الثانية", "layer": "c", "blocs": ["arabic"],
                    "channels": ["العربية"], "agreement": "agreement"},
          "text": _valid_article("العنوان الثاني؟")},
@@ -10988,17 +11171,31 @@ def test_youtube_article() -> None:
     try:
         check("save_articles: ترقيم متتابع 01، 02",
               [s["filename"][:2] for s in saved] == ["01", "02"], saved)
+        check("save_articles: warnings_count يُحسَب من item['warnings']، وصفر بلا حقل warnings",
+              saved[0]["warnings_count"] == 2 and saved[1]["warnings_count"] == 0, saved)
         out_dir = ya.ARTICLES_DIR / "2099-03-03"
         check("save_articles: الملفات مكتوبة فعليًا على القرص",
               all((out_dir / s["filename"]).exists() for s in saved))
         index_text = (out_dir / "index.md").read_text(encoding="utf-8")
         check("build_index: الفهرس يحوي عنواني المقالين",
               "العنوان الأول؟" in index_text and "العنوان الثاني؟" in index_text, index_text)
-        check("build_index: الفهرس يحوي عمود الطبقة والخلاف",
-              "| a |" in index_text and "dispute" in index_text, index_text)
+        check("build_index: الفهرس يحوي عمود الطبقة والخلاف والتنبيهات",
+              "| a |" in index_text and "cross_source" in index_text and
+              "تنبيهات" in index_text, index_text)
     finally:
         import shutil as _shutil
         _shutil.rmtree(ya.ARTICLES_DIR / "2099-03-03", ignore_errors=True)
+
+    # ── build_index: ثلاثة تنبيهات فأكثر تُعلَّم بوضوح (نص الـIssue) ──
+    marked_index = ya.build_index([
+        {"number": 1, "filename": "01-x.md", "headline": "ع", "layer": "c", "blocs": ["arabic"],
+         "channels": ["ق"], "agreement": "agreement", "warnings_count": 3},
+        {"number": 2, "filename": "02-y.md", "headline": "ص", "layer": "c", "blocs": ["arabic"],
+         "channels": ["ق"], "agreement": "agreement", "warnings_count": 1},
+    ])
+    check("build_index: ثلاثة تنبيهات فأكثر تُعلَّم بـ⚠️، وأقل من ثلاثة رقم عادي",
+          "⚠️" in marked_index.splitlines()[4] and "⚠️" not in marked_index.splitlines()[5],
+          marked_index)
 
     # ── run(): تكامل كامل -- طبقة أ تتجاوز الحارس، طبقة ج تُحظَر أو تُكتَب أو
     # يُتجاوَز حظرها بلا سبب مكتوب (Issue #658)، وتُسجَّل نقاط المقالات
@@ -11012,11 +11209,18 @@ def test_youtube_article() -> None:
          "statement": "قول 1", "quote_arabic": "اقتباس 1", "type": "fact",
          "video_title": "فيديو 1", "video_url": "https://youtube.com/watch?v=1",
          "timestamp": None},
+        # نقطة اسم علم مشكوك (Issue #662 العطل ٣) -- statement يذكر "بايدن"
+        # بلا نظير له (biden) في quote_original، فتُنقَل تحذيرًا إلى ذيل مقال
+        # القضية التي تضمّها.
+        {"video_id": "vid2", "bloc": "arabic", "channel": "قناة ثالثة", "speaker": "ناطق آخر",
+         "statement": "بايدن يعلّق على القضية", "quote_original": "he commented on the issue",
+         "quote_arabic": "اقتباس 2", "type": "fact", "video_title": "فيديو 2",
+         "video_url": "https://youtube.com/watch?v=2", "timestamp": 12},
     ]
     topics_for_run = [
         {"title": "طبقة أ تتجاوز الحارس", "event": "حدث أ", "layer": "a",
          "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
-         "agreement": "dispute", "point_ids": [0, 1]},
+         "agreement": "dispute", "point_ids": [0, 1, 2]},
         {"title": "طبقة ج محظورة", "event": "حدث ج١", "layer": "c", "blocs": ["arabic"],
          "channels": ["الجزيرة"], "agreement": "agreement", "point_ids": [0]},
         {"title": "طبقة ج مسموحة", "event": "حدث ج٢", "layer": "c", "blocs": ["arabic"],
@@ -11062,6 +11266,20 @@ def test_youtube_article() -> None:
         check("run(): نقاط المقالات المكتوبة فعليًا تُسجَّل في سجل الاستهلاك",
               ycl.point_key(points_for_run[0]) in seen_after and
               ycl.point_key(points_for_run[1]) in seen_after, seen_after)
+
+        # ── التحذيرات تصل فعليًا إلى ذيل المقال وعمود الفهرس (Issue #662 العطل ٣) ──
+        layer_a_article = next(a for a in result["articles"] if a["layer"] == "a")
+        check("run(): warnings_count محسوب لمقال القضية التي تضمّ نقطة الاسم المشكوك",
+              layer_a_article["warnings_count"] == 1, layer_a_article)
+        article_path = (ya.ARTICLES_DIR / "2099-04-04" / layer_a_article["filename"])
+        article_text = article_path.read_text(encoding="utf-8")
+        check("run(): نصّ المقال المحفوظ يحوي قسم التحذيرات واسم العلم المشكوك",
+              ya.WARNINGS_HEADER in article_text and "بايدن" in article_text, article_text)
+        index_text = (ya.ARTICLES_DIR / "2099-04-04" / "index.md").read_text(encoding="utf-8")
+        index_row = next(ln for ln in index_text.splitlines()
+                          if layer_a_article["headline"] in ln)
+        check("run(): سطر المقال في index.md يحمل قيمة عمود التنبيهات الصحيحة",
+              index_row.rstrip().endswith("1 |"), index_row)
     finally:
         points_path.unlink(missing_ok=True)
         topics_path.unlink(missing_ok=True)

@@ -21,7 +21,19 @@ state/youtube_topics_seen.json دومًا قبل نهاية التشغيلة (ي
 -- تشغيلة بصفر مقالات ناجحة لا تستدعي youtube_cluster.mark_points_seen
 أصلًا فلا يُنشَأ الملف، وخطوة `git add` على مسار غير موجود في الـworkflow
 كانت تُسقِط خطوة الرفع كاملة (pathspec لم يطابق، exit code 128) وتُضيع كل
-ما أُنتج قبلها."""
+ما أُنتج قبلها.
+
+Issue #662 (تنقية المخرج بعد أول تشغيلة كاملة ناجحة): (٣) تحذير "اسم علم
+مشكوك في نسبته" الذي يحسبه src/youtube_extract.py لكل نقطة كان يضيع في
+state/youtube_points/ (قائمة `failed` المنفصلة) ولا يصل المراجع الذي يقرأ
+هذا المجلد فقط -- run() يعيد حسابه الآن لكل قضية (_collect_warnings،
+باستدعاء youtube_extract.find_unsourced_name نفسها بلا تعديلها) ويضيفه ذيل
+المقال (_append_warnings) وعمودًا في index.md. (٤) مؤشّر `agreement` الذي
+يصل نداء الكتابة يبقى `dispute` حتى بعد تنقيح youtube_cluster.py لقيمته
+المخزَّنة إلى cross_source/internal -- prompts/youtube_article.md خارج
+النطاق (ممنوع تعديله) ولا يعرف القيمتين الجديدتين، فـ_MODEL_FACING_AGREEMENT
+تُترجمهما إلى `dispute` عند بناء نداء النموذج فقط، بلا مساس بما يُخزَّن أو
+يُعرَض في index.md."""
 from __future__ import annotations
 
 import json
@@ -33,7 +45,7 @@ from pathlib import Path
 
 from anthropic import Anthropic, APIError
 
-from . import youtube_cluster
+from . import youtube_cluster, youtube_extract
 from .config import STATE_DIR, Config, env, load_config
 
 log = logging.getLogger(__name__)
@@ -108,6 +120,16 @@ reason دومًا شرحًا عربيًا قصيرًا يذكر أيّ شقّ م
 blocked=true بلا سبب مكتوب لا قيمة له ويُتجاهَل من الشيفرة."""
 
 
+# مؤشّر الخلاف الذي يصل النموذج في نداء الكتابة (Issue #662 العطل ٤) --
+# prompts/youtube_article.md خارج النطاق (ممنوع تعديله)، وقاعدته السابعة
+# تتحدّث صراحة عن قيمة `dispute` فقط ("إن كان مؤشّر القضية dispute..."). بدل
+# تعديل البرومبت، القيم الجديدة cross_source/internal (تنقيح برمجي لاحق
+# لـdispute، انظر youtube_cluster._agreement_type_for) تُعاد إلى `dispute`
+# عند بناء نداء الكتابة فقط -- المخرج المخزَّن (index.md، stats) يبقى يعرض
+# القيمة المُنقَّحة الفعلية، والنموذج وحده يرى الاسم الذي يفهمه برومبته.
+_MODEL_FACING_AGREEMENT = {"cross_source": "dispute", "internal": "dispute"}
+
+
 def load_article_prompt() -> str:
     return ARTICLE_PROMPT_PATH.read_text(encoding="utf-8")
 
@@ -175,6 +197,61 @@ def _points_block(member_points: list[dict]) -> str:
     return "\n".join(lines)
 
 
+# ── تحذيرات المراجعة (Issue #662 العطل ٣) ──
+#
+# youtube_extract.extract_points يحسب تحذير "اسم علم مشكوك في نسبته"
+# (_unsourced_name) لكل نقطة، لكن مخرج تلك المرحلة المحفوظ
+# (state/youtube_points/) لا يحمله على النقطة نفسها -- يُسجَّل فقط في قائمة
+# `failed` المنفصلة، فلا يصل إلى هذه المرحلة عبر point_ids. بدل تعديل
+# مرحلتَي الجمع/الاستخلاص (خارج النطاق صراحة)، يُعاد حساب نفس التحذير هنا
+# باستدعاء youtube_extract.find_unsourced_name (دالة نقية جاهزة، بلا أي
+# تعديل عليها) على statement/quote_original المحفوظين فعليًا مع كل نقطة --
+# نفس المدخلات ونفس المنطق بالضبط، لا إعادة تطبيق حرفي منسوخ.
+
+WARNINGS_HEADER = "⚠️ تنبيهات للمراجعة (لا تُنشر):"
+
+
+def _arabic_point_count_phrase(n: int) -> str:
+    """صياغة عربية لعدد النقاط (مفرد/مثنى/جمع) -- شاهد صياغة الـIssue
+    الحرفية: "نقطة" للمفرد، "نقطتين" للمثنى، "٣ نقاط" للجمع القليل."""
+    if n == 1:
+        return "نقطة"
+    if n == 2:
+        return "نقطتين"
+    if 3 <= n <= 10:
+        return f"{n} نقاط"
+    return f"{n} نقطة"
+
+
+def _collect_warnings(member_points: list[dict], cfg: Config) -> list[str]:
+    """يعيد سطرًا واحدًا لكل اسم علم مشكوك ظهر في نقاط القضية (مجمَّعًا حسب
+    الاسم، لا سطرًا لكل نقطة) -- ترتيب أول ظهور، لا أبجديًا، فالأسماء
+    الأهمّ غالبًا الأسبق ظهورًا في نقاط القضية الأعلى ترتيبًا."""
+    known_figures = cfg.path("youtube.extract.known_figures", [])
+    counts: dict[str, int] = {}
+    order: list[str] = []
+    for p in member_points:
+        name = youtube_extract.find_unsourced_name(
+            p.get("statement", ""), p.get("quote_original", ""), known_figures)
+        if not name:
+            continue
+        if name not in counts:
+            order.append(name)
+        counts[name] = counts.get(name, 0) + 1
+    return [f"اسم {name!r} ورد في {_arabic_point_count_phrase(counts[name])} بلا نظير "
+            f"له في الاقتباس الأصلي" for name in order]
+
+
+def _append_warnings(article_text: str, warnings: list[str]) -> str:
+    """يضيف قسم تحذيرات في ذيل المقال بعد المصادر، فقط عند وجود تحذيرات
+    فعلية (Issue #662 العطل ٣ بند ب) -- قسم فارغ دومًا نظريًا يفقد قيمته
+    كإشارة، لا يميّز المراجع مقالًا يستحق انتباهًا من آخر لا يستحقّه."""
+    if not warnings:
+        return article_text
+    lines = "\n".join(f"- {w}" for w in warnings)
+    return f"{article_text.rstrip()}\n\n---\n{WARNINGS_HEADER}\n{lines}\n"
+
+
 _HEADING_RE = re.compile(r"^##\s+\S", re.MULTILINE)
 
 
@@ -201,8 +278,9 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
     max_retries = cfg.path("youtube.article.max_retries", 2)
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
+    model_agreement = _MODEL_FACING_AGREEMENT.get(topic["agreement"], topic["agreement"])
     user_content = (
-        f"مؤشّر الخلاف بين المصادر لهذه القضية: {topic['agreement']}\n\n"
+        f"مؤشّر الخلاف بين المصادر لهذه القضية: {model_agreement}\n\n"
         f"النقاط المصدرية (المصدر الوحيد المسموح استعماله -- لا معلومة من "
         f"خارجها):\n{_points_block(member_points)}"
     )
@@ -246,13 +324,17 @@ def _slugify(title: str, max_len: int = 60) -> str:
 
 def build_index(saved: list[dict]) -> str:
     lines = ["# فهرس مقالات يوتيوب", "",
-             "| # | العنوان | الطبقة | الكتل | القنوات | الخلاف |",
-             "|---|---|---|---|---|---|"]
+             "| # | العنوان | الطبقة | الكتل | القنوات | الخلاف | تنبيهات |",
+             "|---|---|---|---|---|---|---|"]
     for item in saved:
+        warnings_count = item.get("warnings_count", 0)
+        # ثلاثة تنبيهات فأكثر تُعلَّم بوضوح (نص الـIssue) -- ⚠️ + رقم بارز
+        # لا مجرّد رقم صامت يغرق بين أعمدة الجدول الأخرى.
+        marker = f"⚠️ **{warnings_count}**" if warnings_count >= 3 else str(warnings_count)
         lines.append(
             f"| {item['number']} | [{item['headline']}]({item['filename']}) | "
             f"{item['layer']} | {', '.join(item['blocs'])} | "
-            f"{', '.join(item['channels'])} | {item['agreement']} |")
+            f"{', '.join(item['channels'])} | {item['agreement']} | {marker} |")
     return "\n".join(lines) + "\n"
 
 
@@ -260,7 +342,8 @@ def save_articles(date_str: str, articles: list[dict]) -> list[dict]:
     """يكتب ملفات المقالات المرقَّمة + index.md. الترقيم متتابع بلا فجوات
     (أول مقال ناجح 01، الثاني 02...) بصرف النظر عن رتبة قضيته الأصلية --
     قضية تخطّاها الحظر أو فشلت كتابتها لا تترك فجوة رقمية في القائمة التي
-    يقرؤها المالك أولًا."""
+    يقرؤها المالك أولًا. `item["warnings"]` اختياري (Issue #662 العطل ٣
+    بند ج) -- غيابه يعني صفر تنبيهات، لا عطلًا."""
     out_dir = ARTICLES_DIR / date_str
     out_dir.mkdir(parents=True, exist_ok=True)
     saved: list[dict] = []
@@ -274,6 +357,7 @@ def save_articles(date_str: str, articles: list[dict]) -> list[dict]:
             "number": i, "filename": filename, "headline": headline,
             "layer": topic["layer"], "blocs": topic["blocs"],
             "channels": topic["channels"], "agreement": topic["agreement"],
+            "warnings_count": len(item.get("warnings", [])),
         })
     (out_dir / "index.md").write_text(build_index(saved), encoding="utf-8")
     return saved
@@ -285,18 +369,13 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     now = now or datetime.now(timezone.utc)
     date_str = date_str or now.strftime("%Y-%m-%d")
 
-    lookback_days = cfg.path("youtube.cluster.lookback_days", 3)
-    max_points_per_call = cfg.path("youtube.cluster.max_points_per_call", 150)
     topics_result = youtube_cluster.load_topics(date_str)
     topics = topics_result.get("topics", [])
-    # نفس نافذة العنقدة بالضبط (youtube.cluster.lookback_days) ثم نفس القصّ
-    # بالضبط (youtube.cluster.max_points_per_call، Issue #660 الإصلاح ٢) --
-    # point_ids كل قضية فهارس ضمن هذه القائمة المُعاد بناؤها تحديدًا، لا ملف
-    # اليوم وحده ولا النافذة الكاملة غير المقصوصة (Issue #658 العطل ١ بند أ).
-    # طالما لم يتغيّر أيّ من الإعدادين بين تشغيلتَي العنقدة والكتابة، القائمتان
-    # متطابقتان فهرسًا بفهرس -- قصّ بسقف مختلف هنا كان سيربط قضية بنقاط خاطئة.
-    points, _ = youtube_cluster.apply_points_cap(
-        youtube_cluster.load_points_window(date_str, lookback_days), max_points_per_call)
+    # نفس بناء نافذة العنقدة بالضبط -- youtube_cluster.prepare_window_points
+    # تُستدعى بنفس cfg من كلا المرحلتين (Issue #662) لضمان أن point_ids كل
+    # قضية تشير لنفس النقاط في القائمتين فهرسًا بفهرس؛ اختلاف أي خطوة فلترة
+    # هنا عن العنقدة كان سيربط قضية بنقاط خاطئة تمامًا (انظر توثيق الدالة).
+    points, _ = youtube_cluster.prepare_window_points(date_str, cfg)
     count = cfg.path("youtube.article.count", 10)
 
     to_draft: list[dict] = []
@@ -337,7 +416,13 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             log.warning("فشلت كتابة مقال لـ%r: %s", topic["title"], error)
             continue
 
-        to_draft.append({"topic": topic, "text": text})
+        # التحذيرات تُنقَل مع النقاط عبر العنقدة إلى ذيل المقال (Issue #662
+        # العطل ٣) -- بعد نجاح التحقّق من البنية (_validate_article_text
+        # داخل draft_article)، لا قبله: قسم التحذيرات ليس جزءًا من البنية
+        # المطلوبة من النموذج فلا يصح فحصه ضمنها.
+        warnings = _collect_warnings(member_points, cfg)
+        text = _append_warnings(text, warnings)
+        to_draft.append({"topic": topic, "text": text, "warnings": warnings})
         # تُسجَّل فقط بعد نجاح الكتابة الفعلي -- قضية عُنقدت أو تجاوزت الحارس
         # لكن فشلت كتابتها لا قيمة في تسجيلها "مستهلكة" (Issue #658 العطل ١
         # بند ج، انظر youtube_cluster.filter_seen_topics).
