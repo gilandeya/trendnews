@@ -1,0 +1,48 @@
+{
+  "id": "0a443d27a0ec",
+  "created_at": "2026-09-01T06:07:53.332447+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.04,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Left atrial appendage closure during open-heart surgery only beneficial for high-risk patients",
+  "link": "https://medicalxpress.com/news/2026-08-left-atrial-appendage-closure-heart.html",
+  "publishers": [
+    "Medical Xpress"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Left atrial appendage closure during open-heart surgery only beneficial for high-risk patients",
+    "link": "https://medicalxpress.com/news/2026-08-left-atrial-appendage-closure-heart.html",
+    "summary": "Results do not support routine closure of the left atrial appendage in all patients undergoing open-heart surgery, but those at high stroke risk may benefit. This was the main conclusion of the LAACS-2 trial presented in a Hot Line session today at ESC Congress 2026.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-09-01T00:00:01+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/surgery-7.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Medical Xpress"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-08-left-atrial-appendage-closure-heart.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/surgery-7.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.9962015733333334,
+    "is_stale": false,
+    "score": 17.041394052037038
+  }
+}
