@@ -5494,5 +5494,41 @@
     "posted_title": "",
     "region": "health",
     "seen_at": "2026-08-31T22:08:07.133260+00:00"
+  },
+  {
+    "score": 13.69,
+    "bucket": "serious",
+    "tokens": [
+      "between",
+      "china",
+      "free",
+      "permanent",
+      "proposes",
+      "putin",
+      "russia",
+      "travel",
+      "visa"
+    ],
+    "link": "https://meduza.io/en/news/2026/08/31/putin-proposes-permanent-visa-free-travel-between-russia-and-china",
+    "title": "Putin proposes permanent visa-free travel between Russia and China",
+    "posted_title": "بوتين يقترح جعل الإعفاء من التأشيرة بين روسيا والصين دائمًا",
+    "region": "ru",
+    "seen_at": "2026-09-01T02:28:08.912752+00:00"
+  },
+  {
+    "score": 15.29,
+    "bucket": "serious",
+    "tokens": [
+      "downs",
+      "drone",
+      "hormuz",
+      "irgc",
+      "strait"
+    ],
+    "link": "https://en.mehrnews.com/news/247326/IRGC-downs-US-MQ-9-over-Strait-of-Hormuz",
+    "title": "IRGC downs US MQ-9 drone over Strait of Hormuz",
+    "posted_title": "الحرس الثوري الإيراني يعلن إسقاط طائرة أمريكية مسيّرة فوق مضيق هرمز",
+    "region": "ir",
+    "seen_at": "2026-09-01T02:28:18.371276+00:00"
   }
 ]
