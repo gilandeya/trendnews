@@ -10988,7 +10988,7 @@ def test_youtube_article() -> None:
                         section_words=45, sections=_REQUIRED_SECTIONS, include_estimate=True,
                         sources_heading="## المصادر"):
         # ٤٥ كلمة تقريبًا في كل قسم × ٦ أقسام (خمسة إلزامية + المصادر) +
-        # الاستهلال وسطر التقدير ⇒ يقع مريحًا داخل نافذة ٣٠٠–٧٥٠ كلمة
+        # الاستهلال وسطر التقدير ⇒ يقع مريحًا داخل نافذة ٢٥٠–٧٥٠ كلمة
         # (youtube.article.min_words/max_words).
         filler = " ".join(["كلمة"] * section_words)
         body = "\n\n".join(f"## {name}\n{filler}" for name in sections)
@@ -11023,8 +11023,8 @@ def test_youtube_article() -> None:
     check("غياب قسم ## المصادر يُرفَض", not ok and "مصادر" in reason, reason)
 
     ok, reason = ya._validate_article_text(_valid_article(section_words=5), article_cfg)
-    check("مقال أقصر من الحدّ الأدنى (300 كلمة) يُرفَض",
-          not ok and "قصير جدًا" in reason and "الأدنى 300" in reason, reason)
+    check("مقال أقصر من الحدّ الأدنى (250 كلمة) يُرفَض",
+          not ok and "قصير جدًا" in reason and "الأدنى 250" in reason, reason)
 
     ok, reason = ya._validate_article_text(_valid_article(section_words=200), article_cfg)
     check("مقال أطول من الحدّ الأعلى (750 كلمة) يُرفَض",
@@ -11033,8 +11033,10 @@ def test_youtube_article() -> None:
     # ── قيم config.yaml (Issue #671) ──
     check("config: youtube.article.max_retries = 3",
           article_cfg.path("youtube.article.max_retries") == 3)
-    check("config: youtube.article.min_words = 300",
-          article_cfg.path("youtube.article.min_words") == 300)
+    check("config: youtube.article.max_tokens = 8000",
+          article_cfg.path("youtube.article.max_tokens") == 8000)
+    check("config: youtube.article.min_words = 250",
+          article_cfg.path("youtube.article.min_words") == 250)
     check("config: youtube.article.max_words = 750",
           article_cfg.path("youtube.article.max_words") == 750)
     check("config: youtube.article.likelihood_terms يحوي عبارات السلّم الست",
@@ -11056,9 +11058,13 @@ def test_youtube_article() -> None:
         def __init__(self, type_, input_=None, text=None):
             self.type, self.input, self.text = type_, input_, text
 
+    class _Usage:
+        def __init__(self, input_tokens=100, output_tokens=50):
+            self.input_tokens, self.output_tokens = input_tokens, output_tokens
+
     class _Resp:
-        def __init__(self, content):
-            self.content = content
+        def __init__(self, content, stop_reason=None, usage=None):
+            self.content, self.stop_reason, self.usage = content, stop_reason, usage
 
     class _Messages:
         def __init__(self, responses):
@@ -11143,6 +11149,21 @@ def test_youtube_article() -> None:
     text2, error2 = ya.draft_article(topic_a, member_points, article_cfg, always_bad_client)
     check("draft_article: فشل كل المحاولات يعيد سببًا صريحًا لا نصًّا",
           text2 is None and error2 is not None, error2)
+
+    # ── draft_article: stop_reason=max_tokens يُسجَّل صراحةً مع عدد الرموز
+    # المستهلكة في سبب الفشل النهائي (Issue #662 تعليق المتابعة) ──
+    max_tokens_client = _Client([
+        _Resp([_Block("text", text="نص ناقص بسبب القطع")], stop_reason="max_tokens",
+              usage=_Usage(input_tokens=1200, output_tokens=8000)),
+        _Resp([_Block("text", text="نص ناقص ثانيةً")], stop_reason="max_tokens",
+              usage=_Usage(input_tokens=1200, output_tokens=8000)),
+        _Resp([_Block("text", text="نص ناقص ثالثةً")], stop_reason="max_tokens",
+              usage=_Usage(input_tokens=1200, output_tokens=8000)),
+    ])
+    text3, error3 = ya.draft_article(topic_a, member_points, article_cfg, max_tokens_client)
+    check("draft_article: قطع stop_reason=max_tokens يذكر ذلك صراحةً مع عدد رموز المخرج",
+          text3 is None and error3 is not None and "stop_reason=max_tokens" in error3 and
+          "8000" in error3, error3)
 
     # ── draft_article: مؤشّر cross_source/internal يصل النموذج كـ dispute
     # (Issue #662 العطل ٤) -- prompts/youtube_article.md خارج النطاق، ولا
