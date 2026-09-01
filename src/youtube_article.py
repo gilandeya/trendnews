@@ -33,7 +33,17 @@ state/youtube_points/ (قائمة `failed` المنفصلة) ولا يصل ال�
 المخزَّنة إلى cross_source/internal -- prompts/youtube_article.md خارج
 النطاق (ممنوع تعديله) ولا يعرف القيمتين الجديدتين، فـ_MODEL_FACING_AGREEMENT
 تُترجمهما إلى `dispute` عند بناء نداء النموذج فقط، بلا مساس بما يُخزَّن أو
-يُعرَض في index.md."""
+يُعرَض في index.md.
+
+Issue #680 (دورة المراجعة -- عناوين متعدّدة): run() يضيف الآن نداءً قصيرًا
+رخيصًا منفصلًا بعد نجاح الكتابة (generate_headlines) يقترح ثلاثة عناوين
+عربية بديلة لبطاقة/منشور المراجعة -- برومبت ونداء جديدان بالكامل هنا، **لا**
+تعديل على prompts/youtube_article.md ولا على بنية المقال نفسها (خارج نطاق
+الـIssue صراحةً). العناوين تُلحَق ذيل المقال (_append_headlines) بعد قسم
+التحذيرات، ويقرؤها src/youtube_publish.py (split_headlines) عند بناء
+مسودة المراجعة. فشل النداء أو عناوينه لا يُسقِط مقالًا ناجحًا فعليًا --
+احتياط بعنوان المقال الأصلي مكرَّرًا ثلاثًا، بنفس مبدأ check_forbidden/
+draft_article في عدم إسقاط عمل صالح بسبب عطل في خطوة إضافية لاحقة."""
 from __future__ import annotations
 
 import json
@@ -252,6 +262,132 @@ def _append_warnings(article_text: str, warnings: list[str]) -> str:
     return f"{article_text.rstrip()}\n\n---\n{WARNINGS_HEADER}\n{lines}\n"
 
 
+# ── عناوين مقترحة لبطاقة/منشور المراجعة (Issue #680) ──
+#
+# نداء قصير رخيص منفصل بعد نجاح الكتابة -- لا علاقة له ببنية المقال نفسها
+# (## الأقسام، سطر التقدير...) ولا بـprompts/youtube_article.md، فكلاهما
+# خارج نطاق الـIssue صراحةً. الغرض: إعطاء المراجع خيارًا بدل عنوان واحد
+# مفروض، مع إبقاء الافتراضي صيغة سؤال (أقل حسمًا من عنوان تقريري لمادة
+# تحليلية غير مؤكَّدة بطبيعتها).
+
+HEADLINE_SCHEMA = {
+    "name": "propose_headlines",
+    "description": "يقترح ثلاثة عناوين عربية بديلة لبطاقة المقال ومنشوره -- الأول بصيغة سؤال",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "headlines": {
+                "type": "array",
+                "items": {"type": "string"},
+                "minItems": 3,
+                "maxItems": 3,
+                "description": "ثلاثة عناوين عربية مستقلة الصياغة، العنصر الأول بصيغة سؤال",
+            },
+        },
+        "required": ["headlines"],
+    },
+}
+
+HEADLINE_SYSTEM = """أنت تقترح ثلاثة عناوين عربية بديلة لبطاقة عرض ومنشور مقال
+تحليلي، من النقاط المصدرية المرفقة فقط -- لا معلومة من خارجها.
+
+قواعد صارمة تنطبق على كل عنوان من الثلاثة:
+1. لا يتجاوز خمس عشرة كلمة.
+2. لا يقرّر حكمًا لم تثبته المادة المرفقة -- صياغة استفهامية أو مرجّحة عند
+   عدم اليقين، لا جازمة أبعد ممّا تسمح به النقاط نفسها.
+3. لا يحمل اسم عَلَم (شخص، دولة، منظمة) لم يرد في الاقتباسات الأصلية
+   المرفقة -- لا تخترع نسبة قول لجهة لم تُذكر فيها.
+
+العنوان الأول **يجب** أن يكون بصيغة سؤال ينتهي بعلامة استفهام (؟) -- هو
+الخيار الافتراضي في مراجعة المحرِّر. الثاني والثالث بصيغتين مختلفتين عنه
+وعن بعضهما (تقريرية أو ترجيحية)، لا تكرارًا لنفس المعنى بكلمات مختلفة.
+
+أعد الثلاثة عبر الأداة المعرَّفة (propose_headlines) حصرًا، بلا أي نص خارجها."""
+
+
+def _validate_headlines(headlines: list[str], quotes_original: str, known_figures: list,
+                         max_words: int) -> tuple[bool, str]:
+    """تحقّق برمجي بعد الاستلام، بنفس مبدأ _validate_article_text: لا نثق
+    بطاعة النموذج للقواعد المكتوبة في البرومبت وحدها. اسم العَلَم غير
+    الموثَّق يُفحَص بإعادة استعمال youtube_extract.find_unsourced_name نفسها
+    بلا تعديل -- نفس الدالة المستعملة لتحذيرات المراجعة أعلاه، ونفس تحفّظها
+    المُوثَّق (لا استخراج أعلام عامّ، مطابقة قائمة صغيرة فقط)."""
+    if not headlines[0].rstrip().endswith("؟"):
+        return False, "العنوان الأول ليس بصيغة سؤال (لا ينتهي بـ؟)"
+    for i, h in enumerate(headlines, start=1):
+        if len(h.split()) > max_words:
+            return False, f"العنوان {i} يتجاوز {max_words} كلمة"
+        unsourced = youtube_extract.find_unsourced_name(h, quotes_original, known_figures)
+        if unsourced:
+            return False, f"العنوان {i} يحمل اسمًا غير موثَّق بالاقتباسات الأصلية ({unsourced!r})"
+    return True, ""
+
+
+def generate_headlines(topic: dict, member_points: list[dict], cfg: Config,
+                        client: Anthropic | None = None) -> tuple[list[str] | None, str | None]:
+    """نداء قصير رخيص منفصل بعد نجاح draft_article (Issue #680) -- ثلاثة
+    عناوين بديلة لبطاقة/منشور المراجعة، بمحاولة إعادة عند إخراج غير صالح
+    (نفس آلية draft_article). يعيد (ثلاثة عناوين، سبب فشل نهائي إن حدث --
+    None عند النجاح)."""
+    model = cfg.path("youtube.review.headlines.model",
+                      cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001"))
+    max_tokens = cfg.path("youtube.review.headlines.max_tokens", 600)
+    max_retries = cfg.path("youtube.review.headlines.max_retries", 2)
+    max_words = cfg.path("youtube.review.headlines.max_words", 15)
+    known_figures = cfg.path("youtube.extract.known_figures", [])
+    client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+
+    # quote_original لا quote_arabic -- نفس ما تستعمله _collect_warnings/
+    # find_unsourced_name: aliases في known_figures صيغ لاتينية تُقارَن
+    # بالاقتباس الأصلي بلغة الفيديو، لا بترجمته العربية.
+    quotes_original = " ".join(p.get("quote_original", "") for p in member_points)
+    user_content = f"القضية: {topic['title']}\n\nالنقاط المصدرية:\n{_points_block(member_points)}"
+
+    last_reason = ""
+    for attempt in range(1, max_retries + 1):
+        try:
+            resp = client.messages.create(
+                model=model,
+                max_tokens=max_tokens,
+                tools=[HEADLINE_SCHEMA],
+                tool_choice={"type": "tool", "name": "propose_headlines"},
+                system=HEADLINE_SYSTEM,
+                messages=[{"role": "user", "content": user_content}],
+                # لا تُضِف temperature -- نماذج هذا المشروع ترفضها بـ400.
+            )
+        except APIError as exc:
+            return None, f"فشل نداء العناوين: {exc}"
+
+        data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None)
+        raw_headlines = data.get("headlines") if isinstance(data, dict) else None
+        if (isinstance(raw_headlines, list) and len(raw_headlines) == 3
+                and all(isinstance(h, str) and h.strip() for h in raw_headlines)):
+            headlines = [h.strip() for h in raw_headlines]
+            ok, reason = _validate_headlines(headlines, quotes_original, known_figures, max_words)
+            if ok:
+                return headlines, None
+            last_reason = reason
+            log.warning("محاولة %d/%d: عناوين %r غير صالحة (%s)", attempt, max_retries,
+                        topic["title"][:40], reason)
+            continue
+        last_reason = "لم يُعِد النموذج إخراجًا مهيكلًا بثلاثة عناوين نصّية"
+
+    return None, (f"تعذّر الحصول على عناوين صالحة بعد {max_retries} محاولة/محاولات: {last_reason}")
+
+
+HEADLINES_HEADER = "🏷️ عناوين مقترحة (الأول سؤال وهو الافتراضي):"
+
+
+def _append_headlines(article_text: str, headlines: list[str]) -> str:
+    """يضيف قسم العناوين المقترحة في ذيل المقال، بعد قسم التحذيرات إن وُجد
+    (run() يستدعي _append_warnings أولًا) -- ترتيب ثابت يعتمده
+    youtube_publish.split_headlines عند القراءة. خلافًا لقسم التحذيرات،
+    يُضاف دومًا (ثلاثة عناوين مضمونة دومًا -- انظر احتياط run() عند فشل
+    generate_headlines)."""
+    lines = "\n".join(f"{i}. {h}" for i, h in enumerate(headlines, start=1))
+    return f"{article_text.rstrip()}\n\n---\n{HEADLINES_HEADER}\n{lines}\n"
+
+
 # البنية القديمة (عنوان + ٣ أسئلة فرعية + كلمة "المصادر" في أي مكان) استُبدلت
 # ببنية "النسخة الثانية" من prompts/youtube_article.md (Issue #671): سطر
 # تقدير بعبارة ترجيح إلزامية، خمسة أقسام ## على الأقل بأسماء ثابتة، وقسم
@@ -447,6 +583,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     blocked_count = 0
     blocked_no_reason_count = 0
     draft_failures = 0
+    headline_failures = 0
     seen_keys_to_mark: set[str] = set()
 
     for topic in topics[:count]:
@@ -485,7 +622,20 @@ def run(cfg: Config | None = None, date_str: str | None = None,
         # المطلوبة من النموذج فلا يصح فحصه ضمنها.
         warnings = _collect_warnings(member_points, cfg)
         text = _append_warnings(text, warnings)
-        to_draft.append({"topic": topic, "text": text, "warnings": warnings})
+
+        # عناوين مقترحة (Issue #680) -- فشل هذا النداء الإضافي لا يُسقِط مقالًا
+        # كُتب فعلًا واجتاز التحقّق؛ احتياط بعنوانه الأصلي مكرَّرًا ثلاثًا (نفس
+        # مبدأ عدم إسقاط عمل صالح بسبب خطوة لاحقة، انظر توثيق الوحدة أعلاه).
+        headlines, hl_error = generate_headlines(topic, member_points, cfg, client)
+        if hl_error:
+            headline_failures += 1
+            log.warning("فشلت اقتراحات العناوين لـ%r -- استُعمل العنوان الأصلي مكرَّرًا: %s",
+                        topic["title"], hl_error)
+            fallback = _extract_headline(text) or topic["title"]
+            headlines = [fallback, fallback, fallback]
+        text = _append_headlines(text, headlines)
+
+        to_draft.append({"topic": topic, "text": text, "warnings": warnings, "headlines": headlines})
         # تُسجَّل فقط بعد نجاح الكتابة الفعلي -- قضية عُنقدت أو تجاوزت الحارس
         # لكن فشلت كتابتها لا قيمة في تسجيلها "مستهلكة" (Issue #658 العطل ١
         # بند ج، انظر youtube_cluster.filter_seen_topics).
@@ -517,6 +667,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             "blocked_forbidden": blocked_count,
             "topics_blocked_no_reason": blocked_no_reason_count,
             "draft_failures": draft_failures,
+            "headline_failures": headline_failures,
         },
         "skipped": skipped,
         "articles": saved,
@@ -533,7 +684,8 @@ def main() -> int:
           f"· تخطّي: {stats['skipped']}")
     print(f"نداءات حارس المحظورات: {stats['guard_calls']} · محظورة: {stats['blocked_forbidden']} "
           f"(بلا سبب مكتوب فقُبِلت: {stats['topics_blocked_no_reason']}) "
-          f"· فشل كتابة: {stats['draft_failures']}")
+          f"· فشل كتابة: {stats['draft_failures']} "
+          f"· فشل اقتراح عناوين (احتياط بالعنوان الأصلي): {stats['headline_failures']}")
     if result["skipped"]:
         for entry in result["skipped"]:
             print(f"  - {entry['title']} ({entry['layer']}): {entry['reason']}")
