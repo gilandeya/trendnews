@@ -32,6 +32,7 @@ atexit.register(shutil.rmtree, _TMP_DATA_DIR, ignore_errors=True)
 
 from src import collect, evidence, extract, imaging, proxy_config, review, sources, store, trends, writer  # noqa: E402
 from src import youtube_article, youtube_cluster, youtube_collect, youtube_extract  # noqa: E402
+from src import youtube_publish  # noqa: E402
 from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
 from src.rank import cluster, rank, similarity, tokens  # noqa: E402
 from src.sources import Article  # noqa: E402
@@ -11453,6 +11454,354 @@ def test_youtube_article() -> None:
             ycl.SEEN_PATH.write_text(seen_backup3, encoding="utf-8")
 
 
+def test_youtube_publish() -> None:
+    """المرحلة الخامسة (src/youtube_publish.py، Issue #676): توصيل الصورة
+    والمسودة ودورة المراجعة والنشر بما كان قائمًا (imaging/store/review/
+    publish) بلا تعديل على منطقها. لا شبكة -- review.create_issue/comment/
+    fetch_issue_body/close_issue/remove_label وpublish.publish_one كلّها
+    مموَّهة محليًا؛ بناء بطاقة العنوان نفسه محلي بالكامل (Pillow فقط)."""
+    yp = youtube_publish
+    cfg = load_config()
+
+    # ── bottom_bar_text: طبقة (ج) تُظهر اسم القناة وحده بلا ذكر كتلة ──
+    check("bottom_bar_text: طبقتا أ/ب تعرضان الكتل والقنوات معًا",
+          yp.bottom_bar_text("a", ["arabic", "persian"], ["الجزيرة", "Iran International"], cfg)
+          == "عربية · فارسية — الجزيرة، Iran International")
+    check("bottom_bar_text: طبقة ج تعرض اسم القناة وحده بلا كتلة (نصّ الـIssue)",
+          yp.bottom_bar_text("c", ["arabic"], ["الجزيرة"], cfg) == "الجزيرة")
+    check("bottom_bar_text: بلا كتل يعرض القنوات وحدها",
+          yp.bottom_bar_text("b", [], ["الجزيرة", "العربية"], cfg) == "الجزيرة، العربية")
+
+    # ── split_warnings: قاعدة حاسمة -- caption خالٍ من قسم التنبيهات (Issue #676) ──
+    article_with_warnings = (
+        "# عنوان تجريبي؟\n\nاستهلال.\n\n**التقدير:** مرجّح أن يحدث كذا\n\n"
+        "## من قال ماذا\nنص.\n\n---\n## المصادر\nالجزيرة — عنوان الفيديو — "
+        "https://youtube.com/watch?v=abc (٤:١٢)\n\n---\n" + yp.WARNINGS_HEADER +
+        "\n- اسم 'فلان' ورد في نقطة بلا نظير له في الاقتباس الأصلي\n"
+        "- اسم 'علان' ورد في نقطتين بلا نظير له في الاقتباس الأصلي\n"
+    )
+    caption, warnings = yp.split_warnings(article_with_warnings)
+    check("split_warnings: caption خالٍ تمامًا من رأس قسم التنبيهات",
+          yp.WARNINGS_HEADER not in caption, caption)
+    check("split_warnings: caption خالٍ من نصّ التنبيهات نفسها",
+          "بلا نظير له" not in caption, caption)
+    check("split_warnings: caption يحتفظ بمتن المقال كاملًا (العنوان + الأقسام + المصادر)",
+          "# عنوان تجريبي؟" in caption and "## المصادر" in caption and
+          "youtube.com/watch?v=abc" in caption, caption)
+    check("split_warnings: التنبيهان يُستخرجان كاملَين نصًّا لحقل warnings",
+          warnings == ["اسم 'فلان' ورد في نقطة بلا نظير له في الاقتباس الأصلي",
+                       "اسم 'علان' ورد في نقطتين بلا نظير له في الاقتباس الأصلي"],
+          warnings)
+
+    article_no_warnings = "# عنوان بلا تنبيهات؟\n\nنص.\n\n## المصادر\nقناة — عنوان — رابط\n"
+    caption2, warnings2 = yp.split_warnings(article_no_warnings)
+    check("split_warnings: مقال بلا قسم تنبيهات أصلًا يعود بلا تغيير جوهري ولا استثناء",
+          "# عنوان بلا تنبيهات؟" in caption2 and "## المصادر" in caption2, caption2)
+    check("split_warnings: بلا تنبيهات ⇒ قائمة فارغة", warnings2 == [], warnings2)
+
+    # ── extract_source_lines ──
+    lines = yp.extract_source_lines(caption)
+    check("extract_source_lines: يستخرج سطر المصدر الوحيد هنا",
+          lines == ["الجزيرة — عنوان الفيديو — https://youtube.com/watch?v=abc (٤:١٢)"],
+          lines)
+    check("extract_source_lines: قسم غائب يعيد قائمة فارغة بلا استثناء",
+          yp.extract_source_lines("# عنوان بلا قسم مصادر\nنص") == [])
+
+    # ── parse_index: جولة كاملة عبر youtube_article.build_index الفعلية (بلا تعديل عليها) ──
+    saved_index = [
+        {"number": 1, "filename": "01-a.md", "headline": "عنوان أ؟", "layer": "a",
+         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+         "agreement": "cross_source", "warnings_count": 2},
+        {"number": 2, "filename": "02-b.md", "headline": "عنوان ب؟", "layer": "c",
+         "blocs": ["arabic"], "channels": ["العربية"], "agreement": "agreement",
+         "warnings_count": 0},
+    ]
+    index_md = youtube_article.build_index(saved_index)
+    parsed = yp.parse_index(index_md)
+    check("parse_index: عدد الصفوف المقروءة يطابق المُدخَل", len(parsed) == 2, parsed)
+    check("parse_index: الحقول الأساسية تُقرأ صحيحة للصفّ الأول",
+          parsed and parsed[0]["filename"] == "01-a.md" and parsed[0]["layer"] == "a" and
+          parsed[0]["blocs"] == ["arabic", "turkish"] and
+          parsed[0]["channels"] == ["الجزيرة", "CNN Türk"] and
+          parsed[0]["agreement"] == "cross_source", parsed[0] if parsed else None)
+    check("parse_index: مؤشّر التنبيهات المُعلَّم (⚠️ **2**) يُقرأ عددًا صحيحًا",
+          parsed and parsed[0]["warnings_count"] == 2, parsed)
+    check("parse_index: صفّ بصفر تنبيهات يُقرأ 0",
+          len(parsed) > 1 and parsed[1]["warnings_count"] == 0, parsed)
+
+    # ── build_title_card: بلا شبكة إطلاقًا (Pillow محلي فقط)، بلا صورة خبر ولا سطر تقدير بنيويًا ──
+    tmp_img = STATE_DIR / "_test_youtube_card.jpg"
+    tmp_img.parent.mkdir(parents=True, exist_ok=True)
+    built = yp.build_title_card("سؤال تجريبي طويل يفحص التفاف النص على البطاقة؟",
+                                "a", ["arabic", "persian"],
+                                ["الجزيرة", "Iran International"], cfg, tmp_img)
+    check("build_title_card: يبني ملف صورة فعليًا", built.exists(), str(built))
+    if built.exists():
+        with Image.open(built) as im:
+            check("build_title_card: أبعاد البطاقة تطابق image.width/height",
+                  im.size == (int(cfg.path("image.width", 1080)),
+                             int(cfg.path("image.height", 1080))), str(im.size))
+    built.unlink(missing_ok=True)
+
+    # ── build_review_body: سطر الصحة + ترتيب البطاقات بالطبقة ثم نوع الخلاف + التنبيهات ظاهرة ──
+    drafts = [
+        {"id": "c00000000001", "title": "قضية ج اتفاق؟", "tier": "c", "blocs": ["arabic"],
+         "channels": ["الجزيرة"], "agreement": "agreement", "warnings": [],
+         "caption": "متن قضية ج", "image": "drafts/2026-01-01/c00000000001.jpg"},
+        {"id": "a00000000002", "title": "قضية أ خلاف قنوات؟", "tier": "a",
+         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+         "agreement": "cross_source", "warnings": ["تحذير رقم واحد"],
+         "caption": "متن قضية أ", "image": "drafts/2026-01-01/a00000000002.jpg"},
+        {"id": "a00000000003", "title": "قضية أ خلاف داخلي؟", "tier": "a",
+         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة"],
+         "agreement": "internal", "warnings": [],
+         "caption": "متن قضية أ٢", "image": "drafts/2026-01-01/a00000000003.jpg"},
+    ]
+    drafts.sort(key=yp._review_sort_key)
+    check("ترتيب البطاقات: طبقة (أ) قبل (ج)",
+          [d["id"] for d in drafts].index("a00000000002") <
+          [d["id"] for d in drafts].index("c00000000001"))
+    check("ترتيب البطاقات: داخل الطبقة نفسها، خلاف قنوات قبل خلاف داخلي",
+          [d["id"] for d in drafts].index("a00000000002") <
+          [d["id"] for d in drafts].index("a00000000003"))
+
+    cfg_pub = load_config()
+    cfg_pub["youtube"]["publish"] = {"max_per_run": 3, "spacing_minutes": 40}
+    body = yp.build_review_body(drafts, "user/trendnews", "main", cfg_pub)
+    check("سطر الصحة: العدد الكلي وتوزيع الطبقات وعدّاد خلاف القنوات والتنبيهات",
+          "3 مقالات" in body and "أ=2" in body and "ج=1" in body and
+          "خلاف قنوات=1" in body and "تنبيهات=1" in body, body[:400])
+    check("Issue المراجعة: معرّفات المسودات الثلاث كلها مضمّنة",
+          set(review.all_draft_ids(body)) == {"c00000000001", "a00000000002", "a00000000003"})
+    check("Issue المراجعة: نصّ التحذير الفعلي ظاهر كاملًا لا عددًا فقط",
+          "تحذير رقم واحد" in body, body)
+    check("Issue المراجعة: وسم الاعتماد المخصّص (لا `approved` العام) مذكور صراحةً",
+          "youtube-approved" in body, body)
+    check("Issue المراجعة: الصور معروضة برابط raw",
+          "raw.githubusercontent.com" in body)
+    # ترتيب الظهور في نص الـIssue نفسه يطابق ترتيب drafts بعد الفرز
+    pos_cross = body.index("a00000000002")
+    pos_agree = body.index("c00000000001")
+    check("ترتيب الظهور الفعلي في نص الـIssue: (أ) قبل (ج)", pos_cross < pos_agree)
+
+    # ── build()/open_review(): المسار الكامل من state/youtube_articles/<date>/
+    # إلى مسودات محلية (build) ثم Issue مراجعة (open_review) -- مرحلتان
+    # منفصلتان عمدًا (انظر توثيق ذلك أعلى الوحدة: الصور يجب أن تُدفَع إلى
+    # المستودع بين الاثنتين، وإلا 404 روابط raw.githubusercontent.com) ──
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    date_str = "2026-02-02"
+    articles_dir = youtube_article.ARTICLES_DIR / date_str
+    shutil.rmtree(articles_dir, ignore_errors=True)
+    articles_dir.mkdir(parents=True, exist_ok=True)
+
+    article_text = (
+        "# هل يتجه الملف نحو تصعيد جديد؟\n\nاستهلال قصير عن القضية.\n\n"
+        "**التقدير:** مرجّح بقوة أن يتصاعد الموقف، بثقة منخفضة لأن المصدر واحد\n\n"
+        "## من قال ماذا\nنص القسم.\n\n## الافتراضات الكامنة\nنص القسم.\n\n"
+        "## التفسير البديل\nنص القسم.\n\n## ما يعنيه\nنص القسم.\n\n"
+        "## ما لا نعرفه\nنص القسم.\n\n---\n## المصادر\n"
+        "الجزيرة — عنوان الفيديو — https://youtube.com/watch?v=xyz (١:٠٠)\n\n"
+        "---\n" + yp.WARNINGS_HEADER + "\n"
+        "- اسم 'فلان' ورد في نقطة بلا نظير له في الاقتباس الأصلي\n"
+    )
+    (articles_dir / "01-test.md").write_text(article_text, encoding="utf-8")
+    saved_index_run = [{"number": 1, "filename": "01-test.md",
+                        "headline": "هل يتجه الملف نحو تصعيد جديد؟", "layer": "a",
+                        "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+                        "agreement": "cross_source", "warnings_count": 1}]
+    (articles_dir / "index.md").write_text(youtube_article.build_index(saved_index_run),
+                                           encoding="utf-8")
+
+    build_result = yp.build(cfg, date_str=date_str)
+    check("build(): بُنيت مسودة واحدة من المقال الواحد المُدخَل",
+          build_result["stats"]["drafts_built"] == 1, build_result["stats"])
+    check("build(): لا يفتح Issue مراجعة في هذه المرحلة (قبل رفع الصور)",
+          "issue" not in build_result, build_result)
+    check("build(): caption المسودة المحفوظة خالٍ من قسم التنبيهات",
+          build_result["drafts"] and yp.WARNINGS_HEADER not in build_result["drafts"][0]["caption"],
+          build_result["drafts"][0]["caption"] if build_result["drafts"] else None)
+    check("build(): حقل warnings المنفصل يحمل التحذير كاملًا",
+          build_result["drafts"] and build_result["drafts"][0]["warnings"] ==
+          ["اسم 'فلان' ورد في نقطة بلا نظير له في الاقتباس الأصلي"],
+          build_result["drafts"][0]["warnings"] if build_result["drafts"] else None)
+    check("build(): source_urls يحمل رابط الفيديو بطابعه الزمني",
+          build_result["drafts"] and
+          "youtube.com/watch?v=xyz" in "".join(build_result["drafts"][0]["source_urls"]),
+          build_result["drafts"][0]["source_urls"] if build_result["drafts"] else None)
+
+    loaded = store.load_draft(build_result["drafts"][0]["id"]) if build_result["drafts"] else None
+    check("build(): المسودة محفوظة فعليًا بحالة pending وبلا review_issue بعد",
+          loaded is not None and loaded[1]["status"] == "pending" and
+          not loaded[1].get("review_issue"), loaded[1] if loaded else None)
+    if loaded:
+        img = DRAFTS_DIR / Path(loaded[1]["image"]).relative_to("drafts")
+        check("build(): ملف بطاقة العنوان أُنشئ فعليًا على القرص", img.exists(), str(img))
+
+    # build() بلا مقالات لهذا التاريخ (index.md غائب) لا ينهار
+    empty_build = yp.build(cfg, date_str="2026-02-03")
+    check("build(): تاريخ بلا state/youtube_articles/<date>/index.md يعيد صفر مسودات بلا استثناء",
+          empty_build["drafts"] == [], empty_build)
+
+    # open_review() -- بعد "رفع" الصور (محاكاة: لا رفع فعلي في الاختبار، لكن
+    # الملفات موجودة محليًا فعلًا وهذا ما يقرؤه open_review())
+    created_issues: list = []
+    real_create_issue = review.create_issue
+
+    def fake_create_issue(title, body, labels=None):
+        created_issues.append({"title": title, "body": body, "labels": labels})
+        return {"number": 999, "html_url": "https://example.com/issues/999"}
+
+    review.create_issue = fake_create_issue  # type: ignore
+    try:
+        review_result = yp.open_review(cfg)
+    finally:
+        review.create_issue = real_create_issue  # type: ignore
+
+    check("open_review(): فُتح Issue مراجعة واحد بوسم youtube-review",
+          len(created_issues) == 1 and created_issues[0]["labels"] == ["youtube-review"],
+          created_issues)
+    check("open_review(): المسودة اليتيمة الوحيدة أُدرجت في الـIssue",
+          len(review_result["drafts"]) == 1, review_result)
+
+    loaded2 = store.load_draft(build_result["drafts"][0]["id"])
+    check("open_review(): review_issue ثُبِّت على المسودة فور فتح الـIssue",
+          loaded2 is not None and loaded2[1].get("review_issue") == 999,
+          loaded2[1] if loaded2 else None)
+
+    # نداء ثانٍ: المسودة مربوطة بـIssue سابق الآن، فلا تُلتقَط ولا يُفتَح Issue جديد
+    second_call = yp.open_review(cfg)
+    check("open_review(): مسودة مربوطة بـIssue سابق لا تُلتقَط في نداء ثانٍ",
+          second_call["issue"] is None and second_call["drafts"] == [], second_call)
+
+    # ── publish_approved: سقف وتباعد (بلا شبكة، بلا time.sleep فعلي) ──
+    # معرّفات على شكل hex فعليًا (اصطلاح المشروع، وID_MARKER في review.py لا
+    # يطابق إلا [0-9a-f]+) لا "yt0" التي كانت تسقط بصمت من parse_approved.
+    def _hex_id(i: int) -> str:
+        return f"{i:012x}"
+
+    yp_drafts = []
+    for i in range(5):
+        d = {
+            "id": _hex_id(i), "status": "pending", "origin": "youtube",
+            "arabic": {"post_title": f"مقال {i}", "urgent": False},
+            "image": "drafts/x.jpg", "caption": "متن", "source": {},
+        }
+        store.save_draft(d)
+        yp_drafts.append(d)
+
+    fake_body = "\n".join(f"- [x] **{i+1}. مقال {i}**  <!-- draft:{_hex_id(i)} -->"
+                          for i in range(5))
+
+    sleep_calls: list = []
+    real_sleep = yp.time.sleep
+    yp.time.sleep = lambda s: sleep_calls.append(s)
+
+    published_ids: list = []
+    real_publish_one = yp.publish.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_ids.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    yp.publish.publish_one = fake_publish_one  # type: ignore
+
+    comments: list = []
+    real_comment = review.comment
+    real_fetch_body = review.fetch_issue_body
+    real_close = review.close_issue
+    review.comment = lambda issue_number, text: comments.append(text)  # type: ignore
+    review.fetch_issue_body = lambda issue_number: fake_body  # type: ignore
+    closed_issues: list = []
+    review.close_issue = lambda issue_number: closed_issues.append(issue_number)  # type: ignore
+
+    cfg_cap = load_config()
+    cfg_cap["youtube"]["publish"] = {"max_per_run": 3, "spacing_minutes": 40}
+    try:
+        code = yp.publish_approved(4242, cfg_cap)
+    finally:
+        yp.time.sleep = real_sleep
+        yp.publish.publish_one = real_publish_one
+        review.comment = real_comment
+        review.fetch_issue_body = real_fetch_body
+        review.close_issue = real_close
+
+    check("publish_approved: ينتهي بنجاح", code == 0, f"exit={code}")
+    check("publish_approved: سقف 3 لكل تشغيلة يُحترَم رغم 5 معتمدة",
+          published_ids == [_hex_id(0), _hex_id(1), _hex_id(2)], published_ids)
+    check("publish_approved: فاصل ثابت (40 دقيقة) بين كل منشور والتالي فقط "
+          "(اثنان بين ثلاثة منشورات، لا بعد الأخير)",
+          sleep_calls == [40 * 60, 40 * 60], sleep_calls)
+    check("publish_approved: تعليق يذكر عدد المتبقي بانتظار تشغيلة لاحقة",
+          comments and "2 مقالًا" in comments[-1], comments)
+    check("publish_approved: الـIssue يبقى مفتوحًا (لم يُغلَق) لبقاء معتمَد لم يُنشر",
+          closed_issues == [], closed_issues)
+
+    statuses = {d["id"]: store.load_draft(d["id"])[1]["status"] for d in yp_drafts}
+    check("publish_approved: الثلاثة الأولى فقط بحالة published",
+          statuses[_hex_id(0)] == "published" and statuses[_hex_id(1)] == "published" and
+          statuses[_hex_id(2)] == "published" and statuses[_hex_id(3)] == "pending" and
+          statuses[_hex_id(4)] == "pending", statuses)
+
+    # سيناريو ثانٍ: سقف يغطي كل المعتمَد ⇒ الـIssue يُغلَق
+    for i in range(5, 8):
+        d = {
+            "id": _hex_id(i), "status": "pending", "origin": "youtube",
+            "arabic": {"post_title": f"مقال {i}", "urgent": False},
+            "image": "drafts/x.jpg", "caption": "متن", "source": {},
+        }
+        store.save_draft(d)
+
+    fake_body2 = "\n".join(f"- [x] **{i-4}. مقال {i}**  <!-- draft:{_hex_id(i)} -->"
+                           for i in range(5, 8))
+    yp.time.sleep = lambda s: sleep_calls.append(s)
+    yp.publish.publish_one = fake_publish_one  # type: ignore
+    review.comment = lambda issue_number, text: comments.append(text)  # type: ignore
+    review.fetch_issue_body = lambda issue_number: fake_body2  # type: ignore
+    review.close_issue = lambda issue_number: closed_issues.append(issue_number)  # type: ignore
+    try:
+        yp.publish_approved(4243, cfg_cap)
+    finally:
+        yp.time.sleep = real_sleep
+        yp.publish.publish_one = real_publish_one
+        review.comment = real_comment
+        review.fetch_issue_body = real_fetch_body
+        review.close_issue = real_close
+
+    check("publish_approved: سقف يغطي كل المعتمَد (3 من 3) ⇒ الـIssue يُغلَق",
+          closed_issues == [4243], closed_issues)
+
+    # ── لا مُعلَّم ⇒ تعليق تنبيه وإزالة الوسم، بلا نشر ──
+    removed_labels: list = []
+    real_remove_label = review.remove_label
+    review.fetch_issue_body = lambda issue_number: "- [ ] **1. مقال** <!-- draft:aaaaaaaaaaaa -->"  # type: ignore
+    review.comment = lambda issue_number, text: comments.append(text)  # type: ignore
+    review.remove_label = lambda issue_number, label: removed_labels.append(label)  # type: ignore
+    try:
+        code_none = yp.publish_approved(4244, cfg_cap)
+    finally:
+        review.fetch_issue_body = real_fetch_body
+        review.comment = real_comment
+        review.remove_label = real_remove_label
+
+    check("publish_approved: بلا اعتماد ⇒ ينتهي بنجاح بلا نشر", code_none == 0)
+    check("publish_approved: وسم youtube-approved يُزال عند عدم وجود اعتماد",
+          removed_labels == ["youtube-approved"], removed_labels)
+
+    # ── إعدادات config.yaml (Issue #676) ──
+    check("config: youtube.publish.max_per_run = 3",
+          cfg.path("youtube.publish.max_per_run") == 3)
+    check("config: youtube.publish.spacing_minutes = 40",
+          cfg.path("youtube.publish.spacing_minutes") == 40)
+    check("config: youtube.image.badge_text موجود",
+          bool(cfg.path("youtube.image.badge_text")))
+    check("config: youtube.image.bloc_labels يغطي الكتل الأربع",
+          set(cfg.path("youtube.image.bloc_labels", {}).keys()) ==
+          {"arabic", "turkish", "persian", "israeli"})
+
+
 def test_no_temperature_param() -> None:
     """حارس ثابت يمنع تكرار Issue #373 (الجولة الحادية عشرة): temperature
     تُرفَض بـ400 ("temperature is deprecated for this model") من نماذج هذا
@@ -11612,6 +11961,8 @@ def main() -> int:
     test_youtube_cluster()
     print("\n── مسار يوتيوب: الكتابة (Issue #646) ──")
     test_youtube_article()
+    print("\n── مسار يوتيوب: التوصيل (صورة + مسودة + مراجعة + نشر، Issue #676) ──")
+    test_youtube_publish()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:
