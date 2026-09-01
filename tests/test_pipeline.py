@@ -11295,6 +11295,66 @@ def test_youtube_article() -> None:
     check("_append_warnings: بلا تحذيرات، النص يعود بلا تغيير",
           ya._append_warnings("نص كما هو", []) == "نص كما هو")
 
+    # ── عناوين مقترحة (Issue #680): _validate_headlines / generate_headlines / _append_headlines ──
+    hl_points = [{"quote_original": "he commented and biden replied"}]
+    good_headlines = ["هل يتصاعد الموقف بعد بيان بايدن؟", "بيان بايدن يفتح الباب لتصعيد جديد",
+                       "تصعيد مرجّح بعد رد بايدن على الحدث"]
+    ok_hl, reason_hl = ya._validate_headlines(good_headlines, hl_points[0]["quote_original"], [
+        {"ar": "بايدن", "aliases": ["biden"]}], 15)
+    check("_validate_headlines: ثلاثة عناوين صالحة (سؤال أول + كلمات ضمن الحدّ + اسم موثَّق) تُقبَل",
+          ok_hl, reason_hl)
+
+    not_question = ["تصعيد وشيك بعد بيان بايدن", "عنوان ثانٍ", "عنوان ثالث"]
+    ok_nq, reason_nq = ya._validate_headlines(not_question, hl_points[0]["quote_original"], [], 15)
+    check("_validate_headlines: العنوان الأول بلا علامة استفهام يُرفَض",
+          not ok_nq and "سؤال" in reason_nq, reason_nq)
+
+    too_long = ["هل " + " ".join(["كلمة"] * 20) + "؟", "قصير", "قصير أيضًا"]
+    ok_long, reason_long = ya._validate_headlines(too_long, "", [], 15)
+    check("_validate_headlines: عنوان يتجاوز سقف الكلمات يُرفَض",
+          not ok_long and "15 كلمة" in reason_long, reason_long)
+
+    unsourced_headlines = ["هل صرّح ترامب بشيء؟", "عنوان ثانٍ", "عنوان ثالث"]
+    ok_uns, reason_uns = ya._validate_headlines(
+        unsourced_headlines, hl_points[0]["quote_original"],
+        [{"ar": "ترامب", "aliases": ["trump"]}], 15)
+    check("_validate_headlines: اسم علم غير موثَّق بالاقتباس الأصلي يُرفَض",
+          not ok_uns and "ترامب" in reason_uns, reason_uns)
+
+    hl_topic = {"title": "قضية عناوين تجريبية"}
+    hl_member_points = [{"channel": "الجزيرة", "speaker": "ناطق", "statement": "بيان ما",
+                         "quote_original": "he commented and biden replied"}]
+
+    hl_success_client = _Client([_Resp([_Block("tool_use", input_={"headlines": good_headlines})])])
+    hl_result, hl_error = ya.generate_headlines(hl_topic, hl_member_points, article_cfg,
+                                                 hl_success_client)
+    check("generate_headlines: محاولة أولى صالحة تُقبَل بلا إعادة",
+          hl_error is None and hl_result == good_headlines, (hl_result, hl_error))
+
+    hl_retry_client = _Client([
+        _Resp([_Block("tool_use", input_={"headlines": not_question})]),
+        _Resp([_Block("tool_use", input_={"headlines": good_headlines})]),
+    ])
+    hl_result2, hl_error2 = ya.generate_headlines(hl_topic, hl_member_points, article_cfg,
+                                                   hl_retry_client)
+    check("generate_headlines: إعادة محاولة بعد عنوان أول بلا صيغة سؤال تنجح",
+          hl_error2 is None and hl_result2 == good_headlines, (hl_result2, hl_error2))
+
+    hl_bad_client = _Client([
+        _Resp([_Block("tool_use", input_={"headlines": not_question})]),
+        _Resp([_Block("tool_use", input_={"headlines": not_question})]),
+    ])
+    hl_result3, hl_error3 = ya.generate_headlines(hl_topic, hl_member_points, article_cfg,
+                                                   hl_bad_client)
+    check("generate_headlines: فشل كل المحاولات يعيد سببًا صريحًا لا قائمة",
+          hl_result3 is None and hl_error3 is not None, hl_error3)
+
+    appended_hl = ya._append_headlines("# عنوان\n\nنص المقال", good_headlines)
+    check("_append_headlines: يضيف القسم بترويسة صحيحة وترقيم ١-٣",
+          ya.HEADLINES_HEADER in appended_hl and
+          all(f"{i}. {h}" in appended_hl for i, h in enumerate(good_headlines, start=1)),
+          appended_hl)
+
     # ── save_articles / build_index: ترقيم بلا فجوات + جدول الفهرس + عمود التنبيهات ──
     saved = ya.save_articles("2099-03-03", [
         {"topic": {"title": "الأولى", "layer": "a", "blocs": ["arabic", "turkish"],
@@ -11365,15 +11425,28 @@ def test_youtube_article() -> None:
          "channels": ["الجزيرة"], "agreement": "agreement", "point_ids": [1]},
     ]
 
+    # كل مقال ناجح يتبعه نداء عناوين منفصل (generate_headlines، Issue #680) --
+    # ثلاثة عناوين عامة بلا أسماء أعلام كي لا تصطدم بحارس _validate_headlines
+    # (لا اسم غير موثَّق بالاقتباسات الأصلية لهذه القضايا التجريبية).
+    hl_a = ["هل يشتد الخلاف حول هذه القضية؟", "الخلاف حول القضية يتصاعد بحسب المصادر",
+            "تصعيد مرجّح في القضية بحسب المتابعين"]
+    hl_c2 = ["هل تتضح ملامح القضية قريبًا؟", "القضية تتضح ملامحها تدريجيًا",
+             "وضوح مرجّح لملامح القضية قريبًا"]
+    hl_c3 = ["هل ينتهي الجدل حول القضية؟", "الجدل حول القضية يقترب من نهايته",
+             "نهاية مرجّحة لجدل القضية"]
+
     run_client = _Client([
         _Resp([_Block("text", text=_valid_article("سؤال عن قضية الطبقة أ؟"))]),
+        _Resp([_Block("tool_use", input_={"headlines": hl_a})]),
         _Resp([_Block("tool_use", input_={
             "blocked": True, "category": "military_ops", "reason": "عمليات عسكرية وشيكة"})]),
         _Resp([_Block("tool_use", input_={"blocked": False, "category": "none", "reason": ""})]),
         _Resp([_Block("text", text=_valid_article("سؤال عن قضية الطبقة ج المسموحة؟"))]),
+        _Resp([_Block("tool_use", input_={"headlines": hl_c2})]),
         _Resp([_Block("tool_use", input_={
             "blocked": True, "category": "market_moving_numbers", "reason": ""})]),
         _Resp([_Block("text", text=_valid_article("سؤال عن قضية بلا سبب حظر؟"))]),
+        _Resp([_Block("tool_use", input_={"headlines": hl_c3})]),
     ])
 
     ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -11416,6 +11489,13 @@ def test_youtube_article() -> None:
                           if layer_a_article["headline"] in ln)
         check("run(): سطر المقال في index.md يحمل قيمة عمود التنبيهات الصحيحة",
               index_row.rstrip().endswith("1 |"), index_row)
+
+        # ── عناوين مقترحة (Issue #680): وصلت فعليًا لكل مقال ناجح، ولا فشل هنا ──
+        check("run(): صفر فشل في اقتراح العناوين لكل المقالات الناجحة الثلاثة",
+              stats["headline_failures"] == 0, stats)
+        check("run(): نصّ المقال المحفوظ يحوي قسم العناوين المقترحة كاملًا",
+              ya.HEADLINES_HEADER in article_text and hl_a[0] in article_text and
+              hl_a[1] in article_text and hl_a[2] in article_text, article_text)
     finally:
         points_path.unlink(missing_ok=True)
         topics_path.unlink(missing_ok=True)
@@ -11455,11 +11535,14 @@ def test_youtube_article() -> None:
 
 
 def test_youtube_publish() -> None:
-    """المرحلة الخامسة (src/youtube_publish.py، Issue #676): توصيل الصورة
-    والمسودة ودورة المراجعة والنشر بما كان قائمًا (imaging/store/review/
-    publish) بلا تعديل على منطقها. لا شبكة -- review.create_issue/comment/
-    fetch_issue_body/close_issue/remove_label وpublish.publish_one كلّها
-    مموَّهة محليًا؛ بناء بطاقة العنوان نفسه محلي بالكامل (Pillow فقط)."""
+    """المرحلة الخامسة (src/youtube_publish.py، Issue #676 وIssue #680):
+    توصيل المسودة ودورة المراجعة والنشر بما كان قائمًا (imaging/store/
+    review/publish) بلا تعديل على منطقها. لا شبكة -- review.create_issue/
+    comment/fetch_issue_body/close_issue/remove_label وpublish.publish_one
+    كلّها مموَّهة محليًا؛ بناء بطاقة العنوان نفسه محلي بالكامل (Pillow فقط).
+    يغطّي أيضًا الدرجة المركّبة والترتيب بها، تأجيل بناء البطاقة إلى ما بعد
+    الاعتماد (ensure_title_card)، وقراءة اختيار العنوان من ثلاثة (Issue
+    #680)."""
     yp = youtube_publish
     cfg = load_config()
 
@@ -11543,51 +11626,104 @@ def test_youtube_publish() -> None:
                              int(cfg.path("image.height", 1080))), str(im.size))
     built.unlink(missing_ok=True)
 
-    # ── build_review_body: سطر الصحة + ترتيب البطاقات بالطبقة ثم نوع الخلاف + التنبيهات ظاهرة ──
+    # ── الدرجة المركّبة (Issue #680): compute_score / score_breakdown_text ──
+    check("compute_score: عدد القنوات + (كتل-1)×2 + مكافأة الخلاف (cross_source=+3)",
+          yp.compute_score(["arabic", "turkish"], ["الجزيرة", "CNN Türk"], "cross_source", cfg)
+          == 2 + (2 - 1) * 2 + 3, None)
+    check("compute_score: كتلة واحدة (بلا مكافأة كتل) واتفاق (بلا مكافأة)",
+          yp.compute_score(["arabic"], ["الجزيرة"], "agreement", cfg) == 1)
+    check("compute_score: صدى يعاقب بمكافأة سالبة",
+          yp.compute_score(["arabic"], ["الجزيرة", "العربية"], "echo", cfg) == 2 + 0 - 2)
+    check("score_breakdown_text: يذكر الرقم وعدد القنوات وعدد الكتل ونوع الخلاف معًا",
+          "الدرجة 7" in yp.score_breakdown_text(["arabic", "turkish"],
+                                                ["الجزيرة", "CNN Türk"], "cross_source", cfg) and
+          "قناتان" in yp.score_breakdown_text(["arabic", "turkish"], ["الجزيرة", "CNN Türk"],
+                                              "cross_source", cfg) and
+          "كتلتان" in yp.score_breakdown_text(["arabic", "turkish"], ["الجزيرة", "CNN Türk"],
+                                              "cross_source", cfg),
+          yp.score_breakdown_text(["arabic", "turkish"], ["الجزيرة", "CNN Türk"], "cross_source", cfg))
+
+    # ── build_review_body: سطر الصحة + ترتيب بالدرجة المركّبة تنازليًا + التنبيهات والعناوين ظاهرة ──
     drafts = [
         {"id": "c00000000001", "title": "قضية ج اتفاق؟", "tier": "c", "blocs": ["arabic"],
          "channels": ["الجزيرة"], "agreement": "agreement", "warnings": [],
-         "caption": "متن قضية ج", "image": "drafts/2026-01-01/c00000000001.jpg"},
+         "caption": "متن قضية ج", "headlines": ["قضية ج اتفاق؟", "بديل ج ١", "بديل ج ٢"],
+         "headline_selected": 0, "score": 1},
         {"id": "a00000000002", "title": "قضية أ خلاف قنوات؟", "tier": "a",
          "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
          "agreement": "cross_source", "warnings": ["تحذير رقم واحد"],
-         "caption": "متن قضية أ", "image": "drafts/2026-01-01/a00000000002.jpg"},
+         "caption": "متن قضية أ", "headlines": ["قضية أ خلاف قنوات؟", "بديل أ ١", "بديل أ ٢"],
+         "headline_selected": 0, "score": 7},
         {"id": "a00000000003", "title": "قضية أ خلاف داخلي؟", "tier": "a",
          "blocs": ["arabic", "turkish"], "channels": ["الجزيرة"],
          "agreement": "internal", "warnings": [],
-         "caption": "متن قضية أ٢", "image": "drafts/2026-01-01/a00000000003.jpg"},
+         "caption": "متن قضية أ٢", "headlines": ["قضية أ خلاف داخلي؟", "بديل أ٢ ١", "بديل أ٢ ٢"],
+         "headline_selected": 0, "score": 4},
+        # طبقة (ب) بثلاث قنوات في كتلة واحدة تتفوّق درجةً على طبقة (أ) أضعف
+        # مادةً (a00000000003) رغم كونها طبقة أدنى -- هذا بالضبط العطل الذي
+        # يعالجه الـIssue #680: الترتيب بالطبقة وحدها كان يضع كل قضايا (أ)
+        # قبل كل قضايا (ب) بصرف النظر عن قوة المادة الفعلية.
+        {"id": "b00000000004", "title": "قضية ب ثلاث قنوات؟", "tier": "b", "blocs": ["arabic"],
+         "channels": ["الجزيرة", "العربية", "سكاي نيوز عربية"], "agreement": "cross_source",
+         "warnings": [], "caption": "متن قضية ب", "headlines": ["قضية ب ثلاث قنوات؟", "ب ١", "ب ٢"],
+         "headline_selected": 0, "score": 6},
     ]
     drafts.sort(key=yp._review_sort_key)
-    check("ترتيب البطاقات: طبقة (أ) قبل (ج)",
-          [d["id"] for d in drafts].index("a00000000002") <
-          [d["id"] for d in drafts].index("c00000000001"))
-    check("ترتيب البطاقات: داخل الطبقة نفسها، خلاف قنوات قبل خلاف داخلي",
-          [d["id"] for d in drafts].index("a00000000002") <
-          [d["id"] for d in drafts].index("a00000000003"))
+    order = [d["id"] for d in drafts]
+    check("ترتيب البطاقات: بالدرجة المركّبة تنازليًا (7، 6، 4، 1)",
+          order == ["a00000000002", "b00000000004", "a00000000003", "c00000000001"], order)
+    check("ترتيب البطاقات: طبقة (ب) الأقوى مادةً تسبق طبقة (أ) الأضعف (العطل الأصلي في الـIssue)",
+          order.index("b00000000004") < order.index("a00000000003"), order)
 
     cfg_pub = load_config()
     cfg_pub["youtube"]["publish"] = {"max_per_run": 3, "spacing_minutes": 40}
     body = yp.build_review_body(drafts, "user/trendnews", "main", cfg_pub)
     check("سطر الصحة: العدد الكلي وتوزيع الطبقات وعدّاد خلاف القنوات والتنبيهات",
-          "3 مقالات" in body and "أ=2" in body and "ج=1" in body and
-          "خلاف قنوات=1" in body and "تنبيهات=1" in body, body[:400])
-    check("Issue المراجعة: معرّفات المسودات الثلاث كلها مضمّنة",
-          set(review.all_draft_ids(body)) == {"c00000000001", "a00000000002", "a00000000003"})
+          "4 مقالات" in body and "أ=2" in body and "ب=1" in body and "ج=1" in body and
+          "خلاف قنوات=2" in body and "تنبيهات=1" in body, body[:400])
+    check("Issue المراجعة: معرّفات المسودات الأربع كلها مضمّنة",
+          set(review.all_draft_ids(body)) ==
+          {"c00000000001", "a00000000002", "a00000000003", "b00000000004"})
     check("Issue المراجعة: نصّ التحذير الفعلي ظاهر كاملًا لا عددًا فقط",
           "تحذير رقم واحد" in body, body)
     check("Issue المراجعة: وسم الاعتماد المخصّص (لا `approved` العام) مذكور صراحةً",
           "youtube-approved" in body, body)
-    check("Issue المراجعة: الصور معروضة برابط raw",
-          "raw.githubusercontent.com" in body)
-    # ترتيب الظهور في نص الـIssue نفسه يطابق ترتيب drafts بعد الفرز
-    pos_cross = body.index("a00000000002")
-    pos_agree = body.index("c00000000001")
-    check("ترتيب الظهور الفعلي في نص الـIssue: (أ) قبل (ج)", pos_cross < pos_agree)
+    check("Issue المراجعة: بلا صور إطلاقًا (Issue #680 -- البطاقة تُبنى بعد الوسم فقط)",
+          "raw.githubusercontent.com" not in body and "<img" not in body, body)
+    check("Issue المراجعة: درجة كل بطاقة ومكوّناتها ظاهرة نصًّا",
+          "الدرجة 7" in body and "الدرجة 6" in body and "الدرجة 4" in body and
+          "الدرجة 1" in body, body)
+    check("Issue المراجعة: العناوين الثلاثة لكل مقال ظاهرة بمربعات اختيار، الأول معلَّم افتراضيًا",
+          "- [x] 1. قضية أ خلاف قنوات؟  <!-- hl:a00000000002:0 -->" in body and
+          "- [ ] 2. بديل أ ١  <!-- hl:a00000000002:1 -->" in body and
+          "- [ ] 3. بديل أ ٢  <!-- hl:a00000000002:2 -->" in body, body)
+    # ترتيب الظهور في نص الـIssue نفسه يطابق ترتيب drafts بعد الفرز بالدرجة
+    pos_a2 = body.index("a00000000002")
+    pos_b4 = body.index("b00000000004")
+    pos_a3 = body.index("a00000000003")
+    pos_c1 = body.index("c00000000001")
+    check("ترتيب الظهور الفعلي في نص الـIssue يطابق الدرجة تنازليًا",
+          pos_a2 < pos_b4 < pos_a3 < pos_c1, (pos_a2, pos_b4, pos_a3, pos_c1))
+
+    parsed_choice = yp.parse_headline_choice(body)
+    check("parse_headline_choice: الافتراضي (الفهرس 0) مقروء لكل مسودة لم يُغيَّر اختيارها",
+          all(parsed_choice.get(d["id"]) == 0 for d in drafts), parsed_choice)
+    body_choice = body.replace(
+        "- [x] 1. قضية أ خلاف قنوات؟  <!-- hl:a00000000002:0 -->",
+        "- [ ] 1. قضية أ خلاف قنوات؟  <!-- hl:a00000000002:0 -->",
+    ).replace(
+        "- [ ] 2. بديل أ ١  <!-- hl:a00000000002:1 -->",
+        "- [x] 2. بديل أ ١  <!-- hl:a00000000002:1 -->",
+    )
+    check("parse_headline_choice: تبديل العلامة إلى بديل آخر يُقرأ فهرسه الصحيح",
+          yp.parse_headline_choice(body_choice)["a00000000002"] == 1,
+          yp.parse_headline_choice(body_choice))
 
     # ── build()/open_review(): المسار الكامل من state/youtube_articles/<date>/
     # إلى مسودات محلية (build) ثم Issue مراجعة (open_review) -- مرحلتان
-    # منفصلتان عمدًا (انظر توثيق ذلك أعلى الوحدة: الصور يجب أن تُدفَع إلى
-    # المستودع بين الاثنتين، وإلا 404 روابط raw.githubusercontent.com) ──
+    # منفصلتان عمدًا (انظر توثيق ذلك أعلى الوحدة). لم تعودا مضطرّتين لتفادي
+    # 404 صور raw.githubusercontent.com (Issue #680 -- بلا صور هنا إطلاقًا)،
+    # لكن يبقى الأصحّ فتح Issue بعد رفع فعلي للمسودات لا قبله ──
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -11596,6 +11732,8 @@ def test_youtube_publish() -> None:
     shutil.rmtree(articles_dir, ignore_errors=True)
     articles_dir.mkdir(parents=True, exist_ok=True)
 
+    article_headlines = ["هل يتجه الملف نحو تصعيد جديد؟", "الملف يتجه نحو تصعيد بحسب المصادر",
+                          "تصعيد مرجّح للملف بحسب متابعين"]
     article_text = (
         "# هل يتجه الملف نحو تصعيد جديد؟\n\nاستهلال قصير عن القضية.\n\n"
         "**التقدير:** مرجّح بقوة أن يتصاعد الموقف، بثقة منخفضة لأن المصدر واحد\n\n"
@@ -11605,6 +11743,8 @@ def test_youtube_publish() -> None:
         "الجزيرة — عنوان الفيديو — https://youtube.com/watch?v=xyz (١:٠٠)\n\n"
         "---\n" + yp.WARNINGS_HEADER + "\n"
         "- اسم 'فلان' ورد في نقطة بلا نظير له في الاقتباس الأصلي\n"
+        "\n---\n" + youtube_article.HEADLINES_HEADER + "\n"
+        + "\n".join(f"{i}. {h}" for i, h in enumerate(article_headlines, start=1)) + "\n"
     )
     (articles_dir / "01-test.md").write_text(article_text, encoding="utf-8")
     saved_index_run = [{"number": 1, "filename": "01-test.md",
@@ -11617,10 +11757,11 @@ def test_youtube_publish() -> None:
     build_result = yp.build(cfg, date_str=date_str)
     check("build(): بُنيت مسودة واحدة من المقال الواحد المُدخَل",
           build_result["stats"]["drafts_built"] == 1, build_result["stats"])
-    check("build(): لا يفتح Issue مراجعة في هذه المرحلة (قبل رفع الصور)",
+    check("build(): لا يفتح Issue مراجعة في هذه المرحلة",
           "issue" not in build_result, build_result)
-    check("build(): caption المسودة المحفوظة خالٍ من قسم التنبيهات",
-          build_result["drafts"] and yp.WARNINGS_HEADER not in build_result["drafts"][0]["caption"],
+    check("build(): caption المسودة المحفوظة خالٍ من قسم التنبيهات والعناوين معًا",
+          build_result["drafts"] and yp.WARNINGS_HEADER not in build_result["drafts"][0]["caption"]
+          and youtube_article.HEADLINES_HEADER not in build_result["drafts"][0]["caption"],
           build_result["drafts"][0]["caption"] if build_result["drafts"] else None)
     check("build(): حقل warnings المنفصل يحمل التحذير كاملًا",
           build_result["drafts"] and build_result["drafts"][0]["warnings"] ==
@@ -11630,14 +11771,25 @@ def test_youtube_publish() -> None:
           build_result["drafts"] and
           "youtube.com/watch?v=xyz" in "".join(build_result["drafts"][0]["source_urls"]),
           build_result["drafts"][0]["source_urls"] if build_result["drafts"] else None)
+    check("build(): العناوين الثلاثة المُلحَقة بالمقال وصلت كاملة إلى المسودة، والافتراضي هو الأول",
+          build_result["drafts"] and build_result["drafts"][0]["headlines"] == article_headlines
+          and build_result["drafts"][0]["headline_selected"] == 0,
+          build_result["drafts"][0].get("headlines") if build_result["drafts"] else None)
+    check("build(): الدرجة محسوبة فعليًا (لا صفر ثابت كسابقًا)",
+          build_result["drafts"] and build_result["drafts"][0]["score"] ==
+          yp.compute_score(["arabic", "turkish"], ["الجزيرة", "CNN Türk"], "cross_source", cfg),
+          build_result["drafts"][0].get("score") if build_result["drafts"] else None)
 
     loaded = store.load_draft(build_result["drafts"][0]["id"]) if build_result["drafts"] else None
     check("build(): المسودة محفوظة فعليًا بحالة pending وبلا review_issue بعد",
           loaded is not None and loaded[1]["status"] == "pending" and
           not loaded[1].get("review_issue"), loaded[1] if loaded else None)
+    check("build(): بلا حقل image إطلاقًا -- البطاقة لم تُبنَ بعد (Issue #680)",
+          loaded is not None and "image" not in loaded[1], loaded[1] if loaded else None)
     if loaded:
-        img = DRAFTS_DIR / Path(loaded[1]["image"]).relative_to("drafts")
-        check("build(): ملف بطاقة العنوان أُنشئ فعليًا على القرص", img.exists(), str(img))
+        run_date_dir = DRAFTS_DIR / date_str
+        check("build(): لا أي ملف بطاقة على القرص لهذه المسودة بعد",
+              not run_date_dir.exists() or not any(run_date_dir.iterdir()), None)
 
     # build() بلا مقالات لهذا التاريخ (index.md غائب) لا ينهار
     empty_build = yp.build(cfg, date_str="2026-02-03")
@@ -11664,6 +11816,12 @@ def test_youtube_publish() -> None:
           created_issues)
     check("open_review(): المسودة اليتيمة الوحيدة أُدرجت في الـIssue",
           len(review_result["drafts"]) == 1, review_result)
+    check("open_review(): نص الـIssue المفتوح بلا صور إطلاقًا (Issue #680)",
+          "raw.githubusercontent.com" not in created_issues[0]["body"] and
+          "<img" not in created_issues[0]["body"], created_issues[0]["body"])
+    check("open_review(): العناوين الثلاثة ظاهرة في نص الـIssue المفتوح فعليًا",
+          all(h in created_issues[0]["body"] for h in article_headlines),
+          created_issues[0]["body"])
 
     loaded2 = store.load_draft(build_result["drafts"][0]["id"])
     check("open_review(): review_issue ثُبِّت على المسودة فور فتح الـIssue",
@@ -11674,6 +11832,36 @@ def test_youtube_publish() -> None:
     second_call = yp.open_review(cfg)
     check("open_review(): مسودة مربوطة بـIssue سابق لا تُلتقَط في نداء ثانٍ",
           second_call["issue"] is None and second_call["drafts"] == [], second_call)
+
+    # ── ensure_title_card: البطاقة تُبنى الآن فقط -- بعد الاعتماد، للمختار
+    # فقط (Issue #680)، بالعنوان البديل الثاني لا الافتراضي، كي يثبت أن
+    # الاختيار الفعلي هو ما يصل البطاقة والـcaption معًا ──
+    card_path, card_draft = store.load_draft(build_result["drafts"][0]["id"])
+    card_draft["headline_selected"] = 1
+    ok_card = yp.ensure_title_card(card_path, card_draft, cfg)
+    check("ensure_title_card: يبني البطاقة بنجاح ويعيد True", ok_card, ok_card)
+    check("ensure_title_card: يضبط حقل image على مسار drafts/<تاريخ>/<معرّف>.jpg",
+          card_draft.get("image") == f"drafts/{date_str}/{card_draft['id']}.jpg",
+          card_draft.get("image"))
+    built_img = DRAFTS_DIR / date_str / f"{card_draft['id']}.jpg"
+    check("ensure_title_card: ملف البطاقة موجود فعليًا على القرص", built_img.exists(),
+          str(built_img))
+    check("ensure_title_card: العنوان البديل الثاني (لا الافتراضي) يصل arabic.post_title",
+          card_draft["arabic"]["post_title"] == article_headlines[1], card_draft["arabic"])
+    check("ensure_title_card: العنوان البديل الثاني يصل السطر الأول من caption أيضًا",
+          card_draft["caption"].splitlines()[0] == f"# {article_headlines[1]}",
+          card_draft["caption"].splitlines()[0])
+    persisted = store.load_draft(card_draft["id"])
+    check("ensure_title_card: التحديث محفوظ فعليًا على القرص (image + headline_selected)",
+          persisted is not None and persisted[1].get("image") == card_draft["image"] and
+          persisted[1].get("headline_selected") == 1, persisted[1] if persisted else None)
+
+    # نداء ثانٍ بعد بناء البطاقة فعليًا: يعيد True فورًا بلا إعادة بناء
+    # (الملف موجود مسبقًا -- انظر فحص `existing` في ensure_title_card)
+    rebuilt_mtime = built_img.stat().st_mtime
+    ok_card2 = yp.ensure_title_card(card_path, card_draft, cfg)
+    check("ensure_title_card: نداء ثانٍ لا يعيد البناء إن كانت البطاقة موجودة فعلًا",
+          ok_card2 and built_img.stat().st_mtime == rebuilt_mtime, None)
 
     # ── publish_approved: سقف وتباعد (بلا شبكة، بلا time.sleep فعلي) ──
     # معرّفات على شكل hex فعليًا (اصطلاح المشروع، وID_MARKER في review.py لا
@@ -11708,6 +11896,19 @@ def test_youtube_publish() -> None:
 
     yp.publish.publish_one = fake_publish_one  # type: ignore
 
+    # ensure_title_card مموَّهة هنا -- هذا الاختبار يغطّي منطق السقف/التباعد
+    # في publish_approved تحديدًا، لا بناء البطاقة نفسه (مغطّى فعليًا أعلاه
+    # في اختبار ensure_title_card المباشر). يسجّل فقط أي المسودات استُدعيت
+    # لها، والاختيار الممرَّر إليها (Issue #680).
+    card_calls: list = []
+    real_ensure_title_card = yp.ensure_title_card
+
+    def fake_ensure_title_card(path, draft, cfg):
+        card_calls.append((draft["id"], draft.get("headline_selected", 0)))
+        return True
+
+    yp.ensure_title_card = fake_ensure_title_card  # type: ignore
+
     comments: list = []
     real_comment = review.comment
     real_fetch_body = review.fetch_issue_body
@@ -11724,6 +11925,7 @@ def test_youtube_publish() -> None:
     finally:
         yp.time.sleep = real_sleep
         yp.publish.publish_one = real_publish_one
+        yp.ensure_title_card = real_ensure_title_card
         review.comment = real_comment
         review.fetch_issue_body = real_fetch_body
         review.close_issue = real_close
@@ -11731,6 +11933,10 @@ def test_youtube_publish() -> None:
     check("publish_approved: ينتهي بنجاح", code == 0, f"exit={code}")
     check("publish_approved: سقف 3 لكل تشغيلة يُحترَم رغم 5 معتمدة",
           published_ids == [_hex_id(0), _hex_id(1), _hex_id(2)], published_ids)
+    check("publish_approved: البطاقة تُبنى فقط للثلاثة المنشورة فعليًا لا الخمسة المعتمدة",
+          [c[0] for c in card_calls] == [_hex_id(0), _hex_id(1), _hex_id(2)], card_calls)
+    check("publish_approved: بلا اختيار عنوان مُعلَّم في نص الـIssue ⇒ الافتراضي (٠) يُمرَّر",
+          all(c[1] == 0 for c in card_calls), card_calls)
     check("publish_approved: فاصل ثابت (40 دقيقة) بين كل منشور والتالي فقط "
           "(اثنان بين ثلاثة منشورات، لا بعد الأخير)",
           sleep_calls == [40 * 60, 40 * 60], sleep_calls)
@@ -11758,6 +11964,7 @@ def test_youtube_publish() -> None:
                            for i in range(5, 8))
     yp.time.sleep = lambda s: sleep_calls.append(s)
     yp.publish.publish_one = fake_publish_one  # type: ignore
+    yp.ensure_title_card = fake_ensure_title_card  # type: ignore
     review.comment = lambda issue_number, text: comments.append(text)  # type: ignore
     review.fetch_issue_body = lambda issue_number: fake_body2  # type: ignore
     review.close_issue = lambda issue_number: closed_issues.append(issue_number)  # type: ignore
@@ -11766,6 +11973,7 @@ def test_youtube_publish() -> None:
     finally:
         yp.time.sleep = real_sleep
         yp.publish.publish_one = real_publish_one
+        yp.ensure_title_card = real_ensure_title_card
         review.comment = real_comment
         review.fetch_issue_body = real_fetch_body
         review.close_issue = real_close
@@ -11800,6 +12008,17 @@ def test_youtube_publish() -> None:
     check("config: youtube.image.bloc_labels يغطي الكتل الأربع",
           set(cfg.path("youtube.image.bloc_labels", {}).keys()) ==
           {"arabic", "turkish", "persian", "israeli"})
+
+    # ── إعدادات config.yaml (Issue #680: الدرجة والعناوين) ──
+    check("config: youtube.review.scoring.bloc_bonus = 2",
+          cfg.path("youtube.review.scoring.bloc_bonus") == 2)
+    check("config: youtube.review.scoring.agreement_bonus يغطي القيم الأربع بالترتيب الصحيح",
+          cfg.path("youtube.review.scoring.agreement_bonus") ==
+          {"cross_source": 3, "internal": 1, "agreement": 0, "echo": -2})
+    check("config: youtube.review.headlines.max_words = 15",
+          cfg.path("youtube.review.headlines.max_words") == 15)
+    check("config: youtube.review.headlines.max_retries موجود",
+          bool(cfg.path("youtube.review.headlines.max_retries")))
 
 
 def test_no_temperature_param() -> None:
