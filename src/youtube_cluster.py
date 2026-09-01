@@ -36,6 +36,22 @@ state/youtube_topics_seen.json إطلاقًا (صفر مقالات ⇐ صفر ن
 mark_points_seen لم تُستدعَ قط) -- youtube_article.run() الآن يوكِّد وجود
 الملف دومًا قبل نهاية التشغيلة، ولو فارغًا.
 
+Issue #662 (متابعة -- حارس عقلانية بعد تشغيلة أعطت قضية واحدة من ٢٠٩ نقطة، بلا
+رسالة خطأ ولا stop_reason): إخراج مهيكل صالح شكلًا (tool_use بحقوله الصحيحة)
+لا يعني تجميعًا سليمًا دلاليًا -- النموذج قد يُعيد قائمة issues قصيرة جدًا
+نسبةً إلى حجم المدخل بلا أي إشارة فنية على العطل. أُضيف حارس عقلانية
+(sanity_min_points/sanity_min_issues) في cluster_points: مدخل يتجاوز
+sanity_min_points نقطة ينتج عنه أقل من sanity_min_issues قضية صالحة (بعد نفس
+تحقّق point_ids/event/agreement الحالي) يُعَدّ فشل محاولة صريحًا يُعاد
+المحاولة بسببه، لا نجاحًا بمخرج هزيل. كما صار stop_reason وعدد الرموز
+المستهلكة يُسجَّلان عند **كل** محاولة (سطر log.info واحد فور وصول الرد) لا
+عند الفشل الظاهر (انعدام tool_use أو max_tokens) وحده فقط -- تشغيلة ٢٠٩ نقطة
+لم تحمل أي علامة عطل ظاهرة، فتشخيصها احتاج رؤية stop_reason حتى في المسار
+"الناجح" شكلًا. وعدد القضايا الخام التي أعادها النموذج (قبل تحقّق
+point_ids/event/agreement) يُسجَّل أيضًا بصرف النظر عن اجتيازها الحارس أم لا،
+تمييزًا بين "النموذج جمّع القليل فعلًا" و"النموذج جمّع كثيرًا لكن أغلبه رُفض
+بالتحقّق".
+
 Issue #662 (تنقية المخرج بعد أول تشغيلة كاملة ناجحة، ٩ مقالات): (١) العنقدة
 كانت أدقّ من اللازم أحيانًا -- نفس الحدث ينتج قضيتين منفصلتين لاختلاف
 مصدريهما، فيُنشَران معًا محرجًا. أُضيف نداء دمج قصير رخيص منفصل
@@ -428,73 +444,13 @@ def _brief_points(points: list[dict]) -> list[dict]:
     ]
 
 
-def cluster_points(points: list[dict], cfg: Config, client: Anthropic | None = None
-                    ) -> tuple[list[dict], str | None]:
-    """نداء للنموذج (محاولة واحدة + إعادة محاولة واحدة عند غياب إخراج مهيكل
-    صالح -- Issue #660، نفس آلية youtube_extract.extract_points بالضبط).
-    يعيد (قضايا خامة صالحة الشكل -- title/agreement/point_ids بمعرّفات ضمن
-    نطاق points فقط، سبب فشل النداء العام إن حدث -- None عند النجاح ولو بلا
-    قضايا)."""
-    if not points:
-        return [], None
-
-    model = cfg.path("youtube.cluster.model", "claude-sonnet-5")
-    max_tokens = cfg.path("youtube.cluster.max_tokens", 4000)
-    max_retries = cfg.path("youtube.cluster.max_retries", 2)
-    client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
-
-    brief = _brief_points(points)
-
-    raw_issues: list | None = None
-    last_snippet = ""
-    last_resp = None
-    for attempt in range(1, max_retries + 1):
-        try:
-            resp = client.messages.create(
-                model=model,
-                max_tokens=max_tokens,
-                tools=[CLUSTER_SCHEMA],
-                tool_choice={"type": "tool", "name": "cluster_points"},
-                system=load_prompt(),
-                messages=[{"role": "user", "content": json.dumps(brief, ensure_ascii=False)}],
-                # لا تُضِف temperature -- نماذج هذا المشروع ترفضها بـ400.
-            )
-        except APIError as exc:
-            return [], f"فشل نداء العنقدة: {exc}"
-
-        last_resp = resp
-        data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None)
-        candidate = data.get("issues") if isinstance(data, dict) else None
-        if isinstance(candidate, list):
-            raw_issues = candidate
-            break
-
-        text_snippet = "".join(b.text for b in resp.content
-                                if getattr(b, "type", "") == "text")[:500]
-        stop_reason = getattr(resp, "stop_reason", None)
-        if stop_reason == "max_tokens":
-            # صيغة الـIssue الحرفية -- بلا هذا نعود إلى التخمين في المرة القادمة.
-            usage = getattr(resp, "usage", None)
-            output_tokens = getattr(usage, "output_tokens", "؟") if usage is not None else "؟"
-            log.warning("قُطع إخراج العنقدة (stop_reason: max_tokens) — %d نقطة مدخلة، "
-                        "%s رمز مستهلك", len(points), output_tokens)
-            last_snippet = f"[stop_reason=max_tokens] {text_snippet}"
-        else:
-            log.warning("محاولة %d/%d: لم يُعِد نداء العنقدة إخراجًا مهيكلًا صالحًا "
-                        "(stop_reason=%s، %d نقطة مدخلة)", attempt, max_retries,
-                        stop_reason, len(points))
-            last_snippet = text_snippet
-
-    if raw_issues is None:
-        usage_note = ""
-        usage = getattr(last_resp, "usage", None)
-        if usage is not None:
-            usage_note = (f"، رموز مستهلكة: مدخل {getattr(usage, 'input_tokens', '؟')}"
-                          f"/مخرج {getattr(usage, 'output_tokens', '؟')}")
-        return [], (f"لم يُعِد النموذج إخراجًا مهيكلًا صالحًا بعد {max_retries} محاولة/محاولات "
-                    f"({len(points)} نقطة مدخلة{usage_note}): {last_snippet!r}")
-
-    max_id = len(points) - 1
+def _validate_issues(raw_issues: list, max_id: int) -> list[dict]:
+    """يحوّل قائمة قضايا خامة (كما أعادها tool_use) إلى قضايا صالحة الشكل:
+    عنوان/event غير فارغين بعد strip، مؤشّر خلاف من AGREEMENT_VALUES،
+    ومعرّفتا نقطة صالحتان على الأقل ضمن نطاق [0, max_id]. مستقلة عن نداء
+    الشبكة عمدًا (Issue #662 متابعة) -- حارس العقلانية في cluster_points
+    يحتاج هذا التحقّق قبل أن يقرّر قبول محاولة أو إعادتها، لا بعد استنفاد كل
+    المحاولات فقط."""
     issues: list[dict] = []
     for raw in raw_issues:
         if not isinstance(raw, dict):
@@ -526,7 +482,106 @@ def cluster_points(points: list[dict], cfg: Config, client: Anthropic | None = N
             continue
         issues.append({"title": title.strip(), "event": event.strip(), "agreement": agreement,
                         "point_ids": valid_ids})
-    return issues, None
+    return issues
+
+
+def cluster_points(points: list[dict], cfg: Config, client: Anthropic | None = None
+                    ) -> tuple[list[dict], str | None]:
+    """نداء للنموذج (محاولة واحدة + إعادة محاولة واحدة عند غياب إخراج مهيكل
+    صالح -- Issue #660، نفس آلية youtube_extract.extract_points بالضبط).
+    Issue #662 متابعة: إخراج مهيكل صالح شكلًا لكن هزيل جدًا دلاليًا (قضايا
+    قليلة من مدخل كبير) يُعامَل أيضًا كفشل محاولة يستحق إعادة، لا نجاحًا
+    صامتًا -- حارس sanity_min_points/sanity_min_issues أدناه. يعيد (قضايا
+    خامة صالحة الشكل -- title/agreement/point_ids بمعرّفات ضمن نطاق points
+    فقط، سبب فشل النداء العام إن حدث -- None عند النجاح ولو بلا قضايا)."""
+    if not points:
+        return [], None
+
+    model = cfg.path("youtube.cluster.model", "claude-sonnet-5")
+    max_tokens = cfg.path("youtube.cluster.max_tokens", 4000)
+    max_retries = cfg.path("youtube.cluster.max_retries", 2)
+    # حارس عقلانية (Issue #662 متابعة): تشغيلة فعلية أعطت قضية واحدة من ٢٠٩
+    # نقطة بلا أي رسالة خطأ أو stop_reason غير طبيعي -- إخراج مهيكل صالح
+    # شكلًا لا يضمن تجميعًا سليمًا دلاليًا. مدخل أكبر من sanity_min_points
+    # ينتج عدد قضايا صالحة دون sanity_min_issues يُعَدّ فشل محاولة صريحًا.
+    sanity_min_points = cfg.path("youtube.cluster.sanity_min_points", 50)
+    sanity_min_issues = cfg.path("youtube.cluster.sanity_min_issues", 5)
+    client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+
+    brief = _brief_points(points)
+    max_id = len(points) - 1
+
+    raw_issues: list | None = None
+    last_snippet = ""
+    last_resp = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            resp = client.messages.create(
+                model=model,
+                max_tokens=max_tokens,
+                tools=[CLUSTER_SCHEMA],
+                tool_choice={"type": "tool", "name": "cluster_points"},
+                system=load_prompt(),
+                messages=[{"role": "user", "content": json.dumps(brief, ensure_ascii=False)}],
+                # لا تُضِف temperature -- نماذج هذا المشروع ترفضها بـ400.
+            )
+        except APIError as exc:
+            return [], f"فشل نداء العنقدة: {exc}"
+
+        last_resp = resp
+        stop_reason = getattr(resp, "stop_reason", None)
+        usage = getattr(resp, "usage", None)
+        input_tokens = getattr(usage, "input_tokens", "؟") if usage is not None else "؟"
+        output_tokens = getattr(usage, "output_tokens", "؟") if usage is not None else "؟"
+        # يُسجَّل عند كل محاولة، لا الفشل الظاهر وحده (Issue #662 متابعة) --
+        # تشغيلة ٢٠٩ نقطة لم تحمل أي علامة عطل ظاهرة في stop_reason، فتشخيص
+        # مثلها يحتاج رؤية هذا السطر حتى في المسار "الناجح" شكلًا.
+        log.info("نداء العنقدة محاولة %d/%d: stop_reason=%s، رموز مدخل=%s/مخرج=%s "
+                  "(%d نقطة مدخلة)", attempt, max_retries, stop_reason, input_tokens,
+                  output_tokens, len(points))
+
+        data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None)
+        candidate = data.get("issues") if isinstance(data, dict) else None
+        if isinstance(candidate, list):
+            # عدد القضايا الخام قبل أي ترشيح -- يميّز "النموذج جمّع القليل
+            # فعلًا" عن "النموذج جمّع كثيرًا لكن أغلبه رُفض بالتحقّق" أدناه.
+            log.info("نداء العنقدة أعاد %d قضية خامة قبل أي ترشيح (%d نقطة مدخلة)",
+                      len(candidate), len(points))
+            validated = _validate_issues(candidate, max_id)
+            if len(points) > sanity_min_points and len(validated) < sanity_min_issues:
+                log.warning("حارس عقلانية: %d قضية صالحة فقط من %d نقطة مدخلة "
+                            "(الحدّ الأدنى %d) — عُدّت المحاولة %d/%d فاشلة وستُعاد",
+                            len(validated), len(points), sanity_min_issues, attempt,
+                            max_retries)
+                last_snippet = (f"[حارس عقلانية: {len(validated)} قضية صالحة من "
+                                 f"{len(points)} نقطة، الحدّ الأدنى {sanity_min_issues}]")
+                continue
+            raw_issues = candidate
+            break
+
+        text_snippet = "".join(b.text for b in resp.content
+                                if getattr(b, "type", "") == "text")[:500]
+        if stop_reason == "max_tokens":
+            # صيغة الـIssue الحرفية -- بلا هذا نعود إلى التخمين في المرة القادمة.
+            log.warning("قُطع إخراج العنقدة (stop_reason: max_tokens) — %d نقطة مدخلة، "
+                        "%s رمز مستهلك", len(points), output_tokens)
+            last_snippet = f"[stop_reason=max_tokens] {text_snippet}"
+        else:
+            log.warning("محاولة %d/%d: لم يُعِد نداء العنقدة إخراجًا مهيكلًا صالحًا "
+                        "(stop_reason=%s، %d نقطة مدخلة)", attempt, max_retries,
+                        stop_reason, len(points))
+            last_snippet = text_snippet
+
+    if raw_issues is None:
+        usage_note = ""
+        usage = getattr(last_resp, "usage", None)
+        if usage is not None:
+            usage_note = (f"، رموز مستهلكة: مدخل {getattr(usage, 'input_tokens', '؟')}"
+                          f"/مخرج {getattr(usage, 'output_tokens', '؟')}")
+        return [], (f"لم يُعِد النموذج إخراجًا مهيكلًا صالحًا كافيًا بعد {max_retries} "
+                    f"محاولة/محاولات ({len(points)} نقطة مدخلة{usage_note}): {last_snippet!r}")
+
+    return _validate_issues(raw_issues, max_id), None
 
 
 def _merge_issue_group(issues: list[dict], group: set[int]) -> dict:
