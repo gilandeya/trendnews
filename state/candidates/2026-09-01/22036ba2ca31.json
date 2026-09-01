@@ -1,0 +1,48 @@
+{
+  "id": "22036ba2ca31",
+  "created_at": "2026-09-01T15:08:05.760153+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.37,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Canicule : en 2026, le Royaume-Uni et la Belgique enregistrent leur été le plus chaud",
+  "link": "https://www.lemonde.fr/planete/article/2026/09/01/canicule-en-2026-le-royaume-uni-et-la-belgique-enregistrent-leur-ete-le-plus-chaud_6763485_3244.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Canicule : en 2026, le Royaume-Uni et la Belgique enregistrent leur été le plus chaud",
+    "link": "https://www.lemonde.fr/planete/article/2026/09/01/canicule-en-2026-le-royaume-uni-et-la-belgique-enregistrent-leur-ete-le-plus-chaud_6763485_3244.html",
+    "summary": "Sur la saison, la température moyenne relevée dans ces deux pays européens a respectivement été de 16,5 °C, et de 20,3 °C. Leurs agences météorologiques soulignent la nouvelle fréquence d’irruption de périodes caniculaires, qui s’enchaînent.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-09-01T13:53:49+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/13/41/0/3688/1844/644/322/60/0/f2ff498_ftp-1-lktbo1nfjlf4-2026-08-13t141945z-1586910575-rc2pxmac316c-rtrmadp-3-europe-weather-britain.JPG",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/planete/article/2026/09/01/canicule-en-2026-le-royaume-uni-et-la-belgique-enregistrent-leur-ete-le-plus-chaud_6763485_3244.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/13/41/0/3688/1844/644/322/60/0/f2ff498_ftp-1-lktbo1nfjlf4-2026-08-13t141945z-1586910575-rc2pxmac316c-rtrmadp-3-europe-weather-britain.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.36760552398148
+  }
+}

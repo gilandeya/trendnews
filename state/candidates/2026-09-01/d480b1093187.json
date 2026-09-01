@@ -1,0 +1,64 @@
+{
+  "id": "d480b1093187",
+  "created_at": "2026-09-01T15:08:05.759361+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.78,
+  "trend_score": 0.5,
+  "velocity": 0.07,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Citing lack of jurisdiction, India rejects Hague court’s Indus Waters Treaty ruling",
+  "link": "https://www.thehindu.com/news/national/citing-lack-of-jurisdiction-india-rejects-hague-courts-indus-waters-treaty-ruling/article71411927.ece",
+  "publishers": [
+    "CNBC",
+    "Geo News",
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Citing lack of jurisdiction, India rejects Hague court’s Indus Waters Treaty ruling",
+    "link": "https://www.thehindu.com/news/national/citing-lack-of-jurisdiction-india-rejects-hague-courts-indus-waters-treaty-ruling/article71411927.ece",
+    "summary": "MEA says India has 'never recognised the existence in law of this illegally-constituted and so-called Court of Arbitration'",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-01T01:49:12+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/3quxpu/article71412324.ece/alternates/LANDSCAPE_1200/2025-04-24T141635Z_330321599_RC2B4EA6D7VI_RTRMADP_3_INDIA-KASHMIR-ATTACK-WATER.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "CNBC",
+      "Geo News",
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/national/citing-lack-of-jurisdiction-india-rejects-hague-courts-indus-waters-treaty-ruling/article71411927.ece"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/679986-the-hague-court-orders-india-to-uphold-indus-water-treaty-with-pakistan"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/pakistan-welcomes-world-bank-hague-court-order-indus-water-treaty-with-india-ratle-hydroelectric-project-jammu-kashmir-101788180920874.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/3quxpu/article71412324.ece/alternates/LANDSCAPE_1200/2025-04-24T141635Z_330321599_RC2B4EA6D7VI_RTRMADP_3_INDIA-KASHMIR-ATTACK-WATER.JPG",
+      "https://www.geo.tv/assets/uploads/2026-08-31/679986_042227_updates.jpg",
+      "https://www.hindustantimes.com/ht-img/img/2026/08/31/1600x900/Indus_1781081779903_1781081780045_1feb36fd-5d15-4809-a212-40bfd05661d5_1788181534368_63a56385-44c8-40a1-81e6-ecbbb33f0e97.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 0.0740469651236199,
+    "age_hours": 24.0016947425,
+    "is_stale": false,
+    "score": 18.782710721136617
+  }
+}
