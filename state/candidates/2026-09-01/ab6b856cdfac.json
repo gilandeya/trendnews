@@ -1,0 +1,52 @@
+{
+  "id": "ab6b856cdfac",
+  "created_at": "2026-09-01T18:08:09.562498+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.09,
+  "trend_score": 0.67,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pitso Mosimane appointed by South Africa ahead of AFCON qualifiers",
+  "link": "https://www.aljazeera.com/sports/2026/9/1/pitso-mosimane-appointed-by-south-africa-ahead-of-afcon-qualifiers?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Punch Nigeria"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Pitso Mosimane appointed by South Africa ahead of AFCON qualifiers",
+    "link": "https://www.aljazeera.com/sports/2026/9/1/pitso-mosimane-appointed-by-south-africa-ahead-of-afcon-qualifiers?traffic_source=rss",
+    "summary": "Pitso Mosimane replaces Hugo Broos as manager of the South Africa national football team following World Cup exit.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-01T17:25:45+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Punch Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/1/pitso-mosimane-appointed-by-south-africa-ahead-of-afcon-qualifiers?traffic_source=rss"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/mosimane-returns-as-south-africa-coach-ahead-of-afcon-qualifiers/?utm_source=rss.punchng.com&utm_medium=web"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 18.086356430833334
+  }
+}

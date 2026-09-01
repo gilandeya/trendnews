@@ -1,0 +1,48 @@
+{
+  "id": "0f5971cf0c15",
+  "created_at": "2026-09-01T18:08:09.562730+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.8,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Irregular migration by sea drops sharply in Türkiye in 2026",
+  "link": "https://www.dailysabah.com/politics/irregular-migration-by-sea-drops-sharply-in-turkiye-in-2026/news",
+  "publishers": [
+    "Daily Sabah"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Irregular migration by sea drops sharply in Türkiye in 2026",
+    "link": "https://www.dailysabah.com/politics/irregular-migration-by-sea-drops-sharply-in-turkiye-in-2026/news",
+    "summary": "The number of irregular migrants intercepted at sea in Türkiye fell 53% in the first eight months of 2026 compared with the same period last year, according to Coast Guard Command...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-01T12:54:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/01/458721.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/politics/irregular-migration-by-sea-drops-sharply-in-turkiye-in-2026/news"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/01/458721.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 3.0009569436111114,
+    "is_stale": false,
+    "score": 16.801078652074075
+  }
+}
