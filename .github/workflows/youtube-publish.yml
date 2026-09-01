@@ -1,0 +1,62 @@
+name: 📰 نشر مقالات يوتيوب المعتمدة
+
+on:
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: "رقم Issue المراجعة"
+        required: true
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: trendnews-youtube-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.label.name == 'youtube-approved'
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: نشر المؤشَّر (بسقف وتباعد)
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE="${{ inputs.issue || github.event.issue.number }}"
+          python -m src.youtube_publish --issue "$ISSUE" --publish
+
+      - name: تسجيل الحالة
+        if: always()
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p drafts state
+          git add -A drafts state
+          if git diff --quiet --cached; then
+            exit 0
+          fi
+          git commit -m "chore(youtube): نشر معتمَد"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${{ github.event.repository.default_branch }}" || true
+            if git push origin "HEAD:${{ github.event.repository.default_branch }}"; then exit 0; fi
+            sleep $((attempt * 7))
+          done
+          echo "⚠️ تعذّر تسجيل الحالة — المنشورات نُشرت"
