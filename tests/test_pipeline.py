@@ -7,6 +7,7 @@ from __future__ import annotations
 import atexit
 import inspect
 import json
+import logging
 import os
 import shutil
 import sys
@@ -10849,6 +10850,85 @@ def test_youtube_cluster() -> None:
     check("cluster_points: استنفاد المحاولات يستدعي النموذج max_retries مرة بالضبط",
           len(exhaust_client.messages.calls) == cluster_cfg.path("youtube.cluster.max_retries", 2),
           len(exhaust_client.messages.calls))
+
+    # ── cluster_points: حارس عقلانية (Issue #662 متابعة) -- تشغيلة فعلية أعطت
+    # قضية واحدة من ٢٠٩ نقطة بلا أي رسالة خطأ أو stop_reason غير طبيعي. مدخل
+    # يتجاوز sanity_min_points (افتراضيًا ٥٠) ينتج عدد قضايا صالحة دون
+    # sanity_min_issues (افتراضيًا ٥) يُعَدّ فشل محاولة صريحًا يُعاد بسببه ──
+    many_points = [mk_point("arabic", f"ق{i}") for i in range(60)]
+
+    def _sparse_issue(offset):
+        return {"title": f"قضية {offset}", "event": f"حدث {offset}", "agreement": "agreement",
+                "point_ids": [offset, offset + 1]}
+
+    sanity_retry_client = _Client([
+        # محاولة أولى: قضيتان صالحتان فقط من ٦٠ نقطة -- دون الحدّ الأدنى (٥).
+        _Resp([_Block("tool_use", input_={"issues": [_sparse_issue(0), _sparse_issue(2)]})],
+              stop_reason="end_turn", usage=_Usage(input_tokens=9000, output_tokens=300)),
+        # محاولة ثانية: خمس قضايا صالحة -- تجتاز الحارس.
+        _Resp([_Block("tool_use", input_={"issues": [
+            _sparse_issue(i * 2) for i in range(5)
+        ]})], stop_reason="end_turn", usage=_Usage(input_tokens=9000, output_tokens=700)),
+    ])
+    sanity_issues, sanity_error = ycl.cluster_points(many_points, cluster_cfg, sanity_retry_client)
+    check("حارس العقلانية: محاولة بقضايا قليلة جدًا (2 من 60 نقطة) لا تُقبَل، وتُعاد المحاولة",
+          sanity_error is None and len(sanity_issues) == 5 and
+          len(sanity_retry_client.messages.calls) == 2, (sanity_issues, sanity_error))
+
+    # كل المحاولات هزيلة دلاليًا -- فشل صريح بعد استنفادها، لا نجاح بمخرج ركيك.
+    sanity_exhaust_client = _Client([
+        _Resp([_Block("tool_use", input_={"issues": [_sparse_issue(0)]})], stop_reason="end_turn"),
+        _Resp([_Block("tool_use", input_={"issues": [_sparse_issue(0)]})], stop_reason="end_turn"),
+    ])
+    sanity_exhaust_issues, sanity_exhaust_error = ycl.cluster_points(
+        many_points, cluster_cfg, sanity_exhaust_client)
+    check("حارس العقلانية: استنفاد المحاولات كلها هزيلة دلاليًا يعيد فشلًا صريحًا لا نجاحًا هزيلًا",
+          sanity_exhaust_issues == [] and sanity_exhaust_error is not None and
+          "حارس عقلانية" in sanity_exhaust_error and
+          len(sanity_exhaust_client.messages.calls) == 2, sanity_exhaust_error)
+
+    # مدخل صغير (لا يتجاوز sanity_min_points) لا يُفعِّل الحارس ولو كانت
+    # القضايا الصالحة قليلة جدًا نسبيًا -- الحارس مخصَّص لمدخل كبير فقط.
+    small_sparse_client = _Client([_Resp([_Block("tool_use", input_={
+        "issues": [{"title": "قضية وحيدة", "event": "حدث", "agreement": "agreement",
+                    "point_ids": [0, 1]}],
+    })])])
+    small_issues, small_error = ycl.cluster_points(two_points, cluster_cfg, small_sparse_client)
+    check("حارس العقلانية: لا يُفعَّل لمدخل دون sanity_min_points حتى لو كانت القضايا قليلة",
+          small_error is None and len(small_issues) == 1 and
+          len(small_sparse_client.messages.calls) == 1, (small_issues, small_error))
+
+    # ── cluster_points: stop_reason/عدد الرموز يُسجَّلان عند كل محاولة (لا
+    # الفشل الظاهر وحده)، وعدد القضايا الخام قبل الترشيح يُسجَّل أيضًا
+    # (Issue #662 متابعة) ──
+    class _ListHandler(logging.Handler):
+        def __init__(self):
+            super().__init__()
+            self.messages: list[str] = []
+
+        def emit(self, record):
+            self.messages.append(record.getMessage())
+
+    log_handler = _ListHandler()
+    prev_level = ycl.log.level
+    ycl.log.addHandler(log_handler)
+    ycl.log.setLevel(logging.INFO)
+    try:
+        log_client = _Client([_Resp(
+            [_Block("tool_use", input_={"issues": [
+                {"title": "قضية", "event": "حدث", "agreement": "agreement", "point_ids": [0, 1]},
+            ]})],
+            stop_reason="end_turn", usage=_Usage(input_tokens=123, output_tokens=45))])
+        ycl.cluster_points(two_points, cluster_cfg, log_client)
+        check("cluster_points: stop_reason وعدد الرموز يُسجَّلان عند كل نداء ناجح، لا الفشل وحده",
+              any("stop_reason=end_turn" in m and "123" in m and "45" in m
+                  for m in log_handler.messages), log_handler.messages)
+        check("cluster_points: عدد القضايا الخام قبل أي ترشيح يُسجَّل",
+              any("1 قضية خامة قبل أي ترشيح" in m for m in log_handler.messages),
+              log_handler.messages)
+    finally:
+        ycl.log.removeHandler(log_handler)
+        ycl.log.setLevel(prev_level)
 
     # ── merge_duplicate_events: قضيتان لنفس الحدث تُدمَجان، والطبقة تُعاد
     # حسابها برمجيًا بعد الدمج (Issue #662 العطل ١) ──
