@@ -10979,34 +10979,67 @@ def test_youtube_article() -> None:
     (طبقة ج فقط)، الترقيم بلا فجوات، وبناء index.md."""
     ya = youtube_article
     ycl = youtube_cluster
+    article_cfg = load_config()
 
-    def _valid_article(title="عنوان-سؤال تجريبي عن قضية ما؟"):
-        filler = " ".join(["كلمة"] * 40)
-        return (f"# {title}\n\nإيران\n\n{filler}\n\n"
-                f"## سؤال فرعي أول\n{filler}\n\n"
-                f"## سؤال فرعي ثانٍ\n{filler}\n\n"
-                f"## سؤال فرعي ثالث\n{filler}\n\n"
-                f"---\nالمصادر: قناة تجريبية — عنوان الفيديو — رابط")
+    _REQUIRED_SECTIONS = ["من قال ماذا", "الافتراضات الكامنة", "التفسير البديل",
+                           "ما يعنيه", "ما لا نعرفه"]
 
-    # ── _validate_article_text: بنية إلزامية ──
-    ok, reason = ya._validate_article_text(_valid_article())
+    def _valid_article(title="عنوان-سؤال تجريبي عن قضية ما؟", estimate="مرجّح بقوة",
+                        section_words=45, sections=_REQUIRED_SECTIONS, include_estimate=True,
+                        sources_heading="## المصادر"):
+        # ٤٥ كلمة تقريبًا في كل قسم × ٦ أقسام (خمسة إلزامية + المصادر) +
+        # الاستهلال وسطر التقدير ⇒ يقع مريحًا داخل نافذة ٣٠٠–٧٥٠ كلمة
+        # (youtube.article.min_words/max_words).
+        filler = " ".join(["كلمة"] * section_words)
+        body = "\n\n".join(f"## {name}\n{filler}" for name in sections)
+        estimate_line = (f"**التقدير:** {estimate} أن يحدث كذا، بثقة منخفضة لأن المصدر واحد\n\n"
+                          if include_estimate else "")
+        return (f"# {title}\n\n{filler}\n\n{estimate_line}{filler}\n\n"
+                f"{body}\n\n---\n{sources_heading}\nقناة تجريبية — عنوان الفيديو — رابط")
+
+    # ── _validate_article_text: بنية إلزامية (Issue #671 -- الفحوص الخمسة الجديدة) ──
+    ok, reason = ya._validate_article_text(_valid_article(), article_cfg)
     check("مقال مطابق للبنية الكاملة يُقبَل", ok, reason)
 
-    ok, reason = ya._validate_article_text("مقال بلا عنوان رئيسي\n\n## سؤال\nنص")
+    ok, reason = ya._validate_article_text("مقال بلا عنوان رئيسي\n\n## سؤال\nنص", article_cfg)
     check("مقال لا يبدأ بـ# يُرفَض", not ok and "عنوان" in reason, reason)
 
-    ok, reason = ya._validate_article_text(
-        f"# عنوان\n\nإيران\n\n## سؤال أول\nنص\n\n## سؤال ثانٍ\nنص\n\n---\nالمصادر: رابط")
-    check("أقل من ثلاثة رؤوس فرعية (##) يُرفَض", not ok and "أسئلة فرعية" in reason, reason)
+    ok, reason = ya._validate_article_text(_valid_article(include_estimate=False), article_cfg)
+    check("مقال بلا سطر **التقدير:** يُرفَض", not ok and "التقدير" in reason, reason)
 
-    no_sources = _valid_article().replace("المصادر:", "لا شيء هنا:")
-    ok, reason = ya._validate_article_text(no_sources)
-    check("غياب قسم المصادر يُرفَض", not ok and "مصادر" in reason, reason)
+    ok, reason = ya._validate_article_text(_valid_article(estimate="ربما"), article_cfg)
+    check("تقدير بعبارة خارج سلّم الترجيح (ربما) يُرفَض", not ok and "سلّم الترجيح" in reason, reason)
+
+    # ثلاثة أقسام محتوى + قسم مصادر = 4 أقسام ## إجمالًا، دون الحدّ الأدنى
+    # (٥) -- مصادر موجودة فعلًا هنا فتُعزَل هذه الحالة عن فحص "لا قسم مصادر".
+    ok, reason = ya._validate_article_text(
+        _valid_article(sections=_REQUIRED_SECTIONS[:3]), article_cfg)
+    check("مقال بأربعة أقسام (## ) إجمالًا فقط يُرفَض", not ok and "خمسة أقسام" in reason, reason)
+    check("رسالة الفشل تذكر الأقسام الموجودة فعلًا", "وجد 4 أقسام" in reason and
+          "من قال ماذا" in reason and "المصادر" in reason, reason)
 
     ok, reason = ya._validate_article_text(
-        "# عنوان قصير\n\nإيران\n\n## سؤال أول\nنص قصير\n\n"
-        "## سؤال ثانٍ\nنص\n\n## سؤال ثالث\nنص\n\n---\nالمصادر: رابط")
-    check("مقال أقصر من 150 كلمة يُرفَض", not ok and "قصير" in reason, reason)
+        _valid_article(sources_heading="## قسم آخر"), article_cfg)
+    check("غياب قسم ## المصادر يُرفَض", not ok and "مصادر" in reason, reason)
+
+    ok, reason = ya._validate_article_text(_valid_article(section_words=5), article_cfg)
+    check("مقال أقصر من الحدّ الأدنى (300 كلمة) يُرفَض",
+          not ok and "قصير جدًا" in reason and "الأدنى 300" in reason, reason)
+
+    ok, reason = ya._validate_article_text(_valid_article(section_words=200), article_cfg)
+    check("مقال أطول من الحدّ الأعلى (750 كلمة) يُرفَض",
+          not ok and "طويل جدًا" in reason and "الأعلى 750" in reason, reason)
+
+    # ── قيم config.yaml (Issue #671) ──
+    check("config: youtube.article.max_retries = 3",
+          article_cfg.path("youtube.article.max_retries") == 3)
+    check("config: youtube.article.min_words = 300",
+          article_cfg.path("youtube.article.min_words") == 300)
+    check("config: youtube.article.max_words = 750",
+          article_cfg.path("youtube.article.max_words") == 750)
+    check("config: youtube.article.likelihood_terms يحوي عبارات السلّم الست",
+          set(article_cfg.path("youtube.article.likelihood_terms", [])) ==
+          set(ya.DEFAULT_LIKELIHOOD_TERMS))
 
     # ── _extract_headline / _slugify ──
     check("_extract_headline: يستخرج العنوان من السطر الأول بلا #",
@@ -11105,6 +11138,7 @@ def test_youtube_article() -> None:
     always_bad_client = _Client([
         _Resp([_Block("text", text="فاسد ١")]),
         _Resp([_Block("text", text="فاسد ٢")]),
+        _Resp([_Block("text", text="فاسد ٣")]),
     ])
     text2, error2 = ya.draft_article(topic_a, member_points, article_cfg, always_bad_client)
     check("draft_article: فشل كل المحاولات يعيد سببًا صريحًا لا نصًّا",

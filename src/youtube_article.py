@@ -252,19 +252,61 @@ def _append_warnings(article_text: str, warnings: list[str]) -> str:
     return f"{article_text.rstrip()}\n\n---\n{WARNINGS_HEADER}\n{lines}\n"
 
 
-_HEADING_RE = re.compile(r"^##\s+\S", re.MULTILINE)
+# البنية القديمة (عنوان + ٣ أسئلة فرعية + كلمة "المصادر" في أي مكان) استُبدلت
+# ببنية "النسخة الثانية" من prompts/youtube_article.md (Issue #671): سطر
+# تقدير بعبارة ترجيح إلزامية، خمسة أقسام ## على الأقل بأسماء ثابتة، وقسم
+# مصادر مسمّى حرفيًا. الحارس القديم كان يرفض بنية سليمة بأسماء أقسام مختلفة
+# عمّا توقّعه لأنه يفحص البنية القديمة لا الجديدة -- العطل كان في الحارس لا
+# في المخرج.
+_SECTION_RE = re.compile(r"^##[ \t]+(.+?)[ \t]*$", re.MULTILINE)
+_ESTIMATE_LINE_RE = re.compile(r"^\*\*التقدير:\*\*.*$", re.MULTILINE)
+
+# احتياطي إن غاب youtube.article.likelihood_terms من config.yaml -- القيمة
+# الفعلية المستعملة دومًا تُقرأ من هناك (سلّم شيرمان كنت، النقطة ٣ من الـIssue).
+DEFAULT_LIKELIHOOD_TERMS = (
+    "شبه مؤكّد", "مرجّح بقوة", "مرجّح", "الاحتمالان متساويان", "مستبعد جدًا", "مستبعد",
+)
 
 
-def _validate_article_text(text: str) -> tuple[bool, str]:
+def _sections_desc(text: str) -> str:
+    """يصف الأقسام ## الموجودة فعليًا في المقال -- تُلحَق بكل رسالة فشل
+    (النقطة ٤ من الـIssue) بدل الاكتفاء بذكر الشرط المخفق وحده، وإلا نعود
+    للتخمين عند أي تعديل مستقبلي على البرومبت."""
+    titles = _SECTION_RE.findall(text)
+    if not titles:
+        return "لم يوجد أي قسم ## "
+    return f"وجد {len(titles)} أقسام ({' · '.join(titles)})"
+
+
+def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
+    desc = _sections_desc(text)
+
     if not text.strip().startswith("#"):
-        return False, "لا يبدأ بعنوان رئيسي (# )"
-    if len(_HEADING_RE.findall(text)) < 3:
-        return False, "أقل من ثلاثة أسئلة فرعية (## )"
-    if "المصادر" not in text:
-        return False, "لا قسم مصادر"
+        return False, f"لا يبدأ بعنوان رئيسي (# ): {desc}"
+
+    estimate_match = _ESTIMATE_LINE_RE.search(text)
+    if not estimate_match:
+        return False, f"لا سطر **التقدير:**: {desc}"
+
+    likelihood_terms = cfg.path("youtube.article.likelihood_terms", list(DEFAULT_LIKELIHOOD_TERMS))
+    if not any(term in estimate_match.group(0) for term in likelihood_terms):
+        return False, f"سطر التقدير بلا عبارة من سلّم الترجيح: {desc}"
+
+    titles = _SECTION_RE.findall(text)
+    if len(titles) < 5:
+        return False, f"أقل من خمسة أقسام (## ): {desc}"
+
+    if "المصادر" not in titles:
+        return False, f"لا قسم مصادر: {desc}"
+
     word_count = len(text.split())
-    if word_count < 150:
-        return False, f"قصير جدًا ({word_count} كلمة)"
+    min_words = cfg.path("youtube.article.min_words", 300)
+    max_words = cfg.path("youtube.article.max_words", 750)
+    if word_count < min_words:
+        return False, f"قصير جدًا ({word_count} كلمة، الأدنى {min_words}): {desc}"
+    if word_count > max_words:
+        return False, f"طويل جدًا ({word_count} كلمة، الأعلى {max_words}): {desc}"
+
     return True, ""
 
 
@@ -275,7 +317,7 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
     النجاح)."""
     model = cfg.path("youtube.article.model", "claude-opus-5")
     max_tokens = cfg.path("youtube.article.max_tokens", 3000)
-    max_retries = cfg.path("youtube.article.max_retries", 2)
+    max_retries = cfg.path("youtube.article.max_retries", 3)
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
     model_agreement = _MODEL_FACING_AGREEMENT.get(topic["agreement"], topic["agreement"])
@@ -299,7 +341,7 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
             return None, f"فشل نداء الكتابة: {exc}"
 
         text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text").strip()
-        ok, reason = _validate_article_text(text)
+        ok, reason = _validate_article_text(text, cfg)
         if ok:
             return text, None
         last_reason = reason
