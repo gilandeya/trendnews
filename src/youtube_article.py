@@ -328,6 +328,7 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
     )
 
     last_reason = ""
+    last_resp = None
     for attempt in range(1, max_retries + 1):
         try:
             resp = client.messages.create(
@@ -340,15 +341,35 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
         except APIError as exc:
             return None, f"فشل نداء الكتابة: {exc}"
 
+        last_resp = resp
         text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text").strip()
         ok, reason = _validate_article_text(text, cfg)
         if ok:
             return text, None
         last_reason = reason
-        log.warning("محاولة %d/%d: مقال %r غير مطابق للبنية المطلوبة (%s)",
-                    attempt, max_retries, topic["title"][:40], reason)
+        # فحص stop_reason صراحةً (Issue #662 تعليق المتابعة) -- أقسام ظهرت
+        # بالترتيب الصحيح ثم انقطعت، ومحاولات أعادت صفر أقسام رغم إنتاج نصّ:
+        # نفس نمط القطع المشخَّص سابقًا في youtube_cluster/youtube_extract،
+        # وبلا هذا التسجيل نعود إلى التخمين في المرة القادمة.
+        stop_reason = getattr(resp, "stop_reason", None)
+        if stop_reason == "max_tokens":
+            usage = getattr(resp, "usage", None)
+            output_tokens = getattr(usage, "output_tokens", "؟") if usage is not None else "؟"
+            log.warning("قُطع إخراج المقال (stop_reason: max_tokens) — %r، %s رمز مستهلك",
+                        topic["title"][:40], output_tokens)
+            last_reason = f"[stop_reason=max_tokens، {output_tokens} رمز مستهلك] {reason}"
+        else:
+            log.warning("محاولة %d/%d: مقال %r غير مطابق للبنية المطلوبة "
+                        "(stop_reason=%s، %s)", attempt, max_retries, topic["title"][:40],
+                        stop_reason, reason)
 
-    return None, f"تعذّر الحصول على مقال مطابق للبنية بعد {max_retries} محاولة/محاولات: {last_reason}"
+    usage_note = ""
+    usage = getattr(last_resp, "usage", None)
+    if usage is not None:
+        usage_note = (f"، رموز مستهلكة: مدخل {getattr(usage, 'input_tokens', '؟')}"
+                       f"/مخرج {getattr(usage, 'output_tokens', '؟')}")
+    return None, (f"تعذّر الحصول على مقال مطابق للبنية بعد {max_retries} محاولة/محاولات"
+                  f"{usage_note}: {last_reason}")
 
 
 def _extract_headline(article_text: str) -> str:
