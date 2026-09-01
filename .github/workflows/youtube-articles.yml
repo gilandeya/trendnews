@@ -3,10 +3,9 @@ name: 📰 عنقدة وكتابة مقالات يوتيوب (تجريبي)
 on:
   workflow_dispatch: {}
 
-# لا issues: write هنا — هذه المرحلة لا تفتح Issue مراجعة ولا تنشر، فقط
-# تكتب ملفات قضايا/مقالات للقراءة داخل state/.
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: trendnews-youtube-articles
@@ -40,16 +39,22 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python -m src.youtube_article
 
-      - name: رفع القضايا والمقالات
+      - name: بناء البطاقات والمسودات
+        run: python -m src.youtube_publish
+
+      - name: رفع القضايا والمقالات والصور
+        id: commit
         run: |
           git config user.name  "trendnews-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          mkdir -p state
-          git add state/youtube_topics state/youtube_articles state/youtube_topics_seen.json
+          mkdir -p drafts state
+          git add drafts state/youtube_topics state/youtube_articles state/youtube_topics_seen.json
           if git diff --quiet --cached; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "لا تغييرات"
             exit 0
           fi
+          echo "changed=true" >> "$GITHUB_OUTPUT"
           git commit -m "chore(youtube): قضايا ومقالات $(date -u '+%Y-%m-%d %H:%M') UTC"
           for attempt in 1 2 3 4 5; do
             git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
@@ -62,3 +67,25 @@ jobs:
           done
           echo "❌ تعذّر الدفع بعد 5 محاولات"
           exit 1
+
+      - name: فتح Issue المراجعة
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m src.youtube_publish --open-review
+
+      - name: تثبيت رقم الـ Issue في المسودات
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          mkdir -p drafts state
+          git add drafts state
+          if git diff --quiet --cached; then
+            exit 0
+          fi
+          git commit -m "chore(youtube): ربط المسودات بـ Issue المراجعة"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            if git push origin "HEAD:${GITHUB_REF_NAME}"; then exit 0; fi
+            sleep $((attempt * 7))
+          done
+          echo "⚠️ تعذّر رفع رقم الـ Issue — المسودات محفوظة"
