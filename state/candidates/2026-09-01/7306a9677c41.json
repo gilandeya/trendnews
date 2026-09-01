@@ -1,0 +1,57 @@
+{
+  "id": "7306a9677c41",
+  "created_at": "2026-09-01T17:07:47.895072+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.75,
+  "trend_score": 0.5,
+  "velocity": 0.17,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Former French PM Balladur dies at 97",
+  "link": "https://www.dailymaverick.co.za/article/2026-08-31-former-french-pm-balladur-dies-at-97/",
+  "publishers": [
+    "Africanews",
+    "Daily Maverick",
+    "The New York Times"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Former French PM Balladur dies at 97",
+    "link": "https://www.dailymaverick.co.za/article/2026-08-31-former-french-pm-balladur-dies-at-97/",
+    "summary": "",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-08-31T21:50:47+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2997/4711911_963254.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Africanews",
+      "Daily Maverick",
+      "The New York Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-08-31-former-french-pm-balladur-dies-at-97/"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/01/former-french-pm-edouard-balladur-dies-aged-97-family/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2997/4711911_963254.jpg",
+      "http://images.euronews.com/articles/stories/09/89/65/85/640x360_cmsv2_e1599645-0b0c-585e-a89d-0cb5d2645dde-9896585.jpg?1788242996"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.16709366026610065,
+    "age_hours": 18.994815867222222,
+    "is_stale": false,
+    "score": 17.754918933790268
+  }
+}
