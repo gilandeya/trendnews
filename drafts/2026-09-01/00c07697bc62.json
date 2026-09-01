@@ -1,7 +1,7 @@
 {
   "id": "00c07697bc62",
   "created_at": "2026-09-01T02:28:08.912444+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 13.69,
   "bucket": "serious",
@@ -56,5 +56,12 @@
       "https://meduza.io/imgly/share/1788194296/en/news/2026/08/31/putin-proposes-permanent-visa-free-travel-between-russia-and-china"
     ]
   },
-  "publish_at": "2026-09-01T03:02:17.438416+00:00"
+  "publish_at": "2026-09-01T03:02:17.438416+00:00",
+  "published_at": "2026-09-01T03:15:45.595875+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1348814974002190",
+    "photo_id": "1348814937335527",
+    "url": "https://www.facebook.com/631680090321390_1348814974002190",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
