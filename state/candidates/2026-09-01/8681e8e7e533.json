@@ -1,0 +1,62 @@
+{
+  "id": "8681e8e7e533",
+  "created_at": "2026-09-01T22:07:54.475396+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.41,
+  "trend_score": 0.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Syria built nuclear reactor under Assad, IAEA confirms",
+  "link": "https://www.dailysabah.com/world/mid-east/syria-built-nuclear-reactor-under-assad-iaea-confirms",
+  "publishers": [
+    "AP News",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "South China Morning Post"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Syria built nuclear reactor under Assad, IAEA confirms",
+    "link": "https://www.dailysabah.com/world/mid-east/syria-built-nuclear-reactor-under-assad-iaea-confirms",
+    "summary": "The U.N. nuclear watchdog said a site in Syria contained infrastructure consistent with a nuclear reactor, concluding that the country’s former regime led by Bashar Assad failed to...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-01T17:39:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/01/458777.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "AP News",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3366033/syria-was-building-nuclear-reactor-deir-el-zour-under-assad-un-report-finds?utm_source=rss_feed"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/syria-built-nuclear-reactor-under-assad-iaea-confirms"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/un-report-finds-syria-was-building-a-nuclear-reactor-in-deir-el-zour-under-former-president-assad-101788288734109.html"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/01/458777.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.1111133876083694,
+    "age_hours": 2.999938535833333,
+    "is_stale": false,
+    "score": 15.406930999449255
+  }
+}

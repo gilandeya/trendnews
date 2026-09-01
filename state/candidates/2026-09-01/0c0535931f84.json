@@ -1,0 +1,83 @@
+{
+  "id": "0c0535931f84",
+  "created_at": "2026-09-01T22:07:54.474631+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.97,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "At least four people killed in Iran when a US strike hit a house where a wedding was taking place",
+  "link": "https://www.channelnewsasia.com/world/least-four-people-killed-in-iran-when-us-strike-hit-house-where-wedding-was-taking-place-6355866",
+  "publishers": [
+    "CGTN",
+    "Channel News Asia",
+    "Daily Sabah",
+    "NDTV — World",
+    "The Hindu — International",
+    "as it happened"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "At least four people killed in Iran when a US strike hit a house where a wedding was taking place",
+    "link": "https://www.channelnewsasia.com/world/least-four-people-killed-in-iran-when-us-strike-hit-house-where-wedding-was-taking-place-6355866",
+    "summary": "A US strike in southern Iran kills four people, including a child, and wounds over 50 at a wedding, Iranian Red Crescent says.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-01T20:48:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--K91N7Sf9--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-01T174521Z_2_LYNXMPEM803Q7_RTROPTP_3_IRAN-CRISIS-STRIKE.JPG?itok=2eNPkXFZ",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "CGTN",
+      "Channel News Asia",
+      "Daily Sabah",
+      "NDTV — World",
+      "The Hindu — International",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/least-four-people-killed-in-iran-when-us-strike-hit-house-where-wedding-was-taking-place-6355866"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/4-killed-after-us-strike-hits-wedding-in-southern-iran"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/4-killed-over-50-injured-as-us-strike-hits-wedding-in-iran-11989493#publisher=newsstand"
+      },
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/world/live/2026/aug/31/us-iran-israel-hormuz-oil-donald-trump-larak-kharg-island-uae-jordan-latest-news-updates"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/donald-trump-vows-to-hit-iran-hard-after-first-exchange-of-fire-in-weeks/article71413458.ece"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-01/Trump-vows-to-hit-Iran-hard-after-first-exchanges-of-fire-in-a-month-1Q4Rz4S8zHG/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--K91N7Sf9--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-01T174521Z_2_LYNXMPEM803Q7_RTROPTP_3_IRAN-CRISIS-STRIKE.JPG?itok=2eNPkXFZ",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/01/458780.jpg",
+      "https://c.ndtvimg.com/2026-09/pj4br2_us-strikes-iran_625x300_02_September_26.jpeg",
+      "https://i.guim.co.uk/img/media/ee0922895b037426cd29c0b1af464f3c8ee2fadb/1065_0_6440_5152/master/6440.jpg?width=700&quality=85&auto=format&fit=max&s=29cec510d246db154246562f44146240",
+      "https://i.guim.co.uk/img/media/ee0922895b037426cd29c0b1af464f3c8ee2fadb/1065_0_6440_5152/master/6440.jpg?width=460&quality=85&auto=format&fit=max&s=7690d3764900985dfd931b5b62f0629f",
+      "https://i.guim.co.uk/img/media/ee0922895b037426cd29c0b1af464f3c8ee2fadb/1065_0_6440_5152/master/6440.jpg?width=140&quality=85&auto=format&fit=max&s=78f9bceb7bcd52d775a91448a22e7e9c"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.966251561533838
+  }
+}

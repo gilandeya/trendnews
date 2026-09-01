@@ -1,0 +1,55 @@
+{
+  "id": "e5dcf010f1f3",
+  "created_at": "2026-09-01T22:07:54.475104+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.44,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nepal-China flood death toll exceeds 1,000; Nepal PM demands climate action",
+  "link": "https://www.dawn.com/news/2026585/nepal-china-flood-death-toll-exceeds-1000-nepal-pm-demands-climate-action",
+  "publishers": [
+    "Dawn",
+    "Deutsche Welle"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Nepal-China flood death toll exceeds 1,000; Nepal PM demands climate action",
+    "link": "https://www.dawn.com/news/2026585/nepal-china-flood-death-toll-exceeds-1000-nepal-pm-demands-climate-action",
+    "summary": "Devastating floods on the China-Nepal border have killed at least 987 people in Nepal, the disaster authority said on Tuesday, taking overall deaths to more than 1,000. Chinese state media earlier confirmed 16 people were killed in Tibet, bringing the total toll from Wednesday’s disaster to 1,003. The number of missing in Nepal dropped to 3,916, as rescue efforts entered a seventh day, and the bodies recovered rose. In China, state media say 546 people are missing, taking the overall number of missing to 4,462. The missing in Nepal include 583 foreigners from over 30 nationalities. The missing in China include 261 foreigners from 23 countries. Among the missing foreigners, Indians make up one of the largest proportions, with 275 citizens and another 128 people of Indian origin missing in Nepal, according to New Delhi. There are 85 US citizens missing, according to the State Department on Sunday. There are also 62 Ukrainians, 51 Malaysians, 42 Australians, and 33 British citizens, according to reports, including both Nepal’s tourist board and embassies. In India, authorities in Uttar Pradesh state said they had recovered 17 bodies from rivers flowing from Nepal, believed to be flood",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-01T06:54:20+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/01113843b9457fb.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Deutsche Welle"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2026585/nepal-china-flood-death-toll-exceeds-1000-nepal-pm-demands-climate-action"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/nepal-flood-death-toll-tops-1-000-as-rescue-continues/a-78589460?maca=en-rss-en-world-4025-rdf"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/01113843b9457fb.webp",
+      "https://i.dawn.com/thumbnail/2026/09/01113843b9457fb.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 157.0017253938889,
+    "is_stale": false,
+    "score": 16.435067753888887
+  }
+}

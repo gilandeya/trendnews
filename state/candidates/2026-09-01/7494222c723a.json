@@ -1,0 +1,48 @@
+{
+  "id": "7494222c723a",
+  "created_at": "2026-09-01T22:07:54.475668+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.04,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "News des Tages: Bundesregierung, Russland, Lars Klingbeil, Friedrich Merz, Sachsen-Anhalt",
+  "link": "https://www.spiegel.de/politik/deutschland/news-des-tages-bundesregierung-russland-lars-klingbeil-friedrich-merz-sachsen-anhalt-a-67f7a288-7109-46b7-bdd1-a8cca41d9845#ref=rss",
+  "publishers": [
+    "Der Spiegel"
+  ],
+  "region": "de",
+  "article": {
+    "title": "News des Tages: Bundesregierung, Russland, Lars Klingbeil, Friedrich Merz, Sachsen-Anhalt",
+    "link": "https://www.spiegel.de/politik/deutschland/news-des-tages-bundesregierung-russland-lars-klingbeil-friedrich-merz-sachsen-anhalt-a-67f7a288-7109-46b7-bdd1-a8cca41d9845#ref=rss",
+    "summary": "Russland kann es nicht lassen: Regierung macht Putin für gescheiterten Sprengstoffanschlag in Leipzig verantwortlich. Klingbeil mischt G20-Treffen der Finanzminister auf. Und Merz legt sich in zwei Richtungen fest. Das ist die Lage am Dienstagabend.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-09-01T15:57:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/0fb372c3-843d-4dc6-a445-e7c34c92f75c_w520_r2.08_fpx28.09_fpy49.93.png",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Der Spiegel"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/politik/deutschland/news-des-tages-bundesregierung-russland-lars-klingbeil-friedrich-merz-sachsen-anhalt-a-67f7a288-7109-46b7-bdd1-a8cca41d9845#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/0fb372c3-843d-4dc6-a445-e7c34c92f75c_w520_r2.08_fpx28.09_fpy49.93.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 13.038030723203704
+  }
+}
