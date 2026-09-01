@@ -252,19 +252,61 @@ def _append_warnings(article_text: str, warnings: list[str]) -> str:
     return f"{article_text.rstrip()}\n\n---\n{WARNINGS_HEADER}\n{lines}\n"
 
 
-_HEADING_RE = re.compile(r"^##\s+\S", re.MULTILINE)
+# البنية القديمة (عنوان + ٣ أسئلة فرعية + مصادر) استُبدلت ببرومبت "النسخة
+# الثانية" (Issue #671) -- سلّم ترجيح + أقسام بأسماء حرفية ثابتة. ٧ من ٩
+# مقالات فشلت التحقّق في التشغيلة التي كشفت العطل رغم بنية سليمة فعليًا،
+# لأن الحارس كان يفحص أسماء أقسام قديمة لم يعُد البرومبت يستعملها -- العطل
+# كان في الحارس لا في المخرج، فالفحوص هنا أُعيدت كتابتها من الصفر بدل تعديل
+# القديمة تدريجيًا.
+_HEADING_RE = re.compile(r"^##\s+(.+?)\s*$", re.MULTILINE)
+_ESTIMATE_LINE_RE = re.compile(r"^\*\*التقدير:\*\*.*$", re.MULTILINE)
+MIN_SECTION_HEADINGS = 5
+SOURCES_HEADING = "المصادر"
+
+# نسخة احتياطية فقط لو غاب المفتاح من config.yaml -- المصدر الفعلي دومًا
+# youtube.article.likelihood_terms (انظر draft_article) كي يبقى السلّم
+# قابلًا للتعديل بلا مساس بالكود، كبقية القيم القابلة للضبط في المشروع.
+DEFAULT_LIKELIHOOD_TERMS = [
+    "شبه مؤكّد", "مرجّح بقوة", "مرجّح", "الاحتمالان متساويان", "مستبعد", "مستبعد جدًا",
+]
 
 
-def _validate_article_text(text: str) -> tuple[bool, str]:
+def _found_sections_desc(text: str) -> str:
+    """يصف الأقسام ## الموجودة فعليًا في النص -- تُلحَق بكل سبب رفض (لا
+    بسبب فشل «قسم المصادر» وحده مثلًا) كي لا نعود للتخمين عند أي تعديل
+    مستقبلي على البرومبت (نص الـIssue، البند ٤)."""
+    headings = [h.strip() for h in _HEADING_RE.findall(text)]
+    non_source = [h for h in headings if h != SOURCES_HEADING]
+    has_sources = SOURCES_HEADING in headings
+    found = (f"وجد {len(non_source)} أقسام ({' · '.join(non_source)})" if non_source
+             else "لم يوجد أي قسم ##")
+    return f"{found} و{'' if has_sources else 'لا '}قسم مصادر"
+
+
+def _validate_article_text(text: str,
+                            likelihood_terms: list[str] | None = None) -> tuple[bool, str]:
+    likelihood_terms = likelihood_terms or DEFAULT_LIKELIHOOD_TERMS
     if not text.strip().startswith("#"):
-        return False, "لا يبدأ بعنوان رئيسي (# )"
-    if len(_HEADING_RE.findall(text)) < 3:
-        return False, "أقل من ثلاثة أسئلة فرعية (## )"
-    if "المصادر" not in text:
-        return False, "لا قسم مصادر"
-    word_count = len(text.split())
-    if word_count < 150:
-        return False, f"قصير جدًا ({word_count} كلمة)"
+        return False, f"لا يبدأ بعنوان رئيسي (# ): {_found_sections_desc(text)}"
+
+    estimate_match = _ESTIMATE_LINE_RE.search(text)
+    if not estimate_match:
+        return False, f"لا يحوي سطر **التقدير:**: {_found_sections_desc(text)}"
+
+    # سلّم الترجيح إلزامي داخل سطر التقدير نفسه (نص الـIssue، البند ٣) --
+    # هذا ما يفرض السلّم آليًا، وهو ما فشل فيه سلّم كنت (١٩٦٤) في التطبيق
+    # البشري لأن كل قارئ كان يفهم "مرجّح" بطريقة مختلفة.
+    if not any(term in estimate_match.group(0) for term in likelihood_terms):
+        return False, f"سطر التقدير بلا عبارة ترجيح من السلّم: {_found_sections_desc(text)}"
+
+    headings = [h.strip() for h in _HEADING_RE.findall(text)]
+    if len(headings) < MIN_SECTION_HEADINGS:
+        return False, (f"أقسام ## أقل من {MIN_SECTION_HEADINGS} ({len(headings)}): "
+                        f"{_found_sections_desc(text)}")
+
+    if SOURCES_HEADING not in headings:
+        return False, f"لا قسم مصادر: {_found_sections_desc(text)}"
+
     return True, ""
 
 
@@ -275,7 +317,8 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
     النجاح)."""
     model = cfg.path("youtube.article.model", "claude-opus-5")
     max_tokens = cfg.path("youtube.article.max_tokens", 3000)
-    max_retries = cfg.path("youtube.article.max_retries", 2)
+    max_retries = cfg.path("youtube.article.max_retries", 3)
+    likelihood_terms = cfg.path("youtube.article.likelihood_terms", DEFAULT_LIKELIHOOD_TERMS)
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
     model_agreement = _MODEL_FACING_AGREEMENT.get(topic["agreement"], topic["agreement"])
@@ -299,7 +342,7 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
             return None, f"فشل نداء الكتابة: {exc}"
 
         text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text").strip()
-        ok, reason = _validate_article_text(text)
+        ok, reason = _validate_article_text(text, likelihood_terms)
         if ok:
             return text, None
         last_reason = reason

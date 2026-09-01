@@ -10982,31 +10982,59 @@ def test_youtube_article() -> None:
 
     def _valid_article(title="عنوان-سؤال تجريبي عن قضية ما؟"):
         filler = " ".join(["كلمة"] * 40)
-        return (f"# {title}\n\nإيران\n\n{filler}\n\n"
-                f"## سؤال فرعي أول\n{filler}\n\n"
-                f"## سؤال فرعي ثانٍ\n{filler}\n\n"
-                f"## سؤال فرعي ثالث\n{filler}\n\n"
-                f"---\nالمصادر: قناة تجريبية — عنوان الفيديو — رابط")
+        return (f"# {title}\n\n{filler}\n\n"
+                f"**التقدير:** الأمر مرجّح بناءً على المعطيات المتاحة\n\n{filler}\n\n"
+                f"## من قال ماذا\n{filler}\n\n"
+                f"## الافتراضات الكامنة\n{filler}\n\n"
+                f"## التفسير البديل\n{filler}\n\n"
+                f"## ما يعنيه\n{filler}\n\n"
+                f"## ما لا نعرفه\n{filler}\n\n"
+                f"---\n## المصادر\nقناة تجريبية — عنوان الفيديو — رابط")
 
-    # ── _validate_article_text: بنية إلزامية ──
+    filler = " ".join(["كلمة"] * 10)
+
+    # ── _validate_article_text: بنية إلزامية (Issue #671، البرومبت "النسخة
+    # الثانية") ──
     ok, reason = ya._validate_article_text(_valid_article())
     check("مقال مطابق للبنية الكاملة يُقبَل", ok, reason)
 
     ok, reason = ya._validate_article_text("مقال بلا عنوان رئيسي\n\n## سؤال\nنص")
     check("مقال لا يبدأ بـ# يُرفَض", not ok and "عنوان" in reason, reason)
 
-    ok, reason = ya._validate_article_text(
-        f"# عنوان\n\nإيران\n\n## سؤال أول\nنص\n\n## سؤال ثانٍ\nنص\n\n---\nالمصادر: رابط")
-    check("أقل من ثلاثة رؤوس فرعية (##) يُرفَض", not ok and "أسئلة فرعية" in reason, reason)
+    no_estimate = (f"# عنوان\n\n{filler}\n\n"
+                   f"## من قال ماذا\n{filler}\n\n## الافتراضات الكامنة\n{filler}\n\n"
+                   f"## التفسير البديل\n{filler}\n\n## ما يعنيه\n{filler}\n\n"
+                   f"## ما لا نعرفه\n{filler}\n\n---\n## المصادر\nرابط")
+    ok, reason = ya._validate_article_text(no_estimate)
+    check("مقال بلا سطر **التقدير:** يُرفَض", not ok and "التقدير" in reason, reason)
 
-    no_sources = _valid_article().replace("المصادر:", "لا شيء هنا:")
+    bad_likelihood = (f"# عنوان\n\n{filler}\n\n**التقدير:** الأمر ربما يحدث قريبًا\n\n{filler}\n\n"
+                       f"## من قال ماذا\n{filler}\n\n## الافتراضات الكامنة\n{filler}\n\n"
+                       f"## التفسير البديل\n{filler}\n\n## ما يعنيه\n{filler}\n\n"
+                       f"## ما لا نعرفه\n{filler}\n\n---\n## المصادر\nرابط")
+    ok, reason = ya._validate_article_text(bad_likelihood)
+    check("مقال بترجيح خارج سلّم كنت (مثلًا «ربما») يُرفَض",
+          not ok and "ترجيح" in reason, reason)
+
+    four_sections = (f"# عنوان\n\n{filler}\n\n**التقدير:** الأمر مرجّح بقوة\n\n{filler}\n\n"
+                      f"## من قال ماذا\n{filler}\n\n## الافتراضات الكامنة\n{filler}\n\n"
+                      f"## ما يعنيه\n{filler}\n\n---\n## المصادر\nرابط")
+    ok, reason = ya._validate_article_text(four_sections)
+    check("مقال بأربعة أقسام ## فقط (أقل من خمسة) يُرفَض",
+          not ok and "أقسام" in reason and "من قال ماذا" in reason, reason)
+
+    no_sources = _valid_article().replace("## المصادر", "## قسم آخر")
     ok, reason = ya._validate_article_text(no_sources)
-    check("غياب قسم المصادر يُرفَض", not ok and "مصادر" in reason, reason)
+    check("غياب قسم ## المصادر يُرفَض، ورسالة الفشل تذكر الأقسام الموجودة فعلًا",
+          not ok and "مصادر" in reason and "من قال ماذا" in reason, reason)
 
-    ok, reason = ya._validate_article_text(
-        "# عنوان قصير\n\nإيران\n\n## سؤال أول\nنص قصير\n\n"
-        "## سؤال ثانٍ\nنص\n\n## سؤال ثالث\nنص\n\n---\nالمصادر: رابط")
-    check("مقال أقصر من 150 كلمة يُرفَض", not ok and "قصير" in reason, reason)
+    # ── config.yaml: عبارات السلّم و max_retries (Issue #671) ──
+    cfg_check = load_config()
+    check("config.yaml: youtube.article.max_retries == 3",
+          cfg_check.path("youtube.article.max_retries") == 3)
+    check("config.yaml: youtube.article.likelihood_terms يحوي عبارات السلّم الست",
+          cfg_check.path("youtube.article.likelihood_terms") == ya.DEFAULT_LIKELIHOOD_TERMS,
+          cfg_check.path("youtube.article.likelihood_terms"))
 
     # ── _extract_headline / _slugify ──
     check("_extract_headline: يستخرج العنوان من السطر الأول بلا #",
@@ -11105,10 +11133,12 @@ def test_youtube_article() -> None:
     always_bad_client = _Client([
         _Resp([_Block("text", text="فاسد ١")]),
         _Resp([_Block("text", text="فاسد ٢")]),
+        _Resp([_Block("text", text="فاسد ٣")]),
     ])
     text2, error2 = ya.draft_article(topic_a, member_points, article_cfg, always_bad_client)
-    check("draft_article: فشل كل المحاولات يعيد سببًا صريحًا لا نصًّا",
-          text2 is None and error2 is not None, error2)
+    check("draft_article: فشل كل المحاولات (max_retries=3) يعيد سببًا صريحًا لا نصًّا",
+          text2 is None and error2 is not None and
+          len(always_bad_client.messages.calls) == 3, error2)
 
     # ── draft_article: مؤشّر cross_source/internal يصل النموذج كـ dispute
     # (Issue #662 العطل ٤) -- prompts/youtube_article.md خارج النطاق، ولا
