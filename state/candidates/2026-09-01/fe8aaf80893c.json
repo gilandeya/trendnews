@@ -1,0 +1,61 @@
+{
+  "id": "fe8aaf80893c",
+  "created_at": "2026-09-01T03:08:07.052941+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.07,
+  "trend_score": 0.5,
+  "velocity": 0.07,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says US reviewing Washington's position on Malvinas Islands",
+  "link": "https://www.batimes.com.ar/news/world/trump-says-us-reviewing-washingtons-position-on-malvinas-islands.phtml",
+  "publishers": [
+    "Buenos Aires Times",
+    "Hindustan Times — World",
+    "NDTV — World"
+  ],
+  "region": "latam",
+  "article": {
+    "title": "Trump says US reviewing Washington's position on Malvinas Islands",
+    "link": "https://www.batimes.com.ar/news/world/trump-says-us-reviewing-washingtons-position-on-malvinas-islands.phtml",
+    "summary": "Donald Trump suggests Washington is reviewing its position on Malvinas; Comment tied to reports US is seeking increase in Britain's defence spending. Leer más",
+    "source_name": "Buenos Aires Times",
+    "region": "latam",
+    "weight": 0.9,
+    "published": "2026-09-01T00:39:25+00:00",
+    "image_url": "https://fotos.perfil.com/2026/09/01/trim/540/304/us-president-donald-trump-2316231.jpg",
+    "publisher": "Buenos Aires Times",
+    "cluster_sources": [
+      "Buenos Aires Times",
+      "Hindustan Times — World",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/trump-says-us-reviewing-its-position-on-uk-controlled-falkland-islands-11984276#publisher=newsstand"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/trump-says-us-reviewing-position-on-falkland-islands-101788210468862.html"
+      },
+      {
+        "name": "Buenos Aires Times",
+        "link": "https://www.batimes.com.ar/news/world/trump-says-us-reviewing-washingtons-position-on-malvinas-islands.phtml"
+      }
+    ],
+    "image_candidates": [
+      "https://fotos.perfil.com/2026/09/01/trim/540/304/us-president-donald-trump-2316231.jpg",
+      "https://c.ndtvimg.com/2026-09/5fkuh00o_donald-trump_625x300_01_September_26.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.06666547947299366,
+    "age_hours": 5.000089041111111,
+    "is_stale": false,
+    "score": 18.073132432769178
+  }
+}

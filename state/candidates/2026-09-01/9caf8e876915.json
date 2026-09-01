@@ -1,0 +1,67 @@
+{
+  "id": "9caf8e876915",
+  "created_at": "2026-09-01T03:08:07.052640+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.23,
+  "trend_score": 0.0,
+  "velocity": 0.6,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US Army Secretary Driscoll submits resignation: White House",
+  "link": "https://www.channelnewsasia.com/world/us-army-secretary-resign-dan-driscoll-6353576",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "newspaper"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "US Army Secretary Driscoll submits resignation: White House",
+    "link": "https://www.channelnewsasia.com/world/us-army-secretary-resign-dan-driscoll-6353576",
+    "summary": "If accepted, Driscoll's resignation would mark the latest departure of a senior military leader under President Donald Trump's administration.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-01T02:09:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--yti2pdhW--/c_crop,h_1125,w_2000,x_0,y_1/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/01/063_2277281978.jpg?itok=YS4YqSg9",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "newspaper"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/8/31/us-army-secretary-daniel-driscoll-submits-resignation-media-reports-say?traffic_source=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/us-army-secretary-resign-dan-driscoll-6353576"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/01/us-army-secretary-driscoll-submits-resignation"
+      },
+      {
+        "name": "newspaper",
+        "link": "https://tass.com/world/2180115"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--yti2pdhW--/c_crop,h_1125,w_2000,x_0,y_1/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/01/063_2277281978.jpg?itok=YS4YqSg9",
+      "https://media.freemalaysiatoday.com/v3/2026/08/25f9286b-0abf-41b1-92ab-70c279b724ac-EPA-Dan-Driscoll.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 18.234454566851852
+  }
+}
