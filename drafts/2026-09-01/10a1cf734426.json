@@ -1,7 +1,7 @@
 {
   "id": "10a1cf734426",
   "created_at": "2026-09-01T18:26:19.199238+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 18.92,
   "bucket": "serious",
@@ -70,5 +70,12 @@
       "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/01/458773.jpg"
     ]
   },
-  "publish_at": "2026-09-01T19:00:43.955117+00:00"
+  "publish_at": "2026-09-01T19:00:43.955117+00:00",
+  "published_at": "2026-09-01T19:01:19.751759+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1349378877279133",
+    "photo_id": "1349378847279136",
+    "url": "https://www.facebook.com/631680090321390_1349378877279133",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
