@@ -1,0 +1,48 @@
+{
+  "id": "0e6cfcc097bf",
+  "created_at": "2026-09-01T09:07:54.892929+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.85,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "NAIMOS arrest 10 illegal miners, seize equipment",
+  "link": "https://www.myjoyonline.com/naimos-arrest-10-illegal-miners-seize-equipment/",
+  "publishers": [
+    "MyJoyOnline Ghana"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "NAIMOS arrest 10 illegal miners, seize equipment",
+    "link": "https://www.myjoyonline.com/naimos-arrest-10-illegal-miners-seize-equipment/",
+    "summary": "The National Anti-Illegal Mining Operations Secretariat (NAIMOS), in collaboration with the Northern Command of the Ghana Army and the Ghana Police Service, have arrested 10 suspected illegal miners during an anti-illegal mining operation at Kpali, near Gbinyiri in the Sawla-Tuna-Kalba District of the Savannah Region.",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-09-01T04:39:00+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/08/galamsey-754x424-Copy-696x392-1.jpg",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/naimos-arrest-10-illegal-miners-seize-equipment/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/08/galamsey-754x424-Copy-696x392-1.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 3.0003618741666664,
+    "is_stale": false,
+    "score": 16.85135070738889
+  }
+}

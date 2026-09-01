@@ -1,0 +1,66 @@
+{
+  "id": "854ae26a5fea",
+  "created_at": "2026-09-01T09:07:54.892153+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.0,
+  "trend_score": 1.0,
+  "velocity": 0.03,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian strikes kill eight in Kyiv as Ukraine tightens security",
+  "link": "https://www.malaymail.com/news/world/2026/09/01/russian-strikes-kill-eight-in-kyiv-as-ukraine-tightens-security/233546",
+  "publishers": [
+    "France24",
+    "Hindustan Times — World",
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Russian strikes kill eight in Kyiv as Ukraine tightens security",
+    "link": "https://www.malaymail.com/news/world/2026/09/01/russian-strikes-kill-eight-in-kyiv-as-ukraine-tightens-security/233546",
+    "summary": "KYIV, Sept 1 — A “massive” Russian attack killed at least eight people in Kyiv overnight, including se...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-01T08:15:36+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/01/360145.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "France24",
+      "Hindustan Times — World",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/kyiv-orders-heightened-security-amid-intense-russian-drone-strikes-101788206797072.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/01/ukraine-tightens-kyiv-security-measures-as-russian-drone-strikes-intensify/233511"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/01/russian-strikes-kill-eight-in-kyiv-as-ukraine-tightens-security/233546"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260901-russian-missile-and-drone-attack-on-kyiv-kills-at-least-four"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/01/360145.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/01/360075.jpg",
+      "https://s.france24.com/media/display/b3254e58-a5ab-11f1-a88b-005056bfb2b6/w:1024/p:16x9/AP26242478432296.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.030312831653251587,
+    "age_hours": 384.00093653444446,
+    "is_stale": false,
+    "score": 21.99846903637417
+  }
+}

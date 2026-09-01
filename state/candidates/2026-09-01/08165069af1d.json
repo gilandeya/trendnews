@@ -1,0 +1,93 @@
+{
+  "id": "08165069af1d",
+  "created_at": "2026-09-01T09:07:54.891638+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.04,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Glacial flood death toll surpasses 1,000 in Nepal and Tibet",
+  "link": "https://www.france24.com/en/asia-pacific/20260831-glacial-flood-death-toll-surpasses-900-in-nepal-and-tibet",
+  "publishers": [
+    "AP News",
+    "Al Jazeera English",
+    "BBC 中文",
+    "Daily Sabah",
+    "France24",
+    "Malay Mail",
+    "NDTV — World",
+    "Punch Nigeria",
+    "The Hindu — International",
+    "Vanguard Nigeria",
+    "Yonhap News"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Glacial flood death toll surpasses 1,000 in Nepal and Tibet",
+    "link": "https://www.france24.com/en/asia-pacific/20260831-glacial-flood-death-toll-surpasses-900-in-nepal-and-tibet",
+    "summary": "Rescuers battled mud and debris Monday as the death toll from devastating glacial floods along the China-Nepal border topped 1,000, with nearly 4,500 people still missing. Rescue teams continued a desperate search for survivors as entire communities were swept away.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-08-31T23:34:26+00:00",
+    "image_url": "https://s.france24.com/media/display/c71ef2e6-a593-11f1-b096-005056a90284/w:1024/p:16x9/AP26243178528758.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "AP News",
+      "Al Jazeera English",
+      "BBC 中文",
+      "Daily Sabah",
+      "France24",
+      "Malay Mail",
+      "NDTV — World",
+      "Punch Nigeria",
+      "The Hindu — International",
+      "Vanguard Nigeria",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/liveblog/2026/9/1/nepal-tibet-floods-live-rescue-efforts-under-way-death-toll-crosses-1000?traffic_source=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/1/death-toll-from-devastating-floods-in-china-and-nepal-surpasses-1000?traffic_source=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/asia-pacific/20260831-glacial-flood-death-toll-surpasses-900-in-nepal-and-tibet"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/nepal-floods-death-toll-surpasses-1000-as-thousands-remain-missing/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/number-of-missing-in-nepal-flood-crosses-5000-death-toll-hits-900"
+      },
+      {
+        "name": "BBC 中文",
+        "link": "https://www.bbc.com/zhongwen/articles/cvgy4vd7ny4o/trad?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/c71ef2e6-a593-11f1-b096-005056a90284/w:1024/p:16x9/AP26243178528758.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/08/31/458450.JPG",
+      "https://ichef.bbci.co.uk/ace/ws/1024/cpsprodpb/0ea5/live/93f51d00-a52a-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/0ea5/live/93f51d00-a52a-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/0ea5/live/93f51d00-a52a-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/1024/cpsprodpb/2da6/live/8518ba10-a482-11f1-bed8-470734b5b662.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 11,
+    "velocity": 0.9999314664564279,
+    "age_hours": 144.00180594444444,
+    "is_stale": false,
+    "score": 24.040895491027367
+  }
+}

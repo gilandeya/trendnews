@@ -1,0 +1,55 @@
+{
+  "id": "04b0fa243282",
+  "created_at": "2026-09-01T09:07:54.892436+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.37,
+  "trend_score": 0.2,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran strikes US bases in Jordan in response to US attack, state TV reports",
+  "link": "http://www.africanews.com/2026/08/31/iran-strikes-us-bases-in-jordan-in-response-to-us-attack-state-tv-reports/",
+  "publishers": [
+    "Africanews",
+    "Tehran Times"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Iran strikes US bases in Jordan in response to US attack, state TV reports",
+    "link": "http://www.africanews.com/2026/08/31/iran-strikes-us-bases-in-jordan-in-response-to-us-attack-state-tv-reports/",
+    "summary": "Latest Iranian state television visuals showed what it said were ballistic missiles being fired by Iran at US bases in Jordan in response to the American strikes.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-08-31T10:14:01+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/89/51/83/640x360_cmsv2_fe29208b-7126-5e53-884d-d72dc99c4e14-9895183.jpg?1788164567",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/08/31/iran-strikes-us-bases-in-jordan-in-response-to-us-attack-state-tv-reports/"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529559/Iran-strikes-US-bases-in-Jordan-UAE-vows-more-devastating"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/89/51/83/640x360_cmsv2_fe29208b-7126-5e53-884d-d72dc99c4e14-9895183.jpg?1788164567",
+      "https://media.mehrnews.com/d/2026/08/31/4/6156159.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.2,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 664.9130625641667,
+    "is_stale": false,
+    "score": 17.373591443703702
+  }
+}
