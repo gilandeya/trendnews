@@ -523,8 +523,8 @@ def _slugify(title: str, max_len: int = 60) -> str:
 
 def build_index(saved: list[dict]) -> str:
     lines = ["# فهرس مقالات يوتيوب", "",
-             "| # | العنوان | الطبقة | الكتل | القنوات | الخلاف | تنبيهات |",
-             "|---|---|---|---|---|---|---|"]
+             "| # | العنوان | الحدث | الطبقة | الكتل | القنوات | الخلاف | تنبيهات |",
+             "|---|---|---|---|---|---|---|---|"]
     for item in saved:
         warnings_count = item.get("warnings_count", 0)
         # ثلاثة تنبيهات فأكثر تُعلَّم بوضوح (نص الـIssue) -- ⚠️ + رقم بارز
@@ -532,7 +532,7 @@ def build_index(saved: list[dict]) -> str:
         marker = f"⚠️ **{warnings_count}**" if warnings_count >= 3 else str(warnings_count)
         lines.append(
             f"| {item['number']} | [{item['headline']}]({item['filename']}) | "
-            f"{item['layer']} | {', '.join(item['blocs'])} | "
+            f"{item['event']} | {item['layer']} | {', '.join(item['blocs'])} | "
             f"{', '.join(item['channels'])} | {item['agreement']} | {marker} |")
     return "\n".join(lines) + "\n"
 
@@ -554,6 +554,11 @@ def save_articles(date_str: str, articles: list[dict]) -> list[dict]:
         (out_dir / filename).write_text(item["text"], encoding="utf-8")
         saved.append({
             "number": i, "filename": filename, "headline": headline,
+            # event القضية (جملة عربية قصيرة، انظر CLUSTER_SCHEMA في
+            # youtube_cluster.py) يصل هنا -- طلب المراجعة على Issue #680:
+            # مصدر الكلمات المفتاحية لبحث صورة تعبيرية في
+            # youtube_publish.ensure_title_card عبر parse_index لاحقًا.
+            "event": topic["event"],
             "layer": topic["layer"], "blocs": topic["blocs"],
             "channels": topic["channels"], "agreement": topic["agreement"],
             "warnings_count": len(item.get("warnings", [])),
