@@ -1,125 +1,5 @@
 [
   {
-    "score": 35.03,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "china",
-      "death",
-      "flood",
-      "himalayan",
-      "missing",
-      "mounts",
-      "nepal",
-      "toll"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-08-27-death-toll-mounts-more-than-1-000-missing-in-nepal-and-china-after-himalayan-flood/",
-    "title": "Death toll mounts, more than 1,000 missing in Nepal and China after Himalayan flood",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-08-27T12:08:12.171262+00:00"
-  },
-  {
-    "score": 20.52,
-    "bucket": "serious",
-    "tokens": [
-      "babies",
-      "die",
-      "fire",
-      "hospital",
-      "least",
-      "maternity",
-      "newborn",
-      "pakistan",
-      "ward"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/26/newborn-babies-die-fire-pakistan-hospital-maternity-ward",
-    "title": "At least 14 newborn babies die in fire at Pakistan hospital’s maternity ward",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-27T12:08:12.171604+00:00"
-  },
-  {
-    "score": 17.29,
-    "bucket": "useful",
-    "tokens": [
-      "australian",
-      "baits",
-      "bird",
-      "could",
-      "flu",
-      "iconic",
-      "mammals",
-      "protected",
-      "real",
-      "risk",
-      "vaccines"
-    ],
-    "link": "https://phys.org/news/2026-08-iconic-australian-mammals-real-bird.html",
-    "title": "Iconic Australian mammals could be at real risk from bird flu. Could they be protected with vaccines in baits?",
-    "posted_title": "",
-    "region": "science",
-    "seen_at": "2026-08-27T12:08:12.171861+00:00"
-  },
-  {
-    "score": 17.23,
-    "bucket": "serious",
-    "tokens": [
-      "2028",
-      "accused",
-      "attacks",
-      "june",
-      "mastermind",
-      "set",
-      "trial"
-    ],
-    "link": "https://www.dawn.com/news/2025483/trial-for-accused-mastermind-of-911-attacks-set-for-june-2028",
-    "title": "Trial for accused mastermind of 9/11 attacks set for June 2028",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-08-27T12:08:12.172159+00:00"
-  },
-  {
-    "score": 17.09,
-    "bucket": "serious",
-    "tokens": [
-      "2nd",
-      "affected",
-      "all",
-      "flooding",
-      "koreans",
-      "lee",
-      "mobilization",
-      "nepal",
-      "orders",
-      "rescue",
-      "resources"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260827004952315",
-    "title": "(2nd LD) Lee orders mobilization of all resources to rescue S. Koreans affected by Nepal flooding",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-08-27T12:08:12.172450+00:00"
-  },
-  {
-    "score": 17.23,
-    "bucket": "serious",
-    "tokens": [
-      "2028",
-      "accused",
-      "attacks",
-      "june",
-      "mastermind",
-      "set",
-      "trial"
-    ],
-    "link": "https://www.dawn.com/news/2025483/trial-for-accused-mastermind-of-911-attacks-set-for-june-2028",
-    "title": "Trial for accused mastermind of 9/11 attacks set for June 2028",
-    "posted_title": "بعد أكثر من عشرين عامًا من الاعتقال.. موعد محاكمة خالد شيخ محمد يتحدد أخيرًا",
-    "region": "pk",
-    "seen_at": "2026-08-27T12:23:16.154399+00:00"
-  },
-  {
     "score": 20.65,
     "bucket": "serious",
     "tokens": [
@@ -5595,5 +5475,39 @@
     "posted_title": "",
     "region": "tech",
     "seen_at": "2026-09-01T12:07:52.037956+00:00"
+  },
+  {
+    "score": 19.75,
+    "bucket": "useful",
+    "tokens": [
+      "hormuz",
+      "monday",
+      "saudi",
+      "strait",
+      "struck",
+      "tankers",
+      "two"
+    ],
+    "link": "https://www.investing.com/news/economy-news/two-saudi-tankers-struck-in-strait-of-hormuz-monday-4883749",
+    "title": "Two Saudi tankers struck in Strait of Hormuz Monday",
+    "posted_title": "قذائف مجهولة تصيب ناقلتين تحملان نفطًا سعوديًا في مضيق هرمز خلال دقائق",
+    "region": "money",
+    "seen_at": "2026-09-01T12:53:48.392138+00:00"
+  },
+  {
+    "score": 16.62,
+    "bucket": "useful",
+    "tokens": [
+      "apple",
+      "ceo",
+      "john",
+      "now",
+      "ternus"
+    ],
+    "link": "https://www.theverge.com/tech/987150/apple-ceo-john-ternus",
+    "title": "John Ternus is now the CEO of Apple",
+    "posted_title": "لأول مرة منذ 2011.. أبل تحصل على رئيس تنفيذي جديد خلفًا لتيم كوك",
+    "region": "tech",
+    "seen_at": "2026-09-01T12:54:06.978564+00:00"
   }
 ]
