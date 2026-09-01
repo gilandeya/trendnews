@@ -225,6 +225,24 @@ def placeholder(width: int, height: int, primary: tuple, accent: tuple) -> Image
     return img
 
 
+def dim_photo(photo: Image.Image, primary: tuple) -> Image.Image:
+    """تعتيم متدرّج أعلى الصورة وأسفلها ليمتزج بما يجاورها من شرائط.
+
+    مستخرَجة من build_post_image (طلب المراجعة على Issue #680، مسار بطاقة
+    عنوان يوتيوب) كي تستعمل youtube_publish.build_title_card التعتيم نفسه
+    بالضبط حين تُبنى بصورة خلفية، لا نسخة مقاربة منه مكرَّرة هنا."""
+    W, H = photo.size
+    overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    od = ImageDraw.Draw(overlay)
+    fade = int(H * 0.22)
+    for i in range(fade):
+        a = int(150 * (1 - i / fade) ** 1.7)
+        od.line([(0, i), (W, i)], fill=(*mix(primary, (0, 0, 0), 0.3), a))
+        od.line([(0, H - 1 - i), (W, H - 1 - i)],
+                fill=(*mix(primary, (0, 0, 0), 0.3), a))
+    return Image.alpha_composite(photo.convert("RGBA"), overlay).convert("RGB")
+
+
 # ──────────────────────────── الكارت ────────────────────────────
 
 
@@ -588,16 +606,7 @@ def build_post_image(
     if used_original and cfg.path("image.sharpen", True):
         photo = photo.filter(ImageFilter.UnsharpMask(radius=2, percent=55, threshold=3))
 
-    # تعتيم متدرّج أعلى الصورة وأسفلها ليمتزج بالشريطين
-    overlay = Image.new("RGBA", (W, photo_h), (0, 0, 0, 0))
-    od = ImageDraw.Draw(overlay)
-    fade = int(photo_h * 0.22)
-    for i in range(fade):
-        a = int(150 * (1 - i / fade) ** 1.7)
-        od.line([(0, i), (W, i)], fill=(*mix(primary, (0, 0, 0), 0.3), a))
-        od.line([(0, photo_h - 1 - i), (W, photo_h - 1 - i)],
-                fill=(*mix(primary, (0, 0, 0), 0.3), a))
-    photo = Image.alpha_composite(photo.convert("RGBA"), overlay).convert("RGB")
+    photo = dim_photo(photo, primary)
     canvas.paste(photo, (0, photo_top))
 
     # صورة ثانية في دائرة — تُستخدم حين يوفّر الخبر أكثر من صورة صالحة
@@ -642,8 +651,7 @@ def build_post_image(
                 if cfg.path("image.sharpen", True):
                     photo = photo.filter(
                         ImageFilter.UnsharpMask(radius=2, percent=55, threshold=3))
-                photo = Image.alpha_composite(
-                    photo.convert("RGBA"), overlay).convert("RGB")
+                photo = dim_photo(photo, primary)
                 canvas.paste(photo, (0, photo_top))
                 draw = ImageDraw.Draw(canvas)
 

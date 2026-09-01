@@ -30,7 +30,7 @@ os.environ["TRENDNEWS_DRAFTS_DIR"] = str(_TMP_DATA_DIR / "drafts")
 os.environ["TRENDNEWS_STATE_DIR"] = str(_TMP_DATA_DIR / "state")
 atexit.register(shutil.rmtree, _TMP_DATA_DIR, ignore_errors=True)
 
-from src import collect, evidence, extract, imaging, proxy_config, review, sources, store, trends, writer  # noqa: E402
+from src import collect, evidence, extract, imagesearch, imaging, proxy_config, review, sources, store, trends, writer  # noqa: E402
 from src import youtube_article, youtube_cluster, youtube_collect, youtube_extract  # noqa: E402
 from src import youtube_publish  # noqa: E402
 from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
@@ -11357,10 +11357,12 @@ def test_youtube_article() -> None:
 
     # ── save_articles / build_index: ترقيم بلا فجوات + جدول الفهرس + عمود التنبيهات ──
     saved = ya.save_articles("2099-03-03", [
-        {"topic": {"title": "الأولى", "layer": "a", "blocs": ["arabic", "turkish"],
+        {"topic": {"title": "الأولى", "event": "حدث الأولى", "layer": "a",
+                   "blocs": ["arabic", "turkish"],
                    "channels": ["الجزيرة"], "agreement": "cross_source"},
          "text": _valid_article("العنوان الأول؟"), "warnings": collected},
-        {"topic": {"title": "الثانية", "layer": "c", "blocs": ["arabic"],
+        {"topic": {"title": "الثانية", "event": "حدث الثانية", "layer": "c",
+                   "blocs": ["arabic"],
                    "channels": ["العربية"], "agreement": "agreement"},
          "text": _valid_article("العنوان الثاني؟")},
     ])
@@ -11369,24 +11371,30 @@ def test_youtube_article() -> None:
               [s["filename"][:2] for s in saved] == ["01", "02"], saved)
         check("save_articles: warnings_count يُحسَب من item['warnings']، وصفر بلا حقل warnings",
               saved[0]["warnings_count"] == 2 and saved[1]["warnings_count"] == 0, saved)
+        # event القضية يصل حقل المسودة المحفوظة (طلب المراجعة على Issue #680
+        # -- مصدر كلمات بحث الصورة التعبيرية لاحقًا في youtube_publish.py)
+        check("save_articles: event القضية يُنقَل من topic['event'] حرفيًا",
+              saved[0]["event"] == "حدث الأولى" and saved[1]["event"] == "حدث الثانية", saved)
         out_dir = ya.ARTICLES_DIR / "2099-03-03"
         check("save_articles: الملفات مكتوبة فعليًا على القرص",
               all((out_dir / s["filename"]).exists() for s in saved))
         index_text = (out_dir / "index.md").read_text(encoding="utf-8")
         check("build_index: الفهرس يحوي عنواني المقالين",
               "العنوان الأول؟" in index_text and "العنوان الثاني؟" in index_text, index_text)
-        check("build_index: الفهرس يحوي عمود الطبقة والخلاف والتنبيهات",
-              "| a |" in index_text and "cross_source" in index_text and
-              "تنبيهات" in index_text, index_text)
+        check("build_index: الفهرس يحوي عمود الحدث والطبقة والخلاف والتنبيهات",
+              "حدث الأولى" in index_text and "| a |" in index_text and
+              "cross_source" in index_text and "تنبيهات" in index_text, index_text)
     finally:
         import shutil as _shutil
         _shutil.rmtree(ya.ARTICLES_DIR / "2099-03-03", ignore_errors=True)
 
     # ── build_index: ثلاثة تنبيهات فأكثر تُعلَّم بوضوح (نص الـIssue) ──
     marked_index = ya.build_index([
-        {"number": 1, "filename": "01-x.md", "headline": "ع", "layer": "c", "blocs": ["arabic"],
+        {"number": 1, "filename": "01-x.md", "headline": "ع", "event": "حدث ع",
+         "layer": "c", "blocs": ["arabic"],
          "channels": ["ق"], "agreement": "agreement", "warnings_count": 3},
-        {"number": 2, "filename": "02-y.md", "headline": "ص", "layer": "c", "blocs": ["arabic"],
+        {"number": 2, "filename": "02-y.md", "headline": "ص", "event": "حدث ص",
+         "layer": "c", "blocs": ["arabic"],
          "channels": ["ق"], "agreement": "agreement", "warnings_count": 1},
     ])
     check("build_index: ثلاثة تنبيهات فأكثر تُعلَّم بـ⚠️، وأقل من ثلاثة رقم عادي",
@@ -11539,7 +11547,10 @@ def test_youtube_publish() -> None:
     توصيل المسودة ودورة المراجعة والنشر بما كان قائمًا (imaging/store/
     review/publish) بلا تعديل على منطقها. لا شبكة -- review.create_issue/
     comment/fetch_issue_body/close_issue/remove_label وpublish.publish_one
-    كلّها مموَّهة محليًا؛ بناء بطاقة العنوان نفسه محلي بالكامل (Pillow فقط).
+    كلّها مموَّهة محليًا؛ بناء بطاقة العنوان نفسه محلي بالكامل (Pillow فقط)،
+    وimagesearch.find_images/imaging.download_image/imaging.face_score
+    مموَّهة أيضًا حيث تُختبَر صورة البطاقة التعبيرية (طلب مراجعة لاحق على
+    Issue #680) فلا نداء شبكة حقيقي إطلاقًا في كل هذا الملف.
     يغطّي أيضًا الدرجة المركّبة والترتيب بها، تأجيل بناء البطاقة إلى ما بعد
     الاعتماد (ensure_title_card)، وقراءة اختيار العنوان من ثلاثة (Issue
     #680)."""
@@ -11592,11 +11603,11 @@ def test_youtube_publish() -> None:
 
     # ── parse_index: جولة كاملة عبر youtube_article.build_index الفعلية (بلا تعديل عليها) ──
     saved_index = [
-        {"number": 1, "filename": "01-a.md", "headline": "عنوان أ؟", "layer": "a",
-         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+        {"number": 1, "filename": "01-a.md", "headline": "عنوان أ؟", "event": "حدث أ",
+         "layer": "a", "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
          "agreement": "cross_source", "warnings_count": 2},
-        {"number": 2, "filename": "02-b.md", "headline": "عنوان ب؟", "layer": "c",
-         "blocs": ["arabic"], "channels": ["العربية"], "agreement": "agreement",
+        {"number": 2, "filename": "02-b.md", "headline": "عنوان ب؟", "event": "حدث ب",
+         "layer": "c", "blocs": ["arabic"], "channels": ["العربية"], "agreement": "agreement",
          "warnings_count": 0},
     ]
     index_md = youtube_article.build_index(saved_index)
@@ -11607,6 +11618,8 @@ def test_youtube_publish() -> None:
           parsed[0]["blocs"] == ["arabic", "turkish"] and
           parsed[0]["channels"] == ["الجزيرة", "CNN Türk"] and
           parsed[0]["agreement"] == "cross_source", parsed[0] if parsed else None)
+    check("parse_index: عمود event الجديد يُقرأ صحيحًا (طلب المراجعة على Issue #680)",
+          parsed and parsed[0]["event"] == "حدث أ" and parsed[1]["event"] == "حدث ب", parsed)
     check("parse_index: مؤشّر التنبيهات المُعلَّم (⚠️ **2**) يُقرأ عددًا صحيحًا",
           parsed and parsed[0]["warnings_count"] == 2, parsed)
     check("parse_index: صفّ بصفر تنبيهات يُقرأ 0",
@@ -11619,12 +11632,99 @@ def test_youtube_publish() -> None:
                                 "a", ["arabic", "persian"],
                                 ["الجزيرة", "Iran International"], cfg, tmp_img)
     check("build_title_card: يبني ملف صورة فعليًا", built.exists(), str(built))
+    placeholder_top_left = None
     if built.exists():
         with Image.open(built) as im:
             check("build_title_card: أبعاد البطاقة تطابق image.width/height",
                   im.size == (int(cfg.path("image.width", 1080)),
                              int(cfg.path("image.height", 1080))), str(im.size))
+            placeholder_top_left = im.convert("RGB").getpixel((10, 10))
     built.unlink(missing_ok=True)
+
+    # ── build_title_card بصورة تعبيرية (طلب المراجعة على Issue #680): نفس
+    # الأبعاد، لكن التركيب مختلف فعليًا -- صورة داكنة مموَّهة (أسود صرف) بدل
+    # الخلفية المتدرّجة الفاتحة، فأعلى يسار البطاقة يظلم بوضوح مقارنةً
+    # بالقالب النصّي أعلاه (نفس الإحداثيات بالضبط) ──
+    fake_photo = Image.new("RGB", (1600, 1200), (0, 0, 0))
+    tmp_img2 = STATE_DIR / "_test_youtube_card_photo.jpg"
+    built2 = yp.build_title_card("سؤال تجريبي طويل يفحص التفاف النص على البطاقة؟",
+                                 "a", ["arabic", "persian"],
+                                 ["الجزيرة", "Iran International"], cfg, tmp_img2,
+                                 photo=fake_photo)
+    check("build_title_card (بصورة): يبني ملف صورة فعليًا", built2.exists(), str(built2))
+    if built2.exists() and placeholder_top_left is not None:
+        with Image.open(built2) as im2:
+            check("build_title_card (بصورة): أبعاد البطاقة تطابق image.width/height أيضًا",
+                  im2.size == (int(cfg.path("image.width", 1080)),
+                               int(cfg.path("image.height", 1080))), str(im2.size))
+            photo_top_left = im2.convert("RGB").getpixel((10, 10))
+            check("build_title_card (بصورة): التركيب الفعلي يختلف عن القالب النصّي "
+                  "(صورة داكنة مموَّهة أعلى اليسار لا خلفية متدرّجة فاتحة)",
+                  sum(photo_top_left) < sum(placeholder_top_left), (photo_top_left, placeholder_top_left))
+    built2.unlink(missing_ok=True)
+
+    # ── _photo_search_terms: كلمات مفتاحية عربية عبر evidence.build_query،
+    # لا imagesearch.keywords() التي تعيد قائمة فارغة لنص عربي محض ──
+    terms = yp._photo_search_terms("هل يتجه الملف نحو تصعيد جديد في المنطقة؟",
+                                   "اجتماع طارئ لمجلس الأمن بشأن الملف")
+    check("_photo_search_terms: يبني عبارتين، event أولًا ثم headline",
+          len(terms) == 2 and "اجتماع" in terms[0] and "الملف" in terms[1], terms)
+    check("_photo_search_terms: نصّان فارغان يعيدان قائمة فارغة بلا استثناء",
+          yp._photo_search_terms("", "") == [], yp._photo_search_terms("", ""))
+
+    # ── _find_photo: بلا شبكة فعلية -- imagesearch.find_images وimaging.
+    # download_image وimaging.face_score كلّها مموَّهة محليًا. المرشَّح الأول
+    # "فيه وجه" فيُرفض، الثاني نظيف فيُعتمَد (المحظور: لا صورة لأي شخص) ──
+    real_find_images = imagesearch.find_images
+    real_download_image = imaging.download_image
+    real_face_score = imaging.face_score
+    download_calls: list = []
+
+    def fake_find_images(title, cfg, limit=6, terms=None):
+        return ["https://example.com/face.jpg", "https://example.com/clean.jpg"]
+
+    def fake_download_image(url, *a, **k):
+        download_calls.append(url)
+        return Image.new("RGB", (800, 600), (10, 20, 30))
+
+    def fake_face_score(img):
+        return 0.5
+
+    imagesearch.find_images = fake_find_images  # type: ignore
+    imaging.download_image = fake_download_image  # type: ignore
+    try:
+        # كل المرشّحين "فيهم وجه" ⇒ None، لا يسقط المقال
+        imaging.face_score = lambda img: 0.5  # type: ignore
+        no_photo = yp._find_photo("عنوان", "حدث", cfg)
+        check("_find_photo: كل المرشّحين مرفوضون (وجه ظاهر) ⇒ None لا انهيار",
+              no_photo is None, no_photo)
+
+        # المرشَّح الثاني فقط نظيف ⇒ يُعتمَد هو تحديدًا
+        download_calls.clear()
+
+        def face_only_first(img):
+            return 0.5 if len(download_calls) == 1 else 0.0
+
+        imaging.face_score = face_only_first  # type: ignore
+        photo = yp._find_photo("عنوان", "حدث", cfg)
+        check("_find_photo: المرشَّح الأول (فيه وجه) يُرفض، والثاني (نظيف) يُعتمَد",
+              photo is not None and download_calls ==
+              ["https://example.com/face.jpg", "https://example.com/clean.jpg"], download_calls)
+    finally:
+        imagesearch.find_images = real_find_images  # type: ignore
+        imaging.download_image = real_download_image  # type: ignore
+        imaging.face_score = real_face_score  # type: ignore
+
+    # terms فارغة (عنوان وevent كلاهما فارغ فعليًا بعد تصفية كلمات الوقف) ⇒
+    # لا نداء بحث إطلاقًا
+    search_calls: list = []
+    imagesearch.find_images = lambda *a, **k: (search_calls.append(1) or [])  # type: ignore
+    try:
+        empty_terms_photo = yp._find_photo("", "", cfg)
+    finally:
+        imagesearch.find_images = real_find_images  # type: ignore
+    check("_find_photo: عنوان وevent فارغان ⇒ None بلا أي نداء بحث",
+          empty_terms_photo is None and search_calls == [], (empty_terms_photo, search_calls))
 
     # ── الدرجة المركّبة (Issue #680): compute_score / score_breakdown_text ──
     check("compute_score: عدد القنوات + (كتل-1)×2 + مكافأة الخلاف (cross_source=+3)",
@@ -11748,7 +11848,8 @@ def test_youtube_publish() -> None:
     )
     (articles_dir / "01-test.md").write_text(article_text, encoding="utf-8")
     saved_index_run = [{"number": 1, "filename": "01-test.md",
-                        "headline": "هل يتجه الملف نحو تصعيد جديد؟", "layer": "a",
+                        "headline": "هل يتجه الملف نحو تصعيد جديد؟",
+                        "event": "اجتماع طارئ بشأن الملف", "layer": "a",
                         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
                         "agreement": "cross_source", "warnings_count": 1}]
     (articles_dir / "index.md").write_text(youtube_article.build_index(saved_index_run),
@@ -11779,6 +11880,10 @@ def test_youtube_publish() -> None:
           build_result["drafts"] and build_result["drafts"][0]["score"] ==
           yp.compute_score(["arabic", "turkish"], ["الجزيرة", "CNN Türk"], "cross_source", cfg),
           build_result["drafts"][0].get("score") if build_result["drafts"] else None)
+    check("build(): event القضية وصل المسودة عبر index.md (طلب المراجعة على Issue #680)",
+          build_result["drafts"] and
+          build_result["drafts"][0]["event"] == "اجتماع طارئ بشأن الملف",
+          build_result["drafts"][0].get("event") if build_result["drafts"] else None)
 
     loaded = store.load_draft(build_result["drafts"][0]["id"]) if build_result["drafts"] else None
     check("build(): المسودة محفوظة فعليًا بحالة pending وبلا review_issue بعد",
@@ -11838,8 +11943,25 @@ def test_youtube_publish() -> None:
     # الاختيار الفعلي هو ما يصل البطاقة والـcaption معًا ──
     card_path, card_draft = store.load_draft(build_result["drafts"][0]["id"])
     card_draft["headline_selected"] = 1
-    ok_card = yp.ensure_title_card(card_path, card_draft, cfg)
+    # imagesearch.find_images مموَّهة هنا لتعيد صفر نتائج -- بحث حقيقي بلا
+    # شبكة فعلية، يغطّي بالضبط ما طلبته المراجعة: «إن لم يجد البحث صورة
+    # مناسبة، ارجع إلى البطاقة النصية الحالية بدل إسقاط المقال» (Issue #680).
+    real_find_images_ctc = imagesearch.find_images
+    photo_search_calls: list = []
+
+    def fake_find_images_empty(title, cfg, limit=6, terms=None):
+        photo_search_calls.append(terms)
+        return []
+
+    imagesearch.find_images = fake_find_images_empty  # type: ignore
+    try:
+        ok_card = yp.ensure_title_card(card_path, card_draft, cfg)
+    finally:
+        imagesearch.find_images = real_find_images_ctc  # type: ignore
     check("ensure_title_card: يبني البطاقة بنجاح ويعيد True", ok_card, ok_card)
+    check("ensure_title_card: بحثت فعليًا عن صورة تعبيرية بكلمات event/headline",
+          photo_search_calls and photo_search_calls[0] and
+          "اجتماع" in photo_search_calls[0][0], photo_search_calls)
     check("ensure_title_card: يضبط حقل image على مسار drafts/<تاريخ>/<معرّف>.jpg",
           card_draft.get("image") == f"drafts/{date_str}/{card_draft['id']}.jpg",
           card_draft.get("image"))
@@ -12008,6 +12130,8 @@ def test_youtube_publish() -> None:
     check("config: youtube.image.bloc_labels يغطي الكتل الأربع",
           set(cfg.path("youtube.image.bloc_labels", {}).keys()) ==
           {"arabic", "turkish", "persian", "israeli"})
+    check("config: youtube.image.use_photo مفعَّل افتراضيًا (طلب المراجعة على Issue #680)",
+          cfg.path("youtube.image.use_photo") is True)
 
     # ── إعدادات config.yaml (Issue #680: الدرجة والعناوين) ──
     check("config: youtube.review.scoring.bloc_bonus = 2",
