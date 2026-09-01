@@ -1,0 +1,48 @@
+{
+  "id": "e562092c5e96",
+  "created_at": "2026-09-01T19:07:53.890414+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.52,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Negotiate Or Fight: 6 Months Into War, Iran Is Split Over What To Do Next",
+  "link": "https://www.ndtv.com/world-news/negotiate-or-fight-6-months-into-war-iran-is-split-over-what-to-do-next-11985978#publisher=newsstand",
+  "publishers": [
+    "NDTV — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Negotiate Or Fight: 6 Months Into War, Iran Is Split Over What To Do Next",
+    "link": "https://www.ndtv.com/world-news/negotiate-or-fight-6-months-into-war-iran-is-split-over-what-to-do-next-11985978#publisher=newsstand",
+    "summary": "Iran's Supreme Leader Mojtaba Khamenei has been keeping out of the public argument.",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-01T09:37:33+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-08/thtmmk1g_trump-mojtaba-khamenei_625x300_13_August_26.jpg?im=FaceCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/negotiate-or-fight-6-months-into-war-iran-is-split-over-what-to-do-next-11985978#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-08/thtmmk1g_trump-mojtaba-khamenei_625x300_13_August_26.jpg?im=FaceCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.5164248667037
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "id": "b04e08ab186d",
+  "created_at": "2026-09-01T19:07:53.889135+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.08,
+  "trend_score": 1.0,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Qalibaf: Iran will respond militarily if US intensifies blockade",
+  "link": "https://www.tehrantimes.com/news/529604/Qalibaf-Iran-will-respond-militarily-if-US-intensifies-blockade",
+  "publishers": [
+    "Al Jazeera English",
+    "Mehr News",
+    "Tehran Times",
+    "parliament speaker"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Qalibaf: Iran will respond militarily if US intensifies blockade",
+    "link": "https://www.tehrantimes.com/news/529604/Qalibaf-Iran-will-respond-militarily-if-US-intensifies-blockade",
+    "summary": "TEHRAN — Iran’s Parliament Speaker Mohammad Baqer Qalibaf has warned that the United States has resorted to a “hybrid war” against the Islamic Republic in an attempt to compensate for its military and diplomatic failures.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-01T17:40:25+00:00",
+    "image_url": "https://media.tehrantimes.com/d/t/2026/09/01/4/6157947.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Mehr News",
+      "Tehran Times",
+      "parliament speaker"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247381/Iran-to-respond-to-intesified-US-naval-blockade-militarily"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529604/Qalibaf-Iran-will-respond-militarily-if-US-intensifies-blockade"
+      },
+      {
+        "name": "parliament speaker",
+        "link": "https://tass.com/world/2180551"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/1/us-military-says-launching-new-attacks-on-iran?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://media.tehrantimes.com/d/t/2026/09/01/4/6157947.jpg",
+      "https://media.mehrnews.com/d/2026/05/31/4/6042755.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.3348180682461175,
+    "age_hours": 2.0013620433333332,
+    "is_stale": false,
+    "score": 24.07703373360096
+  }
+}
