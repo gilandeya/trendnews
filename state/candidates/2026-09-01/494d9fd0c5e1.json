@@ -1,0 +1,54 @@
+{
+  "id": "494d9fd0c5e1",
+  "created_at": "2026-09-01T12:07:52.036817+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.75,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Two Saudi tankers struck in Strait of Hormuz Monday",
+  "link": "https://www.investing.com/news/economy-news/two-saudi-tankers-struck-in-strait-of-hormuz-monday-4883749",
+  "publishers": [
+    "Investing.com — الاقتصاد",
+    "The Express Tribune"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Two Saudi tankers struck in Strait of Hormuz Monday",
+    "link": "https://www.investing.com/news/economy-news/two-saudi-tankers-struck-in-strait-of-hormuz-monday-4883749",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-09-01T11:10:11+00:00",
+    "image_url": "https://content-media.investing.com/news/moved_LYNXMPEM2M133_1200_L.jpg",
+    "publisher": "Investing.com — الاقتصاد",
+    "cluster_sources": [
+      "Investing.com — الاقتصاد",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2626855/iran-warns-any-new-us-attack-will-trigger-much-heavier-response"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/two-saudi-tankers-struck-in-strait-of-hormuz-monday-4883749"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/news/moved_LYNXMPEM2M133_1200_L.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 667.9123184016667,
+    "is_stale": false,
+    "score": 19.752716152833333
+  }
+}

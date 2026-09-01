@@ -1,0 +1,57 @@
+{
+  "id": "bebce21e9893",
+  "created_at": "2026-09-01T12:07:52.037395+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.49,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian attack hits rail workers in new deadly strikes on Kyiv",
+  "link": "https://www.bbc.co.uk/news/articles/cx2zmdgry3do?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "France24"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Russian attack hits rail workers in new deadly strikes on Kyiv",
+    "link": "https://www.bbc.co.uk/news/articles/cx2zmdgry3do?at_medium=RSS&at_campaign=rss",
+    "summary": "Ukrainian officials say 20 people, including two children, were injured in the capital and the wider region.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-01T10:30:55+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c4c8/live/843727a0-a5ca-11f1-8543-aba44f51f79c.png",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "France24"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cx2zmdgry3do?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260901-live-deadly-russian-air-attack-hits-railway-depot-in-kyiv"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c4c8/live/843727a0-a5ca-11f1-8543-aba44f51f79c.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/c4c8/live/843727a0-a5ca-11f1-8543-aba44f51f79c.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/c4c8/live/843727a0-a5ca-11f1-8543-aba44f51f79c.png",
+      "https://s.france24.com/media/display/266a8d7c-a5f4-11f1-ad51-005056bf30b7/w:1024/p:16x9/000-C6YZ4NW.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 387.0003082186111,
+    "is_stale": false,
+    "score": 17.492419852703705
+  }
+}

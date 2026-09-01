@@ -1,0 +1,65 @@
+{
+  "id": "0ec9d940b056",
+  "created_at": "2026-09-01T12:07:52.036318+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.24,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Saka earns Arsenal hard-fought win at Aston Villa",
+  "link": "https://www.bbc.co.uk/sport/football/videos/c0lrz74r8l9o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football",
+    "The Japan Times"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Saka earns Arsenal hard-fought win at Aston Villa",
+    "link": "https://www.bbc.co.uk/sport/football/videos/c0lrz74r8l9o?at_medium=RSS&at_campaign=rss",
+    "summary": "Bukayo Saka's second-half goal is enough to earn Premier League champions Arsenal victory at Aston Villa.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-08-31T21:37:50+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/967f/live/194c84e0-a583-11f1-aed2-8d6da8d75094.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/c0lrz74r8l9o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/aston-villa-vs-arsenal/report/559454"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/sports/2026/09/01/soccer/saka-arsenal-villa/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/967f/live/194c84e0-a583-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/967f/live/194c84e0-a583-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/967f/live/194c84e0-a583-11f1-aed2-8d6da8d75094.jpg",
+      "https://e1.365dm.com/26/08/1096x616/skysports-saka-bukayo-arsenal_7336940.jpg?20260831212209",
+      "https://e1.365dm.com/26/08/1920x1080/skysports-saka-bukayo-arsenal_7336940.jpg?20260831212209",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/01/560597.JPG"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.238325886478286
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "id": "9da4f6e2fd1f",
+  "created_at": "2026-09-01T12:07:52.037691+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.62,
+  "trend_score": 0.25,
+  "velocity": 0.11,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "John Ternus is now the CEO of Apple",
+  "link": "https://www.theverge.com/tech/987150/apple-ceo-john-ternus",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "John Ternus is now the CEO of Apple",
+    "link": "https://www.theverge.com/tech/987150/apple-ceo-john-ternus",
+    "summary": "For the first time since 2011, one of the world's most valuable companies has a new leader, as today marks John Ternus' first day as Apple's CEO. He's replacing Tim Cook, who will continue on as the executive chairman on Apple's board and departed with a letter to employees that remarked, \"This place is proof […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-09-01T10:04:02+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2287315497.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/tech/987150/apple-ceo-john-ternus"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/sci-tech/technology/apple-ceo-john-ternus-salary-age-tim-cook-personal-life-apple-new-ceo-steve-jobs-education-engineer-btech-artificial-intelligence-ai/article70887046.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/john-ternus-the-making-of-apple-s-new-ceo-tim-cook-successor-iphone-101788225782051.html"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2287315497.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://th-i.thgim.com/public/incoming/b5ncvu/article70886198.ece/alternates/LANDSCAPE_1200/2026-04-20T210512Z_2053664726_RC28TKASQPA6_RTRMADP_3_APPLE-CEO.JPG"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 3,
+    "velocity": 0.11113900369774106,
+    "age_hours": 29.994844880555554,
+    "is_stale": false,
+    "score": 16.623132007874396
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "ea9fd56408f7",
+  "created_at": "2026-09-01T12:07:52.037119+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.71,
+  "trend_score": 0.33,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "South Korean police officer admits to closing missing person cases to avoid work",
+  "link": "https://www.bbc.co.uk/news/articles/c780wy7ype4o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Free Malaysia Today",
+    "Malay Mail"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "South Korean police officer admits to closing missing person cases to avoid work",
+    "link": "https://www.bbc.co.uk/news/articles/c780wy7ype4o?at_medium=RSS&at_campaign=rss",
+    "summary": "The officer falsely claimed he contacted missing persons and prematurely closed their cases on the South Korean holiday island of Jeju.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-01T05:47:21+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1e4a/live/76df2fa0-a5c3-11f1-8543-aba44f51f79c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Free Malaysia Today",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c780wy7ype4o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/01/south-korean-cop-closed-missing-persons-cases-to-avoid-work"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/01/jeju-missing-persons-scandal-police-say-south-korea-cop-closed-missing-persons-cases-to-avoid-work/233566"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1e4a/live/76df2fa0-a5c3-11f1-8543-aba44f51f79c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/1e4a/live/76df2fa0-a5c3-11f1-8543-aba44f51f79c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1e4a/live/76df2fa0-a5c3-11f1-8543-aba44f51f79c.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/05/59a5ce6b-south-korea-stabbing-epa-190525.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/01/360169.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 0.22229390605850585,
+    "age_hours": 2.9990325802777775,
+    "is_stale": false,
+    "score": 17.710369484493032
+  }
+}
