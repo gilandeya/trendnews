@@ -1468,5 +1468,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 4
+ },
+ {
+  "id": "23c77b5479f9",
+  "created_at": "2026-09-02T04:56:43.145557+00:00",
+  "decided_at": "2026-09-02T04:56:48.759278+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "عالم",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "jp",
+  "score": 15.71,
+  "trend_score": 0.0,
+  "velocity": 0.4,
+  "source_count": 3,
+  "body_len": 617,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 4
  }
 ]
