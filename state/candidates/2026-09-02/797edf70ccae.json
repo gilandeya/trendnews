@@ -1,0 +1,49 @@
+{
+  "id": "797edf70ccae",
+  "created_at": "2026-09-02T06:08:17.099060+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.29,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Google launches Pics, its AI-enabled image editor, for Workspace, premium users",
+  "link": "https://www.rappler.com/technology/google-pics-ai-enabled-image-editor/",
+  "publishers": [
+    "Rappler"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "Google launches Pics, its AI-enabled image editor, for Workspace, premium users",
+    "link": "https://www.rappler.com/technology/google-pics-ai-enabled-image-editor/",
+    "summary": "Unlike its competitors, Google Pics will let users make written prompts to create images, or have them upload images as a starting point for editing",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-09-02T05:55:31+00:00",
+    "image_url": "https://www.youtube.com/embed/S18L1NFTda8",
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Rappler"
+    ],
+    "cluster_members": [
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/technology/google-pics-ai-enabled-image-editor/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.youtube.com/embed/S18L1NFTda8",
+      "https://www.rappler.com/tachyon/2026/09/s18l1nftda8.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.285927796981483
+  }
+}

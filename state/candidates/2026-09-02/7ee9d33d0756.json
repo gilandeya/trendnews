@@ -1,0 +1,93 @@
+{
+  "id": "7ee9d33d0756",
+  "created_at": "2026-09-02T06:08:17.098075+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.44,
+  "trend_score": 1.0,
+  "velocity": 0.55,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Apple Maps renames Lake Ontario as Lake America after Trump order",
+  "link": "https://www.bbc.co.uk/news/articles/cddvyyz0e47o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Daily Maverick",
+    "France24",
+    "Malay Mail",
+    "MyJoyOnline Ghana",
+    "NDTV — World",
+    "TechCrunch",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The Verge"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Apple Maps renames Lake Ontario as Lake America after Trump order",
+    "link": "https://www.bbc.co.uk/news/articles/cddvyyz0e47o?at_medium=RSS&at_campaign=rss",
+    "summary": "The iPhone maker follows rival technology giant Google in relabelling the Great Lake.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-02T01:32:24+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b1d7/live/cd35b7f0-a66a-11f1-b883-c157b282021f.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Daily Maverick",
+      "France24",
+      "Malay Mail",
+      "MyJoyOnline Ghana",
+      "NDTV — World",
+      "TechCrunch",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/sep/01/mapquest-lake-ontario-trump"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cddvyyz0e47o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/2/apple-changes-name-of-lake-ontario-to-lake-america-in-maps-app?traffic_source=rss"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-02-apple-maps-changes-name-of-lake-ontario-to-lake-america/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/2026-09-01-18-44-yes-google-maps-renamed-lake-ontario-as-lake-america"
+      },
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/09/01/apple-follows-google-in-adopting-trumps-lake-america-name/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b1d7/live/cd35b7f0-a66a-11f1-b883-c157b282021f.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/b1d7/live/cd35b7f0-a66a-11f1-b883-c157b282021f.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b1d7/live/cd35b7f0-a66a-11f1-b883-c157b282021f.jpg",
+      "https://i.guim.co.uk/img/media/607a7f7d9a44bbc6ef8f3a7be73b54bd608f4800/96_0_1093_874/master/1093.jpg?width=700&quality=85&auto=format&fit=max&s=9395a039adf92a1e9ea2e79b7c053914",
+      "https://i.guim.co.uk/img/media/607a7f7d9a44bbc6ef8f3a7be73b54bd608f4800/96_0_1093_874/master/1093.jpg?width=460&quality=85&auto=format&fit=max&s=766eb173e43cba7d466513659847fe39",
+      "https://i.guim.co.uk/img/media/607a7f7d9a44bbc6ef8f3a7be73b54bd608f4800/96_0_1093_874/master/1093.jpg?width=140&quality=85&auto=format&fit=max&s=fc97ad8fa85e4e0121d1668096b7a01d"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 11,
+    "velocity": 0.5541219611300442,
+    "age_hours": 63.00421980694444,
+    "is_stale": false,
+    "score": 30.442480609525077
+  }
+}
