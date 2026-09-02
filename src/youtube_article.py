@@ -388,6 +388,78 @@ def _append_headlines(article_text: str, headlines: list[str]) -> str:
     return f"{article_text.rstrip()}\n\n---\n{HEADLINES_HEADER}\n{lines}\n"
 
 
+# Issue #695 (البرومبت الرابع): النسخة الرابعة من prompts/youtube_article.md
+# (يستبدلها المالك مباشرةً -- خارج نطاق هذا التعديل) تعكس بند "الأطروحة نثرًا"
+# بالكامل: سطر `**التقدير:**` كان إلزاميًا فصار ممنوعًا (آخر ما تبقّى من هيكل
+# المذكّرة)، وصار وجوده سببًا للرفض لا غيابه. عبارة سلّم الترجيح لم تعد
+# محصورة داخل سطر التقدير (الذي زال أصلًا) فتُقبَل في أي موضع من "المتن"
+# (المدى بين نهاية العنوان الرئيسي وبداية ## المصادر -- نفس مبدأ تحديد
+# "المتن" المتّبع في بقية هذا الحارس)، لكنها تبقى مطلوبة: وجودها هو الدليل
+# الآلي الوحيد على أن الحكم مذكور، لا مجرّد سرد وقائع بلا خلاصة. النسب
+# المئوية والطوابع الزمنية المقوّسة ([٩:٥٣]) صارتا ممنوعتين تمامًا في المتن
+# (نصّ دليل War on the Rocks: النسب "لغة تقرير استخباري"، والطوابع المقوّسة
+# "تكسر القراءة" -- يجب أن يُدفَن الطابع تحت رابط الاقتباس بدل ذلك).
+_PERCENT_RE = re.compile(r"[0-9٠-٩][0-9٠-٩,.\-–—\s]*[%٪]")
+_BRACKET_TIMESTAMP_RE = re.compile(r"\[[0-9٠-٩]{1,2}:[0-9٠-٩]{2}(?::[0-9٠-٩]{2})?\]")
+
+# "يفترض أن" وحدها ليست ممنوعة (نصّ الـIssue) -- المشكلة تكرارها في صيغة عرض
+# مصادر متقابلة ("فلان يفترض... وفلان يفترض...")، وقسم الافتراضات الكامنة
+# يبقى مطلوبًا مدمجًا في السرد. لذا حدّ تكرار (youtube.article.max_assumption_phrases)
+# لا منع تام مثل بقية banned_phrases أدناه.
+ASSUMPTION_PHRASE = "يفترض أن"
+
+# مؤشّر «فاعل الجملة متحدث» (نصّ الـIssue، البند ٣): محاولة قياس هل المقال
+# يكتب عن مصادره لا عن الحدث. لا مكتبة تحليل نحوي عربي في هذا المشروع
+# (requirements.txt خالٍ منها)، فالقياس هنا معجميّ سطحي بديل -- صدر الجملة
+# (أول ست كلمات) يحوي كلمة من اسم أحد المتحدثين -- لا تحليل فعلي للفاعل
+# النحوي. هذا تقريب ضعيف عمدًا لا مموَّه: العربية غالبًا فعلية الترتيب
+# (فعل-فاعل-مفعول) فقد يقع الفاعل الحقيقي بعد الفعل لا في صدر الجملة، وقد
+# يُذكر اسم متحدث في جملة هو فيها مفعول به أو مضاف إليه لا فاعلاً، وحقل
+# "speaker" في نقاط الاختبار نفسها قد يحمل لقبًا عامًّا ("ناطق"، "متحدث") لا
+# اسم علم -- فيطابق أي جملة تبدأ بذلك اللقب العام خطأً. لهذا يبقى الإخراج هنا
+# **تحذيرًا استرشاديًا فقط يظهر في stats وذيل المقال** لا حارس رفض -- نصّ
+# الـIssue نفسه يشترط هذا بالضبط متى تبيّن أن القياس غير موثوق آليًا، وحارس
+# يرفض مقالات صحيحة أسوأ من ترك العيب بلا قياس أصلًا.
+_SENTENCE_SPLIT_RE = re.compile(r"[.!؟]+|\n+")
+_WORD_STRIP_CHARS = "،:؛\"'«»()[]"
+
+
+def _speaker_subject_ratio(article_text: str, member_points: list[dict]) -> tuple[float, int]:
+    """يعيد (نسبة الجمل التي يبدو فاعلها متحدثًا، عدد الجمل الكلي) -- انظر
+    التعليق أعلاه لحدود هذا القياس المعجمي الصريحة. قسم ## المصادر مستبعَد
+    فلا تُحسَب أسطر "قناة -- رابط" جملًا بلا معنى."""
+    sources_idx = article_text.find("\n## " + "المصادر")
+    narrative = article_text[:sources_idx] if sources_idx != -1 else article_text
+    sentences = [s.strip() for s in _SENTENCE_SPLIT_RE.split(narrative) if s.strip()]
+    name_tokens = {
+        tok.strip(_WORD_STRIP_CHARS) for p in member_points
+        for tok in str(p.get("speaker", "")).split() if len(tok) > 2
+    }
+    if not sentences or not name_tokens:
+        return 0.0, len(sentences)
+    speaker_led = sum(
+        1 for s in sentences
+        if any(w.strip(_WORD_STRIP_CHARS) in name_tokens for w in s.split()[:6])
+    )
+    return speaker_led / len(sentences), len(sentences)
+
+
+def _speaker_subject_warning(article_text: str, member_points: list[dict],
+                              cfg: Config) -> str | None:
+    """يعيد سطر تحذير عند تجاوز الحدّ الاسترشادي، أو None دون ذلك. لا يُستدعى
+    من _validate_article_text عمدًا -- ليس حارس رفض (انظر التعليق أعلاه)،
+    فتُلحَق نتيجته بذيل المقال عبر _collect_warnings/run() كأي تحذير مراجعة آخر."""
+    ratio, sentence_count = _speaker_subject_ratio(article_text, member_points)
+    if sentence_count == 0:
+        return None
+    threshold = cfg.path("youtube.article.max_speaker_subject_ratio", 0.35)
+    if ratio <= threshold:
+        return None
+    return (f"مؤشّر فاعل الجملة متحدث (استرشادي غير موثوق لا رفض): {ratio:.2f} من "
+            f"{sentence_count} جملة يتجاوز الحدّ الاسترشادي {threshold} -- راجع يدويًا هل "
+            f"المقال عن الأشخاص لا عن الحدث")
+
+
 # البنية "النسخة الثانية" (سطر تقدير + خمسة أقسام ## على الأقل بأسماء ثابتة +
 # مصادر) استُبدلت ببنية "النسخة الثالثة" من prompts/youtube_article.md (Issue
 # #690): نثر متّصل بلا أي عنوان قسم إطلاقًا عدا قسم المصادر. السبب بحثي لا
@@ -419,11 +491,16 @@ DEFAULT_LIKELIHOOD_TERMS = (
 
 # احتياطي إن غاب youtube.article.banned_phrases من config.yaml -- القائمة
 # الفعلية تُقرأ من هناك دومًا (حارس التكرار القالبي، Issue #690 النقطة ٣؛
-# مراجعة سبعة مقالات كشفت هذه العبارات تحديدًا متكرّرة في كل مقال).
+# مراجعة سبعة مقالات كشفت هذه العبارات تحديدًا متكرّرة في كل مقال). ثلاث
+# أضيفت في Issue #695 (النسخة الرابعة): الثقة القالبية ("بثقة منخفضة/عالية")
+# التي يستبدلها البرومبت الجديد بذكر مصدر الترجيح نثرًا، وصيغة "يبقى القارئ
+# أمام" التي تُظهر عرض مصدرين متقابلين بدل حجّة عن الحدث. "يفترض أن" ليست
+# هنا عمدًا -- لها حدّ تكرار لا منع تام، انظر ASSUMPTION_PHRASE أعلاه.
 DEFAULT_BANNED_PHRASES = (
     "سند هذا التقدير", "لو افترضنا أن الرواية", "قشّة في الريح", "الأثر القريب أن",
     "يبقى مفتوحًا", "تحمل في طيّاتها", "في هذا السياق", "تجدر الإشارة",
     "من الجدير بالذكر", "الأيام القادمة كفيلة", "كل الاحتمالات مفتوحة",
+    "بثقة منخفضة", "بثقة عالية", "يبقى القارئ أمام",
 )
 
 
@@ -443,13 +520,13 @@ def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
     if not text.strip().startswith("#"):
         return False, f"لا يبدأ بعنوان رئيسي (# ): {desc}"
 
+    # Issue #695: عكس تام لسابقه -- سطر **التقدير:** كان إلزاميًا (النسخة
+    # الثالثة) وصار ممنوعًا (الرابعة، "الأطروحة نثرًا لا صندوقًا"). وجوده هنا
+    # سبب رفض وحده، بصرف النظر عن محتواه.
     estimate_match = _ESTIMATE_LINE_RE.search(text)
-    if not estimate_match:
-        return False, f"لا سطر **التقدير:**: {desc}"
-
-    likelihood_terms = cfg.path("youtube.article.likelihood_terms", list(DEFAULT_LIKELIHOOD_TERMS))
-    if not any(term in estimate_match.group(0) for term in likelihood_terms):
-        return False, f"سطر التقدير بلا عبارة من سلّم الترجيح: {desc}"
+    if estimate_match:
+        line_no = text[:estimate_match.start()].count("\n") + 1
+        return False, f"صندوق تقدير مغمّق في السطر {line_no} (ممنوع في النسخة الرابعة): {desc}"
 
     sources_match = _SOURCES_HEADING_RE.search(text)
     if not sources_match:
@@ -467,10 +544,14 @@ def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
     if word_count > max_words:
         return False, f"طويل جدًا ({word_count} كلمة، الأعلى {max_words}): {desc}"
 
-    # المتن: بين نهاية سطر التقدير وبداية ## المصادر (نصّ الـIssue). يشمل هذا
-    # المدى حرفيًا الفاصل "---" الذي يسبق المصادر مباشرةً -- وهو الفاصل
-    # الأفقي الوحيد المسموح، فيُستثنى أدناه قبل فحص بقية المتن لا يُحسَب معه.
-    body = text[estimate_match.end():sources_match.start()]
+    # المتن: بين نهاية العنوان الرئيسي وبداية ## المصادر -- لا سطر تقدير بعد
+    # الآن يفصل المقدّمة عن بقية المتن (Issue #695)، فكل ما بعد العنوان
+    # يخضع لنفس فحوص المتن أدناه. يشمل هذا المدى حرفيًا الفاصل "---" الذي
+    # يسبق المصادر مباشرةً -- وهو الفاصل الأفقي الوحيد المسموح، فيُستثنى قبل
+    # فحص بقية المتن لا يُحسَب معه.
+    title_line_end = text.find("\n")
+    body_start = title_line_end if title_line_end != -1 else len(text)
+    body = text[body_start:sources_match.start()]
     hr_matches = list(_HR_RE.finditer(body))
     trailing_hr = bool(hr_matches) and not body[hr_matches[-1].end():].strip()
     if trailing_hr:
@@ -492,12 +573,41 @@ def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
 
     bold_spans = len(_BOLD_RE.findall(body_for_checks))
     if bold_spans:
-        return False, f"{bold_spans} نصّ غامق في المتن عدا سطر **التقدير:**: {desc}"
+        return False, f"{bold_spans} نصّ غامق في المتن: {desc}"
+
+    # Issue #695: النسب المئوية "لغة تقرير استخباري" (نصّ دليل War on the
+    # Rocks) والطوابع الزمنية المقوّسة "تكسر القراءة" -- كلتاهما ممنوعة
+    # تمامًا في المتن الآن، لا مسموحتين ضمنًا كما في النسخة الثالثة.
+    percent_matches = _PERCENT_RE.findall(body_for_checks)
+    if percent_matches:
+        return False, (f"{len(percent_matches)} نسب مئوية في المتن "
+                        f"({' · '.join(percent_matches)}): {desc}")
+
+    timestamp_matches = _BRACKET_TIMESTAMP_RE.findall(body_for_checks)
+    if timestamp_matches:
+        return False, (f"{len(timestamp_matches)} طوابع مقوّسة في المتن "
+                        f"({' · '.join(timestamp_matches)}): {desc}")
+
+    # عبارة الترجيح لم تعد محصورة داخل سطر **التقدير:** (الذي زال أصلًا) --
+    # تُقبَل في أي موضع من المتن (Issue #695)، لكن وجودها يبقى مطلوبًا: هي
+    # الدليل الآلي الوحيد على أن حكمًا صدر، لا مجرّد سرد وقائع.
+    likelihood_terms = cfg.path("youtube.article.likelihood_terms", list(DEFAULT_LIKELIHOOD_TERMS))
+    if not any(term in body_for_checks for term in likelihood_terms):
+        return False, f"لا عبارة من سلّم الترجيح في المتن: {desc}"
 
     banned_phrases = cfg.path("youtube.article.banned_phrases", list(DEFAULT_BANNED_PHRASES))
     found_banned = [p for p in banned_phrases if p in text]
     if found_banned:
         return False, f"عبارة/عبارات محظورة وردت ({' · '.join(found_banned)}): {desc}"
+
+    # "يفترض أن" حدّ تكرار لا منع تام (نصّ الـIssue) -- قسم الافتراضات
+    # الكامنة يبقى مطلوبًا مدمجًا في السرد، والمرفوض تكرارها في صيغة عرض
+    # مصادر متقابلة لا ذكرها أصلًا.
+    max_assumption = cfg.path("youtube.article.max_assumption_phrases", 2)
+    assumption_count = text.count(ASSUMPTION_PHRASE)
+    if assumption_count > max_assumption:
+        return False, (f"عبارة {ASSUMPTION_PHRASE!r} تكرّرت {assumption_count} مرات "
+                        f"(الحدّ {max_assumption}): {desc}")
 
     max_contrast = cfg.path("youtube.article.max_contrast_constructions", 1)
     contrast_count = len(_CONTRAST_RE.findall(text))
@@ -650,6 +760,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     blocked_no_reason_count = 0
     draft_failures = 0
     headline_failures = 0
+    speaker_subject_warnings = 0
     seen_keys_to_mark: set[str] = set()
 
     for topic in topics[:count]:
@@ -687,6 +798,13 @@ def run(cfg: Config | None = None, date_str: str | None = None,
         # داخل draft_article)، لا قبله: قسم التحذيرات ليس جزءًا من البنية
         # المطلوبة من النموذج فلا يصح فحصه ضمنها.
         warnings = _collect_warnings(member_points, cfg)
+        # مؤشّر "فاعل الجملة متحدث" (Issue #695، البند ٣) -- تحذير استرشادي
+        # لا رفض (انظر توثيق _speaker_subject_warning)، فيُلحَق بنفس قائمة
+        # تحذيرات المراجعة الموجودة بدل حارس رفض منفصل.
+        speaker_warning = _speaker_subject_warning(text, member_points, cfg)
+        if speaker_warning:
+            warnings = [*warnings, speaker_warning]
+            speaker_subject_warnings += 1
         text = _append_warnings(text, warnings)
 
         # عناوين مقترحة (Issue #680) -- فشل هذا النداء الإضافي لا يُسقِط مقالًا
@@ -734,6 +852,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             "topics_blocked_no_reason": blocked_no_reason_count,
             "draft_failures": draft_failures,
             "headline_failures": headline_failures,
+            "speaker_subject_warnings": speaker_subject_warnings,
         },
         "skipped": skipped,
         "articles": saved,
@@ -751,7 +870,8 @@ def main() -> int:
     print(f"نداءات حارس المحظورات: {stats['guard_calls']} · محظورة: {stats['blocked_forbidden']} "
           f"(بلا سبب مكتوب فقُبِلت: {stats['topics_blocked_no_reason']}) "
           f"· فشل كتابة: {stats['draft_failures']} "
-          f"· فشل اقتراح عناوين (احتياط بالعنوان الأصلي): {stats['headline_failures']}")
+          f"· فشل اقتراح عناوين (احتياط بالعنوان الأصلي): {stats['headline_failures']} "
+          f"· تحذير فاعل الجملة متحدث (استرشادي): {stats['speaker_subject_warnings']}")
     if result["skipped"]:
         for entry in result["skipped"]:
             print(f"  - {entry['title']} ({entry['layer']}): {entry['reason']}")

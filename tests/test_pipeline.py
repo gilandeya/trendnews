@@ -11062,17 +11062,19 @@ def test_youtube_article() -> None:
     ycl = youtube_cluster
     article_cfg = load_config()
 
-    def _valid_article(title="عنوان-سؤال تجريبي عن قضية ما؟", estimate="مرجّح بقوة",
-                        filler_words=150, include_estimate=True, sources_heading="## المصادر",
-                        extra_body=""):
-        # ١٥٠ كلمة تقريبًا في كل من الاستهلال والمتن + سطر التقدير وجملته ⇒
-        # يقع مريحًا داخل نافذة ٢٥٠–٧٥٠ كلمة (youtube.article.min_words/
-        # max_words) بلا أي عنوان ## عدا قسم المصادر (النسخة الثالثة، Issue #690).
+    def _valid_article(title="عنوان-سؤال تجريبي عن قضية ما؟", filler_words=300,
+                        include_likelihood=True, sources_heading="## المصادر", extra_body=""):
+        # ٣٠٠ كلمة حشو + جملة الترجيح ⇒ تقع مريحًا داخل نافذة ٢٥٠–٧٥٠ كلمة
+        # (youtube.article.min_words/max_words) بلا أي عنوان ## عدا قسم
+        # المصادر (النسخة الثالثة، Issue #690). لا سطر **التقدير:** هنا --
+        # ممنوع في النسخة الرابعة (Issue #695)؛ عبارة الترجيح مدمجة في جملة
+        # نثرية عادية بدل صندوق التقدير الذي زال.
         filler = " ".join(["كلمة"] * filler_words)
-        estimate_line = (f"**التقدير:** {estimate} أن يحدث كذا، بثقة منخفضة لأن المصدر واحد\n\n"
-                          if include_estimate else "")
-        body = f"{filler}\n\n{extra_body}" if extra_body else filler
-        return (f"# {title}\n\n{filler}\n\n{estimate_line}{body}\n\n---\n{sources_heading}\n"
+        likelihood_sentence = ("وهذا مرجّح بقوة، ولا يسندها إلا مصدر واحد."
+                                if include_likelihood else "")
+        parts = [filler, likelihood_sentence, extra_body]
+        body = "\n\n".join(p for p in parts if p)
+        return (f"# {title}\n\n{body}\n\n---\n{sources_heading}\n"
                 f"قناة تجريبية -- عنوان الفيديو -- رابط")
 
     # ── _validate_article_text: بنية إلزامية (Issue #690 -- نثر متّصل بلا أقسام) ──
@@ -11082,11 +11084,15 @@ def test_youtube_article() -> None:
     ok, reason = ya._validate_article_text("مقال بلا عنوان رئيسي\n\n## سؤال\nنص", article_cfg)
     check("مقال لا يبدأ بـ# يُرفَض", not ok and "عنوان" in reason, reason)
 
-    ok, reason = ya._validate_article_text(_valid_article(include_estimate=False), article_cfg)
-    check("مقال بلا سطر **التقدير:** يُرفَض", not ok and "التقدير" in reason, reason)
+    # ── Issue #695: عكس تام -- سطر **التقدير:** كان إلزاميًا فصار ممنوعًا ──
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="**التقدير:** مرجّح بقوة أن يحدث كذا"), article_cfg)
+    check("مقال فيه سطر **التقدير:** يُرفَض (ممنوع في النسخة الرابعة)",
+          not ok and "صندوق تقدير" in reason and "السطر" in reason, reason)
 
-    ok, reason = ya._validate_article_text(_valid_article(estimate="ربما"), article_cfg)
-    check("تقدير بعبارة خارج سلّم الترجيح (ربما) يُرفَض", not ok and "سلّم الترجيح" in reason, reason)
+    ok, reason = ya._validate_article_text(_valid_article(include_likelihood=False), article_cfg)
+    check("مقال بلا أي عبارة من سلّم الترجيح في المتن يُرفَض",
+          not ok and "سلّم الترجيح" in reason, reason)
 
     ok, reason = ya._validate_article_text(
         _valid_article(sources_heading="## قسم آخر"), article_cfg)
@@ -11101,11 +11107,11 @@ def test_youtube_article() -> None:
     check("مقال أقصر من الحدّ الأدنى (250 كلمة) يُرفَض",
           not ok and "قصير جدًا" in reason and "الأدنى 250" in reason, reason)
 
-    ok, reason = ya._validate_article_text(_valid_article(filler_words=400), article_cfg)
+    ok, reason = ya._validate_article_text(_valid_article(filler_words=800), article_cfg)
     check("مقال أطول من الحدّ الأعلى (750 كلمة) يُرفَض",
           not ok and "طويل جدًا" in reason and "الأعلى 750" in reason, reason)
 
-    # ── فحوص جديدة على "المتن" (بين نهاية سطر التقدير وبداية ## المصادر) ──
+    # ── فحوص جديدة على "المتن" (بين نهاية العنوان الرئيسي وبداية ## المصادر) ──
     ok, reason = ya._validate_article_text(
         _valid_article(extra_body="النتيجة هنا — كما يبدو — واضحة تمامًا."), article_cfg)
     check("شرطة معترضة (—) في المتن تُرفَض",
@@ -11117,7 +11123,7 @@ def test_youtube_article() -> None:
 
     ok, reason = ya._validate_article_text(
         _valid_article(extra_body="نص عادي و**نصّ غامق زائد**هنا."), article_cfg)
-    check("نصّ غامق في المتن (عدا سطر التقدير) يُرفَض",
+    check("نصّ غامق في المتن يُرفَض",
           not ok and "نصّ غامق" in reason, reason)
 
     ok, reason = ya._validate_article_text(
@@ -11143,6 +11149,64 @@ def test_youtube_article() -> None:
         _valid_article(extra_body="ليس هذا خطأ بل صوابًا."), article_cfg)
     check("تركيب تقابل واحد داخل الحدّ المسموح يُقبَل", ok, reason)
 
+    # ── Issue #695: نسب مئوية وطوابع زمنية مقوّسة ممنوعة تمامًا في المتن ──
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="الاحتمال مرجّح (٥٥–٧٥٪) بحسب هذا العرض، وآخر أعلى (٧٥–٩٠٪)."),
+        article_cfg)
+    check("نسب مئوية في المتن تُرفَض، والرسالة تذكر ما وُجد فعلًا",
+          not ok and "نسب مئوية" in reason and "٥٥–٧٥٪" in reason and "٧٥–٩٠٪" in reason, reason)
+
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="قال ذلك في اللقاء [٩:٥٣] حين سُئل عن الأمر."), article_cfg)
+    check("طابع زمني مقوّس [٩:٥٣] في المتن يُرفَض، والرسالة تذكر الطابع نفسه",
+          not ok and "طوابع مقوّسة" in reason and "٩:٥٣" in reason, reason)
+
+    # ── Issue #695: "يفترض أن" حدّ تكرار (٢) لا منع تام ──
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="بيسنت يفترض أن كذا. وأحمد يفترض أن غير ذلك."), article_cfg)
+    check("'يفترض أن' مرتين (ضمن الحدّ الافتراضي 2) تُقبَل", ok, reason)
+
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="بيسنت يفترض أن كذا. وأحمد يفترض أن غير ذلك. "
+                                   "وثالث يفترض أن شيئًا آخر تمامًا."), article_cfg)
+    check("'يفترض أن' ثلاث مرات (يتجاوز الحدّ 2) تُرفَض",
+          not ok and "يفترض أن" in reason and "3" in reason, reason)
+
+    # ── Issue #695: عبارات محظورة جديدة (ثقة قالبية + عرض مصادر متقابلة) ──
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="والحكم هنا بثقة منخفضة لأن المصدر واحد."), article_cfg)
+    check("عبارة محظورة جديدة (بثقة منخفضة) تُرفَض", not ok and "بثقة منخفضة" in reason, reason)
+
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="وفي النهاية يبقى القارئ أمام روايتين متقابلتين."), article_cfg)
+    check("عبارة محظورة جديدة (يبقى القارئ أمام) تُرفَض",
+          not ok and "يبقى القارئ أمام" in reason, reason)
+
+    # ── مؤشّر «فاعل الجملة متحدث» (Issue #695 البند ٣) -- تحذير استرشادي لا حارس رفض ──
+    speaker_points = [{"speaker": "أحمد بيسنت"}, {"speaker": "خالد أحمد"}]
+    high_ratio_narrative = ("أحمد بيسنت يقول كذا. خالد أحمد يرى غير ذلك. "
+                             "أحمد بيسنت يضيف رأيًا آخر. الحدث تطوّر بشكل كبير جدًا اليوم.")
+    ratio, sentence_count = ya._speaker_subject_ratio(high_ratio_narrative, speaker_points)
+    check("_speaker_subject_ratio: يحسب النسبة المتوقعة (3 من 4 جمل تبدأ باسم متحدث)",
+          sentence_count == 4 and abs(ratio - 0.75) < 0.01, (ratio, sentence_count))
+
+    low_ratio_narrative = ("الحدث تصاعد بسرعة اليوم. الأزمة اتّسعت لتشمل قطاعات جديدة. "
+                            "أحمد بيسنت يعلّق على ذلك. النتائج بدأت تظهر تدريجيًا.")
+    ratio_low, count_low = ya._speaker_subject_ratio(low_ratio_narrative, speaker_points)
+    check("_speaker_subject_ratio: نسبة منخفضة حين معظم الجمل عن الحدث لا المتحدثين",
+          count_low == 4 and abs(ratio_low - 0.25) < 0.01, (ratio_low, count_low))
+
+    check("_speaker_subject_ratio: بلا نقاط مصدرية (بلا أسماء) يعيد صفرًا بلا انهيار",
+          ya._speaker_subject_ratio("جملة واحدة هنا فقط.", []) == (0.0, 1))
+
+    warning_high = ya._speaker_subject_warning(high_ratio_narrative, speaker_points, article_cfg)
+    check("_speaker_subject_warning: يُبلَّغ تحذيرًا استرشاديًا عند تجاوز الحدّ (لا رفضًا)",
+          warning_high is not None and "استرشادي" in warning_high, warning_high)
+
+    warning_low = ya._speaker_subject_warning(low_ratio_narrative, speaker_points, article_cfg)
+    check("_speaker_subject_warning: دون الحدّ الاسترشادي لا يُبلَّغ بشيء", warning_low is None,
+          warning_low)
+
     # ── قيم config.yaml (Issue #671) ──
     check("config: youtube.article.max_retries = 3",
           article_cfg.path("youtube.article.max_retries") == 3)
@@ -11160,6 +11224,10 @@ def test_youtube_article() -> None:
           set(ya.DEFAULT_BANNED_PHRASES))
     check("config: youtube.article.max_contrast_constructions = 1",
           article_cfg.path("youtube.article.max_contrast_constructions") == 1)
+    check("config: youtube.article.max_assumption_phrases = 2 (Issue #695)",
+          article_cfg.path("youtube.article.max_assumption_phrases") == 2)
+    check("config: youtube.article.max_speaker_subject_ratio = 0.35 (Issue #695)",
+          article_cfg.path("youtube.article.max_speaker_subject_ratio") == 0.35)
 
     # ── _extract_headline / _slugify ──
     check("_extract_headline: يستخرج العنوان من السطر الأول بلا #",
@@ -11541,6 +11609,12 @@ def test_youtube_article() -> None:
         check("run(): نصّ المقال المحفوظ يحوي قسم العناوين المقترحة كاملًا",
               ya.HEADLINES_HEADER in article_text and hl_a[0] in article_text and
               hl_a[1] in article_text and hl_a[2] in article_text, article_text)
+
+        # ── مؤشّر «فاعل الجملة متحدث» (Issue #695) -- صفر تحذيرات هنا: نقاط
+        # الاختبار تحمل ألقابًا عامة ("ناطق"، "متحدث") لا تظهر في متن المقال
+        # المموَّه (حشو "كلمة" فقط)، فلا تطابق صدر أي جملة صدفةً ──
+        check("run(): stats.speaker_subject_warnings صفر حين لا جملة تبدأ باسم متحدث",
+              stats["speaker_subject_warnings"] == 0, stats)
     finally:
         points_path.unlink(missing_ok=True)
         topics_path.unlink(missing_ok=True)
