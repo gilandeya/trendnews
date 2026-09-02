@@ -1,0 +1,85 @@
+{
+  "id": "a361765adc17",
+  "created_at": "2026-09-02T19:07:55.218020+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.77,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US President Trump suggests renaming Strait of Hormuz as ‘Trump Strait’",
+  "link": "https://www.dawn.com/news/2026967/us-president-trump-suggests-renaming-strait-of-hormuz-as-trump-strait",
+  "publishers": [
+    "Dawn",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Hindu — International",
+    "Vanguard Nigeria"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "US President Trump suggests renaming Strait of Hormuz as ‘Trump Strait’",
+    "link": "https://www.dawn.com/news/2026967/us-president-trump-suggests-renaming-strait-of-hormuz-as-trump-strait",
+    "summary": "US President Donald Trump on Wednesday suggested renaming the Strait of Hormuz “Trump Strait”, despite the fact that the crucial waterway remains contested amid the war with Iran. “Now that we have it under USA control, should we change the name Hormuz Strait to TRUMP STRAIT??? Like America itself, it would be ‘hotter’ than ever before!” Trump said on his Truth Social network. In a post on X, the White House also shared the US president’s statement, suggesting that the Strait of Hormuz be renamed to “Trump Strait,” along with a map in which “Trump Strait” is mentioned instead of the Strait of Hormuz. It is the latest geographical name change floated by Trump and comes a week after he ordered Lake Ontario to be renamed as “Lake America” amid a trade war with Canada. Trump also renamed the Gulf of Mexico as the “Gulf of America” on his first day back in office in January 2025. Neither Mexico nor Canada have accepted the changes. Many of the previous name changes started off as apparently jovial remarks by the 80-year-old US president before he then followed through to make them a reality. Trump has in recent weeks repeatedly pressed a threat to claim sovereignty over the Strait of Ho",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-02T17:38:14+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/02222736b0c47ea.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Hindu — International",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3366156/iran-war-trump-floats-renaming-strait-hormuz-trump-strait?utm_source=rss_feed"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2026967/us-president-trump-suggests-renaming-strait-of-hormuz-as-trump-strait"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627042/11-people-in-iran-killed-as-us-and-iran-exchange-strikes"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-floats-renaming-strait-of-hormuz-as-trump-strait/article71420981.ece"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/trump-floats-renaming-strait-of-hormuz-as-trump-strait/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-president-trump-suggests-renaming-strait-of-hormuz-as-trump-strait-iran-targets-us-allies-in-gulf-top-updates-101788366100859.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/02222736b0c47ea.webp",
+      "https://i.dawn.com/thumbnail/2026/09/02222736b0c47ea.webp",
+      "https://i.dawn.com/large/2026/09/02222214f36614b.webp",
+      "https://th-i.thgim.com/public/incoming/jl7lp7/article71420999.ece/alternates/LANDSCAPE_1200/Trump_Dodging_Responsibility__6321.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/03/Strait-of-Hormuz-e1774392773374-1024x699.jpeg",
+      "https://c.ndtvimg.com/2026-09/eql9ac6o_trump_625x300_02_September_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 698.9131241552777,
+    "is_stale": false,
+    "score": 30.772554261043187
+  }
+}

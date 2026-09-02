@@ -1,0 +1,54 @@
+{
+  "id": "102efd8b9c24",
+  "created_at": "2026-09-02T19:07:55.218811+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.43,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "War on Iran was atop agenda of SCO summit in Bishkek",
+  "link": "https://en.mehrnews.com/news/247414/War-on-Iran-was-on-top-of-agenda-of-SCO-summit-in-Bishkek",
+  "publishers": [
+    "Mehr News",
+    "South China Morning Post"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "War on Iran was atop agenda of SCO summit in Bishkek",
+    "link": "https://en.mehrnews.com/news/247414/War-on-Iran-was-on-top-of-agenda-of-SCO-summit-in-Bishkek",
+    "summary": "TEHRAN, Sep. 02 (MNA) – A journalist with Mehr has called into question a claim by an Arabic language magazine called Majala on the recent summit of Shanghai Cooperation Organization (SCO) in Kyrgzstan.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-02T18:09:17+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/02/4/6159547.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Mehr News",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247414/War-on-Iran-was-on-top-of-agenda-of-SCO-summit-in-Bishkek"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/china/diplomacy/article/3366108/sco-takes-landmark-stand-nuclear-security-iran-comes-under-renewed-attack?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/02/4/6159547.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 54.996869716944445,
+    "is_stale": true,
+    "score": 17.434989489740744
+  }
+}

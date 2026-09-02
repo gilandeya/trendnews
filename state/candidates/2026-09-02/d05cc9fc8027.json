@@ -1,0 +1,54 @@
+{
+  "id": "d05cc9fc8027",
+  "created_at": "2026-09-02T19:07:55.218533+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.64,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Cricketers get best Asian Games rooms amid facilities concerns",
+  "link": "https://www.dailysabah.com/sports/cricketers-get-best-asian-games-rooms-amid-facilities-concerns/news",
+  "publishers": [
+    "Daily Sabah",
+    "The Express Tribune"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Cricketers get best Asian Games rooms amid facilities concerns",
+    "link": "https://www.dailysabah.com/sports/cricketers-get-best-asian-games-rooms-amid-facilities-concerns/news",
+    "summary": "Cricketers competing at this month’s Asian Games in Japan are set to receive better accommodation than athletes in many other sports, the head of Japanese cricket said Wednesday, a...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-02T11:27:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/02/458868.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627072/cricketers-to-get-best-rooms-at-asian-games"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/sports/cricketers-get-best-asian-games-rooms-amid-facilities-concerns/news"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/02/458868.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 6.997629630555556,
+    "is_stale": false,
+    "score": 19.638008012407408
+  }
+}

@@ -1,101 +1,5 @@
 [
   {
-    "score": 25.52,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "579",
-      "authority",
-      "death",
-      "disaster",
-      "flood",
-      "missing",
-      "nearly",
-      "nepal",
-      "rises",
-      "still",
-      "toll"
-    ],
-    "link": "https://www.dawn.com/news/2025715/nepal-flood-death-toll-rises-to-579-nearly-2000-still-missing-disaster-authority",
-    "title": "Nepal flood death toll rises to 579, nearly 2,000 still missing: disaster authority",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-08-28T19:07:53.854927+00:00"
-  },
-  {
-    "score": 24.15,
-    "bucket": "light",
-    "tokens": [
-      "court",
-      "dutch",
-      "genocide",
-      "life",
-      "man",
-      "rwanda",
-      "sentences"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/ce8x96rw79ro?at_medium=RSS&at_campaign=rss",
-    "title": "Dutch court sentences man to life over Rwanda genocide",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-28T19:07:53.855163+00:00"
-  },
-  {
-    "score": 14.14,
-    "bucket": "useful",
-    "tokens": [
-      "climate",
-      "collapse",
-      "does",
-      "glacier",
-      "nepal",
-      "risk",
-      "signal"
-    ],
-    "link": "https://phys.org/news/2026-08-nepal-glacier-collapse-climate.html",
-    "title": "Does the Nepal glacier collapse signal a new climate risk?",
-    "posted_title": "",
-    "region": "science",
-    "seen_at": "2026-08-28T19:07:53.855383+00:00"
-  },
-  {
-    "score": 13.0,
-    "bucket": "serious",
-    "tokens": [
-      "aes",
-      "beyond",
-      "moscow",
-      "paris",
-      "sahelian",
-      "security",
-      "test"
-    ],
-    "link": "https://www.myjoyonline.com/beyond-paris-and-moscow-the-aes-and-test-of-sahelian-security/",
-    "title": "Beyond Paris and Moscow: The AES and test of Sahelian security",
-    "posted_title": "",
-    "region": "gh",
-    "seen_at": "2026-08-28T19:07:53.855566+00:00"
-  },
-  {
-    "score": 12.41,
-    "bucket": "serious",
-    "tokens": [
-      "division",
-      "efforts",
-      "end",
-      "libya",
-      "pledges",
-      "political",
-      "qatar",
-      "support"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/8/28/qatar-pledges-support-for-efforts-to-end-libyas-political-division?traffic_source=rss",
-    "title": "Qatar pledges support for efforts to end Libya’s political division",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-08-28T19:07:53.855743+00:00"
-  },
-  {
     "score": 19.17,
     "bucket": "serious",
     "tokens": [
@@ -5717,5 +5621,103 @@
     "posted_title": "حاسوب أبل الأول النادر يعود إلى المزاد بعد أن بيع بـ671 ألف دولار في 2013",
     "region": "tech",
     "seen_at": "2026-09-02T18:12:03.392707+00:00"
+  },
+  {
+    "score": 30.77,
+    "bucket": "serious",
+    "tokens": [
+      "hormuz",
+      "president",
+      "renaming",
+      "strait",
+      "suggests",
+      "trump"
+    ],
+    "link": "https://www.dawn.com/news/2026967/us-president-trump-suggests-renaming-strait-of-hormuz-as-trump-strait",
+    "title": "US President Trump suggests renaming Strait of Hormuz as ‘Trump Strait’",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-02T19:07:55.218521+00:00"
+  },
+  {
+    "score": 19.64,
+    "bucket": "serious",
+    "tokens": [
+      "asian",
+      "best",
+      "concerns",
+      "cricketers",
+      "facilities",
+      "games",
+      "get",
+      "rooms"
+    ],
+    "link": "https://www.dailysabah.com/sports/cricketers-get-best-asian-games-rooms-amid-facilities-concerns/news",
+    "title": "Cricketers get best Asian Games rooms amid facilities concerns",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-09-02T19:07:55.218802+00:00"
+  },
+  {
+    "score": 17.43,
+    "bucket": "serious",
+    "tokens": [
+      "agenda",
+      "atop",
+      "bishkek",
+      "iran",
+      "sco",
+      "summit",
+      "war"
+    ],
+    "link": "https://en.mehrnews.com/news/247414/War-on-Iran-was-on-top-of-agenda-of-SCO-summit-in-Bishkek",
+    "title": "War on Iran was atop agenda of SCO summit in Bishkek",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-02T19:07:55.219064+00:00"
+  },
+  {
+    "score": 16.71,
+    "bucket": "serious",
+    "tokens": [
+      "allow",
+      "condemn",
+      "construction",
+      "damaged",
+      "fire",
+      "land",
+      "ngos",
+      "push",
+      "serbia"
+    ],
+    "link": "https://balkaninsight.com/2026/09/02/serbia-ngos-condemn-push-to-allow-construction-on-fire-damaged-land/bi/",
+    "title": "Serbia NGOs Condemn Push to Allow Construction on Fire-Damaged Land",
+    "posted_title": "",
+    "region": "balkans",
+    "seen_at": "2026-09-02T19:07:55.219339+00:00"
+  },
+  {
+    "score": 16.57,
+    "bucket": "serious",
+    "tokens": [
+      "américa",
+      "app",
+      "apple",
+      "batalla",
+      "cambian",
+      "competidor",
+      "dispara",
+      "google",
+      "lago",
+      "los",
+      "mapas",
+      "ontario",
+      "por"
+    ],
+    "link": "https://elpais.com/tecnologia/2026-09-02/la-batalla-de-los-mapas-google-y-apple-cambian-el-lago-ontario-por-el-lago-america-y-se-disparan-las-apps-de-sus-competidores.html",
+    "title": "La batalla de los mapas: Google y Apple cambian el lago Ontario por el lago América y se dispara la ‘app’ de su competidor",
+    "posted_title": "",
+    "region": "es",
+    "seen_at": "2026-09-02T19:07:55.219594+00:00"
   }
 ]
