@@ -1,0 +1,77 @@
+{
+  "id": "c051474f11a9",
+  "created_at": "2026-09-02T09:07:55.510910+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.44,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "China’s Xi holds talks with Sisi on first Egypt visit in a decade as Beijing deepens Middle East ties",
+  "link": "https://www.malaymail.com/news/world/2026/09/02/chinas-xi-holds-talks-with-sisi-on-first-egypt-visit-in-a-decade-as-beijing-deepens-middle-east-ties/233674",
+  "publishers": [
+    "Dawn",
+    "Iran International",
+    "Malay Mail",
+    "NPR World",
+    "The Japan Times"
+  ],
+  "region": "my",
+  "article": {
+    "title": "China’s Xi holds talks with Sisi on first Egypt visit in a decade as Beijing deepens Middle East ties",
+    "link": "https://www.malaymail.com/news/world/2026/09/02/chinas-xi-holds-talks-with-sisi-on-first-egypt-visit-in-a-decade-as-beijing-deepens-middle-east-ties/233674",
+    "summary": "CAIRO, Sept 2 — Egypt’s President Abdel Fattah al-Sisi on Wednesday received his Chinese counterpart Xi Jinp...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-02T08:55:55+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/02/360317.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Dawn",
+      "Iran International",
+      "Malay Mail",
+      "NPR World",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/02/world/politics/xi-jinping-egypt-middle-east/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/02/chinas-xi-holds-talks-with-sisi-on-first-egypt-visit-in-a-decade-as-beijing-deepens-middle-east-ties/233674"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/02/nx-s1-5953036/putin-signals-support-for-iran-in-ongoing-war-with-the-u-s"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202609025154"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2026790/xi-visits-egypt-as-us-sanctions-threat-looms-over-iran-links"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/02/360317.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/02/560747.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/02/thumbs/400x400/560747.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5953036",
+      "https://i.iranintl.com/images/rdk9umy0/production/cbba3c5d5d68d9daaae8313a01bd1cdb6bae3887-4272x2848.jpg?rect=0,306,4272,2236&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://i.dawn.com/large/2026/09/0207540392f2cc0.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 688.9130651680556,
+    "is_stale": false,
+    "score": 26.435926395625053
+  }
+}

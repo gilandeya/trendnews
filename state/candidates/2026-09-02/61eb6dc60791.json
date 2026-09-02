@@ -1,0 +1,57 @@
+{
+  "id": "61eb6dc60791",
+  "created_at": "2026-09-02T09:07:55.511154+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.96,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Global warming will exceed limit, UN says in a report that maps path to get back below danger zone",
+  "link": "https://phys.org/news/2026-09-global-exceed-limit-path-danger.html",
+  "publishers": [
+    "AP News",
+    "Phys.org",
+    "The Hindu — International"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Global warming will exceed limit, UN says in a report that maps path to get back below danger zone",
+    "link": "https://phys.org/news/2026-09-global-exceed-limit-path-danger.html",
+    "summary": "In a strategic retreat in the fight against climate change, the United Nations has acknowledged that Earth has lost its chance to prevent some of the worst of global warming's harms. So now the world must figure out how to get temperatures below the danger zone and back to safety, officials say.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-09-02T07:38:36+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/global-warming-will-ex.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "AP News",
+      "Phys.org",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/global-warming-will-exceed-limit-un-says-in-a-report-that-maps-path-to-get-back-below-danger-zone/article71418475.ece"
+      },
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-09-global-exceed-limit-path-danger.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/global-warming-will-ex.jpg",
+      "https://th-i.thgim.com/public/incoming/kja59e/article71418520.ece/alternates/LANDSCAPE_1200/iStock-1262374939.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.95578887364495
+  }
+}

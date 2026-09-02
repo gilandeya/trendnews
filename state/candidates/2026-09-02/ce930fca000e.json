@@ -1,0 +1,85 @@
+{
+  "id": "ce930fca000e",
+  "created_at": "2026-09-02T09:07:55.511373+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.32,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oil prices extend gains as US and Iran trade fresh strikes",
+  "link": "https://www.myjoyonline.com/oil-prices-extend-gains-as-us-and-iran-trade-fresh-strikes/",
+  "publishers": [
+    "Investing.com — Commodities",
+    "Investing.com — الاقتصاد",
+    "MyJoyOnline Ghana",
+    "The Express Tribune",
+    "The Guardian — World",
+    "Vanguard Nigeria",
+    "Yonhap News"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "Oil prices extend gains as US and Iran trade fresh strikes",
+    "link": "https://www.myjoyonline.com/oil-prices-extend-gains-as-us-and-iran-trade-fresh-strikes/",
+    "summary": "Oil prices rose in early trading on Wednesday, extending the previous session's surge, as concerns over supply disruptions intensified after the U.S. and Iran exchanged strikes overnight, dimming hopes for a quick easing of tensions in the Middle East.",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-09-02T05:22:00+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/06/image-3002-1024x690.png",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "Investing.com — Commodities",
+      "Investing.com — الاقتصاد",
+      "MyJoyOnline Ghana",
+      "The Express Tribune",
+      "The Guardian — World",
+      "Vanguard Nigeria",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627050/oil-prices-extend-gains-as-us-and-iran-trade-fresh-strikes"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/oil-prices-extend-gains-as-us-and-iran-trade-fresh-strikes/"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/business/2026/sep/02/global-bond-sell-off-us-iran-tensions-inflation-fears"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260902006700320"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260902006800320"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260902006851320"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/06/image-3002-1024x690.png",
+      "https://i.guim.co.uk/img/media/033de6884d460c7e8716c2a91cc0ed742c61f477/285_42_2840_2274/master/2840.jpg?width=700&quality=85&auto=format&fit=max&s=95c7a34d514669631f4af967a7011083",
+      "https://i.guim.co.uk/img/media/033de6884d460c7e8716c2a91cc0ed742c61f477/285_42_2840_2274/master/2840.jpg?width=460&quality=85&auto=format&fit=max&s=156fbb3197595e303212bc5104a44e27",
+      "https://i.guim.co.uk/img/media/033de6884d460c7e8716c2a91cc0ed742c61f477/285_42_2840_2274/master/2840.jpg?width=140&quality=85&auto=format&fit=max&s=b0535491faa7d47a4f49a2a37f375d99",
+      "https://img.yna.co.kr/photo/yna/YH/2026/09/02/PYH2026090216690001300_P2.jpg",
+      "https://img.yna.co.kr/photo/cms/2023/08/24/07/PCM20230824000107990_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.0,
+    "age_hours": 688.9130591525001,
+    "is_stale": true,
+    "score": 23.321188359265406
+  }
+}
