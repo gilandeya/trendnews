@@ -1,100 +1,5 @@
 [
   {
-    "score": 28.0,
-    "bucket": "serious",
-    "tokens": [
-      "110",
-      "control",
-      "dismiss",
-      "england",
-      "lord's",
-      "pakistan",
-      "seize",
-      "test"
-    ],
-    "link": "https://www.channelnewsasia.com/sport/england-dismiss-pakistan-110-seize-control-lords-test-6348041",
-    "title": "England dismiss Pakistan for 110 to seize control of Lord's test",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-08-28T17:07:50.358921+00:00"
-  },
-  {
-    "score": 22.44,
-    "bucket": "serious",
-    "tokens": [
-      "america",
-      "lake",
-      "ontario",
-      "order",
-      "rename",
-      "signs",
-      "trump"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/ckgwdn1g58yo?at_medium=RSS&at_campaign=rss",
-    "title": "Trump signs order to rename Lake Ontario as Lake America",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-28T17:07:50.359234+00:00"
-  },
-  {
-    "score": 20.47,
-    "bucket": "serious",
-    "tokens": [
-      "challenging",
-      "dar",
-      "iran",
-      "leadership",
-      "mediation",
-      "officials",
-      "pakistan",
-      "praise",
-      "times"
-    ],
-    "link": "https://tribune.com.pk/story/2626225/fm-dar-congratulates-saudi-counterpart-on-election-of-new-oic-secretary-general",
-    "title": "UK officials praise Pakistan’s US-Iran mediation, leadership in ‘challenging times’: Dar",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-08-28T17:07:50.359489+00:00"
-  },
-  {
-    "score": 19.17,
-    "bucket": "serious",
-    "tokens": [
-      "gained",
-      "iran",
-      "lost",
-      "months",
-      "six",
-      "war",
-      "what"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/8/28/after-six-months-of-war-what-have-us-iran-gained-and-lost?traffic_source=rss",
-    "title": "After six months of war, what have US, Iran gained and lost?",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-08-28T17:07:50.359730+00:00"
-  },
-  {
-    "score": 17.61,
-    "bucket": "serious",
-    "tokens": [
-      "admits",
-      "amabhungane",
-      "billion",
-      "contractual",
-      "eskom",
-      "outside",
-      "payments",
-      "terms",
-      "update"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-08-28-update-eskom-admits-to-r3-billion-in-payments-outside-of-contractual-terms/",
-    "title": "AMABHUNGANE: UPDATE: Eskom admits to R3-billion in payments ‘outside of contractual terms’",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-08-28T17:07:50.359989+00:00"
-  },
-  {
     "score": 34.1,
     "bucket": "serious",
     "tokens": [
@@ -5674,5 +5579,105 @@
     "posted_title": "قاضية أمريكية ترفض إجبار غوغل على بيع منصة إعلاناتها",
     "region": "seasia",
     "seen_at": "2026-09-02T16:22:05.909240+00:00"
+  },
+  {
+    "score": 21.49,
+    "bucket": "serious",
+    "tokens": [
+      "'war",
+      "civilians",
+      "crime'",
+      "denies",
+      "four",
+      "iran",
+      "killed",
+      "strike",
+      "targeting",
+      "wedding"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cj06q4ynpmjo?at_medium=RSS&at_campaign=rss",
+    "title": "Iran says US strike killed four at wedding in 'war crime' as US denies targeting civilians",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-02T17:08:20.940734+00:00"
+  },
+  {
+    "score": 21.03,
+    "bucket": "serious",
+    "tokens": [
+      "fires",
+      "gulf",
+      "iran",
+      "lull",
+      "monthlong",
+      "neighbors",
+      "retaliating",
+      "strikes"
+    ],
+    "link": "https://www.npr.org/2026/09/02/nx-s1-5954013/us-iran-war-latest-updates",
+    "title": "Iran fires on its Gulf neighbors, retaliating for U.S. strikes after a monthlong lull",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-09-02T17:08:20.940928+00:00"
+  },
+  {
+    "score": 20.34,
+    "bucket": "serious",
+    "tokens": [
+      "accuses",
+      "cuts",
+      "diplomatic",
+      "east",
+      "escalating",
+      "iran",
+      "middle",
+      "peru",
+      "ties",
+      "war"
+    ],
+    "link": "https://www.iranintl.com/en/202609025154",
+    "title": "Peru cuts diplomatic ties, accuses Iran of escalating Middle East war",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-02T17:08:20.941147+00:00"
+  },
+  {
+    "score": 19.95,
+    "bucket": "serious",
+    "tokens": [
+      "'hopeful'",
+      "continue",
+      "despite",
+      "dialogue",
+      "diplomacy",
+      "escalation",
+      "iran",
+      "pakistan",
+      "strive"
+    ],
+    "link": "https://www.dawn.com/news/2026852/pakistan-hopeful-despite-us-iran-escalation-will-continue-to-strive-for-dialogue-and-diplomacy-fo",
+    "title": "Pakistan 'hopeful' despite US-Iran escalation, will continue to strive for dialogue and diplomacy: FO",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-02T17:08:20.941350+00:00"
+  },
+  {
+    "score": 17.52,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "attack",
+      "filipino",
+      "iran",
+      "killed",
+      "sailors",
+      "saudi",
+      "vessel"
+    ],
+    "link": "https://www.scmp.com/news/world/middle-east/article/3366151/2-filipino-sailors-killed-irans-attack-vessel-saudi-arabia-says?utm_source=rss_feed",
+    "title": "2 Filipino sailors killed in Iran’s attack on vessel, Saudi Arabia says",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-02T17:08:20.941525+00:00"
   }
 ]

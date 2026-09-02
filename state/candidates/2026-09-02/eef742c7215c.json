@@ -1,0 +1,71 @@
+{
+  "id": "eef742c7215c",
+  "created_at": "2026-09-02T17:08:20.940361+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.49,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran says US strike killed four at wedding in 'war crime' as US denies targeting civilians",
+  "link": "https://www.bbc.co.uk/news/articles/cj06q4ynpmjo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Daily Sabah",
+    "Malay Mail",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Iran says US strike killed four at wedding in 'war crime' as US denies targeting civilians",
+    "link": "https://www.bbc.co.uk/news/articles/cj06q4ynpmjo?at_medium=RSS&at_campaign=rss",
+    "summary": "Iranian media reports two children were among those killed when shrapnel hit a home. Iran then launched missiles and drones at US targets in the Middle East.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-02T15:33:19+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3f37/live/8eb97870-a6e4-11f1-9e4c-79c1c0e340c6.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Daily Sabah",
+      "Malay Mail",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cj06q4ynpmjo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/4-killed-after-us-strike-hits-wedding-in-southern-iran"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/02/iran-us-missile-blast-wedding"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/02/its-the-great-satan-iran-negotiator-brands-us-after-children-killed-at-hormozgan-wedding/233662"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3f37/live/8eb97870-a6e4-11f1-9e4c-79c1c0e340c6.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/3f37/live/8eb97870-a6e4-11f1-9e4c-79c1c0e340c6.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/3f37/live/8eb97870-a6e4-11f1-9e4c-79c1c0e340c6.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/01/458780.jpg",
+      "https://i.guim.co.uk/img/media/2ed2b60fc856666f88350344bbdf1f9da0ebc1f9/0_1031_3000_2400/master/3000.jpg?width=700&quality=85&auto=format&fit=max&s=1c483e7c01dce544a759dc1c8e12b341",
+      "https://i.guim.co.uk/img/media/2ed2b60fc856666f88350344bbdf1f9da0ebc1f9/0_1031_3000_2400/master/3000.jpg?width=460&quality=85&auto=format&fit=max&s=b15de3cdfe0c3c7438c1391039030f3c"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 696.9202027680556,
+    "is_stale": true,
+    "score": 21.494554754611112
+  }
+}
