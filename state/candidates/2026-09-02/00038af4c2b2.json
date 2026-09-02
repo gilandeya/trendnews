@@ -1,0 +1,54 @@
+{
+  "id": "00038af4c2b2",
+  "created_at": "2026-09-02T15:08:00.808598+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.12,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran’s security chief says US to face new war strategy after strikes",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/09/02/iran-s-security-chief-says-us-to-face-new-war-strategy-after-strikes",
+  "publishers": [
+    "Free Malaysia Today",
+    "The Hindu — International"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Iran’s security chief says US to face new war strategy after strikes",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/02/iran-s-security-chief-says-us-to-face-new-war-strategy-after-strikes",
+    "summary": "Mohsen Rezaei said Iran’s new military, diplomatic and economic strategy would 'shatter the US’s foundation'.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-02T14:39:44+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/09/64c92c80-d47b-4ef4-9fa2-837b180536f9-AFP-Mohsen-Rezaei-02092026.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/west-asia-war-us-attack-on-iran-live-updates-donald-trump-strait-of-hormuz-news-september-2-2026/article71418027.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/02/iran-s-security-chief-says-us-to-face-new-war-strategy-after-strikes"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/09/64c92c80-d47b-4ef4-9fa2-837b180536f9-AFP-Mohsen-Rezaei-02092026.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 694.9145769230556,
+    "is_stale": true,
+    "score": 18.11872642540741
+  }
+}

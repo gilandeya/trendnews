@@ -1,0 +1,62 @@
+{
+  "id": "fcf1689a9f7d",
+  "created_at": "2026-09-02T15:08:00.809844+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.8,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(2nd LD) Seoul shares tumble 4 pct on renewed U.S.-Iran tensions; won strengthens",
+  "link": "https://en.yna.co.kr/view/AEN20260902006852320",
+  "publishers": [
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(2nd LD) Seoul shares tumble 4 pct on renewed U.S.-Iran tensions; won strengthens",
+    "link": "https://en.yna.co.kr/view/AEN20260902006852320",
+    "summary": "SEOUL, Sept. 2 (Yonhap) -- South Korean stocks tumbled 4 percent Wednesday as re...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-02T07:39:52+00:00",
+    "image_url": "https://img.yna.co.kr/photo/yna/YH/2026/09/02/PYH2026090216690001300_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260902006700320"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260902006800320"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260902006851320"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260902006852320"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/yna/YH/2026/09/02/PYH2026090216690001300_P2.jpg",
+      "https://img.yna.co.kr/photo/cms/2023/08/24/07/PCM20230824000107990_P2.jpg",
+      "https://img.yna.co.kr/photo/yna/YH/2026/09/02/PYH2026090202570001300_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.9990787733333333,
+    "is_stale": false,
+    "score": 16.802207902796297
+  }
+}
