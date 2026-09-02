@@ -1,7 +1,7 @@
 {
   "id": "494751fba61c",
   "created_at": "2026-09-02T15:06:51.982289+00:00",
-  "status": "pending",
+  "status": "queued",
   "origin": "youtube",
   "title": "هل تفقد ورقة مضيق هرمز فعاليتها كأداة ضغط إيرانية؟",
   "tier": "a",
@@ -46,5 +46,6 @@
     ]
   },
   "score": 7,
-  "review_issue": 698
+  "review_issue": 698,
+  "publish_at": "2026-09-02T18:11:36.849080+00:00"
 }
