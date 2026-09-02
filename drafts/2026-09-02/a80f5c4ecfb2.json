@@ -1,7 +1,7 @@
 {
   "id": "a80f5c4ecfb2",
   "created_at": "2026-09-02T12:16:44.604849+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 18.16,
   "bucket": "serious",
@@ -55,5 +55,12 @@
       "https://th-i.thgim.com/public/incoming/152ms7/article71414394.ece/alternates/LANDSCAPE_1200/2026-08-31T101347Z_321896599_RC2M9NAVPN5X_RTRMADP_3_UKRAINE-CRISIS-ATTACK-ODESA.JPG"
     ]
   },
-  "publish_at": "2026-09-02T14:08:54.825773+00:00"
+  "publish_at": "2026-09-02T14:08:54.825773+00:00",
+  "published_at": "2026-09-02T14:15:48.931407+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1350007227216298",
+    "photo_id": "1350007190549635",
+    "url": "https://www.facebook.com/631680090321390_1350007227216298",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
