@@ -1,0 +1,56 @@
+{
+  "id": "d7e666856eb7",
+  "created_at": "2026-09-02T12:08:03.946694+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.79,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "What does Zelensky’s threat to ‘close Russia’s skies’ mean? And what targets could Ukraine hit next?",
+  "link": "https://meduza.io/en/feature/2026/09/02/what-does-zelensky-s-threat-to-close-russia-s-skies-mean-and-what-targets-could-ukraine-hit-next",
+  "publishers": [
+    "Meduza English",
+    "The Japan Times"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "What does Zelensky’s threat to ‘close Russia’s skies’ mean? And what targets could Ukraine hit next?",
+    "link": "https://meduza.io/en/feature/2026/09/02/what-does-zelensky-s-threat-to-close-russia-s-skies-mean-and-what-targets-could-ukraine-hit-next",
+    "summary": "Ukraine continues its campaign of strikes on Russia’s rear, and its choice of targets keeps growing more varied. In recent days, drones have hit an oil terminal at the port of Ust-Luga on the Baltic Sea, a drone base in Oryol Region, unknown facilities in Tolyatti, a power plant in Belgorod, and air bases in Yeysk and Saratov Region. But the campaign still centers on the same types of targets, which absorb most of the drone stockpile: oil refineries and marketplace warehouses. On September 1, Volodymyr Zelensky warned that civil aviation infrastructure could become a new target as well. How effective are these strikes? Do they bring Ukraine closer to victory? What is the logic behind the choice of targets in the first place? And can that logic help predict what Ukraine’s military will strike next? Finally, is Ukraine capable of intensifying its strikes? Meduza’s Explainer desk looked for answers to these questions.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-02T09:27:16+00:00",
+    "image_url": "https://meduza.io/image/attachments/images/012/703/880/small/pzxH_JswbK2UyjYroad2KA",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Meduza English",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/feature/2026/09/02/what-does-zelensky-s-threat-to-close-russia-s-skies-mean-and-what-targets-could-ukraine-hit-next"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/02/japan/politics/komeito-cra/"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/image/attachments/images/012/703/880/small/pzxH_JswbK2UyjYroad2KA",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/02/560869.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/02/thumbs/400x400/560869.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 691.9156606858334,
+    "is_stale": false,
+    "score": 19.78814598225926
+  }
+}

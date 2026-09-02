@@ -1,0 +1,54 @@
+{
+  "id": "a80f5c4ecfb2",
+  "created_at": "2026-09-02T12:08:03.946936+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.16,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Indian among 12 killed in latest Russian attacks on Ukraine: Zelenskyy",
+  "link": "https://www.thehindu.com/news/national/indian-among-several-killed-in-russian-attack-on-ukraine-volodymyr-zerlenskyy/article71414380.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Indian among 12 killed in latest Russian attacks on Ukraine: Zelenskyy",
+    "link": "https://www.thehindu.com/news/national/indian-among-several-killed-in-russian-attack-on-ukraine-volodymyr-zerlenskyy/article71414380.ece",
+    "summary": "“Overall, 12 people were killed, among them an Indian citizen,” Ukrainian President Volodymyr Zelenskyy said; “My condolences to everyone who has lost family and loved ones,” he said",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-01T09:00:16+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/152ms7/article71414394.ece/alternates/LANDSCAPE_1200/2026-08-31T101347Z_321896599_RC2M9NAVPN5X_RTRMADP_3_UKRAINE-CRISIS-ATTACK-ODESA.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/national/indian-among-several-killed-in-russian-attack-on-ukraine-volodymyr-zerlenskyy/article71414380.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/indian-killed-another-injured-in-russian-attacks-on-ukraine-101788286574971.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/152ms7/article71414394.ece/alternates/LANDSCAPE_1200/2026-08-31T101347Z_321896599_RC2M9NAVPN5X_RTRMADP_3_UKRAINE-CRISIS-ATTACK-ODESA.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 691.9156978291667,
+    "is_stale": false,
+    "score": 18.158145978351854
+  }
+}

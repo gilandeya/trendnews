@@ -1,0 +1,57 @@
+{
+  "id": "b7b9eb2eab33",
+  "created_at": "2026-09-02T12:08:03.946244+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.43,
+  "trend_score": 1.0,
+  "velocity": 0.11,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia secretly assists Iran with supersonic cruise missiles",
+  "link": "https://www.iranintl.com/en/202609027843",
+  "publishers": [
+    "FT",
+    "Financial Times",
+    "Meduza English"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Russia secretly assists Iran with supersonic cruise missiles",
+    "link": "https://www.iranintl.com/en/202609027843",
+    "summary": "Russia has secretly helped Iran develop supersonic cruise missile technology that experts say could give Tehran a new way to threaten US Navy vessels in the Middle East, the Financial Times reported, citing leaked Russian correspondence, travel records and military patents.",
+    "source_name": "Iran International",
+    "region": "ir",
+    "weight": 1.0,
+    "published": "2026-09-02T09:24:38+00:00",
+    "image_url": "https://i.iranintl.com/images/rdk9umy0/production/5ffc7fa6003c355c385dd52bf09c165235f2174b-1536x1024.png?rect=0,110,1536,804&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+    "publisher": "FT",
+    "cluster_sources": [
+      "FT",
+      "Financial Times",
+      "Meduza English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/02/ft-russia-secretly-helped-iran-develop-supersonic-cruise-missiles"
+      },
+      {
+        "name": "FT",
+        "link": "https://www.iranintl.com/en/202609027843"
+      }
+    ],
+    "image_candidates": [
+      "https://i.iranintl.com/images/rdk9umy0/production/5ffc7fa6003c355c385dd52bf09c165235f2174b-1536x1024.png?rect=0,110,1536,804&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://meduza.io/imgly/share/1788335931/en/news/2026/09/02/ft-russia-secretly-helped-iran-develop-supersonic-cruise-missiles"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.11102092902633703,
+    "age_hours": 5.9957761963888885,
+    "is_stale": false,
+    "score": 22.4285455519433
+  }
+}
