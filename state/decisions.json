@@ -1699,5 +1699,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 17
+ },
+ {
+  "id": "9f8f2e693d81",
+  "created_at": "2026-09-02T18:11:53.429468+00:00",
+  "decided_at": "2026-09-02T18:12:12.268341+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "سياسة",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "eu",
+  "score": 17.28,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "source_count": 1,
+  "body_len": 330,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 18
  }
 ]
