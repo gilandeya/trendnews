@@ -1,0 +1,46 @@
+{
+  "id": "7ef87e723cdf",
+  "created_at": "2026-09-02T03:07:50.668897+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.72,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Putin confident Rosatom will launch power unit at Akkuyu NPP in 2026",
+  "link": "https://tass.com/economy/2180521",
+  "publishers": [
+    "TASS"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Putin confident Rosatom will launch power unit at Akkuyu NPP in 2026",
+    "link": "https://tass.com/economy/2180521",
+    "summary": "The Russian president said the company is on schedule",
+    "source_name": "TASS",
+    "region": "ru",
+    "weight": 0.7,
+    "published": "2026-09-01T14:36:27+00:00",
+    "image_url": null,
+    "publisher": "TASS",
+    "cluster_sources": [
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "TASS",
+        "link": "https://tass.com/economy/2180521"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 11.995703807777778,
+    "is_stale": false,
+    "score": 14.71526037574074
+  }
+}
