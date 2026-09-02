@@ -1,0 +1,49 @@
+{
+  "id": "a95a7f6d953f",
+  "created_at": "2026-09-02T18:08:11.025539+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.07,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Rare, working Apple I computer heads to auction",
+  "link": "https://www.engadget.com/2249655/rare-working-apple-1-computer-heads-to-auction/",
+  "publishers": [
+    "Engadget"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Rare, working Apple I computer heads to auction",
+    "link": "https://www.engadget.com/2249655/rare-working-apple-1-computer-heads-to-auction/",
+    "summary": "The same Apple I computer sold for over $671,000 in 2013.",
+    "source_name": "Engadget",
+    "region": "tech",
+    "weight": 0.9,
+    "published": "2026-09-02T16:54:59+00:00",
+    "image_url": "https://www.engadget.com/img/gallery/rare-working-apple-i-computer-heads-to-auction/l-intro-1788367978.jpg",
+    "publisher": "Engadget",
+    "cluster_sources": [
+      "Engadget"
+    ],
+    "cluster_members": [
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2249655/rare-working-apple-1-computer-heads-to-auction/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.engadget.com/img/gallery/rare-working-apple-i-computer-heads-to-auction/l-intro-1788367978.jpg",
+      "https://www.engadget.com/img/gallery/rare-working-apple-i-computer-heads-to-auction/intro-1788367978.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.9972133791666667,
+    "is_stale": false,
+    "score": 17.0688143215
+  }
+}
