@@ -5553,5 +5553,64 @@
     "posted_title": "",
     "region": "pk",
     "seen_at": "2026-09-02T06:08:17.099523+00:00"
+  },
+  {
+    "score": 17.24,
+    "bucket": "serious",
+    "tokens": [
+      "egypt",
+      "iran",
+      "links",
+      "looms",
+      "sanctions",
+      "threat",
+      "visits"
+    ],
+    "link": "https://www.dawn.com/news/2026790/xi-visits-egypt-as-us-sanctions-threat-looms-over-iran-links",
+    "title": "Xi visits Egypt as US sanctions threat looms over Iran links",
+    "posted_title": "الرئيس الصيني في مصر بزيارة نادرة وسط تهديد أميركي بعقوبات تطال بنوك البلدين",
+    "region": "pk",
+    "seen_at": "2026-09-02T06:23:41.281314+00:00"
+  },
+  {
+    "score": 17.29,
+    "bucket": "serious",
+    "tokens": [
+      "editor",
+      "enabled",
+      "google",
+      "image",
+      "launches",
+      "pics",
+      "premium",
+      "users",
+      "workspace"
+    ],
+    "link": "https://www.rappler.com/technology/google-pics-ai-enabled-image-editor/",
+    "title": "Google launches Pics, its AI-enabled image editor, for Workspace, premium users",
+    "posted_title": "غوغل تطلق Pics لتحرير الصور بالذكاء الاصطناعي عبر أوامر نصية",
+    "region": "ph",
+    "seen_at": "2026-09-02T06:23:52.458840+00:00"
+  },
+  {
+    "score": 21.25,
+    "bucket": "serious",
+    "tokens": [
+      "accuses",
+      "cuts",
+      "diplomatic",
+      "east",
+      "escalating",
+      "iran",
+      "middle",
+      "peru",
+      "ties",
+      "war"
+    ],
+    "link": "https://www.iranintl.com/en/202609025154",
+    "title": "Peru cuts diplomatic ties, accuses Iran of escalating Middle East war",
+    "posted_title": "بيرو تقطع علاقاتها الدبلوماسية مع إيران على خلفية توتر الشرق الأوسط",
+    "region": "ir",
+    "seen_at": "2026-09-02T06:24:11.267299+00:00"
   }
 ]
