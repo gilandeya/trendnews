@@ -1,0 +1,62 @@
+{
+  "id": "e4151e393bd2",
+  "created_at": "2026-09-02T22:08:11.650113+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.74,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump aides seek 'quiet' in Iran war, but say attacks may intensify after November midterm elections: report",
+  "link": "https://www.thehindu.com/news/international/trump-aides-seek-quiet-in-iran-war-but-say-attacks-may-intensify-after-november-midterm-elections-report/article71420569.ece",
+  "publishers": [
+    "NDTV — World",
+    "Reuters",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Trump aides seek 'quiet' in Iran war, but say attacks may intensify after November midterm elections: report",
+    "link": "https://www.thehindu.com/news/international/trump-aides-seek-quiet-in-iran-war-but-say-attacks-may-intensify-after-november-midterm-elections-report/article71420569.ece",
+    "summary": "A tactical pause could also give the U.S. military some breathing room to replenish its heavily depleted munitions stockpiles, the sources said",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-02T17:20:38+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/fb9ndx/article71421058.ece/alternates/LANDSCAPE_1200/APTOPIX_Iran_US_War_82_29.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "NDTV — World",
+      "Reuters",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Reuters",
+        "link": "https://www.iranintl.com/en/202609021854"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-aides-seek-quiet-in-iran-war-but-say-attacks-may-intensify-after-november-midterm-elections-report/article71420569.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/donald-trump-aides-fearing-midterm-poll-defeat-push-to-keep-iran-war-quiet-report-11994383#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/fb9ndx/article71421058.ece/alternates/LANDSCAPE_1200/APTOPIX_Iran_US_War_82_29.jpg",
+      "https://i.iranintl.com/images/rdk9umy0/production/b347201edfea2a7bbdd8e9904ee24171ce99749c-1200x675.jpg?rect=0,24,1200,628&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://c.ndtvimg.com/2026-03/bd66ftmg_trump-strait-of-hormuz_625x300_04_March_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 701.9178513905556,
+    "is_stale": true,
+    "score": 19.735506671626432
+  }
+}
