@@ -1,132 +1,5 @@
 [
   {
-    "score": 16.55,
-    "bucket": "serious",
-    "tokens": [
-      "2027",
-      "elections",
-      "government",
-      "local",
-      "party",
-      "pastef",
-      "presses",
-      "ruling",
-      "senegal"
-    ],
-    "link": "http://www.africanews.com/2026/08/27/senegal-ruling-party-pastef-presses-government-over-2027-local-elections/",
-    "title": "Senegal ruling party Pastef presses government over 2027 local elections",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-08-28T03:07:52.342774+00:00"
-  },
-  {
-    "score": 16.46,
-    "bucket": "serious",
-    "tokens": [
-      "2027",
-      "claims",
-      "defends",
-      "gachagua's",
-      "iebc",
-      "polls",
-      "preparations",
-      "rejects"
-    ],
-    "link": "https://www.standardmedia.co.ke/article/2001556378/iebc-rejects-gachagua-s-claims-defends-2027-polls-preparations",
-    "title": "IEBC rejects Gachagua's claims, defends 2027 polls preparations",
-    "posted_title": "",
-    "region": "ke",
-    "seen_at": "2026-08-28T03:07:52.342978+00:00"
-  },
-  {
-    "score": 16.41,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "cologne",
-      "exhibitors",
-      "gamescom",
-      "opens",
-      "record",
-      "visitors"
-    ],
-    "link": "http://www.africanews.com/2026/08/27/gamescom-2026-opens-in-cologne-with-record-exhibitors-and-visitors/",
-    "title": "Gamescom 2026 opens in Cologne with record exhibitors and visitors",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-08-28T03:07:52.343179+00:00"
-  },
-  {
-    "score": 15.96,
-    "bucket": "serious",
-    "tokens": [
-      "administration",
-      "oil",
-      "report",
-      "stake",
-      "talks",
-      "trump",
-      "venezuela"
-    ],
-    "link": "https://www.channelnewsasia.com/world/trump-us-stake-venezuela-oil-6346646",
-    "title": "Trump administration in talks for US stake in Venezuela oil: Report",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-08-28T03:07:52.343367+00:00"
-  },
-  {
-    "score": 15.94,
-    "bucket": "serious",
-    "tokens": [
-      "anthropic",
-      "blacklisting",
-      "judge",
-      "pentagon",
-      "rules",
-      "unlawful"
-    ],
-    "link": "https://www.channelnewsasia.com/business/us-judge-rules-pentagon-blacklisting-anthropic-unlawful-6346621",
-    "title": "US judge rules Pentagon blacklisting of Anthropic unlawful",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-08-28T03:07:52.343551+00:00"
-  },
-  {
-    "score": 15.94,
-    "bucket": "serious",
-    "tokens": [
-      "anthropic",
-      "blacklisting",
-      "judge",
-      "pentagon",
-      "rules",
-      "unlawful"
-    ],
-    "link": "https://www.channelnewsasia.com/business/us-judge-rules-pentagon-blacklisting-anthropic-unlawful-6346621",
-    "title": "US judge rules Pentagon blacklisting of Anthropic unlawful",
-    "posted_title": "قاض أمريكي يلغي قرار البنتاغون بإدراج شركة أنثروبيك على قائمة سوداء",
-    "region": "seasia",
-    "seen_at": "2026-08-28T04:42:35.128828+00:00"
-  },
-  {
-    "score": 15.96,
-    "bucket": "serious",
-    "tokens": [
-      "administration",
-      "oil",
-      "report",
-      "stake",
-      "talks",
-      "trump",
-      "venezuela"
-    ],
-    "link": "https://www.channelnewsasia.com/world/trump-us-stake-venezuela-oil-6346646",
-    "title": "Trump administration in talks for US stake in Venezuela oil: Report",
-    "posted_title": "الولايات المتحدة تبحث امتلاك حصة في أكثر من عشرة حقول نفطية فنزويلية",
-    "region": "seasia",
-    "seen_at": "2026-08-28T04:42:51.803934+00:00"
-  },
-  {
     "score": 32.76,
     "bucket": "serious",
     "tokens": [
@@ -5655,5 +5528,24 @@
     "posted_title": "",
     "region": "ru",
     "seen_at": "2026-09-02T03:07:50.669373+00:00"
+  },
+  {
+    "score": 15.41,
+    "bucket": "serious",
+    "tokens": [
+      "assad",
+      "built",
+      "confirms",
+      "iaea",
+      "nuclear",
+      "reactor",
+      "syria",
+      "under"
+    ],
+    "link": "https://www.dailysabah.com/world/mid-east/syria-built-nuclear-reactor-under-assad-iaea-confirms",
+    "title": "Syria built nuclear reactor under Assad, IAEA confirms",
+    "posted_title": "تقرير أممي يؤكد أن سوريا كانت تبني مفاعلاً نوويًا سريًا في دير الزور زمن الأسد",
+    "region": "tr",
+    "seen_at": "2026-09-02T04:55:37.755631+00:00"
   }
 ]
