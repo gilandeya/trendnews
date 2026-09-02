@@ -1,25 +1,5 @@
 [
   {
-    "score": 20.2,
-    "bucket": "serious",
-    "tokens": [
-      "earth's",
-      "eclipse",
-      "lunar",
-      "moon",
-      "near",
-      "passes",
-      "shadow",
-      "through",
-      "total"
-    ],
-    "link": "http://www.africanews.com/2026/08/28/near-total-lunar-eclipse-as-moon-passes-through-earths-shadow/",
-    "title": "Near-total lunar eclipse as moon passes through Earth's shadow",
-    "posted_title": "خسوف شبه كلي للقمر غطى أكثر من 96% من سطحه في وقت واحد على أمريكا وأوروبا وأفريقيا",
-    "region": "africa",
-    "seen_at": "2026-08-28T12:11:59.151920+00:00"
-  },
-  {
     "score": 26.01,
     "bucket": "sport",
     "tokens": [
@@ -5607,5 +5587,84 @@
     "posted_title": "",
     "region": "pk",
     "seen_at": "2026-09-02T12:08:03.947505+00:00"
+  },
+  {
+    "score": 18.01,
+    "bucket": "serious",
+    "tokens": [
+      "attacks",
+      "force",
+      "great",
+      "iran",
+      "israel",
+      "prepared",
+      "respond"
+    ],
+    "link": "https://www.vanguardngr.com/2026/09/israel-says-prepared-to-respond-with-great-force-if-iran-attacks/",
+    "title": "Israel says prepared to ‘respond with great force’ if Iran attacks",
+    "posted_title": "وزير الدفاع الإسرائيلي: طائراتنا جاهزة للإقلاع إذا هاجمت إيران",
+    "region": "ng",
+    "seen_at": "2026-09-02T12:16:29.414561+00:00"
+  },
+  {
+    "score": 18.16,
+    "bucket": "serious",
+    "tokens": [
+      "among",
+      "attacks",
+      "indian",
+      "killed",
+      "latest",
+      "russian",
+      "ukraine",
+      "zelenskyy"
+    ],
+    "link": "https://www.thehindu.com/news/national/indian-among-several-killed-in-russian-attack-on-ukraine-volodymyr-zerlenskyy/article71414380.ece",
+    "title": "Indian among 12 killed in latest Russian attacks on Ukraine: Zelenskyy",
+    "posted_title": "مواطن هندي من غوجارات بين قتلى الهجمات الروسية الأخيرة على أوكرانيا",
+    "region": "in",
+    "seen_at": "2026-09-02T12:16:44.605222+00:00"
+  },
+  {
+    "score": 22.43,
+    "bucket": "serious",
+    "tokens": [
+      "assists",
+      "cruise",
+      "iran",
+      "missiles",
+      "russia",
+      "secretly",
+      "supersonic"
+    ],
+    "link": "https://www.iranintl.com/en/202609027843",
+    "title": "Russia secretly assists Iran with supersonic cruise missiles",
+    "posted_title": "تحقيق: روسيا زودت إيران بتقنية صواريخ كروز فوق صوتية منذ 2023",
+    "region": "ir",
+    "seen_at": "2026-09-02T12:17:01.960861+00:00"
+  },
+  {
+    "score": 19.79,
+    "bucket": "serious",
+    "tokens": [
+      "close",
+      "could",
+      "does",
+      "hit",
+      "mean",
+      "next",
+      "russia",
+      "skies",
+      "targets",
+      "threat",
+      "ukraine",
+      "what",
+      "zelensky"
+    ],
+    "link": "https://meduza.io/en/feature/2026/09/02/what-does-zelensky-s-threat-to-close-russia-s-skies-mean-and-what-targets-could-ukraine-hit-next",
+    "title": "What does Zelensky’s threat to ‘close Russia’s skies’ mean? And what targets could Ukraine hit next?",
+    "posted_title": "لماذا تختار أوكرانيا مصافي النفط ومستودعات الأسواق أهدافًا لضرباتها داخل روسيا",
+    "region": "ru",
+    "seen_at": "2026-09-02T12:18:18.608926+00:00"
   }
 ]
