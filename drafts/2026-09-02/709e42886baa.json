@@ -1,7 +1,7 @@
 {
   "id": "709e42886baa",
   "created_at": "2026-09-02T12:16:29.414217+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 18.01,
   "bucket": "serious",
@@ -56,5 +56,12 @@
       "https://media.freemalaysiatoday.com/wp-content/uploads/2025/04/1cc3da66-israel-katz.webp"
     ]
   },
-  "publish_at": "2026-09-02T14:49:18.208118+00:00"
+  "publish_at": "2026-09-02T14:49:18.208118+00:00",
+  "published_at": "2026-09-02T15:01:15.879733+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1350037337213287",
+    "photo_id": "1350037287213292",
+    "url": "https://www.facebook.com/631680090321390_1350037337213287",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
