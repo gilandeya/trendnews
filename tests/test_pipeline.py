@@ -11062,25 +11062,22 @@ def test_youtube_article() -> None:
     ycl = youtube_cluster
     article_cfg = load_config()
 
-    _REQUIRED_SECTIONS = ["من قال ماذا", "الافتراضات الكامنة", "التفسير البديل",
-                           "ما يعنيه", "ما لا نعرفه"]
-
     def _valid_article(title="عنوان-سؤال تجريبي عن قضية ما؟", estimate="مرجّح بقوة",
-                        section_words=45, sections=_REQUIRED_SECTIONS, include_estimate=True,
-                        sources_heading="## المصادر"):
-        # ٤٥ كلمة تقريبًا في كل قسم × ٦ أقسام (خمسة إلزامية + المصادر) +
-        # الاستهلال وسطر التقدير ⇒ يقع مريحًا داخل نافذة ٢٥٠–٧٥٠ كلمة
-        # (youtube.article.min_words/max_words).
-        filler = " ".join(["كلمة"] * section_words)
-        body = "\n\n".join(f"## {name}\n{filler}" for name in sections)
+                        filler_words=150, include_estimate=True, sources_heading="## المصادر",
+                        extra_body=""):
+        # ١٥٠ كلمة تقريبًا في كل من الاستهلال والمتن + سطر التقدير وجملته ⇒
+        # يقع مريحًا داخل نافذة ٢٥٠–٧٥٠ كلمة (youtube.article.min_words/
+        # max_words) بلا أي عنوان ## عدا قسم المصادر (النسخة الثالثة، Issue #690).
+        filler = " ".join(["كلمة"] * filler_words)
         estimate_line = (f"**التقدير:** {estimate} أن يحدث كذا، بثقة منخفضة لأن المصدر واحد\n\n"
                           if include_estimate else "")
-        return (f"# {title}\n\n{filler}\n\n{estimate_line}{filler}\n\n"
-                f"{body}\n\n---\n{sources_heading}\nقناة تجريبية — عنوان الفيديو — رابط")
+        body = f"{filler}\n\n{extra_body}" if extra_body else filler
+        return (f"# {title}\n\n{filler}\n\n{estimate_line}{body}\n\n---\n{sources_heading}\n"
+                f"قناة تجريبية -- عنوان الفيديو -- رابط")
 
-    # ── _validate_article_text: بنية إلزامية (Issue #671 -- الفحوص الخمسة الجديدة) ──
+    # ── _validate_article_text: بنية إلزامية (Issue #690 -- نثر متّصل بلا أقسام) ──
     ok, reason = ya._validate_article_text(_valid_article(), article_cfg)
-    check("مقال مطابق للبنية الكاملة يُقبَل", ok, reason)
+    check("مقال نثري مطابق للبنية الجديدة يُقبَل", ok, reason)
 
     ok, reason = ya._validate_article_text("مقال بلا عنوان رئيسي\n\n## سؤال\nنص", article_cfg)
     check("مقال لا يبدأ بـ# يُرفَض", not ok and "عنوان" in reason, reason)
@@ -11091,25 +11088,60 @@ def test_youtube_article() -> None:
     ok, reason = ya._validate_article_text(_valid_article(estimate="ربما"), article_cfg)
     check("تقدير بعبارة خارج سلّم الترجيح (ربما) يُرفَض", not ok and "سلّم الترجيح" in reason, reason)
 
-    # ثلاثة أقسام محتوى + قسم مصادر = 4 أقسام ## إجمالًا، دون الحدّ الأدنى
-    # (٥) -- مصادر موجودة فعلًا هنا فتُعزَل هذه الحالة عن فحص "لا قسم مصادر".
-    ok, reason = ya._validate_article_text(
-        _valid_article(sections=_REQUIRED_SECTIONS[:3]), article_cfg)
-    check("مقال بأربعة أقسام (## ) إجمالًا فقط يُرفَض", not ok and "خمسة أقسام" in reason, reason)
-    check("رسالة الفشل تذكر الأقسام الموجودة فعلًا", "وجد 4 أقسام" in reason and
-          "من قال ماذا" in reason and "المصادر" in reason, reason)
-
     ok, reason = ya._validate_article_text(
         _valid_article(sources_heading="## قسم آخر"), article_cfg)
     check("غياب قسم ## المصادر يُرفَض", not ok and "مصادر" in reason, reason)
 
-    ok, reason = ya._validate_article_text(_valid_article(section_words=5), article_cfg)
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="## من قال ماذا\nنقاش الأطراف هنا."), article_cfg)
+    check("مقال فيه قسم ## غير المصادر يُرفَض (عكس بنية 'النسخة الثانية' القديمة)",
+          not ok and "أقسام ##" in reason, reason)
+
+    ok, reason = ya._validate_article_text(_valid_article(filler_words=5), article_cfg)
     check("مقال أقصر من الحدّ الأدنى (250 كلمة) يُرفَض",
           not ok and "قصير جدًا" in reason and "الأدنى 250" in reason, reason)
 
-    ok, reason = ya._validate_article_text(_valid_article(section_words=200), article_cfg)
+    ok, reason = ya._validate_article_text(_valid_article(filler_words=400), article_cfg)
     check("مقال أطول من الحدّ الأعلى (750 كلمة) يُرفَض",
           not ok and "طويل جدًا" in reason and "الأعلى 750" in reason, reason)
+
+    # ── فحوص جديدة على "المتن" (بين نهاية سطر التقدير وبداية ## المصادر) ──
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="النتيجة هنا — كما يبدو — واضحة تمامًا."), article_cfg)
+    check("شرطة معترضة (—) في المتن تُرفَض",
+          not ok and "شرطة معترضة" in reason and "2" in reason, reason)
+
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="نقطة أولى مهمة.\n- بند أول\n- بند ثانٍ"), article_cfg)
+    check("قائمة نقطية في المتن تُرفَض", not ok and "سطر قائمة" in reason, reason)
+
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="نص عادي و**نصّ غامق زائد**هنا."), article_cfg)
+    check("نصّ غامق في المتن (عدا سطر التقدير) يُرفَض",
+          not ok and "نصّ غامق" in reason, reason)
+
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="فقرة أولى من المتن.\n\n---\n\nفقرة بعد فاصل زائد."),
+        article_cfg)
+    check("فاصل أفقي (---) داخل المتن (غير الذي يسبق المصادر) يُرفَض",
+          not ok and "فاصل أفقي" in reason, reason)
+
+    # ── حارس التكرار القالبي (Issue #690 النقطة ٣) ──
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="وتجدر الإشارة إلى أن الأمر ما زال قيد المتابعة."),
+        article_cfg)
+    check("عبارة محظورة (تجدر الإشارة) تُرفَض",
+          not ok and "تجدر الإشارة" in reason, reason)
+
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="ليس هذا خطأ بل صوابًا. والأمر لا يبدو معقدًا بل بسيطًا."),
+        article_cfg)
+    check("تركيبا تقابل (ليس..بل / لا..بل) في مقال واحد يُرفَضان (الحدّ 1)",
+          not ok and "تركيب التقابل" in reason and "2" in reason, reason)
+
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="ليس هذا خطأ بل صوابًا."), article_cfg)
+    check("تركيب تقابل واحد داخل الحدّ المسموح يُقبَل", ok, reason)
 
     # ── قيم config.yaml (Issue #671) ──
     check("config: youtube.article.max_retries = 3",
@@ -11123,6 +11155,11 @@ def test_youtube_article() -> None:
     check("config: youtube.article.likelihood_terms يحوي عبارات السلّم الست",
           set(article_cfg.path("youtube.article.likelihood_terms", [])) ==
           set(ya.DEFAULT_LIKELIHOOD_TERMS))
+    check("config: youtube.article.banned_phrases يطابق DEFAULT_BANNED_PHRASES",
+          set(article_cfg.path("youtube.article.banned_phrases", [])) ==
+          set(ya.DEFAULT_BANNED_PHRASES))
+    check("config: youtube.article.max_contrast_constructions = 1",
+          article_cfg.path("youtube.article.max_contrast_constructions") == 1)
 
     # ── _extract_headline / _slugify ──
     check("_extract_headline: يستخرج العنوان من السطر الأول بلا #",

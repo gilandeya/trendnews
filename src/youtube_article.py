@@ -3,9 +3,9 @@
 مراجعة، لا صور، لا نشر (خارج نطاق هذه المهمة صراحةً).
 
 يأخذ أعلى ``youtube.article.count`` قضية (افتراضيًا ١٠) ويكتب لكل واحدة
-مقالًا بنموذج أقوى من نموذج العنقدة -- مقال مقسَّم إلى أسئلة فرعية، بنسبة
-صريحة لكل متحدث لا لقناته، وبلا أي معلومة من خارج النقاط المرفقة (انظر
-prompts/youtube_article.md للقواعد التحريرية كاملة).
+مقالًا بنموذج أقوى من نموذج العنقدة -- نثر متّصل بلا عناوين أقسام (Issue
+#690)، بنسبة صريحة لكل متحدث لا لقناته، وبلا أي معلومة من خارج النقاط
+المرفقة (انظر prompts/youtube_article.md للقواعد التحريرية كاملة).
 
 خرج المقال **نصّ عادي** (Markdown) لا إخراج مهيكل -- خلافًا لمرحلة العنقدة:
 البنية هنا نثرية (عنوان + فقرات + رؤوس فرعية) لا بيانات مصنَّفة في حقول،
@@ -388,19 +388,42 @@ def _append_headlines(article_text: str, headlines: list[str]) -> str:
     return f"{article_text.rstrip()}\n\n---\n{HEADLINES_HEADER}\n{lines}\n"
 
 
-# البنية القديمة (عنوان + ٣ أسئلة فرعية + كلمة "المصادر" في أي مكان) استُبدلت
-# ببنية "النسخة الثانية" من prompts/youtube_article.md (Issue #671): سطر
-# تقدير بعبارة ترجيح إلزامية، خمسة أقسام ## على الأقل بأسماء ثابتة، وقسم
-# مصادر مسمّى حرفيًا. الحارس القديم كان يرفض بنية سليمة بأسماء أقسام مختلفة
-# عمّا توقّعه لأنه يفحص البنية القديمة لا الجديدة -- العطل كان في الحارس لا
-# في المخرج.
+# البنية "النسخة الثانية" (سطر تقدير + خمسة أقسام ## على الأقل بأسماء ثابتة +
+# مصادر) استُبدلت ببنية "النسخة الثالثة" من prompts/youtube_article.md (Issue
+# #690): نثر متّصل بلا أي عنوان قسم إطلاقًا عدا قسم المصادر. السبب بحثي لا
+# ذوقي -- ورقة "The Last Fingerprint" (arXiv:2603.27006) وقياس على اثني عشر
+# نموذجًا أثبتا أن فرض عناوين ## ثابتة (البنية القديمة) يغذّي توجّه النماذج
+# البنيوي المستبطَن من بيانات التدريب المشبَعة بماركداون بدل مقاومته. الحارس
+# هنا معكوس تمامًا عن سابقه: كان يفرض خمسة أقسام على الأقل، ويفرض الآن صفر
+# أقسام عدا المصادر -- وأضاف حظر عناصر ماركداون إضافية (شرطة معترضة، قوائم،
+# تغميق، فاصل أفقي) تنجو من تعليمة الكبت العامة في البرومبت لأنها علامات
+# ترقيم/بنية مشروعة في آن، فتُمنع بالاسم في الكود لا في البرومبت وحده -- نفس
+# مبدأ likelihood_terms أدناه: قاعدة قابلة للكسر النصّي تحتاج فرضًا آليًا، لا
+# الثقة بطاعة النموذج وحدها.
 _SECTION_RE = re.compile(r"^##[ \t]+(.+?)[ \t]*$", re.MULTILINE)
+_SOURCES_HEADING_RE = re.compile(r"^##[ \t]+المصادر[ \t]*$", re.MULTILINE)
 _ESTIMATE_LINE_RE = re.compile(r"^\*\*التقدير:\*\*.*$", re.MULTILINE)
+_HR_RE = re.compile(r"^-{3,}[ \t]*$", re.MULTILINE)
+_LIST_LINE_RE = re.compile(r"^[ \t]*(?:[-*][ \t]+|\d+\.[ \t]+)", re.MULTILINE)
+_BOLD_RE = re.compile(r"\*\*[^*\n]+\*\*")
+# تركيب التقابل "ليس... بل" / "لا... بل" (البصمة اللغوية الأوضح، نصّ الـIssue)
+# داخل الجملة الواحدة -- محصور بحدود الجملة (نقطة/علامة استفهام/تعجّب/سطر
+# جديد) حتى لا يمتدّ المطابقة عبر جمل غير مترابطة.
+_CONTRAST_RE = re.compile(r"(?:ليس|لا)\b[^.؟!\n]*?\bبل\b")
 
 # احتياطي إن غاب youtube.article.likelihood_terms من config.yaml -- القيمة
 # الفعلية المستعملة دومًا تُقرأ من هناك (سلّم شيرمان كنت، النقطة ٣ من الـIssue).
 DEFAULT_LIKELIHOOD_TERMS = (
     "شبه مؤكّد", "مرجّح بقوة", "مرجّح", "الاحتمالان متساويان", "مستبعد جدًا", "مستبعد",
+)
+
+# احتياطي إن غاب youtube.article.banned_phrases من config.yaml -- القائمة
+# الفعلية تُقرأ من هناك دومًا (حارس التكرار القالبي، Issue #690 النقطة ٣؛
+# مراجعة سبعة مقالات كشفت هذه العبارات تحديدًا متكرّرة في كل مقال).
+DEFAULT_BANNED_PHRASES = (
+    "سند هذا التقدير", "لو افترضنا أن الرواية", "قشّة في الريح", "الأثر القريب أن",
+    "يبقى مفتوحًا", "تحمل في طيّاتها", "في هذا السياق", "تجدر الإشارة",
+    "من الجدير بالذكر", "الأيام القادمة كفيلة", "كل الاحتمالات مفتوحة",
 )
 
 
@@ -428,12 +451,13 @@ def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
     if not any(term in estimate_match.group(0) for term in likelihood_terms):
         return False, f"سطر التقدير بلا عبارة من سلّم الترجيح: {desc}"
 
-    titles = _SECTION_RE.findall(text)
-    if len(titles) < 5:
-        return False, f"أقل من خمسة أقسام (## ): {desc}"
+    sources_match = _SOURCES_HEADING_RE.search(text)
+    if not sources_match:
+        return False, f"لا قسم ## المصادر: {desc}"
 
-    if "المصادر" not in titles:
-        return False, f"لا قسم مصادر: {desc}"
+    extra_sections = [t for t in _SECTION_RE.findall(text) if t != "المصادر"]
+    if extra_sections:
+        return False, f"أقسام ## زائدة عدا المصادر: {desc}"
 
     word_count = len(text.split())
     min_words = cfg.path("youtube.article.min_words", 300)
@@ -442,6 +466,43 @@ def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
         return False, f"قصير جدًا ({word_count} كلمة، الأدنى {min_words}): {desc}"
     if word_count > max_words:
         return False, f"طويل جدًا ({word_count} كلمة، الأعلى {max_words}): {desc}"
+
+    # المتن: بين نهاية سطر التقدير وبداية ## المصادر (نصّ الـIssue). يشمل هذا
+    # المدى حرفيًا الفاصل "---" الذي يسبق المصادر مباشرةً -- وهو الفاصل
+    # الأفقي الوحيد المسموح، فيُستثنى أدناه قبل فحص بقية المتن لا يُحسَب معه.
+    body = text[estimate_match.end():sources_match.start()]
+    hr_matches = list(_HR_RE.finditer(body))
+    trailing_hr = bool(hr_matches) and not body[hr_matches[-1].end():].strip()
+    if trailing_hr:
+        body_for_checks = body[:hr_matches[-1].start()]
+        extra_hr = hr_matches[:-1]
+    else:
+        body_for_checks = body
+        extra_hr = hr_matches
+    if extra_hr:
+        return False, f"{len(extra_hr)} فاصل أفقي (---) في المتن عدا الذي يسبق المصادر: {desc}"
+
+    dash_count = body_for_checks.count("—")
+    if dash_count:
+        return False, f"{dash_count} شرطة معترضة (—) في المتن: {desc}"
+
+    list_lines = len(_LIST_LINE_RE.findall(body_for_checks))
+    if list_lines:
+        return False, f"{list_lines} سطر قائمة في المتن: {desc}"
+
+    bold_spans = len(_BOLD_RE.findall(body_for_checks))
+    if bold_spans:
+        return False, f"{bold_spans} نصّ غامق في المتن عدا سطر **التقدير:**: {desc}"
+
+    banned_phrases = cfg.path("youtube.article.banned_phrases", list(DEFAULT_BANNED_PHRASES))
+    found_banned = [p for p in banned_phrases if p in text]
+    if found_banned:
+        return False, f"عبارة/عبارات محظورة وردت ({' · '.join(found_banned)}): {desc}"
+
+    max_contrast = cfg.path("youtube.article.max_contrast_constructions", 1)
+    contrast_count = len(_CONTRAST_RE.findall(text))
+    if contrast_count > max_contrast:
+        return False, f"تركيب التقابل تكرّر {contrast_count} مرات (الحدّ {max_contrast}): {desc}"
 
     return True, ""
 
