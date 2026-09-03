@@ -1,0 +1,59 @@
+{
+  "id": "1e5482491804",
+  "created_at": "2026-09-03T18:50:38.304865+00:00",
+  "status": "queued",
+  "review_issue": null,
+  "score": 17.05,
+  "bucket": "useful",
+  "analysed_sources": [
+    "Engadget"
+  ],
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "age_hours": 1.0,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "source": {
+    "title": "Anthropic automatically signs out Claude users to protect them from hackers",
+    "link": "https://www.engadget.com/2250467/claude-automatic-sign-out-hackers-explained/",
+    "publisher": "Engadget",
+    "publishers": [
+      "Engadget"
+    ],
+    "region": "tech",
+    "image_url": "https://www.engadget.com/img/gallery/anthropic-automatically-signs-out-claude-users-to-protect-them-from-hackers/l-intro-1788452640.jpg",
+    "image_candidates": [
+      "https://www.engadget.com/img/gallery/anthropic-automatically-signs-out-claude-users-to-protect-them-from-hackers/l-intro-1788452640.jpg",
+      "https://www.engadget.com/img/gallery/anthropic-automatically-signs-out-claude-users-to-protect-them-from-hackers/intro-1788452640.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "تقنية",
+    "image_headline": "أنثروبيك تسجل خروج مستخدمي كلود قسريًا بعد اختراق حسابات",
+    "post_title": "لماذا سجّلت أنثروبيك مستخدمي كلود خروجًا من حساباتهم دون إذنهم",
+    "post_body": "أرسلت شركة أنثروبيك بريدًا إلكترونيًا للمستخدمين المتأثرين الأسبوع الماضي، تخبرهم فيه أنها سجّلت خروجهم قسريًا من حسابات كلود، وحذفت بطاقات الدفع المحفوظة، وأعادت أي رسوم إضافية نتجت عن استخدام غير مصرح به. السبب برامج تجسس سرقت من أجهزة المستخدمين نفسها، على ويندوز وماك، جلسات تسجيل دخول نشطة إلى كلود عبر ملفات تعريف الارتباط. حددت الشركة ستة برمجيات خبيثة مسؤولة عن الاختراق: Vidar وLumma وStealC وRedLine وAcreed على ويندوز، وAtomic Stealer على عدد قليل من أجهزة ماك. توصي الشركة بإزالة البرمجية الخبيثة أولًا قبل إعادة تسجيل الدخول، وتغيير كلمة مرور البريد الإلكتروني المرتبط بالحساب وتفعيل التحقق بخطوتين قبل إعادة إدخال بيانات الدفع.",
+    "hashtags": [
+      "كلود",
+      "أنثروبيك",
+      "اختراق_حسابات",
+      "أمن_سيبراني"
+    ]
+  },
+  "caption": "لماذا سجّلت أنثروبيك مستخدمي كلود خروجًا من حساباتهم دون إذنهم\n\nأرسلت شركة أنثروبيك بريدًا إلكترونيًا للمستخدمين المتأثرين الأسبوع الماضي، تخبرهم فيه أنها سجّلت خروجهم قسريًا من حسابات كلود، وحذفت بطاقات الدفع المحفوظة، وأعادت أي رسوم إضافية نتجت عن استخدام غير مصرح به. السبب برامج تجسس سرقت من أجهزة المستخدمين نفسها، على ويندوز وماك، جلسات تسجيل دخول نشطة إلى كلود عبر ملفات تعريف الارتباط. حددت الشركة ستة برمجيات خبيثة مسؤولة عن الاختراق: Vidar وLumma وStealC وRedLine وAcreed على ويندوز، وAtomic Stealer على عدد قليل من أجهزة ماك. توصي الشركة بإزالة البرمجية الخبيثة أولًا قبل إعادة تسجيل الدخول، وتغيير كلمة مرور البريد الإلكتروني المرتبط بالحساب وتفعيل التحقق بخطوتين قبل إعادة إدخال بيانات الدفع.\n\n#كلود #أنثروبيك #اختراق_حسابات #أمن_سيبراني",
+  "image": "drafts/2026-09-03/1e5482491804.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "أنثروبيك تسجل خروج مستخدمي كلود قسريًا بعد اختراق حسابات",
+    "category": "تقنية",
+    "urgent": false,
+    "image_candidates": [
+      "https://www.engadget.com/img/gallery/anthropic-automatically-signs-out-claude-users-to-protect-them-from-hackers/l-intro-1788452640.jpg",
+      "https://www.engadget.com/img/gallery/anthropic-automatically-signs-out-claude-users-to-protect-them-from-hackers/intro-1788452640.jpg"
+    ]
+  },
+  "publish_at": "2026-09-03T20:18:28.529696+00:00"
+}
