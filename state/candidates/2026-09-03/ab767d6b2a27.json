@@ -1,0 +1,55 @@
+{
+  "id": "ab767d6b2a27",
+  "created_at": "2026-09-03T15:08:08.194214+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.26,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "L’été 2026 a été le plus chaud jamais enregistré en France, selon la ministre de la transition écologique",
+  "link": "https://www.lemonde.fr/planete/article/2026/09/03/l-ete-2026-a-ete-le-plus-chaud-jamais-enregistre-en-france-selon-le-bilan-climatique-de-meteo-france_6765147_3244.html",
+  "publishers": [
+    "France24",
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "L’été 2026 a été le plus chaud jamais enregistré en France, selon la ministre de la transition écologique",
+    "link": "https://www.lemonde.fr/planete/article/2026/09/03/l-ete-2026-a-ete-le-plus-chaud-jamais-enregistre-en-france-selon-le-bilan-climatique-de-meteo-france_6765147_3244.html",
+    "summary": "D’après le bilan de Météo-France, le pays a enregistré pour cet été un nombre de jours en vague de chaleur « inédit » – cinquante-trois –, avec des températures anormalement élevées enregistrées entre juin et août.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-09-03T12:15:12+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/13/595/0/4000/2000/644/322/60/0/34e32be_upload-1-95oahwcyb2ip-img-1173.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "France24",
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/planete/article/2026/09/03/l-ete-2026-a-ete-le-plus-chaud-jamais-enregistre-en-france-selon-le-bilan-climatique-de-meteo-france_6765147_3244.html"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/france/20260903-france-recorded-hottest-summer-ever-in-2026-environment-minister-says"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/13/595/0/4000/2000/644/322/60/0/34e32be_upload-1-95oahwcyb2ip-img-1173.jpg",
+      "https://s.france24.com/media/display/3ec29b2c-70e2-11f1-9086-005056a97e36/w:1024/p:16x9/AP26175600523875.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.257992621333337
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "id": "52a8d0c31484",
+  "created_at": "2026-09-03T15:08:08.194961+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.22,
+  "trend_score": 0.0,
+  "velocity": 0.8,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Nvidia is buying Hugging Face for almost $13 billion",
+  "link": "https://www.theverge.com/tech/985474/nvidia-buying-hugging-face-deal",
+  "publishers": [
+    "Channel News Asia",
+    "Engadget",
+    "Free Malaysia Today",
+    "TechCrunch",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Nvidia is buying Hugging Face for almost $13 billion",
+    "link": "https://www.theverge.com/tech/985474/nvidia-buying-hugging-face-deal",
+    "summary": "Nvidia has agreed to buy Hugging Face for $12.93 billion, bringing one of the most popular hosting platforms for open-source AI models, datasets, and tools under the ownership of the world's biggest AI chipmaker. Hugging Face is an online platform founded in 2016 that gives AI developers a space to share their projects and data […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-09-03T12:12:06+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25835739/STKP210_JENSEN_HUANG_B.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Engadget",
+      "Free Malaysia Today",
+      "TechCrunch",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/tech/985474/nvidia-buying-hugging-face-deal"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/business/nvidia-buy-hugging-face-us13-billion-in-big-bet-open-ai-models-6360541"
+      },
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/09/03/nvidia-confirms-it-will-buy-hugging-face-for-12-9-billion/"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2250197/nvidia-buys-hugging-face/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/09/03/nvidia-to-buy-ai-platform-hugging-face-for-us-12-9bil"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25835739/STKP210_JENSEN_HUANG_B.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://dam.mediacorp.sg/image/upload/s--M592wr5F--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-03T131743Z_3_LYNXMPEM82155_RTROPTP_3_CERAWEEK-ENERGY.JPG?itok=VKc8yXtb",
+      "https://www.engadget.com/img/gallery/nvidia-buys-hugging-face/l-intro-1788439338.jpg",
+      "https://www.engadget.com/img/gallery/nvidia-buys-hugging-face/intro-1788439338.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/05/14022039-Jensen-Huang.webp"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 0.8,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.22033245816209
+  }
+}

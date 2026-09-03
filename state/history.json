@@ -1,232 +1,5 @@
 [
   {
-    "score": 22.34,
-    "bucket": "sport",
-    "tokens": [
-      "cherki",
-      "city",
-      "fire",
-      "haaland",
-      "impressive",
-      "man",
-      "palace",
-      "victory"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/videos/c8e3k3ww56no?at_medium=RSS&at_campaign=rss",
-    "title": "Haaland and Cherki fire impressive Man City to victory at Palace",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-08-29T12:08:13.831504+00:00"
-  },
-  {
-    "score": 19.9,
-    "bucket": "serious",
-    "tokens": [
-      "disaster",
-      "glacier",
-      "india",
-      "monitoring",
-      "nepal",
-      "steps"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/india-steps-up-glacier-monitoring-nepal-disaster-6349356",
-    "title": "India steps up glacier monitoring after Nepal disaster",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-08-29T12:08:13.831701+00:00"
-  },
-  {
-    "score": 16.41,
-    "bucket": "serious",
-    "tokens": [
-      "areas",
-      "blasts",
-      "capital",
-      "gunfire",
-      "heard",
-      "niamey",
-      "niger",
-      "several"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/8/29/gunfire-blasts-heard-in-several-areas-of-niger-capital-niamey?traffic_source=rss",
-    "title": "Gunfire, blasts heard in several areas of Niger capital Niamey",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-08-29T12:08:13.831871+00:00"
-  },
-  {
-    "score": 16.21,
-    "bucket": "serious",
-    "tokens": [
-      "banque",
-      "dollar",
-      "example",
-      "iran",
-      "makes",
-      "misr"
-    ],
-    "link": "https://www.iranintl.com/en/202608284624",
-    "title": "Iran or the dollar? US makes an example of Banque Misr",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-08-29T12:08:13.832031+00:00"
-  },
-  {
-    "score": 14.63,
-    "bucket": "serious",
-    "tokens": [
-      "dies",
-      "king",
-      "monarch",
-      "nyimba",
-      "once",
-      "oyo",
-      "ugandan",
-      "world",
-      "youngest"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-08-28-ugandan-king-oyo-nyimba-once-world-s-youngest-monarch-dies-at-34/",
-    "title": "Ugandan King Oyo Nyimba, once world’s youngest monarch, dies at 34",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-08-29T12:08:13.832184+00:00"
-  },
-  {
-    "score": 16.21,
-    "bucket": "serious",
-    "tokens": [
-      "banque",
-      "dollar",
-      "example",
-      "iran",
-      "makes",
-      "misr"
-    ],
-    "link": "https://www.iranintl.com/en/202608284624",
-    "title": "Iran or the dollar? US makes an example of Banque Misr",
-    "posted_title": "أسعار القبور في إيران تتجاوز 15 ألف دولار في بعض المقابر",
-    "region": "ir",
-    "seen_at": "2026-08-29T12:35:09.594496+00:00"
-  },
-  {
-    "score": 14.63,
-    "bucket": "serious",
-    "tokens": [
-      "dies",
-      "king",
-      "monarch",
-      "nyimba",
-      "once",
-      "oyo",
-      "ugandan",
-      "world",
-      "youngest"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-08-28-ugandan-king-oyo-nyimba-once-world-s-youngest-monarch-dies-at-34/",
-    "title": "Ugandan King Oyo Nyimba, once world’s youngest monarch, dies at 34",
-    "posted_title": "ملك مملكة تورو الأوغندية أويو نيمبا يرحل عن 34 عامًا بعد أن كان أصغر ملك متوج في العالم",
-    "region": "za",
-    "seen_at": "2026-08-29T12:35:24.570002+00:00"
-  },
-  {
-    "score": 25.44,
-    "bucket": "serious",
-    "tokens": [
-      "675",
-      "china",
-      "claw",
-      "climbs",
-      "death",
-      "flood",
-      "mud",
-      "nepal",
-      "rescuers",
-      "through",
-      "toll"
-    ],
-    "link": "https://www.dawn.com/news/2025932/rescuers-claw-through-mud-as-nepal-china-flood-death-toll-climbs-to-675",
-    "title": "Rescuers claw through mud as Nepal, China flood death toll climbs to 675",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-08-29T15:07:50.504172+00:00"
-  },
-  {
-    "score": 23.46,
-    "bucket": "serious",
-    "tokens": [
-      "drone",
-      "kills",
-      "kyiv",
-      "least",
-      "russian",
-      "storing",
-      "strike",
-      "warehouse",
-      "weapons"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/29/russian-strike-warehouse-near-kyiv-kills-at-least-37",
-    "title": "Russian drone strike on Kyiv warehouse storing weapons kills at least 37",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-29T15:07:50.504421+00:00"
-  },
-  {
-    "score": 20.02,
-    "bucket": "serious",
-    "tokens": [
-      "economy",
-      "intensifies",
-      "iran's",
-      "sanctions",
-      "war",
-      "weighs"
-    ],
-    "link": "https://www.dawn.com/news/2025973/war-weighs-on-irans-economy-as-us-intensifies-sanctions",
-    "title": "War weighs on Iran's economy as US intensifies sanctions",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-08-29T15:07:50.504619+00:00"
-  },
-  {
-    "score": 19.51,
-    "bucket": "serious",
-    "tokens": [
-      "'historic'",
-      "65bn",
-      "barrels",
-      "control",
-      "deal",
-      "hails",
-      "oil",
-      "trump",
-      "venezuela's"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cx2zlwe7qj1o?at_medium=RSS&at_campaign=rss",
-    "title": "Trump hails 'historic' deal for US to control 65bn barrels of Venezuela's oil",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-29T15:07:50.504828+00:00"
-  },
-  {
-    "score": 19.37,
-    "bucket": "serious",
-    "tokens": [
-      "carrying",
-      "church",
-      "crashes",
-      "killing",
-      "members",
-      "minibus",
-      "taxi",
-      "zimbabwe"
-    ],
-    "link": "https://www.thehindu.com/news/international/several-people-dead-zimbabwe-minibus-taxi-carrying-church-members-crashes/article71404297.ece",
-    "title": "Zimbabwe minibus taxi carrying church members crashes, killing 27",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-08-29T15:07:50.504988+00:00"
-  },
-  {
     "score": 16.65,
     "bucket": "serious",
     "tokens": [
@@ -5846,5 +5619,107 @@
     "posted_title": "",
     "region": "in",
     "seen_at": "2026-09-03T12:07:56.937644+00:00"
+  },
+  {
+    "score": 21.26,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "chaud",
+      "enregistré",
+      "france",
+      "jamais",
+      "ministre",
+      "plus",
+      "selon",
+      "transition",
+      "écologique",
+      "été"
+    ],
+    "link": "https://www.lemonde.fr/planete/article/2026/09/03/l-ete-2026-a-ete-le-plus-chaud-jamais-enregistre-en-france-selon-le-bilan-climatique-de-meteo-france_6765147_3244.html",
+    "title": "L’été 2026 a été le plus chaud jamais enregistré en France, selon la ministre de la transition écologique",
+    "posted_title": "",
+    "region": "fr",
+    "seen_at": "2026-09-03T15:08:08.194658+00:00"
+  },
+  {
+    "score": 20.42,
+    "bucket": "serious",
+    "tokens": [
+      "2027",
+      "até",
+      "com",
+      "duração",
+      "fevereiro",
+      "forte",
+      "muito",
+      "niño",
+      "onu",
+      "prevê"
+    ],
+    "link": "https://agenciabrasil.ebc.com.br/internacional/noticia/2026-09/onu-preve-el-nino-muito-forte-com-duracao-ate-fevereiro-de-2027",
+    "title": "ONU prevê El Niño \"muito forte\" com duração até fevereiro de 2027",
+    "posted_title": "",
+    "region": "latam",
+    "seen_at": "2026-09-03T15:08:08.194952+00:00"
+  },
+  {
+    "score": 20.22,
+    "bucket": "useful",
+    "tokens": [
+      "almost",
+      "billion",
+      "buying",
+      "face",
+      "hugging",
+      "nvidia"
+    ],
+    "link": "https://www.theverge.com/tech/985474/nvidia-buying-hugging-face-deal",
+    "title": "Nvidia is buying Hugging Face for almost $13 billion",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-09-03T15:08:08.195251+00:00"
+  },
+  {
+    "score": 17.6,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "bank",
+      "during",
+      "killed",
+      "officials",
+      "palestinian",
+      "say",
+      "settler",
+      "teens",
+      "village",
+      "west"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cj6482r6yl4o?at_medium=RSS&at_campaign=rss",
+    "title": "Palestinian teens killed during settler attack on West Bank village, officials say",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-03T15:08:08.195486+00:00"
+  },
+  {
+    "score": 17.3,
+    "bucket": "serious",
+    "tokens": [
+      "crimes",
+      "drones",
+      "foreign",
+      "fuel",
+      "possible",
+      "probe",
+      "sudan",
+      "support",
+      "war"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-03-foreign-support-drones-fuel-sudan-war-and-possible-war-crimes-un-probe-says/",
+    "title": "Foreign support, drones fuel Sudan war and possible war crimes, UN probe says",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-03T15:08:08.195718+00:00"
   }
 ]

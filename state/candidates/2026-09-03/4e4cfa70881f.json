@@ -1,0 +1,52 @@
+{
+  "id": "4e4cfa70881f",
+  "created_at": "2026-09-03T15:08:08.195260+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.6,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Palestinian teens killed during settler attack on West Bank village, officials say",
+  "link": "https://www.bbc.co.uk/news/articles/cj6482r6yl4o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC",
+    "BBC World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Palestinian teens killed during settler attack on West Bank village, officials say",
+    "link": "https://www.bbc.co.uk/news/articles/cj6482r6yl4o?at_medium=RSS&at_campaign=rss",
+    "summary": "Al-Mughayyir's council says they were trying to stop settlers stealing sheep, but the Israeli military says they threw stones at its troops.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-03T15:05:57+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4cc0/live/a22ffbc0-a772-11f1-993c-a325009c1935.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC",
+      "BBC World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cj6482r6yl4o?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4cc0/live/a22ffbc0-a772-11f1-993c-a325009c1935.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/4cc0/live/a22ffbc0-a772-11f1-993c-a325009c1935.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4cc0/live/a22ffbc0-a772-11f1-993c-a325009c1935.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 718.9167878608333,
+    "is_stale": false,
+    "score": 17.597714835092592
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "78e8a3cd46d3",
+  "created_at": "2026-09-03T15:08:08.195495+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.3,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Foreign support, drones fuel Sudan war and possible war crimes, UN probe says",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-03-foreign-support-drones-fuel-sudan-war-and-possible-war-crimes-un-probe-says/",
+  "publishers": [
+    "Daily Maverick",
+    "Daily Sabah"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Foreign support, drones fuel Sudan war and possible war crimes, UN probe says",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-03-foreign-support-drones-fuel-sudan-war-and-possible-war-crimes-un-probe-says/",
+    "summary": "Foreign weapons, military technology, fighters and logistical networks are helping sustain Sudan's conflict and expanding the warring parties' ability to strike distant civilian areas with drones, a U.N. fact-finding mission said on Thursday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-03T12:56:30+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2997/14074138_248367.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-03-foreign-support-drones-fuel-sudan-war-and-possible-war-crimes-un-probe-says/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/africa/external-support-sustaining-sudan-war-war-crimes-un-probe"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2997/14074138_248367.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/03/458976.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 718.9168006327778,
+    "is_stale": false,
+    "score": 17.303881500685186
+  }
+}
