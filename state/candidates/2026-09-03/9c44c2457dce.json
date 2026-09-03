@@ -1,0 +1,70 @@
+{
+  "id": "9c44c2457dce",
+  "created_at": "2026-09-03T19:08:16.268872+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.54,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Cassandra Wilson, Grammy-winning jazz singer, dies aged 70",
+  "link": "https://www.theguardian.com/music/2026/sep/02/cassandra-wilson-jazz-singer-dies",
+  "publishers": [
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "The Guardian — Culture"
+  ],
+  "region": "culture",
+  "article": {
+    "title": "Cassandra Wilson, Grammy-winning jazz singer, dies aged 70",
+    "link": "https://www.theguardian.com/music/2026/sep/02/cassandra-wilson-jazz-singer-dies",
+    "summary": "Mississippi-born Wilson, who worked across folk, pop, R&B and country, was once dubbed America’s best singer Cassandra Wilson, the two-time Grammy-winning jazz singer, songwriter and producer has died. She was 70. Dubbed America’s best singer by Time magazine in 2001, Wilson was best known for her genre-bending voice, which expanded the boundaries of traditional blues-based jazz and worked effortlessly across folk, pop, R&B, country and beyond. At the heart of all her work was her idiosyncratic contralto, a soulful sound distinctly tied to her roots. Continue reading...",
+    "source_name": "The Guardian — Culture",
+    "region": "culture",
+    "weight": 1.0,
+    "published": "2026-09-02T21:47:13+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/72db1697e4fa370e65f0d64df11a7ca0d2ea2932/340_0_2560_2048/master/2560.jpg?width=700&quality=85&auto=format&fit=max&s=21d7a058c61976503a235509aff93ce6",
+    "publisher": "The Guardian — Culture",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "The Guardian — Culture"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — Culture",
+        "link": "https://www.theguardian.com/music/2026/sep/02/cassandra-wilson-jazz-singer-dies"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/cassandra-wilson-cause-of-death-what-happened-to-the-2-time-grammy-winning-jazz-singer-101788375159793.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/showbiz/2026/09/03/grammy-winning-jazz-singer-cassandra-wilson-dies-at-70/233778"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/arts/music/grammy-winning-jazz-singer-cassandra-wilson-dies-at-70"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/72db1697e4fa370e65f0d64df11a7ca0d2ea2932/340_0_2560_2048/master/2560.jpg?width=700&quality=85&auto=format&fit=max&s=21d7a058c61976503a235509aff93ce6",
+      "https://i.guim.co.uk/img/media/72db1697e4fa370e65f0d64df11a7ca0d2ea2932/340_0_2560_2048/master/2560.jpg?width=460&quality=85&auto=format&fit=max&s=d9d31080d007b47f8b5ef1501773d576",
+      "https://i.guim.co.uk/img/media/72db1697e4fa370e65f0d64df11a7ca0d2ea2932/340_0_2560_2048/master/2560.jpg?width=140&quality=85&auto=format&fit=max&s=ed4dc2b7935388c9accf3ab2939bcbec",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/03/360480.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/03/458957.jpeg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.33296988976178565,
+    "age_hours": 21.00110929222222,
+    "is_stale": false,
+    "score": 15.541592904457076
+  }
+}
