@@ -1951,5 +1951,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 19
+ },
+ {
+  "id": "246145c6e8e6",
+  "created_at": "2026-09-03T18:50:47.260587+00:00",
+  "decided_at": "2026-09-03T19:30:56.549183+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "علوم",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "light",
+  "region": "odd",
+  "score": 17.61,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "source_count": 1,
+  "body_len": 527,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 18
  }
 ]
