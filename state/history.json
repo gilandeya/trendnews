@@ -1,39 +1,5 @@
 [
   {
-    "score": 14.29,
-    "bucket": "serious",
-    "tokens": [
-      "bank",
-      "drone",
-      "israeli",
-      "killed",
-      "occupied",
-      "palestinians",
-      "strike",
-      "west"
-    ],
-    "link": "https://www.dailysabah.com/world/mid-east/3-palestinians-killed-in-israeli-drone-strike-in-occupied-west-bank",
-    "title": "3 Palestinians killed in Israeli drone strike in occupied West Bank",
-    "posted_title": "غارة جوية إسرائيلية نادرة تقتل ثلاثة فلسطينيين في جنين واحتجاز جثثهم",
-    "region": "tr",
-    "seen_at": "2026-08-29T07:59:54.943459+00:00"
-  },
-  {
-    "score": 16.71,
-    "bucket": "serious",
-    "tokens": [
-      "academy",
-      "announces",
-      "space",
-      "trump"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/08/29/trump-announces-new-us-space-academy",
-    "title": "Trump announces new US ‘Space Academy’",
-    "posted_title": "ترامب يوقع أمرًا تنفيذيًا لإنشاء أكاديمية فضاء أمريكية على غرار ويست بوينت",
-    "region": "my",
-    "seen_at": "2026-08-29T08:00:48.544900+00:00"
-  },
-  {
     "score": 32.58,
     "bucket": "serious",
     "tokens": [
@@ -5822,5 +5788,106 @@
     "posted_title": "",
     "region": "jp",
     "seen_at": "2026-09-03T06:07:48.745847+00:00"
+  },
+  {
+    "score": 24.66,
+    "bucket": "serious",
+    "tokens": [
+      "alcaraz",
+      "comeback",
+      "injury",
+      "open",
+      "powers",
+      "rebounds",
+      "round",
+      "sabalenka",
+      "slow",
+      "start",
+      "third"
+    ],
+    "link": "https://www.malaymail.com/news/sports/2026/09/03/alcaraz-rebounds-after-slow-start-on-injury-comeback-sabalenka-powers-into-us-open-third-round/233762",
+    "title": "Alcaraz rebounds after slow start on injury comeback, Sabalenka powers into US Open third round",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-03T09:07:56.856241+00:00"
+  },
+  {
+    "score": 20.46,
+    "bucket": "serious",
+    "tokens": [
+      "army",
+      "attack",
+      "drone",
+      "east",
+      "intercepting",
+      "iran",
+      "kuwait",
+      "live",
+      "middle",
+      "missile"
+    ],
+    "link": "https://www.france24.com/en/middle-east/20260903-mideast-live-kuwait-army-says-intercepting-missile-drone-attack-from-iran",
+    "title": "Middle East live: Kuwait army says intercepting missile, drone attack from Iran",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-03T09:07:56.856590+00:00"
+  },
+  {
+    "score": 18.12,
+    "bucket": "serious",
+    "tokens": [
+      "'very",
+      "february",
+      "last",
+      "nino",
+      "strong'",
+      "until",
+      "warns"
+    ],
+    "link": "https://www.channelnewsasia.com/sustainability/el-nino-very-strong-february-un-6359751",
+    "title": "El Nino to be 'very strong', last until February, UN warns",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-03T09:07:56.856888+00:00"
+  },
+  {
+    "score": 16.14,
+    "bucket": "serious",
+    "tokens": [
+      "blast",
+      "germany",
+      "injured",
+      "southern",
+      "station",
+      "train",
+      "two"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-02-two-injured-in-blast-at-train-station-in-southern-germany/",
+    "title": "Two injured in blast at train station in southern Germany",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-03T09:07:56.857139+00:00"
+  },
+  {
+    "score": 15.99,
+    "bucket": "serious",
+    "tokens": [
+      "berlin",
+      "close",
+      "decision",
+      "germany",
+      "goethe",
+      "house",
+      "institut",
+      "response",
+      "russia",
+      "russian",
+      "shut"
+    ],
+    "link": "https://meduza.io/en/news/2026/09/03/russia-to-close-goethe-institut-in-response-to-germany-s-decision-to-shut-down-russian-house-in-berlin",
+    "title": "Russia to close Goethe-Institut in response to Germany’s decision to shut down Russian House in Berlin",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-09-03T09:07:56.857411+00:00"
   }
 ]

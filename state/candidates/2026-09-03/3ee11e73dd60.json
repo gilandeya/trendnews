@@ -1,0 +1,60 @@
+{
+  "id": "3ee11e73dd60",
+  "created_at": "2026-09-03T09:07:56.857149+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.99,
+  "trend_score": 0.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia to close Goethe-Institut in response to Germany’s decision to shut down Russian House in Berlin",
+  "link": "https://meduza.io/en/news/2026/09/03/russia-to-close-goethe-institut-in-response-to-germany-s-decision-to-shut-down-russian-house-in-berlin",
+  "publishers": [
+    "Al Jazeera English",
+    "Meduza English",
+    "TASS"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Russia to close Goethe-Institut in response to Germany’s decision to shut down Russian House in Berlin",
+    "link": "https://meduza.io/en/news/2026/09/03/russia-to-close-goethe-institut-in-response-to-germany-s-decision-to-shut-down-russian-house-in-berlin",
+    "summary": "Russian branches of Germany’s Goethe-Institut cultural center will close, Foreign Minister Sergey Lavrov said in a speech at the Eastern Economic Forum.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-03T08:12:10+00:00",
+    "image_url": "https://meduza.io/imgly/share/1788423130/en/news/2026/09/03/russia-to-close-goethe-institut-in-response-to-germany-s-decision-to-shut-down-russian-house-in-berlin",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Meduza English",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/3/russia-to-close-goethe-institut-centres-as-germany-tensions-escalate?traffic_source=rss"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/03/russia-to-close-goethe-institut-in-response-to-germany-s-decision-to-shut-down-russian-house-in-berlin"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/politics/2181683"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1788423130/en/news/2026/09/03/russia-to-close-goethe-institut-in-response-to-germany-s-decision-to-shut-down-russian-house-in-berlin"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 15.993071808348654
+  }
+}
