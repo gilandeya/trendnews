@@ -5721,5 +5721,64 @@
     "posted_title": "",
     "region": "za",
     "seen_at": "2026-09-03T15:08:08.195718+00:00"
+  },
+  {
+    "score": 17.6,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "bank",
+      "during",
+      "killed",
+      "officials",
+      "palestinian",
+      "say",
+      "settler",
+      "teens",
+      "village",
+      "west"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cj6482r6yl4o?at_medium=RSS&at_campaign=rss",
+    "title": "Palestinian teens killed during settler attack on West Bank village, officials say",
+    "posted_title": "من قتل الشابين الفلسطينيين في قرية المغير بالضفة الغربية؟",
+    "region": "uk",
+    "seen_at": "2026-09-03T16:25:32.679946+00:00"
+  },
+  {
+    "score": 20.22,
+    "bucket": "useful",
+    "tokens": [
+      "almost",
+      "billion",
+      "buying",
+      "face",
+      "hugging",
+      "nvidia"
+    ],
+    "link": "https://www.theverge.com/tech/985474/nvidia-buying-hugging-face-deal",
+    "title": "Nvidia is buying Hugging Face for almost $13 billion",
+    "posted_title": "إنفيديا تستحوذ على منصة هاغينغ فيس مقابل 12.93 مليار دولار",
+    "region": "tech",
+    "seen_at": "2026-09-03T16:25:51.313441+00:00"
+  },
+  {
+    "score": 17.3,
+    "bucket": "serious",
+    "tokens": [
+      "crimes",
+      "drones",
+      "foreign",
+      "fuel",
+      "possible",
+      "probe",
+      "sudan",
+      "support",
+      "war"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-03-foreign-support-drones-fuel-sudan-war-and-possible-war-crimes-un-probe-says/",
+    "title": "Foreign support, drones fuel Sudan war and possible war crimes, UN probe says",
+    "posted_title": "تحقيق أممي: شبكات في الإمارات وتشاد وليبيا والصومال دعمت قوات الدعم السريع بالسودان",
+    "region": "za",
+    "seen_at": "2026-09-03T16:26:09.140577+00:00"
   }
 ]
