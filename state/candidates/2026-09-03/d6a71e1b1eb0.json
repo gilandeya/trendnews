@@ -1,0 +1,54 @@
+{
+  "id": "d6a71e1b1eb0",
+  "created_at": "2026-09-03T22:08:15.867071+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.08,
+  "trend_score": 0.5,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "OpenAI begins rollout of new powerful AI model GPT-6 Astra",
+  "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/04/openai-begins-rollout-of-new-powerful-ai-model-gpt-6-astra",
+  "publishers": [
+    "Free Malaysia Today",
+    "Punch Nigeria"
+  ],
+  "region": "my",
+  "article": {
+    "title": "OpenAI begins rollout of new powerful AI model GPT-6 Astra",
+    "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/04/openai-begins-rollout-of-new-powerful-ai-model-gpt-6-astra",
+    "summary": "OpenAI says Astra can autonomously handle a wide range of 'tedious' tasks, including website creation, game development, cybersecurity and coding.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-03T21:04:32+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2025/08/6fbfee31-chatgpt.jpg",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Punch Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/openai-rolls-out-new-ai-model-gpt-6-astra/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/04/openai-begins-rollout-of-new-powerful-ai-model-gpt-6-astra"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/08/6fbfee31-chatgpt.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.079338916574073
+  }
+}

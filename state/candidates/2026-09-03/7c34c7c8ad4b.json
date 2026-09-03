@@ -1,11 +1,11 @@
 {
   "id": "7c34c7c8ad4b",
-  "created_at": "2026-09-03T12:07:56.936599+00:00",
+  "created_at": "2026-09-03T22:08:15.865495+00:00",
   "status": "pending",
-  "selection_issue": 709,
-  "score": 19.2,
-  "trend_score": 0.0,
-  "velocity": 1.0,
+  "selection_issue": null,
+  "score": 27.31,
+  "trend_score": 1.0,
+  "velocity": 0.56,
   "bucket": "serious",
   "state_media": false,
   "title": "Iran attacks US targets despite Trump threats",
@@ -13,7 +13,10 @@
   "publishers": [
     "Daily Sabah",
     "Dawn",
-    "South China Morning Post"
+    "South China Morning Post",
+    "The Guardian",
+    "The Guardian — World",
+    "The Hindu — International"
   ],
   "region": "pk",
   "article": {
@@ -29,7 +32,10 @@
     "cluster_sources": [
       "Daily Sabah",
       "Dawn",
-      "South China Morning Post"
+      "South China Morning Post",
+      "The Guardian",
+      "The Guardian — World",
+      "The Hindu — International"
     ],
     "cluster_members": [
       {
@@ -41,23 +47,33 @@
         "link": "https://www.dawn.com/news/2027206/iran-attacks-us-targets-despite-trump-threats"
       },
       {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-attacks-us-targets-despite-trump-threats/article71425433.ece"
+      },
+      {
         "name": "Daily Sabah",
         "link": "https://www.dailysabah.com/world/mid-east/iran-disregards-trump-threats-to-strike-us-bases-in-kuwait"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/03/iran-targets-us-bases-as-israel-warns-sanctions-could-drive-tehran-to-desperate-steps"
       }
     ],
     "image_candidates": [
       "https://i.dawn.com/large/2026/09/03165818e9b41d1.webp",
       "https://i.dawn.com/thumbnail/2026/09/03165818e9b41d1.webp",
       "https://i.dawn.com/primary/2026/09/022045550e37e01.webp",
-      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/03/458942.jpg"
+      "https://th-i.thgim.com/public/incoming/g4w9kl/article71425449.ece/alternates/LANDSCAPE_1200/Iran_US_War_56_7.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/03/458942.jpg",
+      "https://i.guim.co.uk/img/media/8f4a45f95df2ef9ba347abaecb8da3d529f1bb83/384_0_3848_3079/master/3848.jpg?width=700&quality=85&auto=format&fit=max&s=68df3dc0b630b321bc1930ddf5643b27"
     ],
     "bucket": "serious",
     "state_media": false,
-    "trend_score": 0.0,
-    "group_sources": 3,
-    "velocity": 1.0,
-    "age_hours": 715.9138085999999,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.5556531196513227,
+    "age_hours": 725.9187187199999,
     "is_stale": false,
-    "score": 19.19946320920051
+    "score": 27.310732764123788
   }
 }
