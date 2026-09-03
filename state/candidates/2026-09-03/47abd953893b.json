@@ -1,0 +1,61 @@
+{
+  "id": "47abd953893b",
+  "created_at": "2026-09-03T06:07:48.745298+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.2,
+  "trend_score": 0.5,
+  "velocity": 0.05,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump administration backs OpenAI in New York Times’ copyright case over training of chatbots",
+  "link": "https://www.thehindu.com/news/international/trump-administration-backs-openai-in-new-york-times-copyright-case-over-training-of-chatbots/article71422156.ece",
+  "publishers": [
+    "Le Monde",
+    "Rappler",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Trump administration backs OpenAI in New York Times’ copyright case over training of chatbots",
+    "link": "https://www.thehindu.com/news/international/trump-administration-backs-openai-in-new-york-times-copyright-case-over-training-of-chatbots/article71422156.ece",
+    "summary": "The Justice Department wrote that “the creative possibilities and public benefits” of training large language models on such content “far outweigh any competitive harm”",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-03T04:28:14+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/x1cj1l/article71422159.ece/alternates/LANDSCAPE_1200/2026-09-02T145201Z_1991579651_RC25TGADZ5IT_RTRMADP_3_OPENAI-NEW-YORK-TIMES-COPYRIGHT-LAWSUIT.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Le Monde",
+      "Rappler",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-administration-backs-openai-in-new-york-times-copyright-case-over-training-of-chatbots/article71422156.ece"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/technology/us-government-backs-openai-new-york-times-copyright-case/"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/economie/article/2026/09/03/ia-l-administration-trump-defend-le-droit-d-openai-a-utiliser-les-archives-du-new-york-times-sans-verser-de-droits-d-auteur_6764810_3234.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/x1cj1l/article71422159.ece/alternates/LANDSCAPE_1200/2026-09-02T145201Z_1991579651_RC25TGADZ5IT_RTRMADP_3_OPENAI-NEW-YORK-TIMES-COPYRIGHT-LAWSUIT.JPG",
+      "https://img.lemde.fr/2026/09/02/432/0/6771/3385/644/322/60/0/ef7d84c_ftp-1-3xgba0incp9p-2026-09-02t185256z-460105530-rc24bnazsc69-rtrmadp-3-g20-technology.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.05131708899059285,
+    "age_hours": 14.996738318055554,
+    "is_stale": false,
+    "score": 18.200961176727542
+  }
+}

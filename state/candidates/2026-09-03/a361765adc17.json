@@ -1,0 +1,69 @@
+{
+  "id": "a361765adc17",
+  "created_at": "2026-09-03T06:07:48.744683+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.62,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US President Trump suggests renaming Strait of Hormuz as ‘Trump Strait’",
+  "link": "https://www.dawn.com/news/2026967/us-president-trump-suggests-renaming-strait-of-hormuz-as-trump-strait",
+  "publishers": [
+    "Dawn",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "South China Morning Post"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "US President Trump suggests renaming Strait of Hormuz as ‘Trump Strait’",
+    "link": "https://www.dawn.com/news/2026967/us-president-trump-suggests-renaming-strait-of-hormuz-as-trump-strait",
+    "summary": "US President Donald Trump on Wednesday suggested renaming the Strait of Hormuz “Trump Strait”, despite the fact that the crucial waterway remains contested amid the war with Iran. “Now that we have it under USA control, should we change the name Hormuz Strait to TRUMP STRAIT??? Like America itself, it would be ‘hotter’ than ever before!” Trump said on his Truth Social network. In a post on X, the White House also shared the US president’s statement, suggesting that the Strait of Hormuz be renamed to “Trump Strait,” along with a map in which “Trump Strait” is mentioned instead of the Strait of Hormuz. It is the latest geographical name change floated by Trump and comes a week after he ordered Lake Ontario to be renamed as “Lake America” amid a trade war with Canada. Trump also renamed the Gulf of Mexico as the “Gulf of America” on his first day back in office in January 2025. Neither Mexico nor Canada have accepted the changes. Many of the previous name changes started off as apparently jovial remarks by the 80-year-old US president before he then followed through to make them a reality. Trump has in recent weeks repeatedly pressed a threat to claim sovereignty over the Strait of Ho",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-02T17:38:14+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/02222736b0c47ea.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3366156/iran-war-trump-floats-renaming-strait-hormuz-trump-strait?utm_source=rss_feed"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2026967/us-president-trump-suggests-renaming-strait-of-hormuz-as-trump-strait"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-president-trump-suggests-renaming-strait-of-hormuz-as-trump-strait-iran-targets-us-allies-in-gulf-top-updates-101788366100859.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/trump-suggests-renaming-hormuz-as-trump-strait-white-house-does-this-11994040#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/02222736b0c47ea.webp",
+      "https://i.dawn.com/thumbnail/2026/09/02222736b0c47ea.webp",
+      "https://i.dawn.com/large/2026/09/02222214f36614b.webp",
+      "https://c.ndtvimg.com/2026-09/eql9ac6o_trump_625x300_02_September_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 709.9115049094444,
+    "is_stale": false,
+    "score": 19.617266006222223
+  }
+}

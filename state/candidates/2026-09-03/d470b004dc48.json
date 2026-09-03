@@ -1,0 +1,69 @@
+{
+  "id": "d470b004dc48",
+  "created_at": "2026-09-03T06:07:48.744990+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.52,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "7 killed in US missile strikes on Iran's Khuzestan",
+  "link": "https://news.cgtn.com/news/2026-09-02/news-1Q6yo2mvMgU/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+  "publishers": [
+    "CGTN",
+    "Channel News Asia",
+    "Daily Maverick",
+    "Free Malaysia Today"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "7 killed in US missile strikes on Iran's Khuzestan",
+    "link": "https://news.cgtn.com/news/2026-09-02/news-1Q6yo2mvMgU/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+    "summary": "7 killed in US missile strikes on Iran's Khuzestan",
+    "source_name": "CGTN",
+    "region": "cn",
+    "weight": 0.7,
+    "published": "2026-09-02T02:43:27+00:00",
+    "image_url": "https://news.cgtn.com/news/2026-09-02/news-1Q6yo2mvMgU/img/b7357bd078df4a82a789ef880cdda553/b7357bd078df4a82a789ef880cdda553-1280.jpeg",
+    "publisher": "CGTN",
+    "cluster_sources": [
+      "CGTN",
+      "Channel News Asia",
+      "Daily Maverick",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-02/news-1Q6yo2mvMgU/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-03-iran-war-escalation-raises-concern-over-civilian-death-toll/"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/iran-us-war-escalation-civilian-death-toll-6359226"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/03/iran-war-escalation-raises-concern-over-civilian-death-toll"
+      }
+    ],
+    "image_candidates": [
+      "https://news.cgtn.com/news/2026-09-02/news-1Q6yo2mvMgU/img/b7357bd078df4a82a789ef880cdda553/b7357bd078df4a82a789ef880cdda553-1280.jpeg",
+      "https://cdn.dailymaverick.co.za/attachments/2995/14159561_214083.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--tY8FLPxH--/c_crop,h_562,w_1000,x_0,y_0/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/APTOPIX_Iran_US_War_82_29.jpg?itok=I6ack4BP",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/10/7f7722ab-antonio-guterre-fmt-271025.webp"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 709.91147862,
+    "is_stale": true,
+    "score": 18.523062302314813
+  }
+}
