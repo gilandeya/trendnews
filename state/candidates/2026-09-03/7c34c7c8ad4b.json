@@ -1,0 +1,63 @@
+{
+  "id": "7c34c7c8ad4b",
+  "created_at": "2026-09-03T12:07:56.936599+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.2,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran attacks US targets despite Trump threats",
+  "link": "https://www.dawn.com/news/2027206/iran-attacks-us-targets-despite-trump-threats",
+  "publishers": [
+    "Daily Sabah",
+    "Dawn",
+    "South China Morning Post"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Iran attacks US targets despite Trump threats",
+    "link": "https://www.dawn.com/news/2027206/iran-attacks-us-targets-despite-trump-threats",
+    "summary": "Iran attacked US military bases in Kuwait on Thursday, despite US President Donald Trump threatening further strikes in a fresh flare-up six months into the war. The new clashes, which began with US raids on Sunday, deepen the ongoing impasse in the war , as Iran maintains a stranglehold on the strategic Strait of Hormuz and the United States presses its counter-blockade of Iranian ports. Trump said his military was prepared to attack Iran “any time we want” after extensive US bombardment of sites across the country left at least 19 Iranians dead between Tuesday and Wednesday. Tehran has once again retaliated with strikes across the Middle East this week, saying it targeted US bases and forces in the United Arab Emirates, Kuwait, Bahrain, Jordan and Iraq’s Kurdistan region. Iran’s security chief Mohsen Rezaei warned the US on Wednesday that Iran had adopted a “new strategy” in the war that “will shatter your foundations”. Iran’s pummelling of US military targets across the region came after a US attack that hit a wedding in the country’s south, prompting fury from Tehran. The Iranian Red Crescent said shrapnel from the missile attack in the coastal town of Kuhestak killed four peop",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-03T12:02:57+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/03165818e9b41d1.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Dawn",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3366202/iran-targets-us-bases-kuwait-despite-warnings-trump?utm_source=rss_feed"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2027206/iran-attacks-us-targets-despite-trump-threats"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/iran-disregards-trump-threats-to-strike-us-bases-in-kuwait"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/03165818e9b41d1.webp",
+      "https://i.dawn.com/thumbnail/2026/09/03165818e9b41d1.webp",
+      "https://i.dawn.com/primary/2026/09/022045550e37e01.webp",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/03/458942.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 715.9138085999999,
+    "is_stale": false,
+    "score": 19.19946320920051
+  }
+}

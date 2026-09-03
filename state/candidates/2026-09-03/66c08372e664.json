@@ -1,0 +1,46 @@
+{
+  "id": "66c08372e664",
+  "created_at": "2026-09-03T12:07:56.937416+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.12,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Earthquake of magnitude 5.1 strikes Tibet days after flood tragedy",
+  "link": "https://www.hindustantimes.com/world-news/earthquake-of-magnitude-5-1-strikes-tibet-days-after-flood-tragedy-101788424670941.html",
+  "publishers": [
+    "Hindustan Times — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Earthquake of magnitude 5.1 strikes Tibet days after flood tragedy",
+    "link": "https://www.hindustantimes.com/world-news/earthquake-of-magnitude-5-1-strikes-tibet-days-after-flood-tragedy-101788424670941.html",
+    "summary": "The earthquake comes a week after a massive ice, rock and mud avalanche in the Himalayas triggered a devastating flash flood across parts of Nepal and Tibet.",
+    "source_name": "Hindustan Times — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-03T08:42:32+00:00",
+    "image_url": null,
+    "publisher": "Hindustan Times — World",
+    "cluster_sources": [
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/earthquake-of-magnitude-5-1-strikes-tibet-days-after-flood-tragedy-101788424670941.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.121890523555557
+  }
+}
