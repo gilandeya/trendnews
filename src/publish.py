@@ -51,8 +51,16 @@ def queued_drafts() -> list[tuple]:
             data = json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
             continue
-        if data.get("status") == "queued":
-            out.append((path, data))
+        if data.get("status") != "queued":
+            continue
+        if data.get("origin") == "youtube":
+            # مسار يوتيوب له طابور ونشر خاصّان بسقف وتباعد مختلفين
+            # (youtube_publish.publish_approved)، ولا تُبنى بطاقته (حقل
+            # image) إلا بعد اعتماد صريح هناك. لو تسرّبت مسودة منه إلى هذا
+            # الطابور العام (خلطًا في فتح Issue المراجعة العام — Issue
+            # #707)، فهي ناقصة الحقول بنيويًا ويجب ألا تُعالَج هنا أصلًا.
+            continue
+        out.append((path, data))
     out.sort(key=lambda t: t[1].get("publish_at", ""))
     return out
 
@@ -115,8 +123,36 @@ def ensure_reel(path, draft: dict, cfg) -> Path | None:
     return ROOT / relative
 
 
+def _missing_draft_fields(draft: dict) -> list[str]:
+    """الحقول التي يعتمد عليها ``publish_one`` بلا شرط. مسودة يوتيوب لم
+    تُعتمَد بعد (أو أي مسودة معطوبة أخرى) قد تفتقد ``image`` تحديدًا —
+    عمدًا، لا خطأً (Issue #680) — قبل أن تُبنى بطاقتها لحظة الاعتماد."""
+    missing = []
+    if not draft.get("image"):
+        missing.append("image")
+    if not draft.get("caption"):
+        missing.append("caption")
+    if not (draft.get("arabic") or {}).get("post_title"):
+        missing.append("arabic.post_title")
+    return missing
+
+
 def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
-    """ينشر مسودة واحدة صورةً أو ريلًا. يعيد (نجح، سطر التقرير)."""
+    """ينشر مسودة واحدة صورةً أو ريلًا. يعيد (نجح، سطر التقرير).
+
+    مسودة ناقصة حقلًا أساسيًا (مثلًا مسودة يوتيوب تسرّبت إلى الطابور العام
+    بلا حقل image — Issue #707) تُسجَّل failed وتُتخطى بدل أن تُسقط
+    ``KeyError`` كامل الدفعة: مسودة واحدة معطوبة يجب ألا توقف بقية
+    المنشورات السليمة في نفس التشغيلة.
+    """
+    missing = _missing_draft_fields(draft)
+    if missing:
+        title = draft.get("id", "?")
+        detail = f"حقول مفقودة: {', '.join(missing)}"
+        log.warning("مسودة %s ناقصة الحقول (%s) — تُتخطى بلا نشر", title, detail)
+        store.update_draft(path, status="failed", error=detail)
+        return False, f"- ❌ `{title}` — {detail}"
+
     api_version = cfg.path("facebook.api_version", "v21.0")
     image_path = ROOT / draft["image"]
     title = draft["arabic"]["post_title"][:60]
