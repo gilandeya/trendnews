@@ -1,0 +1,62 @@
+{
+  "id": "b02f195659e3",
+  "created_at": "2026-09-03T18:08:12.447961+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.32,
+  "trend_score": 1.0,
+  "velocity": 0.66,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US extends Middle East deployments into 2027 as Iran conflict drags on",
+  "link": "https://www.dawn.com/news/2027234/us-extends-middle-east-deployments-into-2027-as-iran-conflict-drags-on",
+  "publishers": [
+    "Dawn",
+    "Hindustan Times — World",
+    "NDTV — World"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "US extends Middle East deployments into 2027 as Iran conflict drags on",
+    "link": "https://www.dawn.com/news/2027234/us-extends-middle-east-deployments-into-2027-as-iran-conflict-drags-on",
+    "summary": "WASHINGTON: The United States is extending the deployment of thousands of American troops and military assets across the Middle East into 2027, signalling Washington is preparing for a prolonged conflict with Iran. The deployment extensions, ordered by Secretary of War Pete Hegseth, will affect US Army units, air-defence forces, fighter squadrons and Navy personnel operating in and around the Middle East, according to The Wall Street Journal . The US military currently has roughly 50,000 troops in the region. Quoting from a letter sent by military leaders to soldiers’ families, The Journal reported that elements of the Army’s 82nd Airborne Division, one of the US military’s principal rapid-response forces, could remain in the region well into 2027. “We do not share that lightly, and we understand that a longer tour weighs heavily on every household, including our own,” the letter said. The extensions represent a significant shift from expectations at the beginning of the US campaign against Iran. Hegseth had presented the operation as a swift and decisive military action. Six months into the conflict, however, the Pentagon is preparing for deployments lasting a year or longer. Army",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-03T15:05:36+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/031920450c99c3a.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Hindustan Times — World",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2027234/us-extends-middle-east-deployments-into-2027-as-iran-conflict-drags-on"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/donald-trumps-short-war-with-iran-is-turning-into-a-2027-nightmare-for-us-troops-11999103#publisher=newsstand"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/hegseth-extends-mideast-deployments-into-2027-escalating-strain-on-troops-101788426085230.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/031920450c99c3a.webp",
+      "https://i.dawn.com/thumbnail/2026/09/031920450c99c3a.webp",
+      "https://c.ndtvimg.com/2026-04/qk73ssh4_trump-iran-pea_625x300_07_April_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.6637134025329058,
+    "age_hours": 721.9179434947222,
+    "is_stale": false,
+    "score": 25.320696865031707
+  }
+}

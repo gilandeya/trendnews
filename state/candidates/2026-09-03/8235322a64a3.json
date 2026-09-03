@@ -1,0 +1,69 @@
+{
+  "id": "8235322a64a3",
+  "created_at": "2026-09-03T18:08:12.448380+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.16,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Wong stars as England thump Ireland to seal series",
+  "link": "https://www.bbc.co.uk/sport/cricket/articles/czxz1v7xyk9o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football",
+    "live"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Wong stars as England thump Ireland to seal series",
+    "link": "https://www.bbc.co.uk/sport/cricket/articles/czxz1v7xyk9o?at_medium=RSS&at_campaign=rss",
+    "summary": "Issy Wong's first international five-wicket haul leads England to a six-wicket win over Ireland and seals the three-match series with a game to spare.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-03T17:26:10+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1238/live/eb05fd70-a7ba-11f1-b5cf-8556ae508a51.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football",
+      "live"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/cricket/articles/czxz1v7xyk9o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/cricket/news/12040/13580912/england-seal-odi-series-win-over-ireland-after-issy-wongs-five-fer-in-six-wicket-victory-in-derby"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/cricket/videos/c2l8zjrrz7do?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "live",
+        "link": "https://www.theguardian.com/sport/live/2026/sep/03/england-v-ireland-second-womens-cricket-one-day-international-live"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1238/live/eb05fd70-a7ba-11f1-b5cf-8556ae508a51.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/1238/live/eb05fd70-a7ba-11f1-b5cf-8556ae508a51.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1238/live/eb05fd70-a7ba-11f1-b5cf-8556ae508a51.jpg",
+      "https://e2.365dm.com/26/09/1096x616/skysports-issy-wong_7340018.jpg?20260903190417",
+      "https://e2.365dm.com/26/09/1920x1080/skysports-issy-wong_7340018.jpg?20260903190417",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b6c2/live/bc1f9870-a7c1-11f1-a291-b542ee92de7c.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 24.158315038867173
+  }
+}
