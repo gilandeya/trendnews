@@ -1,0 +1,48 @@
+{
+  "id": "a5a923700c54",
+  "created_at": "2026-09-03T03:07:54.704432+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.36,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Workshop catches fire at Roscosmos plant in Russia",
+  "link": "https://meduza.io/en/news/2026/09/02/workshop-catches-fire-at-roscosmos-plant-in-russia",
+  "publishers": [
+    "Meduza English"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Workshop catches fire at Roscosmos plant in Russia",
+    "link": "https://meduza.io/en/news/2026/09/02/workshop-catches-fire-at-roscosmos-plant-in-russia",
+    "summary": "A workshop caught fire at a plant in the village of Novye Lyady, in Perm’s Sverdlovsk district, according to the local outlet 59.ru.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-02T13:01:07+00:00",
+    "image_url": "https://meduza.io/imgly/share/1788354067/en/news/2026/09/02/workshop-catches-fire-at-roscosmos-plant-in-russia",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Meduza English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/02/workshop-catches-fire-at-roscosmos-plant-in-russia"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1788354067/en/news/2026/09/02/workshop-catches-fire-at-roscosmos-plant-in-russia"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 11.998286428888889,
+    "is_stale": false,
+    "score": 16.359267881185186
+  }
+}

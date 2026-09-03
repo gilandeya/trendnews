@@ -1,0 +1,68 @@
+{
+  "id": "b7b9eb2eab33",
+  "created_at": "2026-09-03T03:07:54.703581+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.12,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia secretly assists Iran with supersonic cruise missiles",
+  "link": "https://www.iranintl.com/en/202609027843",
+  "publishers": [
+    "FT",
+    "Hindustan Times — World",
+    "Meduza English",
+    "NDTV — World"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Russia secretly assists Iran with supersonic cruise missiles",
+    "link": "https://www.iranintl.com/en/202609027843",
+    "summary": "Russia has secretly helped Iran develop supersonic cruise missile technology that experts say could give Tehran a new way to threaten US Navy vessels in the Middle East, the Financial Times reported, citing leaked Russian correspondence, travel records and military patents.",
+    "source_name": "Iran International",
+    "region": "ir",
+    "weight": 1.0,
+    "published": "2026-09-02T09:24:38+00:00",
+    "image_url": "https://i.iranintl.com/images/rdk9umy0/production/5ffc7fa6003c355c385dd52bf09c165235f2174b-1536x1024.png?rect=0,110,1536,804&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+    "publisher": "FT",
+    "cluster_sources": [
+      "FT",
+      "Hindustan Times — World",
+      "Meduza English",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/02/ft-russia-secretly-helped-iran-develop-supersonic-cruise-missiles"
+      },
+      {
+        "name": "FT",
+        "link": "https://www.iranintl.com/en/202609027843"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/russia-secretly-helping-iran-develop-supersonic-cruise-missiles-covert-c430l-programme-threaten-us-navy-ukraine-war-news-101788368622778.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/russia-is-helping-iran-build-missiles-that-could-target-us-warships-report-11993589#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://i.iranintl.com/images/rdk9umy0/production/5ffc7fa6003c355c385dd52bf09c165235f2174b-1536x1024.png?rect=0,110,1536,804&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://meduza.io/imgly/share/1788335931/en/news/2026/09/02/ft-russia-secretly-helped-iran-develop-supersonic-cruise-missiles",
+      "https://c.ndtvimg.com/2026-09/kg9gln4k_putin-missiles-_625x300_02_September_26.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.20020527983857658,
+    "age_hours": 20.993114823611112,
+    "is_stale": false,
+    "score": 23.119757247655848
+  }
+}

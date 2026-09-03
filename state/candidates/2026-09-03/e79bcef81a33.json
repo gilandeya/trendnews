@@ -1,0 +1,82 @@
+{
+  "id": "e79bcef81a33",
+  "created_at": "2026-09-03T03:07:54.703039+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.84,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US judge rejects bid to break up Google’s ad business in DOJ monopoly case, orders operational changes",
+  "link": "https://www.malaymail.com/news/money/2026/09/03/us-judge-rejects-bid-to-break-up-googles-ad-business-in-doj-monopoly-case-orders-operational-changes/233727",
+  "publishers": [
+    "Al Jazeera English",
+    "Court House News",
+    "Der Spiegel",
+    "El País",
+    "Engadget",
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "US judge rejects bid to break up Google’s ad business in DOJ monopoly case, orders operational changes",
+    "link": "https://www.malaymail.com/news/money/2026/09/03/us-judge-rejects-bid-to-break-up-googles-ad-business-in-doj-monopoly-case-orders-operational-changes/233727",
+    "summary": "WASHINGTON, Sept 3 — A US federal judge yesterday refused to force Google to sell a division of its digital advert...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-03T02:07:21+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/03/360391.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Court House News",
+      "Der Spiegel",
+      "El País",
+      "Engadget",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/economy/2026/9/2/us-judge-rejects-bid-to-break-up-googles-ad-business?traffic_source=rss"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/money/2026/09/03/us-judge-rejects-bid-to-break-up-googles-ad-business-in-doj-monopoly-case-orders-operational-changes/233727"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/wirtschaft/google-gericht-sieht-keine-notwendigkeit-zur-zerschlagung-des-werbegeschaefts-a-1dda95a3-7710-4167-9bc2-abbc2e1cb38c#ref=rss"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/economia/2026-09-02/victoria-para-google-en-los-tribunales-el-gigante-evita-la-particion-de-su-negocio-principal.html"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2249664/google-wont-be-forced-to-sell-its-ad-exchange-following-antitrust-ruling/"
+      },
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/google-dodges-antitrust-breakup-of-ad-tech-business/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/03/360391.jpg",
+      "https://cdn.prod.www.spiegel.de/images/17f25e2a-0a9f-496f-8539-7d751032275b_w520_r2.08_fpx42.66_fpy50.jpg",
+      "https://imagenes.elpais.com/resizer/v2/JB7RTDJHJDG4S7IZ63BEA3GBXQ.jpg?auth=2defa6b1679394535dc49563a40cb85a7dfc9236eefeb76a7b1c1e9dcf392ef5",
+      "https://www.engadget.com/img/gallery/google-wont-be-forced-to-sell-its-ad-exchange-following-antitrust-ruling/l-intro-1788368569.jpg",
+      "https://www.engadget.com/img/gallery/google-wont-be-forced-to-sell-its-ad-exchange-following-antitrust-ruling/intro-1788368569.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 29.837747980089397
+  }
+}
