@@ -1,0 +1,66 @@
+{
+  "id": "956cb13eded2",
+  "created_at": "2026-09-03T17:39:33.329654+00:00",
+  "status": "published",
+  "review_issue": null,
+  "score": 21.24,
+  "bucket": "serious",
+  "analysed_sources": [
+    "The Hindu — International",
+    "Hindustan Times — World"
+  ],
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "age_hours": 0.0,
+  "is_followup": true,
+  "state_media": false,
+  "has_photo": true,
+  "source": {
+    "title": "ChatGPT, Gemini, Claude face widespread outages; Amazon Web Services also hit",
+    "link": "https://www.thehindu.com/sci-tech/technology/chatgpt-gemini-claude-face-widespread-outages-ai/article71425259.ece",
+    "publisher": "The Hindu — International",
+    "publishers": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "region": "in",
+    "image_url": "https://th-i.thgim.com/public/incoming/29mbxz/article71425290.ece/alternates/LANDSCAPE_1200/ChatGPT_Search_Engine_97390.jpg",
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/29mbxz/article71425290.ece/alternates/LANDSCAPE_1200/ChatGPT_Search_Engine_97390.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "تقنية",
+    "image_headline": "أعطال متزامنة تضرب ChatGPT وGemini وClaude وGrok عالميا",
+    "post_title": "أعطال واسعة تضرب ChatGPT وGemini وClaude وGrok في وقت واحد",
+    "post_body": "تعرضت منصات الذكاء الاصطناعي الكبرى لأعطال متزامنة مساء الخميس 3 سبتمبر 2026، بحسب موقع رصد الأعطال داون ديتكتور. تعطل ChatGPT عبر الموقع والتطبيق، وواجه مستخدمو Gemini وClaude رسائل خطأ وبطء في الاستجابة، كما تأثرت خدمات أمازون السحابية وشات بوت Grok. في الهند وحدها سُجلت أكثر من 2800 بلاغ عن ChatGPT و170 عن Claude و40 عن Grok، بينما تجاوزت البلاغات في الولايات المتحدة 35 ألفًا لـChatGPT. أعلنت OpenAI تطبيق إصلاح ومتابعة التعافي، فيما قالت Anthropic إن العطل ما زال يطال نموذجي Opus 4.8 وOpus 5 فقط بعد تعافي بقية النماذج.",
+    "hashtags": [
+      "الذكاء_الاصطناعي",
+      "تشات_جي_بي_تي",
+      "أعطال_تقنية",
+      "كلود"
+    ]
+  },
+  "caption": "أعطال واسعة تضرب ChatGPT وGemini وClaude وGrok في وقت واحد\n\nتعرضت منصات الذكاء الاصطناعي الكبرى لأعطال متزامنة مساء الخميس 3 سبتمبر 2026، بحسب موقع رصد الأعطال داون ديتكتور. تعطل ChatGPT عبر الموقع والتطبيق، وواجه مستخدمو Gemini وClaude رسائل خطأ وبطء في الاستجابة، كما تأثرت خدمات أمازون السحابية وشات بوت Grok. في الهند وحدها سُجلت أكثر من 2800 بلاغ عن ChatGPT و170 عن Claude و40 عن Grok، بينما تجاوزت البلاغات في الولايات المتحدة 35 ألفًا لـChatGPT. أعلنت OpenAI تطبيق إصلاح ومتابعة التعافي، فيما قالت Anthropic إن العطل ما زال يطال نموذجي Opus 4.8 وOpus 5 فقط بعد تعافي بقية النماذج.\n\n#الذكاء_الاصطناعي #تشات_جي_بي_تي #أعطال_تقنية #كلود",
+  "image": "drafts/2026-09-03/956cb13eded2.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "أعطال متزامنة تضرب ChatGPT وGemini وClaude وGrok عالميا",
+    "category": "تقنية",
+    "urgent": false,
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/29mbxz/article71425290.ece/alternates/LANDSCAPE_1200/ChatGPT_Search_Engine_97390.jpg"
+    ]
+  },
+  "publish_at": "2026-09-03T17:39:33.351252+00:00",
+  "published_at": "2026-09-03T17:39:38.520329+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1350949267122094",
+    "photo_id": "1350949250455429",
+    "url": "https://www.facebook.com/631680090321390_1350949267122094",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
+}

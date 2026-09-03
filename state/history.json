@@ -1,103 +1,5 @@
 [
   {
-    "score": 16.65,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "herpes",
-      "killing",
-      "off",
-      "probe",
-      "sardines",
-      "scientists",
-      "south",
-      "virus"
-    ],
-    "link": "https://www.scmp.com/news/world/africa/article/3365714/scientists-probe-if-herpes-virus-killing-sardines-south-africa?utm_source=rss_feed",
-    "title": "Scientists probe if herpes virus is killing sardines off South Africa",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-08-29T17:08:04.766215+00:00"
-  },
-  {
-    "score": 16.32,
-    "bucket": "serious",
-    "tokens": [
-      "iran",
-      "mark",
-      "month",
-      "passes",
-      "resist",
-      "sanctions",
-      "vows",
-      "war"
-    ],
-    "link": "https://www.cbsnews.com/live-updates/iran-war-us-trump-strait-of-hormuz-6-months-no-end-in-sight/",
-    "title": "Iran vows to resist U.S. sanctions as war passes 6-month mark",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-08-29T17:08:04.766482+00:00"
-  },
-  {
-    "score": 15.83,
-    "bucket": "serious",
-    "tokens": [
-      "blacklisted",
-      "built",
-      "exile",
-      "keep",
-      "kremlin",
-      "left",
-      "now",
-      "russia",
-      "school",
-      "teaching"
-    ],
-    "link": "https://meduza.io/en/news/2026/08/28/they-left-russia-to-keep-teaching-now-the-kremlin-has-blacklisted-the-school-they-built-from-exile",
-    "title": "They left Russia to keep teaching. Now the Kremlin has blacklisted the school they built from exile.",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-08-29T17:08:04.766723+00:00"
-  },
-  {
-    "score": 15.41,
-    "bucket": "serious",
-    "tokens": [
-      "above",
-      "august",
-      "confidence",
-      "economic",
-      "key",
-      "rises",
-      "threshold",
-      "türkiye's"
-    ],
-    "link": "https://www.dailysabah.com/business/economy/turkiyes-economic-confidence-rises-above-key-threshold-in-august",
-    "title": "Türkiye's economic confidence rises above key threshold in August",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-08-29T17:08:04.766974+00:00"
-  },
-  {
-    "score": 14.55,
-    "bucket": "serious",
-    "tokens": [
-      "activism",
-      "audits",
-      "citizen",
-      "india's",
-      "led",
-      "limits",
-      "school",
-      "test"
-    ],
-    "link": "https://www.dw.com/en/india-s-citizen-led-school-audits-test-limits-of-activism/a-78545789?maca=en-rss-en-world-4025-rdf",
-    "title": "India's citizen-led school audits test limits of activism",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-08-29T17:08:04.767201+00:00"
-  },
-  {
     "score": 20.3,
     "bucket": "serious",
     "tokens": [
@@ -5886,5 +5788,68 @@
     "posted_title": "",
     "region": "es",
     "seen_at": "2026-09-03T17:07:55.937713+00:00"
+  },
+  {
+    "score": 16.39,
+    "bucket": "serious",
+    "tokens": [
+      "chatgpt",
+      "entrenador",
+      "gimnasios",
+      "gratis",
+      "hay",
+      "llega",
+      "los",
+      "personal",
+      "prefiere",
+      "quien"
+    ],
+    "link": "https://elpais.com/estilo-de-vida/2026-09-03/la-ia-llega-a-los-gimnasios-y-hay-quien-la-prefiere-a-un-entrenador-personal-chatgpt-es-gratis.html",
+    "title": "La IA llega a los gimnasios y hay quien la prefiere a un entrenador personal: “ChatGPT es gratis”",
+    "posted_title": "لماذا يفضّل بعض الرياضيين الاستعانة بالذكاء الاصطناعي بدل المدرب الشخصي",
+    "region": "es",
+    "seen_at": "2026-09-03T17:39:11.838708+00:00"
+  },
+  {
+    "score": 16.9,
+    "bucket": "serious",
+    "tokens": [
+      "2027",
+      "africa",
+      "borderless",
+      "dialogues",
+      "opens",
+      "prosperity",
+      "push",
+      "registration",
+      "september"
+    ],
+    "link": "https://www.myjoyonline.com/africa-prosperity-dialogues-2027-to-push-for-borderless-africa-as-registration-opens-september-7/",
+    "title": "Africa Prosperity Dialogues 2027 to push for ‘borderless Africa’ as registration opens September 7",
+    "posted_title": "أكرا تستضيف عام 2027 منتدى قاريًا لدفع حرية التنقل والدفع والتجارة في أفريقيا",
+    "region": "gh",
+    "seen_at": "2026-09-03T17:39:22.727250+00:00"
+  },
+  {
+    "score": 21.24,
+    "bucket": "serious",
+    "tokens": [
+      "also",
+      "amazon",
+      "chatgpt",
+      "claude",
+      "face",
+      "gemini",
+      "hit",
+      "outages",
+      "services",
+      "web",
+      "widespread"
+    ],
+    "link": "https://www.thehindu.com/sci-tech/technology/chatgpt-gemini-claude-face-widespread-outages-ai/article71425259.ece",
+    "title": "ChatGPT, Gemini, Claude face widespread outages; Amazon Web Services also hit",
+    "posted_title": "أعطال واسعة تضرب ChatGPT وGemini وClaude وGrok في وقت واحد",
+    "region": "in",
+    "seen_at": "2026-09-03T17:39:33.330058+00:00"
   }
 ]
