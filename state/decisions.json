@@ -1741,5 +1741,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 19
+ },
+ {
+  "id": "535ee29f1ad1",
+  "created_at": "2026-09-03T05:32:36.474511+00:00",
+  "decided_at": "2026-09-03T05:32:42.393191+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "تقنية",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "useful",
+  "region": "tech",
+  "score": 21.32,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "source_count": 2,
+  "body_len": 574,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 5
  }
 ]
