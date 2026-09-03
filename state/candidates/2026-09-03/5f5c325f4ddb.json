@@ -1,0 +1,48 @@
+{
+  "id": "5f5c325f4ddb",
+  "created_at": "2026-09-03T17:07:55.937439+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.39,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "La IA llega a los gimnasios y hay quien la prefiere a un entrenador personal: “ChatGPT es gratis”",
+  "link": "https://elpais.com/estilo-de-vida/2026-09-03/la-ia-llega-a-los-gimnasios-y-hay-quien-la-prefiere-a-un-entrenador-personal-chatgpt-es-gratis.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "La IA llega a los gimnasios y hay quien la prefiere a un entrenador personal: “ChatGPT es gratis”",
+    "link": "https://elpais.com/estilo-de-vida/2026-09-03/la-ia-llega-a-los-gimnasios-y-hay-quien-la-prefiere-a-un-entrenador-personal-chatgpt-es-gratis.html",
+    "summary": "La inteligencia artificial ha irrumpido en la planificación de rutinas de ejercicio físico, pero con las mismas carencias que en otros campos: falta de personalización, errores sin disimulo y ausencia de factor humano",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-03T03:30:01+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/OE53TYJAMBEKBIXCXOJEKD4R7A.jpg?auth=3e2ee4a9abff8c16db281a673baad25cbfedd8fcd4658d1fa222ebe4691596d3",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/estilo-de-vida/2026-09-03/la-ia-llega-a-los-gimnasios-y-hay-quien-la-prefiere-a-un-entrenador-personal-chatgpt-es-gratis.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/OE53TYJAMBEKBIXCXOJEKD4R7A.jpg?auth=3e2ee4a9abff8c16db281a673baad25cbfedd8fcd4658d1fa222ebe4691596d3"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.39134908966667
+  }
+}

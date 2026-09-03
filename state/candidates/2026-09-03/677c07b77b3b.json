@@ -1,0 +1,52 @@
+{
+  "id": "677c07b77b3b",
+  "created_at": "2026-09-03T17:07:55.936555+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.2,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Tribunal descarta que Google separe setor de publicidade, mas determina mudanças nas práticas",
+  "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/tec/2026/09/tribunal-descarta-que-google-separe-setor-de-publicidade-mas-determina-mudancas-nas-praticas.shtml",
+  "publishers": [
+    "Folha de S.Paulo",
+    "TechCrunch"
+  ],
+  "region": "br",
+  "article": {
+    "title": "Tribunal descarta que Google separe setor de publicidade, mas determina mudanças nas práticas",
+    "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/tec/2026/09/tribunal-descarta-que-google-separe-setor-de-publicidade-mas-determina-mudancas-nas-praticas.shtml",
+    "summary": "O Google escapou nessa quarta-feira (2) da divisão de sua unidade de tecnologia de publicidade , marcando a terceira vez nos últimos anos que autoridades antitruste dos Estados Unidos tentaram forçar a divisão de uma grande empresa de tecnologia e perderam. Leia mais (09/03/2026 - 09h36)",
+    "source_name": "Folha de S.Paulo",
+    "region": "br",
+    "weight": 1.0,
+    "published": "2026-09-03T12:36:00+00:00",
+    "image_url": null,
+    "publisher": "Folha de S.Paulo",
+    "cluster_sources": [
+      "Folha de S.Paulo",
+      "TechCrunch"
+    ],
+    "cluster_members": [
+      {
+        "name": "Folha de S.Paulo",
+        "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/tec/2026/09/tribunal-descarta-que-google-separe-setor-de-publicidade-mas-determina-mudancas-nas-praticas.shtml"
+      },
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/09/02/google-spared-from-ad-business-breakup-but-judge-orders-changes-to-how-it-operates/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.19799723737037
+  }
+}

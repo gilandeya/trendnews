@@ -1,0 +1,68 @@
+{
+  "id": "f67d15b5e21a",
+  "created_at": "2026-09-03T17:07:55.936886+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.22,
+  "trend_score": 0.0,
+  "velocity": 0.5,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nepal Floods LIVE Updates: Nepal Flood Death Count Rises To 1,204",
+  "link": "https://www.ndtv.com/world-news/nepal-flash-floods-live-updates-india-sends-5th-relief-shipment-to-flood-hit-nepal-amid-massive-rescue-effort-11990118#publisher=newsstand",
+  "publishers": [
+    "CGTN",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Nepal Floods LIVE Updates: Nepal Flood Death Count Rises To 1,204",
+    "link": "https://www.ndtv.com/world-news/nepal-flash-floods-live-updates-india-sends-5th-relief-shipment-to-flood-hit-nepal-amid-massive-rescue-effort-11990118#publisher=newsstand",
+    "summary": "Nepal Flash Floods LIVE Updates: A glacier collapse led to a sudden massive floods on August 26",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-03T10:33:37+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-09/bu95fb2c_nepal_625x300_02_September_26.jpeg",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "CGTN",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nepal-flash-floods-live-updates-death-toll-rescue-operations-missing-persons-helpline-number-september-3-2026/article71422150.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/nepaltibet-flood-death-toll-rises-to-1-243-as-pm-shah-flags-climate-change-link-101788368469776.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/nepal-flash-floods-live-updates-india-sends-5th-relief-shipment-to-flood-hit-nepal-amid-massive-rescue-effort-11990118#publisher=newsstand"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-02/news-1Q7l4TU0WtO/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-09/bu95fb2c_nepal_625x300_02_September_26.jpeg",
+      "https://news.cgtn.com/news/2026-09-02/news-1Q7l4TU0WtO/img/55f3d1c6e5544044bab7957fb8b441be/55f3d1c6e5544044bab7957fb8b441be-1920.png",
+      "https://news.cgtn.com/news/2026-09-02/news-1Q7l4TU0WtO/img/4f99b366aa2d49f69aed85a8444fbdda/4f99b366aa2d49f69aed85a8444fbdda.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.500896558158327,
+    "age_hours": 200.00213813083334,
+    "is_stale": false,
+    "score": 17.216498545495337
+  }
+}
