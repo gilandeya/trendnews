@@ -1,7 +1,7 @@
 {
   "id": "1e5482491804",
   "created_at": "2026-09-03T18:50:38.304865+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 17.05,
   "bucket": "useful",
@@ -55,5 +55,12 @@
       "https://www.engadget.com/img/gallery/anthropic-automatically-signs-out-claude-users-to-protect-them-from-hackers/intro-1788452640.jpg"
     ]
   },
-  "publish_at": "2026-09-03T20:18:28.529696+00:00"
+  "publish_at": "2026-09-03T20:18:28.529696+00:00",
+  "published_at": "2026-09-03T20:31:02.649574+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1351044887112532",
+    "photo_id": "1351044873779200",
+    "url": "https://www.facebook.com/631680090321390_1351044887112532",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
