@@ -19,15 +19,60 @@ from .config import load_config
 log = logging.getLogger("open_review")
 
 
+def _missing_review_fields(draft: dict) -> list[str]:
+    """الحقول التي يعتمد عليها ``review.build_issue_body`` بلا شرط لكل
+    مسودة. مسودة يوتيوب متسرّبة (أو أي مسودة عامة معطوبة أخرى) قد تفتقد
+    ``image`` تحديدًا — عمدًا، لا خطأً (Issue #680) — قبل أن تُبنى بطاقتها
+    لحظة الاعتماد؛ نفس مبدأ ``publish._missing_draft_fields`` (Issue #707)
+    منقول إلى نقطة فتح الـ Issue بدل نقطة النشر فقط."""
+    missing = []
+    if not draft.get("image"):
+        missing.append("image")
+    if not draft.get("caption"):
+        missing.append("caption")
+    if not (draft.get("arabic") or {}).get("post_title"):
+        missing.append("arabic.post_title")
+    if "score" not in draft:
+        missing.append("score")
+    if not (draft.get("source") or {}).get("link"):
+        missing.append("source.link")
+    return missing
+
+
+def _valid_review_drafts(rows: list[tuple]) -> list[tuple]:
+    """يستبعد أي مسودة ناقصة الحقول ويسجّلها ``failed`` بدل ترك
+    ``review.build_issue_body`` يرفع ``KeyError`` فيُسقط بناء الـ Issue
+    كاملًا لأجل مسودة واحدة معطوبة (Issue #707)."""
+    valid = []
+    for path, d in rows:
+        missing = _missing_review_fields(d)
+        if not missing:
+            valid.append((path, d))
+            continue
+        detail = f"حقول مفقودة: {', '.join(missing)}"
+        log.warning("مسودة %s ناقصة الحقول (%s) — تُستبعد من الـ Issue العام",
+                    d.get("id", "?"), detail)
+        store.update_draft(path, status="failed", error=detail)
+    return valid
+
+
 def main() -> int:
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s │ %(levelname)-7s │ %(message)s",
                         datefmt="%H:%M:%S")
 
-    fresh_drafts = [
+    # مسار يوتيوب (src/youtube_publish.py) يبني مسوداته بلا حقل image
+    # عمدًا حتى الاعتماد (Issue #680)، وله Issue مراجعة خاص
+    # (youtube_publish.open_review يفلتر origin == "youtube" صراحة).
+    # نافذة سباق ضيقة بين حفظ تلك المسودة (status=pending) وربطها
+    # بـreview_issue الخاص بها تعني أن هذا المسار العام قد يلتقطها أولًا
+    # ويُدرجها في Issue المراجعة العام خطأً — فتفشل build_issue_body بـ
+    # KeyError وتُسقط الدفعة كلها (Issue #707). استبعادها هنا صراحة يمنع
+    # ذلك دون أي تعديل على مسار يوتيوب نفسه.
+    fresh_drafts = _valid_review_drafts([
         (path, d) for path, d in store.pending_drafts()
-        if not d.get("review_issue")
-    ]
+        if not d.get("review_issue") and d.get("origin") != "youtube"
+    ])
     fresh_candidates = [
         (path, c) for path, c in store.pending_candidates()
         if not c.get("selection_issue")

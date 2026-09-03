@@ -30,7 +30,7 @@ os.environ["TRENDNEWS_DRAFTS_DIR"] = str(_TMP_DATA_DIR / "drafts")
 os.environ["TRENDNEWS_STATE_DIR"] = str(_TMP_DATA_DIR / "state")
 atexit.register(shutil.rmtree, _TMP_DATA_DIR, ignore_errors=True)
 
-from src import collect, evidence, extract, imagesearch, imaging, proxy_config, review, sources, store, trends, writer  # noqa: E402
+from src import collect, evidence, extract, facebook, imagesearch, imaging, open_review, proxy_config, review, sources, store, trends, writer  # noqa: E402
 from src import youtube_article, youtube_cluster, youtube_collect, youtube_extract  # noqa: E402
 from src import youtube_publish  # noqa: E402
 from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
@@ -9424,6 +9424,154 @@ def test_due_publishes_one_at_a_time() -> None:
                        "due_new": "queued"}, str(statuses))
 
 
+def test_publish_skips_broken_draft_without_stopping_batch() -> None:
+    """Issue #707: مسودة يوتيوب تُبنى بلا حقل image عمدًا حتى الاعتماد
+    (Issue #680)، بينما الأنبوب العام يفترض وجوده. لو تسرّبت مسودة كهذه
+    إلى الطابور العام (خلطًا في فتح Issue المراجعة، لا مقصودًا)، كانت
+    ``publish_one`` ترفع ``KeyError`` وتُسقط الدفعة كلها بدل تخطّي مسودة
+    واحدة. الآن: (أ) ``queued_drafts`` يتجاهل مسودات ``origin: youtube``
+    فلا تدخل طابور ``cmd_queue``/``cmd_due`` أصلًا، و(ب) ``publish_one``
+    يتخطى أي مسودة ناقصة حقلًا أساسيًا (بصرف النظر عن الأصل) ويسجّلها
+    ``failed`` بدل رفع استثناء — فمسودة معطوبة واحدة لا توقف بقية دفعة
+    منشورات سليمة."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # (أ) مسودة يوتيوب متسرّبة إلى الطابور العام (status=queued) بلا حقل
+    # image — نفس الحالة الموصوفة في العطل.
+    yt_leaked = {
+        "id": "yt_leaked", "status": "queued", "origin": "youtube",
+        "publish_at": datetime.now(timezone.utc).isoformat(),
+        "arabic": {"post_title": "مقال يوتيوب", "urgent": False},
+        "caption": "متن", "source": {},
+    }
+    store.save_draft(yt_leaked)
+    rows = publish_mod.queued_drafts()
+    check("queued_drafts يتجاهل مسودة يوتيوب المتسرّبة",
+          all(d["id"] != "yt_leaked" for _, d in rows),
+          str([d["id"] for _, d in rows]))
+
+    # (ب) دفعة من ثلاث مسودات عامة، الوسطى ناقصة حقل image (تعطّب بيانات
+    # لا صلة له بيوتيوب — الفحص في publish_one عام لا خاص بالأصل).
+    def make(did: str, with_image: bool) -> dict:
+        d = {
+            "id": did, "status": "pending",
+            "arabic": {"post_title": f"خبر {did}", "urgent": False},
+            "caption": "متن", "source": {},
+        }
+        if with_image:
+            d["image"] = "drafts/batch.jpg"
+        return d
+
+    for d in (make("g1", True), make("bad", False), make("g2", True)):
+        store.save_draft(d)
+
+    (DRAFTS_DIR / "batch.jpg").write_bytes(b"\xff\xd8\xff")  # JPEG وهمية يكفي وجودها
+
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    publish_mod.ROOT = DRAFTS_DIR.parent  # كي يوافق "drafts/batch.jpg" مسار DRAFTS_DIR المؤقت
+    facebook.publish_photo = lambda *a, **k: {"url": "https://fb.example/x", "id": "1"}
+    try:
+        code = publish_mod.cmd_now(["g1", "bad", "g2"], load_config(), None)
+    finally:
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+
+    check("cmd_now ينتهي بنجاح رغم مسودة معطوبة بينها", code == 0, f"exit={code}")
+    check("المسودة الأولى نُشرت", store.load_draft("g1")[1]["status"] == "published")
+    check("المسودة الناقصة سُجّلت failed بلا استثناء",
+          store.load_draft("bad")[1]["status"] == "failed",
+          store.load_draft("bad")[1].get("status"))
+    check("المسودة الثالثة نُشرت رغم تعطّب ما قبلها في نفس الدفعة",
+          store.load_draft("g2")[1]["status"] == "published")
+
+
+def test_open_review_excludes_youtube_and_broken_drafts() -> None:
+    """متابعة Issue #707: تسرّب مسودة يوتيوب لم يقف عند ``publish.py``
+    وحده — ``open_review.py`` (المسار العام) كان يجمع كل مسودة ``pending``
+    بلا تمييز أصل عبر ``store.pending_drafts()`` الخام، فمسودة يوتيوب لم
+    تُربَط بعد بـreview_issue خاصّها (نافذة سباق موثّقة في
+    ``youtube_publish.py``) قد تدخل Issue المراجعة العام خطأً، وتُسقط
+    ``review.build_issue_body`` كاملة بـ``KeyError`` لأنها بلا حقل image
+    (Issue #680) — نفس فشل ``publish.py`` لكن عند فتح الـ Issue لا عند
+    النشر. الآن: (أ) مسودات ``origin: youtube`` تُستبعد صراحة فلا تُلمَس
+    إطلاقًا (يبقى مسارها الخاص هو من يربطها بـreview_issue لاحقًا)، و(ب)
+    أي مسودة عامة أخرى ناقصة حقلًا أساسيًا تُستبعد من نص الـ Issue وتُسجَّل
+    ``failed`` بدل أن تُسقط بناء الـ Issue للمسودات السليمة معها."""
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    yt_leaked = {
+        "id": "facade01", "status": "pending", "origin": "youtube",
+        "arabic": {"post_title": "مقال يوتيوب"}, "caption": "متن",
+        "source": {},
+    }
+    bad = {
+        "id": "baaaad01", "status": "pending",
+        "arabic": {"post_title": "خبر ناقص"}, "caption": "متن",
+        "score": 1.0, "source": {"link": "https://example.com/bad"},
+        # بلا حقل image عمدًا
+    }
+    good = {
+        "id": "600dcafe", "status": "pending",
+        "arabic": {"post_title": "خبر سليم"}, "caption": "متن",
+        "score": 2.0, "image": "drafts/or.jpg",
+        "source": {"link": "https://example.com/good", "publishers": ["Reuters"]},
+    }
+    for d in (yt_leaked, bad, good):
+        store.save_draft(d)
+
+    create_issue_calls: list = []
+
+    def fake_create_issue(title, body, labels=None):
+        create_issue_calls.append({"title": title, "body": body, "labels": labels})
+        return {"number": 707, "html_url": "https://github.com/u/r/issues/707"}
+
+    real_create_issue = review.create_issue
+    real_ensure_labels = review.ensure_labels
+    review.create_issue = fake_create_issue
+    review.ensure_labels = lambda: None
+
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    real_ref = os.environ.get("GITHUB_REF_NAME")
+    os.environ["GITHUB_REPOSITORY"] = "u/r"
+    os.environ["GITHUB_REF_NAME"] = "main"
+    try:
+        code = open_review.main()
+    finally:
+        review.create_issue = real_create_issue
+        review.ensure_labels = real_ensure_labels
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+        if real_ref is None:
+            os.environ.pop("GITHUB_REF_NAME", None)
+        else:
+            os.environ["GITHUB_REF_NAME"] = real_ref
+
+    check("open_review.main() ينتهي بنجاح رغم مسودة يوتيوب متسرّبة وأخرى ناقصة",
+          code == 0, f"exit={code}")
+    check("Issue واحد فُتح لا أكثر", len(create_issue_calls) == 1,
+          str(len(create_issue_calls)))
+    body = create_issue_calls[0]["body"] if create_issue_calls else ""
+    check("المسودة السليمة وحدها ظاهرة في نص الـ Issue",
+          review.all_draft_ids(body) == ["600dcafe"], str(review.all_draft_ids(body)))
+
+    check("مسودة يوتيوب المتسرّبة لم تُلمَس إطلاقًا (لا review_issue، تبقى pending)",
+          store.load_draft("facade01")[1] == yt_leaked,
+          store.load_draft("facade01")[1])
+    check("المسودة الناقصة سُجّلت failed بلا استثناء يُسقط بناء الـ Issue",
+          store.load_draft("baaaad01")[1]["status"] == "failed",
+          store.load_draft("baaaad01")[1].get("status"))
+    check("المسودة السليمة رُبطت بالـ Issue المفتوح",
+          store.load_draft("600dcafe")[1].get("review_issue") == 707,
+          store.load_draft("600dcafe")[1].get("review_issue"))
+
+
 def test_decisions() -> None:
     """Issue #583 — المرحلة الأولى: سجل قرارات تراكمي (state/decisions.json)،
     جمع بلا أي تحليل أو تأثير على الفرز/الترتيب."""
@@ -12395,6 +12543,9 @@ def main() -> int:
     print("\n── الجدولة في أوقات الذروة ──")
     test_scheduling()
     test_due_publishes_one_at_a_time()
+    print("\n── مسودة ناقصة لا تُسقط دفعة النشر أو فتح الـ Issue (Issue #707) ──")
+    test_publish_skips_broken_draft_without_stopping_batch()
+    test_open_review_excludes_youtube_and_broken_drafts()
     print("\n── سجل القرارات التراكمي (Issue #583، المرحلة الأولى) ──")
     test_decisions()
     print("\n── تحليل الأداء ──")
