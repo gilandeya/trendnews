@@ -1,80 +1,5 @@
 [
   {
-    "score": 23.46,
-    "bucket": "serious",
-    "tokens": [
-      "drone",
-      "kills",
-      "kyiv",
-      "least",
-      "russian",
-      "storing",
-      "strike",
-      "warehouse",
-      "weapons"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/29/russian-strike-warehouse-near-kyiv-kills-at-least-37",
-    "title": "Russian drone strike on Kyiv warehouse storing weapons kills at least 37",
-    "posted_title": "مستودع ذخيرة تابع للجيش الأوكراني قرب كييف يتحول إلى مأساة بعد ضربة روسية",
-    "region": "uk",
-    "seen_at": "2026-08-29T19:11:01.717765+00:00"
-  },
-  {
-    "score": 20.02,
-    "bucket": "serious",
-    "tokens": [
-      "economy",
-      "intensifies",
-      "iran's",
-      "sanctions",
-      "war",
-      "weighs"
-    ],
-    "link": "https://www.dawn.com/news/2025973/war-weighs-on-irans-economy-as-us-intensifies-sanctions",
-    "title": "War weighs on Iran's economy as US intensifies sanctions",
-    "posted_title": "تضخم 66% وتراجع تجارة بنسبة 35%.. كيف تصف طهران أثر ستة أشهر من الحرب على اقتصادها",
-    "region": "pk",
-    "seen_at": "2026-08-29T19:11:19.250256+00:00"
-  },
-  {
-    "score": 13.4,
-    "bucket": "useful",
-    "tokens": [
-      "anthropic",
-      "chappell",
-      "music",
-      "sony",
-      "suing",
-      "warner"
-    ],
-    "link": "https://www.theverge.com/ai-artificial-intelligence/986438/sony-music-warner-chappell-anthropic-lawsuit-copyright",
-    "title": "Sony Music and Warner Chappell are suing Anthropic",
-    "posted_title": "سوني ميوزيك ووارنر تشابل تقاضيان شركة أنثروبيك بتهمة سرقة آلاف الأغاني لتدريب الذكاء الاصطناعي",
-    "region": "tech",
-    "seen_at": "2026-08-29T19:12:32.468703+00:00"
-  },
-  {
-    "score": 16.58,
-    "bucket": "serious",
-    "tokens": [
-      "'red",
-      "alert'",
-      "dutch",
-      "ecstasy",
-      "health",
-      "institute",
-      "issues",
-      "pills",
-      "shaped",
-      "trump"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cy8z9084d00o?at_medium=RSS&at_campaign=rss",
-    "title": "Dutch health institute issues 'red alert' over Trump-shaped ecstasy pills",
-    "posted_title": "لماذا حذّر معهد هولندي من حبوب إكستاسي منقوش عليها وجه ترامب",
-    "region": "uk",
-    "seen_at": "2026-08-29T19:12:48.071237+00:00"
-  },
-  {
     "score": 15.92,
     "bucket": "sport",
     "tokens": [
@@ -5922,5 +5847,25 @@
     "posted_title": "",
     "region": "global",
     "seen_at": "2026-09-03T19:08:16.269390+00:00"
+  },
+  {
+    "score": 17.27,
+    "bucket": "useful",
+    "tokens": [
+      "'pregnant",
+      "bursts",
+      "grandmother'",
+      "growing",
+      "microbe",
+      "offspring",
+      "open",
+      "scottish",
+      "within"
+    ],
+    "link": "https://phys.org/news/2026-09-scottish-pregnant-grandmother-microbe-offspring.html",
+    "title": "Scottish 'pregnant grandmother' microbe bursts open after growing offspring within",
+    "posted_title": "علماء يكتشفون في اسكتلندا كائنًا مجهريًا يتكاثر عبر انفجار خلية \"الأم\"",
+    "region": "science",
+    "seen_at": "2026-09-03T19:15:55.414746+00:00"
   }
 ]
