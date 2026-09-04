@@ -5,35 +5,106 @@
     "points_dropped_stale_date": 0,
     "points_dropped_bad_timestamp": 0,
     "points_dropped_over_cap": 0,
-    "issues_clustered": 16,
+    "issues_clustered": 19,
     "topics_merged": 2,
-    "topics_out": 8,
+    "topics_out": 2,
     "dropped_by_bloc_cap": 0,
-    "topics_seen_skipped": 0,
-    "topics_below_min_points": 6,
+    "topics_seen_skipped": 8,
+    "topics_below_min_points": 7,
     "layer_a": 1,
-    "layer_b": 1,
-    "layer_c": 6,
-    "agreement": 4,
+    "layer_b": 0,
+    "layer_c": 1,
+    "agreement": 2,
     "cross_source": 0,
-    "internal": 4,
+    "internal": 0,
     "echo": 0
   },
   "error": null,
   "merged_events": [
     [
-      "الاستنزاف العسكري الأمريكي الإيراني",
-      "الأضرار الاقتصادية الإيرانية من العقوبات والحرب"
+      "انقسام أوزل عن كيليتشدار أوغلو",
+      "نجاح الحزب الجديد بقيادة أوزل"
     ],
     [
-      "خلاف أوزل وكيليتشدار أوغلو داخل حزب الشعب الجمهوري",
-      "نجاح الحزب الجديد لأوزل في الاستطلاعات والعضوية والتمويل"
+      "التضخم في تركيا",
+      "التضخم الإيراني وأزمة الأدوية بسبب العقوبات"
     ]
   ],
   "topics": [
     {
-      "title": "الاستنزاف العسكري الأمريكي الإيراني",
-      "event": "استمرار المواجهة العسكرية الأمريكية الإيرانية ودخولها مرحلة استنزاف متبادل",
+      "title": "التضخم في تركيا",
+      "event": "ارتفاع معدل التضخم في تركيا في أغسطس والتضخم الغذائي المرتفع عالمياً",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Iran International",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        61,
+        78,
+        79
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "استراتيجية إسرائيل تجاه تركيا وشرق المتوسط",
+      "event": "سعي إسرائيل لمحاصرة تركيا عبر شرق المتوسط واليونان وقبرص",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        44,
+        45,
+        47
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "التضخم في تركيا",
+      "event": "ارتفاع معدل التضخم في تركيا في أغسطس والتضخم الغذائي المرتفع عالمياً",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Iran International",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        61,
+        78,
+        79
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "تأثير العقوبات على صادرات النفط الإيرانية",
+      "event": "انخفاض حاد في صادرات النفط الإيرانية بسبب العقوبات الأمريكية",
       "layer": "a",
       "blocs": [
         "arabic",
@@ -43,21 +114,18 @@
         "Iran International",
         "الجزيرة"
       ],
-      "agreement": "agreement",
+      "agreement": "echo",
       "point_ids": [
-        0,
-        1,
-        2,
-        3,
         5,
-        7,
-        8,
         77
-      ]
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
     },
     {
-      "title": "خلاف أوزل وكيليتشدار أوغلو داخل حزب الشعب الجمهوري",
-      "event": "اتهام أوزغور أوزل لكيليتشدار أوغلو بتقسيم الحزب والقطيعة الشخصية بينهما",
+      "title": "انقسام أوزل عن كيليتشدار أوغلو",
+      "event": "اتهام أوزغور أوزل لكيليتشدار أوغلو بتقسيم حزب الشعب الجمهوري والخصومة الشخصية بينهما",
       "layer": "b",
       "blocs": [
         "turkish"
@@ -70,14 +138,18 @@
       "point_ids": [
         49,
         50,
+        55,
         56,
         57,
         58
-      ]
+      ],
+      "total_points": 6,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
     },
     {
-      "title": "اتفاق اللجنة 4+4 الليبي وتوقيعه",
-      "event": "توقيع اتفاق اللجنة المصغرة 4+4 في طرابلس بشأن مفوضية الانتخابات وخارطة الطريق الأممية",
+      "title": "اتفاق اللجنة 4+4 الليبي",
+      "event": "توقيع اتفاق اللجنة 4+4 لإنشاء مفوضية الانتخابات في ليبيا وردود الفعل عليه",
       "layer": "c",
       "blocs": [
         "arabic"
@@ -94,11 +166,34 @@
         18,
         19,
         20
-      ]
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
     },
     {
-      "title": "حرائق الجزائر وعقوبة الإعدام",
-      "event": "اندلاع حرائق في عدة ولايات جزائرية واتهام تبون لأيادٍ إجرامية وإقرار عقوبة الإعدام",
+      "title": "حادث مطار لايبزيج والاتهامات لروسيا",
+      "event": "سقوط طائرة مسيّرة مفخخة في مطار لايبزيج واتهام روسيا بالمسؤولية ونفيها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        22,
+        23,
+        24
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حرائق الجزائر واتهام الأيادي الإجرامية",
+      "event": "اندلاع حرائق في عدة ولايات جزائرية واتهام الرئيس تبون لأيادٍ إجرامية وردود الفعل عليها",
       "layer": "c",
       "blocs": [
         "arabic"
@@ -115,11 +210,14 @@
         32,
         33,
         34
-      ]
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
     },
     {
       "title": "إضراب المحامين المغاربة",
-      "event": "إضراب المحامين المغاربة احتجاجًا على قانون تنظيم المهنة الجديد",
+      "event": "إضراب المحامين المغاربة احتجاجاً على قانون تنظيم المهنة الجديد وموقف وزير العدل منه",
       "layer": "c",
       "blocs": [
         "arabic"
@@ -136,11 +234,14 @@
         39,
         40,
         41
-      ]
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
     },
     {
-      "title": "دعوة ترامب الإيرانيين للانتفاض وقمع الاحتجاجات",
-      "event": "دعوة ترامب الشعب الإيراني للقيام بينما تقمع الحكومة الإيرانية المحتجين",
+      "title": "استمرار الاحتجاجات وسؤال ترامب عن قيام الإيرانيين",
+      "event": "سؤال ترامب عن سبب عدم قيام الإيرانيين ضد الحكومة وسط قمع المتظاهرين وآراء متصلين عن أسباب عدم القيام",
       "layer": "c",
       "blocs": [
         "persian"
@@ -157,11 +258,78 @@
         72,
         73,
         74
-      ]
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
     },
     {
-      "title": "التنافس الإسرائيلي التركي في شرق المتوسط",
-      "event": "اتهام إسرائيل بمحاصرة تركيا والسيطرة على شرق المتوسط عبر تحريك النزاع مع اليونان",
+      "title": "استنزاف الحرب الأمريكية الإيرانية وسيناريوهات التصعيد",
+      "event": "الجمود العسكري بين أمريكا وإيران واحتمالات التصعيد قبل انتخابات نوفمبر",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2,
+        3,
+        7,
+        8,
+        9
+      ],
+      "total_points": 7,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "الرسوم الجمركية الأمريكية على كندا",
+      "event": "فرض ترامب رسوماً 50% على كندا ورد فعل الرأي العام والصناعة الأمريكية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        11,
+        12,
+        13
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استراتيجية روسيا في الحرب الأوكرانية",
+      "event": "تقييم أهداف روسيا العسكرية ونطاق توسع الحرب الأوكرانية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        25,
+        26,
+        27
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استراتيجية إسرائيل تجاه تركيا وشرق المتوسط",
+      "event": "سعي إسرائيل لمحاصرة تركيا عبر شرق المتوسط واليونان وقبرص",
       "layer": "c",
       "blocs": [
         "turkish"
@@ -172,14 +340,36 @@
       "agreement": "agreement",
       "point_ids": [
         42,
-        43,
         44,
-        45
-      ]
+        45,
+        47
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
     },
     {
-      "title": "تحقيقات فساد مليح غوكتشك العقارية والمالية",
-      "event": "تحقيقات قضائية حول عقارات وأموال مليح غوكتشك رئيس بلدية أنقرة السابق",
+      "title": "تصويت الحزب الجديد على قانون نزع السلاح",
+      "event": "موقف الحزب الجديد وتصويته على قانون نزع سلاح التنظيم الإرهابي",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        60
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحقيقات فساد عقارات مليح غوكتشك",
+      "event": "التحقيقات في عقارات وتحويلات أموال مليح غوكتشك وعائلته والاستدعاء القضائي له",
       "layer": "c",
       "blocs": [
         "turkish"
@@ -194,7 +384,67 @@
         64,
         65,
         67
-      ]
+      ],
+      "total_points": 5,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "صراع الرقائق الإلكترونية أمريكا-الصين",
+      "event": "الصراع الاستراتيجي بين أمريكا والصين على الرقائق والذكاء الاصطناعي وتأخر أوروبا فيه",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        82,
+        83
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف فانس من إسرائيل ومعاداة السامية",
+      "event": "محاولة نائب الرئيس فانس موازنة موقفه تجاه إسرائيل واستخدامه مصطلح ذنب الدم",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        86,
+        87
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تراجع الهوية الصهيونية بين اليهود الأمريكيين واستراتيجية الجمهوريين اليهود",
+      "event": "دراسة حول تراجع تعريف اليهود الأمريكيين كصهاينة وتركيز الجمهوريين اليهود على مرشحين ديمقراطيين محددين",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
     }
   ]
 }
