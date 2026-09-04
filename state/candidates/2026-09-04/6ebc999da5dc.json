@@ -1,0 +1,55 @@
+{
+  "id": "6ebc999da5dc",
+  "created_at": "2026-09-04T18:07:45.850385+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.53,
+  "trend_score": 0.67,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Injuries as violence erupts at South Africa anti-migrant protest",
+  "link": "http://www.africanews.com/2026/09/04/injuries-as-violence-erupts-at-south-africa-anti-migrant-protest/",
+  "publishers": [
+    "Africanews",
+    "Daily Sabah"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Injuries as violence erupts at South Africa anti-migrant protest",
+    "link": "http://www.africanews.com/2026/09/04/injuries-as-violence-erupts-at-south-africa-anti-migrant-protest/",
+    "summary": "A demonstration against undocumented migrants in South Africa descended into violence Thursday with one foreign national arrested and a community leader saying five Congolese were hurt",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-04T06:35:56+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/90/08/77/640x360_cmsv2_979f7edf-80dc-543b-a89e-c497e29fd5a2-9900877.jpg?1788497017",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/04/injuries-as-violence-erupts-at-south-africa-anti-migrant-protest/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/africa/4-migrants-killed-as-south-africas-anti-migrant-unrest-soars"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/90/08/77/640x360_cmsv2_979f7edf-80dc-543b-a89e-c497e29fd5a2-9900877.jpg?1788497017",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/04/459127.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 0.33358275816535493,
+    "age_hours": 5.993291325277778,
+    "is_stale": false,
+    "score": 18.532671201678625
+  }
+}

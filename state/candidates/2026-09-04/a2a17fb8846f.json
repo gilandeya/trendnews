@@ -1,0 +1,48 @@
+{
+  "id": "a2a17fb8846f",
+  "created_at": "2026-09-04T18:07:45.851106+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.72,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Kızılay collects over 2M units of blood across Türkiye in 2026",
+  "link": "https://www.dailysabah.com/turkiye/kizilay-collects-over-2m-units-of-blood-across-turkiye-in-2026/news",
+  "publishers": [
+    "Daily Sabah"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Kızılay collects over 2M units of blood across Türkiye in 2026",
+    "link": "https://www.dailysabah.com/turkiye/kizilay-collects-over-2m-units-of-blood-across-turkiye-in-2026/news",
+    "summary": "The Turkish Red Crescent (Kızılay) collected more than 2 million units of blood donations in the first eight months of 2026, with donations increasing by 7.7% during the summer des...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-04T11:45:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/04/459183.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/turkiye/kizilay-collects-over-2m-units-of-blood-across-turkiye-in-2026/news"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/04/459183.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.9969125597222224,
+    "is_stale": false,
+    "score": 16.724831486759257
+  }
+}

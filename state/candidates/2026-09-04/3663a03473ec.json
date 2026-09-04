@@ -1,0 +1,54 @@
+{
+  "id": "3663a03473ec",
+  "created_at": "2026-09-04T18:07:45.850683+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.26,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US and allies want IAEA board to report Iran to UN Security Council, diplomats say",
+  "link": "https://www.channelnewsasia.com/asia/us-iaea-report-iran-un-security-council-6363371",
+  "publishers": [
+    "Channel News Asia",
+    "The Express Tribune"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "US and allies want IAEA board to report Iran to UN Security Council, diplomats say",
+    "link": "https://www.channelnewsasia.com/asia/us-iaea-report-iran-un-security-council-6363371",
+    "summary": "Iran is the only country to enrich uranium to 60% without making a bomb, and the IAEA calls that stockpile “a matter of serious concern”.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-04T17:35:33+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--Wmd6Acxg--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-04T142732Z_1_LYNXMPEM83151_RTROPTP_3_SYRIA-NUCLEAR-IAEA.JPG?itok=6wY8xWjj",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627394/eu-joins-operation-economic-outcast-campaign-against-iran-us-treasury-secretary"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/us-iaea-report-iran-un-security-council-6363371"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--Wmd6Acxg--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-04T142732Z_1_LYNXMPEM83151_RTROPTP_3_SYRIA-NUCLEAR-IAEA.JPG?itok=6wY8xWjj"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 745.9108146425,
+    "is_stale": false,
+    "score": 17.264331483055557
+  }
+}
