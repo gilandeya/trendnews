@@ -1,0 +1,70 @@
+{
+  "id": "08630a6a378d",
+  "created_at": "2026-09-04T09:07:54.969204+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.28,
+  "trend_score": 1.0,
+  "velocity": 0.6,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Philippine court issues arrest warrant for VP Duterte",
+  "link": "https://www.channelnewsasia.com/asia/philippine-court-arrest-warrant-vice-president-sara-duterte-6362626",
+  "publishers": [
+    "Channel News Asia",
+    "Malay Mail",
+    "Rappler",
+    "South China Morning Post"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Philippine court issues arrest warrant for VP Duterte",
+    "link": "https://www.channelnewsasia.com/asia/philippine-court-arrest-warrant-vice-president-sara-duterte-6362626",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-04T08:48:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--fjQg1WmR--/c_crop,h_900,w_1600,x_0,y_111/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/07/06/sara_duterte.jpg?itok=59lEokvG",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Malay Mail",
+      "Rappler",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/philippine-court-arrest-warrant-vice-president-sara-duterte-6362626"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/04/philippine-vp-sara-duterte-hit-with-arrest-warrant-over-alleged-death-threat-against-marcos/233933"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/philippines/arrest-warrant-sara-duterte-grave-threats-quezon-city-court/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/week-asia/politics/article/3366362/sara-duterte-faces-arrest-warrant-threatening-philippines-marcos-his-wife?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--fjQg1WmR--/c_crop,h_900,w_1600,x_0,y_111/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/07/06/sara_duterte.jpg?itok=59lEokvG",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/04/360697.jpg",
+      "https://www.rappler.com/tachyon/2026/07/sara-duterte-impeachment-senate-july-7-2026-003-scaled.jpg",
+      "https://www.rappler.com/tachyon/2026/07/sara-duterte-impeachment-senate-july-7-2026-003-scaled.jpg?resize=150%2C150&crop=328px%2C0px%2C1702px%2C1702px",
+      "https://www.rappler.com/tachyon/2026/07/sara-duterte-impeachment-senate-july-7-2026-003-scaled.jpg?fit=449%2C449"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 26.278007817185184
+  }
+}

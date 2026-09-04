@@ -1,0 +1,46 @@
+{
+  "id": "949e918cba64",
+  "created_at": "2026-09-04T09:07:54.970460+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.26,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Google offers Filipino college students 1 year of AI Plus for free, 400GB storage",
+  "link": "https://www.rappler.com/technology/google-filipino-college-students-free-year-gemini-ai-plus-storage/",
+  "publishers": [
+    "Rappler"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "Google offers Filipino college students 1 year of AI Plus for free, 400GB storage",
+    "link": "https://www.rappler.com/technology/google-filipino-college-students-free-year-gemini-ai-plus-storage/",
+    "summary": "Eligible college students can claim 12 months of Google AI Plus, including Gemini study tools and 400 GB of cloud storage, until December 31, 2026",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-09-04T05:27:32+00:00",
+    "image_url": null,
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Rappler"
+    ],
+    "cluster_members": [
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/technology/google-filipino-college-students-free-year-gemini-ai-plus-storage/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.9995742927777775,
+    "is_stale": false,
+    "score": 16.255267073833334
+  }
+}

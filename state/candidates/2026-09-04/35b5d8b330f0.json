@@ -1,0 +1,55 @@
+{
+  "id": "35b5d8b330f0",
+  "created_at": "2026-09-04T09:07:54.970202+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.29,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Ghalibaf warns Bessent over US oil reserves, bond yields",
+  "link": "https://en.mehrnews.com/news/247426/Ghalibaf-warns-Bessent-over-US-oil-reserves-bond-yields",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Ghalibaf warns Bessent over US oil reserves, bond yields",
+    "link": "https://en.mehrnews.com/news/247426/Ghalibaf-warns-Bessent-over-US-oil-reserves-bond-yields",
+    "summary": "TEHRAN, Sep. 04 (MNA) – Parliament Speaker Mohammad Bagher Ghalibaf has warned US Treasury Secretary Scott Bessent that rapidly declining strategic oil reserves, rising US Treasury yields and surging oil prices will endager the US economy.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-04T06:02:40+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/02/4/6158804.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247426/Ghalibaf-warns-Bessent-over-US-oil-reserves-bond-yields"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86254422/Qalibaf-Bessent-on-the-brink-as-oil-reserves-fall-and-bond-yields"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/02/4/6158804.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/03/4/173085145.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 736.9132576902778,
+    "is_stale": false,
+    "score": 16.294304093685184
+  }
+}

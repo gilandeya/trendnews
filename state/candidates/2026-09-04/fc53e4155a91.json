@@ -1,0 +1,62 @@
+{
+  "id": "fc53e4155a91",
+  "created_at": "2026-09-04T09:07:54.969624+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.58,
+  "trend_score": 0.5,
+  "velocity": 0.33,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions",
+  "link": "https://www.npr.org/2026/09/04/g-s1-141945/milei-escalates-falklands-dispute",
+  "publishers": [
+    "Hindustan Times — World",
+    "NPR World",
+    "South China Morning Post",
+    "apnews.com"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions",
+    "link": "https://www.npr.org/2026/09/04/g-s1-141945/milei-escalates-falklands-dispute",
+    "summary": "Argentine President Javier Milei is escalating a dispute with Britain over the Falkland Islands with tougher sanctions targeting companies involved in a major offshore oil project",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-09-04T05:30:29+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-141945",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "NPR World",
+      "South China Morning Post",
+      "apnews.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/04/g-s1-141945/milei-escalates-falklands-dispute"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/americas/article/3366309/milei-escalates-argentinas-falklands-dispute-uk-trump-hints-us-policy-shift?utm_source=rss_feed"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/argentinas-milei-revives-bitter-falklands-dispute-with-uk-101788493679272.html"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-141945"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 0.33338607609098875,
+    "age_hours": 2.9995471227777775,
+    "is_stale": false,
+    "score": 20.575475231677167
+  }
+}
