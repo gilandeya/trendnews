@@ -21,6 +21,18 @@ jobs:
       - name: سحب المستودع
         uses: actions/checkout@v4
 
+      # مستودع خاص منفصل (Issue #724): state/youtube_points/*.json يحوي
+      # quote_original -- اقتباسات حرفية من نصوص ترجمة آلية لمواد محمية
+      # بحقوق نشر لثلاث عشرة قناة، فلا يصحّ أرشفتها علنًا في هذا المستودع
+      # العام. **بلا || true عمدًا** -- توكن منتهي يجب أن يُسقط التشغيلة
+      # بصوت عالٍ لا أن يمرّ صامتًا فيُخسِر نقاط اليوم كلها بلا تنبيه.
+      - name: سحب مستودع بيانات يوتيوب الخاص
+        uses: actions/checkout@v4
+        with:
+          repository: gilandeya/trendnews-data
+          token: ${{ secrets.YOUTUBE_DATA_TOKEN }}
+          path: youtube-data
+
       - name: تهيئة بايثون
         uses: actions/setup-python@v5
         with:
@@ -36,19 +48,50 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           WEBSHARE_PROXY_USERNAME: ${{ secrets.WEBSHARE_PROXY_USERNAME }}
           WEBSHARE_PROXY_PASSWORD: ${{ secrets.WEBSHARE_PROXY_PASSWORD }}
+          # يوجّه src.youtube_extract.POINTS_DIR إلى سحب المستودع الخاص
+          # أعلاه بدل state/youtube_points المحلي (config.YOUTUBE_POINTS_DIR).
+          TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
         run: python -m src.youtube_extract
 
-      - name: رفع ملف النقاط وسجل التكرار
+      - name: رفع نقاط اليوم إلى مستودع البيانات الخاص
+        working-directory: youtube-data
         run: |
           git config user.name  "trendnews-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # الفرع الفعلي المسحوب من trendnews-data (فرعه الافتراضي عادة) --
+          # لا نفترض اسمًا ثابتًا (main/master)، ولا صلة له بـGITHUB_REF_NAME
+          # الذي يخصّ فرع *هذا* المستودع لا مستودع البيانات.
+          BRANCH="$(git symbolic-ref --short HEAD)"
           mkdir -p state
-          git add state/youtube_points state/youtube_seen.json
+          git add state/youtube_points
           if git diff --quiet --cached; then
             echo "لا تغييرات"
             exit 0
           fi
           git commit -m "chore(youtube): نقاط $(date -u '+%Y-%m-%d %H:%M') UTC"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "$BRANCH" || true
+            if git push origin "HEAD:$BRANCH"; then
+              echo "✅ رُفع في المحاولة $attempt"
+              exit 0
+            fi
+            echo "⚠️ فشل الدفع (محاولة $attempt) — إعادة بعد $((attempt * 7))ث"
+            sleep $((attempt * 7))
+          done
+          echo "❌ تعذّر الدفع بعد 5 محاولات"
+          exit 1
+
+      - name: رفع سجل تكرار الفيديوهات (لا اقتباسات فيه -- يبقى في المستودع العام)
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p state
+          git add state/youtube_seen.json
+          if git diff --quiet --cached; then
+            echo "لا تغييرات"
+            exit 0
+          fi
+          git commit -m "chore(youtube): سجل تكرار $(date -u '+%Y-%m-%d %H:%M') UTC"
           for attempt in 1 2 3 4 5; do
             git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
             if git push origin "HEAD:${GITHUB_REF_NAME}"; then
