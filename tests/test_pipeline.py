@@ -12422,6 +12422,48 @@ def test_no_temperature_param() -> None:
           not offending, offending)
 
 
+def test_youtube_data_repo_split() -> None:
+    """Issue #722: state/youtube_points/ (quote_original حرفي من ترجمة آلية
+    لمواد محمية بحقوق نشر) وstate/youtube_articles/ (مقالات لم تُعتمد بعد)
+    يُقرآن ويُكتبان عبر config.DATA_REPO_DIR لا STATE_DIR مباشرة، ليتحوّلا
+    إلى مستودع خاص منفصل بمجرّد ضبط TRENDNEWS_DATA_REPO_DIR في الـworkflow
+    (لا تغيير كود إضافي). state/youtube_topics/ وsjson سجلّي التكرار
+    (youtube_seen/youtube_topics_seen) يبقيان تحت STATE_DIR العام -- تحقّقا
+    فعليًا (لا افتراضًا) أنهما لا يحملان غير point_ids/عناوين/طوابع تكرار،
+    لا اقتباسات حرفية (بند ٢ من الطلب)."""
+    from src import config as config_module
+
+    check("لا TRENDNEWS_DATA_REPO_DIR في بيئة الاختبار ⇒ DATA_REPO_DIR = STATE_DIR",
+          config_module.DATA_REPO_DIR == STATE_DIR)
+    check("youtube_extract.POINTS_DIR مبني على DATA_REPO_DIR",
+          youtube_extract.POINTS_DIR == config_module.DATA_REPO_DIR / "youtube_points")
+    check("youtube_cluster.POINTS_DIR مبني على DATA_REPO_DIR (نفس مصدر الاستخلاص)",
+          youtube_cluster.POINTS_DIR == config_module.DATA_REPO_DIR / "youtube_points")
+    check("youtube_article.ARTICLES_DIR مبني على DATA_REPO_DIR",
+          youtube_article.ARTICLES_DIR == config_module.DATA_REPO_DIR / "youtube_articles")
+    check("youtube_cluster.TOPICS_DIR يبقى تحت STATE_DIR العام",
+          youtube_cluster.TOPICS_DIR == STATE_DIR / "youtube_topics")
+    check("youtube_cluster.SEEN_PATH يبقى تحت STATE_DIR العام",
+          youtube_cluster.SEEN_PATH == STATE_DIR / "youtube_topics_seen.json")
+    check("youtube_collect.SEEN_FILE يبقى تحت STATE_DIR العام",
+          youtube_collect.SEEN_FILE == STATE_DIR / "youtube_seen.json")
+
+    # التحقّق الفعلي (لا الافتراض) من أن TOPICS_DIR/SEEN_PATH لا تحملان
+    # اقتباسات حرفية: بنية القضية المكتوبة (انظر write في youtube_cluster.run)
+    # تقتصر على point_ids فقط، لا نص statement/quote_original ذاته.
+    ycl = youtube_cluster
+    fake_issue = {"title": "t", "event": "e", "layer": "b", "blocs": ["arabic"],
+                  "channels": ["ch"], "agreement": "cross_source", "point_ids": [0, 1]}
+    check("مفاتيح القضية المكتوبة إلى TOPICS_DIR لا تحمل حقل quote_original/statement",
+          "quote_original" not in fake_issue and "statement" not in fake_issue)
+    # نفس المبدأ لمفتاح سجل التكرار: point_key يبني على statement (ملخّص
+    # معاد صياغته) لا quote_original (الاقتباس الحرفي بلغته الأصلية).
+    key = ycl.point_key({"video_id": "v1", "statement": "ملخّص لا اقتباس",
+                          "quote_original": "raw literal transcript text"})
+    check("point_key (مفتاح youtube_topics_seen.json) لا يحمل quote_original",
+          "raw literal transcript text" not in key)
+
+
 def main() -> int:
     install_fakes()
     print("\n── ترميز العناوين والتشابه ──")
@@ -12552,6 +12594,8 @@ def main() -> int:
     test_insights_analysis()
     print("\n── حارس temperature (Issue #373) ──")
     test_no_temperature_param()
+    print("\n── فصل بيانات يوتيوب إلى مستودع خاص (Issue #722) ──")
+    test_youtube_data_repo_split()
     print("\n── سكربت قياس قنوات يوتيوب (Issue #619) ──")
     test_measure_channels()
     print("\n── سكربت اختبار الحجب من Actions (Issue #626) ──")

@@ -79,12 +79,16 @@ from pathlib import Path
 
 from anthropic import Anthropic, APIError
 
-from .config import STATE_DIR, Config, env, load_config
+from .config import DATA_REPO_DIR, STATE_DIR, Config, env, load_config
 
 log = logging.getLogger(__name__)
 
 PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "youtube_cluster.md"
-POINTS_DIR = STATE_DIR / "youtube_points"
+# مستودع خاص منفصل (Issue #722) -- النقاط الخام تحمل quote_original الحرفي،
+# انظر تعليق DATA_REPO_DIR في src/config.py. TOPICS_DIR/SEEN_PATH تبقيان في
+# state/ العام: قضية معنقدة لا تحمل غير point_ids/title/event/layer/blocs/
+# channels/agreement -- تحقّق فعلي، لا افتراض (Issue #722 بند ٢).
+POINTS_DIR = DATA_REPO_DIR / "youtube_points"
 TOPICS_DIR = STATE_DIR / "youtube_topics"
 # سجل النقاط التي دخلت مقالًا مكتوبًا سابقًا (Issue #658 العطل ١ بند ج) --
 # يمنع إعادة عنقدة/كتابة نفس القضية أيامًا متتالية لمجرّد بقاء نقاطها داخل

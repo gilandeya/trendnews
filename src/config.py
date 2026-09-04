@@ -15,6 +15,14 @@ DRAFTS_DIR = Path(os.environ["TRENDNEWS_DRAFTS_DIR"]) if os.environ.get(
     "TRENDNEWS_DRAFTS_DIR") else ROOT / "drafts"
 STATE_DIR = Path(os.environ["TRENDNEWS_STATE_DIR"]) if os.environ.get(
     "TRENDNEWS_STATE_DIR") else ROOT / "state"
+# youtube_points/ (نصوص حرفية من ترجمة آلية لمواد محمية بحقوق نشر) و
+# youtube_articles/ (مقالات لم تُعتمد للنشر بعد) ينتقلان إلى مستودع خاص
+# منفصل (Issue #722) بدل أرشفتهما علنًا في هذا المستودع. الـworkflows التي
+# تحتاجهما تسحب ذاك المستودع في مسار ثانٍ وتضبط هذا المتغيّر إلى مساره؛
+# الافتراضي (لا متغيّر بيئة) يبقيهما تحت state/ الحالي فلا ينكسر أي تشغيل
+# محلي أو اختباري لا يعرف عن المستودع الخاص أصلًا.
+DATA_REPO_DIR = Path(os.environ["TRENDNEWS_DATA_REPO_DIR"]) if os.environ.get(
+    "TRENDNEWS_DATA_REPO_DIR") else STATE_DIR
 
 
 class Config(dict):
