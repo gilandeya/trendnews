@@ -79,12 +79,15 @@ from pathlib import Path
 
 from anthropic import Anthropic, APIError
 
-from .config import STATE_DIR, Config, env, load_config
+from .config import STATE_DIR, YOUTUBE_POINTS_DIR, Config, env, load_config
 
 log = logging.getLogger(__name__)
 
 PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "youtube_cluster.md"
-POINTS_DIR = STATE_DIR / "youtube_points"
+# مستودع خاص منفصل لا state/ المحلي (Issue #724) -- انظر توثيق
+# config.YOUTUBE_POINTS_DIR. TOPICS_DIR يبقى في هذا المستودع -- لا اقتباسات
+# حرفية فيه (point_ids أرقام فهرسة داخل تشغيلة واحدة فقط، لا نصّ محفوظ).
+POINTS_DIR = YOUTUBE_POINTS_DIR
 TOPICS_DIR = STATE_DIR / "youtube_topics"
 # سجل النقاط التي دخلت مقالًا مكتوبًا سابقًا (Issue #658 العطل ١ بند ج) --
 # يمنع إعادة عنقدة/كتابة نفس القضية أيامًا متتالية لمجرّد بقاء نقاطها داخل

@@ -16,6 +16,18 @@ DRAFTS_DIR = Path(os.environ["TRENDNEWS_DRAFTS_DIR"]) if os.environ.get(
 STATE_DIR = Path(os.environ["TRENDNEWS_STATE_DIR"]) if os.environ.get(
     "TRENDNEWS_STATE_DIR") else ROOT / "state"
 
+# نقاط يوتيوب الخام (اقتباسات حرفية من نصوص مترجمة آليًا) ومقالاته المسوَّدة
+# لا تُخزَّن في هذا المستودع العام (Issue #724) -- تُقرأ/تُكتب من مستودع خاص
+# منفصل (gilandeya/trendnews-data) يُسحَب سحبًا ثانيًا في youtube-collect.yml/
+# youtube-articles.yml، وهذان المتغيران يُشيران عندها إلى مجلد ذلك السحب بدل
+# state/ المحلي. الإنتاج المحلي/الاختبارات لا يضبطهما فتبقى القيمة
+# الافتراضية (state/youtube_points، state/youtube_articles) -- نفس نمط
+# DRAFTS_DIR/STATE_DIR أعلاه بالضبط.
+YOUTUBE_POINTS_DIR = Path(os.environ["TRENDNEWS_YOUTUBE_POINTS_DIR"]) if os.environ.get(
+    "TRENDNEWS_YOUTUBE_POINTS_DIR") else STATE_DIR / "youtube_points"
+YOUTUBE_ARTICLES_DIR = Path(os.environ["TRENDNEWS_YOUTUBE_ARTICLES_DIR"]) if os.environ.get(
+    "TRENDNEWS_YOUTUBE_ARTICLES_DIR") else STATE_DIR / "youtube_articles"
+
 
 class Config(dict):
     """قاموس إعدادات يدعم الوصول بالنقاط عبر get_path."""

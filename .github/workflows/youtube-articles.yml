@@ -20,6 +20,30 @@ jobs:
       - name: سحب المستودع
         uses: actions/checkout@v4
 
+      # مستودع خاص منفصل (Issue #724): state/youtube_points تُقرأ هنا
+      # (نافذة ثلاثة أيام، youtube_cluster.load_points_window) وstate/
+      # youtube_articles تُكتَب هنا -- كلاهما يحوي اقتباسات حرفية من مواد
+      # محمية بحقوق نشر فلا يصحّ تخزينهما في هذا المستودع العام. **بلا
+      # || true عمدًا** -- توكن منتهي يجب أن يُسقط التشغيلة بصوت عالٍ لا أن
+      # يمرّ صامتًا فتُكتب مقالات لن تُرفع أصلًا (أو تُعنقَد نافذة ناقصة بلا
+      # تنبيه).
+      #
+      # النافذة الثلاثية تُقرأ سليمة عبر التشغيلات المنفصلة لأن هذا السحب
+      # يجلب فرع trendnews-data **الحالي** في كل مرة -- وهو نفس الفرع الذي
+      # تدفع إليه خطوة "رفع نقاط اليوم" في youtube-collect.yml (تشغيلة
+      # منفصلة، يوم مختلف عادة). فملفات state/youtube_points/YYYY-MM-DD.json
+      # لعدّة أيام سابقة تصل هنا متراكمة من دفعات youtube-collect.yml
+      # المتتالية، تمامًا كما كانت تتراكم داخل هذا المستودع نفسه سابقًا --
+      # لا فرق سوى مكان التخزين. youtube_cluster.load_points_window لا تغيّر
+      # منطقها إطلاقًا؛ هي تقرأ POINTS_DIR (الآن مُشار إلى هذا السحب عبر
+      # TRENDNEWS_YOUTUBE_POINTS_DIR أدناه) بنفس الطريقة تمامًا.
+      - name: سحب مستودع بيانات يوتيوب الخاص
+        uses: actions/checkout@v4
+        with:
+          repository: gilandeya/trendnews-data
+          token: ${{ secrets.YOUTUBE_DATA_TOKEN }}
+          path: youtube-data
+
       - name: تهيئة بايثون
         uses: actions/setup-python@v5
         with:
@@ -32,33 +56,74 @@ jobs:
       - name: العنقدة
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # يوجّه src.youtube_cluster.POINTS_DIR إلى سحب المستودع الخاص --
+          # نافذة lookback_days تُقرأ منه لا من state/youtube_points المحلي
+          # (الذي لم يعد موجودًا أصلًا بعد حذفه من الشجرة).
+          TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
         run: python -m src.youtube_cluster
 
       - name: الكتابة
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # نفس مبدأ نافذة العنقدة أعلاه -- youtube_article.run() يستدعي
+          # youtube_cluster.prepare_window_points بنفس cfg فيحتاج نفس التوجيه.
+          TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
+          # يوجّه src.youtube_article.ARTICLES_DIR إلى سحب المستودع الخاص --
+          # المقالات المكتوبة (تحوي اقتباسات) تُكتب هناك لا محليًا.
+          TRENDNEWS_YOUTUBE_ARTICLES_DIR: ${{ github.workspace }}/youtube-data/state/youtube_articles
         run: python -m src.youtube_article
 
       - name: بناء البطاقات والمسودات
+        env:
+          # src.youtube_publish.build() يقرأ youtube_article.ARTICLES_DIR
+          # (index.md + ملفات .md) لبناء مسودات drafts/ -- نفس التوجيه.
+          TRENDNEWS_YOUTUBE_ARTICLES_DIR: ${{ github.workspace }}/youtube-data/state/youtube_articles
         run: python -m src.youtube_publish
 
-      - name: رفع القضايا والمقالات والصور
+      - name: رفع القضايا والمسودات (لا اقتباسات فيها -- تبقى في المستودع العام)
         id: commit
         run: |
           git config user.name  "trendnews-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p drafts state
-          git add drafts state/youtube_topics state/youtube_articles state/youtube_topics_seen.json
+          git add drafts state/youtube_topics state/youtube_topics_seen.json
           if git diff --quiet --cached; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "لا تغييرات"
             exit 0
           fi
           echo "changed=true" >> "$GITHUB_OUTPUT"
-          git commit -m "chore(youtube): قضايا ومقالات $(date -u '+%Y-%m-%d %H:%M') UTC"
+          git commit -m "chore(youtube): قضايا ومسودات $(date -u '+%Y-%m-%d %H:%M') UTC"
           for attempt in 1 2 3 4 5; do
             git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
             if git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              echo "✅ رُفع في المحاولة $attempt"
+              exit 0
+            fi
+            echo "⚠️ فشل الدفع (محاولة $attempt) — إعادة بعد $((attempt * 7))ث"
+            sleep $((attempt * 7))
+          done
+          echo "❌ تعذّر الدفع بعد 5 محاولات"
+          exit 1
+
+      - name: رفع المقالات إلى مستودع البيانات الخاص
+        working-directory: youtube-data
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # نفس مبدأ BRANCH في youtube-collect.yml -- لا نفترض اسم فرع ثابت،
+          # ولا صلة لـGITHUB_REF_NAME (فرع هذا المستودع) بفرع مستودع البيانات.
+          BRANCH="$(git symbolic-ref --short HEAD)"
+          mkdir -p state
+          git add state/youtube_articles
+          if git diff --quiet --cached; then
+            echo "لا تغييرات"
+            exit 0
+          fi
+          git commit -m "chore(youtube): مقالات $(date -u '+%Y-%m-%d %H:%M') UTC"
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --autostash origin "$BRANCH" || true
+            if git push origin "HEAD:$BRANCH"; then
               echo "✅ رُفع في المحاولة $attempt"
               exit 0
             fi
