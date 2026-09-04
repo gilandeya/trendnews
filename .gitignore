@@ -1,0 +1,8 @@
+# state/youtube_points/ وstate/youtube_articles/ انتقلا إلى مستودع بيانات
+# خاص منفصل (Issue #723، انظر عرف CLAUDE.md الخامس) — يُستبعدان هنا كشبكة
+# أمان إضافية ضد إعادة إضافتهما سهوًا لو أُعيد إنشاؤهما محليًا.
+state/youtube_points/
+state/youtube_articles/
+
+__pycache__/
+*.pyc
