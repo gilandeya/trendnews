@@ -68,7 +68,17 @@ youtube.cluster.min_points_date (apply_min_points_date) يُسقِط ملفات 
 يخلط خلافًا حقيقيًا بين قنوات مختلفة بخلاف داخلي بين ضيوف حلقة واحدة --
 _agreement_type_for تنقّحه برمجيًا بعد العنقدة إلى cross_source (قنوات
 مختلفة) أو internal (قناة واحدة)، من channels القضية الفعلية لا حكم نموذج
-إضافي."""
+إضافي.
+
+Issue #735 (قياس: أيام كثيرة صفر مقالات بسبب filter_seen_topics، والقضايا
+المُلغاة كانت تضيع بلا أثر): ملف المخرج كان يحفظ topics (القضايا الناجية من
+كل خطوات الفلترة) فقط، فلا وسيلة لمعرفة لاحقًا كم قضية أُسقطت أو لماذا. الآن
+كل قضية تُوسَم قبل أي فلترة بـtotal_points/fresh_points (نقاطها غير
+المستهلَكة في seen_keys) وdropped_reason (None، ثم seen/below_min_points/
+bloc_cap إن أُسقطت في إحدى الخطوات الثلاث -- _mark_dropped)، وتُحفَظ كاملة في
+all_topics إلى جانب topics كما كانت. طبقة تسجيل فوق الفلترة القائمة فقط --
+لا تعديل على قواعد filter_seen_topics/apply_min_points/apply_bloc_cap
+نفسها."""
 from __future__ import annotations
 
 import json
@@ -357,12 +367,12 @@ def load_topics(date_str: str) -> dict:
     متّسقة الشكل مع run()، لا استثناء."""
     path = TOPICS_DIR / f"{date_str}.json"
     if not path.exists():
-        return {"run_date": date_str, "topics": []}
+        return {"run_date": date_str, "topics": [], "all_topics": []}
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
         log.warning("ملف قضايا يوتيوب تالف: %s", path)
-        return {"run_date": date_str, "topics": []}
+        return {"run_date": date_str, "topics": [], "all_topics": []}
 
 
 def load_seen_points() -> dict[str, str]:
@@ -761,6 +771,18 @@ def build_topics(issues: list[dict], points: list[dict],
     return topics
 
 
+def _mark_dropped(before: list[dict], after: list[dict], reason: str) -> None:
+    """يُسجِّل dropped_reason على كل قضية خرجت من before ولم تصل إلى after
+    في خطوة فلترة بعينها (Issue #735 بند أ) -- طبقة تسجيل فوق دوال الفلترة
+    القائمة (filter_seen_topics/apply_min_points/apply_bloc_cap) بلا أي
+    تعديل على منطقها، فالمقارنة بمرجع الكائن (id) لا بقيمته: كل قضية كائن
+    قاموس مستقل هنا ولا حاجة لمطابقة حرفية معرَّضة لتعادل زائف."""
+    kept_ids = {id(t) for t in after}
+    for t in before:
+        if id(t) not in kept_ids:
+            t["dropped_reason"] = reason
+
+
 def apply_bloc_cap(topics: list[dict], max_per_bloc: int) -> tuple[list[dict], int]:
     """يبقي القضايا مرتّبة كما وصلت (فرز build_topics سابق لهذه الخطوة) --
     فرز مستقر (stable) يبقي ترتيب الطبقة/الخلاف الأصلي بين القضايا التي
@@ -800,9 +822,32 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     topics = build_topics(merged_issues, points, date_str)
 
     seen_keys = set(load_seen_points().keys())
+    # كل قضية تُوسَم بعدد نقاطها الكلية/الطازجة (غير المستهلَكة) و
+    # dropped_reason (None ما دامت لم تُسقَط بعد) قبل أي خطوة فلترة (Issue
+    # #735 بند أ) -- ملفات state/youtube_topics/*.json كانت تحفظ القضايا
+    # الناجية فقط، فما تُلغيه filter_seen_topics/apply_min_points/
+    # apply_bloc_cap يضيع بلا أثر ولا يمكن تحليله لاحقًا. all_topics يحفظ كل
+    # قضية بصرف النظر عن مصيرها؛ topics (المخرج الفعلي المُستهلَك في
+    # src/youtube_article.py) وall_topics يشيران لنفس الكائنات، فتوسيمها هنا
+    # مرة واحدة ينعكس في الاثنين دون تكرار.
+    for t in topics:
+        member_points = [points[pid] for pid in t["point_ids"] if 0 <= pid < len(points)]
+        t["total_points"] = len(t["point_ids"])
+        t["fresh_points"] = sum(1 for p in member_points if point_key(p) not in seen_keys)
+        t["dropped_reason"] = None
+    all_topics = list(topics)
+
+    before_seen = list(topics)
     topics, dropped_by_seen = filter_seen_topics(topics, points, seen_keys)
+    _mark_dropped(before_seen, topics, "seen")
+
+    before_min_points = list(topics)
     topics, dropped_by_min_points = apply_min_points(topics, min_points_per_topic)
+    _mark_dropped(before_min_points, topics, "below_min_points")
+
+    before_cap = list(topics)
     topics, dropped_by_cap = apply_bloc_cap(topics, max_per_bloc)
+    _mark_dropped(before_cap, topics, "bloc_cap")
 
     layer_counts = {"a": 0, "b": 0, "c": 0}
     agreement_counts = {"agreement": 0, "cross_source": 0, "internal": 0, "echo": 0}
@@ -833,6 +878,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
         "error": error,
         "merged_events": merge_log,
         "topics": topics,
+        "all_topics": all_topics,
     }
 
 

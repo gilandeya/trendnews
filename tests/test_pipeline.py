@@ -11160,7 +11160,8 @@ def test_youtube_cluster() -> None:
     check("load_points: تاريخ بلا ملف يعيد قائمة فارغة",
           ycl.load_points("1999-01-01") == [])
     check("load_topics: تاريخ بلا ملف يعيد بنية فارغة متّسقة",
-          ycl.load_topics("1999-01-01") == {"run_date": "1999-01-01", "topics": []})
+          ycl.load_topics("1999-01-01") ==
+          {"run_date": "1999-01-01", "topics": [], "all_topics": []})
 
     ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
     corrupt_path = ycl.POINTS_DIR / "2099-01-01.json"
@@ -11202,13 +11203,74 @@ def test_youtube_cluster() -> None:
         check("run(): dispute بقناتين مختلفتين خرج cross_source في الإحصاءات (Issue #662 العطل ٤)",
               result["stats"]["cross_source"] == 1 and result["topics"][0]["agreement"] ==
               "cross_source", result["stats"])
+        # ── Issue #735 بند أ: total_points/fresh_points/dropped_reason تُوسَم
+        # قبل أي فلترة، وall_topics يحفظ كل قضية بصرف النظر عن مصيرها ──
+        check("run(): القضية الناجية تحمل total_points/fresh_points صحيحين وdropped_reason فارغًا",
+              result["topics"][0]["total_points"] == 3 and
+              result["topics"][0]["fresh_points"] == 3 and
+              result["topics"][0]["dropped_reason"] is None, result["topics"][0])
+        check("run(): all_topics يحوي كل القضايا (هنا واحدة، بلا إسقاط)",
+              len(result["all_topics"]) == 1 and result["all_topics"] == result["topics"],
+              result["all_topics"])
         saved_path = ycl.save_output(result)
         reloaded = ycl.load_topics("2099-02-02")
         check("save_output/load_topics: تكامل الحفظ والقراءة",
               reloaded["topics"][0]["title"] == "قضية تكامل", reloaded)
+        check("save_output/load_topics: all_topics محفوظ ومُستَرجَع أيضًا",
+              reloaded["all_topics"][0]["dropped_reason"] is None, reloaded)
     finally:
         points_path.unlink(missing_ok=True)
         (ycl.TOPICS_DIR / "2099-02-02.json").unlink(missing_ok=True)
+
+    # ── run(): قضية كل نقاطها مستهلَكة سلفًا تُسقَط بسبب 'seen'، وتبقى
+    # مسجَّلة في all_topics بدل أن تضيع بلا أثر (Issue #735 بند أ -- هذا
+    # بالضبط ما كان مفقودًا في قياس أيام 08-31/09-01/09-02) ──
+    seen_run_points = [mk_point("arabic", "ق1"), mk_point("arabic", "ق1"),
+                        mk_point("arabic", "ق1")]
+    for i, p in enumerate(seen_run_points):
+        p["video_id"], p["statement"] = f"vseen{i}", f"سseen{i}"
+    seen_run_client = _Client([_Resp([_Block("tool_use", input_={
+        "issues": [
+            {"title": "قضية مستهلكة بالكامل", "event": "حدث مستهلك", "agreement": "agreement",
+             "point_ids": [0, 1, 2]},
+        ],
+    })])])
+    ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+    seen_run_points_path = ycl.POINTS_DIR / "2099-03-01.json"
+    seen_run_points_path.write_text(json.dumps({"points": seen_run_points}, ensure_ascii=False),
+                                     encoding="utf-8")
+    seen_backup2 = ycl.SEEN_PATH.read_text(encoding="utf-8") if ycl.SEEN_PATH.exists() else None
+    try:
+        all_seen_keys = {ycl.point_key(p) for p in seen_run_points}
+        ycl.SEEN_PATH.parent.mkdir(parents=True, exist_ok=True)
+        ycl.SEEN_PATH.write_text(json.dumps({k: "2099-02-28" for k in all_seen_keys},
+                                             ensure_ascii=False), encoding="utf-8")
+        seen_result = ycl.run(load_config(), date_str="2099-03-01", client=seen_run_client)
+        check("run(): قضية كل نقاطها مستهلَكة سلفًا تُسقَط بسبب 'seen' فتغيب عن topics",
+              seen_result["topics"] == [], seen_result["topics"])
+        check("run(): لكنها تبقى في all_topics بـdropped_reason='seen' وfresh_points=0",
+              len(seen_result["all_topics"]) == 1 and
+              seen_result["all_topics"][0]["dropped_reason"] == "seen" and
+              seen_result["all_topics"][0]["total_points"] == 3 and
+              seen_result["all_topics"][0]["fresh_points"] == 0,
+              seen_result["all_topics"])
+    finally:
+        seen_run_points_path.unlink(missing_ok=True)
+        (ycl.TOPICS_DIR / "2099-03-01.json").unlink(missing_ok=True)
+        if seen_backup2 is None:
+            ycl.SEEN_PATH.unlink(missing_ok=True)
+        else:
+            ycl.SEEN_PATH.write_text(seen_backup2, encoding="utf-8")
+
+    # ── _mark_dropped: وحدة تسجيل منفصلة -- تسم فقط ما خرج من before ولم
+    # يصل after، بمقارنة مرجعية (id) لا قيمية (Issue #735 بند أ) ──
+    mk_before = [{"title": "a"}, {"title": "b"}, {"title": "c"}]
+    mk_after = [mk_before[0], mk_before[2]]
+    ycl._mark_dropped(mk_before, mk_after, "below_min_points")
+    check("_mark_dropped: القضية المُسقَطة (b) وحدها تحمل dropped_reason",
+          mk_before[1].get("dropped_reason") == "below_min_points" and
+          "dropped_reason" not in mk_before[0] and "dropped_reason" not in mk_before[2],
+          mk_before)
 
     # ── run(): max_points_per_call يقصّ النافذة فعليًا قبل نداء العنقدة (Issue #660 الإصلاح ٢) ──
     cap_cfg = load_config()
