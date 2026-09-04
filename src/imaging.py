@@ -484,6 +484,7 @@ def build_post_image(
     fallback_provider=None,
     bucket: str = "",
     report: dict | None = None,
+    badge: str | None = None,
 ) -> Path:
     """يبني بطاقة الخبر.
 
@@ -496,6 +497,14 @@ def build_post_image(
     مرشحات المصادر واحتياط find_images معًا)، وfallback_tried/
     fallback_candidates (هل استُدعي find_images وكم مرشَّحًا أعاد) — عطل
     الصورة كان يصل log وحده بلا أثر في تقرير المسودة الذي يراه المراجع.
+
+    `badge` (اختياري، افتراضيًا None فلا يغيّر شيئًا في القالب الإخباري
+    القائم — Issue #732): ملصق ثابت إضافي في الترويسة، بجانب `category`/
+    `urgent`، يميّز مسار غير إخباري (مسار التحليل عبر يوتيوب مثلًا) عن
+    التقارير الإخبارية العادية. أُضيف بدل بناء بطاقة موازية كاملة
+    (`youtube_publish.build_title_card` سابقًا) لأن الفرق الوحيد المطلوب
+    فعلًا هو ملصق واحد — بطاقتان منفصلتان كانتا تفترقان بصمت (شعار مفقود،
+    سطر مصدر مختلف، بلا تنبيه غياب صورة) كلما عُدِّلت إحداهما بلا الأخرى.
     """
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
@@ -720,6 +729,8 @@ def build_post_image(
         if urgent:
             bx = badge_left(draw, bx, by, "عاجل", bdg_font,
                             (206, 32, 39), (255, 255, 255)) + int(W * 0.014)
+        if badge:
+            bx = badge_left(draw, bx, by, badge, bdg_font, accent, primary) + int(W * 0.014)
         if category:
             badge_left(draw, bx, by, category, bdg_font, accent, primary)
 
