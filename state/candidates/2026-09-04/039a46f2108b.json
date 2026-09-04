@@ -1,0 +1,64 @@
+{
+  "id": "039a46f2108b",
+  "created_at": "2026-09-04T12:08:10.888058+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.11,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "81 dead in Yemen clashes as Houthis push towards key strait: sources",
+  "link": "https://www.dawn.com/news/2027458/81-dead-in-yemen-clashes-as-houthis-push-towards-key-strait-sources",
+  "publishers": [
+    "Channel News Asia",
+    "Dawn",
+    "NDTV — World"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "81 dead in Yemen clashes as Houthis push towards key strait: sources",
+    "link": "https://www.dawn.com/news/2027458/81-dead-in-yemen-clashes-as-houthis-push-towards-key-strait-sources",
+    "summary": "Clashes between Yemen’s Houthis and government forces have killed 81, military and medical sources said on Friday, as the rebels push towards territory bordering a chokepoint in the strategic Red Sea. Fighting erupted on Thursday, after the Houthis launched a ground assault along with rocket and drone attacks near coastal areas, vying for control of the narrow Bab al-Mandeb strait at the Red Sea’s southern entrance. The Houthis have repeatedly attacked Saudi ships in recent weeks in the Red Sea, which has emerged as an alternative route for oil exports after Iran all but halted shipments from the Gulf by blockading the Strait of Hormuz. The rebels are now trying to cement their hold over one of the world’s busiest shipping lanes, which they have disrupted with attacks on passing vessels since the Gaza war broke out in 2023. The Houthi offensive aims to cut off the government-held port city of Mokha, under fire for weeks, and advance towards areas bordering the Bab al-Mandeb, military sources told AFP . The rebels have seized elevated sites overlooking government positions near the Red Sea, the coastal town of Khokha and Taiz city further inland, a military source and a Taiz officia",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-04T10:45:34+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/04154224ed78e52.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Dawn",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2027458/81-dead-in-yemen-clashes-as-houthis-push-towards-key-strait-sources"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/81-dead-yemens-houthis-push-towards-key-strait-sources-6362761"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/81-killed-as-yemens-houthis-push-towards-key-red-sea-strait-12001536#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/04154224ed78e52.webp",
+      "https://i.dawn.com/thumbnail/2026/09/04154224ed78e52.webp",
+      "https://i.dawn.com/primary/2026/07/222010066bd0dab.webp",
+      "https://dam.mediacorp.sg/image/upload/s--Lb8rMq2Z--/c_crop,h_1125,w_2000,x_0,y_104/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/04/ap26237597950541.jpg?itok=hporKsRU",
+      "https://c.ndtvimg.com/2026-08/10gkbfkg_red-sea_625x300_12_August_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 739.9174965213889,
+    "is_stale": false,
+    "score": 19.113236622181986
+  }
+}

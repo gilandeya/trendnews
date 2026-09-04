@@ -1,0 +1,79 @@
+{
+  "id": "1a71a11d86e1",
+  "created_at": "2026-09-04T12:08:10.887026+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.59,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Tens of thousands in Spain protest Ceuta border crisis",
+  "link": "http://www.africanews.com/2026/09/03/tens-of-thousands-in-spain-protest-ceuta-border-crisis/",
+  "publishers": [
+    "Africanews",
+    "El País",
+    "Fox News",
+    "The Guardian — World"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Tens of thousands in Spain protest Ceuta border crisis",
+    "link": "http://www.africanews.com/2026/09/03/tens-of-thousands-in-spain-protest-ceuta-border-crisis/",
+    "summary": "Tens of thousands of people took to the streets Wednesday across Spain to protest the ongoing humanitarian crisis in Ceuta, demanding solutions and blaming Prime Minister Pedro Sánchez for his government's handling of it",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-03T08:52:34+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/89/93/80/640x360_cmsv2_583ff270-82d7-53ea-9ee7-a052d8ca6c07-9899380.jpg?1788377760",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "El País",
+      "Fox News",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/03/tens-of-thousands-in-spain-protest-ceuta-border-crisis/"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/espana/2026-09-04/ultima-hora-de-la-entrada-de-inmigrantes-a-ceuta-en-directo.html"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/television/2026-09-04/el-contundente-mensaje-de-manu-sanchez-sobre-ceuta-en-tve-piden-mas-medios-no-que-vayan-ana-rosa-e-iker-jimenez.html"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/04/spanish-pm-defends-handling-of-ceuta-crisis-refuses-to-pin-morocco/"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/ideas/2026-09-04/el-momento-ceuta-y-la-trampa-que-europa-se-tendio-a-si-misma.html"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/opinion/2026-09-03/ceuta-no-hay-mas-tiempo-que-perder.html"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/89/93/80/640x360_cmsv2_583ff270-82d7-53ea-9ee7-a052d8ca6c07-9899380.jpg?1788377760",
+      "https://imagenes.elpais.com/resizer/v2/IL3OMF4O3BBZPIPXELHIVCQHSA.jpg?auth=8060af465dc20c668023e2526a14a2e01eb0541d90ad50b0e4a9b46f3a2cca1d",
+      "https://imagenes.elpais.com/resizer/v2/DU64AKFIR5FZFE2SBFCDD67ETI.png?auth=ca4c23c9c018bb3be3e53314cf52510b94ebf9869089a9a0026f97bddf854b51",
+      "http://images.euronews.com/articles/stories/09/90/06/92/640x360_cmsv2_11d47574-3b38-5caa-bd9b-b529f5b99ae2-9900692.jpg?1788455863",
+      "https://imagenes.elpais.com/resizer/v2/3XIYCAUPO5ESDKFGUTSLVWCQ2U.jpg?auth=9f444e25cc4db5c8766cf184a5b953484b999371dc758fa99d2e6db90ac74a72",
+      "https://imagenes.elpais.com/resizer/v2/RZRW673EMJE6FDBB3JEU7DLYDA.jpg?auth=9f90bede51146d4a82d2ef1cc2f4dfad4406b265556e37f984125d9f6ffdd37d"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.2219147854441673,
+    "age_hours": 27.00415310611111,
+    "is_stale": false,
+    "score": 22.59236749794306
+  }
+}

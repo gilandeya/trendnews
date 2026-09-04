@@ -1,98 +1,5 @@
 [
   {
-    "score": 25.88,
-    "bucket": "serious",
-    "tokens": [
-      "death",
-      "missing",
-      "nepal",
-      "rises",
-      "still",
-      "thousands",
-      "toll"
-    ],
-    "link": "https://www.france24.com/en/nepal-thousands-still-missing-as-death-toll-rises",
-    "title": "Nepal: Thousands still missing as death toll rises",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-08-30T12:08:04.306208+00:00"
-  },
-  {
-    "score": 24.86,
-    "bucket": "serious",
-    "tokens": [
-      "gunman",
-      "kills",
-      "one",
-      "party",
-      "rave",
-      "swiss"
-    ],
-    "link": "https://www.france24.com/en/gunman-kills-one-at-swiss-rave-party",
-    "title": "Gunman kills one at Swiss rave party",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-08-30T12:08:04.306532+00:00"
-  },
-  {
-    "score": 13.36,
-    "bucket": "serious",
-    "tokens": [
-      "2bn",
-      "airport",
-      "drug",
-      "intercepts",
-      "jihadi",
-      "lagos",
-      "ndlea",
-      "opioids"
-    ],
-    "link": "https://www.premiumtimesng.com/news/top-news/906296-ndlea-intercepts-n6-2bn-jihadi-drug-opioids-at-lagos-airport.html",
-    "title": "NDLEA intercepts N6.2bn ‘Jihadi drug’, opioids at Lagos airport",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-08-30T12:08:04.306799+00:00"
-  },
-  {
-    "score": 13.12,
-    "bucket": "serious",
-    "tokens": [
-      "calls",
-      "dutch",
-      "federation",
-      "football",
-      "infantino",
-      "summit",
-      "without"
-    ],
-    "link": "https://www.malaymail.com/news/sports/2026/08/30/dutch-federation-calls-for-football-summit-without-infantino/233313",
-    "title": "Dutch federation calls for football summit without Infantino",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-08-30T12:08:04.307090+00:00"
-  },
-  {
-    "score": 13.03,
-    "bucket": "serious",
-    "tokens": [
-      "anwar",
-      "businesses",
-      "costs",
-      "living",
-      "local",
-      "malaysia",
-      "measures",
-      "support",
-      "tackle",
-      "unveils"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/malaysia-anwar-ibrahim-measures-tackle-living-costs-local-businesses-6350251",
-    "title": "Malaysia PM Anwar unveils measures to tackle living costs, support local businesses",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-08-30T12:08:04.307359+00:00"
-  },
-  {
     "score": 24.95,
     "bucket": "serious",
     "tokens": [
@@ -5886,5 +5793,100 @@
     "posted_title": "ميلي يصعّد نزاع فوكلاند ويهدد بعقوبات جديدة لوقف مشروع نفطي قرب الجزر",
     "region": "us",
     "seen_at": "2026-09-04T09:59:18.257614+00:00"
+  },
+  {
+    "score": 22.59,
+    "bucket": "serious",
+    "tokens": [
+      "border",
+      "ceuta",
+      "crisis",
+      "protest",
+      "spain",
+      "tens",
+      "thousands"
+    ],
+    "link": "http://www.africanews.com/2026/09/03/tens-of-thousands-in-spain-protest-ceuta-border-crisis/",
+    "title": "Tens of thousands in Spain protest Ceuta border crisis",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-09-04T12:08:10.887441+00:00"
+  },
+  {
+    "score": 22.4,
+    "bucket": "serious",
+    "tokens": [
+      "activities",
+      "alleged",
+      "arrests",
+      "china",
+      "minister",
+      "pyramid",
+      "scheme",
+      "singapore",
+      "singaporeans"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-04-china-arrests-52-singaporeans-for-alleged-pyramid-scheme-activities-singapore-minister-says/",
+    "title": "China arrests 52 Singaporeans for alleged pyramid scheme activities, Singapore minister says",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-04T12:08:10.887748+00:00"
+  },
+  {
+    "score": 19.2,
+    "bucket": "serious",
+    "tokens": [
+      "decision",
+      "hormuz",
+      "korea",
+      "made",
+      "military",
+      "official",
+      "options",
+      "reviewing",
+      "south"
+    ],
+    "link": "https://www.japantimes.co.jp/news/2026/09/04/asia-pacific/society/south-korea-hormuz-military-deployment/",
+    "title": "South Korea reviewing military options for Hormuz, no decision made, official says",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-09-04T12:08:10.888048+00:00"
+  },
+  {
+    "score": 19.11,
+    "bucket": "serious",
+    "tokens": [
+      "clashes",
+      "dead",
+      "houthis",
+      "key",
+      "push",
+      "sources",
+      "strait",
+      "towards",
+      "yemen"
+    ],
+    "link": "https://www.dawn.com/news/2027458/81-dead-in-yemen-clashes-as-houthis-push-towards-key-strait-sources",
+    "title": "81 dead in Yemen clashes as Houthis push towards key strait: sources",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-04T12:08:10.888369+00:00"
+  },
+  {
+    "score": 17.52,
+    "bucket": "serious",
+    "tokens": [
+      "all",
+      "diesel",
+      "high",
+      "hit",
+      "prices",
+      "time"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c7903r0grx0o?at_medium=RSS&at_campaign=rss",
+    "title": "US diesel prices hit an all-time-high",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-04T12:08:10.888648+00:00"
   }
 ]

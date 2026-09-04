@@ -1,0 +1,57 @@
+{
+  "id": "5f42fdde6dd5",
+  "created_at": "2026-09-04T12:08:10.888378+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.52,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US diesel prices hit an all-time-high",
+  "link": "https://www.bbc.co.uk/news/articles/c7903r0grx0o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Daily Sabah"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "US diesel prices hit an all-time-high",
+    "link": "https://www.bbc.co.uk/news/articles/c7903r0grx0o?at_medium=RSS&at_campaign=rss",
+    "summary": "Fuel prices have soared since the Iran conflict began at the end of February, mirroring the surge in wholesale oil prices.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-04T10:52:56+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f9ea/live/aaff4f90-a843-11f1-b3a7-d5de760fef6e.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c7903r0grx0o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/diesel-prices-in-us-hit-record-high-as-iran-war-disrupts-fuel-flow"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f9ea/live/aaff4f90-a843-11f1-b3a7-d5de760fef6e.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/f9ea/live/aaff4f90-a843-11f1-b3a7-d5de760fef6e.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f9ea/live/aaff4f90-a843-11f1-b3a7-d5de760fef6e.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/04/459179.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 739.9175299122222,
+    "is_stale": false,
+    "score": 17.51653430114815
+  }
+}
