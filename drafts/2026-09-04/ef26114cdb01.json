@@ -1,7 +1,7 @@
 {
   "id": "ef26114cdb01",
   "created_at": "2026-09-04T16:12:36.691364+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 17.02,
   "bucket": "serious",
@@ -51,5 +51,12 @@
       "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/SK-1024x683.jpg"
     ]
   },
-  "publish_at": "2026-09-04T17:32:28.084947+00:00"
+  "publish_at": "2026-09-04T17:32:28.084947+00:00",
+  "published_at": "2026-09-04T17:45:44.538021+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1351808673702820",
+    "photo_id": "1351808650369489",
+    "url": "https://www.facebook.com/631680090321390_1351808673702820",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
