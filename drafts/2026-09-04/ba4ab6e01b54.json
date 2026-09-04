@@ -1,7 +1,7 @@
 {
   "id": "ba4ab6e01b54",
   "created_at": "2026-09-04T09:58:43.129410+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 17.28,
   "bucket": "serious",
@@ -55,5 +55,12 @@
       "https://meduza.io/imgly/share/1788511522/en/news/2026/09/04/germany-begins-mass-production-of-attack-drones-for-ukraine"
     ]
   },
-  "publish_at": "2026-09-04T10:33:53.731517+00:00"
+  "publish_at": "2026-09-04T10:33:53.731517+00:00",
+  "published_at": "2026-09-04T10:45:58.602591+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1351521040398250",
+    "photo_id": "1351521017064919",
+    "url": "https://www.facebook.com/631680090321390_1351521040398250",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
