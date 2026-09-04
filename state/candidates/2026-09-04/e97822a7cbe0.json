@@ -1,9 +1,9 @@
 {
   "id": "e97822a7cbe0",
-  "created_at": "2026-09-04T06:07:56.464473+00:00",
+  "created_at": "2026-09-04T17:07:49.175475+00:00",
   "status": "pending",
-  "selection_issue": 717,
-  "score": 25.35,
+  "selection_issue": null,
+  "score": 23.0,
   "trend_score": 0.0,
   "velocity": 1.0,
   "bucket": "serious",
@@ -11,22 +11,17 @@
   "title": "Dozens of trapped hydropower tunnel workers in Nepal could still be alive, official says",
   "link": "https://www.theguardian.com/world/2026/sep/03/nepal-floods-rasuwagadhi-hydropower-hydro-tunnel-trapped-workers-search-rescue",
   "publishers": [
-    "BBC",
     "CBS News — World",
-    "Channel News Asia",
-    "Daily Maverick",
+    "Daily Sabah",
     "Dawn",
     "France24",
-    "Free Malaysia Today",
     "Hindustan Times — World",
-    "Malay Mail",
-    "MyJoyOnline Ghana",
-    "NDTV — World",
+    "NBC News",
     "NPR World",
     "South China Morning Post",
+    "The Express Tribune",
     "The Guardian — World",
-    "The Hindu — International",
-    "The Japan Times"
+    "The Hindu — International"
   ],
   "region": "uk",
   "article": {
@@ -40,22 +35,17 @@
     "image_url": "https://i.guim.co.uk/img/media/068517344bd62da2eb008fd590adbd1626ff33c2/182_0_1124_900/master/1124.jpg?width=700&quality=85&auto=format&fit=max&s=0faa71903e7decfcf6ce7ce616edf571",
     "publisher": "The Guardian — World",
     "cluster_sources": [
-      "BBC",
       "CBS News — World",
-      "Channel News Asia",
-      "Daily Maverick",
+      "Daily Sabah",
       "Dawn",
       "France24",
-      "Free Malaysia Today",
       "Hindustan Times — World",
-      "Malay Mail",
-      "MyJoyOnline Ghana",
-      "NDTV — World",
+      "NBC News",
       "NPR World",
       "South China Morning Post",
+      "The Express Tribune",
       "The Guardian — World",
-      "The Hindu — International",
-      "The Japan Times"
+      "The Hindu — International"
     ],
     "cluster_members": [
       {
@@ -75,12 +65,12 @@
         "link": "https://www.thehindu.com/news/international/good-chance-that-trapped-workers-are-still-alive-in-nepal-hydropower-plant-official-says/article71426959.ece"
       },
       {
-        "name": "France24",
-        "link": "https://www.france24.com/en/asia-pacific/20260904-two-trapped-hydropower-workers-rescued-from-mud-clogged-tunnel-in-nepal"
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trapped-worker-rescued-alive-from-tunnel-in-nepal-says-official/article71426964.ece"
       },
       {
-        "name": "Channel News Asia",
-        "link": "https://www.channelnewsasia.com/asia/nepal-disaster-two-trapped-tunnel-rescued-6362316"
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627459/nine-days-after-disaster-two-pulled-alive-from-nepal-hydropower-tunnel"
       }
     ],
     "image_candidates": [
@@ -94,10 +84,10 @@
     "bucket": "serious",
     "state_media": false,
     "trend_score": 0.0,
-    "group_sources": 16,
+    "group_sources": 11,
     "velocity": 1.0,
-    "age_hours": 213.00238165527776,
+    "age_hours": 224.00028350527776,
     "is_stale": false,
-    "score": 25.35253438503704
+    "score": 22.997636100689668
   }
 }

@@ -1,0 +1,62 @@
+{
+  "id": "e599aa3e73e5",
+  "created_at": "2026-09-04T17:07:49.175169+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.83,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "OpenAI lanza GPT-6 Astra, su modelo más potente, entre especulaciones sobre si han alcanzado la superinteligencia artificial",
+  "link": "https://elpais.com/tecnologia/2026-09-04/openai-lanza-gpt-6-astra-su-modelo-mas-potente-entre-especulaciones-sobre-si-han-alcanzado-la-superinteligencia-artificial.html",
+  "publishers": [
+    "El País",
+    "Engadget",
+    "South China Morning Post"
+  ],
+  "region": "es",
+  "article": {
+    "title": "OpenAI lanza GPT-6 Astra, su modelo más potente, entre especulaciones sobre si han alcanzado la superinteligencia artificial",
+    "link": "https://elpais.com/tecnologia/2026-09-04/openai-lanza-gpt-6-astra-su-modelo-mas-potente-entre-especulaciones-sobre-si-han-alcanzado-la-superinteligencia-artificial.html",
+    "summary": "La empresa de Sam Altman, que está preparando su salida a Bolsa, asegura haber desarrollado una IA con capacidad sobrehumana, aunque él mismo dijo que ese término es más marketiniano que real",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-04T13:46:11+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/NRJQUGPG4FLU7CS23UZH6JNDOE.jpg?auth=6a780d1a05a9374e52341518c770e5f4246980eb0e3c8c8d8e7798c72fb88a7a",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País",
+      "Engadget",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/tecnologia/2026-09-04/openai-lanza-gpt-6-astra-su-modelo-mas-potente-entre-especulaciones-sobre-si-han-alcanzado-la-superinteligencia-artificial.html"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/tech/tech-trends/article/3366401/why-less-visibility-how-openais-new-gpt-6-astra-thinks-sparking-safety-concerns?utm_source=rss_feed"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2250814/openai-says-gpt-6-astra-is-the-most-intelligent-and-aligned-model-in-the-world/"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/NRJQUGPG4FLU7CS23UZH6JNDOE.jpg?auth=6a780d1a05a9374e52341518c770e5f4246980eb0e3c8c8d8e7798c72fb88a7a",
+      "https://www.engadget.com/img/gallery/openai-says-gpt-6-astra-is-the-most-intelligent-and-aligned-model-in-the-world/l-intro-1788476205.jpg",
+      "https://www.engadget.com/img/gallery/openai-says-gpt-6-astra-is-the-most-intelligent-and-aligned-model-in-the-world/intro-1788476205.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.830988004256064
+  }
+}
