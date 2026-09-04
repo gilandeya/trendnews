@@ -1,25 +1,5 @@
 [
   {
-    "score": 20.71,
-    "bucket": "useful",
-    "tokens": [
-      "banque",
-      "block",
-      "clearing",
-      "dollar",
-      "egypt",
-      "investigates",
-      "misr",
-      "moves",
-      "uae"
-    ],
-    "link": "https://www.investing.com/news/economy-news/uae-investigates-egypts-banque-misr-after-us-moves-to-block-dollar-clearing-4881997",
-    "title": "UAE investigates Egypt’s Banque Misr after U.S. moves to block dollar clearing",
-    "posted_title": "الخزانة الأمريكية تقرر قطع فروع بنك مصر في الإمارات عن النظام المالي الأمريكي",
-    "region": "money",
-    "seen_at": "2026-08-30T06:01:51.536238+00:00"
-  },
-  {
     "score": 18.11,
     "bucket": "serious",
     "tokens": [
@@ -5887,5 +5867,104 @@
     "posted_title": "سيول تدرس إرسال قوات إلى مضيق هرمز قبل نهاية العام رغم نفي الرئاسة قرارًا نهائيًا",
     "region": "za",
     "seen_at": "2026-09-04T05:33:21.391444+00:00"
+  },
+  {
+    "score": 25.35,
+    "bucket": "serious",
+    "tokens": [
+      "alive",
+      "could",
+      "dozens",
+      "hydropower",
+      "nepal",
+      "official",
+      "still",
+      "trapped",
+      "tunnel",
+      "workers"
+    ],
+    "link": "https://www.theguardian.com/world/2026/sep/03/nepal-floods-rasuwagadhi-hydropower-hydro-tunnel-trapped-workers-search-rescue",
+    "title": "Dozens of trapped hydropower tunnel workers in Nepal could still be alive, official says",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-04T06:07:56.464931+00:00"
+  },
+  {
+    "score": 22.24,
+    "bucket": "serious",
+    "tokens": [
+      "also",
+      "amazon",
+      "chatgpt",
+      "claude",
+      "face",
+      "gemini",
+      "hit",
+      "outages",
+      "services",
+      "web",
+      "widespread"
+    ],
+    "link": "https://www.thehindu.com/sci-tech/technology/chatgpt-gemini-claude-face-widespread-outages-ai/article71425259.ece",
+    "title": "ChatGPT, Gemini, Claude face widespread outages; Amazon Web Services also hit",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-04T06:07:56.465224+00:00"
+  },
+  {
+    "score": 18.15,
+    "bucket": "serious",
+    "tokens": [
+      "crimes",
+      "drones",
+      "foreign",
+      "fuel",
+      "possible",
+      "probe",
+      "sudan",
+      "support",
+      "war"
+    ],
+    "link": "https://www.thehindu.com/news/international/foreign-support-drones-fuel-sudan-war-and-possible-war-crimes-un-probe-says/article71425349.ece",
+    "title": "Foreign support, drones fuel Sudan war and possible war crimes, UN probe says",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-04T06:07:56.465493+00:00"
+  },
+  {
+    "score": 17.21,
+    "bucket": "useful",
+    "tokens": [
+      "capabilities",
+      "docs",
+      "gmail",
+      "google",
+      "keep",
+      "powered",
+      "rolls",
+      "voice"
+    ],
+    "link": "https://www.engadget.com/2250178/google-rolls-out-ai-voice-gmail-docs-keep/",
+    "title": "Google rolls out AI-powered voice capabilities for Gmail, Docs and Keep",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-09-04T06:07:56.465776+00:00"
+  },
+  {
+    "score": 16.89,
+    "bucket": "serious",
+    "tokens": [
+      "government",
+      "iran",
+      "netanyahu",
+      "overthrow",
+      "reach",
+      "within"
+    ],
+    "link": "https://www.malaymail.com/news/world/2026/09/04/netanyahu-says-overthrow-of-irans-government-is-within-reach/233855",
+    "title": "Netanyahu says overthrow of Iran’s government is ‘within reach’",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-04T06:07:56.466034+00:00"
   }
 ]

@@ -1,0 +1,64 @@
+{
+  "id": "956cb13eded2",
+  "created_at": "2026-09-04T06:07:56.464943+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.24,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "ChatGPT, Gemini, Claude face widespread outages; Amazon Web Services also hit",
+  "link": "https://www.thehindu.com/sci-tech/technology/chatgpt-gemini-claude-face-widespread-outages-ai/article71425259.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "ChatGPT, Gemini, Claude face widespread outages; Amazon Web Services also hit",
+    "link": "https://www.thehindu.com/sci-tech/technology/chatgpt-gemini-claude-face-widespread-outages-ai/article71425259.ece",
+    "summary": "Anthropic said the only affected models remaining are Opus 4.8 and Opus 5; rest of the models have recovered to the baseline error rate",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-03T16:12:29+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/29mbxz/article71425290.ece/alternates/LANDSCAPE_1200/ChatGPT_Search_Engine_97390.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/sci-tech/technology/chatgpt-gemini-claude-face-widespread-outages-ai/article71425259.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/chatgpt-claude-grok-down-other-ai-alternatives-you-can-use-amid-global-outages-deepseek-gemini-perplexity-101788448878660.html"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/is-chatgpt-claude-ai-grok-down-downdetector-several-users-report-issues-update-openai-anthropic-outage-news-101788447544391.html"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627282/claude-chatgpt-grok-and-microsoft-email-services-recover-after-disruption"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/29mbxz/article71425290.ece/alternates/LANDSCAPE_1200/ChatGPT_Search_Engine_97390.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.22211224215269532,
+    "age_hours": 13.000273567222221,
+    "is_stale": false,
+    "score": 22.23729791050102
+  }
+}

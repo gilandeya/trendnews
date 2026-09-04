@@ -1,0 +1,55 @@
+{
+  "id": "14fd3dc9dad1",
+  "created_at": "2026-09-04T06:07:56.465785+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.89,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Netanyahu says overthrow of Iran’s government is ‘within reach’",
+  "link": "https://www.malaymail.com/news/world/2026/09/04/netanyahu-says-overthrow-of-irans-government-is-within-reach/233855",
+  "publishers": [
+    "Malay Mail",
+    "NDTV — World"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Netanyahu says overthrow of Iran’s government is ‘within reach’",
+    "link": "https://www.malaymail.com/news/world/2026/09/04/netanyahu-says-overthrow-of-irans-government-is-within-reach/233855",
+    "summary": "JERUSALEM, Sept 4 — Israeli Prime Minister Benjamin Netanyahu yesterday voiced confidence that Iran’s Islami...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-04T02:11:28+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/04/360600.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Malay Mail",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/netanyahu-says-iran-weaker-than-ever-overthrowing-regime-within-reach-11999275#publisher=newsstand"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/04/netanyahu-says-overthrow-of-irans-government-is-within-reach/233855"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/04/360600.jpg",
+      "https://c.ndtvimg.com/2025-09/tcksh5j8_netanyahu_625x300_29_September_25.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 733.9136581299999,
+    "is_stale": false,
+    "score": 16.88738622537037
+  }
+}
