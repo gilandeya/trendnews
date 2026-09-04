@@ -1,0 +1,81 @@
+{
+  "id": "c9c257d5a37d",
+  "created_at": "2026-09-04T15:07:56.962071+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.5,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "OpenAI Launches 'World's Most Intelligent' AI Model GPT-6 Astra",
+  "link": "https://www.ndtv.com/world-news/openai-launches-worlds-most-intelligent-ai-model-gpt-6-astra-12000992#publisher=newsstand",
+  "publishers": [
+    "El País",
+    "Engadget",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "South China Morning Post",
+    "TechCrunch"
+  ],
+  "region": "in",
+  "article": {
+    "title": "OpenAI Launches 'World's Most Intelligent' AI Model GPT-6 Astra",
+    "link": "https://www.ndtv.com/world-news/openai-launches-worlds-most-intelligent-ai-model-gpt-6-astra-12000992#publisher=newsstand",
+    "summary": "The company says Astra discovered two previously unknown vulnerabilities during internal evaluations",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-04T07:24:56+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-09/30gi675_astra_625x300_04_September_26.jpeg",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "El País",
+      "Engadget",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "South China Morning Post",
+      "TechCrunch"
+    ],
+    "cluster_members": [
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/09/03/openai-launches-astra-its-powerful-and-controversial-new-model/"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/openai-launches-worlds-most-intelligent-ai-model-gpt-6-astra-12000992#publisher=newsstand"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/tecnologia/2026-09-04/openai-lanza-gpt-6-astra-su-modelo-mas-potente-entre-especulaciones-sobre-si-han-alcanzado-la-superinteligencia-artificial.html"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/tech/tech-trends/article/3366401/why-less-visibility-how-openais-new-gpt-6-astra-thinks-sparking-safety-concerns?utm_source=rss_feed"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2250814/openai-says-gpt-6-astra-is-the-most-intelligent-and-aligned-model-in-the-world/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/openai-rolls-out-gpt-6-astra-model-with-cyber-guardrails-101788487892694.html"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-09/30gi675_astra_625x300_04_September_26.jpeg",
+      "https://imagenes.elpais.com/resizer/v2/NRJQUGPG4FLU7CS23UZH6JNDOE.jpg?auth=6a780d1a05a9374e52341518c770e5f4246980eb0e3c8c8d8e7798c72fb88a7a",
+      "https://www.engadget.com/img/gallery/openai-says-gpt-6-astra-is-the-most-intelligent-and-aligned-model-in-the-world/l-intro-1788476205.jpg",
+      "https://www.engadget.com/img/gallery/openai-says-gpt-6-astra-is-the-most-intelligent-and-aligned-model-in-the-world/intro-1788476205.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.22219856265300153,
+    "age_hours": 16.99511007472222,
+    "is_stale": false,
+    "score": 25.50154313211366
+  }
+}

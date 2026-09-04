@@ -1,0 +1,46 @@
+{
+  "id": "f94ba0178ab6",
+  "created_at": "2026-09-04T15:07:56.962788+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.65,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US envoys headed to Russia and Ukraine to relaunch mediation",
+  "link": "https://www.aljazeera.com/news/2026/9/4/us-envoys-headed-to-russia-and-ukraine-to-relaunch-mediation?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "US envoys headed to Russia and Ukraine to relaunch mediation",
+    "link": "https://www.aljazeera.com/news/2026/9/4/us-envoys-headed-to-russia-and-ukraine-to-relaunch-mediation?traffic_source=rss",
+    "summary": "The return of Washington's negotiators raises hope of progress towards a settlement to end Moscow's war on Ukraine.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-04T12:51:57+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/4/us-envoys-headed-to-russia-and-ukraine-to-relaunch-mediation?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 16.649014666351853
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "1b96a53c0af2",
+  "created_at": "2026-09-04T15:07:56.962919+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.25,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Ten countries attending INOTEX 2026",
+  "link": "https://www.tehrantimes.com/news/529657/Ten-countries-attending-INOTEX-2026",
+  "publishers": [
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Ten countries attending INOTEX 2026",
+    "link": "https://www.tehrantimes.com/news/529657/Ten-countries-attending-INOTEX-2026",
+    "summary": "TEHRAN – The 15th International Innovation and Technology Exhibition (INOTEX 2026) is being held in Tehran, with representatives and delegations from Russia, Tajikistan, Pakistan, Indonesia, Zimbabwe, Thailand, Bangladesh, Oman, Iraq, and Turkey in attendance.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-04T11:19:59+00:00",
+    "image_url": "https://media.tehrantimes.com/d/t/2026/09/04/4/6161091.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529657/Ten-countries-attending-INOTEX-2026"
+      }
+    ],
+    "image_candidates": [
+      "https://media.tehrantimes.com/d/t/2026/09/04/4/6161091.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2.9964042044444446,
+    "is_stale": false,
+    "score": 16.246829480703703
+  }
+}

@@ -14,7 +14,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-08-03T12:00:37.155014+00:00",
-  "last_seen": "2026-09-04T12:08:03.213864+00:00"
+  "last_seen": "2026-09-04T15:07:50.279450+00:00"
  },
  {
   "tokens": [
@@ -81,6 +81,7 @@
    "'hopeful'",
    "'lake",
    "'lies'",
+   "'military",
    "'on",
    "'positive'",
    "'quiet'",
@@ -114,6 +115,7 @@
    "action",
    "adds",
    "advance",
+   "adviser",
    "advisor",
    "africa",
    "african",
@@ -131,6 +133,7 @@
    "air",
    "airbase",
    "airlines",
+   "airspace",
    "airstrike",
    "airstrikes",
    "airtight",
@@ -146,6 +149,7 @@
    "american",
    "americans",
    "among",
+   "andreeva",
    "announce",
    "announced",
    "announces",
@@ -157,6 +161,7 @@
    "anwar",
    "any",
    "anytime",
+   "apple",
    "apply",
    "approves",
    "arabia",
@@ -182,6 +187,7 @@
    "avenge",
    "avert",
    "aviation",
+   "away",
    "back",
    "backing",
    "badosa",
@@ -193,6 +199,7 @@
    "banks",
    "barrage",
    "barring",
+   "bartunkova",
    "base",
    "bases",
    "beaten",
@@ -210,6 +217,7 @@
    "between",
    "beyond",
    "big",
+   "bill",
    "blames",
    "blast",
    "bln",
@@ -236,6 +244,7 @@
    "bridge",
    "brief",
    "bring",
+   "brings",
    "britain",
    "britain's",
    "british",
@@ -257,12 +266,14 @@
    "career",
    "carney",
    "carries",
+   "carry",
    "castle",
    "catches",
    "cathay",
    "cbi",
    "ceasefire",
    "celebrations",
+   "centers",
    "central",
    "centre",
    "century",
@@ -329,11 +340,13 @@
    "conflicts",
    "confrontation",
    "consequences",
+   "considers",
    "continuation",
    "continue",
    "continued",
    "continues",
    "contributions",
+   "contributions'",
    "control",
    "control'",
    "controls",
@@ -352,11 +365,13 @@
    "crimes",
    "crisis",
    "criticism",
+   "cultural",
    "currency",
    "curtail",
    "custody",
    "cut",
    "cutting",
+   "czech",
    "damage",
    "damaged",
    "damages",
@@ -366,6 +381,7 @@
    "data",
    "day",
    "dead",
+   "deadlock",
    "deadly",
    "deal",
    "deaths",
@@ -379,6 +395,7 @@
    "declines",
    "deep",
    "deepen",
+   "deepening",
    "deepens",
    "defence",
    "defense",
@@ -413,6 +430,7 @@
    "died",
    "dies",
    "diesel",
+   "difficulties",
    "digital",
    "dim",
    "diplomacy",
@@ -440,6 +458,7 @@
    "donations",
    "double",
    "doubles",
+   "doubts",
    "downed",
    "downplays",
    "downs",
@@ -481,6 +500,7 @@
    "engulfed",
    "enough",
    "envoy",
+   "envoys",
    "epic",
    "erects",
    "erroneously",
@@ -524,6 +544,7 @@
    "falls",
    "falsely",
    "family",
+   "fans",
    "far",
    "fears",
    "featuring",
@@ -531,7 +552,11 @@
    "fees",
    "fell",
    "fery",
+   "fiercely",
+   "fight",
+   "fighting",
    "filipino",
+   "film",
    "finance",
    "finish",
    "fire",
@@ -554,6 +579,7 @@
    "forcing",
    "foreign",
    "forever",
+   "forge",
    "formal",
    "formula",
    "forum",
@@ -566,6 +592,7 @@
    "fritz",
    "front",
    "fuel",
+   "fueling",
    "fuelling",
    "fully",
    "funding",
@@ -586,6 +613,8 @@
    "get",
    "ghalibaf",
    "ghana",
+   "ghanaian",
+   "ghanaians",
    "giant",
    "give",
    "global",
@@ -640,6 +669,7 @@
    "holds",
    "hole",
    "holidays",
+   "home",
    "honour",
    "hopes",
    "hormuz",
@@ -676,6 +706,7 @@
    "influence",
    "infrastructure",
    "injured",
+   "injuring",
    "inseparable",
    "insist",
    "intensifies",
@@ -765,21 +796,26 @@
    "little",
    "live",
    "living",
+   "local",
    "long",
    "loses",
+   "losses",
    "lost",
    "lower",
    "made",
    "maintain",
+   "major",
    "majority",
    "make",
    "makes",
    "malaysia's",
    "malaysian",
+   "manifesto",
    "manner",
    "marine",
    "mark",
    "market",
+   "marketplace",
    "markets",
    "mass",
    "massive",
@@ -787,6 +823,8 @@
    "may",
    "mean",
    "measures",
+   "medals",
+   "medeama",
    "media",
    "mediator",
    "mediators",
@@ -795,6 +833,7 @@
    "meeting",
    "meets",
    "memorandum",
+   "men",
    "middle",
    "mideast",
    "midterm",
@@ -804,10 +843,12 @@
    "military",
    "mine",
    "mines",
+   "minister",
    "ministers",
    "ministry",
    "missile",
    "missiles",
+   "mob",
    "modi",
    "modified",
    "moldova",
@@ -859,6 +900,7 @@
    "nuclear",
    "number",
    "odds",
+   "odesa",
    "off",
    "offer",
    "offers",
@@ -900,6 +942,7 @@
    "palau",
    "palestinian",
    "palm",
+   "para",
    "parallel",
    "pared",
    "party",
@@ -926,7 +969,10 @@
    "plan",
    "planning",
    "planting",
+   "play",
    "pledges",
+   "plotted",
+   "point",
    "political",
    "politics",
    "poll",
@@ -949,6 +995,7 @@
    "price",
    "prices",
    "principles",
+   "privacy",
    "prix",
    "probe",
    "probing",
@@ -971,6 +1018,7 @@
    "quietly",
    "railways",
    "raise",
+   "raises",
    "raising",
    "rallies",
    "ranked",
@@ -1068,6 +1116,7 @@
    "school",
    "sco",
    "sea",
+   "season",
    "secondary",
    "secretary",
    "secured",
@@ -1085,12 +1134,14 @@
    "sept",
    "september",
    "serious",
+   "services",
    "sessions",
    "set",
    "sets",
    "settlement",
    "settler",
    "sever",
+   "several",
    "severe",
    "shade",
    "shadow",
@@ -1101,8 +1152,10 @@
    "shock",
    "shoots",
    "short",
+   "shortage",
    "show",
    "shrugs",
+   "shut",
    "sides",
    "sight",
    "sign",
@@ -1136,7 +1189,10 @@
    "southern",
    "sovereignty",
    "spat",
+   "speaks",
+   "specific",
    "spokesperson",
+   "sports",
    "squeeze",
    "squeezes",
    "stakes",
@@ -1181,10 +1237,12 @@
    "sufficient",
    "suggests",
    "summer",
+   "super",
    "supertanker",
    "supertankers",
    "supplies",
    "support",
+   "supporting",
    "supreme",
    "survives",
    "suspected",
@@ -1197,6 +1255,7 @@
    "swift",
    "systems",
    "table",
+   "taekwondo",
    "take",
    "takes",
    "talk",
@@ -1239,6 +1298,7 @@
    "tight",
    "tighten",
    "tightens",
+   "tilted",
    "time",
    "time'",
    "timeline",
@@ -1274,6 +1334,7 @@
    "turns",
    "two",
    "uae",
+   "udm",
    "ukraine",
    "ukraine's",
    "ukrainian",
@@ -1349,9 +1410,11 @@
    "why",
    "widening",
    "wider",
+   "wild",
    "win",
    "winners",
    "wins",
+   "winter",
    "within",
    "woes",
    "women",
@@ -1366,10 +1429,12 @@
    "wounds",
    "wrong'",
    "wti",
+   "xenophobic",
    "year",
    "years",
    "yemen",
    "yen",
+   "yet",
    "yields",
    "zelensky",
    "zelenskyy",
@@ -1380,7 +1445,7 @@
   "sources": 1,
   "peak": 18,
   "first_seen": "2026-08-04T16:13:00.329821+00:00",
-  "last_seen": "2026-09-04T12:08:03.977393+00:00"
+  "last_seen": "2026-09-04T15:07:50.904538+00:00"
  },
  {
   "tokens": [
@@ -2253,7 +2318,7 @@
   "sources": 1,
   "peak": 3,
   "first_seen": "2026-08-17T15:07:40.135291+00:00",
-  "last_seen": "2026-09-04T12:08:03.797381+00:00"
+  "last_seen": "2026-09-04T15:07:50.741682+00:00"
  },
  {
   "tokens": [
@@ -2540,6 +2605,7 @@
    "class",
    "friday",
    "pasok",
+   "picture",
    "saturday",
    "september",
    "suspensions",
@@ -2550,7 +2616,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-08-24T12:11:14.905538+00:00",
-  "last_seen": "2026-09-01T19:07:46.400626+00:00"
+  "last_seen": "2026-09-04T15:07:50.238664+00:00"
  },
  {
   "tokens": [
@@ -2800,6 +2866,7 @@
    "dam",
    "damage",
    "day",
+   "days",
    "dead",
    "deadly",
    "death",
@@ -2916,6 +2983,7 @@
    "need",
    "nepal",
    "news",
+   "nine",
    "number",
    "nuwakot",
    "offer",
@@ -2939,6 +3007,7 @@
    "profiling",
    "progressing",
    "projects",
+   "pulled",
    "punishes",
    "push",
    "race",
@@ -3037,7 +3106,7 @@
   "sources": 2,
   "peak": 21,
   "first_seen": "2026-08-26T09:07:40.590239+00:00",
-  "last_seen": "2026-09-04T12:08:03.630771+00:00"
+  "last_seen": "2026-09-04T15:07:50.732857+00:00"
  },
  {
   "tokens": [
@@ -3235,14 +3304,16 @@
    "throws",
    "ties",
    "toughest",
+   "ucl",
    "villa",
    "who",
+   "women",
    "women's"
   ],
   "sources": 1,
   "peak": 10,
   "first_seen": "2026-08-27T15:08:10.310903+00:00",
-  "last_seen": "2026-09-04T12:08:03.873500+00:00"
+  "last_seen": "2026-09-04T15:07:50.634162+00:00"
  },
  {
   "tokens": [
@@ -3362,6 +3433,7 @@
    "sixth",
    "somerset",
    "surrey",
+   "thrash",
    "three",
    "two",
    "warwickshire",
@@ -3370,7 +3442,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-08-28T09:07:47.936082+00:00",
-  "last_seen": "2026-09-04T12:08:03.870297+00:00"
+  "last_seen": "2026-09-04T15:07:50.774913+00:00"
  },
  {
   "tokens": [
@@ -5377,7 +5449,7 @@
   "sources": 1,
   "peak": 8,
   "first_seen": "2026-08-31T06:08:03.136529+00:00",
-  "last_seen": "2026-09-03T19:08:08.936394+00:00"
+  "last_seen": "2026-09-04T15:07:50.797604+00:00"
  },
  {
   "tokens": [
@@ -8581,7 +8653,10 @@
    "centre",
    "cinema",
    "conversation",
+   "festival",
    "film",
+   "ghanaian",
+   "heart",
    "language",
    "local",
    "puts"
@@ -8589,7 +8664,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-08-31T15:07:52.830736+00:00",
-  "last_seen": "2026-08-31T15:07:52.830736+00:00"
+  "last_seen": "2026-09-04T15:07:50.260095+00:00"
  },
  {
   "tokens": [
@@ -14977,7 +15052,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-01T03:08:00.280977+00:00",
-  "last_seen": "2026-09-04T12:08:03.916859+00:00"
+  "last_seen": "2026-09-04T15:07:50.828277+00:00"
  },
  {
   "tokens": [
@@ -18619,7 +18694,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-01T12:07:44.402306+00:00",
-  "last_seen": "2026-09-04T12:08:03.187716+00:00"
+  "last_seen": "2026-09-04T15:07:50.244016+00:00"
  },
  {
   "tokens": [
@@ -18882,14 +18957,17 @@
    "disrupt",
    "event",
    "host",
+   "hours",
+   "less",
    "now",
    "side",
-   "techcrunch"
+   "techcrunch",
+   "your"
   ],
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-01T12:07:44.623796+00:00",
-  "last_seen": "2026-09-01T15:07:58.610943+00:00"
+  "last_seen": "2026-09-04T15:07:50.295682+00:00"
  },
  {
   "tokens": [
@@ -30741,7 +30819,7 @@
   "sources": 1,
   "peak": 2,
   "first_seen": "2026-09-02T12:07:56.988001+00:00",
-  "last_seen": "2026-09-04T12:08:03.650947+00:00"
+  "last_seen": "2026-09-04T15:07:50.667441+00:00"
  },
  {
   "tokens": [
@@ -32270,15 +32348,17 @@
    "enters",
    "era",
    "foldable",
+   "how",
    "john",
    "phones",
+   "shape",
    "takes",
    "ternus"
   ],
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-02T17:08:13.144823+00:00",
-  "last_seen": "2026-09-02T18:08:03.100804+00:00"
+  "last_seen": "2026-09-04T15:07:50.800389+00:00"
  },
  {
   "tokens": [
@@ -39002,7 +39082,7 @@
   "sources": 1,
   "peak": 2,
   "first_seen": "2026-09-03T09:07:48.444878+00:00",
-  "last_seen": "2026-09-04T09:07:48.364345+00:00"
+  "last_seen": "2026-09-04T15:07:50.896350+00:00"
  },
  {
   "tokens": [
@@ -40376,10 +40456,10 @@
    "magazine",
    "steinem"
   ],
-  "sources": 5,
+  "sources": 4,
   "peak": 14,
   "first_seen": "2026-09-03T12:07:49.936879+00:00",
-  "last_seen": "2026-09-04T12:08:03.278578+00:00"
+  "last_seen": "2026-09-04T15:07:50.422354+00:00"
  },
  {
   "tokens": [
@@ -40400,10 +40480,10 @@
    "ukraine",
    "ukrainian"
   ],
-  "sources": 2,
+  "sources": 1,
   "peak": 4,
   "first_seen": "2026-09-03T12:07:49.940182+00:00",
-  "last_seen": "2026-09-04T09:07:48.265091+00:00"
+  "last_seen": "2026-09-04T15:07:50.396955+00:00"
  },
  {
   "tokens": [
@@ -40543,16 +40623,21 @@
    "celebrates",
    "government",
    "italy",
+   "leading",
+   "longest",
    "longevity",
    "meloni",
    "power",
    "record",
-   "sets"
+   "serving",
+   "sets",
+   "since",
+   "wwii"
   ],
   "sources": 2,
   "peak": 3,
   "first_seen": "2026-09-03T12:07:50.070863+00:00",
-  "last_seen": "2026-09-04T09:07:47.875321+00:00"
+  "last_seen": "2026-09-04T15:07:50.653303+00:00"
  },
  {
   "tokens": [
@@ -41419,7 +41504,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-03T12:07:50.532815+00:00",
-  "last_seen": "2026-09-04T12:08:03.255523+00:00"
+  "last_seen": "2026-09-04T15:07:50.315480+00:00"
  },
  {
   "tokens": [
@@ -44357,7 +44442,7 @@
   "sources": 1,
   "peak": 4,
   "first_seen": "2026-09-03T17:07:48.182630+00:00",
-  "last_seen": "2026-09-04T09:07:47.652178+00:00"
+  "last_seen": "2026-09-04T15:07:50.546089+00:00"
  },
  {
   "tokens": [
@@ -45047,7 +45132,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-03T17:07:48.692851+00:00",
-  "last_seen": "2026-09-03T19:08:08.894362+00:00"
+  "last_seen": "2026-09-04T15:07:50.729974+00:00"
  },
  {
   "tokens": [
@@ -46690,7 +46775,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-03T18:08:05.618190+00:00",
-  "last_seen": "2026-09-04T09:07:48.302039+00:00"
+  "last_seen": "2026-09-04T15:07:50.899073+00:00"
  },
  {
   "tokens": [
@@ -47110,18 +47195,21 @@
  },
  {
   "tokens": [
+   "'unfair'",
    "app",
    "apple",
    "billion",
+   "facing",
+   "lawsuit",
    "rules",
    "sued",
    "tracking",
    "transparency"
   ],
-  "sources": 2,
+  "sources": 1,
   "peak": 3,
   "first_seen": "2026-09-03T19:08:08.873976+00:00",
-  "last_seen": "2026-09-04T12:08:03.781419+00:00"
+  "last_seen": "2026-09-04T15:07:50.882504+00:00"
  },
  {
   "tokens": [
@@ -47362,10 +47450,10 @@
    "resigns",
    "ukraine"
   ],
-  "sources": 2,
+  "sources": 1,
   "peak": 2,
   "first_seen": "2026-09-03T19:08:09.205266+00:00",
-  "last_seen": "2026-09-04T12:08:03.880076+00:00"
+  "last_seen": "2026-09-04T15:07:50.391529+00:00"
  },
  {
   "tokens": [
@@ -47431,7 +47519,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-03T19:08:09.315006+00:00",
-  "last_seen": "2026-09-04T12:08:03.804037+00:00"
+  "last_seen": "2026-09-04T15:07:50.749350+00:00"
  },
  {
   "tokens": [
@@ -47450,7 +47538,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-03T19:08:09.324961+00:00",
-  "last_seen": "2026-09-04T12:08:03.813644+00:00"
+  "last_seen": "2026-09-04T15:07:50.754933+00:00"
  },
  {
   "tokens": [
@@ -47548,7 +47636,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-03T19:08:09.366503+00:00",
-  "last_seen": "2026-09-04T12:08:03.866883+00:00"
+  "last_seen": "2026-09-04T15:07:50.786208+00:00"
  },
  {
   "tokens": [
@@ -47570,7 +47658,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-03T19:08:09.380263+00:00",
-  "last_seen": "2026-09-04T12:08:03.654375+00:00"
+  "last_seen": "2026-09-04T15:07:50.805562+00:00"
  },
  {
   "tokens": [
@@ -47677,7 +47765,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-03T19:08:09.532018+00:00",
-  "last_seen": "2026-09-04T12:08:03.239674+00:00"
+  "last_seen": "2026-09-04T15:07:50.298425+00:00"
  },
  {
   "tokens": [
@@ -47931,7 +48019,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-03T19:08:09.699830+00:00",
-  "last_seen": "2026-09-04T12:08:03.684656+00:00"
+  "last_seen": "2026-09-04T15:07:50.682227+00:00"
  },
  {
   "tokens": [
@@ -48101,7 +48189,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-03T22:08:07.759308+00:00",
-  "last_seen": "2026-09-04T12:08:03.265096+00:00"
+  "last_seen": "2026-09-04T15:07:50.323495+00:00"
  },
  {
   "tokens": [
@@ -48148,10 +48236,10 @@
    "powerful",
    "rollout"
   ],
-  "sources": 2,
-  "peak": 2,
+  "sources": 6,
+  "peak": 6,
   "first_seen": "2026-09-03T22:08:07.822345+00:00",
-  "last_seen": "2026-09-04T09:07:47.918659+00:00"
+  "last_seen": "2026-09-04T15:07:50.218614+00:00"
  },
  {
   "tokens": [
@@ -48206,7 +48294,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-03T22:08:07.916005+00:00",
-  "last_seen": "2026-09-04T12:08:03.336721+00:00"
+  "last_seen": "2026-09-04T15:07:50.456179+00:00"
  },
  {
   "tokens": [
@@ -48286,10 +48374,10 @@
    "usps",
    "voting"
   ],
-  "sources": 1,
-  "peak": 1,
+  "sources": 2,
+  "peak": 2,
   "first_seen": "2026-09-03T22:08:07.958714+00:00",
-  "last_seen": "2026-09-04T12:08:03.398220+00:00"
+  "last_seen": "2026-09-04T15:07:50.631164+00:00"
  },
  {
   "tokens": [
@@ -48318,7 +48406,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-03T22:08:07.965930+00:00",
-  "last_seen": "2026-09-04T12:08:03.700614+00:00"
+  "last_seen": "2026-09-04T15:07:50.701487+00:00"
  },
  {
   "tokens": [
@@ -48810,7 +48898,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-03T22:08:08.283972+00:00",
-  "last_seen": "2026-09-04T12:08:03.724261+00:00"
+  "last_seen": "2026-09-04T15:07:50.712883+00:00"
  },
  {
   "tokens": [
@@ -49428,10 +49516,10 @@
    "positive",
    "test"
   ],
-  "sources": 4,
+  "sources": 2,
   "peak": 6,
   "first_seen": "2026-09-04T03:07:43.931167+00:00",
-  "last_seen": "2026-09-04T12:08:03.294639+00:00"
+  "last_seen": "2026-09-04T15:07:50.664692+00:00"
  },
  {
   "tokens": [
@@ -49748,7 +49836,7 @@
   "sources": 3,
   "peak": 3,
   "first_seen": "2026-09-04T03:07:44.201794+00:00",
-  "last_seen": "2026-09-04T12:08:03.346284+00:00"
+  "last_seen": "2026-09-04T15:07:50.469170+00:00"
  },
  {
   "tokens": [
@@ -49815,10 +49903,10 @@
    "nino",
    "panama"
   ],
-  "sources": 2,
-  "peak": 2,
+  "sources": 3,
+  "peak": 3,
   "first_seen": "2026-09-04T03:07:44.235802+00:00",
-  "last_seen": "2026-09-04T12:08:03.657864+00:00"
+  "last_seen": "2026-09-04T15:07:50.477517+00:00"
  },
  {
   "tokens": [
@@ -49854,21 +49942,24 @@
   "tokens": [
    "court",
    "figures",
+   "final",
+   "hearing",
    "long",
    "mass",
    "opposition",
    "prison",
    "sentences",
+   "starts",
    "top",
    "trial",
    "tunisia",
    "upholds",
    "years"
   ],
-  "sources": 3,
+  "sources": 2,
   "peak": 3,
   "first_seen": "2026-09-04T03:07:44.251599+00:00",
-  "last_seen": "2026-09-04T12:08:03.359135+00:00"
+  "last_seen": "2026-09-04T15:07:50.696047+00:00"
  },
  {
   "tokens": [
@@ -49907,7 +49998,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T03:07:44.289250+00:00",
-  "last_seen": "2026-09-04T12:08:03.720994+00:00"
+  "last_seen": "2026-09-04T15:07:50.710039+00:00"
  },
  {
   "tokens": [
@@ -49957,7 +50048,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T03:07:44.397267+00:00",
-  "last_seen": "2026-09-04T12:08:03.207132+00:00"
+  "last_seen": "2026-09-04T15:07:50.276658+00:00"
  },
  {
   "tokens": [
@@ -49972,7 +50063,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T03:07:44.444071+00:00",
-  "last_seen": "2026-09-04T06:07:49.671689+00:00"
+  "last_seen": "2026-09-04T15:07:50.458746+00:00"
  },
  {
   "tokens": [
@@ -50166,10 +50257,10 @@
    "tensions",
    "trump"
   ],
-  "sources": 4,
+  "sources": 3,
   "peak": 4,
   "first_seen": "2026-09-04T06:07:49.239538+00:00",
-  "last_seen": "2026-09-04T12:08:03.174792+00:00"
+  "last_seen": "2026-09-04T15:07:50.464091+00:00"
  },
  {
   "tokens": [
@@ -50369,7 +50460,7 @@
   "sources": 3,
   "peak": 3,
   "first_seen": "2026-09-04T06:07:49.399060+00:00",
-  "last_seen": "2026-09-04T12:08:03.327236+00:00"
+  "last_seen": "2026-09-04T15:07:50.450826+00:00"
  },
  {
   "tokens": [
@@ -50407,7 +50498,7 @@
   "sources": 2,
   "peak": 3,
   "first_seen": "2026-09-04T06:07:49.437451+00:00",
-  "last_seen": "2026-09-04T12:08:03.582483+00:00"
+  "last_seen": "2026-09-04T15:07:50.625375+00:00"
  },
  {
   "tokens": [
@@ -50427,7 +50518,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T06:07:49.443968+00:00",
-  "last_seen": "2026-09-04T12:08:03.320789+00:00"
+  "last_seen": "2026-09-04T15:07:50.445244+00:00"
  },
  {
   "tokens": [
@@ -50545,7 +50636,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T06:07:49.505899+00:00",
-  "last_seen": "2026-09-04T12:08:03.226743+00:00"
+  "last_seen": "2026-09-04T15:07:50.439263+00:00"
  },
  {
   "tokens": [
@@ -50608,7 +50699,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T06:07:49.647910+00:00",
-  "last_seen": "2026-09-04T12:08:03.258757+00:00"
+  "last_seen": "2026-09-04T15:07:50.318185+00:00"
  },
  {
   "tokens": [
@@ -50655,7 +50746,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T06:07:49.685181+00:00",
-  "last_seen": "2026-09-04T12:08:03.243011+00:00"
+  "last_seen": "2026-09-04T15:07:50.687563+00:00"
  },
  {
   "tokens": [
@@ -50674,7 +50765,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T06:07:49.716318+00:00",
-  "last_seen": "2026-09-04T12:08:03.230147+00:00"
+  "last_seen": "2026-09-04T15:07:50.292880+00:00"
  },
  {
   "tokens": [
@@ -50732,7 +50823,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T06:07:49.808854+00:00",
-  "last_seen": "2026-09-04T12:08:03.953703+00:00"
+  "last_seen": "2026-09-04T15:07:50.893607+00:00"
  },
  {
   "tokens": [
@@ -50800,7 +50891,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T06:07:49.836812+00:00",
-  "last_seen": "2026-09-04T12:08:03.854129+00:00"
+  "last_seen": "2026-09-04T15:07:50.780639+00:00"
  },
  {
   "tokens": [
@@ -50895,14 +50986,15 @@
    "fight",
    "gloria",
    "life",
+   "pictures",
    "steinem",
    "watch",
    "women's"
   ],
-  "sources": 1,
-  "peak": 1,
+  "sources": 2,
+  "peak": 2,
   "first_seen": "2026-09-04T06:07:49.875365+00:00",
-  "last_seen": "2026-09-04T09:07:48.336266+00:00"
+  "last_seen": "2026-09-04T15:07:50.746851+00:00"
  },
  {
   "tokens": [
@@ -51061,6 +51153,7 @@
  },
  {
   "tokens": [
+   "afd",
    "beginning",
    "could",
    "election",
@@ -51071,6 +51164,7 @@
    "germany's",
    "just",
    "minorities",
+   "party",
    "poised",
    "power",
    "right",
@@ -51080,7 +51174,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T06:07:49.949794+00:00",
-  "last_seen": "2026-09-04T12:08:03.549823+00:00"
+  "last_seen": "2026-09-04T15:07:50.605117+00:00"
  },
  {
   "tokens": [
@@ -51328,10 +51422,10 @@
    "threats",
    "warrant"
   ],
-  "sources": 3,
-  "peak": 4,
+  "sources": 7,
+  "peak": 7,
   "first_seen": "2026-09-04T09:07:47.591851+00:00",
-  "last_seen": "2026-09-04T12:08:03.314082+00:00"
+  "last_seen": "2026-09-04T15:07:50.214956+00:00"
  },
  {
   "tokens": [
@@ -51349,7 +51443,7 @@
   "sources": 4,
   "peak": 10,
   "first_seen": "2026-09-04T09:07:47.605843+00:00",
-  "last_seen": "2026-09-04T12:08:03.288069+00:00"
+  "last_seen": "2026-09-04T15:07:50.405282+00:00"
  },
  {
   "tokens": [
@@ -51417,7 +51511,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T09:07:47.625578+00:00",
-  "last_seen": "2026-09-04T12:08:03.388611+00:00"
+  "last_seen": "2026-09-04T15:07:50.490729+00:00"
  },
  {
   "tokens": [
@@ -51437,7 +51531,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T09:07:47.632054+00:00",
-  "last_seen": "2026-09-04T09:07:47.632054+00:00"
+  "last_seen": "2026-09-04T15:07:50.287462+00:00"
  },
  {
   "tokens": [
@@ -51452,7 +51546,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T09:07:47.635480+00:00",
-  "last_seen": "2026-09-04T09:07:47.635480+00:00"
+  "last_seen": "2026-09-04T15:07:50.290265+00:00"
  },
  {
   "tokens": [
@@ -51468,7 +51562,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T09:07:47.662634+00:00",
-  "last_seen": "2026-09-04T12:08:03.261943+00:00"
+  "last_seen": "2026-09-04T15:07:50.320843+00:00"
  },
  {
   "tokens": [
@@ -51482,7 +51576,7 @@
   "sources": 1,
   "peak": 2,
   "first_seen": "2026-09-04T09:07:47.739369+00:00",
-  "last_seen": "2026-09-04T12:08:03.900677+00:00"
+  "last_seen": "2026-09-04T15:07:50.817466+00:00"
  },
  {
   "tokens": [
@@ -51501,7 +51595,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T09:07:47.745960+00:00",
-  "last_seen": "2026-09-04T12:08:03.502767+00:00"
+  "last_seen": "2026-09-04T15:07:50.581574+00:00"
  },
  {
   "tokens": [
@@ -51624,7 +51718,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T09:07:47.780153+00:00",
-  "last_seen": "2026-09-04T12:08:03.395116+00:00"
+  "last_seen": "2026-09-04T15:07:50.493448+00:00"
  },
  {
   "tokens": [
@@ -51850,7 +51944,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T09:07:48.023198+00:00",
-  "last_seen": "2026-09-04T12:08:03.710534+00:00"
+  "last_seen": "2026-09-04T15:07:50.382958+00:00"
  },
  {
   "tokens": [
@@ -51936,7 +52030,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T09:07:48.181947+00:00",
-  "last_seen": "2026-09-04T12:08:03.820175+00:00"
+  "last_seen": "2026-09-04T15:07:50.757871+00:00"
  },
  {
   "tokens": [
@@ -51992,7 +52086,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T09:07:48.223249+00:00",
-  "last_seen": "2026-09-04T12:08:03.863594+00:00"
+  "last_seen": "2026-09-04T15:07:50.783400+00:00"
  },
  {
   "tokens": [
@@ -52012,7 +52106,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T09:07:48.237161+00:00",
-  "last_seen": "2026-09-04T12:08:03.876628+00:00"
+  "last_seen": "2026-09-04T15:07:50.792092+00:00"
  },
  {
   "tokens": [
@@ -52028,7 +52122,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T09:07:48.281679+00:00",
-  "last_seen": "2026-09-04T12:08:03.923390+00:00"
+  "last_seen": "2026-09-04T15:07:50.831198+00:00"
  },
  {
   "tokens": [
@@ -52044,7 +52138,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T09:07:48.285021+00:00",
-  "last_seen": "2026-09-04T12:08:03.926612+00:00"
+  "last_seen": "2026-09-04T15:07:50.833984+00:00"
  },
  {
   "tokens": [
@@ -52155,7 +52249,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T09:07:48.332849+00:00",
-  "last_seen": "2026-09-04T12:08:03.434256+00:00"
+  "last_seen": "2026-09-04T15:07:50.718495+00:00"
  },
  {
   "tokens": [
@@ -52272,7 +52366,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T09:07:48.384938+00:00",
-  "last_seen": "2026-09-04T12:08:03.473760+00:00"
+  "last_seen": "2026-09-04T15:07:50.565181+00:00"
  },
  {
   "tokens": [
@@ -52548,7 +52642,7 @@
   "sources": 4,
   "peak": 4,
   "first_seen": "2026-09-04T12:08:03.168106+00:00",
-  "last_seen": "2026-09-04T12:08:03.168106+00:00"
+  "last_seen": "2026-09-04T15:07:50.227132+00:00"
  },
  {
   "tokens": [
@@ -52631,7 +52725,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.197386+00:00",
-  "last_seen": "2026-09-04T12:08:03.197386+00:00"
+  "last_seen": "2026-09-04T15:07:50.271025+00:00"
  },
  {
   "tokens": [
@@ -52672,7 +52766,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.220423+00:00",
-  "last_seen": "2026-09-04T12:08:03.220423+00:00"
+  "last_seen": "2026-09-04T15:07:50.282132+00:00"
  },
  {
   "tokens": [
@@ -52685,7 +52779,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.246276+00:00",
-  "last_seen": "2026-09-04T12:08:03.246276+00:00"
+  "last_seen": "2026-09-04T15:07:50.301412+00:00"
  },
  {
   "tokens": [
@@ -52701,7 +52795,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.252374+00:00",
-  "last_seen": "2026-09-04T12:08:03.252374+00:00"
+  "last_seen": "2026-09-04T15:07:50.307030+00:00"
  },
  {
   "tokens": [
@@ -52717,7 +52811,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.297824+00:00",
-  "last_seen": "2026-09-04T12:08:03.297824+00:00"
+  "last_seen": "2026-09-04T15:07:50.424947+00:00"
  },
  {
   "tokens": [
@@ -52733,7 +52827,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.301006+00:00",
-  "last_seen": "2026-09-04T12:08:03.301006+00:00"
+  "last_seen": "2026-09-04T15:07:50.427648+00:00"
  },
  {
   "tokens": [
@@ -52747,10 +52841,10 @@
    "undisclosed",
    "website"
   ],
-  "sources": 3,
-  "peak": 3,
+  "sources": 4,
+  "peak": 4,
   "first_seen": "2026-09-04T12:08:03.310819+00:00",
-  "last_seen": "2026-09-04T12:08:03.310819+00:00"
+  "last_seen": "2026-09-04T15:07:50.368533+00:00"
  },
  {
   "tokens": [
@@ -52760,14 +52854,17 @@
    "distressed",
    "donates",
    "evacuate",
+   "evacuation",
+   "lauds",
    "nigerians",
    "rccg",
-   "south"
+   "south",
+   "support"
   ],
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.330425+00:00",
-  "last_seen": "2026-09-04T12:08:03.330425+00:00"
+  "last_seen": "2026-09-04T15:07:50.408111+00:00"
  },
  {
   "tokens": [
@@ -52782,7 +52879,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.333636+00:00",
-  "last_seen": "2026-09-04T12:08:03.333636+00:00"
+  "last_seen": "2026-09-04T15:07:50.453616+00:00"
  },
  {
   "tokens": [
@@ -52803,7 +52900,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.339821+00:00",
-  "last_seen": "2026-09-04T12:08:03.339821+00:00"
+  "last_seen": "2026-09-04T15:07:50.578681+00:00"
  },
  {
   "tokens": [
@@ -52817,7 +52914,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.343236+00:00",
-  "last_seen": "2026-09-04T12:08:03.343236+00:00"
+  "last_seen": "2026-09-04T15:07:50.466666+00:00"
  },
  {
   "tokens": [
@@ -52833,7 +52930,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.352781+00:00",
-  "last_seen": "2026-09-04T12:08:03.352781+00:00"
+  "last_seen": "2026-09-04T15:07:50.474774+00:00"
  },
  {
   "tokens": [
@@ -52850,7 +52947,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.355941+00:00",
-  "last_seen": "2026-09-04T12:08:03.355941+00:00"
+  "last_seen": "2026-09-04T15:07:50.482697+00:00"
  },
  {
   "tokens": [
@@ -52977,7 +53074,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.444160+00:00",
-  "last_seen": "2026-09-04T12:08:03.444160+00:00"
+  "last_seen": "2026-09-04T15:07:50.532091+00:00"
  },
  {
   "tokens": [
@@ -53007,7 +53104,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T12:08:03.457173+00:00",
-  "last_seen": "2026-09-04T12:08:03.457173+00:00"
+  "last_seen": "2026-09-04T15:07:50.515399+00:00"
  },
  {
   "tokens": [
@@ -53024,7 +53121,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.467193+00:00",
-  "last_seen": "2026-09-04T12:08:03.467193+00:00"
+  "last_seen": "2026-09-04T15:07:50.537609+00:00"
  },
  {
   "tokens": [
@@ -53057,7 +53154,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T12:08:03.476817+00:00",
-  "last_seen": "2026-09-04T12:08:03.476817+00:00"
+  "last_seen": "2026-09-04T15:07:50.551439+00:00"
  },
  {
   "tokens": [
@@ -53073,7 +53170,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T12:08:03.480040+00:00",
-  "last_seen": "2026-09-04T12:08:03.480040+00:00"
+  "last_seen": "2026-09-04T15:07:50.567715+00:00"
  },
  {
   "tokens": [
@@ -53091,7 +53188,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.483199+00:00",
-  "last_seen": "2026-09-04T12:08:03.483199+00:00"
+  "last_seen": "2026-09-04T15:07:50.570378+00:00"
  },
  {
   "tokens": [
@@ -53125,7 +53222,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T12:08:03.489706+00:00",
-  "last_seen": "2026-09-04T12:08:03.489706+00:00"
+  "last_seen": "2026-09-04T15:07:50.573151+00:00"
  },
  {
   "tokens": [
@@ -53144,7 +53241,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.496335+00:00",
-  "last_seen": "2026-09-04T12:08:03.496335+00:00"
+  "last_seen": "2026-09-04T15:07:50.575770+00:00"
  },
  {
   "tokens": [
@@ -53198,6 +53295,7 @@
  },
  {
   "tokens": [
+   "attend",
    "attendance",
    "cup",
    "fifa",
@@ -53205,13 +53303,14 @@
    "opens",
    "poland",
    "uncertain",
+   "unsure",
    "women",
    "world"
   ],
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T12:08:03.536815+00:00",
-  "last_seen": "2026-09-04T12:08:03.536815+00:00"
+  "last_seen": "2026-09-04T15:07:50.548846+00:00"
  },
  {
   "tokens": [
@@ -53227,7 +53326,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T12:08:03.546653+00:00",
-  "last_seen": "2026-09-04T12:08:03.546653+00:00"
+  "last_seen": "2026-09-04T15:07:50.602401+00:00"
  },
  {
   "tokens": [
@@ -53241,7 +53340,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T12:08:03.556268+00:00",
-  "last_seen": "2026-09-04T12:08:03.556268+00:00"
+  "last_seen": "2026-09-04T15:07:50.607888+00:00"
  },
  {
   "tokens": [
@@ -53271,7 +53370,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T12:08:03.572604+00:00",
-  "last_seen": "2026-09-04T12:08:03.572604+00:00"
+  "last_seen": "2026-09-04T15:07:50.616429+00:00"
  },
  {
   "tokens": [
@@ -53292,7 +53391,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.575792+00:00",
-  "last_seen": "2026-09-04T12:08:03.575792+00:00"
+  "last_seen": "2026-09-04T15:07:50.619150+00:00"
  },
  {
   "tokens": [
@@ -53325,7 +53424,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T12:08:03.588766+00:00",
-  "last_seen": "2026-09-04T12:08:03.588766+00:00"
+  "last_seen": "2026-09-04T15:07:50.637036+00:00"
  },
  {
   "tokens": [
@@ -53387,7 +53486,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.617941+00:00",
-  "last_seen": "2026-09-04T12:08:03.617941+00:00"
+  "last_seen": "2026-09-04T15:07:50.645515+00:00"
  },
  {
   "tokens": [
@@ -53423,7 +53522,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.640972+00:00",
-  "last_seen": "2026-09-04T12:08:03.640972+00:00"
+  "last_seen": "2026-09-04T15:07:50.661902+00:00"
  },
  {
   "tokens": [
@@ -53449,7 +53548,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.681358+00:00",
-  "last_seen": "2026-09-04T12:08:03.707107+00:00"
+  "last_seen": "2026-09-04T15:07:50.703877+00:00"
  },
  {
   "tokens": [
@@ -53475,7 +53574,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-04T12:08:03.717382+00:00",
-  "last_seen": "2026-09-04T12:08:03.717382+00:00"
+  "last_seen": "2026-09-04T15:07:50.229890+00:00"
  },
  {
   "tokens": [
@@ -53494,7 +53593,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.727463+00:00",
-  "last_seen": "2026-09-04T12:08:03.727463+00:00"
+  "last_seen": "2026-09-04T15:07:50.715612+00:00"
  },
  {
   "tokens": [
@@ -53509,7 +53608,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.737571+00:00",
-  "last_seen": "2026-09-04T12:08:03.737571+00:00"
+  "last_seen": "2026-09-04T15:07:50.690415+00:00"
  },
  {
   "tokens": [
@@ -53529,7 +53628,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.810240+00:00",
-  "last_seen": "2026-09-04T12:08:03.810240+00:00"
+  "last_seen": "2026-09-04T15:07:50.752004+00:00"
  },
  {
   "tokens": [
@@ -53550,7 +53649,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.823559+00:00",
-  "last_seen": "2026-09-04T12:08:03.823559+00:00"
+  "last_seen": "2026-09-04T15:07:50.760757+00:00"
  },
  {
   "tokens": [
@@ -53568,7 +53667,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.830614+00:00",
-  "last_seen": "2026-09-04T12:08:03.830614+00:00"
+  "last_seen": "2026-09-04T15:07:50.763683+00:00"
  },
  {
   "tokens": [
@@ -53584,7 +53683,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.837344+00:00",
-  "last_seen": "2026-09-04T12:08:03.837344+00:00"
+  "last_seen": "2026-09-04T15:07:50.766460+00:00"
  },
  {
   "tokens": [
@@ -53602,7 +53701,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.840582+00:00",
-  "last_seen": "2026-09-04T12:08:03.840582+00:00"
+  "last_seen": "2026-09-04T15:07:50.769125+00:00"
  },
  {
   "tokens": [
@@ -53622,7 +53721,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.847241+00:00",
-  "last_seen": "2026-09-04T12:08:03.847241+00:00"
+  "last_seen": "2026-09-04T15:07:50.771979+00:00"
  },
  {
   "tokens": [
@@ -53668,21 +53767,29 @@
  },
  {
   "tokens": [
+   "across",
+   "calls",
    "chief",
    "conflict",
    "eurasia",
+   "foreign",
+   "head",
    "intel",
+   "intelligence",
    "large",
+   "quite",
    "real",
    "risk",
+   "russia",
    "russian",
    "scale",
+   "service",
    "warns"
   ],
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.886940+00:00",
-  "last_seen": "2026-09-04T12:08:03.886940+00:00"
+  "last_seen": "2026-09-04T15:07:50.808594+00:00"
  },
  {
   "tokens": [
@@ -53699,7 +53806,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.890283+00:00",
-  "last_seen": "2026-09-04T12:08:03.890283+00:00"
+  "last_seen": "2026-09-04T15:07:50.811434+00:00"
  },
  {
   "tokens": [
@@ -53734,7 +53841,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.903773+00:00",
-  "last_seen": "2026-09-04T12:08:03.903773+00:00"
+  "last_seen": "2026-09-04T15:07:50.820061+00:00"
  },
  {
   "tokens": [
@@ -53750,7 +53857,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.910405+00:00",
-  "last_seen": "2026-09-04T12:08:03.910405+00:00"
+  "last_seen": "2026-09-04T15:07:50.822825+00:00"
  },
  {
   "tokens": [
@@ -53766,7 +53873,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.913632+00:00",
-  "last_seen": "2026-09-04T12:08:03.913632+00:00"
+  "last_seen": "2026-09-04T15:07:50.825526+00:00"
  },
  {
   "tokens": [
@@ -53811,7 +53918,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.943481+00:00",
-  "last_seen": "2026-09-04T12:08:03.943481+00:00"
+  "last_seen": "2026-09-04T15:07:50.871120+00:00"
  },
  {
   "tokens": [
@@ -53830,7 +53937,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.946848+00:00",
-  "last_seen": "2026-09-04T12:08:03.946848+00:00"
+  "last_seen": "2026-09-04T15:07:50.873982+00:00"
  },
  {
   "tokens": [
@@ -53851,7 +53958,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.950273+00:00",
-  "last_seen": "2026-09-04T12:08:03.950273+00:00"
+  "last_seen": "2026-09-04T15:07:50.885215+00:00"
  },
  {
   "tokens": [
@@ -53865,7 +53972,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.957342+00:00",
-  "last_seen": "2026-09-04T12:08:03.957342+00:00"
+  "last_seen": "2026-09-04T15:07:50.901841+00:00"
  },
  {
   "tokens": [
@@ -53906,7 +54013,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.963976+00:00",
-  "last_seen": "2026-09-04T12:08:03.963976+00:00"
+  "last_seen": "2026-09-04T15:07:50.862220+00:00"
  },
  {
   "tokens": [
@@ -53943,5 +54050,1158 @@
   "peak": 1,
   "first_seen": "2026-09-04T12:08:03.973912+00:00",
   "last_seen": "2026-09-04T12:08:03.973912+00:00"
+ },
+ {
+  "tokens": [
+   "aiding",
+   "ask",
+   "europeans",
+   "repay",
+   "trump",
+   "ukraine"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.224673+00:00",
+  "last_seen": "2026-09-04T15:07:50.224673+00:00"
+ },
+ {
+  "tokens": [
+   "budanov",
+   "founder",
+   "group",
+   "head",
+   "kyrylo",
+   "office",
+   "presidential",
+   "prigozhin",
+   "regularly",
+   "spoke",
+   "ukraine",
+   "wagner",
+   "yevgeny"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.241131+00:00",
+  "last_seen": "2026-09-04T15:07:50.241131+00:00"
+ },
+ {
+  "tokens": [
+   "geheimdiensten",
+   "schusswechsel",
+   "selenskyj",
+   "ukraine",
+   "ukrainischen",
+   "verurteilt",
+   "wolodymyr",
+   "zwischen"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.246784+00:00",
+  "last_seen": "2026-09-04T15:07:50.246784+00:00"
+ },
+ {
+  "tokens": [
+   "2026",
+   "ifa",
+   "miele",
+   "neue",
+   "waschmaschine",
+   "zeigt"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.249443+00:00",
+  "last_seen": "2026-09-04T15:07:50.249443+00:00"
+ },
+ {
+  "tokens": [
+   "2026",
+   "ashanti",
+   "champions",
+   "crowned",
+   "elite",
+   "epic",
+   "final",
+   "goal",
+   "mtn",
+   "region",
+   "seven"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.251966+00:00",
+  "last_seen": "2026-09-04T15:07:50.251966+00:00"
+ },
+ {
+  "tokens": [
+   "2026",
+   "awards",
+   "electronics",
+   "ifa",
+   "innovation",
+   "samsung",
+   "win"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.254796+00:00",
+  "last_seen": "2026-09-04T15:07:50.254796+00:00"
+ },
+ {
+  "tokens": [
+   "2026",
+   "autumn",
+   "couture",
+   "haute",
+   "independent",
+   "labels",
+   "make",
+   "way",
+   "winter"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.257404+00:00",
+  "last_seen": "2026-09-04T15:07:50.257404+00:00"
+ },
+ {
+  "tokens": [
+   "2026",
+   "koyejo",
+   "list",
+   "meet",
+   "named",
+   "nigerian",
+   "professor",
+   "sanmi",
+   "time100"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.262720+00:00",
+  "last_seen": "2026-09-04T15:07:50.262720+00:00"
+ },
+ {
+  "tokens": [
+   "2026",
+   "across",
+   "blood",
+   "collects",
+   "kızılay",
+   "türkiye",
+   "units"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.265529+00:00",
+  "last_seen": "2026-09-04T15:07:50.265529+00:00"
+ },
+ {
+  "tokens": [
+   "envoys",
+   "headed",
+   "mediation",
+   "relaunch",
+   "russia",
+   "ukraine"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.284873+00:00",
+  "last_seen": "2026-09-04T15:07:50.284873+00:00"
+ },
+ {
+  "tokens": [
+   "application",
+   "behind",
+   "drones",
+   "lags",
+   "russia",
+   "tech",
+   "ukraine"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.334963+00:00",
+  "last_seen": "2026-09-04T15:07:50.334963+00:00"
+ },
+ {
+  "tokens": [
+   "jaishankar",
+   "jet",
+   "launched",
+   "powered",
+   "russia",
+   "shaheds",
+   "ukraine",
+   "visited",
+   "zelensky"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.340500+00:00",
+  "last_seen": "2026-09-04T15:07:50.340500+00:00"
+ },
+ {
+  "tokens": [
+   "appear",
+   "bosnian",
+   "crimes",
+   "fails",
+   "first",
+   "hearing",
+   "serb",
+   "ukraine",
+   "war"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.343282+00:00",
+  "last_seen": "2026-09-04T15:07:50.343282+00:00"
+ },
+ {
+  "tokens": [
+   "110",
+   "2026",
+   "grain",
+   "harvest",
+   "mln",
+   "russia's",
+   "tonnes",
+   "tops"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.346105+00:00",
+  "last_seen": "2026-09-04T15:07:50.346105+00:00"
+ },
+ {
+  "tokens": [
+   "european",
+   "gives",
+   "intelligence",
+   "mobilization",
+   "one",
+   "potential",
+   "ukraine",
+   "year"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.348847+00:00",
+  "last_seen": "2026-09-04T15:07:50.348847+00:00"
+ },
+ {
+  "tokens": [
+   "660",
+   "area",
+   "battlegroup",
+   "loses",
+   "north",
+   "past",
+   "responsibility",
+   "troops",
+   "ukraine",
+   "week"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.351520+00:00",
+  "last_seen": "2026-09-04T15:07:50.351520+00:00"
+ },
+ {
+  "tokens": [
+   "'ground",
+   "down'",
+   "europeans",
+   "once",
+   "prosperous",
+   "ukraine"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.354267+00:00",
+  "last_seen": "2026-09-04T15:07:50.354267+00:00"
+ },
+ {
+  "tokens": [
+   "briefing",
+   "covers",
+   "kremlin",
+   "kushner",
+   "making",
+   "missile",
+   "potential",
+   "ukraine",
+   "visit",
+   "witkoff"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.356795+00:00",
+  "last_seen": "2026-09-04T15:07:50.356795+00:00"
+ },
+ {
+  "tokens": [
+   "about",
+   "delayed",
+   "early",
+   "flu",
+   "hemisphere",
+   "northern",
+   "october",
+   "singapore",
+   "vaccines",
+   "weeks"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.461358+00:00",
+  "last_seen": "2026-09-04T15:07:50.461358+00:00"
+ },
+ {
+  "tokens": [
+   "across",
+   "backed",
+   "balochistan",
+   "hours",
+   "india",
+   "ispr",
+   "killed",
+   "past",
+   "terrorists"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.479974+00:00",
+  "last_seen": "2026-09-04T15:07:50.479974+00:00"
+ },
+ {
+  "tokens": [
+   "brookfield",
+   "chief",
+   "factory",
+   "follow",
+   "founder",
+   "meet",
+   "naver",
+   "talks"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.488035+00:00",
+  "last_seen": "2026-09-04T15:07:50.488035+00:00"
+ },
+ {
+  "tokens": [
+   "arson",
+   "democracy",
+   "digest",
+   "drone",
+   "factory",
+   "investigates",
+   "poland",
+   "russian",
+   "sabotage",
+   "suspected"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.499013+00:00",
+  "last_seen": "2026-09-04T15:07:50.499013+00:00"
+ },
+ {
+  "tokens": [
+   "campaign",
+   "europe",
+   "sabotage",
+   "spiralling",
+   "targeted"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.501831+00:00",
+  "last_seen": "2026-09-04T15:07:50.501831+00:00"
+ },
+ {
+  "tokens": [
+   "beyond",
+   "cutting",
+   "factory",
+   "floor",
+   "japanese",
+   "lab",
+   "robots",
+   "take",
+   "tree",
+   "work"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.504278+00:00",
+  "last_seen": "2026-09-04T15:07:50.504278+00:00"
+ },
+ {
+  "tokens": [
+   "can",
+   "gemini",
+   "google",
+   "library",
+   "manage",
+   "now",
+   "photos",
+   "spark",
+   "your"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.507089+00:00",
+  "last_seen": "2026-09-04T15:07:50.507089+00:00"
+ },
+ {
+  "tokens": [
+   "ball",
+   "call",
+   "crocombe",
+   "donald",
+   "england",
+   "get",
+   "ups",
+   "white"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.509793+00:00",
+  "last_seen": "2026-09-04T15:07:50.509793+00:00"
+ },
+ {
+  "tokens": [
+   "'we",
+   "bank",
+   "bbc",
+   "dead",
+   "expect",
+   "father",
+   "killed",
+   "our",
+   "shot",
+   "sons",
+   "teen",
+   "tells",
+   "west"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.512482+00:00",
+  "last_seen": "2026-09-04T15:07:50.512482+00:00"
+ },
+ {
+  "tokens": [
+   "climate",
+   "connects",
+   "ethiopia",
+   "factory",
+   "field",
+   "solutions"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.518159+00:00",
+  "last_seen": "2026-09-04T15:07:50.518159+00:00"
+ },
+ {
+  "tokens": [
+   "conditions",
+   "current",
+   "forex",
+   "line",
+   "must",
+   "policies",
+   "reviewed",
+   "trade"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.520701+00:00",
+  "last_seen": "2026-09-04T15:07:50.520701+00:00"
+ },
+ {
+  "tokens": [
+   "'happy'",
+   "alonso",
+   "camara",
+   "chelsea",
+   "collapse",
+   "deal",
+   "despite",
+   "latest",
+   "squad"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.534857+00:00",
+  "last_seen": "2026-09-04T15:07:50.534857+00:00"
+ },
+ {
+  "tokens": [
+   "'layer",
+   "flood",
+   "how",
+   "layer",
+   "miracles'",
+   "nepal",
+   "rescued",
+   "survivors",
+   "tunnel",
+   "upon"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.540321+00:00",
+  "last_seen": "2026-09-04T15:07:50.540321+00:00"
+ },
+ {
+  "tokens": [
+   "cut",
+   "doesn't",
+   "fed",
+   "he'll",
+   "nations",
+   "rates",
+   "some",
+   "stop",
+   "trading",
+   "trump"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.554256+00:00",
+  "last_seen": "2026-09-04T15:07:50.554256+00:00"
+ },
+ {
+  "tokens": [
+   "appeals",
+   "flood",
+   "million",
+   "nations",
+   "nepal",
+   "united",
+   "victims"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.557132+00:00",
+  "last_seen": "2026-09-04T15:07:50.557132+00:00"
+ },
+ {
+  "tokens": [
+   "apologises",
+   "fair",
+   "nba",
+   "operatives",
+   "security",
+   "speech",
+   "verydarkman",
+   "wasn"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.559783+00:00",
+  "last_seen": "2026-09-04T15:07:50.559783+00:00"
+ },
+ {
+  "tokens": [
+   "9th",
+   "apple",
+   "event",
+   "expect",
+   "launch",
+   "september",
+   "what"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.562542+00:00",
+  "last_seen": "2026-09-04T15:07:50.562542+00:00"
+ },
+ {
+  "tokens": [
+   "africa",
+   "commissioner",
+   "europe's",
+   "future",
+   "investment",
+   "jozef",
+   "sikela",
+   "strengthening"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.584509+00:00",
+  "last_seen": "2026-09-04T15:07:50.584509+00:00"
+ },
+ {
+  "tokens": [
+   "appeal",
+   "court",
+   "fia",
+   "gasly",
+   "hadjar",
+   "monaco",
+   "podium",
+   "reinstates",
+   "strips"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.590211+00:00",
+  "last_seen": "2026-09-04T15:07:50.590211+00:00"
+ },
+ {
+  "tokens": [
+   "2027",
+   "apple",
+   "august",
+   "available",
+   "end",
+   "express",
+   "lrt",
+   "mid",
+   "mode",
+   "mrt",
+   "pay",
+   "public",
+   "rollout",
+   "since",
+   "transport"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.596309+00:00",
+  "last_seen": "2026-09-04T15:07:50.596309+00:00"
+ },
+ {
+  "tokens": [
+   "150",
+   "años",
+   "bayreuth",
+   "celebra",
+   "con",
+   "del",
+   "las",
+   "real",
+   "sobras",
+   "sus",
+   "teatro",
+   "verano"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.613517+00:00",
+  "last_seen": "2026-09-04T15:07:50.613517+00:00"
+ },
+ {
+  "tokens": [
+   "affligé",
+   "barrot",
+   "cnews",
+   "dans",
+   "dit",
+   "fedorova",
+   "jdnews",
+   "jean",
+   "noël",
+   "poutine",
+   "pro",
+   "propagandiste",
+   "retour",
+   "sur",
+   "xenia"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.628144+00:00",
+  "last_seen": "2026-09-04T15:07:50.628144+00:00"
+ },
+ {
+  "tokens": [
+   "android",
+   "boox",
+   "ereader",
+   "gen",
+   "review",
+   "some",
+   "tradeoffs",
+   "worthy"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.642777+00:00",
+  "last_seen": "2026-09-04T15:07:50.642777+00:00"
+ },
+ {
+  "tokens": [
+   "apple",
+   "berry",
+   "crumble"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.647970+00:00",
+  "last_seen": "2026-09-04T15:07:50.647970+00:00"
+ },
+ {
+  "tokens": [
+   "about",
+   "aggression",
+   "araghchi",
+   "jordanian",
+   "lambasts",
+   "remarks"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.659366+00:00",
+  "last_seen": "2026-09-04T15:07:50.659366+00:00"
+ },
+ {
+  "tokens": [
+   "apple",
+   "bars",
+   "blackberry",
+   "brown",
+   "butter",
+   "goh",
+   "helen",
+   "recipe",
+   "spot",
+   "sweet"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.673576+00:00",
+  "last_seen": "2026-09-04T15:07:50.673576+00:00"
+ },
+ {
+  "tokens": [
+   "bow",
+   "defeat",
+   "final",
+   "gaël",
+   "grand",
+   "learner",
+   "monfils",
+   "open",
+   "slam",
+   "takes",
+   "tien"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.684722+00:00",
+  "last_seen": "2026-09-04T15:07:50.684722+00:00"
+ },
+ {
+  "tokens": [
+   "695",
+   "africa",
+   "envoy",
+   "nigerians",
+   "repatriated",
+   "xenophobia"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.698918+00:00",
+  "last_seen": "2026-09-04T15:07:50.698918+00:00"
+ },
+ {
+  "tokens": [
+   "auto",
+   "hydrogen",
+   "parts",
+   "power",
+   "ship",
+   "toyota",
+   "trucks",
+   "weighs"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.721237+00:00",
+  "last_seen": "2026-09-04T15:07:50.721237+00:00"
+ },
+ {
+  "tokens": [
+   "000",
+   "body",
+   "calls",
+   "indonesia's",
+   "poisoning",
+   "police",
+   "probe",
+   "rights",
+   "students",
+   "top"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-04T15:07:50.738793+00:00",
+  "last_seen": "2026-09-04T15:07:50.738793+00:00"
+ },
+ {
+  "tokens": [
+   "becomes",
+   "cricket",
+   "india",
+   "mandhana",
+   "run",
+   "scorer",
+   "smriti",
+   "top",
+   "women"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.744131+00:00",
+  "last_seen": "2026-09-04T15:07:50.744131+00:00"
+ },
+ {
+  "tokens": [
+   "away",
+   "can",
+   "cup",
+   "experienced",
+   "guide",
+   "korda",
+   "solheim",
+   "success",
+   "team",
+   "usa"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.777733+00:00",
+  "last_seen": "2026-09-04T15:07:50.777733+00:00"
+ },
+ {
+  "tokens": [
+   "chiefs",
+   "close",
+   "give",
+   "gomoa",
+   "igp",
+   "national",
+   "north",
+   "one",
+   "police",
+   "security",
+   "station",
+   "week",
+   "winneba"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.789163+00:00",
+  "last_seen": "2026-09-04T15:07:50.789163+00:00"
+ },
+ {
+  "tokens": [
+   "malaysia",
+   "nepal",
+   "off",
+   "rescue",
+   "team",
+   "tomorrow"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.795010+00:00",
+  "last_seen": "2026-09-04T15:07:50.795010+00:00"
+ },
+ {
+  "tokens": [
+   "assassination",
+   "detains",
+   "fetö",
+   "member",
+   "support",
+   "team",
+   "türkiye"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.802937+00:00",
+  "last_seen": "2026-09-04T15:07:50.802937+00:00"
+ },
+ {
+  "tokens": [
+   "candidate",
+   "charged",
+   "drugs",
+   "opponent",
+   "plant",
+   "political",
+   "trying"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.836710+00:00",
+  "last_seen": "2026-09-04T15:07:50.836710+00:00"
+ },
+ {
+  "tokens": [
+   "allege",
+   "assault",
+   "india",
+   "journalists",
+   "muslim",
+   "police",
+   "two",
+   "women"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.839391+00:00",
+  "last_seen": "2026-09-04T15:07:50.839391+00:00"
+ },
+ {
+  "tokens": [
+   "charged",
+   "coatings",
+   "does",
+   "droplets",
+   "eat",
+   "electrically",
+   "idea",
+   "metal",
+   "propose",
+   "protective",
+   "rain",
+   "researchers",
+   "structures",
+   "through",
+   "why"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.842159+00:00",
+  "last_seen": "2026-09-04T15:07:50.842159+00:00"
+ },
+ {
+  "tokens": [
+   "1985",
+   "2025",
+   "between",
+   "changed",
+   "housing",
+   "how",
+   "incomes",
+   "prices"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.845179+00:00",
+  "last_seen": "2026-09-04T15:07:50.845179+00:00"
+ },
+ {
+  "tokens": [
+   "celebrating",
+   "donations",
+   "farage",
+   "filmed",
+   "foreign",
+   "illegal",
+   "nigel"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.851172+00:00",
+  "last_seen": "2026-09-04T15:07:50.851172+00:00"
+ },
+ {
+  "tokens": [
+   "countries",
+   "federal",
+   "halt",
+   "interest",
+   "lowers",
+   "rates",
+   "reserve",
+   "some",
+   "threatens",
+   "trade",
+   "trump",
+   "unless"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.853851+00:00",
+  "last_seen": "2026-09-04T15:07:50.853851+00:00"
+ },
+ {
+  "tokens": [
+   "dm168",
+   "dolly",
+   "how",
+   "know",
+   "parton",
+   "quiz",
+   "well"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.856822+00:00",
+  "last_seen": "2026-09-04T15:07:50.856822+00:00"
+ },
+ {
+  "tokens": [
+   "chinese",
+   "extracts",
+   "rate",
+   "seawater",
+   "target",
+   "team",
+   "times",
+   "uranium"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.859502+00:00",
+  "last_seen": "2026-09-04T15:07:50.859502+00:00"
+ },
+ {
+  "tokens": [
+   "flood",
+   "give",
+   "hope",
+   "joy'",
+   "moment",
+   "nepal",
+   "rare",
+   "rescues",
+   "survivors",
+   "tunnel"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.865122+00:00",
+  "last_seen": "2026-09-04T15:07:50.865122+00:00"
+ },
+ {
+  "tokens": [
+   "alleged",
+   "august",
+   "femicide",
+   "florence",
+   "italy",
+   "killed",
+   "mid",
+   "seventh",
+   "since",
+   "woman"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.876885+00:00",
+  "last_seen": "2026-09-04T15:07:50.876885+00:00"
+ },
+ {
+  "tokens": [
+   "ban",
+   "french",
+   "mirrors",
+   "phone",
+   "roll",
+   "schools",
+   "smoke",
+   "struggle"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.879718+00:00",
+  "last_seen": "2026-09-04T15:07:50.879718+00:00"
+ },
+ {
+  "tokens": [
+   "bodies",
+   "colombia",
+   "disgust",
+   "posing",
+   "president",
+   "provokes",
+   "terrorists"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.888180+00:00",
+  "last_seen": "2026-09-04T15:07:50.888180+00:00"
+ },
+ {
+  "tokens": [
+   "bailey",
+   "banks",
+   "central",
+   "challenge",
+   "independent",
+   "populism",
+   "poses",
+   "serious"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.890853+00:00",
+  "last_seen": "2026-09-04T15:07:50.890853+00:00"
+ },
+ {
+  "tokens": [
+   "aged",
+   "dies",
+   "director",
+   "drom",
+   "gatlif",
+   "latcho",
+   "tony"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.907631+00:00",
+  "last_seen": "2026-09-04T15:07:50.907631+00:00"
+ },
+ {
+  "tokens": [
+   "accountability",
+   "arguments",
+   "court",
+   "impeachment",
+   "phala",
+   "presidential",
+   "put",
+   "scrutiny",
+   "under"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.910225+00:00",
+  "last_seen": "2026-09-04T15:07:50.910225+00:00"
+ },
+ {
+  "tokens": [
+   "250m",
+   "another",
+   "bet",
+   "beyond",
+   "doubles",
+   "gaming",
+   "india",
+   "krafton"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-04T15:07:50.913082+00:00",
+  "last_seen": "2026-09-04T15:07:50.913082+00:00"
  }
 ]
