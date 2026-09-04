@@ -1,105 +1,5 @@
 [
   {
-    "score": 24.24,
-    "bucket": "serious",
-    "tokens": [
-      "675",
-      "china",
-      "claw",
-      "climbs",
-      "death",
-      "flood",
-      "mud",
-      "nepal",
-      "rescuers",
-      "through",
-      "toll"
-    ],
-    "link": "https://www.dawn.com/news/2025932/rescuers-claw-through-mud-as-nepal-china-flood-death-toll-climbs-to-675",
-    "title": "Rescuers claw through mud as Nepal, China flood death toll climbs to 675",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-08-30T09:08:06.729184+00:00"
-  },
-  {
-    "score": 21.09,
-    "bucket": "serious",
-    "tokens": [
-      "'my",
-      "dear",
-      "father'",
-      "first",
-      "king",
-      "norway's",
-      "remembers",
-      "speech"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cvgy79wmv4jo?at_medium=RSS&at_campaign=rss",
-    "title": "Norway's new king remembers 'my dear father' in first speech",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-30T09:08:06.729503+00:00"
-  },
-  {
-    "score": 20.63,
-    "bucket": "serious",
-    "tokens": [
-      "drone",
-      "kills",
-      "kyiv",
-      "least",
-      "russian",
-      "storing",
-      "strike",
-      "warehouse",
-      "weapons"
-    ],
-    "link": "https://www.theguardian.com/world/2026/aug/29/russian-strike-warehouse-near-kyiv-kills-at-least-37",
-    "title": "Russian drone strike on Kyiv warehouse storing weapons kills at least 37",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-30T09:08:06.729839+00:00"
-  },
-  {
-    "score": 13.24,
-    "bucket": "serious",
-    "tokens": [
-      "border",
-      "children",
-      "hazardous",
-      "iranian",
-      "poverty",
-      "pushes",
-      "work"
-    ],
-    "link": "https://www.iranintl.com/en/202608302571",
-    "title": "Poverty pushes Iranian children into hazardous border work",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-08-30T09:08:06.730096+00:00"
-  },
-  {
-    "score": 13.08,
-    "bucket": "serious",
-    "tokens": [
-      "african",
-      "evidence",
-      "fever",
-      "lassa",
-      "policy",
-      "research",
-      "researchers",
-      "turn",
-      "west",
-      "work"
-    ],
-    "link": "https://www.myjoyonline.com/west-african-researchers-work-to-turn-lassa-fever-research-into-policy-evidence/",
-    "title": "West African researchers work to turn Lassa fever research into policy evidence",
-    "posted_title": "",
-    "region": "gh",
-    "seen_at": "2026-08-30T09:08:06.730355+00:00"
-  },
-  {
     "score": 25.88,
     "bucket": "serious",
     "tokens": [
@@ -5947,5 +5847,44 @@
     "posted_title": "",
     "region": "ph",
     "seen_at": "2026-09-04T09:07:54.970693+00:00"
+  },
+  {
+    "score": 17.28,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "begins",
+      "drones",
+      "germany",
+      "mass",
+      "production",
+      "ukraine"
+    ],
+    "link": "https://meduza.io/en/news/2026/09/04/germany-begins-mass-production-of-attack-drones-for-ukraine",
+    "title": "Germany begins mass production of attack drones for Ukraine",
+    "posted_title": "مصنع قرب ميونيخ يبدأ إنتاج آلاف المسيّرات الهجومية لصالح أوكرانيا",
+    "region": "ru",
+    "seen_at": "2026-09-04T09:58:43.129730+00:00"
+  },
+  {
+    "score": 20.58,
+    "bucket": "serious",
+    "tokens": [
+      "argentina's",
+      "comments",
+      "dispute",
+      "escalates",
+      "falklands",
+      "milei",
+      "oil",
+      "seizing",
+      "tensions",
+      "trump"
+    ],
+    "link": "https://www.npr.org/2026/09/04/g-s1-141945/milei-escalates-falklands-dispute",
+    "title": "Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions",
+    "posted_title": "ميلي يصعّد نزاع فوكلاند ويهدد بعقوبات جديدة لوقف مشروع نفطي قرب الجزر",
+    "region": "us",
+    "seen_at": "2026-09-04T09:59:18.257614+00:00"
   }
 ]
