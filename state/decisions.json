@@ -2161,5 +2161,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 12
+ },
+ {
+  "id": "5f42fdde6dd5",
+  "created_at": "2026-09-04T12:15:53.184238+00:00",
+  "decided_at": "2026-09-04T13:31:09.603873+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "اقتصاد",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "uk",
+  "score": 17.52,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "source_count": 2,
+  "body_len": 561,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 12
  }
 ]
