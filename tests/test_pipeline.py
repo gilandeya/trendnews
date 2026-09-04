@@ -33,7 +33,9 @@ atexit.register(shutil.rmtree, _TMP_DATA_DIR, ignore_errors=True)
 from src import collect, evidence, extract, facebook, imagesearch, imaging, open_review, proxy_config, review, sources, store, trends, writer  # noqa: E402
 from src import youtube_article, youtube_cluster, youtube_collect, youtube_extract  # noqa: E402
 from src import youtube_publish  # noqa: E402
-from src.config import DRAFTS_DIR, STATE_DIR, load_config  # noqa: E402
+from src.config import (  # noqa: E402
+    DRAFTS_DIR, STATE_DIR, YOUTUBE_ARTICLES_DIR, YOUTUBE_POINTS_DIR, load_config,
+)
 from src.rank import cluster, rank, similarity, tokens  # noqa: E402
 from src.sources import Article  # noqa: E402
 from tools import measure_channels, test_actions_block  # noqa: E402
@@ -10614,6 +10616,35 @@ def test_youtube_extract() -> None:
                                          "Sinema", "Hayatın İçinden", "Sabah Kahvesi")), tr_patterns)
 
 
+def test_youtube_data_repo_paths() -> None:
+    """Issue #724: state/youtube_points/ وstate/youtube_articles/ لم يعودا في
+    هذا المستودع -- انتقلا إلى مستودع خاص منفصل (gilandeya/trendnews-data)
+    لأنهما يحويان اقتباسات حرفية من مواد محمية بحقوق نشر. config.
+    YOUTUBE_POINTS_DIR/YOUTUBE_ARTICLES_DIR (src/config.py، نفس نمط
+    STATE_DIR/DRAFTS_DIR القائم -- يقرآن TRENDNEWS_YOUTUBE_POINTS_DIR/
+    TRENDNEWS_YOUTUBE_ARTICLES_DIR إن ضُبطا، وإلا يسقطان افتراضيًا تحت
+    STATE_DIR المحلي كالسابق) هما مصدر الحقيقة الوحيد لهذين المسارين الآن؛
+    هذا الاختبار يتحقّق أن الوحدات الثلاث المستهلكة تشير فعليًا لنفس القيمة
+    من config لا لنسخة محلية منفصلة قد تنجرف عنها بصمت (لو أُعيد تعريف
+    POINTS_DIR/ARTICLES_DIR محليًا في أحدها بالخطأ بدل استيرادها)."""
+    check("YOUTUBE_POINTS_DIR افتراضيًا تحت STATE_DIR (بلا TRENDNEWS_YOUTUBE_POINTS_DIR في بيئة الاختبار)",
+          YOUTUBE_POINTS_DIR == STATE_DIR / "youtube_points", YOUTUBE_POINTS_DIR)
+    check("YOUTUBE_ARTICLES_DIR افتراضيًا تحت STATE_DIR (بلا TRENDNEWS_YOUTUBE_ARTICLES_DIR في بيئة الاختبار)",
+          YOUTUBE_ARTICLES_DIR == STATE_DIR / "youtube_articles", YOUTUBE_ARTICLES_DIR)
+    check("youtube_extract.POINTS_DIR مصدره config.YOUTUBE_POINTS_DIR",
+          youtube_extract.POINTS_DIR == YOUTUBE_POINTS_DIR)
+    check("youtube_cluster.POINTS_DIR مصدره config.YOUTUBE_POINTS_DIR",
+          youtube_cluster.POINTS_DIR == YOUTUBE_POINTS_DIR)
+    check("youtube_article.ARTICLES_DIR مصدره config.YOUTUBE_ARTICLES_DIR",
+          youtube_article.ARTICLES_DIR == YOUTUBE_ARTICLES_DIR)
+    # youtube_topics/ وسجلّا التكرار يبقون محليين (Issue #724 بند ٢) -- لا
+    # اقتباسات فيهم (فُحص محتواهم فعليًا قبل هذا القرار)، فلا حاجة لهجرتهم.
+    check("youtube_cluster.TOPICS_DIR يبقى تحت STATE_DIR المحلي (لا اقتباسات فيه)",
+          youtube_cluster.TOPICS_DIR == STATE_DIR / "youtube_topics")
+    check("youtube_cluster.SEEN_PATH (سجل قضايا مستهلكة) يبقى تحت STATE_DIR المحلي",
+          youtube_cluster.SEEN_PATH == STATE_DIR / "youtube_topics_seen.json")
+
+
 def test_youtube_cluster() -> None:
     """المرحلة الثالثة (src/youtube_cluster.py، Issue #646): عنقدة نقاط
     youtube_extract.py في قضايا وترتيبها بثلاث طبقات. لا شبكة، لا نموذج
@@ -12562,6 +12593,8 @@ def main() -> int:
     test_youtube_collect()
     print("\n── مسار يوتيوب: الاستخلاص (Issue #631) ──")
     test_youtube_extract()
+    print("\n── مسار يوتيوب: مسارات مستودع البيانات الخاص (Issue #724) ──")
+    test_youtube_data_repo_paths()
     print("\n── مسار يوتيوب: العنقدة (Issue #646) ──")
     test_youtube_cluster()
     print("\n── مسار يوتيوب: الكتابة (Issue #646) ──")

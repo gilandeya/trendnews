@@ -1,0 +1,14 @@
+# state/youtube_points/ وstate/youtube_articles/ نُقلا إلى مستودع خاص
+# (gilandeya/trendnews-data، Issue #724) -- يحويان اقتباسات حرفية من مواد
+# محمية بحقوق نشر. الإنتاج يوجّههما عبر TRENDNEWS_YOUTUBE_POINTS_DIR/
+# TRENDNEWS_YOUTUBE_ARTICLES_DIR إلى سحب ثانٍ للمستودع الخاص (انظر
+# .github/workflows/youtube-collect.yml وyoutube-articles.yml)، فلو أُعيد
+# إنشاؤهما محليًا (تشغيلة بلا هذين المتغيرين) لا يُلتقَطان في أي commit.
+/state/youtube_points/
+/state/youtube_articles/
+
+# مسار السحب الثاني لمستودع trendnews-data الخاص داخل youtube-collect.yml/
+# youtube-articles.yml (actions/checkout بـpath: youtube-data) -- مستودع git
+# متداخل بذاته، لا يُلمس هنا إطلاقًا خارج تلك التشغيلتين، لكن هذا احتياط ضدّ
+# أي `git add -A` مستقبلي في هذا المستودع يلتقطه سهوًا.
+/youtube-data/

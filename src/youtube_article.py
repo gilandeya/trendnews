@@ -56,12 +56,14 @@ from pathlib import Path
 from anthropic import Anthropic, APIError
 
 from . import youtube_cluster, youtube_extract
-from .config import STATE_DIR, Config, env, load_config
+from .config import YOUTUBE_ARTICLES_DIR, Config, env, load_config
 
 log = logging.getLogger(__name__)
 
 ARTICLE_PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "youtube_article.md"
-ARTICLES_DIR = STATE_DIR / "youtube_articles"
+# مستودع خاص منفصل لا state/ المحلي (Issue #724) -- انظر توثيق
+# config.YOUTUBE_ARTICLES_DIR.
+ARTICLES_DIR = YOUTUBE_ARTICLES_DIR
 
 # قائمة المحظورات (نص الـIssue) -- لا يُكتب مقال بمصدر واحد (طبقة ج) عن أيّ
 # من هذه الأبواب مهما كانت النسبة صريحة؛ تحتاج طبقة (أ) أو (ب) بدلًا منها.

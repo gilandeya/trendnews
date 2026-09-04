@@ -75,13 +75,15 @@ import requests
 from anthropic import Anthropic, APIError
 
 from . import youtube_collect
-from .config import STATE_DIR, Config, env, load_config
+from .config import YOUTUBE_POINTS_DIR, Config, env, load_config
 from .proxy_config import get_proxy_config
 
 log = logging.getLogger(__name__)
 
 PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "youtube_extract.md"
-POINTS_DIR = STATE_DIR / "youtube_points"
+# مستودع خاص منفصل لا state/ المحلي (Issue #724) -- انظر توثيق
+# config.YOUTUBE_POINTS_DIR.
+POINTS_DIR = YOUTUBE_POINTS_DIR
 
 REQUIRED_FIELDS = ["statement", "speaker", "quote_original", "quote_arabic",
                     "anchor_text", "type", "topic_hint"]
