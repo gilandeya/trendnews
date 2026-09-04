@@ -1,7 +1,7 @@
 {
   "id": "039a46f2108b",
   "created_at": "2026-09-04T12:15:36.046445+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 19.11,
   "bucket": "serious",
@@ -64,5 +64,12 @@
       "https://c.ndtvimg.com/2026-08/10gkbfkg_red-sea_625x300_12_August_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
     ]
   },
-  "publish_at": "2026-09-04T12:52:49.488114+00:00"
+  "publish_at": "2026-09-04T12:52:49.488114+00:00",
+  "published_at": "2026-09-04T13:01:08.960297+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1351611673722520",
+    "photo_id": "1351611640389190",
+    "url": "https://www.facebook.com/631680090321390_1351611673722520",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
