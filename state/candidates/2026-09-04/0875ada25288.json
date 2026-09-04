@@ -1,0 +1,87 @@
+{
+  "id": "0875ada25288",
+  "created_at": "2026-09-04T22:07:52.536170+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.38,
+  "trend_score": 0.5,
+  "velocity": 0.42,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US probes Iran wedding strike that analysis shows was likely direct hit by US munition",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-04-us-probes-iran-wedding-strike-that-analysis-shows-was-likely-direct-hit-by-us-munition/",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Daily Maverick",
+    "Hindustan Times — World",
+    "Iran International",
+    "Tehran Times",
+    "The Express Tribune",
+    "The Guardian — World"
+  ],
+  "region": "za",
+  "article": {
+    "title": "US probes Iran wedding strike that analysis shows was likely direct hit by US munition",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-04-us-probes-iran-wedding-strike-that-analysis-shows-was-likely-direct-hit-by-us-munition/",
+    "summary": "Sept 4 (Reuters) - US Vice President JD Vance said that the United States was investigating a deadly strike on an Iranian wedding earlier this week that an analysis published by Reuters showed likely resulted from a direct hit by a US munition.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-04T04:47:49+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/orphans/GettyImages-2271377061_921517.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Daily Maverick",
+      "Hindustan Times — World",
+      "Iran International",
+      "Tehran Times",
+      "The Express Tribune",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-04-us-probes-iran-wedding-strike-that-analysis-shows-was-likely-direct-hit-by-us-munition/"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202609047487"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627557/iran-wedding-deaths-likely-caused-by-us-hit"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/04/iranian-town-kuhestak-devastated-strike-wedding"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529678/Kuhestak-mourns-victims-of-deadly-strike-on-wedding"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cy4zvk3z2k1o?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/orphans/GettyImages-2271377061_921517.jpg",
+      "https://i.iranintl.com/images/rdk9umy0/production/c2f2a0eb4df0f78a7718458bcf6f036d2aac694a-1280x853.jpg?rect=27,109,1215,636&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://i.guim.co.uk/img/media/18f773c2509d082c5aaba2bc7b24de2d73d6a8fc/403_0_2532_2025/master/2532.jpg?width=700&quality=85&auto=format&fit=max&s=978ea0d67d9e0ead085094625254dac2",
+      "https://i.guim.co.uk/img/media/18f773c2509d082c5aaba2bc7b24de2d73d6a8fc/403_0_2532_2025/master/2532.jpg?width=460&quality=85&auto=format&fit=max&s=671241d1512c53b25d2e9161e718cc11",
+      "https://i.guim.co.uk/img/media/18f773c2509d082c5aaba2bc7b24de2d73d6a8fc/403_0_2532_2025/master/2532.jpg?width=140&quality=85&auto=format&fit=max&s=cc298674a162c44e21a0f439f44e938e",
+      "https://media.mehrnews.com/d/2026/09/04/4/6161321.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 8,
+    "velocity": 0.4164937323661981,
+    "age_hours": 12.999330539722221,
+    "is_stale": false,
+    "score": 23.37698391760877
+  }
+}
