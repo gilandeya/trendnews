@@ -226,11 +226,7 @@ def placeholder(width: int, height: int, primary: tuple, accent: tuple) -> Image
 
 
 def dim_photo(photo: Image.Image, primary: tuple) -> Image.Image:
-    """تعتيم متدرّج أعلى الصورة وأسفلها ليمتزج بما يجاورها من شرائط.
-
-    مستخرَجة من build_post_image (طلب المراجعة على Issue #680، مسار بطاقة
-    عنوان يوتيوب) كي تستعمل youtube_publish.build_title_card التعتيم نفسه
-    بالضبط حين تُبنى بصورة خلفية، لا نسخة مقاربة منه مكرَّرة هنا."""
+    """تعتيم متدرّج أعلى الصورة وأسفلها ليمتزج بما يجاورها من شرائط."""
     W, H = photo.size
     overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     od = ImageDraw.Draw(overlay)
@@ -484,6 +480,7 @@ def build_post_image(
     fallback_provider=None,
     bucket: str = "",
     report: dict | None = None,
+    badge: str | None = None,
 ) -> Path:
     """يبني بطاقة الخبر.
 
@@ -496,6 +493,13 @@ def build_post_image(
     مرشحات المصادر واحتياط find_images معًا)، وfallback_tried/
     fallback_candidates (هل استُدعي find_images وكم مرشَّحًا أعاد) — عطل
     الصورة كان يصل log وحده بلا أثر في تقرير المسودة الذي يراه المراجع.
+
+    `badge` اختياري (افتراضيًا None، فلا تغيير إطلاقًا على بطاقة الأخبار
+    القائمة — Issue #732): ملصق إضافي في صف ملصقات الترويسة، بعد العاجل
+    والتصنيف، بنفس الأسلوب البصري تمامًا (badge_left بلون accent). القالب
+    الوحيد لكل مسارات النشر (أخبار وتحليل يوتيوب معًا) — لا نسخة بطاقة
+    منفصلة لكل مسار كما كان قبل هذا الـIssue، فلا تفترق الهويتان البصريتان
+    مجددًا بصمت.
     """
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
@@ -721,7 +725,9 @@ def build_post_image(
             bx = badge_left(draw, bx, by, "عاجل", bdg_font,
                             (206, 32, 39), (255, 255, 255)) + int(W * 0.014)
         if category:
-            badge_left(draw, bx, by, category, bdg_font, accent, primary)
+            bx = badge_left(draw, bx, by, category, bdg_font, accent, primary) + int(W * 0.014)
+        if badge:
+            badge_left(draw, bx, by, badge, bdg_font, accent, primary)
 
         if handle_in_header:
             hf = load_font(f_body, int(W * 0.024), body_weight)

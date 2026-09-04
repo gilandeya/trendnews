@@ -11833,11 +11833,13 @@ def test_youtube_article() -> None:
 
 
 def test_youtube_publish() -> None:
-    """المرحلة الخامسة (src/youtube_publish.py، Issue #676 وIssue #680):
-    توصيل المسودة ودورة المراجعة والنشر بما كان قائمًا (imaging/store/
-    review/publish) بلا تعديل على منطقها. لا شبكة -- review.create_issue/
-    comment/fetch_issue_body/close_issue/remove_label وpublish.publish_one
-    كلّها مموَّهة محليًا؛ بناء بطاقة العنوان نفسه محلي بالكامل (Pillow فقط)،
+    """المرحلة الخامسة (src/youtube_publish.py، Issue #676 وIssue #680
+    وIssue #732): توصيل المسودة ودورة المراجعة والنشر بما كان قائمًا
+    (imaging/store/review/publish) بلا تعديل على منطقها إلا حيث وحَّد
+    Issue #732 بطاقة هذا المسار مع بطاقة الأخبار (imaging.build_post_image
+    ذاتها بمعامل badge). لا شبكة -- review.create_issue/comment/
+    fetch_issue_body/close_issue/remove_label وpublish.publish_one كلّها
+    مموَّهة محليًا؛ بناء بطاقة العنوان نفسه محلي بالكامل (Pillow فقط)،
     وimagesearch.find_images/imaging.download_image/imaging.face_score
     مموَّهة أيضًا حيث تُختبَر صورة البطاقة التعبيرية (طلب مراجعة لاحق على
     Issue #680) فلا نداء شبكة حقيقي إطلاقًا في كل هذا الملف.
@@ -11847,14 +11849,21 @@ def test_youtube_publish() -> None:
     yp = youtube_publish
     cfg = load_config()
 
-    # ── bottom_bar_text: طبقة (ج) تُظهر اسم القناة وحده بلا ذكر كتلة ──
-    check("bottom_bar_text: طبقتا أ/ب تعرضان الكتل والقنوات معًا",
-          yp.bottom_bar_text("a", ["arabic", "persian"], ["الجزيرة", "Iran International"], cfg)
-          == "عربية · فارسية — الجزيرة، Iran International")
-    check("bottom_bar_text: طبقة ج تعرض اسم القناة وحده بلا كتلة (نصّ الـIssue)",
-          yp.bottom_bar_text("c", ["arabic"], ["الجزيرة"], cfg) == "الجزيرة")
-    check("bottom_bar_text: بلا كتل يعرض القنوات وحدها",
-          yp.bottom_bar_text("b", [], ["الجزيرة", "العربية"], cfg) == "الجزيرة، العربية")
+    # ── image_source_line (Issue #732): لا أسماء قنوات في سطر «المصدر:» --
+    # عدد عربي صحيح التصريف داخل قالب من config.yaml وحده ──
+    check("image_source_line: صيغة config.yaml الافتراضية بعدد عربي صحيح التصريف",
+          yp.image_source_line(["الجزيرة", "CNN Türk", "العربية"], cfg)
+          == "قراءة في تغطية 3 قنوات", yp.image_source_line(["أ", "ب", "ج"], cfg))
+    check("image_source_line: لا اسم قناة واحدًا يظهر في السطر",
+          not any(c in yp.image_source_line(["الجزيرة", "CNN Türk"], cfg)
+                  for c in ["الجزيرة", "CNN Türk"]))
+    check("image_source_line: قناة واحدة بصيغة مفردة صحيحة",
+          yp.image_source_line(["الجزيرة"], cfg) == "قراءة في تغطية قناة واحدة")
+    cfg_custom_line = load_config()
+    cfg_custom_line["youtube"]["image"]["source_line_template"] = "بعيون {channels}"
+    check("image_source_line: القالب يُقرأ من config.yaml لا مكتوبًا في الشيفرة",
+          yp.image_source_line(["الجزيرة", "العربية"], cfg_custom_line) == "بعيون قناتان",
+          yp.image_source_line(["الجزيرة", "العربية"], cfg_custom_line))
 
     # ── split_warnings: قاعدة حاسمة -- caption خالٍ من قسم التنبيهات (Issue #676) ──
     article_with_warnings = (
@@ -11915,43 +11924,57 @@ def test_youtube_publish() -> None:
     check("parse_index: صفّ بصفر تنبيهات يُقرأ 0",
           len(parsed) > 1 and parsed[1]["warnings_count"] == 0, parsed)
 
-    # ── build_title_card: بلا شبكة إطلاقًا (Pillow محلي فقط)، بلا صورة خبر ولا سطر تقدير بنيويًا ──
-    tmp_img = STATE_DIR / "_test_youtube_card.jpg"
-    tmp_img.parent.mkdir(parents=True, exist_ok=True)
-    built = yp.build_title_card("سؤال تجريبي طويل يفحص التفاف النص على البطاقة؟",
-                                "a", ["arabic", "persian"],
-                                ["الجزيرة", "Iran International"], cfg, tmp_img)
-    check("build_title_card: يبني ملف صورة فعليًا", built.exists(), str(built))
-    placeholder_top_left = None
-    if built.exists():
-        with Image.open(built) as im:
-            check("build_title_card: أبعاد البطاقة تطابق image.width/height",
-                  im.size == (int(cfg.path("image.width", 1080)),
-                             int(cfg.path("image.height", 1080))), str(im.size))
-            placeholder_top_left = im.convert("RGB").getpixel((10, 10))
-    built.unlink(missing_ok=True)
+    # ── imaging.build_post_image بمعامل badge (Issue #732): بطاقة التحليل
+    # لا نسخة رسم منفصلة -- بادج «تحليل» وحده هو الفارق البصري عن بطاقة
+    # الأخبار. badge=None (الافتراضي) يجب ألا يغيّر شيئًا -- هذا بالضبط ما
+    # يضمنه معيار القبول "بطاقة أخبار قبل التعديل وبعده متطابقتان" ──
+    card_cfg = load_config()
+    W = int(card_cfg.path("image.width", 1080))
+    H = int(card_cfg.path("image.height", 1080))
+    margin = int(W * 0.06)
+    rule = max(4, W // 240)
+    header_h = int(H * 0.160) if (card_cfg.path("brand.name") or card_cfg.path("brand.logo")) else 0
+    inner_top = int(header_h * 0.14)
+    inner_bot = header_h - rule - int(header_h * 0.14)
+    handle_in_header = bool(card_cfg.path("brand.handle") and header_h)
+    badge_y = ((inner_top + inner_bot) // 2 if not handle_in_header
+               else inner_top + int((inner_bot - inner_top) * 0.34))
+    badge_probe_xy = (margin + 10, badge_y)
 
-    # ── build_title_card بصورة تعبيرية (طلب المراجعة على Issue #680): نفس
-    # الأبعاد، لكن التركيب مختلف فعليًا -- صورة داكنة مموَّهة (أسود صرف) بدل
-    # الخلفية المتدرّجة الفاتحة، فأعلى يسار البطاقة يظلم بوضوح مقارنةً
-    # بالقالب النصّي أعلاه (نفس الإحداثيات بالضبط) ──
-    fake_photo = Image.new("RGB", (1600, 1200), (0, 0, 0))
-    tmp_img2 = STATE_DIR / "_test_youtube_card_photo.jpg"
-    built2 = yp.build_title_card("سؤال تجريبي طويل يفحص التفاف النص على البطاقة؟",
-                                 "a", ["arabic", "persian"],
-                                 ["الجزيرة", "Iran International"], cfg, tmp_img2,
-                                 photo=fake_photo)
-    check("build_title_card (بصورة): يبني ملف صورة فعليًا", built2.exists(), str(built2))
-    if built2.exists() and placeholder_top_left is not None:
-        with Image.open(built2) as im2:
-            check("build_title_card (بصورة): أبعاد البطاقة تطابق image.width/height أيضًا",
-                  im2.size == (int(cfg.path("image.width", 1080)),
-                               int(cfg.path("image.height", 1080))), str(im2.size))
-            photo_top_left = im2.convert("RGB").getpixel((10, 10))
-            check("build_title_card (بصورة): التركيب الفعلي يختلف عن القالب النصّي "
-                  "(صورة داكنة مموَّهة أعلى اليسار لا خلفية متدرّجة فاتحة)",
-                  sum(photo_top_left) < sum(placeholder_top_left), (photo_top_left, placeholder_top_left))
-    built2.unlink(missing_ok=True)
+    no_badge_path = STATE_DIR / "_test_card_no_badge.jpg"
+    imaging.build_post_image(
+        headline="سؤال تجريبي طويل يفحص التفاف النص على البطاقة؟",
+        category="", urgent=False, image_urls=None,
+        publisher=yp.image_source_line(["الجزيرة", "Iran International"], card_cfg),
+        cfg=card_cfg, out_path=no_badge_path,
+    )
+    check("build_post_image: يبني ملف صورة فعليًا (بلا badge)", no_badge_path.exists())
+    with Image.open(no_badge_path) as im_no_badge:
+        check("build_post_image: أبعاد البطاقة تطابق image.width/height",
+              im_no_badge.size == (W, int(card_cfg.path("image.height", 1080))), str(im_no_badge.size))
+        no_badge_pixel = im_no_badge.convert("RGB").getpixel(badge_probe_xy)
+    no_badge_path.unlink(missing_ok=True)
+
+    badge_path = STATE_DIR / "_test_card_badge.jpg"
+    imaging.build_post_image(
+        headline="سؤال تجريبي طويل يفحص التفاف النص على البطاقة؟",
+        category="", urgent=False, image_urls=None,
+        publisher=yp.image_source_line(["الجزيرة", "Iran International"], card_cfg),
+        cfg=card_cfg, out_path=badge_path, badge="تحليل",
+    )
+    check("build_post_image: يبني ملف صورة فعليًا (مع badge)", badge_path.exists())
+    with Image.open(badge_path) as im_badge:
+        badge_pixel = im_badge.convert("RGB").getpixel(badge_probe_xy)
+    badge_path.unlink(missing_ok=True)
+
+    accent = imaging.hex_rgb(card_cfg.path("brand.accent_color", "#F0B429"))
+    # مقارنة بسماحية صغيرة لا تطابق حرفي -- ضغط JPEG (quality=90) يزيح كل
+    # قناة لونية ببضع درجات حتى فوق تعبئة مصمتة.
+    close_to_accent = all(abs(a - b) <= 6 for a, b in zip(badge_pixel, accent))
+    check("build_post_image: badge يرسم ملصقًا فعليًا (لون accent في موضعه)",
+          close_to_accent, (badge_pixel, accent))
+    check("build_post_image: بلا badge، الموضع نفسه يبقى بلا ملصق (لون مختلف عن accent)",
+          not all(abs(a - b) <= 6 for a, b in zip(no_badge_pixel, accent)), no_badge_pixel)
 
     # ── _photo_search_terms: كلمات مفتاحية عربية عبر evidence.build_query،
     # لا imagesearch.keywords() التي تعيد قائمة فارغة لنص عربي محض ──
@@ -11962,9 +11985,11 @@ def test_youtube_publish() -> None:
     check("_photo_search_terms: نصّان فارغان يعيدان قائمة فارغة بلا استثناء",
           yp._photo_search_terms("", "") == [], yp._photo_search_terms("", ""))
 
-    # ── _find_photo: بلا شبكة فعلية -- imagesearch.find_images وimaging.
-    # download_image وimaging.face_score كلّها مموَّهة محليًا. المرشَّح الأول
-    # "فيه وجه" فيُرفض، الثاني نظيف فيُعتمَد (المحظور: لا صورة لأي شخص) ──
+    # ── _photo_candidates: بلا شبكة فعلية -- imagesearch.find_images
+    # وimaging.download_image وimaging.face_score كلّها مموَّهة محليًا.
+    # تعيد روابط لا صورًا محمَّلة (Issue #732 -- تُمرَّر لاحقًا إلى
+    # imaging.build_post_image عبر fallback_urls). المرشَّح الأول "فيه وجه"
+    # فيُستبعَد، الثاني نظيف فيبقى (المحظور: لا صورة لأي شخص) ──
     real_find_images = imagesearch.find_images
     real_download_image = imaging.download_image
     real_face_score = imaging.face_score
@@ -11977,29 +12002,26 @@ def test_youtube_publish() -> None:
         download_calls.append(url)
         return Image.new("RGB", (800, 600), (10, 20, 30))
 
-    def fake_face_score(img):
-        return 0.5
-
     imagesearch.find_images = fake_find_images  # type: ignore
     imaging.download_image = fake_download_image  # type: ignore
     try:
-        # كل المرشّحين "فيهم وجه" ⇒ None، لا يسقط المقال
+        # كل المرشّحين "فيهم وجه" ⇒ قائمة فارغة، لا يسقط المقال
         imaging.face_score = lambda img: 0.5  # type: ignore
-        no_photo = yp._find_photo("عنوان", "حدث", cfg)
-        check("_find_photo: كل المرشّحين مرفوضون (وجه ظاهر) ⇒ None لا انهيار",
-              no_photo is None, no_photo)
+        no_photo = yp._photo_candidates("عنوان", "حدث", cfg)
+        check("_photo_candidates: كل المرشّحين مرفوضون (وجه ظاهر) ⇒ قائمة فارغة لا انهيار",
+              no_photo == [], no_photo)
 
-        # المرشَّح الثاني فقط نظيف ⇒ يُعتمَد هو تحديدًا
+        # المرشَّح الثاني فقط نظيف ⇒ يبقى هو تحديدًا في القائمة المعادة
         download_calls.clear()
 
         def face_only_first(img):
             return 0.5 if len(download_calls) == 1 else 0.0
 
         imaging.face_score = face_only_first  # type: ignore
-        photo = yp._find_photo("عنوان", "حدث", cfg)
-        check("_find_photo: المرشَّح الأول (فيه وجه) يُرفض، والثاني (نظيف) يُعتمَد",
-              photo is not None and download_calls ==
-              ["https://example.com/face.jpg", "https://example.com/clean.jpg"], download_calls)
+        photos = yp._photo_candidates("عنوان", "حدث", cfg)
+        check("_photo_candidates: المرشَّح الأول (فيه وجه) يُستبعَد، والثاني (نظيف) يبقى وحده",
+              photos == ["https://example.com/clean.jpg"] and download_calls ==
+              ["https://example.com/face.jpg", "https://example.com/clean.jpg"], (photos, download_calls))
     finally:
         imagesearch.find_images = real_find_images  # type: ignore
         imaging.download_image = real_download_image  # type: ignore
@@ -12010,11 +12032,11 @@ def test_youtube_publish() -> None:
     search_calls: list = []
     imagesearch.find_images = lambda *a, **k: (search_calls.append(1) or [])  # type: ignore
     try:
-        empty_terms_photo = yp._find_photo("", "", cfg)
+        empty_terms_photos = yp._photo_candidates("", "", cfg)
     finally:
         imagesearch.find_images = real_find_images  # type: ignore
-    check("_find_photo: عنوان وevent فارغان ⇒ None بلا أي نداء بحث",
-          empty_terms_photo is None and search_calls == [], (empty_terms_photo, search_calls))
+    check("_photo_candidates: عنوان وevent فارغان ⇒ قائمة فارغة بلا أي نداء بحث",
+          empty_terms_photos == [] and search_calls == [], (empty_terms_photos, search_calls))
 
     # ── الدرجة المركّبة (Issue #680): compute_score / score_breakdown_text ──
     check("compute_score: عدد القنوات + (كتل-1)×2 + مكافأة الخلاف (cross_source=+3)",
@@ -12038,7 +12060,7 @@ def test_youtube_publish() -> None:
         {"id": "c00000000001", "title": "قضية ج اتفاق؟", "tier": "c", "blocs": ["arabic"],
          "channels": ["الجزيرة"], "agreement": "agreement", "warnings": [],
          "caption": "متن قضية ج", "headlines": ["قضية ج اتفاق؟", "بديل ج ١", "بديل ج ٢"],
-         "headline_selected": 0, "score": 1},
+         "headline_selected": 0, "score": 1, "has_photo": True},
         {"id": "a00000000002", "title": "قضية أ خلاف قنوات؟", "tier": "a",
          "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
          "agreement": "cross_source", "warnings": ["تحذير رقم واحد"],
@@ -12056,7 +12078,9 @@ def test_youtube_publish() -> None:
         {"id": "b00000000004", "title": "قضية ب ثلاث قنوات؟", "tier": "b", "blocs": ["arabic"],
          "channels": ["الجزيرة", "العربية", "سكاي نيوز عربية"], "agreement": "cross_source",
          "warnings": [], "caption": "متن قضية ب", "headlines": ["قضية ب ثلاث قنوات؟", "ب ١", "ب ٢"],
-         "headline_selected": 0, "score": 6},
+         # has_photo=False (طلب مراجعة على Issue #732): معاينة _photo_candidates
+         # في open_review لم تجد مرشَّحًا لهذه القضية -- ⚠️ يجب أن تظهر في الـIssue
+         "headline_selected": 0, "score": 6, "has_photo": False},
     ]
     drafts.sort(key=yp._review_sort_key)
     order = [d["id"] for d in drafts]
@@ -12068,6 +12092,18 @@ def test_youtube_publish() -> None:
     cfg_pub = load_config()
     cfg_pub["youtube"]["publish"] = {"max_per_run": 3, "spacing_minutes": 40}
     body = yp.build_review_body(drafts, "user/trendnews", "main", cfg_pub)
+    # ── تنبيه غياب الصورة التعبيرية (Issue #732، "أخبر المراجع حين تخرج
+    # البطاقة بلا صورة") -- has_photo=False يظهر ⚠️ صريحة، True لا يظهر شيئًا ──
+    check("Issue المراجعة: تنبيه بلا صورة تعبيرية يظهر للمقال الذي has_photo=False",
+          "بلا صورة تعبيرية متاحة حاليًا" in body, body)
+    b4_start = body.index("قضية ب ثلاث قنوات؟")
+    b4_end = body.index("---", b4_start)
+    check("Issue المراجعة: تنبيه غياب الصورة يقع فعليًا داخل قسم القضية (ب) لا في مكان آخر",
+          "بلا صورة تعبيرية" in body[b4_start:b4_end], body[b4_start:b4_end])
+    c1_start = body.index("قضية ج اتفاق؟")
+    c1_end = body.index("---", c1_start)
+    check("Issue المراجعة: has_photo=True لا يُظهر تنبيه غياب صورة لتلك القضية",
+          "بلا صورة تعبيرية" not in body[c1_start:c1_end], body[c1_start:c1_end])
     check("سطر الصحة: العدد الكلي وتوزيع الطبقات وعدّاد خلاف القنوات والتنبيهات",
           "4 مقالات" in body and "أ=2" in body and "ب=1" in body and "ج=1" in body and
           "خلاف قنوات=2" in body and "تنبيهات=1" in body, body[:400])
@@ -12200,11 +12236,19 @@ def test_youtube_publish() -> None:
         created_issues.append({"title": title, "body": body, "labels": labels})
         return {"number": 999, "html_url": "https://example.com/issues/999"}
 
+    # imagesearch.find_images مموَّهة هنا لتعيد رابطًا نظيفًا واحدًا -- open_review()
+    # يبحث الآن مسبقًا عن معاينة صورة تعبيرية لكل مقال قبل فتح الـIssue (Issue
+    # #732)؛ imaging.download_image/face_score تبقيان على تمويه install_fakes()
+    # القائم (تنجح دومًا، ولا وجه يُكتشَف -- لا cv2 في بيئة الاختبار).
+    real_find_images_review = imagesearch.find_images
+    imagesearch.find_images = lambda title, cfg, limit=6, terms=None: (
+        ["https://example.com/analysis-photo.jpg"])  # type: ignore
     review.create_issue = fake_create_issue  # type: ignore
     try:
         review_result = yp.open_review(cfg)
     finally:
         review.create_issue = real_create_issue  # type: ignore
+        imagesearch.find_images = real_find_images_review  # type: ignore
 
     check("open_review(): فُتح Issue مراجعة واحد بوسم youtube-review",
           len(created_issues) == 1 and created_issues[0]["labels"] == ["youtube-review"],
@@ -12217,10 +12261,17 @@ def test_youtube_publish() -> None:
     check("open_review(): العناوين الثلاثة ظاهرة في نص الـIssue المفتوح فعليًا",
           all(h in created_issues[0]["body"] for h in article_headlines),
           created_issues[0]["body"])
+    check("open_review(): معاينة صورة تعبيرية وُجدت ⇒ has_photo=True على المسودة المُعادة",
+          review_result["drafts"][0].get("has_photo") is True, review_result["drafts"][0])
+    check("open_review(): معاينة صورة موجودة ⇒ لا تنبيه غياب صورة في نص الـIssue",
+          "بلا صورة تعبيرية" not in created_issues[0]["body"], created_issues[0]["body"])
 
     loaded2 = store.load_draft(build_result["drafts"][0]["id"])
     check("open_review(): review_issue ثُبِّت على المسودة فور فتح الـIssue",
           loaded2 is not None and loaded2[1].get("review_issue") == 999,
+          loaded2[1] if loaded2 else None)
+    check("open_review(): has_photo محفوظ فعليًا على القرص لا في الذاكرة وحدها",
+          loaded2 is not None and loaded2[1].get("has_photo") is True,
           loaded2[1] if loaded2 else None)
 
     # نداء ثانٍ: المسودة مربوطة بـIssue سابق الآن، فلا تُلتقَط ولا يُفتَح Issue جديد
@@ -12252,6 +12303,8 @@ def test_youtube_publish() -> None:
     check("ensure_title_card: بحثت فعليًا عن صورة تعبيرية بكلمات event/headline",
           photo_search_calls and photo_search_calls[0] and
           "اجتماع" in photo_search_calls[0][0], photo_search_calls)
+    check("ensure_title_card: بحث فارغ ⇒ has_photo=False (خلفية مصممة، لا انهيار)",
+          card_draft.get("has_photo") is False, card_draft.get("has_photo"))
     check("ensure_title_card: يضبط حقل image على مسار drafts/<تاريخ>/<معرّف>.jpg",
           card_draft.get("image") == f"drafts/{date_str}/{card_draft['id']}.jpg",
           card_draft.get("image"))
@@ -12267,6 +12320,9 @@ def test_youtube_publish() -> None:
     check("ensure_title_card: التحديث محفوظ فعليًا على القرص (image + headline_selected)",
           persisted is not None and persisted[1].get("image") == card_draft["image"] and
           persisted[1].get("headline_selected") == 1, persisted[1] if persisted else None)
+    check("ensure_title_card: has_photo النهائي (الحقيقي بعد البناء) محفوظ أيضًا",
+          persisted is not None and persisted[1].get("has_photo") is False,
+          persisted[1] if persisted else None)
 
     # نداء ثانٍ بعد بناء البطاقة فعليًا: يعيد True فورًا بلا إعادة بناء
     # (الملف موجود مسبقًا -- انظر فحص `existing` في ensure_title_card)
@@ -12422,6 +12478,8 @@ def test_youtube_publish() -> None:
           {"arabic", "turkish", "persian", "israeli"})
     check("config: youtube.image.use_photo مفعَّل افتراضيًا (طلب المراجعة على Issue #680)",
           cfg.path("youtube.image.use_photo") is True)
+    check("config: youtube.image.source_line_template موجود ويحوي {channels} (Issue #732)",
+          "{channels}" in (cfg.path("youtube.image.source_line_template") or ""))
 
     # ── إعدادات config.yaml (Issue #680: الدرجة والعناوين) ──
     check("config: youtube.review.scoring.bloc_bonus = 2",

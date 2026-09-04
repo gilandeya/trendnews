@@ -1,17 +1,21 @@
 """المرحلة الخامسة من مسار يوتيوب (Issue #676): توصيل المسار التحليلي
 (youtube_collect → youtube_extract → youtube_cluster → youtube_article) بما
 كان قائمًا في المشروع قبله — بطاقة صورة، مسودة في drafts/، Issue مراجعة،
-ونشر عبر facebook/publish. لا تعديل على منطق imaging أو store أو review أو
-publish هنا — استعمال فقط، وقالب صورة جديد.
+ونشر عبر facebook/publish. استعمال فقط لـstore/review/publish، بلا تعديل
+على منطقها. بطاقة الصورة (منذ Issue #732) قالب واحد مشترك مع المسار العام
+— imaging.build_post_image نفسها، بمعامل badge اختياري — لا قالب مستقل
+يفترق تصميمه عن بطاقة الأخبار.
 
 **بطاقة العنوان لا تستقبل أبدًا نص المقال ولا أي رابط صورة أو بيانات
-فيديو/قناة/شخص** (انظر build_title_card أدناه): الحقول الممرَّرة عنوان +
-طبقة + كتل + قنوات + صورة تعبيرية مُحمَّلة مسبقًا (اختيارية، PIL.Image لا
-رابط) فقط، فسطر التقدير ولقطة الفيديو وصورته المصغّرة وشعار القناة وصورة
-أي شخص مذكور في المقال ممنوعة *بنيويًا* لا اجتهادًا — لا سبيل لتسريبها إلى
-البطاقة عبر توقيع الدالة نفسه، ولا سبيل لوصول صورة الفيديو/القناة أصلًا
-لأن مصدر الصورة الوحيد (imagesearch.py، Wikimedia/Openverse) لا يستقبل أي
-بيانات فيديو أو قناة إطلاقًا (طلب المراجعة على Issue #680، انظر `_find_photo`).
+فيديو/قناة/شخص** (انظر ensure_title_card أدناه): الحقول الممرَّرة إلى
+imaging.build_post_image عنوان + سطر مصدر مُصاغ برمجيًا (لا أسماء قنوات، انظر
+image_source_line) + شارة ثابتة + روابط صور تعبيرية (اختيارية، عبر
+fallback_urls لا image_urls) فقط، فسطر التقدير ولقطة الفيديو وصورته
+المصغّرة وشعار القناة وصورة أي شخص مذكور في المقال ممنوعة *بنيويًا* لا
+اجتهادًا — لا سبيل لتسريبها إلى البطاقة عبر توقيع الدالة نفسه، ولا سبيل
+لوصول صورة الفيديو/القناة أصلًا لأن مصدر الصورة الوحيد (imagesearch.py،
+Wikimedia/Openverse) لا يستقبل أي بيانات فيديو أو قناة إطلاقًا (طلب
+المراجعة على Issue #680، انظر `_photo_candidates`).
 
 **تنبيهات المراجعة تُنزَع من caption قبل أي نشر** (split_warnings) — تبقى في
 حقل warnings المنفصل وفي Issue المراجعة فقط، فلا تصل فيسبوك إطلاقًا.
@@ -56,21 +60,21 @@ _review_sort_key تنازليًا، وتُعرَض مكوّناتها نصًّا
 
 (٢) **البطاقات كانت تُبنى قبل الاختيار** -- سبع بطاقات لسبعة مقالات يُنشر
 منها ثلاثة، أربع مهدرة والمستودع يمتلئ بصور لا تُستعمل. build() لم يعد يبني
-أي بطاقة إطلاقًا (ولا يستدعي build_title_card)؛ open_review() يفتح الـIssue
-**بلا صور** (لا رابط raw ولا blob في build_review_body). البطاقة الوحيدة
-تُبنى عند publish_approved() -- بعد الوسم، للمختار فقط -- عبر
-ensure_title_card()، بنفس مبدأ publish.ensure_reel() اللاحق تمامًا (يبني
-الريل عند الطلب لا عند الجمع): مورد الحوسبة يُصرف على ما اختاره المراجع
-فعليًا لا على كل مرشح. لم يحتج هذا أي تعديل على ملفات .github/workflows/ --
-الخطوة القائمة "بناء البطاقات والمسودات" في youtube-articles.yml تستدعي
-`python -m src.youtube_publish` بلا خيارات، وbuild() نفسها صارت لا تبني
-بطاقات؛ وخطوة "نشر المؤشَّر" القائمة في youtube-publish.yml (`--publish`)
-هي بالضبط ما يستدعي publish_approved() بعد الوسم، فبناء البطاقة يقع داخلها
-بنيويًا بلا نقل أي خطوة يدويًا. (البطاقة كانت تبقى بلا صورة خبر بتصميم
-Issue #676 المتعمَّد؛ طلب مراجعة لاحق على Issue #680 أضاف صورة تعبيرية
-اختيارية عبر imagesearch.py -- انظر _find_photo/build_title_card أدناه
-ولماذا هذا لا يناقض تصميم #676 الأصلي: ذلك التصميم استبعد صور المصادر
-الأصلية للفيديو تحديدًا [لقطة/مصغّرة/شعار قناة]، لا كل صورة مطلقًا.)
+أي بطاقة إطلاقًا؛ open_review() يفتح الـIssue **بلا صور** (لا رابط raw ولا
+blob في build_review_body). البطاقة الوحيدة تُبنى عند publish_approved() --
+بعد الوسم، للمختار فقط -- عبر ensure_title_card()، بنفس مبدأ
+publish.ensure_reel() اللاحق تمامًا (يبني الريل عند الطلب لا عند الجمع):
+مورد الحوسبة يُصرف على ما اختاره المراجع فعليًا لا على كل مرشح. لم يحتج هذا
+أي تعديل على ملفات .github/workflows/ -- الخطوة القائمة "بناء البطاقات
+والمسودات" في youtube-articles.yml تستدعي `python -m src.youtube_publish`
+بلا خيارات، وbuild() نفسها صارت لا تبني بطاقات؛ وخطوة "نشر المؤشَّر" القائمة
+في youtube-publish.yml (`--publish`) هي بالضبط ما يستدعي publish_approved()
+بعد الوسم، فبناء البطاقة يقع داخلها بنيويًا بلا نقل أي خطوة يدويًا. (البطاقة
+كانت تبقى بلا صورة خبر بتصميم Issue #676 المتعمَّد؛ طلب مراجعة لاحق على
+Issue #680 أضاف صورة تعبيرية اختيارية عبر imagesearch.py -- انظر
+_photo_candidates/ensure_title_card أدناه ولماذا هذا لا يناقض تصميم #676
+الأصلي: ذلك التصميم استبعد صور المصادر الأصلية للفيديو تحديدًا
+[لقطة/مصغّرة/شعار قناة]، لا كل صورة مطلقًا.)
 
 (٣) **عناوين متعدّدة** -- كل مقال يحمل الآن ثلاثة عناوين مقترحة (يكتبها
 src/youtube_article.py: generate_headlines، نداء منفصل عن الكتابة، مذيَّلة
@@ -78,7 +82,28 @@ src/youtube_article.py: generate_headlines، نداء منفصل عن الكتا
 بمربعات اختيار (`<!-- hl:id:index -->`)، الأول (سؤال) معلَّم افتراضيًا.
 parse_headline_choice تقرأ اختيار المالك من نص الـIssue عند الاعتماد،
 وensure_title_card تستعمل العنوان المختار فعليًا في بناء البطاقة والـcaption
-معًا (لا البطاقة وحدها) عبر _apply_headline."""
+معًا (لا البطاقة وحدها) عبر _apply_headline.
+
+Issue #732 وحّد بطاقة هذا المسار مع بطاقة الأخبار بعد أن خرج أول منشور
+تحليلي على فيسبوك بلا شعار الصفحة وبلا سطر مصدر وبلا صورة -- ليس عطلًا بل
+أثر جانبي مباشر لوجود نسختي رسم منفصلتين (imaging.build_post_image
+للأخبار، وbuild_title_card هنا وحدها). لم يعد لهذه الوحدة أي منطق رسم
+خاص بها: ensure_title_card يستدعي imaging.build_post_image ذاتها --
+نفس الشعار وسطر المصدر والتصميم اللذين تراهما بطاقة الأخبار حرفيًا --
+بمعامل badge الاختياري الجديد (`cfg.path("youtube.image.badge_text")`)
+هو الفارق البصري الوحيد المقصود بين المسارين. الشريط السفلي القديم
+(بلوكات/قنوات، bottom_bar_text سابقًا) حُذف بالكامل معه؛ عدد القنوات ما
+زال يظهر، لكن في سطر «المصدر:» القياسي عبر image_source_line -- بصيغة تصف
+العلاقة («قراءة في تغطية N قناة») لا بأسماء القنوات (نسبة المقال إليها
+كمصدر ناشر لم تقع -- طلب مراجعة صريح على الـIssue، والصيغة نفسها قابلة
+للتعديل من config.yaml: youtube.image.source_line_template لا مكتوبة في
+الشيفرة). ولأن بطاقة هذا المسار تُبنى فقط بعد الاعتماد (البند ٢ أعلاه)،
+لا عند الجمع، لا يعرف المراجع وقت الموافقة هل ستخرج بصورة تعبيرية أم على
+خلفية مصممة إلا لو بحثنا الآن مسبقًا: open_review() يشغّل _photo_candidates
+لكل مقال (بحث فقط، لا تحميل بطاقة كاملة) ويضع النتيجة في حقل has_photo
+على المسودة قبل فتح الـIssue، فتظهر ⚠️ صريحة في نصّه حين لا مرشَّح متاح --
+نفس مبدأ report/has_photo في المسار العام (imaging.build_post_image)، لكن
+منقولًا هنا إلى مرحلة أبكر لأن بناء البطاقة نفسه مؤجَّل بنيويًا."""
 from __future__ import annotations
 
 import argparse
@@ -90,8 +115,6 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-
-from PIL import Image, ImageDraw
 
 from . import evidence, imagesearch, imaging, publish, review, store, youtube_article
 from .config import DRAFTS_DIR, env, load_config
@@ -187,14 +210,17 @@ def bloc_label(bloc: str, cfg=None) -> str:
     return labels.get(bloc, _DEFAULT_BLOC_LABELS.get(bloc, bloc))
 
 
-def bottom_bar_text(tier: str, blocs: list[str], channels: list[str], cfg=None) -> str:
-    """"عربية · فارسية — الجزيرة، العربية، Iran International" — لمقال طبقة
-    (ج) (مصدر واحد) اسم القناة وحدها بلا ذكر كتلة (نصّ الـIssue #676)."""
-    channels_text = "، ".join(channels)
-    if tier == "c" or not blocs:
-        return channels_text
-    blocs_text = " · ".join(bloc_label(b, cfg) for b in blocs)
-    return f"{blocs_text} — {channels_text}" if channels_text else blocs_text
+def image_source_line(channels: list[str], cfg=None) -> str:
+    """سطر «المصدر:» على بطاقة التحليل الموحَّدة (imaging.build_post_image،
+    Issue #732) -- لا يسمّي القنوات: البطاقة *تحليل لتغطيتها* لا نقل عنها،
+    وذكر أسمائها في خانة «المصدر:» ينسب المقال إليها زورًا (طلب مراجعة صريح
+    على الـIssue). عدد القنوات وحده يظهر، بصيغة عربية صحيحة التصريف
+    (_arabic_channel_count_phrase، القائمة أصلًا لهذا الغرض في score_breakdown_text)
+    داخل قالب نصّي قابل للتعديل بلا كود (config.yaml:
+    youtube.image.source_line_template) -- فقد يُغيَّر لاحقًا تحريريًا."""
+    template = ((cfg.path("youtube.image.source_line_template") if cfg else None)
+                or "قراءة في تغطية {channels}")
+    return template.format(channels=_arabic_channel_count_phrase(len(channels)))
 
 
 def split_warnings(article_text: str) -> tuple[str, list[str]]:
@@ -303,135 +329,42 @@ def _photo_search_terms(headline: str, event: str) -> list[str]:
     return terms
 
 
-def _find_photo(headline: str, event: str, cfg) -> Image.Image | None:
-    """يبحث عن صورة تعبيرية حرة الترخيص لبطاقة العنوان (طلب المراجعة على
-    Issue #680) -- imagesearch.py حصرًا (Wikimedia/Openverse)، فلا صلة لها
-    ببيانات الفيديو أو القناة أو أي شخص مذكور في المقال بنيويًا: مصدرا
+def _photo_candidates(headline: str, event: str, cfg) -> list[str]:
+    """يبحث عن روابط صور تعبيرية حرة الترخيص لبطاقة العنوان (طلب المراجعة
+    على Issue #680) -- imagesearch.py حصرًا (Wikimedia/Openverse)، فلا صلة
+    لها ببيانات الفيديو أو القناة أو أي شخص مذكور في المقال بنيويًا: مصدرا
     البحث لا يستقبلان شيئًا من ذلك أصلًا، لا مجرّد اتفاق ضمني على تجنّبه.
 
     كل مرشَّح يظهر فيه وجه بنسبة مساحة ≥ image.face_min_ratio (عتبة "وجه
-    ظاهر" القائمة نفسها، لا عتبة جديدة) يُرفض: لا سبيل لتطبيق «لا صورة أي
-    شخص مذكور في المقال» بالتعرّف على هوية الشخص فعليًا، فالرفض الآمن رفض
-    أي وجه ظاهر بصرف النظر عمّن يكون -- امتناع بنيويًا لا اجتهادًا، بنفس
-    مبدأ منع صورة الفيديو/القناة أعلاه.
+    ظاهر" القائمة نفسها، لا عتبة جديدة) يُستبعَد من القائمة: لا سبيل لتطبيق
+    «لا صورة أي شخص مذكور في المقال» بالتعرّف على هوية الشخص فعليًا، فالرفض
+    الآمن رفض أي وجه ظاهر بصرف النظر عمّن يكون -- امتناع بنيويًا لا اجتهادًا،
+    بنفس مبدأ منع صورة الفيديو/القناة أعلاه.
 
-    تعيد None حين لا مرشَّح صالح (بحث فارغ أو كل المرشّحين رُفضوا) --
-    ensure_title_card يرجع عندها للبطاقة النصية القائمة بدل إسقاط المقال
-    (نصّ طلب المراجعة صراحةً)."""
+    تعيد **روابط** لا صورًا محمَّلة (خلافًا لتصميم سابق لهذه الدالة قبل
+    Issue #732) كي تُمرَّر مباشرة إلى imaging.build_post_image عبر
+    fallback_urls، فتتولى هي التحميل والتحقّق (حجم/نسبة) والتقرير --
+    نفس آلية المسار العام تمامًا بدل تكرارها هنا. قائمة فارغة (بحث فارغ أو
+    كل المرشّحين فيهم وجه) تعني عودة build_post_image إلى الخلفية المصممة
+    بدل إسقاط المقال (نصّ طلب المراجعة صراحةً)."""
     terms = _photo_search_terms(headline, event)
     if not terms:
-        return None
+        return []
     urls = imagesearch.find_images(headline, cfg, terms=terms)
     if not urls:
-        return None
+        return []
 
     max_face_ratio = float(cfg.path("image.face_min_ratio", 0.02))
+    clean: list[str] = []
     for url in urls:
         img = imaging.download_image(url)
         if img is None:
             continue
         if imaging.face_score(img) >= max_face_ratio:
-            log.info("رُفضت صورة تعبيرية (وجه ظاهر): %s", url[:90])
+            log.info("استُبعدت صورة تعبيرية (وجه ظاهر): %s", url[:90])
             continue
-        return img
-    return None
-
-
-def build_title_card(headline: str, tier: str, blocs: list[str], channels: list[str],
-                      cfg, out_path: Path, photo: Image.Image | None = None) -> Path:
-    """بطاقة العنوان: نصّ فوق شريط سفلي يحمل الكتل والقنوات، وعلامة بصرية
-    ثابتة (badge) تميّز هذا المسار عن تقارير الصفحة العادية (نصّ الـIssue
-    #676). `photo` اختياري (طلب المراجعة على Issue #680، `_find_photo`
-    أعلاه) -- حين يتوفّر، يُبنى القالب بالتركيب نفسه المستعمل في
-    build_post_image (imaging.cover للقصّ، imaging.dim_photo للتعتيم،
-    وشريط عنوان أسفل الصورة مباشرة، لا وسط البطاقة) بدل استدعاء دوالها
-    مباشرة أو تكرار منطقها هنا. غيابه (بحث فارغ أو معطَّل عبر
-    youtube.image.use_photo) يعيد القالب النصّي الأصلي بلا أي تغيير --
-    الاحتياط الذي يطلبه نصّ المراجعة صراحةً بدل إسقاط المقال."""
-    W = int(cfg.path("image.width", 1080))
-    H = int(cfg.path("image.height", 1080))
-    primary = imaging.hex_rgb(cfg.path("brand.primary_color", "#12203A"))
-    accent = imaging.hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
-    f_head = cfg.path("image.font_headline")
-    head_weight = cfg.path("image.font_headline_weight") or None
-    f_body = cfg.path("image.font_body") or f_head
-    body_weight = cfg.path("image.font_body_weight") or None
-    badge_text = cfg.path("youtube.image.badge_text", "تحليل")
-
-    margin = int(W * 0.08)
-    rule = max(4, W // 240)
-
-    # الشريط السفلي أولًا لمعرفة المساحة المتبقية للعنوان — نفس ترتيب
-    # build_post_image (قياس شريط العنوان قبل الصورة). draw قياس مؤقّت لا
-    # يُرسَم عليه فعليًا (fit_text/measure يقيسان الخط فقط، بلا اعتماد على
-    # محتوى canvas -- انظر imaging.measure).
-    probe = ImageDraw.Draw(Image.new("RGB", (1, 1)))
-    bar_text = bottom_bar_text(tier, blocs, channels, cfg)
-    bar_font, bar_lines, bar_line_h = imaging.fit_text(
-        probe, bar_text, f_body, max_width=W - margin * 2, max_lines=2,
-        start=int(W * 0.032), minimum=int(W * 0.020), weight=body_weight,
-    )
-    bar_pad = int(H * 0.035)
-    bar_h = len(bar_lines) * bar_line_h + bar_pad * 2
-
-    if photo is not None:
-        # شريط العنوان أسفل الصورة مباشرة -- نفس معاملات fit_text ونمط
-        # الشريط في build_post_image (start/minimum/max_lines وband_pad
-        # حرفيًا)، لا تصميم مقارب جديد.
-        head_font, head_lines, line_h = imaging.fit_text(
-            probe, headline, f_head, max_width=W - margin * 2, max_lines=4,
-            start=int(W * 0.052), minimum=int(W * 0.032), weight=head_weight,
-        )
-        band_pad = int(H * 0.045)
-        band_h = len(head_lines) * line_h + band_pad * 2
-        photo_h = H - band_h - bar_h
-
-        cropped = imaging.dim_photo(imaging.cover(photo, W, photo_h), primary)
-        canvas = Image.new("RGB", (W, H), primary)
-        canvas.paste(cropped, (0, 0))
-        draw = ImageDraw.Draw(canvas)
-
-        band_top = photo_h
-        draw.rectangle([0, band_top, W, band_top + band_h], fill=primary)
-        draw.rectangle([0, band_top, W, band_top + rule], fill=accent)
-        y = band_top + band_pad + line_h // 2
-        for line in head_lines:
-            imaging.draw_text(draw, (W // 2, y), line, head_font, (255, 255, 255), anchor="mm")
-            y += line_h
-    else:
-        canvas = imaging.placeholder(W, H, primary, accent)
-        draw = ImageDraw.Draw(canvas)
-        head_font, head_lines, line_h = imaging.fit_text(
-            draw, headline, f_head, max_width=W - margin * 2, max_lines=6,
-            start=int(W * 0.090), minimum=int(W * 0.045), weight=head_weight,
-        )
-
-        # العنوان يتوسّط المساحة فوق الشريط رأسيًا
-        avail_h = H - bar_h
-        y = (avail_h - len(head_lines) * line_h) // 2 + line_h // 2
-        for line in head_lines:
-            imaging.draw_text(draw, (W // 2, y), line, head_font, (255, 255, 255), anchor="mm")
-            y += line_h
-
-    # الشريط السفلي -- مشترك بين القالبين (بصورة أو بلا صورة)
-    bar_top = H - bar_h
-    draw.rectangle([0, bar_top, W, H], fill=imaging.mix(primary, (0, 0, 0), 0.28))
-    draw.rectangle([0, bar_top, W, bar_top + rule], fill=accent)
-    by = bar_top + bar_pad + bar_line_h // 2
-    for line in bar_lines:
-        imaging.draw_text(draw, (W // 2, by), line, bar_font,
-                          (225, 228, 235), anchor="mm")
-        by += bar_line_h
-
-    # العلامة البصرية الثابتة (نصّ الـIssue #676: تميّز هذا المسار عن تقرير
-    # الصفحة العادي) — أعلى يسار البطاقة، ثابتة المكان في كل بطاقة (فوق
-    # الصورة مباشرة حين تتوفّر، وإلا فوق الخلفية المتدرّجة).
-    badge_font = imaging.load_font(f_body, int(W * 0.028), body_weight)
-    imaging.badge_left(draw, margin, int(H * 0.07), badge_text, badge_font, accent, primary)
-
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    canvas.save(out_path, "JPEG", quality=90, optimize=True, subsampling=0)
-    return out_path
+        clean.append(url)
+    return clean
 
 
 # ──────────────────────────── المسودة ────────────────────────────
@@ -537,26 +470,46 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
 
     # صورة تعبيرية حرة الترخيص (طلب المراجعة على Issue #680) -- اختيارية
     # ومعطَّلة بأمان (youtube.image.use_photo أو بحث فارغ) بدل إسقاط المقال؛
-    # build_title_card يعود للقالب النصّي القائم عندها بلا تدخّل هنا.
-    photo = None
+    # build_post_image يعود للخلفية المصممة القائمة عندها بلا تدخّل هنا.
+    photo_urls: list[str] = []
     if cfg.path("youtube.image.use_photo", True):
-        photo = _find_photo(headline, draft.get("event", ""), cfg)
+        photo_urls = _photo_candidates(headline, draft.get("event", ""), cfg)
 
+    # القالب الموحَّد مع بطاقة الأخبار (Issue #732) -- imaging.build_post_image
+    # ذاتها، لا نسخة رسم منفصلة هنا: نفس الشعار وسطر المصدر والتصميم، وبادج
+    # «تحليل» وحده يميّز هذا المسار (badge). image_urls=None بنيويًا (لا صور
+    # فيديو/قناة أصلية إطلاقًا -- انظر توثيق الوحدة أعلاه)؛ المرشّحون
+    # التعبيريّون يمرّون عبر fallback_urls فقط، فتُعامَل دومًا كصور "تعبيرية"
+    # (illustrative=True) بوسمها الظاهر على الكارت -- وصف صادق، فهي كذلك
+    # فعلًا لا خبرية.
+    shot: dict = {}
     try:
-        build_title_card(headline, draft["tier"], draft["blocs"], draft["channels"],
-                          cfg, DRAFTS_DIR / image_name, photo=photo)
+        imaging.build_post_image(
+            headline=headline,
+            category="",
+            urgent=False,
+            image_urls=None,
+            publisher=image_source_line(draft["channels"], cfg),
+            cfg=cfg,
+            out_path=DRAFTS_DIR / image_name,
+            fallback_urls=photo_urls,
+            badge=cfg.path("youtube.image.badge_text", "تحليل"),
+            report=shot,
+        )
     except Exception as exc:  # noqa: BLE001 — امتناع صريح مُسجَّل لا انهيار صامت
         log.warning("تعذّر بناء بطاقة العنوان لـ%r: %s", headline, exc)
         return False
 
     new_caption = _apply_headline(draft["caption"], headline)
     new_arabic = {**draft["arabic"], "post_title": headline}
+    has_photo = bool(shot.get("used_original"))
     store.update_draft(path, image=f"drafts/{image_name}", headline_selected=idx,
-                        caption=new_caption, arabic=new_arabic)
+                        caption=new_caption, arabic=new_arabic, has_photo=has_photo)
     draft["image"] = f"drafts/{image_name}"
     draft["headline_selected"] = idx
     draft["caption"] = new_caption
     draft["arabic"] = new_arabic
+    draft["has_photo"] = has_photo
     return True
 
 
@@ -634,6 +587,15 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
             score_line,
             "",
         ]
+        if d.get("has_photo") is False:
+            # نفس مبدأ تحذير "بلا صورة" في review.build_issue_body للمسار
+            # العام (Issue #732) -- لكن منقولًا هنا إلى ما قبل الاعتماد، لأن
+            # بطاقة هذا المسار لا تُبنى فعليًا إلا بعده (Issue #680)؛ open_review
+            # يبحث الآن مسبقًا (_photo_candidates) ليعرف المراجع الحال قبل أن
+            # يوسم لا بعده حين يفوت أوان إضافة صورة.
+            parts.append("  🖼️ **بلا صورة تعبيرية متاحة حاليًا** — ستُبنى البطاقة "
+                         "على خلفية مصممة.")
+            parts.append("")
         if d.get("warnings"):
             # هذا بالضبط ما يجعل المراجعة حقيقية (نصّ الـIssue #676) — عدد
             # التنبيهات ونصّها كاملًا، لا مجرّد إشارة صامتة.
@@ -737,6 +699,24 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
         return {"issue": None, "drafts": []}
 
     drafts = [d for _, d in fresh]
+    by_id_path = {d["id"]: path for path, d in fresh}
+
+    # معاينة توفّر صورة تعبيرية *قبل* فتح الـIssue (طلب المراجعة على Issue
+    # #732: "أخبر المراجع حين تخرج البطاقة بلا صورة") -- بحث فقط عبر
+    # _photo_candidates، لا بناء بطاقة كاملة، فيبقى مبدأ Issue #680 (حوسبة
+    # البطاقة نفسها تُصرف على المختار فقط بعد الاعتماد) بلا مساس. النتيجة
+    # معاينة لا وعد: ensure_title_card يعيد البحث فعليًا عند الاعتماد وقد
+    # يختلف قليلًا إن اختار المراجع عنوانًا بديلًا (photo_search_terms يستعمل
+    # العنوان الافتراضي هنا).
+    if cfg.path("youtube.image.use_photo", True):
+        for d in drafts:
+            has_photo = bool(_photo_candidates(d["title"], d.get("event", ""), cfg))
+            d["has_photo"] = has_photo
+            store.update_draft(by_id_path[d["id"]], has_photo=has_photo)
+    else:
+        for d in drafts:
+            d["has_photo"] = False
+
     drafts.sort(key=_review_sort_key)
 
     repo = env("GITHUB_REPOSITORY") or ""
@@ -747,9 +727,8 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
         body=body, labels=["youtube-review"],
     )
 
-    by_id = {d["id"]: path for path, d in fresh}
     for d in drafts:
-        store.update_draft(by_id[d["id"]], review_issue=issue["number"])
+        store.update_draft(by_id_path[d["id"]], review_issue=issue["number"])
 
     return {"issue": issue, "drafts": drafts}
 
