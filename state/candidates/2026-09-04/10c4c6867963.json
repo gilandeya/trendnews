@@ -1,0 +1,57 @@
+{
+  "id": "10c4c6867963",
+  "created_at": "2026-09-04T19:07:51.685460+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.24,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Gasly loses Monaco podium after McLaren and Red Bull win appeals",
+  "link": "https://www.bbc.co.uk/sport/formula1/articles/c4gq26zglpzo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Free Malaysia Today"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Gasly loses Monaco podium after McLaren and Red Bull win appeals",
+    "link": "https://www.bbc.co.uk/sport/formula1/articles/c4gq26zglpzo?at_medium=RSS&at_campaign=rss",
+    "summary": "McLaren and Red Bull win their appeals against the result of the Monaco Grand Prix after a controversy over multiple incorrect pit-lane speeding penalties.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-04T15:56:25+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/7d7f/live/c9ff38c0-a851-11f1-80f8-c33181935c5a.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/formula1/articles/c4gq26zglpzo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/04/fia-appeal-court-strips-gasly-of-monaco-podium-reinstates-hadjar"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/7d7f/live/c9ff38c0-a851-11f1-80f8-c33181935c5a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/7d7f/live/c9ff38c0-a851-11f1-80f8-c33181935c5a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/7d7f/live/c9ff38c0-a851-11f1-80f8-c33181935c5a.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/09/930576fb-13238858_1600x1000_1.webp"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 6.99469889,
+    "is_stale": false,
+    "score": 16.237420164592592
+  }
+}

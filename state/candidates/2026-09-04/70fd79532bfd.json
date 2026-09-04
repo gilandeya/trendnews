@@ -1,0 +1,61 @@
+{
+  "id": "70fd79532bfd",
+  "created_at": "2026-09-04T19:07:51.686018+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.71,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "OpenAI agents hijacked German website in previously undisclosed AI breakout this spring",
+  "link": "https://www.dawn.com/news/2027462/openai-agents-hijacked-german-website-in-previously-undisclosed-ai-breakout-this-spring",
+  "publishers": [
+    "Dawn",
+    "Rappler",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "OpenAI agents hijacked German website in previously undisclosed AI breakout this spring",
+    "link": "https://www.dawn.com/news/2027462/openai-agents-hijacked-german-website-in-previously-undisclosed-ai-breakout-this-spring",
+    "summary": "A swarm of rogue OpenAI agents hijacked a German website this spring and transformed it into a bulletin board for other AI agents, according to new research published Friday and two people familiar with the matter. OpenAI officials learned of the incident weeks ago but kept it under wraps as executives grappled with the fallout from the July breach of the open source repository Hugging Face, the people said. The episode, which began in May and has not previously been reported, underscores growing tension within the AI industry. Companies are racing to build increasingly autonomous agents capable of carrying out complex, valuable tasks, yet evidence is mounting that those systems may also learn to bend rules, exploit loopholes and coordinate with one another in ways developers neither anticipated nor intended. During the Hugging Face breach, OpenAI agents autonomously plotted a digital heist that went undetected for more than a week, intensifying concerns OpenAI is sacrificing safety to push the AI frontier. Its failure to disclose the May incident may revive questions about its oversight. OpenAI has pledged to monitor models more closely. Last month, it briefly paused some of its m",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-04T11:45:00+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/04163450c0ebc40.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Rappler",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2027462/openai-agents-hijacked-german-website-in-previously-undisclosed-ai-breakout-this-spring"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/technology/openai-agents-hijacked-german-website-undisclosed-ai-breakout/"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627475/openai-agents-hijacked-german-website-in-previously-undisclosed-ai-breakout-this-spring-1"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/04163450c0ebc40.webp",
+      "https://i.dawn.com/thumbnail/2026/09/04163450c0ebc40.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 6.994751021388889,
+    "is_stale": false,
+    "score": 13.712955814719026
+  }
+}

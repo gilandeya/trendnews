@@ -1,0 +1,89 @@
+{
+  "id": "6cc57e66dd83",
+  "created_at": "2026-09-04T19:07:51.684670+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.19,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iranian town mourns after deadly strike on wedding",
+  "link": "https://www.theguardian.com/world/2026/sep/04/iranian-town-kuhestak-devastated-strike-wedding",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Daily Maverick",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "Iran International",
+    "Tehran Times",
+    "The Express Tribune",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Iranian town mourns after deadly strike on wedding",
+    "link": "https://www.theguardian.com/world/2026/sep/04/iranian-town-kuhestak-devastated-strike-wedding",
+    "summary": "Mourning turns to anger as residents of Kuhestak say Baloch communities are being placed in path of conflict People in Kuhestak, a predominantly Baloch city in Iran’s southern Hormozgan province, are mourning after a strike on a wedding killed at least four people, including a child, and injured more than 60, according to local authorities. The blast hit at around 9.30pm on 1 September, turning a night of celebration into one of devastation for the small coastal community, which is on the strait of Hormuz. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-04T10:19:23+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/18f773c2509d082c5aaba2bc7b24de2d73d6a8fc/403_0_2532_2025/master/2532.jpg?width=700&quality=85&auto=format&fit=max&s=978ea0d67d9e0ead085094625254dac2",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Daily Maverick",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "Iran International",
+      "Tehran Times",
+      "The Express Tribune",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/04/iranian-town-kuhestak-devastated-strike-wedding"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627398/deadly-strike-on-iranian-wedding-was-likely-a-direct-hit-by-a-us-munition-analysis-shows"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529678/Kuhestak-mourns-victims-of-deadly-strike-on-wedding"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cy4zvk3z2k1o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-wedding-hit-in-suspected-us-strike-5-killed-vance-says-we-learn-from-mistakes-101788492271807.html"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/live-updates/us-iran-war-trump-dismisses-diplomacy-tehran-says-wedding-hit-in-strike/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/18f773c2509d082c5aaba2bc7b24de2d73d6a8fc/403_0_2532_2025/master/2532.jpg?width=700&quality=85&auto=format&fit=max&s=978ea0d67d9e0ead085094625254dac2",
+      "https://i.guim.co.uk/img/media/18f773c2509d082c5aaba2bc7b24de2d73d6a8fc/403_0_2532_2025/master/2532.jpg?width=460&quality=85&auto=format&fit=max&s=671241d1512c53b25d2e9161e718cc11",
+      "https://i.guim.co.uk/img/media/18f773c2509d082c5aaba2bc7b24de2d73d6a8fc/403_0_2532_2025/master/2532.jpg?width=140&quality=85&auto=format&fit=max&s=cc298674a162c44e21a0f439f44e938e",
+      "https://media.mehrnews.com/d/2026/09/04/4/6161321.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/70a5/live/33e75750-a7e3-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/70a5/live/33e75750-a7e3-11f1-a291-b542ee92de7c.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 9,
+    "velocity": 1.0,
+    "age_hours": 746.9122217372222,
+    "is_stale": false,
+    "score": 26.189380357678786
+  }
+}

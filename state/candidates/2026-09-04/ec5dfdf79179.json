@@ -1,0 +1,48 @@
+{
+  "id": "ec5dfdf79179",
+  "created_at": "2026-09-04T19:07:51.685751+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.72,
+  "trend_score": 0.33,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Malaysia declares emergency in Sarawak town as haze pollution level hits 521",
+  "link": "https://www.scmp.com/news/asia/southeast-asia/article/3366397/malaysia-declares-emergency-sarawak-town-haze-pollution-level-hits-521?utm_source=rss_feed",
+  "publishers": [
+    "AP News",
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Malaysia declares emergency in Sarawak town as haze pollution level hits 521",
+    "link": "https://www.scmp.com/news/asia/southeast-asia/article/3366397/malaysia-declares-emergency-sarawak-town-haze-pollution-level-hits-521?utm_source=rss_feed",
+    "summary": "Malaysia declared an emergency on Friday in a town in Sarawak state on Borneo Island after air pollution breached the country’s emergency-level threshold linked to fires in neighbouring Indonesia. The Air Pollutant Index in Serian, a small agricultural town of just under 90,000 near the border of Indonesia’s Kalimantan province, surged to 521 on Friday, according to Malaysia’s environment department. Sarawak’s much larger capital, Kuching, also showed a hazardous reading of 311. Malaysia’s King...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-09-04T10:15:06+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "AP News",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/southeast-asia/article/3366397/malaysia-declares-emergency-sarawak-town-haze-pollution-level-hits-521?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 6.994700384722223,
+    "is_stale": false,
+    "score": 13.724846091407407
+  }
+}
