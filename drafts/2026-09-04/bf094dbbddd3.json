@@ -1,7 +1,7 @@
 {
   "id": "bf094dbbddd3",
   "created_at": "2026-09-04T14:08:46.219125+00:00",
-  "status": "pending",
+  "status": "failed",
   "origin": "youtube",
   "title": "هل فعلاً قسّم كيليتشدار أوغلو حزب الشعب الجمهوري كما يتهمه أوزل؟",
   "tier": "b",
@@ -42,5 +42,7 @@
     ]
   },
   "score": 2,
-  "review_issue": 727
+  "review_issue": 727,
+  "publish_at": "2026-09-04T15:07:00.922407+00:00",
+  "error": "حقول مفقودة: image"
 }

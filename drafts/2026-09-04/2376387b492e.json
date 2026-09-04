@@ -1,7 +1,7 @@
 {
   "id": "2376387b492e",
   "created_at": "2026-09-04T14:08:46.218876+00:00",
-  "status": "pending",
+  "status": "failed",
   "origin": "youtube",
   "title": "هل يفضي فشل الحسم العسكري الأمريكي الإيراني إلى مرحلة استنزاف أطول؟",
   "tier": "a",
@@ -42,5 +42,7 @@
     ]
   },
   "score": 4,
-  "review_issue": 727
+  "review_issue": 727,
+  "publish_at": "2026-09-04T14:15:28.444745+00:00",
+  "error": "حقول مفقودة: image"
 }
