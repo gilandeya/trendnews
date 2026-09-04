@@ -1,24 +1,5 @@
 [
   {
-    "score": 15.37,
-    "bucket": "serious",
-    "tokens": [
-      "back",
-      "capital",
-      "control",
-      "junta",
-      "mutiny",
-      "niger",
-      "rocks",
-      "soldiers'"
-    ],
-    "link": "https://www.france24.com/en/africa/20260829-gunfire-and-explosions-heard-near-military-base-in-niger-s-capital",
-    "title": "Niger junta says it is back in control after soldiers' mutiny rocks capital",
-    "posted_title": "تمرد عسكري في العاصمة النيجرية ينتهي باستعادة السلطة العسكرية للسيطرة بعد اشتباكات واحتجاز رهائن",
-    "region": "eu",
-    "seen_at": "2026-08-29T23:14:55.786974+00:00"
-  },
-  {
     "score": 25.94,
     "bucket": "serious",
     "tokens": [
@@ -5812,5 +5793,44 @@
     "posted_title": "",
     "region": "my",
     "seen_at": "2026-09-03T22:08:15.867324+00:00"
+  },
+  {
+    "score": 17.08,
+    "bucket": "serious",
+    "tokens": [
+      "astra",
+      "begins",
+      "gpt",
+      "model",
+      "openai",
+      "powerful",
+      "rollout"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/04/openai-begins-rollout-of-new-powerful-ai-model-gpt-6-astra",
+    "title": "OpenAI begins rollout of new powerful AI model GPT-6 Astra",
+    "posted_title": "OpenAI تبدأ طرح نموذجها الجديد GPT-6 أسترا لعملاء مختارين",
+    "region": "my",
+    "seen_at": "2026-09-04T02:27:37.164578+00:00"
+  },
+  {
+    "score": 18.41,
+    "bucket": "serious",
+    "tokens": [
+      "aviation",
+      "chance",
+      "cites",
+      "deal",
+      "harder",
+      "makes",
+      "peace",
+      "putin",
+      "ukrainian",
+      "warning"
+    ],
+    "link": "https://www.thehindu.com/news/international/putin-cites-chance-of-peace-deal-but-says-ukrainian-aviation-warning-makes-it-harder/article71423393.ece",
+    "title": "Putin cites chance of peace deal but says Ukrainian aviation warning makes it harder",
+    "posted_title": "بوتين: هناك فرصة لاتفاق سلام في أوكرانيا لكن تحذيرات كييف الجوية تعقّد المسار",
+    "region": "in",
+    "seen_at": "2026-09-04T02:27:54.668659+00:00"
   }
 ]
