@@ -1,101 +1,5 @@
 [
   {
-    "score": 25.33,
-    "bucket": "serious",
-    "tokens": [
-      "bank",
-      "condemns",
-      "netanyahu",
-      "violence",
-      "west"
-    ],
-    "link": "https://www.france24.com/en/netanyahu-condemns-violence-in-west-bank",
-    "title": "Netanyahu condemns violence in West Bank",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-08-30T17:08:03.063338+00:00"
-  },
-  {
-    "score": 15.81,
-    "bucket": "serious",
-    "tokens": [
-      "261",
-      "china",
-      "cyber",
-      "floods",
-      "foreigners",
-      "listed",
-      "missing",
-      "nepal",
-      "police",
-      "rumours",
-      "target",
-      "tibet"
-    ],
-    "link": "https://www.scmp.com/news/china/politics/article/3365730/china-nepal-floods-hundreds-foreigners-missing-tibet-after-disaster?utm_source=rss_feed",
-    "title": "China-Nepal floods: 261 foreigners listed missing in Tibet, cyber police target rumours",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-08-30T17:08:03.063605+00:00"
-  },
-  {
-    "score": 13.71,
-    "bucket": "serious",
-    "tokens": [
-      "airlines",
-      "british",
-      "died",
-      "man",
-      "singapore",
-      "sues",
-      "turbulence",
-      "who",
-      "wife"
-    ],
-    "link": "https://www.scmp.com/news/asia/southeast-asia/article/3365728/wife-british-man-who-died-after-turbulence-sues-singapore-airlines?utm_source=rss_feed",
-    "title": "Wife of British man who died after turbulence sues Singapore Airlines",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-08-30T17:08:03.063875+00:00"
-  },
-  {
-    "score": 13.2,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "despicable",
-      "french",
-      "homophobic",
-      "hospitalised",
-      "leader",
-      "lgbtq",
-      "paris",
-      "rights"
-    ],
-    "link": "https://www.france24.com/en/france/20260830-french-lgbtq-activist-hospitalised-after-despicable-homophobic-attack-in-paris",
-    "title": "French LGBTQ rights leader hospitalised after ‘despicable homophobic attack’ in Paris",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-08-30T17:08:03.064128+00:00"
-  },
-  {
-    "score": 12.76,
-    "bucket": "serious",
-    "tokens": [
-      "anatolia",
-      "centuries",
-      "flavor",
-      "india",
-      "table",
-      "women"
-    ],
-    "link": "https://www.dailysabah.com/life/from-india-to-anatolia-2-women-1-table-centuries-of-flavor/news",
-    "title": "From India to Anatolia: 2 women, 1 table, centuries of flavor",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-08-30T17:08:03.064356+00:00"
-  },
-  {
     "score": 13.12,
     "bucket": "serious",
     "tokens": [
@@ -6104,5 +6008,78 @@
     "posted_title": "",
     "region": "ru",
     "seen_at": "2026-09-04T17:07:49.176378+00:00"
+  },
+  {
+    "score": 18.91,
+    "bucket": "serious",
+    "tokens": [
+      "accuses",
+      "assassination",
+      "commander",
+      "confessing",
+      "corps",
+      "day",
+      "deputy",
+      "fsb",
+      "independence",
+      "kaplunov",
+      "plotting",
+      "russian",
+      "sbu",
+      "stepan",
+      "tortured",
+      "ukraine",
+      "volunteer",
+      "working"
+    ],
+    "link": "https://meduza.io/en/news/2026/09/03/ukraine-s-sbu-accuses-russian-volunteer-corps-deputy-commander-stepan-kaplunov-of-working-for-the-fsb-and-plotting-an-independence-day-assassination-he-says-he-was-tortured-into-confessing",
+    "title": "Ukraine’s SBU accuses Russian Volunteer Corps deputy commander Stepan Kaplunov of working for the FSB and plotting an Independence Day assassination. He says he",
+    "posted_title": "جهاز الأمن الأوكراني يتهم نائب قائد \"الفيلق الروسي\" بالتخطيط لاغتيال معارض روسي في يوم الاستقلال",
+    "region": "ru",
+    "seen_at": "2026-09-04T17:13:33.202646+00:00"
+  },
+  {
+    "score": 17.16,
+    "bucket": "serious",
+    "tokens": [
+      "budanov",
+      "founder",
+      "group",
+      "head",
+      "kyrylo",
+      "office",
+      "presidential",
+      "prigozhin",
+      "regularly",
+      "spoke",
+      "ukraine",
+      "wagner",
+      "yevgeny"
+    ],
+    "link": "https://meduza.io/en/news/2026/09/04/head-of-ukraine-s-presidential-office-kyrylo-budanov-says-he-regularly-spoke-with-wagner-group-founder-yevgeny-prigozhin",
+    "title": "Head of Ukraine’s Presidential Office Kyrylo Budanov says he regularly spoke with Wagner Group founder Yevgeny Prigozhin",
+    "posted_title": "رئيس المكتب الرئاسي الأوكراني يكشف عن تواصل منتظم مع مؤسس فاغنر قبل تمرده",
+    "region": "ru",
+    "seen_at": "2026-09-04T17:13:47.067074+00:00"
+  },
+  {
+    "score": 28.75,
+    "bucket": "light",
+    "tokens": [
+      "drone",
+      "ground",
+      "headquarters",
+      "kyiv",
+      "russian",
+      "security",
+      "service",
+      "strikes",
+      "ukraine"
+    ],
+    "link": "https://www.france24.com/en/video/20260904-on-the-ground-russian-drone-strikes-ukraine-security-service-headquarters-in-kyiv",
+    "title": "On the ground: Russian drone strikes Ukraine security service headquarters in Kyiv",
+    "posted_title": "مسيّرة روسية تستهدف مكتب رئيس جهاز الأمن الأوكراني في كييف",
+    "region": "eu",
+    "seen_at": "2026-09-04T17:14:04.477808+00:00"
   }
 ]
