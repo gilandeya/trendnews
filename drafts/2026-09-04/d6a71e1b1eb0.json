@@ -1,7 +1,7 @@
 {
   "id": "d6a71e1b1eb0",
   "created_at": "2026-09-04T02:27:37.164175+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "score": 17.08,
   "bucket": "serious",
@@ -55,5 +55,12 @@
       "https://media.freemalaysiatoday.com/wp-content/uploads/2025/08/6fbfee31-chatgpt.jpg"
     ]
   },
-  "publish_at": "2026-09-04T03:15:59.011767+00:00"
+  "publish_at": "2026-09-04T03:15:59.011767+00:00",
+  "published_at": "2026-09-04T03:30:54.282253+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1351253573758330",
+    "photo_id": "1351253547091666",
+    "url": "https://www.facebook.com/631680090321390_1351253573758330",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
