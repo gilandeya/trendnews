@@ -1,0 +1,48 @@
+{
+  "id": "8692e2bea70a",
+  "created_at": "2026-09-04T03:07:51.117356+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.94,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Nanoscale multiferroic materials open the path to efficient magnetic memory technology",
+  "link": "https://phys.org/news/2026-09-nanoscale-multiferroic-materials-path-efficient.html",
+  "publishers": [
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Nanoscale multiferroic materials open the path to efficient magnetic memory technology",
+    "link": "https://phys.org/news/2026-09-nanoscale-multiferroic-materials-path-efficient.html",
+    "summary": "With the rapid spread of cloud computing, artificial intelligence and data centers, global energy consumption is rising to new heights. A promising way to reduce this burden is to develop memory devices that store information magnetically yet are written using electric fields. Magnetic memories are nonvolatile, meaning stored information is retained without a power supply.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-09-03T21:40:01+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/nanoscale-multiferroic-1.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-09-nanoscale-multiferroic-materials-path-efficient.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/nanoscale-multiferroic-1.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 4.993345524444445,
+    "is_stale": false,
+    "score": 16.93587587388889
+  }
+}
