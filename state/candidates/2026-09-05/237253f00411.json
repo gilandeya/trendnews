@@ -1,0 +1,60 @@
+{
+  "id": "237253f00411",
+  "created_at": "2026-09-05T22:07:52.627291+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.26,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Greek air force jet crashes at annual aerial show, starts fire",
+  "link": "https://www.courthousenews.com/greek-air-force-jet-crashes-at-annual-aerial-show-starts-fire/",
+  "publishers": [
+    "Court House News",
+    "Hindustan Times — World",
+    "NBC News",
+    "South China Morning Post"
+  ],
+  "region": "court",
+  "article": {
+    "title": "Greek air force jet crashes at annual aerial show, starts fire",
+    "link": "https://www.courthousenews.com/greek-air-force-jet-crashes-at-annual-aerial-show-starts-fire/",
+    "summary": "A Greek air force jet went down during an airshow near Athens, sparking a blaze as thousands of spectators watched.",
+    "source_name": "Court House News",
+    "region": "court",
+    "weight": 1.2,
+    "published": "2026-09-05T13:58:56+00:00",
+    "image_url": null,
+    "publisher": "Court House News",
+    "cluster_sources": [
+      "Court House News",
+      "Hindustan Times — World",
+      "NBC News",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/greek-air-force-jet-crashes-at-annual-aerial-show-starts-fire/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3366502/2-pilots-killed-after-greek-air-force-plane-crashes-annual-air-show?utm_source=rss_feed"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/greek-air-force-jet-crashes-at-an-annual-aerial-show-killing-2-pilots-101788633580914.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 773.9124490997223,
+    "is_stale": false,
+    "score": 19.25687019498148
+  }
+}

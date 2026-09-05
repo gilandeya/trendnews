@@ -1,0 +1,105 @@
+{
+  "id": "563a4feece1c",
+  "created_at": "2026-09-05T22:07:52.626783+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.5,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Putin meets US envoys for Ukraine war talks",
+  "link": "https://www.dawn.com/news/2027693/putin-meets-us-envoys-for-ukraine-war-talks",
+  "publishers": [
+    "Al Jazeera English",
+    "CBS News — World",
+    "Daily Sabah",
+    "Dawn",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Mehr News",
+    "MyJoyOnline Ghana",
+    "NDTV — World",
+    "NPR World",
+    "South China Morning Post",
+    "TASS",
+    "The Express Tribune",
+    "The Hindu — International",
+    "The Japan Times",
+    "Vanguard Nigeria"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Putin meets US envoys for Ukraine war talks",
+    "link": "https://www.dawn.com/news/2027693/putin-meets-us-envoys-for-ukraine-war-talks",
+    "summary": "Russian President Vladimir Putin began talks with US envoys Jared Kushner and Steve Witkoff on ending more than four years of war in Ukraine in the Kremlin Saturday, ahead of their first visit to Kyiv expected on Sunday. Both Russia and Ukraine vowed not to strike each other’s capitals for three days during the negotiations, as Washington tries to revive US-led talks to end Europe’s worst conflict since World War Two. US President Donald Trump earlier said his son-in-law Kushner and business ally Witkoff were bringing “a proposal to end the war”. “Dear colleagues, I warmly welcome you to Moscow. The situation is, of course, not simple,” Putin told the envoys in a grand Kremlin hall in footage aired by Russian TV. “But before we begin to address it, I would like to ask everyone to convey their best wishes and words of gratitude to US President Mr Trump.” After talks in Moscow, the pair, sent by US President Donald Trump, are expected to travel on to Kyiv. Ukrainian President Volodymyr Zelensky accused Russia of trying to disrupt the envoys’ visit with overnight strikes on Kyiv’s two airports, as well as on a civilian target in the Dnipro region that killed five people. “Clearly, the",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-05T18:52:12+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/05230358e99974c.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "CBS News — World",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Mehr News",
+      "MyJoyOnline Ghana",
+      "NDTV — World",
+      "NPR World",
+      "South China Morning Post",
+      "TASS",
+      "The Express Tribune",
+      "The Hindu — International",
+      "The Japan Times",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/5/russias-putin-meets-us-envoys-to-discuss-trump-proposal-to-end-ukraine-war?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3366464/trump-sends-witkoff-kushner-moscow-and-kyiv-new-ukraine-peace-plan?utm_source=rss_feed"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2027693/putin-meets-us-envoys-for-ukraine-war-talks"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627610/us-envoys-witkoff-kushner-arrive-in-moscow-for-talks-on-peace-in-ukraine"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-says-witkoff-kushner-heading-abroad-to-discuss-ukraine-peace/article71430897.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260905-witkoff-and-kushner-are-in-moscow-in-a-new-push-for-peace-between-russia-and-ukraine"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/05230358e99974c.webp",
+      "https://i.dawn.com/thumbnail/2026/09/05230358e99974c.webp",
+      "https://i.dawn.com/primary/2026/09/051638388db4620.webp",
+      "https://th-i.thgim.com/public/incoming/p272k4/article71430901.ece/alternates/LANDSCAPE_1200/2026-05-21T100334Z_320388633_RC2DNKA0FQT2_RTRMADP_3_USA-TRUMP-DIPLOMACY.JPG",
+      "https://s.france24.com/media/display/981cdc8e-a92a-11f1-8d9d-005056a97e36/w:1024/p:16x9/EN-20260905-130058-130458-CS.jpg",
+      "https://s.france24.com/media/display/f618c0dc-a939-11f1-8eb2-005056bf30b7/w:1024/p:16x9/EN-20260905-160336-160848-CS.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 17,
+    "velocity": 1.0,
+    "age_hours": 773.9124174186111,
+    "is_stale": false,
+    "score": 26.495110575065834
+  }
+}
