@@ -1,8 +1,6 @@
 name: 📰 نشر مقالات يوتيوب المعتمدة
 
 on:
-  issues:
-    types: [labeled]
   workflow_dispatch:
     inputs:
       issue:
