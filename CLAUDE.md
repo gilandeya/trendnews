@@ -177,7 +177,7 @@ five stages, each consuming the previous stage's output file:
    `config.yaml: youtube.review.scoring`); `open_review()` then opens a review Issue labeled
    `youtube-review` listing each article's score breakdown, review warnings (e.g. unsourced-name
    flags), and its three candidate headlines as checkboxes — but no images yet. Once a reviewer
-   checks articles and labels the Issue `youtube-approved`, `publish_approved()` builds the title
+   checks articles and labels the Issue `approved`, `publish_approved()` builds the title
    card for the chosen headline only (`ensure_title_card`, built at approval time, not collection
    time, to avoid wasting image-generation cost on unapproved articles) and publishes via the
    existing `publish.publish_one`, up to `youtube.publish.max_per_run` posts per run spaced
@@ -191,18 +191,26 @@ workflow, + `state/youtube_seen.json` to this repo) covers stages 1-2;
 data repo a second time; runs `youtube_cluster` → `youtube_article` → `youtube_publish` build,
 commits `drafts/`/`state/youtube_topics`/`state/youtube_topics_seen.json` to this repo and
 `youtube_articles/` to the private data repo, then opens the `youtube-review`
-Issue) covers stages 3-5's build half; and `.github/workflows/youtube-publish.yml` (triggered by
-`issues: labeled` with label `youtube-approved`, or manually via `workflow_dispatch` with an
+Issue) covers stages 3-5's build half; and `.github/workflows/youtube-publish.yml` (Issue #745:
+manually edited outside this pipeline's control and no longer responds to any label — do not edit
+it here and do not assume it still triggers off a label; invoke it via `workflow_dispatch` with an
 `--issue` input) covers stage 5's publish half.
 
-**Why `youtube-review`/`youtube-approved` instead of reusing `pending-review`/`approved`:** the
-news pipeline's `.github/workflows/publish.yml` fires on *any* Issue labeled `approved` regardless
-of title or other labels, with its own fixed random pacing that knows nothing about
-`youtube.publish.max_per_run`/`spacing_minutes`. If a YouTube review Issue were also labeled
-`approved`, it would be published twice — once through `publish.yml`'s own logic and once through
-`youtube_publish.publish_approved()` — a real race on the same drafts' `published` status in the
-same files. Distinct labels keep the two approval paths structurally separate without needing any
-change to `publish.yml` (which this pipeline has no permission to edit anyway).
+**Why the approval label is now unified as `approved` (Issue #745; `youtube-approved` retired):**
+the original design used a distinct `youtube-approved` label because the news pipeline's
+`.github/workflows/publish.yml` fires on *any* Issue labeled `approved` regardless of title or
+other labels, with its own fixed random pacing that knows nothing about
+`youtube.publish.max_per_run`/`spacing_minutes` — so a shared label risked double-publishing
+through both `publish.yml`'s own logic and `youtube_publish.publish_approved()`. But the label
+itself was never what prevented that: `publish.main` (`src/publish.py`) already reads each
+approved draft's `origin` field individually and routes any `origin == "youtube"` draft to
+`youtube_publish.publish_ids`/`report_batch` instead of the news path (Issue #740, after a reviewer
+mislabeling an analysis Issue `approved` by mistake showed the two-label scheme was a human
+convention, not a structural guard). With that field-based routing as the actual safeguard, the
+separate label added no protection and only risked the same mislabeling failure again, so Issue
+#745 unified the approval label to `approved` everywhere and retired `youtube-approved`. The
+review-opening label `youtube-review` is unaffected — it marks the Issue for display/routing to
+reviewers, not for approval, and this unification only touches the approval label.
 
 Supporting pieces, each independently triggerable as its own workflow:
 - `src/radar.py` — a cheap (no-LLM) check every 15 minutes for breaking news; only calls the

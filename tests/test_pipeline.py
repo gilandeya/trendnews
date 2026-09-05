@@ -9743,6 +9743,101 @@ def test_publish_routes_news_origin_unaffected() -> None:
           store.load_draft(news_draft["id"])[1].get("status"))
 
 
+def test_publish_routes_mixed_origins_in_same_issue() -> None:
+    """Issue #745: بعد توحيد وسم الاعتماد إلى `approved` وحده، صار اجتماع
+    مسودة ``origin: "youtube"`` ومسودة أخبار عادية معًا، معتمَدتين معًا في
+    نفس الـIssue بنفس الوسم، ممكنًا فعليًا لا نظريًا فقط -- تحقّق أن كل
+    واحدة تسلك منطقها الخاص (publish.py السطور ٥٩١-٦٢٣: youtube_ids/news_ids
+    مفصولتان بالأصل المخزَّن في كل مسودة، لا افتراض عدم الاجتماع)."""
+    from src import publish as publish_mod
+    from src import youtube_publish as yp
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    yt_draft = {
+        "id": "abc123abcdef", "status": "pending", "origin": "youtube",
+        "arabic": {"post_title": "مقال يوتيوب", "urgent": False},
+        "headlines": ["عنوان ١", "عنوان ٢", "عنوان ٣"], "headline_selected": 0,
+        "caption": "متن يوتيوب", "source": {},
+    }
+    store.save_draft(yt_draft)
+
+    news_draft = {
+        "id": "beef00000002", "status": "pending",
+        "arabic": {"post_title": "خبر عادي", "urgent": False},
+        "image": "drafts/n2.jpg", "caption": "متن خبر", "source": {},
+    }
+    store.save_draft(news_draft)
+    (DRAFTS_DIR / "n2.jpg").write_bytes(b"\xff\xd8\xff")
+
+    body = (f"- [x] **1. مقال يوتيوب**  <!-- draft:{yt_draft['id']} -->\n"
+            f"- [x] **2. خبر عادي**  <!-- draft:{news_draft['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}],
+    }
+
+    yt_card_calls: list = []
+    real_ensure_title_card = yp.ensure_title_card
+
+    def fake_ensure_title_card(path, draft, cfg):
+        yt_card_calls.append(draft["id"])
+        store.update_draft(path, image="drafts/x.jpg")
+        draft["image"] = "drafts/x.jpg"
+        return True
+
+    yp.ensure_title_card = fake_ensure_title_card
+
+    published_ids: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_ids.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    facebook.publish_photo = lambda *a, **k: {"url": "https://fb.example/mix", "id": "9"}
+
+    comments: list = []
+    real_comment = review.comment
+    review.comment = lambda issue_number, text: comments.append(text)
+    closed: list = []
+    real_close = review.close_issue
+    review.close_issue = lambda issue_number: closed.append(issue_number)
+
+    sys.argv = ["publish", "--issue", "7450", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        yp.ensure_title_card = real_ensure_title_card
+        publish_mod.publish_one = real_publish_one
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main ينتهي بنجاح (وسم approved موحَّد لأصلين معًا)",
+          code == 0, f"exit={code}")
+    check("مسودة يوتيوب وحدها سلكت منطقها (بطاقة عنوان بُنيت عبر ensure_title_card، لا مسودة الأخبار التي تملك image مسبقًا)",
+          yt_card_calls == [yt_draft["id"]], yt_card_calls)
+    check("كلتا المسودتين نُشرتا فعليًا عبر publish_one (المشتركة بين المسارين)، اليوتيوب أولًا ثم الأخبار (ترتيب publish.main)",
+          published_ids == [yt_draft["id"], news_draft["id"]], published_ids)
+    check("مسودة يوتيوب انتهت published لا failed",
+          store.load_draft(yt_draft["id"])[1]["status"] == "published",
+          store.load_draft(yt_draft["id"])[1].get("status"))
+    check("مسودة الأخبار انتهت published أيضًا",
+          store.load_draft(news_draft["id"])[1]["status"] == "published",
+          store.load_draft(news_draft["id"])[1].get("status"))
+
+
 def test_open_review_excludes_youtube_and_broken_drafts() -> None:
     """متابعة Issue #707: تسرّب مسودة يوتيوب لم يقف عند ``publish.py``
     وحده — ``open_review.py`` (المسار العام) كان يجمع كل مسودة ``pending``
@@ -12436,8 +12531,10 @@ def test_youtube_publish() -> None:
           {"c00000000001", "a00000000002", "a00000000003", "b00000000004"})
     check("Issue المراجعة: نصّ التحذير الفعلي ظاهر كاملًا لا عددًا فقط",
           "تحذير رقم واحد" in body, body)
-    check("Issue المراجعة: وسم الاعتماد المخصّص (لا `approved` العام) مذكور صراحةً",
-          "youtube-approved" in body, body)
+    check("Issue المراجعة: وسم الاعتماد الموحَّد `approved` مذكور صراحةً (Issue #745)",
+          "`approved`" in body, body)
+    check("Issue المراجعة: لا ذكر لوسم youtube-approved الملغى (Issue #745)",
+          "youtube-approved" not in body, body)
     check("Issue المراجعة: بلا صور إطلاقًا (Issue #680 -- البطاقة تُبنى بعد الوسم فقط)",
           "raw.githubusercontent.com" not in body and "<img" not in body, body)
     check("Issue المراجعة: درجة كل بطاقة ومكوّناتها ظاهرة نصًّا",
@@ -12787,8 +12884,8 @@ def test_youtube_publish() -> None:
         review.remove_label = real_remove_label
 
     check("publish_approved: بلا اعتماد ⇒ ينتهي بنجاح بلا نشر", code_none == 0)
-    check("publish_approved: وسم youtube-approved يُزال عند عدم وجود اعتماد",
-          removed_labels == ["youtube-approved"], removed_labels)
+    check("publish_approved: وسم approved الموحَّد يُزال عند عدم وجود اعتماد (Issue #745)",
+          removed_labels == ["approved"], removed_labels)
 
     # ── إعدادات config.yaml (Issue #676) ──
     check("config: youtube.publish.max_per_run = 3",
@@ -12964,6 +13061,7 @@ def main() -> int:
     print("\n── التوجيه بالأصل لا بالوسم عند approved (Issue #740) ──")
     test_publish_routes_youtube_origin_by_field_not_label()
     test_publish_routes_news_origin_unaffected()
+    test_publish_routes_mixed_origins_in_same_issue()
     print("\n── سجل القرارات التراكمي (Issue #583، المرحلة الأولى) ──")
     test_decisions()
     print("\n── تحليل الأداء ──")

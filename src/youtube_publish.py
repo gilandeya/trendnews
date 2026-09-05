@@ -20,22 +20,22 @@ Wikimedia/Openverse) لا يستقبل أي بيانات فيديو أو قنا�
 **تنبيهات المراجعة تُنزَع من caption قبل أي نشر** (split_warnings) — تبقى في
 حقل warnings المنفصل وفي Issue المراجعة فقط، فلا تصل فيسبوك إطلاقًا.
 
-**وسم الاعتماد `youtube-approved` لا `approved` (توافقية خلفية فقط منذ
-Issue #740)**: التصميم الأصلي هنا كان: publish.yml القائم يشترك مع أي Issue
-في المستودع بمجرّد وسمه `approved` (لا فحص عنوان أو وسم آخر)، وسقفه وتباعده
-ثابتان (gap_min/gap_max العشوائيان) لا يعرفان
-youtube.publish.max_per_run/spacing_minutes الذي يطلبه الـIssue #676 صراحةً،
-فوسم مخصّص يفصل المسارين. لكن عطلًا فعليًا وقع (Issue #740): مراجع وسم Issue
-تحليلي بـ`approved` سهوًا بدل `youtube-approved` — نصّان متفقٌ عليهما
-بشريًا، لا حاجزًا برمجيًا، ووسم خاطئ واحد يكفي لتفويت الحاجز كليًا. الآن
-`publish.main` (publish.py) يقرأ حقل `origin` **لكل مسودة معتمَدة على حدة**
-عند وسم `approved` ويوجّهها إلى `publish_ids`/`report_batch` هنا إن كانت
-`origin == "youtube"` (استيراد مؤجَّل داخل الدالة تفاديًا للدوران—انظر توثيق
-publish.py) — فوسم خاطئ لم يعد كافيًا لتشغيل منطق الأخبار على مسودات يوتيوب
-الناقصة الحقول بنيويًا. `youtube-approved` يبقى عاملًا كسابقًا (توافقية
-خلفية، ولمن يفضّل عدم انتظار أي منطق آخر في نفس الـIssue)، وbuild_review_body
-ما زال يطلبه صراحةً من المراجع بدل الاعتماد على التوجيه
-وحده -- الحاجز البرمجي دفاع في العمق، لا بديل عن الوسم الصحيح.
+**وسم الاعتماد موحَّد `approved` لكل المسارات (Issue #745؛ `youtube-approved`
+أُلغي نهائيًا)**: التصميم الأصلي هنا كان وسمًا مخصّصًا (`youtube-approved`)
+كي لا يشترك publish.yml القائم (يستجيب لأي Issue موسوم `approved` بصرف
+النظر عن عنوانه، بسقف/تباعد ثابتين لا يعرفان
+youtube.publish.max_per_run/spacing_minutes) مع هذا المسار. لكن عطلًا فعليًا
+وقع (Issue #740): مراجع وسم Issue تحليلي بـ`approved` سهوًا بدل
+`youtube-approved` — نصّان متفقٌ عليهما بشريًا، لا حاجزًا برمجيًا، ووسم خاطئ
+واحد كفى لتفويت الحاجز كليًا. الحل الدائم لم يكن وسمًا ثانيًا بل توجيه
+برمجي: `publish.main` (publish.py) يقرأ حقل `origin` **لكل مسودة معتمَدة على
+حدة** عند وسم `approved` ويوجّهها إلى `publish_ids`/`report_batch` هنا إن
+كانت `origin == "youtube"` (استيراد مؤجَّل داخل الدالة تفاديًا للدوران—انظر
+توثيق publish.py). بما أن هذا التوجيه وحده -- لا اسم الوسم -- هو ما يمنع
+النشر المزدوج، لم يعد لوسم مخصّص أي غرض دفاعي: Issue #745 وحّد الوسم إلى
+`approved` وحده في كل نصوص المراجعة هنا (build_review_body،
+publish_approved)، ووسم فتح المراجعة `youtube-review` يبقى كما هو (وسم عرض
+لا اعتماد، لا صلة له بهذا التوحيد).
 
 **build() ثم open_review() منفصلتان لا دالة واحدة** — نفس تسلسل src/collect.py
 + src/open_review.py بالضبط: الصور تُبنى وتُحفَظ محليًا (build)، ثم يجب أن
@@ -574,9 +574,8 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
         f"**{health}**",
         "",
         "**كيف تعتمد؟** ✔️ ضع علامة على المقالات التي توافق عليها، ثم أضف "
-        "الوسم `youtube-approved` (لا `approved`) إلى هذا الـ Issue — وسم "
-        "مخصّص لهذا المسار كي لا يتداخل مع سيّر النشر العام الذي يستجيب لأي "
-        f"وسم `approved` على أي Issue. سيُنشر البوت حتى {max_per_run} مقالات "
+        "الوسم `approved` إلى هذا الـ Issue. "
+        f"سيُنشر البوت حتى {max_per_run} مقالات "
         f"مؤشَّرة لكل تشغيلة، بفاصل {spacing:g} دقيقة بين كل منشور والتالي؛ "
         "الباقي ينتظر تشغيلة يدوية لاحقة بنفس الوسم.",
         "",
@@ -647,7 +646,7 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
         ]
 
     parts.append(
-        "<sub>وسم `youtube-approved` = نشر المؤشَّر (بسقف وتباعد) · "
+        "<sub>وسم `approved` = نشر المؤشَّر (بسقف وتباعد) · "
         "إغلاق الـ Issue = تجاهل الكل</sub>"
     )
     return "\n".join(parts)
@@ -821,14 +820,15 @@ def report_batch(issue_number: int, lines: list[str], published: int, attempted:
 
 
 def publish_approved(issue_number: int, cfg) -> int:
-    """ينشر ما عُلِّم عليه في Issue مراجعة يوتيوب (وسم youtube-approved).
+    """ينشر ما عُلِّم عليه في Issue مراجعة يوتيوب (وسم approved، موحَّد مع
+    المسار العام منذ Issue #745).
     التنسيق الفعلي (سقف/تباعد/بناء البطاقة) في publish_ids أعلاه."""
     body = review.fetch_issue_body(issue_number)
     ids = review.parse_approved(body)
     if not ids:
         review.comment(issue_number,
-                       "⚠️ لم يُعلَّم على أي مقال. أضف ✔️ ثم أعد وسم `youtube-approved`.")
-        review.remove_label(issue_number, "youtube-approved")
+                       "⚠️ لم يُعلَّم على أي مقال. أضف ✔️ ثم أعد وسم `approved`.")
+        review.remove_label(issue_number, "approved")
         return 0
 
     # اختيار العنوان (Issue #680) -- يُقرأ هنا مرّة واحدة قبل الحلقة، لا
