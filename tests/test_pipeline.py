@@ -9491,6 +9491,201 @@ def test_publish_skips_broken_draft_without_stopping_batch() -> None:
           store.load_draft("g2")[1]["status"] == "published")
 
 
+def test_burst_skips_broken_draft_without_spacing_sleep() -> None:
+    """Issue #740، العطل الثاني الفعلي: أربع مسودات (خرجت failed فورًا داخل
+    publish_one لنقصان حقل أساسي) انتظر لها cmd_burst فاصل النشر الكامل
+    (30-60 دقيقة) قبل كل واحدة، كأنها ستُنشر فعلًا — نحو ثلاث ساعات جمود
+    لأربع مسودات لم تُنشر شيئًا. الآن: مسودة ستُتخطى حتمًا (ناقصة حقلًا
+    أساسيًا) تمرّ فورًا بلا أي sleep — الفاصل يُطبَّق فقط قبل مسودة قابلة
+    للنشر فعليًا."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    good = {
+        "id": "spacing_good", "status": "pending", "score": 0.9,
+        "arabic": {"post_title": "خبر سليم", "urgent": False},
+        "image": "drafts/x.jpg", "caption": "متن", "source": {},
+    }
+    bad = {
+        "id": "spacing_bad", "status": "pending", "score": 0.1,
+        "arabic": {"post_title": "مسودة ناقصة", "urgent": False},
+        "caption": "متن", "source": {},
+        # بلا حقل image عمدًا -- ستُسجَّل failed فورًا داخل publish_one
+    }
+    store.save_draft(good)
+    store.save_draft(bad)
+    (DRAFTS_DIR / "x.jpg").write_bytes(b"\xff\xd8\xff")
+
+    sleep_calls: list = []
+    real_sleep = publish_mod.time.sleep
+    publish_mod.time.sleep = lambda s: sleep_calls.append(s)
+
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    facebook.publish_photo = lambda *a, **k: {"url": "https://fb.example/z", "id": "3"}
+
+    try:
+        code = publish_mod.cmd_burst(["spacing_good", "spacing_bad"], load_config(), None)
+    finally:
+        publish_mod.time.sleep = real_sleep
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+
+    check("cmd_burst ينتهي بنجاح", code == 0, f"exit={code}")
+    check("لا استدعاء sleep إطلاقًا رغم فاصل 30-60 دقيقة المجدول قبل المسودة الناقصة",
+          sleep_calls == [], str(sleep_calls))
+    check("المسودة السليمة (الأعلى مؤشرًا) نُشرت فورًا",
+          store.load_draft("spacing_good")[1]["status"] == "published",
+          store.load_draft("spacing_good")[1].get("status"))
+    check("المسودة الناقصة سُجّلت failed بلا انتظار",
+          store.load_draft("spacing_bad")[1]["status"] == "failed",
+          store.load_draft("spacing_bad")[1].get("status"))
+
+
+def test_publish_routes_youtube_origin_by_field_not_label() -> None:
+    """Issue #740، العطل الأول الفعلي: مراجع وسم Issue مراجعة يوتيوب
+    (`youtube-review`، يستعمل نفس صيغة ``<!-- draft:id -->`` وreview.parse_approved
+    المشتركة مع المسار العام) بـ`approved` سهوًا بدل `youtube-approved` —
+    فالتقط publish.yml (سير نشر الأخبار) أربع مسودات يوتيوب الناقصة حقل
+    image بنيويًا (Issue #680) وسجّلها failed. الآن publish.main يقرأ حقل
+    origin لكل مسودة معتمَدة على حدة، بصرف النظر عن وسم/عنوان الـIssue،
+    ويوجّه مسودة origin=youtube إلى youtube_publish.publish_ids (بطاقة
+    تُبنى، سقف يُطبَّق) فتُنشر بدل أن تُسجَّل failed."""
+    from src import publish as publish_mod
+    from src import youtube_publish as yp
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    yt_draft = {
+        "id": "abc123abcdef", "status": "pending", "origin": "youtube",
+        "arabic": {"post_title": "مقال يوتيوب", "urgent": False},
+        "headlines": ["عنوان ١", "عنوان ٢", "عنوان ٣"], "headline_selected": 0,
+        "caption": "متن", "source": {},
+        # بلا حقل image عمدًا -- ensure_title_card يضيفه لاحقًا (Issue #680)
+    }
+    store.save_draft(yt_draft)
+
+    body = f"- [x] **1. مقال يوتيوب**  <!-- draft:{yt_draft['id']} -->"
+
+    real_fetch = publish_mod.fetch_issue
+    # الوسم approved -- هو الخاطئ فعليًا (لا youtube-approved) -- ونفس عنوان
+    # Issue مراجعة يوتيوب. التوجيه بالأصل يجب ألا يعتمد على أيّهما.
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}],
+    }
+
+    card_calls: list = []
+    real_ensure_title_card = yp.ensure_title_card
+
+    def fake_ensure_title_card(path, draft, cfg):
+        card_calls.append(draft["id"])
+        store.update_draft(path, image="drafts/x.jpg")
+        draft["image"] = "drafts/x.jpg"
+        return True
+
+    yp.ensure_title_card = fake_ensure_title_card
+
+    published_ids: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_ids.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    comments: list = []
+    real_comment = review.comment
+    review.comment = lambda issue_number, text: comments.append(text)
+    closed: list = []
+    real_close = review.close_issue
+    review.close_issue = lambda issue_number: closed.append(issue_number)
+
+    sys.argv = ["publish", "--issue", "7401"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        yp.ensure_title_card = real_ensure_title_card
+        publish_mod.publish_one = real_publish_one
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("مسودة يوتيوب المعتمَدة بوسم approved سلكت مسار يوتيوب (بطاقة بُنيت)",
+          card_calls == [yt_draft["id"]], card_calls)
+    check("النشر تمّ فعليًا عبر publish_one -- لا failed",
+          published_ids == [yt_draft["id"]], published_ids)
+    check("حالة المسودة published لا failed",
+          store.load_draft(yt_draft["id"])[1]["status"] == "published",
+          store.load_draft(yt_draft["id"])[1].get("status"))
+    check("تعليق تقرير نُشر على الـIssue", bool(comments), comments)
+    check("الـIssue أُغلق (سقف يغطي المعتمَد كله)", closed == [7401], closed)
+
+
+def test_publish_routes_news_origin_unaffected() -> None:
+    """Issue #740 (ضابط): مسودة أخبار عادية (origin != youtube) معتمَدة
+    بوسم approved يجب أن تسلك مسار الأخبار تمامًا كسابقًا — التوجيه بالأصل
+    لا يغيّر سلوك المسار العام، ولا يستدعي منطق يوتيوب إطلاقًا."""
+    from src import publish as publish_mod
+    from src import youtube_publish as yp
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    news_draft = {
+        "id": "beef00000001", "status": "pending",
+        "arabic": {"post_title": "خبر عادي", "urgent": False},
+        "image": "drafts/n.jpg", "caption": "متن", "source": {},
+    }
+    store.save_draft(news_draft)
+    (DRAFTS_DIR / "n.jpg").write_bytes(b"\xff\xd8\xff")
+
+    body = f"- [x] **1. خبر عادي**  <!-- draft:{news_draft['id']} -->"
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}],
+    }
+
+    yt_calls: list = []
+    real_publish_ids = yp.publish_ids
+    yp.publish_ids = lambda *a, **kw: (yt_calls.append(1), ([], 0, 0, []))[1]
+
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    facebook.publish_photo = lambda *a, **k: {"url": "https://fb.example/y", "id": "2"}
+
+    comments: list = []
+    real_comment = review.comment
+    review.comment = lambda issue_number, text: comments.append(text)
+    real_close = review.close_issue
+    review.close_issue = lambda issue_number: None
+
+    sys.argv = ["publish", "--issue", "7402", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        yp.publish_ids = real_publish_ids
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main ينتهي بنجاح (مسودة أخبار عادية)", code == 0, f"exit={code}")
+    check("لا استدعاء لمنطق يوتيوب إطلاقًا", yt_calls == [], yt_calls)
+    check("المسودة الإخبارية نُشرت عبر مسار الأخبار كسابقًا",
+          store.load_draft(news_draft["id"])[1]["status"] == "published",
+          store.load_draft(news_draft["id"])[1].get("status"))
+
+
 def test_open_review_excludes_youtube_and_broken_drafts() -> None:
     """متابعة Issue #707: تسرّب مسودة يوتيوب لم يقف عند ``publish.py``
     وحده — ``open_review.py`` (المسار العام) كان يجمع كل مسودة ``pending``
@@ -12696,7 +12891,11 @@ def main() -> int:
     test_due_publishes_one_at_a_time()
     print("\n── مسودة ناقصة لا تُسقط دفعة النشر أو فتح الـ Issue (Issue #707) ──")
     test_publish_skips_broken_draft_without_stopping_batch()
+    test_burst_skips_broken_draft_without_spacing_sleep()
     test_open_review_excludes_youtube_and_broken_drafts()
+    print("\n── التوجيه بالأصل لا بالوسم عند approved (Issue #740) ──")
+    test_publish_routes_youtube_origin_by_field_not_label()
+    test_publish_routes_news_origin_unaffected()
     print("\n── سجل القرارات التراكمي (Issue #583، المرحلة الأولى) ──")
     test_decisions()
     print("\n── تحليل الأداء ──")
