@@ -1,0 +1,61 @@
+{
+  "id": "62fa3cac9d4b",
+  "created_at": "2026-09-05T06:07:50.394554+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.93,
+  "trend_score": 0.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Bangladesh measles toll nears grim 1,000-child mark",
+  "link": "https://www.channelnewsasia.com/asia/bangladesh-measles-toll-nears-grim-1000-child-mark-6364166",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "South China Morning Post"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Bangladesh measles toll nears grim 1,000-child mark",
+    "link": "https://www.channelnewsasia.com/asia/bangladesh-measles-toll-nears-grim-1000-child-mark-6364166",
+    "summary": "More than 1,000 suspected cases are reported daily.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-05T02:38:36+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--FXZOBr_j--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/05/000_c7c83cq.jpg?itok=rGm1EHzP",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3366453/bangladesh-measles-outbreak-nears-1000-child-deaths-hospital-wards-overflow?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/bangladesh-measles-toll-nears-grim-1000-child-mark-6364166"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/05/bangladesh-s-measles-death-toll-nears-grim-1-000-child-mark"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--FXZOBr_j--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/05/000_c7c83cq.jpg?itok=rGm1EHzP",
+      "https://media.freemalaysiatoday.com/v3/2026/09/4b7ffe3a-6d8b-4c52-bc1e-bd78841c5f77-14179298.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.2221915755439404,
+    "age_hours": 3.000413787222222,
+    "is_stale": false,
+    "score": 14.93350040190169
+  }
+}

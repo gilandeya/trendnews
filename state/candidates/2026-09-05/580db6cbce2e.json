@@ -1,0 +1,61 @@
+{
+  "id": "580db6cbce2e",
+  "created_at": "2026-09-05T06:07:50.393300+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.74,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Putin announced battlefield encirclements that the evidence doesn’t show, but Russia’s real offensive is accelerating elsewhere",
+  "link": "https://meduza.io/en/feature/2026/09/05/putin-announced-battlefield-encirclements-that-the-evidence-doesn-t-show-but-russia-s-real-offensive-is-accelerating-elsewhere",
+  "publishers": [
+    "Meduza",
+    "Meduza English",
+    "TASS"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Putin announced battlefield encirclements that the evidence doesn’t show, but Russia’s real offensive is accelerating elsewhere",
+    "link": "https://meduza.io/en/feature/2026/09/05/putin-announced-battlefield-encirclements-that-the-evidence-doesn-t-show-but-russia-s-real-offensive-is-accelerating-elsewhere",
+    "summary": "At a late-night press conference in Bishkek on September 1, Vladimir Putin said what he believed was happening on the battlefield. Once again, his account clashed with the Russian military’s documented gains. Putin is evidently aware that even troops at the front do not accept his reports, so he cited sources in the General Staff and “other agencies.” He said the picture, as it “appears” to him, is “fairly objective.” He immediately said that Ukrainian units had been encircled in two places in the Kharkiv region and that Sviatohirsk, near Sloviansk, had been captured. The claims surprised even the people behind Telegram channels close to the Russian military command, who likely work at the headquarters of the units responsible for the sectors Putin mentioned. Yet, strange as it may seem, Putin’s optimism about these operations is not detached from reality: Russia’s offensive accelerated in late summer and again pushed Ukrainian defenses into crisis along several important axes in early fall.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-04T23:45:31+00:00",
+    "image_url": "https://meduza.io/image/attachments/images/012/715/901/small/lDWiyqXJk7QnvELk0P2llg",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Meduza",
+      "Meduza English",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/feature/2026/09/05/putin-announced-battlefield-encirclements-that-the-evidence-doesn-t-show-but-russia-s-real-offensive-is-accelerating-elsewhere"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/04/head-of-russia-s-foreign-intelligence-service-calls-risk-of-large-scale-conflict-across-all-of-eurasia-quite-real"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/politics/2182717"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/image/attachments/images/012/715/901/small/lDWiyqXJk7QnvELk0P2llg",
+      "https://meduza.io/imgly/share/1788533168/en/news/2026/09/04/head-of-russia-s-foreign-intelligence-service-calls-risk-of-large-scale-conflict-across-all-of-eurasia-quite-real"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.22218501863693074,
+    "age_hours": 3.0005023325,
+    "is_stale": false,
+    "score": 22.741152807144424
+  }
+}

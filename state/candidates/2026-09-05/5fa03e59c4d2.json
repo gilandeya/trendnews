@@ -1,0 +1,55 @@
+{
+  "id": "5fa03e59c4d2",
+  "created_at": "2026-09-05T06:07:50.394318+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.47,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran, Russia justice officials meet in India on BRICS Summit",
+  "link": "https://en.mehrnews.com/news/247442/Iran-Russia-justice-officials-meet-in-India-on-BRICS-Summit",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran, Russia justice officials meet in India on BRICS Summit",
+    "link": "https://en.mehrnews.com/news/247442/Iran-Russia-justice-officials-meet-in-India-on-BRICS-Summit",
+    "summary": "TEHRAN, Sep. 05 (MNA).– Iran’s Judiciary Chief Gholam-Hossein Mohseni-Ejei, and Head of Russia’s Supreme Court Igor Krasnov met and held talks in India’s capital of New Delhi Friday on the sidelines of the judicial chiefs of the BRICS member states.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-05T05:36:32+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/05/4/6161696.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247442/Iran-Russia-justice-officials-meet-in-India-on-BRICS-Summit"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86254825/Iran-Russia-Chief-Justices-meet-on-sidelines-of-BRICS-summit"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/05/4/6161696.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/04/4/173085637.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 757.9118353116667,
+    "is_stale": false,
+    "score": 16.465358716092595
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "id": "e5483916cdb7",
+  "created_at": "2026-09-05T06:07:50.393777+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.98,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Middle East live: Israeli strikes on south and east Lebanon kill three people",
+  "link": "https://www.france24.com/en/middle-east/20260905-middle-east-live-israeli-strikes-on-south-and-east-lebanon-kill-three-people",
+  "publishers": [
+    "France24",
+    "Hindustan Times — World",
+    "Mehr News"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Middle East live: Israeli strikes on south and east Lebanon kill three people",
+    "link": "https://www.france24.com/en/middle-east/20260905-middle-east-live-israeli-strikes-on-south-and-east-lebanon-kill-three-people",
+    "summary": "Israeli strikes in southern and eastern Lebanon late on Friday killed at least three people and wounded 23 more despite a ceasefire between Israel and Hezbollah, the Lebanese health ministry said. The ministry said in a statement that strikes hit five locations in the southern Tyre and Nabatieh regions and the Beqaa region in the east. Follow our liveblog for all the latest developments.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-05T05:01:24+00:00",
+    "image_url": "https://s.france24.com/media/display/2af33eb8-a8e5-11f1-810f-005056bf30b7/w:1024/p:16x9/000-C7D28HE.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Hindustan Times — World",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260905-middle-east-live-israeli-strikes-on-south-and-east-lebanon-kill-three-people"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/israeli-strikes-on-lebanon-kill-three-ministry-101788558815393.html"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247437/Israeli-strikes-on-Lebanon-kill-three-wound-23"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/2af33eb8-a8e5-11f1-810f-005056bf30b7/w:1024/p:16x9/000-C7D28HE.jpg",
+      "https://media.mehrnews.com/d/2026/07/18/4/6103330.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 757.9117796627778,
+    "is_stale": false,
+    "score": 18.981209190607913
+  }
+}
