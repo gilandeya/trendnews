@@ -1,0 +1,54 @@
+{
+  "id": "8692982d9cc5",
+  "created_at": "2026-09-05T19:07:49.713276+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.64,
+  "trend_score": 0.14,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nine days on, Nepali soldiers pull Chinese national alive from hydropower tunnel",
+  "link": "https://www.malaymail.com/news/world/2026/09/05/nine-days-on-nepali-soldiers-pull-chinese-soldier-alive-from-hydropower-tunnel/234060",
+  "publishers": [
+    "Hindustan Times — World",
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Nine days on, Nepali soldiers pull Chinese national alive from hydropower tunnel",
+    "link": "https://www.malaymail.com/news/world/2026/09/05/nine-days-on-nepali-soldiers-pull-chinese-soldier-alive-from-hydropower-tunnel/234060",
+    "summary": "KATHMANDU, Sept 5 — A Chinese national was pulled alive Saturday from a tunnel buried by debris in Nepal after cat...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-05T09:17:57+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/05/360855.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/chinese-national-woman-rescued-hydropower-project-nepal-floods-tibet-rescue-operations-death-toll-injured-missing-101788597769960.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/05/nine-days-on-nepali-soldiers-pull-chinese-soldier-alive-from-hydropower-tunnel/234060"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/05/360855.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.14285714285714285,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 250.0004697675,
+    "is_stale": false,
+    "score": 17.6375767841164
+  }
+}

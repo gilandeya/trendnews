@@ -1,0 +1,48 @@
+{
+  "id": "ed67f8ed8def",
+  "created_at": "2026-09-05T19:07:49.714516+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.19,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Barcelona vuelve a pulverizar récords de calor en septiembre: 35,5 grados este sábado",
+  "link": "https://elpais.com/espana/catalunya/2026-09-05/barcelona-vuelve-a-pulverizar-records-de-calor-en-septiembre-355-grados-este-sabado.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Barcelona vuelve a pulverizar récords de calor en septiembre: 35,5 grados este sábado",
+    "link": "https://elpais.com/espana/catalunya/2026-09-05/barcelona-vuelve-a-pulverizar-records-de-calor-en-septiembre-355-grados-este-sabado.html",
+    "summary": "Protección Civil mantiene la alerta por el elevado riesgo de incendios con unas temperaturas que superan los 40 grados en Lleida",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-05T17:30:53+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/K3TEE2XMZBBDHJLQ3T3XBIH27A.jpg?auth=8223af87d8ea20189d9b09a8876d149d140fa2a7f745780271da544877cb2a41",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/espana/catalunya/2026-09-05/barcelona-vuelve-a-pulverizar-records-de-calor-en-septiembre-355-grados-este-sabado.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/K3TEE2XMZBBDHJLQ3T3XBIH27A.jpg?auth=8223af87d8ea20189d9b09a8876d149d140fa2a7f745780271da544877cb2a41"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.9985600775000001,
+    "is_stale": false,
+    "score": 13.192423346277778
+  }
+}

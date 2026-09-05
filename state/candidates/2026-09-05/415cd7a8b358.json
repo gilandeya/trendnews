@@ -1,0 +1,55 @@
+{
+  "id": "415cd7a8b358",
+  "created_at": "2026-09-05T19:07:49.713730+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.88,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Two Nepal rescues revive hopes 10 days after flood",
+  "link": "https://www.france24.com/en/video/20260905-two-nepal-rescues-revive-hopes-10-days-after-flood",
+  "publishers": [
+    "France24",
+    "Malay Mail"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Two Nepal rescues revive hopes 10 days after flood",
+    "link": "https://www.france24.com/en/video/20260905-two-nepal-rescues-revive-hopes-10-days-after-flood",
+    "summary": "Rescuers in Nepal pulled alive on Saturday a Chinese national from a tunnel and a local woman from her partially submerged home, as emergency response teams searched with renewed vigour for thousands missing since catastrophic flooding 10 days ago. Our correspondent Shahzaib Wahlah tells us more.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-05T12:47:33+00:00",
+    "image_url": "https://s.france24.com/media/display/85e45594-a919-11f1-aa7d-005056a97e36/w:1024/p:16x9/EN-20260905-090153-090448-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260905-two-nepal-rescues-revive-hopes-10-days-after-flood"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/05/two-nepal-rescues-revive-hopes-10-days-after-flood/234072"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/85e45594-a919-11f1-aa7d-005056a97e36/w:1024/p:16x9/EN-20260905-090153-090448-CS.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/05/360867.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 250.00050321361113,
+    "is_stale": false,
+    "score": 16.877608526555555
+  }
+}
