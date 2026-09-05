@@ -10048,6 +10048,72 @@ def test_origin_of_synonyms() -> None:
         check(f"origin_of: القيمة المعيارية «{value}» تمرّ كما هي",
               store.origin_of({"origin": value}) == value)
 
+    # CANONICAL_ORIGINS كانت ثابتة ميتة (تصحيح لاحق لـ#749) — الآن تُستعمل
+    # لتسجيل تحذير عند قيمة غير معيارية وغير مرادفة، بلا أي تغيير في القيمة
+    # المُعادة (لا تغيير سلوك).
+    class _ListHandler(logging.Handler):
+        def __init__(self):
+            super().__init__()
+            self.messages: list[str] = []
+
+        def emit(self, record):
+            self.messages.append(record.getMessage())
+
+    log_handler = _ListHandler()
+    store.log.addHandler(log_handler)
+    try:
+        result = store.origin_of({"origin": "typo_value"})
+    finally:
+        store.log.removeHandler(log_handler)
+    check("origin_of: قيمة غير معيارية تُعاد كما هي بلا تغيير سلوك",
+          result == "typo_value", result)
+    check("origin_of: قيمة غير معيارية وغير مرادفة تُسجَّل بتحذير",
+          any("typo_value" in m for m in log_handler.messages), log_handler.messages)
+
+
+def test_feedback_records_origin_and_screening_guidance_excludes_analysis() -> None:
+    """Issue #749 (تصحيح لاحق): feedback.record يسجّل أصل المسودة عبر
+    store.origin_of، وscreening_guidance يبني توجيهه من مدخلات news/breaking/
+    غياب الحقل فقط — رفض مقال تحليل لا يجوز أن يُبرمج فرز الأخبار."""
+    from src import feedback
+
+    analysis_draft = {
+        "id": "an1", "origin": "analysis",
+        "arabic": {"post_title": "عنوان تحليل حصري لا يتكرر فرز"},
+        "source": {"title": "عنوان تحليل حصري لا يتكرر فرز", "publishers": [], "region": ""},
+        "bucket": "",
+    }
+    news_draft = {
+        "id": "nw1", "origin": "news",
+        "arabic": {"post_title": "خبر عادي"},
+        "source": {"title": "خبر عادي", "publishers": ["BBC"], "region": "eu"},
+        "bucket": "serious",
+    }
+    legacy_draft = {   # سجل قديم بلا حقل origin أصلًا
+        "id": "lg1",
+        "arabic": {"post_title": "خبر قديم قبل هذا الحقل"},
+        "source": {"title": "خبر قديم قبل هذا الحقل", "publishers": [], "region": ""},
+        "bucket": "",
+    }
+
+    entries: list = []
+    feedback.record(entries, analysis_draft, "تافه", "")
+    feedback.record(entries, news_draft, "محلي", "")
+    feedback.record(entries, legacy_draft, "قديم", "")
+
+    check("feedback.record يسجّل origin=analysis عبر store.origin_of",
+          entries[0]["origin"] == "analysis", entries[0])
+    check("feedback.record يسجّل origin=news عبر store.origin_of",
+          entries[1]["origin"] == "news", entries[1])
+
+    guidance = feedback.screening_guidance(entries, limit=12, days=21)
+    check("screening_guidance يستبعد مدخلة origin=analysis",
+          "تحليل حصري" not in guidance, guidance)
+    check("screening_guidance يضمّ مدخلة news",
+          "خبر عادي" in guidance, guidance)
+    check("screening_guidance يضمّ مدخلة قديمة بلا حقل origin (لا انقطاع في التغذية)",
+          "خبر قديم قبل هذا الحقل" in guidance, guidance)
+
 
 def test_radar_writes_breaking_origin() -> None:
     """مواضع الكتابة السبعة (Issue #749) — radar.py:build_draft يكتب
@@ -10310,12 +10376,13 @@ def test_insights_collect_includes_analysis_origin() -> None:
           any(r["id"] == "ins_analysis1" for r in rows), rows)
 
 
-def test_collect_feedback_rejects_draft_without_built_card() -> None:
-    """Issue #749: src/collect_feedback.py (الوحدة التي يشغّلها feedback.yml
-    بـ`python -m src.collect_feedback` — لا دالّة بهذا الاسم) يفترض بطاقة
-    مبنية (العنوان المعروض في سطر التقرير من caption/arabic المكتملين وقت
-    الاعتماد). مسودة تحليل قبل اعتمادها (Issue #680، بلا حقل image بنيويًا)
-    يجب أن تُرفَض برسالة واضحة بدل أن تُسجَّل رفضًا عاديًا كأي مسودة مكتملة."""
+def test_collect_feedback_rejects_analysis_draft_without_image() -> None:
+    """Issue #749 (تصحيح لاحق): لا src/collect_feedback.py ولا feedback.record
+    يقرآن حقل image إطلاقًا — فمسودة تحليل قبل اعتمادها (Issue #680، بلا هذا
+    الحقل بنيويًا) تُسجَّل رفضها بشكل عادي تمامًا كأي مسودة أخرى، ولا يجوز أن
+    تبقى pending بعد رفضها الصريح (الحارس السابق كان يتخطّى
+    store.update_draft(status="rejected") فتُترك المسودة عالقة قابلة
+    للالتقاط مجددًا لاحقًا — عطل حقيقي، لا تحصين)."""
     from src import collect_feedback, feedback
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
@@ -10355,17 +10422,15 @@ def test_collect_feedback_rejects_draft_without_built_card() -> None:
         review.comment = real_comment
 
     check("collect_feedback.main ينتهي بنجاح بلا انهيار", code == 0, f"exit={code}")
-    check("رفض واحد فقط يُسجَّل في feedback (المسودة العادية وحدها)",
-          len(feedback.load()) == rejections_before + 1,
+    check("كلا الرفضين يُسجَّلان في feedback (بطاقة أو بلا بطاقة سيّان)",
+          len(feedback.load()) == rejections_before + 2,
           str(feedback.load()[-2:]))
-    check("مسودة التحليل بلا بطاقة تبقى pending — لا تُسجَّل رفضًا",
-          store.load_draft(analysis_draft["id"])[1]["status"] == "pending",
+    check("مسودة التحليل بلا بطاقة تُسجَّل rejected كأي مسودة أخرى",
+          store.load_draft(analysis_draft["id"])[1]["status"] == "rejected",
           store.load_draft(analysis_draft["id"])[1].get("status"))
     check("المسودة العادية تُسجَّل rejected كسابقًا",
           store.load_draft(normal_draft["id"])[1]["status"] == "rejected",
           store.load_draft(normal_draft["id"])[1].get("status"))
-    check("رسالة واضحة عن غياب البطاقة تظهر في تعليق الـIssue",
-          comments and "لا بطاقة بعد" in comments[0], comments)
 
 
 def test_measure_channels() -> None:
@@ -13380,6 +13445,7 @@ def main() -> int:
     test_open_review_excludes_youtube_and_broken_drafts()
     print("\n── حقل origin المعياري وstore.origin_of (Issue #749) ──")
     test_origin_of_synonyms()
+    test_feedback_records_origin_and_screening_guidance_excludes_analysis()
     test_radar_writes_breaking_origin()
     test_request_writes_request_origin()
     print("\n── التوجيه بالأصل لا بالوسم عند approved (Issue #740) ──")
@@ -13394,7 +13460,7 @@ def main() -> int:
     test_insights_collect_includes_analysis_origin()
     print("\n── تحصين القرّاء الأربعة أمام مسودة تحليل بلا حقل image (Issue #749) ──")
     test_setimage_rejects_analysis_draft_without_card()
-    test_collect_feedback_rejects_draft_without_built_card()
+    test_collect_feedback_rejects_analysis_draft_without_image()
     print("\n── حارس temperature (Issue #373) ──")
     test_no_temperature_param()
     print("\n── سكربت قياس قنوات يوتيوب (Issue #619) ──")

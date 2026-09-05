@@ -91,15 +91,6 @@ def main() -> int:
             lines.append(f"- ❓ `{draft_id}` — لا توجد مسودة بهذا المعرّف")
             continue
         path, draft = found
-        if not draft.get("image"):
-            # مسودة تحليل قبل اعتمادها (Issue #680) لا بطاقة لها بنيويًا
-            # بعد -- هذا المسار يفترض بطاقة مبنية (العنوان المعروض في
-            # سطر التقرير أدناه من caption/arabic المبنيَّين فعليًا وقت
-            # الاعتماد لا قبله)، فرفض واضح بدل تسجيل رفض على بيانات لم
-            # تكتمل بعد (Issue #749).
-            lines.append(f"- ⚠️ `{draft_id}` — لا بطاقة بعد لهذه المسودة "
-                         "— البطاقة تُبنى عند الاعتماد")
-            continue
         feedback.record(entries, draft, tag, note)
         known.add(draft_id)
         store.update_draft(path, status="rejected", reject_tag=tag,

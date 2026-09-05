@@ -19,6 +19,7 @@ import logging
 import re
 from datetime import datetime, timedelta, timezone
 
+from . import store
 from .config import STATE_DIR
 
 log = logging.getLogger(__name__)
@@ -115,6 +116,7 @@ def record(entries: list[dict], draft: dict, tag: str, note: str) -> None:
         "publishers": (draft.get("source") or {}).get("publishers", [])[:3],
         "region": (draft.get("source") or {}).get("region", ""),
         "bucket": draft.get("bucket", ""),
+        "origin": store.origin_of(draft),
         "at": datetime.now(timezone.utc).isoformat(),
     })
 
@@ -130,11 +132,18 @@ def screening_guidance(entries: list[dict], limit: int = 12,
     ⚠️ القيد الحاكم: التعليمات تصف *ما رُفض بالضبط* ولا تستنتج قواعد
     أوسع. نمرّر عنوان الخبر المرفوض وسببه، ونأمر النموذج صراحةً بعدم
     التعميم — فرفض ثلاثة أخبار عن بلد لا يعني رفض ذلك البلد.
+
+    يُبنى هذا التوجيه لفرز مسار *الأخبار* حصرًا (Issue #749): مدخلة
+    برفض مقال تحليل (أو أي مسار آخر غير news/breaking) لا تعني شيئًا
+    لفارز أخبار، فتُستبعد من الحساب هنا كي لا تلوّث توجيهه. السجل
+    القديم بلا حقل origin أصلًا (قبل أن يبدأ record() بتسجيله) يبقى
+    محسوبًا كما كان دومًا — لا انقطاع في التغذية القائمة.
     """
     cutoff = datetime.now(timezone.utc) - timedelta(days=days)
     recent = [
         e for e in entries
         if datetime.fromisoformat(e["at"]) >= cutoff
+        and e.get("origin") in (None, "news", "breaking")
     ][-limit:]
     if not recent:
         return ""
