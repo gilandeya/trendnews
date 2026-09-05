@@ -90,9 +90,19 @@ def rebuild_card(path: Path, draft: dict, headline: str, cfg) -> str | None:
     (يبدأ بـ "drafts/")، أو ``None`` إن تعذّر (لا مصدر صورة، رابط غير صالح،
     أو فشل التنزيل/البناء) — البطاقة القديمة تبقى قائمة عند الفشل، فلا
     يستدعي هذا الفشل أي تدخّل من الطالب سوى تجاهل القيمة المُعادة.
+
+    ``image_urls`` الممرَّرة لـ``build_post_image``: رابط ``manual_image``
+    وحده حين وُجد (رابط وضعه المراجع بعينه، لا مرشَّحًا من عدة)؛ وإلا
+    ``source.image_candidates`` كاملة لا ``url`` المفرد وحده (تصحيح من
+    #760، Issue #765) — بطاقة مدمجة من صورتين (imaging.build_post_image
+    يدمج أول مرشَّحين ناجحين) كانت تنهار صامتة إلى صورة واحدة عند أي
+    إعادة بناء (اختيار عنوان غير افتراضي، مثلًا) لأن ``[url]`` (أول عنصر
+    فقط) هو ما كان يصل ``build_post_image`` بصرف النظر عن عدد المرشَّحين
+    الفعلي.
     """
     src = draft["source"]
-    url = (draft.get("manual_image") or (src.get("image_candidates") or [None])[0]
+    manual = draft.get("manual_image")
+    url = (manual or (src.get("image_candidates") or [None])[0]
            or src.get("image_url"))
     if not url:
         log.warning("لا مصدر صورة لإعادة بناء بطاقة %s", draft.get("id", path))
@@ -113,11 +123,19 @@ def rebuild_card(path: Path, draft: dict, headline: str, cfg) -> str | None:
     # (TRENDNEWS_DRAFTS_DIR) وكتبت داخل drafts/ الحقيقي في المستودع.
     out_path = DRAFTS_DIR / Path(new_rel).relative_to("drafts")
 
+    # تصحيح من #760 (Issue #765، بند أول): manual_image يبقى صورة واحدة
+    # فقط — هذا رابط وضعه المراجع يدويًا بعينه، لا مرشَّحًا من عدة. بلا
+    # manual_image، source.image_candidates الكاملة (لا url المفرد وحده،
+    # وهو أول عنصر فيها فقط) هي مصدر الحقيقة — بطاقة بُنيت من مرشَّحين
+    # (imaging.build_post_image يدمج أول ناجحَين) كانت تنهار صامتة إلى
+    # صورة واحدة عند أي إعادة بناء (اختيار عنوان غير افتراضي، مثلًا).
+    image_urls = [url] if manual else (src.get("image_candidates") or [url])
+
     build_post_image(
         headline=headline,
         category=spec.get("category") or ar.get("category", ""),
         urgent=bool(spec.get("urgent") or ar.get("urgent")),
-        image_urls=[url],
+        image_urls=image_urls,
         publisher=src.get("publishers") or [src.get("publisher", "")],
         bucket=draft.get("bucket", "serious"),
         # يحفظ وسم المسار عند إعادة بناء البطاقة (Issue #758) — أسهل نقطة

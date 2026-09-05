@@ -96,6 +96,13 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         parts += [
             f"- [ ] **{idx}. {ar['post_title']}**  <!-- draft:{d['id']} -->",
             "",
+        ]
+        if d.get("sibling_id"):
+            # Issue #765، بند 3: مقال ومنشور تحقيق من نفس المدخل يظهران
+            # كمسودتين منفصلتين تحملان sibling_id متبادلًا — لا واجهة جديدة،
+            # المربعات القائمة تكفي (اعتمد أحدهما أو كليهما أو لا شيء)
+            parts += ["  🔀 بديل لنفس المدخل — اعتمد أحدهما أو كليهما أو لا شيء.", ""]
+        parts += [
             f"  {badge} · مؤشر الترند `{d['score']:.1f}` · المصادر: "
             f"{'، '.join(d['source']['publishers'][:3])}",
             "",

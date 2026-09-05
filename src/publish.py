@@ -442,6 +442,15 @@ def cmd_now(ids: list[str], cfg, issue_number: int | None) -> int:
         if draft.get("status") == "published":
             lines.append(f"- ↩️ `{draft_id}` — منشور مسبقًا")
             continue
+        # Issue #765، بند 3: منشور تحقيق يجب أن يمرّ بمراجعة Issue دومًا —
+        # issue_number is None يعني هذا الاستدعاء جاء من --ids المباشر (نشر
+        # فوري بمعرّف بلا قراءة مربعات اعتماد أصلًا)، لا من ids المُستخرجة
+        # فعليًا عبر review.parse_approved في المسار المعتاد (args.issue حقيقي
+        # دومًا هناك). لا نشر تلقائي يلتقط مسودة تحقيق خارج تلك القراءة.
+        if draft.get("is_investigation") and issue_number is None:
+            lines.append(f"- 🚫 `{draft_id}` — مسودة تحقيق: تتطلب مراجعة Issue فعلية، "
+                         "لا نشرًا مباشرًا بالمعرّف")
+            continue
         total += 1
         ok, line = publish_one(path, draft, cfg)
         published += ok
