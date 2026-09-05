@@ -10322,8 +10322,10 @@ def test_article_draft_investigation() -> None:
 
 def test_review_sibling_alternate_line() -> None:
     """review.build_issue_body: مسودة تحمل sibling_id (مقال ومنشور تحقيق من
-    نفس المدخل، Issue #765) تُعرض بسطر 🔀 «بديل لنفس المدخل» فوقها -- يظهر
-    لهما فقط، لا لأي مسودة أخرى بلا sibling_id."""
+    نفس المدخل، Issue #765) تُعرض بسطر 🔀 يذكر رقم المنشور المقابل صراحة
+    (تصحيح Issue #769 -- المسودتان قد لا تتجاوران بين مسودات الأخبار، فسطر
+    «بديل لنفس المدخل» العام لا يقول أيّهما يقابل أيّهما). يظهر لهما فقط،
+    لا لأي مسودة أخرى بلا sibling_id."""
     base = {
         "score": 1.0, "bucket": "serious", "state_media": False,
         "source": {"link": "https://x/1", "publishers": ["Ch"]},
@@ -10338,25 +10340,32 @@ def test_review_sibling_alternate_line() -> None:
     draft_plain = {**base, "id": "sib00000003",
                    "arabic": {**base["arabic"], "post_title": "عنوان عادي بلا أخت"}}
 
+    # الترتيب هنا مقصود: المقال (idx 1) والتحقيق (idx 2) لا يتجاوران --
+    # مسودة عادية بينهما -- كي يثبت الاختبار أن الرقم المذكور يتبع sibling_id
+    # الفعلي لا مجرد "المسودة التالية/السابقة".
     body = review.build_issue_body(
-        [draft_article, draft_investigation, draft_plain], "u/r", "main")
+        [draft_article, draft_plain, draft_investigation], "u/r", "main")
 
-    check("build_issue_body: سطر «بديل لنفس المدخل» يظهر مرتين فقط (لمسودتين "
+    check("build_issue_body: سطر «بديل للمنشور رقم» يظهر مرتين فقط (لمسودتين "
           "متبادلتَي sibling_id)",
-          body.count("🔀 بديل لنفس المدخل") == 2, body)
+          body.count("🔀 بديل للمنشور رقم") == 2, body)
+    check("build_issue_body: لا يظهر السطر العام «بديل لنفس المدخل» بعد الآن",
+          "🔀 بديل لنفس المدخل" not in body, body)
 
     lines = body.splitlines()
     article_idx = next(i for i, ln in enumerate(lines) if "sib00000001" in ln)
     investigation_idx = next(i for i, ln in enumerate(lines) if "sib00000002" in ln)
     plain_idx = next(i for i, ln in enumerate(lines) if "sib00000003" in ln)
-    check("build_issue_body: سطر «بديل» يظهر مباشرة بعد عنوان مسودة المقال",
-          "🔀 بديل لنفس المدخل" in lines[article_idx + 2], lines[article_idx:article_idx + 3])
-    check("build_issue_body: سطر «بديل» يظهر مباشرة بعد عنوان مسودة التحقيق",
-          "🔀 بديل لنفس المدخل" in lines[investigation_idx + 2],
+    check("build_issue_body: سطر «بديل» يظهر مباشرة بعد عنوان مسودة المقال "
+          "ويذكر رقم التحقيق (3، ترتيبه الثالث في القائمة)",
+          "🔀 بديل للمنشور رقم 3" in lines[article_idx + 2], lines[article_idx:article_idx + 3])
+    check("build_issue_body: سطر «بديل» يظهر مباشرة بعد عنوان مسودة التحقيق "
+          "ويذكر رقم المقال (1، ترتيبه الأول في القائمة)",
+          "🔀 بديل للمنشور رقم 1" in lines[investigation_idx + 2],
           lines[investigation_idx:investigation_idx + 3])
     plain_block = "\n".join(lines[plain_idx:plain_idx + 4])
     check("build_issue_body: مسودة بلا sibling_id لا تحمل سطر «بديل» إطلاقًا",
-          "🔀 بديل لنفس المدخل" not in plain_block, plain_block)
+          "🔀 بديل" not in plain_block, plain_block)
 
 
 def test_setimage_rebuild_card_uses_all_image_candidates() -> None:
@@ -11567,9 +11576,15 @@ def test_insights_analysis() -> None:
     check("مقارنة الترند محسوبة", a["trend"][0] > a["trend"][2])
 
     recs = recommendations(a, load_config())
-    joined = " ".join(recs)
+    check("recommendations تعيد قواميس لا نصوصًا (Issue #769)",
+          all(isinstance(r, dict) and "id" in r and "text" in r for r in recs), recs)
+    joined = " ".join(r["text"] for r in recs)
     check("يوصي برفع وزن الترند", "ارفع" in joined and "trends.weight" in joined, joined[:120])
     check("يوصي بناءً على الصور", "صورة" in joined or "المصادر" in joined)
+    trend_rec = next(r for r in recs if r["key"] == "trends.weight")
+    check("مقترح trends.weight يحمل current/suggested رقميين",
+          isinstance(trend_rec["current"], float) and isinstance(trend_rec["suggested"], float),
+          trend_rec)
 
     check("لا انهيار مع بيانات فارغة", analyse([], "UTC") == {})
 
@@ -11606,6 +11621,207 @@ def test_insights_collect_includes_analysis_origin() -> None:
 
     check("insights.collect لا ينهار على مسودة تحليل بلا حقل image، وتظهر في المخرجات",
           any(r["id"] == "ins_analysis1" for r in rows), rows)
+
+
+def test_insights_weakest_performing_section() -> None:
+    """Issue #769: قسم «📉 أضعف أداءً» نظير «🏆 الأفضل أداءً» القائم -- يعرض
+    أدنى خمسة تفاعلًا لا أعلاها، بنفس شكل الجدول."""
+    from src.insights import analyse, build_report
+
+    base = datetime(2026, 8, 1, 15, 0, tzinfo=timezone.utc).isoformat()
+    rows = [
+        {"id": f"r{i}", "title": f"خبر {i}", "category": "عالم", "urgent": False,
+         "trend_score": 0.0, "state_media": False, "publishers": ["X"],
+         "published_at": base, "has_photo": True,
+         "reactions": i * 10, "comments": 0, "shares": 0, "engagement": i * 10}
+        for i in range(1, 8)
+    ]
+    a = analyse(rows, "UTC")
+    check("bottom يحمل خمس مسودات لا ثلاثًا", len(a["bottom"]) == 5, a["bottom"])
+    check("bottom تصاعدي -- الأدنى تفاعلًا أولًا",
+          [r["engagement"] for r in a["bottom"]] == sorted(r["engagement"] for r in rows)[:5])
+
+    report = build_report(a, [], 30)
+    weakest_idx = report.index("#### 📉 أضعف أداءً")
+    best_idx = report.index("#### 🏆 الأفضل أداءً")
+    check("قسم «أضعف أداءً» يظهر بعد «الأفضل أداءً»", weakest_idx > best_idx)
+    weakest_block = report[weakest_idx:report.index("####", weakest_idx + 5)]
+    check("قسم «أضعف أداءً» يعرض القيمة الأدنى فعليًا (10) لا الأعلى (70)",
+          "| 10 |" in weakest_block and "| 70 |" not in weakest_block, weakest_block)
+
+
+def test_insights_rejections_section() -> None:
+    """Issue #769: قائمة «🚫 ما رُفض» الكاملة تلتزم نافذة التقرير وسقف ٤٠
+    مدخلة، وتُعلن الفائض بسطر «و N أخرى»."""
+    from src.insights import rejections_section
+
+    now = datetime.now(timezone.utc)
+    entries = [
+        {"id": f"rej{i}", "tag": "ضعيف", "note": "", "title": f"عنوان {i}",
+         "source_title": "", "publishers": [], "region": "", "bucket": "",
+         "origin": "news", "at": (now - timedelta(days=1)).isoformat()}
+        for i in range(45)
+    ]
+    entries.append({
+        "id": "old1", "tag": "قديم", "note": "", "title": "قديم جدًا خارج النافذة",
+        "source_title": "", "publishers": [], "region": "", "bucket": "",
+        "origin": "news", "at": (now - timedelta(days=90)).isoformat(),
+    })
+
+    lines = rejections_section(entries, days=30, limit=40)
+    body = "\n".join(lines)
+    check("قائمة المرفوضات مطوية داخل <details>", "<details>" in body and "</details>" in body)
+    check("لا تتجاوز السقف ٤٠ مدخلة معروضة",
+          sum(1 for ln in lines if ln.startswith("- **عنوان")) == 40, body)
+    check("تُعلن الفائض بسطر «و N أخرى»", "و 5 أخرى" in body, body)
+    check("مدخلة خارج نافذة الأيام لا تظهر", "قديم جدًا" not in body)
+    check("لا قائمة إطلاقًا إن لم تكن هناك مرفوضات ضمن النافذة",
+          rejections_section([], days=30) == [])
+
+
+def test_insights_recommendation_ids_and_choice_parsing() -> None:
+    """Issue #769: id المقترح لا يتغيّر حين تتغيّر أرقام نصّه وحدها؛
+    parse_recommendation_choices تقرأ القبول والرفض وتتجاهل ما لم يُعلَّم."""
+    from src.insights import parse_recommendation_choices, recommendations
+
+    cfg = load_config()
+
+    def make_a(best_avg, worst_avg):
+        return {
+            "count": 20,
+            "categories": [("تقنية", best_avg, 3), ("اقتصاد", 5.0, 3), ("ثقافة", worst_avg, 3)],
+            "hours": [], "trend": (0, 0, 0, 0), "photo": (0, 0, 0, 0), "publishers": [],
+        }
+
+    recs1 = recommendations(make_a(90.0, 10.0), cfg)
+    recs2 = recommendations(make_a(120.0, 5.0), cfg)
+    cat_rec1 = next(r for r in recs1 if "تصنيف" in r["text"])
+    cat_rec2 = next(r for r in recs2 if "تصنيف" in r["text"])
+    check("id المقترح بلا key ثابت رغم تغيّر الأرقام فيه فقط",
+          cat_rec1["id"] == cat_rec2["id"], (cat_rec1, cat_rec2))
+
+    body = (
+        f"- [x] ✅ أقبل  <!-- rec:{cat_rec1['id']}:yes -->\n"
+        f"- [ ] ❌ أرفض  <!-- rec:{cat_rec1['id']}:no -->\n"
+        "- [ ] ✅ أقبل  <!-- rec:trends.weight:yes -->\n"
+        "- [x] ❌ أرفض  <!-- rec:trends.weight:no -->\n"
+        "- [ ] ✅ أقبل  <!-- rec:fp_untouched:yes -->\n"
+        "- [ ] ❌ أرفض  <!-- rec:fp_untouched:no -->\n"
+    )
+    choices = parse_recommendation_choices(body)
+    check("قبول مُعلَّم يُقرأ yes", choices.get(cat_rec1["id"]) == "yes", choices)
+    check("رفض مُعلَّم يُقرأ no", choices.get("trends.weight") == "no", choices)
+    check("مقترح لم يُعلَّم عليه لا يظهر في القرارات إطلاقًا",
+          "fp_untouched" not in choices, choices)
+
+
+def test_insights_sync_does_not_refresh_unchanged_decision() -> None:
+    """Issue #769: sync_previous_decisions لا يُحدّث decided_at حين يقرأ
+    القرار نفسه مرة أخرى (نفس Issue قد يُقرأ أكثر من مرة قبل فتح تقرير
+    جديد، مثلًا أسبوع بلا مسودات) -- وإلا تمدَّدت نافذة الثمانية أسابيع
+    بلا نهاية طالما لم يتغيّر شيء فعليًا."""
+    from src import insights
+
+    if insights.DECISIONS_FILE.exists():
+        insights.DECISIONS_FILE.unlink()
+
+    insights._save_last_issue(4242, [
+        {"id": "fp_stale_rec", "text": "مقترح ثابت", "key": None, "suggested": None},
+    ])
+    fake_body = ("- [x] ❌ أرفض  <!-- rec:fp_stale_rec:no -->\n"
+                 "- [ ] ✅ أقبل  <!-- rec:fp_stale_rec:yes -->\n")
+
+    real_fetch_body = review.fetch_issue_body
+    review.fetch_issue_body = lambda issue_number: fake_body  # type: ignore
+    try:
+        insights.sync_previous_decisions()
+        first_decided_at = insights._load_decisions()["fp_stale_rec"]["decided_at"]
+
+        insights.sync_previous_decisions()
+        second_decided_at = insights._load_decisions()["fp_stale_rec"]["decided_at"]
+    finally:
+        review.fetch_issue_body = real_fetch_body
+
+    check("قراءة نفس القرار مرتين لا تُحدّث decided_at",
+          first_decided_at == second_decided_at,
+          (first_decided_at, second_decided_at))
+
+    if insights.LAST_ISSUE_FILE.exists():
+        insights.LAST_ISSUE_FILE.unlink()
+    if insights.DECISIONS_FILE.exists():
+        insights.DECISIONS_FILE.unlink()
+
+
+def test_insights_closed_loop() -> None:
+    """Issue #769: الحلقة المغلقة -- مقترح مرفوض لا يظهر في التقرير التالي
+    ويظهر بعد ثمانية أسابيع؛ مقترح مقبول ولم تتغيّر قيمته يظهر «لم تُطبَّق
+    بعد»، وإن تغيّرت يظهر «طُبّقت» ويسقط من التتبّع؛ وغياب
+    insights_last_issue.json لا يُسقط التشغيلة."""
+    from src import insights
+
+    if insights.LAST_ISSUE_FILE.exists():
+        insights.LAST_ISSUE_FILE.unlink()
+    if insights.DECISIONS_FILE.exists():
+        insights.DECISIONS_FILE.unlink()
+
+    # غياب insights_last_issue.json (أول تشغيلة بعد هذا التغيير) لا ينهار
+    insights.sync_previous_decisions()
+
+    cfg = load_config()
+    now = datetime.now(timezone.utc)
+
+    decisions = {
+        "trends.weight": {
+            "id": "trends.weight", "text": "مقترح رفع وزن الترند",
+            "key": "trends.weight", "suggested": 999.0,
+            "decision": "accepted", "decided_at": now.isoformat(), "reported": False,
+        },
+        "fp_reject_fresh": {
+            "id": "fp_reject_fresh", "text": "مقترح رُفض للتو",
+            "key": None, "suggested": None,
+            "decision": "rejected", "decided_at": now.isoformat(), "reported": False,
+        },
+        "fp_reject_old": {
+            "id": "fp_reject_old", "text": "مقترح رُفض قبل تسعة أسابيع",
+            "key": None, "suggested": None,
+            "decision": "rejected",
+            "decided_at": (now - timedelta(days=63)).isoformat(), "reported": True,
+        },
+    }
+    insights._save_decisions(decisions)
+
+    hidden = insights.suppressed_ids(insights._load_decisions())
+    check("مقترح رُفض حديثًا يبقى مخفيًا (أقل من ٨ أسابيع)",
+          "fp_reject_fresh" in hidden, hidden)
+    check("مقترح رُفض قبل تسعة أسابيع لم يعد مخفيًا",
+          "fp_reject_old" not in hidden, hidden)
+
+    lines = insights.decisions_report(cfg)
+    body = "\n".join(lines)
+    check("مقترح مقبول ولم تتغيّر قيمته يظهر «لم تُطبَّق بعد» (⏳)",
+          "⏳" in body and "trends.weight" in body, body)
+    check("مقترح رُفض للتو يظهر مرة واحدة في «قراراتك السابقة»",
+          "رفضتَ" in body, body)
+
+    stored = insights._load_decisions()
+    check("مقترح لم يُطبَّق بعد يبقى في التتبّع", "trends.weight" in stored, stored)
+    check("مقترح رُفض منتهي نافذة الإخفاء يُحذف من ملف التتبّع",
+          "fp_reject_old" not in stored, stored)
+
+    class FakeCfg:
+        def path(self, dotted, default=None):
+            return 999.0 if dotted == "trends.weight" else default
+
+    lines2 = insights.decisions_report(FakeCfg())
+    body2 = "\n".join(lines2)
+    check("مقترح طُبّقت قيمته فعليًا يظهر «✅ طُبّقت»", "طُبّقت" in body2, body2)
+    stored2 = insights._load_decisions()
+    check("مقترح طُبّقت يُحذف من التتبّع", "trends.weight" not in stored2, stored2)
+
+    if insights.LAST_ISSUE_FILE.exists():
+        insights.LAST_ISSUE_FILE.unlink()
+    if insights.DECISIONS_FILE.exists():
+        insights.DECISIONS_FILE.unlink()
 
 
 def test_collect_feedback_rejects_analysis_draft_without_image() -> None:
@@ -14719,6 +14935,13 @@ def main() -> int:
     print("\n── تحليل الأداء ──")
     test_insights_analysis()
     test_insights_collect_includes_analysis_origin()
+    print("\n── تقرير الأداء: أضعف أداءً وقائمة المرفوضات (Issue #769) ──")
+    test_insights_weakest_performing_section()
+    test_insights_rejections_section()
+    print("\n── تقرير الأداء: المقترحات كخيارات + الحلقة المغلقة (Issue #769) ──")
+    test_insights_recommendation_ids_and_choice_parsing()
+    test_insights_sync_does_not_refresh_unchanged_decision()
+    test_insights_closed_loop()
     print("\n── تحصين القرّاء الأربعة أمام مسودة تحليل بلا حقل image (Issue #749) ──")
     test_setimage_rejects_analysis_draft_without_card()
     test_collect_feedback_rejects_analysis_draft_without_image()

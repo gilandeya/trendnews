@@ -72,6 +72,8 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         "",
     ]
 
+    id_to_idx = {dd["id"]: i for i, dd in enumerate(drafts, start=1)}
+
     for idx, d in enumerate(drafts, start=1):
         img_path = d["image"]
         ar = d["arabic"]
@@ -100,8 +102,15 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         if d.get("sibling_id"):
             # Issue #765، بند 3: مقال ومنشور تحقيق من نفس المدخل يظهران
             # كمسودتين منفصلتين تحملان sibling_id متبادلًا — لا واجهة جديدة،
-            # المربعات القائمة تكفي (اعتمد أحدهما أو كليهما أو لا شيء)
-            parts += ["  🔀 بديل لنفس المدخل — اعتمد أحدهما أو كليهما أو لا شيء.", ""]
+            # المربعات القائمة تكفي (اعتمد أحدهما أو كليهما أو لا شيء).
+            # تصحيح Issue #769: المسودتان قد لا تتجاوران بين مسودات الأخبار،
+            # فالسطر يذكر رقم المنشور المقابل صراحة متى وُجد في نفس الـIssue
+            # — لا يكفي القول «بديل لنفس المدخل» بلا تحديد أيّهما.
+            sib_idx = id_to_idx.get(d["sibling_id"])
+            if sib_idx is not None:
+                parts += [f"  🔀 بديل للمنشور رقم {sib_idx} — اعتمد أحدهما أو كليهما أو لا شيء.", ""]
+            else:
+                parts += ["  🔀 بديل لنفس المدخل — اعتمد أحدهما أو كليهما أو لا شيء.", ""]
         parts += [
             f"  {badge} · مؤشر الترند `{d['score']:.1f}` · المصادر: "
             f"{'، '.join(d['source']['publishers'][:3])}",
