@@ -114,6 +114,24 @@ def is_duplicate(entries: list[dict], title: str, link: str,
 # ──────────────────────────── المسودات ────────────────────────────
 
 
+CANONICAL_ORIGINS = {"news", "breaking", "request", "verify", "article", "analysis"}
+
+
+def origin_of(draft: dict) -> str:
+    """أصل المسودة بقيمة معيارية واحدة، بثلاثة مرادفات للقديم على القرص
+    (Issue #749): "youtube" (قبل توحيد القيم إلى "analysis") و"collect"
+    (decisions.py كتبها افتراضيًا لمدة طويلة قبل هذا التوحيد) كلاهما له
+    قيمة معيارية مختلفة، والغياب (المسار العادي/الرادار القديمان لم يكتبا
+    الحقل إطلاقًا) يُعامَل مثل "collect" — لا سبيل لتمييز مسودة رادار قديمة
+    عن مسودة جمع عادية قديمة، فالدالة لا تحاول."""
+    origin = draft.get("origin")
+    if origin == "youtube":
+        return "analysis"
+    if not origin or origin == "collect":
+        return "news"
+    return origin
+
+
 def draft_dir(when: datetime | None = None) -> Path:
     when = when or datetime.now(timezone.utc)
     return DRAFTS_DIR / when.strftime("%Y-%m-%d")

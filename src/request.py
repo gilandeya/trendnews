@@ -239,7 +239,7 @@ def main() -> int:
             continue
 
         draft = radar.build_draft(art, cfg, urgent=False,
-                                  extra={"from_request": query})
+                                  extra={"from_request": query, "origin": "request"})
         if not draft:
             skipped.append((art.title, "رُفض عند الصياغة أو تعذّرت قراءة نصه"))
             continue

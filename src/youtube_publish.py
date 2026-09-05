@@ -29,9 +29,10 @@ youtube.publish.max_per_run/spacing_minutes) مع هذا المسار. لكن ع
 `youtube-approved` — نصّان متفقٌ عليهما بشريًا، لا حاجزًا برمجيًا، ووسم خاطئ
 واحد كفى لتفويت الحاجز كليًا. الحل الدائم لم يكن وسمًا ثانيًا بل توجيه
 برمجي: `publish.main` (publish.py) يقرأ حقل `origin` **لكل مسودة معتمَدة على
-حدة** عند وسم `approved` ويوجّهها إلى `publish_ids`/`report_batch` هنا إن
-كانت `origin == "youtube"` (استيراد مؤجَّل داخل الدالة تفاديًا للدوران—انظر
-توثيق publish.py). بما أن هذا التوجيه وحده -- لا اسم الوسم -- هو ما يمنع
+حدة** عند وسم `approved` عبر `store.origin_of` ويوجّهها إلى
+`publish_ids`/`report_batch` هنا إن كانت قيمته المعيارية `"analysis"`
+(استيراد مؤجَّل داخل الدالة تفاديًا للدوران—انظر توثيق publish.py). بما أن
+هذا التوجيه وحده -- لا اسم الوسم -- هو ما يمنع
 النشر المزدوج، لم يعد لوسم مخصّص أي غرض دفاعي: Issue #745 وحّد الوسم إلى
 `approved` وحده في كل نصوص المراجعة هنا (build_review_body،
 publish_approved)، ووسم فتح المراجعة `youtube-review` يبقى كما هو (وسم عرض
@@ -43,8 +44,8 @@ publish_approved)، ووسم فتح المراجعة `youtube-review` يبقى �
 المراجعة (open_review)، وإلا 404 روابط raw.githubusercontent.com فيه (قيد
 موثَّق في CLAUDE.md وtests/test_pipeline.py لسير الجمع الأصلي، ينطبق هنا
 حرفيًا لنفس السبب). دمجهما في نداء واحد كان يفتح الـ Issue قبل أن تصل الصور
-إلى الفرع. open_review() تفلتر على origin == "youtube" تحديدًا (لا
-store.pending_drafts() الخام كما في src/open_review.py) حتى لا تلتقط مسودات
+إلى الفرع. open_review() تفلتر على store.origin_of(...) == "analysis" تحديدًا
+(لا store.pending_drafts() الخام كما في src/open_review.py) حتى لا تلتقط مسودات
 المسار العام العادي التي قد تكون معلَّقة في نفس اللحظة (لا تشترك
 youtube-articles.yml وcollect.yml مجموعة تزامن واحدة، فتشغيلهما معًا وارد) —
 وتُثبِّت review_issue على كل مسودة فور فتح الـ Issue، فتخرج من نافذة الالتقاط
@@ -416,7 +417,10 @@ def build_draft(row: dict, date_str: str, articles_dir: Path, cfg) -> dict | Non
         "id": draft_id,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "status": "pending",
-        "origin": "youtube",
+        # القيمة المعيارية (Issue #749) -- المسودات القديمة على القرص تحمل
+        # "youtube" (قبل التوحيد)، وstore.origin_of تُرجعها "analysis" عند
+        # القراءة بلا حاجة لتعديلها؛ الجديدة تُكتب معيارية مباشرة.
+        "origin": "analysis",
         "title": default_title,
         "tier": row["layer"],
         "blocs": row["blocs"],
@@ -694,10 +698,11 @@ def build(cfg=None, date_str: str | None = None, now: datetime | None = None) ->
 
 def pending_youtube_drafts() -> list[tuple[Path, dict]]:
     """مثل store.pending_drafts() لكن مقصورة على مسودات هذا المسار
-    (origin == "youtube") التي لم تُربَط بـIssue مراجعة بعد — لا الفحص الخام
-    الذي يستعمله src/open_review.py للمسار العام (انظر توثيق الوحدة أعلاه)."""
+    (store.origin_of(...) == "analysis") التي لم تُربَط بـIssue مراجعة بعد —
+    لا الفحص الخام الذي يستعمله src/open_review.py للمسار العام (انظر توثيق
+    الوحدة أعلاه)."""
     return [(p, d) for p, d in store.pending_drafts()
-            if d.get("origin") == "youtube" and not d.get("review_issue")]
+            if store.origin_of(d) == "analysis" and not d.get("review_issue")]
 
 
 def open_review(cfg=None, now: datetime | None = None) -> dict:
