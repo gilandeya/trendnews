@@ -1,0 +1,55 @@
+{
+  "id": "528a521e3dc5",
+  "created_at": "2026-09-05T03:07:47.885229+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.96,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Volkswagen flags 50,000 job cuts across group as board approves turnaround plan",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-04-volkswagen-flags-50000-job-cuts-across-group-as-board-approves-turnaround-plan/",
+  "publishers": [
+    "Daily Maverick",
+    "MyJoyOnline Ghana"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Volkswagen flags 50,000 job cuts across group as board approves turnaround plan",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-04-volkswagen-flags-50000-job-cuts-across-group-as-board-approves-turnaround-plan/",
+    "summary": "BERLIN/FRANKFURT/MEXICO CITY, Sept 3 (Reuters) - Volkswagen's supervisory board on Thursday approved a transformation plan that will include cutting another 50,000 jobs in its attempt to counter painful tariffs, overcapacity and aggressive Chinese rivals.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-04T04:49:34+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/dailymaverick/wp-content/uploads/2024/09/416670831.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-04-volkswagen-flags-50000-job-cuts-across-group-as-board-approves-turnaround-plan/"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/volkswagen-board-approves-plan-to-cut-another-50000-jobs/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/dailymaverick/wp-content/uploads/2024/09/416670831.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-611.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 754.9113228611111,
+    "is_stale": false,
+    "score": 15.963207431129629
+  }
+}

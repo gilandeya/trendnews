@@ -1,0 +1,63 @@
+{
+  "id": "f3cfcac9ec0b",
+  "created_at": "2026-09-05T03:07:47.884036+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.84,
+  "trend_score": 1.0,
+  "velocity": 0.13,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Emptying West Bank refugee camps may be a war crime: UN",
+  "link": "https://www.dawn.com/news/2027624/emptying-west-bank-refugee-camps-may-be-a-war-crime-un",
+  "publishers": [
+    "Daily Sabah",
+    "Dawn",
+    "Free Malaysia Today"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Emptying West Bank refugee camps may be a war crime: UN",
+    "link": "https://www.dawn.com/news/2027624/emptying-west-bank-refugee-camps-may-be-a-war-crime-un",
+    "summary": "GENEVA: The United Nations warned on Friday that Israel’s forced displacement of the entire Palestinian populations of three West Bank refugee camps last year could amount to crimes against humanity. The UN rights office described how a military operation launched in the north of the occupied territory in January 2025 had forcibly displaced over 33,000 people. At the start of operation “Iron Wall”, Israeli military, police and other forces entered the camps and killed civilians, destroyed hundreds of homes and damaged infrastructure, it said. They cut off water and electricity and barred humanitarian access to the camps before going door to door forcing residents to leave, it added. Israel’s actions raise concerns of ethnic cleansing, says UN rights office; two Israeli ministers seek removal of Palestinians from Gaza A few days into the operation, Israeli security forces “consolidated their control” over the camps and “forcibly displaced their population in their entirety”, the report said. “The large-scale, long-term and systematic displacement of over 33,000 Palestinian refugees from refugee camps such as Jenin, Nur Shams and Tulkarm during Israel’s Operation Iron Wall … raises s",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-05T02:36:23+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/050326094093962.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Dawn",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2027624/emptying-west-bank-refugee-camps-may-be-a-war-crime-un"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/04/israel-emptying-west-bank-refugee-camps-could-be-crime-against-humanity"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/fury-grows-as-israel-plans-to-displace-186m-palestinians-from-gaza"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/050326094093962.webp",
+      "https://i.dawn.com/thumbnail/2026/09/050326094093962.webp",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/04/ea98e260-israel-tanks.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/04/459137.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.13337104493729618,
+    "age_hours": 754.9112455747222,
+    "is_stale": false,
+    "score": 22.836968683368468
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "66ebfbef1041",
+  "created_at": "2026-09-05T03:07:47.885038+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.13,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Volkswagen confirms cutting 50,000 jobs as part of its survival plan",
+  "link": "https://www.engadget.com/2250927/volkswagen-confirms-future-plan-2030-50000-job-cuts/",
+  "publishers": [
+    "Engadget",
+    "Hindustan Times — World"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Volkswagen confirms cutting 50,000 jobs as part of its survival plan",
+    "link": "https://www.engadget.com/2250927/volkswagen-confirms-future-plan-2030-50000-job-cuts/",
+    "summary": "The Volkswagen Group has revealed a 'transformation program' that includes layoffs, potential factory closures and brand shutdowns.",
+    "source_name": "Engadget",
+    "region": "tech",
+    "weight": 0.9,
+    "published": "2026-09-04T11:46:06+00:00",
+    "image_url": "https://www.engadget.com/img/gallery/volkswagen-confirms-cutting-50000-jobs-as-part-of-its-survival-plan/l-intro-1788522292.jpg",
+    "publisher": "Engadget",
+    "cluster_sources": [
+      "Engadget",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2250927/volkswagen-confirms-future-plan-2030-50000-job-cuts/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/volkswagen-to-cut-another-50-000-jobs-as-part-of-its-biggest-restructuring-plan-101788522660983.html"
+      }
+    ],
+    "image_candidates": [
+      "https://www.engadget.com/img/gallery/volkswagen-confirms-cutting-50000-jobs-as-part-of-its-survival-plan/l-intro-1788522292.jpg",
+      "https://www.engadget.com/img/gallery/volkswagen-confirms-cutting-50000-jobs-as-part-of-its-survival-plan/intro-1788522292.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 754.9113185683334,
+    "is_stale": false,
+    "score": 16.126022244833333
+  }
+}
