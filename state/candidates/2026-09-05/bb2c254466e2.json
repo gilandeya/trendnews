@@ -1,0 +1,48 @@
+{
+  "id": "bb2c254466e2",
+  "created_at": "2026-09-05T12:07:48.041485+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.37,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Tunisie : le journaliste Mohamed Yousfi interpellé avant un passage à la radio, où il devait parler de la crise de l’eau",
+  "link": "https://www.lemonde.fr/afrique/article/2026/09/05/tunisie-le-journaliste-mohamed-yousfi-interpelle-avant-un-passage-a-la-radio-ou-il-devait-parler-de-la-crise-de-l-eau_6766329_3212.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Tunisie : le journaliste Mohamed Yousfi interpellé avant un passage à la radio, où il devait parler de la crise de l’eau",
+    "link": "https://www.lemonde.fr/afrique/article/2026/09/05/tunisie-le-journaliste-mohamed-yousfi-interpelle-avant-un-passage-a-la-radio-ou-il-devait-parler-de-la-crise-de-l-eau_6766329_3212.html",
+    "summary": "L’interpellation de Mohamed Yousfi survient alors qu’il devait s’exprimer sur la crise de l’eau, dans un contexte de pressions accrues sur les voix critiques en Tunisie.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-09-05T10:55:35+00:00",
+    "image_url": "https://img.lemde.fr/2026/09/05/487/0/5900/2950/644/322/60/0/d1096ba_upload-1-ps4udtszi6ai-2023-01-29t072857z-1907874311-rc270z9x4sy4-rtrmadp-3-tunisia-election.JPG",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/afrique/article/2026/09/05/tunisie-le-journaliste-mohamed-yousfi-interpelle-avant-un-passage-a-la-radio-ou-il-devait-parler-de-la-crise-de-l-eau_6766329_3212.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/09/05/487/0/5900/2950/644/322/60/0/d1096ba_upload-1-ps4udtszi6ai-2023-01-29t072857z-1907874311-rc270z9x4sy4-rtrmadp-3-tunisia-election.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.36989716312963
+  }
+}
