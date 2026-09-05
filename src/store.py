@@ -129,6 +129,11 @@ def origin_of(draft: dict) -> str:
         return "analysis"
     if not origin or origin == "collect":
         return "news"
+    if origin not in CANONICAL_ORIGINS:
+        # قيمة غير معيارية وغير مرادفة معروفة — على الأرجح خطأ إملائي في
+        # موضع كتابة جديد. تُكتشف مبكرًا هنا بلا أي تغيير في السلوك: القيمة
+        # تُعاد كما هي، فلا قارئ يتفاجأ.
+        log.warning("origin غير معياري وغير مرادف معروف: %r", origin)
     return origin
 
 
