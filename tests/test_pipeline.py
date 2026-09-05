@@ -10153,6 +10153,336 @@ def test_article_source_facts() -> None:
           'acfg.get("source_extract_enabled", False)' in inspect.getsource(article._write_article))
 
 
+def test_article_draft_investigation() -> None:
+    """منشور «تحقيق» من outcome._write_article نفسه (Issue #765): يُصاغ من
+    report_statements المؤكَّدة/dropped/diffs/sources/question حصرًا بعد
+    نجاح المقال -- القيد البنيوي الملزم (نظير رأس verify_draft.py) هو
+    التوقيع نفسه: لا يقبل body إطلاقًا، لا مراجعة يدوية تضمن ذلك."""
+    from src import article
+
+    sig_params = inspect.signature(article.draft_investigation).parameters
+    check("draft_investigation: التوقيع لا يقبل body إطلاقًا -- ضمان بنيوي "
+          "نظير verify_draft._draft_from_facts",
+          "body" not in sig_params, list(sig_params))
+
+    cfg = load_config()
+
+    def _base_outcome(**overrides) -> dict:
+        out = article._new_outcome()
+        out.update({
+            "produced": True, "reason": "صيغ مقال اختباري", "draft_id": "art00000001",
+            "question": "هل وقع الحدث فعلًا؟",
+            "sources": [{"name": "مصدر أول", "link": "https://s1/1"},
+                       {"name": "مصدر ثانٍ", "link": "https://s2/1"}],
+            "report_statements": [
+                {"publisher": "منصة تقارير", "text": "نشرت منصة تقارير أن كذا وقع",
+                 "sources": [{"name": "ناقل مستقل", "link": "https://c/1", "kind": "carrier"}]},
+            ],
+            "dropped": [
+                {"text": "ادّعى الموجز أن شخصًا مجهولًا فعل كذا",
+                 "reason": "سند غير كافٍ (0 من 2 مصادر مستقلة مطلوبة)"},
+            ],
+            "diffs": [
+                {"brief": "الموجز قال إن الحدث وقع في المكان أ",
+                 "sources_say": "المصادر المستقلة تقول إنه وقع في المكان ب"},
+            ],
+        })
+        out.update(overrides)
+        return out
+
+    real_draft_text = article._draft_investigation_text
+    real_unsourced = article._unsourced_entities
+    real_find_images = article.find_images
+    # يُعزَل فحص _unsourced_entities هنا عمدًا (يعيد [] دومًا): هذا الاختبار
+    # يغطي إعادة المحاولة على الكلمة النافية الممنوعة تحديدًا (القاعدة 1)
+    # بمعزل عن حساسية مطابقة الكيانات النصية (القاعدة 2، مغطاة سلوكيًا عبر
+    # _investigation_known_facts نفسها بلا حاجة لصياغة فعلية من نموذج).
+    article._unsourced_entities = lambda *a, **k: []
+    article.find_images = lambda topic, cfg, terms=None: []
+
+    try:
+        # ── dropped وdiffs فارغان معًا: لا شيء يستحق تحقيقًا -- None بلا أي
+        # نداء صياغة إطلاقًا ──
+        calls_none: list = []
+
+        def _record_none(*a, **k):
+            calls_none.append(1)
+            return None, ""
+
+        article._draft_investigation_text = _record_none
+        out_empty = _base_outcome(dropped=[], diffs=[])
+        result_empty = article.draft_investigation(out_empty, cfg)
+        check("draft_investigation: dropped وdiffs فارغان معًا ← None بلا أي نداء صياغة",
+              result_empty is None and not calls_none, (result_empty, calls_none))
+
+        # ── فشل المقال (produced=False): لا تحقيق أصلًا -- لا أدلة كافية ──
+        calls_failed: list = []
+
+        def _record_failed(*a, **k):
+            calls_failed.append(1)
+            return None, ""
+
+        article._draft_investigation_text = _record_failed
+        out_failed = _base_outcome(produced=False)
+        result_failed = article.draft_investigation(out_failed, cfg)
+        check("draft_investigation: فشل المقال (produced=False) ← None بلا أي محاولة "
+              "صياغة تحقيق",
+              result_failed is None and not calls_failed, (result_failed, calls_failed))
+
+        # ── مخرَج فيه كلمة نافية ممنوعة (القاعدة 1) يُرفض ويُعاد المحاولة؛
+        # نجاح المحاولة الثانية يُنتج مسودة فعلية ──
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        article_draft = {
+            "id": "art00000001", "status": "pending", "origin": "article",
+            "bucket": "serious",
+            "image": "drafts/2026-01-01/art00000001.jpg",
+            "arabic": {"post_title": "عنوان المقال", "category": "عالم"},
+            "caption": "متن المقال", "source": {"publishers": ["مصدر أول"]},
+        }
+        store.save_draft(article_draft)
+
+        forbidden_calls: list = []
+
+        def _forbidden_then_ok(report_statements, dropped, diffs, sources, question, cfg,
+                               retries=3, avoid_note=""):
+            forbidden_calls.append(avoid_note)
+            body = ("هذا الادّعاء كاذب ومفبرك بالكامل." if len(forbidden_calls) == 1
+                    else "لم نجد مصدرًا مستقلًا يؤكد هذا الادّعاء.")
+            return ({"angle": "تحقيق", "analysis": "", "urgent": False, "category": "عالم",
+                    "image_headline": "عنوان تحقيق", "post_title": "عنوان تحقيق",
+                    "post_body": body, "hashtags": ["تحقيق"]}, "")
+
+        article._draft_investigation_text = _forbidden_then_ok
+        out_ok = _base_outcome()
+        result_ok = article.draft_investigation(out_ok, cfg)
+
+        check("draft_investigation: كلمة نافية ممنوعة (كاذب/مفبرك) في المحاولة الأولى "
+              "تُرفض وتُعاد المحاولة مرة واحدة",
+              len(forbidden_calls) == 2, forbidden_calls)
+        check("draft_investigation: المحاولة الأولى بلا توجيه تفادٍ (avoid_note فارغ)",
+              forbidden_calls[0] == "", forbidden_calls)
+        check("draft_investigation: توجيه المحاولة الثانية غير فارغ",
+              bool(forbidden_calls[1]), forbidden_calls)
+        check("draft_investigation: المحاولة الثانية (بلا كلمة نافية) تُنتج مسودة فعلية",
+              result_ok is not None, result_ok)
+
+        if result_ok is not None:
+            check("draft_investigation: المسودة الناتجة تحمل sibling_id بمعرّف المقال",
+                  result_ok["sibling_id"] == "art00000001", result_ok.get("sibling_id"))
+            reloaded_article = store.load_draft("art00000001")[1]
+            check("draft_investigation: مسودة المقال حُدِّثت بـsibling_id بمعرّف "
+                  "منشور التحقيق -- sibling_id متبادل بين المسودتين",
+                  reloaded_article.get("sibling_id") == result_ok["id"],
+                  (reloaded_article.get("sibling_id"), result_ok["id"]))
+            check("draft_investigation: origin يبقى \"article\" كما اليوم (يصير "
+                  "investigation في شريحة لاحقة، لا الآن)",
+                  result_ok["origin"] == "article", result_ok["origin"])
+            check("draft_investigation: is_investigation=True (علامة داخلية للنشر، "
+                  "بند 3)",
+                  result_ok.get("is_investigation") is True, result_ok.get("is_investigation"))
+            check("draft_investigation: status=pending -- لا نشر تلقائي بحال",
+                  result_ok["status"] == "pending", result_ok["status"])
+
+            report = article.build_report(out_ok, result_ok)
+            check("build_report: يذكر معرّف مسودة المقال",
+                  "art00000001" in report, report)
+            check("build_report: يذكر معرّف منشور التحقيق أيضًا -- سطر لكل مسودة",
+                  result_ok["id"] in report, report)
+
+        # ── فشل نهائي (كلمة نافية في المحاولتين معًا) لا يُسقط مسودة المقال
+        # المحفوظة سلفًا -- والعكس أيضًا (فشل المقال أعلاه لا صلة له بهذا) ──
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        store.save_draft(article_draft)
+
+        def _always_forbidden(report_statements, dropped, diffs, sources, question, cfg,
+                              retries=3, avoid_note=""):
+            return ({"angle": "تحقيق", "analysis": "", "urgent": False, "category": "عالم",
+                    "image_headline": "عنوان", "post_title": "عنوان تحقيق",
+                    "post_body": "هذا الادّعاء كاذب.", "hashtags": []}, "")
+
+        article._draft_investigation_text = _always_forbidden
+        out_bad = _base_outcome()
+        result_bad = article.draft_investigation(out_bad, cfg)
+
+        check("draft_investigation: فشل الفحص البنيوي في المحاولتين معًا ← امتناع نهائي "
+              "(None)",
+              result_bad is None, result_bad)
+        reloaded_article_2 = store.load_draft("art00000001")[1]
+        check("draft_investigation: فشل صياغة التحقيق لا يُسقط مسودة المقال المحفوظة "
+              "سلفًا -- تبقى pending كما هي",
+              reloaded_article_2 is not None and reloaded_article_2.get("status") == "pending",
+              reloaded_article_2)
+    finally:
+        article._draft_investigation_text = real_draft_text
+        article._unsourced_entities = real_unsourced
+        article.find_images = real_find_images
+
+
+def test_review_sibling_alternate_line() -> None:
+    """review.build_issue_body: مسودة تحمل sibling_id (مقال ومنشور تحقيق من
+    نفس المدخل، Issue #765) تُعرض بسطر 🔀 «بديل لنفس المدخل» فوقها -- يظهر
+    لهما فقط، لا لأي مسودة أخرى بلا sibling_id."""
+    base = {
+        "score": 1.0, "bucket": "serious", "state_media": False,
+        "source": {"link": "https://x/1", "publishers": ["Ch"]},
+        "caption": "متن", "image": "drafts/2026-01-01/a.jpg",
+        "arabic": {"post_title": "", "category": ""},
+    }
+    draft_article = {**base, "id": "sib00000001", "arabic": {**base["arabic"], "post_title": "عنوان المقال"},
+                     "sibling_id": "sib00000002"}
+    draft_investigation = {**base, "id": "sib00000002",
+                           "arabic": {**base["arabic"], "post_title": "عنوان التحقيق"},
+                           "sibling_id": "sib00000001"}
+    draft_plain = {**base, "id": "sib00000003",
+                   "arabic": {**base["arabic"], "post_title": "عنوان عادي بلا أخت"}}
+
+    body = review.build_issue_body(
+        [draft_article, draft_investigation, draft_plain], "u/r", "main")
+
+    check("build_issue_body: سطر «بديل لنفس المدخل» يظهر مرتين فقط (لمسودتين "
+          "متبادلتَي sibling_id)",
+          body.count("🔀 بديل لنفس المدخل") == 2, body)
+
+    lines = body.splitlines()
+    article_idx = next(i for i, ln in enumerate(lines) if "sib00000001" in ln)
+    investigation_idx = next(i for i, ln in enumerate(lines) if "sib00000002" in ln)
+    plain_idx = next(i for i, ln in enumerate(lines) if "sib00000003" in ln)
+    check("build_issue_body: سطر «بديل» يظهر مباشرة بعد عنوان مسودة المقال",
+          "🔀 بديل لنفس المدخل" in lines[article_idx + 2], lines[article_idx:article_idx + 3])
+    check("build_issue_body: سطر «بديل» يظهر مباشرة بعد عنوان مسودة التحقيق",
+          "🔀 بديل لنفس المدخل" in lines[investigation_idx + 2],
+          lines[investigation_idx:investigation_idx + 3])
+    plain_block = "\n".join(lines[plain_idx:plain_idx + 4])
+    check("build_issue_body: مسودة بلا sibling_id لا تحمل سطر «بديل» إطلاقًا",
+          "🔀 بديل لنفس المدخل" not in plain_block, plain_block)
+
+
+def test_setimage_rebuild_card_uses_all_image_candidates() -> None:
+    """تصحيح من #760 (Issue #765، بند أول): rebuild_card حين لا manual_image
+    كانت تمرّر [url] فقط (أول عنصر في image_candidates) لـbuild_post_image
+    بصرف النظر عن عدد المرشحين الفعلي -- بطاقة مدمجة من صورتين (imaging.
+    build_post_image يدمج أول مرشَّحين ناجحين) تنهار صامتة إلى صورة واحدة
+    عند أي إعادة بناء (اختيار عنوان غير افتراضي، مثلًا). مسار apply_image
+    (رابط يدوي) يبقى صورة واحدة كما هو -- الإصلاح لا يمسّه."""
+    from src import setimage
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    cfg = load_config()
+
+    draft = {
+        "id": "cc5500000005", "status": "pending", "bucket": "serious",
+        "image": "drafts/rb5.jpg",
+        "arabic": {"post_title": "عنوان", "category": ""},
+        "source": {"publishers": ["A", "B"],
+                   "image_candidates": ["https://cdn.example/one.jpg",
+                                        "https://cdn.example/two.jpg"]},
+    }
+    store.save_draft(draft)
+
+    calls: list = []
+    real_build = setimage.build_post_image
+
+    def spy_build(**kwargs):
+        calls.append(kwargs.get("image_urls"))
+        return real_build(**kwargs)
+
+    setimage.build_post_image = spy_build
+    try:
+        new_rel = setimage.rebuild_card(Path("drafts/dummy.json"), draft, "عنوان جديد", cfg)
+    finally:
+        setimage.build_post_image = real_build
+
+    check("rebuild_card بلا manual_image: يمرّر image_candidates كاملة لا أول رابط فقط",
+          calls and calls[0] == draft["source"]["image_candidates"], calls)
+    check("rebuild_card: نجح البناء فعليًا", new_rel is not None, new_rel)
+
+    calls.clear()
+    setimage.build_post_image = spy_build
+    try:
+        updated = setimage.apply_image(draft["id"], "https://cdn.example/manual.jpg", cfg)
+    finally:
+        setimage.build_post_image = real_build
+
+    check("apply_image (رابط يدوي): يمرّر رابطًا واحدًا فقط -- الإصلاح لا يمسّ هذا المسار",
+          calls and calls[0] == ["https://cdn.example/manual.jpg"], calls)
+    check("apply_image: نجح التحديث فعليًا", updated is not None, updated)
+
+
+def test_publish_investigation_requires_review() -> None:
+    """بند 3، Issue #765: منشور تحقيق لا يُنشر تلقائيًا أبدًا -- publish.
+    cmd_now (نشر مباشر بمعرّف عبر --ids، issue_number=None) يرفض مسودة
+    تحمل is_investigation=True صراحة، لأن هذا المسار لا يقرأ مربعات اعتماد
+    Issue أصلًا. المسار المعتاد (ids من review.parse_approved، issue_number
+    حقيقي) يبقى يعمل بلا تغيير -- الحظر بـissue_number is None وحده، لا
+    بـis_investigation وحده."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    cfg = load_config()
+
+    inv_draft = {
+        "id": "inv00000001", "status": "pending", "bucket": "serious",
+        "is_investigation": True, "origin": "article",
+        "score": 0.0, "state_media": False,
+        "image": "drafts/2026-01-01/inv00000001.jpg",
+        "arabic": {"post_title": "عنوان تحقيق", "category": "عالم", "urgent": False},
+        "caption": "عنوان تحقيق\nمتن.",
+        "source": {"link": "https://x/inv1", "publishers": ["Ch"]},
+    }
+    store.save_draft(inv_draft)
+    image_path = DRAFTS_DIR / "2026-01-01" / "inv00000001.jpg"
+    image_path.parent.mkdir(parents=True, exist_ok=True)
+    image_path.write_bytes(b"\xff\xd8\xff")
+
+    real_publish_photo = facebook.publish_photo
+    real_root = publish_mod.ROOT
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    calls: list = []
+
+    def fake_publish_photo(image_path, caption, api_version, first_comment=None):
+        calls.append(caption)
+        return {"url": "https://fb.example/1", "id": "1"}
+
+    facebook.publish_photo = fake_publish_photo
+    try:
+        code_direct = publish_mod.cmd_now(["inv00000001"], cfg, None)
+    finally:
+        facebook.publish_photo = real_publish_photo
+
+    check("cmd_now(--ids مباشر، issue_number=None): يرفض مسودة تحقيق -- لا نشر",
+          not calls, calls)
+    check("cmd_now: تعيد 0 (لا تفشل التشغيلة) رغم الرفض",
+          code_direct == 0, code_direct)
+    persisted = store.load_draft("inv00000001")[1]
+    check("cmd_now (--ids مباشر): مسودة التحقيق تبقى pending -- لم تُنشر",
+          persisted["status"] == "pending", persisted["status"])
+
+    # ── المسار المعتاد (issue_number حقيقي، قادم فعليًا من review.parse_approved
+    # في المسار الطبيعي) ينشر بلا عائق -- الحظر خاص بـ--ids المباشر وحده ──
+    real_comment = review.comment
+    real_close = review.close_issue
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+    facebook.publish_photo = fake_publish_photo
+    try:
+        code_reviewed = publish_mod.cmd_now(["inv00000001"], cfg, 9765)
+    finally:
+        facebook.publish_photo = real_publish_photo
+        review.comment = real_comment
+        review.close_issue = real_close
+        publish_mod.ROOT = real_root
+
+    check("cmd_now (issue_number حقيقي -- المسار المعتاد بعد المراجعة): ينشر مسودة "
+          "التحقيق بلا عائق",
+          len(calls) == 1, calls)
+    check("cmd_now: تعيد 0",
+          code_reviewed == 0, code_reviewed)
+
+
 def test_reject_boxes_render() -> None:
     """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
     from src import review
@@ -14356,6 +14686,11 @@ def main() -> int:
     test_article_mentioned_sources()
     test_article_fetch_failure_gap()
     test_article_source_facts()
+    print("\n── منشور «تحقيق» من outcome._write_article (Issue #765) ──")
+    test_article_draft_investigation()
+    test_review_sibling_alternate_line()
+    test_setimage_rebuild_card_uses_all_image_candidates()
+    test_publish_investigation_requires_review()
     test_reject_boxes_render()
     test_reject_beats_approval()
     test_first_comment()

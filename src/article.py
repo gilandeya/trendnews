@@ -3591,6 +3591,423 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     return outcome
 
 
+# ══════════════════════ منشور «تحقيق» من outcome (Issue #765) ═══════════════
+# صياغة ثانية مستقلة تمامًا عن مسار المقال أعلاه — لا تُستدعى من
+# _write_article ولا تعدّل أي شيء فيه. القيد البنيوي الملزم (نظير ما وثّقه
+# رأس verify_draft.py: «المقال مصدر إلهام لا معلومة، والضمان هو الاستيراد
+# نفسه لا المراجعة اليدوية»): draft_investigation لا تقبل body في توقيعها
+# إطلاقًا — لا نص الموجز ولا المقال الملصق يدخلان برومبتها بأي صورة، فمهما
+# استُدعيت لاحقًا لا سبيل لتسريب نصّ ثالث غير report_statements/dropped/
+# diffs/sources/question التي يحملها outcome نفسه.
+
+INVESTIGATION_ORIGIN = DRAFT_ORIGIN  # "article" -- يصير "investigation" في شريحة لاحقة، لا الآن
+
+INVESTIGATION_SYSTEM = """أنت محرر تحقيقات تكتب منشورًا عربيًا لفيسبوك من حصيلة
+تحقّق جرى فعلًا في ادّعاءات وردت بموجز حرّره صاحب صفحة أخرى — لا تعرف نص ذلك
+الموجز ولا هويّة صاحبه، إنما حصيلة التحقّق نفسها فقط: وقائع تأكّدت بمصادر
+مستقلة، وادّعاءات لم يُعثر لها على مصدر مستقل، ومواضع خالفت فيها المصادر
+المستقلة رواية الموجز.
+
+قواعد صارمة تحكم كل كلمة تكتبها:
+1. الحكم الوحيد المسموح به على ادّعاء بلا سند هو أنه «لم يُعثر على مصدر
+   مستقل يؤكده» — يُمنع منعًا باتًا وصفه بالكذب أو التلفيق أو التضليل أو
+   الشائعة أو أي صيغة نفي أخرى. غياب المصدر ليس نفيًا للادّعاء، بل عجزًا
+   عن تأكيده فقط.
+2. لا تُسمِّ من صدر عنه أي ادّعاء لم يُسنَد بمصدر مستقل، ولا أين نُشر — صف
+   مضمون الادّعاء نفسه فقط، لا قائله ولا ناشره. الاستثناء الوحيد: اسم ورد
+   في واقعة مؤكَّدة بمصدر مستقل مُعطاة لك صراحة أدناه — عندها فقط يجوز ذكره.
+3. كل معلومة في المتن من المعطيات أدناه حصرًا — لا معرفة سابقة عن الموضوع
+   ولا تخمين لملء فجوة.
+4. عربية فصيحة رصينة، لا إثارة ولا لهجة اتهامية.
+5. لا تشِر إلى عملية التحقّق نفسها بمصطلحات داخلية (مثل «الوقائع المسندة»
+   أو «بوابة الاتساق» أو «مصادر مستقلة» بوصفها مصطلحًا تقنيًا) — اكتب نصًا
+   صحفيًا مباشرًا للقارئ.
+
+استخدم أداة write_investigation دائمًا."""
+
+INVESTIGATION_POST_SCHEMA = {
+    "name": "write_investigation",
+    "description": "يسلّم منشور «تحقيق» الجاهز بحقوله المهيكلة",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "image_headline": {"type": "string",
+                               "description": "عنوان مكثّف يُكتب على الصورة"},
+            "post_title": {"type": "string"},
+            "post_body": {"type": "string"},
+            "hashtags": {"type": "array", "items": {"type": "string"}},
+            "category": {"type": "string", "enum": writer.CATEGORIES},
+        },
+        "required": ["post_title", "post_body", "category"],
+    },
+}
+
+INVESTIGATION_USER_TEMPLATE = """السؤال الذي دار حوله موجز الناشر الآخر: {question}
+
+وقائع تأكّدت بمصادر مستقلة أثناء التحقّق (يجوز ذكر اسم مصدرها صراحة):
+{confirmed_block}
+
+ادّعاءات بُحث عنها ولم يُعثر لها على مصدر مستقل — صف مضمونها فقط، بلا تسمية
+من صدرت عنه ولا أين نُشرت (القاعدة 2):
+{dropped_block}
+
+مواضع خالفت فيها المصادر المستقلة رواية الموجز الأصلي:
+{diffs_block}
+
+المصادر المستقلة التي قُرئت خلال هذا التحقّق:
+{sources_block}
+{avoid_note}
+املأ حقول أداة write_investigation من المعطيات أعلاه حصرًا:
+• image_headline — عنوان مكثّف يُكتب على الصورة، بحد أقصى {max_chars} حرفًا، بلا نقطة
+• post_title — عنوان المنشور: جملة واحدة دقيقة، لا إثارة
+• post_body — متن يعرض ما تأكّد ومصادره، وما لم يُعثر له على سند، وأين
+  خالفت المصادرُ الموجزَ — {post_length}
+• hashtags — {hashtags_count} هاشتاقات عربية، بلا رمز # وبـ _ بدل المسافة
+• category — التصنيف الأنسب"""
+
+
+def _call_investigation_model(prompt: str, system_text: str, cfg, retries: int = 3) -> dict:
+    """نداء شبكة مستقل تمامًا عن _call_draft_model (القيد البنيوي أعلاه:
+    منشور التحقيق لا صلة له بمسار المقال نفسه ولا يستدعي شيئًا منه) — نفس
+    نمط إعادة المحاولة/تصنيف العطل، بأداة write_investigation الخاصة بهذا
+    المسار وحده."""
+    acfg = cfg.get("article", {}) or {}
+    client = _client()
+    last_error: Exception | None = None
+
+    for attempt in range(1, retries + 1):
+        try:
+            resp = client.messages.create(
+                model=acfg.get("model", "claude-sonnet-5"),
+                max_tokens=int(acfg.get("max_tokens", 3000)),
+                tools=[INVESTIGATION_POST_SCHEMA],
+                tool_choice={"type": "tool", "name": "write_investigation"},
+                system=[{
+                    "type": "text",
+                    "text": system_text,
+                    "cache_control": {"type": "ephemeral"},
+                }],
+                messages=[{"role": "user", "content": prompt}],
+            )
+            writer.record_usage(resp, acfg.get("model", "claude-sonnet-5"))
+
+            if getattr(resp, "stop_reason", "") == "max_tokens":
+                raise ValueError("تجاوز الرد السقف — ارفع article.max_tokens")
+
+            data = next((b.input for b in resp.content
+                        if getattr(b, "type", "") == "tool_use"), None)
+            if data is None:
+                text = "".join(b.text for b in resp.content
+                               if getattr(b, "type", "") == "text")
+                data = writer._extract_json(text)
+            return data
+        except (APIError, json.JSONDecodeError, ValueError) as exc:
+            last_error = exc
+            log.warning("محاولة %d/%d فشلت في صياغة منشور التحقيق: %s", attempt, retries, exc)
+            time.sleep(2 * attempt)
+
+    reason = writer.classify_write_error(last_error) if last_error else "عطل API"
+    raise writer.WriteFailure(reason, str(last_error) if last_error else "")
+
+
+def _investigation_confirmed_block(report_statements: list[dict]) -> str:
+    if not report_statements:
+        return "(لا وقائع «تقرير منقول» تأكَّدت هذه المرة)"
+    lines = []
+    for r in report_statements:
+        srcs = "، ".join(s["name"] for s in r.get("sources", [])) or "؟"
+        lines.append(f"- {r.get('publisher', '؟')}: {r['text']} — مصادر: {srcs}")
+    return "\n".join(lines)
+
+
+def _investigation_dropped_block(dropped: list[dict]) -> str:
+    if not dropped:
+        return "(لا شيء)"
+    return "\n".join(f"- {d['text']} — {d['reason']}" for d in dropped)
+
+
+def _investigation_diffs_block(diffs: list[dict]) -> str:
+    if not diffs:
+        return "(لا شيء)"
+    return "\n".join(f"- الموجز قال: «{d['brief']}» — والمصادر المستقلة تقول: «{d['sources_say']}»"
+                     for d in diffs)
+
+
+def _investigation_sources_block(sources: list[dict]) -> str:
+    if not sources:
+        return "(لا شيء)"
+    return "\n".join(f"- {s['name']}" for s in sources)
+
+
+def _draft_investigation_text(report_statements: list[dict], dropped: list[dict],
+                              diffs: list[dict], sources: list[dict], question: str,
+                              cfg, retries: int = 3, avoid_note: str = "") -> tuple[dict | None, str]:
+    """يستدعي النموذج لصياغة منشور التحقيق من مدخلات outcome البنيوية
+    حصرًا. الضمان البنيوي: توقيعها لا يقبل نص موجز أو مقال ملصق في أي
+    معامل — نفس فلسفة verify_draft._draft_from_facts تمامًا."""
+    w = cfg.get("writer", {})
+    acfg = cfg.get("article", {}) or {}
+    prompt = INVESTIGATION_USER_TEMPLATE.format(
+        question=question or "؟",
+        confirmed_block=_investigation_confirmed_block(report_statements),
+        dropped_block=_investigation_dropped_block(dropped),
+        diffs_block=_investigation_diffs_block(diffs),
+        sources_block=_investigation_sources_block(sources),
+        avoid_note=avoid_note,
+        max_chars=cfg.path("image.headline_max_chars", 95),
+        post_length=acfg.get("investigation_post_length", "120 إلى 200 كلمة"),
+        hashtags_count=w.get("hashtags_count", 4),
+    )
+
+    try:
+        data = _call_investigation_model(prompt, INVESTIGATION_SYSTEM, cfg, retries)
+    except writer.WriteFailure as exc:
+        log.warning("فشل تقني في صياغة منشور التحقيق (%s): %s", exc.reason, exc.detail)
+        return None, f"فشل تقني ({exc.reason}): {exc.detail}"
+
+    tags = [str(t).lstrip("#").replace(" ", "_") for t in (data.get("hashtags") or [])]
+    category = data.get("category") if data.get("category") in writer.CATEGORIES else "عالم"
+    written = {
+        "angle": "تحقيق",
+        "analysis": "",
+        "urgent": False,
+        "category": category,
+        "image_headline": str(data.get("image_headline") or data.get("post_title", "")
+                             ).strip().rstrip("."),
+        "post_title": str(data.get("post_title", "")).strip(),
+        "post_body": str(data.get("post_body", "")).strip(),
+        "hashtags": tags,
+    }
+    if not written["post_title"] or not written["post_body"]:
+        return None, "رد ناقص: بلا عنوان أو متن"
+    return written, ""
+
+
+# قائمة مغلقة صغيرة (نظير article._SYSTEM_JARGON_TERMS) لا تصنيفًا لغويًا
+# عامًا — الحكم الوحيد المسموح به هو «لم نجد مصدرًا مستقلًا»؛ أي من هذه
+# الألفاظ يعني نفيًا للادّعاء بدل الإقرار بعجزنا عن تأكيده، وهذا ممنوع
+# منعًا باتًا (القاعدة 1، تحقّق برمجي بعد الاستلام لا اعتمادًا على
+# البرومبت وحده — نفس مبدأ youtube_article._validate_headlines).
+_INVESTIGATION_FORBIDDEN_TERMS = [
+    "كاذب", "كذب", "أكاذيب", "مكذوب", "مفبرك", "ملفَّق", "ملفق", "تلفيق",
+    "شائعة", "شائعات", "مضلِّل", "مضلل", "تضليل", "زائف", "مزيَّف", "مزيف",
+    "غير صحيح", "غير صحيحة", "لا صحة", "لا أساس له", "عارٍ عن الصحة",
+]
+_INVESTIGATION_FORBIDDEN_NORM = [(t, _normalize_phrase(t)) for t in _INVESTIGATION_FORBIDDEN_TERMS]
+
+
+def _investigation_forbidden_hits(text: str) -> list[str]:
+    norm = _normalize_phrase(text)
+    if not norm:
+        return []
+    return [t for t, needle in _INVESTIGATION_FORBIDDEN_NORM if needle and needle in norm]
+
+
+def _investigation_known_facts(report_statements: list[dict], diffs: list[dict],
+                               sources: list[dict]) -> list[dict]:
+    """مجمّع الكيانات المعروفة لمنشور التحقيق — يُمرَّر كـ``grounded`` إلى
+    _unsourced_entities القائمة (القاعدة 2، تحقّق برمجي): وقائع «تقرير
+    منقول» المؤكَّدة ومصادرها، وشطر sources_say من diffs (مسنَد فعلًا —
+    اسمه خرج من _name_event عبر بحث مستقل)، وأسماء المصادر المقروءة عمومًا.
+
+    عمدًا **لا** يشمل نصوص dropped ولا شطر brief من diffs: تسمية كيان لم
+    يرد إلا فيهما هي بالضبط ما تمنعه القاعدة 2 (لا تسمية من صدر عنه ادّعاء
+    غير مؤكَّد) — فإسقاطهما هنا يجعل أي اسم كهذا يظهر في المتن "كيانًا غير
+    معروف" فيُبلَّغ ويُعاد المحاولة، بدل أن يُعامَل معروفًا لمجرد وروده في
+    مدخلات outcome."""
+    facts: list[dict] = []
+    for r in report_statements:
+        facts.append({"text": r.get("text", ""), "publisher": r.get("publisher", "")})
+        for s in r.get("sources", []):
+            facts.append({"text": "", "speaker": s.get("name", "")})
+    for d in diffs:
+        facts.append({"text": d.get("sources_say", "")})
+    for s in sources:
+        facts.append({"text": "", "speaker": s.get("name", "")})
+    return facts
+
+
+def _build_investigation_avoid_note(issues: list[str]) -> str:
+    quoted = "؛ ".join(issues)
+    return (f"\nمحاولة سابقة رفضها الفحص البنيوي بعد الاستلام لهذا السبب: {quoted}\n"
+           "تذكّر: الحكم الوحيد المسموح به على ادّعاء بلا سند هو «لم نجد مصدرًا مستقلًا "
+           "يؤكده» — لا أي وصف بالكذب أو التلفيق أو التضليل أو الشائعة؛ ولا تُسمِّ من "
+           "صدر عنه ادّعاء غير مؤكَّد ولا أين نُشر إلا إن ورد اسمه صراحة في واقعة مؤكَّدة "
+           "بمصدر مستقل معطاة لك أعلاه. أعد الصياغة بالكامل مصحِّحًا هذا.\n")
+
+
+def draft_investigation(outcome: dict, cfg) -> dict | None:
+    """يصوغ منشور «تحقيق» من outcome._write_article نفسه — يعرض ما تأكّد
+    ومصادره، وما لم يُوجد له سند، وأين خالفت المصادرُ الموجز. قيد بنيوي
+    ملزم (نظير رأس verify_draft.py): لا تقبل body في توقيعها إطلاقًا — لا
+    نص الموجز ولا المقال الملصق، لا هنا ولا في أي دالّة تستدعيها.
+
+    تُستدعى بعد نجاح صياغة المقال (outcome['produced'] is True) فقط — فشل
+    المقال يعني لا أدلة كافية أصلًا فلا تحقيق ممكن أساسًا؛ ولا تحقيق أيضًا
+    إن لم يكن هناك ما يُحقَّق فعلًا (dropped وdiffs كلاهما فارغ) — لا معنى
+    لمنشور يقول «كل شيء صحيح»، هذا ليس تحقيقًا.
+
+    فشل صياغة التحقيق (لأي سبب) لا يُسقط المقال المحفوظ سلفًا بحال — تُعيد
+    None فقط، بلا رفع أي استثناء يصل main()."""
+    if not outcome.get("produced"):
+        return None
+    try:
+        return _draft_investigation(outcome, cfg)
+    except Exception:
+        log.exception("انهيار غير متوقع أثناء صياغة منشور التحقيق")
+        return None
+
+
+def _draft_investigation(outcome: dict, cfg) -> dict | None:
+    dropped = outcome.get("dropped") or []
+    diffs = outcome.get("diffs") or []
+    if not dropped and not diffs:
+        log.info("لا ادّعاءات ساقطة عن السند ولا اختلاف بين الموجز والمصادر — "
+                 "لا شيء يستحق منشور تحقيق منفصل")
+        return None
+
+    report_statements = outcome.get("report_statements") or []
+    sources = outcome.get("sources") or []
+    question = outcome.get("question") or ""
+    article_draft_id = outcome.get("draft_id")
+
+    known_facts = _investigation_known_facts(report_statements, diffs, sources)
+    min_run = int(cfg.path("article.unsourced_entity_min_run", 2))
+
+    def _checks(written: dict) -> list[str]:
+        text = "\n".join(filter(None, [
+            written["image_headline"], written["post_title"], written["post_body"]]))
+        issues = list(_investigation_forbidden_hits(text))
+        issues += _unsourced_entities(written["post_body"], known_facts, "", question, [],
+                                      source_texts=None, min_run=min_run)
+        return issues
+
+    written, reason = _draft_investigation_text(
+        report_statements, dropped, diffs, sources, question, cfg)
+    if written is None:
+        log.warning("فشلت صياغة منشور التحقيق: %s", reason)
+        return None
+
+    issues = _checks(written)
+    if issues:
+        # محاولة ثانية واحدة فقط بتوجيه صريح (نظير محاولة الأصالة/المصطلحات
+        # في _write_article أعلاه) — فشلها امتناع نهائي، لا محاولة ثالثة
+        avoid_note = _build_investigation_avoid_note(issues)
+        written2, reason2 = _draft_investigation_text(
+            report_statements, dropped, diffs, sources, question, cfg, avoid_note=avoid_note)
+        if written2 is None:
+            log.warning("فشلت محاولة إعادة صياغة منشور التحقيق: %s", reason2)
+            return None
+        issues2 = _checks(written2)
+        if issues2:
+            log.warning("محاولة ثانية لمنشور التحقيق فشلت الفحص البنيوي أيضًا: %s", issues2)
+            return None
+        written = written2
+
+    publishers = [s["name"] for s in sources]
+    primary_link = sources[0]["link"] if sources else ""
+    draft_id = hashlib.sha1(
+        f"investigation:{article_draft_id}".encode("utf-8")).hexdigest()[:12]
+
+    art = Article(
+        title=question or written["post_title"], link=primary_link, summary="",
+        source_name=publishers[0] if publishers else "", region="global",
+        weight=1.0, published=datetime.now(timezone.utc),
+        publisher=publishers[0] if publishers else "", cluster_sources=publishers,
+    )
+
+    image_name = f"{datetime.now(timezone.utc):%Y-%m-%d}/{draft_id}.jpg"
+    image_rel = f"drafts/{image_name}"
+    shot: dict = {}
+    try:
+        imaging.build_post_image(
+            headline=written["image_headline"] or written["post_title"],
+            category=written["category"],
+            urgent=False,
+            image_urls=[],
+            publisher=publishers,
+            bucket="serious",
+            origin=INVESTIGATION_ORIGIN,
+            # لا مرشَّح صورة من outcome البنيوي (report_statements لا تحمل
+            # image_candidates) — احتياط find_images (ويكيميديا/Openverse
+            # حصرًا) وحده من السؤال-العنوان
+            fallback_provider=lambda: find_images(question, cfg),
+            cfg=cfg,
+            out_path=DRAFTS_DIR / image_name,
+            report=shot,
+        )
+    except Exception as exc:  # noqa: BLE001 — امتناع صريح مُسجَّل لا انهيار صامت
+        log.warning("فشل بناء صورة منشور التحقيق: %s", exc)
+        return None
+
+    headlines, hl_error = headlines_mod.headlines_for_post(
+        written["post_title"], written["post_body"], cfg)
+    if hl_error:
+        log.warning("فشلت اقتراحات العناوين لمنشور تحقيق: %s", hl_error)
+        headlines = []
+
+    draft = {
+        "id": draft_id,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "status": "pending",
+        "review_issue": None,
+        "origin": INVESTIGATION_ORIGIN,
+        "sibling_id": article_draft_id,
+        # بند 3، Issue #765: علامة داخلية للنشر (publish.cmd_now) — لا صلة
+        # لها بـ origin (يبقى "article" كما هو اليوم عمدًا، انظر توثيق
+        # INVESTIGATION_ORIGIN أعلاه)
+        "is_investigation": True,
+        "score": 0.0,
+        "bucket": "serious",
+        "analysed_sources": publishers,
+        "trend_score": 0.0,
+        "velocity": 0.0,
+        "age_hours": 0.0,
+        "is_followup": False,
+        "state_media": False,
+        "has_photo": bool(shot.get("used_original")),
+        "image_info": {
+            "used_original": bool(shot.get("used_original")),
+            "illustrative": bool(shot.get("illustrative")),
+            "composite": bool(shot.get("composite")),
+            "chosen_url": shot.get("chosen_url"),
+            "candidates_tried": shot.get("candidates_tried"),
+            "manual": False,
+        },
+        "source": {
+            "title": question,
+            "link": primary_link,
+            "publisher": publishers[0] if publishers else "",
+            "publishers": publishers,
+            "region": "global",
+            "image_url": None,
+            "image_candidates": [],
+        },
+        "arabic": written,
+        "caption": writer.build_caption(written, art, cfg),
+        "headlines": headlines,
+        "headline_selected": 0,
+        "image": image_rel,
+        "reel": None,
+        "reel_spec": {
+            "headline": written["image_headline"] or written["post_title"],
+            "category": written["category"],
+            "urgent": False,
+            "image_candidates": [],
+        },
+    }
+    store.save_draft(draft)
+
+    # المقال حُفظ سلفًا في _write_article قبل أن يُعرف معرّف التحقيق —
+    # الربط المتبادل يُكمَل هنا بتحديث لاحق، لا بتمرير معرّف مستقبلي للخلف
+    if article_draft_id:
+        found = store.load_draft(article_draft_id)
+        if found:
+            store.update_draft(found[0], sibling_id=draft_id)
+
+    return draft
+
+
 def _image_report_lines(ir: dict) -> list[str]:
     """سطر تشخيص الصورة (تشخيص Issue #373، البند 1، مراجعة بشرية بعد أول
     نشر): «الصورة غائبة» بلا سبب في التقرير عطل صمت — لا سبيل للمراجع
@@ -3642,17 +4059,25 @@ def _image_report_lines(ir: dict) -> list[str]:
     return lines
 
 
-def build_report(outcome: dict) -> str:
+def build_report(outcome: dict, investigation: dict | None = None) -> str:
     """التقرير المختصر المطلوب: السؤال المختار، المصادر المقروءة بروابطها،
     الأسئلة المُجابة بحثًا وما بقي بلا إجابة، ما سقط من الموجز لانعدام
     السند، أين خالفت المصادرُ الموجز — لا جدول أحكام كما في
     verify.build_report — وسجلّ trail الكامل (تعليق الموافقة الثاني، البند
     4): كل استعلام بحث في كل مرحلة (تسمية/واقعة/سؤال) مع مصادره وحصيلته،
-    فبلا هذا السجل الحكم على سلوك السلّم تخمين لا تحقق."""
+    فبلا هذا السجل الحكم على سلوك السلّم تخمين لا تحقق.
+
+    ``investigation``: مسودة منشور «تحقيق» إن صيغت (draft_investigation)،
+    أو None — Issue #765 يلزم أن يذكر التقرير المسودتين ومعرّفيهما، سطرًا
+    لكل منهما (سطر المقال أعلاه، وسطر التحقيق هنا إن وُجد)."""
     lines = ["### 📰 مقال من المصادر", ""]
     if outcome["produced"]:
         lines.append(f"✅ {outcome['reason']} (المعرّف `{outcome['draft_id']}`) — "
                      "ستظهر في أقرب Issue مراجعة يفتحه البوت بعد رفع المسودة.")
+        if investigation:
+            lines.append(f"🔎 صيغ أيضًا منشور تحقيق من الادّعاءات غير المسندة/المختلَفة "
+                         f"عن الموجز (المعرّف `{investigation['id']}`) — بديل اختياري "
+                         "لنفس المدخل في Issue المراجعة، لا بديل إلزامي.")
         if outcome.get("image_source_link"):
             name = outcome.get("image_source_name") or "مصدر مسند"
             lines.append(f"🖼️ مصدر الصورة: [{name}]({outcome['image_source_link']})")
@@ -3970,7 +4395,12 @@ def main() -> int:
         return 0
 
     outcome = write_article(body, issue_number, cfg)
-    report = build_report(outcome)
+    # الترتيب ملزم (Issue #765): المقال أولًا كما هو بلا أي تغيير في مساره
+    # أعلاه؛ التحقيق بعده من outcome الناتج وحده — draft_investigation نفسها
+    # تعيد None فورًا إن outcome['produced'] كانت False، فلا تحقيق بلا أدلة
+    # كافية أصلًا
+    investigation = draft_investigation(outcome, cfg)
+    report = build_report(outcome, investigation)
     review.comment(issue_number, f"{report}\n\n<sub>💵 {writer.usage_summary()}</sub>")
 
     if args.baseline:
@@ -3988,6 +4418,14 @@ def main() -> int:
     if draft_id and output_path:
         with open(output_path, "a", encoding="utf-8") as fh:
             fh.write(f"draft_id={draft_id}\n")
+
+    # investigation_id في مفتاح منفصل (Issue #765) — draft_id يبقى معرّف
+    # المقال حرفيًا كما كان، كي لا تتغيّر بوابات article.yml (لا صلاحية على
+    # ملفات workflow هنا)
+    investigation_id = investigation.get("id") if investigation else None
+    if investigation_id and output_path:
+        with open(output_path, "a", encoding="utf-8") as fh:
+            fh.write(f"investigation_id={investigation_id}\n")
     return 0
 
 
