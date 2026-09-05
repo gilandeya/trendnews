@@ -20,14 +20,22 @@ Wikimedia/Openverse) لا يستقبل أي بيانات فيديو أو قنا�
 **تنبيهات المراجعة تُنزَع من caption قبل أي نشر** (split_warnings) — تبقى في
 حقل warnings المنفصل وفي Issue المراجعة فقط، فلا تصل فيسبوك إطلاقًا.
 
-**وسم الاعتماد `youtube-approved` لا `approved`**: publish.yml القائم يشترك
-مع أي Issue في المستودع بمجرّد وسمه `approved` (لا فحص عنوان أو وسم آخر)،
-وسقفه وتباعده ثابتان (gap_min/gap_max العشوائيان) لا يعرفان
-youtube.publish.max_per_run/spacing_minutes الذي يطلبه الـIssue #676 صراحةً.
-تشغيله على Issue يحمل `approved` أيضًا كان يعني نشرًا مزدوجًا فعليًا (مرة عبر
-publish.yml العام بمنطقه الخاص، ومرة عبر publish_approved هنا) — races حقيقية
-على حالة "published" في نفس الملف. وسم مخصّص يفصل المسارين بنيويًا دون لمس
-publish.yml (لا صلاحية لتعديل ملفات .github/workflows أصلًا).
+**وسم الاعتماد `youtube-approved` لا `approved` (توافقية خلفية فقط منذ
+Issue #740)**: التصميم الأصلي هنا كان: publish.yml القائم يشترك مع أي Issue
+في المستودع بمجرّد وسمه `approved` (لا فحص عنوان أو وسم آخر)، وسقفه وتباعده
+ثابتان (gap_min/gap_max العشوائيان) لا يعرفان
+youtube.publish.max_per_run/spacing_minutes الذي يطلبه الـIssue #676 صراحةً،
+فوسم مخصّص يفصل المسارين. لكن عطلًا فعليًا وقع (Issue #740): مراجع وسم Issue
+تحليلي بـ`approved` سهوًا بدل `youtube-approved` — نصّان متفقٌ عليهما
+بشريًا، لا حاجزًا برمجيًا، ووسم خاطئ واحد يكفي لتفويت الحاجز كليًا. الآن
+`publish.main` (publish.py) يقرأ حقل `origin` **لكل مسودة معتمَدة على حدة**
+عند وسم `approved` ويوجّهها إلى `publish_ids`/`report_batch` هنا إن كانت
+`origin == "youtube"` (استيراد مؤجَّل داخل الدالة تفاديًا للدوران—انظر توثيق
+publish.py) — فوسم خاطئ لم يعد كافيًا لتشغيل منطق الأخبار على مسودات يوتيوب
+الناقصة الحقول بنيويًا. `youtube-approved` يبقى عاملًا كسابقًا (توافقية
+خلفية، ولمن يفضّل عدم انتظار أي منطق آخر في نفس الـIssue)، وbuild_review_body
+ما زال يطلبه صراحةً من المراجع بدل الاعتماد على التوجيه
+وحده -- الحاجز البرمجي دفاع في العمق، لا بديل عن الوسم الصحيح.
 
 **build() ثم open_review() منفصلتان لا دالة واحدة** — نفس تسلسل src/collect.py
 + src/open_review.py بالضبط: الصور تُبنى وتُحفَظ محليًا (build)، ثم يجب أن
@@ -736,25 +744,19 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
 # ──────────────────────────── النشر (بسقف وتباعد) ────────────────────────
 
 
-def publish_approved(issue_number: int, cfg) -> int:
-    """ينشر ما عُلِّم عليه في Issue مراجعة يوتيوب، بسقف youtube.publish.
-    max_per_run لكل تشغيلة وتباعد youtube.publish.spacing_minutes بين كل
-    منشور والتالي (نصّ الـIssue #676، النقطة ٤) — لا سقف ولا تباعد ثابتين
-    كهذين في publish.cmd_burst القائمة (فاصلها عشوائي 30-60 دقيقة وبلا سقف
-    عدد)، فهذا تنسيق جديد يستدعي publish.publish_one (بلا تعديل عليها) بدل
-    استدعاء cmd_burst/cmd_now مباشرة."""
-    body = review.fetch_issue_body(issue_number)
-    ids = review.parse_approved(body)
-    if not ids:
-        review.comment(issue_number,
-                       "⚠️ لم يُعلَّم على أي مقال. أضف ✔️ ثم أعد وسم `youtube-approved`.")
-        review.remove_label(issue_number, "youtube-approved")
-        return 0
+def publish_ids(ids: list[str], headline_choices: dict[str, int], cfg) -> tuple[list[str], int, int, list[str]]:
+    """ينشر دفعة معرّفات مسودات يوتيوب معتمَدة، بسقف youtube.publish.max_per_run
+    لكل تشغيلة وتباعد youtube.publish.spacing_minutes بين كل منشور **ناجح
+    فعليًا** والتالي (نصّ الإصدار #676 النقطة ٤ + إصلاح Issue #740) — لا سقف
+    ولا تباعد ثابتين كهذين في publish.cmd_burst القائمة، فهذا تنسيق جديد
+    يستدعي publish.publish_one (بلا تعديل عليها) بدل استدعاء cmd_burst/cmd_now
+    مباشرة. مستخرجة من publish_approved كي يستعملها أيضًا publish.main عبر
+    التوجيه بالأصل (Issue #740) — منطق واحد مشترك لا نسخة ثالثة مكرَّرة.
 
-    # اختيار العنوان (Issue #680) -- يُقرأ هنا مرّة واحدة قبل الحلقة، لا
-    # لكل مسودة على حدة، فمصدره نفس نصّ الـIssue الذي جُلب لتوّه أعلاه.
-    headline_choices = parse_headline_choice(body)
-
+    **الفاصل بعد نشر ناجح فقط:** مسودة غير موجودة، منشورة مسبقًا، أو فشل
+    نشرها الفعلي (مثلًا صورة/حقل مفقود يسجّله publish_one كـfailed) تمرّ
+    فورًا إلى التالية بلا انتظار — عطل حقيقي وقع (Issue #740): مسودات فشلت
+    فورًا كانت تُهدر فاصل التشغيلة الثابت كاملًا كأنها نشرت بنجاح."""
     max_per_run = int(cfg.path("youtube.publish.max_per_run", 3))
     spacing_minutes = float(cfg.path("youtube.publish.spacing_minutes", 40))
     batch = ids[:max_per_run]
@@ -762,7 +764,13 @@ def publish_approved(issue_number: int, cfg) -> int:
 
     lines: list[str] = []
     published = 0
-    for i, draft_id in enumerate(batch):
+    wait_before_next = False
+    for draft_id in batch:
+        if wait_before_next:
+            log.info("انتظار %.0f دقيقة قبل المنشور التالي…", spacing_minutes)
+            time.sleep(spacing_minutes * 60)
+            wait_before_next = False
+
         found = store.load_draft(draft_id)
         if not found:
             lines.append(f"- ❌ `{draft_id}` — المسودة غير موجودة")
@@ -779,13 +787,21 @@ def publish_approved(issue_number: int, cfg) -> int:
             draft["headline_selected"] = headline_choices[draft_id]
         ensure_title_card(path, draft, cfg)
         ok, line = publish.publish_one(path, draft, cfg)
-        published += int(ok)
         lines.append(line)
-        if i < len(batch) - 1:
-            log.info("انتظار %.0f دقيقة قبل المنشور التالي…", spacing_minutes)
-            time.sleep(spacing_minutes * 60)
+        if ok:
+            published += 1
+            wait_before_next = True
 
-    header = f"### 🚀 نُشر {published} من {len(batch)} (سقف {max_per_run} لكل تشغيلة)"
+    return lines, published, len(batch), remaining
+
+
+def report_batch(issue_number: int, lines: list[str], published: int, attempted: int,
+                 remaining: list[str], cfg) -> None:
+    """يعلّق تقرير الدفعة على Issue المراجعة ويغلقه عند اكتمال المعتمَد كله
+    -- مستخرجة من publish_approved لتُستعمل أيضًا من publish.main (Issue
+    #740)."""
+    max_per_run = int(cfg.path("youtube.publish.max_per_run", 3))
+    header = f"### 🚀 نُشر {published} من {attempted} (سقف {max_per_run} لكل تشغيلة)"
     if remaining:
         header += (f"\n<sub>{len(remaining)} مقالًا معتمدًا ينتظر تشغيلة لاحقة "
                    "بنفس الوسم.</sub>")
@@ -793,6 +809,25 @@ def publish_approved(issue_number: int, cfg) -> int:
     review.comment(issue_number, text)
     if published and not remaining:
         review.close_issue(issue_number)
+
+
+def publish_approved(issue_number: int, cfg) -> int:
+    """ينشر ما عُلِّم عليه في Issue مراجعة يوتيوب (وسم youtube-approved).
+    التنسيق الفعلي (سقف/تباعد/بناء البطاقة) في publish_ids أعلاه."""
+    body = review.fetch_issue_body(issue_number)
+    ids = review.parse_approved(body)
+    if not ids:
+        review.comment(issue_number,
+                       "⚠️ لم يُعلَّم على أي مقال. أضف ✔️ ثم أعد وسم `youtube-approved`.")
+        review.remove_label(issue_number, "youtube-approved")
+        return 0
+
+    # اختيار العنوان (Issue #680) -- يُقرأ هنا مرّة واحدة قبل الحلقة، لا
+    # لكل مسودة على حدة، فمصدره نفس نصّ الـIssue الذي جُلب لتوّه أعلاه.
+    headline_choices = parse_headline_choice(body)
+
+    lines, published, attempted, remaining = publish_ids(ids, headline_choices, cfg)
+    report_batch(issue_number, lines, published, attempted, remaining, cfg)
     return 0
 
 

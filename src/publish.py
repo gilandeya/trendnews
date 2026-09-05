@@ -314,13 +314,20 @@ def cmd_burst(ids: list[str], cfg, issue_number: int | None,
             lines.append(f"🕐 {draft['arabic']['post_title'][:50]} → "
                          f"**{describe(when, tzname)}**")
             continue
-        if wait > 0:
-            log.info("انتظار %.0f دقيقة قبل المنشور التالي…", wait / 60)
-            time.sleep(wait)
 
         fresh = store.load_draft(draft["id"])
         if not fresh or fresh[1].get("status") == "published":
             continue
+
+        # الفاصل بعد النشر الفعلي فقط (Issue #740): مسودة ستُتخطى حتمًا
+        # (ناقصة حقلًا أساسيًا — مثلًا مسودة يوتيوب تسرّبت إلى هذا الطابور
+        # قبل التوجيه بالأصل أعلاه، أو أي تعطّب بيانات آخر) لا تستحق انتظار
+        # موعدها المجدول: عطل حقيقي وقع حين انتظر السير 30-60 دقيقة كاملة
+        # قبل كل مسودة من أربع خرجت failed فورًا بلا نشر.
+        if wait > 0 and not _missing_draft_fields(fresh[1]):
+            log.info("انتظار %.0f دقيقة قبل المنشور التالي…", wait / 60)
+            time.sleep(wait)
+
         ok, line = publish_one(fresh[0], fresh[1], cfg)
         published += ok
         mark = "🔴 عاجل " if draft["arabic"].get("urgent") else ""
@@ -564,11 +571,6 @@ def main() -> int:
     log.info("الـ Issue #%s: %d معتمد من %d (%d كريل)",
              args.issue, len(ids), len(review.all_draft_ids(body)), len(reels))
 
-    for draft_id in reels & set(ids):
-        found = store.load_draft(draft_id)
-        if found:
-            store.update_draft(found[0], publish_as_reel=True)
-
     if not ids:
         log.warning("لم يُعلَّم على أي منشور")
         review.comment(args.issue,
@@ -576,13 +578,49 @@ def main() -> int:
         review.remove_label(args.issue, "approved")
         return 0
 
+    # التوجيه بالأصل لا بالوسم (Issue #740): وسم approved واحد كافٍ للمسارين
+    # معًا الآن — القرار بالأصل الفعلي المخزَّن في كل مسودة معتمَدة، لا بعنوان
+    # أو وسم الـIssue نفسه. عطل حقيقي وقع حين وُسم Issue مراجعة يوتيوب
+    # (`youtube-review`، يستعمل نفس صيغة <!-- draft:id --> وreview.parse_approved
+    # المشتركة) بـ`approved` سهوًا بدل `youtube-approved`: منطق الأخبار التقط
+    # مسودات يوتيوب الناقصة حقل image بنيويًا (Issue #680) فسجّلها failed
+    # وأهدر ساعات في فاصل النشر (Issue #707/#740). التمييز هنا برمجي لكل
+    # معرّف على حدة، لا حسمًا واحدًا لكل الدفعة، فإن اجتمع الأصلان يومًا في
+    # نفس الـIssue (لا يُصمَّم لذلك، لكن لا افتراض يمنعه) يُعالَج كل جزء
+    # بمنطقه الصحيح.
+    youtube_ids, news_ids = [], []
+    for draft_id in ids:
+        found = store.load_draft(draft_id)
+        origin = found[1].get("origin") if found else None
+        (youtube_ids if origin == "youtube" else news_ids).append(draft_id)
+
+    if youtube_ids:
+        # استيراد مؤجَّل — لا على مستوى الوحدة: youtube_publish.py يستورد
+        # publish (لإعادة استعمال publish_one بلا تكرار منطقها)، فاستيراد
+        # youtube_publish من publish على مستوى الوحدة يسبّب دورانًا
+        # (كل وحدة تحاول تحميل الأخرى غير المكتملة بعد أثناء الإقلاع).
+        # الاستيراد هنا يقع بعد اكتمال تحميل كلا الوحدتين فعليًا فلا دوران.
+        from . import youtube_publish
+        yt_lines, yt_published, yt_attempted, yt_remaining = youtube_publish.publish_ids(
+            youtube_ids, youtube_publish.parse_headline_choice(body), cfg)
+        youtube_publish.report_batch(
+            args.issue, yt_lines, yt_published, yt_attempted, yt_remaining, cfg)
+
+    if not news_ids:
+        return 0
+
+    for draft_id in reels & set(news_ids):
+        found = store.load_draft(draft_id)
+        if found:
+            store.update_draft(found[0], publish_as_reel=True)
+
     if args.now or not cfg.path("facebook.schedule_enabled", True):
-        return cmd_now(ids, cfg, args.issue)
+        return cmd_now(news_ids, cfg, args.issue)
     if cfg.path("facebook.schedule_mode", "burst") == "burst":
-        return cmd_burst(ids, cfg, args.issue,
+        return cmd_burst(news_ids, cfg, args.issue,
                          only_urgent=args.urgent_only,
                          skip_urgent=args.skip_urgent)
-    return cmd_schedule(ids, cfg, args.issue)
+    return cmd_schedule(news_ids, cfg, args.issue)
 
 
 if __name__ == "__main__":
