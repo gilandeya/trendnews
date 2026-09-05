@@ -594,7 +594,18 @@ def main() -> int:
         origin = found[1].get("origin") if found else None
         (youtube_ids if origin == "youtube" else news_ids).append(draft_id)
 
-    if youtube_ids:
+    # Issue #745: publish.yml يُشغّل urgent (--urgent-only، مهلة ٢٠ دقيقة)
+    # ثم normal (--skip-urgent، مهلة ١٥٠) على نفس حدث وسم approved، وكلاهما
+    # يصل هذا الفرع — توجيه يوتيوب كان يقع قبل انقسام urgent/skip فيعمل في
+    # الاثنتين. مقال التحليل ليس عاجلًا أبدًا (دفعة ٣ منشورات × ٤٠ دقيقة
+    # تباعدًا لا تحتمل سقف ٢٠ دقيقة)، فيُحصر التوجيه بالمسار العادي وحده —
+    # نفس نمط حراسة urgent/skip في pending-selection أعلاه (Issue #308)،
+    # لكن بالاتجاه المعاكس: هناك السريع ينفّذ والعادي يتخطّى؛ هنا العكس.
+    if youtube_ids and args.urgent_only:
+        log.info("Issue #%s: %d مسودة يوتيوب — تُؤجَّل للمسار العادي "
+                 "(المسار السريع لا يعالج توجيه يوتيوب)",
+                 args.issue, len(youtube_ids))
+    elif youtube_ids:
         # استيراد مؤجَّل — لا على مستوى الوحدة: youtube_publish.py يستورد
         # publish (لإعادة استعمال publish_one بلا تكرار منطقها)، فاستيراد
         # youtube_publish من publish على مستوى الوحدة يسبّب دورانًا
