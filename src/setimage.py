@@ -63,6 +63,24 @@ def next_image_path(current: str) -> str:
     return str(p.with_name(f"{stem}-v{version}{p.suffix}"))
 
 
+def _image_related_failure(error: str | None) -> bool:
+    """يميّز فشل النشر بسبب الصورة تحديدًا عن أي فشل آخر (Issue #742).
+
+    مسودة ``failed`` تحيا تلقائيًا بعد ``/صورة`` ناجح فقط إن كان ``error``
+    أحد النصّين اللذين يسجّلهما ``publish.publish_one``/``open_review``
+    لغياب الصورة تحديدًا: حقل ``image`` ضمن "حقول مفقودة: …"، أو "الصورة
+    مفقودة". أي نصّ آخر (استثناء فيسبوك، مثلًا) يعني سببًا غير معروف هنا
+    فتبقى ``failed`` — السبب لم يزُل بمجرّد تغيير الصورة."""
+    if not error:
+        return False
+    if error == "الصورة مفقودة":
+        return True
+    if error.startswith("حقول مفقودة:"):
+        fields = [f.strip() for f in error.split(":", 1)[1].split(",")]
+        return "image" in fields
+    return False
+
+
 def apply_image(draft_id: str, url: str, cfg) -> dict | None:
     """يعيد بناء بطاقة المسودة على الصورة المعطاة. يعيد المسودة المحدَّثة."""
     found = store.load_draft(draft_id)
@@ -103,6 +121,11 @@ def apply_image(draft_id: str, url: str, cfg) -> dict | None:
     )
 
     old_rel = draft["image"]
+    # إحياء مسودة failed (Issue #742): السبب المسجَّل في error زال فعلًا
+    # فقط إن كان الفشل بسبب الصورة تحديدًا — أي سبب آخر (خطأ فيسبوك مثلًا)
+    # يبقى قائمًا رغم تغيير الصورة، فلا تُحيا المسودة تلقائيًا حينها.
+    revive = (draft.get("status") == "failed"
+              and _image_related_failure(draft.get("error")))
     draft = store.update_draft(
         path,
         image=new_rel,
@@ -111,7 +134,10 @@ def apply_image(draft_id: str, url: str, cfg) -> dict | None:
         source={**draft["source"], "image_url": url, "image_candidates": [url]},
         reel_spec={**spec, "image_candidates": [url]},
         reel=None,          # الريل القديم بُني على الصورة القديمة
+        **({"status": "pending", "error": None} if revive else {}),
     )
+    if revive:
+        log.info("✓ أُحييت المسودة %s من failed إلى pending — سبب الفشل زال", draft_id)
     log.info("✓ أُعيد بناء البطاقة: %s → %s", old_rel, new_rel)
     draft["_old_image"] = old_rel
     return draft

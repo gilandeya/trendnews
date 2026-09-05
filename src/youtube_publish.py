@@ -180,11 +180,16 @@ def compute_score(blocs: list[str], channels: list[str], agreement: str, cfg=Non
     return len(channels) + max(0, len(blocs) - 1) * bloc_bonus + bonus
 
 
-def _arabic_channel_count_phrase(n: int) -> str:
+def _arabic_channel_count_phrase(n: int, genitive: bool = False) -> str:
+    """``genitive=True`` لموضع مجرور (مضاف إليه بعد اسم مضاف، كما في
+    ``image_source_line``: "تغطية {channels}") — المثنى وحده يتغيّر شكله
+    مكتوبًا بين الحالتين ("قناتان" مرفوعة مقابل "قناتين" مجرورة/منصوبة)،
+    فبلا هذا التمييز يخرج "تغطية قناتان" بتصريف خاطئ (Issue #742). بقية
+    الصيغ (المفرد والجمع) لا تتغيّر مكتوبةً بين الحالتين فلا حاجة لتمييزها."""
     if n == 1:
         return "قناة واحدة"
     if n == 2:
-        return "قناتان"
+        return "قناتين" if genitive else "قناتان"
     if 3 <= n <= 10:
         return f"{n} قنوات"
     return f"{n} قناة"
@@ -228,7 +233,11 @@ def image_source_line(channels: list[str], cfg=None) -> str:
     youtube.image.source_line_template) -- فقد يُغيَّر لاحقًا تحريريًا."""
     template = ((cfg.path("youtube.image.source_line_template") if cfg else None)
                 or "قراءة في تغطية {channels}")
-    return template.format(channels=_arabic_channel_count_phrase(len(channels)))
+    # مجرورة دومًا: كل قوالب هذا السطر (الافتراضي وما يُعدَّل في config.yaml)
+    # تضع {channels} مضافًا إليه بعد اسم مضاف ("تغطية"/"عيون"/إلخ) — انظر
+    # تعليق _arabic_channel_count_phrase أعلاه.
+    return template.format(
+        channels=_arabic_channel_count_phrase(len(channels), genitive=True))
 
 
 def split_warnings(article_text: str) -> tuple[str, list[str]]:
