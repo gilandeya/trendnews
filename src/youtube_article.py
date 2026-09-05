@@ -55,6 +55,7 @@ from pathlib import Path
 
 from anthropic import Anthropic, APIError
 
+from . import headlines as headlines_mod
 from . import youtube_cluster, youtube_extract
 from .config import YOUTUBE_ARTICLES_DIR, Config, env, load_config
 
@@ -272,23 +273,14 @@ def _append_warnings(article_text: str, warnings: list[str]) -> str:
 # مفروض، مع إبقاء الافتراضي صيغة سؤال (أقل حسمًا من عنوان تقريري لمادة
 # تحليلية غير مؤكَّدة بطبيعتها).
 
-HEADLINE_SCHEMA = {
-    "name": "propose_headlines",
-    "description": "يقترح ثلاثة عناوين عربية بديلة لبطاقة المقال ومنشوره -- الأول بصيغة سؤال",
-    "input_schema": {
-        "type": "object",
-        "properties": {
-            "headlines": {
-                "type": "array",
-                "items": {"type": "string"},
-                "minItems": 3,
-                "maxItems": 3,
-                "description": "ثلاثة عناوين عربية مستقلة الصياغة، العنصر الأول بصيغة سؤال",
-            },
-        },
-        "required": ["headlines"],
-    },
-}
+# مخطط الأداة وحلقة إعادة المحاولة والتحقّق العام (سؤال أول + حدّ كلمات)
+# مستخرجة إلى src/headlines.py (Issue #756) -- مشتركة الآن مع مسارات
+# الأخبار/الطلب/التحقق/المقال. HEADLINE_SCHEMA يبقى اسمًا هنا (لا نسخة
+# ثانية) لأنه لا يفترق عن مخطط headlines_mod حرفيًا؛ HEADLINE_SYSTEM يبقى
+# نصًّا خاصًا بهذا المسار (يمرَّر صراحةً إلى propose_headlines عبر معامل
+# system) لأنه يذكر "الاقتباسات الأصلية" تحديدًا -- ما لا نظير له في
+# مسارات الأخبار.
+HEADLINE_SCHEMA = headlines_mod.HEADLINE_SCHEMA
 
 HEADLINE_SYSTEM = """أنت تقترح ثلاثة عناوين عربية بديلة لبطاقة عرض ومنشور مقال
 تحليلي، من النقاط المصدرية المرفقة فقط -- لا معلومة من خارجها.
@@ -327,17 +319,16 @@ def _validate_headlines(headlines: list[str], quotes_original: str, known_figure
 
 def generate_headlines(topic: dict, member_points: list[dict], cfg: Config,
                         client: Anthropic | None = None) -> tuple[list[str] | None, str | None]:
-    """نداء قصير رخيص منفصل بعد نجاح draft_article (Issue #680) -- ثلاثة
-    عناوين بديلة لبطاقة/منشور المراجعة، بمحاولة إعادة عند إخراج غير صالح
-    (نفس آلية draft_article). يعيد (ثلاثة عناوين، سبب فشل نهائي إن حدث --
-    None عند النجاح)."""
-    model = cfg.path("youtube.review.headlines.model",
-                      cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001"))
-    max_tokens = cfg.path("youtube.review.headlines.max_tokens", 600)
-    max_retries = cfg.path("youtube.review.headlines.max_retries", 2)
-    max_words = cfg.path("youtube.review.headlines.max_words", 15)
+    """غلاف رقيق فوق headlines_mod.propose_headlines (Issue #756) -- يبني
+    مدخلات هذا المسار (نقاط القضية) ثم ينادي المشترك بكتلة config.yaml
+    الخاصة به (youtube.review.headlines -- منفصلة عمدًا عن الكتلة العامة
+    headlines، انظر توثيق config.yaml) ونظامه النصّي الخاص (HEADLINE_SYSTEM
+    أعلاه، غير مُعدَّل حرفيًا). فحص الاسم غير الموثَّق (_validate_headlines)
+    تحليليّ بحت فيبقى هنا كـ``extra_validate`` يشارك ميزانية إعادة المحاولة
+    نفسها مع التحقّق العام، لا محاولات إضافية منفصلة. يعيد (ثلاثة عناوين،
+    سبب فشل نهائي إن حدث -- None عند النجاح)."""
     known_figures = cfg.path("youtube.extract.known_figures", [])
-    client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+    max_words = cfg.path("youtube.review.headlines.max_words", 15)
 
     # quote_original لا quote_arabic -- نفس ما تستعمله _collect_warnings/
     # find_unsourced_name: aliases في known_figures صيغ لاتينية تُقارَن
@@ -345,36 +336,12 @@ def generate_headlines(topic: dict, member_points: list[dict], cfg: Config,
     quotes_original = " ".join(p.get("quote_original", "") for p in member_points)
     user_content = f"القضية: {topic['title']}\n\nالنقاط المصدرية:\n{_points_block(member_points)}"
 
-    last_reason = ""
-    for attempt in range(1, max_retries + 1):
-        try:
-            resp = client.messages.create(
-                model=model,
-                max_tokens=max_tokens,
-                tools=[HEADLINE_SCHEMA],
-                tool_choice={"type": "tool", "name": "propose_headlines"},
-                system=HEADLINE_SYSTEM,
-                messages=[{"role": "user", "content": user_content}],
-                # لا تُضِف temperature -- نماذج هذا المشروع ترفضها بـ400.
-            )
-        except APIError as exc:
-            return None, f"فشل نداء العناوين: {exc}"
+    def extra_validate(hls: list[str]) -> tuple[bool, str]:
+        return _validate_headlines(hls, quotes_original, known_figures, max_words)
 
-        data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None)
-        raw_headlines = data.get("headlines") if isinstance(data, dict) else None
-        if (isinstance(raw_headlines, list) and len(raw_headlines) == 3
-                and all(isinstance(h, str) and h.strip() for h in raw_headlines)):
-            headlines = [h.strip() for h in raw_headlines]
-            ok, reason = _validate_headlines(headlines, quotes_original, known_figures, max_words)
-            if ok:
-                return headlines, None
-            last_reason = reason
-            log.warning("محاولة %d/%d: عناوين %r غير صالحة (%s)", attempt, max_retries,
-                        topic["title"][:40], reason)
-            continue
-        last_reason = "لم يُعِد النموذج إخراجًا مهيكلًا بثلاثة عناوين نصّية"
-
-    return None, (f"تعذّر الحصول على عناوين صالحة بعد {max_retries} محاولة/محاولات: {last_reason}")
+    return headlines_mod.propose_headlines(
+        user_content, cfg, "youtube.review.headlines",
+        system=HEADLINE_SYSTEM, client=client, extra_validate=extra_validate)
 
 
 HEADLINES_HEADER = "🏷️ عناوين مقترحة (الأول سؤال وهو الافتراضي):"

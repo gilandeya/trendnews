@@ -17,7 +17,7 @@ import logging
 import os
 from datetime import datetime, timezone
 
-from . import feedback, preselect, review, store
+from . import feedback, headlines as headlines_mod, preselect, review, store
 from .config import DRAFTS_DIR
 from .extract import gather as gather_texts
 from .imagesearch import find_images
@@ -45,6 +45,18 @@ def _build_draft(art, written: dict, docs: list[dict], prev_title: str | None,
         out_path=DRAFTS_DIR / image_name,
         report=shot,
     )
+
+    # عناوين مقترحة (Issue #756) -- بعد نجاح الصياغة والصورة، بنفس آلية
+    # مسار التحليل القائمة (youtube_article.generate_headlines) لكن بكتلة
+    # config.yaml العامة (headlines، لا youtube.review.headlines -- الازدواج
+    # مقصود). فشل النداء لا يُسقِط مسودة صيغت بنجاح فعليًا (نفس مبدأ مسار
+    # التحليل): تُحفَظ headlines فارغة ولا تُعرَض لها مربعات في المراجعة.
+    headlines, hl_error = headlines_mod.headlines_for_post(
+        written["post_title"], written["post_body"], cfg)
+    if hl_error:
+        log.warning("فشلت اقتراحات العناوين لـ%r: %s", art.title[:60], hl_error)
+        headlines = []
+
     return {
         "id": art.uid,
         "created_at": datetime.now(timezone.utc).isoformat(),
@@ -79,6 +91,8 @@ def _build_draft(art, written: dict, docs: list[dict], prev_title: str | None,
         },
         "arabic": written,
         "caption": build_caption(written, art, cfg),
+        "headlines": headlines,
+        "headline_selected": 0,
         "image": image_rel,
         "reel": None,
         "reel_spec": {

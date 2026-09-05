@@ -573,6 +573,36 @@ def main() -> int:
             store.update_draft(cap_path, caption=edited, caption_edited=True)
             log.info("نص المنشور %s عُدِّل يدويًا في الـ Issue", draft_id)
 
+    # اختيار العنوان (Issue #756) -- بعد تطبيق تعديل النص اليدوي مباشرة
+    # (ترتيب ملزم: لو حرّر المراجع النص وعلّم عنوانًا معًا، يُطبَّق التحرير
+    # أولًا فيستبدل العنوان المختار سطره الأول من النص المحرَّر لا الأصلي)،
+    # ولمسودات الأخبار وحدها -- مسار التحليل له تطبيقه الخاص عبر
+    # youtube_publish.ensure_title_card/_apply_headline (يقرأ نفس
+    # parse_headline_choice، لكن بعد التوجيه بالأصل أدناه لا هنا).
+    headline_choices = review.parse_headline_choice(body)
+    for draft_id, chosen_idx in headline_choices.items():
+        if draft_id not in ids:
+            continue
+        found = store.load_draft(draft_id)
+        if not found:
+            continue
+        hl_path, hl_draft = found
+        if store.origin_of(hl_draft) == "analysis":
+            continue
+        headlines = hl_draft.get("headlines") or []
+        if not (0 <= chosen_idx < len(headlines)):
+            continue
+        headline = headlines[chosen_idx]
+        cap_lines = (hl_draft.get("caption") or "").splitlines()
+        if not cap_lines:
+            continue
+        cap_lines[0] = headline
+        new_caption = "\n".join(cap_lines)
+        new_arabic = {**(hl_draft.get("arabic") or {}), "post_title": headline}
+        store.update_draft(hl_path, caption=new_caption, arabic=new_arabic,
+                            headline_selected=chosen_idx)
+        log.info("عنوان المنشور %s استُبدل بالعنوان المختار (%d)", draft_id, chosen_idx)
+
     reels = review.parse_reels(body)
 
     # مربعا الاعتماد والرفض قد يُعلَّمان معًا: مراجع اعتمد أولًا ثم عدل

@@ -547,22 +547,11 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
 # ──────────────────────────── Issue المراجعة ────────────────────────────
 
 
-HEADLINE_BOX_RE = re.compile(
-    r"^\s*-\s*\[([ xX])\]\s*.*?<!--\s*hl:([0-9a-f]+):(\d+)\s*-->", re.MULTILINE)
-
-
-def parse_headline_choice(body: str) -> dict[str, int]:
-    """يقرأ اختيار المالك بين العناوين الثلاثة (Issue #680) من نص Issue
-    المراجعة -- معرّف المسودة ← فهرس العنوان المعلَّم. مسودة لم تُعلَّم على
-    أيّ عنوان فيها (لم تظهر في القاموس المُعاد) تبقى على الافتراضي (٠، سؤال)
-    في ensure_title_card. أكثر من عنوان معلَّم لنفس المسودة (خطأ مراجعة أو
-    تعليم يدوي غير دقيق) -- آخر مربع معلَّم في ترتيب ظهور النص يفوز، بلا
-    رفض أو تحذير: نفس تسامح parse_approved مع أخطاء التنسيق البسيطة."""
-    chosen: dict[str, int] = {}
-    for mark, draft_id, idx in HEADLINE_BOX_RE.findall(body or ""):
-        if mark.lower() == "x":
-            chosen[draft_id] = int(idx)
-    return chosen
+# نُقلت إلى review.py (Issue #756) -- مسار الأخبار يحتاج نفس آلية اختيار
+# العنوان، فهذه الوحدة استوردتها لتبقى `youtube_publish.parse_headline_choice`
+# قابلة للنداء كما هي من publish.py بلا تغيير في ذلك النداء.
+HEADLINE_BOX_RE = review.HEADLINE_BOX_RE
+parse_headline_choice = review.parse_headline_choice
 
 
 def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> str:

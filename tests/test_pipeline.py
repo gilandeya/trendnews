@@ -30,7 +30,7 @@ os.environ["TRENDNEWS_DRAFTS_DIR"] = str(_TMP_DATA_DIR / "drafts")
 os.environ["TRENDNEWS_STATE_DIR"] = str(_TMP_DATA_DIR / "state")
 atexit.register(shutil.rmtree, _TMP_DATA_DIR, ignore_errors=True)
 
-from src import collect, evidence, extract, facebook, imagesearch, imaging, open_review, proxy_config, review, sources, store, trends, writer  # noqa: E402
+from src import collect, evidence, extract, facebook, headlines, imagesearch, imaging, open_review, proxy_config, review, sources, store, trends, writer  # noqa: E402
 from src import youtube_article, youtube_cluster, youtube_collect, youtube_extract  # noqa: E402
 from src import youtube_publish  # noqa: E402
 from src.config import (  # noqa: E402
@@ -170,6 +170,18 @@ def install_fakes() -> None:
 
     writer.write_arabic = fake_write  # type: ignore
     collect.write_arabic = fake_write  # type: ignore
+
+    # عناوين مقترحة (Issue #756) -- fake عام واحد على src.headlines نفسها،
+    # يكفي كل المسارات الأربعة (collect_finalize/collect/verify_draft/article)
+    # لأنها كلها تنادي headlines_mod.headlines_for_post عبر ``from . import
+    # headlines as headlines_mod`` (استيراد وحدة لا نسخة اسم) -- تعديل
+    # الدالة على الوحدة المشتركة يظهر فورًا لكل من يستدعيها بلا تصحيح كل
+    # وحدة على حدة. اختبارات فشل النداء المخصَّصة تُصحّح هذا الفاكة محليًا
+    # (حفظ/استعادة) داخل دالتها فقط.
+    def fake_headlines_for_post(post_title, post_body, cfg, client=None):
+        return [f"هل {post_title}؟", f"{post_title} — تقرير أول", f"{post_title} — تقرير ثانٍ"], None
+
+    headlines.headlines_for_post = fake_headlines_for_post  # type: ignore
 
 
 # ──────────────────────────── الاختبارات ────────────────────────────
@@ -1240,6 +1252,10 @@ def test_collect_end_to_end() -> None:
         check(f"حقل '{field}' موجود في المسودة", field in draft)
     check("collect.py يكتب origin=news صراحةً (Issue #749)",
           draft.get("origin") == "news", draft.get("origin"))
+    check("collect.py (المسار القديم بلا preselect): يحفظ headlines/headline_selected "
+          "(Issue #756)",
+          isinstance(draft.get("headlines"), list) and len(draft["headlines"]) == 3
+          and draft.get("headline_selected") == 0, draft.get("headlines"))
 
     # "drafts/..." مسار نسبي لمستودع جيت لا لمجلد الكتابة الفعلي أثناء
     # الاختبار (DRAFTS_DIR هنا مجلد مؤقت) — نحوّله عبره لا عبر ROOT.
@@ -1449,6 +1465,10 @@ def test_preselect_finalize() -> None:
     check("collect_finalize.py يكتب origin=news صراحةً (Issue #749)",
           store.load_draft(cand_a["id"])[1].get("origin") == "news",
           store.load_draft(cand_a["id"])[1].get("origin"))
+    finalized_a = store.load_draft(cand_a["id"])[1]
+    check("collect_finalize.py: يحفظ headlines/headline_selected (Issue #756)",
+          isinstance(finalized_a.get("headlines"), list) and len(finalized_a["headlines"]) == 3
+          and finalized_a.get("headline_selected") == 0, finalized_a.get("headlines"))
 
     rejections_after = feedback.load()
     check("عدد سجلات الرفض ازداد بواحد فقط (غير المختار وحده)",
@@ -2252,8 +2272,9 @@ def test_editable_caption_and_image_source() -> None:
     publish.main قبل فصل analysis_ids/news_ids (نصّ غير معدَّل لا يكتب
     شيئًا، ومعدَّل يُحفَظ ويصل publish_one)، وصول النصّ المحرَّر إلى
     youtube_publish._apply_headline لمسار التحليل تحديدًا (الترتيب الذي
-    طلبته المهمة)، وreview.image_source_line في حالاتها الخمس بما فيها
-    مسودة قديمة بلا image_info."""
+    طلبته المهمة)، وreview.image_source_line في حالاتها الست (تصحيح Issue
+    #756 على #752) بما فيها مسودة قديمة فعليًا بلا image_info، وبطاقة تحليل
+    لم تُبنَ بعد بعد (غياب image_info وimage معًا -- Issue #680)."""
     from src import publish as publish_mod
     from src import youtube_publish as yp
 
@@ -2304,7 +2325,7 @@ def test_editable_caption_and_image_source() -> None:
     check("parse_captions: بلا كتلة cap إطلاقًا يعيد قاموسًا فارغًا",
           review.parse_captions("نص Issue بلا أي كتلة نصّ") == {})
 
-    # ── image_source_line: الحالات الخمس ──
+    # ── image_source_line: الحالات الست (تصحيح Issue #756 على #752) ──
     check("image_source_line: يدوية",
           review.image_source_line({"image_info": {
               "manual": True, "used_original": True, "illustrative": False,
@@ -2313,11 +2334,11 @@ def test_editable_caption_and_image_source() -> None:
     check("image_source_line: ناشر (صورة واحدة، بلا تركيب)",
           review.image_source_line({"image_info": {
               "used_original": True, "illustrative": False, "composite": False}})
-          == "🖼 **المصدر:** صورة الناشر — أصلية")
+          == "🖼️ **المصدر:** صورة الناشر — أصلية")
     check("image_source_line: ناشر مع تركيب صورتين",
           review.image_source_line({"image_info": {
               "used_original": True, "illustrative": False, "composite": True}})
-          == "🖼 **المصدر:** صورة الناشر — أصلية · مدمجة من صورتين")
+          == "🖼️ **المصدر:** صورة الناشر — أصلية · مدمجة من صورتين")
     check("image_source_line: تعبيرية حرة",
           review.image_source_line({"image_info": {
               "used_original": True, "illustrative": True, "composite": False}})
@@ -2326,10 +2347,14 @@ def test_editable_caption_and_image_source() -> None:
           review.image_source_line({"image_info": {
               "used_original": False, "illustrative": False, "composite": False}})
           == "🖼️ **المصدر:** بلا صورة — البطاقة على خلفية مصممة")
-    check("image_source_line: مسودة قديمة بلا image_info لا تنهار وتُعرَض صراحةً "
-          "(لا تخمين من has_photo وحده)",
+    check("image_source_line: غياب image_info وimage معًا -- بطاقة لم تُبنَ بعد "
+          "(مسودة تحليل قبل الاعتماد، Issue #680)، لا مسودة سابقة",
           review.image_source_line({"has_photo": True}) ==
-          "🖼️ المصدر: غير مسجَّل (مسودة سابقة).")
+          "🖼️ **المصدر:** البطاقة لم تُبنَ بعد — تُبنى عند الاعتماد")
+    check("image_source_line: غياب image_info مع وجود image -- مسودة سابقة فعليًا "
+          "(من قبل حقل image_info)",
+          review.image_source_line({"has_photo": True, "image": "drafts/x.jpg"}) ==
+          "🖼️ **المصدر:** غير مسجَّل (مسودة سابقة)")
 
     # ── نصّ غير معدَّل عبر build_issue_body/publish.main لا يكتب شيئًا ──
     news_draft = {
@@ -2350,7 +2375,7 @@ def test_editable_caption_and_image_source() -> None:
           "حرّر هذا الـIssue واكتب داخل كتلة النص مباشرة" in body_unedited and
           "افتح ملف" not in body_unedited, None)
     check("build_issue_body: سطر مصدر الصورة ظاهر تحت سطر الشارات",
-          "🖼️ المصدر: غير مسجَّل (مسودة سابقة)." in body_unedited, body_unedited)
+          "🖼️ **المصدر:** غير مسجَّل (مسودة سابقة)" in body_unedited, body_unedited)
     marked_unedited = body_unedited.replace("- [ ] **1.", "- [x] **1.", 1)
 
     real_fetch = publish_mod.fetch_issue
@@ -2384,6 +2409,114 @@ def test_editable_caption_and_image_source() -> None:
           store.load_draft(news_draft["id"])[1])
     check("نص غير معدَّل: النص المنشور فعليًا مطابق للأصلي",
           publish_calls == ["نص الخبر الأصلي."], publish_calls)
+
+    # ── عناوين مقترحة لمسار الأخبار (Issue #756) — عرض وقراءة وتطبيق ──
+    hl_news_draft = {
+        "id": "ca4400000004", "status": "pending", "score": 5.0, "bucket": "serious",
+        "state_media": False, "image": "drafts/cap4.jpg",
+        "caption": "عنوان تجريبي فقط\nمتن الخبر التجريبي.",
+        "source": {"link": "https://x/4", "publishers": ["BBC"]},
+        "arabic": {"post_title": "عنوان تجريبي فقط", "category": "سياسة", "urgent": False},
+        "headlines": ["هل يتصاعد الموقف؟", "بديل أول تقريري", "بديل ثانٍ ترجيحي"],
+        "headline_selected": 0,
+    }
+    store.save_draft(hl_news_draft)
+    (DRAFTS_DIR / "cap4.jpg").write_bytes(b"\xff\xd8\xff")
+
+    no_hl_draft = {
+        "id": "ca5500000005", "status": "pending", "score": 5.0, "bucket": "serious",
+        "state_media": False, "image": "drafts/cap5.jpg",
+        "caption": "خبر بلا عناوين مقترحة.",
+        "source": {"link": "https://x/5", "publishers": ["BBC"]},
+        "arabic": {"post_title": "خبر بلا عناوين مقترحة", "category": "سياسة", "urgent": False},
+        "headlines": [],
+    }
+    store.save_draft(no_hl_draft)
+    (DRAFTS_DIR / "cap5.jpg").write_bytes(b"\xff\xd8\xff")
+
+    body_hl = review.build_issue_body([hl_news_draft, no_hl_draft], "u/r", "main")
+    check("build_issue_body: مسودة بعناوين مقترحة تعرض المربعات الثلاثة",
+          f"<!-- hl:{hl_news_draft['id']}:0 -->" in body_hl and
+          f"<!-- hl:{hl_news_draft['id']}:1 -->" in body_hl and
+          f"<!-- hl:{hl_news_draft['id']}:2 -->" in body_hl, body_hl)
+    check("build_issue_body: العنوان الأول معلَّم افتراضيًا",
+          f"- [x] 1. هل يتصاعد الموقف؟  <!-- hl:{hl_news_draft['id']}:0 -->" in body_hl, body_hl)
+    check("build_issue_body: سطر «علّم واحدًا» ظاهر فوق المربعات",
+          "📰 **العنوان:** علّم واحدًا" in body_hl, body_hl)
+    check("build_issue_body: مسودة بقائمة عناوين فارغة لا تعرض أي مربع hl إطلاقًا",
+          f"<!-- hl:{no_hl_draft['id']}:" not in body_hl, body_hl)
+    check("build_issue_body: جملة التعارض (تحرير + عنوان معًا) ظاهرة في التعليمات",
+          "لو عدّلت النص وعلّمت عنوانًا معًا" in body_hl, body_hl)
+
+    # اختيار عنوان بديل (الفهرس ١) بلا تعديل نصّ -- يستبدل السطر الأول فقط
+    # ويحدّث arabic.post_title وheadline_selected
+    marked_hl = body_hl.replace("- [ ] **1.", "- [x] **1.", 1)
+    marked_hl = marked_hl.replace(
+        f"- [x] 1. هل يتصاعد الموقف؟  <!-- hl:{hl_news_draft['id']}:0 -->",
+        f"- [ ] 1. هل يتصاعد الموقف؟  <!-- hl:{hl_news_draft['id']}:0 -->")
+    marked_hl = marked_hl.replace(
+        f"- [ ] 2. بديل أول تقريري  <!-- hl:{hl_news_draft['id']}:1 -->",
+        f"- [x] 2. بديل أول تقريري  <!-- hl:{hl_news_draft['id']}:1 -->")
+
+    publish_calls.clear()
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": marked_hl, "labels": [{"name": "approved"}]}
+    sys.argv = ["publish", "--issue", "9004", "--now"]
+    try:
+        code4 = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+
+    persisted4 = store.load_draft(hl_news_draft["id"])[1]
+    check("publish.main (اختيار عنوان بديل): ينتهي بنجاح", code4 == 0, f"exit={code4}")
+    check("اختيار عنوان بديل: caption المخزَّن باستبدال السطر الأول فقط",
+          persisted4.get("caption") == "بديل أول تقريري\nمتن الخبر التجريبي.", persisted4)
+    check("اختيار عنوان بديل: arabic.post_title تحدَّث للعنوان المختار",
+          persisted4.get("arabic", {}).get("post_title") == "بديل أول تقريري", persisted4)
+    check("اختيار عنوان بديل: headline_selected=1 محفوظ", persisted4.get("headline_selected") == 1,
+          persisted4)
+    check("اختيار عنوان بديل: النص المنشور فعليًا يحمل العنوان الجديد",
+          publish_calls == ["بديل أول تقريري\nمتن الخبر التجريبي."], publish_calls)
+
+    # تعديل النص يدويًا واختيار عنوان معًا -- الترتيب الملزم: التحرير أولًا
+    # ثم العنوان المختار يستبدل السطر الأول من النص *المحرَّر* لا الأصلي
+    hl_edit_draft = {
+        "id": "ca6600000006", "status": "pending", "score": 5.0, "bucket": "serious",
+        "state_media": False, "image": "drafts/cap6.jpg",
+        "caption": "عنوان قديم\nمتن قديم.",
+        "source": {"link": "https://x/6", "publishers": ["BBC"]},
+        "arabic": {"post_title": "عنوان قديم", "category": "سياسة", "urgent": False},
+        "headlines": ["هل يحدث كذا؟", "بديل تقريري", "بديل ترجيحي"],
+        "headline_selected": 0,
+    }
+    store.save_draft(hl_edit_draft)
+    (DRAFTS_DIR / "cap6.jpg").write_bytes(b"\xff\xd8\xff")
+
+    body_hl2 = review.build_issue_body([hl_edit_draft], "u/r", "main")
+    marked_hl2 = body_hl2.replace("- [ ] **1.", "- [x] **1.", 1)
+    marked_hl2 = marked_hl2.replace(
+        f"- [x] 1. هل يحدث كذا؟  <!-- hl:{hl_edit_draft['id']}:0 -->",
+        f"- [ ] 1. هل يحدث كذا؟  <!-- hl:{hl_edit_draft['id']}:0 -->")
+    marked_hl2 = marked_hl2.replace(
+        f"- [ ] 2. بديل تقريري  <!-- hl:{hl_edit_draft['id']}:1 -->",
+        f"- [x] 2. بديل تقريري  <!-- hl:{hl_edit_draft['id']}:1 -->")
+    edited_hl2 = marked_hl2.replace("متن قديم.", "متن محرَّر يدويًا أيضًا.")
+
+    publish_calls.clear()
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": edited_hl2, "labels": [{"name": "approved"}]}
+    sys.argv = ["publish", "--issue", "9005", "--now"]
+    try:
+        code5 = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+
+    persisted5 = store.load_draft(hl_edit_draft["id"])[1]
+    check("publish.main (تحرير + اختيار عنوان معًا): ينتهي بنجاح", code5 == 0, f"exit={code5}")
+    check("تحرير + عنوان معًا: النص المحرَّر بسطره الأول مستبدَلًا بالعنوان المختار",
+          persisted5.get("caption") == "بديل تقريري\nمتن محرَّر يدويًا أيضًا.", persisted5)
+    check("تحرير + عنوان معًا: النص المنشور فعليًا يطابق ذلك",
+          publish_calls == ["بديل تقريري\nمتن محرَّر يدويًا أيضًا."], publish_calls)
 
     # ── نصّ معدَّل يُحفَظ فعليًا ويصل publish_one (لا الأصلي) ──
     news_draft2 = {
@@ -2624,6 +2757,195 @@ def test_request_search() -> None:
     check("نافذة الطلب أوسع من نافذة الدورة",
           int((load_config().get("request", {}) or {}).get("days", 7)) * 24
           > int((cfg.get("selection", {}) or {}).get("max_age_hours", 18)))
+
+
+def test_request_and_radar_headlines() -> None:
+    """Issue #756: radar.build_draft المشتركة مع مسار العاجل لا تولّد عناوين
+    ولا تحفظها إطلاقًا (لا كلفة نداء يدفعها العاجل بلا استعمال)، بينما
+    request.py يولّدها بنفسه بعد بناء المسودة ويحفظها في drafts.
+
+    radar.py يستورد write_arabic/build_post_image عبر ``from .writer import
+    ...`` على مستوى الوحدة، وrequest.py يستورد radar بالمثل — كلاهما يُحمَّل
+    فعليًا (سلسلة import عابرة من evidence.py) عند استيراد وحدات هذا الملف
+    في القمة، أي **قبل** أن يستبدل install_fakes() writer.write_arabic
+    بالفاكة العامة؛ فالاسم المرتبط داخل radar.py يبقى يشير إلى الدالة
+    الحقيقية بصرف النظر عمّا يُستبدَل لاحقًا على وحدة writer نفسها (نفس
+    السبب الذي يجعل كل اختبار رادار آخر في هذا الملف يستبدل
+    radar.write_arabic محليًا بدل الاعتماد على الفاكة العامة)."""
+    from src import radar
+    from src import request as rq
+
+    def fake_write(article, cfg, retries=3, previous_post=None, source_docs=None):
+        return {"urgent": bool(cfg), "category": "عالم", "angle": "خبر",
+                "image_headline": "عنوان تجريبي", "post_title": "عنوان تجريبي",
+                "post_body": "متن تجريبي لفحص العناوين.", "hashtags": []}
+
+    def fake_image(headline, category, urgent, image_urls, publisher, bucket,
+                   fallback_provider, cfg, out_path, report):
+        report["used_original"] = False
+
+    real_write, real_image = radar.write_arabic, radar.build_post_image
+    radar.write_arabic, radar.build_post_image = fake_write, fake_image
+    try:
+        cfg = load_config()
+        art_radar = Article(title="عاجل تجريبي لفحص استبعاد العناوين", link="https://x/radar-hl",
+                            summary="", source_name="s", region="global", weight=1.0,
+                            published=datetime.now(timezone.utc))
+        radar_draft = radar.build_draft(art_radar, cfg, urgent=True)
+        check("radar.build_draft لا تحفظ headlines إطلاقًا",
+              radar_draft is not None and "headlines" not in radar_draft, radar_draft)
+        check("radar.build_draft لا تحفظ headline_selected إطلاقًا",
+              radar_draft is not None and "headline_selected" not in radar_draft, radar_draft)
+
+        art_req = Article(title="طلب تجريبي لفحص حفظ العناوين", link="https://x/request-hl",
+                          summary="", source_name="s", region="global", weight=1.0,
+                          published=datetime.now(timezone.utc))
+        real_fetch_source = rq.fetch_source
+        rq.fetch_source = lambda src, max_age_hours: [art_req]
+        sys.argv = ["request", "--query", "طلب تجريبي لفحص حفظ العناوين", "--limit", "1"]
+        try:
+            code = rq.main()
+        finally:
+            rq.fetch_source = real_fetch_source
+    finally:
+        radar.write_arabic, radar.build_post_image = real_write, real_image
+
+    check("request.main() ينتهي بنجاح", code == 0, f"exit={code}")
+    req_draft = store.load_draft(art_req.uid)
+    check("مسودة الطلب صيغت فعليًا", req_draft is not None, req_draft)
+    if req_draft:
+        req_data = req_draft[1]
+        check("request.py: يحفظ headlines/headline_selected (Issue #756)",
+              isinstance(req_data.get("headlines"), list) and len(req_data["headlines"]) == 3
+              and req_data.get("headline_selected") == 0, req_data.get("headlines"))
+        check("request.py يكتب origin=request كما كان", req_data.get("origin") == "request",
+              req_data.get("origin"))
+
+
+def test_headlines_module() -> None:
+    """Issue #756: المولّد المشترك (src/headlines.py) -- التحقّق العام
+    (سؤال أول + حدّ كلمات) وحلقة إعادة المحاولة، مستقلَّين عن أي مسار
+    بعينه. فحص الاسم غير الموثَّق تحليليّ بحت ويبقى مختبَرًا في
+    test_youtube_article عبر ya._validate_headlines (لا تعديل هناك)."""
+    good = ["هل يتصاعد الموقف بعد الحدث؟", "الحدث يفتح الباب لتطورات جديدة",
+            "تصعيد مرجّح بعد الحدث الأخير"]
+    ok, reason = headlines.validate_headlines(good, 15)
+    check("validate_headlines: ثلاثة عناوين صالحة تُقبَل", ok, reason)
+
+    not_question = ["تطوّر متوقّع بعد الحدث", "عنوان ثانٍ", "عنوان ثالث"]
+    ok, reason = headlines.validate_headlines(not_question, 15)
+    check("validate_headlines: العنوان الأول بلا علامة استفهام يُرفَض",
+          not ok and "سؤال" in reason, reason)
+
+    too_long = ["هل " + " ".join(["كلمة"] * 20) + "؟", "قصير", "قصير أيضًا"]
+    ok, reason = headlines.validate_headlines(too_long, 15)
+    check("validate_headlines: عنوان يتجاوز سقف الكلمات يُرفَض",
+          not ok and "15 كلمة" in reason, reason)
+
+    class _Block:
+        def __init__(self, type_, input_=None, text=None):
+            self.type, self.input, self.text = type_, input_, text
+
+    class _Resp:
+        def __init__(self, content):
+            self.content = content
+
+    class _Messages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls: list = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return self._responses.pop(0)
+
+    class _Client:
+        def __init__(self, responses):
+            self.messages = _Messages(responses)
+
+    hl_cfg = load_config()
+    hl_cfg["headlines"] = {"model": "m", "max_tokens": 300, "max_retries": 2, "max_words": 15}
+
+    success_client = _Client([_Resp([_Block("tool_use", input_={"headlines": good})])])
+    result, error = headlines.propose_headlines("محتوى تجريبي", hl_cfg, "headlines",
+                                                 client=success_client)
+    check("propose_headlines: محاولة أولى صالحة تُقبَل بلا إعادة",
+          error is None and result == good, (result, error))
+    check("propose_headlines: يقرأ cfg_prefix.model/max_tokens من config.yaml",
+          success_client.messages.calls[0]["model"] == "m"
+          and success_client.messages.calls[0]["max_tokens"] == 300,
+          success_client.messages.calls[0])
+
+    retry_client = _Client([
+        _Resp([_Block("tool_use", input_={"headlines": not_question})]),
+        _Resp([_Block("tool_use", input_={"headlines": good})]),
+    ])
+    result2, error2 = headlines.propose_headlines("محتوى تجريبي", hl_cfg, "headlines",
+                                                   client=retry_client)
+    check("propose_headlines: إعادة محاولة بعد عنوان أول بلا صيغة سؤال تنجح",
+          error2 is None and result2 == good, (result2, error2))
+
+    bad_client = _Client([
+        _Resp([_Block("tool_use", input_={"headlines": not_question})]),
+        _Resp([_Block("tool_use", input_={"headlines": not_question})]),
+    ])
+    result3, error3 = headlines.propose_headlines("محتوى تجريبي", hl_cfg, "headlines",
+                                                   client=bad_client)
+    check("propose_headlines: فشل كل المحاولات يعيد سببًا صريحًا لا قائمة",
+          result3 is None and error3 is not None, error3)
+
+    # extra_validate يشارك ميزانية إعادة المحاولة نفسها (لا محاولات إضافية) --
+    # يستعملها youtube_article.generate_headlines لفحص الاسم غير الموثَّق.
+    # كلتا المحاولتين هنا تجتاز التحقّق العام (headlines صالحة بنيويًا) ثم
+    # تُرفَضان بـextra_validate، فتُستهلَك ميزانية max_retries=2 كاملة.
+    extra_calls: list = []
+
+    def extra_reject_always(hls):
+        extra_calls.append(hls)
+        return False, "رفض إضافي مخصَّص"
+
+    extra_client = _Client([
+        _Resp([_Block("tool_use", input_={"headlines": good})]),
+        _Resp([_Block("tool_use", input_={"headlines": good})]),
+    ])
+    result4, error4 = headlines.propose_headlines(
+        "محتوى تجريبي", hl_cfg, "headlines", client=extra_client,
+        extra_validate=extra_reject_always)
+    check("propose_headlines: extra_validate يرفض حتى بعد نجاح التحقّق العام",
+          result4 is None and "رفض إضافي مخصَّص" in error4, error4)
+    check("propose_headlines: extra_validate استُدعي في كل محاولة اجتازت التحقّق العام",
+          len(extra_calls) == 2, extra_calls)
+
+
+def test_headlines_failure_keeps_draft_with_empty_list() -> None:
+    """Issue #756: فشل نداء العناوين لا يُسقِط مسودة صيغت بنجاح فعليًا --
+    نفس مبدأ مسار التحليل (youtube_article.run). تُحفَظ headlines=[] بلا
+    تكرار العنوان الأصلي ثلاثًا، ومسودة بقائمة فارغة لا تُعرَض لها مربعات
+    عناوين إطلاقًا في نص Issue المراجعة."""
+    from src import collect_finalize, preselect
+
+    art = Article(title="خبر لفحص فشل توليد العناوين عمدًا",
+                 link="https://hlfail.example/a", summary="", source_name="P1",
+                 region="r1", weight=1.0, published=datetime.now(timezone.utc),
+                 bucket="serious", publisher="P1")
+    cand = preselect.build_candidate(art)
+    store.save_candidate(cand)
+
+    real_headlines_for_post = headlines.headlines_for_post
+    headlines.headlines_for_post = lambda *a, **kw: (None, "فشل تجريبي مقصود")
+    try:
+        draft = collect_finalize._write_selected(
+            cand["id"], store.load_history(), 0.5, {}, {}, load_config(), [])
+    finally:
+        headlines.headlines_for_post = real_headlines_for_post
+
+    check("فشل نداء العناوين لا يُسقِط مسودة صالحة فعليًا", draft is not None, draft)
+    if draft:
+        check("headlines=[] عند فشل النداء (لا تكرار العنوان الأصلي ثلاثًا)",
+              draft.get("headlines") == [], draft.get("headlines"))
+        body = review.build_issue_body([draft], "u/r", "main")
+        check("مسودة بـ[] لا تُعرَض لها مربعات عناوين إطلاقًا",
+              f"<!-- hl:{draft['id']}:" not in body and "📰 **العنوان:**" not in body, body)
 
 
 def test_verify() -> None:
@@ -4003,6 +4325,9 @@ def test_verify_draft() -> None:
               ("https://bbc.example/1", "https://reuters.example/1"))
         check("3) نفس مخطط drafts/ (id/arabic/caption/image/source) بلا نقص",
               {"id", "arabic", "caption", "image", "source"} <= set(saved.keys()))
+        check("3) verify_draft.py يحفظ headlines/headline_selected (Issue #756)",
+              isinstance(saved.get("headlines"), list) and len(saved["headlines"]) == 3
+              and saved.get("headline_selected") == 0, saved.get("headlines"))
         # نقطة 3 من تعليق ما قبل الدمج: حقل الروابط/الناشرين يُملأ من
         # المصادر المؤكِّدة وحدها؛ رابط المقال الملصق واسم ناشره لا يظهران
         # في المنشور — لا يوجد لهما أصلًا حقل في هذا المسار (لا رابط للمقال
@@ -6950,6 +7275,13 @@ def test_article_statement_majority() -> None:
           out["grounded_count"] == 2, out["grounded_count"])
     check("تكامل الأغلبية: outcome['produced'] نجح",
           out["produced"] is True, out["reason"])
+    _majority_loaded = store.load_draft(out["draft_id"]) if out.get("draft_id") else None
+    check("article.py يحفظ headlines/headline_selected (Issue #756)",
+          _majority_loaded is not None
+          and isinstance(_majority_loaded[1].get("headlines"), list)
+          and len(_majority_loaded[1]["headlines"]) == 3
+          and _majority_loaded[1].get("headline_selected") == 0,
+          _majority_loaded[1].get("headlines") if _majority_loaded else None)
 
     statement_grounded = [g for g in (captured_grounded[0] if captured_grounded else [])
                           if g.get("kind") == "تصريح"]
@@ -10427,7 +10759,11 @@ def test_request_writes_request_origin() -> None:
     def fake_build_draft(article, cfg, urgent=False, extra=None, docs=None):
         captured["extra"] = extra
         return {"id": article.uid, "score": 1.0,
-                "arabic": {"post_title": article.title},
+                # post_body لازم الآن (Issue #756) -- request.py يستدعي
+                # headlines_mod.headlines_for_post(post_title, post_body, ...)
+                # بعد نجاح build_draft، فغيابه كان يُسقط الاختبار بـ KeyError
+                # لا علاقة له بما يختبره هذا التست فعليًا (توجيه origin).
+                "arabic": {"post_title": article.title, "post_body": "نص تجريبي"},
                 "origin": (extra or {}).get("origin", "breaking")}
 
     rq.radar.build_draft = fake_build_draft
@@ -13644,6 +13980,10 @@ def main() -> int:
     test_editable_caption_and_image_source()
     test_setimage_revives_failed_draft_only_when_image_was_the_cause()
     test_request_search()
+    print("\n── عناوين مقترحة مشتركة لمسارات الأخبار/الطلب/التحقق/المقال (Issue #756) ──")
+    test_headlines_module()
+    test_request_and_radar_headlines()
+    test_headlines_failure_keeps_draft_with_empty_list()
     print("\n── التحقق من مقال ملصق ──")
     test_verify()
     print("\n── صياغة مسودة من المؤكَّد وحده (التحقق، المرحلة 2) ──")
