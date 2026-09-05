@@ -89,6 +89,14 @@ def apply_image(draft_id: str, url: str, cfg) -> dict | None:
         return None
     path, draft = found
 
+    if not draft.get("image"):
+        # مسودة تحليل قبل اعتمادها (Issue #680) لا بطاقة لها بنيويًا بعد —
+        # ensure_title_card يبنيها فقط لحظة الاعتماد. next_image_path أدناه
+        # يفترض بطاقة موجودة أصلًا ليحسب مسارًا "تاليًا" لها، فلا معنى
+        # لاستدعائه هنا (Issue #749: رسالة واضحة بدل KeyError).
+        log.warning("لا بطاقة بعد للمسودة %s — البطاقة تُبنى عند الاعتماد", draft_id)
+        return None
+
     # نتحقق قبل البناء: الرابط قد يكون صفحة لا صورة، أو صورة صغيرة
     # لا تصلح خلفية. الفشل هنا أرخص من بطاقة مشوّهة.
     if download_image(url) is None:

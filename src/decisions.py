@@ -79,9 +79,10 @@ def _features(draft: dict) -> dict:
         pass
     body = ar.get("post_body") or draft.get("caption") or ""
     return {
-        # المسار العادي (collect.py) لا يكتب "origin" إطلاقًا — القيمة
-        # الافتراضية هنا تميّزه عن article/verify بلا تعديل collect.py.
-        "origin": draft.get("origin", "collect"),
+        # القيمة المعيارية عبر store.origin_of (Issue #749) — تعامل مسودة
+        # بلا حقل، أو بـ"collect" (ما كان يُكتب هنا افتراضيًا قبل التوحيد)،
+        # كليهما بوصفها "news"، وتُحوّل "youtube" القديمة إلى "analysis".
+        "origin": store.origin_of(draft),
         "category": ar.get("category", ""),
         "angle": ar.get("angle", ""),
         "urgent": bool(ar.get("urgent")),

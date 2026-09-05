@@ -373,6 +373,7 @@ def main() -> int:
                 "created_at": datetime.now(timezone.utc).isoformat(),
                 "status": "pending",
                 "review_issue": None,
+                "origin": "news",
                 "score": round(art.score, 2),
                 "bucket": art.bucket,
                 "analysed_sources": [d["name"] for d in docs],

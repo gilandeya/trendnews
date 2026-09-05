@@ -61,17 +61,17 @@ def main() -> int:
                         format="%(asctime)s │ %(levelname)-7s │ %(message)s",
                         datefmt="%H:%M:%S")
 
-    # مسار يوتيوب (src/youtube_publish.py) يبني مسوداته بلا حقل image
+    # مسار التحليل (src/youtube_publish.py) يبني مسوداته بلا حقل image
     # عمدًا حتى الاعتماد (Issue #680)، وله Issue مراجعة خاص
-    # (youtube_publish.open_review يفلتر origin == "youtube" صراحة).
-    # نافذة سباق ضيقة بين حفظ تلك المسودة (status=pending) وربطها
-    # بـreview_issue الخاص بها تعني أن هذا المسار العام قد يلتقطها أولًا
-    # ويُدرجها في Issue المراجعة العام خطأً — فتفشل build_issue_body بـ
+    # (youtube_publish.pending_youtube_drafts يفلتر store.origin_of(...) ==
+    # "analysis" صراحة). نافذة سباق ضيقة بين حفظ تلك المسودة (status=pending)
+    # وربطها بـreview_issue الخاص بها تعني أن هذا المسار العام قد يلتقطها
+    # أولًا ويُدرجها في Issue المراجعة العام خطأً — فتفشل build_issue_body بـ
     # KeyError وتُسقط الدفعة كلها (Issue #707). استبعادها هنا صراحة يمنع
-    # ذلك دون أي تعديل على مسار يوتيوب نفسه.
+    # ذلك دون أي تعديل على مسار التحليل نفسه.
     fresh_drafts = _valid_review_drafts([
         (path, d) for path, d in store.pending_drafts()
-        if not d.get("review_issue") and d.get("origin") != "youtube"
+        if not d.get("review_issue") and store.origin_of(d) != "analysis"
     ])
     fresh_candidates = [
         (path, c) for path, c in store.pending_candidates()

@@ -1234,6 +1234,8 @@ def test_collect_end_to_end() -> None:
     draft = pending[0][1] if pending else {}
     for field in ("id", "status", "score", "source", "arabic", "caption", "image"):
         check(f"حقل '{field}' موجود في المسودة", field in draft)
+    check("collect.py يكتب origin=news صراحةً (Issue #749)",
+          draft.get("origin") == "news", draft.get("origin"))
 
     # "drafts/..." مسار نسبي لمستودع جيت لا لمجلد الكتابة الفعلي أثناء
     # الاختبار (DRAFTS_DIR هنا مجلد مؤقت) — نحوّله عبره لا عبر ROOT.
@@ -1440,6 +1442,9 @@ def test_preselect_finalize() -> None:
 
     check("صيغت مسودة للمختار", store.load_draft(cand_a["id"]) is not None)
     check("لم تُصَغ مسودة لغير المختار", store.load_draft(cand_b["id"]) is None)
+    check("collect_finalize.py يكتب origin=news صراحةً (Issue #749)",
+          store.load_draft(cand_a["id"])[1].get("origin") == "news",
+          store.load_draft(cand_a["id"])[1].get("origin"))
 
     rejections_after = feedback.load()
     check("عدد سجلات الرفض ازداد بواحد فقط (غير المختار وحده)",
@@ -2286,6 +2291,31 @@ def test_setimage_revives_failed_draft_only_when_image_was_the_cause() -> None:
         check("error يبقى كما هو",
               updated_other.get("error") == "خطأ فيسبوك: (#1) الخدمة غير متاحة",
               updated_other.get("error"))
+
+
+def test_setimage_rejects_analysis_draft_without_card() -> None:
+    """Issue #749: مسودة تحليل قبل اعتمادها بلا حقل image بنيويًا (Issue
+    #680، ensure_title_card يبنيه فقط لحظة الاعتماد) — apply_image يفترض
+    بطاقة مبنية (next_image_path(draft["image"])), فيجب أن يرفض برسالة
+    واضحة (لا KeyError) بدل الانهيار."""
+    from src import setimage
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    draft = {
+        "id": "cafe00000001", "status": "pending", "origin": "analysis",
+        "arabic": {"post_title": "مقال تحليل"}, "caption": "متن",
+        "source": {"publishers": ["Ch1"]},
+        # بلا حقل image عمدًا
+    }
+    store.save_draft(draft)
+
+    result = setimage.apply_image(draft["id"], "https://cdn.example/x.jpg", load_config())
+    check("apply_image يرفض بأمان (يعيد None) بدل KeyError على مسودة بلا بطاقة",
+          result is None, result)
+    check("المسودة لم تُمسّ إطلاقًا", store.load_draft(draft["id"])[1] == draft,
+          store.load_draft(draft["id"])[1])
 
 
 def test_request_search() -> None:
@@ -10000,6 +10030,107 @@ def test_open_review_excludes_youtube_and_broken_drafts() -> None:
           store.load_draft("600dcafe")[1].get("review_issue"))
 
 
+def test_origin_of_synonyms() -> None:
+    """Issue #749: store.origin_of هي الدالّة الوحيدة التي تحسم أصل مسودة —
+    بثلاثة مرادفات للقديم على القرص (لا تُعدَّل المسودات القديمة نفسها،
+    الدالّة وحدها تتكفّل بها)، وتمرّر القيم المعيارية الست كما هي."""
+    check("origin_of: مرادف youtube القديم ← analysis",
+          store.origin_of({"origin": "youtube"}) == "analysis")
+    check("origin_of: مرادف collect القديم (decisions.py سابقًا) ← news",
+          store.origin_of({"origin": "collect"}) == "news")
+    check("origin_of: الغياب (المسار العادي/الرادار القديمان) ← news",
+          store.origin_of({}) == "news")
+    check("CANONICAL_ORIGINS يطابق القيم الست في CLAUDE.md",
+          store.CANONICAL_ORIGINS
+          == {"news", "breaking", "request", "verify", "article", "analysis"},
+          store.CANONICAL_ORIGINS)
+    for value in store.CANONICAL_ORIGINS:
+        check(f"origin_of: القيمة المعيارية «{value}» تمرّ كما هي",
+              store.origin_of({"origin": value}) == value)
+
+
+def test_radar_writes_breaking_origin() -> None:
+    """مواضع الكتابة السبعة (Issue #749) — radar.py:build_draft يكتب
+    origin=breaking صراحةً لكل مسودة عاجلة يبنيها الرادار مباشرة (لا عبر
+    preselect_fallback، الذي يبني مرشحًا خامًا بلا هذا الحقل أصلًا)."""
+    from src import radar
+    from src.sources import Article
+
+    art = Article(title="بركان يثور ويقذف الرماد لأميال في السماء",
+                 link="https://example.com/radar-origin-check",
+                 summary="", source_name="X", region="global", weight=1.0,
+                 published=datetime.now(timezone.utc), score=30.0, group_sources=5)
+
+    real_write, real_image = radar.write_arabic, radar.build_post_image
+
+    def fake_write(article, cfg, retries=3, previous_post=None, source_docs=None):
+        return {"urgent": True, "category": "عالم", "angle": "خبر",
+                "image_headline": "عنوان", "post_title": "عنوان", "post_body": "نص",
+                "hashtags": []}
+
+    def fake_image(headline, category, urgent, image_urls, publisher, bucket,
+                   fallback_provider, cfg, out_path, report):
+        report["used_original"] = True
+
+    radar.write_arabic = fake_write
+    radar.build_post_image = fake_image
+    try:
+        draft = radar.build_draft(art, load_config(), urgent=True, docs=[])
+    finally:
+        radar.write_arabic, radar.build_post_image = real_write, real_image
+
+    check("radar.build_draft ينتج مسودة", draft is not None, draft)
+    check("radar.py يكتب origin=breaking صراحةً (Issue #749)",
+          bool(draft) and draft.get("origin") == "breaking",
+          draft.get("origin") if draft else None)
+
+
+def test_request_writes_request_origin() -> None:
+    """مواضع الكتابة السبعة (Issue #749) — request.py يمرّر origin="request"
+    عبر extra إلى radar.build_draft، فيُكتب الحقل "request" لا "breaking"
+    (القيمة الافتراضية في radar.py نفسها لمساره العاجل)."""
+    from src import request as rq
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    art = Article(title="زلزال قوي يضرب هرات", link="https://example.com/request-origin-check",
+                 summary="", source_name="s", region="global", weight=1.0,
+                 published=datetime.now(timezone.utc))
+
+    real_fetch_source = rq.fetch_source
+    rq.fetch_source = lambda src, max_age_hours: [art]
+    real_is_dup = store.is_duplicate
+    store.is_duplicate = lambda *a, **kw: False
+
+    captured: dict = {}
+    real_build_draft = rq.radar.build_draft
+
+    def fake_build_draft(article, cfg, urgent=False, extra=None, docs=None):
+        captured["extra"] = extra
+        return {"id": article.uid, "score": 1.0,
+                "arabic": {"post_title": article.title},
+                "origin": (extra or {}).get("origin", "breaking")}
+
+    rq.radar.build_draft = fake_build_draft
+
+    sys.argv = ["request", "--query", "زلزال هرات", "--days", "7"]
+    try:
+        code = rq.main()
+    finally:
+        rq.fetch_source = real_fetch_source
+        store.is_duplicate = real_is_dup
+        rq.radar.build_draft = real_build_draft
+
+    check("request.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("request.py يمرّر origin=request في extra إلى radar.build_draft",
+          captured.get("extra", {}).get("origin") == "request", captured)
+    saved = store.load_draft(art.uid)
+    check("المسودة المحفوظة تحمل origin=request فعليًا",
+          saved is not None and saved[1].get("origin") == "request",
+          saved[1].get("origin") if saved else None)
+
+
 def test_decisions() -> None:
     """Issue #583 — المرحلة الأولى: سجل قرارات تراكمي (state/decisions.json)،
     جمع بلا أي تحليل أو تأثير على الفرز/الترتيب."""
@@ -10025,7 +10156,10 @@ def test_decisions() -> None:
     rec = next(e for e in entries if e["id"] == "dec_pub1")
     check("السمات تُستخرج من المسودة بلا حقول جديدة",
           rec["category"] == "عالم" and rec["source_count"] == 2
-          and rec["bucket"] == "serious" and rec["origin"] == "collect",
+          and rec["bucket"] == "serious"
+          # القيمة المعيارية عبر store.origin_of: مسودة بلا حقل origin ← news
+          # (Issue #749 — كانت "collect" قبل توحيد القيم).
+          and rec["origin"] == "news",
           str(rec))
 
     before = len(decisions.load())
@@ -10060,7 +10194,16 @@ def test_decisions() -> None:
         "status": "pending", "review_issue": 503, "score": 1.0, "bucket": "serious",
         "source": {}, "arabic": {},
     }
-    for d in (old_pending, fresh_pending, closed_pending):
+    # مسودة تحليل قديمة بلا حقل image بنيويًا (Issue #680/#749): decisions.scan
+    # يجب ألا يستثنيها (هي تحليلية، واستبعادها يُعمي التقرير الأسبوعي عن
+    # مسار يجري توسيعه) ويجب ألا ينهار عليها — لا شيء في _features يقرأ image.
+    analysis_pending = {
+        "id": "dec_analysis1", "created_at": (now - timedelta(hours=100)).isoformat(),
+        "status": "pending", "review_issue": 504, "origin": "analysis",
+        "score": 1.0, "bucket": "serious",
+        "source": {"publishers": ["Ch1"]}, "arabic": {"post_title": "تحليل"},
+    }
+    for d in (old_pending, fresh_pending, closed_pending, analysis_pending):
         store.save_draft(d)
 
     os.environ["GITHUB_REPOSITORY"] = "u/r"
@@ -10082,7 +10225,7 @@ def test_decisions() -> None:
         if saved_token is not None:
             os.environ["GITHUB_TOKEN"] = saved_token
 
-    check("scan سجّل قرارين ضمنيين فقط (المهلة + الإغلاق)", n == 2, str(n))
+    check("scan سجّل ثلاثة قرارات ضمنية (المهلة ×2 + الإغلاق)", n == 3, str(n))
     entries = decisions.load()
     check("مسودة قديمة مفتوحة ← ignored_timeout", any(
         e["id"] == "dec_old1" and e["decision"] == "ignored_timeout" for e in entries))
@@ -10090,6 +10233,12 @@ def test_decisions() -> None:
           not any(e["id"] == "dec_fresh1" for e in entries))
     check("مسودة Issue أُغلق ← dismissed_closed", any(
         e["id"] == "dec_closed1" and e["decision"] == "dismissed_closed" for e in entries))
+    check("مسودة تحليل قديمة مفتوحة أيضًا ← ignored_timeout (لا استثناء لمسار التحليل)",
+          any(e["id"] == "dec_analysis1" and e["decision"] == "ignored_timeout"
+              for e in entries))
+    rec_analysis = next(e for e in entries if e["id"] == "dec_analysis1")
+    check("أصل المسودة التحليلية يُسجَّل analysis عبر store.origin_of",
+          rec_analysis["origin"] == "analysis", str(rec_analysis))
 
 
 def test_insights_analysis() -> None:
@@ -10125,6 +10274,98 @@ def test_insights_analysis() -> None:
     check("يوصي بناءً على الصور", "صورة" in joined or "المصادر" in joined)
 
     check("لا انهيار مع بيانات فارغة", analyse([], "UTC") == {})
+
+
+def test_insights_collect_includes_analysis_origin() -> None:
+    """Issue #749: insights.collect لا يستثني مسار التحليل (هو نفسه تحليلي،
+    واستبعاده يُعمي التقرير الأسبوعي عن مسار يجري توسيعه)، ولا ينهار على
+    مسودة بلا حقل image — لا شيء في collect() يقرأ draft["image"] مباشرة،
+    فتُعامَل مسودة تحليل بلا هذا الحقل كأي مسودة أخرى بلا أي حراسة إضافية."""
+    from src import insights
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    analysis_draft = {
+        "id": "ins_analysis1", "status": "published", "origin": "analysis",
+        "published_at": datetime.now(timezone.utc).isoformat(),
+        "arabic": {"post_title": "مقال تحليل", "category": "تحليل", "urgent": False},
+        "trend_score": 0.0, "state_media": False,
+        "source": {"publishers": ["Ch1", "Ch2"]},
+        "facebook": {"post_id": "999"},
+        # بلا حقل image عمدًا — القيمة الفعلية بعد الاعتماد، لكن collect()
+        # لا يفترضها أصلًا فلا يهم غيابها هنا.
+    }
+    store.save_draft(analysis_draft)
+
+    real_fetch_metrics = facebook.fetch_metrics
+    facebook.fetch_metrics = lambda post_id, api_version: {
+        "reactions": 5, "comments": 1, "shares": 1}
+    try:
+        rows = insights.collect(30, "v21.0")
+    finally:
+        facebook.fetch_metrics = real_fetch_metrics
+
+    check("insights.collect لا ينهار على مسودة تحليل بلا حقل image، وتظهر في المخرجات",
+          any(r["id"] == "ins_analysis1" for r in rows), rows)
+
+
+def test_collect_feedback_rejects_draft_without_built_card() -> None:
+    """Issue #749: src/collect_feedback.py (الوحدة التي يشغّلها feedback.yml
+    بـ`python -m src.collect_feedback` — لا دالّة بهذا الاسم) يفترض بطاقة
+    مبنية (العنوان المعروض في سطر التقرير من caption/arabic المكتملين وقت
+    الاعتماد). مسودة تحليل قبل اعتمادها (Issue #680، بلا حقل image بنيويًا)
+    يجب أن تُرفَض برسالة واضحة بدل أن تُسجَّل رفضًا عاديًا كأي مسودة مكتملة."""
+    from src import collect_feedback, feedback
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    analysis_draft = {
+        "id": "eeee00000001", "status": "pending", "origin": "analysis",
+        "arabic": {"post_title": "مقال تحليل بلا بطاقة"}, "caption": "متن",
+        "source": {"publishers": ["Ch1"]},
+        # بلا حقل image عمدًا
+    }
+    normal_draft = {
+        "id": "beef00000003", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر عادي"}, "caption": "متن",
+        "image": "drafts/n3.jpg", "bucket": "serious",
+        "source": {"link": "https://x/1", "publishers": ["BBC"]},
+    }
+    for d in (analysis_draft, normal_draft):
+        store.save_draft(d)
+
+    body = (f"- [x] مكرر  <!-- rj:{analysis_draft['id']}:مكرر -->\n"
+            f"- [x] ضعيف  <!-- rj:{normal_draft['id']}:ضعيف -->")
+
+    real_fetch_comments = collect_feedback.fetch_comments
+    collect_feedback.fetch_comments = lambda issue_number: [body]
+    comments: list = []
+    real_comment = review.comment
+    review.comment = lambda issue_number, text: comments.append(text)
+
+    rejections_before = len(feedback.load())
+
+    sys.argv = ["collect_feedback", "--issue", "9001"]
+    try:
+        code = collect_feedback.main()
+    finally:
+        collect_feedback.fetch_comments = real_fetch_comments
+        review.comment = real_comment
+
+    check("collect_feedback.main ينتهي بنجاح بلا انهيار", code == 0, f"exit={code}")
+    check("رفض واحد فقط يُسجَّل في feedback (المسودة العادية وحدها)",
+          len(feedback.load()) == rejections_before + 1,
+          str(feedback.load()[-2:]))
+    check("مسودة التحليل بلا بطاقة تبقى pending — لا تُسجَّل رفضًا",
+          store.load_draft(analysis_draft["id"])[1]["status"] == "pending",
+          store.load_draft(analysis_draft["id"])[1].get("status"))
+    check("المسودة العادية تُسجَّل rejected كسابقًا",
+          store.load_draft(normal_draft["id"])[1]["status"] == "rejected",
+          store.load_draft(normal_draft["id"])[1].get("status"))
+    check("رسالة واضحة عن غياب البطاقة تظهر في تعليق الـIssue",
+          comments and "لا بطاقة بعد" in comments[0], comments)
 
 
 def test_measure_channels() -> None:
@@ -13137,6 +13378,10 @@ def main() -> int:
     test_publish_skips_broken_draft_without_stopping_batch()
     test_burst_skips_broken_draft_without_spacing_sleep()
     test_open_review_excludes_youtube_and_broken_drafts()
+    print("\n── حقل origin المعياري وstore.origin_of (Issue #749) ──")
+    test_origin_of_synonyms()
+    test_radar_writes_breaking_origin()
+    test_request_writes_request_origin()
     print("\n── التوجيه بالأصل لا بالوسم عند approved (Issue #740) ──")
     test_publish_routes_youtube_origin_by_field_not_label()
     test_publish_routes_news_origin_unaffected()
@@ -13146,6 +13391,10 @@ def main() -> int:
     test_decisions()
     print("\n── تحليل الأداء ──")
     test_insights_analysis()
+    test_insights_collect_includes_analysis_origin()
+    print("\n── تحصين القرّاء الأربعة أمام مسودة تحليل بلا حقل image (Issue #749) ──")
+    test_setimage_rejects_analysis_draft_without_card()
+    test_collect_feedback_rejects_draft_without_built_card()
     print("\n── حارس temperature (Issue #373) ──")
     test_no_temperature_param()
     print("\n── سكربت قياس قنوات يوتيوب (Issue #619) ──")

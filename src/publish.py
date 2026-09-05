@@ -53,8 +53,8 @@ def queued_drafts() -> list[tuple]:
             continue
         if data.get("status") != "queued":
             continue
-        if data.get("origin") == "youtube":
-            # مسار يوتيوب له طابور ونشر خاصّان بسقف وتباعد مختلفين
+        if store.origin_of(data) == "analysis":
+            # مسار التحليل له طابور ونشر خاصّان بسقف وتباعد مختلفين
             # (youtube_publish.publish_approved)، ولا تُبنى بطاقته (حقل
             # image) إلا بعد اعتماد صريح هناك. لو تسرّبت مسودة منه إلى هذا
             # الطابور العام (خلطًا في فتح Issue المراجعة العام — Issue
@@ -588,24 +588,24 @@ def main() -> int:
     # معرّف على حدة، لا حسمًا واحدًا لكل الدفعة، فإن اجتمع الأصلان يومًا في
     # نفس الـIssue (لا يُصمَّم لذلك، لكن لا افتراض يمنعه) يُعالَج كل جزء
     # بمنطقه الصحيح.
-    youtube_ids, news_ids = [], []
+    analysis_ids, news_ids = [], []
     for draft_id in ids:
         found = store.load_draft(draft_id)
-        origin = found[1].get("origin") if found else None
-        (youtube_ids if origin == "youtube" else news_ids).append(draft_id)
+        origin = store.origin_of(found[1]) if found else None
+        (analysis_ids if origin == "analysis" else news_ids).append(draft_id)
 
     # Issue #745: publish.yml يُشغّل urgent (--urgent-only، مهلة ٢٠ دقيقة)
     # ثم normal (--skip-urgent، مهلة ١٥٠) على نفس حدث وسم approved، وكلاهما
-    # يصل هذا الفرع — توجيه يوتيوب كان يقع قبل انقسام urgent/skip فيعمل في
+    # يصل هذا الفرع — توجيه التحليل كان يقع قبل انقسام urgent/skip فيعمل في
     # الاثنتين. مقال التحليل ليس عاجلًا أبدًا (دفعة ٣ منشورات × ٤٠ دقيقة
     # تباعدًا لا تحتمل سقف ٢٠ دقيقة)، فيُحصر التوجيه بالمسار العادي وحده —
     # نفس نمط حراسة urgent/skip في pending-selection أعلاه (Issue #308)،
     # لكن بالاتجاه المعاكس: هناك السريع ينفّذ والعادي يتخطّى؛ هنا العكس.
-    if youtube_ids and args.urgent_only:
-        log.info("Issue #%s: %d مسودة يوتيوب — تُؤجَّل للمسار العادي "
-                 "(المسار السريع لا يعالج توجيه يوتيوب)",
-                 args.issue, len(youtube_ids))
-    elif youtube_ids:
+    if analysis_ids and args.urgent_only:
+        log.info("Issue #%s: %d مسودة تحليل — تُؤجَّل للمسار العادي "
+                 "(المسار السريع لا يعالج توجيه التحليل)",
+                 args.issue, len(analysis_ids))
+    elif analysis_ids:
         # استيراد مؤجَّل — لا على مستوى الوحدة: youtube_publish.py يستورد
         # publish (لإعادة استعمال publish_one بلا تكرار منطقها)، فاستيراد
         # youtube_publish من publish على مستوى الوحدة يسبّب دورانًا
@@ -613,7 +613,7 @@ def main() -> int:
         # الاستيراد هنا يقع بعد اكتمال تحميل كلا الوحدتين فعليًا فلا دوران.
         from . import youtube_publish
         yt_lines, yt_published, yt_attempted, yt_remaining = youtube_publish.publish_ids(
-            youtube_ids, youtube_publish.parse_headline_choice(body), cfg)
+            analysis_ids, youtube_publish.parse_headline_choice(body), cfg)
         youtube_publish.report_batch(
             args.issue, yt_lines, yt_published, yt_attempted, yt_remaining, cfg)
 
