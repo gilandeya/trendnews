@@ -2413,5 +2413,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 5
+ },
+ {
+  "id": "580db6cbce2e",
+  "created_at": "2026-09-05T07:52:18.560633+00:00",
+  "decided_at": "2026-09-05T07:52:21.977924+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "عالم",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "ru",
+  "score": 22.74,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "source_count": 3,
+  "body_len": 480,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 7
  }
 ]
