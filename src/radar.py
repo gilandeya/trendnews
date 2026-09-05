@@ -159,6 +159,11 @@ def build_draft(art, cfg, urgent: bool = True,
 
     headline = written["image_headline"] or written["post_title"]
     image_rel = f"drafts/{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.jpg"
+    # origin الفعلي قد يُستبدَل لاحقًا (draft.update(extra) أدناه، مثل
+    # request.py الذي يمرّر "request" بدل "breaking") — يُقرأ من extra هنا
+    # مبكرًا كي يرسم build_post_image الملصق الصحيح من جدول cards منذ البداية
+    # لا "breaking" افتراضيًا دومًا.
+    draft_origin = (extra or {}).get("origin", "breaking")
     shot: dict = {}
     try:
         build_post_image(
@@ -167,6 +172,7 @@ def build_draft(art, cfg, urgent: bool = True,
             image_urls=art.image_candidates,
             publisher=art.cluster_sources or [art.publisher],
             bucket=art.bucket,
+            origin=draft_origin,
             fallback_provider=lambda t=art.title: find_images(t, cfg),
             cfg=cfg, out_path=ROOT / image_rel, report=shot,
         )

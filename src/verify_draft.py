@@ -958,6 +958,7 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
             image_urls=image_urls,
             publisher=publishers,
             bucket="serious",
+            origin=DRAFT_ORIGIN,
             # كسول: لا يُستدعى إلا إن فشلت كل صور المصادر المؤكِّدة فعليًا —
             # موضوع البحث الوقائع المؤكَّدة لا زاوية المقال أو عنوانه
             fallback_provider=lambda: find_images(central_fact_text, cfg),
