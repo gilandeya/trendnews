@@ -2476,5 +2476,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 12
+ },
+ {
+  "id": "324f18a5b13b",
+  "created_at": "2026-09-05T12:51:42.512042+00:00",
+  "decided_at": "2026-09-05T13:30:51.652785+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "سياسة",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "jp",
+  "score": 16.5,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "source_count": 2,
+  "body_len": 473,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 12
  }
 ]
