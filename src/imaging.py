@@ -481,6 +481,7 @@ def build_post_image(
     bucket: str = "",
     report: dict | None = None,
     badge: str | None = None,
+    origin: str = "",
 ) -> Path:
     """يبني بطاقة الخبر.
 
@@ -494,12 +495,19 @@ def build_post_image(
     fallback_candidates (هل استُدعي find_images وكم مرشَّحًا أعاد) — عطل
     الصورة كان يصل log وحده بلا أثر في تقرير المسودة الذي يراه المراجع.
 
-    `badge` اختياري (افتراضيًا None، فلا تغيير إطلاقًا على بطاقة الأخبار
-    القائمة — Issue #732): ملصق إضافي في صف ملصقات الترويسة، بعد العاجل
-    والتصنيف، بنفس الأسلوب البصري تمامًا (badge_left بلون accent). القالب
-    الوحيد لكل مسارات النشر (أخبار وتحليل يوتيوب معًا) — لا نسخة بطاقة
-    منفصلة لكل مسار كما كان قبل هذا الـIssue، فلا تفترق الهويتان البصريتان
-    مجددًا بصمت.
+    `badge`/`origin` (Issue #758، يخلف تصميم Issue #732): ملصق ثانٍ واحد
+    في صف ملصقات الترويسة، بعد التصنيف مباشرة — محكوم بمسار المسودة
+    (`origin`، قيم `store.origin_of` الست) لا بحكم الكاتب. `origin` يُبحث
+    في جدول `config.yaml: cards` (badge/bg/fg لكل مسار)؛ `badge` صراحةً
+    يبقى موجودًا ويفوز على الجدول إن مُرِّر (بلون accent/primary كسابقًا،
+    التوافق مع Issue #732). لم يعد لـ`urgent` رسم خاص بها: حين يكون
+    `origin == "news"` و`urgent` صحيحًا، يُقرأ ملصق "breaking" من الجدول
+    بدلًا من "news" (خانة الأخبار فارغة أصلًا في الجدول) — لغيرها من
+    المسارات (verify/article/request/analysis) ملصقها الخاص من الجدول
+    يفوز دومًا بصرف النظر عن urgent. مسودة بلا origin أو بأصل غير مذكور
+    في الجدول: لا ملصق ثانٍ، مع `log.warning` واحد بدل الانهيار أو التخمين.
+    القالب الوحيد لكل مسارات النشر (أخبار وتحليل يوتيوب معًا) — لا نسخة
+    بطاقة منفصلة لكل مسار، فلا تفترق الهويتان البصريتان مجددًا بصمت.
 
     `report["composite"]` (Issue #752): القيمة الفعلية لقرار "صورتان أم
     صورة واحدة" (choose_layout) — كانت تُسجَّل في السطر أعلاه للـlog فقط؛
@@ -518,6 +526,24 @@ def build_post_image(
     head_weight = cfg.path("image.font_headline_weight") or None
     f_body = f_body or f_head              # فارغ = استخدم خط العنوان نفسه
     body_weight = cfg.path("image.font_body_weight") or None
+
+    # ── الملصق الثاني: من جدول cards: محكوم بـorigin (Issue #758) ──
+    # badge الصريح يبقى ويفوز إن مُرِّر؛ خلاف ذلك يُبحث عن origin في الجدول.
+    # لا رسم خاص بـurgent بعد الآن: حين origin == "news" وurgent صحيحة،
+    # نقرأ ملصق "breaking" من الجدول بدلًا من "news" (خانتها فارغة أصلًا) —
+    # فتحتفظ الأخبار العاجلة بملصقها بلا مزاحمة، وباقي المسارات (لها ملصقها
+    # الخاص من الجدول) لا تتأثر بهذا التحويل إطلاقًا.
+    badge_bg, badge_fg = accent, primary
+    if badge is None:
+        table_origin = "breaking" if (origin == "news" and urgent) else origin
+        card = cfg.path(f"cards.{table_origin}") if table_origin else None
+        if card is None:
+            log.warning("لا ملصق ثانٍ: أصل غير معروف أو غير مذكور في جدول cards: %r", origin)
+        else:
+            badge = card.get("badge")
+            if badge:
+                badge_bg = hex_rgb(card.get("bg") or cfg.path("brand.accent_color", "#F0B429"))
+                badge_fg = hex_rgb(card.get("fg") or cfg.path("brand.primary_color", "#12203A"))
 
     canvas = Image.new("RGB", (W, H), primary)
     draw = ImageDraw.Draw(canvas)
@@ -728,13 +754,10 @@ def build_post_image(
         bx = margin
         by = ((inner_top + inner_bot) // 2 if not handle_in_header
               else inner_top + int((inner_bot - inner_top) * 0.34))
-        if urgent:
-            bx = badge_left(draw, bx, by, "عاجل", bdg_font,
-                            (206, 32, 39), (255, 255, 255)) + int(W * 0.014)
         if category:
             bx = badge_left(draw, bx, by, category, bdg_font, accent, primary) + int(W * 0.014)
         if badge:
-            badge_left(draw, bx, by, badge, bdg_font, accent, primary)
+            badge_left(draw, bx, by, badge, bdg_font, badge_bg, badge_fg)
 
         if handle_in_header:
             hf = load_font(f_body, int(W * 0.024), body_weight)

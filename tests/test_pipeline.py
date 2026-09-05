@@ -411,6 +411,92 @@ def test_image_report() -> None:
           len(article._pool_image_candidates(pool_dup)) == 1)
 
 
+def test_card_second_badge_by_origin() -> None:
+    """Issue #758: خانة ملصق ثانية واحدة على البطاقة، محكومة بجدول
+    config.yaml: cards عبر origin — لا بحكم الكاتب (badge= الصريح يبقى
+    ويفوز، ولا يُستعمل هنا). urgent لم يعد يرسم شيئًا بنفسه: حين
+    origin == "news" وurgent صحيحة، تُقرأ "breaking" من الجدول بدلًا من
+    "news" (خانتها فارغة)؛ لغير "news" ملصق الجدول الخاص بها يفوز دومًا
+    بصرف النظر عن urgent."""
+    cfg = load_config()
+    W = int(cfg.path("image.width", 1080))
+    H = int(cfg.path("image.height", 1080))
+    margin = int(W * 0.06)
+    rule = max(4, W // 240)
+    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
+    inner_top = int(header_h * 0.14)
+    inner_bot = header_h - rule - int(header_h * 0.14)
+    handle_in_header = bool(cfg.path("brand.handle") and header_h)
+    by = ((inner_top + inner_bot) // 2 if not handle_in_header
+          else inner_top + int((inner_bot - inner_top) * 0.34))
+    probe_xy = (margin + 10, by)
+
+    breaking_bg = imaging.hex_rgb(cfg.path("cards.breaking.bg"))
+    investigation_bg = imaging.hex_rgb(cfg.path("cards.verify.bg"))
+    analysis_bg = imaging.hex_rgb(cfg.path("cards.analysis.bg"))
+    analysis_fg = imaging.hex_rgb(cfg.path("cards.analysis.fg"))
+
+    def close(pixel, rgb, tol=6):
+        return all(abs(a - b) <= tol for a, b in zip(pixel, rgb))
+
+    def probe(origin, urgent=False, out_name="probe.jpg"):
+        out_path = _TMP_DATA_DIR / out_name
+        imaging.build_post_image(
+            headline="سؤال تجريبي لفحص الملصق الثاني؟", category="", urgent=urgent,
+            image_urls=None, publisher=["مصدر"], bucket="serious",
+            cfg=cfg, out_path=out_path, origin=origin,
+        )
+        with Image.open(out_path) as im:
+            return im.convert("RGB").getpixel(probe_xy)
+
+    analysis_pixel = probe("analysis", out_name="probe_analysis.jpg")
+    check("بطاقة analysis تحمل «تحليل» بلونه الأزرق (cards.analysis.bg)",
+          close(analysis_pixel, analysis_bg), (analysis_pixel, analysis_bg))
+    # نصّ الملصق داكن (fg) لا فاتحًا: يُتحقَّق بأن fg المضبوط في الجدول
+    # مختلف فعلًا عن الأبيض المستعمل لبقية الملصقات، لا بقراءة بكسلات النص
+    # (رسم عربي مُشكَّل هش لقياس بكسل دقيق).
+    check("جدول cards.analysis.fg نصّ داكن كما طُلب (Issue #758)",
+          analysis_fg == (0x12, 0x20, 0x3A), analysis_fg)
+
+    for origin in ("verify", "article", "request"):
+        pixel = probe(origin, out_name=f"probe_{origin}.jpg")
+        check(f"بطاقة {origin} تحمل «تحقيق» بلونه الأخضر (cards.{origin}.bg)",
+              close(pixel, investigation_bg), (origin, pixel, investigation_bg))
+
+    breaking_not_urgent = probe("breaking", urgent=False, out_name="probe_breaking.jpg")
+    check("بطاقة breaking تحمل «عاجل» بأحمره حتى لو urgent=False",
+          close(breaking_not_urgent, breaking_bg), breaking_not_urgent)
+
+    news_not_urgent = probe("news", urgent=False, out_name="probe_news.jpg")
+    check("بطاقة news بـurgent=False بلا ملصق ثانٍ (لا أحمر ولا أزرق ولا أخضر)",
+          not close(news_not_urgent, breaking_bg) and
+          not close(news_not_urgent, analysis_bg) and
+          not close(news_not_urgent, investigation_bg), news_not_urgent)
+
+    news_urgent = probe("news", urgent=True, out_name="probe_news_urgent.jpg")
+    check("بطاقة news بـurgent=True تحمل «عاجل» (البند الاختياري المنفَّذ: "
+          "news + urgent ⇐ breaking من الجدول)",
+          close(news_urgent, breaking_bg), news_urgent)
+
+    verify_urgent = probe("verify", urgent=True, out_name="probe_verify_urgent.jpg")
+    check("بطاقة verify بـurgent=True تحمل «تحقيق» لا «عاجل» — ملصقها الخاص يفوز دومًا",
+          close(verify_urgent, investigation_bg) and not close(verify_urgent, breaking_bg),
+          verify_urgent)
+
+    unknown_warnings: list = []
+    real_warning = imaging.log.warning
+    imaging.log.warning = lambda *a, **kw: unknown_warnings.append((a, kw))  # type: ignore
+    try:
+        unknown_pixel = probe("مسار-غير-معروف", out_name="probe_unknown.jpg")
+    finally:
+        imaging.log.warning = real_warning  # type: ignore
+    check("origin غير مذكور في الجدول: لا انهيار، وpixel بلا ملصق ثانٍ",
+          not close(unknown_pixel, breaking_bg) and not close(unknown_pixel, analysis_bg) and
+          not close(unknown_pixel, investigation_bg), unknown_pixel)
+    check("origin غير مذكور في الجدول: log.warning واحد بدل التخمين",
+          len(unknown_warnings) == 1, unknown_warnings)
+
+
 def test_google_news_link_decode() -> None:
     """فكّ رابط Google News الوسيط بلا شبكة (Issue #132 تعليق لاحق — العطل
     القاتل: extract.py لم يقرأ نص أي مقال قط لأن Google لم يعد يرسل تحويل
@@ -2703,6 +2789,50 @@ def test_setimage_rejects_analysis_draft_without_card() -> None:
           store.load_draft(draft["id"])[1])
 
 
+def test_setimage_apply_image_keeps_origin_badge() -> None:
+    """Issue #758: أسهل نقطة يضيع فيها وسم المسار بصمت — apply_image يعيد
+    بناء البطاقة لمسودة قائمة بالفعل، فإن لم يمرّر store.origin_of(draft)
+    إلى build_post_image يفقد التبديل اليدوي للصورة الملصق الثاني (مثلًا
+    «تحليل» على مسودة origin=analysis معتمدة) دون أي خطأ ظاهر."""
+    from src import setimage
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    cfg = load_config()
+    draft = {
+        "id": "beef00000002", "status": "pending", "origin": "analysis",
+        "bucket": "serious",
+        "image": "drafts/2026-01-01/beef00000002.jpg",
+        "arabic": {"post_title": "مقال تحليل معتمد", "category": ""},
+        "caption": "متن", "source": {"publishers": ["Ch1", "Ch2"]},
+    }
+    store.save_draft(draft)
+
+    updated = setimage.apply_image(draft["id"], "https://cdn.example/new.jpg", cfg)
+    check("apply_image ينجح على مسودة تحليل قائمة (لها بطاقة أصلًا)",
+          updated is not None, updated)
+
+    W = int(cfg.path("image.width", 1080))
+    H = int(cfg.path("image.height", 1080))
+    margin = int(W * 0.06)
+    rule = max(4, W // 240)
+    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
+    inner_top = int(header_h * 0.14)
+    inner_bot = header_h - rule - int(header_h * 0.14)
+    handle_in_header = bool(cfg.path("brand.handle") and header_h)
+    by = ((inner_top + inner_bot) // 2 if not handle_in_header
+          else inner_top + int((inner_bot - inner_top) * 0.34))
+    probe_xy = (margin + 10, by)
+    analysis_bg = imaging.hex_rgb(cfg.path("cards.analysis.bg"))
+
+    out_path = DRAFTS_DIR / Path(updated["image"]).relative_to("drafts")
+    with Image.open(out_path) as im:
+        pixel = im.convert("RGB").getpixel(probe_xy)
+    check("apply_image يحافظ على ملصق «تحليل» بعد تبديل الصورة يدويًا (Issue #758)",
+          all(abs(a - b) <= 6 for a, b in zip(pixel, analysis_bg)), (pixel, analysis_bg))
+
+
 def test_request_search() -> None:
     """الطلب اليدوي: كلمات → بحث → مرشحون."""
     from src import request as rq
@@ -2781,7 +2911,7 @@ def test_request_and_radar_headlines() -> None:
                 "post_body": "متن تجريبي لفحص العناوين.", "hashtags": []}
 
     def fake_image(headline, category, urgent, image_urls, publisher, bucket,
-                   fallback_provider, cfg, out_path, report):
+                   fallback_provider, cfg, out_path, report, origin=""):
         report["used_original"] = False
 
     real_write, real_image = radar.write_arabic, radar.build_post_image
@@ -10719,7 +10849,7 @@ def test_radar_writes_breaking_origin() -> None:
                 "hashtags": []}
 
     def fake_image(headline, category, urgent, image_urls, publisher, bucket,
-                   fallback_provider, cfg, out_path, report):
+                   fallback_provider, cfg, out_path, report, origin=""):
         report["used_original"] = True
 
     radar.write_arabic = fake_write
@@ -13247,11 +13377,24 @@ def test_youtube_publish() -> None:
     check("image_source_line: قناتان تصيران «قناتين» (مجرورة بالإضافة، لا «قناتان»)",
           yp.image_source_line(["الجزيرة", "العربية"], cfg)
           == "قراءة في تغطية قناتين", yp.image_source_line(["الجزيرة", "العربية"], cfg))
+    # Issue #758: cards.analysis.source_template صار له الأولوية على
+    # youtube.image.source_line_template -- يُحذَف هنا كي يختبر هذا القالب
+    # الأقدم وحده مستوى الأولوية الثاني (المفتاح القديم القائم للتوافق).
     cfg_custom_line = load_config()
+    del cfg_custom_line["cards"]["analysis"]["source_template"]
     cfg_custom_line["youtube"]["image"]["source_line_template"] = "بعيون {channels}"
-    check("image_source_line: القالب يُقرأ من config.yaml لا مكتوبًا في الشيفرة",
+    check("image_source_line: بلا cards.analysis.source_template، يُقرأ القالب من "
+          "youtube.image.source_line_template (المستوى الثاني، Issue #758)",
           yp.image_source_line(["الجزيرة", "العربية"], cfg_custom_line) == "بعيون قناتين",
           yp.image_source_line(["الجزيرة", "العربية"], cfg_custom_line))
+
+    cfg_cards_priority = load_config()
+    cfg_cards_priority["cards"]["analysis"]["source_template"] = "نظرة على {channels}"
+    cfg_cards_priority["youtube"]["image"]["source_line_template"] = "بعيون {channels}"
+    check("image_source_line: cards.analysis.source_template يفوز على "
+          "youtube.image.source_line_template حين يتوفّر كلاهما (Issue #758)",
+          yp.image_source_line(["الجزيرة", "العربية"], cfg_cards_priority) == "نظرة على قناتين",
+          yp.image_source_line(["الجزيرة", "العربية"], cfg_cards_priority))
     check("_arabic_channel_count_phrase: مرفوعة افتراضيًا («قناتان»)",
           yp._arabic_channel_count_phrase(2) == "قناتان")
     check("_arabic_channel_count_phrase: مجرورة صراحة («قناتين»)",
@@ -13946,6 +14089,8 @@ def main() -> int:
     print("\n── ترشيح الصور ──")
     test_image_filtering()
     test_image_report()
+    print("\n── الملصق الثاني على البطاقة (cards:) ──")
+    test_card_second_badge_by_origin()
     print("\n── فكّ روابط Google News الوسيطة ──")
     test_google_news_link_decode()
     print("\n── إشارة Google Trends ──")
@@ -14058,6 +14203,8 @@ def main() -> int:
     print("\n── تحصين القرّاء الأربعة أمام مسودة تحليل بلا حقل image (Issue #749) ──")
     test_setimage_rejects_analysis_draft_without_card()
     test_collect_feedback_rejects_analysis_draft_without_image()
+    print("\n── setimage.apply_image يحافظ على وسم المسار (Issue #758) ──")
+    test_setimage_apply_image_keeps_origin_badge()
     print("\n── حارس temperature (Issue #373) ──")
     test_no_temperature_param()
     print("\n── سكربت قياس قنوات يوتيوب (Issue #619) ──")

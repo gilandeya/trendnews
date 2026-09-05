@@ -3498,6 +3498,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             image_urls=image_urls,
             publisher=publishers,
             bucket="serious",
+            origin=DRAFT_ORIGIN,
             fallback_provider=lambda: find_images(central_text, cfg, terms=image_terms or None),
             cfg=cfg,
             out_path=DRAFTS_DIR / image_name,

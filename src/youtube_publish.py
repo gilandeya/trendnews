@@ -99,8 +99,9 @@ Issue #732 وحّد بطاقة هذا المسار مع بطاقة الأخبا�
 للأخبار، وbuild_title_card هنا وحدها). لم يعد لهذه الوحدة أي منطق رسم
 خاص بها: ensure_title_card يستدعي imaging.build_post_image ذاتها --
 نفس الشعار وسطر المصدر والتصميم اللذين تراهما بطاقة الأخبار حرفيًا --
-بمعامل badge الاختياري الجديد (`cfg.path("youtube.image.badge_text")`)
-هو الفارق البصري الوحيد المقصود بين المسارين. الشريط السفلي القديم
+بملصق "تحليل" (Issue #758: يُقرأ الآن من جدول config.yaml: cards عبر
+origin="analysis" لا من معامل badge صريح كما كان قبله) هو الفارق البصري
+الوحيد المقصود بين المسارين. الشريط السفلي القديم
 (بلوكات/قنوات، bottom_bar_text سابقًا) حُذف بالكامل معه؛ عدد القنوات ما
 زال يظهر، لكن في سطر «المصدر:» القياسي عبر image_source_line -- بصيغة تصف
 العلاقة («قراءة في تغطية N قناة») لا بأسماء القنوات (نسبة المقال إليها
@@ -230,10 +231,14 @@ def image_source_line(channels: list[str], cfg=None) -> str:
     وذكر أسمائها في خانة «المصدر:» ينسب المقال إليها زورًا (طلب مراجعة صريح
     على الـIssue). عدد القنوات وحده يظهر، بصيغة عربية صحيحة التصريف
     (_arabic_channel_count_phrase، القائمة أصلًا لهذا الغرض في score_breakdown_text)
-    داخل قالب نصّي قابل للتعديل بلا كود (config.yaml:
-    youtube.image.source_line_template) -- فقد يُغيَّر لاحقًا تحريريًا."""
-    template = ((cfg.path("youtube.image.source_line_template") if cfg else None)
-                or "قراءة في تغطية {channels}")
+    داخل قالب نصّي قابل للتعديل بلا كود (config.yaml: cards.analysis.
+    source_template أولًا -- Issue #758 -- ثم youtube.image.source_line_template
+    القائم للتوافق، ثم الافتراضي هنا) -- فقد يُغيَّر لاحقًا تحريريًا."""
+    template = (
+        (cfg.path("cards.analysis.source_template") if cfg else None)
+        or (cfg.path("youtube.image.source_line_template") if cfg else None)
+        or "قراءة في تغطية {channels}"
+    )
     # مجرورة دومًا: كل قوالب هذا السطر (الافتراضي وما يُعدَّل في config.yaml)
     # تضع {channels} مضافًا إليه بعد اسم مضاف ("تغطية"/"عيون"/إلخ) — انظر
     # تعليق _arabic_channel_count_phrase أعلاه.
@@ -514,7 +519,7 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
             cfg=cfg,
             out_path=DRAFTS_DIR / image_name,
             fallback_urls=photo_urls,
-            badge=cfg.path("youtube.image.badge_text", "تحليل"),
+            origin="analysis",
             report=shot,
         )
     except Exception as exc:  # noqa: BLE001 — امتناع صريح مُسجَّل لا انهيار صامت

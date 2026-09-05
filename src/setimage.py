@@ -121,6 +121,9 @@ def apply_image(draft_id: str, url: str, cfg) -> dict | None:
         image_urls=[url],
         publisher=draft["source"].get("publishers") or [draft["source"].get("publisher", "")],
         bucket=draft.get("bucket", "serious"),
+        # يحفظ وسم المسار عند إعادة بناء البطاقة يدويًا (Issue #758) —
+        # أسهل نقطة يضيع فيها الملصق الثاني بصمت لولا تمريره هنا صراحة.
+        origin=store.origin_of(draft),
         cfg=cfg,
         out_path=out_path,
         # لا بديل تلقائي: طلب المراجع صورة بعينها، فالصمت عند فشلها
