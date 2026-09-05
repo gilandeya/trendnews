@@ -1,0 +1,95 @@
+{
+  "id": "61dd1ff2883e",
+  "created_at": "2026-09-05T17:08:20.045093+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.69,
+  "trend_score": 0.33,
+  "velocity": 0.67,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nepali woman rescued alive from buried home 10 days after flood",
+  "link": "https://www.channelnewsasia.com/asia/nepal-tibet-disaster-flood-rescue-woman-6364466",
+  "publishers": [
+    "Al Jazeera English",
+    "CBS News — World",
+    "Channel News Asia",
+    "Daily Sabah",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "Reuters",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Guardian — World",
+    "The Hindu — International",
+    "police"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Nepali woman rescued alive from buried home 10 days after flood",
+    "link": "https://www.channelnewsasia.com/asia/nepal-tibet-disaster-flood-rescue-woman-6364466",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-05T11:48:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--B3AJbGHj--/c_crop,h_750,w_1334,x_0,y_622/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/05/000_c7et2g4_0.jpg?itok=zHuBHus5",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "CBS News — World",
+      "Channel News Asia",
+      "Daily Sabah",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "Reuters",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Guardian — World",
+      "The Hindu — International",
+      "police"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/5/rescuers-pull-chinese-worker-nepali-woman-from-flood-wreckage-alive?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3366486/chinese-man-nepali-woman-found-alive-10-days-after-flood?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/nepal-tibet-disaster-flood-rescue-woman-6364466"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/04/nepal-tunnel-found-alive-flood-two-workers-hydropower-rescue"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/2-trapped-workers-rescued-from-nepal-hydropower-tunnel-9-days-after-floods/"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/video/2-hydropower-workers-pulled-alive-from-tunnel-in-nepal/"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--B3AJbGHj--/c_crop,h_750,w_1334,x_0,y_622/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/05/000_c7et2g4_0.jpg?itok=zHuBHus5",
+      "https://i.guim.co.uk/img/media/48855307f6ce4ed9ec2e91a7134eb5658c9fe585/214_0_1066_853/master/1066.jpg?width=700&quality=85&auto=format&fit=max&s=a9d91638f86dca76d0900cbc838544c4",
+      "https://i.guim.co.uk/img/media/48855307f6ce4ed9ec2e91a7134eb5658c9fe585/214_0_1066_853/master/1066.jpg?width=460&quality=85&auto=format&fit=max&s=df9289e370a892c8d5be6f10d14521d0",
+      "https://i.guim.co.uk/img/media/48855307f6ce4ed9ec2e91a7134eb5658c9fe585/214_0_1066_853/master/1066.jpg?width=140&quality=85&auto=format&fit=max&s=ab34fbdcd935e2372a69cbed2c4a2650",
+      "https://media.freemalaysiatoday.com/v3/2026/09/6a519adc-37df-47fc-818a-0def48db340f-AFP__20260905__C7EQ49E__v4__HighRes__TopshotNepalDisasterFlood_1_cropped_1.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/05/360859.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 12,
+    "velocity": 0.6654696758241585,
+    "age_hours": 5.008993579166667,
+    "is_stale": false,
+    "score": 25.69310409230278
+  }
+}
