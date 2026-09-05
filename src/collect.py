@@ -20,7 +20,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import decisions, feedback, preselect, store
+from . import decisions, feedback, headlines as headlines_mod, preselect, store
 from .config import DRAFTS_DIR, load_config
 from .imagesearch import find_images
 from .imaging import build_post_image
@@ -368,6 +368,15 @@ def main() -> int:
                 log.error("فشل توليد الصورة: %s", exc)
                 continue
 
+            # عناوين مقترحة (Issue #756) -- نفس آلية collect_finalize.py
+            # (المسار الحيّ حين preselect مفعَّل)؛ فشل النداء لا يُسقِط مسودة
+            # صيغت بنجاح فعليًا -- headlines فارغة بلا مربعات في المراجعة.
+            headlines, hl_error = headlines_mod.headlines_for_post(
+                written["post_title"], written["post_body"], cfg)
+            if hl_error:
+                log.warning("فشلت اقتراحات العناوين لـ%r: %s", art.title[:60], hl_error)
+                headlines = []
+
             draft = {
                 "id": art.uid,
                 "created_at": datetime.now(timezone.utc).isoformat(),
@@ -402,6 +411,8 @@ def main() -> int:
                 },
                 "arabic": written,
                 "caption": build_caption(written, art, cfg),
+                "headlines": headlines,
+                "headline_selected": 0,
                 "image": image_rel,
                 # الريل لا يُبنى الآن: يُبنى عند اختياره في المراجعة فقط.
                 # توليده لكل مسودة يهدر دقائق حوسبة على ريلز لن تُنشر.

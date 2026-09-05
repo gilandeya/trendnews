@@ -48,7 +48,7 @@ from pathlib import Path
 
 from anthropic import Anthropic, APIError
 
-from . import evidence, extract, imaging, review, store, verify_draft, writer
+from . import evidence, extract, headlines as headlines_mod, imaging, review, store, verify_draft, writer
 from .config import DRAFTS_DIR, STATE_DIR, env, load_config
 from .imagesearch import find_images
 from .request import _AR_MARKS, _AR_STOP, _AR_TRANS, _WORD_RE, STOPWORDS, has_arabic, norm_tokens
@@ -3441,6 +3441,15 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         outcome["reason"] = f"مرحلة الصياغة — امتناع: {orig_reason}"
         return outcome
 
+    # عناوين مقترحة (Issue #756) -- بعد نجاح كل فحوص الصياغة/النسبة/الأصالة
+    # (لا قيمة لعناوين مقال كان سيُرفض أصلًا)، بنفس آلية مسار التحليل: فشل
+    # النداء لا يُسقِط مقالًا صالحًا فعليًا -- headlines فارغة بلا مربعات.
+    headlines, hl_error = headlines_mod.headlines_for_post(
+        written["post_title"], written["post_body"], cfg)
+    if hl_error:
+        log.warning("فشلت اقتراحات العناوين لمقال (Issue #%s): %s", issue_number, hl_error)
+        headlines = []
+
     outcome["sources"] = sources_seen
 
     publishers = [s["name"] for s in sources_seen]
@@ -3543,6 +3552,8 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         },
         "arabic": written,
         "caption": writer.build_caption(written, art, cfg),
+        "headlines": headlines,
+        "headline_selected": 0,
         "image": image_rel,
         "reel": None,
         "reel_spec": {

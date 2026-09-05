@@ -19,7 +19,7 @@ import re
 import urllib.parse
 from datetime import datetime, timezone
 
-from . import radar, store
+from . import headlines as headlines_mod, radar, store
 from .collect import step_summary
 from .config import load_config
 from .rank import STOPWORDS, rank
@@ -243,6 +243,19 @@ def main() -> int:
         if not draft:
             skipped.append((art.title, "رُفض عند الصياغة أو تعذّرت قراءة نصه"))
             continue
+
+        # عناوين مقترحة (Issue #756) -- هنا لا داخل radar.build_draft، وإلا
+        # صار مسار العاجل (المشارِك في نفس الدالة) يدفع كلفة نداء لا
+        # يستعملها. فشل النداء لا يُسقِط مسودة صيغت بنجاح فعليًا -- headlines
+        # فارغة بلا مربعات في المراجعة.
+        headlines, hl_error = headlines_mod.headlines_for_post(
+            draft["arabic"]["post_title"], draft["arabic"]["post_body"], cfg)
+        if hl_error:
+            log.warning("فشلت اقتراحات العناوين لمسودة الطلب %r: %s", query, hl_error)
+            headlines = []
+        draft["headlines"] = headlines
+        draft["headline_selected"] = 0
+
         store.save_draft(draft)
         store.remember(history, art.title, art.link,
                        draft["arabic"]["post_title"],

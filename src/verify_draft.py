@@ -25,7 +25,7 @@ import os
 import re
 from datetime import datetime, timezone
 
-from . import evidence, extract, imaging, review, store, writer
+from . import evidence, extract, headlines as headlines_mod, imaging, review, store, writer
 from . import verify
 from .config import DRAFTS_DIR
 from .imagesearch import find_images
@@ -919,6 +919,16 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
         outcome["reason"] = f"مرحلة صياغة المسودة — امتناع: {orig_reason}"
         return outcome
 
+    # عناوين مقترحة (Issue #756) -- بعد نجاح الصياغة وفحص النسخ معًا (لا
+    # قيمة لعناوين مسودة كانت ستُرفض أصلًا)، بنفس آلية مسار التحليل: فشل
+    # النداء لا يُسقِط مسودة صالحة فعليًا -- headlines فارغة بلا مربعات.
+    headlines, hl_error = headlines_mod.headlines_for_post(
+        written["post_title"], written["post_body"], cfg)
+    if hl_error:
+        log.warning("فشلت اقتراحات العناوين لمسودة التحقق (Issue #%s): %s",
+                    issue_number, hl_error)
+        headlines = []
+
     publishers: list[str] = []
     for f in confirmed:
         for s in f.get("sources", []):
@@ -994,6 +1004,8 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
         },
         "arabic": written,
         "caption": writer.build_caption(written, art, cfg),
+        "headlines": headlines,
+        "headline_selected": 0,
         "image": image_rel,
         "reel": None,
         "reel_spec": {
