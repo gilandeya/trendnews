@@ -579,6 +579,15 @@ def main() -> int:
     # ولمسودات الأخبار وحدها -- مسار التحليل له تطبيقه الخاص عبر
     # youtube_publish.ensure_title_card/_apply_headline (يقرأ نفس
     # parse_headline_choice، لكن بعد التوجيه بالأصل أدناه لا هنا).
+    # استيراد مؤجَّل: setimage.py يستورد download_image من imaging.py بالاسم
+    # (`from .imaging import ... download_image`)، فيثبّت الاسم عند أول
+    # استيراد فعلي للوحدة. استيراده على مستوى الوحدة هنا كان يجرّه مبكرًا
+    # جدًا في اختبارات tests/test_pipeline.py -- عبر youtube_publish التي
+    # تستورد publish على مستوى وحدتها هي أيضًا -- أي قبل أن يستبدل
+    # install_fakes() imaging.download_image بنسخته المموَّهة، فيبقى
+    # setimage.download_image مربوطًا بالدالّة الحقيقية طوال التشغيلة.
+    from . import setimage
+
     headline_choices = review.parse_headline_choice(body)
     for draft_id, chosen_idx in headline_choices.items():
         if draft_id not in ids:
@@ -599,9 +608,35 @@ def main() -> int:
         cap_lines[0] = headline
         new_caption = "\n".join(cap_lines)
         new_arabic = {**(hl_draft.get("arabic") or {}), "post_title": headline}
-        store.update_draft(hl_path, caption=new_caption, arabic=new_arabic,
-                            headline_selected=chosen_idx)
+        hl_draft = store.update_draft(hl_path, caption=new_caption, arabic=new_arabic,
+                                       headline_selected=chosen_idx)
         log.info("عنوان المنشور %s استُبدل بالعنوان المختار (%d)", draft_id, chosen_idx)
+
+        # إعادة بناء البطاقة بالعنوان المختار (Issue #760) — الافتراضي
+        # (chosen_idx == 0) هو الحالة الشائعة ولا معنى لإعادة بناء بطاقة في
+        # كل اعتماد، فلا تلمسها إلا حين اختار المراجع عنوانًا غير الافتراضي.
+        if chosen_idx == 0:
+            continue
+        max_chars = cfg.path("image.headline_max_chars", 95)
+        if len(headline) > max_chars:
+            # عنوان طويل يُقزّم الخط على البطاقة ويشوّهها — أبقِ البطاقة
+            # القديمة، والنص أخذ العنوان المختار على أي حال أعلاه.
+            log.info("عنوان المنشور %s المختار (%d حرفًا) يتجاوز الحدّ %d — "
+                     "البطاقة تبقى كما هي", draft_id, len(headline), max_chars)
+            continue
+        try:
+            new_image = setimage.rebuild_card(hl_path, hl_draft, headline, cfg)
+        except Exception as exc:  # noqa: BLE001 — فشل الصورة لا يوقف النشر
+            log.warning("تعذّر إعادة بناء بطاقة %s بالعنوان المختار: %s", draft_id, exc)
+            continue
+        if new_image is None:
+            # رابط انتهى أو تعثّرت الشبكة — البطاقة تفصيلة بصرية والنص هو
+            # المنشور، فإسقاط منشور معتمَد بسبب صورة خطأ فادح.
+            log.warning("تعذّر إعادة بناء بطاقة %s بالعنوان المختار — "
+                       "البطاقة القديمة تبقى", draft_id)
+            continue
+        store.update_draft(hl_path, image=new_image)
+        log.info("✓ أُعيدت بطاقة %s بالعنوان المختار: %s", draft_id, new_image)
 
     reels = review.parse_reels(body)
 

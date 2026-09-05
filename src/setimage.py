@@ -81,6 +81,57 @@ def _image_related_failure(error: str | None) -> bool:
     return False
 
 
+def rebuild_card(path: Path, draft: dict, headline: str, cfg) -> str | None:
+    """يبني بطاقة جديدة لمسودة قائمة، بنفس مصدر صورتها وبعنوان مُمرَّر.
+
+    مصدر الصورة: ``manual_image`` إن وُجد، وإلا أول عناصر
+    ``source.image_candidates``، وإلا ``source.image_url`` — أولوية مصدر
+    الصورة الفعلي للمسودة اليوم، لا صورة جديدة. يعيد المسار النسبي الجديد
+    (يبدأ بـ "drafts/")، أو ``None`` إن تعذّر (لا مصدر صورة، رابط غير صالح،
+    أو فشل التنزيل/البناء) — البطاقة القديمة تبقى قائمة عند الفشل، فلا
+    يستدعي هذا الفشل أي تدخّل من الطالب سوى تجاهل القيمة المُعادة.
+    """
+    src = draft["source"]
+    url = (draft.get("manual_image") or (src.get("image_candidates") or [None])[0]
+           or src.get("image_url"))
+    if not url:
+        log.warning("لا مصدر صورة لإعادة بناء بطاقة %s", draft.get("id", path))
+        return None
+
+    # نتحقق قبل البناء: الرابط قد يكون صفحة لا صورة، أو صورة صغيرة
+    # لا تصلح خلفية. الفشل هنا أرخص من بطاقة مشوّهة.
+    if download_image(url) is None:
+        log.warning("رابط غير صالح كصورة: %s", str(url)[:90])
+        return None
+
+    spec = draft.get("reel_spec") or {}
+    ar = draft.get("arabic") or {}
+    new_rel = next_image_path(draft["image"])
+    # new_rel نص لعنوان الصورة داخل المستودع (يبدأ بـ "drafts/" دومًا —
+    # يلزم لبناء raw_url في review.py) لا مسار كتابة فعلي؛ الكتابة نفسها
+    # يجب أن تمرّ عبر DRAFTS_DIR لا ROOT مباشرة، وإلا تجاوزت عزل الاختبارات
+    # (TRENDNEWS_DRAFTS_DIR) وكتبت داخل drafts/ الحقيقي في المستودع.
+    out_path = DRAFTS_DIR / Path(new_rel).relative_to("drafts")
+
+    build_post_image(
+        headline=headline,
+        category=spec.get("category") or ar.get("category", ""),
+        urgent=bool(spec.get("urgent") or ar.get("urgent")),
+        image_urls=[url],
+        publisher=src.get("publishers") or [src.get("publisher", "")],
+        bucket=draft.get("bucket", "serious"),
+        # يحفظ وسم المسار عند إعادة بناء البطاقة (Issue #758) — أسهل نقطة
+        # يضيع فيها الملصق الثاني بصمت لولا تمريره هنا صراحة.
+        origin=store.origin_of(draft),
+        cfg=cfg,
+        out_path=out_path,
+        # لا بديل تلقائي: مصدر الصورة محدَّد سلفًا (يدويًا أو من المسودة)،
+        # فالصمت عند فشله أصدق من إحلال صورة أخرى محلّه دون علم الطالب.
+        fallback_provider=None,
+    )
+    return new_rel
+
+
 def apply_image(draft_id: str, url: str, cfg) -> dict | None:
     """يعيد بناء بطاقة المسودة على الصورة المعطاة. يعيد المسودة المحدَّثة."""
     found = store.load_draft(draft_id)
@@ -97,39 +148,15 @@ def apply_image(draft_id: str, url: str, cfg) -> dict | None:
         log.warning("لا بطاقة بعد للمسودة %s — البطاقة تُبنى عند الاعتماد", draft_id)
         return None
 
-    # نتحقق قبل البناء: الرابط قد يكون صفحة لا صورة، أو صورة صغيرة
-    # لا تصلح خلفية. الفشل هنا أرخص من بطاقة مشوّهة.
-    if download_image(url) is None:
-        log.warning("رابط غير صالح كصورة: %s", url[:90])
-        return None
-
     spec = draft.get("reel_spec") or {}
     ar = draft.get("arabic") or {}
     headline = (spec.get("headline") or ar.get("image_headline")
                 or ar.get("post_title") or draft["source"]["title"])
-    new_rel = next_image_path(draft["image"])
-    # new_rel نص لعنوان الصورة داخل المستودع (يبدأ بـ "drafts/" دومًا —
-    # يلزم لبناء raw_url في review.py) لا مسار كتابة فعلي؛ الكتابة نفسها
-    # يجب أن تمرّ عبر DRAFTS_DIR لا ROOT مباشرة، وإلا تجاوزت عزل الاختبارات
-    # (TRENDNEWS_DRAFTS_DIR) وكتبت داخل drafts/ الحقيقي في المستودع.
-    out_path = DRAFTS_DIR / Path(new_rel).relative_to("drafts")
-
-    build_post_image(
-        headline=headline,
-        category=spec.get("category") or ar.get("category", ""),
-        urgent=bool(spec.get("urgent") or ar.get("urgent")),
-        image_urls=[url],
-        publisher=draft["source"].get("publishers") or [draft["source"].get("publisher", "")],
-        bucket=draft.get("bucket", "serious"),
-        # يحفظ وسم المسار عند إعادة بناء البطاقة يدويًا (Issue #758) —
-        # أسهل نقطة يضيع فيها الملصق الثاني بصمت لولا تمريره هنا صراحة.
-        origin=store.origin_of(draft),
-        cfg=cfg,
-        out_path=out_path,
-        # لا بديل تلقائي: طلب المراجع صورة بعينها، فالصمت عند فشلها
-        # أصدق من إحلال صورة أخرى محلها دون علمه.
-        fallback_provider=None,
-    )
+    # manual_image=url يجعل rebuild_card يختار هذا الرابط تحديدًا مصدرًا
+    # (أول أولوية في سلسلته) — لا صورة المسودة الحالية إن وُجدت من قبل.
+    new_rel = rebuild_card(path, {**draft, "manual_image": url}, headline, cfg)
+    if new_rel is None:
+        return None
 
     old_rel = draft["image"]
     # إحياء مسودة failed (Issue #742): السبب المسجَّل في error زال فعلًا
