@@ -9838,6 +9838,85 @@ def test_publish_routes_mixed_origins_in_same_issue() -> None:
           store.load_draft(news_draft["id"])[1].get("status"))
 
 
+def test_publish_urgent_only_defers_youtube_to_normal_job() -> None:
+    """Issue #745: publish.yml يُشغّل urgent (--urgent-only، مهلة ٢٠ دقيقة)
+    ثم normal (--skip-urgent، مهلة ١٥٠) على نفس حدث وسم approved، وكتلة
+    youtube_ids كانت تقع قبل انقسام urgent/skip فتعمل في الاثنتين -- دفعة
+    تحليل (٣ منشورات × ٤٠ دقيقة تباعدًا) لا تحتمل سقف ٢٠ دقيقة فتُقتل
+    وظيفة urgent في منتصفها. الآن: --urgent-only لا يستدعي publish_ids
+    إطلاقًا (يُؤجَّل للمسار العادي)، و--skip-urgent على نفس الـIssue
+    يستدعيه مرة واحدة."""
+    from src import publish as publish_mod
+    from src import youtube_publish as yp
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    yt_draft = {
+        "id": "abc123abcdef", "status": "pending", "origin": "youtube",
+        "arabic": {"post_title": "مقال يوتيوب", "urgent": False},
+        "headlines": ["عنوان ١", "عنوان ٢", "عنوان ٣"], "headline_selected": 0,
+        "caption": "متن يوتيوب", "source": {},
+    }
+    store.save_draft(yt_draft)
+
+    body = f"- [x] **1. مقال يوتيوب**  <!-- draft:{yt_draft['id']} -->"
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}],
+    }
+
+    yt_calls: list = []
+    real_publish_ids = yp.publish_ids
+    yp.publish_ids = lambda *a, **kw: (yt_calls.append(1), ([], 0, 0, []))[1]
+
+    comments: list = []
+    real_comment = review.comment
+    review.comment = lambda issue_number, text: comments.append(text)
+
+    sys.argv = ["publish", "--issue", "7460", "--urgent-only"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        yp.publish_ids = real_publish_ids
+        review.comment = real_comment
+
+    check("publish.main ينتهي بنجاح (--urgent-only، مسودة يوتيوب فقط)",
+          code == 0, f"exit={code}")
+    check("--urgent-only لا يستدعي publish_ids إطلاقًا (يُؤجَّل للمسار العادي)",
+          yt_calls == [], yt_calls)
+    check("لا تعليق على الـIssue عند التأجيل (ضجيج -- الوظيفة العادية تعالجها بعد دقائق)",
+          comments == [], comments)
+    check("مسودة يوتيوب بقيت pending (لم تُنشر بعد، لم تُحاول)",
+          store.load_draft(yt_draft["id"])[1]["status"] == "pending",
+          store.load_draft(yt_draft["id"])[1].get("status"))
+
+    yt_calls.clear()
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}],
+    }
+    real_publish_ids2 = yp.publish_ids
+    yp.publish_ids = lambda *a, **kw: (yt_calls.append(1), ([], 0, 0, []))[1]
+    real_report_batch = yp.report_batch
+    yp.report_batch = lambda *a, **kw: None
+
+    sys.argv = ["publish", "--issue", "7460", "--skip-urgent"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        yp.publish_ids = real_publish_ids2
+        yp.report_batch = real_report_batch
+        review.comment = real_comment
+
+    check("publish.main ينتهي بنجاح (--skip-urgent، نفس الـIssue)",
+          code == 0, f"exit={code}")
+    check("--skip-urgent يستدعي publish_ids مرة واحدة (لا مرتين)",
+          yt_calls == [1], yt_calls)
+
+
 def test_open_review_excludes_youtube_and_broken_drafts() -> None:
     """متابعة Issue #707: تسرّب مسودة يوتيوب لم يقف عند ``publish.py``
     وحده — ``open_review.py`` (المسار العام) كان يجمع كل مسودة ``pending``
@@ -13062,6 +13141,7 @@ def main() -> int:
     test_publish_routes_youtube_origin_by_field_not_label()
     test_publish_routes_news_origin_unaffected()
     test_publish_routes_mixed_origins_in_same_issue()
+    test_publish_urgent_only_defers_youtube_to_normal_job()
     print("\n── سجل القرارات التراكمي (Issue #583، المرحلة الأولى) ──")
     test_decisions()
     print("\n── تحليل الأداء ──")
