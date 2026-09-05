@@ -177,11 +177,19 @@ five stages, each consuming the previous stage's output file:
    `config.yaml: youtube.review.scoring`); `open_review()` then opens a review Issue labeled
    `youtube-review` listing each article's score breakdown, review warnings (e.g. unsourced-name
    flags), and its three candidate headlines as checkboxes — but no images yet. Once a reviewer
-   checks articles and labels the Issue `youtube-approved`, `publish_approved()` builds the title
-   card for the chosen headline only (`ensure_title_card`, built at approval time, not collection
-   time, to avoid wasting image-generation cost on unapproved articles) and publishes via the
-   existing `publish.publish_one`, up to `youtube.publish.max_per_run` posts per run spaced
-   `youtube.publish.spacing_minutes` apart.
+   checks articles and labels the Issue `approved` (Issue #740 unified this with the news
+   pipeline's own approval label — see below), the actual publish path is `publish.main` →
+   `publish_ids`: `publish.main` reads each approved draft's `origin` field and routes
+   `origin: "youtube"` ids to `youtube_publish.publish_ids`, which builds the title card for the
+   chosen headline only (`ensure_title_card`, built at approval time, not collection time, to
+   avoid wasting image-generation cost on unapproved articles) and publishes via the existing
+   `publish.publish_one`, up to `youtube.publish.max_per_run` posts per run spaced
+   `youtube.publish.spacing_minutes` apart. This routing is confined to `publish.yml`'s normal job
+   (`--skip-urgent`) and deliberately skipped in its urgent job (`--urgent-only`, Issue #745) — an
+   analysis article is never urgent, and the urgent job's short timeout would otherwise be killed
+   mid-batch by a long inter-post spacing delay. `publish_approved()` (the function `youtube-publish.yml`
+   itself invokes) is no longer reached through the label at all — it now runs only via that
+   workflow's manual `workflow_dispatch` trigger.
 
 Three workflows drive these five stages: `.github/workflows/youtube-collect.yml`
 (`workflow_dispatch` only; runs `python -m src.youtube_extract`, which calls stage 1 internally,

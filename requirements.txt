@@ -1,4 +1,8 @@
 anthropic>=0.40
+# تبعية عابرة لـanthropic فعليًا، لكن tests/test_pipeline.py (test_verify)
+# يستوردها مباشرة لبناء أخطاء httpx.HTTPStatusError مزيّفة -- كانت مذكورة
+# ضمنيًا فقط فترسب على أي بيئة نظيفة لا تُثبّت anthropic بإصدار يجرّها.
+httpx>=0.27
 requests>=2.31
 feedparser>=6.0.11
 # مثبّتة بدقة (لا >=): Pillow وopencv-python-headless تُستدعيان معًا على نفس

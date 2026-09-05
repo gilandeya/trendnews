@@ -595,16 +595,28 @@ def main() -> int:
         (youtube_ids if origin == "youtube" else news_ids).append(draft_id)
 
     if youtube_ids:
-        # استيراد مؤجَّل — لا على مستوى الوحدة: youtube_publish.py يستورد
-        # publish (لإعادة استعمال publish_one بلا تكرار منطقها)، فاستيراد
-        # youtube_publish من publish على مستوى الوحدة يسبّب دورانًا
-        # (كل وحدة تحاول تحميل الأخرى غير المكتملة بعد أثناء الإقلاع).
-        # الاستيراد هنا يقع بعد اكتمال تحميل كلا الوحدتين فعليًا فلا دوران.
-        from . import youtube_publish
-        yt_lines, yt_published, yt_attempted, yt_remaining = youtube_publish.publish_ids(
-            youtube_ids, youtube_publish.parse_headline_choice(body), cfg)
-        youtube_publish.report_batch(
-            args.issue, yt_lines, yt_published, yt_attempted, yt_remaining, cfg)
+        # Issue #745: publish.yml يُشغّل وظيفتي urgent (--urgent-only، مهلة
+        # ٢٠ دقيقة) وnormal (--skip-urgent، مهلة ١٥٠) على نفس حدث وسم approved
+        # معًا (needs: لا يمنع التشغيل). هذه الكتلة تقع قبل انقسام urgent/skip
+        # فكانت تُنفَّذ في الوظيفتين معًا -- ومهلة العاجل القصيرة تقتل دفعة
+        # تحليل (تباعد طويل بين منشوراتها) في منتصفها. مقال التحليل ليس
+        # عاجلًا أبدًا، فالوظيفة الطويلة وحدها تحتمل التباعد. نفس نمط حراسة
+        # pending-selection أعلاه (Issue #308) لكن بالاتجاه المعاكس: هناك
+        # السريع ينفّذ ويتخطّى العادي، هنا العادي وحده ينفّذ.
+        if args.urgent_only:
+            log.info("Issue #%s: تخطّي توجيه يوتيوب في المسار السريع "
+                     "(--urgent-only) — الوظيفة العادية تنفّذه", args.issue)
+        else:
+            # استيراد مؤجَّل — لا على مستوى الوحدة: youtube_publish.py يستورد
+            # publish (لإعادة استعمال publish_one بلا تكرار منطقها)، فاستيراد
+            # youtube_publish من publish على مستوى الوحدة يسبّب دورانًا
+            # (كل وحدة تحاول تحميل الأخرى غير المكتملة بعد أثناء الإقلاع).
+            # الاستيراد هنا يقع بعد اكتمال تحميل كلا الوحدتين فعليًا فلا دوران.
+            from . import youtube_publish
+            yt_lines, yt_published, yt_attempted, yt_remaining = youtube_publish.publish_ids(
+                youtube_ids, youtube_publish.parse_headline_choice(body), cfg)
+            youtube_publish.report_batch(
+                args.issue, yt_lines, yt_published, yt_attempted, yt_remaining, cfg)
 
     if not news_ids:
         return 0

@@ -9743,6 +9743,63 @@ def test_publish_routes_news_origin_unaffected() -> None:
           store.load_draft(news_draft["id"])[1].get("status"))
 
 
+def test_publish_urgent_only_skips_youtube_routing() -> None:
+    """Issue #745: publish.yml يُشغّل وظيفتي urgent (--urgent-only، مهلة ٢٠
+    دقيقة) وnormal (--skip-urgent، مهلة ١٥٠) لنفس حدث وسم approved معًا
+    (needs: لا يمنع التشغيل، فقط يرتّب التتابع). كتلة توجيه يوتيوب في
+    publish.main كانت تقع قبل انقسام urgent/skip فتُنفَّذ في الوظيفتين معًا
+    -- ومهلة العاجل القصيرة تقتل دفعة تحليل (تباعد طويل بين منشوراتها) في
+    منتصفها. الآن الكتلة تُنفَّذ فقط حين args.urgent_only ليست مفعّلة (نفس
+    نمط حراسة pending-selection أعلاه Issue #308، لكن بالاتجاه المعاكس: هناك
+    السريع ينفّذ ويتخطّى العادي، هنا العادي وحده ينفّذ)."""
+    from src import publish as publish_mod
+    from src import youtube_publish as yp
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    yt_draft = {
+        "id": "007450000001", "status": "pending", "origin": "youtube",
+        "arabic": {"post_title": "مقال يوتيوب", "urgent": False},
+        "headlines": ["عنوان ١", "عنوان ٢", "عنوان ٣"], "headline_selected": 0,
+        "caption": "متن", "source": {},
+    }
+    store.save_draft(yt_draft)
+
+    body = f"- [x] **1. مقال يوتيوب**  <!-- draft:{yt_draft['id']} -->"
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}],
+    }
+
+    yt_calls: list = []
+    real_publish_ids = yp.publish_ids
+    yp.publish_ids = lambda *a, **kw: (yt_calls.append(1), ([], 0, 0, []))[1]
+
+    comments: list = []
+    real_comment = review.comment
+    review.comment = lambda issue_number, text: comments.append(text)
+
+    try:
+        sys.argv = ["publish", "--issue", "7451", "--urgent-only"]
+        code_urgent = publish_mod.main()
+        check("المسار السريع (--urgent-only) ينتهي بنجاح",
+              code_urgent == 0, f"exit={code_urgent}")
+        check("المسار السريع لا يستدعي publish_ids إطلاقًا", yt_calls == [], yt_calls)
+
+        sys.argv = ["publish", "--issue", "7451", "--skip-urgent"]
+        code_normal = publish_mod.main()
+        check("المسار العادي (--skip-urgent) ينتهي بنجاح",
+              code_normal == 0, f"exit={code_normal}")
+        check("المسار العادي يستدعي publish_ids مرة واحدة فقط",
+              yt_calls == [1], yt_calls)
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        yp.publish_ids = real_publish_ids
+        review.comment = real_comment
+
+
 def test_open_review_excludes_youtube_and_broken_drafts() -> None:
     """متابعة Issue #707: تسرّب مسودة يوتيوب لم يقف عند ``publish.py``
     وحده — ``open_review.py`` (المسار العام) كان يجمع كل مسودة ``pending``
@@ -12964,6 +13021,7 @@ def main() -> int:
     print("\n── التوجيه بالأصل لا بالوسم عند approved (Issue #740) ──")
     test_publish_routes_youtube_origin_by_field_not_label()
     test_publish_routes_news_origin_unaffected()
+    test_publish_urgent_only_skips_youtube_routing()
     print("\n── سجل القرارات التراكمي (Issue #583، المرحلة الأولى) ──")
     test_decisions()
     print("\n── تحليل الأداء ──")
