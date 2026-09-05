@@ -2231,6 +2231,63 @@ def test_manual_image() -> None:
     check("لا تكرار عند الفشل", review.parse_image_requests(kept) == [])
 
 
+def test_setimage_revives_failed_draft_only_when_image_was_the_cause() -> None:
+    """Issue #742: `failed` ليست نهائية إن زال سببها. `/صورة` الناجح يعيد
+    الحالة إلى `pending` ويمسح `error` فقط إن كان الفشل الأصلي بسبب الصورة
+    تحديدًا (حقول مفقودة تضم image، أو "الصورة مفقودة") — أي سبب آخر
+    (استثناء فيسبوك مثلًا) يبقى failed لأن السبب الفعلي لم يزُل."""
+    from src import setimage
+
+    cfg = load_config()
+
+    def make_failed(draft_id: str, error: str) -> dict:
+        return {
+            "id": draft_id, "score": 5.0, "caption": "متن",
+            "image": f"drafts/d/{draft_id}.jpg", "bucket": "serious",
+            "status": "failed", "error": error,
+            "source": {"link": "https://x/1", "publishers": ["BBC"]},
+            "arabic": {"post_title": "عنوان تجريبي", "category": "سياسة"},
+        }
+
+    missing_image = make_failed("f1000000f1f1", "حقول مفقودة: image")
+    missing_image_multi = make_failed("f2000000f2f2", "حقول مفقودة: caption, image")
+    missing_photo = make_failed("f3000000f3f3", "الصورة مفقودة")
+    other_cause = make_failed("f4000000f4f4", "خطأ فيسبوك: (#1) الخدمة غير متاحة")
+    for d in (missing_image, missing_image_multi, missing_photo, other_cause):
+        store.save_draft(d)
+
+    check("_image_related_failure: حقول مفقودة تضم image",
+          setimage._image_related_failure("حقول مفقودة: image"))
+    check("_image_related_failure: حقول مفقودة تضم image ضمن أكثر من حقل",
+          setimage._image_related_failure("حقول مفقودة: caption, image"))
+    check("_image_related_failure: الصورة مفقودة",
+          setimage._image_related_failure("الصورة مفقودة"))
+    check("_image_related_failure: سبب آخر لا يُحيي",
+          not setimage._image_related_failure("خطأ فيسبوك: (#1) الخدمة غير متاحة"))
+    check("_image_related_failure: بلا error لا يُحيي",
+          not setimage._image_related_failure(None))
+
+    for d in (missing_image, missing_image_multi, missing_photo):
+        updated = setimage.apply_image(d["id"], "https://cdn.example/revive.jpg", cfg)
+        check(f"apply_image ينجح على {d['id']}", updated is not None)
+        if updated:
+            check(f"{d['id']}: الحالة تعود pending",
+                  updated["status"] == "pending", updated.get("status"))
+            check(f"{d['id']}: error يُمسح", updated.get("error") is None,
+                  updated.get("error"))
+
+    updated_other = setimage.apply_image(
+        other_cause["id"], "https://cdn.example/revive-other.jpg", cfg)
+    check("apply_image ينجح على المسودة الأخرى (الصورة تُبنى رغم ذلك)",
+          updated_other is not None)
+    if updated_other:
+        check("الحالة تبقى failed (السبب ليس الصورة)",
+              updated_other["status"] == "failed", updated_other.get("status"))
+        check("error يبقى كما هو",
+              updated_other.get("error") == "خطأ فيسبوك: (#1) الخدمة غير متاحة",
+              updated_other.get("error"))
+
+
 def test_request_search() -> None:
     """الطلب اليدوي: كلمات → بحث → مرشحون."""
     from src import request as rq
@@ -12116,11 +12173,21 @@ def test_youtube_publish() -> None:
                   for c in ["الجزيرة", "CNN Türk"]))
     check("image_source_line: قناة واحدة بصيغة مفردة صحيحة",
           yp.image_source_line(["الجزيرة"], cfg) == "قراءة في تغطية قناة واحدة")
+    # Issue #742: {channels} مضاف إليه (مجرور) في كل قوالب هذا السطر، فقناتان
+    # تصير "قناتين" لا "قناتان" — بخلاف score_breakdown_text أدناه حيث الصيغة
+    # مرفوعة (مستقلة لا مضافة) فتبقى "قناتان".
+    check("image_source_line: قناتان تصيران «قناتين» (مجرورة بالإضافة، لا «قناتان»)",
+          yp.image_source_line(["الجزيرة", "العربية"], cfg)
+          == "قراءة في تغطية قناتين", yp.image_source_line(["الجزيرة", "العربية"], cfg))
     cfg_custom_line = load_config()
     cfg_custom_line["youtube"]["image"]["source_line_template"] = "بعيون {channels}"
     check("image_source_line: القالب يُقرأ من config.yaml لا مكتوبًا في الشيفرة",
-          yp.image_source_line(["الجزيرة", "العربية"], cfg_custom_line) == "بعيون قناتان",
+          yp.image_source_line(["الجزيرة", "العربية"], cfg_custom_line) == "بعيون قناتين",
           yp.image_source_line(["الجزيرة", "العربية"], cfg_custom_line))
+    check("_arabic_channel_count_phrase: مرفوعة افتراضيًا («قناتان»)",
+          yp._arabic_channel_count_phrase(2) == "قناتان")
+    check("_arabic_channel_count_phrase: مجرورة صراحة («قناتين»)",
+          yp._arabic_channel_count_phrase(2, genitive=True) == "قناتين")
 
     # ── split_warnings: قاعدة حاسمة -- caption خالٍ من قسم التنبيهات (Issue #676) ──
     article_with_warnings = (
@@ -12836,6 +12903,7 @@ def main() -> int:
     test_publish_pending_selection_single_dispatch()
     print("\n── الرابط في التعليق الأول ──")
     test_manual_image()
+    test_setimage_revives_failed_draft_only_when_image_was_the_cause()
     test_request_search()
     print("\n── التحقق من مقال ملصق ──")
     test_verify()

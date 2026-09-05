@@ -101,6 +101,15 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   `path: './docs/site'`). Never add anything to `docs/site/` that isn't meant to be published
   publicly. The config used to be `path: '.'`, which published the entire repository by accident —
   never reintroduce that behavior.
+- **`failed` must stay revivable by fixing its cause.** Any code that records `status="failed"`
+  must leave enough in `error` to identify *why*, and a way back to `pending` must exist for it
+  (Issue #742: four YouTube-analysis drafts came out `failed` with `حقول مفقودة: image` after
+  leaking into the news queue, and nothing in the project ever revived them — they survived only
+  by accident, because `youtube_publish` selects drafts by id, not by status; a news draft marked
+  `failed` the same way just dies). `setimage.apply_image` is the current revival path: a
+  successful `/صورة` on a `failed` draft resets it to `pending` and clears `error`, but only when
+  `setimage._image_related_failure(error)` recognizes the recorded `error` as image-caused — an
+  unrecognized reason must **not** auto-revive, since the actual cause may still be present.
 
 ## Architecture
 
