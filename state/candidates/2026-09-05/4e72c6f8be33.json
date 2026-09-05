@@ -1,0 +1,89 @@
+{
+  "id": "4e72c6f8be33",
+  "created_at": "2026-09-05T15:07:48.088392+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.5,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iranian tanker hit by U.S. attack near Iran’s Kharg Island: report",
+  "link": "https://www.thehindu.com/news/international/explosions-in-kharg-island-area-of-gulf/article71431525.ece",
+  "publishers": [
+    "BBC World",
+    "Daily Sabah",
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد",
+    "Mehr News",
+    "TV",
+    "The Express Tribune",
+    "The Hindu — International",
+    "Vanguard Nigeria"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iranian tanker hit by U.S. attack near Iran’s Kharg Island: report",
+    "link": "https://www.thehindu.com/news/international/explosions-in-kharg-island-area-of-gulf/article71431525.ece",
+    "summary": "The tanker was reportedly hit by four ‌U.S. missiles in the area of Kharg Island’s anchorage",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-05T10:29:59+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/ihjx30/article71431534.ece/alternates/LANDSCAPE_1200/AFP_A3MJ99E.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "BBC World",
+      "Daily Sabah",
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد",
+      "Mehr News",
+      "TV",
+      "The Express Tribune",
+      "The Hindu — International",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627565/high-ranking-us-military-officials-subjected-to-polygraph-tests-over-information-leaks-cbs"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/explosions-in-kharg-island-area-of-gulf/article71431525.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/05/iranian-media-report-explosions-in-kharg-island-area-of-gulf"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/iran-accuses-us-of-missile-strike-on-tanker-near-kharg-island"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/irans-oil-blockade-leverage-weakens-as-us-keeps-gulf-crude-flowing-4890160"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247449/US-strikes-Iranian-oil-tanker-near-Kharg-Island"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/ihjx30/article71431534.ece/alternates/LANDSCAPE_1200/AFP_A3MJ99E.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/05/9a46b5d1-afp__20260225__98wc9rg__v2__highres__topshotuaeusirandiplomacy_cropped_1.webp",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/05/459285.jpg",
+      "https://content-media.investing.com/news/moved_LYNXMPEM3C0BV_L.jpg",
+      "https://media.mehrnews.com/d/2023/07/11/4/4588910.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/e249/live/f2d95940-a934-11f1-bb81-8fbd2d2d397c.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 9,
+    "velocity": 0.0,
+    "age_hours": 766.9111254255555,
+    "is_stale": true,
+    "score": 20.501231279901013
+  }
+}

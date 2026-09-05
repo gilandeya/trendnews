@@ -1,0 +1,66 @@
+{
+  "id": "ea9eb965252a",
+  "created_at": "2026-09-05T15:07:48.088970+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.22,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Masked anti-immigration protesters disrupt UK's Dover port",
+  "link": "http://www.africanews.com/2026/09/05/masked-anti-immigration-protesters-disrupt-uks-dover-port/",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English",
+    "Punch Nigeria",
+    "South China Morning Post"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Masked anti-immigration protesters disrupt UK's Dover port",
+    "link": "http://www.africanews.com/2026/09/05/masked-anti-immigration-protesters-disrupt-uks-dover-port/",
+    "summary": "Dozens of masked anti-immigration protesters blocked roads leading to Britain’s busiest ferry port on Saturday, clogging traffic and disrupting travellers and cargo vehicles heading for France.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-05T13:51:48+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/90/25/99/640x360_cmsv2_b5322d0d-93f7-5f0f-b413-7ddf0c8dff7c-9902599.jpg?1788610156",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English",
+      "Punch Nigeria",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/5/uk-govt-condemns-masked-anti-immigrant-protesters-blocking-dover-port?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3366495/uk-government-condemns-masked-anti-immigrant-protesters-blocking-dover-port?utm_source=rss_feed"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/05/masked-anti-immigration-protesters-disrupt-uks-dover-port/"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/masked-anti-migrant-protesters-disrupt-key-uk-ferry-port/?utm_source=rss.punchng.com&utm_medium=web"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/90/25/99/640x360_cmsv2_b5322d0d-93f7-5f0f-b413-7ddf0c8dff7c-9902599.jpg?1788610156"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 766.9111474666666,
+    "is_stale": false,
+    "score": 20.215697013333333
+  }
+}

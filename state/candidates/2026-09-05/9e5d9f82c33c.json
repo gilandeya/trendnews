@@ -1,0 +1,48 @@
+{
+  "id": "9e5d9f82c33c",
+  "created_at": "2026-09-05T15:07:48.088689+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.25,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ukraine war: how escalating attacks are upending lives in Kyiv",
+  "link": "https://www.scmp.com/news/world/russia-central-asia/article/3366478/ukraine-war-how-escalating-attacks-are-upending-lives-kyiv?utm_source=rss_feed",
+  "publishers": [
+    "Reuters",
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Ukraine war: how escalating attacks are upending lives in Kyiv",
+    "link": "https://www.scmp.com/news/world/russia-central-asia/article/3366478/ukraine-war-how-escalating-attacks-are-upending-lives-kyiv?utm_source=rss_feed",
+    "summary": "Commuters stranded; ⁠children rushed underground in the middle of the school day; festivals cancelled; walks punctuated by booming air defences. Near-constant drone attacks are the stark new reality in Kyiv, and daily life is likely to get harder. Kyiv has survived many traumas since Russia’s full-scale invasion in February 2022. Despite the initial shock of war and the advent of attack drones and ballistic missiles, residents adapted and managed to impose a semblance of normality. But as a...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-09-05T09:09:55+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "Reuters",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/russia-central-asia/article/3366478/ukraine-war-how-escalating-attacks-are-upending-lives-kyiv?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 766.9111464475,
+    "is_stale": false,
+    "score": 20.25249330859259
+  }
+}

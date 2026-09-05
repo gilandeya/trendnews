@@ -1,0 +1,95 @@
+{
+  "id": "b8677e634943",
+  "created_at": "2026-09-05T15:07:48.087620+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.97,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump envoys land in Moscow for Russia-Ukraine peace push",
+  "link": "https://www.thehindu.com/news/international/trump-says-witkoff-kushner-heading-abroad-to-discuss-ukraine-peace/article71430897.ece",
+  "publishers": [
+    "Axios",
+    "CBS News — World",
+    "Daily Sabah",
+    "France24",
+    "Mehr News",
+    "NDTV — World",
+    "NPR World",
+    "South China Morning Post",
+    "TASS",
+    "The Hindu — International",
+    "The Japan Times",
+    "Vanguard Nigeria"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Trump envoys land in Moscow for Russia-Ukraine peace push",
+    "link": "https://www.thehindu.com/news/international/trump-says-witkoff-kushner-heading-abroad-to-discuss-ukraine-peace/article71430897.ece",
+    "summary": "The duo had been planning to ​travel to Moscow over the weekend followed by a visit to Kyiv",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-05T13:50:40+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/p272k4/article71430901.ece/alternates/LANDSCAPE_1200/2026-05-21T100334Z_320388633_RC2DNKA0FQT2_RTRMADP_3_USA-TRUMP-DIPLOMACY.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Axios",
+      "CBS News — World",
+      "Daily Sabah",
+      "France24",
+      "Mehr News",
+      "NDTV — World",
+      "NPR World",
+      "South China Morning Post",
+      "TASS",
+      "The Hindu — International",
+      "The Japan Times",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3366464/trump-sends-witkoff-kushner-moscow-and-kyiv-new-ukraine-peace-plan?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260904-trump-envoys-witkoff-kushner-to-visit-russia-and-ukraine-in-coming-days"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-says-witkoff-kushner-heading-abroad-to-discuss-ukraine-peace/article71430897.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/steve-witkoff-jared-kushner-heading-to-russia-ukraine-to-present-peace-deal-trump-12004039#publisher=newsstand"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/05/world/politics/us-envoys-ukraine-russia-visits/"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/05/nx-s1-5959114/us-envoys-in-moscow-in-new-push-for-peace"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/p272k4/article71430901.ece/alternates/LANDSCAPE_1200/2026-05-21T100334Z_320388633_RC2DNKA0FQT2_RTRMADP_3_USA-TRUMP-DIPLOMACY.JPG",
+      "https://s.france24.com/media/display/eeb14596-a874-11f1-adb2-005056a97e36/w:1024/p:16x9/EN-20260904-170306-170518-CS.jpg",
+      "https://c.ndtvimg.com/2026-09/9iq6q6i4_steve-witkoff-and-jared-kushner_625x300_05_September_26.jpeg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/05/561366.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/05/thumbs/400x400/561366.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5959114"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 12,
+    "velocity": 1.0,
+    "age_hours": 766.9111233741667,
+    "is_stale": false,
+    "score": 28.969325259515323
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "id": "b3091a3b4a01",
+  "created_at": "2026-09-05T15:07:48.088076+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.71,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump downplays war with Iran, in which 18 US service members have been killed so far, as ‘small potatoes’",
+  "link": "https://www.theguardian.com/us-news/live/2026/sep/04/missouri-supreme-court-congressional-district-map-mail-in-voting-us-canada-trade-war-executive-orders-latest-news-updates",
+  "publishers": [
+    "Hindustan Times — World",
+    "NDTV — World",
+    "The Hindu — International",
+    "The Japan Times",
+    "as it happened"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump downplays war with Iran, in which 18 US service members have been killed so far, as ‘small potatoes’",
+    "link": "https://www.theguardian.com/us-news/live/2026/sep/04/missouri-supreme-court-congressional-district-map-mail-in-voting-us-canada-trade-war-executive-orders-latest-news-updates",
+    "summary": "This live blog is now closed. Sign up for US Breaking News emails President Trump threatened in a social media post on Friday to stop trade with some countries unless the US Federal Reserve moves to cut interest rates. Trump cited August’s strong jobs report as sufficient justification to lower rates, and warned that, if the central bank didn’t go along, he’d halt trade between the US and any nations with which it maintains a trade deficit. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-05T02:15:18+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/adea61021f59162ff2a2ff1fc97d0234b8917a35/526_0_5417_4335/master/5417.jpg?width=700&quality=85&auto=format&fit=max&s=54d8c76ae853e56f5f63bb2baae54779",
+    "publisher": "as it happened",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "NDTV — World",
+      "The Hindu — International",
+      "The Japan Times",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/us-news/live/2026/sep/04/missouri-supreme-court-congressional-district-map-mail-in-voting-us-canada-trade-war-executive-orders-latest-news-updates"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/trump-says-iran-war-is-small-potatoes-for-us-12003992#publisher=newsstand"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/05/world/politics/trump-iran-war-small-potatoes/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-calls-iran-conflict-small-potatoes-says-he-agrees-with-vance-that-its-not-war/article71429847.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/explosions-near-iran-s-kharg-island-hours-after-trump-warns-of-pickaxe-mountain-calls-war-small-potatoes-101788592591685.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/adea61021f59162ff2a2ff1fc97d0234b8917a35/526_0_5417_4335/master/5417.jpg?width=700&quality=85&auto=format&fit=max&s=54d8c76ae853e56f5f63bb2baae54779",
+      "https://i.guim.co.uk/img/media/adea61021f59162ff2a2ff1fc97d0234b8917a35/526_0_5417_4335/master/5417.jpg?width=460&quality=85&auto=format&fit=max&s=dea02d3ed62c253c6a15d9825f52b9f1",
+      "https://i.guim.co.uk/img/media/adea61021f59162ff2a2ff1fc97d0234b8917a35/526_0_5417_4335/master/5417.jpg?width=140&quality=85&auto=format&fit=max&s=d790e83af40fc70cf83f9843262a38b1",
+      "https://c.ndtvimg.com/2026-09/pkurgscc_donald-trump_625x300_05_September_26.jpeg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/05/561374.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/05/thumbs/400x400/561374.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 11.999779715,
+    "is_stale": false,
+    "score": 23.707592411939864
+  }
+}
