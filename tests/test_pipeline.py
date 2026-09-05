@@ -281,6 +281,8 @@ def test_image_report() -> None:
           shot.get("fallback_candidates") == 1, shot)
     check("build_post_image: نجاح الاحتياط يُسجَّل illustrative=True",
           shot.get("illustrative") is True, shot)
+    check("build_post_image: composite يُسجَّل False حين لا تركيب صورتين (مرشَّح واحد ناجح فقط، Issue #752)",
+          shot.get("composite") is False, shot)
 
     shot2: dict = {}
     imaging.build_post_image(
@@ -295,6 +297,8 @@ def test_image_report() -> None:
     check("build_post_image: chosen_url يحمل الرابط الذي نجح فعليًا (إصلاح عطل عزو "
           "— image_ranked[0] لم تكن دومًا الفائزة)",
           shot2.get("chosen_url") == "https://ok.example/real.jpg", shot2)
+    check("build_post_image: composite يُسجَّل False لصورة مصدر واحدة بلا صورة ثانية للتركيب",
+          shot2.get("composite") is False, shot2)
 
     from src import article
     check("article._image_report_lines: صورة ناجحة تُعرض بسطر إيجابي",
@@ -1805,6 +1809,11 @@ def test_preselect_draft_review_image_swap_works() -> None:
         check("مسار الصورة تغيّر (نسخة جديدة لا استبدال في مكانه)",
               updated["image"] != old_image, str((updated["image"], old_image)))
         check("has_photo أصبحت True بعد الاستبدال اليدوي", updated["has_photo"] is True)
+        check("image_info: صورة يدوية تُسجَّل manual=True (Issue #752)",
+              updated.get("image_info") == {
+                  "manual": True, "used_original": True, "illustrative": False,
+                  "composite": False, "chosen_url": "https://cdn.example/new-photo.jpg"},
+              updated.get("image_info"))
         reloaded = store.load_draft(cand["id"])
         check("التحديث محفوظ فعليًا في المسودة على القرص",
               reloaded is not None and reloaded[1]["image"] == updated["image"])
@@ -2234,6 +2243,249 @@ def test_manual_image() -> None:
     kept = review.clear_image_request(filled, "abc123def456", keep_url=True)
     check("الرابط يبقى عند الفشل ليصحَّح", "cdn.site" in kept)
     check("لا تكرار عند الفشل", review.parse_image_requests(kept) == [])
+
+
+def test_editable_caption_and_image_source() -> None:
+    """Issue #752: تعديل نصّ أي منشور داخل Issue المراجعة نفسه، ورؤية مصدر
+    صورته قبل الاعتماد — في مساري الأخبار والتحليل معًا. يغطّي: تسامح
+    review.parse_captions مع اختلاف المسافات البادئة، تطبيق التعديل في
+    publish.main قبل فصل analysis_ids/news_ids (نصّ غير معدَّل لا يكتب
+    شيئًا، ومعدَّل يُحفَظ ويصل publish_one)، وصول النصّ المحرَّر إلى
+    youtube_publish._apply_headline لمسار التحليل تحديدًا (الترتيب الذي
+    طلبته المهمة)، وreview.image_source_line في حالاتها الخمس بما فيها
+    مسودة قديمة بلا image_info."""
+    from src import publish as publish_mod
+    from src import youtube_publish as yp
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # ── parse_captions: تسامح المحاذاة (مسافتان، بلا مسافات، مسافات زائدة) ──
+    body_two_spaces = (
+        "  <!-- cap:abc123abcdef -->\n"
+        "  ```\n"
+        "  السطر الأول\n"
+        "  السطر الثاني\n"
+        "  ```\n"
+        "  <!-- /cap:abc123abcdef -->\n"
+    )
+    check("parse_captions: مسافتان بادئتان قياسيتان",
+          review.parse_captions(body_two_spaces) ==
+          {"abc123abcdef": "السطر الأول\nالسطر الثاني"},
+          review.parse_captions(body_two_spaces))
+
+    body_no_spaces = (
+        "<!-- cap:abc123abcdef -->\n"
+        "```\n"
+        "السطر الأول\n"
+        "السطر الثاني\n"
+        "```\n"
+        "<!-- /cap:abc123abcdef -->\n"
+    )
+    check("parse_captions: بلا أي مسافة بادئة (اختفت أثناء التحرير على الهاتف)",
+          review.parse_captions(body_no_spaces) ==
+          {"abc123abcdef": "السطر الأول\nالسطر الثاني"},
+          review.parse_captions(body_no_spaces))
+
+    body_extra_spaces = (
+        "  <!-- cap:abc123abcdef -->\n"
+        "    ```\n"
+        "    السطر الأول\n"
+        "    السطر الثاني\n"
+        "    ```\n"
+        "  <!-- /cap:abc123abcdef -->\n"
+    )
+    check("parse_captions: مسافات زائدة تُقشَّر حتى اثنتين فقط لا أكثر "
+          "(إزاحة أعمق قد تكون مقصودة في النص نفسه)",
+          review.parse_captions(body_extra_spaces) ==
+          {"abc123abcdef": "  السطر الأول\n  السطر الثاني"},
+          review.parse_captions(body_extra_spaces))
+
+    check("parse_captions: بلا كتلة cap إطلاقًا يعيد قاموسًا فارغًا",
+          review.parse_captions("نص Issue بلا أي كتلة نصّ") == {})
+
+    # ── image_source_line: الحالات الخمس ──
+    check("image_source_line: يدوية",
+          review.image_source_line({"image_info": {
+              "manual": True, "used_original": True, "illustrative": False,
+              "composite": False, "chosen_url": "https://x/m.jpg"}})
+          == "🖼️ **المصدر:** رابط وضعتَه يدويًا — المسؤولية عليك")
+    check("image_source_line: ناشر (صورة واحدة، بلا تركيب)",
+          review.image_source_line({"image_info": {
+              "used_original": True, "illustrative": False, "composite": False}})
+          == "🖼 **المصدر:** صورة الناشر — أصلية")
+    check("image_source_line: ناشر مع تركيب صورتين",
+          review.image_source_line({"image_info": {
+              "used_original": True, "illustrative": False, "composite": True}})
+          == "🖼 **المصدر:** صورة الناشر — أصلية · مدمجة من صورتين")
+    check("image_source_line: تعبيرية حرة",
+          review.image_source_line({"image_info": {
+              "used_original": True, "illustrative": True, "composite": False}})
+          == "🖼️ **المصدر:** صورة تعبيرية حرة (ويكيميديا/Openverse) — ليست من مكان الحدث")
+    check("image_source_line: بلا صورة (خلفية مصممة)",
+          review.image_source_line({"image_info": {
+              "used_original": False, "illustrative": False, "composite": False}})
+          == "🖼️ **المصدر:** بلا صورة — البطاقة على خلفية مصممة")
+    check("image_source_line: مسودة قديمة بلا image_info لا تنهار وتُعرَض صراحةً "
+          "(لا تخمين من has_photo وحده)",
+          review.image_source_line({"has_photo": True}) ==
+          "🖼️ المصدر: غير مسجَّل (مسودة سابقة).")
+
+    # ── نصّ غير معدَّل عبر build_issue_body/publish.main لا يكتب شيئًا ──
+    news_draft = {
+        "id": "ca1100000001", "status": "pending", "score": 5.0, "bucket": "serious",
+        "state_media": False, "image": "drafts/cap1.jpg",
+        "caption": "نص الخبر الأصلي.",
+        "source": {"link": "https://x/1", "publishers": ["BBC"]},
+        "arabic": {"post_title": "عنوان الخبر", "category": "سياسة", "urgent": False},
+    }
+    store.save_draft(news_draft)
+    (DRAFTS_DIR / "cap1.jpg").write_bytes(b"\xff\xd8\xff")
+
+    body_unedited = review.build_issue_body([news_draft], "u/r", "main")
+    check("build_issue_body: كتلة cap محفوفة بعلامتي البداية والنهاية",
+          f"<!-- cap:{news_draft['id']} -->" in body_unedited and
+          f"<!-- /cap:{news_draft['id']} -->" in body_unedited, None)
+    check("build_issue_body: التلميح الجديد لتعديل النص ظاهر، والقديم (فتح ملف json) غائب",
+          "حرّر هذا الـIssue واكتب داخل كتلة النص مباشرة" in body_unedited and
+          "افتح ملف" not in body_unedited, None)
+    check("build_issue_body: سطر مصدر الصورة ظاهر تحت سطر الشارات",
+          "🖼️ المصدر: غير مسجَّل (مسودة سابقة)." in body_unedited, body_unedited)
+    marked_unedited = body_unedited.replace("- [ ] **1.", "- [x] **1.", 1)
+
+    real_fetch = publish_mod.fetch_issue
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    real_comment = review.comment
+    real_close = review.close_issue
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    publish_calls: list = []
+
+    def fake_publish_photo(image_path, caption, api_version, first_comment=None):
+        publish_calls.append(caption)
+        return {"url": "https://fb.example/1", "id": "1"}
+
+    facebook.publish_photo = fake_publish_photo
+    comments: list = []
+    review.comment = lambda issue_number, text: comments.append(text)
+    review.close_issue = lambda issue_number: None
+
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": marked_unedited, "labels": [{"name": "approved"}]}
+    sys.argv = ["publish", "--issue", "9001", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+
+    check("publish.main (نص غير معدَّل): ينتهي بنجاح", code == 0, f"exit={code}")
+    check("نص غير معدَّل: caption_edited غائب بعد النشر",
+          "caption_edited" not in store.load_draft(news_draft["id"])[1],
+          store.load_draft(news_draft["id"])[1])
+    check("نص غير معدَّل: النص المنشور فعليًا مطابق للأصلي",
+          publish_calls == ["نص الخبر الأصلي."], publish_calls)
+
+    # ── نصّ معدَّل يُحفَظ فعليًا ويصل publish_one (لا الأصلي) ──
+    news_draft2 = {
+        "id": "ca2200000002", "status": "pending", "score": 5.0, "bucket": "serious",
+        "state_media": False, "image": "drafts/cap2.jpg",
+        "caption": "نص الخبر الأصلي الثاني.",
+        "source": {"link": "https://x/2", "publishers": ["BBC"]},
+        "arabic": {"post_title": "عنوان الخبر الثاني", "category": "سياسة", "urgent": False},
+    }
+    store.save_draft(news_draft2)
+    (DRAFTS_DIR / "cap2.jpg").write_bytes(b"\xff\xd8\xff")
+
+    body2 = review.build_issue_body([news_draft2], "u/r", "main")
+    marked2 = body2.replace("- [ ] **1.", "- [x] **1.", 1)
+    edited2 = marked2.replace("نص الخبر الأصلي الثاني.", "نص محرَّر يدويًا في الـIssue.")
+
+    publish_calls.clear()
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": edited2, "labels": [{"name": "approved"}]}
+    sys.argv = ["publish", "--issue", "9002", "--now"]
+    try:
+        code2 = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+
+    persisted2 = store.load_draft(news_draft2["id"])[1]
+    check("publish.main (نص معدَّل): ينتهي بنجاح", code2 == 0, f"exit={code2}")
+    check("نص معدَّل: caption_edited=True", persisted2.get("caption_edited") is True, persisted2)
+    check("نص معدَّل: caption المخزَّن يطابق التعديل لا الأصل",
+          persisted2.get("caption") == "نص محرَّر يدويًا في الـIssue.", persisted2)
+    check("نص معدَّل: publish_one نشر النص الجديد لا الأصلي",
+          publish_calls == ["نص محرَّر يدويًا في الـIssue."], publish_calls)
+
+    # ── مسودة تحليل معدَّلة النص: التعديل يصل youtube_publish._apply_headline ──
+    yt_draft = {
+        "id": "ca3abcdefabc", "status": "pending", "origin": "youtube",
+        "arabic": {"post_title": "العنوان الافتراضي", "urgent": False},
+        "headlines": ["العنوان الافتراضي", "بديل ١", "بديل ٢"], "headline_selected": 0,
+        "caption": "# العنوان الافتراضي\nنص المقال الأصلي.",
+        "channels": ["قناة تجريبية"], "source": {},
+    }
+    store.save_draft(yt_draft)
+
+    yt_body = (
+        f"- [x] **1. مقال**  <!-- draft:{yt_draft['id']} -->\n"
+        f"  <!-- cap:{yt_draft['id']} -->\n"
+        "  ```\n"
+        "  # العنوان الافتراضي\n"
+        "  نص محرَّر يدويًا قبل الاعتماد.\n"
+        "  ```\n"
+        f"  <!-- /cap:{yt_draft['id']} -->\n"
+    )
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": yt_body, "labels": [{"name": "approved"}]}
+
+    apply_headline_calls: list = []
+    real_apply_headline = yp._apply_headline
+
+    def spy_apply_headline(caption, headline):
+        apply_headline_calls.append(caption)
+        return real_apply_headline(caption, headline)
+
+    yp._apply_headline = spy_apply_headline
+
+    real_find_images = imagesearch.find_images
+    imagesearch.find_images = lambda *a, **k: []
+
+    real_publish_one_yt = yp.publish.publish_one
+    published_captions: list = []
+
+    def fake_publish_one_yt(path, draft, cfg):
+        published_captions.append(draft["caption"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    yp.publish.publish_one = fake_publish_one_yt
+    review.comment = lambda issue_number, text: comments.append(text)
+    review.close_issue = lambda issue_number: None
+
+    sys.argv = ["publish", "--issue", "9003"]
+    try:
+        code3 = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        yp._apply_headline = real_apply_headline
+        imagesearch.find_images = real_find_images
+        yp.publish.publish_one = real_publish_one_yt
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main (مقال تحليل، نص معدَّل): ينتهي بنجاح", code3 == 0, f"exit={code3}")
+    check("التعديل وصل _apply_headline بالنصّ الجديد لا الأصلي (الترتيب المطلوب في المهمة)",
+          apply_headline_calls == ["# العنوان الافتراضي\nنص محرَّر يدويًا قبل الاعتماد."],
+          apply_headline_calls)
+    check("caption المنشورة فعليًا (بعد استبدال سطر العنوان) تحمل النصّ المحرَّر",
+          published_captions and "نص محرَّر يدويًا قبل الاعتماد." in published_captions[0],
+          published_captions)
+    check("مسودة التحليل على القرص: caption_edited=True",
+          store.load_draft(yt_draft["id"])[1].get("caption_edited") is True,
+          store.load_draft(yt_draft["id"])[1])
 
 
 def test_setimage_revives_failed_draft_only_when_image_was_the_cause() -> None:
@@ -13129,6 +13381,10 @@ def test_youtube_publish() -> None:
     check("ensure_title_card: has_photo النهائي (الحقيقي بعد البناء) محفوظ أيضًا",
           persisted is not None and persisted[1].get("has_photo") is False,
           persisted[1] if persisted else None)
+    check("ensure_title_card: image_info محفوظ فعليًا (Issue #752) — يطابق has_photo، manual=False",
+          persisted is not None and persisted[1].get("image_info", {}).get("used_original") is False
+          and persisted[1]["image_info"].get("manual") is False,
+          persisted[1].get("image_info") if persisted else None)
 
     # نداء ثانٍ بعد بناء البطاقة فعليًا: يعيد True فورًا بلا إعادة بناء
     # (الملف موجود مسبقًا -- انظر فحص `existing` في ensure_title_card)
@@ -13385,6 +13641,7 @@ def main() -> int:
     test_publish_pending_selection_single_dispatch()
     print("\n── الرابط في التعليق الأول ──")
     test_manual_image()
+    test_editable_caption_and_image_source()
     test_setimage_revives_failed_draft_only_when_image_was_the_cause()
     test_request_search()
     print("\n── التحقق من مقال ملصق ──")

@@ -524,13 +524,23 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     new_caption = _apply_headline(draft["caption"], headline)
     new_arabic = {**draft["arabic"], "post_title": headline}
     has_photo = bool(shot.get("used_original"))
+    image_info = {
+        "used_original": has_photo,
+        "illustrative": bool(shot.get("illustrative")),
+        "composite": bool(shot.get("composite")),
+        "chosen_url": shot.get("chosen_url"),
+        "candidates_tried": shot.get("candidates_tried"),
+        "manual": False,
+    }
     store.update_draft(path, image=f"drafts/{image_name}", headline_selected=idx,
-                        caption=new_caption, arabic=new_arabic, has_photo=has_photo)
+                        caption=new_caption, arabic=new_arabic, has_photo=has_photo,
+                        image_info=image_info)
     draft["image"] = f"drafts/{image_name}"
     draft["headline_selected"] = idx
     draft["caption"] = new_caption
     draft["arabic"] = new_arabic
     draft["has_photo"] = has_photo
+    draft["image_info"] = image_info
     return True
 
 
@@ -585,6 +595,10 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
         "",
         "إغلاق الـ Issue بلا وسم = تجاهل الكل.",
         "",
+        "✏️ لتعديل نصّ منشور: حرّر هذا الـIssue واكتب داخل كتلة النص مباشرة. "
+        "النصّ الذي أراه لحظة الاعتماد هو ما يُنشر. ملاحظة: تعديل النص لا "
+        "يغيّر البطاقة — البطاقة تحمل العنوان فقط.",
+        "",
         "---",
         "",
     ]
@@ -605,6 +619,8 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
             meta_line,
             "",
             score_line,
+            "",
+            f"  {review.image_source_line(d)}",
             "",
         ]
         if d.get("has_photo") is False:
@@ -639,9 +655,11 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
         parts += [
             "  <details><summary>📝 نص المقال كاملًا</summary>",
             "",
+            f"  <!-- cap:{d['id']} -->",
             "  ```",
             *[f"  {line}" for line in d["caption"].splitlines()],
             "  ```",
+            f"  <!-- /cap:{d['id']} -->",
             "",
             "  </details>",
             "",

@@ -139,6 +139,8 @@ def apply_image(draft_id: str, url: str, cfg) -> dict | None:
         image=new_rel,
         has_photo=True,
         manual_image=url,
+        image_info={"manual": True, "used_original": True,
+                    "illustrative": False, "composite": False, "chosen_url": url},
         source={**draft["source"], "image_url": url, "image_candidates": [url]},
         reel_spec={**spec, "image_candidates": [url]},
         reel=None,          # الريل القديم بُني على الصورة القديمة

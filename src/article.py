@@ -3524,6 +3524,14 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         "is_followup": False,
         "state_media": False,
         "has_photo": bool(shot.get("used_original")),
+        "image_info": {
+            "used_original": bool(shot.get("used_original")),
+            "illustrative": bool(shot.get("illustrative")),
+            "composite": bool(shot.get("composite")),
+            "chosen_url": shot.get("chosen_url"),
+            "candidates_tried": shot.get("candidates_tried"),
+            "manual": False,
+        },
         "source": {
             "title": question,
             "link": primary_link,
