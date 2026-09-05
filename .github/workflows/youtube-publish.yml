@@ -17,9 +17,7 @@ concurrency:
 
 jobs:
   publish:
-    if: >-
-      github.event_name == 'workflow_dispatch' ||
-      github.event.label.name == 'youtube-approved'
+      if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 150
 
