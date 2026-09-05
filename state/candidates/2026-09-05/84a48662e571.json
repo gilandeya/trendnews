@@ -1,0 +1,99 @@
+{
+  "id": "84a48662e571",
+  "created_at": "2026-09-05T18:07:54.251373+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.96,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US hits three Iranian oil tankers after saying its warships were targeted",
+  "link": "https://www.bbc.co.uk/news/articles/cj64rrne643o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "Daily Sabah",
+    "Free Malaysia Today",
+    "Mehr News",
+    "NDTV — World",
+    "NPR World",
+    "Punch Nigeria",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Guardian — World",
+    "The Hindu — International",
+    "Vanguard Nigeria"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "US hits three Iranian oil tankers after saying its warships were targeted",
+    "link": "https://www.bbc.co.uk/news/articles/cj64rrne643o?at_medium=RSS&at_campaign=rss",
+    "summary": "The strikes come nearly a week after fighting between the US and Iran flared again following weeks of relative calm.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-05T17:15:05+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9613/live/a1c35120-a93c-11f1-a291-b542ee92de7c.png",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "Daily Sabah",
+      "Free Malaysia Today",
+      "Mehr News",
+      "NDTV — World",
+      "NPR World",
+      "Punch Nigeria",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Guardian — World",
+      "The Hindu — International",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/5/us-says-it-hit-three-iranian-oil-tankers-after-attacks-on-warships?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cj64rrne643o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3366498/us-disables-or-destroys-3-iran-oil-tankers-after-warships-targeted?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627565/high-ranking-us-military-officials-subjected-to-polygraph-tests-over-information-leaks-cbs"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/us-claims-strikes-on-three-iranian-oil-tankers-after-attacks/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/05/nx-s1-5959159/us-iran-warships-targeted"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9613/live/a1c35120-a93c-11f1-a291-b542ee92de7c.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/9613/live/a1c35120-a93c-11f1-a291-b542ee92de7c.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9613/live/a1c35120-a93c-11f1-a291-b542ee92de7c.png",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5959159",
+      "https://c.ndtvimg.com/2026-04/kdbpguuk_trump-mojtaba_625x300_07_April_26.png",
+      "https://i.guim.co.uk/img/media/edc0c42b860523d09f43539363157598f7bd3bf0/167_0_1205_965/master/1205.jpg?width=700&quality=85&auto=format&fit=max&s=5a5d15588caf66d47091ad51189a596e"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 14,
+    "velocity": 1.0,
+    "age_hours": 769.9129587141666,
+    "is_stale": false,
+    "score": 25.963509712839482
+  }
+}

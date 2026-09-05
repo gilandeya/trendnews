@@ -1,0 +1,56 @@
+{
+  "id": "70ee6bd6132b",
+  "created_at": "2026-09-05T18:07:54.252049+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.19,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Philippines Vice President Sara Duterte posts bail after arrest",
+  "link": "https://www.npr.org/2026/09/05/g-s1-142148/philippines-vice-president-posts-bail",
+  "publishers": [
+    "NPR",
+    "NPR World",
+    "South China Morning Post"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Philippines Vice President Sara Duterte posts bail after arrest",
+    "link": "https://www.npr.org/2026/09/05/g-s1-142148/philippines-vice-president-posts-bail",
+    "summary": "Philippines Vice President Sara Duterte has posted bail after order issued for her arrest on charges she publicly threatened to arrange assassination of President Ferdinand Marcos Jr. and two others.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-09-05T07:21:10+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-142148",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "NPR",
+      "NPR World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/southeast-asia/article/3366469/philippine-vice-president-duterte-carpio-posts-bail-over-alleged-marcos-death-threat?utm_source=rss_feed"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/05/g-s1-142148/philippines-vice-president-posts-bail"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-142148"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 3.0018176169444444,
+    "is_stale": false,
+    "score": 13.186425040070876
+  }
+}

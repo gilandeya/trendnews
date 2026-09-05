@@ -1,0 +1,67 @@
+{
+  "id": "b9d4932e7991",
+  "created_at": "2026-09-05T18:07:54.252172+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 12.92,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nepal flash floods: Death toll rises to 1,344",
+  "link": "https://www.thehindu.com/news/international/nepal-flash-floods-death-toll-rises-september-5-2026/article71431209.ece",
+  "publishers": [
+    "Daily Sabah",
+    "The Express Tribune",
+    "The Hindu — International",
+    "police"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Nepal flash floods: Death toll rises to 1,344",
+    "link": "https://www.thehindu.com/news/international/nepal-flash-floods-death-toll-rises-september-5-2026/article71431209.ece",
+    "summary": "According to the data released by the Nepal Police, a total of 843 bodies have been successfully recovered, consisting of 758 adults and 85 children",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-05T12:26:43+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/reyvmi/article71432008.ece/alternates/LANDSCAPE_1200/2026-09-05T104753Z_1044698177_RC2WCNAF6G0A_RTRMADP_3_NEPAL-FLOODS.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Daily Sabah",
+      "The Express Tribune",
+      "The Hindu — International",
+      "police"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627592/death-toll-from-nepal-china-flash-floods-rises-to-1375-search-continues-for-5531-missing"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nepal-flash-floods-death-toll-rises-september-5-2026/article71431209.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/death-toll-hits-1375-after-devastating-nepal-china-border-floods"
+      },
+      {
+        "name": "police",
+        "link": "https://tass.com/world/2183061"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/reyvmi/article71432008.ece/alternates/LANDSCAPE_1200/2026-09-05T104753Z_1044698177_RC2WCNAF6G0A_RTRMADP_3_NEPAL-FLOODS.JPG",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/05/459294.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 207.00144475194443,
+    "is_stale": true,
+    "score": 12.921037538611111
+  }
+}
