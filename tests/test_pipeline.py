@@ -2833,6 +2833,190 @@ def test_setimage_apply_image_keeps_origin_badge() -> None:
           all(abs(a - b) <= 6 for a, b in zip(pixel, analysis_bg)), (pixel, analysis_bg))
 
 
+def test_publish_headline_choice_rebuilds_card() -> None:
+    """Issue #760: اختيار عنوان غير افتراضي في Issue المراجعة يعيد بناء
+    البطاقة بذلك العنوان أيضًا -- لا النص وحده. الفهرس صفر (الافتراضي) لا
+    يمسّها؛ تجاوز حدّ الطول (image.headline_max_chars) لا يعيد بناءها
+    (والنص يأخذ العنوان المختار رغم ذلك)؛ وفشل البناء (رابط تعذّر تنزيله)
+    يُبقي البطاقة القديمة ولا يوقف النشر. البطاقة المعاد بناؤها تحتفظ
+    بملصق مسار المسودة (نفس مبدأ #758)."""
+    from src import publish as publish_mod
+    from src import setimage
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    cfg = load_config()
+    max_chars = int(cfg.path("image.headline_max_chars", 90))
+    long_headline = ("عنوان طويل جدًا يتجاوز الحدّ المسموح به لطول العنوان "
+                     "المرسوم فعليًا على بطاقة الخبر مهما بلغ رقم الإعداد ")
+    long_headline = (long_headline * 3)[:max_chars + 30]
+
+    draft_short = {
+        "id": "cc1100000001", "status": "pending", "score": 5.0, "bucket": "serious",
+        "state_media": False, "origin": "request",
+        "image": "drafts/rb1.jpg",
+        "caption": "عنوان قصير أصلي\nمتن الخبر الأول.",
+        "source": {"link": "https://x/rb1", "publishers": ["BBC"],
+                   "image_url": "https://cdn.example/rb1.jpg"},
+        # category فارغة عمدًا: badge_left يرسم شارة category أولًا فتزيح
+        # موضع ملصق origin يمينًا (src/imaging.py) -- probe_xy أدناه يفترض
+        # margin+10 كموضع الملصق مباشرة (نفس صيغة
+        # test_setimage_apply_image_keeps_origin_badge)، فتبقى category
+        # فارغة هنا كي لا تزاح.
+        "arabic": {"post_title": "عنوان قصير أصلي", "category": "",
+                   "urgent": False, "image_headline": "عنوان قصير أصلي (مرجع البطاقة)"},
+        "headlines": ["عنوان قصير أصلي", "عنوان بديل قصير جدًا"],
+        "headline_selected": 0,
+    }
+    draft_default = {
+        "id": "cc2200000002", "status": "pending", "score": 5.0, "bucket": "serious",
+        "state_media": False,
+        "image": "drafts/rb2.jpg",
+        "caption": "عنوان افتراضي\nمتن الخبر الثاني.",
+        "source": {"link": "https://x/rb2", "publishers": ["BBC"],
+                   "image_url": "https://cdn.example/rb2.jpg"},
+        "arabic": {"post_title": "عنوان افتراضي", "category": "سياسة", "urgent": False},
+        "headlines": ["عنوان افتراضي", "عنوان بديل آخر"],
+        "headline_selected": 0,
+    }
+    draft_long = {
+        "id": "cc3300000003", "status": "pending", "score": 5.0, "bucket": "serious",
+        "state_media": False,
+        "image": "drafts/rb3.jpg",
+        "caption": "عنوان قصير أصلي ٣\nمتن الخبر الثالث.",
+        "source": {"link": "https://x/rb3", "publishers": ["BBC"],
+                   "image_url": "https://cdn.example/rb3.jpg"},
+        "arabic": {"post_title": "عنوان قصير أصلي ٣", "category": "سياسة", "urgent": False},
+        "headlines": ["عنوان قصير أصلي ٣", long_headline],
+        "headline_selected": 0,
+    }
+    draft_fail = {
+        "id": "cc4400000004", "status": "pending", "score": 5.0, "bucket": "serious",
+        "state_media": False,
+        "image": "drafts/rb4.jpg",
+        "caption": "عنوان قصير أصلي ٤\nمتن الخبر الرابع.",
+        "source": {"link": "https://x/rb4", "publishers": ["BBC"],
+                   "image_url": "https://cdn.example/unreachable-rb4.jpg"},
+        "arabic": {"post_title": "عنوان قصير أصلي ٤", "category": "سياسة", "urgent": False},
+        "headlines": ["عنوان قصير أصلي ٤", "عنوان بديل قصير ٤"],
+        "headline_selected": 0,
+    }
+    for d in (draft_short, draft_default, draft_long, draft_fail):
+        store.save_draft(d)
+    for name in ("rb2.jpg", "rb3.jpg", "rb4.jpg"):
+        (DRAFTS_DIR / name).write_bytes(b"\xff\xd8\xff")
+
+    body = review.build_issue_body(
+        [draft_short, draft_default, draft_long, draft_fail], "u/r", "main")
+    for d in (draft_short, draft_default, draft_long, draft_fail):
+        body = tick_marker(body, f"<!-- draft:{d['id']} -->")
+
+    def select_headline(text: str, draft_id: str, idx: int) -> str:
+        marker = f"<!-- hl:{draft_id}:"
+        lines = text.splitlines()
+        for i, line in enumerate(lines):
+            if marker not in line:
+                continue
+            n = int(line.split(marker, 1)[1].split(" ")[0])
+            lines[i] = (line.replace("- [ ]", "- [x]", 1) if n == idx
+                       else line.replace("- [x]", "- [ ]", 1))
+        return "\n".join(lines)
+
+    body = select_headline(body, draft_short["id"], 1)
+    body = select_headline(body, draft_long["id"], 1)
+    body = select_headline(body, draft_fail["id"], 1)
+    # draft_default تبقى على الفهرس ٠ الافتراضي بلا أي تعديل على مربعاتها
+
+    real_fetch = publish_mod.fetch_issue
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_download = setimage.download_image
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    publish_calls: list = []
+
+    def fake_publish_photo(image_path, caption, api_version, first_comment=None):
+        publish_calls.append(caption)
+        return {"url": "https://fb.example/1", "id": "1"}
+
+    def selective_download(url, timeout=20, failures=None):
+        # نفس تمويه install_fakes() لأي رابط، عدا رابط "unreachable" -- يحاكي
+        # رابطًا انتهى أو تعثّرت شبكته لحظة إعادة البناء (Issue #760).
+        if url and "unreachable" in url:
+            return None
+        return real_download(url, timeout=timeout, failures=failures)
+
+    facebook.publish_photo = fake_publish_photo
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+    setimage.download_image = selective_download
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}]}
+    sys.argv = ["publish", "--issue", "9760", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+        review.comment = real_comment
+        review.close_issue = real_close
+        setimage.download_image = real_download
+
+    check("publish.main (اختيار عنوان يعيد بناء البطاقات): ينتهي بنجاح",
+          code == 0, f"exit={code}")
+    check("publish.main: الأربعة نُشرت رغم فشل إعادة بناء واحدة منها",
+          len(publish_calls) == 4, publish_calls)
+
+    persisted_short = store.load_draft(draft_short["id"])[1]
+    check("فهرس ١ بعنوان قصير: البطاقة أُعيد بناؤها (مسار image تغيّر)",
+          persisted_short["image"] != draft_short["image"], persisted_short.get("image"))
+    check("فهرس ١: النص المنشور يحمل العنوان المختار",
+          any(c.startswith("عنوان بديل قصير جدًا") for c in publish_calls), publish_calls)
+    check("فهرس ١: arabic.image_headline المخزَّن لم يُمسّ (Issue #760)",
+          persisted_short["arabic"]["image_headline"] ==
+          "عنوان قصير أصلي (مرجع البطاقة)", persisted_short["arabic"])
+
+    persisted_default = store.load_draft(draft_default["id"])[1]
+    check("فهرس ٠ (الافتراضي): البطاقة لم تُعَد بناؤها إطلاقًا",
+          persisted_default["image"] == draft_default["image"], persisted_default.get("image"))
+
+    persisted_long = store.load_draft(draft_long["id"])[1]
+    check("عنوان يتجاوز الحدّ: البطاقة لم تُعَد بناؤها",
+          persisted_long["image"] == draft_long["image"], persisted_long.get("image"))
+    check("عنوان يتجاوز الحدّ: النص أخذ العنوان المختار رغم ذلك",
+          any(c.startswith(long_headline) for c in publish_calls),
+          [c[:40] for c in publish_calls])
+
+    persisted_fail = store.load_draft(draft_fail["id"])[1]
+    check("فشل إعادة البناء (رابط تعذّر): البطاقة القديمة تبقى",
+          persisted_fail["image"] == draft_fail["image"], persisted_fail.get("image"))
+    check("فشل إعادة البناء: النشر لم يتوقف (النص أخذ العنوان رغم فشل الصورة)",
+          any(c.startswith("عنوان بديل قصير ٤") for c in publish_calls), publish_calls)
+
+    # البطاقة المعاد بناؤها تحتفظ بملصق مسار المسودة (origin=request، نفس
+    # مبدأ #758) -- نفس أسلوب فحص البكسل في test_setimage_apply_image_keeps_origin_badge
+    W = int(cfg.path("image.width", 1080))
+    H = int(cfg.path("image.height", 1080))
+    margin = int(W * 0.06)
+    rule = max(4, W // 240)
+    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
+    inner_top = int(header_h * 0.14)
+    inner_bot = header_h - rule - int(header_h * 0.14)
+    handle_in_header = bool(cfg.path("brand.handle") and header_h)
+    by = ((inner_top + inner_bot) // 2 if not handle_in_header
+          else inner_top + int((inner_bot - inner_top) * 0.34))
+    probe_xy = (margin + 10, by)
+    request_bg = imaging.hex_rgb(cfg.path("cards.request.bg"))
+    out_path = DRAFTS_DIR / Path(persisted_short["image"]).relative_to("drafts")
+    with Image.open(out_path) as im:
+        pixel = im.convert("RGB").getpixel(probe_xy)
+    check("البطاقة المعاد بناؤها تحمل ملصق «تحقيق» (origin=request محفوظ، Issue #760/#758)",
+          all(abs(a - b) <= 6 for a, b in zip(pixel, request_bg)), (pixel, request_bg))
+
+
 def test_request_search() -> None:
     """الطلب اليدوي: كلمات → بحث → مرشحون."""
     from src import request as rq
@@ -14205,6 +14389,8 @@ def main() -> int:
     test_collect_feedback_rejects_analysis_draft_without_image()
     print("\n── setimage.apply_image يحافظ على وسم المسار (Issue #758) ──")
     test_setimage_apply_image_keeps_origin_badge()
+    print("\n── اختيار عنوان غير افتراضي يعيد بناء البطاقة (Issue #760) ──")
+    test_publish_headline_choice_rebuilds_card()
     print("\n── حارس temperature (Issue #373) ──")
     test_no_temperature_param()
     print("\n── سكربت قياس قنوات يوتيوب (Issue #619) ──")
