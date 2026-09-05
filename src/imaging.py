@@ -500,6 +500,11 @@ def build_post_image(
     الوحيد لكل مسارات النشر (أخبار وتحليل يوتيوب معًا) — لا نسخة بطاقة
     منفصلة لكل مسار كما كان قبل هذا الـIssue، فلا تفترق الهويتان البصريتان
     مجددًا بصمت.
+
+    `report["composite"]` (Issue #752): القيمة الفعلية لقرار "صورتان أم
+    صورة واحدة" (choose_layout) — كانت تُسجَّل في السطر أعلاه للـlog فقط؛
+    الآن تُحفَظ في المسودة (image_info.composite) ليعرضها review.image_source_line
+    للمراجع قبل الاعتماد بدل أن تبقى أثرًا في سجلّ التشغيل وحده.
     """
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
@@ -553,6 +558,7 @@ def build_post_image(
     source = None
     illustrative = False
     chosen_url = None
+    composite = False
     # تشخيص Issue #373 (البند 1): سبب رفض كل مرشَّح صورة، ليصل تقرير المسودة
     # — لا سجل log وحده الذي لا يراه المراجع البشري
     candidate_failures: list[dict] = []
@@ -647,6 +653,7 @@ def build_post_image(
             log.info("تخطيط الصور: %s — %s",
                      "صورتان" if layout["composite"] else "صورة واحدة",
                      layout["reason"])
+            composite = bool(layout["composite"])
             if not layout["composite"]:
                 second = None
             elif layout["swap"]:
@@ -790,6 +797,7 @@ def build_post_image(
     if report is not None:
         report["used_original"] = bool(used_original)
         report["illustrative"] = bool(illustrative)
+        report["composite"] = bool(composite)
         report["candidates_tried"] = len(ordered)
         report["candidate_failures"] = candidate_failures
         report["fallback_tried"] = fallback_tried

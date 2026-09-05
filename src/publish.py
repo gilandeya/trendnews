@@ -552,6 +552,27 @@ def main() -> int:
         return collect_finalize.finalize(args.issue, body, cfg)
 
     ids = review.parse_approved(body)
+
+    # تطبيق تعديل النص اليدوي (Issue #752) — مباشرة بعد parse_approved وقبل
+    # فصل analysis_ids/news_ids عمدًا: مسار التحليل يستبدل سطر العنوان في
+    # caption عبر youtube_publish._apply_headline لاحقًا، فيجب أن يعمل على
+    # النص المحرَّر لا الأصلي. المقارنة بعد توحيد نهايات الأسطر وقصّ الفراغ
+    # الذيلي — لا فرق حقيقي في المحتوى لا يستحق تسجيل تعديل.
+    captions = review.parse_captions(body)
+    for draft_id in ids:
+        edited = captions.get(draft_id)
+        if edited is None:
+            continue
+        found = store.load_draft(draft_id)
+        if not found:
+            continue
+        cap_path, cap_draft = found
+        stored_norm = (cap_draft.get("caption") or "").replace("\r\n", "\n").rstrip()
+        edited_norm = edited.replace("\r\n", "\n").rstrip()
+        if edited_norm != stored_norm:
+            store.update_draft(cap_path, caption=edited, caption_edited=True)
+            log.info("نص المنشور %s عُدِّل يدويًا في الـ Issue", draft_id)
+
     reels = review.parse_reels(body)
 
     # مربعا الاعتماد والرفض قد يُعلَّمان معًا: مراجع اعتمد أولًا ثم عدل

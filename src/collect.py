@@ -383,6 +383,14 @@ def main() -> int:
                 "is_followup": bool(prev_title),
                 "state_media": art.state_media,
                 "has_photo": bool(shot.get("used_original")),
+                "image_info": {
+                    "used_original": bool(shot.get("used_original")),
+                    "illustrative": bool(shot.get("illustrative")),
+                    "composite": bool(shot.get("composite")),
+                    "chosen_url": shot.get("chosen_url"),
+                    "candidates_tried": shot.get("candidates_tried"),
+                    "manual": False,
+                },
                 "source": {
                     "title": art.title,
                     "link": art.link,

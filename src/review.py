@@ -17,6 +17,11 @@ REEL_MARKER = re.compile(r"<!--\s*reel:([0-9a-f]+)\s*-->")
 # مربعات الرفض: <!-- rj:المعرّف:الوسم -->
 REJECT_MARKER = re.compile(r"<!--\s*rj:([0-9a-f]+):([^\s>]+)\s*-->")
 CHECKED_LINE = re.compile(r"^\s*[-*]\s*\[([ xX])\]", re.MULTILINE)
+# كتلة النص القابلة للتحرير: <!-- cap:المعرّف --> ... <!-- /cap:المعرّف -->
+# (Issue #752) — DOTALL كي تمتد المطابقة عبر أسطر الكتلة كاملة، وbackreference
+# \1 كي لا تلتقط كتلة معرّف آخر بالخطأ حين يتجاور منشوران في نفس نصّ الـ Issue.
+CAP_MARKER = re.compile(
+    r"<!--\s*cap:([0-9a-f]+)\s*-->(.*?)<!--\s*/cap:\1\s*-->", re.DOTALL)
 
 
 def _repo() -> str:
@@ -58,7 +63,9 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         "الوسم `rejected`. يتعلّم الفرز منه فلا يعيد مثله. وسبب الرفض "
         "يغلب ✔️ إن اجتمعا، فلن يُنشر.",
         "",
-        "لتعديل نص أي منشور: افتح ملف `.json` الخاص به وعدّل حقل `caption` ثم احفظ.",
+        "✏️ لتعديل نصّ منشور: حرّر هذا الـIssue واكتب داخل كتلة النص مباشرة. "
+        "النصّ الذي أراه لحظة الاعتماد هو ما يُنشر. ملاحظة: تعديل النص لا "
+        "يغيّر البطاقة — البطاقة تحمل العنوان فقط.",
         "",
         "---",
         "",
@@ -91,6 +98,8 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             f"  {badge} · مؤشر الترند `{d['score']:.1f}` · المصادر: "
             f"{'، '.join(d['source']['publishers'][:3])}",
             "",
+            f"  {image_source_line(d)}",
+            "",
             *(["  > ⚠️ **مصدره إعلام رسمي/حكومي فقط** — تحقّق من الرواية قبل النشر.",
                ""] if d.get("state_media") else []),
             f"  <img src=\"{raw_url(repo, branch, img_path)}\" width=\"520\" />",
@@ -111,9 +120,11 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
                ""] if d.get("reel_spec") or d.get("reel") else []),
             "  <details><summary>📝 نص المنشور الكامل</summary>",
             "",
+            f"  <!-- cap:{d['id']} -->",
             "  ```",
             *[f"  {line}" for line in d["caption"].splitlines()],
             "  ```",
+            f"  <!-- /cap:{d['id']} -->",
             "",
             "  </details>",
             "",
@@ -205,6 +216,46 @@ def parse_approved(body: str) -> list[str]:
 
 def all_draft_ids(body: str) -> list[str]:
     return ID_MARKER.findall(body)
+
+
+def parse_captions(body: str) -> dict[str, str]:
+    """يقرأ نصوص المنشورات المحرَّرة يدويًا داخل كتل ``<!-- cap:id -->``
+    (Issue #752). تسامحها إلزامي — المحرِّر بشر على هاتف، فقد تختفي
+    المسافتان البادئتان أو تزيدان أو يتغيّر سطر فارغ: يُقشر حتى مسافتين
+    بادئتين من كل سطر فقط (لا أكثر — إزاحة أعمق قد تكون مقصودة في النص
+    نفسه)، وتُتجاهل سطور ```‎ فتح/إغلاق الكتلة، ويُعاد الباقي كما هو."""
+    out: dict[str, str] = {}
+    for draft_id, block in CAP_MARKER.findall(body or ""):
+        lines = []
+        for raw_line in block.splitlines():
+            line = re.sub(r"^ {1,2}", "", raw_line)
+            if line.strip() == "```":
+                continue
+            lines.append(line)
+        out[draft_id] = "\n".join(lines).strip("\n")
+    return out
+
+
+def image_source_line(draft: dict) -> str:
+    """سطر «المصدر:» في نص Issue المراجعة (Issue #752) — يصف من أين جاءت
+    صورة البطاقة (لا الناشر نفسه، ذاك سطر منفصل) قبل الاعتماد. يقرأ حقل
+    ``image_info`` الذي تكتبه مواضع بناء البطاقة الخمسة/setimage.apply_image؛
+    مسودة قديمة بلا هذا الحقل (على القرص من قبل هذه الميزة) لا تُخمَّن من
+    ``has_photo`` وحدها — تُعرَض صراحة كـ«غير مسجَّل» بدل استنتاج خاطئ."""
+    info = draft.get("image_info")
+    if info is None:
+        return "🖼️ المصدر: غير مسجَّل (مسودة سابقة)."
+    if info.get("manual"):
+        return "🖼️ **المصدر:** رابط وضعتَه يدويًا — المسؤولية عليك"
+    if info.get("illustrative"):
+        return ("🖼️ **المصدر:** صورة تعبيرية حرة (ويكيميديا/Openverse) — "
+                "ليست من مكان الحدث")
+    if info.get("used_original"):
+        line = "🖼 **المصدر:** صورة الناشر — أصلية"
+        if info.get("composite"):
+            line += " · مدمجة من صورتين"
+        return line
+    return "🖼️ **المصدر:** بلا صورة — البطاقة على خلفية مصممة"
 
 
 # ──────────────────────────── عمليات GitHub ────────────────────────────
