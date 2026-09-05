@@ -2371,5 +2371,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 2
+ },
+ {
+  "id": "69428a8bdef2",
+  "created_at": "2026-09-05T05:11:39.445071+00:00",
+  "decided_at": "2026-09-05T05:11:45.063378+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "collect",
+  "category": "عالم",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "jp",
+  "score": 20.03,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "source_count": 4,
+  "body_len": 656,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 5
  }
 ]
