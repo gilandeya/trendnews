@@ -1,0 +1,46 @@
+{
+  "id": "7e4db382f3f9",
+  "created_at": "2026-09-05T09:08:02.043725+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.28,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Google’s Gemini Spark can now manage your Google Photos library",
+  "link": "https://techcrunch.com/2026/09/04/googles-gemini-spark-can-now-manage-your-google-photos-library/",
+  "publishers": [
+    "TechCrunch"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Google’s Gemini Spark can now manage your Google Photos library",
+    "link": "https://techcrunch.com/2026/09/04/googles-gemini-spark-can-now-manage-your-google-photos-library/",
+    "summary": "Gemini Spark can edit and curate photo albums, create shared collections, turn photos into calendar events, and handle other Google Photos tasks for AI Pro and Ultra subscribers.",
+    "source_name": "TechCrunch",
+    "region": "tech",
+    "weight": 1.0,
+    "published": "2026-09-04T14:47:11+00:00",
+    "image_url": null,
+    "publisher": "TechCrunch",
+    "cluster_sources": [
+      "TechCrunch"
+    ],
+    "cluster_members": [
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/09/04/googles-gemini-spark-can-now-manage-your-google-photos-library/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 18.001186273888887,
+    "is_stale": true,
+    "score": 13.276968461925925
+  }
+}

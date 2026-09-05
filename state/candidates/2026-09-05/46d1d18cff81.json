@@ -1,0 +1,75 @@
+{
+  "id": "46d1d18cff81",
+  "created_at": "2026-09-05T09:08:02.042441+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.72,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Parrott fires Real Betis to win over Real Madrid",
+  "link": "https://www.bbc.co.uk/sport/football/videos/c9v9ewe7kygo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "El País",
+    "The Express Tribune",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Parrott fires Real Betis to win over Real Madrid",
+    "link": "https://www.bbc.co.uk/sport/football/videos/c9v9ewe7kygo?at_medium=RSS&at_campaign=rss",
+    "summary": "Troy Parrott scores the only goal of the game and Kylian Mbappe misses an injury-time penalty as Real Betis beat Real Madrid 1-0 in La Liga.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-04T22:07:56+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6cd0/live/ae87c250-a8ac-11f1-b109-879e35c24276.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "El País",
+      "The Express Tribune",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/c9v9ewe7kygo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/04/jose-mourinho-sick-as-a-parrott-as-real-madrid-sunk-by-real-betis-and-irish-supersub"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/escaparate/estilo-de-vida/movistar-plus-champions.html"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627576/mbappe-misses-penalty-as-betis-past-real-madrid"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-04/el-betis-frena-al-madrid-feliz-de-mourinho.html"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6cd0/live/ae87c250-a8ac-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/6cd0/live/ae87c250-a8ac-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6cd0/live/ae87c250-a8ac-11f1-b109-879e35c24276.jpg",
+      "https://i.guim.co.uk/img/media/87f7dab4b613926c57378dfa6e3ef8c9cd82156e/459_0_3290_2632/master/3290.jpg?width=700&quality=85&auto=format&fit=max&s=086abcb73239bec421f66db8e7bd4b16",
+      "https://i.guim.co.uk/img/media/87f7dab4b613926c57378dfa6e3ef8c9cd82156e/459_0_3290_2632/master/3290.jpg?width=460&quality=85&auto=format&fit=max&s=4cd368d308b25d38bbcd633c95a055fa",
+      "https://i.guim.co.uk/img/media/87f7dab4b613926c57378dfa6e3ef8c9cd82156e/459_0_3290_2632/master/3290.jpg?width=140&quality=85&auto=format&fit=max&s=94ae5ab1eea5d3054cd396d201c6a869"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 11.002645024722222,
+    "is_stale": false,
+    "score": 22.71669068627778
+  }
+}

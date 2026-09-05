@@ -1,104 +1,5 @@
 [
   {
-    "score": 27.17,
-    "bucket": "serious",
-    "tokens": [
-      "among",
-      "calls",
-      "countries",
-      "iranian",
-      "leader",
-      "muslim",
-      "supreme",
-      "unity"
-    ],
-    "link": "https://www.thehindu.com/news/international/iranian-supreme-leader-calls-for-unity-among-muslim-countries/article71407523.ece",
-    "title": "Iranian Supreme Leader calls for unity among Muslim countries",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-08-31T09:07:51.759378+00:00"
-  },
-  {
-    "score": 26.29,
-    "bucket": "serious",
-    "tokens": [
-      "clear",
-      "costs",
-      "iran",
-      "months",
-      "mount",
-      "six",
-      "war",
-      "winner"
-    ],
-    "link": "https://www.channelnewsasia.com/world/six-months-iran-war-no-clear-winner-us-costs-mount-6351811",
-    "title": "More than six months into Iran war, no clear winner as costs mount for US",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-08-31T09:07:51.759662+00:00"
-  },
-  {
-    "score": 25.25,
-    "bucket": "serious",
-    "tokens": [
-      "catches",
-      "fire",
-      "flare",
-      "hits",
-      "hormuz",
-      "hostilities",
-      "iran",
-      "mines",
-      "strait",
-      "strike",
-      "supertanker"
-    ],
-    "link": "https://www.theguardian.com/world/live/2026/aug/31/us-iran-israel-hormuz-oil-donald-trump-larak-kharg-island-uae-jordan-latest-news-updates",
-    "title": "Iran hostilities flare after US strike in strait of Hormuz; supertanker hits mines and catches fire",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-31T09:07:51.759960+00:00"
-  },
-  {
-    "score": 22.44,
-    "bucket": "serious",
-    "tokens": [
-      "'terrifying'",
-      "canyon",
-      "dead",
-      "dozen",
-      "flash",
-      "flood",
-      "grand",
-      "hits",
-      "missing",
-      "one"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/clylkjyez1do?at_medium=RSS&at_campaign=rss",
-    "title": "One dead and more than a dozen missing after 'terrifying' flash flood hits Grand Canyon",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-08-31T09:07:51.760243+00:00"
-  },
-  {
-    "score": 17.26,
-    "bucket": "serious",
-    "tokens": [
-      "deterrence",
-      "expose",
-      "flaws",
-      "iran",
-      "nuclear",
-      "ukraine",
-      "wars"
-    ],
-    "link": "https://en.mercopress.com/2026/08/31/ukraine-and-iran-wars-expose-the-flaws-in-nuclear-deterrence?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-    "title": "Ukraine and Iran Wars Expose the Flaws in Nuclear Deterrence",
-    "posted_title": "",
-    "region": "latam",
-    "seen_at": "2026-08-31T09:07:51.760466+00:00"
-  },
-  {
     "score": 26.29,
     "bucket": "serious",
     "tokens": [
@@ -5859,5 +5760,100 @@
     "posted_title": "تحديث: بوتين يتحدث عن تطويق قوات أوكرانية.. وأدلة ميدانية تقول غير ذلك",
     "region": "ru",
     "seen_at": "2026-09-05T07:52:18.560997+00:00"
+  },
+  {
+    "score": 22.72,
+    "bucket": "sport",
+    "tokens": [
+      "betis",
+      "fires",
+      "madrid",
+      "parrott",
+      "real",
+      "win"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/videos/c9v9ewe7kygo?at_medium=RSS&at_campaign=rss",
+    "title": "Parrott fires Real Betis to win over Real Madrid",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-05T09:08:02.042841+00:00"
+  },
+  {
+    "score": 16.14,
+    "bucket": "serious",
+    "tokens": [
+      "allege",
+      "copyright",
+      "infringement",
+      "microsoft",
+      "newsday",
+      "openai",
+      "seattle",
+      "sue",
+      "times"
+    ],
+    "link": "https://www.dawn.com/news/2027678/seattle-times-newsday-sue-openai-and-microsoft-allege-copyright-infringement",
+    "title": "Seattle Times, Newsday sue OpenAI and Microsoft; allege copyright infringement",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-05T09:08:02.043137+00:00"
+  },
+  {
+    "score": 15.52,
+    "bucket": "serious",
+    "tokens": [
+      "diesel",
+      "disrupts",
+      "flow",
+      "fuel",
+      "high",
+      "hit",
+      "iran",
+      "prices",
+      "record",
+      "war"
+    ],
+    "link": "https://www.dailysabah.com/business/economy/diesel-prices-in-us-hit-record-high-as-iran-war-disrupts-fuel-flow",
+    "title": "Diesel prices in US hit record high as Iran war disrupts fuel flow",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-09-05T09:08:02.043430+00:00"
+  },
+  {
+    "score": 14.13,
+    "bucket": "serious",
+    "tokens": [
+      "moment",
+      "nepal",
+      "rescued",
+      "tunnel",
+      "watch",
+      "workers"
+    ],
+    "link": "https://www.bbc.co.uk/news/videos/cnvl5e6vy8eo?at_medium=RSS&at_campaign=rss",
+    "title": "Watch: Moment workers are rescued from Nepal tunnel",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-05T09:08:02.043716+00:00"
+  },
+  {
+    "score": 13.28,
+    "bucket": "useful",
+    "tokens": [
+      "can",
+      "gemini",
+      "google",
+      "library",
+      "manage",
+      "now",
+      "photos",
+      "spark",
+      "your"
+    ],
+    "link": "https://techcrunch.com/2026/09/04/googles-gemini-spark-can-now-manage-your-google-photos-library/",
+    "title": "Google’s Gemini Spark can now manage your Google Photos library",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-09-05T09:08:02.043964+00:00"
   }
 ]
