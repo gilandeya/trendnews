@@ -1,0 +1,803 @@
+{
+  "run_date": "2026-09-06",
+  "stats": {
+    "points_in": 175,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 25,
+    "issues_clustered": 30,
+    "topics_merged": 3,
+    "topics_out": 6,
+    "dropped_by_bloc_cap": 2,
+    "topics_seen_skipped": 7,
+    "topics_below_min_points": 12,
+    "layer_a": 3,
+    "layer_b": 1,
+    "layer_c": 2,
+    "agreement": 3,
+    "cross_source": 3,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "استنزاف عسكري أمريكي-إيراني وتوقيت التصعيد",
+      "التصعيد الأمريكي الإيراني في الخليج (استهداف ناقلات وحاملة طائرات)"
+    ],
+    [
+      "النزاع التجاري الأمريكي الكندي على الرسوم الجمركية",
+      "مؤشرات الاقتصاد الكلي التركي وتوقعات 2026-2029"
+    ],
+    [
+      "جولة ويتكوف وكوشنر لإحياء مفاوضات أوكرانيا في موسكو",
+      "مواقف روسيا وأوكرانيا التفاوضية المتعارضة"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "استنزاف عسكري أمريكي-إيراني وتوقيت التصعيد",
+      "event": "استمرار المواجهة العسكرية الأمريكية الإيرانية ودخولها مرحلة استنزاف مع تمديد الانتشار الأمريكي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        1,
+        2,
+        7,
+        8,
+        9,
+        66,
+        69,
+        71,
+        87,
+        88,
+        89,
+        90,
+        91,
+        93,
+        138
+      ],
+      "total_points": 16,
+      "fresh_points": 11,
+      "dropped_reason": null
+    },
+    {
+      "title": "جولة ويتكوف وكوشنر لإحياء مفاوضات أوكرانيا في موسكو",
+      "event": "زيارة مبعوثي ترامب ويتكوف وكوشنر لموسكو لبحث مقترح إنهاء الحرب الروسية الأوكرانية ونتائجها",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        86,
+        94,
+        95,
+        96,
+        99
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "النزاع التجاري الأمريكي الكندي على الرسوم الجمركية",
+      "event": "فرض ترامب رسوماً 50% على كندا ورد فعل كندا والرأي العام الأمريكي والصناعة",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        11,
+        12,
+        13,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "استمرار الحرب الروسية الأوكرانية وتوسعها",
+      "event": "توتر ميداني متصاعد بين روسيا وأوكرانيا وتهديدات متبادلة وتوسع رقعة المواجهة",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        21,
+        25,
+        26,
+        27,
+        85
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "محاكمة إمام أوغلو والاحتجاز الاحتياطي",
+      "event": "انتقادات لمحاكمة إكرم إمام أوغلو واحتجازه الاحتياطي الطويل دون محاكمة عادلة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123,
+        124,
+        129
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "ثروات أبناء المسؤولين وتحويل الأموال للخارج",
+      "event": "كشف عن ثروات ضخمة لأبناء مسؤولين مثل بيناليّ يلديريم وتحويلات أموال مشبوهة للخارج",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        125,
+        126,
+        127,
+        128
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "استنزاف عسكري أمريكي-إيراني وتوقيت التصعيد",
+      "event": "استمرار المواجهة العسكرية الأمريكية الإيرانية ودخولها مرحلة استنزاف مع تمديد الانتشار الأمريكي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        1,
+        2,
+        7,
+        8,
+        9,
+        66,
+        69,
+        71,
+        87,
+        88,
+        89,
+        90,
+        91,
+        93,
+        138
+      ],
+      "total_points": 16,
+      "fresh_points": 11,
+      "dropped_reason": null
+    },
+    {
+      "title": "جولة ويتكوف وكوشنر لإحياء مفاوضات أوكرانيا في موسكو",
+      "event": "زيارة مبعوثي ترامب ويتكوف وكوشنر لموسكو لبحث مقترح إنهاء الحرب الروسية الأوكرانية ونتائجها",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        86,
+        94,
+        95,
+        96,
+        99
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "تأثير العقوبات على صادرات النفط الإيرانية",
+      "event": "انخفاض حاد في صادرات النفط الإيرانية نتيجة العقوبات",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        136
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "النزاع التجاري الأمريكي الكندي على الرسوم الجمركية",
+      "event": "فرض ترامب رسوماً 50% على كندا ورد فعل كندا والرأي العام الأمريكي والصناعة",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        11,
+        12,
+        13,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "استخدام نتنياهو للتوترات لأغراض انتخابية",
+      "event": "تحليل يربط تصعيد نتنياهو الإقليمي بحسابات انتخابية إسرائيلية داخلية",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        46,
+        142
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استمرار الحرب الروسية الأوكرانية وتوسعها",
+      "event": "توتر ميداني متصاعد بين روسيا وأوكرانيا وتهديدات متبادلة وتوسع رقعة المواجهة",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        21,
+        25,
+        26,
+        27,
+        85
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "نية إيران السيطرة على مضيق هرمز",
+      "event": "الموقف الإيراني من مضيق هرمز كأداة استراتيجية دفاعية",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        92
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انقسام حزب الشعب الجمهوري وخصومة أوزل-كيليتشدار أوغلو",
+      "event": "خلاف أوزغور أوزل مع كمال كيليتشدار أوغلو وانقسام الحزب وتأسيس حزب جديد",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        49,
+        50,
+        55,
+        56,
+        57,
+        58
+      ],
+      "total_points": 6,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "التضخم الغذائي والعام في تركيا",
+      "event": "ارتفاع معدلات التضخم في تركيا وتصنيفها عالمياً",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        61
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "ضرب البنتاجون وتقييم الأضرار الأمريكية",
+      "event": "زعم إيراني بتدمير 12 قاعدة أمريكية وتقييم القدرات الإيرانية بعد المواجهة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        3,
+        67,
+        68
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتفاق اللجنة 4+4 الليبي على مفوضية الانتخابات",
+      "event": "توقيع اتفاق اللجنة المصغرة 4+4 في طرابلس لإنشاء مفوضية الانتخابات ومهلة التصديق عليه",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "هجوم مسيّرة على مطار لايبزيج واتهام روسيا",
+      "event": "سقوط طائرة مسيّرة مفخخة في مطار لايبزيج الألماني واتهام ألمانيا لروسيا بالمسؤولية ونفي روسيا لذلك",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        22,
+        23,
+        24
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حرائق الجزائر واتهام الأيادي الإجرامية",
+      "event": "اندلاع حرائق في عدة ولايات جزائرية واتهام الرئيس تبون لأيادٍ إجرامية وقرار عقوبة الإعدام",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "إضراب المحامين المغاربة ضد قانون المهنة",
+      "event": "إضراب المحامين المغاربة احتجاجاً على قانون جديد ينظم المهنة وخلافهم مع وزير العدل",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "التنافس الإسرائيلي التركي في شرق المتوسط واليونان",
+      "event": "اتهامات بمحاولة إسرائيل محاصرة تركيا عبر شرق المتوسط واتفاقيات دفاعية مع اليونان",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43,
+        44,
+        45,
+        47,
+        97,
+        98
+      ],
+      "total_points": 7,
+      "fresh_points": 3,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "أهداف إيران السياسية من التصعيد قبل الانتخابات الأمريكية",
+      "event": "حسابات إيران باستهداف موازين القوى السياسية الأمريكية قبل الانتخابات",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        70,
+        72
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحرب العراقية الإيرانية: خلفيات وحسابات صدام",
+      "event": "استعراض تاريخي لأسباب الحرب العراقية الإيرانية وحسابات صدام حسين العسكرية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "لقاء أردوغان وبوتين في بيشكك",
+      "event": "اجتماع الرئيس أردوغان مع بوتين في بيشكك وتصريحاته حول العلاقات التركية الروسية",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        115,
+        116
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "عقوبات أمريكية على بنك تركي لتمويل الحرس الثوري",
+      "event": "فرض الخزانة الأمريكية عقوبات على بنك غولدن غلوبال التركي لتسهيله تحويلات مالية إيرانية",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        117,
+        118
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "محاكمة إمام أوغلو والاحتجاز الاحتياطي",
+      "event": "انتقادات لمحاكمة إكرم إمام أوغلو واحتجازه الاحتياطي الطويل دون محاكمة عادلة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123,
+        124,
+        129
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "ثروات أبناء المسؤولين وتحويل الأموال للخارج",
+      "event": "كشف عن ثروات ضخمة لأبناء مسؤولين مثل بيناليّ يلديريم وتحويلات أموال مشبوهة للخارج",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        125,
+        126,
+        127,
+        128
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "فساد وتوجهات إعلامية وسياسية في تركيا",
+      "event": "اتهامات لصحفيين موالين بالترويج مقابل أموال ولوزير الداخلية بارتباطات سابقة مع غولن وتقييم أداء الحكومة والمعارضة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        130,
+        131,
+        132,
+        133,
+        134,
+        135
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "إخفاقات وحدة 8200 الاستخباراتية قبل السابع من أكتوبر",
+      "event": "فشل وحدة 8200 الإسرائيلية في تقديم تحذيرات مسبقة عن هجوم السابع من أكتوبر بسبب مشاكل هيكلية وتقنية",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تنويع التجنيد وبرنامج مقشيمين في الوحدات التقنية الإسرائيلية",
+      "event": "زيادة تمثيل الشباب من المناطق الهامشية في وحدات الحرب الإلكترونية الإسرائيلية عبر برنامج مقشيمين",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        145,
+        146,
+        147
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الذكاء الاصطناعي في التعليم وتفاوت الفرص",
+      "event": "مخاوف من تعميق الفجوة الاقتصادية بدمج الذكاء الاصطناعي في التعليم دون دعم حكومي",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        148,
+        149
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تصويت الحزب الجديد على قانون نزع السلاح",
+      "event": "تصويت حزب أوزل بنعم على قانون نزع سلاح تنظيم إرهابي مع سماح بحرية التصويت الفردي",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        60
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قضية عقارات وأموال مليح غوكتشك",
+      "event": "تحقيق صحفي حول عقارات وأموال العمدة السابق مليح غوكتشك وأسرته",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        62,
+        63,
+        64,
+        65
+      ],
+      "total_points": 4,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    }
+  ]
+}
