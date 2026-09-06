@@ -1,0 +1,48 @@
+{
+  "id": "dc1f3448e291",
+  "created_at": "2026-09-06T09:07:53.563869+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.92,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "DR Congo: Ebola burial teams race against time",
+  "link": "https://www.france24.com/en/video/20260905-dr-congo-ebola-burial-teams-race-against-time",
+  "publishers": [
+    "France24"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "DR Congo: Ebola burial teams race against time",
+    "link": "https://www.france24.com/en/video/20260905-dr-congo-ebola-burial-teams-race-against-time",
+    "summary": "In eastern DR Congo, Ebola burial teams are racing against time as the outbreak continues to spread. They face a dangerous mission: safely burying victims while dealing with distrust and threats from local communities. The response is further complicated by the ongoing rebel conflict in the region.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-05T12:24:58+00:00",
+    "image_url": "https://s.france24.com/media/display/c894fac0-a918-11f1-a684-005056a97e36/w:1024/p:16x9/EN-20260905-120723-120908-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260905-dr-congo-ebola-burial-teams-race-against-time"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/c894fac0-a918-11f1-a684-005056a97e36/w:1024/p:16x9/EN-20260905-120723-120908-CS.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 264.0016158730555,
+    "is_stale": true,
+    "score": 13.919105055333333
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "id": "0be457b6c529",
+  "created_at": "2026-09-06T09:07:53.562411+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.51,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran retaliates after US strikes oil tankers",
+  "link": "https://www.vanguardngr.com/2026/09/iran-retaliates-after-us-strikes-oil-tankers/",
+  "publishers": [
+    "CBS News — World",
+    "CGTN",
+    "Daily Sabah",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Hindu — International",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Iran retaliates after US strikes oil tankers",
+    "link": "https://www.vanguardngr.com/2026/09/iran-retaliates-after-us-strikes-oil-tankers/",
+    "summary": "Iran said Sunday that its forces attacked a US naval drone trying to enter the Strait of Hormuz, hours after targeting ships in retaliation for American strikes on three oil tankers. The post Iran retaliates after US strikes oil tankers appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-09-06T08:13:13+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260905__C7FT363__v1__MidRes__IranUsIsraelWar-1024x684.jpg",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "CBS News — World",
+      "CGTN",
+      "Daily Sabah",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Hindu — International",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3366498/us-disables-or-destroys-3-iran-oil-tankers-after-warships-targeted?utm_source=rss_feed"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/us-strikes-3-iranian-oil-tankers-after-tehran-targeted-its-navy-warships-12006426#publisher=newsstand"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/live-updates/iran-war-us-trump-diesel-gas-prices-labor-day/"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/iran-retaliates-after-us-strikes-oil-tankers/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/explosions-in-kharg-island-area-of-gulf/article71431525.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/iran-accuses-us-of-missile-strike-on-tanker-near-kharg-island"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260905__C7FT363__v1__MidRes__IranUsIsraelWar-1024x684.jpg",
+      "https://c.ndtvimg.com/2026-04/kdbpguuk_trump-mojtaba_625x300_07_April_26.png",
+      "https://th-i.thgim.com/public/incoming/ihjx30/article71431534.ece/alternates/LANDSCAPE_1200/AFP_A3MJ99E.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/05/459285.jpg",
+      "https://news.cgtn.com/news/2026-09-05/news-1QbOLXLhNmw/img/a1457e780ed7475692c177db0770fdb0/a1457e780ed7475692c177db0770fdb0-1920.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 784.9127903266666,
+    "is_stale": false,
+    "score": 22.511447599469108
+  }
+}

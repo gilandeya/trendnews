@@ -1,0 +1,62 @@
+{
+  "id": "63c439ac94dd",
+  "created_at": "2026-09-06T09:07:53.563588+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 14.7,
+  "trend_score": 0.33,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Corporate response team continues search for 9 S. Koreans missing in Nepal floods",
+  "link": "https://en.yna.co.kr/view/AEN20260906003100315",
+  "publishers": [
+    "CGTN",
+    "Channel News Asia",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "Corporate response team continues search for 9 S. Koreans missing in Nepal floods",
+    "link": "https://en.yna.co.kr/view/AEN20260906003100315",
+    "summary": "SEOUL, Sept. 6 (Yonhap) -- A South Korean corporate response team continued thei...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-06T08:49:14+00:00",
+    "image_url": "https://img.yna.co.kr/photo/yna/YH/2026/09/04/PYH2026090414950001300_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "CGTN",
+      "Channel News Asia",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260906003100315"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-05/Nepal-floods-Search-continues-amid-widespread-destruction-1Qc9emhsHbW/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/singapore-missing-persons-nepal-tibet-floods-6365286"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/yna/YH/2026/09/04/PYH2026090414950001300_P2.jpg",
+      "https://news.cgtn.com/news/2026-09-05/Nepal-floods-Search-continues-amid-widespread-destruction-1Qc9emhsHbW/img/b2831feb98f148cf8f82d1dc840d7314/b2831feb98f148cf8f82d1dc840d7314-1280.jpeg",
+      "https://dam.mediacorp.sg/image/upload/s--MEUw15pX--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2021-08:cna,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/06/flood_victims-2.jpg?itok=NDMWrDie"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 264.00161099444443,
+    "is_stale": true,
+    "score": 14.700955519219022
+  }
+}
