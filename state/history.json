@@ -1,100 +1,5 @@
 [
   {
-    "score": 24.04,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "death",
-      "flood",
-      "glacial",
-      "nepal",
-      "surpasses",
-      "tibet",
-      "toll"
-    ],
-    "link": "https://www.france24.com/en/asia-pacific/20260831-glacial-flood-death-toll-surpasses-900-in-nepal-and-tibet",
-    "title": "Glacial flood death toll surpasses 1,000 in Nepal and Tibet",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-01T09:07:54.892141+00:00"
-  },
-  {
-    "score": 22.0,
-    "bucket": "serious",
-    "tokens": [
-      "eight",
-      "kill",
-      "kyiv",
-      "russian",
-      "security",
-      "strikes",
-      "tightens",
-      "ukraine"
-    ],
-    "link": "https://www.malaymail.com/news/world/2026/09/01/russian-strikes-kill-eight-in-kyiv-as-ukraine-tightens-security/233546",
-    "title": "Russian strikes kill eight in Kyiv as Ukraine tightens security",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-01T09:07:54.892427+00:00"
-  },
-  {
-    "score": 17.37,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "bases",
-      "iran",
-      "jordan",
-      "reports",
-      "response",
-      "state",
-      "strikes"
-    ],
-    "link": "http://www.africanews.com/2026/08/31/iran-strikes-us-bases-in-jordan-in-response-to-us-attack-state-tv-reports/",
-    "title": "Iran strikes US bases in Jordan in response to US attack, state TV reports",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-09-01T09:07:54.892668+00:00"
-  },
-  {
-    "score": 17.11,
-    "bucket": "serious",
-    "tokens": [
-      "110",
-      "2027",
-      "berth",
-      "cup",
-      "fiba",
-      "iceland",
-      "rout",
-      "seal",
-      "türkiye",
-      "world"
-    ],
-    "link": "https://www.dailysabah.com/sports/basketball/turkiye-seal-2027-fiba-world-cup-berth-with-110-73-rout-of-iceland",
-    "title": "Türkiye seal 2027 FIBA World Cup berth with 110-73 rout of Iceland",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-09-01T09:07:54.892920+00:00"
-  },
-  {
-    "score": 16.85,
-    "bucket": "serious",
-    "tokens": [
-      "arrest",
-      "equipment",
-      "illegal",
-      "miners",
-      "naimos",
-      "seize"
-    ],
-    "link": "https://www.myjoyonline.com/naimos-arrest-10-illegal-miners-seize-equipment/",
-    "title": "NAIMOS arrest 10 illegal miners, seize equipment",
-    "posted_title": "",
-    "region": "gh",
-    "seen_at": "2026-09-01T09:07:54.893142+00:00"
-  },
-  {
     "score": 23.24,
     "bucket": "sport",
     "tokens": [
@@ -5724,5 +5629,25 @@
     "posted_title": "",
     "region": "eu",
     "seen_at": "2026-09-06T09:07:53.564113+00:00"
+  },
+  {
+    "score": 19.64,
+    "bucket": "serious",
+    "tokens": [
+      "enters",
+      "europe",
+      "german",
+      "launch",
+      "race",
+      "reaches",
+      "rocket",
+      "satellite",
+      "space"
+    ],
+    "link": "https://www.japantimes.co.jp/news/2026/09/06/world/science-health/german-rocket-space-satellite/",
+    "title": "German rocket reaches space as Europe enters satellite launch race",
+    "posted_title": "صاروخ ألماني يصل الفضاء من الأراضي الأوروبية للمرة الأولى تجاريًا",
+    "region": "jp",
+    "seen_at": "2026-09-06T09:35:28.797999+00:00"
   }
 ]
