@@ -2581,5 +2581,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 12
+ },
+ {
+  "id": "04810dfe0091",
+  "created_at": "2026-09-06T12:23:27.044662+00:00",
+  "decided_at": "2026-09-06T13:15:42.407288+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "سياسة",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "uk",
+  "score": 25.53,
+  "trend_score": 1.0,
+  "velocity": 0.14,
+  "source_count": 7,
+  "body_len": 502,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 12
  }
 ]
