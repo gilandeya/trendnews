@@ -1,39 +1,5 @@
 [
   {
-    "score": 19.75,
-    "bucket": "useful",
-    "tokens": [
-      "hormuz",
-      "monday",
-      "saudi",
-      "strait",
-      "struck",
-      "tankers",
-      "two"
-    ],
-    "link": "https://www.investing.com/news/economy-news/two-saudi-tankers-struck-in-strait-of-hormuz-monday-4883749",
-    "title": "Two Saudi tankers struck in Strait of Hormuz Monday",
-    "posted_title": "قذائف مجهولة تصيب ناقلتين تحملان نفطًا سعوديًا في مضيق هرمز خلال دقائق",
-    "region": "money",
-    "seen_at": "2026-09-01T12:53:48.392138+00:00"
-  },
-  {
-    "score": 16.62,
-    "bucket": "useful",
-    "tokens": [
-      "apple",
-      "ceo",
-      "john",
-      "now",
-      "ternus"
-    ],
-    "link": "https://www.theverge.com/tech/987150/apple-ceo-john-ternus",
-    "title": "John Ternus is now the CEO of Apple",
-    "posted_title": "لأول مرة منذ 2011.. أبل تحصل على رئيس تنفيذي جديد خلفًا لتيم كوك",
-    "region": "tech",
-    "seen_at": "2026-09-01T12:54:06.978564+00:00"
-  },
-  {
     "score": 18.78,
     "bucket": "serious",
     "tokens": [
@@ -5687,5 +5653,103 @@
     "posted_title": "لماذا وصل مبعوثا ترامب إلى كييف غداة اجتماعهما ببوتين في موسكو",
     "region": "uk",
     "seen_at": "2026-09-06T12:23:48.399741+00:00"
+  },
+  {
+    "score": 22.53,
+    "bucket": "serious",
+    "tokens": [
+      "anak",
+      "eruption",
+      "fishing",
+      "flights",
+      "halts",
+      "indonesia's",
+      "krakatau",
+      "mount",
+      "schools"
+    ],
+    "link": "https://www.dawn.com/news/2027905/indonesias-mount-anak-krakatau-eruption-halts-flights-schools-fishing",
+    "title": "Indonesia's Mount Anak Krakatau eruption halts flights, schools, fishing",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-06T15:07:51.872077+00:00"
+  },
+  {
+    "score": 18.74,
+    "bucket": "useful",
+    "tokens": [
+      "october",
+      "oil",
+      "opec",
+      "output",
+      "pauses",
+      "policy",
+      "steady"
+    ],
+    "link": "https://www.investing.com/news/economy-news/opec-set-to-hold-oil-output-policy-steady-for-october--reuters-4890270",
+    "title": "OPEC+ pauses oil output policy steady for October",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-09-06T15:07:51.872287+00:00"
+  },
+  {
+    "score": 16.9,
+    "bucket": "serious",
+    "tokens": [
+      "claims",
+      "escalates",
+      "fighting",
+      "hormuz",
+      "iran",
+      "ship",
+      "strait",
+      "strike"
+    ],
+    "link": "https://www.france24.com/en/video/20260906-iran-claims-strike-on-us-ship-in-strait-of-hormuz-as-fighting-escalates",
+    "title": "Iran claims strike on US ship in Strait of Hormuz as fighting escalates",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-06T15:07:51.872448+00:00"
+  },
+  {
+    "score": 16.88,
+    "bucket": "light",
+    "tokens": [
+      "aerial",
+      "air",
+      "annual",
+      "crashes",
+      "fire",
+      "force",
+      "greek",
+      "jet",
+      "show",
+      "starts"
+    ],
+    "link": "https://www.courthousenews.com/greek-air-force-jet-crashes-at-annual-aerial-show-starts-fire/",
+    "title": "Greek air force jet crashes at annual aerial show, starts fire",
+    "posted_title": "",
+    "region": "court",
+    "seen_at": "2026-09-06T15:07:51.872595+00:00"
+  },
+  {
+    "score": 16.05,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "accidents",
+      "cycling",
+      "double",
+      "fatal",
+      "first",
+      "half",
+      "hong",
+      "kong"
+    ],
+    "link": "https://www.scmp.com/news/hong-kong/law-and-crime/article/3366524/fatal-cycling-accidents-hong-kong-more-double-first-half-2026?utm_source=rss_feed",
+    "title": "Fatal cycling accidents in Hong Kong more than double in first half of 2026",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-06T15:07:51.872733+00:00"
   }
 ]

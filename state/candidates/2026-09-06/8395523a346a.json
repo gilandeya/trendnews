@@ -1,0 +1,85 @@
+{
+  "id": "8395523a346a",
+  "created_at": "2026-09-06T15:07:51.871701+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.53,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Indonesia's Mount Anak Krakatau eruption halts flights, schools, fishing",
+  "link": "https://www.dawn.com/news/2027905/indonesias-mount-anak-krakatau-eruption-halts-flights-schools-fishing",
+  "publishers": [
+    "Dawn",
+    "France24",
+    "Free Malaysia Today",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Indonesia's Mount Anak Krakatau eruption halts flights, schools, fishing",
+    "link": "https://www.dawn.com/news/2027905/indonesias-mount-anak-krakatau-eruption-halts-flights-schools-fishing",
+    "summary": "An eruption of Indonesia’s Mount Anak Krakatau caused six airports to suspend flight operations on Sunday, affecting hundreds of flights at Jakarta’s main airport, after some school activities and fishing were halted. Soekarno-Hatta International Airport suspended flight operations until 1:30pm (11:30am PKT) due to volcanic ash, the airport posted on Instagram, stranding hundreds of passengers at the facility. The suspension has affected 301 flights, including 58 international flights, airport operator Angkasa Pura said in a statement. Singapore Airlines said it had cancelled flights to and from Jakarta for the rest of the day. Anak Krakatau, which is roughly halfway between Java and Sumatra in Indonesia’s vast island chain, has been erupting since late on Friday, with volcanic ash detected at the airport early on Sunday, the transport ministry said. Passengers stuck at Soekarno-Hatta International Ash reached as high as 6,000 metres on the Java side of the volcano and 15,000 metres on the Sumatra side, and in some parts of Banten province in Java, the meteorological agency BMKG posted on its website. After one domestic flight was cancelled, Suhardi, 58, made his way to Soekarno-Ha",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-06T10:02:00+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/06142143f99b141.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "France24",
+      "Free Malaysia Today",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2027905/indonesias-mount-anak-krakatau-eruption-halts-flights-schools-fishing"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627731/indonesias-anak-krakatau-eruption-halts-flights-schools-fishing"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260906-indonesia-s-anak-krakatau-eruption-halts-flights-schools-fishing"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/06/asia-pacific/jakarta-airport-anak-krakatau-eruption/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/nation/2026/09/06/more-airlines-cancel-flights-to-jakarta-after-mount-anak-krakatau-eruption"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/southeast-asia/article/3366530/indonesias-anak-krakatoa-volcano-erupts-disrupting-flights-6-airports?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/06142143f99b141.webp",
+      "https://i.dawn.com/thumbnail/2026/09/06142143f99b141.webp",
+      "https://i.dawn.com/primary/2026/09/061421436a01c08.webp",
+      "https://i.dawn.com/large/2026/09/06142143a2d54ab.webp",
+      "https://s.france24.com/media/display/a51d103e-a9e8-11f1-b319-005056a90284/w:1024/p:16x9/EN-20260906-120902-121027-CS.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/06/561415.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 22.532348723672815
+  }
+}
