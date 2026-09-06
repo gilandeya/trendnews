@@ -1,0 +1,72 @@
+{
+  "id": "0599b1f5f2cd",
+  "created_at": "2026-09-06T18:48:21.598704+00:00",
+  "status": "queued",
+  "review_issue": null,
+  "origin": "news",
+  "score": 11.67,
+  "bucket": "useful",
+  "analysed_sources": [
+    "ScienceAlert"
+  ],
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "age_hours": 3.0,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://www.sciencealert.com/images/2026/09/Smartwatch-sleep-tracker.jpg",
+    "candidates_tried": 1,
+    "manual": false
+  },
+  "source": {
+    "title": "Scientists Discover a Serious Problem With Sleep Trackers",
+    "link": "https://www.sciencealert.com/scientists-discover-a-serious-problem-with-sleep-trackers",
+    "publisher": "ScienceAlert",
+    "publishers": [
+      "ScienceAlert"
+    ],
+    "region": "health",
+    "image_url": "https://www.sciencealert.com/images/2026/09/Smartwatch-sleep-tracker.jpg",
+    "image_candidates": [
+      "https://www.sciencealert.com/images/2026/09/Smartwatch-sleep-tracker.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "صحة",
+    "image_headline": "دراسة تكشف خللًا في دقة أجهزة تتبع النوم الذكية",
+    "post_title": "دراسة: ساعات النوم الذكية قد لا تعرف حقًا كيف نمت الليلة الماضية",
+    "post_body": "مراجعة علمية جديدة نشرتها مجلة Sleep Medicine وجدت أن أجهزة تتبع النوم مثل Fitbit وApple Watch قد لا تعكس شعور الشخص الحقيقي بجودة نومه. الدراسة التي أعدها باحثان من جامعة ديوك وكلينيك مايو حللت بيانات خمس دراسات سابقة ضمت نحو 2000 مشارك، ووجدت أن هذه الأجهزة فسّرت فقط بين 2.5 و16.2 بالمئة من الفروق في الإحساس الذاتي بجودة النوم. بعض المشاركين شعروا بأرق شديد أو استيقظوا متعبين رغم أن أجهزتهم سجلت لهم نومًا جيدًا، خصوصًا كبار السن ومن يعانون الأرق. استشر طبيبًا مختصًا.",
+    "hashtags": [
+      "أجهزة_ذكية",
+      "النوم",
+      "صحة",
+      "دراسة_علمية"
+    ]
+  },
+  "caption": "دراسة: ساعات النوم الذكية قد لا تعرف حقًا كيف نمت الليلة الماضية\n\nمراجعة علمية جديدة نشرتها مجلة Sleep Medicine وجدت أن أجهزة تتبع النوم مثل Fitbit وApple Watch قد لا تعكس شعور الشخص الحقيقي بجودة نومه. الدراسة التي أعدها باحثان من جامعة ديوك وكلينيك مايو حللت بيانات خمس دراسات سابقة ضمت نحو 2000 مشارك، ووجدت أن هذه الأجهزة فسّرت فقط بين 2.5 و16.2 بالمئة من الفروق في الإحساس الذاتي بجودة النوم. بعض المشاركين شعروا بأرق شديد أو استيقظوا متعبين رغم أن أجهزتهم سجلت لهم نومًا جيدًا، خصوصًا كبار السن ومن يعانون الأرق. استشر طبيبًا مختصًا.\n\n#أجهزة_ذكية #النوم #صحة #دراسة_علمية",
+  "headlines": [
+    "هل تقيس ساعات النوم الذكية جودة النوم الفعلية بدقة؟",
+    "أجهزة تتبع النوم قد لا تعكس تجربة النوم الحقيقية للمستخدم",
+    "دراسة تطرح تحفظات على مصداقية قياسات أجهزة تتبع النوم الذكية"
+  ],
+  "headline_selected": 0,
+  "image": "drafts/2026-09-06/0599b1f5f2cd.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "دراسة تكشف خللًا في دقة أجهزة تتبع النوم الذكية",
+    "category": "صحة",
+    "urgent": false,
+    "image_candidates": [
+      "https://www.sciencealert.com/images/2026/09/Smartwatch-sleep-tracker.jpg"
+    ]
+  },
+  "publish_at": "2026-09-06T19:45:02.355027+00:00"
+}
