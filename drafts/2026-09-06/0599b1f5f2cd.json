@@ -1,7 +1,7 @@
 {
   "id": "0599b1f5f2cd",
   "created_at": "2026-09-06T18:48:21.598704+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "origin": "news",
   "score": 11.67,
@@ -68,5 +68,12 @@
       "https://www.sciencealert.com/images/2026/09/Smartwatch-sleep-tracker.jpg"
     ]
   },
-  "publish_at": "2026-09-06T19:45:02.355027+00:00"
+  "publish_at": "2026-09-06T19:45:02.355027+00:00",
+  "published_at": "2026-09-06T19:45:41.899356+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1353533833530304",
+    "photo_id": "1353533806863640",
+    "url": "https://www.facebook.com/631680090321390_1353533833530304",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }

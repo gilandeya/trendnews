@@ -2749,5 +2749,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 18
+ },
+ {
+  "id": "0599b1f5f2cd",
+  "created_at": "2026-09-06T18:48:21.598704+00:00",
+  "decided_at": "2026-09-06T19:45:41.900482+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "صحة",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "useful",
+  "region": "health",
+  "score": 11.67,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "source_count": 1,
+  "body_len": 473,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 18
  }
 ]
