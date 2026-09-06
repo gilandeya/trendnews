@@ -1,99 +1,5 @@
 [
   {
-    "score": 23.24,
-    "bucket": "sport",
-    "tokens": [
-      "arsenal",
-      "aston",
-      "earns",
-      "fought",
-      "hard",
-      "saka",
-      "villa",
-      "win"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/videos/c0lrz74r8l9o?at_medium=RSS&at_campaign=rss",
-    "title": "Saka earns Arsenal hard-fought win at Aston Villa",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-01T12:07:52.036800+00:00"
-  },
-  {
-    "score": 19.75,
-    "bucket": "useful",
-    "tokens": [
-      "hormuz",
-      "monday",
-      "saudi",
-      "strait",
-      "struck",
-      "tankers",
-      "two"
-    ],
-    "link": "https://www.investing.com/news/economy-news/two-saudi-tankers-struck-in-strait-of-hormuz-monday-4883749",
-    "title": "Two Saudi tankers struck in Strait of Hormuz Monday",
-    "posted_title": "",
-    "region": "money",
-    "seen_at": "2026-09-01T12:07:52.037108+00:00"
-  },
-  {
-    "score": 17.71,
-    "bucket": "serious",
-    "tokens": [
-      "admits",
-      "avoid",
-      "cases",
-      "closing",
-      "korean",
-      "missing",
-      "officer",
-      "person",
-      "police",
-      "south",
-      "work"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c780wy7ype4o?at_medium=RSS&at_campaign=rss",
-    "title": "South Korean police officer admits to closing missing person cases to avoid work",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-01T12:07:52.037385+00:00"
-  },
-  {
-    "score": 17.49,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "deadly",
-      "hits",
-      "kyiv",
-      "rail",
-      "russian",
-      "strikes",
-      "workers"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cx2zmdgry3do?at_medium=RSS&at_campaign=rss",
-    "title": "Russian attack hits rail workers in new deadly strikes on Kyiv",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-01T12:07:52.037681+00:00"
-  },
-  {
-    "score": 16.62,
-    "bucket": "useful",
-    "tokens": [
-      "apple",
-      "ceo",
-      "john",
-      "now",
-      "ternus"
-    ],
-    "link": "https://www.theverge.com/tech/987150/apple-ceo-john-ternus",
-    "title": "John Ternus is now the CEO of Apple",
-    "posted_title": "",
-    "region": "tech",
-    "seen_at": "2026-09-01T12:07:52.037956+00:00"
-  },
-  {
     "score": 19.75,
     "bucket": "useful",
     "tokens": [
@@ -5743,5 +5649,43 @@
     "posted_title": "",
     "region": "my",
     "seen_at": "2026-09-06T12:07:46.952815+00:00"
+  },
+  {
+    "score": 25.53,
+    "bucket": "serious",
+    "tokens": [
+      "among",
+      "crime",
+      "death",
+      "drug",
+      "egyptian",
+      "presenter",
+      "sentenced"
+    ],
+    "link": "https://www.theguardian.com/world/2026/sep/05/egyptian-tv-presenter-among-12-sentenced-to-death-for-drug",
+    "title": "Egyptian TV presenter among 12 sentenced to death for drug crime",
+    "posted_title": "لماذا حُكم بإعدام مذيعة برنامج \"المهمة صعبة\" في قضية تصنيع مخدرات",
+    "region": "uk",
+    "seen_at": "2026-09-06T12:23:27.045128+00:00"
+  },
+  {
+    "score": 26.29,
+    "bucket": "serious",
+    "tokens": [
+      "arrive",
+      "ending",
+      "envoys",
+      "hold",
+      "kushner",
+      "kyiv",
+      "talks",
+      "war",
+      "witkoff"
+    ],
+    "link": "https://www.theguardian.com/world/2026/sep/06/us-envoys-jared-kushner-steve-witkoff-arrive-kyiv-talks-on-ending-war",
+    "title": "US envoys Kushner and Witkoff arrive in Kyiv to hold talks on ending war",
+    "posted_title": "لماذا وصل مبعوثا ترامب إلى كييف غداة اجتماعهما ببوتين في موسكو",
+    "region": "uk",
+    "seen_at": "2026-09-06T12:23:48.399741+00:00"
   }
 ]

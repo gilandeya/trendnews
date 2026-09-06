@@ -1,0 +1,89 @@
+{
+  "id": "04810dfe0091",
+  "created_at": "2026-09-06T12:23:27.044662+00:00",
+  "status": "queued",
+  "review_issue": null,
+  "origin": "news",
+  "score": 25.53,
+  "bucket": "serious",
+  "analysed_sources": [
+    "The Guardian — World",
+    "MyJoyOnline Ghana"
+  ],
+  "trend_score": 1.0,
+  "velocity": 0.14,
+  "age_hours": 18.0,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=77bf70e2f8c059be9d43eda461c42144",
+    "candidates_tried": 6,
+    "manual": false
+  },
+  "source": {
+    "title": "Egyptian TV presenter among 12 sentenced to death for drug crime",
+    "link": "https://www.theguardian.com/world/2026/sep/05/egyptian-tv-presenter-among-12-sentenced-to-death-for-drug",
+    "publisher": "The Guardian — World",
+    "publishers": [
+      "Al Jazeera English",
+      "BBC",
+      "BBC World",
+      "MyJoyOnline Ghana",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Guardian — World"
+    ],
+    "region": "uk",
+    "image_url": "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=77bf70e2f8c059be9d43eda461c42144",
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=77bf70e2f8c059be9d43eda461c42144",
+      "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=460&quality=85&auto=format&fit=max&s=a17accf9ebf4dcc76dd92d0a3c057164",
+      "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=140&quality=85&auto=format&fit=max&s=0ffe8f8a5e960cde6b6c1e0d670b5152",
+      "https://c.ndtvimg.com/2026-09/t1grtk6_-sarah-khalifa_625x300_06_September_26.jpeg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/f1a48620-a95d-11f1-99c3-dba02712eb49.png.webp",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6328/live/f1a48620-a95d-11f1-99c3-dba02712eb49.png"
+    ]
+  },
+  "arabic": {
+    "angle": "تفسير",
+    "analysis": "تكشف الروايات تفصيلة لم يذكرها المصدر الأول وهي دفاع خليفة نفسها أمام القاضي في جلسة سبتمبر الماضي، إذ قالت إنها لم تر أي مخدرات قط حتى صُوّرت بجوارها داخل مقر جهاز مكافحة المخدرات، وهو ما يفسر إصرار محاميها على الطعن بالاستئناف. كما استند الحكم إلى شهادة عشرين شاهدًا وأدلة إلكترونية شملت محادثات ومقاطع فيديو، بحسب ما نقلته الصحف الرسمية. ويضع تقرير منظمة العفو الدولية لعام 2025 هذه القضية في سياق أوسع، إذ يشير إلى أن جرائم تهريب المخدرات والاغتصاب لا ترقى إلى \"القتل العمد\" الذي يُفترض أن يُقصر عليه تطبيق عقوبة الإعدام وفق المعايير الدولية، مقابل تسجيل مصر 541 حكم إعدام خلال العام نفسه بحسب المفوضية المصرية للحقوق والحريات.",
+    "urgent": false,
+    "category": "سياسة",
+    "image_headline": "حكم بالإعدام على مذيعة مصرية و11 آخرين بقضية مخدرات",
+    "post_title": "لماذا حُكم بإعدام مذيعة برنامج \"المهمة صعبة\" في قضية تصنيع مخدرات",
+    "post_body": "قضت محكمة مصرية بإعدام سارة خليفة، 39 عامًا، مذيعة برنامج \"المهمة صعبة\" الذي كان يتناول قضايا الأمن والجريمة، إلى جانب 11 متهمًا آخر، بتهمة تكوين عصابة منظمة لاستيراد مواد تصنيع المخدرات وتهريبها، وحيازة أسلحة وذخيرة بدون ترخيص. جاء الحكم بعد استطلاع رأي مفتي الجمهورية، وهو إجراء إلزامي في قضايا الإعدام. ضبطت السلطات أكثر من 750 كيلوغرامًا من المخدرات ومواد خام، ومختبرين داخل شقتين سكنيتين. حُكم على تسعة متهمين بالسجن المؤبد وبرّئت سبعة أشخاص. الحكم قابل للاستئناف، وتنفي خليفة التهم الموجهة إليها.",
+    "hashtags": [
+      "سارة_خليفة",
+      "مصر",
+      "قضية_مخدرات",
+      "حكم_إعدام"
+    ]
+  },
+  "caption": "لماذا حُكم بإعدام مذيعة برنامج \"المهمة صعبة\" في قضية تصنيع مخدرات\n\nقضت محكمة مصرية بإعدام سارة خليفة، 39 عامًا، مذيعة برنامج \"المهمة صعبة\" الذي كان يتناول قضايا الأمن والجريمة، إلى جانب 11 متهمًا آخر، بتهمة تكوين عصابة منظمة لاستيراد مواد تصنيع المخدرات وتهريبها، وحيازة أسلحة وذخيرة بدون ترخيص. جاء الحكم بعد استطلاع رأي مفتي الجمهورية، وهو إجراء إلزامي في قضايا الإعدام. ضبطت السلطات أكثر من 750 كيلوغرامًا من المخدرات ومواد خام، ومختبرين داخل شقتين سكنيتين. حُكم على تسعة متهمين بالسجن المؤبد وبرّئت سبعة أشخاص. الحكم قابل للاستئناف، وتنفي خليفة التهم الموجهة إليها.\n\nخلف الخبر\nتكشف الروايات تفصيلة لم يذكرها المصدر الأول وهي دفاع خليفة نفسها أمام القاضي في جلسة سبتمبر الماضي، إذ قالت إنها لم تر أي مخدرات قط حتى صُوّرت بجوارها داخل مقر جهاز مكافحة المخدرات، وهو ما يفسر إصرار محاميها على الطعن بالاستئناف. كما استند الحكم إلى شهادة عشرين شاهدًا وأدلة إلكترونية شملت محادثات ومقاطع فيديو، بحسب ما نقلته الصحف الرسمية. ويضع تقرير منظمة العفو الدولية لعام 2025 هذه القضية في سياق أوسع، إذ يشير إلى أن جرائم تهريب المخدرات والاغتصاب لا ترقى إلى \"القتل العمد\" الذي يُفترض أن يُقصر عليه تطبيق عقوبة الإعدام وفق المعايير الدولية، مقابل تسجيل مصر 541 حكم إعدام خلال العام نفسه بحسب المفوضية المصرية للحقوق والحريات.\n\n#سارة_خليفة #مصر #قضية_مخدرات #حكم_إعدام",
+  "headlines": [
+    "ما الأدلة التي قادت للحكم بإعدام مذيعة برنامج المهمة صعبة في قضية تهريب المخدرات؟",
+    "محكمة مصرية تقضي بإعدام مذيعة برنامج أمني في قضية تصنيع ومخدرات",
+    "إعدام مذيعة وآخرين في قضية تهريب مواد تصنيع المخدرات بمصر"
+  ],
+  "headline_selected": 0,
+  "image": "drafts/2026-09-06/04810dfe0091.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "حكم بالإعدام على مذيعة مصرية و11 آخرين بقضية مخدرات",
+    "category": "سياسة",
+    "urgent": false,
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=77bf70e2f8c059be9d43eda461c42144",
+      "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=460&quality=85&auto=format&fit=max&s=a17accf9ebf4dcc76dd92d0a3c057164",
+      "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=140&quality=85&auto=format&fit=max&s=0ffe8f8a5e960cde6b6c1e0d670b5152",
+      "https://c.ndtvimg.com/2026-09/t1grtk6_-sarah-khalifa_625x300_06_September_26.jpeg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/f1a48620-a95d-11f1-99c3-dba02712eb49.png.webp",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6328/live/f1a48620-a95d-11f1-99c3-dba02712eb49.png"
+    ]
+  },
+  "publish_at": "2026-09-06T13:01:16.984476+00:00"
+}
