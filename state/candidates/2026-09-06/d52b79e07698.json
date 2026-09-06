@@ -1,0 +1,91 @@
+{
+  "id": "d52b79e07698",
+  "created_at": "2026-09-06T12:07:46.952195+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.08,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran hits US naval drone in Hormuz after attacks on its tankers",
+  "link": "https://www.dailysabah.com/world/mid-east/iran-hits-us-naval-drone-in-hormuz-after-attacks-on-its-tankers",
+  "publishers": [
+    "CGTN",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "IRNA English",
+    "Mehr News",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Hindu — International",
+    "The Japan Times",
+    "Vanguard Nigeria"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Iran hits US naval drone in Hormuz after attacks on its tankers",
+    "link": "https://www.dailysabah.com/world/mid-east/iran-hits-us-naval-drone-in-hormuz-after-attacks-on-its-tankers",
+    "summary": "Iranian forces reportedly attacked a U.S. naval drone attempting to enter the Strait of Hormuz Sunday, just hours after striking ships in retaliation for U.S. attacks on three oil...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-06T11:37:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/06/459322.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "CGTN",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "IRNA English",
+      "Mehr News",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Hindu — International",
+      "The Japan Times",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3366526/iran-attacks-naval-drone-near-hormuz-after-us-strikes-3-oil-tankers?utm_source=rss_feed"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/06/world/us-iran-fire-at-vessels/"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/iran-retaliates-after-us-strikes-oil-tankers/"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/iran-attacks-us-naval-drone-hours-after-american-strikes-on-oil-tankers-12009149#publisher=newsstand"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/iran-hits-us-naval-drone-in-hormuz-after-attacks-on-its-tankers"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/irgc-says-several-ballistic-missiles-fired-at-us-aircraft-carrier-destroyer-harassing-iranian-ships-101788659530971.html"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/06/459322.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/06/561404.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/06/thumbs/400x400/561404.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260905__C7FT363__v1__MidRes__IranUsIsraelWar-1024x684.jpg",
+      "https://c.ndtvimg.com/2026-04/cu4ct1ak_hormuz-strait-iran-usa_625x300_13_April_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://media.mehrnews.com/d/2026/09/01/4/6157145.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 10,
+    "velocity": 1.0,
+    "age_hours": 787.9108989536112,
+    "is_stale": false,
+    "score": 24.081718725069493
+  }
+}

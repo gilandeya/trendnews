@@ -1,0 +1,58 @@
+{
+  "id": "5ce84ea7962c",
+  "created_at": "2026-09-06T12:07:46.952641+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.42,
+  "trend_score": 0.33,
+  "velocity": 0.4,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "No trace of once-busy China-Nepal border port after mudslide",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/09/06/no-trace-of-once-busy-china-nepal-border-port-after-mudslide",
+  "publishers": [
+    "Free Malaysia Today",
+    "Reuters",
+    "The Japan Times"
+  ],
+  "region": "my",
+  "article": {
+    "title": "No trace of once-busy China-Nepal border port after mudslide",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/06/no-trace-of-once-busy-china-nepal-border-port-after-mudslide",
+    "summary": "Rescue workers search for hundreds still missing at the Gyirong border crossing between China's Tibet and Nepal, as landslides, poor weather and deep mud complicate recovery efforts.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-06T09:50:00+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/08/07cf8eb4-3339-4604-af03-e32a52d4faf3-AFP__20260826__C6JR346__v3__HighRes__TopshotChinaNepalWeatherFlood_1_cropped_1.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Reuters",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/06/asia-pacific/china-nepal-border-port/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/06/no-trace-of-once-busy-china-nepal-border-port-after-mudslide"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/08/07cf8eb4-3339-4604-af03-e32a52d4faf3-AFP__20260826__C6JR346__v3__HighRes__TopshotChinaNepalWeatherFlood_1_cropped_1.webp",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/06/561519.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/06/thumbs/400x400/561519.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 18.418599719737543
+  }
+}

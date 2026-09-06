@@ -1,0 +1,85 @@
+{
+  "id": "04810dfe0091",
+  "created_at": "2026-09-06T12:07:46.951955+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.53,
+  "trend_score": 1.0,
+  "velocity": 0.14,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Egyptian TV presenter among 12 sentenced to death for drug crime",
+  "link": "https://www.theguardian.com/world/2026/sep/05/egyptian-tv-presenter-among-12-sentenced-to-death-for-drug",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC",
+    "BBC World",
+    "MyJoyOnline Ghana",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Egyptian TV presenter among 12 sentenced to death for drug crime",
+    "link": "https://www.theguardian.com/world/2026/sep/05/egyptian-tv-presenter-among-12-sentenced-to-death-for-drug",
+    "summary": "Sarah Khalifa, 39, charged with forming organised criminal gang to manufacture and traffic drugs An Egyptian court sentenced a well-known television presenter and 11 others to death for manufacturing and trafficking narcotics in a sprawling drug case, official media reported on Saturday. The presenter, Sarah Khalifa, 39, is best known for her programme Mission Impossible, which dealt with issues concerning security and crime. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-05T18:00:15+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=77bf70e2f8c059be9d43eda461c42144",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC",
+      "BBC World",
+      "MyJoyOnline Ghana",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/05/egyptian-tv-presenter-among-12-sentenced-to-death-for-drug"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/who-is-sarah-khalifa-egyptian-tv-presenter-sentenced-to-death-in-major-drug-case-12008918#publisher=newsstand"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/tv-presenter-among-12-sentenced-to-death-in-egypt-drugs-case/"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/6/egyptian-tv-presenter-sentenced-to-death-in-major-drug-case?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c5y7gk9knnlo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/africa/article/3366504/egypt-sentences-tv-presenter-11-others-death-drugs-case?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=77bf70e2f8c059be9d43eda461c42144",
+      "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=460&quality=85&auto=format&fit=max&s=a17accf9ebf4dcc76dd92d0a3c057164",
+      "https://i.guim.co.uk/img/media/2b21dab2c27129a9519848c80bdafef75e9cfea3/0_0_5000_4000/master/5000.jpg?width=140&quality=85&auto=format&fit=max&s=0ffe8f8a5e960cde6b6c1e0d670b5152",
+      "https://c.ndtvimg.com/2026-09/t1grtk6_-sarah-khalifa_625x300_06_September_26.jpeg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/f1a48620-a95d-11f1-99c3-dba02712eb49.png.webp",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6328/live/f1a48620-a95d-11f1-99c3-dba02712eb49.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.14287434746289615,
+    "age_hours": 17.99785165611111,
+    "is_stale": false,
+    "score": 25.52820427811692
+  }
+}

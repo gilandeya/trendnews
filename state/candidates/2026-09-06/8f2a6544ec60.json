@@ -1,0 +1,101 @@
+{
+  "id": "8f2a6544ec60",
+  "created_at": "2026-09-06T12:07:46.951578+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.29,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US envoys Kushner and Witkoff arrive in Kyiv to hold talks on ending war",
+  "link": "https://www.theguardian.com/world/2026/sep/06/us-envoys-jared-kushner-steve-witkoff-arrive-kyiv-talks-on-ending-war",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "CGTN",
+    "Daily Sabah",
+    "Dawn",
+    "France24",
+    "Hindustan Times — World",
+    "Mehr News",
+    "NDTV — World",
+    "NPR World",
+    "South China Morning Post",
+    "TASS",
+    "The Guardian — World",
+    "The Hindu — International",
+    "media outlet"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "US envoys Kushner and Witkoff arrive in Kyiv to hold talks on ending war",
+    "link": "https://www.theguardian.com/world/2026/sep/06/us-envoys-jared-kushner-steve-witkoff-arrive-kyiv-talks-on-ending-war",
+    "summary": "Arrival marks the pair’s first visit to Ukraine and comes day after ‘substantive plans’ were discussed in Moscow The US negotiators Jared Kushner and Steve Witkoff have arrived in Kyiv for a second day of talks on how to end the war in Ukraine. Ukraine’s president, Volodymyr Zelenskyy, met Kushner and Witkoff in Sophia Square, in front of Kyiv’s historic Saint Sophia Cathedral. Zelenskyy greeted Witkoff with a hug, saying: “It’s good to see you, Steve.” Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-06T11:37:36+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/894e23975128a19a89301a4a3b5ecf0390ebfe14/533_0_3692_2955/master/3692.jpg?width=700&quality=85&auto=format&fit=max&s=2fb6fc3fe854803920f661fc3b9d9fb5",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "CGTN",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Hindustan Times — World",
+      "Mehr News",
+      "NDTV — World",
+      "NPR World",
+      "South China Morning Post",
+      "TASS",
+      "The Guardian — World",
+      "The Hindu — International",
+      "media outlet"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/06/us-envoys-jared-kushner-steve-witkoff-arrive-kyiv-talks-on-ending-war"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3366544/us-envoys-witkoff-kushner-arrive-kyiv-after-talks-putin-moscow?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260905-us-envoys-witkoff-kushner-arrive-in-moscow-for-talks-on-peace-in-ukraine"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260906-live-trump-s-envoys-head-to-ukraine-after-substantive-talks-with-putin"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/putin-tells-us-envoys-witkoff-kushner-that-situation-in-ukraine-is-difficult-101788635649811.html"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/06/nx-s1-5959657/us-envoys-witkoff-kushner-talks-in-kyiv-putin-moscow"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/894e23975128a19a89301a4a3b5ecf0390ebfe14/533_0_3692_2955/master/3692.jpg?width=700&quality=85&auto=format&fit=max&s=2fb6fc3fe854803920f661fc3b9d9fb5",
+      "https://i.guim.co.uk/img/media/894e23975128a19a89301a4a3b5ecf0390ebfe14/533_0_3692_2955/master/3692.jpg?width=460&quality=85&auto=format&fit=max&s=fab1d5cd47241b025fce4ea58797068b",
+      "https://i.guim.co.uk/img/media/894e23975128a19a89301a4a3b5ecf0390ebfe14/533_0_3692_2955/master/3692.jpg?width=140&quality=85&auto=format&fit=max&s=39b06eb97c51ef57507b8d817bebba63",
+      "https://s.france24.com/media/display/f618c0dc-a939-11f1-8eb2-005056bf30b7/w:1024/p:16x9/EN-20260905-160336-160848-CS.jpg",
+      "https://s.france24.com/media/display/933fb51c-a9dc-11f1-b342-005056a90284/w:1024/p:16x9/2026-09-06T101623Z-1424650965-RC2MDNAISSXC-RTRMADP-3-UKRAINE-CRISIS-USA-ENVOYS-ARRIVAL.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5959657"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 15,
+    "velocity": 1.0,
+    "age_hours": 787.9108951180555,
+    "is_stale": false,
+    "score": 26.287272894307037
+  }
+}
