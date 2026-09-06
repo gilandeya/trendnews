@@ -1,22 +1,5 @@
 [
   {
-    "score": 24.08,
-    "bucket": "serious",
-    "tokens": [
-      "blockade",
-      "intensifies",
-      "iran",
-      "militarily",
-      "qalibaf",
-      "respond"
-    ],
-    "link": "https://www.tehrantimes.com/news/529604/Qalibaf-Iran-will-respond-militarily-if-US-intensifies-blockade",
-    "title": "Qalibaf: Iran will respond militarily if US intensifies blockade",
-    "posted_title": "رئيس البرلمان الإيراني يهدد برد عسكري إذا شددت واشنطن الحصار البحري",
-    "region": "ir",
-    "seen_at": "2026-09-01T19:11:28.418090+00:00"
-  },
-  {
     "score": 21.97,
     "bucket": "serious",
     "tokens": [
@@ -5692,5 +5675,96 @@
     "posted_title": "مسؤول صيني: بكين لن تسمح لأي دولة بالانفراد بالسيطرة على الذكاء الاصطناعي",
     "region": "cn",
     "seen_at": "2026-09-06T19:11:08.208319+00:00"
+  },
+  {
+    "score": 30.27,
+    "bucket": "sport",
+    "tokens": [
+      "alcaraz",
+      "delivers",
+      "eight",
+      "last",
+      "open",
+      "reach",
+      "statement",
+      "win"
+    ],
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/cn4kge7gl99o?at_medium=RSS&at_campaign=rss",
+    "title": "Alcaraz delivers statement win to reach US Open last eight",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-06T22:07:47.477960+00:00"
+  },
+  {
+    "score": 23.66,
+    "bucket": "sport",
+    "tokens": [
+      "arsenal",
+      "beat",
+      "behind",
+      "champions",
+      "chelsea",
+      "come"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/videos/c4gm2y4ll5vo?at_medium=RSS&at_campaign=rss",
+    "title": "Champions Arsenal come from behind to beat Chelsea",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-06T22:07:47.478298+00:00"
+  },
+  {
+    "score": 22.13,
+    "bucket": "useful",
+    "tokens": [
+      "airport",
+      "amazon",
+      "cargo",
+      "crashed",
+      "international",
+      "miami",
+      "plane"
+    ],
+    "link": "https://www.theverge.com/tech/990918/amazon-cargo-plane-crashed-miami",
+    "title": "An Amazon cargo plane crashed at Miami International Airport",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-09-06T22:07:47.478579+00:00"
+  },
+  {
+    "score": 19.87,
+    "bucket": "sport",
+    "tokens": [
+      "barcelona",
+      "double",
+      "hits",
+      "lamine",
+      "perfect",
+      "thrash",
+      "valencia",
+      "yamal"
+    ],
+    "link": "https://www.dawn.com/news/2027931/lamine-yamal-hits-double-as-perfect-barcelona-thrash-valencia",
+    "title": "Lamine Yamal hits double as perfect Barcelona thrash Valencia",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-06T22:07:47.478840+00:00"
+  },
+  {
+    "score": 19.26,
+    "bucket": "serious",
+    "tokens": [
+      "continue",
+      "envoys",
+      "expects",
+      "talks",
+      "war",
+      "winter",
+      "zelensky"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c6248nvqy8po?at_medium=RSS&at_campaign=rss",
+    "title": "Zelensky says he expects war to continue into winter after talks with US envoys",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-06T22:07:47.479105+00:00"
   }
 ]

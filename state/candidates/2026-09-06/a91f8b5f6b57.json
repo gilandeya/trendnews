@@ -1,0 +1,85 @@
+{
+  "id": "a91f8b5f6b57",
+  "created_at": "2026-09-06T22:07:47.477972+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.66,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Champions Arsenal come from behind to beat Chelsea",
+  "link": "https://www.bbc.co.uk/sport/football/videos/c4gm2y4ll5vo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Alonso",
+    "BBC Sport",
+    "Channel News Asia",
+    "Sky Sports — Football",
+    "The Guardian — Sport",
+    "as it happened"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Champions Arsenal come from behind to beat Chelsea",
+    "link": "https://www.bbc.co.uk/sport/football/videos/c4gm2y4ll5vo?at_medium=RSS&at_campaign=rss",
+    "summary": "Reigning champions Arsenal came from behind to beat big-spending Chelsea in a pulsating London derby at Emirates Stadium.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-06T18:58:27+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ce40/live/0bbdd2d0-aa19-11f1-b109-879e35c24276.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Alonso",
+      "BBC Sport",
+      "Channel News Asia",
+      "Sky Sports — Football",
+      "The Guardian — Sport",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/6/arsenal-come-from-behind-to-beat-chelsea-2-1-and-maintain-perfect-start?traffic_source=rss"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/c4gm2y4ll5vo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/watch/video/13582508/arsenal-2-1-chelsea-premier-league-highlights"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/06/arsenal-chelsea-premier-league-2026"
+      },
+      {
+        "name": "Alonso",
+        "link": "https://www.bbc.co.uk/sport/football/videos/c4gj7y52393o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/arteta-says-arsenal-can-surpass-title-winning-level-after-statement-chelsea-win-6365951"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ce40/live/0bbdd2d0-aa19-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/ce40/live/0bbdd2d0-aa19-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ce40/live/0bbdd2d0-aa19-11f1-b109-879e35c24276.jpg",
+      "https://e1.365dm.com/26/09/1096x616/skysports-football-premier-league_7343567.jpg?20260906183430",
+      "https://e1.365dm.com/26/09/1920x1080/skysports-football-premier-league_7343567.jpg?20260906183430",
+      "https://i.guim.co.uk/img/media/4861fbfcac07be1219e50cbc1cf5e5e75a46f9b0/264_0_3290_2632/master/3290.jpg?width=700&quality=85&auto=format&fit=max&s=ff4ab3bca34937ecdcf0a139b5526a46"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.0,
+    "age_hours": 797.9109907627778,
+    "is_stale": true,
+    "score": 23.661826174024664
+  }
+}

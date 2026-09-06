@@ -1,0 +1,87 @@
+{
+  "id": "56ee5524303e",
+  "created_at": "2026-09-06T22:07:47.477493+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.27,
+  "trend_score": 1.0,
+  "velocity": 0.78,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Alcaraz delivers statement win to reach US Open last eight",
+  "link": "https://www.bbc.co.uk/sport/tennis/articles/cn4kge7gl99o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Sport",
+    "Channel News Asia",
+    "El País",
+    "Malay Mail",
+    "Sky Sports — Football",
+    "The Guardian — Sport",
+    "live"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Alcaraz delivers statement win to reach US Open last eight",
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/cn4kge7gl99o?at_medium=RSS&at_campaign=rss",
+    "summary": "Carlos Alcaraz continues his return from long-term injury with a hugely impressive fourth-round win against Tommy Paul at the US Open.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-06T21:08:46+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ab66/live/410b6450-aa2a-11f1-aed2-8d6da8d75094.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Sport",
+      "Channel News Asia",
+      "El País",
+      "Malay Mail",
+      "Sky Sports — Football",
+      "The Guardian — Sport",
+      "live"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/6/alcaraz-breezes-into-last-eight-at-us-open?traffic_source=rss"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/tennis/articles/cn4kge7gl99o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/tennis/news/12040/13582495/us-open-2026-aryna-sabalenka-beats-taylor-townsend-to-reach-quarter-finals-and-retain-world-no-1-spot"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/outstanding-alcaraz-outguns-paul-reach-us-open-quarter-finals-6366021"
+      },
+      {
+        "name": "live",
+        "link": "https://www.theguardian.com/sport/live/2026/sep/06/us-open-tennis-2026-aryna-sabalenka-and-marta-kostyuk-in-action-on-day-eight-live"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/tennis/articles/c780729e703o?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ab66/live/410b6450-aa2a-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/ab66/live/410b6450-aa2a-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ab66/live/410b6450-aa2a-11f1-aed2-8d6da8d75094.jpg",
+      "https://e0.365dm.com/26/09/1096x616/skysports-carlos-alcaraz-tennis_7343741.jpg?20260906214122",
+      "https://e0.365dm.com/26/09/1920x1080/skysports-carlos-alcaraz-tennis_7343741.jpg?20260906214122",
+      "https://i.guim.co.uk/img/media/85576d775826a99b7ec36221350861db326a256b/445_0_2500_2000/master/2500.jpg?width=700&quality=85&auto=format&fit=max&s=b868a3b0d3525afad1b42a9b6972fbb4"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 0.7780672973395505,
+    "age_hours": 797.9109891486111,
+    "is_stale": false,
+    "score": 30.274894190568123
+  }
+}
