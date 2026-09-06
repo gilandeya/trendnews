@@ -1,11 +1,11 @@
 {
   "id": "c45678be6dd9",
-  "created_at": "2026-09-06T06:07:51.049843+00:00",
+  "created_at": "2026-09-06T18:08:13.495374+00:00",
   "status": "pending",
-  "selection_issue": 773,
-  "score": 17.45,
+  "selection_issue": null,
+  "score": 14.96,
   "trend_score": 0.0,
-  "velocity": 1.0,
+  "velocity": 0.66,
   "bucket": "light",
   "state_media": false,
   "title": "Rescuers in Nepal pull 2 people alive from the debris 10 days after devastating floods",
@@ -50,9 +50,9 @@
     "state_media": false,
     "trend_score": 0.0,
     "group_sources": 3,
-    "velocity": 1.0,
-    "age_hours": 261.0007786111111,
+    "velocity": 0.6621414764933374,
+    "age_hours": 273.0071283622222,
     "is_stale": false,
-    "score": 17.44529349462643
+    "score": 14.955575392741265
   }
 }

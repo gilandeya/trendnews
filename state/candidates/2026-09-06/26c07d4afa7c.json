@@ -1,0 +1,48 @@
+{
+  "id": "26c07d4afa7c",
+  "created_at": "2026-09-06T18:08:13.496048+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 11.12,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Los Gallos se estrellan en el SailGP de Valencia en una jornada sin viento",
+  "link": "https://elpais.com/deportes/2026-09-06/los-gallos-se-estrellan-en-el-sailgp-de-valencia-en-una-jornada-sin-viento.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Los Gallos se estrellan en el SailGP de Valencia en una jornada sin viento",
+    "link": "https://elpais.com/deportes/2026-09-06/los-gallos-se-estrellan-en-el-sailgp-de-valencia-en-una-jornada-sin-viento.html",
+    "summary": "El catamarán español se queda de nuevo fuera de la final de un gran premio, esta vez en campo propio, y observa desde la orilla la victoria de Estados Unidos",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-06T15:26:48+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/5TXXXSWXPZGPVCDXDUERTBWRHI.jpg?auth=6afd5d864589da31fc0b8608763bb8baef17e52907fad461d28387c06f8a96e3",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/2026-09-06/los-gallos-se-estrellan-en-el-sailgp-de-valencia-en-una-jornada-sin-viento.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/5TXXXSWXPZGPVCDXDUERTBWRHI.jpg?auth=6afd5d864589da31fc0b8608763bb8baef17e52907fad461d28387c06f8a96e3"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 24.997849449166665,
+    "is_stale": true,
+    "score": 11.1207768045
+  }
+}

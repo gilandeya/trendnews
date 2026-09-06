@@ -1,0 +1,83 @@
+{
+  "id": "dc2437544bc4",
+  "created_at": "2026-09-06T18:08:13.494911+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.16,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Germany's far-right AfD emerges as landslide winner in eastern state vote",
+  "link": "https://www.dawn.com/news/2027934/germanys-far-right-afd-emerges-as-landslide-winner-in-eastern-state-vote",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Dawn",
+    "France24",
+    "Malay Mail",
+    "South China Morning Post"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Germany's far-right AfD emerges as landslide winner in eastern state vote",
+    "link": "https://www.dawn.com/news/2027934/germanys-far-right-afd-emerges-as-landslide-winner-in-eastern-state-vote",
+    "summary": "Germany’s far-right AfD won a landslide victory in a key regional election Sunday in the ex-communist east, taking at least 44 per cent of the vote according to exit polls by two public broadcasters. “We have made history today,” said a jubilant Ulrich Siegmund, the 35-year-old lead candidate of the anti-immigration Alternative for Germany (AfD) in Saxony-Anhalt state. It was, however, too early to tell whether the AfD will have enough votes for an absolute majority that would allow it to govern a state alone for the first time. The centre-right CDU of Chancellor Friedrich Merz came a distant second, winning around 18.5pc, according to exit polls by broadcasters ARD and ZDF . Depending on the eventual count, the CDU’s state premier Sven Schulze would hope to still be able to form a new multi-party coalition to block the AfD from power. All major parties have so far maintained a “firewall” of non-cooperation with the Moscow-friendly AfD, whose state branch is categorised as “right-wing extremist” by Germany’s domestic intelligence agency. A first-ever AfD state government would be a shock for many in Germany, which has been at pains to atone for its dark history of World War II and ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-06T17:30:50+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/0622320354e3da2.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Dawn",
+      "France24",
+      "Malay Mail",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/6/far-right-afd-wins-vote-in-germanys-saxony-anhalt-state-exit-polls?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3366562/germanys-far-right-afd-landslide-winner-eastern-state-vote-exit-polls-indicate?utm_source=rss_feed"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2027934/germanys-far-right-afd-emerges-as-landslide-winner-in-eastern-state-vote"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260906-germany-s-far-right-afd-eyes-historic-state-victory-in-saxony-anhalt-election"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260906-germany-s-far-right-afd-clear-frontrunner-in-eastern-state-vote"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260906-germany-s-far-right-afd-clear-frontrunner-in-eastern-state-vote-1"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/0622320354e3da2.webp",
+      "https://i.dawn.com/large/2026/09/06222846c0a7813.webp",
+      "https://i.dawn.com/thumbnail/2026/09/0622320354e3da2.webp",
+      "https://i.dawn.com/thumbnail/2026/09/06222846c0a7813.webp",
+      "https://s.france24.com/media/display/d4191ae4-a9b2-11f1-9431-005056bf30b7/w:1024/p:16x9/2026-09-05T175805Z-834783995-RC25DNA1ZV3U-RTRMADP-3-GERMANY-ELECTION-SAXONY-ANHALT-AFD-RALLY.jpg",
+      "https://s.france24.com/media/display/aa868b06-a9c3-11f1-b003-005056bf30b7/w:1024/p:16x9/EN-20260906-090203-090348-CS.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 60.00448337,
+    "is_stale": false,
+    "score": 22.163479124070875
+  }
+}
