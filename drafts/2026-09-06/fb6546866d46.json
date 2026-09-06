@@ -1,7 +1,7 @@
 {
   "id": "fb6546866d46",
   "created_at": "2026-09-06T18:50:41.515333+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "origin": "news",
   "score": 11.82,
@@ -68,5 +68,12 @@
       "https://th-i.thgim.com/public/incoming/8hbvx7/article71435844.ece/alternates/LANDSCAPE_1200/AFP__20140722__DV1828336__v2__HighRes__BritainWomenHealthRights%202.jpg"
     ]
   },
-  "publish_at": "2026-09-06T19:27:04.913988+00:00"
+  "publish_at": "2026-09-06T19:27:04.913988+00:00",
+  "published_at": "2026-09-06T19:30:59.126207+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1353525690197785",
+    "photo_id": "1353525666864454",
+    "url": "https://www.facebook.com/631680090321390_1353525690197785",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
