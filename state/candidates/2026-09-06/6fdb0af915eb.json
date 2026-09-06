@@ -1,0 +1,73 @@
+{
+  "id": "6fdb0af915eb",
+  "created_at": "2026-09-06T06:07:51.048973+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.04,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Chinese national rescued from tunnel in Nepal 10 days after catastrophic flooding",
+  "link": "https://www.dawn.com/news/2027685/chinese-national-rescued-from-tunnel-in-nepal-10-days-after-catastrophic-flooding",
+  "publishers": [
+    "CGTN",
+    "Dawn",
+    "France24",
+    "Reuters",
+    "The Japan Times"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Chinese national rescued from tunnel in Nepal 10 days after catastrophic flooding",
+    "link": "https://www.dawn.com/news/2027685/chinese-national-rescued-from-tunnel-in-nepal-10-days-after-catastrophic-flooding",
+    "summary": "Rescuers in Nepal pulled a Chinese national alive on Saturday from a tunnel buried by debris, as emergency response teams dug with new vigour in the search for missing people 10 days after catastrophic flooding. A joint rescue team comprising personnel from the Nepal Army and foreign experts rescued the man from 225 metres inside the tunnel of the Upper Trishuli-1 Hydropower Project in Rasuwa district, a military statement said. A picture of the rescue published on the army’s Facebook page shows the man, identified only as Luhaitao, with his arms around the shoulders of two camouflage-clad rescuers. He looked alert but his hands were covered in thick, slimy mud. “His health is currently being assessed and further search and rescue operations are continuing,” the army said. The survivor was among hundreds of hydropower workers who went missing since a tsunami-like wall of water and mud swept through the China-Nepal border following a vast glacial and rock collapse on August 26. Two Nepali hydropower workers were rescued on Friday at the Trishuli 3A tunnel, where searches continued alongside multiple other sites, with at least 12 hydropower projects destroyed by the floods. So far, 1",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-05T09:31:03+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/0514313447f37b0.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "CGTN",
+      "Dawn",
+      "France24",
+      "Reuters",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2027685/chinese-national-rescued-from-tunnel-in-nepal-10-days-after-catastrophic-flooding"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260905-chinese-national-rescued-from-nepal-tunnel-10-days-after-flash-flood"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/06/asia-pacific/chinese-rescued-nepal-flood/"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-05/news-1QbV6b0y2uA/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/0514313447f37b0.webp",
+      "https://i.dawn.com/large/2026/09/0514184845017f8.webp",
+      "https://i.dawn.com/thumbnail/2026/09/0514313447f37b0.webp",
+      "https://i.dawn.com/thumbnail/2026/09/0514184845017f8.webp",
+      "https://s.france24.com/media/display/339232ae-a944-11f1-9f0e-005056bf30b7/w:1024/p:16x9/EN-20260905-170612-170749-CS.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/06/561407.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 261.00074429194444,
+    "is_stale": false,
+    "score": 20.041708802976903
+  }
+}

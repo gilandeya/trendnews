@@ -1,0 +1,58 @@
+{
+  "id": "c45678be6dd9",
+  "created_at": "2026-09-06T06:07:51.049843+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.45,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Rescuers in Nepal pull 2 people alive from the debris 10 days after devastating floods",
+  "link": "https://www.courthousenews.com/rescuers-in-nepal-pull-2-people-alive-from-the-debris-10-days-after-devastating-floods/",
+  "publishers": [
+    "CBS News — World",
+    "Court House News",
+    "Hindustan Times — World"
+  ],
+  "region": "court",
+  "article": {
+    "title": "Rescuers in Nepal pull 2 people alive from the debris 10 days after devastating floods",
+    "link": "https://www.courthousenews.com/rescuers-in-nepal-pull-2-people-alive-from-the-debris-10-days-after-devastating-floods/",
+    "summary": "Two survivors were found alive as rescue crews pressed on with searches for thousands still missing after catastrophic flooding across Nepal.",
+    "source_name": "Court House News",
+    "region": "court",
+    "weight": 1.2,
+    "published": "2026-09-05T13:29:05+00:00",
+    "image_url": null,
+    "publisher": "Court House News",
+    "cluster_sources": [
+      "CBS News — World",
+      "Court House News",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/rescuers-in-nepal-pull-2-people-alive-from-the-debris-10-days-after-devastating-floods/"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/nepal-floods-rescue-tunnel-man-woman/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/rescuers-in-nepal-pull-2-people-alive-from-the-debris-10-days-after-devastating-floods-101788659742666.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 261.0007786111111,
+    "is_stale": false,
+    "score": 17.44529349462643
+  }
+}

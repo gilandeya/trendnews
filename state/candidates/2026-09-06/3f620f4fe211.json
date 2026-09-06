@@ -1,0 +1,65 @@
+{
+  "id": "3f620f4fe211",
+  "created_at": "2026-09-06T06:07:51.049271+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.0,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Gauff wins but mixed fortunes for home hopes at US Open",
+  "link": "https://www.bbc.co.uk/sport/tennis/articles/cvgy7jxwzg6o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football",
+    "as it happened"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Gauff wins but mixed fortunes for home hopes at US Open",
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/cvgy7jxwzg6o?at_medium=RSS&at_campaign=rss",
+    "summary": "Coco Gauff reaches the US Open fourth round but last year's finalist Amanda Anisimova and Madison Keys go out on a mixed day for home hopes.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-06T03:01:33+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/714c/live/0d78e1d0-a980-11f1-a8a3-d556f3843dc8.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/tennis/articles/cvgy7jxwzg6o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/sport/live/2026/sep/05/us-open-tennis-fritz-gauff-swiatek-keys-cobolli-day-seven-live"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/tennis/news/12040/13582102/us-open-coco-gauff-progresses-to-fourth-round-while-compatriots-taylor-fritz-amanda-anisimova-madison-keys-knocked-out"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/714c/live/0d78e1d0-a980-11f1-a8a3-d556f3843dc8.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/714c/live/0d78e1d0-a980-11f1-a8a3-d556f3843dc8.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/714c/live/0d78e1d0-a980-11f1-a8a3-d556f3843dc8.jpg",
+      "https://i.guim.co.uk/img/media/3116780c72810e0ee21dcf3ff70bb7e7a9380594/0_168_3955_3164/master/3955.jpg?width=700&quality=85&auto=format&fit=max&s=cad1616f0564c9e9f7fb35fc93bba07d",
+      "https://i.guim.co.uk/img/media/3116780c72810e0ee21dcf3ff70bb7e7a9380594/0_168_3955_3164/master/3955.jpg?width=460&quality=85&auto=format&fit=max&s=6cf550d8e3d2432b7ee47a859cbb2087",
+      "https://i.guim.co.uk/img/media/3116780c72810e0ee21dcf3ff70bb7e7a9380594/0_168_3955_3164/master/3955.jpg?width=140&quality=85&auto=format&fit=max&s=7c66978d66ddccf5e2664d03a81e0932"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 781.9118791663889,
+    "is_stale": true,
+    "score": 19.99803424388569
+  }
+}

@@ -5662,5 +5662,99 @@
     "posted_title": "",
     "region": "science",
     "seen_at": "2026-09-06T03:08:07.275012+00:00"
+  },
+  {
+    "score": 26.1,
+    "bucket": "serious",
+    "tokens": [
+      "airport",
+      "anak",
+      "cancels",
+      "erupts",
+      "flights",
+      "indonesia",
+      "jakarta",
+      "krakatau",
+      "volcano"
+    ],
+    "link": "https://www.thehindu.com/news/international/anak-krakatau-active-volcano-erupts-indonesia/article71434453.ece",
+    "title": "Indonesia cancels flights at Jakarta airport as Anak Krakatau volcano erupts",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-06T06:07:51.048961+00:00"
+  },
+  {
+    "score": 20.04,
+    "bucket": "serious",
+    "tokens": [
+      "catastrophic",
+      "chinese",
+      "days",
+      "flooding",
+      "national",
+      "nepal",
+      "rescued",
+      "tunnel"
+    ],
+    "link": "https://www.dawn.com/news/2027685/chinese-national-rescued-from-tunnel-in-nepal-10-days-after-catastrophic-flooding",
+    "title": "Chinese national rescued from tunnel in Nepal 10 days after catastrophic flooding",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-06T06:07:51.049261+00:00"
+  },
+  {
+    "score": 20.0,
+    "bucket": "sport",
+    "tokens": [
+      "fortunes",
+      "gauff",
+      "home",
+      "hopes",
+      "mixed",
+      "open",
+      "wins"
+    ],
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/cvgy7jxwzg6o?at_medium=RSS&at_campaign=rss",
+    "title": "Gauff wins but mixed fortunes for home hopes at US Open",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-06T06:07:51.049574+00:00"
+  },
+  {
+    "score": 18.62,
+    "bucket": "serious",
+    "tokens": [
+      "aircraft",
+      "carrier",
+      "destroyer",
+      "hits",
+      "irgc",
+      "missiles"
+    ],
+    "link": "https://en.mehrnews.com/news/247471/IRGC-hits-US-carrier-destroyer-with-missiles",
+    "title": "IRGC hits US aircraft carrier, destroyer with missiles",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-06T06:07:51.049834+00:00"
+  },
+  {
+    "score": 17.45,
+    "bucket": "light",
+    "tokens": [
+      "alive",
+      "days",
+      "debris",
+      "devastating",
+      "floods",
+      "nepal",
+      "people",
+      "pull",
+      "rescuers"
+    ],
+    "link": "https://www.courthousenews.com/rescuers-in-nepal-pull-2-people-alive-from-the-debris-10-days-after-devastating-floods/",
+    "title": "Rescuers in Nepal pull 2 people alive from the debris 10 days after devastating floods",
+    "posted_title": "",
+    "region": "court",
+    "seen_at": "2026-09-06T06:07:51.050093+00:00"
   }
 ]
