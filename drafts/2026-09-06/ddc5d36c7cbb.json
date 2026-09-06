@@ -1,7 +1,7 @@
 {
   "id": "ddc5d36c7cbb",
   "created_at": "2026-09-06T13:27:21.734668+00:00",
-  "status": "pending",
+  "status": "published",
   "origin": "analysis",
   "title": "رسوم ترامب على كندا وخفض تركيا لتوقعاتها: اقتصادان يقيسان كلفة الصدمات الخارجية",
   "tier": "a",
@@ -44,5 +44,21 @@
   },
   "score": 4,
   "has_photo": false,
-  "review_issue": 776
+  "review_issue": 776,
+  "image": "drafts/2026-09-06/ddc5d36c7cbb.jpg",
+  "image_info": {
+    "used_original": false,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": null,
+    "candidates_tried": 0,
+    "manual": false
+  },
+  "published_at": "2026-09-06T14:16:49.142901+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1353322660218088",
+    "photo_id": "1353322633551424",
+    "url": "https://www.facebook.com/631680090321390_1353322660218088",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
