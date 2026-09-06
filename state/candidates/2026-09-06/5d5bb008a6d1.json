@@ -1,0 +1,67 @@
+{
+  "id": "5d5bb008a6d1",
+  "created_at": "2026-09-06T03:08:07.274206+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.27,
+  "trend_score": 0.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Prince William to represent King Charles at funeral of Norway’s King Harald V",
+  "link": "https://www.theguardian.com/uk-news/2026/sep/05/prince-william-to-represent-king-charles-at-funeral-of-norways-king-harald-v",
+  "publishers": [
+    "BBC",
+    "BBC World",
+    "South China Morning Post",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Prince William to represent King Charles at funeral of Norway’s King Harald V",
+    "link": "https://www.theguardian.com/uk-news/2026/sep/05/prince-william-to-represent-king-charles-at-funeral-of-norways-king-harald-v",
+    "summary": "Duty falls by precedent to William to attend service of late monarch, alongside Princess Royal, who is godmother to new king Haakon VIII The Prince of Wales is to represent his father at the funeral of King Harald V of Norway next week, Buckingham Palace has announced. William, the heir to the throne, will be joined by his aunt the Princess Royal, who is attending in a private and personal capacity as godmother of the new king, Haakon VIII. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-05T22:11:21+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/f3fc29bf4bcce23b9f6ac7324dd4a9458d6a2459/777_0_7200_5760/master/7200.jpg?width=700&quality=85&auto=format&fit=max&s=497f4be08b90fb55c5af1660b305f45a",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "BBC",
+      "BBC World",
+      "South China Morning Post",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cp301rw6kvro?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/uk-news/2026/sep/05/prince-william-to-represent-king-charles-at-funeral-of-norways-king-harald-v"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3366510/uks-prince-william-represent-king-charles-funeral-norways-king-harald?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/f3fc29bf4bcce23b9f6ac7324dd4a9458d6a2459/777_0_7200_5760/master/7200.jpg?width=700&quality=85&auto=format&fit=max&s=497f4be08b90fb55c5af1660b305f45a",
+      "https://i.guim.co.uk/img/media/f3fc29bf4bcce23b9f6ac7324dd4a9458d6a2459/777_0_7200_5760/master/7200.jpg?width=460&quality=85&auto=format&fit=max&s=7bf1d041084b373b82e2c20a16f2e630",
+      "https://i.guim.co.uk/img/media/f3fc29bf4bcce23b9f6ac7324dd4a9458d6a2459/777_0_7200_5760/master/7200.jpg?width=140&quality=85&auto=format&fit=max&s=cda76635b08eb0df2b4c9c04c6592a54",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2c5f/live/c032d030-a2b2-11f1-9024-715001d09aeb.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/2c5f/live/c032d030-a2b2-11f1-9024-715001d09aeb.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/2c5f/live/c032d030-a2b2-11f1-9024-715001d09aeb.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 0.1998414396400119,
+    "age_hours": 5.003967154166666,
+    "is_stale": false,
+    "score": 16.269601617181543
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "id": "58909c659623",
+  "created_at": "2026-09-06T03:08:07.273506+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.28,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Drone attack blamed on guerrillas kills at least three soldiers in Colombia",
+  "link": "https://www.theguardian.com/world/2026/sep/05/drone-attack-guerrillas-kills-soldiers-colombia",
+  "publishers": [
+    "CBS News — World",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Drone attack blamed on guerrillas kills at least three soldiers in Colombia",
+    "link": "https://www.theguardian.com/world/2026/sep/05/drone-attack-guerrillas-kills-soldiers-colombia",
+    "summary": "Officials accuse National Liberation Army of launching strike followed by clash inside military compound An attack involving explosives dropped from drones followed by a clash inside a military compound in north-eastern Colombia has killed at least three soldiers and wounded four, Colombia’s army said on Saturday. Local authorities blamed the attack – which took place late on Friday – on the rebel National Liberation Army (ELN). Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-05T22:16:55+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/8a56c6bc67eb59b4558674f0cf8f37b1d1b6ec45/0_0_3362_2691/master/3362.jpg?width=700&quality=85&auto=format&fit=max&s=e467bf2e692e43860252609cda2caea7",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "CBS News — World",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/05/drone-attack-guerrillas-kills-soldiers-colombia"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/colombia-drone-attack-suspected-guerrillas/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/8a56c6bc67eb59b4558674f0cf8f37b1d1b6ec45/0_0_3362_2691/master/3362.jpg?width=700&quality=85&auto=format&fit=max&s=e467bf2e692e43860252609cda2caea7",
+      "https://i.guim.co.uk/img/media/8a56c6bc67eb59b4558674f0cf8f37b1d1b6ec45/0_0_3362_2691/master/3362.jpg?width=460&quality=85&auto=format&fit=max&s=a62dbc56297779105c7bb072545fe11e",
+      "https://i.guim.co.uk/img/media/8a56c6bc67eb59b4558674f0cf8f37b1d1b6ec45/0_0_3362_2691/master/3362.jpg?width=140&quality=85&auto=format&fit=max&s=aac3a2aa733d06b6ea5d8a3455c34b24"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 778.9165550355555,
+    "is_stale": false,
+    "score": 17.27657960133333
+  }
+}

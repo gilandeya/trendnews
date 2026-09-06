@@ -1,0 +1,61 @@
+{
+  "id": "f922870923e3",
+  "created_at": "2026-09-06T03:08:07.274741+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.31,
+  "trend_score": 0.0,
+  "velocity": 0.07,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "How haze from Indonesian fires impacts Southeast Asia",
+  "link": "https://phys.org/news/2026-09-haze-indonesian-impacts-southeast-asia.html",
+  "publishers": [
+    "Malay Mail",
+    "Phys.org",
+    "The Express Tribune"
+  ],
+  "region": "science",
+  "article": {
+    "title": "How haze from Indonesian fires impacts Southeast Asia",
+    "link": "https://phys.org/news/2026-09-haze-indonesian-impacts-southeast-asia.html",
+    "summary": "Thick smog has blanketed parts of Indonesia as the vast archipelago battles fires that have burned large swaths of Borneo and Sumatra for weeks.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-09-05T11:00:01+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/a-photo-taken-from-a-c.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Malay Mail",
+      "Phys.org",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-09-haze-indonesian-impacts-southeast-asia.html"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2627690/how-haze-from-indonesian-fires-impacts-southeast-asia"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/life/2026/09/05/how-haze-from-indonesian-fires-impacts-southeast-asia/234045"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/a-photo-taken-from-a-c.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/05/360837.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.06661281073838646,
+    "age_hours": 15.005168630833333,
+    "is_stale": false,
+    "score": 13.312420048133179
+  }
+}
