@@ -1,0 +1,76 @@
+{
+  "id": "df7da3bec6b6",
+  "created_at": "2026-09-06T08:10:53.399496+00:00",
+  "status": "published",
+  "review_issue": null,
+  "origin": "news",
+  "score": 16.06,
+  "bucket": "serious",
+  "analysed_sources": [
+    "Al Jazeera English"
+  ],
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "age_hours": 778.9,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": true,
+    "composite": false,
+    "chosen_url": null,
+    "candidates_tried": 0,
+    "manual": false
+  },
+  "source": {
+    "title": "Israel claims control of Lebanon’s key Ali al-Taher ridge: What that means",
+    "link": "https://www.aljazeera.com/news/2026/9/5/israel-claims-control-of-lebanons-key-ali-al-taher-ridge-what-that-means?traffic_source=rss",
+    "publisher": "Al Jazeera English",
+    "publishers": [
+      "Al Jazeera",
+      "Al Jazeera English"
+    ],
+    "region": "qa",
+    "image_url": null,
+    "image_candidates": []
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "عالم",
+    "image_headline": "إسرائيل تعلن سيطرتها على تلة علي الطاهر جنوب لبنان",
+    "post_title": "إسرائيل تعلن السيطرة على تلة علي الطاهر الاستراتيجية جنوب لبنان",
+    "post_body": "أعلن وزير الدفاع الإسرائيلي يسرائيل كاتس، الجمعة، أن قواته فرضت سيطرة عملياتية على تلة علي الطاهر الاستراتيجية جنوب لبنان، على بعد 15 كيلومترًا من الحدود، بعد عملية موسّعة استهدفت مواقع لحزب الله، بينها شبكة أنفاق تحت التلة التي يبلغ ارتفاعها 600 متر. وقال كاتس إن إسرائيل لن تنسحب من المنطقة الأمنية جنوب لبنان حتى نزع سلاح حزب الله في كل الأراضي اللبنانية. حزب الله لم يعلّق رسميًا حتى الآن، فيما استمرت الضربات والعمليات البرية حول التلة رغم وقف إطلاق النار المتفق عليه في يونيو.",
+    "hashtags": [
+      "لبنان",
+      "حزب_الله",
+      "إسرائيل",
+      "الجنوب_اللبناني"
+    ]
+  },
+  "caption": "إسرائيل تعلن السيطرة على تلة علي الطاهر الاستراتيجية جنوب لبنان\n\nأعلن وزير الدفاع الإسرائيلي يسرائيل كاتس، الجمعة، أن قواته فرضت سيطرة عملياتية على تلة علي الطاهر الاستراتيجية جنوب لبنان، على بعد 15 كيلومترًا من الحدود، بعد عملية موسّعة استهدفت مواقع لحزب الله، بينها شبكة أنفاق تحت التلة التي يبلغ ارتفاعها 600 متر. وقال كاتس إن إسرائيل لن تنسحب من المنطقة الأمنية جنوب لبنان حتى نزع سلاح حزب الله في كل الأراضي اللبنانية. حزب الله لم يعلّق رسميًا حتى الآن، فيما استمرت الضربات والعمليات البرية حول التلة رغم وقف إطلاق النار المتفق عليه في يونيو.\n\n#لبنان #حزب_الله #إسرائيل #الجنوب_اللبناني",
+  "headlines": [
+    "هل فرضت إسرائيل سيطرة عملياتية على تلة علي الطاهر الاستراتيجية جنوب لبنان؟",
+    "إسرائيل تعلن السيطرة على تلة علي الطاهر وتربط انسحابها بنزع سلاح حزب الله",
+    "عمليات عسكرية إسرائيلية مستمرة على تلة علي الطاهر رغم وقف إطلاق النار"
+  ],
+  "headline_selected": 0,
+  "image": "drafts/2026-09-06/df7da3bec6b6.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "إسرائيل تعلن سيطرتها على تلة علي الطاهر جنوب لبنان",
+    "category": "عالم",
+    "urgent": false,
+    "image_candidates": []
+  },
+  "publish_at": "2026-09-06T08:10:53.417510+00:00",
+  "published_at": "2026-09-06T08:10:57.022447+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1353088686908152",
+    "photo_id": "1353088670241487",
+    "url": "https://www.facebook.com/631680090321390_1353088686908152",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
+}
