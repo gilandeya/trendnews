@@ -1,0 +1,55 @@
+{
+  "id": "419a8c5792d6",
+  "created_at": "2026-09-06T17:07:49.245870+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.6,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "IRGC attacks US unmanned vessel near Strait of Hormuz",
+  "link": "https://en.mehrnews.com/news/247469/IRGC-attacks-US-unmanned-vessel-near-Strait-of-Hormuz",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "IRGC attacks US unmanned vessel near Strait of Hormuz",
+    "link": "https://en.mehrnews.com/news/247469/IRGC-attacks-US-unmanned-vessel-near-Strait-of-Hormuz",
+    "summary": "TEHRAN, Sep. 06 (MNA) – The Islamic Revolutionary Guard Corps Navy said it attacked a remotely operated U.S. military vessel that was attempting to enter the protected zone of the Strait of Hormuz.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-06T03:41:58+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/07/12/4/6097983.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247469/IRGC-attacks-US-unmanned-vessel-near-Strait-of-Hormuz"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86256022/IRGC-attacks-US-unmanned-vessel-seeking-access-to-Strait-of-Hormuz"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/07/12/4/6097983.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/03/4/173084367.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 792.9114049086111,
+    "is_stale": false,
+    "score": 15.604756788333335
+  }
+}
