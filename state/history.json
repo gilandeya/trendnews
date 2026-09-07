@@ -1,41 +1,5 @@
 [
   {
-    "score": 15.41,
-    "bucket": "serious",
-    "tokens": [
-      "assad",
-      "built",
-      "confirms",
-      "iaea",
-      "nuclear",
-      "reactor",
-      "syria",
-      "under"
-    ],
-    "link": "https://www.dailysabah.com/world/mid-east/syria-built-nuclear-reactor-under-assad-iaea-confirms",
-    "title": "Syria built nuclear reactor under Assad, IAEA confirms",
-    "posted_title": "تقرير أممي يؤكد أن سوريا كانت تبني مفاعلاً نوويًا سريًا في دير الزور زمن الأسد",
-    "region": "tr",
-    "seen_at": "2026-09-02T04:55:37.755631+00:00"
-  },
-  {
-    "score": 15.71,
-    "bucket": "serious",
-    "tokens": [
-      "battlefield",
-      "negotiate",
-      "putin",
-      "russia",
-      "terrorists",
-      "winning"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/09/02/world/politics/putin-russia-winning-terrorists/",
-    "title": "Putin says Russia is winning on battlefield, will not negotiate with ‘terrorists’",
-    "posted_title": "بوتين يعلن تسارع التقدم الروسي ويصف القيادة الأوكرانية بـ\"الإرهابيين\"",
-    "region": "jp",
-    "seen_at": "2026-09-02T04:56:43.145948+00:00"
-  },
-  {
     "score": 30.44,
     "bucket": "serious",
     "tokens": [
@@ -5663,5 +5627,103 @@
     "posted_title": "",
     "region": "tr",
     "seen_at": "2026-09-07T03:08:02.460853+00:00"
+  },
+  {
+    "score": 17.66,
+    "bucket": "serious",
+    "tokens": [
+      "disrupts",
+      "eruption",
+      "flights",
+      "hundreds",
+      "indonesia",
+      "volcano"
+    ],
+    "link": "https://www.aljazeera.com/video/newsfeed/2026/9/6/indonesia-volcano-eruption-disrupts-hundreds-of-flights?traffic_source=rss",
+    "title": "Indonesia volcano eruption disrupts hundreds of flights",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-09-07T06:07:56.957280+00:00"
+  },
+  {
+    "score": 16.97,
+    "bucket": "serious",
+    "tokens": [
+      "ahead",
+      "army",
+      "east",
+      "evacuation",
+      "israel",
+      "lebanon",
+      "live",
+      "middle",
+      "orders",
+      "south",
+      "strikes",
+      "zone"
+    ],
+    "link": "https://www.france24.com/en/middle-east/20260907-middle-east-live-israel-army-orders-evacuation-of-zone-in-south-lebanon-ahead-of-strikes",
+    "title": "Middle East Live: Israel army orders evacuation of zone in south Lebanon ahead of strikes",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-07T06:07:56.957561+00:00"
+  },
+  {
+    "score": 16.5,
+    "bucket": "serious",
+    "tokens": [
+      "during",
+      "file",
+      "jamaica",
+      "petition",
+      "reparations",
+      "slavery",
+      "visit"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/9/7/jamaica-to-file-slavery-reparations-petition-during-uk-visit?traffic_source=rss",
+    "title": "Jamaica to file slavery reparations petition during UK visit",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-09-07T06:07:56.957814+00:00"
+  },
+  {
+    "score": 15.3,
+    "bucket": "light",
+    "tokens": [
+      "bleak",
+      "built",
+      "five",
+      "games",
+      "house",
+      "themed",
+      "they're",
+      "trump",
+      "video",
+      "white"
+    ],
+    "link": "https://boingboing.net/2026/09/06/the-white-house-built-five-trump-themed-video-games-and-they.html",
+    "title": "The White House built five Trump-themed video games, and they're bleak",
+    "posted_title": "",
+    "region": "odd",
+    "seen_at": "2026-09-07T06:07:56.958071+00:00"
+  },
+  {
+    "score": 15.03,
+    "bucket": "serious",
+    "tokens": [
+      "exercise",
+      "japan",
+      "kick",
+      "korea",
+      "lead",
+      "military",
+      "off",
+      "way"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20260907002351315",
+    "title": "(LEAD) S. Korea, U.S., Japan kick off 3-way military exercise",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-09-07T06:07:56.958354+00:00"
   }
 ]

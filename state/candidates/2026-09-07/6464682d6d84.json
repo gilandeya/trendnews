@@ -1,0 +1,52 @@
+{
+  "id": "6464682d6d84",
+  "created_at": "2026-09-07T06:07:56.958080+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.03,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(LEAD) S. Korea, U.S., Japan kick off 3-way military exercise",
+  "link": "https://en.yna.co.kr/view/AEN20260907002351315",
+  "publishers": [
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(LEAD) S. Korea, U.S., Japan kick off 3-way military exercise",
+    "link": "https://en.yna.co.kr/view/AEN20260907002351315",
+    "summary": "SEOUL, Sept. 7 (Yonhap) -- South Korea, the United States and Japan began a five...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-07T02:08:49+00:00",
+    "image_url": "https://img.yna.co.kr/photo/yna/YH/2025/09/17/PYH2025091704480001300_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260907002300315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260907002351315"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/yna/YH/2025/09/17/PYH2025091704480001300_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 805.913549971389,
+    "is_stale": true,
+    "score": 15.03444390237037
+  }
+}

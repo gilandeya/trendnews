@@ -1,0 +1,54 @@
+{
+  "id": "3f79c93d3377",
+  "created_at": "2026-09-07T06:07:56.957292+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.97,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Middle East Live: Israel army orders evacuation of zone in south Lebanon ahead of strikes",
+  "link": "https://www.france24.com/en/middle-east/20260907-middle-east-live-israel-army-orders-evacuation-of-zone-in-south-lebanon-ahead-of-strikes",
+  "publishers": [
+    "France24",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Middle East Live: Israel army orders evacuation of zone in south Lebanon ahead of strikes",
+    "link": "https://www.france24.com/en/middle-east/20260907-middle-east-live-israel-army-orders-evacuation-of-zone-in-south-lebanon-ahead-of-strikes",
+    "summary": "The Israeli army demanded early Monday that residents of Deir Zahrani in southern Lebanon leave a specific zone ahead of strikes against Iran-backed Hezbollah. Hezbollah's Al-Manar television channel later reported Israeli airstrikes on Deir Zahrani. Follow our liveblog for the latest updates.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-07T01:13:12+00:00",
+    "image_url": "https://s.france24.com/media/display/90c16efa-6fcd-11f1-9268-005056a90284/w:1024/p:16x9/000-B83C3LW.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260907-middle-east-live-israel-army-orders-evacuation-of-zone-in-south-lebanon-ahead-of-strikes"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-iran-war-live-updates-israel-strikes-lebanon-hezbollah-donald-trump-netanyahu-september-7-2026/article71437351.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/90c16efa-6fcd-11f1-9268-005056a90284/w:1024/p:16x9/000-B83C3LW.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 805.9136634172222,
+    "is_stale": false,
+    "score": 16.972647595333335
+  }
+}

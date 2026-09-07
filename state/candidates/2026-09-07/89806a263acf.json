@@ -1,0 +1,52 @@
+{
+  "id": "89806a263acf",
+  "created_at": "2026-09-07T06:07:56.956855+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.66,
+  "trend_score": 0.2,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Indonesia volcano eruption disrupts hundreds of flights",
+  "link": "https://www.aljazeera.com/video/newsfeed/2026/9/6/indonesia-volcano-eruption-disrupts-hundreds-of-flights?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Hindustan Times — World"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Indonesia volcano eruption disrupts hundreds of flights",
+    "link": "https://www.aljazeera.com/video/newsfeed/2026/9/6/indonesia-volcano-eruption-disrupts-hundreds-of-flights?traffic_source=rss",
+    "summary": "Two new eruptions were recorded as Indonesia’s Anak Krakatau continued to spew volcanic ash.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-06T18:58:35+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/6/indonesia-volcano-eruption-disrupts-hundreds-of-flights?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/indonesia-volcano-eruption-300-flights-hit-schools-shut-as-ash-soars-50-000-feet-krakatau-java-sumatra-101788679472925.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.2,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 26.99707456333333,
+    "is_stale": false,
+    "score": 17.656406856685187
+  }
+}
