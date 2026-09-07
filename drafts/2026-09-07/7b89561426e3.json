@@ -1,7 +1,7 @@
 {
   "id": "7b89561426e3",
   "created_at": "2026-09-07T15:12:17.347157+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "origin": "news",
   "score": 19.45,
@@ -73,5 +73,12 @@
       "https://img9.irna.ir/d/r2/2026/09/06/4/173089323.jpg"
     ]
   },
-  "publish_at": "2026-09-07T15:51:03.599345+00:00"
+  "publish_at": "2026-09-07T15:51:03.599345+00:00",
+  "published_at": "2026-09-07T16:01:14.294006+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1354191380131216",
+    "photo_id": "1354191330131221",
+    "url": "https://www.facebook.com/631680090321390_1354191380131216",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
