@@ -1,0 +1,27 @@
+{
+  "issue": 785,
+  "recommendations": [
+    {
+      "id": "fp_5ebc2917eb91",
+      "text": "إشارة الترند متعادلة مع التغطية — اترك `trends.weight` كما هو.",
+      "key": null,
+      "suggested": null
+    },
+    {
+      "id": "facebook.peak_hours",
+      "text": "أفضل ساعات التفاعل فعليًا: 1, 0, 18. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
+      "key": "facebook.peak_hours",
+      "suggested": [
+        0,
+        1,
+        18
+      ]
+    },
+    {
+      "id": "fp_3f7e9bc1bc96",
+      "text": "أفضل مصدر أداءً: AP News (2 تفاعل، 4 منشور). ارفع وزنه في `sources`.",
+      "key": null,
+      "suggested": null
+    }
+  ]
+}
