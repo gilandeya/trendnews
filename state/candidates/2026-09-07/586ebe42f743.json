@@ -1,0 +1,52 @@
+{
+  "id": "586ebe42f743",
+  "created_at": "2026-09-07T15:07:58.739212+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.64,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trial opens in Paris over murder of Argentina rugby star Federico Aramburu",
+  "link": "https://www.aljazeera.com/sports/2026/9/7/trial-opens-in-paris-over-murder-of-argentina-rugby-star-federico-aramburu?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Punch Nigeria"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Trial opens in Paris over murder of Argentina rugby star Federico Aramburu",
+    "link": "https://www.aljazeera.com/sports/2026/9/7/trial-opens-in-paris-over-murder-of-argentina-rugby-star-federico-aramburu?traffic_source=rss",
+    "summary": "Two ⁠former members of a violent far-right group will face trial on murder and ​attempted murder charges.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-07T12:47:12+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Punch Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/7/trial-opens-in-paris-over-murder-of-argentina-rugby-star-federico-aramburu?traffic_source=rss"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/paris-trial-opens-over-killing-of-argentine-rugby-star-aramburu/?utm_source=rss.punchng.com&utm_medium=web"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 814.9142640869445,
+    "is_stale": false,
+    "score": 20.643711039592592
+  }
+}

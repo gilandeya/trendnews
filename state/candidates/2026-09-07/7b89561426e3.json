@@ -1,0 +1,61 @@
+{
+  "id": "7b89561426e3",
+  "created_at": "2026-09-07T15:07:58.739366+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.45,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi Aramco oil facility in Jizan hit in strike",
+  "link": "https://tass.com/world/2183665",
+  "publishers": [
+    "Financial Times",
+    "IRNA English",
+    "Malay Mail"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Saudi Aramco oil facility in Jizan hit in strike",
+    "link": "https://tass.com/world/2183665",
+    "summary": "According to the sources, the damage is currently being assessed",
+    "source_name": "TASS",
+    "region": "ru",
+    "weight": 0.7,
+    "published": "2026-09-07T12:50:01+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/07/361178.jpg",
+    "publisher": "Financial Times",
+    "cluster_sources": [
+      "Financial Times",
+      "IRNA English",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Financial Times",
+        "link": "https://tass.com/world/2183665"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/07/yemens-houthis-accuse-saudi-arabia-of-of-air-raids-missile-strikes-as-tensions-rise/234307"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86256717/Yemeni-army-hits-gathering-of-Saudi-affiliated-militia-commanders"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/07/361178.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/06/4/173089323.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 814.9142477333334,
+    "is_stale": true,
+    "score": 19.451728173367172
+  }
+}
