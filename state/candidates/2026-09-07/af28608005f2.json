@@ -1,0 +1,93 @@
+{
+  "id": "af28608005f2",
+  "created_at": "2026-09-07T09:07:50.348209+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.44,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Germany’s far-right AfD thanks Elon Musk as France warns state election win a ‘serious moment’",
+  "link": "https://www.theguardian.com/world/2026/sep/07/afd-thanks-elon-musk-german-state-elections-2026-win",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "CGTN",
+    "Daily Maverick",
+    "France24",
+    "Le Monde",
+    "NPR World",
+    "South China Morning Post",
+    "The Guardian",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Germany’s far-right AfD thanks Elon Musk as France warns state election win a ‘serious moment’",
+    "link": "https://www.theguardian.com/world/2026/sep/07/afd-thanks-elon-musk-german-state-elections-2026-win",
+    "summary": "Lead candidate in Saxony-Anhalt welcomes further ‘strong’ cooperation with Musk as French minister says ‘we cannot forget our history’ AfD wins key German state election but falls just short of majority The candidate who led the far-right Alternative für Deutschland party to a historic state election victory in Germany has thanked Elon Musk for his support, as one French minister warned that this was a “serious moment” for Europe. The AfD more than doubled its support in the Saxony-Anhalt region and appears to be on the brink of becoming the first far-right party to gain power in Germany at state level since the second world war. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-07T01:03:39+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/1f2347cd67b123d62a8aeb95074332a837a87df0/109_30_1651_1321/master/1651.jpg?width=700&quality=85&auto=format&fit=max&s=a511b9959c7bcfaa9b3d1e2036bc3fc3",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "CGTN",
+      "Daily Maverick",
+      "France24",
+      "Le Monde",
+      "NPR World",
+      "South China Morning Post",
+      "The Guardian",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/videos/c5yegd6ldy6o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/07/afd-thanks-elon-musk-german-state-elections-2026-win"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3366562/germanys-far-right-afd-landslide-winner-eastern-state-vote-exit-polls-indicate?utm_source=rss_feed"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-07-far-right-afd-wins-historic-victory-in-german-state-election/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260907-live-europe-reacts-to-germany-far-right-afd-worrying-electoral-victory"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/afd-german-election-saxony-anhalt/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/1f2347cd67b123d62a8aeb95074332a837a87df0/109_30_1651_1321/master/1651.jpg?width=700&quality=85&auto=format&fit=max&s=a511b9959c7bcfaa9b3d1e2036bc3fc3",
+      "https://i.guim.co.uk/img/media/1f2347cd67b123d62a8aeb95074332a837a87df0/109_30_1651_1321/master/1651.jpg?width=460&quality=85&auto=format&fit=max&s=ca69b5f08154a0014332d468ba7c7f6d",
+      "https://i.guim.co.uk/img/media/1f2347cd67b123d62a8aeb95074332a837a87df0/109_30_1651_1321/master/1651.jpg?width=140&quality=85&auto=format&fit=max&s=737272224dee14fabff9d88a9bb87d17",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/031a/live/5ff6ef10-aa20-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/031a/live/5ff6ef10-aa20-11f1-aed2-8d6da8d75094.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/031a/live/5ff6ef10-aa20-11f1-aed2-8d6da8d75094.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 11,
+    "velocity": 1.0,
+    "age_hours": 808.9119301430555,
+    "is_stale": false,
+    "score": 26.440438421115598
+  }
+}

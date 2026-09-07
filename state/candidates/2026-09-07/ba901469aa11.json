@@ -1,0 +1,75 @@
+{
+  "id": "ba901469aa11",
+  "created_at": "2026-09-07T09:07:50.349123+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.93,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "KLIA becomes fallback for some Jakarta flights after Anak Krakatau eruption",
+  "link": "https://www.malaymail.com/news/malaysia/2026/09/07/klia-becomes-fallback-for-some-jakarta-flights-after-anak-krakatau-eruption/234269",
+  "publishers": [
+    "Free Malaysia Today",
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "KLIA becomes fallback for some Jakarta flights after Anak Krakatau eruption",
+    "link": "https://www.malaymail.com/news/malaysia/2026/09/07/klia-becomes-fallback-for-some-jakarta-flights-after-anak-krakatau-eruption/234269",
+    "summary": "KUALA LUMPUR, Sept 7 — Malaysia’s main international gateway in Sepang has become an alternative airport for...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-07T05:49:30+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/07/361121.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/singapore/2026/09/07/anak-krakatau-eruption-forces-sia-to-cancel-19-singapore-jakarta-flights-scoot-axes-12/234242"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/nation/2026/09/07/2-jakarta-bound-flights-diverted-to-klia-after-anak-krakatau-eruption"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/malaysia/2026/09/07/klia-becomes-fallback-for-some-jakarta-flights-after-anak-krakatau-eruption/234269"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/07/jakarta-and-three-other-airports-extend-shutdown-to-6pm-after-anak-krakatau-eruption-disrupts-travel/234250"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/bahasa/tempatan/2026/09/07/2-penerbangan-ke-jakarta-dilencong-ke-klia-akibat-letusan-anak-krakatau"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/malaysia/2026/09/07/malaysian-newlyweds-bali-high-turns-into-five-day-airport-nightmare-no-thanks-to-anak-krakatau-ash-cloud/234240"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/07/361121.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/07/361086.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/04/f3380b8f-klia-fmt-140425.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/07/361102.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/07/361085.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/07/361080.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 29.99537357361111,
+    "is_stale": true,
+    "score": 17.929754675796296
+  }
+}

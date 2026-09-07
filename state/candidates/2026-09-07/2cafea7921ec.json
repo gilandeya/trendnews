@@ -1,0 +1,54 @@
+{
+  "id": "2cafea7921ec",
+  "created_at": "2026-09-07T09:07:50.348577+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.91,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Germany’s Merz under pressure from far-right election triumph",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/09/07/germany-s-merz-under-pressure-from-far-right-election-triumph",
+  "publishers": [
+    "Free Malaysia Today",
+    "Hindustan Times — World"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Germany’s Merz under pressure from far-right election triumph",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/07/germany-s-merz-under-pressure-from-far-right-election-triumph",
+    "summary": "Germany’s far-right AfD won a record 44% in Saxony-Anhalt, far ahead of the centre-right CDU on about 18%.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-07T05:32:24+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/ba8b751e-friedrich-merz.jpg",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/germany-far-right-afd-scores-major-win-in-saxony-anhalt-vote-deals-blow-to-chancellor-friedrich-merz-101788745738057.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/07/germany-s-merz-under-pressure-from-far-right-election-triumph"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/ba8b751e-friedrich-merz.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 808.9119752297222,
+    "is_stale": false,
+    "score": 18.91075466812963
+  }
+}

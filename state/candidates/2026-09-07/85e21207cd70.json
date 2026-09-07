@@ -1,0 +1,101 @@
+{
+  "id": "85e21207cd70",
+  "created_at": "2026-09-07T09:07:50.347724+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.78,
+  "trend_score": 0.2,
+  "velocity": 1.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Five dead after Amazon cargo plane crashes at Miami airport",
+  "link": "https://www.bbc.co.uk/news/articles/c0e3p1j7n3ro?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Court House News",
+    "Daily Maverick",
+    "Daily Sabah",
+    "France24",
+    "Hindustan Times — World",
+    "Mehr News",
+    "MercoPress",
+    "NDTV — World",
+    "Punch Nigeria",
+    "South China Morning Post",
+    "The Hindu — International",
+    "The Japan Times",
+    "The Verge"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Five dead after Amazon cargo plane crashes at Miami airport",
+    "link": "https://www.bbc.co.uk/news/articles/c0e3p1j7n3ro?at_medium=RSS&at_campaign=rss",
+    "summary": "Five people are dead and five seriously injured after a Boeing 767-300 cargo plane \"overran\" the runway and caught fire, officials say.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-07T06:59:57+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9d36/live/ead9f6b0-aa73-11f1-8722-09fc3b051866.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Court House News",
+      "Daily Maverick",
+      "Daily Sabah",
+      "France24",
+      "Hindustan Times — World",
+      "Mehr News",
+      "MercoPress",
+      "NDTV — World",
+      "Punch Nigeria",
+      "South China Morning Post",
+      "The Hindu — International",
+      "The Japan Times",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/6/amazon-prime-plane-overruns-runway-at-miami-airport?traffic_source=rss"
+      },
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/at-least-5-dead-after-amazon-cargo-plane-barreled-off-runway-at-miami-airport/"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/videos/c4grd9mg3rvo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c0e3p1j7n3ro?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3366567/amazon-cargo-plane-crashes-bursts-flames-miami-airport-after-overshooting-runway?utm_source=rss_feed"
+      },
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/tech/990918/amazon-cargo-plane-crashed-miami"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9d36/live/ead9f6b0-aa73-11f1-8722-09fc3b051866.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/9d36/live/ead9f6b0-aa73-11f1-8722-09fc3b051866.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9d36/live/ead9f6b0-aa73-11f1-8722-09fc3b051866.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/fce1/live/b673db00-aa8e-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/fce1/live/b673db00-aa8e-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/fce1/live/b673db00-aa8e-11f1-b109-879e35c24276.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.2,
+    "group_sources": 15,
+    "velocity": 1.0,
+    "age_hours": 808.9119277983333,
+    "is_stale": false,
+    "score": 27.778704242455184
+  }
+}

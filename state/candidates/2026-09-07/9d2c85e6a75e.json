@@ -1,0 +1,55 @@
+{
+  "id": "9d2c85e6a75e",
+  "created_at": "2026-09-07T09:07:50.348865+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.24,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia and North Korea open first road bridge between the two countries",
+  "link": "https://meduza.io/en/news/2026/09/07/russia-and-north-korea-open-first-road-bridge-between-the-two-countries",
+  "publishers": [
+    "Meduza English",
+    "TASS"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Russia and North Korea open first road bridge between the two countries",
+    "link": "https://meduza.io/en/news/2026/09/07/russia-and-north-korea-open-first-road-bridge-between-the-two-countries",
+    "summary": "A new road bridge over the Tumen River linking Russia and North Korea has opened to traffic.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-07T08:12:12+00:00",
+    "image_url": "https://meduza.io/imgly/share/1788768732/en/news/2026/09/07/russia-and-north-korea-open-first-road-bridge-between-the-two-countries",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Meduza English",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/07/russia-and-north-korea-open-first-road-bridge-between-the-two-countries"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/economy/2183495"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1788768732/en/news/2026/09/07/russia-and-north-korea-open-first-road-bridge-between-the-two-countries",
+      "https://meduza.io/image/attachments/images/012/723/993/small/SuGUHSEuhwb5T2lfpvShoA"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 808.9119324130556,
+    "is_stale": true,
+    "score": 18.238310230222222
+  }
+}
