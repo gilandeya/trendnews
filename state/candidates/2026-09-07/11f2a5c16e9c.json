@@ -1,0 +1,54 @@
+{
+  "id": "11f2a5c16e9c",
+  "created_at": "2026-09-07T19:08:10.510792+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.9,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "U.S. envoys leave Kyiv after talks with Zelenskyy: Ukraine official",
+  "link": "https://www.thehindu.com/news/international/us-envoys-hold-talks-with-zelensky-on-first-kyiv-visit/article71435478.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "U.S. envoys leave Kyiv after talks with Zelenskyy: Ukraine official",
+    "link": "https://www.thehindu.com/news/international/us-envoys-hold-talks-with-zelensky-on-first-kyiv-visit/article71435478.ece",
+    "summary": "The envoys arrived in the Ukrainian capital by train, hoping to revive negotiations to end Europe's worst conflict since World War II, after a summer of escalation",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-06T22:09:38+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/8tui2a/article71435611.ece/alternates/LANDSCAPE_1200/Russia_Ukraine_War_US_35256.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-envoys-hold-talks-with-zelensky-on-first-kyiv-visit/article71435478.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/zelensky-in-fresh-talks-with-us-envoys-ukraine-official-101788724771872.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/8tui2a/article71435611.ece/alternates/LANDSCAPE_1200/Russia_Ukraine_War_US_35256.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 818.9174085108333,
+    "is_stale": false,
+    "score": 15.901768141185185
+  }
+}

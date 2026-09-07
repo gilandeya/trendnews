@@ -1,0 +1,83 @@
+{
+  "id": "115206efe783",
+  "created_at": "2026-09-07T19:08:10.510201+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.66,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israeli strikes in southern Lebanese village kill 12",
+  "link": "https://www.bbc.co.uk/news/articles/c5yl96vz0edo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Financial Times",
+    "France24",
+    "MyJoyOnline Ghana",
+    "Tehran Times",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Israeli strikes in southern Lebanese village kill 12",
+    "link": "https://www.bbc.co.uk/news/articles/c5yl96vz0edo?at_medium=RSS&at_campaign=rss",
+    "summary": "Lebanon says a recent Israeli escalation is jeopardising a US-brokered ceasefire meant to end the conflict between Israel and Hezbollah.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-07T13:39:23+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/73bc/live/047b0dc0-aa8d-11f1-b109-879e35c24276.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Financial Times",
+      "France24",
+      "MyJoyOnline Ghana",
+      "Tehran Times",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c5yl96vz0edo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260907-israeli-strikes-on-southern-lebanon-kill-11"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-iran-war-live-updates-israel-strikes-lebanon-hezbollah-donald-trump-netanyahu-september-7-2026/article71437351.ece"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/israeli-strikes-in-southern-lebanese-village-kill-12/"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529809/Aramco-facilities-in-Jizan-burn-as-Yemeni-forces-advance"
+      },
+      {
+        "name": "Financial Times",
+        "link": "https://tass.com/world/2183665"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/73bc/live/047b0dc0-aa8d-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/73bc/live/047b0dc0-aa8d-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/73bc/live/047b0dc0-aa8d-11f1-b109-879e35c24276.jpg",
+      "https://s.france24.com/media/display/6c410c12-aac3-11f1-ba63-005056a97e36/w:1024/p:16x9/minilebanon.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-888.png",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-889.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 818.9172817961111,
+    "is_stale": false,
+    "score": 24.656377883496802
+  }
+}

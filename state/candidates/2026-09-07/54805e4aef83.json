@@ -1,0 +1,85 @@
+{
+  "id": "54805e4aef83",
+  "created_at": "2026-09-07T19:08:10.509731+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.41,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia and North Korea open first road bridge across their shared border",
+  "link": "https://www.theguardian.com/world/2026/sep/07/russia-north-korea-open-first-road-bridge-tumen-river",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia",
+    "Meduza English",
+    "Reuters",
+    "South China Morning Post",
+    "TASS",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Russia and North Korea open first road bridge across their shared border",
+    "link": "https://www.theguardian.com/world/2026/sep/07/russia-north-korea-open-first-road-bridge-tumen-river",
+    "summary": "Connection across Tumen River is further sign of closer ties between the two countries since start of war in Ukraine Russia and North Korea have opened the first road bridge across their shared border , in the latest sign of the rapidly deepening ties between the two countries since the start of the war in Ukraine. The one-kilometre bridge spans the Tumen River between Khasan in Russia’s far east and Tumangang in North Korea, along a remote and sparsely populated stretch of the countries’ shared border just a few miles from the coast. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-07T09:53:53+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/02ab90d34f797f0e25c81421ef84944b67018c7f/760_0_1800_1440/master/1800.jpg?width=700&quality=85&auto=format&fit=max&s=3372aaaf8bf235a34371d8effd203be1",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia",
+      "Meduza English",
+      "Reuters",
+      "South China Morning Post",
+      "TASS",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/07/russia-north-korea-open-first-road-bridge-tumen-river"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/7/russia-and-north-korea-deepen-relations-with-symbolic-road-bridge?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/east-asia/article/3366679/north-korea-russia-open-first-road-bridge-new-symbol-friendship?utm_source=rss_feed"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/07/russia-and-north-korea-open-first-road-bridge-between-the-two-countries"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/russia-north-korea-first-road-bridge-6367571"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/economy/2183495"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/02ab90d34f797f0e25c81421ef84944b67018c7f/760_0_1800_1440/master/1800.jpg?width=700&quality=85&auto=format&fit=max&s=3372aaaf8bf235a34371d8effd203be1",
+      "https://i.guim.co.uk/img/media/02ab90d34f797f0e25c81421ef84944b67018c7f/760_0_1800_1440/master/1800.jpg?width=460&quality=85&auto=format&fit=max&s=ac326a7d809c288bfc4b177294979e2c",
+      "https://i.guim.co.uk/img/media/02ab90d34f797f0e25c81421ef84944b67018c7f/760_0_1800_1440/master/1800.jpg?width=140&quality=85&auto=format&fit=max&s=59d8a57744cc4913de65e6089c954604",
+      "https://meduza.io/imgly/share/1788768732/en/news/2026/09/07/russia-and-north-korea-open-first-road-bridge-between-the-two-countries",
+      "https://meduza.io/image/attachments/images/012/723/993/small/SuGUHSEuhwb5T2lfpvShoA",
+      "https://dam.mediacorp.sg/image/upload/s--gD43jJQw--/c_crop,h_576,w_1024,x_0,y_0/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/07/000_c7jz863.jpg?itok=g1rcP-QX"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 818.9172772699999,
+    "is_stale": false,
+    "score": 30.406332926302444
+  }
+}
