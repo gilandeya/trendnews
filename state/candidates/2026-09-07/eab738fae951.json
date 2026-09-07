@@ -1,0 +1,62 @@
+{
+  "id": "eab738fae951",
+  "created_at": "2026-09-07T12:07:56.748187+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.09,
+  "trend_score": 0.2,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korea’s Kim Jong Un says new destroyer will be part of nuclear response system",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-07-north-koreas-kim-jong-un-says-new-destroyer-will-be-part-of-nuclear-response-system/",
+  "publishers": [
+    "Daily Maverick",
+    "TASS",
+    "The Japan Times"
+  ],
+  "region": "za",
+  "article": {
+    "title": "North Korea’s Kim Jong Un says new destroyer will be part of nuclear response system",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-07-north-koreas-kim-jong-un-says-new-destroyer-will-be-part-of-nuclear-response-system/",
+    "summary": "SEOUL, Sept 7 (Reuters) - North Korean leader Kim Jong Un said the country's newest destroyer would be part of a nuclear response system and could deliver \"annihilating retaliatory strikes\", state media KCNA reported on Monday, although it did not say whether the vessel would carry nuclear weapons.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-07T01:21:40+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2997/13902875_947216.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "TASS",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-07-north-koreas-kim-jong-un-says-new-destroyer-will-be-part-of-nuclear-response-system/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/07/asia-pacific/north-korea-destroyer-nuclear-response/"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2183443"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2997/13902875_947216.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/07/561584.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/07/thumbs/400x400/561584.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.2,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 811.9134376033334,
+    "is_stale": false,
+    "score": 20.08695135177458
+  }
+}

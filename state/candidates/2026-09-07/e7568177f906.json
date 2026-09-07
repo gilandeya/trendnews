@@ -1,0 +1,62 @@
+{
+  "id": "e7568177f906",
+  "created_at": "2026-09-07T12:07:56.748467+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.7,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UN warns wildfires, heatwaves threaten air quality and health",
+  "link": "https://www.thehindu.com/sci-tech/energy-and-environment/un-warns-wildfires-heatwaves-threaten-air-quality-and-health/article71437455.ece",
+  "publishers": [
+    "Daily Sabah",
+    "France24",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "UN warns wildfires, heatwaves threaten air quality and health",
+    "link": "https://www.thehindu.com/sci-tech/energy-and-environment/un-warns-wildfires-heatwaves-threaten-air-quality-and-health/article71437455.ece",
+    "summary": "Wildfires and heatwaves are posing a growing threat to air quality and public health, with toxic smoke and microscopic pollutants potentially undermining efforts to tackle air pollution and climate change, the World Meteorological Organization (WMO) said",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-07T06:51:04+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/6nji5f/article71437462.ece/alternates/LANDSCAPE_1200/2026-09-07T040014Z_498376273_RC2YDNAK24R2_RTRMADP_3_CLIMATE-CHANGE-WMO.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Daily Sabah",
+      "France24",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/environment/20260907-wildfires-heatwaves-global-air-quality-health-un"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/sci-tech/energy-and-environment/un-warns-wildfires-heatwaves-threaten-air-quality-and-health/article71437455.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/wmo-warns-wildfires-heatwaves-threaten-global-air-quality-gains"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/6nji5f/article71437462.ece/alternates/LANDSCAPE_1200/2026-09-07T040014Z_498376273_RC2YDNAK24R2_RTRMADP_3_CLIMATE-CHANGE-WMO.JPG",
+      "https://s.france24.com/media/display/f7fe2724-9ee0-11f1-b91a-005056bfb2b6/w:1024/p:16x9/000-C6626WG.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/07/459430.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 811.9134527638888,
+    "is_stale": false,
+    "score": 18.702951350348656
+  }
+}

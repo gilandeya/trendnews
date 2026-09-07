@@ -1,0 +1,56 @@
+{
+  "id": "a85a3cd06c96",
+  "created_at": "2026-09-07T12:07:56.748739+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.61,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korea commissions 2nd naval destroyer as U.S., South Korea, Japan begin military drill",
+  "link": "https://www.thehindu.com/news/international/north-korea-commissions-2nd-naval-destroyer-as-us-south-korea-japan-begin-military-drill/article71437306.ece",
+  "publishers": [
+    "AP News",
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "North Korea commissions 2nd naval destroyer as U.S., South Korea, Japan begin military drill",
+    "link": "https://www.thehindu.com/news/international/north-korea-commissions-2nd-naval-destroyer-as-us-south-korea-japan-begin-military-drill/article71437306.ece",
+    "summary": "Kim Jong Un has previously said he could return to talks if the U.S. drops its “hostile policy” against North Korea and respects what he calls North Korea's status as a nuclear state",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-07T05:27:25+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/6fwu92/article71437369.ece/alternates/LANDSCAPE_1200/2026-09-06T232121Z_1243590622_RC2XDNAO34KD_RTRMADP_3_NORTHKOREA-WARSHIP.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "AP News",
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/north-korea-commissions-2nd-naval-destroyer-as-us-south-korea-japan-begin-military-drill/article71437306.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/north-korea-commissions-2nd-naval-destroyer-as-us-south-korea-and-japan-begin-a-military-drill-101788741885812.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/6fwu92/article71437369.ece/alternates/LANDSCAPE_1200/2026-09-06T232121Z_1243590622_RC2XDNAO34KD_RTRMADP_3_NORTHKOREA-WARSHIP.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 811.9134549719445,
+    "is_stale": false,
+    "score": 18.610006903941247
+  }
+}
