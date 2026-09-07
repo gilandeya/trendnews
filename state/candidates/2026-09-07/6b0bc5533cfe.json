@@ -1,0 +1,56 @@
+{
+  "id": "6b0bc5533cfe",
+  "created_at": "2026-09-07T17:07:54.692978+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.18,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Philippines’ Teodoro says China could exploit cuts in US-South Korean exercises",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-07-philippines-teodoro-says-china-could-exploit-cuts-in-us-south-korean-exercises/",
+  "publishers": [
+    "Daily Maverick",
+    "The Japan Times"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Philippines’ Teodoro says China could exploit cuts in US-South Korean exercises",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-07-philippines-teodoro-says-china-could-exploit-cuts-in-us-south-korean-exercises/",
+    "summary": "China could see recent cuts to U.S.-South Korean military exercises as an opportunity to reassert itself in the Indo-Pacific, Philippine Defense Secretary Gilberto Teodoro said on Monday, though he said Washington had assured Manila that its commitments to the Philippines remained unchanged",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-07T13:06:30+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2997/14191698_424157.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-07-philippines-teodoro-says-china-could-exploit-cuts-in-us-south-korean-exercises/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/07/asia-pacific/philippine-defense-chief-us-sk-drills/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2997/14191698_424157.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/07/561737.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/07/thumbs/400x400/561737.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 816.9130854383334,
+    "is_stale": false,
+    "score": 17.18190393812963
+  }
+}
