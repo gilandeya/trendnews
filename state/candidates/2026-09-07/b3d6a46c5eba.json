@@ -1,0 +1,48 @@
+{
+  "id": "b3d6a46c5eba",
+  "created_at": "2026-09-07T03:08:02.460677+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.75,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Google's AI answer engine is quietly strangling open web",
+  "link": "https://www.dailysabah.com/opinion/op-ed/googles-ai-answer-engine-is-quietly-strangling-open-web",
+  "publishers": [
+    "Daily Sabah"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Google's AI answer engine is quietly strangling open web",
+    "link": "https://www.dailysabah.com/opinion/op-ed/googles-ai-answer-engine-is-quietly-strangling-open-web",
+    "summary": "On Aug. 20, Google unveiled a small, almost bureaucratic-sounding feature: a 'Preferred Sources' button that publishers can embed on their own websites so readers can flag them as...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-06T21:05:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/06/459316.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/opinion/op-ed/googles-ai-answer-engine-is-quietly-strangling-open-web"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/06/459316.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 5.0042510911111115,
+    "is_stale": false,
+    "score": 16.7467559177037
+  }
+}
