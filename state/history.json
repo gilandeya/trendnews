@@ -1,46 +1,5 @@
 [
   {
-    "score": 16.57,
-    "bucket": "serious",
-    "tokens": [
-      "américa",
-      "app",
-      "apple",
-      "batalla",
-      "cambian",
-      "competidor",
-      "dispara",
-      "google",
-      "lago",
-      "los",
-      "mapas",
-      "ontario",
-      "por"
-    ],
-    "link": "https://elpais.com/tecnologia/2026-09-02/la-batalla-de-los-mapas-google-y-apple-cambian-el-lago-ontario-por-el-lago-america-y-se-disparan-las-apps-de-sus-competidores.html",
-    "title": "La batalla de los mapas: Google y Apple cambian el lago Ontario por el lago América y se dispara la ‘app’ de su competidor",
-    "posted_title": "غوغل وآبل يغيّران اسم بحيرة أونتاريو إلى \"بحيرة أمريكا\" في خرائطهما",
-    "region": "es",
-    "seen_at": "2026-09-02T19:11:40.055280+00:00"
-  },
-  {
-    "score": 30.77,
-    "bucket": "serious",
-    "tokens": [
-      "hormuz",
-      "president",
-      "renaming",
-      "strait",
-      "suggests",
-      "trump"
-    ],
-    "link": "https://www.dawn.com/news/2026967/us-president-trump-suggests-renaming-strait-of-hormuz-as-trump-strait",
-    "title": "US President Trump suggests renaming Strait of Hormuz as ‘Trump Strait’",
-    "posted_title": "بعد بحيرة أونتاريو وخليج المكسيك.. ترامب يريد إطلاق اسمه على مضيق هرمز",
-    "region": "pk",
-    "seen_at": "2026-09-02T19:12:00.828371+00:00"
-  },
-  {
     "score": 27.22,
     "bucket": "serious",
     "tokens": [
@@ -5563,5 +5522,103 @@
     "posted_title": "",
     "region": "de",
     "seen_at": "2026-09-07T19:08:10.511325+00:00"
+  },
+  {
+    "score": 17.88,
+    "bucket": "sport",
+    "tokens": [
+      "aside",
+      "finals",
+      "live",
+      "open",
+      "osaka",
+      "quarter",
+      "reach",
+      "rybakina",
+      "swats"
+    ],
+    "link": "https://www.skysports.com/tennis/live-blog/12040/13582595/us-open-live-scores-updates-news-and-results-from-new-york-with-naomi-osaka-iga-swiatek-coco-gauff-and-alexander-zverev-in-action",
+    "title": "US Open LIVE! Rybakina swats Osaka aside to reach quarter-finals",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-07T22:07:53.792976+00:00"
+  },
+  {
+    "score": 17.28,
+    "bucket": "serious",
+    "tokens": [
+      "ban",
+      "children",
+      "don't",
+      "estonia",
+      "media",
+      "social",
+      "tells"
+    ],
+    "link": "https://www.channelnewsasia.com/world/dont-ban-children-social-media-estonia-tells-eu-6368126",
+    "title": "Don't ban children from social media, Estonia tells EU",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-07T22:07:53.793252+00:00"
+  },
+  {
+    "score": 16.58,
+    "bucket": "serious",
+    "tokens": [
+      "china's",
+      "floods",
+      "grow",
+      "identifies",
+      "killed",
+      "nepal",
+      "questions",
+      "reporting",
+      "those"
+    ],
+    "link": "https://www.npr.org/2026/09/07/nx-s1-5960357/nepal-floods-questions-over-chinas-reporting",
+    "title": "As Nepal identifies those killed in the floods, questions grow over China's reporting",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-09-07T22:07:53.793530+00:00"
+  },
+  {
+    "score": 16.55,
+    "bucket": "serious",
+    "tokens": [
+      "devices",
+      "eastern",
+      "explosive",
+      "find",
+      "german",
+      "grid",
+      "near",
+      "police",
+      "power",
+      "state"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/07/police-in-eastern-german-state-find-21-explosive-devices-near-power-grid",
+    "title": "Police in Eastern German state find 21 explosive devices near power grid",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-07T22:07:53.793776+00:00"
+  },
+  {
+    "score": 16.49,
+    "bucket": "serious",
+    "tokens": [
+      "canal",
+      "chief",
+      "considers",
+      "cuts",
+      "due",
+      "nino",
+      "panama",
+      "transits"
+    ],
+    "link": "https://www.scmp.com/news/world/americas/article/3366692/new-panama-canal-chief-considers-more-cuts-transits-due-el-nino?utm_source=rss_feed",
+    "title": "New Panama Canal chief considers more cuts in transits due to El Nino",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-07T22:07:53.794037+00:00"
   }
 ]

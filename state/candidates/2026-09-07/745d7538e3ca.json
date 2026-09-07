@@ -1,0 +1,52 @@
+{
+  "id": "745d7538e3ca",
+  "created_at": "2026-09-07T22:07:53.793786+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.49,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "New Panama Canal chief considers more cuts in transits due to El Nino",
+  "link": "https://www.scmp.com/news/world/americas/article/3366692/new-panama-canal-chief-considers-more-cuts-transits-due-el-nino?utm_source=rss_feed",
+  "publishers": [
+    "Hindustan Times — World",
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "New Panama Canal chief considers more cuts in transits due to El Nino",
+    "link": "https://www.scmp.com/news/world/americas/article/3366692/new-panama-canal-chief-considers-more-cuts-transits-due-el-nino?utm_source=rss_feed",
+    "summary": "The number of ships sailing through the Panama Canal could be cut further due to drought caused by the El Nino weather pattern, the new administrator of the waterway told Agence France-Presse on Monday. Panama has declared a nationwide emergency over El Nino, a phenomenon developing over the Pacific Ocean that is affecting worldwide weather patterns and pushing up global temperatures. This year’s El Nino is expected to be the strongest since record-keeping began four decades ago. Panama’s...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-09-07T19:43:10+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/americas/article/3366692/new-panama-canal-chief-considers-more-cuts-transits-due-el-nino?utm_source=rss_feed"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/panama-canal-considering-more-cuts-in-transits-due-to-el-nino-101788808081438.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 821.9130373680555,
+    "is_stale": false,
+    "score": 16.489320834111112
+  }
+}

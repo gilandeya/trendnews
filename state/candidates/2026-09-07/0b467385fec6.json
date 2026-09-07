@@ -1,0 +1,55 @@
+{
+  "id": "0b467385fec6",
+  "created_at": "2026-09-07T22:07:53.792615+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.88,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "US Open LIVE! Rybakina swats Osaka aside to reach quarter-finals",
+  "link": "https://www.skysports.com/tennis/live-blog/12040/13582595/us-open-live-scores-updates-news-and-results-from-new-york-with-naomi-osaka-iga-swiatek-coco-gauff-and-alexander-zverev-in-action",
+  "publishers": [
+    "Channel News Asia",
+    "Sky Sports — Football"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "US Open LIVE! Rybakina swats Osaka aside to reach quarter-finals",
+    "link": "https://www.skysports.com/tennis/live-blog/12040/13582595/us-open-live-scores-updates-news-and-results-from-new-york-with-naomi-osaka-iga-swiatek-coco-gauff-and-alexander-zverev-in-action",
+    "summary": "",
+    "source_name": "Sky Sports — Football",
+    "region": "sport",
+    "weight": 1.0,
+    "published": "2026-09-07T15:50:00+00:00",
+    "image_url": "https://e0.365dm.com/26/09/1096x616/skysports-elena-rybakina-us-open-tennis_7344633.jpg?20260907224617",
+    "publisher": "Sky Sports — Football",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Sky Sports — Football"
+    ],
+    "cluster_members": [
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/tennis/live-blog/12040/13582595/us-open-live-scores-updates-news-and-results-from-new-york-with-naomi-osaka-iga-swiatek-coco-gauff-and-alexander-zverev-in-action"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/rybakina-thumps-osaka-reach-us-open-quarters-close-in-top-ranking-6368111"
+      }
+    ],
+    "image_candidates": [
+      "https://e0.365dm.com/26/09/1096x616/skysports-elena-rybakina-us-open-tennis_7344633.jpg?20260907224617",
+      "https://e0.365dm.com/26/09/1920x1080/skysports-elena-rybakina-us-open-tennis_7344633.jpg?20260907224617"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 821.9128803191667,
+    "is_stale": true,
+    "score": 17.880246773777777
+  }
+}

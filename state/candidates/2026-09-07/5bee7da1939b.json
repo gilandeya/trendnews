@@ -1,0 +1,50 @@
+{
+  "id": "5bee7da1939b",
+  "created_at": "2026-09-07T22:07:53.793539+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.55,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Police in Eastern German state find 21 explosive devices near power grid",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/09/07/police-in-eastern-german-state-find-21-explosive-devices-near-power-grid",
+  "publishers": [
+    "Free Malaysia Today",
+    "Reuters"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Police in Eastern German state find 21 explosive devices near power grid",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/07/police-in-eastern-german-state-find-21-explosive-devices-near-power-grid",
+    "summary": "Germany experienced a series of sabotage incidents on the power grid last week following an August drone attack at Leipzig/Halle that the government formally blamed on Russia.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-07T13:09:43+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2025/02/b1e2168a-germany-police-epa-260225.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/07/police-in-eastern-german-state-find-21-explosive-devices-near-power-grid"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/02/b1e2168a-germany-police-epa-260225.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 821.9130293402778,
+    "is_stale": false,
+    "score": 16.55215416772222
+  }
+}
