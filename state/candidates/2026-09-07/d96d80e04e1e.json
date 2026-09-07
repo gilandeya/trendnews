@@ -1,0 +1,61 @@
+{
+  "id": "d96d80e04e1e",
+  "created_at": "2026-09-07T18:08:04.784456+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.77,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US envoy sees ‘movement’ toward more talks with Russia, Ukraine",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/09/08/us-envoy-sees-movement-toward-more-talks-with-russia-ukraine",
+  "publishers": [
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "NDTV — World"
+  ],
+  "region": "my",
+  "article": {
+    "title": "US envoy sees ‘movement’ toward more talks with Russia, Ukraine",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/08/us-envoy-sees-movement-toward-more-talks-with-russia-ukraine",
+    "summary": "US Special Envoy Steve Witkoff says substantive progress was made, including movement on scheduling three-way peace talks aimed at ending Europe's deadliest conflict since World War II.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-07T16:02:51+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/09/95e1bca8-cbe8-4110-92e1-840a04642a4f-14269072_cropped_1.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/russia-ukraine-war-russia-not-ruling-out-three-way-peace-talks-with-ukraine-us-kremlin-12013794#publisher=newsstand"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-envoy-sees-movement-toward-three-way-talks-with-russia-ukraine-101788796442344.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/08/us-envoy-sees-movement-toward-more-talks-with-russia-ukraine"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/09/95e1bca8-cbe8-4110-92e1-840a04642a4f-14269072_cropped_1.webp",
+      "https://c.ndtvimg.com/2025-03/105ucbvg_putin-zelensky-ndtv-_625x300_02_March_25.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 817.9157576908333,
+    "is_stale": false,
+    "score": 18.765888703885693
+  }
+}

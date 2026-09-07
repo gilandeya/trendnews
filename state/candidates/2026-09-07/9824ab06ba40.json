@@ -1,0 +1,55 @@
+{
+  "id": "9824ab06ba40",
+  "created_at": "2026-09-07T18:08:04.785301+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.78,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Lebanon president calls for US help after deadly Israeli strikes",
+  "link": "https://www.france24.com/en/video/20260907-lebanon-president-calls-for-us-help-after-deadly-israeli-strikes",
+  "publishers": [
+    "France24",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Lebanon president calls for US help after deadly Israeli strikes",
+    "link": "https://www.france24.com/en/video/20260907-lebanon-president-calls-for-us-help-after-deadly-israeli-strikes",
+    "summary": "Lebanese President Joseph Aoun has urged Washington and the international community to help stop Israeli attacks, with strikes on the south of the country killing at least 11 people on Sunday despite a truce and a framework deal aimed at halting the violence.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-07T10:21:29+00:00",
+    "image_url": "https://s.france24.com/media/display/d92f0c26-aaa4-11f1-94d1-005056bfb2b6/w:1024/p:16x9/EN-20260907-103843-104014-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/lebanon-president-calls-for-us-help-as-israeli-strikes-kill-7/article71436321.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260907-lebanon-president-calls-for-us-help-after-deadly-israeli-strikes"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/d92f0c26-aaa4-11f1-94d1-005056bfb2b6/w:1024/p:16x9/EN-20260907-103843-104014-CS.jpg",
+      "https://th-i.thgim.com/public/incoming/vohst9/article71436361.ece/alternates/LANDSCAPE_1200/2026-09-06T085755Z_135125654_RC2HDNADNH7R_RTRMADP_3_ISRAEL-PALESTINIANS-LEBANON-ATTACKS.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 817.9158393175,
+    "is_stale": false,
+    "score": 16.781704898129632
+  }
+}

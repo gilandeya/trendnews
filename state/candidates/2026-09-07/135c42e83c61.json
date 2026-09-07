@@ -1,0 +1,64 @@
+{
+  "id": "135c42e83c61",
+  "created_at": "2026-09-07T18:08:04.784035+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.54,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(2nd LD) S. Korea, U.S., Japan highlight firm 3-way security cooperation as joint drills kick off",
+  "link": "https://en.yna.co.kr/view/AEN20260907002352315",
+  "publishers": [
+    "Mehr News",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(2nd LD) S. Korea, U.S., Japan highlight firm 3-way security cooperation as joint drills kick off",
+    "link": "https://en.yna.co.kr/view/AEN20260907002352315",
+    "summary": "YOKOTA AIR BASE/SEOUL, Sept. 7 (Yonhap) -- South Korea, the United States and Ja...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-07T06:40:18+00:00",
+    "image_url": "https://img.yna.co.kr/photo/yna/YH/2025/09/17/PYH2025091704480001300_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Mehr News",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260907002300315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260907002351315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260907002352315"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247517/US-South-Korea-Japan-kick-off-5-day-joint-military-exercise"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/yna/YH/2025/09/17/PYH2025091704480001300_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/07/AEN20260907002352315_01_i_P2.jpg",
+      "https://media.mehrnews.com/d/2026/09/07/4/6164611.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 817.9157459719444,
+    "is_stale": false,
+    "score": 20.53594565014815
+  }
+}

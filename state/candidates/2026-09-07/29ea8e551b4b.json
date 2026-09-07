@@ -1,0 +1,63 @@
+{
+  "id": "29ea8e551b4b",
+  "created_at": "2026-09-07T18:08:04.784762+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.45,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran warns South Korea against involvement in Hormuz",
+  "link": "https://www.japantimes.co.jp/news/2026/09/07/world/iran-south-korea-hormuz/",
+  "publishers": [
+    "IRNA English",
+    "Tehran Times",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Iran warns South Korea against involvement in Hormuz",
+    "link": "https://www.japantimes.co.jp/news/2026/09/07/world/iran-south-korea-hormuz/",
+    "summary": "On Friday, Seoul said it was considering \"contributions\" to U.S. security efforts in the strategic Strait of Hormuz.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-09-07T11:17:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/07/561739.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "IRNA English",
+      "Tehran Times",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/07/world/iran-south-korea-hormuz/"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529812/Iran-warns-South-Korea-against-military-role-in-Persian-Gulf"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86257207/Iran-warns-South-Korea-over-military-presence-in-Persian-Gulf"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/07/561739.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/07/thumbs/400x400/561739.jpg",
+      "https://media.mehrnews.com/d/2026/09/07/4/6165257.jpg",
+      "https://img9.irna.ir/d/r1/2026/08/24/4/173060174.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 817.9157680388889,
+    "is_stale": false,
+    "score": 18.448277593070877
+  }
+}
