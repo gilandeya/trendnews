@@ -1,0 +1,48 @@
+{
+  "id": "ee9209561240",
+  "created_at": "2026-09-08T18:08:00.122205+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 13.3,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Le manque d’eau se fait toujours sévèrement sentir en France malgré quelques pluies",
+  "link": "https://www.lemonde.fr/planete/article/2026/09/08/le-manque-d-eau-se-fait-toujours-severement-sentir-en-france-malgre-quelques-pluies_6768414_3244.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Le manque d’eau se fait toujours sévèrement sentir en France malgré quelques pluies",
+    "link": "https://www.lemonde.fr/planete/article/2026/09/08/le-manque-d-eau-se-fait-toujours-severement-sentir-en-france-malgre-quelques-pluies_6768414_3244.html",
+    "summary": "Loin de se dissiper avec les précipitations de la fin d’été, la sécheresse perdure et s’accroît à travers le pays. De grosses incertitudes pèsent sur la recharge automnale des nappes sous des sols devenus très secs.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-09-08T15:48:25+00:00",
+    "image_url": "https://img.lemde.fr/2026/08/29/560/0/6720/3360/644/322/60/0/11138f1_upload-1-bni3ejamu7pd-vn20260826-figeac-eau-092.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/planete/article/2026/09/08/le-manque-d-eau-se-fait-toujours-severement-sentir-en-france-malgre-quelques-pluies_6768414_3244.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/08/29/560/0/6720/3360/644/322/60/0/11138f1_upload-1-bni3ejamu7pd-vn20260826-figeac-eau-092.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.9979624052777778,
+    "is_stale": false,
+    "score": 13.295037158907409
+  }
+}

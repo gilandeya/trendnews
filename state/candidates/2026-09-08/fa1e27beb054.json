@@ -1,0 +1,56 @@
+{
+  "id": "fa1e27beb054",
+  "created_at": "2026-09-08T18:08:00.121002+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.63,
+  "trend_score": 0.0,
+  "velocity": 0.33,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "World's most endangered tigers born in Greece as zoos build a safety net",
+  "link": "https://phys.org/news/2026-09-world-endangered-tigers-born-greece.html",
+  "publishers": [
+    "AP News",
+    "Phys.org",
+    "South China Morning Post"
+  ],
+  "region": "science",
+  "article": {
+    "title": "World's most endangered tigers born in Greece as zoos build a safety net",
+    "link": "https://phys.org/news/2026-09-world-endangered-tigers-born-greece.html",
+    "summary": "The world's most endangered tigers have started a family in Greece, offering hope for a predator rapidly vanishing from the wild.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-09-08T16:40:01+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/worlds-most-endangered.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "AP News",
+      "Phys.org",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3366823/endangered-sumatran-tigers-born-greece-zoos-build-safety-net?utm_source=rss_feed"
+      },
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-09-world-endangered-tigers-born-greece.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/worlds-most-endangered.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 0.33403017232584026,
+    "age_hours": 0.9979138441666666,
+    "is_stale": false,
+    "score": 15.627408857959336
+  }
+}
