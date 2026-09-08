@@ -1,0 +1,76 @@
+{
+  "id": "c260809ec5c6",
+  "created_at": "2026-09-08T03:07:51.360285+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.31,
+  "trend_score": 1.0,
+  "velocity": 0.27,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Paris investigates claim of women being removed during Hindu delegation visit at Eiffel Tower",
+  "link": "https://www.thehindu.com/news/international/paris-investigates-claim-of-women-being-removed-during-hindu-delegation-visit-at-eiffel-tower/article71440426.ece",
+  "publishers": [
+    "Al Jazeera English",
+    "France24",
+    "Free Malaysia Today",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Paris investigates claim of women being removed during Hindu delegation visit at Eiffel Tower",
+    "link": "https://www.thehindu.com/news/international/paris-investigates-claim-of-women-being-removed-during-hindu-delegation-visit-at-eiffel-tower/article71440426.ece",
+    "summary": "“As the delegation ‌passed ⁠through, women were asked to leave their workstations so that ⁠men could take their places,” Diane Davoine, a union representative, told Reuters.",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-07T22:50:41+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/pc9vok/article71440427.ece/alternates/LANDSCAPE_1200/2026-09-07T153742Z_377191714_RC2FENAA13CQ_RTRMADP_3_FRANCE-EIFFEL-TOWER.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "France24",
+      "Free Malaysia Today",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/8/eiffel-tower-closed-in-row-over-women-removed-for-hindu-group?traffic_source=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/eiffel-tower-closed-in-row-over-women-removed-for-hindu-group"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/paris-investigates-claim-of-women-being-removed-during-hindu-delegation-visit-at-eiffel-tower/article71440426.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/08/eiffel-tower-closed-in-row-over-women-removed-for-hindu-group"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/08/world/eiffel-tower-women-hindu-group/"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/pc9vok/article71440427.ece/alternates/LANDSCAPE_1200/2026-09-07T153742Z_377191714_RC2FENAA13CQ_RTRMADP_3_FRANCE-EIFFEL-TOWER.JPG",
+      "https://s.france24.com/media/display/5eb8f834-aadc-11f1-8297-005056a90284/w:1024/p:16x9/000-C79B3WE.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/04/5c797702-eiffel-tower.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/08/561771.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/08/thumbs/400x400/561771.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.26673511356415835,
+    "age_hours": 826.9118298258334,
+    "is_stale": false,
+    "score": 25.313868950205098
+  }
+}

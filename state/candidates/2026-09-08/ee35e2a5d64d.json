@@ -1,0 +1,56 @@
+{
+  "id": "ee35e2a5d64d",
+  "created_at": "2026-09-08T03:07:51.361658+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.2,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Assad regime built reactor capable of weapons use in Syria: IAEA",
+  "link": "https://www.dailysabah.com/world/mid-east/assad-regime-built-reactor-capable-of-weapons-use-in-syria-iaea",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "aljazeera.com"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Assad regime built reactor capable of weapons use in Syria: IAEA",
+    "link": "https://www.dailysabah.com/world/mid-east/assad-regime-built-reactor-capable-of-weapons-use-in-syria-iaea",
+    "summary": "Syria’s ousted Assad regime was building a nuclear reactor designed to produce fissile material that could potentially have been used for nuclear weapons, the head of the U.N. nucl...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-07T16:30:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/07/459593.JPG",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "aljazeera.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/7/syrias-assad-era-reactor-configured-for-nuclear-weapons-iaea?traffic_source=rss"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/assad-regime-built-reactor-capable-of-weapons-use-in-syria-iaea"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/07/459593.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 826.9119332838889,
+    "is_stale": false,
+    "score": 18.196315106200505
+  }
+}
