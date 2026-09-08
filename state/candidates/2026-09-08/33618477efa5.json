@@ -1,0 +1,85 @@
+{
+  "id": "33618477efa5",
+  "created_at": "2026-09-08T12:08:02.581918+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.62,
+  "trend_score": 1.0,
+  "velocity": 0.67,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran after 9/11",
+  "link": "https://en.mehrnews.com/news/247554/Iran-after-9-11",
+  "publishers": [
+    "Al Jazeera English",
+    "Dawn",
+    "IRNA English",
+    "Le Monde",
+    "Mehr News",
+    "The Japan Times",
+    "what’s moving markets"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran after 9/11",
+    "link": "https://en.mehrnews.com/news/247554/Iran-after-9-11",
+    "summary": "TEHRAN, Sep. 08 (MNA) – After 9/11, the United States sought to reorder the Middle East by force. Instead, its invasions of Afghanistan and Iraq toppled two of Iran’s greatest enemies, paving the way for Tehran’s unprecedented regional rise.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-08T10:08:27+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/01/20/4/5873932.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Dawn",
+      "IRNA English",
+      "Le Monde",
+      "Mehr News",
+      "The Japan Times",
+      "what’s moving markets"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/8/as-fuel-prices-rise-again-irans-government-urges-citizens-to-cut-back?traffic_source=rss"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247554/Iran-after-9-11"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247536/Washington-received-clear-warning-from-new-Iran-missiles"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86258020/Top-security-official-Washington-has-received-clear-warning"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/09/08/l-iran-brandit-la-menace-d-une-escalade-militaire-pour-briser-le-blocus-americain_6768197_3210.html"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2028333/why-has-oil-stayed-below-100-a-barrel-despite-supply-disruptions-amid-us-iran-escalation"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/01/20/4/5873932.jpg",
+      "https://media.mehrnews.com/d/2026/09/02/4/6159201.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/08/4/173093124.jpg",
+      "https://img.lemde.fr/2026/09/06/648/0/7779/3889/644/322/60/0/33ad963_ftp-1-r2snq2rjv8wq-5013880-01-06.jpg",
+      "https://i.dawn.com/large/2026/09/08104929e519f0f.webp",
+      "https://i.dawn.com/thumbnail/2026/09/08104929e519f0f.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.6659514301443668,
+    "age_hours": 6.000490881944445,
+    "is_stale": false,
+    "score": 28.619079618968726
+  }
+}

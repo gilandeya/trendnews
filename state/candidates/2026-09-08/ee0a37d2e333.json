@@ -1,0 +1,77 @@
+{
+  "id": "ee0a37d2e333",
+  "created_at": "2026-09-08T12:08:02.582644+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.07,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Canada braces for prolonged trade war as counter-tariffs on US take effect",
+  "link": "https://www.bbc.co.uk/news/articles/c8jdev0422jo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Dawn",
+    "France24",
+    "The Express Tribune",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Canada braces for prolonged trade war as counter-tariffs on US take effect",
+    "link": "https://www.bbc.co.uk/news/articles/c8jdev0422jo?at_medium=RSS&at_campaign=rss",
+    "summary": "The tariffs will apply to $20bn worth of American products, jeopardising the stability of the world's largest bilateral trading relationship.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-08T04:39:14+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4970/live/57d86dc0-ab49-11f1-9191-cd98112fd46c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Dawn",
+      "France24",
+      "The Express Tribune",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/07/canada-tariffs-us-trump"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c8jdev0422jo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2028326/canadas-retaliatory-tariffs-take-effect-as-us-trade-talks-stall"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628083/canadas-retaliatory-tariffs-take-effect-as-us-trade-talks-stall"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260908-canada-s-counter-tariffs-take-effect-on-several-us-goods-as-trade-war-reignites"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4970/live/57d86dc0-ab49-11f1-9191-cd98112fd46c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/4970/live/57d86dc0-ab49-11f1-9191-cd98112fd46c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4970/live/57d86dc0-ab49-11f1-9191-cd98112fd46c.jpg",
+      "https://i.guim.co.uk/img/media/3666a1ce74d1e19c28b75db6e1c1573cb4409fb5/213_0_3000_2400/master/3000.jpg?width=700&quality=85&auto=format&fit=max&s=75621e485e366cf9aa17c306f0acdb13",
+      "https://i.guim.co.uk/img/media/3666a1ce74d1e19c28b75db6e1c1573cb4409fb5/213_0_3000_2400/master/3000.jpg?width=460&quality=85&auto=format&fit=max&s=d7e13985353dbdfc815e54189f1ce5a7",
+      "https://i.guim.co.uk/img/media/3666a1ce74d1e19c28b75db6e1c1573cb4409fb5/213_0_3000_2400/master/3000.jpg?width=140&quality=85&auto=format&fit=max&s=ede34a542994aa71ffdff514d66fa400"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 835.9152951819444,
+    "is_stale": false,
+    "score": 21.067245679439864
+  }
+}

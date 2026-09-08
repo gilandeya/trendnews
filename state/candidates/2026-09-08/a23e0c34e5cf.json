@@ -1,0 +1,57 @@
+{
+  "id": "a23e0c34e5cf",
+  "created_at": "2026-09-08T12:08:02.583250+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.9,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia to close German consulate, Goethe centers",
+  "link": "https://news.cgtn.com/news/2026-09-08/Russia-to-close-German-consulate-Goethe-centers-1QgoN2DEiTS/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+  "publishers": [
+    "CGTN",
+    "TASS",
+    "dw.com"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Russia to close German consulate, Goethe centers",
+    "link": "https://news.cgtn.com/news/2026-09-08/Russia-to-close-German-consulate-Goethe-centers-1QgoN2DEiTS/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+    "summary": "Russia is closing the German Consulate General in St. Petersburg, the Russian Foreign Ministry said Monday.",
+    "source_name": "CGTN",
+    "region": "cn",
+    "weight": 0.7,
+    "published": "2026-09-08T01:31:41+00:00",
+    "image_url": "https://news.cgtn.com/news/2026-09-08/Russia-to-close-German-consulate-Goethe-centers-1QgoN2DEiTS/img/b17763bc62874d7685f54175c19d4106/b17763bc62874d7685f54175c19d4106-750.png",
+    "publisher": "CGTN",
+    "cluster_sources": [
+      "CGTN",
+      "TASS",
+      "dw.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "TASS",
+        "link": "https://tass.com/politics/2183787"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-08/Russia-to-close-German-consulate-Goethe-centers-1QgoN2DEiTS/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://news.cgtn.com/news/2026-09-08/Russia-to-close-German-consulate-Goethe-centers-1QgoN2DEiTS/img/b17763bc62874d7685f54175c19d4106/b17763bc62874d7685f54175c19d4106-750.png",
+      "https://news.cgtn.com/news/2026-09-08/Russia-to-close-German-consulate-Goethe-centers-1QgoN2DEiTS/img/b17763bc62874d7685f54175c19d4106/b17763bc62874d7685f54175c19d4106.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 835.9154104361112,
+    "is_stale": false,
+    "score": 17.89796000016347
+  }
+}

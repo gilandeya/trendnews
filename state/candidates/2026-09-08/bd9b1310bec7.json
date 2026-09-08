@@ -1,0 +1,60 @@
+{
+  "id": "bd9b1310bec7",
+  "created_at": "2026-09-08T12:08:02.582358+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.76,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iceland summons US ambassador after Trump posts map with island as part of US, says ministry",
+  "link": "https://www.malaymail.com/news/world/2026/09/08/iceland-summons-us-ambassador-after-trump-posts-map-with-island-as-part-of-us-says-ministry/234454",
+  "publishers": [
+    "Hindustan Times — World",
+    "Malay Mail",
+    "The Express Tribune"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Iceland summons US ambassador after Trump posts map with island as part of US, says ministry",
+    "link": "https://www.malaymail.com/news/world/2026/09/08/iceland-summons-us-ambassador-after-trump-posts-map-with-island-as-part-of-us-says-ministry/234454",
+    "summary": "STOCKHOLM, Sept 8 — Iceland’s foreign ministry said today it had summoned the US ambassador after President...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-08T09:59:44+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/08/361377.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Malay Mail",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628084/iceland-summons-us-ambassador-after-trump-posts-map-showing-island-under-american-flag"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iceland-summons-us-ambassador-after-trump-posts-map-showing-it-under-american-flag-101788860858896.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/08/iceland-summons-us-ambassador-after-trump-posts-map-with-island-as-part-of-us-says-ministry/234454"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/08/361377.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 835.9152231802778,
+    "is_stale": false,
+    "score": 22.7624600179968
+  }
+}

@@ -1,108 +1,5 @@
 [
   {
-    "score": 23.67,
-    "bucket": "serious",
-    "tokens": [
-      "286",
-      "abraham",
-      "brutal",
-      "day",
-      "deployment",
-      "docks",
-      "lincoln",
-      "thailand",
-      "uss"
-    ],
-    "link": "https://news.cgtn.com/news/2026-09-02/USS-Abraham-Lincoln-docks-in-Thailand-after-brutal-286-day-deployment-1Q6WnWwLxvO/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-    "title": "USS Abraham Lincoln docks in Thailand after brutal 286-day deployment",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-03T12:07:56.936587+00:00"
-  },
-  {
-    "score": 19.2,
-    "bucket": "serious",
-    "tokens": [
-      "attacks",
-      "despite",
-      "iran",
-      "targets",
-      "threats",
-      "trump"
-    ],
-    "link": "https://www.dawn.com/news/2027206/iran-attacks-us-targets-despite-trump-threats",
-    "title": "Iran attacks US targets despite Trump threats",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-03T12:07:56.936875+00:00"
-  },
-  {
-    "score": 17.79,
-    "bucket": "serious",
-    "tokens": [
-      "civilians",
-      "kill",
-      "kyiv",
-      "moscow",
-      "raise",
-      "russian",
-      "stakes",
-      "strikes",
-      "threaten",
-      "two",
-      "ukrainian"
-    ],
-    "link": "https://www.thehindu.com/news/international/russian-strikes-kill-two-ukrainian-civilians-as-moscow-and-kyiv-threaten-to-raise-stakes/article71421037.ece",
-    "title": "Russian strikes kill two Ukrainian civilians as Moscow and Kyiv threaten to raise stakes",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-03T12:07:56.937160+00:00"
-  },
-  {
-    "score": 17.67,
-    "bucket": "light",
-    "tokens": [
-      "artists",
-      "astronauts",
-      "aviators",
-      "beauty",
-      "capture",
-      "celebrated",
-      "created",
-      "flight",
-      "launches",
-      "moon",
-      "rocket",
-      "spectacular",
-      "these",
-      "visions",
-      "wonder"
-    ],
-    "link": "https://www.smithsonianmag.com/smithsonian-institution/to-capture-the-beauty-and-wonder-of-flight-these-celebrated-artists-created-spectacular-visions-of-astronauts-aviators-rocket-launches-and-the-moon-180989437/",
-    "title": "To Capture the Beauty and Wonder of Flight, These Celebrated Artists Created Spectacular Visions of Astronauts, Aviators, Rocket Launches and the Moon",
-    "posted_title": "",
-    "region": "odd",
-    "seen_at": "2026-09-03T12:07:56.937407+00:00"
-  },
-  {
-    "score": 16.12,
-    "bucket": "serious",
-    "tokens": [
-      "days",
-      "earthquake",
-      "flood",
-      "magnitude",
-      "strikes",
-      "tibet",
-      "tragedy"
-    ],
-    "link": "https://www.hindustantimes.com/world-news/earthquake-of-magnitude-5-1-strikes-tibet-days-after-flood-tragedy-101788424670941.html",
-    "title": "Earthquake of magnitude 5.1 strikes Tibet days after flood tragedy",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-03T12:07:56.937644+00:00"
-  },
-  {
     "score": 21.26,
     "bucket": "serious",
     "tokens": [
@@ -5511,5 +5408,95 @@
     "posted_title": "هجمات حوثية على أربع مدن سعودية توقف عمل منشآت طاقة وتصيب 73 شخصًا",
     "region": "pk",
     "seen_at": "2026-09-08T09:28:35.735541+00:00"
+  },
+  {
+    "score": 28.62,
+    "bucket": "serious",
+    "tokens": [
+      "iran"
+    ],
+    "link": "https://en.mehrnews.com/news/247554/Iran-after-9-11",
+    "title": "Iran after 9/11",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-08T12:08:02.582346+00:00"
+  },
+  {
+    "score": 22.76,
+    "bucket": "serious",
+    "tokens": [
+      "ambassador",
+      "iceland",
+      "island",
+      "map",
+      "ministry",
+      "part",
+      "posts",
+      "summons",
+      "trump"
+    ],
+    "link": "https://www.malaymail.com/news/world/2026/09/08/iceland-summons-us-ambassador-after-trump-posts-map-with-island-as-part-of-us-says-ministry/234454",
+    "title": "Iceland summons US ambassador after Trump posts map with island as part of US, says ministry",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-08T12:08:02.582635+00:00"
+  },
+  {
+    "score": 21.07,
+    "bucket": "serious",
+    "tokens": [
+      "braces",
+      "canada",
+      "counter",
+      "effect",
+      "prolonged",
+      "take",
+      "tariffs",
+      "trade",
+      "war"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c8jdev0422jo?at_medium=RSS&at_campaign=rss",
+    "title": "Canada braces for prolonged trade war as counter-tariffs on US take effect",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-08T12:08:02.582919+00:00"
+  },
+  {
+    "score": 19.56,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "before",
+      "days",
+      "hamas",
+      "leader",
+      "netanyahu",
+      "october",
+      "report",
+      "uae",
+      "warned"
+    ],
+    "link": "https://www.france24.com/en/middle-east/20260908-uae-leader-warned-netanyahu-of-hamas-attack-days-before-october-7-says-report",
+    "title": "UAE leader warned Netanyahu of Hamas attack days before October 7, says report",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-08T12:08:02.583240+00:00"
+  },
+  {
+    "score": 17.9,
+    "bucket": "serious",
+    "tokens": [
+      "centers",
+      "close",
+      "consulate",
+      "german",
+      "goethe",
+      "russia"
+    ],
+    "link": "https://news.cgtn.com/news/2026-09-08/Russia-to-close-German-consulate-Goethe-centers-1QgoN2DEiTS/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+    "title": "Russia to close German consulate, Goethe centers",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-08T12:08:02.583495+00:00"
   }
 ]
