@@ -1,0 +1,55 @@
+{
+  "id": "3d6290839783",
+  "created_at": "2026-09-08T09:07:50.764324+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.43,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Second-hand smoke causes nearly 1.7M deaths globally: Study",
+  "link": "https://medicalxpress.com/news/2026-09-17m-deaths-globally.html",
+  "publishers": [
+    "France24",
+    "Medical Xpress"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Second-hand smoke causes nearly 1.7M deaths globally: Study",
+    "link": "https://medicalxpress.com/news/2026-09-17m-deaths-globally.html",
+    "summary": "More than 2.7 billion people, including children, were exposed to secondhand smoke globally, contributing to nearly 1.7 million deaths in 2023, according to a study published Tuesday in The Lancet Public Health.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-09-08T08:47:55+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2025/secondhand-smoke.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "France24",
+      "Medical Xpress"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-09-17m-deaths-globally.html"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/health/20260907-second-hand-smoke-1-7-million-deaths"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2025/secondhand-smoke.jpg",
+      "https://s.france24.com/media/display/90da5470-ab0e-11f1-9dba-005056a97e36/w:1024/p:16x9/AP23277485524212.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 832.9120520636111,
+    "is_stale": false,
+    "score": 17.428000533537038
+  }
+}

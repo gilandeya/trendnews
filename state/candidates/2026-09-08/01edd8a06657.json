@@ -1,0 +1,85 @@
+{
+  "id": "01edd8a06657",
+  "created_at": "2026-09-08T09:07:50.763050+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.01,
+  "trend_score": 1.0,
+  "velocity": 0.67,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korea and Russia open first road bridge linking both countries",
+  "link": "https://www.bbc.co.uk/news/articles/cj9xvg1kz0mo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "AP News",
+    "BBC World",
+    "Meduza English",
+    "NPR World",
+    "The Guardian — World",
+    "The Japan Times",
+    "Yonhap News"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "North Korea and Russia open first road bridge linking both countries",
+    "link": "https://www.bbc.co.uk/news/articles/cj9xvg1kz0mo?at_medium=RSS&at_campaign=rss",
+    "summary": "Relations between the neighbours have strengthened since the start of the Ukraine war.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-08T03:53:27+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6735/live/dba2ee20-ab1f-11f1-a291-b542ee92de7c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "AP News",
+      "BBC World",
+      "Meduza English",
+      "NPR World",
+      "The Guardian — World",
+      "The Japan Times",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/07/russia-north-korea-open-first-road-bridge-tumen-river"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cj9xvg1kz0mo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/07/russia-and-north-korea-open-first-road-bridge-between-the-two-countries"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/08/asia-pacific/politics/north-korea-russia-ties-road-bridge/"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/08/g-s1-142285/russia-north-korea-border"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260908001152315"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6735/live/dba2ee20-ab1f-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/6735/live/dba2ee20-ab1f-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6735/live/dba2ee20-ab1f-11f1-a291-b542ee92de7c.jpg",
+      "https://i.guim.co.uk/img/media/02ab90d34f797f0e25c81421ef84944b67018c7f/760_0_1800_1440/master/1800.jpg?width=700&quality=85&auto=format&fit=max&s=3372aaaf8bf235a34371d8effd203be1",
+      "https://i.guim.co.uk/img/media/02ab90d34f797f0e25c81421ef84944b67018c7f/760_0_1800_1440/master/1800.jpg?width=460&quality=85&auto=format&fit=max&s=ac326a7d809c288bfc4b177294979e2c",
+      "https://i.guim.co.uk/img/media/02ab90d34f797f0e25c81421ef84944b67018c7f/760_0_1800_1440/master/1800.jpg?width=140&quality=85&auto=format&fit=max&s=59d8a57744cc4913de65e6089c954604"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.667324336797568,
+    "age_hours": 832.911848241389,
+    "is_stale": false,
+    "score": 29.00950181895695
+  }
+}

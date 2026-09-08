@@ -1,0 +1,63 @@
+{
+  "id": "47db92194a76",
+  "created_at": "2026-09-08T09:07:50.763511+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.19,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemeni forces launch counteroffensive against Houthis, vow to retake Sanaa",
+  "link": "https://www.aljazeera.com/news/2026/9/8/yemeni-forces-launch-counteroffensive-against-houthis-vow-to-retake-sanaa?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Daily Sabah",
+    "The Hindu — International"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Yemeni forces launch counteroffensive against Houthis, vow to retake Sanaa",
+    "link": "https://www.aljazeera.com/news/2026/9/8/yemeni-forces-launch-counteroffensive-against-houthis-vow-to-retake-sanaa?traffic_source=rss",
+    "summary": "Bid to take the capital comes as clashes between Yemeni forces and Houthis intensify in the provinces of al-Bayda and al-Jawf.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-08T03:01:38+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/vg4rli/article71385812.ece/alternates/LANDSCAPE_1200/2026-08-03T132244Z_1643636918_RC2TJMAU4AUN_RTRMADP_3_YEMEN-CRISIS-SAUDI-TANKERS.JPG",
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Daily Sabah",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/8/yemeni-forces-launch-counteroffensive-against-houthis-vow-to-retake-sanaa?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-attack-on-saudi-oil-tanker-in-red-sea/article71385806.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/houthis-launch-one-of-largest-attacks-in-conflict-with-saudi-arabia"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/vg4rli/article71385812.ece/alternates/LANDSCAPE_1200/2026-08-03T132244Z_1643636918_RC2TJMAU4AUN_RTRMADP_3_YEMEN-CRISIS-SAUDI-TANKERS.JPG",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/08/459612.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 832.9118523169444,
+    "is_stale": true,
+    "score": 21.19324129374074
+  }
+}

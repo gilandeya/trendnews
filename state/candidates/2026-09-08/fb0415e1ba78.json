@@ -1,0 +1,50 @@
+{
+  "id": "fb0415e1ba78",
+  "created_at": "2026-09-08T09:07:50.764082+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.51,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "As Nepal identifies those killed in the floods, questions grow over China's reporting",
+  "link": "https://www.npr.org/2026/09/07/nx-s1-5960357/nepal-floods-questions-over-chinas-reporting",
+  "publishers": [
+    "NPR",
+    "NPR World"
+  ],
+  "region": "us",
+  "article": {
+    "title": "As Nepal identifies those killed in the floods, questions grow over China's reporting",
+    "link": "https://www.npr.org/2026/09/07/nx-s1-5960357/nepal-floods-questions-over-chinas-reporting",
+    "summary": "One week after the deadly floods, very little is known about China's dead or missing. China's control over media and digital censorship is in stark contrast to open reporting in Nepal.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-09-07T13:31:16+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5960357",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "NPR",
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/07/nx-s1-5960357/nepal-floods-questions-over-chinas-reporting"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5960357"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 832.9120215727778,
+    "is_stale": false,
+    "score": 18.509500536740738
+  }
+}
