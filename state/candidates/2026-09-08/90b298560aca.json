@@ -1,0 +1,87 @@
+{
+  "id": "90b298560aca",
+  "created_at": "2026-09-08T22:07:58.995741+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.56,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "light",
+  "state_media": false,
+  "title": "Thieves Broke Into a French Museum and Made Off With Renoir Paintings Worth More Than $2.5 Million",
+  "link": "https://www.smithsonianmag.com/smart-news/thieves-broke-into-a-french-museum-and-made-off-with-renoir-paintings-worth-more-than-25-million-180989462/",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Daily Maverick",
+    "Daily Sabah",
+    "France24",
+    "Smithsonian Magazine",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "odd",
+  "article": {
+    "title": "Thieves Broke Into a French Museum and Made Off With Renoir Paintings Worth More Than $2.5 Million",
+    "link": "https://www.smithsonianmag.com/smart-news/thieves-broke-into-a-french-museum-and-made-off-with-renoir-paintings-worth-more-than-25-million-180989462/",
+    "summary": "Early today, burglars stole four artworks from the Renoir Museum, in the French Riviera, only to drop two of them as they escaped",
+    "source_name": "Smithsonian Magazine",
+    "region": "odd",
+    "weight": 1.3,
+    "published": "2026-09-08T19:21:19+00:00",
+    "image_url": "https://th-thumbnailer.cdn-si-edu.com/lAZOvOTDcz4R-gQx1L52VU8G1OQ=/420x240/filters:focal(863x575:864x576)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/25/a0/25a0aa25-6886-4d8d-b4f6-65d28fe4dd09/800781231_1737427244230131_4510547318998373369_n_1.jpeg",
+    "publisher": "Smithsonian Magazine",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Daily Maverick",
+      "Daily Sabah",
+      "France24",
+      "Smithsonian Magazine",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Smithsonian Magazine",
+        "link": "https://www.smithsonianmag.com/smart-news/thieves-broke-into-a-french-museum-and-made-off-with-renoir-paintings-worth-more-than-25-million-180989462/"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c70drp0pyw2o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/08/artworks-stolen-france-renoir-museum-french-riviera-art-heist"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/8/renoir-paintings-worth-10-5-million-missing-after-museum-heist?traffic_source=rss"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-08-thieves-steal-three-paintings-from-renoir-museum-on-french-riviera/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/thieves-steal-three-paintings-from-renoir-museum-on-french-riviera/article71441735.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-thumbnailer.cdn-si-edu.com/lAZOvOTDcz4R-gQx1L52VU8G1OQ=/420x240/filters:focal(863x575:864x576)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer_public/25/a0/25a0aa25-6886-4d8d-b4f6-65d28fe4dd09/800781231_1737427244230131_4510547318998373369_n_1.jpeg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/346b/live/006bdfb0-aba1-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/346b/live/006bdfb0-aba1-11f1-a291-b542ee92de7c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/346b/live/006bdfb0-aba1-11f1-a291-b542ee92de7c.jpg",
+      "https://i.guim.co.uk/img/media/6235d71a3657bcf8b36cb5880d323374852b2ee2/0_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=a65cd6950c52e8895521083d95e55557",
+      "https://i.guim.co.uk/img/media/6235d71a3657bcf8b36cb5880d323374852b2ee2/0_0_5000_4000/master/5000.jpg?width=460&quality=85&auto=format&fit=max&s=c8084c04472d06ce1cc57f6327e5479f"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 845.9142678877778,
+    "is_stale": false,
+    "score": 23.56495068487037
+  }
+}

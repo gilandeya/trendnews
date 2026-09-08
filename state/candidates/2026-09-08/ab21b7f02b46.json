@@ -1,0 +1,46 @@
+{
+  "id": "ab21b7f02b46",
+  "created_at": "2026-09-08T22:07:58.996778+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.45,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Russia's Safonov nominated for 2026 Lev Yashin Trophy",
+  "link": "https://tass.com/sports/2184495",
+  "publishers": [
+    "TASS"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Russia's Safonov nominated for 2026 Lev Yashin Trophy",
+    "link": "https://tass.com/sports/2184495",
+    "summary": "The awarding event will take place on October 26 in London",
+    "source_name": "TASS",
+    "region": "ru",
+    "weight": 0.7,
+    "published": "2026-09-08T20:38:43+00:00",
+    "image_url": null,
+    "publisher": "TASS",
+    "cluster_sources": [
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "TASS",
+        "link": "https://tass.com/sports/2184495"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 9.999033650555555,
+    "is_stale": false,
+    "score": 15.450950679537037
+  }
+}

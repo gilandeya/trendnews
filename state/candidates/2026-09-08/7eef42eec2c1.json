@@ -1,0 +1,71 @@
+{
+  "id": "7eef42eec2c1",
+  "created_at": "2026-09-08T22:07:58.996127+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.58,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Paris opens probe into women staff being 'sidelined' during Hindu group's Eiffel Tower visit",
+  "link": "https://www.dawn.com/news/2028339/paris-opens-probe-into-women-staff-being-sidelined-during-hindu-groups-eiffel-tower-visit",
+  "publishers": [
+    "CBS News — World",
+    "Dawn",
+    "France24",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Paris opens probe into women staff being 'sidelined' during Hindu group's Eiffel Tower visit",
+    "link": "https://www.dawn.com/news/2028339/paris-opens-probe-into-women-staff-being-sidelined-during-hindu-groups-eiffel-tower-visit",
+    "summary": "Female employees at the Eiffel Tower were asked to step out of sight during a visit by a ​Hindu religious delegation at the weekend, according to union representatives, prompting a staff protest ‌and an investigation by Paris city authorities. A delegation of about 100 ​people linked to the Bochasanwasi Akshar Purushottam Swaminarayan Sanstha, or BAPS, made ​a private visit to the Eiffel Tower on Saturday. The spiritual movement later apologised for “any pain or inconvenience caused” by the incident. The September 5 incident angered staff and drew criticism from French politicians, with the Hindu religious group later apologising. The Paris monument reopened on Tuesday after being closed late on Monday following a meeting between staff and management. The operating company that runs the Eiffel Tower, SETE, acknowledged that the Hindu delegation had requested the visit be organised so as to limit “interactions with women” and said that “these conditions should not have been accepted”. “To the best of our knowledge, at no point was anyone prevented access to the Eiffel Tower,” BAPS wrote in its statement on X. “Due to the size of our delegation, the visit was arranged in conjunction ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-08T09:09:04+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/081131448487953.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "CBS News — World",
+      "Dawn",
+      "France24",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2028339/paris-opens-probe-into-women-staff-being-sidelined-during-hindu-groups-eiffel-tower-visit"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/paris-investigates-claim-of-women-being-removed-during-hindu-delegation-visit-at-eiffel-tower/article71440426.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/paris-probes-why-women-staff-removed-from-eiffel-tower-for-hindu-visit"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/france-eiffel-tower-hindu-group-female-staff-removed/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/081131448487953.webp",
+      "https://i.dawn.com/large/2026/09/08113047867973e.webp",
+      "https://i.dawn.com/thumbnail/2026/09/081131448487953.webp",
+      "https://i.dawn.com/thumbnail/2026/09/08113047867973e.webp",
+      "https://th-i.thgim.com/public/incoming/kuzeen/article71441130.ece/alternates/LANDSCAPE_1200/AFP_C79B3WE.jpg",
+      "https://s.france24.com/media/display/1164fca6-abc0-11f1-a24c-005056a97e36/w:1024/p:16x9/000-C79B3WE-1.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 845.9142977522222,
+    "is_stale": false,
+    "score": 19.58467290264815
+  }
+}

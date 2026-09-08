@@ -1,0 +1,60 @@
+{
+  "id": "413498692a6e",
+  "created_at": "2026-09-08T22:07:58.996383+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.86,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "US accuses Chinese AI firms of ’malicious’ copying of AI technology",
+  "link": "https://www.investing.com/news/economy-news/us-accuses-chinese-ai-firms-of-industrialscale-theft-of-ai-technology-4892191",
+  "publishers": [
+    "Investing.com — الاقتصاد",
+    "South China Morning Post",
+    "The Express Tribune"
+  ],
+  "region": "money",
+  "article": {
+    "title": "US accuses Chinese AI firms of ’malicious’ copying of AI technology",
+    "link": "https://www.investing.com/news/economy-news/us-accuses-chinese-ai-firms-of-industrialscale-theft-of-ai-technology-4892191",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-09-08T21:30:40+00:00",
+    "image_url": "https://content-media.investing.com/trkd-images/LYNXMPEM871P1_L.jpg",
+    "publisher": "Investing.com — الاقتصاد",
+    "cluster_sources": [
+      "Investing.com — الاقتصاد",
+      "South China Morning Post",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/china/diplomacy/article/3366835/us-accuses-chinese-ai-firms-malicious-copying-ai-technology?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628191/us-accuses-chinese-ai-firms-of-malicious-copying-of-ai-technology"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/us-accuses-chinese-ai-firms-of-industrialscale-theft-of-ai-technology-4892191"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/trkd-images/LYNXMPEM871P1_L.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 845.9143032777778,
+    "is_stale": false,
+    "score": 18.863560403181985
+  }
+}
