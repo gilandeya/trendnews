@@ -1,7 +1,7 @@
 {
   "id": "397fa6a3c875",
   "created_at": "2026-09-08T12:10:24.269799+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "origin": "news",
   "score": 19.56,
@@ -85,5 +85,12 @@
       "https://cdn.vanguardngr.com/wp-content/uploads/2026/03/AFP__20260319__A3YL2QA__v1__MidRes__IsraelUsIranWarNetanyahu-1-1024x683.jpg"
     ]
   },
-  "publish_at": "2026-09-08T13:41:21.200457+00:00"
+  "publish_at": "2026-09-08T13:41:21.200457+00:00",
+  "published_at": "2026-09-08T13:45:54.475602+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1354905576726463",
+    "photo_id": "1354905556726465",
+    "url": "https://www.facebook.com/631680090321390_1354905576726463",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
