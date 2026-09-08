@@ -1,0 +1,55 @@
+{
+  "id": "b24ce905f4ed",
+  "created_at": "2026-09-08T06:08:00.778941+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.64,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran warns South Korea against military role in Persian Gulf",
+  "link": "https://www.tehrantimes.com/news/529812/Iran-warns-South-Korea-against-military-role-in-Persian-Gulf",
+  "publishers": [
+    "IRNA English",
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran warns South Korea against military role in Persian Gulf",
+    "link": "https://www.tehrantimes.com/news/529812/Iran-warns-South-Korea-against-military-role-in-Persian-Gulf",
+    "summary": "TEHRAN — Iran has warned South Korea against any military involvement in the Persian Gulf or the Strait of Hormuz, while accusing Washington of creating disruption in regional shipping and rejecting Western efforts to revive international pressure over Tehran’s nuclear program.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-07T17:09:51+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/07/4/6165257.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "IRNA English",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/529812/Iran-warns-South-Korea-against-military-role-in-Persian-Gulf"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86257207/Iran-warns-South-Korea-over-military-presence-in-Persian-Gulf"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/07/4/6165257.jpg",
+      "https://img9.irna.ir/d/r1/2026/08/24/4/173060174.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 829.9146250294444,
+    "is_stale": true,
+    "score": 16.635519636833333
+  }
+}

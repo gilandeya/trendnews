@@ -1,0 +1,61 @@
+{
+  "id": "77a49f4c6f4a",
+  "created_at": "2026-09-08T06:08:00.777938+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.67,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Africa rising: Nigeria’s Dangote oil refinery signs IPO documents before landmark share sale",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-07-nigerias-dangote-oil-refinery-signs-ipo-documents-before-landmark-share-sale/",
+  "publishers": [
+    "AllAfrica",
+    "Daily Maverick",
+    "MyJoyOnline Ghana"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Africa rising: Nigeria’s Dangote oil refinery signs IPO documents before landmark share sale",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-07-nigerias-dangote-oil-refinery-signs-ipo-documents-before-landmark-share-sale/",
+    "summary": "Africa’s richest share listing goes to market next week and the global energy market may never be the same again.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-07T22:05:49+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/orphans/BMDangoteoilIPO_833156.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "AllAfrica",
+      "Daily Maverick",
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-07-nigerias-dangote-oil-refinery-signs-ipo-documents-before-landmark-share-sale/"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202609080081.html"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/nigerias-dangote-refinery-plans-14-billion-expansion-as-it-signs-ipo-documents/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/orphans/BMDangoteoilIPO_833156.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-919-1024x683.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 829.9147513716666,
+    "is_stale": false,
+    "score": 18.669258978552357
+  }
+}

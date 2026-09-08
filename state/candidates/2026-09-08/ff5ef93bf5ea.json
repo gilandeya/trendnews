@@ -1,0 +1,55 @@
+{
+  "id": "ff5ef93bf5ea",
+  "created_at": "2026-09-08T06:08:00.778338+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.15,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "China says imports and exports surged in August",
+  "link": "https://www.channelnewsasia.com/east-asia/china-says-imports-and-exports-surged-in-august-6368571",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "China says imports and exports surged in August",
+    "link": "https://www.channelnewsasia.com/east-asia/china-says-imports-and-exports-surged-in-august-6368571",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-08T03:51:52+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--Vp4m1eR3--/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/China_Trade_82963.jpg?itok=0OqFaPSB",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/east-asia/china-says-imports-and-exports-surged-in-august-6368571"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/09/08/china-says-imports-and-exports-surged-in-august"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--Vp4m1eR3--/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/China_Trade_82963.jpg?itok=0OqFaPSB",
+      "https://media.freemalaysiatoday.com/v3/2026/09/d2131f15-fdfb-4ad0-8e0b-95dd22a43a5f-China-Nanjing-port-AFP-08092026-.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 829.9147717341667,
+    "is_stale": false,
+    "score": 17.1488714735
+  }
+}

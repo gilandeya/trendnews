@@ -1,175 +1,5 @@
 [
   {
-    "score": 21.32,
-    "bucket": "useful",
-    "tokens": [
-      "cost",
-      "flash",
-      "gemini",
-      "google",
-      "harder",
-      "might",
-      "model",
-      "works"
-    ],
-    "link": "https://www.theverge.com/ai-artificial-intelligence/988742/google-gemini-3-8-flash",
-    "title": "Google says its new Gemini 3.8 Flash model ‘works harder’ but might cost more",
-    "posted_title": "غوغل تطلق Gemini 3.8 Flash بأداء أقوى لكن باستهلاك أكبر للرموز",
-    "region": "tech",
-    "seen_at": "2026-09-03T05:32:36.474896+00:00"
-  },
-  {
-    "score": 16.87,
-    "bucket": "useful",
-    "tokens": [
-      "fire",
-      "heroes",
-      "isn't",
-      "lands",
-      "livestock",
-      "often",
-      "ordinary",
-      "prevention",
-      "public",
-      "pyrograzing",
-      "turns",
-      "used",
-      "why"
-    ],
-    "link": "https://phys.org/news/2026-09-pyrograzing-ordinary-livestock-heroes-isnt.html",
-    "title": "Pyrograzing turns ordinary livestock into fire prevention heroes, so why isn't it used on public lands more often?",
-    "posted_title": "أبقار وماعز وأغنام تُستخدم في الغرب الأمريكي لمنع اشتعال الحرائق",
-    "region": "science",
-    "seen_at": "2026-09-03T05:33:25.504879+00:00"
-  },
-  {
-    "score": 22.43,
-    "bucket": "serious",
-    "tokens": [
-      "assists",
-      "cruise",
-      "iran",
-      "missiles",
-      "russia",
-      "secretly",
-      "supersonic"
-    ],
-    "link": "https://www.iranintl.com/en/202609027843",
-    "title": "Russia secretly assists Iran with supersonic cruise missiles",
-    "posted_title": "تحديث: عقد موقّع ومهندسون روس يشرفون على بيانات الاختبارات الإيرانية لصواريخ كروز فوق صوتية",
-    "region": "ir",
-    "seen_at": "2026-09-03T05:33:41.957625+00:00"
-  },
-  {
-    "score": 17.16,
-    "bucket": "serious",
-    "tokens": [
-      "economy",
-      "iran",
-      "keg",
-      "powder",
-      "preparing",
-      "spark",
-      "tehran"
-    ],
-    "link": "https://www.iranintl.com/en/202609035560",
-    "title": "Iran’s economy is a powder keg. Tehran is preparing for the spark",
-    "posted_title": "إيران تلوح بالقمع مجددا وسط أزمة معيشية متفاقمة وتنفيذ مئات أحكام الإعدام",
-    "region": "ir",
-    "seen_at": "2026-09-03T05:33:57.218334+00:00"
-  },
-  {
-    "score": 27.3,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "attack",
-      "filipino",
-      "iranian",
-      "killed",
-      "sailors",
-      "saudi",
-      "tanker",
-      "two"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cx2zxgg4mx9o?at_medium=RSS&at_campaign=rss",
-    "title": "Iranian attack on Saudi tanker killed two Filipino sailors, Saudi Arabia says",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-03T06:07:48.744669+00:00"
-  },
-  {
-    "score": 19.62,
-    "bucket": "serious",
-    "tokens": [
-      "hormuz",
-      "president",
-      "renaming",
-      "strait",
-      "suggests",
-      "trump"
-    ],
-    "link": "https://www.dawn.com/news/2026967/us-president-trump-suggests-renaming-strait-of-hormuz-as-trump-strait",
-    "title": "US President Trump suggests renaming Strait of Hormuz as ‘Trump Strait’",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-03T06:07:48.744980+00:00"
-  },
-  {
-    "score": 18.52,
-    "bucket": "serious",
-    "tokens": [
-      "iran's",
-      "khuzestan",
-      "killed",
-      "missile",
-      "strikes"
-    ],
-    "link": "https://news.cgtn.com/news/2026-09-02/news-1Q6yo2mvMgU/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-    "title": "7 killed in US missile strikes on Iran's Khuzestan",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-03T06:07:48.745288+00:00"
-  },
-  {
-    "score": 18.2,
-    "bucket": "serious",
-    "tokens": [
-      "administration",
-      "backs",
-      "case",
-      "chatbots",
-      "copyright",
-      "openai",
-      "times",
-      "training",
-      "trump",
-      "york"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-administration-backs-openai-in-new-york-times-copyright-case-over-training-of-chatbots/article71422156.ece",
-    "title": "Trump administration backs OpenAI in New York Times’ copyright case over training of chatbots",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-03T06:07:48.745576+00:00"
-  },
-  {
-    "score": 18.07,
-    "bucket": "light",
-    "tokens": [
-      "birthright",
-      "citizenship",
-      "court",
-      "curbs",
-      "halts",
-      "trump"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/09/03/world/trump-us-birthright-citizenship/",
-    "title": "Court halts Trump’s new birthright citizenship curbs",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-09-03T06:07:48.745847+00:00"
-  },
-  {
     "score": 24.66,
     "bucket": "serious",
     "tokens": [
@@ -5540,5 +5370,107 @@
     "posted_title": "إغلاق برج إيفل بعد إضراب موظفات احتُجن عن الأنظار خلال زيارة وفد هندوسي",
     "region": "in",
     "seen_at": "2026-09-08T04:45:00.909693+00:00"
+  },
+  {
+    "score": 18.67,
+    "bucket": "serious",
+    "tokens": [
+      "africa",
+      "before",
+      "dangote",
+      "documents",
+      "ipo",
+      "landmark",
+      "nigeria",
+      "oil",
+      "refinery",
+      "rising",
+      "sale",
+      "share",
+      "signs"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-07-nigerias-dangote-oil-refinery-signs-ipo-documents-before-landmark-share-sale/",
+    "title": "Africa rising: Nigeria’s Dangote oil refinery signs IPO documents before landmark share sale",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-08T06:08:00.778328+00:00"
+  },
+  {
+    "score": 17.15,
+    "bucket": "serious",
+    "tokens": [
+      "august",
+      "china",
+      "exports",
+      "imports",
+      "surged"
+    ],
+    "link": "https://www.channelnewsasia.com/east-asia/china-says-imports-and-exports-surged-in-august-6368571",
+    "title": "China says imports and exports surged in August",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-08T06:08:00.778539+00:00"
+  },
+  {
+    "score": 17.1,
+    "bucket": "serious",
+    "tokens": [
+      "final",
+      "hormuz",
+      "iran",
+      "oman",
+      "reach",
+      "stage",
+      "strait",
+      "talks"
+    ],
+    "link": "https://news.cgtn.com/news/2026-09-08/Iran-says-talks-with-Oman-on-Hormuz-Strait-reach-final-stage-1Qgrf83ozbq/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+    "title": "Iran says talks with Oman on Hormuz Strait reach final stage",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-08T06:08:00.778729+00:00"
+  },
+  {
+    "score": 16.74,
+    "bucket": "serious",
+    "tokens": [
+      "2nd",
+      "cooperation",
+      "drills",
+      "firm",
+      "highlight",
+      "japan",
+      "joint",
+      "kick",
+      "korea",
+      "off",
+      "security",
+      "way"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20260907002352315",
+    "title": "(2nd LD) S. Korea, U.S., Japan highlight firm 3-way security cooperation as joint drills kick off",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-09-08T06:08:00.778934+00:00"
+  },
+  {
+    "score": 16.64,
+    "bucket": "serious",
+    "tokens": [
+      "against",
+      "gulf",
+      "iran",
+      "korea",
+      "military",
+      "persian",
+      "role",
+      "south",
+      "warns"
+    ],
+    "link": "https://www.tehrantimes.com/news/529812/Iran-warns-South-Korea-against-military-role-in-Persian-Gulf",
+    "title": "Iran warns South Korea against military role in Persian Gulf",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-08T06:08:00.779115+00:00"
   }
 ]
