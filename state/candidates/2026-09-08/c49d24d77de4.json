@@ -1,0 +1,55 @@
+{
+  "id": "c49d24d77de4",
+  "created_at": "2026-09-08T15:07:57.627024+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.95,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Nepal glacier saw exceptional heat before collapse caused deadly floods: Researcher",
+  "link": "https://phys.org/news/2026-09-nepal-glacier-exceptional-collapse-deadly.html",
+  "publishers": [
+    "Malay Mail",
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Nepal glacier saw exceptional heat before collapse caused deadly floods: Researcher",
+    "link": "https://phys.org/news/2026-09-nepal-glacier-exceptional-collapse-deadly.html",
+    "summary": "The mountain section whose collapse triggered fatal floods in Nepal and China on Aug. 26 had experienced unprecedented heat for the time of year, meteorological data analyzed by a researcher show.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-09-08T14:48:54+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/nepal-heat-spike-befor.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Malay Mail",
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-09-nepal-glacier-exceptional-collapse-deadly.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/08/nepal-glacier-saw-exceptional-heat-before-collapse-caused-deadly-floods-says-researcher/234453"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/nepal-heat-spike-befor.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/08/361376.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 838.9138527591666,
+    "is_stale": false,
+    "score": 19.945632739648147
+  }
+}

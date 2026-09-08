@@ -1,0 +1,56 @@
+{
+  "id": "ad471a3ab0f9",
+  "created_at": "2026-09-08T15:07:57.626641+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.06,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Philippines’ reading, math, science scores improve in 2025 PISA",
+  "link": "https://www.rappler.com/philippines/reading-mathematics-science-results-pisa-2025/",
+  "publishers": [
+    "MyJoyOnline Ghana",
+    "Rappler"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "Philippines’ reading, math, science scores improve in 2025 PISA",
+    "link": "https://www.rappler.com/philippines/reading-mathematics-science-results-pisa-2025/",
+    "summary": "The Department of Education says the Philippines’ ‘strongest PISA performance’ to date ‘should be seen as a starting point,’ with much more to be done",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-09-08T11:30:36+00:00",
+    "image_url": "https://www.youtube.com/embed/m8SS02tB2hc",
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "MyJoyOnline Ghana",
+      "Rappler"
+    ],
+    "cluster_members": [
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/philippines/reading-mathematics-science-results-pisa-2025/"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/pta-council-demands-technical-review-of-2026-bece-results/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.youtube.com/embed/m8SS02tB2hc",
+      "https://www.rappler.com/tachyon/2026/09/m8ss02tb2hc.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-989.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.05863274851852
+  }
+}
