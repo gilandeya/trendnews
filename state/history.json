@@ -1,170 +1,5 @@
 [
   {
-    "score": 17.6,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "bank",
-      "during",
-      "killed",
-      "officials",
-      "palestinian",
-      "say",
-      "settler",
-      "teens",
-      "village",
-      "west"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cj6482r6yl4o?at_medium=RSS&at_campaign=rss",
-    "title": "Palestinian teens killed during settler attack on West Bank village, officials say",
-    "posted_title": "من قتل الشابين الفلسطينيين في قرية المغير بالضفة الغربية؟",
-    "region": "uk",
-    "seen_at": "2026-09-03T16:25:32.679946+00:00"
-  },
-  {
-    "score": 20.22,
-    "bucket": "useful",
-    "tokens": [
-      "almost",
-      "billion",
-      "buying",
-      "face",
-      "hugging",
-      "nvidia"
-    ],
-    "link": "https://www.theverge.com/tech/985474/nvidia-buying-hugging-face-deal",
-    "title": "Nvidia is buying Hugging Face for almost $13 billion",
-    "posted_title": "إنفيديا تستحوذ على منصة هاغينغ فيس مقابل 12.93 مليار دولار",
-    "region": "tech",
-    "seen_at": "2026-09-03T16:25:51.313441+00:00"
-  },
-  {
-    "score": 17.3,
-    "bucket": "serious",
-    "tokens": [
-      "crimes",
-      "drones",
-      "foreign",
-      "fuel",
-      "possible",
-      "probe",
-      "sudan",
-      "support",
-      "war"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-03-foreign-support-drones-fuel-sudan-war-and-possible-war-crimes-un-probe-says/",
-    "title": "Foreign support, drones fuel Sudan war and possible war crimes, UN probe says",
-    "posted_title": "تحقيق أممي: شبكات في الإمارات وتشاد وليبيا والصومال دعمت قوات الدعم السريع بالسودان",
-    "region": "za",
-    "seen_at": "2026-09-03T16:26:09.140577+00:00"
-  },
-  {
-    "score": 21.24,
-    "bucket": "serious",
-    "tokens": [
-      "also",
-      "amazon",
-      "chatgpt",
-      "claude",
-      "face",
-      "gemini",
-      "hit",
-      "outages",
-      "services",
-      "web",
-      "widespread"
-    ],
-    "link": "https://www.thehindu.com/sci-tech/technology/chatgpt-gemini-claude-face-widespread-outages-ai/article71425259.ece",
-    "title": "ChatGPT, Gemini, Claude face widespread outages; Amazon Web Services also hit",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-03T17:07:55.936540+00:00"
-  },
-  {
-    "score": 20.2,
-    "bucket": "serious",
-    "tokens": [
-      "descarta",
-      "determina",
-      "google",
-      "mas",
-      "mudanças",
-      "nas",
-      "práticas",
-      "publicidade",
-      "que",
-      "separe",
-      "setor",
-      "tribunal"
-    ],
-    "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/tec/2026/09/tribunal-descarta-que-google-separe-setor-de-publicidade-mas-determina-mudancas-nas-praticas.shtml",
-    "title": "Tribunal descarta que Google separe setor de publicidade, mas determina mudanças nas práticas",
-    "posted_title": "",
-    "region": "br",
-    "seen_at": "2026-09-03T17:07:55.936875+00:00"
-  },
-  {
-    "score": 17.22,
-    "bucket": "serious",
-    "tokens": [
-      "204",
-      "count",
-      "death",
-      "flood",
-      "floods",
-      "live",
-      "nepal",
-      "rises",
-      "updates"
-    ],
-    "link": "https://www.ndtv.com/world-news/nepal-flash-floods-live-updates-india-sends-5th-relief-shipment-to-flood-hit-nepal-amid-massive-rescue-effort-11990118#publisher=newsstand",
-    "title": "Nepal Floods LIVE Updates: Nepal Flood Death Count Rises To 1,204",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-03T17:07:55.937158+00:00"
-  },
-  {
-    "score": 16.9,
-    "bucket": "serious",
-    "tokens": [
-      "2027",
-      "africa",
-      "borderless",
-      "dialogues",
-      "opens",
-      "prosperity",
-      "push",
-      "registration",
-      "september"
-    ],
-    "link": "https://www.myjoyonline.com/africa-prosperity-dialogues-2027-to-push-for-borderless-africa-as-registration-opens-september-7/",
-    "title": "Africa Prosperity Dialogues 2027 to push for ‘borderless Africa’ as registration opens September 7",
-    "posted_title": "",
-    "region": "gh",
-    "seen_at": "2026-09-03T17:07:55.937429+00:00"
-  },
-  {
-    "score": 16.39,
-    "bucket": "serious",
-    "tokens": [
-      "chatgpt",
-      "entrenador",
-      "gimnasios",
-      "gratis",
-      "hay",
-      "llega",
-      "los",
-      "personal",
-      "prefiere",
-      "quien"
-    ],
-    "link": "https://elpais.com/estilo-de-vida/2026-09-03/la-ia-llega-a-los-gimnasios-y-hay-quien-la-prefiere-a-un-entrenador-personal-chatgpt-es-gratis.html",
-    "title": "La IA llega a los gimnasios y hay quien la prefiere a un entrenador personal: “ChatGPT es gratis”",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-09-03T17:07:55.937713+00:00"
-  },
-  {
     "score": 16.39,
     "bucket": "serious",
     "tokens": [
@@ -5582,5 +5417,102 @@
     "posted_title": "لماذا أعلنت بريطانيا وفرنسا وكندا و9 دول أخرى قيودًا تجارية على مستوطنات الضفة",
     "region": "in",
     "seen_at": "2026-09-08T15:13:42.570922+00:00"
+  },
+  {
+    "score": 25.89,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "attack",
+      "cities",
+      "energy",
+      "facilities",
+      "houthis",
+      "respond",
+      "saudi",
+      "vows"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cp849n2nz01o?at_medium=RSS&at_campaign=rss",
+    "title": "Saudi Arabia vows to respond after Houthis attack cities and energy facilities",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-08T17:08:07.931621+00:00"
+  },
+  {
+    "score": 20.07,
+    "bucket": "serious",
+    "tokens": [
+      "assess",
+      "conditions",
+      "dispatches",
+      "hormuz",
+      "korea",
+      "south",
+      "strait",
+      "team"
+    ],
+    "link": "https://www.channelnewsasia.com/asia/south-korea-dispatches-team-strait-hormuz-6370291",
+    "title": "South Korea dispatches team to assess Strait of Hormuz conditions",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-08T17:08:07.931815+00:00"
+  },
+  {
+    "score": 18.82,
+    "bucket": "serious",
+    "tokens": [
+      "call",
+      "envoys",
+      "frank",
+      "putin",
+      "russia",
+      "trump",
+      "visit"
+    ],
+    "link": "https://www.vanguardngr.com/2026/09/russia-says-putin-trump-had-frank-call-after-us-envoys-visit/",
+    "title": "Russia says Putin, Trump had ‘frank’ call after US envoys visit",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-08T17:08:07.931959+00:00"
+  },
+  {
+    "score": 16.09,
+    "bucket": "serious",
+    "tokens": [
+      "ballistic",
+      "designing",
+      "missile",
+      "moscow",
+      "put",
+      "reach",
+      "ukrainian",
+      "woman"
+    ],
+    "link": "https://www.cbsnews.com/news/ukraine-russia-war-fire-point-ballistic-missile-will-put-moscow-in-range/",
+    "title": "Ukrainian woman designing a ballistic missile to put Moscow in reach",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-09-08T17:08:07.932077+00:00"
+  },
+  {
+    "score": 15.66,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "ciúmes",
+      "crise",
+      "desmentem",
+      "gracie",
+      "kyra",
+      "malvino",
+      "rio",
+      "rock",
+      "salvador"
+    ],
+    "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://f5.folha.uol.com.br/celebridades/2026/09/rock-in-rio-2026-malvino-salvador-e-kyra-gracie-desmentem-crise-de-ciumes.shtml",
+    "title": "Rock in Rio 2026: Malvino Salvador e Kyra Gracie desmentem crise de ciúmes",
+    "posted_title": "",
+    "region": "br",
+    "seen_at": "2026-09-08T17:08:07.932190+00:00"
   }
 ]
