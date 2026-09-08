@@ -1,0 +1,96 @@
+{
+  "id": "33618477efa5",
+  "created_at": "2026-09-08T12:10:03.499346+00:00",
+  "status": "published",
+  "review_issue": null,
+  "origin": "news",
+  "score": 28.62,
+  "bucket": "serious",
+  "analysed_sources": [
+    "Al Jazeera English",
+    "Mehr News"
+  ],
+  "trend_score": 1.0,
+  "velocity": 0.67,
+  "age_hours": 6.0,
+  "is_followup": true,
+  "state_media": false,
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://media.mehrnews.com/d/2026/01/20/4/5873932.jpg",
+    "candidates_tried": 6,
+    "manual": false
+  },
+  "source": {
+    "title": "Iran after 9/11",
+    "link": "https://en.mehrnews.com/news/247554/Iran-after-9-11",
+    "publisher": "Mehr News",
+    "publishers": [
+      "Al Jazeera English",
+      "Dawn",
+      "IRNA English",
+      "Le Monde",
+      "Mehr News",
+      "The Japan Times",
+      "what’s moving markets"
+    ],
+    "region": "ir",
+    "image_url": "https://media.mehrnews.com/d/2026/01/20/4/5873932.jpg",
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/01/20/4/5873932.jpg",
+      "https://media.mehrnews.com/d/2026/09/02/4/6159201.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/08/4/173093124.jpg",
+      "https://img.lemde.fr/2026/09/06/648/0/7779/3889/644/322/60/0/33ad963_ftp-1-r2snq2rjv8wq-5013880-01-06.jpg",
+      "https://i.dawn.com/large/2026/09/08104929e519f0f.webp",
+      "https://i.dawn.com/thumbnail/2026/09/08104929e519f0f.webp"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "اقتصاد",
+    "image_headline": "إيران تضاعف سعر البنزين لمن يتجاوز 110 لترات شهريًا",
+    "post_title": "إيران ترفع أسعار البنزين مجددًا وسط أزمة وقود متصاعدة",
+    "post_body": "رفعت إيران أسعار البنزين للمرة الثانية منذ ديسمبر الماضي، إذ سيبقى سعر أول 110 لترات شهريًا كما هو، بينما يتضاعف سعر ما يزيد على ذلك من 50 ألف ريال إلى 100 ألف ريال لليتر الواحد. القرار يأتي وسط تراجع في إيرادات الحكومة وعجزها عن الاستمرار في دعم الوقود بشكله الحالي، مع عقوبات أمريكية وحصار على الموانئ الإيرانية. رئيس البرلمان محمد باقر قاليباف دعا إلى ترشيد استهلاك البنزين، فيما ظهرت طوابير طويلة أمام محطات الوقود في طهران بحسب مقاطع متداولة على مواقع التواصل.",
+    "hashtags": [
+      "إيران",
+      "أسعار_الوقود",
+      "بنزين",
+      "اقتصاد_إيران"
+    ]
+  },
+  "caption": "إيران ترفع أسعار البنزين مجددًا وسط أزمة وقود متصاعدة\n\nرفعت إيران أسعار البنزين للمرة الثانية منذ ديسمبر الماضي، إذ سيبقى سعر أول 110 لترات شهريًا كما هو، بينما يتضاعف سعر ما يزيد على ذلك من 50 ألف ريال إلى 100 ألف ريال لليتر الواحد. القرار يأتي وسط تراجع في إيرادات الحكومة وعجزها عن الاستمرار في دعم الوقود بشكله الحالي، مع عقوبات أمريكية وحصار على الموانئ الإيرانية. رئيس البرلمان محمد باقر قاليباف دعا إلى ترشيد استهلاك البنزين، فيما ظهرت طوابير طويلة أمام محطات الوقود في طهران بحسب مقاطع متداولة على مواقع التواصل.\n\n#إيران #أسعار_الوقود #بنزين #اقتصاد_إيران",
+  "headlines": [
+    "هل تؤدي موجة رفع أسعار البنزين الإيراني إلى تفاقم الأزمة الاقتصادية؟",
+    "إيران تضاعف سعر البنزين تدريجيًا لمواجهة عجز الموارد والعقوبات الخارجية",
+    "رفع البنزين الإيراني يثير قلقًا من استمرار الأزمة مع ظهور طوابير انتظار"
+  ],
+  "headline_selected": 0,
+  "image": "drafts/2026-09-08/33618477efa5.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "إيران تضاعف سعر البنزين لمن يتجاوز 110 لترات شهريًا",
+    "category": "اقتصاد",
+    "urgent": false,
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/01/20/4/5873932.jpg",
+      "https://media.mehrnews.com/d/2026/09/02/4/6159201.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/08/4/173093124.jpg",
+      "https://img.lemde.fr/2026/09/06/648/0/7779/3889/644/322/60/0/33ad963_ftp-1-r2snq2rjv8wq-5013880-01-06.jpg",
+      "https://i.dawn.com/large/2026/09/08104929e519f0f.webp",
+      "https://i.dawn.com/thumbnail/2026/09/08104929e519f0f.webp"
+    ]
+  },
+  "publish_at": "2026-09-08T12:10:46.169511+00:00",
+  "published_at": "2026-09-08T12:10:52.588530+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1354840323399655",
+    "photo_id": "1354840273399660",
+    "url": "https://www.facebook.com/631680090321390_1354840323399655",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
+}
