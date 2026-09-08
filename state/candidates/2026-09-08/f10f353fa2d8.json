@@ -1,0 +1,72 @@
+{
+  "id": "f10f353fa2d8",
+  "created_at": "2026-09-08T19:08:03.816923+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.14,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia, North Korea open first road link across shared border",
+  "link": "https://www.thehindu.com/news/international/russia-north-korea-open-first-road-link-across-shared-border/article71444269.ece",
+  "publishers": [
+    "MyJoyOnline Ghana",
+    "NPR",
+    "NPR World",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Russia, North Korea open first road link across shared border",
+    "link": "https://www.thehindu.com/news/international/russia-north-korea-open-first-road-link-across-shared-border/article71444269.ece",
+    "summary": "Expansion of transport infrastructure near the border will give a powerful boost to the further development of trade, economic, technological, scientific and cultural cooperation between the Russian Federation and the Democratic People's Republic of Korea, said Prime Minister Mikhail Mishustin",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-08T17:10:53+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/abr22e/article71444282.ece/alternates/LANDSCAPE_1200/2026-09-07T215756Z_1901237136_RC2RXMAGT0F0_RTRMADP_3_NORTHKOREA-RUSSIA-BRIDGE.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "MyJoyOnline Ghana",
+      "NPR",
+      "NPR World",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russia-north-korea-open-first-road-link-across-shared-border/article71444269.ece"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/08/g-s1-142285/russia-north-korea-border"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/08/asia-pacific/politics/north-korea-russia-ties-road-bridge/"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/north-korea-and-russia-open-first-road-bridge-linking-both-countries/"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/abr22e/article71444282.ece/alternates/LANDSCAPE_1200/2026-09-07T215756Z_1901237136_RC2RXMAGT0F0_RTRMADP_3_NORTHKOREA-RUSSIA-BRIDGE.JPG",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-142285",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-999.png",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/08/561919.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/08/thumbs/400x400/561919.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 842.9153736930555,
+    "is_stale": false,
+    "score": 25.135735383958384
+  }
+}

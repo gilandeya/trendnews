@@ -1,0 +1,73 @@
+{
+  "id": "cf594c425189",
+  "created_at": "2026-09-08T19:08:03.817370+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.17,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "More than 600 UK flights cancelled after air traffic control ‘technical issue’",
+  "link": "https://www.theguardian.com/business/live/2026/sep/08/oil-price-approaches-100-a-barrel-saudi-attacks-bank-of-england-latest-news-updates",
+  "publishers": [
+    "Hindustan Times — World",
+    "NDTV — World",
+    "Reuters",
+    "The Guardian — Sport",
+    "as it happened"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "More than 600 UK flights cancelled after air traffic control ‘technical issue’",
+    "link": "https://www.theguardian.com/business/live/2026/sep/08/oil-price-approaches-100-a-barrel-saudi-attacks-bank-of-england-latest-news-updates",
+    "summary": "National Air Traffic Services apologise for technical issue disrupting departures today, which Flightradar24 say has caused hundreds of cancellations Air traffic control issue causes flight delays and disruption across UK Gas prices are rising this morning, putting pressure on European countries who need to stock up their storage levels before the winter. The month-ahead UK gas price is up around 1% at 184p a therm, close to yesterday’s highs when gas hit its highest since January 2023. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-08T18:08:11+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/2305b85b82056ae8b434e171d8f3b83097055300/77_0_1051_841/master/1051.jpg?width=700&quality=85&auto=format&fit=max&s=666043108551ad950f7e9b738e877d3b",
+    "publisher": "as it happened",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "NDTV — World",
+      "Reuters",
+      "The Guardian — Sport",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/business/live/2026/sep/08/oil-price-approaches-100-a-barrel-saudi-attacks-bank-of-england-latest-news-updates"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/uk-airports-heathrow-air-traffic-control-issue-hit-london-stansted-gatwick-manchester-nats-flight-delays-news-101788880819156.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/300-flights-cancelled-over-issues-with-uk-air-traffic-control-system-12019729#publisher=newsstand"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/08/air-traffic-chaos-delays-arsenal-flight-to-naples-for-champions-league"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/2305b85b82056ae8b434e171d8f3b83097055300/77_0_1051_841/master/1051.jpg?width=700&quality=85&auto=format&fit=max&s=666043108551ad950f7e9b738e877d3b",
+      "https://i.guim.co.uk/img/media/2305b85b82056ae8b434e171d8f3b83097055300/77_0_1051_841/master/1051.jpg?width=460&quality=85&auto=format&fit=max&s=becea28d315636bf8c98838ba621ada4",
+      "https://i.guim.co.uk/img/media/2305b85b82056ae8b434e171d8f3b83097055300/77_0_1051_841/master/1051.jpg?width=140&quality=85&auto=format&fit=max&s=fcbf7095731b059b2f3d8fff72fae183",
+      "https://c.ndtvimg.com/2025-03/soefk6bg_heathrow_625x300_22_March_25.jpeg",
+      "https://i.guim.co.uk/img/media/5e98115c9132ac5efa8107a0789efd54844ee150/283_0_5505_4404/master/5505.jpg?width=700&quality=85&auto=format&fit=max&s=986526f5a6334021e3009ecbd0181d56",
+      "https://i.guim.co.uk/img/media/5e98115c9132ac5efa8107a0789efd54844ee150/283_0_5505_4404/master/5505.jpg?width=460&quality=85&auto=format&fit=max&s=e52d8cd31f0a2cea2322ec5b23ec758a"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 842.9153756841666,
+    "is_stale": false,
+    "score": 24.16606871712505
+  }
+}
