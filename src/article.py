@@ -1779,6 +1779,20 @@ def _grounded_sources(names: list[str], docs: list[dict],
     return out
 
 
+def _oldest_source_date(names, ranked: list[Article]) -> str:
+    """أقدم تاريخ نشر بين مصادر واقعة أُسندت بنافذة موسّعة (Issue #820):
+    وثيقة قديمة قد تجاوزها الزمن، فتقرير المقال يُظهر تاريخها صراحة —
+    تنبيه للمراجع البشري لا حجب تلقائي للواقعة نفسها."""
+    names_set = set(names)
+    dates = []
+    for a in ranked:
+        name = getattr(a, "publisher", "") or getattr(a, "source_name", "")
+        published = getattr(a, "published", None)
+        if name in names_set and published:
+            dates.append(published)
+    return min(dates).strftime("%Y-%m-%d") if dates else "؟"
+
+
 def _fetch_failure_gap_note(unique: set, fetch_failures: list[dict], cfg) -> str:
     """يميّز نقص سند سببه تقني (مرشّح ثانٍ محتمل سقط بفشل جلب الصفحة، لا
     انفراد مصدر واحد فعليًا بالخبر) عن نقص سببه طبيعة التغطية نفسها —
@@ -2694,7 +2708,10 @@ def _new_outcome() -> dict:
                                     "same_entity_off_topic": 0, "added": 0},
            "same_entity_off_topic_facts": [],
            "originality_retry": {"attempted": False, "succeeded": False, "offending_phrase": ""},
-           "jargon_retry": {"attempted": False, "succeeded": False, "detected": [], "remaining": []}}
+           "jargon_retry": {"attempted": False, "succeeded": False, "detected": [], "remaining": []},
+           # وقائع أُسندت بعد توسيع نافذة البحث (Issue #820) — تنبيه لا حجب:
+           # وثيقة قديمة قد تجاوزها الزمن، فتُذكر مع تاريخ أقدم مصدر مسنِد
+           "older_window_facts": []}
 
 
 def write_article(body: str, issue_number: int, cfg) -> dict:
@@ -2711,6 +2728,10 @@ def write_article(body: str, issue_number: int, cfg) -> dict:
 def _write_article(body: str, issue_number: int, cfg) -> dict:
     acfg = cfg.get("article", {}) or {}
     days = int(acfg.get("days", 21))
+    # نافذة موسّعة (Issue #820) — توثيقها الكامل عند article.wide_days في
+    # config.yaml؛ تُستهلَك حصرًا داخل _cached_search لسُلَّم بحث الواقعة
+    # أدناه، لا في مراحل تسمية/سند/سؤال الأخرى التي تنادي evidence.search مباشرة
+    wide_days = int(acfg.get("wide_days", 540))
     query_max_words = int(acfg.get("query_max_words", 5))
     min_confirm = int(acfg.get("min_confirm_sources", 2))
     # عتبة سند مستقلة لـ"تقرير منقول" — نظير min_confirm أعلاه لكنها 1 لا 2
@@ -2836,12 +2857,18 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     reprint_min_shared = int(acfg.get("brief_reprint_min_shared_words", 40))
     _filter_reprints = _reprint_filter(body_words, reprint_min_shared)
 
-    def _cached_search(query: str, unrestricted: bool, relevance_text: str):
-        key = (query, bool(unrestricted), relevance_text)
+    def _cached_search(query: str, unrestricted: bool, relevance_text: str,
+                       days_override: int | None = None):
+        # days_override (Issue #820): إعادة الاستعلام نفسه بـwide_days بدل
+        # days — يدخل مفتاح الذاكرة المؤقتة كي لا يختلط بنتيجة النافذة
+        # العادية لنفس الاستعلام (قد تختلفان: صفر خام بالعادية، غير صفر
+        # بالموسّعة)
+        days_value = days if days_override is None else days_override
+        key = (query, bool(unrestricted), relevance_text, days_value)
         if key in search_cache:
             ranked, docs, basis, excluded = search_cache[key]
             return ranked, docs, basis, True, excluded
-        ranked = evidence.search(query, cfg, days, unrestricted=unrestricted)
+        ranked = evidence.search(query, cfg, days_value, unrestricted=unrestricted)
         all_ranked.extend(ranked)
         raw_docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
         kept, excluded = _filter_reprints(raw_docs)
@@ -3016,8 +3043,20 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                                   "outcome": ("🚫 استعلام أقل من كلمتين تُخُطِّي بلا بحث — "
                                              "تصفّح أخبار كيان لا بحث عن واقعة")})
                     continue
+                is_reference_fact = f.get("is_reference", False)
                 ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
-                    query, f.get("is_reference", False), relevance_text)
+                    query, is_reference_fact, relevance_text)
+                # توسيع النافذة (Issue #820)، بُعد داخل هذه المحاولة لا محاولة
+                # رابعة: صفر نتائج خام يعني صفر قراءة وصفر حكم فلا كلفة إلا
+                # حين يجد فعلًا — نتائج خام غير صفرية تعني أن البحث أصاب
+                # والمصادر لا تؤيد (Issue #810)، فلا تُوسَّع. is_reference
+                # يُسقط قيد days أصلًا (unrestricted في evidence.search) — لا
+                # معنى لتوسيعها ثانية
+                widened = False
+                if not is_reference_fact and getattr(ranked, "raw_count", None) == 0:
+                    ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
+                        query, is_reference_fact, relevance_text, days_override=wide_days)
+                    widened = True
                 all_read_docs.extend(docs)
                 reprint_image_pool.extend(_reprint_fallback_images(excluded_reprints, ranked))
                 # ما لم يُؤيَّد لا يدخل المتن (طلب المراجعة، معيار الأغلبية):
@@ -3069,6 +3108,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                     "excluded_reprints": excluded_reprints, "supporting": supporting,
                     "unique": unique, "fact_mentioned": fact_mentioned,
                     "fact_call_error": fact_call_error, "included_excerpts": included_excerpts,
+                    "widened": widened,
                 }
                 if len(unique) >= fact_min_confirm:
                     break
@@ -3102,6 +3142,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             fact_mentioned = attempt_result["fact_mentioned"]
             fact_call_error = attempt_result["fact_call_error"]
             included_excerpts = attempt_result["included_excerpts"]
+            widened = attempt_result["widened"]
 
             def _support_gap_detail() -> str:
                 if not fact_mentioned:
@@ -3124,6 +3165,10 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                             if len(unique) >= fact_min_confirm
                             else f"سند غير كافٍ ({len(unique)}/{fact_min_confirm}) — "
                                  f"{_support_gap_detail()}")
+            if widened:
+                # بلا هذا لن نعرف أي واقعة اتّكأت على نافذة موسّعة (Issue
+                # #820) — تنبيه صريح في outcome_text (يظهر في trail أدناه)
+                outcome_text = f"⏳ نافذة موسّعة {wide_days} يومًا — {outcome_text}"
             if reused_query:
                 # الشفافية أهم من اختصار السجل (طلب المراجعة، تشخيص Issue
                 # #373، تعليق العطل العشرون، البند 1): لا يُحذف السطر رغم
@@ -3159,6 +3204,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                           # أثمرت لا الاستعلام النهائي وحده
                           "search_attempt": search_attempt,
                           "search_attempts_tried": len(search_texts),
+                          "widened": widened,
                           "outcome": outcome_text})
             if len(unique) < fact_min_confirm:
                 if fact_call_error:
@@ -3185,6 +3231,14 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             # التصريح، فيبقى f["text"] الأصلي كما هو دومًا لتلك الحالات)
             fact_text = ("؛ ".join(included_excerpts) if is_statement and included_excerpts
                         else f["text"])
+            if widened:
+                # تنبيه لا حجب (Issue #820): وثيقة قديمة قد تجاوزها الزمن —
+                # يظهر تاريخ أقدم مصدر مسنِد فعليًا ليراجعه المستخدم البشري،
+                # لا رفض تلقائي لواقعة اجتازت السند بنافذة موسّعة
+                outcome["older_window_facts"].append({
+                    "text": fact_text,
+                    "oldest_date": _oldest_source_date(unique, ranked),
+                })
             grounded.append({**f, "text": fact_text, "sources": fact_sources})
 
         for s in grounded[-1]["sources"]:
@@ -4414,6 +4468,14 @@ def build_report(outcome: dict, investigation: dict | None = None) -> str:
         lines += ["", "**أين خالفت المصادرُ موجزي:**"]
         lines += [f"- موجزي: «{d['brief']}» — المصادر: «{d['sources_say']}»"
                  for d in outcome["diffs"]]
+
+    if outcome.get("older_window_facts"):
+        # تنبيه لا حجب (Issue #820): وثيقة قديمة قد تكون تجاوزها الزمن —
+        # يراجع المستخدم البشري التواريخ، لا رفض تلقائي لواقعة أُسندت بنافذة
+        # بحث موسّعة (article.wide_days) بدل النافذة العادية
+        lines += ["", "**مسندة بمصادر أقدم من النافذة المعتادة — راجع تواريخها:**"]
+        lines += [f"- «{f['text']}» — أقدم مصدر: {f['oldest_date']}"
+                 for f in outcome["older_window_facts"]]
 
     if outcome.get("trail"):
         # مفتوح افتراضيًا (open) — لا مطويًا (تشخيص Issue #373، الجولة الثانية،
