@@ -1,0 +1,61 @@
+{
+  "id": "d70b6b3fa6ef",
+  "created_at": "2026-09-09T15:08:14.870826+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.14,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Suspected measles cases kill nearly 1,000 as Bangladesh struggles to contain outbreak",
+  "link": "https://medicalxpress.com/news/2026-09-measles-cases-bangladesh-struggles-outbreak.html",
+  "publishers": [
+    "Hindustan Times — World",
+    "Medical Xpress",
+    "The Hindu — International"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Suspected measles cases kill nearly 1,000 as Bangladesh struggles to contain outbreak",
+    "link": "https://medicalxpress.com/news/2026-09-measles-cases-bangladesh-struggles-outbreak.html",
+    "summary": "Eight-month-old Rojatun Jannat Ramisa is struggling to breathe in a hospital in Bangladesh's capital as her parents sit helplessly beside her. She's one of thousands of children sickened by a measles outbreak that's sweeping across the country and has killed hundreds of children following setbacks to the country's vaccine program.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-09-09T14:10:02+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/suspected-measles-case.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Medical Xpress",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-09-measles-cases-bangladesh-struggles-outbreak.html"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/suspected-measles-cases-kill-nearly-1000-as-bangladesh-struggles-to-contain-outbreak/article71447043.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/measles-outbreak-suspected-as-nearly-1-000-killed-in-bangladesh-this-year-so-far-101788950674329.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/suspected-measles-case.jpg",
+      "https://th-i.thgim.com/public/incoming/fd01mb/article71447154.ece/alternates/LANDSCAPE_1200/2026-09-09T112400Z_1657141282_RC2NFNAU6WPY_RTRMADP_3_BANGLADESH-HEALTH-MEASLES.JPG"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 862.9186611783334,
+    "is_stale": false,
+    "score": 19.14034812255236
+  }
+}

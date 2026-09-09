@@ -1,0 +1,54 @@
+{
+  "id": "04d72e0616ff",
+  "created_at": "2026-09-09T15:08:14.870683+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.96,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hormuz impasse deepens: Iran retaliates against US targets after its oil tankers destroyed",
+  "link": "https://www.france24.com/en/video/20260909-hormuz-impasse-deepens-iran-retaliates-against-us-targets-after-its-oil-tankers-destroyed",
+  "publishers": [
+    "France24",
+    "Nikkei Asia"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Hormuz impasse deepens: Iran retaliates against US targets after its oil tankers destroyed",
+    "link": "https://www.france24.com/en/video/20260909-hormuz-impasse-deepens-iran-retaliates-against-us-targets-after-its-oil-tankers-destroyed",
+    "summary": "Iran launched fresh attacks against US targets in the Middle East on Wednesday in retaliation for American strikes on Iranian oil tankers, dragging the foes deeper into war. Tehran's powerful Revolutionary Guards said Wednesday they attacked 20 US vessels trying to pass through the Strait of Hormuz, a vital waterway for the world's oil and gas that Iran has largely controlled since the war erupted. The United States and Iran are locked in a stalemate six months into the war, with Iran maintaining a stranglehold on the Strait of Hormuz and Washington pushing a campaign to choke Iran's ports and economy.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-09T10:02:23+00:00",
+    "image_url": "https://s.france24.com/media/display/2471d7aa-ac34-11f1-bbec-005056bfb2b6/w:1024/p:16x9/EN-20260909-103151-103349-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260909-hormuz-impasse-deepens-iran-retaliates-against-us-targets-after-its-oil-tankers-destroyed"
+      },
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/spotlight/iran-tensions/iran-war/iran-retaliates-against-us-allies-after-its-oil-tankers-destroyed"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/2471d7aa-ac34-11f1-bbec-005056bfb2b6/w:1024/p:16x9/EN-20260909-103151-103349-CS.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 862.9186288711112,
+    "is_stale": false,
+    "score": 20.960293958
+  }
+}

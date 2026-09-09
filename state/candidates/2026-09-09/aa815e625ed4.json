@@ -1,0 +1,89 @@
+{
+  "id": "aa815e625ed4",
+  "created_at": "2026-09-09T15:08:14.870028+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.98,
+  "trend_score": 1.0,
+  "velocity": 0.89,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Anthropic researcher resigns, says AI labs are ‘gambling with our lives’",
+  "link": "https://www.dawn.com/news/2028573/anthropic-researcher-resigns-says-ai-labs-are-gambling-with-our-lives",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Technology",
+    "CBS News — World",
+    "Daily Sabah",
+    "Dawn",
+    "El País",
+    "Malay Mail",
+    "TechCrunch",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Anthropic researcher resigns, says AI labs are ‘gambling with our lives’",
+    "link": "https://www.dawn.com/news/2028573/anthropic-researcher-resigns-says-ai-labs-are-gambling-with-our-lives",
+    "summary": "A researcher at Anthropic has tendered his resignation, warning that artificial intelligence (AI) labs “gambling with our lives” in the race to develop their systems. Jacob Coxon’s departure was first reported by the Wall Street Journal , which said it was “one of the first examples of an Anthropic employee leaving over AI safety fears”. In a thread on the social media platform X, Coxon — a researcher who specialises in training new AI models by having them consume vast amounts of data — said: “I resigned from Anthropic today. I spent the last three years doing pre-training research at both OpenAI and Anthropic. “Neither company is acting responsibly. They are racing straight to self-improving superintelligence and gambling with our lives,” he added. “Do not underestimate the power of this technology. These will soon be superhuman systems that can hack anything, revolutionise any field overnight, and acquire real power and resources,” he said. “We have all witnessed the progress in each of these domains, and progress is not slowing,” he added. Coxon also warned of fears among AI researchers and executives about the potential consequences of the technology. “The people building AI e",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-09T08:49:28+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/09095908d4c1b4f.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Technology",
+      "CBS News — World",
+      "Daily Sabah",
+      "Dawn",
+      "El País",
+      "Malay Mail",
+      "TechCrunch",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2028573/anthropic-researcher-resigns-says-ai-labs-are-gambling-with-our-lives"
+      },
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/09/09/gambling-with-our-lives-anthropic-researcher-quits-warns-against-self-improving-ai/"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628354/theyre-playing-with-our-lives-ai-researcher-quits-anthropic"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/anthropic-researcher-quits-to-warn-ai-developers-gambling-with-our-lives"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/9/ai-researcher-quits-anthropic-saying-ai-race-could-kill-us?traffic_source=rss"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/ai-kill-humans-anthropic-researcher-more-than-ten-percent-chance/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/09095908d4c1b4f.webp",
+      "https://i.dawn.com/thumbnail/2026/09/09095908d4c1b4f.webp",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/09/459808.JPG",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/cace/live/40c59310-ac2a-11f1-9bd9-7b7da208bd5c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/cace/live/40c59310-ac2a-11f1-9bd9-7b7da208bd5c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/cace/live/40c59310-ac2a-11f1-9bd9-7b7da208bd5c.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 9,
+    "velocity": 0.8879652217099361,
+    "age_hours": 862.9185561144444,
+    "is_stale": false,
+    "score": 30.97887655750625
+  }
+}

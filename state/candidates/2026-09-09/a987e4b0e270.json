@@ -1,0 +1,55 @@
+{
+  "id": "a987e4b0e270",
+  "created_at": "2026-09-09T15:08:14.870553+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.97,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthis report Saudi reprisals after oil sites set ablaze in wave of strikes",
+  "link": "https://www.france24.com/en/video/20260909-houthis-report-saudi-reprisals-after-oil-sites-set-ablaze-in-wave-of-strikes",
+  "publishers": [
+    "Africanews",
+    "France24"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Houthis report Saudi reprisals after oil sites set ablaze in wave of strikes",
+    "link": "https://www.france24.com/en/video/20260909-houthis-report-saudi-reprisals-after-oil-sites-set-ablaze-in-wave-of-strikes",
+    "summary": "The Houthis said Saudi Arabia retaliated with strikes on Tuesday after the group targeted oil facilities, wounding dozens, as deadly fighting reignited in Yemen after a Houthi offensive towards the Red Sea's Bab al-Mandab chokepoint. The rapid round of strikes and counter-strikes follows the unravelling of a four-year truce between the Houthis and the Saudi-backed government in July.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-09T10:14:29+00:00",
+    "image_url": "https://s.france24.com/media/display/875544f0-ac35-11f1-b65d-005056bfb2b6/w:1024/p:16x9/EN-20260909-103420-103619-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Africanews",
+      "France24"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/08/houthi-strikes-set-fire-to-saudi-oil-sites-wounding-73/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260909-houthis-report-saudi-reprisals-after-oil-sites-set-ablaze-in-wave-of-strikes"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/875544f0-ac35-11f1-b65d-005056bfb2b6/w:1024/p:16x9/EN-20260909-103420-103619-CS.jpg",
+      "http://images.euronews.com/articles/stories/09/90/54/58/640x360_cmsv2_46cc241f-0749-539a-aad3-f0101733fead-9905458.jpg?1788860125"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 862.9186258325,
+    "is_stale": false,
+    "score": 20.973738401185187
+  }
+}
