@@ -5371,5 +5371,45 @@
     "posted_title": "",
     "region": "health",
     "seen_at": "2026-09-09T06:08:13.138897+00:00"
+  },
+  {
+    "score": 17.01,
+    "bucket": "useful",
+    "tokens": [
+      "cancer",
+      "damage",
+      "drinks",
+      "food",
+      "hot",
+      "increase",
+      "may",
+      "pipe",
+      "risk",
+      "very"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/ce3r77d9n90o?at_medium=RSS&at_campaign=rss",
+    "title": "Very hot drinks may damage the food pipe and increase cancer risk",
+    "posted_title": "لماذا يحذر باحثون بريطانيون من شرب الشاي والقهوة وهما ساخنان جدا",
+    "region": "health",
+    "seen_at": "2026-09-09T08:13:06.853864+00:00"
+  },
+  {
+    "score": 18.28,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "fire",
+      "netanyahu",
+      "october",
+      "report",
+      "uae",
+      "under",
+      "warned"
+    ],
+    "link": "https://www.france24.com/en/netanyahu-under-fire-over-report-uae-warned-of-october-7-attack",
+    "title": "Netanyahu under fire over report UAE warned of October 7 attack",
+    "posted_title": "تحديث: كتاب جديد يكشف تفاصيل مكالمة استمرت 45 دقيقة بين رئيس الإمارات ونتنياهو قبل هجوم حماس",
+    "region": "eu",
+    "seen_at": "2026-09-09T08:13:25.585423+00:00"
   }
 ]

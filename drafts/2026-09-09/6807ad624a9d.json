@@ -1,0 +1,79 @@
+{
+  "id": "6807ad624a9d",
+  "created_at": "2026-09-09T08:13:06.853459+00:00",
+  "status": "queued",
+  "review_issue": null,
+  "origin": "news",
+  "score": 17.01,
+  "bucket": "useful",
+  "analysed_sources": [
+    "BBC Health"
+  ],
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "age_hours": 853.9,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+    "candidates_tried": 4,
+    "manual": false
+  },
+  "source": {
+    "title": "Very hot drinks may damage the food pipe and increase cancer risk",
+    "link": "https://www.bbc.co.uk/news/articles/ce3r77d9n90o?at_medium=RSS&at_campaign=rss",
+    "publisher": "BBC Health",
+    "publishers": [
+      "BBC Health",
+      "MyJoyOnline Ghana"
+    ],
+    "region": "health",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-1013-1024x683.png"
+    ]
+  },
+  "arabic": {
+    "angle": "تفسير",
+    "analysis": "",
+    "urgent": false,
+    "category": "صحة",
+    "image_headline": "الشاي والقهوة الساخنان جدا قد يرفعان خطر سرطان المريء",
+    "post_title": "لماذا يحذر باحثون بريطانيون من شرب الشاي والقهوة وهما ساخنان جدا",
+    "post_body": "وجدت دراسة أجرتها جامعة أكسفورد على نحو 977 ألف شخص في منتصف العمر أن من اعتادوا شرب مشروبات ساخنة جدا، أي عند 65 درجة مئوية أو أعلى، كانوا أكثر عرضة بنحو ثلاث مرات للإصابة بسرطان المريء مقارنة بمن يشربونها دافئة. كما تبين أن تناول ست مشروبات ساخنة أو أكثر يوميا يرفع الخطر أيضا. الشاي فور صبه من الغلاية يكون بحرارة 90 إلى 95 درجة، وإضافة الحليب لا تخفض حرارته كثيرا. الدراسة نُشرت في المجلة الدولية للسرطان. استشر طبيبا مختصا.",
+    "hashtags": [
+      "سرطان_المريء",
+      "صحة",
+      "دراسة_علمية",
+      "أكسفورد"
+    ]
+  },
+  "caption": "لماذا يحذر باحثون بريطانيون من شرب الشاي والقهوة وهما ساخنان جدا\n\nوجدت دراسة أجرتها جامعة أكسفورد على نحو 977 ألف شخص في منتصف العمر أن من اعتادوا شرب مشروبات ساخنة جدا، أي عند 65 درجة مئوية أو أعلى، كانوا أكثر عرضة بنحو ثلاث مرات للإصابة بسرطان المريء مقارنة بمن يشربونها دافئة. كما تبين أن تناول ست مشروبات ساخنة أو أكثر يوميا يرفع الخطر أيضا. الشاي فور صبه من الغلاية يكون بحرارة 90 إلى 95 درجة، وإضافة الحليب لا تخفض حرارته كثيرا. الدراسة نُشرت في المجلة الدولية للسرطان. استشر طبيبا مختصا.\n\n#سرطان_المريء #صحة #دراسة_علمية #أكسفورد",
+  "headlines": [
+    "هل يزيد شرب الشاي والقهوة الساخنة جداً من خطر الإصابة بسرطان المريء؟",
+    "دراسة بريطانية تربط بين المشروبات الساخنة جداً وسرطان المريء",
+    "الحرارة الزائدة للمشروبات قد تضاعف خطر الإصابة بسرطان المريء"
+  ],
+  "headline_selected": 0,
+  "image": "drafts/2026-09-09/6807ad624a9d.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "الشاي والقهوة الساخنان جدا قد يرفعان خطر سرطان المريء",
+    "category": "صحة",
+    "urgent": false,
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-1013-1024x683.png"
+    ]
+  },
+  "publish_at": "2026-09-09T09:11:50.897138+00:00"
+}
