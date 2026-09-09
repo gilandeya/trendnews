@@ -1,175 +1,5 @@
 [
   {
-    "score": 18.91,
-    "bucket": "serious",
-    "tokens": [
-      "accuses",
-      "assassination",
-      "commander",
-      "confessing",
-      "corps",
-      "day",
-      "deputy",
-      "fsb",
-      "independence",
-      "kaplunov",
-      "plotting",
-      "russian",
-      "sbu",
-      "stepan",
-      "tortured",
-      "ukraine",
-      "volunteer",
-      "working"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/03/ukraine-s-sbu-accuses-russian-volunteer-corps-deputy-commander-stepan-kaplunov-of-working-for-the-fsb-and-plotting-an-independence-day-assassination-he-says-he-was-tortured-into-confessing",
-    "title": "Ukraine’s SBU accuses Russian Volunteer Corps deputy commander Stepan Kaplunov of working for the FSB and plotting an Independence Day assassination. He says he",
-    "posted_title": "جهاز الأمن الأوكراني يتهم نائب قائد \"الفيلق الروسي\" بالتخطيط لاغتيال معارض روسي في يوم الاستقلال",
-    "region": "ru",
-    "seen_at": "2026-09-04T17:13:33.202646+00:00"
-  },
-  {
-    "score": 17.16,
-    "bucket": "serious",
-    "tokens": [
-      "budanov",
-      "founder",
-      "group",
-      "head",
-      "kyrylo",
-      "office",
-      "presidential",
-      "prigozhin",
-      "regularly",
-      "spoke",
-      "ukraine",
-      "wagner",
-      "yevgeny"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/04/head-of-ukraine-s-presidential-office-kyrylo-budanov-says-he-regularly-spoke-with-wagner-group-founder-yevgeny-prigozhin",
-    "title": "Head of Ukraine’s Presidential Office Kyrylo Budanov says he regularly spoke with Wagner Group founder Yevgeny Prigozhin",
-    "posted_title": "رئيس المكتب الرئاسي الأوكراني يكشف عن تواصل منتظم مع مؤسس فاغنر قبل تمرده",
-    "region": "ru",
-    "seen_at": "2026-09-04T17:13:47.067074+00:00"
-  },
-  {
-    "score": 28.75,
-    "bucket": "light",
-    "tokens": [
-      "drone",
-      "ground",
-      "headquarters",
-      "kyiv",
-      "russian",
-      "security",
-      "service",
-      "strikes",
-      "ukraine"
-    ],
-    "link": "https://www.france24.com/en/video/20260904-on-the-ground-russian-drone-strikes-ukraine-security-service-headquarters-in-kyiv",
-    "title": "On the ground: Russian drone strikes Ukraine security service headquarters in Kyiv",
-    "posted_title": "مسيّرة روسية تستهدف مكتب رئيس جهاز الأمن الأوكراني في كييف",
-    "region": "eu",
-    "seen_at": "2026-09-04T17:14:04.477808+00:00"
-  },
-  {
-    "score": 18.53,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "anti",
-      "erupts",
-      "injuries",
-      "migrant",
-      "protest",
-      "south",
-      "violence"
-    ],
-    "link": "http://www.africanews.com/2026/09/04/injuries-as-violence-erupts-at-south-africa-anti-migrant-protest/",
-    "title": "Injuries as violence erupts at South Africa anti-migrant protest",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-09-04T18:07:45.850675+00:00"
-  },
-  {
-    "score": 17.26,
-    "bucket": "serious",
-    "tokens": [
-      "allies",
-      "board",
-      "council",
-      "diplomats",
-      "iaea",
-      "iran",
-      "report",
-      "say",
-      "security",
-      "want"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/us-iaea-report-iran-un-security-council-6363371",
-    "title": "US and allies want IAEA board to report Iran to UN Security Council, diplomats say",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-04T18:07:45.850833+00:00"
-  },
-  {
-    "score": 17.03,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "cup",
-      "defeat",
-      "fiba",
-      "opener",
-      "suffer",
-      "tigress",
-      "world"
-    ],
-    "link": "https://www.vanguardngr.com/2026/09/dtigress-suffer-defeat-in-2026-fiba-world-cup-opener/",
-    "title": "D’Tigress suffer defeat in 2026 FIBA World Cup opener",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-09-04T18:07:45.850960+00:00"
-  },
-  {
-    "score": 16.9,
-    "bucket": "serious",
-    "tokens": [
-      "asia",
-      "devices",
-      "military",
-      "off",
-      "reports",
-      "targeting",
-      "trackers",
-      "turns",
-      "west"
-    ],
-    "link": "https://www.thehindu.com/news/international/us-military-turns-off-ad-trackers-on-devices-amid-west-asia-targeting-reports/article71427950.ece",
-    "title": "U.S. military turns off ad trackers on devices amid West Asia targeting reports",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-04T18:07:45.851102+00:00"
-  },
-  {
-    "score": 16.72,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "across",
-      "blood",
-      "collects",
-      "kızılay",
-      "türkiye",
-      "units"
-    ],
-    "link": "https://www.dailysabah.com/turkiye/kizilay-collects-over-2m-units-of-blood-across-turkiye-in-2026/news",
-    "title": "Kızılay collects over 2M units of blood across Türkiye in 2026",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-09-04T18:07:45.851220+00:00"
-  },
-  {
     "score": 26.19,
     "bucket": "serious",
     "tokens": [
@@ -5293,5 +5123,97 @@
     "posted_title": "",
     "region": "tr",
     "seen_at": "2026-09-09T17:07:56.266606+00:00"
+  },
+  {
+    "score": 22.16,
+    "bucket": "sport",
+    "tokens": [
+      "133",
+      "against",
+      "all",
+      "collapse",
+      "england",
+      "pakistan",
+      "test",
+      "third"
+    ],
+    "link": "https://www.dawn.com/news/2028615/pakistan-collapse-to-133-all-out-against-england-in-third-test",
+    "title": "Pakistan collapse to 133 all out against England in third Test",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-09T18:08:00.833124+00:00"
+  },
+  {
+    "score": 20.37,
+    "bucket": "serious",
+    "tokens": [
+      "attacked",
+      "bound",
+      "honour",
+      "pact",
+      "pakistan",
+      "saudi",
+      "security"
+    ],
+    "link": "https://www.ndtv.com/world-news/pakistan-says-it-is-bound-to-honour-security-pact-if-saudi-is-attacked-12021837#publisher=newsstand",
+    "title": "Pakistan Says It Is Bound To \"Honour\" Security Pact If Saudi Is Attacked",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-09T18:08:00.833403+00:00"
+  },
+  {
+    "score": 16.74,
+    "bucket": "serious",
+    "tokens": [
+      "discussed",
+      "jinping",
+      "kremlin",
+      "meeting",
+      "potential",
+      "putin",
+      "trilateral",
+      "trump"
+    ],
+    "link": "https://www.ndtv.com/world-news/vladimir-putin-donald-trump-discussed-potential-trilateral-meeting-with-xi-jinping-kremlin-12023511#publisher=newsstand",
+    "title": "Putin, Trump Discussed Potential Trilateral Meeting With Xi Jinping: Kremlin",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-09T18:08:00.833692+00:00"
+  },
+  {
+    "score": 16.47,
+    "bucket": "serious",
+    "tokens": [
+      "data",
+      "emissions",
+      "highest",
+      "indonesia",
+      "shows",
+      "surge",
+      "wildfire",
+      "world"
+    ],
+    "link": "https://www.scmp.com/news/asia/southeast-asia/article/3366962/indonesias-wildfire-emissions-surge-worlds-highest-data-shows?utm_source=rss_feed",
+    "title": "Indonesia’s wildfire emissions surge to world’s highest, data shows",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-09T18:08:00.833948+00:00"
+  },
+  {
+    "score": 16.08,
+    "bucket": "serious",
+    "tokens": [
+      "downs",
+      "drone",
+      "hormuz",
+      "iran",
+      "strait",
+      "video"
+    ],
+    "link": "https://en.mehrnews.com/news/247579/VIDEO-Iran-downs-US-MQ-1-drone-over-Strait-of-Hormuz",
+    "title": "VIDEO: Iran downs US MQ-1 drone over Strait of Hormuz",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-09T18:08:00.834272+00:00"
   }
 ]

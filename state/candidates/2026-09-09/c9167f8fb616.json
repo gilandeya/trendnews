@@ -1,0 +1,55 @@
+{
+  "id": "c9167f8fb616",
+  "created_at": "2026-09-09T18:08:00.833414+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.74,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Putin, Trump Discussed Potential Trilateral Meeting With Xi Jinping: Kremlin",
+  "link": "https://www.ndtv.com/world-news/vladimir-putin-donald-trump-discussed-potential-trilateral-meeting-with-xi-jinping-kremlin-12023511#publisher=newsstand",
+  "publishers": [
+    "Free Malaysia Today",
+    "NDTV — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Putin, Trump Discussed Potential Trilateral Meeting With Xi Jinping: Kremlin",
+    "link": "https://www.ndtv.com/world-news/vladimir-putin-donald-trump-discussed-potential-trilateral-meeting-with-xi-jinping-kremlin-12023511#publisher=newsstand",
+    "summary": "The November summit comes as Washington pushes Russia for an end to the Ukraine war",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-09T12:03:20+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-02/fusf069k_xi-putin-trump_625x300_05_February_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/09/putin-trump-discussed-idea-of-trilateral-summit-with-xi"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/vladimir-putin-donald-trump-discussed-potential-trilateral-meeting-with-xi-jinping-kremlin-12023511#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-02/fusf069k_xi-putin-trump_625x300_05_February_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://media.freemalaysiatoday.com/v3/2026/09/f764cc86-8120-4e13-8ead-a50a41e1ea06-Donald-Trump-Vladimir-Putin-Xi-Jinping-collage-090926-1.jpg.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 865.9147319074999,
+    "is_stale": false,
+    "score": 16.74494503674074
+  }
+}

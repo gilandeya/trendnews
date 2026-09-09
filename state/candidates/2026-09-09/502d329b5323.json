@@ -1,0 +1,50 @@
+{
+  "id": "502d329b5323",
+  "created_at": "2026-09-09T18:08:00.833136+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.37,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan Says It Is Bound To \"Honour\" Security Pact If Saudi Is Attacked",
+  "link": "https://www.ndtv.com/world-news/pakistan-says-it-is-bound-to-honour-security-pact-if-saudi-is-attacked-12021837#publisher=newsstand",
+  "publishers": [
+    "Bloomberg.com",
+    "NDTV — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Pakistan Says It Is Bound To \"Honour\" Security Pact If Saudi Is Attacked",
+    "link": "https://www.ndtv.com/world-news/pakistan-says-it-is-bound-to-honour-security-pact-if-saudi-is-attacked-12021837#publisher=newsstand",
+    "summary": "Pakistan's Defense Minister warns Mecca Defense Pact activates if Saudi Arabia faces aggression.",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-09T06:22:53+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-07/ghebarsg_khawaja-asif_625x300_28_July_26.png?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Bloomberg.com",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/pakistan-says-it-is-bound-to-honour-security-pact-if-saudi-is-attacked-12021837#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-07/ghebarsg_khawaja-asif_625x300_28_July_26.png?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 865.9146626852778,
+    "is_stale": false,
+    "score": 20.36666726535185
+  }
+}
