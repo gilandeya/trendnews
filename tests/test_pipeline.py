@@ -8043,6 +8043,155 @@ def test_article_mandatory_query_name() -> None:
           built_report_query.split()[:2] == ["Daily", "Sabah"], built_report_query)
 
 
+def test_article_search_ladder() -> None:
+    """سُلَّم ثلاث محاولات بحث لكل واقعة عادية، يتوقف عند أول نتيجة (Issue
+    #803). الشاهد الفعلي: موجز عن شركة «فيستل» التركية أنتج استعلامات
+    كيانات-رقمية-بحتة («فيستل 48»، «فيستل 105 مليارات ليرة»، «فيستل 9 7
+    مليار ليرة») فقدت كل كلمة معنى من نص الواقعة (كيانات رقمية تُشبع سقف
+    query_max_words=5 وحدها)، فرجعت ست وقائع من سبع صفر نتائج بلا أي محاولة
+    ثانية — بينما build_query على نص الواقعة وحده (بلا بادئة الكيانات) كان
+    يعطي استعلامًا يحوي «مبيعات»/«ديون» فعليًا."""
+    from src import article
+
+    cfg = load_config()
+    cfg["article"]["source_extract_enabled"] = False
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": ([], evidence.EVIDENCE_NO_RESULTS)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": []
+
+    def _brief(statements: list) -> None:
+        article.extract_brief = lambda body, cfg, retries=3: ({
+            "topic": "اختبار سُلَّم البحث", "statements": statements, "questions": [],
+        }, None)
+
+    def _stmt(text: str, entities: list, entities_latin: str = "") -> dict:
+        return {"text": text, "kind": "واقعة", "entities": entities,
+                "is_unnamed_event": False, "is_reference": False,
+                "entities_latin": entities_latin}
+
+    try:
+        # ── ١) query_text يحوي كلمات الواقعة حتى مع وجود كيانات، والاسم
+        # الإلزامي (هنا speaker لعنصر «تصريح») يبقى أول الاستعلام ──
+        _brief([{"text": "حقّقت الشركة إنجازًا صناعيًا كبيرًا", "kind": "تصريح",
+                 "speaker": "Selçuk Bayraktar", "entities": ["Baykar", "90"],
+                 "is_unnamed_event": False, "is_reference": False}])
+        search_queries: list = []
+        evidence.search = lambda query, cfg, days, unrestricted=False: (
+            search_queries.append(query) or [object()])
+        article._write_article("موجز اختبار ١", 9101, cfg)
+        built = search_queries[0] if search_queries else ""
+        check("سُلَّم البحث ١) الاسم الإلزامي يبقى أول الاستعلام رغم إضافة نص الواقعة",
+              built.split()[:2] == ["Selçuk", "Bayraktar"], built)
+        # build_query يُسقِط التشكيل (_TASHKEEL_RE) قبل بناء الاستعلام، فالشدّة
+        # تسقط من «حقّقت» — المطابقة هنا على الإملاء بلا تشكيل كالمُتوقَّع فعليًا
+        check("سُلَّم البحث ١) كلمة معنى من نص الواقعة («حققت») تدخل الاستعلام "
+              "رغم وجود كيانات — لا تُهمَل كليًا كما في العطل الأصلي",
+              "حققت" in built.split(), built)
+
+        # ── ٢) صفر نتائج يُطلق المحاولة الثانية، ونتيجة واحدة توقف السُلَّم
+        # — شاهد فيستل الفعلي: «تجاوزت ديون فيستل 105 مليارات ليرة» ──
+        _brief([_stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
+                      ["فيستل", "105 مليارات ليرة"])])
+        search_queries = []
+        results = [[], [object()]]  # صفر ثم نتيجة — لا محاولة ثالثة رغم توفّرها بنيويًا هنا (لا entities_latin)
+
+        def _fake_two(query, cfg, days, unrestricted=False):
+            search_queries.append(query)
+            return results[len(search_queries) - 1] if len(search_queries) <= len(results) else []
+
+        evidence.search = _fake_two
+        outcome = article._write_article("موجز اختبار ٢", 9102, cfg)
+        check("سُلَّم البحث ٢) محاولتان بالضبط: الأولى (المركَّبة) صفر، الثانية (النص وحده) نجحت",
+              len(search_queries) == 2, search_queries)
+        check("سُلَّم البحث ٢) المحاولة الثانية بلا بادئة الكيانات، وتحوي «ديون» "
+              "المفقودة من المحاولة الأولى (كيانات رقمية بحتة أشبعت السقف)",
+              "ديون" in search_queries[1].split() and
+              "ديون" not in search_queries[0].split(), search_queries)
+        last_trail = outcome["trail"][-1]
+        check("سُلَّم البحث ٢) trail يسجّل رقم المحاولة الناجحة (٢)",
+              last_trail.get("search_attempt") == 2, last_trail)
+
+        # ── ٣) المحاولة الثالثة لا تنطلق بلا entities_latin — حتى لو صفرت
+        # المحاولتان الأوليان معًا ──
+        search_queries = []
+
+        def _fake_all_zero(query, cfg, days, unrestricted=False):
+            search_queries.append(query)
+            return []
+
+        evidence.search = _fake_all_zero
+        outcome = article._write_article("موجز اختبار ٣", 9103, cfg)
+        check("سُلَّم البحث ٣) صفر entities_latin ⇒ محاولتان فقط رغم صفر نتائج بكليهما",
+              len(search_queries) == 2, search_queries)
+
+        # ── ٤) entities_latin يُفعِّل محاولة ثالثة فعلية عند صفر الأوليين ──
+        _brief([_stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
+                      ["فيستل", "105 مليارات ليرة"], entities_latin="Vestel")])
+        search_queries = []
+        results3 = [[], [], [object()]]
+
+        def _fake_three(query, cfg, days, unrestricted=False):
+            search_queries.append(query)
+            idx = len(search_queries) - 1
+            return results3[idx] if idx < len(results3) else []
+
+        evidence.search = _fake_three
+        outcome = article._write_article("موجز اختبار ٤", 9104, cfg)
+        check("سُلَّم البحث ٤) entities_latin موجود ⇒ محاولة ثالثة فعلية عند صفر الأوليين",
+              len(search_queries) == 3, search_queries)
+        check("سُلَّم البحث ٤) المحاولة الثالثة لاتينية فعلًا",
+              search_queries[2] == "Vestel", search_queries)
+        last_trail = outcome["trail"][-1]
+        check("سُلَّم البحث ٤) trail يسجّل رقم المحاولة الناجحة (٣)",
+              last_trail.get("search_attempt") == 3, last_trail)
+
+        # ── ٥) وقائع «فيستل» السبع (من السجل المرفق في الـIssue): استعلامات
+        # المحاولة الثانية تحوي «مبيعات»/«ديون»/«خسائر» لا الأرقام وحدها ──
+        vestel_facts = [
+            _stmt("تراجعت مبيعات فيستل بنسبة 48%", ["فيستل", "48"]),
+            _stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
+                  ["فيستل", "105 مليارات ليرة"]),
+            _stmt("سجّلت فيستل خسائر بلغت 9.7 مليار ليرة",
+                  ["فيستل", "9.7 مليار ليرة"]),
+            _stmt("يعمل في فيستل نحو 20 ألف شخص", ["فيستل", "20 ألف شخص"]),
+            _stmt("انخفضت حصة فيستل السوقية إلى 12%", ["فيستل", "12"]),
+            _stmt("أغلقت فيستل 3 مصانع في تركيا", ["فيستل", "3 مصانع"]),
+            _stmt("هبط سهم فيستل 15% في البورصة", ["فيستل", "15"]),
+        ]
+        _brief(vestel_facts)
+        search_queries = []
+
+        def _fake_alternating(query, cfg, days, unrestricted=False):
+            # يحاكي التشغيلة الحقيقية: المحاولة المركَّبة (فردية الترتيب هنا)
+            # تعود صفرًا دومًا، ونص الواقعة وحده (زوجية الترتيب) ينجح دومًا —
+            # بصرف النظر عن محتوى الاستعلام، فالمقصود اختبار آلية السُلَّم لا
+            # حظّ تغطية فعلية
+            search_queries.append(query)
+            return [] if len(search_queries) % 2 == 1 else [object()]
+
+        evidence.search = _fake_alternating
+        article._write_article("موجز اختبار وقائع فيستل السبع", 9105, cfg)
+        check("وقائع فيستل السبع) سبع وقائع × محاولتان بالضبط = 14 نداء بحث",
+              len(search_queries) == 14, len(search_queries))
+        check("وقائع فيستل السبع) استعلام واقعة المبيعات الناجح يحوي «مبيعات»",
+              "مبيعات" in search_queries[1].split(), search_queries[1])
+        check("وقائع فيستل السبع) استعلام واقعة الديون الناجح يحوي «ديون»",
+              "ديون" in search_queries[3].split(), search_queries[3])
+        check("وقائع فيستل السبع) استعلام واقعة الخسائر الناجح يحوي «خسائر»",
+              "خسائر" in search_queries[5].split(), search_queries[5])
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+
+
 def test_article_report_kind() -> None:
     """تصنيف رابع «تقرير منقول» (تشخيص Issue #373، الجولة السادسة عشرة):
     نقل موجز لتقرير نشرته منصة واحدة بعينها ليس واقعة تحتاج مصدرين مستقلين
@@ -14886,6 +15035,7 @@ def main() -> int:
     test_article_split_statements()
     test_article_split_event_condition()
     test_article_mandatory_query_name()
+    test_article_search_ladder()
     test_article_report_kind()
     test_article_generic_source_publisher()
     test_article_unsourced_entities()
