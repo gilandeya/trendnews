@@ -1,0 +1,50 @@
+{
+  "id": "c22a1803b4bd",
+  "created_at": "2026-09-09T19:07:55.557669+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.84,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Serbia's Vucic calls snap elections after nearly two years of protests",
+  "link": "https://www.france24.com/en/europe/20260909-serbia-vucic-calls-snap-elections-after-nearly-two-years-protests",
+  "publishers": [
+    "France24",
+    "Reuters"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Serbia's Vucic calls snap elections after nearly two years of protests",
+    "link": "https://www.france24.com/en/europe/20260909-serbia-vucic-calls-snap-elections-after-nearly-two-years-protests",
+    "summary": "Serbian President Aleksandar Vucic on Wednesday called snap parliamentary elections for October 25. They are expected to be a key test of his right-wing populist Serbian Progressive Party after nearly two years of student-led anti-corruption protests.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-09T12:15:56+00:00",
+    "image_url": "https://s.france24.com/media/display/cc55b91e-ac43-11f1-963f-005056bfb2b6/w:1024/p:16x9/000-C48Z7PG.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260909-serbia-vucic-calls-snap-elections-after-nearly-two-years-protests"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/cc55b91e-ac43-11f1-963f-005056bfb2b6/w:1024/p:16x9/000-C48Z7PG.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 866.9132211297223,
+    "is_stale": false,
+    "score": 16.84237991101852
+  }
+}

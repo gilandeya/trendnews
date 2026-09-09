@@ -1,0 +1,48 @@
+{
+  "id": "b9215656075e",
+  "created_at": "2026-09-09T19:07:55.558146+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.83,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "\"Exceptionally well-preserved\" tomb of ancient judge found in Egypt",
+  "link": "https://www.cbsnews.com/news/tomb-ancient-judge-father-discovered-egypt/",
+  "publishers": [
+    "CBS News",
+    "CBS News — World"
+  ],
+  "region": "us",
+  "article": {
+    "title": "\"Exceptionally well-preserved\" tomb of ancient judge found in Egypt",
+    "link": "https://www.cbsnews.com/news/tomb-ancient-judge-father-discovered-egypt/",
+    "summary": "Many of the paintings in the tomb have retained their original colors despite spending more than 40 centuries buried beneath the desert sands, officials said.",
+    "source_name": "CBS News — World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-09-09T11:21:58+00:00",
+    "image_url": null,
+    "publisher": "CBS News — World",
+    "cluster_sources": [
+      "CBS News",
+      "CBS News — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/tomb-ancient-judge-father-discovered-egypt/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 866.9132619069444,
+    "is_stale": false,
+    "score": 15.832416943574074
+  }
+}
