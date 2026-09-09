@@ -307,8 +307,8 @@ Supporting pieces, each independently triggerable as its own workflow:
   → date+context queries built from that discovered context → widen to remaining entities → for
   every fact (originally named or freshly named), require 2+ independent supporting sources
   (`config.yaml: article.min_confirm_sources`) or it's dropped and reported, never silently
-  dropped → **only then**, from the sources-filtered set, gate on a purely numeric sufficiency
-  threshold (`article.min_grounded_facts`) and pick the question-headline
+  dropped → **only then**, from the sources-filtered set, check sufficiency (`_sufficiency` — see
+  "Rule 7 abolished" below, no numeric threshold any more) and pick the question-headline
   (`_sufficiency`/`_choose_question`) → draft with its own prompt (`DRAFT_SYSTEM_TEMPLATE`, never
   `writer.SYSTEM_PROMPT` — a deliberately separate editorial policy) that also folds the poster's
   opinion in, paraphrased and attributed (`config.yaml: article.opinion_attribution_phrase`), never
@@ -519,6 +519,36 @@ got added, on the standing lesson (`judged_by`) that a feature with no visible t
 feature nobody can tell is working. `config.yaml: article.source_extract_enabled` was flipped to
 `true` once the first live run's findings above were fixed, same operational precedent as
 `article.include_opinion`.
+
+**Rule 7 abolished (Issue #814, part 1 of 3):** `article._sufficiency` used to hold three
+abstention gates — grounded-fact count below `article.min_grounded_facts` ("Rule 7" proper), every
+grounded fact being `is_reference`, and every grounded fact being a single-source "تقرير منقول" —
+any one of which silenced the whole article path with no output at all. Three real runs on a
+Turkish "Vestel debt" brief hit exactly this: the brief's numbers (Q1 loss, 105 billion lira of
+debt, 20,000 employees) simply don't appear in indexed news coverage, so every fact was dropped for
+lack of sourcing and the path abstained completely — "Rule 7: no article" — even though a human
+editor's brief can legitimately carry true numbers that news indexing never covered; silence isn't
+the right answer to that. All three gates are gone. The only condition `_sufficiency` still checks
+is purely existential and unrelated to fact quality: if not even one fact cleared 2+ independent
+sources, there's no material for an article at all (`grounded` empty) — and that's reported as a
+correct outcome, not a failure. `config.yaml: article.min_grounded_facts` stays defined but unused
+on purpose (a paper trail, in case a numeric floor is ever reintroduced deliberately) — do not
+delete it and do not wire it back in as a side effect of unrelated work.
+
+The other half of this change: `draft_investigation` (Issue #765) used to run only after
+`outcome['produced']` was `True` — i.e., only once the article itself had already succeeded. It now
+runs on every article run regardless of `produced`, since `dropped`/`diffs`/`sources` are built
+during the sourcing loop itself, before `_sufficiency` is even reached — an article that abstains
+for lack of any grounded fact still has plenty to say about what didn't check out. The investigation
+post's own independent gate is unchanged: it still returns `None` when `dropped` and `diffs` are
+both empty (nothing to investigate), and its editorial constraints — no negation words
+(كاذب/مفبرك/شائعة/مضلِّل), no naming an unsourced claim's source, no `body` in its signature — are
+untouched; producing it unconditionally is not a license to loosen what it's allowed to say. Two
+follow-up parts of this issue (not done yet, tracked separately): grading facts into three tiers by
+sourcing strength (2+ sources = stated as fact, 1 source = attributed by name in-text, 0 sources =
+excluded from the article entirely, shown only in the investigation post) and widening the search
+window once per attempt on a zero-raw-result ladder step (`article.wide_days`). Neither is
+implemented here — don't infer either from this change alone.
 
 ## Testing
 
