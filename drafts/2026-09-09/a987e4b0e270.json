@@ -1,0 +1,82 @@
+{
+  "id": "a987e4b0e270",
+  "created_at": "2026-09-09T15:27:07.838476+00:00",
+  "status": "published",
+  "review_issue": null,
+  "origin": "news",
+  "score": 20.97,
+  "bucket": "serious",
+  "analysed_sources": [
+    "Africanews"
+  ],
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "age_hours": 862.9,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://s.france24.com/media/display/875544f0-ac35-11f1-b65d-005056bfb2b6/w:1024/p:16x9/EN-20260909-103420-103619-CS.jpg",
+    "candidates_tried": 2,
+    "manual": false
+  },
+  "source": {
+    "title": "Houthis report Saudi reprisals after oil sites set ablaze in wave of strikes",
+    "link": "https://www.france24.com/en/video/20260909-houthis-report-saudi-reprisals-after-oil-sites-set-ablaze-in-wave-of-strikes",
+    "publisher": "France24",
+    "publishers": [
+      "Africanews",
+      "France24"
+    ],
+    "region": "eu",
+    "image_url": "https://s.france24.com/media/display/875544f0-ac35-11f1-b65d-005056bfb2b6/w:1024/p:16x9/EN-20260909-103420-103619-CS.jpg",
+    "image_candidates": [
+      "https://s.france24.com/media/display/875544f0-ac35-11f1-b65d-005056bfb2b6/w:1024/p:16x9/EN-20260909-103420-103619-CS.jpg",
+      "http://images.euronews.com/articles/stories/09/90/54/58/640x360_cmsv2_46cc241f-0749-539a-aad3-f0101733fead-9905458.jpg?1788860125"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "عالم",
+    "image_headline": "الحوثيون يستهدفون منشآت نفطية سعودية والرياض ترد",
+    "post_title": "الحوثيون يعلنون قصف منشآت نفطية سعودية والسعودية ترد بغارات مضادة",
+    "post_body": "أعلن المتحدث العسكري باسم جماعة الحوثي، العميد يحيى سريع، الثلاثاء، إطلاق عشرات الصواريخ الباليستية والمسيّرات على منشآت نفطية واقتصادية جنوب السعودية، شملت مدينة جازان للصناعات الأولية والتحويلية، ومنشآت أرامكو في نجران وأبها، وقاعدة الملك خالد الجوية في خميس مشيط. جاءت الهجمات بعد ساعات من اتهام الحوثيين السعودية بضربة استهدفت سجنًا في مدينة حزم بمحافظة الجوف شمال اليمن، أسفرت عن مقتل سبعة أشخاص بينهم طفل وإصابة سبعة آخرين. وتفيد الجماعة بأن الرياض ردت بضربات جديدة الثلاثاء إثر استهداف منشآتها.",
+    "hashtags": [
+      "الحوثيون",
+      "السعودية",
+      "اليمن",
+      "أرامكو"
+    ]
+  },
+  "caption": "الحوثيون يعلنون قصف منشآت نفطية سعودية والسعودية ترد بغارات مضادة\n\nأعلن المتحدث العسكري باسم جماعة الحوثي، العميد يحيى سريع، الثلاثاء، إطلاق عشرات الصواريخ الباليستية والمسيّرات على منشآت نفطية واقتصادية جنوب السعودية، شملت مدينة جازان للصناعات الأولية والتحويلية، ومنشآت أرامكو في نجران وأبها، وقاعدة الملك خالد الجوية في خميس مشيط. جاءت الهجمات بعد ساعات من اتهام الحوثيين السعودية بضربة استهدفت سجنًا في مدينة حزم بمحافظة الجوف شمال اليمن، أسفرت عن مقتل سبعة أشخاص بينهم طفل وإصابة سبعة آخرين. وتفيد الجماعة بأن الرياض ردت بضربات جديدة الثلاثاء إثر استهداف منشآتها.\n\n#الحوثيون #السعودية #اليمن #أرامكو",
+  "headlines": [
+    "هل تصعيد الحوثيين والسعودية نحو حرب استنزاف جديدة؟",
+    "الحوثيون يقصفون منشآت نفطية سعودية والرياض ترد بغارات مضادة",
+    "تبادل ضربات مكثف بين الحوثيين والسعودية على خلفية استهداف مدينة حزم"
+  ],
+  "headline_selected": 0,
+  "image": "drafts/2026-09-09/a987e4b0e270.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "الحوثيون يستهدفون منشآت نفطية سعودية والرياض ترد",
+    "category": "عالم",
+    "urgent": false,
+    "image_candidates": [
+      "https://s.france24.com/media/display/875544f0-ac35-11f1-b65d-005056bfb2b6/w:1024/p:16x9/EN-20260909-103420-103619-CS.jpg",
+      "http://images.euronews.com/articles/stories/09/90/54/58/640x360_cmsv2_46cc241f-0749-539a-aad3-f0101733fead-9905458.jpg?1788860125"
+    ]
+  },
+  "publish_at": "2026-09-09T15:27:07.862419+00:00",
+  "published_at": "2026-09-09T15:27:11.575260+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1355783819971972",
+    "photo_id": "1355783796638641",
+    "url": "https://www.facebook.com/631680090321390_1355783819971972",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
+}
