@@ -1,0 +1,57 @@
+{
+  "id": "6807ad624a9d",
+  "created_at": "2026-09-09T06:08:13.138716+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.01,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Very hot drinks may damage the food pipe and increase cancer risk",
+  "link": "https://www.bbc.co.uk/news/articles/ce3r77d9n90o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Health",
+    "MyJoyOnline Ghana"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Very hot drinks may damage the food pipe and increase cancer risk",
+    "link": "https://www.bbc.co.uk/news/articles/ce3r77d9n90o?at_medium=RSS&at_campaign=rss",
+    "summary": "Steaming hot liquid can damage the cell lining on the way down to the stomach, experts say.",
+    "source_name": "BBC Health",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-09-08T23:30:39+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+    "publisher": "BBC Health",
+    "cluster_sources": [
+      "BBC Health",
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Health",
+        "link": "https://www.bbc.co.uk/news/articles/ce3r77d9n90o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/very-hot-drinks-may-damage-the-food-pipe-and-increase-cancer-risk/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0e44/live/ae43a900-ac10-11f1-940e-bf738e043799.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-1013-1024x683.png"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 853.9182918897222,
+    "is_stale": false,
+    "score": 17.008392757351853
+  }
+}
