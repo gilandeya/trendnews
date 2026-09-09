@@ -1,0 +1,81 @@
+{
+  "id": "ad3b141d79ba",
+  "created_at": "2026-09-09T12:08:02.401530+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.24,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israel tells Britain to close East Jerusalem consulate within 30 days, sources say",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-09-israel-tells-britain-to-close-east-jerusalem-consulate-within-30-days-sources-say/",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Maverick",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Israel tells Britain to close East Jerusalem consulate within 30 days, sources say",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-09-israel-tells-britain-to-close-east-jerusalem-consulate-within-30-days-sources-say/",
+    "summary": "Israel has told the United Kingdom that it must close its consulate in East Jerusalem within 30 days, two Israeli officials and two sources familiar with the matter said on Wednesday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-09T12:37:57+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2997/14275724_529204.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Maverick",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/9/israel-tells-uk-to-close-east-jerusalem-consulate-within-30-days?traffic_source=rss"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-09-israel-tells-britain-to-close-east-jerusalem-consulate-within-30-days-sources-say/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/israel-orders-closure-of-uk-consulate-in-jerusalem-over-settlement-sanctions/article71443779.ece"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628300/israel-orders-closure-of-british-consulate-in-east-jerusalem"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/israel-announces-closure-of-uk-consulate-in-jerusalem-in-response-to-sanctions-over-israeli-west-bank-settlements-101788878592048.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/israel-to-shut-uk-consulate-over-sanctions-on-illegal-settlements"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2997/14275724_529204.jpg",
+      "https://th-i.thgim.com/public/news/national/cm7ywv/article71443959.ece/alternates/LANDSCAPE_1200/AFP__20260908__C7P47ZY__v1__HighRes__IsraelPalestinianBritainDiplomacy.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/08/459755.jpg",
+      "https://www.hindustantimes.com/ht-img/img/2026/09/08/1600x900/Andy_Burnham_1788879249216_2fc076fd-33ba-465f-949b-319d63cd9e78_1788879256310_9bf0e2e2-bdc8-4b7b-8c4d-54a0484a3c9c_4b460ec8-a610-4194-9d7b-59fb345b8608_49cbad00-d49a-47ff-93b4-27fa198c38a4.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 859.9151819438888,
+    "is_stale": true,
+    "score": 23.23825853040421
+  }
+}

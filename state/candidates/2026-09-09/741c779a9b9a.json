@@ -1,0 +1,54 @@
+{
+  "id": "741c779a9b9a",
+  "created_at": "2026-09-09T12:08:02.402381+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.99,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ukrainian drone attack on Russian port city kills four. Fire reported at port.",
+  "link": "https://meduza.io/en/news/2026/09/09/ukrainian-drone-attack-on-russian-port-city-kills-four-fire-reported-at-port",
+  "publishers": [
+    "Meduza English",
+    "governor"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Ukrainian drone attack on Russian port city kills four. Fire reported at port.",
+    "link": "https://meduza.io/en/news/2026/09/09/ukrainian-drone-attack-on-russian-port-city-kills-four-fire-reported-at-port",
+    "summary": "Ukraine struck Novorossiysk with drones in an attack that began on the evening of September 8 and continued through the night, Novorossiysk Mayor Andrei Kravchenko confirmed. Kravchenko reported “drone debris” falling on industrial facilities and near a residential building.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-09T07:28:59+00:00",
+    "image_url": "https://meduza.io/imgly/share/1788939247/en/news/2026/09/09/ukrainian-drone-attack-on-russian-port-city-kills-four-fire-reported-at-port",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Meduza English",
+      "governor"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/09/ukrainian-drone-attack-on-russian-port-city-kills-four-fire-reported-at-port"
+      },
+      {
+        "name": "governor",
+        "link": "https://tass.com/politics/2184581"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1788939247/en/news/2026/09/09/ukrainian-drone-attack-on-russian-port-city-kills-four-fire-reported-at-port"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 859.915272321111,
+    "is_stale": false,
+    "score": 20.990074718592595
+  }
+}

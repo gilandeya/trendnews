@@ -1,44 +1,5 @@
 [
   {
-    "score": 17.28,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "begins",
-      "drones",
-      "germany",
-      "mass",
-      "production",
-      "ukraine"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/04/germany-begins-mass-production-of-attack-drones-for-ukraine",
-    "title": "Germany begins mass production of attack drones for Ukraine",
-    "posted_title": "مصنع قرب ميونيخ يبدأ إنتاج آلاف المسيّرات الهجومية لصالح أوكرانيا",
-    "region": "ru",
-    "seen_at": "2026-09-04T09:58:43.129730+00:00"
-  },
-  {
-    "score": 20.58,
-    "bucket": "serious",
-    "tokens": [
-      "argentina's",
-      "comments",
-      "dispute",
-      "escalates",
-      "falklands",
-      "milei",
-      "oil",
-      "seizing",
-      "tensions",
-      "trump"
-    ],
-    "link": "https://www.npr.org/2026/09/04/g-s1-141945/milei-escalates-falklands-dispute",
-    "title": "Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions",
-    "posted_title": "ميلي يصعّد نزاع فوكلاند ويهدد بعقوبات جديدة لوقف مشروع نفطي قرب الجزر",
-    "region": "us",
-    "seen_at": "2026-09-04T09:59:18.257614+00:00"
-  },
-  {
     "score": 22.59,
     "bucket": "serious",
     "tokens": [
@@ -5431,5 +5392,103 @@
     "posted_title": "آبل تكشف عن أول آيفون قابل للطي باسم \"Duo\" وسعر يبدأ من 2000 دولار",
     "region": "uk",
     "seen_at": "2026-09-09T09:18:07.447326+00:00"
+  },
+  {
+    "score": 31.26,
+    "bucket": "useful",
+    "tokens": [
+      "all",
+      "anthropic",
+      "could",
+      "humans",
+      "kill",
+      "researchers",
+      "warn",
+      "worried"
+    ],
+    "link": "https://www.theverge.com/ai-artificial-intelligence/991927/anthropic-ai-kill-all-humans",
+    "title": "Worried Anthropic researchers warn that AI ‘could kill all humans’",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-09-09T12:08:02.401081+00:00"
+  },
+  {
+    "score": 23.59,
+    "bucket": "serious",
+    "tokens": [
+      "bans",
+      "britain",
+      "illegal",
+      "israeli",
+      "settlements",
+      "trade"
+    ],
+    "link": "https://www.thehindu.com/news/international/andy-burnham-uk-trade-with-illegal-west-bank-settlements/article71442598.ece",
+    "title": "Britain bans trade with illegal Israeli settlements",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-09T12:08:02.401516+00:00"
+  },
+  {
+    "score": 23.24,
+    "bucket": "serious",
+    "tokens": [
+      "britain",
+      "close",
+      "consulate",
+      "days",
+      "east",
+      "israel",
+      "jerusalem",
+      "say",
+      "sources",
+      "tells",
+      "within"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-09-israel-tells-britain-to-close-east-jerusalem-consulate-within-30-days-sources-say/",
+    "title": "Israel tells Britain to close East Jerusalem consulate within 30 days, sources say",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-09T12:08:02.401973+00:00"
+  },
+  {
+    "score": 22.89,
+    "bucket": "serious",
+    "tokens": [
+      "'bullying'",
+      "chief",
+      "china",
+      "defence",
+      "forum",
+      "note",
+      "philippine",
+      "slams"
+    ],
+    "link": "https://www.channelnewsasia.com/asia/philippines-defence-chief-south-china-sea-forum-6372896",
+    "title": "Philippine defence chief slams 'bullying' China after note at forum",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-09T12:08:02.402368+00:00"
+  },
+  {
+    "score": 20.99,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "city",
+      "drone",
+      "fire",
+      "four",
+      "kills",
+      "port",
+      "reported",
+      "russian",
+      "ukrainian"
+    ],
+    "link": "https://meduza.io/en/news/2026/09/09/ukrainian-drone-attack-on-russian-port-city-kills-four-fire-reported-at-port",
+    "title": "Ukrainian drone attack on Russian port city kills four. Fire reported at port.",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-09-09T12:08:02.402727+00:00"
   }
 ]

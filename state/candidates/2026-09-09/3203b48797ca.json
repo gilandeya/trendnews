@@ -1,0 +1,69 @@
+{
+  "id": "3203b48797ca",
+  "created_at": "2026-09-09T12:08:02.401987+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.89,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Philippine defence chief slams 'bullying' China after note at forum",
+  "link": "https://www.channelnewsasia.com/asia/philippines-defence-chief-south-china-sea-forum-6372896",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "Yonhap News"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Philippine defence chief slams 'bullying' China after note at forum",
+    "link": "https://www.channelnewsasia.com/asia/philippines-defence-chief-south-china-sea-forum-6372896",
+    "summary": "\"We urge certain individuals in the Philippines to stop grandstanding and stirring up trouble, and to cease undermining China-Philippines relations and stability in the South China Sea,\" said China's foreign ministry.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-09T11:00:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--eXGUiuJ3--/c_crop,h_562,w_1000,x_0,y_0/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/China_Philippines__11_9.jpg?itok=kqBjcj0p",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260908006551315"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/philippines-defence-chief-south-china-sea-forum-6372896"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/09/philippine-defence-chief-accuses-china-of-bullying-after-receiving-south-china-sea-note-at-seoul-forum/234562"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/09/manila-defence-boss-slams-bullying-china-after-note-at-forum"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--eXGUiuJ3--/c_crop,h_562,w_1000,x_0,y_0/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/China_Philippines__11_9.jpg?itok=kqBjcj0p",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/08/AEN20260908006551315_01_i_P2.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/09/361534.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/f6e3a224-a709-4959-b5b6-eace4e0021e4-Gilberto-Teodoro-EPA-09092026-.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 859.9151956583333,
+    "is_stale": false,
+    "score": 22.891204360055553
+  }
+}

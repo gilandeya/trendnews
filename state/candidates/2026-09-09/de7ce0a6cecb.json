@@ -1,0 +1,68 @@
+{
+  "id": "de7ce0a6cecb",
+  "created_at": "2026-09-09T12:08:02.401099+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.59,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Britain bans trade with illegal Israeli settlements",
+  "link": "https://www.thehindu.com/news/international/andy-burnham-uk-trade-with-illegal-west-bank-settlements/article71442598.ece",
+  "publishers": [
+    "Daily Sabah",
+    "Premium Times",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Britain bans trade with illegal Israeli settlements",
+    "link": "https://www.thehindu.com/news/international/andy-burnham-uk-trade-with-illegal-west-bank-settlements/article71442598.ece",
+    "summary": "France, Canada join the U.K. in ban; Israeli President said the U.K. decision would fall “on the wrong side of history”",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-09T01:33:22+00:00",
+    "image_url": "https://th-i.thgim.com/public/news/national/35h582/article71443843.ece/alternates/LANDSCAPE_1200/AFP__20260908__C7NC9X4__v1__HighRes__BritainIsraelPalestiniansDiplomacyTrade.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Premium Times",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628292/egypt-jordan-welcome-uk-measures-restricting-trade-linked-to-illegal-israeli-settlements"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/andy-burnham-uk-trade-with-illegal-west-bank-settlements/article71442598.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/trade-bans-on-illegal-israeli-settlements-draw-global-support"
+      },
+      {
+        "name": "Premium Times",
+        "link": "https://www.premiumtimesng.com/foreign/908392-britain-france-others-to-impose-sanctions-on-israel-over-west-bank-settlements-israel-reacts.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/news/national/35h582/article71443843.ece/alternates/LANDSCAPE_1200/AFP__20260908__C7NC9X4__v1__HighRes__BritainIsraelPalestiniansDiplomacyTrade.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/08/459759.jpg",
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/09/MixCollage-09-Sep-2026-11-28-AM-1143.jpg?fit=2560%2C1440&amp;ssl=1"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 859.9151934777778,
+    "is_stale": false,
+    "score": 23.594945100648147
+  }
+}
