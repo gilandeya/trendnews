@@ -7490,9 +7490,12 @@ def test_article_statement_majority() -> None:
     check("_support_statement_parts: يستدعي أداة support_statement_parts",
           captured[0]["tools"][0]["name"] == "support_statement_parts" and
           captured[0]["tool_choice"]["name"] == "support_statement_parts")
+    # الأجزاء المرقَّمة نص متغيّر — في الكتلة الثانية بلا تخزين، لا الأولى
+    # (طلب المراجعة: كتلة الوثائق الثابتة وحدها تحمل cache_control)
+    variable_block_text = captured[0]["messages"][0]["content"][1]["text"]
     check("_support_statement_parts: يرقّم الأجزاء في نص الطلب (1. ... 2. ...)",
-          "1. جزء أول" in captured[0]["messages"][0]["content"] and
-          "2. جزء ثانٍ" in captured[0]["messages"][0]["content"])
+          "1. جزء أول" in variable_block_text and
+          "2. جزء ثانٍ" in variable_block_text)
     check("_support_statement_parts: بلا مصادر يعيد قائمة فارغة بلا نداء نموذج",
           article._support_statement_parts(["جزء"], [], cfg) == [] and len(captured) == 1)
     check("_support_statement_parts: بلا أجزاء يعيد قائمة فارغة بلا نداء نموذج",
@@ -8255,11 +8258,173 @@ def test_article_search_ladder() -> None:
               "(الثانية) — لا خطأ ناتج عن محاولة الكلمة الواحدة نفسها",
               any(d["text"] == "تجاوزت ديون فيستل 105 مليارات ليرة"
                  for d in outcome["dropped"]), outcome["dropped"])
+
+        # ── ٧) المصادر ذكرت الموضوع (fact_mentioned غير فارغة) ولم يطابق
+        # مضمونها الواقعة — لا توقف صفر نتائج بل عدم إجماع؛ استعلام آخر لن
+        # يغيّر حكمًا على مضمون وُجد بالفعل، فالسُلَّم يتوقف عند أول محاولة
+        # بلا تصعيد لمحاولة تالية (طلب المراجعة، البند 2: في سجل فيستل
+        # واقعتان من هذا النوع كلّفتا كل منهما دورة بحث/قراءة/حكم كاملة
+        # إضافية بلا عائد قبل هذا الإصلاح) ──
+        _brief([_stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
+                      ["فيستل", "105 مليارات ليرة"])])
+        search_queries = []
+
+        def _fake_search_7(query, cfg, days, unrestricted=False):
+            search_queries.append(query)
+            return [object()]
+
+        def _fake_gather_7(articles, cfg, claim_text=""):
+            return ([{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"}],
+                    evidence.EVIDENCE_FULL_TEXT)
+
+        def _fake_support_mentioned_only(fact_text, docs, cfg, is_statement=False,
+                                         is_report=False, publisher=""):
+            result = article._ModelCallList([])
+            result.mentioned = ["مصدر أول"]
+            return result
+
+        evidence.search = _fake_search_7
+        evidence.gather_evidence = _fake_gather_7
+        article._support_sources = _fake_support_mentioned_only
+        outcome = article._write_article("موجز اختبار ٧", 9107, cfg)
+        evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+            [], evidence.EVIDENCE_NO_RESULTS)
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": []
+        check("سُلَّم البحث ٧) مصدر ذكر الموضوع ولم يسنده ⇒ محاولة واحدة فقط "
+              "(لا تصعيد لمحاولة ثانية رغم توفّرها)",
+              len(search_queries) == 1, search_queries)
+        last_trail = outcome["trail"][-1]
+        check("سُلَّم البحث ٧) trail يسجّل توقّف السُلَّم عند المحاولة الأولى "
+              "رغم توفّر محاولتين",
+              last_trail.get("search_attempt") == 1 and
+              last_trail.get("search_attempts_tried") == 2, last_trail)
+        check("سُلَّم البحث ٧) سبب السقوط يذكر أن المصدر ذكر الموضوع ولم يطابق "
+              "مضمونه — لا «لم يُذكر إطلاقًا»",
+              any(d["text"] == "تجاوزت ديون فيستل 105 مليارات ليرة" and
+                 "ذكره" in d["reason"] and "لم يطابق مضمونه" in d["reason"]
+                 for d in outcome["dropped"]), outcome["dropped"])
     finally:
         article.extract_brief = real_extract_brief
         evidence.search = real_search
         evidence.gather_evidence = real_gather_evidence
         article._support_sources = real_support_sources
+
+
+def test_article_support_call_caching() -> None:
+    """تخزين كتلة الوثائق مؤقتًا في نداءات الحكم على السند (طلب المراجعة):
+    تشغيلة حقيقية سجّلت ٩٤٪ من كلفة تشغيلة المقال إدخالًا، منه ١٪ فقط
+    مخزَّن مؤقتًا — لأن نصوص المصادر كانت تُرسَل مدموجة بنص الواقعة
+    المتغيّر في رسالة واحدة، فأي اختلاف في نص الواقعة (متوقَّع دومًا بين
+    وقائع مختلفة) يُبطل الإصابة لكل الرسالة رغم ثبات الوثائق نفسها.
+    العلاج: رسالة المستخدم كتلتان — كتلة أولى ثابتة الترتيب لنصوص الوثائق
+    عليها cache_control، وكتلة ثانية بلا تخزين للنص المتغيّر. هذا الاختبار
+    يثبّت الشكل (كتلتان، cache_control على الأولى فقط)، ثبات الكتلة الأولى
+    حرفيًا بين نداءين لنفس مجموعة الوثائق رغم اختلاف النص المتغيّر، وأن
+    مخرَج _support_sources/_support_statement_parts لم يتغيّر لنفس المدخلات
+    (نفس القيم التي تثبّتها test_article_report_kind/test_article_statement_majority
+    القائمان بشكلٍ مباشر لهذه الدالتين)."""
+    from src import article
+
+    cfg = load_config()
+
+    class _CaptureBlock:
+        type = "text"
+
+    class _CaptureResp:
+        content = [_CaptureBlock()]
+        stop_reason = "end_turn"
+
+    class _CaptureMessages:
+        def __init__(self, captured):
+            self._captured = captured
+
+        def create(self, **kw):
+            self._captured.append(kw)
+            return _CaptureResp()
+
+    class _CaptureClient:
+        def __init__(self, captured):
+            self.messages = _CaptureMessages(captured)
+
+    real_client_fn = article._client
+    docs = [{"name": "مصدر أول", "text": "نص أول", "link": "https://s1/1"},
+           {"name": "مصدر ثانٍ", "text": "نص ثانٍ", "link": "https://s2/1"}]
+
+    # ── _support_sources: رسالتان بفارق نص الواقعة وحده، بنفس مجموعة الوثائق ──
+    captured: list = []
+    article._client = lambda: _CaptureClient(captured)
+    article._support_sources("واقعة اختبار أولى", docs, cfg)
+    article._support_sources("واقعة اختبار ثانية", docs, cfg)
+    article._client = real_client_fn
+
+    content1 = captured[0]["messages"][0]["content"]
+    content2 = captured[1]["messages"][0]["content"]
+    check("_support_sources: محتوى رسالة المستخدم صار قائمة كتلتين لا نصًّا واحدًا",
+          isinstance(content1, list) and len(content1) == 2, content1)
+    check("_support_sources: الكتلة الأولى (الوثائق) وحدها تحمل cache_control",
+          content1[0].get("cache_control") == {"type": "ephemeral"} and
+          "cache_control" not in content1[1], content1)
+    check("_support_sources: الكتلة الأولى تحمل نصوص الوثائق بترتيب ورودها",
+          content1[0]["text"].index("مصدر أول") < content1[0]["text"].index("مصدر ثانٍ"),
+          content1[0]["text"])
+    check("_support_sources: الكتلة الثانية تحمل نص الواقعة المتغيّر فقط",
+          content1[1]["text"] == "الواقعة: واقعة اختبار أولى", content1[1])
+    check("_support_sources: كتلة الوثائق حرفيًا مطابقة بين نداءين لنفس مجموعة "
+          "الوثائق رغم اختلاف نص الواقعة — شرط إصابة الذاكرة المؤقتة",
+          content1[0] == content2[0], (content1[0], content2[0]))
+    check("_support_sources: نص الواقعة المتغيّر خارج الكتلة المخزَّنة ويختلف فعليًا "
+          "بين النداءين",
+          content2[1]["text"] == "الواقعة: واقعة اختبار ثانية" and
+          content1[1] != content2[1], (content1[1], content2[1]))
+
+    # ── مخرَج _support_sources لم يتغيّر لنفس المدخلات (تثبيت حالة من
+    # test_article_report_kind: مصدر واحد مطابق ← نفس اسمه في المخرَج) ──
+    captured_out: list = []
+    article._client = lambda: _CaptureClient(captured_out)
+
+    class _SupportBlock:
+        type = "tool_use"
+        input = {"supporting": ["مصدر أول"], "mentioned": ["مصدر أول"]}
+
+    class _SupportResp:
+        content = [_SupportBlock()]
+        stop_reason = "end_turn"
+
+    class _SupportMessages:
+        def create(self, **kw):
+            return _SupportResp()
+
+    class _SupportClient:
+        def __init__(self):
+            self.messages = _SupportMessages()
+
+    article._client = lambda: _SupportClient()
+    out = article._support_sources("واقعة اختبار", docs, cfg)
+    article._client = real_client_fn
+    check("_support_sources: المخرَج لم يتغيّر لنفس المدخلات (أسماء المصادر "
+          "المؤيِّدة الفعلية من رد النموذج، بصرف النظر عن شكل الرسالة المُرسَلة)",
+          list(out) == ["مصدر أول"], out)
+
+    # ── _support_statement_parts: نفس البنية (كتلتان، الوثائق أولًا ومخزَّنة) ──
+    captured_parts: list = []
+    article._client = lambda: _CaptureClient(captured_parts)
+    article._support_statement_parts(["جزء أول", "جزء ثانٍ"], docs, cfg)
+    article._client = real_client_fn
+
+    parts_content = captured_parts[0]["messages"][0]["content"]
+    check("_support_statement_parts: محتوى الرسالة كتلتان أيضًا",
+          isinstance(parts_content, list) and len(parts_content) == 2, parts_content)
+    check("_support_statement_parts: الكتلة الأولى (الوثائق) وحدها تحمل "
+          "cache_control، ونصها مطابق حرفيًا لكتلة _support_sources لنفس "
+          "الوثائق (نفس _format_docs، نفس الترتيب)",
+          parts_content[0].get("cache_control") == {"type": "ephemeral"} and
+          "cache_control" not in parts_content[1] and
+          parts_content[0] == content1[0], parts_content)
+    check("_support_statement_parts: الكتلة الثانية تحمل أجزاء التصريح المرقَّمة "
+          "فقط، لا نصوص الوثائق",
+          parts_content[1]["text"] == "أجزاء التصريح:\n1. جزء أول\n2. جزء ثانٍ",
+          parts_content[1])
 
 
 def test_article_source_fact_topic_guard() -> None:
@@ -8446,11 +8611,13 @@ def test_article_report_kind() -> None:
 
     check("_support_sources(is_report=True) يستعمل REPORT_SUPPORT_SYSTEM لا SUPPORT_SYSTEM",
           captured[0]["system"] == article.REPORT_SUPPORT_SYSTEM)
-    prompt_content = captured[0]["messages"][0]["content"]
+    # الرسالة صارت كتلتين (طلب المراجعة، تخزين الوثائق مؤقتًا) — نصوص
+    # الوثائق في الكتلة الأولى تحديدًا، لا في محتوى الرسالة كنص واحد
+    docs_block_text = captured[0]["messages"][0]["content"][0]["text"]
     check("_support_sources(is_report=True): الوثيقة المطابقة للهوية فقط تصل البرومبت "
           "— unrelated_doc (لا يطابق الهوية) لا تصل النموذج إطلاقًا",
-          original_doc["name"] in prompt_content and unrelated_doc["name"] not in prompt_content,
-          prompt_content)
+          original_doc["name"] in docs_block_text and unrelated_doc["name"] not in docs_block_text,
+          docs_block_text)
 
     captured.clear()
     article._client = lambda: _CaptureClient()
@@ -15119,6 +15286,39 @@ def test_no_temperature_param() -> None:
           not offending, offending)
 
 
+def test_writer_usage_summary_cache_ratio() -> None:
+    """سطر الكلفة 💵 يسجّل نسبة الإصابة (طلب المراجعة، نقل التخزين المؤقت
+    إلى كتلة الوثائق في نداءات الحكم على السند): كم من الإدخال جاء
+    مخزَّنًا مؤقتًا — بلا هذا الرقم في التقرير القائم نفسه لا وسيلة لمعرفة
+    إن نفع نقل cache_control فعليًا من تشغيلة حقيقية إلى أخرى."""
+    saved = dict(writer.USAGE)
+    try:
+        writer.USAGE.update({"input": 0, "output": 0, "cached": 0, "calls": 0, "cost": 0.0})
+
+        class _Usage:
+            def __init__(self, inp, out, cached=0, written=0):
+                self.input_tokens = inp
+                self.output_tokens = out
+                self.cache_read_input_tokens = cached
+                self.cache_creation_input_tokens = written
+
+        class _Resp:
+            def __init__(self, usage):
+                self.usage = usage
+
+        writer.record_usage(_Resp(_Usage(1000, 100)), "claude-sonnet-5")
+        writer.record_usage(_Resp(_Usage(50, 20, cached=9000)), "claude-sonnet-5")
+        summary = writer.usage_summary()
+        total_in = writer.USAGE["input"] + writer.USAGE["cached"]
+        expected_pct = round(writer.USAGE["cached"] / total_in * 100)
+        check("usage_summary: يسجّل نسبة الإصابة (كم من الإدخال جاء مخزَّنًا) لا "
+              "العدد الخام وحده",
+              f"إصابة {expected_pct}٪" in summary, summary)
+    finally:
+        writer.USAGE.clear()
+        writer.USAGE.update(saved)
+
+
 def main() -> int:
     install_fakes()
     print("\n── ترميز العناوين والتشابه ──")
@@ -15224,6 +15424,7 @@ def main() -> int:
     test_article_split_event_condition()
     test_article_mandatory_query_name()
     test_article_search_ladder()
+    test_article_support_call_caching()
     test_article_source_fact_topic_guard()
     test_article_report_kind()
     test_article_generic_source_publisher()
@@ -15290,6 +15491,8 @@ def main() -> int:
     test_publish_headline_choice_rebuilds_card()
     print("\n── حارس temperature (Issue #373) ──")
     test_no_temperature_param()
+    print("\n── نسبة إصابة الذاكرة المؤقتة في تقرير الكلفة (طلب المراجعة) ──")
+    test_writer_usage_summary_cache_ratio()
     print("\n── سكربت قياس قنوات يوتيوب (Issue #619) ──")
     test_measure_channels()
     print("\n── سكربت اختبار الحجب من Actions (Issue #626) ──")

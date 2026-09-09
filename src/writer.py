@@ -276,10 +276,17 @@ def record_usage(resp, model: str) -> None:
 
 
 def usage_summary() -> str:
+    """نسبة الإصابة (cached/(input+cached)) تُلحَق بلا مسمّى مصدر بعينه —
+    هذا الملخّص مشترك بين كل مسارات النداء (collect/verify/article/...)
+    فلا يفترض أيّها استعمل التخزين المؤقت وأيّها لا؛ الرقم وحده هو ما
+    يحسم إن نفع نقل cache_control إلى كتلة الوثائق في نداءات الحكم على
+    السند (طلب المراجعة) — بلا هذا الرقم لا وسيلة لمعرفة ذلك من التقرير."""
     u = USAGE
+    total_in = u["input"] + u["cached"]
+    hit_rate = (u["cached"] / total_in * 100) if total_in else 0.0
     return (f"{u['calls']} استدعاء · {u['input']:,} إدخال "
-            f"({u['cached']:,} مخزّن) · {u['output']:,} إخراج "
-            f"· ≈ ${u['cost']:.3f}")
+            f"({u['cached']:,} مخزّن — إصابة {hit_rate:.0f}٪) · "
+            f"{u['output']:,} إخراج · ≈ ${u['cost']:.3f}")
 
 
 # ── تنظيف فقرة «خلف الخبر» ────────────────────────────────
