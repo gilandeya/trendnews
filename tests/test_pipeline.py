@@ -5937,9 +5937,11 @@ def test_article() -> None:
           "(2 من 3: واحدة سقطت لسند غير كافٍ)",
           out1["grounded_count"] == 2, out1["grounded_count"])
 
-    # ── القاعدة 7: بوابة كفاية عددية على الوقائع المُرشَّحة بالسند فقط ──
+    # ── القاعدة 7 (أُلغيت، Issue #814 جزء 1): واقعة مسندة واحدة فقط لم تعد
+    # تمتنع عن المقال -- الشرط الوحيد الباقي عددي محض (لا واقعة واحدة مسندة
+    # إطلاقًا)، ومصدران مستقلان لواقعة واحدة كافيان الآن لإنتاج مقال ──
     article.extract_brief = lambda body, cfg, retries=3: ({
-        "topic": "اختبار القاعدة 7",
+        "topic": "اختبار إلغاء القاعدة 7",
         "statements": [
             {"text": "واقعة يتيمة مسندة", "kind": "واقعة", "entities": ["ك"],
              "is_unnamed_event": False, "is_reference": False},
@@ -5950,17 +5952,17 @@ def test_article() -> None:
     SUPPORT_MAP["واقعة يتيمة مسندة"] = ["مصدر أول", "مصدر ثانٍ"]
     ANSWER_MAP.clear()  # السؤال بلا إجابة في ANSWER_MAP عمدًا — بُحث ولم يُجب
     question_calls_before = len(seen_question_calls)
-    out7 = article._write_article("موجز اختبار القاعدة 7", 7, cfg)
-    check("7) واقعة مسندة واحدة فقط دون الحد الأدنى (min_grounded_facts) ← لا مقال",
-          out7["produced"] is False)
-    check("7) سبب الامتناع يذكر القاعدة 7 صراحة لا رسالة عامة",
-          "القاعدة 7" in out7["reason"])
-    check("7) grounded_count يبقى مسجَّلًا (1) رغم امتناع الإنتاج — يُحسَب قبل "
-          "بوابة الكفاية لا يُشتق من نجاحها",
+    out7 = article._write_article("موجز اختبار إلغاء القاعدة 7", 7, cfg)
+    check("7) واقعة مسندة واحدة فقط تكفي الآن لإنتاج مقال — القاعدة 7 (الحدّ "
+          "الأدنى العددي) أُلغيت",
+          out7["produced"] is True, out7["reason"])
+    check("7) سبب الإنتاج لا يذكر «القاعدة 7» — البوابة العددية القديمة زالت",
+          "القاعدة 7" not in out7["reason"], out7["reason"])
+    check("7) grounded_count يساوي 1 -- واقعة واحدة مسندة بمصدرين مستقلين",
           out7["grounded_count"] == 1, out7["grounded_count"])
-    check("7) امتناع بلاغ بما بُحث لا مقال ركيك — لا نداء لاختيار السؤال أصلًا "
-          "(البوابة العددية تسبق اختياره)",
-          len(seen_question_calls) == question_calls_before)
+    check("7) واقعة مسندة واحدة كافية لاختيار سؤال منها -- نداء اختيار السؤال "
+          "وقع فعلًا (لا امتناع قبله)",
+          len(seen_question_calls) == question_calls_before + 1)
     check("5) سؤال الموجز بُحث عنه فعلًا (لا حصيلة فشل بلا محاولة) ولم يُجب عنه "
           "بسبب محدد يبقى في القسم",
           any(u["text"] == "سؤال لم يُجب عنه الموجز؟" and u["reason"]
@@ -6797,12 +6799,13 @@ def test_article() -> None:
           any(q["text"] == "من هو حمزة الخطيب؟" for q in out56["answered_questions"]))
     check("5) سؤال بُحث عنه فعلًا ولم يُجب يبقى في القسم بسببه المحدد لا حذفًا صامتًا",
           any(u["text"] == "سؤال بلا سند كافٍ؟" and u["reason"] for u in out56["unanswered"]))
-    check("6) إجابة سؤال مرجعي مسندة تدخل عدّ الكفاية (min_grounded_facts) فعلًا "
-          "— مع واقعة إخبارية غير مرجعية واحدة تكفي بوابة البند 6",
+    check("6) إجابة سؤال مرجعي مسندة تدخل grounded فعلًا مع واقعة إخبارية غير "
+          "مرجعية واحدة — كلتاهما تكفي (بوابة البند 6 القديمة لم تعد تُشترَط)",
           out56["produced"] is True, out56.get("reason"))
 
-    # ── البند 6: وقائع مسندة كلها مرجعية (خلفية) بلا خبر جديد فعلي ← لا مقال،
-    # وسبب الامتناع يفرّق صراحة بين «لا وقائع كافية» و«لا خبر جديد» ──
+    # ── البند 6 (بوابة «كل الوقائع مرجعية» أُلغيت، Issue #814 جزء 1): وقائع
+    # مسندة كلها مرجعية (خلفية) لم تعد تمنع المقال — واقعة مسندة واحدة على
+    # الأقل (مرجعية أو لا) كافية الآن ──
     article.extract_brief = lambda body, cfg, retries=3: ({
         "topic": "اختبار البند 6 — خلفية فقط",
         "statements": [
@@ -6827,10 +6830,9 @@ def test_article() -> None:
     }
 
     out_refonly = article._write_article("موجز اختبار البند 6", 57, cfg)
-    check("6) وقائع مسندة كلها مرجعية (خلفية موثَّقة سلفًا) بلا خبر جديد فعلي "
-          "← لا مقال رغم اجتياز العدّ الرقمي وحده",
-          out_refonly["produced"] is False and "لا خبر جديد" in out_refonly["reason"],
-          out_refonly.get("reason"))
+    check("6) وقائع مسندة كلها مرجعية (خلفية موثَّقة سلفًا) لم تعد تمنع المقال "
+          "— القاعدة 7 القديمة (شرط واقعة غير مرجعية) أُلغيت",
+          out_refonly["produced"] is True, out_refonly.get("reason"))
 
     # ── البند 3 (تعليق التنفيذ على Issue #364): تفريق «لم يسمِّ النموذج
     # مصدرًا» عن «سمّى مصدرًا لم يُطابَق» عند answered:true مع supporting
@@ -7186,6 +7188,9 @@ def test_article_statement_kind() -> None:
     real_gather_evidence = evidence.gather_evidence
     real_support_sources = article._support_sources
     real_support_parts = article._support_statement_parts
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
 
     statement_text = "المتحدث ينفي الادّعاء ويؤكد أنه يدرس الأمر تدريجيًا"
     merged_excerpts = ["نفى المتحدث الادّعاء صراحة", "قال إنه يدرس الأمر تدريجيًا"]
@@ -7220,12 +7225,19 @@ def test_article_statement_kind() -> None:
     def _fake_support_plain(fact_text, docs, cfg, is_statement=False, is_report=False,
                             publisher=""):
         plain_calls.append(fact_text)
-        # الواقعة العادية تسقط عمدًا (لا سند) — كافٍ لإسقاط outcome["produced"]
-        # قبل مرحلتَي السؤال/الصياغة فلا حاجة لمحاكاتهما في هذا الاختبار
+        # الواقعة العادية تسقط عمدًا (لا سند) — لا تؤثر على إنتاج المقال بعد
+        # إلغاء القاعدة 7 (Issue #814 جزء 1): التصريح المسنَد وحده يكفي الآن،
+        # فمرحلتا السؤال/الصياغة تقعان فعلًا وتُزيَّفان أدناه
         return []
 
     article._support_statement_parts = _fake_support_parts
     article._support_sources = _fake_support_plain
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار تصريح؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": f"{statement_text}.", "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
 
     out = article._write_article("موجز اختبار تصنيف تصريح", 9001, cfg)
 
@@ -7243,6 +7255,9 @@ def test_article_statement_kind() -> None:
     check("تصريح: grounded_count == 1 — التصريح وحده اجتاز السند (الواقعة "
           "المجاورة سقطت عمدًا في هذا الاختبار)",
           out["grounded_count"] == 1, out["grounded_count"])
+    check("تصريح: واقعة مسندة واحدة (التصريح) تكفي لإنتاج المقال — القاعدة 7 "
+          "القديمة (حدّ أدنى عددي) أُلغيت",
+          out["produced"] is True, out["reason"])
     check("تصريح: الواقعة العادية المجاورة سقطت (سند غير كافٍ) — لم تُدمَج زورًا "
           "مع التصريح رغم مجاورتها في نفس الموجز",
           any(d["text"] == "واقعة عادية أخرى في نفس الموجز" for d in out["dropped"]),
@@ -7282,6 +7297,9 @@ def test_article_statement_kind() -> None:
     evidence.gather_evidence = real_gather_evidence
     article._support_sources = real_support_sources
     article._support_statement_parts = real_support_parts
+    article._choose_question = real_choose_question
+    article._draft_article = real_draft_article
+    article.find_images = real_find_images
 
 
 def test_article_merged_statement_gaps() -> None:
@@ -7363,6 +7381,9 @@ def test_article_merged_statement_gaps() -> None:
     real_search = evidence.search
     real_gather_evidence = evidence.gather_evidence
     real_support_parts = article._support_statement_parts
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
 
     cfg = load_config()
     # اختبار هشّ إن اعتمد على قيمة config.yaml الافتراضية القابلة للتبديل
@@ -7387,6 +7408,15 @@ def test_article_merged_statement_gaps() -> None:
         evidence.EVIDENCE_FULL_TEXT)
     article._support_statement_parts = lambda merged, docs, cfg: (
         [["مصدر أول", "مصدر ثانٍ"] for _ in merged])
+    # القاعدة 7 أُلغيت (Issue #814 جزء 1): التصريح المسنَد وحده يكفي الآن
+    # لإتمام المسار كاملًا -- تُزيَّف مرحلتا الصياغة والصورة فقط لإتمام
+    # التشغيلة بلا نداء شبكة/نموذج حقيقي، بلا صلة بما يفحصه هذا الاختبار
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار فجوة دمج؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": f"{shrunk_text}.", "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
 
     out = article._write_article("موجز اختبار فجوة دمج التصريح", 9002, cfg)
 
@@ -7405,6 +7435,9 @@ def test_article_merged_statement_gaps() -> None:
     evidence.search = real_search
     evidence.gather_evidence = real_gather_evidence
     article._support_statement_parts = real_support_parts
+    article._choose_question = real_choose_question
+    article._draft_article = real_draft_article
+    article.find_images = real_find_images
 
 
 def test_article_statement_majority() -> None:
@@ -7863,10 +7896,12 @@ def test_article_split_event_condition() -> None:
 
     # ── تكامل كامل عبر _write_article: يحاكي مخرَج استخراج صحيح لموجز
     # القلعة — واقعة الاستحواذ الحدثية الوحيدة (440 فدانًا ملتصقة بنصها/
-    # كياناتها، لا تُنزَع)، وواقعة ثانية مستقلة (لبلوغ min_grounded_facts)،
-    # وبلا أي عنصر statements للجملة الوصفية البحتة (1500 موظف/16 ألف قدم/
-    # ريالتي لابز في كورك) — لأنها استُبعدت في مرحلة الاستخراج نفسها، لا
-    # لأن كودًا لاحقًا صفّاها. الشاهد: لا استعلام بحث يحمل أيًّا من ألفاظها ──
+    # كياناتها، لا تُنزَع)، وواقعة ثانية مستقلة (تثبت أن الفصل يتعامل مع
+    # واقعتين مستقلتين بلا عطل — لا لبلوغ أي حدّ أدنى عددي، القاعدة 7
+    # القديمة أُلغيت، Issue #814 جزء 1)، وبلا أي عنصر statements للجملة
+    # الوصفية البحتة (1500 موظف/16 ألف قدم/ريالتي لابز في كورك) — لأنها
+    # استُبعدت في مرحلة الاستخراج نفسها، لا لأن كودًا لاحقًا صفّاها. الشاهد:
+    # لا استعلام بحث يحمل أيًّا من ألفاظها ──
     real_extract_brief = article.extract_brief
     real_search = evidence.search
     real_gather_evidence = evidence.gather_evidence
@@ -7935,8 +7970,8 @@ def test_article_split_event_condition() -> None:
           bool(captured_grounded) and
           any("440 فدانًا" in g["text"] for g in captured_grounded[0]),
           captured_grounded)
-    check("القلعة: outcome['produced'] نجح — واقعتان حدثيتان كافيتان (min_grounded_facts) "
-          "بلا أي حاجة لتفاصيل وصفية إضافية",
+    check("القلعة: outcome['produced'] نجح — واقعتان حدثيتان مسندتان بلا أي حاجة "
+          "لتفاصيل وصفية إضافية (لا حدّ أدنى عددي بعد إلغاء القاعدة 7)",
           out["produced"] is True, out["reason"])
 
     article.extract_brief = real_extract_brief
@@ -7981,6 +8016,9 @@ def test_article_mandatory_query_name() -> None:
     real_gather_evidence = evidence.gather_evidence
     real_support_sources = article._support_sources
     real_support_parts = article._support_statement_parts
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
 
     article.extract_brief = lambda body, cfg, retries=3: ({
         "topic": "اختبار الاسم الإلزامي",
@@ -8011,6 +8049,16 @@ def test_article_mandatory_query_name() -> None:
         evidence.EVIDENCE_FULL_TEXT)
     article._support_statement_parts = lambda merged, docs, cfg: (
         [["مصدر أول", "مصدر ثانٍ"] for _ in merged])
+    # القاعدة 7 أُلغيت (Issue #814 جزء 1): التصريح المسنَد وحده يكفي الآن
+    # لإتمام المسار كاملًا -- تُزيَّف مرحلتا الصياغة والصورة فقط لإتمام
+    # التشغيلة بلا نداء شبكة/نموذج حقيقي، بلا صلة بما يفحصه هذا الاختبار
+    # (عدد/محتوى استعلام البحث، محسوب أعلاه في مرحلة السند لا بعدها)
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار الاسم؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختبار الاسم الإلزامي.", "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
 
     try:
         article._write_article("موجز اختبار الاسم الإلزامي", 9006, cfg)
@@ -8020,6 +8068,9 @@ def test_article_mandatory_query_name() -> None:
         evidence.gather_evidence = real_gather_evidence
         article._support_sources = real_support_sources
         article._support_statement_parts = real_support_parts
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+        article.find_images = real_find_images
 
     check("اسم المتحدث الإلزامي: استعلام واحد بُني فعليًا لعنصر «تصريح» — "
           "السند كافٍ من المحاولة الأولى فلا يُصعَّد السُلَّم",
@@ -8080,10 +8131,23 @@ def test_article_search_ladder() -> None:
     real_search = evidence.search
     real_gather_evidence = evidence.gather_evidence
     real_support_sources = article._support_sources
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
 
     evidence.gather_evidence = lambda articles, cfg, claim_text="": ([], evidence.EVIDENCE_NO_RESULTS)
     article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
         is_report=False, publisher="": []
+    # القاعدة 7 أُلغيت (Issue #814 جزء 1): سيناريوهَي ٢ و٤ أدناه يُسنَدان
+    # فعليًا (مصدران مستقلان)، فيكفي ذلك الآن لإتمام المسار كاملًا -- تُزيَّف
+    # مرحلتا الصياغة والصورة هنا لإتمام أي تشغيلة تصل هذه المرحلة بلا نداء
+    # شبكة/نموذج حقيقي، بلا صلة بما يفحصه هذا الاختبار (بناء استعلامات السُلَّم)
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار سُلَّم البحث؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختبار سُلَّم البحث.", "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
 
     def _brief(statements: list) -> None:
         article.extract_brief = lambda body, cfg, retries=3: ({
@@ -8095,6 +8159,7 @@ def test_article_search_ladder() -> None:
                 "is_unnamed_event": False, "is_reference": False,
                 "query_latin": query_latin}
 
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
     try:
         # ── ١) query_text يحوي كلمات الواقعة حتى مع وجود كيانات، والاسم
         # الإلزامي (هنا speaker لعنصر «تصريح») يبقى أول الاستعلام ──
@@ -8309,6 +8374,9 @@ def test_article_search_ladder() -> None:
         evidence.search = real_search
         evidence.gather_evidence = real_gather_evidence
         article._support_sources = real_support_sources
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+        article.find_images = real_find_images
 
 
 def test_article_support_call_caching() -> None:
@@ -8755,24 +8823,29 @@ def test_article_report_kind() -> None:
     article._draft_article = real_draft_article
     article.find_images = real_find_images
 
-    # ── ضابط _sufficiency الثالث: مقال بكامله «تقارير منقولة» لا يكفي (نظير
-    # شرط الوقائع المرجعية، البند 6) ──
+    # ── ضابط _sufficiency الثالث (أُلغي، Issue #814 جزء 1): مقال بكامله
+    # «تقارير منقولة» لم يعد يُمنَع — واقعة مسندة واحدة (بأي تصنيف) كافية ──
     all_report_grounded = [
         {"kind": "تقرير منقول", "is_reference": False, "text": "تقرير أول"},
         {"kind": "تقرير منقول", "is_reference": False, "text": "تقرير ثانٍ"},
     ]
     ok_suff, reason_suff = article._sufficiency(all_report_grounded, cfg)
-    check("_sufficiency: مقال بعدد كافٍ من الوقائع لكن كلها «تقرير منقول» ← يُرفض",
-          ok_suff is False and "تقارير منقولة" in reason_suff, reason_suff)
+    check("_sufficiency: مقال كله «تقرير منقول» لم يعد يُرفض — الضابط الثالث القديم أُلغي",
+          ok_suff is True, reason_suff)
 
     mixed_grounded = [
         {"kind": "تقرير منقول", "is_reference": False, "text": "تقرير أول"},
         {"kind": "واقعة", "is_reference": False, "text": "واقعة مسندة عادية"},
     ]
     ok_suff2, reason_suff2 = article._sufficiency(mixed_grounded, cfg)
-    check("_sufficiency: واقعة واحدة على الأقل ليست «تقرير منقول» ضمن grounded كافية "
-          "لاجتياز هذا الضابط",
+    check("_sufficiency: مزيج تقرير منقول وواقعة عادية يجتاز أيضًا (واقعة مسندة "
+          "واحدة على الأقل موجودة أصلًا)",
           ok_suff2 is True, reason_suff2)
+
+    empty_grounded: list = []
+    ok_suff3, reason_suff3 = article._sufficiency(empty_grounded, cfg)
+    check("_sufficiency: صفر وقائع مسندة ← الشرط الوحيد الباقي يرفض (لا مادة للمقال)",
+          ok_suff3 is False, reason_suff3)
 
 
 def test_article_generic_source_publisher() -> None:
@@ -10471,9 +10544,11 @@ def test_article_source_facts() -> None:
     # ── 4) التكامل الكامل عبر _write_article: origin، الدمج، القسم، والسطر
     # الملخِّص (البنود 1، 2، 5) — شاهد بايراكتار (Defensehere/Daily Sabah)
     # الذي طلبتَ تشغيله؛ يُبقي الواقعة الأصلية بمصدر واحد فقط (تسقط عمدًا)
-    # كي تبقى grounded دون min_grounded_facts فيتوقف _write_article عند
-    # بوابة الكفاية مباشرة بعد حساب حصيلة استخراج المصادر — لا حاجة لتزييف
-    # الصياغة/الصورة/التخزين، غير مرتبطين بما هذا الاختبار يفحصه ──
+    # عمدًا، بحصيلة نهائية غير متعلّقة بها (واقعة مصدر واحدة فقط تدخل
+    # grounded). القاعدة 7 (الحدّ الأدنى العددي) أُلغيت (Issue #814 جزء 1)
+    # فواقعة واحدة كافية الآن لإتمام المسار كاملًا -- الصياغة/الصورة مزيَّفتان
+    # أدناه فقط لإتمام التشغيلة بلا نداء شبكة حقيقي، غير مرتبطتين بما هذا
+    # الاختبار يفحصه فعليًا (حصيلة استخراج المصادر أعلاه) ──
     cfg_on = load_config()
     cfg_on["article"] = {**cfg_on["article"], "source_extract_enabled": True}
 
@@ -10483,6 +10558,9 @@ def test_article_source_facts() -> None:
     real_support_sources = article._support_sources
     real_extract_source_facts = article._extract_source_facts
     real_dup_index = article._source_fact_duplicate_index
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
 
     brief_fact_text = "أعلنت بايكار أنها تصنّع محليًا 90 بالمئة من مسيّرات بيرقدار"
     duplicate_source_text = "بايكار تصنّع محليًا معظم مكوّنات بيرقدار بحسب الشركة"
@@ -10521,6 +10599,16 @@ def test_article_source_facts() -> None:
     article._support_sources = _fake_support
     article._extract_source_facts = _fake_extract_source
     article._source_fact_duplicate_index = _fake_dup
+    # القاعدة 7 أُلغيت (Issue #814 جزء 1): واقعة مصدر واحدة (new_source_text)
+    # كافية الآن لإتمام المسار كاملًا -- تُزيَّف مرحلتا الصياغة والصورة فقط
+    # كي تكتمل التشغيلة بلا نداء شبكة/نموذج حقيقي، بلا صلة بما يُفحَص هنا
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار بايراكتار؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختبار بايراكتار يجيب عن السؤال بوضوح.",
+         "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
 
     try:
         out = article._write_article("موجز اختبار بايراكتار", 9002, cfg_on)
@@ -10531,6 +10619,9 @@ def test_article_source_facts() -> None:
         article._support_sources = real_support_sources
         article._extract_source_facts = real_extract_source_facts
         article._source_fact_duplicate_index = real_dup_index
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+        article.find_images = real_find_images
 
     check("التكامل: الواقعة الأصلية (مصدر واحد فقط) سقطت كما صُمِّم الاختبار",
           any(d["text"] == brief_fact_text for d in out.get("dropped", [])), out.get("dropped"))
@@ -10586,9 +10677,9 @@ def test_article_source_facts() -> None:
         support_docs_seen.append((fact_text, [d["name"] for d in docs]))
         if fact_text == brief_fact_text:
             return ["Defensehere"]  # مصدر واحد فقط — يسقط عمدًا (< min_confirm)، كالاختبار
-            # الأول: تُبقي grounded دون min_grounded_facts فيتوقف _write_article
-            # عند بوابة الكفاية مباشرة بعد حساب حصيلة استخراج المصادر — لا حاجة
-            # لتزييف _choose_question/_draft_article، غير مرتبطين بما يفحصه هذا الاختبار
+            # الأول: واقعة المصدر الجديدة وحدها تكفي الآن لإتمام المسار (القاعدة
+            # 7 أُلغيت) — _choose_question/_draft_article/find_images مزيَّفة
+            # أدناه فقط لإتمام التشغيلة، غير مرتبطة بما يفحصه هذا الاختبار فعليًا
         return ["Defensehere", "Daily Sabah"]
 
     article.extract_brief = lambda body, cfg, retries=3: ({
@@ -10607,6 +10698,13 @@ def test_article_source_facts() -> None:
     article._support_sources = _fake_support_recording
     article._extract_source_facts = _fake_extract_source_offtopic
     article._source_fact_duplicate_index = _fake_dup_counting
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار بايراكتار ٢؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختبار بايراكتار ٢ يجيب عن السؤال بوضوح.",
+         "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
 
     try:
         out2 = article._write_article("موجز اختبار بايراكتار ٢", 9003, cfg_on)
@@ -10617,6 +10715,9 @@ def test_article_source_facts() -> None:
         article._support_sources = real_support_sources
         article._extract_source_facts = real_extract_source_facts
         article._source_fact_duplicate_index = real_dup_index
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+        article.find_images = real_find_images
 
     check("لا بحث جديد لوقائع المصادر: evidence.search استُدعيت مرة واحدة فقط "
           "لواقعة الموجز الوحيدة — سند مصدر واحد غير كافٍ يُصعِّد محاولتها الثانية "
@@ -10659,9 +10760,11 @@ def test_article_source_facts() -> None:
 
 def test_article_draft_investigation() -> None:
     """منشور «تحقيق» من outcome._write_article نفسه (Issue #765): يُصاغ من
-    report_statements المؤكَّدة/dropped/diffs/sources/question حصرًا بعد
-    نجاح المقال -- القيد البنيوي الملزم (نظير رأس verify_draft.py) هو
-    التوقيع نفسه: لا يقبل body إطلاقًا، لا مراجعة يدوية تضمن ذلك."""
+    report_statements المؤكَّدة/dropped/diffs/sources/question حصرًا --
+    القيد البنيوي الملزم (نظير رأس verify_draft.py) هو التوقيع نفسه: لا
+    يقبل body إطلاقًا، لا مراجعة يدوية تضمن ذلك. نجاح المقال أو فشله
+    (outcome['produced']) لا يمنع محاولة صياغة التحقيق (Issue #814 جزء 1) --
+    الشرط الوحيد المانع هو dropped/diffs فارغان معًا (لا شيء يستحق تحقيقًا)."""
     from src import article
 
     sig_params = inspect.signature(article.draft_investigation).parameters
@@ -10719,19 +10822,32 @@ def test_article_draft_investigation() -> None:
         check("draft_investigation: dropped وdiffs فارغان معًا ← None بلا أي نداء صياغة",
               result_empty is None and not calls_none, (result_empty, calls_none))
 
-        # ── فشل المقال (produced=False): لا تحقيق أصلًا -- لا أدلة كافية ──
+        # ── فشل المقال (produced=False) لا يمنع محاولة صياغة تحقيق (Issue
+        # #814 جزء 1) — dropped/diffs غير فارغين هنا (افتراضيًا في
+        # _base_outcome)، فالتحقيق يُحاول ويُنتَج فعلًا بصرف النظر عن نجاح
+        # المقال أو فشله ──
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
         calls_failed: list = []
 
         def _record_failed(*a, **k):
             calls_failed.append(1)
-            return None, ""
+            return ({"angle": "تحقيق", "analysis": "", "urgent": False, "category": "عالم",
+                    "image_headline": "عنوان تحقيق", "post_title": "عنوان تحقيق",
+                    "post_body": "لم نجد مصدرًا مستقلًا يؤكد بعض ما ورد في الموجز.",
+                    "hashtags": ["تحقيق"]}, "")
 
         article._draft_investigation_text = _record_failed
-        out_failed = _base_outcome(produced=False)
+        out_failed = _base_outcome(produced=False, draft_id=None)
         result_failed = article.draft_investigation(out_failed, cfg)
-        check("draft_investigation: فشل المقال (produced=False) ← None بلا أي محاولة "
-              "صياغة تحقيق",
-              result_failed is None and not calls_failed, (result_failed, calls_failed))
+        check("draft_investigation: فشل المقال (produced=False) لا يمنع محاولة صياغة "
+              "تحقيق فعلية — dropped/diffs غير فارغين هنا",
+              len(calls_failed) >= 1 and result_failed is not None,
+              (result_failed, calls_failed))
+        check("draft_investigation: عند produced=False بلا draft_id (لا مقال محفوظ)، "
+              "sibling_id يبقى None بلا محاولة ربط تكسر شيئًا",
+              result_failed is not None and result_failed.get("sibling_id") is None,
+              result_failed)
 
         # ── مخرَج فيه كلمة نافية ممنوعة (القاعدة 1) يُرفض ويُعاد المحاولة؛
         # نجاح المحاولة الثانية يُنتج مسودة فعلية ──
@@ -10822,6 +10938,141 @@ def test_article_draft_investigation() -> None:
         article._draft_investigation_text = real_draft_text
         article._unsourced_entities = real_unsourced
         article.find_images = real_find_images
+
+
+def test_article_no_min_facts_gate() -> None:
+    """Issue #814 (جزء 1 من 3): مسار المقال لا يمتنع لقلة الوقائع بعد الآن —
+    القاعدة 7 وضابطاها (الوقائع المرجعية/التقارير المنقولة) أُلغيت من
+    _sufficiency، ومنشور التحقيق يُنتَج بصرف النظر عن نجاح المقال. تكامل
+    كامل عبر _write_article + draft_investigation يثبت السيناريوهَين
+    الحديّين: صفر وقائع مسندة (منشور تحقيق وحده بلا انهيار)، وواقعة مسندة
+    واحدة (منشوران مترابطان بـsibling_id)."""
+    from src import article
+
+    cfg = load_config()
+    cfg["article"]["source_extract_enabled"] = False
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+    real_draft_investigation_text = article._draft_investigation_text
+    real_unsourced_entities = article._unsourced_entities
+
+    def _fake_search(query, cfg, days, unrestricted=False):
+        return [object()]
+
+    def _fake_gather_evidence(articles, cfg, claim_text=""):
+        return ([{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+                 {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+                evidence.EVIDENCE_FULL_TEXT)
+
+    evidence.search = _fake_search
+    evidence.gather_evidence = _fake_gather_evidence
+    article._unsourced_entities = lambda *a, **k: []
+    article.find_images = lambda title, cfg, terms=None: []
+    article._draft_investigation_text = (
+        lambda report_statements, dropped, diffs, sources, question, cfg,
+        retries=3, avoid_note="": (
+            {"angle": "تحقيق", "analysis": "", "urgent": False, "category": "عالم",
+             "image_headline": "عنوان تحقيق", "post_title": "عنوان تحقيق",
+             "post_body": "لم نجد مصدرًا مستقلًا يؤكد بعض ما ورد في الموجز.",
+             "hashtags": ["تحقيق"]}, ""))
+
+    try:
+        # ── سيناريو 1: صفر وقائع مسندة ← منشور تحقيق وحده بلا انهيار، لا
+        # رسالة فشل (reason يذكرها نتيجة صحيحة لا عطلًا) ──
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+        article.extract_brief = lambda body, cfg, retries=3: ({
+            "topic": "اختبار صفر وقائع مسندة",
+            "statements": [
+                {"text": "واقعة بمصدر واحد فقط تسقط", "kind": "واقعة", "entities": ["ك"],
+                 "is_unnamed_event": False, "is_reference": False},
+            ],
+            "questions": [],
+        }, None)
+        article._support_sources = (
+            lambda fact_text, docs, cfg, is_statement=False, is_report=False, publisher="":
+            ["مصدر أول"])  # مصدر واحد فقط -- يسقط دون بلوغ عتبة مصدرين مستقلين
+
+        outcome_zero = article._write_article("موجز صفر وقائع", 8141, cfg)
+        check("صفر وقائع مسندة: outcome['produced'] هو False -- لا مادة للمقال",
+              outcome_zero["produced"] is False, outcome_zero["reason"])
+        check("صفر وقائع مسندة: outcome['grounded_count'] == 0",
+              outcome_zero["grounded_count"] == 0, outcome_zero["grounded_count"])
+        check("صفر وقائع مسندة: الواقعة الوحيدة سقطت في dropped فعلًا",
+              len(outcome_zero["dropped"]) == 1, outcome_zero["dropped"])
+
+        investigation_zero = article.draft_investigation(outcome_zero, cfg)
+        check("صفر وقائع مسندة: draft_investigation تُنتج منشور تحقيق وحده بلا انهيار",
+              investigation_zero is not None, investigation_zero)
+
+        report_zero = article.build_report(outcome_zero, investigation_zero)
+        check("صفر وقائع مسندة: التقرير يذكر أن التحقيق صيغ رغم امتناع المقال",
+              "🔎" in report_zero and investigation_zero["id"] in report_zero, report_zero)
+
+        # ── سيناريو 2: واقعة واحدة مسندة ← منشوران (مقال وتحقيق) مترابطان ──
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+        article.extract_brief = lambda body, cfg, retries=3: ({
+            "topic": "اختبار واقعة واحدة مسندة",
+            "statements": [
+                {"text": "واقعة مسندة وحيدة", "kind": "واقعة", "entities": ["ك1"],
+                 "is_unnamed_event": False, "is_reference": False},
+                {"text": "واقعة أخرى بمصدر واحد فقط تسقط", "kind": "واقعة", "entities": ["ك2"],
+                 "is_unnamed_event": False, "is_reference": False},
+            ],
+            "questions": [],
+        }, None)
+
+        def _fake_support_one(fact_text, docs, cfg, is_statement=False, is_report=False,
+                              publisher=""):
+            if fact_text == "واقعة مسندة وحيدة":
+                return ["مصدر أول", "مصدر ثانٍ"]
+            return ["مصدر أول"]  # تسقط -- مصدر واحد فقط
+
+        article._support_sources = _fake_support_one
+        article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار؟", "")
+        article._draft_article = (
+            lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+                {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+                 "image_headline": "عنوان الصورة", "post_title": question,
+                 "post_body": "متن الاختبار يجيب عن السؤال بوضوح تام كاملة.",
+                 "hashtags": ["اختبار"]}, ""))
+
+        outcome_one = article._write_article("موجز واقعة واحدة", 8142, cfg)
+        check("واقعة واحدة مسندة: outcome['produced'] هو True -- القاعدة 7 القديمة أُلغيت",
+              outcome_one["produced"] is True, outcome_one["reason"])
+        check("واقعة واحدة مسندة: outcome['grounded_count'] == 1",
+              outcome_one["grounded_count"] == 1, outcome_one["grounded_count"])
+
+        investigation_one = article.draft_investigation(outcome_one, cfg)
+        check("واقعة واحدة مسندة: draft_investigation تُنتج منشورًا ثانيًا أيضًا -- "
+              "منشوران من تشغيلة واحدة",
+              investigation_one is not None, investigation_one)
+        if investigation_one is not None:
+            check("واقعة واحدة مسندة: منشورا المقال والتحقيق مرتبطان بـsibling_id متبادل",
+                  investigation_one["sibling_id"] == outcome_one["draft_id"], investigation_one)
+            reloaded_article_one = store.load_draft(outcome_one["draft_id"])[1]
+            check("واقعة واحدة مسندة: مسودة المقال حُدِّثت بـsibling_id معرّف التحقيق",
+                  reloaded_article_one.get("sibling_id") == investigation_one["id"],
+                  reloaded_article_one)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+        article.find_images = real_find_images
+        article._draft_investigation_text = real_draft_investigation_text
+        article._unsourced_entities = real_unsourced_entities
 
 
 def test_review_sibling_alternate_line() -> None:
@@ -15444,6 +15695,8 @@ def main() -> int:
     test_article_source_facts()
     print("\n── منشور «تحقيق» من outcome._write_article (Issue #765) ──")
     test_article_draft_investigation()
+    print("\n── إلغاء القاعدة 7: المقال لا يمتنع لقلة الوقائع (Issue #814 جزء 1) ──")
+    test_article_no_min_facts_gate()
     test_review_sibling_alternate_line()
     test_setimage_rebuild_card_uses_all_image_candidates()
     test_publish_investigation_requires_review()
