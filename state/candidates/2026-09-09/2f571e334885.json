@@ -1,0 +1,99 @@
+{
+  "id": "2f571e334885",
+  "created_at": "2026-09-09T09:08:01.648975+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 33.1,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "VIDEO: Iran downs US MQ-1 drone over Strait of Hormuz",
+  "link": "https://en.mehrnews.com/news/247579/VIDEO-Iran-downs-US-MQ-1-drone-over-Strait-of-Hormuz",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Daily Maverick",
+    "Dawn",
+    "IRGC",
+    "IRNA English",
+    "Investing.com — الاقتصاد",
+    "Mehr News",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Guardian — World",
+    "Vanguard Nigeria",
+    "Yonhap News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "VIDEO: Iran downs US MQ-1 drone over Strait of Hormuz",
+    "link": "https://en.mehrnews.com/news/247579/VIDEO-Iran-downs-US-MQ-1-drone-over-Strait-of-Hormuz",
+    "summary": "TEHRAN, Sep. 09 (MNA) – The Islamic Revolutionary Guard Corps has released video showing the interception and destruction of a U.S. MQ-1 drone over the Strait of Hormuz by its advanced naval and aerospace air defences.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-09T04:18:00+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/09/4/6166825.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Daily Maverick",
+      "Dawn",
+      "IRGC",
+      "IRNA English",
+      "Investing.com — الاقتصاد",
+      "Mehr News",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Guardian — World",
+      "Vanguard Nigeria",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-09-iran-says-it-captured-us-submarine-drone-in-strait-of-hormuz/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3366849/iran-says-captured-us-underwater-drone-strait-hormuz?utm_source=rss_feed"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247579/VIDEO-Iran-downs-US-MQ-1-drone-over-Strait-of-Hormuz"
+      },
+      {
+        "name": "IRGC",
+        "link": "https://tass.com/world/2184357"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86258845/Iran-captures-US-submarine-drone-in-Strait-of-Hormuz"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2028569/iran-attacks-american-base-in-jordan-ships-near-hormuz-after-us-hits-oil-tankers"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/09/4/6166825.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/09/4/173096648.jpg",
+      "https://i.dawn.com/large/2026/09/090932043eb404f.webp",
+      "https://i.dawn.com/large/2026/09/090924141166f52.webp",
+      "https://i.dawn.com/thumbnail/2026/09/090932043eb404f.webp",
+      "https://i.dawn.com/thumbnail/2026/09/090924141166f52.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 14,
+    "velocity": 1.0,
+    "age_hours": 856.9148315213888,
+    "is_stale": false,
+    "score": 33.099959053617255
+  }
+}

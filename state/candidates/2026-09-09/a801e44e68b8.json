@@ -1,0 +1,78 @@
+{
+  "id": "a801e44e68b8",
+  "created_at": "2026-09-09T09:08:01.649314+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.92,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UK air traffic control chaos disrupts flights for hundreds of thousands of passengers",
+  "link": "https://www.theguardian.com/business/2026/sep/08/air-traffic-control-issue-flights-delays-disruption-uk",
+  "publishers": [
+    "BBC",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "Punch Nigeria",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "UK air traffic control chaos disrupts flights for hundreds of thousands of passengers",
+    "link": "https://www.theguardian.com/business/2026/sep/08/air-traffic-control-issue-flights-delays-disruption-uk",
+    "summary": "More than 1,000 flights cancelled with problems continuing on Wednesday and airlines calling for overhaul after third incident in just over three years UK airport disruption: what are your rights? Flight delays and cancellations were expected to continue into Wednesday at UK airports after another air traffic control failure kept planes grounded for hours, affecting hundreds of thousands of passengers. At least 177 flights scheduled for Wednesday to and from UK airports had been cancelled, plane tracking site Flightradar24 said, “nearly all at London Heathrow”. More than 1,000 were cancelled by about 8pm on Tuesday. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-09T02:40:00+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/5d9b58fb7bef6b6a747c9b3b06642cd5c998a797/1088_0_6247_5000/master/6247.jpg?width=700&quality=85&auto=format&fit=max&s=61d0dffc631d8dd1e2a2a958aa851ffa",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "BBC",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "Punch Nigeria",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/business/2026/sep/08/air-traffic-control-issue-flights-delays-disruption-uk"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/air-traffic-control-issue-disrupts-flights-at-major-uk-airports-101788896799175.html"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/uk-air-traffic-control-glitch-prompts-nearly-300-cancellations-monitor-says/article71444236.ece"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/over-150-uk-flights-cancelled-after-air-traffic-glitch/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/300-flights-cancelled-over-issues-with-uk-air-traffic-control-system-12019729#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/5d9b58fb7bef6b6a747c9b3b06642cd5c998a797/1088_0_6247_5000/master/6247.jpg?width=700&quality=85&auto=format&fit=max&s=61d0dffc631d8dd1e2a2a958aa851ffa",
+      "https://i.guim.co.uk/img/media/5d9b58fb7bef6b6a747c9b3b06642cd5c998a797/1088_0_6247_5000/master/6247.jpg?width=460&quality=85&auto=format&fit=max&s=e20fbc6231e7428c093c28832eb34048",
+      "https://i.guim.co.uk/img/media/5d9b58fb7bef6b6a747c9b3b06642cd5c998a797/1088_0_6247_5000/master/6247.jpg?width=140&quality=85&auto=format&fit=max&s=b9f519f31ee14a3496780056b8dfcdcc",
+      "https://th-i.thgim.com/public/incoming/kdaing/article71444262.ece/alternates/LANDSCAPE_1200/2026-09-08T144354Z_869264541_RC24JCAKOSFU_RTRMADP_3_BRITAIN-AIRPORT.JPG",
+      "https://c.ndtvimg.com/2025-03/soefk6bg_heathrow_625x300_22_March_25.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 856.9148355655556,
+    "is_stale": false,
+    "score": 25.92389289892273
+  }
+}

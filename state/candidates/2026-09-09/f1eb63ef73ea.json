@@ -1,0 +1,70 @@
+{
+  "id": "f1eb63ef73ea",
+  "created_at": "2026-09-09T09:08:01.649960+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.28,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump bans Canadian alcohol in new trade war salvo",
+  "link": "https://www.dawn.com/news/2028583/trump-bans-canadian-alcohol-in-new-trade-war-salvo",
+  "publishers": [
+    "Dawn",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Trump bans Canadian alcohol in new trade war salvo",
+    "link": "https://www.dawn.com/news/2028583/trump-bans-canadian-alcohol-in-new-trade-war-salvo",
+    "summary": "US President Donald Trump on Tuesday escalated his trade war against Canada, banning imports of alcohol and various products and raising tariffs on others, with the conflict showing no sign of abating. Canadian Prime Minister Mark Carney stood firm, acknowledging that reducing economic ties with the United States would come at a cost but saying the benefits would outweigh the pain. A range of Canadian products, from mattresses to motorboats and golf carts, will be subject to a 50 per cent surcharge beginning September 15, according to Trump’s executive order issued late on Tuesday. The import ban, which targets various alcoholic beverages as well as some dairy products like whey, will come into effect on September 29, according to other executive orders issued at the same time. Canada’s retaliatory tariffs came into effect earlier on Tuesday, applying to $20 billion in US imports, including steel and aluminium products and dairy goods such as cheese, in response to duties announced by Washington on August 22. Canada has “everything we need to pivot and prosper”, Carney said in a video address. “That pivot will come at a cost. There’s always a cost to action. But it doesn’t come clo",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-09T06:31:43+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/091121248f6792a.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3366840/trump-bans-some-canada-goods-puts-50-tariffs-others?utm_source=rss_feed"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2028583/trump-bans-canadian-alcohol-in-new-trade-war-salvo"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-bans-some-canada-goods-as-trade-war-swells/article71445399.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/us-bans-canadian-alcohol-dairy-products-as-trade-war-worsens-12020753#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/091121248f6792a.webp",
+      "https://i.dawn.com/thumbnail/2026/09/091121248f6792a.webp",
+      "https://i.dawn.com/primary/2026/09/09111420b7f8f0f.webp",
+      "https://th-i.thgim.com/public/incoming/v728gr/article71445402.ece/alternates/LANDSCAPE_1200/2026-09-08T152859Z_1300775503_RC23FNABQ1XK_RTRMADP_3_USA-TRUMP.JPG",
+      "https://c.ndtvimg.com/2025-03/n0c41k98_trump-carney_625x300_28_March_25.jpg?im=FaceCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 856.9149041330555,
+    "is_stale": false,
+    "score": 20.276468352722222
+  }
+}

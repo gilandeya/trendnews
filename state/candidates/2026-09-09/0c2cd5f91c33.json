@@ -1,0 +1,81 @@
+{
+  "id": "0c2cd5f91c33",
+  "created_at": "2026-09-09T09:08:01.649655+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.36,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Apple expected to unveil folding iPhone as new CEO takes center stage",
+  "link": "https://www.theguardian.com/technology/2026/sep/08/apple-new-folding-iphone",
+  "publishers": [
+    "Engadget",
+    "Malay Mail",
+    "NDTV — World",
+    "The Guardian — World",
+    "The Verge"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Apple expected to unveil folding iPhone as new CEO takes center stage",
+    "link": "https://www.theguardian.com/technology/2026/sep/08/apple-new-folding-iphone",
+    "summary": "The new model will serve as the first big test for John Ternus, who took the role last week All eyes are on Apple’s annual fall announcement of new products this afternoon, where the company is expected to unveil the most significant change to the iPhone since the smartphone’s introduction in 2007. Unlike previous iterations, the new iPhone is expected to fold, opening and closing like a passport to double its screen size. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-09T06:00:02+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/593ea59ca08857e443b18be37ccae5b5d15049a5/172_0_3406_2725/master/3406.jpg?width=700&quality=85&auto=format&fit=max&s=f13a6185704ded7ebd40363dc807ffa3",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Engadget",
+      "Malay Mail",
+      "NDTV — World",
+      "The Guardian — World",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/technology/2026/sep/08/apple-new-folding-iphone"
+      },
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/tech/991884/apple-iphone-duo-rumor-foldable"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2253557/the-foldable-iphone-will-reportedly-be-called-duo-and-cost-2000/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/tech-gadgets/2026/09/09/iphone-18-pro-and-foldable-iphone-ultra-extensively-leaked-ahead-of-launch/234536"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/apples-2-000-foldable-iphone-was-10-years-in-the-making-12021029#publisher=newsstand"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2252525/how-to-watch-apple-event-september-9-2026/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/593ea59ca08857e443b18be37ccae5b5d15049a5/172_0_3406_2725/master/3406.jpg?width=700&quality=85&auto=format&fit=max&s=f13a6185704ded7ebd40363dc807ffa3",
+      "https://i.guim.co.uk/img/media/593ea59ca08857e443b18be37ccae5b5d15049a5/172_0_3406_2725/master/3406.jpg?width=460&quality=85&auto=format&fit=max&s=e71fcfd34537c4c482e201a6f80ed166",
+      "https://i.guim.co.uk/img/media/593ea59ca08857e443b18be37ccae5b5d15049a5/172_0_3406_2725/master/3406.jpg?width=140&quality=85&auto=format&fit=max&s=fefa2a553750fb1164c07832d6079463",
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK071_APPLE_B.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://www.engadget.com/img/gallery/the-foldable-iphone-will-reportedly-be-called-duo-and-cost-2000/l-intro-1788943128.jpg",
+      "https://www.engadget.com/img/gallery/the-foldable-iphone-will-reportedly-be-called-duo-and-cost-2000/intro-1788943128.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 856.9148335716667,
+    "is_stale": true,
+    "score": 22.35704894038431
+  }
+}

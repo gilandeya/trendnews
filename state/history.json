@@ -1,100 +1,5 @@
 [
   {
-    "score": 26.28,
-    "bucket": "serious",
-    "tokens": [
-      "arrest",
-      "court",
-      "duterte",
-      "issues",
-      "philippine",
-      "warrant"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/philippine-court-arrest-warrant-vice-president-sara-duterte-6362626",
-    "title": "Philippine court issues arrest warrant for VP Duterte",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-04T09:07:54.969612+00:00"
-  },
-  {
-    "score": 20.58,
-    "bucket": "serious",
-    "tokens": [
-      "argentina's",
-      "comments",
-      "dispute",
-      "escalates",
-      "falklands",
-      "milei",
-      "oil",
-      "seizing",
-      "tensions",
-      "trump"
-    ],
-    "link": "https://www.npr.org/2026/09/04/g-s1-141945/milei-escalates-falklands-dispute",
-    "title": "Argentina's Milei escalates Falklands dispute, seizing on Trump comments and oil tensions",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-09-04T09:07:54.969934+00:00"
-  },
-  {
-    "score": 17.28,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "begins",
-      "drones",
-      "germany",
-      "mass",
-      "production",
-      "ukraine"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/04/germany-begins-mass-production-of-attack-drones-for-ukraine",
-    "title": "Germany begins mass production of attack drones for Ukraine",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-04T09:07:54.970193+00:00"
-  },
-  {
-    "score": 16.29,
-    "bucket": "serious",
-    "tokens": [
-      "bessent",
-      "bond",
-      "ghalibaf",
-      "oil",
-      "reserves",
-      "warns",
-      "yields"
-    ],
-    "link": "https://en.mehrnews.com/news/247426/Ghalibaf-warns-Bessent-over-US-oil-reserves-bond-yields",
-    "title": "Ghalibaf warns Bessent over US oil reserves, bond yields",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-04T09:07:54.970451+00:00"
-  },
-  {
-    "score": 16.26,
-    "bucket": "serious",
-    "tokens": [
-      "400gb",
-      "college",
-      "filipino",
-      "free",
-      "google",
-      "offers",
-      "plus",
-      "storage",
-      "students",
-      "year"
-    ],
-    "link": "https://www.rappler.com/technology/google-filipino-college-students-free-year-gemini-ai-plus-storage/",
-    "title": "Google offers Filipino college students 1 year of AI Plus for free, 400GB storage",
-    "posted_title": "",
-    "region": "ph",
-    "seen_at": "2026-09-04T09:07:54.970693+00:00"
-  },
-  {
     "score": 17.28,
     "bucket": "serious",
     "tokens": [
@@ -5411,5 +5316,100 @@
     "posted_title": "تحديث: كتاب جديد يكشف تفاصيل مكالمة استمرت 45 دقيقة بين رئيس الإمارات ونتنياهو قبل هجوم حماس",
     "region": "eu",
     "seen_at": "2026-09-09T08:13:25.585423+00:00"
+  },
+  {
+    "score": 33.2,
+    "bucket": "sport",
+    "tokens": [
+      "alcaraz",
+      "beats",
+      "ever",
+      "finish",
+      "latest",
+      "open",
+      "reach",
+      "semis",
+      "shelton"
+    ],
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/c20v6pgz7nmo?at_medium=RSS&at_campaign=rss",
+    "title": "Shelton beats Alcaraz in latest-ever US Open finish to reach semis",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-09T09:08:01.648961+00:00"
+  },
+  {
+    "score": 33.1,
+    "bucket": "serious",
+    "tokens": [
+      "downs",
+      "drone",
+      "hormuz",
+      "iran",
+      "strait",
+      "video"
+    ],
+    "link": "https://en.mehrnews.com/news/247579/VIDEO-Iran-downs-US-MQ-1-drone-over-Strait-of-Hormuz",
+    "title": "VIDEO: Iran downs US MQ-1 drone over Strait of Hormuz",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-09T09:08:01.649304+00:00"
+  },
+  {
+    "score": 25.92,
+    "bucket": "serious",
+    "tokens": [
+      "air",
+      "chaos",
+      "control",
+      "disrupts",
+      "flights",
+      "hundreds",
+      "passengers",
+      "thousands",
+      "traffic"
+    ],
+    "link": "https://www.theguardian.com/business/2026/sep/08/air-traffic-control-issue-flights-delays-disruption-uk",
+    "title": "UK air traffic control chaos disrupts flights for hundreds of thousands of passengers",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-09T09:08:01.649645+00:00"
+  },
+  {
+    "score": 22.36,
+    "bucket": "serious",
+    "tokens": [
+      "apple",
+      "center",
+      "ceo",
+      "expected",
+      "folding",
+      "iphone",
+      "stage",
+      "takes",
+      "unveil"
+    ],
+    "link": "https://www.theguardian.com/technology/2026/sep/08/apple-new-folding-iphone",
+    "title": "Apple expected to unveil folding iPhone as new CEO takes center stage",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-09T09:08:01.649950+00:00"
+  },
+  {
+    "score": 20.28,
+    "bucket": "serious",
+    "tokens": [
+      "alcohol",
+      "bans",
+      "canadian",
+      "salvo",
+      "trade",
+      "trump",
+      "war"
+    ],
+    "link": "https://www.dawn.com/news/2028583/trump-bans-canadian-alcohol-in-new-trade-war-salvo",
+    "title": "Trump bans Canadian alcohol in new trade war salvo",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-09T09:08:01.650252+00:00"
   }
 ]

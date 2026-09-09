@@ -1,0 +1,95 @@
+{
+  "id": "4a6aa833b2e4",
+  "created_at": "2026-09-09T09:08:01.648506+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 33.2,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Shelton beats Alcaraz in latest-ever US Open finish to reach semis",
+  "link": "https://www.bbc.co.uk/sport/tennis/articles/c20v6pgz7nmo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Sport",
+    "Channel News Asia",
+    "Der Spiegel",
+    "El País",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "MyJoyOnline Ghana",
+    "The Guardian — Sport",
+    "The Japan Times",
+    "Vanguard Nigeria",
+    "as it happened"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Shelton beats Alcaraz in latest-ever US Open finish to reach semis",
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/c20v6pgz7nmo?at_medium=RSS&at_campaign=rss",
+    "summary": "Carlos Alcaraz's US Open title defence is over after a dramatic five-set quarter-final loss to Ben Shelton that ends at 03:34 local time in New York.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-09T09:03:44+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2cfd/live/de377d00-ac22-11f1-9bd9-7b7da208bd5c.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Sport",
+      "Channel News Asia",
+      "Der Spiegel",
+      "El País",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "MyJoyOnline Ghana",
+      "The Guardian — Sport",
+      "The Japan Times",
+      "Vanguard Nigeria",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/tennis/articles/c20v6pgz7nmo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/shelton-stuns-alcaraz-in-late-late-show-reach-us-open-semis-6372306"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/09/alcaraz-falls-to-shelton-in-epic-latest-ever-us-open-finish"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/sports/2026/09/09/tennis/alcaraz-shelton-us-open/"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/9/ben-shelton-shocks-carlos-alcaraz-in-five-sets-to-win-us-open-quarterfinal?traffic_source=rss"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/sport/tennis/us-open-ben-shelton-wirft-titelverteidiger-carlos-alcaraz-raus-a-8a8ce7e4-1114-40a2-9fb4-c384f7b4743f#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2cfd/live/de377d00-ac22-11f1-9bd9-7b7da208bd5c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/2cfd/live/de377d00-ac22-11f1-9bd9-7b7da208bd5c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/2cfd/live/de377d00-ac22-11f1-9bd9-7b7da208bd5c.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/2778be6f-1f72-4f7b-a2bd-4fdad35ba4f1-EPA-Ben-Shelton-09092026.webp",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/09/562231.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/09/thumbs/400x400/562231.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 12,
+    "velocity": 1.0,
+    "age_hours": 856.91483007,
+    "is_stale": false,
+    "score": 33.20026327066347
+  }
+}
