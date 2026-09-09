@@ -8379,6 +8379,227 @@ def test_article_search_ladder() -> None:
         article.find_images = real_find_images
 
 
+def test_article_wide_days() -> None:
+    """توسيع نافذة البحث مرة واحدة عند صفر نتائج خام (Issue #820، الجزء
+    الثالث من ثلاثة — نُفِّذ قبل الثاني عمدًا). الشاهد: موجز ديون «فيستل» —
+    أرقام الربع الأول تُنشر بعد شهور من تاريخ لصق الموجز، فwhen:21d كان
+    يُسقطها قبل أن تصل صفحة نتائج واحدة رغم استعلامات سليمة تمامًا. العلاج:
+    محاولة واحدة إضافية بـarticle.wide_days بدل days حين تعود المحاولة
+    النصّية بصفر نتائج بحث خام (raw_count==0) — بُعد داخل المحاولة لا
+    محاولة رابعة، ولا حين توجد نتائج غير مسندة (Issue #810 يبقى كما هو)،
+    ولا لواقعة مرجعية (is_reference)، ولا لبحث الأسئلة إطلاقًا."""
+    from src import article
+
+    cfg = load_config()
+    cfg["article"]["source_extract_enabled"] = False
+    cfg["article"]["wide_days"] = 540
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار التوسيع؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختبار توسيع النافذة.", "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
+
+    def _brief(statements: list, questions: list | None = None) -> None:
+        article.extract_brief = lambda body, cfg, retries=3: ({
+            "topic": "اختبار توسيع النافذة", "statements": statements,
+            "questions": questions or [],
+        }, None)
+
+    def _stmt(text: str, entities: list, is_reference: bool = False) -> dict:
+        return {"text": text, "kind": "واقعة", "entities": entities,
+                "is_unnamed_event": False, "is_reference": is_reference, "query_latin": ""}
+
+    old_date = datetime(2023, 5, 10, tzinfo=timezone.utc)
+    wide_docs = [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+                {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}]
+    wide_articles = [
+        Article(title="ت١", link="https://s1/1", summary="", source_name="مصدر أول",
+               region="global", weight=1.0, published=old_date, publisher="مصدر أول"),
+        Article(title="ت٢", link="https://s2/1", summary="", source_name="مصدر ثانٍ",
+               region="global", weight=1.0, published=old_date + timedelta(days=3),
+               publisher="مصدر ثانٍ"),
+    ]
+
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        # ── ١) صفر نتائج خام بالنافذة العادية ⇒ توسيع مرة واحدة بـwide_days
+        # بنفس الاستعلام حرفيًا، ينجح فيسند الواقعة، ويُسجَّل التوسيع في
+        # trail وقسم «مسندة بمصادر أقدم» في outcome/التقرير ──
+        _brief([_stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
+                      ["فيستل", "105 مليارات ليرة"])])
+        calls: list = []
+
+        def _fake_search_1(query, cfg, days, unrestricted=False):
+            calls.append((query, days))
+            if days == 540:
+                return evidence._search_result(list(wide_articles), 2, 2)
+            return evidence._search_result([], 0, 0)
+
+        def _fake_gather_1(articles, cfg, claim_text=""):
+            if articles:
+                return list(wide_docs), evidence.EVIDENCE_FULL_TEXT
+            return [], evidence.EVIDENCE_NO_RESULTS
+
+        evidence.search = _fake_search_1
+        evidence.gather_evidence = _fake_gather_1
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": [d["name"] for d in docs]
+        outcome = article._write_article("موجز اختبار توسيع ١", 9201, cfg)
+        evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+            [], evidence.EVIDENCE_NO_RESULTS)
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": []
+
+        check("توسيع ١) محاولة واحدة بالضبط بالنافذة العادية (21) قبل التوسيع",
+              sum(1 for q, d in calls if d == 21) == 1, calls)
+        check("توسيع ١) محاولة واحدة إضافية بالضبط بـwide_days (540)",
+              sum(1 for q, d in calls if d == 540) == 1, calls)
+        check("توسيع ١) الاستعلام الموسَّع مطابق حرفيًا للاستعلام العادي",
+              calls[0][0] == calls[1][0], calls)
+        check("توسيع ١) الواقعة اجتازت (لم تسقط) بعد التوسيع",
+              not any(d["text"] == "تجاوزت ديون فيستل 105 مليارات ليرة"
+                     for d in outcome["dropped"]), outcome["dropped"])
+        last_trail = outcome["trail"][-1]
+        check("توسيع ١) trail يُعلِّم المحاولة widened=True",
+              last_trail.get("widened") is True, last_trail)
+        check("توسيع ١) outcome السردي يذكر نافذة موسّعة 540 يومًا",
+              "⏳ نافذة موسّعة 540 يومًا" in (last_trail.get("outcome") or ""), last_trail)
+        check("توسيع ١) قسم الوقائع الأقدم من النافذة المعتادة يحوي الواقعة",
+              len(outcome["older_window_facts"]) == 1 and
+              outcome["older_window_facts"][0]["text"] == "تجاوزت ديون فيستل 105 مليارات ليرة",
+              outcome["older_window_facts"])
+        check("توسيع ١) أقدم تاريخ مصدر هو تاريخ «مصدر أول» الأقدم لا «مصدر ثانٍ»",
+              outcome["older_window_facts"][0]["oldest_date"] == old_date.strftime("%Y-%m-%d"),
+              outcome["older_window_facts"])
+        report = article.build_report(outcome)
+        check("توسيع ١) التقرير يحوي قسم «مسندة بمصادر أقدم من النافذة المعتادة»",
+              "مسندة بمصادر أقدم من النافذة المعتادة — راجع تواريخها" in report, report)
+
+        # ── ٢) نتائج خام غير صفرية لكن سند غير كافٍ لا تُطلِق التوسيع أبدًا
+        # (Issue #810: البحث أصاب والمصادر لا تؤيد، لا عطل بحث) ──
+        _brief([_stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
+                      ["فيستل", "105 مليارات ليرة"])])
+        calls = []
+
+        def _fake_search_2(query, cfg, days, unrestricted=False):
+            calls.append((query, days))
+            return evidence._search_result([object()], 3, 3)
+
+        def _fake_gather_2(articles, cfg, claim_text=""):
+            return [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"}], \
+                evidence.EVIDENCE_FULL_TEXT
+
+        evidence.search = _fake_search_2
+        evidence.gather_evidence = _fake_gather_2
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": []  # سند غير كافٍ دومًا
+        outcome2 = article._write_article("موجز اختبار توسيع ٢", 9202, cfg)
+        evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+            [], evidence.EVIDENCE_NO_RESULTS)
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": []
+
+        check("توسيع ٢) نتائج خام غير صفرية مع سند غير كافٍ ⇒ لا نداء بwide_days إطلاقًا",
+              all(d != 540 for q, d in calls), calls)
+        check("توسيع ٢) محاولتان نصّيتان عاديتان فقط (بلا أي توسيع)",
+              len(calls) == 2, calls)
+        check("توسيع ٢) بلا وقائع في قسم النافذة الموسّعة",
+              outcome2["older_window_facts"] == [], outcome2["older_window_facts"])
+
+        # ── ٣) صفر نتائج بالنافذة العادية، وصفر أيضًا بالموسّعة ⇒ توسيع واحد
+        # فقط لكل محاولة نصّية، ثم انتقال للمحاولة التالية (لا محاولة رابعة) ──
+        _brief([_stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
+                      ["فيستل", "105 مليارات ليرة"])])
+        calls = []
+
+        def _fake_search_3(query, cfg, days, unrestricted=False):
+            calls.append((query, days))
+            return evidence._search_result([], 0, 0)
+
+        evidence.search = _fake_search_3
+        outcome3 = article._write_article("موجز اختبار توسيع ٣", 9203, cfg)
+        check("توسيع ٣) محاولتان نصّيتان × (عادية+موسّعة) = 4 نداءات بحث بالضبط",
+              len(calls) == 4, calls)
+        check("توسيع ٣) توسيع واحد فقط لكل محاولة نصّية (لا تكرار)",
+              sum(1 for q, d in calls if d == 540) == 2, calls)
+        check("توسيع ٣) بلا وقائع بنافذة موسّعة (لم يُسنَد شيء فعليًا)",
+              outcome3["older_window_facts"] == [], outcome3["older_window_facts"])
+
+        # ── ٤) واقعة مرجعية (is_reference) لا تُوسَّع أبدًا رغم صفر نتائج —
+        # unrestricted يُسقط قيد days أصلًا في evidence.search، فتوسيعها ثانية
+        # بلا معنى ──
+        _brief([_stmt("خلفية مرجعية عن فيستل", ["فيستل"], is_reference=True)])
+        calls = []
+
+        def _fake_search_4(query, cfg, days, unrestricted=False):
+            calls.append((query, days))
+            return evidence._search_result([], 0, 0)
+
+        evidence.search = _fake_search_4
+        article._write_article("موجز اختبار توسيع ٤", 9204, cfg)
+        check("توسيع ٤) واقعة مرجعية لا تُوسَّع أبدًا رغم صفر نتائج خام",
+              all(d != 540 for q, d in calls), calls)
+        check("توسيع ٤) محاولتان نصّيتان فقط (بلا أي توسيع) لواقعة مرجعية",
+              len(calls) == 2, calls)
+
+        # ── ٥) بحث السؤال ([سؤال] في trail) لا يُوسَّع أبدًا حتى مع صفر
+        # نتائج خام — السؤال يسأل عن تحليل راهن، وتوسيعه يجلب تحليلًا قديمًا
+        # يُقدَّم كأنه اليوم ──
+        _brief([_stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
+                      ["فيستل", "105 مليارات ليرة"])],
+              questions=[{"text": "ما مستقبل فيستل؟", "entities": ["فيستل"],
+                         "is_reference": False}])
+        calls = []
+
+        def _fake_search_5(query, cfg, days, unrestricted=False):
+            calls.append((query, days))
+            # الواقعة (النداء الأول) تُسنَد فورًا بنتائج خام غير صفرية —
+            # عزلًا لسلوك بحث السؤال (التالي) عن سُلَّم الواقعة نفسه
+            if len(calls) == 1:
+                return evidence._search_result([object()], 5, 5)
+            return evidence._search_result([], 0, 0)
+
+        def _fake_gather_5(articles, cfg, claim_text=""):
+            if articles:
+                return ([{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+                        {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}],
+                       evidence.EVIDENCE_FULL_TEXT)
+            return [], evidence.EVIDENCE_NO_RESULTS
+
+        evidence.search = _fake_search_5
+        evidence.gather_evidence = _fake_gather_5
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": [d["name"] for d in docs]
+        article._write_article("موجز اختبار توسيع ٥", 9205, cfg)
+        evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+            [], evidence.EVIDENCE_NO_RESULTS)
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": []
+
+        check("توسيع ٥) نداء واحد فقط لبحث السؤال، بالنافذة العادية (21) لا الموسّعة",
+              len(calls) == 2 and calls[1][1] == 21, calls)
+        check("توسيع ٥) بلا أي نداء بـwide_days لبحث السؤال رغم صفر نتائجه الخام",
+              all(d != 540 for q, d in calls), calls)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+        article.find_images = real_find_images
+
+
 def test_article_support_call_caching() -> None:
     """تخزين كتلة الوثائق مؤقتًا في نداءات الحكم على السند (طلب المراجعة):
     تشغيلة حقيقية سجّلت ٩٤٪ من كلفة تشغيلة المقال إدخالًا، منه ١٪ فقط
@@ -15675,6 +15896,7 @@ def main() -> int:
     test_article_split_event_condition()
     test_article_mandatory_query_name()
     test_article_search_ladder()
+    test_article_wide_days()
     test_article_support_call_caching()
     test_article_source_fact_topic_guard()
     test_article_report_kind()
