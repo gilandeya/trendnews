@@ -8716,15 +8716,126 @@ def test_article_support_call_caching() -> None:
           parts_content[1])
 
 
+def test_article_source_fact_duplicate_index_on_topic() -> None:
+    """وحدة _source_fact_duplicate_index بعد Issue #824: on_topic/on_topic_reason
+    حقلان جديدان في نفس نداء التكرار (لا نداء إضافي). يغطي: حكم النموذج
+    الناجح، حقل on_topic غائب/مشوَّه يفشل مفتوحًا (True)، فشل نداء تقني
+    يفشل مفتوحًا لكليهما (duplicate=False و on_topic=True معًا)، و
+    existing_texts فارغة لا تستدعي النموذج إطلاقًا (لا تكلفة على أول واقعة
+    حين لا شيء لمقارنتها بعد)."""
+    from src import article
+
+    class _Block:
+        def __init__(self, input_):
+            self.type = "tool_use"
+            self.input = input_
+
+    class _Resp:
+        def __init__(self, input_):
+            self.content = [_Block(input_)]
+            self.usage = None
+
+    class _Messages:
+        def __init__(self, input_, calls):
+            self._input = input_
+            self._calls = calls
+
+        def create(self, **kw):
+            self._calls.append(kw)
+            return _Resp(self._input)
+
+    class _Client:
+        def __init__(self, input_, calls):
+            self.messages = _Messages(input_, calls)
+
+    cfg = load_config()
+    real_client_fn = article._client
+
+    calls: list = []
+    article._client = lambda: _Client(
+        {"duplicate_index": -1, "on_topic": True, "on_topic_reason": "نفس الموضوع"}, calls)
+    result = article._source_fact_duplicate_index(
+        "واقعة جديدة", ["واقعة سابقة"], cfg, topic="موضوع الموجز")
+    article._client = real_client_fn
+    check("_source_fact_duplicate_index: حكم on_topic=True ناجح يُقرأ من الرد",
+          result == {"duplicate": False, "index": None, "call_error": None,
+                    "on_topic": True, "on_topic_reason": "نفس الموضوع"}, result)
+    check("_source_fact_duplicate_index: نداء واحد فقط (لا نداء إضافي لحكم الموضوع)",
+          len(calls) == 1, calls)
+    check("_source_fact_duplicate_index: البرومبت يحمل موضوع الموجز صراحة",
+          "موضوع الموجز" in calls[0]["messages"][0]["content"], calls[0])
+
+    article._client = lambda: _Client(
+        {"duplicate_index": 0, "on_topic": False, "on_topic_reason": "موضوع آخر"}, [])
+    dup_offtopic = article._source_fact_duplicate_index(
+        "واقعة مكرَّرة", ["واقعة سابقة"], cfg, topic="موضوع الموجز")
+    article._client = real_client_fn
+    check("_source_fact_duplicate_index: duplicate=True و on_topic=False معًا يُقرآن معًا "
+          "من نفس الرد",
+          dup_offtopic == {"duplicate": True, "index": 0, "call_error": None,
+                           "on_topic": False, "on_topic_reason": "موضوع آخر"}, dup_offtopic)
+
+    # حقل on_topic غائب من رد النموذج (تشوّه/عطل تسمية) — يفشل مفتوحًا
+    # (True)، لا يُعامَل حجبًا (Issue #824، "عند فشل النداء أو غياب الحقل:
+    # اسمح بالدخول ولا تحجب")
+    article._client = lambda: _Client({"duplicate_index": -1}, [])
+    missing_field = article._source_fact_duplicate_index(
+        "واقعة جديدة", ["واقعة سابقة"], cfg, topic="موضوع الموجز")
+    article._client = real_client_fn
+    check("_source_fact_duplicate_index: غياب حقل on_topic من الرد يفشل مفتوحًا (True)",
+          missing_field["on_topic"] is True and missing_field["on_topic_reason"] == "",
+          missing_field)
+
+    # فشل نداء تقني (Issue #824): duplicate=False و on_topic=True معًا —
+    # لا تُحجب الواقعة لا لعطل تكرار ولا لعطل موضوع، وتخضع لحكم السند
+    # الفعلي بدلًا من ذلك (انظر test_article_source_fact_topic_guard)
+    from anthropic import APIError
+    import httpx as _httpx
+
+    class _RaisingMessages:
+        def create(self, **kw):
+            raise APIError(
+                "عطل شبكة اختباري",
+                request=_httpx.Request("POST", "https://api.anthropic.com/v1/messages"),
+                body=None)
+
+    class _RaisingClient:
+        def __init__(self):
+            self.messages = _RaisingMessages()
+
+    article._client = lambda: _RaisingClient()
+    failed = article._source_fact_duplicate_index(
+        "واقعة جديدة", ["واقعة سابقة"], cfg, topic="موضوع الموجز")
+    article._client = real_client_fn
+    check("_source_fact_duplicate_index: فشل نداء تقني لا ينهار، ويعيد duplicate=False "
+          "و on_topic=True معًا (فتح لا حجب)",
+          failed["duplicate"] is False and failed["call_error"] and
+          failed["on_topic"] is True, failed)
+
+    # existing_texts فارغة: لا نداء إطلاقًا (لا شيء لمقارنة التكرار به)،
+    # ويفشل on_topic مفتوحًا بنفس السياسة
+    no_call: list = []
+    article._client = lambda: _Client({"duplicate_index": -1, "on_topic": True}, no_call)
+    empty_existing = article._source_fact_duplicate_index(
+        "واقعة جديدة", [], cfg, topic="موضوع الموجز")
+    article._client = real_client_fn
+    check("_source_fact_duplicate_index: existing_texts فارغة ← لا نداء نموذج إطلاقًا",
+          no_call == [], no_call)
+    check("_source_fact_duplicate_index: existing_texts فارغة ← on_topic=True افتراضيًا",
+          empty_existing["on_topic"] is True, empty_existing)
+
+
 def test_article_source_fact_topic_guard() -> None:
-    """حارس الموضوع لوقائع المصادر (Issue #808، البند 4 — أهمّ بند فيه).
-    الشاهد الفعلي المرفق في الـIssue: موجز عن ديون شركة «فيستل» التركية
-    استخرج من مصادر البحث واقعة «باعت فيستل حصتها في توغ» — نفس الكيان
-    (فيستل) لكن موضوع مختلف كليًا (بيع حصة، لا ديون) — ودخلت المقال بتقاطع
-    اسم الكيان وحده. العلاج: تقاطع كيانات الواقعة مع كيانات الموجز **و**
-    كلمة معنى مشتركة واحدة على الأقل من موضوع الموجز (خارج الكيانات نفسها)
-    — تقاطع اسم الكيان وحده لا يكفي، وواقعة تسقط بهذا الحارس تحديدًا (لا
-    الفحص العام لانعدام أي تقاطع كيانات) تظهر بقسم تقرير مستقل."""
+    """حارس الموضوع لوقائع المصادر (Issue #808 البند 4، ثم Issue #824).
+    الشاهد الأول (#808): موجز عن ديون شركة «فيستل» استخرج من مصادر البحث
+    واقعة «باعت فيستل حصتها في توغ» — نفس الكيان (فيستل) لكن موضوع مختلف
+    كليًا. عولج حينها بتقاطع كلمة معنى حرفي (norm_tokens) بعد تقاطع الكيانات
+    — لكن العربية تصرّف (جمع/مفرد، همزات)، فشاهد ثانٍ حقيقي (#824) بيّن أن
+    نفس هذا التقاطع الحرفي يحجب وقائع مسندة صميمة («ديون» لا تقاطع «الدين»،
+    «خسائر» لا تقاطع «خسارة») — أربع من ثماني وقائع موجز حقيقي سقطت هكذا.
+    العلاج: التقاطع الحرفي أُلغي كليًا، واستُبدل بحكم نموذج (on_topic) داخل
+    نفس نداء _source_fact_duplicate_index — entity_ok (تقاطع الكيانات فقط)
+    يبقى مرشِّحًا رخيصًا أوليًا كما هو."""
     from src import article
 
     cfg = load_config()
@@ -8738,14 +8849,12 @@ def test_article_source_fact_topic_guard() -> None:
     real_draft_article = article._draft_article
     real_find_images = article.find_images
     real_extract_source_facts = article._extract_source_facts
-    real_dup_index = article._source_fact_duplicate_index
+    real_client_fn = article._client
 
     article.extract_brief = lambda body, cfg, retries=3: ({
-        "topic": "ديون فيستل التركية",
+        "topic": "ديون فيستل التركية وخسائرها",
         "statements": [
             {"text": "تجاوزت ديون فيستل 105 مليارات ليرة", "kind": "واقعة",
-             "entities": ["فيستل"], "is_unnamed_event": False, "is_reference": False},
-            {"text": "أعلنت فيستل خطة لخفض التكاليف", "kind": "واقعة",
              "entities": ["فيستل"], "is_unnamed_event": False, "is_reference": False},
         ],
         "questions": [],
@@ -8765,19 +8874,61 @@ def test_article_source_fact_topic_guard() -> None:
          "hashtags": ["اختبار"]}, "")
     article.find_images = lambda title, cfg, terms=None: []
 
-    # تقاطع اسم الكيان («فيستل») لكن بلا كلمة معنى مشتركة («ديون») — الشاهد
-    # الفعلي الذي بنى هذا الحارس بعينه
-    tug_fact = {"text": "باعت فيستل حصتها في توغ للدفاع", "entities": ["فيستل", "توغ"]}
-    # تقاطع الكيان («فيستل») وكلمة المعنى («ديون») معًا — يجب أن تدخل المقال
-    genuine_fact = {"text": "تجاوزت ديون فيستل حاجز 100 مليار ليرة إضافية",
-                    "entities": ["فيستل"]}
+    # الشاهد الفعلي المرفق في Issue #824: أربع وقائع مسندة صميم موضوع
+    # الموجز (الديون والخسائر) سقطت سابقًا بتقاطع كلمات حرفي — يجب أن تدخل
+    debt_total = {"text": "إجمالي دين فيستل بلغ 147.59 مليار ليرة", "entities": ["فيستل"]}
+    quarterly_loss = {"text": "سجّلت فيستل أكبر خسارة فصلية في تاريخها",
+                      "entities": ["فيستل"]}
+    obligations = {"text": "التزامات فيستل باتت أربعة أضعاف رأس مالها",
+                   "entities": ["فيستل"]}
+    sales_decline = {"text": "تراجع إنتاج فيستل 35% وتراجعت مبيعاتها 16%",
+                     "entities": ["فيستل"]}
+    on_topic_facts = [debt_total, quarterly_loss, obligations, sales_decline]
+
+    # نفس الكيان («فيستل») لكن موضوع مختلف كليًا — يجب أن تُحجب
+    tug_fact = {"text": "باعت فيستل حصتها في شركة توغ للدفاع", "entities": ["فيستل", "توغ"]}
+    fridge_fact = {"text": "فازت ثلاجة من فيستل بجائزة أفضل تصميم صناعي",
+                   "entities": ["فيستل"]}
+    kuwait_fact = {"text": "أطلقت فيستل تشكيلة منتجاتها الجديدة في السوق الكويتي",
+                  "entities": ["فيستل"]}
+    off_topic_facts = [tug_fact, fridge_fact, kuwait_fact]
+
     # بلا أي تقاطع كيانات إطلاقًا — الفحص العام (off_topic) لا حارس الكيان
     unrelated_fact = {"text": "افتتح مطعم جديد في اسطنبول", "entities": ["اسطنبول"]}
 
-    article._extract_source_facts = lambda topic, brief_texts, docs, cfg: [
-        tug_fact, genuine_fact, unrelated_fact]
-    article._source_fact_duplicate_index = lambda text, brief_texts, cfg: (
-        {"call_error": None, "duplicate": False})
+    article._extract_source_facts = lambda topic, brief_texts, docs, cfg: (
+        on_topic_facts + off_topic_facts + [unrelated_fact])
+
+    off_topic_texts = {f["text"] for f in off_topic_facts}
+
+    class _GuardBlock:
+        def __init__(self, input_):
+            self.type = "tool_use"
+            self.input = input_
+
+    class _GuardResp:
+        def __init__(self, input_):
+            self.content = [_GuardBlock(input_)]
+            self.usage = None
+
+    class _GuardMessages:
+        def __init__(self, calls):
+            self._calls = calls
+
+        def create(self, **kw):
+            self._calls.append(kw)
+            prompt = kw["messages"][0]["content"]
+            on_topic = not any(t in prompt for t in off_topic_texts)
+            reason = "" if on_topic else "نفس الكيان بموضوع مختلف"
+            return _GuardResp({"duplicate_index": -1, "on_topic": on_topic,
+                              "on_topic_reason": reason})
+
+    class _GuardClient:
+        def __init__(self, calls):
+            self.messages = _GuardMessages(calls)
+
+    guard_calls: list = []
+    article._client = lambda: _GuardClient(guard_calls)
 
     try:
         out = article._write_article("موجز اختبار حارس الموضوع", 9110, cfg)
@@ -8790,28 +8941,123 @@ def test_article_source_fact_topic_guard() -> None:
         article._draft_article = real_draft_article
         article.find_images = real_find_images
         article._extract_source_facts = real_extract_source_facts
-        article._source_fact_duplicate_index = real_dup_index
+        article._client = real_client_fn
 
-    check("حارس الموضوع: واقعة «توغ» (نفس الكيان، موضوع مختلف) لم تدخل المقال",
-          not any("توغ" in g["text"] for g in out.get("source_origin_facts", [])),
-          out.get("source_origin_facts"))
-    check("حارس الموضوع: واقعة «توغ» ظهرت صراحة في same_entity_off_topic_facts",
-          any("توغ" in f["text"] for f in out["same_entity_off_topic_facts"]),
+    source_texts = [g["text"] for g in out.get("source_origin_facts", [])]
+    check("حارس الموضوع: الوقائع الأربع الصميمة (الدين، الخسارة الفصلية، الالتزامات، "
+          "تراجع المبيعات) دخلت المقال رغم عدم تطابقها الحرفي مع «ديون»/«خسائر»",
+          all(f["text"] in source_texts for f in on_topic_facts), source_texts)
+    check("حارس الموضوع: وقائع «توغ»/الثلاجة/إطلاق الكويت (نفس الكيان، موضوع مختلف) "
+          "لم تدخل المقال",
+          not any(f["text"] in source_texts for f in off_topic_facts), source_texts)
+    check("حارس الموضوع: الوقائع الثلاث المحجوبة ظهرت في same_entity_off_topic_facts",
+          {f["text"] for f in out["same_entity_off_topic_facts"]} == off_topic_texts,
           out["same_entity_off_topic_facts"])
-    check("حارس الموضوع: تقاطع اسم الكيان وحده («فيستل») لا يجيز الدخول — "
-          "source_facts_summary يعكسها same_entity_off_topic لا off_topic العام",
-          out["source_facts_summary"]["same_entity_off_topic"] == 1, out["source_facts_summary"])
-    check("حارس الموضوع: واقعة عن الكيان نفسه بنفس الموضوع (ديون) دخلت المقال فعلًا",
-          any("100 مليار" in g["text"] for g in out.get("source_origin_facts", [])),
-          out.get("source_origin_facts"))
+    check("حارس الموضوع: source_facts_summary يعكس same_entity_off_topic بـ٣ لا off_topic "
+          "العام",
+          out["source_facts_summary"]["same_entity_off_topic"] == 3, out["source_facts_summary"])
     check("حارس الموضوع: واقعة بلا أي تقاطع كيانات سقطت بالفحص العام off_topic "
           "لا same_entity_off_topic",
           out["source_facts_summary"]["off_topic"] == 1, out["source_facts_summary"])
+    check("حارس الموضوع: نداء نموذج واحد بالضبط لكل واقعة اجتازت entity_ok (٧ وقائع: "
+          "٤ صميمة + ٣ نفس الكيان) — لا نداء إضافي منفصل لحكم الموضوع",
+          len(guard_calls) == 7, len(guard_calls))
 
     report = article.build_report(out)
     check("حارس الموضوع: التقرير يعرض قسم «وقائع عن نفس الكيان بموضوع مختلف — "
-          "لم تدخل المقال» صراحة، وواقعة «توغ» فيه",
-          "وقائع عن نفس الكيان بموضوع مختلف" in report and "توغ" in report, report)
+          "لم تدخل المقال» صراحة، وسبب الحكم (on_topic_reason) لكل واقعة محجوبة",
+          "وقائع عن نفس الكيان بموضوع مختلف" in report and
+          "توغ" in report and "نفس الكيان بموضوع مختلف" in report.split(
+              "وقائع عن نفس الكيان بموضوع مختلف")[1], report)
+
+
+def test_article_source_fact_topic_guard_call_failure_admits() -> None:
+    """فشل نداء _source_fact_duplicate_index التقني لا يحجب الواقعة ولا
+    ينهار (Issue #824، آخر بند من اختبارات الـIssue) — الواقعة تمرّ إلى حكم
+    السند الفعلي (min_confirm) بدل أن تُسقَط احتياطًا على عطل تقني عابر."""
+    from src import article
+
+    cfg = load_config()
+    cfg["article"]["source_extract_enabled"] = True
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+    real_extract_source_facts = article._extract_source_facts
+    real_client_fn = article._client
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "ديون فيستل التركية",
+        "statements": [
+            {"text": "تجاوزت ديون فيستل 105 مليارات ليرة", "kind": "واقعة",
+             "entities": ["فيستل"], "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": [d["name"] for d in docs]
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار الحارس؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "اقتصاد",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختباري بلا أي تشابه لفظي مع مصدر.",
+         "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
+
+    failing_fact = {"text": "تجاوزت التزامات فيستل حاجز 200 مليار ليرة إضافية",
+                    "entities": ["فيستل"]}
+    article._extract_source_facts = lambda topic, brief_texts, docs, cfg: [failing_fact]
+
+    from anthropic import APIError
+    import httpx as _httpx
+
+    class _RaisingMessages:
+        def create(self, **kw):
+            raise APIError(
+                "عطل شبكة اختباري",
+                request=_httpx.Request("POST", "https://api.anthropic.com/v1/messages"),
+                body=None)
+
+    class _RaisingClient:
+        def __init__(self):
+            self.messages = _RaisingMessages()
+
+    article._client = lambda: _RaisingClient()
+
+    try:
+        out = article._write_article("موجز اختبار عطل الحارس", 9111, cfg)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+        article.find_images = real_find_images
+        article._extract_source_facts = real_extract_source_facts
+        article._client = real_client_fn
+
+    check("حارس الموضوع: فشل نداء تقني لا ينهار التشغيلة كاملة",
+          isinstance(out, dict), type(out))
+    check("حارس الموضوع: فشل نداء تقني لم يُحجب الواقعة بحارس الموضوع "
+          "(لم تظهر في same_entity_off_topic_facts)",
+          not any(f["text"] == failing_fact["text"]
+                 for f in out.get("same_entity_off_topic_facts", [])),
+          out.get("same_entity_off_topic_facts"))
+    check("حارس الموضوع: فشل نداء تقني سمح للواقعة بالوصول لحكم السند فدخلت المقال "
+          "فعلًا (min_confirm محقَّق بمصدرين وهميين)",
+          any(g["text"] == failing_fact["text"]
+             for g in out.get("source_origin_facts", [])),
+          out.get("source_origin_facts"))
 
 
 def test_article_report_kind() -> None:
@@ -10643,12 +10889,17 @@ def test_article_source_facts() -> None:
     # متعمَّدان قبل أي وصل بالأنبوب الرئيسي ──
 
     # (أ) نفس الحدث بصياغتين مختلفتين من مسارين — يجب أن يُدمَج لا يُعدّ مرتين
+    # duplicate_index فقط في رد النموذج، بلا on_topic/on_topic_reason — هذا
+    # الاختبار يفحص حكم التكرار حصرًا؛ حكم الموضوع (Issue #824) له اختباره
+    # الخاص في test_article_source_fact_duplicate_index_on_topic. غياب
+    # الحقلين يفشل مفتوحًا (on_topic=True) بتصميم الدالة، لا يكسر هنا
     article._client = lambda: _FakeClient({"duplicate_index": 0})
     dup1 = article._source_fact_duplicate_index(
         "توغّلت قوات الحكومة داخل المدينة الخميس عقب اشتباكات قصيرة",
         ["دخلت القوات الحكومية المدينة يوم الخميس بعد معارك محدودة"], cfg)
     check("١) نفس الحدث بصياغتين مختلفتين ← duplicate=True برقم الواقعة الأصلية",
-          dup1 == {"duplicate": True, "index": 0, "call_error": None}, dup1)
+          dup1 == {"duplicate": True, "index": 0, "call_error": None,
+                  "on_topic": True, "on_topic_reason": ""}, dup1)
 
     # (ب) حدثان متمايزان يشتركان في الفاعل نفسه — يجب ألا يُدمَجا (المعيار:
     # الفعل/الحدث نفسه لا الكيانات المشتركة وحدها)
@@ -10657,11 +10908,13 @@ def test_article_source_facts() -> None:
         "التقى الرئيس بوزير الخارجية يوم الجمعة لبحث ملف الطاقة",
         ["زار الرئيس المدينة يوم الخميس"], cfg)
     check("٢) حدث مختلف يشارك الفاعل نفسه مع واقعة سابقة ← duplicate=False، لا يُدمَج",
-          dup2 == {"duplicate": False, "index": None, "call_error": None}, dup2)
+          dup2 == {"duplicate": False, "index": None, "call_error": None,
+                  "on_topic": True, "on_topic_reason": ""}, dup2)
 
     dup_empty = article._source_fact_duplicate_index("أي نص", [], cfg)
     check("قائمة وقائع سابقة فارغة ← duplicate=False بلا نداء نموذج (اختصار مبكر)",
-          dup_empty == {"duplicate": False, "index": None, "call_error": None})
+          dup_empty == {"duplicate": False, "index": None, "call_error": None,
+                       "on_topic": True, "on_topic_reason": ""})
 
     from anthropic import APIConnectionError
     import httpx as _httpx
@@ -10812,10 +11065,12 @@ def test_article_source_facts() -> None:
             {"text": new_source_text, "entities": ["بايكار", "بيرقدار"]},
         ])
 
-    def _fake_dup(candidate_text, existing_texts, cfg):
+    def _fake_dup(candidate_text, existing_texts, cfg, topic=""):
         if candidate_text == duplicate_source_text:
-            return {"duplicate": True, "index": 0, "call_error": None}
-        return {"duplicate": False, "index": None, "call_error": None}
+            return {"duplicate": True, "index": 0, "call_error": None,
+                    "on_topic": True, "on_topic_reason": ""}
+        return {"duplicate": False, "index": None, "call_error": None,
+                "on_topic": True, "on_topic_reason": ""}
 
     article._support_sources = _fake_support
     article._extract_source_facts = _fake_extract_source
@@ -10879,9 +11134,10 @@ def test_article_source_facts() -> None:
 
     dup_calls: list = []
 
-    def _fake_dup_counting(candidate_text, existing_texts, cfg):
+    def _fake_dup_counting(candidate_text, existing_texts, cfg, topic=""):
         dup_calls.append(candidate_text)
-        return {"duplicate": False, "index": None, "call_error": None}
+        return {"duplicate": False, "index": None, "call_error": None,
+                "on_topic": True, "on_topic_reason": ""}
 
     offtopic_text = "حادث لا صلة له بموضوع الموجز إطلاقًا"
 
@@ -15898,7 +16154,9 @@ def main() -> int:
     test_article_search_ladder()
     test_article_wide_days()
     test_article_support_call_caching()
+    test_article_source_fact_duplicate_index_on_topic()
     test_article_source_fact_topic_guard()
+    test_article_source_fact_topic_guard_call_failure_admits()
     test_article_report_kind()
     test_article_generic_source_publisher()
     test_article_unsourced_entities()
