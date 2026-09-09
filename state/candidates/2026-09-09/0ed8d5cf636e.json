@@ -1,0 +1,52 @@
+{
+  "id": "0ed8d5cf636e",
+  "created_at": "2026-09-09T17:07:56.265717+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.78,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Republican midterm convention 2026: What to know about Trump’s Dallas event",
+  "link": "https://www.aljazeera.com/news/2026/9/9/republican-midterm-convention-2026-what-to-know-about-trumps-dallas-event?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "TASS"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Republican midterm convention 2026: What to know about Trump’s Dallas event",
+    "link": "https://www.aljazeera.com/news/2026/9/9/republican-midterm-convention-2026-what-to-know-about-trumps-dallas-event?traffic_source=rss",
+    "summary": "Trump and JD Vance headline the unusual two-day Republican convention before the November midterm elections.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-09T11:48:03+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/9/republican-midterm-convention-2026-what-to-know-about-trumps-dallas-event?traffic_source=rss"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2184557"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 864.9134221680556,
+    "is_stale": false,
+    "score": 21.77804455388889
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "id": "33a46b0b933c",
+  "created_at": "2026-09-09T17:07:56.265309+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.29,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "The Rwandan eyeing Champions League history against Man Utd",
+  "link": "https://www.bbc.co.uk/sport/football/articles/c4g7zxezj9lo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Carrick",
+    "Free Malaysia Today",
+    "Vanguard Nigeria"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "The Rwandan eyeing Champions League history against Man Utd",
+    "link": "https://www.bbc.co.uk/sport/football/articles/c4g7zxezj9lo?at_medium=RSS&at_campaign=rss",
+    "summary": "Rwanda forward Joy-Lance Mickels has helped Azerbaijan's Sabah reach the Champions League proper on their competition debut, and is now looking to down the team he supports.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-09T14:41:38+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1972/live/5d3068c0-ac54-11f1-9e64-05835b0b18f8.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Carrick",
+      "Free Malaysia Today",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/c4g7zxezj9lo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Carrick",
+        "link": "https://punchng.com/man-utd-can-go-far-in-champions-league-carrick/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/carrick-confident-man-utd-can-go-far-in-magical-champions-league/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/09/carrick-confident-man-utd-can-go-far-in-magical-champions-league"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/carrick-confident-man-utd-can-go-far-in-magical-champions-league-2/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1972/live/5d3068c0-ac54-11f1-9e64-05835b0b18f8.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/1972/live/5d3068c0-ac54-11f1-9e64-05835b0b18f8.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1972/live/5d3068c0-ac54-11f1-9e64-05835b0b18f8.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260906__C7GV93H__v1__MidRes__FblEngPrEvertonManUtd-1024x684.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/08/d7e878c7-8eb2-4e82-8a33-e9d4ed6128ce-EPA-Images---Michael-Carrick---Manchester-United---PSG---09082026.webp",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260909__C7RD97C__v1__MidRes__FblEurC1ManUtdTraining-1024x708.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 864.913417805,
+    "is_stale": false,
+    "score": 24.28758159248148
+  }
+}
