@@ -1,0 +1,88 @@
+{
+  "id": "775c1a303037",
+  "created_at": "2026-09-09T22:07:55.135231+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.44,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "IAEA reports Iran to UN Security Council for first time in 20 years",
+  "link": "https://www.iranintl.com/en/202609095345",
+  "publishers": [
+    "AP News",
+    "Al Jazeera English",
+    "BBC World",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "Iran International",
+    "Punch Nigeria",
+    "South China Morning Post",
+    "The Express Tribune"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "IAEA reports Iran to UN Security Council for first time in 20 years",
+    "link": "https://www.iranintl.com/en/202609095345",
+    "summary": "The UN nuclear watchdog’s 35-nation Board of Governors voted Wednesday to report Iran to the Security Council over breaches of its nuclear non-proliferation obligations, escalating a two-decade nuclear dispute amid an ongoing war and renewed Western pressure on Tehran.",
+    "source_name": "Iran International",
+    "region": "ir",
+    "weight": 1.0,
+    "published": "2026-09-09T16:37:26+00:00",
+    "image_url": "https://i.iranintl.com/images/rdk9umy0/production/79e3dd4aeaf069c69164e9c0c998c82762049168-800x533.jpg?rect=0,58,800,419&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+    "publisher": "Iran International",
+    "cluster_sources": [
+      "AP News",
+      "Al Jazeera English",
+      "BBC World",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "Iran International",
+      "Punch Nigeria",
+      "South China Morning Post",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3366971/un-nuclear-watchdog-board-reports-iran-security-council-first-time-20-years?utm_source=rss_feed"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202609095345"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/nuclear-watchdog-refers-iran-to-unsc-for-first-time-in-2-decades"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/un-nuclear-watchdog-board-reports-iran-to-the-un-security-council-for-the-first-time-in-two-decades-101788974306008.html"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/ckgwj4kl5lno?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/9/iaea-board-resolves-to-report-iran-to-security-council-over-nuclear-program?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://i.iranintl.com/images/rdk9umy0/production/79e3dd4aeaf069c69164e9c0c998c82762049168-800x533.jpg?rect=0,58,800,419&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/09/459937.JPG",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/88f3/live/c77b2e90-ac86-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/88f3/live/c77b2e90-ac86-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/88f3/live/c77b2e90-ac86-11f1-b1d1-571ed4d7ff2c.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 9,
+    "velocity": 1.0,
+    "age_hours": 869.9132399044445,
+    "is_stale": false,
+    "score": 23.44270181066027
+  }
+}
