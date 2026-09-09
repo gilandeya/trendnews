@@ -1,7 +1,7 @@
 {
   "id": "6807ad624a9d",
   "created_at": "2026-09-09T08:13:06.853459+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "origin": "news",
   "score": 17.01,
@@ -75,5 +75,12 @@
       "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-1013-1024x683.png"
     ]
   },
-  "publish_at": "2026-09-09T09:11:50.897138+00:00"
+  "publish_at": "2026-09-09T09:11:50.897138+00:00",
+  "published_at": "2026-09-09T09:15:45.398330+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1355542263329461",
+    "photo_id": "1355542249996129",
+    "url": "https://www.facebook.com/631680090321390_1355542263329461",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
