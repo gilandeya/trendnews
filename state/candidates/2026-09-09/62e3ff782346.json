@@ -1,0 +1,52 @@
+{
+  "id": "62e3ff782346",
+  "created_at": "2026-09-09T03:07:48.499572+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.4,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UK, France, Canada block imports from Israeli West Bank settlements",
+  "link": "https://www.scmp.com/news/world/europe/article/3366817/uk-imposes-trade-ban-goods-israeli-west-bank-settlements?utm_source=rss_feed",
+  "publishers": [
+    "Hindustan Times — World",
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "UK, France, Canada block imports from Israeli West Bank settlements",
+    "link": "https://www.scmp.com/news/world/europe/article/3366817/uk-imposes-trade-ban-goods-israeli-west-bank-settlements?utm_source=rss_feed",
+    "summary": "Britain, France and Canada on Tuesday moved to block imports from Israeli settlements in the occupied West Bank, while a wider group of Western countries signalled they may take further steps to defend the two-state solution amid mounting concern over settlement expansion and violence in the territory. The trade measures are the latest in a series of actions targeting Israel’s settlement policy and underscore its growing diplomatic isolation among some of its traditional allies. British ‌Foreign...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-09-08T13:21:49+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3366817/uk-imposes-trade-ban-goods-israeli-west-bank-settlements?utm_source=rss_feed"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/france-uk-canada-among-12-nations-planning-sanctions-on-israeli-settlements-in-west-bank-101788875233820.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 850.9114033594444,
+    "is_stale": false,
+    "score": 18.39903308874074
+  }
+}

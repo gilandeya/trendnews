@@ -1,0 +1,80 @@
+{
+  "id": "b64004262dc8",
+  "created_at": "2026-09-09T03:07:48.499095+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.82,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US says malfunctioning underwater drone carried no sensitive data as Iran claims capture in Strait of Hormuz",
+  "link": "https://www.malaymail.com/news/world/2026/09/09/us-says-malfunctioning-underwater-drone-carried-no-sensitive-data-as-iran-claims-capture-in-strait-of-hormuz/234486",
+  "publishers": [
+    "Daily Maverick",
+    "IRGC",
+    "IRNA English",
+    "Malay Mail",
+    "South China Morning Post",
+    "Yonhap News"
+  ],
+  "region": "my",
+  "article": {
+    "title": "US says malfunctioning underwater drone carried no sensitive data as Iran claims capture in Strait of Hormuz",
+    "link": "https://www.malaymail.com/news/world/2026/09/09/us-says-malfunctioning-underwater-drone-carried-no-sensitive-data-as-iran-claims-capture-in-strait-of-hormuz/234486",
+    "summary": "WASHINGTON, Sept 9 — The US military said yesterday that one of its underwater drones “malfunctioned”...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-09T01:48:41+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/09/361417.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Daily Maverick",
+      "IRGC",
+      "IRNA English",
+      "Malay Mail",
+      "South China Morning Post",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-09-iran-says-it-captured-us-submarine-drone-in-strait-of-hormuz/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3366849/iran-says-captured-us-underwater-drone-strait-hormuz?utm_source=rss_feed"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/09/us-says-malfunctioning-underwater-drone-carried-no-sensitive-data-as-iran-claims-capture-in-strait-of-hormuz/234486"
+      },
+      {
+        "name": "IRGC",
+        "link": "https://tass.com/world/2184357"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86258845/Iran-captures-US-submarine-drone-in-Strait-of-Hormuz"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260909001100315"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/09/361417.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/08/4/173095484.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/09/AEN20260909001100315_01_i_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 850.9113778241667,
+    "is_stale": false,
+    "score": 21.817105779793096
+  }
+}

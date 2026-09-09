@@ -1,0 +1,55 @@
+{
+  "id": "7d36df403e7b",
+  "created_at": "2026-09-09T03:07:48.499759+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.13,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Singapore To Consider Chemical Castration To Curb Sex Crimes",
+  "link": "https://www.ndtv.com/world-news/singapore-to-consider-chemical-castration-to-curb-sex-crimes-12021057#publisher=newsstand",
+  "publishers": [
+    "Free Malaysia Today",
+    "NDTV — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Singapore To Consider Chemical Castration To Curb Sex Crimes",
+    "link": "https://www.ndtv.com/world-news/singapore-to-consider-chemical-castration-to-curb-sex-crimes-12021057#publisher=newsstand",
+    "summary": "A rape conviction in Singapore carries a jail term of up to 20 years, along with a fine or caning.",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-09T02:50:05+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-09/u4pok55s_singapore_625x300_09_September_26.jpeg",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/09/singapore-may-consider-chemical-castration-to-curb-sex-crimes"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/singapore-to-consider-chemical-castration-to-curb-sex-crimes-12021057#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-09/u4pok55s_singapore_625x300_09_September_26.jpeg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/0ff844d9-7a12-4f2b-b571-6162ffae86bc-Singapore-prison.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 9.9945938125,
+    "is_stale": false,
+    "score": 17.130440493074076
+  }
+}

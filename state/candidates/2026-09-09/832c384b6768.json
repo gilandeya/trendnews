@@ -1,0 +1,83 @@
+{
+  "id": "832c384b6768",
+  "created_at": "2026-09-09T03:07:48.498687+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.93,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UK announces sanctions on West Bank settlements prompting furious Israeli response",
+  "link": "https://www.bbc.co.uk/news/articles/c4g7zen0vveo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Daily Maverick",
+    "Daily Sabah",
+    "France24",
+    "Hindustan Times — World",
+    "The Express Tribune"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "UK announces sanctions on West Bank settlements prompting furious Israeli response",
+    "link": "https://www.bbc.co.uk/news/articles/c4g7zen0vveo?at_medium=RSS&at_campaign=rss",
+    "summary": "Britain's foreign secretary accuses settlers of carrying out the \"ethnic cleansing\" of Palestinians, as Israel responds by shutting the UK consulate in East Jerusalem.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-09T01:45:15+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6cd1/live/8d1d81e0-aba9-11f1-b109-879e35c24276.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Daily Maverick",
+      "Daily Sabah",
+      "France24",
+      "Hindustan Times — World",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c4g7zen0vveo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/israel-announces-closure-of-uk-consulate-in-jerusalem-in-response-to-sanctions-over-israeli-west-bank-settlements-101788878592048.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/israel-to-shut-uk-consulate-over-sanctions-on-illegal-settlements"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-08-uk-to-sanction-israeli-west-bank-settlements-in-support-for-two-state-solution/"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628086/uk-set-to-ban-trade-with-illegal-settlements-in-occupied-west-bank-reports"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/uk-france-canada-to-ban-imports-from-israeli-settlements"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6cd1/live/8d1d81e0-aba9-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/6cd1/live/8d1d81e0-aba9-11f1-b109-879e35c24276.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6cd1/live/8d1d81e0-aba9-11f1-b109-879e35c24276.jpg",
+      "https://www.hindustantimes.com/ht-img/img/2026/09/08/1600x900/Andy_Burnham_1788879249216_2fc076fd-33ba-465f-949b-319d63cd9e78_1788879256310_9bf0e2e2-bdc8-4b7b-8c4d-54a0484a3c9c_4b460ec8-a610-4194-9d7b-59fb345b8608_49cbad00-d49a-47ff-93b4-27fa198c38a4.png",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/08/459755.jpg",
+      "https://cdn.dailymaverick.co.za/attachments/2997/14258910_923252.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 850.9113677286111,
+    "is_stale": false,
+    "score": 24.9299576314968
+  }
+}
