@@ -1,0 +1,78 @@
+{
+  "id": "502d329b5323",
+  "created_at": "2026-09-09T18:27:08.486398+00:00",
+  "status": "published",
+  "review_issue": null,
+  "origin": "news",
+  "score": 20.37,
+  "bucket": "serious",
+  "analysed_sources": [],
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "age_hours": 865.9,
+  "is_followup": false,
+  "state_media": false,
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": true,
+    "composite": false,
+    "chosen_url": null,
+    "candidates_tried": 1,
+    "manual": false
+  },
+  "source": {
+    "title": "Pakistan Says It Is Bound To \"Honour\" Security Pact If Saudi Is Attacked",
+    "link": "https://www.ndtv.com/world-news/pakistan-says-it-is-bound-to-honour-security-pact-if-saudi-is-attacked-12021837#publisher=newsstand",
+    "publisher": "NDTV — World",
+    "publishers": [
+      "Bloomberg.com",
+      "NDTV — World"
+    ],
+    "region": "in",
+    "image_url": "https://c.ndtvimg.com/2026-07/ghebarsg_khawaja-asif_625x300_28_July_26.png?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-07/ghebarsg_khawaja-asif_625x300_28_July_26.png?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ]
+  },
+  "arabic": {
+    "angle": "تفسير",
+    "analysis": "",
+    "urgent": false,
+    "category": "سياسة",
+    "image_headline": "باكستان: اتفاق الدفاع مع السعودية سيُفعَّل عند أي اعتداء",
+    "post_title": "وزير الدفاع الباكستاني: اتفاقية مكة الدفاعية ملزمة لنا إذا تعرضت السعودية لهجوم",
+    "post_body": "أكد وزير الدفاع الباكستاني أن بلاده ملزمة بتفعيل بنود اتفاقية الدفاع المشترك الموقعة مع السعودية والمعروفة باسم اتفاق مكة، في حال تعرضت المملكة لأي اعتداء عسكري. وأوضح أن الاتفاقية تنص على التزام متبادل بالدفاع عن الطرف الذي يتعرض لعدوان خارجي، وأن إسلام آباد ستفي بتعهداتها بموجب هذا البند إذا استُدعي التنفيذ فعليًا. تصريحات الوزير جاءت وسط تساؤلات إعلامية عن حدود التزام باكستان العسكري تجاه حليفتها الخليجية في ظل التوترات الإقليمية المتصاعدة.",
+    "hashtags": [
+      "باكستان",
+      "السعودية",
+      "اتفاق_مكة",
+      "أمن_إقليمي"
+    ]
+  },
+  "caption": "وزير الدفاع الباكستاني: اتفاقية مكة الدفاعية ملزمة لنا إذا تعرضت السعودية لهجوم\n\nأكد وزير الدفاع الباكستاني أن بلاده ملزمة بتفعيل بنود اتفاقية الدفاع المشترك الموقعة مع السعودية والمعروفة باسم اتفاق مكة، في حال تعرضت المملكة لأي اعتداء عسكري. وأوضح أن الاتفاقية تنص على التزام متبادل بالدفاع عن الطرف الذي يتعرض لعدوان خارجي، وأن إسلام آباد ستفي بتعهداتها بموجب هذا البند إذا استُدعي التنفيذ فعليًا. تصريحات الوزير جاءت وسط تساؤلات إعلامية عن حدود التزام باكستان العسكري تجاه حليفتها الخليجية في ظل التوترات الإقليمية المتصاعدة.\n\n#باكستان #السعودية #اتفاق_مكة #أمن_إقليمي",
+  "headlines": [
+    "هل ستدافع باكستان عن السعودية إذا تعرضت لهجوم عسكري؟",
+    "وزير الدفاع الباكستاني يؤكد التزام بلاده بتفعيل اتفاق مكة الدفاعي",
+    "باكستان تتعهد بتنفيذ بنود اتفاقية الدفاع المشترك مع السعودية عند الضرورة"
+  ],
+  "headline_selected": 0,
+  "image": "drafts/2026-09-09/502d329b5323.jpg",
+  "reel": null,
+  "reel_spec": {
+    "headline": "باكستان: اتفاق الدفاع مع السعودية سيُفعَّل عند أي اعتداء",
+    "category": "سياسة",
+    "urgent": false,
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-07/ghebarsg_khawaja-asif_625x300_28_July_26.png?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ]
+  },
+  "publish_at": "2026-09-09T18:27:08.510908+00:00",
+  "published_at": "2026-09-09T18:27:14.769148+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1355897919960562",
+    "photo_id": "1355897893293898",
+    "url": "https://www.facebook.com/631680090321390_1355897919960562",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
+}

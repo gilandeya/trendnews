@@ -3316,5 +3316,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 18
+ },
+ {
+  "id": "502d329b5323",
+  "created_at": "2026-09-09T18:27:08.486398+00:00",
+  "decided_at": "2026-09-09T18:27:14.770331+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "سياسة",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "in",
+  "score": 20.37,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "source_count": 2,
+  "body_len": 447,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 18
  }
 ]
