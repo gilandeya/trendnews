@@ -1537,6 +1537,17 @@ def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
 # الجوهري: مصدرها وثيقة مقروءة سلفًا، لا نتيجة بحث بعد) قبل أن تدخل
 # grounded بوسم origin: "source"، مميَّزةً في التقرير عن origin: "brief"
 # لكل ما سواها.
+#
+# حارس الموضوع (Issue #824، يستبدل meaning_ok من Issue #808 البند 4): فحص
+# الصلة البنيوي أعلاه (entity_ok) يبقى — مرشِّح رخيص يمنع ما لا صلة له
+# بكيانات الموجز إطلاقًا، ويعمل جيدًا. لكن تمييز "نفس الكيان، موضوع مختلف"
+# (شاهد فيستل/توغ) لا يمكن أن يكون تقاطع كلمات حرفي: العربية تصرّف
+# («ديون»/«الدين»، «خسائر»/«خسارة») فيفوت norm_tokens وقائع مسندة صميمة —
+# شاهد ثانٍ حقيقي فوّت أربعًا من ثماني وقائع موجز بهذا العطل بعينه. لذا
+# on_topic/on_topic_reason حقلان أُضيفا إلى مخطّط _source_fact_duplicate_index
+# نفسه (لا نداء إضافي) يحملان الحكم بدلًا من ذلك.
+
+
 
 SOURCE_EXTRACT_SYSTEM = f"""أنت تقرأ نصوص مصادر إخبارية مستقلة قُرئت أثناء
 التحقق من موجز تحريري، لتستخرج منها وقائع إضافية **غائبة عن الموجز نفسه**
@@ -1686,9 +1697,12 @@ def _extract_source_facts(topic: str, brief_fact_texts: list[str], docs: list[di
     return out
 
 
-SOURCE_FACT_DEDUP_SYSTEM = """أنت تقارن واقعة واحدة جديدة بقائمة وقائع
-مؤكَّدة سابقًا من نفس المقال، لتحدد إن كانت **نفس الحدث بعينه** بصياغة
-مختلفة (يجب دمجها، لا عدّها مرتين) أم حدثًا مختلفًا فعليًا.
+SOURCE_FACT_DEDUP_SYSTEM = """أنت تفحص واقعة واحدة استُخرجت من مصدر خارجي،
+على حكمين معًا في نداء واحد:
+
+حكم أول — التكرار: قارنها بقائمة وقائع مؤكَّدة سابقًا من نفس المقال، لتحدد
+إن كانت **نفس الحدث بعينه** بصياغة مختلفة (يجب دمجها، لا عدّها مرتين) أم
+حدثًا مختلفًا فعليًا.
 
 المعيار: قارن الفعل/الحدث نفسه لا الكيانات المشتركة وحدها. شخص أو جهة
 واحدة قد تكون طرفًا في عدة أحداث مختلفة تمامًا (زار مكانًا يوم الاثنين،
@@ -1701,21 +1715,38 @@ SOURCE_FACT_DEDUP_SYSTEM = """أنت تقارن واقعة واحدة جديدة
 duplicate_index (0 هو الأول في القائمة). إن لم تكن تكرارًا لأي واقعة في
 القائمة، أعد duplicate_index: -1.
 
-استخدم أداة check_duplicate دائمًا."""
+حكم ثانٍ — صلة الموضوع: هل هذه الواقعة عن نفس موضوع الموجز المعطى — لا مجرد
+نفس الكيان؟ كيان (شخص أو شركة أو جهة) قد يكون طرفًا في وقائع كثيرة لا صلة
+لها بموضوع الموجز إطلاقًا، فتشارك الكيان وحده لا يكفي لاعتبارها عن نفس
+الموضوع.
+مثال إيجابي: موجز عن ديون شركة ← وقائع عن دينها، خسائرها، التزاماتها
+المالية، تراجع إنتاجها أو مبيعاتها = **نفس الموضوع**.
+مثال سلبي: نفس الشركة ← وقائع عن بيعها حصة في شركة أخرى، أو فوز أحد
+منتجاتها بجائزة، أو إطلاقها في سوق جديد = **موضوع آخر**.
+أعد حكمك في on_topic (true إن كانت الواقعة عن نفس موضوع الموجز، false إن
+كانت موضوعًا مختلفًا رغم اشتراك الكيان) وسطرًا واحدًا مختصرًا يشرح حكمك في
+on_topic_reason.
+
+استخدم أداة check_duplicate دائمًا، وأجب عن الحقول الثلاثة كلها في كل مرة."""
 
 SOURCE_FACT_DEDUP_SCHEMA = {
     "name": "check_duplicate",
-    "description": "يحدد إن كانت واقعة جديدة تكرارًا دلاليًا لواحدة من قائمة وقائع سابقة",
+    "description": ("يحدد إن كانت واقعة جديدة تكرارًا دلاليًا لواحدة من قائمة وقائع سابقة، "
+                    "وإن كانت عن نفس موضوع الموجز لا مجرد نفس الكيان"),
     "input_schema": {
         "type": "object",
-        "properties": {"duplicate_index": {"type": "integer"}},
-        "required": ["duplicate_index"],
+        "properties": {
+            "duplicate_index": {"type": "integer"},
+            "on_topic": {"type": "boolean"},
+            "on_topic_reason": {"type": "string"},
+        },
+        "required": ["duplicate_index", "on_topic", "on_topic_reason"],
     },
 }
 
 
 def _source_fact_duplicate_index(candidate_text: str, existing_texts: list[str],
-                                 cfg) -> dict:
+                                 cfg, topic: str = "") -> dict:
     """يحكم هل candidate_text (واقعة استُخرجت من مصدر) تكرار دلالي لأحد
     existing_texts (وقائع الموجز المسندة أصلًا، أو وقائع مصادر سابقة أُضيفت
     في نفس التشغيلة) — البند 1 (الأخطر في هذا التصميم): إن فشل هذا الحكم،
@@ -1725,21 +1756,35 @@ def _source_fact_duplicate_index(candidate_text: str, existing_texts: list[str],
     يندمجا)، فنداء نموذج مطلوب هنا كما في _support_sources/_ask_naming_model
     لأحكام دلالية مماثلة عبر هذا الملف.
 
-    يعيد {"duplicate": bool, "index": int|None, "call_error": str|None} —
-    فشل تقني يعيد duplicate=False مع call_error مضبوطًا: المستدعي يُسقط
-    الواقعة تحوطًا بدل تخمين حكم دمج لم يقع فعليًا (انظر _write_article) —
-    إسقاط فرصة أرخص من مخاطرة تضخيم العدّ بوقيعة قد تكون مكرَّرة فعلًا."""
+    Issue #824: نفس النداء يحمل أيضًا حارس الموضوع (كان meaning_ok، مطابقة
+    حرفية عبر norm_tokens فشلت مع جمع/مفرد وتصريف العربية — انظر الشاهد في
+    الـIssue) — لا نداء إضافي، فقط حقلان جديدان في المخطط. topic هو جملة
+    موضوع الموجز (extract_brief) التي يُقاس عليها الحكم.
+
+    يعيد {"duplicate": bool, "index": int|None, "call_error": str|None,
+    "on_topic": bool, "on_topic_reason": str}. فشل تقني (أو existing_texts
+    فارغة فلا نداء إطلاقًا) يعيد duplicate=False و on_topic=True معًا —
+    سياسة الفشل هنا مقصودة (Issue #824): المستدعي (_write_article) لا
+    يُخضع دمج التكرار لحكم منفصل عن حكم الموضوع بعد الآن؛ فشل النداء أو
+    غياب/تشوّه أحد الحقلين يعني ببساطة "دَعها تمرّ إلى مرحلة السند" لا
+    "احجبها احتياطًا" — حجب واقعة مسندة أضرّ من إدخال واقعة على الحافة
+    لعثرة شبكة عابرة، والمراجعة البشرية تلي على أي حال، وحكم السند
+    (min_confirm) أدناه يبقى الحارس الفعلي لما يدخل المقال فعلًا."""
     if not existing_texts:
-        return {"duplicate": False, "index": None, "call_error": None}
+        return {"duplicate": False, "index": None, "call_error": None,
+                "on_topic": True, "on_topic_reason": ""}
     acfg = cfg.get("article", {}) or {}
     model = acfg.get("model", "claude-sonnet-5")
     client = _client()
     existing_block = "\n".join(f"{i}. {t}" for i, t in enumerate(existing_texts))
-    prompt = f"الواقعة الجديدة: {candidate_text}\n\nالوقائع السابقة:\n{existing_block}"
+    prompt = (f"موضوع الموجز: {topic}\n\n"
+             f"الواقعة الجديدة: {candidate_text}\n\n"
+             f"الوقائع السابقة (لفحص التكرار فقط، لا صلة لها بحكم الموضوع):\n"
+             f"{existing_block}")
     try:
         resp = client.messages.create(
             model=model,
-            max_tokens=100,
+            max_tokens=200,
             tools=[SOURCE_FACT_DEDUP_SCHEMA],
             tool_choice={"type": "tool", "name": "check_duplicate"},
             system=SOURCE_FACT_DEDUP_SYSTEM,
@@ -1748,14 +1793,21 @@ def _source_fact_duplicate_index(candidate_text: str, existing_texts: list[str],
         )
         writer.record_usage(resp, model)
     except APIError as exc:
-        log.warning("فشل نداء تحقّق تكرار واقعة من المصادر: %s", exc)
-        return {"duplicate": False, "index": None, "call_error": str(exc)}
+        log.warning("فشل نداء تحقّق تكرار/موضوع واقعة من المصادر: %s", exc)
+        return {"duplicate": False, "index": None, "call_error": str(exc),
+                "on_topic": True, "on_topic_reason": ""}
     data = next((b.input for b in resp.content
                 if getattr(b, "type", "") == "tool_use"), None)
+    on_topic_raw = data.get("on_topic") if isinstance(data, dict) else None
+    on_topic = on_topic_raw if isinstance(on_topic_raw, bool) else True
+    reason_raw = data.get("on_topic_reason") if isinstance(data, dict) else None
+    on_topic_reason = reason_raw if isinstance(reason_raw, str) else ""
     idx = data.get("duplicate_index") if isinstance(data, dict) else None
     if not isinstance(idx, int) or idx < 0 or idx >= len(existing_texts):
-        return {"duplicate": False, "index": None, "call_error": None}
-    return {"duplicate": True, "index": idx, "call_error": None}
+        return {"duplicate": False, "index": None, "call_error": None,
+                "on_topic": on_topic, "on_topic_reason": on_topic_reason}
+    return {"duplicate": True, "index": idx, "call_error": None,
+            "on_topic": on_topic, "on_topic_reason": on_topic_reason}
 
 
 def _grounded_sources(names: list[str], docs: list[dict],
@@ -2699,10 +2751,12 @@ def _new_outcome() -> dict:
            # ما دخل المقال فعليًا بوسم origin="source" (يظهر في التقرير
            # ليراجعه المستخدم — البند 2)؛ source_facts_summary: عدد ما
            # استُخرج/اندمج/أُضيف (البند 5 — أثر ظاهر، لا ميزة صامتة).
-           # same_entity_off_topic_facts (Issue #808، البند 4 — حارس الموضوع):
-           # وقائع شاركت كيانًا مع الموجز لكن بلا كلمة معنى مشتركة — تقاطع
-           # اسم الكيان وحده لا يكفي (شاهد «توغ»/فيستل) — تُعرَض بقسم مستقل
-           # عن off_topic العام (لا تقاطع كيانات إطلاقًا) كي لا يختلطا
+           # same_entity_off_topic_facts (حارس الموضوع، Issue #808 البند 4 ثم
+           # Issue #824): وقائع شاركت كيانًا مع الموجز لكن حكم نموذج
+           # (on_topic في _source_fact_duplicate_index) قرَّر أنها موضوع
+           # مختلف — تقاطع اسم الكيان وحده لا يكفي (شاهد «توغ»/فيستل)، وكل
+           # عنصر يحمل on_topic_reason أيضًا — تُعرَض بقسم مستقل عن
+           # off_topic العام (لا تقاطع كيانات إطلاقًا) كي لا يختلطا
            "source_origin_facts": [],
            "source_facts_summary": {"extracted": 0, "merged": 0, "off_topic": 0,
                                     "same_entity_off_topic": 0, "added": 0},
@@ -3375,13 +3429,14 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     offtopic_source_count = 0
     same_entity_offtopic_count = 0
     if source_extract_enabled and all_read_docs:
-        # كيانات الموجز وكلمات معناه مجموعتان منفصلتان لا مجموعة واحدة
-        # (Issue #808، البند 4، حارس الموضوع): تقاطع كيانات وحده كان يُجيز
-        # واقعة «باعت فيستل حصتها في توغ» لمجرد ذكرها «فيستل» — نفس الكيان
-        # الذي يذكره موجز عن ديون فيستل — رغم اختلاف الموضوعين كليًا. طرح
-        # كلمات الكيانات من كلمات topic يعزل كلمات المعنى الصرفة («ديون» لا
-        # «فيستل») كي لا يُجيز تكرار اسم الكيان داخل جملة topic نفسها الفحصَ
-        # عبر مسار "المعنى" كما يُجيزه عبر مسار "الكيان"
+        # كيانات الموجز وكلمات معناه مجموعتان منفصلتان لا مجموعة واحدة —
+        # تُستعملان هنا فقط لفرز/تقصير الوثائق المعروضة على برومبت
+        # الاستخراج (wanted_tokens أدناه)، لا كحارس موضوع بعد الآن: حارس
+        # الموضوع الفعلي (Issue #824، يستبدل meaning_ok الحرفي من Issue
+        # #808 البند 4) صار حكم نموذج داخل _source_fact_duplicate_index —
+        # مطابقة الجمع/المفرد والتصريف العربي (ديون↔الدين، خسائر↔خسارة) لا
+        # يمكن أن يلتقطها تقاطع كلمات حرفي كما أثبت شاهد فيستل الثاني
+        # (فوات أربع وقائع مسندة صميمة بلا أي تقاطع كلمة معنى حرفي)
         wanted_entity_tokens: set[str] = set()
         for s in facts_raw + questions_from_brief:
             for e in s.get("entities") or []:
@@ -3421,25 +3476,19 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                                  f"{extracted_source_count} واقعة إضافية مستخرَجة من "
                                  f"{len(ranked_docs)} وثيقة مقروءة")})
         for sf in extracted:
-            # فحص صلة بنيوي بموضوع الموجز (طلب المراجعة، البند 2؛ مُعدَّل
-            # بـIssue #808 البند 4 — أهمّ بند فيه) — قبل أي نداء نموذج (دمج
-            # أو سند)، فلا كلفة على وقائع خارج الموضوع كليًا. تقاطع كيانات
-            # الواقعة مع كيانات موضوع الموجز **وحده لا يكفي**: مقال عن كبار
-            # دافعي الضرائب يذكر شركة الموجز عرضًا فيستخرج منه واقعة عن شركة
-            # أخرى غير معنية إطلاقًا كان الشاهد الأول لهذا الفحص، وشاهد
-            # فيستل/توغ (Issue #808) أثبت أن التقاطع نفسه يُجيز أيضًا واقعة
-            # *عن نفس الكيان* لكن بموضوع مختلف كليًا («باعت فيستل حصتها في
-            # توغ» مقابل موجز عن ديون فيستل) — لذا يُشترَط الآن تقاطعان
-            # معًا: كيانات (wanted_entity_tokens) وكلمة معنى واحدة على الأقل
-            # (wanted_meaning_tokens، من كلمات topic خارج الكيانات) —
-            # الأخيرة تُقاس على نص الواقعة وكياناتها معًا، لا كياناتها وحدها
+            # فحص صلة بنيوي بموضوع الموجز (طلب المراجعة، البند 2) — قبل أي
+            # نداء نموذج، فلا كلفة على وقائع خارج الموضوع كليًا. تقاطع
+            # كيانات الواقعة مع كيانات موضوع الموجز **وحده لا يكفي**: مقال
+            # عن كبار دافعي الضرائب يذكر شركة الموجز عرضًا فيستخرج منه
+            # واقعة عن شركة أخرى غير معنية إطلاقًا كان الشاهد الأول لهذا
+            # الفحص. entity_ok مرشِّح رخيص فقط: يمنع ما لا صلة له بكيانات
+            # الموجز إطلاقًا (يبقى كما هو، Issue #824) — حارس الموضوع
+            # الفعلي (تمييز "نفس الكيان، موضوع مختلف" كشاهد فيستل/توغ،
+            # Issue #808 البند 4) صار حكم نموذج أدناه، لا تقاطع كلمات حرفي
             fact_tokens: set[str] = set()
             for e in sf.get("entities") or []:
                 fact_tokens |= norm_tokens(e)
-            fact_text_tokens = set(norm_tokens(sf.get("text", "")))
             entity_ok = not wanted_entity_tokens or bool(fact_tokens & wanted_entity_tokens)
-            meaning_ok = not wanted_meaning_tokens or bool(
-                (fact_tokens | fact_text_tokens) & wanted_meaning_tokens)
             if not entity_ok:
                 offtopic_source_count += 1
                 trail.append({"stage": "واقعة (من المصادر)", "query": "", "basis": "",
@@ -3450,25 +3499,40 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                               "outcome": ("🚫 استُبعدت لعدم صلتها بكيانات موضوع الموجز: "
                                          f"«{sf['text']}»")})
                 continue
-            if not meaning_ok:
-                # تقاطع اسم الكيان وحده لا يجيز الدخول (البند 4، شاهد
-                # فيستل/توغ بعينه) — قسم تقرير مستقل عن off_topic العام كي
-                # لا يختلط "لا صلة إطلاقًا" بـ"كيان نفسه، موضوع آخر"
+            # نداء واحد يحمل الحكمين معًا (Issue #824، لا نداء إضافي):
+            # التكرار الدلالي وصلة الموضوع. حارس الموضوع (on_topic) يفشل
+            # مفتوحًا عمدًا — استُبعد من on_topic=False فقط، لا من فشل نداء
+            # أو حقل غائب (كلاهما يعيد on_topic=True من الدالة نفسها) — حجب
+            # واقعة مسندة أضرّ من إدخال واقعة على الحافة، والمراجعة البشرية
+            # تلي
+            dup = _source_fact_duplicate_index(sf["text"], brief_texts, cfg, topic)
+            if not dup["on_topic"]:
+                # تقاطع اسم الكيان وحده لا يجيز الدخول (شاهد فيستل/توغ
+                # بعينه) — قسم تقرير مستقل عن off_topic العام كي لا يختلط
+                # "لا صلة إطلاقًا" بـ"كيان نفسه، موضوع آخر"، ويعرض سبب حكم
+                # النموذج (on_topic_reason) كي تُراجَع العين البشرية بعينها
                 same_entity_offtopic_count += 1
                 outcome["same_entity_off_topic_facts"].append(
-                    {"text": sf["text"], "entities": sf.get("entities") or []})
+                    {"text": sf["text"], "entities": sf.get("entities") or [],
+                     "on_topic_reason": dup.get("on_topic_reason") or ""})
                 trail.append({"stage": "واقعة (من المصادر)", "query": "", "basis": "",
                               "sources": [], "raw_count": None, "matched_count": None,
                               "fetch_failures": [], "top_candidates": [],
                               "excluded_reprints": [], "call_error": None,
                               "reused_query": False,
                               "outcome": ("🚫 نفس الكيان بموضوع مختلف — لم تدخل المقال: "
-                                         f"«{sf['text']}»")})
+                                         f"«{sf['text']}»"
+                                         + (f" ({dup['on_topic_reason']})"
+                                            if dup.get("on_topic_reason") else ""))})
                 continue
-            dup = _source_fact_duplicate_index(sf["text"], brief_texts, cfg)
-            if dup["call_error"] or dup["duplicate"]:
-                if dup["duplicate"]:
-                    merged_source_count += 1
+            # dup["call_error"] لا يُعامَل بابًا مستقلًا للحجب هنا (Issue
+            # #824): _source_fact_duplicate_index تعيد duplicate=False على
+            # فشل تقني (فتمرّ هذه الشرطة دون continue)، فتخضع الواقعة لحكم
+            # السند الفعلي (min_confirm) أدناه بدل أن تُسقَط احتياطًا على
+            # عثرة شبكة عابرة — نفس سياسة الفتح المتعمَّد الموثَّقة في
+            # docstring الدالة
+            if dup["duplicate"]:
+                merged_source_count += 1
                 continue
             # لا بحث جديد (طلب المراجعة، البند 1) — الحكم على السند يقع
             # مباشرة على المجمّع المُوحَّد نفسه الذي استُخرجت منه الواقعة؛
@@ -4418,7 +4482,8 @@ def build_report(outcome: dict, investigation: dict | None = None) -> str:
         # الموجز — قسم مستقل كي لا تختلط بـ"وقائع من المصادر" التي دخلت فعلًا
         lines += ["", "**وقائع عن نفس الكيان بموضوع مختلف — لم تدخل المقال:**"]
         for f in outcome["same_entity_off_topic_facts"]:
-            lines.append(f"- «{f['text']}»")
+            reason = f.get("on_topic_reason") or ""
+            lines.append(f"- «{f['text']}»" + (f" — {reason}" if reason else ""))
 
     if outcome.get("source_origin_facts"):
         # origin: "source" — طلب المراجعة، البند 2: هذا ما يراجعه المستخدم
