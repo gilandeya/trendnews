@@ -7726,16 +7726,19 @@ def test_article_split_statements() -> None:
         support_calls.append(fact_text)
         # كلا الجزأين يفشل عمدًا (سند غير كافٍ) — يكفي لإثبات استدعاءين
         # مستقلَّين بلا حاجة لمحاكاة مرحلتَي السؤال/الصياغة، ويحفظ نمط
-        # الاختبار المجاور (test_article_statement_kind) لنفس السبب
+        # الاختبار المجاور (test_article_statement_kind) لنفس السبب. سند
+        # غير كافٍ دومًا يُصعِّد السُلَّم عبر محاولتيه الاثنتين (Issue #808،
+        # البند 3) — استدعاءان لكل جزء إذن، لا واحد كسابقًا
         return []
 
     article._support_sources = _fake_support_split
 
     out = article._write_article("موجز اختبار فصل واقعة مركّبة", 9002, cfg)
 
-    check("فصل الواقعة: كلا الجزأين مرّ بحلقة السند مستقلًا (استدعاء واحد لكلٍّ لا "
-          "استدعاء واحد مشترك)",
-          support_calls.count(part_a) == 1 and support_calls.count(part_b) == 1,
+    check("فصل الواقعة: كلا الجزأين مرّ بحلقة السند مستقلًا (استدعاءا محاولتَي "
+          "السُلَّم لكلٍّ منفصلان — لا استدعاءات متداخلة بين الجزأين)",
+          support_calls.count(part_a) == 2 and support_calls.count(part_b) == 2 and
+          len(support_calls) == 4,
           support_calls)
     check("فصل الواقعة: كلا الجزأين سقط لانعدام سند (سقوط أحدهما لا يُسقط الآخر معه)",
           any(d["text"] == part_a for d in out["dropped"]) and
@@ -7974,6 +7977,7 @@ def test_article_mandatory_query_name() -> None:
     real_search = evidence.search
     real_gather_evidence = evidence.gather_evidence
     real_support_sources = article._support_sources
+    real_support_parts = article._support_statement_parts
 
     article.extract_brief = lambda body, cfg, retries=3: ({
         "topic": "اختبار الاسم الإلزامي",
@@ -7993,9 +7997,17 @@ def test_article_mandatory_query_name() -> None:
         return [object()]
 
     evidence.search = _fake_search_mandatory
-    evidence.gather_evidence = lambda articles, cfg, claim_text="": ([], evidence.EVIDENCE_NO_RESULTS)
-    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
-        is_report=False, publisher="": []
+    # وثائق غير فارغة إلزامًا هنا (خلافًا لبقية هذا الاختبار): سُلَّم البحث
+    # يُصعِّد عند انعدام السند (Issue #808) لا يتوقف عند أول نتيجة خام
+    # وحدها — docs فارغة كانت تمنع _support_statement_parts من النداء
+    # إطلاقًا فيُصعَّد السُلَّم دومًا رغم عدم وجود ما يمنع النجاح فعليًا،
+    # فيكسر افتراض "استعلام واحد فقط" الذي يفحصه هذا الاختبار تحديدًا
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_statement_parts = lambda merged, docs, cfg: (
+        [["مصدر أول", "مصدر ثانٍ"] for _ in merged])
 
     try:
         article._write_article("موجز اختبار الاسم الإلزامي", 9006, cfg)
@@ -8004,8 +8016,10 @@ def test_article_mandatory_query_name() -> None:
         evidence.search = real_search
         evidence.gather_evidence = real_gather_evidence
         article._support_sources = real_support_sources
+        article._support_statement_parts = real_support_parts
 
-    check("اسم المتحدث الإلزامي: استعلام واحد بُني فعليًا لعنصر «تصريح»",
+    check("اسم المتحدث الإلزامي: استعلام واحد بُني فعليًا لعنصر «تصريح» — "
+          "السند كافٍ من المحاولة الأولى فلا يُصعَّد السُلَّم",
           len(search_queries) == 1, search_queries)
     built_query = search_queries[0] if search_queries else ""
     check("اسم المتحدث الإلزامي: الاستعلام يطابق تمامًا التشغيلة الناجحة الفعلية "
@@ -8044,13 +8058,16 @@ def test_article_mandatory_query_name() -> None:
 
 
 def test_article_search_ladder() -> None:
-    """سُلَّم ثلاث محاولات بحث لكل واقعة عادية، يتوقف عند أول نتيجة (Issue
-    #803). الشاهد الفعلي: موجز عن شركة «فيستل» التركية أنتج استعلامات
-    كيانات-رقمية-بحتة («فيستل 48»، «فيستل 105 مليارات ليرة»، «فيستل 9 7
-    مليار ليرة») فقدت كل كلمة معنى من نص الواقعة (كيانات رقمية تُشبع سقف
-    query_max_words=5 وحدها)، فرجعت ست وقائع من سبع صفر نتائج بلا أي محاولة
-    ثانية — بينما build_query على نص الواقعة وحده (بلا بادئة الكيانات) كان
-    يعطي استعلامًا يحوي «مبيعات»/«ديون» فعليًا."""
+    """سُلَّم ثلاث محاولات بحث لكل واقعة عادية (Issue #803، مُعدَّل بـIssue
+    #808). الشاهد الأصلي (#803): موجز عن شركة «فيستل» التركية أنتج استعلامات
+    كيانات-رقمية-بحتة («فيستل 48»، «فيستل 105 مليارات ليرة») فقدت كل كلمة
+    معنى من نص الواقعة، فرجعت ست وقائع من سبع صفر نتائج بلا أي محاولة ثانية.
+    الشاهد الثاني (#808): محاولة ثالثة باسم الكيان اللاتيني المجرَّد
+    («Vestel» وحده) رجعت 117 نتيجة حقيقية غير فارغة — لكن عن بيع حصة في
+    شركة «توغ»، لا صلة لها بموجز الديون — فأوقفت السُلَّم عند أول نتيجة خام
+    دون فحص سندها إطلاقًا. العلاج: (أ) query_latin عبارة بحث جاهزة من ٣-٦
+    كلمات بدل اسم الكيان المجرَّد، (ب) رفض أي محاولة أقل من كلمتين بنيويًا،
+    (ج) التصعيد للمحاولة التالية عند انعدام السند لا عند صفر النتائج وحده."""
     from src import article
 
     cfg = load_config()
@@ -8070,10 +8087,10 @@ def test_article_search_ladder() -> None:
             "topic": "اختبار سُلَّم البحث", "statements": statements, "questions": [],
         }, None)
 
-    def _stmt(text: str, entities: list, entities_latin: str = "") -> dict:
+    def _stmt(text: str, entities: list, query_latin: str = "") -> dict:
         return {"text": text, "kind": "واقعة", "entities": entities,
                 "is_unnamed_event": False, "is_reference": False,
-                "entities_latin": entities_latin}
+                "query_latin": query_latin}
 
     try:
         # ── ١) query_text يحوي كلمات الواقعة حتى مع وجود كيانات، والاسم
@@ -8094,30 +8111,46 @@ def test_article_search_ladder() -> None:
               "رغم وجود كيانات — لا تُهمَل كليًا كما في العطل الأصلي",
               "حققت" in built.split(), built)
 
-        # ── ٢) صفر نتائج يُطلق المحاولة الثانية، ونتيجة واحدة توقف السُلَّم
-        # — شاهد فيستل الفعلي: «تجاوزت ديون فيستل 105 مليارات ليرة» ──
+        # ── ٢) محاولة أولى برجوع نتائج خام غير فارغة لكن سند غير كافٍ لا توقف
+        # السُلَّم (البند 3، Issue #808 — شاهد «Vestel» وحدها رجعت 117 نتيجة
+        # حقيقية عن موضوع آخر): محاولة ثانية بسند كافٍ فعليًا توقفه ──
         _brief([_stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
                       ["فيستل", "105 مليارات ليرة"])])
         search_queries = []
-        results = [[], [object()]]  # صفر ثم نتيجة — لا محاولة ثالثة رغم توفّرها بنيويًا هنا (لا entities_latin)
+        attempt_docs = [
+            [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"}],
+            [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+             {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}],
+        ]
 
-        def _fake_two(query, cfg, days, unrestricted=False):
+        def _fake_search_2(query, cfg, days, unrestricted=False):
             search_queries.append(query)
-            return results[len(search_queries) - 1] if len(search_queries) <= len(results) else []
+            return [object()]  # نتائج خام غير فارغة في كل محاولة — لا صفر نتائج هنا إطلاقًا
 
-        evidence.search = _fake_two
+        def _fake_gather_2(articles, cfg, claim_text=""):
+            idx = min(len(search_queries) - 1, len(attempt_docs) - 1)
+            return list(attempt_docs[idx]), evidence.EVIDENCE_FULL_TEXT
+
+        evidence.search = _fake_search_2
+        evidence.gather_evidence = _fake_gather_2
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": [d["name"] for d in docs]
         outcome = article._write_article("موجز اختبار ٢", 9102, cfg)
-        check("سُلَّم البحث ٢) محاولتان بالضبط: الأولى (المركَّبة) صفر، الثانية (النص وحده) نجحت",
+        evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+            [], evidence.EVIDENCE_NO_RESULTS)
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": []
+        check("سُلَّم البحث ٢) محاولتان بالضبط: الأولى مصدر واحد (دون العتبة) رغم "
+              "نتائج خام غير فارغة، الثانية مصدران (يكفي) فتوقف السُلَّم",
               len(search_queries) == 2, search_queries)
-        check("سُلَّم البحث ٢) المحاولة الثانية بلا بادئة الكيانات، وتحوي «ديون» "
-              "المفقودة من المحاولة الأولى (كيانات رقمية بحتة أشبعت السقف)",
-              "ديون" in search_queries[1].split() and
-              "ديون" not in search_queries[0].split(), search_queries)
         last_trail = outcome["trail"][-1]
-        check("سُلَّم البحث ٢) trail يسجّل رقم المحاولة الناجحة (٢)",
+        check("سُلَّم البحث ٢) trail يسجّل رقم المحاولة الناجحة (٢) — سندًا لا نتائج خامًا",
               last_trail.get("search_attempt") == 2, last_trail)
+        check("سُلَّم البحث ٢) الواقعة اجتازت (لم تسقط) — السند اكتمل بالمحاولة الثانية",
+              not any(d["text"] == "تجاوزت ديون فيستل 105 مليارات ليرة"
+                     for d in outcome["dropped"]), outcome["dropped"])
 
-        # ── ٣) المحاولة الثالثة لا تنطلق بلا entities_latin — حتى لو صفرت
+        # ── ٣) المحاولة الثالثة لا تنطلق بلا query_latin — حتى لو صفرت
         # المحاولتان الأوليان معًا ──
         search_queries = []
 
@@ -8127,26 +8160,41 @@ def test_article_search_ladder() -> None:
 
         evidence.search = _fake_all_zero
         outcome = article._write_article("موجز اختبار ٣", 9103, cfg)
-        check("سُلَّم البحث ٣) صفر entities_latin ⇒ محاولتان فقط رغم صفر نتائج بكليهما",
+        check("سُلَّم البحث ٣) صفر query_latin ⇒ محاولتان فقط رغم صفر نتائج بكليهما",
               len(search_queries) == 2, search_queries)
 
-        # ── ٤) entities_latin يُفعِّل محاولة ثالثة فعلية عند صفر الأوليين ──
+        # ── ٤) query_latin من أربع كلمات (لا اسم الكيان مجرَّدًا) يُستعمل كما
+        # هو حرفيًا كمحاولة ثالثة، وينجح فعلًا بسند كافٍ ──
         _brief([_stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
-                      ["فيستل", "105 مليارات ليرة"], entities_latin="Vestel")])
+                      ["فيستل", "105 مليارات ليرة"],
+                      query_latin="Vestel debt burden lira")])
         search_queries = []
-        results3 = [[], [], [object()]]
 
-        def _fake_three(query, cfg, days, unrestricted=False):
+        def _fake_search_4(query, cfg, days, unrestricted=False):
             search_queries.append(query)
-            idx = len(search_queries) - 1
-            return results3[idx] if idx < len(results3) else []
+            return [] if len(search_queries) < 3 else [object()]
 
-        evidence.search = _fake_three
+        def _fake_gather_4(articles, cfg, claim_text=""):
+            if len(search_queries) < 3:
+                return [], evidence.EVIDENCE_NO_RESULTS
+            return ([{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+                     {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}],
+                    evidence.EVIDENCE_FULL_TEXT)
+
+        evidence.search = _fake_search_4
+        evidence.gather_evidence = _fake_gather_4
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": [d["name"] for d in docs]
         outcome = article._write_article("موجز اختبار ٤", 9104, cfg)
-        check("سُلَّم البحث ٤) entities_latin موجود ⇒ محاولة ثالثة فعلية عند صفر الأوليين",
+        evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+            [], evidence.EVIDENCE_NO_RESULTS)
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": []
+        check("سُلَّم البحث ٤) query_latin موجود ⇒ محاولة ثالثة فعلية عند صفر الأوليين",
               len(search_queries) == 3, search_queries)
-        check("سُلَّم البحث ٤) المحاولة الثالثة لاتينية فعلًا",
-              search_queries[2] == "Vestel", search_queries)
+        check("سُلَّم البحث ٤) المحاولة الثالثة عبارة query_latin الأربع-كلمات كما "
+              "هي حرفيًا — لا اسم الكيان مجرَّدًا",
+              search_queries[2] == "Vestel debt burden lira", search_queries)
         last_trail = outcome["trail"][-1]
         check("سُلَّم البحث ٤) trail يسجّل رقم المحاولة الناجحة (٣)",
               last_trail.get("search_attempt") == 3, last_trail)
@@ -8170,8 +8218,9 @@ def test_article_search_ladder() -> None:
         def _fake_alternating(query, cfg, days, unrestricted=False):
             # يحاكي التشغيلة الحقيقية: المحاولة المركَّبة (فردية الترتيب هنا)
             # تعود صفرًا دومًا، ونص الواقعة وحده (زوجية الترتيب) ينجح دومًا —
-            # بصرف النظر عن محتوى الاستعلام، فالمقصود اختبار آلية السُلَّم لا
-            # حظّ تغطية فعلية
+            # بصرف النظر عن محتوى الاستعلام. _support_sources تبقى المُعادة
+            # [] بلا شرط (المُعاد ضبطها أعلاه) فلا سند يكتمل أبدًا هنا — يفحص
+            # هذا السيناريو عرض بناء الاستعلامات عبر السُلَّم لا نجاح السند
             search_queries.append(query)
             return [] if len(search_queries) % 2 == 1 else [object()]
 
@@ -8185,11 +8234,130 @@ def test_article_search_ladder() -> None:
               "ديون" in search_queries[3].split(), search_queries[3])
         check("وقائع فيستل السبع) استعلام واقعة الخسائر الناجح يحوي «خسائر»",
               "خسائر" in search_queries[5].split(), search_queries[5])
+
+        # ── ٦) query_latin كلمة واحدة («Vestel» وحدها — الشاهد الأصلي #808)
+        # يُتخطّى بلا بحث ويُسجَّل السبب في trail، فلا يُرسَل للبحث إطلاقًا ──
+        _brief([_stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
+                      ["فيستل", "105 مليارات ليرة"], query_latin="Vestel")])
+        search_queries = []
+        evidence.search = _fake_all_zero
+        outcome = article._write_article("موجز اختبار ٦", 9106, cfg)
+        check("سُلَّم البحث ٦) query_latin كلمة واحدة ⇒ محاولتان فقط أُرسلتا فعليًا "
+              "للبحث (المحاولة الثالثة تُخطَّت بلا بحث)",
+              len(search_queries) == 2, search_queries)
+        skip_entries = [t for t in outcome["trail"]
+                       if "أقل من كلمتين" in (t.get("outcome") or "")]
+        check("سُلَّم البحث ٦) تخطّي محاولة الكلمة الواحدة يُسجَّل صراحة في trail "
+              "برقم المحاولة الثالثة",
+              len(skip_entries) == 1 and skip_entries[0].get("search_attempt") == 3,
+              skip_entries)
+        check("سُلَّم البحث ٦) الواقعة سقطت بسند غير كافٍ من آخر محاولة فعلية "
+              "(الثانية) — لا خطأ ناتج عن محاولة الكلمة الواحدة نفسها",
+              any(d["text"] == "تجاوزت ديون فيستل 105 مليارات ليرة"
+                 for d in outcome["dropped"]), outcome["dropped"])
     finally:
         article.extract_brief = real_extract_brief
         evidence.search = real_search
         evidence.gather_evidence = real_gather_evidence
         article._support_sources = real_support_sources
+
+
+def test_article_source_fact_topic_guard() -> None:
+    """حارس الموضوع لوقائع المصادر (Issue #808، البند 4 — أهمّ بند فيه).
+    الشاهد الفعلي المرفق في الـIssue: موجز عن ديون شركة «فيستل» التركية
+    استخرج من مصادر البحث واقعة «باعت فيستل حصتها في توغ» — نفس الكيان
+    (فيستل) لكن موضوع مختلف كليًا (بيع حصة، لا ديون) — ودخلت المقال بتقاطع
+    اسم الكيان وحده. العلاج: تقاطع كيانات الواقعة مع كيانات الموجز **و**
+    كلمة معنى مشتركة واحدة على الأقل من موضوع الموجز (خارج الكيانات نفسها)
+    — تقاطع اسم الكيان وحده لا يكفي، وواقعة تسقط بهذا الحارس تحديدًا (لا
+    الفحص العام لانعدام أي تقاطع كيانات) تظهر بقسم تقرير مستقل."""
+    from src import article
+
+    cfg = load_config()
+    cfg["article"]["source_extract_enabled"] = True
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+    real_extract_source_facts = article._extract_source_facts
+    real_dup_index = article._source_fact_duplicate_index
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "ديون فيستل التركية",
+        "statements": [
+            {"text": "تجاوزت ديون فيستل 105 مليارات ليرة", "kind": "واقعة",
+             "entities": ["فيستل"], "is_unnamed_event": False, "is_reference": False},
+            {"text": "أعلنت فيستل خطة لخفض التكاليف", "kind": "واقعة",
+             "entities": ["فيستل"], "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": [d["name"] for d in docs]
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار الحارس؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "اقتصاد",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختباري بلا أي تشابه لفظي مع مصدر.",
+         "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
+
+    # تقاطع اسم الكيان («فيستل») لكن بلا كلمة معنى مشتركة («ديون») — الشاهد
+    # الفعلي الذي بنى هذا الحارس بعينه
+    tug_fact = {"text": "باعت فيستل حصتها في توغ للدفاع", "entities": ["فيستل", "توغ"]}
+    # تقاطع الكيان («فيستل») وكلمة المعنى («ديون») معًا — يجب أن تدخل المقال
+    genuine_fact = {"text": "تجاوزت ديون فيستل حاجز 100 مليار ليرة إضافية",
+                    "entities": ["فيستل"]}
+    # بلا أي تقاطع كيانات إطلاقًا — الفحص العام (off_topic) لا حارس الكيان
+    unrelated_fact = {"text": "افتتح مطعم جديد في اسطنبول", "entities": ["اسطنبول"]}
+
+    article._extract_source_facts = lambda topic, brief_texts, docs, cfg: [
+        tug_fact, genuine_fact, unrelated_fact]
+    article._source_fact_duplicate_index = lambda text, brief_texts, cfg: (
+        {"call_error": None, "duplicate": False})
+
+    try:
+        out = article._write_article("موجز اختبار حارس الموضوع", 9110, cfg)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+        article.find_images = real_find_images
+        article._extract_source_facts = real_extract_source_facts
+        article._source_fact_duplicate_index = real_dup_index
+
+    check("حارس الموضوع: واقعة «توغ» (نفس الكيان، موضوع مختلف) لم تدخل المقال",
+          not any("توغ" in g["text"] for g in out.get("source_origin_facts", [])),
+          out.get("source_origin_facts"))
+    check("حارس الموضوع: واقعة «توغ» ظهرت صراحة في same_entity_off_topic_facts",
+          any("توغ" in f["text"] for f in out["same_entity_off_topic_facts"]),
+          out["same_entity_off_topic_facts"])
+    check("حارس الموضوع: تقاطع اسم الكيان وحده («فيستل») لا يجيز الدخول — "
+          "source_facts_summary يعكسها same_entity_off_topic لا off_topic العام",
+          out["source_facts_summary"]["same_entity_off_topic"] == 1, out["source_facts_summary"])
+    check("حارس الموضوع: واقعة عن الكيان نفسه بنفس الموضوع (ديون) دخلت المقال فعلًا",
+          any("100 مليار" in g["text"] for g in out.get("source_origin_facts", [])),
+          out.get("source_origin_facts"))
+    check("حارس الموضوع: واقعة بلا أي تقاطع كيانات سقطت بالفحص العام off_topic "
+          "لا same_entity_off_topic",
+          out["source_facts_summary"]["off_topic"] == 1, out["source_facts_summary"])
+
+    report = article.build_report(out)
+    check("حارس الموضوع: التقرير يعرض قسم «وقائع عن نفس الكيان بموضوع مختلف — "
+          "لم تدخل المقال» صراحة، وواقعة «توغ» فيه",
+          "وقائع عن نفس الكيان بموضوع مختلف" in report and "توغ" in report, report)
 
 
 def test_article_report_kind() -> None:
@@ -9004,10 +9172,11 @@ def test_article_duplicate_query_reuse() -> None:
     العطل العشرون، البند 1): شاهد فعلي — ثلاث وقائع تشترك في نفس الكيانات
     (موجز يدور حول شخص واحد) بنت نفس الاستعلام حرفيًا في trail ثلاث مرات،
     كل مرة ببحث وقراءة مستقلَّين رغم تطابق النتائج والمصادر حرفيًا في كل
-    مرة. التحقق: evidence.search/gather_evidence يُستدعيان مرة واحدة فقط
-    لثلاث وقائع تشترك في الاستعلام نفسه، بينما _support_sources تبقى تُستدعى
-    لكل واقعة بنصها بمعزل عن التخزين المؤقَّت — الحكم على السند لا يُشارَك،
-    الوثائق المقروءة وحدها تُشارَك."""
+    مرة. التحقق: evidence.search/gather_evidence لا تُستدعيان لكل نص استعلام
+    فعلي إلا مرة واحدة مهما تكرر عبر الوقائع الثلاث، بينما _support_sources
+    تبقى تُستدعى لكل واقعة (ولكل محاولة سُلَّم — Issue #808، البند 3: سند
+    غير كافٍ يُصعِّد للمحاولة التالية) بمعزل عن التخزين المؤقَّت — الحكم على
+    السند لا يُشارَك، الوثائق المقروءة وحدها تُشارَك."""
     from src import article
 
     cfg = load_config()
@@ -9017,7 +9186,16 @@ def test_article_duplicate_query_reuse() -> None:
     cfg["article"]["source_extract_enabled"] = False
 
     shared_entities = ["سهيلة الطاهري", "روبرتو كارلوس"]
-    fact_texts = [f"واقعة رقم {i} عن سهيلة الطاهري وروبرتو كارلوس" for i in range(1, 4)]
+    # الرقم المميِّز ({i}) يقع عمدًا بعد سقف query_max_words=5 الافتراضي في
+    # نصّ المحاولة الثانية (النص وحده بلا بادئة الكيانات) — فيبني build_query
+    # نفس الاستعلام الحرفي لهذه المحاولة عبر الوقائع الثلاث معًا (تحقَّق
+    # ببرمجية فعلية، لا افتراضًا)، مختلفًا عن استعلام المحاولة الأولى
+    # (المركَّبة بالكيانات) لكنه مستقر بذاته عبر الوقائع أيضًا — فسند غير
+    # كافٍ دومًا (Issue #808، البند 3) يُصعِّد كل واقعة لمحاولتها الثانية،
+    # لكن هذا لا يعني استعلامًا جديدًا فعليًا لكل واقعة: search_cache يمنع
+    # القراءة المكرَّرة لنفس النص حتى عبر محاولات/وقائع مختلفة
+    fact_texts = [f"زار الوفد المدينة صباحًا اليوم بخصوص واقعة رقم {i}"
+                 for i in range(1, 4)]
 
     real_extract_brief = article.extract_brief
     real_search = evidence.search
@@ -9064,22 +9242,28 @@ def test_article_duplicate_query_reuse() -> None:
         evidence.gather_evidence = real_gather_evidence
         article._support_sources = real_support_sources
 
-    check("إعادة استعمال الاستعلام: evidence.search استُدعيت مرة واحدة فقط لثلاث "
-          "وقائع تشترك في نفس الاستعلام (لا ثلاث مرات كالشاهد المُبلَّغ)",
-          len(search_calls) == 1, search_calls)
-    check("إعادة استعمال الاستعلام: evidence.gather_evidence استُدعيت مرة واحدة فقط",
-          len(gather_calls) == 1, gather_calls)
-    check("إعادة استعمال الاستعلام: _support_sources تُستدعى لكل واقعة بنصها الخاص — "
+    check("إعادة استعمال الاستعلام: evidence.search استُدعيت مرتين فقط (نصّا "
+          "المحاولتين المختلفان) لثلاث وقائع تشترك فيهما كليهما — لا ست مرات",
+          len(search_calls) == 2, search_calls)
+    check("إعادة استعمال الاستعلام: evidence.gather_evidence استُدعيت مرتين فقط "
+          "بالمثل",
+          len(gather_calls) == 2, gather_calls)
+    check("إعادة استعمال الاستعلام: _support_sources تُستدعى لكل واقعة بنصها "
+          "الخاص، مرتين لكل واحدة (محاولتا السُلَّم كلتاهما — Issue #808) — "
           "الحكم على السند يبقى مستقلًا رغم مشاركة الوثائق",
-          support_calls == fact_texts, support_calls)
+          support_calls == [t for t in fact_texts for _ in range(2)], support_calls)
 
     fact_trail = [t for t in out["trail"] if t["stage"] == "واقعة"]
     check("trail: ثلاثة أسطر — واحد لكل واقعة — بلا حذف أي سطر رغم إعادة الاستعمال "
           "(الشفافية أهم من اختصار السجل)",
           len(fact_trail) == 3, fact_trail)
-    check("trail: الاستعلام نفسه حرفيًا في الأسطر الثلاثة",
+    check("trail: استعلام المحاولة الثانية (الأخيرة) نفسه حرفيًا في الأسطر الثلاثة",
           len({t["query"] for t in fact_trail}) == 1, fact_trail)
-    check("trail: السطر الأول غير مُعاد (بحث فعلي أول مرة)",
+    check("trail: كل الأسطر الثلاثة سجّلت المحاولة الثانية (تصعيد بسبب سند "
+          "غير كافٍ في الأولى دومًا)",
+          all(t.get("search_attempt") == 2 for t in fact_trail), fact_trail)
+    check("trail: السطر الأول غير مُعاد (أول استعمال فعلي لاستعلام المحاولة "
+          "الثانية هذا تحديدًا)",
           fact_trail[0].get("reused_query") is False, fact_trail[0])
     check("trail: السطران الثاني والثالث مُعادان من استعلام سابق (reused_query=True)",
           fact_trail[1].get("reused_query") is True and
@@ -10189,7 +10373,8 @@ def test_article_source_facts() -> None:
     check("التكامل: الواقعة الجديدة الفعلية دخلت المقال بوسم origin=source",
           new_source_text in source_texts, source_texts)
     check("التكامل: ملخّص الاستخراج (البند 5) — 2 استُخرجت، 1 اندمجت، 0 خارج الموضوع، 1 أُضيفت",
-          out["source_facts_summary"] == {"extracted": 2, "merged": 1, "off_topic": 0, "added": 1},
+          out["source_facts_summary"] == {"extracted": 2, "merged": 1, "off_topic": 0,
+                                          "same_entity_off_topic": 0, "added": 1},
           out["source_facts_summary"])
 
     report = article.build_report(out)
@@ -10267,7 +10452,10 @@ def test_article_source_facts() -> None:
         article._source_fact_duplicate_index = real_dup_index
 
     check("لا بحث جديد لوقائع المصادر: evidence.search استُدعيت مرة واحدة فقط "
-          "(للواقعة الوحيدة في الموجز) — لا مرة إضافية لأي من الواقعتين المستخرَجتين",
+          "لواقعة الموجز الوحيدة — سند مصدر واحد غير كافٍ يُصعِّد محاولتها الثانية "
+          "(Issue #808، البند 3) لكن محاولتيها تبنيان الاستعلام الحرفي نفسه هنا "
+          "(كيان بايكار المفرد يتكرر داخل نص الواقعة نفسه) فتُخزَّن الثانية مؤقَّتًا "
+          "— لا مرة إضافية على أي حال لأي من الواقعتين المستخرَجتين من المصادر",
           len(search_calls) == 1, search_calls)
     check("فحص الصلة البنيوي يمنع نداء الدمج للواقعة خارج الموضوع — دالة الدمج استُدعيت "
           "مرة واحدة فقط (للواقعة الجديدة الفعلية، لا الواقعة خارج الموضوع)",
@@ -15036,6 +15224,7 @@ def main() -> int:
     test_article_split_event_condition()
     test_article_mandatory_query_name()
     test_article_search_ladder()
+    test_article_source_fact_topic_guard()
     test_article_report_kind()
     test_article_generic_source_publisher()
     test_article_unsourced_entities()

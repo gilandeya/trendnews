@@ -287,14 +287,18 @@ WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتب
    مختلفة لنفس الجملة بين استخراجين يبني استعلام بحث مختلفًا تمامًا فيقلب
    نتيجة التشغيلة كلها — الثبات هنا يقلّل هذا الأثر لا يُلغيه (لا سبيل
    لضبطه للحتمية الكاملة، انظر ملاحظة temperature في CLAUDE.md).
-   ولكل عنصر أيضًا entities_latin (اختياري): الاسم اللاتيني المتداول
-   لكيانه الرئيسي حين يكون له اسم متداول بحروف لاتينية غير اسمه العربي
-   — اسم شركة أو جهة أجنبية معروف بحروفه الأصلية («فيستل» → «Vestel»،
-   «بايكار» → «Baykar»). اترك entities_latin فارغًا للكيانات العربية
-   الأصيلة التي لا اسم لاتيني متداول لها. يُستعمل هذا الحقل حصرًا كمحاولة
-   بحث بديلة أخيرة حين تعجز الاستعلامات العربية عن إيجاد أي نتيجة —
-   نطاق البحث الإنجليزي (hl=en-US) لا يُفعَّل عمليًا ما دام كل استعلام
-   عربيًا بالضرورة.
+   ولكل عنصر أيضًا query_latin (اختياري): عبارة بحث إنجليزية جاهزة من ٣
+   إلى ٦ كلمات لهذه الواقعة بعينها — لا اسم الكيان مجرَّدًا (Issue #808،
+   شاهد فعلي: موجز عن ديون «فيستل» أنتج استعلام "Vestel" وحده فجلب آخر
+   أخبار الشركة أيًّا كان موضوعها — 117 نتيجة عن بيع حصة في شركة «توغ»
+   لا صلة لها بالديون). تضمّ العبارة اسم الكيان اللاتيني المتداول (حين
+   يكون له اسم بحروف لاتينية غير اسمه العربي، كـ«فيستل» → «Vestel»،
+   «بايكار» → «Baykar») وكلمة معنى تخصّ هذه الواقعة («Vestel net loss
+   first quarter»، «Vestel debt burden lira» — لا «Vestel» وحدها).
+   اترك query_latin فارغًا حين لا يكون للكيان اسم لاتيني متداول. يُستعمل
+   هذا الحقل حصرًا كمحاولة بحث بديلة أخيرة حين تعجز الاستعلامات العربية
+   عن إيجاد سند كافٍ — نطاق البحث الإنجليزي (hl=en-US) لا يُفعَّل عمليًا
+   ما دام كل استعلام عربيًا بالضرورة.
    ولكل عنصر أيضًا is_unnamed_event: true حين تكون الواقعة **إشارة** إلى
    حدث بأثره أو بذكر ما أعاده أو ذكّر به، دون أن تسمّي الحدث نفسه: من فعل
    ماذا بالضبط. مثال: "حدث في 11 آب 2026 ما أعاد قصة حمزة الخطيب" لا تسمّي
@@ -340,8 +344,8 @@ WRITEUP_EXTRACT_SCHEMA = {
                         # الاسم اللاتيني المتداول لكيان العنصر الرئيسي، حين
                         # يوجد (اختياري — فارغ للكيانات العربية الأصيلة).
                         # يُستعمل حصرًا كمحاولة بحث ثالثة أخيرة (Issue #803،
-                        # البند 3) — انظر توثيق entities_latin أعلاه
-                        "entities_latin": {"type": "string"},
+                        # البند 3) — انظر توثيق query_latin أعلاه
+                        "query_latin": {"type": "string"},
                         "is_unnamed_event": {"type": "boolean"},
                         "is_reference": {"type": "boolean"},
                         # للعنصر "تصريح" فقط (اختياريان — لا معنى لهما لواقعة/
@@ -416,11 +420,11 @@ def normalize_statement(item) -> dict | None:
     merged_excerpts: list[str] = []
     split_from = ""
     publisher = ""
-    entities_latin = ""
+    query_latin = ""
     if isinstance(item, dict):
-        raw_entities_latin = item.get("entities_latin")
-        if isinstance(raw_entities_latin, str) and raw_entities_latin.strip():
-            entities_latin = raw_entities_latin.strip()
+        raw_query_latin = item.get("query_latin")
+        if isinstance(raw_query_latin, str) and raw_query_latin.strip():
+            query_latin = raw_query_latin.strip()
         raw_speaker = item.get("speaker")
         if isinstance(raw_speaker, str) and raw_speaker.strip():
             speaker = raw_speaker.strip()
@@ -446,7 +450,7 @@ def normalize_statement(item) -> dict | None:
             "is_unnamed_event": is_unnamed_event, "is_reference": is_reference,
             "speaker": speaker, "merged_excerpts": merged_excerpts,
             "split_from": split_from, "publisher": publisher,
-            "entities_latin": entities_latin}
+            "query_latin": query_latin}
 
 
 def normalize_statements(raw) -> list[dict]:
@@ -2678,9 +2682,15 @@ def _new_outcome() -> dict:
            # _extract_source_facts/_source_fact_duplicate_index. source_origin_facts:
            # ما دخل المقال فعليًا بوسم origin="source" (يظهر في التقرير
            # ليراجعه المستخدم — البند 2)؛ source_facts_summary: عدد ما
-           # استُخرج/اندمج/أُضيف (البند 5 — أثر ظاهر، لا ميزة صامتة)
+           # استُخرج/اندمج/أُضيف (البند 5 — أثر ظاهر، لا ميزة صامتة).
+           # same_entity_off_topic_facts (Issue #808، البند 4 — حارس الموضوع):
+           # وقائع شاركت كيانًا مع الموجز لكن بلا كلمة معنى مشتركة — تقاطع
+           # اسم الكيان وحده لا يكفي (شاهد «توغ»/فيستل) — تُعرَض بقسم مستقل
+           # عن off_topic العام (لا تقاطع كيانات إطلاقًا) كي لا يختلطا
            "source_origin_facts": [],
-           "source_facts_summary": {"extracted": 0, "merged": 0, "off_topic": 0, "added": 0},
+           "source_facts_summary": {"extracted": 0, "merged": 0, "off_topic": 0,
+                                    "same_entity_off_topic": 0, "added": 0},
+           "same_entity_off_topic_facts": [],
            "originality_retry": {"attempted": False, "succeeded": False, "offending_phrase": ""},
            "jargon_retry": {"attempted": False, "succeeded": False, "detected": [], "remaining": []}}
 
@@ -2935,7 +2945,11 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             # مضمون لا مجرد مرشَّح ضمن الكيانات الأخرى
             mandatory_name = _fact_mandatory_query_prefix(f)
             entities_text = evidence._entities_text(f)
-            entities_latin = (f.get("entities_latin") or "").strip()
+            # اسم الكيان اللاتيني وحده تصفّح أخبار كيان لا بحث عن واقعة (Issue
+            # #808، شاهد فيستل/توغ: استعلام "Vestel" وحده رجع 117 نتيجة حقيقية
+            # عن موضوع مختلف كليًا) — query_latin عبارة بحث جاهزة من
+            # extract_brief لهذه الواقعة بعينها (اسم الكيان + كلمة معنى)
+            query_latin = (f.get("query_latin") or "").strip()
             # نص الواقعة يتلو الاسم الإلزامي والكيانات لا يحلّ محلّها
             # (تشخيص Issue #803، شاهد فيستل): كيانات رقمية بحتة ("فيستل"،
             # "48") كانت تُسقِط كل كلمة معنى ("تراجعت"، "مبيعات") فيضيق
@@ -2955,28 +2969,23 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             # متطابقًا بينها بحكم سقف query_max_words)
             relevance_text = (f"{mandatory_name} {entities_text}".strip() if mandatory_name
                              else (entities_text or f["text"]))
-            # سُلَّم ثلاث محاولات بحث يتوقف عند أول نتيجة (البند 2، Issue
-            # #803: ست وقائع رقمية من سبع رجعت صفر نتائج بلا أي محاولة
-            # ثانية) — بحث فقط، بلا أي نداء نموذج إضافي في أي محاولة:
-            # 1) الاستعلام المركَّب أعلاه. 2) نص الواقعة وحده بلا بادئة
-            # الكيانات إن صفر نتائج — ترتيب كلمات مختلف يطابق فهرسة مختلفة.
-            # 3) استعلام لاتيني (entities_latin) إن صفر نتائج ووُجد اسم
-            # لاتيني للكيان — يُفعِّل فعليًا نطاق hl=en-US في verify.locales
-            # الذي يبقى معطَّلًا عمليًا ما دام الاستعلام عربيًا دومًا (العطل
-            # الثالث، البند 3)
+            # سُلَّم ثلاث محاولات بحث (البند 2، Issue #803: ست وقائع رقمية من
+            # سبع رجعت صفر نتائج بلا أي محاولة ثانية): 1) الاستعلام المركَّب
+            # أعلاه. 2) نص الواقعة وحده بلا بادئة الكيانات إن صفر نتائج —
+            # ترتيب كلمات مختلف يطابق فهرسة مختلفة. 3) query_latin إن وُجد.
+            # يُصعَّد للمحاولة التالية عند انعدام السند لا عند صفر النتائج
+            # وحده (البند 3، Issue #808): استعلام "Vestel" المجرَّد كان يرجع
+            # نتائج حقيقية غير فارغة عن موضوع مختلف كليًا فيوقف السُلَّم دون
+            # فحص سندها إطلاقًا — الحكم الصحيح هو كفاية السند لا مجرد وجود
+            # نتائج خام. سقف ثلاث محاولات يبقى بحكم طول search_texts،
+            # وsearch_cache أعلاه يمنع تكرار قراءة نفس الاستعلام إن التقت
+            # محاولتان على نفس النص
             search_texts = [query_text]
             if f["text"] and f["text"] != query_text:
                 search_texts.append(f["text"])
-            if entities_latin:
-                search_texts.append(entities_latin)
-            for search_attempt, attempt_text in enumerate(search_texts, start=1):
-                query = evidence.build_query(attempt_text, query_max_words)
-                ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
-                    query, f.get("is_reference", False), relevance_text)
-                if ranked:
-                    break
-            all_read_docs.extend(docs)
-            reprint_image_pool.extend(_reprint_fallback_images(excluded_reprints, ranked))
+            if query_latin:
+                search_texts.append(query_latin)
+
             # "تصريح" (الجولة الثالثة عشرة، مُعدَّل بمعيار الأغلبية أدناه):
             # فحص المضمون لا وقوع المقابلة وحده، جزءًا جزءًا لا حكمًا شموليًا
             # واحدًا — انظر توثيق _support_statement_parts/_statement_majority
@@ -2987,49 +2996,101 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             is_statement = f["kind"] == "تصريح"
             is_report = f["kind"] == "تقرير منقول"
             fact_min_confirm = report_min_confirm if is_report else min_confirm
-            # ما لم يُؤيَّد لا يدخل المتن (طلب المراجعة، معيار الأغلبية):
-            # أجزاء merged_excerpts التي أيّدها مصدر واحد فأكثر — هذه وحدها
-            # تُستعمل نصًّا للواقعة عند الصياغة لاحقًا إن اجتاز التصريح ككل،
-            # لا التصريح المدموج كاملًا. تبقى [] لغير التصريح (fact_text
-            # الأصلي يُستعمَل كما هو).
-            included_excerpts: list[str] = []
-            if is_statement:
-                # عنصر بلا merged_excerpts فعلية (لم يُدمَج من أكثر من جملة)
-                # يُعامَل كجزء واحد هو نصه الكامل — نفس أثر الحكم الشمولي
-                # القديم بالضبط لهذه الحالة (N=1، الأغلبية=1 أي "أيّد الجزء
-                # الوحيد")، فلا انحدار على التصريحات غير المُدمَجة فعليًا
-                statement_parts = f.get("merged_excerpts") or [f["text"]]
-                parts_support = (_support_statement_parts(statement_parts, docs, cfg)
-                                 if docs else _PartSupportList())
-                fact_call_error = getattr(parts_support, "call_error", None)
-                if fact_call_error:
-                    fact_mentioned: set[str] = set()
-                    supporting = _ModelCallList()
+            stage = "تقرير" if is_report else ("تصريح" if is_statement else "واقعة")
+
+            attempt_result = None
+            for search_attempt, attempt_text in enumerate(search_texts, start=1):
+                query = evidence.build_query(attempt_text, query_max_words)
+                # استعلام أقل من كلمتين تصفّح أخبار كيان لا بحث عن واقعة (البند
+                # 2، Issue #808) — يُتخطّى بلا بحث ولا قراءة، والسبب يُسجَّل في
+                # trail بدل أن يختفي بصمت
+                if len(query.split()) < 2:
+                    trail.append({"stage": stage, "query": query, "basis": "",
+                                  "sources": [], "raw_count": None, "matched_count": None,
+                                  "fetch_failures": [], "top_candidates": [],
+                                  "excluded_reprints": [], "call_error": None,
+                                  "reused_query": False, "search_attempt": search_attempt,
+                                  "search_attempts_tried": len(search_texts),
+                                  "outcome": ("🚫 استعلام أقل من كلمتين تُخُطِّي بلا بحث — "
+                                             "تصفّح أخبار كيان لا بحث عن واقعة")})
+                    continue
+                ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
+                    query, f.get("is_reference", False), relevance_text)
+                all_read_docs.extend(docs)
+                reprint_image_pool.extend(_reprint_fallback_images(excluded_reprints, ranked))
+                # ما لم يُؤيَّد لا يدخل المتن (طلب المراجعة، معيار الأغلبية):
+                # أجزاء merged_excerpts التي أيّدها مصدر واحد فأكثر — هذه وحدها
+                # تُستعمل نصًّا للواقعة عند الصياغة لاحقًا إن اجتاز التصريح ككل،
+                # لا التصريح المدموج كاملًا. تبقى [] لغير التصريح (fact_text
+                # الأصلي يُستعمَل كما هو).
+                included_excerpts: list[str] = []
+                if is_statement:
+                    # عنصر بلا merged_excerpts فعلية (لم يُدمَج من أكثر من جملة)
+                    # يُعامَل كجزء واحد هو نصه الكامل — نفس أثر الحكم الشمولي
+                    # القديم بالضبط لهذه الحالة (N=1، الأغلبية=1 أي "أيّد الجزء
+                    # الوحيد")، فلا انحدار على التصريحات غير المُدمَجة فعليًا
+                    statement_parts = f.get("merged_excerpts") or [f["text"]]
+                    parts_support = (_support_statement_parts(statement_parts, docs, cfg)
+                                     if docs else _PartSupportList())
+                    fact_call_error = getattr(parts_support, "call_error", None)
+                    if fact_call_error:
+                        fact_mentioned: set[str] = set()
+                        supporting = _ModelCallList()
+                    else:
+                        maj_supporting, fact_mentioned, included_excerpts = _statement_majority(
+                            statement_parts, parts_support)
+                        supporting = _ModelCallList(maj_supporting)
+                    # التبليغ (طلب المراجعة): أي الأجزاء أيّدها كل مصدر وأيها لم
+                    # يُؤيَّد — نظير merged_statements، بصرف النظر عن مصير
+                    # التصريح لاحقًا (فشل تقني يترك القائمة فارغة، لا يُخترع بلاغ)
+                    report_entry = statement_reports.get(id(f))
+                    if report_entry is not None and not fact_call_error:
+                        report_entry["part_support"] = [
+                            {"excerpt": ex, "supporting": sup}
+                            for ex, sup in zip_longest(statement_parts, parts_support,
+                                                       fillvalue=[])
+                        ]
                 else:
-                    maj_supporting, fact_mentioned, included_excerpts = _statement_majority(
-                        statement_parts, parts_support)
-                    supporting = _ModelCallList(maj_supporting)
-                # التبليغ (طلب المراجعة): أي الأجزاء أيّدها كل مصدر وأيها لم
-                # يُؤيَّد — نظير merged_statements، بصرف النظر عن مصير
-                # التصريح لاحقًا (فشل تقني يترك القائمة فارغة، لا يُخترع بلاغ)
-                report_entry = statement_reports.get(id(f))
-                if report_entry is not None and not fact_call_error:
-                    report_entry["part_support"] = [
-                        {"excerpt": ex, "supporting": sup}
-                        for ex, sup in zip_longest(statement_parts, parts_support,
-                                                   fillvalue=[])
-                    ]
-            else:
-                supporting = (_support_sources(f["text"], docs, cfg, is_statement=False,
-                                              is_report=is_report, publisher=f.get("publisher", ""))
-                             if docs else [])
-                fact_call_error = getattr(supporting, "call_error", None)
-                # mentioned (طلب المراجعة، تشخيص Issue #373، حالة بايراكتار
-                # الرابعة): يفصل "لم يُقرأ نص يناقش الموضوع إطلاقًا" (عطل بحث
-                # محتمل) عن "قُرئ نص يناقشه ولم يطابق مضمونه" (عطل حكم) —
-                # تمييز كان يحتاج جولة تشخيص كاملة في كل مرة قبل هذا الحقل
-                fact_mentioned = set(getattr(supporting, "mentioned", []) or [])
-            unique = set(supporting)
+                    supporting = (_support_sources(f["text"], docs, cfg, is_statement=False,
+                                                  is_report=is_report, publisher=f.get("publisher", ""))
+                                 if docs else [])
+                    fact_call_error = getattr(supporting, "call_error", None)
+                    # mentioned (طلب المراجعة، تشخيص Issue #373، حالة بايراكتار
+                    # الرابعة): يفصل "لم يُقرأ نص يناقش الموضوع إطلاقًا" (عطل بحث
+                    # محتمل) عن "قُرئ نص يناقشه ولم يطابق مضمونه" (عطل حكم) —
+                    # تمييز كان يحتاج جولة تشخيص كاملة في كل مرة قبل هذا الحقل
+                    fact_mentioned = set(getattr(supporting, "mentioned", []) or [])
+                unique = set(supporting)
+                attempt_result = {
+                    "search_attempt": search_attempt, "query": query, "ranked": ranked,
+                    "docs": docs, "basis": basis, "reused_query": reused_query,
+                    "excluded_reprints": excluded_reprints, "supporting": supporting,
+                    "unique": unique, "fact_mentioned": fact_mentioned,
+                    "fact_call_error": fact_call_error, "included_excerpts": included_excerpts,
+                }
+                if len(unique) >= fact_min_confirm:
+                    break
+
+            if attempt_result is None:
+                # كل محاولات السُلَّم أقل من كلمتين — نادرة (تحتاج كيانات
+                # وquery_latin كلها كلمة واحدة أو فارغة) لكن ممكنة؛ لا بحث وقع
+                # فعليًا لهذه الواقعة
+                dropped.append({"text": f["text"],
+                               "reason": "كل استعلامات السُلَّم أقل من كلمتين — تُخطّيت كلها"})
+                continue
+
+            search_attempt = attempt_result["search_attempt"]
+            query = attempt_result["query"]
+            ranked = attempt_result["ranked"]
+            docs = attempt_result["docs"]
+            basis = attempt_result["basis"]
+            reused_query = attempt_result["reused_query"]
+            excluded_reprints = attempt_result["excluded_reprints"]
+            supporting = attempt_result["supporting"]
+            unique = attempt_result["unique"]
+            fact_mentioned = attempt_result["fact_mentioned"]
+            fact_call_error = attempt_result["fact_call_error"]
+            included_excerpts = attempt_result["included_excerpts"]
 
             def _support_gap_detail() -> str:
                 if not fact_mentioned:
@@ -3046,7 +3107,6 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                         unique, getattr(docs, "fetch_failures", []), cfg)
                 return detail
 
-            stage = "تقرير" if is_report else ("تصريح" if is_statement else "واقعة")
             outcome_text = (f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
                             if fact_call_error else
                             f"مسندة بـ{len(unique)} مصدر مستقل"
@@ -3248,11 +3308,31 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     extracted_source_count = 0
     merged_source_count = 0
     offtopic_source_count = 0
+    same_entity_offtopic_count = 0
     if source_extract_enabled and all_read_docs:
-        wanted_tokens: set[str] = set(norm_tokens(topic))
+        # كيانات الموجز وكلمات معناه مجموعتان منفصلتان لا مجموعة واحدة
+        # (Issue #808، البند 4، حارس الموضوع): تقاطع كيانات وحده كان يُجيز
+        # واقعة «باعت فيستل حصتها في توغ» لمجرد ذكرها «فيستل» — نفس الكيان
+        # الذي يذكره موجز عن ديون فيستل — رغم اختلاف الموضوعين كليًا. طرح
+        # كلمات الكيانات من كلمات topic يعزل كلمات المعنى الصرفة («ديون» لا
+        # «فيستل») كي لا يُجيز تكرار اسم الكيان داخل جملة topic نفسها الفحصَ
+        # عبر مسار "المعنى" كما يُجيزه عبر مسار "الكيان"
+        wanted_entity_tokens: set[str] = set()
         for s in facts_raw + questions_from_brief:
             for e in s.get("entities") or []:
-                wanted_tokens |= norm_tokens(e)
+                wanted_entity_tokens |= norm_tokens(e)
+        topic_tokens: set[str] = set()
+        for w in norm_tokens(topic):
+            topic_tokens.add(w)
+            # عطف "و" ملتصق ("بايكار وبيرقدار") لا ينفصل في norm_tokens —
+            # علّة مماثلة لعلّة "على"/alef maksura الموثَّقة أعلاه في هذا
+            # الملف؛ يُضاف الشكل المجرَّد أيضًا كمرشَّح معنى محليًا هنا فقط
+            # (لا تعديل norm_tokens المشتركة نفسها) كي لا يُرفض تقاطع معنى
+            # فعلي لمجرد التصاق حرف عطف بكلمة موضوع الموجز
+            if len(w) > 3 and w[0] == "و":
+                topic_tokens.add(w[1:])
+        wanted_meaning_tokens: set[str] = topic_tokens - wanted_entity_tokens
+        wanted_tokens = wanted_entity_tokens | wanted_meaning_tokens
         # مجمّع موحَّد الهوية بلا سقف (طلب المراجعة، البند 1) — يُستعمَل
         # كحوض حكم السند مباشرة، بخلاف ranked_docs (نفس المجمّع مفروزًا
         # ومقصوصًا عند source_max_docs) الذي يخصّ حجم برومبت الاستخراج فقط:
@@ -3276,17 +3356,26 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                                  f"{extracted_source_count} واقعة إضافية مستخرَجة من "
                                  f"{len(ranked_docs)} وثيقة مقروءة")})
         for sf in extracted:
-            # فحص صلة بنيوي بموضوع الموجز (طلب المراجعة، البند 2) — قبل أي
-            # نداء نموذج (دمج أو سند)، فلا كلفة على وقائع خارج الموضوع
-            # كليًا (مقال عن كبار دافعي الضرائب يذكر شركة الموجز عرضًا، ثم
-            # يُستخرج منه واقعة عن شركة أخرى غير معنية إطلاقًا — الشاهد
-            # الفعلي الذي بنى هذا الفحص). تقاطع كيانات الواقعة مع كيانات
-            # موضوع الموجز (wanted_tokens نفسها المستعملة في فرز برومبت
-            # الاستخراج أعلاه) — لا حكم لغوي جديد، فحص بنيوي بحت.
+            # فحص صلة بنيوي بموضوع الموجز (طلب المراجعة، البند 2؛ مُعدَّل
+            # بـIssue #808 البند 4 — أهمّ بند فيه) — قبل أي نداء نموذج (دمج
+            # أو سند)، فلا كلفة على وقائع خارج الموضوع كليًا. تقاطع كيانات
+            # الواقعة مع كيانات موضوع الموجز **وحده لا يكفي**: مقال عن كبار
+            # دافعي الضرائب يذكر شركة الموجز عرضًا فيستخرج منه واقعة عن شركة
+            # أخرى غير معنية إطلاقًا كان الشاهد الأول لهذا الفحص، وشاهد
+            # فيستل/توغ (Issue #808) أثبت أن التقاطع نفسه يُجيز أيضًا واقعة
+            # *عن نفس الكيان* لكن بموضوع مختلف كليًا («باعت فيستل حصتها في
+            # توغ» مقابل موجز عن ديون فيستل) — لذا يُشترَط الآن تقاطعان
+            # معًا: كيانات (wanted_entity_tokens) وكلمة معنى واحدة على الأقل
+            # (wanted_meaning_tokens، من كلمات topic خارج الكيانات) —
+            # الأخيرة تُقاس على نص الواقعة وكياناتها معًا، لا كياناتها وحدها
             fact_tokens: set[str] = set()
             for e in sf.get("entities") or []:
                 fact_tokens |= norm_tokens(e)
-            if wanted_tokens and not (fact_tokens & wanted_tokens):
+            fact_text_tokens = set(norm_tokens(sf.get("text", "")))
+            entity_ok = not wanted_entity_tokens or bool(fact_tokens & wanted_entity_tokens)
+            meaning_ok = not wanted_meaning_tokens or bool(
+                (fact_tokens | fact_text_tokens) & wanted_meaning_tokens)
+            if not entity_ok:
                 offtopic_source_count += 1
                 trail.append({"stage": "واقعة (من المصادر)", "query": "", "basis": "",
                               "sources": [], "raw_count": None, "matched_count": None,
@@ -3294,6 +3383,21 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                               "excluded_reprints": [], "call_error": None,
                               "reused_query": False,
                               "outcome": ("🚫 استُبعدت لعدم صلتها بكيانات موضوع الموجز: "
+                                         f"«{sf['text']}»")})
+                continue
+            if not meaning_ok:
+                # تقاطع اسم الكيان وحده لا يجيز الدخول (البند 4، شاهد
+                # فيستل/توغ بعينه) — قسم تقرير مستقل عن off_topic العام كي
+                # لا يختلط "لا صلة إطلاقًا" بـ"كيان نفسه، موضوع آخر"
+                same_entity_offtopic_count += 1
+                outcome["same_entity_off_topic_facts"].append(
+                    {"text": sf["text"], "entities": sf.get("entities") or []})
+                trail.append({"stage": "واقعة (من المصادر)", "query": "", "basis": "",
+                              "sources": [], "raw_count": None, "matched_count": None,
+                              "fetch_failures": [], "top_candidates": [],
+                              "excluded_reprints": [], "call_error": None,
+                              "reused_query": False,
+                              "outcome": ("🚫 نفس الكيان بموضوع مختلف — لم تدخل المقال: "
                                          f"«{sf['text']}»")})
                 continue
             dup = _source_fact_duplicate_index(sf["text"], brief_texts, cfg)
@@ -3338,6 +3442,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     outcome["source_facts_summary"] = {
         "extracted": extracted_source_count, "merged": merged_source_count,
         "off_topic": offtopic_source_count,
+        "same_entity_off_topic": same_entity_offtopic_count,
         "added": sum(1 for g in grounded if g.get("origin") == "source"),
     }
     outcome["source_origin_facts"] = [
@@ -4221,10 +4326,24 @@ def build_report(outcome: dict, investigation: dict | None = None) -> str:
         # عن نجاح إضافة أي واقعة فعليًا، فتُعرف حصيلة كل تشغيلة رقميًا
         offtopic_note = (f"، واستُبعدت {summary['off_topic']} لعدم صلتها بالموضوع"
                         if summary.get("off_topic") else "")
+        # same_entity_off_topic (Issue #808، البند 4) عدد مستقل عن off_topic
+        # العام — تفصيله بقسم منفصل أدناه، هنا فقط الإشارة الرقمية الموجزة
+        same_entity_note = (f"، و{summary['same_entity_off_topic']} أخرى عن نفس "
+                            "الكيان بموضوع مختلف"
+                            if summary.get("same_entity_off_topic") else "")
         lines += ["", (f"🔎 استُخرجت {summary['extracted']} واقعة من المصادر المقروءة "
                        f"لم ترد في موجزي، اندمجت {summary.get('merged', 0)} منها مع "
-                       f"وقائع موجزي (نفس الحدث بصياغة مختلفة){offtopic_note}، وأُضيفت "
-                       f"{summary.get('added', 0)} واقعة جديدة إلى المقال.")]
+                       f"وقائع موجزي (نفس الحدث بصياغة مختلفة){offtopic_note}"
+                       f"{same_entity_note}، وأُضيفت {summary.get('added', 0)} واقعة "
+                       "جديدة إلى المقال.")]
+
+    if outcome.get("same_entity_off_topic_facts"):
+        # حارس الموضوع — أهمّ بند (Issue #808، البند 4): تقاطع اسم الكيان
+        # وحده لا يجيز الدخول، فهذه الوقائع سقطت رغم مشاركتها كيانًا مع
+        # الموجز — قسم مستقل كي لا تختلط بـ"وقائع من المصادر" التي دخلت فعلًا
+        lines += ["", "**وقائع عن نفس الكيان بموضوع مختلف — لم تدخل المقال:**"]
+        for f in outcome["same_entity_off_topic_facts"]:
+            lines.append(f"- «{f['text']}»")
 
     if outcome.get("source_origin_facts"):
         # origin: "source" — طلب المراجعة، البند 2: هذا ما يراجعه المستخدم
