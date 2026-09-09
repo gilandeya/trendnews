@@ -1,7 +1,7 @@
 {
   "id": "494e5a50ebf1",
   "created_at": "2026-09-09T16:00:44.189171+00:00",
-  "status": "pending",
+  "status": "published",
   "review_issue": 823,
   "origin": "article",
   "article_issue": 822,
@@ -66,5 +66,14 @@
     "category": "اقتصاد",
     "urgent": false,
     "image_candidates": []
+  },
+  "caption_edited": true,
+  "publish_at": "2026-09-09T16:07:26.190193+00:00",
+  "published_at": "2026-09-09T16:07:30.631253+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1355811986635822",
+    "photo_id": "1355811963302491",
+    "url": "https://www.facebook.com/631680090321390_1355811986635822",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
   }
 }
