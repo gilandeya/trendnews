@@ -5215,5 +5215,44 @@
     "posted_title": "",
     "region": "ir",
     "seen_at": "2026-09-09T18:08:00.834272+00:00"
+  },
+  {
+    "score": 30.81,
+    "bucket": "useful",
+    "tokens": [
+      "apple",
+      "biggest",
+      "blog",
+      "event",
+      "ground",
+      "iphone",
+      "live"
+    ],
+    "link": "https://www.theverge.com/tech/989658/iphone-18-duo-pro-fold-apple-watch-airpods-keynote-live",
+    "title": "iPhone 18 live blog: On the ground at Apple’s biggest event",
+    "posted_title": "لماذا يعتبر مؤتمر آيفون 18 نقطة تحول في تاريخ آبل",
+    "region": "tech",
+    "seen_at": "2026-09-09T18:25:52.765803+00:00"
+  },
+  {
+    "score": 19.33,
+    "bucket": "serious",
+    "tokens": [
+      "100",
+      "barrel",
+      "first",
+      "hits",
+      "houthi",
+      "july",
+      "oil",
+      "since",
+      "strikes",
+      "time"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cyvznqypz0yo?at_medium=RSS&at_campaign=rss",
+    "title": "Oil hits $100 a barrel for first time since July after US and Houthi strikes",
+    "posted_title": "لماذا قفز سعر النفط فوق 100 دولار للبرميل بعد سلسلة ضربات في الخليج والسعودية",
+    "region": "uk",
+    "seen_at": "2026-09-09T18:26:14.516777+00:00"
   }
 ]
