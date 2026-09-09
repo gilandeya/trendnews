@@ -287,6 +287,14 @@ WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتب
    مختلفة لنفس الجملة بين استخراجين يبني استعلام بحث مختلفًا تمامًا فيقلب
    نتيجة التشغيلة كلها — الثبات هنا يقلّل هذا الأثر لا يُلغيه (لا سبيل
    لضبطه للحتمية الكاملة، انظر ملاحظة temperature في CLAUDE.md).
+   ولكل عنصر أيضًا entities_latin (اختياري): الاسم اللاتيني المتداول
+   لكيانه الرئيسي حين يكون له اسم متداول بحروف لاتينية غير اسمه العربي
+   — اسم شركة أو جهة أجنبية معروف بحروفه الأصلية («فيستل» → «Vestel»،
+   «بايكار» → «Baykar»). اترك entities_latin فارغًا للكيانات العربية
+   الأصيلة التي لا اسم لاتيني متداول لها. يُستعمل هذا الحقل حصرًا كمحاولة
+   بحث بديلة أخيرة حين تعجز الاستعلامات العربية عن إيجاد أي نتيجة —
+   نطاق البحث الإنجليزي (hl=en-US) لا يُفعَّل عمليًا ما دام كل استعلام
+   عربيًا بالضرورة.
    ولكل عنصر أيضًا is_unnamed_event: true حين تكون الواقعة **إشارة** إلى
    حدث بأثره أو بذكر ما أعاده أو ذكّر به، دون أن تسمّي الحدث نفسه: من فعل
    ماذا بالضبط. مثال: "حدث في 11 آب 2026 ما أعاد قصة حمزة الخطيب" لا تسمّي
@@ -329,6 +337,11 @@ WRITEUP_EXTRACT_SCHEMA = {
                         "text": {"type": "string"},
                         "kind": {"type": "string", "enum": WRITEUP_KINDS},
                         "entities": {"type": "array", "items": {"type": "string"}},
+                        # الاسم اللاتيني المتداول لكيان العنصر الرئيسي، حين
+                        # يوجد (اختياري — فارغ للكيانات العربية الأصيلة).
+                        # يُستعمل حصرًا كمحاولة بحث ثالثة أخيرة (Issue #803،
+                        # البند 3) — انظر توثيق entities_latin أعلاه
+                        "entities_latin": {"type": "string"},
                         "is_unnamed_event": {"type": "boolean"},
                         "is_reference": {"type": "boolean"},
                         # للعنصر "تصريح" فقط (اختياريان — لا معنى لهما لواقعة/
@@ -403,7 +416,11 @@ def normalize_statement(item) -> dict | None:
     merged_excerpts: list[str] = []
     split_from = ""
     publisher = ""
+    entities_latin = ""
     if isinstance(item, dict):
+        raw_entities_latin = item.get("entities_latin")
+        if isinstance(raw_entities_latin, str) and raw_entities_latin.strip():
+            entities_latin = raw_entities_latin.strip()
         raw_speaker = item.get("speaker")
         if isinstance(raw_speaker, str) and raw_speaker.strip():
             speaker = raw_speaker.strip()
@@ -428,7 +445,8 @@ def normalize_statement(item) -> dict | None:
     return {"text": text, "kind": kind, "entities": entities,
             "is_unnamed_event": is_unnamed_event, "is_reference": is_reference,
             "speaker": speaker, "merged_excerpts": merged_excerpts,
-            "split_from": split_from, "publisher": publisher}
+            "split_from": split_from, "publisher": publisher,
+            "entities_latin": entities_latin}
 
 
 def normalize_statements(raw) -> list[dict]:
@@ -2917,12 +2935,46 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             # مضمون لا مجرد مرشَّح ضمن الكيانات الأخرى
             mandatory_name = _fact_mandatory_query_prefix(f)
             entities_text = evidence._entities_text(f)
-            query_text = (f"{mandatory_name} {entities_text}".strip() if mandatory_name
-                         else (entities_text or f["text"]))
-            query = evidence.build_query(query_text, query_max_words)
-            relevance_text = query_text
-            ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
-                query, f.get("is_reference", False), relevance_text)
+            entities_latin = (f.get("entities_latin") or "").strip()
+            # نص الواقعة يتلو الاسم الإلزامي والكيانات لا يحلّ محلّها
+            # (تشخيص Issue #803، شاهد فيستل): كيانات رقمية بحتة ("فيستل"،
+            # "48") كانت تُسقِط كل كلمة معنى ("تراجعت"، "مبيعات") فيضيق
+            # الاستعلام حتى يطابق صفر نتائج رغم تغطية واسعة للحدث نفسه —
+            # build_query يختار بترتيب الورود حتى query_max_words فتبقى
+            # أولوية الاسم الإلزامي/الكيانات كما هي، وتملأ كلمات الواقعة
+            # الباقي بدل أن تُهمَل كليًا
+            query_text = " ".join(x for x in (mandatory_name, entities_text, f["text"]) if x)
+            # relevance_text يبقى مبنيًا من الاسم الإلزامي/الكيانات وحدها لا
+            # query_text الجديد (خلافًا لما قد يبدو بديهيًا): هذا هو النص
+            # الذي يستقر عبر وقائع متعددة تشترك في نفس الكيانات (ذاكرة
+            # search_cache أعلاه تعتمد استقراره)، بينما query_text الآن يضمّ
+            # نص الواقعة الخاص بكل عنصر فيتغيّر بينها. تسريب query_text إلى
+            # relevance_text هنا كان يكسر إعادة استعمال الاستعلام (تشخيص
+            # الإصلاح: واقعات ثلاث بنفس الكيانات صارت تبحث وتقرأ ثلاث مرات
+            # مستقلة بدل مرة واحدة رغم أن الاستعلام الفعلي المبني يبقى
+            # متطابقًا بينها بحكم سقف query_max_words)
+            relevance_text = (f"{mandatory_name} {entities_text}".strip() if mandatory_name
+                             else (entities_text or f["text"]))
+            # سُلَّم ثلاث محاولات بحث يتوقف عند أول نتيجة (البند 2، Issue
+            # #803: ست وقائع رقمية من سبع رجعت صفر نتائج بلا أي محاولة
+            # ثانية) — بحث فقط، بلا أي نداء نموذج إضافي في أي محاولة:
+            # 1) الاستعلام المركَّب أعلاه. 2) نص الواقعة وحده بلا بادئة
+            # الكيانات إن صفر نتائج — ترتيب كلمات مختلف يطابق فهرسة مختلفة.
+            # 3) استعلام لاتيني (entities_latin) إن صفر نتائج ووُجد اسم
+            # لاتيني للكيان — يُفعِّل فعليًا نطاق hl=en-US في verify.locales
+            # الذي يبقى معطَّلًا عمليًا ما دام الاستعلام عربيًا دومًا (العطل
+            # الثالث، البند 3)
+            search_texts = [query_text]
+            if f["text"] and f["text"] != query_text:
+                search_texts.append(f["text"])
+            if entities_latin:
+                search_texts.append(entities_latin)
+            for search_attempt, attempt_text in enumerate(search_texts, start=1):
+                query = evidence.build_query(attempt_text, query_max_words)
+                ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
+                    query, f.get("is_reference", False), relevance_text)
+                if ranked:
+                    break
             all_read_docs.extend(docs)
             reprint_image_pool.extend(_reprint_fallback_images(excluded_reprints, ranked))
             # "تصريح" (الجولة الثالثة عشرة، مُعدَّل بمعيار الأغلبية أدناه):
@@ -3031,6 +3083,11 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                           "call_error": fact_call_error,
                           "reused_query": reused_query,
                           "judged_by": judged_by,
+                          # رقم محاولة البحث الناجحة (1-3، تشخيص Issue #803
+                          # البند 2) — تشخيص المستقبل يحتاج معرفة أي محاولة
+                          # أثمرت لا الاستعلام النهائي وحده
+                          "search_attempt": search_attempt,
+                          "search_attempts_tried": len(search_texts),
                           "outcome": outcome_text})
             if len(unique) < fact_min_confirm:
                 if fact_call_error:
