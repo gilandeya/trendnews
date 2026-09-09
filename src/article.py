@@ -1215,6 +1215,26 @@ STATEMENT_PART_SUPPORT_SCHEMA = {
 }
 
 
+def _support_call_content(docs: list[dict], variable_text: str) -> list[dict]:
+    """يبني محتوى رسالة نداءات الحكم على السند (_support_sources/
+    _support_statement_parts) ككتلتين لا نصًّا واحدًا: كتلة أولى ثابتة
+    الترتيب تحمل نصوص الوثائق وعليها cache_control، وكتلة ثانية بلا تخزين
+    تحمل النص المتغيّر بين نداء وآخر (نص الواقعة/أجزاء التصريح). خلط
+    الاثنين في نص واحد كما كان سابقًا يُبطل إصابة الذاكرة المؤقتة بالكامل
+    عند كل نداء لاحق رغم ثبات الوثائق نفسها — تشغيلة حقيقية سجّلت ٩٤٪ من
+    كلفة المقال إدخالًا، و١٪ فقط منه مخزَّنًا (طلب المراجعة). ترتيب
+    الوثائق نفسه لا يتغيّر هنا — يبقى بترتيب `docs` كما وصلت من المستدعي،
+    شرط الإصابة عبر نداءين متتاليين لنفس المجموعة."""
+    return [
+        {
+            "type": "text",
+            "text": f"نصوص المصادر:\n\n{_format_docs(docs)}",
+            "cache_control": {"type": "ephemeral"},
+        },
+        {"type": "text", "text": variable_text},
+    ]
+
+
 def _support_statement_parts(merged_excerpts: list[str], docs: list[dict],
                              cfg) -> _PartSupportList:
     """يحكم على كل جزء من أجزاء تصريح مُدمَج (merged_excerpts) منفردًا —
@@ -1230,7 +1250,7 @@ def _support_statement_parts(merged_excerpts: list[str], docs: list[dict],
     model = acfg.get("model", "claude-sonnet-5")
     client = _client()
     numbered = "\n".join(f"{i}. {ex}" for i, ex in enumerate(merged_excerpts, start=1))
-    prompt = f"أجزاء التصريح:\n{numbered}\n\nنصوص المصادر:\n\n{_format_docs(docs)}"
+    content = _support_call_content(docs, f"أجزاء التصريح:\n{numbered}")
     try:
         resp = client.messages.create(
             model=model,
@@ -1238,7 +1258,7 @@ def _support_statement_parts(merged_excerpts: list[str], docs: list[dict],
             tools=[STATEMENT_PART_SUPPORT_SCHEMA],
             tool_choice={"type": "tool", "name": "support_statement_parts"},
             system=STATEMENT_PART_SUPPORT_SYSTEM,
-            messages=[{"role": "user", "content": prompt}],
+            messages=[{"role": "user", "content": content}],
             # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
         )
         writer.record_usage(resp, model)
@@ -1344,7 +1364,7 @@ def _support_sources(fact_text: str, docs: list[dict], cfg,
         system, label = STATEMENT_SUPPORT_SYSTEM, "التصريح"
     else:
         system, label = SUPPORT_SYSTEM, "الواقعة"
-    prompt = f"{label}: {fact_text}\n\nنصوص المصادر:\n\n{_format_docs(docs)}"
+    content = _support_call_content(docs, f"{label}: {fact_text}")
     try:
         resp = client.messages.create(
             model=model,
@@ -1352,7 +1372,7 @@ def _support_sources(fact_text: str, docs: list[dict], cfg,
             tools=[SUPPORT_SCHEMA],
             tool_choice={"type": "tool", "name": "support_fact"},
             system=system,
-            messages=[{"role": "user", "content": prompt}],
+            messages=[{"role": "user", "content": content}],
             # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
         )
         writer.record_usage(resp, model)
@@ -3069,6 +3089,15 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                     "fact_call_error": fact_call_error, "included_excerpts": included_excerpts,
                 }
                 if len(unique) >= fact_min_confirm:
+                    break
+                if fact_mentioned:
+                    # المصادر ذكرت الموضوع ولم يطابق مضمونه — البحث أصاب
+                    # والمصادر لا تُسنِد، واستعلام آخر لن يغيّر ذلك (طلب
+                    # المراجعة، البند 2): لا تُصعَّد لمحاولة تالية فتكلّف
+                    # دورة بحث/قراءة/حكم كاملة بلا عائد؛ التصعيد يبقى فقط
+                    # حين لم تُذكر الواقعة في أي مصدر مقروء إطلاقًا
+                    # (fact_mentioned فارغة) — فقد يعثر استعلام آخر على
+                    # مصادر لم تُقرأ أصلًا
                     break
 
             if attempt_result is None:
