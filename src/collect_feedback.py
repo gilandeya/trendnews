@@ -47,36 +47,22 @@ def main() -> int:
 
     bodies = fetch_comments(args.issue)
 
-    # ① مربعات الرفض في نص الـ Issue — الطريقة الأساسية
-    boxed = review.parse_rejects(bodies[0] if bodies else "")
-
-    # ② الأوامر النصية — للسبب الحر أو لمن يفضّلها
-    typed = []
-    for body in bodies:
-        typed += feedback.parse_rejections(body)
-
-    # ③ التعليقات الحرة تُربط بمن اختار «آخر»
-    free_notes = [b.strip() for b in bodies[1:]
-                  if b.strip() and "/reject" not in b
-                  and not b.strip().startswith("###")]
-    pending_other = [did for did, tag in boxed if tag == "آخر"]
-    note_for_other = free_notes[-1][:200] if free_notes else ""
-
+    # الأوامر النصية /reject — الطريقة الوحيدة المتبقية لتسجيل سبب رفض
+    # حقيقي (Issue #841): مربعات أسباب الرفض حُذفت من واجهة المراجعة — عدم
+    # الاعتماد وحده يُسجَّل رفضًا تلقائيًا بوسم «لم يُعتمد» في publish.py،
+    # وهذا المسار يبقى فقط لمن يكتب سببًا حقيقيًا يدويًا في تعليق.
     commands: list[tuple[str, str, str]] = []
     seen_ids: set[str] = set()
-    for did, tag in boxed:
-        note = note_for_other if (tag == "آخر" and did in pending_other) else ""
-        commands.append((did, tag, note))
-        seen_ids.add(did)
-    for did, tag, note in typed:
-        if did not in seen_ids:
-            commands.append((did, tag, note))
-            seen_ids.add(did)
+    for body in bodies:
+        for did, tag, note in feedback.parse_rejections(body):
+            if did not in seen_ids:
+                commands.append((did, tag, note))
+                seen_ids.add(did)
 
     if not commands:
         log.info("لا رفض مسجّل في هذا الـ Issue")
         return 0
-    log.info("مربعات: %d · أوامر نصية: %d", len(boxed), len(typed))
+    log.info("أوامر نصية: %d", len(commands))
 
     entries = feedback.load()
     known = {e["id"] for e in entries}

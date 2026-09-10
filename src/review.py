@@ -14,8 +14,6 @@ log = logging.getLogger(__name__)
 API = "https://api.github.com"
 ID_MARKER = re.compile(r"<!--\s*draft:([0-9a-f]+)\s*-->")
 REEL_MARKER = re.compile(r"<!--\s*reel:([0-9a-f]+)\s*-->")
-# مربعات الرفض: <!-- rj:المعرّف:الوسم -->
-REJECT_MARKER = re.compile(r"<!--\s*rj:([0-9a-f]+):([^\s>]+)\s*-->")
 CHECKED_LINE = re.compile(r"^\s*[-*]\s*\[([ xX])\]", re.MULTILINE)
 # كتلة النص القابلة للتحرير: <!-- cap:المعرّف --> ... <!-- /cap:المعرّف -->
 # (Issue #752) — DOTALL كي تمتد المطابقة عبر أسطر الكتلة كاملة، وbackreference
@@ -59,9 +57,8 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         "🎬 لكل خبر مربع ثانٍ: علّم عليه لينشر البوت **ريلًا** بدل الصورة. "
         "الريل يُبنى لحظة النشر (يضيف ~30 ثانية) ولا يُبنى لما لا تختاره.",
         "",
-        "🚫 **رفضتَ خبرًا؟** علّم على السبب في قائمة «لرفضه» تحته، ثم أضف "
-        "الوسم `rejected`. يتعلّم الفرز منه فلا يعيد مثله. وسبب الرفض "
-        "يغلب ✔️ إن اجتمعا، فلن يُنشر.",
+        "🚫 **ما لا تعلّمه لن يُنشر** ويُسجَّل مرفوضًا تلقائيًا — وسأسألك عن "
+        "السبب في التقرير الأسبوعي.",
         "",
         "✏️ لتعديل نصّ منشور: حرّر هذا الـIssue واكتب داخل كتلة النص مباشرة. "
         "النصّ الذي أراه لحظة الاعتماد هو ما يُنشر. ملاحظة: تعديل النص لا "
@@ -163,18 +160,6 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             "",
             "  </details>",
             "",
-            # المربعات خارج <details> عمدًا: جيت‑هَب لا يجعل مربعات
-            # قوائم المهام قابلة للنقر داخل كتلة HTML، فكانت تظهر سطورًا
-            # نصية لا مربعات. الطيّ يصلح للنص المقروء لا للمدخلات.
-            "  🚫 **لرفضه، علّم سببًا واحدًا:**",
-            "",
-            *[f"  - [ ] {label}  <!-- rj:{d['id']}:{tag} -->"
-              for tag, label in REJECT_CHOICES],
-            "",
-            "  <sub>«غير ذلك» يجعل البوت ينتظر تعليقك الحر في هذا الـ Issue "
-            "ويربطه بهذا الخبر. تعليم سبب الرفض يلغي الاعتماد ولو كان "
-            "المربع الأول معلَّمًا.</sub>",
-            "",
             "---",
             "",
         ]
@@ -187,38 +172,6 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         ]
     parts.append("<sub>وسم `approved` = نشر المحدد · إغلاق الـ Issue = تجاهل الكل</sub>")
     return "\n".join(parts)
-
-
-# أسباب الرفض المعروضة كمربعات — الترتيب هو ترتيب الظهور
-REJECT_CHOICES: list[tuple[str, str]] = [
-    ("مكرر", "مكرر — نشرنا الحدث نفسه"),
-    ("محلي", "محلي — لا يعني القارئ العربي"),
-    ("قديم", "قديم أو معاد تدويره"),
-    ("ضعيف", "مصدر ضعيف أو غير موثوق"),
-    ("ركيك", "صياغة ركيكة أو غامضة"),
-    ("صورة", "الصورة لا تمثّل الخبر"),
-    ("تافه", "لا يستحق النشر"),
-    ("حساس", "موضوع حساس لا يناسب الصفحة"),
-    ("منحاز", "انحياز واضح في الرواية"),
-    ("آخر", "غير ذلك — سأكتب السبب في تعليق"),
-]
-
-
-def parse_rejects(body: str) -> list[tuple[str, str]]:
-    """
-    يقرأ مربعات الرفض المعلَّمة.
-
-    يعيد [(معرّف المسودة، الوسم)] — بلا حاجة لكتابة معرّفات يدويًا.
-    """
-    chosen: list[tuple[str, str]] = []
-    for line in body.splitlines():
-        marker = REJECT_MARKER.search(line)
-        if not marker:
-            continue
-        box = re.search(r"\[([ xX])\]", line)
-        if box and box.group(1).lower() == "x":
-            chosen.append((marker.group(1), marker.group(2)))
-    return chosen
 
 
 def parse_reels(body: str) -> set[str]:
@@ -238,8 +191,8 @@ def parse_approved(body: str) -> list[str]:
     """يستخرج معرفات المسودات التي عُلّم عليها ✔️."""
     approved: list[str] = []
     for line in body.splitlines():
-        if REEL_MARKER.search(line) or REJECT_MARKER.search(line):
-            continue                      # اختيار الريل أو الرفض لا الاعتماد
+        if REEL_MARKER.search(line):
+            continue                      # اختيار الريل لا الاعتماد
         marker = ID_MARKER.search(line)
         if not marker:
             continue

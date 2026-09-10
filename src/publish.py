@@ -20,7 +20,7 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
-from . import decisions, facebook, review, store
+from . import decisions, facebook, feedback, review, store
 from .config import ROOT, env, load_config
 from .reel import build_reel, has_ffmpeg
 from .schedule import assign_slots, describe, is_due, spaced_slots
@@ -649,19 +649,29 @@ def main() -> int:
 
     reels = review.parse_reels(body)
 
-    # مربعا الاعتماد والرفض قد يُعلَّمان معًا: مراجع اعتمد أولًا ثم عدل
-    # عن رأيه فعلّم السبب دون أن يمسح ✔️. النشر حينها خطأ لا يُستدرك،
-    # فالرفض يغلب — وعكسه ينشر خبرًا رُفض صراحةً.
-    rejected = {did for did, _ in review.parse_rejects(body)}
-    blocked = [i for i in ids if i in rejected]
-    if blocked:
-        ids = [i for i in ids if i not in rejected]
-        log.warning("أُسقط %d منشورًا معلَّمًا بالاعتماد والرفض معًا", len(blocked))
-        review.comment(
-            args.issue,
-            f"⚠️ {len(blocked)} منشورًا يحمل ✔️ وسبب رفض معًا — لم يُنشر. "
-            "امسح سبب الرفض إن كنت تريد نشره.",
-        )
+    # عدم الاعتماد = رفض ضمني (Issue #841، البند 2): لا خيارات سبب استبعاد
+    # في الواجهة بعد اليوم، فكل معرّف ظهر في هذا الـIssue
+    # (review.all_draft_ids) ولم يُعلَّم ✔️ يُعامَل كأنه رُفض صراحة — السبب
+    # الحقيقي يُسأل عنه لاحقًا في التقرير الأسبوعي (البند 3، غير مبني بعد).
+    # النطاق مقيَّد بمعرّفات هذا الـIssue وحده، فلا تُمسّ مسودة معلَّقة
+    # خارجه؛ ومسار التحليل لا يُستثنى — عدم الاعتماد رفض في كل المسارات.
+    # status == "pending" يمنع إعادة الرفض/التسجيل عند إعادة تشغيل هذا
+    # المسار لنفس الـIssue (مثلًا مسار urgent ثم normal لنفس حدث approved).
+    unapproved = [i for i in review.all_draft_ids(body) if i not in ids]
+    if unapproved:
+        entries = feedback.load()
+        rejected_now = 0
+        for draft_id in unapproved:
+            found = store.load_draft(draft_id)
+            if not found or found[1].get("status") != "pending":
+                continue
+            store.update_draft(found[0], status="rejected")
+            feedback.record(entries, found[1], tag="لم يُعتمد", note="")
+            rejected_now += 1
+        if rejected_now:
+            feedback.save(entries)
+            log.info("الـIssue #%s: %d مسودة لم تُعتمد — سُجّلت مرفوضة",
+                     args.issue, rejected_now)
 
     log.info("الـ Issue #%s: %d معتمد من %d (%d كريل)",
              args.issue, len(ids), len(review.all_draft_ids(body)), len(reels))

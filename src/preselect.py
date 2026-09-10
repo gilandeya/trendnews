@@ -25,7 +25,6 @@ from datetime import datetime, timezone
 
 from anthropic import Anthropic, APIError
 
-from . import review
 from .config import env
 from .sources import Article
 from .writer import record_usage
@@ -33,7 +32,6 @@ from .writer import record_usage
 log = logging.getLogger(__name__)
 
 CAND_MARKER = re.compile(r"<!--\s*cand:([0-9a-f]+)\s*-->")
-CREJECT_MARKER = re.compile(r"<!--\s*crj:([0-9a-f]+):([^\s>]+)\s*-->")
 # مربعا الاختيار (Issue #319): "now" = انشر فورًا بلا عرض، "review" = صغ
 # واعرض عليّ أولًا. اسمان منفصلان عمدًا عن "cand" (يبقى معرّف العنوان
 # نفسه) وعن "draft" (اسم مربع الاعتماد في review.py — Issue مختلف).
@@ -196,8 +194,8 @@ def build_selection_issue_body(candidates: list[dict],
         "علّمت المربعين معًا لخبر واحد بالخطأ؟ يُعامَل كـ«صغ واعرض» "
         "(الأحوط) وسيُعلَّق تنبيه بذلك.",
         "",
-        "🚫 لم يعجبك مرشح؟ اتركه بلا تعليم، أو علّم سببًا من القائمة "
-        "تحته إن أردت تحديد السبب — يتعلّم الفرز الأولي منه.",
+        "🚫 **ما لا تعلّمه لن يُصاغ** ويُسجَّل «لم يُختر» — وسأسألك عن "
+        "السبب في التقرير الأسبوعي.",
         "",
         "---",
         "",
@@ -229,11 +227,6 @@ def build_selection_issue_body(candidates: list[dict],
             f"  - [ ] 🚀 انشر فورًا (صياغة ثم نشر مباشر بلا عرض)  "
             f"<!-- now:{c['id']} -->",
             f"  - [ ] 📝 صغ واعرض عليّ قبل النشر  <!-- review:{c['id']} -->",
-            "",
-            "  🚫 **لاستبعاده صراحة، علّم سببًا:**",
-            "",
-            *[f"  - [ ] {label}  <!-- crj:{c['id']}:{tag} -->"
-              for tag, label in review.REJECT_CHOICES],
             "",
             "---",
             "",
@@ -267,19 +260,6 @@ def parse_publish_now(body: str) -> list[str]:
 def parse_draft_review(body: str) -> list[str]:
     """يعيد معرفات المرشحين المُعلَّمين على «📝 صغ واعرض عليّ قبل النشر»."""
     return _checked_ids(body, DRAFTFIRST_MARKER)
-
-
-def parse_candidate_rejects(body: str) -> list[tuple[str, str]]:
-    """يعيد [(معرّف المرشح، الوسم)] لمن عُلّم عليه سبب استبعاد صراحة."""
-    chosen: list[tuple[str, str]] = []
-    for line in body.splitlines():
-        marker = CREJECT_MARKER.search(line)
-        if not marker:
-            continue
-        checkbox = re.search(r"\[([ xX])\]", line)
-        if checkbox and checkbox.group(1).lower() == "x":
-            chosen.append((marker.group(1), marker.group(2)))
-    return chosen
 
 
 def all_candidate_ids(body: str) -> list[str]:

@@ -4848,8 +4848,8 @@ def test_verify_draft() -> None:
     check("11) سبب الرفض التحريري يظهر في قسم التقرير أيضًا",
           "خبر مشاهير" in section11)
 
-    # حقل المنشأ لا يمنح أي امتياز في المراجعة: parse_approved/parse_rejects
-    # يعملان على المعرّف والمربعات فقط بصرف النظر عن وجوده (نقطة 5 من الموافقة)
+    # حقل المنشأ لا يمنح أي امتياز في المراجعة: parse_approved يعمل على
+    # المعرّف والمربعات فقط بصرف النظر عن وجوده (نقطة 5 من الموافقة)
     origin_draft = {
         "id": "ab01cd23ef45", "score": 1.0, "trend_score": 0.0, "origin": "verify",
         "verify_issue": 132, "image": "drafts/x/a.jpg", "caption": "نص",
@@ -4860,8 +4860,6 @@ def test_verify_draft() -> None:
     origin_body_checked = tick_marker(origin_body, "draft:ab01cd23ef45")
     check("حقل origin لا يمنع اعتماد المسودة عبر parse_approved كالمعتاد",
           review.parse_approved(origin_body_checked) == ["ab01cd23ef45"])
-    check("لا رفض بلا تعليم — حقل origin لا يفرض رفضًا افتراضيًا",
-          review.parse_rejects(origin_body_checked) == [])
 
     # 12) فشل نداء النموذج نفسه (شبكة/حصة/استجابة مشوَّهة) أثناء الصياغة —
     # لا مسودة، ورسالة تذكر المرحلة والسبب المحدد لا رسالة عامة (نقطة 4 من
@@ -12334,9 +12332,11 @@ def test_publish_investigation_requires_review() -> None:
           code_reviewed == 0, code_reviewed)
 
 
-def test_reject_boxes_render() -> None:
-    """المربعات خارج <details>: داخلها تظهر نصًا لا يُنقر عليه."""
-    from src import review
+def test_no_reject_boxes_in_review_issues() -> None:
+    """Issue #841: خيارات سبب الاستبعاد حُذفت من واجهتي المراجعة كلتيهما —
+    عدم الاعتماد يصير رفضًا بذاته، والسبب يُسأل عنه لاحقًا في التقرير
+    الأسبوعي، لا عبر مربعات في الواجهة."""
+    from src import preselect, review
 
     draft = {"id": "abcd12", "score": 9.1, "caption": "متن\nسطر",
              "image": "assets/x.jpg", "bucket": "serious",
@@ -12344,40 +12344,130 @@ def test_reject_boxes_render() -> None:
              "arabic": {"post_title": "عنوان", "category": "سياسة"}}
     body = review.build_issue_body([draft], "u/r", "main")
 
-    lines = body.splitlines()
-    reject_lines = [ln for ln in lines if "<!-- rj:" in ln]
-    check("كل أسباب الرفض معروضة",
-          len(reject_lines) == len(review.REJECT_CHOICES))
-    check("كل سبب مربع قابل للنقر",
-          all("- [ ]" in ln for ln in reject_lines))
+    check("لا مربع رفض واحد في Issue المراجعة", "<!-- rj:" not in body, body)
+    check("لا سطر التعليمات القديم عن سبب الرفض",
+          "رفضتَ خبرًا" not in body and "لرفضه" not in body, body)
+    check("سطر التعليمات الجديد يقول القاعدة صراحة",
+          "لن يُنشر" in body and "لم يُعتمد" not in body, body)
+    check("لا REJECT_CHOICES ولا parse_rejects بعد الآن في review.py",
+          not hasattr(review, "REJECT_CHOICES") and not hasattr(review, "parse_rejects"))
 
-    # لا يجوز أن يقع أي مربع رفض داخل كتلة طيّ
-    depth, inside = 0, []
-    for ln in lines:
-        if "<details" in ln:
-            depth += 1
-        if "<!-- rj:" in ln:
-            inside.append(depth)
-        if "</details>" in ln:
-            depth -= 1
-    check("لا مربع رفض داخل <details>", not any(d > 0 for d in inside))
+    cand = preselect.build_candidate(
+        Article(title="مرشح تجريبي", link="https://x/cand", summary="",
+               source_name="P", region="r", weight=1.0,
+               published=datetime.now(timezone.utc), bucket="serious", publisher="P"))
+    selection_body = preselect.build_selection_issue_body([cand])
+    check("لا مربع رفض واحد في Issue الاختيار", "<!-- crj:" not in selection_body,
+          selection_body)
+    check("مربعا المصير (انشر فورًا/صغ واعرض) باقيان",
+          f"<!-- now:{cand['id']} -->" in selection_body
+          and f"<!-- review:{cand['id']} -->" in selection_body,
+          selection_body)
+    check("لا CREJECT_MARKER ولا parse_candidate_rejects بعد الآن في preselect.py",
+          not hasattr(preselect, "CREJECT_MARKER")
+          and not hasattr(preselect, "parse_candidate_rejects"))
 
-    parsed = review.parse_rejects(
-        body.replace("- [ ] مكرر", "- [x] مكرر"))
-    check("المربع المعلَّم يُقرأ", ("abcd12", "مكرر") in parsed)
 
+def test_publish_unapproved_becomes_rejected() -> None:
+    """Issue #841، البند 2: عدم الاعتماد داخل Issue موسوم approved يصير
+    رفضًا ضمنيًا (status=rejected، وسم feedback «لم يُعتمد») — بصرف النظر
+    عن الأصل (أخبار أو تحليل)، مقيَّدًا بمعرّفات هذا الـIssue وحده."""
+    from src import feedback
+    from src import publish as publish_mod
 
-def test_reject_beats_approval() -> None:
-    """✔️ مع سبب رفض = لا نشر. الخطأ هنا لا يُستدرك بعد النشر."""
-    from src import review
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    body = ("- [x] **1. عنوان**  <!-- draft:abcd12 -->\n"
-            "- [x] مكرر  <!-- rj:abcd12:مكرر -->\n"
-            "- [x] **2. آخر**  <!-- draft:ef3456 -->\n")
-    approved = review.parse_approved(body)
-    rejected = {did for did, _ in review.parse_rejects(body)}
-    check("المرفوض يُستبعد رغم الاعتماد",
-          [i for i in approved if i not in rejected] == ["ef3456"])
+    approved_draft = {
+        "id": "aa00000001", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر معتمد"}, "caption": "متن",
+        "image": "drafts/a.jpg", "bucket": "serious",
+        "source": {"link": "https://x/1", "publishers": ["BBC"]},
+    }
+    news_reject = {
+        "id": "bb00000002", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر لم يُعتمد"}, "caption": "متن",
+        "image": "drafts/b.jpg", "bucket": "serious",
+        "source": {"link": "https://x/2", "publishers": ["BBC"]},
+    }
+    analysis_reject = {
+        "id": "cc00000003", "status": "pending", "origin": "analysis",
+        "arabic": {"post_title": "تحليل لم يُعتمد"}, "caption": "متن",
+        "source": {"publishers": ["Ch1"]},
+        # بلا حقل image عمدًا — مسودة تحليل قبل الاعتماد (Issue #680)
+    }
+    outside_pending = {
+        "id": "dd00000004", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر معلَّق خارج هذا الـIssue"}, "caption": "متن",
+        "image": "drafts/d.jpg", "bucket": "serious",
+        "source": {"link": "https://x/4", "publishers": ["BBC"]},
+    }
+    for d in (approved_draft, news_reject, analysis_reject, outside_pending):
+        store.save_draft(d)
+
+    body = (
+        f"- [x] **1. خبر معتمد**  <!-- draft:{approved_draft['id']} -->\n"
+        f"- [ ] **2. خبر لم يُعتمد**  <!-- draft:{news_reject['id']} -->\n"
+        f"- [ ] **3. تحليل لم يُعتمد**  <!-- draft:{analysis_reject['id']} -->\n"
+    )
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}],
+    }
+
+    published_ids: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_ids.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    real_comment = review.comment
+    real_close = review.close_issue
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+
+    rejections_before = len(feedback.load())
+
+    sys.argv = ["publish", "--issue", "8841", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.publish_one = real_publish_one
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("المعتمَد وحده نُشر", published_ids == [approved_draft["id"]], published_ids)
+
+    check("خبر لم يُعتمد سُجّل rejected",
+          store.load_draft(news_reject["id"])[1]["status"] == "rejected",
+          store.load_draft(news_reject["id"])[1].get("status"))
+    check("مسودة تحليل غير معلَّمة تُرفض كغيرها (لا استثناء لمسار التحليل)",
+          store.load_draft(analysis_reject["id"])[1]["status"] == "rejected",
+          store.load_draft(analysis_reject["id"])[1].get("status"))
+    check("مسودة معلَّقة خارج هذا الـIssue لا تُمسّ",
+          store.load_draft(outside_pending["id"])[1]["status"] == "pending",
+          store.load_draft(outside_pending["id"])[1].get("status"))
+
+    rejections_after = feedback.load()
+    new_entries = rejections_after[rejections_before:]
+    check("سُجّل رفضان فقط في feedback (المعتمَد والخارجي لا يُسجَّلان)",
+          len(new_entries) == 2, new_entries)
+    check("كلا الرفضين بوسم «لم يُعتمد»",
+          all(e["tag"] == "لم يُعتمد" for e in new_entries), new_entries)
+    check("كلا الرفضين يحملان معرّفَي المسودتين غير المعتمَدتين",
+          {e["id"] for e in new_entries} == {news_reject["id"], analysis_reject["id"]},
+          new_entries)
+
+    guidance = feedback.screening_guidance(rejections_after, limit=12, days=21)
+    check("screening_guidance تستبعد مدخلة «لم يُعتمد» (لا تصف شيئًا للفرز)",
+          "خبر لم يُعتمد" not in guidance, guidance)
 
 
 def test_first_comment() -> None:
@@ -13693,11 +13783,14 @@ def test_collect_feedback_rejects_analysis_draft_without_image() -> None:
     for d in (analysis_draft, normal_draft):
         store.save_draft(d)
 
-    body = (f"- [x] مكرر  <!-- rj:{analysis_draft['id']}:مكرر -->\n"
-            f"- [x] ضعيف  <!-- rj:{normal_draft['id']}:ضعيف -->")
+    # مربعات الرفض حُذفت من واجهة المراجعة (Issue #841) — الطريقة الوحيدة
+    # المتبقية لتسجيل سبب رفض حقيقي هي أمر /reject نصي في تعليق حرّ.
+    body = "### إشعار"
+    comment_a = f"/reject {analysis_draft['id']} مكرر"
+    comment_b = f"/reject {normal_draft['id']} ضعيف"
 
     real_fetch_comments = collect_feedback.fetch_comments
-    collect_feedback.fetch_comments = lambda issue_number: [body]
+    collect_feedback.fetch_comments = lambda issue_number: [body, comment_a, comment_b]
     comments: list = []
     real_comment = review.comment
     review.comment = lambda issue_number, text: comments.append(text)
@@ -16792,8 +16885,8 @@ def main() -> int:
     test_review_sibling_alternate_line()
     test_setimage_rebuild_card_uses_all_image_candidates()
     test_publish_investigation_requires_review()
-    test_reject_boxes_render()
-    test_reject_beats_approval()
+    test_no_reject_boxes_in_review_issues()
+    test_publish_unapproved_becomes_rejected()
     test_first_comment()
     print("\n── نشر الدفعة بلا انتظار داخل مهمة urgent ──")
     test_burst_inline_cap_zero_defers_without_sleep()
