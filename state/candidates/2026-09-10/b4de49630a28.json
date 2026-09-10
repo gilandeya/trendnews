@@ -1,0 +1,54 @@
+{
+  "id": "b4de49630a28",
+  "created_at": "2026-09-10T09:07:50.760442+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.91,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Japanese baseball great and atomic bomb survivor Harimoto dies at 86",
+  "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/10/japanese-baseball-great-and-atomic-bomb-survivor-harimoto-dies-at-86",
+  "publishers": [
+    "Al Jazeera English",
+    "Free Malaysia Today"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Japanese baseball great and atomic bomb survivor Harimoto dies at 86",
+    "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/10/japanese-baseball-great-and-atomic-bomb-survivor-harimoto-dies-at-86",
+    "summary": "Isao Harimoto survived the atomic bombing as a five-year-old after his mother shielded him and his sister from the blast.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-10T05:30:36+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/09/2dba5aa6-6838-4a55-9b02-310d8e319f6b-Isao-Harimoto-1-.jpg",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/10/japan-baseball-great-and-atomic-bomb-survivor-isao-harimoto-dies-aged-86?traffic_source=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/10/japanese-baseball-great-and-atomic-bomb-survivor-harimoto-dies-at-86"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/09/2dba5aa6-6838-4a55-9b02-310d8e319f6b-Isao-Harimoto-1-.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 880.9119273841667,
+    "is_stale": false,
+    "score": 16.90876280738889
+  }
+}

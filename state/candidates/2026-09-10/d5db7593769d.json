@@ -1,0 +1,55 @@
+{
+  "id": "d5db7593769d",
+  "created_at": "2026-09-10T09:07:50.760738+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.55,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Greek woman has IVF birth from 22-year-old embryo after losing son",
+  "link": "https://medicalxpress.com/news/2026-09-greek-woman-ivf-birth-year.html",
+  "publishers": [
+    "Malay Mail",
+    "Medical Xpress"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Greek woman has IVF birth from 22-year-old embryo after losing son",
+    "link": "https://medicalxpress.com/news/2026-09-greek-woman-ivf-birth-year.html",
+    "summary": "A Greek woman has given birth from an embryo frozen more than 22 years ago, months after her son, born from the same treatment in 2004, died in an accident, her doctor said Wednesday.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-09-09T19:37:53+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2024/human-embryo.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Malay Mail",
+      "Medical Xpress"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-09-greek-woman-ivf-birth-year.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/10/greek-woman-gives-birth-to-miracle-daughter-from-22-year-old-embryo-after-losing-son-in-road-accident/234691"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2024/human-embryo.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/10/361724.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 880.9119448708333,
+    "is_stale": false,
+    "score": 16.55018873138889
+  }
+}

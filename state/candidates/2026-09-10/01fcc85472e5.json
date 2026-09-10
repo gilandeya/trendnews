@@ -1,0 +1,56 @@
+{
+  "id": "01fcc85472e5",
+  "created_at": "2026-09-10T09:07:50.761031+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.35,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Kenyan start-up makes robotic limbs to sign for deaf kids",
+  "link": "http://www.africanews.com/2026/09/09/kenyan-start-up-makes-robotic-limbs-to-sign-for-deaf-kids/",
+  "publishers": [
+    "Africanews",
+    "The Japan Times"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Kenyan start-up makes robotic limbs to sign for deaf kids",
+    "link": "http://www.africanews.com/2026/09/09/kenyan-start-up-makes-robotic-limbs-to-sign-for-deaf-kids/",
+    "summary": "A Kenyan start-up has built a mechanical hand that can translate a teachers' voice into sign language in real time, allowing deaf children to learn alongside their hearing counterparts",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-09T18:51:53+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/90/74/52/640x360_cmsv2_e19f9638-deaf-5a8d-929e-c406698b7a9a-9907452.jpg?1788960563",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/09/kenyan-start-up-makes-robotic-limbs-to-sign-for-deaf-kids/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/business/2026/09/10/tech/kenya-startup-robotic-limbs-sign-deaf/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/90/74/52/640x360_cmsv2_e19f9638-deaf-5a8d-929e-c406698b7a9a-9907452.jpg?1788960563",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/10/562425.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/10/thumbs/400x400/562425.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 880.9119586294445,
+    "is_stale": false,
+    "score": 16.349077620555555
+  }
+}
