@@ -763,6 +763,10 @@ verify:
     - "Goal.com"
     - "Flashscore"
     - "ESPN"
+    - Bloomberg
+    - Bloomberg.com
+    - Investing.com
+    - The Arab Weekly
 
 # ── صياغة مسودة من المؤكَّد وحده (المرحلة الثانية من التحقق) ─
 # بعد تقرير verify.py أعلاه: يبني src/verify_draft.py مسودة خبر من الوقائع
