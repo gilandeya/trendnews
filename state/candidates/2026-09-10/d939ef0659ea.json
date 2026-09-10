@@ -1,0 +1,46 @@
+{
+  "id": "d939ef0659ea",
+  "created_at": "2026-09-10T19:07:43.799505+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.5,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Japan's Fanuc, Google team up on AI-automated welding robots",
+  "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/japan-s-fanuc-google-team-up-on-ai-automated-welding-robots",
+  "publishers": [
+    "Nikkei Asia"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Japan's Fanuc, Google team up on AI-automated welding robots",
+    "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/japan-s-fanuc-google-team-up-on-ai-automated-welding-robots",
+    "summary": "",
+    "source_name": "Nikkei Asia",
+    "region": "jp",
+    "weight": 1.0,
+    "published": "2026-09-10T19:07:26.907605+00:00",
+    "image_url": null,
+    "publisher": "Nikkei Asia",
+    "cluster_sources": [
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/japan-s-fanuc-google-team-up-on-ai-automated-welding-robots"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.9979907416666667,
+    "is_stale": false,
+    "score": 16.499815409314813
+  }
+}

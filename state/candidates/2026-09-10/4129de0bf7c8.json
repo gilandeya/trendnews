@@ -1,0 +1,51 @@
+{
+  "id": "4129de0bf7c8",
+  "created_at": "2026-09-10T19:07:43.799703+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.43,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "NATO allies foil Russian subsea cable sabotage plot",
+  "link": "https://www.japantimes.co.jp/news/2026/09/10/world/nato-russia-subsea-cable-sabotage/",
+  "publishers": [
+    "Reuters",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "NATO allies foil Russian subsea cable sabotage plot",
+    "link": "https://www.japantimes.co.jp/news/2026/09/10/world/nato-russia-subsea-cable-sabotage/",
+    "summary": "Russian subs were caught in spring training in Arctic waters to unleash a secret weapon designed to clandestinely disable undersea cables.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-09-10T08:19:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/10/562415.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Reuters",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/10/world/nato-russia-subsea-cable-sabotage/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/10/562415.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/10/thumbs/400x400/562415.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 890.9102304555556,
+    "is_stale": false,
+    "score": 16.429317113611113
+  }
+}
