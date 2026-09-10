@@ -7,6 +7,12 @@ Issue #319: كل مرشح مُعلَّم بأحد مربعين — 🚀 «انش
 مراجعة (`pending-review`) منفصل بدل النشر المباشر. المربعان معًا على نفس
 المرشح يُحسمان لصالح «صغ واعرض» (الأحوط).
 
+Issue #860: مربع ثالث 🎴 «صُغ واعرض البطاقة» يُصاغ بنفس `_build_draft`
+تمامًا ثم تُبنى بطاقته فورًا (`cards.ensure`) وتُفتح له Issue مراجعة نهائية
+واحد بوسم `final-review` (`review.build_final_review_body`، نفسه الذي بناه
+Issue #858) — بلا مرور بالمراجعة الأولية إطلاقًا. الأحوط يغلب عند تعارض
+المربعات الثلاثة: 📝 تغلب 🚀 و🎴 معًا، و🎴 تغلب 🚀 وحدها.
+
 يُستدعى من src.publish.main() حين يحمل Issue الموسوم `approved` وسم
 `pending-selection` أيضًا — لا سير عمل مستقل، حتى لا يتضاعف عدد الـ
 Issues التي تحتاج مراجعة (استبدال لدورة المراجعة القديمة لا إضافة إليها).
@@ -17,7 +23,7 @@ import logging
 import os
 from datetime import datetime, timezone
 
-from . import feedback, headlines as headlines_mod, preselect, review, store
+from . import cards, feedback, headlines as headlines_mod, preselect, review, store
 from .extract import gather as gather_texts
 from .writer import WriteFailure, build_caption, write_arabic
 
@@ -76,6 +82,17 @@ def _build_draft(art, written: dict, docs: list[dict], prev_title: str | None,
             "image_candidates": art.image_candidates,
         },
     }
+
+
+def _candidate_titles(ids: list[str]) -> list[str]:
+    """عناوين المرشحين — لرسائل تنبيه التعارض وحدها (لا معرّفاتهم، فالمعرّف
+    لا يعني شيئًا للمراجع)، تُقرأ *قبل* أي حلقة صياغة تُغيّر حالة المرشح."""
+    titles: list[str] = []
+    for cid in ids:
+        found = store.load_candidate(cid)
+        if found:
+            titles.append(found[1].get("title", cid))
+    return titles
 
 
 def _record_rejections(unselected_ids: list[str]) -> None:
@@ -150,25 +167,33 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     all_ids = preselect.all_candidate_ids(body)
     now_raw = preselect.parse_publish_now(body)
     draft_raw = preselect.parse_draft_review(body)
+    card_raw = preselect.selected_card_ids(body)
 
-    # المربعان معًا على نفس المرشح (Issue #319 البند 1): «صغ واعرض» تغلب
-    # (الأحوط) — تُستبعد من now_ids فقط، وتبقى في draft_ids كما هي أصلًا.
-    conflict_ids = [i for i in now_raw if i in draft_raw]
-    now_ids = [i for i in now_raw if i not in conflict_ids]
+    # ثلاثة مربعات مستقلة لكل مرشح (Issue #860 فوق أساس #319 البند 1):
+    # الأحوط يغلب عند التداخل — draft_ids = draft_raw دومًا (📝 تغلب كل
+    # شيء)؛ card_ids تُستبعد منها ما وقع في draft_raw (📝 تغلب 🎴)؛
+    # now_ids تُستبعد منها ما وقع في draft_raw أو card_raw (📝 و🎴 كلاهما
+    # يغلب 🚀).
+    now_set = set(now_raw)
+    draft_set = set(draft_raw)
+    card_raw_set = set(card_raw)
+
     draft_ids = draft_raw
+    card_ids = [i for i in card_raw if i not in draft_set]
+    now_ids = [i for i in now_raw if i not in draft_set and i not in card_raw_set]
 
-    # عناوين التعارض (لا معرّفاته) تُقرأ *قبل* أي حلقة صياغة تُغيّر حالة
-    # المرشح — المعرّف لا يعني شيئًا للمراجع، والعنوان هو ما يتذكره.
-    conflict_titles: list[str] = []
-    for cid in conflict_ids:
-        found = store.load_candidate(cid)
-        if found:
-            conflict_titles.append(found[1].get("title", cid))
+    # تعارضات للتنبيه والسجل فقط — لا تؤثر على القرار أعلاه (محسوم بالفعل
+    # بالاستبعاد). draft_conflict_ids: عُلِّم 📝 مع 🚀 و/أو 🎴 على نفس
+    # المرشح. card_conflict_ids: عُلِّم 🚀 مع 🎴 بلا 📝 — أي مرشح فيه 📝
+    # معًا يقع في draft_conflict_ids فقط، لا تكرار.
+    draft_conflict_ids = [i for i in draft_raw if i in now_set or i in card_raw_set]
+    card_conflict_ids = [i for i in card_raw if i in now_set and i not in draft_set]
 
     log.info("Issue اختيار #%s: %d معرّف مرشح في الجسم، "
-             "%d انشر فورًا، %d صغ واعرض (منها %d بالمربعين معًا)",
-             issue_number, len(all_ids), len(now_ids),
-             len(draft_ids), len(conflict_ids))
+             "%d انشر فورًا، %d صغ واعرض (منها %d بمربع آخر معًا)، "
+             "%d صُغ واعرض البطاقة (منها %d مع 🚀 بلا 📝)",
+             issue_number, len(all_ids), len(now_ids), len(draft_ids),
+             len(draft_conflict_ids), len(card_ids), len(card_conflict_ids))
 
     # جسم بلا أي معرّف <!-- cand:ID --> مطلقًا يعني الصيغة نفسها خاطئة —
     # على الأرجح Issue "مراجعة مسودات" (draft:) حمل وسم pending-selection
@@ -189,7 +214,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         )
         return 1
 
-    if not now_ids and not draft_ids:
+    if not now_ids and not draft_ids and not card_ids:
         log.warning("لم يُختر أي مرشح من أصل %d — لا صياغة ولا نشر", len(all_ids))
         _record_rejections(all_ids)
         review.comment(
@@ -199,13 +224,21 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         review.remove_label(issue_number, "approved")
         return 0
 
-    if conflict_titles:
-        titles_list = "، ".join(f"«{t}»" for t in conflict_titles)
+    if draft_conflict_ids:
+        titles_list = "، ".join(f"«{t}»" for t in _candidate_titles(draft_conflict_ids))
         review.comment(
             issue_number,
-            f"⚠️ علّمت المربعين معًا (🚀 و📝) على: {titles_list} — عوملا "
-            "كـ«📝 صغ واعرض عليّ قبل النشر» (الأحوط: مسودة تراجعها أولًا "
-            "بدل نشر مباشر قد لا تريده).",
+            f"⚠️ علّمت المربعين معًا (📝 مع 🚀 و/أو 🎴) على: {titles_list} — "
+            "عوملت كـ«📝 صغ واعرض عليّ قبل النشر» (الأحوط: المراجعة الأولية "
+            "أوسع، فيها العناوين وتعديل النص).",
+        )
+    if card_conflict_ids:
+        titles_list = "، ".join(f"«{t}»" for t in _candidate_titles(card_conflict_ids))
+        review.comment(
+            issue_number,
+            f"⚠️ علّمت 🚀 مع 🎴 بلا 📝 على: {titles_list} — عوملت كـ«🎴 صُغ "
+            "واعرض البطاقة» (الأحوط: مراجعة نهائية للبطاقة بدل نشر مباشر "
+            "بلا عرض).",
         )
 
     history = store.load_history()
@@ -239,18 +272,50 @@ def finalize(issue_number: int, body: str, cfg) -> int:
             log.info("✓ صيغت مسودة (بانتظار مراجعتك): %s",
                      draft["arabic"]["post_title"][:60])
 
+    # «صُغ واعرض البطاقة» (Issue #860): نفس _write_selected تمامًا (لا شكل
+    # مسودة جديدًا)، ثم بطاقتها تُبنى فورًا هنا (لا عند اعتماد لاحق) —
+    # مباشرة بالعنوان الافتراضي (arabic.image_headline)، فلا مربع عناوين
+    # لها أصلًا في المراجعة النهائية. card_written يُحسَب بصرف النظر عن
+    # نجاح البطاقة (تدخل total_drafted بمجرد كتابتها، مثل now_drafts/
+    # review_drafts) — فشل البناء وحده لا يعني "لم تُصَغ مسودة".
+    card_drafts: list[dict] = []
+    card_written = 0
+    for cid in card_ids:
+        draft = _write_selected(cid, history, dupe_threshold, acfg, rcfg, cfg,
+                                write_errors)
+        if not draft:
+            continue
+        card_written += 1
+        found = store.load_draft(draft["id"])
+        if not found:
+            continue
+        card_path, card_draft = found
+        if cards.ensure(card_path, card_draft, cfg) is None:
+            log.warning("تعذّر بناء بطاقة المسودة 🎴 %s — تُترك pending بلا صورة",
+                       draft["id"])
+            review.comment(
+                issue_number,
+                f"⚠️ تعذّر بناء بطاقة **{card_draft['arabic']['post_title'][:60]}** "
+                "🎴 — بقيت المسودة معلَّقة بلا صورة، وستظهر في أقرب Issue "
+                "مراجعة أولية.",
+            )
+            continue
+        card_drafts.append(card_draft)
+        log.info("✓ صيغت مسودة 🎴 وبُنيت بطاقتها: %s",
+                 card_draft["arabic"]["post_title"][:60])
+
     store.save_history(history, dedupe_days)
 
-    selected_ids = now_ids + draft_ids
+    selected_ids = now_ids + draft_ids + card_ids
     unselected = [i for i in all_ids if i not in selected_ids]
     _record_rejections(unselected)
 
-    total_drafted = len(now_drafts) + len(review_drafts)
+    total_drafted = len(now_drafts) + len(review_drafts) + card_written
     log.info("صيغت %d مسودة من %d معتمد (فشلت الصياغة لـ %d) — %d غير مختار سُجّل في feedback",
              total_drafted, len(selected_ids), len(selected_ids) - total_drafted,
              len(unselected))
 
-    if not now_drafts and not review_drafts:
+    if not now_drafts and not review_drafts and not card_written:
         if write_errors:
             # عطل تقني لا قرار تحريري: approved يبقى كما هو ليعيد المراجع
             # تشغيل النشر لاحقًا بلا إعادة تعليم، ولا شيء يُسجَّل في
@@ -307,6 +372,37 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         else:
             log.error("GITHUB_REPOSITORY غير موجود — تعذّر فتح Issue مراجعة "
                       "لـ %d مسودة «صغ واعرض»", len(review_drafts))
+
+    # «صُغ واعرض البطاقة»: Issue مراجعة نهائية واحد يجمع مسودات 🎴 كلها في
+    # هذه الدفعة (لا Issue لكل مسودة) — نفس build_final_review_body الذي
+    # بناه Issue #858 لمسار المراجعة الأولية، بوسم final-review. مسودة
+    # فشل بناء بطاقتها (أعلاه) لا تدخل هذا الـIssue أصلًا — بقيت pending
+    # بلا image وعُلِّق بسببها على Issue الاختيار بدل ذلك.
+    if card_drafts:
+        repo = os.environ.get("GITHUB_REPOSITORY")
+        if repo:
+            review.ensure_labels()
+            branch = os.environ.get("GITHUB_REF_NAME", "main")
+            final_issue = review.create_issue(
+                title=(f"🎴 مراجعة نهائية "
+                       f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
+                       f"— {len(card_drafts)} منشور"),
+                body=review.build_final_review_body(card_drafts, repo, branch),
+                labels=["final-review"],
+            )
+            for d in card_drafts:
+                found = store.load_draft(d["id"])
+                if found:
+                    store.update_draft(found[0], review_issue=final_issue["number"])
+            review.comment(
+                issue_number,
+                f"🎴 صيغت {len(card_drafts)} مسودة ببطاقتها بانتظار مراجعة "
+                f"نهائية في Issue #{final_issue['number']}.",
+            )
+            log.info("Issue مراجعة نهائية «🎴»: %s", final_issue["html_url"])
+        else:
+            log.error("GITHUB_REPOSITORY غير موجود — تعذّر فتح Issue مراجعة "
+                      "نهائية لـ %d مسودة 🎴", len(card_drafts))
 
     if not now_published_ids:
         # لا شيء يبقى معلَّقًا على Issue الاختيار نفسه: كل ما فيه إما
