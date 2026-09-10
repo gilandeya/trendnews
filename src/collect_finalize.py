@@ -105,7 +105,7 @@ def _build_draft(art, written: dict, docs: list[dict], prev_title: str | None,
     }
 
 
-def _record_rejections(unselected_ids: list[str], rejects: dict[str, str]) -> None:
+def _record_rejections(unselected_ids: list[str]) -> None:
     if not unselected_ids:
         return
     entries = feedback.load()
@@ -114,9 +114,7 @@ def _record_rejections(unselected_ids: list[str], rejects: dict[str, str]) -> No
         if not found:
             continue
         path, cand = found
-        tag = rejects.get(cid) or "لم يُختر"
-        note = "" if cid in rejects else "لم يُختر ضمن مرشحي دفعته"
-        feedback.record_candidate(entries, cand, tag, note)
+        feedback.record_candidate(entries, cand, "لم يُختر", "لم يُختر ضمن مرشحي دفعته")
         store.update_candidate(path, status="unselected")
     feedback.save(entries)
     log.info("سُجّل %d مرشحًا غير مختار في feedback", len(unselected_ids))
@@ -177,10 +175,8 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
 
 def finalize(issue_number: int, body: str, cfg) -> int:
     all_ids = preselect.all_candidate_ids(body)
-    rejects = dict(preselect.parse_candidate_rejects(body))
-    # الاعتماد والرفض قد يُعلَّمان معًا — الرفض يغلب (كنمط publish.py نفسه)
-    now_raw = [i for i in preselect.parse_publish_now(body) if i not in rejects]
-    draft_raw = [i for i in preselect.parse_draft_review(body) if i not in rejects]
+    now_raw = preselect.parse_publish_now(body)
+    draft_raw = preselect.parse_draft_review(body)
 
     # المربعان معًا على نفس المرشح (Issue #319 البند 1): «صغ واعرض» تغلب
     # (الأحوط) — تُستبعد من now_ids فقط، وتبقى في draft_ids كما هي أصلًا.
@@ -196,9 +192,9 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         if found:
             conflict_titles.append(found[1].get("title", cid))
 
-    log.info("Issue اختيار #%s: %d معرّف مرشح في الجسم، %d رفض صريح، "
+    log.info("Issue اختيار #%s: %d معرّف مرشح في الجسم، "
              "%d انشر فورًا، %d صغ واعرض (منها %d بالمربعين معًا)",
-             issue_number, len(all_ids), len(rejects), len(now_ids),
+             issue_number, len(all_ids), len(now_ids),
              len(draft_ids), len(conflict_ids))
 
     # جسم بلا أي معرّف <!-- cand:ID --> مطلقًا يعني الصيغة نفسها خاطئة —
@@ -222,7 +218,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
 
     if not now_ids and not draft_ids:
         log.warning("لم يُختر أي مرشح من أصل %d — لا صياغة ولا نشر", len(all_ids))
-        _record_rejections(all_ids, rejects)
+        _record_rejections(all_ids)
         review.comment(
             issue_number,
             "⚠️ لم يُعلَّم على أي مرشح. لم تُصَغ أي مسودة ولم يُنفق شيء.",
@@ -274,7 +270,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
 
     selected_ids = now_ids + draft_ids
     unselected = [i for i in all_ids if i not in selected_ids]
-    _record_rejections(unselected, rejects)
+    _record_rejections(unselected)
 
     total_drafted = len(now_drafts) + len(review_drafts)
     log.info("صيغت %d مسودة من %d معتمد (فشلت الصياغة لـ %d) — %d غير مختار سُجّل في feedback",
