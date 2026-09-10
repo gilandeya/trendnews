@@ -13284,6 +13284,30 @@ def test_feedback_records_origin_and_screening_guidance_excludes_analysis() -> N
           "خبر قديم قبل هذا الحقل" in guidance, guidance)
 
 
+def test_feedback_screening_guidance_excludes_not_selected() -> None:
+    """Issue #843 بند ١: screening_guidance كانت تستبعد وسم «لم يُعتمد»
+    فقط ونسيت «لم يُختر» (Issue #280) رغم أنهما يقولان الشيء نفسه بالضبط
+    — «لم يُنشر» لا «لماذا». القياس الذي كشف الخلل: ٦٦٤ من ٧٠٠ مدخلة في
+    state/rejections.json موسومة «لم يُختر»، فخانات التوجيه الاثنتا عشرة
+    كانت تمتلئ بها بلا أي سبب حقيقي."""
+    from src import feedback
+
+    now = datetime.now(timezone.utc).isoformat()
+    entries = [
+        {"id": "a", "tag": "لم يُختر", "note": "", "title": "خبر لم يُختر",
+         "source_title": "خبر لم يُختر", "publishers": [], "region": "",
+         "bucket": "", "origin": "news", "at": now},
+        {"id": "b", "tag": "مكرر", "note": "", "title": "خبر مكرر",
+         "source_title": "خبر مكرر", "publishers": [], "region": "",
+         "bucket": "", "origin": "news", "at": now},
+    ]
+    guidance = feedback.screening_guidance(entries, limit=12, days=21)
+    check("مدخلة «لم يُختر» لا تظهر في توجيه الفرز (لا تصف سببًا)",
+          "خبر لم يُختر" not in guidance, guidance)
+    check("مدخلة «مكرر» تظهر في توجيه الفرز (سبب حقيقي)",
+          "خبر مكرر" in guidance, guidance)
+
+
 def test_radar_writes_breaking_origin() -> None:
     """مواضع الكتابة السبعة (Issue #749) — radar.py:build_draft يكتب
     origin=breaking صراحةً لكل مسودة عاجلة يبنيها الرادار مباشرة (لا عبر
@@ -13754,6 +13778,190 @@ def test_insights_closed_loop() -> None:
         insights.LAST_ISSUE_FILE.unlink()
     if insights.DECISIONS_FILE.exists():
         insights.DECISIONS_FILE.unlink()
+
+
+def _why_entry(entry_id: str, tag: str, title: str, when: datetime) -> dict:
+    return {
+        "id": entry_id, "tag": tag, "note": "", "title": title,
+        "source_title": title, "publishers": [], "region": "", "bucket": "",
+        "origin": "news", "at": when.isoformat(),
+    }
+
+
+def test_insights_why_not_published_section() -> None:
+    """Issue #843 بند ١+٤: قسم «لماذا لم تنشر هذه؟» يعرض مدخلات
+    NON_REASON_TAGS («لم يُعتمد»/«لم يُختر») حصرًا -- لا مدخلة بسبب حقيقي
+    فعلي مثل «قديم» -- ويلتزم سقف ١٥ مدخلة معلنًا الفائض بسطر واحد."""
+    from src import insights
+
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+    now = datetime.now(timezone.utc)
+    entries = [
+        _why_entry(f"e{i}", "لم يُعتمد" if i % 2 == 0 else "لم يُختر",
+                   f"مدخلة بلا سبب {i}", now - timedelta(hours=i))
+        for i in range(20)
+    ]
+    entries.append(_why_entry("real1", "قديم", "مدخلة بسبب حقيقي فعلي", now))
+
+    lines = insights.why_not_published_section(entries, days=30)
+    body = "\n".join(lines)
+
+    check("القسم يظهر", "لماذا لم تنشر هذه؟" in body, body)
+    check("مدخلة بسبب حقيقي فعلي (قديم) لا تظهر في هذا القسم",
+          "مدخلة بسبب حقيقي فعلي" not in body, body)
+    check("لا تتجاوز مدخلات NON_REASON_TAGS سقف ١٥ معروضة",
+          sum(1 for ln in lines if ln.startswith("- **مدخلة بلا سبب")) == 15, body)
+    check("تُعلن الفائض بسطر «و N أخرى لم تُعرض»", "و 5 أخرى لم تُعرض" in body, body)
+    check("كل مدخلة معروضة تحمل صفّ مربعات بكل الأسباب التسعة الحقيقية",
+          body.count("<!-- why:") == 15 * 9, body)
+    check("لا قسم إطلاقًا إن لم تكن هناك مدخلات NON_REASON_TAGS ضمن النافذة",
+          insights.why_not_published_section([], days=30) == [])
+
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+
+def test_insights_parse_reason_choices() -> None:
+    """Issue #843 بند ٤: parse_reason_choices تقرأ المربع المعلَّم فقط
+    وتتجاهل ما لم يُعلَّم -- بنفس أسلوب parse_recommendation_choices."""
+    from src.insights import parse_reason_choices
+
+    body = (
+        "- **خبر ١**\n"
+        "  - [x] نشرنا الحدث نفسه سابقًا  <!-- why:aaa111:مكرر -->\n"
+        "  - [ ] خبر محلي صرف لا يعني القارئ العربي  <!-- why:aaa111:محلي -->\n"
+        "- **خبر ٢**\n"
+        "  - [ ] نشرنا الحدث نفسه سابقًا  <!-- why:bbb222:مكرر -->\n"
+        "  - [ ] خبر محلي صرف لا يعني القارئ العربي  <!-- why:bbb222:محلي -->\n"
+    )
+    choices = parse_reason_choices(body)
+    check("مربع معلَّم يُقرأ بالوسم الصحيح", choices.get("aaa111") == "مكرر", choices)
+    check("مدخلة لم يُعلَّم أي مربع فيها لا تظهر في القرارات إطلاقًا",
+          "bbb222" not in choices, choices)
+
+
+def test_insights_reason_choice_updates_rejection_and_feeds_screening() -> None:
+    """Issue #843 بند ٢+٤: إجابة على «لماذا لم تنشر هذه؟» تُحدّث وسم
+    المدخلة في state/rejections.json من «لم يُعتمد» إلى السبب المختار،
+    فتدخل feedback.screening_guidance تلقائيًا من بعدها -- ومدخلة أُجيبت
+    لا تظهر في قسم التقرير التالي."""
+    from src import feedback, insights
+
+    if insights.LAST_ISSUE_FILE.exists():
+        insights.LAST_ISSUE_FILE.unlink()
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+    entries = feedback.load()
+    before = len(entries)
+    now = datetime.now(timezone.utc)
+    entries.append(_why_entry("draftXYZ", "لم يُعتمد", "خبر بانتظار سبب حقيقي", now))
+    feedback.save(entries)
+
+    target = feedback.load()[before]
+    entry_id = insights._reason_entry_id(target)
+    fake_body = f"- [x] نشرنا الحدث نفسه سابقًا  <!-- why:{entry_id}:مكرر -->\n"
+
+    insights._save_last_issue(9191, [])
+    real_fetch_body = review.fetch_issue_body
+    review.fetch_issue_body = lambda issue_number: fake_body  # type: ignore
+    try:
+        insights.sync_previous_decisions()
+    finally:
+        review.fetch_issue_body = real_fetch_body
+
+    updated = feedback.load()[before]
+    check("وسم المدخلة تحدّث من «لم يُعتمد» إلى «مكرر»",
+          updated["tag"] == "مكرر", updated)
+    check("المدخلة تحمل ملاحظة أنها أُسندت لاحقًا", bool(updated.get("note")), updated)
+
+    guidance = feedback.screening_guidance(feedback.load(), limit=50, days=21)
+    check("المدخلة تدخل screening_guidance بعد إسناد سببها",
+          "خبر بانتظار سبب حقيقي" in guidance, guidance)
+
+    remaining = insights.why_not_published_section(feedback.load(), days=30)
+    body = "\n".join(remaining)
+    check("مدخلة أُجيبت عنها لا تظهر في قسم «لماذا لم تنشر هذه؟» التالي",
+          "خبر بانتظار سبب حقيقي" not in body, body)
+
+    if insights.LAST_ISSUE_FILE.exists():
+        insights.LAST_ISSUE_FILE.unlink()
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+
+def test_insights_why_entry_shown_twice_then_drops() -> None:
+    """Issue #843 بند ١: مدخلة تُركت بلا إجابة تُعرض مرة، ثم مرة واحدة
+    أخرى في التقرير التالي، ثم تسقط نهائيًا في الثالث -- سؤالك عنها
+    أسبوعين كافٍ."""
+    from src import insights
+
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+    now = datetime.now(timezone.utc)
+    entries = [_why_entry("left1", "لم يُختر", "مدخلة متروكة بلا إجابة", now)]
+
+    body1 = "\n".join(insights.why_not_published_section(entries, days=30))
+    check("التقرير الأول يعرض المدخلة المتروكة", "مدخلة متروكة بلا إجابة" in body1, body1)
+
+    body2 = "\n".join(insights.why_not_published_section(entries, days=30))
+    check("التقرير الثاني يعرضها مرة واحدة أخرى", "مدخلة متروكة بلا إجابة" in body2, body2)
+
+    body3 = "\n".join(insights.why_not_published_section(entries, days=30))
+    check("التقرير الثالث لا يعرضها بعد الآن (سقطت نهائيًا)",
+          "مدخلة متروكة بلا إجابة" not in body3, body3)
+
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+
+def test_insights_reason_entry_id_stable_despite_order() -> None:
+    """Issue #843 بند ٢: معرّف المدخلة (_reason_entry_id) مشتق من محتواها
+    (معرّف المسودة + وقت تسجيلها) لا من ترتيبها في القائمة -- بلا هذا
+    ينهار الربط بين تقرير وآخر إن تغيّر ترتيب المدخلات بين تشغيلتين."""
+    from src import insights
+
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+    now = datetime.now(timezone.utc)
+    e_a = _why_entry("aa", "لم يُعتمد", "مدخلة أ", now - timedelta(hours=1))
+    e_b = _why_entry("bb", "لم يُختر", "مدخلة ب", now - timedelta(hours=2))
+    e_c = _why_entry("cc", "لم يُعتمد", "مدخلة ج", now - timedelta(hours=3))
+
+    id_before = insights._reason_entry_id(e_b)
+    ordered = [e_a, e_b, e_c]
+    shuffled = [e_c, e_b, e_a]
+    id_in_ordered = insights._reason_entry_id(ordered[1])
+    id_in_shuffled = insights._reason_entry_id(shuffled[1])
+
+    check("المعرّف نفسه بصرف النظر عن موضع المدخلة في القائمة",
+          id_before == id_in_ordered == id_in_shuffled,
+          (id_before, id_in_ordered, id_in_shuffled))
+
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+
+def test_insights_why_section_missing_state_file() -> None:
+    """Issue #843 بند ٢: غياب state/insight_reason_shown.json (أول تشغيلة
+    بعد هذا التغيير) لا يُسقط بناء القسم."""
+    from src import insights
+
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+    now = datetime.now(timezone.utc)
+    entries = [_why_entry("nostate", "لم يُختر", "مدخلة بلا ملف حالة سابق", now)]
+    lines = insights.why_not_published_section(entries, days=30)
+    check("القسم يُبنى بنجاح رغم غياب ملف الحالة",
+          "مدخلة بلا ملف حالة سابق" in "\n".join(lines), lines)
+
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
 
 
 def test_collect_feedback_rejects_analysis_draft_without_image() -> None:
@@ -16901,6 +17109,7 @@ def main() -> int:
     print("\n── حقل origin المعياري وstore.origin_of (Issue #749) ──")
     test_origin_of_synonyms()
     test_feedback_records_origin_and_screening_guidance_excludes_analysis()
+    test_feedback_screening_guidance_excludes_not_selected()
     test_radar_writes_breaking_origin()
     test_request_writes_request_origin()
     print("\n── التوجيه بالأصل لا بالوسم عند approved (Issue #740) ──")
@@ -16920,6 +17129,13 @@ def main() -> int:
     test_insights_recommendation_ids_and_choice_parsing()
     test_insights_sync_does_not_refresh_unchanged_decision()
     test_insights_closed_loop()
+    print("\n── تقرير الأداء: لماذا لم تنشر هذه؟ (Issue #843) ──")
+    test_insights_why_not_published_section()
+    test_insights_parse_reason_choices()
+    test_insights_reason_choice_updates_rejection_and_feeds_screening()
+    test_insights_why_entry_shown_twice_then_drops()
+    test_insights_reason_entry_id_stable_despite_order()
+    test_insights_why_section_missing_state_file()
     print("\n── تحصين القرّاء الأربعة أمام مسودة تحليل بلا حقل image (Issue #749) ──")
     test_setimage_rejects_analysis_draft_without_card()
     test_collect_feedback_rejects_analysis_draft_without_image()

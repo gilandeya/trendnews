@@ -29,6 +29,10 @@ log = logging.getLogger("insights")
 PERF_FILE = STATE_DIR / "performance.json"
 LAST_ISSUE_FILE = STATE_DIR / "insights_last_issue.json"
 DECISIONS_FILE = STATE_DIR / "insight_decisions.json"
+# عدّاد ظهور مدخلات «لماذا لم تنشر هذه؟» (Issue #843) — مدخلة تُعرض
+# مرتين على الأكثر عبر تشغيلتين متتاليتين إن تُركت بلا إجابة، ثم تسقط.
+REASON_SHOWN_FILE = STATE_DIR / "insight_reason_shown.json"
+WHY_ENTRY_LIMIT = 15
 
 # ثمانية أسابيع — قيمة ثابتة في الكود لا في config.yaml عمدًا (Issue #769
 # يمنع لمس config.yaml هنا صراحة، وهذه ليست قيمة تضبط الفرز أو الترتيب أو
@@ -331,6 +335,10 @@ def sync_previous_decisions() -> None:
         log.warning("تعذّر قراءة Issue #%s لتحليل قراراتك: %s", issue_number, exc)
         return
 
+    # قراءة مربعات «لماذا لم تنشر هذه؟» من نفس الـIssue (Issue #843) —
+    # مستقلة عن قرارات التوصيات أدناه، فلا ترتبط بوجود `choices` هناك.
+    sync_previous_reason_choices(body)
+
     choices = parse_recommendation_choices(body)
     if not choices:
         return
@@ -464,6 +472,154 @@ def rejections_section(entries: list[dict], days: int, limit: int = 40) -> list[
     return lines
 
 
+# ──────────────── لماذا لم تنشر هذه؟ (Issue #843) ────────────────
+#
+# بعد #841، مدخلتا «لم يُعتمد»/«لم يُختر» في state/rejections.json تُسجَّلان
+# رفضًا صامتًا بلا سبب حقيقي — لا خيارات سبب استبعاد في واجهة المراجعة
+# اليومية بعد اليوم. هذا القسم هو الطريق البديل الوحيد لتحويل ذلك الرفض
+# الصامت إلى وسم حقيقي يفهمه feedback.screening_guidance.
+
+# مربعا سبب لكل مدخلة: <!-- why:معرّف المدخلة:الوسم --> (بنمط review.py
+# نفسه: draft:/hl:/rj:). الوسم عربي حرفيًا لا [\w.\-] كمفاتيح
+# recommendations() الإنكليزية، لذا الحد هنا أي محرف غير فراغ ولا ':'.
+WHY_MARKER_RE = re.compile(
+    r"^\s*-\s*\[([ xX])\]\s*.*?<!--\s*why:([0-9a-f]+):([^\s:]+)\s*-->", re.MULTILINE)
+
+
+def _reason_entry_id(e: dict) -> str:
+    """معرّف ثابت لمدخلة رفض بلا سبب حقيقي، مشتق من محتواها (معرّف
+    المسودة + وقت تسجيلها) لا من ترتيبها في rejections.json — نفس مبدأ
+    _fingerprint أعلاه. يبقى نفسه بين تقرير وآخر طالما لم تتغيّر المدخلة،
+    وهو الرابط الوحيد بين ظهورها في تقرير وقرارك عليها في التقرير التالي."""
+    basis = f"{e.get('id', '')}:{e.get('at', '')}"
+    return hashlib.sha1(basis.encode("utf-8")).hexdigest()[:12]
+
+
+def _load_reason_shown() -> dict:
+    if not REASON_SHOWN_FILE.exists():
+        return {}
+    try:
+        return json.loads(REASON_SHOWN_FILE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        log.warning("ملف عدّاد «لماذا لم تنشر هذه» تالف — سيُعاد إنشاؤه")
+        return {}
+
+
+def _save_reason_shown(shown: dict) -> None:
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    REASON_SHOWN_FILE.write_text(
+        json.dumps(shown, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def parse_reason_choices(body: str) -> dict[str, str]:
+    """يقرأ اختيارك لسبب مدخلة «لماذا لم تنشر هذه؟» — بنفس أسلوب
+    parse_recommendation_choices: معرّف المدخلة الثابت ← الوسم المختار،
+    من آخر مربع معلَّم بترتيب الظهور (تسامح مع تعليم أكثر من سبب لنفس
+    المدخلة خطأً). مدخلة لم تُعلَّم على أي سبب لا تظهر في القاموس
+    المُعاد إطلاقًا — تبقى بلا سبب، لا يُخمَّن."""
+    chosen: dict[str, str] = {}
+    for mark, entry_id, tag in WHY_MARKER_RE.findall(body or ""):
+        if mark.lower() == "x":
+            chosen[entry_id] = tag
+    return chosen
+
+
+def sync_previous_reason_choices(body: str) -> None:
+    """يُطبّق اختياراتك من قسم «لماذا لم تنشر هذه؟» في تقرير الأسبوع
+    الماضي: لكل مدخلة في state/rejections.json لا تزال موسومة NON_REASON_TAGS
+    وعُلِّم عليها سبب حقيقي في ذلك التقرير، يُحدَّث وسمها فتدخل
+    feedback.screening_guidance تلقائيًا من التشغيلة القادمة (البند الأول
+    في #843 يستبعد الوسمين القديمين وحدهما، لا الوسم الجديد). مدخلة لم
+    تُجَب عنها تبقى كما هي بلا تخمين ولا استنتاج من نمط."""
+    from .feedback import NON_REASON_TAGS, REASONS
+    from .feedback import load as load_rejections
+    from .feedback import save as save_rejections
+
+    choices = parse_reason_choices(body)
+    if not choices:
+        return
+
+    entries = load_rejections()
+    changed = False
+    for e in entries:
+        if e.get("tag") not in NON_REASON_TAGS:
+            continue
+        tag = choices.get(_reason_entry_id(e))
+        if not tag or tag not in REASONS or tag in NON_REASON_TAGS:
+            continue
+        e["tag"] = tag
+        e["note"] = "أُسند لاحقًا من تقرير الأداء الأسبوعي"
+        changed = True
+    if changed:
+        save_rejections(entries)
+
+
+def why_not_published_section(entries: list[dict], days: int,
+                               limit: int = WHY_ENTRY_LIMIT) -> list[str]:
+    """يبني قسم «❓ لماذا لم تنشر هذه؟» (Issue #843): مدخلات NON_REASON_TAGS
+    ضمن نافذة التقرير، لكل واحدة صفّ مربعات بالأسباب الحقيقية (نفس قائمة
+    REASONS التي كانت في واجهة المراجعة قبل #841). سقف `limit` مدخلة
+    (الأحدث أولًا) داخل <details> مطوي والفائض بسطر واحد — مدخلات الأسبوع
+    قد تبلغ المئة، ومطالبتك بمئة قرار تقتل القسم.
+
+    مدخلة تُعرض مرتين على الأكثر عبر تشغيلتين متتاليتين إن تُركت بلا
+    إجابة (state/insight_reason_shown.json)، ثم تسقط نهائيًا — سؤالك
+    عنها أسبوعين كافٍ. مدخلة أُجيبت عنها (وسمها تغيّر عبر
+    sync_previous_reason_choices) لا تُعرض ثانيةً، لأنها لم تعد تطابق
+    NON_REASON_TAGS أصلًا."""
+    from .feedback import NON_REASON_TAGS, REASONS
+
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+    candidates = [
+        e for e in entries
+        if e.get("tag") in NON_REASON_TAGS
+        and datetime.fromisoformat(e["at"]) >= cutoff
+    ]
+
+    shown = _load_reason_shown()
+    valid_ids = {_reason_entry_id(e) for e in candidates}
+    # تنظيف دائم: احتفظ بعدادات المدخلات ضمن نافذة الرفض الحالية فقط —
+    # مدخلة أُجيبت أو خرجت من النافذة تُنسى، وإلا تضخّم الملف بلا نهاية.
+    shown = {k: v for k, v in shown.items() if k in valid_ids}
+
+    eligible: list[tuple[str, dict]] = []
+    for e in candidates:
+        eid = _reason_entry_id(e)
+        if shown.get(eid, 0) < 2:
+            eligible.append((eid, e))
+    if not eligible:
+        _save_reason_shown(shown)
+        return []
+
+    eligible.sort(key=lambda t: t[1]["at"], reverse=True)
+    show, extra = eligible[:limit], eligible[limit:]
+
+    reason_tags = [t for t in REASONS if t not in NON_REASON_TAGS]
+
+    lines = [
+        "", "#### ❓ لماذا لم تنشر هذه؟", "",
+        "اختر ما تريد واترك الباقي — المتروك يبقى بلا سبب ولا يضرّ.", "",
+        f"<details><summary>{len(eligible)} مدخلة بلا سبب حقيقي — اختر</summary>",
+        "",
+    ]
+    for eid, e in show:
+        title = e.get("title") or e.get("source_title") or "(بلا عنوان)"
+        lines.append(f"- **{title}**")
+        for tag in reason_tags:
+            lines.append(f"  - [ ] {REASONS[tag]}  <!-- why:{eid}:{tag} -->")
+        lines.append("")
+    if extra:
+        lines.append(f"و {len(extra)} أخرى لم تُعرض")
+        lines.append("")
+    lines.append("</details>")
+
+    for eid, _e in show:
+        shown[eid] = shown.get(eid, 0) + 1
+    _save_reason_shown(shown)
+
+    return lines
+
+
 def build_report(a: dict, recs: list[dict], days: int,
                   decisions_lines: list[str] | None = None) -> str:
     if not a:
@@ -526,6 +682,7 @@ def build_report(a: dict, recs: list[dict], days: int,
     if patterns:
         lines += ["", "#### 🚫 أنماط الرفض", ""] + patterns
     lines += rejections_section(entries, days)
+    lines += why_not_published_section(entries, days)
 
     return "\n".join(lines)
 
