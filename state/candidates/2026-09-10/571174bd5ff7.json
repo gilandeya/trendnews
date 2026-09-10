@@ -1,0 +1,61 @@
+{
+  "id": "571174bd5ff7",
+  "created_at": "2026-09-10T15:07:54.346497+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.74,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Moldova and Ukraine say Zelensky’s flight from Chisinau was delayed due to a drone threat. Norway’s prime minister said the president’s plane ‘almost collided with a drone.’",
+  "link": "https://meduza.io/en/news/2026/09/10/moldova-and-ukraine-say-zelensky-s-flight-from-chisinau-was-delayed-due-to-a-drone-threat-norway-s-prime-minister-said-the-president-s-plane-almost-collided-with-a-drone",
+  "publishers": [
+    "CBS News — World",
+    "Meduza English",
+    "apnews.com"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Moldova and Ukraine say Zelensky’s flight from Chisinau was delayed due to a drone threat. Norway’s prime minister said the president’s plane ‘almost collided with a drone.’",
+    "link": "https://meduza.io/en/news/2026/09/10/moldova-and-ukraine-say-zelensky-s-flight-from-chisinau-was-delayed-due-to-a-drone-threat-norway-s-prime-minister-said-the-president-s-plane-almost-collided-with-a-drone",
+    "summary": "Moldovan authorities clarified that the plane carrying Ukrainian President Volodymyr Zelensky was delayed on takeoff from Chisinau because of a drone threat, after Norwegian Prime Minister Jonas Gahr Støre said Zelensky’s plane “almost collided with a drone when it was about to take off from Moldova” on September 8.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-10T10:26:06+00:00",
+    "image_url": "https://meduza.io/imgly/share/1789035966/en/news/2026/09/10/moldova-and-ukraine-say-zelensky-s-flight-from-chisinau-was-delayed-due-to-a-drone-threat-norway-s-prime-minister-said-the-president-s-plane-almost-collided-with-a-drone",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "CBS News — World",
+      "Meduza English",
+      "apnews.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/10/norway-s-prime-minister-says-zelensky-s-plane-nearly-collided-with-drone-en-route-from-moldova-to-oslo"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/10/moldova-and-ukraine-say-zelensky-s-flight-from-chisinau-was-delayed-due-to-a-drone-threat-norway-s-prime-minister-said-the-president-s-plane-almost-collided-with-a-drone"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/zelenskyy-plane-drone-norway-king-funeral/"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1789035966/en/news/2026/09/10/moldova-and-ukraine-say-zelensky-s-flight-from-chisinau-was-delayed-due-to-a-drone-threat-norway-s-prime-minister-said-the-president-s-plane-almost-collided-with-a-drone",
+      "https://meduza.io/imgly/share/1789028779/en/news/2026/09/10/norway-s-prime-minister-says-zelensky-s-plane-nearly-collided-with-drone-en-route-from-moldova-to-oslo"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 886.9128815022223,
+    "is_stale": false,
+    "score": 18.741914135848653
+  }
+}
