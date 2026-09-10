@@ -1,47 +1,5 @@
 [
   {
-    "score": 16.5,
-    "bucket": "serious",
-    "tokens": [
-      "china's",
-      "concern",
-      "express",
-      "islands",
-      "launch",
-      "leaders",
-      "missile",
-      "pacific"
-    ],
-    "link": "https://asia.nikkei.com/politics/international-relations/pacific-islands-leaders-express-concern-over-china-s-missile-launch",
-    "title": "Pacific islands leaders express concern over China's missile launch",
-    "posted_title": "قادة جزر المحيط الهادئ يعبرون عن قلقهم من تجربة صاروخية صينية أجريت في يوليو",
-    "region": "jp",
-    "seen_at": "2026-09-05T12:51:42.512443+00:00"
-  },
-  {
-    "score": 17.37,
-    "bucket": "serious",
-    "tokens": [
-      "avant",
-      "crise",
-      "devait",
-      "eau",
-      "interpellé",
-      "journaliste",
-      "mohamed",
-      "parler",
-      "passage",
-      "radio",
-      "tunisie",
-      "yousfi"
-    ],
-    "link": "https://www.lemonde.fr/afrique/article/2026/09/05/tunisie-le-journaliste-mohamed-yousfi-interpelle-avant-un-passage-a-la-radio-ou-il-devait-parler-de-la-crise-de-l-eau_6766329_3212.html",
-    "title": "Tunisie : le journaliste Mohamed Yousfi interpellé avant un passage à la radio, où il devait parler de la crise de l’eau",
-    "posted_title": "توقيف الصحفي التونسي محمد اليوسفي قبل ظهور إذاعي كان سيتناول أزمة المياه",
-    "region": "fr",
-    "seen_at": "2026-09-05T12:51:50.952388+00:00"
-  },
-  {
     "score": 28.97,
     "bucket": "serious",
     "tokens": [
@@ -5220,5 +5178,24 @@
     "posted_title": "",
     "region": "culture",
     "seen_at": "2026-09-10T12:08:03.184670+00:00"
+  },
+  {
+    "score": 17.2,
+    "bucket": "serious",
+    "tokens": [
+      "bab",
+      "close",
+      "houthis",
+      "mandeb",
+      "strait",
+      "stranglehold",
+      "strategic",
+      "yemen's"
+    ],
+    "link": "https://www.france24.com/en/video/20260910-yemen-s-houthis-close-in-on-stranglehold-over-strategic-bab-el-mandeb-strait",
+    "title": "Yemen's Houthis close in on stranglehold over strategic Bab el-Mandeb Strait",
+    "posted_title": "جماعة الحوثي تسيطر على مدينة المخا الساحلية وتقترب من إحكام قبضتها على مضيق باب المندب",
+    "region": "eu",
+    "seen_at": "2026-09-10T14:16:51.880267+00:00"
   }
 ]
