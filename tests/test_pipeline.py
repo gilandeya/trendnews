@@ -12351,13 +12351,15 @@ def test_review_sibling_alternate_line() -> None:
     article_idx = next(i for i, ln in enumerate(lines) if "sib00000001" in ln)
     investigation_idx = next(i for i, ln in enumerate(lines) if "sib00000002" in ln)
     plain_idx = next(i for i, ln in enumerate(lines) if "sib00000003" in ln)
-    check("build_issue_body: سطر «بديل» يظهر مباشرة بعد عنوان مسودة المقال "
-          "ويذكر رقم التحقيق (3، ترتيبه الثالث في القائمة)",
-          "🔀 بديل للمنشور رقم 3" in lines[article_idx + 2], lines[article_idx:article_idx + 3])
-    check("build_issue_body: سطر «بديل» يظهر مباشرة بعد عنوان مسودة التحقيق "
-          "ويذكر رقم المقال (1، ترتيبه الأول في القائمة)",
-          "🔀 بديل للمنشور رقم 1" in lines[investigation_idx + 2],
-          lines[investigation_idx:investigation_idx + 3])
+    # +4 لا +2: مربع 🎴 «اعرض البطاقة قبل النشر» (Issue #858) يقع الآن مباشرة
+    # تحت مربع الاعتماد (سطران: المربع ثم فراغ) قبل سطر «بديل».
+    check("build_issue_body: سطر «بديل» يظهر بعد عنوان مسودة المقال ومربع 🎴 "
+          "مباشرة ويذكر رقم التحقيق (3، ترتيبه الثالث في القائمة)",
+          "🔀 بديل للمنشور رقم 3" in lines[article_idx + 4], lines[article_idx:article_idx + 5])
+    check("build_issue_body: سطر «بديل» يظهر بعد عنوان مسودة التحقيق ومربع 🎴 "
+          "مباشرة ويذكر رقم المقال (1، ترتيبه الأول في القائمة)",
+          "🔀 بديل للمنشور رقم 1" in lines[investigation_idx + 4],
+          lines[investigation_idx:investigation_idx + 5])
     plain_block = "\n".join(lines[plain_idx:plain_idx + 4])
     check("build_issue_body: مسودة بلا sibling_id لا تحمل سطر «بديل» إطلاقًا",
           "🔀 بديل" not in plain_block, plain_block)
@@ -12623,6 +12625,470 @@ def test_publish_unapproved_becomes_rejected() -> None:
     guidance = feedback.screening_guidance(rejections_after, limit=12, days=21)
     check("screening_guidance تستبعد مدخلة «لم يُعتمد» (لا تصف شيئًا للفرز)",
           "خبر لم يُعتمد" not in guidance, guidance)
+
+
+def test_review_card_and_back_boxes() -> None:
+    """Issue #858، الجزء الثاني، البند 1 و4 و6: مربع 🎴 «اعرض البطاقة قبل
+    النشر» يظهر في نص المراجعة الأولية غير معلَّم افتراضيًا ولا يظهر إطلاقًا
+    في نص المراجعة النهائية؛ parse_card_requests تقرأ المعلَّم فقط وتتجاهل
+    غيره؛ الأخير يحمل بدلًا منه مربع اعتماد وصورة يدوية ومربع ↩️ العودة،
+    وبلا أي مربع عنوان (hl:)."""
+    draft = {
+        "id": "ab0000000001", "score": 4.0, "bucket": "serious",
+        "state_media": False, "origin": "news",
+        "caption": "عنوان الخبر\nمتن الخبر.",
+        "image": "drafts/2020-01-01/ab0000000001.jpg",
+        "source": {"link": "https://x/rv1", "publishers": ["BBC"]},
+        "arabic": {"post_title": "عنوان الخبر", "category": "عالم", "urgent": False},
+        "headlines": ["عنوان ١", "عنوان ٢"], "headline_selected": 0,
+    }
+
+    body = review.build_issue_body([draft], "u/r", "main")
+    check("مربع 🎴 يظهر في المراجعة الأولية غير معلَّم",
+          f"- [ ] 🎴 اعرض البطاقة قبل النشر  <!-- card:{draft['id']} -->" in body,
+          body[:800])
+    check("سطر التعليمات يذكر قاعدة 🎴",
+          "مع 🎴" in body and "Issue ثانٍ" in body, body[:400])
+    check("parse_card_requests فارغة قبل التعليم", review.parse_card_requests(body) == set())
+
+    marked = tick_marker(body, f"<!-- card:{draft['id']} -->")
+    check("parse_card_requests تقرأ المعلَّم",
+          review.parse_card_requests(marked) == {draft["id"]})
+    check("تعليم مربع 🎴 وحده لا يُعتبر اعتمادًا", review.parse_approved(marked) == [])
+
+    final_body = review.build_final_review_body([draft], "u/r", "main")
+    check("لا مربع 🎴 في المراجعة النهائية",
+          f"<!-- card:{draft['id']} -->" not in final_body, final_body[:800])
+    check("لا مربعات عناوين في المراجعة النهائية", "<!-- hl:" not in final_body,
+          final_body[:800])
+    check("مربع اعتماد موجود في المراجعة النهائية",
+          f"<!-- draft:{draft['id']} -->" in final_body)
+    check("مربع ↩️ للعودة موجود، غير معلَّم افتراضيًا",
+          f"- [ ] ↩️ أعده للمراجعة الأولية  <!-- back:{draft['id']} -->" in final_body,
+          final_body[:800])
+    check("مربع الصورة اليدوية موجود في المراجعة النهائية",
+          f"<!-- img:{draft['id']} -->" in final_body
+          and f"<!-- imgurl:{draft['id']} -->" in final_body)
+    check("البطاقة المبنيّة تظهر (رابط raw.githubusercontent.com)",
+          "raw.githubusercontent.com" in final_body and draft["image"] in final_body)
+
+    check("parse_back_requests فارغة قبل التعليم", review.parse_back_requests(final_body) == set())
+    marked_back = tick_marker(final_body, f"<!-- back:{draft['id']} -->")
+    check("parse_back_requests تقرأ المعلَّم",
+          review.parse_back_requests(marked_back) == {draft["id"]})
+
+
+def test_publish_card_request_defers_to_final_review() -> None:
+    """Issue #858، الجزء الثاني، البند 1-2: معتمَد بلا 🎴 يُنشر فورًا كسابقًا؛
+    معتمَد مع 🎴 لا يُنشر -- بطاقته تُبنى فعلًا (cards.ensure يقع أعلاه في
+    publish.main، قبل هذا التفرّع، وقبل الفرق بين المسارين) لكنه يبقى pending
+    ويُجمَّع في Issue مراجعة نهائية واحد بوسم final-review، وتعليق على
+    الـIssue الأولي يذكر رقمه."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    def _draft(id_, title):
+        return {
+            "id": id_, "status": "pending", "score": 5.0, "bucket": "serious",
+            "state_media": False, "origin": "news",
+            "caption": f"{title}\nمتن الخبر.",
+            "source": {"link": f"https://x/{id_}", "publishers": ["BBC"],
+                       "image_candidates": ["https://cdn.example/ok.jpg"]},
+            "arabic": {"post_title": title, "category": "", "urgent": False},
+        }
+
+    draft_direct = _draft("cd0000000001", "خبر ينشر فورًا")
+    draft_card = _draft("cd0000000002", "خبر بانتظار مراجعة نهائية")
+    for d in (draft_direct, draft_card):
+        store.save_draft(d)
+
+    body = review.build_issue_body([draft_direct, draft_card], "u/r", "main")
+    body = tick_marker(body, f"<!-- draft:{draft_direct['id']} -->")
+    body = tick_marker(body, f"<!-- draft:{draft_card['id']} -->")
+    body = tick_marker(body, f"<!-- card:{draft_card['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_create_issue = review.create_issue
+    real_ensure_labels = review.ensure_labels
+    publish_mod.ROOT = DRAFTS_DIR.parent
+
+    publish_calls: list = []
+    facebook.publish_photo = lambda image_path, caption, api_version, first_comment=None: (
+        publish_calls.append(caption) or {"url": "https://fb.example/cd", "id": "1"})
+
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}]}
+    comments: list = []
+    review.comment = lambda issue_number, text: comments.append((issue_number, text))
+    review.close_issue = lambda issue_number: None
+    create_issue_calls: list = []
+
+    def fake_create_issue(title, body, labels=None):
+        create_issue_calls.append({"title": title, "body": body, "labels": labels})
+        return {"number": 9933, "html_url": "https://x/issues/9933"}
+
+    review.create_issue = fake_create_issue
+    ensure_labels_calls: list = []
+    review.ensure_labels = lambda: ensure_labels_calls.append(1)
+
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+    sys.argv = ["publish", "--issue", "8858", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+        review.comment = real_comment
+        review.close_issue = real_close
+        review.create_issue = real_create_issue
+        review.ensure_labels = real_ensure_labels
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("المعتمَد بلا 🎴 نُشر فورًا",
+          store.load_draft(draft_direct["id"])[1]["status"] == "published",
+          store.load_draft(draft_direct["id"])[1].get("status"))
+    check("نُشر منشور واحد فقط عبر فيسبوك (المؤجَّل لم يُنشر)",
+          publish_calls == [draft_direct["caption"]], publish_calls)
+
+    persisted_card = store.load_draft(draft_card["id"])[1]
+    check("المعتمَد مع 🎴 لم يُنشر -- بقي pending",
+          persisted_card.get("status") == "pending", persisted_card.get("status"))
+    check("بطاقته بُنيت فعلًا رغم عدم النشر",
+          bool(persisted_card.get("image")), persisted_card.get("image"))
+
+    check("Issue مراجعة نهائي واحد فُتح", len(create_issue_calls) == 1, create_issue_calls)
+    if create_issue_calls:
+        opened = create_issue_calls[0]
+        check("بوسم final-review", opened["labels"] == ["final-review"], opened["labels"])
+        check("عنوانه يبدأ بـ🎴 مراجعة نهائية", opened["title"].startswith("🎴 مراجعة نهائية"),
+              opened["title"])
+        check("جسمه يحوي معرّف المنشور المؤجَّل",
+              f"<!-- draft:{draft_card['id']} -->" in opened["body"])
+        check("جسمه يعرض رابط البطاقة المبنيّة فعليًا",
+              "raw.githubusercontent.com" in opened["body"]
+              and persisted_card["image"] in opened["body"], opened["body"][:300])
+        check("لا مربع 🎴 في جسم الـIssue النهائي",
+              f"<!-- card:{draft_card['id']} -->" not in opened["body"])
+
+    check("review_issue للمسودة المؤجَّلة أصبح رقم الـIssue النهائي",
+          persisted_card.get("review_issue") == 9933, persisted_card.get("review_issue"))
+    check("ensure_labels نُودي عند فتح الـIssue النهائي", ensure_labels_calls == [1])
+    check("تعليق على الـIssue الأولي يذكر رقم الـIssue النهائي",
+          any(i == 8858 and "9933" in t for i, t in comments), comments)
+
+
+def test_publish_final_review_approve_publishes_without_rebuild() -> None:
+    """Issue #858، الجزء الثاني، البند 3: اعتماد Issue المراجعة النهائية
+    ينشر البطاقة المبنيّة كما هي -- بلا أي استدعاء لـcards.ensure (لا إعادة
+    بناء) وبلا تطبيق أي تعديل نص وارد في نص الـIssue (بخلاف المسار الأولي).
+    ما لم يُعلَّم في هذا الـIssue يصير rejected بنفس آلية الرفض التلقائي
+    (Issue #841)، والـIssue يُغلق بعد الاعتماد."""
+    from src import cards, feedback
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    approved_draft = {
+        "id": "fa0000000001", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر جاهز للنشر النهائي"},
+        "caption": "خبر جاهز للنشر النهائي\nمتن.",
+        "image": "drafts/fr1.jpg", "bucket": "serious",
+        "source": {"link": "https://x/fr1", "publishers": ["BBC"]},
+    }
+    pending_draft = {
+        "id": "fa0000000002", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر لم يُعلَّم في النهائي"}, "caption": "متن ٢",
+        "image": "drafts/fr2.jpg", "bucket": "serious",
+        "source": {"link": "https://x/fr2", "publishers": ["BBC"]},
+    }
+    for d in (approved_draft, pending_draft):
+        store.save_draft(d)
+    (DRAFTS_DIR / "fr1.jpg").write_bytes(b"\xff\xd8\xff")
+    (DRAFTS_DIR / "fr2.jpg").write_bytes(b"\xff\xd8\xff")
+
+    body = review.build_final_review_body([approved_draft, pending_draft], "u/r", "main")
+    body = tick_marker(body, f"<!-- draft:{approved_draft['id']} -->")
+    # محاولة تسريب تعديل نص عبر كتلة cap -- يجب ألا يصل النشر (بلا تعديل
+    # نص على الـIssue النهائي، خلافًا للمراجعة الأولية).
+    body = body.replace(approved_draft["caption"], "نص محرَّر تسلّل خطأً")
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "final-review"}]}
+
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    publish_calls: list = []
+
+    def fake_publish_photo(image_path, caption, api_version, first_comment=None):
+        publish_calls.append(caption)
+        return {"url": "https://fb.example/fr", "id": "1"}
+
+    facebook.publish_photo = fake_publish_photo
+
+    ensure_calls: list = []
+    real_ensure = cards.ensure
+    cards.ensure = lambda *a, **kw: (ensure_calls.append(1), None)[1]
+
+    comments: list = []
+    real_comment = review.comment
+    review.comment = lambda issue_number, text: comments.append(text)
+    closed: list = []
+    real_close = review.close_issue
+    review.close_issue = lambda issue_number: closed.append(issue_number)
+
+    rejections_before = len(feedback.load())
+
+    sys.argv = ["publish", "--issue", "8858", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+        cards.ensure = real_ensure
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main ينتهي بنجاح على Issue نهائي", code == 0, f"exit={code}")
+    check("لا استدعاء لـcards.ensure -- البطاقة مبنيّة مسبقًا",
+          ensure_calls == [], ensure_calls)
+    check("المعلَّم نُشر فعليًا",
+          store.load_draft(approved_draft["id"])[1]["status"] == "published",
+          store.load_draft(approved_draft["id"])[1].get("status"))
+    check("النص المنشور هو الأصلي -- التعديل المتسرّب في نص الـIssue لم يُطبَّق",
+          publish_calls == [approved_draft["caption"]], publish_calls)
+    check("غير المعلَّم صار rejected",
+          store.load_draft(pending_draft["id"])[1]["status"] == "rejected",
+          store.load_draft(pending_draft["id"])[1].get("status"))
+    check("تعليق تقرير نُشر على الـIssue النهائي", bool(comments), comments)
+    check("الـIssue النهائي أُغلق", closed == [8858], closed)
+
+    rejections_after = feedback.load()
+    new_entries = rejections_after[rejections_before:]
+    check("رفض واحد فقط سُجِّل في feedback", len(new_entries) == 1, new_entries)
+    check("الرفض بوسم «لم يُعتمد»",
+          bool(new_entries) and new_entries[0]["tag"] == "لم يُعتمد", new_entries)
+
+
+def test_publish_final_review_double_publish_guard() -> None:
+    """Issue #858، الجزء الثاني، البند 3: مسودة نُشرت فعلًا (مثلًا عبر
+    تشغيل urgent سابق لنفس حدث وسم approved وصل هذا الـIssue النهائي قبل
+    تشغيل normal، Issue #745) لا يجوز أن تُنشر ثانية -- الحارس على
+    status == "published" مباشرة، نفس مبدأ youtube_publish.publish_ids."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    already_published = {
+        "id": "fa0000000003", "status": "published", "origin": "news",
+        "arabic": {"post_title": "خبر نُشر مسبقًا"}, "caption": "متن",
+        "image": "drafts/fr3.jpg", "bucket": "serious",
+        "source": {"link": "https://x/fr3", "publishers": ["BBC"]},
+    }
+    store.save_draft(already_published)
+
+    body = review.build_final_review_body([already_published], "u/r", "main")
+    body = tick_marker(body, f"<!-- draft:{already_published['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "final-review"}]}
+
+    publish_calls: list = []
+    real_publish_photo = facebook.publish_photo
+    facebook.publish_photo = lambda *a, **k: (publish_calls.append(1), {"url": "#", "id": "1"})[1]
+
+    real_comment = review.comment
+    real_close = review.close_issue
+    review.comment = lambda issue_number, text: None
+    closed: list = []
+    review.close_issue = lambda issue_number: closed.append(issue_number)
+
+    sys.argv = ["publish", "--issue", "8859", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        facebook.publish_photo = real_publish_photo
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("لا نشر ثانٍ فعليًا عبر فيسبوك", publish_calls == [], publish_calls)
+    check("حالة المسودة تبقى published (لا تغيير)",
+          store.load_draft(already_published["id"])[1]["status"] == "published")
+
+
+def test_publish_final_review_back_request() -> None:
+    """Issue #858، الجزء الثاني، البند 4: ↩️ في الـIssue النهائي يحذف حقل
+    image (وimage_info وreview_issue معه) ويُبقي المسودة pending بلا رفض،
+    فتعود مؤهَّلة لأقرب Issue مراجعة أولية بمربعات العنوان وتعديل النص
+    كاملة. ↩️ يغلب ✔️ إن اجتمعا على نفس المنشور -- نفس مبدأ «الرفض يغلب
+    الاعتماد» القائم قبل Issue #841."""
+    from src import feedback
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    back_only = {
+        "id": "fa0000000004", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر يعود للمراجعة الأولية"}, "caption": "متن ٤",
+        "image": "drafts/fr4.jpg", "image_info": {"used_original": True},
+        "review_issue": 8858, "bucket": "serious",
+        "source": {"link": "https://x/fr4", "publishers": ["BBC"]},
+    }
+    back_and_approved = {
+        "id": "fa0000000005", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر معلَّم بـ↩️ و✔️ معًا"}, "caption": "متن ٥",
+        "image": "drafts/fr5.jpg", "image_info": {"used_original": True},
+        "review_issue": 8858, "bucket": "serious",
+        "source": {"link": "https://x/fr5", "publishers": ["BBC"]},
+    }
+    for d in (back_only, back_and_approved):
+        store.save_draft(d)
+
+    body = review.build_final_review_body([back_only, back_and_approved], "u/r", "main")
+    body = tick_marker(body, f"<!-- back:{back_only['id']} -->")
+    body = tick_marker(body, f"<!-- back:{back_and_approved['id']} -->")
+    body = tick_marker(body, f"<!-- draft:{back_and_approved['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "final-review"}]}
+
+    publish_calls: list = []
+    real_publish_photo = facebook.publish_photo
+    facebook.publish_photo = lambda *a, **k: (publish_calls.append(1), {"url": "#", "id": "1"})[1]
+
+    real_comment = review.comment
+    real_close = review.close_issue
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+
+    rejections_before = len(feedback.load())
+
+    sys.argv = ["publish", "--issue", "8858", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        facebook.publish_photo = real_publish_photo
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("لا نشر فعلي لأي من المسودتين", publish_calls == [], publish_calls)
+
+    persisted_back = store.load_draft(back_only["id"])[1]
+    check("↩️ وحدها: حقل image حُذف بنيويًا", "image" not in persisted_back, persisted_back)
+    check("↩️ وحدها: حقل image_info حُذف أيضًا", "image_info" not in persisted_back, persisted_back)
+    check("↩️ وحدها: review_issue حُذف -- تؤهَّل لأقرب مراجعة أولية جديدة",
+          "review_issue" not in persisted_back, persisted_back)
+    check("↩️ وحدها: الحالة تبقى pending", persisted_back.get("status") == "pending",
+          persisted_back.get("status"))
+
+    persisted_both = store.load_draft(back_and_approved["id"])[1]
+    check("↩️ مع ✔️ معًا: يغلب ↩️ -- لا نشر، وحقل image حُذف أيضًا",
+          "image" not in persisted_both and persisted_both.get("status") == "pending",
+          persisted_both)
+
+    rejections_after = feedback.load()
+    check("لا تسجيل رفض لأي من الاثنتين", len(rejections_after) == rejections_before)
+
+
+def test_publish_final_review_excludes_analysis_origin() -> None:
+    """Issue #858، الجزء الثاني، البند 5: مسودة تحليل (origin=analysis) لا
+    تدخل قائمة المراجعة النهائية إطلاقًا -- حتى لو حمل جسم الـIssue مربع 🎴
+    لها خطأً (لا يبنيه youtube_publish فعليًا؛ محاكى هنا فقط ليثبت أن
+    التوجيه لا يعتمد عليه): التقاطع مع news_ids وحده (publish.main) هو ما
+    يحدّد مرشّحي المراجعة النهائية، ومسار التحليل مستبعَد منه بنيويًا."""
+    from src import publish as publish_mod
+    from src import youtube_publish as yp
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    yt_draft = {
+        "id": "aa0000000006", "status": "pending", "origin": "analysis",
+        "arabic": {"post_title": "مقال تحليل", "urgent": False},
+        "headlines": ["عنوان ١", "عنوان ٢", "عنوان ٣"], "headline_selected": 0,
+        "caption": "متن", "source": {},
+    }
+    store.save_draft(yt_draft)
+
+    body = (f"- [x] **1. مقال تحليل**  <!-- draft:{yt_draft['id']} -->\n"
+            f"  - [x] 🎴 اعرض البطاقة قبل النشر  <!-- card:{yt_draft['id']} -->\n")
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}]}
+
+    card_calls: list = []
+    real_ensure_title_card = yp.ensure_title_card
+
+    def fake_ensure_title_card(path, draft, cfg):
+        card_calls.append(draft["id"])
+        store.update_draft(path, image="drafts/x.jpg")
+        draft["image"] = "drafts/x.jpg"
+        return True
+
+    yp.ensure_title_card = fake_ensure_title_card
+
+    published_ids: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_ids.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    create_issue_calls: list = []
+    real_create_issue = review.create_issue
+    review.create_issue = lambda title, body, labels=None: (
+        create_issue_calls.append(1), {"number": 1, "html_url": "#"})[1]
+
+    real_comment = review.comment
+    real_close = review.close_issue
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+
+    sys.argv = ["publish", "--issue", "8860"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        yp.ensure_title_card = real_ensure_title_card
+        publish_mod.publish_one = real_publish_one
+        review.create_issue = real_create_issue
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("مسودة التحليل سلكت مسارها الخاص (بطاقة عنوان بُنيت عبره)",
+          card_calls == [yt_draft["id"]], card_calls)
+    check("نُشرت عبر مسار التحليل لا مسار الأخبار",
+          published_ids == [yt_draft["id"]], published_ids)
+    check("لا Issue مراجعة نهائي فُتح لها إطلاقًا رغم مربع 🎴 المُحاكى",
+          create_issue_calls == [], create_issue_calls)
 
 
 def test_first_comment() -> None:
@@ -17312,6 +17778,13 @@ def main() -> int:
     test_publish_investigation_requires_review()
     test_no_reject_boxes_in_review_issues()
     test_publish_unapproved_becomes_rejected()
+    print("\n── مراجعة نهائية للبطاقة قبل النشر (Issue #858) ──")
+    test_review_card_and_back_boxes()
+    test_publish_card_request_defers_to_final_review()
+    test_publish_final_review_approve_publishes_without_rebuild()
+    test_publish_final_review_double_publish_guard()
+    test_publish_final_review_back_request()
+    test_publish_final_review_excludes_analysis_origin()
     test_first_comment()
     print("\n── نشر الدفعة بلا انتظار داخل مهمة urgent ──")
     test_burst_inline_cap_zero_defers_without_sleep()

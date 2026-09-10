@@ -14,6 +14,10 @@ log = logging.getLogger(__name__)
 API = "https://api.github.com"
 ID_MARKER = re.compile(r"<!--\s*draft:([0-9a-f]+)\s*-->")
 REEL_MARKER = re.compile(r"<!--\s*reel:([0-9a-f]+)\s*-->")
+# مربع «اعرض البطاقة قبل النشر» في المراجعة الأولية، ومربع «أعده للمراجعة
+# الأولية» في المراجعة النهائية (Issue #858، الجزء الثاني من اثنين).
+CARD_MARKER = re.compile(r"<!--\s*card:([0-9a-f]+)\s*-->")
+BACK_MARKER = re.compile(r"<!--\s*back:([0-9a-f]+)\s*-->")
 CHECKED_LINE = re.compile(r"^\s*[-*]\s*\[([ xX])\]", re.MULTILINE)
 # كتلة النص القابلة للتحرير: <!-- cap:المعرّف --> ... <!-- /cap:المعرّف -->
 # (Issue #752) — DOTALL كي تمتد المطابقة عبر أسطر الكتلة كاملة، وbackreference
@@ -53,6 +57,9 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         "",
         "**كيف تعتمد؟** ✔️ ضع علامة على المنشورات التي توافق عليها، ثم أضف "
         "الوسم `approved` إلى هذا الـ Issue. سيتولى البوت نشر المحدد فقط.",
+        "",
+        "🎴 ✔️ وحده = تُبنى البطاقة ويُنشر فورًا. مع 🎴 = تُبنى البطاقة "
+        "وتُعرض عليك في Issue ثانٍ قبل النشر.",
         "",
         "🎬 لكل خبر مربع ثانٍ: علّم عليه لينشر البوت **ريلًا** بدل الصورة. "
         "الريل يُبنى لحظة النشر (يضيف ~30 ثانية) ولا يُبنى لما لا تختاره.",
@@ -94,6 +101,8 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
 
         parts += [
             f"- [ ] **{idx}. {ar['post_title']}**  <!-- draft:{d['id']} -->",
+            "",
+            f"  - [ ] 🎴 اعرض البطاقة قبل النشر  <!-- card:{d['id']} -->",
             "",
         ]
         if d.get("sibling_id"):
@@ -202,11 +211,108 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
     return "\n".join(parts)
 
 
+def build_final_review_body(drafts: list[dict], repo: str, branch: str = "main") -> str:
+    """نص Issue المراجعة النهائية (Issue #858، الجزء الثاني) — يُفتح لمن
+    عُلِّم عليه 🎴 في المراجعة الأولية، بعد أن بُنيت بطاقته فعلًا (publish.main
+    يبني البطاقة قبل هذا التفرّع، انظر توثيق CLAUDE.md). بلا مربع 🎴 (قرار
+    محسوم بالفعل) وبلا مربعات عناوين (العنوان حُفر على البطاقة المبنيّة) —
+    فقط اعتماد نهائي، تبديل صورة يدوي (نفس مربعي img/imgurl القائمين في
+    build_issue_body، يعمل عبر setimage.py بلا أي تعديل هناك)، وإعادة
+    للمراجعة الأولية (↩️، تغلب الاعتماد إن اجتمعا -- نفس مبدأ الرفض يغلب
+    الاعتماد قبل #841)."""
+    parts = [
+        "### 🎴 مراجعة نهائية قبل النشر",
+        "",
+        "**كيف تعتمد؟** ✔️ ضع علامة على المنشورات التي توافق عليها، ثم أضف "
+        "الوسم `approved` إلى هذا الـ Issue. تُنشر البطاقة المبنيّة كما هي "
+        "أدناه — بلا إعادة بناء بطاقة ولا اختيار عنوان ولا تعديل نص.",
+        "",
+        "🚫 **ما لا تعلّمه لن يُنشر** ويُسجَّل مرفوضًا تلقائيًا.",
+        "",
+        "↩️ لإعادة منشور إلى المراجعة الأولية (لتعديل عنوانه أو نصّه أو "
+        "إعادة بناء بطاقته): علّم مربع العودة. يغلب هذا المربع الاعتماد "
+        "إن عُلِّم الاثنان معًا على نفس المنشور.",
+        "",
+        "---",
+        "",
+    ]
+
+    for idx, d in enumerate(drafts, start=1):
+        ar = d["arabic"]
+        parts += [
+            f"- [ ] **{idx}. {ar['post_title']}**  <!-- draft:{d['id']} -->",
+            "",
+            f"  {image_source_line(d)}",
+            "",
+        ]
+        img_path = d.get("image")
+        if img_path:
+            parts += [
+                f"  <img src=\"{raw_url(repo, branch, img_path)}\" width=\"520\" />",
+                "",
+                f"  ↳ [الصورة في المستودع]({blob_url(repo, branch, img_path)}) · "
+                f"[الخبر الأصلي]({d['source']['link']})",
+                "",
+            ]
+        parts += [
+            f"  - [ ] 🖼️ استبدل الصورة بالرابط أدناه  <!-- img:{d['id']} -->",
+            "",
+            f"    الرابط:   <!-- imgurl:{d['id']} -->",
+            "",
+            f"  - [ ] ↩️ أعده للمراجعة الأولية  <!-- back:{d['id']} -->",
+            "",
+            "  <details><summary>📝 نص المنشور الكامل</summary>",
+            "",
+            f"  <!-- cap:{d['id']} -->",
+            "  ```",
+            *[f"  {line}" for line in d["caption"].splitlines()],
+            "  ```",
+            f"  <!-- /cap:{d['id']} -->",
+            "",
+            "  </details>",
+            "",
+            "---",
+            "",
+        ]
+
+    parts.append("<sub>وسم `approved` = نشر المعلَّم كما هو بلا تعديل · "
+                 "إغلاق الـ Issue = تجاهل الكل</sub>")
+    return "\n".join(parts)
+
+
 def parse_reels(body: str) -> set[str]:
     """معرفات المسودات التي اختار المراجع نشرها كريل."""
     chosen: set[str] = set()
     for line in body.splitlines():
         marker = REEL_MARKER.search(line)
+        if not marker:
+            continue
+        checkbox = re.search(r"\[([ xX])\]", line)
+        if checkbox and checkbox.group(1).lower() == "x":
+            chosen.add(marker.group(1))
+    return chosen
+
+
+def parse_card_requests(body: str) -> set[str]:
+    """معرفات المسودات التي طلب المراجع عرض بطاقتها قبل النشر (Issue #858،
+    الجزء الثاني) -- نفس أسلوب parse_reels حرفيًا."""
+    chosen: set[str] = set()
+    for line in body.splitlines():
+        marker = CARD_MARKER.search(line)
+        if not marker:
+            continue
+        checkbox = re.search(r"\[([ xX])\]", line)
+        if checkbox and checkbox.group(1).lower() == "x":
+            chosen.add(marker.group(1))
+    return chosen
+
+
+def parse_back_requests(body: str) -> set[str]:
+    """معرفات المسودات التي علّم المراجع «أعده للمراجعة الأولية» عليها في
+    Issue المراجعة النهائية (Issue #858) -- نفس أسلوب parse_reels حرفيًا."""
+    chosen: set[str] = set()
+    for line in body.splitlines():
+        marker = BACK_MARKER.search(line)
         if not marker:
             continue
         checkbox = re.search(r"\[([ xX])\]", line)
@@ -418,6 +524,7 @@ def ensure_labels() -> None:
     wanted = [
         ("pending-review", "fbca04", "مسودات بانتظار المراجعة"),
         ("pending-selection", "c5def5", "مرشحون بانتظار الاختيار قبل الصياغة"),
+        ("final-review", "1d76db", "مراجعة نهائية للبطاقة قبل النشر"),
         ("approved", "0e8a16", "معتمد للنشر"),
         ("rejected", "d73a4a", "مرفوض — سجّل الأسباب"),
         ("published", "5319e7", "تم النشر على فيسبوك"),
