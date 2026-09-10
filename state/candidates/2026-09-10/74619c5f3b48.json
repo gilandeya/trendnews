@@ -1,0 +1,54 @@
+{
+  "id": "74619c5f3b48",
+  "created_at": "2026-09-10T17:07:46.842099+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.07,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US delivers military equipment to Nigeria",
+  "link": "https://www.vanguardngr.com/2026/09/us-delivers-military-equipment-to-nigeria/",
+  "publishers": [
+    "Punch Nigeria",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "US delivers military equipment to Nigeria",
+    "link": "https://www.vanguardngr.com/2026/09/us-delivers-military-equipment-to-nigeria/",
+    "summary": "The United States has delivered military equipment to the Nigerian Air Force in Lagos and Kainji, Niger State, to support counterterrorism operations. The post US delivers military equipment to Nigeria appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-09-10T15:53:58+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/US-Airforce.png",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "Punch Nigeria",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/us-supports-nigeria-with-new-military-equipment-under-arms-deal/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/us-delivers-military-equipment-to-nigeria/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/US-Airforce.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 888.9112297636111,
+    "is_stale": false,
+    "score": 21.06809971738889
+  }
+}

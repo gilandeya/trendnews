@@ -1,0 +1,56 @@
+{
+  "id": "c427c9d20718",
+  "created_at": "2026-09-10T17:07:46.842666+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.83,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Coroner releases details of infants who died amid growing Pennsylvania measles outbreak",
+  "link": "https://medicalxpress.com/news/2026-09-coroner-infants-died-pennsylvania-measles.html",
+  "publishers": [
+    "Medical Xpress",
+    "STAT News"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Coroner releases details of infants who died amid growing Pennsylvania measles outbreak",
+    "link": "https://medicalxpress.com/news/2026-09-coroner-infants-died-pennsylvania-measles.html",
+    "summary": "The two measles-related deaths in Pennsylvania last month involved infants, and the virus itself caused one of the deaths, a Pennsylvania coroner confirmed Wednesday.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-09-10T07:46:26+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/coroner-releases-detai.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Medical Xpress",
+      "STAT News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-09-coroner-infants-died-pennsylvania-measles.html"
+      },
+      {
+        "name": "STAT News",
+        "link": "https://www.statnews.com/2026/09/09/coroner-details-infant-deaths-pennsylvania-measles-outbreak/?utm_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/coroner-releases-detai.jpg",
+      "https://www.statnews.com/wp-content/uploads/2026/09/AP26237531065807-1024x576.jpg",
+      "https://www.statnews.com/wp-content/uploads/2026/09/AP26237531065807-645x645.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 888.9113394041667,
+    "is_stale": false,
+    "score": 16.82639599888889
+  }
+}

@@ -1,9 +1,9 @@
 {
   "id": "a3c6cc5e2270",
-  "created_at": "2026-09-10T06:07:47.351685+00:00",
+  "created_at": "2026-09-10T17:07:46.842345+00:00",
   "status": "pending",
-  "selection_issue": 836,
-  "score": 19.13,
+  "selection_issue": null,
+  "score": 19.64,
   "trend_score": 0.0,
   "velocity": 1.0,
   "bucket": "serious",
@@ -12,8 +12,9 @@
   "link": "https://www.dailymaverick.co.za/article/2026-09-10-august-was-worlds-joint-hottest-month-on-record-scientists-say/",
   "publishers": [
     "Daily Maverick",
-    "South China Morning Post",
-    "politico.eu"
+    "NDTV — World",
+    "NPR",
+    "NPR World"
   ],
   "region": "za",
   "article": {
@@ -28,29 +29,36 @@
     "publisher": "Daily Maverick",
     "cluster_sources": [
       "Daily Maverick",
-      "South China Morning Post",
-      "politico.eu"
+      "NDTV — World",
+      "NPR",
+      "NPR World"
     ],
     "cluster_members": [
       {
-        "name": "South China Morning Post",
-        "link": "https://www.scmp.com/news/world/article/3366992/august-was-hottest-month-ever-recorded-globally-scientists-say?utm_source=rss_feed"
-      },
-      {
         "name": "Daily Maverick",
         "link": "https://www.dailymaverick.co.za/article/2026-09-10-august-was-worlds-joint-hottest-month-on-record-scientists-say/"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/10/nx-s1-5964676/scientists-august-hottest"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/august-was-worlds-joint-hottest-month-on-record-say-scientists-12027565#publisher=newsstand"
       }
     ],
     "image_candidates": [
-      "https://cdn.dailymaverick.co.za/attachments/orphans/GettyImages-2292849012_214111.jpg"
+      "https://cdn.dailymaverick.co.za/attachments/orphans/GettyImages-2292849012_214111.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5964676",
+      "https://c.ndtvimg.com/2024-04/622uu0so_bangkok-heat-generic_625x300_24_April_24.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
     ],
     "bucket": "serious",
     "state_media": false,
     "trend_score": 0.0,
-    "group_sources": 3,
+    "group_sources": 4,
     "velocity": 1.0,
-    "age_hours": 877.9110459283334,
+    "age_hours": 888.9112595241667,
     "is_stale": false,
-    "score": 19.12616817257088
+    "score": 19.63793305225926
   }
 }
