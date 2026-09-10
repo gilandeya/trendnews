@@ -1,161 +1,5 @@
 [
   {
-    "score": 15.87,
-    "bucket": "serious",
-    "tokens": [
-      "drafting",
-      "east",
-      "iran",
-      "middle",
-      "period",
-      "post",
-      "strategy",
-      "war"
-    ],
-    "link": "https://tass.com/world/2182971",
-    "title": "US drafting Middle East strategy for post-Iran war period",
-    "posted_title": "واشنطن تعد استراتيجية إقليمية لما بعد الحرب مع إيران",
-    "region": "ru",
-    "seen_at": "2026-09-05T02:30:28.730511+00:00"
-  },
-  {
-    "score": 17.53,
-    "bucket": "light",
-    "tokens": [
-      "arrival",
-      "begun",
-      "eight",
-      "inner",
-      "journey",
-      "mercury",
-      "mysterious",
-      "planet",
-      "solar",
-      "spacecraft",
-      "system's",
-      "two",
-      "year"
-    ],
-    "link": "https://www.smithsonianmag.com/smart-news/after-an-eight-year-journey-two-spacecraft-have-begun-their-arrival-to-mercury-the-inner-solar-systems-most-mysterious-planet-180989458/",
-    "title": "After an Eight-Year Journey, Two Spacecraft Have Begun Their Arrival to Mercury, the Inner Solar System's Most Mysterious Planet",
-    "posted_title": "مسبارا بيبي كولومبو يبدآن مرحلة الاقتراب النهائي من عطارد بعد رحلة استمرت ثماني سنوات",
-    "region": "odd",
-    "seen_at": "2026-09-05T02:30:41.232562+00:00"
-  },
-  {
-    "score": 15.46,
-    "bucket": "serious",
-    "tokens": [
-      "iran",
-      "potatoes",
-      "small",
-      "trump",
-      "war"
-    ],
-    "link": "https://www.ndtv.com/world-news/trump-says-iran-war-is-small-potatoes-for-us-12003992#publisher=newsstand",
-    "title": "Trump Says Iran War Is \"Small Potatoes\" For US",
-    "posted_title": "ترامب يصف الحرب مع إيران بـ\"شيء بسيط\" مقارنة بفيتنام",
-    "region": "in",
-    "seen_at": "2026-09-05T02:31:00.470286+00:00"
-  },
-  {
-    "score": 22.84,
-    "bucket": "serious",
-    "tokens": [
-      "bank",
-      "camps",
-      "crime",
-      "emptying",
-      "may",
-      "refugee",
-      "war",
-      "west"
-    ],
-    "link": "https://www.dawn.com/news/2027624/emptying-west-bank-refugee-camps-may-be-a-war-crime-un",
-    "title": "Emptying West Bank refugee camps may be a war crime: UN",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-05T03:07:47.884545+00:00"
-  },
-  {
-    "score": 20.83,
-    "bucket": "serious",
-    "tokens": [
-      "drone",
-      "escalation",
-      "foreign",
-      "major",
-      "minister",
-      "russian",
-      "security",
-      "services",
-      "strike",
-      "ukraine"
-    ],
-    "link": "https://www.theguardian.com/world/live/2026/sep/04/russia-ukraine-eu-ministers-migration-hubs-meloni-bardella-latest-news-updates",
-    "title": "Russian drone strike on Ukraine’s security services HQ is a ‘major escalation’, says Ukraine’s foreign minister",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-05T03:07:47.884825+00:00"
-  },
-  {
-    "score": 20.03,
-    "bucket": "serious",
-    "tokens": [
-      "adopts",
-      "africa",
-      "bigger",
-      "map",
-      "smaller"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/09/05/world/un-adopts-new-map/",
-    "title": "Africa bigger and U.S. smaller: U.N. adopts new map",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-09-05T03:07:47.885031+00:00"
-  },
-  {
-    "score": 16.13,
-    "bucket": "useful",
-    "tokens": [
-      "000",
-      "confirms",
-      "cutting",
-      "jobs",
-      "part",
-      "plan",
-      "survival",
-      "volkswagen"
-    ],
-    "link": "https://www.engadget.com/2250927/volkswagen-confirms-future-plan-2030-50000-job-cuts/",
-    "title": "Volkswagen confirms cutting 50,000 jobs as part of its survival plan",
-    "posted_title": "",
-    "region": "tech",
-    "seen_at": "2026-09-05T03:07:47.885222+00:00"
-  },
-  {
-    "score": 15.96,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "across",
-      "approves",
-      "board",
-      "cuts",
-      "flags",
-      "group",
-      "job",
-      "plan",
-      "turnaround",
-      "volkswagen"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-04-volkswagen-flags-50000-job-cuts-across-group-as-board-approves-turnaround-plan/",
-    "title": "Volkswagen flags 50,000 job cuts across group as board approves turnaround plan",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-05T03:07:47.885401+00:00"
-  },
-  {
     "score": 16.13,
     "bucket": "useful",
     "tokens": [
@@ -5303,5 +5147,96 @@
     "posted_title": "",
     "region": "money",
     "seen_at": "2026-09-09T22:07:55.136306+00:00"
+  },
+  {
+    "score": 25.24,
+    "bucket": "serious",
+    "tokens": [
+      "conflict",
+      "deepens",
+      "fresh",
+      "rebels",
+      "report",
+      "saudi",
+      "strikes",
+      "yemen"
+    ],
+    "link": "https://www.dawn.com/news/2028631/yemen-rebels-report-fresh-saudi-strikes-as-conflict-deepens",
+    "title": "Yemen rebels report fresh Saudi strikes as conflict deepens",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-10T03:07:51.584364+00:00"
+  },
+  {
+    "score": 25.0,
+    "bucket": "serious",
+    "tokens": [
+      "dead",
+      "ferry",
+      "fire",
+      "five",
+      "missing",
+      "philippine"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-10-five-dead-more-than-80-missing-after-philippine-ferry-fire/",
+    "title": "Five dead, more than 80 missing after Philippine ferry fire",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-10T03:07:51.584753+00:00"
+  },
+  {
+    "score": 17.3,
+    "bucket": "useful",
+    "tokens": [
+      "healthcare",
+      "laws",
+      "needs",
+      "watchdog"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c3wjn3pl63xo?at_medium=RSS&at_campaign=rss",
+    "title": "UK needs new laws for AI in healthcare, says watchdog",
+    "posted_title": "",
+    "region": "health",
+    "seen_at": "2026-09-10T03:07:51.585025+00:00"
+  },
+  {
+    "score": 16.94,
+    "bucket": "useful",
+    "tokens": [
+      "africa",
+      "could",
+      "drought",
+      "floods",
+      "next",
+      "niño",
+      "north",
+      "super",
+      "what"
+    ],
+    "link": "https://phys.org/news/2026-09-drought-north-africa-super-el.html",
+    "title": "From drought to floods in North Africa: What could the super El Niño do next?",
+    "posted_title": "",
+    "region": "science",
+    "seen_at": "2026-09-10T03:07:51.585447+00:00"
+  },
+  {
+    "score": 16.86,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "began",
+      "biggest",
+      "iran",
+      "shipping",
+      "since",
+      "strike",
+      "tankers",
+      "war"
+    ],
+    "link": "https://www.france24.com/en/middle-east/20260909-iran-and-us-strike-tankers-in-biggest-shipping-attack-since-war-began",
+    "title": "Iran and US strike tankers in biggest shipping attack since war began",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-10T03:07:51.585749+00:00"
   }
 ]

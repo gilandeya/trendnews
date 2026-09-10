@@ -1,0 +1,84 @@
+{
+  "id": "547d4d926a9e",
+  "created_at": "2026-09-10T03:07:51.584386+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.0,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Five dead, more than 80 missing after Philippine ferry fire",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-10-five-dead-more-than-80-missing-after-philippine-ferry-fire/",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia",
+    "Daily Maverick",
+    "France24",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "bbc.com"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Five dead, more than 80 missing after Philippine ferry fire",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-10-five-dead-more-than-80-missing-after-philippine-ferry-fire/",
+    "summary": "MANILA, Sept 10 (Reuters) - Five people died and more than 80 are missing after a ferry caught fire off Palawan island in the western Philippines on Wednesday night, the Philippine Coast Guard said on Thursday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-10T05:03:15+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2985/13557283_818905_65319e4aebff8c92a56c35e0c9871d9d.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia",
+      "Daily Maverick",
+      "France24",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "bbc.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/10/several-dead-dozens-missing-after-ferry-fire-in-philippines-tourist-spot?traffic_source=rss"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-10-five-dead-more-than-80-missing-after-philippine-ferry-fire/"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/philippine-ferry-kills-missing-palawan-6374296"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/asia-pacific/20260910-at-least-five-killed-87-missing-after-ferry-fire-in-philippines"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/10/philippine-ferry-fire-kills-5-87-missing"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/10/five-killed-87-missing-after-philippine-ferry-fire/234621"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2985/13557283_818905_65319e4aebff8c92a56c35e0c9871d9d.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--V6FBxdOC--/c_crop,h_1110,w_1973,x_1,y_-1/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/10/000_c7ur9vl.jpg?itok=TLPwMXpS",
+      "https://s.france24.com/media/display/de697182-acb0-11f1-848c-005056a97e36/w:1024/p:16x9/000-C7UR9VL.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/dcb54fdd-70cc-4ef0-a783-1526be10bda5-Philippine-Coast-Guard-FB---Ferry-Fire.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/10/361623.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 874.9122116063888,
+    "is_stale": false,
+    "score": 25.00041201495059
+  }
+}

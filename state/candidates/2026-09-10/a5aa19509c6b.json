@@ -1,0 +1,52 @@
+{
+  "id": "a5aa19509c6b",
+  "created_at": "2026-09-10T03:07:51.584764+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.3,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "UK needs new laws for AI in healthcare, says watchdog",
+  "link": "https://www.bbc.co.uk/news/articles/c3wjn3pl63xo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Health",
+    "BBC Technology"
+  ],
+  "region": "health",
+  "article": {
+    "title": "UK needs new laws for AI in healthcare, says watchdog",
+    "link": "https://www.bbc.co.uk/news/articles/c3wjn3pl63xo?at_medium=RSS&at_campaign=rss",
+    "summary": "The technology will soon be routinely used within the NHS, MHRA chief Lawrence Tallon tells the BBC.",
+    "source_name": "BBC Health",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-09-10T00:48:35+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c4b9/live/69dbfa80-ac63-11f1-be57-03729df1d736.jpg",
+    "publisher": "BBC Health",
+    "cluster_sources": [
+      "BBC Health",
+      "BBC Technology"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Health",
+        "link": "https://www.bbc.co.uk/news/articles/c3wjn3pl63xo?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c4b9/live/69dbfa80-ac63-11f1-be57-03729df1d736.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/c4b9/live/69dbfa80-ac63-11f1-be57-03729df1d736.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/c4b9/live/69dbfa80-ac63-11f1-be57-03729df1d736.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 874.9122963397222,
+    "is_stale": false,
+    "score": 17.295384276222222
+  }
+}

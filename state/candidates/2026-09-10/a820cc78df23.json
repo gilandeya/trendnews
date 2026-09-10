@@ -1,0 +1,83 @@
+{
+  "id": "a820cc78df23",
+  "created_at": "2026-09-10T03:07:51.583766+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.24,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemen rebels report fresh Saudi strikes as conflict deepens",
+  "link": "https://www.dawn.com/news/2028631/yemen-rebels-report-fresh-saudi-strikes-as-conflict-deepens",
+  "publishers": [
+    "AP News",
+    "Dawn",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Yemen rebels report fresh Saudi strikes as conflict deepens",
+    "link": "https://www.dawn.com/news/2028631/yemen-rebels-report-fresh-saudi-strikes-as-conflict-deepens",
+    "summary": "Yemen’s Houthi rebels reported dozens of Saudi airstrikes on Wednesday as daily attacks continued in a conflict that has reignited during the Middle East war, with hundreds of people killed in fighting near the Red Sea. More than 40 attacks targeted several regions, including the flashpoint areas of Taiz and Hodeida, the scene of fierce clashes between the Houthis and the Saudi-led coalition government, the rebels said. The latest salvos in Yemen’s previously dormant conflict come a day after the Houthis set oil sites ablaze and wounded 73 in their heaviest missile and drone attacks against Saudi Arabia in years. The fighting in Yemen is taking place against the backdrop of the Middle East war, which erupted in late February with US-Israeli strikes on Iran. On Wednesday, Iran said it attacked 20 American vessels in the Strait of Hormuz and targeted a US military base in Jordan in retaliation for US strikes on Iranian oil tankers. The Middle East war has sucked in Yemen, the energy-rich Gulf and others across the region while roiling the world economy, as oil prices returned to $100 a barrel on Wednesday. More than 500 people have died since the Houthis launched a major offensive la",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-09T12:43:30+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/09171419ce01545.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "AP News",
+      "Dawn",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2028631/yemen-rebels-report-fresh-saudi-strikes-as-conflict-deepens"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/yemen-rebels-report-fresh-saudi-strikes-as-conflict-deepens/article71448646.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/saudiled-coalition-and-houthis-trade-strikes-as-yemen-conflict-deepens-101788981022259.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/10/saudi-led-forces-houthis-trade-strikes-as-yemen-conflict-escalates/234623"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/yemens-houthi-rebels-say-saudi-backed-forces-launched-airstrikes-and-other-key-mideast-news-101788986838624.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/houthis-escalate-attacks-on-saudi-arabia-muslim-nato-faces-test-12025301#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/09171419ce01545.webp",
+      "https://i.dawn.com/large/2026/09/09173932049188b.webp",
+      "https://i.dawn.com/thumbnail/2026/09/09171419ce01545.webp",
+      "https://i.dawn.com/thumbnail/2026/09/09173932049188b.webp",
+      "https://i.dawn.com/primary/2026/09/09173932049188b.webp",
+      "https://i.dawn.com/primary/2026/09/0917421621750a8.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 874.9122105305555,
+    "is_stale": false,
+    "score": 25.24462363968199
+  }
+}
