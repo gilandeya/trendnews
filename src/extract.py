@@ -86,40 +86,37 @@ def gather(members: list[dict], limit: int = 2,
       — البند 1 (تعليق العطل الثاني على Issue #361): بلا هذا السجل، trail
       لا يملك سببًا لماذا سقط استعلام معيَّن لاحتياط العناوين.
 
-    يحاول أول limit*2 مرشح دفعة واحدة (يكفي عادة، ويوفّر زمن الجلب حين
-    تنجح الدفعة الأولى)، ثم يواصل بدفعات تالية من members حتى يبلغ limit
-    نجاحًا أو تنفد المرشحات — لا يقف عند أول limit*2 محاولة مهما فشلت
-    (تشخيص Issue #373، البند 3: ناشرون محجوبون بحجب شبه دائم (HTTP 403)
-    قد يتصدّرون الدفعة الأولى فتُهدر فتحات القراءة كلها بلا أي فرصة لمرشح
-    لاحق قابل للجلب فعليًا — members أصلًا محدودة العدد (gather_evidence
-    تمرّر max_members=limit*4 كسقف)، فمواصلة المحاولة بلا توقف مبكر مأمونة
-    التكلفة).
+    يقرأ حتى يبلغ limit نجاحًا لا limit محاولة: مرشّح يفشل جلبه يُستبدَل
+    بالتالي له في members (المرتَّبة أصلًا — gather_evidence توحّدها بهوية
+    الناشر وترتّبها قبل تمريرها هنا، فلا إعادة ترتيب هنا) بدل أن تنتهي
+    الواقعة بعدد أقل مما طُلب (Issue #832: شاهد متكرر — مرشح ثانٍ سقط بفشل
+    جلب فانتهت الواقعة بمصدر واحد فقط رغم توفّر مرشح ثالث في القائمة).
+    سقف المحاولات صارم: limit*2 كحد أقصى ثم توقّف بما جُمِع مهما تبقّى من
+    مرشّحين — ليست مواصلة بلا حدّ (تشخيص Issue #373 السابق كان يواصل عبر
+    members كاملة، وقد تبلغ limit*4 عبر gather_evidence؛ Issue #832 يشدّده
+    إلى سقف ثابت متوقَّع دومًا، بتكلفة تقبّل نقص سند في حالات فشل متتابع
+    نادرة بدل محاولات غير محدودة).
     """
     if not HAS_EXTRACTOR:
         return [], [{"name": m.get("name", "؟"), "link": m.get("link", ""),
                      "reason": "المستخرج trafilatura غير مثبَّت"} for m in members]
 
-    candidates = [m for m in members if m.get("link")]
+    candidates = [m for m in members if m.get("link")][:limit * 2]
     if not candidates:
         return [], []
 
     out: list[dict] = []
     failures: list[dict] = []
-    batch_size = limit * 2
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        for start in range(0, len(candidates), batch_size):
+        results = pool.map(lambda m: fetch_text(m["link"]), candidates)
+        for member, (text, reason) in zip(candidates, results):
+            if text:
+                out.append({"name": member.get("name", "؟"), "text": text})
+            else:
+                failures.append({"name": member.get("name", "؟"),
+                                 "link": member.get("link", ""), "reason": reason})
             if len(out) >= limit:
                 break
-            batch = candidates[start:start + batch_size]
-            results = pool.map(lambda m: fetch_text(m["link"]), batch)
-            for member, (text, reason) in zip(batch, results):
-                if text:
-                    out.append({"name": member.get("name", "؟"), "text": text})
-                else:
-                    failures.append({"name": member.get("name", "؟"),
-                                     "link": member.get("link", ""), "reason": reason})
-                if len(out) >= limit:
-                    break
 
     log.info("نصوص مُستخرجة: %d من %d محاولة", len(out), len(out) + len(failures))
     return out, failures

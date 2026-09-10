@@ -858,25 +858,39 @@ def test_extraction() -> None:
               "المصدر 1: BBC" in block and "المصدر 2: Guardian" in block)
         check("قائمة فارغة تعطي نصًا فارغًا", format_for_prompt([]) == "")
 
-        # طلب التنفيذ على Issue #373، البند 3: فتحة قراءة فشل جلبها لا تُهدر
-        # — أول limit*2 محاولة قد تتصدّرها نطاقات محجوبة (HTTP 403 متكرر)
-        # فتُفرَغ الفتحات كلها بلا أي فرصة لمرشح لاحق قابل للجلب فعليًا. هنا
-        # limit=1 (batch_size=2) وأربعة مرشحين محجوبين يتصدّرون القائمة قبل
-        # مرشح خامس ناجح — يجب أن يُواصَل حتى يُبلَغ عنه
-        members_batched = [
+        # Issue #832 (العطل الثاني): مرشح يفشل جلبه يُستبدَل بالتالي له في
+        # القائمة المرتَّبة أصلًا — لا تنتهي الواقعة بعدد أقل مما طُلب طالما
+        # بديل متاح ضمن سقف limit*2 محاولة. هنا limit=2 (سقف 4) وBlocked1
+        # يفشل قبل BBC، وBlocked2 يفشل قبل Guardian — كلاهما ضمن السقف
+        members_substitute = [
+            {"name": "Blocked1", "link": "https://d/4"},
+            {"name": "BBC2", "link": "https://a/1"},
+            {"name": "Blocked2", "link": "https://e/5"},
+            {"name": "Guardian2", "link": "https://b/2"},
+        ]
+        docs_sub, failures_sub = gather(members_substitute, limit=2)
+        check("فشل مرشّح يُستبدَل بالتالي له في القائمة — القراءات الناجحة تبلغ "
+              "limit رغم فشل بينها (Issue #832)",
+              {d["name"] for d in docs_sub} == {"BBC2", "Guardian2"}, docs_sub)
+        check("المرشحان الفاشلان كلاهما مسجَّلان في الفشليات",
+              {f["name"] for f in failures_sub} == {"Blocked1", "Blocked2"}, failures_sub)
+
+        # سقف المحاولات صارم عند limit*2 — لا مواصلة بلا حدّ عبر members
+        # كاملة (خلافًا لسلوك Issue #373 السابق): هنا limit=1 (سقف 2)
+        # ومرشّحان محجوبان يتصدّران القائمة قبل مرشح ثالث ناجح — يتوقف عند
+        # المحاولة الثانية بلا الوصول إلى الثالث إطلاقًا
+        members_capped = [
             {"name": "Blocked1", "link": "https://d/4"},
             {"name": "Blocked2", "link": "https://e/5"},
-            {"name": "Blocked3", "link": "https://f/6"},
-            {"name": "Blocked4", "link": "https://g/7"},
             {"name": "Recovers", "link": "https://a/1"},
         ]
-        docs_batched, failures_batched = gather(members_batched, limit=1)
-        check("لا تُهدر فتحة القراءة عند تصدّر نطاقات محجوبة الدفعة الأولى — "
-              "يُواصَل بدفعات تالية حتى مرشح ناجح",
-              len(docs_batched) == 1 and docs_batched[0]["name"] == "Recovers",
-              (docs_batched, failures_batched))
-        check("عدد الفشليات المسجَّلة يطابق كل المحاولات الفاشلة قبل النجاح (4)",
-              len(failures_batched) == 4, failures_batched)
+        docs_capped, failures_capped = gather(members_capped, limit=1)
+        check("سقف المحاولات (limit*2=2) يوقف الجلب بما جُمِع — لا يبلغ المرشح "
+              "الثالث الناجح رغم توفّره (Issue #832)",
+              docs_capped == [], docs_capped)
+        check("الفشليات المسجَّلة تقتصر على المرشحَين ضمن السقف فقط — لا Recovers",
+              {f["name"] for f in failures_capped} == {"Blocked1", "Blocked2"},
+              failures_capped)
     finally:
         ex.requests.get = original_get
 
@@ -7144,6 +7158,40 @@ def test_article_statement_kind() -> None:
           "آمنًا (فارغَين لا كسر)",
           fact["speaker"] == "" and fact["merged_excerpts"] == [], fact)
 
+    # ── normalize_statement/query_latin: تجريد الرقم برمجيًا (Issue #832،
+    # العطل الأول) — البرومبت وحده لا يكفي، النموذج قد يُدرج الرقم موضع
+    # التحقق رغم التعليمات ──
+    check("_sanitize_query_latin: رمز يحوي رقمًا (لا سنة) يُجرَّد ويبقى الحقل "
+          "صالحًا (كلمتان فأكثر متبقيتان)",
+          article._sanitize_query_latin("Vestel debt 105 billion lira") ==
+          "Vestel debt billion lira")
+    check("_sanitize_query_latin: سنة من أربع خانات (2025) تبقى بلا تجريد",
+          article._sanitize_query_latin("Vestel results Q1 2025") ==
+          "Vestel results 2025")
+    check("_sanitize_query_latin: التجريد يُفرغ الحقل إلى أقل من كلمتين ⇒ "
+          "يُهمَل كليًا (فارغ)",
+          article._sanitize_query_latin("Vestel 105") == "")
+    check("_sanitize_query_latin: نص بلا أرقام يمر بلا تغيير",
+          article._sanitize_query_latin("Vestel debt burden lira") ==
+          "Vestel debt burden lira")
+
+    num_stmt = article.normalize_statement({
+        "text": "تجاوزت ديون فيستل 105 مليارات ليرة", "kind": "واقعة",
+        "entities": ["فيستل", "105 مليارات ليرة"], "is_unnamed_event": False,
+        "is_reference": False, "query_latin": "Vestel debt 105 billion lira",
+    })
+    check("normalize_statement: query_latin المُستلَم يُجرَّد من الرقم قبل التخزين",
+          num_stmt["query_latin"] == "Vestel debt billion lira", num_stmt)
+
+    empty_stmt = article.normalize_statement({
+        "text": "تجاوزت ديون فيستل 105 مليارات ليرة", "kind": "واقعة",
+        "entities": ["فيستل"], "is_unnamed_event": False, "is_reference": False,
+        "query_latin": "Vestel 105",
+    })
+    check("normalize_statement: query_latin يصير كلمة واحدة بعد التجريد ⇒ "
+          "يُخزَّن فارغًا (كأنه غاب أصلًا)",
+          empty_stmt["query_latin"] == "", empty_stmt)
+
     # ── _support_sources(is_statement=True) يستعمل STATEMENT_SUPPORT_SYSTEM لا
     # SUPPORT_SYSTEM — بلا تخفيف العتبة، فقط معيار تأييد أدق (مضمون لا مقابلة) ──
     real_client_fn = article._client
@@ -8303,24 +8351,27 @@ def test_article_search_ladder() -> None:
         check("وقائع فيستل السبع) استعلام واقعة الخسائر الناجح يحوي «خسائر»",
               "خسائر" in search_queries[5].split(), search_queries[5])
 
-        # ── ٦) query_latin كلمة واحدة («Vestel» وحدها — الشاهد الأصلي #808)
-        # يُتخطّى بلا بحث ويُسجَّل السبب في trail، فلا يُرسَل للبحث إطلاقًا ──
+        # ── ٦) query_latin يصير كلمة واحدة بعد تجريد الرقم برمجيًا («Vestel
+        # 105» ⇦ «Vestel» ⇦ Issue #832: normalize_statements تُهمِل الحقل
+        # كليًا حين يبقى أقل من كلمتين بعد التجريد، فيصل السُلَّم فارغًا —
+        # يُعامَل كما لو غاب أصلًا (نظير السيناريو ٣ أعلاه)، لا محاولة ثالثة
+        # ولا سطر تخطٍّ في trail (خلافًا لسلوك ما قبل #832 حين كان النص الخام
+        # يصل السُلَّم كما هو فيُخطَّى هناك بدل أن يُهمَل قبل الوصول إليه) ──
         _brief([_stmt("تجاوزت ديون فيستل 105 مليارات ليرة",
-                      ["فيستل", "105 مليارات ليرة"], query_latin="Vestel")])
+                      ["فيستل", "105 مليارات ليرة"], query_latin="Vestel 105")])
         search_queries = []
         evidence.search = _fake_all_zero
         outcome = article._write_article("موجز اختبار ٦", 9106, cfg)
-        check("سُلَّم البحث ٦) query_latin كلمة واحدة ⇒ محاولتان فقط أُرسلتا فعليًا "
-              "للبحث (المحاولة الثالثة تُخطَّت بلا بحث)",
+        check("سُلَّم البحث ٦) query_latin يصير كلمة واحدة بعد تجريد الرقم ⇒ "
+              "يُهمَل قبل السُلَّم — محاولتان فقط أُرسلتا فعليًا للبحث",
               len(search_queries) == 2, search_queries)
         skip_entries = [t for t in outcome["trail"]
                        if "أقل من كلمتين" in (t.get("outcome") or "")]
-        check("سُلَّم البحث ٦) تخطّي محاولة الكلمة الواحدة يُسجَّل صراحة في trail "
-              "برقم المحاولة الثالثة",
-              len(skip_entries) == 1 and skip_entries[0].get("search_attempt") == 3,
-              skip_entries)
+        check("سُلَّم البحث ٦) لا سطر تخطٍّ في trail — الحقل أُهمِل قبل وصوله "
+              "السُلَّم لا تُخُطِّي داخله (خلافًا لكلمة واحدة خام قبل #832)",
+              len(skip_entries) == 0, skip_entries)
         check("سُلَّم البحث ٦) الواقعة سقطت بسند غير كافٍ من آخر محاولة فعلية "
-              "(الثانية) — لا خطأ ناتج عن محاولة الكلمة الواحدة نفسها",
+              "(الثانية) — لا خطأ ناتج عن query_latin المُهمَل",
               any(d["text"] == "تجاوزت ديون فيستل 105 مليارات ليرة"
                  for d in outcome["dropped"]), outcome["dropped"])
 
@@ -8377,6 +8428,101 @@ def test_article_search_ladder() -> None:
         article._choose_question = real_choose_question
         article._draft_article = real_draft_article
         article.find_images = real_find_images
+
+
+def test_article_read_failure_substitution() -> None:
+    """العطل الثاني (Issue #832): مرشح قراءة يفشل جلبه لا يُنهي الواقعة
+    بمصدر ناقص — evidence.gather_evidence الحقيقية (لا مزيَّفة) عبر
+    extract.gather الحقيقي أيضًا (نزيّف extract.fetch_text وحدها، أدنى نقطة
+    ممكنة) يجب أن تستبدل المرشح الفاشل بالتالي له في القائمة المرتَّبة أصلًا
+    فتبلغ عتبة السند رغم الفشل. الشاهد المُثبَّت من الـIssue: واقعة «يعمل في
+    فيستل نحو 20 ألف شخص» — مرشّحان يفشل جلبهما (نصّ قصير جدًا/حجب) بين
+    أربعة مرشّحين مرتَّبين، والاثنان الباقيان يكفيان (min_confirm_sources=2)
+    فتُسنَد الواقعة بدل أن تسقط."""
+    from src import article
+
+    cfg = load_config()
+    cfg["article"]["source_extract_enabled"] = False
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_support_sources = article._support_sources
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+    real_fetch_text = extract.fetch_text
+
+    now = datetime.now(timezone.utc)
+    # ترتيب الوصول نفسه هو ترتيب مرشّحي القراءة هنا (صلة صفرية للجميع —
+    # لا كلمة من العناوين تشارك relevance_text، فوزنهم الافتراضي المتساوي
+    # 0.6 يبقي التعادل، ويحسمه فرز مستقر بترتيب الوصول — انظر
+    # evidence._candidate_sort_key)
+    candidates = [
+        Article(title="تقرير عام عن قطاع الإلكترونيات", link="https://bikeeurope.example/1",
+               summary="", source_name="Bike Europe", region="global", weight=1.0,
+               published=now, publisher="Bike Europe"),
+        Article(title="تحليل صناعي عام آخر", link="https://defensearabia.example/1",
+               summary="", source_name="defensearabia.com", region="global", weight=1.0,
+               published=now, publisher="defensearabia.com"),
+        Article(title="مقال ثالث عام", link="https://third.example/1",
+               summary="", source_name="المصدر الثالث", region="global", weight=1.0,
+               published=now, publisher="المصدر الثالث"),
+        Article(title="مقال رابع عام", link="https://fourth.example/1",
+               summary="", source_name="المصدر الرابع", region="global", weight=1.0,
+               published=now, publisher="المصدر الرابع"),
+    ]
+
+    def _fake_fetch_text(url, timeout=20):
+        if url == "https://bikeeurope.example/1":
+            return None, "نص قصير جدًا (224 حرف) — صفحة اشتراك/حظر محتملة"
+        if url == "https://defensearabia.example/1":
+            return None, "HTTP 403"
+        return "نص مقروء فعليًا. " * 40, ""
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار استبدال مرشح فاشل",
+        "statements": [{"text": "يعمل في فيستل نحو 20 ألف شخص", "kind": "واقعة",
+                        "entities": ["فيستل", "20 ألف شخص"], "is_unnamed_event": False,
+                        "is_reference": False, "query_latin": ""}],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: list(candidates)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": [d["name"] for d in docs]
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار الاستبدال؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختبار الاستبدال.", "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
+    extract.fetch_text = _fake_fetch_text
+
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        outcome = article._write_article("موجز اختبار استبدال مرشح فاشل", 9108, cfg)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        article._support_sources = real_support_sources
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+        article.find_images = real_find_images
+        extract.fetch_text = real_fetch_text
+
+    check("استبدال مرشح فاشل) الواقعة أُسنِدت (لم تسقط) رغم فشل مرشَّحين من "
+          "أربعة — الاثنان الباقيان يكفيان min_confirm_sources",
+          not any(d["text"] == "يعمل في فيستل نحو 20 ألف شخص"
+                 for d in outcome["dropped"]), outcome["dropped"])
+    fact_trail = [t for t in outcome["trail"] if t["stage"] == "واقعة"]
+    check("استبدال مرشح فاشل) trail يسجّل اسمَي المرشّحين الفاشلين وسبب فشل كل منهما",
+          bool(fact_trail) and
+          {f["name"] for f in fact_trail[0].get("fetch_failures", [])} ==
+          {"Bike Europe", "defensearabia.com"}, fact_trail)
+    check("استبدال مرشح فاشل) المصادر المسندة فعليًا هي البديلان الناجحان لا "
+          "الفاشلَين",
+          bool(fact_trail) and
+          set(fact_trail[0].get("sources", [])) == {"المصدر الثالث", "المصدر الرابع"},
+          fact_trail)
 
 
 def test_article_wide_days() -> None:
@@ -16152,6 +16298,7 @@ def main() -> int:
     test_article_split_event_condition()
     test_article_mandatory_query_name()
     test_article_search_ladder()
+    test_article_read_failure_substitution()
     test_article_wide_days()
     test_article_support_call_caching()
     test_article_source_fact_duplicate_index_on_topic()
