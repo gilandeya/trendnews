@@ -1,40 +1,5 @@
 [
   {
-    "score": 16.13,
-    "bucket": "useful",
-    "tokens": [
-      "000",
-      "confirms",
-      "cutting",
-      "jobs",
-      "part",
-      "plan",
-      "survival",
-      "volkswagen"
-    ],
-    "link": "https://www.engadget.com/2250927/volkswagen-confirms-future-plan-2030-50000-job-cuts/",
-    "title": "Volkswagen confirms cutting 50,000 jobs as part of its survival plan",
-    "posted_title": "فولكسفاغن تعتمد رسميًا خطة \"المستقبل 2030\" وتخفض 50 ألف وظيفة",
-    "region": "tech",
-    "seen_at": "2026-09-05T05:11:21.982820+00:00"
-  },
-  {
-    "score": 20.03,
-    "bucket": "serious",
-    "tokens": [
-      "adopts",
-      "africa",
-      "bigger",
-      "map",
-      "smaller"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/09/05/world/un-adopts-new-map/",
-    "title": "Africa bigger and U.S. smaller: U.N. adopts new map",
-    "posted_title": "لماذا صوّتت 164 دولة على تغيير شكل خريطة العالم التي نعرفها",
-    "region": "jp",
-    "seen_at": "2026-09-05T05:11:39.445438+00:00"
-  },
-  {
     "score": 22.74,
     "bucket": "serious",
     "tokens": [
@@ -5293,5 +5258,106 @@
     "posted_title": "ترامب يربط نهاية الحرب مع إيران بموعد انتخابات التجديد النصفي الأميركية",
     "region": "in",
     "seen_at": "2026-09-10T04:59:58.975052+00:00"
+  },
+  {
+    "score": 31.68,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "asif",
+      "attacks",
+      "become",
+      "could",
+      "defence",
+      "houthi",
+      "makkah",
+      "operational",
+      "pact",
+      "saudi",
+      "warns"
+    ],
+    "link": "https://www.dawn.com/news/2028592/asif-warns-makkah-defence-pact-could-become-operational-after-houthi-attacks-on-saudi-arabia",
+    "title": "Asif warns Makkah defence pact could become operational after Houthi attacks on Saudi Arabia",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-10T06:07:47.351376+00:00"
+  },
+  {
+    "score": 20.31,
+    "bucket": "serious",
+    "tokens": [
+      "british",
+      "dies",
+      "first",
+      "handover",
+      "hong",
+      "kong's",
+      "leader"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cn457lq938jo?at_medium=RSS&at_campaign=rss",
+    "title": "Hong Kong's first leader after British handover dies",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-10T06:07:47.351675+00:00"
+  },
+  {
+    "score": 19.13,
+    "bucket": "serious",
+    "tokens": [
+      "august",
+      "hottest",
+      "joint",
+      "month",
+      "record",
+      "say",
+      "scientists",
+      "world"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-10-august-was-worlds-joint-hottest-month-on-record-scientists-say/",
+    "title": "August was world’s joint-hottest month on record, scientists say",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-10T06:07:47.351941+00:00"
+  },
+  {
+    "score": 18.23,
+    "bucket": "useful",
+    "tokens": [
+      "'could",
+      "all",
+      "anthropic",
+      "believes",
+      "chance",
+      "humans'",
+      "kill",
+      "researcher"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/ckgwy1k42w4o?at_medium=RSS&at_campaign=rss",
+    "title": "Anthropic researcher believes more than 10% chance AI 'could kill all humans'",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-09-10T06:07:47.352207+00:00"
+  },
+  {
+    "score": 16.89,
+    "bucket": "useful",
+    "tokens": [
+      "100",
+      "2023",
+      "above",
+      "asian",
+      "brent",
+      "holds",
+      "near",
+      "peak",
+      "stocks",
+      "wilt",
+      "yields"
+    ],
+    "link": "https://www.investing.com/news/economy-news/asian-stocks-wilt-as-brent-holds-above-100-yields-near-2023-peak-4894870",
+    "title": "Asian stocks wilt as Brent holds above $100, yields near 2023 peak",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-09-10T06:07:47.352487+00:00"
   }
 ]

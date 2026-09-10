@@ -1,0 +1,55 @@
+{
+  "id": "6dc261c2e9eb",
+  "created_at": "2026-09-10T06:07:47.352216+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.89,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Asian stocks wilt as Brent holds above $100, yields near 2023 peak",
+  "link": "https://www.investing.com/news/economy-news/asian-stocks-wilt-as-brent-holds-above-100-yields-near-2023-peak-4894870",
+  "publishers": [
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Asian stocks wilt as Brent holds above $100, yields near 2023 peak",
+    "link": "https://www.investing.com/news/economy-news/asian-stocks-wilt-as-brent-holds-above-100-yields-near-2023-peak-4894870",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-09-10T02:13:10+00:00",
+    "image_url": "https://content-media.investing.com/news/7-Eleven_800x533_L_1673420630.jpg",
+    "publisher": "Investing.com — الاقتصاد",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد"
+    ],
+    "cluster_members": [
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/09/10/asian-stocks-wilt-as-brent-holds-above-us-100"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/asian-stocks-wilt-as-brent-holds-above-100-yields-near-2023-peak-4894870"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/news/7-Eleven_800x533_L_1673420630.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/05/be149b73-korea-market-4.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 877.9111183266666,
+    "is_stale": false,
+    "score": 16.88944732927778
+  }
+}

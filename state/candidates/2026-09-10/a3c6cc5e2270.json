@@ -1,0 +1,56 @@
+{
+  "id": "a3c6cc5e2270",
+  "created_at": "2026-09-10T06:07:47.351685+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.13,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "August was world’s joint-hottest month on record, scientists say",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-10-august-was-worlds-joint-hottest-month-on-record-scientists-say/",
+  "publishers": [
+    "Daily Maverick",
+    "South China Morning Post",
+    "politico.eu"
+  ],
+  "region": "za",
+  "article": {
+    "title": "August was world’s joint-hottest month on record, scientists say",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-10-august-was-worlds-joint-hottest-month-on-record-scientists-say/",
+    "summary": "BRUSSELS, Sept 10 (Reuters) - The world just experienced its joint-hottest month since records began, with August pushing the planet's average global temperature to more than 1.5 degrees Celsius (2.7 degrees Fahrenheit) above pre-industrial levels, the EU's Copernicus Climate Change Service (C3S) said on Thursday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-10T04:56:49+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/orphans/GettyImages-2292849012_214111.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "South China Morning Post",
+      "politico.eu"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/article/3366992/august-was-hottest-month-ever-recorded-globally-scientists-say?utm_source=rss_feed"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-10-august-was-worlds-joint-hottest-month-on-record-scientists-say/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/orphans/GettyImages-2292849012_214111.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 877.9110459283334,
+    "is_stale": false,
+    "score": 19.12616817257088
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "bdfa36c6b727",
+  "created_at": "2026-09-10T06:07:47.351389+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.31,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hong Kong's first leader after British handover dies",
+  "link": "https://www.bbc.co.uk/news/articles/cn457lq938jo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Nikkei Asia",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Hong Kong's first leader after British handover dies",
+    "link": "https://www.bbc.co.uk/news/articles/cn457lq938jo?at_medium=RSS&at_campaign=rss",
+    "summary": "The tenure of Tung Chee-hwa, Hong Kong's first leader after Britain handed over the city to China, was marked by crises and protests.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-09T04:24:30+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f15c/live/39d2dc50-abfa-11f1-807e-af17aa793752.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Nikkei Asia",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cn457lq938jo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/tung-chee-hwa-hong-kongs-first-post-colonial-leader-dies-at-age-89/article71445663.ece"
+      },
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/life-arts/obituaries/tung-chee-hwa-hong-kong-s-first-postcolonial-leader-dies-at-age-89"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f15c/live/39d2dc50-abfa-11f1-807e-af17aa793752.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/f15c/live/39d2dc50-abfa-11f1-807e-af17aa793752.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f15c/live/39d2dc50-abfa-11f1-807e-af17aa793752.jpg",
+      "https://th-i.thgim.com/public/incoming/vr7jcp/article71445685.ece/alternates/LANDSCAPE_1200/2026-09-09T010758Z_1272530136_RC2AYK6UZINC_RTRMADP_3_HONGKONG-TUNG-CHEEWHA.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 877.9110278361111,
+    "is_stale": false,
+    "score": 20.306927436959764
+  }
+}
