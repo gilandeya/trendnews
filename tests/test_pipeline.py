@@ -1298,6 +1298,86 @@ def test_radar_preselect_fallback() -> None:
           store.find_previous(history, art.title, art.link, 0.5) is not None)
 
 
+def test_radar_auto_publish_builds_card() -> None:
+    """Issue #852: الاستثناء الإلزامي الوحيد -- مسار radar.auto_publish
+    (نشر فوري بلا مراجعة بشرية) لا يمرّ أبدًا بـpublish.main (حيث تُبنى
+    البطاقات عند الاعتماد عمومًا)، فيجب أن يبني البطاقة صراحةً بنفسه قبل
+    النشر مباشرة عبر cards.ensure -- لا يخرج منشور بلا بطاقة بحال."""
+    from src import radar
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    shutil.rmtree(STATE_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    cfg = load_config()
+    cfg["radar"] = {
+        **(cfg.get("radar") or {}),
+        "enabled": True, "auto_publish": True, "auto_publish_daily_limit": 3,
+        "auto_publish_min_score": 0.0, "auto_publish_min_sources": 1,
+        "preselect_fallback": False, "max_per_run": 1,
+    }
+
+    art = Article(title="زلزال عاجل يضرب المنطقة فورًا", link="https://x/auto-radar",
+                 summary="", source_name="X", region="global", weight=1.0,
+                 published=datetime.now(timezone.utc), score=99.0, group_sources=9,
+                 state_media=False, bucket="serious",
+                 image_candidates=["https://cdn.example/radar-auto.jpg"])
+
+    real_scan = radar.scan
+    real_write = radar.write_arabic
+    real_gather = radar.gather_texts
+    real_dup = radar.merge.find_duplicate_event
+    radar.scan = lambda cfg: [art]
+    radar.write_arabic = lambda article, cfg, retries=3, previous_post=None, source_docs=None: {
+        "urgent": True, "category": "عالم", "angle": "خبر",
+        "image_headline": "عنوان عاجل", "post_title": "عنوان عاجل",
+        "post_body": "متن عاجل يكفي طولًا.", "hashtags": []}
+    radar.gather_texts = lambda members, limit=2: (
+        [{"name": "مصدر", "text": "نص", "link": "https://x/1"}], [])
+    radar.merge.find_duplicate_event = lambda title, recent, cfg: (True, None)
+
+    published_paths: list = []
+    real_publish_photo = facebook.publish_photo
+    real_root = publish_mod.ROOT
+    # publish_one يبني مسار الصورة عبر publish.ROOT (لا DRAFTS_DIR)، فيجب
+    # توجيهه لمجلد الاختبار المؤقت أيضًا -- وإلا بحث عن الملف في drafts/
+    # الحقيقي فسجّل "الصورة مفقودة" رغم بنائها فعليًا في DRAFTS_DIR.
+    publish_mod.ROOT = DRAFTS_DIR.parent
+
+    def fake_publish_photo(image_path, caption, api_version, first_comment=None):
+        published_paths.append(image_path)
+        return {"url": "https://fb.example/r", "id": "1"}
+
+    facebook.publish_photo = fake_publish_photo
+
+    sys.argv = ["radar"]
+    try:
+        code = radar.main()
+    finally:
+        radar.scan = real_scan
+        radar.write_arabic = real_write
+        radar.gather_texts = real_gather
+        radar.merge.find_duplicate_event = real_dup
+        facebook.publish_photo = real_publish_photo
+        publish_mod.ROOT = real_root
+
+    check("radar.main() (نشر تلقائي) ينتهي بنجاح", code == 0, f"exit={code}")
+    check("نُشر تلقائيًا فعلًا (نداء واحد لنشر صورة)", len(published_paths) == 1,
+          published_paths)
+    if published_paths:
+        check("البطاقة المنشورة موجودة فعليًا على القرص",
+              Path(published_paths[0]).exists(), published_paths[0])
+
+    saved = store.load_draft(art.uid)
+    check("مسودة العاجل محفوظة", saved is not None)
+    if saved:
+        check("البطاقة بُنيت فعلًا قبل النشر (حقل image ظهر -- radar.build_draft "
+              "نفسها لم تعد تبنيها)", bool(saved[1].get("image")), saved[1].get("image"))
+        check("حالة المسودة published", saved[1].get("status") == "published",
+              saved[1].get("status"))
+
+
 def test_collect_end_to_end() -> None:
     """يغطي مساري collect.main(): القديم (preselect.enabled=False) يبني
     مسودات كاملة فورًا، وpreselect (enabled=True) يبني مرشحين خامًا فقط
@@ -1348,7 +1428,7 @@ def test_collect_end_to_end() -> None:
     # بصمت) — draft يبقى قاموسًا فارغًا فتُظهر الفحوص التالية فشلها صراحة
     # بدل أن تختفي من التقرير.
     draft = pending[0][1] if pending else {}
-    for field in ("id", "status", "score", "source", "arabic", "caption", "image"):
+    for field in ("id", "status", "score", "source", "arabic", "caption"):
         check(f"حقل '{field}' موجود في المسودة", field in draft)
     check("collect.py يكتب origin=news صراحةً (Issue #749)",
           draft.get("origin") == "news", draft.get("origin"))
@@ -1357,16 +1437,13 @@ def test_collect_end_to_end() -> None:
           isinstance(draft.get("headlines"), list) and len(draft["headlines"]) == 3
           and draft.get("headline_selected") == 0, draft.get("headlines"))
 
-    # "drafts/..." مسار نسبي لمستودع جيت لا لمجلد الكتابة الفعلي أثناء
-    # الاختبار (DRAFTS_DIR هنا مجلد مؤقت) — نحوّله عبره لا عبر ROOT.
-    img = (DRAFTS_DIR / Path(draft["image"]).relative_to("drafts")
-           if draft.get("image") else None)
-    check("ملف الصورة أُنشئ فعلًا", bool(img and img.exists()), str(img))
-    if img and img.exists():
-        with Image.open(img) as im:
-            check("أبعاد الصورة 1080×1080", im.size == (1080, 1080), str(im.size))
-    else:
-        check("أبعاد الصورة 1080×1080", False, "لا صورة لقياس أبعادها")
+    # البطاقة لم تُبنَ عند الجمع بعد الآن (Issue #852) -- تُبنى عند
+    # الاعتماد فقط عبر cards.ensure. المسودة تحمل مصدر الصورة الخام
+    # (source.image_candidates) الذي ستستعمله لاحقًا، لا حقل image.
+    check("بلا حقل image عند الجمع (Issue #852)", "image" not in draft, draft.get("image"))
+    check("مصدر الصورة الخام محفوظ (source.image_candidates)",
+          bool((draft.get("source") or {}).get("image_candidates")),
+          (draft.get("source") or {}).get("image_candidates"))
 
     caption = draft.get("caption", "")
     check("التعليق يحوي هاشتاقات", "#" in caption)
@@ -1396,7 +1473,14 @@ def test_review_roundtrip() -> None:
     ids = review.all_draft_ids(body)
     check("معرفات المسودات مضمّنة في نص الـ Issue",
           len(ids) == len(drafts), f"{len(ids)} من {len(drafts)}")
-    check("الصور معروضة برابط raw", "raw.githubusercontent.com" in body)
+    # البطاقة (image) لم تُبنَ بعد لمسودات الجمع الآن (Issue #852) -- لا
+    # رابط raw.githubusercontent.com يظهر (لا شيء رُفع للمستودع)؛ بدلًا
+    # منه أول مرشَّح صورة خام من source.image_candidates إن وُجد.
+    check("لا روابط raw.githubusercontent.com قبل بناء أي بطاقة",
+          "raw.githubusercontent.com" not in body, body[:400])
+    has_candidates = any((d.get("source") or {}).get("image_candidates") for d in drafts)
+    check("صورة المصدر الخام تُعرض حين تتوفر مرشَّحات (Issue #852)",
+          not has_candidates or "<img" in body, body[:400])
     check("مربعات الاختيار فارغة ابتداءً", review.parse_approved(body) == [])
 
     # محاكاة تعليم المستخدم على المسودة الأولى
@@ -1431,15 +1515,6 @@ def test_preselect_no_spend_before_selection() -> None:
     writer.write_arabic = _spy_write
     collect.write_arabic = _spy_write
 
-    image_calls: list = []
-    real_build_image = collect.build_post_image
-
-    def _spy_image(*a, **kw):
-        image_calls.append(1)
-        return real_build_image(*a, **kw)
-
-    collect.build_post_image = _spy_image
-
     cfg = load_config()
     cfg["preselect"] = {"enabled": True, "candidates_per_run": 5}
     real_load_config = collect.load_config
@@ -1452,11 +1527,12 @@ def test_preselect_no_spend_before_selection() -> None:
         collect.load_config = real_load_config
         writer.write_arabic = real_write
         collect.write_arabic = real_write
-        collect.build_post_image = real_build_image
 
     check("preselect انتهى بنجاح", code == 0, f"exit={code}")
     check("لا استدعاء لصياغة Sonnet أثناء بناء الاختيار", write_calls == [])
-    check("لا بناء صورة أثناء بناء الاختيار", image_calls == [])
+    # لا بناء صورة أثناء بناء الاختيار: collect.py لم يعد يستورد
+    # build_post_image إطلاقًا (Issue #852) — البطاقة تُبنى عند الاعتماد
+    # فقط في كل مسارات الأخبار الآن، لا داخل preselect ولا خارجه.
 
     pending = store.pending_candidates()
     check("مرشحون خام محفوظون بانتظار الاختيار", len(pending) > 0, str(len(pending)))
@@ -1867,8 +1943,9 @@ def test_preselect_two_boxes_now_and_draft_review() -> None:
 
 def test_preselect_draft_review_image_swap_works() -> None:
     """البند 4: مربع تبديل الصورة يعمل فعليًا في مسار «صغ واعرض» —
-    setimage.apply_image يعيد بناء البطاقة على المسودة الناتجة كما في
-    المسار العادي تمامًا، بلا أي تعديل في review.py أو setimage.py."""
+    setimage.apply_image يخزّن الرابط اليدوي في manual_image بلا محاولة
+    بناء (Issue #852: المسودة الناتجة بلا حقل image حتى الاعتماد الآن،
+    نفس مسار أي مسودة أخبار أخرى)، فتلتقطه cards.ensure لاحقًا."""
     from src import collect_finalize, preselect, review, setimage
     from src import publish as publish_mod
 
@@ -1919,24 +1996,23 @@ def test_preselect_draft_review_image_swap_works() -> None:
     check("مسودة «صغ واعرض» صيغت فعلًا", saved is not None)
     if not saved:
         return
-    old_image = saved[1]["image"]
+    check("مسودة «صغ واعرض» بلا حقل image (Issue #852 -- البطاقة تُبنى عند الاعتماد)",
+          "image" not in saved[1], saved[1].get("image"))
 
     updated = setimage.apply_image(cand["id"], "https://cdn.example/new-photo.jpg",
                                    load_config())
-    check("setimage.apply_image يعيد بطاقة محدَّثة لمسودة «صغ واعرض»",
+    check("setimage.apply_image ينجح (يخزّن الرابط بلا محاولة بناء)",
           updated is not None)
     if updated:
-        check("مسار الصورة تغيّر (نسخة جديدة لا استبدال في مكانه)",
-              updated["image"] != old_image, str((updated["image"], old_image)))
-        check("has_photo أصبحت True بعد الاستبدال اليدوي", updated["has_photo"] is True)
-        check("image_info: صورة يدوية تُسجَّل manual=True (Issue #752)",
-              updated.get("image_info") == {
-                  "manual": True, "used_original": True, "illustrative": False,
-                  "composite": False, "chosen_url": "https://cdn.example/new-photo.jpg"},
-              updated.get("image_info"))
+        check("لا حقل image بعد -- لم يُبنَ شيء هنا، البناء عند الاعتماد فقط",
+              "image" not in updated, updated.get("image"))
+        check("manual_image خُزّن للاستعمال لاحقًا في cards.ensure",
+              updated.get("manual_image") == "https://cdn.example/new-photo.jpg",
+              updated.get("manual_image"))
         reloaded = store.load_draft(cand["id"])
         check("التحديث محفوظ فعليًا في المسودة على القرص",
-              reloaded is not None and reloaded[1]["image"] == updated["image"])
+              reloaded is not None
+              and reloaded[1].get("manual_image") == "https://cdn.example/new-photo.jpg")
 
 
 # ═══════════ ترجمة عناوين المرشحين دفعة واحدة (Issue #319 البند 3) ═══════════
@@ -2778,11 +2854,12 @@ def test_setimage_revives_failed_draft_only_when_image_was_the_cause() -> None:
               updated_other.get("error"))
 
 
-def test_setimage_rejects_analysis_draft_without_card() -> None:
-    """Issue #749: مسودة تحليل قبل اعتمادها بلا حقل image بنيويًا (Issue
-    #680، ensure_title_card يبنيه فقط لحظة الاعتماد) — apply_image يفترض
-    بطاقة مبنية (next_image_path(draft["image"])), فيجب أن يرفض برسالة
-    واضحة (لا KeyError) بدل الانهيار."""
+def test_setimage_stores_manual_link_without_card() -> None:
+    """Issue #852 (يخلف Issue #749/#680): مسودة بلا حقل image بعد -- الحال
+    العامة لكل مسار أخبار الآن، لا مسار التحليل وحده كما كانت قبل هذه
+    المهمة -- apply_image لا يحاول إعادة بناء (rebuild_card يفترض بطاقة
+    سابقة ليحسب مسارًا "تاليًا" لها)، بل يخزّن الرابط في manual_image
+    وحده، فتلتقطه cards.ensure عند الاعتماد لاحقًا."""
     from src import setimage
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
@@ -2797,10 +2874,99 @@ def test_setimage_rejects_analysis_draft_without_card() -> None:
     store.save_draft(draft)
 
     result = setimage.apply_image(draft["id"], "https://cdn.example/x.jpg", load_config())
-    check("apply_image يرفض بأمان (يعيد None) بدل KeyError على مسودة بلا بطاقة",
-          result is None, result)
-    check("المسودة لم تُمسّ إطلاقًا", store.load_draft(draft["id"])[1] == draft,
-          store.load_draft(draft["id"])[1])
+    check("apply_image ينجح (يخزّن الرابط بلا محاولة بناء) على مسودة بلا بطاقة",
+          result is not None, result)
+    check("لا حقل image أُضيف -- البناء يبقى مؤجَّلًا لحظة الاعتماد",
+          result is not None and "image" not in result, result)
+    check("manual_image خُزّن للاستعمال لاحقًا في cards.ensure",
+          result is not None and result.get("manual_image") == "https://cdn.example/x.jpg",
+          result)
+    persisted = store.load_draft(draft["id"])
+    check("التحديث محفوظ فعليًا على القرص",
+          persisted is not None and persisted[1].get("manual_image") == "https://cdn.example/x.jpg",
+          persisted[1] if persisted else None)
+
+    # الرابط اليدوي يُستعمل فعليًا عند الاعتماد (cards.ensure) -- إغلاق
+    # الحلقة: manual_image ليس مجرد حقل محفوظ بلا أثر.
+    from src import cards
+    path, fresh = store.load_draft(draft["id"])
+    new_rel = cards.ensure(path, fresh, load_config())
+    check("cards.ensure ينجح عند الاعتماد مستعملًا الرابط اليدوي", new_rel is not None, new_rel)
+    if new_rel:
+        built = store.load_draft(draft["id"])[1]
+        check("البطاقة بُنيت فعليًا من manual_image (image_info.manual=True)",
+              built.get("image_info", {}).get("manual") is True, built.get("image_info"))
+        check("image_info.chosen_url هو الرابط اليدوي بعينه",
+              built.get("image_info", {}).get("chosen_url") == "https://cdn.example/x.jpg",
+              built.get("image_info"))
+
+
+def test_setimage_cli_sync_handles_cardless_draft() -> None:
+    """Issue #852: setimage.main()/sync_issue() (مسار /صورة الكامل عبر
+    الـIssue) لم يكونا يتوقعان مسودة بلا حقل image من apply_image --
+    ``updated["image"]`` في main() كان لينهار بـKeyError، وsync_issue()
+    كانت لتستبدل مسار صورة غير موجود في نص الـIssue. الآن: "new" تكون
+    None حين لم تُبنَ بطاقة، فلا استبدال نص ولا انهيار، وتعليق مختلف
+    يوضّح أن الرابط خُزّن للبناء لاحقًا لا أنه استُبدل."""
+    import src.setimage as setimage_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    draft = {
+        "id": "d0d0d0d0d0d0", "score": 4.0, "caption": "متن", "bucket": "serious",
+        "source": {"link": "https://x/1", "publishers": ["BBC"]},
+        "arabic": {"post_title": "خبر بلا بطاقة بعد", "category": ""},
+        # بلا حقل image عمدًا
+    }
+    store.save_draft({**draft, "status": "pending", "id": "d0d0d0d0d0d0"})
+
+    body = review.build_issue_body([draft], "u/r", "main")
+    ticked = body.replace("- [ ] 🖼️ استبدل", "- [x] 🖼️ استبدل")
+    filled = ticked.replace(
+        f"الرابط:   <!-- imgurl:{draft['id']} -->",
+        f"الرابط: https://cdn.example/cli-sync.jpg  <!-- imgurl:{draft['id']} -->")
+
+    sync_path = _TMP_DATA_DIR / "image_sync_test.json"
+    real_sync_file = setimage_mod.SYNC_FILE
+    setimage_mod.SYNC_FILE = sync_path
+
+    sys.argv = ["setimage", "--from-issue", "--issue", "4242", "--body", ""]
+    real_fetch_body = review.fetch_issue_body
+    review.fetch_issue_body = lambda issue_number: filled
+    try:
+        code = setimage_mod.main()
+    finally:
+        review.fetch_issue_body = real_fetch_body
+    check("setimage.main() لا ينهار على مسودة بلا بطاقة (Issue #852)",
+          code == 0, f"exit={code}")
+
+    data = json.loads(sync_path.read_text(encoding="utf-8"))
+    check("done تحمل مدخلة واحدة بـ new=None (لم تُبنَ بطاقة)",
+          len(data.get("done", [])) == 1 and data["done"][0].get("new") is None, data)
+
+    comments: list = []
+    updated_bodies: list = []
+    real_comment = review.comment
+    real_update_body = review.update_issue_body
+    review.fetch_issue_body = lambda issue_number: filled
+    review.comment = lambda issue_number, text: comments.append(text)
+    review.update_issue_body = lambda issue_number, b: updated_bodies.append(b)
+    try:
+        setimage_mod.sync_issue(4242)
+    finally:
+        review.fetch_issue_body = real_fetch_body
+        review.comment = real_comment
+        review.update_issue_body = real_update_body
+        setimage_mod.SYNC_FILE = real_sync_file
+        sync_path.unlink(missing_ok=True)
+
+    check("sync_issue() لا ينهار بلا مسار صورة يُستبدَل", updated_bodies != [], updated_bodies)
+    check("خانة الطلب تُفرَّغ رغم عدم بناء بطاقة",
+          updated_bodies and review.parse_image_requests(updated_bodies[0]) == [],
+          updated_bodies)
+    check("تعليق يوضّح أن الرابط خُزّن للبناء لاحقًا لا «حُدّثت الصورة»",
+          comments and "ستُبنى البطاقة به عند الاعتماد" in comments[0], comments)
 
 
 def test_setimage_apply_image_keeps_origin_badge() -> None:
@@ -2847,15 +3013,18 @@ def test_setimage_apply_image_keeps_origin_badge() -> None:
           all(abs(a - b) <= 6 for a, b in zip(pixel, analysis_bg)), (pixel, analysis_bg))
 
 
-def test_publish_headline_choice_rebuilds_card() -> None:
-    """Issue #760: اختيار عنوان غير افتراضي في Issue المراجعة يعيد بناء
-    البطاقة بذلك العنوان أيضًا -- لا النص وحده. الفهرس صفر (الافتراضي) لا
-    يمسّها؛ تجاوز حدّ الطول (image.headline_max_chars) لا يعيد بناءها
-    (والنص يأخذ العنوان المختار رغم ذلك)؛ وفشل البناء (رابط تعذّر تنزيله)
-    يُبقي البطاقة القديمة ولا يوقف النشر. البطاقة المعاد بناؤها تحتفظ
-    بملصق مسار المسودة (نفس مبدأ #758)."""
-    from src import publish as publish_mod
-    from src import setimage
+def test_publish_builds_cards_at_approval() -> None:
+    """Issue #852، الجزء الأول: البطاقة لم تعد تُبنى عند الجمع -- تُبنى
+    الآن في publish.main نفسها، بعد اختيار العنوان مباشرة (الترتيب
+    الملزم: تعديل النص ← اختيار العنوان ← cards.ensure ← الرفض التلقائي
+    ← النشر). كل المسودات هنا تصل بلا حقل image إطلاقًا، مطابقةً لما
+    يخرجه src.collect وأخواتها الآن. فهرس مختار غير الافتراضي يصل فعليًا
+    إلى البطاقة؛ عنوان يتجاوز image.headline_max_chars لا يُستعمل عليها
+    (يُستبدَل بـarabic.image_headline، والبطاقة تُبنى به بدلًا)؛ وفشل بناء
+    حقيقي يُبقي المسودة pending بلا نشر ويُعلَّق على الـIssue باسمها
+    وسببها -- لا يوقف نشر بقية الدفعة. البطاقات المبنية تحمل ملصق مسار
+    المسودة (نفس مبدأ #758)."""
+    from src import cards, publish as publish_mod
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -2866,64 +3035,33 @@ def test_publish_headline_choice_rebuilds_card() -> None:
                      "المرسوم فعليًا على بطاقة الخبر مهما بلغ رقم الإعداد ")
     long_headline = (long_headline * 3)[:max_chars + 30]
 
-    draft_short = {
-        "id": "cc1100000001", "status": "pending", "score": 5.0, "bucket": "serious",
-        "state_media": False, "origin": "request",
-        "image": "drafts/rb1.jpg",
-        "caption": "عنوان قصير أصلي\nمتن الخبر الأول.",
-        "source": {"link": "https://x/rb1", "publishers": ["BBC"],
-                   "image_url": "https://cdn.example/rb1.jpg"},
-        # category فارغة عمدًا: badge_left يرسم شارة category أولًا فتزيح
-        # موضع ملصق origin يمينًا (src/imaging.py) -- probe_xy أدناه يفترض
-        # margin+10 كموضع الملصق مباشرة (نفس صيغة
-        # test_setimage_apply_image_keeps_origin_badge)، فتبقى category
-        # فارغة هنا كي لا تزاح.
-        "arabic": {"post_title": "عنوان قصير أصلي", "category": "",
-                   "urgent": False, "image_headline": "عنوان قصير أصلي (مرجع البطاقة)"},
-        "headlines": ["عنوان قصير أصلي", "عنوان بديل قصير جدًا"],
-        "headline_selected": 0,
-    }
-    draft_default = {
-        "id": "cc2200000002", "status": "pending", "score": 5.0, "bucket": "serious",
-        "state_media": False,
-        "image": "drafts/rb2.jpg",
-        "caption": "عنوان افتراضي\nمتن الخبر الثاني.",
-        "source": {"link": "https://x/rb2", "publishers": ["BBC"],
-                   "image_url": "https://cdn.example/rb2.jpg"},
-        "arabic": {"post_title": "عنوان افتراضي", "category": "سياسة", "urgent": False},
-        "headlines": ["عنوان افتراضي", "عنوان بديل آخر"],
-        "headline_selected": 0,
-    }
-    draft_long = {
-        "id": "cc3300000003", "status": "pending", "score": 5.0, "bucket": "serious",
-        "state_media": False,
-        "image": "drafts/rb3.jpg",
-        "caption": "عنوان قصير أصلي ٣\nمتن الخبر الثالث.",
-        "source": {"link": "https://x/rb3", "publishers": ["BBC"],
-                   "image_url": "https://cdn.example/rb3.jpg"},
-        "arabic": {"post_title": "عنوان قصير أصلي ٣", "category": "سياسة", "urgent": False},
-        "headlines": ["عنوان قصير أصلي ٣", long_headline],
-        "headline_selected": 0,
-    }
-    draft_fail = {
-        "id": "cc4400000004", "status": "pending", "score": 5.0, "bucket": "serious",
-        "state_media": False,
-        "image": "drafts/rb4.jpg",
-        "caption": "عنوان قصير أصلي ٤\nمتن الخبر الرابع.",
-        "source": {"link": "https://x/rb4", "publishers": ["BBC"],
-                   "image_url": "https://cdn.example/unreachable-rb4.jpg"},
-        "arabic": {"post_title": "عنوان قصير أصلي ٤", "category": "سياسة", "urgent": False},
-        "headlines": ["عنوان قصير أصلي ٤", "عنوان بديل قصير ٤"],
-        "headline_selected": 0,
-    }
-    for d in (draft_short, draft_default, draft_long, draft_fail):
+    def _draft(id_, headlines, idx):
+        return {
+            "id": id_, "status": "pending", "score": 5.0, "bucket": "serious",
+            "state_media": False, "origin": "request",
+            "caption": f"{headlines[0]}\nمتن الخبر.",
+            "source": {"link": f"https://x/{id_}", "publishers": ["BBC"],
+                       "image_candidates": ["https://cdn.example/ok.jpg"]},
+            # category فارغة عمدًا: badge_left يرسم شارة category أولًا فتزيح
+            # موضع ملصق origin يمينًا (src/imaging.py) -- probe_xy أدناه
+            # يفترض margin+10 كموضع الملصق مباشرة (نفس صيغة
+            # test_setimage_apply_image_keeps_origin_badge).
+            "arabic": {"post_title": headlines[0], "category": "", "urgent": False,
+                       "image_headline": headlines[0]},
+            "headlines": headlines, "headline_selected": idx,
+        }
+
+    # بلا حقل image عمدًا في الأربعة -- الحال الطبيعية بعد Issue #852.
+    draft_chosen = _draft("cc1100000011", ["عنوان قصير أصلي", "عنوان بديل مختار"], 1)
+    draft_default = _draft("cc2200000022", ["عنوان افتراضي", "عنوان بديل آخر"], 0)
+    draft_long = _draft("cc3300000033", ["عنوان قصير أصلي ٣", long_headline], 1)
+    draft_fail = _draft("cc4400000044", ["عنوان قصير أصلي ٤", "عنوان بديل قصير ٤"], 1)
+    for d in (draft_chosen, draft_default, draft_long, draft_fail):
         store.save_draft(d)
-    for name in ("rb2.jpg", "rb3.jpg", "rb4.jpg"):
-        (DRAFTS_DIR / name).write_bytes(b"\xff\xd8\xff")
 
     body = review.build_issue_body(
-        [draft_short, draft_default, draft_long, draft_fail], "u/r", "main")
-    for d in (draft_short, draft_default, draft_long, draft_fail):
+        [draft_chosen, draft_default, draft_long, draft_fail], "u/r", "main")
+    for d in (draft_chosen, draft_default, draft_long, draft_fail):
         body = tick_marker(body, f"<!-- draft:{d['id']} -->")
 
     def select_headline(text: str, draft_id: str, idx: int) -> str:
@@ -2937,7 +3075,7 @@ def test_publish_headline_choice_rebuilds_card() -> None:
                        else line.replace("- [x]", "- [ ]", 1))
         return "\n".join(lines)
 
-    body = select_headline(body, draft_short["id"], 1)
+    body = select_headline(body, draft_chosen["id"], 1)
     body = select_headline(body, draft_long["id"], 1)
     body = select_headline(body, draft_fail["id"], 1)
     # draft_default تبقى على الفهرس ٠ الافتراضي بلا أي تعديل على مربعاتها
@@ -2947,28 +3085,33 @@ def test_publish_headline_choice_rebuilds_card() -> None:
     real_publish_photo = facebook.publish_photo
     real_comment = review.comment
     real_close = review.close_issue
-    real_download = setimage.download_image
+    real_build = cards._default_build_post_image
     publish_mod.ROOT = DRAFTS_DIR.parent
     publish_calls: list = []
+    build_headlines: list = []
+    comments: list = []
 
     def fake_publish_photo(image_path, caption, api_version, first_comment=None):
         publish_calls.append(caption)
         return {"url": "https://fb.example/1", "id": "1"}
 
-    def selective_download(url, timeout=20, failures=None):
-        # نفس تمويه install_fakes() لأي رابط، عدا رابط "unreachable" -- يحاكي
-        # رابطًا انتهى أو تعثّرت شبكته لحظة إعادة البناء (Issue #760).
-        if url and "unreachable" in url:
-            return None
-        return real_download(url, timeout=timeout, failures=failures)
+    def spy_build(**kwargs):
+        build_headlines.append(kwargs.get("headline"))
+        # عطل بناء حقيقي مقصود على مسودة draft_fail وحدها -- عبر out_path
+        # لا رابط الشبكة (النموذج العام لا يفحّص الروابط مسبقًا كـ
+        # setimage.rebuild_card، فرابط "تعذّر" وحده لا يُسقط البناء -- يعود
+        # ببساطة إلى الخلفية المصممة).
+        if "cc4400000044" in str(kwargs.get("out_path")):
+            raise RuntimeError("عطل بناء اختباري")
+        return real_build(**kwargs)
 
+    cards._default_build_post_image = spy_build
     facebook.publish_photo = fake_publish_photo
-    review.comment = lambda issue_number, text: None
+    review.comment = lambda issue_number, text: comments.append(text)
     review.close_issue = lambda issue_number: None
-    setimage.download_image = selective_download
     publish_mod.fetch_issue = lambda n: {
         "number": n, "body": body, "labels": [{"name": "approved"}]}
-    sys.argv = ["publish", "--issue", "9760", "--now"]
+    sys.argv = ["publish", "--issue", "8852", "--now"]
     try:
         code = publish_mod.main()
     finally:
@@ -2977,41 +3120,46 @@ def test_publish_headline_choice_rebuilds_card() -> None:
         facebook.publish_photo = real_publish_photo
         review.comment = real_comment
         review.close_issue = real_close
-        setimage.download_image = real_download
+        cards._default_build_post_image = real_build
 
-    check("publish.main (اختيار عنوان يعيد بناء البطاقات): ينتهي بنجاح",
-          code == 0, f"exit={code}")
-    check("publish.main: الأربعة نُشرت رغم فشل إعادة بناء واحدة منها",
-          len(publish_calls) == 4, publish_calls)
+    check("publish.main ينتهي بنجاح رغم فشل بناء بطاقة واحدة", code == 0, f"exit={code}")
+    check("publish.main: الثلاثة السليمة نُشرت (الرابعة فشل بناؤها فبقيت معلَّقة)",
+          len(publish_calls) == 3, publish_calls)
 
-    persisted_short = store.load_draft(draft_short["id"])[1]
-    check("فهرس ١ بعنوان قصير: البطاقة أُعيد بناؤها (مسار image تغيّر)",
-          persisted_short["image"] != draft_short["image"], persisted_short.get("image"))
+    check("العنوان المختار (فهرس ١) وصل فعليًا إلى بناء البطاقة",
+          "عنوان بديل مختار" in build_headlines, build_headlines)
+    check("عنوان يتجاوز الحدّ لم يصل للبطاقة إطلاقًا -- استُبدل بـarabic.image_headline",
+          long_headline not in build_headlines and "عنوان قصير أصلي ٣" in build_headlines,
+          build_headlines)
+
+    persisted_chosen = store.load_draft(draft_chosen["id"])[1]
+    check("فهرس ١: البطاقة بُنيت فعلًا (حقل image ظهر -- لم يكن موجودًا قبل الاعتماد)",
+          bool(persisted_chosen.get("image")), persisted_chosen.get("image"))
+    check("فهرس ١: حالة المسودة published", persisted_chosen.get("status") == "published",
+          persisted_chosen.get("status"))
     check("فهرس ١: النص المنشور يحمل العنوان المختار",
-          any(c.startswith("عنوان بديل قصير جدًا") for c in publish_calls), publish_calls)
-    check("فهرس ١: arabic.image_headline المخزَّن لم يُمسّ (Issue #760)",
-          persisted_short["arabic"]["image_headline"] ==
-          "عنوان قصير أصلي (مرجع البطاقة)", persisted_short["arabic"])
+          any(c.startswith("عنوان بديل مختار") for c in publish_calls), publish_calls)
 
     persisted_default = store.load_draft(draft_default["id"])[1]
-    check("فهرس ٠ (الافتراضي): البطاقة لم تُعَد بناؤها إطلاقًا",
-          persisted_default["image"] == draft_default["image"], persisted_default.get("image"))
+    check("الفهرس الافتراضي (٠): البطاقة بُنيت أيضًا (لم تُبنَ عند الجمع أصلًا)",
+          bool(persisted_default.get("image")), persisted_default.get("image"))
 
     persisted_long = store.load_draft(draft_long["id"])[1]
-    check("عنوان يتجاوز الحدّ: البطاقة لم تُعَد بناؤها",
-          persisted_long["image"] == draft_long["image"], persisted_long.get("image"))
-    check("عنوان يتجاوز الحدّ: النص أخذ العنوان المختار رغم ذلك",
+    check("عنوان يتجاوز الحدّ: البطاقة بُنيت رغم ذلك (بعنوان arabic.image_headline بدلًا)",
+          bool(persisted_long.get("image")), persisted_long.get("image"))
+    check("عنوان يتجاوز الحدّ: النص المنشور أخذ العنوان المختار رغم ذلك",
           any(c.startswith(long_headline) for c in publish_calls),
           [c[:40] for c in publish_calls])
 
     persisted_fail = store.load_draft(draft_fail["id"])[1]
-    check("فشل إعادة البناء (رابط تعذّر): البطاقة القديمة تبقى",
-          persisted_fail["image"] == draft_fail["image"], persisted_fail.get("image"))
-    check("فشل إعادة البناء: النشر لم يتوقف (النص أخذ العنوان رغم فشل الصورة)",
-          any(c.startswith("عنوان بديل قصير ٤") for c in publish_calls), publish_calls)
+    check("فشل بناء حقيقي: المسودة تبقى pending بلا نشر (لا تُسقَط صامتًا)",
+          persisted_fail.get("status") == "pending", persisted_fail.get("status"))
+    check("فشل بناء حقيقي: لا حقل image ظهر", "image" not in persisted_fail, persisted_fail)
+    check("فشل بناء حقيقي: تعليق على الـIssue يذكر اسم المسودة (بعد تطبيق العنوان المختار)",
+          comments and any("عنوان بديل قصير ٤" in c for c in comments), comments)
 
-    # البطاقة المعاد بناؤها تحتفظ بملصق مسار المسودة (origin=request، نفس
-    # مبدأ #758) -- نفس أسلوب فحص البكسل في test_setimage_apply_image_keeps_origin_badge
+    # البطاقات المبنية تحمل ملصق مسار المسودة (origin=request، نفس مبدأ
+    # #758) -- نفس أسلوب فحص البكسل في test_setimage_apply_image_keeps_origin_badge
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
     margin = int(W * 0.06)
@@ -3024,10 +3172,10 @@ def test_publish_headline_choice_rebuilds_card() -> None:
           else inner_top + int((inner_bot - inner_top) * 0.34))
     probe_xy = (margin + 10, by)
     request_bg = imaging.hex_rgb(cfg.path("cards.request.bg"))
-    out_path = DRAFTS_DIR / Path(persisted_short["image"]).relative_to("drafts")
+    out_path = DRAFTS_DIR / Path(persisted_chosen["image"]).relative_to("drafts")
     with Image.open(out_path) as im:
         pixel = im.convert("RGB").getpixel(probe_xy)
-    check("البطاقة المعاد بناؤها تحمل ملصق «تحقيق» (origin=request محفوظ، Issue #760/#758)",
+    check("البطاقة المبنية عند الاعتماد تحمل ملصق «تحقيق» (origin=request، Issue #758)",
           all(abs(a - b) <= 6 for a, b in zip(pixel, request_bg)), (pixel, request_bg))
 
 
@@ -3108,12 +3256,10 @@ def test_request_and_radar_headlines() -> None:
                 "image_headline": "عنوان تجريبي", "post_title": "عنوان تجريبي",
                 "post_body": "متن تجريبي لفحص العناوين.", "hashtags": []}
 
-    def fake_image(headline, category, urgent, image_urls, publisher, bucket,
-                   fallback_provider, cfg, out_path, report, origin=""):
-        report["used_original"] = False
-
-    real_write, real_image = radar.write_arabic, radar.build_post_image
-    radar.write_arabic, radar.build_post_image = fake_write, fake_image
+    # radar.build_draft لم تعد تبني بطاقة إطلاقًا (Issue #852) -- لا حاجة
+    # لتمويه build_post_image هنا بعد الآن.
+    real_write = radar.write_arabic
+    radar.write_arabic = fake_write
     try:
         cfg = load_config()
         art_radar = Article(title="عاجل تجريبي لفحص استبعاد العناوين", link="https://x/radar-hl",
@@ -3124,6 +3270,11 @@ def test_request_and_radar_headlines() -> None:
               radar_draft is not None and "headlines" not in radar_draft, radar_draft)
         check("radar.build_draft لا تحفظ headline_selected إطلاقًا",
               radar_draft is not None and "headline_selected" not in radar_draft, radar_draft)
+        check("radar.build_draft بلا حقل image (Issue #852 -- البطاقة تُبنى عند الاعتماد)",
+              radar_draft is not None and "image" not in radar_draft, radar_draft)
+        check("radar.build_draft تحفظ source.image_candidates لاستعمالها لاحقًا",
+              radar_draft is not None
+              and "image_candidates" in (radar_draft.get("source") or {}), radar_draft)
 
         art_req = Article(title="طلب تجريبي لفحص حفظ العناوين", link="https://x/request-hl",
                           summary="", source_name="s", region="global", weight=1.0,
@@ -3136,7 +3287,7 @@ def test_request_and_radar_headlines() -> None:
         finally:
             rq.fetch_source = real_fetch_source
     finally:
-        radar.write_arabic, radar.build_post_image = real_write, real_image
+        radar.write_arabic = real_write
 
     check("request.main() ينتهي بنجاح", code == 0, f"exit={code}")
     req_draft = store.load_draft(art_req.uid)
@@ -4520,8 +4671,8 @@ def test_verify_draft() -> None:
     from src import verify, verify_draft
 
     real_client = writer._client
-    real_find_images = verify_draft.find_images
-    verify_draft.find_images = lambda *a, **kw: []  # لا شبكة إطلاقًا هنا
+    # verify_draft لم تعد تستورد find_images ولا تبني بطاقة إطلاقًا
+    # (Issue #852) -- البطاقة تُبنى عند الاعتماد فقط، لا هنا.
 
     # attempt() تشترط الآن صراحةً أن التشغيل يُعلن صلاحية الكتابة (تعليق ما
     # قبل الدمج، نقطة 1) — الاختبارات هنا تُحاكي بيئة verify.yml المحدَّث
@@ -4651,8 +4802,10 @@ def test_verify_draft() -> None:
               "(لا رابط له أصلًا)",
               saved.get("source", {}).get("link") in
               ("https://bbc.example/1", "https://reuters.example/1"))
-        check("3) نفس مخطط drafts/ (id/arabic/caption/image/source) بلا نقص",
-              {"id", "arabic", "caption", "image", "source"} <= set(saved.keys()))
+        # بلا "image" (Issue #852) -- البطاقة تُبنى عند الاعتماد لا هنا.
+        check("3) نفس مخطط drafts/ (id/arabic/caption/source) بلا نقص",
+              {"id", "arabic", "caption", "source"} <= set(saved.keys()))
+        check("3) بلا حقل image عند الصياغة (Issue #852)", "image" not in saved)
         check("3) verify_draft.py يحفظ headlines/headline_selected (Issue #756)",
               isinstance(saved.get("headlines"), list) and len(saved["headlines"]) == 3
               and saved.get("headline_selected") == 0, saved.get("headlines"))
@@ -4911,7 +5064,6 @@ def test_verify_draft() -> None:
           verify_draft.WRITE_ENABLED_ENV in section13)
 
     writer._client = real_client
-    verify_draft.find_images = real_find_images
     if real_write_enabled is None:
         os.environ.pop(verify_draft.WRITE_ENABLED_ENV, None)
     else:
@@ -6632,8 +6784,11 @@ def test_article() -> None:
           "(لا [] فارغ يُسقط كل الصور بصرف النظر عمّا هو متاح)",
           out_support.get("image_source_name") in ("مصدر سند أول", "مصدر سند ثانٍ"),
           out_support.get("image_source_name"))
-    check("دورة السند الثانية: تقرير الصورة يسجّل أنها استُخدمت من مصدر مسند مباشرة",
-          out_support.get("image_report", {}).get("used_original") is True,
+    # البطاقة لم تعد تُبنى عند الصياغة (Issue #852) -- لا "used_original"
+    # بعد الآن، فالإشارة الصحيحة هنا أن مرشَّحين فعليين وصلا التقرير (لا
+    # [] فارغ يُسقط كل الصور بصرف النظر عمّا هو متاح، جوهر هذا الاختبار).
+    check("دورة السند الثانية: تقرير الصورة يسجّل مرشَّحين فعليين من الدمج",
+          out_support.get("image_report", {}).get("total_candidates", 0) >= 2,
           out_support.get("image_report"))
 
     article._support_sources = _fake_support
@@ -13122,12 +13277,14 @@ def test_open_review_excludes_youtube_and_broken_drafts() -> None:
     بلا تمييز أصل عبر ``store.pending_drafts()`` الخام، فمسودة يوتيوب لم
     تُربَط بعد بـreview_issue خاصّها (نافذة سباق موثّقة في
     ``youtube_publish.py``) قد تدخل Issue المراجعة العام خطأً، وتُسقط
-    ``review.build_issue_body`` كاملة بـ``KeyError`` لأنها بلا حقل image
-    (Issue #680) — نفس فشل ``publish.py`` لكن عند فتح الـ Issue لا عند
+    ``review.build_issue_body`` كاملة بـ``KeyError`` لأنها ناقصة حقلًا
+    تعتمده بلا شرط -- نفس فشل ``publish.py`` لكن عند فتح الـ Issue لا عند
     النشر. الآن: (أ) مسودات ``origin: youtube`` تُستبعد صراحة فلا تُلمَس
     إطلاقًا (يبقى مسارها الخاص هو من يربطها بـreview_issue لاحقًا)، و(ب)
-    أي مسودة عامة أخرى ناقصة حقلًا أساسيًا تُستبعد من نص الـ Issue وتُسجَّل
-    ``failed`` بدل أن تُسقط بناء الـ Issue للمسودات السليمة معها."""
+    أي مسودة عامة أخرى ناقصة حقلًا أساسيًا (caption/arabic.post_title/
+    score/source.link -- ``image`` لم تعد منها، Issue #852) تُستبعد من
+    نص الـ Issue وتُسجَّل ``failed`` بدل أن تُسقط بناء الـ Issue للمسودات
+    السليمة معها."""
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -13139,8 +13296,10 @@ def test_open_review_excludes_youtube_and_broken_drafts() -> None:
     bad = {
         "id": "baaaad01", "status": "pending",
         "arabic": {"post_title": "خبر ناقص"}, "caption": "متن",
-        "score": 1.0, "source": {"link": "https://example.com/bad"},
-        # بلا حقل image عمدًا
+        "source": {"link": "https://example.com/bad"},
+        # بلا حقل score عمدًا -- image لم تعد من الحقول المطلوبة (Issue
+        # #852)، فحقل آخر لا يزال مطلوبًا (caption/arabic.post_title/score/
+        # source.link) هو ما يجب أن يُسقط هذه المسودة الآن.
     }
     good = {
         "id": "600dcafe", "status": "pending",
@@ -13148,7 +13307,17 @@ def test_open_review_excludes_youtube_and_broken_drafts() -> None:
         "score": 2.0, "image": "drafts/or.jpg",
         "source": {"link": "https://example.com/good", "publishers": ["Reuters"]},
     }
-    for d in (yt_leaked, bad, good):
+    # مسودة سليمة بلا بطاقة بعد (Issue #852) -- الحال الطبيعية الآن لكل
+    # مسودة أخبار قبل الاعتماد؛ يجب أن تُدرَج في الـIssue بلا اعتبارها
+    # ناقصة، بعرض أول مرشَّح صورة خام بدلًا من البطاقة.
+    good_no_card = {
+        "id": "900dcafe", "status": "pending",
+        "arabic": {"post_title": "خبر سليم بلا بطاقة بعد"}, "caption": "متن",
+        "score": 3.0,
+        "source": {"link": "https://example.com/good2", "publishers": ["AP"],
+                   "image_candidates": ["https://cdn.example/raw-source.jpg"]},
+    }
+    for d in (yt_leaked, bad, good, good_no_card):
         store.save_draft(d)
 
     create_issue_calls: list = []
@@ -13185,8 +13354,9 @@ def test_open_review_excludes_youtube_and_broken_drafts() -> None:
     check("Issue واحد فُتح لا أكثر", len(create_issue_calls) == 1,
           str(len(create_issue_calls)))
     body = create_issue_calls[0]["body"] if create_issue_calls else ""
-    check("المسودة السليمة وحدها ظاهرة في نص الـ Issue",
-          review.all_draft_ids(body) == ["600dcafe"], str(review.all_draft_ids(body)))
+    check("المسودتان السليمتان (بطاقة أو بلا بطاقة) ظاهرتان في نص الـ Issue",
+          set(review.all_draft_ids(body)) == {"600dcafe", "900dcafe"},
+          str(review.all_draft_ids(body)))
 
     check("مسودة يوتيوب المتسرّبة لم تُلمَس إطلاقًا (لا review_issue، تبقى pending)",
           store.load_draft("facade01")[1] == yt_leaked,
@@ -13197,6 +13367,11 @@ def test_open_review_excludes_youtube_and_broken_drafts() -> None:
     check("المسودة السليمة رُبطت بالـ Issue المفتوح",
           store.load_draft("600dcafe")[1].get("review_issue") == 707,
           store.load_draft("600dcafe")[1].get("review_issue"))
+    check("المسودة السليمة بلا بطاقة لم تُعامَل كمتسرّبة -- رُبطت بالـIssue أيضًا",
+          store.load_draft("900dcafe")[1].get("review_issue") == 707,
+          store.load_draft("900dcafe")[1].get("review_issue"))
+    check("مسودة بلا بطاقة: صورة المصدر الخام تُعرض بدلًا من البطاقة",
+          "https://cdn.example/raw-source.jpg" in body, body)
 
 
 def test_origin_of_synonyms() -> None:
@@ -13320,23 +13495,20 @@ def test_radar_writes_breaking_origin() -> None:
                  summary="", source_name="X", region="global", weight=1.0,
                  published=datetime.now(timezone.utc), score=30.0, group_sources=5)
 
-    real_write, real_image = radar.write_arabic, radar.build_post_image
+    real_write = radar.write_arabic
 
     def fake_write(article, cfg, retries=3, previous_post=None, source_docs=None):
         return {"urgent": True, "category": "عالم", "angle": "خبر",
                 "image_headline": "عنوان", "post_title": "عنوان", "post_body": "نص",
                 "hashtags": []}
 
-    def fake_image(headline, category, urgent, image_urls, publisher, bucket,
-                   fallback_provider, cfg, out_path, report, origin=""):
-        report["used_original"] = True
-
+    # radar.build_draft لم تعد تبني بطاقة إطلاقًا (Issue #852) -- لا حاجة
+    # لتمويه build_post_image هنا بعد الآن.
     radar.write_arabic = fake_write
-    radar.build_post_image = fake_image
     try:
         draft = radar.build_draft(art, load_config(), urgent=True, docs=[])
     finally:
-        radar.write_arabic, radar.build_post_image = real_write, real_image
+        radar.write_arabic = real_write
 
     check("radar.build_draft ينتج مسودة", draft is not None, draft)
     check("radar.py يكتب origin=breaking صراحةً (Issue #749)",
@@ -17036,6 +17208,7 @@ def main() -> int:
     print("\n── كاشف تكرار النشر التلقائي (الرادار) ──")
     test_radar_gate_check_dedupe()
     test_radar_preselect_fallback()
+    test_radar_auto_publish_builds_card()
     print("\n── ترشيح الصور ──")
     test_image_filtering()
     test_image_report()
@@ -17182,12 +17355,13 @@ def main() -> int:
     test_insights_why_section_missing_state_file()
     test_insights_no_posts_still_shows_why_and_decisions()
     print("\n── تحصين القرّاء الأربعة أمام مسودة تحليل بلا حقل image (Issue #749) ──")
-    test_setimage_rejects_analysis_draft_without_card()
+    test_setimage_stores_manual_link_without_card()
+    test_setimage_cli_sync_handles_cardless_draft()
     test_collect_feedback_rejects_analysis_draft_without_image()
     print("\n── setimage.apply_image يحافظ على وسم المسار (Issue #758) ──")
     test_setimage_apply_image_keeps_origin_badge()
     print("\n── اختيار عنوان غير افتراضي يعيد بناء البطاقة (Issue #760) ──")
-    test_publish_headline_choice_rebuilds_card()
+    test_publish_builds_cards_at_approval()
     print("\n── حارس temperature (Issue #373) ──")
     test_no_temperature_param()
     print("\n── نسبة إصابة الذاكرة المؤقتة في تقرير الكلفة (طلب المراجعة) ──")

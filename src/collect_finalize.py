@@ -18,10 +18,7 @@ import os
 from datetime import datetime, timezone
 
 from . import feedback, headlines as headlines_mod, preselect, review, store
-from .config import DRAFTS_DIR
 from .extract import gather as gather_texts
-from .imagesearch import find_images
-from .imaging import build_post_image
 from .writer import WriteFailure, build_caption, write_arabic
 
 log = logging.getLogger("collect_finalize")
@@ -30,24 +27,8 @@ log = logging.getLogger("collect_finalize")
 def _build_draft(art, written: dict, docs: list[dict], prev_title: str | None,
                  cfg) -> dict:
     headline = written["image_headline"] or written["post_title"]
-    image_name = f"{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.jpg"
-    image_rel = f"drafts/{image_name}"
-    shot: dict = {}
-    build_post_image(
-        headline=headline,
-        category=written["category"],
-        urgent=written["urgent"],
-        image_urls=art.image_candidates or ([art.image_url] if art.image_url else []),
-        publisher=art.cluster_sources or [art.publisher],
-        bucket=art.bucket,
-        origin="news",
-        fallback_provider=lambda t=art.title: find_images(t, cfg),
-        cfg=cfg,
-        out_path=DRAFTS_DIR / image_name,
-        report=shot,
-    )
 
-    # عناوين مقترحة (Issue #756) -- بعد نجاح الصياغة والصورة، بنفس آلية
+    # عناوين مقترحة (Issue #756) -- بعد نجاح الصياغة، بنفس آلية
     # مسار التحليل القائمة (youtube_article.generate_headlines) لكن بكتلة
     # config.yaml العامة (headlines، لا youtube.review.headlines -- الازدواج
     # مقصود). فشل النداء لا يُسقِط مسودة صيغت بنجاح فعليًا (نفس مبدأ مسار
@@ -72,15 +53,6 @@ def _build_draft(art, written: dict, docs: list[dict], prev_title: str | None,
         "age_hours": round(art.age_hours, 1),
         "is_followup": bool(prev_title),
         "state_media": art.state_media,
-        "has_photo": bool(shot.get("used_original")),
-        "image_info": {
-            "used_original": bool(shot.get("used_original")),
-            "illustrative": bool(shot.get("illustrative")),
-            "composite": bool(shot.get("composite")),
-            "chosen_url": shot.get("chosen_url"),
-            "candidates_tried": shot.get("candidates_tried"),
-            "manual": False,
-        },
         "source": {
             "title": art.title,
             "link": art.link,
@@ -94,7 +66,8 @@ def _build_draft(art, written: dict, docs: list[dict], prev_title: str | None,
         "caption": build_caption(written, art, cfg),
         "headlines": headlines,
         "headline_selected": 0,
-        "image": image_rel,
+        # بلا حقل image عمدًا (Issue #852) -- البطاقة تُبنى عند الاعتماد
+        # (cards.ensure) لا هنا، نفس مبدأ src/collect.py.
         "reel": None,
         "reel_spec": {
             "headline": headline,

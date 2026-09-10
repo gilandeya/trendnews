@@ -16,11 +16,9 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import merge, preselect, review, store
-from .config import ROOT, STATE_DIR, load_config
+from . import cards, merge, preselect, review, store
+from .config import STATE_DIR, load_config
 from .extract import gather as gather_texts
-from .imagesearch import find_images
-from .imaging import build_post_image
 from .rank import rank
 from .screen import screen
 from .sources import enrich_image, fetch_all
@@ -158,27 +156,6 @@ def build_draft(art, cfg, urgent: bool = True,
         return None
 
     headline = written["image_headline"] or written["post_title"]
-    image_rel = f"drafts/{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.jpg"
-    # origin الفعلي قد يُستبدَل لاحقًا (draft.update(extra) أدناه، مثل
-    # request.py الذي يمرّر "request" بدل "breaking") — يُقرأ من extra هنا
-    # مبكرًا كي يرسم build_post_image الملصق الصحيح من جدول cards منذ البداية
-    # لا "breaking" افتراضيًا دومًا.
-    draft_origin = (extra or {}).get("origin", "breaking")
-    shot: dict = {}
-    try:
-        build_post_image(
-            headline=headline, category=written["category"],
-            urgent=urgent,
-            image_urls=art.image_candidates,
-            publisher=art.cluster_sources or [art.publisher],
-            bucket=art.bucket,
-            origin=draft_origin,
-            fallback_provider=lambda t=art.title: find_images(t, cfg),
-            cfg=cfg, out_path=ROOT / image_rel, report=shot,
-        )
-    except Exception as exc:  # noqa: BLE001
-        log.error("فشل توليد الصورة: %s", exc)
-        return None
 
     written["urgent"] = urgent
     draft = {
@@ -194,15 +171,6 @@ def build_draft(art, cfg, urgent: bool = True,
         "trend_score": round(art.trend_score, 2),
         "age_hours": round(art.age_hours, 1),
         "state_media": art.state_media,
-        "has_photo": bool(shot.get("used_original")),
-        "image_info": {
-            "used_original": bool(shot.get("used_original")),
-            "illustrative": bool(shot.get("illustrative")),
-            "composite": bool(shot.get("composite")),
-            "chosen_url": shot.get("chosen_url"),
-            "candidates_tried": shot.get("candidates_tried"),
-            "manual": False,
-        },
         "analysed_sources": [d["name"] for d in docs],
         "source": {
             "title": art.title, "link": art.link,
@@ -213,7 +181,10 @@ def build_draft(art, cfg, urgent: bool = True,
         },
         "arabic": written,
         "caption": build_caption(written, art, cfg),
-        "image": image_rel,
+        # بلا حقل image عمدًا (Issue #852) -- البطاقة تُبنى عند الاعتماد
+        # (cards.ensure)، أو فورًا هنا في main() حين يقرّر gate_check نشرًا
+        # تلقائيًا بلا مراجعة (استثناء إلزامي -- منشور لا يخرج بلا بطاقة
+        # بحال).
         "reel": None,
         "reel_spec": {
             "headline": headline, "category": written["category"],
@@ -353,6 +324,18 @@ def main() -> int:
         found = store.load_draft(draft["id"])
         if not found:
             continue
+        # استثناء إلزامي (Issue #852): مسار النشر الفوري بلا مراجعة لا
+        # يمرّ بـpublish.main (حيث تُبنى البطاقات عمومًا عند الاعتماد) —
+        # فلا بطاقة تُبنى لهذه المسودة إطلاقًا إلا هنا. البطاقة تُبنى قبل
+        # النشر مباشرة كي لا يخرج منشور بلا بطاقة بحال؛ فشل البناء يعني
+        # تخطّي هذا الخبر (يبقى pending لمراجعة يدوية لاحقة عبر /صورة)
+        # لا نشره بلا صورة.
+        if cards.ensure(found[0], found[1], cfg) is None:
+            log.error("تعذّر بناء بطاقة %s — لن يُنشر تلقائيًا (يحتاج تدخّلًا يدويًا)",
+                     draft["id"])
+            continue
+        # cards.ensure حدّثت found[1] في الذاكرة والتخزين معًا (persist=True
+        # الافتراضي) -- لا حاجة لإعادة تحميلها.
         success, line = publish_one(found[0], found[1], cfg)
         if success:
             state.setdefault("auto_published", []).append(

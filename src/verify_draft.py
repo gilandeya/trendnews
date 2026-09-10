@@ -25,10 +25,8 @@ import os
 import re
 from datetime import datetime, timezone
 
-from . import evidence, extract, headlines as headlines_mod, imaging, review, store, writer
+from . import evidence, extract, headlines as headlines_mod, review, store, writer
 from . import verify
-from .config import DRAFTS_DIR
-from .imagesearch import find_images
 from .request import _AR_STOP, _AR_TRANS
 from .sources import Article
 
@@ -947,29 +945,6 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
     image_urls = [u for u, _, _ in image_ranked]
     central_fact_text = confirmed[0]["text"]
 
-    image_name = f"{datetime.now(timezone.utc):%Y-%m-%d}/{draft_id}.jpg"
-    image_rel = f"drafts/{image_name}"
-    shot: dict = {}
-    try:
-        imaging.build_post_image(
-            headline=written["image_headline"] or written["post_title"],
-            category=written["category"],
-            urgent=written["urgent"],
-            image_urls=image_urls,
-            publisher=publishers,
-            bucket="serious",
-            origin=DRAFT_ORIGIN,
-            # كسول: لا يُستدعى إلا إن فشلت كل صور المصادر المؤكِّدة فعليًا —
-            # موضوع البحث الوقائع المؤكَّدة لا زاوية المقال أو عنوانه
-            fallback_provider=lambda: find_images(central_fact_text, cfg),
-            cfg=cfg,
-            out_path=DRAFTS_DIR / image_name,
-            report=shot,
-        )
-    except Exception as exc:  # noqa: BLE001 — امتناع صريح مُسجَّل لا انهيار صامت
-        outcome["reason"] = f"مرحلة بناء صورة المسودة — فشل: {exc}"
-        return outcome
-
     draft = {
         "id": draft_id,
         "created_at": datetime.now(timezone.utc).isoformat(),
@@ -985,15 +960,6 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
         "age_hours": 0.0,
         "is_followup": False,
         "state_media": False,
-        "has_photo": bool(shot.get("used_original")),
-        "image_info": {
-            "used_original": bool(shot.get("used_original")),
-            "illustrative": bool(shot.get("illustrative")),
-            "composite": bool(shot.get("composite")),
-            "chosen_url": shot.get("chosen_url"),
-            "candidates_tried": shot.get("candidates_tried"),
-            "manual": False,
-        },
         "source": {
             "title": central_fact_text,
             "link": primary_link,
@@ -1007,7 +973,10 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
         "caption": writer.build_caption(written, art, cfg),
         "headlines": headlines,
         "headline_selected": 0,
-        "image": image_rel,
+        # بلا حقل image عمدًا (Issue #852) -- البطاقة تُبنى عند الاعتماد
+        # (cards.ensure) لا هنا، نفس مبدأ src/collect.py. مصدر الصورة
+        # الفعلي (manual_image ← source.image_candidates ← احتياط بحث)
+        # يُحسَم وقتها، لا الآن.
         "reel": None,
         "reel_spec": {
             "headline": written["image_headline"] or written["post_title"],
@@ -1018,7 +987,10 @@ def attempt(result: dict, article_body: str, issue_number: int, cfg) -> dict:
     }
     store.save_draft(draft)
 
-    if shot.get("used_original") and image_ranked:
+    if image_ranked:
+        # ترشيح لا استعمال فعلي (Issue #852): البطاقة لم تُبنَ بعد، فلا
+        # سبيل لمعرفة أيّ مرشَّح سينجح فعليًا قبل الاعتماد -- هذا أول
+        # مرشَّح فقط، يُعرَض للمراجع كمؤشر لا كقرار نهائي.
         outcome["image_source_name"] = image_ranked[0][1]
         outcome["image_source_link"] = image_ranked[0][2]
 
@@ -1036,8 +1008,11 @@ def build_report_section(outcome: dict) -> str:
         lines.append(f"✅ {outcome['reason']} (المعرّف `{outcome['draft_id']}`) — "
                      "ستظهر في أقرب Issue مراجعة يفتحه البوت بعد رفع المسودة.")
         if outcome.get("image_source_link"):
+            # مرشَّح لا استعمال فعلي (Issue #852): البطاقة تُبنى عند
+            # الاعتماد لا هنا، فلا ضمان أن هذا تحديدًا ما سيظهر عليها.
             name = outcome.get("image_source_name") or "مصدر مؤكِّد"
-            lines.append(f"🖼️ مصدر الصورة: [{name}]({outcome['image_source_link']})")
+            lines.append(f"🖼️ مرشَّح صورة (يُحسَم عند الاعتماد): "
+                        f"[{name}]({outcome['image_source_link']})")
     else:
         lines.append(f"❌ لم تُصَغ مسودة — {outcome['reason']}")
     if outcome.get("originality_notes"):
