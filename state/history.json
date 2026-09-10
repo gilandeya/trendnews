@@ -1,95 +1,5 @@
 [
   {
-    "score": 25.69,
-    "bucket": "serious",
-    "tokens": [
-      "alive",
-      "buried",
-      "days",
-      "flood",
-      "home",
-      "nepali",
-      "rescued",
-      "woman"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/nepal-tibet-disaster-flood-rescue-woman-6364466",
-    "title": "Nepali woman rescued alive from buried home 10 days after flood",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-05T17:08:20.045575+00:00"
-  },
-  {
-    "score": 17.85,
-    "bucket": "serious",
-    "tokens": [
-      "adopts",
-      "africa",
-      "bigger",
-      "map",
-      "smaller"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/09/05/world/un-adopts-new-map/",
-    "title": "Africa bigger and U.S. smaller: U.N. adopts new map",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-09-05T17:08:20.045944+00:00"
-  },
-  {
-    "score": 16.78,
-    "bucket": "serious",
-    "tokens": [
-      "bank",
-      "envoy",
-      "israel",
-      "palestinians",
-      "responsibility",
-      "visit",
-      "west"
-    ],
-    "link": "https://www.malaymail.com/news/world/2026/09/05/us-envoy-on-west-bank-visit-says-israel-has-responsibility-for-palestinians/234071",
-    "title": "US envoy on West Bank visit says Israel has responsibility for Palestinians",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-05T17:08:20.046218+00:00"
-  },
-  {
-    "score": 16.53,
-    "bucket": "serious",
-    "tokens": [
-      "calls",
-      "economic",
-      "iran",
-      "pezeshkian",
-      "president",
-      "pressure",
-      "ramps",
-      "unity"
-    ],
-    "link": "https://www.aljazeera.com/economy/2026/9/5/iran-president-pezeshkian-calls-for-unity-as-us-ramps-up-economic-pressure?traffic_source=rss",
-    "title": "Iran President Pezeshkian calls for unity as US ramps up economic pressure",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-05T17:08:20.046480+00:00"
-  },
-  {
-    "score": 16.35,
-    "bucket": "serious",
-    "tokens": [
-      "atomic",
-      "attack",
-      "denies",
-      "facilities",
-      "irgc",
-      "isfahan",
-      "reports"
-    ],
-    "link": "https://en.mehrnews.com/news/247462/IRGC-denies-reports-of-attack-on-atomic-facilities-in-Isfahan",
-    "title": "IRGC denies reports of attack on atomic facilities in Isfahan",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-05T17:08:20.046770+00:00"
-  },
-  {
     "score": 25.96,
     "bucket": "serious",
     "tokens": [
@@ -5342,5 +5252,106 @@
     "posted_title": "",
     "region": "health",
     "seen_at": "2026-09-10T17:07:46.842921+00:00"
+  },
+  {
+    "score": 26.19,
+    "bucket": "serious",
+    "tokens": [
+      "ans",
+      "canada",
+      "cent",
+      "direct",
+      "engagent",
+      "guerre",
+      "kiev",
+      "partenariat",
+      "pour",
+      "sceller",
+      "sécuritaire",
+      "ukraine",
+      "économique"
+    ],
+    "link": "https://www.lemonde.fr/international/live/2026/09/10/en-direct-guerre-en-ukraine-kiev-revendique-des-frappes-contre-plusieurs-ports-russes_6766818_3210.html",
+    "title": "EN DIRECT, guerre en Ukraine : le Canada et Kiev s’engagent à sceller un partenariat économique et sécuritaire pour « cent ans »",
+    "posted_title": "",
+    "region": "fr",
+    "seen_at": "2026-09-10T18:07:49.571077+00:00"
+  },
+  {
+    "score": 24.15,
+    "bucket": "serious",
+    "tokens": [
+      "'almost",
+      "drone",
+      "hit'",
+      "norway",
+      "oslo",
+      "plane",
+      "route",
+      "zelensky's"
+    ],
+    "link": "https://www.france24.com/en/video/20260910-zelensky-s-plane-almost-hit-by-drone-en-route-to-oslo-norway-pm-says",
+    "title": "Zelensky's plane 'almost hit' by drone en route to Oslo, Norway PM says",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-10T18:07:49.571398+00:00"
+  },
+  {
+    "score": 21.4,
+    "bucket": "serious",
+    "tokens": [
+      "houthis",
+      "mokha",
+      "port",
+      "red",
+      "reportedly",
+      "sea",
+      "seize",
+      "strategic",
+      "yemen's"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c4g7vr0lngwo?at_medium=RSS&at_campaign=rss",
+    "title": "Yemen's Houthis reportedly seize strategic Red Sea port of Mokha",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-10T18:07:49.571686+00:00"
+  },
+  {
+    "score": 19.18,
+    "bucket": "serious",
+    "tokens": [
+      "board",
+      "council",
+      "first",
+      "iran",
+      "nuclear",
+      "reports",
+      "security",
+      "time",
+      "watchdog",
+      "years"
+    ],
+    "link": "https://www.thehindu.com/news/international/un-nuclear-watchdog-board-reports-iran-to-un-security-council-for-the-first-time-in-20-years/article71449985.ece",
+    "title": "UN nuclear watchdog board reports Iran to UN Security Council for the first time in 20 years",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-10T18:07:49.572014+00:00"
+  },
+  {
+    "score": 18.23,
+    "bucket": "serious",
+    "tokens": [
+      "base",
+      "damaged",
+      "iran",
+      "jordan",
+      "strikes",
+      "warplanes"
+    ],
+    "link": "https://www.iranintl.com/en/202609103135",
+    "title": "US warplanes damaged in Iran strikes on Jordan base",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-10T18:07:49.572275+00:00"
   }
 ]

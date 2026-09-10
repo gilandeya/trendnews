@@ -1,0 +1,77 @@
+{
+  "id": "5885c6bd56ff",
+  "created_at": "2026-09-10T18:07:49.571408+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.4,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemen's Houthis reportedly seize strategic Red Sea port of Mokha",
+  "link": "https://www.bbc.co.uk/news/articles/c4g7vr0lngwo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Free Malaysia Today",
+    "MyJoyOnline Ghana",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Yemen's Houthis reportedly seize strategic Red Sea port of Mokha",
+    "link": "https://www.bbc.co.uk/news/articles/c4g7vr0lngwo?at_medium=RSS&at_campaign=rss",
+    "summary": "Mokha's capture would bring the Iran-backed group closer to controlling the Bab al-Mandab Strait waterway, a key shipping route.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-10T15:38:56+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/af67/live/bf0ec050-ad2b-11f1-bc1f-3f186ca4140c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Free Malaysia Today",
+      "MyJoyOnline Ghana",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/10/houthis-seize-key-port-mocha-yemen-red-sea-coast-iran-saudi-arabia-us"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/10/yemens-houthis-seize-strategic-red-sea-city-of-mocha?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c4g7vr0lngwo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/10/yemen-s-houthis-seize-key-city-on-red-sea"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/yemens-houthis-reportedly-seize-strategic-red-sea-port-of-mokha/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/af67/live/bf0ec050-ad2b-11f1-bc1f-3f186ca4140c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/af67/live/bf0ec050-ad2b-11f1-bc1f-3f186ca4140c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/af67/live/bf0ec050-ad2b-11f1-bc1f-3f186ca4140c.jpg",
+      "https://i.guim.co.uk/img/media/8553e04ff5feb3b856dfd3be32d9e3ae72ff57f3/165_0_2356_1885/master/2356.jpg?width=700&quality=85&auto=format&fit=max&s=04531ae758a14e822726e87cc01513ab",
+      "https://i.guim.co.uk/img/media/8553e04ff5feb3b856dfd3be32d9e3ae72ff57f3/165_0_2356_1885/master/2356.jpg?width=460&quality=85&auto=format&fit=max&s=20078f1e32b002c2ba12356eab565130",
+      "https://i.guim.co.uk/img/media/8553e04ff5feb3b856dfd3be32d9e3ae72ff57f3/165_0_2356_1885/master/2356.jpg?width=140&quality=85&auto=format&fit=max&s=49c4ec5afb32ae87fbc44df7206acf78"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 889.9121762158334,
+    "is_stale": false,
+    "score": 21.400449525550975
+  }
+}
