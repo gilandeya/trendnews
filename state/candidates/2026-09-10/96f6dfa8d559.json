@@ -1,0 +1,71 @@
+{
+  "id": "96f6dfa8d559",
+  "created_at": "2026-09-10T22:07:53.789887+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.18,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Canada agrees on C$350 million air defense package for Ukraine, Carney says",
+  "link": "https://www.channelnewsasia.com/world/canada-agrees-c350-million-air-defense-package-ukraine-carney-says-6375251",
+  "publishers": [
+    "AP News",
+    "Channel News Asia",
+    "Hindustan Times — World",
+    "South China Morning Post",
+    "The Guardian — World"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Canada agrees on C$350 million air defense package for Ukraine, Carney says",
+    "link": "https://www.channelnewsasia.com/world/canada-agrees-c350-million-air-defense-package-ukraine-carney-says-6375251",
+    "summary": "Ukraine secures C$350 million from Canada for critical air defence interceptors as Kyiv runs low on Patriot missiles during intensified Russian attacks.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-10T20:47:23+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--H4l29BkD--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-10T170304Z_1_LYNXMPEM891Q7_RTROPTP_3_UKRAINE-CRISIS-CANADA.JPG?itok=npzu1FvW",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "AP News",
+      "Channel News Asia",
+      "Hindustan Times — World",
+      "South China Morning Post",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/russia-central-asia/article/3367106/canada-unveils-us254-million-air-defence-package-ukraine?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/canada-agrees-c350-million-air-defense-package-ukraine-carney-says-6375251"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/canada-agrees-on-c-350-million-air-defense-package-for-ukraine-carney-says-101789066245660.html"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/10/zelenskyy-canada-visit"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--H4l29BkD--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-10T170304Z_1_LYNXMPEM891Q7_RTROPTP_3_UKRAINE-CRISIS-CANADA.JPG?itok=npzu1FvW",
+      "https://i.guim.co.uk/img/media/be7c2941850f3cf0d37436c968f44745b159e3aa/38_0_4431_3544/master/4431.jpg?width=700&quality=85&auto=format&fit=max&s=e4f84ac7a63c7ceaad2245ad76c60767",
+      "https://i.guim.co.uk/img/media/be7c2941850f3cf0d37436c968f44745b159e3aa/38_0_4431_3544/master/4431.jpg?width=460&quality=85&auto=format&fit=max&s=a48aa102de03e060182d207bec103d5f",
+      "https://i.guim.co.uk/img/media/be7c2941850f3cf0d37436c968f44745b159e3aa/38_0_4431_3544/master/4431.jpg?width=140&quality=85&auto=format&fit=max&s=d7f71d2dcb2b86d6931e9e5f3545e566"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 893.9128842247222,
+    "is_stale": true,
+    "score": 18.176456607180604
+  }
+}

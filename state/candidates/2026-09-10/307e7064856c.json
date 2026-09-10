@@ -1,0 +1,67 @@
+{
+  "id": "307e7064856c",
+  "created_at": "2026-09-10T22:07:53.789546+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.1,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israel says it destroyed key Hezbollah tunnels in south Lebanon",
+  "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/11/israel-says-destroyed-key-hezbollah-tunnels-in-south-lebanon",
+  "publishers": [
+    "Al Jazeera English",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "NDTV — World"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Israel says it destroyed key Hezbollah tunnels in south Lebanon",
+    "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/11/israel-says-destroyed-key-hezbollah-tunnels-in-south-lebanon",
+    "summary": "The Israeli army says the infrastructure contained dozens of Iranian-made rockets, missiles and hundreds of mines and explosive devices.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-10T21:22:00+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/09/00b1756c-b34a-43a7-b202-11a962207c8d-AFP__20260910__C7XX8CQ__v2__HighRes__LebanonIsraelIranUsWar_cropped_1.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/10/israel-says-it-destroyed-key-hezbollah-tunnels-in-southern-lebanon?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/israel-says-destroyed-key-hezbollah-tunnels-in-south-lebanon-101789067189276.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/israel-says-it-destroyed-key-hezbollah-tunnels-in-south-lebanon-12030612#publisher=newsstand"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/11/israel-says-destroyed-key-hezbollah-tunnels-in-south-lebanon"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/09/00b1756c-b34a-43a7-b202-11a962207c8d-AFP__20260910__C7XX8CQ__v2__HighRes__LebanonIsraelIranUsWar_cropped_1.webp",
+      "https://c.ndtvimg.com/2026-09/vcmsq97k_israel-attacks-lebanon_625x300_11_September_26.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 893.9129196127778,
+    "is_stale": false,
+    "score": 20.099135279351852
+  }
+}
