@@ -2015,6 +2015,260 @@ def test_preselect_draft_review_image_swap_works() -> None:
               and reloaded[1].get("manual_image") == "https://cdn.example/new-photo.jpg")
 
 
+def test_preselect_card_marker_and_selected_card_ids() -> None:
+    """Issue #860، البند 1: المربع الثالث 🎴 يظهر بعلامة sel-card: غير
+    معلَّم في جسم Issue الاختيار الخام، وselected_card_ids تقرأ المُعلَّم
+    منها فقط وتتجاهل غيره (بنفس أسلوب parse_publish_now/parse_draft_review)."""
+    from src import preselect
+
+    now = datetime.now(timezone.utc)
+    art = Article(title="مرشح لفحص مربع البطاقة الثالث",
+                 link="https://pre.example/cardmarker", summary="",
+                 source_name="PC", region="rc", weight=1.0,
+                 published=now, bucket="serious", publisher="PC")
+    cand = preselect.build_candidate(art)
+
+    body = preselect.build_selection_issue_body([cand])
+    check("علامة sel-card: تظهر في الجسم الخام غير معلَّمة",
+          f"- [ ] 🎴 صُغ واعرض البطاقة (بلا مراجعة أولية)  <!-- sel-card:{cand['id']} -->"
+          in body, body)
+    check("selected_card_ids لا تلتقط شيئًا قبل التعليم",
+          preselect.selected_card_ids(body) == [])
+
+    marked = tick_marker(body, f"sel-card:{cand['id']}")
+    check("selected_card_ids تلتقط المُعلَّم فقط",
+          preselect.selected_card_ids(marked) == [cand["id"]])
+    check("تعليم 🎴 لا يؤثر على قراءة now/review",
+          preselect.parse_publish_now(marked) == []
+          and preselect.parse_draft_review(marked) == [])
+
+
+def test_preselect_card_only_and_three_way_conflicts() -> None:
+    """Issue #860، البنود 2-4 من طلب الاختبارات: 🎴 وحده ⇒ مسودة ببطاقة
+    وIssue final-review بلا مراجعة أولية؛ 📝 مع 🎴 ⇒ مراجعة أولية بلا
+    بطاقة؛ 🚀 مع 🎴 (بلا 📝) ⇒ لا نشر مباشر (يذهب للبطاقة)؛ الثلاثة معًا
+    ⇒ مراجعة أولية (📝 تغلب)؛ مرشح غير معلَّم يُسجَّل «لم يُختر» ومرشحو
+    🎴 لا يُسجَّلون كذلك؛ ودفعة فيها 🎴 و📝 معًا تفتح Issueين لا واحدًا."""
+    from src import collect_finalize, feedback, preselect, review
+    from src import publish as publish_mod
+
+    now = datetime.now(timezone.utc)
+
+    def _art(slug, title):
+        return Article(title=title, link=f"https://pre.example/{slug}",
+                       summary="", source_name=slug, region="rc", weight=1.0,
+                       published=now, bucket="serious", publisher=slug,
+                       image_url="https://cdn.example/card-source.jpg")
+
+    art_card_only = _art("cardonly", "خبر 🎴 وحده بلا مراجعة أولية")
+    art_draft_card = _art("draftcard", "خبر 📝 مع 🎴 معًا")
+    art_now_card = _art("nowcard", "خبر 🚀 مع 🎴 بلا 📝")
+    art_triple = _art("triple", "خبر بالمربعات الثلاثة معًا")
+    art_none = _art("none", "خبر لم يُعلَّم عليه شيء")
+
+    cand_card_only = preselect.build_candidate(art_card_only)
+    cand_draft_card = preselect.build_candidate(art_draft_card)
+    cand_now_card = preselect.build_candidate(art_now_card)
+    cand_triple = preselect.build_candidate(art_triple)
+    cand_none = preselect.build_candidate(art_none)
+    all_cands = [cand_card_only, cand_draft_card, cand_now_card, cand_triple, cand_none]
+    for c in all_cands:
+        store.save_candidate(c)
+
+    body = preselect.build_selection_issue_body(all_cands)
+    marked = body
+    marked = tick_marker(marked, f"sel-card:{cand_card_only['id']}")
+    marked = tick_marker(marked, f"review:{cand_draft_card['id']}")
+    marked = tick_marker(marked, f"sel-card:{cand_draft_card['id']}")
+    marked = tick_marker(marked, f"now:{cand_now_card['id']}")
+    marked = tick_marker(marked, f"sel-card:{cand_now_card['id']}")
+    marked = tick_marker(marked, f"now:{cand_triple['id']}")
+    marked = tick_marker(marked, f"review:{cand_triple['id']}")
+    marked = tick_marker(marked, f"sel-card:{cand_triple['id']}")
+    # cand_none: بلا أي تعليم
+
+    burst_calls: list = []
+
+    def fake_burst(ids, cfg, issue_number, only_urgent=False, skip_urgent=False,
+                   inline_cap_minutes=None):
+        burst_calls.append(list(ids))
+        return 0
+
+    create_issue_calls: list = []
+
+    def fake_create_issue(title, body, labels=None):
+        create_issue_calls.append({"title": title, "body": body, "labels": labels})
+        if labels == ["final-review"]:
+            return {"number": 9944, "html_url": "https://x/issues/9944"}
+        return {"number": 9933, "html_url": "https://x/issues/9933"}
+
+    comment_calls: list = []
+
+    real_burst = publish_mod.cmd_burst
+    real_create_issue = review.create_issue
+    real_comment = review.comment
+    real_ensure_labels = review.ensure_labels
+    real_close_issue = review.close_issue
+    publish_mod.cmd_burst = fake_burst
+    review.create_issue = fake_create_issue
+    review.comment = lambda issue_number, text: comment_calls.append((issue_number, text))
+    review.ensure_labels = lambda: None
+    close_issue_calls: list = []
+    review.close_issue = lambda issue_number: close_issue_calls.append(issue_number)
+
+    rejections_before = len(feedback.load())
+
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    real_ref = os.environ.get("GITHUB_REF_NAME")
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+    os.environ["GITHUB_REF_NAME"] = "main"
+    try:
+        code = collect_finalize.finalize(4860, marked, load_config())
+    finally:
+        publish_mod.cmd_burst = real_burst
+        review.create_issue = real_create_issue
+        review.comment = real_comment
+        review.ensure_labels = real_ensure_labels
+        review.close_issue = real_close_issue
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+        if real_ref is None:
+            os.environ.pop("GITHUB_REF_NAME", None)
+        else:
+            os.environ["GITHUB_REF_NAME"] = real_ref
+
+    check("finalize انتهى بنجاح", code == 0, f"exit={code}")
+    check("لا نشر مباشر إطلاقًا في هذه الدفعة (🚀 مع 🎴 ⇒ لا نشر مباشر)",
+          burst_calls == [], burst_calls)
+    check("Issue الاختيار أُغلق (لا مرشح انتهى بنشر مباشر)",
+          close_issue_calls == [4860], close_issue_calls)
+
+    check("Issueان اثنان فُتحا -- مراجعة أولية ومراجعة نهائية معًا",
+          len(create_issue_calls) == 2, create_issue_calls)
+    pending_issue = next((c for c in create_issue_calls
+                          if c["labels"] == ["pending-review"]), None)
+    final_issue = next((c for c in create_issue_calls
+                        if c["labels"] == ["final-review"]), None)
+    check("Issue مراجعة أولية بوسم pending-review فُتح", pending_issue is not None)
+    check("Issue مراجعة نهائية بوسم final-review فُتح", final_issue is not None)
+
+    if pending_issue:
+        check("مراجعة أولية تضم 📝+🎴 و🚀+📝+🎴 (📝 تغلب في الحالتين)",
+              f"<!-- draft:{cand_draft_card['id']} -->" in pending_issue["body"]
+              and f"<!-- draft:{cand_triple['id']} -->" in pending_issue["body"],
+              pending_issue["body"])
+        check("مراجعة أولية لا تضم 🎴 وحده ولا 🚀+🎴",
+              f"<!-- draft:{cand_card_only['id']} -->" not in pending_issue["body"]
+              and f"<!-- draft:{cand_now_card['id']} -->" not in pending_issue["body"])
+
+    if final_issue:
+        check("مراجعة نهائية تضم 🎴 وحده و🚀+🎴 (بلا 📝)",
+              f"<!-- draft:{cand_card_only['id']} -->" in final_issue["body"]
+              and f"<!-- draft:{cand_now_card['id']} -->" in final_issue["body"],
+              final_issue["body"])
+        check("مراجعة نهائية لا تضم من فيه 📝",
+              f"<!-- draft:{cand_draft_card['id']} -->" not in final_issue["body"]
+              and f"<!-- draft:{cand_triple['id']} -->" not in final_issue["body"])
+        check("مراجعة نهائية بلا مربعات عناوين (لا اختيار عنوان)",
+              "headline" not in final_issue["body"].lower())
+
+    card_only_saved = store.load_draft(cand_card_only["id"])
+    now_card_saved = store.load_draft(cand_now_card["id"])
+    draft_card_saved = store.load_draft(cand_draft_card["id"])
+    triple_saved = store.load_draft(cand_triple["id"])
+
+    check("مسودة 🎴 وحده صيغت وبُنيت بطاقتها فعلًا",
+          card_only_saved is not None and bool(card_only_saved[1].get("image")),
+          card_only_saved[1] if card_only_saved else None)
+    check("مسودة 🚀+🎴 صيغت وبُنيت بطاقتها فعلًا (لم تُنشر مباشرة)",
+          now_card_saved is not None and bool(now_card_saved[1].get("image"))
+          and now_card_saved[1].get("status") != "published",
+          now_card_saved[1] if now_card_saved else None)
+    check("مسودة 📝+🎴 صيغت بلا بطاقة (تُبنى عند الاعتماد لاحقًا)",
+          draft_card_saved is not None and "image" not in draft_card_saved[1],
+          draft_card_saved[1] if draft_card_saved else None)
+    check("مسودة الثلاثة معًا صيغت بلا بطاقة أيضًا",
+          triple_saved is not None and "image" not in triple_saved[1],
+          triple_saved[1] if triple_saved else None)
+
+    rejections_after = feedback.load()
+    new_entries = rejections_after[rejections_before:]
+    check("رفض واحد فقط سُجِّل -- المرشح غير المعلَّم وحده",
+          len(new_entries) == 1 and new_entries[0]["id"] == cand_none["id"]
+          and new_entries[0]["tag"] == "لم يُختر", new_entries)
+    check("مرشحو 🎴 (وحده أو مع غيره) لم يُسجَّلوا «لم يُختر»",
+          not any(e["id"] in (cand_card_only["id"], cand_now_card["id"],
+                              cand_draft_card["id"], cand_triple["id"])
+                  for e in new_entries), new_entries)
+
+
+def test_preselect_card_build_failure_keeps_pending() -> None:
+    """Issue #860، البند 3 (قرارات محسومة): فشل بناء البطاقة لمسودة 🎴 —
+    تبقى pending بلا image ويُعلَّق بالسبب على Issue الاختيار، فتلتقطها
+    المراجعة الأولية التالية. لا Issue مراجعة نهائية يُفتح لها ولا تُسقَط."""
+    from src import cards, collect_finalize, preselect, review
+    from src import publish as publish_mod
+
+    now = datetime.now(timezone.utc)
+    art = Article(title="خبر 🎴 تفشل صناعة بطاقته",
+                 link="https://pre.example/cardfail", summary="",
+                 source_name="CF", region="rc", weight=1.0,
+                 published=now, bucket="serious", publisher="CF")
+    cand = preselect.build_candidate(art)
+    store.save_candidate(cand)
+
+    body = preselect.build_selection_issue_body([cand])
+    marked = tick_marker(body, f"sel-card:{cand['id']}")
+
+    real_ensure = cards.ensure
+    ensure_calls: list = []
+    cards.ensure = lambda *a, **kw: (ensure_calls.append(1), None)[1]
+
+    create_issue_calls: list = []
+    real_create_issue = review.create_issue
+    review.create_issue = lambda title, body, labels=None: create_issue_calls.append(
+        {"title": title, "labels": labels}) or {"number": 1, "html_url": "https://x/1"}
+
+    comment_calls: list = []
+    real_comment = review.comment
+    review.comment = lambda issue_number, text: comment_calls.append((issue_number, text))
+
+    real_close = review.close_issue
+    close_issue_calls: list = []
+    review.close_issue = lambda issue_number: close_issue_calls.append(issue_number)
+
+    real_burst = publish_mod.cmd_burst
+    publish_mod.cmd_burst = lambda *a, **kw: 0
+
+    try:
+        code = collect_finalize.finalize(4861, marked, load_config())
+    finally:
+        cards.ensure = real_ensure
+        review.create_issue = real_create_issue
+        review.comment = real_comment
+        review.close_issue = real_close
+        publish_mod.cmd_burst = real_burst
+
+    check("finalize انتهى بنجاح رغم فشل بناء البطاقة", code == 0, f"exit={code}")
+    check("cards.ensure استُدعيت فعلًا", ensure_calls == [1], ensure_calls)
+    check("لا Issue مراجعة نهائية فُتح للمسودة الفاشلة", create_issue_calls == [],
+          create_issue_calls)
+
+    saved = store.load_draft(cand["id"])
+    check("المسودة صيغت فعلًا رغم فشل البطاقة", saved is not None)
+    if saved:
+        check("بقيت pending", saved[1].get("status") == "pending", saved[1].get("status"))
+        check("بلا حقل image", "image" not in saved[1], saved[1].get("image"))
+
+    failure_comments = [t for _, t in comment_calls if "تعذّر بناء بطاقة" in t]
+    check("عُلِّق بسبب فشل البطاقة على Issue الاختيار",
+          len(failure_comments) == 1, comment_calls)
+    check("Issue الاختيار أُغلق (لا نشر مباشر متبقٍّ)",
+          close_issue_calls == [4861], close_issue_calls)
+
+
 # ═══════════ ترجمة عناوين المرشحين دفعة واحدة (Issue #319 البند 3) ═══════════
 
 
@@ -17701,6 +17955,9 @@ def main() -> int:
     print("\n── مربعان لكل مرشح + ترجمة العناوين (Issue #319) ──")
     test_preselect_two_boxes_now_and_draft_review()
     test_preselect_draft_review_image_swap_works()
+    test_preselect_card_marker_and_selected_card_ids()
+    test_preselect_card_only_and_three_way_conflicts()
+    test_preselect_card_build_failure_keeps_pending()
     test_preselect_translate_titles()
     test_finalize_format_mismatch_no_silent_fail()
     test_publish_conflicting_labels_no_dispatch()
