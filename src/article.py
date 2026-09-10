@@ -296,6 +296,12 @@ WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتب
    يكون له اسم بحروف لاتينية غير اسمه العربي، كـ«فيستل» → «Vestel»،
    «بايكار» → «Baykar») وكلمة معنى تخصّ هذه الواقعة («Vestel net loss
    first quarter»، «Vestel debt burden lira» — لا «Vestel» وحدها).
+   لا تُدرج الرقم أو النسبة أو المبلغ موضع التحقق نفسه داخل query_latin
+   أبدًا — الاستعلام يصف الموضوع لا القيمة (Issue #832، شاهد فعلي: تشغيلتان
+   متتاليتان على نفس الموجز، واحدة بلا الرقم «Vestel debt burden lira»
+   رجعت أربع نتائج، والأخرى بالرقم ذاته «Vestel debt 105 billion lira»
+   رجعت صفرًا): «Vestel debt burden lira» صحيح، «Vestel debt 105 billion»
+   خطأ — مطابقة الرقم مهمة حكم السند بعد القراءة، لا مهمة البحث.
    اترك query_latin فارغًا حين لا يكون للكيان اسم لاتيني متداول. يُستعمل
    هذا الحقل حصرًا كمحاولة بحث بديلة أخيرة حين تعجز الاستعلامات العربية
    عن إيجاد سند كافٍ — نطاق البحث الإنجليزي (hl=en-US) لا يُفعَّل عمليًا
@@ -405,6 +411,21 @@ def _as_entities(value) -> list[str]:
     return [e.strip() for e in value if isinstance(e, str) and e.strip()]
 
 
+_QUERY_LATIN_YEAR_RE = re.compile(r"^\d{4}$")
+
+
+def _sanitize_query_latin(text: str) -> str:
+    """يجرّد query_latin برمجيًا من أي رمز يحوي رقمًا — عدا سنة من أربع
+    خانات («Q1 2025» يبقى بكل رموزه، «105» يُحذف — Issue #832: البرومبت
+    وحده لا يكفي، فالنموذج قد يُدرج الرقم موضع التحقق رغم التعليمات، وهو ما
+    يُضيّق البحث حتى صفر نتائج (شاهد فيستل أعلاه). يعيد النص بعد التجريد،
+    أو فارغًا إن بقي أقل من كلمتين — يُعامَل حينها كأن query_latin غاب
+    أصلًا (السُلَّم في _write_article يتخطّى أي محاولة أقل من كلمتين)."""
+    kept = [tok for tok in text.split()
+           if _QUERY_LATIN_YEAR_RE.match(tok) or not any(ch.isdigit() for ch in tok)]
+    return " ".join(kept) if len(kept) >= 2 else ""
+
+
 def normalize_statement(item) -> dict | None:
     """يطبّع عنصر بنية موجز واحدًا — نفس فلسفة verify.normalize_claim: رد
     النموذج قد يخالف مخطط الأداة، فلا نفترض شكلًا بلا تحقق."""
@@ -425,7 +446,7 @@ def normalize_statement(item) -> dict | None:
     if isinstance(item, dict):
         raw_query_latin = item.get("query_latin")
         if isinstance(raw_query_latin, str) and raw_query_latin.strip():
-            query_latin = raw_query_latin.strip()
+            query_latin = _sanitize_query_latin(raw_query_latin.strip())
         raw_speaker = item.get("speaker")
         if isinstance(raw_speaker, str) and raw_speaker.strip():
             speaker = raw_speaker.strip()
