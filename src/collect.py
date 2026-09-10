@@ -22,8 +22,6 @@ from pathlib import Path
 
 from . import decisions, feedback, headlines as headlines_mod, preselect, store
 from .config import DRAFTS_DIR, load_config
-from .imagesearch import find_images
-from .imaging import build_post_image
 from .rank import rank
 from .screen import screen
 from .trends import trending_signatures
@@ -343,32 +341,6 @@ def main() -> int:
 
             headline = written["image_headline"] or written["post_title"]
 
-            # الاسم النسبي داخل drafts/ يبقى بصيغة "drafts/..." دومًا — هذا
-            # ما يُحفظ في المسودة ويُستعمل لبناء رابط raw.githubusercontent.com
-            # بعد الدفع؛ أما مسار الكتابة الفعلي فيتبع DRAFTS_DIR (تُستبدل
-            # بمجلد مؤقت في الاختبارات) لا ROOT مباشرة.
-            image_name = f"{datetime.now(timezone.utc):%Y-%m-%d}/{art.uid}.jpg"
-            image_rel = f"drafts/{image_name}"
-            shot: dict = {}
-            try:
-                build_post_image(
-                    headline=headline,
-                    category=written["category"],
-                    urgent=written["urgent"],
-                    image_urls=art.image_candidates or ([art.image_url] if art.image_url else []),
-                    publisher=art.cluster_sources or [art.publisher],
-                    bucket=art.bucket,
-                    origin="news",
-                    # كسول: لا يُستدعى إلا إن فشلت كل صور الناشر فعليًا
-                    fallback_provider=lambda t=art.title: find_images(t, cfg),
-                    cfg=cfg,
-                    out_path=DRAFTS_DIR / image_name,
-                    report=shot,
-                )
-            except Exception as exc:  # noqa: BLE001 — لا نُسقط الدفعة كلها بسبب صورة
-                log.error("فشل توليد الصورة: %s", exc)
-                continue
-
             # عناوين مقترحة (Issue #756) -- نفس آلية collect_finalize.py
             # (المسار الحيّ حين preselect مفعَّل)؛ فشل النداء لا يُسقِط مسودة
             # صيغت بنجاح فعليًا -- headlines فارغة بلا مربعات في المراجعة.
@@ -392,15 +364,6 @@ def main() -> int:
                 "age_hours": round(art.age_hours, 1),
                 "is_followup": bool(prev_title),
                 "state_media": art.state_media,
-                "has_photo": bool(shot.get("used_original")),
-                "image_info": {
-                    "used_original": bool(shot.get("used_original")),
-                    "illustrative": bool(shot.get("illustrative")),
-                    "composite": bool(shot.get("composite")),
-                    "chosen_url": shot.get("chosen_url"),
-                    "candidates_tried": shot.get("candidates_tried"),
-                    "manual": False,
-                },
                 "source": {
                     "title": art.title,
                     "link": art.link,
@@ -414,9 +377,12 @@ def main() -> int:
                 "caption": build_caption(written, art, cfg),
                 "headlines": headlines,
                 "headline_selected": 0,
-                "image": image_rel,
-                # الريل لا يُبنى الآن: يُبنى عند اختياره في المراجعة فقط.
-                # توليده لكل مسودة يهدر دقائق حوسبة على ريلز لن تُنشر.
+                # بلا حقل image عمدًا (Issue #852): البطاقة تُبنى الآن فقط
+                # عند الاعتماد (cards.ensure)، لا عند الجمع — العنوان الذي
+                # يختاره المراجع لاحقًا (headlines/headline_selected) لا
+                # يظهر عليها إلا إن بُنيت بعد اختياره لا قبله.
+                # الريل لا يُبنى الآن أيضًا: يُبنى عند اختياره في المراجعة
+                # فقط. توليده لكل مسودة يهدر دقائق حوسبة على ريلز لن تُنشر.
                 "reel": None,
                 "reel_spec": {
                     "headline": headline,

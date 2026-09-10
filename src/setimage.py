@@ -19,7 +19,7 @@ import os
 import re
 from pathlib import Path
 
-from . import review, store
+from . import cards, review, store
 from .config import DRAFTS_DIR, load_config
 from .imaging import build_post_image, download_image
 
@@ -45,22 +45,10 @@ def parse_commands(body: str) -> list[tuple[str, str]]:
     return out
 
 
-def next_image_path(current: str) -> str:
-    """
-    مسار جديد لا يستبدل القديم.
-
-    جيت‑هَب يخزّن صور الـ Issues في وسيط تخزين مؤقت (camo)، فالكتابة فوق
-    المسار نفسه تُبقي الصورة القديمة معروضة أمام المراجع. اسم جديد يتجاوز
-    ذلك، والقديم يبقى شاهدًا على ما جرى.
-    """
-    p = Path(current)
-    stem = p.stem
-    match = re.match(r"^(.*)-v(\d+)$", stem)
-    if match:
-        stem, version = match.group(1), int(match.group(2)) + 1
-    else:
-        version = 2
-    return str(p.with_name(f"{stem}-v{version}{p.suffix}"))
+# نُقلت فعليًا إلى cards.py (Issue #852) — بلا أي تغيير في سلوكها، معاد
+# تصديرها هنا فقط لأن اختبارات هذا الملف القائمة تستدعيها كـ
+# setimage.next_image_path.
+next_image_path = cards.next_image_path
 
 
 def _image_related_failure(error: str | None) -> bool:
@@ -100,54 +88,24 @@ def rebuild_card(path: Path, draft: dict, headline: str, cfg) -> str | None:
     فقط) هو ما كان يصل ``build_post_image`` بصرف النظر عن عدد المرشَّحين
     الفعلي.
     """
-    src = draft["source"]
-    manual = draft.get("manual_image")
-    url = (manual or (src.get("image_candidates") or [None])[0]
-           or src.get("image_url"))
-    if not url:
-        log.warning("لا مصدر صورة لإعادة بناء بطاقة %s", draft.get("id", path))
-        return None
-
-    # نتحقق قبل البناء: الرابط قد يكون صفحة لا صورة، أو صورة صغيرة
-    # لا تصلح خلفية. الفشل هنا أرخص من بطاقة مشوّهة.
-    if download_image(url) is None:
-        log.warning("رابط غير صالح كصورة: %s", str(url)[:90])
-        return None
-
-    spec = draft.get("reel_spec") or {}
-    ar = draft.get("arabic") or {}
-    new_rel = next_image_path(draft["image"])
-    # new_rel نص لعنوان الصورة داخل المستودع (يبدأ بـ "drafts/" دومًا —
-    # يلزم لبناء raw_url في review.py) لا مسار كتابة فعلي؛ الكتابة نفسها
-    # يجب أن تمرّ عبر DRAFTS_DIR لا ROOT مباشرة، وإلا تجاوزت عزل الاختبارات
-    # (TRENDNEWS_DRAFTS_DIR) وكتبت داخل drafts/ الحقيقي في المستودع.
-    out_path = DRAFTS_DIR / Path(new_rel).relative_to("drafts")
-
-    # تصحيح من #760 (Issue #765، بند أول): manual_image يبقى صورة واحدة
-    # فقط — هذا رابط وضعه المراجع يدويًا بعينه، لا مرشَّحًا من عدة. بلا
-    # manual_image، source.image_candidates الكاملة (لا url المفرد وحده،
-    # وهو أول عنصر فيها فقط) هي مصدر الحقيقة — بطاقة بُنيت من مرشَّحين
-    # (imaging.build_post_image يدمج أول ناجحَين) كانت تنهار صامتة إلى
-    # صورة واحدة عند أي إعادة بناء (اختيار عنوان غير افتراضي، مثلًا).
-    image_urls = [url] if manual else (src.get("image_candidates") or [url])
-
-    build_post_image(
-        headline=headline,
-        category=spec.get("category") or ar.get("category", ""),
-        urgent=bool(spec.get("urgent") or ar.get("urgent")),
-        image_urls=image_urls,
-        publisher=src.get("publishers") or [src.get("publisher", "")],
-        bucket=draft.get("bucket", "serious"),
-        # يحفظ وسم المسار عند إعادة بناء البطاقة (Issue #758) — أسهل نقطة
-        # يضيع فيها الملصق الثاني بصمت لولا تمريره هنا صراحة.
-        origin=store.origin_of(draft),
-        cfg=cfg,
-        out_path=out_path,
-        # لا بديل تلقائي: مصدر الصورة محدَّد سلفًا (يدويًا أو من المسودة)،
-        # فالصمت عند فشله أصدق من إحلال صورة أخرى محلّه دون علم الطالب.
-        fallback_provider=None,
+    # غلاف رفيع فوق cards.ensure (Issue #852): force=True يفرض إعادة بناء
+    # بمسار جديد (next_image_path — تفادي كاش camo، انظر توثيق الوحدة)
+    # بصرف النظر عن وجود بطاقة سابقة؛ allow_search_fallback=False يحافظ
+    # على "لا بديل تلقائي" (الصمت عند الفشل أصدق من إحلال صورة أخرى دون
+    # علم الطالب)؛ check_headline_limit=False يستعمل headline كما وصل
+    # حرفيًا (لا فحص طول هنا، كالسابق)؛ persist=False لأن هذه الدالة لا
+    # تكتب للتخزين قط — المستدعي (apply_image) يكتب حقولًا إضافية في نداء
+    # واحد خاص به، ولأن `path` هنا قد لا يشير لملف حقيقي أصلًا (اختبار
+    # rebuild_card القائم يستدعيها بمسار وهمي). build_post_image/
+    # download_image يُمرَّران صراحة (لا cards._default_*) كي يبقى اختبار
+    # rebuild_card القائم الذي يستبدل setimage.build_post_image بجاسوس
+    # يعمل بلا أي تعديل — تمرير الاسم المحلي هنا يحترم أي استبدال له.
+    return cards.ensure(
+        path, draft, cfg, headline=headline,
+        force=True, allow_search_fallback=False, check_headline_limit=False,
+        persist=False,
+        build_post_image=build_post_image, download_image=download_image,
     )
-    return new_rel
 
 
 def apply_image(draft_id: str, url: str, cfg) -> dict | None:
@@ -159,12 +117,24 @@ def apply_image(draft_id: str, url: str, cfg) -> dict | None:
     path, draft = found
 
     if not draft.get("image"):
-        # مسودة تحليل قبل اعتمادها (Issue #680) لا بطاقة لها بنيويًا بعد —
-        # ensure_title_card يبنيها فقط لحظة الاعتماد. next_image_path أدناه
-        # يفترض بطاقة موجودة أصلًا ليحسب مسارًا "تاليًا" لها، فلا معنى
-        # لاستدعائه هنا (Issue #749: رسالة واضحة بدل KeyError).
-        log.warning("لا بطاقة بعد للمسودة %s — البطاقة تُبنى عند الاعتماد", draft_id)
-        return None
+        # مسودة بلا بطاقة بعد — الحالة العامة لكل المسارات منذ Issue #852
+        # (كانت مقصورة على مسار التحليل وحده قبلها، Issue #680): البطاقة
+        # تُبنى فقط عند الاعتماد (cards.ensure)، فلا معنى لمحاولة "إعادة"
+        # بنائها هنا أصلًا (rebuild_card يفترض بطاقة سابقة ليحسب مسارًا
+        # "تاليًا" لها — Issue #749). نخزّن الرابط في manual_image وحده
+        # بلا أي محاولة بناء؛ أول أولوية في سلسلة مصدر الصورة داخل
+        # cards.ensure فتلتقطه تلقائيًا عند الاعتماد.
+        revive = (draft.get("status") == "failed"
+                  and _image_related_failure(draft.get("error")))
+        draft = store.update_draft(
+            path, manual_image=url,
+            **({"status": "pending", "error": None} if revive else {}),
+        )
+        if revive:
+            log.info("✓ أُحييت المسودة %s من failed إلى pending — سبب الفشل زال", draft_id)
+        log.info("✓ رابط يدوي خُزّن لمسودة بلا بطاقة بعد (تُبنى عند الاعتماد): %s", draft_id)
+        draft["_old_image"] = None
+        return draft
 
     spec = draft.get("reel_spec") or {}
     ar = draft.get("arabic") or {}
@@ -241,9 +211,12 @@ def main() -> int:
             log.error("فشل بناء صورة %s: %s", draft_id, exc)
             updated = None
         if updated:
+            # "new" غائب (None) لمسودة بلا بطاقة بعد (Issue #852) — الرابط
+            # خُزّن في manual_image بلا بناء، فلا مسار صورة جديد يُستبدَل
+            # به في نص الـIssue بعد (لا بطاقة معروضة هناك أصلًا).
             done.append({"id": draft_id,
                          "old": updated["_old_image"],
-                         "new": updated["image"],
+                         "new": updated.get("image"),
                          "title": updated["arabic"]["post_title"][:60]})
         else:
             failed.append(draft_id)
@@ -264,14 +237,20 @@ def sync_issue(issue: int) -> int:
     if done or failed:
         body = review.fetch_issue_body(issue)
         for item in done:
-            body = body.replace(item["old"], item["new"])
+            # "new" غائب لمسودة بلا بطاقة بعد (Issue #852) — لا مسار صورة
+            # قديم/جديد يُستبدَل في نص الـIssue أصلًا (لا بطاقة معروضة
+            # هناك)، فقط تُفرَغ خانة الطلب.
+            if item.get("old") and item.get("new"):
+                body = body.replace(item["old"], item["new"])
             body = review.clear_image_request(body, item["id"])
         for draft_id in failed:
             # يبقى الرابط ليصحّحه المراجع بدل أن يعيد لصقه من جديد
             body = review.clear_image_request(body, draft_id, keep_url=True)
         review.update_issue_body(issue, body)
 
-    notes = [f"🖼️ حُدّثت الصورة: {item['title']}" for item in done]
+    notes = [(f"🖼️ حُدّثت الصورة: {item['title']}" if item.get("new") else
+             f"🖼️ رابط الصورة اليدوي محفوظ لـ«{item['title']}» — ستُبنى البطاقة به عند الاعتماد.")
+            for item in done]
     notes += [f"⚠️ تعذّر تحديث `{i}` — تأكد أن الرابط لصورة مباشرة "
               "(ينتهي بـ .jpg أو .png) وأن أبعادها ليست صغيرة." for i in failed]
     if notes:

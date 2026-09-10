@@ -49,8 +49,8 @@ from pathlib import Path
 
 from anthropic import Anthropic, APIError
 
-from . import evidence, extract, headlines as headlines_mod, imaging, review, store, verify_draft, writer
-from .config import DRAFTS_DIR, STATE_DIR, env, load_config
+from . import evidence, extract, headlines as headlines_mod, review, store, verify_draft, writer
+from .config import STATE_DIR, env, load_config
 from .imagesearch import find_images
 from .request import _AR_MARKS, _AR_STOP, _AR_TRANS, _WORD_RE, STOPWORDS, has_arabic, norm_tokens
 from .sources import Article
@@ -4067,34 +4067,15 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # بصرف النظر عن النتيجة، فلا يبقى سبب رجوع find_images بصفر غامضًا.
     image_terms = _image_search_terms(grounded)
 
-    image_name = f"{datetime.now(timezone.utc):%Y-%m-%d}/{draft_id}.jpg"
-    image_rel = f"drafts/{image_name}"
-    shot: dict = {}
-    try:
-        imaging.build_post_image(
-            headline=written["image_headline"] or written["post_title"],
-            category=written["category"],
-            urgent=False,
-            image_urls=image_urls,
-            publisher=publishers,
-            bucket="serious",
-            origin=DRAFT_ORIGIN,
-            fallback_provider=lambda: find_images(central_text, cfg, terms=image_terms or None),
-            cfg=cfg,
-            out_path=DRAFTS_DIR / image_name,
-            report=shot,
-        )
-    except Exception as exc:  # noqa: BLE001 — امتناع صريح مُسجَّل لا انهيار صامت
-        outcome["reason"] = f"مرحلة بناء صورة المسودة — فشل: {exc}"
-        return outcome
-
+    # بلا بناء بطاقة هنا (Issue #852) -- البطاقة تُبنى عند الاعتماد فقط
+    # (cards.ensure)، بمصدر الصورة الفعلي (manual_image ← image_urls ←
+    # احتياط find_images بكلمات image_terms) يُحسَم وقتها لا الآن.
     # تقرير الصورة (تشخيص Issue #373، البند 1): «الصورة غائبة ولا سبب في
-    # التقرير» — shot يحمل الآن سبب رفض كل مرشَّح وحصيلة احتياط find_images
-    # (imaging.build_post_image)؛ total_candidates عدد مرشحي المصادر
-    # المسندة كلها قبل القصّ إلى أول 6 (candidates_tried داخل shot).
-    # image_pool_source/fallback_query_terms جديدان (طلب المراجعة، البند 1):
-    # من أي مجمّع جاءت مرشَّحات image_urls، وما استعلام find_images الفعلي
-    outcome["image_report"] = {**shot, "total_candidates": len(image_urls),
+    # التقرير» — total_candidates عدد مرشحي المصادر المسندة كلها،
+    # image_pool_source/fallback_query_terms (طلب المراجعة، البند 1): من
+    # أي مجمّع جاءت مرشَّحات image_urls، وما استعلام find_images الاحتياطي
+    # الذي سيُستعمل لاحقًا إن فشلت كلها.
+    outcome["image_report"] = {"built": False, "total_candidates": len(image_urls),
                                "image_pool_source": image_pool_source,
                                "fallback_query_terms": image_terms}
 
@@ -4119,15 +4100,6 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         "age_hours": 0.0,
         "is_followup": False,
         "state_media": False,
-        "has_photo": bool(shot.get("used_original")),
-        "image_info": {
-            "used_original": bool(shot.get("used_original")),
-            "illustrative": bool(shot.get("illustrative")),
-            "composite": bool(shot.get("composite")),
-            "chosen_url": shot.get("chosen_url"),
-            "candidates_tried": shot.get("candidates_tried"),
-            "manual": False,
-        },
         "source": {
             "title": question,
             "link": primary_link,
@@ -4141,7 +4113,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         "caption": writer.build_caption(written, art, cfg),
         "headlines": headlines,
         "headline_selected": 0,
-        "image": image_rel,
+        # بلا حقل image عمدًا (Issue #852) -- البطاقة تُبنى عند الاعتماد.
         "reel": None,
         "reel_spec": {
             "headline": written["image_headline"] or written["post_title"],
@@ -4152,22 +4124,13 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     }
     store.save_draft(draft)
 
-    # لا illustrative (تشخيص Issue #373، مراجعة بشرية بعد أول نشر، البند 1):
-    # used_original يصير True أيضًا حين ينجح احتياط find_images (imaging.py
-    # يضبطه بعد محاولتَي المصدر والاحتياط معًا) — عزو تلك الصورة التعبيرية
-    # لمرشَّح من image_ranked (مصادر مسندة/احتياط استبعاد) كان لينسب صورة حرة
-    # لمصدر لم يوفّرها إطلاقًا.
-    # المطابقة بـ chosen_url لا image_ranked[0] (إصلاح عطل عزو مكتشَف أثناء
-    # هذه الجولة): imaging.build_post_image قد يعيد ترتيب المرشحين بالوجوه
-    # أو ينجح مرشَّح لاحق لا الأول — image_ranked[0] كانت تُنسَب دومًا بصرف
-    # النظر عن أيّهما نجح فعلًا. chosen_url (جديد في تقرير imaging.py) هو
-    # الرابط الذي نجح تحديدًا؛ ونحتاجها أيضًا هنا لتمييز مصدر احتياط
-    # الاستبعاد الصحيح حين image_ranked من reprint_image_pool لا من grounded
-    if shot.get("used_original") and not shot.get("illustrative") and image_ranked:
-        chosen = shot.get("chosen_url")
-        match = next((t for t in image_ranked if t[0] == chosen), None) or image_ranked[0]
-        outcome["image_source_name"] = match[1]
-        outcome["image_source_link"] = match[2]
+    # ترشيح لا استعمال فعلي (Issue #852): البطاقة لم تُبنَ بعد، فلا سبيل
+    # لمعرفة أيّ مرشَّح سينجح تنزيله فعليًا قبل الاعتماد -- أول مرشَّح في
+    # image_ranked (مصادر مسندة، أو احتياط الاستبعاد حين لا مسندة) يُعرَض
+    # للمراجع كمؤشر لا كقرار نهائي (يُحسَم عند cards.ensure لاحقًا).
+    if image_ranked:
+        outcome["image_source_name"] = image_ranked[0][1]
+        outcome["image_source_link"] = image_ranked[0][2]
 
     outcome.update({
         "produced": True,
@@ -4505,29 +4468,10 @@ def _draft_investigation(outcome: dict, cfg) -> dict | None:
         publisher=publishers[0] if publishers else "", cluster_sources=publishers,
     )
 
-    image_name = f"{datetime.now(timezone.utc):%Y-%m-%d}/{draft_id}.jpg"
-    image_rel = f"drafts/{image_name}"
-    shot: dict = {}
-    try:
-        imaging.build_post_image(
-            headline=written["image_headline"] or written["post_title"],
-            category=written["category"],
-            urgent=False,
-            image_urls=[],
-            publisher=publishers,
-            bucket="serious",
-            origin=INVESTIGATION_ORIGIN,
-            # لا مرشَّح صورة من outcome البنيوي (report_statements لا تحمل
-            # image_candidates) — احتياط find_images (ويكيميديا/Openverse
-            # حصرًا) وحده من السؤال-العنوان
-            fallback_provider=lambda: find_images(question, cfg),
-            cfg=cfg,
-            out_path=DRAFTS_DIR / image_name,
-            report=shot,
-        )
-    except Exception as exc:  # noqa: BLE001 — امتناع صريح مُسجَّل لا انهيار صامت
-        log.warning("فشل بناء صورة منشور التحقيق: %s", exc)
-        return None
+    # بلا بناء بطاقة هنا (Issue #852) -- تُبنى عند الاعتماد فقط
+    # (cards.ensure)، باحتياط find_images(question, cfg) وحده (لا مرشَّح
+    # صورة من outcome البنيوي -- report_statements لا تحمل image_candidates)
+    # إذ لا صور مصادر مباشرة لمنشور التحقيق أصلًا.
 
     headlines, hl_error = headlines_mod.headlines_for_post(
         written["post_title"], written["post_body"], cfg)
@@ -4554,15 +4498,6 @@ def _draft_investigation(outcome: dict, cfg) -> dict | None:
         "age_hours": 0.0,
         "is_followup": False,
         "state_media": False,
-        "has_photo": bool(shot.get("used_original")),
-        "image_info": {
-            "used_original": bool(shot.get("used_original")),
-            "illustrative": bool(shot.get("illustrative")),
-            "composite": bool(shot.get("composite")),
-            "chosen_url": shot.get("chosen_url"),
-            "candidates_tried": shot.get("candidates_tried"),
-            "manual": False,
-        },
         "source": {
             "title": question,
             "link": primary_link,
@@ -4576,7 +4511,7 @@ def _draft_investigation(outcome: dict, cfg) -> dict | None:
         "caption": writer.build_caption(written, art, cfg),
         "headlines": headlines,
         "headline_selected": 0,
-        "image": image_rel,
+        # بلا حقل image عمدًا (Issue #852) -- البطاقة تُبنى عند الاعتماد.
         "reel": None,
         "reel_spec": {
             "headline": written["image_headline"] or written["post_title"],
@@ -4607,9 +4542,31 @@ def _image_report_lines(ir: dict) -> list[str]:
     pool_source (طلب المراجعة، مراجعة بشرية بعد أول نشر، البند 1) يميّز
     مرشَّحات "grounded" (مصادر مسندة فعليًا) عن "excluded_reprint" (وثيقة
     استُبعدت من عدّ الاستقلالية لكنها بقيت مرشَّحًا صالحًا للصورة) — وسمٌ
-    صريح فلا يبدو الاستثناء صامتًا ولا يُظَنّ "مصدر مسند" خطأً."""
+    صريح فلا يبدو الاستثناء صامتًا ولا يُظَنّ "مصدر مسند" خطأً.
+
+    ``built=False`` (Issue #852): البطاقة لم تُبنَ عند الصياغة بعد الآن —
+    تُبنى عند الاعتماد (cards.ensure) لا هنا، فلا shot حقيقي بعد. مفتاح
+    جديد لا يظهر في تقرير ``imaging.build_post_image`` الفعلي (بلا هذا
+    المفتاح إطلاقًا)، فلا يمسّ سلوك هذه الدالة القائم مع تقارير بناء
+    حقيقية — مقصور على الاستدعاء من article._write_article وحده."""
     if not ir:
         return []
+    if not ir.get("built", True):
+        total = ir.get("total_candidates", 0)
+        pool = ir.get("image_pool_source", "grounded")
+        terms = ir.get("fallback_query_terms") or []
+        terms_text = "، ".join(terms) if terms else "لا كيانات مستخرجة"
+        if total and pool == "excluded_reprint":
+            head = (f"🖼️ {total} مرشَّح صورة من مصدر استُبعد من عدّ الاستقلالية — "
+                    "ليس دليل إسناد، فقط مُتاح احتياطًا لغياب صور المصادر المسندة. "
+                    "البطاقة تُبنى عند الاعتماد.")
+        elif total:
+            head = (f"🖼️ {total} مرشَّح صورة من المصادر المسندة — البطاقة تُبنى "
+                    "عند الاعتماد.")
+        else:
+            head = ("🖼️ لا مرشَّح صورة من المصادر — احتياط find_images وحده عند "
+                    "الاعتماد إن لزم.")
+        return ["", head, f"  🔎 استعلام الصورة الاحتياطية إن لزم: {terms_text}"]
     total = ir.get("total_candidates", 0)
     failures = ir.get("candidate_failures") or []
     pool = ir.get("image_pool_source", "grounded")

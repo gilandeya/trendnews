@@ -126,7 +126,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import evidence, imagesearch, imaging, publish, review, store, youtube_article
+from . import cards, evidence, imagesearch, imaging, publish, review, store, youtube_article
 from .config import DRAFTS_DIR, env, load_config
 
 log = logging.getLogger(__name__)
@@ -492,7 +492,6 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
         idx = 0
     headline = headlines[idx]
     run_date = draft.get("run_date") or datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    image_name = f"{run_date}/{draft['id']}.jpg"
 
     # صورة تعبيرية حرة الترخيص (طلب المراجعة على Issue #680) -- اختيارية
     # ومعطَّلة بأمان (youtube.image.use_photo أو بحث فارغ) بدل إسقاط المقال؛
@@ -501,51 +500,34 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     if cfg.path("youtube.image.use_photo", True):
         photo_urls = _photo_candidates(headline, draft.get("event", ""), cfg)
 
-    # القالب الموحَّد مع بطاقة الأخبار (Issue #732) -- imaging.build_post_image
-    # ذاتها، لا نسخة رسم منفصلة هنا: نفس الشعار وسطر المصدر والتصميم، وبادج
-    # «تحليل» وحده يميّز هذا المسار (badge). image_urls=None بنيويًا (لا صور
-    # فيديو/قناة أصلية إطلاقًا -- انظر توثيق الوحدة أعلاه)؛ المرشّحون
-    # التعبيريّون يمرّون عبر fallback_urls فقط، فتُعامَل دومًا كصور "تعبيرية"
-    # (illustrative=True) بوسمها الظاهر على الكارت -- وصف صادق، فهي كذلك
-    # فعلًا لا خبرية.
-    shot: dict = {}
-    try:
-        imaging.build_post_image(
-            headline=headline,
-            category="",
-            urgent=False,
-            image_urls=None,
-            publisher=image_source_line(draft["channels"], cfg),
-            cfg=cfg,
-            out_path=DRAFTS_DIR / image_name,
-            fallback_urls=photo_urls,
-            origin="analysis",
-            report=shot,
-        )
-    except Exception as exc:  # noqa: BLE001 — امتناع صريح مُسجَّل لا انهيار صامت
-        log.warning("تعذّر بناء بطاقة العنوان لـ%r: %s", headline, exc)
+    # غلاف رفيع فوق cards.ensure (Issue #852): القالب الموحَّد مع بطاقة
+    # الأخبار (Issue #732) -- imaging.build_post_image ذاتها عبر cards.ensure،
+    # لا نسخة رسم منفصلة هنا. image_urls=None بنيويًا (لا صور فيديو/قناة
+    # أصلية إطلاقًا -- انظر توثيق الوحدة أعلاه، allow_search_fallback=False
+    # كي لا تبحث cards.ensure من تلقاء نفسها بسلسلتها العامة)؛ المرشّحون
+    # التعبيريّون يمرّون عبر fallback_urls فقط. check_headline_limit=False
+    # يستعمل العنوان المختار كما هو (لا فحص طول هنا، كالسابق). bucket=""
+    # صراحةً (لا "serious" الافتراضي في cards.ensure -- مسودة التحليل لا
+    # تحمل حقل bucket إطلاقًا، والقيمة الأصلية هنا كانت الفراغ دومًا).
+    # out_dir=run_date لأن مجلد حفظ المسودة الفعلي (store.save_draft) قد
+    # يختلف عن run_date في الاختبارات (انظر توثيق cards.ensure).
+    new_rel = cards.ensure(
+        path, draft, cfg, headline=headline,
+        image_urls=None, fallback_urls=photo_urls, allow_search_fallback=False,
+        publisher=image_source_line(draft["channels"], cfg),
+        category="", urgent=False, bucket="", origin="analysis",
+        out_dir=run_date, check_headline_limit=False,
+    )
+    if new_rel is None:
+        log.warning("تعذّر بناء بطاقة العنوان لـ%r", headline)
         return False
 
     new_caption = _apply_headline(draft["caption"], headline)
     new_arabic = {**draft["arabic"], "post_title": headline}
-    has_photo = bool(shot.get("used_original"))
-    image_info = {
-        "used_original": has_photo,
-        "illustrative": bool(shot.get("illustrative")),
-        "composite": bool(shot.get("composite")),
-        "chosen_url": shot.get("chosen_url"),
-        "candidates_tried": shot.get("candidates_tried"),
-        "manual": False,
-    }
-    store.update_draft(path, image=f"drafts/{image_name}", headline_selected=idx,
-                        caption=new_caption, arabic=new_arabic, has_photo=has_photo,
-                        image_info=image_info)
-    draft["image"] = f"drafts/{image_name}"
+    store.update_draft(path, headline_selected=idx, caption=new_caption, arabic=new_arabic)
     draft["headline_selected"] = idx
     draft["caption"] = new_caption
     draft["arabic"] = new_arabic
-    draft["has_photo"] = has_photo
-    draft["image_info"] = image_info
     return True
 
 

@@ -21,13 +21,11 @@ log = logging.getLogger("open_review")
 
 def _missing_review_fields(draft: dict) -> list[str]:
     """الحقول التي يعتمد عليها ``review.build_issue_body`` بلا شرط لكل
-    مسودة. مسودة يوتيوب متسرّبة (أو أي مسودة عامة معطوبة أخرى) قد تفتقد
-    ``image`` تحديدًا — عمدًا، لا خطأً (Issue #680) — قبل أن تُبنى بطاقتها
-    لحظة الاعتماد؛ نفس مبدأ ``publish._missing_draft_fields`` (Issue #707)
-    منقول إلى نقطة فتح الـ Issue بدل نقطة النشر فقط."""
+    مسودة. ``image`` ليست من بينها منذ Issue #852: غيابها قبل الاعتماد
+    صار الحال العامة لكل المسارات (البطاقة تُبنى عند الاعتماد وحده،
+    cards.ensure) لا عطلًا يستحق الاستبعاد — كانت الحال الخاصة بمسار
+    التحليل وحده قبل هذه المهمة (Issue #680)."""
     missing = []
-    if not draft.get("image"):
-        missing.append("image")
     if not draft.get("caption"):
         missing.append("caption")
     if not (draft.get("arabic") or {}).get("post_title"):

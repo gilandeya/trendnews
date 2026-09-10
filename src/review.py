@@ -72,7 +72,7 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
     id_to_idx = {dd["id"]: i for i, dd in enumerate(drafts, start=1)}
 
     for idx, d in enumerate(drafts, start=1):
-        img_path = d["image"]
+        img_path = d.get("image")
         ar = d["arabic"]
         badge = "🔴 عاجل" if ar.get("urgent") else f"🏷️ {ar.get('category', '')}"
         if d.get("trend_score", 0) >= 0.5:
@@ -134,16 +134,44 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         parts += [
             *(["  > ⚠️ **مصدره إعلام رسمي/حكومي فقط** — تحقّق من الرواية قبل النشر.",
                ""] if d.get("state_media") else []),
-            f"  <img src=\"{raw_url(repo, branch, img_path)}\" width=\"520\" />",
-            "",
-            f"  ↳ [الصورة في المستودع]({blob_url(repo, branch, img_path)}) · "
-            f"[الخبر الأصلي]({d['source']['link']})",
-            "",
-            # صندوق + فراغ: المراجع يفتح تحرير الـ Issue، يلصق الرابط في
-            # الفراغ ويعلّم المربع، فيعيد البوت بناء البطاقة. المعرّف
-            # مخفي في تعليق HTML لأن المراجع لا يحتاج رؤيته.
-            *([f"  🖼️ **بلا صورة للخبر** — البطاقة على خلفية مصممة."]
-              if d.get("has_photo") is False else []),
+        ]
+        # البطاقة (image) لم تُبنَ بعد قبل الاعتماد هو الحال العام الآن
+        # (Issue #852) -- تُعرَض بدلًا منها أول مرشَّح صورة خام من
+        # source.image_candidates عبر رابط الناشر الخارجي مباشرة، لا
+        # raw_url/blob_url (لا شيء رُفع للمستودع بعد).
+        if img_path:
+            parts += [
+                f"  <img src=\"{raw_url(repo, branch, img_path)}\" width=\"520\" />",
+                "",
+                f"  ↳ [الصورة في المستودع]({blob_url(repo, branch, img_path)}) · "
+                f"[الخبر الأصلي]({d['source']['link']})",
+                "",
+                # صندوق + فراغ: المراجع يفتح تحرير الـ Issue، يلصق الرابط في
+                # الفراغ ويعلّم المربع، فيعيد البوت بناء البطاقة. المعرّف
+                # مخفي في تعليق HTML لأن المراجع لا يحتاج رؤيته.
+                *([f"  🖼️ **بلا صورة للخبر** — البطاقة على خلفية مصممة."]
+                  if d.get("has_photo") is False else []),
+            ]
+        else:
+            candidates = (d.get("source") or {}).get("image_candidates") or []
+            if candidates:
+                parts += [
+                    f"  <img src=\"{candidates[0]}\" width=\"520\" />",
+                    "",
+                    "  <sub>هذه صورة المصدر الخام — البطاقة تُبنى عند الاعتماد.</sub>",
+                    "",
+                    f"  ↳ [الخبر الأصلي]({d['source']['link']})",
+                    "",
+                ]
+            else:
+                parts += [
+                    "  🖼️ **المصدر:** بلا صورة من الناشر — ستُستعمل صورة "
+                    "تعبيرية حرة عند الاعتماد.",
+                    "",
+                    f"  ↳ [الخبر الأصلي]({d['source']['link']})",
+                    "",
+                ]
+        parts += [
             f"  - [ ] 🖼️ استبدل الصورة بالرابط أدناه  <!-- img:{d['id']} -->",
             "",
             f"    الرابط:   <!-- imgurl:{d['id']} -->",
