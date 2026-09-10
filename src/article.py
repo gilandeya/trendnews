@@ -2005,6 +2005,15 @@ def _sufficiency(grounded: list[dict], cfg) -> tuple[bool, str]:
     لصياغة سؤال أو متن منها. هذه ليست حالة فشل، بل نتيجة صحيحة: منشور
     التحقيق وحده هو المُنتَج الصحيح حينها.
 
+    الامتناع ألغي نهائيًا (Issue #835، البند 2): `_write_article` لم تعد
+    تستدعي هذه الدالة على وقائع الموجز وحدها بعد حلقة السند مباشرة — إن
+    خرجت تلك الحلقة بلا واقعة واحدة من الدرجتين أ/ب (مصدر مستقل واحد
+    فأكثر)، تُملأ `grounded` أولًا من وقائع الموجز نفسها بلا أي سند (درجة
+    ج، موسومة وجوبًا) **قبل** الوصول إلى هذه الدالة — فلا تُستدعى هذه
+    الدالة على قائمة فارغة فعليًا إلا حين لا واقعة واحدة في الموجز أصلًا
+    (موجز كله رأي، لا وقائع قابلة للتحقق إطلاقًا)، وهذه ليست "أدلة غير
+    كافية" بل غياب مادة من الأصل.
+
     **ترتيب حاسم يبقى كما هو** (سدّ ثغرة الدائرة، آخر تعليق على Issue #348):
     `grounded` هنا يجب أن يكون مُرشَّحًا بالسند فعلًا (مصدران مستقلان فأكثر
     لكل عنصر) **قبل** أي اختيار سؤال — لا كل ما استُخرج من الموجز. _write_article
@@ -2139,6 +2148,15 @@ DRAFT_SYSTEM_TEMPLATE = """أنت محرر يكتب مقالًا عربيًا ل
     مباشرة كخبر، لا كتقرير عن عملية التحقق منها أو اختيارها.
 12. لا فقرة ختامية تلخّص ما سبق أو تعيد صياغته بكلمات مختلفة — المتن ينتهي
     بآخر واقعة معطاة مباشرة، لا بإعادة تكرار مضمون الفقرات السابقة.
+13. الوقائع المعلَّمة بـ"[مصدر واحد: ...]" (درجة ب، Issue #835) تحقّق منها
+    مصدر مستقل واحد لا اثنان — إلزامًا لا اختياريًا، انسب كل مضمونها في
+    صلب الجملة نفسها لاسم ذلك المصدر صراحة، بنفس أسلوب القاعدة 9، لا
+    تقدّمها خبرًا مؤكَّدًا من عدة مصادر مستقلة.
+14. الوقائع المعلَّمة بـ"[من موجز المحرر بلا سند مستقل]" (درجة ج، Issue
+    #835) لم يعثر البحث لها على أي مصدر مستقل يؤكدها — لا تقدّمها خبرًا
+    مؤكَّدًا مطلقًا، بل اذكر مضمونها منسوبًا صراحة بعبارة "{editor_tag_phrase}"
+    في صلب الجملة؛ إن تكررت أكثر من واقعة بهذا الوسم يكفي ذكر العبارة مرة
+    واحدة تحكم الفقرة التي تجمعها بصياغة واضحة، لا تفريقًا مبهمًا.
 
 استخدم أداة write_article دائمًا."""
 
@@ -2161,8 +2179,10 @@ ARTICLE_POST_SCHEMA = {
 
 DRAFT_USER_TEMPLATE = """السؤال-العنوان: {question}
 
-وقائع مسندة بمصدرين مستقلين فأكثر — مضمون المتن كله (كل اسم علم ورقم
-وتاريخ) يُبنى من هذه القائمة حصرًا، لا مما يلي بعدها:
+وقائع بدرجة إسنادها الفعلية مبيَّنة أمام كل واحدة (بلا وسم = مصدران
+مستقلان فأكثر؛ "[مصدر واحد: ...]" أو "[من موجز المحرر بلا سند مستقل]" —
+القاعدتان 13/14) — مضمون المتن كله (كل اسم علم ورقم وتاريخ) يُبنى من هذه
+القائمة حصرًا، لا مما يلي بعدها:
 
 {facts_block}
 
@@ -2242,12 +2262,21 @@ def _opinions_block(opinions: list[dict], cfg) -> str:
            f"\"{phrase}...\" — لا تنقله حرفيًا ولا تقدّمه خبرًا):\n{lines}\n")
 
 
-def _facts_block(grounded: list[dict]) -> str:
+def _facts_block(grounded: list[dict], cfg=None) -> str:
     """يُعلِّم كل واقعة من kind=='تصريح' بوسم "[تصريح لـ...]" ظاهر للنموذج —
     القاعدة 8 تعتمد عليه ليميّز كلام متحدث بعينه (مسنَد وقوعه، لا صحة
     مضمونه بالضرورة) عن واقعة مسندة من مصدر مستقل مباشرة. وكل واقعة من
     kind=='تقرير منقول' بوسم "[تقرير منقول عن ...]" نظيره — القاعدة 9
-    تعتمد عليه لتنسب مضمونه لاسم ناشره صراحة في المتن (الجولة السادسة عشرة)."""
+    تعتمد عليه لتنسب مضمونه لاسم ناشره صراحة في المتن (الجولة السادسة عشرة).
+
+    grade=='B'/'C' (Issue #835، البندان 1-2): وسمان موازيان للوقائع التي لم
+    تبلغ مصدرين مستقلين — "[مصدر واحد: ...]" و"[من موجز المحرر بلا سند
+    مستقل]" — تعتمد عليهما القاعدتان 13/14 بنفس آلية القاعدة 9 تمامًا، لا
+    حكمًا جديدًا. kind=='تقرير منقول' يُفحص أولًا فيبقى وسمه كما هو حتى لو
+    حمل grade=='A' من عتبته المستقلة (report_min_confirm) — لا تعارض بين
+    الوسمين لأنهما يصفان الأمر نفسه بمصطلح مختلف لهذا النوع تحديدًا."""
+    acfg = (cfg.get("article", {}) or {}) if cfg is not None else {}
+    editor_tag = acfg.get("editor_tag_phrase", "بحسب معلومات المحرر")
     lines = []
     for f in grounded:
         if f.get("kind") == "تصريح":
@@ -2256,6 +2285,12 @@ def _facts_block(grounded: list[dict]) -> str:
         elif f.get("kind") == "تقرير منقول":
             publisher = f.get("publisher") or "؟"
             lines.append(f"- [تقرير منقول عن {publisher}] {f['text']}")
+        elif f.get("grade") == "B":
+            name = f.get("attribution_name") or "؟"
+            lines.append(f"- [مصدر واحد: {name}] {f['text']}")
+        elif f.get("grade") == "C":
+            lines.append(f"- [من موجز المحرر بلا سند مستقل — انسبها لعبارة "
+                        f"\"{editor_tag}\"] {f['text']}")
         else:
             lines.append(f"- {f['text']}")
     return "\n".join(lines)
@@ -2294,9 +2329,10 @@ def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
     w = cfg.get("writer", {})
     acfg = cfg.get("article", {}) or {}
     docs = _source_docs(grounded)
-    facts_block = _facts_block(grounded)
+    facts_block = _facts_block(grounded, cfg)
     phrase = acfg.get("opinion_attribution_phrase", "وترى الصفحة أن")
-    system_text = DRAFT_SYSTEM_TEMPLATE.format(opinion_phrase=phrase)
+    editor_tag = acfg.get("editor_tag_phrase", "بحسب معلومات المحرر")
+    system_text = DRAFT_SYSTEM_TEMPLATE.format(opinion_phrase=phrase, editor_tag_phrase=editor_tag)
     prompt = DRAFT_USER_TEMPLATE.format(
         question=question,
         facts_block=facts_block,
@@ -2358,6 +2394,64 @@ def _report_attribution_ok(post_body: str, grounded: list[dict]) -> tuple[bool, 
             return False, (f"مضمون تقرير منقول عن «{publisher or '؟'}» ورد في المتن بلا "
                           "نسبة صريحة لاسم الناشر في صلب الجملة — القاعدة 9")
     return True, ""
+
+
+def _grade_attribution_ok(post_body: str, grounded: list[dict], cfg) -> tuple[bool, str, list[dict]]:
+    """نظير _report_attribution_ok أعلاه، لكن للوقائع من الدرجتين ب/ج (Issue
+    #835، البندان 1-2) بدل "تقرير منقول" — فحص بنيوي لاحق لا بالبرومبت
+    وحده: واقعة درجة ب (grade=='B'، مصدر مستقل واحد لا اثنان) يجب أن يظهر
+    اسم مصدرها (attribution_name) صراحة في المتن؛ واقعة درجة ج (grade=='C'،
+    من موجز المحرر حصرًا بلا أي سند مستقل — لا تدخل المقال إلا حين تُخلي
+    الدرجتان أ/ب معًا في التشغيلة كلها) يجب أن تظهر عبارة article.
+    editor_tag_phrase الثابتة في المتن — مرة واحدة تكفي لكل الوقائع
+    المشتركة في هذا الوسم (نفس تساهل _report_attribution_ok حين يشترك أكثر
+    من عنصر "تقرير منقول" باسم ناشر واحد؛ الوسم نفسه لا اسم كل واقعة على
+    حدة). kind=='تقرير منقول' مستثنى هنا عمدًا — يبقى تحت _report_attribution_ok
+    وحدها بصرف النظر عن أي grade حُسب له، فلا ازدواج فحص على نفس الواقعة.
+
+    يعيد أيضًا قائمة الوقائع الناقصة (لا نصًّا فقط) كي يستطيع _write_article
+    إسقاطها فردًا فردًا بعد فشل إعادة النداء الوحيدة (البند 1: "تُسقَط هي
+    وحدها لا المقال"), لا امتناع المقال كله."""
+    acfg = cfg.get("article", {}) or {}
+    editor_tag = acfg.get("editor_tag_phrase", "بحسب معلومات المحرر")
+    editor_tag_tokens = norm_tokens(editor_tag)
+    body_tokens = norm_tokens(post_body or "")
+    missing: list[dict] = []
+    for f in grounded:
+        if f.get("kind") == "تقرير منقول":
+            continue
+        if f.get("grade") == "B":
+            name = f.get("attribution_name") or ""
+            name_tokens = norm_tokens(name)
+            if not name_tokens or not (name_tokens <= body_tokens):
+                missing.append({"fact": f, "label": f"واقعة بمصدر واحد ({name or '؟'})"})
+        elif f.get("grade") == "C":
+            if not (editor_tag_tokens <= body_tokens):
+                missing.append({"fact": f, "label": "واقعة من موجز المحرر بلا سند مستقل"})
+    if not missing:
+        return True, "", []
+    labels = "، ".join(m["label"] for m in missing)
+    return False, f"وقائع بلا نسبة إلزامية في المتن: {labels}", missing
+
+
+def _build_grade_attribution_avoid_note(missing: list[dict], cfg) -> str:
+    """توجيه إعادة النداء الوحيدة بعد فشل _grade_attribution_ok (البند 1) —
+    نفس فلسفة _build_avoid_note أعلاه: يذكر الواقعة الناقصة بعينها والنسبة
+    المطلوبة لها تحديدًا، لا توجيهًا عامًا."""
+    acfg = cfg.get("article", {}) or {}
+    editor_tag = acfg.get("editor_tag_phrase", "بحسب معلومات المحرر")
+    lines = []
+    for m in missing:
+        f = m["fact"]
+        if f.get("grade") == "B":
+            name = f.get("attribution_name") or "؟"
+            lines.append(f"- «{f['text']}» — اذكر اسم مصدرها «{name}» صراحة في صلب الجملة (القاعدة 13)")
+        else:
+            lines.append(f"- «{f['text']}» — بلا سند مستقل، اذكر عبارة «{editor_tag}» صراحة "
+                         "معها في صلب الجملة (القاعدة 14)")
+    joined = "\n".join(lines)
+    return (f"\nمحاولة سابقة لم تنسب الوقائع التالية كما تقتضي القواعد 13/14 — "
+           f"أعد الصياغة ناسبًا كل واحدة صراحة:\n{joined}\n")
 
 
 # ─────────────── كيانات غير مسندة في المتن (بلاغ لا رفض) ────────────────
@@ -2786,7 +2880,18 @@ def _new_outcome() -> dict:
            "jargon_retry": {"attempted": False, "succeeded": False, "detected": [], "remaining": []},
            # وقائع أُسندت بعد توسيع نافذة البحث (Issue #820) — تنبيه لا حجب:
            # وثيقة قديمة قد تجاوزها الزمن، فتُذكر مع تاريخ أقدم مصدر مسنِد
-           "older_window_facts": []}
+           "older_window_facts": [],
+           # الدرجات الثلاث (Issue #835): fallback_to_brief صار True فقط حين
+           # خلت الدرجتان أ/ب معًا فصيغ المقال كله من وقائع الموجز بلا سند
+           # (درجة ج) — التقرير يعرضه سطرًا تحذيريًا بارزًا أولًا (البند 3).
+           # fact_grades: درجة كل واقعة دخلت المقال فعليًا (A/B/C) واسم
+           # نسبتها إن وُجد، بعد استقرار grounded النهائية (بعد أي إسقاط
+           # نسبة، انظر attribution_retry). attribution_retry: شفافية إعادة
+           # النداء الوحيدة عند فشل نسبة واقعة درجة ب/ج، وما أُسقط فردًا
+           # فردًا بعدها (البند 1 — لا امتناع المقال كله)
+           "fallback_to_brief": False,
+           "fact_grades": [],
+           "attribution_retry": {"attempted": False, "succeeded": False, "dropped_facts": []}}
 
 
 def write_article(body: str, issue_number: int, cfg) -> dict:
@@ -2889,6 +2994,12 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     grounded: list[dict] = []
     sources_seen: list[dict] = []
     trail: list[dict] = []
+    # حوض الضمان (البند 2، Issue #835): كل واقعة من واقعة موجز (لا وقائع
+    # مصادر — تلك ليست موجز المستخدم نفسه) خرجت من حلقة السند أدناه بلا أي
+    # مصدر مستقل (درجة ج) — نسخة الحقل الخام كما استُخرج من الموجز، لا
+    # النص المعالَج بحثًا. تُستهلَك فقط حين تخرج الحلقة كلها بلا واقعة واحدة
+    # من الدرجتين أ/ب — عندها تُصاغ المقال من هذا الحوض نفسه بدل الامتناع
+    brief_grade_c_pool: list[dict] = []
     # كل وثيقة قُرئت فعليًا خلال هذا التشغيل عبر أي مرحلة (واقعة/تسمية/سند/
     # سؤال)، ولو لم تؤيِّد ما استُخرجت لأجله بعينه — مجمَّع إشارة (ب) في فحص
     # الأصالة أدناه (تشخيص Issue #373، الجولة العاشرة): تتابع ورد في مصدر
@@ -2997,13 +3108,22 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             all_docs, all_supporting = _merge_named_evidence(
                 named_docs, named_supporting, support_docs, support_supporting, cfg)
             unique = set(all_supporting)
-            if len(unique) < min_confirm:
+            # الدرجات الثلاث (Issue #835، البند 1) تسري هنا أيضًا — نفس
+            # منطق الفرع العادي أدناه بالضبط، بلا ازدواج توثيق: أ (≥ مصدرين
+            # مستقلين)، ب (مصدر واحد فقط، تُنسب لاسمه في المتن)، ج (بلا أي
+            # مصدر، تدخل حوض الضمان لا المقال مباشرة)
+            if len(unique) >= min_confirm:
+                grade = "A"
+            elif len(unique) == 1:
+                grade = "B"
+            else:
                 dropped.append({
                     "text": named_text,
                     "reason": (f"سند غير كافٍ بعد تسمية الحدث ({len(unique)} من "
                               f"{min_confirm} مصادر مستقلة مطلوبة، شاملةً دورة سند "
                               "ثانية بكيانات الحدث نفسه)"),
                 })
+                brief_grade_c_pool.append({**f})
                 continue
             # تشخيص Issue #373، الجولة السابعة (البند 1): كانت تُمرَّر ranked=[]
             # حرفيًا هنا — لا Article فيها image_candidates إطلاقًا مهما توفّرت
@@ -3011,7 +3131,9 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             # دومًا بصرف النظر عن حجم التغطية الفعلي. support_ranked (دورة
             # السند الثانية أعلاه) تحمل كائنات Article الحقيقية بصورها.
             fact_sources = _grounded_sources(all_supporting, all_docs, support_ranked)
-            grounded.append({**f, "text": named_text, "sources": fact_sources})
+            attribution_name = fact_sources[0]["name"] if grade == "B" and fact_sources else ""
+            grounded.append({**f, "text": named_text, "sources": fact_sources,
+                            "grade": grade, "attribution_name": attribution_name})
             # سؤال الصلة يسأل عن الرابط بين طرفين — استعلامه يجب أن يشتمل
             # كيانات كليهما لا الإشارة المبهمة الأصلية وحدها (تشخيص Issue
             # #373، الجولة الثانية عشرة، البند 2): support_query أعلاه بُني
@@ -3203,6 +3325,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                 # فعليًا لهذه الواقعة
                 dropped.append({"text": f["text"],
                                "reason": "كل استعلامات السُلَّم أقل من كلمتين — تُخطّيت كلها"})
+                brief_grade_c_pool.append({**f})
                 continue
 
             search_attempt = attempt_result["search_attempt"]
@@ -3234,12 +3357,25 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                         unique, getattr(docs, "fetch_failures", []), cfg)
                 return detail
 
-            outcome_text = (f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
-                            if fact_call_error else
-                            f"مسندة بـ{len(unique)} مصدر مستقل"
-                            if len(unique) >= fact_min_confirm
-                            else f"سند غير كافٍ ({len(unique)}/{fact_min_confirm}) — "
-                                 f"{_support_gap_detail()}")
+            # الدرجات الثلاث (Issue #835، البند 1): مصدر واحد بالضبط لغير
+            # "تقرير منقول" لم يعد "سند غير كافٍ" — درجة ب صريحة، تدخل
+            # المقال منسوبة لا مُسقَطة (انظر بناء grounded أدناه)
+            if fact_call_error:
+                outcome_text = f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
+            elif len(unique) >= fact_min_confirm:
+                outcome_text = f"مسندة بـ{len(unique)} مصدر مستقل"
+            elif not is_report and len(unique) == 1:
+                # نقص تقني لا واقعي (تشخيص Issue #583) يبقى مفيدًا للمراجع
+                # هنا أيضًا رغم أن الواقعة لم تعد تسقط (Issue #835) — يوضّح
+                # أن مرشَّحًا ثانيًا محتملًا سقط بفشل جلب، لا انفراد مصدر
+                # واحد فعليًا بالخبر، فقد تستحق الواقعة درجة أ حقًّا لو نجح
+                outcome_text = ("مصدر مستقل واحد — تدخل المقال منسوبة إلى مصدرها في "
+                                "المتن (درجة ب)" +
+                                _fetch_failure_gap_note(
+                                    unique, getattr(docs, "fetch_failures", []), cfg))
+            else:
+                outcome_text = (f"سند غير كافٍ ({len(unique)}/{fact_min_confirm}) — "
+                                f"{_support_gap_detail()}")
             if widened:
                 # بلا هذا لن نعرف أي واقعة اتّكأت على نافذة موسّعة (Issue
                 # #820) — تنبيه صريح في outcome_text (يظهر في trail أدناه)
@@ -3281,7 +3417,17 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                           "search_attempts_tried": len(search_texts),
                           "widened": widened,
                           "outcome": outcome_text})
-            if len(unique) < fact_min_confirm:
+            # الدرجات الثلاث (Issue #835، البند 1): "تقرير منقول" يبقى بعتبته
+            # المستقلة (report_min_confirm) بلا درجة ب — نسبته لاسم الناشر
+            # مضمونة أصلًا بالقاعدة 9/_report_attribution_ok بصرف النظر عن
+            # عدد مصادره. غير ذلك: ≥ fact_min_confirm (=min_confirm هنا) درجة
+            # أ، مصدر واحد بالضبط درجة ب (تدخل منسوبة، لا تُسقَط)، صفر درجة ج
+            # (تدخل حوض الضمان فقط — لا المقال مباشرة، انظر البند 2 أدناه)
+            if len(unique) >= fact_min_confirm:
+                grade = "A"
+            elif not is_report and len(unique) == 1:
+                grade = "B"
+            else:
                 if fact_call_error:
                     drop_reason = f"⚠️ فشل نداء الحكم على السند تقنيًا: {fact_call_error}"
                 elif excluded_reprints:
@@ -3297,6 +3443,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                     drop_reason = (f"سند غير كافٍ ({len(unique)} من {fact_min_confirm} "
                                    f"مصادر مستقلة مطلوبة) — {_support_gap_detail()}")
                 dropped.append({"text": f["text"], "reason": drop_reason})
+                brief_grade_c_pool.append({**f})
                 continue
             fact_sources = _grounded_sources(supporting, docs, ranked)
             # ما لم يُؤيَّد لا يدخل المتن (طلب المراجعة): التصريح قد يجتاز
@@ -3314,7 +3461,9 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                     "text": fact_text,
                     "oldest_date": _oldest_source_date(unique, ranked),
                 })
-            grounded.append({**f, "text": fact_text, "sources": fact_sources})
+            attribution_name = fact_sources[0]["name"] if grade == "B" and fact_sources else ""
+            grounded.append({**f, "text": fact_text, "sources": fact_sources,
+                            "grade": grade, "attribution_name": attribution_name})
 
         for s in grounded[-1]["sources"]:
             if not any(s["name"] == x["name"] for x in sources_seen):
@@ -3573,14 +3722,36 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                                      if call_error else
                                      f"مسندة بـ{len(unique)} مصدر مستقل من المجمّع"
                                      if len(unique) >= min_confirm
+                                     else f"مصدر مستقل واحد من المجمّع — تدخل منسوبة (درجة ب)"
+                                     if len(unique) == 1
                                      else f"سند غير كافٍ من المجمّع ({len(unique)}/{min_confirm})")})
-            if len(unique) < min_confirm:
+            # الدرجات الثلاث (Issue #835، البند 1) تسري على وقائع المصادر
+            # أيضًا — هذا هو الشاهد الأصلي للمشكلة (تشخيص Issue #835): ١٣
+            # واقعة مستخرَجة من المصادر سقطت كلها بـ"سند غير كافٍ من المجمّع
+            # (1/2)" رغم أن كل واحدة منها كانت بمصدر مستقل واحد فعليًا —
+            # درجة ب بالضبط، لا صفرًا. خلافًا لوقائع الموجز، صفر مصادر هنا لا
+            # يدخل حوض الضمان (ذاك مخصَّص لوقائع الموجز نفسه — البند 2 — لا
+            # لإضافات آلية من المصادر لم يكتبها صاحب الموجز)؛ يبقى فقط في
+            # dropped ليظهر في منشور التحقيق — وهذا وحده يصحح عطلًا سابقًا:
+            # الكود القديم لم يكن يسجّل هذه الحالة في dropped إطلاقًا (استمرار
+            # صامت)، فتختفي الواقعة من التقرير كليًا بلا أثر
+            if len(unique) >= min_confirm:
+                grade = "A"
+            elif len(unique) == 1:
+                grade = "B"
+            else:
+                dropped.append({"text": sf["text"],
+                               "reason": (f"⚠️ فشل نداء الحكم على السند تقنيًا: {call_error}"
+                                         if call_error else
+                                         f"سند غير كافٍ من المجمّع ({len(unique)}/{min_confirm})")})
                 continue
             fact_sources = _grounded_sources(supporting, known_docs, all_ranked)
+            attribution_name = fact_sources[0]["name"] if grade == "B" and fact_sources else ""
             grounded.append({"text": sf["text"], "kind": "واقعة", "entities": sf["entities"],
                             "is_unnamed_event": False, "is_reference": False,
                             "speaker": "", "merged_excerpts": [], "split_from": "",
-                            "publisher": "", "origin": "source", "sources": fact_sources})
+                            "publisher": "", "origin": "source", "grade": grade,
+                            "attribution_name": attribution_name, "sources": fact_sources})
             # واقعة مصدر أُضيفت للتو تدخل قائمة المقارنة أيضًا — واقعتان من
             # المصادر تصفان نفس الحدث في تشغيلة واحدة يجب ألا تُعدّا مرتين
             # بالمثل، لا وقائع الموجز الأصلية فقط
@@ -3606,6 +3777,31 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # outcome["reason"] الحر الذي لا يُكتب أصلًا حين تفشل مراحل لاحقة
     # (الكفاية/الصياغة) رغم أن grounded نفسها مكتملة هنا
     outcome["grounded_count"] = len(grounded)
+
+    # الضمان: مقال في كل الأحوال (Issue #835، البند 2) — إن خرجت حلقة
+    # السند كلها بلا واقعة واحدة من الدرجتين أ/ب (grounded فارغة هنا فعليًا
+    # رغم أن facts_raw قد تحمل وقائع حقيقية سقطت كلها لانعدام السند)، يُصاغ
+    # المقال من وقائع الموجز نفسها (حوض brief_grade_c_pool أعلاه) بدل
+    # الامتناع — كل واحدة منها درجة ج، بلا أي مصدر مستقل، تُنسب وجوبًا
+    # لعبارة article.editor_tag_phrase الثابتة (تُفرَض ببنية
+    # _grade_attribution_ok أدناه، نفس آلية إلزام اسم الناشر في "تقرير
+    # منقول"). لا يمسّ هذا وقائع المصادر (origin: "source") — تلك إضافات
+    # آلية لم يكتبها صاحب الموجز، فلا معنى لنسبتها إليه؛ إن سقطت كلها فلا
+    # أثر لها هنا سوى dropped (منشور التحقيق). حوض الضمان لا يكون فارغًا
+    # إلا حين facts_raw نفسها فارغة (موجز كله رأي، لا وقائع إطلاقًا) — عندها
+    # فقط تبقى _sufficiency أدناه هي من يمتنع، وهذا غياب مادة لا نقص أدلة
+    if not grounded and brief_grade_c_pool:
+        outcome["fallback_to_brief"] = True
+        grounded = [
+            {**f, "text": f["text"], "sources": [], "grade": "C", "attribution_name": ""}
+            for f in brief_grade_c_pool
+        ]
+        outcome["grounded_count"] = len(grounded)
+        # هذه الوقائع صارت مضمون المقال نفسه (موسومة بلا سند صراحة) لا
+        # ادّعاءات ساقطة يحقّق فيها منشور التحقيق — تُزال من dropped كي لا
+        # تظهر مزدوَجة («سقطت من موجزي» و«هي المقال» معًا في التقرير نفسه)
+        fallback_texts = {f["text"] for f in brief_grade_c_pool}
+        outcome["dropped"] = [d for d in dropped if d["text"] not in fallback_texts]
 
     # sources هنا لا بعد نجاح الصياغة (Issue #814، جزء 1): منشور التحقيق
     # (draft_investigation) صار يُنتَج بصرف النظر عن نجاح المقال، فيحتاج
@@ -3731,6 +3927,66 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                              f"إلى المتن ({'، '.join(jargon_retry['remaining'])})")
         return outcome
 
+    # النسبة الإلزامية لدرجتي ب/ج (Issue #835، البند 1) — فحص بنيوي لاحق
+    # (_grade_attribution_ok) نظير القاعدة 9/_report_attribution_ok، لكن
+    # بمعالجة مختلفة عند الفشل: لا امتناع المقال كله — إعادة نداء واحدة
+    # بتوجيه صريح يذكر الواقعة الناقصة واسم نسبتها تحديدًا، فإن فشلت أيضًا
+    # تُسقَط تلك الواقعة (الوقائع) وحدها من grounded ويُعاد اختيار السؤال
+    # والصياغة من الباقي — لا يبقى نصٌّ ادّعى نسبةً لم تتحقّق فعليًا
+    attribution_retry = {"attempted": False, "succeeded": False, "dropped_facts": []}
+    grade_attrib_ok, grade_attrib_reason, missing = _grade_attribution_ok(
+        written["post_body"], grounded, cfg)
+    if not grade_attrib_ok:
+        attribution_retry["attempted"] = True
+        avoid_note_attr = _build_grade_attribution_avoid_note(missing, cfg)
+        written_r, w_reason_r = _draft_article(grounded, opinions, question, cfg,
+                                               avoid_note=avoid_note_attr)
+        if written_r is not None:
+            draft_text_r = _draft_text_of(written_r)
+            ok_orig_r, _orig_reason_r, notes_r, _off_r = _check_orig(draft_text_r)
+            if ok_orig_r:
+                ok_r, _reason_r, missing_r = _grade_attribution_ok(
+                    written_r["post_body"], grounded, cfg)
+                if ok_r:
+                    written, draft_text = written_r, draft_text_r
+                    originality_notes = notes_r
+                    outcome["originality_notes"] = notes_r
+                    attribution_retry["succeeded"] = True
+                    grade_attrib_ok = True
+                else:
+                    missing = missing_r
+
+        if not grade_attrib_ok:
+            # تُسقَط الوقائع غير المنسوبة وحدها لا المقال (البند 1): تُستبعد
+            # من grounded، ويُعاد اختيار السؤال والصياغة والأصالة من الباقي
+            missing_ids = {id(m["fact"]) for m in missing}
+            attribution_retry["dropped_facts"] = [m["fact"]["text"] for m in missing]
+            grounded = [g for g in grounded if id(g) not in missing_ids]
+            outcome["grounded_count"] = len(grounded)
+            outcome["attribution_retry"] = attribution_retry
+            if not grounded:
+                outcome["reason"] = ("مرحلة الصياغة — امتناع: تعذّرت نسبة الواقعة "
+                                     "الوحيدة المتاحة ولا وقائع أخرى للصياغة منها")
+                return outcome
+            question, q_reason = _choose_question(grounded, cfg)
+            if not question:
+                outcome["reason"] = q_reason
+                return outcome
+            outcome["question"] = question
+            written, w_reason = _draft_article(grounded, opinions, question, cfg)
+            if written is None:
+                outcome["reason"] = w_reason
+                return outcome
+            draft_text = _draft_text_of(written)
+            ok_orig, orig_reason, originality_notes, _off = _check_orig(draft_text)
+            outcome["originality_notes"] = originality_notes
+            final_ok, final_reason, _final_missing = _grade_attribution_ok(
+                written["post_body"], grounded, cfg)
+            if not final_ok:
+                outcome["reason"] = f"مرحلة الصياغة — امتناع: {final_reason}"
+                return outcome
+    outcome["attribution_retry"] = attribution_retry
+
     # بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373 الجولة السابعة عشرة،
     # البند 2-ج) — على المسودة النهائية (بعد أي محاولة ثانية ناجحة)، فلا
     # يضيع أثره حتى لو رُفض المقال لاحقًا في مرحلة النسبة/الأصالة.
@@ -3771,6 +4027,14 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     publishers = [s["name"] for s in sources_seen]
     primary_link = sources_seen[0]["link"] if sources_seen else ""
     central_text = grounded[0]["text"]
+
+    # درجة إسناد كل واقعة دخلت المقال فعليًا (Issue #835، البند 3) —
+    # بعد استقرار grounded النهائية (بعد أي إسقاط نسبة أعلاه)، للتقرير حصرًا
+    outcome["fact_grades"] = [
+        {"text": g["text"], "grade": g.get("grade") or "A",
+         "attribution_name": g.get("attribution_name") or ""}
+        for g in grounded
+    ]
 
     art = Article(
         title=central_text, link=primary_link, summary=question,
@@ -3837,6 +4101,12 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     draft = {
         "id": draft_id,
         "created_at": datetime.now(timezone.utc).isoformat(),
+        # "pending" دومًا بلا استثناء — بما فيها مسودة صيغت كاملةً من درجة
+        # ج (fallback_to_brief، بلا أي سند مستقل، Issue #835 البند 2): لا
+        # طريق نشر مباشر لهذه المسودة أو غيرها في article.py — كل مسودة
+        # تمرّ حصرًا بـstore.save_draft ← review Issue ← تسمية "approved"
+        # اليدوية (نفس مسار verify_draft.py)؛ لا auto_publish هنا خلافًا
+        # لـradar.py، ولا فرع يقرأ origin=="article" استثناءً في publish.py
         "status": "pending",
         "review_issue": None,
         "origin": DRAFT_ORIGIN,
@@ -3901,7 +4171,9 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
 
     outcome.update({
         "produced": True,
-        "reason": f"صيغ مقال من {len(grounded)} واقعة مسندة",
+        "reason": (f"صيغ مقال من {len(grounded)} واقعة — كلها من موجز المحرر بلا سند "
+                  "مستقل (درجة ج)" if outcome["fallback_to_brief"] else
+                  f"صيغ مقال من {len(grounded)} واقعة مسندة"),
         "draft_id": draft_id,
     })
     return outcome
@@ -4388,6 +4660,11 @@ def build_report(outcome: dict, investigation: dict | None = None) -> str:
     أو None — Issue #765 يلزم أن يذكر التقرير المسودتين ومعرّفيهما، سطرًا
     لكل منهما (سطر المقال أعلاه، وسطر التحقيق هنا إن وُجد)."""
     lines = ["### 📰 مقال من المصادر", ""]
+    if outcome["produced"] and outcome.get("fallback_to_brief"):
+        # سطر أول بارز (البند 3، Issue #835) — لا يُخلَط بأي شرط آخر أدناه:
+        # المقال كله من درجة ج، بلا أي واقعة تأكّدت بمصدر مستقل
+        lines.append("⚠️ هذا المقال مبنيّ كاملًا على موجزك ولم يُؤكَّد أيٌّ منه بمصدر مستقل.")
+        lines.append("")
     if outcome["produced"]:
         lines.append(f"✅ {outcome['reason']} (المعرّف `{outcome['draft_id']}`) — "
                      "ستظهر في أقرب Issue مراجعة يفتحه البوت بعد رفع المسودة.")
@@ -4409,6 +4686,32 @@ def build_report(outcome: dict, investigation: dict | None = None) -> str:
 
     if outcome.get("question"):
         lines += ["", f"**السؤال المختار:** {outcome['question']}"]
+
+    if outcome.get("fact_grades"):
+        # الشفافية (البند 3، Issue #835): درجة كل واقعة دخلت المقال فعليًا —
+        # لا الوقائع الثلاث كلها مسندة بمصدرين بالضرورة بعد إلغاء البوابة
+        # الثنائية القديمة
+        lines += ["", "**درجة إسناد كل واقعة في المقال:**"]
+        for g in outcome["fact_grades"]:
+            if g["grade"] == "B":
+                tag = f"منسوبة إلى مصدر واحد: {g.get('attribution_name') or '؟'}"
+            elif g["grade"] == "C":
+                tag = "من موجز المحرر — بلا سند مستقل"
+            else:
+                tag = "مسندة بمصدرين فأكثر"
+            lines.append(f"- «{g['text']}» — {tag}")
+
+    attrib_retry = outcome.get("attribution_retry") or {}
+    if attrib_retry.get("attempted"):
+        # شفافية إعادة النداء الوحيدة عند فشل النسبة الإلزامية (البند 1) —
+        # نظير originality_retry/jargon_retry أعلاه، لا نجاح/إسقاط صامت
+        status = "✅ نجحت" if attrib_retry.get("succeeded") else "❌ فشلت أيضًا"
+        lines += ["", f"🔁 محاولة صياغة ثانية بعد فشل النسبة الإلزامية (القاعدتان "
+                      f"13/14) — {status}"]
+        if attrib_retry.get("dropped_facts"):
+            lines.append("  أُسقطت الوقائع التالية وحدها (لم تُنسب بعد المحاولتين، "
+                         "والمقال صيغ من الباقي):")
+            lines += [f"  - «{t}»" for t in attrib_retry["dropped_facts"]]
 
     if outcome.get("sources"):
         lines += ["", "**المصادر المقروءة:**"]
