@@ -460,6 +460,104 @@ def cmd_now(ids: list[str], cfg, issue_number: int | None) -> int:
     return 0
 
 
+def _open_final_review(primary_issue: int, draft_ids: list[str], cfg) -> None:
+    """يفتح Issue مراجعة نهائية واحدًا يعرض بطاقة كل منشور عُلِّم عليه 🎴 في
+    هذه الدفعة (Issue #858، الجزء الثاني) -- البطاقة مبنيّة مسبقًا فعليًا
+    (publish.main يبنيها لكل معتمَد، بصرف النظر عن 🎴، قبل هذا التفرّع، انظر
+    توثيق CLAUDE.md) فلا بناء هنا، فقط عرض للمراجع قبل النشر الفعلي."""
+    rows = []
+    for draft_id in draft_ids:
+        found = store.load_draft(draft_id)
+        if found:
+            rows.append(found)
+    if not rows:
+        return
+
+    repo = env("GITHUB_REPOSITORY") or ""
+    branch = os.environ.get("GITHUB_REF_NAME", "main")
+    review.ensure_labels()
+    drafts = [d for _, d in rows]
+    issue = review.create_issue(
+        title=(f"🎴 مراجعة نهائية {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
+               f"— {len(drafts)} منشور"),
+        body=review.build_final_review_body(drafts, repo, branch),
+        labels=["final-review"],
+    )
+    for path, _ in rows:
+        store.update_draft(path, review_issue=issue["number"])
+
+    review.comment(
+        primary_issue,
+        f"🎴 {len(drafts)} منشور بانتظار مراجعة نهائية للبطاقة قبل النشر — "
+        f"Issue #{issue['number']}.",
+    )
+
+
+def cmd_final_review(issue_number: int, body: str, cfg) -> int:
+    """اعتماد Issue المراجعة النهائية (Issue #858، الجزء الثاني): المعلَّم
+    يُنشر مباشرة بلا إعادة بناء بطاقة ولا اختيار عنوان ولا تعديل نص --
+    البطاقة مبنيّة مسبقًا والعنوان محسوم منذ المراجعة الأولية. ما لم يُعلَّم
+    (ولم يُعلَّم بـ↩️) يصير rejected بنفس آلية الرفض التلقائي في المسار
+    العادي (Issue #841). ↩️ يغلب ✔️ على نفس المنشور -- نفس مبدأ «الرفض يغلب
+    الاعتماد» القائم قبل Issue #841. حارس النشر المزدوج (status ==
+    "published") ضروري هنا تحديدًا لأن publish.yml يُشغّل مساري urgent
+    وnormal لنفس حدث وسم approved معًا (Issue #745)، وكلاهما قد يصل هذا
+    الفرع لنفس الـIssue النهائي."""
+    all_ids = review.all_draft_ids(body)
+    back_ids = review.parse_back_requests(body)
+    approved_ids = [i for i in review.parse_approved(body) if i not in back_ids]
+
+    lines: list[str] = []
+
+    for draft_id in back_ids:
+        found = store.load_draft(draft_id)
+        if not found:
+            continue
+        path, draft = found
+        if draft.get("status") != "pending":
+            continue
+        store.update_draft(path, status="pending",
+                           remove=["image", "image_info", "review_issue"])
+        lines.append(f"- ↩️ {draft['arabic']['post_title'][:50]} — أُعيد للمراجعة الأولية")
+
+    # عدم الاعتماد (ولا العودة) = رفض ضمني، بنفس مبدأ المسار العادي
+    # (Issue #841) — مقيَّد بمعرّفات هذا الـIssue وحده.
+    to_reject = [i for i in all_ids if i not in back_ids and i not in approved_ids]
+    if to_reject:
+        entries = feedback.load()
+        rejected_now = 0
+        for draft_id in to_reject:
+            found = store.load_draft(draft_id)
+            if not found or found[1].get("status") != "pending":
+                continue
+            store.update_draft(found[0], status="rejected")
+            feedback.record(entries, found[1], tag="لم يُعتمد", note="")
+            rejected_now += 1
+        if rejected_now:
+            feedback.save(entries)
+            log.info("الـIssue النهائي #%s: %d مسودة لم تُعتمد — سُجّلت مرفوضة",
+                     issue_number, rejected_now)
+
+    published = 0
+    for draft_id in approved_ids:
+        found = store.load_draft(draft_id)
+        if not found:
+            lines.append(f"- ❌ `{draft_id}` — المسودة غير موجودة")
+            continue
+        path, draft = found
+        if draft.get("status") == "published":
+            # حارس النشر المزدوج (Issue #858) -- نفس مبدأ فحص status في
+            # youtube_publish.publish_ids.
+            lines.append(f"- ↩️ {draft['arabic']['post_title'][:50]} — منشور مسبقًا")
+            continue
+        ok, line = publish_one(path, draft, cfg)
+        published += ok
+        lines.append(line)
+
+    report(lines, published, len(approved_ids), issue_number, close=True)
+    return 0
+
+
 def cmd_queue(cfg) -> int:
     tzname = cfg.path("facebook.timezone", "UTC")
     rows = queued_drafts()
@@ -527,6 +625,16 @@ def main() -> int:
     # Issues). لا حاجة لتمييز شبيه في cmd_now/cmd_burst/cmd_schedule نفسها،
     # فهي تُستدعى من collect_finalize.finalize بعد الصياغة كمسودات عادية.
     labels = {l.get("name") for l in issue.get("labels", [])}
+
+    # Issue #858، الجزء الثاني: Issue المراجعة النهائية (وسم final-review،
+    # يُفتح من داخل هذه الدالة نفسها أدناه لمن عُلِّم عليه 🎴) يميَّز بوسمه
+    # وحده -- لا بمحتوى جسمه (يستعمل نفس صيغة <!-- draft:id --> المشتركة
+    # مع Issue المراجعة الأولية). اعتماده لا يعيد بناء البطاقة ولا يختار
+    # عنوانًا ولا يطبّق تعديل نص -- المسار العادي أدناه يفعل كل ذلك، فيجب
+    # ألا يصله هذا النوع من الـIssues إطلاقًا.
+    if "final-review" in labels:
+        return cmd_final_review(args.issue, body, cfg)
+
     # Issue #296: الاثنان معًا يعني Issue خُلط أصله (لا أحد في الكود ينشئ
     # Issue بالوسمين معًا عمدًا) — التفويض القديم كان يفوز لـ
     # pending-selection بلا شرط ويتجاهل الاحتمال الآخر بصمت، فيصطدم أحيانًا
@@ -728,6 +836,25 @@ def main() -> int:
             analysis_ids, youtube_publish.parse_headline_choice(body), cfg)
         youtube_publish.report_batch(
             args.issue, yt_lines, yt_published, yt_attempted, yt_remaining, cfg)
+
+    if not news_ids:
+        return 0
+
+    # Issue #858، الجزء الثاني: معتمَد مع 🎴 لا يُنشر هنا -- بطاقته مبنيّة
+    # فعلًا أعلاه (cards.ensure)، لكنه يُجمَّع بدل ذلك في Issue مراجعة نهائية
+    # منفصل يعرضها للمراجع قبل النشر الفعلي (يبقى pending حتى ذلك الاعتماد).
+    # نفس نمط حراسة urgent/skip الذي يؤجّل توجيه التحليل أعلاه (Issue #745):
+    # المسار السريع لا يفتح Issues مراجعة جديدة، فيُترَك هذا التجميع للمسار
+    # العادي فقط -- المسودة تبقى pending فيلتقطها ذلك التشغيل التالي.
+    card_requests = review.parse_card_requests(body) & set(news_ids)
+    if card_requests:
+        news_ids = [i for i in news_ids if i not in card_requests]
+        if args.urgent_only:
+            log.info("Issue #%s: %d منشور مع 🎴 — يُؤجَّل فتح المراجعة "
+                     "النهائية للمسار العادي (المسار السريع لا يفتحها)",
+                     args.issue, len(card_requests))
+        else:
+            _open_final_review(args.issue, list(card_requests), cfg)
 
     if not news_ids:
         return 0

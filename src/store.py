@@ -168,9 +168,16 @@ def pending_drafts() -> list[tuple[Path, dict]]:
     return out
 
 
-def update_draft(path: Path, **changes) -> dict:
+def update_draft(path: Path, remove: list[str] | None = None, **changes) -> dict:
+    """``remove``: حقول تُحذف من المسودة بنيويًا لا تُصفَّر بـ``None`` —
+    الفارق يهم لقارئ يميّز «لم يُبنَ بعد» عن «بُني ثم أُفرغ» بغياب الحقل لا
+    قيمته (نفس مبدأ حقل ``image`` في مسودة التحليل قبل الاعتماد، Issue
+    #680/#852؛ استُعملت هنا أولًا في مسار العودة للمراجعة الأولية، Issue
+    #858)."""
     data = json.loads(path.read_text(encoding="utf-8"))
     data.update(changes)
+    for key in remove or ():
+        data.pop(key, None)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     return data
 
