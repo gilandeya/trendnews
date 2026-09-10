@@ -1,0 +1,46 @@
+{
+  "id": "c92a676676e8",
+  "created_at": "2026-09-10T12:08:03.183789+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.46,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "At least 20 dead after fire on board foreign-flagged cargo ship in China’s Qingdao",
+  "link": "https://www.scmp.com/news/china/politics/article/3367049/heavy-casualties-after-foreign-cargo-ship-catches-fire-chinas-qingdao?utm_source=rss_feed",
+  "publishers": [
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "At least 20 dead after fire on board foreign-flagged cargo ship in China’s Qingdao",
+    "link": "https://www.scmp.com/news/china/politics/article/3367049/heavy-casualties-after-foreign-cargo-ship-catches-fire-chinas-qingdao?utm_source=rss_feed",
+    "summary": "At least 20 people were killed after a fire broke out on Thursday morning aboard a foreign-flagged cargo ship in the eastern Chinese port city of Qingdao. The vessel with 42 people on board was undergoing repairs at the state-owned Qingdao Beihai shipyard, according to state broadcaster CCTV. The blaze, which started at around 11.15am, was put out by 2.30pm, the report said. Twelve people were evacuated safely while five others had to be hospitalised. President Xi Jinping has given orders to...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-09-10T09:14:37+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/china/politics/article/3367049/heavy-casualties-after-foreign-cargo-ship-catches-fire-chinas-qingdao?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 883.9153479361111,
+    "is_stale": false,
+    "score": 18.457437989166667
+  }
+}

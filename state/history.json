@@ -1,223 +1,5 @@
 [
   {
-    "score": 22.72,
-    "bucket": "sport",
-    "tokens": [
-      "betis",
-      "fires",
-      "madrid",
-      "parrott",
-      "real",
-      "win"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/videos/c9v9ewe7kygo?at_medium=RSS&at_campaign=rss",
-    "title": "Parrott fires Real Betis to win over Real Madrid",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-05T09:08:02.042841+00:00"
-  },
-  {
-    "score": 16.14,
-    "bucket": "serious",
-    "tokens": [
-      "allege",
-      "copyright",
-      "infringement",
-      "microsoft",
-      "newsday",
-      "openai",
-      "seattle",
-      "sue",
-      "times"
-    ],
-    "link": "https://www.dawn.com/news/2027678/seattle-times-newsday-sue-openai-and-microsoft-allege-copyright-infringement",
-    "title": "Seattle Times, Newsday sue OpenAI and Microsoft; allege copyright infringement",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-05T09:08:02.043137+00:00"
-  },
-  {
-    "score": 15.52,
-    "bucket": "serious",
-    "tokens": [
-      "diesel",
-      "disrupts",
-      "flow",
-      "fuel",
-      "high",
-      "hit",
-      "iran",
-      "prices",
-      "record",
-      "war"
-    ],
-    "link": "https://www.dailysabah.com/business/economy/diesel-prices-in-us-hit-record-high-as-iran-war-disrupts-fuel-flow",
-    "title": "Diesel prices in US hit record high as Iran war disrupts fuel flow",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-09-05T09:08:02.043430+00:00"
-  },
-  {
-    "score": 14.13,
-    "bucket": "serious",
-    "tokens": [
-      "moment",
-      "nepal",
-      "rescued",
-      "tunnel",
-      "watch",
-      "workers"
-    ],
-    "link": "https://www.bbc.co.uk/news/videos/cnvl5e6vy8eo?at_medium=RSS&at_campaign=rss",
-    "title": "Watch: Moment workers are rescued from Nepal tunnel",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-05T09:08:02.043716+00:00"
-  },
-  {
-    "score": 13.28,
-    "bucket": "useful",
-    "tokens": [
-      "can",
-      "gemini",
-      "google",
-      "library",
-      "manage",
-      "now",
-      "photos",
-      "spark",
-      "your"
-    ],
-    "link": "https://techcrunch.com/2026/09/04/googles-gemini-spark-can-now-manage-your-google-photos-library/",
-    "title": "Google’s Gemini Spark can now manage your Google Photos library",
-    "posted_title": "",
-    "region": "tech",
-    "seen_at": "2026-09-05T09:08:02.043964+00:00"
-  },
-  {
-    "score": 13.28,
-    "bucket": "useful",
-    "tokens": [
-      "can",
-      "gemini",
-      "google",
-      "library",
-      "manage",
-      "now",
-      "photos",
-      "spark",
-      "your"
-    ],
-    "link": "https://techcrunch.com/2026/09/04/googles-gemini-spark-can-now-manage-your-google-photos-library/",
-    "title": "Google’s Gemini Spark can now manage your Google Photos library",
-    "posted_title": "مساعد جوجل الذكي يبدأ بترتيب صور مستخدميه تلقائيًا",
-    "region": "tech",
-    "seen_at": "2026-09-05T09:17:32.537707+00:00"
-  },
-  {
-    "score": 25.53,
-    "bucket": "serious",
-    "tokens": [
-      "'end",
-      "envoys",
-      "kyiv",
-      "moscow",
-      "plan",
-      "sends",
-      "trump",
-      "war'"
-    ],
-    "link": "https://www.france24.com/en/video/20260905-trump-sends-envoys-to-moscow-kyiv-with-new-plan-to-end-war",
-    "title": "Trump sends envoys to Moscow, Kyiv with new plan to 'end war'",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-05T12:07:48.041140+00:00"
-  },
-  {
-    "score": 19.43,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "black",
-      "coast",
-      "depot",
-      "drones",
-      "fire",
-      "oil",
-      "russia",
-      "sea",
-      "sparking",
-      "ukrainian"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/04/ukrainian-drones-attack-russia-s-black-sea-coast-sparking-a-fire-at-an-oil-depot",
-    "title": "Ukrainian drones attack Russia’s Black Sea coast, sparking a fire at an oil depot",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-05T12:07:48.041475+00:00"
-  },
-  {
-    "score": 17.37,
-    "bucket": "serious",
-    "tokens": [
-      "avant",
-      "crise",
-      "devait",
-      "eau",
-      "interpellé",
-      "journaliste",
-      "mohamed",
-      "parler",
-      "passage",
-      "radio",
-      "tunisie",
-      "yousfi"
-    ],
-    "link": "https://www.lemonde.fr/afrique/article/2026/09/05/tunisie-le-journaliste-mohamed-yousfi-interpelle-avant-un-passage-a-la-radio-ou-il-devait-parler-de-la-crise-de-l-eau_6766329_3212.html",
-    "title": "Tunisie : le journaliste Mohamed Yousfi interpellé avant un passage à la radio, où il devait parler de la crise de l’eau",
-    "posted_title": "",
-    "region": "fr",
-    "seen_at": "2026-09-05T12:07:48.041742+00:00"
-  },
-  {
-    "score": 16.5,
-    "bucket": "serious",
-    "tokens": [
-      "china's",
-      "concern",
-      "express",
-      "islands",
-      "launch",
-      "leaders",
-      "missile",
-      "pacific"
-    ],
-    "link": "https://asia.nikkei.com/politics/international-relations/pacific-islands-leaders-express-concern-over-china-s-missile-launch",
-    "title": "Pacific islands leaders express concern over China's missile launch",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-09-05T12:07:48.041985+00:00"
-  },
-  {
-    "score": 16.29,
-    "bucket": "serious",
-    "tokens": [
-      "could",
-      "fire",
-      "hero",
-      "nurse",
-      "nursery",
-      "pakistan",
-      "remembers",
-      "rest",
-      "save"
-    ],
-    "link": "https://www.aljazeera.com/features/2026/9/5/i-could-not-save-the-rest-hero-nurse-remembers-pakistans-nursery-fire?traffic_source=rss",
-    "title": "‘I could not save the rest’: Hero nurse remembers Pakistan’s nursery fire",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-05T12:07:48.042228+00:00"
-  },
-  {
     "score": 16.5,
     "bucket": "serious",
     "tokens": [
@@ -5333,5 +5115,110 @@
     "posted_title": "",
     "region": "tr",
     "seen_at": "2026-09-10T09:07:50.761526+00:00"
+  },
+  {
+    "score": 25.0,
+    "bucket": "serious",
+    "tokens": [
+      "cargo",
+      "china",
+      "dead",
+      "eastern",
+      "fire",
+      "least",
+      "media",
+      "report",
+      "ship",
+      "state"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cj4jyv7l92eo?at_medium=RSS&at_campaign=rss",
+    "title": "At least 20 dead after fire on cargo ship in eastern China, state media report",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-10T12:08:03.183393+00:00"
+  },
+  {
+    "score": 20.19,
+    "bucket": "serious",
+    "tokens": [
+      "among",
+      "arab",
+      "ban",
+      "illegal",
+      "imports",
+      "israeli",
+      "muslim",
+      "nations",
+      "pakistan",
+      "settlements",
+      "welcoming"
+    ],
+    "link": "https://www.dawn.com/news/2028644/pakistan-among-arab-muslim-nations-welcoming-uk-ban-on-imports-from-illegal-israeli-settlements",
+    "title": "Pakistan among Arab, Muslim nations welcoming UK ban on imports from illegal Israeli settlements",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-10T12:08:03.183774+00:00"
+  },
+  {
+    "score": 18.46,
+    "bucket": "serious",
+    "tokens": [
+      "board",
+      "cargo",
+      "china",
+      "dead",
+      "fire",
+      "flagged",
+      "foreign",
+      "least",
+      "qingdao",
+      "ship"
+    ],
+    "link": "https://www.scmp.com/news/china/politics/article/3367049/heavy-casualties-after-foreign-cargo-ship-catches-fire-chinas-qingdao?utm_source=rss_feed",
+    "title": "At least 20 dead after fire on board foreign-flagged cargo ship in China’s Qingdao",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-10T12:08:03.184143+00:00"
+  },
+  {
+    "score": 17.2,
+    "bucket": "serious",
+    "tokens": [
+      "bab",
+      "close",
+      "houthis",
+      "mandeb",
+      "strait",
+      "stranglehold",
+      "strategic",
+      "yemen's"
+    ],
+    "link": "https://www.france24.com/en/video/20260910-yemen-s-houthis-close-in-on-stranglehold-over-strategic-bab-el-mandeb-strait",
+    "title": "Yemen's Houthis close in on stranglehold over strategic Bab el-Mandeb Strait",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-10T12:08:03.184412+00:00"
+  },
+  {
+    "score": 16.87,
+    "bucket": "light",
+    "tokens": [
+      "1896",
+      "1940",
+      "art",
+      "download",
+      "germany",
+      "hundreds",
+      "issues",
+      "jugend",
+      "magazine",
+      "nouveau",
+      "pioneering"
+    ],
+    "link": "https://www.openculture.com/2026/09/download-hundreds-of-issues-of-jugend-germanys-pioneering-art-nouveau-magazine.html",
+    "title": "Download Hundreds of Issues of Jugend, Germany’s Pioneering Art Nouveau Magazine (1896–1940)",
+    "posted_title": "",
+    "region": "culture",
+    "seen_at": "2026-09-10T12:08:03.184670+00:00"
   }
 ]

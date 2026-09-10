@@ -1,0 +1,56 @@
+{
+  "id": "731024cba09f",
+  "created_at": "2026-09-10T12:08:03.183410+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.19,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan among Arab, Muslim nations welcoming UK ban on imports from illegal Israeli settlements",
+  "link": "https://www.dawn.com/news/2028644/pakistan-among-arab-muslim-nations-welcoming-uk-ban-on-imports-from-illegal-israeli-settlements",
+  "publishers": [
+    "Daily Sabah",
+    "Dawn"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Pakistan among Arab, Muslim nations welcoming UK ban on imports from illegal Israeli settlements",
+    "link": "https://www.dawn.com/news/2028644/pakistan-among-arab-muslim-nations-welcoming-uk-ban-on-imports-from-illegal-israeli-settlements",
+    "summary": "Pakistan, along with seven other Arab and Muslim countries, on Wednesday welcomed the United Kingdom’s decision to ban imports from Israeli settlements in the occupied West Bank. UK imposed the trade measures on Tuesday, alongside Canada and France. The decision was announced by British Foreign Secretary Ed Miliband, who accused the Israeli government of turning a “blind eye” to what he called “ethnic cleansing” by settlers in the West Bank. Meanwhile, a joint statement by the foreign ministers of 12 nations, including Denmark, Finland, Iceland, Ireland, Norway, Poland, Portugal, Spain and Sweden, also expressed an intention to follow suit and stressed that the Israeli government’s actions in the West Bank undermined the possibility of a two-state solution. A joint statement by the foreign ministers of Pakistan, Turkiye, Egypt, Indonesia, Jordan, Saudi Arabia and the United Arab Emirates, issued by the Foreign Office (FO), expressed hope that the international community would take similar action in accordance with international law and “hold accountable settlement organisations and individuals engaged in illegal settlement activities”. The ministers also welcomed an earlier joint s",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-09T17:12:09+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/09191232bc8ef6a.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Dawn"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2028644/pakistan-among-arab-muslim-nations-welcoming-uk-ban-on-imports-from-illegal-israeli-settlements"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/politics/diplomacy/turkiye-7-nations-welcome-uk-ban-on-imports-from-illegal-settlements"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/09191232bc8ef6a.webp",
+      "https://i.dawn.com/thumbnail/2026/09/09191232bc8ef6a.webp",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/09/459935.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 883.9153338602778,
+    "is_stale": false,
+    "score": 20.18803058266667
+  }
+}

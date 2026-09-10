@@ -1,0 +1,55 @@
+{
+  "id": "ad545a3af3c0",
+  "created_at": "2026-09-10T12:08:03.184153+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.2,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemen's Houthis close in on stranglehold over strategic Bab el-Mandeb Strait",
+  "link": "https://www.france24.com/en/video/20260910-yemen-s-houthis-close-in-on-stranglehold-over-strategic-bab-el-mandeb-strait",
+  "publishers": [
+    "France24",
+    "Reuters"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Yemen's Houthis close in on stranglehold over strategic Bab el-Mandeb Strait",
+    "link": "https://www.france24.com/en/video/20260910-yemen-s-houthis-close-in-on-stranglehold-over-strategic-bab-el-mandeb-strait",
+    "summary": "Yemen's Iran-aligned Houthis seized control of ​the historic port city of Mocha on Thursday, four Yemeni government military sources said, gaining further leverage over the Bab el-Mandeb Strait, one of the world's most important shipping routes. There has been an escalation in fighting between Saudi Arabia's Yemeni allies in the internationally backed government and the Houthis in recent ⁠days, creating a second theatre of war in the Iran conflict that threatens global energy supplies.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-10T10:33:35+00:00",
+    "image_url": "https://s.france24.com/media/display/d56e14fc-ad00-11f1-a56a-005056a90284/w:1024/p:16x9/EN-20260910-120708-120841-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260910-yemen-s-houthis-close-in-on-stranglehold-over-strategic-bab-el-mandeb-strait"
+      },
+      {
+        "name": "Reuters",
+        "link": "https://www.investing.com/news/economy-news/houthis-close-in-on-stranglehold-over-key-bab-almandeb-strait--reuters-4895268"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/d56e14fc-ad00-11f1-a56a-005056a90284/w:1024/p:16x9/EN-20260910-120708-120841-CS.jpg",
+      "https://content-media.investing.com/news/moved_LYNXMPEM6M1Z2_1200_L.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 883.9154022630555,
+    "is_stale": false,
+    "score": 17.195178723444446
+  }
+}

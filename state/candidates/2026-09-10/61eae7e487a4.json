@@ -1,0 +1,85 @@
+{
+  "id": "61eae7e487a4",
+  "created_at": "2026-09-10T12:08:03.182976+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.0,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "At least 20 dead after fire on cargo ship in eastern China, state media report",
+  "link": "https://www.bbc.co.uk/news/articles/cj4jyv7l92eo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Deutsche Welle",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "MyJoyOnline Ghana",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "At least 20 dead after fire on cargo ship in eastern China, state media report",
+    "link": "https://www.bbc.co.uk/news/articles/cj4jyv7l92eo?at_medium=RSS&at_campaign=rss",
+    "summary": "President Xi Jinping has called for urgent search and rescue efforts.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-10T11:49:25+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/77c8/live/9d308770-acfe-11f1-beae-535b95a24b3e.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Deutsche Welle",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "MyJoyOnline Ghana",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cj4jyv7l92eo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/china-cargo-ship-fire-kills-at-least-20/a-79212704?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/fire-on-cargo-ship-in-china-causes-heavy-casualties-state-media/article71451284.ece"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/significant-casualties-after-fire-on-cargo-ship-in-eastern-china/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/several-killed-after-cargo-ship-catches-fire-at-chinese-port-101789037458233.html"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/fire-cargo-ship-chinese-port-dead-missing-ocean-melody/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/77c8/live/9d308770-acfe-11f1-beae-535b95a24b3e.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/77c8/live/9d308770-acfe-11f1-beae-535b95a24b3e.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/77c8/live/9d308770-acfe-11f1-beae-535b95a24b3e.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-1230-1024x577.png",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/10/361832.jpg",
+      "https://www.hindustantimes.com/ht-img/img/2026/09/10/1600x900/BRITAIN-SHIP-ARCTIC-9_1789038205816_69377185-9e4b-4113-a1f3-5ac2fe0f103f_1789038221669_124755e0-27ed-4a3e-a9d2-68f8f6c42bbe_cfe4d2a4-92e4-4f90-adbc-68bcb824a7cd_33f10799-3434-47e2-a30d-d98cc1f128a3.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 883.9152893513889,
+    "is_stale": false,
+    "score": 25.001502761858
+  }
+}
