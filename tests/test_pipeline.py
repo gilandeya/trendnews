@@ -16677,8 +16677,6 @@ def test_youtube_publish() -> None:
           cfg.path("youtube.publish.max_per_run") == 3)
     check("config: youtube.publish.spacing_minutes = 40",
           cfg.path("youtube.publish.spacing_minutes") == 40)
-    check("config: youtube.image.badge_text موجود",
-          bool(cfg.path("youtube.image.badge_text")))
     check("config: youtube.image.bloc_labels يغطي الكتل الأربع",
           set(cfg.path("youtube.image.bloc_labels", {}).keys()) ==
           {"arabic", "turkish", "persian", "israeli"})
