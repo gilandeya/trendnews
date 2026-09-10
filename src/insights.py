@@ -622,56 +622,63 @@ def why_not_published_section(entries: list[dict], days: int,
 
 def build_report(a: dict, recs: list[dict], days: int,
                   decisions_lines: list[str] | None = None) -> str:
-    if not a:
-        return f"### 📊 لا منشورات خلال آخر {days} يومًا"
+    """حين لا توجد منشورات (`a` فارغ)، الخروج المبكر السابق كان يُعيد سطر
+    «لا منشورات» ويتوقف قبل أي قسم — فيحجب «❓ لماذا لم تنشر هذه؟» في
+    الأسبوع الذي لا يُنشر فيه شيء، وهو أحوج الأسابيع إلى السؤال (Issue
+    #847). الآن تُبنى أقسام الأداء وحدها (🏆·📉·📂·🕐·📰·🔬·💡) شرطيًا على
+    `a`، بينما «📋 قراراتك السابقة» و«🚫 أنماط الرفض»/«ما رُفض» و«❓ لماذا لم
+    تنشر هذه؟» تُبنى دائمًا — وكلها أصلًا تُعيد قائمة فارغة حين لا مدخلات
+    لها، فلا عناوين فارغة تظهر."""
+    if a:
+        lines = [
+            f"### 📊 تقرير الأداء — آخر {days} يومًا",
+            "",
+            f"**{a['count']} منشور** · متوسط التفاعل **{a['overall_avg']:.0f}** "
+            f"· الوسيط {a['median']:.0f}",
+            "",
+            "<sub>التفاعل = إعجاب + (تعليق × 3) + (مشاركة × 5)</sub>",
+            "",
+            "#### 🏆 الأفضل أداءً",
+            "| التفاعل | التصنيف | العنوان |",
+            "|---|---|---|",
+        ]
+        lines += [f"| {r['engagement']} | {r['category']} | {r['title'][:60]} |"
+                  for r in a["top"]]
 
-    lines = [
-        f"### 📊 تقرير الأداء — آخر {days} يومًا",
-        "",
-        f"**{a['count']} منشور** · متوسط التفاعل **{a['overall_avg']:.0f}** "
-        f"· الوسيط {a['median']:.0f}",
-        "",
-        "<sub>التفاعل = إعجاب + (تعليق × 3) + (مشاركة × 5)</sub>",
-        "",
-        "#### 🏆 الأفضل أداءً",
-        "| التفاعل | التصنيف | العنوان |",
-        "|---|---|---|",
-    ]
-    lines += [f"| {r['engagement']} | {r['category']} | {r['title'][:60]} |"
-              for r in a["top"]]
+        lines += ["", "#### 📉 أضعف أداءً", "| التفاعل | التصنيف | العنوان |", "|---|---|---|"]
+        lines += [f"| {r['engagement']} | {r['category']} | {r['title'][:60]} |"
+                  for r in a["bottom"]]
 
-    lines += ["", "#### 📉 أضعف أداءً", "| التفاعل | التصنيف | العنوان |", "|---|---|---|"]
-    lines += [f"| {r['engagement']} | {r['category']} | {r['title'][:60]} |"
-              for r in a["bottom"]]
+        lines += ["", "#### 📂 حسب التصنيف", "| التصنيف | متوسط التفاعل | عدد |", "|---|---|---|"]
+        lines += [f"| {c} | {v:.0f} | {n} |" for c, v, n in a["categories"]]
 
-    lines += ["", "#### 📂 حسب التصنيف", "| التصنيف | متوسط التفاعل | عدد |", "|---|---|---|"]
-    lines += [f"| {c} | {v:.0f} | {n} |" for c, v, n in a["categories"]]
+        if a["hours"]:
+            lines += ["", "#### 🕐 حسب ساعة النشر", "| الساعة | متوسط التفاعل | عدد |",
+                      "|---|---|---|"]
+            lines += [f"| {h}:00 | {v:.0f} | {n} |" for h, v, n in a["hours"]]
 
-    if a["hours"]:
-        lines += ["", "#### 🕐 حسب ساعة النشر", "| الساعة | متوسط التفاعل | عدد |",
-                  "|---|---|---|"]
-        lines += [f"| {h}:00 | {v:.0f} | {n} |" for h, v, n in a["hours"]]
+        if a["publishers"]:
+            lines += ["", "#### 📰 حسب المصدر", "| المصدر | متوسط التفاعل | عدد |",
+                      "|---|---|---|"]
+            lines += [f"| {p} | {v:.0f} | {n} |" for p, v, n in a["publishers"]]
 
-    if a["publishers"]:
-        lines += ["", "#### 📰 حسب المصدر", "| المصدر | متوسط التفاعل | عدد |",
-                  "|---|---|---|"]
-        lines += [f"| {p} | {v:.0f} | {n} |" for p, v, n in a["publishers"]]
-
-    t_avg, t_n, n_avg, n_n = a["trend"]
-    u_avg, u_n, c_avg, c_n = a["urgent"]
-    lines += [
-        "", "#### 🔬 مقارنات",
-        "| المقارنة | متوسط | مقابل | متوسط |",
-        "|---|---|---|---|",
-        f"| رائج 🔥 ({t_n}) | {t_avg:.0f} | غير رائج ({n_n}) | {n_avg:.0f} |",
-        f"| عاجل ({u_n}) | {u_avg:.0f} | عادي ({c_n}) | {c_avg:.0f} |",
-        "", "#### 💡 توصيات", "",
-    ]
-    for r in recs:
-        lines.append(f"- {r['text']}")
-        lines.append(f"  - [ ] ✅ أقبل  <!-- rec:{r['id']}:yes -->")
-        lines.append(f"  - [ ] ❌ أرفض  <!-- rec:{r['id']}:no -->")
-        lines.append("")
+        t_avg, t_n, n_avg, n_n = a["trend"]
+        u_avg, u_n, c_avg, c_n = a["urgent"]
+        lines += [
+            "", "#### 🔬 مقارنات",
+            "| المقارنة | متوسط | مقابل | متوسط |",
+            "|---|---|---|---|",
+            f"| رائج 🔥 ({t_n}) | {t_avg:.0f} | غير رائج ({n_n}) | {n_avg:.0f} |",
+            f"| عاجل ({u_n}) | {u_avg:.0f} | عادي ({c_n}) | {c_avg:.0f} |",
+            "", "#### 💡 توصيات", "",
+        ]
+        for r in recs:
+            lines.append(f"- {r['text']}")
+            lines.append(f"  - [ ] ✅ أقبل  <!-- rec:{r['id']}:yes -->")
+            lines.append(f"  - [ ] ❌ أرفض  <!-- rec:{r['id']}:no -->")
+            lines.append("")
+    else:
+        lines = [f"### 📊 لا منشورات خلال آخر {days} يومًا"]
 
     if decisions_lines:
         lines += decisions_lines
@@ -706,21 +713,24 @@ def main() -> int:
     sync_previous_decisions()
 
     rows = collect(args.days, api_version)
-    if not rows:
+    if rows:
+        STATE_DIR.mkdir(parents=True, exist_ok=True)
+        PERF_FILE.write_text(
+            json.dumps({"generated_at": datetime.now(timezone.utc).isoformat(),
+                        "rows": rows}, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        a = analyse(rows, tzname)
+        recs = recommendations(a, cfg)
+        hidden = suppressed_ids(_load_decisions())
+        visible_recs = [r for r in recs if r["id"] not in hidden]
+    else:
+        # لا نخرج هنا (Issue #847): الأسبوع الذي لا يُنشر فيه شيء ما زال
+        # يحتاج قسمَي «لماذا لم تنشر هذه؟» و«قراراتك السابقة» أدناه —
+        # build_report(a={}, ...) يبنيهما ويتخطّى أقسام الأداء وحدها.
         log.warning("لا منشورات لتحليلها")
-        return 0
-
-    STATE_DIR.mkdir(parents=True, exist_ok=True)
-    PERF_FILE.write_text(
-        json.dumps({"generated_at": datetime.now(timezone.utc).isoformat(),
-                    "rows": rows}, ensure_ascii=False, indent=2),
-        encoding="utf-8",
-    )
-
-    a = analyse(rows, tzname)
-    recs = recommendations(a, cfg)
-    hidden = suppressed_ids(_load_decisions())
-    visible_recs = [r for r in recs if r["id"] not in hidden]
+        a = {}
+        visible_recs = []
 
     report = build_report(a, visible_recs, args.days, decisions_report(cfg))
     print(report)

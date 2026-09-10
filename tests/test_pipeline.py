@@ -13964,6 +13964,52 @@ def test_insights_why_section_missing_state_file() -> None:
         insights.REASON_SHOWN_FILE.unlink()
 
 
+def test_insights_no_posts_still_shows_why_and_decisions() -> None:
+    """Issue #847: الخروج المبكر في build_report (a فارغ لصفر منشورات) كان
+    يُعيد سطر «لا منشورات» فقط ويتوقف قبل أي قسم -- فيحجب «❓ لماذا لم تنشر
+    هذه؟» في الأسبوع الذي لا يُنشر فيه شيء، وهو أحوج الأسابيع إلى السؤال.
+    الآن يواصل إلى «❓ لماذا لم تنشر هذه؟» و«📋 قراراتك السابقة» ويتخطّى
+    أقسام الأداء وحدها؛ وحين لا مدخلات لهذين القسمين أيضًا يبقى السطر وحده
+    بلا عناوين فارغة."""
+    from src import feedback, insights
+
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+    now = datetime.now(timezone.utc)
+    entries_with_reason = [
+        _why_entry("np1", "لم يُعتمد", "خبر بلا سبب حقيقي هذا الأسبوع", now),
+    ]
+
+    real_load = feedback.load
+    feedback.load = lambda: entries_with_reason  # type: ignore
+    try:
+        report = insights.build_report({}, [], 30)
+    finally:
+        feedback.load = real_load
+
+    check("سطر «لا منشورات» موجود", "لا منشورات خلال آخر 30 يومًا" in report, report)
+    check("قسم «لماذا لم تنشر هذه؟» ظاهر رغم صفر منشورات",
+          "❓ لماذا لم تنشر هذه؟" in report, report)
+    check("لا قسم أداء (مثلاً «الأفضل أداءً») يظهر بلا منشورات",
+          "🏆 الأفضل أداءً" not in report, report)
+
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+    feedback.load = lambda: []  # type: ignore
+    try:
+        report_empty = insights.build_report({}, [], 30)
+    finally:
+        feedback.load = real_load
+
+    check("صفر منشورات + صفر مدخلات: السطر وحده بلا أي عنوان قسم فارغ",
+          report_empty.strip() == "### 📊 لا منشورات خلال آخر 30 يومًا", report_empty)
+
+    if insights.REASON_SHOWN_FILE.exists():
+        insights.REASON_SHOWN_FILE.unlink()
+
+
 def test_collect_feedback_rejects_analysis_draft_without_image() -> None:
     """Issue #749 (تصحيح لاحق): لا src/collect_feedback.py ولا feedback.record
     يقرآن حقل image إطلاقًا — فمسودة تحليل قبل اعتمادها (Issue #680، بلا هذا
@@ -17134,6 +17180,7 @@ def main() -> int:
     test_insights_why_entry_shown_twice_then_drops()
     test_insights_reason_entry_id_stable_despite_order()
     test_insights_why_section_missing_state_file()
+    test_insights_no_posts_still_shows_why_and_decisions()
     print("\n── تحصين القرّاء الأربعة أمام مسودة تحليل بلا حقل image (Issue #749) ──")
     test_setimage_rejects_analysis_draft_without_card()
     test_collect_feedback_rejects_analysis_draft_without_image()
