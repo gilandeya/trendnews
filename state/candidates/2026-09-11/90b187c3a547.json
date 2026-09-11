@@ -1,0 +1,65 @@
+{
+  "id": "90b187c3a547",
+  "created_at": "2026-09-11T03:08:03.794732+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.19,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Wall Street Journal publisher convicted in Hong Kong of deterring reporter from union role",
+  "link": "https://www.theguardian.com/world/2026/sep/10/wall-street-journal-selina-cheng-termination-lawsuit",
+  "publishers": [
+    "AP News",
+    "Daily Maverick",
+    "South China Morning Post",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Wall Street Journal publisher convicted in Hong Kong of deterring reporter from union role",
+    "link": "https://www.theguardian.com/world/2026/sep/10/wall-street-journal-selina-cheng-termination-lawsuit",
+    "summary": "Dow Jones convicted of one count of deterring Selina Cheng from role at Hong Kong Journalist Association but cleared of second charge A Hong Kong court has convicted the publisher of the Wall Street Journal of deterring a reporter from taking up a trade union role, in a case that raised concerns about press freedom in the city. The newspaper dismissed Selina Cheng just weeks after she was appointed chair of the Hong Kong Journalist Association (HKJA) in 2024. She was told at the time her termination was officially due to restructuring. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-10T05:57:31+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/ce4bae6cd72ab4bfb1ca10d670be7c3d3e72e826/290_191_3177_2543/master/3177.jpg?width=700&quality=85&auto=format&fit=max&s=9e78268195f7cc211b79fc4acd21219f",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "AP News",
+      "Daily Maverick",
+      "South China Morning Post",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/10/wall-street-journal-selina-cheng-termination-lawsuit"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/hong-kong/law-and-crime/article/3367085/wall-street-journal-publisher-convicted-blocking-reporters-bid-lead-union?utm_source=rss_feed"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-10-hong-kong-court-convicts-wall-street-journal-publisher-for-seeking-to-block-reporter-from-union-role/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/ce4bae6cd72ab4bfb1ca10d670be7c3d3e72e826/290_191_3177_2543/master/3177.jpg?width=700&quality=85&auto=format&fit=max&s=9e78268195f7cc211b79fc4acd21219f",
+      "https://i.guim.co.uk/img/media/ce4bae6cd72ab4bfb1ca10d670be7c3d3e72e826/290_191_3177_2543/master/3177.jpg?width=460&quality=85&auto=format&fit=max&s=979e0c2bf8dfcca9615552d2f597d82e",
+      "https://i.guim.co.uk/img/media/ce4bae6cd72ab4bfb1ca10d670be7c3d3e72e826/290_191_3177_2543/master/3177.jpg?width=140&quality=85&auto=format&fit=max&s=90d81d611b8f5d04a1876b2d8764cbad",
+      "https://cdn.dailymaverick.co.za/attachments/2997/10193431_115310.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 898.9156699625,
+    "is_stale": false,
+    "score": 19.188418098555555
+  }
+}

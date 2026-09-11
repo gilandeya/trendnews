@@ -1,0 +1,83 @@
+{
+  "id": "9dcec27cdc51",
+  "created_at": "2026-09-11T03:08:03.794440+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.85,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Champions League new boys Como dominate Leipzig",
+  "link": "https://www.bbc.co.uk/sport/football/videos/czxzwwdz19zo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Daily Sabah",
+    "El País",
+    "MyJoyOnline Ghana",
+    "The Guardian — Sport",
+    "Vanguard Nigeria"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Champions League new boys Como dominate Leipzig",
+    "link": "https://www.bbc.co.uk/sport/football/videos/czxzwwdz19zo?at_medium=RSS&at_campaign=rss",
+    "summary": "Como made an impressive Champions League debut by defeating visitors RB Leipzig 4-1 in their opening league-phase outing at Stadio Giuseppe Sinigaglia.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-10T21:45:10+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/aca6/live/fe51a9f0-ad5b-11f1-bc1f-3f186ca4140c.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Daily Sabah",
+      "El País",
+      "MyJoyOnline Ghana",
+      "The Guardian — Sport",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/czxzwwdz19zo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/10/champions-league-bayern-bodo-como-leipzig"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/como-ease-past-leipzig-in-dream-champions-league-debut/"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/man-united-bayern-cruise-as-como-make-dream-champions-league-start/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/sports/football/como-make-dream-champions-league-debut-as-man-united-bayern-cruise"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-10/el-como-se-presenta-ante-la-nobleza-europea.html"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/aca6/live/fe51a9f0-ad5b-11f1-bc1f-3f186ca4140c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/aca6/live/fe51a9f0-ad5b-11f1-bc1f-3f186ca4140c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/aca6/live/fe51a9f0-ad5b-11f1-bc1f-3f186ca4140c.jpg",
+      "https://i.guim.co.uk/img/media/f691d5c804019a9ffb8d75d2445db15df8d5409d/0_15_2285_1828/master/2285.jpg?width=700&quality=85&auto=format&fit=max&s=a7e7d7ea4835aa2156bf61c9ffb29359",
+      "https://i.guim.co.uk/img/media/f691d5c804019a9ffb8d75d2445db15df8d5409d/0_15_2285_1828/master/2285.jpg?width=460&quality=85&auto=format&fit=max&s=10769437008267b549590619bfd1a157",
+      "https://i.guim.co.uk/img/media/f691d5c804019a9ffb8d75d2445db15df8d5409d/0_15_2285_1828/master/2285.jpg?width=140&quality=85&auto=format&fit=max&s=20ccf49ab3841d7e8e259e106b38b9a3"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 898.9155853986111,
+    "is_stale": true,
+    "score": 22.846250055256064
+  }
+}

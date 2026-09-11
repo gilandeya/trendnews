@@ -1,0 +1,79 @@
+{
+  "id": "61eae7e487a4",
+  "created_at": "2026-09-11T03:08:03.794129+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.04,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Twenty-five dead after fire on cargo ship in eastern China",
+  "link": "https://www.bbc.co.uk/news/articles/cj4jyv7l92eo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Deutsche Welle",
+    "Euronews.com",
+    "Mehr News",
+    "MyJoyOnline Ghana",
+    "NDTV — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Twenty-five dead after fire on cargo ship in eastern China",
+    "link": "https://www.bbc.co.uk/news/articles/cj4jyv7l92eo?at_medium=RSS&at_campaign=rss",
+    "summary": "Of the 42 people on board, 17 were were evacuated, CCTV reports.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-10T12:24:54+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/77c8/live/9d308770-acfe-11f1-beae-535b95a24b3e.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Deutsche Welle",
+      "Euronews.com",
+      "Mehr News",
+      "MyJoyOnline Ghana",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cj4jyv7l92eo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/china-cargo-ship-fire-kills-at-least-25/a-79212704?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/25-killed-after-fire-breaks-out-on-cargo-ship-in-china-12029725#publisher=newsstand"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/twenty-five-dead-after-fire-on-cargo-ship-in-eastern-china/"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247625/At-least-20-dead-after-cargo-ship-catches-fire-in-China"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/77c8/live/9d308770-acfe-11f1-beae-535b95a24b3e.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/77c8/live/9d308770-acfe-11f1-beae-535b95a24b3e.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/77c8/live/9d308770-acfe-11f1-beae-535b95a24b3e.jpg",
+      "https://c.ndtvimg.com/2026-09/v8qd3rmk_china-ship-fire_625x300_10_September_26.jpeg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-1267.png",
+      "https://media.mehrnews.com/d/2026/09/10/4/6168442.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 898.915593305,
+    "is_stale": false,
+    "score": 24.040398203293098
+  }
+}
