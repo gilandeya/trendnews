@@ -2907,6 +2907,35 @@ def write_article(body: str, issue_number: int, cfg) -> dict:
 
 def _write_article(body: str, issue_number: int, cfg) -> dict:
     acfg = cfg.get("article", {}) or {}
+    outcome = _new_outcome()
+    st = _new_run_state(body, acfg)
+
+    if not _extract_brief_stage(st, body, cfg, acfg, outcome):
+        return outcome
+
+    _ground_brief_facts(st, cfg, outcome)
+    _answer_brief_questions(st, cfg, outcome)
+    _extract_source_facts_stage(st, cfg, acfg, outcome,
+                                bool(acfg.get("source_extract_enabled", False)))
+
+    question = _choose_question_stage(st, cfg, outcome)
+    if question is None:
+        return outcome
+
+    written = _draft_stage(st, cfg, outcome, question)
+    if written is None:
+        return outcome
+
+    checked = _post_draft_checks(st, body, cfg, acfg, outcome, question, written)
+    if checked is None:
+        return outcome
+    written, question = checked
+
+    return _build_draft_stage(st, cfg, outcome, issue_number, question, written)
+
+
+def _new_run_state(body: str, acfg) -> dict:
+    """أرقام التهيئة والمجمِّعات التي تتراكم عبر مراحل _write_article."""
     days = int(acfg.get("days", 21))
     # نافذة موسّعة (Issue #820) — توثيقها الكامل عند article.wide_days في
     # config.yaml؛ تُستهلَك حصرًا داخل _cached_search لسُلَّم بحث الواقعة
@@ -2920,12 +2949,71 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     max_statements = int(acfg.get("max_statements", 8))
     max_questions = int(acfg.get("max_questions", 5))
 
-    outcome = _new_outcome()
+    dropped: list[dict] = []
+    diffs: list[dict] = []
+    grounded: list[dict] = []
+    sources_seen: list[dict] = []
+    trail: list[dict] = []
+    # حوض الضمان (البند 2، Issue #835): كل واقعة من واقعة موجز (لا وقائع
+    # مصادر — تلك ليست موجز المستخدم نفسه) خرجت من حلقة السند أدناه بلا أي
+    # مصدر مستقل (درجة ج) — نسخة الحقل الخام كما استُخرج من الموجز، لا
+    # النص المعالَج بحثًا. تُستهلَك فقط حين تخرج الحلقة كلها بلا واقعة واحدة
+    # من الدرجتين أ/ب — عندها تُصاغ المقال من هذا الحوض نفسه بدل الامتناع
+    brief_grade_c_pool: list[dict] = []
+    # كل وثيقة قُرئت فعليًا خلال هذا التشغيل عبر أي مرحلة (واقعة/تسمية/سند/
+    # سؤال)، ولو لم تؤيِّد ما استُخرجت لأجله بعينه — مجمَّع إشارة (ب) في فحص
+    # الأصالة أدناه (تشخيص Issue #373، الجولة العاشرة): تتابع ورد في مصدر
+    # واحد فقط ضمن المصادر المسنِدة قد يظهر أيضًا في وثيقة أخرى قُرئت هنا
+    # لم تنتهِ مصدرًا مسنِدًا لأي واقعة (رُفضت صلة، لم تجتز بوابة الاتساق...)
+    # — ورودها هناك أيضًا دليل أن التتابع صياغة قياسية متكررة، لا نسخ حرفي
+    all_read_docs: list[dict] = []
+    # نسخة Article الخام (لا dict) لكل نتيجة بحث عبر التشغيلة كلها — تُستهلَك
+    # فقط لاستخراج image_candidates لوقائع المصادر (origin: "source") التي
+    # لم تعد تُجري بحثها الخاص (طلب المراجعة، تعليق العطل الرابع والعشرون،
+    # البند 1) فلا ranked مخصَّص لها كأي واقعة عادية — _grounded_sources تقبل
+    # أي قائمة Article وتبني منها images_by_name بمعزل عن أي وثيقة بعينها
+    all_ranked: list[Article] = []
+    # البند 7 (تعليق الموافقة الثاني): الصلة بين حدث سُمّي حديثًا وكيان
+    # الموجز الأصلي ليست بديهية — تُضاف سؤالًا يُبحث بنفس آلية أسئلة
+    # الموجز (البند 5) حصرًا، لا تُفترض صامتة
+    link_questions: list[dict] = []
+    # صور مرشَّحة من وثائق استُبعدت كإعادة نشر للموجز عبر التشغيلة كلها
+    # (طلب المراجعة، تشخيص Issue #373، مراجعة بشرية بعد أول نشر، البند 1):
+    # الاستبعاد يخصّ عدّ السند لا صلاحية الصورة — تُستهلَك كاحتياط ثانٍ عند
+    # بناء صورة المسودة أدناه، فقط حين لا صورة من مصدر مسنِد فعليًا
+    reprint_image_pool: list[dict] = []
+    # استبعاد إعادات نشر الموجز الملصق (طلب المراجعة، أولوية — انظر
+    # _longest_shared_run/_reprint_filter أعلاه): body_words تُحسب مرة واحدة
+    # لكامل التشغيلة — لا تتغيّر بين استعلامات
+    body_words = verify_draft._normalized_words(body)
+    reprint_min_shared = int(acfg.get("brief_reprint_min_shared_words", 40))
+    _filter_reprints = _reprint_filter(body_words, reprint_min_shared)
+
+    return {"days": days, "wide_days": wide_days,
+            "query_max_words": query_max_words, "min_confirm": min_confirm,
+            "report_min_confirm": report_min_confirm,
+            "max_statements": max_statements, "max_questions": max_questions,
+            "dropped": dropped, "diffs": diffs, "grounded": grounded,
+            "sources_seen": sources_seen, "trail": trail,
+            "brief_grade_c_pool": brief_grade_c_pool,
+            "all_read_docs": all_read_docs, "all_ranked": all_ranked,
+            "link_questions": link_questions,
+            "reprint_image_pool": reprint_image_pool,
+            "filter_reprints": _filter_reprints,
+            "facts_raw": [], "opinions": [], "topic": "",
+            "questions_from_brief": [], "statement_reports": {},
+            "opinion_note": ""}
+
+
+def _extract_brief_stage(st: dict, body: str, cfg, acfg, outcome: dict) -> bool:
+    """المرحلة الأولى: استخراج بنية الموجز — False يعني امتناعًا فوريًا."""
+    max_statements = st["max_statements"]
+    max_questions = st["max_questions"]
 
     extracted, err = extract_brief(body, cfg)
     if not extracted:
         outcome["reason"] = err or "تعذّر استخراج بنية الموجز"
-        return outcome
+        return False
 
     raw_statements = extracted.get("statements")
     if not isinstance(raw_statements, list):
@@ -2933,7 +3021,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     statements = normalize_statements(raw_statements)
     if not statements:
         outcome["reason"] = "تعذّرت قراءة بنية الرد — لا وقائع أو آراء صالحة"
-        return outcome
+        return False
 
     questions_from_brief = normalize_questions(extracted.get("questions"))[:max_questions]
     # "تصريح" و"تقرير منقول" وقائع قابلة للتحقق كـ"واقعة" تمامًا — الفارق
@@ -2989,39 +3077,19 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                         "(article.include_opinion=false) — لا لانعدام سند")
         opinions = []
 
-    dropped: list[dict] = []
-    diffs: list[dict] = []
-    grounded: list[dict] = []
-    sources_seen: list[dict] = []
-    trail: list[dict] = []
-    # حوض الضمان (البند 2، Issue #835): كل واقعة من واقعة موجز (لا وقائع
-    # مصادر — تلك ليست موجز المستخدم نفسه) خرجت من حلقة السند أدناه بلا أي
-    # مصدر مستقل (درجة ج) — نسخة الحقل الخام كما استُخرج من الموجز، لا
-    # النص المعالَج بحثًا. تُستهلَك فقط حين تخرج الحلقة كلها بلا واقعة واحدة
-    # من الدرجتين أ/ب — عندها تُصاغ المقال من هذا الحوض نفسه بدل الامتناع
-    brief_grade_c_pool: list[dict] = []
-    # كل وثيقة قُرئت فعليًا خلال هذا التشغيل عبر أي مرحلة (واقعة/تسمية/سند/
-    # سؤال)، ولو لم تؤيِّد ما استُخرجت لأجله بعينه — مجمَّع إشارة (ب) في فحص
-    # الأصالة أدناه (تشخيص Issue #373، الجولة العاشرة): تتابع ورد في مصدر
-    # واحد فقط ضمن المصادر المسنِدة قد يظهر أيضًا في وثيقة أخرى قُرئت هنا
-    # لم تنتهِ مصدرًا مسنِدًا لأي واقعة (رُفضت صلة، لم تجتز بوابة الاتساق...)
-    # — ورودها هناك أيضًا دليل أن التتابع صياغة قياسية متكررة، لا نسخ حرفي
-    all_read_docs: list[dict] = []
-    # نسخة Article الخام (لا dict) لكل نتيجة بحث عبر التشغيلة كلها — تُستهلَك
-    # فقط لاستخراج image_candidates لوقائع المصادر (origin: "source") التي
-    # لم تعد تُجري بحثها الخاص (طلب المراجعة، تعليق العطل الرابع والعشرون،
-    # البند 1) فلا ranked مخصَّص لها كأي واقعة عادية — _grounded_sources تقبل
-    # أي قائمة Article وتبني منها images_by_name بمعزل عن أي وثيقة بعينها
-    all_ranked: list[Article] = []
-    # البند 7 (تعليق الموافقة الثاني): الصلة بين حدث سُمّي حديثًا وكيان
-    # الموجز الأصلي ليست بديهية — تُضاف سؤالًا يُبحث بنفس آلية أسئلة
-    # الموجز (البند 5) حصرًا، لا تُفترض صامتة
-    link_questions: list[dict] = []
-    # صور مرشَّحة من وثائق استُبعدت كإعادة نشر للموجز عبر التشغيلة كلها
-    # (طلب المراجعة، تشخيص Issue #373، مراجعة بشرية بعد أول نشر، البند 1):
-    # الاستبعاد يخصّ عدّ السند لا صلاحية الصورة — تُستهلَك كاحتياط ثانٍ عند
-    # بناء صورة المسودة أدناه، فقط حين لا صورة من مصدر مسنِد فعليًا
-    reprint_image_pool: list[dict] = []
+    st["facts_raw"] = facts_raw
+    st["opinions"] = opinions
+    st["topic"] = topic
+    st["questions_from_brief"] = questions_from_brief
+    st["statement_reports"] = statement_reports
+    st["opinion_note"] = opinion_note
+    return True
+
+
+def _make_cached_search(st: dict, cfg):
+    days = st["days"]
+    all_ranked = st["all_ranked"]
+    _filter_reprints = st["filter_reprints"]
 
     # ذاكرة استعلامات هذا التشغيل حصرًا لحلقة الوقائع أدناه (تشخيص Issue
     # #373، تعليق العطل العشرون، البند 1): وقائع متعددة تشترك في نفس
@@ -3036,13 +3104,6 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # _support_sources تُستدعى بنص كل واقعة بعينه خارج هذه الدالة، لا
     # تُخزَّن هنا
     search_cache: dict[tuple, tuple] = {}
-    # استبعاد إعادات نشر الموجز الملصق (طلب المراجعة، أولوية — انظر
-    # _longest_shared_run/_reprint_filter أعلاه): body_words تُحسب مرة واحدة
-    # لكامل التشغيلة — لا تتغيّر بين استعلامات
-    body_words = verify_draft._normalized_words(body)
-    reprint_min_shared = int(acfg.get("brief_reprint_min_shared_words", 40))
-    _filter_reprints = _reprint_filter(body_words, reprint_min_shared)
-
     def _cached_search(query: str, unrestricted: bool, relevance_text: str,
                        days_override: int | None = None):
         # days_override (Issue #820): إعادة الاستعلام نفسه بـwide_days بدل
@@ -3063,407 +3124,458 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         search_cache[key] = (ranked, docs, basis, excluded)
         return ranked, docs, basis, False, excluded
 
+    return _cached_search
+
+
+def _name_event_fact(f: dict, st: dict, cfg) -> bool:
+    """المرحلة الثانية: تسمية الحدث — True حين دخلت الواقعة grounded."""
+    topic = st["topic"]
+    days = st["days"]
+    query_max_words = st["query_max_words"]
+    min_confirm = st["min_confirm"]
+    trail = st["trail"]
+    all_read_docs = st["all_read_docs"]
+    dropped = st["dropped"]
+    diffs = st["diffs"]
+    grounded = st["grounded"]
+    brief_grade_c_pool = st["brief_grade_c_pool"]
+    link_questions = st["link_questions"]
+
+    # تسمية الحدث أولًا (البند 3 من التشخيص) — اكتشاف فقط. استعلام
+    # الاكتشاف (كيان الإشارة المبهمة+تاريخها) يبحث عن الرابط بين
+    # الإشارة والحدث فيبقى ضيقًا بنيويًا حتى حين ينجح (تشخيص Issue
+    # #373، الجولة السادسة: حدث غطّته عشرات المصادر أعاد 4 نتائج
+    # فقط من استعلام "حمزة الخطيب 11 آب"، وتعذّر جلب أغلبها) — لا
+    # يصلح وحده حكمًا على سند الحدث. دورة سند ثانية أدناه، مبنية من
+    # كيانات النص المسمّى نفسه لا كيانات الإشارة المبهمة (انظر
+    # _merge_named_evidence)، تُدمَج نتائجها مع أدلة الاكتشاف قبل
+    # الحكم على الكفاية
+    named_text, named_docs, named_supporting, name_trail = _name_event(f, cfg, topic=topic)
+    trail.extend(name_trail)
+    all_read_docs.extend(named_docs)
+    if not named_text:
+        dropped.append({
+            "text": f["text"],
+            "reason": ("تعذّر تسمية الحدث الذي أشار إليه موجزي — بحث موسّع "
+                      "بالكيانات والتاريخ لم يكشف ما وقع فعليًا"),
+        })
+        return False
+    diffs.append({"brief": f["text"], "sources_say": named_text})
+
+    support_query = evidence.build_query(named_text, query_max_words)
+    support_ranked = evidence.search(support_query, cfg, days)
+    support_docs, support_basis = evidence.gather_evidence(support_ranked, cfg, named_text)
+    all_read_docs.extend(support_docs)
+    support_supporting = (_support_sources(named_text, support_docs, cfg)
+                          if support_docs else [])
+    support_call_error = getattr(support_supporting, "call_error", None)
+    trail.append({"stage": "سند", "query": support_query, "basis": support_basis,
+                  "sources": [d["name"] for d in support_docs],
+                  "raw_count": getattr(support_ranked, "raw_count", None),
+                  "matched_count": getattr(support_ranked, "matched_count", None),
+                  "fetch_failures": getattr(support_docs, "fetch_failures", []),
+                  "top_candidates": getattr(support_docs, "top_candidates", []),
+                  "call_error": support_call_error,
+                  "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {support_call_error}"
+                             if support_call_error else
+                             f"{len(set(support_supporting))} مصدر مؤيِّد إضافي "
+                             "بكيانات الحدث المسمّى نفسه")})
+
+    all_docs, all_supporting = _merge_named_evidence(
+        named_docs, named_supporting, support_docs, support_supporting, cfg)
+    unique = set(all_supporting)
+    # الدرجات الثلاث (Issue #835، البند 1) تسري هنا أيضًا — نفس
+    # منطق الفرع العادي أدناه بالضبط، بلا ازدواج توثيق: أ (≥ مصدرين
+    # مستقلين)، ب (مصدر واحد فقط، تُنسب لاسمه في المتن)، ج (بلا أي
+    # مصدر، تدخل حوض الضمان لا المقال مباشرة)
+    if len(unique) >= min_confirm:
+        grade = "A"
+    elif len(unique) == 1:
+        grade = "B"
+    else:
+        dropped.append({
+            "text": named_text,
+            "reason": (f"سند غير كافٍ بعد تسمية الحدث ({len(unique)} من "
+                      f"{min_confirm} مصادر مستقلة مطلوبة، شاملةً دورة سند "
+                      "ثانية بكيانات الحدث نفسه)"),
+        })
+        brief_grade_c_pool.append({**f})
+        return False
+    # تشخيص Issue #373، الجولة السابعة (البند 1): كانت تُمرَّر ranked=[]
+    # حرفيًا هنا — لا Article فيها image_candidates إطلاقًا مهما توفّرت
+    # صور فعلية، فمصادر فرع الحدث المبهم كانت تصل الصياغة بلا صور
+    # دومًا بصرف النظر عن حجم التغطية الفعلي. support_ranked (دورة
+    # السند الثانية أعلاه) تحمل كائنات Article الحقيقية بصورها.
+    fact_sources = _grounded_sources(all_supporting, all_docs, support_ranked)
+    attribution_name = fact_sources[0]["name"] if grade == "B" and fact_sources else ""
+    grounded.append({**f, "text": named_text, "sources": fact_sources,
+                    "grade": grade, "attribution_name": attribution_name})
+    # سؤال الصلة يسأل عن الرابط بين طرفين — استعلامه يجب أن يشتمل
+    # كيانات كليهما لا الإشارة المبهمة الأصلية وحدها (تشخيص Issue
+    # #373، الجولة الثانية عشرة، البند 2): support_query أعلاه بُني
+    # أصلًا من كيانات الحدث المسمّى نفسه (محكمة/إعدام/بشار الأسد...)،
+    # نتشاركه هنا كنص متاح مجانًا بدل استخراج مستقل. تتشابك القائمتان
+    # بدل التذييل (كيانات الحدث أولًا حتى تصلها) كي لا يُقصي سقف
+    # query_max_words أحد الطرفين إن طال الآخر عند بناء الاستعلام
+    # لاحقًا عبر evidence.build_query_for_claim.
+    link_entities: list[str] = []
+    for pair in zip_longest(support_query.split(), f.get("entities") or []):
+        for w in pair:
+            if w:
+                link_entities.append(w)
+    link_questions.append({
+        "text": f"ما الصلة بين «{named_text}» و«{f['text']}»؟",
+        "entities": link_entities,
+        "is_reference": False,
+        # أدلة مرحلتَي [تسمية]/[سند] (مُوحَّدة الهوية أصلًا عبر
+        # _merge_named_evidence) تصل حلقة الأسئلة أدناه كإضافة لا
+        # بديل عن بحث جديد — لا تُهدر لمجرد إعادة السؤال في حلقة
+        # منفصلة (تشخيص Issue #373، الجولة الثانية عشرة، البند 2)
+        "existing_docs": all_docs,
+        "existing_supporting": all_supporting,
+    })
+    return True
+
+
+def _search_fact_support(f: dict, st: dict, cfg, outcome: dict, _cached_search) -> bool:
+    """المرحلة الثالثة: البحث عن سند واقعة مسمّاة — True حين دخلت grounded."""
+    wide_days = st["wide_days"]
+    query_max_words = st["query_max_words"]
+    min_confirm = st["min_confirm"]
+    report_min_confirm = st["report_min_confirm"]
+    trail = st["trail"]
+    all_read_docs = st["all_read_docs"]
+    reprint_image_pool = st["reprint_image_pool"]
+    statement_reports = st["statement_reports"]
+    dropped = st["dropped"]
+    brief_grade_c_pool = st["brief_grade_c_pool"]
+    grounded = st["grounded"]
+
+    # اسم المتحدث (تصريح) أو الناشر (تقرير منقول) يدخل الاستعلام
+    # إلزامًا بلا مزاحمة من كيانات أخرى (طلب المراجعة، تشخيص Issue
+    # #373، تعليق العطل الثاني والعشرون، البند 1): entities لا تتضمّن
+    # بالضرورة اسم المتحدث/الناشر (يُستخرَج في حقل speaker/publisher
+    # منفصل) — شاهد فعلي (تصريح بايراكتار/Baykar): استعلام بلا
+    # "Selçuk Bayraktar" (اسم العلم الذي تُفهرس به التغطية فعليًا)
+    # رجع صفر نتائج، بينما تشغيلة أخرى بالاسم كاملًا وجدت 7. يُبنى
+    # الاسم الإلزامي في مقدمة نص الاستعلام فيُختار قبل أي كيان آخر
+    # (build_query تختار بترتيب الورود حتى الحد الأقصى) — دخول
+    # مضمون لا مجرد مرشَّح ضمن الكيانات الأخرى
+    mandatory_name = _fact_mandatory_query_prefix(f)
+    entities_text = evidence._entities_text(f)
+    # اسم الكيان اللاتيني وحده تصفّح أخبار كيان لا بحث عن واقعة (Issue
+    # #808، شاهد فيستل/توغ: استعلام "Vestel" وحده رجع 117 نتيجة حقيقية
+    # عن موضوع مختلف كليًا) — query_latin عبارة بحث جاهزة من
+    # extract_brief لهذه الواقعة بعينها (اسم الكيان + كلمة معنى)
+    query_latin = (f.get("query_latin") or "").strip()
+    # نص الواقعة يتلو الاسم الإلزامي والكيانات لا يحلّ محلّها
+    # (تشخيص Issue #803، شاهد فيستل): كيانات رقمية بحتة ("فيستل"،
+    # "48") كانت تُسقِط كل كلمة معنى ("تراجعت"، "مبيعات") فيضيق
+    # الاستعلام حتى يطابق صفر نتائج رغم تغطية واسعة للحدث نفسه —
+    # build_query يختار بترتيب الورود حتى query_max_words فتبقى
+    # أولوية الاسم الإلزامي/الكيانات كما هي، وتملأ كلمات الواقعة
+    # الباقي بدل أن تُهمَل كليًا
+    query_text = " ".join(x for x in (mandatory_name, entities_text, f["text"]) if x)
+    # relevance_text يبقى مبنيًا من الاسم الإلزامي/الكيانات وحدها لا
+    # query_text الجديد (خلافًا لما قد يبدو بديهيًا): هذا هو النص
+    # الذي يستقر عبر وقائع متعددة تشترك في نفس الكيانات (ذاكرة
+    # search_cache أعلاه تعتمد استقراره)، بينما query_text الآن يضمّ
+    # نص الواقعة الخاص بكل عنصر فيتغيّر بينها. تسريب query_text إلى
+    # relevance_text هنا كان يكسر إعادة استعمال الاستعلام (تشخيص
+    # الإصلاح: واقعات ثلاث بنفس الكيانات صارت تبحث وتقرأ ثلاث مرات
+    # مستقلة بدل مرة واحدة رغم أن الاستعلام الفعلي المبني يبقى
+    # متطابقًا بينها بحكم سقف query_max_words)
+    relevance_text = (f"{mandatory_name} {entities_text}".strip() if mandatory_name
+                     else (entities_text or f["text"]))
+    # سُلَّم ثلاث محاولات بحث (البند 2، Issue #803: ست وقائع رقمية من
+    # سبع رجعت صفر نتائج بلا أي محاولة ثانية): 1) الاستعلام المركَّب
+    # أعلاه. 2) نص الواقعة وحده بلا بادئة الكيانات إن صفر نتائج —
+    # ترتيب كلمات مختلف يطابق فهرسة مختلفة. 3) query_latin إن وُجد.
+    # يُصعَّد للمحاولة التالية عند انعدام السند لا عند صفر النتائج
+    # وحده (البند 3، Issue #808): استعلام "Vestel" المجرَّد كان يرجع
+    # نتائج حقيقية غير فارغة عن موضوع مختلف كليًا فيوقف السُلَّم دون
+    # فحص سندها إطلاقًا — الحكم الصحيح هو كفاية السند لا مجرد وجود
+    # نتائج خام. سقف ثلاث محاولات يبقى بحكم طول search_texts،
+    # وsearch_cache أعلاه يمنع تكرار قراءة نفس الاستعلام إن التقت
+    # محاولتان على نفس النص
+    search_texts = [query_text]
+    if f["text"] and f["text"] != query_text:
+        search_texts.append(f["text"])
+    if query_latin:
+        search_texts.append(query_latin)
+
+    # "تصريح" (الجولة الثالثة عشرة، مُعدَّل بمعيار الأغلبية أدناه):
+    # فحص المضمون لا وقوع المقابلة وحده، جزءًا جزءًا لا حكمًا شموليًا
+    # واحدًا — انظر توثيق _support_statement_parts/_statement_majority
+    # أعلاه. "تقرير منقول" (الجولة السادسة عشرة، بلا تغيير هنا):
+    # is_report تختار REPORT_SUPPORT_SYSTEM **وعتبة report_min_confirm
+    # المستقلة** (1 لا 2) — شرط الهوية المزدوج البنيوي يُطبَّق داخل
+    # _support_sources نفسها (_report_identity_kind) قبل أي حكم نموذج
+    is_statement = f["kind"] == "تصريح"
+    is_report = f["kind"] == "تقرير منقول"
+    fact_min_confirm = report_min_confirm if is_report else min_confirm
+    stage = "تقرير" if is_report else ("تصريح" if is_statement else "واقعة")
+
+    attempt_result = None
+    for search_attempt, attempt_text in enumerate(search_texts, start=1):
+        query = evidence.build_query(attempt_text, query_max_words)
+        # استعلام أقل من كلمتين تصفّح أخبار كيان لا بحث عن واقعة (البند
+        # 2، Issue #808) — يُتخطّى بلا بحث ولا قراءة، والسبب يُسجَّل في
+        # trail بدل أن يختفي بصمت
+        if len(query.split()) < 2:
+            trail.append({"stage": stage, "query": query, "basis": "",
+                          "sources": [], "raw_count": None, "matched_count": None,
+                          "fetch_failures": [], "top_candidates": [],
+                          "excluded_reprints": [], "call_error": None,
+                          "reused_query": False, "search_attempt": search_attempt,
+                          "search_attempts_tried": len(search_texts),
+                          "outcome": ("🚫 استعلام أقل من كلمتين تُخُطِّي بلا بحث — "
+                                     "تصفّح أخبار كيان لا بحث عن واقعة")})
+            continue
+        is_reference_fact = f.get("is_reference", False)
+        ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
+            query, is_reference_fact, relevance_text)
+        # توسيع النافذة (Issue #820)، بُعد داخل هذه المحاولة لا محاولة
+        # رابعة: صفر نتائج خام يعني صفر قراءة وصفر حكم فلا كلفة إلا
+        # حين يجد فعلًا — نتائج خام غير صفرية تعني أن البحث أصاب
+        # والمصادر لا تؤيد (Issue #810)، فلا تُوسَّع. is_reference
+        # يُسقط قيد days أصلًا (unrestricted في evidence.search) — لا
+        # معنى لتوسيعها ثانية
+        widened = False
+        if not is_reference_fact and getattr(ranked, "raw_count", None) == 0:
+            ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
+                query, is_reference_fact, relevance_text, days_override=wide_days)
+            widened = True
+        all_read_docs.extend(docs)
+        reprint_image_pool.extend(_reprint_fallback_images(excluded_reprints, ranked))
+        # ما لم يُؤيَّد لا يدخل المتن (طلب المراجعة، معيار الأغلبية):
+        # أجزاء merged_excerpts التي أيّدها مصدر واحد فأكثر — هذه وحدها
+        # تُستعمل نصًّا للواقعة عند الصياغة لاحقًا إن اجتاز التصريح ككل،
+        # لا التصريح المدموج كاملًا. تبقى [] لغير التصريح (fact_text
+        # الأصلي يُستعمَل كما هو).
+        included_excerpts: list[str] = []
+        if is_statement:
+            # عنصر بلا merged_excerpts فعلية (لم يُدمَج من أكثر من جملة)
+            # يُعامَل كجزء واحد هو نصه الكامل — نفس أثر الحكم الشمولي
+            # القديم بالضبط لهذه الحالة (N=1، الأغلبية=1 أي "أيّد الجزء
+            # الوحيد")، فلا انحدار على التصريحات غير المُدمَجة فعليًا
+            statement_parts = f.get("merged_excerpts") or [f["text"]]
+            parts_support = (_support_statement_parts(statement_parts, docs, cfg)
+                             if docs else _PartSupportList())
+            fact_call_error = getattr(parts_support, "call_error", None)
+            if fact_call_error:
+                fact_mentioned: set[str] = set()
+                supporting = _ModelCallList()
+            else:
+                maj_supporting, fact_mentioned, included_excerpts = _statement_majority(
+                    statement_parts, parts_support)
+                supporting = _ModelCallList(maj_supporting)
+            # التبليغ (طلب المراجعة): أي الأجزاء أيّدها كل مصدر وأيها لم
+            # يُؤيَّد — نظير merged_statements، بصرف النظر عن مصير
+            # التصريح لاحقًا (فشل تقني يترك القائمة فارغة، لا يُخترع بلاغ)
+            report_entry = statement_reports.get(id(f))
+            if report_entry is not None and not fact_call_error:
+                report_entry["part_support"] = [
+                    {"excerpt": ex, "supporting": sup}
+                    for ex, sup in zip_longest(statement_parts, parts_support,
+                                               fillvalue=[])
+                ]
+        else:
+            supporting = (_support_sources(f["text"], docs, cfg, is_statement=False,
+                                          is_report=is_report, publisher=f.get("publisher", ""))
+                         if docs else [])
+            fact_call_error = getattr(supporting, "call_error", None)
+            # mentioned (طلب المراجعة، تشخيص Issue #373، حالة بايراكتار
+            # الرابعة): يفصل "لم يُقرأ نص يناقش الموضوع إطلاقًا" (عطل بحث
+            # محتمل) عن "قُرئ نص يناقشه ولم يطابق مضمونه" (عطل حكم) —
+            # تمييز كان يحتاج جولة تشخيص كاملة في كل مرة قبل هذا الحقل
+            fact_mentioned = set(getattr(supporting, "mentioned", []) or [])
+        unique = set(supporting)
+        attempt_result = {
+            "search_attempt": search_attempt, "query": query, "ranked": ranked,
+            "docs": docs, "basis": basis, "reused_query": reused_query,
+            "excluded_reprints": excluded_reprints, "supporting": supporting,
+            "unique": unique, "fact_mentioned": fact_mentioned,
+            "fact_call_error": fact_call_error, "included_excerpts": included_excerpts,
+            "widened": widened,
+        }
+        if len(unique) >= fact_min_confirm:
+            break
+        if fact_mentioned:
+            # المصادر ذكرت الموضوع ولم يطابق مضمونه — البحث أصاب
+            # والمصادر لا تُسنِد، واستعلام آخر لن يغيّر ذلك (طلب
+            # المراجعة، البند 2): لا تُصعَّد لمحاولة تالية فتكلّف
+            # دورة بحث/قراءة/حكم كاملة بلا عائد؛ التصعيد يبقى فقط
+            # حين لم تُذكر الواقعة في أي مصدر مقروء إطلاقًا
+            # (fact_mentioned فارغة) — فقد يعثر استعلام آخر على
+            # مصادر لم تُقرأ أصلًا
+            break
+
+    if attempt_result is None:
+        # كل محاولات السُلَّم أقل من كلمتين — نادرة (تحتاج كيانات
+        # وquery_latin كلها كلمة واحدة أو فارغة) لكن ممكنة؛ لا بحث وقع
+        # فعليًا لهذه الواقعة
+        dropped.append({"text": f["text"],
+                       "reason": "كل استعلامات السُلَّم أقل من كلمتين — تُخطّيت كلها"})
+        brief_grade_c_pool.append({**f})
+        return False
+
+    search_attempt = attempt_result["search_attempt"]
+    query = attempt_result["query"]
+    ranked = attempt_result["ranked"]
+    docs = attempt_result["docs"]
+    basis = attempt_result["basis"]
+    reused_query = attempt_result["reused_query"]
+    excluded_reprints = attempt_result["excluded_reprints"]
+    supporting = attempt_result["supporting"]
+    unique = attempt_result["unique"]
+    fact_mentioned = attempt_result["fact_mentioned"]
+    fact_call_error = attempt_result["fact_call_error"]
+    included_excerpts = attempt_result["included_excerpts"]
+    widened = attempt_result["widened"]
+
+    def _support_gap_detail() -> str:
+        if not fact_mentioned:
+            detail = "لم يذكر أي من المصادر المقروءة الموضوع إطلاقًا"
+        elif unique:
+            detail = (f"ذكره {len(fact_mentioned)} مصدر وطابق مضمونه "
+                      f"{len(unique)} منها فقط")
+        else:
+            detail = f"ذكره {len(fact_mentioned)} مصدر لكن لم يطابق مضمونه أيٌّ منها"
+        # نقص تقني لا واقعي (تشخيص Issue #583): يُفحص فقط حين واقعة
+        # واحدة بالضبط تفصل عن العتبة — انظر توثيق _fetch_failure_gap_note
+        if len(unique) == fact_min_confirm - 1:
+            detail += _fetch_failure_gap_note(
+                unique, getattr(docs, "fetch_failures", []), cfg)
+        return detail
+
+    # الدرجات الثلاث (Issue #835، البند 1): مصدر واحد بالضبط لغير
+    # "تقرير منقول" لم يعد "سند غير كافٍ" — درجة ب صريحة، تدخل
+    # المقال منسوبة لا مُسقَطة (انظر بناء grounded أدناه)
+    if fact_call_error:
+        outcome_text = f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
+    elif len(unique) >= fact_min_confirm:
+        outcome_text = f"مسندة بـ{len(unique)} مصدر مستقل"
+    elif not is_report and len(unique) == 1:
+        # نقص تقني لا واقعي (تشخيص Issue #583) يبقى مفيدًا للمراجع
+        # هنا أيضًا رغم أن الواقعة لم تعد تسقط (Issue #835) — يوضّح
+        # أن مرشَّحًا ثانيًا محتملًا سقط بفشل جلب، لا انفراد مصدر
+        # واحد فعليًا بالخبر، فقد تستحق الواقعة درجة أ حقًّا لو نجح
+        outcome_text = ("مصدر مستقل واحد — تدخل المقال منسوبة إلى مصدرها في "
+                        "المتن (درجة ب)" +
+                        _fetch_failure_gap_note(
+                            unique, getattr(docs, "fetch_failures", []), cfg))
+    else:
+        outcome_text = (f"سند غير كافٍ ({len(unique)}/{fact_min_confirm}) — "
+                        f"{_support_gap_detail()}")
+    if widened:
+        # بلا هذا لن نعرف أي واقعة اتّكأت على نافذة موسّعة (Issue
+        # #820) — تنبيه صريح في outcome_text (يظهر في trail أدناه)
+        outcome_text = f"⏳ نافذة موسّعة {wide_days} يومًا — {outcome_text}"
+    if reused_query:
+        # الشفافية أهم من اختصار السجل (طلب المراجعة، تشخيص Issue
+        # #373، تعليق العطل العشرون، البند 1): لا يُحذف السطر رغم
+        # عدم إجراء بحث/قراءة جديدين — يبقى ظاهرًا مع إشارة صريحة
+        # أن نتائجه مُعادة من استعلام سابق بنفس النص حرفيًا
+        outcome_text = f"🔁 مُعاد من استعلام سابق — {outcome_text}"
+    if excluded_reprints:
+        outcome_text = (f"🗞️ استُبعدت {len(excluded_reprints)} نسخة معاد "
+                        f"نشرها من الموجز — {outcome_text}")
+    # judged_by (طلب المراجعة، تعليق العطل الرابع والعشرون بعد ٢٤:
+    # "بعد الدمج، النتيجة لم تتغير ولا أثر لمعيار الأغلبية"): بلاغ
+    # بنيوي صريح لا مُستنتَج من stage — يُحسب مباشرة من فرع الكود
+    # المُنفَّذ فعليًا (is_statement) لا من تصنيف "تصريح" نفسه، فلو
+    # ارتدّ الحكم يومًا إلى SUPPORT_SYSTEM الشمولي (خطأ برمجي، أو
+    # فرع is_statement توقّف عن التفعيل) لظهر "شمولي" هنا رغم أن
+    # stage لا يزال "تصريح" — تناقض ظاهر في التقرير نفسه، لا حاجة
+    # لإعادة تشخيص كاملة (كما وقع فعليًا حين ظُنّ المعيار غير مُفعَّل
+    # بينما لم يكن كود المعيار قد دُمج أصلًا إلى main)
+    judged_by = "أجزاء (معيار الأغلبية)" if is_statement else "شمولي"
+    trail.append({"stage": stage,
+                  "query": query, "basis": basis,
+                  "sources": [d["name"] for d in docs],
+                  "raw_count": getattr(ranked, "raw_count", None),
+                  "matched_count": getattr(ranked, "matched_count", None),
+                  "fetch_failures": getattr(docs, "fetch_failures", []),
+                  "top_candidates": getattr(docs, "top_candidates", []),
+                  "excluded_reprints": excluded_reprints,
+                  "call_error": fact_call_error,
+                  "reused_query": reused_query,
+                  "judged_by": judged_by,
+                  # رقم محاولة البحث الناجحة (1-3، تشخيص Issue #803
+                  # البند 2) — تشخيص المستقبل يحتاج معرفة أي محاولة
+                  # أثمرت لا الاستعلام النهائي وحده
+                  "search_attempt": search_attempt,
+                  "search_attempts_tried": len(search_texts),
+                  "widened": widened,
+                  "outcome": outcome_text})
+    # الدرجات الثلاث (Issue #835، البند 1): "تقرير منقول" يبقى بعتبته
+    # المستقلة (report_min_confirm) بلا درجة ب — نسبته لاسم الناشر
+    # مضمونة أصلًا بالقاعدة 9/_report_attribution_ok بصرف النظر عن
+    # عدد مصادره. غير ذلك: ≥ fact_min_confirm (=min_confirm هنا) درجة
+    # أ، مصدر واحد بالضبط درجة ب (تدخل منسوبة، لا تُسقَط)، صفر درجة ج
+    # (تدخل حوض الضمان فقط — لا المقال مباشرة، انظر البند 2 أدناه)
+    if len(unique) >= fact_min_confirm:
+        grade = "A"
+    elif not is_report and len(unique) == 1:
+        grade = "B"
+    else:
+        if fact_call_error:
+            drop_reason = f"⚠️ فشل نداء الحكم على السند تقنيًا: {fact_call_error}"
+        elif excluded_reprints:
+            # تمييز صريح (طلب المراجعة، البند 3): هبوط السند بعد
+            # استبعاد إعادات النشر صحيح لا انحدار — لكن رسالته يجب
+            # أن تُميَّز عن الرسالة العامة، وإلا يبدو عطل بحث كما
+            # ظُنّ مرارًا في هذا الـ Issue قبل أن يتأكد السبب الحقيقي
+            drop_reason = (f"سند غير كافٍ بعد استبعاد إعادات نشر الموجز "
+                           f"({len(unique)} من {fact_min_confirm} مصادر مستقلة "
+                           f"مطلوبة؛ استُبعدت {len(excluded_reprints)} نسخة "
+                           "معاد نشرها من عدّ الاستقلالية)")
+        else:
+            drop_reason = (f"سند غير كافٍ ({len(unique)} من {fact_min_confirm} "
+                           f"مصادر مستقلة مطلوبة) — {_support_gap_detail()}")
+        dropped.append({"text": f["text"], "reason": drop_reason})
+        brief_grade_c_pool.append({**f})
+        return False
+    fact_sources = _grounded_sources(supporting, docs, ranked)
+    # ما لم يُؤيَّد لا يدخل المتن (طلب المراجعة): التصريح قد يجتاز
+    # العتبة بأغلبية عبر مصادر أيّدت أجزاء مختلفة منه، لكن جزءًا لم
+    # يؤيِّده أي مصدر يبقى خارج ما يصل الصياغة — لا التصريح كاملًا
+    # بصرف النظر عن اجتيازه ككل (included_excerpts فارغة لغير
+    # التصريح، فيبقى f["text"] الأصلي كما هو دومًا لتلك الحالات)
+    fact_text = ("؛ ".join(included_excerpts) if is_statement and included_excerpts
+                else f["text"])
+    if widened:
+        # تنبيه لا حجب (Issue #820): وثيقة قديمة قد تجاوزها الزمن —
+        # يظهر تاريخ أقدم مصدر مسنِد فعليًا ليراجعه المستخدم البشري،
+        # لا رفض تلقائي لواقعة اجتازت السند بنافذة موسّعة
+        outcome["older_window_facts"].append({
+            "text": fact_text,
+            "oldest_date": _oldest_source_date(unique, ranked),
+        })
+    attribution_name = fact_sources[0]["name"] if grade == "B" and fact_sources else ""
+    grounded.append({**f, "text": fact_text, "sources": fact_sources,
+                    "grade": grade, "attribution_name": attribution_name})
+    return True
+
+
+def _ground_brief_facts(st: dict, cfg, outcome: dict) -> None:
+    """حلقة وقائع الموجز: تسمية الحدث أو البحث عن السند، لكل واقعة."""
+    facts_raw = st["facts_raw"]
+    grounded = st["grounded"]
+    sources_seen = st["sources_seen"]
+    dropped = st["dropped"]
+    diffs = st["diffs"]
+    opinion_note = st["opinion_note"]
+    _cached_search = _make_cached_search(st, cfg)
+
     for f in facts_raw:
         if f.get("is_unnamed_event"):
-            # تسمية الحدث أولًا (البند 3 من التشخيص) — اكتشاف فقط. استعلام
-            # الاكتشاف (كيان الإشارة المبهمة+تاريخها) يبحث عن الرابط بين
-            # الإشارة والحدث فيبقى ضيقًا بنيويًا حتى حين ينجح (تشخيص Issue
-            # #373، الجولة السادسة: حدث غطّته عشرات المصادر أعاد 4 نتائج
-            # فقط من استعلام "حمزة الخطيب 11 آب"، وتعذّر جلب أغلبها) — لا
-            # يصلح وحده حكمًا على سند الحدث. دورة سند ثانية أدناه، مبنية من
-            # كيانات النص المسمّى نفسه لا كيانات الإشارة المبهمة (انظر
-            # _merge_named_evidence)، تُدمَج نتائجها مع أدلة الاكتشاف قبل
-            # الحكم على الكفاية
-            named_text, named_docs, named_supporting, name_trail = _name_event(f, cfg, topic=topic)
-            trail.extend(name_trail)
-            all_read_docs.extend(named_docs)
-            if not named_text:
-                dropped.append({
-                    "text": f["text"],
-                    "reason": ("تعذّر تسمية الحدث الذي أشار إليه موجزي — بحث موسّع "
-                              "بالكيانات والتاريخ لم يكشف ما وقع فعليًا"),
-                })
-                continue
-            diffs.append({"brief": f["text"], "sources_say": named_text})
-
-            support_query = evidence.build_query(named_text, query_max_words)
-            support_ranked = evidence.search(support_query, cfg, days)
-            support_docs, support_basis = evidence.gather_evidence(support_ranked, cfg, named_text)
-            all_read_docs.extend(support_docs)
-            support_supporting = (_support_sources(named_text, support_docs, cfg)
-                                  if support_docs else [])
-            support_call_error = getattr(support_supporting, "call_error", None)
-            trail.append({"stage": "سند", "query": support_query, "basis": support_basis,
-                          "sources": [d["name"] for d in support_docs],
-                          "raw_count": getattr(support_ranked, "raw_count", None),
-                          "matched_count": getattr(support_ranked, "matched_count", None),
-                          "fetch_failures": getattr(support_docs, "fetch_failures", []),
-                          "top_candidates": getattr(support_docs, "top_candidates", []),
-                          "call_error": support_call_error,
-                          "outcome": (f"⚠️ فشل نداء النموذج تقنيًا: {support_call_error}"
-                                     if support_call_error else
-                                     f"{len(set(support_supporting))} مصدر مؤيِّد إضافي "
-                                     "بكيانات الحدث المسمّى نفسه")})
-
-            all_docs, all_supporting = _merge_named_evidence(
-                named_docs, named_supporting, support_docs, support_supporting, cfg)
-            unique = set(all_supporting)
-            # الدرجات الثلاث (Issue #835، البند 1) تسري هنا أيضًا — نفس
-            # منطق الفرع العادي أدناه بالضبط، بلا ازدواج توثيق: أ (≥ مصدرين
-            # مستقلين)، ب (مصدر واحد فقط، تُنسب لاسمه في المتن)، ج (بلا أي
-            # مصدر، تدخل حوض الضمان لا المقال مباشرة)
-            if len(unique) >= min_confirm:
-                grade = "A"
-            elif len(unique) == 1:
-                grade = "B"
-            else:
-                dropped.append({
-                    "text": named_text,
-                    "reason": (f"سند غير كافٍ بعد تسمية الحدث ({len(unique)} من "
-                              f"{min_confirm} مصادر مستقلة مطلوبة، شاملةً دورة سند "
-                              "ثانية بكيانات الحدث نفسه)"),
-                })
-                brief_grade_c_pool.append({**f})
-                continue
-            # تشخيص Issue #373، الجولة السابعة (البند 1): كانت تُمرَّر ranked=[]
-            # حرفيًا هنا — لا Article فيها image_candidates إطلاقًا مهما توفّرت
-            # صور فعلية، فمصادر فرع الحدث المبهم كانت تصل الصياغة بلا صور
-            # دومًا بصرف النظر عن حجم التغطية الفعلي. support_ranked (دورة
-            # السند الثانية أعلاه) تحمل كائنات Article الحقيقية بصورها.
-            fact_sources = _grounded_sources(all_supporting, all_docs, support_ranked)
-            attribution_name = fact_sources[0]["name"] if grade == "B" and fact_sources else ""
-            grounded.append({**f, "text": named_text, "sources": fact_sources,
-                            "grade": grade, "attribution_name": attribution_name})
-            # سؤال الصلة يسأل عن الرابط بين طرفين — استعلامه يجب أن يشتمل
-            # كيانات كليهما لا الإشارة المبهمة الأصلية وحدها (تشخيص Issue
-            # #373، الجولة الثانية عشرة، البند 2): support_query أعلاه بُني
-            # أصلًا من كيانات الحدث المسمّى نفسه (محكمة/إعدام/بشار الأسد...)،
-            # نتشاركه هنا كنص متاح مجانًا بدل استخراج مستقل. تتشابك القائمتان
-            # بدل التذييل (كيانات الحدث أولًا حتى تصلها) كي لا يُقصي سقف
-            # query_max_words أحد الطرفين إن طال الآخر عند بناء الاستعلام
-            # لاحقًا عبر evidence.build_query_for_claim.
-            link_entities: list[str] = []
-            for pair in zip_longest(support_query.split(), f.get("entities") or []):
-                for w in pair:
-                    if w:
-                        link_entities.append(w)
-            link_questions.append({
-                "text": f"ما الصلة بين «{named_text}» و«{f['text']}»؟",
-                "entities": link_entities,
-                "is_reference": False,
-                # أدلة مرحلتَي [تسمية]/[سند] (مُوحَّدة الهوية أصلًا عبر
-                # _merge_named_evidence) تصل حلقة الأسئلة أدناه كإضافة لا
-                # بديل عن بحث جديد — لا تُهدر لمجرد إعادة السؤال في حلقة
-                # منفصلة (تشخيص Issue #373، الجولة الثانية عشرة، البند 2)
-                "existing_docs": all_docs,
-                "existing_supporting": all_supporting,
-            })
+            entered = _name_event_fact(f, st, cfg)
         else:
-            # اسم المتحدث (تصريح) أو الناشر (تقرير منقول) يدخل الاستعلام
-            # إلزامًا بلا مزاحمة من كيانات أخرى (طلب المراجعة، تشخيص Issue
-            # #373، تعليق العطل الثاني والعشرون، البند 1): entities لا تتضمّن
-            # بالضرورة اسم المتحدث/الناشر (يُستخرَج في حقل speaker/publisher
-            # منفصل) — شاهد فعلي (تصريح بايراكتار/Baykar): استعلام بلا
-            # "Selçuk Bayraktar" (اسم العلم الذي تُفهرس به التغطية فعليًا)
-            # رجع صفر نتائج، بينما تشغيلة أخرى بالاسم كاملًا وجدت 7. يُبنى
-            # الاسم الإلزامي في مقدمة نص الاستعلام فيُختار قبل أي كيان آخر
-            # (build_query تختار بترتيب الورود حتى الحد الأقصى) — دخول
-            # مضمون لا مجرد مرشَّح ضمن الكيانات الأخرى
-            mandatory_name = _fact_mandatory_query_prefix(f)
-            entities_text = evidence._entities_text(f)
-            # اسم الكيان اللاتيني وحده تصفّح أخبار كيان لا بحث عن واقعة (Issue
-            # #808، شاهد فيستل/توغ: استعلام "Vestel" وحده رجع 117 نتيجة حقيقية
-            # عن موضوع مختلف كليًا) — query_latin عبارة بحث جاهزة من
-            # extract_brief لهذه الواقعة بعينها (اسم الكيان + كلمة معنى)
-            query_latin = (f.get("query_latin") or "").strip()
-            # نص الواقعة يتلو الاسم الإلزامي والكيانات لا يحلّ محلّها
-            # (تشخيص Issue #803، شاهد فيستل): كيانات رقمية بحتة ("فيستل"،
-            # "48") كانت تُسقِط كل كلمة معنى ("تراجعت"، "مبيعات") فيضيق
-            # الاستعلام حتى يطابق صفر نتائج رغم تغطية واسعة للحدث نفسه —
-            # build_query يختار بترتيب الورود حتى query_max_words فتبقى
-            # أولوية الاسم الإلزامي/الكيانات كما هي، وتملأ كلمات الواقعة
-            # الباقي بدل أن تُهمَل كليًا
-            query_text = " ".join(x for x in (mandatory_name, entities_text, f["text"]) if x)
-            # relevance_text يبقى مبنيًا من الاسم الإلزامي/الكيانات وحدها لا
-            # query_text الجديد (خلافًا لما قد يبدو بديهيًا): هذا هو النص
-            # الذي يستقر عبر وقائع متعددة تشترك في نفس الكيانات (ذاكرة
-            # search_cache أعلاه تعتمد استقراره)، بينما query_text الآن يضمّ
-            # نص الواقعة الخاص بكل عنصر فيتغيّر بينها. تسريب query_text إلى
-            # relevance_text هنا كان يكسر إعادة استعمال الاستعلام (تشخيص
-            # الإصلاح: واقعات ثلاث بنفس الكيانات صارت تبحث وتقرأ ثلاث مرات
-            # مستقلة بدل مرة واحدة رغم أن الاستعلام الفعلي المبني يبقى
-            # متطابقًا بينها بحكم سقف query_max_words)
-            relevance_text = (f"{mandatory_name} {entities_text}".strip() if mandatory_name
-                             else (entities_text or f["text"]))
-            # سُلَّم ثلاث محاولات بحث (البند 2، Issue #803: ست وقائع رقمية من
-            # سبع رجعت صفر نتائج بلا أي محاولة ثانية): 1) الاستعلام المركَّب
-            # أعلاه. 2) نص الواقعة وحده بلا بادئة الكيانات إن صفر نتائج —
-            # ترتيب كلمات مختلف يطابق فهرسة مختلفة. 3) query_latin إن وُجد.
-            # يُصعَّد للمحاولة التالية عند انعدام السند لا عند صفر النتائج
-            # وحده (البند 3، Issue #808): استعلام "Vestel" المجرَّد كان يرجع
-            # نتائج حقيقية غير فارغة عن موضوع مختلف كليًا فيوقف السُلَّم دون
-            # فحص سندها إطلاقًا — الحكم الصحيح هو كفاية السند لا مجرد وجود
-            # نتائج خام. سقف ثلاث محاولات يبقى بحكم طول search_texts،
-            # وsearch_cache أعلاه يمنع تكرار قراءة نفس الاستعلام إن التقت
-            # محاولتان على نفس النص
-            search_texts = [query_text]
-            if f["text"] and f["text"] != query_text:
-                search_texts.append(f["text"])
-            if query_latin:
-                search_texts.append(query_latin)
-
-            # "تصريح" (الجولة الثالثة عشرة، مُعدَّل بمعيار الأغلبية أدناه):
-            # فحص المضمون لا وقوع المقابلة وحده، جزءًا جزءًا لا حكمًا شموليًا
-            # واحدًا — انظر توثيق _support_statement_parts/_statement_majority
-            # أعلاه. "تقرير منقول" (الجولة السادسة عشرة، بلا تغيير هنا):
-            # is_report تختار REPORT_SUPPORT_SYSTEM **وعتبة report_min_confirm
-            # المستقلة** (1 لا 2) — شرط الهوية المزدوج البنيوي يُطبَّق داخل
-            # _support_sources نفسها (_report_identity_kind) قبل أي حكم نموذج
-            is_statement = f["kind"] == "تصريح"
-            is_report = f["kind"] == "تقرير منقول"
-            fact_min_confirm = report_min_confirm if is_report else min_confirm
-            stage = "تقرير" if is_report else ("تصريح" if is_statement else "واقعة")
-
-            attempt_result = None
-            for search_attempt, attempt_text in enumerate(search_texts, start=1):
-                query = evidence.build_query(attempt_text, query_max_words)
-                # استعلام أقل من كلمتين تصفّح أخبار كيان لا بحث عن واقعة (البند
-                # 2، Issue #808) — يُتخطّى بلا بحث ولا قراءة، والسبب يُسجَّل في
-                # trail بدل أن يختفي بصمت
-                if len(query.split()) < 2:
-                    trail.append({"stage": stage, "query": query, "basis": "",
-                                  "sources": [], "raw_count": None, "matched_count": None,
-                                  "fetch_failures": [], "top_candidates": [],
-                                  "excluded_reprints": [], "call_error": None,
-                                  "reused_query": False, "search_attempt": search_attempt,
-                                  "search_attempts_tried": len(search_texts),
-                                  "outcome": ("🚫 استعلام أقل من كلمتين تُخُطِّي بلا بحث — "
-                                             "تصفّح أخبار كيان لا بحث عن واقعة")})
-                    continue
-                is_reference_fact = f.get("is_reference", False)
-                ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
-                    query, is_reference_fact, relevance_text)
-                # توسيع النافذة (Issue #820)، بُعد داخل هذه المحاولة لا محاولة
-                # رابعة: صفر نتائج خام يعني صفر قراءة وصفر حكم فلا كلفة إلا
-                # حين يجد فعلًا — نتائج خام غير صفرية تعني أن البحث أصاب
-                # والمصادر لا تؤيد (Issue #810)، فلا تُوسَّع. is_reference
-                # يُسقط قيد days أصلًا (unrestricted في evidence.search) — لا
-                # معنى لتوسيعها ثانية
-                widened = False
-                if not is_reference_fact and getattr(ranked, "raw_count", None) == 0:
-                    ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
-                        query, is_reference_fact, relevance_text, days_override=wide_days)
-                    widened = True
-                all_read_docs.extend(docs)
-                reprint_image_pool.extend(_reprint_fallback_images(excluded_reprints, ranked))
-                # ما لم يُؤيَّد لا يدخل المتن (طلب المراجعة، معيار الأغلبية):
-                # أجزاء merged_excerpts التي أيّدها مصدر واحد فأكثر — هذه وحدها
-                # تُستعمل نصًّا للواقعة عند الصياغة لاحقًا إن اجتاز التصريح ككل،
-                # لا التصريح المدموج كاملًا. تبقى [] لغير التصريح (fact_text
-                # الأصلي يُستعمَل كما هو).
-                included_excerpts: list[str] = []
-                if is_statement:
-                    # عنصر بلا merged_excerpts فعلية (لم يُدمَج من أكثر من جملة)
-                    # يُعامَل كجزء واحد هو نصه الكامل — نفس أثر الحكم الشمولي
-                    # القديم بالضبط لهذه الحالة (N=1، الأغلبية=1 أي "أيّد الجزء
-                    # الوحيد")، فلا انحدار على التصريحات غير المُدمَجة فعليًا
-                    statement_parts = f.get("merged_excerpts") or [f["text"]]
-                    parts_support = (_support_statement_parts(statement_parts, docs, cfg)
-                                     if docs else _PartSupportList())
-                    fact_call_error = getattr(parts_support, "call_error", None)
-                    if fact_call_error:
-                        fact_mentioned: set[str] = set()
-                        supporting = _ModelCallList()
-                    else:
-                        maj_supporting, fact_mentioned, included_excerpts = _statement_majority(
-                            statement_parts, parts_support)
-                        supporting = _ModelCallList(maj_supporting)
-                    # التبليغ (طلب المراجعة): أي الأجزاء أيّدها كل مصدر وأيها لم
-                    # يُؤيَّد — نظير merged_statements، بصرف النظر عن مصير
-                    # التصريح لاحقًا (فشل تقني يترك القائمة فارغة، لا يُخترع بلاغ)
-                    report_entry = statement_reports.get(id(f))
-                    if report_entry is not None and not fact_call_error:
-                        report_entry["part_support"] = [
-                            {"excerpt": ex, "supporting": sup}
-                            for ex, sup in zip_longest(statement_parts, parts_support,
-                                                       fillvalue=[])
-                        ]
-                else:
-                    supporting = (_support_sources(f["text"], docs, cfg, is_statement=False,
-                                                  is_report=is_report, publisher=f.get("publisher", ""))
-                                 if docs else [])
-                    fact_call_error = getattr(supporting, "call_error", None)
-                    # mentioned (طلب المراجعة، تشخيص Issue #373، حالة بايراكتار
-                    # الرابعة): يفصل "لم يُقرأ نص يناقش الموضوع إطلاقًا" (عطل بحث
-                    # محتمل) عن "قُرئ نص يناقشه ولم يطابق مضمونه" (عطل حكم) —
-                    # تمييز كان يحتاج جولة تشخيص كاملة في كل مرة قبل هذا الحقل
-                    fact_mentioned = set(getattr(supporting, "mentioned", []) or [])
-                unique = set(supporting)
-                attempt_result = {
-                    "search_attempt": search_attempt, "query": query, "ranked": ranked,
-                    "docs": docs, "basis": basis, "reused_query": reused_query,
-                    "excluded_reprints": excluded_reprints, "supporting": supporting,
-                    "unique": unique, "fact_mentioned": fact_mentioned,
-                    "fact_call_error": fact_call_error, "included_excerpts": included_excerpts,
-                    "widened": widened,
-                }
-                if len(unique) >= fact_min_confirm:
-                    break
-                if fact_mentioned:
-                    # المصادر ذكرت الموضوع ولم يطابق مضمونه — البحث أصاب
-                    # والمصادر لا تُسنِد، واستعلام آخر لن يغيّر ذلك (طلب
-                    # المراجعة، البند 2): لا تُصعَّد لمحاولة تالية فتكلّف
-                    # دورة بحث/قراءة/حكم كاملة بلا عائد؛ التصعيد يبقى فقط
-                    # حين لم تُذكر الواقعة في أي مصدر مقروء إطلاقًا
-                    # (fact_mentioned فارغة) — فقد يعثر استعلام آخر على
-                    # مصادر لم تُقرأ أصلًا
-                    break
-
-            if attempt_result is None:
-                # كل محاولات السُلَّم أقل من كلمتين — نادرة (تحتاج كيانات
-                # وquery_latin كلها كلمة واحدة أو فارغة) لكن ممكنة؛ لا بحث وقع
-                # فعليًا لهذه الواقعة
-                dropped.append({"text": f["text"],
-                               "reason": "كل استعلامات السُلَّم أقل من كلمتين — تُخطّيت كلها"})
-                brief_grade_c_pool.append({**f})
-                continue
-
-            search_attempt = attempt_result["search_attempt"]
-            query = attempt_result["query"]
-            ranked = attempt_result["ranked"]
-            docs = attempt_result["docs"]
-            basis = attempt_result["basis"]
-            reused_query = attempt_result["reused_query"]
-            excluded_reprints = attempt_result["excluded_reprints"]
-            supporting = attempt_result["supporting"]
-            unique = attempt_result["unique"]
-            fact_mentioned = attempt_result["fact_mentioned"]
-            fact_call_error = attempt_result["fact_call_error"]
-            included_excerpts = attempt_result["included_excerpts"]
-            widened = attempt_result["widened"]
-
-            def _support_gap_detail() -> str:
-                if not fact_mentioned:
-                    detail = "لم يذكر أي من المصادر المقروءة الموضوع إطلاقًا"
-                elif unique:
-                    detail = (f"ذكره {len(fact_mentioned)} مصدر وطابق مضمونه "
-                              f"{len(unique)} منها فقط")
-                else:
-                    detail = f"ذكره {len(fact_mentioned)} مصدر لكن لم يطابق مضمونه أيٌّ منها"
-                # نقص تقني لا واقعي (تشخيص Issue #583): يُفحص فقط حين واقعة
-                # واحدة بالضبط تفصل عن العتبة — انظر توثيق _fetch_failure_gap_note
-                if len(unique) == fact_min_confirm - 1:
-                    detail += _fetch_failure_gap_note(
-                        unique, getattr(docs, "fetch_failures", []), cfg)
-                return detail
-
-            # الدرجات الثلاث (Issue #835، البند 1): مصدر واحد بالضبط لغير
-            # "تقرير منقول" لم يعد "سند غير كافٍ" — درجة ب صريحة، تدخل
-            # المقال منسوبة لا مُسقَطة (انظر بناء grounded أدناه)
-            if fact_call_error:
-                outcome_text = f"⚠️ فشل نداء النموذج تقنيًا: {fact_call_error}"
-            elif len(unique) >= fact_min_confirm:
-                outcome_text = f"مسندة بـ{len(unique)} مصدر مستقل"
-            elif not is_report and len(unique) == 1:
-                # نقص تقني لا واقعي (تشخيص Issue #583) يبقى مفيدًا للمراجع
-                # هنا أيضًا رغم أن الواقعة لم تعد تسقط (Issue #835) — يوضّح
-                # أن مرشَّحًا ثانيًا محتملًا سقط بفشل جلب، لا انفراد مصدر
-                # واحد فعليًا بالخبر، فقد تستحق الواقعة درجة أ حقًّا لو نجح
-                outcome_text = ("مصدر مستقل واحد — تدخل المقال منسوبة إلى مصدرها في "
-                                "المتن (درجة ب)" +
-                                _fetch_failure_gap_note(
-                                    unique, getattr(docs, "fetch_failures", []), cfg))
-            else:
-                outcome_text = (f"سند غير كافٍ ({len(unique)}/{fact_min_confirm}) — "
-                                f"{_support_gap_detail()}")
-            if widened:
-                # بلا هذا لن نعرف أي واقعة اتّكأت على نافذة موسّعة (Issue
-                # #820) — تنبيه صريح في outcome_text (يظهر في trail أدناه)
-                outcome_text = f"⏳ نافذة موسّعة {wide_days} يومًا — {outcome_text}"
-            if reused_query:
-                # الشفافية أهم من اختصار السجل (طلب المراجعة، تشخيص Issue
-                # #373، تعليق العطل العشرون، البند 1): لا يُحذف السطر رغم
-                # عدم إجراء بحث/قراءة جديدين — يبقى ظاهرًا مع إشارة صريحة
-                # أن نتائجه مُعادة من استعلام سابق بنفس النص حرفيًا
-                outcome_text = f"🔁 مُعاد من استعلام سابق — {outcome_text}"
-            if excluded_reprints:
-                outcome_text = (f"🗞️ استُبعدت {len(excluded_reprints)} نسخة معاد "
-                                f"نشرها من الموجز — {outcome_text}")
-            # judged_by (طلب المراجعة، تعليق العطل الرابع والعشرون بعد ٢٤:
-            # "بعد الدمج، النتيجة لم تتغير ولا أثر لمعيار الأغلبية"): بلاغ
-            # بنيوي صريح لا مُستنتَج من stage — يُحسب مباشرة من فرع الكود
-            # المُنفَّذ فعليًا (is_statement) لا من تصنيف "تصريح" نفسه، فلو
-            # ارتدّ الحكم يومًا إلى SUPPORT_SYSTEM الشمولي (خطأ برمجي، أو
-            # فرع is_statement توقّف عن التفعيل) لظهر "شمولي" هنا رغم أن
-            # stage لا يزال "تصريح" — تناقض ظاهر في التقرير نفسه، لا حاجة
-            # لإعادة تشخيص كاملة (كما وقع فعليًا حين ظُنّ المعيار غير مُفعَّل
-            # بينما لم يكن كود المعيار قد دُمج أصلًا إلى main)
-            judged_by = "أجزاء (معيار الأغلبية)" if is_statement else "شمولي"
-            trail.append({"stage": stage,
-                          "query": query, "basis": basis,
-                          "sources": [d["name"] for d in docs],
-                          "raw_count": getattr(ranked, "raw_count", None),
-                          "matched_count": getattr(ranked, "matched_count", None),
-                          "fetch_failures": getattr(docs, "fetch_failures", []),
-                          "top_candidates": getattr(docs, "top_candidates", []),
-                          "excluded_reprints": excluded_reprints,
-                          "call_error": fact_call_error,
-                          "reused_query": reused_query,
-                          "judged_by": judged_by,
-                          # رقم محاولة البحث الناجحة (1-3، تشخيص Issue #803
-                          # البند 2) — تشخيص المستقبل يحتاج معرفة أي محاولة
-                          # أثمرت لا الاستعلام النهائي وحده
-                          "search_attempt": search_attempt,
-                          "search_attempts_tried": len(search_texts),
-                          "widened": widened,
-                          "outcome": outcome_text})
-            # الدرجات الثلاث (Issue #835، البند 1): "تقرير منقول" يبقى بعتبته
-            # المستقلة (report_min_confirm) بلا درجة ب — نسبته لاسم الناشر
-            # مضمونة أصلًا بالقاعدة 9/_report_attribution_ok بصرف النظر عن
-            # عدد مصادره. غير ذلك: ≥ fact_min_confirm (=min_confirm هنا) درجة
-            # أ، مصدر واحد بالضبط درجة ب (تدخل منسوبة، لا تُسقَط)، صفر درجة ج
-            # (تدخل حوض الضمان فقط — لا المقال مباشرة، انظر البند 2 أدناه)
-            if len(unique) >= fact_min_confirm:
-                grade = "A"
-            elif not is_report and len(unique) == 1:
-                grade = "B"
-            else:
-                if fact_call_error:
-                    drop_reason = f"⚠️ فشل نداء الحكم على السند تقنيًا: {fact_call_error}"
-                elif excluded_reprints:
-                    # تمييز صريح (طلب المراجعة، البند 3): هبوط السند بعد
-                    # استبعاد إعادات النشر صحيح لا انحدار — لكن رسالته يجب
-                    # أن تُميَّز عن الرسالة العامة، وإلا يبدو عطل بحث كما
-                    # ظُنّ مرارًا في هذا الـ Issue قبل أن يتأكد السبب الحقيقي
-                    drop_reason = (f"سند غير كافٍ بعد استبعاد إعادات نشر الموجز "
-                                   f"({len(unique)} من {fact_min_confirm} مصادر مستقلة "
-                                   f"مطلوبة؛ استُبعدت {len(excluded_reprints)} نسخة "
-                                   "معاد نشرها من عدّ الاستقلالية)")
-                else:
-                    drop_reason = (f"سند غير كافٍ ({len(unique)} من {fact_min_confirm} "
-                                   f"مصادر مستقلة مطلوبة) — {_support_gap_detail()}")
-                dropped.append({"text": f["text"], "reason": drop_reason})
-                brief_grade_c_pool.append({**f})
-                continue
-            fact_sources = _grounded_sources(supporting, docs, ranked)
-            # ما لم يُؤيَّد لا يدخل المتن (طلب المراجعة): التصريح قد يجتاز
-            # العتبة بأغلبية عبر مصادر أيّدت أجزاء مختلفة منه، لكن جزءًا لم
-            # يؤيِّده أي مصدر يبقى خارج ما يصل الصياغة — لا التصريح كاملًا
-            # بصرف النظر عن اجتيازه ككل (included_excerpts فارغة لغير
-            # التصريح، فيبقى f["text"] الأصلي كما هو دومًا لتلك الحالات)
-            fact_text = ("؛ ".join(included_excerpts) if is_statement and included_excerpts
-                        else f["text"])
-            if widened:
-                # تنبيه لا حجب (Issue #820): وثيقة قديمة قد تجاوزها الزمن —
-                # يظهر تاريخ أقدم مصدر مسنِد فعليًا ليراجعه المستخدم البشري،
-                # لا رفض تلقائي لواقعة اجتازت السند بنافذة موسّعة
-                outcome["older_window_facts"].append({
-                    "text": fact_text,
-                    "oldest_date": _oldest_source_date(unique, ranked),
-                })
-            attribution_name = fact_sources[0]["name"] if grade == "B" and fact_sources else ""
-            grounded.append({**f, "text": fact_text, "sources": fact_sources,
-                            "grade": grade, "attribution_name": attribution_name})
+            entered = _search_fact_support(f, st, cfg, outcome, _cached_search)
+        if not entered:
+            continue
 
         for s in grounded[-1]["sources"]:
             if not any(s["name"] == x["name"] for x in sources_seen):
@@ -3486,6 +3598,19 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     outcome["dropped"] = dropped
     outcome["opinion_note"] = opinion_note
     outcome["diffs"] = diffs
+
+
+def _answer_brief_questions(st: dict, cfg, outcome: dict) -> None:
+    """أسئلة الموجز وسؤال الصلة: بحث ← قراءة ← حكم سند، كالوقائع تمامًا."""
+    questions_from_brief = st["questions_from_brief"]
+    link_questions = st["link_questions"]
+    days = st["days"]
+    query_max_words = st["query_max_words"]
+    min_confirm = st["min_confirm"]
+    all_read_docs = st["all_read_docs"]
+    trail = st["trail"]
+    grounded = st["grounded"]
+    sources_seen = st["sources_seen"]
 
     # البند 5 + 7: أسئلة الموجز الصريحة وسؤال الصلة المُصنَّع (إن وُجد) —
     # كلاهما مهمة بحث فعلية بنفس آلية الوقائع (بحث ← قراءة ← حكم سند)، لا
@@ -3572,6 +3697,21 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     outcome["answered_questions"] = answered_questions
     outcome["trail"] = trail
 
+
+def _extract_source_facts_stage(st: dict, cfg, acfg, outcome: dict,
+                                source_extract_enabled: bool) -> None:
+    """المرحلة الرابعة: وقائع من الوثائق المقروءة نفسها، لا من الموجز."""
+    grounded = st["grounded"]
+    facts_raw = st["facts_raw"]
+    questions_from_brief = st["questions_from_brief"]
+    topic = st["topic"]
+    min_confirm = st["min_confirm"]
+    all_read_docs = st["all_read_docs"]
+    all_ranked = st["all_ranked"]
+    trail = st["trail"]
+    dropped = st["dropped"]
+    sources_seen = st["sources_seen"]
+
     # كل ما دخل grounded حتى هنا مصدره الموجز (وقائعه أو أسئلته) — يُوسَم
     # صراحة قبل مرحلة استخراج وقائع المصادر أدناه كي يبقى origin: "brief"
     # مميَّزًا عن origin: "source" في كل مكان يقرأ grounded لاحقًا (التقرير،
@@ -3592,7 +3732,6 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # عن التصميم: مرحلة جديدة تستدعي النموذج مرتين إضافيتين لكل واقعة
     # مستخرَجة (استخراج + دمج) تستحق تشغيلًا حيًّا واحدًا على الأقل قبل أن
     # تصبح افتراضية على كل تشغيلة إنتاج.
-    source_extract_enabled = bool(acfg.get("source_extract_enabled", False))
     source_max_docs = int(acfg.get("source_extract_max_docs", 8))
     extracted_source_count = 0
     merged_source_count = 0
@@ -3778,6 +3917,14 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     # (الكفاية/الصياغة) رغم أن grounded نفسها مكتملة هنا
     outcome["grounded_count"] = len(grounded)
 
+
+def _choose_question_stage(st: dict, cfg, outcome: dict) -> str | None:
+    """المرحلة الخامسة: حوض الضمان ثم الكفاية ثم السؤال — None امتناع."""
+    grounded = st["grounded"]
+    brief_grade_c_pool = st["brief_grade_c_pool"]
+    dropped = st["dropped"]
+    sources_seen = st["sources_seen"]
+
     # الضمان: مقال في كل الأحوال (Issue #835، البند 2) — إن خرجت حلقة
     # السند كلها بلا واقعة واحدة من الدرجتين أ/ب (grounded فارغة هنا فعليًا
     # رغم أن facts_raw قد تحمل وقائع حقيقية سقطت كلها لانعدام السند)، يُصاغ
@@ -3796,6 +3943,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             {**f, "text": f["text"], "sources": [], "grade": "C", "attribution_name": ""}
             for f in brief_grade_c_pool
         ]
+        st["grounded"] = grounded
         outcome["grounded_count"] = len(grounded)
         # هذه الوقائع صارت مضمون المقال نفسه (موسومة بلا سند صراحة) لا
         # ادّعاءات ساقطة يحقّق فيها منشور التحقيق — تُزال من dropped كي لا
@@ -3812,18 +3960,30 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     ok, reason = _sufficiency(grounded, cfg)
     if not ok:
         outcome["reason"] = reason
-        return outcome
+        return None
 
     question, q_reason = _choose_question(grounded, cfg)
     if not question:
         outcome["reason"] = q_reason
-        return outcome
+        return None
     outcome["question"] = question
+    return question
 
-    written, w_reason = _draft_article(grounded, opinions, question, cfg)
+
+def _draft_stage(st: dict, cfg, outcome: dict, question: str) -> dict | None:
+    """المرحلة السادسة: الصياغة — None يعني امتناعًا فوريًا."""
+    written, w_reason = _draft_article(st["grounded"], st["opinions"], question, cfg)
     if written is None:
         outcome["reason"] = w_reason
-        return outcome
+    return written
+
+
+def _post_draft_checks(st: dict, body: str, cfg, acfg, outcome: dict,
+                       question: str, written: dict) -> tuple[dict, str] | None:
+    """المرحلة السابعة: الأصالة والمصطلحات والنسبة والكيانات — None امتناع."""
+    grounded = st["grounded"]
+    opinions = st["opinions"]
+    all_read_docs = st["all_read_docs"]
 
     source_docs = [{"name": evidence._canonical_publisher(s["name"], cfg), "text": s["text"],
                    "link": s.get("link", "")}
@@ -3931,7 +4091,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     if jargon_retry["attempted"] and jargon_retry["remaining"]:
         outcome["reason"] = (f"مرحلة الصياغة — امتناع: مصطلحات من بنية النظام تسرّبت "
                              f"إلى المتن ({'، '.join(jargon_retry['remaining'])})")
-        return outcome
+        return None
 
     # النسبة الإلزامية لدرجتي ب/ج (Issue #835، البند 1) — فحص بنيوي لاحق
     # (_grade_attribution_ok) نظير القاعدة 9/_report_attribution_ok، لكن
@@ -3968,21 +4128,22 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
             missing_ids = {id(m["fact"]) for m in missing}
             attribution_retry["dropped_facts"] = [m["fact"]["text"] for m in missing]
             grounded = [g for g in grounded if id(g) not in missing_ids]
+            st["grounded"] = grounded
             outcome["grounded_count"] = len(grounded)
             outcome["attribution_retry"] = attribution_retry
             if not grounded:
                 outcome["reason"] = ("مرحلة الصياغة — امتناع: تعذّرت نسبة الواقعة "
                                      "الوحيدة المتاحة ولا وقائع أخرى للصياغة منها")
-                return outcome
+                return None
             question, q_reason = _choose_question(grounded, cfg)
             if not question:
                 outcome["reason"] = q_reason
-                return outcome
+                return None
             outcome["question"] = question
             written, w_reason = _draft_article(grounded, opinions, question, cfg)
             if written is None:
                 outcome["reason"] = w_reason
-                return outcome
+                return None
             draft_text = _draft_text_of(written)
             ok_orig, orig_reason, originality_notes, _off = _check_orig(draft_text)
             outcome["originality_notes"] = originality_notes
@@ -3990,7 +4151,7 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
                 written["post_body"], grounded, cfg)
             if not final_ok:
                 outcome["reason"] = f"مرحلة الصياغة — امتناع: {final_reason}"
-                return outcome
+                return None
     outcome["attribution_retry"] = attribution_retry
 
     # بلاغ لا رفض (طلب المراجعة، تشخيص Issue #373 الجولة السابعة عشرة،
@@ -4015,11 +4176,21 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
     attrib_ok, attrib_reason = _report_attribution_ok(written["post_body"], grounded)
     if not attrib_ok:
         outcome["reason"] = f"مرحلة الصياغة — امتناع: {attrib_reason}"
-        return outcome
+        return None
 
     if not ok_orig:
         outcome["reason"] = f"مرحلة الصياغة — امتناع: {orig_reason}"
-        return outcome
+        return None
+
+    return written, question
+
+
+def _build_draft_stage(st: dict, cfg, outcome: dict, issue_number: int,
+                       question: str, written: dict) -> dict:
+    """المرحلة الثامنة: العناوين والصورة والمسودة."""
+    grounded = st["grounded"]
+    sources_seen = st["sources_seen"]
+    reprint_image_pool = st["reprint_image_pool"]
 
     # عناوين مقترحة (Issue #756) -- بعد نجاح كل فحوص الصياغة/النسبة/الأصالة
     # (لا قيمة لعناوين مقال كان سيُرفض أصلًا)، بنفس آلية مسار التحليل: فشل
