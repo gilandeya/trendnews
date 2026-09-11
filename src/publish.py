@@ -473,6 +473,10 @@ def _open_final_review(primary_issue: int, draft_ids: list[str], cfg) -> None:
     if not rows:
         return
 
+    # تنازليًا بالدرجة للعرض فقط (Issue #874) — لا علاقة بترتيب القراءة
+    # أعلاه، المبني على draft_ids كما وردت من مربعات الاعتماد.
+    rows = review.sort_by_score(rows, key=lambda row: row[1])
+
     repo = env("GITHUB_REPOSITORY") or ""
     branch = os.environ.get("GITHUB_REF_NAME", "main")
     review.ensure_labels()

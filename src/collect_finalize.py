@@ -404,6 +404,9 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     # فشل بناء بطاقتها (أعلاه) لا تدخل هذا الـIssue أصلًا — بقيت pending
     # بلا image وعُلِّق بسببها على Issue الاختيار بدل ذلك.
     if card_drafts:
+        # تنازليًا بالدرجة للعرض فقط (Issue #874) — لا يمسّ ترتيب البناء
+        # أعلاه (بترتيب المرشحين كما وردت من مربعات الاختيار).
+        card_drafts = review.sort_by_score(card_drafts)
         repo = os.environ.get("GITHUB_REPOSITORY")
         if repo:
             review.ensure_labels()
