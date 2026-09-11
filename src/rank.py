@@ -131,7 +131,9 @@ def freshness(published: datetime, max_age_hours: int) -> float:
 
 def score_cluster(group: list[Article], max_age_hours: int,
                   trend: float = 0.0, trend_weight: float = 4.0,
-                  vel: dict | None = None, vel_weight: float = 5.0) -> float:
+                  vel: dict | None = None, vel_weight: float = 5.0,
+                  impact_weight: float = 0.0, proximity_weight: float = 0.0,
+                  intrigue_weight: float = 0.0) -> float:
     """
     مؤشر الترند =
         تغطية المصادر (لوغاريتمي)  ×3
@@ -141,11 +143,21 @@ def score_cluster(group: list[Article], max_age_hours: int,
       + توفّر صورة                 ×0.8
       + مطابقة Google Trends       ×trend_weight
       + سرعة الانتشار              ×vel_weight
+      + الأثر المعيشي (الأعلى في المجموعة)     ×impact_weight
+      + القرب الهوياتي (الأعلى في المجموعة)    ×proximity_weight
+      + قوة التشويق (الأعلى في المجموعة)       ×intrigue_weight
 
-    آخر إشارتين هما الأهم: الأولى *الطلب* (ما يبحث عنه الناس)، والثانية
-    *التسارع* (كم مصدرًا جديدًا التقط الخبر منذ آخر تشغيلة). خبر ثابت منذ
-    يومين يُخصم منه، مهما اتسعت تغطيته.
+    آخر إشارتين قبل عوامل الجذب هما الأهم: الأولى *الطلب* (ما يبحث عنه
+    الناس)، والثانية *التسارع* (كم مصدرًا جديدًا التقط الخبر منذ آخر
+    تشغيلة). خبر ثابت منذ يومين يُخصم منه، مهما اتسعت تغطيته.
     ويُخصم نصف نقطة إن كان كل مصادر الخبر إعلامًا رسميًا.
+
+    عوامل الجذب الثلاثة (Issue #876) تقدّرها screen.screen لكل خبر على
+    حدة (0-3، افتراضها صفر قبل الفرز أو عند فشله)؛ الأوزان الثلاثة
+    افتراضها صفر هنا أيضًا كي يبقى أي استدعاء لا يمرّرها محايدًا تمامًا
+    (config.yaml: selection.appeal هو من يفعّلها فعليًا). لمجموعة مدموجة
+    نأخذ أعلى قيمة لكل عامل على حدة — قوة المجموعة بأقوى أعضائها لا
+    بمتوسطهم، تمامًا كما يفعل top_weight/has_image أعلاه.
     """
     distinct_sources = len({a.source_name for a in group})
     distinct_regions = len({a.region for a in group})
@@ -153,6 +165,9 @@ def score_cluster(group: list[Article], max_age_hours: int,
     top_weight = max(a.weight for a in group)
     has_image = any(a.image_candidates for a in group)
     all_state = all(a.state_media for a in group)
+    top_impact = max(a.impact for a in group)
+    top_proximity = max(a.proximity for a in group)
+    top_intrigue = max(a.intrigue for a in group)
 
     return (
         3.0 * math.log2(1 + distinct_sources)
@@ -164,6 +179,9 @@ def score_cluster(group: list[Article], max_age_hours: int,
         + vel_weight * (vel or {}).get("velocity", 0.0)
         - (2.0 if (vel or {}).get("stale") else 0.0)
         - (0.5 if all_state else 0.0)
+        + impact_weight * top_impact
+        + proximity_weight * top_proximity
+        + intrigue_weight * top_intrigue
     )
 
 
@@ -247,6 +265,13 @@ def rank(articles: list[Article], selection: dict,
     diversity = bool(selection.get("region_diversity", True))
     per_region = int(selection.get("max_per_region", 3))
 
+    # عوامل الجذب التحريرية (Issue #876) — صفر افتراضًا فتبقى محايدة تمامًا
+    # لأي استدعاء (كالتحقق والمقال) لا يضبط selection.appeal في تهيئته.
+    appeal_cfg = selection.get("appeal", {}) or {}
+    impact_weight = float(appeal_cfg.get("impact_weight", 0.0))
+    proximity_weight = float(appeal_cfg.get("proximity_weight", 0.0))
+    intrigue_weight = float(appeal_cfg.get("intrigue_weight", 0.0))
+
     groups = cluster(articles, threshold, token_fn=token_fn or tokens)
     log.info("تم دمج %d خبر في %d موضوع", len(articles), len(groups))
 
@@ -265,7 +290,10 @@ def rank(articles: list[Article], selection: dict,
 
         rep.trend_score = trend
         rep.state_media = all(a.state_media for a in group)
-        rep.score = score_cluster(group, max_age, trend, trend_weight)
+        rep.score = score_cluster(
+            group, max_age, trend, trend_weight,
+            impact_weight=impact_weight, proximity_weight=proximity_weight,
+            intrigue_weight=intrigue_weight)
         rep.group_sources = len({a.source_name for a in group})
         ranked.append(rep)
 
@@ -283,7 +311,9 @@ def rank(articles: list[Article], selection: dict,
             # أعِد حساب الدرجات: تغيّرت أعداد المصادر بعد الدمج
             for art in ranked:
                 art.score = score_cluster(
-                    [art], max_age, art.trend_score, trend_weight)
+                    [art], max_age, art.trend_score, trend_weight,
+                    impact_weight=impact_weight, proximity_weight=proximity_weight,
+                    intrigue_weight=intrigue_weight)
                 art.score += 3.0 * math.log2(1 + max(art.group_sources - 1, 0))
 
     # ── السرعة: للمتصدّرين فقط ──

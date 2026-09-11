@@ -78,6 +78,10 @@ def build_candidate(art: Article) -> dict:
         "score": round(art.score, 2),
         "trend_score": round(art.trend_score, 2),
         "velocity": round(art.velocity, 2),
+        "impact": art.impact,
+        "proximity": art.proximity,
+        "intrigue": art.intrigue,
+        "appeal_note": art.appeal_note,
         "bucket": art.bucket,
         "state_media": art.state_media,
         "title": art.title,
@@ -225,6 +229,10 @@ def build_selection_issue_body(candidates: list[dict],
             badge += " · 🚀 ينتشر بسرعة"
         if c.get("state_media"):
             badge += " · ⚠️ إعلام رسمي/حكومي"
+        # عوامل الجذب التحريرية الثلاثة (Issue #876) — تظهر دومًا، حتى عند
+        # صفر، انظر التوثيق المقابل في review.py:build_issue_body.
+        badge += (f" · 💰 أثر {c.get('impact', 0)} · 🫱 قرب {c.get('proximity', 0)}"
+                  f" · ✨ تشويق {c.get('intrigue', 0)}")
 
         parts += [
             f"**{idx}. {c['title']}**  <!-- cand:{c['id']} -->",
@@ -238,6 +246,7 @@ def build_selection_issue_body(candidates: list[dict],
             f"  {badge} · مؤشر الترند `{c['score']:.1f}` · المصادر: "
             f"{'، '.join(c['publishers'][:3])}",
             "",
+            *([f"  <sub>{c['appeal_note']}</sub>", ""] if c.get("appeal_note") else []),
             f"  ↳ [الخبر الأصلي]({c['link']})",
             "",
             f"  - [ ] 🚀 انشر فورًا (صياغة ثم نشر مباشر بلا عرض)  "
