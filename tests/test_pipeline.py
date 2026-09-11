@@ -9,6 +9,7 @@ import inspect
 import json
 import logging
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -14276,6 +14277,344 @@ def test_open_review_excludes_youtube_and_broken_drafts() -> None:
           "https://cdn.example/raw-source.jpg" in body, body)
 
 
+def test_review_sort_by_score() -> None:
+    """Issue #874: العرض يُرتَّب تنازليًا بحقل ``score`` — لا بترتيب
+    القراءة من القرص. الشاهد الحرفي من الـIssue: مرشحون بدرجات 20.4، 29.8،
+    16.9، 17.9 كما وردوا من القرص يجب أن يظهروا 29.8، 20.4، 17.9، 16.9.
+    عنصر بلا درجة رقمية يُعامَل كأدنى قيمة (الذيل، بلا انهيار)، وعنصران
+    بنفس الدرجة يحتفظان بترتيبهما النسبي (استقرار ``sorted``)."""
+    rows = [
+        {"id": "a", "score": 20.4},
+        {"id": "b", "score": 29.8},
+        {"id": "c", "score": 16.9},
+        {"id": "d", "score": 17.9},
+    ]
+    ordered = review.sort_by_score(rows)
+    check("الشاهد الحرفي: 29.8 ثم 20.4 ثم 17.9 ثم 16.9",
+          [r["id"] for r in ordered] == ["b", "a", "d", "c"],
+          [r["id"] for r in ordered])
+
+    with_missing = [
+        {"id": "x", "score": 5.0},
+        {"id": "y"},  # بلا حقل score إطلاقًا
+        {"id": "z", "score": "غير رقمي"},  # درجة غير رقمية
+        {"id": "w", "score": 9.0},
+    ]
+    ordered2 = review.sort_by_score(with_missing)
+    check("عنصر بلا score رقمي يقع في الذيل بلا انهيار",
+          [r["id"] for r in ordered2] == ["w", "x", "y", "z"],
+          [r["id"] for r in ordered2])
+
+    tied = [
+        {"id": "first", "score": 5.0},
+        {"id": "second", "score": 5.0},
+        {"id": "third", "score": 5.0},
+    ]
+    ordered3 = review.sort_by_score(tied)
+    check("تعادل الدرجة يحافظ على الترتيب الأصلي (استقرار sorted)",
+          [r["id"] for r in ordered3] == ["first", "second", "third"],
+          [r["id"] for r in ordered3])
+
+    # عبر مفتاح غير مباشر (صفوف (path, dict) كما في open_review.py)
+    tuple_rows = [("pa", {"score": 1.0}), ("pb", {"score": 9.0})]
+    ordered4 = review.sort_by_score(tuple_rows, key=lambda row: row[1])
+    check("يعمل عبر key= لصفوف (path, dict)",
+          [p for p, _ in ordered4] == ["pb", "pa"], ordered4)
+
+
+def test_open_review_orders_drafts_by_score() -> None:
+    """Issue #874، الشاهد الحرفي: أربع مسودات بدرجات 20.4، 29.8، 16.9، 17.9
+    محفوظة بترتيب مسار ملف عشوائي يجب أن تظهر في نص Issue المراجعة الأولية
+    مرتَّبة تنازليًا 29.8، 20.4، 17.9، 16.9 -- لا بترتيب القراءة من القرص."""
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    def _draft(id_, score):
+        return {
+            "id": id_, "status": "pending", "score": score,
+            "arabic": {"post_title": f"خبر {id_}"}, "caption": "متن",
+            "source": {"link": f"https://example.com/{id_}", "publishers": ["Reuters"]},
+        }
+
+    # ترتيب الحفظ هنا هو نفسه ترتيب الشاهد في الـIssue (20.4 ثم 29.8 ثم
+    # 16.9 ثم 17.9) -- عمدًا مختلف عن ترتيب الدرجة، ليثبت أن الترتيب
+    # المعروض من الدرجة لا من ترتيب القراءة (مسار الملف).
+    ids_and_scores = [
+        ("dead0204", 20.4), ("dead0298", 29.8),
+        ("dead0169", 16.9), ("dead0179", 17.9),
+    ]
+    for id_, score in ids_and_scores:
+        store.save_draft(_draft(id_, score))
+
+    create_issue_calls: list = []
+
+    def fake_create_issue(title, body, labels=None):
+        create_issue_calls.append({"title": title, "body": body, "labels": labels})
+        return {"number": 874, "html_url": "https://github.com/u/r/issues/874"}
+
+    real_create_issue = review.create_issue
+    real_ensure_labels = review.ensure_labels
+    review.create_issue = fake_create_issue
+    review.ensure_labels = lambda: None
+
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    real_ref = os.environ.get("GITHUB_REF_NAME")
+    os.environ["GITHUB_REPOSITORY"] = "u/r"
+    os.environ["GITHUB_REF_NAME"] = "main"
+    try:
+        code = open_review.main()
+    finally:
+        review.create_issue = real_create_issue
+        review.ensure_labels = real_ensure_labels
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+        if real_ref is None:
+            os.environ.pop("GITHUB_REF_NAME", None)
+        else:
+            os.environ["GITHUB_REF_NAME"] = real_ref
+
+    check("open_review.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("Issue واحد فُتح", len(create_issue_calls) == 1, len(create_issue_calls))
+    body = create_issue_calls[0]["body"] if create_issue_calls else ""
+    check("المسودات مرتَّبة تنازليًا بالدرجة: 29.8 ثم 20.4 ثم 17.9 ثم 16.9",
+          review.all_draft_ids(body) ==
+          ["dead0298", "dead0204", "dead0179", "dead0169"],
+          review.all_draft_ids(body))
+
+
+def test_open_review_orders_candidates_by_score() -> None:
+    """نفس الشاهد الحرفي، لكن لمرشحي preselect (Issue الاختيار) -- عناوين
+    عربية عمدًا كي يتخطّى translate_titles الترجمة بلا استدعاء شبكة."""
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    shutil.rmtree(STATE_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    def _candidate(id_, score):
+        return {
+            "id": id_, "status": "pending", "title": f"عنوان خبر {id_}", "score": score,
+            "publishers": ["Reuters"], "link": f"https://example.com/{id_}",
+            "bucket": "serious",
+        }
+
+    ids_and_scores = [
+        ("cafe0204", 20.4), ("cafe0298", 29.8),
+        ("cafe0169", 16.9), ("cafe0179", 17.9),
+    ]
+    for id_, score in ids_and_scores:
+        store.save_candidate(_candidate(id_, score))
+
+    create_issue_calls: list = []
+
+    def fake_create_issue(title, body, labels=None):
+        create_issue_calls.append({"title": title, "body": body, "labels": labels})
+        return {"number": 875, "html_url": "https://github.com/u/r/issues/875"}
+
+    real_create_issue = review.create_issue
+    real_ensure_labels = review.ensure_labels
+    review.create_issue = fake_create_issue
+    review.ensure_labels = lambda: None
+
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    real_ref = os.environ.get("GITHUB_REF_NAME")
+    os.environ["GITHUB_REPOSITORY"] = "u/r"
+    os.environ["GITHUB_REF_NAME"] = "main"
+    try:
+        code = open_review.main()
+    finally:
+        review.create_issue = real_create_issue
+        review.ensure_labels = real_ensure_labels
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+        if real_ref is None:
+            os.environ.pop("GITHUB_REF_NAME", None)
+        else:
+            os.environ["GITHUB_REF_NAME"] = real_ref
+
+    check("open_review.main ينتهي بنجاح (مسار المرشحين)", code == 0, f"exit={code}")
+    check("Issue اختيار واحد فُتح", len(create_issue_calls) == 1, len(create_issue_calls))
+    body = create_issue_calls[0]["body"] if create_issue_calls else ""
+    cand_marker = re.compile(r"<!--\s*cand:([0-9a-zA-Z]+)\s*-->")
+    check("المرشحون مرتَّبون تنازليًا بالدرجة: 29.8 ثم 20.4 ثم 17.9 ثم 16.9",
+          cand_marker.findall(body) ==
+          ["cafe0298", "cafe0204", "cafe0179", "cafe0169"],
+          cand_marker.findall(body))
+
+
+def test_publish_final_review_orders_by_score() -> None:
+    """Issue #874: مسودات المراجعة النهائية (🎴) تُعرض مرتَّبة تنازليًا
+    بالدرجة أيضًا -- سواء عبر publish.py (مسار الاعتماد الأولي مع 🎴) أو
+    collect_finalize.py (مسار 🎴 المباشر من preselect)."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    def _draft(id_, score):
+        return {
+            "id": id_, "status": "pending", "score": score, "bucket": "serious",
+            "state_media": False, "origin": "news",
+            "caption": f"خبر {id_}\nمتن الخبر.",
+            "source": {"link": f"https://x/{id_}", "publishers": ["BBC"],
+                       "image_candidates": ["https://cdn.example/ok.jpg"]},
+            "arabic": {"post_title": f"خبر {id_}", "category": "", "urgent": False},
+        }
+
+    # ترتيب الحفظ (=ترتيب مسار الملف) مختلف عمدًا عن ترتيب الدرجة.
+    ids_and_scores = [
+        ("face0204", 20.4), ("face0298", 29.8),
+        ("face0169", 16.9), ("face0179", 17.9),
+    ]
+    drafts = [_draft(id_, score) for id_, score in ids_and_scores]
+    for d in drafts:
+        store.save_draft(d)
+
+    body = review.build_issue_body(drafts, "u/r", "main")
+    for d in drafts:
+        body = tick_marker(body, f"<!-- draft:{d['id']} -->")
+        body = tick_marker(body, f"<!-- card:{d['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    real_root = publish_mod.ROOT
+    real_comment = review.comment
+    real_create_issue = review.create_issue
+    real_ensure_labels = review.ensure_labels
+    publish_mod.ROOT = DRAFTS_DIR.parent
+
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}]}
+    review.comment = lambda issue_number, text: None
+    create_issue_calls: list = []
+
+    def fake_create_issue(title, body, labels=None):
+        create_issue_calls.append({"title": title, "body": body, "labels": labels})
+        return {"number": 9934, "html_url": "https://x/issues/9934"}
+
+    review.create_issue = fake_create_issue
+    review.ensure_labels = lambda: None
+
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+    sys.argv = ["publish", "--issue", "8859", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.ROOT = real_root
+        review.comment = real_comment
+        review.create_issue = real_create_issue
+        review.ensure_labels = real_ensure_labels
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("Issue مراجعة نهائي واحد فُتح", len(create_issue_calls) == 1, create_issue_calls)
+    body_out = create_issue_calls[0]["body"] if create_issue_calls else ""
+    check("مسودات المراجعة النهائية مرتَّبة تنازليًا بالدرجة: "
+          "29.8 ثم 20.4 ثم 17.9 ثم 16.9",
+          review.all_draft_ids(body_out) ==
+          ["face0298", "face0204", "face0179", "face0169"],
+          review.all_draft_ids(body_out))
+
+
+def test_collect_finalize_card_review_orders_by_score() -> None:
+    """Issue #874: نفس الترتيب التنازلي بالدرجة، لكن لمسار 🎴 المباشر من
+    Issue الاختيار (collect_finalize.py، لا publish.py)."""
+    from src import collect_finalize, preselect
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    shutil.rmtree(STATE_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    now = datetime.now(timezone.utc)
+
+    def _art(slug, title, score):
+        # art.score (لا حقل score في قاموس المرشح وحده) هو ما ينتقل فعليًا
+        # إلى حقل "score" في المسودة الناتجة (collect_finalize._build_draft:
+        # ``"score": round(art.score, 2)``) -- ضبطه هنا إلزامي، لا يكفي
+        # ضبط cand["score"] بعد بناء المرشح.
+        return Article(title=title, link=f"https://pre.example/{slug}",
+                       summary="", source_name=slug, region="rc", weight=1.0,
+                       published=now, bucket="serious", publisher=slug,
+                       image_url="https://cdn.example/card-source.jpg",
+                       score=score)
+
+    # ترتيب البناء/الحفظ هنا (20.4 ثم 29.8 ثم 16.9 ثم 17.9) هو نفسه الشاهد
+    # الحرفي في الـIssue، ومختلف عمدًا عن ترتيب الدرجة تنازليًا. معرّف
+    # المرشح (art.uid) يبقى كما بناه build_candidate -- الصياغة تُبقي نفس
+    # المعرّف للمسودة الناتجة (Issue #860)، فلا داعي لتخصيصه يدويًا.
+    specs = [("beef0204", 20.4), ("beef0298", 29.8),
+             ("beef0169", 16.9), ("beef0179", 17.9)]
+    cands = []
+    for slug, score in specs:
+        cand = preselect.build_candidate(_art(slug, f"خبر {slug}", score))
+        store.save_candidate(cand)
+        cands.append(cand)
+    expected_order = [c["id"] for c in
+                      sorted(cands, key=lambda c: c["score"], reverse=True)]
+
+    body = preselect.build_selection_issue_body(cands)
+    for c in cands:
+        body = tick_marker(body, f"sel-card:{c['id']}")
+
+    real_burst = publish_mod.cmd_burst
+    real_create_issue = review.create_issue
+    real_comment = review.comment
+    real_ensure_labels = review.ensure_labels
+    real_close_issue = review.close_issue
+    real_write = collect_finalize.write_arabic
+    publish_mod.cmd_burst = lambda *a, **kw: 0
+    collect_finalize.write_arabic = writer.write_arabic
+    create_issue_calls: list = []
+
+    def fake_create_issue(title, body, labels=None):
+        create_issue_calls.append({"title": title, "body": body, "labels": labels})
+        return {"number": 9945, "html_url": "https://x/issues/9945"}
+
+    review.create_issue = fake_create_issue
+    review.comment = lambda issue_number, text: None
+    review.ensure_labels = lambda: None
+    review.close_issue = lambda issue_number: None
+
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    real_ref = os.environ.get("GITHUB_REF_NAME")
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+    os.environ["GITHUB_REF_NAME"] = "main"
+    try:
+        code = collect_finalize.finalize(4874, body, load_config())
+    finally:
+        publish_mod.cmd_burst = real_burst
+        review.create_issue = real_create_issue
+        review.comment = real_comment
+        review.ensure_labels = real_ensure_labels
+        review.close_issue = real_close_issue
+        collect_finalize.write_arabic = real_write
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+        if real_ref is None:
+            os.environ.pop("GITHUB_REF_NAME", None)
+        else:
+            os.environ["GITHUB_REF_NAME"] = real_ref
+
+    check("collect_finalize.finalize ينتهي بنجاح", code == 0, f"exit={code}")
+    final_issue = next((c for c in create_issue_calls
+                        if c["labels"] == ["final-review"]), None)
+    check("Issue مراجعة نهائية بوسم final-review فُتح", final_issue is not None,
+          create_issue_calls)
+    if final_issue:
+        check("مسودات 🎴 مرتَّبة تنازليًا بالدرجة: 29.8 ثم 20.4 ثم 17.9 ثم 16.9",
+              review.all_draft_ids(final_issue["body"]) == expected_order,
+              review.all_draft_ids(final_issue["body"]))
+
+
 def test_origin_of_synonyms() -> None:
     """Issue #749: store.origin_of هي الدالّة الوحيدة التي تحسم أصل مسودة —
     بثلاثة مرادفات للقديم على القرص (لا تُعدَّل المسودات القديمة نفسها،
@@ -18239,6 +18578,12 @@ def main() -> int:
     test_publish_skips_broken_draft_without_stopping_batch()
     test_burst_skips_broken_draft_without_spacing_sleep()
     test_open_review_excludes_youtube_and_broken_drafts()
+    print("\n── ترتيب المرشحين والمسودات بالدرجة تنازليًا في العرض (Issue #874) ──")
+    test_review_sort_by_score()
+    test_open_review_orders_drafts_by_score()
+    test_open_review_orders_candidates_by_score()
+    test_publish_final_review_orders_by_score()
+    test_collect_finalize_card_review_orders_by_score()
     print("\n── حقل origin المعياري وstore.origin_of (Issue #749) ──")
     test_origin_of_synonyms()
     test_feedback_records_origin_and_screening_guidance_excludes_analysis()

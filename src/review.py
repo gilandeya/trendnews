@@ -39,6 +39,21 @@ def _headers() -> dict:
     }
 
 
+def sort_by_score(rows: list, key=lambda item: item) -> list:
+    """يرتّب صفوف عرض (مسودات أو مرشحين) تنازليًا بحقل ``score`` — نفس
+    الحقل المعروض للمراجع في نصّ الـIssue (Issue #874)، لا بترتيب القراءة
+    من القرص (بصمة زمنية عشوائية فعليًا في اسم الملف). عنصر بلا ``score``
+    رقمي يُعامَل كأدنى قيمة فيُوضع في الذيل بلا انهيار؛ ``sorted`` مستقرّ
+    في بايثون فالتعادل يحافظ على ترتيب القراءة الأصلي بين تشغيلتين."""
+    def score_of(item) -> float:
+        value = key(item).get("score")
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return float("-inf")
+    return sorted(rows, key=score_of, reverse=True)
+
+
 def raw_url(repo: str, branch: str, path: str) -> str:
     return f"https://raw.githubusercontent.com/{repo}/{branch}/{path}"
 

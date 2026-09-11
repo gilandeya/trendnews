@@ -67,14 +67,17 @@ def main() -> int:
     # أولًا ويُدرجها في Issue المراجعة العام خطأً — فتفشل build_issue_body بـ
     # KeyError وتُسقط الدفعة كلها (Issue #707). استبعادها هنا صراحة يمنع
     # ذلك دون أي تعديل على مسار التحليل نفسه.
-    fresh_drafts = _valid_review_drafts([
+    # الترتيب هنا بالدرجة تنازليًا لعرض المراجع، لا بترتيب القراءة من
+    # القرص (store.pending_drafts/pending_candidates يرتّبان بمسار الملف
+    # عمدًا لثباته — Issue #874؛ العرض وحده يُعاد ترتيبه، لا القراءة).
+    fresh_drafts = review.sort_by_score(_valid_review_drafts([
         (path, d) for path, d in store.pending_drafts()
         if not d.get("review_issue") and store.origin_of(d) != "analysis"
-    ])
-    fresh_candidates = [
+    ]), key=lambda row: row[1])
+    fresh_candidates = review.sort_by_score([
         (path, c) for path, c in store.pending_candidates()
         if not c.get("selection_issue")
-    ]
+    ], key=lambda row: row[1])
     if not fresh_drafts and not fresh_candidates:
         log.info("لا مسودات ولا مرشحين جدد يحتاجون فتح Issue")
         return 0
