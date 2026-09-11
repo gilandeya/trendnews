@@ -1662,6 +1662,131 @@ def test_preselect_finalize() -> None:
           updated_b and updated_b[1]["status"] == "unselected")
 
 
+def test_preselect_now_builds_card_before_publish() -> None:
+    """Issue #868: مسار 🚀 «انشر فورًا» يسلّم المعرّفات مباشرة إلى
+    publish.cmd_burst/cmd_now/cmd_schedule بلا مرور بـpublish.main (حيث
+    تُبنى البطاقة عمومًا عند الاعتماد، السطر ~745) — فكانت المسودة تخرج
+    بلا بطاقة، يرفضها publish._missing_draft_fields (الشاهد الحقيقي: «🚀
+    نُشر 0 من 1 · ❌ ... — حقول مفقودة: image»). الآن collect_finalize
+    يبني البطاقة صراحةً (cards.ensure) قبل تسليم المعرّف للنشر، بنفس نمط
+    مسار 🎴 (وradar.auto_publish) — فينشر فعليًا بلا رفض."""
+    from src import collect_finalize, preselect, review
+    from src import publish as publish_mod
+
+    now = datetime.now(timezone.utc)
+    art = Article(title="خبر عاجل يُنشر فورًا عبر 🚀", link="https://pre.example/nowcard-ok",
+                 summary="", source_name="NC", region="rn", weight=1.0,
+                 published=now, bucket="serious", publisher="NC",
+                 image_candidates=["https://cdn.example/nowcard-ok.jpg"])
+    cand = preselect.build_candidate(art)
+    store.save_candidate(cand)
+
+    body = preselect.build_selection_issue_body([cand])
+    marked = tick_marker(body, f"now:{cand['id']}")
+
+    real_comment = review.comment
+    real_close = review.close_issue
+    comment_calls: list = []
+    review.comment = lambda issue_number, text: comment_calls.append((issue_number, text))
+    review.close_issue = lambda issue_number: None
+
+    published_paths: list = []
+    real_publish_photo = facebook.publish_photo
+    real_root = publish_mod.ROOT
+    # publish_one يبني مسار الصورة عبر publish.ROOT (لا DRAFTS_DIR) —
+    # يجب توجيهه لمجلد الاختبار المؤقت (راجع test_radar_auto_publish_builds_card).
+    publish_mod.ROOT = DRAFTS_DIR.parent
+
+    def fake_publish_photo(image_path, caption, api_version, first_comment=None):
+        published_paths.append(image_path)
+        return {"url": "https://fb.example/nowcard", "id": "99"}
+
+    facebook.publish_photo = fake_publish_photo
+
+    try:
+        code = collect_finalize.finalize(4868, marked, load_config())
+    finally:
+        review.comment = real_comment
+        review.close_issue = real_close
+        facebook.publish_photo = real_publish_photo
+        publish_mod.ROOT = real_root
+
+    check("finalize انتهى بنجاح", code == 0, f"exit={code}")
+    check("نُشر فعلًا (لا رفض بحقول مفقودة)", len(published_paths) == 1, published_paths)
+
+    saved = store.load_draft(cand["id"])
+    check("المسودة محفوظة", saved is not None)
+    if saved:
+        check("البطاقة بُنيت فعلًا قبل النشر (حقل image ظهر — Issue #868)",
+              bool(saved[1].get("image")), saved[1].get("image"))
+        check("حالة المسودة published", saved[1].get("status") == "published",
+              saved[1].get("status"))
+
+    rejection_comments = [t for _, t in comment_calls if "حقول مفقودة" in t]
+    check("لا تعليق برفض بحقول مفقودة (الشاهد قبل الإصلاح)", rejection_comments == [],
+          rejection_comments)
+
+
+def test_preselect_now_card_build_failure_keeps_pending() -> None:
+    """Issue #868، الشق الثاني: فشل بناء البطاقة في مسار 🚀 لا يُسقط
+    المسودة ولا ينشرها بلا صورة — تبقى pending بلا image، لا تدخل
+    publish.cmd_burst إطلاقًا، ويُعلَّق بالسبب على Issue الاختيار باسمها
+    (فتلتقطها أقرب مراجعة أولية). نفس معالجة الفشل القائمة في مسار 🎴
+    حرفيًا (test_preselect_card_build_failure_keeps_pending)."""
+    from src import cards, collect_finalize, preselect, review
+    from src import publish as publish_mod
+
+    now = datetime.now(timezone.utc)
+    art = Article(title="خبر 🚀 تفشل صناعة بطاقته", link="https://pre.example/nowcard-fail",
+                 summary="", source_name="NF", region="rf", weight=1.0,
+                 published=now, bucket="serious", publisher="NF")
+    cand = preselect.build_candidate(art)
+    store.save_candidate(cand)
+
+    body = preselect.build_selection_issue_body([cand])
+    marked = tick_marker(body, f"now:{cand['id']}")
+
+    real_ensure = cards.ensure
+    ensure_calls: list = []
+    cards.ensure = lambda *a, **kw: (ensure_calls.append(1), None)[1]
+
+    comment_calls: list = []
+    real_comment = review.comment
+    review.comment = lambda issue_number, text: comment_calls.append((issue_number, text))
+
+    close_issue_calls: list = []
+    real_close = review.close_issue
+    review.close_issue = lambda issue_number: close_issue_calls.append(issue_number)
+
+    burst_calls: list = []
+    real_burst = publish_mod.cmd_burst
+    publish_mod.cmd_burst = lambda *a, **kw: burst_calls.append(a) or 0
+
+    try:
+        code = collect_finalize.finalize(4869, marked, load_config())
+    finally:
+        cards.ensure = real_ensure
+        review.comment = real_comment
+        review.close_issue = real_close
+        publish_mod.cmd_burst = real_burst
+
+    check("finalize انتهى بنجاح رغم فشل بناء البطاقة", code == 0, f"exit={code}")
+    check("cards.ensure استُدعيت فعلًا", ensure_calls == [1], ensure_calls)
+    check("لا نداء لـcmd_burst إطلاقًا — لا شيء يستحق النشر", burst_calls == [], burst_calls)
+
+    saved = store.load_draft(cand["id"])
+    check("المسودة صيغت فعلًا رغم فشل البطاقة", saved is not None)
+    if saved:
+        check("بقيت pending", saved[1].get("status") == "pending", saved[1].get("status"))
+        check("بلا حقل image", "image" not in saved[1], saved[1].get("image"))
+
+    failure_comments = [t for _, t in comment_calls if "تعذّر بناء بطاقة" in t]
+    check("عُلِّق بسبب فشل البطاقة على Issue الاختيار باسم المسودة",
+          len(failure_comments) == 1, comment_calls)
+    check("Issue الاختيار أُغلق (لا نشر مباشر متبقٍّ)",
+          close_issue_calls == [4869], close_issue_calls)
+
+
 def test_preselect_empty_selection_no_spend() -> None:
     """لا تعليم على أي مرشح = لا صياغة ولا نشر ولا إنفاق (Issue #280،
     البند 4). حتى وسم `approved` بالخطأ على Issue بلا أي تعليم يجب ألا
@@ -18007,6 +18132,8 @@ def main() -> int:
     test_preselect_no_spend_before_selection()
     test_preselect_no_duplicate_across_runs()
     test_preselect_finalize()
+    test_preselect_now_builds_card_before_publish()
+    test_preselect_now_card_build_failure_keeps_pending()
     test_preselect_empty_selection_no_spend()
     test_preselect_drops_stale_candidates()
     print("\n── مربعان لكل مرشح + ترجمة العناوين (Issue #319) ──")
