@@ -1,0 +1,61 @@
+{
+  "id": "ba6e95c289ba",
+  "created_at": "2026-09-11T06:07:51.456133+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.93,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "IRGC destroys US unmanned vessel in Strait of Hormuz",
+  "link": "https://en.mehrnews.com/news/247632/IRGC-destroys-US-unmanned-vessel-in-Strait-of-Hormuz",
+  "publishers": [
+    "Al Jazeera English",
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "IRGC destroys US unmanned vessel in Strait of Hormuz",
+    "link": "https://en.mehrnews.com/news/247632/IRGC-destroys-US-unmanned-vessel-in-Strait-of-Hormuz",
+    "summary": "TEHRAN, Sep. 10 (MNA) – The Islamic Revolutionary Guard Corps Navy said it struck and destroyed a U.S. unmanned surface vessel at the entrance to the Strait of Hormuz.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-10T17:44:42+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/10/4/6168863.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/liveblog/2026/9/11/iran-war-live-irgc-attacks-us-unmanned-vessel-in-hormuz-two-ships-hit?traffic_source=rss"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247632/IRGC-destroys-US-unmanned-vessel-in-Strait-of-Hormuz"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86260629/IRGC-destroys-US-unmanned-vessel-in-Strait-of-Hormuz"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/10/4/6168863.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/10/4/173099330.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 901.9121805275,
+    "is_stale": false,
+    "score": 17.929296595015323
+  }
+}
