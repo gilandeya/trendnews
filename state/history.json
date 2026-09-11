@@ -1,105 +1,5 @@
 [
   {
-    "score": 22.16,
-    "bucket": "serious",
-    "tokens": [
-      "afd",
-      "eastern",
-      "emerges",
-      "far",
-      "germany's",
-      "landslide",
-      "right",
-      "state",
-      "vote",
-      "winner"
-    ],
-    "link": "https://www.dawn.com/news/2027934/germanys-far-right-afd-emerges-as-landslide-winner-in-eastern-state-vote",
-    "title": "Germany's far-right AfD emerges as landslide winner in eastern state vote",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-06T18:08:13.495361+00:00"
-  },
-  {
-    "score": 14.96,
-    "bucket": "light",
-    "tokens": [
-      "alive",
-      "days",
-      "debris",
-      "devastating",
-      "floods",
-      "nepal",
-      "people",
-      "pull",
-      "rescuers"
-    ],
-    "link": "https://www.courthousenews.com/rescuers-in-nepal-pull-2-people-alive-from-the-debris-10-days-after-devastating-floods/",
-    "title": "Rescuers in Nepal pull 2 people alive from the debris 10 days after devastating floods",
-    "posted_title": "",
-    "region": "court",
-    "seen_at": "2026-09-06T18:08:13.495721+00:00"
-  },
-  {
-    "score": 11.67,
-    "bucket": "useful",
-    "tokens": [
-      "discover",
-      "problem",
-      "scientists",
-      "serious",
-      "sleep",
-      "trackers"
-    ],
-    "link": "https://www.sciencealert.com/scientists-discover-a-serious-problem-with-sleep-trackers",
-    "title": "Scientists Discover a Serious Problem With Sleep Trackers",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-09-06T18:08:13.496035+00:00"
-  },
-  {
-    "score": 11.12,
-    "bucket": "serious",
-    "tokens": [
-      "estrellan",
-      "gallos",
-      "jornada",
-      "los",
-      "sailgp",
-      "sin",
-      "una",
-      "valencia",
-      "viento"
-    ],
-    "link": "https://elpais.com/deportes/2026-09-06/los-gallos-se-estrellan-en-el-sailgp-de-valencia-en-una-jornada-sin-viento.html",
-    "title": "Los Gallos se estrellan en el SailGP de Valencia en una jornada sin viento",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-09-06T18:08:13.496313+00:00"
-  },
-  {
-    "score": 11.12,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "asante",
-      "debibi",
-      "debutants",
-      "four",
-      "goal",
-      "gpl",
-      "held",
-      "kotoko",
-      "thriller",
-      "united"
-    ],
-    "link": "https://www.myjoyonline.com/gpl-2026-27-asante-kotoko-held-by-debutants-debibi-united-in-four-goal-thriller/",
-    "title": "GPL 2026/27: Asante Kotoko held by debutants Debibi United in four-goal thriller",
-    "posted_title": "",
-    "region": "gh",
-    "seen_at": "2026-09-06T18:08:13.496571+00:00"
-  },
-  {
     "score": 11.67,
     "bucket": "useful",
     "tokens": [
@@ -5379,5 +5279,74 @@
     "posted_title": "",
     "region": "ng",
     "seen_at": "2026-09-11T18:07:59.590196+00:00"
+  },
+  {
+    "score": 25.78,
+    "bucket": "sport",
+    "tokens": [
+      "685",
+      "antonio",
+      "ban",
+      "football",
+      "holders",
+      "manchester",
+      "news",
+      "season",
+      "sign",
+      "ticket",
+      "touting",
+      "united",
+      "watford"
+    ],
+    "link": "https://www.theguardian.com/football/live/2026/sep/11/football-news-live-champions-league-review-weekend-preview",
+    "title": "Manchester United ban 685 season-ticket holders over touting; Watford sign Antonio: football news",
+    "posted_title": "مانشستر يونايتد يحظر 685 حساب تذاكر في حملة على المضاربة والاحتيال",
+    "region": "sport",
+    "seen_at": "2026-09-11T18:12:11.508953+00:00"
+  },
+  {
+    "score": 23.73,
+    "bucket": "serious",
+    "tokens": [
+      "americans",
+      "attacks",
+      "enduring",
+      "grief",
+      "mark",
+      "reflection",
+      "september",
+      "since",
+      "years"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-11-americans-to-mark-25-years-since-september-11-attacks-amid-enduring-grief-reflection/",
+    "title": "Americans to mark 25 years since September 11 attacks amid enduring grief, reflection",
+    "posted_title": "بعد 25 عامًا.. عائلات ضحايا 11 سبتمبر تقرأ أسماء ذويها في نيويورك من جديد",
+    "region": "za",
+    "seen_at": "2026-09-11T18:12:33.450821+00:00"
+  },
+  {
+    "score": 20.87,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "billion",
+      "coal",
+      "conflict",
+      "demand",
+      "due",
+      "east",
+      "forecast",
+      "global",
+      "iea",
+      "middle",
+      "record",
+      "rise",
+      "tonnes"
+    ],
+    "link": "https://www.myjoyonline.com/global-coal-demand-forecast-to-rise-by-1-2-in-2026-to-a-record-8-94-billion-tonnes-due-to-middle-east-conflict-iea-says/",
+    "title": "Global coal demand forecast to rise by 1.2% in 2026 to a record 8.94 billion tonnes due to Middle East conflict, IEA says",
+    "posted_title": "لماذا يتجه الطلب العالمي على الفحم نحو رقم قياسي جديد في 2026",
+    "region": "gh",
+    "seen_at": "2026-09-11T18:13:03.243659+00:00"
   }
 ]
