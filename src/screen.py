@@ -46,14 +46,44 @@ SYSTEM = """أنت محرر فرز في غرفة أخبار عربية شعبي�
 
 كن صارمًا: المرور مكلف، والاستبعاد مجاني. إن ترددت، استبعد.
 
-أخرج JSON فقط: {"keep": [أرقام العناوين المقبولة]}"""
+لكل عنوان يمرّ، قدّر ثلاثة عوامل جذب منفصلة — كل واحد عدد صحيح من 0 إلى 3،
+لا تدمجها في رقم واحد ولا توازن بينها ولا تعطِ رقمًا وسطًا. قدّر كلًّا على
+حدة: خبرٌ عالي القرب الهوياتي قد يكون صفرًا في الأثر المعيشي، والعكس:
+
+- impact — أثر مباشر على معيشة القارئ العربي: سعر سلعة أو وقود أو دواء،
+  تأشيرة أو سفر أو هجرة، وظيفة أو تحويلات، صحة عامة، طقس مدمّر، عملة
+  بلده. 0 = لا أثر يُذكر · 3 = يغيّر يومه أو جيبه فعلًا.
+- proximity — قرب هوياتي وعاطفي: العالم العربي والإسلامي، فلسطين، جاليات
+  عربية في المهجر، حروب وأزمات تمسّه بالنسب أو الدين أو التاريخ.
+  0 = بعيد تمامًا · 3 = يمسّه مباشرة.
+- intrigue — قوة التشويق: هل يوقف الإصبع عن التمرير؟ مفاجأة أو غرابة
+  موثَّقة أو سؤال يفتح فضولًا، بالدهشة لا بالإثارة. 0 = خبر روتيني ·
+  3 = يستوقف القارئ حتمًا. الاستبعادات أعلاه (المشاهير، الإثارة الرخيصة)
+  تُطبَّق أولًا وتبقى كما هي — هذا الحقل لا ينقضها.
+- appeal_note — سطر واحد يشرح أعلى الثلاثة عندك.
+
+أخرج JSON فقط بهذا الشكل، لكل عنوان مقبول عنصر واحد في kept:
+{"kept": [{"i": رقم العنوان, "impact": 0-3, "proximity": 0-3,
+"intrigue": 0-3, "appeal_note": "سطر قصير"}]}"""
 
 
 def _client() -> Anthropic:
     return Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
 
-def _parse(text: str) -> list[int]:
+def _clip03(value) -> int:
+    """يقصّ تقدير النموذج إلى المدى 0-3 — تحقّق برمجي لا ثقة بالطاعة،
+    فالنموذج قد يُخرج 5 أو -1 رغم التوجيه (Issue #876)."""
+    try:
+        n = int(value)
+    except (TypeError, ValueError):
+        return 0
+    return max(0, min(3, n))
+
+
+def _parse(text: str) -> dict[int, dict]:
+    """يعيد {رقم العنوان: {impact, proximity, intrigue, appeal_note}} لكل
+    عنصر في kept — حقل مفقود لعنصر بعينه يُعامَل كصفر بلا انهيار (Issue #876)."""
     text = re.sub(r"^```(?:json)?\s*|\s*```$", "", text.strip(), flags=re.MULTILINE)
     try:
         data = json.loads(text)
@@ -63,7 +93,17 @@ def _parse(text: str) -> list[int]:
         if start == -1 or end == -1:
             raise
         data = json.loads(text[start : end + 1])
-    return [int(i) for i in (data.get("keep") or [])]
+
+    out: dict[int, dict] = {}
+    for item in (data.get("kept") or []):
+        i = int(item["i"])
+        out[i] = {
+            "impact": _clip03(item.get("impact", 0)),
+            "proximity": _clip03(item.get("proximity", 0)),
+            "intrigue": _clip03(item.get("intrigue", 0)),
+            "appeal_note": str(item.get("appeal_note") or ""),
+        }
+    return out
 
 
 def screen(articles: list[Article], cfg, batch_size: int = 30,
@@ -130,11 +170,20 @@ def screen(articles: list[Article], cfg, batch_size: int = 30,
             record_usage(resp, model)
             text = "".join(b.text for b in resp.content
                            if getattr(b, "type", "") == "text")
-            indices = set(_parse(text))
-            passed = [a for i, a in enumerate(chunk) if i in indices]
+            appeal = _parse(text)
+            passed = []
+            for i, a in enumerate(chunk):
+                scores = appeal.get(i)
+                if scores is None:
+                    continue
+                a.impact = scores["impact"]
+                a.proximity = scores["proximity"]
+                a.intrigue = scores["intrigue"]
+                a.appeal_note = scores["appeal_note"]
+                passed.append(a)
             log.info("الفرز: مرّ %d من %d", len(passed), len(chunk))
             kept.extend(passed)
-        except (APIError, json.JSONDecodeError, ValueError) as exc:
+        except (APIError, json.JSONDecodeError, ValueError, KeyError, TypeError) as exc:
             log.warning("فشل الفرز — ستمر الدفعة كاملة: %s", exc)
             kept.extend(chunk)
 

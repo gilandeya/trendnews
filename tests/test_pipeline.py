@@ -1144,6 +1144,171 @@ def test_screen_merge_missing_api_key() -> None:
           [a.link for a in screened] == [a.link for a in arts])
 
 
+def test_appeal_factors() -> None:
+    """Issue #876: ثلاثة عوامل جذب تحريرية (impact/proximity/intrigue) +
+    appeal_note تُقرأ من رد نداء الفرز القائم (بلا نداء نموذج إضافي)،
+    تُحمل على Article، وتدخل rank.score_cluster وزنًا × الأعلى في المجموعة
+    المدموجة. تغطي: القراءة والقصّ 0-3، الفشل/غياب الحقول ⇒ أصفار بلا
+    انهيار، حياد الأوزان الصفرية، أخذ الأعلى لا المتوسط في المجموعة
+    المدموجة، تفوّق الأثر على فارق ترند أصغر، وظهور الشارات وappeal_note
+    في نصّي Issue الاختيار وIssue المراجعة الأولية."""
+    from anthropic import APIError
+    import httpx as _httpx
+
+    from src import preselect, screen as screen_mod
+    from src.rank import score_cluster
+
+    now = datetime.now(timezone.utc)
+
+    def art(title, link, **kw):
+        return Article(title=title, link=link, summary="s", source_name="X",
+                       region="r", weight=1.0, published=now, **kw)
+
+    class _Block:
+        def __init__(self, text):
+            self.type = "text"
+            self.text = text
+
+    class _Resp:
+        def __init__(self, content):
+            self.content = content
+
+    class _Messages:
+        def __init__(self, resp_or_raise):
+            self._resp_or_raise = resp_or_raise
+
+        def create(self, **kw):
+            if isinstance(self._resp_or_raise, Exception):
+                raise self._resp_or_raise
+            return self._resp_or_raise
+
+    class _FakeClient:
+        def __init__(self, resp_or_raise):
+            self.messages = _Messages(resp_or_raise)
+
+    real_client = screen_mod._client
+    scfg = {"screening": {"enabled": True, "use_feedback": False}}
+
+    # ── 1) قراءة الحقول من رد الفرز + قصّ القيم خارج المدى 0-3 ──
+    a0 = art("خبر عن وقود", "https://x/fuel")
+    a1 = art("خبر آخر مستبعد", "https://x/excluded")
+    resp = _Resp([_Block(json.dumps({"kept": [
+        {"i": 0, "impact": 5, "proximity": -1, "intrigue": 2,
+         "appeal_note": "سعر الوقود يرتفع مباشرة"},
+    ]}))])
+    screen_mod._client = lambda: _FakeClient(resp)
+    try:
+        out = screen_mod.screen([a0, a1], scfg)
+    finally:
+        screen_mod._client = real_client
+
+    check("الفرز يُبقي فقط ما ورد في kept", [a.link for a in out] == [a0.link],
+          [a.link for a in out])
+    check("impact يُقصّ من 5 إلى 3", a0.impact == 3, a0.impact)
+    check("proximity يُقصّ من -1 إلى 0", a0.proximity == 0, a0.proximity)
+    check("intrigue يُحمَل كما ورد ضمن المدى", a0.intrigue == 2, a0.intrigue)
+    check("appeal_note يُحمَل على Article", a0.appeal_note == "سعر الوقود يرتفع مباشرة",
+          a0.appeal_note)
+
+    # ── 2) عنصر kept بلا حقول (غياب جزئي) ⇒ أصفار بلا انهيار ──
+    a2 = art("خبر بلا تقدير كامل", "https://x/partial")
+    resp2 = _Resp([_Block(json.dumps({"kept": [{"i": 0}]}))])
+    screen_mod._client = lambda: _FakeClient(resp2)
+    try:
+        out2 = screen_mod.screen([a2], scfg)
+    finally:
+        screen_mod._client = real_client
+    check("غياب حقول التقدير داخل kept لا يُسقط الخبر ويعيد أصفارًا",
+          out2 == [a2] and (a2.impact, a2.proximity, a2.intrigue, a2.appeal_note)
+          == (0, 0, 0, ""), (a2.impact, a2.proximity, a2.intrigue, a2.appeal_note))
+
+    # ── 3) فشل نداء الفرز (عطل شبكة) ⇒ الدفعة كاملة أصفار بلا انهيار ──
+    a3 = art("خبر أثناء عطل الفرز", "https://x/apifail")
+    err = APIError("عطل شبكة اختباري",
+                   request=_httpx.Request("POST", "https://api.anthropic.com/v1/messages"),
+                   body=None)
+    screen_mod._client = lambda: _FakeClient(err)
+    try:
+        out3 = screen_mod.screen([a3], scfg)
+    finally:
+        screen_mod._client = real_client
+    check("فشل نداء الفرز لا يُسقط الخبر ويُبقيه بأصفار",
+          out3 == [a3] and (a3.impact, a3.proximity, a3.intrigue) == (0, 0, 0),
+          (a3.impact, a3.proximity, a3.intrigue))
+
+    # ── 4) الأوزان صفر ⇒ الدرجة مطابقة تمامًا لما قبل التغيير ──
+    art_appealing = art("خبر جذّاب لكن الأوزان صفر", "https://x/neutral",
+                        impact=3, proximity=3, intrigue=3)
+    score_zero_weights = score_cluster([art_appealing], 24, trend=0.2, trend_weight=4.0)
+    score_no_appeal_fields = score_cluster(
+        [art("خبر بلا عوامل جذب أصلًا", "https://x/plain")], 24, trend=0.2, trend_weight=4.0)
+    check("الأوزان الافتراضية صفر ⇒ حضور عوامل الجذب بلا أوزان لا يغيّر الدرجة",
+          abs(score_zero_weights - score_no_appeal_fields) < 1e-9,
+          (score_zero_weights, score_no_appeal_fields))
+
+    # ── 5) مجموعة مدموجة: يؤخذ الأعلى لكل عامل على حدة لا المتوسط ──
+    group = [
+        art("عضو 1", "https://x/g1", impact=1, proximity=0, intrigue=2),
+        art("عضو 2", "https://x/g2", impact=3, proximity=1, intrigue=0),
+        art("عضو 3", "https://x/g3", impact=2, proximity=3, intrigue=1),
+    ]
+    with_appeal = score_cluster(group, 24, impact_weight=1.0, proximity_weight=1.0,
+                                intrigue_weight=1.0)
+    without_appeal = score_cluster(group, 24)
+    # الأعلى في كل عامل: impact=3، proximity=3، intrigue=2 ⇒ إضافة 8، لا
+    # متوسط (الذي كان سيعطي 2 + 1.33 + 1 ≈ 4.33)
+    check("درجة المجموعة المدموجة تأخذ أعلى قيمة لكل عامل لا متوسطها",
+          abs((with_appeal - without_appeal) - 8.0) < 1e-9,
+          with_appeal - without_appeal)
+
+    # ── 6) خبر بأثر 3 يتقدّم على خبر بمؤشر ترند أعلى بنقطتين ──
+    art_impact = art("خبر مؤثر معيشيًا", "https://x/impactful", impact=3)
+    art_trending = art("خبر رائج بلا أثر معيشي", "https://x/trendy")
+    score_impact = score_cluster([art_impact], 24, trend=0.0, trend_weight=4.0,
+                                 impact_weight=1.0, proximity_weight=1.0, intrigue_weight=1.0)
+    # مؤشر ترند أعلى بـ 0.5 × وزن 4.0 = فارق نقطتين فقط، أقل من مساهمة
+    # impact_weight × impact = 1.0 × 3 = 3
+    score_trending = score_cluster([art_trending], 24, trend=0.5, trend_weight=4.0,
+                                   impact_weight=1.0, proximity_weight=1.0, intrigue_weight=1.0)
+    check("الأثر المعيشي (3) يتقدّم على فارق ترند أصغر (نقطتان)",
+          score_impact > score_trending, (score_impact, score_trending))
+
+    # ── 7) الشارات الثلاث وappeal_note تظهران في الواجهتين ──
+    draft = {
+        "id": "d1", "score": 20.0, "trend_score": 0.1, "velocity": 0.1,
+        "bucket": "serious", "is_followup": False, "analysed_sources": [],
+        "state_media": False, "impact": 3, "proximity": 2, "intrigue": 1,
+        "appeal_note": "يمسّ جيب القارئ مباشرة",
+        "arabic": {"urgent": False, "category": "اقتصاد", "post_title": "عنوان",
+                   "angle": "خبر"},
+        "source": {"publishers": ["Reuters"], "link": "https://x/impactful",
+                  "image_candidates": []},
+        "caption": "نص المنشور الكامل هنا بلا نقص.",
+        "headlines": [], "headline_selected": 0, "reel_spec": None,
+    }
+    review_body = review.build_issue_body([draft], "user/trendnews", "main")
+    check("Issue المراجعة الأولية يعرض شارات عوامل الجذب الثلاث",
+          "💰 أثر 3" in review_body and "🫱 قرب 2" in review_body
+          and "✨ تشويق 1" in review_body, review_body[:800])
+    check("Issue المراجعة الأولية يعرض appeal_note",
+          "يمسّ جيب القارئ مباشرة" in review_body, review_body[:800])
+
+    candidate = {
+        "id": "c1", "score": 20.0, "trend_score": 0.1, "velocity": 0.1,
+        "bucket": "serious", "state_media": False,
+        "impact": 3, "proximity": 2, "intrigue": 1,
+        "appeal_note": "يمسّ جيب القارئ مباشرة",
+        "title": "عنوان المرشح", "link": "https://x/impactful",
+        "publishers": ["Reuters"],
+    }
+    selection_body = preselect.build_selection_issue_body([candidate])
+    check("Issue الاختيار يعرض شارات عوامل الجذب الثلاث",
+          "💰 أثر 3" in selection_body and "🫱 قرب 2" in selection_body
+          and "✨ تشويق 1" in selection_body, selection_body[:800])
+    check("Issue الاختيار يعرض appeal_note",
+          "يمسّ جيب القارئ مباشرة" in selection_body, selection_body[:800])
+
+
 def test_radar_gate_check_dedupe() -> None:
     """Issue #303: التشخيص أثبت أن score/group_sources لا يميّزان تحديث
     خبر منشور عن خبر جديد فعلًا — بل مرفوضات الرادار كانت أعلى قليلًا في
@@ -18446,6 +18611,8 @@ def main() -> int:
     test_dedupe_threshold_separation()
     print("\n── تدهور آمن عند غياب مفتاح API ──")
     test_screen_merge_missing_api_key()
+    print("\n── عوامل الجذب التحريرية الثلاثة (Issue #876) ──")
+    test_appeal_factors()
     print("\n── كاشف تكرار النشر التلقائي (الرادار) ──")
     test_radar_gate_check_dedupe()
     test_radar_preselect_fallback()

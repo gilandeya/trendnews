@@ -362,6 +362,10 @@ def main() -> int:
                 "trend_score": round(art.trend_score, 2),
                 "velocity": round(art.velocity, 2),
                 "age_hours": round(art.age_hours, 1),
+                "impact": art.impact,
+                "proximity": art.proximity,
+                "intrigue": art.intrigue,
+                "appeal_note": art.appeal_note,
                 "is_followup": bool(prev_title),
                 "state_media": art.state_media,
                 "source": {

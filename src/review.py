@@ -113,6 +113,11 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             badge += " · 🏥 راجع الادعاءات الطبية"
         if d.get("analysed_sources"):
             badge += f" · 🔬 محلَّل من {len(d['analysed_sources'])} مصادر"
+        # عوامل الجذب التحريرية الثلاثة (Issue #876) — تظهر دومًا، حتى
+        # عند صفر، فالمراجع يحتاج رؤية غيابها كما يحتاج رؤية حضورها ليضبط
+        # الأوزان في config.yaml: selection.appeal بثقة.
+        badge += (f" · 💰 أثر {d.get('impact', 0)} · 🫱 قرب {d.get('proximity', 0)}"
+                  f" · ✨ تشويق {d.get('intrigue', 0)}")
 
         parts += [
             f"- [ ] **{idx}. {ar['post_title']}**  <!-- draft:{d['id']} -->",
@@ -136,6 +141,7 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             f"  {badge} · مؤشر الترند `{d['score']:.1f}` · المصادر: "
             f"{'، '.join(d['source']['publishers'][:3])}",
             "",
+            *([f"  <sub>{d['appeal_note']}</sub>", ""] if d.get("appeal_note") else []),
             f"  {image_source_line(d)}",
             "",
         ]
