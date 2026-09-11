@@ -14,7 +14,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-08-03T12:00:37.155014+00:00",
-  "last_seen": "2026-09-11T15:07:46.066723+00:00"
+  "last_seen": "2026-09-11T17:07:46.117716+00:00"
  },
  {
   "tokens": [
@@ -144,6 +144,7 @@
    "'nothing",
    "'october",
    "'on",
+   "'outnumbered'",
    "'pacemaker'",
    "'painful",
    "'patriotic'",
@@ -275,6 +276,7 @@
    "300",
    "300m",
    "30c",
+   "30m",
    "30pc",
    "33am",
    "34am",
@@ -366,6 +368,7 @@
    "acc",
    "accelerate",
    "accelerated",
+   "accelerates",
    "accept",
    "accepted",
    "accepts",
@@ -450,6 +453,7 @@
    "advisor",
    "advocacy",
    "advocate",
+   "advocates",
    "aerial",
    "aerobatic",
    "aerosols",
@@ -496,6 +500,7 @@
    "ago",
    "agoa",
    "agonising",
+   "agp",
    "agree",
    "agreement",
    "agreements",
@@ -564,6 +569,7 @@
    "aligns",
    "alive",
    "all",
+   "allah",
    "allegations",
    "allege",
    "alleged",
@@ -657,6 +663,7 @@
    "annual",
    "anonymous",
    "another",
+   "ansar",
    "answer",
    "answers",
    "anthropic",
@@ -746,6 +753,7 @@
    "arraign",
    "arrest",
    "arrested",
+   "arresting",
    "arrests",
    "arrhythmogenic",
    "arrival",
@@ -766,6 +774,7 @@
    "asean",
    "ash",
    "ashanti",
+   "ashrafi",
    "asia",
    "asiad",
    "asian",
@@ -857,6 +866,7 @@
    "avoid",
    "await",
    "awaited",
+   "awan",
    "award",
    "awards",
    "aware",
@@ -902,6 +912,7 @@
    "balogun",
    "baltimore",
    "ban",
+   "banco",
    "bandini",
    "bandit",
    "bandits",
@@ -1021,6 +1032,7 @@
    "between",
    "beyond",
    "bezengi",
+   "bharat",
    "bharu",
    "biannual",
    "biased",
@@ -1045,6 +1057,7 @@
    "biotech",
    "birmingham",
    "birth",
+   "bishkek",
    "bishop",
    "bitcoin",
    "bites",
@@ -1266,6 +1279,7 @@
    "buy",
    "buyers",
    "buying",
+   "buys",
    "byd",
    "byelection",
    "bypass",
@@ -1370,6 +1384,7 @@
    "catches",
    "catering",
    "cathay",
+   "cathedral",
    "catholic",
    "caught",
    "cause",
@@ -1395,6 +1410,7 @@
    "cells",
    "cellular",
    "celtic",
+   "cement",
    "censorship",
    "census",
    "cent",
@@ -1505,6 +1521,7 @@
    "choose",
    "chopper",
    "chp",
+   "christian",
    "christie",
    "chrome",
    "chromebook",
@@ -1633,6 +1650,8 @@
    "command",
    "commander",
    "commanders",
+   "commands",
+   "commemorate",
    "commence",
    "commends",
    "commentary",
@@ -1851,6 +1870,7 @@
    "craters",
    "create",
    "creating",
+   "creative",
    "creators",
    "credentials",
    "credible",
@@ -1869,6 +1889,7 @@
    "criticism",
    "criticizes",
    "critics",
+   "croatia",
    "crop",
    "crore",
    "cross",
@@ -1968,6 +1989,7 @@
    "dean",
    "death",
    "deaths",
+   "debanked",
    "debate",
    "debibi",
    "debt",
@@ -2120,10 +2142,12 @@
    "deterrent",
    "deterring",
    "detonated",
+   "detonation",
    "deuce",
    "develop",
    "developer",
    "developers",
+   "developing",
    "development",
    "developments",
    "device",
@@ -2159,8 +2183,10 @@
    "dim",
    "diminishing",
    "dimon",
+   "dino",
    "dion",
    "dip",
+   "diphtheria",
    "diplomacy",
    "diplomacy'",
    "diplomat",
@@ -2278,6 +2304,7 @@
    "doubts",
    "dover",
    "downed",
+   "download",
    "downplay",
    "downplays",
    "downs",
@@ -2326,11 +2353,13 @@
    "duo",
    "duped",
    "durban",
+   "durham",
    "during",
    "durk",
    "dutch",
    "duterte",
    "duty",
+   "dying",
    "dynamic",
    "dynamics",
    "dynasties",
@@ -2402,6 +2431,7 @@
    "elephant",
    "elevated",
    "eleven",
+   "eligible",
    "elite",
    "elon",
    "else",
@@ -2715,6 +2745,7 @@
    "ferdinand",
    "fernandes",
    "fernández",
+   "ferris",
    "ferry",
    "fertile",
    "fertiliser",
@@ -2788,6 +2819,7 @@
    "first",
    "first'",
    "fiscal",
+   "fishermen",
    "fit",
    "fitness",
    "five",
@@ -2884,6 +2916,7 @@
    "fortress",
    "fortunes",
    "forum",
+   "forward",
    "fosu",
    "fought",
    "foul",
@@ -2909,6 +2942,7 @@
    "fraud",
    "fraudulent",
    "free",
+   "freed",
    "freedom",
    "freedom'",
    "freeze",
@@ -3204,6 +3238,7 @@
    "handed",
    "handle",
    "handling",
+   "handoff",
    "handover",
    "hands",
    "hangars",
@@ -3218,6 +3253,7 @@
    "happiest",
    "happy",
    "harald",
+   "harald's",
    "haram",
    "hard",
    "hard'",
@@ -3240,6 +3276,7 @@
    "haul",
    "havoc",
    "hawaii",
+   "hawkish",
    "hawks",
    "hazara",
    "hazards",
@@ -3373,6 +3410,7 @@
    "hostile",
    "hostilities",
    "hosting",
+   "hosts",
    "hot",
    "hotel",
    "hotels",
@@ -3393,6 +3431,7 @@
    "hrw",
    "huawei",
    "hub",
+   "hubert",
    "huckabee",
    "huge",
    "hugging",
@@ -3543,6 +3582,7 @@
    "infrastructure",
    "initial",
    "initiative",
+   "initiatives",
    "injection",
    "injections",
    "injure",
@@ -3689,6 +3729,7 @@
    "ivory",
    "iwobi",
    "jackie",
+   "jackpot",
    "jackson",
    "jacob",
    "jaded",
@@ -3897,6 +3938,7 @@
    "lam",
    "laments",
    "lamine",
+   "lancashire",
    "land",
    "landfill",
    "landhi",
@@ -3911,6 +3953,7 @@
    "lanka",
    "lapses",
    "larak",
+   "large",
    "larger",
    "largest",
    "lassa",
@@ -3972,6 +4015,7 @@
    "left'",
    "leftovers",
    "legal",
+   "legalise",
    "legalizing",
    "legendary",
    "legends",
@@ -4050,6 +4094,7 @@
    "listening",
    "literacy",
    "literally",
+   "lithium",
    "litigation",
    "litre",
    "litres",
@@ -4170,6 +4215,7 @@
    "manchester",
    "mandab",
    "mandalay",
+   "mandapam",
    "mandatory",
    "mandeb",
    "manhunt",
@@ -4198,6 +4244,7 @@
    "maritim",
    "maritime",
    "mark",
+   "markers",
    "market",
    "marketplace",
    "markets",
@@ -4217,6 +4264,7 @@
    "massachusetts",
    "massacres",
    "massive",
+   "master",
    "masterclass",
    "match",
    "matches",
@@ -4275,6 +4323,7 @@
    "mega",
    "megapixels",
    "melaka",
+   "melaye",
    "melbourne",
    "melioidosis",
    "member",
@@ -4389,6 +4438,7 @@
    "mistake",
    "mistaken",
    "mistakenly",
+   "mistrust",
    "misusing",
    "mitochondrial",
    "mitsui",
@@ -4401,6 +4451,7 @@
    "mob",
    "mobile",
    "mobile's",
+   "mobilization",
    "mocha",
    "mocked",
    "mocks",
@@ -4473,6 +4524,7 @@
    "mozambique",
    "mpf",
    "mpox",
+   "mps",
    "mpumalanga",
    "msc",
    "mtn",
@@ -4646,6 +4698,7 @@
    "nominees",
    "non",
    "nonbank",
+   "nonsense",
    "normal",
    "normalisation",
    "normalised",
@@ -4658,6 +4711,7 @@
    "northern",
    "northwestern",
    "norway",
+   "norway's",
    "norwegian",
    "norwegians",
    "norwich",
@@ -4677,8 +4731,10 @@
    "npf",
    "npp",
    "nqakula",
+   "nsa",
    "nsmq",
    "nuclear",
+   "nucleus",
    "nude",
    "nuke",
    "nukes",
@@ -4780,6 +4836,7 @@
    "opposes",
    "opposing",
    "opposition",
+   "oppression",
    "ops",
    "opt",
    "optics",
@@ -5080,6 +5137,7 @@
    "plunging",
    "pmdc",
    "pmi",
+   "pmnc",
    "pochettino",
    "pocket",
    "podcast",
@@ -5154,6 +5212,7 @@
    "praise",
    "praised",
    "praises",
+   "prayer",
    "pre",
    "precheck",
    "precious",
@@ -5259,6 +5318,7 @@
    "promises",
    "promising",
    "promote",
+   "promoted",
    "promotion",
    "prompting",
    "promptly",
@@ -5440,6 +5500,7 @@
    "ravaged",
    "rawalpindi",
    "raza",
+   "razaullah",
    "rbi",
    "rci",
    "reach",
@@ -5489,6 +5550,7 @@
    "recommendations",
    "recommends",
    "recon",
+   "reconciliation",
    "reconnaissance",
    "reconstructing",
    "reconstruction",
@@ -5514,6 +5576,7 @@
    "reduce",
    "reduced",
    "reducing",
+   "reed",
    "reef",
    "reefs",
    "reels",
@@ -5527,8 +5590,10 @@
    "reform",
    "reforms",
    "refugee",
+   "refunds",
    "refused",
    "refuses",
+   "refusing",
    "reg",
    "regarding",
    "regime",
@@ -5779,6 +5844,7 @@
    "rm4",
    "rm582m",
    "rm6",
+   "rm65",
    "rm83b",
    "rna",
    "rnc",
@@ -5849,6 +5915,7 @@
    "ruler",
    "rules",
    "ruling",
+   "rumors",
    "run",
    "running",
    "runs",
@@ -6079,7 +6146,9 @@
    "settler",
    "settlers",
    "settles",
+   "setup",
    "seven",
+   "seventh",
    "sever",
    "several",
    "severe",
@@ -6248,6 +6317,7 @@
    "slides",
    "slightly",
    "slips",
+   "slogans",
    "slop",
    "slovan",
    "slow",
@@ -6360,6 +6430,7 @@
    "spend",
    "spending",
    "spider",
+   "spike",
    "spikes",
    "spill",
    "spin",
@@ -6406,6 +6477,7 @@
    "stabilisation",
    "stability",
    "stabilization",
+   "stabs",
    "stack",
    "stacked",
    "stacks",
@@ -6579,6 +6651,7 @@
    "sudden",
    "sue",
    "sues",
+   "suffer",
    "suffers",
    "sufficiency",
    "sufficient",
@@ -6664,6 +6737,7 @@
    "sweet'",
    "swells",
    "swelter",
+   "sweltering",
    "swelters",
    "swept",
    "swiatek",
@@ -6762,6 +6836,7 @@
    "teens",
    "tehran",
    "tehran's",
+   "telco",
    "telecom",
    "tell",
    "tells",
@@ -6772,6 +6847,7 @@
    "ten",
    "tennis",
    "tens",
+   "tense",
    "tension",
    "tensions",
    "tent",
@@ -6798,6 +6874,7 @@
    "thailand",
    "thais",
    "thanked",
+   "thankful",
    "thanks",
    "thaw",
    "theatre",
@@ -7268,6 +7345,7 @@
    "vital",
    "vladimir",
    "voice",
+   "voices",
    "volatility",
    "volcanic",
    "volcano",
@@ -7312,6 +7390,7 @@
    "wallabies",
    "wallaby",
    "wallet",
+   "walter",
    "wanes",
    "wang",
    "want",
@@ -7391,6 +7470,7 @@
    "wellens",
    "wells",
    "went",
+   "weren't",
    "west",
    "westbury",
    "western",
@@ -7401,6 +7481,7 @@
    "what's",
    "whatever",
    "wheat",
+   "wheel",
    "wheeze",
    "when",
    "where",
@@ -7529,6 +7610,7 @@
    "yen",
    "yeoh",
    "yeol",
+   "yes",
    "yet",
    "yields",
    "yongbyon",
@@ -7542,6 +7624,7 @@
    "youth",
    "youtube",
    "yusuf",
+   "zacc",
    "zahid",
    "zainol",
    "zambia",
@@ -7563,6 +7646,7 @@
    "zohran",
    "zone",
    "zone'",
+   "zulu",
    "zverev",
    "équation",
    "şimşek"
@@ -7570,7 +7654,7 @@
   "sources": 1,
   "peak": 18,
   "first_seen": "2026-08-04T16:13:00.329821+00:00",
-  "last_seen": "2026-09-11T15:07:46.827372+00:00"
+  "last_seen": "2026-09-11T17:07:46.718208+00:00"
  },
  {
   "tokens": [
@@ -8191,7 +8275,7 @@
   "sources": 1,
   "peak": 3,
   "first_seen": "2026-08-17T15:07:40.135291+00:00",
-  "last_seen": "2026-09-11T15:07:46.825936+00:00"
+  "last_seen": "2026-09-11T17:07:46.642847+00:00"
  },
  {
   "tokens": [
@@ -8267,7 +8351,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-08-24T12:11:14.905538+00:00",
-  "last_seen": "2026-09-11T15:07:45.931305+00:00"
+  "last_seen": "2026-09-11T17:07:46.047285+00:00"
  },
  {
   "tokens": [
@@ -9559,25 +9643,6 @@
  },
  {
   "tokens": [
-   "apnea",
-   "aren't",
-   "cases",
-   "chatbots",
-   "patients",
-   "reassure",
-   "serious",
-   "sleep",
-   "symptoms",
-   "third",
-   "wrongly"
-  ],
-  "sources": 2,
-  "peak": 2,
-  "first_seen": "2026-09-06T12:07:39.911595+00:00",
-  "last_seen": "2026-09-07T15:07:52.204755+00:00"
- },
- {
-  "tokens": [
    "barcelona",
    "barça",
    "directo",
@@ -9616,7 +9681,7 @@
   "sources": 1,
   "peak": 2,
   "first_seen": "2026-09-06T15:07:44.721442+00:00",
-  "last_seen": "2026-09-11T15:07:46.120765+00:00"
+  "last_seen": "2026-09-11T17:07:46.134818+00:00"
  },
  {
   "tokens": [
@@ -9831,24 +9896,6 @@
  },
  {
   "tokens": [
-   "burial",
-   "continues",
-   "drc",
-   "ebola",
-   "spread",
-   "team",
-   "threats",
-   "under",
-   "virus",
-   "works"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-06T17:07:41.772018+00:00",
-  "last_seen": "2026-09-07T15:07:52.276986+00:00"
- },
- {
-  "tokens": [
    "amarilla",
    "casa",
    "cinta",
@@ -9983,25 +10030,6 @@
  },
  {
   "tokens": [
-   "ante",
-   "con",
-   "espanyol",
-   "infarto",
-   "menos",
-   "punto",
-   "que",
-   "rescata",
-   "resistió",
-   "sevilla",
-   "uno"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-06T22:07:39.928802+00:00",
-  "last_seen": "2026-09-07T15:07:51.668474+00:00"
- },
- {
-  "tokens": [
    "'não",
    "2026",
    "alcance'",
@@ -10079,25 +10107,6 @@
   "peak": 2,
   "first_seen": "2026-09-06T22:07:40.213410+00:00",
   "last_seen": "2026-09-10T19:07:37.452956+00:00"
- },
- {
-  "tokens": [
-   "address",
-   "denosa",
-   "department",
-   "failures",
-   "gauteng",
-   "health",
-   "mounting",
-   "system",
-   "talks",
-   "union",
-   "urges"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-06T22:07:40.426612+00:00",
-  "last_seen": "2026-09-07T15:07:52.248650+00:00"
  },
  {
   "tokens": [
@@ -10218,38 +10227,6 @@
   "peak": 1,
   "first_seen": "2026-09-07T03:07:55.584758+00:00",
   "last_seen": "2026-09-08T06:07:53.251635+00:00"
- },
- {
-  "tokens": [
-   "entry",
-   "line",
-   "makes",
-   "naver's",
-   "public",
-   "sector",
-   "taiwan's",
-   "works"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T03:07:55.614334+00:00",
-  "last_seen": "2026-09-07T15:07:52.245993+00:00"
- },
- {
-  "tokens": [
-   "african",
-   "ambitions",
-   "citrus",
-   "exporters",
-   "india",
-   "juice",
-   "markets",
-   "south"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T03:07:55.616867+00:00",
-  "last_seen": "2026-09-07T15:07:52.100332+00:00"
  },
  {
   "tokens": [
@@ -10376,25 +10353,6 @@
  },
  {
   "tokens": [
-   "belgrade",
-   "convicted",
-   "criminal",
-   "crowds",
-   "funeral",
-   "gather",
-   "mladic",
-   "mladic's",
-   "ratko",
-   "thousands",
-   "war"
-  ],
-  "sources": 3,
-  "peak": 5,
-  "first_seen": "2026-09-07T09:07:43.404773+00:00",
-  "last_seen": "2026-09-07T15:07:51.755702+00:00"
- },
- {
-  "tokens": [
    "apple",
    "competition",
    "foldable",
@@ -10408,21 +10366,6 @@
   "peak": 2,
   "first_seen": "2026-09-07T09:07:43.587942+00:00",
   "last_seen": "2026-09-07T22:07:46.877235+00:00"
- },
- {
-  "tokens": [
-   "can",
-   "cancer",
-   "dogs",
-   "hunt",
-   "india",
-   "joins",
-   "sniff"
-  ],
-  "sources": 2,
-  "peak": 2,
-  "first_seen": "2026-09-07T09:07:43.631261+00:00",
-  "last_seen": "2026-09-07T15:07:51.705157+00:00"
  },
  {
   "tokens": [
@@ -10497,28 +10440,6 @@
   "peak": 2,
   "first_seen": "2026-09-07T09:07:44.018932+00:00",
   "last_seen": "2026-09-07T18:07:57.319830+00:00"
- },
- {
-  "tokens": [
-   "california",
-   "crash",
-   "danna",
-   "eady",
-   "flight",
-   "fresno",
-   "identified",
-   "instructor",
-   "pavel",
-   "plane",
-   "remus",
-   "sons",
-   "victims",
-   "who"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T09:07:44.041780+00:00",
-  "last_seen": "2026-09-07T15:07:52.349641+00:00"
  },
  {
   "tokens": [
@@ -10608,22 +10529,6 @@
   "peak": 3,
   "first_seen": "2026-09-07T12:07:48.582928+00:00",
   "last_seen": "2026-09-08T09:07:43.273489+00:00"
- },
- {
-  "tokens": [
-   "concerns",
-   "curb",
-   "holiday",
-   "moves",
-   "overtourism",
-   "rentals",
-   "shinjuku",
-   "tokyo"
-  ],
-  "sources": 2,
-  "peak": 2,
-  "first_seen": "2026-09-07T12:07:48.675448+00:00",
-  "last_seen": "2026-09-07T15:07:51.982870+00:00"
  },
  {
   "tokens": [
@@ -10779,25 +10684,6 @@
  },
  {
   "tokens": [
-   "başı",
-   "bin",
-   "bir",
-   "bulundu",
-   "daha",
-   "döneminden",
-   "eros",
-   "roma",
-   "sürpriz",
-   "yaklaşık",
-   "yıllık"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T12:07:49.199646+00:00",
-  "last_seen": "2026-09-07T15:07:52.159783+00:00"
- },
- {
-  "tokens": [
    "barack",
    "capacity",
    "day",
@@ -10812,21 +10698,6 @@
   "peak": 1,
   "first_seen": "2026-09-07T12:07:49.207052+00:00",
   "last_seen": "2026-09-07T18:07:57.547070+00:00"
- },
- {
-  "tokens": [
-   "ball",
-   "coaching",
-   "england's",
-   "joins",
-   "pietersen",
-   "team",
-   "white"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T12:07:49.322105+00:00",
-  "last_seen": "2026-09-07T15:07:52.044041+00:00"
  },
  {
   "tokens": [
@@ -10855,44 +10726,6 @@
   "peak": 1,
   "first_seen": "2026-09-07T12:07:49.509098+00:00",
   "last_seen": "2026-09-07T19:08:02.994596+00:00"
- },
- {
-  "tokens": [
-   "chicken",
-   "expand",
-   "first",
-   "jos",
-   "open",
-   "outlet",
-   "piexpress",
-   "plateau",
-   "presence",
-   "republic",
-   "state"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:51.647366+00:00",
-  "last_seen": "2026-09-07T15:07:51.647366+00:00"
- },
- {
-  "tokens": [
-   "barents",
-   "conducts",
-   "fleet",
-   "frigate",
-   "launch",
-   "missile",
-   "northern",
-   "oniks",
-   "russia",
-   "sea",
-   "training"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:51.686355+00:00",
-  "last_seen": "2026-09-07T15:07:51.686355+00:00"
  },
  {
   "tokens": [
@@ -11056,67 +10889,6 @@
  },
  {
   "tokens": [
-   "apply",
-   "chuxing",
-   "didi",
-   "driverless",
-   "giant",
-   "hailing",
-   "hong",
-   "kong",
-   "ride",
-   "test",
-   "vehicles"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:51.784184+00:00",
-  "last_seen": "2026-09-07T15:07:51.784184+00:00"
- },
- {
-  "tokens": [
-   "contrefaçon",
-   "fermeture",
-   "haut",
-   "justice",
-   "lieu",
-   "marché",
-   "marseille",
-   "ordonne",
-   "soleil"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:51.787003+00:00",
-  "last_seen": "2026-09-07T15:07:51.787003+00:00"
- },
- {
-  "tokens": [
-   "braderie",
-   "clubs",
-   "contraints",
-   "français",
-   "grande",
-   "jamais",
-   "jeunes",
-   "les",
-   "leurs",
-   "ligue",
-   "lille",
-   "marseille",
-   "meilleurs",
-   "plus",
-   "que",
-   "sont",
-   "vendre"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:51.789762+00:00",
-  "last_seen": "2026-09-07T15:07:51.789762+00:00"
- },
- {
-  "tokens": [
    "bring",
    "céline",
    "dion",
@@ -11216,37 +10988,6 @@
  },
  {
   "tokens": [
-   "cbn",
-   "collaboration",
-   "delivery",
-   "enhanced",
-   "oou",
-   "service",
-   "strengthens"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:51.864757+00:00",
-  "last_seen": "2026-09-07T15:07:51.864757+00:00"
- },
- {
-  "tokens": [
-   "billion",
-   "breaking",
-   "dangote",
-   "ipo",
-   "minimum",
-   "refinery",
-   "sets",
-   "subscription"
-  ],
-  "sources": 2,
-  "peak": 2,
-  "first_seen": "2026-09-07T15:07:51.881141+00:00",
-  "last_seen": "2026-09-07T15:07:51.881141+00:00"
- },
- {
-  "tokens": [
    "'ai",
    "death",
    "dolly",
@@ -11262,22 +11003,6 @@
   "peak": 2,
   "first_seen": "2026-09-07T15:07:51.895549+00:00",
   "last_seen": "2026-09-08T06:07:53.598147+00:00"
- },
- {
-  "tokens": [
-   "adeboye",
-   "give",
-   "legal",
-   "pray",
-   "professionals",
-   "rejoice",
-   "tells",
-   "thanks"
-  ],
-  "sources": 2,
-  "peak": 2,
-  "first_seen": "2026-09-07T15:07:51.909932+00:00",
-  "last_seen": "2026-09-07T15:07:51.909932+00:00"
  },
  {
   "tokens": [
@@ -11330,19 +11055,6 @@
  },
  {
   "tokens": [
-   "calls",
-   "fury",
-   "looking",
-   "opponent",
-   "usyk"
-  ],
-  "sources": 2,
-  "peak": 2,
-  "first_seen": "2026-09-07T15:07:51.966895+00:00",
-  "last_seen": "2026-09-07T15:07:51.966895+00:00"
- },
- {
-  "tokens": [
    "administrative",
    "destiny",
    "mqm",
@@ -11354,44 +11066,6 @@
   "peak": 1,
   "first_seen": "2026-09-07T15:07:52.046659+00:00",
   "last_seen": "2026-09-07T17:07:47.677623+00:00"
- },
- {
-  "tokens": [
-   "backlash",
-   "dominance",
-   "drive",
-   "end",
-   "ethanol",
-   "gasoline's",
-   "hybrids",
-   "india"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:52.077990+00:00",
-  "last_seen": "2026-09-07T15:07:52.077990+00:00"
- },
- {
-  "tokens": [
-   "amazon",
-   "este",
-   "euros",
-   "favoritos",
-   "fit",
-   "hombre",
-   "los",
-   "menos",
-   "pantalón",
-   "para",
-   "por",
-   "slim",
-   "uno",
-   "vaquero"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:52.115990+00:00",
-  "last_seen": "2026-09-07T15:07:52.115990+00:00"
  },
  {
   "tokens": [
@@ -11408,37 +11082,6 @@
   "peak": 1,
   "first_seen": "2026-09-07T15:07:52.183618+00:00",
   "last_seen": "2026-09-07T17:07:47.755683+00:00"
- },
- {
-  "tokens": [
-   "chi",
-   "city",
-   "delays",
-   "emission",
-   "low",
-   "minh",
-   "months",
-   "rollout",
-   "zone"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:52.211065+00:00",
-  "last_seen": "2026-09-07T15:07:52.211065+00:00"
- },
- {
-  "tokens": [
-   "'no",
-   "bearing'",
-   "claims",
-   "india",
-   "kashmir",
-   "status"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:52.233472+00:00",
-  "last_seen": "2026-09-07T15:07:52.233472+00:00"
  },
  {
   "tokens": [
@@ -11539,22 +11182,6 @@
   "peak": 2,
   "first_seen": "2026-09-07T15:07:52.287918+00:00",
   "last_seen": "2026-09-08T19:07:56.041553+00:00"
- },
- {
-  "tokens": [
-   "camden",
-   "councillor",
-   "fight",
-   "green",
-   "polanski",
-   "run",
-   "seat",
-   "starmer"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:52.290610+00:00",
-  "last_seen": "2026-09-07T15:07:52.290610+00:00"
  },
  {
   "tokens": [
@@ -11739,45 +11366,6 @@
   "peak": 1,
   "first_seen": "2026-09-07T15:07:52.358785+00:00",
   "last_seen": "2026-09-07T17:07:47.478690+00:00"
- },
- {
-  "tokens": [
-   "briefly",
-   "detain",
-   "family",
-   "held",
-   "hostage",
-   "karachi",
-   "members",
-   "pakistani",
-   "pirates",
-   "police",
-   "protesting",
-   "sailors",
-   "somali"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:52.361678+00:00",
-  "last_seen": "2026-09-07T15:07:52.361678+00:00"
- },
- {
-  "tokens": [
-   "die",
-   "eine",
-   "euro",
-   "filmbranche",
-   "frankreich",
-   "investieren",
-   "milliarde",
-   "südkorea",
-   "und",
-   "wollen"
-  ],
-  "sources": 1,
-  "peak": 1,
-  "first_seen": "2026-09-07T15:07:52.368029+00:00",
-  "last_seen": "2026-09-07T15:07:52.368029+00:00"
  },
  {
   "tokens": [
@@ -22601,12 +22189,13 @@
    "mais",
    "paulo",
    "sarampo",
-   "são"
+   "são",
+   "total"
   ],
-  "sources": 1,
-  "peak": 1,
+  "sources": 2,
+  "peak": 2,
   "first_seen": "2026-09-10T03:07:44.647654+00:00",
-  "last_seen": "2026-09-10T03:07:44.647654+00:00"
+  "last_seen": "2026-09-11T17:07:46.354919+00:00"
  },
  {
   "tokens": [
@@ -23838,7 +23427,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-10T15:07:46.601233+00:00",
-  "last_seen": "2026-09-11T15:07:46.174105+00:00"
+  "last_seen": "2026-09-11T17:07:46.163506+00:00"
  },
  {
   "tokens": [
@@ -24709,7 +24298,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-10T18:07:44.795403+00:00",
-  "last_seen": "2026-09-11T15:07:46.780981+00:00"
+  "last_seen": "2026-09-11T17:07:46.608974+00:00"
  },
  {
   "tokens": [
@@ -25979,7 +25568,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-11T03:07:56.627277+00:00",
-  "last_seen": "2026-09-11T15:07:46.195122+00:00"
+  "last_seen": "2026-09-11T17:07:46.170639+00:00"
  },
  {
   "tokens": [
@@ -26405,7 +25994,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-11T06:07:44.423303+00:00",
-  "last_seen": "2026-09-11T15:07:46.629961+00:00"
+  "last_seen": "2026-09-11T17:07:46.496610+00:00"
  },
  {
   "tokens": [
@@ -26425,7 +26014,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-11T06:07:44.655918+00:00",
-  "last_seen": "2026-09-11T15:07:46.608613+00:00"
+  "last_seen": "2026-09-11T17:07:46.486565+00:00"
  },
  {
   "tokens": [
@@ -26531,7 +26120,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-11T09:07:46.407913+00:00",
-  "last_seen": "2026-09-11T15:07:46.057409+00:00"
+  "last_seen": "2026-09-11T17:07:46.110769+00:00"
  },
  {
   "tokens": [
@@ -26622,7 +26211,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-11T09:07:46.713032+00:00",
-  "last_seen": "2026-09-11T15:07:46.328294+00:00"
+  "last_seen": "2026-09-11T17:07:46.281902+00:00"
  },
  {
   "tokens": [
@@ -26658,7 +26247,7 @@
   "sources": 3,
   "peak": 3,
   "first_seen": "2026-09-11T09:07:46.902168+00:00",
-  "last_seen": "2026-09-11T15:07:46.069728+00:00"
+  "last_seen": "2026-09-11T17:07:46.121769+00:00"
  },
  {
   "tokens": [
@@ -26674,7 +26263,7 @@
   "sources": 1,
   "peak": 2,
   "first_seen": "2026-09-11T09:07:46.910372+00:00",
-  "last_seen": "2026-09-11T15:07:46.679857+00:00"
+  "last_seen": "2026-09-11T17:07:46.531498+00:00"
  },
  {
   "tokens": [
@@ -26793,7 +26382,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-11T12:07:46.850966+00:00",
-  "last_seen": "2026-09-11T15:07:46.126099+00:00"
+  "last_seen": "2026-09-11T17:07:46.138886+00:00"
  },
  {
   "tokens": [
@@ -26807,7 +26396,7 @@
   "sources": 2,
   "peak": 3,
   "first_seen": "2026-09-11T12:07:46.966655+00:00",
-  "last_seen": "2026-09-11T15:07:46.361672+00:00"
+  "last_seen": "2026-09-11T17:07:46.331251+00:00"
  },
  {
   "tokens": [
@@ -26995,7 +26584,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-11T12:07:47.336035+00:00",
-  "last_seen": "2026-09-11T15:07:46.678265+00:00"
+  "last_seen": "2026-09-11T17:07:46.527407+00:00"
  },
  {
   "tokens": [
@@ -27086,7 +26675,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-11T15:07:46.039510+00:00",
-  "last_seen": "2026-09-11T15:07:46.039510+00:00"
+  "last_seen": "2026-09-11T17:07:46.103878+00:00"
  },
  {
   "tokens": [
@@ -27147,7 +26736,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-11T15:07:46.309683+00:00",
-  "last_seen": "2026-09-11T15:07:46.309683+00:00"
+  "last_seen": "2026-09-11T17:07:46.096890+00:00"
  },
  {
   "tokens": [
@@ -27163,7 +26752,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-11T15:07:46.343072+00:00",
-  "last_seen": "2026-09-11T15:07:46.343072+00:00"
+  "last_seen": "2026-09-11T17:07:46.291848+00:00"
  },
  {
   "tokens": [
@@ -27181,7 +26770,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-11T15:07:46.595332+00:00",
-  "last_seen": "2026-09-11T15:07:46.595332+00:00"
+  "last_seen": "2026-09-11T17:07:46.476556+00:00"
  },
  {
   "tokens": [
@@ -27201,5 +26790,147 @@
   "peak": 2,
   "first_seen": "2026-09-11T15:07:46.664589+00:00",
   "last_seen": "2026-09-11T15:07:46.664589+00:00"
+ },
+ {
+  "tokens": [
+   "algérie",
+   "croissante",
+   "inquiétude",
+   "par",
+   "pays",
+   "tunisie",
+   "une",
+   "vassalisation"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-11T17:07:46.089820+00:00",
+  "last_seen": "2026-09-11T17:07:46.089820+00:00"
+ },
+ {
+  "tokens": [
+   "bab",
+   "die",
+   "droht",
+   "mandab",
+   "nadelöhr",
+   "nahen",
+   "nächste",
+   "osten",
+   "seeblockade"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-11T17:07:46.239427+00:00",
+  "last_seen": "2026-09-11T17:07:46.239427+00:00"
+ },
+ {
+  "tokens": [
+   "airport",
+   "dolly",
+   "nashville",
+   "parton",
+   "renamed"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-11T17:07:46.335213+00:00",
+  "last_seen": "2026-09-11T17:07:46.335213+00:00"
+ },
+ {
+  "tokens": [
+   "airways",
+   "defunct",
+   "n18bn",
+   "nigeria",
+   "pays",
+   "staff"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-11T17:07:46.353855+00:00",
+  "last_seen": "2026-09-11T17:07:46.353855+00:00"
+ },
+ {
+  "tokens": [
+   "caiado",
+   "diagnóstico",
+   "internado",
+   "pneumonia",
+   "recebe",
+   "ronaldo"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-11T17:07:46.373665+00:00",
+  "last_seen": "2026-09-11T17:07:46.373665+00:00"
+ },
+ {
+  "tokens": [
+   "donate",
+   "equipment",
+   "gcb",
+   "hospital",
+   "ketu",
+   "maternity",
+   "municipal",
+   "south",
+   "staff"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-11T17:07:46.433987+00:00",
+  "last_seen": "2026-09-11T17:07:46.433987+00:00"
+ },
+ {
+  "tokens": [
+   "fallen",
+   "families",
+   "imo",
+   "insurance",
+   "n26",
+   "officers",
+   "payout",
+   "police",
+   "present"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-11T17:07:46.556344+00:00",
+  "last_seen": "2026-09-11T17:07:46.556344+00:00"
+ },
+ {
+  "tokens": [
+   "afghanistan",
+   "back",
+   "bin",
+   "haven",
+   "laden",
+   "look",
+   "osama",
+   "safe"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-11T17:07:46.584314+00:00",
+  "last_seen": "2026-09-11T17:07:46.584314+00:00"
+ },
+ {
+  "tokens": [
+   "ali",
+   "ambassador",
+   "asad",
+   "china",
+   "dar",
+   "gilani",
+   "hashmi",
+   "khalil",
+   "pakistan",
+   "succeed"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-11T17:07:46.664895+00:00",
+  "last_seen": "2026-09-11T17:07:46.664895+00:00"
  }
 ]

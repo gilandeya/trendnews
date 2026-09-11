@@ -1,0 +1,74 @@
+{
+  "id": "59b02151e868",
+  "created_at": "2026-09-11T17:07:52.720365+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.67,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Philippines ferry fire death toll rises to 35 after bodies recovered",
+  "link": "https://www.aljazeera.com/news/2026/9/11/philippines-ferry-fire-death-toll-rises-to-35-after-bodies-recovered?traffic_source=rss",
+  "publishers": [
+    "AP News",
+    "Al Jazeera English",
+    "CBS News — World",
+    "Rappler",
+    "South China Morning Post"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Philippines ferry fire death toll rises to 35 after bodies recovered",
+    "link": "https://www.aljazeera.com/news/2026/9/11/philippines-ferry-fire-death-toll-rises-to-35-after-bodies-recovered?traffic_source=rss",
+    "summary": "Coast Guard says 30 more bodies recovered after five people were initially confirmed dead in Wednesday's disaster.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-11T15:41:54+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "AP News",
+      "Al Jazeera English",
+      "CBS News — World",
+      "Rappler",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/11/philippines-ferry-fire-death-toll-rises-to-35-after-bodies-recovered?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/southeast-asia/article/3367240/philippine-rescuers-find-charred-remains-burned-ferry?utm_source=rss_feed"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/philippines/luzon/palawan-ferry-fire-death-toll-september-11-2026/"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/ferry-fire-philippines-missing-search-rescues-dead/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 912.9127291152778,
+    "is_stale": false,
+    "score": 20.67037641451394,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
