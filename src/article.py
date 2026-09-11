@@ -3844,9 +3844,15 @@ def _write_article(body: str, issue_number: int, cfg) -> dict:
         ]))
 
     def _check_orig(candidate_text: str):
+        # grounded_texts يُقرأ من `grounded` الحيّة عند كل نداء (لا نسخة
+        # مجمَّدة عند تعريف الإغلاق) — الإسناد اللاحق `grounded = [...]`
+        # عند إسقاط وقائع غير منسوبة (البند 1 أعلاه) يجب أن ينعكس هنا فورًا:
+        # واقعة أُسقطت لم تعد "أُعطيت للكاتب" فعلًا، فلا يصح أن تبقى تُعفي
+        # تتابعًا (Issue #865)
         return verify_draft._check_originality_full(
             candidate_text, body, source_docs, max_shared,
-            repeat_min_count=repeat_min_count, extra_docs=extra_docs, min_core=trim_min_core)
+            repeat_min_count=repeat_min_count, extra_docs=extra_docs, min_core=trim_min_core,
+            grounded_texts=[g["text"] for g in grounded])
 
     draft_text = _draft_text_of(written)
     ok_orig, orig_reason, originality_notes, offending = _check_orig(draft_text)

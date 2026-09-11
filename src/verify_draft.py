@@ -394,6 +394,33 @@ def _name_link_exempt(window: tuple[str, ...], only_name: str,
     return None
 
 
+def _grounded_exempt(window: tuple[str, ...], grounded_word_lists: list[list[str]]) -> bool:
+    """الإعفاء الرابع (Issue #865، شاهد تشغيلة مضيق هرمز): article.py يُلزم
+    الكاتب بالبناء على وقائع مسندة بعينها (`_facts_block` تُدرجها حرفيًا في
+    مدخل الصياغة) — فتتابع من `draft_text` وارد بالكامل داخل نص واحدة من
+    هذه الوقائع («أعلن أمين المجلس الأعلى للأمن القومي الإيراني...») ليس
+    نسخًا من مصدر، بل استعمالًا لِما أُلزِم الكاتب باستعماله؛ الكاتب لا خيار
+    له في اجتناب لفظ منصب رسمي بالضبط. خلافًا لإشارتَي (أ)/(ب) وإعفاءات
+    التقليم/الكمّية/ربط التسمية، لا تُشترَط هنا أي إعادة تكرار أو ورود في
+    وثيقة أخرى ولا تُقلَّم النافذة: الورود الحرفي داخل نص الواقعة المسندة
+    نفسها دليل قائم بذاته، مصدره الوقائع لا الاستدلال عليها.
+
+    مقيَّد عمدًا بوثائق `grounded_texts` وحدها (يمرّرها `article._check_orig`
+    من `grounded` الفعلية عند كل استدعاء، فتعكس أي إسقاط لاحق لوقائع) — لا
+    يُعمَّم لأي نص مصدر عمومًا، وإلا أبطل الفحص كله (تعليق الطلب الأصلي على
+    Issue #865)؛ تتابع من وثيقة مصدر غير وارد في أي واقعة مسندة يبقى رفضًا
+    كما كان."""
+    needle = list(window)
+    return any(_contains_run(words, needle) for words in grounded_word_lists)
+
+
+def _grounded_note(only_name: str, n: int, phrase: str) -> str:
+    return (f"⚠️ تطابق لفظي مع مصدر واحد ({only_name}) على {n} كلمة متتالية — "
+           f"«{phrase}» — مُعفى: التتابع وارد حرفيًا في واقعة مسندة أُعطيت "
+           f"للكاتب في مدخل الصياغة، لا نسخًا عن المصدر (الإعفاء الرابع — "
+           f"واقعة مسندة)")
+
+
 def _name_link_note(only_name: str, n: int, phrase: str, left_words: tuple[str, ...],
                     right_words: tuple[str, ...], core: list[str], signal: str,
                     evidence_name: str, evidence_count: int | None) -> str:
@@ -490,7 +517,8 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
 
 def _check_originality_full(draft_text: str, article_body: str, source_docs: list[dict],
                             max_shared_run_words: int, *, repeat_min_count: int = 2,
-                            extra_docs: list[dict] | None = None, min_core: int = 5
+                            extra_docs: list[dict] | None = None, min_core: int = 5,
+                            grounded_texts: list[str] | None = None
                             ) -> tuple[bool, str, list[str], dict | None]:
     """يتحقق أن نص المسودة لا يحمل نسخًا حرفيًا من المقال الملصق ولا من
     مقتطفات المصادر المؤكِّدة (تعليق الموافقة على Issue #334، نقطة 3):
@@ -584,6 +612,18 @@ def _check_originality_full(draft_text: str, article_body: str, source_docs: lis
     إطلاقًا حين لا تحمل النافذة كلمة ربط تسمية (لا خطر على جملة سردية
     عادية بلا تسمية بديلة).
 
+    الإعفاء الرابع — واقعة مسندة (Issue #865): `grounded_texts` (اختياري،
+    None افتراضيًا فلا يغيّر شيئًا في أي مستدعٍ قائم لا يمرّره) نصوص الوقائع
+    المسندة التي أُعطيت للكاتب فعلًا في مدخل الصياغة (`article._check_orig`
+    يمرّرها من `grounded` الحيّة). نافذة فشلت التقليم/الكمّية/ربط التسمية
+    الثلاثة أعلاه قد تكون مع ذلك مجرد استعمال حرفي لمنصب/عبارة رسمية وردت
+    في نص واقعة مسندة بعينها — لا نسخًا عن مصدر، بل ما أُلزِم الكاتب
+    باستعماله (`_grounded_exempt`). لا تقليم ولا اشتراط تكرار أو وثيقة
+    أخرى هنا: الورود الحرفي داخل نص الواقعة نفسها كافٍ وحده. مقيَّد بمصادر
+    `grounded_texts` حصرًا — تتابع من وثيقة مصدر لا يظهر في أي واقعة مسندة
+    يبقى مرفوضًا كما كان، ولا يمسّ هذا فرع تطابق المقال الملصق (`article_body`)
+    بتاتًا، فقط فرع تطابق مصدر واحد.
+
     عند الرفض النهائي (بلا أي إعفاء نجح) على تتابع من مصدر واحد أو من
     المقال الملصق، رسالة السبب تُرفَق بأول جملة خام تحوي التتابع كاملة —
     لا التتابع المقتطَع (7 كلمات) وحده — عبر `_sentence_containing`
@@ -623,6 +663,7 @@ def _check_originality_full(draft_text: str, article_body: str, source_docs: lis
                              for d in source_docs]
         extra_word_lists = [(d["name"], _normalized_words(d.get("text", "")))
                             for d in (extra_docs or [])]
+        grounded_word_lists = [_normalized_words(t) for t in (grounded_texts or []) if t]
         source_counts = [(name, _ngram_counts(words, n)) for name, words in source_word_lists]
         extra_counts = [(name, _ngram_counts(words, n)) for name, words in extra_word_lists]
         for i in range(len(candidate_words) - n + 1):
@@ -675,6 +716,11 @@ def _check_originality_full(draft_text: str, article_body: str, source_docs: lis
                     core, left_words, right_words, signal, ev_name, ev_count = name_link
                     note = _name_link_note(only_name, n, phrase, left_words, right_words,
                                            core, signal, ev_name, ev_count)
+                    if note not in notes:
+                        notes.append(note)
+                    continue
+                if grounded_word_lists and _grounded_exempt(window, grounded_word_lists):
+                    note = _grounded_note(only_name, n, phrase)
                     if note not in notes:
                         notes.append(note)
                     continue

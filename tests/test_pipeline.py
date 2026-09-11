@@ -5828,6 +5828,63 @@ def test_check_originality_name_link() -> None:
           ok_nom is False and notes_nom == [], (ok_nom, reason_nom, notes_nom))
 
 
+def test_check_originality_grounded() -> None:
+    """الإعفاء الرابع (Issue #865، شاهد تشغيلة مضيق هرمز): المقال يُبنى
+    إلزامًا على وقائع مسندة أُعطيت للكاتب حرفيًا في مدخل الصياغة
+    (`article._facts_block`) — فتتابع من هذه الوقائع نفسها (لا صياغة
+    اختيارية، مثل منصب رسمي باسم صاحبه) لا يجوز أن يُرفض بوصفه نسخًا عن
+    المصدر الذي استُخرجت منه. `grounded_texts` معامل اختياري جديد في
+    `_check_originality_full` وحدها — `check_originality` العامة (3-tuple)
+    تبقى بلا تغيير سلوكي حين لا يُمرَّر."""
+    from src import verify_draft
+
+    # الشاهد الحرفي المُبلَّغ بالضبط: سبع كلمات، منصب رسمي باسم صاحبه، لا
+    # صياغة بديلة له
+    run = "أعلن أمين المجلس الأعلى للأمن القومي الإيراني"
+    draft = f"{run} تصريحات مهمة اليوم بشأن مضيق هرمز."
+    single_source = [{"name": "وكالة إيرانية",
+                      "text": f"وذكرت وكالة الأنباء أن {run} في تصريح رسمي اليوم.",
+                      "link": "https://ir-agency/1"}]
+    grounded_texts = [
+        f"{run} محسن رضائي أن إيران ستقيم منطقة محظورة في مضيق هرمز.",
+    ]
+
+    ok_g, reason_g, notes_g, offending_g = verify_draft._check_originality_full(
+        draft, "", single_source, 7, grounded_texts=grounded_texts)
+    check("تتابع مخالف وارد بالكامل في واقعة مسندة مُمرَّرة ⇒ يُعفى والمقال يمرّ "
+          "(شاهد مضيق هرمز الحرفي)",
+          ok_g is True and offending_g is None, (ok_g, reason_g))
+    check("الإعفاء الرابع مُسجَّل صراحة في notes — لا إسقاط صامت",
+          bool(notes_g) and "واقعة مسندة" in notes_g[0] and "الإعفاء الرابع" in notes_g[0],
+          notes_g)
+
+    # نفس التتابع تمامًا بلا تمرير grounded_texts ⇒ يُرفض كما اليوم (لا
+    # تكرار داخل نفس المصدر، ولا وثيقة أخرى، ولا نواة تقليم/كمية/ربط تسمية)
+    ok_no_g, reason_no_g, notes_no_g = verify_draft.check_originality(
+        draft, "", single_source, 7)
+    check("نفس التتابع بلا تمرير grounded_texts ⇒ يُرفض كما اليوم — بلا تغيير "
+          "سلوكي في المعامل الاختياري الغائب",
+          ok_no_g is False and notes_no_g == [], (ok_no_g, reason_no_g))
+
+    # تتابع من وثيقة مصدر غير وارد في أي واقعة مسندة يبقى رفضًا رغم تمرير
+    # grounded_texts (مقيَّد بالوقائع المسندة فعلًا — لا إعفاء عام لكل نص مصدر)
+    unrelated_grounded = ["نص واقعة مسندة أخرى لا صلة له بالتتابع المرفوض إطلاقًا."]
+    ok_unrelated, reason_unrelated, notes_unrelated, _off = verify_draft._check_originality_full(
+        draft, "", single_source, 7, grounded_texts=unrelated_grounded)
+    check("تتابع من وثيقة مصدر غير وارد في أي واقعة مسندة ⇒ يُرفض رغم تمرير "
+          "grounded_texts (الإعفاء مقيَّد بالوقائع المسندة نفسها لا كل نص)",
+          ok_unrelated is False and notes_unrelated == [], (ok_unrelated, reason_unrelated))
+
+    # ضابط: الإعفاء لا يمسّ فرع تطابق المقال الملصق (article_body) — تتابع
+    # وارد في الموجز الملصق يبقى مرفوضًا حتى مع grounded_texts تحمله، لأن
+    # هذا الفرع فحص مختلف كليًا (القاعدة 1: لا نقل حرفي عن المقال الملصق)
+    ok_brief, reason_brief, _notes_brief, offending_brief = verify_draft._check_originality_full(
+        draft, f"نُشر أن {run} في وكالات الأنباء.", [], 7, grounded_texts=grounded_texts)
+    check("الإعفاء الرابع لا يمسّ فرع تطابق المقال الملصق — يبقى رفضًا كما كان",
+          ok_brief is False and offending_brief is not None and
+          offending_brief["match_kind"] == "brief", (ok_brief, reason_brief))
+
+
 def test_check_originality_offending() -> None:
     """`_check_originality_full` (تشخيص Issue #373، تعليق العطل الحادي
     والعشرون، البند 2) تُعيد قيمة رابعة `offending` — التتابع المخالف
@@ -17990,6 +18047,8 @@ def main() -> int:
     test_check_originality_quantity()
     print("\n── فحص الأصالة: نواة ربط تسمية (تعليق الموافقة السادس عشر) ──")
     test_check_originality_name_link()
+    print("\n── فحص الأصالة: الإعفاء الرابع — واقعة مسندة أُعطيت للكاتب ──")
+    test_check_originality_grounded()
     print("\n── فحص الأصالة: القيمة الرابعة offending لمحاولة صياغة ثانية ──")
     test_check_originality_offending()
     print("\n── محرك البحث والقراءة المشترك (evidence.py) ──")
