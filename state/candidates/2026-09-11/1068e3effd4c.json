@@ -1,0 +1,64 @@
+{
+  "id": "1068e3effd4c",
+  "created_at": "2026-09-11T19:07:52.875221+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.77,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Brazil election challenger Bolsonaro under investigation over alleged corruption in Banco Master case",
+  "link": "https://www.investing.com/news/economy-news/brazilian-top-court-unseals-probe-into-multibilliondollar-bank-fraud-4897803",
+  "publishers": [
+    "Investing.com — الاقتصاد",
+    "Reuters",
+    "South China Morning Post"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Brazil election challenger Bolsonaro under investigation over alleged corruption in Banco Master case",
+    "link": "https://www.investing.com/news/economy-news/brazilian-top-court-unseals-probe-into-multibilliondollar-bank-fraud-4897803",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-09-11T17:06:29+00:00",
+    "image_url": "https://content-media.investing.com/trkd-images/LYNXMPEM8A0Z6_L.jpg",
+    "publisher": "Investing.com — الاقتصاد",
+    "cluster_sources": [
+      "Investing.com — الاقتصاد",
+      "Reuters",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/americas/article/3367262/brazils-flavio-bolsonaro-under-investigation-over-alleged-corruption?utm_source=rss_feed"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/brazilian-top-court-unseals-probe-into-multibilliondollar-bank-fraud-4897803"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/trkd-images/LYNXMPEM8A0Z6_L.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 914.9127699816667,
+    "is_stale": false,
+    "score": 18.770125500459763,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

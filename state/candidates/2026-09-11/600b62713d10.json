@@ -1,0 +1,94 @@
+{
+  "id": "600b62713d10",
+  "created_at": "2026-09-11T19:07:52.872707+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.93,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "PM Meets Iran's Pezeshkian, Reiterates Need For Dialogue, Open Sea Routes",
+  "link": "https://www.ndtv.com/world-news/amid-iran-crisis-pm-modi-pezeshkian-to-hold-bilateral-meet-shortly-12033962#publisher=newsstand",
+  "publishers": [
+    "Al Jazeera English",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Iranian Foreign Ministry",
+    "NDTV — World",
+    "Tehran Times",
+    "Yonhap News",
+    "media"
+  ],
+  "region": "in",
+  "article": {
+    "title": "PM Meets Iran's Pezeshkian, Reiterates Need For Dialogue, Open Sea Routes",
+    "link": "https://www.ndtv.com/world-news/amid-iran-crisis-pm-modi-pezeshkian-to-hold-bilateral-meet-shortly-12033962#publisher=newsstand",
+    "summary": "Pezeshkian's visit to India comes as tensions in the Middle East have spiked",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-11T15:52:40+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-09/99f77bek_modi-pezeshkian_625x300_11_September_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Iranian Foreign Ministry",
+      "NDTV — World",
+      "Tehran Times",
+      "Yonhap News",
+      "media"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/amid-iran-crisis-pm-modi-pezeshkian-to-hold-bilateral-meet-shortly-12033962#publisher=newsstand"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/11/iran-says-will-discuss-strait-of-hormuz-with-gulf-states-on-monday?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/gulf-states-weigh-first-meeting-with-iran-since-war-began-to-discuss-strait-of-hormuz-report-101789135120728.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/11/iran-to-discuss-hormuz-with-gulf-states-in-oman-on-monday"
+      },
+      {
+        "name": "media",
+        "link": "https://tass.com/world/2186065"
+      },
+      {
+        "name": "Iranian Foreign Ministry",
+        "link": "https://tass.com/world/2186413"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-09/99f77bek_modi-pezeshkian_625x300_11_September_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/03/4f266acd-13145950.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/11/AEN20260911005951315_02_i_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/11/AEN20260911005951315_03_i_P2.jpg",
+      "https://media.tehrantimes.com/d/t/2026/09/11/4/6169632.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 914.9127306858334,
+    "is_stale": false,
+    "score": 30.93321948212963,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

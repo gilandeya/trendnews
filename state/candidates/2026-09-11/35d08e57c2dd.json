@@ -1,9 +1,9 @@
 {
   "id": "35d08e57c2dd",
-  "created_at": "2026-09-11T17:07:52.719619+00:00",
-  "status": "unselected",
-  "selection_issue": 887,
-  "score": 25.36,
+  "created_at": "2026-09-11T19:07:52.873332+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.02,
   "trend_score": 0.5,
   "velocity": 1.0,
   "impact": 0,
@@ -15,10 +15,11 @@
   "title": "Yemen’s Houthis reach strategic island at mouth of vital Bab el-Mandeb shipping lane",
   "link": "https://www.dawn.com/news/2029146/yemens-houthis-reach-strategic-island-at-mouth-of-vital-bab-el-mandeb-shipping-lane",
   "publishers": [
-    "CBS News — World",
+    "Daily Sabah",
     "Dawn",
+    "Der Spiegel",
+    "NDTV — World",
     "South China Morning Post",
-    "The Express Tribune",
     "The Hindu — International"
   ],
   "region": "pk",
@@ -33,10 +34,11 @@
     "image_url": "https://i.dawn.com/large/2026/09/11205902303098c.webp",
     "publisher": "Dawn",
     "cluster_sources": [
-      "CBS News — World",
+      "Daily Sabah",
       "Dawn",
+      "Der Spiegel",
+      "NDTV — World",
       "South China Morning Post",
-      "The Express Tribune",
       "The Hindu — International"
     ],
     "cluster_members": [
@@ -49,10 +51,6 @@
         "link": "https://www.dawn.com/news/2029146/yemens-houthis-reach-strategic-island-at-mouth-of-vital-bab-el-mandeb-shipping-lane"
       },
       {
-        "name": "The Express Tribune",
-        "link": "https://tribune.com.pk/story/2628748/yemens-houthis-reach-strategic-island-at-mouth-of-vital-shipping-lane"
-      },
-      {
         "name": "The Hindu — International",
         "link": "https://www.thehindu.com/news/international/yemens-houthis-reach-strategic-island-at-mouth-of-vital-shipping-lane/article71455868.ece"
       },
@@ -61,8 +59,12 @@
         "link": "https://www.thehindu.com/news/international/west-asia-conflict-us-iran-war-live-updates-houthis-iran-red-sea-strait-of-hormuz-september-11-2026/article71455463.ece"
       },
       {
-        "name": "CBS News — World",
-        "link": "https://www.cbsnews.com/live-updates/iran-war-diesel-price-record-houthis-red-sea/"
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/houthis-seize-vital-red-sea-island-for-full-bab-el-mandeb-control"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/houthis-seize-key-red-sea-island-complete-push-to-control-bab-al-mandeb-area-12033833#publisher=newsstand"
       }
     ],
     "image_candidates": [
@@ -76,11 +78,11 @@
     "bucket": "serious",
     "state_media": false,
     "trend_score": 0.5,
-    "group_sources": 5,
+    "group_sources": 6,
     "velocity": 1.0,
-    "age_hours": 912.9126984663889,
+    "age_hours": 914.9127344480555,
     "is_stale": false,
-    "score": 25.364765307236162,
+    "score": 26.020532912533838,
     "impact": 0,
     "proximity": 0,
     "intrigue": 0,
