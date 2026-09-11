@@ -1,0 +1,63 @@
+{
+  "id": "84eb23c38c90",
+  "created_at": "2026-09-11T22:08:00.161030+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.77,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Muere la princesa Astrid, hermana de Harald de Noruega, dos días después del funeral del monarca",
+  "link": "https://elpais.com/gente/2026-09-11/muere-la-princesa-astrid-hermana-de-harald-de-noruega-dos-dias-despues-del-funaral-del-monarca.html",
+  "publishers": [
+    "El País",
+    "HOLA"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Muere la princesa Astrid, hermana de Harald de Noruega, dos días después del funeral del monarca",
+    "link": "https://elpais.com/gente/2026-09-11/muere-la-princesa-astrid-hermana-de-harald-de-noruega-dos-dias-despues-del-funaral-del-monarca.html",
+    "summary": "El nuevo rey del país nórdico, Haakon VIII, ha lamentado la pérdida de su tía, fallecida a los 94 años, 14 días después de asumir el trono tras el fallecimiento de su padre. “Fue muy leal y siempre desempeñó sus funciones con compromiso, presencia y un espíritu contagioso”, ha asegurado",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-11T14:09:48+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/DKKAYLNKKRFZTOMAVBQSO7UO2Q.jpg?auth=ab9a091ab43235186aeb8860fdccb75a2a513e3bdf3c821f1566dd38ef1a41ec",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País",
+      "HOLA"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/gente/2026-09-11/muere-la-princesa-astrid-hermana-de-harald-de-noruega-dos-dias-despues-del-funaral-del-monarca.html"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/gente/2026-09-11/maud-angelica-hija-de-marta-luisa-de-noruega-se-despide-del-rey-harald-v-con-una-emotiva-carta-mi-abuelo-era-una-persona-increible.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/DKKAYLNKKRFZTOMAVBQSO7UO2Q.jpg?auth=ab9a091ab43235186aeb8860fdccb75a2a513e3bdf3c821f1566dd38ef1a41ec",
+      "https://imagenes.elpais.com/resizer/v2/YIJJYJCX6JCQZG3VB6LSGMHECU.jpg?auth=85df38bbfd9914e2bf595c248f5473d1c91b2105018491b4bef1291739a3f7d2"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.76878351838889,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

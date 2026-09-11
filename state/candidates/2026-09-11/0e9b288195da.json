@@ -1,0 +1,68 @@
+{
+  "id": "0e9b288195da",
+  "created_at": "2026-09-11T22:08:00.160432+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.32,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "South Africa extradites six Nigerians to US over alleged fraud",
+  "link": "https://www.premiumtimesng.com/news/top-news/908867-south-africa-extradites-six-nigerians-to-us-over-alleged-fraud.html",
+  "publishers": [
+    "AllAfrica",
+    "Premium Times",
+    "September 11, 2026"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "South Africa extradites six Nigerians to US over alleged fraud",
+    "link": "https://www.premiumtimesng.com/news/top-news/908867-south-africa-extradites-six-nigerians-to-us-over-alleged-fraud.html",
+    "summary": "The police said the victims were targeted “through sophisticated online relationships used to defraud them of their money.” The post South Africa extradites six Nigerians to US over alleged fraud appeared first on Premium Times Nigeria .",
+    "source_name": "Premium Times",
+    "region": "ng",
+    "weight": 1.1,
+    "published": "2026-09-11T18:49:42+00:00",
+    "image_url": "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2018/10/South-African-police.jpg?fit=900%2C450&amp;ssl=1",
+    "publisher": "Premium Times",
+    "cluster_sources": [
+      "AllAfrica",
+      "Premium Times",
+      "September 11, 2026"
+    ],
+    "cluster_members": [
+      {
+        "name": "Premium Times",
+        "link": "https://www.premiumtimesng.com/news/top-news/908867-south-africa-extradites-six-nigerians-to-us-over-alleged-fraud.html"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202609110069.html"
+      },
+      {
+        "name": "September 11, 2026",
+        "link": "https://allafrica.com/stories/202609110037.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2018/10/South-African-police.jpg?fit=900%2C450&amp;ssl=1"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 917.9148318102777,
+    "is_stale": false,
+    "score": 24.318004355904208,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

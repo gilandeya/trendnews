@@ -1,0 +1,69 @@
+{
+  "id": "d367ec1d3eee",
+  "created_at": "2026-09-11T22:08:00.161287+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.84,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Putin says European troop deployment in Ukraine would be ‘war against Russia’",
+  "link": "https://www.vanguardngr.com/2026/09/putin-says-european-troop-deployment-in-ukraine-would-be-war-against-russia/",
+  "publishers": [
+    "NDTV — World",
+    "TASS",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Putin says European troop deployment in Ukraine would be ‘war against Russia’",
+    "link": "https://www.vanguardngr.com/2026/09/putin-says-european-troop-deployment-in-ukraine-would-be-war-against-russia/",
+    "summary": "President Vladimir Putin warned on Friday that any deployment of European troops to Ukraine would amount to \"a war against Russia\" and said Moscow did not \"pose a threat\". The post Putin says European troop deployment in Ukraine would be ‘war against Russia’ appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-09-11T21:11:19+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2025/11/AFP__20251126__868F8WR__v1__MidRes__KyrgyzstanRussiaPoliticsDiplomacy-1024x683.jpg",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "NDTV — World",
+      "TASS",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/european-troop-deployment-in-ukraine-would-be-war-against-russia-vladimir-putin-12035415#publisher=newsstand"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/putin-says-european-troop-deployment-in-ukraine-would-be-war-against-russia/"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/politics/2186467"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2025/11/AFP__20251126__868F8WR__v1__MidRes__KyrgyzstanRussiaPoliticsDiplomacy-1024x683.jpg",
+      "https://c.ndtvimg.com/2025-12/peue2mig_vladimir-putin-_625x300_05_December_25.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 917.9148497422221,
+    "is_stale": false,
+    "score": 18.842022870848652,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

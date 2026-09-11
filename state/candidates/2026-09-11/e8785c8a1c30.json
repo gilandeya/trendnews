@@ -1,0 +1,88 @@
+{
+  "id": "e8785c8a1c30",
+  "created_at": "2026-09-11T22:08:00.160745+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.91,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korea launches unidentified projectile toward East Sea",
+  "link": "https://www.channelnewsasia.com/east-asia/north-korea-launches-unidentified-projectile-toward-east-sea-6379606",
+  "publishers": [
+    "Channel News Asia",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "Yonhap News",
+    "media"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "North Korea launches unidentified projectile toward East Sea",
+    "link": "https://www.channelnewsasia.com/east-asia/north-korea-launches-unidentified-projectile-toward-east-sea-6379606",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-11T21:46:33+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--CZNuQjzS--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-09T221441Z_1_LYNXMPEM88203_RTROPTP_3_NORTHKOREA-POLITICS.JPG?itok=Fx8TvUgv",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "Yonhap News",
+      "media"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260526006200315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260912000300315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260912000351315"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/east-asia/north-korea-launches-unidentified-projectile-toward-east-sea-6379606"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/north-korea-fires-unidentified-projectile-toward-eastern-sea"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/north-korea-fires-projectile-toward-sea-south-korea-101789162291225.html"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--CZNuQjzS--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-09T221441Z_1_LYNXMPEM88203_RTROPTP_3_NORTHKOREA-POLITICS.JPG?itok=Fx8TvUgv",
+      "https://img.yna.co.kr/photo/cms/2023/08/24/07/PCM20230824000107990_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/12/AEN20260912000300315_01_i_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/12/AEN20260912000351315_01_i_P2.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/11/460274.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 917.9148339911111,
+    "is_stale": false,
+    "score": 23.908734472606533,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
