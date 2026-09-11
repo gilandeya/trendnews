@@ -3568,5 +3568,26 @@
   "has_photo": false,
   "state_media": false,
   "created_hour": 9
+ },
+ {
+  "id": "ccf99c7a513f",
+  "created_at": "2026-09-11T12:22:36.680055+00:00",
+  "decided_at": "2026-09-11T12:22:42.964303+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "سياسة",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "useful",
+  "region": "money",
+  "score": 22.7,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "source_count": 4,
+  "body_len": 493,
+  "has_photo": false,
+  "state_media": false,
+  "created_hour": 12
  }
 ]
