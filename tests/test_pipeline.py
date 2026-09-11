@@ -1309,6 +1309,166 @@ def test_appeal_factors() -> None:
           "يمسّ جيب القارئ مباشرة" in selection_body, selection_body[:800])
 
 
+def test_appeal_factors_affect_ranking() -> None:
+    """Issue #881: عوامل الجذب الثلاثة (Issue #876) كانت تُقدَّر بعد
+    rank() داخل screen() بلا أي أثر على الترتيب الفعلي — اختبار #876 فحص
+    صيغة score_cluster وحدها فسمح للعطل بالمرور (rank() ← score يُحسب
+    والعوامل أصفار، screen() ← العوامل تُقدَّر بعد فوات أوان الترتيب).
+
+    هذا الاختبار يستدعي rank() ثم screen() (بفاكة) ثم
+    collect.rescore_after_screen() بنفس التسلسل الذي يستخدمه collect.main()
+    فعليًا بعد #881 — لا صيغة معزولة — ويغطي: مرشح بأثر/قرب/تشويق كامل
+    يتقدّم فعلًا في القائمة الناتجة؛ الأوزان صفرًا ⇒ نفس ترتيب ما قبل
+    التغيير حرفيًا (طريق التراجع)؛ max_per_region يبقى محفوظًا بعد إعادة
+    الفرز رغم انقلاب الدرجات؛ ومرشح خارج أفق الفرز يبقى في الذيل بدرجته
+    الأصلية بلا تغيير."""
+    from src import screen as screen_mod
+    from src.rank import rank
+
+    now = datetime.now(timezone.utc)
+
+    def art(title, link, region, weight=1.0):
+        return Article(title=title, link=link, summary="s", source_name=title,
+                       region=region, weight=weight, published=now)
+
+    class _Block:
+        def __init__(self, text):
+            self.type = "text"
+            self.text = text
+
+    class _Resp:
+        def __init__(self, content):
+            self.content = content
+
+    def _fake_screen_response(boosted_marker: str, **kw):
+        """يمنح كل عنوان يحوي boosted_marker تقديرًا كاملًا (3/3/3)، وصفرًا
+        لغيره — محاكاة فرز حقيقي يميّز مرشحًا واحدًا بعينه، لا صيغة ثابتة."""
+        listing = kw["messages"][0]["content"]
+        kept = []
+        for line in listing.splitlines():
+            m = re.match(r"(\d+)\. \[.*?\] (.*?) — ", line)
+            if not m:
+                continue
+            i, title = int(m.group(1)), m.group(2)
+            boosted = boosted_marker in title
+            kept.append({"i": i, "impact": 3 if boosted else 0,
+                        "proximity": 3 if boosted else 0,
+                        "intrigue": 3 if boosted else 0, "appeal_note": ""})
+        return _Resp([_Block(json.dumps({"kept": kept}))])
+
+    class _FakeMessages:
+        def __init__(self, marker):
+            self._marker = marker
+
+        def create(self, **kw):
+            return _fake_screen_response(self._marker, **kw)
+
+    class _FakeClient:
+        def __init__(self, marker):
+            self.messages = _FakeMessages(marker)
+
+    real_client = screen_mod._client
+    scfg = {"screening": {"enabled": True, "use_feedback": False}}
+
+    def fake_screen(candidates, marker):
+        screen_mod._client = lambda: _FakeClient(marker)
+        try:
+            return screen_mod.screen(candidates, scfg)
+        finally:
+            screen_mod._client = real_client
+
+    # ── 1) مرشح ضعيف الوزن يتقدّم فعليًا في القائمة الناتجة عن الأنبوب ──
+    selection = {"region_diversity": True, "max_per_region": 3,
+                "appeal": {"impact_weight": 1.0, "proximity_weight": 1.0,
+                           "intrigue_weight": 1.0}}
+    arts = [
+        art("Story Alpha strongest", "https://x/alpha", "r1", weight=3.0),
+        art("Story Beta second", "https://x/beta", "r2", weight=2.5),
+        art("Story Gamma weakest but impactful", "https://x/gamma", "r3", weight=1.0),
+        art("Story Delta filler one", "https://x/delta", "r4", weight=0.8),
+        art("Story Echo filler two", "https://x/echo", "r5", weight=0.6),
+    ]
+    ranked = rank(list(arts), selection)
+    before = [a.link for a in ranked]
+    check("شاهد بنيوي: gamma ليست في المقدمة قبل الفرز (ضعف وزنها)",
+          before.index("https://x/gamma") == 2, before)
+
+    screened = fake_screen(list(ranked), "Gamma")
+    final = collect.rescore_after_screen(screened, selection)
+    check("مرشح بأثر/قرب/تشويق كامل يتقدّم فعلًا في القائمة الناتجة عن الأنبوب "
+          "لا في score_cluster وحدها",
+          [a.link for a in final][0] == "https://x/gamma", [a.link for a in final])
+
+    # ── 2) الأوزان صفرًا ⇒ نفس ترتيب ما قبل التغيير حرفيًا (طريق التراجع) ──
+    selection_zero = {"region_diversity": True, "max_per_region": 3,
+                      "appeal": {"impact_weight": 0.0, "proximity_weight": 0.0,
+                                "intrigue_weight": 0.0}}
+    arts2 = [
+        art("Story Alpha strongest", "https://x/alpha2", "r1", weight=3.0),
+        art("Story Beta second", "https://x/beta2", "r2", weight=2.5),
+        art("Story Gamma weakest but impactful", "https://x/gamma2", "r3", weight=1.0),
+        art("Story Delta filler one", "https://x/delta2", "r4", weight=0.8),
+        art("Story Echo filler two", "https://x/echo2", "r5", weight=0.6),
+    ]
+    ranked2 = rank(list(arts2), selection_zero)
+    screened2 = fake_screen(list(ranked2), "Gamma")
+    old_pipeline_result = list(screened2)          # السلوك قبل #881: بلا إعادة فرز إطلاقًا
+    new_pipeline_result = collect.rescore_after_screen(list(screened2), selection_zero)
+    check("الأوزان صفرًا ⇒ القائمة الناتجة مطابقة عنصرًا بعنصر لما قبل التغيير",
+          [a.link for a in new_pipeline_result] == [a.link for a in old_pipeline_result],
+          ([a.link for a in new_pipeline_result], [a.link for a in old_pipeline_result]))
+
+    # ── 3) max_per_region محفوظ بعد إعادة الفرز رغم انقلاب الدرجات ──
+    # مفردات مستقلة تمامًا بين كل عنوانين حتى لا يدمجهما cluster() سهوًا
+    # (Jaccard على tokens() يعمل على العنوان اللاتيني وحده، بلا علاقة بـregion)
+    r1a = art("Wildfire spreads near capital city", "https://x/r1a", "r1", weight=3.0)
+    r1b = art("Central bank raises interest rates today", "https://x/r1b", "r1", weight=2.0)
+    r1c = art("Volcano eruption forces evacuation boosted", "https://x/r1c", "r1", weight=1.0)
+    r2a = art("Telescope captures distant galaxy image", "https://x/r2a", "r2", weight=0.5)
+    selection_div = {"region_diversity": True, "max_per_region": 2,
+                     "appeal": {"impact_weight": 1.0, "proximity_weight": 1.0,
+                               "intrigue_weight": 1.0}}
+    ranked3 = rank([r1a, r1b, r1c, r2a], selection_div)
+    check("قبل الفرز: تناوب المناطق يضع r1c (ثالث نفس المنطقة) في overflow",
+          [a.link for a in ranked3] == ["https://x/r1a", "https://x/r1b",
+                                        "https://x/r2a", "https://x/r1c"],
+          [a.link for a in ranked3])
+
+    screened3 = fake_screen(list(ranked3), "boosted")
+    final3 = collect.rescore_after_screen(screened3, selection_div)
+    check("بعد إعادة الفرز: r1c (الأعلى درجة الآن) يدخل المقدّمة، وr1b (ثالث "
+          "نفس المنطقة في الترتيب الجديد) يُنقل إلى overflow — max_per_region محفوظ",
+          [a.link for a in final3] == ["https://x/r1c", "https://x/r1a",
+                                       "https://x/r2a", "https://x/r1b"],
+          [a.link for a in final3])
+    from collections import Counter as _Counter
+    primary_regions = _Counter(a.region for a in final3[:3])
+    check("لا منطقة تتجاوز max_per_region في نتيجة إعادة الفرز",
+          primary_regions["r1"] <= 2, dict(primary_regions))
+
+    # ── 4) مرشح خارج أفق الفرز يبقى في الذيل بدرجته الأصلية ──
+    head = [art("Storm damages coastal infrastructure heavily", "https://x/head1",
+                "r1", weight=3.0),
+            art("Election results spark protests nationwide boosted", "https://x/head2",
+                "r2", weight=2.5)]
+    tail = [art("Harvest season yields record wheat output", "https://x/tail1",
+                "r3", weight=1.5),
+            art("Bridge construction delayed due funding gap", "https://x/tail2",
+                "r4", weight=1.4)]
+    ranked4 = rank(head + tail, selection)
+    horizon = 2
+    tail_scores_before = {a.link: a.score for a in ranked4[horizon:]}
+    screened4 = fake_screen(list(ranked4[:horizon]), "boosted")
+    final4 = collect.rescore_after_screen(screened4, selection) + ranked4[horizon:]
+    check("مرشحو خارج أفق الفرز يبقون في الذيل بلا تغيير في الدرجة",
+          all(a.score == tail_scores_before[a.link] for a in final4[horizon:]),
+          [(a.link, a.score, tail_scores_before[a.link]) for a in final4[horizon:]])
+    check("مرشحو خارج أفق الفرز يبقون بعد المفروزين لا قبلهم",
+          {a.link for a in final4[:horizon]} == {a.link for a in ranked4[:horizon]}
+          and [a.link for a in final4[horizon:]] == [a.link for a in tail],
+          [a.link for a in final4])
+
+
 def test_radar_gate_check_dedupe() -> None:
     """Issue #303: التشخيص أثبت أن score/group_sources لا يميّزان تحديث
     خبر منشور عن خبر جديد فعلًا — بل مرفوضات الرادار كانت أعلى قليلًا في
@@ -18613,6 +18773,8 @@ def main() -> int:
     test_screen_merge_missing_api_key()
     print("\n── عوامل الجذب التحريرية الثلاثة (Issue #876) ──")
     test_appeal_factors()
+    print("\n── عوامل الجذب تؤثر في الترتيب الفعلي (Issue #881) ──")
+    test_appeal_factors_affect_ranking()
     print("\n── كاشف تكرار النشر التلقائي (الرادار) ──")
     test_radar_gate_check_dedupe()
     test_radar_preselect_fallback()

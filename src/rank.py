@@ -339,8 +339,16 @@ def rank(articles: list[Article], selection: dict,
     if not diversity:
         return ranked
 
-    # حد أعلى لعدد الأخبار من نفس المنطقة، ثم يُلحق الباقي في نهاية القائمة
-    # (لا نحذفه: قد نحتاجه إن رفض النموذج أخبارًا أخرى)
+    return apply_region_diversity(ranked, per_region)
+
+
+def apply_region_diversity(ranked: list[Article], per_region: int) -> list[Article]:
+    """حد أعلى لعدد الأخبار من نفس المنطقة، ثم يُلحق الباقي في نهاية القائمة
+    (لا نحذفه: قد نحتاجه إن رفض النموذج أخبارًا أخرى).
+
+    مستخرجة من rank() (Issue #881) لتُستدعى مجددًا من collect.py بعد أن
+    يعيد ترتيب المرشحين المفروزين فعلًا بأوزان الجذب (Issue #876) — بنفس
+    المنطق والعتبات القائمة هنا، بلا نسخ، حتى لا يتفرّق مسلكان لنفس القاعدة."""
     seen: Counter = Counter()
     primary: list[Article] = []
     overflow: list[Article] = []
