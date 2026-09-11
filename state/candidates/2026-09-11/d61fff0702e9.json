@@ -1,0 +1,63 @@
+{
+  "id": "d61fff0702e9",
+  "created_at": "2026-09-11T15:07:52.217791+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.01,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthis Seize Key Red Sea Island, Complete Push To Control Bab Al-Mandeb Area",
+  "link": "https://www.ndtv.com/world-news/houthis-seize-key-red-sea-island-complete-push-to-control-bab-al-mandeb-area-12033833#publisher=newsstand",
+  "publishers": [
+    "Daily Sabah",
+    "NDTV — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Houthis Seize Key Red Sea Island, Complete Push To Control Bab Al-Mandeb Area",
+    "link": "https://www.ndtv.com/world-news/houthis-seize-key-red-sea-island-complete-push-to-control-bab-al-mandeb-area-12033833#publisher=newsstand",
+    "summary": "The waterway has gained importance as a transit route since the the Middle East war",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-11T12:58:37+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-07/kjq7j2gs_red-sea_625x300_27_July_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Daily Sabah",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/houthis-seize-vital-red-sea-island-for-full-bab-el-mandeb-control"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/houthis-seize-key-red-sea-island-complete-push-to-control-bab-al-mandeb-area-12033833#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-07/kjq7j2gs_red-sea_625x300_27_July_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/11/460153.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 910.9127258819444,
+    "is_stale": false,
+    "score": 21.006501671537038,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "id": "fb16c2c49e5e",
+  "created_at": "2026-09-11T15:07:52.218666+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.83,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nepal flood reconstruction bill to be $4.78 bn: foreign ministry",
+  "link": "https://www.thehindu.com/news/international/nepal-flood-reconstruction-bill-to-be-478-bn-foreign-ministry/article71455821.ece",
+  "publishers": [
+    "Foreign ministry",
+    "Free Malaysia Today",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Nepal flood reconstruction bill to be $4.78 bn: foreign ministry",
+    "link": "https://www.thehindu.com/news/international/nepal-flood-reconstruction-bill-to-be-478-bn-foreign-ministry/article71455821.ece",
+    "summary": "Nepal's leaders say the Himalayan country needs long-term international support to adapt to a rapidly changing mountain environment",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-11T11:44:28+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/nthfvg/article71455969.ece/alternates/LANDSCAPE_1200/2026-09-11T065717Z_919980508_RC2RGNAQD1GI_RTRMADP_3_NEPAL-FLOODS.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Foreign ministry",
+      "Free Malaysia Today",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nepal-flood-reconstruction-bill-to-be-478-bn-foreign-ministry/article71455821.ece"
+      },
+      {
+        "name": "Foreign ministry",
+        "link": "https://punchng.com/nepal-flood-reconstruction-bill-to-be-4-78bn-foreign-ministry/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/11/nepal-flood-reconstruction-bill-to-be-us-4-78bil"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/nthfvg/article71455969.ece/alternates/LANDSCAPE_1200/2026-09-11T065717Z_919980508_RC2RGNAQD1GI_RTRMADP_3_NEPAL-FLOODS.JPG",
+      "https://media.freemalaysiatoday.com/v3/2026/09/a1fdf5ce-5dcc-42a6-9d6e-096ea650d7eb-Nepal-flood-devastation-2-EPA-11092026-.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 910.91275214,
+    "is_stale": false,
+    "score": 18.829000282644948,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
