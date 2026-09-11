@@ -22,7 +22,7 @@ from pathlib import Path
 
 from . import decisions, feedback, headlines as headlines_mod, preselect, store
 from .config import DRAFTS_DIR, load_config
-from .rank import rank
+from .rank import apply_region_diversity, rank
 from .screen import screen
 from .trends import trending_signatures
 from .velocity import load as load_velocity, save as save_velocity
@@ -81,6 +81,35 @@ def drop_stale_candidates() -> int:
     log.warning("أُسقط %d مرشحًا معلَّقًا من تشغيلة سابقة قبل بناء الدفعة الجديدة",
                len(stale))
     return len(stale)
+
+
+def rescore_after_screen(screened: list, selection: dict) -> list:
+    """يُفعِّل عوامل الجذب الثلاثة فعليًا في الترتيب (Issue #881؛ #876 كان
+    يقدّرها بلا أن تؤثر في أي ترتيب فعلي — انظر التوثيق في rank.score_cluster).
+
+    screen() تقدّر impact/proximity/intrigue بعد rank()، لا قبله (الفرز
+    يعمل على أفق محدود screen_horizon_max لتقليص كلفته، وعكس الترتيب يعني
+    فرز كل الأخبار الخام) — فدرجة كل مرشح فُرِز فعليًا خرجت من rank() بمساهمة
+    صفرية من هذه العوامل الثلاثة (كانت صفرًا وقتها). هنا نضيف مساهمتها
+    الحقيقية إلى الدرجة القائمة (لا نعيد حسابها من الصفر) ثم نعيد الفرز
+    تنازليًا، ونعيد تطبيق تناوب المناطق بنفس rank.apply_region_diversity —
+    لا نسخة ثانية من منطقها — على القائمة المرتَّبة الجديدة، وإلا نقضت
+    إعادة الفرز الساذجة توزيع rank() الجغرافي (Issue #876)."""
+    appeal_cfg = selection.get("appeal", {}) or {}
+    impact_weight = float(appeal_cfg.get("impact_weight", 0.0))
+    proximity_weight = float(appeal_cfg.get("proximity_weight", 0.0))
+    intrigue_weight = float(appeal_cfg.get("intrigue_weight", 0.0))
+
+    for art in screened:
+        art.score += (impact_weight * art.impact
+                      + proximity_weight * art.proximity
+                      + intrigue_weight * art.intrigue)
+
+    screened.sort(key=lambda a: a.score, reverse=True)
+
+    if bool(selection.get("region_diversity", True)):
+        screened = apply_region_diversity(screened, int(selection.get("max_per_region", 3)))
+    return screened
 
 
 def run_preselect(candidates: list, selection: dict, dedupe_days: int,
@@ -196,7 +225,12 @@ def main() -> int:
     per_draft = int(selection.get("screen_per_draft", 8))
     horizon = min(int(selection.get("screen_horizon_max", 90)),
                   max(20, target * per_draft))
-    candidates = screen(candidates[:horizon], cfg) + candidates[horizon:]
+    screened = screen(candidates[:horizon], cfg)
+    # عوامل الجذب الثلاثة (Issue #876) تُقدَّر للتو داخل screen() أعلاه —
+    # نفعّلها في الترتيب هنا فعليًا (Issue #881) بدل أن تبقى محسوبة بلا
+    # أثر. المرشحون خارج الأفق (candidates[horizon:]) عواملهم صفر فدرجتهم
+    # لا تتغيّر — يُلحَقون كما هم بلا مرور على rescore_after_screen.
+    candidates = rescore_after_screen(screened, selection) + candidates[horizon:]
 
     # 4.5) نقطة توقف قبل الصياغة (Issue #280): بديل لدورة "صُغ ثم راجِع"
     # لا إضافة إليها — يوقف الأنبوب هنا ويفتح Issue اختيار خام (بلا صياغة
