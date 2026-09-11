@@ -1,0 +1,64 @@
+{
+  "id": "5a612595fe5e",
+  "created_at": "2026-09-11T12:07:52.846357+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.97,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Five killed in bus crash near Swiss Alpine village",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-11-five-killed-in-bus-crash-near-swiss-alpine-village/",
+  "publishers": [
+    "Al Jazeera English",
+    "DW.com",
+    "Daily Maverick"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Five killed in bus crash near Swiss Alpine village",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-11-five-killed-in-bus-crash-near-swiss-alpine-village/",
+    "summary": "Five people were killed and 40 others injured after a bus carrying a Dutch tour party flipped over in a remote Alpine region of eastern Switzerland, police said on Thursday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-11T13:39:13+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2997/14282529_906749.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "DW.com",
+      "Daily Maverick"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/11/swiss-police-report-five-killed-in-dutch-tour-bus-crash?traffic_source=rss"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-11-five-killed-in-bus-crash-near-swiss-alpine-village/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2997/14282529_906749.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 907.9129077044445,
+    "is_stale": false,
+    "score": 21.973152299441246,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

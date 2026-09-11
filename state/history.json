@@ -1,119 +1,5 @@
 [
   {
-    "score": 19.64,
-    "bucket": "serious",
-    "tokens": [
-      "enters",
-      "europe",
-      "german",
-      "launch",
-      "race",
-      "reaches",
-      "rocket",
-      "satellite",
-      "space"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/09/06/world/science-health/german-rocket-space-satellite/",
-    "title": "German rocket reaches space as Europe enters satellite launch race",
-    "posted_title": "صاروخ ألماني يصل الفضاء من الأراضي الأوروبية للمرة الأولى تجاريًا",
-    "region": "jp",
-    "seen_at": "2026-09-06T09:35:28.797999+00:00"
-  },
-  {
-    "score": 26.29,
-    "bucket": "serious",
-    "tokens": [
-      "arrive",
-      "ending",
-      "envoys",
-      "hold",
-      "kushner",
-      "kyiv",
-      "talks",
-      "war",
-      "witkoff"
-    ],
-    "link": "https://www.theguardian.com/world/2026/sep/06/us-envoys-jared-kushner-steve-witkoff-arrive-kyiv-talks-on-ending-war",
-    "title": "US envoys Kushner and Witkoff arrive in Kyiv to hold talks on ending war",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-06T12:07:46.951945+00:00"
-  },
-  {
-    "score": 25.53,
-    "bucket": "serious",
-    "tokens": [
-      "among",
-      "crime",
-      "death",
-      "drug",
-      "egyptian",
-      "presenter",
-      "sentenced"
-    ],
-    "link": "https://www.theguardian.com/world/2026/sep/05/egyptian-tv-presenter-among-12-sentenced-to-death-for-drug",
-    "title": "Egyptian TV presenter among 12 sentenced to death for drug crime",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-06T12:07:46.952187+00:00"
-  },
-  {
-    "score": 24.08,
-    "bucket": "serious",
-    "tokens": [
-      "attacks",
-      "drone",
-      "hits",
-      "hormuz",
-      "iran",
-      "naval",
-      "tankers"
-    ],
-    "link": "https://www.dailysabah.com/world/mid-east/iran-hits-us-naval-drone-in-hormuz-after-attacks-on-its-tankers",
-    "title": "Iran hits US naval drone in Hormuz after attacks on its tankers",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-09-06T12:07:46.952422+00:00"
-  },
-  {
-    "score": 20.04,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "approves",
-      "map",
-      "resolution",
-      "shows",
-      "size",
-      "support",
-      "true"
-    ],
-    "link": "https://www.thehindu.com/sci-tech/science/un-approves-resolution-in-support-of-mapthat-shows-africas-true-size/article71429647.ece",
-    "title": "UN approves resolution in support of map that shows Africa’s true size",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-06T12:07:46.952634+00:00"
-  },
-  {
-    "score": 18.42,
-    "bucket": "serious",
-    "tokens": [
-      "border",
-      "busy",
-      "china",
-      "mudslide",
-      "nepal",
-      "once",
-      "port",
-      "trace"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/06/no-trace-of-once-busy-china-nepal-border-port-after-mudslide",
-    "title": "No trace of once-busy China-Nepal border port after mudslide",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-06T12:07:46.952815+00:00"
-  },
-  {
     "score": 25.53,
     "bucket": "serious",
     "tokens": [
@@ -5286,5 +5172,97 @@
     "posted_title": "انفجار ضخم تحت تلة العليطاهر يسجل هزة أرضية بقوة 4.1 درجة في جنوب لبنان",
     "region": "in",
     "seen_at": "2026-09-11T09:10:48.689208+00:00"
+  },
+  {
+    "score": 28.8,
+    "bucket": "serious",
+    "tokens": [
+      "actions",
+      "algeria",
+      "diplomatic",
+      "hostile",
+      "provocative",
+      "severs",
+      "ties",
+      "uae"
+    ],
+    "link": "https://www.dawn.com/news/2028887/algeria-severs-diplomatic-ties-with-uae-over-provocative-hostile-actions",
+    "title": "Algeria severs diplomatic ties with UAE over ‘provocative, hostile’ actions",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-11T12:07:52.845718+00:00"
+  },
+  {
+    "score": 22.7,
+    "bucket": "useful",
+    "tokens": [
+      "deal",
+      "gulf",
+      "hormuz",
+      "iran",
+      "meet",
+      "push",
+      "reports",
+      "states"
+    ],
+    "link": "https://www.investing.com/news/economy-news/iran-gulf-states-to-meet-in-push-for-hormuz-deal-ft-reports-4897222",
+    "title": "Iran, Gulf states to meet in push for Hormuz deal, FT reports",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-09-11T12:07:52.846054+00:00"
+  },
+  {
+    "score": 22.64,
+    "bucket": "serious",
+    "tokens": [
+      "ceuta",
+      "crossing",
+      "denies",
+      "involvement",
+      "mass",
+      "migrant",
+      "morocco"
+    ],
+    "link": "http://www.africanews.com/2026/09/10/ceuta-morocco-denies-involvement-in-mass-migrant-crossing/",
+    "title": "Ceuta: Morocco denies involvement in mass migrant crossing",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-09-11T12:07:52.846348+00:00"
+  },
+  {
+    "score": 21.97,
+    "bucket": "serious",
+    "tokens": [
+      "alpine",
+      "bus",
+      "crash",
+      "five",
+      "killed",
+      "near",
+      "swiss",
+      "village"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-11-five-killed-in-bus-crash-near-swiss-alpine-village/",
+    "title": "Five killed in bus crash near Swiss Alpine village",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-11T12:07:52.846586+00:00"
+  },
+  {
+    "score": 21.92,
+    "bucket": "sport",
+    "tokens": [
+      "blockbuster",
+      "final",
+      "open",
+      "rybakina",
+      "sabalenka",
+      "sets"
+    ],
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/cy9znnpnx5ro?at_medium=RSS&at_campaign=rss",
+    "title": "Rybakina sets up blockbuster Sabalenka final at US Open",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-11T12:07:52.846878+00:00"
   }
 ]

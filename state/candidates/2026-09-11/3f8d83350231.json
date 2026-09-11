@@ -1,0 +1,91 @@
+{
+  "id": "3f8d83350231",
+  "created_at": "2026-09-11T12:07:52.846065+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.64,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ceuta: Morocco denies involvement in mass migrant crossing",
+  "link": "http://www.africanews.com/2026/09/10/ceuta-morocco-denies-involvement-in-mass-migrant-crossing/",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera",
+    "Al Jazeera English",
+    "CBS News — World",
+    "El País",
+    "France24",
+    "Hindustan Times — World"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Ceuta: Morocco denies involvement in mass migrant crossing",
+    "link": "http://www.africanews.com/2026/09/10/ceuta-morocco-denies-involvement-in-mass-migrant-crossing/",
+    "summary": "In the wake of the migrant rush into Spain’s North African exclave of Ceuta back in July, Morocco has insisted there are ‘no facts’ indicating its involvement.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-10T19:53:28+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/90/92/99/640x360_cmsv2_f66a3011-2d6b-567a-acf7-7890e134a996-9909299.jpg?1789063572",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera",
+      "Al Jazeera English",
+      "CBS News — World",
+      "El País",
+      "France24",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260910-no-facts-morocco-denies-involvement-in-deadly-ceuta-migrant-rush"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/10/ceuta-morocco-denies-involvement-in-mass-migrant-crossing/"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/ceuta-border-breach-spainsh-spy-agency-warnings/"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/espana/2026-09-11/ultima-hora-de-la-entrada-de-inmigrantes-a-ceuta-en-directo.html"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/espana/2026-09-11/dimite-el-jefe-de-gabinete-del-delegado-del-gobierno-en-ceuta-por-el-salto-fronterizo.html"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/11/aje-onl-nf_migrants-flee-as-fire-destroys-shelteres-in-ceuta-110926?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/90/92/99/640x360_cmsv2_f66a3011-2d6b-567a-acf7-7890e134a996-9909299.jpg?1789063572",
+      "https://s.france24.com/media/display/746244e0-ad4a-11f1-9008-005056bf30b7/w:1024/p:16x9/2026-09-09T185030Z-175681737-RC2XANA20Z8P-RTRMADP-3-MIGRATION-EUROPE-SPAIN-CEUTA.jpg",
+      "https://imagenes.elpais.com/resizer/v2/NEVJBRG4KRGI5L35QLGAP3O3EY.jpg?auth=af603776a43a0d2b0f22ef7c195f9002f6de14a33b04ee7240d3624b57201797",
+      "https://imagenes.elpais.com/resizer/v2/C33U4NPQEBANTMD5XRVP65VVAY.jpg?auth=a096756a730c0536a46cfe2b952b500c700069c2339bde76802c4bb1fb6128f5"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.0,
+    "age_hours": 907.9128857077777,
+    "is_stale": true,
+    "score": 22.63949623108022,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

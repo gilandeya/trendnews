@@ -1,0 +1,74 @@
+{
+  "id": "ccf99c7a513f",
+  "created_at": "2026-09-11T12:07:52.845730+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.7,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Iran, Gulf states to meet in push for Hormuz deal, FT reports",
+  "link": "https://www.investing.com/news/economy-news/iran-gulf-states-to-meet-in-push-for-hormuz-deal-ft-reports-4897222",
+  "publishers": [
+    "Hindustan Times — World",
+    "Investing.com — الاقتصاد",
+    "The Express Tribune",
+    "media"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Iran, Gulf states to meet in push for Hormuz deal, FT reports",
+    "link": "https://www.investing.com/news/economy-news/iran-gulf-states-to-meet-in-push-for-hormuz-deal-ft-reports-4897222",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-09-11T10:20:39+00:00",
+    "image_url": "https://content-media.investing.com/news/moved_LYNXMPEM4O1RH_L.jpg",
+    "publisher": "Investing.com — الاقتصاد",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Investing.com — الاقتصاد",
+      "The Express Tribune",
+      "media"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628703/trump-says-he-does-not-regret-iran-war-despite-impact-it-may-have-on-midterm-elections"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/iran-gulf-states-to-meet-in-push-for-hormuz-deal-ft-reports-4897222"
+      },
+      {
+        "name": "media",
+        "link": "https://tass.com/world/2186065"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/strait-of-hormuz-ship-traffic-falls-to-7-well-below-10-day-average-of-15-101789105396182.html"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/news/moved_LYNXMPEM4O1RH_L.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 907.9128924225,
+    "is_stale": false,
+    "score": 22.697635164666664,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
