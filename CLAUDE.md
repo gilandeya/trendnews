@@ -31,7 +31,8 @@ python -m tests.test_pipeline        # run the full test suite
 ```
 
 There is no separate test runner/framework (no pytest) and no linter configured — the project's
-only quality gate is `tests/test_pipeline.py`, run directly as a module.
+only quality gate is the test suite under `tests/`, run as the `tests.test_pipeline` module (see
+Testing below for how the suite is split across files by domain).
 
 ## Project-specific conventions (mandatory)
 
@@ -41,10 +42,11 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   what the line does (the code already says what). Look at any existing file — e.g.
   `src/collect.py` or `config.yaml` — for the expected style: short, reasoning-focused notes
   attached to non-obvious choices (thresholds, ordering constraints, workarounds).
-- **Every code change must be paired with an update to `tests/test_pipeline.py`.** This is the
-  only test file in the project (see Testing below) — add or adjust a `check(...)` assertion
-  for any new behavior, and update fakes/fixtures if you change a function's signature or
-  contract.
+- **Every code change must be paired with an update to the matching file under `tests/`.** The
+  suite is split by domain (see Testing below for the exact file-to-domain mapping) — add or
+  adjust a `check(...)` assertion for any new behavior in the domain file it belongs to, call it
+  from `tests/test_pipeline.py:main()` in the right place, and update fakes/fixtures in
+  `tests/helpers.py` if you change a function's signature or contract shared across domains.
 - **Tests are run with `python -m tests.test_pipeline`** — not `pytest`, not `python
   tests/test_pipeline.py` directly (it relies on being invoked as a module so `sys.path`/imports
   resolve from the repo root).
@@ -55,7 +57,7 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   config instead.
 - **Never pass `temperature` to `client.messages.create`.** The models used in this project
   reject it with `Error code: 400 — temperature is deprecated for this model`; a static test in
-  `tests/test_pipeline.py` (`test_no_temperature_param`) fails the suite if it reappears.
+  `tests/test_collect.py` (`test_no_temperature_param`) fails the suite if it reappears.
 - **Every draft carries an explicit `origin` field, and every reader resolves it through
   `store.origin_of(draft)` (`src/store.py`) — never a raw string comparison on
   `draft.get("origin")`** (Issue #749). The canonical values are `news` · `breaking` · `request` ·
@@ -355,7 +357,7 @@ Supporting pieces, each independently triggerable as its own workflow:
 loads it into a dict subclass with dotted-path lookup.
 
 **Two non-obvious ordering/behavioral constraints worth knowing before touching related code**
-(both called out in `README.md`, both encoded as regression tests in `tests/test_pipeline.py`):
+(both called out in `README.md`, both encoded as regression tests in `tests/test_collect.py`):
 - Arabic line-wrapping for the image card must happen on the *logical* string **before**
   reshaping/bidi processing (`arabic-reshaper` + `python-bidi`), or words break mid-glyph.
 - In the collect workflow, images must be committed/pushed to the repo **before** the review
@@ -552,9 +554,45 @@ implemented here — don't infer either from this change alone.
 
 ## Testing
 
-`tests/test_pipeline.py` is the entire test suite — no pytest, no separate test files. It fakes
-all network calls and the Claude API (`install_fakes()`), so the full run is free and hits
-nothing external. It covers ranking/clustering, dedupe memory, Arabic shaping/line-wrapping, the
-full collect pipeline end-to-end, and the review round-trip. When adding a feature, add a
-`test_*()` function (or extend an existing one) and call it from `main()`; use the existing
-`check(name, condition, detail)` helper rather than `assert`.
+The test suite is the project's only quality gate — no pytest, no linter. It fakes all network
+calls and the Claude API (`install_fakes()` in `tests/helpers.py`), so the full run is free and
+hits nothing external. It's split across five files under `tests/` (Issue #883: the original
+single `tests/test_pipeline.py` had grown past 18,000 lines and become unwieldy to navigate):
+
+- **`tests/helpers.py`** — shared, domain-agnostic plumbing imported by all four test files below:
+  the `check(name, condition, detail)` helper (append-to-list, not `assert`), the `PASSED`/`FAILED`
+  lists, `install_fakes()` and its fixtures (`FakeResponse`, `RSS_FIXTURE`, the fake Claude
+  `write_arabic`/`headlines_for_post`), `tick_marker()`, and — critically — the
+  `TRENDNEWS_DRAFTS_DIR`/`TRENDNEWS_STATE_DIR` env vars pointed at a temp directory *before*
+  anything imports from `src` (every `src` module reads `DRAFTS_DIR`/`STATE_DIR` at import time,
+  not call time). Because of that last point, `from tests.helpers import ...` must be the first
+  import statement in every file that uses it — it can never come after a `from src import ...`
+  line in the same file.
+- **`tests/test_collect.py`** — the collect pipeline: RSS fetch/dedupe/cluster, ranking
+  (`src/rank.py`), the cheap screen (`src/screen.py`), cross-language merge, article extraction
+  (`src/extract.py`), velocity/trends signals, the radar's auto-publish gate, image
+  filtering/card composition, Arabic shaping/line-wrapping, and the full collect-to-review
+  pipeline end-to-end.
+- **`tests/test_review.py`** — review, publish, and selection: `preselect.py`, `review.py`/
+  `open_review.py`, `publish.py` and scheduling (`schedule.py`), `setimage.py`,
+  `feedback.py`/`collect_feedback.py`, `request.py`, the shared `headlines.py`, the `origin` field
+  and `store.origin_of`, `decisions.py`, and `insights.py`.
+- **`tests/test_article.py`** — the fact-checking/sourcing side: `verify.py`, `verify_draft.py`
+  (including `check_originality`), the shared search/read engine `evidence.py`, and `article.py`
+  (brief extraction, event naming, source grounding, sufficiency, and the "تحقيق" investigation
+  post).
+- **`tests/test_youtube.py`** — the full YouTube analysis pipeline: the manual survey/diagnostic
+  scripts under `tools/`, `src/proxy_config.py`, and all five stages
+  (`youtube_collect`/`youtube_extract`/`youtube_cluster`/`youtube_article`/`youtube_publish`).
+
+`tests/test_pipeline.py` no longer defines any tests itself — it imports every `test_*()` function
+from the four files above and its `main()` calls them in the exact same order and prints the exact
+same summary it always has. It's still the entry point: run the whole suite with
+`python -m tests.test_pipeline`, not `pytest` and not any individual file directly (module
+invocation is what makes `sys.path`/imports resolve from the repo root).
+
+When adding a feature, add a `test_*()` function to whichever of the four files matches its domain
+(or extend an existing one there), call it from `tests/test_pipeline.py:main()` in the appropriate
+place, and use `check(name, condition, detail)` rather than `assert`. If the new test needs a
+helper/fixture that's genuinely shared across domains, add it to `tests/helpers.py`; if it's
+domain-specific, keep it local to that one file instead.
