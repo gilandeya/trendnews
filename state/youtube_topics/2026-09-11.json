@@ -1,0 +1,441 @@
+{
+  "run_date": "2026-09-11",
+  "stats": {
+    "points_in": 84,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 0,
+    "issues_clustered": 16,
+    "topics_merged": 2,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 6,
+    "topics_below_min_points": 4,
+    "layer_a": 2,
+    "layer_b": 1,
+    "layer_c": 1,
+    "agreement": 3,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "جولة ويتكوف وكوشنر في موسكو لمفاوضات أوكرانيا",
+      "تقييمات مستقلة لفرص نجاح مفاوضات أوكرانيا"
+    ],
+    [
+      "خطة اليونان للتسلح والتعاون الدفاعي مع إسرائيل",
+      "لقاء أردوغان وبوتين في بيشكك"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "دوافع إيران وحساباتها السياسية في التصعيد",
+      "event": "تحليل الأهداف السياسية والاقتصادية الإيرانية من التصعيد مع أمريكا قبل الانتخابات",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        4,
+        6,
+        24,
+        71
+      ],
+      "total_points": 4,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "الضغط الأمريكي الاقتصادي على إيران وأسطول الظل",
+      "event": "حملة أمريكية لتشديد العقوبات وضرب أسطول الظل الإيراني لإغلاق منافذ التمويل",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        25,
+        26,
+        27,
+        70,
+        74
+      ],
+      "total_points": 5,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "خطة اليونان للتسلح والتعاون الدفاعي مع إسرائيل",
+      "event": "إعلان رئيس وزراء اليونان عن خطة تسلح بقيمة 30 مليار دولار واتفاق درع أخيل مع إسرائيل لبناء دفاع جوي",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        31,
+        32,
+        49,
+        50
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "الحرب العراقية الإيرانية: الأسباب والحسابات",
+      "event": "شهادة الدكتور فاضل العزاوي حول خلفيات وحسابات الحرب العراقية الإيرانية 1980",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        12,
+        13
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "استهداف ناقلات النفط الإيرانية والرد الأمريكي",
+      "event": "استهداف الحرس الثوري الإيراني سفن حربية أمريكية وردّ القيادة المركزية الأمريكية باستهداف ثلاث ناقلات نفط إيرانية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        1,
+        2,
+        3,
+        21,
+        22,
+        23,
+        72
+      ],
+      "total_points": 8,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "دوافع إيران وحساباتها السياسية في التصعيد",
+      "event": "تحليل الأهداف السياسية والاقتصادية الإيرانية من التصعيد مع أمريكا قبل الانتخابات",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        4,
+        6,
+        24,
+        71
+      ],
+      "total_points": 4,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "جولة ويتكوف وكوشنر في موسكو لمفاوضات أوكرانيا",
+      "event": "زيارة مبعوثي ترامب ويتكوف وكوشنر إلى موسكو لبحث مقترح إنهاء الحرب الروسية الأوكرانية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        14,
+        15,
+        19,
+        20,
+        28,
+        29,
+        30,
+        33
+      ],
+      "total_points": 8,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "الضغط الأمريكي الاقتصادي على إيران وأسطول الظل",
+      "event": "حملة أمريكية لتشديد العقوبات وضرب أسطول الظل الإيراني لإغلاق منافذ التمويل",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        25,
+        26,
+        27,
+        70,
+        74
+      ],
+      "total_points": 5,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "خطة اليونان للتسلح والتعاون الدفاعي مع إسرائيل",
+      "event": "إعلان رئيس وزراء اليونان عن خطة تسلح بقيمة 30 مليار دولار واتفاق درع أخيل مع إسرائيل لبناء دفاع جوي",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        31,
+        32,
+        49,
+        50
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "الحرب العراقية الإيرانية: الأسباب والحسابات",
+      "event": "شهادة الدكتور فاضل العزاوي حول خلفيات وحسابات الحرب العراقية الإيرانية 1980",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        12,
+        13
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "الهدنة المؤقتة ومواقف الطرفين التفاوضية في أوكرانيا",
+      "event": "تعليق مؤقت للعمليات العسكرية بين روسيا وأوكرانيا مع تباين مطالب الطرفين التفاوضية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        16,
+        17,
+        18
+      ],
+      "total_points": 3,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تعديل التوقعات الاقتصادية التركية بسبب الحرب",
+      "event": "خفض تركيا توقعات النمو ورفع توقعات التضخم لعام 2026 وتأثير الحرب على الاقتصاد",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "عقوبات أمريكية على بنك تركي لتسهيل تمويل الحرس الثوري",
+      "event": "فرض الخزانة الأمريكية عقوبات على بنك غولدن غلوبال التركي لتحويل عائدات نفط إيراني من الصين إلى تركيا",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        52
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قضية إمام أوغلو وتقييم عدالة المحاكمة",
+      "event": "الحكم بحجز إمام أوغلو احتياطيًا طويلًا وانتقاد المعلقين لعدالة المحاكمة وأدلتها",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        57,
+        58,
+        60,
+        62,
+        63
+      ],
+      "total_points": 6,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "ثروات أبناء المسؤولين والفساد المالي",
+      "event": "تحليل الثروات الضخمة لأبناء مسؤولين كبار مثل أبناء بن علي يلديرم وتحويل الأموال للخارج",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        61
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "فشل وحدة 8200 الاستخباراتي قبل 7 أكتوبر",
+      "event": "تحليل أسباب فشل وحدة 8200 الإسرائيلية في التحذير من هجوم 7 أكتوبر",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        77,
+        78
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "برنامج مقشيمين لتطوير شباب المناطق الهامشية في الوحدات الإلكترونية",
+      "event": "نتائج برنامج مقشيمين في تأهيل شباب الأطراف الاجتماعية للانضمام لوحدات الحرب الإلكترونية الإسرائيلية",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        79,
+        80,
+        81
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الذكاء الاصطناعي في التعليم ومسؤولية الدولة تجاه الفئات الهامشية",
+      "event": "نقاش حول أثر الذكاء الاصطناعي على الفجوة التعليمية ومسؤولية الدولة في دعم الجنود السابقين",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        82,
+        83
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
