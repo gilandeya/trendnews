@@ -1,0 +1,63 @@
+{
+  "id": "5a737b082775",
+  "created_at": "2026-09-11T03:43:21.177000+00:00",
+  "status": "failed",
+  "review_issue": null,
+  "origin": "news",
+  "score": 17.39,
+  "bucket": "light",
+  "analysed_sources": [],
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "age_hours": 4.0,
+  "is_followup": false,
+  "state_media": false,
+  "source": {
+    "title": "Man ran the same bottle through a recycling machine 177,451 times and collected $47k",
+    "link": "https://boingboing.net/2026/09/10/recycling-machine-same-bottle-scam.html",
+    "publisher": "Boing Boing",
+    "publishers": [
+      "Boing Boing"
+    ],
+    "region": "odd",
+    "image_url": "https://i0.wp.com/boingboing.net/wp-content/uploads/2026/09/APMPlasticBottleRecyclingMachine.jpg?fit=768%2C1024&quality=60&ssl=1",
+    "image_candidates": [
+      "https://i0.wp.com/boingboing.net/wp-content/uploads/2026/09/APMPlasticBottleRecyclingMachine.jpg?fit=768%2C1024&quality=60&ssl=1",
+      "https://i0.wp.com/boingboing.net/wp-content/uploads/2026/09/APMPlasticBottleRecyclingMachine.jpg?fit=768%2C1024&amp;quality=60&amp;ssl=1"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "غرائب",
+    "image_headline": "زجاجة واحدة تُدوَّر 177 ألف مرة وتُجني 47 ألف دولار",
+    "post_title": "بائع مشروبات في ألمانيا يعيد تدوير زجاجة واحدة 177 ألف مرة ويجمع 47 ألف دولار",
+    "post_body": "في مدينة كولونيا الألمانية، أنفق بائع مشروبات نحو 5000 يورو لتعديل آلة إعادة تدوير زجاجات كان يملكها، بحيث تمنحه أموالًا دون حدود. هذه الآلات تُفترض أن تُقطّع كل زجاجة بلاستيكية تُدخَل فيها وتطبع إيصالًا يمكن استبداله بنقود. لكن الرجل تلاعب بآليتها ليجعلها تسجّل نفس الزجاجة كأنها زجاجة جديدة في كل مرة، وكرر العملية 177,451 مرة، محصّلًا نحو 47 ألف دولار من إيصالات لم تقابلها زجاجات حقيقية.",
+    "hashtags": [
+      "احتيال",
+      "ألمانيا",
+      "إعادة_تدوير",
+      "غرائب"
+    ]
+  },
+  "caption": "بائع مشروبات في ألمانيا يعيد تدوير زجاجة واحدة 177 ألف مرة ويجمع 47 ألف دولار\n\nفي مدينة كولونيا الألمانية، أنفق بائع مشروبات نحو 5000 يورو لتعديل آلة إعادة تدوير زجاجات كان يملكها، بحيث تمنحه أموالًا دون حدود. هذه الآلات تُفترض أن تُقطّع كل زجاجة بلاستيكية تُدخَل فيها وتطبع إيصالًا يمكن استبداله بنقود. لكن الرجل تلاعب بآليتها ليجعلها تسجّل نفس الزجاجة كأنها زجاجة جديدة في كل مرة، وكرر العملية 177,451 مرة، محصّلًا نحو 47 ألف دولار من إيصالات لم تقابلها زجاجات حقيقية.\n\n#احتيال #ألمانيا #إعادة_تدوير #غرائب",
+  "headlines": [
+    "كيف استطاع بائع مشروبات ألماني تحقيق 47 ألف دولار من زجاجة واحدة؟",
+    "بائع مشروبات في كولونيا يستغل آلة إعادة التدوير ليجني أرباحًا وهمية",
+    "هل نجح مشروب ألماني في خداع نظام إعادة التدوير 177 ألف مرة؟"
+  ],
+  "headline_selected": 0,
+  "reel": null,
+  "reel_spec": {
+    "headline": "زجاجة واحدة تُدوَّر 177 ألف مرة وتُجني 47 ألف دولار",
+    "category": "غرائب",
+    "urgent": false,
+    "image_candidates": [
+      "https://i0.wp.com/boingboing.net/wp-content/uploads/2026/09/APMPlasticBottleRecyclingMachine.jpg?fit=768%2C1024&quality=60&ssl=1",
+      "https://i0.wp.com/boingboing.net/wp-content/uploads/2026/09/APMPlasticBottleRecyclingMachine.jpg?fit=768%2C1024&amp;quality=60&amp;ssl=1"
+    ]
+  },
+  "publish_at": "2026-09-11T03:43:21.199879+00:00",
+  "error": "حقول مفقودة: image"
+}

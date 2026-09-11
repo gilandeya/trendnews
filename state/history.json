@@ -1,101 +1,5 @@
 [
   {
-    "score": 17.28,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "blamed",
-      "colombia",
-      "drone",
-      "guerrillas",
-      "kills",
-      "least",
-      "soldiers",
-      "three"
-    ],
-    "link": "https://www.theguardian.com/world/2026/sep/05/drone-attack-guerrillas-kills-soldiers-colombia",
-    "title": "Drone attack blamed on guerrillas kills at least three soldiers in Colombia",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-06T03:08:07.273925+00:00"
-  },
-  {
-    "score": 16.53,
-    "bucket": "serious",
-    "tokens": [
-      "blast",
-      "fuel",
-      "iran",
-      "kills",
-      "least",
-      "tanker",
-      "western"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/9/5/fuel-tanker-blast-in-western-iran-kills-at-least-10?traffic_source=rss",
-    "title": "Fuel tanker blast in western Iran kills at least 10",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-06T03:08:07.274196+00:00"
-  },
-  {
-    "score": 16.27,
-    "bucket": "serious",
-    "tokens": [
-      "charles",
-      "funeral",
-      "harald",
-      "king",
-      "norway",
-      "prince",
-      "represent",
-      "william"
-    ],
-    "link": "https://www.theguardian.com/uk-news/2026/sep/05/prince-william-to-represent-king-charles-at-funeral-of-norways-king-harald-v",
-    "title": "Prince William to represent King Charles at funeral of Norway’s King Harald V",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-06T03:08:07.274477+00:00"
-  },
-  {
-    "score": 16.06,
-    "bucket": "serious",
-    "tokens": [
-      "ali",
-      "claims",
-      "control",
-      "israel",
-      "key",
-      "lebanon",
-      "means",
-      "ridge",
-      "taher",
-      "what"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/9/5/israel-claims-control-of-lebanons-key-ali-al-taher-ridge-what-that-means?traffic_source=rss",
-    "title": "Israel claims control of Lebanon’s key Ali al-Taher ridge: What that means",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-06T03:08:07.274731+00:00"
-  },
-  {
-    "score": 13.31,
-    "bucket": "useful",
-    "tokens": [
-      "asia",
-      "fires",
-      "haze",
-      "how",
-      "impacts",
-      "indonesian",
-      "southeast"
-    ],
-    "link": "https://phys.org/news/2026-09-haze-indonesian-impacts-southeast-asia.html",
-    "title": "How haze from Indonesian fires impacts Southeast Asia",
-    "posted_title": "",
-    "region": "science",
-    "seen_at": "2026-09-06T03:08:07.275012+00:00"
-  },
-  {
     "score": 26.1,
     "bucket": "serious",
     "tokens": [
@@ -5355,5 +5259,28 @@
     "posted_title": "",
     "region": "pk",
     "seen_at": "2026-09-11T03:08:03.795326+00:00"
+  },
+  {
+    "score": 17.39,
+    "bucket": "light",
+    "tokens": [
+      "177",
+      "451",
+      "47k",
+      "bottle",
+      "collected",
+      "machine",
+      "man",
+      "ran",
+      "recycling",
+      "same",
+      "through",
+      "times"
+    ],
+    "link": "https://boingboing.net/2026/09/10/recycling-machine-same-bottle-scam.html",
+    "title": "Man ran the same bottle through a recycling machine 177,451 times and collected $47k",
+    "posted_title": "بائع مشروبات في ألمانيا يعيد تدوير زجاجة واحدة 177 ألف مرة ويجمع 47 ألف دولار",
+    "region": "odd",
+    "seen_at": "2026-09-11T03:43:21.177449+00:00"
   }
 ]
