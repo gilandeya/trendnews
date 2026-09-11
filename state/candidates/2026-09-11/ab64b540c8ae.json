@@ -1,0 +1,55 @@
+{
+  "id": "ab64b540c8ae",
+  "created_at": "2026-09-11T09:07:52.711250+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.14,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Global bonds, stocks, selloff pauses as oil retreats from multi-month high",
+  "link": "https://www.freemalaysiatoday.com/category/business/2026/09/11/global-bonds-stocks-selloff-pauses-as-oil-retreats-from-multi-month-high",
+  "publishers": [
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Global bonds, stocks, selloff pauses as oil retreats from multi-month high",
+    "link": "https://www.freemalaysiatoday.com/category/business/2026/09/11/global-bonds-stocks-selloff-pauses-as-oil-retreats-from-multi-month-high",
+    "summary": "Brent hit US$109 a barrel before easing below US$106, but remained on track for a weekly gain of about 10%.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-11T08:58:44+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/01/ebd03c34-us-federal-reserves-envato-elements-pic-130126-1.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد"
+    ],
+    "cluster_members": [
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/global-bonds-fall-as-surging-oil-prices-inflame-inflation-risks-4897139"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/09/11/global-bonds-stocks-selloff-pauses-as-oil-retreats-from-multi-month-high"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/01/ebd03c34-us-federal-reserves-envato-elements-pic-130126-1.webp",
+      "https://content-media.investing.com/trkd-images/LYNXMPEM8A01T_L.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 904.9128298105555,
+    "is_stale": false,
+    "score": 21.13995682396296
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "id": "7070375952d2",
+  "created_at": "2026-09-11T09:07:52.710482+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.81,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Tremor recorded as Israel says Hezbollah tunnels destroyed in south Lebanon",
+  "link": "https://www.thehindu.com/news/international/tremor-recorded-as-israel-says-hezbollah-tunnels-destroyed-in-south-lebanon/article71454953.ece",
+  "publishers": [
+    "France 24",
+    "France24",
+    "Hindustan Times — World",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Tremor recorded as Israel says Hezbollah tunnels destroyed in south Lebanon",
+    "link": "https://www.thehindu.com/news/international/tremor-recorded-as-israel-says-hezbollah-tunnels-destroyed-in-south-lebanon/article71454953.ece",
+    "summary": "Demolition of key tunnels built beneath the strategic Ali al-Taher ridge triggered a 4.1 magnitude tremor",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-11T07:16:15+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/w24lnu/article71455041.ece/alternates/LANDSCAPE_1200/Lebanon_Israel_Strategic_Hill_67544.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "France 24",
+      "France24",
+      "Hindustan Times — World",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3367135/israel-destroys-hezbollah-tunnel-network-south-lebanon-triggering-tremor?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260910-israel-hezbollah-tunnels-lebanon-earthquake"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/tremor-recorded-as-israel-says-hezbollah-tunnels-destroyed-in-south-lebanon/article71454953.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/israel-says-destroyed-key-hezbollah-tunnels-in-south-lebanon-101789067189276.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/w24lnu/article71455041.ece/alternates/LANDSCAPE_1200/Lebanon_Israel_Strategic_Hill_67544.jpg",
+      "https://s.france24.com/media/display/33fe30ea-ad7b-11f1-9da7-005056a97e36/w:1024/p:16x9/AFP-20260910-C7Y769E-v3-MidRes-TopshotLebanonIsraelIranUsWar.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 904.9127903233333,
+    "is_stale": false,
+    "score": 23.808537412273196
+  }
+}

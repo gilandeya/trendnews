@@ -1,0 +1,52 @@
+{
+  "id": "1c1d8ecac056",
+  "created_at": "2026-09-11T09:07:52.711782+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.65,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Canada unveils US$254 million air defence package for Ukraine",
+  "link": "https://www.scmp.com/news/world/russia-central-asia/article/3367106/canada-unveils-us254-million-air-defence-package-ukraine?utm_source=rss_feed",
+  "publishers": [
+    "Hindustan Times — World",
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Canada unveils US$254 million air defence package for Ukraine",
+    "link": "https://www.scmp.com/news/world/russia-central-asia/article/3367106/canada-unveils-us254-million-air-defence-package-ukraine?utm_source=rss_feed",
+    "summary": "Canada ⁠has agreed to a C$350 million (US$254 million) aid package for Kyiv to acquire air defence interceptors, Prime Minister Mark Carney said on Thursday, after meeting Ukrainian President Volodymyr Zelensky. Kyiv is ‌running critically low on US-made Patriot interceptors capable of stopping Russia’s ballistic missiles at a time when Moscow is stepping up its attacks. “As Russia escalates its barbaric aerial warfare indiscriminately targeting civilian populations, Ukraine’s air defences are...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-09-10T18:05:20+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/russia-central-asia/article/3367106/canada-unveils-us254-million-air-defence-package-ukraine?utm_source=rss_feed"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/canada-agrees-on-c-350-million-air-defense-package-for-ukraine-carney-says-101789066245660.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 904.9128606991667,
+    "is_stale": false,
+    "score": 19.64729015361111
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "id": "10969d400c09",
+  "created_at": "2026-09-11T09:07:52.711529+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.71,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia's new jet-powered drones outpacing Ukraine's air defences with daily launches",
+  "link": "https://www.bbc.co.uk/news/articles/c804d9lyj2jo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Yahoo"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Russia's new jet-powered drones outpacing Ukraine's air defences with daily launches",
+    "link": "https://www.bbc.co.uk/news/articles/c804d9lyj2jo?at_medium=RSS&at_campaign=rss",
+    "summary": "The new models can travel at speeds of up to 300mph, faster than Ukraine's air defence interceptors.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-10T04:43:54+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9bfd/live/d80b0030-ac65-11f1-a540-61c3f7fc4e6c.png",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Yahoo"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c804d9lyj2jo?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9bfd/live/d80b0030-ac65-11f1-a540-61c3f7fc4e6c.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/9bfd/live/d80b0030-ac65-11f1-a540-61c3f7fc4e6c.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9bfd/live/d80b0030-ac65-11f1-a540-61c3f7fc4e6c.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 904.9128579227778,
+    "is_stale": false,
+    "score": 19.706808672314814
+  }
+}

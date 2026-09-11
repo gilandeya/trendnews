@@ -1,26 +1,5 @@
 [
   {
-    "score": 16.06,
-    "bucket": "serious",
-    "tokens": [
-      "ali",
-      "claims",
-      "control",
-      "israel",
-      "key",
-      "lebanon",
-      "means",
-      "ridge",
-      "taher",
-      "what"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/9/5/israel-claims-control-of-lebanons-key-ali-al-taher-ridge-what-that-means?traffic_source=rss",
-    "title": "Israel claims control of Lebanon’s key Ali al-Taher ridge: What that means",
-    "posted_title": "إسرائيل تعلن السيطرة على تلة علي الطاهر الاستراتيجية جنوب لبنان",
-    "region": "qa",
-    "seen_at": "2026-09-06T08:10:53.399855+00:00"
-  },
-  {
     "score": 22.51,
     "bucket": "serious",
     "tokens": [
@@ -5278,5 +5257,105 @@
     "posted_title": "",
     "region": "money",
     "seen_at": "2026-09-11T06:07:51.456645+00:00"
+  },
+  {
+    "score": 23.81,
+    "bucket": "serious",
+    "tokens": [
+      "destroyed",
+      "hezbollah",
+      "israel",
+      "lebanon",
+      "recorded",
+      "south",
+      "tremor",
+      "tunnels"
+    ],
+    "link": "https://www.thehindu.com/news/international/tremor-recorded-as-israel-says-hezbollah-tunnels-destroyed-in-south-lebanon/article71454953.ece",
+    "title": "Tremor recorded as Israel says Hezbollah tunnels destroyed in south Lebanon",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-11T09:07:52.710917+00:00"
+  },
+  {
+    "score": 21.24,
+    "bucket": "useful",
+    "tokens": [
+      "allegedly",
+      "baby",
+      "back",
+      "bring",
+      "india",
+      "indonesia",
+      "orangutans",
+      "seeks",
+      "trafficked"
+    ],
+    "link": "https://phys.org/news/2026-09-indonesia-baby-orangutans-allegedly-trafficked.html",
+    "title": "Indonesia seeks to bring back baby orangutans allegedly trafficked to India",
+    "posted_title": "",
+    "region": "science",
+    "seen_at": "2026-09-11T09:07:52.711219+00:00"
+  },
+  {
+    "score": 21.14,
+    "bucket": "serious",
+    "tokens": [
+      "bonds",
+      "global",
+      "high",
+      "month",
+      "multi",
+      "oil",
+      "pauses",
+      "retreats",
+      "selloff",
+      "stocks"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/business/2026/09/11/global-bonds-stocks-selloff-pauses-as-oil-retreats-from-multi-month-high",
+    "title": "Global bonds, stocks, selloff pauses as oil retreats from multi-month high",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-11T09:07:52.711519+00:00"
+  },
+  {
+    "score": 19.71,
+    "bucket": "serious",
+    "tokens": [
+      "air",
+      "daily",
+      "defences",
+      "drones",
+      "jet",
+      "launches",
+      "outpacing",
+      "powered",
+      "russia's",
+      "ukraine's"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c804d9lyj2jo?at_medium=RSS&at_campaign=rss",
+    "title": "Russia's new jet-powered drones outpacing Ukraine's air defences with daily launches",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-11T09:07:52.711772+00:00"
+  },
+  {
+    "score": 19.65,
+    "bucket": "serious",
+    "tokens": [
+      "254",
+      "air",
+      "canada",
+      "defence",
+      "million",
+      "package",
+      "ukraine",
+      "unveils"
+    ],
+    "link": "https://www.scmp.com/news/world/russia-central-asia/article/3367106/canada-unveils-us254-million-air-defence-package-ukraine?utm_source=rss_feed",
+    "title": "Canada unveils US$254 million air defence package for Ukraine",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-11T09:07:52.712033+00:00"
   }
 ]
