@@ -1,0 +1,70 @@
+{
+  "id": "730a9844de77",
+  "created_at": "2026-09-11T18:07:59.589793+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.79,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "More US lawmakers seek new AI rules after researchers warn of human extinction",
+  "link": "https://www.france24.com/en/video/20260911-more-us-lawmakers-seek-new-ai-rules-after-researchers-warn-of-human-extinction",
+  "publishers": [
+    "France24",
+    "The Express Tribune",
+    "The Japan Times"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "More US lawmakers seek new AI rules after researchers warn of human extinction",
+    "link": "https://www.france24.com/en/video/20260911-more-us-lawmakers-seek-new-ai-rules-after-researchers-warn-of-human-extinction",
+    "summary": "Growing numbers of U.S. lawmakers are calling for new rules to govern AI systems after dire warnings from two Anthropic researchers that rapidly progressing artificial intelligence could lead to the extinction of the human race in the not-too-distant future.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-11T14:10:24+00:00",
+    "image_url": "https://s.france24.com/media/display/50ede380-adda-11f1-a294-005056a90284/w:1024/p:16x9/EN-20260911-135351-135551-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "The Express Tribune",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628784/more-us-lawmakers-seek-new-ai-rules-after-anthropic-researchers-warn-of-human-extinction"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260911-more-us-lawmakers-seek-new-ai-rules-after-researchers-warn-of-human-extinction"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/business/2026/09/11/us-ai-rules-anthropic-safety/"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/50ede380-adda-11f1-a294-005056a90284/w:1024/p:16x9/EN-20260911-135351-135551-CS.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/11/562500.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/11/thumbs/400x400/562500.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 913.9147090955556,
+    "is_stale": false,
+    "score": 18.791014882681985,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

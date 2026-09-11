@@ -1,0 +1,62 @@
+{
+  "id": "04f6dcc21cb1",
+  "created_at": "2026-09-11T18:07:59.589367+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.52,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nigeria: Abuja bans all official visits to South Africa amid anti-immigrant violence",
+  "link": "http://www.africanews.com/2026/09/11/nigeria-abuja-bans-all-official-visits-to-south-africa-amid-anti-immigrant-violence/",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Nigeria: Abuja bans all official visits to South Africa amid anti-immigrant violence",
+    "link": "http://www.africanews.com/2026/09/11/nigeria-abuja-bans-all-official-visits-to-south-africa-amid-anti-immigrant-violence/",
+    "summary": "As violence in South Africa continues against immigrants, the Nigerian National Assembly has announced it is banning all official visits to the country.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-11T16:22:31+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/91/05/47/640x360_cmsv2_62162513-643b-5eab-b7c3-49e863bc9421-9910547.jpg?1789135939",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/11/nigeria-suspends-official-visits-to-south-africa-over-anti-migrant-violence?traffic_source=rss"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/11/nigeria-abuja-bans-all-official-visits-to-south-africa-amid-anti-immigrant-violence/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/91/05/47/640x360_cmsv2_62162513-643b-5eab-b7c3-49e863bc9421-9910547.jpg?1789135939"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 913.9146747880555,
+    "is_stale": false,
+    "score": 22.516257016388888,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
