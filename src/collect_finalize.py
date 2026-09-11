@@ -252,16 +252,41 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     # تعليم) ولا يدخل _record_rejections لاحقًا (Issue #308)
     write_errors: list[tuple[str, WriteFailure]] = []
 
+    # «انشر فورًا» (Issue #868): نفس مبدأ بناء بطاقة 🎴 أسفله تمامًا — قبل
+    # #852 كانت البطاقة تُبنى مع الصياغة نفسها، فلم يكن هذا المسار يحتاج
+    # استدعاءً خاصًا؛ بعده صارت البطاقة تُبنى فقط عند الاعتماد
+    # (publish.main، السطر ~745) أو في مسار 🎴 صراحة — وهذا المسار يُسلِّم
+    # المعرّفات مباشرة إلى publish.cmd_now/cmd_burst/cmd_schedule بلا مرور
+    # بـpublish.main إطلاقًا، فبقي بلا استدعاء (الشاهد: 🚀 نُشر 0 من 1 —
+    # حقول مفقودة: image). now_written يُحسَب بصرف النظر عن نجاح البطاقة
+    # (مطابقًا لـ card_written أسفله) لأن فشل البناء وحده لا يعني "لم
+    # تُصَغ مسودة" — فلا يُخلَط مع فشل الصياغة التقني (write_errors).
     now_drafts: list[dict] = []
-    now_published_ids: list[str] = []
+    now_written = 0
     for cid in now_ids:
         draft = _write_selected(cid, history, dupe_threshold, acfg, rcfg, cfg,
                                 write_errors)
-        if draft:
-            now_drafts.append(draft)
-            now_published_ids.append(draft["id"])
-            log.info("✓ صيغت مسودة (نشر فوري): %s",
-                     draft["arabic"]["post_title"][:60])
+        if not draft:
+            continue
+        now_written += 1
+        found = store.load_draft(draft["id"])
+        if not found:
+            continue
+        now_path, now_draft = found
+        if cards.ensure(now_path, now_draft, cfg) is None:
+            log.warning("تعذّر بناء بطاقة المسودة 🚀 %s — تُترك pending بلا صورة",
+                       draft["id"])
+            review.comment(
+                issue_number,
+                f"⚠️ تعذّر بناء بطاقة **{now_draft['arabic']['post_title'][:60]}** "
+                "🚀 — بقيت المسودة معلَّقة بلا صورة، وستظهر في أقرب Issue "
+                "مراجعة أولية.",
+            )
+            continue
+        now_drafts.append(now_draft)
+        log.info("✓ صيغت مسودة (نشر فوري) وبُنيت بطاقتها: %s",
+                 now_draft["arabic"]["post_title"][:60])
+    now_published_ids = [d["id"] for d in now_drafts]
 
     review_drafts: list[dict] = []
     for cid in draft_ids:
@@ -276,7 +301,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     # مسودة جديدًا)، ثم بطاقتها تُبنى فورًا هنا (لا عند اعتماد لاحق) —
     # مباشرة بالعنوان الافتراضي (arabic.image_headline)، فلا مربع عناوين
     # لها أصلًا في المراجعة النهائية. card_written يُحسَب بصرف النظر عن
-    # نجاح البطاقة (تدخل total_drafted بمجرد كتابتها، مثل now_drafts/
+    # نجاح البطاقة (تدخل total_drafted بمجرد كتابتها، مثل now_written/
     # review_drafts) — فشل البناء وحده لا يعني "لم تُصَغ مسودة".
     card_drafts: list[dict] = []
     card_written = 0
@@ -310,12 +335,12 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     unselected = [i for i in all_ids if i not in selected_ids]
     _record_rejections(unselected)
 
-    total_drafted = len(now_drafts) + len(review_drafts) + card_written
+    total_drafted = now_written + len(review_drafts) + card_written
     log.info("صيغت %d مسودة من %d معتمد (فشلت الصياغة لـ %d) — %d غير مختار سُجّل في feedback",
              total_drafted, len(selected_ids), len(selected_ids) - total_drafted,
              len(unselected))
 
-    if not now_drafts and not review_drafts and not card_written:
+    if not now_written and not review_drafts and not card_written:
         if write_errors:
             # عطل تقني لا قرار تحريري: approved يبقى كما هو ليعيد المراجع
             # تشغيل النشر لاحقًا بلا إعادة تعليم، ولا شيء يُسجَّل في
