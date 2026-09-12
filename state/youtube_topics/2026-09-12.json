@@ -1,0 +1,812 @@
+{
+  "run_date": "2026-09-12",
+  "stats": {
+    "points_in": 244,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 94,
+    "issues_clustered": 30,
+    "topics_merged": 5,
+    "topics_out": 7,
+    "dropped_by_bloc_cap": 7,
+    "topics_seen_skipped": 0,
+    "topics_below_min_points": 11,
+    "layer_a": 4,
+    "layer_b": 2,
+    "layer_c": 1,
+    "agreement": 5,
+    "cross_source": 2,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "تصريحات ترامب حول نهاية الحرب مع إيران قبل الانتخابات النصفية",
+      "استدعاء ترامب لإيران في ذكرى سبتمبر ووصفها بأكبر راعٍ للإرهاب"
+    ],
+    [
+      "تقدم الحوثيين نحو المخا وجزر حنيش وتهديد باب المندب",
+      "سيطرة الحوثيين على المخا وباب المندب والتصعيد مع السعودية اقتصاديًا"
+    ],
+    [
+      "ضحايا هجمات الحادي عشر من سبتمبر وحروب مكافحة الإرهاب",
+      "تقييم ما بعد ربع قرن على هجمات سبتمبر"
+    ],
+    [
+      "مسؤولية إيران عن هجمات الحوثيين على السعودية",
+      "مواقف مجلس الأمن من التصعيد الحوثي"
+    ],
+    [
+      "إقرار قانون المساعدة على الموت في فرنسا",
+      "الجدل الأخلاقي والفقهي حول قانون المساعدة على الموت"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "تصريحات ترامب حول نهاية الحرب مع إيران قبل الانتخابات النصفية",
+      "event": "ترامب يصرّح بأن الحرب مع إيران ستنتهي قرب/بعد الانتخابات النصفية الأمريكية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Iran International",
+        "SÖZCÜ",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        1,
+        3,
+        76,
+        81,
+        128,
+        137,
+        138
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "تقدم الحوثيين نحو المخا وجزر حنيش وتهديد باب المندب",
+      "event": "سيطرة/تقدم الحوثيين في المخا وجزر البحر الأحمر وتهديد الملاحة في باب المندب",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Iran International",
+        "SÖZCÜ",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        21,
+        75,
+        102,
+        103,
+        104,
+        105,
+        126,
+        140
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "عملية إسرائيلية لتدمير أنفاق حزب الله في علي الطاهر جنوب لبنان",
+      "event": "إعلان الجيش الإسرائيلي إنهاء عملية تدمير شبكة أنفاق حزب الله في علي الطاهر ومقاومة المقاتلين هناك",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        70,
+        80
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "استئناف إيران إنتاج الصواريخ الباليستية وأجهزة الطرد المركزي",
+      "event": "تقارير عن استئناف إيران إنتاج الصواريخ الباليستية وأجهزة الطرد المركزي في منشآت تحت الأرض",
+      "layer": "a",
+      "blocs": [
+        "israeli",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Iran International",
+        "SÖZCÜ",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        67,
+        71,
+        129
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "فوز حزب البديل في انتخابات ساكسونيا وتداعياته",
+      "event": "فوز حزب البديل من أجل ألمانيا اليميني المتطرف في انتخابات ولاية ساكسونيا/ساكسونيا أنهالت",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        112,
+        115
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "أزمة الأسعار والتضخم في تركيا (وقود، أجور، ضرائب)",
+      "event": "ارتفاع أسعار الوقود والضرائب وتراجع الأجور الحقيقية للعمال الأتراك بسبب التضخم",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        116,
+        117,
+        118,
+        119,
+        124,
+        125
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "مواقف موسى فيجلين المتشددة حول السياسة الإسرائيلية وأوسلو",
+      "event": "تصريحات رئيس حزب الهوية موسى فيجلين حول الوضع الأمني الإسرائيلي وضرورة إلغاء اتفاقيات أوسلو وشروط دخوله الحكومة",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "تصريحات ترامب حول نهاية الحرب مع إيران قبل الانتخابات النصفية",
+      "event": "ترامب يصرّح بأن الحرب مع إيران ستنتهي قرب/بعد الانتخابات النصفية الأمريكية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Iran International",
+        "SÖZCÜ",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        1,
+        3,
+        76,
+        81,
+        128,
+        137,
+        138
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "تقدم الحوثيين نحو المخا وجزر حنيش وتهديد باب المندب",
+      "event": "سيطرة/تقدم الحوثيين في المخا وجزر البحر الأحمر وتهديد الملاحة في باب المندب",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Iran International",
+        "SÖZCÜ",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        21,
+        75,
+        102,
+        103,
+        104,
+        105,
+        126,
+        140
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "عملية إسرائيلية لتدمير أنفاق حزب الله في علي الطاهر جنوب لبنان",
+      "event": "إعلان الجيش الإسرائيلي إنهاء عملية تدمير شبكة أنفاق حزب الله في علي الطاهر ومقاومة المقاتلين هناك",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        70,
+        80
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "استئناف إيران إنتاج الصواريخ الباليستية وأجهزة الطرد المركزي",
+      "event": "تقارير عن استئناف إيران إنتاج الصواريخ الباليستية وأجهزة الطرد المركزي في منشآت تحت الأرض",
+      "layer": "a",
+      "blocs": [
+        "israeli",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Iran International",
+        "SÖZCÜ",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        67,
+        71,
+        129
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "التهديد الأمريكي بضرب جبل الفاس/كلنك النووي الإيراني",
+      "event": "تهديدات أمريكية بضرب موقع جبل الفاس (كُلَنك) النووي وعدم تمكن مفتشي الوكالة من الوصول إليه",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        2,
+        63
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "معارضة روسيا والصين إحالة الملف النووي الإيراني لمجلس الأمن",
+      "event": "تصويت مجلس محافظي الوكالة الدولية للطاقة الذرية على إحالة الملف الإيراني ومعارضة روسيا والصين، وإقرار مجلس الأمن للعقوبات لاحقًا",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        64
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فوز حزب البديل في انتخابات ساكسونيا وتداعياته",
+      "event": "فوز حزب البديل من أجل ألمانيا اليميني المتطرف في انتخابات ولاية ساكسونيا/ساكسونيا أنهالت",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        112,
+        115
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "ضحايا هجمات الحادي عشر من سبتمبر وحروب مكافحة الإرهاب",
+      "event": "إحصاءات ضحايا هجمات سبتمبر 2001 والحروب اللاحقة عليها",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        14,
+        15,
+        16,
+        17,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87
+      ],
+      "total_points": 17,
+      "fresh_points": 17,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "فروق أسعار آيفون 18 برو والقابل للطي بين أمريكا وتركيا",
+      "event": "فارق أسعار هواتف آبل الجديدة (آيفون 18 برو والقابل للطي) بين السوق الأمريكي والتركي بسبب الضرائب",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        52,
+        120
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة الأسعار والتضخم في تركيا (وقود، أجور، ضرائب)",
+      "event": "ارتفاع أسعار الوقود والضرائب وتراجع الأجور الحقيقية للعمال الأتراك بسبب التضخم",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        116,
+        117,
+        118,
+        119,
+        124,
+        125
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "دعوة إيران لاجتماع خليجي-عراقي في مسقط/صلالة",
+      "event": "إيران تدعو دول الخليج والعراق لاجتماع وزاري في مسقط/صلالة بعد اندلاع الحرب، ودوافعها وتوقعاتها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        74,
+        77,
+        78,
+        79,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "ذكرى معاهدة السلام المصرية الإسرائيلية وقرار السادات",
+      "event": "نقاش حول قرار السادات استعادة سيناء وتوقيع معاهدة السلام مع إسرائيل منفردًا أو بالتنسيق العربي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "مسؤولية إيران عن هجمات الحوثيين على السعودية",
+      "event": "اتهامات بأن طهران أمرت الحوثيين بمهاجمة السعودية مقابل دعم عسكري ومالي، ونفي إيراني للسيطرة على الحوثيين",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        22,
+        25,
+        26,
+        27
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "إقرار قانون المساعدة على الموت في فرنسا",
+      "event": "إقرار البرلمان الفرنسي قانون المساعدة على الموت في يوليو 2026 بعد نقاشات طويلة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "تفاوت ثروات المليارديرات وهيمنة شركات الذكاء الاصطناعي على الأسواق",
+      "event": "تقارير عن تركز الثروة لدى المليارديرات وهيمنة شركات الذكاء الاصطناعي على مؤشر S&P 500",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        107,
+        108
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قيود بريطانية على مستوردات مستوطنات الضفة الغربية وتحول الموقف البريطاني",
+      "event": "فرض بريطانيا قيودًا على استيراد سلع المستوطنات الإسرائيلية وتصريحات وزير الخارجية البريطاني بشأن الأوضاع في الضفة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        109,
+        113,
+        114
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحويل بلديات المعارضة إلى حزب الحكومة التركي",
+      "event": "انتقال أكثر من 90 بلدية من أحزاب المعارضة إلى حزب الحكومة بعد انتخابات 2024",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        123,
+        127
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استخدام الإيرانيين للسخرية والفكاهة السوداء كمقاومة للنظام",
+      "event": "لجوء الإيرانيين للفكاهة السوداء والسخرية كشكل من أشكال المقاومة ضد قمع النظام",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        130,
+        131,
+        132
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قصة شاهين عبدالعزيزي ضحية إطلاق النار في احتجاجات إيران",
+      "event": "إصابة شاهين عبدالعزيزي بالرصاص واعتقال زوجها لاحقًا في سياق قمع الاحتجاجات الإيرانية",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        133,
+        134
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دعوات لتشديد السياسة الأمريكية تجاه إيران",
+      "event": "دعوات خبراء أمريكيين لتبني إجراءات اقتصادية وعسكرية أقوى ضد النظام الإيراني بدل الضغط البطيء",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        135,
+        143
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مواقف موسى فيجلين المتشددة حول السياسة الإسرائيلية وأوسلو",
+      "event": "تصريحات رئيس حزب الهوية موسى فيجلين حول الوضع الأمني الإسرائيلي وضرورة إلغاء اتفاقيات أوسلو وشروط دخوله الحكومة",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "أزمة المزارعين الأمريكيين وارتفاع تكاليف الإنتاج",
+      "event": "تقارير عن خطر عدم تحقيق أرباح للمزارعين الأمريكيين وارتفاع أسعار الأسمدة والوقود",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        18,
+        19
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتهام ألمانيا لروسيا بإرسال مسيّرة إلى مطار لايبتسيك وصعوبة التحقق الصحفي",
+      "event": "اتهام برلين لموسكو بإرسال طائرة مسيّرة مفخخة لمطار لايبتسيك، وصعوبة تحقق الصحفيين من الاتهامات الدولية عمومًا",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "تحليل أسيموغلو للديمقراطية الليبرالية وصعود الشعبوية وترامب",
+      "event": "تحليل الاقتصادي أسيموغلو لفشل الديمقراطية الليبرالية وصعود الشعبوية وترامب كنتاج للنظام",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        53,
+        54
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف الحزب الجيد من عملية السلام الكردية والأزمة الاقتصادية التركية",
+      "event": "انتقادات رئيس الحزب الجيد لعملية السلام الجارية في تركيا وللأوضاع الاقتصادية والنظام الرئاسي",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "bloc_cap"
+    }
+  ]
+}
