@@ -1,0 +1,69 @@
+{
+  "id": "48dec70bed22",
+  "created_at": "2026-09-12T22:07:59.941551+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.85,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Mbappe scores two, as Real Madrid sink Rayo",
+  "link": "https://www.vanguardngr.com/2026/09/mbappe-scores-two-as-real-madrid-sink-rayo/",
+  "publishers": [
+    "Channel News Asia",
+    "El País",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Mbappe scores two, as Real Madrid sink Rayo",
+    "link": "https://www.vanguardngr.com/2026/09/mbappe-scores-two-as-real-madrid-sink-rayo/",
+    "summary": "Kylian Mbappe struck twice to help Real Madrid smash Rayo Vallecano 4-1 on Saturday to pull level with Barcelona at the top of La Liga. The post Mbappe scores two, as Real Madrid sink Rayo appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-09-12T21:21:28+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260912__C86C8NF__v1__HighRes__FblEspLigaRealMadridRayo-1024x683.jpg",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "Channel News Asia",
+      "El País",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/mbappe-scores-brace-real-madrid-get-4-1-victory-over-rayo-vallecano-6380771"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/mbappe-scores-two-as-real-madrid-sink-rayo/"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-12/el-real-madrid-no-perdona-un-desliz-ante-el-rayo-vallecano.html"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260912__C86C8NF__v1__HighRes__FblEspLigaRealMadridRayo-1024x683.jpg",
+      "https://imagenes.elpais.com/resizer/v2/IS7CB4OSZVHWDMCYEH7YCNJSPM.jpg?auth=09c0d11b87353ac11d77aea8dccee7745232d1268a9b5c7ad015337caf1060ef"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 941.9147740144444,
+    "is_stale": true,
+    "score": 19.85330429814495,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

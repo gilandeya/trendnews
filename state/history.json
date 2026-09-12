@@ -1,103 +1,5 @@
 [
   {
-    "score": 17.88,
-    "bucket": "sport",
-    "tokens": [
-      "aside",
-      "finals",
-      "live",
-      "open",
-      "osaka",
-      "quarter",
-      "reach",
-      "rybakina",
-      "swats"
-    ],
-    "link": "https://www.skysports.com/tennis/live-blog/12040/13582595/us-open-live-scores-updates-news-and-results-from-new-york-with-naomi-osaka-iga-swiatek-coco-gauff-and-alexander-zverev-in-action",
-    "title": "US Open LIVE! Rybakina swats Osaka aside to reach quarter-finals",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-07T22:07:53.792976+00:00"
-  },
-  {
-    "score": 17.28,
-    "bucket": "serious",
-    "tokens": [
-      "ban",
-      "children",
-      "don't",
-      "estonia",
-      "media",
-      "social",
-      "tells"
-    ],
-    "link": "https://www.channelnewsasia.com/world/dont-ban-children-social-media-estonia-tells-eu-6368126",
-    "title": "Don't ban children from social media, Estonia tells EU",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-07T22:07:53.793252+00:00"
-  },
-  {
-    "score": 16.58,
-    "bucket": "serious",
-    "tokens": [
-      "china's",
-      "floods",
-      "grow",
-      "identifies",
-      "killed",
-      "nepal",
-      "questions",
-      "reporting",
-      "those"
-    ],
-    "link": "https://www.npr.org/2026/09/07/nx-s1-5960357/nepal-floods-questions-over-chinas-reporting",
-    "title": "As Nepal identifies those killed in the floods, questions grow over China's reporting",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-09-07T22:07:53.793530+00:00"
-  },
-  {
-    "score": 16.55,
-    "bucket": "serious",
-    "tokens": [
-      "devices",
-      "eastern",
-      "explosive",
-      "find",
-      "german",
-      "grid",
-      "near",
-      "police",
-      "power",
-      "state"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/07/police-in-eastern-german-state-find-21-explosive-devices-near-power-grid",
-    "title": "Police in Eastern German state find 21 explosive devices near power grid",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-07T22:07:53.793776+00:00"
-  },
-  {
-    "score": 16.49,
-    "bucket": "serious",
-    "tokens": [
-      "canal",
-      "chief",
-      "considers",
-      "cuts",
-      "due",
-      "nino",
-      "panama",
-      "transits"
-    ],
-    "link": "https://www.scmp.com/news/world/americas/article/3366692/new-panama-canal-chief-considers-more-cuts-transits-due-el-nino?utm_source=rss_feed",
-    "title": "New Panama Canal chief considers more cuts in transits due to El Nino",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-07T22:07:53.794037+00:00"
-  },
-  {
     "score": 25.31,
     "bucket": "serious",
     "tokens": [
@@ -5250,5 +5152,103 @@
     "posted_title": "لماذا تصر إيران على أن أمن مضيق هرمز شأن إقليمي لا أمريكي",
     "region": "in",
     "seen_at": "2026-09-12T19:16:06.244633+00:00"
+  },
+  {
+    "score": 27.09,
+    "bucket": "serious",
+    "tokens": [
+      "arsenal",
+      "chelsea",
+      "draw",
+      "extend",
+      "league",
+      "liverpool",
+      "perfect",
+      "premier",
+      "start"
+    ],
+    "link": "https://www.vanguardngr.com/2026/09/arsenal-extend-perfect-premier-league-start-as-chelsea-liverpool-draw/",
+    "title": "Arsenal extend perfect Premier League start as Chelsea, Liverpool draw",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-12T22:07:59.940545+00:00"
+  },
+  {
+    "score": 23.26,
+    "bucket": "useful",
+    "tokens": [
+      "2026",
+      "advised",
+      "altman",
+      "going",
+      "ill",
+      "openai",
+      "public",
+      "sam",
+      "would"
+    ],
+    "link": "https://www.theverge.com/ai-artificial-intelligence/994384/sam-altman-no-openai-ipo-ill-advised",
+    "title": "Sam Altman says OpenAI going public in 2026 would be ‘ill-advised’",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-09-12T22:07:59.940844+00:00"
+  },
+  {
+    "score": 22.59,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "blaming",
+      "drones",
+      "iraq",
+      "key",
+      "oil",
+      "pipeline",
+      "saudi",
+      "shuts"
+    ],
+    "link": "https://www.theguardian.com/world/2026/sep/12/saudi-arabia-shuts-down-oil-pipeline-blaming-drones-from-iraq",
+    "title": "Saudi Arabia shuts down key oil pipeline, blaming drones from Iraq",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-12T22:07:59.941212+00:00"
+  },
+  {
+    "score": 20.03,
+    "bucket": "sport",
+    "tokens": [
+      "2026",
+      "aryna",
+      "elena",
+      "final",
+      "open",
+      "rybakina",
+      "sabalenka",
+      "singles",
+      "women"
+    ],
+    "link": "https://www.theguardian.com/sport/live/2026/sep/12/aryna-sabalenka-v-elena-rybakina-us-open-2026-womens-singles-final-live",
+    "title": "Aryna Sabalenka v Elena Rybakina: US Open 2026 women’s singles final",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-12T22:07:59.941541+00:00"
+  },
+  {
+    "score": 19.85,
+    "bucket": "serious",
+    "tokens": [
+      "madrid",
+      "mbappe",
+      "rayo",
+      "real",
+      "scores",
+      "sink",
+      "two"
+    ],
+    "link": "https://www.vanguardngr.com/2026/09/mbappe-scores-two-as-real-madrid-sink-rayo/",
+    "title": "Mbappe scores two, as Real Madrid sink Rayo",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-12T22:07:59.941814+00:00"
   }
 ]
