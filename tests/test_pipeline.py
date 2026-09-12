@@ -162,6 +162,7 @@ from tests.test_article import (
     test_article_language_note,
     test_article_mentioned_sources,
     test_article_fetch_failure_gap,
+    test_article_snippet_only_sources,
     test_article_source_facts,
     test_article_draft_investigation,
     test_article_no_min_facts_gate,
@@ -319,6 +320,7 @@ def main() -> int:
     test_article_language_note()
     test_article_mentioned_sources()
     test_article_fetch_failure_gap()
+    test_article_snippet_only_sources()
     test_article_source_facts()
     print("\n── منشور «تحقيق» من outcome._write_article (Issue #765) ──")
     test_article_draft_investigation()

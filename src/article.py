@@ -857,7 +857,14 @@ NAMING_SCHEMA = {
 
 
 def _format_docs(docs: list[dict]) -> str:
-    return "\n\n".join(f"--- المصدر: {d['name']} ---\n{d['text']}" for d in docs)
+    # مقتطف فقط (فشل الجلب، Issue #895) مُستبعَد من محتوى أي نداء نموذج —
+    # نصّه القصير (عنوان+ملخص) يُثبت أن المصدر تناول الموضوع فقط، ولا يصلح
+    # مادة حكم على مضمون واقعة بعينها (القاعدة الحاسمة، انظر توثيق
+    # evidence._snippet_fallback_docs). يبقى اسمه معروفًا لـevidence._known_only
+    # عبر docs الأصلية غير المُصفّاة في المستدعي، فلا يخترع النموذج اسمًا،
+    # لكنه لا يمكن أن يُذكَر أصلًا بما أن نصّه غاب عن النداء كليًا.
+    return "\n\n".join(f"--- المصدر: {d['name']} ---\n{d['text']}"
+                       for d in docs if not d.get("snippet_only"))
 
 
 def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
@@ -1375,7 +1382,12 @@ def _support_sources(fact_text: str, docs: list[dict], cfg,
     عتبتها (report_min_confirm) مستقلة تُطبَّق خارج هذه الدالة."""
     if is_report:
         docs = [d for d in docs if _report_identity_kind(publisher, d, cfg)]
-    if not docs:
+    # مقتطف فقط (فشل الجلب، Issue #895) لا يصلح مادة حكم سند — القاعدة
+    # الحاسمة: يُثبت الذكر فقط لا المضمون. لا نداء نموذج إن لم يبقَ من
+    # docs إلا مقتطفات (المستدعي في article.py يُضيف أسماءها لـmentioned
+    # بنفسه من docs الأصلية بعد هذه العودة المبكرة — انظر _format_docs
+    # التي تستبعدها من محتوى النداء أيضًا، دفاع مزدوج لا اعتماد واحد)
+    if not any(not d.get("snippet_only") for d in docs):
         return []
     acfg = cfg.get("article", {}) or {}
     model = acfg.get("model", "claude-sonnet-5")
@@ -3152,7 +3164,7 @@ def _name_event_fact(f: dict, st: dict, cfg) -> bool:
     # الحكم على الكفاية
     named_text, named_docs, named_supporting, name_trail = _name_event(f, cfg, topic=topic)
     trail.extend(name_trail)
-    all_read_docs.extend(named_docs)
+    all_read_docs.extend(evidence.readable_only(named_docs))
     if not named_text:
         dropped.append({
             "text": f["text"],
@@ -3165,7 +3177,7 @@ def _name_event_fact(f: dict, st: dict, cfg) -> bool:
     support_query = evidence.build_query(named_text, query_max_words)
     support_ranked = evidence.search(support_query, cfg, days)
     support_docs, support_basis = evidence.gather_evidence(support_ranked, cfg, named_text)
-    all_read_docs.extend(support_docs)
+    all_read_docs.extend(evidence.readable_only(support_docs))
     support_supporting = (_support_sources(named_text, support_docs, cfg)
                           if support_docs else [])
     support_call_error = getattr(support_supporting, "call_error", None)
@@ -3346,7 +3358,11 @@ def _search_fact_support(f: dict, st: dict, cfg, outcome: dict, _cached_search) 
             ranked, docs, basis, reused_query, excluded_reprints = _cached_search(
                 query, is_reference_fact, relevance_text, days_override=wide_days)
             widened = True
-        all_read_docs.extend(docs)
+        # readable_only: مقتطف فقط (فشل الجلب، Issue #895) لا يدخل مجمّع
+        # القراءة المُعاد استعماله لاحقًا لفحص الأصالة (extra_docs) ولا
+        # لاستخراج وقائع إضافية من مصادر مقروءة (source_extract) — نصّه لا
+        # يصلح لأي منهما، انظر توثيق evidence._snippet_fallback_docs
+        all_read_docs.extend(evidence.readable_only(docs))
         reprint_image_pool.extend(_reprint_fallback_images(excluded_reprints, ranked))
         # ما لم يُؤيَّد لا يدخل المتن (طلب المراجعة، معيار الأغلبية):
         # أجزاء merged_excerpts التي أيّدها مصدر واحد فأكثر — هذه وحدها
@@ -3390,6 +3406,12 @@ def _search_fact_support(f: dict, st: dict, cfg, outcome: dict, _cached_search) 
             # محتمل) عن "قُرئ نص يناقشه ولم يطابق مضمونه" (عطل حكم) —
             # تمييز كان يحتاج جولة تشخيص كاملة في كل مرة قبل هذا الحقل
             fact_mentioned = set(getattr(supporting, "mentioned", []) or [])
+        # مقتطف فقط (فشل الجلب، Issue #895) يُحتسب في «ذكره N مصدر» دومًا —
+        # يُضاف هنا يدويًا لأن النموذج لم يَرَ نصّه أصلًا (_format_docs
+        # تستبعده من كل نداء)، فلا يمكن أن يظهر اسمه في mentioned التي
+        # يعيدها النموذج بنفسه. لا يدخل supporting/unique أبدًا بنفس السبب
+        # — القاعدة الحاسمة: يُثبت الذكر لا المضمون
+        fact_mentioned |= {d["name"] for d in docs if d.get("snippet_only")}
         unique = set(supporting)
         attempt_result = {
             "search_attempt": search_attempt, "query": query, "ranked": ranked,
@@ -3622,7 +3644,7 @@ def _answer_brief_questions(st: dict, cfg, outcome: dict) -> None:
         ranked = evidence.search(query, cfg, days, unrestricted=q.get("is_reference", False))
         relevance_text = evidence._entities_text(q) or q["text"]
         docs, basis = evidence.gather_evidence(ranked, cfg, relevance_text)
-        all_read_docs.extend(docs)
+        all_read_docs.extend(evidence.readable_only(docs))
         # سؤال الصلة يحمل أدلة [تسمية]/[سند] المُوحَّدة الهوية أصلًا —
         # البحث الجديد هنا إضافة لا بديل عنها (تشخيص Issue #373، الجولة
         # الثانية عشرة، البند 2): إهدارها كان يعتمد الحكم على تفاوت نتائج
@@ -4851,6 +4873,23 @@ def build_report(outcome: dict, investigation: dict | None = None) -> str:
         lines += ["", "**المصادر المقروءة:**"]
         lines += [f"- [{s['name']}]({s['link']})" if s.get("link") else f"- {s['name']}"
                  for s in outcome["sources"]]
+
+    # مصادر ذُكرت في نتيجة بحث لكن تعذّر جلب نصّها فعليًا (Issue #895) —
+    # مقتطف عنوان+ملخص فقط أُبقي بدل إسقاطها كليًا (evidence._snippet_fallback_docs)،
+    # مُستنتَجة هنا من trail وحده (كل وثيقة snippet_only تظهر اسمها في
+    # "sources" الخاصة بمرحلتها وفي "fetch_failures" معًا) — لا حقل مستقل
+    # يحتاج تحديثًا في كل موضع gather_evidence عبر الملف
+    unread_mentions: list[str] = []
+    seen_unread: set[str] = set()
+    for t in outcome.get("trail") or []:
+        failed_names = {f.get("name") for f in t.get("fetch_failures") or [] if f.get("name")}
+        for name in t.get("sources") or []:
+            if name in failed_names and name not in seen_unread:
+                seen_unread.add(name)
+                unread_mentions.append(name)
+    if unread_mentions:
+        lines += ["", "**مصادر ذكرت الموضوع ولم يُقرأ نصّها:**"]
+        lines += [f"- {name}" for name in unread_mentions]
 
     if outcome.get("answered_questions"):
         lines += ["", "**أسئلتي التي أجبتُ عنها بحثًا:**"]
