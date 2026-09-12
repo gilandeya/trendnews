@@ -417,6 +417,66 @@ def _evidence_docs(items, fetch_failures: list, top_candidates: list | None = No
     return out
 
 
+def _snippet_fallback_docs(fetch_failures: list[dict], articles: list[Article],
+                           exclude: set[str]) -> list[dict]:
+    """مقتطف (عنوان+ملخص) بديل عن مرشّح فشل جلب نصّه الكامل فعليًا رغم نجاح
+    قراءة مرشّح آخر لنفس الواقعة (Issue #895) — بدل إسقاطه كليًا كما كان
+    يحدث سابقًا (يبقى فقط في fetch_failures التشخيصية، غائبًا عن docs
+    كليًا). شاهد متكرر: Bloomberg 403 وReuters 401 وInvesting.com 403
+    وThe Arab Weekly 403 — من أثقل المصادر وزنًا، وdemoted_readers (تبقى
+    كما هي، لا علاقة لها بهذا الإصلاح) تؤخّرها في ترتيب القراءة فقط، فلا
+    تفسّر خسارتها كليًا حين يفشل الجلب فعلًا رغم الأولوية.
+
+    مُعلَّم snippet_only=True صراحة — قاعدة حاسمة يعتمدها كل مستهلك لاحق
+    (article.py: _format_docs/_support_sources/all_read_docs): المقتطف
+    يُثبت أن المصدر تناول الموضوع فقط (يُحتسب في «ذكره N مصدر»)، لا مضمون
+    واقعة بعينها — فلا يدخل حكم السند ولا فحص الأصالة ولا extra_docs، نصّه
+    القصير يرفع احتمال تطابق لفظي كاذب. لا يستبدل احتياط العناوين الكامل
+    أدناه (حين يفشل كل الجلب معًا) — ذاك مسار قديم مستقل بلا هذه العلامة،
+    يبقى بسلوكه المعهود (توثيقه في مكانه).
+
+    يُبنى من مقالة الممثّل (articles) نفسها — أو ممثّل مجموعتها لعضو
+    cluster_members الذي لا عنوان له الخاص (rank.pick_representative لا
+    تخزّن سوى الاسم والرابط لكل عضو) — تقريب معقول: التجميع أصلًا قائم على
+    تشابه العناوين لفظيًا، فعنوان الممثّل يمثّل الحدث نفسه بدقة كافية
+    لمقتطف "ذُكر فقط" لا أكثر."""
+    if not fetch_failures:
+        return []
+    article_by_name: dict[str, Article] = {}
+    for a in articles:
+        rep_name = a.publisher or a.source_name
+        if rep_name:
+            article_by_name.setdefault(rep_name, a)
+        for m in a.cluster_members:
+            mname = m.get("name")
+            if mname:
+                article_by_name.setdefault(mname, a)
+    docs = []
+    for fail in fetch_failures:
+        name = fail.get("name") or ""
+        if not name or name in exclude:
+            continue
+        article = article_by_name.get(name)
+        if not article:
+            continue
+        snippet = f"{article.title}. {article.summary}".strip(" .")
+        if not snippet:
+            continue
+        docs.append({"name": name, "text": snippet, "from_text": False,
+                    "snippet_only": True, "link": fail.get("link", "")})
+        log.info("📄 مقتطف فقط (فشل الجلب) لـ%s — يُحتسب في الذكر لا في السند: %s",
+                 name, fail.get("reason", ""))
+    return docs
+
+
+def readable_only(docs: list[dict]) -> list[dict]:
+    """يستبعد وثائق snippet_only (مقتطف بديل بعد فشل الجلب، انظر
+    _snippet_fallback_docs) — لا تصلح مجمّع قراءة فعلي: فحص الأصالة
+    واستخراج وقائع إضافية من مصادر مقروءة يحتاجان نصًّا حقيقيًا قُرئ، لا
+    عنوانًا وملخصًا فقط."""
+    return [d for d in docs if not d.get("snippet_only")]
+
+
 def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
                     loose_relevance: bool = False) -> tuple[list[dict], str]:
     """يقرأ نصوص أعلى النتائج، متبِّعًا روابط Google News الوسيطة أولًا
@@ -559,8 +619,15 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
     if fulltext:
         log.info("نصوص مُقروءة فعلًا من نافذة القراءة: %s",
                  [d.get("name") for d in fulltext])
-        docs = [{**d, "from_text": True, "link": link_by_name.get(d["name"], "")}
+        docs = [{**d, "from_text": True, "snippet_only": False,
+                "link": link_by_name.get(d["name"], "")}
                for d in fulltext]
+        # مرشّحون فشل جلبهم رغم نجاح غيرهم — مقتطف بدل إسقاط كلي (Issue
+        # #895)، انظر توثيق _snippet_fallback_docs. exclude يحمي من تكرار
+        # ناشر نجح جلبه فعلًا لو ظهر اسمه في fetch_failures بالخطأ (لا
+        # يقع بنيويًا بعد توحيد _add في members، لكن دفاع رخيص لا يضر)
+        docs += _snippet_fallback_docs(fetch_failures, articles,
+                                       {d["name"] for d in fulltext})
         return _evidence_docs(docs, fetch_failures, top_candidates), EVIDENCE_FULL_TEXT
 
     headline_docs = []

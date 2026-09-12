@@ -2416,6 +2416,46 @@ def test_evidence() -> None:
           getattr(docs_f, "fetch_failures", None) == [])
     extract.gather = real_extract_gather
 
+    # ── مقتطف بدل إسقاط كلي لمرشّح فشل جلبه رغم نجاح غيره (Issue #895) ──
+    # الشاهد: Bloomberg/Reuters/Investing.com/The Arab Weekly ٤٠٣/٤٠١ متكرر
+    # — العلاج القديم (demoted_readers) يؤخّرها في ترتيب القراءة فقط، ولا
+    # يمنع إسقاطها كليًا حين يفشل جلبها فعليًا رغم الأولوية. الآن: تُحفَظ
+    # كمقتطف (عنوان+ملخص) بعلامة snippet_only صريحة بدل الاختفاء التام.
+    mixed_articles = [
+        Article(title="Bloomberg report on the story", link="https://bloomberg.example/1",
+               summary="Bloomberg's own summary of the event", source_name="Bloomberg",
+               region="global", weight=1.0, published=datetime.now(timezone.utc),
+               publisher="Bloomberg"),
+        Article(title="AP confirms the story", link="https://ap.example/1",
+               summary="AP full account", source_name="AP", region="global", weight=1.0,
+               published=datetime.now(timezone.utc), publisher="AP"),
+    ]
+    real_extract_gather2 = extract.gather
+    extract.gather = lambda members, limit=2: (
+        [{"name": "AP", "text": "نص AP الكامل المقروء فعليًا"}],
+        [{"name": "Bloomberg", "link": "https://bloomberg.example/1", "reason": "HTTP 403"}])
+    docs_mix, basis_mix = evidence.gather_evidence(mixed_articles, cfg)
+    extract.gather = real_extract_gather2
+    by_name_mix = {d["name"]: d for d in docs_mix}
+    check("evidence.gather_evidence: مرشّح فشل جلبه رغم نجاح غيره لا يُسقَط "
+          "كليًا — يبقى في docs كمقتطف",
+          "Bloomberg" in by_name_mix, docs_mix)
+    check("evidence.gather_evidence: المقتطف مُعلَّم snippet_only=True صراحة",
+          by_name_mix.get("Bloomberg", {}).get("snippet_only") is True, by_name_mix)
+    check("evidence.gather_evidence: المقتطف from_text=False (لا نص كامل فعليًا)",
+          by_name_mix.get("Bloomberg", {}).get("from_text") is False, by_name_mix)
+    check("evidence.gather_evidence: نص المقتطف مبني من عنوان/ملخص المقالة الفعليَّين",
+          "Bloomberg report on the story" in by_name_mix.get("Bloomberg", {}).get("text", ""),
+          by_name_mix)
+    check("evidence.gather_evidence: المرشّح الناجح يبقى نصًّا كاملًا snippet_only=False",
+          by_name_mix.get("AP", {}).get("from_text") is True and
+          by_name_mix.get("AP", {}).get("snippet_only") is False, by_name_mix)
+    check("evidence.gather_evidence: الأساس يبقى «نص كامل» طالما نجح مرشّح واحد فأكثر",
+          basis_mix == evidence.EVIDENCE_FULL_TEXT)
+    check("evidence.gather_evidence: fetch_failures التشخيصية تبقى محفوظة كالمعتاد",
+          getattr(docs_mix, "fetch_failures", None) ==
+          [{"name": "Bloomberg", "link": "https://bloomberg.example/1", "reason": "HTTP 403"}])
+
     seen_merge_cfg: list = []
     seen_keep_google: list = []
     real_rank = evidence.rank
@@ -5341,8 +5381,12 @@ def test_article_read_failure_substitution() -> None:
         "questions": [],
     }, None)
     evidence.search = lambda query, cfg, days, unrestricted=False: list(candidates)
+    # snippet_only (Issue #895) مُستبعَدة هنا كما تفعل _support_sources
+    # الحقيقية فعليًا (عبر _format_docs) — الفاكة تُحاكي هذا الاستبعاد
+    # صراحة، وإلا لظهر مرشّحا القراءة الفاشلان (اللذان صارا الآن مقتطفَين
+    # في docs بدل إسقاط كلي) كمصدرين "مؤيِّدين" زورًا
     article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
-        is_report=False, publisher="": [d["name"] for d in docs]
+        is_report=False, publisher="": [d["name"] for d in docs if not d.get("snippet_only")]
     article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار الاستبدال؟", "")
     article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
         {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
@@ -5372,11 +5416,20 @@ def test_article_read_failure_substitution() -> None:
           bool(fact_trail) and
           {f["name"] for f in fact_trail[0].get("fetch_failures", [])} ==
           {"Bike Europe", "defensearabia.com"}, fact_trail)
-    check("استبدال مرشح فاشل) المصادر المسندة فعليًا هي البديلان الناجحان لا "
-          "الفاشلَين",
+    # منذ Issue #895، المرشّحان الفاشلان لا يختفيان كليًا من docs (مقتطف
+    # عنوان+ملخص بدل إسقاط كلي) — trail["sources"] يعرض الأربعة معًا الآن،
+    # لكن outcome["sources"] (المصادر المسنِدة فعليًا فقط، من unique/supporting)
+    # يبقى يحمل البديلين الناجحين حصرًا لا الفاشلَين المتحوَّلين لمقتطف
+    check("استبدال مرشح فاشل) trail[sources] يعرض الأربعة معًا (البديلان "
+          "الناجحان + مقتطفا المرشَّحين الفاشلَين، Issue #895)",
           bool(fact_trail) and
-          set(fact_trail[0].get("sources", [])) == {"المصدر الثالث", "المصدر الرابع"},
+          set(fact_trail[0].get("sources", [])) ==
+          {"المصدر الثالث", "المصدر الرابع", "Bike Europe", "defensearabia.com"},
           fact_trail)
+    check("استبدال مرشح فاشل) المصادر المسندة فعليًا هي البديلان الناجحان لا "
+          "الفاشلَين (مقتطفاهما لا يدخلان السند، Issue #895)",
+          {s["name"] for s in outcome["sources"]} == {"المصدر الثالث", "المصدر الرابع"},
+          outcome["sources"])
 
 def test_article_wide_days() -> None:
     """توسيع نافذة البحث مرة واحدة عند صفر نتائج خام (Issue #820، الجزء
@@ -7911,6 +7964,125 @@ def test_article_fetch_failure_gap() -> None:
           all(text not in dropped_by_text for text in
               ("واقعة بمرشّح ثانٍ فاشل", "واقعة بلا فشل جلب", "واقعة بمرشّح فاشل مكرر")),
           dropped_by_text)
+
+def test_article_snippet_only_sources() -> None:
+    """مقتطف بدل إسقاط كلي عند فشل الجلب (Issue #895): مرشّح فشل جلب نصّه
+    الكامل فعليًا (٤٠٣/٤٠١/صفحة اشتراك) رغم نجاح قراءة مرشّح آخر لا يُسقَط
+    كليًا من evidence.gather_evidence بعد الآن — يبقى في docs كمقتطف
+    (عنوان+ملخص) مُعلَّم snippet_only=True صراحة (انظر الإضافة على test_evidence
+    لاختبار evidence.gather_evidence مباشرة).
+
+    القاعدة الحاسمة المختبرة هنا على مستوى article.py: المقتطف يُثبت أن
+    المصدر ذكر الموضوع فقط — يُحتسب في «ذكره N مصدر» — ولا يُحتسب إطلاقًا
+    في «طابق مضمونه» ولا في عدّ المصادر المستقلة المؤيِّدة، فلا يدخل فحص
+    الأصالة ولا extra_docs، وأي واقعة سندها الوحيد مقتطفات لا تدخل المقال
+    ولا بالدرجة ب."""
+    from src import article, verify_draft
+
+    cfg = load_config()
+    cfg["article"]["source_extract_enabled"] = False
+
+    real_doc = {"name": "Daily Sabah", "text": "نص كامل مقروء فعليًا من Daily Sabah",
+               "link": "https://s1/1", "from_text": True, "snippet_only": False}
+    snippet_doc_ys = {"name": "Yeni Şafak", "text": "عنوان Yeni Şafak. ملخص Yeni Şafak",
+                      "link": "https://s2/1", "from_text": False, "snippet_only": True}
+    snippet_doc_ds = {"name": "Daily Sabah", "text": "عنوان Daily Sabah. ملخص Daily Sabah",
+                      "link": "https://s1/2", "from_text": False, "snippet_only": True}
+    docs_by_claim = {
+        "كB1": [real_doc, snippet_doc_ys],
+        "كC1": [snippet_doc_ds, snippet_doc_ys],
+    }
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+    real_check_orig = verify_draft._check_originality_full
+
+    captured_extra_docs: list[list[dict]] = []
+
+    def _fake_check_orig(*args, **kwargs):
+        captured_extra_docs.append(list(kwargs.get("extra_docs") or []))
+        return real_check_orig(*args, **kwargs)
+
+    def _fake_support(fact_text, docs, cfg, is_statement=False, is_report=False, publisher=""):
+        # يحاكي عقد _support_sources الحقيقي بعد Issue #895: snippet_only
+        # لا تدخل الحكم على المضمون إطلاقًا (نظير استبعادها من _format_docs
+        # الحقيقية) — mentioned تبقى فارغة هنا عمدًا لأن article.py نفسه
+        # يضيف أسماء snippet_only إلى fact_mentioned يدويًا من docs الأصلية
+        # لا من نتيجة _support_sources (انظر التعديل في _check_fact)
+        return article._ModelCallList(d["name"] for d in docs if not d.get("snippet_only"))
+
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        list(docs_by_claim.get(claim_text, [])), evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = _fake_support
+    article.find_images = lambda title, cfg, terms=None: []
+    verify_draft._check_originality_full = _fake_check_orig
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار مقتطف فقط",
+        "statements": [
+            {"text": "واقعة بمصدر مقروء ومقتطف", "kind": "واقعة", "entities": ["كB1"],
+             "is_unnamed_event": False, "is_reference": False},
+            {"text": "واقعة سندها مقتطفان فقط", "kind": "واقعة", "entities": ["كC1"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار المقتطف؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختبار المقتطف بحسب Daily Sabah.", "hashtags": ["اختبار"]}, "")
+
+    try:
+        out = article._write_article("موجز اختبار مقتطف فقط", 9004, cfg)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        article.find_images = real_find_images
+        verify_draft._check_originality_full = real_check_orig
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+
+    dropped_by_text = {d["text"]: d["reason"] for d in out["dropped"]}
+    check("واقعة بمصدر مقروء ومقتطف: لم تسقط",
+          "واقعة بمصدر مقروء ومقتطف" not in dropped_by_text, dropped_by_text)
+    check("واقعة بمصدر مقروء ومقتطف: دخلت المقال درجة ب منسوبة إلى Daily Sabah "
+          "وحده — المقتطف (Yeni Şafak) لم يرفعها إلى درجة أ",
+          any(g["text"] == "واقعة بمصدر مقروء ومقتطف" and g["grade"] == "B" and
+              g.get("attribution_name") == "Daily Sabah" for g in out["fact_grades"]),
+          out["fact_grades"])
+    check("واقعة سندها مقتطفان فقط: تسقط فعليًا — لا تدخل المقال ولا بالدرجة ب "
+          "رغم أن مصدرين ذكرا الموضوع",
+          "واقعة سندها مقتطفان فقط" in dropped_by_text, dropped_by_text)
+    check("واقعة سندها مقتطفان فقط: لا تدخل fact_grades بأي درجة من الدرجات الثلاث",
+          not any(g["text"] == "واقعة سندها مقتطفان فقط" for g in out["fact_grades"]),
+          out["fact_grades"])
+    check("واقعة سندها مقتطفان فقط: رسالة السقوط تُحصي المصدرين في «ذكره N مصدر» "
+          "(يُحتسبان في الذكر لا في السند)",
+          "ذكره 2 مصدر" in dropped_by_text.get("واقعة سندها مقتطفان فقط", ""),
+          dropped_by_text)
+
+    check("check_originality: extra_docs يستبعد كل وثيقة snippet_only كليًا "
+          "(اسمًا ونصًّا) — لا يدخلها فحص الأصالة",
+          all(d["name"] != "Yeni Şafak" for ed in captured_extra_docs for d in ed) and
+          all("Yeni Şafak" not in (d.get("text") or "")
+              for ed in captured_extra_docs for d in ed) and
+          all("عنوان Daily Sabah" not in (d.get("text") or "")
+              for ed in captured_extra_docs for d in ed),
+          captured_extra_docs)
+    check("check_originality: extra_docs يحوي النص الكامل الحقيقي المقروء "
+          "(Daily Sabah) لا مقتطفه",
+          any(d["name"] == "Daily Sabah" and
+              d["text"] == "نص كامل مقروء فعليًا من Daily Sabah"
+              for ed in captured_extra_docs for d in ed),
+          captured_extra_docs)
 
 def test_article_source_facts() -> None:
     """وقائع من المصادر (لا الموجز فقط، طلب المراجعة على Issue #373): مرحلة
