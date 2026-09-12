@@ -178,6 +178,7 @@ from tests.test_youtube import (
     test_youtube_article,
     test_youtube_publish,
 )
+from tests.test_guards_golden import test_guards_golden
 
 
 def main() -> int:
@@ -414,6 +415,8 @@ def main() -> int:
     test_youtube_article()
     print("\n── مسار يوتيوب: التوصيل (صورة + مسودة + مراجعة + نشر، Issue #676) ──")
     test_youtube_publish()
+    print("\n── حالات مرجعية (golden) للحُرّاس التحريرية (Issue #893) ──")
+    test_guards_golden()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:
