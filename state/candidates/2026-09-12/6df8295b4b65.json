@@ -1,0 +1,68 @@
+{
+  "id": "6df8295b4b65",
+  "created_at": "2026-09-12T15:07:50.557181+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.87,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says Iran likely behind Saudi pipeline attack",
+  "link": "https://www.iranintl.com/en/202609121594",
+  "publishers": [
+    "Al Jazeera English",
+    "Iran International",
+    "The Express Tribune"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Trump says Iran likely behind Saudi pipeline attack",
+    "link": "https://www.iranintl.com/en/202609121594",
+    "summary": "US President Donald Trump said on Saturday that Iran was probably responsible for the aerial attack that shut Saudi Arabia’s East-West oil pipeline, while predicting that the war with Tehran would end “very soon.”",
+    "source_name": "Iran International",
+    "region": "ir",
+    "weight": 1.0,
+    "published": "2026-09-12T12:20:26+00:00",
+    "image_url": "https://i.iranintl.com/images/rdk9umy0/production/42cc121768e68ce82eff660ac1960eafb97c4302-5356x3616.jpg?rect=0,407,5356,2803&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+    "publisher": "Iran International",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Iran International",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/12/trump-iran-probably-behind-saudi-oil-pipeline-attack?traffic_source=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628884/us-signals-no-imminent-strikes-on-houthis-but-points-to-intel-support-for-saudis-report"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202609121594"
+      }
+    ],
+    "image_candidates": [
+      "https://i.iranintl.com/images/rdk9umy0/production/42cc121768e68ce82eff660ac1960eafb97c4302-5356x3616.jpg?rect=0,407,5356,2803&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 934.9122478591667,
+    "is_stale": false,
+    "score": 22.868991587219025,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

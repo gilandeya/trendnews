@@ -1,0 +1,63 @@
+{
+  "id": "1ce11a05303f",
+  "created_at": "2026-09-12T15:07:50.557922+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.8,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "New Man City signings desperate to win",
+  "link": "https://www.bbc.co.uk/sport/football/articles/cy5zp9llp3ro?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Dias"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "New Man City signings desperate to win",
+    "link": "https://www.bbc.co.uk/sport/football/articles/cy5zp9llp3ro?at_medium=RSS&at_campaign=rss",
+    "summary": "Manchester City have brought in summer signings who are \"desperate to win\" and the whole squad is \"buying into the idea\" of new manager Enzo Maresca, says new captain Ruben Dias.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-12T05:24:51+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c5eb/live/fd45ae50-ac41-11f1-96a2-2f464854ded4.jpg",
+    "publisher": "Dias",
+    "cluster_sources": [
+      "Dias"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dias",
+        "link": "https://www.bbc.co.uk/sport/football/articles/cy5zp9llp3ro?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Dias",
+        "link": "https://www.myjoyonline.com/new-man-city-signings-desperate-to-win-dias/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c5eb/live/fd45ae50-ac41-11f1-96a2-2f464854ded4.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/c5eb/live/fd45ae50-ac41-11f1-96a2-2f464854ded4.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/c5eb/live/fd45ae50-ac41-11f1-96a2-2f464854ded4.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2021/05/Ruben-Dias-1024x753.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 934.9122814994445,
+    "is_stale": false,
+    "score": 20.80234482164815,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

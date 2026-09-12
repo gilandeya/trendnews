@@ -1,0 +1,60 @@
+{
+  "id": "bdb6879ca493",
+  "created_at": "2026-09-12T15:07:50.558533+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.5,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "BRICS summit begins in India; Iran-UAE dynamic key to joint statement",
+  "link": "https://asia.nikkei.com/politics/international-relations/brics-summit-begins-in-india-iran-uae-dynamic-key-to-joint-statement",
+  "publishers": [
+    "Kremlin aide",
+    "Nikkei Asia"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "BRICS summit begins in India; Iran-UAE dynamic key to joint statement",
+    "link": "https://asia.nikkei.com/politics/international-relations/brics-summit-begins-in-india-iran-uae-dynamic-key-to-joint-statement",
+    "summary": "",
+    "source_name": "Nikkei Asia",
+    "region": "jp",
+    "weight": 1.0,
+    "published": "2026-09-12T15:07:33.528089+00:00",
+    "image_url": null,
+    "publisher": "Nikkei Asia",
+    "cluster_sources": [
+      "Kremlin aide",
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/politics/international-relations/brics-summit-begins-in-india-iran-uae-dynamic-key-to-joint-statement"
+      },
+      {
+        "name": "Kremlin aide",
+        "link": "https://tass.com/politics/2186597"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 934.9122932766667,
+    "is_stale": false,
+    "score": 20.499799042518518,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

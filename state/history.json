@@ -1,45 +1,5 @@
 [
   {
-    "score": 21.07,
-    "bucket": "serious",
-    "tokens": [
-      "case",
-      "court",
-      "dismiss",
-      "gaza",
-      "genocide",
-      "germany",
-      "nicaragua's",
-      "seeks",
-      "top"
-    ],
-    "link": "https://www.france24.com/en/europe/20260907-germany-seeks-dismissal-of-nicaragua-s-gaza-genocide-case-at-top-un-court",
-    "title": "Germany seeks to dismiss Nicaragua's Gaza genocide case at top UN court",
-    "posted_title": "لماذا تطالب ألمانيا محكمة العدل الدولية بإسقاط دعوى نيكاراغوا بشأن غزة",
-    "region": "eu",
-    "seen_at": "2026-09-07T12:42:11.299880+00:00"
-  },
-  {
-    "score": 20.09,
-    "bucket": "serious",
-    "tokens": [
-      "destroyer",
-      "jong",
-      "kim",
-      "korea",
-      "north",
-      "nuclear",
-      "part",
-      "response",
-      "system"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-07-north-koreas-kim-jong-un-says-new-destroyer-will-be-part-of-nuclear-response-system/",
-    "title": "North Korea’s Kim Jong Un says new destroyer will be part of nuclear response system",
-    "posted_title": "كوريا الشمالية تدشّن مدمرة جديدة وتعلنها جزءًا من منظومتها النووية",
-    "region": "za",
-    "seen_at": "2026-09-07T12:42:29.755874+00:00"
-  },
-  {
     "score": 24.76,
     "bucket": "serious",
     "tokens": [
@@ -5318,5 +5278,106 @@
     "posted_title": "الحوثيون يحكمون قبضتهم على باب المندب بعد سيطرتهم على آخر جزيرتين في المضيق",
     "region": "in",
     "seen_at": "2026-09-12T12:13:23.544902+00:00"
+  },
+  {
+    "score": 22.87,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "behind",
+      "iran",
+      "likely",
+      "pipeline",
+      "saudi",
+      "trump"
+    ],
+    "link": "https://www.iranintl.com/en/202609121594",
+    "title": "Trump says Iran likely behind Saudi pipeline attack",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-12T15:07:50.557592+00:00"
+  },
+  {
+    "score": 21.95,
+    "bucket": "serious",
+    "tokens": [
+      "around",
+      "bab",
+      "disruption",
+      "exports",
+      "face",
+      "houthis",
+      "key",
+      "mandeb",
+      "oil",
+      "saudi",
+      "seize",
+      "sites"
+    ],
+    "link": "https://www.france24.com/en/video/20260912-houthis-seize-key-sites-around-bab-el-mandeb-as-saudi-oil-exports-face-disruption",
+    "title": "Houthis seize key sites around Bab el-Mandeb as Saudi oil exports face disruption",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-12T15:07:50.557912+00:00"
+  },
+  {
+    "score": 20.8,
+    "bucket": "sport",
+    "tokens": [
+      "city",
+      "desperate",
+      "man",
+      "signings",
+      "win"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/articles/cy5zp9llp3ro?at_medium=RSS&at_campaign=rss",
+    "title": "New Man City signings desperate to win",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-12T15:07:50.558183+00:00"
+  },
+  {
+    "score": 20.57,
+    "bucket": "serious",
+    "tokens": [
+      "dublin",
+      "happen",
+      "ireland",
+      "love",
+      "may",
+      "now",
+      "see",
+      "trump",
+      "unified",
+      "visits",
+      "well",
+      "would"
+    ],
+    "link": "https://www.theguardian.com/us-news/live/2026/sep/12/donald-trump-ireland-golf-catherine-connolly-us-politics-latest-news-updates",
+    "title": "Trump says he would ‘love’ to see unified Ireland and ‘it may as well happen now’ as he visits Dublin",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-12T15:07:50.558523+00:00"
+  },
+  {
+    "score": 20.5,
+    "bucket": "serious",
+    "tokens": [
+      "begins",
+      "brics",
+      "dynamic",
+      "india",
+      "iran",
+      "joint",
+      "key",
+      "statement",
+      "summit",
+      "uae"
+    ],
+    "link": "https://asia.nikkei.com/politics/international-relations/brics-summit-begins-in-india-iran-uae-dynamic-key-to-joint-statement",
+    "title": "BRICS summit begins in India; Iran-UAE dynamic key to joint statement",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-09-12T15:07:50.558785+00:00"
   }
 ]
