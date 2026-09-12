@@ -1,0 +1,92 @@
+{
+  "id": "fd3d6f2dfd38",
+  "created_at": "2026-09-12T18:07:51.199313+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.74,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "A united Ireland would be 'fantastic' says Trump during Irish visit",
+  "link": "https://www.bbc.co.uk/news/articles/cy0zvx15rywo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "Channel News Asia",
+    "Deutsche Welle",
+    "Free Malaysia Today",
+    "South China Morning Post"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "A united Ireland would be 'fantastic' says Trump during Irish visit",
+    "link": "https://www.bbc.co.uk/news/articles/cy0zvx15rywo?at_medium=RSS&at_campaign=rss",
+    "summary": "Trump made the comments during a meeting with Irish leader Micheál Martin, but Downing Street says it will \"stick to the Good Friday Agreement\".",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-12T13:56:20+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a39c/live/b6611ef0-aec3-11f1-b1d1-571ed4d7ff2c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "Channel News Asia",
+      "Deutsche Welle",
+      "Free Malaysia Today",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cy0zvx15rywo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/12/trump-says-a-unified-ireland-would-be-fantastic-during-irish-visit?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3367273/ireland-deploys-snipers-and-4000-police-trump-visit?utm_source=rss_feed"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/trump-visits-ireland-says-unification-would-be-fantastic/a-79244685?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/trump-says-he-would-love-see-united-ireland-6380186"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/12/trump-says-irish-unification-would-be-fantastic"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a39c/live/b6611ef0-aec3-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/a39c/live/b6611ef0-aec3-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/a39c/live/b6611ef0-aec3-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--7dtwWSm7--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-12T171158Z_2_LYNXMPEM8B09C_RTROPTP_3_USA-TRUMP-IRELAND.JPG?itok=wIjFoBvx",
+      "https://media.freemalaysiatoday.com/v3/2026/09/bfe66583-6026-46be-9856-f8cdbfdd2940-Donald-Trump.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 937.9124944158333,
+    "is_stale": false,
+    "score": 22.742707708635777,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "id": "7d08daadbb5e",
+  "created_at": "2026-09-12T18:07:51.198963+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.55,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "BRICS leaders meet in India as wars and US tensions test the bloc",
+  "link": "https://www.france24.com/en/video/20260912-brics-leaders-meet-in-india-as-wars-and-us-tensions-test-the-bloc",
+  "publishers": [
+    "Al Jazeera English",
+    "Court House News",
+    "France24",
+    "IRNA English",
+    "Malay Mail",
+    "Mehr News",
+    "NDTV — World",
+    "NPR",
+    "NPR World",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "BRICS leaders meet in India as wars and US tensions test the bloc",
+    "link": "https://www.france24.com/en/video/20260912-brics-leaders-meet-in-india-as-wars-and-us-tensions-test-the-bloc",
+    "summary": "Leaders of the BRICS nations are meeting in New Delhi on Saturday for a summit focused on trade, investment and global conflicts, as the bloc seeks a bigger role in shaping the global agenda for emerging and developing countries. Our correspondent Navodita Kumari tells us more.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-12T10:29:26+00:00",
+    "image_url": "https://s.france24.com/media/display/2290711c-ae8c-11f1-b001-005056a97e36/w:1024/p:16x9/EN-20260912-110058-110409-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Court House News",
+      "France24",
+      "IRNA English",
+      "Malay Mail",
+      "Mehr News",
+      "NDTV — World",
+      "NPR",
+      "NPR World",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/national/brics-leaders-meet-in-india-as-wars-and-us-tensions-test-the-bloc/article71459222.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260912-brics-leaders-meet-in-india-as-wars-and-us-tensions-test-the-bloc"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/12/g-s1-143054/brics-leaders-meet-in-india"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247661/Pezeshkian-meets-with-Malaysian-PM-in-India"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247666/Pezeshkian-meets-with-Ethiopian-PM-in-India-on-BRICS-Summit"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247670/Pezeshkian-meets-with-Indian-president-on-BRICS-Summit"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/2290711c-ae8c-11f1-b001-005056a97e36/w:1024/p:16x9/EN-20260912-110058-110409-CS.jpg",
+      "https://th-i.thgim.com/public/incoming/j2b100/article71459233.ece/alternates/LANDSCAPE_1200/TH11-Suhasini-MGNLGH653T.3.jpg.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-143054",
+      "https://media.mehrnews.com/d/2026/09/12/4/6170436.jpg",
+      "https://media.mehrnews.com/d/2026/09/12/4/6170061.jpg",
+      "https://media.mehrnews.com/d/2026/09/12/4/6170183.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 12,
+    "velocity": 1.0,
+    "age_hours": 937.9124883391667,
+    "is_stale": false,
+    "score": 32.545641556126434,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
