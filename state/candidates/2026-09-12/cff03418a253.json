@@ -1,0 +1,60 @@
+{
+  "id": "cff03418a253",
+  "created_at": "2026-09-12T03:07:49.231251+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.24,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemen’s Houthis reach strategic island in Bab el-Mandeb Strait",
+  "link": "https://www.scmp.com/news/world/middle-east/article/3367232/yemens-houthis-reach-strategic-island-bab-el-mandeb-strait?utm_source=rss_feed",
+  "publishers": [
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Yemen’s Houthis reach strategic island in Bab el-Mandeb Strait",
+    "link": "https://www.scmp.com/news/world/middle-east/article/3367232/yemens-houthis-reach-strategic-island-bab-el-mandeb-strait?utm_source=rss_feed",
+    "summary": "Yemen’s Iran-aligned Houthis reached the strategic island of Perim in the Bab el-Mandeb Strait on Friday, four Yemeni government sources told Reuters, moving to tighten their grip on a vital global shipping route in the widening Middle East war. Earlier, two sources from the Saudi-backed, internationally recognised Yemeni government said its forces had pulled out of Perim and that the Houthis had also taken the mainland Red Sea coastal town of Dhubab, which faces the island. If the Houthis gain...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-09-11T10:55:50+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3367232/yemens-houthis-reach-strategic-island-bab-el-mandeb-strait?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/west-asia-conflict-us-iran-war-live-updates-houthis-iran-red-sea-strait-of-hormuz-september-11-2026/article71455463.ece"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 922.911926756111,
+    "is_stale": false,
+    "score": 18.236793601259258,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

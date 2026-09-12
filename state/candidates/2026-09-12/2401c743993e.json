@@ -1,0 +1,70 @@
+{
+  "id": "2401c743993e",
+  "created_at": "2026-09-12T03:07:49.230811+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.8,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "La Liga: Valencia suffer fourth defeat in five games as Sevilla pile on misery",
+  "link": "https://www.malaymail.com/news/sports/2026/09/12/la-liga-valencia-suffer-fourth-defeat-in-five-games-as-sevilla-pile-on-misery/234893",
+  "publishers": [
+    "El País",
+    "Free Malaysia Today",
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "La Liga: Valencia suffer fourth defeat in five games as Sevilla pile on misery",
+    "link": "https://www.malaymail.com/news/sports/2026/09/12/la-liga-valencia-suffer-fourth-defeat-in-five-games-as-sevilla-pile-on-misery/234893",
+    "summary": "MADRID, Sept 12 — Sevilla piled more misery on rock-bottom Valencia as midfielder Juan Iglesias’s 81st minut...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-12T01:36:50+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/12/362065.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "El País",
+      "Free Malaysia Today",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/sports/2026/09/12/la-liga-valencia-suffer-fourth-defeat-in-five-games-as-sevilla-pile-on-misery/234893"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-11/el-sevilla-hurga-en-la-herida-del-valencia.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/12/sevilla-defeat-leaves-valencia-rooted-to-bottom-of-la-liga"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/12/362065.jpg",
+      "https://imagenes.elpais.com/resizer/v2/PADSHYQAIZNFNNBYLI2YSD725Q.jpg?auth=794beab20307f860e2fec67afadfc59515b5975dcc08478819c2bbafa391e2b0",
+      "https://media.freemalaysiatoday.com/v3/2026/09/eece3790-d9af-4a9a-9503-063690e2e260-14284663.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 922.9118980600001,
+    "is_stale": true,
+    "score": 19.803903328237546,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

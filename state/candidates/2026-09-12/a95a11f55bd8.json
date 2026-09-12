@@ -1,0 +1,80 @@
+{
+  "id": "a95a11f55bd8",
+  "created_at": "2026-09-12T03:07:49.230425+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.19,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Passenger train derails in France leaving at least 44 injured",
+  "link": "https://www.bbc.co.uk/news/articles/c8d37dm8d8mo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC",
+    "BBC World",
+    "Free Malaysia Today",
+    "NDTV — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Passenger train derails in France leaving at least 44 injured",
+    "link": "https://www.bbc.co.uk/news/articles/c8d37dm8d8mo?at_medium=RSS&at_campaign=rss",
+    "summary": "France's transport minister says 180 passengers were on board the train operating the Rouen-Caen route in Normandy.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-11T21:25:32+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/e072/live/267036e0-ae24-11f1-9042-891b220b1e31.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC",
+      "BBC World",
+      "Free Malaysia Today",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c8d37dm8d8mo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/12/passenger-train-derails-in-france-leaving-44-injured-1-critical?traffic_source=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/12/train-derails-in-northwest-france-44-injured"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/44-injured-after-train-derails-in-france-12035657#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/e072/live/267036e0-ae24-11f1-9042-891b220b1e31.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/e072/live/267036e0-ae24-11f1-9042-891b220b1e31.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/e072/live/267036e0-ae24-11f1-9042-891b220b1e31.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/e340d499-919c-4139-81a0-80f0a50e703e-AFP__20260911__C83F8NQ__v1__HighRes__FranceTransportRailwayAccident.webp",
+      "https://c.ndtvimg.com/2026-09/bpssf8n_france-train-derail_625x300_12_September_26.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 922.9119085711111,
+    "is_stale": false,
+    "score": 21.185577888847273,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

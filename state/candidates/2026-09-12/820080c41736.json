@@ -1,0 +1,62 @@
+{
+  "id": "820080c41736",
+  "created_at": "2026-09-12T03:07:49.231127+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.26,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump declines Saudi crown prince's call for U.S. strikes on Houthis: reports",
+  "link": "https://www.thehindu.com/news/international/trump-declines-saudi-crown-princes-call-for-us-strikes-on-houthis-reports/article71455330.ece",
+  "publishers": [
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Trump declines Saudi crown prince's call for U.S. strikes on Houthis: reports",
+    "link": "https://www.thehindu.com/news/international/trump-declines-saudi-crown-princes-call-for-us-strikes-on-houthis-reports/article71455330.ece",
+    "summary": "U.S. officials said the administration does not intend to take direct ‌military action against the Houthis at this time",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-11T11:32:36+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/clfuz6/article71455442.ece/alternates/LANDSCAPE_1200/US-announces-ciGAFG9SPFJ.3.jpg.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-declines-saudi-crown-princes-call-for-us-strikes-on-houthis-reports/article71455330.ece"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628870/trump-declines-saudi-call-for-us-strikes-on-houthis"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/clfuz6/article71455442.ece/alternates/LANDSCAPE_1200/US-announces-ciGAFG9SPFJ.3.jpg.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 922.9119254255556,
+    "is_stale": false,
+    "score": 18.2609787862963,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
