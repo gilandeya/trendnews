@@ -1,100 +1,5 @@
 [
   {
-    "score": 30.41,
-    "bucket": "serious",
-    "tokens": [
-      "across",
-      "border",
-      "bridge",
-      "first",
-      "korea",
-      "north",
-      "open",
-      "road",
-      "russia",
-      "shared"
-    ],
-    "link": "https://www.theguardian.com/world/2026/sep/07/russia-north-korea-open-first-road-bridge-tumen-river",
-    "title": "Russia and North Korea open first road bridge across their shared border",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-07T19:08:10.510188+00:00"
-  },
-  {
-    "score": 24.66,
-    "bucket": "serious",
-    "tokens": [
-      "israeli",
-      "kill",
-      "lebanese",
-      "southern",
-      "strikes",
-      "village"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c5yl96vz0edo?at_medium=RSS&at_campaign=rss",
-    "title": "Israeli strikes in southern Lebanese village kill 12",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-07T19:08:10.510502+00:00"
-  },
-  {
-    "score": 16.71,
-    "bucket": "serious",
-    "tokens": [
-      "close",
-      "consulate",
-      "germany",
-      "petersburg",
-      "russia"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/07/russia-to-close-germany-s-consulate-in-st-petersburg",
-    "title": "Russia to close Germany’s consulate in St. Petersburg",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-07T19:08:10.510782+00:00"
-  },
-  {
-    "score": 15.9,
-    "bucket": "serious",
-    "tokens": [
-      "envoys",
-      "kyiv",
-      "leave",
-      "official",
-      "talks",
-      "ukraine",
-      "zelenskyy"
-    ],
-    "link": "https://www.thehindu.com/news/international/us-envoys-hold-talks-with-zelensky-on-first-kyiv-visit/article71435478.ece",
-    "title": "U.S. envoys leave Kyiv after talks with Zelenskyy: Ukraine official",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-07T19:08:10.511063+00:00"
-  },
-  {
-    "score": 13.93,
-    "bucket": "serious",
-    "tokens": [
-      "aber",
-      "bleiben",
-      "großbritannien",
-      "harry",
-      "meghan",
-      "non",
-      "royals",
-      "sie",
-      "sind",
-      "und",
-      "working",
-      "zurück"
-    ],
-    "link": "https://www.spiegel.de/panorama/gesellschaft/harry-und-meghan-sind-zurueck-in-grossbritannien-non-working-royals-bleiben-sie-aber-a-dcb1b491-533f-4fde-ad2f-d5e073fec3a0#ref=rss",
-    "title": "Harry und Meghan sind zurück in Großbritannien. »Non-working royals« bleiben sie aber",
-    "posted_title": "",
-    "region": "de",
-    "seen_at": "2026-09-07T19:08:10.511325+00:00"
-  },
-  {
     "score": 17.88,
     "bucket": "sport",
     "tokens": [
@@ -5328,5 +5233,22 @@
     "posted_title": "",
     "region": "es",
     "seen_at": "2026-09-12T19:07:52.880703+00:00"
+  },
+  {
+    "score": 18.51,
+    "bucket": "serious",
+    "tokens": [
+      "asia",
+      "iran",
+      "need",
+      "policeman",
+      "president",
+      "west"
+    ],
+    "link": "https://www.thehindu.com/news/international/iran-president-says-west-asia-has-no-need-for-us-policeman/article71459702.ece",
+    "title": "Iran president says West Asia has no need for U.S. ‘policeman’",
+    "posted_title": "لماذا تصر إيران على أن أمن مضيق هرمز شأن إقليمي لا أمريكي",
+    "region": "in",
+    "seen_at": "2026-09-12T19:16:06.244633+00:00"
   }
 ]
