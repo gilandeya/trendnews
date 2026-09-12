@@ -1,7 +1,7 @@
 {
   "id": "c9f34d6a67c0",
   "created_at": "2026-09-12T04:08:43.733302+00:00",
-  "status": "pending",
+  "status": "published",
   "origin": "analysis",
   "title": "ترامب يَعِد بنهاية سريعة للحرب مع إيران وأصوات تشكّك في التوقيت",
   "tier": "a",
@@ -51,5 +51,21 @@
   },
   "score": 10,
   "has_photo": false,
-  "review_issue": 897
+  "review_issue": 897,
+  "image": "drafts/2026-09-12/c9f34d6a67c0.jpg",
+  "image_info": {
+    "used_original": false,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": null,
+    "candidates_tried": 0,
+    "manual": false
+  },
+  "published_at": "2026-09-12T06:21:53.605653+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1357904986426522",
+    "photo_id": "1357904973093190",
+    "url": "https://www.facebook.com/631680090321390_1357904986426522",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
