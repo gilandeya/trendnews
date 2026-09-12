@@ -1,0 +1,62 @@
+{
+  "id": "9006f2f12ba6",
+  "created_at": "2026-09-12T17:07:47.090772+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.21,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Dortmund make it three wins from three with 3-0 victory over Paderborn",
+  "link": "https://www.channelnewsasia.com/sport/dortmund-make-it-three-wins-three-3-0-victory-over-paderborn-6380486",
+  "publishers": [
+    "Channel News Asia",
+    "Der Spiegel"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Dortmund make it three wins from three with 3-0 victory over Paderborn",
+    "link": "https://www.channelnewsasia.com/sport/dortmund-make-it-three-wins-three-3-0-victory-over-paderborn-6380486",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-12T15:45:33+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/dbd4508a-ff20-42e6-9196-f827147d89cd_w520_r2.08_fpx47_fpy42.jpg",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Der Spiegel"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/dortmund-make-it-three-wins-three-3-0-victory-over-paderborn-6380486"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/sport/fussball/fussball-bundesliga-borussia-dortmund-glaenzt-gladbach-geht-in-freiburg-unter-a-a92316f6-fa23-4413-8a21-c2cb353a2655#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/dbd4508a-ff20-42e6-9196-f827147d89cd_w520_r2.08_fpx47_fpy42.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 936.9110977161112,
+    "is_stale": true,
+    "score": 18.208754493129632,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
