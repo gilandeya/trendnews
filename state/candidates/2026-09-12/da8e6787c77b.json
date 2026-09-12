@@ -1,0 +1,69 @@
+{
+  "id": "da8e6787c77b",
+  "created_at": "2026-09-12T06:07:46.081318+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.8,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Xi Jinping heads to India for BRICS summit overshadowed by war",
+  "link": "https://www.channelnewsasia.com/asia/brics-china-xi-jinping-india-modi-war-6379866",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia",
+    "Free Malaysia Today"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Xi Jinping heads to India for BRICS summit overshadowed by war",
+    "link": "https://www.channelnewsasia.com/asia/brics-china-xi-jinping-india-modi-war-6379866",
+    "summary": "Conflicts in the Middle East and Ukraine, along with global trade turbulence and energy security, are expected to dominate the two-day meeting of the 11-nation bloc.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-12T02:20:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--EjFMKVKh--/c_crop,h_445,w_792,x_0,y_423/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/russia_brics_summit_57727.jpg?itok=1mixolrN",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/12/chinas-xi-heads-to-india-for-brics-summit-overshadowed-by-wars?traffic_source=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/brics-china-xi-jinping-india-modi-war-6379866"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/12/xi-heads-to-india-for-brics-summit-overshadowed-by-war"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--EjFMKVKh--/c_crop,h_445,w_792,x_0,y_423/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/russia_brics_summit_57727.jpg?itok=1mixolrN",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/165331c7-xi-jinping.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 925.9110683780556,
+    "is_stale": false,
+    "score": 18.80192430957088,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

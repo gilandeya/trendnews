@@ -1,0 +1,95 @@
+{
+  "id": "7c481ee4a61d",
+  "created_at": "2026-09-12T06:07:46.080592+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.45,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "American Shelton to face Zverev in US Open final",
+  "link": "https://www.bbc.co.uk/sport/tennis/articles/clykzn81n4go?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Channel News Asia",
+    "Der Spiegel",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "Sky Sports — Football",
+    "The Guardian — Sport",
+    "as it happened"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "American Shelton to face Zverev in US Open final",
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/clykzn81n4go?at_medium=RSS&at_campaign=rss",
+    "summary": "Ben Shelton powers past Frances Tiafoe in an all-American US Open semi-final to earn a spot in Sunday's final against number one seed Alexander Zverev.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-12T06:05:34+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3426/live/a8eefbc0-ae5a-11f1-a540-61c3f7fc4e6c.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Channel News Asia",
+      "Der Spiegel",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "Sky Sports — Football",
+      "The Guardian — Sport",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/tennis/articles/clykzn81n4go?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/shelton-advances-us-open-final-zverev-showdown-6379916"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/tennis/news/12040/13584674/us-open-ben-shelton-takes-down-frances-tiafoe-to-seal-alexander-zverev-showdown-in-final-on-sunday-in-new-york"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/zverev-downs-khachanov-reach-us-open-final-closes-in-second-major-6379721"
+      },
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/sport/live/2026/sep/11/us-open-tennis-2026-mens-semi-final-alexander-zverev-v-karen-khachanov-live"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/sport/us-open-alexander-zverev-zieht-nach-drei-saetzen-ins-endspiel-ein-a-b44c721f-6db8-4011-9ebb-04e137e82030#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3426/live/a8eefbc0-ae5a-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/3426/live/a8eefbc0-ae5a-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/3426/live/a8eefbc0-ae5a-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://e0.365dm.com/26/09/1096x616/skysports-ben-shelton-tennis_7348717.jpg?20260912042350",
+      "https://e0.365dm.com/26/09/1920x1080/skysports-ben-shelton-tennis_7348717.jpg?20260912042350",
+      "https://i.guim.co.uk/img/media/cfc4137ee272e3351a7a9cdb2d76194b07fd5c85/523_0_5225_4180/master/5225.jpg?width=700&quality=85&auto=format&fit=max&s=2522953876f93a6b2f72372dad86a1d8"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 0.0,
+    "age_hours": 925.91102595,
+    "is_stale": true,
+    "score": 24.4476664415,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

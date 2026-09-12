@@ -1,0 +1,70 @@
+{
+  "id": "86bdf8cfdac3",
+  "created_at": "2026-09-12T06:07:46.081171+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.3,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Tehran’s miscalculation may come back to haunt it in Yemen",
+  "link": "https://www.dailysabah.com/opinion/columns/tehrans-miscalculation-may-come-back-to-haunt-it-in-yemen",
+  "publishers": [
+    "Daily Sabah",
+    "Iran International",
+    "NPR World"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Tehran’s miscalculation may come back to haunt it in Yemen",
+    "link": "https://www.dailysabah.com/opinion/columns/tehrans-miscalculation-may-come-back-to-haunt-it-in-yemen",
+    "summary": "As tensions rise again in Yemen, the real story is not simply one playing out between the Houthis and Saudi Arabia. The latest developments reported by Reuters in an exclusive stor...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-11T21:05:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/11/460127.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Iran International",
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/opinion/columns/tehrans-miscalculation-may-come-back-to-haunt-it-in-yemen"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202609118723"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/11/nx-s1-5966379/houthi-gains-gas-prices"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/11/460127.jpg",
+      "https://i.iranintl.com/images/rdk9umy0/production/2b102b4d92677094b89028abcecd123be2448d60-1200x800.jpg?rect=128,163,973,509&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5966379"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 925.9110314566667,
+    "is_stale": true,
+    "score": 19.301924312422727,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "id": "496aa1717cf8",
+  "created_at": "2026-09-12T06:07:46.081456+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.11,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Americans to mark 25 years since September 11 attacks amid enduring grief, reflection",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-11-americans-to-mark-25-years-since-september-11-attacks-amid-enduring-grief-reflection/",
+  "publishers": [
+    "Daily Maverick",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Americans to mark 25 years since September 11 attacks amid enduring grief, reflection",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-11-americans-to-mark-25-years-since-september-11-attacks-amid-enduring-grief-reflection/",
+    "summary": "Twenty-five years after the deadliest attack on US soil, Americans will pause on Friday to commemorate the nearly 3,000 people killed when hijacked planes slammed into the World Trade Center, the Pentagon and a field in Pennsylvania — and to wrestle with the legacy of September 11.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-11T13:39:16+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2997/14282962_336124.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-11-americans-to-mark-25-years-since-september-11-attacks-amid-enduring-grief-reflection/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3367265/americans-mark-25-years-9/11-attacks-amid-enduring-grief-reflection?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/911-terror-attacks-25-years-on-aftermath-collection-of-stories/article71454584.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-marks-25-years-since-the-september-11-attacks/article71457455.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2997/14282962_336124.jpg",
+      "https://th-i.thgim.com/public/incoming/3tel2k/article71454757.ece/alternates/LANDSCAPE_1200/2011-09-01T054210Z_01_PXP906_RTRMDNP_3_USA-SEPT11.JPG",
+      "https://th-i.thgim.com/public/incoming/r6ys8n/article71457564.ece/alternates/LANDSCAPE_1200/2026-09-11T160835Z_175936438_RC23HNAE2ZWV_RTRMADP_3_USA-SEPT11-NEW-YORK.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 925.91107775,
+    "is_stale": false,
+    "score": 18.106665049256062,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

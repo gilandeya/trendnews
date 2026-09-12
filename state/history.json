@@ -1,101 +1,5 @@
 [
   {
-    "score": 25.14,
-    "bucket": "serious",
-    "tokens": [
-      "airports",
-      "anak",
-      "ash",
-      "due",
-      "eight",
-      "indonesian",
-      "krakatau",
-      "remain",
-      "shut",
-      "volcanic"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/anak-krakatau-indonesia-volcano-jakarta-airports-closed-eruption-ash-6366231",
-    "title": "Eight Indonesian airports remain shut due to volcanic ash from Anak Krakatau",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-07T03:08:02.460020+00:00"
-  },
-  {
-    "score": 20.2,
-    "bucket": "serious",
-    "tokens": [
-      "bank",
-      "evacuation",
-      "minister",
-      "netanyahu",
-      "orders",
-      "outposts",
-      "settler",
-      "some",
-      "west"
-    ],
-    "link": "https://www.thehindu.com/news/international/netanyahu-orders-evacuation-of-some-west-bank-settler-outposts-minister/article71437261.ece",
-    "title": "Netanyahu orders evacuation of some West Bank settler outposts: Minister",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-07T03:08:02.460263+00:00"
-  },
-  {
-    "score": 18.04,
-    "bucket": "serious",
-    "tokens": [
-      "bus",
-      "cape",
-      "children",
-      "crash",
-      "dead",
-      "least",
-      "teenagers",
-      "them",
-      "verde"
-    ],
-    "link": "http://www.africanews.com/2026/09/06/at-least-25-dead-in-cape-verde-bus-crash-most-of-them-children-and-teenagers/",
-    "title": "At least 25 dead in Cape Verde bus crash, most of them children and teenagers",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-09-07T03:08:02.460461+00:00"
-  },
-  {
-    "score": 17.22,
-    "bucket": "serious",
-    "tokens": [
-      "aircraft",
-      "carrier",
-      "destroyer",
-      "hits",
-      "irgc",
-      "missiles"
-    ],
-    "link": "https://en.mehrnews.com/news/247471/IRGC-hits-US-carrier-destroyer-with-missiles",
-    "title": "IRGC hits US aircraft carrier, destroyer with missiles",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-07T03:08:02.460655+00:00"
-  },
-  {
-    "score": 16.75,
-    "bucket": "serious",
-    "tokens": [
-      "answer",
-      "engine",
-      "google's",
-      "open",
-      "quietly",
-      "strangling",
-      "web"
-    ],
-    "link": "https://www.dailysabah.com/opinion/op-ed/googles-ai-answer-engine-is-quietly-strangling-open-web",
-    "title": "Google's AI answer engine is quietly strangling open web",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-09-07T03:08:02.460853+00:00"
-  },
-  {
     "score": 17.66,
     "bucket": "serious",
     "tokens": [
@@ -5435,5 +5339,96 @@
     "posted_title": "",
     "region": "cn",
     "seen_at": "2026-09-12T03:07:49.231366+00:00"
+  },
+  {
+    "score": 24.45,
+    "bucket": "sport",
+    "tokens": [
+      "american",
+      "face",
+      "final",
+      "open",
+      "shelton",
+      "zverev"
+    ],
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/clykzn81n4go?at_medium=RSS&at_campaign=rss",
+    "title": "American Shelton to face Zverev in US Open final",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-12T06:07:46.080976+00:00"
+  },
+  {
+    "score": 22.37,
+    "bucket": "sport",
+    "tokens": [
+      "day",
+      "england",
+      "pakistan",
+      "review",
+      "test",
+      "third",
+      "three"
+    ],
+    "link": "https://www.skysports.com/watch/video/13584568/england-v-pakistan-third-test-day-three-analysis-and-reaction-from-edgbaston",
+    "title": "England v Pakistan: Third Test, day three review",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-12T06:07:46.081166+00:00"
+  },
+  {
+    "score": 19.3,
+    "bucket": "serious",
+    "tokens": [
+      "back",
+      "come",
+      "haunt",
+      "may",
+      "miscalculation",
+      "tehran",
+      "yemen"
+    ],
+    "link": "https://www.dailysabah.com/opinion/columns/tehrans-miscalculation-may-come-back-to-haunt-it-in-yemen",
+    "title": "Tehran’s miscalculation may come back to haunt it in Yemen",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-09-12T06:07:46.081314+00:00"
+  },
+  {
+    "score": 18.8,
+    "bucket": "serious",
+    "tokens": [
+      "brics",
+      "heads",
+      "india",
+      "jinping",
+      "overshadowed",
+      "summit",
+      "war"
+    ],
+    "link": "https://www.channelnewsasia.com/asia/brics-china-xi-jinping-india-modi-war-6379866",
+    "title": "Xi Jinping heads to India for BRICS summit overshadowed by war",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-12T06:07:46.081451+00:00"
+  },
+  {
+    "score": 18.11,
+    "bucket": "serious",
+    "tokens": [
+      "americans",
+      "attacks",
+      "enduring",
+      "grief",
+      "mark",
+      "reflection",
+      "september",
+      "since",
+      "years"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-11-americans-to-mark-25-years-since-september-11-attacks-amid-enduring-grief-reflection/",
+    "title": "Americans to mark 25 years since September 11 attacks amid enduring grief, reflection",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-12T06:07:46.081596+00:00"
   }
 ]
