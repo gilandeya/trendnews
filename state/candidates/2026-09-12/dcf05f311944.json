@@ -1,0 +1,83 @@
+{
+  "id": "dcf05f311944",
+  "created_at": "2026-09-12T12:07:49.818772+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.18,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian delegation to take part in G20 energy meeting, Zelenskyy willing to meet Putin",
+  "link": "https://www.thehindu.com/news/international/russian-delegation-to-take-part-in-g20-energy-meeting-zelenskyy-willing-to-meet-putin/article71459618.ece",
+  "publishers": [
+    "Channel News Asia",
+    "Deutsche Welle",
+    "Free Malaysia Today",
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Russian delegation to take part in G20 energy meeting, Zelenskyy willing to meet Putin",
+    "link": "https://www.thehindu.com/news/international/russian-delegation-to-take-part-in-g20-energy-meeting-zelenskyy-willing-to-meet-putin/article71459618.ece",
+    "summary": "The United States holds this year's presidency of the Group of 20 major economies, which comprises 19 countries plus the European Union and the African Union, and culminates in a leaders' summit in Miami in December",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-12T10:51:56+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/f03th2/article71459712.ece/alternates/LANDSCAPE_1200/Russia_Ukraine_War_US_9_2_1.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Deutsche Welle",
+      "Free Malaysia Today",
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/dw-exclusive-zelenskyy-offers-to-meet-putin-at-g20-in-miami/a-79241703?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/ukraine-zelenskyy-willing-meet-russia-putin-g20-miami-6380171"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russian-delegation-to-take-part-in-g20-energy-meeting-zelenskyy-willing-to-meet-putin/article71459618.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/12/zelensky-says-willing-to-meet-putin-at-g20-in-miami"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/zelensky-says-willing-to-meet-putin-during-g20-summit-in-us-12037000#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/f03th2/article71459712.ece/alternates/LANDSCAPE_1200/Russia_Ukraine_War_US_9_2_1.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--Js7tPT9I--/c_crop,h_576,w_1024,x_0,y_100/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/12/000_c83p4t7.jpg?itok=jQ1IOiMI",
+      "https://media.freemalaysiatoday.com/v3/2026/09/70fad9bc-ad87-4cb2-86a5-ae6c8939da21-Zelensky.jpg",
+      "https://c.ndtvimg.com/2026-02/8qubb6hg_putin-zelensky_625x300_26_February_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 931.9120576802778,
+    "is_stale": false,
+    "score": 21.181569448088013,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

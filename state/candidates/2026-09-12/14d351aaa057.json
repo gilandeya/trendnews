@@ -1,0 +1,76 @@
+{
+  "id": "14d351aaa057",
+  "created_at": "2026-09-12T12:07:49.819087+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.81,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Lady Gaga welcomes first child with fiance: US media",
+  "link": "https://www.channelnewsasia.com/entertainment/lady-gaga-first-child-6380016",
+  "publishers": [
+    "Channel News Asia",
+    "Der Spiegel",
+    "El País",
+    "Punch Nigeria"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Lady Gaga welcomes first child with fiance: US media",
+    "link": "https://www.channelnewsasia.com/entertainment/lady-gaga-first-child-6380016",
+    "summary": "No additional details about the baby, including its name, sex or date of birth, were immediately available.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-12T04:46:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--4dHnW9QR--/c_crop,h_576,w_1024,x_0,y_15/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/02/02/ap26033099977895.jpg?itok=OvUkqlSB",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Der Spiegel",
+      "El País",
+      "Punch Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/entertainment/lady-gaga-first-child-6380016"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/lady-gaga-welcomes-first-child-with-fiance/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/us/entretenimiento/2026-09-12/lady-gaga-madre-de-su-primer-hijo.html"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/panorama/leute/lady-gaga-ist-offenbar-mutter-geworden-a-c5540526-16e1-4730-a915-4e4f0490fa8a#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--4dHnW9QR--/c_crop,h_576,w_1024,x_0,y_15/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/02/02/ap26033099977895.jpg?itok=OvUkqlSB",
+      "https://imagenes.elpais.com/resizer/v2/H7FO3SNSUZCVBJHABE4IZYHS3M.jpg?auth=d9ce82551c79f8ba2ab2f561dd1c422044caa20cefb5b8685c2b5c6c01e50b43",
+      "https://cdn.prod.www.spiegel.de/images/013e046f-c0f0-4784-9a85-4e02118373d2_w520_r2.08_fpx33.36_fpy50.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 931.9120252827778,
+    "is_stale": true,
+    "score": 20.809192573240743,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

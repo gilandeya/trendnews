@@ -1,0 +1,97 @@
+{
+  "id": "c0dbf3e85475",
+  "created_at": "2026-09-12T12:07:49.818392+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.4,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemen’s Houthis take over strait vital to global shipping",
+  "link": "https://www.thehindu.com/news/international/yemens-houthis-reach-strategic-island-at-mouth-of-vital-shipping-lane/article71455868.ece",
+  "publishers": [
+    "Al Jazeera English",
+    "France24",
+    "Investing.com — الاقتصاد",
+    "Malay Mail",
+    "NPR",
+    "NPR World",
+    "The Guardian — World",
+    "The Hindu — International",
+    "Vanguard Nigeria"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Yemen’s Houthis take over strait vital to global shipping",
+    "link": "https://www.thehindu.com/news/international/yemens-houthis-reach-strategic-island-at-mouth-of-vital-shipping-lane/article71455868.ece",
+    "summary": "Following a week-long offensive that has left hundreds dead, government officials said the Houthis seized the Yemeni side of the Bab al-Mandab Strait, the southern gateway to the Red Sea and the Suez Canal",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-12T05:56:50+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/ebfdf3/article71455927.ece/alternates/LANDSCAPE_1200/Yemen-s-HouthisG2AGH0RKJ.4.jpg.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "France24",
+      "Investing.com — الاقتصاد",
+      "Malay Mail",
+      "NPR",
+      "NPR World",
+      "The Guardian — World",
+      "The Hindu — International",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/yemens-houthis-reach-strategic-island-at-mouth-of-vital-shipping-lane/article71455868.ece"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/yemens-houthis-take-over-strait-vital-to-global-shipping/"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/12/g-s1-143044/yemens-houthis-capture-red-sea-island"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260912-houthis-seize-key-sites-around-bab-el-mandeb-as-saudi-oil-exports-face-disruption"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/12/houthis-tell-us-to-stay-out-as-red-sea-corridor-grip-tightens-trump-says/234980"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/trump-says-yemens-houthis-have-asked-us-not-to-intervene/"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/ebfdf3/article71455927.ece/alternates/LANDSCAPE_1200/Yemen-s-HouthisG2AGH0RKJ.4.jpg.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260910__C7W72T4__v4__HighRes__YemenSaudiIranUsIsraelWar-1024x667.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-143044",
+      "https://s.france24.com/media/display/ea47dc9e-ae88-11f1-b97f-005056bfb2b6/w:1024/p:16x9/EN-20260912-100153-100406-CS.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/12/362199.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/08/AFP__20260828__2292475129__v1__MidRes__PresidentTrumpVisitsNasaToHonorArtemisIiCrewM-1024x683.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 9,
+    "velocity": 0.0,
+    "age_hours": 931.9120236669445,
+    "is_stale": true,
+    "score": 24.397671281345456,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

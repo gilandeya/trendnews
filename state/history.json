@@ -1,30 +1,5 @@
 [
   {
-    "score": 26.44,
-    "bucket": "serious",
-    "tokens": [
-      "afd",
-      "election",
-      "elon",
-      "far",
-      "france",
-      "germany",
-      "moment",
-      "musk",
-      "right",
-      "serious",
-      "state",
-      "thanks",
-      "warns",
-      "win"
-    ],
-    "link": "https://www.theguardian.com/world/2026/sep/07/afd-thanks-elon-musk-german-state-elections-2026-win",
-    "title": "Germany’s far-right AfD thanks Elon Musk as France warns state election win a ‘serious moment’",
-    "posted_title": "لماذا يثير فوز حزب البديل لألمانيا في ولاية شرقية قلق باريس ووارسو وروما",
-    "region": "uk",
-    "seen_at": "2026-09-07T10:03:14.589821+00:00"
-  },
-  {
     "score": 26.13,
     "bucket": "serious",
     "tokens": [
@@ -5323,5 +5298,105 @@
     "posted_title": "",
     "region": "eu",
     "seen_at": "2026-09-12T09:07:53.229825+00:00"
+  },
+  {
+    "score": 24.4,
+    "bucket": "serious",
+    "tokens": [
+      "global",
+      "houthis",
+      "shipping",
+      "strait",
+      "take",
+      "vital",
+      "yemen"
+    ],
+    "link": "https://www.thehindu.com/news/international/yemens-houthis-reach-strategic-island-at-mouth-of-vital-shipping-lane/article71455868.ece",
+    "title": "Yemen’s Houthis take over strait vital to global shipping",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-12T12:07:49.818764+00:00"
+  },
+  {
+    "score": 21.18,
+    "bucket": "serious",
+    "tokens": [
+      "delegation",
+      "energy",
+      "g20",
+      "meet",
+      "meeting",
+      "part",
+      "putin",
+      "russian",
+      "take",
+      "willing",
+      "zelenskyy"
+    ],
+    "link": "https://www.thehindu.com/news/international/russian-delegation-to-take-part-in-g20-energy-meeting-zelenskyy-willing-to-meet-putin/article71459618.ece",
+    "title": "Russian delegation to take part in G20 energy meeting, Zelenskyy willing to meet Putin",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-12T12:07:49.818943+00:00"
+  },
+  {
+    "score": 20.99,
+    "bucket": "serious",
+    "tokens": [
+      "attacks",
+      "drone",
+      "oil",
+      "pakistan",
+      "pipeline",
+      "reaffirms",
+      "saudi",
+      "slams",
+      "sovereignty",
+      "support"
+    ],
+    "link": "https://www.geo.tv/latest/681781-pakistan-slams-drone-attacks-on-saudi-oil-pipeline-reaffirms-support-for-sovereignty",
+    "title": "Pakistan slams drone attacks on Saudi oil pipeline, reaffirms support for sovereignty",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-12T12:07:49.819083+00:00"
+  },
+  {
+    "score": 20.81,
+    "bucket": "serious",
+    "tokens": [
+      "child",
+      "fiance",
+      "first",
+      "gaga",
+      "lady",
+      "media",
+      "welcomes"
+    ],
+    "link": "https://www.channelnewsasia.com/entertainment/lady-gaga-first-child-6380016",
+    "title": "Lady Gaga welcomes first child with fiance: US media",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-12T12:07:49.819240+00:00"
+  },
+  {
+    "score": 19.83,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "around",
+      "charge",
+      "gathering",
+      "late",
+      "municipalities",
+      "people",
+      "right",
+      "too",
+      "turn"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-11-not-too-late-to-turn-around-sas-municipalities-with-the-right-people-in-charge/",
+    "title": "THE GATHERING 2026: ‘Not too late to turn around SA’s municipalities with the right people in charge’",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-12T12:07:49.819384+00:00"
   }
 ]
