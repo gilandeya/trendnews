@@ -1,0 +1,56 @@
+{
+  "id": "905b1fb7648c",
+  "created_at": "2026-09-12T19:07:52.880510+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.29,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Real Madrid - Rayo Vallecano en directo | Comienza el partido en el Bernabéu",
+  "link": "https://elpais.com/deportes/futbol/2026-09-12/real-madrid-rayo-vallecano-en-directo-el-partido-de-la-liga-en-vivo.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Real Madrid - Rayo Vallecano en directo | Comienza el partido en el Bernabéu",
+    "link": "https://elpais.com/deportes/futbol/2026-09-12/real-madrid-rayo-vallecano-en-directo-el-partido-de-la-liga-en-vivo.html",
+    "summary": "Diomandé estrena titularidad en el conjunto blanco | Beñat San José cambia el portero y debuta Audero",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-12T19:02:19+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/ILL2HPBGSFKOTF3ZGL5D5CMTCI.jpg?auth=38ded59bb7a0bb17fa489b9fa29eb36cbe246b2b8a7c24786b3d31a23faebcd2",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-12/real-madrid-rayo-vallecano-en-directo-el-partido-de-la-liga-en-vivo.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/ILL2HPBGSFKOTF3ZGL5D5CMTCI.jpg?auth=38ded59bb7a0bb17fa489b9fa29eb36cbe246b2b8a7c24786b3d31a23faebcd2"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.29393080188889,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
