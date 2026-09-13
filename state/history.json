@@ -1,107 +1,5 @@
 [
   {
-    "score": 18.67,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "before",
-      "dangote",
-      "documents",
-      "ipo",
-      "landmark",
-      "nigeria",
-      "oil",
-      "refinery",
-      "rising",
-      "sale",
-      "share",
-      "signs"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-07-nigerias-dangote-oil-refinery-signs-ipo-documents-before-landmark-share-sale/",
-    "title": "Africa rising: Nigeria’s Dangote oil refinery signs IPO documents before landmark share sale",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-08T06:08:00.778328+00:00"
-  },
-  {
-    "score": 17.15,
-    "bucket": "serious",
-    "tokens": [
-      "august",
-      "china",
-      "exports",
-      "imports",
-      "surged"
-    ],
-    "link": "https://www.channelnewsasia.com/east-asia/china-says-imports-and-exports-surged-in-august-6368571",
-    "title": "China says imports and exports surged in August",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-08T06:08:00.778539+00:00"
-  },
-  {
-    "score": 17.1,
-    "bucket": "serious",
-    "tokens": [
-      "final",
-      "hormuz",
-      "iran",
-      "oman",
-      "reach",
-      "stage",
-      "strait",
-      "talks"
-    ],
-    "link": "https://news.cgtn.com/news/2026-09-08/Iran-says-talks-with-Oman-on-Hormuz-Strait-reach-final-stage-1Qgrf83ozbq/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-    "title": "Iran says talks with Oman on Hormuz Strait reach final stage",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-08T06:08:00.778729+00:00"
-  },
-  {
-    "score": 16.74,
-    "bucket": "serious",
-    "tokens": [
-      "2nd",
-      "cooperation",
-      "drills",
-      "firm",
-      "highlight",
-      "japan",
-      "joint",
-      "kick",
-      "korea",
-      "off",
-      "security",
-      "way"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260907002352315",
-    "title": "(2nd LD) S. Korea, U.S., Japan highlight firm 3-way security cooperation as joint drills kick off",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-09-08T06:08:00.778934+00:00"
-  },
-  {
-    "score": 16.64,
-    "bucket": "serious",
-    "tokens": [
-      "against",
-      "gulf",
-      "iran",
-      "korea",
-      "military",
-      "persian",
-      "role",
-      "south",
-      "warns"
-    ],
-    "link": "https://www.tehrantimes.com/news/529812/Iran-warns-South-Korea-against-military-role-in-Persian-Gulf",
-    "title": "Iran warns South Korea against military role in Persian Gulf",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-08T06:08:00.779115+00:00"
-  },
-  {
     "score": 29.01,
     "bucket": "serious",
     "tokens": [
@@ -5329,5 +5227,25 @@
     "posted_title": "",
     "region": "in",
     "seen_at": "2026-09-13T06:07:45.758857+00:00"
+  },
+  {
+    "score": 26.71,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "base",
+      "claim",
+      "fighting",
+      "flares",
+      "forces",
+      "houthis",
+      "saudi",
+      "yemeni"
+    ],
+    "link": "https://www.theguardian.com/world/2026/sep/13/houthis-claim-attack-on-saudi-base-as-fighting-flares-with-yemeni-forces",
+    "title": "Houthis claim attack on Saudi base as fighting flares with Yemeni forces",
+    "posted_title": "هجوم حوثي بطائرات مسيّرة وصواريخ على قاعدة عسكرية سعودية جنوبية",
+    "region": "uk",
+    "seen_at": "2026-09-13T07:41:44.958078+00:00"
   }
 ]
