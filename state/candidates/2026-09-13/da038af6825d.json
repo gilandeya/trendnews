@@ -1,0 +1,56 @@
+{
+  "id": "da038af6825d",
+  "created_at": "2026-09-13T15:07:47.340637+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.29,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Levante - Barcelona en directo | Lamine marca el segundo del Barça y amplía la ventaja",
+  "link": "https://elpais.com/deportes/futbol/2026-09-13/levante-barcelona-en-directo-el-partido-de-la-liga-en-vivo.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Levante - Barcelona en directo | Lamine marca el segundo del Barça y amplía la ventaja",
+    "link": "https://elpais.com/deportes/futbol/2026-09-13/levante-barcelona-en-directo-el-partido-de-la-liga-en-vivo.html",
+    "summary": "Xavi Espart anotó el primer tanto en el minuto 4 | Los azulgrana buscan el pleno de victorias ante el equipo de Luís Castro, que solo cayó en su debut este curso",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-13T14:55:31+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/P6VCCVTCDRN2LDA6IELYQ4XACE.jpg?auth=8a4dfa53e069371a7f2b2956830bf6dbefc712b4da1d404fe2b9aca06abe5ccb",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-13/levante-barcelona-en-directo-el-partido-de-la-liga-en-vivo.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/P6VCCVTCDRN2LDA6IELYQ4XACE.jpg?auth=8a4dfa53e069371a7f2b2956830bf6dbefc712b4da1d404fe2b9aca06abe5ccb"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.286482690796298,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
