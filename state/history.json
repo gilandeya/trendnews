@@ -1,45 +1,5 @@
 [
   {
-    "score": 21.19,
-    "bucket": "serious",
-    "tokens": [
-      "against",
-      "counteroffensive",
-      "forces",
-      "houthis",
-      "launch",
-      "retake",
-      "sanaa",
-      "vow",
-      "yemeni"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/9/8/yemeni-forces-launch-counteroffensive-against-houthis-vow-to-retake-sanaa?traffic_source=rss",
-    "title": "Yemeni forces launch counteroffensive against Houthis, vow to retake Sanaa",
-    "posted_title": "قوات الحكومة اليمنية تعلن هجومًا مضادًا لاستعادة صنعاء من الحوثيين",
-    "region": "qa",
-    "seen_at": "2026-09-08T09:28:17.578974+00:00"
-  },
-  {
-    "score": 20.41,
-    "bucket": "serious",
-    "tokens": [
-      "attacks",
-      "authorities",
-      "disrupt",
-      "energy",
-      "facilities",
-      "houthi",
-      "saudi",
-      "say",
-      "wound"
-    ],
-    "link": "https://www.dawn.com/news/2028346/houthi-attacks-disrupt-saudi-energy-facilities-wound-73-authorities-say",
-    "title": "Houthi attacks disrupt Saudi energy facilities, wound 73, authorities say",
-    "posted_title": "هجمات حوثية على أربع مدن سعودية توقف عمل منشآت طاقة وتصيب 73 شخصًا",
-    "region": "pk",
-    "seen_at": "2026-09-08T09:28:35.735541+00:00"
-  },
-  {
     "score": 28.62,
     "bucket": "serious",
     "tokens": [
@@ -5246,5 +5206,45 @@
     "posted_title": "",
     "region": "jp",
     "seen_at": "2026-09-13T09:10:55.111280+00:00"
+  },
+  {
+    "score": 32.62,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "fans",
+      "fears",
+      "hormuz",
+      "oil",
+      "report",
+      "shipping",
+      "strait",
+      "supplies",
+      "threats"
+    ],
+    "link": "https://www.channelnewsasia.com/world/attack-strait-hormuz-shipping-oil-6381001",
+    "title": "New report of attack on Strait of Hormuz shipping fans fears of threats to oil supplies",
+    "posted_title": "مقذوف يصيب سفينة في مضيق هرمز بعد يوم من إغلاق السعودية خط أنابيبها الرئيسي",
+    "region": "seasia",
+    "seen_at": "2026-09-13T09:46:29.043238+00:00"
+  },
+  {
+    "score": 22.11,
+    "bucket": "serious",
+    "tokens": [
+      "agree",
+      "entry",
+      "exit",
+      "hormuz",
+      "iran",
+      "oman",
+      "routes",
+      "strait"
+    ],
+    "link": "http://www.africanews.com/2026/09/13/iran-and-oman-agree-entry-and-exit-routes-for-strait-of-hormuz/",
+    "title": "Iran and Oman agree entry and exit routes for Strait of Hormuz",
+    "posted_title": "إيران وعُمان يتفقان على مسارات دخول وخروج جديدة في مضيق هرمز دون فتحه بالكامل",
+    "region": "africa",
+    "seen_at": "2026-09-13T09:46:51.493954+00:00"
   }
 ]
