@@ -1,0 +1,85 @@
+{
+  "id": "3e2cd6e28991",
+  "created_at": "2026-09-13T03:08:03.000667+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.2,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(3rd LD) N. Korea fires multiple short-range ballistic missiles toward East Sea: JCS",
+  "link": "https://en.yna.co.kr/view/AEN20260912000353315",
+  "publishers": [
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "The Express Tribune",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(3rd LD) N. Korea fires multiple short-range ballistic missiles toward East Sea: JCS",
+    "link": "https://en.yna.co.kr/view/AEN20260912000353315",
+    "summary": "SEOUL, Sept. 12 (Yonhap) -- North Korea fired multiple short-range ballistic mis...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-12T00:34:17+00:00",
+    "image_url": "https://img.yna.co.kr/etc/inner/EN/2026/09/12/AEN20260912000353315_01_i_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "The Express Tribune",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260912000351315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260912000352315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260912000353315"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628999/north-korea-fires-short-range-missiles-toward-sea"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/north-korea-fires-unidentified-projectile-toward-eastern-sea"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/north-korea-fires-projectile-toward-sea-south-korea-101789162291225.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/12/AEN20260912000353315_01_i_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/12/AEN20260912000351315_01_i_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/12/AEN20260912000352315_01_i_P2.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/11/460274.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 946.9157064188889,
+    "is_stale": false,
+    "score": 21.19592983738889,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

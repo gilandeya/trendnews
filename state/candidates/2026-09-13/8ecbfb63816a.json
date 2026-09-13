@@ -1,0 +1,86 @@
+{
+  "id": "8ecbfb63816a",
+  "created_at": "2026-09-13T03:08:03.000403+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.65,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Tens of thousands protest against far right in Germany",
+  "link": "https://www.dawn.com/news/2029423/tens-of-thousands-protest-against-far-right-in-germany",
+  "publishers": [
+    "Al Jazeera English",
+    "Dawn",
+    "France 24",
+    "France24",
+    "Free Malaysia Today",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Tens of thousands protest against far right in Germany",
+    "link": "https://www.dawn.com/news/2029423/tens-of-thousands-protest-against-far-right-in-germany",
+    "summary": "Tens of thousands of protesters took part in demonstrations across Germany on Saturday against the far-right AfD, after the party scored a crushing victory in a state election last week. The Alternative for Germany (AfD) topped the vote in the eastern region of Saxony-Anhalt, and is now seeking to form the first extreme-right state government in Germany since World War II. About 150,000 demonstrators took to the streets in around 20 cities nationwide, including Berlin, Hamburg and Munich, in protests that were called by Pruef, which advocates for a ban on the AfD, organisers said. They waved signs emblazoned with slogans that read “Ban the AfD now,” and “Democracy needs no alternatives”. A counter-protester holds a sign reading “Who replaces remigrated caregivers” during a final election campaign rally of far-right Alternative for Germany (AfD) party ahead of Berlin’s state election in Germany on September 12, 2026. — AFP “A broad cross-section of civil society is taking to the streets to prevent the enemies of the constitution, the AfD in Saxony-Anhalt, from gaining government power,” said Christoph Bautz, head of campaign group Campact, also involved in the demonstrations. The ri",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-12T18:50:52+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/12234332be1c9f2.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Dawn",
+      "France 24",
+      "France24",
+      "Free Malaysia Today",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/12/tens-of-thousands-march-across-germany-to-protest-far-right-party-afd?traffic_source=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2029423/tens-of-thousands-protest-against-far-right-in-germany"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260912-tens-of-thousands-of-people-protest-in-germany-against-far-right-afd"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2628998/thousands-protest-far-right-in-germany"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/13/tens-of-thousands-protest-against-far-right-in-germany"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/12234332be1c9f2.webp",
+      "https://i.dawn.com/thumbnail/2026/09/12234332be1c9f2.webp",
+      "https://i.dawn.com/primary/2026/09/122348521325ecc.webp",
+      "https://s.france24.com/media/display/83bf7692-aecb-11f1-b02e-005056a97e36/w:1024/p:16x9/000-C84J6TY.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/f343644d-e4e0-437b-bb4e-b4d92158565c-14286746.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 946.9156999225,
+    "is_stale": false,
+    "score": 21.652576598589395,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
