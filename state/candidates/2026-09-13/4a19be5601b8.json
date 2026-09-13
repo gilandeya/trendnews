@@ -1,0 +1,63 @@
+{
+  "id": "4a19be5601b8",
+  "created_at": "2026-09-13T22:07:46.732934+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.41,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia hits passenger train on Ukraine’s border with Poland, just misses ‘diplomatic train’",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-13-russia-hits-passenger-train-on-ukraines-border-with-poland-just-misses-diplomatic-train/",
+  "publishers": [
+    "Daily Maverick",
+    "The Hindu — International"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Russia hits passenger train on Ukraine’s border with Poland, just misses ‘diplomatic train’",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-13-russia-hits-passenger-train-on-ukraines-border-with-poland-just-misses-diplomatic-train/",
+    "summary": "KYIV/MOSCOW Sept 13 (Reuters) - A Russian drone hit a passenger train on Ukraine's border with NATO member Poland on Sunday, shortly after former British Prime Minister Boris Johnson and other European diplomats had used the same line.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-13T21:35:36+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2997/13874299_290435.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-13-russia-hits-passenger-train-on-ukraines-border-with-poland-just-misses-diplomatic-train/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russia-strikes-kyiv-warsaw-passenger-train-ukraine-poland/article71464376.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2997/13874299_290435.jpg",
+      "https://th-i.thgim.com/public/incoming/u3wej7/article71464399.ece/alternates/LANDSCAPE_1200/2026-08-31T073631Z_1510732594_RC2J9NA8WQO7_RTRMADP_3_UKRAINE-CRISIS-KYIV-METRO.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 965.9111368591667,
+    "is_stale": false,
+    "score": 17.41436850161111,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

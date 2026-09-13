@@ -1,0 +1,83 @@
+{
+  "id": "043a47d2ef1d",
+  "created_at": "2026-09-13T22:07:46.732089+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.64,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "GB's Hewett beats Oda to win fifth US Open title",
+  "link": "https://www.bbc.co.uk/sport/tennis/articles/clym44jvy9zo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Channel News Asia",
+    "The Express Tribune",
+    "The Japan Times"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "GB's Hewett beats Oda to win fifth US Open title",
+    "link": "https://www.bbc.co.uk/sport/tennis/articles/clym44jvy9zo?at_medium=RSS&at_campaign=rss",
+    "summary": "Great Britain's Alfie Hewett beats Japanese top seed Tokito Oda to win a fifth US Open title and his 11th Grand Slam singles crown overall.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-12T18:55:04+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/8d6c/live/1c0aaf60-aed7-11f1-b1d1-571ed4d7ff2c.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Channel News Asia",
+      "The Express Tribune",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/tennis/articles/clym44jvy9zo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/zverev-beats-shelton-win-us-open-title-6381936"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/tennis/videos/cq63znqlq70o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/sports/2026/09/13/tennis/rybakina-sabalenka-us-open/"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629064/harrison-skupski-win-us-open-mens-doubles-title"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/8d6c/live/1c0aaf60-aed7-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/8d6c/live/1c0aaf60-aed7-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/8d6c/live/1c0aaf60-aed7-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f055/live/79b89260-af5b-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/f055/live/79b89260-af5b-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f055/live/79b89260-af5b-11f1-b1d1-571ed4d7ff2c.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 965.9110591105556,
+    "is_stale": false,
+    "score": 26.63599814114815,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
