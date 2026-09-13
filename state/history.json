@@ -1,111 +1,5 @@
 [
   {
-    "score": 25.14,
-    "bucket": "serious",
-    "tokens": [
-      "across",
-      "border",
-      "first",
-      "korea",
-      "link",
-      "north",
-      "open",
-      "road",
-      "russia",
-      "shared"
-    ],
-    "link": "https://www.thehindu.com/news/international/russia-north-korea-open-first-road-link-across-shared-border/article71444269.ece",
-    "title": "Russia, North Korea open first road link across shared border",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-08T19:08:03.817357+00:00"
-  },
-  {
-    "score": 24.17,
-    "bucket": "serious",
-    "tokens": [
-      "600",
-      "air",
-      "cancelled",
-      "control",
-      "flights",
-      "issue",
-      "technical",
-      "traffic"
-    ],
-    "link": "https://www.theguardian.com/business/live/2026/sep/08/oil-price-approaches-100-a-barrel-saudi-attacks-bank-of-england-latest-news-updates",
-    "title": "More than 600 UK flights cancelled after air traffic control ‘technical issue’",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-08T19:08:03.817676+00:00"
-  },
-  {
-    "score": 19.86,
-    "bucket": "sport",
-    "tokens": [
-      "2026",
-      "aside",
-      "brushes",
-      "day",
-      "nine",
-      "open",
-      "osaka",
-      "rybakina",
-      "stuns",
-      "swiatek",
-      "tennis",
-      "zheng"
-    ],
-    "link": "https://www.theguardian.com/sport/live/2026/sep/07/us-open-tennis-2026-swiatek-v-zheng-osaka-v-rybakina-and-more-on-day-nine-live",
-    "title": "US Open tennis 2026: Rybakina brushes aside Osaka, Zheng stuns Swiatek, and more on day nine",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-08T19:08:03.817975+00:00"
-  },
-  {
-    "score": 17.93,
-    "bucket": "serious",
-    "tokens": [
-      "capital",
-      "closure",
-      "day",
-      "eruption",
-      "flights",
-      "forced",
-      "indonesia",
-      "resume",
-      "volcanic"
-    ],
-    "link": "https://www.thehindu.com/news/international/flights-to-and-from-indonesias-capital-resume-after-volcanic-eruption-forced-a-2-day-closure/article71441117.ece",
-    "title": "Flights to and from Indonesia’s capital resume after volcanic eruption forced a 2-day closure",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-08T19:08:03.818268+00:00"
-  },
-  {
-    "score": 17.13,
-    "bucket": "serious",
-    "tokens": [
-      "end",
-      "kremlin",
-      "putin",
-      "restored",
-      "russia",
-      "swift",
-      "ties",
-      "told",
-      "trump",
-      "ukraine",
-      "wants",
-      "war"
-    ],
-    "link": "https://www.channelnewsasia.com/world/trump-told-putin-he-wants-swift-end-ukraine-war-and-us-russia-ties-restored-kremlin-says-6370571",
-    "title": "Trump told Putin he wants swift end to Ukraine war and US-Russia ties restored, Kremlin says",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-08T19:08:03.818536+00:00"
-  },
-  {
     "score": 23.56,
     "bucket": "light",
     "tokens": [
@@ -5230,5 +5124,45 @@
     "posted_title": "",
     "region": "pk",
     "seen_at": "2026-09-13T19:07:45.882796+00:00"
+  },
+  {
+    "score": 21.19,
+    "bucket": "serious",
+    "tokens": [
+      "concerns",
+      "exaggerated",
+      "forces",
+      "negative",
+      "raising",
+      "trump",
+      "very"
+    ],
+    "link": "https://www.thehindu.com/news/international/trump-says-very-negative-forces-raising-exaggerated-concerns-over-ai/article71464407.ece",
+    "title": "Trump says ‘very negative forces’ raising exaggerated concerns over AI",
+    "posted_title": "لماذا رفض ترامب دعوات تنظيم الذكاء الاصطناعي رغم تحذيرات باحثين من خطر الانقراض؟",
+    "region": "in",
+    "seen_at": "2026-09-13T19:24:12.185449+00:00"
+  },
+  {
+    "score": 16.8,
+    "bucket": "serious",
+    "tokens": [
+      "'greater",
+      "bloc",
+      "brics'",
+      "china's",
+      "economic",
+      "give",
+      "global",
+      "larger",
+      "pushes",
+      "role",
+      "ties"
+    ],
+    "link": "https://www.dawn.com/news/2029619/chinas-xi-pushes-greater-brics-economic-ties-to-give-bloc-larger-global-role",
+    "title": "China's Xi pushes 'Greater Brics' economic ties to give bloc larger global role",
+    "posted_title": "الصين تقترح منطقة مفتوحة للذكاء الاصطناعي ضمن مبادرة \"بريكس الكبرى\"",
+    "region": "pk",
+    "seen_at": "2026-09-13T19:24:30.803180+00:00"
   }
 ]
