@@ -1,0 +1,73 @@
+{
+  "id": "162a032f2fe5",
+  "created_at": "2026-09-13T19:07:45.881704+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.33,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump doubles down on united Ireland comments on day two of visit",
+  "link": "https://www.bbc.co.uk/news/articles/cx2z79n0eeno?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "MyJoyOnline Ghana",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump doubles down on united Ireland comments on day two of visit",
+    "link": "https://www.bbc.co.uk/news/articles/cx2z79n0eeno?at_medium=RSS&at_campaign=rss",
+    "summary": "The US president was speaking at the Irish Open on Sunday and said \"many people agree\" with his comments.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-13T18:49:28+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/31a6/live/33fb3fc0-af7e-11f1-913a-7151f234deb3.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "MyJoyOnline Ghana",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/uk-news/2026/sep/13/donald-trump-doubles-down-on-support-for-united-ireland"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cx2z79n0eeno?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/trump-doubles-down-on-united-ireland-comments-on-day-two-of-visit/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/31a6/live/33fb3fc0-af7e-11f1-913a-7151f234deb3.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/31a6/live/33fb3fc0-af7e-11f1-913a-7151f234deb3.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/31a6/live/33fb3fc0-af7e-11f1-913a-7151f234deb3.jpg",
+      "https://i.guim.co.uk/img/media/8f536882b96a3c9a5e3895f2e112c6a681f2a3b1/1829_135_3143_2515/master/3143.jpg?width=700&quality=85&auto=format&fit=max&s=95244ddf46c024a388a13d3e7ef673aa",
+      "https://i.guim.co.uk/img/media/8f536882b96a3c9a5e3895f2e112c6a681f2a3b1/1829_135_3143_2515/master/3143.jpg?width=460&quality=85&auto=format&fit=max&s=15f916d44b7b50579a59b5fc78154888",
+      "https://i.guim.co.uk/img/media/8f536882b96a3c9a5e3895f2e112c6a681f2a3b1/1829_135_3143_2515/master/3143.jpg?width=140&quality=85&auto=format&fit=max&s=57cc07b37e3c04f7dee93ca0a0a7c6e5"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 962.9108237358332,
+    "is_stale": false,
+    "score": 21.334679366422726,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

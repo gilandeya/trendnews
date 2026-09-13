@@ -1,0 +1,67 @@
+{
+  "id": "9a55305154b4",
+  "created_at": "2026-09-13T19:07:45.881252+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.44,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Dunk scores screamer as Brighton thrash 10-man Coventry",
+  "link": "https://www.bbc.co.uk/sport/football/videos/cly7408jg0go?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Dunk scores screamer as Brighton thrash 10-man Coventry",
+    "link": "https://www.bbc.co.uk/sport/football/videos/cly7408jg0go?at_medium=RSS&at_campaign=rss",
+    "summary": "Coventry's poor start to the Premier League season continues after they're thrashed 5-0 at home to Brighton, having played most of the second half with ten men after having Taiwo Awoniyi sent off at the CBS Arena.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-13T19:00:21+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d46e/live/03971bc0-af82-11f1-a540-61c3f7fc4e6c.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/cly7408jg0go?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/13/coventry-brighton-premier-league-match-report"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d46e/live/03971bc0-af82-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/d46e/live/03971bc0-af82-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d46e/live/03971bc0-af82-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://i.guim.co.uk/img/media/4e5fd93b7973824f49a1659b28117876ffc6f794/288_0_1721_1377/master/1721.jpg?width=700&quality=85&auto=format&fit=max&s=2da41146690e3d209b25eb5709216921",
+      "https://i.guim.co.uk/img/media/4e5fd93b7973824f49a1659b28117876ffc6f794/288_0_1721_1377/master/1721.jpg?width=460&quality=85&auto=format&fit=max&s=75a7b2175bdd90cf198d7f457d611ea9",
+      "https://i.guim.co.uk/img/media/4e5fd93b7973824f49a1659b28117876ffc6f794/288_0_1721_1377/master/1721.jpg?width=140&quality=85&auto=format&fit=max&s=262c6c62866cf2a09bfa07c152a83d58"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 962.9108225505556,
+    "is_stale": false,
+    "score": 21.441884454666667,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
