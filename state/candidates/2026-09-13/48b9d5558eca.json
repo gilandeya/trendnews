@@ -1,0 +1,62 @@
+{
+  "id": "48b9d5558eca",
+  "created_at": "2026-09-13T17:07:46.924885+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.44,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "One killed, others feared trapped as hotel building collapses in Enugu",
+  "link": "https://www.premiumtimesng.com/news/top-news/909271-one-killed-others-feared-trapped-as-hotel-building-collapses-in-enugu.html",
+  "publishers": [
+    "Premium Times",
+    "Punch Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "One killed, others feared trapped as hotel building collapses in Enugu",
+    "link": "https://www.premiumtimesng.com/news/top-news/909271-one-killed-others-feared-trapped-as-hotel-building-collapses-in-enugu.html",
+    "summary": "The incident, PREMIUM TIMES gathered, occurred at about 5 a.m. on Sunday at the Independence Layout area of Enugu State. The post One killed, others feared trapped as hotel building collapses in Enugu appeared first on Premium Times Nigeria .",
+    "source_name": "Premium Times",
+    "region": "ng",
+    "weight": 1.1,
+    "published": "2026-09-13T16:55:52+00:00",
+    "image_url": "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/09/The-scene-of-the-incident.jpg?fit=1600%2C900&amp;ssl=1",
+    "publisher": "Premium Times",
+    "cluster_sources": [
+      "Premium Times",
+      "Punch Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Premium Times",
+        "link": "https://www.premiumtimesng.com/news/top-news/909271-one-killed-others-feared-trapped-as-hotel-building-collapses-in-enugu.html"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/one-killed-others-trapped-in-enugu-building-collapse/?utm_source=rss.punchng.com&utm_medium=web"
+      }
+    ],
+    "image_candidates": [
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/09/The-scene-of-the-incident.jpg?fit=1600%2C900&amp;ssl=1"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 960.9113498547222,
+    "is_stale": false,
+    "score": 17.436871156685186,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

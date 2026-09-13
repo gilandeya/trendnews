@@ -1,0 +1,89 @@
+{
+  "id": "783e368ae671",
+  "created_at": "2026-09-13T17:07:46.924040+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.92,
+  "trend_score": 1.0,
+  "velocity": 0.33,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Manchester United v Manchester City: Premier League",
+  "link": "https://www.theguardian.com/football/live/2026/sep/13/manchester-united-v-manchester-city-premier-league-live",
+  "publishers": [
+    "Premier League",
+    "Sky Sports — Football",
+    "but did he deserve it?",
+    "live",
+    "team news, lineups"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Manchester United v Manchester City: Premier League",
+    "link": "https://www.theguardian.com/football/live/2026/sep/13/manchester-united-v-manchester-city-premier-league-live",
+    "summary": "⚽️ Manchester derby updates from 4.30pm BST ⚽️ Dunk helps Brighton rout Coventry | Today’s scores Brighton’s fourth goal was a screamer from Lewis Dunk , of all people, prompting this email from Steve Bradfield. Is Brighton’s fourth goal a slam Dunk for goal of month? Continue reading...",
+    "source_name": "The Guardian — Sport",
+    "region": "sport",
+    "weight": 1.0,
+    "published": "2026-09-13T16:55:18+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/0c7f647ba5ce093e2d88c47b50eb9f483b29f95a/0_449_1559_1247/master/1559.jpg?width=700&quality=85&auto=format&fit=max&s=1cac43e9014f5e3c655b6fc9b3445864",
+    "publisher": "live",
+    "cluster_sources": [
+      "Premier League",
+      "Sky Sports — Football",
+      "but did he deserve it?",
+      "live",
+      "team news, lineups"
+    ],
+    "cluster_members": [
+      {
+        "name": "Premier League",
+        "link": "https://www.aljazeera.com/sports/liveblog/2026/9/13/live-manchester-united-vs-manchester-city-premier-league-2?traffic_source=rss"
+      },
+      {
+        "name": "live",
+        "link": "https://www.theguardian.com/football/live/2026/sep/13/manchester-united-v-manchester-city-premier-league-live"
+      },
+      {
+        "name": "team news, lineups",
+        "link": "https://en.irna.ir/news/86262978/Man-Utd-vs-Man-City-Manchester-Derby-team-news-lineups"
+      },
+      {
+        "name": "but did he deserve it?",
+        "link": "https://www.bbc.co.uk/sport/football/articles/c5ym9ky3rzxo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/news/12040/13585509/phil-foden-sent-off-in-manchester-derby-bruno-fernandes-role-criticised-by-roy-keane-and-micah-richards"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/watch/video/13585486/off-p-foden-23-man-utd-0-0-man-city"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/0c7f647ba5ce093e2d88c47b50eb9f483b29f95a/0_449_1559_1247/master/1559.jpg?width=700&quality=85&auto=format&fit=max&s=1cac43e9014f5e3c655b6fc9b3445864",
+      "https://i.guim.co.uk/img/media/0c7f647ba5ce093e2d88c47b50eb9f483b29f95a/0_449_1559_1247/master/1559.jpg?width=460&quality=85&auto=format&fit=max&s=3869b00d7c4d166d52cecdadd78dbb34",
+      "https://i.guim.co.uk/img/media/0c7f647ba5ce093e2d88c47b50eb9f483b29f95a/0_449_1559_1247/master/1559.jpg?width=140&quality=85&auto=format&fit=max&s=b318c4b427af7eac2e6c654967d085c9",
+      "https://img9.irna.ir/d/r2/2026/09/13/4/173104027.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/8235/live/256b93a0-af8e-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/8235/live/256b93a0-af8e-11f1-a540-61c3f7fc4e6c.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.33333338254630357,
+    "age_hours": 938.6939035719445,
+    "is_stale": false,
+    "score": 25.918692737004715,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

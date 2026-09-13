@@ -1,0 +1,62 @@
+{
+  "id": "cde314f3792a",
+  "created_at": "2026-09-13T17:07:46.924640+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.68,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "India sends first consignment of Bailey bridge components to flood-hit Nepal",
+  "link": "https://www.thehindu.com/news/international/india-sends-first-consignment-of-bailey-bridge-components-to-flood-hit-nepal/article71462807.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "India sends first consignment of Bailey bridge components to flood-hit Nepal",
+    "link": "https://www.thehindu.com/news/international/india-sends-first-consignment-of-bailey-bridge-components-to-flood-hit-nepal/article71462807.ece",
+    "summary": "India has sent more than 130 tonnes of relief material and deployed 54 expert personnel to support Nepal's rescue, relief and forensic operations, according to the MEA.",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-13T07:52:14+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/pvbkc9/article71462817.ece/alternates/LANDSCAPE_1200/HSBNSjjbwAAVZ-F.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/india-sends-first-consignment-of-bailey-bridge-components-to-flood-hit-nepal/article71462807.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/india-sends-first-consignment-of-bailey-bridge-components-to-flood-hit-nepal-101789281861659.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/pvbkc9/article71462817.ece/alternates/LANDSCAPE_1200/HSBNSjjbwAAVZ-F.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 960.911312588611,
+    "is_stale": false,
+    "score": 20.682834127314813,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

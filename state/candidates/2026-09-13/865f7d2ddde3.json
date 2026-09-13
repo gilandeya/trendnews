@@ -1,0 +1,79 @@
+{
+  "id": "865f7d2ddde3",
+  "created_at": "2026-09-13T17:07:46.923556+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.95,
+  "trend_score": 1.0,
+  "velocity": 0.5,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Chelsea thrash Man Utd 5-0 in dominant display",
+  "link": "https://www.bbc.co.uk/sport/football/videos/cd79r7g4pylo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football",
+    "The Guardian — Sport",
+    "as it happened"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Chelsea thrash Man Utd 5-0 in dominant display",
+    "link": "https://www.bbc.co.uk/sport/football/videos/cd79r7g4pylo?at_medium=RSS&at_campaign=rss",
+    "summary": "Chelsea bullied a disjointed Manchester United side to claim a dominant 5-0 win, their first of the Women's Super League season.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-13T17:04:48+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c7f8/live/de908d10-af91-11f1-a540-61c3f7fc4e6c.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football",
+      "The Guardian — Sport",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/cd79r7g4pylo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/news/12040/13584291/womens-super-league-round-up-chelsea-thrash-man-utd-to-leave-eva-olid-still-looking-for-first-win"
+      },
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/football/live/2026/sep/13/manchester-united-v-chelsea-womens-super-league-live"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/13/manchester-united-chelsea-wsl-match-report-womens-super-league"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c7f8/live/de908d10-af91-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/c7f8/live/de908d10-af91-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/c7f8/live/de908d10-af91-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://e0.365dm.com/26/09/1096x616/skysports-lauren-james-chelsea_7350164.jpg?20260913133234",
+      "https://e0.365dm.com/26/09/1920x1080/skysports-lauren-james-chelsea_7350164.jpg?20260913133234",
+      "https://i.guim.co.uk/img/media/f8e47a15cc63eea4d862bad1748387c0e33bbc23/508_337_3482_2785/master/3482.jpg?width=700&quality=85&auto=format&fit=max&s=bf1e867c5fa1f50bf72d58910f76589c"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.500064472687383,
+    "age_hours": 960.9112887947223,
+    "is_stale": false,
+    "score": 25.94711945814062,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
