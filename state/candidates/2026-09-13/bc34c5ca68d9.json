@@ -1,0 +1,77 @@
+{
+  "id": "bc34c5ca68d9",
+  "created_at": "2026-09-13T09:10:55.110510+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.76,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Mbappe scores brace as Real Madrid sink Rayo 4-1",
+  "link": "https://www.vanguardngr.com/2026/09/mbappe-scores-brace-as-real-madrid-sink-rayo-4-1/",
+  "publishers": [
+    "Al Jazeera English",
+    "El País",
+    "The Japan Times",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Mbappe scores brace as Real Madrid sink Rayo 4-1",
+    "link": "https://www.vanguardngr.com/2026/09/mbappe-scores-brace-as-real-madrid-sink-rayo-4-1/",
+    "summary": "Kylian Mbappe struck twice to help Real Madrid smash Rayo Vallecano 4-1 on Saturday to pull level with Barcelona at the top of La Liga. The post Mbappe scores brace as Real Madrid sink Rayo 4-1 appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-09-13T03:19:22+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260912__C86A247__v1__MidRes__FblEspLigaRealMadridRayo-1024x683.jpg",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "El País",
+      "The Japan Times",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/sports/2026/09/13/soccer/mbappe-real-madrid-rayo-vallecano/"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/mbappe-scores-brace-as-real-madrid-sink-rayo-4-1/"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-12/el-real-madrid-no-perdona-un-desliz-ante-el-rayo-vallecano.html"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/12/mbappe-double-helps-real-madrid-thump-rayo-vallecano-4-1-in-la?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260912__C86A247__v1__MidRes__FblEspLigaRealMadridRayo-1024x683.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/13/562678.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/13/thumbs/400x400/562678.jpg",
+      "https://imagenes.elpais.com/resizer/v2/IS7CB4OSZVHWDMCYEH7YCNJSPM.jpg?auth=09c0d11b87353ac11d77aea8dccee7745232d1268a9b5c7ad015337caf1060ef"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 952.9636662497222,
+    "is_stale": true,
+    "score": 20.759490855037036,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

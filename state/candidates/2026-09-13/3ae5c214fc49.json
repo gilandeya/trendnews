@@ -1,0 +1,86 @@
+{
+  "id": "3ae5c214fc49",
+  "created_at": "2026-09-13T09:10:55.110206+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.11,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran and Oman agree entry and exit routes for Strait of Hormuz",
+  "link": "http://www.africanews.com/2026/09/13/iran-and-oman-agree-entry-and-exit-routes-for-strait-of-hormuz/",
+  "publishers": [
+    "Africanews",
+    "Hindustan Times — World",
+    "Investing.com — الاقتصاد",
+    "Mehr News",
+    "agency"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Iran and Oman agree entry and exit routes for Strait of Hormuz",
+    "link": "http://www.africanews.com/2026/09/13/iran-and-oman-agree-entry-and-exit-routes-for-strait-of-hormuz/",
+    "summary": "Iran and Oman have reached an agreement over new entry and exit routes for the Strait of Hormuz, Tehran said on Saturday.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-13T06:47:59+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/91/15/24/640x360_cmsv2_4a5625d5-c32a-54da-bc56-55820cb673dc-9911524.jpg?1789279143",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Hindustan Times — World",
+      "Investing.com — الاقتصاد",
+      "Mehr News",
+      "agency"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/13/iran-and-oman-agree-entry-and-exit-routes-for-strait-of-hormuz/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-oman-agree-on-new-strait-of-hormuz-routes-entry-point-entirely-in-iranian-waters-report-101789284026460.html"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/houthis-seize-red-sea-coast-as-saudi-pipeline-shutdown-deepens-oil-risks-4898630"
+      },
+      {
+        "name": "agency",
+        "link": "https://tass.com/world/2186797"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247696/New-details-on-Iran-Oman-Hormuz-agreement-released"
+      },
+      {
+        "name": "agency",
+        "link": "https://tass.com/world/2186799"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/91/15/24/640x360_cmsv2_4a5625d5-c32a-54da-bc56-55820cb673dc-9911524.jpg?1789279143",
+      "https://content-media.investing.com/news/LYNXNPEE1R1IN_M.jpg",
+      "https://media.mehrnews.com/d/2025/10/29/4/5747774.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 952.963663603611,
+    "is_stale": true,
+    "score": 22.10707143619912,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

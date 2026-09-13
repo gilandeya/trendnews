@@ -1,0 +1,63 @@
+{
+  "id": "f6bd1ce76feb",
+  "created_at": "2026-09-13T09:10:55.111043+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.28,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "South Korea tests global investor appetite with longer trading hours",
+  "link": "https://www.japantimes.co.jp/business/2026/09/13/markets/south-korea-longer-trading-hours/",
+  "publishers": [
+    "Free Malaysia Today",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "South Korea tests global investor appetite with longer trading hours",
+    "link": "https://www.japantimes.co.jp/business/2026/09/13/markets/south-korea-longer-trading-hours/",
+    "summary": "South Korea’s main stock exchange is extending into evening sessions, breaking with Asia’s trading-hour norms to tap what it hopes will be sustained demand from global investors.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-09-13T01:05:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/13/562707.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/business/2026/09/13/markets/south-korea-longer-trading-hours/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/09/13/korea-tests-global-investor-appetite-with-longer-trading-hours"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/13/562707.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/13/thumbs/400x400/562707.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 952.9637140508333,
+    "is_stale": false,
+    "score": 19.27686121787037,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

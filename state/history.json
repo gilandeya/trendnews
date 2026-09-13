@@ -1,105 +1,5 @@
 [
   {
-    "score": 29.01,
-    "bucket": "serious",
-    "tokens": [
-      "both",
-      "bridge",
-      "countries",
-      "first",
-      "korea",
-      "linking",
-      "north",
-      "open",
-      "road",
-      "russia"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cj9xvg1kz0mo?at_medium=RSS&at_campaign=rss",
-    "title": "North Korea and Russia open first road bridge linking both countries",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-08T09:07:50.763499+00:00"
-  },
-  {
-    "score": 21.19,
-    "bucket": "serious",
-    "tokens": [
-      "against",
-      "counteroffensive",
-      "forces",
-      "houthis",
-      "launch",
-      "retake",
-      "sanaa",
-      "vow",
-      "yemeni"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/9/8/yemeni-forces-launch-counteroffensive-against-houthis-vow-to-retake-sanaa?traffic_source=rss",
-    "title": "Yemeni forces launch counteroffensive against Houthis, vow to retake Sanaa",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-08T09:07:50.763780+00:00"
-  },
-  {
-    "score": 20.41,
-    "bucket": "serious",
-    "tokens": [
-      "attacks",
-      "authorities",
-      "disrupt",
-      "energy",
-      "facilities",
-      "houthi",
-      "saudi",
-      "say",
-      "wound"
-    ],
-    "link": "https://www.dawn.com/news/2028346/houthi-attacks-disrupt-saudi-energy-facilities-wound-73-authorities-say",
-    "title": "Houthi attacks disrupt Saudi energy facilities, wound 73, authorities say",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-08T09:07:50.764073+00:00"
-  },
-  {
-    "score": 18.51,
-    "bucket": "serious",
-    "tokens": [
-      "china's",
-      "floods",
-      "grow",
-      "identifies",
-      "killed",
-      "nepal",
-      "questions",
-      "reporting",
-      "those"
-    ],
-    "link": "https://www.npr.org/2026/09/07/nx-s1-5960357/nepal-floods-questions-over-chinas-reporting",
-    "title": "As Nepal identifies those killed in the floods, questions grow over China's reporting",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-09-08T09:07:50.764315+00:00"
-  },
-  {
-    "score": 17.43,
-    "bucket": "useful",
-    "tokens": [
-      "causes",
-      "deaths",
-      "globally",
-      "hand",
-      "nearly",
-      "second",
-      "smoke",
-      "study"
-    ],
-    "link": "https://medicalxpress.com/news/2026-09-17m-deaths-globally.html",
-    "title": "Second-hand smoke causes nearly 1.7M deaths globally: Study",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-09-08T09:07:50.764541+00:00"
-  },
-  {
     "score": 21.19,
     "bucket": "serious",
     "tokens": [
@@ -5247,5 +5147,104 @@
     "posted_title": "هجوم حوثي بطائرات مسيّرة وصواريخ على قاعدة عسكرية سعودية جنوبية",
     "region": "uk",
     "seen_at": "2026-09-13T07:41:44.958078+00:00"
+  },
+  {
+    "score": 32.62,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "fans",
+      "fears",
+      "hormuz",
+      "oil",
+      "report",
+      "shipping",
+      "strait",
+      "supplies",
+      "threats"
+    ],
+    "link": "https://www.channelnewsasia.com/world/attack-strait-hormuz-shipping-oil-6381001",
+    "title": "New report of attack on Strait of Hormuz shipping fans fears of threats to oil supplies",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-13T09:10:55.110194+00:00"
+  },
+  {
+    "score": 22.11,
+    "bucket": "serious",
+    "tokens": [
+      "agree",
+      "entry",
+      "exit",
+      "hormuz",
+      "iran",
+      "oman",
+      "routes",
+      "strait"
+    ],
+    "link": "http://www.africanews.com/2026/09/13/iran-and-oman-agree-entry-and-exit-routes-for-strait-of-hormuz/",
+    "title": "Iran and Oman agree entry and exit routes for Strait of Hormuz",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-09-13T09:10:55.110500+00:00"
+  },
+  {
+    "score": 20.76,
+    "bucket": "serious",
+    "tokens": [
+      "brace",
+      "madrid",
+      "mbappe",
+      "rayo",
+      "real",
+      "scores",
+      "sink"
+    ],
+    "link": "https://www.vanguardngr.com/2026/09/mbappe-scores-brace-as-real-madrid-sink-rayo-4-1/",
+    "title": "Mbappe scores brace as Real Madrid sink Rayo 4-1",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-13T09:10:55.110767+00:00"
+  },
+  {
+    "score": 19.89,
+    "bucket": "serious",
+    "tokens": [
+      "again",
+      "against",
+      "draw",
+      "inter",
+      "late",
+      "messi",
+      "miami",
+      "nashville",
+      "snatch",
+      "strikes"
+    ],
+    "link": "https://www.vanguardngr.com/2026/09/messi-strikes-again-but-nashville-snatch-late-draw-against-inter-miami/",
+    "title": "Messi strikes again but Nashville snatch late draw against Inter Miami",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-13T09:10:55.111034+00:00"
+  },
+  {
+    "score": 19.28,
+    "bucket": "serious",
+    "tokens": [
+      "appetite",
+      "global",
+      "hours",
+      "investor",
+      "korea",
+      "longer",
+      "south",
+      "tests",
+      "trading"
+    ],
+    "link": "https://www.japantimes.co.jp/business/2026/09/13/markets/south-korea-longer-trading-hours/",
+    "title": "South Korea tests global investor appetite with longer trading hours",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-09-13T09:10:55.111280+00:00"
   }
 ]
