@@ -1,0 +1,89 @@
+{
+  "id": "2bce3358bbec",
+  "created_at": "2026-09-13T06:07:45.758547+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.68,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Vessel Struck By \"Unknown Projectile\" In Strait Of Hormuz: UK Maritime Agency",
+  "link": "https://www.ndtv.com/world-news/vessel-struck-by-unknown-projectile-in-strait-of-hormuz-uk-maritime-agency-12039509#publisher=newsstand",
+  "publishers": [
+    "Hindustan Times — World",
+    "Investing.com — الاقتصاد",
+    "Mehr News",
+    "NDTV — World",
+    "Reuters",
+    "local official"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Vessel Struck By \"Unknown Projectile\" In Strait Of Hormuz: UK Maritime Agency",
+    "link": "https://www.ndtv.com/world-news/vessel-struck-by-unknown-projectile-in-strait-of-hormuz-uk-maritime-agency-12039509#publisher=newsstand",
+    "summary": "The amount of damage and the status of the crew were unknown.",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-13T02:45:07+00:00",
+    "image_url": "https://c.ndtvimg.com/2025-06/k0b11tng_strait-of-hormuz_625x300_18_June_25.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Investing.com — الاقتصاد",
+      "Mehr News",
+      "NDTV — World",
+      "Reuters",
+      "local official"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/vessel-struck-by-unknown-projectile-in-strait-of-hormuz-uk-maritime-agency-12039509#publisher=newsstand"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247693/Vessel-struck-by-unknown-projectile-in-Strait-of-Hormuz"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/new-report-of-attack-on-strait-of-hormuz-shipping-fans-fears-of-threats-to-oil-supplies-101789267543904.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/1-killed-3-injured-after-merchant-ship-struck-in-hormuz-iran-12039936#publisher=newsstand"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-says-one-dead-three-injured-after-ship-struck-in-strait-of-hormuz-101789279275817.html"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/new-strait-of-hormuz-ship-attack-raises-oil-supply-fears-as-iran-war-widens-4898703"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2025-06/k0b11tng_strait-of-hormuz_625x300_18_June_25.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://media.mehrnews.com/d/2026/03/27/4/5964007.jpg",
+      "https://c.ndtvimg.com/2026-03/12lmtpdk_strait-of-hormuz_625x300_03_March_26.jpeg",
+      "https://content-media.investing.com/news/moved_LYNXMPEM2M133_1200_L.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 949.9107780191667,
+    "is_stale": true,
+    "score": 22.679848549496803,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "id": "774aa0351c2f",
+  "created_at": "2026-09-13T06:07:45.757569+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.71,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthis claim attack on Saudi base as fighting flares with Yemeni forces",
+  "link": "https://www.theguardian.com/world/2026/sep/13/houthis-claim-attack-on-saudi-base-as-fighting-flares-with-yemeni-forces",
+  "publishers": [
+    "CGTN",
+    "France24",
+    "Hindustan Times — World",
+    "The Guardian",
+    "The Guardian — World",
+    "The Hindu — International",
+    "Vanguard Nigeria"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Houthis claim attack on Saudi base as fighting flares with Yemeni forces",
+    "link": "https://www.theguardian.com/world/2026/sep/13/houthis-claim-attack-on-saudi-base-as-fighting-flares-with-yemeni-forces",
+    "summary": "Iran-allied Houthis say drones and missiles used in attack that targeted ‘weapons depots and command and control centres’ in southern Saudi Arabia Houthi fighters on Sunday said they used drones and missiles to attack a military base in southern Saudi Arabia as renewed fighting with Yemen’s government forces led growing numbers of civilians to flee . The attack at the southern Sharurah base targeted “weapons depots and command and control centres that are managing the aggression against our nation and people”, Houthi military spokesperson Yahya Saree wrote on X. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-13T01:27:49+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/ce72775e12cc89c1f7da61c16a058312a3a7f694/846_0_4643_3717/master/4643.jpg?width=700&quality=85&auto=format&fit=max&s=762ea966438639567ae0734894c83452",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "CGTN",
+      "France24",
+      "Hindustan Times — World",
+      "The Guardian",
+      "The Guardian — World",
+      "The Hindu — International",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/13/houthis-claim-attack-on-saudi-base-as-fighting-flares-with-yemeni-forces"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/yemen-govt-forces-say-hit-houthis-in-red-sea-city/article71461361.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260913-middle-east-live-houthis-say-hit-saudi-base-after-renewed-fighting-with-yemeni-forces"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/houthis-say-hit-saudi-base-after-renewed-fighting-with-yemeni-govt-forces-101789255825963.html"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-13/Houthis-claim-hitting-Saudi-base-in-renewed-fighting-1QoDO0N9wRy/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/houthi-in-yemen-bombs-saudi-arabia/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/ce72775e12cc89c1f7da61c16a058312a3a7f694/846_0_4643_3717/master/4643.jpg?width=700&quality=85&auto=format&fit=max&s=762ea966438639567ae0734894c83452",
+      "https://i.guim.co.uk/img/media/ce72775e12cc89c1f7da61c16a058312a3a7f694/846_0_4643_3717/master/4643.jpg?width=460&quality=85&auto=format&fit=max&s=3078d48bf43a05356d3f776430468f47",
+      "https://i.guim.co.uk/img/media/ce72775e12cc89c1f7da61c16a058312a3a7f694/846_0_4643_3717/master/4643.jpg?width=140&quality=85&auto=format&fit=max&s=5385397757129011faf8e8cf56055212",
+      "https://th-i.thgim.com/public/incoming/lhecjt/article71461364.ece/alternates/LANDSCAPE_1200/2026-09-12T144613Z_1659249692_RC2MHNAEAYR9_RTRMADP_3_IRAN-CRISIS-YEMEN-PRISONERS.JPG",
+      "https://s.france24.com/media/display/e97ed2ba-adc3-11f1-b34d-005056a97e36/w:1024/p:16x9/AP26253315512845.jpg",
+      "https://news.cgtn.com/news/2026-09-13/Houthis-claim-hitting-Saudi-base-in-renewed-fighting-1QoDO0N9wRy/img/7e15ff9d74e54a6bac0e721aabd9bf05/7e15ff9d74e54a6bac0e721aabd9bf05-750.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 949.9107813313889,
+    "is_stale": false,
+    "score": 26.711136925395035,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

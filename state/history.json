@@ -1,28 +1,5 @@
 [
   {
-    "score": 25.31,
-    "bucket": "serious",
-    "tokens": [
-      "being",
-      "claim",
-      "delegation",
-      "during",
-      "eiffel",
-      "hindu",
-      "investigates",
-      "paris",
-      "removed",
-      "tower",
-      "visit",
-      "women"
-    ],
-    "link": "https://www.thehindu.com/news/international/paris-investigates-claim-of-women-being-removed-during-hindu-delegation-visit-at-eiffel-tower/article71440426.ece",
-    "title": "Paris investigates claim of women being removed during Hindu delegation visit at Eiffel Tower",
-    "posted_title": "إغلاق برج إيفل بعد إضراب موظفات احتُجن عن الأنظار خلال زيارة وفد هندوسي",
-    "region": "in",
-    "seen_at": "2026-09-08T04:45:00.909693+00:00"
-  },
-  {
     "score": 18.67,
     "bucket": "serious",
     "tokens": [
@@ -5256,5 +5233,101 @@
     "posted_title": "",
     "region": "ar_country",
     "seen_at": "2026-09-13T03:08:03.001130+00:00"
+  },
+  {
+    "score": 31.84,
+    "bucket": "sport",
+    "tokens": [
+      "beats",
+      "cement",
+      "open",
+      "rise",
+      "rybakina",
+      "sabalenka",
+      "title",
+      "win"
+    ],
+    "link": "https://www.skysports.com/tennis/news/12040/13585140/us-open-elena-rybakina-cements-her-spot-as-world-no-1-by-dethroning-two-time-winner-aryna-sabalenka-in-new-york",
+    "title": "Rybakina beats Sabalenka to win US Open title and cement her rise to No 1",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-13T06:07:45.757555+00:00"
+  },
+  {
+    "score": 26.71,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "base",
+      "claim",
+      "fighting",
+      "flares",
+      "forces",
+      "houthis",
+      "saudi",
+      "yemeni"
+    ],
+    "link": "https://www.theguardian.com/world/2026/sep/13/houthis-claim-attack-on-saudi-base-as-fighting-flares-with-yemeni-forces",
+    "title": "Houthis claim attack on Saudi base as fighting flares with Yemeni forces",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-13T06:07:45.757927+00:00"
+  },
+  {
+    "score": 24.36,
+    "bucket": "serious",
+    "tokens": [
+      "death",
+      "ferry",
+      "fire",
+      "missing",
+      "philippines",
+      "rises",
+      "still",
+      "toll"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cwyz755yeg9o?at_medium=RSS&at_campaign=rss",
+    "title": "Death toll from Philippines ferry fire rises to 76, with more still missing",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-13T06:07:45.758238+00:00"
+  },
+  {
+    "score": 22.87,
+    "bucket": "serious",
+    "tokens": [
+      "arsenal",
+      "arteta",
+      "decision",
+      "despite",
+      "penalty",
+      "seethes",
+      "sunderland",
+      "win"
+    ],
+    "link": "https://www.aljazeera.com/sports/2026/9/12/arteta-seethes-at-sunderland-penalty-decision-despite-arsenal-win?traffic_source=rss",
+    "title": "Arteta seethes at Sunderland penalty decision despite Arsenal win",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-09-13T06:07:45.758537+00:00"
+  },
+  {
+    "score": 22.68,
+    "bucket": "serious",
+    "tokens": [
+      "agency",
+      "hormuz",
+      "maritime",
+      "projectile",
+      "strait",
+      "struck",
+      "unknown",
+      "vessel"
+    ],
+    "link": "https://www.ndtv.com/world-news/vessel-struck-by-unknown-projectile-in-strait-of-hormuz-uk-maritime-agency-12039509#publisher=newsstand",
+    "title": "Vessel Struck By \"Unknown Projectile\" In Strait Of Hormuz: UK Maritime Agency",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-13T06:07:45.758857+00:00"
   }
 ]
