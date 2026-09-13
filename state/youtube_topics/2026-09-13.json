@@ -1,0 +1,752 @@
+{
+  "run_date": "2026-09-13",
+  "stats": {
+    "points_in": 229,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 79,
+    "issues_clustered": 29,
+    "topics_merged": 3,
+    "topics_out": 6,
+    "dropped_by_bloc_cap": 2,
+    "topics_seen_skipped": 6,
+    "topics_below_min_points": 11,
+    "layer_a": 0,
+    "layer_b": 1,
+    "layer_c": 5,
+    "agreement": 2,
+    "cross_source": 0,
+    "internal": 4,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "دعوة إيران لاجتماع مسقط/عمّان مع الخليج والعراق",
+      "تحذير الشايجي بشأن ضمانات إيران للخليج"
+    ],
+    [
+      "سيطرة الحوثيين على باب المندب والبحر الأحمر",
+      "هجمات الحوثيين على السعودية وتأثيرها على النفط",
+      "استهداف خط الأنابيب السعودي الشرق-غرب"
+    ],
+    [
+      "إخطارات وقف بناء فلسطيني قرب مستوطنتي كاديم وجنيم",
+      "سياسات منع التراخيص وهدم المنازل في مناطق ج"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "أزمة انتخابات أوسكودار واعتقال العمدة سينم ددتاش",
+      "event": "فوز سينم ددتاش بانتخابات أوسكودار ثم اعتقالها ومحاولات قلب النتيجة",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 16,
+      "fresh_points": 16,
+      "dropped_reason": null
+    },
+    {
+      "title": "دعوة إيران لاجتماع مسقط/عمّان مع الخليج والعراق",
+      "event": "دعوة إيرانية لاجتماع وزراء خارجية الخليج والعراق يوم الاثنين لبحث ترتيبات إقليمية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        4,
+        5,
+        8,
+        10,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        84,
+        87
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null
+    },
+    {
+      "title": "أزمة المهاجرين في سبتة والتحقيق الإسباني بشأن دور مغربي",
+      "event": "فتح تحقيق إسباني في وصول عشرات آلاف المهاجرين إلى سبتة واتهام المغرب بتسهيل ذلك",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "أحكام محكمة التعقيب التونسية في قضية التآمر",
+      "event": "تأييد محكمة التعقيب التونسية أحكامًا بالسجن في قضية التآمر على أمن الدولة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "ذكرى معاهدة السلام المصرية الإسرائيلية والسادات",
+      "event": "الجدل حول قرار السادات بتوقيع اتفاقية السلام مع إسرائيل واستعادة سيناء",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "زيارة رئيس الوزراء اليوناني لجزيرة مييس والخلاف حول خريطة إشبيلية",
+      "event": "زيارة ميتسوتاكيس لجزيرة مييس ومطالبات اليونان البحرية استنادًا لخريطة إشبيلية غير المعترف بها",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        109,
+        110,
+        111,
+        112
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "توقعات ترامب بانتهاء الحرب بعد الانتخابات النصفية",
+      "event": "تصريحات ترامب بأن الحرب ستنتهي بعد الانتخابات النصفية الأمريكية في نوفمبر مع انخفاض أسعار الوقود",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        1,
+        3,
+        59,
+        81
+      ],
+      "total_points": 5,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "سيطرة الحوثيين على باب المندب والبحر الأحمر",
+      "event": "سيطرة الحوثيين المدعومين من إيران على ممرات باب المندب وخليج عدن والجزر الاستراتيجية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        33,
+        34,
+        35,
+        36,
+        71,
+        83,
+        145
+      ],
+      "total_points": 8,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "ارتفاع أسعار النفط العالمية بسبب التوترات الجيوسياسية",
+      "event": "تجاوز سعر خام برنت 107 دولارًا وسعر خام آخر 100 دولار بسبب التصعيد الإقليمي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        34,
+        57
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "ذكرى 11 سبتمبر وتصريحات ترامب حول إيران كراعية للإرهاب",
+      "event": "استدعاء ترامب ووزير حربه لإيران واعتبارها الدولة الأكثر رعاية للإرهاب في ذكرى سبتمبر",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        7,
+        12,
+        68
+      ],
+      "total_points": 3,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "أزمة انتخابات أوسكودار واعتقال العمدة سينم ددتاش",
+      "event": "فوز سينم ددتاش بانتخابات أوسكودار ثم اعتقالها ومحاولات قلب النتيجة",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 16,
+      "fresh_points": 16,
+      "dropped_reason": null
+    },
+    {
+      "title": "ارتفاع أسعار الوقود في تركيا",
+      "event": "ارتفاع أسعار البنزين والديزل في تركيا اعتبارًا من الليل",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        47,
+        118,
+        134
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دعوة إيران لاجتماع مسقط/عمّان مع الخليج والعراق",
+      "event": "دعوة إيرانية لاجتماع وزراء خارجية الخليج والعراق يوم الاثنين لبحث ترتيبات إقليمية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        4,
+        5,
+        8,
+        10,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        84,
+        87
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null
+    },
+    {
+      "title": "أزمة المهاجرين في سبتة والتحقيق الإسباني بشأن دور مغربي",
+      "event": "فتح تحقيق إسباني في وصول عشرات آلاف المهاجرين إلى سبتة واتهام المغرب بتسهيل ذلك",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "أحكام محكمة التعقيب التونسية في قضية التآمر",
+      "event": "تأييد محكمة التعقيب التونسية أحكامًا بالسجن في قضية التآمر على أمن الدولة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "ذكرى معاهدة السلام المصرية الإسرائيلية والسادات",
+      "event": "الجدل حول قرار السادات بتوقيع اتفاقية السلام مع إسرائيل واستعادة سيناء",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "استراتيجية إيران الجديدة في تمدد الصراع إقليمياً",
+      "event": "تحول إيران من التركيز على هرمز إلى استهداف اليمن وخط الأنابيب السعودي بشكل متزامن",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        82,
+        83,
+        85
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إخطارات وقف بناء فلسطيني قرب مستوطنتي كاديم وجنيم",
+      "event": "إخطار الاحتلال 14 عائلة فلسطينية بوقف البناء قرب مستوطنتي كاديم وجنيم بعد عودة مستوطنين إليهما",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        88,
+        89,
+        90,
+        91,
+        92
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "زيارة رئيس الوزراء اليوناني لجزيرة مييس والخلاف حول خريطة إشبيلية",
+      "event": "زيارة ميتسوتاكيس لجزيرة مييس ومطالبات اليونان البحرية استنادًا لخريطة إشبيلية غير المعترف بها",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        109,
+        110,
+        111,
+        112
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "استطلاع الرأي اليوناني حول العلاقات مع تركيا والإنفاق العسكري",
+      "event": "استطلاع رأي يوناني يظهر عدم اهتمام الشعب بالخلاف مع تركيا مقابل الإنفاق العسكري الكبير",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        113,
+        114,
+        115
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مقارنة الاستقطاب السياسي التركي بين انقلاب 1980 واليوم",
+      "event": "مقارنة حالة الاستقطاب السياسي والقضائي في تركيا بين فترة انقلاب 1980 واليوم",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        116,
+        117
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تأسيس حزب الشعب الجديد ومؤتمره الأول",
+      "event": "إعلان حزب الشعب الجديد عن مؤتمره الأول وحملته الميدانية بقيادة أوزغور أوزيل",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        120,
+        121
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "توقعات بانهيار النظام الإيراني بعد سلسلة الضربات",
+      "event": "تقييم محللين أن النظام الإيراني وصل لآخر مراحله عقب سلسلة الضربات والحملات الأخيرة",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        148,
+        149
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحليل الحرب على الإرهاب بعد 11 سبتمبر",
+      "event": "تحليل تداعيات استراتيجية الحرب الأمريكية على الإرهاب منذ 2001",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        13,
+        14,
+        15,
+        16
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "العقوبات البريطانية على المستوطنات الإسرائيلية",
+      "event": "فرض بريطانيا قيودًا على استيراد سلع المستوطنات ووصف وزير خارجيتها الأوضاع بالتطهير العرقي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        40,
+        44,
+        45
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فوز حزب البديل في انتخابات ساكسونيا أنهالت",
+      "event": "فوز حزب البديل من أجل ألمانيا في انتخابات ولاية ساكسونيا أنهالت وتحليل أسباب صعوده",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        43,
+        46
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تحويل عمداء المعارضة إلى حزب الحكومة التركية",
+      "event": "نقل الحكومة التركية أكثر من 90-95 عمدة من أحزاب المعارضة إلى حزبها منذ الانتخابات المحلية",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        54,
+        58
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استخدام الفكاهة السوداء كمقاومة إيرانية للنظام",
+      "event": "استخدام الإيرانيين للسخرية والفكاهة السوداء كشكل مقاومة ضد قمع النظام",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        61,
+        62,
+        63
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إصابة شاهين عبدالعزيزي بالرصاص واعتقال زوجها",
+      "event": "إصابة شاهين عبدالعزيزي بالرصاص عام 2022 واعتقال زوجها لاحقًا",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        64,
+        65
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دعوات لتشديد الضغط الأمريكي على إيران",
+      "event": "دعوة خبراء لتبني إجراءات اقتصادية وعسكرية أقوى ضد إيران بدل الضغط البطيء",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        69,
+        74
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تقييم فيجلين للوضع الأمني والسياسي الإسرائيلي",
+      "event": "تصريحات موسى فيجلين حول الوضع الأمني الإسرائيلي إزاء إيران وسياساته المطلوبة واتفاقيات أوسلو",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        75,
+        76,
+        77,
+        78,
+        79,
+        80
+      ],
+      "total_points": 6,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    }
+  ]
+}
