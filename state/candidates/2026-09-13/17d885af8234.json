@@ -1,0 +1,56 @@
+{
+  "id": "17d885af8234",
+  "created_at": "2026-09-13T18:07:46.557801+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.42,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Fußball-Bundesliga: FC Bayern München siegt bei der SV Elversberg",
+  "link": "https://www.spiegel.de/sport/fussball/fussball-bundesliga-fc-bayern-muenchen-siegt-bei-der-sv-elversberg-a-1655bfa5-f681-4a9e-b64b-05db51c1048f#ref=rss",
+  "publishers": [
+    "Der Spiegel"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Fußball-Bundesliga: FC Bayern München siegt bei der SV Elversberg",
+    "link": "https://www.spiegel.de/sport/fussball/fussball-bundesliga-fc-bayern-muenchen-siegt-bei-der-sv-elversberg-a-1655bfa5-f681-4a9e-b64b-05db51c1048f#ref=rss",
+    "summary": "Zwei Siege legte Bundesliganeuling SV Elversberg zum Saisonstart hin. Auch gegen Rekordmeister FC Bayern spielte der Aufsteiger gut mit, musste sich aber der Klasse von Harry Kane geschlagen geben.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-09-13T17:41:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/feae793a-2512-44ab-9133-02ff51512dba_w520_r2.08_fpx31.5_fpy50.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Der Spiegel"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/sport/fussball/fussball-bundesliga-fc-bayern-muenchen-siegt-bei-der-sv-elversberg-a-1655bfa5-f681-4a9e-b64b-05db51c1048f#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/feae793a-2512-44ab-9133-02ff51512dba_w520_r2.08_fpx31.5_fpy50.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.42036036016667,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

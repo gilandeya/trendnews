@@ -1,0 +1,75 @@
+{
+  "id": "79d187ce41d3",
+  "created_at": "2026-09-13T18:07:46.556488+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.25,
+  "trend_score": 1.0,
+  "velocity": 0.6,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "El Levante desafía sin premio a un efectivo Barcelona",
+  "link": "https://elpais.com/deportes/futbol/2026-09-13/el-levante-desafia-sin-premio-a-un-efectivo-barcelona.html",
+  "publishers": [
+    "Channel News Asia",
+    "El País",
+    "Punch Nigeria",
+    "Vanguard Nigeria"
+  ],
+  "region": "es",
+  "article": {
+    "title": "El Levante desafía sin premio a un efectivo Barcelona",
+    "link": "https://elpais.com/deportes/futbol/2026-09-13/el-levante-desafia-sin-premio-a-un-efectivo-barcelona.html",
+    "summary": "Un doblete de Lamine y los goles de Espart y Adeyemi derrotan a un rival que se batió con grandeza",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-13T17:20:29+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/CDJIUSXN6FECNDMYZG2FIILT2Y.jpg?auth=4762b60de716f2460887077fce14665b7ed219bdeb55e3f8354ca0762b9f0181",
+    "publisher": "El País",
+    "cluster_sources": [
+      "Channel News Asia",
+      "El País",
+      "Punch Nigeria",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-13/el-levante-desafia-sin-premio-a-un-efectivo-barcelona.html"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/yamal-shines-with-brace-as-barcelona-beat-levante-4-2-to-stay-perfect/"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/la-liga-yamal-double-helps-barca-edge-levante-4-2/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/lamine-yamal-double-helps-barcelona-beat-levante-6381556"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/CDJIUSXN6FECNDMYZG2FIILT2Y.jpg?auth=4762b60de716f2460887077fce14665b7ed219bdeb55e3f8354ca0762b9f0181",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260913__C87K7MF__v1__MidRes__FblEspLigaLevanteBarcelona-1024x710.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 26.24756406287037,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

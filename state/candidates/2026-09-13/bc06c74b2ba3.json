@@ -1,0 +1,62 @@
+{
+  "id": "bc06c74b2ba3",
+  "created_at": "2026-09-13T18:07:46.557535+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.7,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran president and Abu Dhabi crown prince meet in New Delhi",
+  "link": "https://en.irna.ir/news/86262040/Iran-president-and-Abu-Dhabi-crown-prince-meet-in-New-Delhi",
+  "publishers": [
+    "Hindustan Times — World",
+    "IRNA English"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran president and Abu Dhabi crown prince meet in New Delhi",
+    "link": "https://en.irna.ir/news/86262040/Iran-president-and-Abu-Dhabi-crown-prince-meet-in-New-Delhi",
+    "summary": "Tehran, IRNA – Iranian President Masoud Pezeshkian, who is in the Indian capital to attend the 18th BRICS Leaders' Summit, has met with Sheikh Khaled bin Mohamed bin Zayed Al Nahyan, Crown Prince of Abu Dhabi.",
+    "source_name": "IRNA English",
+    "region": "ir",
+    "weight": 0.7,
+    "published": "2026-09-12T14:56:13+00:00",
+    "image_url": "https://img9.irna.ir/d/r2/2026/09/12/4/173101890.jpg",
+    "publisher": "IRNA English",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "IRNA English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-president-meets-uae-crown-prince-on-brics-sidelines-back-joint-statement-urging-restraint-in-west-asia-war-101789226727137.html"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86262040/Iran-president-and-Abu-Dhabi-crown-prince-meet-in-New-Delhi"
+      }
+    ],
+    "image_candidates": [
+      "https://img9.irna.ir/d/r2/2026/09/12/4/173101890.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 961.9112286591667,
+    "is_stale": false,
+    "score": 17.70393442801852,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

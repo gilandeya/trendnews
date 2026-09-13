@@ -1,0 +1,65 @@
+{
+  "id": "ffda70d7ebea",
+  "created_at": "2026-09-13T18:07:46.557262+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.88,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Olympic rematch: US and France to meet for women's FIBA World Cup title",
+  "link": "https://www.france24.com/en/sport/20260913-olympic-rematch-us-and-france-to-meet-for-women-s-fiba-world-cup-title",
+  "publishers": [
+    "France24",
+    "live"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Olympic rematch: US and France to meet for women's FIBA World Cup title",
+    "link": "https://www.france24.com/en/sport/20260913-olympic-rematch-us-and-france-to-meet-for-women-s-fiba-world-cup-title",
+    "summary": "France won against host Germany in the women's FIBA World Cup semifinals Saturday and will now face the United States in the final Sunday after the four-time defending champion and tournament favorite defeated Spain in the other semifinal.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-13T06:48:15+00:00",
+    "image_url": "https://s.france24.com/media/display/233acfba-aec6-11f1-9581-005056bf30b7/w:1024/p:16x9/000-C84P8ZF.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "live"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/sport/20260913-olympic-rematch-us-and-france-to-meet-for-women-s-fiba-world-cup-title"
+      },
+      {
+        "name": "live",
+        "link": "https://www.theguardian.com/sport/live/2026/sep/13/fiba-womens-basketball-world-cup-final-usa-v-france-live-score"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/233acfba-aec6-11f1-9581-005056bf30b7/w:1024/p:16x9/000-C84P8ZF.jpg",
+      "https://i.guim.co.uk/img/media/2264209ce462536e01673e81738cea78d6b990ad/573_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=666c8574a20f0062cb0c0a0a61b397f9",
+      "https://i.guim.co.uk/img/media/2264209ce462536e01673e81738cea78d6b990ad/573_0_5000_4000/master/5000.jpg?width=460&quality=85&auto=format&fit=max&s=b835040cd05ddb395c0db91f2420719f",
+      "https://i.guim.co.uk/img/media/2264209ce462536e01673e81738cea78d6b990ad/573_0_5000_4000/master/5000.jpg?width=140&quality=85&auto=format&fit=max&s=4ab918b6496148c2652ac359f7a18caa"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 961.9111852225001,
+    "is_stale": false,
+    "score": 21.878415910833333,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

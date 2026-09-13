@@ -1,0 +1,85 @@
+{
+  "id": "62b4bb94ba00",
+  "created_at": "2026-09-13T18:07:46.556912+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.41,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "US Open im Liveticker: Alexander Zverev gegen Ben Shelton",
+  "link": "https://www.spiegel.de/sport/tennis/us-open-im-liveticker-alexander-zverev-gegen-ben-shelton-a-1ba985bc-06c8-43f2-96bd-44578c9e6997#ref=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Der Spiegel",
+    "El País",
+    "Sky Sports — Football",
+    "live"
+  ],
+  "region": "de",
+  "article": {
+    "title": "US Open im Liveticker: Alexander Zverev gegen Ben Shelton",
+    "link": "https://www.spiegel.de/sport/tennis/us-open-im-liveticker-alexander-zverev-gegen-ben-shelton-a-1ba985bc-06c8-43f2-96bd-44578c9e6997#ref=rss",
+    "summary": "Die French Open hat Alexander Zverev in diesem Jahr schon gewonnen, folgen jetzt die US Open? Verfolgen Sie das Finale gegen Ben Shelton im Live-Kommentar.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-09-13T17:59:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/06ea4540-6df5-406e-afee-069f1011ca6b_w520_r2.08_fpx76_fpy51.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Der Spiegel",
+      "El País",
+      "Sky Sports — Football",
+      "live"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/liveblog/2026/9/13/us-open-mens-singles-final-live-alexander-zverev-vs-ben-shelton?traffic_source=rss"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/sport/tennis/us-open-im-liveticker-alexander-zverev-gegen-ben-shelton-a-1ba985bc-06c8-43f2-96bd-44578c9e6997#ref=rss"
+      },
+      {
+        "name": "live",
+        "link": "https://www.theguardian.com/sport/live/2026/sep/13/us-open-tennis-2026-mens-final-alexander-zverev-v-ben-shelton-live-updates"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/tenis/2026-09-13/zverev-shelton-en-directo-la-final-del-us-open-en-vivo.html"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/tennis/live-blog/12040/13585240/us-open-live-scores-updates-news-commentary-results-from-new-york-with-alexander-zverev-taking-on-ben-shelton-in-the-mens-final"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/06ea4540-6df5-406e-afee-069f1011ca6b_w520_r2.08_fpx76_fpy51.jpg",
+      "https://i.guim.co.uk/img/media/afdc3fe8220d053a60441d40bd3e0fc69fe0f9aa/167_0_3327_2662/master/3327.jpg?width=700&quality=85&auto=format&fit=max&s=a5372e6fc2741fdcd46fc4c52f64801f",
+      "https://i.guim.co.uk/img/media/afdc3fe8220d053a60441d40bd3e0fc69fe0f9aa/167_0_3327_2662/master/3327.jpg?width=460&quality=85&auto=format&fit=max&s=24dcd0b7c27c914d6e9fff708ab7f3b8",
+      "https://i.guim.co.uk/img/media/afdc3fe8220d053a60441d40bd3e0fc69fe0f9aa/167_0_3327_2662/master/3327.jpg?width=140&quality=85&auto=format&fit=max&s=ff6c8ca00872c505ee0d54d60dcbc448",
+      "https://imagenes.elpais.com/resizer/v2/QR72KPCQUFNBXD4KGMWXWDCKAU.jpg?auth=cc18d64e8f971eb641206460af130308a17ad3a5218d7ad89bb35b6727c27da7",
+      "https://e1.365dm.com/26/09/1096x616/skysports-alexander-zverev_7349711.jpg?20260912200314"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 961.9111742108333,
+    "is_stale": true,
+    "score": 22.40614464612505,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
