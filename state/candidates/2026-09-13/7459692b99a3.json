@@ -1,0 +1,70 @@
+{
+  "id": "7459692b99a3",
+  "created_at": "2026-09-13T12:07:53.445502+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.0,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "light",
+  "state_media": false,
+  "title": "5 killed in Russian strikes on Ukraine as Putin warns Europe against sending troops",
+  "link": "https://www.thehindu.com/news/international/5-killed-in-russian-strikes-on-ukraine-as-putin-warns-europe-against-sending-troops/article71461051.ece",
+  "publishers": [
+    "CBS News",
+    "CBS News — World",
+    "Court House News",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "5 killed in Russian strikes on Ukraine as Putin warns Europe against sending troops",
+    "link": "https://www.thehindu.com/news/international/5-killed-in-russian-strikes-on-ukraine-as-putin-warns-europe-against-sending-troops/article71461051.ece",
+    "summary": "Moscow’s attacks have targeted Ukraine’s power grid ahead of winter in what officials say is meant to demoralise civilians",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-12T16:37:10+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/qj4shx/article71461091.ece/alternates/LANDSCAPE_1200/2026-08-06T080134Z_103610539_RC2DOMAZVGMP_RTRMADP_3_UKRAINE-CRISIS-ZAPORIZHZHIA.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "CBS News",
+      "CBS News — World",
+      "Court House News",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/3-killed-in-russian-strikes-on-ukraine-as-putin-warns-europe-against-sending-troops/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/5-killed-in-russian-strikes-on-ukraine-as-putin-warns-europe-against-sending-troops/article71461051.ece"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/putin-warns-europe-sending-troops-ukraine/"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/qj4shx/article71461091.ece/alternates/LANDSCAPE_1200/2026-08-06T080134Z_103610539_RC2DOMAZVGMP_RTRMADP_3_UKRAINE-CRISIS-ZAPORIZHZHIA.JPG"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 955.9129821727778,
+    "is_stale": false,
+    "score": 18.99931552774074,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

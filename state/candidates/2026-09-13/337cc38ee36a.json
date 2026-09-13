@@ -1,0 +1,75 @@
+{
+  "id": "337cc38ee36a",
+  "created_at": "2026-09-13T12:07:53.444887+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.89,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran’s Pezeshkian: ‘We are not at war with Saudi Arabia’",
+  "link": "https://www.aljazeera.com/video/newsfeed/2026/9/13/13-09-clip-pezeshkian-iran-not-at-war-with-saudis-ir?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Hindustan Times — World",
+    "IRNA English",
+    "The Hindu — International"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Iran’s Pezeshkian: ‘We are not at war with Saudi Arabia’",
+    "link": "https://www.aljazeera.com/video/newsfeed/2026/9/13/13-09-clip-pezeshkian-iran-not-at-war-with-saudis-ir?traffic_source=rss",
+    "summary": "Iranian President Masoud Pezeshkian said Tehran is not at war with Saudi Arabia.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-13T01:32:56+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/5unqvg/article71459709.ece/alternates/LANDSCAPE_1200/20260912117L.jpg",
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Hindustan Times — World",
+      "IRNA English",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/13/13-09-clip-pezeshkian-iran-not-at-war-with-saudis-ir?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-president-says-west-asia-has-no-need-for-us-policeman/article71459702.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-president-meets-uae-crown-prince-on-brics-sidelines-back-joint-statement-urging-restraint-in-west-asia-war-101789226727137.html"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86262040/Iran-president-and-Abu-Dhabi-crown-prince-meet-in-New-Delhi"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/5unqvg/article71459709.ece/alternates/LANDSCAPE_1200/20260912117L.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/12/4/173101890.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 955.9129589027779,
+    "is_stale": true,
+    "score": 20.89461182498148,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

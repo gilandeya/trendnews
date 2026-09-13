@@ -1,0 +1,103 @@
+{
+  "id": "2bf60c03beca",
+  "created_at": "2026-09-13T12:07:53.443991+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 31.99,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi Arabia shuts down key oil pipeline, blaming drones from Iraq",
+  "link": "https://www.theguardian.com/world/2026/sep/12/saudi-arabia-shuts-down-oil-pipeline-blaming-drones-from-iraq",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera",
+    "Al Jazeera English",
+    "BBC World",
+    "CGTN",
+    "Court House News",
+    "France24",
+    "Malay Mail",
+    "NDTV — World",
+    "NPR World",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Saudi Arabia shuts down key oil pipeline, blaming drones from Iraq",
+    "link": "https://www.theguardian.com/world/2026/sep/12/saudi-arabia-shuts-down-oil-pipeline-blaming-drones-from-iraq",
+    "summary": "Riyadh has increased use of East-West pipeline since start of war on Iran to bypass closure of strait of Hormuz Saudi Arabia has shut down a critical oil pipeline, accusing militants in Iraq of launching drone attacks on the export route being used to bypass the lockdown of the strait of Hormuz. The world’s largest ⁠crude oil exporter has increased its use of the 745-mile (1,200km) pipeline running across the Arabian peninsula, which links Abqaiq, near the Gulf, to the port of Yanbu, on the Red Sea, since the US-Israeli war against Iran began. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-12T15:35:12+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/5522d0dc1ce938b9cf8dd25dc20f8c37ab803777/481_0_3333_2667/master/3333.jpg?width=700&quality=85&auto=format&fit=max&s=f55bab626b923216b10935b5c02d961e",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera",
+      "Al Jazeera English",
+      "BBC World",
+      "CGTN",
+      "Court House News",
+      "France24",
+      "Malay Mail",
+      "NDTV — World",
+      "NPR World",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c62m933465eo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/12/saudi-arabia-shuts-down-oil-pipeline-blaming-drones-from-iraq"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/saudi-arabia-shuts-down-major-oil-pipeline-citing-attacks-amid-fighting-in-yemen/article71457890.ece"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/12/saudi-arabia-condemns-attack-on-pipeline-launched-from-iraq/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/13/iraq-to-reopen-two-iran-crossings-after-drone-attack-near-saudi-pipeline-shuts-three/235048"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/iraq-to-open-iran-crossings-after-drone-attack-prompts-saudi-pipeline-closure-12040561#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/5522d0dc1ce938b9cf8dd25dc20f8c37ab803777/481_0_3333_2667/master/3333.jpg?width=700&quality=85&auto=format&fit=max&s=f55bab626b923216b10935b5c02d961e",
+      "https://i.guim.co.uk/img/media/5522d0dc1ce938b9cf8dd25dc20f8c37ab803777/481_0_3333_2667/master/3333.jpg?width=460&quality=85&auto=format&fit=max&s=887bdc87a60f92d16dffd75729c9eb1e",
+      "https://i.guim.co.uk/img/media/5522d0dc1ce938b9cf8dd25dc20f8c37ab803777/481_0_3333_2667/master/3333.jpg?width=140&quality=85&auto=format&fit=max&s=5d590a412e7133a4302ff1b7f8572b28",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/03a0/live/0047f800-ae96-11f1-b92e-1f49080ec3cb.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/03a0/live/0047f800-ae96-11f1-b92e-1f49080ec3cb.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/03a0/live/0047f800-ae96-11f1-b92e-1f49080ec3cb.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 12,
+    "velocity": 1.0,
+    "age_hours": 955.9129560441667,
+    "is_stale": false,
+    "score": 31.985351183015318,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
