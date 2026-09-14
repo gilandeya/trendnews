@@ -4219,5 +4219,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 12
+ },
+ {
+  "id": "985b4816d0c9",
+  "created_at": "2026-09-14T15:17:00.064642+00:00",
+  "decided_at": "2026-09-14T15:17:25.353497+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "سياسة",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "jp",
+  "score": 17.55,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "source_count": 2,
+  "body_len": 526,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 15
  }
 ]
