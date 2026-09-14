@@ -4282,5 +4282,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 19
+ },
+ {
+  "id": "d0289b14a655",
+  "created_at": "2026-09-14T19:51:34.285430+00:00",
+  "decided_at": "2026-09-14T20:45:52.915077+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "سياسة",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "light",
+  "region": "uk",
+  "score": 19.12,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "source_count": 3,
+  "body_len": 646,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 19
  }
 ]
