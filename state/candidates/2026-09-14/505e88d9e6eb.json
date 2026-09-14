@@ -1,0 +1,65 @@
+{
+  "id": "505e88d9e6eb",
+  "created_at": "2026-09-14T22:07:48.962991+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.51,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi oil pipeline hit in strikes will be mostly out of service for several weeks for repair",
+  "link": "https://www.thehindu.com/news/international/saudi-oil-pipeline-hit-in-strikes-will-be-mostly-out-of-service-for-several-weeks-for-repair/article71466140.ece",
+  "publishers": [
+    "Daily Sabah",
+    "PBS",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Saudi oil pipeline hit in strikes will be mostly out of service for several weeks for repair",
+    "link": "https://www.thehindu.com/news/international/saudi-oil-pipeline-hit-in-strikes-will-be-mostly-out-of-service-for-several-weeks-for-repair/article71466140.ece",
+    "summary": "An attack that Saudi Arabia blamed on drones from Iranian-backed militias in Iraq forced the shutdown of the pipeline on Thursday (September 10, 2026).",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-14T13:54:57+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/naa2by/article71466150.ece/alternates/LANDSCAPE_1200/AFP_C87X4LK.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Daily Sabah",
+      "PBS",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/saudi-oil-pipeline-hit-in-strikes-will-be-mostly-out-of-service-for-several-weeks-for-repair/article71466140.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/key-saudi-oil-pipeline-struck-by-drones-to-be-out-for-several-weeks"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/naa2by/article71466150.ece/alternates/LANDSCAPE_1200/AFP_C87X4LK.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/14/460573.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 989.9118851397222,
+    "is_stale": false,
+    "score": 22.50736776227458,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "402f0c2589d8",
+  "created_at": "2026-09-14T22:07:48.964366+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.26,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Potential new TB vaccines could save millions of lives: Gavi",
+  "link": "https://medicalxpress.com/news/2026-09-potential-tb-vaccines-millions-gavi.html",
+  "publishers": [
+    "Gavi",
+    "Medical Xpress"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Potential new TB vaccines could save millions of lives: Gavi",
+    "link": "https://medicalxpress.com/news/2026-09-potential-tb-vaccines-millions-gavi.html",
+    "summary": "New tuberculosis vaccines expected to become available from 2029 could save more than 7 million lives over a decade, Gavi said Monday, but only if sufficient supply is ensured for the countries most in need.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-09-14T19:20:06+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2024/tuberculosis.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Gavi",
+      "Medical Xpress"
+    ],
+    "cluster_members": [
+      {
+        "name": "Gavi",
+        "link": "https://www.premiumtimesng.com/health/health-news/909547-new-tb-vaccines-could-save-7-3m-lives-by-2050-gavi.html"
+      },
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-09-potential-tb-vaccines-millions-gavi.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2024/tuberculosis.jpg",
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2025/05/vaccines-for-homeless-western-cape-vaccination.jpg?fit=1500%2C1000&amp;ssl=1"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 989.9119681725,
+    "is_stale": false,
+    "score": 17.263758025907407,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

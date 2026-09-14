@@ -1,0 +1,86 @@
+{
+  "id": "bbb0f76e3f52",
+  "created_at": "2026-09-14T22:07:48.963458+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.36,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Super oil tanker hits mine in Hormuz, explodes: IRGC",
+  "link": "https://en.mehrnews.com/news/247752/Super-oil-tanker-hits-mine-in-south-of-Hormuz-Strait-IRGC",
+  "publishers": [
+    "IRNA English",
+    "Mehr News",
+    "TASS",
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Super oil tanker hits mine in Hormuz, explodes: IRGC",
+    "link": "https://en.mehrnews.com/news/247752/Super-oil-tanker-hits-mine-in-south-of-Hormuz-Strait-IRGC",
+    "summary": "TEHRAN, Sep. 14 (MNA) – The Navy of the Islamic Revolutionary Guard Corps (IRGC) said on Monday evening that the supertanker El Gaia hit a naval mine in south of Hormuz Strait. and exploded.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-14T20:06:06+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/06/27/4/6079805.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News",
+      "TASS",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247752/Super-oil-tanker-hits-mine-in-south-of-Hormuz-Strait-IRGC"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86264191/Super-tanker-explodes-after-striking-a-naval-mine-Strait-of"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247732/Iran-downs-American-MQ-1-drone-over-Strait-of-Hormuz"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86263404/IRGC-downs-advanced-MQ-1-drone-over-Strait-of-Hormuz"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530019/IRGC-shoots-down-advanced-MQ-1-drone-over-Strait-of-Hormuz"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2187567"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/06/27/4/6079805.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/14/4/173106521.jpg",
+      "https://media.mehrnews.com/d/2026/09/14/4/6172745.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/14/4/173104647.jpg",
+      "https://media.tehrantimes.com/d/t/2026/09/14/4/6173513.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 989.9118799836111,
+    "is_stale": true,
+    "score": 20.364869149222223,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
