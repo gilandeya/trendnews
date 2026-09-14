@@ -1,0 +1,72 @@
+{
+  "id": "42eaf0d12da1",
+  "created_at": "2026-09-14T19:08:03.766736+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.53,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "light",
+  "state_media": false,
+  "title": "British man accused of drugging and raping wife over two decades admits 60 offences",
+  "link": "https://www.theguardian.com/uk-news/2026/sep/14/british-man-accused-of-drugging-and-raping-wife-over-two-decades-admits-60-offences",
+  "publishers": [
+    "BBC",
+    "Court House News",
+    "South China Morning Post",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "British man accused of drugging and raping wife over two decades admits 60 offences",
+    "link": "https://www.theguardian.com/uk-news/2026/sep/14/british-man-accused-of-drugging-and-raping-wife-over-two-decades-admits-60-offences",
+    "summary": "Man, who cannot be named to protect anonymity of his victim, admits scores of criminal offences A man has pleaded guilty to drugging and sexually assaulting his wife over a period of 20 years as he admitted 60 criminal offences. The man, who cannot be named in order to protect the anonymity of his victim, is in his 60s and before his arrest lived in Stockport, Greater Manchester. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-14T18:07:55+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/738871aa8e9c64eb1d9dcfa106a62b63f840d107/511_0_4473_3579/master/4473.jpg?width=700&quality=85&auto=format&fit=max&s=478ac4c3cee404f5e7afb6d8159b96b2",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "BBC",
+      "Court House News",
+      "South China Morning Post",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/uk-news/2026/sep/14/british-man-accused-of-drugging-and-raping-wife-over-two-decades-admits-60-offences"
+      },
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/uk-man-admits-to-drugging-raping-wife-over-two-decades/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3367506/british-man-admits-drugging-and-raping-wife-over-more-2-decades?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/738871aa8e9c64eb1d9dcfa106a62b63f840d107/511_0_4473_3579/master/4473.jpg?width=700&quality=85&auto=format&fit=max&s=478ac4c3cee404f5e7afb6d8159b96b2",
+      "https://i.guim.co.uk/img/media/738871aa8e9c64eb1d9dcfa106a62b63f840d107/511_0_4473_3579/master/4473.jpg?width=460&quality=85&auto=format&fit=max&s=d8ef5a6603c82a6822d3031d5a7e4f71",
+      "https://i.guim.co.uk/img/media/738871aa8e9c64eb1d9dcfa106a62b63f840d107/511_0_4473_3579/master/4473.jpg?width=140&quality=85&auto=format&fit=max&s=38a25400f2680c56c941a7e6f91f3f93"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 986.9161758338889,
+    "is_stale": false,
+    "score": 20.53326874142593,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

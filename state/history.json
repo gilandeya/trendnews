@@ -1,261 +1,5 @@
 [
   {
-    "score": 22.16,
-    "bucket": "sport",
-    "tokens": [
-      "133",
-      "against",
-      "all",
-      "collapse",
-      "england",
-      "pakistan",
-      "test",
-      "third"
-    ],
-    "link": "https://www.dawn.com/news/2028615/pakistan-collapse-to-133-all-out-against-england-in-third-test",
-    "title": "Pakistan collapse to 133 all out against England in third Test",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-09T18:08:00.833124+00:00"
-  },
-  {
-    "score": 20.37,
-    "bucket": "serious",
-    "tokens": [
-      "attacked",
-      "bound",
-      "honour",
-      "pact",
-      "pakistan",
-      "saudi",
-      "security"
-    ],
-    "link": "https://www.ndtv.com/world-news/pakistan-says-it-is-bound-to-honour-security-pact-if-saudi-is-attacked-12021837#publisher=newsstand",
-    "title": "Pakistan Says It Is Bound To \"Honour\" Security Pact If Saudi Is Attacked",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-09T18:08:00.833403+00:00"
-  },
-  {
-    "score": 16.74,
-    "bucket": "serious",
-    "tokens": [
-      "discussed",
-      "jinping",
-      "kremlin",
-      "meeting",
-      "potential",
-      "putin",
-      "trilateral",
-      "trump"
-    ],
-    "link": "https://www.ndtv.com/world-news/vladimir-putin-donald-trump-discussed-potential-trilateral-meeting-with-xi-jinping-kremlin-12023511#publisher=newsstand",
-    "title": "Putin, Trump Discussed Potential Trilateral Meeting With Xi Jinping: Kremlin",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-09T18:08:00.833692+00:00"
-  },
-  {
-    "score": 16.47,
-    "bucket": "serious",
-    "tokens": [
-      "data",
-      "emissions",
-      "highest",
-      "indonesia",
-      "shows",
-      "surge",
-      "wildfire",
-      "world"
-    ],
-    "link": "https://www.scmp.com/news/asia/southeast-asia/article/3366962/indonesias-wildfire-emissions-surge-worlds-highest-data-shows?utm_source=rss_feed",
-    "title": "Indonesia’s wildfire emissions surge to world’s highest, data shows",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-09T18:08:00.833948+00:00"
-  },
-  {
-    "score": 16.08,
-    "bucket": "serious",
-    "tokens": [
-      "downs",
-      "drone",
-      "hormuz",
-      "iran",
-      "strait",
-      "video"
-    ],
-    "link": "https://en.mehrnews.com/news/247579/VIDEO-Iran-downs-US-MQ-1-drone-over-Strait-of-Hormuz",
-    "title": "VIDEO: Iran downs US MQ-1 drone over Strait of Hormuz",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-09T18:08:00.834272+00:00"
-  },
-  {
-    "score": 30.81,
-    "bucket": "useful",
-    "tokens": [
-      "apple",
-      "biggest",
-      "blog",
-      "event",
-      "ground",
-      "iphone",
-      "live"
-    ],
-    "link": "https://www.theverge.com/tech/989658/iphone-18-duo-pro-fold-apple-watch-airpods-keynote-live",
-    "title": "iPhone 18 live blog: On the ground at Apple’s biggest event",
-    "posted_title": "لماذا يعتبر مؤتمر آيفون 18 نقطة تحول في تاريخ آبل",
-    "region": "tech",
-    "seen_at": "2026-09-09T18:25:52.765803+00:00"
-  },
-  {
-    "score": 19.33,
-    "bucket": "serious",
-    "tokens": [
-      "100",
-      "barrel",
-      "first",
-      "hits",
-      "houthi",
-      "july",
-      "oil",
-      "since",
-      "strikes",
-      "time"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cyvznqypz0yo?at_medium=RSS&at_campaign=rss",
-    "title": "Oil hits $100 a barrel for first time since July after US and Houthi strikes",
-    "posted_title": "لماذا قفز سعر النفط فوق 100 دولار للبرميل بعد سلسلة ضربات في الخليج والسعودية",
-    "region": "uk",
-    "seen_at": "2026-09-09T18:26:14.516777+00:00"
-  },
-  {
-    "score": 20.37,
-    "bucket": "serious",
-    "tokens": [
-      "attacked",
-      "bound",
-      "honour",
-      "pact",
-      "pakistan",
-      "saudi",
-      "security"
-    ],
-    "link": "https://www.ndtv.com/world-news/pakistan-says-it-is-bound-to-honour-security-pact-if-saudi-is-attacked-12021837#publisher=newsstand",
-    "title": "Pakistan Says It Is Bound To \"Honour\" Security Pact If Saudi Is Attacked",
-    "posted_title": "وزير الدفاع الباكستاني: اتفاقية مكة الدفاعية ملزمة لنا إذا تعرضت السعودية لهجوم",
-    "region": "in",
-    "seen_at": "2026-09-09T18:27:08.486889+00:00"
-  },
-  {
-    "score": 20.04,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "asif",
-      "attacks",
-      "become",
-      "could",
-      "defence",
-      "houthi",
-      "makkah",
-      "operational",
-      "pact",
-      "saudi",
-      "warns"
-    ],
-    "link": "https://www.dawn.com/news/2028592/asif-warns-makkah-defence-pact-could-become-operational-after-houthi-attacks-on-saudi-arabia",
-    "title": "Asif warns Makkah defence pact could become operational after Houthi attacks on Saudi Arabia",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-09T19:07:55.557367+00:00"
-  },
-  {
-    "score": 17.26,
-    "bucket": "light",
-    "tokens": [
-      "2026",
-      "buried",
-      "candy",
-      "children",
-      "here",
-      "nobel",
-      "panties",
-      "prizes",
-      "proof",
-      "splash",
-      "stealing",
-      "urinals",
-      "winners"
-    ],
-    "link": "https://www.smithsonianmag.com/smart-news/stealing-candy-from-children-splash-proof-urinals-and-buried-panties-oh-my-here-are-the-winners-of-the-2026-ig-nobel-prizes-180989463/",
-    "title": "Stealing Candy From Children, Splash-Proof Urinals and Buried Panties, Oh My! Here Are the Winners of the 2026 Ig Nobel Prizes",
-    "posted_title": "",
-    "region": "odd",
-    "seen_at": "2026-09-09T19:07:55.557660+00:00"
-  },
-  {
-    "score": 16.84,
-    "bucket": "serious",
-    "tokens": [
-      "calls",
-      "elections",
-      "nearly",
-      "protests",
-      "serbia's",
-      "snap",
-      "two",
-      "vucic",
-      "years"
-    ],
-    "link": "https://www.france24.com/en/europe/20260909-serbia-vucic-calls-snap-elections-after-nearly-two-years-protests",
-    "title": "Serbia's Vucic calls snap elections after nearly two years of protests",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-09T19:07:55.557899+00:00"
-  },
-  {
-    "score": 16.35,
-    "bucket": "serious",
-    "tokens": [
-      "apple",
-      "até",
-      "com",
-      "dobrável",
-      "duo",
-      "empresa",
-      "iphone",
-      "lança",
-      "mil",
-      "preços"
-    ],
-    "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/tec/2026/09/apple-pode-apresentar-iphone-dobravel-nesta-quarta-9-assista-ao-vivo.shtml",
-    "title": "Apple lança iPhone Duo, 1º dobrável da empresa, com preços de até R$ 31 mil",
-    "posted_title": "",
-    "region": "br",
-    "seen_at": "2026-09-09T19:07:55.558138+00:00"
-  },
-  {
-    "score": 15.83,
-    "bucket": "serious",
-    "tokens": [
-      "ancient",
-      "egypt",
-      "exceptionally",
-      "found",
-      "judge",
-      "preserved",
-      "tomb",
-      "well"
-    ],
-    "link": "https://www.cbsnews.com/news/tomb-ancient-judge-father-discovered-egypt/",
-    "title": "\"Exceptionally well-preserved\" tomb of ancient judge found in Egypt",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-09-09T19:07:55.558391+00:00"
-  },
-  {
     "score": 16.35,
     "bucket": "serious",
     "tokens": [
@@ -5350,5 +5094,104 @@
     "posted_title": "",
     "region": "ir",
     "seen_at": "2026-09-14T18:07:48.737630+00:00"
+  },
+  {
+    "score": 24.3,
+    "bucket": "serious",
+    "tokens": [
+      "107",
+      "arabia",
+      "barrel",
+      "brent",
+      "crude",
+      "following",
+      "hormuz",
+      "per",
+      "saudi",
+      "strait",
+      "strikes"
+    ],
+    "link": "https://www.dawn.com/news/2029863/brent-crude-at-107-per-barrel-following-new-strikes-on-saudi-arabia-strait-of-hormuz",
+    "title": "Brent crude at $107 per barrel following new strikes on Saudi Arabia, Strait of Hormuz",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-14T19:08:03.766084+00:00"
+  },
+  {
+    "score": 22.08,
+    "bucket": "serious",
+    "tokens": [
+      "break",
+      "demanding",
+      "ireland",
+      "mou",
+      "northern",
+      "scotland",
+      "sign",
+      "wales"
+    ],
+    "link": "https://www.premiumtimesng.com/foreign/909536-scotland-wales-northern-ireland-sign-mou-demanding-uk-break-up.html",
+    "title": "Scotland, Wales, Northern Ireland sign MOU demanding UK break-up",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-14T19:08:03.766450+00:00"
+  },
+  {
+    "score": 21.95,
+    "bucket": "sport",
+    "tokens": [
+      "league",
+      "leeds",
+      "newcastle",
+      "premier",
+      "united"
+    ],
+    "link": "https://www.theguardian.com/football/live/2026/sep/14/leeds-united-v-newcastle-united-premier-league-live-updates",
+    "title": "Leeds United v Newcastle United: Premier League",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-14T19:08:03.766727+00:00"
+  },
+  {
+    "score": 20.53,
+    "bucket": "light",
+    "tokens": [
+      "accused",
+      "admits",
+      "british",
+      "decades",
+      "drugging",
+      "man",
+      "offences",
+      "raping",
+      "two",
+      "wife"
+    ],
+    "link": "https://www.theguardian.com/uk-news/2026/sep/14/british-man-accused-of-drugging-and-raping-wife-over-two-decades-admits-60-offences",
+    "title": "British man accused of drugging and raping wife over two decades admits 60 offences",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-14T19:08:03.766994+00:00"
+  },
+  {
+    "score": 19.12,
+    "bucket": "light",
+    "tokens": [
+      "citizenship",
+      "documentary",
+      "film",
+      "gaza",
+      "israeli",
+      "makers",
+      "minister",
+      "naza",
+      "strip",
+      "threatens"
+    ],
+    "link": "https://www.theguardian.com/film/2026/sep/14/gaza-documentary-makers-naza-israel-citizenship-ntwnfb",
+    "title": "Israeli minister threatens to strip Israeli film-makers of citizenship over Gaza documentary NAZA",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-14T19:08:03.767264+00:00"
   }
 ]
