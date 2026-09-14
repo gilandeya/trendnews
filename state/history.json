@@ -1,120 +1,5 @@
 [
   {
-    "score": 33.2,
-    "bucket": "sport",
-    "tokens": [
-      "alcaraz",
-      "beats",
-      "ever",
-      "finish",
-      "latest",
-      "open",
-      "reach",
-      "semis",
-      "shelton"
-    ],
-    "link": "https://www.bbc.co.uk/sport/tennis/articles/c20v6pgz7nmo?at_medium=RSS&at_campaign=rss",
-    "title": "Shelton beats Alcaraz in latest-ever US Open finish to reach semis",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-09T09:08:01.648961+00:00"
-  },
-  {
-    "score": 33.1,
-    "bucket": "serious",
-    "tokens": [
-      "downs",
-      "drone",
-      "hormuz",
-      "iran",
-      "strait",
-      "video"
-    ],
-    "link": "https://en.mehrnews.com/news/247579/VIDEO-Iran-downs-US-MQ-1-drone-over-Strait-of-Hormuz",
-    "title": "VIDEO: Iran downs US MQ-1 drone over Strait of Hormuz",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-09T09:08:01.649304+00:00"
-  },
-  {
-    "score": 25.92,
-    "bucket": "serious",
-    "tokens": [
-      "air",
-      "chaos",
-      "control",
-      "disrupts",
-      "flights",
-      "hundreds",
-      "passengers",
-      "thousands",
-      "traffic"
-    ],
-    "link": "https://www.theguardian.com/business/2026/sep/08/air-traffic-control-issue-flights-delays-disruption-uk",
-    "title": "UK air traffic control chaos disrupts flights for hundreds of thousands of passengers",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-09T09:08:01.649645+00:00"
-  },
-  {
-    "score": 22.36,
-    "bucket": "serious",
-    "tokens": [
-      "apple",
-      "center",
-      "ceo",
-      "expected",
-      "folding",
-      "iphone",
-      "stage",
-      "takes",
-      "unveil"
-    ],
-    "link": "https://www.theguardian.com/technology/2026/sep/08/apple-new-folding-iphone",
-    "title": "Apple expected to unveil folding iPhone as new CEO takes center stage",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-09T09:08:01.649950+00:00"
-  },
-  {
-    "score": 20.28,
-    "bucket": "serious",
-    "tokens": [
-      "alcohol",
-      "bans",
-      "canadian",
-      "salvo",
-      "trade",
-      "trump",
-      "war"
-    ],
-    "link": "https://www.dawn.com/news/2028583/trump-bans-canadian-alcohol-in-new-trade-war-salvo",
-    "title": "Trump bans Canadian alcohol in new trade war salvo",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-09T09:08:01.650252+00:00"
-  },
-  {
-    "score": 22.36,
-    "bucket": "serious",
-    "tokens": [
-      "apple",
-      "center",
-      "ceo",
-      "expected",
-      "folding",
-      "iphone",
-      "stage",
-      "takes",
-      "unveil"
-    ],
-    "link": "https://www.theguardian.com/technology/2026/sep/08/apple-new-folding-iphone",
-    "title": "Apple expected to unveil folding iPhone as new CEO takes center stage",
-    "posted_title": "آبل تكشف عن أول آيفون قابل للطي باسم \"Duo\" وسعر يبدأ من 2000 دولار",
-    "region": "uk",
-    "seen_at": "2026-09-09T09:18:07.447326+00:00"
-  },
-  {
     "score": 31.26,
     "bucket": "useful",
     "tokens": [
@@ -5278,5 +5163,105 @@
     "posted_title": "",
     "region": "eu",
     "seen_at": "2026-09-14T09:07:53.330617+00:00"
+  },
+  {
+    "score": 23.35,
+    "bucket": "serious",
+    "tokens": [
+      "blocked",
+      "judge",
+      "mail",
+      "restrictions",
+      "second",
+      "trump",
+      "voting"
+    ],
+    "link": "https://www.theguardian.com/us-news/live/2026/sep/14/donald-trump-mail-in-voting-supreme-court-blocked-ukraine-oil-diplomat-latest-news-updates",
+    "title": "Trump’s mail-in voting restrictions blocked by a second judge",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-14T12:07:46.364400+00:00"
+  },
+  {
+    "score": 21.04,
+    "bucket": "serious",
+    "tokens": [
+      "bursa",
+      "closes",
+      "day",
+      "four",
+      "high",
+      "intraday",
+      "losing",
+      "malaysia",
+      "rebounds",
+      "snap",
+      "streak"
+    ],
+    "link": "https://www.malaymail.com/news/money/2026/09/14/bursa-malaysia-rebounds-to-snap-four-day-losing-streak-closes-at-intraday-high/235212",
+    "title": "Bursa Malaysia rebounds to snap four-day losing streak, closes at intraday high",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-14T12:07:46.364700+00:00"
+  },
+  {
+    "score": 20.41,
+    "bucket": "sport",
+    "tokens": [
+      "bayern",
+      "edge",
+      "elversberg",
+      "european",
+      "football",
+      "helps",
+      "juventus",
+      "kane",
+      "sassuolo",
+      "stun"
+    ],
+    "link": "https://www.theguardian.com/football/2026/sep/13/european-football-barcelona-bayern-munich-napoli-juventus",
+    "title": "European football: Kane helps Bayern edge Elversberg, Sassuolo stun Juventus",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-14T12:07:46.365016+00:00"
+  },
+  {
+    "score": 20.05,
+    "bucket": "serious",
+    "tokens": [
+      "above",
+      "diesel",
+      "facilities",
+      "gallon",
+      "production",
+      "russian",
+      "stop",
+      "targeting",
+      "trump",
+      "ukraine",
+      "urges"
+    ],
+    "link": "https://meduza.io/en/news/2026/09/13/with-u-s-diesel-above-6-a-gallon-trump-urges-ukraine-to-stop-targeting-russian-production-facilities",
+    "title": "With U.S. diesel above $6 a gallon, Trump urges Ukraine to stop targeting Russian production facilities",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-09-14T12:07:46.365330+00:00"
+  },
+  {
+    "score": 17.86,
+    "bucket": "serious",
+    "tokens": [
+      "american",
+      "downs",
+      "drone",
+      "hormuz",
+      "iran",
+      "strait"
+    ],
+    "link": "https://en.mehrnews.com/news/247732/Iran-downs-American-MQ-1-drone-over-Strait-of-Hormuz",
+    "title": "Iran downs American MQ-1 drone over Strait of Hormuz",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-14T12:07:46.365613+00:00"
   }
 ]

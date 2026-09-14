@@ -1,0 +1,69 @@
+{
+  "id": "e45d983520b2",
+  "created_at": "2026-09-14T12:07:46.365341+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.86,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran downs American MQ-1 drone over Strait of Hormuz",
+  "link": "https://en.mehrnews.com/news/247732/Iran-downs-American-MQ-1-drone-over-Strait-of-Hormuz",
+  "publishers": [
+    "IRGC",
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran downs American MQ-1 drone over Strait of Hormuz",
+    "link": "https://en.mehrnews.com/news/247732/Iran-downs-American-MQ-1-drone-over-Strait-of-Hormuz",
+    "summary": "TEHRAN, Sep. 14 (MNA) – A U.S. MQ-1 drone was intercepted and destroyed by the Islamic Revolutionary Guard Corps over the Strait of Hormuz on Monday.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-14T06:10:22+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/14/4/6172745.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRGC",
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247732/Iran-downs-American-MQ-1-drone-over-Strait-of-Hormuz"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86263404/IRGC-downs-advanced-MQ-1-drone-over-Strait-of-Hormuz"
+      },
+      {
+        "name": "IRGC",
+        "link": "https://tass.com/world/2187177"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/14/4/6172745.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/14/4/173104647.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 979.9112762033333,
+    "is_stale": false,
+    "score": 17.857878747941246,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

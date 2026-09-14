@@ -1,0 +1,71 @@
+{
+  "id": "a44e5e6f6c69",
+  "created_at": "2026-09-14T12:07:46.363926+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.35,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump’s mail-in voting restrictions blocked by a second judge",
+  "link": "https://www.theguardian.com/us-news/live/2026/sep/14/donald-trump-mail-in-voting-supreme-court-blocked-ukraine-oil-diplomat-latest-news-updates",
+  "publishers": [
+    "Investing.com — الاقتصاد",
+    "South China Morning Post",
+    "US politics live"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump’s mail-in voting restrictions blocked by a second judge",
+    "link": "https://www.theguardian.com/us-news/live/2026/sep/14/donald-trump-mail-in-voting-supreme-court-blocked-ukraine-oil-diplomat-latest-news-updates",
+    "summary": "The US supreme court is ​still weighing the administration’s ⁠request to ​overturn a separate ​order ​blocking the ​rule Sign up for the Breaking News US email Donald Trump is in Washington today , after a weekend in Ireland meeting with leaders and various officials. He’ll be at the White House, but has no public events on his schedule. He’ll spend the day in closed-door meetings, but we’ll let you know if anything changes. When Florida governor Ron DeSantis signed a law erasing the words “climate change” from state statutes in May 2024 – colloquially known as the “don’t say climate change” law – Democrats were outraged. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-14T12:02:53+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/7a978bab3055eaecab76bf4412a42571a7d6da1c/792_0_7920_6336/master/7920.jpg?width=700&quality=85&auto=format&fit=max&s=eea8878bc2ecbbc48705eb9fd3d9c9ff",
+    "publisher": "US politics live",
+    "cluster_sources": [
+      "Investing.com — الاقتصاد",
+      "South China Morning Post",
+      "US politics live"
+    ],
+    "cluster_members": [
+      {
+        "name": "US politics live",
+        "link": "https://www.theguardian.com/us-news/live/2026/sep/14/donald-trump-mail-in-voting-supreme-court-blocked-ukraine-oil-diplomat-latest-news-updates"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3367478/trumps-mail-voting-restrictions-blocked-second-judge?utm_source=rss_feed"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/trumps-mailin-voting-restrictions-blocked-by-a-second-judge-4899023"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/7a978bab3055eaecab76bf4412a42571a7d6da1c/792_0_7920_6336/master/7920.jpg?width=700&quality=85&auto=format&fit=max&s=eea8878bc2ecbbc48705eb9fd3d9c9ff",
+      "https://i.guim.co.uk/img/media/7a978bab3055eaecab76bf4412a42571a7d6da1c/792_0_7920_6336/master/7920.jpg?width=460&quality=85&auto=format&fit=max&s=395558d2314894910f2553f6f2ee1541",
+      "https://i.guim.co.uk/img/media/7a978bab3055eaecab76bf4412a42571a7d6da1c/792_0_7920_6336/master/7920.jpg?width=140&quality=85&auto=format&fit=max&s=6b4fd92d258b3f0c99143b72d0516be2",
+      "https://content-media.investing.com/trkd-images/LYNXMPEM8D0MQ_L.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 979.9111626233334,
+    "is_stale": false,
+    "score": 23.349563950330136,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "id": "1831a8a4524a",
+  "created_at": "2026-09-14T12:07:46.364710+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.41,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "European football: Kane helps Bayern edge Elversberg, Sassuolo stun Juventus",
+  "link": "https://www.theguardian.com/football/2026/sep/13/european-football-barcelona-bayern-munich-napoli-juventus",
+  "publishers": [
+    "France24",
+    "The Express Tribune",
+    "The Guardian — Sport",
+    "but they were far from convincing"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "European football: Kane helps Bayern edge Elversberg, Sassuolo stun Juventus",
+    "link": "https://www.theguardian.com/football/2026/sep/13/european-football-barcelona-bayern-munich-napoli-juventus",
+    "summary": "Elversberg 1-2 Bayern; Sassuolo 3-2 Juventus Barcelona see off Levante, PSG end winless start Harry Kane scored his first Bundesliga goal of the season to help Bayern Munich edge to a 2-1 win at promoted Elversberg on Sunday. Handed the captain’s armband with Manuel Neuer rested, Kane scored with 18 minutes remaining. Bayern had taken the lead through the teenage Germany winger Lennart Karl, but Elversberg – who won their opening two matches in their maiden top-flight campaign – levelled things up just after the hour mark thanks to a stunning curling effort from Maurice Krattenmacher. Continue reading...",
+    "source_name": "The Guardian — Sport",
+    "region": "sport",
+    "weight": 1.0,
+    "published": "2026-09-13T22:47:47+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/0f1dc7776769e20cb4981975def2799f3822c349/0_42_2761_2209/master/2761.jpg?width=700&quality=85&auto=format&fit=max&s=5ca22d271abeea35e4576e23d6c2c2f0",
+    "publisher": "The Guardian — Sport",
+    "cluster_sources": [
+      "France24",
+      "The Express Tribune",
+      "The Guardian — Sport",
+      "but they were far from convincing"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/13/european-football-barcelona-bayern-munich-napoli-juventus"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629208/bayern-edge-elversberg-in-bundesliga"
+      },
+      {
+        "name": "but they were far from convincing",
+        "link": "https://www.theguardian.com/football/2026/sep/14/psg-won-game-ligue-1-convincing-ferran-torres"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/tv-shows/sports/20260914-ligue-1-paris-saint-germain-get-first-win-season-brest"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/0f1dc7776769e20cb4981975def2799f3822c349/0_42_2761_2209/master/2761.jpg?width=700&quality=85&auto=format&fit=max&s=5ca22d271abeea35e4576e23d6c2c2f0",
+      "https://i.guim.co.uk/img/media/0f1dc7776769e20cb4981975def2799f3822c349/0_42_2761_2209/master/2761.jpg?width=460&quality=85&auto=format&fit=max&s=421acf5375e0dfaf83bb907d9bb3ed54",
+      "https://i.guim.co.uk/img/media/0f1dc7776769e20cb4981975def2799f3822c349/0_42_2761_2209/master/2761.jpg?width=140&quality=85&auto=format&fit=max&s=2b5266641b87c69411373a9ec7d1c1d6",
+      "https://i.guim.co.uk/img/media/3ec548a713ccd7bb79e25375a7877e5aefee08ab/700_0_5817_4653/master/5817.jpg?width=700&quality=85&auto=format&fit=max&s=54c0c4d70253374749c95adbb0c6c53e",
+      "https://i.guim.co.uk/img/media/3ec548a713ccd7bb79e25375a7877e5aefee08ab/700_0_5817_4653/master/5817.jpg?width=460&quality=85&auto=format&fit=max&s=8e3046ad75668eb65a19a10383c487cf",
+      "https://i.guim.co.uk/img/media/3ec548a713ccd7bb79e25375a7877e5aefee08ab/700_0_5817_4653/master/5817.jpg?width=140&quality=85&auto=format&fit=max&s=572b379b6b617f71de9b01c1d9a30289"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 979.9111565925,
+    "is_stale": true,
+    "score": 20.41123200387037,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
