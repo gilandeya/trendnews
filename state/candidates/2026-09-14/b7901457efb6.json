@@ -1,0 +1,70 @@
+{
+  "id": "b7901457efb6",
+  "created_at": "2026-09-14T18:07:48.736750+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.19,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oasis annonce une tournée mondiale en 2027, avec deux concerts au Stade de France",
+  "link": "https://www.lemonde.fr/culture/article/2026/09/14/oasis-annonce-une-tournee-mondiale-en-2027-avec-deux-concerts-au-stade-de-france_6773876_3246.html",
+  "publishers": [
+    "Der Spiegel",
+    "El País",
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Oasis annonce une tournée mondiale en 2027, avec deux concerts au Stade de France",
+    "link": "https://www.lemonde.fr/culture/article/2026/09/14/oasis-annonce-une-tournee-mondiale-en-2027-avec-deux-concerts-au-stade-de-france_6773876_3246.html",
+    "summary": "En raison d’une demande record, les fans doivent s’inscrire sur le site officiel du groupe avant jeudi 17 heures pour tenter d’obtenir un code d’accès à la billetterie. Les ventes s’ouvriront du 25 au 27 septembre en France, avec des places de 84 € à 249 €.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-09-14T17:51:20+00:00",
+    "image_url": "https://img.lemde.fr/2026/09/14/480/0/5792/2896/644/322/60/0/9ddaa68_ftp-1-szdgng6mzwsx-2026-09-14t165800z-1773410198-rc2iena0o84c-rtrmadp-3-music-oasis.JPG",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Der Spiegel",
+      "El País",
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/culture/article/2026/09/14/oasis-annonce-une-tournee-mondiale-en-2027-avec-deux-concerts-au-stade-de-france_6773876_3246.html"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/panorama/oasis-kuendigt-konzerte-in-deutschland-an-a-6a1f9abf-570d-4d28-b74f-313cbe079a9e#ref=rss"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/cultura/2026-09-14/oasis-anuncia-una-gira-mundial-para-2027-con-dos-conciertos-en-barcelona-el-10-y-11-de-julio.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/09/14/480/0/5792/2896/644/322/60/0/9ddaa68_ftp-1-szdgng6mzwsx-2026-09-14t165800z-1773410198-rc2iena0o84c-rtrmadp-3-music-oasis.JPG",
+      "https://cdn.prod.www.spiegel.de/images/d436364f-f360-43d6-a057-e2aa7d2cffa1_w520_r2.08_fpx29.98_fpy44.98.jpg",
+      "https://imagenes.elpais.com/resizer/v2/CF77FMG6NJLFPMYHVYSUCROANQ.jpg?auth=d9fb657ea17ddc8744a7c073f697802d8e6005d26f817ee1a9d792f1269c0d4f"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 24.18669337270051,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

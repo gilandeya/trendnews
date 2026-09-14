@@ -1,0 +1,76 @@
+{
+  "id": "02074c5269ad",
+  "created_at": "2026-09-14T18:07:48.737193+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.14,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Apple releases iOS 27 with Siri AI overhaul",
+  "link": "https://www.theverge.com/news/994756/apple-ios-27-launch-iphone-siri-ai-update",
+  "publishers": [
+    "Engadget",
+    "TechCrunch",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Apple releases iOS 27 with Siri AI overhaul",
+    "link": "https://www.theverge.com/news/994756/apple-ios-27-launch-iphone-siri-ai-update",
+    "summary": "Apple is now rolling out its iOS 27 update to compatible devices today, alongside the watchOS 27, iPadOS 27, and visionOS 27 updates. Siri AI is the headline feature across all four updates, the delayed AI-powered overhaul of the Siri assistant. Siri AI is available as a beta today for English-only devices, and Apple says […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-09-14T17:08:49+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/DSC04248.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "Engadget",
+      "TechCrunch",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/news/994756/apple-ios-27-launch-iphone-siri-ai-update"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2257834/siri-ai-is-here-as-apple-releases-ios-27-macos-golden-gate-and-other-major-os-updates/"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2252944/prepare-iphone-ios-27-update/"
+      },
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/09/14/with-ios-27-im-actually-using-siri-again/"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/DSC04248.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://www.engadget.com/img/gallery/siri-ai-is-here-as-apple-releases-ios-27-macos-golden-gate-and-other-major-os-updates/l-intro-1789401823.jpg",
+      "https://www.engadget.com/img/gallery/siri-ai-is-here-as-apple-releases-ios-27-macos-golden-gate-and-other-major-os-updates/intro-1789401823.jpg",
+      "https://www.engadget.com/img/gallery/how-to-prepare-your-iphone-for-the-ios-27-update/l-intro-1788887741.jpg",
+      "https://www.engadget.com/img/gallery/how-to-prepare-your-iphone-for-the-ios-27-update/intro-1788887741.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 985.9117154038889,
+    "is_stale": true,
+    "score": 20.139452632274583,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

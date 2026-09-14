@@ -1,0 +1,62 @@
+{
+  "id": "a5047566b5e2",
+  "created_at": "2026-09-14T18:07:48.737032+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.68,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hormuz diplomacy stalls as Gulf states suspend meeting with Iran",
+  "link": "https://www.dailysabah.com/world/mid-east/hormuz-diplomacy-stalls-as-gulf-states-suspend-meeting-with-iran",
+  "publishers": [
+    "Daily Sabah",
+    "Hindustan Times — World"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Hormuz diplomacy stalls as Gulf states suspend meeting with Iran",
+    "link": "https://www.dailysabah.com/world/mid-east/hormuz-diplomacy-stalls-as-gulf-states-suspend-meeting-with-iran",
+    "summary": "Gulf Arab states canceled planned talks with Iran on Monday as Yemen’s Houthis launched a fresh attack on Saudi Arabia, widening a conflict that has further threatened global oil s...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-14T11:09:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/14/460475.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/put-past-behind-us-iran-uae-bonhomie-ahead-of-key-meeting-with-gulf-states-over-strait-of-hormuz-101789315395333.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/hormuz-diplomacy-stalls-as-gulf-states-suspend-meeting-with-iran"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/14/460475.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 985.9117340669445,
+    "is_stale": false,
+    "score": 20.684768831166664,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
