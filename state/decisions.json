@@ -4240,5 +4240,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 15
+ },
+ {
+  "id": "edefafbba2af",
+  "created_at": "2026-09-14T15:17:18.790407+00:00",
+  "decided_at": "2026-09-14T16:01:07.427510+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "سياسة",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "seasia",
+  "score": 17.23,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "source_count": 2,
+  "body_len": 543,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 15
  }
 ]
