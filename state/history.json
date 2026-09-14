@@ -1,112 +1,5 @@
 [
   {
-    "score": 28.19,
-    "bucket": "sport",
-    "tokens": [
-      "comeback",
-      "consoles",
-      "michelsen",
-      "open",
-      "remarkable",
-      "tearful",
-      "tiafoe"
-    ],
-    "link": "https://www.bbc.co.uk/sport/tennis/articles/c33k6zl5m87o?at_medium=RSS&at_campaign=rss",
-    "title": "Tiafoe consoles tearful Michelsen after remarkable US Open comeback",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-09T06:08:13.138076+00:00"
-  },
-  {
-    "score": 18.28,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "fire",
-      "netanyahu",
-      "october",
-      "report",
-      "uae",
-      "under",
-      "warned"
-    ],
-    "link": "https://www.france24.com/en/netanyahu-under-fire-over-report-uae-warned-of-october-7-attack",
-    "title": "Netanyahu under fire over report UAE warned of October 7 attack",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-09T06:08:13.138321+00:00"
-  },
-  {
-    "score": 17.12,
-    "bucket": "serious",
-    "tokens": [
-      "adiós",
-      "borg",
-      "ceremonias",
-      "del",
-      "dos",
-      "estado",
-      "funeral",
-      "harald",
-      "høiby",
-      "incógnita",
-      "marius",
-      "noruega",
-      "papel",
-      "procesión",
-      "real",
-      "rey",
-      "último"
-    ],
-    "link": "https://elpais.com/gente/2026-09-09/el-ultimo-adios-al-rey-harald-de-noruega-funeral-de-estado-procesion-real-dos-ceremonias-y-la-incognita-del-papel-de-marius-borg-hoiby.html",
-    "title": "El último adiós al rey Harald de Noruega: funeral de Estado, procesión real, dos ceremonias y la incógnita del papel de Marius Borg Høiby",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-09-09T06:08:13.138522+00:00"
-  },
-  {
-    "score": 17.09,
-    "bucket": "serious",
-    "tokens": [
-      "crash",
-      "doctor",
-      "flying",
-      "helicopter",
-      "kills",
-      "medical",
-      "pilot",
-      "sarawak",
-      "service",
-      "staff"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/malaysia-sarawak-helicopter-crash-flying-doctor-service-6371556",
-    "title": "Helicopter crash in Sarawak kills pilot and 4 medical staff on ‘flying doctor’ service",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-09T06:08:13.138710+00:00"
-  },
-  {
-    "score": 17.01,
-    "bucket": "useful",
-    "tokens": [
-      "cancer",
-      "damage",
-      "drinks",
-      "food",
-      "hot",
-      "increase",
-      "may",
-      "pipe",
-      "risk",
-      "very"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/ce3r77d9n90o?at_medium=RSS&at_campaign=rss",
-    "title": "Very hot drinks may damage the food pipe and increase cancer risk",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-09-09T06:08:13.138897+00:00"
-  },
-  {
     "score": 17.01,
     "bucket": "useful",
     "tokens": [
@@ -5293,5 +5186,25 @@
     "posted_title": "",
     "region": "za",
     "seen_at": "2026-09-14T06:07:51.751389+00:00"
+  },
+  {
+    "score": 17.34,
+    "bucket": "serious",
+    "tokens": [
+      "cities",
+      "civil",
+      "danger",
+      "defense",
+      "four",
+      "lifts",
+      "potential",
+      "saudi",
+      "warnings"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-14-saudi-civil-defense-lifts-warnings-of-potential-danger-in-four-cities/",
+    "title": "Saudi Civil Defense lifts warnings of potential danger in four cities",
+    "posted_title": "السعودية ترفع حالة التأهب في نجران وخميس مشيط وجازان وأبها بعد تحذيرات من خطر محتمل",
+    "region": "za",
+    "seen_at": "2026-09-14T06:10:08.594782+00:00"
   }
 ]
