@@ -1,26 +1,5 @@
 [
   {
-    "score": 16.35,
-    "bucket": "serious",
-    "tokens": [
-      "apple",
-      "até",
-      "com",
-      "dobrável",
-      "duo",
-      "empresa",
-      "iphone",
-      "lança",
-      "mil",
-      "preços"
-    ],
-    "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/tec/2026/09/apple-pode-apresentar-iphone-dobravel-nesta-quarta-9-assista-ao-vivo.shtml",
-    "title": "Apple lança iPhone Duo, 1º dobrável da empresa, com preços de até R$ 31 mil",
-    "posted_title": "آبل تكشف عن أول هاتف قابل للطي في تاريخها بسعر يصل إلى 31 ألف ريال برازيلي",
-    "region": "br",
-    "seen_at": "2026-09-09T19:09:37.490905+00:00"
-  },
-  {
     "score": 34.09,
     "bucket": "serious",
     "tokens": [
@@ -5193,5 +5172,47 @@
     "posted_title": "",
     "region": "uk",
     "seen_at": "2026-09-14T19:08:03.767264+00:00"
+  },
+  {
+    "score": 20.53,
+    "bucket": "light",
+    "tokens": [
+      "accused",
+      "admits",
+      "british",
+      "decades",
+      "drugging",
+      "man",
+      "offences",
+      "raping",
+      "two",
+      "wife"
+    ],
+    "link": "https://www.theguardian.com/uk-news/2026/sep/14/british-man-accused-of-drugging-and-raping-wife-over-two-decades-admits-60-offences",
+    "title": "British man accused of drugging and raping wife over two decades admits 60 offences",
+    "posted_title": "رجل ستيني يعترف بتخدير زوجته واغتصابها لعقدين في محكمة مانشستر",
+    "region": "uk",
+    "seen_at": "2026-09-14T19:51:15.012944+00:00"
+  },
+  {
+    "score": 19.12,
+    "bucket": "light",
+    "tokens": [
+      "citizenship",
+      "documentary",
+      "film",
+      "gaza",
+      "israeli",
+      "makers",
+      "minister",
+      "naza",
+      "strip",
+      "threatens"
+    ],
+    "link": "https://www.theguardian.com/film/2026/sep/14/gaza-documentary-makers-naza-israel-citizenship-ntwnfb",
+    "title": "Israeli minister threatens to strip Israeli film-makers of citizenship over Gaza documentary NAZA",
+    "posted_title": "وزير إسرائيلي يطالب بسحب جنسية مخرجَين فازا بجائزة عن فيلم يوثق قتل مدنيين في غزة",
+    "region": "uk",
+    "seen_at": "2026-09-14T19:51:34.285869+00:00"
   }
 ]

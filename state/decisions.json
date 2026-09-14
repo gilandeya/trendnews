@@ -4261,5 +4261,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 15
+ },
+ {
+  "id": "42eaf0d12da1",
+  "created_at": "2026-09-14T19:51:15.012487+00:00",
+  "decided_at": "2026-09-14T19:51:41.446927+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "عالم",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "light",
+  "region": "uk",
+  "score": 20.53,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "source_count": 4,
+  "body_len": 504,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 19
  }
 ]
