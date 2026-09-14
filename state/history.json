@@ -1,102 +1,5 @@
 [
   {
-    "score": 24.93,
-    "bucket": "serious",
-    "tokens": [
-      "announces",
-      "bank",
-      "furious",
-      "israeli",
-      "prompting",
-      "response",
-      "sanctions",
-      "settlements",
-      "west"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c4g7zen0vveo?at_medium=RSS&at_campaign=rss",
-    "title": "UK announces sanctions on West Bank settlements prompting furious Israeli response",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-09T03:07:48.499085+00:00"
-  },
-  {
-    "score": 21.82,
-    "bucket": "serious",
-    "tokens": [
-      "capture",
-      "carried",
-      "claims",
-      "data",
-      "drone",
-      "hormuz",
-      "iran",
-      "malfunctioning",
-      "sensitive",
-      "strait",
-      "underwater"
-    ],
-    "link": "https://www.malaymail.com/news/world/2026/09/09/us-says-malfunctioning-underwater-drone-carried-no-sensitive-data-as-iran-claims-capture-in-strait-of-hormuz/234486",
-    "title": "US says malfunctioning underwater drone carried no sensitive data as Iran claims capture in Strait of Hormuz",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-09T03:07:48.499331+00:00"
-  },
-  {
-    "score": 21.43,
-    "bucket": "serious",
-    "tokens": [
-      "american",
-      "attacks",
-      "destroyed",
-      "iranian",
-      "missile",
-      "tankers",
-      "warship"
-    ],
-    "link": "https://www.theguardian.com/us-news/2026/sep/08/iran-underwater-drone-strait-of-hormuz",
-    "title": "US says Iranian tankers ‘destroyed’ after missile attacks on American warship",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-09T03:07:48.499565+00:00"
-  },
-  {
-    "score": 18.4,
-    "bucket": "serious",
-    "tokens": [
-      "bank",
-      "block",
-      "canada",
-      "france",
-      "imports",
-      "israeli",
-      "settlements",
-      "west"
-    ],
-    "link": "https://www.scmp.com/news/world/europe/article/3366817/uk-imposes-trade-ban-goods-israeli-west-bank-settlements?utm_source=rss_feed",
-    "title": "UK, France, Canada block imports from Israeli West Bank settlements",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-09T03:07:48.499752+00:00"
-  },
-  {
-    "score": 17.13,
-    "bucket": "serious",
-    "tokens": [
-      "castration",
-      "chemical",
-      "consider",
-      "crimes",
-      "curb",
-      "sex",
-      "singapore"
-    ],
-    "link": "https://www.ndtv.com/world-news/singapore-to-consider-chemical-castration-to-curb-sex-crimes-12021057#publisher=newsstand",
-    "title": "Singapore To Consider Chemical Castration To Curb Sex Crimes",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-09T03:07:48.499930+00:00"
-  },
-  {
     "score": 18.86,
     "bucket": "useful",
     "tokens": [
@@ -5203,5 +5106,99 @@
     "posted_title": "مسيّرة روسية تصيب قطار ركاب قرب الحدود البولندية بعد دقائق من مرور قطار كان يقل جونسون ودبلوماسيين أوروبيين",
     "region": "za",
     "seen_at": "2026-09-14T02:08:25.563348+00:00"
+  },
+  {
+    "score": 24.19,
+    "bucket": "serious",
+    "tokens": [
+      "129",
+      "capsizes",
+      "indonesia",
+      "missing",
+      "passenger",
+      "people",
+      "rescuers",
+      "searching",
+      "ship",
+      "still"
+    ],
+    "link": "https://www.channelnewsasia.com/asia/indonesia-rescuers-search-passenger-ship-capsize-6382206",
+    "title": "Indonesia rescuers searching for 129 people still missing after passenger ship capsizes",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-14T03:07:53.154846+00:00"
+  },
+  {
+    "score": 21.85,
+    "bucket": "serious",
+    "tokens": [
+      "gulf",
+      "hormuz",
+      "iran",
+      "oman",
+      "postpones",
+      "strait",
+      "talks"
+    ],
+    "link": "https://www.malaymail.com/news/world/2026/09/14/oman-postpones-iran-gulf-talks-on-strait-of-hormuz/235105",
+    "title": "Oman postpones Iran-Gulf talks on Strait of Hormuz",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-14T03:07:53.155220+00:00"
+  },
+  {
+    "score": 21.04,
+    "bucket": "serious",
+    "tokens": [
+      "agree",
+      "iran",
+      "page",
+      "turn",
+      "uae",
+      "war"
+    ],
+    "link": "https://www.malaymail.com/news/world/2026/09/14/iran-uae-agree-to-turn-the-page-on-war/235093",
+    "title": "Iran, UAE agree to ‘turn the page’ on war",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-14T03:07:53.155515+00:00"
+  },
+  {
+    "score": 20.28,
+    "bucket": "light",
+    "tokens": [
+      "consider",
+      "families",
+      "records",
+      "releasing",
+      "request",
+      "trump"
+    ],
+    "link": "https://www.thehindu.com/news/trump-says-he-will-consider-releasing-911-records-after-families-request/article71465334.ece",
+    "title": "Trump says he will consider releasing 9/11 records after families request",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-14T03:07:53.155805+00:00"
+  },
+  {
+    "score": 19.01,
+    "bucket": "serious",
+    "tokens": [
+      "commercial",
+      "dead",
+      "hormuz",
+      "iranian",
+      "media",
+      "near",
+      "say",
+      "ship",
+      "strait",
+      "struck"
+    ],
+    "link": "https://www.thehindu.com/news/international/casualties-reported-as-an-iranian-commercial-ship-was-struck-near-the-strait-of-hormuz/article71462672.ece",
+    "title": "Iranian commercial ship struck near Strait of Hormuz with 1 dead, Iranian media say",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-14T03:07:53.156154+00:00"
   }
 ]

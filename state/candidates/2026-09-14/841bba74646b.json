@@ -1,0 +1,62 @@
+{
+  "id": "841bba74646b",
+  "created_at": "2026-09-14T03:07:53.155231+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.04,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran, UAE agree to ‘turn the page’ on war",
+  "link": "https://www.malaymail.com/news/world/2026/09/14/iran-uae-agree-to-turn-the-page-on-war/235093",
+  "publishers": [
+    "Hindustan Times — World",
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Iran, UAE agree to ‘turn the page’ on war",
+    "link": "https://www.malaymail.com/news/world/2026/09/14/iran-uae-agree-to-turn-the-page-on-war/235093",
+    "summary": "TEHRAN, Sept 14 — Iran and the United Arab Emirates, whose relations have deteriorated since the start of the Midd...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-14T01:28:41+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/14/362408.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-wants-to-turn-the-page-with-uae-pezeshkian-day-after-meeting-crown-prince-in-delhi-during-brics-summit-101789307622110.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/14/iran-uae-agree-to-turn-the-page-on-war/235093"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/14/362408.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 970.9129437511111,
+    "is_stale": false,
+    "score": 21.039894117351853,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

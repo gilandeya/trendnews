@@ -1,0 +1,88 @@
+{
+  "id": "8b0811e92384",
+  "created_at": "2026-09-14T03:07:53.154859+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.85,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oman postpones Iran-Gulf talks on Strait of Hormuz",
+  "link": "https://www.malaymail.com/news/world/2026/09/14/oman-postpones-iran-gulf-talks-on-strait-of-hormuz/235105",
+  "publishers": [
+    "Al Jazeera English",
+    "Bloomberg.com",
+    "Hindustan Times — World",
+    "IRNA English",
+    "Malay Mail",
+    "top Omani diplomat"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Oman postpones Iran-Gulf talks on Strait of Hormuz",
+    "link": "https://www.malaymail.com/news/world/2026/09/14/oman-postpones-iran-gulf-talks-on-strait-of-hormuz/235105",
+    "summary": "MUSCAT, Sept 14 — Oman has announced the postponement of a meeting today between Iran and Gulf countries on the St...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-14T02:15:14+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/14/362427.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Bloomberg.com",
+      "Hindustan Times — World",
+      "IRNA English",
+      "Malay Mail",
+      "top Omani diplomat"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/liveblog/2026/9/14/iran-war-live-oman-says-hormuz-talks-with-iran-gulf-states-postponed?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/in-interests-of-consensus-iran-oman-talks-with-gulf-states-on-strait-of-hormuz-postponed-attack-101789350704943.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/14/oman-postpones-iran-gulf-talks-on-strait-of-hormuz/235105"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86263196/Oman-postpones-regional-meeting-on-Strait-of-Hormuz"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86263200/Iran-says-Strait-of-Hormuz-meeting-postponed-at-request-of-regional"
+      },
+      {
+        "name": "top Omani diplomat",
+        "link": "https://tass.com/world/2187095"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/14/362427.jpg",
+      "https://img9.irna.ir/d/r2/2026/02/26/4/172741937.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/13/4/173104345.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 970.912914615,
+    "is_stale": false,
+    "score": 21.846503848959763,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
