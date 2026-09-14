@@ -1,40 +1,5 @@
 [
   {
-    "score": 18.86,
-    "bucket": "useful",
-    "tokens": [
-      "accuses",
-      "chinese",
-      "copying",
-      "firms",
-      "malicious",
-      "technology"
-    ],
-    "link": "https://www.investing.com/news/economy-news/us-accuses-chinese-ai-firms-of-industrialscale-theft-of-ai-technology-4892191",
-    "title": "US accuses Chinese AI firms of ’malicious’ copying of AI technology",
-    "posted_title": "وزير الخزانة الأمريكي: الصين تنسخ نماذجنا للذكاء الاصطناعي ولن تتفوق علينا أبدًا",
-    "region": "money",
-    "seen_at": "2026-09-09T03:45:26.997754+00:00"
-  },
-  {
-    "score": 17.13,
-    "bucket": "serious",
-    "tokens": [
-      "castration",
-      "chemical",
-      "consider",
-      "crimes",
-      "curb",
-      "sex",
-      "singapore"
-    ],
-    "link": "https://www.ndtv.com/world-news/singapore-to-consider-chemical-castration-to-curb-sex-crimes-12021057#publisher=newsstand",
-    "title": "Singapore To Consider Chemical Castration To Curb Sex Crimes",
-    "posted_title": "سنغافورة تبحث خيار الإخصاء الكيميائي في مواجهة الجرائم الجنسية",
-    "region": "in",
-    "seen_at": "2026-09-09T03:46:14.111491+00:00"
-  },
-  {
     "score": 28.19,
     "bucket": "sport",
     "tokens": [
@@ -5200,5 +5165,39 @@
     "posted_title": "",
     "region": "in",
     "seen_at": "2026-09-14T03:07:53.156154+00:00"
+  },
+  {
+    "score": 21.04,
+    "bucket": "serious",
+    "tokens": [
+      "agree",
+      "iran",
+      "page",
+      "turn",
+      "uae",
+      "war"
+    ],
+    "link": "https://www.malaymail.com/news/world/2026/09/14/iran-uae-agree-to-turn-the-page-on-war/235093",
+    "title": "Iran, UAE agree to ‘turn the page’ on war",
+    "posted_title": "بعد أشهر من التوتر.. إيران والإمارات تتفقان على \"طي الصفحة\" والنظر إلى المستقبل",
+    "region": "my",
+    "seen_at": "2026-09-14T04:29:20.155947+00:00"
+  },
+  {
+    "score": 20.28,
+    "bucket": "light",
+    "tokens": [
+      "consider",
+      "families",
+      "records",
+      "releasing",
+      "request",
+      "trump"
+    ],
+    "link": "https://www.thehindu.com/news/trump-says-he-will-consider-releasing-911-records-after-families-request/article71465334.ece",
+    "title": "Trump says he will consider releasing 9/11 records after families request",
+    "posted_title": "ترامب يعد بالنظر في طلب عائلات ضحايا 11 سبتمبر كشف ملفات مرتبطة بالسعودية",
+    "region": "in",
+    "seen_at": "2026-09-14T04:29:36.804298+00:00"
   }
 ]

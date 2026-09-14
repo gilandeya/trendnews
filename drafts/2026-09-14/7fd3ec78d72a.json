@@ -1,0 +1,77 @@
+{
+  "id": "7fd3ec78d72a",
+  "created_at": "2026-09-14T04:29:36.803874+00:00",
+  "status": "queued",
+  "review_issue": null,
+  "origin": "news",
+  "score": 20.28,
+  "bucket": "light",
+  "analysed_sources": [
+    "Court House News"
+  ],
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "age_hours": 970.9,
+  "is_followup": false,
+  "state_media": false,
+  "source": {
+    "title": "Trump says he will consider releasing 9/11 records after families request",
+    "link": "https://www.thehindu.com/news/trump-says-he-will-consider-releasing-911-records-after-families-request/article71465334.ece",
+    "publisher": "The Hindu — International",
+    "publishers": [
+      "Court House News",
+      "Free Malaysia Today",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "region": "in",
+    "image_url": "https://th-i.thgim.com/public/incoming/pt4orr/article71465337.ece/alternates/LANDSCAPE_1200/2026-09-14T021018Z_1581944120_RC2MINAVB0RA_RTRMADP_3_USA-TRUMP-IRELAND.JPG",
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/pt4orr/article71465337.ece/alternates/LANDSCAPE_1200/2026-09-14T021018Z_1581944120_RC2MINAVB0RA_RTRMADP_3_USA-TRUMP-IRELAND.JPG",
+      "https://media.freemalaysiatoday.com/v3/2026/08/a5dfe6d2-6f7f-48c5-8b3e-6932edeb8b32-Air-Force-One-Donald-Trump.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "سياسة",
+    "image_headline": "ترامب يدرس الإفراج عن ملفات 11 سبتمبر بعد طلب العائلات",
+    "post_title": "ترامب يعد بالنظر في طلب عائلات ضحايا 11 سبتمبر كشف ملفات مرتبطة بالسعودية",
+    "post_body": "قال الرئيس الأمريكي دونالد ترامب الأحد إنه سيبحث طلب عائلات ضحايا هجمات 11 سبتمبر الإفراج عن وثائق قد تكشف تفاصيل حول دور مزعوم للسعودية في الهجمات التي وقعت قبل 25 عامًا. جاء تصريحه أثناء زيارته لأيرلندا، حين قال إنه سيراجع الملف فور عودته إلى واشنطن، مضيفًا أن العائلات تقدمت بطلبها الجمعة الماضي. خمسة عشر من أصل تسعة عشر منفذًا للهجمات كانوا من الجنسية السعودية، فيما نفت الرياض مرارًا أي تورط رسمي. إحدى الناجيات، تيري سترادا، التي فقدت زوجها في الهجمات، طالبت ترامب خلال إحياء ذكرى الضحايا في نيويورك الجمعة بمطالبة السعودية بـ\"وقف الكذب\".",
+    "hashtags": [
+      "١١_سبتمبر",
+      "ترامب",
+      "السعودية",
+      "أمريكا"
+    ]
+  },
+  "caption": "ترامب يعد بالنظر في طلب عائلات ضحايا 11 سبتمبر كشف ملفات مرتبطة بالسعودية\n\nقال الرئيس الأمريكي دونالد ترامب الأحد إنه سيبحث طلب عائلات ضحايا هجمات 11 سبتمبر الإفراج عن وثائق قد تكشف تفاصيل حول دور مزعوم للسعودية في الهجمات التي وقعت قبل 25 عامًا. جاء تصريحه أثناء زيارته لأيرلندا، حين قال إنه سيراجع الملف فور عودته إلى واشنطن، مضيفًا أن العائلات تقدمت بطلبها الجمعة الماضي. خمسة عشر من أصل تسعة عشر منفذًا للهجمات كانوا من الجنسية السعودية، فيما نفت الرياض مرارًا أي تورط رسمي. إحدى الناجيات، تيري سترادا، التي فقدت زوجها في الهجمات، طالبت ترامب خلال إحياء ذكرى الضحايا في نيويورك الجمعة بمطالبة السعودية بـ\"وقف الكذب\".\n\n#١١_سبتمبر #ترامب #السعودية #أمريكا",
+  "headlines": [
+    "هل سيكشف ترامب الملفات السعودية المرتبطة بهجمات 11 سبتمبر؟",
+    "ترامب يوعد بمراجعة طلب عائلات الضحايا حول الوثائق السعودية",
+    "ضغط متجدد على البيت الأبيض للإفصاح عن دور السعودية المزعوم في أيلول"
+  ],
+  "headline_selected": 0,
+  "reel": null,
+  "reel_spec": {
+    "headline": "ترامب يدرس الإفراج عن ملفات 11 سبتمبر بعد طلب العائلات",
+    "category": "سياسة",
+    "urgent": false,
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/pt4orr/article71465337.ece/alternates/LANDSCAPE_1200/2026-09-14T021018Z_1581944120_RC2MINAVB0RA_RTRMADP_3_USA-TRUMP-IRELAND.JPG",
+      "https://media.freemalaysiatoday.com/v3/2026/08/a5dfe6d2-6f7f-48c5-8b3e-6932edeb8b32-Air-Force-One-Donald-Trump.jpg"
+    ]
+  },
+  "image": "drafts/2026-09-14/7fd3ec78d72a.jpg",
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://th-i.thgim.com/public/incoming/pt4orr/article71465337.ece/alternates/LANDSCAPE_1200/2026-09-14T021018Z_1581944120_RC2MINAVB0RA_RTRMADP_3_USA-TRUMP-IRELAND.JPG",
+    "candidates_tried": 2,
+    "manual": false
+  },
+  "publish_at": "2026-09-14T05:27:45.010703+00:00"
+}
