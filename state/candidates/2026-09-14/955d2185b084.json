@@ -1,0 +1,72 @@
+{
+  "id": "955d2185b084",
+  "created_at": "2026-09-14T06:07:51.750291+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.76,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Donald Trump doubles down on support for united Ireland",
+  "link": "https://www.theguardian.com/uk-news/2026/sep/13/donald-trump-doubles-down-on-support-for-united-ireland",
+  "publishers": [
+    "Investing.com — الاقتصاد",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Donald Trump doubles down on support for united Ireland",
+    "link": "https://www.theguardian.com/uk-news/2026/sep/13/donald-trump-doubles-down-on-support-for-united-ireland",
+    "summary": "US president brushes off Andy Burnham’s opposition to referendum and says he will remove Irish whiskey tariff Donald Trump has reiterated his support for Irish unification and brushed off Andy Burnham’s opposition to a referendum. “Everybody says that. Then things happen,” the US president said on Sunday of the British prime minister’s response. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-13T21:09:01+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/8f536882b96a3c9a5e3895f2e112c6a681f2a3b1/1829_135_3143_2515/master/3143.jpg?width=700&quality=85&auto=format&fit=max&s=95244ddf46c024a388a13d3e7ef673aa",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Investing.com — الاقتصاد",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/uk-news/2026/sep/13/donald-trump-doubles-down-on-support-for-united-ireland"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-reiterates-support-for-united-ireland-says-wont-talk-about-scotland-yet/article71464522.ece"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/trump-reiterates-support-for-united-ireland-says-wont-talk-about-scotland-yet-4898746"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/8f536882b96a3c9a5e3895f2e112c6a681f2a3b1/1829_135_3143_2515/master/3143.jpg?width=700&quality=85&auto=format&fit=max&s=95244ddf46c024a388a13d3e7ef673aa",
+      "https://i.guim.co.uk/img/media/8f536882b96a3c9a5e3895f2e112c6a681f2a3b1/1829_135_3143_2515/master/3143.jpg?width=460&quality=85&auto=format&fit=max&s=15f916d44b7b50579a59b5fc78154888",
+      "https://i.guim.co.uk/img/media/8f536882b96a3c9a5e3895f2e112c6a681f2a3b1/1829_135_3143_2515/master/3143.jpg?width=140&quality=85&auto=format&fit=max&s=57cc07b37e3c04f7dee93ca0a0a7c6e5",
+      "https://th-i.thgim.com/public/incoming/6jd3cs/article71464523.ece/alternates/LANDSCAPE_1200/Trump_Ireland_72657.jpg",
+      "https://content-media.investing.com/trkd-images/LYNXMPEM8C0C1_L.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 973.9126445891667,
+    "is_stale": false,
+    "score": 20.75628284640421,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
