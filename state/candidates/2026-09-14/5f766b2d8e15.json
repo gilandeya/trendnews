@@ -1,0 +1,84 @@
+{
+  "id": "5f766b2d8e15",
+  "created_at": "2026-09-14T09:07:53.330019+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.61,
+  "trend_score": 0.4,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oil prices up nearly 3pc, with brent crude above $107 following new strikes on Saudi Arabia, Strait of Hormuz",
+  "link": "https://www.dawn.com/news/2029863/oil-prices-up-nearly-3pc-with-brent-crude-above-107-following-new-strikes-on-saudi-arabia-strait-of-hormuz",
+  "publishers": [
+    "Dawn",
+    "Mehr News",
+    "MyJoyOnline Ghana",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Oil prices up nearly 3pc, with brent crude above $107 following new strikes on Saudi Arabia, Strait of Hormuz",
+    "link": "https://www.dawn.com/news/2029863/oil-prices-up-nearly-3pc-with-brent-crude-above-107-following-new-strikes-on-saudi-arabia-strait-of-hormuz",
+    "summary": "Oil prices rose about 3 per cent on Monday, after new strikes on Saudi Arabian energy and civilian infrastructure and Iranian attacks on ships in the Gulf compounded supply concerns following the closure of a key Saudi oil pipeline. Brent crude futures climbed $2.93, or 2.8pc, to $107.54 per barrel at 0700 GMT (12pm PKT). WTI futures gained $2.88, or 2.9pc, to $102.93 per barrel. “This follows a step-up in attacks on Saudi Arabian energy infrastructure, including targeting the crucial East-West pipeline,” said ING commodity strategists, though they noted it was unclear how severe any potential damage was or how long the pipeline would be out of action. Saudi Arabia’s East-West oil pipeline was temporarily shut following a drone attack, according to Saudi officials. The shutdown of the pipeline, which helps Saudi Arabia avoid the Strait of Hormuz and re-route its exports, threatens up to 4pc of global oil supply. With the pipeline out of service, the port of Yanbu on the Red Sea has enough inventory to cover just five to seven days of exports, according to three industry sources familiar with Saudi Arabia’s exports. Saudi Arabian state media on Sunday released video footage of damag",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-14T09:05:02+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/1414030890b067d.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Mehr News",
+      "MyJoyOnline Ghana",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2029863/oil-prices-up-nearly-3pc-with-brent-crude-above-107-following-new-strikes-on-saudi-arabia-strait-of-hormuz"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629201/oil-prices-up-over-3-following-new-strikes-on-saudi-strait-of-hormuz"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/business/markets/oil-prices-jump-more-than-3-after-new-strikes-on-saudi-strait-of-hormuz/article71465318.ece"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/oil-prices-jump-more-than-2-after-new-strikes-on-saudi-strait-of-hormuz/"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247722/Oil-prices-climb-above-107-a-barrel"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/1414030890b067d.webp",
+      "https://i.dawn.com/thumbnail/2026/09/1414030890b067d.webp",
+      "https://th-i.thgim.com/public/incoming/4lrvqo/article71465323.ece/alternates/LANDSCAPE_1200/2026-09-09T074243Z_1130903464_RC2TVKAVXRWR_RTRMADP_3_IRAN-CRISIS-OIL-BRENT.JPG",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/06/image-3002-1024x690.png",
+      "https://media.mehrnews.com/d/2026/08/25/4/6147266.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.4,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 976.9128170516667,
+    "is_stale": false,
+    "score": 24.61273931268061,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

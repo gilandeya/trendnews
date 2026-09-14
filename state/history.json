@@ -1,45 +1,5 @@
 [
   {
-    "score": 17.01,
-    "bucket": "useful",
-    "tokens": [
-      "cancer",
-      "damage",
-      "drinks",
-      "food",
-      "hot",
-      "increase",
-      "may",
-      "pipe",
-      "risk",
-      "very"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/ce3r77d9n90o?at_medium=RSS&at_campaign=rss",
-    "title": "Very hot drinks may damage the food pipe and increase cancer risk",
-    "posted_title": "لماذا يحذر باحثون بريطانيون من شرب الشاي والقهوة وهما ساخنان جدا",
-    "region": "health",
-    "seen_at": "2026-09-09T08:13:06.853864+00:00"
-  },
-  {
-    "score": 18.28,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "fire",
-      "netanyahu",
-      "october",
-      "report",
-      "uae",
-      "under",
-      "warned"
-    ],
-    "link": "https://www.france24.com/en/netanyahu-under-fire-over-report-uae-warned-of-october-7-attack",
-    "title": "Netanyahu under fire over report UAE warned of October 7 attack",
-    "posted_title": "تحديث: كتاب جديد يكشف تفاصيل مكالمة استمرت 45 دقيقة بين رئيس الإمارات ونتنياهو قبل هجوم حماس",
-    "region": "eu",
-    "seen_at": "2026-09-09T08:13:25.585423+00:00"
-  },
-  {
     "score": 33.2,
     "bucket": "sport",
     "tokens": [
@@ -5206,5 +5166,117 @@
     "posted_title": "السعودية ترفع حالة التأهب في نجران وخميس مشيط وجازان وأبها بعد تحذيرات من خطر محتمل",
     "region": "za",
     "seen_at": "2026-09-14T06:10:08.594782+00:00"
+  },
+  {
+    "score": 33.02,
+    "bucket": "sport",
+    "tokens": [
+      "2026",
+      "beats",
+      "grand",
+      "open",
+      "second",
+      "shelton",
+      "slam",
+      "title",
+      "win",
+      "zverev"
+    ],
+    "link": "https://www.france24.com/en/sport/20260913-alexander-zverev-ben-shelton-us-open-final-tennis",
+    "title": "Zverev beats Shelton to win US Open 2026 and second Grand Slam title",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-14T09:07:53.329765+00:00"
+  },
+  {
+    "score": 25.26,
+    "bucket": "serious",
+    "tokens": [
+      "'unacceptable'",
+      "altman",
+      "calls",
+      "extinction",
+      "ipo",
+      "openai's",
+      "risk",
+      "won't",
+      "year"
+    ],
+    "link": "https://www.thehindu.com/sci-tech/technology/openais-altman-wont-do-ipo-this-year-calls-ai-extinction-risk-unacceptable/article71462569.ece",
+    "title": "OpenAI's Altman won't do IPO this year, calls AI extinction risk 'unacceptable'",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-14T09:07:53.330013+00:00"
+  },
+  {
+    "score": 24.61,
+    "bucket": "serious",
+    "tokens": [
+      "107",
+      "3pc",
+      "above",
+      "arabia",
+      "brent",
+      "crude",
+      "following",
+      "hormuz",
+      "nearly",
+      "oil",
+      "prices",
+      "saudi",
+      "strait",
+      "strikes"
+    ],
+    "link": "https://www.dawn.com/news/2029863/oil-prices-up-nearly-3pc-with-brent-crude-above-107-following-new-strikes-on-saudi-arabia-strait-of-hormuz",
+    "title": "Oil prices up nearly 3pc, with brent crude above $107 following new strikes on Saudi Arabia, Strait of Hormuz",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-14T09:07:53.330245+00:00"
+  },
+  {
+    "score": 21.09,
+    "bucket": "serious",
+    "tokens": [
+      "attacks",
+      "calls",
+      "causing",
+      "diesel",
+      "fuel",
+      "halt",
+      "russian",
+      "shortage",
+      "strikes",
+      "trump",
+      "ukraine"
+    ],
+    "link": "https://www.thehindu.com/news/international/trump-calls-on-ukraine-to-halt-strikes-on-russian-diesel-fuel-says-attacks-causing-shortage/article71464691.ece",
+    "title": "Trump calls on Ukraine to halt strikes on Russian diesel fuel, says attacks causing shortage",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-14T09:07:53.330421+00:00"
+  },
+  {
+    "score": 20.93,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "base",
+      "before",
+      "china",
+      "deadly",
+      "downplays",
+      "intel",
+      "iran",
+      "live",
+      "mideast",
+      "report",
+      "supplied",
+      "trump"
+    ],
+    "link": "https://www.france24.com/en/middle-east/20260914-middle-east-live-houthis-say-hit-saudi-base-after-renewed-fighting-with-yemeni-forces",
+    "title": "Mideast live: Trump downplays report China supplied Iran with intel before deadly US base attack",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-14T09:07:53.330617+00:00"
   }
 ]
