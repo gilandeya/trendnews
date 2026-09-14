@@ -1,0 +1,73 @@
+{
+  "id": "5ce692b1faf4",
+  "created_at": "2026-09-14T15:08:25.772840+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.96,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Arsenal to contact Pro Ref over Konsa penalty",
+  "link": "https://www.bbc.co.uk/sport/football/articles/cmg49n3g7exlo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Arsenal to contact Pro Ref over Konsa penalty",
+    "link": "https://www.bbc.co.uk/sport/football/articles/cmg49n3g7exlo?at_medium=RSS&at_campaign=rss",
+    "summary": "Arsenal will contact refereeing body Pro Ref over the incident that saw Ezri Konsa concede a penalty in Saturday's win over Sunderland.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-14T11:31:00+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4b2f/live/dca8cbf0-b02e-11f1-a540-61c3f7fc4e6c.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/cmg49n3g7exlo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/14/arsenal-pro-ref-sunderland-penalty-meeting-explanation"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/live-blog/12040/13025486/arsenal-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4b2f/live/dca8cbf0-b02e-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/4b2f/live/dca8cbf0-b02e-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4b2f/live/dca8cbf0-b02e-11f1-a540-61c3f7fc4e6c.jpg",
+      "https://i.guim.co.uk/img/media/c914acc6ce107ceb23451a3b96fae8a6a29afec9/788_214_2448_1958/master/2448.jpg?width=700&quality=85&auto=format&fit=max&s=78767ec268e8b242db198e91db91c18d",
+      "https://i.guim.co.uk/img/media/c914acc6ce107ceb23451a3b96fae8a6a29afec9/788_214_2448_1958/master/2448.jpg?width=460&quality=85&auto=format&fit=max&s=e239e1a68f523bb71d17dee52011e634",
+      "https://i.guim.co.uk/img/media/c914acc6ce107ceb23451a3b96fae8a6a29afec9/788_214_2448_1958/master/2448.jpg?width=140&quality=85&auto=format&fit=max&s=983daf931eb21dd197245c12e51d4752"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 982.9219222875,
+    "is_stale": false,
+    "score": 18.963422863941247,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

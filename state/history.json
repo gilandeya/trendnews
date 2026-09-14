@@ -1,103 +1,5 @@
 [
   {
-    "score": 30.98,
-    "bucket": "serious",
-    "tokens": [
-      "anthropic",
-      "gambling",
-      "labs",
-      "lives",
-      "our",
-      "researcher",
-      "resigns"
-    ],
-    "link": "https://www.dawn.com/news/2028573/anthropic-researcher-resigns-says-ai-labs-are-gambling-with-our-lives",
-    "title": "Anthropic researcher resigns, says AI labs are ‘gambling with our lives’",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-09T15:08:14.870389+00:00"
-  },
-  {
-    "score": 21.1,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "awarded",
-      "chevening",
-      "commonwealth",
-      "nigerians",
-      "scholarships"
-    ],
-    "link": "https://www.vanguardngr.com/2026/09/68-nigerians-awarded-2026-chevening-commonwealth-scholarships/",
-    "title": "68 Nigerians awarded 2026 Chevening, Commonwealth scholarships",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-09-09T15:08:14.870549+00:00"
-  },
-  {
-    "score": 20.97,
-    "bucket": "serious",
-    "tokens": [
-      "ablaze",
-      "houthis",
-      "oil",
-      "report",
-      "reprisals",
-      "saudi",
-      "set",
-      "sites",
-      "strikes",
-      "wave"
-    ],
-    "link": "https://www.france24.com/en/video/20260909-houthis-report-saudi-reprisals-after-oil-sites-set-ablaze-in-wave-of-strikes",
-    "title": "Houthis report Saudi reprisals after oil sites set ablaze in wave of strikes",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-09T15:08:14.870679+00:00"
-  },
-  {
-    "score": 20.96,
-    "bucket": "serious",
-    "tokens": [
-      "against",
-      "deepens",
-      "destroyed",
-      "hormuz",
-      "impasse",
-      "iran",
-      "oil",
-      "retaliates",
-      "tankers",
-      "targets"
-    ],
-    "link": "https://www.france24.com/en/video/20260909-hormuz-impasse-deepens-iran-retaliates-against-us-targets-after-its-oil-tankers-destroyed",
-    "title": "Hormuz impasse deepens: Iran retaliates against US targets after its oil tankers destroyed",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-09T15:08:14.870821+00:00"
-  },
-  {
-    "score": 19.14,
-    "bucket": "useful",
-    "tokens": [
-      "000",
-      "bangladesh",
-      "cases",
-      "contain",
-      "kill",
-      "measles",
-      "nearly",
-      "outbreak",
-      "struggles",
-      "suspected"
-    ],
-    "link": "https://medicalxpress.com/news/2026-09-measles-cases-bangladesh-struggles-outbreak.html",
-    "title": "Suspected measles cases kill nearly 1,000 as Bangladesh struggles to contain outbreak",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-09-09T15:08:14.870962+00:00"
-  },
-  {
     "score": 20.97,
     "bucket": "serious",
     "tokens": [
@@ -5249,5 +5151,98 @@
     "posted_title": "لماذا يواجه قرار ترامب بشأن التصويت البريدي عقبة قضائية جديدة",
     "region": "uk",
     "seen_at": "2026-09-14T12:18:45.649587+00:00"
+  },
+  {
+    "score": 18.96,
+    "bucket": "sport",
+    "tokens": [
+      "arsenal",
+      "contact",
+      "konsa",
+      "penalty",
+      "pro",
+      "ref"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/articles/cmg49n3g7exlo?at_medium=RSS&at_campaign=rss",
+    "title": "Arsenal to contact Pro Ref over Konsa penalty",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-14T15:08:25.773270+00:00"
+  },
+  {
+    "score": 17.55,
+    "bucket": "serious",
+    "tokens": [
+      "chinese",
+      "defense",
+      "forum",
+      "open",
+      "regional",
+      "roiling",
+      "set",
+      "tensions"
+    ],
+    "link": "https://www.japantimes.co.jp/news/2026/09/14/asia-pacific/chinese-defense-forum-regional-tensions/",
+    "title": "Chinese defense forum set to open amid roiling regional tensions",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-09-14T15:08:25.773550+00:00"
+  },
+  {
+    "score": 17.44,
+    "bucket": "serious",
+    "tokens": [
+      "bolstering",
+      "cdf",
+      "chief",
+      "commitment",
+      "defence",
+      "indonesian",
+      "meeting",
+      "munir",
+      "naval",
+      "reaffirms",
+      "ties"
+    ],
+    "link": "https://www.dawn.com/news/2029894/cdf-munir-reaffirms-commitment-to-bolstering-defence-ties-in-meeting-with-indonesian-naval-chief",
+    "title": "CDF Munir reaffirms commitment to bolstering defence ties in meeting with Indonesian naval chief",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-14T15:08:25.773863+00:00"
+  },
+  {
+    "score": 17.23,
+    "bucket": "serious",
+    "tokens": [
+      "'sick",
+      "against",
+      "centers",
+      "conspiracy'",
+      "data",
+      "there",
+      "trump"
+    ],
+    "link": "https://www.channelnewsasia.com/business/trump-says-there-sick-conspiracy-against-ai-data-centers-6383796",
+    "title": "Trump says there is a 'sick conspiracy' against AI, data centers",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-14T15:08:25.774130+00:00"
+  },
+  {
+    "score": 17.22,
+    "bucket": "useful",
+    "tokens": [
+      "capsules",
+      "shells",
+      "snail",
+      "surprise",
+      "time",
+      "weather"
+    ],
+    "link": "https://phys.org/news/2026-09-snail-shells-weather-capsules.html",
+    "title": "Snail shells are surprise weather time capsules",
+    "posted_title": "",
+    "region": "science",
+    "seen_at": "2026-09-14T15:08:25.774379+00:00"
   }
 ]

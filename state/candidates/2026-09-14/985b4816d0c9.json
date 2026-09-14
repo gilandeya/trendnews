@@ -1,0 +1,59 @@
+{
+  "id": "985b4816d0c9",
+  "created_at": "2026-09-14T15:08:25.773282+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.55,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Chinese defense forum set to open amid roiling regional tensions",
+  "link": "https://www.japantimes.co.jp/news/2026/09/14/asia-pacific/chinese-defense-forum-regional-tensions/",
+  "publishers": [
+    "The Japan Times",
+    "reuters.com"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Chinese defense forum set to open amid roiling regional tensions",
+    "link": "https://www.japantimes.co.jp/news/2026/09/14/asia-pacific/chinese-defense-forum-regional-tensions/",
+    "summary": "Hundreds of military officers, diplomats and scholars from dozens of countries are expected to attend the three-day event.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-09-14T06:04:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/14/562838.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "The Japan Times",
+      "reuters.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/14/asia-pacific/chinese-defense-forum-regional-tensions/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/14/562838.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/14/thumbs/400x400/562838.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 982.9218852755555,
+    "is_stale": true,
+    "score": 17.545202036962962,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
