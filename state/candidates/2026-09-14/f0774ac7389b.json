@@ -1,0 +1,89 @@
+{
+  "id": "f0774ac7389b",
+  "created_at": "2026-09-14T17:08:09.636030+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.3,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Fighting in Yemen intensifies, Houthis launch more attacks on Saudi Arabia",
+  "link": "https://www.thehindu.com/news/international/fighting-in-yemen-intensifies-houthis-launch-more-attacks-on-saudi-arabia/article71464664.ece",
+  "publishers": [
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "PBS",
+    "The Hindu — International",
+    "Yonhap News"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Fighting in Yemen intensifies, Houthis launch more attacks on Saudi Arabia",
+    "link": "https://www.thehindu.com/news/international/fighting-in-yemen-intensifies-houthis-launch-more-attacks-on-saudi-arabia/article71464664.ece",
+    "summary": "As Yemen risks descending into another civil war, the United Nations estimated that more than 80,000 people in the impoverished country have been displaced by the fighting since the start of September",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-14T05:48:44+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/5sqbh1/article71464665.ece/alternates/LANDSCAPE_1200/2026-09-13T190749Z_2053754813_RC2IINA4FN8V_RTRMADP_3_IRAN-CRISIS-SAUDI-YEMEN.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "PBS",
+      "The Hindu — International",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/fighting-in-yemen-intensifies-houthis-launch-more-attacks-on-saudi-arabia/article71464664.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/fighting-in-yemen-intensifies-and-houthis-launch-more-attacks-on-saudi-arabia-101789320094541.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/14/houthis-unleash-fresh-strikes-on-saudi-arabia-as-iran-denies-yemen-role/235227"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/14/yemen-s-houthis-say-targeted-military-facilities-in-saudi-arabia"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260914006300315"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/houthis-make-gains-in-red-sea-why-saudi-is-at-loggerheads-with-yemen-rebel-group-red-sea-us-iran-war-strait-of-hormuz-101789392315998.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/5sqbh1/article71464665.ece/alternates/LANDSCAPE_1200/2026-09-13T190749Z_2053754813_RC2IINA4FN8V_RTRMADP_3_IRAN-CRISIS-SAUDI-YEMEN.JPG",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/14/362591.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/05/cdfc5f14-houthi-epa-250525.webp",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/14/AEN20260914006300315_02_i_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 984.9174201611112,
+    "is_stale": true,
+    "score": 22.300090916885694,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

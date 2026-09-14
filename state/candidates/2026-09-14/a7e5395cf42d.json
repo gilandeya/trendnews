@@ -1,0 +1,101 @@
+{
+  "id": "a7e5395cf42d",
+  "created_at": "2026-09-14T17:08:09.635185+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.45,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "How will EU respond to Russian attack on train near Polish border?",
+  "link": "https://www.france24.com/en/video/20260914-how-will-eu-respond-to-russian-attack-on-train-near-polish-border",
+  "publishers": [
+    "BBC World",
+    "Daily Maverick",
+    "Daily Sabah",
+    "Deutsche Welle",
+    "France24",
+    "Hindustan Times — World",
+    "Meduza English",
+    "NPR World",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The New York Times"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "How will EU respond to Russian attack on train near Polish border?",
+    "link": "https://www.france24.com/en/video/20260914-how-will-eu-respond-to-russian-attack-on-train-near-polish-border",
+    "summary": "The EU's top diplomat said Monday that Russian strikes which hit a Warsaw-bound train near Ukraine's border with Poland shortly after top Western figures passed through were meant to \"scare\" off Kyiv's backers. \"It is clearly meant to scare Western countries from supporting Ukraine, from going to Ukraine to show support,\" foreign policy chief Kaja Kallas said, urging Kyiv's backers to do \"the opposite\". France 24's Dave Keating reports from Brussels.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-14T13:42:14+00:00",
+    "image_url": "https://s.france24.com/media/display/058b7a88-b041-11f1-816e-005056bf30b7/w:1024/p:16x9/EN-20260914-151410-151815-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "BBC World",
+      "Daily Maverick",
+      "Daily Sabah",
+      "Deutsche Welle",
+      "France24",
+      "Hindustan Times — World",
+      "Meduza English",
+      "NPR World",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The New York Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260914-how-will-eu-respond-to-russian-attack-on-train-near-polish-border"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/senseless-attack-ex-uk-pm-boris-johnsons-close-shave-as-train-behind-his-struck-by-russian-drone-near-poland-border-101789317205907.html"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russian-drone-hits-train-near-ukraine-poland-border-soon-after-boris-johnson-other-visiting-dignitaries-passed-through/article71464480.ece"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/14/g-s1-143140/russian-drone-ukrainian-train"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-13-russia-hits-passenger-train-on-ukraines-border-with-poland-just-misses-diplomatic-train/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russia-strikes-kyiv-warsaw-passenger-train-ukraine-poland/article71464376.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/058b7a88-b041-11f1-816e-005056bf30b7/w:1024/p:16x9/EN-20260914-151410-151815-CS.jpg",
+      "https://th-i.thgim.com/public/incoming/j037uu/article71464490.ece/alternates/LANDSCAPE_1200/2024-07-02T213724Z_1141293308_RC29N8AZY7EK_RTRMADP_3_BRITAIN-ELECTION-CONSERVATIVES.JPG",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-143140",
+      "https://cdn.dailymaverick.co.za/attachments/2997/13874299_290435.jpg",
+      "https://th-i.thgim.com/public/incoming/u3wej7/article71464399.ece/alternates/LANDSCAPE_1200/2026-08-31T073631Z_1510732594_RC2J9NA8WQO7_RTRMADP_3_UKRAINE-CRISIS-KYIV-METRO.JPG",
+      "https://i.guim.co.uk/img/media/24b03b484262613937c9c801abeecddccc05854c/0_936_1212_969/master/1212.jpg?width=700&quality=85&auto=format&fit=max&s=b84e30afeba043f6ca56a9a6af5b65e7"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 11,
+    "velocity": 1.0,
+    "age_hours": 984.9174160325,
+    "is_stale": false,
+    "score": 32.44960938074523,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
