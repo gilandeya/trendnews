@@ -1,0 +1,733 @@
+{
+  "run_date": "2026-09-14",
+  "stats": {
+    "points_in": 278,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 128,
+    "issues_clustered": 27,
+    "topics_merged": 3,
+    "topics_out": 6,
+    "dropped_by_bloc_cap": 2,
+    "topics_seen_skipped": 8,
+    "topics_below_min_points": 8,
+    "layer_a": 2,
+    "layer_b": 0,
+    "layer_c": 4,
+    "agreement": 4,
+    "cross_source": 0,
+    "internal": 2,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "سيطرة الحوثيين على باب المندب وتداعياتها الاقتصادية",
+      "هجمات الحوثيين على السعودية وخسائرها الاقتصادية"
+    ],
+    [
+      "استمرار الاستيطان الإسرائيلي وإخطارات وقف البناء",
+      "هدف إسرائيل إلغاء اتفاق أوسلو وإعادة تشكيل الجغرافيا الفلسطينية"
+    ],
+    [
+      "تحذيرات شركات الذكاء الاصطناعي من مخاطره",
+      "سلوكيات مقلقة لنماذج الذكاء الاصطناعي في الاختبارات"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "تحذيرات شركات الذكاء الاصطناعي من مخاطره",
+      "event": "تحذيرات رؤساء شركات الذكاء الاصطناعي (أنثروبيك، أوبن إيه آي) من مخاطر تطويره الحالي والدعوة لإبطائه",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        149
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "معارك المقاومة اليمنية مع الحوثيين ونزوح المدنيين",
+      "event": "خسائر المقاومة اليمنية في معاركها مع الحوثيين ونزوح عشرات الآلاف من المدنيين",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        126,
+        127,
+        128,
+        147,
+        148
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "التوغل الإسرائيلي في القنيطرة جنوب سوريا وبقاء الجيش الإسرائيلي",
+      "event": "توغل قوات إسرائيلية في محيط قرية عين النورية بريف القنيطرة وتأكيد إسرائيل بقاء جيشها هناك طويلاً",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "القصف الإسرائيلي المستمر على جنوب لبنان وتأجيل المفاوضات",
+      "event": "استمرار الغارات الإسرائيلية على جنوب لبنان وتأجيل الجولة الثامنة من المفاوضات اللبنانية الإسرائيلية إلى أكتوبر",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "دور الجامعة العربية ورؤية أمينها العام",
+      "event": "تصريحات نبيل فهمي حول دور الجامعة العربية ورؤيته للمستقبل العربي والتزام إسرائيل بالسلام والتدخل الإيراني",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "تعيين محسن رضائي دبيراً لشورى الأمن القومي الإيراني",
+      "event": "تعيين مجتبى خامنئي محسن رضائي دبيراً لشورى الأمن القومي بعد إزاحة ذوالقدر، وخلفيته وتوجهاته",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137,
+        138,
+        139
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "توقعات ترامب بشأن نهاية الحرب مع إيران",
+      "event": "ترجيح ترامب انتهاء الحرب مع إيران بعد الانتخابات النصفية مع انخفاض أسعار الطاقة",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        32,
+        146
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحذيرات شركات الذكاء الاصطناعي من مخاطره",
+      "event": "تحذيرات رؤساء شركات الذكاء الاصطناعي (أنثروبيك، أوبن إيه آي) من مخاطر تطويره الحالي والدعوة لإبطائه",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        149
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "معارك المقاومة اليمنية مع الحوثيين ونزوح المدنيين",
+      "event": "خسائر المقاومة اليمنية في معاركها مع الحوثيين ونزوح عشرات الآلاف من المدنيين",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        126,
+        127,
+        128,
+        147,
+        148
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "سيطرة الحوثيين على باب المندب وتداعياتها الاقتصادية",
+      "event": "سيطرة الحوثيين على الساحل الغربي لليمن وممرات باب المندب وأثر ذلك على أسعار النفط وإمدادات الطاقة",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        1,
+        28,
+        29,
+        30,
+        31,
+        33,
+        34,
+        36,
+        96
+      ],
+      "total_points": 9,
+      "fresh_points": 4,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "اجتماع صلالة/عمّان الخليجي-الإيراني",
+      "event": "دعوة إيرانية لعقد اجتماع وزراء خارجية دول الخليج والعراق (صلالة/مسقط/عمّان) لبحث ترتيبات إقليمية بعد الحرب، ثم تأجيله",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        3,
+        4,
+        5,
+        14,
+        15,
+        16,
+        18,
+        19,
+        20,
+        35,
+        38,
+        125
+      ],
+      "total_points": 13,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "ارتفاع أسعار الوقود في تركيا",
+      "event": "رفع أسعار البنزين والديزل في تركيا وتجاوزها 80 ليرة للتر",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        69,
+        85
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة انتخابات إسكودار البلدية واعتقال العمدة سينم ددتاش",
+      "event": "نزاع حول نتائج انتخابات بلدية إسكودار واعتقال الفائزة سينم ددتاش واتهامات بالتلاعب من الحكومة",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ],
+      "total_points": 15,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "التوغل الإسرائيلي في القنيطرة جنوب سوريا وبقاء الجيش الإسرائيلي",
+      "event": "توغل قوات إسرائيلية في محيط قرية عين النورية بريف القنيطرة وتأكيد إسرائيل بقاء جيشها هناك طويلاً",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "القصف الإسرائيلي المستمر على جنوب لبنان وتأجيل المفاوضات",
+      "event": "استمرار الغارات الإسرائيلية على جنوب لبنان وتأجيل الجولة الثامنة من المفاوضات اللبنانية الإسرائيلية إلى أكتوبر",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "أزمة مهاجرين سبتة والاتهامات للمغرب",
+      "event": "فتح إسبانيا تحقيقاً في وصول عشرات آلاف المهاجرين لسبتة في يوليو واتهام المغرب بتسهيل ذلك",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "أحكام قضية التآمر على أمن الدولة في تونس",
+      "event": "تأييد محكمة التعقيب التونسية الأحكام في قضية التآمر على أمن الدولة والجدل حولها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "استعادة سيناء ومعاهدة السلام مع إسرائيل (السادات)",
+      "event": "الجدل حول ظروف توقيع السادات معاهدة السلام مع إسرائيل واستعادة سيناء ومنفرديته أو تنسيقه مع العرب",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "دور الجامعة العربية ورؤية أمينها العام",
+      "event": "تصريحات نبيل فهمي حول دور الجامعة العربية ورؤيته للمستقبل العربي والتزام إسرائيل بالسلام والتدخل الإيراني",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "إعادة فتح العراق معابره الحدودية مع إيران بعد الاعتداءات على السعودية",
+      "event": "إغلاق العراق ثم إعادة فتح معابره الحدودية مع إيران عقب الاعتداءات على السعودية وتصريحات سعودية وعراقية بشأن الأمن الإقليمي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123,
+        124
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تعيين محسن رضائي دبيراً لشورى الأمن القومي الإيراني",
+      "event": "تعيين مجتبى خامنئي محسن رضائي دبيراً لشورى الأمن القومي بعد إزاحة ذوالقدر، وخلفيته وتوجهاته",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137,
+        138,
+        139
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "اتهامات فساد محسن رضائي والنظام الإيراني",
+      "event": "اتهام محسن رضائي والنظام الإيراني بالتورط في شبكات فساد اقتصادي وتهريب أموال بمليارات الدولارات",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        140,
+        141,
+        142
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تصعيد الهجمات على السفن قرب مضيق هرمز وقشم",
+      "event": "توسع الهجمات على السفن التجارية قرب قشم ومضيق هرمز ودور حسين طائب في التخطيط لها",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        144,
+        145
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تهديد ترامب لإيران في ذكرى 11 سبتمبر",
+      "event": "استدعاء ترامب ووزير حربه لإيران واعتبارها الأكثر رعاية للإرهاب في ذكرى سبتمبر",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        2,
+        7
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "الحرب على الإرهاب - تحليل تاريخي",
+      "event": "تحليل مسار وتداعيات 'الحرب على الإرهاب' الأمريكية منذ أحداث سبتمبر",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "استمرار الاستيطان الإسرائيلي وإخطارات وقف البناء",
+      "event": "إخطارات إسرائيلية بوقف البناء لعائلات فلسطينية قرب مستوطنتي كاديم وجنيم وإلغاء خطة فك الارتباط 2005",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        39,
+        40,
+        42,
+        43
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "زيارة رئيس الوزراء اليوناني لجزيرة مييس والنزاع البحري التركي اليوناني",
+      "event": "زيارة ميتسوتاكيس لجزيرة مييس والجدل حول مطالبات اليونان البحرية استناداً لخريطة إشبيلية",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        60,
+        61,
+        62,
+        63
+      ],
+      "total_points": 4,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "ذكرى انقلاب 12 سبتمبر التركي والاستقطاب السياسي",
+      "event": "استذكار الحرب الأهلية والاستقطاب السياسي في تركيا قبل 46 عاماً وانقلاب 1980",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        67,
+        68
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تأسيس حزب الشعب الجديد ومؤتمره الأول",
+      "event": "إعلان حزب الشعب الجديد عن مؤتمره الأول بقيادة أوزغور أوزيل وحملته الميدانية",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        71,
+        72
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تقييم انهيار النظام الإيراني",
+      "event": "رأي محلل بأن النظام الإيراني وصل لآخر خط وأن الحملات الأخيرة آخر أوراقه",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        99,
+        100
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
