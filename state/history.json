@@ -1,103 +1,5 @@
 [
   {
-    "score": 31.26,
-    "bucket": "useful",
-    "tokens": [
-      "all",
-      "anthropic",
-      "could",
-      "humans",
-      "kill",
-      "researchers",
-      "warn",
-      "worried"
-    ],
-    "link": "https://www.theverge.com/ai-artificial-intelligence/991927/anthropic-ai-kill-all-humans",
-    "title": "Worried Anthropic researchers warn that AI ‘could kill all humans’",
-    "posted_title": "",
-    "region": "tech",
-    "seen_at": "2026-09-09T12:08:02.401081+00:00"
-  },
-  {
-    "score": 23.59,
-    "bucket": "serious",
-    "tokens": [
-      "bans",
-      "britain",
-      "illegal",
-      "israeli",
-      "settlements",
-      "trade"
-    ],
-    "link": "https://www.thehindu.com/news/international/andy-burnham-uk-trade-with-illegal-west-bank-settlements/article71442598.ece",
-    "title": "Britain bans trade with illegal Israeli settlements",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-09T12:08:02.401516+00:00"
-  },
-  {
-    "score": 23.24,
-    "bucket": "serious",
-    "tokens": [
-      "britain",
-      "close",
-      "consulate",
-      "days",
-      "east",
-      "israel",
-      "jerusalem",
-      "say",
-      "sources",
-      "tells",
-      "within"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-09-israel-tells-britain-to-close-east-jerusalem-consulate-within-30-days-sources-say/",
-    "title": "Israel tells Britain to close East Jerusalem consulate within 30 days, sources say",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-09T12:08:02.401973+00:00"
-  },
-  {
-    "score": 22.89,
-    "bucket": "serious",
-    "tokens": [
-      "'bullying'",
-      "chief",
-      "china",
-      "defence",
-      "forum",
-      "note",
-      "philippine",
-      "slams"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/philippines-defence-chief-south-china-sea-forum-6372896",
-    "title": "Philippine defence chief slams 'bullying' China after note at forum",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-09T12:08:02.402368+00:00"
-  },
-  {
-    "score": 20.99,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "city",
-      "drone",
-      "fire",
-      "four",
-      "kills",
-      "port",
-      "reported",
-      "russian",
-      "ukrainian"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/09/ukrainian-drone-attack-on-russian-port-city-kills-four-fire-reported-at-port",
-    "title": "Ukrainian drone attack on Russian port city kills four. Fire reported at port.",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-09T12:08:02.402727+00:00"
-  },
-  {
     "score": 30.98,
     "bucket": "serious",
     "tokens": [
@@ -5263,5 +5165,71 @@
     "posted_title": "",
     "region": "ir",
     "seen_at": "2026-09-14T12:07:46.365613+00:00"
+  },
+  {
+    "score": 25.26,
+    "bucket": "serious",
+    "tokens": [
+      "'unacceptable'",
+      "altman",
+      "calls",
+      "extinction",
+      "ipo",
+      "openai's",
+      "risk",
+      "won't",
+      "year"
+    ],
+    "link": "https://www.thehindu.com/sci-tech/technology/openais-altman-wont-do-ipo-this-year-calls-ai-extinction-risk-unacceptable/article71462569.ece",
+    "title": "OpenAI's Altman won't do IPO this year, calls AI extinction risk 'unacceptable'",
+    "posted_title": "سام ألتمان يؤجل طرح أسهم أوبن إيه آي ويصف خطر انقراض البشرية بسبب الذكاء الاصطناعي بغير المقبول",
+    "region": "in",
+    "seen_at": "2026-09-14T12:17:05.746565+00:00"
+  },
+  {
+    "score": 21.09,
+    "bucket": "serious",
+    "tokens": [
+      "attacks",
+      "calls",
+      "causing",
+      "diesel",
+      "fuel",
+      "halt",
+      "russian",
+      "shortage",
+      "strikes",
+      "trump",
+      "ukraine"
+    ],
+    "link": "https://www.thehindu.com/news/international/trump-calls-on-ukraine-to-halt-strikes-on-russian-diesel-fuel-says-attacks-causing-shortage/article71464691.ece",
+    "title": "Trump calls on Ukraine to halt strikes on Russian diesel fuel, says attacks causing shortage",
+    "posted_title": "ترامب يطلب من أوكرانيا التوقف عن ضرب مصافي الوقود الروسية بسبب أزمة الديزل عالميًا",
+    "region": "in",
+    "seen_at": "2026-09-14T12:17:24.844757+00:00"
+  },
+  {
+    "score": 20.93,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "base",
+      "before",
+      "china",
+      "deadly",
+      "downplays",
+      "intel",
+      "iran",
+      "live",
+      "mideast",
+      "report",
+      "supplied",
+      "trump"
+    ],
+    "link": "https://www.france24.com/en/middle-east/20260914-middle-east-live-houthis-say-hit-saudi-base-after-renewed-fighting-with-yemeni-forces",
+    "title": "Mideast live: Trump downplays report China supplied Iran with intel before deadly US base attack",
+    "posted_title": "ترامب: الصين تتجسس علينا ونحن نتجسس عليها، تعليقًا على تقرير مشاركة بكين إيران بصور استخباراتية",
+    "region": "eu",
+    "seen_at": "2026-09-14T12:17:41.834366+00:00"
   }
 ]

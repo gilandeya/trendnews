@@ -1,0 +1,73 @@
+{
+  "id": "457d1d435243",
+  "created_at": "2026-09-14T12:17:24.844354+00:00",
+  "status": "queued",
+  "review_issue": null,
+  "origin": "news",
+  "score": 21.09,
+  "bucket": "serious",
+  "analysed_sources": [
+    "The Hindu — International"
+  ],
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "age_hours": 976.9,
+  "is_followup": false,
+  "state_media": false,
+  "source": {
+    "title": "Trump calls on Ukraine to halt strikes on Russian diesel fuel, says attacks causing shortage",
+    "link": "https://www.thehindu.com/news/international/trump-calls-on-ukraine-to-halt-strikes-on-russian-diesel-fuel-says-attacks-causing-shortage/article71464691.ece",
+    "publisher": "The Hindu — International",
+    "publishers": [
+      "AP News",
+      "The Hindu — International"
+    ],
+    "region": "in",
+    "image_url": "https://th-i.thgim.com/public/incoming/mdxiuc/article71464692.ece/alternates/LANDSCAPE_1200/Trump_Ireland_74237.jpg",
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/mdxiuc/article71464692.ece/alternates/LANDSCAPE_1200/Trump_Ireland_74237.jpg"
+    ]
+  },
+  "arabic": {
+    "angle": "تفسير",
+    "analysis": "",
+    "urgent": false,
+    "category": "سياسة",
+    "image_headline": "ترامب يطالب زيلينسكي بوقف ضرب مصافي النفط الروسية",
+    "post_title": "ترامب يطلب من أوكرانيا التوقف عن ضرب مصافي الوقود الروسية بسبب أزمة الديزل عالميًا",
+    "post_body": "دعا الرئيس الأميركي دونالد ترامب، الأحد 13 سبتمبر 2026، نظيره الأوكراني فولوديمير زيلينسكي إلى وقف الضربات التي تستهدف مصافي النفط الروسية ومنشآت إنتاج الديزل وتوزيعه، قائلًا إنها تتسبب في نقص عالمي بالوقود. جاء ذلك بعد يومين من تسجيل أسعار الديزل في الولايات المتحدة رقمًا قياسيًا، متجاوزة 6 دولارات للغالون كمعدل. وتشن أوكرانيا منذ أشهر ضربات بعيدة المدى على قطاع النفط والغاز الروسي، ما دفع موسكو لترشيد استهلاك الوقود محليًا وحظر تصدير الديزل منذ يوليو. وقال ترامب على هامش بطولة آيرش أوبن للغولف: \"هناك أهداف أخرى كثيرة، لا تضربوا الديزل لأن ذلك يؤذي العالم\".",
+    "hashtags": [
+      "ترامب",
+      "أوكرانيا",
+      "روسيا",
+      "أزمة_الوقود"
+    ]
+  },
+  "caption": "ترامب يطلب من أوكرانيا التوقف عن ضرب مصافي الوقود الروسية بسبب أزمة الديزل عالميًا\n\nدعا الرئيس الأميركي دونالد ترامب، الأحد 13 سبتمبر 2026، نظيره الأوكراني فولوديمير زيلينسكي إلى وقف الضربات التي تستهدف مصافي النفط الروسية ومنشآت إنتاج الديزل وتوزيعه، قائلًا إنها تتسبب في نقص عالمي بالوقود. جاء ذلك بعد يومين من تسجيل أسعار الديزل في الولايات المتحدة رقمًا قياسيًا، متجاوزة 6 دولارات للغالون كمعدل. وتشن أوكرانيا منذ أشهر ضربات بعيدة المدى على قطاع النفط والغاز الروسي، ما دفع موسكو لترشيد استهلاك الوقود محليًا وحظر تصدير الديزل منذ يوليو. وقال ترامب على هامش بطولة آيرش أوبن للغولف: \"هناك أهداف أخرى كثيرة، لا تضربوا الديزل لأن ذلك يؤذي العالم\".\n\n#ترامب #أوكرانيا #روسيا #أزمة_الوقود",
+  "headlines": [
+    "هل يؤثر التوقف عن ضرب مصافي الوقود الروسية على أزمة الديزل العالمية؟",
+    "ترامب يحذر من تأثير الضربات الأوكرانية على الأسواق العالمية للديزل",
+    "تصعيد الخلاف حول استهداف موارد الطاقة الروسية بين واشنطن وكييف"
+  ],
+  "headline_selected": 0,
+  "reel": null,
+  "reel_spec": {
+    "headline": "ترامب يطالب زيلينسكي بوقف ضرب مصافي النفط الروسية",
+    "category": "سياسة",
+    "urgent": false,
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/mdxiuc/article71464692.ece/alternates/LANDSCAPE_1200/Trump_Ireland_74237.jpg"
+    ]
+  },
+  "image": "drafts/2026-09-14/457d1d435243.jpg",
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://th-i.thgim.com/public/incoming/mdxiuc/article71464692.ece/alternates/LANDSCAPE_1200/Trump_Ireland_74237.jpg",
+    "candidates_tried": 1,
+    "manual": false
+  },
+  "publish_at": "2026-09-14T12:51:42.409878+00:00"
+}
