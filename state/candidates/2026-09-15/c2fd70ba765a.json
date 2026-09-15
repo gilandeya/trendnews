@@ -1,0 +1,78 @@
+{
+  "id": "c2fd70ba765a",
+  "created_at": "2026-09-15T17:07:49.688859+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.6,
+  "trend_score": 1.0,
+  "velocity": 0.67,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Oil Above $100 Is Creating a New Opportunity Beyond the Major Producers",
+  "link": "https://www.investing.com/analysis/oil-above-100-is-creating-a-new-opportunity-beyond-the-major-producers-200687712",
+  "publishers": [
+    "BBC World",
+    "Hindustan Times — World",
+    "Investing.com — Commodities",
+    "TASS",
+    "bbc.com"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Oil Above $100 Is Creating a New Opportunity Beyond the Major Producers",
+    "link": "https://www.investing.com/analysis/oil-above-100-is-creating-a-new-opportunity-beyond-the-major-producers-200687712",
+    "summary": "",
+    "source_name": "Investing.com — Commodities",
+    "region": "money",
+    "weight": 1.0,
+    "published": "2026-09-15T17:07:34.823809+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6491/live/f14f3560-b10c-11f1-a540-61c3f7fc4e6c.png",
+    "publisher": "Investing.com — Commodities",
+    "cluster_sources": [
+      "BBC World",
+      "Hindustan Times — World",
+      "Investing.com — Commodities",
+      "TASS",
+      "bbc.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/oil-above-100-is-creating-a-new-opportunity-beyond-the-major-producers-200687712"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/why-is-the-us-oil-reserve-at-a-44-year-low-as-crude-prices-surge-above-100-101789482571090.html"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/economy/2187965"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c65yw2gq2nrno?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6491/live/f14f3560-b10c-11f1-a540-61c3f7fc4e6c.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/6491/live/f14f3560-b10c-11f1-a540-61c3f7fc4e6c.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6491/live/f14f3560-b10c-11f1-a540-61c3f7fc4e6c.png"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.6667234291844154,
+    "age_hours": 1008.9117987830556,
+    "is_stale": false,
+    "score": 27.599253839269352,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

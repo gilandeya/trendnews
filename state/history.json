@@ -1,97 +1,5 @@
 [
   {
-    "score": 30.74,
-    "bucket": "sport",
-    "tokens": [
-      "close",
-      "dominate",
-      "england",
-      "pakistan",
-      "series",
-      "sweep",
-      "test"
-    ],
-    "link": "https://www.dawn.com/news/2028886/england-dominate-pakistan-close-in-on-test-series-sweep",
-    "title": "England dominate Pakistan, close in on Test series sweep",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-10T17:07:46.841758+00:00"
-  },
-  {
-    "score": 24.6,
-    "bucket": "serious",
-    "tokens": [
-      "actions",
-      "algeria",
-      "diplomatic",
-      "hostile",
-      "provocative",
-      "severs",
-      "ties",
-      "uae"
-    ],
-    "link": "https://www.dawn.com/news/2028887/algeria-severs-diplomatic-ties-with-uae-over-provocative-hostile-actions",
-    "title": "Algeria severs diplomatic ties with UAE over ‘provocative, hostile’ actions",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-10T17:07:46.842089+00:00"
-  },
-  {
-    "score": 21.07,
-    "bucket": "serious",
-    "tokens": [
-      "delivers",
-      "equipment",
-      "military",
-      "nigeria"
-    ],
-    "link": "https://www.vanguardngr.com/2026/09/us-delivers-military-equipment-to-nigeria/",
-    "title": "US delivers military equipment to Nigeria",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-09-10T17:07:46.842335+00:00"
-  },
-  {
-    "score": 19.64,
-    "bucket": "serious",
-    "tokens": [
-      "august",
-      "hottest",
-      "joint",
-      "month",
-      "record",
-      "say",
-      "scientists",
-      "world"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-10-august-was-worlds-joint-hottest-month-on-record-scientists-say/",
-    "title": "August was world’s joint-hottest month on record, scientists say",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-10T17:07:46.842656+00:00"
-  },
-  {
-    "score": 16.83,
-    "bucket": "useful",
-    "tokens": [
-      "coroner",
-      "details",
-      "died",
-      "growing",
-      "infants",
-      "measles",
-      "outbreak",
-      "pennsylvania",
-      "releases",
-      "who"
-    ],
-    "link": "https://medicalxpress.com/news/2026-09-coroner-infants-died-pennsylvania-measles.html",
-    "title": "Coroner releases details of infants who died amid growing Pennsylvania measles outbreak",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-09-10T17:07:46.842921+00:00"
-  },
-  {
     "score": 26.19,
     "bucket": "serious",
     "tokens": [
@@ -5226,5 +5134,105 @@
     "posted_title": "ترامب يزعم اتفاقا روسيا وأوكرانيا على وقف ضرب منشآت الطاقة وزيلينسكي يتحفظ",
     "region": "us",
     "seen_at": "2026-09-15T16:54:20.462826+00:00"
+  },
+  {
+    "score": 27.6,
+    "bucket": "useful",
+    "tokens": [
+      "100",
+      "above",
+      "beyond",
+      "creating",
+      "major",
+      "oil",
+      "opportunity",
+      "producers"
+    ],
+    "link": "https://www.investing.com/analysis/oil-above-100-is-creating-a-new-opportunity-beyond-the-major-producers-200687712",
+    "title": "Oil Above $100 Is Creating a New Opportunity Beyond the Major Producers",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-09-15T17:07:49.689340+00:00"
+  },
+  {
+    "score": 21.34,
+    "bucket": "serious",
+    "tokens": [
+      "blocks",
+      "can",
+      "foreign",
+      "how",
+      "journalists",
+      "judge",
+      "limits",
+      "long",
+      "stay",
+      "students",
+      "trump"
+    ],
+    "link": "https://www.theguardian.com/us-news/2026/sep/15/judge-blocks-trump-limits-foreign-students-journalists",
+    "title": "Judge blocks Trump limits on how long foreign students and journalists can stay in US",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-15T17:07:49.689662+00:00"
+  },
+  {
+    "score": 20.13,
+    "bucket": "useful",
+    "tokens": [
+      "air",
+      "can",
+      "cough",
+      "dry",
+      "help",
+      "hot",
+      "make",
+      "might",
+      "salty",
+      "weather"
+    ],
+    "link": "https://medicalxpress.com/news/2026-09-hot-dry-weather-salty-air.html",
+    "title": "Hot, dry weather can make you cough more—salty air might help",
+    "posted_title": "",
+    "region": "health",
+    "seen_at": "2026-09-15T17:07:49.689951+00:00"
+  },
+  {
+    "score": 19.16,
+    "bucket": "sport",
+    "tokens": [
+      "admits",
+      "before",
+      "crash",
+      "dangerous",
+      "driving",
+      "motorway",
+      "sterling"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c52e01k49e8jo?at_medium=RSS&at_campaign=rss",
+    "title": "Sterling admits dangerous driving on motorway before crash",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-15T17:07:49.690225+00:00"
+  },
+  {
+    "score": 18.85,
+    "bucket": "serious",
+    "tokens": [
+      "critical",
+      "infrastructure",
+      "kremlin",
+      "pause",
+      "russia",
+      "spares",
+      "strikes",
+      "ukraine",
+      "zelenskyy"
+    ],
+    "link": "https://www.thehindu.com/news/international/ukraine-wants-specifics-from-partners-over-halting-strikes-on-russia-zelenskyy-after-trumps-post/article71466382.ece",
+    "title": "Zelenskyy says Ukraine will pause strikes on Russia if Kremlin spares critical infrastructure",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-15T17:07:49.690489+00:00"
   }
 ]
