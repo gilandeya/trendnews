@@ -1,0 +1,95 @@
+{
+  "id": "ad1254307ad5",
+  "created_at": "2026-09-15T19:08:07.056190+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.62,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthis seize strategic Red Sea islands as analysts warn of impending oil crunch",
+  "link": "https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Dawn",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "The Guardian",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Houthis seize strategic Red Sea islands as analysts warn of impending oil crunch",
+    "link": "https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning",
+    "summary": "The militant group in Yemen captured the islands of Greater and Lesser Hanish, near the chokepoint of the Bab al-Mandab strait Yemen’s Houthi militants have seized two strategic islands in the Red Sea, reinforcing the Iran-backed group’s ability to control a key shipping route, as concerns mount that the world is facing a new oil supply crisis. The seizure of the islands of Greater and Lesser Hanish is the latest in the militant group’s swift advance across Yemen’s Red Sea coast, after the capture of the port of Mokha and Perim island in the Bab al-Mandab strait. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-15T04:22:16+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/0d73d909d1a2538485c626492748c53674c1966e/0_0_3840_3072/master/3840.jpg?width=700&quality=85&auto=format&fit=max&s=178443f8f6c49a45fb4de30312e337e2",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Dawn",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "The Guardian",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning"
+      },
+      {
+        "name": "France24",
+        "link": "http://www.france24.com/en/video/20260915-houthis-seize-red-sea-islands-attack-saudi-targets"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/houthis-seize-2-strategic-red-sea-islands-and-other-mideast-developments-101789412688271.html"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030128/saudi-arabia-vows-to-respond-firmly-to-houthi-attacks"
+      },
+      {
+        "name": "France24",
+        "link": "http://www.france24.com/en/middle-east/20260915-middle-east-live-houthi-attacks-wound-13-civilians-in-southern-saudi-arabia"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/15/egypts-sisi-meets-mbs-backs-saudi-call-for-secure-red-sea-navigation?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/0d73d909d1a2538485c626492748c53674c1966e/0_0_3840_3072/master/3840.jpg?width=700&quality=85&auto=format&fit=max&s=178443f8f6c49a45fb4de30312e337e2",
+      "https://i.guim.co.uk/img/media/0d73d909d1a2538485c626492748c53674c1966e/0_0_3840_3072/master/3840.jpg?width=460&quality=85&auto=format&fit=max&s=daf24606c236bf786e74459b57cab548",
+      "https://i.guim.co.uk/img/media/0d73d909d1a2538485c626492748c53674c1966e/0_0_3840_3072/master/3840.jpg?width=140&quality=85&auto=format&fit=max&s=979626db4afff40ce5989c3919e96123",
+      "https://s.france24.com/media/display/4f49101e-b121-11f1-a56a-11a9a7be792d/w:1024/p:16x9/EN-20260915-100703-100908-CS.jpg",
+      "https://i.dawn.com/large/2026/09/1516455686a1b96.webp",
+      "https://i.dawn.com/thumbnail/2026/09/1516455686a1b96.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 1010.9170951780555,
+    "is_stale": false,
+    "score": 22.615817768925925,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

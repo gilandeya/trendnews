@@ -1,0 +1,63 @@
+{
+  "id": "5c8aa940dc54",
+  "created_at": "2026-09-15T19:08:07.056962+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.65,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "El Spotify Camp Nou acogerá la final de la Champions en 2029",
+  "link": "https://elpais.com/deportes/futbol/2026-09-15/el-camp-nou-acogera-la-final-de-la-champions-en-2029.html",
+  "publishers": [
+    "Daily Sabah",
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "El Spotify Camp Nou acogerá la final de la Champions en 2029",
+    "link": "https://elpais.com/deportes/futbol/2026-09-15/el-camp-nou-acogera-la-final-de-la-champions-en-2029.html",
+    "summary": "El renovado estadio azulgrana, todavía en obras, se impuso a Wembley en la candidatura de la UEFA y acogerá por tercera vez en su historia la gran final continental",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-15T09:25:33+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/CLHHJHBYCBJY7I436WG2ZNMJZE.jpg?auth=62f240888b18f40ff8224c99e351ffaac01d862ec535852a2865e26cc2476d46",
+    "publisher": "El País",
+    "cluster_sources": [
+      "Daily Sabah",
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-15/el-camp-nou-acogera-la-final-de-la-champions-en-2029.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/sports/football/barcelonas-camp-nou-wins-bid-to-host-2029-champions-league-final"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/CLHHJHBYCBJY7I436WG2ZNMJZE.jpg?auth=62f240888b18f40ff8224c99e351ffaac01d862ec535852a2865e26cc2476d46",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/15/460672.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1010.9171551502778,
+    "is_stale": false,
+    "score": 16.652799246,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

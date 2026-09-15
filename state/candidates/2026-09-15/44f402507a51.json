@@ -1,11 +1,11 @@
 {
   "id": "44f402507a51",
-  "created_at": "2026-09-15T06:08:08.794498+00:00",
-  "status": "selected",
-  "selection_issue": 931,
-  "score": 30.29,
-  "trend_score": 1.0,
-  "velocity": 0.89,
+  "created_at": "2026-09-15T19:08:07.056547+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.22,
+  "trend_score": 0.0,
+  "velocity": 1.0,
   "impact": 0,
   "proximity": 0,
   "intrigue": 0,
@@ -15,13 +15,7 @@
   "title": "Macklemore dropped from Ed Sheeran’s US tour after ‘free Palestine’ speech",
   "link": "https://www.theguardian.com/music/2026/sep/14/macklemore-dropped-ed-sheeran-tour-free-palestine",
   "publishers": [
-    "Al Jazeera English",
-    "Daily Sabah",
-    "Der Spiegel",
-    "France24",
-    "Hindustan Times — World",
     "Malay Mail",
-    "MyJoyOnline Ghana",
     "The Express Tribune",
     "The Guardian — Culture"
   ],
@@ -37,58 +31,38 @@
     "image_url": "https://i.guim.co.uk/img/media/c87e4e1e1739795830c77198060122ce305f58d1/1257_1151_3561_2849/master/3561.jpg?width=700&quality=85&auto=format&fit=max&s=3cfd40c634683f731cac76d34d0b6056",
     "publisher": "The Guardian — Culture",
     "cluster_sources": [
-      "Al Jazeera English",
-      "Daily Sabah",
-      "Der Spiegel",
-      "France24",
-      "Hindustan Times — World",
       "Malay Mail",
-      "MyJoyOnline Ghana",
       "The Express Tribune",
       "The Guardian — Culture"
     ],
     "cluster_members": [
       {
-        "name": "The Express Tribune",
-        "link": "https://tribune.com.pk/story/2629285/macklemore-dropped-from-ed-sheeran-tour-after-free-palestine-comments"
-      },
-      {
         "name": "The Guardian — Culture",
         "link": "https://www.theguardian.com/music/2026/sep/14/macklemore-dropped-ed-sheeran-tour-free-palestine"
       },
       {
-        "name": "MyJoyOnline Ghana",
-        "link": "https://www.myjoyonline.com/macklemore-dropped-from-ed-sheeran-tour-after-free-palestine-speech/"
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629469/ed-sheeran-breaks-silence-after-macklemore-is-dropped-from-his-tour"
       },
       {
         "name": "Malay Mail",
         "link": "https://www.malaymail.com/news/showbiz/2026/09/15/macklemore-dropped-from-ed-sheeran-tour-over-free-palestine-speech-video/235280"
-      },
-      {
-        "name": "France24",
-        "link": "https://www.france24.com/en/americas/20260914-macklemore-dropped-from-ed-sheeran-us-tour-after-pro-palestinian-remarks"
-      },
-      {
-        "name": "Hindustan Times — World",
-        "link": "https://www.hindustantimes.com/world-news/us-news/macklemore-is-dropped-from-ed-sheeran-s-tour-over-pro-palestinian-comments-onstage-101789419925212.html"
       }
     ],
     "image_candidates": [
       "https://i.guim.co.uk/img/media/c87e4e1e1739795830c77198060122ce305f58d1/1257_1151_3561_2849/master/3561.jpg?width=700&quality=85&auto=format&fit=max&s=3cfd40c634683f731cac76d34d0b6056",
       "https://i.guim.co.uk/img/media/c87e4e1e1739795830c77198060122ce305f58d1/1257_1151_3561_2849/master/3561.jpg?width=460&quality=85&auto=format&fit=max&s=8451067202de0b2d4dc8c09d2362e568",
       "https://i.guim.co.uk/img/media/c87e4e1e1739795830c77198060122ce305f58d1/1257_1151_3561_2849/master/3561.jpg?width=140&quality=85&auto=format&fit=max&s=a664bc11ad7dd8ffa692d4e18996b6c9",
-      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-1989-1024x576.png",
-      "https://ichef.bbci.co.uk/news/1024/cpsprodpb/fec9/live/093de4c0-b066-11f1-b9fd-8be7457ad079.jpg.webp",
-      "https://ichef.bbci.co.uk/news/800/cpsprodpb/fec9/live/093de4c0-b066-11f1-b9fd-8be7457ad079.jpg.webp"
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/15/362676.jpg"
     ],
     "bucket": "light",
     "state_media": false,
-    "trend_score": 1.0,
-    "group_sources": 9,
-    "velocity": 0.8885487544002572,
-    "age_hours": 997.9175417641667,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1010.917138231111,
     "is_stale": false,
-    "score": 30.287954556939336,
+    "score": 17.22368675162643,
     "impact": 0,
     "proximity": 0,
     "intrigue": 0,

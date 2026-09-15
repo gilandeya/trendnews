@@ -1,0 +1,68 @@
+{
+  "id": "e7e0a1c2c2ea",
+  "created_at": "2026-09-15T19:08:07.056800+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.99,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump slams U.S. Supreme Court for rejecting his push to restrict mail ballots",
+  "link": "https://www.thehindu.com/news/international/trump-slams-us-supreme-court-for-rejecting-his-push-to-restrict-mail-ballots/article71468926.ece",
+  "publishers": [
+    "Free Malaysia Today",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Trump slams U.S. Supreme Court for rejecting his push to restrict mail ballots",
+    "link": "https://www.thehindu.com/news/international/trump-slams-us-supreme-court-for-rejecting-his-push-to-restrict-mail-ballots/article71468926.ece",
+    "summary": "The court ruled late on Monday (September 14, 2026) in an emergency order that the restrictions on mail-in voting would likely lose in court, at least for this year's election.",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-15T14:30:12+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/314w67/article71469006.ece/alternates/LANDSCAPE_1200/2026-09-14T233306Z_573311649_RC2KANA4DQ71_RTRMADP_3_USA-COURT-TRUMP-BALLOTS.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/in-loss-for-trump-us-supreme-court-wont-let-postal-service-restrict-mail-ballots/article71466496.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-slams-us-supreme-court-for-rejecting-his-push-to-restrict-mail-ballots/article71468926.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/15/trump-slams-horrible-supreme-court-mail-in-ballot-ruling"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/314w67/article71469006.ece/alternates/LANDSCAPE_1200/2026-09-14T233306Z_573311649_RC2KANA4DQ71_RTRMADP_3_USA-COURT-TRUMP-BALLOTS.JPG",
+      "https://th-i.thgim.com/public/incoming/286vhc/article71466507.ece/alternates/LANDSCAPE_1200/2022-05-02T140800Z_877992630_RC2B2R92D9NX_RTRMADP_3_USA-COURT-FLAG.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/03/41ce7110-donald-trump-6.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1010.9171455694444,
+    "is_stale": false,
+    "score": 16.991299246851852,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

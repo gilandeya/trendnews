@@ -1,116 +1,5 @@
 [
   {
-    "score": 24.6,
-    "bucket": "serious",
-    "tokens": [
-      "actions",
-      "algeria",
-      "diplomatic",
-      "hostile",
-      "provocative",
-      "severs",
-      "ties",
-      "uae"
-    ],
-    "link": "https://www.dawn.com/news/2028887/algeria-severs-diplomatic-ties-with-uae-over-provocative-hostile-actions",
-    "title": "Algeria severs diplomatic ties with UAE over ‘provocative, hostile’ actions",
-    "posted_title": "لماذا قطعت الجزائر علاقاتها الدبلوماسية مع الإمارات فجأة",
-    "region": "pk",
-    "seen_at": "2026-09-10T18:33:50.346556+00:00"
-  },
-  {
-    "score": 16.7,
-    "bucket": "serious",
-    "tokens": [
-      "2025",
-      "climate",
-      "disrupted",
-      "hazards",
-      "school",
-      "students",
-      "unicef"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/9/10/climate-hazards-disrupted-school-for-1-in-10-students-in-2025-unicef?traffic_source=rss",
-    "title": "Climate hazards disrupted school for 1 in 10 students in 2025: UNICEF",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-10T19:07:43.799495+00:00"
-  },
-  {
-    "score": 16.5,
-    "bucket": "serious",
-    "tokens": [
-      "automated",
-      "fanuc",
-      "google",
-      "japan's",
-      "robots",
-      "team",
-      "welding"
-    ],
-    "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/japan-s-fanuc-google-team-up-on-ai-automated-welding-robots",
-    "title": "Japan's Fanuc, Google team up on AI-automated welding robots",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-09-10T19:07:43.799696+00:00"
-  },
-  {
-    "score": 16.43,
-    "bucket": "serious",
-    "tokens": [
-      "allies",
-      "cable",
-      "foil",
-      "nato",
-      "plot",
-      "russian",
-      "sabotage",
-      "subsea"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/09/10/world/nato-russia-subsea-cable-sabotage/",
-    "title": "NATO allies foil Russian subsea cable sabotage plot",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-09-10T19:07:43.799882+00:00"
-  },
-  {
-    "score": 16.23,
-    "bucket": "useful",
-    "tokens": [
-      "healthcare",
-      "laws",
-      "needs",
-      "watchdog"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c3wjn3pl63xo?at_medium=RSS&at_campaign=rss",
-    "title": "UK needs new laws for AI in healthcare, says watchdog",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-09-10T19:07:43.800122+00:00"
-  },
-  {
-    "score": 16.17,
-    "bucket": "serious",
-    "tokens": [
-      "across",
-      "africa",
-      "basin",
-      "congo",
-      "could",
-      "heart",
-      "loss",
-      "pumping",
-      "trigger",
-      "wars",
-      "water"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-09-congo-basin-loss-could-trigger-water-wars-across-africa-ex-gabon-minister-lee-white/",
-    "title": "PUMPING HEART OF AFRICA: Congo Basin loss could trigger water wars across Africa",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-10T19:07:43.800320+00:00"
-  },
-  {
     "score": 20.96,
     "bucket": "serious",
     "tokens": [
@@ -5316,5 +5205,102 @@
     "posted_title": "الذكاء الاصطناعي يبدأ بمنافسة نماذج التنبؤ الجوي التقليدية",
     "region": "jp",
     "seen_at": "2026-09-15T18:14:32.150407+00:00"
+  },
+  {
+    "score": 22.62,
+    "bucket": "serious",
+    "tokens": [
+      "analysts",
+      "crunch",
+      "houthis",
+      "impending",
+      "islands",
+      "oil",
+      "red",
+      "sea",
+      "seize",
+      "strategic",
+      "warn"
+    ],
+    "link": "https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning",
+    "title": "Houthis seize strategic Red Sea islands as analysts warn of impending oil crunch",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-15T19:08:07.056539+00:00"
+  },
+  {
+    "score": 17.22,
+    "bucket": "light",
+    "tokens": [
+      "dropped",
+      "free",
+      "macklemore",
+      "palestine",
+      "sheeran",
+      "speech",
+      "tour"
+    ],
+    "link": "https://www.theguardian.com/music/2026/sep/14/macklemore-dropped-ed-sheeran-tour-free-palestine",
+    "title": "Macklemore dropped from Ed Sheeran’s US tour after ‘free Palestine’ speech",
+    "posted_title": "",
+    "region": "culture",
+    "seen_at": "2026-09-15T19:08:07.056794+00:00"
+  },
+  {
+    "score": 16.99,
+    "bucket": "serious",
+    "tokens": [
+      "ballots",
+      "court",
+      "mail",
+      "push",
+      "rejecting",
+      "restrict",
+      "slams",
+      "supreme",
+      "trump"
+    ],
+    "link": "https://www.thehindu.com/news/international/trump-slams-us-supreme-court-for-rejecting-his-push-to-restrict-mail-ballots/article71468926.ece",
+    "title": "Trump slams U.S. Supreme Court for rejecting his push to restrict mail ballots",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-15T19:08:07.056958+00:00"
+  },
+  {
+    "score": 16.65,
+    "bucket": "serious",
+    "tokens": [
+      "2029",
+      "acogerá",
+      "camp",
+      "champions",
+      "final",
+      "nou",
+      "spotify"
+    ],
+    "link": "https://elpais.com/deportes/futbol/2026-09-15/el-camp-nou-acogera-la-final-de-la-champions-en-2029.html",
+    "title": "El Spotify Camp Nou acogerá la final de la Champions en 2029",
+    "posted_title": "",
+    "region": "es",
+    "seen_at": "2026-09-15T19:08:07.057103+00:00"
+  },
+  {
+    "score": 16.53,
+    "bucket": "serious",
+    "tokens": [
+      "iraq",
+      "last",
+      "militias",
+      "pack",
+      "signal",
+      "stay",
+      "troops",
+      "weapons"
+    ],
+    "link": "https://www.thehindu.com/news/international/as-the-last-us-troops-pack-up-in-iraq-militias-signal-their-weapons-will-stay/article71467056.ece",
+    "title": "As the last U.S. troops pack up in Iraq, militias signal their weapons will stay",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-15T19:08:07.057232+00:00"
   }
 ]
