@@ -1,24 +1,5 @@
 [
   {
-    "score": 17.2,
-    "bucket": "serious",
-    "tokens": [
-      "bab",
-      "close",
-      "houthis",
-      "mandeb",
-      "strait",
-      "stranglehold",
-      "strategic",
-      "yemen's"
-    ],
-    "link": "https://www.france24.com/en/video/20260910-yemen-s-houthis-close-in-on-stranglehold-over-strategic-bab-el-mandeb-strait",
-    "title": "Yemen's Houthis close in on stranglehold over strategic Bab el-Mandeb Strait",
-    "posted_title": "جماعة الحوثي تسيطر على مدينة المخا الساحلية وتقترب من إحكام قبضتها على مضيق باب المندب",
-    "region": "eu",
-    "seen_at": "2026-09-10T14:16:51.880267+00:00"
-  },
-  {
     "score": 23.88,
     "bucket": "serious",
     "tokens": [
@@ -5282,5 +5263,101 @@
     "posted_title": "لأول مرة.. القوة الفضائية الأمريكية تعلن نشر أسلحة في المدار والصين تحذر من \"تحويل الفضاء إلى ساحة حرب\"",
     "region": "in",
     "seen_at": "2026-09-15T13:03:56.264910+00:00"
+  },
+  {
+    "score": 23.89,
+    "bucket": "serious",
+    "tokens": [
+      "confirms",
+      "iran",
+      "munitions",
+      "pentagon",
+      "report",
+      "resulted",
+      "shortfall",
+      "war"
+    ],
+    "link": "https://www.dawn.com/news/2030086/war-on-iran-resulted-in-munitions-shortfall-for-us-confirms-pentagon-report",
+    "title": "War on Iran resulted in munitions shortfall for US, confirms Pentagon report",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-15T15:07:48.492819+00:00"
+  },
+  {
+    "score": 21.68,
+    "bucket": "sport",
+    "tokens": [
+      "alexander",
+      "appears",
+      "campaign",
+      "nhl",
+      "ovechkin",
+      "party",
+      "putin",
+      "russia",
+      "superstar",
+      "united"
+    ],
+    "link": "https://meduza.io/en/feature/2026/09/15/nhl-superstar-alexander-ovechkin-appears-in-campaign-ad-for-putin-s-united-russia-party",
+    "title": "NHL superstar Alexander Ovechkin appears in campaign ad for Putin’s United Russia party",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-09-15T15:07:48.493118+00:00"
+  },
+  {
+    "score": 21.14,
+    "bucket": "serious",
+    "tokens": [
+      "affected",
+      "bihar",
+      "floods",
+      "india's",
+      "millions",
+      "strike"
+    ],
+    "link": "https://www.channelnewsasia.com/asia/india-east-bihar-state-flood-6386261",
+    "title": "Millions affected as floods strike India's Bihar",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-15T15:07:48.493382+00:00"
+  },
+  {
+    "score": 18.61,
+    "bucket": "serious",
+    "tokens": [
+      "agreed",
+      "attacks",
+      "energy",
+      "russia",
+      "sites",
+      "stop",
+      "trump",
+      "ukraine"
+    ],
+    "link": "https://www.npr.org/2026/09/15/nx-s1-5968728/trump-says-ukraine-and-russia-agreed-to-stop-attacks-on-energy-sites",
+    "title": "Trump says Ukraine and Russia agreed to stop attacks on energy sites",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-09-15T15:07:48.493679+00:00"
+  },
+  {
+    "score": 18.04,
+    "bucket": "serious",
+    "tokens": [
+      "bad",
+      "dozens",
+      "ferry",
+      "hampers",
+      "indonesia",
+      "missing",
+      "rescue",
+      "still",
+      "weather"
+    ],
+    "link": "https://www.channelnewsasia.com/asia/indonesia-rescuers-search-passenger-ship-capsize-6386101",
+    "title": "Bad weather hampers Indonesia ferry rescue, dozens still missing",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-15T15:07:48.493939+00:00"
   }
 ]

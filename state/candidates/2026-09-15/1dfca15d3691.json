@@ -1,0 +1,82 @@
+{
+  "id": "1dfca15d3691",
+  "created_at": "2026-09-15T15:07:48.492366+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.89,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "War on Iran resulted in munitions shortfall for US, confirms Pentagon report",
+  "link": "https://www.dawn.com/news/2030086/war-on-iran-resulted-in-munitions-shortfall-for-us-confirms-pentagon-report",
+  "publishers": [
+    "Dawn",
+    "France24",
+    "Malay Mail",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "War on Iran resulted in munitions shortfall for US, confirms Pentagon report",
+    "link": "https://www.dawn.com/news/2030086/war-on-iran-resulted-in-munitions-shortfall-for-us-confirms-pentagon-report",
+    "summary": "WASHINGTON: The United States has acknowledged that its war on Iran resulted in “strategic inventory shortfalls and revealed industrial base bottlenecks for munitions resupply” for America. The admission came in the first Pentagon Inspector General’s report on the US-Israeli war on Iran. The report, released on Monday, provides a detailed account of the campaign’s cost, damage and impact on American weapons stocks, confirming some of the concerns that news organisations had reported for months. More than 50,000 US service members took part in the campaign, flying thousands of combat missions and expending $22.3 billion worth of munitions, according to the report. The report, covering the period between February 28 and June 30, puts the direct cost of the war at about $33.4bn. Of that amount, $22.3bn was spent on munitions, $3.7bn on equipment losses and $7.4bn on other expenditures. The estimate does not include the cost of repairing damaged facilities, replacing aircraft or replenishing critical weapons stocks. That distinction explains why Pentagon estimates of the war’s cost have varied. In late July, US Defence Secretary Pete Hegseth told Congress that the war had cost the depa",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-15T06:44:08+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/15113807c0377e7.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "France24",
+      "Malay Mail",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030086/war-on-iran-resulted-in-munitions-shortfall-for-us-confirms-pentagon-report"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/national/us-military-says-iran-war-has-led-to-munitions-shortfall/article71466628.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260915-middle-east-live-houthi-attacks-wound-13-civilians-in-southern-saudi-arabia"
+      },
+      {
+        "name": "France24",
+        "link": "http://www.france24.com/en/americas/20260915-iran-war-exposes-us-munitions-shortfall-industrial-bottlenecks-pentagon-report-says"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/15/us-iran-war-exposes-ammunition-shortages-industrial-bottlenecks-pentagon-watchdog-says/235288"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/15113807c0377e7.webp",
+      "https://i.dawn.com/thumbnail/2026/09/15113807c0377e7.webp",
+      "https://th-i.thgim.com/public/incoming/gd997m/article71466638.ece/alternates/LANDSCAPE_1200/2026-09-14T195213Z_4605500_RC2DINAT93WI_RTRMADP_3_IRAN-CRISIS-USS-GEORGE-WASHINGTON.JPG",
+      "https://s.france24.com/media/display/76716e8e-b0c7-11f1-9d6d-005056a90284/w:1024/p:16x9/000-C8744CR.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/15/362683.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1006.9116862102778,
+    "is_stale": false,
+    "score": 23.890475232240743,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

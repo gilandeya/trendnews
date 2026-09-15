@@ -1,0 +1,68 @@
+{
+  "id": "081b28f76cc7",
+  "created_at": "2026-09-15T15:07:48.492831+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.68,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "NHL superstar Alexander Ovechkin appears in campaign ad for Putin’s United Russia party",
+  "link": "https://meduza.io/en/feature/2026/09/15/nhl-superstar-alexander-ovechkin-appears-in-campaign-ad-for-putin-s-united-russia-party",
+  "publishers": [
+    "Meduza English",
+    "RMNB",
+    "The Guardian — Sport"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "NHL superstar Alexander Ovechkin appears in campaign ad for Putin’s United Russia party",
+    "link": "https://meduza.io/en/feature/2026/09/15/nhl-superstar-alexander-ovechkin-appears-in-campaign-ad-for-putin-s-united-russia-party",
+    "summary": "Washington Capitals star Alexander Ovechkin appeared in a campaign video for United Russia ahead of elections to the State Duma, the lower house of Russia’s parliament, set for September 18–20. The party released a series of television videos featuring the top five candidates on its federal list: each of them stands surrounded by like-minded supporters and, as the Russian business daily Kommersant put it, “explains what ideals they stand for.”",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-15T14:32:39+00:00",
+    "image_url": "https://meduza.io/image/attachments/images/012/750/223/small/Tx7mQQhCecxql6tT77N-Hg",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Meduza English",
+      "RMNB",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/sport/2026/sep/14/nhl-star-alex-ovechkin-appears-in-campaign-ad-for-pro-putin-united-russia-party"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/feature/2026/09/15/nhl-superstar-alexander-ovechkin-appears-in-campaign-ad-for-putin-s-united-russia-party"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/image/attachments/images/012/750/223/small/Tx7mQQhCecxql6tT77N-Hg",
+      "https://meduza.io/image/attachments/images/012/751/243/small/8hw0H9gIn1oh7mMpx2FhUg",
+      "https://i.guim.co.uk/img/media/4e91a804f6a255da5bdddb37d7a8478f44437818/741_0_4298_3441/master/4298.jpg?width=700&quality=85&auto=format&fit=max&s=c5aa870e1443a9d703a4e36a3f35e511",
+      "https://i.guim.co.uk/img/media/4e91a804f6a255da5bdddb37d7a8478f44437818/741_0_4298_3441/master/4298.jpg?width=460&quality=85&auto=format&fit=max&s=214b1088c03fe8c8193a7f1f45371e78",
+      "https://i.guim.co.uk/img/media/4e91a804f6a255da5bdddb37d7a8478f44437818/741_0_4298_3441/master/4298.jpg?width=140&quality=85&auto=format&fit=max&s=9535b5db640076062707dc54149b9c9c"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1006.9117069066666,
+    "is_stale": false,
+    "score": 21.682603472070873,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
