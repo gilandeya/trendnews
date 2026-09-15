@@ -4366,5 +4366,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 6
+ },
+ {
+  "id": "bed632f5a78c",
+  "created_at": "2026-09-15T06:47:59.742610+00:00",
+  "decided_at": "2026-09-15T07:30:57.998732+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "هجرة",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "kr",
+  "score": 24.8,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "source_count": 5,
+  "body_len": 562,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 6
  }
 ]
