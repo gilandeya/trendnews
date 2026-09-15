@@ -1,0 +1,70 @@
+{
+  "id": "cd02fde02c26",
+  "created_at": "2026-09-15T12:08:12.479458+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.45,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Middle East live: Iran rejects talks with US after 'mixed signals' from Trump",
+  "link": "https://www.france24.com/en/middle-east/20260915-middle-east-live-houthi-attacks-wound-13-civilians-in-southern-saudi-arabia",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today",
+    "Vanguard Nigeria"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Middle East live: Iran rejects talks with US after 'mixed signals' from Trump",
+    "link": "https://www.france24.com/en/middle-east/20260915-middle-east-live-houthi-attacks-wound-13-civilians-in-southern-saudi-arabia",
+    "summary": "Iran's security chief on Tuesday rejected talks with the United States, criticising the \"mixed signals\" from US President Donald Trump after he said he was open to resuming negotiations. The diplomatic deadlock comes as the US military is facing a shortfall in ammunition as a result of the war, according to a report by the Pentagon's inspector general. Follow our liveblog for the latest updates.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-15T03:06:54+00:00",
+    "image_url": "https://s.france24.com/media/display/b006252a-b0d8-11f1-a980-005056bfb2b6/w:1024/p:16x9/000-C8976Q9.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260915-middle-east-live-houthi-attacks-wound-13-civilians-in-southern-saudi-arabia"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/15/iran-rejects-any-talks-with-us-after-trump-remarks"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/iran-rejects-any-talks-with-us-after-trump-remarks/"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/b006252a-b0d8-11f1-a980-005056bfb2b6/w:1024/p:16x9/000-C8976Q9.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/03/204439fc-hormuz-iran-israel-epa-040326.webp",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/Iran-president.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1003.9182018944443,
+    "is_stale": false,
+    "score": 22.453558473052357,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

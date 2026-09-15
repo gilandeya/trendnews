@@ -1,0 +1,76 @@
+{
+  "id": "07d861295bdd",
+  "created_at": "2026-09-15T12:08:12.478326+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.81,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "EU is set to propose ban on social media and AI chatbots for under-15s",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-14-eu-is-set-to-propose-ban-on-social-media-and-ai-chatbots-for-under-15s/",
+  "publishers": [
+    "Channel News Asia",
+    "Daily Maverick",
+    "MyJoyOnline Ghana",
+    "South China Morning Post"
+  ],
+  "region": "za",
+  "article": {
+    "title": "EU is set to propose ban on social media and AI chatbots for under-15s",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-14-eu-is-set-to-propose-ban-on-social-media-and-ai-chatbots-for-under-15s/",
+    "summary": "BRUSSELS, Sept 14 (Reuters) - The European Union will propose a ban restricting under 15s from social media, video sharing platforms, AI chatbots and online games, in the most sweeping plan yet to protect children from online dangers, a European Commission document seen by Reuters shows.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-14T21:28:21+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/2993/14055330_829149.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Daily Maverick",
+      "MyJoyOnline Ghana",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-14-eu-is-set-to-propose-ban-on-social-media-and-ai-chatbots-for-under-15s/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3367618/eu-propose-curbing-social-media-online-games-under-15s?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/eu-social-media-online-game-under-15-6386011"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/eu-is-set-to-propose-ban-on-social-media-and-ai-chatbots-for-under-15s/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/2993/14055330_829149.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--MUNdpSwc--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-14T171245Z_1_LYNXMPEM8D1FP_RTROPTP_3_EUROPE-FINANCE.JPG?itok=CMajO_vA",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/01/image-557-1024x575.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1003.9181935013889,
+    "is_stale": false,
+    "score": 24.805837640611113,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

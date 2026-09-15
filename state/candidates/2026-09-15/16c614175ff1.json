@@ -1,0 +1,87 @@
+{
+  "id": "16c614175ff1",
+  "created_at": "2026-09-15T12:08:12.479735+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.25,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian warship fires flares at Danish helicopter as Nato jets shoot down drone over Lithuania",
+  "link": "https://www.theguardian.com/world/2026/sep/15/nato-jets-shoot-down-drone-violating-lithuania-airspace-kaunas",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today",
+    "Meduza English",
+    "Reuters",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Russian warship fires flares at Danish helicopter as Nato jets shoot down drone over Lithuania",
+    "link": "https://www.theguardian.com/world/2026/sep/15/nato-jets-shoot-down-drone-violating-lithuania-airspace-kaunas",
+    "summary": "Danish prime minister Mette Frederiksen condemns ‘reckless action from Russia towards Denmark’s military’ A Russian warship has fired two emergency flares at a Danish helicopter in the Baltic Sea, and Nato fighter jets have shot down a drone over Lithuania, in the latest security incidents on the alliance’s eastern flank linked to Russia’s war against Ukraine. Poland also scrambled fighter jets “due to the activity of Russian jet-powered unmanned aerial vehicles conducting strikes on Ukrainian territory”, a day after retrieving a suspected Russian drone adrift in its waters. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-15T10:37:40+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/1dd6cbd1af236b5615a41ecdabc642499b19d602/2_0_3941_3155/master/3941.jpg?width=700&quality=85&auto=format&fit=max&s=ce7ea7f15082f29eea1902a6d3b19fdf",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today",
+      "Meduza English",
+      "Reuters",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/15/nato-jets-shoot-down-drone-violating-lithuania-airspace-kaunas"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/drone-shot-down-by-nato-over-lithuania/article71466527.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260915-nato-fighter-jets-shoot-down-drone-over-lithuania-after-latest-incursion"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/15/nato-fighter-jets-shoot-down-drone-over-lithuania-for-the-first-time"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/15/russian-frigate-fires-flares-towards-danish-military-helicopter-says-denmark"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/1dd6cbd1af236b5615a41ecdabc642499b19d602/2_0_3941_3155/master/3941.jpg?width=700&quality=85&auto=format&fit=max&s=ce7ea7f15082f29eea1902a6d3b19fdf",
+      "https://i.guim.co.uk/img/media/1dd6cbd1af236b5615a41ecdabc642499b19d602/2_0_3941_3155/master/3941.jpg?width=460&quality=85&auto=format&fit=max&s=1ca8b0387e95d83720892a8cfab6934a",
+      "https://i.guim.co.uk/img/media/1dd6cbd1af236b5615a41ecdabc642499b19d602/2_0_3941_3155/master/3941.jpg?width=140&quality=85&auto=format&fit=max&s=260ffbc6e7c472b53dae9682451890da",
+      "https://th-i.thgim.com/public/incoming/ipxhaz/article71466530.ece/alternates/LANDSCAPE_1200/2026-09-14T105632Z_2001733306_RC2YINA7CMOA_RTRMADP_3_EUROPE-ARCTIC-FINLAND.JPG",
+      "https://s.france24.com/media/display/a14b1952-b0d1-11f1-9113-005056a90284/w:1024/p:16x9/AP26112530007281.jpg",
+      "https://meduza.io/imgly/share/1789457821/en/news/2026/09/15/nato-fighter-jets-shoot-down-drone-over-lithuania-for-the-first-time"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 1003.9182048413888,
+    "is_stale": false,
+    "score": 22.254410325126432,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
