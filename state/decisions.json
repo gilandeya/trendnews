@@ -4534,5 +4534,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 18
+ },
+ {
+  "id": "280c20a9772d",
+  "created_at": "2026-09-15T18:14:32.150029+00:00",
+  "decided_at": "2026-09-15T20:45:46.271788+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "علوم",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "jp",
+  "score": 17.14,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "source_count": 2,
+  "body_len": 432,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 18
  }
 ]
