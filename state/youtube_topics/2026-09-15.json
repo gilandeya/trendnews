@@ -1,0 +1,785 @@
+{
+  "run_date": "2026-09-15",
+  "stats": {
+    "points_in": 366,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 216,
+    "issues_clustered": 31,
+    "topics_merged": 5,
+    "topics_out": 6,
+    "dropped_by_bloc_cap": 4,
+    "topics_seen_skipped": 5,
+    "topics_below_min_points": 9,
+    "layer_a": 5,
+    "layer_b": 0,
+    "layer_c": 1,
+    "agreement": 3,
+    "cross_source": 3,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "استراتيجية إيران في تصعيد المضائق وباب المندب وخط الأنابيب",
+      "استهداف السفن قرب مضيق هرمز واتهام حسين طائب",
+      "سيطرة الحوثيين على باب المندب وارتفاع أسعار النفط"
+    ],
+    [
+      "اجتماع عمّان/صلالة الخليجي حول هرمز",
+      "إلغاء اجتماع صلالة بطلب سعودي وتداعياته الدبلوماسية"
+    ],
+    [
+      "إخطارات وقف بناء استيطاني قرب كاديم وجنيم",
+      "هدف إسرائيل من السياسات الاستيطانية"
+    ],
+    [
+      "إجراءات عراقية إيرانية بعد ضربات على السعودية",
+      "تصريحات سعودية وعراقية بشأن أمن الخليج"
+    ],
+    [
+      "أعباء التعليم المالية في تركيا",
+      "بطالة المعلمين والتضخم الغذائي في تركيا",
+      "أزمة تكاليف التعليم والتسرب المدرسي في إيران"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "استراتيجية إيران في تصعيد المضائق وباب المندب وخط الأنابيب",
+      "event": "تزامن استهداف مضيق هرمز وخط الأنابيب السعودي وباب المندب ضمن استراتيجية إيرانية للتعويض عن خسارة هرمز",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "ILTV",
+        "Iran International",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        1,
+        2,
+        4,
+        56,
+        57,
+        83,
+        90,
+        91,
+        92,
+        93,
+        138,
+        139,
+        144,
+        146
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": null
+    },
+    {
+      "title": "اجتماع عمّان/صلالة الخليجي حول هرمز",
+      "event": "محاولة عقد اجتماع خليجي-إيراني بشأن مضيق هرمز وتأجيله",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        3,
+        6,
+        37,
+        62,
+        63,
+        64,
+        67,
+        85,
+        137
+      ],
+      "total_points": 9,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "الفيلم الوثائقي عن الوحدة 8200 وردود الفعل الإسرائيلية والدولية",
+      "event": "فيلم وثائقي يفضح شهادات ضباط الوحدة 8200 حول قتل المدنيين بالذكاء الاصطناعي وردود الفعل عليه",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        149
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "إجراءات عراقية إيرانية بعد ضربات على السعودية",
+      "event": "إغلاق وإعادة فتح العراق معابره الحدودية مع إيران بعد الاعتداءات على السعودية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        34,
+        35,
+        36,
+        129
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "أعباء التعليم المالية في تركيا",
+      "event": "ارتفاع تكاليف التعليم والمقصف والمواصلات المدرسية في تركيا هذا العام",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null
+    },
+    {
+      "title": "الشكوك حول وفاة الضابط الاستخباراتي كاشف كوزينوغلو",
+      "event": "وفاة الضابط الاستخباراتي التركي كاشف كوزينوغلو في السجن عام 2011 وشبهات القتل المدبر",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        104,
+        105,
+        106,
+        108,
+        109,
+        110,
+        111,
+        112
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "استراتيجية إيران في تصعيد المضائق وباب المندب وخط الأنابيب",
+      "event": "تزامن استهداف مضيق هرمز وخط الأنابيب السعودي وباب المندب ضمن استراتيجية إيرانية للتعويض عن خسارة هرمز",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "ILTV",
+        "Iran International",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        1,
+        2,
+        4,
+        56,
+        57,
+        83,
+        90,
+        91,
+        92,
+        93,
+        138,
+        139,
+        144,
+        146
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": null
+    },
+    {
+      "title": "اجتماع عمّان/صلالة الخليجي حول هرمز",
+      "event": "محاولة عقد اجتماع خليجي-إيراني بشأن مضيق هرمز وتأجيله",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        3,
+        6,
+        37,
+        62,
+        63,
+        64,
+        67,
+        85,
+        137
+      ],
+      "total_points": 9,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "الفيلم الوثائقي عن الوحدة 8200 وردود الفعل الإسرائيلية والدولية",
+      "event": "فيلم وثائقي يفضح شهادات ضباط الوحدة 8200 حول قتل المدنيين بالذكاء الاصطناعي وردود الفعل عليه",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        149
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "إجراءات عراقية إيرانية بعد ضربات على السعودية",
+      "event": "إغلاق وإعادة فتح العراق معابره الحدودية مع إيران بعد الاعتداءات على السعودية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        34,
+        35,
+        36,
+        129
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "تصريحات ترامب حول مفاوضات إيران وتوقيت الحل بعد الانتخابات النصفية",
+      "event": "تصريحات ترامب بأن إيران تسعى للتفاوض وأن الحل سيأتي حول موعد الانتخابات النصفية الأمريكية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        55,
+        58,
+        131,
+        136
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "أعباء التعليم المالية في تركيا",
+      "event": "ارتفاع تكاليف التعليم والمقصف والمواصلات المدرسية في تركيا هذا العام",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null
+    },
+    {
+      "title": "معارك المقاومة اليمنية ضد الحوثيين ونزوح السكان",
+      "event": "معارك المقاومة اليمنية مع الحوثيين وتقارير النزوح الأممية المصاحبة",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        38,
+        39,
+        40,
+        59,
+        60
+      ],
+      "total_points": 5,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تحذيرات شركات الذكاء الاصطناعي من مخاطر التطوير",
+      "event": "دعوات رؤساء شركات الذكاء الاصطناعي لإبطاء التطوير بسبب مخاوف أمنية وسلوك النماذج المتفلت",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        61
+      ],
+      "total_points": 8,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "نزع سلاح الفصائل العراقية",
+      "event": "موعد ٣٠ أيلول لنزع سلاح الفصائل العراقية وضغوط أمريكية على العراق",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        84
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قانون الجنسية الإسبانية للصحراويين وردود الفعل المغربية والصحراوية",
+      "event": "إقرار البرلمان الإسباني قانون منح الجنسية للصحراويين المولودين إبان الاستعمار وردود الفعل المتباينة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "التوغل والبقاء الإسرائيلي في جنوب سوريا",
+      "event": "توغل عسكري إسرائيلي في القنيطرة وتصريحات إسرائيلية ببقاء الجيش داخل سوريا",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "مشروع تصفية إسرائيلي في مخيمات الضفة الغربية",
+      "event": "عمليات القتل والتهجير والتدمير الإسرائيلية في مخيمات جنين ونور شمس وطولكرم",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        69,
+        70,
+        71
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إسرائيل تسعى لتحالف مع إثيوبيا وأرض الصومال في بربرة",
+      "event": "مساعي إسرائيلية لإقامة قاعدة عسكرية في ميناء بربرة عبر تحالف مع إثيوبيا وأرض الصومال، وتحذير مصري من عسكرة البحر الأحمر",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        86,
+        88
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحذيرات من حرب إيرانية مستقبلية وامتلاك الفصائل العراقية طائرات مسيرة",
+      "event": "تحذيرات خبراء خليجيين وعراقيين من تصاعد التهديد الإيراني عبر الفصائل المسلحة والطائرات المسيرة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        87,
+        89
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الشكوك حول وفاة الضابط الاستخباراتي كاشف كوزينوغلو",
+      "event": "وفاة الضابط الاستخباراتي التركي كاشف كوزينوغلو في السجن عام 2011 وشبهات القتل المدبر",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        104,
+        105,
+        106,
+        108,
+        109,
+        110,
+        111,
+        112
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "عملية 'عائلتي آمنة' الأمنية التركية",
+      "event": "حملة أمنية تركية بعنوان 'عائلتي آمنة' ضد الدعارة واستغلال الأطفال وتمويل جماعة فتو المزعوم",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        107,
+        113,
+        114
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التبادل التجاري بين إيران والعراق وملاحقة قضائية للتحايل على العقوبات",
+      "event": "حجم التجارة الإيرانية العراقية غير المتوازنة وملاحقة تاجر لتجاوز العقوبات",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        130,
+        132
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الضغوط الاقتصادية الأمريكية على إيران وتداعياتها",
+      "event": "حملة الضغط المالي الأمريكية على إيران عبر العقوبات وتأثيرها المحتمل على المجاعة والفئات الاجتماعية",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        133,
+        134,
+        135
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الضربة الإسرائيلية على قادة حماس في الدوحة وموقف قطر",
+      "event": "تقييم إسرائيلي للضربة على مسؤولي حماس في الدوحة وموقف قطر الداعم لحماس",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ILTV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        147,
+        148
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إخطارات وقف بناء استيطاني قرب كاديم وجنيم",
+      "event": "إخطار ١٤ عائلة فلسطينية بوقف البناء قرب مستوطنتي كاديم وجنيم بعد إعادة الاستيطان",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        10,
+        11,
+        12
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "تصريحات الأمين العام لجامعة الدول العربية",
+      "event": "تصريحات نبيل فهمي حول دور الجامعة العربية والقضايا الإقليمية في مقابلة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تأجيل الجولة الثامنة من المفاوضات اللبنانية الإسرائيلية",
+      "event": "تأجيل الجولة الثامنة من المفاوضات اللبنانية الإسرائيلية من سبتمبر إلى أكتوبر وتوقعات فشلها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        29,
+        31,
+        32,
+        33
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "تعيين محسن رضائي دبيرًا لشورى الأمن القومي الإيراني",
+      "event": "تعيين مجتبى خامنئي محسن رضائي دبيرًا لشورى الأمن القومي وخلفيته وانتقاداته",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        48,
+        49,
+        50,
+        51,
+        52
+      ],
+      "total_points": 5,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "الفساد المالي وهروب الأموال في إيران",
+      "event": "تقارير عن فساد اقتصادي هيكلي وهروب أموال ضخمة من إيران منذ 2019",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        53,
+        54
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
