@@ -1,106 +1,5 @@
 [
   {
-    "score": 31.68,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "asif",
-      "attacks",
-      "become",
-      "could",
-      "defence",
-      "houthi",
-      "makkah",
-      "operational",
-      "pact",
-      "saudi",
-      "warns"
-    ],
-    "link": "https://www.dawn.com/news/2028592/asif-warns-makkah-defence-pact-could-become-operational-after-houthi-attacks-on-saudi-arabia",
-    "title": "Asif warns Makkah defence pact could become operational after Houthi attacks on Saudi Arabia",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-10T06:07:47.351376+00:00"
-  },
-  {
-    "score": 20.31,
-    "bucket": "serious",
-    "tokens": [
-      "british",
-      "dies",
-      "first",
-      "handover",
-      "hong",
-      "kong's",
-      "leader"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cn457lq938jo?at_medium=RSS&at_campaign=rss",
-    "title": "Hong Kong's first leader after British handover dies",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-10T06:07:47.351675+00:00"
-  },
-  {
-    "score": 19.13,
-    "bucket": "serious",
-    "tokens": [
-      "august",
-      "hottest",
-      "joint",
-      "month",
-      "record",
-      "say",
-      "scientists",
-      "world"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-10-august-was-worlds-joint-hottest-month-on-record-scientists-say/",
-    "title": "August was world’s joint-hottest month on record, scientists say",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-10T06:07:47.351941+00:00"
-  },
-  {
-    "score": 18.23,
-    "bucket": "useful",
-    "tokens": [
-      "'could",
-      "all",
-      "anthropic",
-      "believes",
-      "chance",
-      "humans'",
-      "kill",
-      "researcher"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/ckgwy1k42w4o?at_medium=RSS&at_campaign=rss",
-    "title": "Anthropic researcher believes more than 10% chance AI 'could kill all humans'",
-    "posted_title": "",
-    "region": "tech",
-    "seen_at": "2026-09-10T06:07:47.352207+00:00"
-  },
-  {
-    "score": 16.89,
-    "bucket": "useful",
-    "tokens": [
-      "100",
-      "2023",
-      "above",
-      "asian",
-      "brent",
-      "holds",
-      "near",
-      "peak",
-      "stocks",
-      "wilt",
-      "yields"
-    ],
-    "link": "https://www.investing.com/news/economy-news/asian-stocks-wilt-as-brent-holds-above-100-yields-near-2023-peak-4894870",
-    "title": "Asian stocks wilt as Brent holds above $100, yields near 2023 peak",
-    "posted_title": "",
-    "region": "money",
-    "seen_at": "2026-09-10T06:07:47.352487+00:00"
-  },
-  {
     "score": 17.14,
     "bucket": "serious",
     "tokens": [
@@ -5215,5 +5114,100 @@
     "posted_title": "لماذا يثير تقدم الحوثيين في اليمن مخاوف من حرب أهلية جديدة",
     "region": "qa",
     "seen_at": "2026-09-15T05:07:48.182002+00:00"
+  },
+  {
+    "score": 30.29,
+    "bucket": "light",
+    "tokens": [
+      "dropped",
+      "free",
+      "macklemore",
+      "palestine",
+      "sheeran",
+      "speech",
+      "tour"
+    ],
+    "link": "https://www.theguardian.com/music/2026/sep/14/macklemore-dropped-ed-sheeran-tour-free-palestine",
+    "title": "Macklemore dropped from Ed Sheeran’s US tour after ‘free Palestine’ speech",
+    "posted_title": "",
+    "region": "culture",
+    "seen_at": "2026-09-15T06:08:08.794989+00:00"
+  },
+  {
+    "score": 24.8,
+    "bucket": "serious",
+    "tokens": [
+      "blocks",
+      "duration",
+      "foreign",
+      "journalists",
+      "judge",
+      "limit",
+      "move",
+      "report",
+      "stay",
+      "students",
+      "trump's"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20260915000700315",
+    "title": "U.S. judge blocks Trump's move to limit duration of stay for foreign students, journalists: report",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-09-15T06:08:08.795318+00:00"
+  },
+  {
+    "score": 24.44,
+    "bucket": "serious",
+    "tokens": [
+      "'hoax'",
+      "calls",
+      "fears",
+      "greater",
+      "rejects",
+      "safeguards",
+      "safety",
+      "trump"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cw980n0nd0qjo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump says AI safety fears a 'hoax' as he rejects calls for greater safeguards",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-15T06:08:08.795612+00:00"
+  },
+  {
+    "score": 23.7,
+    "bucket": "sport",
+    "tokens": [
+      "league",
+      "leeds",
+      "newcastle",
+      "premier",
+      "united"
+    ],
+    "link": "https://www.theguardian.com/football/live/2026/sep/14/leeds-united-v-newcastle-united-premier-league-live-updates",
+    "title": "Leeds United 4-1 Newcastle United: Premier League",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-15T06:08:08.795978+00:00"
+  },
+  {
+    "score": 21.39,
+    "bucket": "serious",
+    "tokens": [
+      "between",
+      "discuss",
+      "gulf",
+      "hormuz",
+      "iran",
+      "postponed",
+      "states",
+      "strait",
+      "talks"
+    ],
+    "link": "https://www.npr.org/2026/09/14/nx-s1-5968072/talks-between-iran-and-gulf-states-to-discuss-strait-of-hormuz-postponed",
+    "title": "Talks between Iran and Gulf states to discuss Strait of Hormuz postponed",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-09-15T06:08:08.796267+00:00"
   }
 ]

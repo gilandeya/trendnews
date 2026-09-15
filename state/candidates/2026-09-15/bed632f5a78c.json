@@ -1,0 +1,85 @@
+{
+  "id": "bed632f5a78c",
+  "created_at": "2026-09-15T06:08:08.795003+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.8,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "U.S. judge blocks Trump's move to limit duration of stay for foreign students, journalists: report",
+  "link": "https://en.yna.co.kr/view/AEN20260915000700315",
+  "publishers": [
+    "CGTN",
+    "Channel News Asia",
+    "Malay Mail",
+    "The Hindu — International",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "U.S. judge blocks Trump's move to limit duration of stay for foreign students, journalists: report",
+    "link": "https://en.yna.co.kr/view/AEN20260915000700315",
+    "summary": "WASHINGTON, Sept. 14 (Yonhap) -- A U.S. federal judge on Monday blocked U.S. Pre...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-14T23:13:08+00:00",
+    "image_url": "https://img.yna.co.kr/photo/reuters/2026/09/15/PRU20260915000101009_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "CGTN",
+      "Channel News Asia",
+      "Malay Mail",
+      "The Hindu — International",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-judge-blocks-trump-limits-on-duration-of-visas-for-foreign-students-journalists/article71466466.ece"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260915000700315"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-15/US-judge-blocks-new-stay-limits-for-foreign-students-journalists-1Qs3iwJkPoQ/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/us-postpone-new-visa-rule-foreign-student-journalists-6385196"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/15/us-judge-blocks-trump-administrations-tighter-visa-rules-for-foreign-students-journalists/235248"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/reuters/2026/09/15/PRU20260915000101009_P2.jpg",
+      "https://th-i.thgim.com/public/incoming/w7m4e8/article71466478.ece/alternates/LANDSCAPE_1200/2026-09-13T174619Z_1377589555_RC2HINALC3YV_RTRMADP_3_USA-TRUMP-IRELAND.jpg",
+      "https://news.cgtn.com/news/2026-09-15/US-judge-blocks-new-stay-limits-for-foreign-students-journalists-1Qs3iwJkPoQ/img/c04da068a23f4ef7803b9c0f40484c9b/c04da068a23f4ef7803b9c0f40484c9b-750.png",
+      "https://news.cgtn.com/news/2026-09-15/US-judge-blocks-new-stay-limits-for-foreign-students-journalists-1Qs3iwJkPoQ/img/c04da068a23f4ef7803b9c0f40484c9b/c04da068a23f4ef7803b9c0f40484c9b.png",
+      "https://dam.mediacorp.sg/image/upload/s--vsNK7ffF--/c_crop,h_450,w_800,x_0,y_10/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-03-11T184300Z_4_LYNXMPEM2A14J_RTROPTP_3_GEN-DIGITAL-COLUMBIA-PATENT-LAWSUIT.JPG?itok=wIZKwMCF",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/15/362635.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 997.9175489430555,
+    "is_stale": false,
+    "score": 24.804757101199122,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
