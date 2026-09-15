@@ -1,0 +1,70 @@
+{
+  "id": "31ae67cfe9b2",
+  "created_at": "2026-09-15T09:08:42.527125+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.14,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "IRGC downs fourth MQ-1 drone over Strait of Hormuz",
+  "link": "https://en.mehrnews.com/news/247772/IRGC-downs-fourth-MQ-1-drone-over-Strait-of-Hormuz",
+  "publishers": [
+    "IRNA English",
+    "Mehr News",
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "IRGC downs fourth MQ-1 drone over Strait of Hormuz",
+    "link": "https://en.mehrnews.com/news/247772/IRGC-downs-fourth-MQ-1-drone-over-Strait-of-Hormuz",
+    "summary": "TEHRAN, Sep. 15 (MNA) – Iran's Islamic Revolutionary Guard Corps brought down a fourth MQ-1 drone in several days over the eastern Strait of Hormuz, using its modern air defence system and integrated network.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-15T07:22:20+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/06/01/4/6044116.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530019/IRGC-shoots-down-advanced-MQ-1-drone-over-Strait-of-Hormuz"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247772/IRGC-downs-fourth-MQ-1-drone-over-Strait-of-Hormuz"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86264307/Iran-downs-another-advanced-US-drone-over-Strait-of-Hormuz"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/06/01/4/6044116.jpg",
+      "https://media.tehrantimes.com/d/t/2026/09/14/4/6173513.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/15/4/173106591.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1000.9266148627778,
+    "is_stale": false,
+    "score": 18.13681374103384,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

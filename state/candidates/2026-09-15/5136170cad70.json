@@ -1,0 +1,70 @@
+{
+  "id": "5136170cad70",
+  "created_at": "2026-09-15T09:08:42.526168+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.0,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oasis vuelve a Barcelona y no hay venta general: precios y qué hacer para conseguir entradas",
+  "link": "https://elpais.com/espana/catalunya/2026-09-15/oasis-vuelve-a-barcelona-y-no-hay-venta-general-precios-y-que-hacer-para-conseguir-entradas.html",
+  "publishers": [
+    "Daily Maverick",
+    "El País",
+    "Malay Mail"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Oasis vuelve a Barcelona y no hay venta general: precios y qué hacer para conseguir entradas",
+    "link": "https://elpais.com/espana/catalunya/2026-09-15/oasis-vuelve-a-barcelona-y-no-hay-venta-general-precios-y-que-hacer-para-conseguir-entradas.html",
+    "summary": "La banda liderada por los hermanos Gallagher pasará por la capital catalana el 10 y 11 de julio de 2027",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-15T08:17:49+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/CBHAYHGR3FKKPDIKSOWF2TSZDU.jpg?auth=ec056f63f6f85e87b695b3e00a23d79b106e26744a3f8858021ced15a59bf423",
+    "publisher": "El País",
+    "cluster_sources": [
+      "Daily Maverick",
+      "El País",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/espana/catalunya/2026-09-15/oasis-vuelve-a-barcelona-y-no-hay-venta-general-precios-y-que-hacer-para-conseguir-entradas.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/showbiz/2026/09/15/oasis-confirm-38-shows-2027-tour-plans-globespanning-reunion-manchester-nights-included/235282"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-14-british-rock-band-oasis-announce-38-date-tour-in-2027/"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/CBHAYHGR3FKKPDIKSOWF2TSZDU.jpg?auth=ec056f63f6f85e87b695b3e00a23d79b106e26744a3f8858021ced15a59bf423",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/15/362691.jpg",
+      "https://cdn.dailymaverick.co.za/attachments/2997/14271787_391093.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.998461904644948,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

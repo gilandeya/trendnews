@@ -1,0 +1,73 @@
+{
+  "id": "ce9ff64869ef",
+  "created_at": "2026-09-15T09:08:42.526797+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.98,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ex-Google DeepMind researcher adds to warnings that AI could 'kill all humans'",
+  "link": "https://www.dawn.com/news/2030082/ex-google-deepmind-researcher-adds-to-warnings-that-ai-could-kill-all-humans",
+  "publishers": [
+    "Dawn",
+    "Free Malaysia Today",
+    "Rappler"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Ex-Google DeepMind researcher adds to warnings that AI could 'kill all humans'",
+    "link": "https://www.dawn.com/news/2030082/ex-google-deepmind-researcher-adds-to-warnings-that-ai-could-kill-all-humans",
+    "summary": "A former Google DeepMind employee on Monday became the latest AI researcher to warn that the technology could “kill all humans”, saying time could be running out to avoid the outcome. Public alarm about the potential danger posed by AI is growing, after Anthropic researcher Jacob Coxon said last week he had resigned, in part because the “people building AI earnestly believe that it could kill us all by the end of the decade.” Anthropic scientist Evan Hubinger then responded to Coxon’s comments, saying he was correct and that he believed there was a greater than 10 per cent chance that AI could kill all humans within the next decade. “I recently resigned from Google DeepMind, where I worked on AGI safety and alignment research,” Bilal Chughtai wrote on X. “I earnestly believe that AI has the potential to kill us all, and that we might be running out of time to avoid this outcome.” Chughtai, who co-authored research papers while at Google DeepMind, worked there as a research engineer and left the company in July 2026, according to his LinkedIn profile . Google did not respond to a request for comment outside regular business hours. Following recent concerns, Anthropic Chief Executive",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-15T05:50:20+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/1510484996306cf.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Free Malaysia Today",
+      "Rappler"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030082/ex-google-deepmind-researcher-adds-to-warnings-that-ai-could-kill-all-humans"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/technology/ex-google-deepmind-researcher-artificial-intelligence-warning-kill-humans/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/15/ex-google-deepmind-researcher-adds-to-warnings-that-ai-could-kill-all-humans"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/1510484996306cf.webp",
+      "https://i.dawn.com/thumbnail/2026/09/1510484996306cf.webp",
+      "https://www.rappler.com/tachyon/2026/07/anthropic-graphics-june-5-2026-reuters.jpg",
+      "https://www.rappler.com/tachyon/2026/07/anthropic-graphics-june-5-2026-reuters.jpg?resize=75%2C75&crop=172px%2C0px%2C800px%2C800px",
+      "https://www.rappler.com/tachyon/2026/07/anthropic-graphics-june-5-2026-reuters.jpg?fit=449%2C449",
+      "https://media.freemalaysiatoday.com/v3/2026/08/0abed84e-b6f3-4446-ac6f-10d616c6bee1-artificial-intelligence-envato-120826-resave.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1000.9266023472222,
+    "is_stale": false,
+    "score": 18.984591530181987,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
