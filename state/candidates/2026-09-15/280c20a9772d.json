@@ -1,0 +1,63 @@
+{
+  "id": "280c20a9772d",
+  "created_at": "2026-09-15T18:07:55.142932+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.14,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Artificial intelligence makes inroads into weather forecasting",
+  "link": "https://www.japantimes.co.jp/news/2026/09/15/japan/japan-ai-use-weather-forecasting/",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Artificial intelligence makes inroads into weather forecasting",
+    "link": "https://www.japantimes.co.jp/news/2026/09/15/japan/japan-ai-use-weather-forecasting/",
+    "summary": "Some AI models have proved more accurate than conventional numerical weather prediction systems in capturing large-scale atmospheric patterns.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-09-15T03:01:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/15/562970.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/15/japan/japan-ai-use-weather-forecasting/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/super-el-nino-winter-weather-forecast-what-december-january-and-february-could-bring-across-the-us-101789427786954.html"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/15/562970.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/15/thumbs/400x400/562970.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1009.9133214738889,
+    "is_stale": true,
+    "score": 17.142440064685186,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

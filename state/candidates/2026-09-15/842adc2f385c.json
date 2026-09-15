@@ -1,0 +1,71 @@
+{
+  "id": "842adc2f385c",
+  "created_at": "2026-09-15T18:07:55.142450+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.49,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "China imposes travel curbs to protect 'national security'",
+  "link": "https://www.dawn.com/news/2030095/china-imposes-travel-curbs-to-protect-national-security",
+  "publishers": [
+    "Dawn",
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "China imposes travel curbs to protect 'national security'",
+    "link": "https://www.dawn.com/news/2030095/china-imposes-travel-curbs-to-protect-national-security",
+    "summary": "China imposed sweeping travel restrictions on its citizens on Tuesday, including exit bans on those deemed to endanger the country’s “industrial or technological security”. Citizens who violate technology import and export regulations could be banned from leaving China, the State Council said. Those who engage in illegal activities abroad could be “prohibited from leaving the country for a period of six months to three years from the date of their return to China”. China and the United States have been locked in a tech race , with both sides accusing the other in recent months of stealing the capabilities of locally developed artificial intelligence (AI) models. The new rules, first released in July but in effect from Tuesday, were formulated to “safeguard national sovereignty, security, and development interests”, the State Council said. However, analysts warn that the travel rules give China a “wide remit”. Security and criminal activities “can be vaguely defined and easily adjusted”, Chong Ja Ian from the National University of Singapore told AFP . “The outside world will only know how it applies that remit after there are cases of implementation,” he said. Chong pointed to repo",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-15T07:20:55+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/15121754ebb8133.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030095/china-imposes-travel-curbs-to-protect-national-security"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/china-imposes-travel-curbs-to-protect-national-security/article71469509.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/china-imposes-travel-curbs-on-citizens-deemed-threats-to-national-security-12048253#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/15121754ebb8133.webp",
+      "https://i.dawn.com/thumbnail/2026/09/15121754ebb8133.webp",
+      "https://th-i.thgim.com/public/incoming/4grhh3/article71469595.ece/alternates/LANDSCAPE_1200/iStock-464512900.jpg",
+      "https://c.ndtvimg.com/2026-09/oo75dp64_china_625x300_15_September_26.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1009.9133428549999,
+    "is_stale": false,
+    "score": 18.486123862219024,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
