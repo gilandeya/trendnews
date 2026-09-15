@@ -1,0 +1,65 @@
+{
+  "id": "bf1e7b4accce",
+  "created_at": "2026-09-15T22:07:59.838263+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.13,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Air pollution spiked after the Trump administration stopped embassy monitoring",
+  "link": "https://www.npr.org/2026/09/15/nx-s1-5966503/air-pollution-spiked-after-the-trump-administration-stopped-embassy-monitoring",
+  "publishers": [
+    "NPR",
+    "NPR World",
+    "Noor Adwa Sulaiman"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Air pollution spiked after the Trump administration stopped embassy monitoring",
+    "link": "https://www.npr.org/2026/09/15/nx-s1-5966503/air-pollution-spiked-after-the-trump-administration-stopped-embassy-monitoring",
+    "summary": "In 2025, the Trump administration ended a long-running program to collect air pollution data at U.S. embassies. A new study suggests that led to a 24-33% increase in local pollution levels.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-09-15T10:26:08+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5966503",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "NPR",
+      "NPR World",
+      "Noor Adwa Sulaiman"
+    ],
+    "cluster_members": [
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/15/nx-s1-5966503/air-pollution-spiked-after-the-trump-administration-stopped-embassy-monitoring"
+      },
+      {
+        "name": "Noor Adwa Sulaiman",
+        "link": "https://www.malaymail.com/news/what-you-think/2026/09/15/when-the-air-turns-grey-esg-must-mean-accountability-noor-adwa-sulaiman/235303"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5966503",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/15/362717.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1013.915001808889,
+    "is_stale": true,
+    "score": 19.125140939756065,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

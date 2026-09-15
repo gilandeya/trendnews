@@ -1,0 +1,77 @@
+{
+  "id": "feac14fb2afe",
+  "created_at": "2026-09-15T22:07:59.838113+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.21,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "OpenAI, Anthropic and Google are working to create an AI standards body",
+  "link": "https://www.dawn.com/news/2030165/openai-anthropic-and-google-are-working-to-create-an-ai-standards-body",
+  "publishers": [
+    "Channel News Asia",
+    "Dawn",
+    "France24",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "OpenAI, Anthropic and Google are working to create an AI standards body",
+    "link": "https://www.dawn.com/news/2030165/openai-anthropic-and-google-are-working-to-create-an-ai-standards-body",
+    "summary": "The world’s biggest AI companies are working on creating a standards body, ChatGPT-maker OpenAI said on Tuesday, as fears rise about the dangers of AI and pressure is on to create a safer version of the technology. OpenAI said it was working with Anthropic and Google on an idea that originated from a proposal by Google DeepMind’s Demis Hassabis for a self-regulatory body modelled after the Financial Industry Regulatory Authority that oversees US brokers and investment firms. In July, Hassabis called for the United States to create an organisation that would test the most powerful AI systems before they are released to the public. “Funding would need to be substantial and likely mostly come from industry, in order to attract world-class technical talent and provide the necessary compute resources for large-scale testing,” Hassabis wrote. There is no consensus on how to move forward, though. The chief of Canadian AI company Cohere recently accused the dominant American AI labs of forming a “cartel” under the guise of safety. “AI needs guardrails. That is not the dispute and never has been. The dispute is over who writes them, who gets to participate and whose interests the rules are ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-15T18:29:49+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/15233221a1480f1.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Dawn",
+      "France24",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030165/openai-anthropic-and-google-are-working-to-create-an-ai-standards-body"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629490/openai-anthropic-and-google-are-working-to-create-an-ai-standards-body"
+      },
+      {
+        "name": "France24",
+        "link": "http://www.france24.com/en/technology/20260915-openai-anthropic-and-google-in-talks-to-create-a-standards-body-as-ai-fears-rise"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/openai-anthropic-and-google-are-working-create-ai-standards-body-6387071"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/15233221a1480f1.webp",
+      "https://i.dawn.com/thumbnail/2026/09/15233221a1480f1.webp",
+      "https://s.france24.com/media/display/65cb925a-b124-11f1-87b4-310d275270b0/w:1024/p:16x9/000-C89X3KG.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--4PVeKb2F--/c_crop,h_448,w_797,x_1,y_0/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-07-30T172746Z_5_LYNXMPEM6T1T7_RTROPTP_3_OPENAI-STAKE-USA.JPG?itok=uz1YEYUw"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1013.9150271094444,
+    "is_stale": false,
+    "score": 20.207679360074074,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
