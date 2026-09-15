@@ -1,7 +1,7 @@
 {
   "id": "31982980d248",
   "created_at": "2026-09-15T18:14:22.169304+00:00",
-  "status": "queued",
+  "status": "published",
   "review_issue": null,
   "origin": "news",
   "score": 17.4,
@@ -69,5 +69,12 @@
     "candidates_tried": 1,
     "manual": false
   },
-  "publish_at": "2026-09-15T19:52:14.742251+00:00"
+  "publish_at": "2026-09-15T19:52:14.742251+00:00",
+  "published_at": "2026-09-15T20:01:11.662196+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1360860766130944",
+    "photo_id": "1360860746130946",
+    "url": "https://www.facebook.com/631680090321390_1360860766130944",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
 }
