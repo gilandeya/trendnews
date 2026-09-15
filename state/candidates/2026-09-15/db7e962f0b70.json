@@ -1,0 +1,69 @@
+{
+  "id": "db7e962f0b70",
+  "created_at": "2026-09-15T03:08:04.820771+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.46,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "El documental ‘NAZA’ incendia Israel, que acusa a sus directores de “traicionar a la patria por unos aplausos de antisemitas”",
+  "link": "https://elpais.com/cultura/2026-09-14/el-documental-naza-incendia-israel-que-acusa-a-sus-directores-de-traicionar-a-la-patria-por-unos-aplausos-de-antisemitas.html",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "El documental ‘NAZA’ incendia Israel, que acusa a sus directores de “traicionar a la patria por unos aplausos de antisemitas”",
+    "link": "https://elpais.com/cultura/2026-09-14/el-documental-naza-incendia-israel-que-acusa-a-sus-directores-de-traicionar-a-la-patria-por-unos-aplausos-de-antisemitas.html",
+    "summary": "Netanyahu: “Estamos luchando contra la incitación al antisemitismo en todo el mundo, pero cuando viene desde dentro de nosotros mismos, es intolerable”, ha dicho sobre la película, premiada en Venecia, que detalla los sistemas militares para bombardear Gaza de manera masiva",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-14T18:17:00+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/EQPY2TXDJBAKXALYZI3UNEI4LI.jpg?auth=96a855797beac48fc9a51a564c3dcc0921144ab32a83ac1f32d65ece8dc7bcc6",
+    "publisher": "El País",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/cultura/2026-09-14/el-documental-naza-incendia-israel-que-acusa-a-sus-directores-de-traicionar-a-la-patria-por-unos-aplausos-de-antisemitas.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/arts/cinema/israel-targets-award-winning-gaza-documentary-for-exposing-war-crimes"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/14/israel-probing-naza-film-on-gaza-for-inciting-antisemitism?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/EQPY2TXDJBAKXALYZI3UNEI4LI.jpg?auth=96a855797beac48fc9a51a564c3dcc0921144ab32a83ac1f32d65ece8dc7bcc6",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/14/460592.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.464914005811615,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "id": "e5e4c42f0557",
+  "created_at": "2026-09-15T03:08:04.820087+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.31,
+  "trend_score": 1.0,
+  "velocity": 0.53,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthis strike Saudi targets anew as talks over Strait of Hormuz stall",
+  "link": "https://www.channelnewsasia.com/world/yemen-houthis-saudi-strikes-hormuz-talks-stall-6384621",
+  "publishers": [
+    "CGTN",
+    "Channel News Asia",
+    "Malay Mail",
+    "Reuters",
+    "TASS",
+    "The Express Tribune",
+    "The Hindu — International",
+    "The Japan Times",
+    "Vanguard Nigeria"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Houthis strike Saudi targets anew as talks over Strait of Hormuz stall",
+    "link": "https://www.channelnewsasia.com/world/yemen-houthis-saudi-strikes-hormuz-talks-stall-6384621",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-15T00:41:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--clcpayx2--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-13T165716Z_1_LYNXMPEM8C0FM_RTROPTP_3_IRAN-CRISIS-SAUDI-YEMEN-MOCHA.JPG?itok=TU7-p5_M",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "CGTN",
+      "Channel News Asia",
+      "Malay Mail",
+      "Reuters",
+      "TASS",
+      "The Express Tribune",
+      "The Hindu — International",
+      "The Japan Times",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/yemen-houthis-saudi-strikes-hormuz-talks-stall-6384621"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/houthis-say-saudi-arabia-hits-yemen-with-54-strikes-after-attack-on-bases/article71466445.ece"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/houthis-say-saudi-arabia-hits-yemen-with-54-strikes-after-attack-on-bases/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/15/world/houthis-saudi-arabia-gulf-iran-talks/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/houthi-attack-in-southern-saudi-arabia-wounds-13-riyadh-led-coalition/article71466568.ece"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/14/houthis-unleash-fresh-strikes-on-saudi-arabia-as-iran-denies-yemen-role/235227"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--clcpayx2--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-13T165716Z_1_LYNXMPEM8C0FM_RTROPTP_3_IRAN-CRISIS-SAUDI-YEMEN-MOCHA.JPG?itok=TU7-p5_M",
+      "https://th-i.thgim.com/public/incoming/3fvhlh/article71466446.ece/alternates/LANDSCAPE_1200/2026-09-14T200918Z_501578268_RC21JNAEZU63_RTRMADP_3_IRAN-CRISIS-YEMEN-IDPS.JPG",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260912__C84H89F__v2__MidRes__YemenIranUsIsraelWarHouthis-1024x683.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/15/562909.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/15/thumbs/400x400/562909.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/14/362591.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 9,
+    "velocity": 0.5329046891077901,
+    "age_hours": 994.9161799827779,
+    "is_stale": false,
+    "score": 29.310991621143664,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
