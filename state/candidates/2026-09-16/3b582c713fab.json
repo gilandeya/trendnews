@@ -1,0 +1,75 @@
+{
+  "id": "3b582c713fab",
+  "created_at": "2026-09-16T17:07:52.624889+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.24,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "light",
+  "state_media": false,
+  "title": "Nepal raises flood missing toll by nearly 1,000 people to 6,150",
+  "link": "https://www.channelnewsasia.com/world/nepal-flood-missing-people-toll-rise-6389726",
+  "publishers": [
+    "Channel News Asia",
+    "Court House News",
+    "Free Malaysia Today",
+    "TASS"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Nepal raises flood missing toll by nearly 1,000 people to 6,150",
+    "link": "https://www.channelnewsasia.com/world/nepal-flood-missing-people-toll-rise-6389726",
+    "summary": "The combined toll from the deadly glacial mountain collapse on the Nepal-China border from both nations now stands at 1,446 people dead and at least 6,669 missing.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-16T16:12:08+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--MKjQ2KIq--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-16T115121Z_3_LYNXMPEM8F168_RTROPTP_3_NEPAL-FLOODS.JPG?itok=EO2Y_xEd",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Court House News",
+      "Free Malaysia Today",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/nepal-raises-flood-missing-toll-by-nearly-1000-people-to-6150/"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/nepal-flood-missing-people-toll-rise-6389726"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/16/nepal-raises-flood-missing-toll-by-nearly-1-000-people-to-6-150"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/emergencies/2188643"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--MKjQ2KIq--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-16T115121Z_3_LYNXMPEM8F168_RTROPTP_3_NEPAL-FLOODS.JPG?itok=EO2Y_xEd",
+      "https://media.freemalaysiatoday.com/v3/2026/08/ae522aae-581a-4f28-a581-f9a6e72b2cdd-nepal-mudflood-epa-280826.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1032.9130346480556,
+    "is_stale": false,
+    "score": 20.23816528561111,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

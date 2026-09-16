@@ -1,0 +1,95 @@
+{
+  "id": "765ce480adcd",
+  "created_at": "2026-09-16T17:07:52.624487+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.36,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Eight children among 21 killed after war-damaged Gaza building collapses, rescuers say",
+  "link": "https://www.bbc.co.uk/news/articles/cvp8d00j9gg5o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "Daily Sabah",
+    "Folha de S.Paulo",
+    "MyJoyOnline Ghana",
+    "Reuters",
+    "The Express Tribune"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Eight children among 21 killed after war-damaged Gaza building collapses, rescuers say",
+    "link": "https://www.bbc.co.uk/news/articles/cvp8d00j9gg5o?at_medium=RSS&at_campaign=rss",
+    "summary": "Dozens of people are missing beneath the rubble of a building hit by an Israeli strike last year, where some 10 families had been living.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-16T13:28:46+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9e43/live/ff225e50-b1b7-11f1-b1d1-571ed4d7ff2c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "Daily Sabah",
+      "Folha de S.Paulo",
+      "MyJoyOnline Ghana",
+      "Reuters",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cvp8d00j9gg5o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629638/5-children-among-14-palestinians-killed-as-war-damaged-building-collapses-in-gaza-city"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/20-killed-when-building-damaged-in-israels-war-on-gaza-collapses"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/israel-hamas-gaza-war-building-collapse-palestinian-deaths-al-sinaa/"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/eight-children-among-21-killed-after-war-damaged-gaza-building-collapses-rescuers-say/"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/16/israeli-double-tap-air-strike-responsible-for-killing-schoolboy-in-gaza?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9e43/live/ff225e50-b1b7-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/9e43/live/ff225e50-b1b7-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9e43/live/ff225e50-b1b7-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/16/460795.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-2229.png",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-2227.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 1032.9129969952778,
+    "is_stale": false,
+    "score": 23.356646770685188,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

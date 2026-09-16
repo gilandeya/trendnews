@@ -1,0 +1,70 @@
+{
+  "id": "109b560d2799",
+  "created_at": "2026-09-16T17:07:52.625128+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.99,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "El Real Madrid ficha a Nick Smith Jr para reforzar su plantilla",
+  "link": "https://elpais.com/deportes/baloncesto/2026-09-16/el-real-madrid-ficha-a-nick-smith-jr-para-reforzar-su-plantilla.html",
+  "publishers": [
+    "El País",
+    "Sky Sports — Football",
+    "The Express Tribune"
+  ],
+  "region": "es",
+  "article": {
+    "title": "El Real Madrid ficha a Nick Smith Jr para reforzar su plantilla",
+    "link": "https://elpais.com/deportes/baloncesto/2026-09-16/el-real-madrid-ficha-a-nick-smith-jr-para-reforzar-su-plantilla.html",
+    "summary": "El base estadounidense llega procedente de Los Ángeles Lakers, donde disputó la última temporada",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-16T16:09:14+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/MTF36PTZYZCPVLNW25PLPYOMEI.jpg?auth=f5128e7fe7f28ca5239d419d2f8275cdde3707296b6b2d60dcd12a43382ea702",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País",
+      "Sky Sports — Football",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/baloncesto/2026-09-16/el-real-madrid-ficha-a-nick-smith-jr-para-reforzar-su-plantilla.html"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/live-blog/12040/13575723/european-football-news-and-transfers-barcelona-real-madrid-psg-bayern-munich-latest-and-more"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629616/real-madrid-survive-elche-comeback"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/MTF36PTZYZCPVLNW25PLPYOMEI.jpg?auth=f5128e7fe7f28ca5239d419d2f8275cdde3707296b6b2d60dcd12a43382ea702",
+      "https://e0.365dm.com/26/09/1096x616/skysports-real-madrid-arda-guler_7353332.jpg?20260916073145",
+      "https://e0.365dm.com/26/09/1920x1080/skysports-real-madrid-arda-guler_7353332.jpg?20260916073145"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1032.9129900666667,
+    "is_stale": true,
+    "score": 19.98983056788569,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "id": "f14625b65701",
+  "created_at": "2026-09-16T17:07:52.625330+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.96,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump administration plans to send powerful bombs to Israel in $2.8 billion weapons sale",
+  "link": "http://www.france24.com/en/video/20260916-trump-administration-plans-to-send-powerful-bombs-to-israel-in-2-8-billion-weapons-sale",
+  "publishers": [
+    "Al Jazeera",
+    "France24",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Trump administration plans to send powerful bombs to Israel in $2.8 billion weapons sale",
+    "link": "http://www.france24.com/en/video/20260916-trump-administration-plans-to-send-powerful-bombs-to-israel-in-2-8-billion-weapons-sale",
+    "summary": "The Trump administration is planning to deliver powerful 2,000-pound bombs to Israel as part of an upcoming arms deal, weapons that prompted such concerns about the possibility of mass casualties in Gaza that the Biden administration paused their delivery two years ago. France 24's Philip Turle tells us more.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-16T15:45:44+00:00",
+    "image_url": "https://s.france24.com/media/display/5ba9b4a8-b1e4-11f1-bcd1-e5727ccb1647/w:1024/p:16x9/EN-20260916-170436-170957-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera",
+      "France24",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "http://www.france24.com/en/video/20260916-trump-administration-plans-to-send-powerful-bombs-to-israel-in-2-8-billion-weapons-sale"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-admin-approves-sending-2000-pound-bombs-to-israel-in-upcoming-weapons-deal/article71470869.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/5ba9b4a8-b1e4-11f1-bcd1-e5727ccb1647/w:1024/p:16x9/EN-20260916-170436-170957-CS.jpg",
+      "https://th-i.thgim.com/public/incoming/hdqpyl/article71470870.ece/alternates/LANDSCAPE_1200/Iran_US_6_Months_Changed_Mideast_17733.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1032.9129912066667,
+    "is_stale": true,
+    "score": 19.963719456626436,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
