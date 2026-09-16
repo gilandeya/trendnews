@@ -1074,7 +1074,10 @@ image:
 cards:
   news:     { badge: null }
   breaking: { badge: "عاجل",  bg: "#CE2027", fg: "#FFFFFF" }   # نفس أحمر (206,32,39) القديم بلا تغيير
-  request:  { badge: "تحقيق", bg: "#157F3B", fg: "#FFFFFF" }
+  # مسار الطلب يعيد صياغة خبر بُحث عنه بالكلمات ولا يُجري تحقيقًا،
+  # فوسمه «تحقيق» كان يضلّل القارئ — بلا bg/fg فيسقط إلى لون brand
+  # مميَّز (البرتقالي/الكهرماني) عن أحمر «عاجل» وأخضر «تحقيق» دون إضافة لون جديد.
+  request:  { badge: "هام" }
   verify:   { badge: "تحقيق", bg: "#157F3B", fg: "#FFFFFF" }
   article:  { badge: "تحقيق", bg: "#157F3B", fg: "#FFFFFF" }
   analysis:

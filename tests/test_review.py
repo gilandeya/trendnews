@@ -2055,12 +2055,22 @@ def test_publish_builds_cards_at_approval() -> None:
     by = ((inner_top + inner_bot) // 2 if not handle_in_header
           else inner_top + int((inner_bot - inner_top) * 0.34))
     probe_xy = (margin + 10, by)
-    request_bg = imaging.hex_rgb(cfg.path("cards.request.bg"))
+    # cards.request لم يعد يحمل bg/fg خاصَّين به (Issue #952) -- يسقط إلى
+    # brand.accent_color تلقائيًا، فالفحص يحسب اللون الفعلي بنفس القاعدة
+    # بدل افتراض وجود cards.request.bg دومًا.
+    request_bg = imaging.hex_rgb(
+        cfg.path("cards.request.bg") or cfg.path("brand.accent_color"))
     out_path = DRAFTS_DIR / Path(persisted_chosen["image"]).relative_to("drafts")
     with Image.open(out_path) as im:
         pixel = im.convert("RGB").getpixel(probe_xy)
-    check("البطاقة المبنية عند الاعتماد تحمل ملصق «تحقيق» (origin=request، Issue #758)",
+    check("البطاقة المبنية عند الاعتماد تحمل ملصق «هام» (origin=request، Issue #952)",
           all(abs(a - b) <= 6 for a, b in zip(pixel, request_bg)), (pixel, request_bg))
+    check("cards.request.badge == «هام» وcards.verify/article ما زالا «تحقيق» (Issue #952)",
+          cfg.path("cards.request.badge") == "هام"
+          and cfg.path("cards.verify.badge") == "تحقيق"
+          and cfg.path("cards.article.badge") == "تحقيق",
+          (cfg.path("cards.request.badge"), cfg.path("cards.verify.badge"),
+           cfg.path("cards.article.badge")))
 
 def test_publish_card_search_term_from_image_query_en() -> None:
     """Issue #941: البطاقات لمسار article.py كانت تخرج بلا صورة تعبيرية لأن
