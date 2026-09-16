@@ -1,0 +1,68 @@
+{
+  "id": "0e373259d947",
+  "created_at": "2026-09-16T06:07:48.589523+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.01,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi coalition says Houthi drone destroyed near Mecca",
+  "link": "https://www.thehindu.com/news/international/saudi-coalition-says-houthi-drone-destroyed-near-mecca/article71470972.ece",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Saudi coalition says Houthi drone destroyed near Mecca",
+    "link": "https://www.thehindu.com/news/international/saudi-coalition-says-houthi-drone-destroyed-near-mecca/article71470972.ece",
+    "summary": "The drone, intercepted on September 15 was the second Houthi attempt to target Mecca after a ballistic missile launch in July 2017, spokesperson Turki al-Malki said in a statement",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-16T05:27:57+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/g74jdv/article71470987.ece/alternates/LANDSCAPE_1200/2026-09-15T091021Z_1931178679_RC22JNANRKLM_RTRMADP_3_SAUDI-MECCA-UMRAH.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/liveblog/2026/9/16/iran-war-live-irans-top-diplomat-heads-to-china-as-war-drags-on?traffic_source=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/16/saudi-led-coalition-intercepts-drone-headed-for-mecca?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/saudi-coalition-says-houthi-drone-destroyed-near-mecca/article71470972.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/g74jdv/article71470987.ece/alternates/LANDSCAPE_1200/2026-09-15T091021Z_1931178679_RC22JNANRKLM_RTRMADP_3_SAUDI-MECCA-UMRAH.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1021.9118907055555,
+    "is_stale": false,
+    "score": 19.010710210330135,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

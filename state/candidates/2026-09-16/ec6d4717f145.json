@@ -1,0 +1,76 @@
+{
+  "id": "ec6d4717f145",
+  "created_at": "2026-09-16T06:07:48.588663+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.05,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Boeing, Korean Air finalize order for 103 aircraft",
+  "link": "https://www.channelnewsasia.com/business/boeing-korean-air-finalize-order-103-aircraft-6387791",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Nikkei Asia",
+    "Yonhap News"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Boeing, Korean Air finalize order for 103 aircraft",
+    "link": "https://www.channelnewsasia.com/business/boeing-korean-air-finalize-order-103-aircraft-6387791",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-16T02:22:26+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--QGZpwDnH--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-16T022004Z_1_LYNXMPEM8F053_RTROPTP_3_KOREAN-AIR-BOEING.JPG?itok=19SiSYWE",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Nikkei Asia",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260916002600320"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/business/boeing-korean-air-finalize-order-103-aircraft-6387791"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/09/16/boeing-korean-air-finalize-order-for-103-aircraft"
+      },
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/business/transportation/korean-air-will-maintain-asiana-mileage-program-for-10-years-after-merger"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--QGZpwDnH--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-16T022004Z_1_LYNXMPEM8F053_RTROPTP_3_KOREAN-AIR-BOEING.JPG?itok=19SiSYWE",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/16/AEN20260916002600320_03_i_P2.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/8e741933-37ba-42c6-8a43-bdac57c0bfb1-Boeing-787-production-AFP-16092026-.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1021.9117395247223,
+    "is_stale": true,
+    "score": 21.04969309296296,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
