@@ -584,7 +584,16 @@ def cmd_revival(issue_number: int, body: str, cfg) -> int:
     تُعيد معالجة مسودة قُرِّر مصيرها فعلًا) يقصر المعالجة على مسودات هذا
     الـIssue وحده فيمنع الأثر المزدوج لو تكرر حدث الوسم (نفس الحارس في
     ``cmd_final_review``). معرّف بلا مسودة (حذفتها ``retention.py``) أو
-    بمسودة لا تطابق الحارس يُتخطّى بسطر في التعليق، لا انهيارًا."""
+    بمسودة لا تطابق الحارس يُتخطّى بسطر في التعليق، لا انهيارًا.
+
+    مسودات تحليل معلَّمة قد تتجاوز سقف تشغيلة واحدة
+    (``youtube.publish.max_per_run``، Issue #961): ``youtube_publish.publish_ids``
+    يقتصر داخليًا على أول ``max_per_run`` معرّفًا ويعيد الباقي في ``remaining``
+    بلا لمسها. مسودة خارج تلك الدفعة يجب ألا يُمسّ منها ``error``/``failed_stage``/
+    ``revival_issue`` — تبقى تمامًا كما كانت (قابلة للعرض في تشغيلة إحياء لاحقة
+    لنفس الـIssue) بدل أن تموت بصمت بلا وسم يعيدها. طالما بقي شيء من دفعة
+    التحليل، الـIssue لا يُغلق ويُزال وسمه ليعيد المراجع وسمه لاحقًا فيعالج
+    الباقي وحده (الحارس أعلاه يقصر كل تشغيلة تالية على ما لم يُحاوَل بعد)."""
     all_ids = review.all_revival_ids(body)
     approved_ids = set(review.parse_revival_ids(body))
 
@@ -607,6 +616,7 @@ def cmd_revival(issue_number: int, body: str, cfg) -> int:
             store.update_draft(path, revival_declined=True)
             lines.append(f"- 🚫 {draft['arabic']['post_title'][:50]} — لم يُعلَّم، مات نهائيًا")
 
+    analysis_remaining: list[str] = []
     if matched:
         analysis_rows = [(p, d) for p, d in matched if store.origin_of(d) == "analysis"]
         news_rows = [(p, d) for p, d in matched if store.origin_of(d) != "analysis"]
@@ -634,17 +644,37 @@ def cmd_revival(issue_number: int, body: str, cfg) -> int:
         if analysis_rows:
             # نفس توجيه المعتمَد العادي لمسار التحليل (publish.main أدناه) —
             # لا منطق نشر جديد هنا: youtube_publish.publish_ids تنشر فورًا
-            # (بسقفها وتباعدها الخاصّين)، لا queued/publish_at.
-            for path, draft in analysis_rows:
-                store.update_draft(path, remove=["error", "failed_stage", "revival_issue"])
+            # (بسقفها وتباعدها الخاصّين)، لا queued/publish_at. الحقول الثلاثة
+            # تُمسح فقط لمعرّفات الدفعة الفعلية (نفس تقطيع max_per_run الذي
+            # تطبّقه publish_ids داخليًا — Issue #961) — مسودة تتجاوز سقف هذه
+            # التشغيلة لا يُمسّ منها شيء، فتبقى قابلة للعرض إحياءً لاحقًا.
             from . import youtube_publish
-            yt_lines, _, _, _ = youtube_publish.publish_ids(
-                [d["id"] for _, d in analysis_rows], {}, cfg)
+            analysis_ids = [d["id"] for _, d in analysis_rows]
+            max_per_run = int(cfg.path("youtube.publish.max_per_run", 3))
+            batch_ids = set(analysis_ids[:max_per_run])
+            for path, draft in analysis_rows:
+                if draft["id"] in batch_ids:
+                    store.update_draft(path, remove=["error", "failed_stage", "revival_issue"])
+            yt_lines, _, _, analysis_remaining = youtube_publish.publish_ids(
+                analysis_ids, {}, cfg)
             lines += yt_lines
+            if analysis_remaining:
+                by_id = {d["id"]: d for _, d in analysis_rows}
+                for rid in analysis_remaining:
+                    title = by_id[rid]["arabic"]["post_title"][:50]
+                    lines.append(f"- ⏳ {title} — ينتظر تشغيلة لاحقة")
+                lines.append("أعد وضع وسم `approved` لمتابعة الباقي")
 
     text = "### ♻️ نتيجة إحياء المنشورات الفاشلة\n" + "\n".join(lines)
     review.comment(issue_number, text)
-    review.close_issue(issue_number)
+    if analysis_remaining:
+        # باقٍ من دفعة التحليل لم يُحاوَل بعد (Issue #961): الـIssue يبقى
+        # مفتوحًا وينتظر وسمًا جديدًا يعالج الباقي وحده — إغلاقه هنا كان
+        # يفقد المراجع أي أثر لبقية الدفعة (لا وسم approved قائم يعيد
+        # تشغيلها، ولا Issue مفتوح يذكّر بها).
+        review.remove_label(issue_number, "approved")
+    else:
+        review.close_issue(issue_number)
     return 0
 
 

@@ -136,6 +136,10 @@ from tests.test_review import (
     test_publish_revival_issue_full_flow,
     test_revival_end_to_end,
     test_open_review_revival_offered_twice_then_stops,
+    test_publish_revival_analysis_batch_cap_defers_remainder,
+    test_publish_revival_analysis_batch_seven_drafts_three_runs,
+    test_publish_revival_mixed_news_and_analysis_batch,
+    test_publish_revival_batch_member_fails_again_stays_offered,
 )
 from tests.test_article import (
     test_verify,
@@ -431,6 +435,10 @@ def main() -> int:
     test_publish_revival_issue_full_flow()
     test_revival_end_to_end()
     test_open_review_revival_offered_twice_then_stops()
+    test_publish_revival_analysis_batch_cap_defers_remainder()
+    test_publish_revival_analysis_batch_seven_drafts_three_runs()
+    test_publish_revival_mixed_news_and_analysis_batch()
+    test_publish_revival_batch_member_fails_again_stays_offered()
     print("\n── setimage.apply_image يحافظ على وسم المسار (Issue #758) ──")
     test_setimage_apply_image_keeps_origin_badge()
     print("\n── اختيار عنوان غير افتراضي يعيد بناء البطاقة (Issue #760) ──")
