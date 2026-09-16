@@ -1,28 +1,5 @@
 [
   {
-    "score": 21.01,
-    "bucket": "serious",
-    "tokens": [
-      "area",
-      "bab",
-      "complete",
-      "control",
-      "houthis",
-      "island",
-      "key",
-      "mandeb",
-      "push",
-      "red",
-      "sea",
-      "seize"
-    ],
-    "link": "https://www.ndtv.com/world-news/houthis-seize-key-red-sea-island-complete-push-to-control-bab-al-mandeb-area-12033833#publisher=newsstand",
-    "title": "Houthis Seize Key Red Sea Island, Complete Push To Control Bab Al-Mandeb Area",
-    "posted_title": "الحوثيون يسيطرون على جزيرة ميون ويكملون السيطرة على مضيق باب المندب",
-    "region": "in",
-    "seen_at": "2026-09-11T15:10:42.070703+00:00"
-  },
-  {
     "score": 25.78,
     "bucket": "sport",
     "tokens": [
@@ -5370,5 +5347,82 @@
     "posted_title": "",
     "region": "qa",
     "seen_at": "2026-09-16T15:08:07.006329+00:00"
+  },
+  {
+    "score": 22.83,
+    "bucket": "serious",
+    "tokens": [
+      "aircraft",
+      "airspace",
+      "ban",
+      "extended",
+      "indian",
+      "oct",
+      "pakistani",
+      "until",
+      "using"
+    ],
+    "link": "https://www.dawn.com/news/2030359/ban-on-indian-aircraft-using-pakistani-airspace-extended-until-oct-24",
+    "title": "Ban on Indian aircraft using Pakistani airspace extended until Oct 24",
+    "posted_title": "لماذا تواصل باكستان إغلاق أجوائها أمام الطائرات الهندية بعد أكثر من عام على الأزمة؟",
+    "region": "pk",
+    "seen_at": "2026-09-16T15:38:18.545208+00:00"
+  },
+  {
+    "score": 20.95,
+    "bucket": "serious",
+    "tokens": [
+      "alliance",
+      "associate",
+      "canada",
+      "chief",
+      "future",
+      "member",
+      "pitches",
+      "status"
+    ],
+    "link": "https://www.ndtv.com/world-news/alliance-for-future-eu-chief-ursula-von-der-leyen-pitches-associate-member-status-for-canada-12054902#publisher=newsstand",
+    "title": "\"Alliance For Future\": EU Chief Pitches Associate Member Status For Canada",
+    "posted_title": "لماذا تعرض بروكسل على كندا أن تكون أول \"عضو منتسب\" في الاتحاد الأوروبي؟",
+    "region": "in",
+    "seen_at": "2026-09-16T15:38:38.181529+00:00"
+  },
+  {
+    "score": 20.66,
+    "bucket": "serious",
+    "tokens": [
+      "council",
+      "fifa",
+      "infantino",
+      "investment",
+      "plan",
+      "present",
+      "review",
+      "shelved"
+    ],
+    "link": "https://www.aljazeera.com/sports/2026/9/16/fifa-to-present-review-of-infantinos-shelved-investment-plan-to-council?traffic_source=rss",
+    "title": "FIFA to present review of Infantino’s shelved investment plan to Council",
+    "posted_title": "فيفا يوافق على عرض مراجعة خطة بيع حصص كأس العالم بعد ضغط دنماركي",
+    "region": "qa",
+    "seen_at": "2026-09-16T15:38:56.789085+00:00"
+  },
+  {
+    "score": 20.16,
+    "bucket": "serious",
+    "tokens": [
+      "000",
+      "approve",
+      "bombs",
+      "heavy",
+      "israel",
+      "means",
+      "set",
+      "what"
+    ],
+    "link": "https://www.aljazeera.com/features/2026/9/16/us-set-to-approve-60000-heavy-bombs-for-israel-what-that-means?traffic_source=rss",
+    "title": "US set to approve 60,000 heavy bombs for Israel: What that means",
+    "posted_title": "واشنطن تستعد لبيع إسرائيل 60 ألف قنبلة ثقيلة بقيمة 2.8 مليار دولار",
+    "region": "qa",
+    "seen_at": "2026-09-16T15:39:20.277950+00:00"
   }
 ]
