@@ -1,0 +1,86 @@
+{
+  "id": "af6a6f301262",
+  "created_at": "2026-09-16T14:23:35.113751+00:00",
+  "status": "queued",
+  "review_issue": null,
+  "origin": "news",
+  "score": 21.53,
+  "bucket": "sport",
+  "analysed_sources": [
+    "Al Jazeera English"
+  ],
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "age_hours": 1027.9,
+  "is_followup": false,
+  "state_media": false,
+  "source": {
+    "title": "Messi in Argentina squad for farewell friendly",
+    "link": "https://www.bbc.co.uk/sport/football/articles/c8ly49lv3vx1o?at_medium=RSS&at_campaign=rss",
+    "publisher": "BBC Sport",
+    "publishers": [
+      "Al Jazeera English",
+      "BBC Sport",
+      "Daily Sabah",
+      "The Guardian — Sport",
+      "The Japan Times"
+    ],
+    "region": "sport",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+      "https://i.guim.co.uk/img/media/9906000d595ac4ef008656ccf12b0118d739b3e9/1113_120_4330_3463/master/4330.jpg?width=700&quality=85&auto=format&fit=max&s=0dd009f1cd2af112ddfd9fb6047cec30",
+      "https://i.guim.co.uk/img/media/9906000d595ac4ef008656ccf12b0118d739b3e9/1113_120_4330_3463/master/4330.jpg?width=460&quality=85&auto=format&fit=max&s=f7453d0adfa7a76fccfcc9528573cc4d",
+      "https://i.guim.co.uk/img/media/9906000d595ac4ef008656ccf12b0118d739b3e9/1113_120_4330_3463/master/4330.jpg?width=140&quality=85&auto=format&fit=max&s=29b0c6593efb3bca6b615164d6bcd099"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "",
+    "urgent": false,
+    "category": "رياضة",
+    "image_headline": "ميسي.. مباراة الوداع مع الأرجنتين في أكتوبر",
+    "post_title": "ميسي يخوض مباراته الوداعية مع الأرجنتين في السادس من أكتوبر",
+    "post_body": "أدرج الاتحاد الأرجنتيني لكرة القدم ليونيل ميسي في تشكيلة المنتخب لمواجهة بنين وديًا في السادس من أكتوبر المقبل، في مباراة ستكون وداعه الرسمي للفريق الوطني بعد إعلانه اعتزال اللعب الدولي الشهر الماضي. تُقام المباراة على ملعب المونومنتال التابع لنادي ريفر بليت في بوينس آيرس، بسعة تصل إلى 85 ألف متفرج. ستكون هذه المباراة الظهور رقم 208 والأخير لميسي مع الأرجنتين، وهو هداف المنتخب التاريخي برصيد 125 هدفًا. يسبق مباراة بنين لقاءان وديان أمام بوليفيا في 30 سبتمبر وبوركينا فاسو في 3 أكتوبر.",
+    "hashtags": [
+      "ميسي",
+      "الأرجنتين",
+      "كرة_القدم",
+      "وداع_ميسي"
+    ]
+  },
+  "caption": "ميسي يخوض مباراته الوداعية مع الأرجنتين في السادس من أكتوبر\n\nأدرج الاتحاد الأرجنتيني لكرة القدم ليونيل ميسي في تشكيلة المنتخب لمواجهة بنين وديًا في السادس من أكتوبر المقبل، في مباراة ستكون وداعه الرسمي للفريق الوطني بعد إعلانه اعتزال اللعب الدولي الشهر الماضي. تُقام المباراة على ملعب المونومنتال التابع لنادي ريفر بليت في بوينس آيرس، بسعة تصل إلى 85 ألف متفرج. ستكون هذه المباراة الظهور رقم 208 والأخير لميسي مع الأرجنتين، وهو هداف المنتخب التاريخي برصيد 125 هدفًا. يسبق مباراة بنين لقاءان وديان أمام بوليفيا في 30 سبتمبر وبوركينا فاسو في 3 أكتوبر.\n\n#ميسي #الأرجنتين #كرة_القدم #وداع_ميسي",
+  "headlines": [
+    "هل ستكون مباراة السادس من أكتوبر بمثابة وداع حقيقي لميسي الدولي؟",
+    "ميسي يختتم مسيرته الدولية برصيد 125 هدفًا في مواجهة بنين",
+    "ظهور تاريخي أخير: ميسي يلعب مباراته الـ 208 مع الأرجنتين على ملعب المونومنتال"
+  ],
+  "headline_selected": 0,
+  "reel": null,
+  "reel_spec": {
+    "headline": "ميسي.. مباراة الوداع مع الأرجنتين في أكتوبر",
+    "category": "رياضة",
+    "urgent": false,
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+      "https://i.guim.co.uk/img/media/9906000d595ac4ef008656ccf12b0118d739b3e9/1113_120_4330_3463/master/4330.jpg?width=700&quality=85&auto=format&fit=max&s=0dd009f1cd2af112ddfd9fb6047cec30",
+      "https://i.guim.co.uk/img/media/9906000d595ac4ef008656ccf12b0118d739b3e9/1113_120_4330_3463/master/4330.jpg?width=460&quality=85&auto=format&fit=max&s=f7453d0adfa7a76fccfcc9528573cc4d",
+      "https://i.guim.co.uk/img/media/9906000d595ac4ef008656ccf12b0118d739b3e9/1113_120_4330_3463/master/4330.jpg?width=140&quality=85&auto=format&fit=max&s=29b0c6593efb3bca6b615164d6bcd099"
+    ]
+  },
+  "image": "drafts/2026-09-16/af6a6f301262.jpg",
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+    "candidates_tried": 6,
+    "manual": false
+  },
+  "publish_at": "2026-09-16T16:04:17.926427+00:00"
+}
