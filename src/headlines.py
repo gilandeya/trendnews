@@ -72,7 +72,9 @@ def validate_headlines(headlines: list[str], max_words: int) -> tuple[bool, str]
 def propose_headlines(user_content: str, cfg: Config, cfg_prefix: str, *,
                        system: str | None = None,
                        client: Anthropic | None = None,
-                       extra_validate=None) -> tuple[list[str] | None, str | None]:
+                       extra_validate=None,
+                       extra_properties: dict | None = None,
+                       extra_result: dict | None = None) -> tuple[list[str] | None, str | None]:
     """نداء قصير رخيص لاقتراح ثلاثة عناوين بديلة، بمحاولة إعادة عند إخراج
     غير صالح (نفس آلية youtube_article.draft_article). يعيد (ثلاثة عناوين،
     سبب فشل نهائي إن حدث -- None عند النجاح).
@@ -84,7 +86,15 @@ def propose_headlines(user_content: str, cfg: Config, cfg_prefix: str, *,
     ``extra_validate`` (اختياري): دالّة ``(headlines) -> (صالح, سبب)`` تُفحص
     بعد التحقّق العام (``validate_headlines``) ضمن ميزانية إعادة المحاولة
     نفسها -- لا محاولات إضافية منفصلة. يستعملها ``youtube_article`` لإضافة
-    فحص الاسم غير الموثَّق بلا مضاعفة عدد النداءات."""
+    فحص الاسم غير الموثَّق بلا مضاعفة عدد النداءات.
+
+    ``extra_properties``/``extra_result`` (اختياريان معًا، Issue #941): حقل
+    إضافي اختياري (غير required) يُدمَج في نسخة معدَّلة من HEADLINE_SCHEMA
+    لهذا النداء وحده -- المسارات الأخرى (collect/verify_draft/request) لا
+    تمرّرهما فتبقى على المخطط الأصلي حرفيًا بلا أي أثر جانبي. عند النجاح،
+    قيمة كل مفتاح من extra_properties (إن أعادها النموذج) تُكتَب في
+    extra_result -- بلا تغيير في قيمة الإرجاع الأصلية (headlines, error) كي
+    لا تنكسر بقية المستدعين الحاليين لهذه الدالة."""
     model = cfg.path(f"{cfg_prefix}.model", "claude-haiku-4-5-20251001")
     max_tokens = cfg.path(f"{cfg_prefix}.max_tokens", 600)
     max_retries = cfg.path(f"{cfg_prefix}.max_retries", 2)
@@ -92,13 +102,23 @@ def propose_headlines(user_content: str, cfg: Config, cfg_prefix: str, *,
     system = system or DEFAULT_HEADLINE_SYSTEM
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
+    schema = HEADLINE_SCHEMA
+    if extra_properties:
+        schema = {
+            **HEADLINE_SCHEMA,
+            "input_schema": {
+                **HEADLINE_SCHEMA["input_schema"],
+                "properties": {**HEADLINE_SCHEMA["input_schema"]["properties"], **extra_properties},
+            },
+        }
+
     last_reason = ""
     for attempt in range(1, max_retries + 1):
         try:
             resp = client.messages.create(
                 model=model,
                 max_tokens=max_tokens,
-                tools=[HEADLINE_SCHEMA],
+                tools=[schema],
                 tool_choice={"type": "tool", "name": "propose_headlines"},
                 system=system,
                 messages=[{"role": "user", "content": user_content}],
@@ -116,6 +136,9 @@ def propose_headlines(user_content: str, cfg: Config, cfg_prefix: str, *,
             if ok and extra_validate:
                 ok, reason = extra_validate(headlines)
             if ok:
+                if extra_result is not None and extra_properties and isinstance(data, dict):
+                    for key in extra_properties:
+                        extra_result[key] = data.get(key)
                 return headlines, None
             last_reason = reason
             log.warning("محاولة %d/%d: عناوين غير صالحة (%s)", attempt, max_retries, reason)

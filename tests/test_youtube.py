@@ -1633,21 +1633,21 @@ def test_youtube_article() -> None:
     article_cfg = load_config()
 
     def _valid_article(title="عنوان-سؤال تجريبي عن قضية ما؟", filler_words=300,
-                        include_likelihood=True, sources_heading="## المصادر", extra_body=""):
+                        include_likelihood=True, extra_body=""):
         # ٣٠٠ كلمة حشو + جملة الترجيح ⇒ تقع مريحًا داخل نافذة ٢٥٠–٧٥٠ كلمة
-        # (youtube.article.min_words/max_words) بلا أي عنوان ## عدا قسم
-        # المصادر (النسخة الثالثة، Issue #690). لا سطر **التقدير:** هنا --
-        # ممنوع في النسخة الرابعة (Issue #695)؛ عبارة الترجيح مدمجة في جملة
-        # نثرية عادية بدل صندوق التقدير الذي زال.
+        # (youtube.article.min_words/max_words) بلا أي عنوان ## إطلاقًا (Issue
+        # #941 -- حتى ## المصادر صار ممنوعًا، لا فقط ما زاد عنه). لا سطر
+        # **التقدير:** هنا -- ممنوع في النسخة الرابعة (Issue #695)؛ عبارة
+        # الترجيح مدمجة في جملة نثرية عادية بدل صندوق التقدير الذي زال.
         filler = " ".join(["كلمة"] * filler_words)
         likelihood_sentence = ("وهذا مرجّح بقوة، ولا يسندها إلا مصدر واحد."
                                 if include_likelihood else "")
         parts = [filler, likelihood_sentence, extra_body]
         body = "\n\n".join(p for p in parts if p)
-        return (f"# {title}\n\n{body}\n\n---\n{sources_heading}\n"
-                f"قناة تجريبية -- عنوان الفيديو -- رابط")
+        return f"# {title}\n\n{body}\n"
 
-    # ── _validate_article_text: بنية إلزامية (Issue #690 -- نثر متّصل بلا أقسام) ──
+    # ── _validate_article_text: بنية إلزامية (Issue #690 -- نثر متّصل بلا أقسام،
+    # Issue #941 -- حتى ## المصادر صار ممنوعًا لا مطلوبًا) ──
     ok, reason = ya._validate_article_text(_valid_article(), article_cfg)
     check("مقال نثري مطابق للبنية الجديدة يُقبَل", ok, reason)
 
@@ -1664,14 +1664,18 @@ def test_youtube_article() -> None:
     check("مقال بلا أي عبارة من سلّم الترجيح في المتن يُرفَض",
           not ok and "سلّم الترجيح" in reason, reason)
 
+    # ── Issue #941: القاعدة معكوسة تمامًا -- ## المصادر كان إلزاميًا (Issue
+    # #690) وصار ممنوعًا، وأي قسم ## آخر كان "زائدًا" فيُرفَض ويبقى مرفوضًا
+    # الآن لنفس السبب العام (صفر أقسام مسموح) ──
     ok, reason = ya._validate_article_text(
-        _valid_article(sources_heading="## قسم آخر"), article_cfg)
-    check("غياب قسم ## المصادر يُرفَض", not ok and "مصادر" in reason, reason)
+        _valid_article(extra_body="## المصادر\nقناة تجريبية -- رابط"), article_cfg)
+    check("(#941) مقال فيه ## المصادر يُرفَض الآن (عكس قاعدة Issue #690)",
+          not ok and "##" in reason and "المصادر" in reason, reason)
 
     ok, reason = ya._validate_article_text(
         _valid_article(extra_body="## من قال ماذا\nنقاش الأطراف هنا."), article_cfg)
-    check("مقال فيه قسم ## غير المصادر يُرفَض (عكس بنية 'النسخة الثانية' القديمة)",
-          not ok and "أقسام ##" in reason, reason)
+    check("مقال فيه أي قسم ## آخر يُرفَض أيضًا (صفر أقسام مسموح إطلاقًا)",
+          not ok and "##" in reason, reason)
 
     ok, reason = ya._validate_article_text(_valid_article(filler_words=5), article_cfg)
     check("مقال أقصر من الحدّ الأدنى (250 كلمة) يُرفَض",
@@ -1681,7 +1685,7 @@ def test_youtube_article() -> None:
     check("مقال أطول من الحدّ الأعلى (750 كلمة) يُرفَض",
           not ok and "طويل جدًا" in reason and "الأعلى 750" in reason, reason)
 
-    # ── فحوص جديدة على "المتن" (بين نهاية العنوان الرئيسي وبداية ## المصادر) ──
+    # ── فحوص "المتن" (كل ما بعد العنوان الرئيسي حتى نهاية النص، Issue #941) ──
     ok, reason = ya._validate_article_text(
         _valid_article(extra_body="النتيجة هنا — كما يبدو — واضحة تمامًا."), article_cfg)
     check("شرطة معترضة (—) في المتن تُرفَض",
@@ -1699,7 +1703,16 @@ def test_youtube_article() -> None:
     ok, reason = ya._validate_article_text(
         _valid_article(extra_body="فقرة أولى من المتن.\n\n---\n\nفقرة بعد فاصل زائد."),
         article_cfg)
-    check("فاصل أفقي (---) داخل المتن (غير الذي يسبق المصادر) يُرفَض",
+    check("فاصل أفقي (---) في المتن يُرفَض (ممنوع كليًا الآن، Issue #941 -- لا استثناء "
+          "لفاصل يسبق مصادر بعد زوال قسمها)",
+          not ok and "فاصل أفقي" in reason, reason)
+
+    # Issue #941: كان الفاصل الأفقي الواحد الذي يسبق ## المصادر مباشرة
+    # مستثنًى (Issue #695) -- زوال القسم معه يعني رفض حتى فاصل زائد وحيد في
+    # آخر المتن، لا فقط ما تجاوز فاصلًا واحدًا مسموحًا كسابقًا.
+    ok, reason = ya._validate_article_text(
+        _valid_article(extra_body="فقرة أخيرة من المتن.") + "\n---\n", article_cfg)
+    check("(#941) فاصل أفقي وحيد في آخر المتن يُرفَض أيضًا (لا استثناء له بعد اليوم)",
           not ok and "فاصل أفقي" in reason, reason)
 
     # ── حارس التكرار القالبي (Issue #690 النقطة ٣) ──
@@ -2000,35 +2013,52 @@ def test_youtube_article() -> None:
     hl_member_points = [{"channel": "الجزيرة", "speaker": "ناطق", "statement": "بيان ما",
                          "quote_original": "he commented and biden replied"}]
 
-    hl_success_client = _Client([_Resp([_Block("tool_use", input_={"headlines": good_headlines})])])
-    hl_result, hl_error = ya.generate_headlines(hl_topic, hl_member_points, article_cfg,
-                                                 hl_success_client)
+    hl_success_client = _Client([_Resp([_Block("tool_use", input_={
+        "headlines": good_headlines, "image_query_en": "Strait of Hormuz tanker"})])])
+    hl_result, hl_error, hl_image_query = ya.generate_headlines(
+        hl_topic, hl_member_points, article_cfg, hl_success_client)
     check("generate_headlines: محاولة أولى صالحة تُقبَل بلا إعادة",
           hl_error is None and hl_result == good_headlines, (hl_result, hl_error))
+    check("generate_headlines: image_query_en (Issue #941) يصل عبر نفس النداء بلا نداء إضافي",
+          hl_image_query == "Strait of Hormuz tanker", hl_image_query)
 
     hl_retry_client = _Client([
         _Resp([_Block("tool_use", input_={"headlines": not_question})]),
         _Resp([_Block("tool_use", input_={"headlines": good_headlines})]),
     ])
-    hl_result2, hl_error2 = ya.generate_headlines(hl_topic, hl_member_points, article_cfg,
-                                                   hl_retry_client)
+    hl_result2, hl_error2, hl_image_query2 = ya.generate_headlines(
+        hl_topic, hl_member_points, article_cfg, hl_retry_client)
     check("generate_headlines: إعادة محاولة بعد عنوان أول بلا صيغة سؤال تنجح",
           hl_error2 is None and hl_result2 == good_headlines, (hl_result2, hl_error2))
+    check("generate_headlines: غياب image_query_en من ردّ النموذج يعيد None بلا انهيار",
+          hl_image_query2 is None, hl_image_query2)
 
     hl_bad_client = _Client([
         _Resp([_Block("tool_use", input_={"headlines": not_question})]),
         _Resp([_Block("tool_use", input_={"headlines": not_question})]),
     ])
-    hl_result3, hl_error3 = ya.generate_headlines(hl_topic, hl_member_points, article_cfg,
-                                                   hl_bad_client)
+    hl_result3, hl_error3, hl_image_query3 = ya.generate_headlines(
+        hl_topic, hl_member_points, article_cfg, hl_bad_client)
     check("generate_headlines: فشل كل المحاولات يعيد سببًا صريحًا لا قائمة",
           hl_result3 is None and hl_error3 is not None, hl_error3)
+    check("generate_headlines: فشل كل المحاولات يعيد image_query_en=None أيضًا",
+          hl_image_query3 is None, hl_image_query3)
 
     appended_hl = ya._append_headlines("# عنوان\n\nنص المقال", good_headlines)
     check("_append_headlines: يضيف القسم بترويسة صحيحة وترقيم ١-٣",
           ya.HEADLINES_HEADER in appended_hl and
           all(f"{i}. {h}" in appended_hl for i, h in enumerate(good_headlines, start=1)),
           appended_hl)
+
+    # ── _append_image_query (Issue #941): كلمات بحث الصورة الإنجليزية ──
+    appended_iq = ya._append_image_query("# عنوان\n\nنص المقال", "Strait of Hormuz tanker")
+    check("_append_image_query: يضيف القسم بترويسة صحيحة عند توفّر قيمة فعلية",
+          ya.IMAGE_QUERY_HEADER in appended_iq and "Strait of Hormuz tanker" in appended_iq,
+          appended_iq)
+    check("_append_image_query: غياب القيمة (None) لا يغيّر النص إطلاقًا",
+          ya._append_image_query("نص كما هو", None) == "نص كما هو")
+    check("_append_image_query: سلسلة فارغة تُعامَل معاملة None (بلا قسم فارغ دومًا)",
+          ya._append_image_query("نص كما هو", "") == "نص كما هو")
 
     # ── save_articles / build_index: ترقيم بلا فجوات + جدول الفهرس + عمود التنبيهات ──
     saved = ya.save_articles("2099-03-03", [
@@ -2313,6 +2343,27 @@ def test_youtube_publish() -> None:
     check("extract_source_lines: قسم غائب يعيد قائمة فارغة بلا استثناء",
           yp.extract_source_lines("# عنوان بلا قسم مصادر\nنص") == [])
 
+    # ── split_image_query (Issue #941): يُقصّ قبل split_headlines -- الترتيب
+    # الفعلي في نصّ المقال متن ← تحذيرات ← عناوين ← كلمات بحث الصورة ──
+    article_with_image_query = (
+        "# عنوان تجريبي؟\n\nمتن.\n\n---\n" + youtube_article.HEADLINES_HEADER + "\n"
+        "1. عنوان تجريبي؟\n2. بديل ١\n3. بديل ٢\n"
+        "\n---\n" + youtube_article.IMAGE_QUERY_HEADER + "\nStrait of Hormuz tanker\n"
+    )
+    stripped, image_query = yp.split_image_query(article_with_image_query)
+    check("split_image_query: يستخرج كلمات البحث الإنجليزية كاملة",
+          image_query == "Strait of Hormuz tanker", image_query)
+    check("split_image_query: النصّ المتبقّي خالٍ من قسم كلمات البحث لكنه يحتفظ بالعناوين",
+          youtube_article.IMAGE_QUERY_HEADER not in stripped and
+          youtube_article.HEADLINES_HEADER in stripped, stripped)
+    check("split_image_query: بعد القصّ، split_headlines يعمل عليه كما لو لم يكن القسم موجودًا",
+          yp.split_headlines(stripped)[1] == ["عنوان تجريبي؟", "بديل ١", "بديل ٢"],
+          yp.split_headlines(stripped))
+
+    stripped_none, image_query_none = yp.split_image_query("# عنوان بلا قسم\nنص")
+    check("split_image_query: قسم غائب يعيد None بلا استثناء، والنصّ بلا تغيير جوهري",
+          image_query_none is None and "# عنوان بلا قسم" in stripped_none, stripped_none)
+
     # ── parse_index: جولة كاملة عبر youtube_article.build_index الفعلية (بلا تعديل عليها) ──
     saved_index = [
         {"number": 1, "filename": "01-a.md", "headline": "عنوان أ؟", "event": "حدث أ",
@@ -2397,6 +2448,16 @@ def test_youtube_publish() -> None:
           len(terms) == 2 and "اجتماع" in terms[0] and "الملف" in terms[1], terms)
     check("_photo_search_terms: نصّان فارغان يعيدان قائمة فارغة بلا استثناء",
           yp._photo_search_terms("", "") == [], yp._photo_search_terms("", ""))
+
+    # ── image_query_en (Issue #941): يتصدّر القائمة حين يتوفّر -- السبب
+    # الجذري لبطاقات بلا صورة كان بحثًا عربيًا محضًا في ويكيميديا/Openverse ──
+    terms_en = yp._photo_search_terms(
+        "هل يتجه الملف نحو تصعيد جديد في المنطقة؟",
+        "اجتماع طارئ لمجلس الأمن بشأن الملف", "Strait of Hormuz tanker")
+    check("_photo_search_terms: image_query_en يتصدّر القائمة حين يتوفّر",
+          terms_en[0] == "Strait of Hormuz tanker" and len(terms_en) == 3, terms_en)
+    check("_photo_search_terms: غياب image_query_en (None) لا يضيف شيئًا -- سلوك سابق كما هو",
+          yp._photo_search_terms("عنوان", "حدث", None) == yp._photo_search_terms("عنوان", "حدث"))
 
     # ── _photo_candidates: بلا شبكة فعلية -- imagesearch.find_images
     # وimaging.download_image وimaging.face_score كلّها مموَّهة محليًا.
@@ -2621,6 +2682,10 @@ def test_youtube_publish() -> None:
           build_result["drafts"] and build_result["drafts"][0]["score"] ==
           yp.compute_score(["arabic", "turkish"], ["الجزيرة", "CNN Türk"], "cross_source", cfg),
           build_result["drafts"][0].get("score") if build_result["drafts"] else None)
+    check("build(): بلا قسم كلمات بحث صورة في المقال ⇒ image_query_en=None على المسودة "
+          "(Issue #941، مقال بلا هذا القسم لا انهيار)",
+          build_result["drafts"] and build_result["drafts"][0].get("image_query_en") is None,
+          build_result["drafts"][0].get("image_query_en") if build_result["drafts"] else None)
     check("build(): event القضية وصل المسودة عبر index.md (طلب المراجعة على Issue #680)",
           build_result["drafts"] and
           build_result["drafts"][0]["event"] == "اجتماع طارئ بشأن الملف",
@@ -2641,6 +2706,43 @@ def test_youtube_publish() -> None:
     empty_build = yp.build(cfg, date_str="2026-02-03")
     check("build(): تاريخ بلا state/youtube_articles/<date>/index.md يعيد صفر مسودات بلا استثناء",
           empty_build["drafts"] == [], empty_build)
+
+    # ── build(): image_query_en (Issue #941) يصل المسودة فعليًا حين يحمله
+    # ملف المقال -- مقال/تاريخ منفصلان كي لا يتشابكا مع الشاهد أعلاه (الذي
+    # يختبر عمدًا الحال بلا هذا القسم) ──
+    iq_date_str = "2026-02-04"
+    iq_articles_dir = youtube_article.ARTICLES_DIR / iq_date_str
+    shutil.rmtree(iq_articles_dir, ignore_errors=True)
+    iq_articles_dir.mkdir(parents=True, exist_ok=True)
+    iq_article_text = (
+        "# هل تتصاعد أزمة مضيق هرمز؟\n\nمتن تجريبي كافٍ.\n\n---\n"
+        + youtube_article.HEADLINES_HEADER + "\n1. هل تتصاعد أزمة مضيق هرمز؟\n"
+        "2. بديل ١\n3. بديل ٢\n"
+        "\n---\n" + youtube_article.IMAGE_QUERY_HEADER + "\nStrait of Hormuz tanker\n"
+    )
+    (iq_articles_dir / "01-iq.md").write_text(iq_article_text, encoding="utf-8")
+    (iq_articles_dir / "index.md").write_text(youtube_article.build_index([
+        {"number": 1, "filename": "01-iq.md", "headline": "هل تتصاعد أزمة مضيق هرمز؟",
+         "event": "توتر في مضيق هرمز", "layer": "a", "blocs": ["arabic"],
+         "channels": ["الجزيرة"], "agreement": "agreement", "warnings_count": 0}]),
+        encoding="utf-8")
+    iq_build_result = yp.build(cfg, date_str=iq_date_str)
+    check("build(): image_query_en وصل المسودة فعليًا من قسم المقال المذيَّل (Issue #941)",
+          iq_build_result["drafts"] and
+          iq_build_result["drafts"][0].get("image_query_en") == "Strait of Hormuz tanker",
+          iq_build_result["drafts"][0].get("image_query_en") if iq_build_result["drafts"] else None)
+    check("build(): caption خالٍ من قسم كلمات بحث الصورة (نُزع قبل حفظ المسودة)",
+          iq_build_result["drafts"] and
+          youtube_article.IMAGE_QUERY_HEADER not in iq_build_result["drafts"][0]["caption"],
+          iq_build_result["drafts"][0]["caption"] if iq_build_result["drafts"] else None)
+    shutil.rmtree(iq_articles_dir, ignore_errors=True)
+    # يُحذَف من drafts/ فورًا -- وإلا يلتقطه open_review() لاحقًا كمسودة يتيمة
+    # ثانية، فيكسر شاهد "المسودة اليتيمة الوحيدة" أدناه الذي يفترض مسودة
+    # واحدة فقط بانتظار مراجعة عند تلك اللحظة.
+    if iq_build_result["drafts"]:
+        iq_loaded = store.load_draft(iq_build_result["drafts"][0]["id"])
+        if iq_loaded:
+            iq_loaded[0].unlink(missing_ok=True)
 
     # open_review() -- بعد "رفع" الصور (محاكاة: لا رفع فعلي في الاختبار، لكن
     # الملفات موجودة محليًا فعلًا وهذا ما يقرؤه open_review())
@@ -2697,27 +2799,46 @@ def test_youtube_publish() -> None:
     # ── ensure_title_card: البطاقة تُبنى الآن فقط -- بعد الاعتماد، للمختار
     # فقط (Issue #680)، بالعنوان البديل الثاني لا الافتراضي، كي يثبت أن
     # الاختيار الفعلي هو ما يصل البطاقة والـcaption معًا ──
+    from src import cards
+
     card_path, card_draft = store.load_draft(build_result["drafts"][0]["id"])
     card_draft["headline_selected"] = 1
     # imagesearch.find_images مموَّهة هنا لتعيد صفر نتائج -- بحث حقيقي بلا
     # شبكة فعلية، يغطّي بالضبط ما طلبته المراجعة: «إن لم يجد البحث صورة
     # مناسبة، ارجع إلى البطاقة النصية الحالية بدل إسقاط المقال» (Issue #680).
+    # cards.find_images (Issue #941، مرجع مختلف عن imagesearch.find_images
+    # داخل cards.py -- import مباشر) تُموَّه أيضًا هنا: منذ حذف
+    # allow_search_fallback=False من نداء cards.ensure في ensure_title_card،
+    # قائمة fallback_urls الفارغة تُطلق محاولة ثانية عبرها فعليًا، وبلا هذا
+    # التمويه كانت لتصل شبكة حقيقية.
     real_find_images_ctc = imagesearch.find_images
+    real_cards_find_images = cards.find_images
     photo_search_calls: list = []
+    fallback_search_calls: list = []
 
     def fake_find_images_empty(title, cfg, limit=6, terms=None):
         photo_search_calls.append(terms)
         return []
 
+    def fake_cards_find_images_empty(term, cfg):
+        fallback_search_calls.append(term)
+        return []
+
     imagesearch.find_images = fake_find_images_empty  # type: ignore
+    cards.find_images = fake_cards_find_images_empty  # type: ignore
     try:
         ok_card = yp.ensure_title_card(card_path, card_draft, cfg)
     finally:
         imagesearch.find_images = real_find_images_ctc  # type: ignore
+        cards.find_images = real_cards_find_images  # type: ignore
     check("ensure_title_card: يبني البطاقة بنجاح ويعيد True", ok_card, ok_card)
     check("ensure_title_card: بحثت فعليًا عن صورة تعبيرية بكلمات event/headline",
           photo_search_calls and photo_search_calls[0] and
           "اجتماع" in photo_search_calls[0][0], photo_search_calls)
+    check("ensure_title_card: المحاولة الأولى فارغة ⇒ محاولة ثانية عامة عبر cards.ensure "
+          "(Issue #941، allow_search_fallback لم يعد مُلغًى) بالعنوان العربي المختار "
+          "إذ لا image_query_en على هذه المسودة",
+          fallback_search_calls == [article_headlines[1]], fallback_search_calls)
     check("ensure_title_card: بحث فارغ ⇒ has_photo=False (خلفية مصممة، لا انهيار)",
           card_draft.get("has_photo") is False, card_draft.get("has_photo"))
     check("ensure_title_card: يضبط حقل image على مسار drafts/<تاريخ>/<معرّف>.jpg",
@@ -2749,6 +2870,49 @@ def test_youtube_publish() -> None:
     ok_card2 = yp.ensure_title_card(card_path, card_draft, cfg)
     check("ensure_title_card: نداء ثانٍ لا يعيد البناء إن كانت البطاقة موجودة فعلًا",
           ok_card2 and built_img.stat().st_mtime == rebuilt_mtime, None)
+
+    # ── ensure_title_card: image_query_en (Issue #941) يصل كلا المحاولتين
+    # -- الأولى (_photo_candidates، عربية+إنجليزية معًا) والثانية (العامة
+    # عبر cards.ensure، search_term=) -- مسودة جديدة مستقلّة كي لا تصطدم
+    # بفحص "بطاقة موجودة مسبقًا" أعلاه ──
+    query_draft_id = "eq00000000aa"
+    query_draft = {
+        "id": query_draft_id, "created_at": datetime.now(timezone.utc).isoformat(),
+        "status": "pending", "origin": "analysis",
+        "title": "سؤال تجريبي عن قضية إنجليزية؟", "tier": "a", "blocs": ["arabic"],
+        "channels": ["الجزيرة"], "agreement": "agreement", "event": "حدث تجريبي",
+        "image_query_en": "Strait of Hormuz tanker",
+        "warnings": [], "source_urls": [], "run_date": date_str,
+        "caption": "# سؤال تجريبي عن قضية إنجليزية؟\n\nمتن تجريبي.",
+        "headlines": ["سؤال تجريبي عن قضية إنجليزية؟"], "headline_selected": 0,
+        "arabic": {"post_title": "سؤال تجريبي عن قضية إنجليزية؟", "urgent": False,
+                   "category": "تحليل"},
+        "source": {"link": "", "publishers": ["الجزيرة"]},
+        "score": 1.0,
+    }
+    store.save_draft(query_draft)
+    query_path, _ = store.load_draft(query_draft_id)
+
+    photo_calls_en: list = []
+    fallback_calls_en: list = []
+    imagesearch.find_images = (  # type: ignore
+        lambda title, cfg, limit=6, terms=None: (photo_calls_en.append(terms) or []))
+    cards.find_images = (  # type: ignore
+        lambda term, cfg: (fallback_calls_en.append(term) or []))
+    try:
+        ok_query = yp.ensure_title_card(query_path, query_draft, cfg)
+    finally:
+        imagesearch.find_images = real_find_images_ctc  # type: ignore
+        cards.find_images = real_cards_find_images  # type: ignore
+
+    check("ensure_title_card: image_query_en يصل المحاولة الأولى (_photo_candidates) "
+          "أول عبارات البحث", photo_calls_en and photo_calls_en[0] and
+          photo_calls_en[0][0] == "Strait of Hormuz tanker", photo_calls_en)
+    check("ensure_title_card: image_query_en نفسه يصل المحاولة الثانية العامة "
+          "(cards.ensure عبر search_term=) حين تعود الأولى فارغة",
+          fallback_calls_en == ["Strait of Hormuz tanker"], fallback_calls_en)
+    check("ensure_title_card: تبني البطاقة بنجاح رغم فراغ كل عمليات البحث (خلفية مصممة)",
+          ok_query, ok_query)
 
     # ── publish_approved: سقف وتباعد (بلا شبكة، بلا time.sleep فعلي) ──
     # معرّفات على شكل hex فعليًا (اصطلاح المشروع، وID_MARKER في review.py لا

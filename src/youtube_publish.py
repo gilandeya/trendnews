@@ -269,6 +269,27 @@ def split_warnings(article_text: str) -> tuple[str, list[str]]:
 _HEADLINE_LINE_RE = re.compile(r"^\d+\.\s*(.+?)\s*$")
 
 
+def split_image_query(article_text: str) -> tuple[str, str | None]:
+    """يفصل قسم 🖼️ كلمات بحث الصورة الإنجليزية (يُلحقه
+    youtube_article._append_image_query في ذيل المقال، بعد قسم العناوين إن
+    وُجد -- Issue #941) عن متن المقال. يُستدعى على النصّ الخام **قبل**
+    split_headlines (لا بعده): القسمان يظهران بالترتيب متن ← تحذيرات ←
+    عناوين ← كلمات بحث الصورة، فقصّ هذا القسم أولًا يترك النصّ الباقي مطابقًا
+    تمامًا لما كان عليه قبل Issue #941 لبقية دوال split_*. مقال بلا القسم
+    أصلًا (فشل نداء العناوين، أو مقال قديم من قبل هذا الـIssue) يعيد None
+    بلا استثناء."""
+    idx = article_text.find(youtube_article.IMAGE_QUERY_HEADER)
+    if idx == -1:
+        return article_text.strip() + "\n", None
+
+    body = article_text[:idx].rstrip()
+    if body.endswith("---"):
+        body = body[:-3].rstrip()
+
+    tail = article_text[idx + len(youtube_article.IMAGE_QUERY_HEADER):].strip()
+    return body + "\n", (tail or None)
+
+
 def split_headlines(article_text: str) -> tuple[str, list[str]]:
     """يفصل قسم 🏷️ عناوين مقترحة (يُلحقه youtube_article._append_headlines
     في ذيل المقال، بعد قسم التحذيرات إن وُجد -- انظر ترتيب النداءات في
@@ -335,16 +356,22 @@ def parse_index(text: str) -> list[dict]:
 # ──────────────────────────── بطاقة العنوان ────────────────────────────
 
 
-def _photo_search_terms(headline: str, event: str) -> list[str]:
-    """يبني عبارتَي بحث عربيتين (event ثم headline) عبر evidence.build_query
+def _photo_search_terms(headline: str, event: str, image_query_en: str | None = None) -> list[str]:
+    """يبني عبارات البحث لهذا المقال: الكلمات الإنجليزية (image_query_en،
+    Issue #941) أولًا حين تتوفر -- السبب الجذري الموثَّق للبطاقات بلا صورة
+    كان أن البحث يجري بالعربية في ويكيميديا/Openverse، وكلاهما فهرسة
+    إنجليزية أساسًا فتخدمها كلمات إنجليزية أفضل من عربية مترجَمة آليًا --
+    ثم عبارتَي بحث عربيتين احتياطًا (event ثم headline) عبر evidence.build_query
     -- نفس أداة استخلاص الكلمات المفتاحية من نص عربي المستعملة أصلًا في
     article.py/verify.py لبناء استعلامات البحث، لا imagesearch.keywords()
     التي تستخرج فقط أحرفًا لاتينية كبيرة (مصمَّمة لعناوين RSS الأصلية) ولا
     تصلح لعنوان/event عربيَّين -- كانت لتعيد قائمة فارغة دومًا (طلب المراجعة
-    على Issue #680). event أولًا لأنه يصف الواقعة بعينها (مكان/حدث محدَّد لا
-    موضوعًا عامًا، انظر CLUSTER_SCHEMA في youtube_cluster.py)، أدقّ لصورة
-    تعبيرية من العنوان التحليلي الأعمّ."""
+    على Issue #680). event قبل headline من العربيَّين لأنه يصف الواقعة بعينها
+    (مكان/حدث محدَّد لا موضوعًا عامًا، انظر CLUSTER_SCHEMA في
+    youtube_cluster.py)، أدقّ لصورة تعبيرية من العنوان التحليلي الأعمّ."""
     terms: list[str] = []
+    if image_query_en:
+        terms.append(image_query_en)
     for text in (event, headline):
         q = evidence.build_query(text or "", max_words=6)
         if q and q not in terms:
@@ -352,11 +379,13 @@ def _photo_search_terms(headline: str, event: str) -> list[str]:
     return terms
 
 
-def _photo_candidates(headline: str, event: str, cfg) -> list[str]:
+def _photo_candidates(headline: str, event: str, cfg, image_query_en: str | None = None) -> list[str]:
     """يبحث عن روابط صور تعبيرية حرة الترخيص لبطاقة العنوان (طلب المراجعة
     على Issue #680) -- imagesearch.py حصرًا (Wikimedia/Openverse)، فلا صلة
     لها ببيانات الفيديو أو القناة أو أي شخص مذكور في المقال بنيويًا: مصدرا
     البحث لا يستقبلان شيئًا من ذلك أصلًا، لا مجرّد اتفاق ضمني على تجنّبه.
+    image_query_en (Issue #941) يصل _photo_search_terms أولًا فيُبحث به قبل
+    العبارتين العربيتين -- المحاولة نفسها، لا محاولة إضافية.
 
     كل مرشَّح يظهر فيه وجه بنسبة مساحة ≥ image.face_min_ratio (عتبة "وجه
     ظاهر" القائمة نفسها، لا عتبة جديدة) يُستبعَد من القائمة: لا سبيل لتطبيق
@@ -369,8 +398,9 @@ def _photo_candidates(headline: str, event: str, cfg) -> list[str]:
     fallback_urls، فتتولى هي التحميل والتحقّق (حجم/نسبة) والتقرير --
     نفس آلية المسار العام تمامًا بدل تكرارها هنا. قائمة فارغة (بحث فارغ أو
     كل المرشّحين فيهم وجه) تعني عودة build_post_image إلى الخلفية المصممة
-    بدل إسقاط المقال (نصّ طلب المراجعة صراحةً)."""
-    terms = _photo_search_terms(headline, event)
+    بدل إسقاط المقال (نصّ طلب المراجعة صراحةً) -- أو، منذ Issue #941، محاولة
+    ثانية أعمّ عبر cards.ensure نفسها (انظر ensure_title_card)."""
+    terms = _photo_search_terms(headline, event, image_query_en)
     if not terms:
         return []
     urls = imagesearch.find_images(headline, cfg, terms=terms)
@@ -398,13 +428,20 @@ def build_draft(row: dict, date_str: str, articles_dir: Path, cfg) -> dict | Non
     الاعتماد فقط عبر ensure_title_card أدناه، لا هنا. المسودة تحمل الثلاثة
     عناوين المقترحة (headlines، من split_headlines) واختيارًا افتراضيًا
     (headline_selected=0 -- الأول، سؤال) والدرجة المركّبة (score، عبر
-    compute_score) لترتيب Issue المراجعة بها."""
+    compute_score) لترتيب Issue المراجعة بها. تحمل أيضًا image_query_en إن
+    وُجد (Issue #941، split_image_query) -- كلمات البحث الإنجليزية التي
+    ينتجها youtube_article.generate_headlines، مصدر الصورة التعبيرية
+    الأساسي في _photo_candidates/ensure_title_card أدناه."""
     article_path = articles_dir / row["filename"]
     if not article_path.exists():
         log.warning("ملف مقال مفقود: %s", article_path)
         return None
 
     raw_text = article_path.read_text(encoding="utf-8")
+    # split_image_query أولًا -- ترتيب القسمين الملحقَين في النصّ الخام هو
+    # متن ← تحذيرات ← عناوين ← كلمات بحث الصورة (انظر youtube_article.run())،
+    # فقصّ الأخير أولًا يترك raw_text مطابقًا لما كان عليه قبل Issue #941.
+    raw_text, image_query_en = split_image_query(raw_text)
     body_no_headlines, headlines = split_headlines(raw_text)
     caption, warnings = split_warnings(body_no_headlines)
     source_lines = extract_source_lines(caption)
@@ -435,6 +472,10 @@ def build_draft(row: dict, date_str: str, articles_dir: Path, cfg) -> dict | Non
         # على Issue #680: مصدر الكلمات المفتاحية لبحث صورة تعبيرية في
         # ensure_title_card أدناه، أدقّ من العنوان التحليلي الأعمّ وحده.
         "event": row.get("event", ""),
+        # كلمات بحث الصورة الإنجليزية (Issue #941) -- None حين غاب القسم
+        # (فشل نداء العناوين، أو مقال قديم): _photo_candidates/ensure_title_card
+        # يعودان للبحث بالعربية وحده كما كان، بلا انهيار.
+        "image_query_en": image_query_en,
         "warnings": warnings,
         "source_urls": source_lines,
         "caption": caption,
@@ -496,24 +537,34 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     # صورة تعبيرية حرة الترخيص (طلب المراجعة على Issue #680) -- اختيارية
     # ومعطَّلة بأمان (youtube.image.use_photo أو بحث فارغ) بدل إسقاط المقال؛
     # build_post_image يعود للخلفية المصممة القائمة عندها بلا تدخّل هنا.
+    # image_query_en (Issue #941) يصل هنا أولًا (محاولة أولى، عربية+إنجليزية
+    # معًا عبر _photo_search_terms، بحارس الوجه القائم بلا تغيير).
+    image_query_en = draft.get("image_query_en")
     photo_urls: list[str] = []
     if cfg.path("youtube.image.use_photo", True):
-        photo_urls = _photo_candidates(headline, draft.get("event", ""), cfg)
+        photo_urls = _photo_candidates(headline, draft.get("event", ""), cfg, image_query_en)
 
     # غلاف رفيع فوق cards.ensure (Issue #852): القالب الموحَّد مع بطاقة
     # الأخبار (Issue #732) -- imaging.build_post_image ذاتها عبر cards.ensure،
     # لا نسخة رسم منفصلة هنا. image_urls=None بنيويًا (لا صور فيديو/قناة
-    # أصلية إطلاقًا -- انظر توثيق الوحدة أعلاه، allow_search_fallback=False
-    # كي لا تبحث cards.ensure من تلقاء نفسها بسلسلتها العامة)؛ المرشّحون
-    # التعبيريّون يمرّون عبر fallback_urls فقط. check_headline_limit=False
+    # أصلية إطلاقًا -- انظر توثيق الوحدة أعلاه)؛ المرشّحون التعبيريّون
+    # (المحاولة الأولى أعلاه) يمرّون عبر fallback_urls. check_headline_limit=False
     # يستعمل العنوان المختار كما هو (لا فحص طول هنا، كالسابق). bucket=""
     # صراحةً (لا "serious" الافتراضي في cards.ensure -- مسودة التحليل لا
     # تحمل حقل bucket إطلاقًا، والقيمة الأصلية هنا كانت الفراغ دومًا).
     # out_dir=run_date لأن مجلد حفظ المسودة الفعلي (store.save_draft) قد
     # يختلف عن run_date في الاختبارات (انظر توثيق cards.ensure).
+    #
+    # المحاولة الثانية (Issue #941): allow_search_fallback الافتراضي (True)
+    # لم يعد مُلغًى صراحة -- إن عادت photo_urls فارغة، سلسلة cards.ensure
+    # العامة تجرّب بحثًا مستقلًا بـsearch_term=image_query_en (أو تعود
+    # للعنوان العربي إن غاب، فلا فرق سلوكي عمّا كان قبل هذه المهمة حين يغيب
+    # الحقل). هذه المحاولة لا تطبّق حارس الوجه في _photo_candidates أعلاه --
+    # نفس السلسلة العامة المستعملة في كل مسارات المشروع الأخرى، بلا فحص وجه
+    # إضافي هنا (القاعدة القديمة تبقى كما هي في _photo_candidates وحدها).
     new_rel = cards.ensure(
         path, draft, cfg, headline=headline,
-        image_urls=None, fallback_urls=photo_urls, allow_search_fallback=False,
+        image_urls=None, fallback_urls=photo_urls, search_term=image_query_en,
         publisher=image_source_line(draft["channels"], cfg),
         category="", urgent=False, bucket="", origin="analysis",
         out_dir=run_date, check_headline_limit=False,
@@ -521,6 +572,16 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     if new_rel is None:
         log.warning("تعذّر بناء بطاقة العنوان لـ%r", headline)
         return False
+
+    # أي محاولة أثمرت (نصّ الطلب، Issue #941) -- تشخيص لاحق: المحاولة الأولى
+    # (photo_urls غير فارغة) تُسجَّل فعلًا داخل imaging.build_post_image نفسها
+    # ("✅ اعتُمدت صورة تعبيرية حرة")، فلا تكرار هنا؛ التمييز المطلوب فقط هو
+    # بين المحاولة الثانية (بحث عام نجح رغم فراغ photo_urls) وانعدام أي صورة.
+    if not photo_urls:
+        if draft.get("image_info", {}).get("illustrative"):
+            log.info("🖼️ صورة من البحث الإنجليزي: %r", headline)
+        else:
+            log.info("🖼️ بلا صورة — خلفية مصممة: %r", headline)
 
     new_caption = _apply_headline(draft["caption"], headline)
     new_arabic = {**draft["arabic"], "post_title": headline}
@@ -725,7 +786,8 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
     # العنوان الافتراضي هنا).
     if cfg.path("youtube.image.use_photo", True):
         for d in drafts:
-            has_photo = bool(_photo_candidates(d["title"], d.get("event", ""), cfg))
+            has_photo = bool(_photo_candidates(d["title"], d.get("event", ""), cfg,
+                                               d.get("image_query_en")))
             d["has_photo"] = has_photo
             store.update_draft(by_id_path[d["id"]], has_photo=has_photo)
     else:

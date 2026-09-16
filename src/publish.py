@@ -746,7 +746,12 @@ def main() -> int:
         chosen_idx = headline_choices.get(draft_id, 0)
         chosen_headline = (headlines[chosen_idx]
                            if 0 <= chosen_idx < len(headlines) else None)
-        if cards.ensure(card_path, card_draft, cfg, headline=chosen_headline) is not None:
+        # search_term (Issue #941): مسار article.py يحمل image_query_en
+        # (كلمات إنجليزية لبحث صورة تعبيرية) على حقل علوي في المسودة --
+        # غيابه (مسارات أخرى، أو فشل النداء) يعيد cards.ensure لاعتماد
+        # source.title/العنوان العربي كما كانت الحال قبل هذه المهمة.
+        if cards.ensure(card_path, card_draft, cfg, headline=chosen_headline,
+                        search_term=card_draft.get("image_query_en")) is not None:
             continue
         card_build_failed.add(draft_id)
         title = (card_draft.get("arabic") or {}).get("post_title", draft_id)
