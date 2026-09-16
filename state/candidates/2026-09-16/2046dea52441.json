@@ -1,0 +1,66 @@
+{
+  "id": "2046dea52441",
+  "created_at": "2026-09-16T19:07:54.746290+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.3,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Sunderland v AZ, Milan v Benfica and more: Europa League clockwatch",
+  "link": "https://www.theguardian.com/football/live/2026/sep/16/sunderland-v-az-milan-v-benfica-and-more-europa-league-clockwatch-live",
+  "publishers": [
+    "Sky Sports — Football",
+    "live"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Sunderland v AZ, Milan v Benfica and more: Europa League clockwatch",
+    "link": "https://www.theguardian.com/football/live/2026/sep/16/sunderland-v-az-milan-v-benfica-and-more-europa-league-clockwatch-live",
+    "summary": "⚽ Live updates from the 8pm BST kick-offs ⚽ Xhaka promises ‘fire’ | Live scoreboard ⚽ Get in touch! Email Niall with any thoughts Manchester United host Brighton, and there are not one but two heads of state in attendance as Everton entertain Wolves. Join Will Unwin for the latest Carabao Cup fun. “Given Granit Xhaka’s scorching comments, will it turn out to be the Stadium of (Come On Baby) Light My Fire?” asks Peter Oh. Continue reading...",
+    "source_name": "The Guardian — Sport",
+    "region": "sport",
+    "weight": 1.0,
+    "published": "2026-09-16T19:03:47+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/8ee0e674659d48376e669e2de1876e366e8be152/530_0_4323_3458/master/4323.jpg?width=700&quality=85&auto=format&fit=max&s=14f187150e7c6a245ab0a54f77fb075f",
+    "publisher": "live",
+    "cluster_sources": [
+      "Sky Sports — Football",
+      "live"
+    ],
+    "cluster_members": [
+      {
+        "name": "live",
+        "link": "https://www.theguardian.com/football/live/2026/sep/16/sunderland-v-az-milan-v-benfica-and-more-europa-league-clockwatch-live"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/sunderland-vs-az-alkmaar/live/577749"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/8ee0e674659d48376e669e2de1876e366e8be152/530_0_4323_3458/master/4323.jpg?width=700&quality=85&auto=format&fit=max&s=14f187150e7c6a245ab0a54f77fb075f",
+      "https://i.guim.co.uk/img/media/8ee0e674659d48376e669e2de1876e366e8be152/530_0_4323_3458/master/4323.jpg?width=460&quality=85&auto=format&fit=max&s=e827b2759dccf4c21a97c7f44a70c3cc",
+      "https://i.guim.co.uk/img/media/8ee0e674659d48376e669e2de1876e366e8be152/530_0_4323_3458/master/4323.jpg?width=140&quality=85&auto=format&fit=max&s=0867ec53bfccafcd2617665ce13e67c6",
+      "https://e2.365dm.com/26/08/1096x616/skysports-isidor-wilson-sunderland_7335711.jpg?20260830154148",
+      "https://e2.365dm.com/26/08/1920x1080/skysports-isidor-wilson-sunderland_7335711.jpg?20260830154148"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1034.9134704833332,
+    "is_stale": true,
+    "score": 18.295522334592594,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

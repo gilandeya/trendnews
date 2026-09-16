@@ -1,0 +1,62 @@
+{
+  "id": "c7be70ed54c2",
+  "created_at": "2026-09-16T19:07:54.745663+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.86,
+  "trend_score": 1.0,
+  "velocity": 0.33,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Rosalía brilla en las nominaciones a los Grammy Latinos de 2026 gracias a ‘Lux’",
+  "link": "https://elpais.com/us/entretenimiento/2026-09-16/rosalia-brilla-en-las-nominaciones-a-los-grammy-latinos-de-2026-gracias-a-lux.html",
+  "publishers": [
+    "El País",
+    "Folha de S.Paulo"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Rosalía brilla en las nominaciones a los Grammy Latinos de 2026 gracias a ‘Lux’",
+    "link": "https://elpais.com/us/entretenimiento/2026-09-16/rosalia-brilla-en-las-nominaciones-a-los-grammy-latinos-de-2026-gracias-a-lux.html",
+    "summary": "La catalana logra siete nominaciones para los galardones que se celebrarán en Las Vegas el próximo noviembre",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-16T17:30:43+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/3UCTNKB3MFFUPFS7UBN6YVDJNI.jpg?auth=c8802c2753fb30938ab341cb4f6f60127929c38b0cb5fc3444a67f1b38c58f22",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País",
+      "Folha de S.Paulo"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/us/entretenimiento/2026-09-16/rosalia-brilla-en-las-nominaciones-a-los-grammy-latinos-de-2026-gracias-a-lux.html"
+      },
+      {
+        "name": "Folha de S.Paulo",
+        "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/ilustrada/2026/09/grammy-latino-indica-anitta-loulu-gilberto-e-zeca-veloso-veja-a-lista.shtml"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/3UCTNKB3MFFUPFS7UBN6YVDJNI.jpg?auth=c8802c2753fb30938ab341cb4f6f60127929c38b0cb5fc3444a67f1b38c58f22"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.33263126561455186,
+    "age_hours": 1.002110648611111,
+    "is_stale": false,
+    "score": 21.855271255091278,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

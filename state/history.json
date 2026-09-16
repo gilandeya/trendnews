@@ -1,165 +1,5 @@
 [
   {
-    "score": 23.52,
-    "bucket": "light",
-    "tokens": [
-      "against",
-      "assisted",
-      "dying",
-      "england",
-      "legalising",
-      "mps",
-      "vote",
-      "wales"
-    ],
-    "link": "https://www.theguardian.com/society/2026/sep/11/mps-vote-against-legalising-assisted-dying-in-england-and-wales",
-    "title": "MPs vote against legalising assisted dying in England and Wales",
-    "posted_title": "البرلمان البريطاني يرفض تشريع الموت الرحيم في إنجلترا وويلز",
-    "region": "uk",
-    "seen_at": "2026-09-11T18:14:10.970955+00:00"
-  },
-  {
-    "score": 18.79,
-    "bucket": "serious",
-    "tokens": [
-      "extinction",
-      "human",
-      "lawmakers",
-      "researchers",
-      "rules",
-      "seek",
-      "warn"
-    ],
-    "link": "https://www.france24.com/en/video/20260911-more-us-lawmakers-seek-new-ai-rules-after-researchers-warn-of-human-extinction",
-    "title": "More US lawmakers seek new AI rules after researchers warn of human extinction",
-    "posted_title": "لماذا يطالب نواب أمريكيون بقوانين عاجلة بعد تحذير باحثين من \"انقراض البشرية\" بسبب الذكاء الاصطناعي؟",
-    "region": "eu",
-    "seen_at": "2026-09-11T18:14:32.992279+00:00"
-  },
-  {
-    "score": 18.74,
-    "bucket": "serious",
-    "tokens": [
-      "2030",
-      "claim",
-      "cup",
-      "fifa",
-      "final",
-      "morocco",
-      "rejects",
-      "world"
-    ],
-    "link": "https://www.vanguardngr.com/2026/09/fifa-rejects-morocco-claim-over-2030-world-cup-final/",
-    "title": "FIFA rejects Morocco claim over 2030 World Cup final",
-    "posted_title": "رئيس الحكومة المغربية يوبّخ رئيس اتحاد الكرة بعد ادعائه استضافة نهائي كأس العالم 2030",
-    "region": "ng",
-    "seen_at": "2026-09-11T18:14:52.407265+00:00"
-  },
-  {
-    "score": 30.93,
-    "bucket": "serious",
-    "tokens": [
-      "dialogue",
-      "iran's",
-      "meets",
-      "need",
-      "open",
-      "pezeshkian",
-      "reiterates",
-      "routes",
-      "sea"
-    ],
-    "link": "https://www.ndtv.com/world-news/amid-iran-crisis-pm-modi-pezeshkian-to-hold-bilateral-meet-shortly-12033962#publisher=newsstand",
-    "title": "PM Meets Iran's Pezeshkian, Reiterates Need For Dialogue, Open Sea Routes",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-11T19:07:52.873315+00:00"
-  },
-  {
-    "score": 26.02,
-    "bucket": "serious",
-    "tokens": [
-      "bab",
-      "houthis",
-      "island",
-      "lane",
-      "mandeb",
-      "mouth",
-      "reach",
-      "shipping",
-      "strategic",
-      "vital",
-      "yemen"
-    ],
-    "link": "https://www.dawn.com/news/2029146/yemens-houthis-reach-strategic-island-at-mouth-of-vital-bab-el-mandeb-shipping-lane",
-    "title": "Yemen’s Houthis reach strategic island at mouth of vital Bab el-Mandeb shipping lane",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-11T19:07:52.875205+00:00"
-  },
-  {
-    "score": 18.77,
-    "bucket": "useful",
-    "tokens": [
-      "alleged",
-      "banco",
-      "bolsonaro",
-      "brazil",
-      "case",
-      "challenger",
-      "corruption",
-      "election",
-      "investigation",
-      "master",
-      "under"
-    ],
-    "link": "https://www.investing.com/news/economy-news/brazilian-top-court-unseals-probe-into-multibilliondollar-bank-fraud-4897803",
-    "title": "Brazil election challenger Bolsonaro under investigation over alleged corruption in Banco Master case",
-    "posted_title": "",
-    "region": "money",
-    "seen_at": "2026-09-11T19:07:52.875612+00:00"
-  },
-  {
-    "score": 18.05,
-    "bucket": "light",
-    "tokens": [
-      "000",
-      "duo",
-      "iphone",
-      "isn't",
-      "off",
-      "power",
-      "showing",
-      "still",
-      "truly",
-      "worth"
-    ],
-    "link": "https://boingboing.net/2026/09/10/iphone-duo-trump-epstein-parody.html",
-    "title": "Truly showing off its power, the iPhone Duo still isn't worth $2,000",
-    "posted_title": "",
-    "region": "odd",
-    "seen_at": "2026-09-11T19:07:52.876017+00:00"
-  },
-  {
-    "score": 17.69,
-    "bucket": "light",
-    "tokens": [
-      "000",
-      "ago",
-      "drug",
-      "evidence",
-      "found",
-      "researchers",
-      "use",
-      "years"
-    ],
-    "link": "https://boingboing.net/2026/09/11/fountain-pen-betel-nut-malaysia.html",
-    "title": "Researchers found evidence of drug use 25,000 years ago",
-    "posted_title": "",
-    "region": "odd",
-    "seen_at": "2026-09-11T19:07:52.876444+00:00"
-  },
-  {
     "score": 17.69,
     "bucket": "light",
     "tokens": [
@@ -5416,5 +5256,97 @@
     "posted_title": "مكتب الميزانية بالكونغرس: حرب أمريكا ضد إيران كلّفت أكثر من 38 مليار دولار",
     "region": "in",
     "seen_at": "2026-09-16T18:13:22.935836+00:00"
+  },
+  {
+    "score": 22.06,
+    "bucket": "sport",
+    "tokens": [
+      "aston",
+      "coventry",
+      "live",
+      "villa"
+    ],
+    "link": "https://www.skysports.com/football/coventry-city-vs-aston-villa/live/577573",
+    "title": "Coventry vs Aston Villa LIVE!",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-16T19:07:54.745654+00:00"
+  },
+  {
+    "score": 21.86,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "brilla",
+      "gracias",
+      "grammy",
+      "las",
+      "latinos",
+      "los",
+      "lux",
+      "nominaciones",
+      "rosalía"
+    ],
+    "link": "https://elpais.com/us/entretenimiento/2026-09-16/rosalia-brilla-en-las-nominaciones-a-los-grammy-latinos-de-2026-gracias-a-lux.html",
+    "title": "Rosalía brilla en las nominaciones a los Grammy Latinos de 2026 gracias a ‘Lux’",
+    "posted_title": "",
+    "region": "es",
+    "seen_at": "2026-09-16T19:07:54.745880+00:00"
+  },
+  {
+    "score": 18.87,
+    "bucket": "serious",
+    "tokens": [
+      "bus",
+      "drone",
+      "kills",
+      "least",
+      "others",
+      "passenger",
+      "people",
+      "russian",
+      "strike",
+      "ukraine",
+      "wounds"
+    ],
+    "link": "http://www.france24.com/en/video/20260916-russian-drone-strike-on-a-passenger-bus-in-ukraine-kills-5-people-and-wounds-at-least-7-others",
+    "title": "Russian drone strike on a passenger bus in Ukraine kills 5 people and wounds at least 7 others",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-16T19:07:54.746088+00:00"
+  },
+  {
+    "score": 18.34,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "daniel",
+      "drops",
+      "first",
+      "kizz",
+      "single"
+    ],
+    "link": "https://www.premiumtimesng.com/entertainment/naija-fashion/910146-kizz-daniel-drops-first-single-of-2026.html",
+    "title": "Kizz Daniel drops first single of 2026",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-16T19:07:54.746283+00:00"
+  },
+  {
+    "score": 18.3,
+    "bucket": "sport",
+    "tokens": [
+      "benfica",
+      "clockwatch",
+      "europa",
+      "league",
+      "milan",
+      "sunderland"
+    ],
+    "link": "https://www.theguardian.com/football/live/2026/sep/16/sunderland-v-az-milan-v-benfica-and-more-europa-league-clockwatch-live",
+    "title": "Sunderland v AZ, Milan v Benfica and more: Europa League clockwatch",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-16T19:07:54.746505+00:00"
   }
 ]

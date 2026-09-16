@@ -1,0 +1,65 @@
+{
+  "id": "c16ca05a9912",
+  "created_at": "2026-09-16T19:07:54.745888+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.87,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian drone strike on a passenger bus in Ukraine kills 5 people and wounds at least 7 others",
+  "link": "http://www.france24.com/en/video/20260916-russian-drone-strike-on-a-passenger-bus-in-ukraine-kills-5-people-and-wounds-at-least-7-others",
+  "publishers": [
+    "AP News",
+    "Daily Sabah",
+    "France24"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Russian drone strike on a passenger bus in Ukraine kills 5 people and wounds at least 7 others",
+    "link": "http://www.france24.com/en/video/20260916-russian-drone-strike-on-a-passenger-bus-in-ukraine-kills-5-people-and-wounds-at-least-7-others",
+    "summary": "A Russian drone struck a passenger bus in southern Ukraine early Wednesday, killing five people and wounding at least seven. President Volodymyr Zelenskyy described the attack, the latest in a series of Russian strikes on civilian transportation, as an “atrocity.” France 24's Gulliver Cragg tells us more.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-16T16:17:22+00:00",
+    "image_url": "https://s.france24.com/media/display/d03dd9ec-b1d6-11f1-964b-cfc9bd8e913f/w:1024/p:16x9/EN-20260916-130824-131208-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "AP News",
+      "Daily Sabah",
+      "France24"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "http://www.france24.com/en/video/20260916-russian-drone-strike-on-a-passenger-bus-in-ukraine-kills-5-people-and-wounds-at-least-7-others"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/fresh-russian-drone-strike-on-bus-kills-5-in-ukraines-nikopol"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/d03dd9ec-b1d6-11f1-964b-cfc9bd8e913f/w:1024/p:16x9/EN-20260916-130824-131208-CS.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/16/460916.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1034.9135045863889,
+    "is_stale": false,
+    "score": 18.86550242475606,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
