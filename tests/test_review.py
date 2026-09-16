@@ -5438,3 +5438,215 @@ def test_collect_feedback_rejects_analysis_draft_without_image() -> None:
     check("المسودة العادية تُسجَّل rejected كسابقًا",
           store.load_draft(normal_draft["id"])[1]["status"] == "rejected",
           store.load_draft(normal_draft["id"])[1].get("status"))
+
+
+def test_retention_sweep_ages_and_statuses() -> None:
+    """Issue #956: src/retention.py يحذف من drafts/ وstate/candidates/ ما
+    تجاوز نافذة retention.days، بقاعدة عمر مختلفة بحسب حالة المسودة —
+    يُختبَر على مخرَج الأنبوب (ملفات فعلية على القرص بعد استدعاء
+    retention.main() كما يُستدعى من سطر الأوامر)، لا على دالة السحب وحدها.
+    --dry-run يُختبَر أولًا على نفس التجهيزة كاملةً (لا يحذف شيئًا)، ثم
+    الحذف الحقيقي على التجهيزة ذاتها بعده مباشرة."""
+    from src import retention
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    shutil.rmtree(store.CANDIDATES_DIR, ignore_errors=True)
+
+    now = datetime.now(timezone.utc)
+
+    def draft_folder(days_ago: int) -> Path:
+        folder = store.draft_dir(now - timedelta(days=days_ago))
+        folder.mkdir(parents=True, exist_ok=True)
+        return folder
+
+    def write_draft(folder: Path, draft_id: str, **fields) -> None:
+        data = {"id": draft_id, **fields}
+        (folder / f"{draft_id}.json").write_text(
+            json.dumps(data, ensure_ascii=False), encoding="utf-8")
+
+    def write_image(folder: Path, draft_id: str) -> None:
+        (folder / f"{draft_id}.jpg").write_bytes(b"\xff\xd8\xff")
+
+    # ① منشورة، مجلدها قبل 31 يومًا، وpublished_at قبل 29 يومًا ← تبقى
+    # (العمر يُقاس من published_at لا من تاريخ المجلد لهذه الحالة وحدها).
+    f1 = draft_folder(31)
+    write_draft(f1, "kept_pub_recent", status="published",
+               published_at=(now - timedelta(days=29)).isoformat())
+    write_image(f1, "kept_pub_recent")
+
+    # ② منشورة، published_at قبل 31 يومًا ← تُحذف مع صورتها.
+    f2 = draft_folder(33)
+    write_draft(f2, "del_pub_old", status="published",
+               published_at=(now - timedelta(days=31)).isoformat())
+    write_image(f2, "del_pub_old")
+
+    # ③ queued، مجلدها قبل 40 يومًا ← تبقى مهما كان عمرها (لا تُحذف أبدًا).
+    f3 = draft_folder(40)
+    write_draft(f3, "kept_queued", status="queued",
+               publish_at=(now + timedelta(hours=2)).isoformat())
+    write_image(f3, "kept_queued")
+
+    # ④ pending وfailed وrejected، مجلدها قبل 31 يومًا ← تُحذف جميعًا (العمر
+    # من تاريخ المجلد لكل حالة غير published/queued).
+    f4 = draft_folder(34)
+    write_draft(f4, "del_pending", status="pending")
+    write_draft(f4, "del_failed", status="failed", error="خطأ ما")
+    write_draft(f4, "del_rejected", status="rejected")
+    for did in ("del_pending", "del_failed", "del_rejected"):
+        write_image(f4, did)
+
+    # ⑤ pending، مجلدها قبل 29 يومًا ← تبقى.
+    f5 = draft_folder(29)
+    write_draft(f5, "kept_pending_recent", status="pending")
+
+    # ⑥ JSON تالف في مجلد قديم ← يبقى بلا حذف، ويُسجَّل تحذير.
+    f6 = draft_folder(36)
+    (f6 / "corrupt.json").write_text("{هذا ليس JSON صالحًا", encoding="utf-8")
+
+    # ⑧ مجلد يصير فارغًا تمامًا بعد حذف مسودته الوحيدة ← المجلد نفسه يُحذف.
+    f8 = draft_folder(32)
+    write_draft(f8, "del_alone", status="pending")
+
+    # ⑦ مرشحو preselect: مجلد قبل 31 يومًا يُحذف بكامله، وآخر قبل 29 يومًا يبقى.
+    cand_old = store.candidate_dir(now - timedelta(days=31))
+    cand_old.mkdir(parents=True, exist_ok=True)
+    (cand_old / "cand_old.json").write_text(
+        json.dumps({"id": "cand_old"}, ensure_ascii=False), encoding="utf-8")
+    cand_recent = store.candidate_dir(now - timedelta(days=29))
+    cand_recent.mkdir(parents=True, exist_ok=True)
+    (cand_recent / "cand_recent.json").write_text(
+        json.dumps({"id": "cand_recent"}, ensure_ascii=False), encoding="utf-8")
+
+    # ── --dry-run على التجهيزة كاملة: لا شيء يُحذف فعليًا ──
+    dry_code = retention.main(["--dry-run"])
+    check("retention.main --dry-run ينتهي بنجاح", dry_code == 0, f"exit={dry_code}")
+    all_paths = [
+        f1 / "kept_pub_recent.json", f1 / "kept_pub_recent.jpg",
+        f2 / "del_pub_old.json", f2 / "del_pub_old.jpg",
+        f3 / "kept_queued.json", f3 / "kept_queued.jpg",
+        f4 / "del_pending.json", f4 / "del_failed.json", f4 / "del_rejected.json",
+        f5 / "kept_pending_recent.json", f6 / "corrupt.json",
+        f8 / "del_alone.json", cand_old / "cand_old.json",
+        cand_recent / "cand_recent.json",
+    ]
+    check("--dry-run لا يحذف أي ملف من التجهيزة كاملةً",
+          all(p.exists() for p in all_paths),
+          [str(p) for p in all_paths if not p.exists()])
+    check("--dry-run لا يحذف مجلد المرشحين القديم أيضًا", cand_old.exists())
+
+    # ── الحذف الحقيقي على نفس التجهيزة ──
+    code = retention.main([])
+    check("retention.main الحقيقي ينتهي بنجاح", code == 0, f"exit={code}")
+
+    check("① منشورة حديثة العمر (من published_at) رغم قدم مجلدها ← باقية",
+          (f1 / "kept_pub_recent.json").exists())
+    check("① صورتها باقية أيضًا", (f1 / "kept_pub_recent.jpg").exists())
+
+    check("② منشورة قديمة العمر (من published_at) ← حُذفت",
+          not (f2 / "del_pub_old.json").exists())
+    check("② صورتها حُذفت معها", not (f2 / "del_pub_old.jpg").exists())
+
+    check("③ queued تبقى مهما بلغ عمر مجلدها",
+          (f3 / "kept_queued.json").exists() and (f3 / "kept_queued.jpg").exists())
+
+    check("④ pending/failed/rejected قديمة (عمر مجلد) ← حُذفت جميعًا",
+          not any((f4 / f"{did}.json").exists()
+                  for did in ("del_pending", "del_failed", "del_rejected")))
+    check("④ صورها حُذفت معها",
+          not any((f4 / f"{did}.jpg").exists()
+                  for did in ("del_pending", "del_failed", "del_rejected")))
+
+    check("⑤ pending حديثة العمر (مجلد) ← باقية",
+          (f5 / "kept_pending_recent.json").exists())
+
+    check("⑥ JSON تالف في مجلد قديم ← يبقى بلا حذف", (f6 / "corrupt.json").exists())
+
+    check("⑧ مجلد يوم صار فارغًا تمامًا بعد حذف مسودته الوحيدة ← حُذف هو نفسه",
+          not f8.exists())
+
+    check("⑦ مجلد مرشحين أقدم من النافذة ← يُحذف بكامله", not cand_old.exists())
+    check("⑦ مجلد مرشحين أحدث من النافذة ← يبقى", cand_recent.exists())
+
+
+def test_retention_publish_survives_deleted_draft() -> None:
+    """publish.main لا ينهار حين يشير Issue معتمَد إلى معرّف مسودة حذفتها
+    retention.py بالفعل — كل نداء store.load_draft على طول المسار العام
+    (المسار الوحيد الذي يبلغه Issue بوسم approved بلا وسوم خاصة) يتحقق من
+    ``found`` قبل استعماله فيتخطّى المعرّف المفقود بصمت بدل الانهيار."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    body = "- [x] **1. مسودة حُذفت سلفًا**  <!-- draft:already_gone_00001 -->"
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}],
+    }
+    real_comment = review.comment
+    real_close = review.close_issue
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+
+    sys.argv = ["publish", "--issue", "9500"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main لا ينهار حين يشير Issue معتمَد إلى مسودة محذوفة سلفًا",
+          code == 0, f"exit={code}")
+
+
+def test_retention_insights_still_counts_kept_draft() -> None:
+    """بعد تشغيلة حذف حقيقية، insights.collect(30, …) يظل يحسب مسودة
+    منشورة لم تتجاوز نافذة الاحتفاظ بعد — الحذف الدوري لا يقتطع من نافذة
+    تقرير الأداء الأسبوعي نفسها (كلتاهما 30 يومًا بالضبط عمدًا)."""
+    from src import insights
+    from src import retention
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    now = datetime.now(timezone.utc)
+    folder = store.draft_dir(now - timedelta(days=31))
+    folder.mkdir(parents=True, exist_ok=True)
+    draft = {
+        "id": "ins_kept", "status": "published",
+        "published_at": (now - timedelta(days=29)).isoformat(),
+        "arabic": {"post_title": "خبر باقٍ", "urgent": False},
+        "facebook": {"post_id": "42"},
+    }
+    (folder / "ins_kept.json").write_text(
+        json.dumps(draft, ensure_ascii=False), encoding="utf-8")
+
+    code = retention.main([])
+    check("retention.main ينتهي بنجاح قبل فحص insights", code == 0, f"exit={code}")
+    check("المسودة الباقية لم تُحذف فعلًا (شرط مسبق للفحص التالي)",
+          (folder / "ins_kept.json").exists())
+
+    real_fetch_metrics = facebook.fetch_metrics
+    facebook.fetch_metrics = lambda post_id, api_version: {
+        "reactions": 1, "comments": 0, "shares": 0}
+    try:
+        rows = insights.collect(30, "v21.0")
+    finally:
+        facebook.fetch_metrics = real_fetch_metrics
+
+    check("insights.collect(30) ما زال يحسب المسودة الباقية بعد الحذف الدوري",
+          any(r["id"] == "ins_kept" for r in rows), rows)
+
+
+def test_retention_config_days_at_least_30() -> None:
+    """التقرير الأسبوعي (insights.py، عبر insights.yml) يقرأ افتراضيًا آخر
+    30 يومًا من المنشورات — نافذة الاحتفاظ يجب ألا تقلّ عن ذلك، وإلا حذفت
+    مسودات منشورة ما زال التقرير الأسبوعي بحاجة إليها قبل أن يقرأها."""
+    cfg = load_config()
+    days = cfg.path("retention.days")
+    check("retention.days معرَّف في config.yaml", days is not None, days)
+    check("retention.days ≥ 30 (نافذة تقرير الأداء الأسبوعي)",
+          isinstance(days, int) and days >= 30, days)

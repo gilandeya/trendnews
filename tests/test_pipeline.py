@@ -125,6 +125,10 @@ from tests.test_review import (
     test_insights_why_section_missing_state_file,
     test_insights_no_posts_still_shows_why_and_decisions,
     test_collect_feedback_rejects_analysis_draft_without_image,
+    test_retention_sweep_ages_and_statuses,
+    test_retention_publish_survives_deleted_draft,
+    test_retention_insights_still_counts_kept_draft,
+    test_retention_config_days_at_least_30,
 )
 from tests.test_article import (
     test_verify,
@@ -401,6 +405,11 @@ def main() -> int:
     test_setimage_stores_manual_link_without_card()
     test_setimage_cli_sync_handles_cardless_draft()
     test_collect_feedback_rejects_analysis_draft_without_image()
+    print("\n── حذف دوري لما تجاوز نافذة الاحتفاظ (Issue #956) ──")
+    test_retention_sweep_ages_and_statuses()
+    test_retention_publish_survives_deleted_draft()
+    test_retention_insights_still_counts_kept_draft()
+    test_retention_config_days_at_least_30()
     print("\n── setimage.apply_image يحافظ على وسم المسار (Issue #758) ──")
     test_setimage_apply_image_keeps_origin_badge()
     print("\n── اختيار عنوان غير افتراضي يعيد بناء البطاقة (Issue #760) ──")
