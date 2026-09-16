@@ -1,0 +1,77 @@
+{
+  "id": "f82f93da511c",
+  "created_at": "2026-09-16T03:07:53.316986+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.95,
+  "trend_score": 1.0,
+  "velocity": 0.6,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Espí vuelve a rescatar a un Real Madrid que se desconectó ante el Elche",
+  "link": "https://elpais.com/deportes/futbol/2026-09-15/espi-vuelve-a-rescatar-a-un-real-madrid-que-se-desconecto-ante-el-elche.html",
+  "publishers": [
+    "El País",
+    "Free Malaysia Today",
+    "MyJoyOnline Ghana",
+    "team news, lineups"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Espí vuelve a rescatar a un Real Madrid que se desconectó ante el Elche",
+    "link": "https://elpais.com/deportes/futbol/2026-09-15/espi-vuelve-a-rescatar-a-un-real-madrid-que-se-desconecto-ante-el-elche.html",
+    "summary": "El delantero da en el 92 la victoria el equipo de Mourinho, que dejó esfumarse una ventaja de dos goles sin cerrar el partido",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-15T21:55:33+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/SWAYMO2V3RF57P4KEJC7NOQRXU.jpg?auth=39b80d52c07dd91cda012e563f08c0896ffe559774f3d4b1d329c0024852690d",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País",
+      "Free Malaysia Today",
+      "MyJoyOnline Ghana",
+      "team news, lineups"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-15/espi-vuelve-a-rescatar-a-un-real-madrid-que-se-desconecto-ante-el-elche.html"
+      },
+      {
+        "name": "team news, lineups",
+        "link": "https://en.irna.ir/news/86265006/Elche-vs-Real-Madrid-La-Liga-team-news-lineups"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/kylian-mbappe-scores-sets-up-winner-as-real-madrid-top-elche/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/16/espi-saves-real-madrid-with-late-winner-at-elche"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/SWAYMO2V3RF57P4KEJC7NOQRXU.jpg?auth=39b80d52c07dd91cda012e563f08c0896ffe559774f3d4b1d329c0024852690d",
+      "https://img9.irna.ir/d/r2/2026/09/15/4/173108058.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/r1717241_1296x729_16-9-1024x576.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/47aa678c-117f-46b4-b54b-e61fe127169a-Carlos-Espi-Real-Madrid-AFP-16092026-.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 25.953068896462966,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

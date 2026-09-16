@@ -1,0 +1,84 @@
+{
+  "id": "75f50ac98156",
+  "created_at": "2026-09-16T03:07:53.317314+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.52,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Rubio announces US visa curbs for some foreign nationals from South Africa",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-16-rubio-announces-us-visa-curbs-for-some-foreign-nationals-from-south-africa/",
+  "publishers": [
+    "Daily Maverick",
+    "Free Malaysia Today",
+    "MyJoyOnline Ghana",
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Rubio announces US visa curbs for some foreign nationals from South Africa",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-16-rubio-announces-us-visa-curbs-for-some-foreign-nationals-from-south-africa/",
+    "summary": "WASHINGTON, Sept 15 (Reuters) - Secretary of State Marco Rubio said on Tuesday the U.S. was announcing a new visa restriction policy targeting some foreign nationals from South Africa as President Donald Trump's administration continues to cool ties with the country.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-16T04:44:49+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/attachments/orphans/GettyImages-2254497867_530983.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Free Malaysia Today",
+      "MyJoyOnline Ghana",
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-16-rubio-announces-us-visa-curbs-for-some-foreign-nationals-from-south-africa/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-announces-visa-curbs-targeting-south-africa-foreign-nationals-for-race-based-discrimination/article71470162.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/us-announces-visa-curbs-over-south-africa-race-based-discrimination-12051831#publisher=newsstand"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/16/rubio-announces-us-visa-curbs-for-some-foreign-nationals-from-south-africa"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/rubio-announces-us-visa-curbs-for-some-foreign-nationals-from-south-africa/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/attachments/orphans/GettyImages-2254497867_530983.jpg",
+      "https://th-i.thgim.com/public/incoming/z5lc21/article71470164.ece/alternates/LANDSCAPE_1200/2026-09-15T223924Z_1988841089_RC24DDAC8MJY_RTRMADP_3_USA-TRUMP-SAFRICA-VISAS.JPG",
+      "https://i.ndtvimg.com/i/2016-04/us-visa-generic_650x400_81460792605.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/07/88bca19f-source-epa-images-marco-rubio-far-left-17072026.webp",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/05/image-2468-1024x576.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1018.9130920347222,
+    "is_stale": false,
+    "score": 21.523593918458385,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

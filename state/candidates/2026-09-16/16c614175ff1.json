@@ -1,0 +1,81 @@
+{
+  "id": "16c614175ff1",
+  "created_at": "2026-09-16T03:07:53.317983+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.78,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian warship fires flares at Danish helicopter as Nato jets shoot down drone over Lithuania",
+  "link": "https://www.theguardian.com/world/2026/sep/15/nato-jets-shoot-down-drone-violating-lithuania-airspace-kaunas",
+  "publishers": [
+    "AP News",
+    "Daily Sabah",
+    "France24",
+    "Meduza English",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Russian warship fires flares at Danish helicopter as Nato jets shoot down drone over Lithuania",
+    "link": "https://www.theguardian.com/world/2026/sep/15/nato-jets-shoot-down-drone-violating-lithuania-airspace-kaunas",
+    "summary": "Ursula von der Leyen says incidents ‘part of broader pattern of Russian aggression and provocation against Europe’ A Russian warship fired two emergency flares at a Danish helicopter in the Baltic Sea and an Italian Nato fighter jet shot down a drone carrying an explosive device over Lithuania in what the EU described as “reckless and dangerous” Russian behaviour. Poland also scrambled fighter jets “due to the activity of Russian jet-powered unmanned aerial vehicles conducting strikes on Ukrainian territory”, the day after Polish security forces retrieved a suspected Russian drone adrift in its waters. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-15T15:18:19+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/1dd6cbd1af236b5615a41ecdabc642499b19d602/394_466_2766_2213/master/2766.jpg?width=700&quality=85&auto=format&fit=max&s=c71f1207bab535a452d80cbabb8d42e8",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "AP News",
+      "Daily Sabah",
+      "France24",
+      "Meduza English",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/15/nato-jets-shoot-down-drone-violating-lithuania-airspace-kaunas"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/15/nato-fighter-jets-shoot-down-drone-over-lithuania-for-the-first-time"
+      },
+      {
+        "name": "France24",
+        "link": "http://www.france24.com/en/europe/20260915-nato-jets-down-drone-over-lithuania-as-russian-ship-fires-flares-at-danish-helicopter"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/nato-downs-suspected-russian-drone-over-lithuania"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/1dd6cbd1af236b5615a41ecdabc642499b19d602/394_466_2766_2213/master/2766.jpg?width=700&quality=85&auto=format&fit=max&s=c71f1207bab535a452d80cbabb8d42e8",
+      "https://i.guim.co.uk/img/media/1dd6cbd1af236b5615a41ecdabc642499b19d602/394_466_2766_2213/master/2766.jpg?width=460&quality=85&auto=format&fit=max&s=edd290c23e7e27005cb551be63f4587f",
+      "https://i.guim.co.uk/img/media/1dd6cbd1af236b5615a41ecdabc642499b19d602/394_466_2766_2213/master/2766.jpg?width=140&quality=85&auto=format&fit=max&s=4ddfe2c6fb4f6c1278ce3b2fc4cdb22e",
+      "https://meduza.io/imgly/share/1789457821/en/news/2026/09/15/nato-fighter-jets-shoot-down-drone-over-lithuania-for-the-first-time",
+      "https://s.france24.com/media/display/70fb22aa-b140-11f1-9cce-f72ea3a769d9/w:1024/p:16x9/2026-09-15T134257Z-1149854285-RC2OJNA2GC74-RTRMADP-3-UKRAINE-CRISIS-LITHUANIA-DRONE-MINISTERS.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/15/460764.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1018.9131265213889,
+    "is_stale": false,
+    "score": 20.7774828087732,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
