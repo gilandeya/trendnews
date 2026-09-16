@@ -182,7 +182,15 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
             image_path, draft["caption"], api_version, first_comment=comment,
         )
     except facebook.FacebookError as exc:
-        store.update_draft(path, status="failed", error=str(exc))
+        # failed_stage مقصور على هذا الموضع وحده (Issue #959): فشل هنا وحده
+        # قابل للإحياء عبر Issue إحياء مستقل (open_review._revivable_drafts)
+        # — «حقول مفقودة» (أعلاه) عطب بنيوي، و«الصورة مفقودة» (أسفله) لها
+        # طريق /صورة القائم أصلًا، فكلاهما لا يحتاج مسارًا جديدًا.
+        store.update_draft(
+            path, status="failed", error=str(exc),
+            failed_stage="facebook",
+            failed_at=datetime.now(timezone.utc).isoformat(),
+        )
         return False, f"- ❌ {title} — {exc}"
 
     store.update_draft(
@@ -563,6 +571,83 @@ def cmd_final_review(issue_number: int, body: str, cfg) -> int:
     return 0
 
 
+def cmd_revival(issue_number: int, body: str, cfg) -> int:
+    """يعالج اعتماد Issue إحياء الفشل (Issue #959، وسم ``failed-review``،
+    نصّه من ``review.build_revival_body``). المسار المستدعي (``main``) يحرس
+    هذا فيشغّله في مسار normal (``--skip-urgent``) وحده — دفعة إحياء قد
+    تضم مسودات تحليل، ونشرها (``youtube_publish.publish_ids``) بتباعده
+    الخاص لا يحتمل سقف urgent الزمني (٢٠ دقيقة)، بنفس منطق تأجيل التحليل
+    في المسار المعتاد (Issue #745).
+
+    الحارس ``status == "failed" and revival_issue == issue_number`` (بعد
+    استبعاد ``revival_declined`` سابقًا — إعادة تشغيل لهذا الـIssue بعينه لا
+    تُعيد معالجة مسودة قُرِّر مصيرها فعلًا) يقصر المعالجة على مسودات هذا
+    الـIssue وحده فيمنع الأثر المزدوج لو تكرر حدث الوسم (نفس الحارس في
+    ``cmd_final_review``). معرّف بلا مسودة (حذفتها ``retention.py``) أو
+    بمسودة لا تطابق الحارس يُتخطّى بسطر في التعليق، لا انهيارًا."""
+    all_ids = review.all_revival_ids(body)
+    approved_ids = set(review.parse_revival_ids(body))
+
+    lines: list[str] = []
+    matched: list[tuple] = []
+    for draft_id in all_ids:
+        found = store.load_draft(draft_id)
+        if not found:
+            lines.append(f"- ⏭️ `{draft_id}` — المسودة محذوفة (انتهت نافذة الاحتفاظ)")
+            continue
+        path, draft = found
+        if (draft.get("status") != "failed"
+                or draft.get("revival_issue") != issue_number
+                or draft.get("revival_declined")):
+            lines.append(f"- ⏭️ `{draft_id}` — غير مطابق (رُوجعت بالفعل)")
+            continue
+        if draft_id in approved_ids:
+            matched.append((path, draft))
+        else:
+            store.update_draft(path, revival_declined=True)
+            lines.append(f"- 🚫 {draft['arabic']['post_title'][:50]} — لم يُعلَّم، مات نهائيًا")
+
+    if matched:
+        analysis_rows = [(p, d) for p, d in matched if store.origin_of(d) == "analysis"]
+        news_rows = [(p, d) for p, d in matched if store.origin_of(d) != "analysis"]
+
+        if news_rows:
+            # نفس دالة الفواصل ومفاتيح الإعداد اللتين يستعملهما مسار الاعتماد
+            # العادي (cmd_burst) — بلا نشر فوري هنا: تبدأ بعد آخر موعد محجوز
+            # (booked_times) حتى لا تتزاحم مع الطابور القائم.
+            fcfg = cfg.get("facebook", {}) or {}
+            gap_min = float(fcfg.get("gap_min_minutes", 30))
+            gap_max = float(fcfg.get("gap_max_minutes", 60))
+            tzname = fcfg.get("timezone", "UTC")
+            now = datetime.now(timezone.utc)
+            booked = booked_times()
+            start = max(now, max(booked) + timedelta(minutes=gap_min)) if booked else now
+            slots = spaced_slots(len(news_rows), gap_min, gap_max, now=start)
+            for (path, draft), when in zip(news_rows, slots):
+                store.update_draft(
+                    path, status="queued", publish_at=when.isoformat(),
+                    remove=["error", "failed_stage", "revival_issue"],
+                )
+                lines.append(f"- 🕐 {draft['arabic']['post_title'][:50]} → "
+                             f"**{describe(when, tzname)}**")
+
+        if analysis_rows:
+            # نفس توجيه المعتمَد العادي لمسار التحليل (publish.main أدناه) —
+            # لا منطق نشر جديد هنا: youtube_publish.publish_ids تنشر فورًا
+            # (بسقفها وتباعدها الخاصّين)، لا queued/publish_at.
+            for path, draft in analysis_rows:
+                store.update_draft(path, remove=["error", "failed_stage", "revival_issue"])
+            from . import youtube_publish
+            yt_lines, _, _, _ = youtube_publish.publish_ids(
+                [d["id"] for _, d in analysis_rows], {}, cfg)
+            lines += yt_lines
+
+    text = "### ♻️ نتيجة إحياء المنشورات الفاشلة\n" + "\n".join(lines)
+    review.comment(issue_number, text)
+    review.close_issue(issue_number)
+    return 0
+
+
 def cmd_queue(cfg) -> int:
     tzname = cfg.path("facebook.timezone", "UTC")
     rows = queued_drafts()
@@ -639,6 +724,17 @@ def main() -> int:
     # ألا يصله هذا النوع من الـIssues إطلاقًا.
     if "final-review" in labels:
         return cmd_final_review(args.issue, body, cfg)
+
+    # Issue #959: Issue إحياء الفشل (وسم failed-review، يُفتح من
+    # open_review._open_revival_issue) -- يعمل في المسار العادي وحده، بنفس
+    # منطق تأجيل التحليل أدناه (Issue #745): دفعة إحياء قد تضم مسودات
+    # تحليل، ونشرها بتباعده الخاص لا يحتمل سقف urgent الزمني.
+    if "failed-review" in labels:
+        if args.urgent_only:
+            log.info("Issue #%s: failed-review — يُؤجَّل للمسار العادي "
+                     "(المسار السريع لا يعالج الإحياء)", args.issue)
+            return 0
+        return cmd_revival(args.issue, body, cfg)
 
     # Issue #296: الاثنان معًا يعني Issue خُلط أصله (لا أحد في الكود ينشئ
     # Issue بالوسمين معًا عمدًا) — التفويض القديم كان يفوز لـ

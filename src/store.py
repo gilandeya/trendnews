@@ -168,6 +168,21 @@ def pending_drafts() -> list[tuple[Path, dict]]:
     return out
 
 
+def failed_drafts() -> list[tuple[Path, dict]]:
+    """مسودات ``failed`` كلها (Issue #959) — مصدر ``open_review``'s
+    revival-eligibility filter (``failed_stage == "facebook"`` تحديدًا)،
+    نفس بنية ``pending_drafts`` أعلاه."""
+    out = []
+    for path in sorted(DRAFTS_DIR.glob("*/*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if data.get("status") == "failed":
+            out.append((path, data))
+    return out
+
+
 def update_draft(path: Path, remove: list[str] | None = None, **changes) -> dict:
     """``remove``: حقول تُحذف من المسودة بنيويًا لا تُصفَّر بـ``None`` —
     الفارق يهم لقارئ يميّز «لم يُبنَ بعد» عن «بُني ثم أُفرغ» بغياب الحقل لا

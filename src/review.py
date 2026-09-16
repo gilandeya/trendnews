@@ -4,9 +4,11 @@ from __future__ import annotations
 import logging
 import os
 import re
+from datetime import datetime, timezone
 
 import requests
 
+from . import store
 from .config import env
 
 log = logging.getLogger(__name__)
@@ -14,6 +16,11 @@ log = logging.getLogger(__name__)
 API = "https://api.github.com"
 ID_MARKER = re.compile(r"<!--\s*draft:([0-9a-f]+)\s*-->")
 REEL_MARKER = re.compile(r"<!--\s*reel:([0-9a-f]+)\s*-->")
+# مربع «أعد المحاولة» في Issue إحياء الفشل (Issue #959) — صيغة منفصلة
+# (revive:) لا draft: كي لا يلتقطه parse_approved/all_draft_ids المعدَّان
+# لـIssue المراجعة/النهائي فقط، فيعالج publish.main الإحياء عبر cmd_revival
+# وحده بصرف النظر عن أي Issue آخر يحمل معرّف المسودة نفسه.
+REVIVE_MARKER = re.compile(r"<!--\s*revive:([0-9a-f]+)\s*-->")
 # مربع «اعرض البطاقة قبل النشر» في المراجعة الأولية، ومربع «أعده للمراجعة
 # الأولية» في المراجعة النهائية (Issue #858، الجزء الثاني من اثنين).
 CARD_MARKER = re.compile(r"<!--\s*card:([0-9a-f]+)\s*-->")
@@ -301,6 +308,73 @@ def build_final_review_body(drafts: list[dict], repo: str, branch: str = "main")
     return "\n".join(parts)
 
 
+ORIGIN_LABELS = {
+    "news": "أخبار", "breaking": "عاجل", "request": "طلب",
+    "verify": "تحقق", "article": "مقال", "analysis": "تحليل",
+}
+
+
+def build_revival_body(drafts: list[dict], repo: str, branch: str = "main") -> str:
+    """نص Issue إحياء المنشورات التي فشل نشرها على فيسبوك (Issue #959) —
+    Issue مستقل عن المراجعة/الاختيار/النهائية، يعرض فشل نشر فيسبوك تحديدًا
+    (``failed_stage == "facebook"``، انظر ``open_review._revivable_drafts``)
+    بمربع «أعد المحاولة» واحد لكل مسودة (``<!-- revive:id -->``، لا
+    ``draft:id`` -- انظر توثيق ``REVIVE_MARKER`` أعلاه). ما لا يُعلَّم عند
+    الاعتماد يموت نهائيًا (``revival_declined``، ``publish.cmd_revival``) --
+    لا مربع استبعاد هنا كذلك، بنفس مبدأ بقية بوابات المراجعة."""
+    parts = [
+        "### ♻️ منشورات فشل نشرها",
+        "",
+        "علّم ما تريد إعادة محاولته ثم ضع وسم `approved`. ما لا تعلّمه يموت "
+        "نهائيًا. إغلاق الـIssue بلا وسم = موت الدفعة كلها. إن كان سبب "
+        "الفشل التوكن فأصلحه قبل وضع الوسم.",
+        "",
+        "---",
+        "",
+    ]
+
+    now = datetime.now(timezone.utc)
+    for idx, d in enumerate(drafts, start=1):
+        ar = d.get("arabic") or {}
+        title = ar.get("post_title") or d.get("id", "?")
+        origin_label = ORIGIN_LABELS.get(store.origin_of(d), "؟")
+
+        age_hours = "؟"
+        failed_at = d.get("failed_at")
+        if failed_at:
+            try:
+                when = datetime.fromisoformat(failed_at)
+                if when.tzinfo is None:
+                    when = when.replace(tzinfo=timezone.utc)
+                age_hours = f"{(now - when).total_seconds() / 3600:.1f}"
+            except ValueError:
+                pass
+
+        error_text = (d.get("error") or "")[:120]
+
+        parts += [
+            f"- [ ] **{idx}. ♻️ أعد المحاولة — {title}**  <!-- revive:{d['id']} -->",
+            "",
+            f"  🏷️ {origin_label} · ⏱️ فشل قبل {age_hours} ساعة",
+            "",
+            f"  ⚠️ {error_text}",
+            "",
+        ]
+        img_path = d.get("image")
+        if img_path:
+            parts += [
+                f"  <img src=\"{raw_url(repo, branch, img_path)}\" width=\"520\" />",
+                "",
+                f"  ↳ [البطاقة في المستودع]({blob_url(repo, branch, img_path)})",
+                "",
+            ]
+        parts += ["---", ""]
+
+    parts.append("<sub>وسم `approved` = إعادة محاولة المعلَّم · "
+                 "إغلاق الـ Issue = موت الدفعة كلها</sub>")
+    return "\n".join(parts)
+
+
 def parse_reels(body: str) -> set[str]:
     """معرفات المسودات التي اختار المراجع نشرها كريل."""
     chosen: set[str] = set()
@@ -340,6 +414,24 @@ def parse_back_requests(body: str) -> set[str]:
         if checkbox and checkbox.group(1).lower() == "x":
             chosen.add(marker.group(1))
     return chosen
+
+
+def parse_revival_ids(body: str) -> list[str]:
+    """معرفات المسودات التي علّم المراجع «♻️ أعد المحاولة» عليها في Issue
+    الإحياء (Issue #959) -- نفس أسلوب parse_reels حرفيًا."""
+    chosen: list[str] = []
+    for line in body.splitlines():
+        marker = REVIVE_MARKER.search(line)
+        if not marker:
+            continue
+        checkbox = re.match(r"\s*[-*]\s*\[([ xX])\]", line)
+        if checkbox and checkbox.group(1).lower() == "x":
+            chosen.append(marker.group(1))
+    return chosen
+
+
+def all_revival_ids(body: str) -> list[str]:
+    return REVIVE_MARKER.findall(body)
 
 
 def parse_approved(body: str) -> list[str]:
@@ -546,6 +638,7 @@ def ensure_labels() -> None:
         ("pending-review", "fbca04", "مسودات بانتظار المراجعة"),
         ("pending-selection", "c5def5", "مرشحون بانتظار الاختيار قبل الصياغة"),
         ("final-review", "1d76db", "مراجعة نهائية للبطاقة قبل النشر"),
+        ("failed-review", "b60205", "منشورات فشل نشرها بانتظار إعادة المحاولة"),
         ("approved", "0e8a16", "معتمد للنشر"),
         ("rejected", "d73a4a", "مرفوض — سجّل الأسباب"),
         ("published", "5319e7", "تم النشر على فيسبوك"),

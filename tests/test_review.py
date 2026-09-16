@@ -5587,8 +5587,10 @@ def test_retention_publish_survives_deleted_draft() -> None:
     }
     real_comment = review.comment
     real_close = review.close_issue
+    real_remove_label = review.remove_label
     review.comment = lambda issue_number, text: None
     review.close_issue = lambda issue_number: None
+    review.remove_label = lambda issue_number, label: None
 
     sys.argv = ["publish", "--issue", "9500"]
     try:
@@ -5597,6 +5599,7 @@ def test_retention_publish_survives_deleted_draft() -> None:
         publish_mod.fetch_issue = real_fetch
         review.comment = real_comment
         review.close_issue = real_close
+        review.remove_label = real_remove_label
 
     check("publish.main لا ينهار حين يشير Issue معتمَد إلى مسودة محذوفة سلفًا",
           code == 0, f"exit={code}")
@@ -5650,3 +5653,541 @@ def test_retention_config_days_at_least_30() -> None:
     check("retention.days معرَّف في config.yaml", days is not None, days)
     check("retention.days ≥ 30 (نافذة تقرير الأداء الأسبوعي)",
           isinstance(days, int) and days >= 30, days)
+
+
+# ──────────────────────── إحياء منشورات فشل نشرها (Issue #959) ────────────
+
+
+def _revival_env(repo: str = "u/r", ref: str = "main"):
+    """يضبط GITHUB_REPOSITORY/GITHUB_REF_NAME مؤقتًا ويعيد دالة استعادة —
+    نفس النمط المكرّر في بقية اختبارات open_review في هذا الملف."""
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    real_ref = os.environ.get("GITHUB_REF_NAME")
+    os.environ["GITHUB_REPOSITORY"] = repo
+    os.environ["GITHUB_REF_NAME"] = ref
+
+    def restore():
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+        if real_ref is None:
+            os.environ.pop("GITHUB_REF_NAME", None)
+        else:
+            os.environ["GITHUB_REF_NAME"] = real_ref
+
+    return restore
+
+
+def test_publish_one_facebook_failure_tags_stage() -> None:
+    """Issue #959 جزء أ: فشل facebook.FacebookError عند نشر الصورة تحديدًا
+    (لا «حقول مفقودة» ولا «الصورة مفقودة») هو الفشل الوحيد الذي يُعلَّم
+    بـfailed_stage="facebook" وfailed_at — الحقل الذي يجعل
+    open_review._revivable_drafts تعتبر المسودة قابلة للإحياء لاحقًا."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    draft = {
+        "id": "fb_fail_0001", "status": "pending",
+        "arabic": {"post_title": "خبر فشل نشره على فيسبوك", "urgent": False},
+        "caption": "متن", "source": {}, "image": "drafts/fb_fail.jpg",
+    }
+    path = store.save_draft(draft)
+    (DRAFTS_DIR / "fb_fail.jpg").write_bytes(b"\xff\xd8\xff")
+
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    before = datetime.now(timezone.utc)
+
+    def raise_fb(*a, **k):
+        raise facebook.FacebookError("خطأ فيسبوك: (#1) الخدمة غير متاحة")
+
+    facebook.publish_photo = raise_fb
+    try:
+        ok, line = publish_mod.publish_one(path, draft, load_config())
+    finally:
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+
+    check("publish_one يعيد فشلًا عند FacebookError", not ok, line)
+    updated = store.load_draft(draft["id"])[1]
+    check("الحالة failed", updated.get("status") == "failed", updated.get("status"))
+    check("failed_stage=facebook", updated.get("failed_stage") == "facebook",
+          updated.get("failed_stage"))
+    failed_at = updated.get("failed_at")
+    check("failed_at مكتوب وقابل للتحليل", bool(failed_at), failed_at)
+    if failed_at:
+        parsed = datetime.fromisoformat(failed_at)
+        check("failed_at بتوقيت UTC قريب من لحظة الفشل",
+              abs((parsed - before).total_seconds()) < 30, failed_at)
+
+    # «الصورة مفقودة» لا يحمل failed_stage — لها طريق /صورة القائم أصلًا.
+    draft2 = {
+        "id": "img_missing0001", "status": "pending",
+        "arabic": {"post_title": "خبر بلا صورة على القرص", "urgent": False},
+        "caption": "متن", "source": {}, "image": "drafts/does-not-exist.jpg",
+    }
+    path2 = store.save_draft(draft2)
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    try:
+        ok2, _ = publish_mod.publish_one(path2, draft2, load_config())
+    finally:
+        publish_mod.ROOT = real_root
+    updated2 = store.load_draft(draft2["id"])[1]
+    check("«الصورة مفقودة» أيضًا failed", not ok2 and updated2.get("status") == "failed",
+          updated2.get("status"))
+    check("«الصورة مفقودة» بلا failed_stage", "failed_stage" not in updated2, updated2)
+
+
+def test_open_review_revival_issue_single_and_no_duplicate() -> None:
+    """Issue #959 جزء ب: open_review.main يجمع مسودات failed القابلة
+    للإحياء (فشل فيسبوك فقط، بلا revival_issue، revival_offers < 2) في
+    Issue واحد مستقل — لا فشل الصورة، ولا فشل الحقول (عطب بنيوي)، ولا فشل
+    قديم بلا failed_stage، ولا ما عُرض مرتين بالفعل. تشغيل ثانٍ لا يفتح
+    Issue جديدًا لنفس المسودة."""
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    now_iso = datetime.now(timezone.utc).isoformat()
+
+    def make(did: str, **extra) -> dict:
+        d = {
+            "id": did, "status": "failed",
+            "arabic": {"post_title": f"مسودة {did}", "urgent": False},
+            "caption": "متن", "source": {}, "image": f"drafts/{did}.jpg",
+        }
+        d.update(extra)
+        return d
+
+    fb_fail = make("facebbb0001", failed_stage="facebook", failed_at=now_iso,
+                    error="خطأ فيسبوك: (#1) الخدمة غير متاحة")
+    img_fail = make("facebbb0002", error="الصورة مفقودة")
+    fields_fail = make("facebbb0003", error="حقول مفقودة: image")
+    old_fail = make("facebbb0004", error="خطأ قديم من قبل هذه الميزة")
+    twice_fail = make("facebbb0005", failed_stage="facebook", failed_at=now_iso,
+                       error="خطأ فيسبوك تكرر", revival_offers=2)
+    for d in (fb_fail, img_fail, fields_fail, old_fail, twice_fail):
+        store.save_draft(d)
+
+    create_issue_calls: list = []
+
+    def fake_create_issue(title, body, labels=None):
+        create_issue_calls.append({"title": title, "body": body, "labels": labels})
+        return {"number": 9200, "html_url": "https://github.com/u/r/issues/9200"}
+
+    real_create_issue = review.create_issue
+    real_ensure_labels = review.ensure_labels
+    review.create_issue = fake_create_issue
+    review.ensure_labels = lambda: None
+    restore_env = _revival_env()
+    try:
+        code = open_review.main()
+        check("open_review.main ينتهي بنجاح", code == 0, f"exit={code}")
+        check("Issue إحياء واحد فُتح", len(create_issue_calls) == 1,
+              str(len(create_issue_calls)))
+        call = create_issue_calls[0] if create_issue_calls else {}
+        check("وسم failed-review", call.get("labels") == ["failed-review"],
+              call.get("labels"))
+        body = call.get("body", "")
+        check("المسودة القابلة للإحياء وحدها ظاهرة في الجسم",
+              set(review.all_revival_ids(body)) == {fb_fail["id"]},
+              review.all_revival_ids(body))
+
+        updated_fb = store.load_draft(fb_fail["id"])[1]
+        check("revival_issue كُتب على المسودة القابلة للإحياء",
+              updated_fb.get("revival_issue") == 9200, updated_fb.get("revival_issue"))
+        check("revival_offers زاد بواحد", updated_fb.get("revival_offers") == 1,
+              updated_fb.get("revival_offers"))
+
+        for excluded in (img_fail, fields_fail, old_fail, twice_fail):
+            fresh = store.load_draft(excluded["id"])[1]
+            check(f"{excluded['id']} لم يُلمَس (لا revival_issue)",
+                  "revival_issue" not in fresh, fresh)
+
+        # تشغيل ثانٍ: لا Issue جديد لنفس المسودة (revival_issue مكتوب الآن)
+        create_issue_calls.clear()
+        code2 = open_review.main()
+        check("تشغيل ثانٍ ينتهي بنجاح بلا مسودات/مرشحين جدد", code2 == 0, f"exit={code2}")
+        check("لا Issue جديد في التشغيل الثاني", create_issue_calls == [], create_issue_calls)
+    finally:
+        review.create_issue = real_create_issue
+        review.ensure_labels = real_ensure_labels
+        restore_env()
+
+
+def test_publish_revival_issue_full_flow() -> None:
+    """Issue #959 جزء ج: اعتماد Issue إحياء يضم مسودة معلَّمة (أخبار)،
+    وأخرى غير معلَّمة، ومعرّفًا محذوفًا، ومسودة تحليل معلَّمة — في مسار
+    --skip-urgent. المعلَّمة تصير queued بموعد بعد آخر موعد محجوز، وغير
+    المعلَّمة تموت نهائيًا (revival_declined)، ومسودة التحليل تُوجَّه عبر
+    youtube_publish.publish_ids (مزيَّفة) بلا queued. تكرار التشغيل ومسار
+    --urgent-only لا يغيّران شيئًا."""
+    from src import publish as publish_mod
+    from src import youtube_publish as yp
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    now_iso = datetime.now(timezone.utc).isoformat()
+
+    # منشور محجوز في الطابور مسبقًا — الموعد الجديد يجب أن يبدأ بعده.
+    booked_time = datetime.now(timezone.utc) + timedelta(hours=5)
+    booked_draft = {
+        "id": "beefbeef0001", "status": "queued",
+        "publish_at": booked_time.isoformat(),
+        "arabic": {"post_title": "منشور محجوز بالفعل", "urgent": False},
+        "caption": "متن", "source": {}, "image": "drafts/booked.jpg",
+    }
+    marked = {
+        "id": "feedbeef0011", "status": "failed", "failed_stage": "facebook",
+        "failed_at": now_iso, "error": "خطأ فيسبوك تجريبي", "revival_issue": 9300,
+        "revival_offers": 1,
+        "arabic": {"post_title": "خبر أول سيُعاد نشره", "urgent": False},
+        "caption": "متن1", "source": {}, "image": "drafts/rev1.jpg",
+    }
+    declined = {
+        "id": "feedbeef0012", "status": "failed", "failed_stage": "facebook",
+        "failed_at": now_iso, "error": "خطأ فيسبوك آخر", "revival_issue": 9300,
+        "revival_offers": 1,
+        "arabic": {"post_title": "خبر ثانٍ لن يُعاد", "urgent": False},
+        "caption": "متن2", "source": {}, "image": "drafts/rev2.jpg",
+    }
+    analysis_marked = {
+        "id": "feedbeef0013", "status": "failed", "failed_stage": "facebook",
+        "failed_at": now_iso, "error": "خطأ فيسبوك تحليل", "revival_issue": 9300,
+        "revival_offers": 1, "origin": "analysis",
+        "arabic": {"post_title": "مقال تحليل سيُعاد نشره", "urgent": False,
+                   "category": "تحليل"},
+        "caption": "متن3", "source": {}, "image": "drafts/rev3.jpg",
+    }
+    deleted_id = "feedbeef00ff"  # لا مسودة على القرص إطلاقًا
+    for d in (booked_draft, marked, declined, analysis_marked):
+        store.save_draft(d)
+
+    body = review.build_revival_body([marked, declined, analysis_marked], "u/r", "main")
+    body = tick_marker(body, f"<!-- revive:{marked['id']} -->")
+    body = tick_marker(body, f"<!-- revive:{analysis_marked['id']} -->")
+    body += f"\n- [x] ♻️ أعد المحاولة  <!-- revive:{deleted_id} -->\n"
+
+    real_fetch = publish_mod.fetch_issue
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_publish_ids = yp.publish_ids
+
+    comments: list = []
+    closed: list = []
+    yt_calls: list = []
+
+    def fake_publish_ids(ids, headline_choices, cfg):
+        yt_calls.append(list(ids))
+        for did in ids:
+            found = store.load_draft(did)
+            if found:
+                store.update_draft(found[0], status="published")
+        return ([f"- ✅ {i}" for i in ids], len(ids), len(ids), [])
+
+    def make_fetch(issue_labels):
+        return lambda n: {"number": n, "body": body, "labels": issue_labels}
+
+    review.comment = lambda issue_number, text: comments.append((issue_number, text))
+    review.close_issue = lambda issue_number: closed.append(issue_number)
+    yp.publish_ids = fake_publish_ids
+    publish_mod.fetch_issue = make_fetch(
+        [{"name": "failed-review"}, {"name": "approved"}])
+
+    try:
+        sys.argv = ["publish", "--issue", "9300", "--skip-urgent"]
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        review.comment = real_comment
+        review.close_issue = real_close
+        yp.publish_ids = real_publish_ids
+
+    check("publish.main (--skip-urgent) على Issue الإحياء ينتهي بنجاح",
+          code == 0, f"exit={code}")
+
+    updated_marked = store.load_draft(marked["id"])[1]
+    check("المسودة المعلَّمة صارت queued",
+          updated_marked.get("status") == "queued", updated_marked.get("status"))
+    check("error زال", "error" not in updated_marked, updated_marked)
+    check("failed_stage زال", "failed_stage" not in updated_marked, updated_marked)
+    check("revival_issue زال", "revival_issue" not in updated_marked, updated_marked)
+    check("revival_offers بقي كما هو (1)",
+          updated_marked.get("revival_offers") == 1, updated_marked.get("revival_offers"))
+    publish_at = updated_marked.get("publish_at")
+    check("publish_at مكتوب", bool(publish_at), publish_at)
+    if publish_at:
+        check("publish_at بعد آخر موعد محجوز",
+              datetime.fromisoformat(publish_at) > booked_time, publish_at)
+
+    updated_declined = store.load_draft(declined["id"])[1]
+    check("غير المعلَّمة تبقى failed",
+          updated_declined.get("status") == "failed", updated_declined.get("status"))
+    check("revival_declined=true", updated_declined.get("revival_declined") is True,
+          updated_declined.get("revival_declined"))
+
+    updated_analysis = store.load_draft(analysis_marked["id"])[1]
+    check("مسودة analysis وُجِّهت إلى publish_ids المزيَّفة",
+          yt_calls == [[analysis_marked["id"]]], yt_calls)
+    check("مسودة analysis نُشرت عبر publish_ids ولم تصر queued",
+          updated_analysis.get("status") == "published", updated_analysis.get("status"))
+
+    check("تعليق نُشر على الـIssue", bool(comments), comments)
+    check("الـIssue أُغلق", closed == [9300], closed)
+
+    # تكرار التشغيل لا يغيّر شيئًا
+    comments.clear()
+    closed.clear()
+    yt_calls.clear()
+    publish_mod.fetch_issue = make_fetch(
+        [{"name": "failed-review"}, {"name": "approved"}])
+    review.comment = lambda issue_number, text: comments.append((issue_number, text))
+    review.close_issue = lambda issue_number: closed.append(issue_number)
+    yp.publish_ids = fake_publish_ids
+    try:
+        sys.argv = ["publish", "--issue", "9300", "--skip-urgent"]
+        code_repeat = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        review.comment = real_comment
+        review.close_issue = real_close
+        yp.publish_ids = real_publish_ids
+
+    check("تكرار التشغيل ينتهي بنجاح", code_repeat == 0, f"exit={code_repeat}")
+    check("تكرار التشغيل: حالة المعلَّمة لم تتغيّر",
+          store.load_draft(marked["id"])[1].get("status") == "queued")
+    check("تكرار التشغيل: publish_at لم يتغيّر",
+          store.load_draft(marked["id"])[1].get("publish_at") == publish_at)
+    check("تكرار التشغيل: لا نداء جديد لـpublish_ids", yt_calls == [], yt_calls)
+
+    # مسار --urgent-only لا يغيّر شيئًا
+    comments.clear()
+    closed.clear()
+    yt_calls.clear()
+    publish_mod.fetch_issue = make_fetch(
+        [{"name": "failed-review"}, {"name": "approved"}])
+    review.comment = lambda issue_number, text: comments.append((issue_number, text))
+    review.close_issue = lambda issue_number: closed.append(issue_number)
+    yp.publish_ids = fake_publish_ids
+    try:
+        sys.argv = ["publish", "--issue", "9300", "--urgent-only"]
+        code_urgent = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        review.comment = real_comment
+        review.close_issue = real_close
+        yp.publish_ids = real_publish_ids
+
+    check("مسار --urgent-only ينتهي بنجاح بلا فعل شيء", code_urgent == 0,
+          f"exit={code_urgent}")
+    check("--urgent-only: لا تعليق ولا إغلاق", comments == [] and closed == [],
+          (comments, closed))
+    check("--urgent-only: لا نداء publish_ids", yt_calls == [], yt_calls)
+
+
+def test_revival_end_to_end() -> None:
+    """من البداية إلى النهاية (Issue #959): فشل نشر فيسبوك ← فتح Issue
+    الإحياء (open_review) ← اعتماده (publish.main --skip-urgent) ←
+    publish --due بعد حلول الموعد مع facebook ناجح مزيَّف ← المسودة
+    published."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    draft = {
+        "id": "eeeebeef0001", "status": "pending",
+        "arabic": {"post_title": "خبر من البداية للنهاية", "urgent": False},
+        "caption": "متن", "source": {}, "image": "drafts/e2e.jpg",
+    }
+    path = store.save_draft(draft)
+    (DRAFTS_DIR / "e2e.jpg").write_bytes(b"\xff\xd8\xff")
+
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    publish_mod.ROOT = DRAFTS_DIR.parent
+
+    def raise_fb(*a, **k):
+        raise facebook.FacebookError("عطل مؤقت في فيسبوك")
+
+    facebook.publish_photo = raise_fb
+    try:
+        ok, _ = publish_mod.publish_one(path, draft, load_config())
+    finally:
+        facebook.publish_photo = real_publish_photo
+
+    check("النشر الأول فشل فعليًا", not ok)
+    failed_draft = store.load_draft(draft["id"])[1]
+    check("failed_stage=facebook بعد الفشل الأول",
+          failed_draft.get("failed_stage") == "facebook", failed_draft)
+
+    real_create_issue = review.create_issue
+    real_ensure_labels = review.ensure_labels
+    created: dict = {}
+
+    def fake_create_issue(title, body, labels=None):
+        created["title"], created["body"], created["labels"] = title, body, labels
+        return {"number": 9400, "html_url": "https://github.com/u/r/issues/9400"}
+
+    review.create_issue = fake_create_issue
+    review.ensure_labels = lambda: None
+    restore_env = _revival_env()
+    try:
+        code_open = open_review.main()
+    finally:
+        review.create_issue = real_create_issue
+        review.ensure_labels = real_ensure_labels
+        restore_env()
+
+    check("open_review.main فتح Issue الإحياء بنجاح",
+          code_open == 0 and created.get("labels") == ["failed-review"],
+          created.get("labels"))
+
+    body = tick_marker(created.get("body", ""), f"<!-- revive:{draft['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    real_comment = review.comment
+    real_close = review.close_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body,
+        "labels": [{"name": "failed-review"}, {"name": "approved"}],
+    }
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+    try:
+        sys.argv = ["publish", "--issue", "9400", "--skip-urgent"]
+        code_approve = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("الاعتماد نجح", code_approve == 0, f"exit={code_approve}")
+    queued_draft = store.load_draft(draft["id"])[1]
+    check("المسودة صارت queued بعد الاعتماد",
+          queued_draft.get("status") == "queued", queued_draft.get("status"))
+
+    # محاكاة حلول الموعد
+    store.update_draft(
+        path, publish_at=(datetime.now(timezone.utc) - timedelta(minutes=1)).isoformat())
+
+    facebook.publish_photo = lambda *a, **k: {"url": "https://fb.example/final", "id": "999"}
+    try:
+        code_due = publish_mod.cmd_due(load_config())
+    finally:
+        facebook.publish_photo = real_publish_photo
+        publish_mod.ROOT = real_root
+
+    check("cmd_due ينتهي بنجاح", code_due == 0, f"exit={code_due}")
+    final_draft = store.load_draft(draft["id"])[1]
+    check("المسودة نُشرت أخيرًا (published)",
+          final_draft.get("status") == "published", final_draft.get("status"))
+
+
+def test_open_review_revival_offered_twice_then_stops() -> None:
+    """الفشل الثاني يُعرض مرة أخيرة، والثالث لا يُعرض (Issue #959) — عبر
+    الأنبوب الفعلي: publish_one يفشل، open_review.main يعرض، publish.main
+    يعتمد فيعيد queued، يفشل ثانية، ثم ثالثة."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    draft = {
+        "id": "cececebe0001", "status": "pending",
+        "arabic": {"post_title": "خبر يفشل مرارًا", "urgent": False},
+        "caption": "متن", "source": {}, "image": "drafts/thrice.jpg",
+    }
+    path = store.save_draft(draft)
+    (DRAFTS_DIR / "thrice.jpg").write_bytes(b"\xff\xd8\xff")
+
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    real_create_issue = review.create_issue
+    real_ensure_labels = review.ensure_labels
+    real_fetch = publish_mod.fetch_issue
+    real_comment = review.comment
+    real_close = review.close_issue
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    review.ensure_labels = lambda: None
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+    restore_env = _revival_env()
+
+    def fail_once(msg: str) -> None:
+        def raise_fb(*a, **k):
+            raise facebook.FacebookError(msg)
+        facebook.publish_photo = raise_fb
+        try:
+            publish_mod.publish_one(path, store.load_draft(draft["id"])[1], load_config())
+        finally:
+            facebook.publish_photo = real_publish_photo
+
+    issue_counter = [9500]
+    create_issue_calls: list = []
+
+    def fake_create_issue(title, body, labels=None):
+        issue_counter[0] += 1
+        create_issue_calls.append(issue_counter[0])
+        return {"number": issue_counter[0],
+                "html_url": f"https://github.com/u/r/issues/{issue_counter[0]}"}
+
+    def approve(issue_number: int) -> None:
+        body = tick_marker(
+            review.build_revival_body([store.load_draft(draft["id"])[1]], "u/r", "main"),
+            f"<!-- revive:{draft['id']} -->")
+        publish_mod.fetch_issue = lambda n: {
+            "number": n, "body": body,
+            "labels": [{"name": "failed-review"}, {"name": "approved"}],
+        }
+        try:
+            sys.argv = ["publish", "--issue", str(issue_number), "--skip-urgent"]
+            publish_mod.main()
+        finally:
+            publish_mod.fetch_issue = real_fetch
+
+    try:
+        review.create_issue = fake_create_issue
+
+        # فشل أول ← يُعرض أول مرة.
+        fail_once("فشل أول")
+        code1 = open_review.main()
+        check("open_review الأول ينتهي بنجاح", code1 == 0, f"exit={code1}")
+        check("عُرضت أول مرة", len(create_issue_calls) == 1, create_issue_calls)
+        d1 = store.load_draft(draft["id"])[1]
+        check("revival_offers=1 بعد العرض الأول", d1.get("revival_offers") == 1,
+              d1.get("revival_offers"))
+
+        # اعتماد ← queued ← فشل ثانية ← يُعرض مرة أخيرة.
+        approve(create_issue_calls[0])
+        d1b = store.load_draft(draft["id"])[1]
+        check("صارت queued بعد الاعتماد الأول", d1b.get("status") == "queued",
+              d1b.get("status"))
+        fail_once("فشل ثانٍ")
+        code2 = open_review.main()
+        check("open_review الثاني ينتهي بنجاح", code2 == 0, f"exit={code2}")
+        check("عُرضت مرة أخيرة (ثانية)", len(create_issue_calls) == 2, create_issue_calls)
+        d2 = store.load_draft(draft["id"])[1]
+        check("revival_offers=2 بعد العرض الثاني", d2.get("revival_offers") == 2,
+              d2.get("revival_offers"))
+
+        # اعتماد ← queued ← فشل ثالثة ← لا عرض ثالث (سقف عرضين).
+        approve(create_issue_calls[1])
+        fail_once("فشل ثالث")
+        code3 = open_review.main()
+        check("open_review الثالث ينتهي بنجاح", code3 == 0, f"exit={code3}")
+        check("لا عرض ثالث (السقف عرضان)", len(create_issue_calls) == 2,
+              create_issue_calls)
+    finally:
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+        review.create_issue = real_create_issue
+        review.ensure_labels = real_ensure_labels
+        publish_mod.fetch_issue = real_fetch
+        review.comment = real_comment
+        review.close_issue = real_close
+        restore_env()

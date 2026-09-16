@@ -54,6 +54,42 @@ def _valid_review_drafts(rows: list[tuple]) -> list[tuple]:
     return valid
 
 
+def _revivable_drafts() -> list[tuple]:
+    """مسودات ``failed`` قابلة للإحياء (Issue #959): فشل نشرها على فيسبوك
+    تحديدًا (``failed_stage == "facebook"`` — الحقل الوحيد الذي يكتبه
+    ``publish.publish_one`` عند هذا الفشل بالذات، لا «حقول مفقودة» ولا
+    «الصورة مفقودة»)، لم تُعرض على مراجع بعد (``revival_issue`` غائب —
+    الإحياء الأول جارٍ أو انتهى بالفعل)، وضمن سقف عرضين: فشلت فأُعرضت
+    (``revival_offers == 1``) ثم أُعيدت ففشلت ثانية تُعرض أخيرة؛ عُرضت
+    مرتين (``revival_offers >= 2``) لا تُعرض بعد ذلك."""
+    out = []
+    for path, d in store.failed_drafts():
+        if d.get("failed_stage") != "facebook":
+            continue
+        if d.get("revival_issue"):
+            continue
+        if int(d.get("revival_offers", 0) or 0) >= 2:
+            continue
+        out.append((path, d))
+    return out
+
+
+def _open_revival_issue(rows: list[tuple], repo: str, branch: str) -> dict:
+    drafts = [d for _, d in rows]
+    issue = review.create_issue(
+        title=(f"♻️ منشورات فشل نشرها {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
+               f"— {len(drafts)}"),
+        body=review.build_revival_body(drafts, repo, branch),
+        labels=["failed-review"],
+    )
+    for path, d in rows:
+        store.update_draft(
+            path, revival_issue=issue["number"],
+            revival_offers=int(d.get("revival_offers", 0) or 0) + 1,
+        )
+    return issue
+
+
 def main() -> int:
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s │ %(levelname)-7s │ %(message)s",
@@ -78,8 +114,13 @@ def main() -> int:
         (path, c) for path, c in store.pending_candidates()
         if not c.get("selection_issue")
     ], key=lambda row: row[1])
-    if not fresh_drafts and not fresh_candidates:
-        log.info("لا مسودات ولا مرشحين جدد يحتاجون فتح Issue")
+    # Issue #959: يُجمَع قبل أي return مبكّر — دفعة إحياء بلا مسودات/مرشحين
+    # جدد يجب أن تفتح Issue الإحياء وحده، لا أن تُصادَف بالعودة المبكّرة
+    # أدناه لغياب النوعين الآخرين.
+    revival_rows = review.sort_by_score(_revivable_drafts(), key=lambda row: row[1])
+
+    if not fresh_drafts and not fresh_candidates and not revival_rows:
+        log.info("لا مسودات ولا مرشحين ولا فشل قابل للإحياء يحتاج فتح Issue")
         return 0
 
     repo = os.environ.get("GITHUB_REPOSITORY")
@@ -90,6 +131,11 @@ def main() -> int:
     branch = os.environ.get("GITHUB_REF_NAME", "main")
     review.ensure_labels()
 
+    revival_issue = None
+    if revival_rows:
+        revival_issue = _open_revival_issue(revival_rows, repo, branch)
+
+    issue = None
     if fresh_drafts:
         drafts = [d for _, d in fresh_drafts]
         issue = review.create_issue(
@@ -100,7 +146,7 @@ def main() -> int:
         )
         for path, _ in fresh_drafts:
             store.update_draft(path, review_issue=issue["number"])
-    else:
+    elif fresh_candidates:
         cands = [c for _, c in fresh_candidates]
         cfg = load_config()
         translations = preselect.translate_titles(cands, cfg)
@@ -116,9 +162,16 @@ def main() -> int:
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary:
         with open(summary, "a", encoding="utf-8") as fh:
-            fh.write(f"\n➡️ [Issue #{issue['number']} للمراجعة]({issue['html_url']})\n")
+            if issue:
+                fh.write(f"\n➡️ [Issue #{issue['number']} للمراجعة]({issue['html_url']})\n")
+            if revival_issue:
+                fh.write(f"\n♻️ [Issue #{revival_issue['number']} لإحياء الفشل]"
+                         f"({revival_issue['html_url']})\n")
 
-    log.info("للمراجعة: %s", issue["html_url"])
+    if issue:
+        log.info("للمراجعة: %s", issue["html_url"])
+    if revival_issue:
+        log.info("للإحياء: %s", revival_issue["html_url"])
     return 0
 
 

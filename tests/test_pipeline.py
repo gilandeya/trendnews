@@ -4,6 +4,8 @@
 """
 from __future__ import annotations
 
+import os
+
 from tests.helpers import FAILED, PASSED, install_fakes
 from tests.test_collect import (
     test_tokens_and_similarity,
@@ -129,6 +131,11 @@ from tests.test_review import (
     test_retention_publish_survives_deleted_draft,
     test_retention_insights_still_counts_kept_draft,
     test_retention_config_days_at_least_30,
+    test_publish_one_facebook_failure_tags_stage,
+    test_open_review_revival_issue_single_and_no_duplicate,
+    test_publish_revival_issue_full_flow,
+    test_revival_end_to_end,
+    test_open_review_revival_offered_twice_then_stops,
 )
 from tests.test_article import (
     test_verify,
@@ -192,6 +199,14 @@ from tests.test_guards_golden import test_guards_golden
 
 
 def main() -> int:
+    # الحزمة يجب أن تنجح بمعزل عن بيئة GitHub الحقيقية (Issue #959) —
+    # اختبار لا يعطّل نداء شبكة GitHub حقيقيًا (review.py: env(...,
+    # required=True)) قد ينجح صدفة هنا لأن GITHUB_TOKEN/GITHUB_REPOSITORY
+    # الحقيقيين متوفّران في جلسة Actions، لكنه ينهار خارجها. أي اختبار
+    # يحتاج أحد هذه المتغيرات يضبط قيمة وهمية بنفسه.
+    for var in ("GITHUB_TOKEN", "GITHUB_REPOSITORY", "GITHUB_REF_NAME"):
+        os.environ.pop(var, None)
+
     install_fakes()
     print("\n── ترميز العناوين والتشابه ──")
     test_tokens_and_similarity()
@@ -410,6 +425,12 @@ def main() -> int:
     test_retention_publish_survives_deleted_draft()
     test_retention_insights_still_counts_kept_draft()
     test_retention_config_days_at_least_30()
+    print("\n── إحياء منشورات فشل نشرها على فيسبوك (Issue #959) ──")
+    test_publish_one_facebook_failure_tags_stage()
+    test_open_review_revival_issue_single_and_no_duplicate()
+    test_publish_revival_issue_full_flow()
+    test_revival_end_to_end()
+    test_open_review_revival_offered_twice_then_stops()
     print("\n── setimage.apply_image يحافظ على وسم المسار (Issue #758) ──")
     test_setimage_apply_image_keeps_origin_badge()
     print("\n── اختيار عنوان غير افتراضي يعيد بناء البطاقة (Issue #760) ──")
