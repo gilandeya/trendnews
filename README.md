@@ -478,6 +478,7 @@ python -m tests.test_pipeline
 │   ├── feedback.py / collect_feedback.py   تسجيل أسباب الرفض وتغذيتها للفرز
 │   ├── decisions.py               سجل مصير كل مسودة (نُشرت/رُفضت/أُغلق الـIssue دونها/تُجوهلت)
 │   ├── insights.py                تقرير أداء أسبوعي واقتراحات لضبط config.yaml
+│   ├── retention.py               حذف دوري لما تجاوز retention.days من drafts/ وstate/candidates/
 │   ├── radar.py                   مسار العاجل: رادار كل ١٥ دقيقة + عتبات النشر بلا مراجعة
 │   ├── request.py                 مسار «اطلب خبرًا بكلمات» (عند الطلب، خارج البوابات الثلاث)
 │   ├── evidence.py                محرك بحث/قراءة مشترك بين verify.py و article.py
@@ -528,6 +529,15 @@ python -m tests.test_pipeline
 
 **لا `temperature` أبدًا** — النماذج المستخدمة هنا ترفضه بخطأ 400؛ اختبار ثابت
 (`test_no_temperature_param`) يفشل الحزمة كلها لو ظهر مجددًا في أي استدعاء نموذج.
+
+**الحذف الدوري (`src/retention.py`)** — كل تشغيلة (`python -m src.retention`) تحذف من `drafts/`
+وَ`state/candidates/` ما تجاوز نافذة واحدة، `config.yaml: retention.days` (الافتراضي 30 يومًا)؛
+`--dry-run` يطبع ما سيُحذف بلا حذف فعلي. النافذة لا يجوز أن تقلّ عن 30 لأن تقرير الأداء الأسبوعي
+(`insights.py`) يقرأ افتراضيًا آخر 30 يومًا من المنشورات — طلب تقرير يدوي بمدة أطول من
+`retention.days` لن يجد منشورات أقدم منها. قاعدة العمر: المسودة المنشورة (`status: "published"`)
+تُقاس من `published_at`، والمسودة قيد الطابور (`status: "queued"`) لا تُحذف أبدًا مهما بلغ عمرها،
+وأي حالة أخرى (`pending`، `failed`، `rejected`…) تُقاس من تاريخ مجلد يومها. تُحذف المسودة وحدة
+واحدة — ملف الـ JSON مع كل صورها في نفس مجلد اليوم — فلا يبقى ملف يشير إلى صورة محذوفة.
 
 ---
 

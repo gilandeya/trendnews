@@ -446,6 +446,24 @@ Supporting pieces, each independently triggerable as its own workflow:
   floor in `feedback.screening_guidance`/`summarise` is the model to follow, not a one-off count.
 - `src/insights.py` — pulls Facebook post performance and derives config-tuning recommendations
   (e.g., "raise `trends.weight`").
+- `src/retention.py` (Issue #956, `python -m src.retention`, `--dry-run` prints what would be
+  deleted without deleting) — a rolling deletion of anything in `drafts/`/`state/candidates/` older
+  than a single window, `config.yaml: retention.days` (default 30). Rolling, not batched: every run
+  deletes whatever has aged past the window *as of that run*, not a fixed periodic sweep. This
+  window can never be set below 30, because `insights.py`'s weekly report (`insights.yml`) reads
+  the last 30 days of published posts by default — a shorter retention window would delete
+  published drafts the very next report still needs to read, and a manual report request for more
+  days than `retention.days` simply won't find posts older than that. Age rule, per draft: a
+  `status: "published"` draft's age is measured from `published_at` (falling back to its day
+  folder's date if that field is missing or unparsable); a `status: "queued"` draft is never
+  deleted regardless of age (it hasn't published yet, so no report has read it); every other status
+  (`pending`, `failed`, `rejected`, …) ages from its day folder's date, since none of them has a
+  more reliable per-item timestamp. A draft is deleted as one unit — its JSON plus every sibling
+  file sharing its id in that day folder (the built card, `next_image_path`'s `-v2`/`-v3` versions,
+  a reel `.mp4`) — so no file is ever left pointing at an image that no longer exists; an unreadable
+  JSON is left untouched (and logged) rather than guessed at. `state/candidates/<date>/` has no
+  per-item status, so its whole day folder is dropped or kept purely by folder date. A day folder
+  emptied by this sweep is removed too.
 - `src/trends.py` — Google Trends signal (what audiences are searching, independent of what
   agencies are publishing).
 - `src/velocity.py` — tracks how fast a story is gaining source coverage over time; feeds into
@@ -735,8 +753,9 @@ plus `proxy_config.py`. No path's own files are imported back by another path's 
 `collect.py` is never imported by `article.py`, `radar.py`, or `youtube_publish.py`, and `radar.py`
 is never imported by `article.py` or `youtube_publish.py`. `writer.py`, `imaging.py`, `headlines.py`,
 `schedule.py`, `facebook.py`, `setimage.py`, `feedback.py`/`collect_feedback.py`, `decisions.py`,
-and `insights.py` are cross-cutting *utilities* rather than orchestration entry points, and are
-reused across paths the same way the five hub files are, without being part of that formal list.
+`insights.py`, and `retention.py` are cross-cutting *utilities* rather than orchestration entry
+points, and are reused across paths the same way the five hub files are, without being part of
+that formal list.
 
 **One real exception worth knowing before assuming strict isolation**: `src/request.py` — nominally
 the standalone "write about X" path — has quietly become a second shared-utility surface. Its
@@ -771,8 +790,8 @@ single `tests/test_pipeline.py` had grown past 18,000 lines and become unwieldy 
 - **`tests/test_review.py`** — the three review gates and everything downstream of them:
   `preselect.py` (gate A), `review.py`/`open_review.py` (gates B/C), `publish.py` and scheduling
   (`schedule.py`), `cards.py`, `setimage.py`, `feedback.py`/`collect_feedback.py`, `request.py`,
-  the shared `headlines.py`, the `origin` field and `store.origin_of`, `decisions.py`, and
-  `insights.py`.
+  the shared `headlines.py`, the `origin` field and `store.origin_of`, `decisions.py`,
+  `insights.py`, and `retention.py`.
 - **`tests/test_article.py`** — the Investigation domain and the older verify flow: `verify.py`,
   `verify_draft.py` (including `check_originality`), the shared search/read engine `evidence.py`,
   and `article.py` (brief extraction, event naming, source grounding, the A/B/C attribution
