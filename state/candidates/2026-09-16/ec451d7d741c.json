@@ -1,0 +1,71 @@
+{
+  "id": "ec451d7d741c",
+  "created_at": "2026-09-16T15:08:07.004677+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.83,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ban on Indian aircraft using Pakistani airspace extended until Oct 24",
+  "link": "https://www.dawn.com/news/2030359/ban-on-indian-aircraft-using-pakistani-airspace-extended-until-oct-24",
+  "publishers": [
+    "Dawn",
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Ban on Indian aircraft using Pakistani airspace extended until Oct 24",
+    "link": "https://www.dawn.com/news/2030359/ban-on-indian-aircraft-using-pakistani-airspace-extended-until-oct-24",
+    "summary": "Pakistan has extended its airspace ban for Indian aircraft until October 24, according to a Notice to Airmen (Notam) issued by the Pakistan Airports Authority (PAA). The previous extension of the ban was set to expire on September 24. “Pakistan airspace not available for Indian registered aircraft and aircraft operated/owned or leased by Indian airlines/operators, including military flights,” the Notam said. According to the notice, the extension came into effect at 10:45am on Wednesday and will remain until 04:59am on Oct 24, 2026. The country’s airspace is divided into two flight information regions (FIRs) — Karachi and Lahore, according to a Pakistan Civil Aviation Authority (PCAA) document from 2022. Wednesday’s Notam applies to both the Karachi (OPKR) and Lahore (OPLR) FIRs. India and Pakistan closed their airspaces to each other’s airlines in late April 2025, when tensions between them escalated in the wake of a deadly attack in India-occupied Kashmir’s Pahalgam. On April 24, Pakistan’s top brass had announced a series of measures , including the closure of its airspace to all India-owned or Indian-operated airlines with immediate effect, as it retaliated against New Delhi’s ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-16T09:31:15+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/161316432cddde0.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030359/ban-on-indian-aircraft-using-pakistani-airspace-extended-until-oct-24"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629624/pakistan-extends-airspace-ban-for-indian-aircraft-until-october-23"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/682301-pakistan-extends-airspace-closure-for-indian-aircraft-until-october-24"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/161316432cddde0.webp",
+      "https://i.dawn.com/thumbnail/2026/09/161316432cddde0.webp",
+      "https://i.dawn.com/primary/2026/09/161309279895808.webp",
+      "https://www.geo.tv/assets/uploads/2026-09-16/682301_123212_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1030.9165700122223,
+    "is_stale": false,
+    "score": 22.830722085941247,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

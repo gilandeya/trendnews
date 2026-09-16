@@ -1,0 +1,60 @@
+{
+  "id": "a19712ff17bf",
+  "created_at": "2026-09-16T15:08:07.005757+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.66,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "FIFA to present review of Infantino’s shelved investment plan to Council",
+  "link": "https://www.aljazeera.com/sports/2026/9/16/fifa-to-present-review-of-infantinos-shelved-investment-plan-to-council?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "FIFA to present review of Infantino’s shelved investment plan to Council",
+    "link": "https://www.aljazeera.com/sports/2026/9/16/fifa-to-present-review-of-infantinos-shelved-investment-plan-to-council?traffic_source=rss",
+    "summary": "A review of FIFA President Gianni Infantino's failed World Cup selloff to be presented to governing body's Council.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-16T13:05:02+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/16/fifa-to-present-review-of-infantinos-shelved-investment-plan-to-council?traffic_source=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/fifa-says-review-shelved-investment-plan-be-presented-council-6389091"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1030.9166318480554,
+    "is_stale": false,
+    "score": 20.66337161938889,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

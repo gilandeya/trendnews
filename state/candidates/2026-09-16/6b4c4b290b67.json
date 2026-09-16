@@ -1,0 +1,63 @@
+{
+  "id": "6b4c4b290b67",
+  "created_at": "2026-09-16T15:08:07.005133+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.1,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "PP y Vox cargan contra Vinicius, Mbappé y Konaté por su gesto en el partido entre el Elche y el Real Madrid",
+  "link": "https://elpais.com/deportes/futbol/2026-09-16/el-pp-sobre-el-gesto-de-vinicius-mbappe-y-konate-me-dio-bastante-verguenza-ajena.html",
+  "publishers": [
+    "El País",
+    "Vanguard Nigeria"
+  ],
+  "region": "es",
+  "article": {
+    "title": "PP y Vox cargan contra Vinicius, Mbappé y Konaté por su gesto en el partido entre el Elche y el Real Madrid",
+    "link": "https://elpais.com/deportes/futbol/2026-09-16/el-pp-sobre-el-gesto-de-vinicius-mbappe-y-konate-me-dio-bastante-verguenza-ajena.html",
+    "summary": "La portavoz popular, Ester Muñoz, habla de “vergüenza ajena”, mientras que desde la ultraderecha José María Figaredo acusa a los futbolistas de “no apoyar a los españoles” por negarse a mostrar una camiseta de apoyo a Ceuta",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-16T12:08:51+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/S5KMVCP65JDEVIB7LG4VUVY3IE.jpg?auth=6b82a00f1ece9a3f3cd2201374c19c9f7eb1818796b1089f2c1bb1d785d9b067",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-16/el-pp-sobre-el-gesto-de-vinicius-mbappe-y-konate-me-dio-bastante-verguenza-ajena.html"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/real-madrid-defend-mbappe-vinicius-after-ceuta-shirt-controversy/"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/S5KMVCP65JDEVIB7LG4VUVY3IE.jpg?auth=6b82a00f1ece9a3f3cd2201374c19c9f7eb1818796b1089f2c1bb1d785d9b067",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/Mbappe-and-Vinicius.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.100945700685187,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

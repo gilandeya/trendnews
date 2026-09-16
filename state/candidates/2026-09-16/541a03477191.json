@@ -1,0 +1,78 @@
+{
+  "id": "541a03477191",
+  "created_at": "2026-09-16T15:08:07.005463+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.95,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "\"Alliance For Future\": EU Chief Pitches Associate Member Status For Canada",
+  "link": "https://www.ndtv.com/world-news/alliance-for-future-eu-chief-ursula-von-der-leyen-pitches-associate-member-status-for-canada-12054902#publisher=newsstand",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "NDTV — World",
+    "NPR World",
+    "Reuters"
+  ],
+  "region": "in",
+  "article": {
+    "title": "\"Alliance For Future\": EU Chief Pitches Associate Member Status For Canada",
+    "link": "https://www.ndtv.com/world-news/alliance-for-future-eu-chief-ursula-von-der-leyen-pitches-associate-member-status-for-canada-12054902#publisher=newsstand",
+    "summary": "Von der Leyen said it was time to move from cooperation based on trade.",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-16T12:38:38+00:00",
+    "image_url": "https://c.ndtvimg.com/2025-01/btg6506g_eu-chief_625x300_21_January_25.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "NDTV — World",
+      "NPR World",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/16/eu-chief-von-der-leyen-proposes-associate-member-status-for-canada?traffic_source=rss"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/16/nx-s1-5970985/canada-become-eu-associate-member"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/eus-von-der-leyen-pitches-canada-as-blocs-1st-associate-member"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/alliance-for-future-eu-chief-ursula-von-der-leyen-pitches-associate-member-status-for-canada-12054902#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2025-01/btg6506g_eu-chief_625x300_21_January_25.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5970985",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/16/460876.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1030.9166206552777,
+    "is_stale": false,
+    "score": 20.949822579088014,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

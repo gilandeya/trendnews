@@ -1,0 +1,64 @@
+{
+  "id": "602588da0a51",
+  "created_at": "2026-09-16T15:08:07.006029+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.16,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US set to approve 60,000 heavy bombs for Israel: What that means",
+  "link": "https://www.aljazeera.com/features/2026/9/16/us-set-to-approve-60000-heavy-bombs-for-israel-what-that-means?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "The Hindu — International"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "US set to approve 60,000 heavy bombs for Israel: What that means",
+    "link": "https://www.aljazeera.com/features/2026/9/16/us-set-to-approve-60000-heavy-bombs-for-israel-what-that-means?traffic_source=rss",
+    "summary": "The package of 2,000-pound bombs comes amid Israel's genocidal war on Gaza and its occupation of southern Lebanon.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-16T12:09:45+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/hdqpyl/article71470870.ece/alternates/LANDSCAPE_1200/Iran_US_6_Months_Changed_Mideast_17733.jpg",
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/features/2026/9/16/us-set-to-approve-60000-heavy-bombs-for-israel-what-that-means?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-admin-approves-sending-2000-pound-bombs-to-israel-in-upcoming-weapons-deal/article71470869.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/hdqpyl/article71470870.ece/alternates/LANDSCAPE_1200/Iran_US_6_Months_Changed_Mideast_17733.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1030.916564125,
+    "is_stale": true,
+    "score": 20.156833204459765,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

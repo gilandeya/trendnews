@@ -1,99 +1,5 @@
 [
   {
-    "score": 24.15,
-    "bucket": "serious",
-    "tokens": [
-      "algeria",
-      "cuts",
-      "diplomatic",
-      "ties",
-      "uae"
-    ],
-    "link": "https://newsaf.cgtn.com/news/2026-09-11/Algeria-cuts-diplomatic-ties-with-the-UAE-1QkNhjRq4ta/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-    "title": "Algeria cuts diplomatic ties with the UAE",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-11T15:07:52.217774+00:00"
-  },
-  {
-    "score": 21.01,
-    "bucket": "serious",
-    "tokens": [
-      "area",
-      "bab",
-      "complete",
-      "control",
-      "houthis",
-      "island",
-      "key",
-      "mandeb",
-      "push",
-      "red",
-      "sea",
-      "seize"
-    ],
-    "link": "https://www.ndtv.com/world-news/houthis-seize-key-red-sea-island-complete-push-to-control-bab-al-mandeb-area-12033833#publisher=newsstand",
-    "title": "Houthis Seize Key Red Sea Island, Complete Push To Control Bab Al-Mandeb Area",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-11T15:07:52.218088+00:00"
-  },
-  {
-    "score": 20.94,
-    "bucket": "serious",
-    "tokens": [
-      "activists",
-      "hong",
-      "kong's",
-      "prison",
-      "sentenced",
-      "seven",
-      "tiananmen",
-      "years"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cvgyvk2djk4o?at_medium=RSS&at_campaign=rss",
-    "title": "Hong Kong's Tiananmen activists sentenced to up to seven years in prison",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-11T15:07:52.218371+00:00"
-  },
-  {
-    "score": 20.37,
-    "bucket": "serious",
-    "tokens": [
-      "bab",
-      "houthis",
-      "island",
-      "mandeb",
-      "reach",
-      "strait",
-      "strategic",
-      "yemen"
-    ],
-    "link": "https://www.scmp.com/news/world/middle-east/article/3367232/yemens-houthis-reach-strategic-island-bab-el-mandeb-strait?utm_source=rss_feed",
-    "title": "Yemen’s Houthis reach strategic island in Bab el-Mandeb Strait",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-11T15:07:52.218657+00:00"
-  },
-  {
-    "score": 18.83,
-    "bucket": "serious",
-    "tokens": [
-      "bill",
-      "flood",
-      "foreign",
-      "ministry",
-      "nepal",
-      "reconstruction"
-    ],
-    "link": "https://www.thehindu.com/news/international/nepal-flood-reconstruction-bill-to-be-478-bn-foreign-ministry/article71455821.ece",
-    "title": "Nepal flood reconstruction bill to be $4.78 bn: foreign ministry",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-11T15:07:52.218924+00:00"
-  },
-  {
     "score": 21.01,
     "bucket": "serious",
     "tokens": [
@@ -5363,5 +5269,106 @@
     "posted_title": "ميسي يخوض مباراته الوداعية مع الأرجنتين في السادس من أكتوبر",
     "region": "sport",
     "seen_at": "2026-09-16T14:23:35.114200+00:00"
+  },
+  {
+    "score": 22.83,
+    "bucket": "serious",
+    "tokens": [
+      "aircraft",
+      "airspace",
+      "ban",
+      "extended",
+      "indian",
+      "oct",
+      "pakistani",
+      "until",
+      "using"
+    ],
+    "link": "https://www.dawn.com/news/2030359/ban-on-indian-aircraft-using-pakistani-airspace-extended-until-oct-24",
+    "title": "Ban on Indian aircraft using Pakistani airspace extended until Oct 24",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-16T15:08:07.005119+00:00"
+  },
+  {
+    "score": 21.1,
+    "bucket": "serious",
+    "tokens": [
+      "cargan",
+      "contra",
+      "elche",
+      "entre",
+      "gesto",
+      "konaté",
+      "madrid",
+      "mbappé",
+      "partido",
+      "por",
+      "real",
+      "vinicius",
+      "vox"
+    ],
+    "link": "https://elpais.com/deportes/futbol/2026-09-16/el-pp-sobre-el-gesto-de-vinicius-mbappe-y-konate-me-dio-bastante-verguenza-ajena.html",
+    "title": "PP y Vox cargan contra Vinicius, Mbappé y Konaté por su gesto en el partido entre el Elche y el Real Madrid",
+    "posted_title": "",
+    "region": "es",
+    "seen_at": "2026-09-16T15:08:07.005452+00:00"
+  },
+  {
+    "score": 20.95,
+    "bucket": "serious",
+    "tokens": [
+      "alliance",
+      "associate",
+      "canada",
+      "chief",
+      "future",
+      "member",
+      "pitches",
+      "status"
+    ],
+    "link": "https://www.ndtv.com/world-news/alliance-for-future-eu-chief-ursula-von-der-leyen-pitches-associate-member-status-for-canada-12054902#publisher=newsstand",
+    "title": "\"Alliance For Future\": EU Chief Pitches Associate Member Status For Canada",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-16T15:08:07.005747+00:00"
+  },
+  {
+    "score": 20.66,
+    "bucket": "serious",
+    "tokens": [
+      "council",
+      "fifa",
+      "infantino",
+      "investment",
+      "plan",
+      "present",
+      "review",
+      "shelved"
+    ],
+    "link": "https://www.aljazeera.com/sports/2026/9/16/fifa-to-present-review-of-infantinos-shelved-investment-plan-to-council?traffic_source=rss",
+    "title": "FIFA to present review of Infantino’s shelved investment plan to Council",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-09-16T15:08:07.006019+00:00"
+  },
+  {
+    "score": 20.16,
+    "bucket": "serious",
+    "tokens": [
+      "000",
+      "approve",
+      "bombs",
+      "heavy",
+      "israel",
+      "means",
+      "set",
+      "what"
+    ],
+    "link": "https://www.aljazeera.com/features/2026/9/16/us-set-to-approve-60000-heavy-bombs-for-israel-what-that-means?traffic_source=rss",
+    "title": "US set to approve 60,000 heavy bombs for Israel: What that means",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-09-16T15:08:07.006329+00:00"
   }
 ]
