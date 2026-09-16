@@ -78,7 +78,18 @@ Issue #735 (قياس: أيام كثيرة صفر مقالات بسبب filter_se
 bloc_cap إن أُسقطت في إحدى الخطوات الثلاث -- _mark_dropped)، وتُحفَظ كاملة في
 all_topics إلى جانب topics كما كانت. طبقة تسجيل فوق الفلترة القائمة فقط --
 لا تعديل على قواعد filter_seen_topics/apply_min_points/apply_bloc_cap
-نفسها."""
+نفسها.
+
+Issue #944 (شرط «قناتان على الأقل»): موضوع تناولته قناة واحدة فقط ليس تقاطعًا
+مهما بلغ عدد نقاطه -- شاهد مقيس على ٣٨ موضوعًا عبر ستة أيام (طبقة أ=١٣، ب=٦،
+ج=١٩) أظهر أن فرض الشرط يُبقي نصف المواضيع تقريبًا، أعلى من الإنتاج الفعلي.
+مستقل عن min_points_per_topic (كمّية لا هوية) وعن youtube.min_blocs_per_topic
+المحذوف في #884 (كتل لغوية لا قنوات؛ طبقة ب قناتان في كتلة واحدة تستوفي شرط
+القنوات رغم كونها كتلة واحدة). أُضيف apply_min_channels ودُمج في نفس تسلسل
+_mark_dropped أعلاه (سبب below_min_channels)، وإحصاء topics_below_min_channels
+مستقل عن topics_below_min_points في مخرج stats كي يُعرَف أيّ الشرطين يحكم
+فعلًا. youtube.cluster.min_channels_per_topic<=1 يعطّل الشرط تمامًا (طريق
+تراجع)."""
 from __future__ import annotations
 
 import json
@@ -444,6 +455,26 @@ def apply_min_points(topics: list[dict], min_points: int) -> tuple[list[dict], i
     return kept, dropped
 
 
+def apply_min_channels(topics: list[dict], min_channels: int) -> tuple[list[dict], int]:
+    """قضية تناولتها قناة واحدة فقط تسقط قبل الكتابة (Issue #944) -- شرط
+    مستقل عن apply_min_points (عدد النقاط) وعن youtube.min_blocs_per_topic
+    المحذوف في #884 (كان عن عدد الكتل اللغوية لا القنوات؛ طبقة ب قناتان في
+    كتلة واحدة تستوفي هذا الشرط رغم كونها كتلة واحدة). يستعمل `channels` كما
+    حسبها build_topics فعليًا من نقاط القضية، لا حكم نموذج. min_channels<=1
+    يعني تعطيلًا تامًا يعيد السلوك السابق حرفيًا -- طريق التراجع المطلوب في
+    الـIssue. يعيد (القضايا الناجية، عدد المُسقَط)."""
+    if min_channels <= 1:
+        return topics, 0
+    kept: list[dict] = []
+    dropped = 0
+    for topic in topics:
+        if len(topic["channels"]) < min_channels:
+            dropped += 1
+            continue
+        kept.append(topic)
+    return kept, dropped
+
+
 def _brief_points(points: list[dict]) -> list[dict]:
     """الحقول المختصرة فقط تُرسَل للنموذج -- لا الاقتباسات ولا الروابط ولا
     الطوابع. تلك تُستهلَك لاحقًا في الكتابة (src/youtube_article.py) بعد أن
@@ -776,7 +807,8 @@ def _mark_dropped(before: list[dict], after: list[dict], reason: str) -> None:
     في خطوة فلترة بعينها (Issue #735 بند أ) -- طبقة تسجيل فوق دوال الفلترة
     القائمة (filter_seen_topics/apply_min_points/apply_bloc_cap) بلا أي
     تعديل على منطقها، فالمقارنة بمرجع الكائن (id) لا بقيمته: كل قضية كائن
-    قاموس مستقل هنا ولا حاجة لمطابقة حرفية معرَّضة لتعادل زائف."""
+    قاموس مستقل هنا ولا حاجة لمطابقة حرفية معرَّضة لتعادل زائف. (فلترة
+    filter_seen_topics/apply_min_points/apply_min_channels/apply_bloc_cap.)"""
     kept_ids = {id(t) for t in after}
     for t in before:
         if id(t) not in kept_ids:
@@ -811,6 +843,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     date_str = date_str or now.strftime("%Y-%m-%d")
 
     min_points_per_topic = cfg.path("youtube.cluster.min_points_per_topic", 4)
+    min_channels_per_topic = cfg.path("youtube.cluster.min_channels_per_topic", 2)
     max_per_bloc = cfg.path("youtube.cluster.max_per_bloc", 4)
 
     points, window_stats = prepare_window_points(date_str, cfg)
@@ -845,6 +878,10 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     topics, dropped_by_min_points = apply_min_points(topics, min_points_per_topic)
     _mark_dropped(before_min_points, topics, "below_min_points")
 
+    before_min_channels = list(topics)
+    topics, dropped_by_min_channels = apply_min_channels(topics, min_channels_per_topic)
+    _mark_dropped(before_min_channels, topics, "below_min_channels")
+
     before_cap = list(topics)
     topics, dropped_by_cap = apply_bloc_cap(topics, max_per_bloc)
     _mark_dropped(before_cap, topics, "bloc_cap")
@@ -868,6 +905,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             "dropped_by_bloc_cap": dropped_by_cap,
             "topics_seen_skipped": dropped_by_seen,
             "topics_below_min_points": dropped_by_min_points,
+            "topics_below_min_channels": dropped_by_min_channels,
             "layer_a": layer_counts["a"], "layer_b": layer_counts["b"],
             "layer_c": layer_counts["c"],
             "agreement": agreement_counts["agreement"],
@@ -903,7 +941,8 @@ def main() -> int:
           f"· قضايا في المخرج: {stats['topics_out']} "
           f"(مستبعدة بسقف الكتلة: {stats['dropped_by_bloc_cap']} "
           f"· مستهلكة سابقًا: {stats['topics_seen_skipped']} "
-          f"· دون حدّ النقاط: {stats['topics_below_min_points']})")
+          f"· دون حدّ النقاط: {stats['topics_below_min_points']} "
+          f"· دون حدّ القنوات: {stats['topics_below_min_channels']})")
     print(f"الطبقات: أ={stats['layer_a']} ب={stats['layer_b']} ج={stats['layer_c']}")
     print(f"مؤشّر الخلاف: اتفاق={stats['agreement']} خلاف قنوات={stats['cross_source']} "
           f"خلاف داخلي={stats['internal']} صدى={stats['echo']}")

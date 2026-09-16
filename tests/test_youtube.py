@@ -1096,6 +1096,28 @@ def test_youtube_cluster() -> None:
           [t["title"] for t in kept_mp] == ["ج بأربع", "أ بثلاث"] and dropped_mp == 2,
           (kept_mp, dropped_mp))
 
+    # ── apply_min_channels: حدّ أدنى للقنوات، مستقل عن عدد النقاط (Issue #944) ──
+    mc_topics = [
+        {"title": "قناة واحدة (ج)", "layer": "c", "blocs": ["arabic"], "channels": ["ق1"],
+         "point_ids": [0, 1, 2, 3]},
+        {"title": "قناتان بكتلة واحدة (ب)", "layer": "b", "blocs": ["arabic"],
+         "channels": ["ق1", "ق2"], "point_ids": [0, 1, 2, 3]},
+        {"title": "قناتان بكتلتين (أ)", "layer": "a", "blocs": ["arabic", "turkish"],
+         "channels": ["ق1", "ق2"], "point_ids": [0, 1, 2]},
+    ]
+    kept_mc, dropped_mc = ycl.apply_min_channels(mc_topics, min_channels=2)
+    check("apply_min_channels: موضوع بقناة واحدة يسقط",
+          "قناة واحدة (ج)" not in [t["title"] for t in kept_mc], kept_mc)
+    check("apply_min_channels: موضوع بقناتين في كتلة واحدة (طبقة ب) يمرّ",
+          "قناتان بكتلة واحدة (ب)" in [t["title"] for t in kept_mc], kept_mc)
+    check("apply_min_channels: موضوع بقناتين من كتلتين (طبقة أ) يمرّ",
+          "قناتان بكتلتين (أ)" in [t["title"] for t in kept_mc], kept_mc)
+    check("apply_min_channels: يُسقِط قضية واحدة فقط، يُبقي الأخريين",
+          len(kept_mc) == 2 and dropped_mc == 1, (kept_mc, dropped_mc))
+    check("apply_min_channels: min_channels<=1 يعطّل الشرط ويعيد السلوك السابق حرفيًا",
+          ycl.apply_min_channels(mc_topics, min_channels=1) == (mc_topics, 0) and
+          ycl.apply_min_channels(mc_topics, min_channels=0) == (mc_topics, 0))
+
     # ── point_key: معرّف مستقر عبر تشغيلات مختلفة (Issue #658 العطل ١ بند ج) ──
     p_a = {"video_id": "v1", "statement": "قول أ"}
     p_b = {"video_id": "v1", "statement": "قول ب"}
@@ -1522,6 +1544,8 @@ def test_youtube_cluster() -> None:
         check("run(): عدّادا سجل الاستهلاك وحدّ النقاط الجديدان صفر عند عدم انطباقهما",
               result["stats"]["topics_seen_skipped"] == 0 and
               result["stats"]["topics_below_min_points"] == 0, result["stats"])
+        check("run(): عدّاد حدّ القنوات الجديد (Issue #944) صفر أيضًا -- القضية بها قناتان",
+              result["stats"]["topics_below_min_channels"] == 0, result["stats"])
         check("run(): points_dropped_over_cap صفر حين النقاط دون السقف (Issue #660 الإصلاح ٢)",
               result["stats"]["points_dropped_over_cap"] == 0, result["stats"])
         check("run(): عدّادا الإسقاط الجديدان (تاريخ قديم/طابع فاسد) صفر عند عدم انطباقهما (Issue #662)",
@@ -1551,6 +1575,52 @@ def test_youtube_cluster() -> None:
     finally:
         points_path.unlink(missing_ok=True)
         (ycl.TOPICS_DIR / "2099-02-02.json").unlink(missing_ok=True)
+
+    # ── run(): min_points_per_topic وmin_channels_per_topic يُحسَبان
+    # مستقلَّين في الإحصاء (Issue #944) -- قضية بأربع نقاط من قناة واحدة
+    # تسقط بحدّ القنوات لا النقاط، وقضية بقناتين لكن نقطتين فقط تسقط بحدّ
+    # النقاط لا القنوات، فكل عدّاد يُحصي سقوطه هو فقط. ──
+    indep_points = [
+        {**mk_point("arabic", "ق1"), "statement": "٩٤٤-أ0"},
+        {**mk_point("arabic", "ق1"), "statement": "٩٤٤-أ1"},
+        {**mk_point("arabic", "ق1"), "statement": "٩٤٤-أ2"},
+        {**mk_point("arabic", "ق1"), "statement": "٩٤٤-أ3"},
+        {**mk_point("arabic", "ق2"), "statement": "٩٤٤-ب0"},
+        {**mk_point("arabic", "ق3"), "statement": "٩٤٤-ب1"},
+    ]
+    indep_client = _Client([
+        _Resp([_Block("tool_use", input_={
+            "issues": [
+                {"title": "أربع نقاط بقناة واحدة", "event": "حدث ١", "agreement": "agreement",
+                 "point_ids": [0, 1, 2, 3]},
+                {"title": "نقطتان بقناتين", "event": "حدث ٢", "agreement": "agreement",
+                 "point_ids": [4, 5]},
+            ],
+        })]),
+        # نداء merge_duplicate_events يُستدعى تلقائيًا (٢ قضية فأكثر) -- حدثان
+        # منفصلان تمامًا فلا دمج.
+        _Resp([_Block("tool_use", input_={"merges": []})]),
+    ])
+    ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+    indep_points_path = ycl.POINTS_DIR / "2099-02-05.json"
+    indep_points_path.write_text(json.dumps({"points": indep_points}, ensure_ascii=False),
+                                  encoding="utf-8")
+    try:
+        indep_result = ycl.run(cluster_cfg, date_str="2099-02-05", client=indep_client)
+        check("run(): القضيتان تسقطان معًا، وكل واحدة بسبب مختلف",
+              indep_result["topics"] == [], indep_result["topics"])
+        check("run(): topics_below_min_channels يُحصي قضية القناة الواحدة فقط",
+              indep_result["stats"]["topics_below_min_channels"] == 1, indep_result["stats"])
+        check("run(): topics_below_min_points يُحصي قضية النقطتين فقط، مستقلًّا عن حدّ القنوات",
+              indep_result["stats"]["topics_below_min_points"] == 1, indep_result["stats"])
+        dropped_reasons = {t["title"]: t["dropped_reason"] for t in indep_result["all_topics"]}
+        check("run(): dropped_reason يوضّح أيّ الشرطين أسقط كل قضية على حدة",
+              dropped_reasons.get("أربع نقاط بقناة واحدة") == "below_min_channels" and
+              dropped_reasons.get("نقطتان بقناتين") == "below_min_points",
+              dropped_reasons)
+    finally:
+        indep_points_path.unlink(missing_ok=True)
+        (ycl.TOPICS_DIR / "2099-02-05.json").unlink(missing_ok=True)
 
     # ── run(): قضية كل نقاطها مستهلَكة سلفًا تُسقَط بسبب 'seen'، وتبقى
     # مسجَّلة في all_topics بدل أن تضيع بلا أثر (Issue #735 بند أ -- هذا
