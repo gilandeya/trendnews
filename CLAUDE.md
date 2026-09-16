@@ -194,9 +194,52 @@ already know exactly what they want to draft — there's nothing to *select*).
   no rebuild, no headline pick, and no re-drafting.
 
 `src/publish.py:main` dispatches purely by the Issue's label (`final-review` → gate C's handler,
-`pending-selection` → `collect_finalize.finalize`, otherwise the normal gate-B/news path) — the
-`origin`-based routing described in the conventions above (analysis drafts → `youtube_publish`)
-happens one level deeper, inside that normal path, once each approved id's `origin` is resolved.
+`failed-review` → the revival handler below, `pending-selection` → `collect_finalize.finalize`,
+otherwise the normal gate-B/news path) — the `origin`-based routing described in the conventions
+above (analysis drafts → `youtube_publish`) happens one level deeper, inside that normal path,
+once each approved id's `origin` is resolved.
+
+### Reviving a failed Facebook publish (♻️, label `failed-review`)
+
+Separate from the three review gates above — those gate *unpublished* drafts before they go out;
+this reopens the narrow case where a draft was already approved, already built its card, and still
+failed at the very last step: the Graph API call itself (Issue #959). `src/publish.py:publish_one`
+tags this specific failure — `facebook.FacebookError` raised from the photo-publish call, and only
+there — with `failed_stage="facebook"` and `failed_at` (UTC ISO). The two other ways a draft can
+end up `status: "failed"` are deliberately left untagged, so they never enter this flow: a missing
+required field (`caption`/`arabic.post_title`/etc.) is a structural bug, not a transient publish
+failure, and a missing image file already has its own recovery path (`/صورة`, see the `failed`-
+revivability convention above). Every `failed` draft that existed before this feature also has no
+`failed_stage`, so none of them are retroactively swept up.
+
+`src/open_review.py:main` (same run that opens gates A/B, but independent of them — a run can open
+a revival Issue alongside either, or by itself) collects every draft with `failed_stage ==
+"facebook"` that hasn't been offered a revival yet (no `revival_issue`) and hasn't already been
+offered twice (`revival_offers < 2`), and opens one Issue titled "♻️ منشورات فشل نشرها … — N"
+labeled `failed-review`, with one "♻️ أعد المحاولة" checkbox per draft (hidden marker
+`<!-- revive:id -->` — a distinct prefix from every other marker in this file, so it can never be
+mistaken for a gate-A/B/C checkbox on the same id). Each offered draft is stamped with this Issue's
+number (`revival_issue`) and its `revival_offers` counter is incremented, so a later `open_review`
+run never re-offers a draft that's already awaiting a decision on an open revival Issue.
+
+Labeling that Issue `approved` routes it to `src/publish.py:cmd_revival` (normal path only,
+`--skip-urgent` — same reasoning as deferring analysis-origin publishing past the urgent job's
+20-minute budget, Issue #745; `--urgent-only` does nothing for a `failed-review` Issue). A checked
+draft is cleared (`error`, `failed_stage`, `revival_issue` removed; `revival_offers` left alone)
+and, for a news-origin draft, requeued (`status: "queued"`) at a slot computed by the same
+`spaced_slots`/`facebook.gap_min_minutes`/`gap_max_minutes` the normal approval path uses, starting
+after the last already-booked slot — never published immediately. An analysis-origin draft instead
+routes straight through `youtube_publish.publish_ids`, exactly like an approved analysis draft in
+the normal path, since that path's own cap/spacing already handles it — no separate publish logic
+here. An unchecked draft dies permanently: `revival_declined: true`, never offered again. The guard
+`status == "failed" and revival_issue == <this Issue's number>` (plus "not already declined") scopes
+`cmd_revival` to exactly the drafts this specific Issue offered, so a duplicate label event, or a
+stale re-approval of a closed revival Issue, has no effect the second time.
+
+If a requeued draft fails again the same way, `publish_one` tags it `failed_stage="facebook"` again
+with `revival_offers` still at 1, so the next `open_review` run offers it once more (its final
+offer, since `revival_offers` becomes 2 on that second Issue) — after that, it's never offered
+again and stays `failed` until someone intervenes by hand.
 
 ### Card timing
 
