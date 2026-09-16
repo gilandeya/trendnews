@@ -1,0 +1,76 @@
+{
+  "id": "a1fbe297e9c1",
+  "created_at": "2026-09-16T12:07:53.890572+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.0,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iranian Foreign Minister Seyed Abbas Araghchi to visit China",
+  "link": "https://news.cgtn.com/news/2026-09-15/Iranian-Foreign-Minister-Seyed-Abbas-Araghchi-to-visit-China-1QswdcpjhoQ/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+  "publishers": [
+    "CGTN",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Investing.com — الاقتصاد"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Iranian Foreign Minister Seyed Abbas Araghchi to visit China",
+    "link": "https://news.cgtn.com/news/2026-09-15/Iranian-Foreign-Minister-Seyed-Abbas-Araghchi-to-visit-China-1QswdcpjhoQ/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+    "summary": "Iranian Foreign Minister Seyed Abbas Araghchi to visit China",
+    "source_name": "CGTN",
+    "region": "cn",
+    "weight": 0.7,
+    "published": "2026-09-15T08:20:19+00:00",
+    "image_url": "https://news.cgtn.com/news/2026-09-15/Iranian-Foreign-Minister-Seyed-Abbas-Araghchi-to-visit-China-1QswdcpjhoQ/img/b7357bd078df4a82a789ef880cdda553/b7357bd078df4a82a789ef880cdda553-1280.jpeg",
+    "publisher": "CGTN",
+    "cluster_sources": [
+      "CGTN",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Investing.com — الاقتصاد"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iranian-foreign-minister-abbas-araghchi-to-visit-china-for-second-time-since-middle-east-war-started-101789468382848.html"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-15/Iranian-Foreign-Minister-Seyed-Abbas-Araghchi-to-visit-China-1QswdcpjhoQ/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/chinas-wang-yi-urges-iran-and-us-to-show-restraint-amid-tensions-93CH-4903291"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/16/chinese-foreign-minister-says-willing-to-safeguard-iran-s-rights"
+      }
+    ],
+    "image_candidates": [
+      "https://news.cgtn.com/news/2026-09-15/Iranian-Foreign-Minister-Seyed-Abbas-Araghchi-to-visit-China-1QswdcpjhoQ/img/b7357bd078df4a82a789ef880cdda553/b7357bd078df4a82a789ef880cdda553-1280.jpeg",
+      "https://content-media.investing.com/news/LYNXMPEM4B0P6_1200_L.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/13811631-Wang-Yi.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1027.9128640916667,
+    "is_stale": false,
+    "score": 25.997266729333333,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

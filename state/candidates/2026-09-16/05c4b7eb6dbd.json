@@ -1,0 +1,97 @@
+{
+  "id": "05c4b7eb6dbd",
+  "created_at": "2026-09-16T12:07:53.891076+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.01,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Former Kosovo president Thaci sentenced to 25 years for war crimes",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-16-former-kosovo-president-thaci-sentenced-to-25-years-for-war-crimes/",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Daily Maverick",
+    "Deutsche Welle",
+    "Free Malaysia Today",
+    "MyJoyOnline Ghana",
+    "NPR World",
+    "South China Morning Post",
+    "TASS"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Former Kosovo president Thaci sentenced to 25 years for war crimes",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-16-former-kosovo-president-thaci-sentenced-to-25-years-for-war-crimes/",
+    "summary": "Former Kosovo President Hashim Thaci was found guilty of war crimes including murder, torture and illegal detention by the Kosovo war crimes tribunal in The Hague on Wednesday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-16T12:53:51+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/2eNWTlaUr1YEyCFD6XuD8-jPfwM=/800x0/smart/filters:strip_exif()/file/attachments/2997/14296273_734202.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Daily Maverick",
+      "Deutsche Welle",
+      "Free Malaysia Today",
+      "MyJoyOnline Ghana",
+      "NPR World",
+      "South China Morning Post",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/16/former-kosovo-president-hashim-thaci-faces-verdict-for-alleged-war-crimes?traffic_source=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/16/former-kosovo-president-hashim-thaci-convicted-of-war-crimes?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3367725/former-kosovo-president-thaci-gets-25-years-prison-war-crimes?utm_source=rss_feed"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-16-former-kosovo-president-thaci-sentenced-to-25-years-for-war-crimes/"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/kosovo-ex-president-thaci-sentenced-to-25-years-for-war-crimes/a-79286344?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/16/g-s1-143560/kosovo-former-president-war-crimes"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/2eNWTlaUr1YEyCFD6XuD8-jPfwM=/800x0/smart/filters:strip_exif()/file/attachments/2997/14296273_734202.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-143560",
+      "https://media.freemalaysiatoday.com/v3/2026/09/d731b9e9-de42-442e-b53b-bd70237c65a4-AFP---Hashim-Thaci---Kosovo---War-Crimes---16092026.webp",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-2169.png",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-2166.png",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-2167.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 9,
+    "velocity": 1.0,
+    "age_hours": 1027.91287331,
+    "is_stale": false,
+    "score": 24.01096766177138,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "id": "56f5ac3ecc36",
+  "created_at": "2026-09-16T12:07:53.892034+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.5,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Legendary Nigerian actor Olu Jacobs dies aged 84",
+  "link": "https://www.bbc.co.uk/news/articles/cw4gr5jnd134o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Africanews",
+    "BBC World",
+    "MyJoyOnline Ghana",
+    "Punch Nigeria",
+    "Vanguard Nigeria"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Legendary Nigerian actor Olu Jacobs dies aged 84",
+    "link": "https://www.bbc.co.uk/news/articles/cw4gr5jnd134o?at_medium=RSS&at_campaign=rss",
+    "summary": "Olu Jacobs was one of Nigeria's most recognised actors, whose career spanned several decades.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-16T11:09:20+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/7462/live/9fd94070-b1b8-11f1-bdcf-d393eb724fa3.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Africanews",
+      "BBC World",
+      "MyJoyOnline Ghana",
+      "Punch Nigeria",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cw4gr5jnd134o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/breaking-veteran-actor-olu-jacobs-dies-at-84/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/16/olu-jacobs-veteran-of-nigerian-and-british-screen-dies-aged-84/"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/life-times-of-veteran-nigerian-actor-olu-jacobs/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/celebrities-mourn-veteran-actor-olu-jacobs/"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/veteran-nigeria-actor-olu-jacobs-dies-at-84/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/7462/live/9fd94070-b1b8-11f1-bdcf-d393eb724fa3.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/7462/live/9fd94070-b1b8-11f1-bdcf-d393eb724fa3.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/7462/live/9fd94070-b1b8-11f1-bdcf-d393eb724fa3.jpg",
+      "http://images.euronews.com/articles/stories/09/91/55/93/640x360_cmsv2_52a7200b-2858-517e-9642-57bbe6607dac-9915593.jpg?1789552016",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/Olu-Jacobs.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-2143.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1027.9129247072224,
+    "is_stale": false,
+    "score": 21.500847306069495,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

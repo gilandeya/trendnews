@@ -1,0 +1,78 @@
+{
+  "id": "c2c97770e08c",
+  "created_at": "2026-09-16T12:07:53.891419+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.02,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "China opens major canal linking landlocked regions to sea",
+  "link": "https://www.channelnewsasia.com/east-asia/china-open-pinglu-canal-guangxi-gulf-tonkin-6388536",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Malay Mail"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "China opens major canal linking landlocked regions to sea",
+    "link": "https://www.channelnewsasia.com/east-asia/china-open-pinglu-canal-guangxi-gulf-tonkin-6388536",
+    "summary": "Four years in the making, the Pinglu Canal cuts the journey to the sea for goods from southwestern China by more than 560km, generating annual transport savings of more than five billion yuan (US$745 million), according to state news agency Xinhua.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-16T08:22:11+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--1lr3S2f5--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/16/china_pinglu_canal_guangxi_1.jpg?itok=ukNmGiVJ",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/east-asia/china-open-pinglu-canal-guangxi-gulf-tonkin-6388536"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/16/china-opens-major-pinglu-canal-giving-landlocked-regions-a-shorter-route-to-the-sea-and-boosting-regional-trade/235431"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/16/whats-the-pinglu-canal-chinas-new-gateway-to-southeast-asia?traffic_source=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/09/16/pinglu-canal-opens-strengthening-china-asean-connectivity"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--1lr3S2f5--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/16/china_pinglu_canal_guangxi_1.jpg?itok=ukNmGiVJ",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/16/362907.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/bf584438-d34d-4aee-b211-b5e94612b7b6-AFP---Pinglu-Canal---China---16092026.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1027.9128571644444,
+    "is_stale": true,
+    "score": 22.015125089513937,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

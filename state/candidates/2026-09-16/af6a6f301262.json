@@ -1,0 +1,85 @@
+{
+  "id": "af6a6f301262",
+  "created_at": "2026-09-16T12:07:53.891705+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.53,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Messi in Argentina squad for farewell friendly",
+  "link": "https://www.bbc.co.uk/sport/football/articles/c8ly49lv3vx1o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Sport",
+    "Daily Sabah",
+    "The Guardian — Sport",
+    "The Japan Times"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Messi in Argentina squad for farewell friendly",
+    "link": "https://www.bbc.co.uk/sport/football/articles/c8ly49lv3vx1o?at_medium=RSS&at_campaign=rss",
+    "summary": "Argentina name Lionel Messi in their squad for a friendly against Benin in October in a match which is set to be the forward's farewell to international football.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-15T22:50:04+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Sport",
+      "Daily Sabah",
+      "The Guardian — Sport",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/16/lionel-messi-set-for-argentina-farewell-in-oct-6-friendly-against-benin?traffic_source=rss"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/c8ly49lv3vx1o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/15/lionel-messi-called-up-argentina-farewell-appearance-friendly-benin"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/sports/2026/09/16/soccer/messi-argentina-final-match/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/sports/football/argentina-names-messi-for-benin-friendly-to-give-grand-farewell"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b848/live/6787f000-b153-11f1-8912-fb2bed4049e7.jpg",
+      "https://i.guim.co.uk/img/media/9906000d595ac4ef008656ccf12b0118d739b3e9/1113_120_4330_3463/master/4330.jpg?width=700&quality=85&auto=format&fit=max&s=0dd009f1cd2af112ddfd9fb6047cec30",
+      "https://i.guim.co.uk/img/media/9906000d595ac4ef008656ccf12b0118d739b3e9/1113_120_4330_3463/master/4330.jpg?width=460&quality=85&auto=format&fit=max&s=f7453d0adfa7a76fccfcc9528573cc4d",
+      "https://i.guim.co.uk/img/media/9906000d595ac4ef008656ccf12b0118d739b3e9/1113_120_4330_3463/master/4330.jpg?width=140&quality=85&auto=format&fit=max&s=29b0c6593efb3bca6b615164d6bcd099"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1027.9128585772223,
+    "is_stale": true,
+    "score": 21.529439905402825,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
