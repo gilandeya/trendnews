@@ -1,0 +1,838 @@
+{
+  "run_date": "2026-09-16",
+  "stats": {
+    "points_in": 454,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 304,
+    "issues_clustered": 34,
+    "topics_merged": 4,
+    "topics_out": 9,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 4,
+    "topics_below_min_points": 11,
+    "layer_a": 0,
+    "layer_b": 2,
+    "layer_c": 7,
+    "agreement": 6,
+    "cross_source": 1,
+    "internal": 2,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "مذكرة التفاهم إيران-أمريكا وانهيارها",
+      "ارتفاع أسعار الطاقة وتأثيره الاقتصادي على أمريكا",
+      "تقييم حالة الاقتصاد الأمريكي أثناء الحرب",
+      "تكاليف الحرب الأمريكية مع إيران ونقص الذخائر",
+      "فشل ترامب في حسم الحرب مع إيران وتداعياتها الانتخابية"
+    ],
+    [
+      "سيطرة الحوثيين على باب المندب وتصعيدهم",
+      "سقوط المخا وتحليل العلاقة الإيرانية الحوثية",
+      "نزوح اليمنيين إلى جيبوتي بسبب تقدم الحوثيين",
+      "موقف أمريكا وإسرائيل والسعودية من تقدم الحوثيين نحو باب المندب"
+    ],
+    [
+      "أعباء التعليم والتضخم الغذائي في تركيا",
+      "أعباء التعليم في إيران وتسرب الأطفال",
+      "تحقيق حول غلاء الأسعار الزراعية في تركيا"
+    ],
+    [
+      "تشديد قمع الحجاب الإجباري في ذكرى مهسا أميني",
+      "تحليل احتمال انهيار الحكم في إيران"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "مذكرة التفاهم إيران-أمريكا وانهيارها",
+      "event": "توقيع مذكرة تفاهم بين إيران وأمريكا ثم انهيارها بتصعيد عسكري إيراني",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        2,
+        3,
+        62,
+        63,
+        64,
+        65,
+        66,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        98
+      ],
+      "total_points": 15,
+      "fresh_points": 14,
+      "dropped_reason": null
+    },
+    {
+      "title": "سيطرة الحوثيين على باب المندب وتصعيدهم",
+      "event": "سيطرة الحوثيين على مضيق باب المندب وتصعيدهم العسكري تجاه السعودية",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        21,
+        28,
+        29,
+        31,
+        32,
+        33,
+        34,
+        79,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        99,
+        100,
+        101,
+        102
+      ],
+      "total_points": 20,
+      "fresh_points": 16,
+      "dropped_reason": null
+    },
+    {
+      "title": "زفاف نجل داوود أوغلو والجدل السياسي حوله",
+      "event": "حفل زفاف نجل أحمد داوود أوغلو وخطاب بولنت آرينتش المثير للجدل فيه وردود الفعل عليه",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        104,
+        105,
+        106,
+        107
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "قانون الجنسية الإسباني للصحراويين",
+      "event": "إقرار البرلمان الإسباني قانونًا يمنح الجنسية للصحراويين المولودين وقت الاستعمار وردود الفعل المغربية والصحراوية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "الجدل حول تنظيم الذكاء الاصطناعي عالميًا",
+      "event": "دعوات شركات ومنظمات دولية لتنظيم تطوير الذكاء الاصطناعي بسبب مخاوف أمنية ووجودية، ومعارضة ترامب لذلك",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        83,
+        84,
+        85,
+        86
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "تأثير مسلسل قيمة على المجتمع والسياسة التركية",
+      "event": "جدل حول تأثير مسلسل 'قيمة' التركي على المجتمع وتشابه أحداثه مع الواقع السياسي",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        115,
+        116,
+        117,
+        118,
+        119
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "إشكالية تسمية الحزب الجديد في تركيا",
+      "event": "جدل قانوني وسياسي حول تشابه اسم 'الحزب الجديد' التركي مع حزب آخر وتأثيره على الناخبين",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123,
+        124,
+        125,
+        126
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "تشديد قمع الحجاب الإجباري في ذكرى مهسا أميني",
+      "event": "تشديد السلطات الإيرانية القمع الأمني والاجتماعي في شوارع المدن الإيرانية في ذكرى وفاة مهسا أميني وشهادات مواطنين على الوضع",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": null
+    },
+    {
+      "title": "استطلاعات الانتخابات الإسرائيلية وتوازن الكتل",
+      "event": "استطلاعات الرأي الإسرائيلية الأخيرة وتوازن الكتل السياسية بين معسكر نتنياهو والمعارضة",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "أعباء التعليم والتضخم الغذائي في تركيا",
+      "event": "ارتفاع تكاليف التعليم والمقاصف والمواصلات المدرسية والتضخم الغذائي في تركيا",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        120,
+        121
+      ],
+      "total_points": 11,
+      "fresh_points": 3,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "مذكرة التفاهم إيران-أمريكا وانهيارها",
+      "event": "توقيع مذكرة تفاهم بين إيران وأمريكا ثم انهيارها بتصعيد عسكري إيراني",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        2,
+        3,
+        62,
+        63,
+        64,
+        65,
+        66,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        98
+      ],
+      "total_points": 15,
+      "fresh_points": 14,
+      "dropped_reason": null
+    },
+    {
+      "title": "تأجيل اجتماع صلالة بين إيران ودول الخليج",
+      "event": "تأجيل اجتماع صلالة بين إيران ودول الخليج والخلاف حول أسبابه",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        23
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "سيطرة الحوثيين على باب المندب وتصعيدهم",
+      "event": "سيطرة الحوثيين على مضيق باب المندب وتصعيدهم العسكري تجاه السعودية",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        21,
+        28,
+        29,
+        31,
+        32,
+        33,
+        34,
+        79,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        99,
+        100,
+        101,
+        102
+      ],
+      "total_points": 20,
+      "fresh_points": 16,
+      "dropped_reason": null
+    },
+    {
+      "title": "موقف إيران من علاقتها بالحوثيين وأنصار الله",
+      "event": "تصريحات إيرانية بأنها لا تتدخل في قرارات الحوثيين وأنهم مستقلون",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        30,
+        82
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "زفاف نجل داوود أوغلو والجدل السياسي حوله",
+      "event": "حفل زفاف نجل أحمد داوود أوغلو وخطاب بولنت آرينتش المثير للجدل فيه وردود الفعل عليه",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        104,
+        105,
+        106,
+        107
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "قانون الجنسية الإسباني للصحراويين",
+      "event": "إقرار البرلمان الإسباني قانونًا يمنح الجنسية للصحراويين المولودين وقت الاستعمار وردود الفعل المغربية والصحراوية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "تحالف مصر والسعودية الأمني الخليجي",
+      "event": "تأكيد الرئيس السيسي وولي العهد السعودي أن أمن الخليج جزء من الأمن القومي المصري ورفض مساواة الجيش السوداني بالميليشيات",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        76,
+        81
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الجدل حول تنظيم الذكاء الاصطناعي عالميًا",
+      "event": "دعوات شركات ومنظمات دولية لتنظيم تطوير الذكاء الاصطناعي بسبب مخاوف أمنية ووجودية، ومعارضة ترامب لذلك",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        83,
+        84,
+        85,
+        86
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "التفاوت التكنولوجي بين الدول في الذكاء الاصطناعي",
+      "event": "تفاوت الدول (أوروبا، أمريكا، الصين، دول عربية) في التقدم بمجال الذكاء الاصطناعي وتحديات الاستثمار فيه",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        87,
+        88,
+        89
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "لقاء إردوغان مع الطلاب في سامسون",
+      "event": "لقاء الرئيس إردوغان بطلاب جامعيين في سامسون وتصريحاته حول النظام العالمي والدور الإقليمي التركي",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        108,
+        109,
+        110
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الفجوة السعرية واحتكار توزيع المنتجات الزراعية في تركيا",
+      "event": "فجوة كبيرة بين أسعار المنتجات الزراعية في المزرعة والمتاجر بسبب احتكار شركات التوزيع في تركيا",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        111,
+        112
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "محادثات تركيا الدبلوماسية بين روسيا وأوكرانيا",
+      "event": "تصريحات وزير الخارجية التركي حول الحرب الروسية الأوكرانية والوساطة التركية بشأن البحر الأسود",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        113,
+        114
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تأثير مسلسل قيمة على المجتمع والسياسة التركية",
+      "event": "جدل حول تأثير مسلسل 'قيمة' التركي على المجتمع وتشابه أحداثه مع الواقع السياسي",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        115,
+        116,
+        117,
+        118,
+        119
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "إشكالية تسمية الحزب الجديد في تركيا",
+      "event": "جدل قانوني وسياسي حول تشابه اسم 'الحزب الجديد' التركي مع حزب آخر وتأثيره على الناخبين",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123,
+        124,
+        125,
+        126
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "ضبط مخدرات في مطار إسطنبول",
+      "event": "عملية أمنية بمطار إسطنبول أسفرت عن ضبط كمية كبيرة من المخدرات ومحاولة هروب أحد المشتبه بهم متنكرًا بزي طيار",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        127,
+        128
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تشديد قمع الحجاب الإجباري في ذكرى مهسا أميني",
+      "event": "تشديد السلطات الإيرانية القمع الأمني والاجتماعي في شوارع المدن الإيرانية في ذكرى وفاة مهسا أميني وشهادات مواطنين على الوضع",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": null
+    },
+    {
+      "title": "استطلاعات الانتخابات الإسرائيلية وتوازن الكتل",
+      "event": "استطلاعات الرأي الإسرائيلية الأخيرة وتوازن الكتل السياسية بين معسكر نتنياهو والمعارضة",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "مشروع التصفية الإسرائيلي في مخيمات الضفة",
+      "event": "حملة إسرائيلية عسكرية على مخيمات جنين ونور شمس وطولكرم أدت لتدمير وتهجير واسعين",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الاستيطان في الضفة الغربية وردود الفعل الدولية",
+      "event": "تزايد الاستيطان والعنف المرتبط به في الضفة الغربية ورد بريطانيا بحظر منتجات المستوطنات",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        11,
+        12,
+        13
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فيلم وثائقي عن الوحدة 8200 وردود الفعل الإسرائيلية والدولية",
+      "event": "صدور فيلم وثائقي يوثق شهادات ضباط الوحدة 8200 حول قتل المدنيين وردود الفعل الإسرائيلية والقانونية الدولية عليه",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "مشروع إسرائيلي-إثيوبي لقاعدة في بربرة",
+      "event": "سعي إسرائيل لإقامة تحالف مع إثيوبيا وأرض الصومال لقاعدة عسكرية في ميناء بربرة والقلق المصري من عسكرة البحر الأحمر",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        24,
+        26
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "وفاة كاشف كوزينوغلو المشبوهة في السجن",
+      "event": "الشكوك حول وفاة الضابط الاستخباراتي كاشف كوزينوغلو في سجن سيليفري عام 2011",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        42,
+        43,
+        44,
+        46,
+        47,
+        48,
+        49,
+        50
+      ],
+      "total_points": 8,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "حملة عائلتي آمنة الأمنية في تركيا",
+      "event": "تنفيذ عملية أمنية تركية باسم 'عائلتي آمنة' ضد أنشطة تتعلق بالفحش والاعتداء على الأطفال وتمويل جماعة فتو المزعوم",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        45,
+        51,
+        52
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
