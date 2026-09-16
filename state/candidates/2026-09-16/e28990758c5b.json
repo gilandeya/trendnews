@@ -1,0 +1,81 @@
+{
+  "id": "e28990758c5b",
+  "created_at": "2026-09-16T09:07:51.010818+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.24,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Los Angeles: News helicopter crashes, killing three",
+  "link": "http://www.france24.com/en/video/20260916-los-angeles-news-helicopter-crashes-killing-three",
+  "publishers": [
+    "Al Jazeera English",
+    "France24",
+    "Free Malaysia Today",
+    "South China Morning Post",
+    "TASS"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Los Angeles: News helicopter crashes, killing three",
+    "link": "http://www.france24.com/en/video/20260916-los-angeles-news-helicopter-crashes-killing-three",
+    "summary": "An NBC News helicopter covering a deadly bus collision crashed in Los Angeles on Tuesday, killing three people and sending two others to hospital. Aerial footage showed the wreckage engulfed in flames near a storage facility, with firefighters extinguishing fires that spread to vehicles and storage containers.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-16T08:42:30+00:00",
+    "image_url": "https://s.france24.com/media/display/49c6f538-b1a9-11f1-af91-f72ea3a769d9/w:1024/p:16x9/LA-chopper-crash-thumbnail.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "France24",
+      "Free Malaysia Today",
+      "South China Morning Post",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/16/news-helicopter-crash-in-los-angeles-kills-three-injures-one?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3367672/news-helicopter-crashes-los-angeles-killing-3?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "http://www.france24.com/en/video/20260916-los-angeles-news-helicopter-crashes-killing-three"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/16/news-chopper-crash-in-la-kills-three"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/emergencies/2188139"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/49c6f538-b1a9-11f1-af91-f72ea3a769d9/w:1024/p:16x9/LA-chopper-crash-thumbnail.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/ed39cc5b-2c4c-4b02-92e9-1be034744f0a-Los-Angeles_helicopter_crash_AFP-16092026-.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1024.9124967325001,
+    "is_stale": false,
+    "score": 21.23773004612505,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "id": "68676c95e184",
+  "created_at": "2026-09-16T09:07:51.011227+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.06,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israel will ‘finish job’ in Gaza and remove Palestinians",
+  "link": "https://www.vanguardngr.com/2026/09/israel-will-finish-job-in-gaza-and-remove-palestinians-defence-minister/",
+  "publishers": [
+    "Defence minister",
+    "El País",
+    "Free Malaysia Today",
+    "South China Morning Post"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Israel will ‘finish job’ in Gaza and remove Palestinians",
+    "link": "https://www.vanguardngr.com/2026/09/israel-will-finish-job-in-gaza-and-remove-palestinians-defence-minister/",
+    "summary": "Israel's defence minister said Wednesday it was only a matter of time before the country resumes full-scale war in Gaza and moves to force out its two million Palestinians. The post Israel will ‘finish job’ in Gaza and remove Palestinians – Defence minister appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-09-16T07:50:43+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2026/03/Israel-Katz-Israeli-defence-minister.jpeg",
+    "publisher": "Defence minister",
+    "cluster_sources": [
+      "Defence minister",
+      "El País",
+      "Free Malaysia Today",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3367686/israel-prepared-finish-job-gaza-and-remove-palestinians-minister-says?utm_source=rss_feed"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/16/israel-will-finish-job-in-gaza-and-remove-palestinians-says-defence-minister"
+      },
+      {
+        "name": "Defence minister",
+        "link": "https://www.vanguardngr.com/2026/09/israel-will-finish-job-in-gaza-and-remove-palestinians-defence-minister/"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/internacional/2026-09-16/varios-muertos-por-el-derrumbe-de-un-edificio-en-gaza-previamente-bombardeado-por-israel.html"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/03/Israel-Katz-Israeli-defence-minister.jpeg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/03/54945510-israel-defence-minister-israel-katz-101124.webp",
+      "https://imagenes.elpais.com/resizer/v2/BMOGJD2HOFMFDGOR666JZ7W5QI.jpg?auth=768473c4c97d2f98630a80a88c530bad8e949d26fe5aae59715660676c8d5eec"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1024.9123943675,
+    "is_stale": true,
+    "score": 21.064408726555556,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

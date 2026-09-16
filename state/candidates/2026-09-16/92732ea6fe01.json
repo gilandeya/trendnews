@@ -1,0 +1,63 @@
+{
+  "id": "92732ea6fe01",
+  "created_at": "2026-09-16T09:07:51.010441+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.25,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hong Kong adopta su primer plan quinquenal y refuerza su integración con China",
+  "link": "https://elpais.com/internacional/2026-09-16/hong-kong-adopta-su-primer-plan-quinquenal-y-refuerza-su-integracion-con-china.html",
+  "publishers": [
+    "El País",
+    "Malay Mail"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Hong Kong adopta su primer plan quinquenal y refuerza su integración con China",
+    "link": "https://elpais.com/internacional/2026-09-16/hong-kong-adopta-su-primer-plan-quinquenal-y-refuerza-su-integracion-con-china.html",
+    "summary": "La hoja de ruta para 2026-2030 refuerza la rendición de cuentas ante Pekín, pero el jefe el Ejecutivo regional, John Lee, garantiza que no implicará cambios en el modelo económico ni en el sistema de autonomía de la ciudad",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-16T08:18:18+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/YYOZFFMOFVKA5HOACGNGJLZUPQ.jpg?auth=5c51ecebf9decfc68154e3467b169293ad8b08113c951b97646fe9550cb1cc01",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/internacional/2026-09-16/hong-kong-adopta-su-primer-plan-quinquenal-y-refuerza-su-integracion-con-china.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/16/hong-kong-unveils-five-year-plan-to-deepen-tech-and-economic-ties-with-china/235409"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/YYOZFFMOFVKA5HOACGNGJLZUPQ.jpg?auth=5c51ecebf9decfc68154e3467b169293ad8b08113c951b97646fe9550cb1cc01",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/16/362878.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.245056871796297,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
