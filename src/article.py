@@ -2184,6 +2184,17 @@ ARTICLE_POST_SCHEMA = {
             "post_body": {"type": "string"},
             "hashtags": {"type": "array", "items": {"type": "string"}},
             "category": {"type": "string", "enum": writer.CATEGORIES},
+            # اختياري (Issue #941) -- السبب الجذري لبطاقات هذا المسار
+            # الخارجة بلا صورة: البحث الاحتياطي (imagesearch.find_images،
+            # Wikimedia/Openverse) كان يجري دومًا بعبارة عربية (source.title
+            # أو العنوان)، وكلا المصدرين فهرسة إنجليزية أساسًا. غيابه (فشل
+            # النداء لا يحتاج إعادة محاولة من أجله وحده) يرجع للسلوك الحالي
+            # بلا انهيار -- انظر publish.py.
+            "image_query_en": {
+                "type": "string",
+                "description": ("من ثلاث إلى خمس كلمات إنجليزية تصف موضوع المقال (الحدث) "
+                                "لا أشخاصه -- مثال: Strait of Hormuz tanker لا اسم شخص"),
+            },
         },
         "required": ["post_title", "post_body", "category"],
     },
@@ -2214,6 +2225,7 @@ DRAFT_USER_TEMPLATE = """السؤال-العنوان: {question}
 • post_body — متن يجيب عن السؤال بالوقائع المسندة، {post_length}
 • hashtags — {hashtags_count} هاشتاقات عربية، بلا رمز # وبـ _ بدل المسافة
 • category — التصنيف الأنسب
+• image_query_en — من ثلاث إلى خمس كلمات إنجليزية تصف موضوع المقال (الحدث) لا أشخاصه، لبحث صورة تعبيرية لاحقًا
 
 نبرة الكتابة المطلوبة: {tone}"""
 
@@ -2378,6 +2390,10 @@ def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
         "post_title": str(data.get("post_title", "")).strip(),
         "post_body": str(data.get("post_body", "")).strip(),
         "hashtags": tags,
+        # اختياري (Issue #941) -- None عند غيابه (حقل اختياري في المخطط، قد
+        # يتجاهله النموذج) لا انهيارًا؛ _build_draft_stage يحفظه حقلًا
+        # عُلويًا على المسودة (لا داخل image_report).
+        "image_query_en": (str(data.get("image_query_en") or "").strip() or None),
     }
     if not written["post_title"] or not written["post_body"]:
         return None, "مرحلة الصياغة — رد ناقص: بلا عنوان أو متن"
@@ -4312,6 +4328,11 @@ def _build_draft_stage(st: dict, cfg, outcome: dict, issue_number: int,
         "caption": writer.build_caption(written, art, cfg),
         "headlines": headlines,
         "headline_selected": 0,
+        # حقل عُلوي مستقل عن image_report (Issue #941، طلب صريح) -- publish.py
+        # يقرؤه عند الاعتماد (cards.ensure عبر search_term=) بدل الاعتماد
+        # دومًا على source.title العربي في البحث الاحتياطي. None عند غياب
+        # الحقل (فشل النداء، أو تجاهل النموذج له) بلا انهيار.
+        "image_query_en": written.get("image_query_en"),
         # بلا حقل image عمدًا (Issue #852) -- البطاقة تُبنى عند الاعتماد.
         "reel": None,
         "reel_spec": {

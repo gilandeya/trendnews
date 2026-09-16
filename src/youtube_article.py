@@ -256,9 +256,10 @@ def _collect_warnings(member_points: list[dict], cfg: Config) -> list[str]:
 
 
 def _append_warnings(article_text: str, warnings: list[str]) -> str:
-    """يضيف قسم تحذيرات في ذيل المقال بعد المصادر، فقط عند وجود تحذيرات
-    فعلية (Issue #662 العطل ٣ بند ب) -- قسم فارغ دومًا نظريًا يفقد قيمته
-    كإشارة، لا يميّز المراجع مقالًا يستحق انتباهًا من آخر لا يستحقّه."""
+    """يضيف قسم تحذيرات في ذيل المقال (بعد متنه مباشرة -- لا قسم ## مصادر
+    يفصلهما بعد اليوم، Issue #941)، فقط عند وجود تحذيرات فعلية (Issue #662
+    العطل ٣ بند ب) -- قسم فارغ دومًا نظريًا يفقد قيمته كإشارة، لا يميّز
+    المراجع مقالًا يستحق انتباهًا من آخر لا يستحقّه."""
     if not warnings:
         return article_text
     lines = "\n".join(f"- {w}" for w in warnings)
@@ -296,7 +297,24 @@ HEADLINE_SYSTEM = """أنت تقترح ثلاثة عناوين عربية بدي
 الخيار الافتراضي في مراجعة المحرِّر. الثاني والثالث بصيغتين مختلفتين عنه
 وعن بعضهما (تقريرية أو ترجيحية)، لا تكرارًا لنفس المعنى بكلمات مختلفة.
 
+أعد أيضًا image_query_en: من ثلاث إلى خمس كلمات إنجليزية تصف موضوع القضية
+(الحدث نفسه) لا أشخاصها -- مثال: "Strait of Hormuz tanker" لا اسم محلل أو
+مسؤول مذكور في النقاط. تُستعمَل هذه الكلمات لاحقًا للبحث عن صورة تعبيرية حرة
+الترخيص، فلا قيمة لها إن كانت اسم شخص لا موضوعًا يمكن تصويره.
+
 أعد الثلاثة عبر الأداة المعرَّفة (propose_headlines) حصرًا، بلا أي نص خارجها."""
+
+# حقل اختياري (Issue #941) يُدمَج في نسخة معدَّلة من headlines_mod.HEADLINE_SCHEMA
+# لهذا النداء وحده عبر propose_headlines(extra_properties=...) -- لا يمسّ
+# المخطط المشترك مع بقية المسارات (collect/verify_draft/request)، ولا يستدعي
+# نداء نموذج إضافيًا: نفس نداء العناوين القائم يعيد هذا الحقل معه.
+IMAGE_QUERY_EXTRA_PROPERTY = {
+    "image_query_en": {
+        "type": "string",
+        "description": ("من ثلاث إلى خمس كلمات إنجليزية تصف موضوع القضية (الحدث) لا "
+                        "أشخاصها -- مثال: Strait of Hormuz tanker لا اسم شخص"),
+    },
+}
 
 
 def _validate_headlines(headlines: list[str], quotes_original: str, known_figures: list,
@@ -318,15 +336,21 @@ def _validate_headlines(headlines: list[str], quotes_original: str, known_figure
 
 
 def generate_headlines(topic: dict, member_points: list[dict], cfg: Config,
-                        client: Anthropic | None = None) -> tuple[list[str] | None, str | None]:
+                        client: Anthropic | None = None
+                        ) -> tuple[list[str] | None, str | None, str | None]:
     """غلاف رقيق فوق headlines_mod.propose_headlines (Issue #756) -- يبني
     مدخلات هذا المسار (نقاط القضية) ثم ينادي المشترك بكتلة config.yaml
     الخاصة به (youtube.review.headlines -- منفصلة عمدًا عن الكتلة العامة
     headlines، انظر توثيق config.yaml) ونظامه النصّي الخاص (HEADLINE_SYSTEM
-    أعلاه، غير مُعدَّل حرفيًا). فحص الاسم غير الموثَّق (_validate_headlines)
-    تحليليّ بحت فيبقى هنا كـ``extra_validate`` يشارك ميزانية إعادة المحاولة
-    نفسها مع التحقّق العام، لا محاولات إضافية منفصلة. يعيد (ثلاثة عناوين،
-    سبب فشل نهائي إن حدث -- None عند النجاح)."""
+    أعلاه). فحص الاسم غير الموثَّق (_validate_headlines) تحليليّ بحت فيبقى
+    هنا كـ``extra_validate`` يشارك ميزانية إعادة المحاولة نفسها مع التحقّق
+    العام، لا محاولات إضافية منفصلة. يعيد (ثلاثة عناوين، سبب فشل نهائي إن
+    حدث -- None عند النجاح، image_query_en إن أعاده النموذج وإلا None).
+
+    image_query_en (Issue #941) يصل عبر ``extra_properties``/``extra_result``
+    في propose_headlines -- بلا نداء نموذج إضافي، ونفس ميزانية إعادة المحاولة.
+    غيابه (فشل النداء كله، أو نجاح بلا هذا الحقل تحديدًا) يعيد None هنا؛
+    المستدعي (run() أدناه) يعامله كاحتياط للبحث بالعربية كما كان، لا انهيارًا."""
     known_figures = cfg.path("youtube.extract.known_figures", [])
     max_words = cfg.path("youtube.review.headlines.max_words", 15)
 
@@ -339,9 +363,13 @@ def generate_headlines(topic: dict, member_points: list[dict], cfg: Config,
     def extra_validate(hls: list[str]) -> tuple[bool, str]:
         return _validate_headlines(hls, quotes_original, known_figures, max_words)
 
-    return headlines_mod.propose_headlines(
+    extra: dict = {}
+    headlines, error = headlines_mod.propose_headlines(
         user_content, cfg, "youtube.review.headlines",
-        system=HEADLINE_SYSTEM, client=client, extra_validate=extra_validate)
+        system=HEADLINE_SYSTEM, client=client, extra_validate=extra_validate,
+        extra_properties=IMAGE_QUERY_EXTRA_PROPERTY, extra_result=extra)
+    image_query_en = str(extra.get("image_query_en") or "").strip() or None
+    return headlines, error, image_query_en
 
 
 HEADLINES_HEADER = "🏷️ عناوين مقترحة (الأول سؤال وهو الافتراضي):"
@@ -357,13 +385,33 @@ def _append_headlines(article_text: str, headlines: list[str]) -> str:
     return f"{article_text.rstrip()}\n\n---\n{HEADLINES_HEADER}\n{lines}\n"
 
 
+# ── كلمات بحث الصورة الإنجليزية (Issue #941) ──
+#
+# youtube_article وyoutube_publish عمليتان منفصلتان (سيران CLI متتاليان في
+# youtube-articles.yml، لا نداء دالة مباشر) -- الحقل الوحيد الذي يصلهما معًا
+# هو نصّ ملف المقال نفسه على القرص. بنفس آلية WARNINGS_HEADER/HEADLINES_HEADER
+# تمامًا: قسم مذيَّل يُقرأ لاحقًا بدالة split مقابلة في youtube_publish.py.
+
+IMAGE_QUERY_HEADER = "🖼️ كلمات بحث الصورة (إنجليزية):"
+
+
+def _append_image_query(article_text: str, image_query_en: str | None) -> str:
+    """يضيف القسم فقط عند توفّر قيمة فعلية (فشل نداء العناوين، أو نجاحه بلا
+    هذا الحقل تحديدًا، كلاهما يُعيد None من generate_headlines) -- غيابه هنا
+    يعني عودة youtube_publish إلى البحث بالعربية كسلوكها الحالي، لا انهيارًا."""
+    if not image_query_en:
+        return article_text
+    return f"{article_text.rstrip()}\n\n---\n{IMAGE_QUERY_HEADER}\n{image_query_en}\n"
+
+
 # Issue #695 (البرومبت الرابع): النسخة الرابعة من prompts/youtube_article.md
 # (يستبدلها المالك مباشرةً -- خارج نطاق هذا التعديل) تعكس بند "الأطروحة نثرًا"
 # بالكامل: سطر `**التقدير:**` كان إلزاميًا فصار ممنوعًا (آخر ما تبقّى من هيكل
 # المذكّرة)، وصار وجوده سببًا للرفض لا غيابه. عبارة سلّم الترجيح لم تعد
 # محصورة داخل سطر التقدير (الذي زال أصلًا) فتُقبَل في أي موضع من "المتن"
-# (المدى بين نهاية العنوان الرئيسي وبداية ## المصادر -- نفس مبدأ تحديد
-# "المتن" المتّبع في بقية هذا الحارس)، لكنها تبقى مطلوبة: وجودها هو الدليل
+# (كل ما بعد العنوان الرئيسي حتى نهاية النص -- Issue #941 ألغى قسم
+# ## المصادر الذي كان يحدّ "المتن" سابقًا، فصار المتن النص كله) لكنها تبقى
+# مطلوبة: وجودها هو الدليل
 # الآلي الوحيد على أن الحكم مذكور، لا مجرّد سرد وقائع بلا خلاصة. النسب
 # المئوية والطوابع الزمنية المقوّسة ([٩:٥٣]) صارتا ممنوعتين تمامًا في المتن
 # (نصّ دليل War on the Rocks: النسب "لغة تقرير استخباري"، والطوابع المقوّسة
@@ -395,11 +443,11 @@ _WORD_STRIP_CHARS = "،:؛\"'«»()[]"
 
 def _speaker_subject_ratio(article_text: str, member_points: list[dict]) -> tuple[float, int]:
     """يعيد (نسبة الجمل التي يبدو فاعلها متحدثًا، عدد الجمل الكلي) -- انظر
-    التعليق أعلاه لحدود هذا القياس المعجمي الصريحة. قسم ## المصادر مستبعَد
-    فلا تُحسَب أسطر "قناة -- رابط" جملًا بلا معنى."""
-    sources_idx = article_text.find("\n## " + "المصادر")
-    narrative = article_text[:sources_idx] if sources_idx != -1 else article_text
-    sentences = [s.strip() for s in _SENTENCE_SPLIT_RE.split(narrative) if s.strip()]
+    التعليق أعلاه لحدود هذا القياس المعجمي الصريحة. لا استبعاد لأي جزء من
+    النص هنا (Issue #941): قسم ## المصادر الذي كان يُستبعَد صار ممنوعًا كليًا
+    من بنية المقال نفسها (_validate_article_text)، فمقال صالح لا يحمله أصلًا
+    -- النص المستلَم هنا "متن" كامل بلا حاجة لقصّ أي مدى منه."""
+    sentences = [s.strip() for s in _SENTENCE_SPLIT_RE.split(article_text) if s.strip()]
     name_tokens = {
         tok.strip(_WORD_STRIP_CHARS) for p in member_points
         for tok in str(p.get("speaker", "")).split() if len(tok) > 2
@@ -441,8 +489,15 @@ def _speaker_subject_warning(article_text: str, member_points: list[dict],
 # ترقيم/بنية مشروعة في آن، فتُمنع بالاسم في الكود لا في البرومبت وحده -- نفس
 # مبدأ likelihood_terms أدناه: قاعدة قابلة للكسر النصّي تحتاج فرضًا آليًا، لا
 # الثقة بطاعة النموذج وحدها.
+#
+# Issue #941 -- عكس إضافي لاحق: حتى قسم ## المصادر نفسه صار ممنوعًا لا
+# إلزاميًا. الشاهد المقيس: البطاقات تخرج بلا صورة تعبيرية لأن البحث (Wikimedia/
+# Openverse) يجري بعبارات عربية، ونصّ المقال يذيَّل بقسم مصادر يسمّي القنوات
+# صراحةً رغم أن التصميم البصري (image_source_line أدناه في youtube_publish.py)
+# يتعمَّد عدم نسبة المقال لقنواته. القاعدة صارت: صفر أقسام ## على الإطلاق --
+# لا استثناء للمصادر بعد اليوم. سطر «المصدر:» على البطاقة (عدد القنوات، لا
+# أسماؤها) يبقى المكان الوحيد الذي يظهر فيه أي إشارة لمصدر المقال.
 _SECTION_RE = re.compile(r"^##[ \t]+(.+?)[ \t]*$", re.MULTILINE)
-_SOURCES_HEADING_RE = re.compile(r"^##[ \t]+المصادر[ \t]*$", re.MULTILINE)
 _ESTIMATE_LINE_RE = re.compile(r"^\*\*التقدير:\*\*.*$", re.MULTILINE)
 _HR_RE = re.compile(r"^-{3,}[ \t]*$", re.MULTILINE)
 _LIST_LINE_RE = re.compile(r"^[ \t]*(?:[-*][ \t]+|\d+\.[ \t]+)", re.MULTILINE)
@@ -497,13 +552,11 @@ def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
         line_no = text[:estimate_match.start()].count("\n") + 1
         return False, f"صندوق تقدير مغمّق في السطر {line_no} (ممنوع في النسخة الرابعة): {desc}"
 
-    sources_match = _SOURCES_HEADING_RE.search(text)
-    if not sources_match:
-        return False, f"لا قسم ## المصادر: {desc}"
-
-    extra_sections = [t for t in _SECTION_RE.findall(text) if t != "المصادر"]
-    if extra_sections:
-        return False, f"أقسام ## زائدة عدا المصادر: {desc}"
+    # Issue #941: أي عنوان ## صار ممنوعًا كليًا، بلا استثناء للمصادر (كانت
+    # القاعدة معكوسة: ## المصادر وحده إلزامي وأي قسم آخر زائد يُرفَض). المتن
+    # لا يجوز أن يسمّي مصادره أو قنواته في نصّه إطلاقًا بعد اليوم.
+    if _SECTION_RE.search(text):
+        return False, f"عنوان/عناوين ## ممنوعة كليًا (بما فيها ## المصادر): {desc}"
 
     word_count = len(text.split())
     min_words = cfg.path("youtube.article.min_words", 300)
@@ -513,24 +566,16 @@ def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
     if word_count > max_words:
         return False, f"طويل جدًا ({word_count} كلمة، الأعلى {max_words}): {desc}"
 
-    # المتن: بين نهاية العنوان الرئيسي وبداية ## المصادر -- لا سطر تقدير بعد
-    # الآن يفصل المقدّمة عن بقية المتن (Issue #695)، فكل ما بعد العنوان
-    # يخضع لنفس فحوص المتن أدناه. يشمل هذا المدى حرفيًا الفاصل "---" الذي
-    # يسبق المصادر مباشرةً -- وهو الفاصل الأفقي الوحيد المسموح، فيُستثنى قبل
-    # فحص بقية المتن لا يُحسَب معه.
+    # المتن: من نهاية العنوان الرئيسي حتى نهاية النص كاملًا (Issue #941 --
+    # لم يعد ## المصادر يحدّ هذا المدى، فلا استثناء لأي فاصل أفقي بعد اليوم:
+    # كان الفاصل الذي يسبق المصادر مباشرةً مسموحًا وحيدًا؛ زواله معه يعني أن
+    # أي "---" في النص كله مرفوض الآن، لا فقط ما زاد عن ذلك الفاصل الواحد).
     title_line_end = text.find("\n")
     body_start = title_line_end if title_line_end != -1 else len(text)
-    body = text[body_start:sources_match.start()]
-    hr_matches = list(_HR_RE.finditer(body))
-    trailing_hr = bool(hr_matches) and not body[hr_matches[-1].end():].strip()
-    if trailing_hr:
-        body_for_checks = body[:hr_matches[-1].start()]
-        extra_hr = hr_matches[:-1]
-    else:
-        body_for_checks = body
-        extra_hr = hr_matches
-    if extra_hr:
-        return False, f"{len(extra_hr)} فاصل أفقي (---) في المتن عدا الذي يسبق المصادر: {desc}"
+    body_for_checks = text[body_start:]
+    hr_matches = list(_HR_RE.finditer(body_for_checks))
+    if hr_matches:
+        return False, f"{len(hr_matches)} فاصل أفقي (---) في المتن (ممنوع كليًا الآن): {desc}"
 
     dash_count = body_for_checks.count("—")
     if dash_count:
@@ -779,7 +824,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
         # عناوين مقترحة (Issue #680) -- فشل هذا النداء الإضافي لا يُسقِط مقالًا
         # كُتب فعلًا واجتاز التحقّق؛ احتياط بعنوانه الأصلي مكرَّرًا ثلاثًا (نفس
         # مبدأ عدم إسقاط عمل صالح بسبب خطوة لاحقة، انظر توثيق الوحدة أعلاه).
-        headlines, hl_error = generate_headlines(topic, member_points, cfg, client)
+        headlines, hl_error, image_query_en = generate_headlines(topic, member_points, cfg, client)
         if hl_error:
             headline_failures += 1
             log.warning("فشلت اقتراحات العناوين لـ%r -- استُعمل العنوان الأصلي مكرَّرًا: %s",
@@ -787,6 +832,10 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             fallback = _extract_headline(text) or topic["title"]
             headlines = [fallback, fallback, fallback]
         text = _append_headlines(text, headlines)
+        # كلمات بحث الصورة الإنجليزية (Issue #941) -- غيابها (فشل النداء، أو
+        # نجاحه بلا هذا الحقل) لا يُضيف القسم إطلاقًا؛ youtube_publish يعود
+        # للبحث بالعربية كما كان (انظر _append_image_query).
+        text = _append_image_query(text, image_query_en)
 
         to_draft.append({"topic": topic, "text": text, "warnings": warnings, "headlines": headlines})
         # تُسجَّل فقط بعد نجاح الكتابة الفعلي -- قضية عُنقدت أو تجاوزت الحارس

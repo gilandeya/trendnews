@@ -67,6 +67,7 @@ from tests.test_review import (
     test_setimage_cli_sync_handles_cardless_draft,
     test_setimage_apply_image_keeps_origin_badge,
     test_publish_builds_cards_at_approval,
+    test_publish_card_search_term_from_image_query_en,
     test_request_search,
     test_request_and_radar_headlines,
     test_headlines_module,
@@ -395,6 +396,8 @@ def main() -> int:
     test_setimage_apply_image_keeps_origin_badge()
     print("\n── اختيار عنوان غير افتراضي يعيد بناء البطاقة (Issue #760) ──")
     test_publish_builds_cards_at_approval()
+    print("\n── بحث الصورة الاحتياطي بكلمات إنجليزية (image_query_en، Issue #941) ──")
+    test_publish_card_search_term_from_image_query_en()
     print("\n── حارس temperature (Issue #373) ──")
     test_no_temperature_param()
     print("\n── نسبة إصابة الذاكرة المؤقتة في تقرير الكلفة (طلب المراجعة) ──")

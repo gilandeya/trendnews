@@ -225,3 +225,22 @@ def test_guards_golden() -> None:
     bad_headlines = ["هذا عنوان تقريري بلا علامة استفهام", "عنوان بديل ثانٍ", "عنوان بديل ثالث"]
     ok8, reason8 = headlines.validate_headlines(bad_headlines, max_words=15)
     check("(#756) عنوان أول لا ينتهي بعلامة استفهام ⇒ يُرفض", ok8 is False, reason8)
+
+    # ── حارس بنية مقال التحليل (youtube_article._validate_article_text) --
+    # القاعدة معكوسة (Issue #941): وجود قسم ## المصادر صار سبب رفض لا شرط
+    # قبول (كان إلزاميًا في النسخة الثالثة/الرابعة، Issue #690/#695) -- المتن
+    # لا يجوز أن يسمّي مصادره/قنواته إطلاقًا بعد اليوم ──
+    from src import youtube_article as ya_golden
+    golden_filler = " ".join(["كلمة"] * 260)
+    golden_likelihood = "وهذا مرجّح بقوة، ولا يسندها إلا مصدر واحد."
+    golden_body = f"# سؤال تجريبي عن قضية ما؟\n\n{golden_filler}\n\n{golden_likelihood}\n"
+
+    ok_no_sources, reason_no_sources = ya_golden._validate_article_text(golden_body, cfg)
+    check("(#941) مقال بلا أي قسم ## (بما فيها المصادر) ⇒ يمرّ (القاعدة معكوسة)",
+          ok_no_sources, reason_no_sources)
+
+    golden_with_sources = golden_body + "\n---\n## المصادر\nقناة تجريبية — عنوان — رابط\n"
+    ok_with_sources, reason_with_sources = ya_golden._validate_article_text(
+        golden_with_sources, cfg)
+    check("(#941) مقال فيه ## المصادر ⇒ يُرفض الآن (عكس القاعدة القديمة)",
+          ok_with_sources is False and "##" in reason_with_sources, reason_with_sources)

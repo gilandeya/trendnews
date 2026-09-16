@@ -2062,6 +2062,102 @@ def test_publish_builds_cards_at_approval() -> None:
     check("البطاقة المبنية عند الاعتماد تحمل ملصق «تحقيق» (origin=request، Issue #758)",
           all(abs(a - b) <= 6 for a, b in zip(pixel, request_bg)), (pixel, request_bg))
 
+def test_publish_card_search_term_from_image_query_en() -> None:
+    """Issue #941: البطاقات لمسار article.py كانت تخرج بلا صورة تعبيرية لأن
+    البحث الاحتياطي (imagesearch.find_images، Wikimedia/Openverse) كان يجري
+    دومًا بعبارة عربية (source.title أو العنوان)، وكلا المصدرين فهرسة
+    إنجليزية أساسًا. cards.ensure يقبل الآن search_term= صريحًا (بدل
+    الاعتماد دومًا على العنوان العربي)، وpublish.main يمرّر
+    card_draft.get('image_query_en') إليه عند بناء البطاقات عند الاعتماد.
+    (أ) وحدة مباشرة على cards.ensure، (ب) تكامل كامل عبر publish.main."""
+    from src import cards, publish as publish_mod
+
+    # ── (أ) cards.ensure: search_term الصريح يصل بحث الصورة الاحتياطي حرفيًا،
+    # وغيابه يعود لسلوك source.title القائم بلا أي تغيير ──
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    unit_draft = {
+        "id": "aa00000000aa",
+        "arabic": {"post_title": "عنوان عربي", "category": "", "urgent": False},
+        "source": {"title": "عنوان المصدر العربي", "publishers": []},
+    }
+    unit_path = store.save_draft(unit_draft)
+    real_cards_find = cards.find_images
+    search_calls: list = []
+    cards.find_images = lambda term, cfg: (search_calls.append(term) or [])  # type: ignore
+    try:
+        cards.ensure(unit_path, unit_draft, load_config(), headline="عنوان عربي",
+                     search_term="Strait of Hormuz tanker")
+    finally:
+        cards.find_images = real_cards_find  # type: ignore
+    check("cards.ensure: search_term الممرَّر صراحةً يصل بحث الصورة الاحتياطي حرفيًا",
+          search_calls == ["Strait of Hormuz tanker"], search_calls)
+
+    # بطاقة أُنشئت فعلًا في المحاولة السابقة -- نزع image كي لا يقصر ensure()
+    # على فحص «موجودة مسبقًا» ويتخطّى بحث الاحتياط في هذه المحاولة الثانية.
+    unit_draft["image"] = None
+    search_calls.clear()
+    cards.find_images = lambda term, cfg: (search_calls.append(term) or [])  # type: ignore
+    try:
+        cards.ensure(unit_path, unit_draft, load_config(), headline="عنوان عربي")
+    finally:
+        cards.find_images = real_cards_find  # type: ignore
+    check("cards.ensure: بلا search_term يعود لـsource.title كما كان قبل هذه المهمة (بلا انهيار)",
+          search_calls == ["عنوان المصدر العربي"], search_calls)
+
+    # ── (ب) تكامل: publish.main يمرّر card_draft.get('image_query_en') فعليًا
+    # عند بناء البطاقة عند الاعتماد (نحو src/publish.py:749) ──
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    art_draft = {
+        "id": "ee00000000ee", "status": "pending", "score": 5.0, "bucket": "serious",
+        "state_media": False, "origin": "article",
+        "caption": "عنوان المقال؟\nمتن المقال.",
+        # بلا source.image_candidates عمدًا -- يفرغ urls فتصل cards.ensure
+        # إلى بحثها الاحتياطي (allow_search_fallback الافتراضي True).
+        "source": {"link": "https://x/1", "publishers": ["BBC"]},
+        "arabic": {"post_title": "عنوان المقال؟", "category": "", "urgent": False,
+                   "image_headline": "عنوان المقال؟"},
+        "headlines": ["عنوان المقال؟"], "headline_selected": 0,
+        "image_query_en": "Strait of Hormuz tanker",
+    }
+    store.save_draft(art_draft)
+
+    body = review.build_issue_body([art_draft], "u/r", "main")
+    body = tick_marker(body, f"<!-- draft:{art_draft['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_cards_find2 = cards.find_images
+    publish_mod.ROOT = DRAFTS_DIR.parent
+
+    fallback_terms: list = []
+    cards.find_images = lambda term, cfg: (fallback_terms.append(term) or [])  # type: ignore
+    facebook.publish_photo = lambda *a, **kw: {"url": "https://fb.example/1", "id": "1"}
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}]}
+    sys.argv = ["publish", "--issue", "8941", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+        review.comment = real_comment
+        review.close_issue = real_close
+        cards.find_images = real_cards_find2
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("publish.main: مرّر image_query_en فعليًا كـsearch_term إلى بحث الصورة "
+          "الاحتياطي عند بناء البطاقة (Issue #941)",
+          "Strait of Hormuz tanker" in fallback_terms, fallback_terms)
+
 def test_request_search() -> None:
     """الطلب اليدوي: كلمات → بحث → مرشحون."""
     from src import request as rq

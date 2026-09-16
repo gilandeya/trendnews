@@ -2741,7 +2741,10 @@ def test_article() -> None:
         return ({"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
                 "image_headline": "عنوان الصورة", "post_title": question,
                 "post_body": "متن الاختبار يجيب عن السؤال بوضوح تام كاملة.",
-                "hashtags": ["اختبار"]}, "")
+                "hashtags": ["اختبار"],
+                # Issue #941 -- يصل _build_draft_stage عبر written["image_query_en"]
+                # ويُحفَظ حقلًا عُلويًا على المسودة، لا داخل image_report.
+                "image_query_en": "Strait of Hormuz tanker"}, "")
 
     evidence.search = _fake_search
     evidence.gather_evidence = _fake_gather_evidence
@@ -2780,6 +2783,11 @@ def test_article() -> None:
           out1["produced"] is True, out1["reason"])
     check("1) الواقعة الساقطة غير موجودة ضمن ما مرّ لاختيار السؤال",
           "واقعة بلا أي مصدر" not in seen_question_calls[-1])
+    loaded1 = store.load_draft(out1["draft_id"])
+    check("1) image_query_en (Issue #941) يصل المسودة حقلًا عُلويًا لا داخل image_report",
+          loaded1 is not None and loaded1[1].get("image_query_en") == "Strait of Hormuz tanker"
+          and "image_query_en" not in loaded1[1].get("image_report", {}),
+          loaded1[1].get("image_query_en") if loaded1 else None)
     # خط الأساس الثابت (تشخيص Issue #373، الجولة الرابعة، البند 3) يحتاج
     # عدد الوقائع المسندة كعدد صريح على outcome — لا استخراجه من نص حر
     check("1) outcome['grounded_count'] يساوي عدد الوقائع التي اجتازت السند فعلًا "
@@ -3068,6 +3076,16 @@ def test_article() -> None:
     check("6) نداء الشبكة مستقل عن writer._call_model (الذي يُحمِّل "
           "writer.SYSTEM_PROMPT داخليًا بلا معامل يسمح باستبداله)",
           article._call_draft_model is not writer._call_model)
+
+    # ── image_query_en (Issue #941): حقل اختياري في مخطط نداء الصياغة القائم
+    # -- بلا نداء نموذج إضافي، وغيابه لا يُسقط الحقول الإلزامية الأخرى.
+    # اختبار _draft_article المباشر (النداء الحقيقي لا الفاكة) في
+    # test_article_unsourced_entities أدناه (article._draft_article ما زالت
+    # مموَّهة هنا بـ_fake_draft_article طوال test_article) ──
+    check("ARTICLE_POST_SCHEMA: يحمل image_query_en اختياريًا (غير required)",
+          "image_query_en" in article.ARTICLE_POST_SCHEMA["input_schema"]["properties"]
+          and "image_query_en" not in article.ARTICLE_POST_SCHEMA["input_schema"]["required"],
+          article.ARTICLE_POST_SCHEMA["input_schema"])
 
     # ── article.post_length مستقل عن writer.post_length (مراجعة بشرية بعد
     # أول نشر، البند 2): منتج مختلف يستحق متنًا أطول من منشور الجمع القصير ──
@@ -6459,6 +6477,26 @@ def test_article_unsourced_entities() -> None:
           "نص مصدر كامل طويل جدًا" in captured_prompt[0] and
           captured_prompt[0].count("نص مصدر كامل طويل جدًا") >= 20,
           len(captured_prompt[0]))
+
+    # ── image_query_en (Issue #941): _draft_article الحقيقية (لا فاكة) تستخرج
+    # الحقل الاختياري من ردّ _call_draft_model وتقصّه من فراغاته الطرفية؛
+    # غيابه من الردّ يعيد None بلا انهيار (حقل اختياري قد يتجاهله النموذج) ──
+    real_call_draft_iq = article._call_draft_model
+    article._call_draft_model = lambda prompt, system_text, cfg, retries=3: {
+        "post_title": "س", "post_body": "م", "hashtags": [], "category": "عالم",
+        "image_query_en": "  Strait of Hormuz tanker  "}
+    written_iq, _ = article._draft_article(grounded_a, [], "سؤال؟", load_config())
+    article._call_draft_model = real_call_draft_iq
+    check("_draft_article: image_query_en يُستخرَج ويُقصّ من فراغاته الطرفية",
+          written_iq["image_query_en"] == "Strait of Hormuz tanker", written_iq)
+
+    article._call_draft_model = lambda prompt, system_text, cfg, retries=3: {
+        "post_title": "س", "post_body": "م", "hashtags": [], "category": "عالم"}
+    written_no_iq, _ = article._draft_article(grounded_a, [], "سؤال؟", load_config())
+    article._call_draft_model = real_call_draft_iq
+    check("_draft_article: غياب image_query_en من ردّ النموذج يعيد None بلا انهيار "
+          "(حقل اختياري، النموذج قد يتجاهله)",
+          written_no_iq["image_query_en"] is None, written_no_iq)
 
     # ── (ج) اللبنات: _extract_numbers، _content_words، _word_known ──
     check("_extract_numbers: فواصل الآلاف (لاتينية) تُحذف قبل المطابقة",
