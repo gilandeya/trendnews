@@ -67,6 +67,7 @@ from tests.test_review import (
     test_setimage_cli_sync_handles_cardless_draft,
     test_setimage_apply_image_keeps_origin_badge,
     test_publish_builds_cards_at_approval,
+    test_card_second_badge_offset_with_nonempty_category,
     test_publish_card_search_term_from_image_query_en,
     test_request_search,
     test_request_and_radar_headlines,
@@ -77,9 +78,11 @@ from tests.test_review import (
     test_publish_investigation_requires_review,
     test_no_reject_boxes_in_review_issues,
     test_publish_unapproved_becomes_rejected,
+    test_decisions_records_rejected_unchecked_via_publish,
     test_review_card_and_back_boxes,
     test_publish_card_request_defers_to_final_review,
     test_publish_final_review_approve_publishes_without_rebuild,
+    test_decisions_records_rejected_unchecked_via_final_review,
     test_publish_final_review_double_publish_guard,
     test_publish_final_review_back_request,
     test_publish_final_review_excludes_analysis_origin,
@@ -106,6 +109,7 @@ from tests.test_review import (
     test_radar_writes_breaking_origin,
     test_request_writes_request_origin,
     test_decisions,
+    test_decisions_scan_since_ignores_old_batch,
     test_insights_analysis,
     test_insights_collect_includes_analysis_origin,
     test_insights_weakest_performing_section,
@@ -333,10 +337,13 @@ def main() -> int:
     test_publish_investigation_requires_review()
     test_no_reject_boxes_in_review_issues()
     test_publish_unapproved_becomes_rejected()
+    print("\n── الرفض الضمني (عدم الاعتماد) يُسجَّل في decisions.json (Issue #954) ──")
+    test_decisions_records_rejected_unchecked_via_publish()
     print("\n── مراجعة نهائية للبطاقة قبل النشر (Issue #858) ──")
     test_review_card_and_back_boxes()
     test_publish_card_request_defers_to_final_review()
     test_publish_final_review_approve_publishes_without_rebuild()
+    test_decisions_records_rejected_unchecked_via_final_review()
     test_publish_final_review_double_publish_guard()
     test_publish_final_review_back_request()
     test_publish_final_review_excludes_analysis_origin()
@@ -370,6 +377,8 @@ def main() -> int:
     test_publish_urgent_only_defers_youtube_to_normal_job()
     print("\n── سجل القرارات التراكمي (Issue #583، المرحلة الأولى) ──")
     test_decisions()
+    print("\n── decisions.scan_since يتجاهل الدفعة القديمة (Issue #954) ──")
+    test_decisions_scan_since_ignores_old_batch()
     print("\n── تحليل الأداء ──")
     test_insights_analysis()
     test_insights_collect_includes_analysis_origin()
@@ -396,6 +405,8 @@ def main() -> int:
     test_setimage_apply_image_keeps_origin_badge()
     print("\n── اختيار عنوان غير افتراضي يعيد بناء البطاقة (Issue #760) ──")
     test_publish_builds_cards_at_approval()
+    print("\n── إزاحة الشارة الثانية بعد شارة تصنيف حقيقية (Issue #954) ──")
+    test_card_second_badge_offset_with_nonempty_category()
     print("\n── بحث الصورة الاحتياطي بكلمات إنجليزية (image_query_en، Issue #941) ──")
     test_publish_card_search_term_from_image_query_en()
     print("\n── حارس temperature (Issue #373) ──")

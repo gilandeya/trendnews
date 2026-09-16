@@ -536,6 +536,7 @@ def cmd_final_review(issue_number: int, body: str, cfg) -> int:
                 continue
             store.update_draft(found[0], status="rejected")
             feedback.record(entries, found[1], tag="لم يُعتمد", note="")
+            decisions.record_rejected_unchecked(found[1])
             rejected_now += 1
         if rejected_now:
             feedback.save(entries)
@@ -785,6 +786,7 @@ def main() -> int:
                 continue
             store.update_draft(found[0], status="rejected")
             feedback.record(entries, found[1], tag="لم يُعتمد", note="")
+            decisions.record_rejected_unchecked(found[1])
             rejected_now += 1
         if rejected_now:
             feedback.save(entries)

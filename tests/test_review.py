@@ -9,7 +9,7 @@ import shutil
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageDraw
 
 from tests.helpers import (
     check,
@@ -153,8 +153,11 @@ def test_preselect_no_duplicate_across_runs() -> None:
 def test_preselect_finalize() -> None:
     """الاعتماد على Issue الاختيار يصوغ المختار وحده وينشره مباشرة، وغير
     المختار يُسجَّل في feedback ليتعلّم الفرز الأولي منه لاحقًا."""
-    from src import collect_finalize, feedback, preselect
+    from src import collect_finalize, decisions, feedback, preselect
     from src import publish as publish_mod
+
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
 
     now = datetime.now(timezone.utc)
     art_a = Article(title="خبر أول يستحق الاختيار الآن", link="https://pre.example/a",
@@ -228,6 +231,23 @@ def test_preselect_finalize() -> None:
     updated_b = store.load_candidate(cand_b["id"])
     check("حالة غير المختار unselected",
           updated_b and updated_b[1]["status"] == "unselected")
+
+    # Issue #954: غير المختار في Issue الاختيار (gate A) يُسجَّل في
+    # state/decisions.json بقيمة decision=unselected/reject_tag=«لم يُختر»
+    # -- سماته من شكل المرشح (_features_candidate) لا شكل المسودة، فالمختار
+    # (صار مسودة كاملة) لا يُسجَّل هنا إطلاقًا -- نشره سيُسجَّل published
+    # عبر publish_one/decisions.record_published لا هذا المسار.
+    decisions_entries = decisions.load()
+    check("المرشح غير المختار وحده سُجّل في decisions.json (لا المختار)",
+          {e["id"] for e in decisions_entries} == {cand_b["id"]}, decisions_entries)
+    unselected_entry = decisions_entries[0]
+    check("قرار unselected بوسم «لم يُختر» وسمات المرشح (bucket=light)",
+          unselected_entry["decision"] == "unselected"
+          and unselected_entry["reject_tag"] == "لم يُختر"
+          and unselected_entry["bucket"] == "light"
+          and unselected_entry["origin"] == "news"
+          and unselected_entry["category"] == "" and unselected_entry["body_len"] == 0,
+          unselected_entry)
 
 def test_preselect_now_builds_card_before_publish() -> None:
     """Issue #868: مسار 🚀 «انشر فورًا» يسلّم المعرّفات مباشرة إلى
@@ -2055,15 +2075,13 @@ def test_publish_builds_cards_at_approval() -> None:
     by = ((inner_top + inner_bot) // 2 if not handle_in_header
           else inner_top + int((inner_bot - inner_top) * 0.34))
     probe_xy = (margin + 10, by)
-    # cards.request لم يعد يحمل bg/fg خاصَّين به (Issue #952) -- يسقط إلى
-    # brand.accent_color تلقائيًا، فالفحص يحسب اللون الفعلي بنفس القاعدة
-    # بدل افتراض وجود cards.request.bg دومًا.
-    request_bg = imaging.hex_rgb(
-        cfg.path("cards.request.bg") or cfg.path("brand.accent_color"))
+    # cards.request له لون bg مستقل منذ Issue #954 (بنفسجي، لا يسقط إلى
+    # brand.accent_color بعد الآن -- كان يطابق شارة التصنيف بلونها).
+    request_bg = imaging.hex_rgb(cfg.path("cards.request.bg"))
     out_path = DRAFTS_DIR / Path(persisted_chosen["image"]).relative_to("drafts")
     with Image.open(out_path) as im:
         pixel = im.convert("RGB").getpixel(probe_xy)
-    check("البطاقة المبنية عند الاعتماد تحمل ملصق «هام» (origin=request، Issue #952)",
+    check("البطاقة المبنية عند الاعتماد تحمل ملصق «هام» (origin=request، Issue #954)",
           all(abs(a - b) <= 6 for a, b in zip(pixel, request_bg)), (pixel, request_bg))
     check("cards.request.badge == «هام» وcards.verify/article ما زالا «تحقيق» (Issue #952)",
           cfg.path("cards.request.badge") == "هام"
@@ -2071,6 +2089,68 @@ def test_publish_builds_cards_at_approval() -> None:
           and cfg.path("cards.article.badge") == "تحقيق",
           (cfg.path("cards.request.badge"), cfg.path("cards.verify.badge"),
            cfg.path("cards.article.badge")))
+
+def test_card_second_badge_offset_with_nonempty_category() -> None:
+    """Issue #954: test_publish_builds_cards_at_approval وtest_setimage_apply_image_keeps_origin_badge
+    يتركان category فارغة عمدًا (تعليقهما يقول ذلك صراحة)، فيقع probe_xy
+    فعليًا على بداية صف الملصقات كلها -- وهو موضع الشارة الثانية بمحض غياب
+    الأولى، لا دليل أنها تنزاح فعلًا حين تُرسم شارة تصنيف حقيقية قبلها.
+    هنا category غير فارغة عمدًا، والإحداثية الصحيحة للشارة الثانية تُحسب
+    من نفس معادلة src/imaging.py (bx = badge_left(..., category, ...) +
+    int(W * 0.014) قبل رسم badge الثاني، ~السطرين 758-760) لا بالتخمين.
+    البطاقة تُبنى عبر cards.ensure -- المسار الفعلي الوحيد لبناء بطاقة عند
+    الاعتماد لكل المسارات (CLAUDE.md، «توقيت البطاقة»)."""
+    from src import cards
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    cfg = load_config()
+    W = int(cfg.path("image.width", 1080))
+    H = int(cfg.path("image.height", 1080))
+    margin = int(W * 0.06)
+    rule = max(4, W // 240)
+    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
+    inner_top = int(header_h * 0.14)
+    inner_bot = header_h - rule - int(header_h * 0.14)
+    handle_in_header = bool(cfg.path("brand.handle") and header_h)
+    by = ((inner_top + inner_bot) // 2 if not handle_in_header
+          else inner_top + int((inner_bot - inner_top) * 0.34))
+
+    category = "تصنيف تجريبي"
+    f_head = cfg.path("image.font_headline")
+    f_body = cfg.path("image.font_body") or f_head
+    body_weight = cfg.path("image.font_body_weight") or None
+    bdg_font = imaging.load_font(f_body, int(W * 0.026), body_weight)
+    probe_canvas = Image.new("RGB", (W, H))
+    probe_draw = ImageDraw.Draw(probe_canvas)
+    tw, _ = imaging.measure(probe_draw, category, bdg_font)
+    category_w = tw + 22 * 2  # pad_x الافتراضي في imaging.badge_left (22)
+    second_badge_x = margin + category_w + int(W * 0.014) + 10
+    probe_xy = (second_badge_x, by)
+
+    draft = {
+        "id": "cardoffset01", "status": "pending", "origin": "request",
+        "bucket": "serious",
+        "arabic": {"post_title": "سؤال تجريبي؟", "category": category, "urgent": False},
+        "caption": "متن الخبر", "source": {"publishers": ["مصدر"],
+                                            "image_candidates": ["https://cdn.example/ok.jpg"]},
+    }
+    path = store.save_draft(draft)
+
+    built = cards.ensure(path, draft, cfg)
+    check("cards.ensure بنى البطاقة بنجاح (مسار الاعتماد الفعلي)", built is not None, built)
+
+    request_bg = imaging.hex_rgb(cfg.path("cards.request.bg"))
+    accent_color = imaging.hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
+    out_path = DRAFTS_DIR / Path(built).relative_to("drafts")
+    with Image.open(out_path) as im:
+        pixel = im.convert("RGB").getpixel(probe_xy)
+    check("الشارة الثانية بعد شارة تصنيف حقيقية تحمل لون cards.request.bg المستقل "
+          "لا brand.accent_color (Issue #954)",
+          all(abs(a - b) <= 6 for a, b in zip(pixel, request_bg))
+          and not all(abs(a - b) <= 6 for a, b in zip(pixel, accent_color)),
+          (pixel, request_bg, accent_color, probe_xy))
 
 def test_publish_card_search_term_from_image_query_en() -> None:
     """Issue #941: البطاقات لمسار article.py كانت تخرج بلا صورة تعبيرية لأن
@@ -2719,6 +2799,85 @@ def test_publish_unapproved_becomes_rejected() -> None:
     check("screening_guidance تستبعد مدخلة «لم يُعتمد» (لا تصف شيئًا للفرز)",
           "خبر لم يُعتمد" not in guidance, guidance)
 
+def test_decisions_records_rejected_unchecked_via_publish() -> None:
+    """Issue #954: عدم الاعتماد داخل Issue المراجعة الأولية الموسوم approved
+    يُسجَّل أيضًا في state/decisions.json (لا في feedback.py وحدها) بقيمة
+    decision=rejected_unchecked وreject_tag=«لم يُعتمد» — على مخرَج
+    publish.main الفعلي لا نداء decisions.record_rejected_unchecked مباشرة.
+    إعادة تشغيل publish.main على نفس الـIssue (publish.yml يُشغّل مساري
+    urgent وnormal لنفس حدث approved، Issue #745) يجب ألا تضيف قيدًا ثانيًا."""
+    from src import decisions
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
+
+    approved_draft = {
+        "id": "dc0100000001", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر معتمد ينشر"}, "caption": "خبر معتمد ينشر\nمتن.",
+        "bucket": "serious",
+        "source": {"link": "https://x/dcpub1", "publishers": ["BBC"],
+                   "image_candidates": ["https://cdn.example/ok.jpg"]},
+    }
+    reject_draft = {
+        "id": "dc0200000002", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر لم يُعتمد"}, "caption": "خبر لم يُعتمد\nمتن.",
+        "bucket": "serious",
+        "source": {"link": "https://x/dcpub2", "publishers": ["BBC"],
+                   "image_candidates": ["https://cdn.example/ok.jpg"]},
+    }
+    for d in (approved_draft, reject_draft):
+        store.save_draft(d)
+
+    body = (
+        f"- [x] **1. خبر معتمد ينشر**  <!-- draft:{approved_draft['id']} -->\n"
+        f"- [ ] **2. خبر لم يُعتمد**  <!-- draft:{reject_draft['id']} -->\n"
+    )
+
+    real_fetch = publish_mod.fetch_issue
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    real_comment = review.comment
+    real_close = review.close_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "approved"}]}
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    publish_calls: list = []
+
+    def fake_publish_photo(image_path, caption, api_version, first_comment=None):
+        publish_calls.append(caption)
+        return {"url": "https://fb.example/dc", "id": "1"}
+
+    facebook.publish_photo = fake_publish_photo
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+
+    sys.argv = ["publish", "--issue", "9541", "--now"]
+    try:
+        code1 = publish_mod.main()
+        code2 = publish_mod.main()   # محاكاة مساري urgent ثم normal لنفس حدث approved
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("كلتا التشغيلتين تنتهيان بنجاح", code1 == 0 and code2 == 0, (code1, code2))
+    check("النشر وقع مرة واحدة فقط رغم تشغيل publish.main مرتين",
+          publish_calls == [approved_draft["caption"]], publish_calls)
+
+    entries = decisions.load()
+    pub_entries = [e for e in entries if e["id"] == approved_draft["id"]]
+    rej_entries = [e for e in entries if e["id"] == reject_draft["id"]]
+    check("المعتمَد سُجّل مرة واحدة بقرار published",
+          len(pub_entries) == 1 and pub_entries[0]["decision"] == "published", pub_entries)
+    check("غير المعتمَد سُجّل مرة واحدة فقط بقرار rejected_unchecked رغم التشغيلتين",
+          len(rej_entries) == 1 and rej_entries[0]["decision"] == "rejected_unchecked"
+          and rej_entries[0]["reject_tag"] == "لم يُعتمد", rej_entries)
+
 def test_review_card_and_back_boxes() -> None:
     """Issue #858، الجزء الثاني، البند 1 و4 و6: مربع 🎴 «اعرض البطاقة قبل
     النشر» يظهر في نص المراجعة الأولية غير معلَّم افتراضيًا ولا يظهر إطلاقًا
@@ -2973,6 +3132,80 @@ def test_publish_final_review_approve_publishes_without_rebuild() -> None:
     check("رفض واحد فقط سُجِّل في feedback", len(new_entries) == 1, new_entries)
     check("الرفض بوسم «لم يُعتمد»",
           bool(new_entries) and new_entries[0]["tag"] == "لم يُعتمد", new_entries)
+
+def test_decisions_records_rejected_unchecked_via_final_review() -> None:
+    """Issue #954: نفس مبدأ test_decisions_records_rejected_unchecked_via_publish
+    لكن عبر مسار المراجعة النهائية (cmd_final_review، gate C) -- عدم
+    الاعتماد هناك أيضًا يُسجَّل rejected_unchecked في decisions.json، وتشغيل
+    publish.main مرتين على نفس الـIssue النهائي (urgent ثم normal) لا يضيف
+    قيدًا ثانيًا."""
+    from src import decisions
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
+
+    approved_draft = {
+        "id": "dc0300000001", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر جاهز للنشر النهائي"},
+        "caption": "خبر جاهز للنشر النهائي\nمتن.",
+        "image": "drafts/dcfin1.jpg", "bucket": "serious",
+        "source": {"link": "https://x/dcfin1", "publishers": ["BBC"]},
+    }
+    pending_draft = {
+        "id": "dc0400000002", "status": "pending", "origin": "news",
+        "arabic": {"post_title": "خبر لم يُعلَّم في النهائي"}, "caption": "متن ٢",
+        "image": "drafts/dcfin2.jpg", "bucket": "serious",
+        "source": {"link": "https://x/dcfin2", "publishers": ["BBC"]},
+    }
+    for d in (approved_draft, pending_draft):
+        store.save_draft(d)
+    (DRAFTS_DIR / "dcfin1.jpg").write_bytes(b"\xff\xd8\xff")
+    (DRAFTS_DIR / "dcfin2.jpg").write_bytes(b"\xff\xd8\xff")
+
+    body = review.build_final_review_body([approved_draft, pending_draft], "u/r", "main")
+    body = tick_marker(body, f"<!-- draft:{approved_draft['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    real_comment = review.comment
+    real_close = review.close_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "final-review"}]}
+    publish_mod.ROOT = DRAFTS_DIR.parent
+
+    def fake_publish_photo(image_path, caption, api_version, first_comment=None):
+        return {"url": "https://fb.example/dcfin", "id": "1"}
+
+    facebook.publish_photo = fake_publish_photo
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+
+    sys.argv = ["publish", "--issue", "9542", "--now"]
+    try:
+        code1 = publish_mod.main()
+        code2 = publish_mod.main()   # محاكاة مساري urgent ثم normal لنفس حدث approved
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("كلتا التشغيلتين على الـIssue النهائي تنتهيان بنجاح", code1 == 0 and code2 == 0,
+          (code1, code2))
+
+    entries = decisions.load()
+    pub_entries = [e for e in entries if e["id"] == approved_draft["id"]]
+    rej_entries = [e for e in entries if e["id"] == pending_draft["id"]]
+    check("المعتمَد في المراجعة النهائية سُجّل مرة واحدة بقرار published",
+          len(pub_entries) == 1 and pub_entries[0]["decision"] == "published", pub_entries)
+    check("غير المعلَّم في المراجعة النهائية سُجّل مرة واحدة فقط بقرار rejected_unchecked",
+          len(rej_entries) == 1 and rej_entries[0]["decision"] == "rejected_unchecked"
+          and rej_entries[0]["reject_tag"] == "لم يُعتمد", rej_entries)
 
 def test_publish_final_review_double_publish_guard() -> None:
     """Issue #858، الجزء الثاني، البند 3: مسودة نُشرت فعلًا (مثلًا عبر
@@ -4476,6 +4709,44 @@ def test_decisions() -> None:
           rec2["decision"] == "rejected_explicit" and rec2["reject_tag"] == "ضعيف",
           str(rec2))
 
+    # Issue #954: الرفض الضمني (عُرض على المراجع فلم يُعلَّمه) — قيمة
+    # decision منفصلة عن rejected_explicit، بوسم «لم يُعتمد» الثابت دومًا.
+    unchecked_draft = dict(published_draft, id="dec_unchecked1")
+    decisions.record_rejected_unchecked(unchecked_draft)
+    rec3 = next(e for e in decisions.load() if e["id"] == "dec_unchecked1")
+    check("الرفض الضمني (مراجعة) يُسجَّل بقرار rejected_unchecked ووسم «لم يُعتمد»",
+          rec3["decision"] == "rejected_unchecked" and rec3["reject_tag"] == "لم يُعتمد",
+          str(rec3))
+    before_dup = len(decisions.load())
+    decisions.record_rejected_unchecked(unchecked_draft)
+    check("لا تكرار عند تسجيل الرفض الضمني نفسه مرتين",
+          len(decisions.load()) == before_dup)
+
+    # Issue #954: مرشح preselect غير مختار — سماته من شكل المرشح لا شكل
+    # المسودة (لا arabic ولا source في مرشح لم يُصَغ بعد).
+    cand = {
+        "id": "dec_cand1", "created_at": datetime.now(timezone.utc).isoformat(),
+        "status": "pending", "score": 2.5, "trend_score": 0.3, "velocity": 0.1,
+        "bucket": "light", "state_media": True, "region": "mena",
+        "publishers": ["Reuters", "AFP", "AP"],
+        "article": {"image_url": "https://x/img.jpg"},
+    }
+    decisions.record_unselected(cand)
+    rec4 = next(e for e in decisions.load() if e["id"] == "dec_cand1")
+    check("مرشح غير مختار يُسجَّل بقرار unselected ووسم «لم يُختر»",
+          rec4["decision"] == "unselected" and rec4["reject_tag"] == "لم يُختر", str(rec4))
+    check("سمات المرشح: bucket/region/state_media/source_count/has_photo من شكل المرشح",
+          rec4["bucket"] == "light" and rec4["region"] == "mena"
+          and rec4["state_media"] is True and rec4["source_count"] == 3
+          and rec4["has_photo"] is True and rec4["category"] == ""
+          and rec4["angle"] == "" and rec4["body_len"] == 0
+          and rec4["origin"] == "news",
+          str(rec4))
+    before_dup2 = len(decisions.load())
+    decisions.record_unselected(cand)
+    check("لا تكرار عند تسجيل نفس المرشح غير المختار مرتين",
+          len(decisions.load()) == before_dup2)
+
     # الفحص الدوري بلا بيئة Actions: لا شيء يُفحص، بلا عطل
     saved_repo = os.environ.pop("GITHUB_REPOSITORY", None)
     saved_token = os.environ.pop("GITHUB_TOKEN", None)
@@ -4542,6 +4813,81 @@ def test_decisions() -> None:
     rec_analysis = next(e for e in entries if e["id"] == "dec_analysis1")
     check("أصل المسودة التحليلية يُسجَّل analysis عبر store.origin_of",
           rec_analysis["origin"] == "analysis", str(rec_analysis))
+
+    # Issue #954: collect.drop_stale_candidates تُسقط مرشحين معلَّقين لم
+    # يُربطوا بعد بـIssue اختيار (selection_issue فارغ) — لم يُعرضا على
+    # مراجع إطلاقًا، فليسا قرارًا منه، ويجب ألا يُسجَّلا في decisions.json
+    # (خلافًا لـfeedback.py الذي يسجّلهما «لم يُختر» لفائدة الفرز الأولي).
+    from src import preselect
+
+    decisions_before_stale = len(decisions.load())
+    stale_art = Article(
+        title="مرشح معلَّق من تشغيلة سابقة", link="https://stale.example/a",
+        summary="", source_name="S", region="r", weight=1.0,
+        published=datetime.now(timezone.utc), bucket="serious", publisher="S")
+    stale_cand = preselect.build_candidate(stale_art)
+    store.save_candidate(stale_cand)
+    dropped = collect.drop_stale_candidates()
+    check("drop_stale_candidates أسقط المرشح المعلَّق فعليًا", dropped == 1, dropped)
+    check("drop_stale_candidates لا يضيف قيدًا في decisions.json (لم يُعرض على مراجع)",
+          len(decisions.load()) == decisions_before_stale, decisions.load())
+
+def test_decisions_scan_since_ignores_old_batch() -> None:
+    """Issue #954: config.yaml: decisions.scan_since يمنع تسجيل الدفعة
+    القديمة من المسودات المعلَّقة دفعة واحدة عند أول فحص بعد نشر الميزة —
+    مسودة created_at فيها أقدم من scan_since (أو غير قابل للقراءة) تُتخطى
+    كليًا، فلا تُسجَّل حتى لو كانت مرتبطة بـIssue مغلق فعلًا. بلا هذا
+    المفتاح في cfg، السلوك القديم كما هو (مغطًى في test_decisions أعلاه:
+    مسودة قديمة مغلقة تُسجَّل dismissed_closed بلا أي تصفية)."""
+    from src import decisions
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
+
+    since = datetime(2026, 9, 16, tzinfo=timezone.utc)
+    before_since = {
+        "id": "dec_scan_old", "created_at": (since - timedelta(days=1)).isoformat(),
+        "status": "pending", "review_issue": 601, "score": 1.0, "bucket": "serious",
+        "source": {}, "arabic": {},
+    }
+    after_since = {
+        "id": "dec_scan_new", "created_at": (since + timedelta(days=1)).isoformat(),
+        "status": "pending", "review_issue": 601, "score": 1.0, "bucket": "serious",
+        "source": {}, "arabic": {},
+    }
+    for d in (before_since, after_since):
+        store.save_draft(d)
+
+    saved_repo = os.environ.get("GITHUB_REPOSITORY")
+    saved_token = os.environ.get("GITHUB_TOKEN")
+    os.environ["GITHUB_REPOSITORY"] = "u/r"
+    os.environ["GITHUB_TOKEN"] = "tok"
+
+    real_fetch_issue = decisions._fetch_issue
+    decisions._fetch_issue = lambda n: {"state": "closed"}
+
+    cfg = load_config()
+    cfg["decisions"] = {"ignore_timeout_hours": 48, "scan_since": since.isoformat()}
+    try:
+        n = decisions.scan(cfg)
+    finally:
+        decisions._fetch_issue = real_fetch_issue
+        os.environ.pop("GITHUB_REPOSITORY", None)
+        os.environ.pop("GITHUB_TOKEN", None)
+        if saved_repo is not None:
+            os.environ["GITHUB_REPOSITORY"] = saved_repo
+        if saved_token is not None:
+            os.environ["GITHUB_TOKEN"] = saved_token
+
+    check("scan سجّل قرارًا واحدًا فقط (اللاحق لـscan_since)", n == 1, n)
+    entries = decisions.load()
+    check("المسودة الأقدم من scan_since لم تُسجَّل رغم إغلاق الـIssue",
+          not any(e["id"] == "dec_scan_old" for e in entries), entries)
+    check("المسودة اللاحقة لـscan_since سُجّلت dismissed_closed",
+          any(e["id"] == "dec_scan_new" and e["decision"] == "dismissed_closed"
+              for e in entries), entries)
 
 def test_insights_analysis() -> None:
     from src.insights import analyse, engagement, recommendations

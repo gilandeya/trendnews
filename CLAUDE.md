@@ -215,7 +215,7 @@ below). Each origin's badge/color comes from a `cards` table in `config.yaml`, k
 cards:
   news:     { badge: null }
   breaking: { badge: "عاجل",  bg: "#CE2027", fg: "#FFFFFF" }
-  request:  { badge: "هام" }
+  request:  { badge: "هام", bg: "#7C3AED", fg: "#FFFFFF" }
   verify:   { badge: "تحقيق", bg: "#157F3B", fg: "#FFFFFF" }
   article:  { badge: "تحقيق", bg: "#157F3B", fg: "#FFFFFF" }
   analysis: { badge: "تحليل", bg: "#8EC5FF", fg: "#12203A", source_template: "قراءة في تغطية {channels}" }

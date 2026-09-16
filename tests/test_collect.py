@@ -281,10 +281,10 @@ def test_card_second_badge_by_origin() -> None:
     investigation_bg = imaging.hex_rgb(cfg.path("cards.verify.bg"))
     analysis_bg = imaging.hex_rgb(cfg.path("cards.analysis.bg"))
     analysis_fg = imaging.hex_rgb(cfg.path("cards.analysis.fg"))
-    # cards.request لم يعد يحمل bg/fg خاصَّين به (Issue #952، شارة «هام» بدل
-    # «تحقيق») -- يسقط إلى brand.accent_color تلقائيًا.
-    request_bg = imaging.hex_rgb(
-        cfg.path("cards.request.bg") or cfg.path("brand.accent_color"))
+    # cards.request له لون bg مستقل منذ Issue #954 -- قبله كان يسقط إلى
+    # brand.accent_color، فتطابقت شارة «هام» مع شارة التصنيف على كل بطاقة
+    # حقيقية (شارة التصنيف تُرسم بلون accent_color نفسه).
+    request_bg = imaging.hex_rgb(cfg.path("cards.request.bg"))
 
     def close(pixel, rgb, tol=6):
         return all(abs(a - b) <= tol for a, b in zip(pixel, rgb))
@@ -313,12 +313,15 @@ def test_card_second_badge_by_origin() -> None:
         check(f"بطاقة {origin} تحمل «تحقيق» بلونه الأخضر (cards.{origin}.bg)",
               close(pixel, investigation_bg), (origin, pixel, investigation_bg))
 
-    # Issue #952: مسار الطلب لم يعد يحمل «تحقيق» -- شارته الآن «هام» بلون
-    # brand.accent_color، ويجب ألا يطابق أخضر التحقيق بعد الآن.
+    # Issue #954: مسار الطلب شارته «هام» بلون مستقل (cards.request.bg)، لا
+    # brand.accent_color -- يجب ألا يطابق أخضر التحقيق ولا accent_color.
     request_pixel = probe("request", out_name="probe_request.jpg")
-    check("بطاقة request تحمل «هام» بلون brand.accent_color لا أخضر التحقيق (cards.request.badge)",
-          close(request_pixel, request_bg) and not close(request_pixel, investigation_bg),
-          (request_pixel, request_bg, investigation_bg))
+    accent_color = imaging.hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
+    check("بطاقة request تحمل «هام» بلونها المستقل لا أخضر التحقيق ولا accent_color "
+          "(cards.request.bg)",
+          close(request_pixel, request_bg) and not close(request_pixel, investigation_bg)
+          and not close(request_pixel, accent_color),
+          (request_pixel, request_bg, investigation_bg, accent_color))
 
     breaking_not_urgent = probe("breaking", urgent=False, out_name="probe_breaking.jpg")
     check("بطاقة breaking تحمل «عاجل» بأحمره حتى لو urgent=False",
@@ -352,6 +355,19 @@ def test_card_second_badge_by_origin() -> None:
           not close(unknown_pixel, investigation_bg), unknown_pixel)
     check("origin غير مذكور في الجدول: log.warning واحد بدل التخمين",
           len(unknown_warnings) == 1, unknown_warnings)
+
+    # فحص إعداد (Issue #954): أي مسار له badge وbg صريحان في الجدول يجب أن
+    # يختلف لون bg فيه عن brand.accent_color -- وإلا فشارته تطابق شارة
+    # التصنيف (المرسومة دومًا بـaccent_color) بصمت على كل بطاقة حقيقية،
+    # نفس العطل الذي وقع فيه cards.request قبل هذا الإصلاح.
+    cards_table = cfg.path("cards") or {}
+    mismatched_bg = [
+        origin for origin, card in cards_table.items()
+        if isinstance(card, dict) and card.get("badge") and card.get("bg")
+        and imaging.hex_rgb(card["bg"]) == accent_color
+    ]
+    check("كل مسار له badge وbg صريحان: لونه يختلف عن brand.accent_color",
+          not mismatched_bg, mismatched_bg)
 
 def test_google_news_link_decode() -> None:
     """فكّ رابط Google News الوسيط بلا شبكة (Issue #132 تعليق لاحق — العطل
