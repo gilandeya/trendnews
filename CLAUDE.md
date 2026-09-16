@@ -4,15 +4,30 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-An Arabic-language news bot with two content pipelines that share the same `drafts/` → review
-Issue → Facebook publish machinery. The **news pipeline** pulls trending world news from ~90 RSS
-feeds, dedupes/ranks/clusters it, drafts an Arabic post via the Claude API, builds a branded image
-card, and stages everything in `drafts/` behind a GitHub Issue for human review before publishing
-to a Facebook Page via the Graph API. The **YouTube pipeline** (see Architecture below) collects
-videos from Arabic/Turkish/Persian/Israeli political-analysis channels, extracts and cross-source
-clusters their talking points, and drafts long-form Arabic analysis articles from them — staged
-behind its own separate review Issue and approval label so it can never be mixed up with, or
-accidentally double-published through, the news pipeline's approval flow. Runs entirely on free
+An Arabic-language news bot with **four content paths** that all write into the same `drafts/` →
+review Issue → Facebook publish machinery, routed by each draft's `origin` field
+(`store.origin_of`) rather than by which path produced it:
+
+1. **News** (`src/collect.py`) — pulls trending world news from RSS feeds, dedupes/ranks/clusters
+   it, and (with `preselect.enabled: true`, the default) stops short of drafting: it saves raw,
+   *provisional* candidates and opens a selection Issue so a human picks what's worth the
+   drafting/imaging cost before any of it is spent.
+2. **Breaking** (`src/radar.py`) — a cheap, model-free velocity check every ~15 minutes; only
+   drafts (and can auto-publish without review) once a story crosses strict thresholds, otherwise
+   falls into the same selection stage as News.
+3. **Investigation** (`src/article.py`, triggered by an Issue labeled `مقال`) — takes a pasted
+   editorial brief, grounds every fact against independently-read sources, and produces up to two
+   posts per run: the sourced article itself and, unconditionally, a companion "تحقيق"
+   (investigation) post about whatever from the brief didn't check out.
+4. **Analysis** (the YouTube pipeline, see Architecture below) — five stages that collect videos
+   from Arabic/Turkish/Persian/Israeli political-analysis channels, extract and cross-source
+   cluster their talking points, and draft long-form Arabic analysis articles from them.
+
+A single `approved` label on a draft's review Issue drives publishing for all four — the
+isolation between them is structural (the `origin` field, checked via `store.origin_of`, never a
+raw string comparison), not a separate label per path. Two older on-demand paths still exist
+alongside these four and are documented below: `src/request.py` ("write about X" from keywords)
+and `src/verify.py`/`src/verify_draft.py` (fact-check a pasted article). Runs entirely on free
 GitHub Actions — no server, no paid hosting. See `README.md` (in Arabic) for the full
 setup/operations guide; it is the source of truth for user-facing behavior and should stay in
 sync with any workflow changes.
@@ -143,30 +158,172 @@ These are enforced by convention, not tooling, so hold to them deliberately:
 
 ## Architecture
 
-**Two independent pipelines, connected by files in `drafts/` and a GitHub Issue:**
+**Four content paths, funneled through up to three review gates, all connected by files in
+`drafts/` and GitHub Issues carrying the single `approved` label:**
 
-1. **Collect** (`src/collect.py`, triggered via `.github/workflows/collect.yml`'s
+### The three review gates
+
+Only News and Breaking ever reach gate A; Investigation and Analysis go straight to gate B (they
+already know exactly what they want to draft — there's nothing to *select*).
+
+- **Gate A — selection (🗳️, label `pending-selection`)**, built by `src/preselect.py` and opened
+  by `src/open_review.py` whenever `collect.py` (with `config.yaml: preselect.enabled: true`, the
+  default) or `radar.py` (a story that clears capture thresholds but not auto-publish/immediate
+  ones) produces *candidates* rather than full drafts — raw headlines only, no Arabic drafting, no
+  image, so the model/imaging cost is spent only on what a human actually picks. Each candidate
+  gets exactly three checkboxes (`src/preselect.py`), and unchecked = dropped (tagged
+  `"لم يُختر"`, distinct from a normal rejection):
+  - 🚀 **immediate publish** — draft it, build its card, publish right away, no further review.
+  - 📝 **preliminary review** — draft it and drop it into gate B like any other News/Breaking
+    draft.
+  - 🎴 **straight to card** — draft it, build its card immediately, and open it directly at gate C
+    (skips gate B's headline/text editing).
+  When two boxes are checked together, the stricter one wins (📝 beats 🚀 and 🎴; 🎴 beats 🚀
+  alone) — `src/collect_finalize.py:finalize()` is what reads this Issue on `approved` and
+  dispatches each candidate to one of the three fates above.
+- **Gate B — preliminary review (📰, label `pending-review`)**, built by `src/review.py`: no card
+  yet — an editable caption block, three alternate-headline checkboxes, an image-source note, and
+  a manual-image-link box. This is where a normal News/Breaking/Investigation draft (and a
+  gate-A 📝 pick) lands. A per-item 🎴 "اعرض البطاقة قبل النشر" checkbox lets a reviewer route an
+  individual draft out to gate C instead of publishing it immediately on `approved`.
+- **Gate C — final review (🎴, label `final-review`)**, built by `src/review.py`
+  (`build_final_review_body`): the card is already built, so there are no headline boxes to edit —
+  just a ✔️ approve box, a manual-image-swap box, and a ↩️ "أعده للمراجعة الأولية" box that sends
+  the draft *back* to gate B (clearing its card and `image`/`review_issue` fields) instead of
+  publishing it. `src/publish.py:cmd_final_review` handles this Issue; it publishes directly with
+  no rebuild, no headline pick, and no re-drafting.
+
+`src/publish.py:main` dispatches purely by the Issue's label (`final-review` → gate C's handler,
+`pending-selection` → `collect_finalize.finalize`, otherwise the normal gate-B/news path) — the
+`origin`-based routing described in the conventions above (analysis drafts → `youtube_publish`)
+happens one level deeper, inside that normal path, once each approved id's `origin` is resolved.
+
+### Card timing
+
+The branded image card is built at **approval** time, never at collection time — `src/cards.py`'s
+`cards.ensure(path, draft, cfg, headline=..., search_term=...)` is the single function every
+card-building call site now goes through (it generalizes what `youtube_publish.ensure_title_card`
+used to do only for Analysis, to all paths): the main gate-B/news approval path in `publish.py`,
+both of `collect_finalize.py`'s card-building fates (🚀 and 🎴 above), and `setimage.py`'s
+image-swap/rebuild. A draft written by `collect.py`/`collect_finalize.py`/`youtube_publish.py`
+before approval has no `image` field at all — not a placeholder, an absent key — which is why
+`setimage.apply_image` has to guard against it explicitly (see the `failed`-revival convention
+below). Each origin's badge/color comes from a `cards` table in `config.yaml`, keyed by
+`store.origin_of(draft)`:
+
+```yaml
+cards:
+  news:     { badge: null }
+  breaking: { badge: "عاجل",  bg: "#CE2027", fg: "#FFFFFF" }
+  article:  { badge: "تحقيق", bg: "#157F3B", fg: "#FFFFFF" }
+  analysis: { badge: "تحليل", bg: "#8EC5FF", fg: "#12203A", source_template: "قراءة في تغطية {channels}" }
+```
+
+### No exclude checkbox — rejection is implicit, and the reason is asked for later
+
+None of the three review-gate bodies has an "exclude"/reject checkbox. Anything with an id in the
+Issue body that isn't checked ✔️ when `approved` is added is rejected automatically and tagged
+`"لم يُعتمد"` (gate-A's unselected candidates get the distinct tag `"لم يُختر"`) via
+`feedback.record`; every gate's Issue body says so explicitly: *"🚫 ما لا تعلّمه لن يُنشر ويُسجَّل
+مرفوضًا تلقائيًا — وسأسألك عن السبب في التقرير الأسبوعي."* There is no reason prompt at
+rejection time — `src/insights.py`'s weekly report is what surfaces the pattern later, built from
+the same `feedback.py` entries that `screen.py` already reads back as screening guidance. A
+reviewer who wants to record a real reason immediately, instead of waiting to be asked, can
+comment `/reject <id> <reason>` right away.
+
+### The four content paths in detail
+
+1. **News** (`src/collect.py`, triggered via `.github/workflows/collect.yml`'s
    `workflow_dispatch`; `collect.yml` has no GitHub `schedule:` cron — GitHub's free scheduler
    was unreliably dropping runs, so an external cron-job.org job calls `workflow_dispatch`
    several times a day instead):
    fetch RSS (`src/sources.py`) → dedupe/cluster near-identical stories via Jaccard title
-   similarity and rank by a trend score (`src/rank.py`) → filter against publish history
-   (`src/store.py`, N-day memory) → cheap Haiku pre-screen to drop non-viable candidates before
-   any expensive step (`src/screen.py`) → optional cross-language semantic merge so the same
-   event reported in different languages clusters together (`src/merge.py`) → optional
-   multi-source article text extraction for grounding (`src/extract.py`) → Arabic drafting via
-   Claude (`src/writer.py`) → image card composition (`src/imaging.py`) → write JSON + JPG to
-   `drafts/<date>/` and open/refresh a review Issue (`src/review.py`, `src/open_review.py`).
-2. **Publish** (`src/publish.py`, triggered by the Issue's `approved` label via
-   `.github/workflows/publish.yml`): reads which drafts were checked off in the Issue body
-   (`src/review.py`), schedules posting times (`src/schedule.py` — staggers posts, avoids
-   perfectly regular intervals on purpose since Facebook penalizes obviously-automated
-   cadences), posts via Graph API (`src/facebook.py`), comments with the source link, and closes
-   the Issue.
+   similarity and rank by a trend score, including the three editorial "appeal" factors below
+   (`src/rank.py`) → filter against publish history (`src/store.py`, N-day memory) → cheap Haiku
+   pre-screen to drop non-viable candidates before any expensive step (`src/screen.py`) →
+   optional cross-language semantic merge so the same event reported in different languages
+   clusters together (`src/merge.py`) → optional multi-source article text extraction for
+   grounding (`src/extract.py`) → with `preselect.enabled: true` (default), stop here and open
+   gate A with raw candidates only; otherwise continue straight through Arabic drafting via
+   Claude (`src/writer.py`), image card composition, and open gate B directly. Either way, images
+   must be committed/pushed to the repo **before** the review Issue is opened
+   (`src/open_review.py`), or the `raw.githubusercontent.com` preview links 404.
+2. **Breaking** (`src/radar.py`, `.github/workflows/radar.yml`, same `workflow_dispatch`-via-
+   external-cron pattern as `collect.yml`, roughly every 15 minutes): a cheap, model-free velocity
+   check over a sample of trusted sources; only calls the model and drafts a post when a story
+   crosses velocity/score/source-count capture thresholds (`config.yaml: radar`). A story that
+   clears capture thresholds can then auto-publish **without any review** if it also clears a
+   separate, stricter set of thresholds (`auto_publish_min_score`, `auto_publish_min_sources`,
+   under a daily cap, not a lone official/government source, not in the "light" category, source
+   text actually readable, and confirmed to be a new event rather than an update to one already
+   published) — otherwise it falls back to a gate-A selection candidate rather than wasting the
+   work already done screening it.
+3. **Investigation** (`src/article.py`, triggered by an Issue labeled `مقال`; the pasted body is
+   an **editorial brief** — the poster's idea + information + opinion — not a finished article to
+   fact-check): extract the brief into fact/opinion statements → for any fact alluding to an event
+   without naming it, name it from search results alone, never model prior knowledge → every fact
+   (named in the brief or freshly named) needs 2+ independent supporting sources
+   (`article.min_confirm_sources`) to be graded **A** and stated as plain fact; exactly one source
+   grades it **B**, rendered with forced in-text attribution (`[مصدر واحد: …]`); zero sources
+   normally drops the fact from the article entirely (reported, never silently) — *unless* the
+   whole run ends with no A/B facts at all, in which case every brief fact is admitted as grade
+   **C** and tagged with `article.editor_tag_phrase` (default `"بحسب معلومات المحرر"`, "according
+   to the editor's information") so the path never abstains outright just because indexed coverage
+   didn't happen to catch a true brief. From the graded set, pick the question-headline and draft
+   the sourced article (`origin: "article"`) → **and, unconditionally, also attempt a second,
+   companion post** — `draft_investigation()` — about whatever the sourcing loop turned up that
+   *didn't* check out (contradicted/unsupported claims from the brief). It currently shares the
+   same `origin: "article"` as its sibling (a comment marks this as provisional: a dedicated
+   `origin: "investigation"` is planned but not wired in yet) and is linked to it via
+   `sibling_id`/`is_investigation`; it returns `None` only when there's nothing to report. Source-
+   filtering must happen **before** question selection, never after, or a "central" fact could be
+   one that was never actually checked — just picked first.
+4. **Analysis** (the YouTube pipeline — see its own section below): five stages, ending in a
+   normal gate-B draft per article, `origin: "analysis"`.
 
-**YouTube analysis pipeline** (Issue #631/#646/#676/#680, `workflow_dispatch`-triggered, fully
-separate from the news pipeline above except for reusing `store`/`review`/`publish`/`imaging`):
-five stages, each consuming the previous stage's output file:
+Two older, still-live on-demand paths sit alongside these four and are not part of the
+gate-A/gate-B/gate-C shape above (both open a normal gate-B review Issue directly, `origin:
+"request"`/`"verify"` respectively) — see their own bullets under "Supporting pieces" further
+below: `src/request.py` ("write about X" from keywords) and `src/verify.py`/`src/verify_draft.py`
+(fact-check a pasted article, report first, draft only if the confirmed facts alone are enough).
+The origin-canonicalization note above already calls `request`/`verify`/`article`
+"candidates for a future `investigation` merge — not merged yet"; that hasn't changed.
+
+### Editorial appeal factors (`selection.appeal`)
+
+`config.yaml: selection.appeal` holds three independently-weighted 0–3 factors that `screen.py`'s
+cheap Haiku pass scores per candidate (no extra model call) and `rank.score_cluster` folds into
+the trend score, weight × the highest value per factor within a merged cluster:
+
+```yaml
+appeal:
+  impact_weight: 1.0      # أثر معيشي مباشر على القارئ العربي — direct impact on the Arabic reader
+  proximity_weight: 1.0   # قرب هوياتي/عاطفي — identity/emotional proximity to the Arab/Muslim world
+  intrigue_weight: 1.0    # قوة التشويق — does it stop the scroll?
+```
+
+These weights default to `0.0` (no effect) for any caller that doesn't set `selection.appeal` —
+in practice a News/Breaking-only feature, since `verify.py`/`article.py` don't route through
+`rank.py`.
+
+### Publishing after approval
+
+Once a draft clears its review gate and `approved` is added, `.github/workflows/publish.yml`
+(triggered by the `approved` label) reads which ids were checked off (`src/review.py`) and, for
+each, either publishes immediately/staggered (`src/schedule.py` — deliberately avoids perfectly
+regular intervals, since Facebook penalizes obviously-automated cadences) or queues it for a later
+due time. `.github/workflows/queue.yml` (`workflow_dispatch`, called every ~15 minutes by the same
+external cron-job.org pattern as `collect.yml`/`radar.yml`) is what actually flushes anything
+whose scheduled time has come (`python -m src.publish --due`) — publishing itself doesn't happen
+synchronously inside `publish.yml` for queued posts. Either way, publishing posts via Graph API
+(`src/facebook.py`), comments with the source link, and closes the Issue once everything in it has
+been handled.
+
+### Analysis (YouTube) path in detail
+
+(Issue #631/#646/#676/#680, `workflow_dispatch`-triggered, fully separate from the other three
+content paths above except for reusing `store`/`review`/`publish`/`cards`): five stages, each
+consuming the previous stage's output file:
 
 1. **`youtube_collect`** — input: active channels in `config.yaml: channels` + the YouTube Data
    API (`playlistItems`/`videos.list`) for videos published within `youtube.lookback_hours`.
@@ -297,9 +454,12 @@ Supporting pieces, each independently triggerable as its own workflow:
   publisher-weight/name matching) extracted from `src/verify.py` (Issue #348) because it's generic
   — no judgment/classification logic — and is consumed directly by both `src/verify.py` and
   `src/article.py` below. `src/verify.py` imports from it rather than redefining it.
-- `src/article.py` — "article from sources" flow (Issue #348, replaces `src/verify.py` below; the
-  two coexist in this PR only until the new path is proven on a real brief — see that issue for
-  the removal plan): triggered by an Issue tagged `مقال`. Unlike `verify.py`, the pasted text is
+- `src/article.py` — "article from sources" flow (Issue #348; see the Investigation path above for
+  its place in the overall architecture and the three-tier attribution grading). It and
+  `src/verify.py` below are two permanently distinct, both actively-used flows — an early draft of
+  this doc floated removing `verify.py` once `article.py` was proven, but that never happened and
+  isn't planned; don't infer it's still pending. Triggered by an Issue tagged `مقال`. Unlike
+  `verify.py`, the pasted text is
   an **editorial brief** (the poster's idea + information + opinion), not an article to fact-check
   — the output is a new sourced article answering a question, not a verdict table. Pipeline:
   extract the brief into fact/opinion statements (`extract_brief`) → for any fact that alludes to
@@ -546,53 +706,95 @@ post's own independent gate is unchanged: it still returns `None` when `dropped`
 both empty (nothing to investigate), and its editorial constraints — no negation words
 (كاذب/مفبرك/شائعة/مضلِّل), no naming an unsourced claim's source, no `body` in its signature — are
 untouched; producing it unconditionally is not a license to loosen what it's allowed to say. Two
-follow-up parts of this issue (not done yet, tracked separately): grading facts into three tiers by
-sourcing strength (2+ sources = stated as fact, 1 source = attributed by name in-text, 0 sources =
-excluded from the article entirely, shown only in the investigation post) and widening the search
-window once per attempt on a zero-raw-result ladder step (`article.wide_days`). Neither is
-implemented here — don't infer either from this change alone.
+follow-up parts of this issue were tracked separately at the time and have since landed: grading
+facts into tiers by sourcing strength — implemented as the A/B/C grading described in the
+Investigation path above (Issue #835) — and widening the search window on a zero-raw-result ladder
+step (`article.wide_days`).
+
+## File ownership
+
+Five files are the shared plumbing every content path writes through, and are the only files a
+cross-cutting/structural change should touch: `src/store.py` (draft persistence, `origin_of`),
+`config.yaml` (all tunables, read by every path), `src/review.py` (the gate-B/gate-C Issue
+bodies), `src/publish.py` (approval routing, scheduling, the Graph API call), and `src/cards.py`
+(`cards.ensure`, the one card-building function every path now calls). A change scoped to a single
+path — a new RSS source, a new investigation guard, a new YouTube cluster heuristic — should never
+need to touch these five; if it does, that's a signal the change is bigger than it looks, not a
+reason to edit them casually.
+
+Beyond those five, each path owns its own files outright: News owns `collect.py`,
+`collect_finalize.py`, `preselect.py`, `sources.py`, `rank.py`, `merge.py`, `screen.py`,
+`extract.py`, `trends.py`, `velocity.py`; Breaking owns `radar.py`; Investigation owns `article.py`,
+`evidence.py`, `verify.py`, `verify_draft.py`; Analysis owns the five `youtube_*.py` stage files
+plus `proxy_config.py`. No path's own files are imported back by another path's own files — e.g.
+`collect.py` is never imported by `article.py`, `radar.py`, or `youtube_publish.py`, and `radar.py`
+is never imported by `article.py` or `youtube_publish.py`. `writer.py`, `imaging.py`, `headlines.py`,
+`schedule.py`, `facebook.py`, `setimage.py`, `feedback.py`/`collect_feedback.py`, `decisions.py`,
+and `insights.py` are cross-cutting *utilities* rather than orchestration entry points, and are
+reused across paths the same way the five hub files are, without being part of that formal list.
+
+**One real exception worth knowing before assuming strict isolation**: `src/request.py` — nominally
+the standalone "write about X" path — has quietly become a second shared-utility surface. Its
+Arabic-normalization helpers (`norm_tokens`, `_AR_STOP`, `_AR_TRANS`, `has_arabic`, …) are imported
+directly by `article.py`, `verify.py`, and `verify_draft.py`. The reuse also runs the other way:
+`request.py` itself calls into `radar.py`, reusing `radar.build_draft` and overriding its `origin`
+to `"request"` via the `extra` dict it passes in. Don't be surprised to find `request.py`
+imported somewhere outside its own path — it isn't a violation of the ownership model above, just
+a second, informal shared surface that never got promoted to the formal hub-file list.
 
 ## Testing
 
 The test suite is the project's only quality gate — no pytest, no linter. It fakes all network
 calls and the Claude API (`install_fakes()` in `tests/helpers.py`), so the full run is free and
-hits nothing external. It's split across five files under `tests/` (Issue #883: the original
+hits nothing external. It's split across six files under `tests/` (Issue #883: the original
 single `tests/test_pipeline.py` had grown past 18,000 lines and become unwieldy to navigate):
 
-- **`tests/helpers.py`** — shared, domain-agnostic plumbing imported by all four test files below:
-  the `check(name, condition, detail)` helper (append-to-list, not `assert`), the `PASSED`/`FAILED`
-  lists, `install_fakes()` and its fixtures (`FakeResponse`, `RSS_FIXTURE`, the fake Claude
-  `write_arabic`/`headlines_for_post`), `tick_marker()`, and — critically — the
+- **`tests/helpers.py`** — shared, domain-agnostic plumbing imported by all domain test files
+  below: the `check(name, condition, detail)` helper (append-to-list, not `assert`), the
+  `PASSED`/`FAILED` lists, `install_fakes()` and its fixtures (`FakeResponse`, `RSS_FIXTURE`, the
+  fake Claude `write_arabic`/`headlines_for_post`), `tick_marker()`, and — critically — the
   `TRENDNEWS_DRAFTS_DIR`/`TRENDNEWS_STATE_DIR` env vars pointed at a temp directory *before*
   anything imports from `src` (every `src` module reads `DRAFTS_DIR`/`STATE_DIR` at import time,
   not call time). Because of that last point, `from tests.helpers import ...` must be the first
   import statement in every file that uses it — it can never come after a `from src import ...`
   line in the same file.
-- **`tests/test_collect.py`** — the collect pipeline: RSS fetch/dedupe/cluster, ranking
-  (`src/rank.py`), the cheap screen (`src/screen.py`), cross-language merge, article extraction
-  (`src/extract.py`), velocity/trends signals, the radar's auto-publish gate, image
-  filtering/card composition, Arabic shaping/line-wrapping, and the full collect-to-review
-  pipeline end-to-end.
-- **`tests/test_review.py`** — review, publish, and selection: `preselect.py`, `review.py`/
-  `open_review.py`, `publish.py` and scheduling (`schedule.py`), `setimage.py`,
-  `feedback.py`/`collect_feedback.py`, `request.py`, the shared `headlines.py`, the `origin` field
-  and `store.origin_of`, `decisions.py`, and `insights.py`.
-- **`tests/test_article.py`** — the fact-checking/sourcing side: `verify.py`, `verify_draft.py`
-  (including `check_originality`), the shared search/read engine `evidence.py`, and `article.py`
-  (brief extraction, event naming, source grounding, sufficiency, and the "تحقيق" investigation
-  post).
-- **`tests/test_youtube.py`** — the full YouTube analysis pipeline: the manual survey/diagnostic
+- **`tests/test_collect.py`** — the collect/News/Breaking domain: RSS fetch/dedupe/cluster,
+  ranking (`src/rank.py`, including the `selection.appeal` factors), the cheap screen
+  (`src/screen.py`), cross-language merge, article extraction (`src/extract.py`), velocity/trends
+  signals, the radar (`src/radar.py`) and its auto-publish gate, image filtering/card composition,
+  Arabic shaping/line-wrapping, and the full collect-to-review pipeline end-to-end.
+- **`tests/test_review.py`** — the three review gates and everything downstream of them:
+  `preselect.py` (gate A), `review.py`/`open_review.py` (gates B/C), `publish.py` and scheduling
+  (`schedule.py`), `cards.py`, `setimage.py`, `feedback.py`/`collect_feedback.py`, `request.py`,
+  the shared `headlines.py`, the `origin` field and `store.origin_of`, `decisions.py`, and
+  `insights.py`.
+- **`tests/test_article.py`** — the Investigation domain and the older verify flow: `verify.py`,
+  `verify_draft.py` (including `check_originality`), the shared search/read engine `evidence.py`,
+  and `article.py` (brief extraction, event naming, source grounding, the A/B/C attribution
+  grading, and the "تحقيق" investigation post).
+- **`tests/test_youtube.py`** — the full Analysis (YouTube) pipeline: the manual survey/diagnostic
   scripts under `tools/`, `src/proxy_config.py`, and all five stages
   (`youtube_collect`/`youtube_extract`/`youtube_cluster`/`youtube_article`/`youtube_publish`).
+- **`tests/test_guards_golden.py`** (Issue #893) — golden/reference cases for editorial guards,
+  each tied to a specific documented Issue and run against the real, unmodified guard function (no
+  behavioral change is ever bundled into this file — a case that exposes a bug gets recorded for a
+  dedicated follow-up, not silently fixed here). Current cases: `verify_draft.check_originality`'s
+  grounded-fact exemption (#865), `article._source_fact_duplicate_index`'s topic guard (#824),
+  `article.draft_investigation`'s negation-word guard (#765), `headlines.validate_headlines`'s
+  question-mark guard (#756), and `youtube_article._validate_article_text`'s structure guard
+  (#941, forbidding a `## المصادر` section since articles may no longer name their sources).
 
 `tests/test_pipeline.py` no longer defines any tests itself — it imports every `test_*()` function
-from the four files above and its `main()` calls them in the exact same order and prints the exact
-same summary it always has. It's still the entry point: run the whole suite with
-`python -m tests.test_pipeline`, not `pytest` and not any individual file directly (module
-invocation is what makes `sys.path`/imports resolve from the repo root).
+from the five files above (`test_guards_golden` included) and its `main()` calls them in the exact
+same order and prints the exact same summary it always has, running `test_guards_golden()` last.
+It's still the entry point: run the whole suite with `python -m tests.test_pipeline`, not `pytest`
+and not any individual file directly (module invocation is what makes `sys.path`/imports resolve
+from the repo root).
 
-When adding a feature, add a `test_*()` function to whichever of the four files matches its domain
-(or extend an existing one there), call it from `tests/test_pipeline.py:main()` in the appropriate
-place, and use `check(name, condition, detail)` rather than `assert`. If the new test needs a
-helper/fixture that's genuinely shared across domains, add it to `tests/helpers.py`; if it's
-domain-specific, keep it local to that one file instead.
+When adding a feature, add a `test_*()` function to whichever of the five domain files matches it
+(or extend an existing one there; use `tests/test_guards_golden.py` specifically for a new golden
+regression case tied to a real Issue, not for ordinary feature coverage), call it from
+`tests/test_pipeline.py:main()` in the appropriate place, and use `check(name, condition, detail)`
+rather than `assert`. If the new test needs a helper/fixture that's genuinely shared across
+domains, add it to `tests/helpers.py`; if it's domain-specific, keep it local to that one file
+instead.
