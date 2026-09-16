@@ -13,6 +13,7 @@ from tests.helpers import (
     install_fakes,
     evidence,
     extract,
+    facebook,
     headlines,
     imagesearch,
     imaging,
@@ -35,6 +36,7 @@ from tests.helpers import (
     measure_channels,
     test_actions_block,
 )
+from src import publish as publish_mod
 
 
 def test_measure_channels() -> None:
@@ -2405,14 +2407,6 @@ def test_youtube_publish() -> None:
           "# عنوان بلا تنبيهات؟" in caption2 and "## المصادر" in caption2, caption2)
     check("split_warnings: بلا تنبيهات ⇒ قائمة فارغة", warnings2 == [], warnings2)
 
-    # ── extract_source_lines ──
-    lines = yp.extract_source_lines(caption)
-    check("extract_source_lines: يستخرج سطر المصدر الوحيد هنا",
-          lines == ["الجزيرة — عنوان الفيديو — https://youtube.com/watch?v=abc (٤:١٢)"],
-          lines)
-    check("extract_source_lines: قسم غائب يعيد قائمة فارغة بلا استثناء",
-          yp.extract_source_lines("# عنوان بلا قسم مصادر\nنص") == [])
-
     # ── split_image_query (Issue #941): يُقصّ قبل split_headlines -- الترتيب
     # الفعلي في نصّ المقال متن ← تحذيرات ← عناوين ← كلمات بحث الصورة ──
     article_with_image_query = (
@@ -2711,8 +2705,7 @@ def test_youtube_publish() -> None:
         "**التقدير:** مرجّح بقوة أن يتصاعد الموقف، بثقة منخفضة لأن المصدر واحد\n\n"
         "## من قال ماذا\nنص القسم.\n\n## الافتراضات الكامنة\nنص القسم.\n\n"
         "## التفسير البديل\nنص القسم.\n\n## ما يعنيه\nنص القسم.\n\n"
-        "## ما لا نعرفه\nنص القسم.\n\n---\n## المصادر\n"
-        "الجزيرة — عنوان الفيديو — https://youtube.com/watch?v=xyz (١:٠٠)\n\n"
+        "## ما لا نعرفه\nنص القسم.\n\n"
         "---\n" + yp.WARNINGS_HEADER + "\n"
         "- اسم 'فلان' ورد في نقطة بلا نظير له في الاقتباس الأصلي\n"
         "\n---\n" + youtube_article.HEADLINES_HEADER + "\n"
@@ -2740,10 +2733,22 @@ def test_youtube_publish() -> None:
           build_result["drafts"] and build_result["drafts"][0]["warnings"] ==
           ["اسم 'فلان' ورد في نقطة بلا نظير له في الاقتباس الأصلي"],
           build_result["drafts"][0]["warnings"] if build_result["drafts"] else None)
-    check("build(): source_urls يحمل رابط الفيديو بطابعه الزمني",
+    # source_urls حُذف نهائيًا (Issue #946) -- كان يُستخرَج من قسم "##
+    # المصادر" الذي لم يعد متن المقال يحمله أصلًا منذ Issue #941 (أي عنوان
+    # ## صار مرفوضًا في youtube_article._validate_article_text)، فكان
+    # يعيد قائمة فارغة في كل تشغيلة. source.link يبقى فارغًا صراحة بدل
+    # ذلك، وfirst_comment_for يعيد None له بحارسه القائم -- سلوك مقصود
+    # (منشور تحليل عن تغطية القنوات لا منقول عن مصدر واحد).
+    check("build(): بلا حقل source_urls إطلاقًا بعد حذفه",
+          build_result["drafts"] and "source_urls" not in build_result["drafts"][0],
+          build_result["drafts"][0].keys() if build_result["drafts"] else None)
+    check("build(): source.link فارغ صراحة (لا انهيار ولا استخراج ميت)",
+          build_result["drafts"] and build_result["drafts"][0]["source"]["link"] == "",
+          build_result["drafts"][0].get("source") if build_result["drafts"] else None)
+    check("build(): first_comment_for تعيد None لمسودة تحليل بلا رابط مصدر",
           build_result["drafts"] and
-          "youtube.com/watch?v=xyz" in "".join(build_result["drafts"][0]["source_urls"]),
-          build_result["drafts"][0]["source_urls"] if build_result["drafts"] else None)
+          publish_mod.first_comment_for(build_result["drafts"][0], cfg) is None,
+          build_result["drafts"][0].get("source") if build_result["drafts"] else None)
     check("build(): العناوين الثلاثة المُلحَقة بالمقال وصلت كاملة إلى المسودة، والافتراضي هو الأول",
           build_result["drafts"] and build_result["drafts"][0]["headlines"] == article_headlines
           and build_result["drafts"][0]["headline_selected"] == 0,
@@ -3118,6 +3123,49 @@ def test_youtube_publish() -> None:
     check("publish_approved: بلا اعتماد ⇒ ينتهي بنجاح بلا نشر", code_none == 0)
     check("publish_approved: وسم approved الموحَّد يُزال عند عدم وجود اعتماد (Issue #745)",
           removed_labels == ["approved"], removed_labels)
+
+    # ── نشر فعلي (publish.publish_one، لا مموَّهة) لمسودة تحليل بلا
+    # source.link -- ينجح بلا تعليق أول (Issue #946: source.link فارغ صراحة
+    # بعد حذف extract_source_lines الميتة، وfirst_comment_for يعيد None
+    # لغيابه بحارسها القائم بلا أي تعديل عليها) ──
+    real_publish_photo = facebook.publish_photo
+    real_publish_root = publish_mod.ROOT
+    photo_calls: list = []
+
+    def fake_publish_photo(image_path, caption, api_version, first_comment=None):
+        photo_calls.append(first_comment)
+        return {"url": "https://fb.example/analysis", "id": "1"}
+
+    live_draft = {
+        "id": "live00000001", "status": "pending", "origin": "analysis",
+        "caption": "متن مقال تحليلي.",
+        "arabic": {"post_title": "عنوان تحليلي", "urgent": False, "category": "تحليل"},
+        "source": {"link": "", "publishers": ["الجزيرة", "CNN Türk"]},
+        "image": f"drafts/{date_str}/live00000001.jpg",
+    }
+    live_path = store.save_draft(live_draft)
+    # publish_one يقرأ ROOT / draft["image"] حرفيًا (خلافًا لـensure_title_card
+    # الذي يقرأ من DRAFTS_DIR) -- توجيه ROOT إلى DRAFTS_DIR.parent هنا (نفس
+    # ما تفعله test_publish_builds_cards_at_approval في test_review.py) كي لا
+    # يكتب هذا الاختبار صورة تجريبية داخل drafts/ الفعلي بالمستودع.
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    img_path = DRAFTS_DIR / date_str / "live00000001.jpg"
+    img_path.parent.mkdir(parents=True, exist_ok=True)
+    Image.new("RGB", (40, 40), (5, 5, 5)).save(img_path, "JPEG")
+
+    facebook.publish_photo = fake_publish_photo  # type: ignore
+    try:
+        ok, line = publish_mod.publish_one(live_path, live_draft, cfg)
+    finally:
+        facebook.publish_photo = real_publish_photo
+        publish_mod.ROOT = real_publish_root
+
+    check("publish_one: نشر مسودة تحليل بلا source.link ينجح", ok, line)
+    check("publish_one: بلا تعليق أول -- first_comment الممرَّر لـpublish_photo هو None",
+          photo_calls == [None], photo_calls)
+    check("publish_one: حالة المسودة published بعد النشر الفعلي",
+          store.load_draft(live_draft["id"])[1]["status"] == "published",
+          store.load_draft(live_draft["id"])[1].get("status"))
 
     # ── إعدادات config.yaml (Issue #676) ──
     check("config: youtube.publish.max_per_run = 3",

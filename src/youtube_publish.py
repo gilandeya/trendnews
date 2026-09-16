@@ -134,7 +134,6 @@ log = logging.getLogger(__name__)
 # نفس القسم الذي يُلحقه youtube_article._append_warnings بذيل المقال —
 # مستورَد لا مكرَّر، فتغييره هناك (لو وقع يومًا) لا يكسر هذا الملف بصمت.
 WARNINGS_HEADER = youtube_article.WARNINGS_HEADER
-SOURCES_HEADING = "## المصادر"
 
 # تُقرأ من كتلة config.yaml (`bloc` القيمة الإنجليزية المخزَّنة في channels)
 # — احتياطي فقط إن غاب youtube.image.bloc_labels من الإعداد.
@@ -313,19 +312,6 @@ def split_headlines(article_text: str) -> tuple[str, list[str]]:
     return body + "\n", headlines
 
 
-def extract_source_lines(article_body: str) -> list[str]:
-    """أسطر قسم ## المصادر (بعد نزع التنبيهات) — "لكل مصدر: اسم القناة —
-    عنوان الفيديو — الرابط — الطوابع الزمنية" (prompts/youtube_article.md،
-    خارج النطاق). تُستعمَل حرفيًا كما وردت من النموذج، لا تفكيك حقول إضافي —
-    البرومبت خارج النطاق فلا ضمان لبنية أدق من أسطر نصّية."""
-    idx = article_body.find(SOURCES_HEADING)
-    if idx == -1:
-        return []
-    tail = article_body[idx + len(SOURCES_HEADING):]
-    return [line.strip().lstrip("-").strip()
-            for line in tail.splitlines() if line.strip()]
-
-
 # ── فهرس المقالات (state/youtube_articles/<date>/index.md، من
 # youtube_article.build_index) — يُقرأ لا يُعاد بناؤه؛ الجدول جدول أكواد لا
 # نثر نموذج، فتحليله بتعبير نمطي ثابت آمن (خلافًا لأي نصّ من إخراج النموذج).
@@ -444,7 +430,6 @@ def build_draft(row: dict, date_str: str, articles_dir: Path, cfg) -> dict | Non
     raw_text, image_query_en = split_image_query(raw_text)
     body_no_headlines, headlines = split_headlines(raw_text)
     caption, warnings = split_warnings(body_no_headlines)
-    source_lines = extract_source_lines(caption)
     # مقال بلا قسم عناوين أصلًا (مسار قديم قبل Issue #680) -- عنوان index.md
     # الأصلي مكرَّرًا ثلاثًا، بنفس احتياط youtube_article.run() عند فشل النداء.
     if not headlines:
@@ -477,7 +462,6 @@ def build_draft(row: dict, date_str: str, articles_dir: Path, cfg) -> dict | Non
         # يعودان للبحث بالعربية وحده كما كان، بلا انهيار.
         "image_query_en": image_query_en,
         "warnings": warnings,
-        "source_urls": source_lines,
         "caption": caption,
         # تاريخ التشغيلة -- يحدّد مسار البطاقة عند بنائها لاحقًا في
         # ensure_title_card (drafts/<run_date>/<id>.jpg، نفس اصطلاح
@@ -490,7 +474,14 @@ def build_draft(row: dict, date_str: str, articles_dir: Path, cfg) -> dict | Non
         # تعديل عليهما (نصّ الـIssue: استعمال publish القائم فقط). **بلا
         # حقل image** حتى الاعتماد -- ensure_title_card يضيفه.
         "arabic": {"post_title": default_title, "urgent": False, "category": "تحليل"},
-        "source": {"link": "\n".join(source_lines), "publishers": row["channels"]},
+        # link فارغ صراحة لا مبني من متن المقال -- منذ Issue #941 لم يعد متن
+        # المقال يحمل قسم "## المصادر" أصلًا (أي عنوان ## صار مرفوضًا في
+        # youtube_article._validate_article_text)، فمحاولة استخراجه كانت
+        # تعيد قائمة فارغة في كل تشغيلة على أي حال (Issue #946). فراغ link
+        # يجعل publish.first_comment_for يعيد None بحارسه القائم -- سلوك
+        # مقصود: منشور تحليل عن تغطية القنوات لا منقول عن مصدر واحد فلا
+        # تعليق أول له. publishers يبقى (يقرأه decisions.py/insights.py).
+        "source": {"link": "", "publishers": row["channels"]},
         "score": compute_score(row["blocs"], row["channels"], row["agreement"], cfg),
     }
 
