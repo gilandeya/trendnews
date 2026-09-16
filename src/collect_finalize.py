@@ -23,7 +23,7 @@ import logging
 import os
 from datetime import datetime, timezone
 
-from . import cards, feedback, headlines as headlines_mod, preselect, review, store
+from . import cards, decisions, feedback, headlines as headlines_mod, preselect, review, store
 from .extract import gather as gather_texts
 from .writer import WriteFailure, build_caption, write_arabic
 
@@ -106,6 +106,7 @@ def _record_rejections(unselected_ids: list[str]) -> None:
         path, cand = found
         feedback.record_candidate(entries, cand, "لم يُختر", "لم يُختر ضمن مرشحي دفعته")
         store.update_candidate(path, status="unselected")
+        decisions.record_unselected(cand)
     feedback.save(entries)
     log.info("سُجّل %d مرشحًا غير مختار في feedback", len(unselected_ids))
 

@@ -13,9 +13,17 @@
     مقصود، ولذا ⚠️ لا يُعامَل بوزن إشارة ``dismissed_closed`` الصريحة في
     أي تقرير لاحق.
 
-مع ``published`` (يُسجَّل لحظة النشر الفعلي) و``rejected_explicit`` (لحظة
-تسجيل رفض صريح عبر `/reject`)، أربعتها تغطي كل مصير ممكن لمسودة بلا حاجة
-لبناء جديد — كل حقل تلتقطه ``_features`` موجود أصلًا في ملف المسودة.
+مع ``published`` (يُسجَّل لحظة النشر الفعلي)، ``rejected_explicit`` (لحظة
+تسجيل رفض صريح عبر `/reject`)، ``rejected_unchecked`` و``unselected``
+(Issue #954، أضيفتا معًا): الأولى حين تُعرض مسودة على المراجع في مراجعة
+أولية أو نهائية فلا يُعلَّمها ثم يُوسَم الـIssue بـ approved — رفض ضمني
+بنفس المعنى الذي يقوم عليه ``dismissed_closed`` أدناه، لكن الحدث المحفِّز
+هنا اعتماد الـIssue نفسه لا إغلاقه؛ والثانية حين يُعرض مرشح في Issue اختيار
+(gate A) فلا يُختار — قيمة منفصلة عمدًا لأن الرفض هنا سابق للصياغة لا لاحق
+لها، وسماته (`_features_candidate`) مأخوذة من شكل المرشح لا شكل المسودة.
+ستة قيم تغطي كل مصير ممكن لمسودة أو مرشح بلا حاجة لبناء جديد — كل حقل
+تلتقطه ``_features``/``_features_candidate`` موجود أصلًا في ملف المسودة أو
+المرشح.
 
 ⚠️ قيد على أي عمل لاحق في هذا الاتجاه (مسجَّل أيضًا في CLAUDE.md): أي
 انتقال مستقبلي من "عرض" (تقرير) إلى "تأثير" (فرز/ترتيب) يجب أن يكون خفض
@@ -65,6 +73,13 @@ def save(entries: list[dict]) -> None:
         json.dumps(entries, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
+def _created_hour(created_at: str) -> int | None:
+    try:
+        return datetime.fromisoformat(created_at).hour
+    except (ValueError, TypeError):
+        return None
+
+
 def _features(draft: dict) -> dict:
     """السمات المتاحة أصلًا في ملف المسودة — بلا أي حقل جديد يُكتب وقت
     الجمع (Issue #583). ``source_count`` من ``publishers`` (كل من التقط
@@ -72,11 +87,6 @@ def _features(draft: dict) -> dict:
     والثاني قد يكون فارغًا حتى لمسودة كاملة."""
     ar = draft.get("arabic") or {}
     src = draft.get("source") or {}
-    created_hour = None
-    try:
-        created_hour = datetime.fromisoformat(draft.get("created_at", "")).hour
-    except (ValueError, TypeError):
-        pass
     body = ar.get("post_body") or draft.get("caption") or ""
     return {
         # القيمة المعيارية عبر store.origin_of (Issue #749) — تعامل مسودة
@@ -95,21 +105,47 @@ def _features(draft: dict) -> dict:
         "body_len": len(body),
         "has_photo": bool(draft.get("has_photo", True)),
         "state_media": bool(draft.get("state_media", False)),
-        "created_hour": created_hour,
+        "created_hour": _created_hour(draft.get("created_at", "")),
     }
 
 
-def _append(entries: list[dict], draft: dict, decision: str,
-            reject_tag: str | None = None) -> None:
+def _features_candidate(cand: dict) -> dict:
+    """سمات مرشح preselect (Issue #954) — شكل مختلف عن شكل المسودة الذي
+    تلتقطه ``_features``: لا ``arabic`` ولا ``source``، فالمرشح لم يُصَغ
+    بعد. ``category``/``angle`` تحريريان بحتًا فيبقيان فارغين قبل الصياغة،
+    وbody_len صفر للسبب نفسه؛ ``has_photo`` من ``article.image_url`` (صورة
+    المصدر الخام، لا بطاقة مبنيَّة — المرشح لا يملك واحدة)."""
+    article = cand.get("article") or {}
+    return {
+        "origin": store.origin_of(cand),
+        "category": "",
+        "angle": "",
+        "urgent": False,
+        "bucket": cand.get("bucket", ""),
+        "region": cand.get("region", ""),
+        "score": round(float(cand.get("score", 0) or 0), 2),
+        "trend_score": round(float(cand.get("trend_score", 0) or 0), 2),
+        "velocity": round(float(cand.get("velocity", 0) or 0), 2),
+        "source_count": len(cand.get("publishers") or []),
+        "body_len": 0,
+        "has_photo": bool(article.get("image_url")),
+        "state_media": bool(cand.get("state_media", False)),
+        "created_hour": _created_hour(cand.get("created_at", "")),
+    }
+
+
+def _append(entries: list[dict], item: dict, decision: str,
+            reject_tag: str | None = None,
+            features: dict | None = None) -> None:
     entries.append({
-        "id": draft.get("id", ""),
-        "created_at": draft.get("created_at", ""),
+        "id": item.get("id", ""),
+        "created_at": item.get("created_at", ""),
         "decided_at": datetime.now(timezone.utc).isoformat(),
         "decision": decision,
         "reject_tag": reject_tag,
-        **_features(draft),
+        **(features if features is not None else _features(item)),
     })
-    log.info("قرار مسجَّل: %s ← %s", draft.get("id", ""), decision)
+    log.info("قرار مسجَّل: %s ← %s", item.get("id", ""), decision)
 
 
 def record_published(draft: dict) -> None:
@@ -123,11 +159,41 @@ def record_published(draft: dict) -> None:
 def record_rejected(draft: dict, tag: str) -> None:
     """الرفض الصريح عبر `/reject` — نادر عمليًا (المراجع لا يستعمله اليوم)
     لكنه يُسجَّل للاكتمال: يُميَّز عن ``dismissed_closed``/``ignored_timeout``
-    بأنه فعل مقصود موثَّق بسبب، لا استنتاج."""
+    بأنه فعل مقصود موثَّق بسبب، لا استنتاج. ويُميَّز عن ``rejected_unchecked``
+    بأن سببه الحقيقي مكتوب يدويًا (`/reject <id> <سبب>`)، لا افتراضيًا
+    بمجرَّد عدم التعليم."""
     entries = load()
     if any(e.get("id") == draft.get("id") for e in entries):
         return
     _append(entries, draft, "rejected_explicit", reject_tag=tag)
+    save(entries)
+
+
+def record_rejected_unchecked(draft: dict) -> None:
+    """رفض ضمني (Issue #954): عُرضت المسودة على المراجع في مراجعة أولية أو
+    نهائية فلم يُعلِّمها، ثم وُسم الـIssue بـ approved — قرار منه بعدم
+    الاعتماد، بنفس المعنى الذي بُني عليه ``dismissed_closed``، لكن الحدث
+    المحفِّز هنا اعتماد الـIssue نفسه لا إغلاقه. منع التكرار ضروري هنا تحديدًا:
+    publish.yml يُشغّل مساري urgent وnormal لنفس حدث approved، وكلاهما قد
+    يصل هذا الفرع لنفس المسودة."""
+    entries = load()
+    if any(e.get("id") == draft.get("id") for e in entries):
+        return
+    _append(entries, draft, "rejected_unchecked", reject_tag="لم يُعتمد")
+    save(entries)
+
+
+def record_unselected(cand: dict) -> None:
+    """رفض قبل الصياغة (Issue #954): مرشح preselect عُرض في Issue اختيار
+    (gate A) فلم يُختر ضمن دفعته. قيمة decision منفصلة عمدًا عن
+    ``rejected_unchecked``: هذا رُفض قبل إنفاق تكلفة الصياغة لا بعدها،
+    وسماته (`_features_candidate`) مأخوذة من شكل المرشح لا شكل المسودة —
+    لا ``arabic`` ولا ``source`` في مرشح لم يُصَغ بعد."""
+    entries = load()
+    if any(e.get("id") == cand.get("id") for e in entries):
+        return
+    _append(entries, cand, "unselected", reject_tag="لم يُختر",
+            features=_features_candidate(cand))
     save(entries)
 
 
@@ -147,6 +213,20 @@ def _fetch_issue(issue_number: int) -> dict:
     return resp.json()
 
 
+def _too_old(draft: dict, since: datetime | None) -> bool:
+    """Issue #954: بلا ``decisions.scan_since`` مضبوطًا، لا تخطّي إطلاقًا
+    (السلوك القديم كما هو). حين يُضبط، تُتخطى مسودة أقدم من ``since``
+    وأيضًا مسودة created_at فيها غير قابل للقراءة — لا سبيل لمعرفة عمرها
+    الحقيقي فتُعامَل بحذر بوصفها من الدفعة القديمة، لا بتخمين تاريخ لها."""
+    if since is None:
+        return False
+    try:
+        created = datetime.fromisoformat(draft["created_at"])
+    except (KeyError, ValueError, TypeError):
+        return True
+    return created < since
+
+
 def scan(cfg) -> int:
     """يفحص المسودات المعلَّقة المرتبطة بـ Issue مراجعة، ويسجّل قرارًا
     ضمنيًا لكل ما بُتَّ فيه فعلًا. يُشغَّل كل تشغيلة جمع (حتى بلا مسودة
@@ -157,6 +237,12 @@ def scan(cfg) -> int:
         return 0  # بيئة محلية بلا Actions — لا شيء يُفحص
 
     pending = [(p, d) for p, d in store.pending_drafts() if d.get("review_issue")]
+    if not pending:
+        return 0
+
+    scan_since_raw = cfg.path("decisions.scan_since", None)
+    scan_since = datetime.fromisoformat(scan_since_raw) if scan_since_raw else None
+    pending = [(p, d) for p, d in pending if not _too_old(d, scan_since)]
     if not pending:
         return 0
 
