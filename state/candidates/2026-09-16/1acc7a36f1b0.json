@@ -1,0 +1,65 @@
+{
+  "id": "1acc7a36f1b0",
+  "created_at": "2026-09-16T22:08:07.664557+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.37,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "LOCAL ELECTIONS 2026: IEC finalises ballot while ANC faces exclusion in six municipalities",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-16-iec-finalises-ballot-while-anc-faces-exclusion-in-six-municipalities/",
+  "publishers": [
+    "BBC 中文",
+    "Daily Maverick"
+  ],
+  "region": "za",
+  "article": {
+    "title": "LOCAL ELECTIONS 2026: IEC finalises ballot while ANC faces exclusion in six municipalities",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-16-iec-finalises-ballot-while-anc-faces-exclusion-in-six-municipalities/",
+    "summary": "The IEC has finalised the candidates who will contest the 4 November local government elections as the ANC faces being completely shut out in two municipalities and affected in four others. The commission says electoral deadlines cannot be bent to accommodate parties that fail to complete the required process.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-16T20:53:44+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/y2i6zm2lbuJIb8UcRKUQc92fwQI=/800x0/smart/filters:strip_exif()/file/attachments/orphans/Nonku-ANCvsIEC2_194127.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "BBC 中文",
+      "Daily Maverick"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-16-iec-finalises-ballot-while-anc-faces-exclusion-in-six-municipalities/"
+      },
+      {
+        "name": "BBC 中文",
+        "link": "https://www.bbc.com/zhongwen/articles/cp931k7xx4do/trad?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/y2i6zm2lbuJIb8UcRKUQc92fwQI=/800x0/smart/filters:strip_exif()/file/attachments/orphans/Nonku-ANCvsIEC2_194127.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/1024/cpsprodpb/d6bb/live/cb969e20-ac21-11f1-9bd9-7b7da208bd5c.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/d6bb/live/cb969e20-ac21-11f1-9bd9-7b7da208bd5c.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/d6bb/live/cb969e20-ac21-11f1-9bd9-7b7da208bd5c.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1037.9170765877777,
+    "is_stale": true,
+    "score": 18.367448492203707,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

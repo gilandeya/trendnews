@@ -1,0 +1,56 @@
+{
+  "id": "efe45565b5e3",
+  "created_at": "2026-09-16T22:08:07.665000+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.07,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "En Algérie, l’enseignement du français en primaire relégué au second plan au profit de l’anglais",
+  "link": "https://www.lemonde.fr/afrique/article/2026/09/16/en-algerie-l-enseignement-du-francais-en-primaire-relegue-au-second-plan-au-profit-de-l-anglais_6775432_3212.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "En Algérie, l’enseignement du français en primaire relégué au second plan au profit de l’anglais",
+    "link": "https://www.lemonde.fr/afrique/article/2026/09/16/en-algerie-l-enseignement-du-francais-en-primaire-relegue-au-second-plan-au-profit-de-l-anglais_6775432_3212.html",
+    "summary": "La réforme portée par le ministre de l’éducation a suscité une levée de boucliers dans les milieux francophones. Mais elle est soutenue par les partisans d’une mise à jour du système éducatif algérien.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-09-16T16:30:00+00:00",
+    "image_url": "https://img.lemde.fr/2026/09/16/551/0/5148/2574/644/322/60/0/b6b672c_upload-1-3crusgjhyube-maxnewsfrsix286061.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/afrique/article/2026/09/16/en-algerie-l-enseignement-du-francais-en-primaire-relegue-au-second-plan-au-profit-de-l-anglais_6775432_3212.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/09/16/551/0/5148/2574/644/322/60/0/b6b672c_upload-1-3crusgjhyube-maxnewsfrsix286061.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.074411454314816,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
