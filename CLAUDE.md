@@ -215,6 +215,8 @@ below). Each origin's badge/color comes from a `cards` table in `config.yaml`, k
 cards:
   news:     { badge: null }
   breaking: { badge: "عاجل",  bg: "#CE2027", fg: "#FFFFFF" }
+  request:  { badge: "هام" }
+  verify:   { badge: "تحقيق", bg: "#157F3B", fg: "#FFFFFF" }
   article:  { badge: "تحقيق", bg: "#157F3B", fg: "#FFFFFF" }
   analysis: { badge: "تحليل", bg: "#8EC5FF", fg: "#12203A", source_template: "قراءة في تغطية {channels}" }
 ```
@@ -358,8 +360,10 @@ consuming the previous stage's output file:
    the supplied points; a separate cheap call then proposes three alternate headlines. Output:
    `youtube_articles/<date>/*.md` (private data repo) + an `index.md` table.
 5. **`youtube_publish`** — input: `youtube_articles/<date>/index.md` (private data repo). `build()` turns each
-   article into a `drafts/` entry (`origin: "youtube"`, deliberately **without** an `image` field
-   until approval — see the draft-isolation convention above) scored and sorted by
+   article into a `drafts/` entry (`origin: "analysis"`, deliberately **without** an `image` field
+   until approval — see the draft-isolation convention above; some older drafts already on disk
+   still carry the pre-canonicalization value `"youtube"`, folded to `analysis` by
+   `store.origin_of`) scored and sorted by
    `compute_score()` (channel count + bloc-diversity + agreement-type bonus, all from
    `config.yaml: youtube.review.scoring`); `open_review()` then opens a review Issue labeled
    `youtube-review` listing each article's score breakdown, review warnings (e.g. unsourced-name
@@ -375,9 +379,9 @@ consuming the previous stage's output file:
    routing is confined to `publish.yml`'s *normal* job (`--skip-urgent`); the `urgent` job
    (`--urgent-only`) never dispatches it** — an analysis article batch (up to
    `youtube.publish.max_per_run` posts spaced `youtube.publish.spacing_minutes` apart) can easily
-   exceed the urgent job's 20-minute timeout, so `publish.main` defers any approved
-   `origin: "youtube"` ids to the next (normal) run instead of starting a batch that job can't
-   finish (Issue #745).
+   exceed the urgent job's 20-minute timeout, so `publish.main` defers any approved ids whose
+   `store.origin_of(draft)` is `"analysis"` to the next (normal) run instead of starting a batch
+   that job can't finish (Issue #745).
 
 Three workflows drive these five stages: `.github/workflows/youtube-collect.yml`
 (`workflow_dispatch` only; runs `python -m src.youtube_extract`, which calls stage 1 internally,
@@ -399,7 +403,8 @@ other labels, with its own fixed random pacing that knows nothing about
 `youtube.publish.max_per_run`/`spacing_minutes` — so a shared label risked double-publishing
 through both `publish.yml`'s own logic and `youtube_publish.publish_approved()`. But the label
 itself was never what prevented that: `publish.main` (`src/publish.py`) already reads each
-approved draft's `origin` field individually and routes any `origin == "youtube"` draft to
+approved draft's `origin` field individually and routes any draft whose
+`store.origin_of(draft) == "analysis"` to
 `youtube_publish.publish_ids`/`report_batch` instead of the news path (Issue #740, after a reviewer
 mislabeling an analysis Issue `approved` by mistake showed the two-label scheme was a human
 convention, not a structural guard). With that field-based routing as the actual safeguard, the

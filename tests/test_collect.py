@@ -281,6 +281,10 @@ def test_card_second_badge_by_origin() -> None:
     investigation_bg = imaging.hex_rgb(cfg.path("cards.verify.bg"))
     analysis_bg = imaging.hex_rgb(cfg.path("cards.analysis.bg"))
     analysis_fg = imaging.hex_rgb(cfg.path("cards.analysis.fg"))
+    # cards.request لم يعد يحمل bg/fg خاصَّين به (Issue #952، شارة «هام» بدل
+    # «تحقيق») -- يسقط إلى brand.accent_color تلقائيًا.
+    request_bg = imaging.hex_rgb(
+        cfg.path("cards.request.bg") or cfg.path("brand.accent_color"))
 
     def close(pixel, rgb, tol=6):
         return all(abs(a - b) <= tol for a, b in zip(pixel, rgb))
@@ -304,10 +308,17 @@ def test_card_second_badge_by_origin() -> None:
     check("جدول cards.analysis.fg نصّ داكن كما طُلب (Issue #758)",
           analysis_fg == (0x12, 0x20, 0x3A), analysis_fg)
 
-    for origin in ("verify", "article", "request"):
+    for origin in ("verify", "article"):
         pixel = probe(origin, out_name=f"probe_{origin}.jpg")
         check(f"بطاقة {origin} تحمل «تحقيق» بلونه الأخضر (cards.{origin}.bg)",
               close(pixel, investigation_bg), (origin, pixel, investigation_bg))
+
+    # Issue #952: مسار الطلب لم يعد يحمل «تحقيق» -- شارته الآن «هام» بلون
+    # brand.accent_color، ويجب ألا يطابق أخضر التحقيق بعد الآن.
+    request_pixel = probe("request", out_name="probe_request.jpg")
+    check("بطاقة request تحمل «هام» بلون brand.accent_color لا أخضر التحقيق (cards.request.badge)",
+          close(request_pixel, request_bg) and not close(request_pixel, investigation_bg),
+          (request_pixel, request_bg, investigation_bg))
 
     breaking_not_urgent = probe("breaking", urgent=False, out_name="probe_breaking.jpg")
     check("بطاقة breaking تحمل «عاجل» بأحمره حتى لو urgent=False",
