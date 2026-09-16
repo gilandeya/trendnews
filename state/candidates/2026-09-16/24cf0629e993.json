@@ -1,0 +1,65 @@
+{
+  "id": "24cf0629e993",
+  "created_at": "2026-09-16T18:07:47.903362+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.38,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Plus de 8 000 morts liées aux canicules de l’été 2026 en France : un bilan sans précédent depuis 2003",
+  "link": "https://www.lemonde.fr/planete/article/2026/09/16/plus-de-8-000-morts-liees-aux-canicules-de-l-ete-2026-en-france-un-bilan-sans-precedent-depuis-2003_6775444_3244.html",
+  "publishers": [
+    "BBC 中文",
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Plus de 8 000 morts liées aux canicules de l’été 2026 en France : un bilan sans précédent depuis 2003",
+    "link": "https://www.lemonde.fr/planete/article/2026/09/16/plus-de-8-000-morts-liees-aux-canicules-de-l-ete-2026-en-france-un-bilan-sans-precedent-depuis-2003_6775444_3244.html",
+    "summary": "Santé publique France a publié, mercredi, le bilan humain de l’été le plus chaud jamais enregistré dans le pays, marqué par des canicules d’une précocité, d’une intensité et d’une durée exceptionnelles.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-09-16T17:02:03+00:00",
+    "image_url": "https://img.lemde.fr/2026/09/16/647/0/7761/3880/644/322/60/0/5fc90b3_upload-1-w1btbq6fqypk-000-b82q44n.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "BBC 中文",
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/planete/article/2026/09/16/plus-de-8-000-morts-liees-aux-canicules-de-l-ete-2026-en-france-un-bilan-sans-precedent-depuis-2003_6775444_3244.html"
+      },
+      {
+        "name": "BBC 中文",
+        "link": "https://www.bbc.com/zhongwen/articles/cp931k7xx4do/trad?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/09/16/647/0/7761/3880/644/322/60/0/5fc90b3_upload-1-w1btbq6fqypk-000-b82q44n.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/1024/cpsprodpb/d6bb/live/cb969e20-ac21-11f1-9bd9-7b7da208bd5c.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/d6bb/live/cb969e20-ac21-11f1-9bd9-7b7da208bd5c.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/d6bb/live/cb969e20-ac21-11f1-9bd9-7b7da208bd5c.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.377071306648148,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "id": "96420c47d391",
+  "created_at": "2026-09-16T18:07:47.903688+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.29,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Fed raises key interest rate by quarter point in 1st hike since July 2023",
+  "link": "https://en.yna.co.kr/view/AEN20260917000300315",
+  "publishers": [
+    "Channel News Asia",
+    "Investing.com — Commodities",
+    "Investing.com — الاقتصاد",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "Fed raises key interest rate by quarter point in 1st hike since July 2023",
+    "link": "https://en.yna.co.kr/view/AEN20260917000300315",
+    "summary": "WASHINGTON, Sept. 16 (Yonhap) -- The U.S. Federal Reserve raised its benchmark i...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-16T18:02:23+00:00",
+    "image_url": "https://img.yna.co.kr/etc/inner/EN/2026/09/17/AEN20260917000300315_01_i_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Investing.com — Commodities",
+      "Investing.com — الاقتصاد",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260917000200315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260917000300315"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/fed-rate-decision-markets-bet-hike-6389631"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/warshs-words-may-matter-more-than-the-anticipated-fed-rate-hike-4903261"
+      },
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/gold-futures-brace-for-fed-shock-as-4-rate-scenarios-come-into-focus-200687801"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/17/AEN20260917000300315_01_i_P2.jpg",
+      "https://img.yna.co.kr/photo/cms/2023/08/24/07/PCM20230824000107990_P2.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--6Z99Od8n--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-15T074800Z_1_LYNXMPEM8E0LW_RTROPTP_3_USA-FED-INVESTORS.JPG?itok=XZSWYLkb",
+      "https://content-media.investing.com/trkd-images/LYNXMPEM8F0X8_L.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1033.9113491416667,
+    "is_stale": true,
+    "score": 21.294108341055555,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
