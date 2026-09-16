@@ -6191,3 +6191,355 @@ def test_open_review_revival_offered_twice_then_stops() -> None:
         review.comment = real_comment
         review.close_issue = real_close
         restore_env()
+
+
+# ──────────── إحياء دفعة تحليل تتجاوز سقف التشغيلة (Issue #961) ────────────
+
+
+def _analysis_draft(idx: int, issue_number: int) -> dict:
+    # REVIVE_MARKER (review.py) لا يطابق إلا معرّفًا سداسي عشريًا صغيرًا
+    # ([0-9a-f]+) -- المعرّف هنا مبني ليطابق ذلك حرفيًا.
+    return {
+        "id": f"aa11beef{idx:04d}", "status": "failed", "failed_stage": "facebook",
+        "failed_at": datetime.now(timezone.utc).isoformat(),
+        "error": f"خطأ فيسبوك تحليل {idx}", "revival_issue": issue_number,
+        "revival_offers": 1, "origin": "analysis",
+        "arabic": {"post_title": f"مقال تحليل رقم {idx}", "urgent": False,
+                   "category": "تحليل"},
+        "caption": f"متن تحليل {idx}", "source": {}, "image": f"drafts/an{idx}.jpg",
+    }
+
+
+def test_publish_revival_analysis_batch_cap_defers_remainder() -> None:
+    """Issue #961: دفعة إحياء تحليل تتجاوز سقف التشغيلة (youtube.publish.
+    max_per_run الافتراضي 3، أربع مسودات معلَّمة) لا تُفقد الرابعة الزائدة —
+    تبقى تمامًا كما كانت (failed/failed_stage/revival_issue/error) بانتظار
+    تشغيلة تالية، والـIssue لا يُغلق، ووسم approved يُزال، والتعليق يخبر
+    عنها صراحة. تشغيلة ثانية بنفس جسم الـIssue تُكمل الرابعة وتغلق الـIssue."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    issue_number = 9400
+    drafts = [_analysis_draft(i, issue_number) for i in range(1, 5)]
+    for d in drafts:
+        store.save_draft(d)
+
+    body = review.build_revival_body(drafts, "u/r", "main")
+    for d in drafts:
+        body = tick_marker(body, f"<!-- revive:{d['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_remove_label = review.remove_label
+    real_ensure_title_card = youtube_publish.ensure_title_card
+    real_publish_one = publish_mod.publish_one
+    real_sleep = youtube_publish.time.sleep
+
+    comments: list = []
+    closed: list = []
+    removed_labels: list = []
+    published_ids: list = []
+
+    def fake_publish_one(path, draft, cfg):
+        store.update_draft(path, status="published")
+        published_ids.append(draft["id"])
+        return True, f"- ✅ {draft['arabic']['post_title'][:50]}"
+
+    def run():
+        comments.clear(); closed.clear(); removed_labels.clear(); published_ids.clear()
+        publish_mod.fetch_issue = lambda n: {
+            "number": n, "body": body,
+            "labels": [{"name": "failed-review"}, {"name": "approved"}]}
+        review.comment = lambda n, t: comments.append((n, t))
+        review.close_issue = lambda n: closed.append(n)
+        review.remove_label = lambda n, l: removed_labels.append((n, l))
+        youtube_publish.ensure_title_card = lambda path, draft, cfg: True
+        publish_mod.publish_one = fake_publish_one
+        youtube_publish.time.sleep = lambda s: None
+        try:
+            sys.argv = ["publish", "--issue", str(issue_number), "--skip-urgent"]
+            return publish_mod.main()
+        finally:
+            publish_mod.fetch_issue = real_fetch
+            review.comment = real_comment
+            review.close_issue = real_close
+            review.remove_label = real_remove_label
+            youtube_publish.ensure_title_card = real_ensure_title_card
+            publish_mod.publish_one = real_publish_one
+            youtube_publish.time.sleep = real_sleep
+
+    code1 = run()
+    check("التشغيلة الأولى تنتهي بنجاح", code1 == 0, f"exit={code1}")
+    check("ثلاث مسودات نُشرت في التشغيلة الأولى",
+          published_ids == [d["id"] for d in drafts[:3]], published_ids)
+
+    fourth = store.load_draft(drafts[3]["id"])[1]
+    check("الرابعة بقيت failed", fourth.get("status") == "failed", fourth.get("status"))
+    check("الرابعة بقي failed_stage=facebook",
+          fourth.get("failed_stage") == "facebook", fourth.get("failed_stage"))
+    check("الرابعة بقي revival_issue", fourth.get("revival_issue") == issue_number,
+          fourth.get("revival_issue"))
+    check("الرابعة بقي error", "error" in fourth, fourth)
+
+    for i in range(3):
+        d = store.load_draft(drafts[i]["id"])[1]
+        check(f"المسودة {i + 1} صارت published وحقولها الثلاثة زالت",
+              d.get("status") == "published" and "failed_stage" not in d
+              and "revival_issue" not in d and "error" not in d, d)
+
+    check("الـIssue لم يُغلق في التشغيلة الأولى", closed == [], closed)
+    check("وسم approved أُزيل", removed_labels == [(issue_number, "approved")],
+          removed_labels)
+    check("التعليق يحوي سطر ⏳ للرابعة",
+          any("⏳" in t and "مقال تحليل رقم 4" in t for _, t in comments), comments)
+    check("التعليق يطلب إعادة وسم approved لمتابعة الباقي",
+          any("أعد وضع وسم" in t for _, t in comments), comments)
+
+    code2 = run()
+    check("التشغيلة الثانية تنتهي بنجاح", code2 == 0, f"exit={code2}")
+    check("الرابعة نُشرت في التشغيلة الثانية",
+          published_ids == [drafts[3]["id"]], published_ids)
+    fourth2 = store.load_draft(drafts[3]["id"])[1]
+    check("الرابعة صارت published", fourth2.get("status") == "published",
+          fourth2.get("status"))
+    check("الـIssue أُغلق في التشغيلة الثانية", closed == [issue_number], closed)
+
+
+def test_publish_revival_analysis_batch_seven_drafts_three_runs() -> None:
+    """نفس سيناريو سقف الدفعة أعلاه بسبع مسودات معلَّمة: تشغيلتان لا تكفيان
+    (٣+٣=٦)، والثالثة تُكمل السابعة وتُغلق الـIssue -- لا قبلها إطلاقًا."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    issue_number = 9410
+    drafts = [_analysis_draft(i, issue_number) for i in range(1, 8)]
+    for d in drafts:
+        store.save_draft(d)
+
+    body = review.build_revival_body(drafts, "u/r", "main")
+    for d in drafts:
+        body = tick_marker(body, f"<!-- revive:{d['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_remove_label = review.remove_label
+    real_ensure_title_card = youtube_publish.ensure_title_card
+    real_publish_one = publish_mod.publish_one
+    real_sleep = youtube_publish.time.sleep
+
+    closed: list = []
+
+    def fake_publish_one(path, draft, cfg):
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['arabic']['post_title'][:50]}"
+
+    def run():
+        closed.clear()
+        publish_mod.fetch_issue = lambda n: {
+            "number": n, "body": body,
+            "labels": [{"name": "failed-review"}, {"name": "approved"}]}
+        review.comment = lambda n, t: None
+        review.close_issue = lambda n: closed.append(n)
+        review.remove_label = lambda n, l: None
+        youtube_publish.ensure_title_card = lambda path, draft, cfg: True
+        publish_mod.publish_one = fake_publish_one
+        youtube_publish.time.sleep = lambda s: None
+        try:
+            sys.argv = ["publish", "--issue", str(issue_number), "--skip-urgent"]
+            return publish_mod.main()
+        finally:
+            publish_mod.fetch_issue = real_fetch
+            review.comment = real_comment
+            review.close_issue = real_close
+            review.remove_label = real_remove_label
+            youtube_publish.ensure_title_card = real_ensure_title_card
+            publish_mod.publish_one = real_publish_one
+            youtube_publish.time.sleep = real_sleep
+
+    run()
+    check("لا إغلاق بعد التشغيلة الأولى (سبع مسودات)", closed == [], closed)
+    run()
+    check("لا إغلاق بعد التشغيلة الثانية (سبع مسودات)", closed == [], closed)
+    run()
+    check("إغلاق بعد التشغيلة الثالثة فقط (سبع مسودات)",
+          closed == [issue_number], closed)
+
+    for d in drafts:
+        final = store.load_draft(d["id"])[1]
+        check(f"{d['id']} صارت published بعد ثلاث تشغيلات",
+              final.get("status") == "published", final.get("status"))
+
+
+def test_publish_revival_mixed_news_and_analysis_batch() -> None:
+    """دفعة إحياء مختلطة: خبر معلَّم يُجدول queued فورًا (لا سقف دفعة عليه)،
+    وخبر غير معلَّم يموت نهائيًا، وأربع مسودات تحليل تخضع لسقف الدفعة كما في
+    الاختبارين أعلاه. تكرار التشغيل على نفس جسم الـIssue لا يُعيد جدولة الخبر
+    المعلَّم (يصير «غير مطابق» بدل ذلك) ولا يُحيي غير المعلَّم."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    issue_number = 9420
+    now_iso = datetime.now(timezone.utc).isoformat()
+    news_marked = {
+        "id": "aa22beef0001", "status": "failed", "failed_stage": "facebook",
+        "failed_at": now_iso, "error": "خطأ فيسبوك خبر", "revival_issue": issue_number,
+        "revival_offers": 1,
+        "arabic": {"post_title": "خبر معلَّم للإحياء", "urgent": False},
+        "caption": "متن خبر", "source": {}, "image": "drafts/news1.jpg",
+    }
+    news_unmarked = {
+        "id": "aa22beef0002", "status": "failed", "failed_stage": "facebook",
+        "failed_at": now_iso, "error": "خطأ فيسبوك خبر آخر", "revival_issue": issue_number,
+        "revival_offers": 1,
+        "arabic": {"post_title": "خبر غير معلَّم", "urgent": False},
+        "caption": "متن خبر٢", "source": {}, "image": "drafts/news2.jpg",
+    }
+    analysis_drafts = [_analysis_draft(i, issue_number) for i in range(1, 5)]
+    all_drafts = [news_marked, news_unmarked] + analysis_drafts
+    for d in all_drafts:
+        store.save_draft(d)
+
+    body = review.build_revival_body(all_drafts, "u/r", "main")
+    body = tick_marker(body, f"<!-- revive:{news_marked['id']} -->")
+    for d in analysis_drafts:
+        body = tick_marker(body, f"<!-- revive:{d['id']} -->")
+    # news_unmarked يبقى بلا تعليم عمدًا -- يجب أن يموت نهائيًا.
+
+    real_fetch = publish_mod.fetch_issue
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_remove_label = review.remove_label
+    real_ensure_title_card = youtube_publish.ensure_title_card
+    real_publish_one = publish_mod.publish_one
+    real_sleep = youtube_publish.time.sleep
+
+    def fake_publish_one(path, draft, cfg):
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['arabic']['post_title'][:50]}"
+
+    def run():
+        publish_mod.fetch_issue = lambda n: {
+            "number": n, "body": body,
+            "labels": [{"name": "failed-review"}, {"name": "approved"}]}
+        review.comment = lambda n, t: None
+        review.close_issue = lambda n: None
+        review.remove_label = lambda n, l: None
+        youtube_publish.ensure_title_card = lambda path, draft, cfg: True
+        publish_mod.publish_one = fake_publish_one
+        youtube_publish.time.sleep = lambda s: None
+        try:
+            sys.argv = ["publish", "--issue", str(issue_number), "--skip-urgent"]
+            return publish_mod.main()
+        finally:
+            publish_mod.fetch_issue = real_fetch
+            review.comment = real_comment
+            review.close_issue = real_close
+            review.remove_label = real_remove_label
+            youtube_publish.ensure_title_card = real_ensure_title_card
+            publish_mod.publish_one = real_publish_one
+            youtube_publish.time.sleep = real_sleep
+
+    run()
+    marked_after1 = store.load_draft(news_marked["id"])[1]
+    check("الخبر المعلَّم صار queued في التشغيلة الأولى",
+          marked_after1.get("status") == "queued", marked_after1.get("status"))
+    publish_at_1 = marked_after1.get("publish_at")
+    check("publish_at مكتوب للخبر المعلَّم", bool(publish_at_1), marked_after1)
+
+    unmarked_after1 = store.load_draft(news_unmarked["id"])[1]
+    check("الخبر غير المعلَّم مات نهائيًا (revival_declined)",
+          unmarked_after1.get("status") == "failed"
+          and unmarked_after1.get("revival_declined") is True, unmarked_after1)
+
+    run()
+    marked_after2 = store.load_draft(news_marked["id"])[1]
+    check("الخبر المعلَّم لم يتكرر جدولته في التشغيلة الثانية",
+          marked_after2.get("status") == "queued"
+          and marked_after2.get("publish_at") == publish_at_1, marked_after2)
+
+
+def test_publish_revival_batch_member_fails_again_stays_offered() -> None:
+    """مسودة تحليل ضمن الدفعة نفسها (لا تتجاوز السقف) فشلت ثانية أثناء
+    التشغيلة: ليست ضمن «الباقي» (remaining خاص بما تجاوز سقف الدفعة فقط، لا
+    بما حُووِل وفشل)، وتحمل failed_stage من جديد بلا revival_issue -- فتُعرض
+    مرة أخيرة عبر open_review._revivable_drafts (Issue #961، البند ٥: سلوك
+    قائم لا يتغيّر)."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    issue_number = 9430
+    drafts = [_analysis_draft(i, issue_number) for i in range(1, 3)]  # اثنتان ضمن السقف
+    failing_id = drafts[1]["id"]
+    for d in drafts:
+        store.save_draft(d)
+
+    body = review.build_revival_body(drafts, "u/r", "main")
+    for d in drafts:
+        body = tick_marker(body, f"<!-- revive:{d['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_remove_label = review.remove_label
+    real_ensure_title_card = youtube_publish.ensure_title_card
+    real_publish_one = publish_mod.publish_one
+    real_sleep = youtube_publish.time.sleep
+
+    comments: list = []
+
+    def fake_publish_one(path, draft, cfg):
+        if draft["id"] == failing_id:
+            store.update_draft(
+                path, status="failed", error="فشل فيسبوك ثانٍ",
+                failed_stage="facebook",
+                failed_at=datetime.now(timezone.utc).isoformat(),
+            )
+            return False, f"- ❌ {draft['arabic']['post_title'][:50]}"
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['arabic']['post_title'][:50]}"
+
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body,
+        "labels": [{"name": "failed-review"}, {"name": "approved"}]}
+    review.comment = lambda n, t: comments.append(t)
+    review.close_issue = lambda n: None
+    review.remove_label = lambda n, l: None
+    youtube_publish.ensure_title_card = lambda path, draft, cfg: True
+    publish_mod.publish_one = fake_publish_one
+    youtube_publish.time.sleep = lambda s: None
+    try:
+        sys.argv = ["publish", "--issue", str(issue_number), "--skip-urgent"]
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        review.comment = real_comment
+        review.close_issue = real_close
+        review.remove_label = real_remove_label
+        youtube_publish.ensure_title_card = real_ensure_title_card
+        publish_mod.publish_one = real_publish_one
+        youtube_publish.time.sleep = real_sleep
+
+    check("التشغيلة تنتهي بنجاح", code == 0, f"exit={code}")
+    check("لا سطر ⏳ للمسودة الفاشلة ثانية (ليست ضمن الباقي)",
+          not any("⏳" in t for t in comments), comments)
+
+    failed_again = store.load_draft(failing_id)[1]
+    check("فشلت ثانية بـfailed_stage من جديد",
+          failed_again.get("status") == "failed"
+          and failed_again.get("failed_stage") == "facebook", failed_again)
+    check("بلا revival_issue بعد الفشل الثاني",
+          "revival_issue" not in failed_again, failed_again)
+
+    revivable_ids = {d["id"] for _, d in open_review._revivable_drafts()}
+    check("open_review._revivable_drafts تعيدها للعرض مرة أخيرة",
+          failing_id in revivable_ids, revivable_ids)
