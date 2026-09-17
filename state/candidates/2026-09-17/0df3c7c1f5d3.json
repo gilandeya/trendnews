@@ -1,0 +1,70 @@
+{
+  "id": "0df3c7c1f5d3",
+  "created_at": "2026-09-17T12:08:03.042593+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.03,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US drone maker Powerus says it signed MoU with Pakistan Army, gets initial order",
+  "link": "https://www.dawn.com/news/2030619/us-drone-maker-powerus-says-it-signed-mou-with-pakistan-army-gets-initial-order",
+  "publishers": [
+    "Dawn",
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "US drone maker Powerus says it signed MoU with Pakistan Army, gets initial order",
+    "link": "https://www.dawn.com/news/2030619/us-drone-maker-powerus-says-it-signed-mou-with-pakistan-army-gets-initial-order",
+    "summary": "US drone firm Powerus has signed a memorandum of understanding (MoU) with the Pakistan Army that includes an initial drone-related order, co-founder Brett Velicovich told Reuters on Wednesday. Velicovich declined to provide details, citing security sensitivities, but said the deal fell within the category of unmanned aerial systems. He also declined to disclose the value of the order, citing confidentiality. Powerus, which offers aerial and maritime drones for military and industrial use, is due to merge with a publicly traded company backed by two of US President Donald Trump’s sons, called Aureus Greenway Holdings. Both companies have said they expect the merger to complete in early October. Trump’s sons, Donald Trump Jr and Eric Trump, own a stake in Aureus through an investment fund called American Ventures, according to US regulatory filings. American Ventures is expected to hold a 9.9 per cent beneficial ownership stake in the combined company after the merger, regulatory filings show. Inter-Services Public Relations on Wednesday said a Powerus delegation led by Velicovich met Chief of Defence Forces (CDF) and Chief of Army Staff Field Marshal Asim Munir and they discussed de",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-17T09:34:12+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/1714215380bf611.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030619/us-drone-maker-powerus-says-it-signed-mou-with-pakistan-army-gets-initial-order"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629835/us-drone-maker-powerus-signs-pakistan-army-mou-gets-initial-order"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/682471-pakistan-army-us-drone-maker-powerus-sign-mou-including-initial-order"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/1714215380bf611.webp",
+      "https://i.dawn.com/thumbnail/2026/09/1714215380bf611.webp",
+      "https://www.geo.tv/assets/uploads/2026-09-17/682471_044248_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1051.915886365,
+    "is_stale": false,
+    "score": 23.03404573886717,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

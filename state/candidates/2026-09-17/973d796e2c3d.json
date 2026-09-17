@@ -1,0 +1,95 @@
+{
+  "id": "973d796e2c3d",
+  "created_at": "2026-09-17T12:08:03.041812+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.72,
+  "trend_score": 1.0,
+  "velocity": 0.78,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "India warns U.S. new tariffs to deter buyers of Russian oil could impact ties",
+  "link": "https://www.japantimes.co.jp/news/2026/09/17/asia-pacific/politics/india-energy-security-us-tariffs/",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Dawn",
+    "Hindustan Times — World",
+    "MFA",
+    "NDTV — World",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "India warns U.S. new tariffs to deter buyers of Russian oil could impact ties",
+    "link": "https://www.japantimes.co.jp/news/2026/09/17/asia-pacific/politics/india-energy-security-us-tariffs/",
+    "summary": "The U.S. House of Representatives has passed a bill authorizing tariffs of up to 100% to increase pressure on Russia over its invasion of Ukraine.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-09-17T07:28:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/17/563639.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Dawn",
+      "Hindustan Times — World",
+      "MFA",
+      "NDTV — World",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/17/india-warns-new-us-tariffs-over-russian-oil-could-impact-ties?traffic_source=rss"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/17/asia-pacific/politics/india-energy-security-us-tariffs/"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030596/india-to-take-all-necessary-measures-to-protect-economic-interests-after-us-passes-russia-sanctions-bill"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/india-on-us-congress-passing-russia-sanctions-bill-will-protect-trade-economic-interests-12057646#publisher=newsstand"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c3lyrn4p870yo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/clean-up-your-act-team-trump-warns-india-china-over-russian-oil-trade-12058483#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/17/563639.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/17/thumbs/400x400/563639.jpg",
+      "https://i.dawn.com/large/2026/09/171134394742954.webp",
+      "https://i.dawn.com/thumbnail/2026/09/171134394742954.webp",
+      "https://c.ndtvimg.com/2026-06/cndaju3_modi-trump-ani-_625x300_16_June_26.jpeg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/43f5/live/4b6f86f0-b264-11f1-a430-4d16ee157c41.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 0.7764239609620865,
+    "age_hours": 1051.9158715769445,
+    "is_stale": false,
+    "score": 29.72105582406969,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

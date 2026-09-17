@@ -1,0 +1,83 @@
+{
+  "id": "ddf43545e7d7",
+  "created_at": "2026-09-17T12:08:03.043188+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.05,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump derides EU pitch to Canada as 'laughable', threatens more tariffs",
+  "link": "https://www.channelnewsasia.com/world/trump-eu-canada-tariffs-associate-member-6391551",
+  "publishers": [
+    "Channel News Asia",
+    "France24",
+    "MyJoyOnline Ghana",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Trump derides EU pitch to Canada as 'laughable', threatens more tariffs",
+    "link": "https://www.channelnewsasia.com/world/trump-eu-canada-tariffs-associate-member-6391551",
+    "summary": "EU chief Ursula Von der Leyen proposed making Canada the bloc's first associate member on Wednesday (Sep 16) during her annual State of the Union speech, which was attended by Canadian PM Mark Carney.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-17T08:52:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--mJp3JKN7--/c_crop,h_576,w_1024,x_0,y_107/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/17/000_c8jj9yf.jpg?itok=PJQ6bDHs",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "France24",
+      "MyJoyOnline Ghana",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3367784/trump-threatens-eu-over-hostile-proposal-make-canada-associate-member?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-threatens-eu-over-hostile-canada-association-plan/article71475524.ece"
+      },
+      {
+        "name": "France24",
+        "link": "http://www.france24.com/en/europe/20260917-trump-threatens-eu-with-tariffs-over-laughable-canada-association-plan"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/trump-eu-canada-tariffs-associate-member-6391551"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/trump-threatens-serious-tariffs-on-eu-over-proposal-to-make-canada-associate-member/"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--mJp3JKN7--/c_crop,h_576,w_1024,x_0,y_107/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/17/000_c8jj9yf.jpg?itok=PJQ6bDHs",
+      "https://th-i.thgim.com/public/incoming/qu8nim/article71475569.ece/alternates/LANDSCAPE_1200/Trump_73414.jpg",
+      "https://s.france24.com/media/display/8b812582-af80-11f1-89c8-005056a97e36/w:1024/p:16x9/2026-09-13T130451Z-943753214-RC2DINAGWTJK-RTRMADP-3-USA-TRUMP-IRELAND.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/06/image-1015-1024x575.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1051.91591856,
+    "is_stale": false,
+    "score": 21.04805363425468,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
