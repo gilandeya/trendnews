@@ -1,0 +1,63 @@
+{
+  "id": "b5085fd2350d",
+  "created_at": "2026-09-17T22:07:48.711074+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.12,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "U.S. expected to delay new excess capacity tariff announcement until after Trump-Xi summit: report",
+  "link": "https://en.yna.co.kr/view/AEN20260918000200315",
+  "publishers": [
+    "Bloomberg",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "U.S. expected to delay new excess capacity tariff announcement until after Trump-Xi summit: report",
+    "link": "https://en.yna.co.kr/view/AEN20260918000200315",
+    "summary": "WASHINGTON, Sept. 17 (Yonhap) -- U.S. President Donald Trump's administration is...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-17T19:26:28+00:00",
+    "image_url": "https://img.yna.co.kr/photo/reuters/2026/09/15/PRU20260915000101009_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Bloomberg",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260918000200315"
+      },
+      {
+        "name": "Bloomberg",
+        "link": "https://www.investing.com/news/economy-news/us-delays-tariff-announcement-until-after-xitrump-summit--bloomberg-93CH-4906222"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/reuters/2026/09/15/PRU20260915000101009_P2.jpg",
+      "https://content-media.investing.com/news/LYNXMPEM3810S_1200_L.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1061.9117404408335,
+    "is_stale": true,
+    "score": 18.120841914240742,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

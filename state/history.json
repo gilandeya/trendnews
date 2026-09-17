@@ -1,22 +1,5 @@
 [
   {
-    "score": 18.51,
-    "bucket": "serious",
-    "tokens": [
-      "asia",
-      "iran",
-      "need",
-      "policeman",
-      "president",
-      "west"
-    ],
-    "link": "https://www.thehindu.com/news/international/iran-president-says-west-asia-has-no-need-for-us-policeman/article71459702.ece",
-    "title": "Iran president says West Asia has no need for U.S. ‘policeman’",
-    "posted_title": "لماذا تصر إيران على أن أمن مضيق هرمز شأن إقليمي لا أمريكي",
-    "region": "in",
-    "seen_at": "2026-09-12T19:16:06.244633+00:00"
-  },
-  {
     "score": 27.09,
     "bucket": "serious",
     "tokens": [
@@ -5387,5 +5370,106 @@
     "posted_title": "",
     "region": "in",
     "seen_at": "2026-09-17T19:08:02.089788+00:00"
+  },
+  {
+    "score": 28.88,
+    "bucket": "serious",
+    "tokens": [
+      "beat",
+      "bournemouth",
+      "cruise",
+      "europa",
+      "juventus",
+      "league",
+      "palace",
+      "sociedad",
+      "wins"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/18/juventus-palace-cruise-to-europa-league-wins-bournemouth-beat-sociedad",
+    "title": "Juventus, Palace cruise to Europa League wins, Bournemouth beat Sociedad",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-17T22:07:48.710770+00:00"
+  },
+  {
+    "score": 21.13,
+    "bucket": "serious",
+    "tokens": [
+      "agarra",
+      "betis",
+      "gana",
+      "getafe",
+      "plaza",
+      "tercera"
+    ],
+    "link": "https://elpais.com/deportes/futbol/2026-09-17/el-betis-gana-al-getafe-y-agarra-la-tercera-plaza.html",
+    "title": "El Betis gana al Getafe y agarra la tercera plaza",
+    "posted_title": "",
+    "region": "es",
+    "seen_at": "2026-09-17T22:07:48.711064+00:00"
+  },
+  {
+    "score": 18.12,
+    "bucket": "serious",
+    "tokens": [
+      "announcement",
+      "capacity",
+      "delay",
+      "excess",
+      "expected",
+      "report",
+      "summit",
+      "tariff",
+      "trump",
+      "until"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20260918000200315",
+    "title": "U.S. expected to delay new excess capacity tariff announcement until after Trump-Xi summit: report",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-09-17T22:07:48.711359+00:00"
+  },
+  {
+    "score": 17.23,
+    "bucket": "serious",
+    "tokens": [
+      "boost",
+      "day",
+      "lower",
+      "oil",
+      "stocks",
+      "trading",
+      "yields"
+    ],
+    "link": "https://www.channelnewsasia.com/business/trading-day-lower-oil-yields-boost-stocks-6393191",
+    "title": "Trading Day: Lower oil, yields boost stocks",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-17T22:07:48.711614+00:00"
+  },
+  {
+    "score": 17.21,
+    "bucket": "serious",
+    "tokens": [
+      "après",
+      "avoir",
+      "bordeaux",
+      "collège",
+      "condamné",
+      "directrice",
+      "ferme",
+      "menacé",
+      "mois",
+      "mort",
+      "prison",
+      "père",
+      "six",
+      "surveillant"
+    ],
+    "link": "https://www.lemonde.fr/societe/article/2026/09/17/a-bordeaux-un-pere-condamne-a-six-mois-de-prison-ferme-apres-avoir-menace-de-mort-un-surveillant-et-la-directrice-d-un-college_6776474_3224.html",
+    "title": "A Bordeaux, un père condamné à six mois de prison ferme après avoir menacé de mort un surveillant et la directrice d’un collège",
+    "posted_title": "",
+    "region": "fr",
+    "seen_at": "2026-09-17T22:07:48.711862+00:00"
   }
 ]

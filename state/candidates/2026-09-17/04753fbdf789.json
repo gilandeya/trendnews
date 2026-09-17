@@ -1,0 +1,56 @@
+{
+  "id": "04753fbdf789",
+  "created_at": "2026-09-17T22:07:48.711623+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.21,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "A Bordeaux, un père condamné à six mois de prison ferme après avoir menacé de mort un surveillant et la directrice d’un collège",
+  "link": "https://www.lemonde.fr/societe/article/2026/09/17/a-bordeaux-un-pere-condamne-a-six-mois-de-prison-ferme-apres-avoir-menace-de-mort-un-surveillant-et-la-directrice-d-un-college_6776474_3224.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "A Bordeaux, un père condamné à six mois de prison ferme après avoir menacé de mort un surveillant et la directrice d’un collège",
+    "link": "https://www.lemonde.fr/societe/article/2026/09/17/a-bordeaux-un-pere-condamne-a-six-mois-de-prison-ferme-apres-avoir-menace-de-mort-un-surveillant-et-la-directrice-d-un-college_6776474_3224.html",
+    "summary": "L’homme, déjà condamné pour violences, avait pénétré lundi sans autorisation dans le collège de sa fille. Il avait menacé d’« égorger » et de « planter » les deux victimes, en les couvrant d’insultes.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-09-17T18:28:48+00:00",
+    "image_url": "https://img.lemde.fr/2025/04/10/23/0/3000/1500/644/322/60/0/7991972_sirius-fs-upload-1-sc6fysirrfv1-1744297403208-frame-11.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/societe/article/2026/09/17/a-bordeaux-un-pere-condamne-a-six-mois-de-prison-ferme-apres-avoir-menace-de-mort-un-surveillant-et-la-directrice-d-un-college_6776474_3224.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2025/04/10/23/0/3000/1500/644/322/60/0/7991972_sirius-fs-upload-1-sc6fysirrfv1-1744297403208-frame-11.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.206767839166666,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
