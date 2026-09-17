@@ -1,0 +1,85 @@
+{
+  "id": "05c4b7eb6dbd",
+  "created_at": "2026-09-17T09:07:43.096844+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.86,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Former Kosovo president Thaci sentenced to 25 years for war crimes",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-16-former-kosovo-president-thaci-sentenced-to-25-years-for-war-crimes/",
+  "publishers": [
+    "Balkan Insight",
+    "Daily Maverick",
+    "Deutsche Welle",
+    "NPR World",
+    "The Hindu — International",
+    "apnews.com"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Former Kosovo president Thaci sentenced to 25 years for war crimes",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-16-former-kosovo-president-thaci-sentenced-to-25-years-for-war-crimes/",
+    "summary": "Former Kosovo President Hashim Thaci was found guilty of war crimes including murder, torture and illegal detention by the Kosovo war crimes tribunal in The Hague on Wednesday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-16T12:53:51+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/2eNWTlaUr1YEyCFD6XuD8-jPfwM=/800x0/smart/filters:strip_exif()/file/attachments/2997/14296273_734202.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Balkan Insight",
+      "Daily Maverick",
+      "Deutsche Welle",
+      "NPR World",
+      "The Hindu — International",
+      "apnews.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-16-former-kosovo-president-thaci-sentenced-to-25-years-for-war-crimes/"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/kosovo-ex-president-thaci-sentenced-to-25-years-for-war-crimes/a-79286344?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/a-hague-court-convicts-kosovos-former-president-thaci-of-war-crimes-and-sentences-him-to-25-years/article71473760.ece"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/16/g-s1-143560/kosovo-former-president-war-crimes"
+      },
+      {
+        "name": "Balkan Insight",
+        "link": "https://balkaninsight.com/2026/09/16/hague-court-convicts-kosovo-liberation-army-leaders-of-war-crimes/btj/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/2eNWTlaUr1YEyCFD6XuD8-jPfwM=/800x0/smart/filters:strip_exif()/file/attachments/2997/14296273_734202.jpg",
+      "https://th-i.thgim.com/public/incoming/u2t60j/article71473908.ece/alternates/LANDSCAPE_1200/2026-09-16T140707Z_2132669980_RC2EKNAWBN67_RTRMADP_3_WARCRIMES-KOSOVO-THACI-REACTIONS.JPG",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-143560",
+      "https://balkaninsight.com/wp-content/uploads/2026/09/viber_image_2026-09-16_10-48-38-560-640x324.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 1048.9103871436112,
+    "is_stale": false,
+    "score": 20.856246680293097,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
