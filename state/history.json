@@ -1,100 +1,5 @@
 [
   {
-    "score": 21.19,
-    "bucket": "serious",
-    "tokens": [
-      "derails",
-      "france",
-      "injured",
-      "least",
-      "leaving",
-      "passenger",
-      "train"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c8d37dm8d8mo?at_medium=RSS&at_campaign=rss",
-    "title": "Passenger train derails in France leaving at least 44 injured",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-12T03:07:49.230803+00:00"
-  },
-  {
-    "score": 19.8,
-    "bucket": "serious",
-    "tokens": [
-      "defeat",
-      "five",
-      "fourth",
-      "games",
-      "liga",
-      "misery",
-      "pile",
-      "sevilla",
-      "suffer",
-      "valencia"
-    ],
-    "link": "https://www.malaymail.com/news/sports/2026/09/12/la-liga-valencia-suffer-fourth-defeat-in-five-games-as-sevilla-pile-on-misery/234893",
-    "title": "La Liga: Valencia suffer fourth defeat in five games as Sevilla pile on misery",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-12T03:07:49.230982+00:00"
-  },
-  {
-    "score": 18.44,
-    "bucket": "serious",
-    "tokens": [
-      "assisted",
-      "bid",
-      "dying",
-      "lawmakers",
-      "legalise",
-      "reject"
-    ],
-    "link": "https://www.dawn.com/news/2029143/uk-lawmakers-reject-bid-to-legalise-assisted-dying",
-    "title": "UK lawmakers reject bid to legalise assisted dying",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-12T03:07:49.231124+00:00"
-  },
-  {
-    "score": 18.26,
-    "bucket": "serious",
-    "tokens": [
-      "call",
-      "crown",
-      "declines",
-      "houthis",
-      "prince's",
-      "reports",
-      "saudi",
-      "strikes",
-      "trump"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-declines-saudi-crown-princes-call-for-us-strikes-on-houthis-reports/article71455330.ece",
-    "title": "Trump declines Saudi crown prince's call for U.S. strikes on Houthis: reports",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-12T03:07:49.231248+00:00"
-  },
-  {
-    "score": 18.24,
-    "bucket": "serious",
-    "tokens": [
-      "bab",
-      "houthis",
-      "island",
-      "mandeb",
-      "reach",
-      "strait",
-      "strategic",
-      "yemen"
-    ],
-    "link": "https://www.scmp.com/news/world/middle-east/article/3367232/yemens-houthis-reach-strategic-island-bab-el-mandeb-strait?utm_source=rss_feed",
-    "title": "Yemen’s Houthis reach strategic island in Bab el-Mandeb Strait",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-12T03:07:49.231366+00:00"
-  },
-  {
     "score": 24.45,
     "bucket": "sport",
     "tokens": [
@@ -5339,5 +5244,101 @@
     "posted_title": "",
     "region": "fr",
     "seen_at": "2026-09-16T22:08:07.665186+00:00"
+  },
+  {
+    "score": 25.1,
+    "bucket": "serious",
+    "tokens": [
+      "against",
+      "blowing",
+      "brighton",
+      "crash",
+      "cup",
+      "lead",
+      "league",
+      "man",
+      "united"
+    ],
+    "link": "https://www.vanguardngr.com/2026/09/man-united-crash-out-of-league-cup-after-blowing-2-0-lead-against-brighton/",
+    "title": "Man United crash out of League Cup after blowing 2-0 lead against Brighton",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-17T03:08:03.503147+00:00"
+  },
+  {
+    "score": 23.09,
+    "bucket": "serious",
+    "tokens": [
+      "bill",
+      "congress",
+      "passes",
+      "russia",
+      "sanctions",
+      "sweeping"
+    ],
+    "link": "https://www.channelnewsasia.com/world/us-congress-passes-sweeping-russia-sanctions-bill-6390501",
+    "title": "US Congress passes sweeping Russia sanctions Bill",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-17T03:08:03.503488+00:00"
+  },
+  {
+    "score": 22.16,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "blitz",
+      "emboldened",
+      "exposed",
+      "houthi",
+      "iran",
+      "leaves",
+      "saudi"
+    ],
+    "link": "https://www.rappler.com/world/middle-east/houthi-blitz-leaves-saudi-arabia-exposed-iran-emboldened/",
+    "title": "Houthi blitz leaves Saudi Arabia exposed, Iran emboldened",
+    "posted_title": "",
+    "region": "ph",
+    "seen_at": "2026-09-17T03:08:03.503833+00:00"
+  },
+  {
+    "score": 21.06,
+    "bucket": "serious",
+    "tokens": [
+      "barcelona",
+      "masterclass",
+      "past",
+      "put",
+      "racing",
+      "raphinha",
+      "santander",
+      "seven"
+    ],
+    "link": "https://www.malaymail.com/news/sports/2026/09/17/raphinha-masterclass-as-barcelona-put-seven-past-racing-santander/235470",
+    "title": "Raphinha masterclass as Barcelona put seven past Racing Santander",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-17T03:08:03.504151+00:00"
+  },
+  {
+    "score": 20.14,
+    "bucket": "serious",
+    "tokens": [
+      "'practically",
+      "arabia",
+      "asif",
+      "conflict",
+      "diplomatically'",
+      "escalates",
+      "pakistan",
+      "saudi",
+      "stand",
+      "yemen"
+    ],
+    "link": "https://www.dawn.com/news/2030407/pakistan-to-stand-by-saudi-arabia-practically-and-diplomatically-if-yemen-conflict-escalates-asif",
+    "title": "Pakistan to stand by Saudi Arabia 'practically and diplomatically' if Yemen conflict escalates: Asif",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-17T03:08:03.504441+00:00"
   }
 ]

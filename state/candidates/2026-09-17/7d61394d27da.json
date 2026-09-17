@@ -1,0 +1,89 @@
+{
+  "id": "7d61394d27da",
+  "created_at": "2026-09-17T03:08:03.503498+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.16,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthi blitz leaves Saudi Arabia exposed, Iran emboldened",
+  "link": "https://www.rappler.com/world/middle-east/houthi-blitz-leaves-saudi-arabia-exposed-iran-emboldened/",
+  "publishers": [
+    "Dawn",
+    "Rappler",
+    "The Express Tribune",
+    "The Guardian — World",
+    "The Japan Times"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "Houthi blitz leaves Saudi Arabia exposed, Iran emboldened",
+    "link": "https://www.rappler.com/world/middle-east/houthi-blitz-leaves-saudi-arabia-exposed-iran-emboldened/",
+    "summary": "The lack of international military support for Saudi Arabia, particularly from the US, has emboldened Iran and its allies, complicating the geopolitical landscape in the region",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-09-17T01:35:19+00:00",
+    "image_url": "https://www.rappler.com/tachyon/2026/09/2026-09-15T183655Z_873553942_RC2SJNAG08FU_RTRMADP_3_IRAN-CRISIS-YEMEN-HOUTHI-scaled.jpg",
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Dawn",
+      "Rappler",
+      "The Express Tribune",
+      "The Guardian — World",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629679/houthi-blitz-leaves-saudi-arabia-exposed-iran-emboldened"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/middle-east/houthi-blitz-leaves-saudi-arabia-exposed-iran-emboldened/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/17/world/saudi-houthis-strikes-mecca/"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/16/us-officials-decide-against-backing-saudi-arabia-yemen-meeting-houthi-leaders"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030344/houthi-attacks-on-saudi-arabia-have-brought-mideast-conflict-to-dangerous-juncture-pakistan-tells-un"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629598/pakistan-condemns-houthi-attacks-on-saudi-arabia-at-un-calls-for-urgent-de-escalation"
+      }
+    ],
+    "image_candidates": [
+      "https://www.rappler.com/tachyon/2026/09/2026-09-15T183655Z_873553942_RC2SJNAG08FU_RTRMADP_3_IRAN-CRISIS-YEMEN-HOUTHI-scaled.jpg",
+      "https://www.rappler.com/tachyon/2024/10/yemen-houthi-october-4-2024-reuters.jpg",
+      "https://www.rappler.com/tachyon/2026/09/2026-09-15T183655Z_873553942_RC2SJNAG08FU_RTRMADP_3_IRAN-CRISIS-YEMEN-HOUTHI-scaled.jpg?resize=75%2C75&crop_strategy=attention",
+      "https://www.rappler.com/tachyon/2024/10/yemen-houthi-october-4-2024-reuters.jpg?resize=75%2C75&crop=166px%2C0px%2C767px%2C767px",
+      "https://www.rappler.com/tachyon/2026/09/2026-09-15T183655Z_873553942_RC2SJNAG08FU_RTRMADP_3_IRAN-CRISIS-YEMEN-HOUTHI-scaled.jpg?fit=449%2C449",
+      "https://www.rappler.com/tachyon/2024/10/yemen-houthi-october-4-2024-reuters.jpg?fit=449%2C449"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1042.9157594719445,
+    "is_stale": true,
+    "score": 22.16285753353246,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

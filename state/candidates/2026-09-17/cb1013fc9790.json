@@ -1,0 +1,94 @@
+{
+  "id": "cb1013fc9790",
+  "created_at": "2026-09-17T03:08:03.503160+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.09,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US Congress passes sweeping Russia sanctions Bill",
+  "link": "https://www.channelnewsasia.com/world/us-congress-passes-sweeping-russia-sanctions-bill-6390501",
+  "publishers": [
+    "Al Jazeera English",
+    "CBS News — World",
+    "Channel News Asia",
+    "China and India",
+    "Free Malaysia Today",
+    "NDTV — World",
+    "TASS",
+    "The Hindu — International"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "US Congress passes sweeping Russia sanctions Bill",
+    "link": "https://www.channelnewsasia.com/world/us-congress-passes-sweeping-russia-sanctions-bill-6390501",
+    "summary": "The legislation gives Trump authority to impose tariffs of up to 100 per cent on major buyers of Russian oil and gas, including potentially China and India.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-16T23:59:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--J-bdcnYL--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-15T060323Z_1_LYNXMPEM8E0FK_RTROPTP_3_UKRAINE-CRISIS-JET-DRONES.JPG?itok=JcYs80Zs",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "CBS News — World",
+      "Channel News Asia",
+      "China and India",
+      "Free Malaysia Today",
+      "NDTV — World",
+      "TASS",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/17/congress-passes-sweeping-us-sanctions-bill-targeting-russia?traffic_source=rss"
+      },
+      {
+        "name": "China and India",
+        "link": "https://www.scmp.com/news/us/economy-trade-business/article/3367782/us-congress-passes-bill-targeting-russias-leading-energy-buyers-china-and-india?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/us-congress-passes-sweeping-russia-sanctions-bill-6390501"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/17/us-congress-passes-sweeping-russia-sanctions-bill"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2188707"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russia-sanctions-bill-advances-in-us-house-india-tariffs-final-vote/article71470872.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--J-bdcnYL--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-15T060323Z_1_LYNXMPEM8E0FK_RTROPTP_3_UKRAINE-CRISIS-JET-DRONES.JPG?itok=JcYs80Zs",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/05/00f34616-the-capitol-building-epa-05_05_26.webp",
+      "https://th-i.thgim.com/public/incoming/sip9am/article71475102.ece/alternates/LANDSCAPE_1200/Trump_91824.jpg",
+      "https://th-i.thgim.com/public/incoming/ydmapq/article71470873.ece/alternates/LANDSCAPE_1200/2026-07-02T115057Z_1326133511_RC2OFKAY4WTB_RTRMADP_3_RUSSIA-OIL-TAX.jpg",
+      "https://c.ndtvimg.com/2025-08/oqr69qo4_tp_625x300_12_August_25.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 1042.9157726441667,
+    "is_stale": false,
+    "score": 23.090054728574074,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
