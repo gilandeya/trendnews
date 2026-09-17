@@ -1,0 +1,93 @@
+{
+  "id": "0563cdb994b7",
+  "created_at": "2026-09-17T17:07:54.736640+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.37,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "U.S. House passes Russia sanctions bill seeking to impose up to 100% tariffs on India, others",
+  "link": "https://www.thehindu.com/news/international/us-house-passes-russia-sanctions-bill-india-tariffs/article71474350.ece",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "Dawn",
+    "NDTV — World",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "in",
+  "article": {
+    "title": "U.S. House passes Russia sanctions bill seeking to impose up to 100% tariffs on India, others",
+    "link": "https://www.thehindu.com/news/international/us-house-passes-russia-sanctions-bill-india-tariffs/article71474350.ece",
+    "summary": "The Bill, which will now be sent U.S. President Donald Trump for his signature, could result in significant U.S. tariffs on India",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-17T11:50:14+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/sip9am/article71475102.ece/alternates/LANDSCAPE_1200/Trump_91824.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "Dawn",
+      "NDTV — World",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russia-sanctions-bill-advances-in-us-house-india-tariffs-final-vote/article71470872.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-house-passes-russia-sanctions-bill-india-tariffs/article71474350.ece"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/house-votes-russia-sanctions-bill/"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030596/india-to-take-all-necessary-measures-to-protect-economic-interests-after-us-passes-russia-sanctions-bill"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/india-on-us-congress-passing-russia-sanctions-bill-will-protect-trade-economic-interests-12057646#publisher=newsstand"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c3lyrn4p870yo?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/sip9am/article71475102.ece/alternates/LANDSCAPE_1200/Trump_91824.jpg",
+      "https://th-i.thgim.com/public/incoming/ydmapq/article71470873.ece/alternates/LANDSCAPE_1200/2026-07-02T115057Z_1326133511_RC2OFKAY4WTB_RTRMADP_3_RUSSIA-OIL-TAX.jpg",
+      "https://i.dawn.com/large/2026/09/171134394742954.webp",
+      "https://i.dawn.com/thumbnail/2026/09/171134394742954.webp",
+      "https://c.ndtvimg.com/2026-06/cndaju3_modi-trump-ani-_625x300_16_June_26.jpeg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/43f5/live/4b6f86f0-b264-11f1-a430-4d16ee157c41.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.0,
+    "age_hours": 1056.913245351111,
+    "is_stale": true,
+    "score": 23.369213067746887,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
