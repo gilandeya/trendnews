@@ -1,0 +1,92 @@
+{
+  "id": "94735f92c335",
+  "created_at": "2026-09-17T18:08:40.891396+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 31.08,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Five killed as Yemen's Houthis, government, Saudi Arabia trade strikes",
+  "link": "https://www.channelnewsasia.com/world/five-killed-yemens-houthis-government-saudi-arabia-trade-strikes-6392401",
+  "publishers": [
+    "AP News",
+    "Al Jazeera English",
+    "CGTN",
+    "Channel News Asia",
+    "Hindustan Times — World",
+    "NPR World",
+    "Reuters",
+    "The Express Tribune"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Five killed as Yemen's Houthis, government, Saudi Arabia trade strikes",
+    "link": "https://www.channelnewsasia.com/world/five-killed-yemens-houthis-government-saudi-arabia-trade-strikes-6392401",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-17T14:47:48+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s---GdXjze5--/c_crop,h_576,w_1024,x_0,y_53/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/17/000_c8gb3we.jpg?itok=ULaGhUJ8",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "AP News",
+      "Al Jazeera English",
+      "CGTN",
+      "Channel News Asia",
+      "Hindustan Times — World",
+      "NPR World",
+      "Reuters",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/17/five-killed-as-saudi-arabia-and-yemens-houthis-trade-attacks?traffic_source=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/five-killed-yemens-houthis-government-saudi-arabia-trade-strikes-6392401"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/17/nx-s1-5971210/how-the-fighting-between-the-houthis-and-saudi-arabia-is-affecting-gas-prices"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629884/china-presses-iran-to-help-rein-in-houthis-after-saudi-appeal-sources-say"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://newsaf.cgtn.com/news/2026-09-17/Egypt-Saudi-Arabia-reaffirm-ties-amid-regional-tensions-1Quvnk8C9IA/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/no-aggressive-element-pakistan-on-defence-pact-with-saudi-arabia-amid-houthi-strikes-on-mecca-101789567963261.html"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s---GdXjze5--/c_crop,h_576,w_1024,x_0,y_53/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/17/000_c8gb3we.jpg?itok=ULaGhUJ8",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5971210",
+      "https://videoaf.cgtn.com/news/2026-09-17/Egypt-Saudi-Arabia-reaffirm-ties-amid-regional-tensions-1Quvnk8C9IA/video/wu_1k2l4lre91jlqe9815bc1smru1p2e/wu_1k2l4lre91jlqe9815bc1smru1p2e-1920.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 1057.9260885233334,
+    "is_stale": false,
+    "score": 31.07692155774074,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
