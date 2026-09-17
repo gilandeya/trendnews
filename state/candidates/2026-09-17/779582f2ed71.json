@@ -1,0 +1,62 @@
+{
+  "id": "779582f2ed71",
+  "created_at": "2026-09-17T15:07:53.877156+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.79,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ukrainian drone attack sets Russian oil refinery on fire, cuts power to part of Russian city",
+  "link": "https://meduza.io/en/news/2026/09/17/ukrainian-drone-attack-sets-russian-oil-refinery-on-fire-cuts-power-to-part-of-russian-city",
+  "publishers": [
+    "Meduza English",
+    "TASS"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Ukrainian drone attack sets Russian oil refinery on fire, cuts power to part of Russian city",
+    "link": "https://meduza.io/en/news/2026/09/17/ukrainian-drone-attack-sets-russian-oil-refinery-on-fire-cuts-power-to-part-of-russian-city",
+    "summary": "Ukraine struck Russia’s Yaroslavl region with drones overnight on September 17, regional Governor Mikhail Yevrayev said, adding that 65 of the drones were shot down.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-17T07:28:46+00:00",
+    "image_url": "https://meduza.io/imgly/share/1789630126/en/news/2026/09/17/ukrainian-drone-attack-sets-russian-oil-refinery-on-fire-cuts-power-to-part-of-russian-city",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Meduza English",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/17/ukrainian-drone-attack-sets-russian-oil-refinery-on-fire-cuts-power-to-part-of-russian-city"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/emergencies/2188763"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1789630126/en/news/2026/09/17/ukrainian-drone-attack-sets-russian-oil-refinery-on-fire-cuts-power-to-part-of-russian-city"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1054.9129741944446,
+    "is_stale": false,
+    "score": 20.78998393012963,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "064b483e6b6e",
+  "created_at": "2026-09-17T15:07:53.876862+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.13,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Le Canada accueille favorablement la proposition d’Ursula von der Leyen de devenir « membre associé » de l’Union européenne",
+  "link": "https://www.lemonde.fr/international/article/2026/09/17/le-canada-accueille-favorablement-la-proposition-d-ursula-von-der-leyen-d-en-faire-un-membre-associe-de-l-union-europeenne_6776408_3210.html",
+  "publishers": [
+    "Daily Maverick",
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Le Canada accueille favorablement la proposition d’Ursula von der Leyen de devenir « membre associé » de l’Union européenne",
+    "link": "https://www.lemonde.fr/international/article/2026/09/17/le-canada-accueille-favorablement-la-proposition-d-ursula-von-der-leyen-d-en-faire-un-membre-associe-de-l-union-europeenne_6776408_3210.html",
+    "summary": "Le premier ministre canadien, Mark Carney, a déclaré dans l’enceinte du Parlement européen que le Canada et l’Europe sont « plus forts ensemble » et que les deux sont liés par des « valeurs communes » et non par des « deals ».",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-09-17T10:15:47+00:00",
+    "image_url": "https://img.lemde.fr/2026/09/17/458/0/5500/2750/644/322/60/0/e9ad32e_ftp-1-rjkybs7h8w1q-2026-09-17t095227z-383471898-rc2xknadsuya-rtrmadp-3-eu-canada.JPG",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/09/17/le-canada-accueille-favorablement-la-proposition-d-ursula-von-der-leyen-d-en-faire-un-membre-associe-de-l-union-europeenne_6776408_3210.html"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-17-eus-von-der-leyen-wants-canada-to-become-blocs-first-associate-member/"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/09/17/458/0/5500/2750/644/322/60/0/e9ad32e_ftp-1-rjkybs7h8w1q-2026-09-17t095227z-383471898-rc2xknadsuya-rtrmadp-3-eu-canada.JPG",
+      "https://cdn.dailymaverick.co.za/i/AuoH6RY-PNKMBcdZ3kmTrsoHoBM=/800x0/smart/filters:strip_exif()/file/dailymaverick/wp-content/uploads/2025/03/12892444.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.125558007574075,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

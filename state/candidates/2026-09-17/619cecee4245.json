@@ -1,0 +1,72 @@
+{
+  "id": "619cecee4245",
+  "created_at": "2026-09-17T15:07:53.877443+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.96,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Sweden’s prime minister resigns after losing election",
+  "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/17/sweden-s-prime-minister-resigns-after-losing-election",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Free Malaysia Today",
+    "The Japan Times"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Sweden’s prime minister resigns after losing election",
+    "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/17/sweden-s-prime-minister-resigns-after-losing-election",
+    "summary": "Social Democratic Party leader Magdalena Andersson is expected to make a comeback as prime minister after four years in opposition.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-17T12:17:00+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2025/05/15e1fb32-ulf-kristersson-09052025.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Free Malaysia Today",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/17/sweden-prime-minister-to-resign-as-left-wing-bloc-seals-narrow-election-win?traffic_source=rss"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/17/world/sweden-election-left-wing/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/17/sweden-s-prime-minister-resigns-after-losing-election"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/05/15e1fb32-ulf-kristersson-09052025.webp",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/17/563687.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/17/thumbs/400x400/563687.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1054.9129845825,
+    "is_stale": false,
+    "score": 19.960243190592593,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
