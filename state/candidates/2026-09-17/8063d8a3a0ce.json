@@ -1,0 +1,62 @@
+{
+  "id": "8063d8a3a0ce",
+  "created_at": "2026-09-17T19:08:02.089486+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.01,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "\"Enormous Losses\": Taylor Swift's Husband Duped By Indian-Origin Man",
+  "link": "https://www.ndtv.com/world-news/taylor-swifts-husband-travis-kelce-duped-by-indian-origin-man-siddharth-jawahar-weaponised-trust-12058259#publisher=newsstand",
+  "publishers": [
+    "Hindustan Times — World",
+    "NDTV — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "\"Enormous Losses\": Taylor Swift's Husband Duped By Indian-Origin Man",
+    "link": "https://www.ndtv.com/world-news/taylor-swifts-husband-travis-kelce-duped-by-indian-origin-man-siddharth-jawahar-weaponised-trust-12058259#publisher=newsstand",
+    "summary": "Siddharth Jawahar was indicted in December 2023",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-17T07:02:30+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-09/2dq8dmeo_travis-kelce-taylor-swift_625x300_17_September_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/taylor-swifts-husband-travis-kelce-duped-by-indian-origin-man-siddharth-jawahar-weaponised-trust-12058259#publisher=newsstand"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/taylor-swifts-husband-travis-kelce-duped-by-indian-origin-man-in-usd-35-million-ponzi-scheme-101789637833950.html"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-09/2dq8dmeo_travis-kelce-taylor-swift_625x300_17_September_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1058.9156832966667,
+    "is_stale": false,
+    "score": 19.01061845648148,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

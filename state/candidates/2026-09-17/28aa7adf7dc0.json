@@ -1,0 +1,56 @@
+{
+  "id": "28aa7adf7dc0",
+  "created_at": "2026-09-17T19:08:02.088943+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.9,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "China presses Iran to help rein in Houthis after Saudi appeal, sources say",
+  "link": "https://tribune.com.pk/story/2629884/china-presses-iran-to-help-rein-in-houthis-after-saudi-appeal-sources-say",
+  "publishers": [
+    "The Express Tribune",
+    "reuters.com"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "China presses Iran to help rein in Houthis after Saudi appeal, sources say",
+    "link": "https://tribune.com.pk/story/2629884/china-presses-iran-to-help-rein-in-houthis-after-saudi-appeal-sources-say",
+    "summary": "Officials did not issue any explicit threats or indicate that Beijing would seek to pressure Tehran economically",
+    "source_name": "The Express Tribune",
+    "region": "pk",
+    "weight": 1.0,
+    "published": "2026-09-17T10:06:33+00:00",
+    "image_url": null,
+    "publisher": "The Express Tribune",
+    "cluster_sources": [
+      "The Express Tribune",
+      "reuters.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629884/china-presses-iran-to-help-rein-in-houthis-after-saudi-appeal-sources-say"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1058.9156786336112,
+    "is_stale": false,
+    "score": 19.898451793925926,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

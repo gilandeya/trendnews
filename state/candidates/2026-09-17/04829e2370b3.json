@@ -1,0 +1,69 @@
+{
+  "id": "04829e2370b3",
+  "created_at": "2026-09-17T19:08:02.089211+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.83,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Jordan, Saudi Arabia discuss steps to halt regional escalation",
+  "link": "https://www.dailysabah.com/world/mid-east/jordan-saudi-arabia-discuss-steps-to-halt-regional-escalation",
+  "publishers": [
+    "Al Jazeera English",
+    "CGTN",
+    "Daily Sabah"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Jordan, Saudi Arabia discuss steps to halt regional escalation",
+    "link": "https://www.dailysabah.com/world/mid-east/jordan-saudi-arabia-discuss-steps-to-halt-regional-escalation",
+    "summary": "Jordanian Foreign Minister Ayman Safadi and his Saudi counterpart, Faisal bin Farhan, discussed efforts Thursday to curb regional escalation and restore calm, as Amman renewed its...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-17T18:00:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/17/461104.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "CGTN",
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/jordan-saudi-arabia-discuss-steps-to-halt-regional-escalation"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news-analysis/2026/9/17/how-far-will-egypt-go-to-help-saudi-arabia-secure-the-red-sea?traffic_source=rss"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://newsaf.cgtn.com/news/2026-09-17/Egypt-Saudi-Arabia-reaffirm-ties-amid-regional-tensions-1Quvnk8C9IA/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/17/461104.jpg",
+      "https://videoaf.cgtn.com/news/2026-09-17/Egypt-Saudi-Arabia-reaffirm-ties-amid-regional-tensions-1Quvnk8C9IA/video/wu_1k2l4lre91jlqe9815bc1smru1p2e/wu_1k2l4lre91jlqe9815bc1smru1p2e-1920.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1058.9156381352777,
+    "is_stale": true,
+    "score": 19.8293948542931,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

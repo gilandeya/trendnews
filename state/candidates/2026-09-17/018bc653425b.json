@@ -1,0 +1,85 @@
+{
+  "id": "018bc653425b",
+  "created_at": "2026-09-17T19:08:02.088109+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.1,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "FA chair demands Infantino release World Cup sell-off documents",
+  "link": "https://www.bbc.co.uk/sport/football/articles/ckqxvd41z93qo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Sport",
+    "Punch Nigeria",
+    "The Guardian — Sport",
+    "Vanguard Nigeria"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "FA chair demands Infantino release World Cup sell-off documents",
+    "link": "https://www.bbc.co.uk/sport/football/articles/ckqxvd41z93qo?at_medium=RSS&at_campaign=rss",
+    "summary": "Fifa president Gianni Infantino has been told to release all documents relating to his controversial plan to sell off a stake in the World Cup.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-17T14:26:53+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d5c2/live/09f162a0-b29d-11f1-9b18-ad61bef6e34f.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Sport",
+      "Punch Nigeria",
+      "The Guardian — Sport",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/17/english-fa-calls-for-infantino-to-release-fifa-world-cup-sell-off-documents?traffic_source=rss"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/ckqxvd41z93qo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/release-fifa-world-cup-plan-documents-fa-chair-tells-infantino/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/17/fa-chair-hewitt-demands-infantino-releases-records-of-failed-world-cup-plan"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/english-fa-calls-for-infantino-to-release-world-cup-sell-off-documents/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d5c2/live/09f162a0-b29d-11f1-9b18-ad61bef6e34f.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/d5c2/live/09f162a0-b29d-11f1-9b18-ad61bef6e34f.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d5c2/live/09f162a0-b29d-11f1-9b18-ad61bef6e34f.jpg",
+      "https://i.guim.co.uk/img/media/107b6f4ef391a9382948dc52730ee547d22bfab9/423_0_4228_3382/master/4228.jpg?width=700&quality=85&auto=format&fit=max&s=1c27965ddfeb850557a227b09731b807",
+      "https://i.guim.co.uk/img/media/107b6f4ef391a9382948dc52730ee547d22bfab9/423_0_4228_3382/master/4228.jpg?width=460&quality=85&auto=format&fit=max&s=23f0fc8d9baf305a77604acb135cb316",
+      "https://i.guim.co.uk/img/media/107b6f4ef391a9382948dc52730ee547d22bfab9/423_0_4228_3382/master/4228.jpg?width=140&quality=85&auto=format&fit=max&s=21dac1f06a91dd56daabfeac1b9d4553"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1058.9156467208334,
+    "is_stale": false,
+    "score": 25.10349534286579,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
