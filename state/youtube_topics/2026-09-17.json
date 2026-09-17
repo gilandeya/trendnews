@@ -1,0 +1,566 @@
+{
+  "run_date": "2026-09-17",
+  "stats": {
+    "points_in": 555,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 405,
+    "issues_clustered": 24,
+    "topics_merged": 3,
+    "topics_out": 2,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 2,
+    "topics_below_min_points": 8,
+    "topics_below_min_channels": 8,
+    "layer_a": 1,
+    "layer_b": 1,
+    "layer_c": 0,
+    "agreement": 1,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "تكاليف الحرب الأمريكية-الإيرانية على الاقتصاد الأمريكي",
+      "الأزمة الاقتصادية العالمية الناتجة عن الحروب وأسعار الوقود"
+    ],
+    [
+      "مضيق هرمز وباب المندب: التوترات الملاحية",
+      "سيطرة الحوثيين على المخا ونزوح الصحفيين واليمنيين",
+      "موقف السعودية وأمريكا وإسرائيل من تقدم الحوثيين نحو باب المندب"
+    ],
+    [
+      "استهداف الحوثيين للصحفيين في اليمن",
+      "قصة اختطاف الصحفي عصام بلغيث"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "مضيق هرمز وباب المندب: التوترات الملاحية",
+      "event": "خلاف سعودي-إيراني حول مستقبل الملاحة في مضيق هرمز وسيطرة الحوثيين على باب المندب",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        15,
+        17,
+        18,
+        20,
+        28,
+        30,
+        33,
+        34,
+        35,
+        36,
+        37,
+        39,
+        40,
+        70,
+        77,
+        78,
+        143,
+        144
+      ],
+      "total_points": 18,
+      "fresh_points": 17,
+      "dropped_reason": null
+    },
+    {
+      "title": "تكاليف الحرب الأمريكية-الإيرانية على الاقتصاد الأمريكي",
+      "event": "تقارير عن التكلفة المالية للمواجهة العسكرية الأمريكية-الإيرانية وتأثيرها على الاقتصاد الأمريكي والانتخابات النصفية",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        9,
+        11,
+        50,
+        52,
+        53,
+        63,
+        64,
+        65,
+        66,
+        67,
+        69
+      ],
+      "total_points": 12,
+      "fresh_points": 9,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "مضيق هرمز وباب المندب: التوترات الملاحية",
+      "event": "خلاف سعودي-إيراني حول مستقبل الملاحة في مضيق هرمز وسيطرة الحوثيين على باب المندب",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        15,
+        17,
+        18,
+        20,
+        28,
+        30,
+        33,
+        34,
+        35,
+        36,
+        37,
+        39,
+        40,
+        70,
+        77,
+        78,
+        143,
+        144
+      ],
+      "total_points": 18,
+      "fresh_points": 17,
+      "dropped_reason": null
+    },
+    {
+      "title": "موقف أمريكا من إسرائيل تحت إدارة ترامب/فانس",
+      "event": "تصريحات نائب الرئيس الأمريكي فانس حول استقلالية السياسة الخارجية الأمريكية عن إسرائيل",
+      "layer": "a",
+      "blocs": [
+        "israeli",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "ILTV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        104,
+        147
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تكاليف الحرب الأمريكية-الإيرانية على الاقتصاد الأمريكي",
+      "event": "تقارير عن التكلفة المالية للمواجهة العسكرية الأمريكية-الإيرانية وتأثيرها على الاقتصاد الأمريكي والانتخابات النصفية",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        9,
+        11,
+        50,
+        52,
+        53,
+        63,
+        64,
+        65,
+        66,
+        67,
+        69
+      ],
+      "total_points": 12,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "تصويت الكونغرس على قانون صلاحيات الحرب ضد إيران",
+      "event": "تصويت مجلس النواب الأمريكي على قرار يحد من صلاحيات ترامب لشن حرب مع إيران",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        7,
+        49,
+        51,
+        54
+      ],
+      "total_points": 4,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "صفقة أسلحة أمريكية-إسرائيلية بقيمة 2.8 مليار دولار",
+      "event": "إعداد إدارة ترامب لإبرام صفقة أسلحة ضخمة مع إسرائيل تشمل قنابل وذخائر",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تحقيق فتو ومسلسل وادي الذئاب والرسائل الرمزية",
+      "event": "تحقيق النيابة التركية في مسلسل وادي الذئاب بشأن رسائل دعائية مزعومة لتنظيم فتح الله غولن ولوحة القبر باسم إردوغان",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مواقف روسية غربية حول التهديد النووي والهجمات الهجينة",
+      "event": "تصريحات بوتين ومدفيديف حول التهديد النووي وتحذيرات غربية من عمليات روسية هجينة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        98,
+        99,
+        100,
+        103
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تقييم حركة المرأة والحياة والحرية وتحدي الحكومة الإيرانية",
+      "event": "تقييم مدى نجاح حركة المرأة والحياة والحرية في تحدي النظام الإيراني بعد احتجاجات 1401",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        124,
+        125,
+        126,
+        127
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مذكرة تفاهم إيرانية أمريكية وإلغاؤها",
+      "event": "توقيع إيران مذكرة تفاهم مع أمريكا وإلغاؤها من قبل الجمهوريين الإيرانيين",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        3,
+        5
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "نقاش تنظيم الذكاء الاصطناعي عالميًا",
+      "event": "دعوات شركات الذكاء الاصطناعي والأمم المتحدة لوضع ضوابط على تطوير التكنولوجيا ورفض ترامب لذلك",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "total_points": 4,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "خطاب بولنت آرينتش في حفل زفاف سياسي",
+      "event": "إلقاء بولنت آرينتش خطابًا سياسيًا مثيرًا للجدل في حفل زفاف نجل داوود أوغلو ونفيه لاحقًا معارضة إردوغان",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        42,
+        43,
+        44,
+        45
+      ],
+      "total_points": 4,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "استهداف الحوثيين للصحفيين في اليمن",
+      "event": "توثيق منظمات حقوقية لانتهاكات الحوثيين ضد الصحفيين في اليمن من اعتقال واختفاء قسري وقتل",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        71,
+        72,
+        74,
+        75,
+        79,
+        80,
+        81,
+        82
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "معاناة الصحفيات اليمنيات",
+      "event": "تحديات إضافية تواجهها الصحفيات في اليمن من ضغوط مجتمعية واعتقالات ووصم",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        73,
+        83
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اعتقالات إزمير بتهم أخلاقية وانتهاكات الخصوصية",
+      "event": "قبض السلطات التركية على أشخاص في إزمير بتهم فضائح جنسية بناءً على بيانات خاصة منتهكة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        112,
+        113,
+        114
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "احتجاجات إيرانية على الحجاب الإجباري وتجارب النساء",
+      "event": "تجارب نساء إيرانيات مع نزع الحجاب الإجباري بعد احتجاجات 1401 والخوف من القمع",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        117,
+        119,
+        120,
+        121
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تقرير منظمة العفو الدولية عن جرائم ضد الإنسانية في إيران",
+      "event": "اتهام منظمة العفو الدولية للحكومة الإيرانية بارتكاب جرائم ضد الإنسانية والدعوة لمحاكمة مسؤولين",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123,
+        128
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحركة الإسلامية في إسرائيل وعلاقتها بحماس ومنسور الباص",
+      "event": "تاريخ الحركة الإسلامية في إسرائيل وعلاقاتها المزعومة بتمويل حماس عبر منسور الباص وجمعياته",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "سبل مواجهة الحوثيين عبر إضعاف إيران",
+      "event": "اقتراح إضعاف النظام الإيراني كوسيلة لمواجهة نفوذ الحوثيين وتقييم قدرات إيران الصاروخية",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ILTV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        145,
+        146,
+        149
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تفاوت التطور التقني بين أوروبا والدول العربية والعالم",
+      "event": "مقارنة تطور الذكاء الاصطناعي بين أوروبا ودول عربية وأمريكا والصين",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        26,
+        27
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دعوات لمشروع إنساني محايد ومؤتمر دعم دولي لليمن",
+      "event": "اقتراح إنشاء مشروع إنساني محايد بإشراف الأمم المتحدة وتنظيم مؤتمر دعم في باريس لليمنيين",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        31,
+        32
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
