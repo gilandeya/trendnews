@@ -1,96 +1,5 @@
 [
   {
-    "score": 24.45,
-    "bucket": "sport",
-    "tokens": [
-      "american",
-      "face",
-      "final",
-      "open",
-      "shelton",
-      "zverev"
-    ],
-    "link": "https://www.bbc.co.uk/sport/tennis/articles/clykzn81n4go?at_medium=RSS&at_campaign=rss",
-    "title": "American Shelton to face Zverev in US Open final",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-12T06:07:46.080976+00:00"
-  },
-  {
-    "score": 22.37,
-    "bucket": "sport",
-    "tokens": [
-      "day",
-      "england",
-      "pakistan",
-      "review",
-      "test",
-      "third",
-      "three"
-    ],
-    "link": "https://www.skysports.com/watch/video/13584568/england-v-pakistan-third-test-day-three-analysis-and-reaction-from-edgbaston",
-    "title": "England v Pakistan: Third Test, day three review",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-12T06:07:46.081166+00:00"
-  },
-  {
-    "score": 19.3,
-    "bucket": "serious",
-    "tokens": [
-      "back",
-      "come",
-      "haunt",
-      "may",
-      "miscalculation",
-      "tehran",
-      "yemen"
-    ],
-    "link": "https://www.dailysabah.com/opinion/columns/tehrans-miscalculation-may-come-back-to-haunt-it-in-yemen",
-    "title": "Tehran’s miscalculation may come back to haunt it in Yemen",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-09-12T06:07:46.081314+00:00"
-  },
-  {
-    "score": 18.8,
-    "bucket": "serious",
-    "tokens": [
-      "brics",
-      "heads",
-      "india",
-      "jinping",
-      "overshadowed",
-      "summit",
-      "war"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/brics-china-xi-jinping-india-modi-war-6379866",
-    "title": "Xi Jinping heads to India for BRICS summit overshadowed by war",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-12T06:07:46.081451+00:00"
-  },
-  {
-    "score": 18.11,
-    "bucket": "serious",
-    "tokens": [
-      "americans",
-      "attacks",
-      "enduring",
-      "grief",
-      "mark",
-      "reflection",
-      "september",
-      "since",
-      "years"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-11-americans-to-mark-25-years-since-september-11-attacks-amid-enduring-grief-reflection/",
-    "title": "Americans to mark 25 years since September 11 attacks amid enduring grief, reflection",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-12T06:07:46.081596+00:00"
-  },
-  {
     "score": 18.26,
     "bucket": "serious",
     "tokens": [
@@ -5381,5 +5290,106 @@
     "posted_title": "باكستان تعلن التزامها بالدفاع عن السعودية إذا تصاعد الصراع مع الحوثيين",
     "region": "pk",
     "seen_at": "2026-09-17T04:50:39.159716+00:00"
+  },
+  {
+    "score": 32.01,
+    "bucket": "serious",
+    "tokens": [
+      "'red",
+      "accuses",
+      "arabia",
+      "calls",
+      "houthis",
+      "line'",
+      "mecca",
+      "saudi",
+      "targeting"
+    ],
+    "link": "http://www.france24.com/en/middle-east/20260916-saudi-arabia-accuses-houthis-of-targeting-mecca-calling-it-a-red-line",
+    "title": "Saudi Arabia accuses Houthis of targeting Mecca, calls it a 'red line'",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-17T06:07:48.116963+00:00"
+  },
+  {
+    "score": 20.68,
+    "bucket": "sport",
+    "tokens": [
+      "ban",
+      "chants",
+      "club",
+      "given",
+      "jota",
+      "neves",
+      "saudi",
+      "stadium",
+      "towards"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/articles/cwp842plmyymo?at_medium=RSS&at_campaign=rss",
+    "title": "Saudi club given stadium ban over Jota chants towards Neves",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-17T06:07:48.117250+00:00"
+  },
+  {
+    "score": 20.32,
+    "bucket": "serious",
+    "tokens": [
+      "arabian",
+      "collide",
+      "diplomats",
+      "each",
+      "india",
+      "naval",
+      "other",
+      "pakistan",
+      "sea",
+      "ships",
+      "summon"
+    ],
+    "link": "https://www.scmp.com/news/asia/south-asia/article/3367789/india-pakistan-summon-each-others-diplomats-after-naval-ships-collide-arabian-sea?utm_source=rss_feed",
+    "title": "India, Pakistan summon each other’s diplomats after naval ships collide in Arabian Sea",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-17T06:07:48.117514+00:00"
+  },
+  {
+    "score": 19.66,
+    "bucket": "serious",
+    "tokens": [
+      "coalition",
+      "destroyed",
+      "drone",
+      "houthi",
+      "mecca",
+      "near",
+      "saudi"
+    ],
+    "link": "https://www.thehindu.com/news/international/saudi-coalition-says-houthi-drone-destroyed-near-mecca/article71470972.ece",
+    "title": "Saudi coalition says Houthi drone destroyed near Mecca",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-17T06:07:48.117797+00:00"
+  },
+  {
+    "score": 19.45,
+    "bucket": "sport",
+    "tokens": [
+      "abraham",
+      "aston",
+      "carabao",
+      "coventry",
+      "cup",
+      "double",
+      "powers",
+      "tammy",
+      "villa",
+      "win"
+    ],
+    "link": "https://www.theguardian.com/football/2026/sep/16/coventry-aston-villa-carabao-cup-third-round-match-report",
+    "title": "Tammy Abraham’s double powers Aston Villa to Carabao Cup win at Coventry",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-17T06:07:48.118060+00:00"
   }
 ]

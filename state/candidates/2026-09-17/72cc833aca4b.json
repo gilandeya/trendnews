@@ -1,0 +1,67 @@
+{
+  "id": "72cc833aca4b",
+  "created_at": "2026-09-17T06:07:48.116976+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.68,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Saudi club given stadium ban over Jota chants towards Neves",
+  "link": "https://www.bbc.co.uk/sport/football/articles/cwp842plmyymo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Saudi club given stadium ban over Jota chants towards Neves",
+    "link": "https://www.bbc.co.uk/sport/football/articles/cwp842plmyymo?at_medium=RSS&at_campaign=rss",
+    "summary": "Saudi Pro League side Al-Taawoun are ordered to play two matches behind closed doors after supporters taunted Ruben Neves over the death of friend Diogo Jota.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-16T18:32:11+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/7e84/live/b2b59ee0-b1ff-11f1-a4a7-291ff3d1006b.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/cwp842plmyymo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/16/saudi-pro-league-club-al-taawoun-handed-stadium-ban-over-diogo-jota-chants"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/7e84/live/b2b59ee0-b1ff-11f1-a4a7-291ff3d1006b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/7e84/live/b2b59ee0-b1ff-11f1-a4a7-291ff3d1006b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/7e84/live/b2b59ee0-b1ff-11f1-a4a7-291ff3d1006b.jpg",
+      "https://i.guim.co.uk/img/media/344bbaa95ceda25b7a38825cecc9cc5afb3ff12c/1320_0_6117_4895/master/6117.jpg?width=700&quality=85&auto=format&fit=max&s=4067bc7780deec36383261dd4f36c96b",
+      "https://i.guim.co.uk/img/media/344bbaa95ceda25b7a38825cecc9cc5afb3ff12c/1320_0_6117_4895/master/6117.jpg?width=460&quality=85&auto=format&fit=max&s=345155130b927da699e3162c4b64e3b0",
+      "https://i.guim.co.uk/img/media/344bbaa95ceda25b7a38825cecc9cc5afb3ff12c/1320_0_6117_4895/master/6117.jpg?width=140&quality=85&auto=format&fit=max&s=7a363c879280926105a22124dc7fc848"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1045.9116374680555,
+    "is_stale": false,
+    "score": 20.677202666111114,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

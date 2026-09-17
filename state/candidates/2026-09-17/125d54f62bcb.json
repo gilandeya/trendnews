@@ -1,0 +1,101 @@
+{
+  "id": "125d54f62bcb",
+  "created_at": "2026-09-17T06:07:48.116469+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.01,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi Arabia accuses Houthis of targeting Mecca, calls it a 'red line'",
+  "link": "http://www.france24.com/en/middle-east/20260916-saudi-arabia-accuses-houthis-of-targeting-mecca-calling-it-a-red-line",
+  "publishers": [
+    "BBC World",
+    "France24",
+    "Hindustan Times — World",
+    "Investing.com — Commodities",
+    "NPR World",
+    "Rappler",
+    "TASS",
+    "The Guardian — World",
+    "The Hindu — International",
+    "Ynetnews",
+    "npr.org"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Saudi Arabia accuses Houthis of targeting Mecca, calls it a 'red line'",
+    "link": "http://www.france24.com/en/middle-east/20260916-saudi-arabia-accuses-houthis-of-targeting-mecca-calling-it-a-red-line",
+    "summary": "Saudi Arabia accused Yemen’s Houthis on Wednesday of launching an attack on the holy city of Mecca, which the Iran-backed rebels denied. Saudi Arabia, a US ally which has been the target of large-scale Houthi strikes since early September, declared Mecca a “red line” as it slid deeper into the new front of the Iran war.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-16T20:08:24+00:00",
+    "image_url": "https://s.france24.com/media/display/824ac65c-b206-11f1-83d2-757719c1152f/w:1024/p:16x9/000-C8H2794.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "BBC World",
+      "France24",
+      "Hindustan Times — World",
+      "Investing.com — Commodities",
+      "NPR World",
+      "Rappler",
+      "TASS",
+      "The Guardian — World",
+      "The Hindu — International",
+      "Ynetnews",
+      "npr.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/saudi-arabia-calls-attempted-mecca-attack-red-line-as-iran-backed-houthis-deny-they-did-it/article71471868.ece"
+      },
+      {
+        "name": "France24",
+        "link": "http://www.france24.com/en/saudi-arabia-accuses-houthis-of-targeting-mecca-warns-of-red-line"
+      },
+      {
+        "name": "France24",
+        "link": "http://www.france24.com/en/middle-east/20260916-saudi-arabia-accuses-houthis-of-targeting-mecca-calling-it-a-red-line"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/16/g-s1-143554/saudi-arabia-attempted-mecca-attack"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/middle-east/houthi-blitz-leaves-saudi-arabia-exposed-iran-emboldened/"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/16/us-officials-decide-against-backing-saudi-arabia-yemen-meeting-houthi-leaders"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/824ac65c-b206-11f1-83d2-757719c1152f/w:1024/p:16x9/000-C8H2794.jpg",
+      "https://th-i.thgim.com/public/news/national/1sfpbx/article71471968.ece/alternates/LANDSCAPE_1200/iStock-536971745.jpg",
+      "https://s.france24.com/media/display/7b49831a-5730-11f1-b727-005056bfb2b6/w:1024/p:16x9/AP26142709290637.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-143554",
+      "https://www.rappler.com/tachyon/2026/09/2026-09-15T183655Z_873553942_RC2SJNAG08FU_RTRMADP_3_IRAN-CRISIS-YEMEN-HOUTHI-scaled.jpg",
+      "https://www.rappler.com/tachyon/2024/10/yemen-houthi-october-4-2024-reuters.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 11,
+    "velocity": 1.0,
+    "age_hours": 1045.9115938072223,
+    "is_stale": false,
+    "score": 32.012404935356344,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

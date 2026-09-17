@@ -1,0 +1,62 @@
+{
+  "id": "0e373259d947",
+  "created_at": "2026-09-17T06:07:48.117535+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.66,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi coalition says Houthi drone destroyed near Mecca",
+  "link": "https://www.thehindu.com/news/international/saudi-coalition-says-houthi-drone-destroyed-near-mecca/article71470972.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Saudi coalition says Houthi drone destroyed near Mecca",
+    "link": "https://www.thehindu.com/news/international/saudi-coalition-says-houthi-drone-destroyed-near-mecca/article71470972.ece",
+    "summary": "The drone, intercepted on September 15 was the second Houthi attempt to target Mecca after a ballistic missile launch in July 2017, spokesperson Turki al-Malki said in a statement",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-16T05:27:57+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/g74jdv/article71470987.ece/alternates/LANDSCAPE_1200/2026-09-15T091021Z_1931178679_RC22JNANRKLM_RTRMADP_3_SAUDI-MECCA-UMRAH.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/saudi-coalition-says-houthi-drone-destroyed-near-mecca/article71470972.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/saudi-claims-houthi-drone-destroyed-near-mecca-warns-of-red-line-over-holy-sites-101789525544635.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/g74jdv/article71470987.ece/alternates/LANDSCAPE_1200/2026-09-15T091021Z_1931178679_RC22JNANRKLM_RTRMADP_3_SAUDI-MECCA-UMRAH.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1045.911646531111,
+    "is_stale": false,
+    "score": 19.655832293333333,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

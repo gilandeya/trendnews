@@ -1,0 +1,60 @@
+{
+  "id": "017b1d337454",
+  "created_at": "2026-09-17T06:07:48.117260+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.32,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "India, Pakistan summon each other’s diplomats after naval ships collide in Arabian Sea",
+  "link": "https://www.scmp.com/news/asia/south-asia/article/3367789/india-pakistan-summon-each-others-diplomats-after-naval-ships-collide-arabian-sea?utm_source=rss_feed",
+  "publishers": [
+    "CGTN",
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "India, Pakistan summon each other’s diplomats after naval ships collide in Arabian Sea",
+    "link": "https://www.scmp.com/news/asia/south-asia/article/3367789/india-pakistan-summon-each-others-diplomats-after-naval-ships-collide-arabian-sea?utm_source=rss_feed",
+    "summary": "New Delhi and Islamabad summoned each other’s top diplomats to lodge strong protests after an Indian and a Pakistani naval vessel collided in international waters. India’s foreign ministry said that it had called in Pakistan’s senior envoy to formally register a strong objection over what it said was “unacceptable and unprofessional conduct” of Pakistani naval units that led to a collision with an Indian warship. Pakistan’s foreign ministry also said it had officially called upon the charge...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-09-17T01:10:32+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "CGTN",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3367789/india-pakistan-summon-each-others-diplomats-after-naval-ships-collide-arabian-sea?utm_source=rss_feed"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-16/news-1Qu5GHkfspq/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1045.9116434786113,
+    "is_stale": false,
+    "score": 20.319813776185185,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
