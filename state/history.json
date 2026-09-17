@@ -1,43 +1,5 @@
 [
   {
-    "score": 18.26,
-    "bucket": "serious",
-    "tokens": [
-      "call",
-      "crown",
-      "declines",
-      "houthis",
-      "prince's",
-      "reports",
-      "saudi",
-      "strikes",
-      "trump"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-declines-saudi-crown-princes-call-for-us-strikes-on-houthis-reports/article71455330.ece",
-    "title": "Trump declines Saudi crown prince's call for U.S. strikes on Houthis: reports",
-    "posted_title": "ترامب يرفض اتصالين من ولي العهد السعودي طلبا فيهما ضرب الحوثيين",
-    "region": "in",
-    "seen_at": "2026-09-12T06:18:25.049846+00:00"
-  },
-  {
-    "score": 19.3,
-    "bucket": "serious",
-    "tokens": [
-      "back",
-      "come",
-      "haunt",
-      "may",
-      "miscalculation",
-      "tehran",
-      "yemen"
-    ],
-    "link": "https://www.dailysabah.com/opinion/columns/tehrans-miscalculation-may-come-back-to-haunt-it-in-yemen",
-    "title": "Tehran’s miscalculation may come back to haunt it in Yemen",
-    "posted_title": "لماذا يجمع التصعيد في اليمن السعودية وتركيا وباكستان في خندق واحد",
-    "region": "tr",
-    "seen_at": "2026-09-12T06:19:17.889985+00:00"
-  },
-  {
     "score": 33.1,
     "bucket": "serious",
     "tokens": [
@@ -5391,5 +5353,47 @@
     "posted_title": "",
     "region": "sport",
     "seen_at": "2026-09-17T06:07:48.118060+00:00"
+  },
+  {
+    "score": 20.68,
+    "bucket": "sport",
+    "tokens": [
+      "ban",
+      "chants",
+      "club",
+      "given",
+      "jota",
+      "neves",
+      "saudi",
+      "stadium",
+      "towards"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/articles/cwp842plmyymo?at_medium=RSS&at_campaign=rss",
+    "title": "Saudi club given stadium ban over Jota chants towards Neves",
+    "posted_title": "التعاون السعودي يُعاقب بغلق الملعب بعد استهزاء جماهيره بمقتل جوتا أمام صديقه نيفيش",
+    "region": "sport",
+    "seen_at": "2026-09-17T07:00:15.730421+00:00"
+  },
+  {
+    "score": 20.32,
+    "bucket": "serious",
+    "tokens": [
+      "arabian",
+      "collide",
+      "diplomats",
+      "each",
+      "india",
+      "naval",
+      "other",
+      "pakistan",
+      "sea",
+      "ships",
+      "summon"
+    ],
+    "link": "https://www.scmp.com/news/asia/south-asia/article/3367789/india-pakistan-summon-each-others-diplomats-after-naval-ships-collide-arabian-sea?utm_source=rss_feed",
+    "title": "India, Pakistan summon each other’s diplomats after naval ships collide in Arabian Sea",
+    "posted_title": "الهند وباكستان تستدعيان دبلوماسيي بعضهما بعد تصادم سفينتين حربيتين في بحر العرب",
+    "region": "cn",
+    "seen_at": "2026-09-17T07:00:33.234987+00:00"
   }
 ]
