@@ -1,0 +1,65 @@
+{
+  "id": "8a5d075aa2f8",
+  "created_at": "2026-09-18T06:07:51.851227+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.78,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Man who sprayed Ilhan Omar with vinegar sentenced to 14 months",
+  "link": "https://www.theguardian.com/us-news/2026/sep/17/man-sentenced-ilhan-omar-vinegar-minneapolis",
+  "publishers": [
+    "Free Malaysia Today",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Man who sprayed Ilhan Omar with vinegar sentenced to 14 months",
+    "link": "https://www.theguardian.com/us-news/2026/sep/17/man-sentenced-ilhan-omar-vinegar-minneapolis",
+    "summary": "Anthony Kazmierczak agreed plea deal over January town-hall attack that came amid Minneapolis ICE crackdown The man who sprayed vinegar at the Democratic US House member Ilhan Omar during a Minneapolis town hall was sentenced Thursday to 14 months in prison after reaching a deal with prosecutors. The sentencing of 56-year-old Anthony Kazmierczak came nearly eight months after the 27 January assault. At the time, Minneapolis was facing an immigration crackdown that led to angry protests, arrests and the killing of two US citizens by federal officers. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-17T22:48:57+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/7e31a22ae039b543c84f668e392f4d0ad4e7f18c/433_0_4325_3460/master/4325.jpg?width=700&quality=85&auto=format&fit=max&s=3272500903adafd91f786d6ac8833951",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/sep/17/man-sentenced-ilhan-omar-vinegar-minneapolis"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/18/man-who-assaulted-us-lawmaker-ilhan-omar-sentenced-to-14-months-in-prison"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/7e31a22ae039b543c84f668e392f4d0ad4e7f18c/433_0_4325_3460/master/4325.jpg?width=700&quality=85&auto=format&fit=max&s=3272500903adafd91f786d6ac8833951",
+      "https://i.guim.co.uk/img/media/7e31a22ae039b543c84f668e392f4d0ad4e7f18c/433_0_4325_3460/master/4325.jpg?width=460&quality=85&auto=format&fit=max&s=5d275ad0420cacfaf37ac905c8c708ec",
+      "https://i.guim.co.uk/img/media/7e31a22ae039b543c84f668e392f4d0ad4e7f18c/433_0_4325_3460/master/4325.jpg?width=140&quality=85&auto=format&fit=max&s=39e30faf98c894023a66ba89f990303d",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/01/aefc3a96-ilhan-omar.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1069.9128778733334,
+    "is_stale": false,
+    "score": 19.779082649333333,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

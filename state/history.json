@@ -1,101 +1,5 @@
 [
   {
-    "score": 31.84,
-    "bucket": "sport",
-    "tokens": [
-      "beats",
-      "cement",
-      "open",
-      "rise",
-      "rybakina",
-      "sabalenka",
-      "title",
-      "win"
-    ],
-    "link": "https://www.skysports.com/tennis/news/12040/13585140/us-open-elena-rybakina-cements-her-spot-as-world-no-1-by-dethroning-two-time-winner-aryna-sabalenka-in-new-york",
-    "title": "Rybakina beats Sabalenka to win US Open title and cement her rise to No 1",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-13T06:07:45.757555+00:00"
-  },
-  {
-    "score": 26.71,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "base",
-      "claim",
-      "fighting",
-      "flares",
-      "forces",
-      "houthis",
-      "saudi",
-      "yemeni"
-    ],
-    "link": "https://www.theguardian.com/world/2026/sep/13/houthis-claim-attack-on-saudi-base-as-fighting-flares-with-yemeni-forces",
-    "title": "Houthis claim attack on Saudi base as fighting flares with Yemeni forces",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-13T06:07:45.757927+00:00"
-  },
-  {
-    "score": 24.36,
-    "bucket": "serious",
-    "tokens": [
-      "death",
-      "ferry",
-      "fire",
-      "missing",
-      "philippines",
-      "rises",
-      "still",
-      "toll"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cwyz755yeg9o?at_medium=RSS&at_campaign=rss",
-    "title": "Death toll from Philippines ferry fire rises to 76, with more still missing",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-13T06:07:45.758238+00:00"
-  },
-  {
-    "score": 22.87,
-    "bucket": "serious",
-    "tokens": [
-      "arsenal",
-      "arteta",
-      "decision",
-      "despite",
-      "penalty",
-      "seethes",
-      "sunderland",
-      "win"
-    ],
-    "link": "https://www.aljazeera.com/sports/2026/9/12/arteta-seethes-at-sunderland-penalty-decision-despite-arsenal-win?traffic_source=rss",
-    "title": "Arteta seethes at Sunderland penalty decision despite Arsenal win",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-13T06:07:45.758537+00:00"
-  },
-  {
-    "score": 22.68,
-    "bucket": "serious",
-    "tokens": [
-      "agency",
-      "hormuz",
-      "maritime",
-      "projectile",
-      "strait",
-      "struck",
-      "unknown",
-      "vessel"
-    ],
-    "link": "https://www.ndtv.com/world-news/vessel-struck-by-unknown-projectile-in-strait-of-hormuz-uk-maritime-agency-12039509#publisher=newsstand",
-    "title": "Vessel Struck By \"Unknown Projectile\" In Strait Of Hormuz: UK Maritime Agency",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-13T06:07:45.758857+00:00"
-  },
-  {
     "score": 26.71,
     "bucket": "serious",
     "tokens": [
@@ -5437,5 +5341,97 @@
     "posted_title": "وزارة الخارجية الأمريكية توافق على صفقة إف-35 للسعودية بقيمة 24.3 مليار دولار",
     "region": "tr",
     "seen_at": "2026-09-18T05:32:48.666502+00:00"
+  },
+  {
+    "score": 27.27,
+    "bucket": "light",
+    "tokens": [
+      "cat",
+      "century",
+      "first",
+      "name",
+      "scientists",
+      "species",
+      "time"
+    ],
+    "link": "https://www.livescience.com/animals/cats/scientists-name-a-new-cat-species-for-the-first-time-in-over-a-century",
+    "title": "Scientists name a new cat species for the first time in over a century",
+    "posted_title": "",
+    "region": "odd",
+    "seen_at": "2026-09-18T06:07:51.850566+00:00"
+  },
+  {
+    "score": 22.35,
+    "bucket": "serious",
+    "tokens": [
+      "city",
+      "debut",
+      "efl",
+      "man",
+      "norwich",
+      "samba",
+      "stars",
+      "thrash"
+    ],
+    "link": "https://www.vanguardngr.com/2026/09/efl-samba-stars-on-debut-as-man-city-thrash-norwich-5-0/",
+    "title": "EFL: Samba stars on debut as Man City thrash Norwich 5-0",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-18T06:07:51.850814+00:00"
+  },
+  {
+    "score": 21.27,
+    "bucket": "serious",
+    "tokens": [
+      "drags",
+      "election",
+      "parliamentary",
+      "russia",
+      "ukraine",
+      "votes",
+      "war"
+    ],
+    "link": "https://www.france24.com/en/europe/20260918-russia-votes-in-wartime-parliamentary-election-set-to-secure-the-kremlin-power",
+    "title": "Russia votes in parliamentary election as war in Ukraine drags on",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-18T06:07:51.851011+00:00"
+  },
+  {
+    "score": 19.82,
+    "bucket": "serious",
+    "tokens": [
+      "bill",
+      "hell",
+      "house",
+      "imposing",
+      "passes",
+      "russia",
+      "sanctions"
+    ],
+    "link": "https://meduza.io/en/news/2026/09/17/us-house-passes-bill-imposing-sanctions-from-hell-on-russia",
+    "title": "US House passes bill imposing ‘sanctions from hell’ on Russia",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-09-18T06:07:51.851221+00:00"
+  },
+  {
+    "score": 19.78,
+    "bucket": "serious",
+    "tokens": [
+      "ilhan",
+      "man",
+      "months",
+      "omar",
+      "sentenced",
+      "sprayed",
+      "vinegar",
+      "who"
+    ],
+    "link": "https://www.theguardian.com/us-news/2026/sep/17/man-sentenced-ilhan-omar-vinegar-minneapolis",
+    "title": "Man who sprayed Ilhan Omar with vinegar sentenced to 14 months",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-18T06:07:51.851441+00:00"
   }
 ]

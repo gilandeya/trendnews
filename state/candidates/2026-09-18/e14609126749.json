@@ -1,0 +1,82 @@
+{
+  "id": "e14609126749",
+  "created_at": "2026-09-18T06:07:51.851017+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.82,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US House passes bill imposing ‘sanctions from hell’ on Russia",
+  "link": "https://meduza.io/en/news/2026/09/17/us-house-passes-bill-imposing-sanctions-from-hell-on-russia",
+  "publishers": [
+    "CBS News — World",
+    "CGTN",
+    "Meduza English",
+    "The Hindu — International"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "US House passes bill imposing ‘sanctions from hell’ on Russia",
+    "link": "https://meduza.io/en/news/2026/09/17/us-house-passes-bill-imposing-sanctions-from-hell-on-russia",
+    "summary": "The U.S. House of Representatives has passed a bill imposing new sanctions on Russia, with 262 lawmakers voting in favor and 159 against.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-17T07:51:22+00:00",
+    "image_url": "https://meduza.io/imgly/share/1789631482/en/news/2026/09/17/us-house-passes-bill-imposing-sanctions-from-hell-on-russia",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "CBS News — World",
+      "CGTN",
+      "Meduza English",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/17/us-house-passes-bill-imposing-sanctions-from-hell-on-russia"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-17/US-House-passes-Russia-sanctions-bill-granting-Trump-tariff-authority-1Qwgwgq2HEk/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russia-sanctions-bill-advances-in-us-house-india-tariffs-final-vote/article71470872.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-house-passes-russia-sanctions-bill-india-tariffs/article71474350.ece"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/house-votes-russia-sanctions-bill/"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1789631482/en/news/2026/09/17/us-house-passes-bill-imposing-sanctions-from-hell-on-russia",
+      "https://news.cgtn.com/news/2026-09-17/US-House-passes-Russia-sanctions-bill-granting-Trump-tariff-authority-1Qwgwgq2HEk/img/7406b7c085994d9dbee8f62b0fa33bc8/7406b7c085994d9dbee8f62b0fa33bc8-750.png",
+      "https://news.cgtn.com/news/2026-09-17/US-House-passes-Russia-sanctions-bill-granting-Trump-tariff-authority-1Qwgwgq2HEk/img/7406b7c085994d9dbee8f62b0fa33bc8/7406b7c085994d9dbee8f62b0fa33bc8.png",
+      "https://th-i.thgim.com/public/incoming/sip9am/article71475102.ece/alternates/LANDSCAPE_1200/Trump_91824.jpg",
+      "https://th-i.thgim.com/public/incoming/ydmapq/article71470873.ece/alternates/LANDSCAPE_1200/2026-07-02T115057Z_1326133511_RC2OFKAY4WTB_RTRMADP_3_RUSSIA-OIL-TAX.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1069.9128429486111,
+    "is_stale": true,
+    "score": 19.81510117087037,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "664c0aa8f161",
+  "created_at": "2026-09-18T06:07:51.850822+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.27,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia votes in parliamentary election as war in Ukraine drags on",
+  "link": "https://www.france24.com/en/europe/20260918-russia-votes-in-wartime-parliamentary-election-set-to-secure-the-kremlin-power",
+  "publishers": [
+    "France24",
+    "Meduza English"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Russia votes in parliamentary election as war in Ukraine drags on",
+    "link": "https://www.france24.com/en/europe/20260918-russia-votes-in-wartime-parliamentary-election-set-to-secure-the-kremlin-power",
+    "summary": "Polls opened in Russia's Far East on Friday as the country began three days of voting for its parliamentary election, the first since Moscow launched its full-scale invasion of Ukraine. The Kremlin's main party, United Russia, is poised to keep its grip on power alongside other parties aligned with President Vladimir Putin, as the only party that criticised the war was removed from the ballot.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-18T05:38:20+00:00",
+    "image_url": "https://s.france24.com/media/display/d5909d0e-b2f7-11f1-9d96-7922de457103/w:1024/p:16x9/AP26260552487595.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Meduza English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/feature/2026/09/17/russia-s-first-parliamentary-election-since-the-full-scale-invasion-of-ukraine-begins-tomorrow-with-its-only-anti-war-party-barred-and-genuine-competition-all-but-eliminated"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260918-russia-votes-in-wartime-parliamentary-election-set-to-secure-the-kremlin-power"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/d5909d0e-b2f7-11f1-9d96-7922de457103/w:1024/p:16x9/AP26260552487595.jpg",
+      "https://meduza.io/image/attachments/images/012/754/684/small/3XSTTSw4rEzTKnrnDmP-mA"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1069.9128634691667,
+    "is_stale": false,
+    "score": 21.2672863545,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
