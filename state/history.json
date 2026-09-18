@@ -1,98 +1,5 @@
 [
   {
-    "score": 26.25,
-    "bucket": "serious",
-    "tokens": [
-      "barcelona",
-      "desafía",
-      "efectivo",
-      "levante",
-      "premio",
-      "sin"
-    ],
-    "link": "https://elpais.com/deportes/futbol/2026-09-13/el-levante-desafia-sin-premio-a-un-efectivo-barcelona.html",
-    "title": "El Levante desafía sin premio a un efectivo Barcelona",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-09-13T18:07:46.556898+00:00"
-  },
-  {
-    "score": 22.41,
-    "bucket": "sport",
-    "tokens": [
-      "alexander",
-      "ben",
-      "gegen",
-      "liveticker",
-      "open",
-      "shelton",
-      "zverev"
-    ],
-    "link": "https://www.spiegel.de/sport/tennis/us-open-im-liveticker-alexander-zverev-gegen-ben-shelton-a-1ba985bc-06c8-43f2-96bd-44578c9e6997#ref=rss",
-    "title": "US Open im Liveticker: Alexander Zverev gegen Ben Shelton",
-    "posted_title": "",
-    "region": "de",
-    "seen_at": "2026-09-13T18:07:46.557251+00:00"
-  },
-  {
-    "score": 21.88,
-    "bucket": "serious",
-    "tokens": [
-      "cup",
-      "fiba",
-      "france",
-      "meet",
-      "olympic",
-      "rematch",
-      "title",
-      "women's",
-      "world"
-    ],
-    "link": "https://www.france24.com/en/sport/20260913-olympic-rematch-us-and-france-to-meet-for-women-s-fiba-world-cup-title",
-    "title": "Olympic rematch: US and France to meet for women's FIBA World Cup title",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-13T18:07:46.557525+00:00"
-  },
-  {
-    "score": 17.7,
-    "bucket": "serious",
-    "tokens": [
-      "abu",
-      "crown",
-      "delhi",
-      "dhabi",
-      "iran",
-      "meet",
-      "president",
-      "prince"
-    ],
-    "link": "https://en.irna.ir/news/86262040/Iran-president-and-Abu-Dhabi-crown-prince-meet-in-New-Delhi",
-    "title": "Iran president and Abu Dhabi crown prince meet in New Delhi",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-13T18:07:46.557791+00:00"
-  },
-  {
-    "score": 17.42,
-    "bucket": "serious",
-    "tokens": [
-      "bayern",
-      "bei",
-      "bundesliga",
-      "der",
-      "elversberg",
-      "fußball",
-      "münchen",
-      "siegt"
-    ],
-    "link": "https://www.spiegel.de/sport/fussball/fussball-bundesliga-fc-bayern-muenchen-siegt-bei-der-sv-elversberg-a-1655bfa5-f681-4a9e-b64b-05db51c1048f#ref=rss",
-    "title": "Fußball-Bundesliga: FC Bayern München siegt bei der SV Elversberg",
-    "posted_title": "",
-    "region": "de",
-    "seen_at": "2026-09-13T18:07:46.558047+00:00"
-  },
-  {
     "score": 21.44,
     "bucket": "sport",
     "tokens": [
@@ -5367,5 +5274,98 @@
     "posted_title": "",
     "region": "money",
     "seen_at": "2026-09-18T17:07:59.729012+00:00"
+  },
+  {
+    "score": 29.94,
+    "bucket": "light",
+    "tokens": [
+      "cat",
+      "century",
+      "first",
+      "name",
+      "scientists",
+      "species",
+      "time"
+    ],
+    "link": "https://www.livescience.com/animals/cats/scientists-name-a-new-cat-species-for-the-first-time-in-over-a-century",
+    "title": "Scientists name a new cat species for the first time in over a century",
+    "posted_title": "",
+    "region": "odd",
+    "seen_at": "2026-09-18T18:08:03.647969+00:00"
+  },
+  {
+    "score": 23.99,
+    "bucket": "light",
+    "tokens": [
+      "attack",
+      "compound",
+      "killed",
+      "least",
+      "near",
+      "pakistan",
+      "police",
+      "suicide"
+    ],
+    "link": "https://www.dailysabah.com/world/asia-pacific/at-least-21-killed-in-suicide-attack-near-police-compound-in-pakistan",
+    "title": "At least 21 killed in suicide attack near police compound in Pakistan",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-09-18T18:08:03.648376+00:00"
+  },
+  {
+    "score": 22.3,
+    "bucket": "sport",
+    "tokens": [
+      "10m",
+      "211",
+      "all",
+      "concacaf",
+      "demand",
+      "fifa",
+      "members",
+      "pays",
+      "uefa"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/articles/c6158x85pv19o?at_medium=RSS&at_campaign=rss",
+    "title": "Uefa & Concacaf demand Fifa pays $10m to all 211 members",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-18T18:08:03.648681+00:00"
+  },
+  {
+    "score": 20.8,
+    "bucket": "sport",
+    "tokens": [
+      "assault",
+      "carse",
+      "dropped",
+      "investigation",
+      "police"
+    ],
+    "link": "https://www.bbc.co.uk/sport/cricket/articles/crwyz98z3406o?at_medium=RSS&at_campaign=rss",
+    "title": "Carse assault investigation dropped by police",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-18T18:08:03.648981+00:00"
+  },
+  {
+    "score": 19.56,
+    "bucket": "serious",
+    "tokens": [
+      "aztec",
+      "centuries",
+      "history",
+      "loan",
+      "manuscript",
+      "mexico",
+      "narrating",
+      "old",
+      "returns"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-18-centuries-old-manuscript-narrating-aztec-history-returns-on-loan-to-mexico/",
+    "title": "Centuries-old manuscript narrating Aztec history returns on loan to Mexico",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-18T18:08:03.649264+00:00"
   }
 ]

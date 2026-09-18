@@ -1,0 +1,71 @@
+{
+  "id": "4efa667aa975",
+  "created_at": "2026-09-18T18:08:03.648991+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.56,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Centuries-old manuscript narrating Aztec history returns on loan to Mexico",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-18-centuries-old-manuscript-narrating-aztec-history-returns-on-loan-to-mexico/",
+  "publishers": [
+    "Daily Maverick",
+    "Deutsche Welle",
+    "France24",
+    "dw.com"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Centuries-old manuscript narrating Aztec history returns on loan to Mexico",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-18-centuries-old-manuscript-narrating-aztec-history-returns-on-loan-to-mexico/",
+    "summary": "MEXICO CITY, Sept 17 (Reuters) - The Azcatitlan Codex, a rare manuscript that recounts the founding of the Aztec capital of Tenochtitlan and the subsequent arrival of Spanish conquistadores, is back in Mexico for the first time since 1840.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-18T04:44:42+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/7nEgL4ZwklDwV7EA8jQJG_PtoB0=/800x0/smart/filters:strip_exif()/file/attachments/2997/14300024_667918.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Deutsche Welle",
+      "France24",
+      "dw.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-18-centuries-old-manuscript-narrating-aztec-history-returns-on-loan-to-mexico/"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/aztec-manuscript-returns-to-mexico-after-two-centuries-on-loan/a-79316983?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260918-prized-aztec-codex-returns-to-mexico-on-loan"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/7nEgL4ZwklDwV7EA8jQJG_PtoB0=/800x0/smart/filters:strip_exif()/file/attachments/2997/14300024_667918.jpg",
+      "https://s.france24.com/media/display/8c363502-b355-11f1-a991-a9fb07cae23b/w:1024/p:16x9/EN-20260918-132319-132512-CS.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1081.9159864255555,
+    "is_stale": false,
+    "score": 19.557487461870373,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

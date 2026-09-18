@@ -1,0 +1,73 @@
+{
+  "id": "b0418abe84ee",
+  "created_at": "2026-09-18T18:08:03.648691+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.8,
+  "trend_score": 0.2,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Carse assault investigation dropped by police",
+  "link": "https://www.bbc.co.uk/sport/cricket/articles/crwyz98z3406o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Carse assault investigation dropped by police",
+    "link": "https://www.bbc.co.uk/sport/cricket/articles/crwyz98z3406o?at_medium=RSS&at_campaign=rss",
+    "summary": "England fast bowler Brydon Carse will face no further police action after an investigation into an alleged assault in Derby last month is dropped.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-18T18:02:35+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d9ce/live/96bca970-b378-11f1-b1d1-571ed4d7ff2c.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/cricket/articles/crwyz98z3406o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/sport/2026/sep/18/brydon-carse-not-face-charges-police-drop-investigation-alleged-assault-cricket"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/cricket/news/12040/13589398/brydon-carse-no-charges-against-england-cricketer-after-police-close-investigation-into-alleged-assault-at-nightclub"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d9ce/live/96bca970-b378-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/d9ce/live/96bca970-b378-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d9ce/live/96bca970-b378-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://i.guim.co.uk/img/media/17dd559eb9a8aa6bcc7b17ba39d3e8059572cf55/215_140_1727_1381/master/1727.jpg?width=700&quality=85&auto=format&fit=max&s=a4524e5ef71cd79c4e94d8c9f52ec647",
+      "https://i.guim.co.uk/img/media/17dd559eb9a8aa6bcc7b17ba39d3e8059572cf55/215_140_1727_1381/master/1727.jpg?width=460&quality=85&auto=format&fit=max&s=ead754c4fd0be9125a6c7e482c4fe013",
+      "https://i.guim.co.uk/img/media/17dd559eb9a8aa6bcc7b17ba39d3e8059572cf55/215_140_1727_1381/master/1727.jpg?width=140&quality=85&auto=format&fit=max&s=03a657304ee530dfaf364f11b3b612d2"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.2,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1081.9159668666666,
+    "is_stale": false,
+    "score": 20.798911999978284,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

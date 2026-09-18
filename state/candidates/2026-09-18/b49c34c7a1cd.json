@@ -1,0 +1,85 @@
+{
+  "id": "b49c34c7a1cd",
+  "created_at": "2026-09-18T18:08:03.648387+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.3,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Uefa & Concacaf demand Fifa pays $10m to all 211 members",
+  "link": "https://www.bbc.co.uk/sport/football/articles/c6158x85pv19o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Sport",
+    "Channel News Asia",
+    "Punch Nigeria",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Uefa & Concacaf demand Fifa pays $10m to all 211 members",
+    "link": "https://www.bbc.co.uk/sport/football/articles/c6158x85pv19o?at_medium=RSS&at_campaign=rss",
+    "summary": "Uefa and Concacaf issue a joint statement calling on Fifa to pay $10m from its cash reserves to each of the 211 member associations.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-18T16:26:56+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/42ea/live/aa7cf650-b35e-11f1-8f19-bd786ea30d0b.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Sport",
+      "Channel News Asia",
+      "Punch Nigeria",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/18/uefa-concacaf-challenge-fifa-on-reserves-and-demand-10m-payout-to-members?traffic_source=rss"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/c6158x85pv19o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/18/uefa-concacaf-gianni-infantino-fifa-billions-member-associations"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/uefa-concacaf-urge-fifa-to-release-10m-to-member-associations/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/uefa-and-concacaf-challenge-fifa-reserves-after-aborted-stake-sale-plan-6395486"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/42ea/live/aa7cf650-b35e-11f1-8f19-bd786ea30d0b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/42ea/live/aa7cf650-b35e-11f1-8f19-bd786ea30d0b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/42ea/live/aa7cf650-b35e-11f1-8f19-bd786ea30d0b.jpg",
+      "https://i.guim.co.uk/img/media/2cd537d924453d4e7c4b41546a4600b135d21c75/265_56_2430_1944/master/2430.jpg?width=700&quality=85&auto=format&fit=max&s=359cef515a0e1c2e649e573710a69cd4",
+      "https://i.guim.co.uk/img/media/2cd537d924453d4e7c4b41546a4600b135d21c75/265_56_2430_1944/master/2430.jpg?width=460&quality=85&auto=format&fit=max&s=2e20e5525f680b4cada5780d742767be",
+      "https://i.guim.co.uk/img/media/2cd537d924453d4e7c4b41546a4600b135d21c75/265_56_2430_1944/master/2430.jpg?width=140&quality=85&auto=format&fit=max&s=a8146be4a28a2c66a19cb129ab899dcc"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1081.915936252222,
+    "is_stale": true,
+    "score": 22.303531010939864,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
