@@ -1,0 +1,63 @@
+{
+  "id": "c1d6ff0b37b0",
+  "created_at": "2026-09-18T12:07:51.412994+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.72,
+  "trend_score": 1.0,
+  "velocity": 0.11,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran-Krieg: Erzeugerpreise in Deutschland steigen stärker als erwartet",
+  "link": "https://www.spiegel.de/wirtschaft/service/irankrieg-erzeugerpreise-in-deutschland-steigen-staerker-als-erwartet-oelpreise-als-treiber-a-431a1495-ad8b-484d-8143-417f1c0550cf#ref=rss",
+  "publishers": [
+    "Der Spiegel",
+    "Tehran Times"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Iran-Krieg: Erzeugerpreise in Deutschland steigen stärker als erwartet",
+    "link": "https://www.spiegel.de/wirtschaft/service/irankrieg-erzeugerpreise-in-deutschland-steigen-staerker-als-erwartet-oelpreise-als-treiber-a-431a1495-ad8b-484d-8143-417f1c0550cf#ref=rss",
+    "summary": "Erzeugerpreise gelten als Barometer für die Inflation und können damit Hinweise geben auf die wirtschaftliche Stabilität des Landes. Neueste Daten zeigen: Sie steigen hierzulande weiter – und schneller als gedacht.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-09-18T07:53:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/e241c401-4d40-4540-a224-35d68f2f1732_w520_r2.08_fpx66.62_fpy49.88.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Der Spiegel",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/wirtschaft/service/irankrieg-erzeugerpreise-in-deutschland-steigen-staerker-als-erwartet-oelpreise-als-treiber-a-431a1495-ad8b-484d-8143-417f1c0550cf#ref=rss"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530119/Energy-price-increases-will-worsen-because-of-war-against-Iran"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/e241c401-4d40-4540-a224-35d68f2f1732_w520_r2.08_fpx66.62_fpy49.88.jpg",
+      "https://media.tehrantimes.com/d/t/2026/09/18/4/6178205.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.11110316139186827,
+    "age_hours": 3.000214657777778,
+    "is_stale": false,
+    "score": 20.72244944414453,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

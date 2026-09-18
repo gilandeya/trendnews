@@ -1,0 +1,73 @@
+{
+  "id": "65e62dd332aa",
+  "created_at": "2026-09-18T12:07:51.414134+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.13,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "light",
+  "state_media": false,
+  "title": "British woman kidnapped in Malawi rescued after shoot out left four dead",
+  "link": "https://metro.co.uk/2026/09/18/british-woman-kidnapped-malawi-rescued-shoot-left-four-dead-29632544/",
+  "publishers": [
+    "Metro — Weird News",
+    "MyJoyOnline Ghana",
+    "The Guardian — World"
+  ],
+  "region": "odd",
+  "article": {
+    "title": "British woman kidnapped in Malawi rescued after shoot out left four dead",
+    "link": "https://metro.co.uk/2026/09/18/british-woman-kidnapped-malawi-rescued-shoot-left-four-dead-29632544/",
+    "summary": "",
+    "source_name": "Metro — Weird News",
+    "region": "odd",
+    "weight": 1.3,
+    "published": "2026-09-18T06:34:10+00:00",
+    "image_url": "https://metro.co.uk/wp-content/uploads/2026/09/SEI_312587278-633e-e1789713158179.jpg?quality=90&amp;strip=all&amp;w=525",
+    "publisher": "Metro — Weird News",
+    "cluster_sources": [
+      "Metro — Weird News",
+      "MyJoyOnline Ghana",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Metro — Weird News",
+        "link": "https://metro.co.uk/2026/09/18/british-woman-kidnapped-malawi-rescued-shoot-left-four-dead-29632544/"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/18/british-woman-kidnapped-malawi-police-shootout"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/british-woman-rescued-in-malawi-shootout-that-left-four-suspected-kidnappers-dead/"
+      }
+    ],
+    "image_candidates": [
+      "https://metro.co.uk/wp-content/uploads/2026/09/SEI_312587278-633e-e1789713158179.jpg?quality=90&amp;strip=all&amp;w=525",
+      "https://metro.co.uk/wp-content/uploads/2026/09/SEI_312927891-d472.jpg?quality=90&amp;strip=all&amp;w=646",
+      "https://i.guim.co.uk/img/media/ef213b9c8bdcfe26c44aecf9ce3022053056e171/0_91_1200_960/master/1200.jpg?width=700&quality=85&auto=format&fit=max&s=a15dffc546161c4df2be99f475270149",
+      "https://i.guim.co.uk/img/media/ef213b9c8bdcfe26c44aecf9ce3022053056e171/0_91_1200_960/master/1200.jpg?width=460&quality=85&auto=format&fit=max&s=15785bea45c1b35fe549b2aad191ab7b",
+      "https://i.guim.co.uk/img/media/ef213b9c8bdcfe26c44aecf9ce3022053056e171/0_91_1200_960/master/1200.jpg?width=140&quality=85&auto=format&fit=max&s=6459fa9adbb857441ced1c4243d12827",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-2522-1024x576.png"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1075.9126992819445,
+    "is_stale": false,
+    "score": 19.13422853864495,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

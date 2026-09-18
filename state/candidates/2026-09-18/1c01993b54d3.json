@@ -1,0 +1,64 @@
+{
+  "id": "1c01993b54d3",
+  "created_at": "2026-09-18T12:07:51.413931+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.44,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Waymo says Singapore will be its next international robotaxi city",
+  "link": "https://www.theverge.com/transportation/997091/waymo-singapore-robotaxi-launch-2027",
+  "publishers": [
+    "Engadget",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Waymo says Singapore will be its next international robotaxi city",
+    "link": "https://www.theverge.com/transportation/997091/waymo-singapore-robotaxi-launch-2027",
+    "summary": "Waymo says it will launch a robotaxi service in Singapore in 2028, as the Alphabet-owned company continues to eye overseas markets for expansion. Waymo's vehicles will begin arriving in Singapore in \"the coming months,\" the company says, in preparation of mapping and autonomous testing with human safety drivers behind the wheel in 2027. Waymo says […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-09-18T02:00:00+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2291354590.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "Engadget",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/transportation/997091/waymo-singapore-robotaxi-launch-2027"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2262023/waymo-is-expanding-to-singapore/"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2026/09/gettyimages-2291354590.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://www.engadget.com/img/gallery/waymo-is-expanding-to-singapore/l-intro-1789719438.jpg",
+      "https://www.engadget.com/img/gallery/waymo-is-expanding-to-singapore/intro-1789719438.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1075.91268582,
+    "is_stale": false,
+    "score": 19.441378071333332,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
