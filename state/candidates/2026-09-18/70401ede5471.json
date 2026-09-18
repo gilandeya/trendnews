@@ -1,0 +1,93 @@
+{
+  "id": "70401ede5471",
+  "created_at": "2026-09-18T19:08:05.509506+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.18,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "At least three students killed in Philippine school shooting, including suspected gunman: Mayor",
+  "link": "https://www.thehindu.com/news/international/school-shooting-in-southern-philippines-death-and-injured/article71479818.ece",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC",
+    "BBC World",
+    "Rappler",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "At least three students killed in Philippine school shooting, including suspected gunman: Mayor",
+    "link": "https://www.thehindu.com/news/international/school-shooting-in-southern-philippines-death-and-injured/article71479818.ece",
+    "summary": "The incident follows two shootings since June at schools in the south ‌of the country. School shootings were previously rare in the ‌Philippines",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-18T11:01:00+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/ylhd0e/article71480401.ece/alternates/LANDSCAPE_1200/Philippines_School_Shooting_92514.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC",
+      "BBC World",
+      "Rappler",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/southeast-asia/article/3367979/philippine-police-report-injuries-high-school-shooting?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630028/three-students-killed-in-philippine-school-shooting-including-gunman-officials-say"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/school-shooting-in-southern-philippines-death-and-injured/article71479818.ece"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c6x2z4dlzyr0o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/philippines/mindanao/school-shooting-banga-south-cotabato-september-18-2026/"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/18/video-students-flee-deadly-school-shooting-in-the-philippines?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/ylhd0e/article71480401.ece/alternates/LANDSCAPE_1200/Philippines_School_Shooting_92514.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/770e/live/22d1bd20-b337-11f1-910c-69bc1dc40919.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/770e/live/22d1bd20-b337-11f1-910c-69bc1dc40919.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/770e/live/22d1bd20-b337-11f1-910c-69bc1dc40919.jpg",
+      "https://www.rappler.com/tachyon/2026/07/tacloban-shooting-online-gaming-senate-hearing-july-1-2026-011-scaled.jpg",
+      "https://www.rappler.com/tachyon/2026/07/tacloban-shooting-online-gaming-senate-hearing-july-1-2026-011-scaled.jpg?resize=75%2C75&crop=106px%2C0px%2C1460px%2C1460px"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.0,
+    "age_hours": 1082.9164384647222,
+    "is_stale": true,
+    "score": 23.180963029117258,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

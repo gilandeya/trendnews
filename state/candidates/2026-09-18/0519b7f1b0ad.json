@@ -1,0 +1,58 @@
+{
+  "id": "0519b7f1b0ad",
+  "created_at": "2026-09-18T19:08:05.510424+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.45,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Witness says attack was ‘like a scene off Jaws’ as shark kills swimmer in Western Australia",
+  "link": "https://www.malaymail.com/news/world/2026/09/18/witness-says-attack-was-like-a-scene-off-jaws-as-shark-kills-swimmer-in-western-australia/235668",
+  "publishers": [
+    "Malay Mail",
+    "WRAL"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Witness says attack was ‘like a scene off Jaws’ as shark kills swimmer in Western Australia",
+    "link": "https://www.malaymail.com/news/world/2026/09/18/witness-says-attack-was-like-a-scene-off-jaws-as-shark-kills-swimmer-in-western-australia/235668",
+    "summary": "SYDNEY, Sept 18 — A shark killed a man as he swam off a popular beach near Perth in Western Australia today, polic...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-18T08:35:35+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/18/363260.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Malay Mail",
+      "WRAL"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/18/witness-says-attack-was-like-a-scene-off-jaws-as-shark-kills-swimmer-in-western-australia/235668"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/18/363260.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1082.9165082138888,
+    "is_stale": false,
+    "score": 20.447324181833334,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

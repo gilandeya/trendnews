@@ -1,100 +1,5 @@
 [
   {
-    "score": 21.44,
-    "bucket": "sport",
-    "tokens": [
-      "brighton",
-      "coventry",
-      "dunk",
-      "man",
-      "scores",
-      "screamer",
-      "thrash"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/videos/cly7408jg0go?at_medium=RSS&at_campaign=rss",
-    "title": "Dunk scores screamer as Brighton thrash 10-man Coventry",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-13T19:07:45.881691+00:00"
-  },
-  {
-    "score": 21.33,
-    "bucket": "serious",
-    "tokens": [
-      "comments",
-      "day",
-      "doubles",
-      "ireland",
-      "trump",
-      "two",
-      "united",
-      "visit"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cx2z79n0eeno?at_medium=RSS&at_campaign=rss",
-    "title": "Trump doubles down on united Ireland comments on day two of visit",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-13T19:07:45.882010+00:00"
-  },
-  {
-    "score": 21.19,
-    "bucket": "serious",
-    "tokens": [
-      "concerns",
-      "exaggerated",
-      "forces",
-      "negative",
-      "raising",
-      "trump",
-      "very"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-says-very-negative-forces-raising-exaggerated-concerns-over-ai/article71464407.ece",
-    "title": "Trump says ‘very negative forces’ raising exaggerated concerns over AI",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-13T19:07:45.882291+00:00"
-  },
-  {
-    "score": 16.94,
-    "bucket": "serious",
-    "tokens": [
-      "goal",
-      "late",
-      "ligue",
-      "lille",
-      "mbappe",
-      "sends",
-      "top"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/13/mbappe-s-late-goal-sends-lille-top-of-ligue-1",
-    "title": "Mbappe’s late goal sends Lille top of Ligue 1",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-13T19:07:45.882535+00:00"
-  },
-  {
-    "score": 16.8,
-    "bucket": "serious",
-    "tokens": [
-      "'greater",
-      "bloc",
-      "brics'",
-      "china's",
-      "economic",
-      "give",
-      "global",
-      "larger",
-      "pushes",
-      "role",
-      "ties"
-    ],
-    "link": "https://www.dawn.com/news/2029619/chinas-xi-pushes-greater-brics-economic-ties-to-give-bloc-larger-global-role",
-    "title": "China's Xi pushes 'Greater Brics' economic ties to give bloc larger global role",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-13T19:07:45.882796+00:00"
-  },
-  {
     "score": 21.19,
     "bucket": "serious",
     "tokens": [
@@ -5367,5 +5272,110 @@
     "posted_title": "",
     "region": "za",
     "seen_at": "2026-09-18T18:08:03.649264+00:00"
+  },
+  {
+    "score": 23.18,
+    "bucket": "serious",
+    "tokens": [
+      "gunman",
+      "including",
+      "killed",
+      "least",
+      "mayor",
+      "philippine",
+      "school",
+      "shooting",
+      "students",
+      "suspected",
+      "three"
+    ],
+    "link": "https://www.thehindu.com/news/international/school-shooting-in-southern-philippines-death-and-injured/article71479818.ece",
+    "title": "At least three students killed in Philippine school shooting, including suspected gunman: Mayor",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-18T19:08:05.509881+00:00"
+  },
+  {
+    "score": 21.5,
+    "bucket": "light",
+    "tokens": [
+      "against",
+      "attacks",
+      "europe",
+      "hybrid",
+      "intensifying",
+      "macron",
+      "russian"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cm2dw1w9d3yjo?at_medium=RSS&at_campaign=rss",
+    "title": "Russian hybrid attacks against Europe intensifying, says Macron",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-18T19:08:05.510082+00:00"
+  },
+  {
+    "score": 21.14,
+    "bucket": "light",
+    "tokens": [
+      "000",
+      "agency",
+      "conflict",
+      "country",
+      "displaces",
+      "djibouti",
+      "flee",
+      "inside",
+      "migration",
+      "people",
+      "thousands",
+      "yemen"
+    ],
+    "link": "https://www.thehindu.com/news/international/yemen-conflict-displaces-112000-people-inside-country-thousands-flee-to-djibouti-un-migration-agency-says/article71482214.ece",
+    "title": "Yemen conflict displaces 1,12,000 people inside country, thousands flee to Djibouti, UN migration agency says",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-18T19:08:05.510262+00:00"
+  },
+  {
+    "score": 20.81,
+    "bucket": "serious",
+    "tokens": [
+      "curb",
+      "high",
+      "interest",
+      "japan",
+      "prices",
+      "raises",
+      "rate",
+      "rising",
+      "year"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cqn74jeek06no?at_medium=RSS&at_campaign=rss",
+    "title": "Japan raises interest rate to new 31-year high to curb rising prices",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-18T19:08:05.510420+00:00"
+  },
+  {
+    "score": 20.45,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "australia",
+      "jaws",
+      "kills",
+      "like",
+      "off",
+      "scene",
+      "shark",
+      "swimmer",
+      "western",
+      "witness"
+    ],
+    "link": "https://www.malaymail.com/news/world/2026/09/18/witness-says-attack-was-like-a-scene-off-jaws-as-shark-kills-swimmer-in-western-australia/235668",
+    "title": "Witness says attack was ‘like a scene off Jaws’ as shark kills swimmer in Western Australia",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-18T19:08:05.510582+00:00"
   }
 ]

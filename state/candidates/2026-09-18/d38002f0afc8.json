@@ -1,0 +1,67 @@
+{
+  "id": "d38002f0afc8",
+  "created_at": "2026-09-18T19:08:05.510266+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.81,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Japan raises interest rate to new 31-year high to curb rising prices",
+  "link": "https://www.bbc.co.uk/news/articles/cqn74jeek06no?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Japan raises interest rate to new 31-year high to curb rising prices",
+    "link": "https://www.bbc.co.uk/news/articles/cqn74jeek06no?at_medium=RSS&at_campaign=rss",
+    "summary": "Central banks around the world have hiked rates as high energy prices are pushing up inflation.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-18T07:14:57+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/20a3/live/c414c590-b32a-11f1-b1d1-571ed4d7ff2c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/business/2026/sep/18/japan-raises-interest-rates-to-31-year-high-rising-prices"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cqn74jeek06no?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/20a3/live/c414c590-b32a-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/20a3/live/c414c590-b32a-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/20a3/live/c414c590-b32a-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://i.guim.co.uk/img/media/3aeb82702262ebf90109ebf3770da9384ab4c501/344_0_4087_3271/master/4087.jpg?width=700&quality=85&auto=format&fit=max&s=f6165458f5ddc94c5ebb2091695bed90",
+      "https://i.guim.co.uk/img/media/3aeb82702262ebf90109ebf3770da9384ab4c501/344_0_4087_3271/master/4087.jpg?width=460&quality=85&auto=format&fit=max&s=b86d2f4b1b27a0b8645bb013d1574614",
+      "https://i.guim.co.uk/img/media/3aeb82702262ebf90109ebf3770da9384ab4c501/344_0_4087_3271/master/4087.jpg?width=140&quality=85&auto=format&fit=max&s=3f01664f377b8254c438db8845f46897"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1082.9164965344444,
+    "is_stale": false,
+    "score": 20.807731587833334,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
