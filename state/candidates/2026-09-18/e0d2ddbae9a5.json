@@ -1,0 +1,93 @@
+{
+  "id": "e0d2ddbae9a5",
+  "created_at": "2026-09-18T15:08:10.178725+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.78,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UN experts say grounds to believe US committed war crimes in Iran strikes",
+  "link": "https://www.bbc.co.uk/news/articles/cm9w4n5nverdo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Daily Maverick",
+    "France24",
+    "Mehr News",
+    "NPR World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "UN experts say grounds to believe US committed war crimes in Iran strikes",
+    "link": "https://www.bbc.co.uk/news/articles/cm9w4n5nverdo?at_medium=RSS&at_campaign=rss",
+    "summary": "The US has not acknowledged carrying out February's deadly strikes on a primary school in Minab and a sports complex in Lamerd.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-17T20:34:30+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9f29/live/f45ca2b0-b29c-11f1-bc1f-3f186ca4140c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Daily Maverick",
+      "France24",
+      "Mehr News",
+      "NPR World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cm9w4n5nverdo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-18-un-mission-finds-grounds-to-believe-us-committed-war-crimes-in-iran-and-tehran-crimes-against-humanity/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/un-backed-experts-cite-possible-us-war-crimes-in-iran-strikes/article71476395.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260918-un-mission-says-grounds-to-believe-us-committed-war-crimes-in-iran"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/us-war-crimes-iran-possible-un/"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/17/nx-s1-5972934/us-iran-war-un-report-alleged-war-crimes"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/9f29/live/f45ca2b0-b29c-11f1-bc1f-3f186ca4140c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/9f29/live/f45ca2b0-b29c-11f1-bc1f-3f186ca4140c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/9f29/live/f45ca2b0-b29c-11f1-bc1f-3f186ca4140c.jpg",
+      "https://cdn.dailymaverick.co.za/i/h_01a3KhtEbUPfc_9r-NE1JkyKo=/800x0/smart/filters:strip_exif()/file/attachments/orphans/GettyImages-2264096050_339206.jpg",
+      "https://th-i.thgim.com/public/incoming/lagj2n/article71476429.ece/alternates/LANDSCAPE_1200/2026-09-17T080247Z_984421887_RC227NAL44T6_RTRMADP_3_IRAN-CRISIS-UN.JPG",
+      "https://s.france24.com/media/display/1e8a3b6a-b342-11f1-bc0e-d16598924449/w:1024/p:16x9/EN-20260918-100356-100938-CS.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 1078.917702055,
+    "is_stale": false,
+    "score": 21.784768987506148,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

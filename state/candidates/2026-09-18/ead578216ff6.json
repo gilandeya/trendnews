@@ -1,0 +1,81 @@
+{
+  "id": "ead578216ff6",
+  "created_at": "2026-09-18T15:08:10.178505+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.36,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Police begin operation to move migrants from Ceuta beaches",
+  "link": "https://www.bbc.co.uk/news/articles/c6vgy80ge1z7o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Africanews",
+    "BBC",
+    "BBC World",
+    "France24",
+    "Free Malaysia Today"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Police begin operation to move migrants from Ceuta beaches",
+    "link": "https://www.bbc.co.uk/news/articles/c6vgy80ge1z7o?at_medium=RSS&at_campaign=rss",
+    "summary": "Police reportedly fired into the air on Friday morning as they struggled to contain crowds jostling to secure a place at the tented site.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-18T11:59:42+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/13d1/live/a40e99b0-b34d-11f1-bc1f-3f186ca4140c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Africanews",
+      "BBC",
+      "BBC World",
+      "France24",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c6vgy80ge1z7o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260918-police-move-hundreds-of-migrants-still-in-ceuta-off-beaches-in-spanish-enclave"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/18/police-move-ceuta-migrants-off-beaches-in-spanish-enclave"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/18/ceuta-tense-scenes-as-police-move-migrants-to-temporary-camp/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/13d1/live/a40e99b0-b34d-11f1-bc1f-3f186ca4140c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/13d1/live/a40e99b0-b34d-11f1-bc1f-3f186ca4140c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/13d1/live/a40e99b0-b34d-11f1-bc1f-3f186ca4140c.jpg",
+      "https://s.france24.com/media/display/836abfca-b345-11f1-a6a9-af2d0a26bd49/w:1024/p:16x9/000-C86X4R8.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/e2b65f52-a278-4d28-b844-420f5da6d011-Ceuta-migrants-EPA-18092026-.webp",
+      "http://images.euronews.com/articles/stories/09/91/11/75/640x360_cmsv2_9f1b2e1a-bea7-50c5-a585-80c543d8a5a9-9911175.jpg?1789733731"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1078.9176850897222,
+    "is_stale": true,
+    "score": 22.356488506699122,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

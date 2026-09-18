@@ -1,0 +1,92 @@
+{
+  "id": "b8f232a95866",
+  "created_at": "2026-09-18T15:08:10.177967+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.87,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "15 cops among 21 martyred in blast at Kohat Police Lines, more than 80 injured",
+  "link": "https://www.dawn.com/news/2030862/15-cops-among-21-martyred-in-blast-at-kohat-police-lines-more-than-80-injured",
+  "publishers": [
+    "AP News",
+    "Al Jazeera English",
+    "Dawn",
+    "Free Malaysia Today",
+    "Geo News",
+    "Hindustan Times — World",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "15 cops among 21 martyred in blast at Kohat Police Lines, more than 80 injured",
+    "link": "https://www.dawn.com/news/2030862/15-cops-among-21-martyred-in-blast-at-kohat-police-lines-more-than-80-injured",
+    "summary": "PESHAWAR: At least 21 people, including 15 police officials, were martyred on Friday when an explosives-laden vehicle detonated near a mosque in Kohat Police Lines, followed by terrorists storming the compound and attacking police facilities, according to senior police and district health officials. District Health Officer Dr Nasir Hassan Afridi confirmed the toll to Dawn , adding that more than 80 people were injured, with three in critical condition. Footage aired on television showed citizens gathered next to a building with a collapsed wall, digging through rubble and helping the injured. The bomb attack caused severe damage to the mosque structure. Khyber Pakhtunkhwa Inspector General (IG) Zulfiqar Hameed told Dawn that a vehicle-borne suicide bomber initially struck the building’s gate, following which several attackers headed towards the Counter-Terrorism Department (CTD) building, where they were neutralised. Around three others tried to move towards the Special Branch building. According to police, at least one attacker was holed up inside the compound and a clearance operation was underway. Meanwhile, the CTD said the Additional IG CTD reached the site of the Kohat attack",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-18T15:01:48+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/1817275526f6084.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "AP News",
+      "Al Jazeera English",
+      "Dawn",
+      "Free Malaysia Today",
+      "Geo News",
+      "Hindustan Times — World",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030862/15-cops-among-21-martyred-in-blast-at-kohat-police-lines-more-than-80-injured"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630023/several-injured-in-explosion-near-old-police-lines-in-k-ps-kohat"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/682600-several-injured-in-explosion-near-kohat-police-line-say-police"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/pakistan-blast-live-updates-bombing-mosque-death-toll-injuries-kohat-khyber-pakhtunkhwa-101789725169444.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/18/blast-at-historic-police-hq-in-pakistan-kills-8-officials"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/18/09-18-26-pakistan-blast?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/1817275526f6084.webp",
+      "https://i.dawn.com/thumbnail/2026/09/1817275526f6084.webp",
+      "https://i.dawn.com/primary/2026/09/181730171797821.webp",
+      "https://www.geo.tv/assets/uploads/2026-09-18/682600_050836_updates.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/92a8e0bf-fecf-4146-9ba7-12d51da9423f-14300832_cropped_1.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.0,
+    "age_hours": 1078.9176839008333,
+    "is_stale": true,
+    "score": 23.86510232133948,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
