@@ -1,45 +1,5 @@
 [
   {
-    "score": 21.19,
-    "bucket": "serious",
-    "tokens": [
-      "concerns",
-      "exaggerated",
-      "forces",
-      "negative",
-      "raising",
-      "trump",
-      "very"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-says-very-negative-forces-raising-exaggerated-concerns-over-ai/article71464407.ece",
-    "title": "Trump says ‘very negative forces’ raising exaggerated concerns over AI",
-    "posted_title": "لماذا رفض ترامب دعوات تنظيم الذكاء الاصطناعي رغم تحذيرات باحثين من خطر الانقراض؟",
-    "region": "in",
-    "seen_at": "2026-09-13T19:24:12.185449+00:00"
-  },
-  {
-    "score": 16.8,
-    "bucket": "serious",
-    "tokens": [
-      "'greater",
-      "bloc",
-      "brics'",
-      "china's",
-      "economic",
-      "give",
-      "global",
-      "larger",
-      "pushes",
-      "role",
-      "ties"
-    ],
-    "link": "https://www.dawn.com/news/2029619/chinas-xi-pushes-greater-brics-economic-ties-to-give-bloc-larger-global-role",
-    "title": "China's Xi pushes 'Greater Brics' economic ties to give bloc larger global role",
-    "posted_title": "الصين تقترح منطقة مفتوحة للذكاء الاصطناعي ضمن مبادرة \"بريكس الكبرى\"",
-    "region": "pk",
-    "seen_at": "2026-09-13T19:24:30.803180+00:00"
-  },
-  {
     "score": 32.21,
     "bucket": "sport",
     "tokens": [
@@ -5377,5 +5337,27 @@
     "posted_title": "",
     "region": "my",
     "seen_at": "2026-09-18T19:08:05.510582+00:00"
+  },
+  {
+    "score": 23.37,
+    "bucket": "serious",
+    "tokens": [
+      "100",
+      "bill",
+      "house",
+      "impose",
+      "india",
+      "others",
+      "passes",
+      "russia",
+      "sanctions",
+      "seeking",
+      "tariffs"
+    ],
+    "link": "https://www.thehindu.com/news/international/us-house-passes-russia-sanctions-bill-india-tariffs/article71474350.ece",
+    "title": "U.S. House passes Russia sanctions bill seeking to impose up to 100% tariffs on India, others",
+    "posted_title": "لماذا وافق الكونغرس على قانون يهدد الهند والصين برسوم جمركية بسبب النفط الروسي؟",
+    "region": "in",
+    "seen_at": "2026-09-18T19:35:46.550535+00:00"
   }
 ]
