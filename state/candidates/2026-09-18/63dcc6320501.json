@@ -1,0 +1,76 @@
+{
+  "id": "63dcc6320501",
+  "created_at": "2026-09-18T17:07:59.728313+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.92,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Warren Buffett steps down as Berkshire Hathaway chairman, a post he has held since 1970",
+  "link": "https://www.thehindu.com/business/warren-buffett-steps-down-as-berkshire-hathaway-chairman-a-post-he-has-held-since-1970/article71480497.ece",
+  "publishers": [
+    "Free Malaysia Today",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Warren Buffett steps down as Berkshire Hathaway chairman, a post he has held since 1970",
+    "link": "https://www.thehindu.com/business/warren-buffett-steps-down-as-berkshire-hathaway-chairman-a-post-he-has-held-since-1970/article71480497.ece",
+    "summary": "Warren Buffett stepped down as CEO of Berkshire Hathaway late in 2025",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-18T11:28:50+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/auuu82/article71480515.ece/alternates/LANDSCAPE_1200/Warren_Buffett-Retirement-His_Deals_92316.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368049/howard-replaces-his-father-warren-buffett-berkshire-hathaway-chairman?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/business/warren-buffett-steps-down-as-berkshire-hathaway-chairman-a-post-he-has-held-since-1970/article71480497.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/09/18/warren-buffett-steps-down-as-berkshire-chair-becomes-chairman-emeritus"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/warren-buffett-steps-down-as-hathaway-chairman-but-hasnt-hung-up-his-boots-12065089#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/auuu82/article71480515.ece/alternates/LANDSCAPE_1200/Warren_Buffett-Retirement-His_Deals_92316.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/05/879eef8c-warren-buffett.jpg",
+      "https://c.ndtvimg.com/2026-05/5ohte1as_warren-buffet_625x300_03_May_26.jpg?im=FaceCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1080.9147421894445,
+    "is_stale": false,
+    "score": 19.923272923814814,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
