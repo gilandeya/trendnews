@@ -1,0 +1,63 @@
+{
+  "id": "bfe959b125f2",
+  "created_at": "2026-09-18T03:07:45.830023+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.58,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Markets to close at 9pm as govt reintroduces austerity measures for fuel conservation",
+  "link": "https://www.dawn.com/news/2030636/markets-to-close-at-9pm-as-govt-reintroduces-austerity-measures-for-fuel-conservation",
+  "publishers": [
+    "Dawn",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Markets to close at 9pm as govt reintroduces austerity measures for fuel conservation",
+    "link": "https://www.dawn.com/news/2030636/markets-to-close-at-9pm-as-govt-reintroduces-austerity-measures-for-fuel-conservation",
+    "summary": "The federal government reintroduced austerity measures on Thursday in an effort to conserve fuel amid renewed tensions in the Middle East, setting 9pm as the time for closing markets and reducing fuel provision for official vehicles by 50 per cent for a period of three months. The measures are to be implemented with immediate effect, the Cabinet Division’s notification detailing the government’s directives said. According to the Sept 17 notification, seen by Dawn , businesses and commercial establishments are to close at following timings: Shops, markets, shopping malls and bazaars, as well as departmental, grocery, general and kiryana stores are to close by 9pm Marriage halls, marquees and all other commercial places where festive events are held are to close by 10pm Restaurants, cafés, eateries, and food outlets, as well as standalone fruit and vegetable shops are to close by 11pm. Takeaway and home delivery services are exempted from the restriction Pharmacies, medical and medical supplies’ stores, medical laboratories, clinics, hospitals, standalone bakeries, standalone tandoors, standalone milk and dairy shops, fuel and CNG stations, electrical vehicle charging stations, gyms,",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-17T14:02:16+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/1717383789f8905.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030636/markets-to-close-at-9pm-as-govt-reintroduces-austerity-measures-for-fuel-conservation"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629865/govt-cuts-fuel-allocations-for-official-vehicles-by-50-amid-fresh-austerity-measures"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/1717383789f8905.webp",
+      "https://i.dawn.com/thumbnail/2026/09/1717383789f8905.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1066.9113996572223,
+    "is_stale": false,
+    "score": 16.577323447574074,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

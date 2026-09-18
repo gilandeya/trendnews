@@ -1,0 +1,68 @@
+{
+  "id": "252c46099ebe",
+  "created_at": "2026-09-18T03:07:45.829447+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.5,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "Iran-Sweden diplomatic rupture; regional diplomatic tension",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Tehran orders Swedish diplomat to leave Iran within 48 hours",
+  "link": "https://en.irna.ir/news/86266666/Tehran-orders-Swedish-diplomat-to-leave-Iran-within-48-hours",
+  "publishers": [
+    "Al Jazeera English",
+    "Hindustan Times — World",
+    "IRNA English"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Tehran orders Swedish diplomat to leave Iran within 48 hours",
+    "link": "https://en.irna.ir/news/86266666/Tehran-orders-Swedish-diplomat-to-leave-Iran-within-48-hours",
+    "summary": "Tehran, IRNA – Iran has rejected Sweden’s allegations against the Islamic Republic and ordered a Swedish diplomat in Tehran to leave the country within 48 hours in response to Stockholm’s decision to prevent an Iranian diplomat from continuing his duties in Sweden.",
+    "source_name": "IRNA English",
+    "region": "ir",
+    "weight": 0.7,
+    "published": "2026-09-17T10:33:06+00:00",
+    "image_url": "https://img9.irna.ir/d/r2/2026/09/17/4/173111838.jpg",
+    "publisher": "IRNA English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Hindustan Times — World",
+      "IRNA English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/18/iran-expels-swedish-diplomat-in-retaliatory-move?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-tells-swedish-diplomat-to-leave-country-in-48-hours-after-sweden-expels-iranian-embassy-staffer-101789651882088.html"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86266666/Tehran-orders-Swedish-diplomat-to-leave-Iran-within-48-hours"
+      }
+    ],
+    "image_candidates": [
+      "https://img9.irna.ir/d/r2/2026/09/17/4/173111838.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1066.911195915,
+    "is_stale": false,
+    "score": 26.49980357134865,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "Iran-Sweden diplomatic rupture; regional diplomatic tension"
+  }
+}

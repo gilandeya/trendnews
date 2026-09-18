@@ -1,0 +1,99 @@
+{
+  "id": "2f4b436a7e71",
+  "created_at": "2026-09-18T03:07:45.828924+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 35.65,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 3,
+  "appeal_note": "UN war crimes finding against US in Iran; direct regional security implications",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran school bombing: grounds to believe US was behind atrocity, UN finds",
+  "link": "https://www.theguardian.com/world/2026/sep/17/iran-school-bombing-un-mission-us-military-behind-attack",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Daily Maverick",
+    "Dawn",
+    "Iran International",
+    "Mehr News",
+    "NPR World",
+    "Rappler",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Iran school bombing: grounds to believe US was behind atrocity, UN finds",
+    "link": "https://www.theguardian.com/world/2026/sep/17/iran-school-bombing-un-mission-us-military-behind-attack",
+    "summary": "Fact-finding mission says military strikes on school and sports facility in ⁠February constitute war ⁠crimes A UN fact-finding mission has determined there are reasonable grounds to believe the US was behind military strikes on a school and a sports facility in Iran in ⁠February that killed 120 children, and that these constituted war ⁠crimes. The school strike, which killed 156 civilians including 120 children, involved a US Tomahawk missile that collapsed the roof of the Shajareh Tayyebeh primary school, which the UN said was “clearly identifiable”, in Minab, Hormozgan province, on 28 February. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-17T13:22:35+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/74ac2ef9d7e4902b853910136d3db05f4d35e2ae/402_0_4583_3667/master/4583.jpg?width=700&quality=85&auto=format&fit=max&s=13dd8d4543fd8ba4da1ddc00fb21053f",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Daily Maverick",
+      "Dawn",
+      "Iran International",
+      "Mehr News",
+      "NPR World",
+      "Rappler",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/17/iran-school-bombing-un-mission-us-military-behind-attack"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030616/un-mission-finds-grounds-to-believe-us-committed-war-crimes-in-iran-with-strikes-on-school-sports-centre"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-18-un-mission-finds-grounds-to-believe-us-committed-war-crimes-in-iran-and-tehran-crimes-against-humanity/"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202609175523"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/middle-east/un-mission-finds-grounds-us-iran-war-crimes-humanity/"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/live-updates/iran-war-us-trump-un-war-crimes-iran-deal/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/74ac2ef9d7e4902b853910136d3db05f4d35e2ae/402_0_4583_3667/master/4583.jpg?width=700&quality=85&auto=format&fit=max&s=13dd8d4543fd8ba4da1ddc00fb21053f",
+      "https://i.guim.co.uk/img/media/74ac2ef9d7e4902b853910136d3db05f4d35e2ae/402_0_4583_3667/master/4583.jpg?width=460&quality=85&auto=format&fit=max&s=6428550451426216f36cbbbec656c287",
+      "https://i.guim.co.uk/img/media/74ac2ef9d7e4902b853910136d3db05f4d35e2ae/402_0_4583_3667/master/4583.jpg?width=140&quality=85&auto=format&fit=max&s=072629804b444e31efd2f1c50b31408b",
+      "https://i.dawn.com/large/2026/09/17140355797ff15.webp",
+      "https://i.dawn.com/thumbnail/2026/09/17140355797ff15.webp",
+      "https://cdn.dailymaverick.co.za/i/h_01a3KhtEbUPfc_9r-NE1JkyKo=/800x0/smart/filters:strip_exif()/file/attachments/orphans/GettyImages-2264096050_339206.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 10,
+    "velocity": 1.0,
+    "age_hours": 1066.9111755577778,
+    "is_stale": false,
+    "score": 35.64901517001394,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 3,
+    "appeal_note": "UN war crimes finding against US in Iran; direct regional security implications"
+  }
+}

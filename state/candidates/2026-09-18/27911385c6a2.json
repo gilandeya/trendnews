@@ -1,0 +1,62 @@
+{
+  "id": "27911385c6a2",
+  "created_at": "2026-09-18T03:07:45.829740+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.61,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "US arms sales to Saudi Arabia; regional military balance shift",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US approves over $24 billion F-35 fighter jet sale to Saudi Arabia",
+  "link": "https://www.dailysabah.com/business/economy/us-approves-over-24-billion-f-35-fighter-jet-sale-to-saudi-arabia",
+  "publishers": [
+    "Daily Sabah",
+    "The Express Tribune"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "US approves over $24 billion F-35 fighter jet sale to Saudi Arabia",
+    "link": "https://www.dailysabah.com/business/economy/us-approves-over-24-billion-f-35-fighter-jet-sale-to-saudi-arabia",
+    "summary": "The U.S. Department of State said Thursday it had ⁠approved the potential sale of Lockheed Martin's ⁠F-35 Lightning II fighter jets to Saudi Arabia, as the kingdom is drawn deeper...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-17T19:00:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/17/461107.JPG",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629909/us-state-department-approves-243-billion-f-35-sale-to-saudi-arabia"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/us-approves-over-24-billion-f-35-fighter-jet-sale-to-saudi-arabia"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/17/461107.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1066.9113951436111,
+    "is_stale": false,
+    "score": 20.608138272722222,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "US arms sales to Saudi Arabia; regional military balance shift"
+  }
+}
