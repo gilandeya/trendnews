@@ -1,114 +1,5 @@
 [
   {
-    "score": 30.75,
-    "bucket": "serious",
-    "tokens": [
-      "capture",
-      "crown",
-      "dethrones",
-      "first",
-      "open",
-      "ruthless",
-      "rybakina",
-      "sabalenka"
-    ],
-    "link": "https://www.japantimes.co.jp/sports/2026/09/13/tennis/rybakina-sabalenka-us-open/",
-    "title": "Ruthless Rybakina dethrones Sabalenka to capture first U.S. Open crown",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-09-13T03:08:03.000077+00:00"
-  },
-  {
-    "score": 22.03,
-    "bucket": "serious",
-    "tokens": [
-      "battling",
-      "celine",
-      "dion",
-      "disorder",
-      "makes",
-      "rare",
-      "return",
-      "stage",
-      "triumphant",
-      "years"
-    ],
-    "link": "https://www.malaymail.com/news/showbiz/2026/09/13/celine-dion-makes-triumphant-return-to-stage-after-years-battling-rare-disorder/235003",
-    "title": "Celine Dion makes triumphant return to stage after years battling rare disorder",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-13T03:08:03.000391+00:00"
-  },
-  {
-    "score": 21.65,
-    "bucket": "serious",
-    "tokens": [
-      "against",
-      "far",
-      "germany",
-      "protest",
-      "right",
-      "tens",
-      "thousands"
-    ],
-    "link": "https://www.dawn.com/news/2029423/tens-of-thousands-protest-against-far-right-in-germany",
-    "title": "Tens of thousands protest against far right in Germany",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-13T03:08:03.000659+00:00"
-  },
-  {
-    "score": 21.2,
-    "bucket": "serious",
-    "tokens": [
-      "3rd",
-      "ballistic",
-      "east",
-      "fires",
-      "jcs",
-      "korea",
-      "missiles",
-      "multiple",
-      "range",
-      "sea",
-      "short",
-      "toward"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260912000353315",
-    "title": "(3rd LD) N. Korea fires multiple short-range ballistic missiles toward East Sea: JCS",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-09-13T03:08:03.000909+00:00"
-  },
-  {
-    "score": 21.08,
-    "bucket": "serious",
-    "tokens": [
-      "adiós",
-      "con",
-      "desde",
-      "dijo",
-      "empató",
-      "frustración",
-      "ganar",
-      "golazo",
-      "inter",
-      "messi",
-      "miami",
-      "nashville",
-      "que",
-      "selección",
-      "sigue",
-      "sin",
-      "última"
-    ],
-    "link": "https://www.clarin.com/deportes/messi-golazo-frustracion-inter-miami-nashville-empato-ultima-sigue-ganar-dijo-adios-seleccion_0_lPYLC8VZZR.html",
-    "title": "Messi, de su golazo a la frustración con Inter Miami: Nashville empató en la última y sigue sin ganar desde que le dijo adiós a la Selección",
-    "posted_title": "",
-    "region": "ar_country",
-    "seen_at": "2026-09-13T03:08:03.001130+00:00"
-  },
-  {
     "score": 31.84,
     "bucket": "sport",
     "tokens": [
@@ -5467,5 +5358,66 @@
     "posted_title": "",
     "region": "za",
     "seen_at": "2026-09-18T03:07:45.830500+00:00"
+  },
+  {
+    "score": 25.1,
+    "bucket": "sport",
+    "tokens": [
+      "chair",
+      "cup",
+      "demands",
+      "documents",
+      "infantino",
+      "off",
+      "release",
+      "sell",
+      "world"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/articles/ckqxvd41z93qo?at_medium=RSS&at_campaign=rss",
+    "title": "FA chair demands Infantino release World Cup sell-off documents",
+    "posted_title": "لماذا تطالب الاتحادات الكروية إنفانتينو بفتح ملفات خطة بيع كأس العالم؟",
+    "region": "sport",
+    "seen_at": "2026-09-18T05:31:18.955898+00:00"
+  },
+  {
+    "score": 19.9,
+    "bucket": "serious",
+    "tokens": [
+      "appeal",
+      "china",
+      "help",
+      "houthis",
+      "iran",
+      "presses",
+      "rein",
+      "saudi",
+      "say",
+      "sources"
+    ],
+    "link": "https://tribune.com.pk/story/2629884/china-presses-iran-to-help-rein-in-houthis-after-saudi-appeal-sources-say",
+    "title": "China presses Iran to help rein in Houthis after Saudi appeal, sources say",
+    "posted_title": "بعد تقدم الحوثيين في البحر الأحمر.. الصين تتحرك سريًا لدى إيران بطلب سعودي",
+    "region": "pk",
+    "seen_at": "2026-09-18T05:31:36.049160+00:00"
+  },
+  {
+    "score": 19.01,
+    "bucket": "serious",
+    "tokens": [
+      "duped",
+      "enormous",
+      "husband",
+      "indian",
+      "losses",
+      "man",
+      "origin",
+      "swift's",
+      "taylor"
+    ],
+    "link": "https://www.ndtv.com/world-news/taylor-swifts-husband-travis-kelce-duped-by-indian-origin-man-siddharth-jawahar-weaponised-trust-12058259#publisher=newsstand",
+    "title": "\"Enormous Losses\": Taylor Swift's Husband Duped By Indian-Origin Man",
+    "posted_title": "الحكم بالسجن 11 عاما على رجل أعمال هندي احتال على مستثمرين بينهم لاعب فريق كانساس سيتي تشيفس بمخطط بونزي بقيمة 35 مليون دولار",
+    "region": "in",
+    "seen_at": "2026-09-18T05:31:52.866136+00:00"
   }
 ]
