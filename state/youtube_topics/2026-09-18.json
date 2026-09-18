@@ -1,0 +1,565 @@
+{
+  "run_date": "2026-09-18",
+  "stats": {
+    "points_in": 537,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 387,
+    "issues_clustered": 32,
+    "topics_merged": 2,
+    "topics_out": 0,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 3,
+    "topics_below_min_points": 14,
+    "topics_below_min_channels": 7,
+    "layer_a": 0,
+    "layer_b": 0,
+    "layer_c": 0,
+    "agreement": 0,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "سيطرة الحوثيين على المخا ونزوح الصحفيين",
+      "إحصاء حالات الاختفاء القسري والاحتجاز التعسفي للصحفيين في اليمن",
+      "استهداف الحوثيين الممنهج للصحفيين",
+      "معاناة الصحفيات اليمنيات",
+      "توثيق قتل الصحفيين في اليمن",
+      "قصة اختطاف الصحفي عصام بلغيث"
+    ],
+    [
+      "تغير الحريات النسائية في إيران واقعياً لا قانونياً",
+      "تجارب نساء إيرانيات مع الحجاب الاختياري والاحتجاج",
+      "تقرير منظمة العفو الدولية عن جرائم ضد الإنسانية في إيران",
+      "تقييم حركة المرأة والحياة والحرية وتجاوز نقطة اللاعودة"
+    ]
+  ],
+  "topics": [],
+  "all_topics": [
+    {
+      "title": "موقف إدارة ترامب من التصعيد العسكري والدبلوماسي مع إيران",
+      "event": "تصريح جي دي فانس بأن الإدارة لن تشن عمليات كبرى ولن تدخل مفاوضات مع إيران",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        55
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحذير نتنياهو من التهديد النووي الإيراني",
+      "event": "تصريح نتنياهو باحتمال تطوير إيران أسلحة نووية وتعامل إسرائيل مع التهديد",
+      "layer": "b",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        130,
+        145
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تكلفة الحرب الاقتصادية مع إيران وأثرها على الناخب",
+      "event": "إعلان وزير الحرب الأمريكي تكلفة الحرب مع إيران وتأثيرها على أسعار الوقود والناخبين",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        1,
+        3,
+        4,
+        101
+      ],
+      "total_points": 4,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "سيطرة الحوثيين على المخا ونزوح الصحفيين",
+      "event": "سيطرة الحوثيين على مدينة المخا الساحلية وما تبعها من نزوح كبير للصحفيين",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111
+      ],
+      "total_points": 20,
+      "fresh_points": 17,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قضية بلدية إسطنبول الكبرى ومسار المحاكمة",
+      "event": "جلسات محاكمة قضية بلدية إسطنبول الكبرى وتناقضات الشهادات والاتهامات",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        56,
+        119,
+        120,
+        121,
+        122
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أوضاع السجون التونسية المكتظة والوفيات",
+      "event": "ارتفاع أعداد السجناء والاكتظاظ في السجون التونسية ووفيات خلال الصيف والدعوات لتحقيقات مستقلة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        112,
+        113,
+        114,
+        115,
+        116,
+        118
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قرار الكونغرس بشأن صلاحيات الحرب مع إيران",
+      "event": "تصويت مجلس النواب الأمريكي للمرة الثالثة على قرار يحد من صلاحيات ترامب في شن الحرب على إيران",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        0,
+        2
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "صفقة أسلحة أمريكية-إسرائيلية بقيمة 2.8 مليار دولار",
+      "event": "إبرام إدارة ترامب صفقة أسلحة مع إسرائيل تتضمن قنابل ورؤوس حربية وموقف ديمقراطي رافض واستخدام سابق في غزة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "دور الطاقة في الصراع الإقليمي",
+      "event": "نقاش حول دور الولايات المتحدة وأوروبا في الصراع على مصادر الطاقة خلال الحرب",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        14,
+        15
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تحقيق فتو في مسلسل ذئاب الوادي",
+      "event": "تحقيق النيابة العامة في سيليفري حول رسائل دعائية موالية لفتح الله غولن في مسلسل ذئاب الوادي (كرتلار فاديسي)",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تغير الحريات النسائية في إيران واقعياً لا قانونياً",
+      "event": "نقاش حول تغير واقع النساء في إيران خلال أربع سنوات دون تغيير قانوني، وأدوات القمع الحكومي",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        66,
+        67,
+        68,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "احتمال تدخل عسكري أمريكي واسع ضد إيران",
+      "event": "تصريحات ترامب ومؤشرات عملية تشير لاحتمال تدخل عسكري أمريكي واسع ضد إيران قد يشمل إسقاط النظام",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        84,
+        85,
+        86
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "سيطرة الحوثيين على باب المندب والمخا كنقطة استراتيجية",
+      "event": "سيطرة الحوثيين على مضيق باب المندب وتموضعهم العسكري كنقطة استراتيجية في أي حرب أمريكية إيرانية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        87,
+        99,
+        100
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتفاق الحوثيين مع الإدارة الأمريكية بشأن مرور السفن",
+      "event": "اتفاق سياسي بين الحوثيين والإدارة الأمريكية منذ مايو 2025 حول مرور السفن واستثناء السعودية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        90,
+        92,
+        96
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استهداف الحوثيين لمكة المكرمة بطائرات مسيرة",
+      "event": "استهداف الحوثيين مدينة مكة المكرمة بطائرات مسيرة وردود الفعل الأخلاقية على ذلك",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        91,
+        95
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قلق الأمريكيين من الذكاء الاصطناعي",
+      "event": "استطلاع بيو حول قلق الأمريكيين وتأثير الذكاء الاصطناعي على التفكير الإبداعي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        103,
+        104
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تسجيل صوتي يوثق طلب اعتقالات ملفقة لمتظاهرين",
+      "event": "كشف تسجيل صوتي يثبت طلب ضابط شرطة اعتقال متظاهرين بتهم ملفقة ورد فعل القضاء والرأي العام حوله",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        137,
+        138,
+        140,
+        141,
+        142
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتقاد دور نقابة المحامين الإسرائيلية السياسي",
+      "event": "انتقاد تحول نقابة المحامين الإسرائيلية إلى منظمة سياسية لا تمثل المحامين وتمييزها في الدعم القانوني",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        139
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استمرار الحملة الإسرائيلية ضد حزب الله في لبنان",
+      "event": "تصريحات إسرائيلية بشأن استمرار الحملة ضد حزب الله ومنع إعادة بناء قوته في لبنان",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ILTV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        148,
+        149
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مراحل الحرب الإيرانية وتداعياتها الإقليمية",
+      "event": "تحليل رامي الخليفة لمراحل الحرب مع إيران وتحول إيران نحو فرض نظام إقليمي جديد",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        16,
+        17
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "موقف السعودية بين التحالف الإبراهيمي والتفاوض مع إيران",
+      "event": "ضغوط أمريكية إسرائيلية على السعودية للاختيار بين التحالف الإبراهيمي أو التفاوض مع إيران، ورفض بن سلمان دخول حرب ضد إيران",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        18,
+        19
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تصريحات بوتين ومدفيديف حول تهديد الغرب لروسيا",
+      "event": "تصريحات روسية بشأن عدم نية مهاجمة أوروبا وتحذير من محاولة الغرب جر روسيا لكارثة نووية",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        49,
+        50
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "نقد أوزيل للاستبداد وتآكل الديمقراطية في تركيا",
+      "event": "تصريحات أوزغور أوزيل حول تحول تركيا نحو الاستبدادية وتآكل الديمقراطية",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        57,
+        58
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حملة اعتقالات إزمير بتهم أخلاقية عبر انتهاك الخصوصية",
+      "event": "اعتقالات إزمير لأشخاص بتهم فضائح جنسية وتسهيل الدعارة عبر بيانات جُمعت بانتهاك الخصوصية دون قرار قضائي",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        63,
+        64,
+        65
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
