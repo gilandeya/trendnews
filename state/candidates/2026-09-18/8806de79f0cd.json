@@ -1,0 +1,62 @@
+{
+  "id": "8806de79f0cd",
+  "created_at": "2026-09-18T09:07:49.967910+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.41,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "‘Giddily elated’: In new book, Diana’s brother accuses Charles of callous reaction after her death, Palace hits back",
+  "link": "https://www.malaymail.com/news/life/2026/09/18/giddily-elated-in-new-book-dianas-brother-accuses-charles-of-callous-reaction-after-her-death-palace-hits-back/235613",
+  "publishers": [
+    "Malay Mail",
+    "South China Morning Post"
+  ],
+  "region": "my",
+  "article": {
+    "title": "‘Giddily elated’: In new book, Diana’s brother accuses Charles of callous reaction after her death, Palace hits back",
+    "link": "https://www.malaymail.com/news/life/2026/09/18/giddily-elated-in-new-book-dianas-brother-accuses-charles-of-callous-reaction-after-her-death-palace-hits-back/235613",
+    "summary": "LONDON, Sept 18 — Princess Diana’s brother has unleashed a string of criticism against King Charles III in h...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-18T03:01:40+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/18/363167.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Malay Mail",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3367916/king-charles-was-giddily-elated-after-dianas-death-her-brother-says?utm_source=rss_feed"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/life/2026/09/18/giddily-elated-in-new-book-dianas-brother-accuses-charles-of-callous-reaction-after-her-death-palace-hits-back/235613"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/18/363167.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1072.9121696322222,
+    "is_stale": false,
+    "score": 19.409925216851853,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

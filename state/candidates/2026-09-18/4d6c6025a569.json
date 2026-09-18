@@ -1,0 +1,90 @@
+{
+  "id": "4d6c6025a569",
+  "created_at": "2026-09-18T09:07:49.967052+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.93,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "light",
+  "state_media": false,
+  "title": "Russia, China veto U.S. proposal for UN experts to keep monitoring sanctions on Iran",
+  "link": "https://www.thehindu.com/news/international/russia-china-veto-us-proposal-for-un-experts-to-keep-monitoring-sanctions-on-iran/article71478218.ece",
+  "publishers": [
+    "AP News",
+    "Court House News",
+    "IRNA English",
+    "Mehr News",
+    "TASS",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Russia, China veto U.S. proposal for UN experts to keep monitoring sanctions on Iran",
+    "link": "https://www.thehindu.com/news/international/russia-china-veto-us-proposal-for-un-experts-to-keep-monitoring-sanctions-on-iran/article71478218.ece",
+    "summary": "Iran's UN mission thanked China and Russia for vetoing the resolution, saying on social media that the countries “prevented yet another cynical attempt by the United States and its allies to abuse the Security Council for their political purposes”",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-17T21:18:20+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/3rpuci/article71478232.ece/alternates/LANDSCAPE_1200/Iran_War__33_8.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "AP News",
+      "Court House News",
+      "IRNA English",
+      "Mehr News",
+      "TASS",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/russia-and-china-veto-us-proposal-for-un-experts-to-keep-monitoring-sanctions-on-iran/"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2629911/pakistan-abstains-as-china-russia-veto-iran-sanctions-monitoring-resolution"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russia-china-veto-us-proposal-for-un-experts-to-keep-monitoring-sanctions-on-iran/article71478218.ece"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247844/Russia-China-veto-US-resolution-about-Iran-sanctions"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86266867/Russia-China-veto-US-anti-Iran-resolution-at-UNSC"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2189291"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/3rpuci/article71478232.ece/alternates/LANDSCAPE_1200/Iran_War__33_8.jpg",
+      "https://media.mehrnews.com/d/2024/09/18/4/5166813.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/11/4/173099369.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 1072.9121528908333,
+    "is_stale": false,
+    "score": 21.933841836765406,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

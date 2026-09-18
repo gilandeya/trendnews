@@ -1,25 +1,5 @@
 [
   {
-    "score": 26.71,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "base",
-      "claim",
-      "fighting",
-      "flares",
-      "forces",
-      "houthis",
-      "saudi",
-      "yemeni"
-    ],
-    "link": "https://www.theguardian.com/world/2026/sep/13/houthis-claim-attack-on-saudi-base-as-fighting-flares-with-yemeni-forces",
-    "title": "Houthis claim attack on Saudi base as fighting flares with Yemeni forces",
-    "posted_title": "هجوم حوثي بطائرات مسيّرة وصواريخ على قاعدة عسكرية سعودية جنوبية",
-    "region": "uk",
-    "seen_at": "2026-09-13T07:41:44.958078+00:00"
-  },
-  {
     "score": 32.62,
     "bucket": "serious",
     "tokens": [
@@ -5433,5 +5413,111 @@
     "posted_title": "",
     "region": "uk",
     "seen_at": "2026-09-18T06:07:51.851441+00:00"
+  },
+  {
+    "score": 21.93,
+    "bucket": "light",
+    "tokens": [
+      "china",
+      "experts",
+      "iran",
+      "keep",
+      "monitoring",
+      "proposal",
+      "russia",
+      "sanctions",
+      "veto"
+    ],
+    "link": "https://www.thehindu.com/news/international/russia-china-veto-us-proposal-for-un-experts-to-keep-monitoring-sanctions-on-iran/article71478218.ece",
+    "title": "Russia, China veto U.S. proposal for UN experts to keep monitoring sanctions on Iran",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-18T09:07:49.967392+00:00"
+  },
+  {
+    "score": 20.51,
+    "bucket": "sport",
+    "tokens": [
+      "bournemouth",
+      "bow",
+      "european",
+      "kluivert",
+      "rayan",
+      "real",
+      "rock",
+      "sociedad",
+      "win"
+    ],
+    "link": "https://www.theguardian.com/football/2026/sep/17/real-sociedad-bournemouth-europa-league-match-report",
+    "title": "Kluivert and Rayan rock Real Sociedad as Bournemouth win on European bow",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-18T09:07:49.967590+00:00"
+  },
+  {
+    "score": 20.47,
+    "bucket": "sport",
+    "tokens": [
+      "carabao",
+      "city",
+      "cup",
+      "manchester",
+      "norwich",
+      "round",
+      "third"
+    ],
+    "link": "https://www.theguardian.com/football/live/2026/sep/17/manchester-city-v-norwich-city-carabao-cup-third-round-live",
+    "title": "Manchester City 5-0 Norwich City: Carabao Cup third round",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-18T09:07:49.967743+00:00"
+  },
+  {
+    "score": 20.26,
+    "bucket": "serious",
+    "tokens": [
+      "'go",
+      "'our",
+      "any",
+      "arabia",
+      "attacks",
+      "commitment",
+      "defend",
+      "extent'",
+      "houthi",
+      "ispr",
+      "pakistan",
+      "saudi",
+      "unconditional'"
+    ],
+    "link": "https://www.dawn.com/news/2030830/our-commitment-is-unconditional-amid-houthi-attacks-dg-ispr-says-pakistan-will-go-to-any-extent-to-defend-saudi-arabia",
+    "title": "'Our commitment is unconditional': Amid Houthi attacks, DG ISPR says Pakistan will 'go to any extent' to defend Saudi Arabia",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-18T09:07:49.967906+00:00"
+  },
+  {
+    "score": 19.41,
+    "bucket": "serious",
+    "tokens": [
+      "accuses",
+      "back",
+      "book",
+      "brother",
+      "callous",
+      "charles",
+      "death",
+      "diana",
+      "elated",
+      "giddily",
+      "hits",
+      "palace",
+      "reaction"
+    ],
+    "link": "https://www.malaymail.com/news/life/2026/09/18/giddily-elated-in-new-book-dianas-brother-accuses-charles-of-callous-reaction-after-her-death-palace-hits-back/235613",
+    "title": "‘Giddily elated’: In new book, Diana’s brother accuses Charles of callous reaction after her death, Palace hits back",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-18T09:07:49.968043+00:00"
   }
 ]
