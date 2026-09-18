@@ -1,107 +1,5 @@
 [
   {
-    "score": 32.21,
-    "bucket": "sport",
-    "tokens": [
-      "city",
-      "controversial",
-      "derby",
-      "despite",
-      "foden",
-      "haaland",
-      "man",
-      "red",
-      "scores",
-      "win",
-      "winner"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/videos/cpd0j54xlyyo?at_medium=RSS&at_campaign=rss",
-    "title": "Haaland scores controversial winner as Man City win derby despite Foden red",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-13T22:07:46.732076+00:00"
-  },
-  {
-    "score": 26.64,
-    "bucket": "sport",
-    "tokens": [
-      "beats",
-      "fifth",
-      "gb's",
-      "hewett",
-      "oda",
-      "open",
-      "title",
-      "win"
-    ],
-    "link": "https://www.bbc.co.uk/sport/tennis/articles/clym44jvy9zo?at_medium=RSS&at_campaign=rss",
-    "title": "GB's Hewett beats Oda to win fifth US Open title",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-13T22:07:46.732398+00:00"
-  },
-  {
-    "score": 20.11,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "avc",
-      "c'ship",
-      "final",
-      "iran",
-      "japan",
-      "men",
-      "volleyball",
-      "wins"
-    ],
-    "link": "https://en.mehrnews.com/news/247713/Japan-sweep-Iran-to-win-2026-AVC-Men-s-Volleyball-C-ship",
-    "title": "Japan wins Iran 3-0 in 2026 AVC Men’s Volleyball C'ship final",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-13T22:07:46.732665+00:00"
-  },
-  {
-    "score": 19.18,
-    "bucket": "serious",
-    "tokens": [
-      "associate",
-      "canada",
-      "carney",
-      "idea",
-      "making",
-      "member",
-      "pushes",
-      "reports",
-      "wsj"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-13-carney-pushes-idea-of-making-canada-associate-member-of-eu-wsj-reports/",
-    "title": "Carney pushes idea of making Canada ‘associate member’ of EU, WSJ reports",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-13T22:07:46.732924+00:00"
-  },
-  {
-    "score": 17.41,
-    "bucket": "serious",
-    "tokens": [
-      "border",
-      "diplomatic",
-      "hits",
-      "just",
-      "misses",
-      "passenger",
-      "poland",
-      "russia",
-      "train",
-      "ukraine"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-13-russia-hits-passenger-train-on-ukraines-border-with-poland-just-misses-diplomatic-train/",
-    "title": "Russia hits passenger train on Ukraine’s border with Poland, just misses ‘diplomatic train’",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-13T22:07:46.733173+00:00"
-  },
-  {
     "score": 19.18,
     "bucket": "serious",
     "tokens": [
@@ -5359,5 +5257,95 @@
     "posted_title": "لماذا وافق الكونغرس على قانون يهدد الهند والصين برسوم جمركية بسبب النفط الروسي؟",
     "region": "in",
     "seen_at": "2026-09-18T19:35:46.550535+00:00"
+  },
+  {
+    "score": 21.87,
+    "bucket": "serious",
+    "tokens": [
+      "approves",
+      "arabia",
+      "jets",
+      "sale",
+      "saudi"
+    ],
+    "link": "https://www.dawn.com/news/2030730/us-approves-sale-of-48-f-35-jets-to-saudi-arabia",
+    "title": "US approves sale of 48 F-35 jets to Saudi Arabia",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-18T22:07:49.795444+00:00"
+  },
+  {
+    "score": 20.05,
+    "bucket": "useful",
+    "tokens": [
+      "about",
+      "decline",
+      "futures",
+      "grows",
+      "oil",
+      "optimism",
+      "recovery",
+      "saudi",
+      "supply"
+    ],
+    "link": "https://www.investing.com/analysis/oil-futures-decline-as-optimism-grows-about-saudi-supply-recovery-200687972",
+    "title": "Oil Futures Decline as Optimism Grows About Saudi Supply Recovery",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-09-18T22:07:49.795718+00:00"
+  },
+  {
+    "score": 19.05,
+    "bucket": "serious",
+    "tokens": [
+      "'feels",
+      "africa",
+      "femicides",
+      "like",
+      "prison'",
+      "south",
+      "spate",
+      "women"
+    ],
+    "link": "https://www.npr.org/2026/09/18/nx-s1-5973822/south-africa-feels-like-a-prison-for-women-amid-spate-of-femicides",
+    "title": "South Africa 'feels like a prison' for women amid spate of femicides",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-09-18T22:07:49.795929+00:00"
+  },
+  {
+    "score": 18.3,
+    "bucket": "sport",
+    "tokens": [
+      "allen",
+      "beat",
+      "bills",
+      "lions",
+      "shines",
+      "stadium"
+    ],
+    "link": "https://www.bbc.co.uk/sport/american-football/videos/cmqxvd1d5yewo?at_medium=RSS&at_campaign=rss",
+    "title": "Allen shines as Bills beat Lions in new stadium",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-18T22:07:49.796172+00:00"
+  },
+  {
+    "score": 18.19,
+    "bucket": "serious",
+    "tokens": [
+      "anti",
+      "berlin",
+      "envoy",
+      "german",
+      "iran",
+      "positions",
+      "summons"
+    ],
+    "link": "https://en.mehrnews.com/news/247845/FM-summons-German-envoy-over-Berlin-s-anti-Iran-positions",
+    "title": "FM summons German envoy over Berlin’s anti-Iran positions",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-18T22:07:49.796379+00:00"
   }
 ]

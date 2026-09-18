@@ -1,0 +1,63 @@
+{
+  "id": "906a957f309f",
+  "created_at": "2026-09-18T22:07:49.796181+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.19,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "FM summons German envoy over Berlin’s anti-Iran positions",
+  "link": "https://en.mehrnews.com/news/247845/FM-summons-German-envoy-over-Berlin-s-anti-Iran-positions",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "FM summons German envoy over Berlin’s anti-Iran positions",
+    "link": "https://en.mehrnews.com/news/247845/FM-summons-German-envoy-over-Berlin-s-anti-Iran-positions",
+    "summary": "TEHRAN, Sep. 18 (MNA) – Iran’s Ministry of Foreign Affairs has summoned the German ambassador in Tehran to protest the positions of senior German officials against Iran and the interventionist actions of the German embassy.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-18T07:25:41+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/08/21/4/6141083.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247845/FM-summons-German-envoy-over-Berlin-s-anti-Iran-positions"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86266907/Foreign-Ministry-summons-German-ambassador-over-Berlin-s-anti-Iran"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/08/21/4/6141083.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/17/4/173112211.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1085.9121478102777,
+    "is_stale": false,
+    "score": 18.186616405740743,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

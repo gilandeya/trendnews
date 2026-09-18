@@ -1,0 +1,91 @@
+{
+  "id": "267d151b162d",
+  "created_at": "2026-09-18T22:07:49.795020+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.87,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US approves sale of 48 F-35 jets to Saudi Arabia",
+  "link": "https://www.dawn.com/news/2030730/us-approves-sale-of-48-f-35-jets-to-saudi-arabia",
+  "publishers": [
+    "BBC World",
+    "Dawn",
+    "Der Spiegel",
+    "France24",
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "US approves sale of 48 F-35 jets to Saudi Arabia",
+    "link": "https://www.dawn.com/news/2030730/us-approves-sale-of-48-f-35-jets-to-saudi-arabia",
+    "summary": "WASHINGTON: The United States has approved a $24.3 billion sale of 48 F-35 stealth warplanes to Saudi Arabia, the State Department said on Thursday, the latest major arms purchase by Riyadh since the start of the Iran war. Saudi Arabia has long sought to buy F-35s, but officials from Israel — currently the only country in the Middle East to operate the jets — have voiced concern about their sale to Riyadh despite a push by the Saudis to normalise relations. “The proposed sale will improve Saudi Arabia’s capability to deter current and future threats by strengthening its homeland defence, and improving interoperability with US forces,” the State Department said in a statement. “It will also augment Saudi Arabia’s operational aircraft and enhance its air-to-air, and air-to-ground self-defence capability,” the statement said. The State Department has notified Congress about the proposed sale, which would require the approval of US lawmakers. It did not provide a time frame for the delivery of the jets. The F-35 sale “will not alter the military balance in the region,” the State Department said, in keeping with longstanding US policy that Israel must have a military edge over potential",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-18T02:10:42+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/180825401f6af17.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "BBC World",
+      "Dawn",
+      "Der Spiegel",
+      "France24",
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030730/us-approves-sale-of-48-f-35-jets-to-saudi-arabia"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-approves-sale-of-48-f-35-jets-to-saudi-arabia/article71478233.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260918-us-approves-sale-of-f-35-fighter-jets-to-saudi-arabia"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-approves-usd-24-3-billion-sale-of-48-f-35-fighter-jets-to-saudi-arabia-101789693914980.html"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/politik/deutschland/news-des-tages-spritpreise-tarnkappenbomber-f-35-wahlen-a-79a1c02a-815f-4950-a651-c59c2fee795a#ref=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c3x2zrn01pxko?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/180825401f6af17.webp",
+      "https://i.dawn.com/thumbnail/2026/09/180825401f6af17.webp",
+      "https://th-i.thgim.com/public/incoming/cjjhtv/article71478362.ece/alternates/LANDSCAPE_1200/Estonia_US_Stealth_Fighter_57209.jpg-4d916.jpg",
+      "https://s.france24.com/media/display/49bb9402-b363-11f1-9ebf-43e12873d6ea/w:1024/p:16x9/EN-20260918-144551-144748-CS.jpg",
+      "https://cdn.prod.www.spiegel.de/images/0fb372c3-843d-4dc6-a445-e7c34c92f75c_w520_r2.08_fpx28.09_fpy49.93.png",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/27ea/live/7d7d4cc0-b2e3-11f1-a845-59f886d45f54.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 1085.9120586930555,
+    "is_stale": true,
+    "score": 21.874855777885692,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "id": "dcacbc8bcb73",
+  "created_at": "2026-09-18T22:07:49.795937+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.3,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Allen shines as Bills beat Lions in new stadium",
+  "link": "https://www.bbc.co.uk/sport/american-football/videos/cmqxvd1d5yewo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "The Guardian — Sport",
+    "The Japan Times"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Allen shines as Bills beat Lions in new stadium",
+    "link": "https://www.bbc.co.uk/sport/american-football/videos/cmqxvd1d5yewo?at_medium=RSS&at_campaign=rss",
+    "summary": "Josh Allen stars as the Buffalo Bills score six touchdowns to beat the Detroit Lions 41-31 in the new Highmark Stadium.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-18T08:36:56+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0fed/live/3ed63710-b339-11f1-a430-4d16ee157c41.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "The Guardian — Sport",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/american-football/videos/cmqxvd1d5yewo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/sport/2026/sep/17/buffalo-bills-detroit-lions-nfl-thursday-night-football"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/sports/2026/09/18/more-sports/bills-lions-stadium/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0fed/live/3ed63710-b339-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0fed/live/3ed63710-b339-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0fed/live/3ed63710-b339-11f1-a430-4d16ee157c41.jpg",
+      "https://i.guim.co.uk/img/media/c87d66bba0bd4b2cdab780169ce675e905e9983f/705_0_4354_3484/master/4354.jpg?width=700&quality=85&auto=format&fit=max&s=a3df3925f7bae46dc8c7d37a85c96892",
+      "https://i.guim.co.uk/img/media/c87d66bba0bd4b2cdab780169ce675e905e9983f/705_0_4354_3484/master/4354.jpg?width=460&quality=85&auto=format&fit=max&s=4c59bf194e023659179ff45d3e09926e",
+      "https://i.guim.co.uk/img/media/c87d66bba0bd4b2cdab780169ce675e905e9983f/705_0_4354_3484/master/4354.jpg?width=140&quality=85&auto=format&fit=max&s=b17d2a7306f5da6265126de2e558ca78"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1085.9121434355557,
+    "is_stale": false,
+    "score": 18.304003914496803,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

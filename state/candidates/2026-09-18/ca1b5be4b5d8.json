@@ -1,0 +1,76 @@
+{
+  "id": "ca1b5be4b5d8",
+  "created_at": "2026-09-18T22:07:49.795459+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.05,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Oil Futures Decline as Optimism Grows About Saudi Supply Recovery",
+  "link": "https://www.investing.com/analysis/oil-futures-decline-as-optimism-grows-about-saudi-supply-recovery-200687972",
+  "publishers": [
+    "Investing.com — Commodities",
+    "NPR World",
+    "South China Morning Post"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Oil Futures Decline as Optimism Grows About Saudi Supply Recovery",
+    "link": "https://www.investing.com/analysis/oil-futures-decline-as-optimism-grows-about-saudi-supply-recovery-200687972",
+    "summary": "",
+    "source_name": "Investing.com — Commodities",
+    "region": "money",
+    "weight": 1.0,
+    "published": "2026-09-18T22:07:35.897906+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5973810",
+    "publisher": "Investing.com — Commodities",
+    "cluster_sources": [
+      "Investing.com — Commodities",
+      "NPR World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/oil-futures-decline-as-optimism-grows-about-saudi-supply-recovery-200687972"
+      },
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/saudi-oil-exports-rebound-at-hormuz-while-eastwest-pipeline-remains-offline-200687968"
+      },
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/oil-prices-head-for-weekly-loss-as-saudi-export-fears-ease-200687941"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/18/nx-s1-5973810/houthi-attacks-saudi-oil-world-markets"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/week-asia/economics/article/3368062/saudi-oil-pipeline-closure-puts-asias-economic-resilience-test?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5973810"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1085.9120615733334,
+    "is_stale": true,
+    "score": 20.0547427712931,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
