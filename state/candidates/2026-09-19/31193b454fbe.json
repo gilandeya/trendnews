@@ -1,0 +1,101 @@
+{
+  "id": "31193b454fbe",
+  "created_at": "2026-09-19T19:07:53.234791+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.54,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "light",
+  "state_media": false,
+  "title": "White House turns away CNN, MS NOW, Politico reporters after Trump announces ban",
+  "link": "https://www.channelnewsasia.com/world/white-house-turns-away-cnn-ms-now-politico-reporters-after-trump-announces-ban-6396876",
+  "publishers": [
+    "CGTN",
+    "Channel News Asia",
+    "Court House News",
+    "Daily Sabah",
+    "France24",
+    "MercoPress",
+    "MyJoyOnline Ghana",
+    "South China Morning Post",
+    "The Hindu — International",
+    "The Japan Times",
+    "Vanguard Nigeria"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "White House turns away CNN, MS NOW, Politico reporters after Trump announces ban",
+    "link": "https://www.channelnewsasia.com/world/white-house-turns-away-cnn-ms-now-politico-reporters-after-trump-announces-ban-6396876",
+    "summary": "All three news outlets separately said their teams' press passes were confiscated on Saturday morning when their journalists went to the White House.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-19T17:06:56+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--IXRYNE24--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-19T155933Z_1_LYNXMPEM8I0C6_RTROPTP_3_USA-TRUMP.JPG?itok=gFfxPrE4",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "CGTN",
+      "Channel News Asia",
+      "Court House News",
+      "Daily Sabah",
+      "France24",
+      "MercoPress",
+      "MyJoyOnline Ghana",
+      "South China Morning Post",
+      "The Hindu — International",
+      "The Japan Times",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/white-house-to-ban-cnn-ms-now-politico-over-fake-news-claims/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368128/white-house-bars-cnn-ms-now-and-politico-reporters-after-trump-ban?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-bans-media-outlets-cnn-ms-now-politico-from-white-house/article71482414.ece"
+      },
+      {
+        "name": "MercoPress",
+        "link": "https://en.mercopress.com/2026/09/19/trump-announces-ban-on-cnn-ms-now-and-politico-at-the-white-house-with-no-steps-to-enforce-it?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260919-cnn-ms-now-politico-reporters-blocked-from-white-house-after-trump-ban"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/white-house-turns-away-cnn-ms-now-politico-reporters-after-trump-announces-ban-6396876"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--IXRYNE24--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-19T155933Z_1_LYNXMPEM8I0C6_RTROPTP_3_USA-TRUMP.JPG?itok=gFfxPrE4",
+      "https://th-i.thgim.com/public/incoming/swdmur/article71482416.ece/alternates/LANDSCAPE_1200/Trump_46727.jpg",
+      "https://en.mercopress.com/data/cache/noticias/111506/100x80/dt.jpg",
+      "https://s.france24.com/media/display/eb650650-b447-11f1-8a93-9f514b90f153/w:1024/p:16x9/AP26262504511078.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/18/461299.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/19/563986.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 11,
+    "velocity": 1.0,
+    "age_hours": 1106.9129275727778,
+    "is_stale": false,
+    "score": 24.544020413874854,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

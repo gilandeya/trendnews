@@ -1,0 +1,93 @@
+{
+  "id": "34f55a2a3b21",
+  "created_at": "2026-09-19T19:07:53.235259+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.86,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Brighton cruise past Arsenal to end the champions perfect start",
+  "link": "https://www.bbc.co.uk/sport/football/videos/cvde048j71rdo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Sport",
+    "Channel News Asia",
+    "Punch Nigeria",
+    "Sky Sports — Football",
+    "The Guardian — Sport",
+    "Vanguard Nigeria"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Brighton cruise past Arsenal to end the champions perfect start",
+    "link": "https://www.bbc.co.uk/sport/football/videos/cvde048j71rdo?at_medium=RSS&at_campaign=rss",
+    "summary": "Brighton secure a 3-0 victory over Premier League champions Arsenal to inflict the Gunners first defeat of the season, as the hosts celebrate their 125th anniversary.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-19T19:00:09+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5a00/live/23fd3cc0-b453-11f1-a430-4d16ee157c41.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Sport",
+      "Channel News Asia",
+      "Punch Nigeria",
+      "Sky Sports — Football",
+      "The Guardian — Sport",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/cvde048j71rdo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/arsenal-beaten-3-0-by-brighton-to-end-perfect-premier-league-start/"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/epl-brighton-defeat-big-lesson-for-arsenal-says-arteta/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/brighton-defeat-a-big-lesson-against-complacency-for-arsenal-says-arteta/"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/watch/video/13589917/arsenal-1-1-manchester-united-smilla-holmberg-equalises-late-on-for-gunners"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/football/news/12040/13589868/arsenal-boss-mikel-arteta-accuses-players-of-failing-to-respect-the-game-as-champions-suffer-first-defeat-of-season-to-brighton"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5a00/live/23fd3cc0-b453-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/5a00/live/23fd3cc0-b453-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5a00/live/23fd3cc0-b453-11f1-a430-4d16ee157c41.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260919__C8RR98K__v1__MidRes__FblEngPrBrightonArsenal-1024x715.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/05/ARTETA-MIKEL.jpg",
+      "https://e0.365dm.com/26/09/1096x616/skysports-homlberg-arsenal_7356641.jpg?20260919193226"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.0,
+    "age_hours": 1106.9129185933334,
+    "is_stale": true,
+    "score": 23.86358661996911,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
