@@ -1,0 +1,101 @@
+{
+  "id": "e353ba523dbd",
+  "created_at": "2026-09-19T09:07:45.255157+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.35,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Google’s Gemini AI carried out cyberattacks, guessed passwords",
+  "link": "https://www.vanguardngr.com/2026/09/googles-gemini-ai-carried-out-cyberattacks-guessed-passwords/",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Technology",
+    "BBC World",
+    "Channel News Asia",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "NDTV — World",
+    "Punch Nigeria",
+    "South China Morning Post",
+    "The Guardian — World",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Google’s Gemini AI carried out cyberattacks, guessed passwords",
+    "link": "https://www.vanguardngr.com/2026/09/googles-gemini-ai-carried-out-cyberattacks-guessed-passwords/",
+    "summary": "Google's consumer AI model Gemini hacked multiple systems through guessing login credentials, the company told AFP on Friday The post Google’s Gemini AI carried out cyberattacks, guessed passwords appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-09-19T06:26:28+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2024/03/Google.jpg",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Technology",
+      "BBC World",
+      "Channel News Asia",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "NDTV — World",
+      "Punch Nigeria",
+      "South China Morning Post",
+      "The Guardian — World",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/googles-gemini-ai-carried-out-cyberattacks-guessed-passwords/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/googles-gemini-ai-carried-out-cyberattacks-guessed-passwords/"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/technology/2026/sep/18/google-gemini-ai-hack"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/tech-gadgets/2026/09/19/ai-guessed-the-password-gemini-breached-multiple-systems-during-evaluation-google-says/235742"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368090/google-says-gemini-ai-model-breached-real-systems-security-test?utm_source=rss_feed"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/19/googles-gemini-ai-hacks-3-companies-in-security-test-then-stops?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2024/03/Google.jpg",
+      "https://i.guim.co.uk/img/media/3643ec7fce3f85ac2c8b704f2cd1dcdd537b9ba8/227_0_3586_2869/master/3586.jpg?width=700&quality=85&auto=format&fit=max&s=f05e598434fd42dd779c3386545e4469",
+      "https://i.guim.co.uk/img/media/3643ec7fce3f85ac2c8b704f2cd1dcdd537b9ba8/227_0_3586_2869/master/3586.jpg?width=460&quality=85&auto=format&fit=max&s=27ae6ffe390aa340673803ba0ef5919a",
+      "https://i.guim.co.uk/img/media/3643ec7fce3f85ac2c8b704f2cd1dcdd537b9ba8/227_0_3586_2869/master/3586.jpg?width=140&quality=85&auto=format&fit=max&s=5f60df9c0852bbd10181586d7c6d70d8",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/19/363367.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/754e/live/31c59420-b3e9-11f1-9fb5-25be39d7a18e.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 11,
+    "velocity": 1.0,
+    "age_hours": 1096.9107292727779,
+    "is_stale": false,
+    "score": 32.34920331611559,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "f810ec39aa11",
+  "created_at": "2026-09-19T09:07:45.256506+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.22,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Dep. FM: US cannot escape war crimes responsibility by leaving UN Rights Council",
+  "link": "https://www.tehrantimes.com/news/530152/Dep-FM-US-cannot-escape-war-crimes-responsibility-by-leaving",
+  "publishers": [
+    "IRNA English",
+    "Mehr News",
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Dep. FM: US cannot escape war crimes responsibility by leaving UN Rights Council",
+    "link": "https://www.tehrantimes.com/news/530152/Dep-FM-US-cannot-escape-war-crimes-responsibility-by-leaving",
+    "summary": "TEHRAN — Iran’s Deputy Foreign Minister for Legal and International Affairs Kazem Gharibabadi has said the United States cannot avoid responsibility for war crimes in Iran simply by withdrawing from the UN Human Rights Council.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-18T17:36:05+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/18/4/6178627.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247855/US-cannot-evade-responsibility-for-war-crimes-by-leaving-UNHR"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530152/Dep-FM-US-cannot-escape-war-crimes-responsibility-by-leaving"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86267350/US-cannot-evade-responsibility-for-war-crimes-Iran-deputy-FM"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/18/4/6178627.jpg",
+      "https://media.mehrnews.com/d/2026/06/06/4/6051121.jpg",
+      "https://img9.irna.ir/d/r1/2026/08/05/4/173023007.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1096.9108369688888,
+    "is_stale": false,
+    "score": 17.219814461867173,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

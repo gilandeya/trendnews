@@ -1,0 +1,97 @@
+{
+  "id": "414306ef7f15",
+  "created_at": "2026-09-19T09:07:45.255611+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.37,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump signs sweeping Russia sanctions bill",
+  "link": "https://www.bbc.co.uk/news/articles/cqvgy34ndj4eo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "Meduza English",
+    "NDTV — World",
+    "The Hindu — International",
+    "Vanguard Nigeria",
+    "White House"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump signs sweeping Russia sanctions bill",
+    "link": "https://www.bbc.co.uk/news/articles/cqvgy34ndj4eo?at_medium=RSS&at_campaign=rss",
+    "summary": "The bill is named after the late Senator Lindsey Graham, a staunch advocate of aid for Ukraine.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-18T22:05:47+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/402a/live/1f49c870-b3f3-11f1-a710-1de24a8819a3.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "Meduza English",
+      "NDTV — World",
+      "The Hindu — International",
+      "Vanguard Nigeria",
+      "White House"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cqvgy34ndj4eo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/19/trump-signs-sweeping-russia-sanctions-over-ukraine-war?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-signs-russia-sanctions-bill-into-law/article71482578.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/donald-trump-signs-russia-and-iran-sanctions-bill-into-law-white-house-announces-101789768166998.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/money/2026/09/19/trump-signs-sweeping-russia-sanctions-law-that-could-slap-100pc-tariffs-on-china-india/235744"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/donald-trump-signs-russia-sanctions-bill-amid-ukraine-war-clears-way-for-100-tariffs-on-india-china-12067070#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/402a/live/1f49c870-b3f3-11f1-a710-1de24a8819a3.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/402a/live/1f49c870-b3f3-11f1-a710-1de24a8819a3.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/402a/live/1f49c870-b3f3-11f1-a710-1de24a8819a3.jpg",
+      "https://th-i.thgim.com/public/incoming/trlx01/article71482582.ece/alternates/LANDSCAPE_1200/Trump_88769.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/19/363378.jpg",
+      "https://c.ndtvimg.com/2025-07/p3rcb7to_pm-modi-donald-trump-vladimir-putin_625x300_31_July_25.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 9,
+    "velocity": 1.0,
+    "age_hours": 1096.9107401830556,
+    "is_stale": false,
+    "score": 23.374368649493604,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

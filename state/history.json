@@ -1,25 +1,5 @@
 [
   {
-    "score": 17.34,
-    "bucket": "serious",
-    "tokens": [
-      "cities",
-      "civil",
-      "danger",
-      "defense",
-      "four",
-      "lifts",
-      "potential",
-      "saudi",
-      "warnings"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-14-saudi-civil-defense-lifts-warnings-of-potential-danger-in-four-cities/",
-    "title": "Saudi Civil Defense lifts warnings of potential danger in four cities",
-    "posted_title": "السعودية ترفع حالة التأهب في نجران وخميس مشيط وجازان وأبها بعد تحذيرات من خطر محتمل",
-    "region": "za",
-    "seen_at": "2026-09-14T06:10:08.594782+00:00"
-  },
-  {
     "score": 33.02,
     "bucket": "sport",
     "tokens": [
@@ -5338,5 +5318,95 @@
     "posted_title": "",
     "region": "pk",
     "seen_at": "2026-09-19T06:08:01.893570+00:00"
+  },
+  {
+    "score": 32.35,
+    "bucket": "serious",
+    "tokens": [
+      "carried",
+      "cyberattacks",
+      "gemini",
+      "google",
+      "guessed",
+      "passwords"
+    ],
+    "link": "https://www.vanguardngr.com/2026/09/googles-gemini-ai-carried-out-cyberattacks-guessed-passwords/",
+    "title": "Google’s Gemini AI carried out cyberattacks, guessed passwords",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-19T09:07:45.255598+00:00"
+  },
+  {
+    "score": 23.37,
+    "bucket": "serious",
+    "tokens": [
+      "bill",
+      "russia",
+      "sanctions",
+      "signs",
+      "sweeping",
+      "trump"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cqvgy34ndj4eo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump signs sweeping Russia sanctions bill",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-19T09:07:45.255923+00:00"
+  },
+  {
+    "score": 18.54,
+    "bucket": "serious",
+    "tokens": [
+      "criticism",
+      "korea",
+      "north",
+      "nuclear",
+      "rejects",
+      "watchdog"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/19/north-korea-rejects-un-nuclear-watchdog-s-criticism",
+    "title": "North Korea rejects UN nuclear watchdog’s criticism",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-19T09:07:45.256230+00:00"
+  },
+  {
+    "score": 18.31,
+    "bucket": "serious",
+    "tokens": [
+      "brazilian",
+      "capture",
+      "disguised",
+      "killer",
+      "police",
+      "serial",
+      "suspected",
+      "woman"
+    ],
+    "link": "https://www.aljazeera.com/video/newsfeed/2026/9/19/brazilian-police-capture-suspected-serial-killer-disguised-as-a-woman?traffic_source=rss",
+    "title": "Brazilian police capture suspected serial killer disguised as a woman",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-09-19T09:07:45.256497+00:00"
+  },
+  {
+    "score": 17.22,
+    "bucket": "serious",
+    "tokens": [
+      "cannot",
+      "council",
+      "crimes",
+      "dep",
+      "escape",
+      "leaving",
+      "responsibility",
+      "rights",
+      "war"
+    ],
+    "link": "https://www.tehrantimes.com/news/530152/Dep-FM-US-cannot-escape-war-crimes-responsibility-by-leaving",
+    "title": "Dep. FM: US cannot escape war crimes responsibility by leaving UN Rights Council",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-19T09:07:45.256768+00:00"
   }
 ]
