@@ -1,11 +1,11 @@
 {
   "id": "d966c1faf1fe",
-  "created_at": "2026-09-19T15:07:47.122987+00:00",
+  "created_at": "2026-09-19T18:07:51.953076+00:00",
   "status": "pending",
-  "selection_issue": 991,
-  "score": 24.48,
-  "trend_score": 1.0,
-  "velocity": 0.0,
+  "selection_issue": null,
+  "score": 25.19,
+  "trend_score": 0.0,
+  "velocity": 1.0,
   "impact": 0,
   "proximity": 0,
   "intrigue": 0,
@@ -17,13 +17,18 @@
   "publishers": [
     "BBC World",
     "CGTN",
+    "Channel News Asia",
     "Court House News",
     "Daily Sabah",
+    "France24",
     "Hindustan Times — World",
     "MercoPress",
+    "MyJoyOnline Ghana",
     "Premium Times",
+    "South China Morning Post",
     "The Hindu — International",
-    "The Japan Times"
+    "The Japan Times",
+    "Vanguard Nigeria"
   ],
   "region": "uk",
   "article": {
@@ -39,13 +44,18 @@
     "cluster_sources": [
       "BBC World",
       "CGTN",
+      "Channel News Asia",
       "Court House News",
       "Daily Sabah",
+      "France24",
       "Hindustan Times — World",
       "MercoPress",
+      "MyJoyOnline Ghana",
       "Premium Times",
+      "South China Morning Post",
       "The Hindu — International",
-      "The Japan Times"
+      "The Japan Times",
+      "Vanguard Nigeria"
     ],
     "cluster_members": [
       {
@@ -61,16 +71,16 @@
         "link": "https://www.premiumtimesng.com/foreign/910818-trump-bans-cnn-politico-ms-now-from-white-house.html"
       },
       {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368128/white-house-bars-cnn-ms-now-and-politico-reporters-after-trump-ban?utm_source=rss_feed"
+      },
+      {
         "name": "The Hindu — International",
         "link": "https://www.thehindu.com/news/international/trump-bans-media-outlets-cnn-ms-now-politico-from-white-house/article71482414.ece"
       },
       {
         "name": "MercoPress",
         "link": "https://en.mercopress.com/2026/09/19/trump-announces-ban-on-cnn-ms-now-and-politico-at-the-white-house-with-no-steps-to-enforce-it?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss"
-      },
-      {
-        "name": "Hindustan Times — World",
-        "link": "https://www.hindustantimes.com/world-news/us-news/why-trump-is-banning-cnn-politico-and-ms-now-from-the-white-house-what-we-know-so-far-101789759124553.html"
       }
     ],
     "image_candidates": [
@@ -83,12 +93,12 @@
     ],
     "bucket": "light",
     "state_media": false,
-    "trend_score": 1.0,
-    "group_sources": 9,
-    "velocity": 0.0,
-    "age_hours": 1102.9113238522223,
-    "is_stale": true,
-    "score": 24.475236533234344,
+    "trend_score": 0.0,
+    "group_sources": 14,
+    "velocity": 1.0,
+    "age_hours": 1105.9126458519445,
+    "is_stale": false,
+    "score": 25.187438526932073,
     "impact": 0,
     "proximity": 0,
     "intrigue": 0,

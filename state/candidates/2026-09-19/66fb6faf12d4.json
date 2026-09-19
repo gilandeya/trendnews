@@ -1,0 +1,89 @@
+{
+  "id": "66fb6faf12d4",
+  "created_at": "2026-09-19T18:07:51.953523+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.02,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Gemini went rogue, hacked three companies, and Google hid it",
+  "link": "https://www.theverge.com/ai-artificial-intelligence/997795/google-gemini-rogue-ai-hack",
+  "publishers": [
+    "El País",
+    "Engadget",
+    "Hindustan Times — World",
+    "South China Morning Post",
+    "TechCrunch",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Gemini went rogue, hacked three companies, and Google hid it",
+    "link": "https://www.theverge.com/ai-artificial-intelligence/997795/google-gemini-rogue-ai-hack",
+    "summary": "In May, Gemini broke containment and hacked three different companies, but Google didn't disclose the incident until the Wall Street Journal approached the company. The hacks happened during a test of the model's cybersecurity capabilities run by third-party Irregular, which was also involved in similar incidents involving Meta and OpenAI. According to WSJ, Google didn't […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-09-19T15:25:03+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25290334/STK255_Google_Gemini_D.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "El País",
+      "Engadget",
+      "Hindustan Times — World",
+      "South China Morning Post",
+      "TechCrunch",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/ai-artificial-intelligence/997795/google-gemini-rogue-ai-hack"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2263198/google-gemini-escaped-testing-environment-hacked-three-companies/"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/tecnologia/2026-09-19/google-admite-por-primera-vez-que-su-ia-ha-hackeado-a-tres-empresas.html"
+      },
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/09/19/googles-gemini-is-the-latest-ai-model-to-hack-other-companies/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368090/google-says-gemini-ai-model-breached-real-systems-security-test?utm_source=rss_feed"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/gemini-hacked-3-ai-companies-during-testing-by-cybersecurity-firm-google-confirms-after-report-101789774576431.html"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25290334/STK255_Google_Gemini_D.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://www.engadget.com/img/gallery/google-gemini-also-escaped-its-testing-environment-and-hacked-three-companies/l-intro-1789822859.jpg",
+      "https://www.engadget.com/img/gallery/google-gemini-also-escaped-its-testing-environment-and-hacked-three-companies/intro-1789822859.jpg",
+      "https://imagenes.elpais.com/resizer/v2/QK7WGVIYTJNOZDNIMJGTKB32EI.jpg?auth=3d655b1d97a79527e130a1a5ae7af2c46cd0474046d461405c308635a1b6631c"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 1105.9126413441666,
+    "is_stale": true,
+    "score": 23.024094595274583,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -203,7 +203,9 @@
    "'lies'",
    "'locally",
    "'long",
+   "'look",
    "'lowest",
+   "'magic",
    "'major",
    "'mania'",
    "'masterpiece'",
@@ -299,6 +301,7 @@
    "'sea",
    "'secede'",
    "'second",
+   "'sensitive",
    "'serious",
    "'severe'",
    "'shared",
@@ -488,6 +491,7 @@
    "1970",
    "1970s",
    "1971",
+   "1973",
    "1978",
    "1980s",
    "199",
@@ -1339,6 +1343,7 @@
    "appetite",
    "apple",
    "apple's",
+   "apples",
    "appleseed'",
    "applicants",
    "applications",
@@ -1745,6 +1750,7 @@
    "bamanga",
    "ban",
    "banana",
+   "bananas",
    "bancassurance",
    "banco",
    "band",
@@ -2282,6 +2288,7 @@
    "brent",
    "brentford",
    "brest",
+   "breuer",
    "brewing",
    "brexit",
    "bribe",
@@ -2381,6 +2388,7 @@
    "bulimia",
    "bulk",
    "bullet",
+   "bullet'",
    "bulletproof",
    "bully",
    "bullying",
@@ -2633,6 +2641,7 @@
    "cautions",
    "cautious",
    "cavan",
+   "caves",
    "caviar",
    "cbd",
    "cbi",
@@ -2982,6 +2991,7 @@
    "clusters",
    "cmdr",
    "cna",
+   "cng",
    "cnn",
    "co2",
    "coach",
@@ -3276,6 +3286,7 @@
    "contempt",
    "contenders",
    "content",
+   "contention",
    "contest",
    "contestants",
    "continent",
@@ -3527,6 +3538,7 @@
    "crunch",
    "crush",
    "crushed",
+   "crusher",
    "crushes",
    "crushing",
    "crustacean",
@@ -3589,6 +3601,7 @@
    "cymru",
    "cynical",
    "cyprus",
+   "czar",
    "czech",
    "céline",
    "d'or",
@@ -4331,6 +4344,7 @@
    "drying",
    "dss",
    "dual",
+   "duale",
    "dubai",
    "dublin",
    "duchess",
@@ -4378,6 +4392,7 @@
    "each",
    "eaeu",
    "eager",
+   "eagle",
    "eagles",
    "eala",
    "ear",
@@ -4513,6 +4528,7 @@
    "eliminate",
    "eliminated",
    "elimination",
+   "eliminator",
    "eliminators",
    "elite",
    "elle",
@@ -4771,6 +4787,7 @@
    "europe's",
    "european",
    "eurovision",
+   "evacuate",
    "evacuated",
    "evacuates",
    "evacuation",
@@ -5763,6 +5780,7 @@
    "google",
    "google's",
    "googlebook",
+   "googly",
    "gop",
    "gor",
    "gordon",
@@ -6195,6 +6213,7 @@
    "hiker",
    "hikes",
    "hiking",
+   "hiku",
    "hilal",
    "hilarious",
    "hildegard",
@@ -6359,6 +6378,7 @@
    "humans'",
    "humble",
    "humble'",
+   "humbled",
    "hume",
    "humid",
    "humiliate",
@@ -6565,6 +6585,7 @@
    "incoming",
    "incompetence",
    "incomplete",
+   "inconclusively",
    "increase",
    "increased",
    "increases",
@@ -7179,6 +7200,7 @@
    "kinabalu",
    "kind",
    "kindergarten",
+   "kindiki",
    "king",
    "king's",
    "kingdom",
@@ -8362,6 +8384,7 @@
    "monitors",
    "monk",
    "monsoon",
+   "monster",
    "monstrous",
    "montana",
    "month",
@@ -8873,6 +8896,7 @@
    "nude",
    "nuke",
    "nukes",
+   "nullarbor",
    "number",
    "numbers",
    "numerous",
@@ -9456,6 +9480,7 @@
    "persists",
    "person",
    "person'",
+   "personal",
    "personalized",
    "personally",
    "personnel",
@@ -10881,6 +10906,7 @@
    "rio",
    "riot",
    "rioting",
+   "ripen",
    "ripping",
    "rips",
    "riscos",
@@ -10958,6 +10984,7 @@
    "rockhopper",
    "rocks",
    "rocky",
+   "rode",
    "rodri",
    "rodrigo",
    "rogers",
@@ -11509,6 +11536,7 @@
    "shafi",
    "shafqat",
    "shah",
+   "shaheds",
    "shahin",
    "shake",
    "shakes",
@@ -11742,6 +11770,7 @@
    "sit",
    "site",
    "sites",
+   "sites'",
    "sitting",
    "situation",
    "siu",
@@ -12014,6 +12043,7 @@
    "splits",
    "spoil",
    "spoilage",
+   "spoiled",
    "spoiling",
    "spokane",
    "spoke",
@@ -13057,6 +13087,7 @@
    "traveling",
    "travellers",
    "travis",
+   "treads",
    "treason",
    "treasonous",
    "treasury",
@@ -13228,6 +13259,7 @@
    "ugandan",
    "ugly",
    "ugochukwu",
+   "uhuru",
    "uju",
    "uk's",
    "ukm",
@@ -14134,6 +14166,7 @@
    "zidane",
    "zidane's",
    "zidesamtinib",
+   "zigiotti",
    "zii",
    "zille",
    "zimbabwe",
@@ -14166,7 +14199,7 @@
   "sources": 1,
   "peak": 19,
   "first_seen": "2026-08-04T16:13:00.329821+00:00",
-  "last_seen": "2026-09-19T17:07:48.207436+00:00"
+  "last_seen": "2026-09-19T18:07:47.014603+00:00"
  },
  {
   "tokens": [
@@ -21890,7 +21923,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T03:08:00.311499+00:00",
-  "last_seen": "2026-09-19T17:07:47.723636+00:00"
+  "last_seen": "2026-09-19T18:07:46.196682+00:00"
  },
  {
   "tokens": [
@@ -22093,7 +22126,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T06:07:56.616849+00:00",
-  "last_seen": "2026-09-19T17:07:47.774845+00:00"
+  "last_seen": "2026-09-19T18:07:46.298388+00:00"
  },
  {
   "tokens": [
@@ -22266,7 +22299,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T09:07:39.026797+00:00",
-  "last_seen": "2026-09-19T17:07:47.514147+00:00"
+  "last_seen": "2026-09-19T18:07:45.937067+00:00"
  },
  {
   "tokens": [
@@ -22857,7 +22890,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T12:08:21.746350+00:00",
-  "last_seen": "2026-09-19T17:07:47.770687+00:00"
+  "last_seen": "2026-09-19T18:07:46.291974+00:00"
  },
  {
   "tokens": [
@@ -23244,7 +23277,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T15:07:41.172119+00:00",
-  "last_seen": "2026-09-19T17:07:47.474599+00:00"
+  "last_seen": "2026-09-19T18:07:45.892926+00:00"
  },
  {
   "tokens": [
@@ -23259,7 +23292,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T15:07:42.242343+00:00",
-  "last_seen": "2026-09-19T17:07:48.092464+00:00"
+  "last_seen": "2026-09-19T18:07:46.890109+00:00"
  },
  {
   "tokens": [
@@ -23272,7 +23305,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T15:07:42.248938+00:00",
-  "last_seen": "2026-09-19T17:07:48.137406+00:00"
+  "last_seen": "2026-09-19T18:07:46.952325+00:00"
  },
  {
   "tokens": [
@@ -23289,7 +23322,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T15:07:42.249919+00:00",
-  "last_seen": "2026-09-19T17:07:48.138028+00:00"
+  "last_seen": "2026-09-19T18:07:46.953284+00:00"
  },
  {
   "tokens": [
@@ -23299,7 +23332,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T15:07:42.262286+00:00",
-  "last_seen": "2026-09-19T17:07:48.149259+00:00"
+  "last_seen": "2026-09-19T18:07:46.970473+00:00"
  },
  {
   "tokens": [
@@ -23333,7 +23366,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T15:07:42.286959+00:00",
-  "last_seen": "2026-09-19T17:07:48.168832+00:00"
+  "last_seen": "2026-09-19T18:07:47.000727+00:00"
  },
  {
   "tokens": [
@@ -23354,7 +23387,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T15:07:42.299370+00:00",
-  "last_seen": "2026-09-19T17:07:48.176516+00:00"
+  "last_seen": "2026-09-19T18:07:47.012536+00:00"
  },
  {
   "tokens": [
@@ -23540,7 +23573,7 @@
   "sources": 2,
   "peak": 2,
   "first_seen": "2026-09-19T17:07:47.745370+00:00",
-  "last_seen": "2026-09-19T17:07:47.745370+00:00"
+  "last_seen": "2026-09-19T18:07:46.251971+00:00"
  },
  {
   "tokens": [
@@ -23560,7 +23593,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.033073+00:00",
-  "last_seen": "2026-09-19T17:07:48.033073+00:00"
+  "last_seen": "2026-09-19T18:07:46.784532+00:00"
  },
  {
   "tokens": [
@@ -23579,7 +23612,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.044326+00:00",
-  "last_seen": "2026-09-19T17:07:48.044326+00:00"
+  "last_seen": "2026-09-19T18:07:46.790970+00:00"
  },
  {
   "tokens": [
@@ -23596,7 +23629,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.044988+00:00",
-  "last_seen": "2026-09-19T17:07:48.044988+00:00"
+  "last_seen": "2026-09-19T18:07:46.791985+00:00"
  },
  {
   "tokens": [
@@ -23616,7 +23649,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.049155+00:00",
-  "last_seen": "2026-09-19T17:07:48.049155+00:00"
+  "last_seen": "2026-09-19T18:07:46.799880+00:00"
  },
  {
   "tokens": [
@@ -23639,7 +23672,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.053331+00:00",
-  "last_seen": "2026-09-19T17:07:48.053331+00:00"
+  "last_seen": "2026-09-19T18:07:46.806304+00:00"
  },
  {
   "tokens": [
@@ -23662,7 +23695,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.061031+00:00",
-  "last_seen": "2026-09-19T17:07:48.061031+00:00"
+  "last_seen": "2026-09-19T18:07:46.835436+00:00"
  },
  {
   "tokens": [
@@ -23678,7 +23711,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.061712+00:00",
-  "last_seen": "2026-09-19T17:07:48.061712+00:00"
+  "last_seen": "2026-09-19T18:07:46.836476+00:00"
  },
  {
   "tokens": [
@@ -23693,7 +23726,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.062356+00:00",
-  "last_seen": "2026-09-19T17:07:48.062356+00:00"
+  "last_seen": "2026-09-19T18:07:46.837462+00:00"
  },
  {
   "tokens": [
@@ -23714,7 +23747,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.066493+00:00",
-  "last_seen": "2026-09-19T17:07:48.066493+00:00"
+  "last_seen": "2026-09-19T18:07:46.849252+00:00"
  },
  {
   "tokens": [
@@ -23733,7 +23766,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.088289+00:00",
-  "last_seen": "2026-09-19T17:07:48.088289+00:00"
+  "last_seen": "2026-09-19T18:07:46.883670+00:00"
  },
  {
   "tokens": [
@@ -23747,7 +23780,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.096619+00:00",
-  "last_seen": "2026-09-19T17:07:48.096619+00:00"
+  "last_seen": "2026-09-19T18:07:46.897417+00:00"
  },
  {
   "tokens": [],
@@ -23765,20 +23798,27 @@
  },
  {
   "tokens": [
+   "aventaja",
+   "cierre",
    "comienza",
+   "con",
+   "cuatro",
    "directo",
    "euroliga",
    "final",
    "madrid",
+   "mitad",
    "olympiacos",
    "partido",
+   "primera",
+   "puntos",
    "real",
    "supercopa"
   ],
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.126200+00:00",
-  "last_seen": "2026-09-19T17:07:48.126200+00:00"
+  "last_seen": "2026-09-19T18:07:47.013568+00:00"
  },
  {
   "tokens": [
@@ -23794,7 +23834,7 @@
   "sources": 1,
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.167545+00:00",
-  "last_seen": "2026-09-19T17:07:48.167545+00:00"
+  "last_seen": "2026-09-19T18:07:46.999739+00:00"
  },
  {
   "tokens": [
@@ -23822,5 +23862,169 @@
   "peak": 1,
   "first_seen": "2026-09-19T17:07:48.210973+00:00",
   "last_seen": "2026-09-19T17:07:48.210973+00:00"
+ },
+ {
+  "tokens": [
+   "acoge",
+   "acuerdo",
+   "con",
+   "dinamarca",
+   "groenlandia",
+   "otan",
+   "satisfacción",
+   "sobre"
+  ],
+  "sources": 2,
+  "peak": 2,
+  "first_seen": "2026-09-19T18:07:46.258402+00:00",
+  "last_seen": "2026-09-19T18:07:46.258402+00:00"
+ },
+ {
+  "tokens": [
+   "alertes",
+   "arabie",
+   "attaques",
+   "aériennes",
+   "des",
+   "houthistes",
+   "lendemain",
+   "les",
+   "revendiquent",
+   "riyad",
+   "saoudite",
+   "sur"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-19T18:07:46.666778+00:00",
+  "last_seen": "2026-09-19T18:07:46.666778+00:00"
+ },
+ {
+  "tokens": [
+   "die",
+   "experte",
+   "für",
+   "hält",
+   "intelligenz",
+   "künstliche",
+   "marcel",
+   "salathé",
+   "warnungen",
+   "weltuntergangs",
+   "übertrieben"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-19T18:07:46.700492+00:00",
+  "last_seen": "2026-09-19T18:07:46.700492+00:00"
+ },
+ {
+  "tokens": [
+   "'top",
+   "achievements'",
+   "lists",
+   "loom",
+   "midterms",
+   "trump"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-19T18:07:46.706913+00:00",
+  "last_seen": "2026-09-19T18:07:46.706913+00:00"
+ },
+ {
+  "tokens": [
+   "contre",
+   "les",
+   "loi",
+   "monte",
+   "ordre",
+   "parade",
+   "paris",
+   "public",
+   "ripost",
+   "son",
+   "sur",
+   "techno",
+   "troubles"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-19T18:07:46.740468+00:00",
+  "last_seen": "2026-09-19T18:07:46.740468+00:00"
+ },
+ {
+  "tokens": [],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-19T18:07:46.792976+00:00",
+  "last_seen": "2026-09-19T18:07:46.792976+00:00"
+ },
+ {
+  "tokens": [],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-19T18:07:46.793716+00:00",
+  "last_seen": "2026-09-19T18:07:46.793716+00:00"
+ },
+ {
+  "tokens": [
+   "abandonado",
+   "alunicero",
+   "cinco",
+   "con",
+   "conocido",
+   "disparos",
+   "hospital",
+   "madrid",
+   "móstoles",
+   "niño"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-19T18:07:46.812854+00:00",
+  "last_seen": "2026-09-19T18:07:46.812854+00:00"
+ },
+ {
+  "tokens": [
+   "börekli",
+   "cevap",
+   "mustafa",
+   "tan",
+   "varank",
+   "özel",
+   "özgür"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-19T18:07:46.877197+00:00",
+  "last_seen": "2026-09-19T18:07:46.877197+00:00"
+ },
+ {
+  "tokens": [
+   "gözaltı",
+   "kaşif",
+   "kozinoğlu",
+   "soruşturmasında",
+   "yeni"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-19T18:07:46.891086+00:00",
+  "last_seen": "2026-09-19T18:07:46.891086+00:00"
+ },
+ {
+  "tokens": [
+   "altında",
+   "büyükçekmece'de",
+   "göçük",
+   "işçi",
+   "kayması",
+   "toprak"
+  ],
+  "sources": 1,
+  "peak": 1,
+  "first_seen": "2026-09-19T18:07:46.971410+00:00",
+  "last_seen": "2026-09-19T18:07:46.971410+00:00"
  }
 ]
