@@ -1,0 +1,91 @@
+{
+  "id": "52d437e62641",
+  "created_at": "2026-09-19T06:08:01.891948+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.71,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Chelsea miss Joao Pedro... and can't stop conceding goals",
+  "link": "https://www.bbc.co.uk/sport/football/articles/cm0qx3yv8z42o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Channel News Asia",
+    "Malay Mail",
+    "Sky Sports — Football",
+    "The Guardian — Sport",
+    "as it happened"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Chelsea miss Joao Pedro... and can't stop conceding goals",
+    "link": "https://www.bbc.co.uk/sport/football/articles/cm0qx3yv8z42o?at_medium=RSS&at_campaign=rss",
+    "summary": "Chelsea's problem was defending, but with Joao Pedro ruled out through injury, scoring goals has also become an issue.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-18T22:39:24+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d409/live/d38de810-b3ae-11f1-ad67-5d87a77e2776.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Channel News Asia",
+      "Malay Mail",
+      "Sky Sports — Football",
+      "The Guardian — Sport",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/cm0qx3yv8z42o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/cx980qll9me8o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/sports/2026/09/19/brentford-thump-chelsea-3-0-as-alonsos-defensive-woes-deepen/235713"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/alonsos-chelsea-honeymoon-shattered-3-0-loss-brentford-6396026"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/watch/video/13589514/brentford-3-0-chelsea-premier-league-highlights"
+      },
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/football/live/2026/sep/18/brentford-v-chelsea-premier-league-live-score-updates"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d409/live/d38de810-b3ae-11f1-ad67-5d87a77e2776.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/d409/live/d38de810-b3ae-11f1-ad67-5d87a77e2776.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d409/live/d38de810-b3ae-11f1-ad67-5d87a77e2776.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/6b9d/live/4de77c90-b3a8-11f1-bc1f-3f186ca4140c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/6b9d/live/4de77c90-b3a8-11f1-bc1f-3f186ca4140c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/6b9d/live/4de77c90-b3a8-11f1-bc1f-3f186ca4140c.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 1093.915478736111,
+    "is_stale": true,
+    "score": 22.706516473163468,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

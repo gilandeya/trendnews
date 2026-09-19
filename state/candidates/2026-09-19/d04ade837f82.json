@@ -1,0 +1,70 @@
+{
+  "id": "d04ade837f82",
+  "created_at": "2026-09-19T06:08:01.892368+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.04,
+  "trend_score": 0.4,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthis say Saudi Arabia launched 26 strikes in Yemen over 24 hours",
+  "link": "https://www.thehindu.com/news/international/houthis-say-saudi-arabia-launched-26-strikes-in-yemen-over-24-hours/article71483503.ece",
+  "publishers": [
+    "Daily Sabah",
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Houthis say Saudi Arabia launched 26 strikes in Yemen over 24 hours",
+    "link": "https://www.thehindu.com/news/international/houthis-say-saudi-arabia-launched-26-strikes-in-yemen-over-24-hours/article71483503.ece",
+    "summary": "This month, the Houthis, who already held most of Yemen’s populated areas, launched a lightning offensive to take over the country’s entire Red Sea coast, giving them control over the vital Bab al-Mandab strait",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-19T02:55:55+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/styp3f/article71483504.ece/alternates/LANDSCAPE_1200/EXPLAINER-How-YG1DGHTK19.3.jpg.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Daily Sabah",
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/houthis-say-saudi-arabia-launched-26-strikes-in-yemen-over-24-hours/article71483503.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/yemen-fighting-spreads-as-houthis-saudi-arabia-exchange-strikes"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/iran-war-houthis-say-saudi-arabia-targeted-yemen-with-26-strikes-in-24-hours-12067041#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/styp3f/article71483504.ece/alternates/LANDSCAPE_1200/EXPLAINER-How-YG1DGHTK19.3.jpg.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/18/461144.jpg",
+      "https://c.ndtvimg.com/2026-09/8rhn76po_saudi-strikes-yemen_625x300_19_September_26.jpeg?im=FaceCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.4,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1093.9154936675,
+    "is_stale": false,
+    "score": 22.04153498775606,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
