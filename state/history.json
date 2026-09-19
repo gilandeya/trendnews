@@ -1,89 +1,5 @@
 [
   {
-    "score": 25.26,
-    "bucket": "serious",
-    "tokens": [
-      "'unacceptable'",
-      "altman",
-      "calls",
-      "extinction",
-      "ipo",
-      "openai's",
-      "risk",
-      "won't",
-      "year"
-    ],
-    "link": "https://www.thehindu.com/sci-tech/technology/openais-altman-wont-do-ipo-this-year-calls-ai-extinction-risk-unacceptable/article71462569.ece",
-    "title": "OpenAI's Altman won't do IPO this year, calls AI extinction risk 'unacceptable'",
-    "posted_title": "سام ألتمان يؤجل طرح أسهم أوبن إيه آي ويصف خطر انقراض البشرية بسبب الذكاء الاصطناعي بغير المقبول",
-    "region": "in",
-    "seen_at": "2026-09-14T12:17:05.746565+00:00"
-  },
-  {
-    "score": 21.09,
-    "bucket": "serious",
-    "tokens": [
-      "attacks",
-      "calls",
-      "causing",
-      "diesel",
-      "fuel",
-      "halt",
-      "russian",
-      "shortage",
-      "strikes",
-      "trump",
-      "ukraine"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-calls-on-ukraine-to-halt-strikes-on-russian-diesel-fuel-says-attacks-causing-shortage/article71464691.ece",
-    "title": "Trump calls on Ukraine to halt strikes on Russian diesel fuel, says attacks causing shortage",
-    "posted_title": "ترامب يطلب من أوكرانيا التوقف عن ضرب مصافي الوقود الروسية بسبب أزمة الديزل عالميًا",
-    "region": "in",
-    "seen_at": "2026-09-14T12:17:24.844757+00:00"
-  },
-  {
-    "score": 20.93,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "base",
-      "before",
-      "china",
-      "deadly",
-      "downplays",
-      "intel",
-      "iran",
-      "live",
-      "mideast",
-      "report",
-      "supplied",
-      "trump"
-    ],
-    "link": "https://www.france24.com/en/middle-east/20260914-middle-east-live-houthis-say-hit-saudi-base-after-renewed-fighting-with-yemeni-forces",
-    "title": "Mideast live: Trump downplays report China supplied Iran with intel before deadly US base attack",
-    "posted_title": "ترامب: الصين تتجسس علينا ونحن نتجسس عليها، تعليقًا على تقرير مشاركة بكين إيران بصور استخباراتية",
-    "region": "eu",
-    "seen_at": "2026-09-14T12:17:41.834366+00:00"
-  },
-  {
-    "score": 23.35,
-    "bucket": "serious",
-    "tokens": [
-      "blocked",
-      "judge",
-      "mail",
-      "restrictions",
-      "second",
-      "trump",
-      "voting"
-    ],
-    "link": "https://www.theguardian.com/us-news/live/2026/sep/14/donald-trump-mail-in-voting-supreme-court-blocked-ukraine-oil-diplomat-latest-news-updates",
-    "title": "Trump’s mail-in voting restrictions blocked by a second judge",
-    "posted_title": "لماذا يواجه قرار ترامب بشأن التصويت البريدي عقبة قضائية جديدة",
-    "region": "uk",
-    "seen_at": "2026-09-14T12:18:45.649587+00:00"
-  },
-  {
     "score": 18.96,
     "bucket": "sport",
     "tokens": [
@@ -5291,5 +5207,100 @@
     "posted_title": "",
     "region": "tr",
     "seen_at": "2026-09-19T12:08:26.999124+00:00"
+  },
+  {
+    "score": 33.08,
+    "bucket": "serious",
+    "tokens": [
+      "deal",
+      "denmark",
+      "greenland",
+      "reach",
+      "security",
+      "take",
+      "threats",
+      "trump"
+    ],
+    "link": "https://www.theguardian.com/world/2026/sep/18/united-states-denmark-greenland-security",
+    "title": "US and Denmark reach security deal after Trump’s threats to take over Greenland",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-19T15:07:47.122591+00:00"
+  },
+  {
+    "score": 27.47,
+    "bucket": "serious",
+    "tokens": [
+      "aichi",
+      "asiad",
+      "asian",
+      "attends",
+      "ceremony",
+      "games",
+      "korean",
+      "nagoya",
+      "team",
+      "welcome"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20260918011500320",
+    "title": "(Asiad) N. Korean team attends welcome ceremony for Aichi-Nagoya Asian Games",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-09-19T15:07:47.122977+00:00"
+  },
+  {
+    "score": 24.48,
+    "bucket": "light",
+    "tokens": [
+      "banning",
+      "cnn",
+      "house",
+      "politico",
+      "trump",
+      "white"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c6e30580jqjpo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump says he is banning CNN and Politico from White House",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-19T15:07:47.123302+00:00"
+  },
+  {
+    "score": 22.9,
+    "bucket": "serious",
+    "tokens": [
+      "aston",
+      "beaten",
+      "despite",
+      "fragile",
+      "late",
+      "rally",
+      "tottenham",
+      "villa"
+    ],
+    "link": "https://www.vanguardngr.com/2026/09/fragile-tottenham-beaten-by-aston-villa-despite-late-rally/",
+    "title": "‘Fragile’ Tottenham beaten by Aston Villa despite late rally",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-19T15:07:47.123638+00:00"
+  },
+  {
+    "score": 21.09,
+    "bucket": "serious",
+    "tokens": [
+      "asian",
+      "buildup",
+      "ceremony",
+      "games",
+      "glitzy",
+      "nagoya",
+      "open",
+      "troubled"
+    ],
+    "link": "https://www.rappler.com/people/athletes/asian-games-open-nagoya-after-troubled-buildup-2026/",
+    "title": "Asian Games open in Nagoya with glitzy ceremony after troubled buildup",
+    "posted_title": "",
+    "region": "ph",
+    "seen_at": "2026-09-19T15:07:47.123906+00:00"
   }
 ]

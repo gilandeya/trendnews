@@ -1,0 +1,85 @@
+{
+  "id": "02a41528fc4a",
+  "created_at": "2026-09-19T15:07:47.122604+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.47,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(Asiad) N. Korean team attends welcome ceremony for Aichi-Nagoya Asian Games",
+  "link": "https://en.yna.co.kr/view/AEN20260918011500320",
+  "publishers": [
+    "BBC World",
+    "Channel News Asia",
+    "Mehr News",
+    "Tehran Times",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(Asiad) N. Korean team attends welcome ceremony for Aichi-Nagoya Asian Games",
+    "link": "https://en.yna.co.kr/view/AEN20260918011500320",
+    "summary": "NAGOYA, Japan, Sept. 18 (Yonhap) -- North Korean athletes attended an official w...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-18T12:15:25+00:00",
+    "image_url": "https://img.yna.co.kr/etc/inner/EN/2026/09/18/AEN20260918011500320_01_i_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "BBC World",
+      "Channel News Asia",
+      "Mehr News",
+      "Tehran Times",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260918011500320"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247873/VIDEO-Opening-ceremony-of-Aichi-Nagoya-2026-Asian-Games"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530157/Iran-s-delegation-marches-at-Nagoya-Asian-Games-opening-ceremony"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/sport/hockey/articles/cmx2zg85gq03o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/east-asia/asian-games-south-korea-anthem-north-deepest-apologies-6396801"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/18/AEN20260918011500320_01_i_P2.jpg",
+      "https://media.mehrnews.com/d/2026/09/19/4/6179605.jpg",
+      "https://media.mehrnews.com/d/2026/09/19/4/6179676.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c124/live/30cd1f40-b379-11f1-b1d1-571ed4d7ff2c.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/c124/live/30cd1f40-b379-11f1-b1d1-571ed4d7ff2c.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/c124/live/30cd1f40-b379-11f1-b1d1-571ed4d7ff2c.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1102.9113308936112,
+    "is_stale": false,
+    "score": 27.474375442939866,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

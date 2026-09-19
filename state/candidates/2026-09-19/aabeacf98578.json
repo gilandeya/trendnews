@@ -1,0 +1,79 @@
+{
+  "id": "aabeacf98578",
+  "created_at": "2026-09-19T15:07:47.123649+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.09,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Asian Games open in Nagoya with glitzy ceremony after troubled buildup",
+  "link": "https://www.rappler.com/people/athletes/asian-games-open-nagoya-after-troubled-buildup-2026/",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "Rappler"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "Asian Games open in Nagoya with glitzy ceremony after troubled buildup",
+    "link": "https://www.rappler.com/people/athletes/asian-games-open-nagoya-after-troubled-buildup-2026/",
+    "summary": "Organizers hope the Asian Games opening ceremony will help resolve a rocky buildup filled with complaints from athletes and officials involving accommodation and transport",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-09-19T11:56:26+00:00",
+    "image_url": "https://www.rappler.com/tachyon/2026/09/reuters-asian-games-accommodation-sept-17-2026-scaled.jpg",
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "Rappler"
+    ],
+    "cluster_members": [
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/people/athletes/asian-games-open-nagoya-after-troubled-buildup-2026/"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/asian-games-2026-opening-ceremony-team-singapore-6396551"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/19/asian-games-open-with-unity-message-after-troubled-build-up"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/sports/2026/09/19/more-athletes-than-the-olympics-but-plenty-of-problems-as-asian-games-open-in-japan/235766"
+      }
+    ],
+    "image_candidates": [
+      "https://www.rappler.com/tachyon/2026/09/reuters-asian-games-accommodation-sept-17-2026-scaled.jpg",
+      "https://www.rappler.com/tachyon/2026/09/reuters-asian-games-accommodation-sept-17-2026-scaled.jpg?resize=75%2C75&crop=602px%2C0px%2C1707px%2C1707px",
+      "https://www.rappler.com/tachyon/2026/09/reuters-asian-games-accommodation-sept-17-2026-scaled.jpg?fit=449%2C449",
+      "https://dam.mediacorp.sg/image/upload/s--L1Bvr-L8--/c_crop,h_1125,w_1999,x_1,y_100/fl_relative,g_south_east,l_mediacorp:cna:watermark:2021-08:cna,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/19/asian_games_opening_ceremony_1.jpg?itok=kHntRJd_",
+      "https://media.freemalaysiatoday.com/v3/2026/09/1ff36d7c-2f01-4506-bf34-cbb205a9a208-AFP-Asian-Games-Opening-19092026.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/19/363433.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1102.911327453889,
+    "is_stale": true,
+    "score": 21.087498563925926,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
