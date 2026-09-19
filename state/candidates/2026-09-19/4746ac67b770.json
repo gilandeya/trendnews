@@ -1,0 +1,60 @@
+{
+  "id": "4746ac67b770",
+  "created_at": "2026-09-19T22:07:44.287857+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.56,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran says conditions to re-engage in talks, end war sent to US via Qatar",
+  "link": "https://www.aljazeera.com/news/2026/9/19/iran-says-conditions-to-re-engage-in-talks-end-war-sent-to-us-via-qatar?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Turkey’s foreign minister"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Iran says conditions to re-engage in talks, end war sent to US via Qatar",
+    "link": "https://www.aljazeera.com/news/2026/9/19/iran-says-conditions-to-re-engage-in-talks-end-war-sent-to-us-via-qatar?traffic_source=rss",
+    "summary": "Mohsen Rezaei, secretary of Iran’s Supreme National Security Council, tells Al Jazeera Tehran awaiting Trump response.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-19T18:32:30+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Turkey’s foreign minister"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/19/iran-says-conditions-to-re-engage-in-talks-end-war-sent-to-us-via-qatar?traffic_source=rss"
+      },
+      {
+        "name": "Turkey’s foreign minister",
+        "link": "https://tass.com/world/2190135"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1109.9105154022222,
+    "is_stale": false,
+    "score": 20.560963917074076,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

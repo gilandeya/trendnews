@@ -1,10 +1,10 @@
 {
   "id": "a4ec3b580cc7",
-  "created_at": "2026-09-19T15:07:47.122046+00:00",
+  "created_at": "2026-09-19T22:07:44.287103+00:00",
   "status": "pending",
-  "selection_issue": 991,
-  "score": 33.08,
-  "trend_score": 1.0,
+  "selection_issue": null,
+  "score": 23.16,
+  "trend_score": 0.0,
   "velocity": 1.0,
   "impact": 0,
   "proximity": 0,
@@ -17,18 +17,14 @@
   "publishers": [
     "CBS News — World",
     "CGTN",
-    "Channel News Asia",
     "Daily Sabah",
+    "Dawn",
     "Free Malaysia Today",
-    "Hindustan Times — World",
-    "NDTV — World",
-    "Punch Nigeria",
+    "South China Morning Post",
     "TASS",
-    "The Express Tribune",
     "The Guardian — World",
     "The Hindu — International",
-    "The Japan Times",
-    "Vanguard Nigeria"
+    "The Japan Times"
   ],
   "region": "uk",
   "article": {
@@ -44,18 +40,14 @@
     "cluster_sources": [
       "CBS News — World",
       "CGTN",
-      "Channel News Asia",
       "Daily Sabah",
+      "Dawn",
       "Free Malaysia Today",
-      "Hindustan Times — World",
-      "NDTV — World",
-      "Punch Nigeria",
+      "South China Morning Post",
       "TASS",
-      "The Express Tribune",
       "The Guardian — World",
       "The Hindu — International",
-      "The Japan Times",
-      "Vanguard Nigeria"
+      "The Japan Times"
     ],
     "cluster_members": [
       {
@@ -63,42 +55,42 @@
         "link": "https://www.theguardian.com/world/2026/sep/18/united-states-denmark-greenland-security"
       },
       {
-        "name": "The Express Tribune",
-        "link": "https://tribune.com.pk/story/2630177/us-and-denmark-reach-deal-on-greenland-trump-says"
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368126/denmark-cautiously-optimistic-over-trumps-greenland-deal?utm_source=rss_feed"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2031163/denmark-hails-binding-greenland-deal-with-trump"
       },
       {
         "name": "The Hindu — International",
         "link": "https://www.thehindu.com/news/international/us-and-denmark-reach-deal-on-greenland-trump/article71482588.ece"
       },
       {
-        "name": "The Hindu — International",
-        "link": "https://www.thehindu.com/news/international/what-is-the-us-denmark-deal-over-greenland-after-trump-takeover-threats/article71483549.ece"
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/americas/us-denmark-reach-infinite-greenland-security-deal-trump"
       },
       {
-        "name": "Channel News Asia",
-        "link": "https://www.channelnewsasia.com/world/greenland-denmark-us-trump-deal-binding-6396536"
-      },
-      {
-        "name": "Punch Nigeria",
-        "link": "https://punchng.com/denmark-backs-trump-deal-on-permanent-control-of-greenland-security/?utm_source=rss.punchng.com&utm_medium=web"
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/19/world/politics/trump-greenland-security-deal/"
       }
     ],
     "image_candidates": [
       "https://i.guim.co.uk/img/media/2682fb6ff4a3009a14304ef15d3a2c645b8bd00c/1000_0_5000_4000/master/5000.jpg?width=700&quality=85&auto=format&fit=max&s=a5726925b93fd27d5d04288860e9ac24",
       "https://i.guim.co.uk/img/media/2682fb6ff4a3009a14304ef15d3a2c645b8bd00c/1000_0_5000_4000/master/5000.jpg?width=460&quality=85&auto=format&fit=max&s=ca088aa10e820e39fd482dd7f04dca6d",
       "https://i.guim.co.uk/img/media/2682fb6ff4a3009a14304ef15d3a2c645b8bd00c/1000_0_5000_4000/master/5000.jpg?width=140&quality=85&auto=format&fit=max&s=077fe757626a325f8f5959aef9c70c3a",
-      "https://th-i.thgim.com/public/incoming/lh2v6a/article71482612.ece/alternates/LANDSCAPE_1200/2026-01-09T194014Z_509168772_RC2VXIAZBYUT_RTRMADP_3_USA-TRUMP-GREENLAND.jpg",
-      "https://dam.mediacorp.sg/image/upload/s--sWrzV1Xa--/c_crop,h_1125,w_2000,x_0,y_170/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/19/000_c7lm4zr.jpg?itok=FpmEz5q1",
-      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/18/461301.jpg"
+      "https://i.dawn.com/large/2026/09/19220852d475509.webp",
+      "https://i.dawn.com/thumbnail/2026/09/19220852d475509.webp",
+      "https://th-i.thgim.com/public/incoming/lh2v6a/article71482612.ece/alternates/LANDSCAPE_1200/2026-01-09T194014Z_509168772_RC2VXIAZBYUT_RTRMADP_3_USA-TRUMP-GREENLAND.jpg"
     ],
     "bucket": "serious",
     "state_media": false,
-    "trend_score": 1.0,
-    "group_sources": 14,
+    "trend_score": 0.0,
+    "group_sources": 10,
     "velocity": 1.0,
-    "age_hours": 1102.9113217919444,
+    "age_hours": 1109.9104756158333,
     "is_stale": false,
-    "score": 33.08198925845059,
+    "score": 23.15910006025468,
     "impact": 0,
     "proximity": 0,
     "intrigue": 0,

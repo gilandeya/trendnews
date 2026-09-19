@@ -1,0 +1,99 @@
+{
+  "id": "d0c9dac4e7a1",
+  "created_at": "2026-09-19T22:07:44.286613+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.15,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Thick smoke seen near Riyadh airport after air raid alerts in Saudi capital",
+  "link": "https://www.theguardian.com/world/2026/sep/19/saudi-arabia-riyadh-airport",
+  "publishers": [
+    "Dawn",
+    "France24",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Guardian — World",
+    "The Hindu — International",
+    "coalition"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Thick smoke seen near Riyadh airport after air raid alerts in Saudi capital",
+    "link": "https://www.theguardian.com/world/2026/sep/19/saudi-arabia-riyadh-airport",
+    "summary": "Authorities also issued warnings for Jeddah and Yanbu, a major industrial port and home to vital oil facilities Flames and a large plume of black smoke were seen rising above Riyadh airport in Saudi Arabia on Saturday after the government sent air raid alerts to citizens by phone overnight warning of aerial attacks. Explosions were heard in the capital as firefighters battled to extinguish the flames of a burning fuel tank emblazoned with the logo of the Saudi oil company Aramco near the city’s King Khalid international airport. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-19T15:55:02+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/975477497a09e1bb916ac60ca3ee53fecda3bad3/733_0_2316_1853/master/2316.jpg?width=700&quality=85&auto=format&fit=max&s=b77c44017a2ddaa2a7a9308d4cdcb05a",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Dawn",
+      "France24",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Guardian — World",
+      "The Hindu — International",
+      "coalition"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/19/saudi-arabia-riyadh-airport"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/black-smoke-seen-near-riyadh-amid-air-raid-alerts-in-saudi-arabia"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/19/black-smoke-flames-rising-near-riyadh-airport"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260919-smoke-flames-seen-near-riyadh-airport-major-flight-disruptions-reported"
+      },
+      {
+        "name": "coalition",
+        "link": "https://tass.com/world/2190145"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630185/un-security-council-condemns-houthi-attacks-on-saudi-arabia"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/975477497a09e1bb916ac60ca3ee53fecda3bad3/733_0_2316_1853/master/2316.jpg?width=700&quality=85&auto=format&fit=max&s=b77c44017a2ddaa2a7a9308d4cdcb05a",
+      "https://i.guim.co.uk/img/media/975477497a09e1bb916ac60ca3ee53fecda3bad3/733_0_2316_1853/master/2316.jpg?width=460&quality=85&auto=format&fit=max&s=a8141bd23958784e5714340ef35c7dc5",
+      "https://i.guim.co.uk/img/media/975477497a09e1bb916ac60ca3ee53fecda3bad3/733_0_2316_1853/master/2316.jpg?width=140&quality=85&auto=format&fit=max&s=566b3a8e87cc878475430d48f8faa46a",
+      "https://s.france24.com/media/display/6756645e-b43c-11f1-8e27-9ff5c3f464d4/w:1024/p:16x9/EN-20260919-160101-160431-CS.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/06/633886a0-riyadh-air-10062026.webp",
+      "https://s.france24.com/media/display/40a51f4e-b423-11f1-bcd8-ed3d9e22a40f/w:1024/p:16x9/2026-09-19T114802Z-1980126111-RC28MNAXZ2HR-RTRMADP-3-IRAN-CRISIS-SAUDI-YEMEN.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 10,
+    "velocity": 0.0,
+    "age_hours": 1109.9104542066666,
+    "is_stale": true,
+    "score": 25.15178524562505,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
