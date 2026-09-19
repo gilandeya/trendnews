@@ -5309,5 +5309,62 @@
     "posted_title": "",
     "region": "my",
     "seen_at": "2026-09-19T03:08:05.910366+00:00"
+  },
+  {
+    "score": 28.44,
+    "bucket": "light",
+    "tokens": [
+      "banning",
+      "cnn",
+      "house",
+      "politico",
+      "trump",
+      "white"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c6e30580jqjpo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump says he is banning CNN and Politico from White House",
+    "posted_title": "لماذا منع ترامب شبكتي CNN وMS NOW وموقع بوليتيكو من دخول البيت الأبيض",
+    "region": "uk",
+    "seen_at": "2026-09-19T04:16:51.096893+00:00"
+  },
+  {
+    "score": 25.21,
+    "bucket": "serious",
+    "tokens": [
+      "deal",
+      "denmark",
+      "greenland",
+      "reach",
+      "security",
+      "take",
+      "threats",
+      "trump"
+    ],
+    "link": "https://www.theguardian.com/world/2026/sep/18/united-states-denmark-greenland-security",
+    "title": "US and Denmark reach security deal after Trump’s threats to take over Greenland",
+    "posted_title": "بعد أشهر من تهديدات ترامب بضمها.. اتفاق أمني بين واشنطن والدنمارك بشأن غرينلاند",
+    "region": "uk",
+    "seen_at": "2026-09-19T04:17:10.667627+00:00"
+  },
+  {
+    "score": 21.28,
+    "bucket": "serious",
+    "tokens": [
+      "action",
+      "baby",
+      "finds",
+      "food",
+      "india",
+      "legal",
+      "nestle",
+      "sample",
+      "substandard",
+      "takes"
+    ],
+    "link": "https://www.channelnewsasia.com/asia/india-nestle-legal-action-baby-food-sample-6396251",
+    "title": "India finds Nestle baby food sample substandard, takes legal action",
+    "posted_title": "هيئة سلامة الغذاء في الهند تكتشف خللًا في حليب أطفال من نستله وتفتح ثلاث قضايا ضد الشركة",
+    "region": "seasia",
+    "seen_at": "2026-09-19T04:17:30.838246+00:00"
   }
 ]
