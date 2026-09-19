@@ -1,217 +1,5 @@
 [
   {
-    "score": 33.02,
-    "bucket": "sport",
-    "tokens": [
-      "2026",
-      "beats",
-      "grand",
-      "open",
-      "second",
-      "shelton",
-      "slam",
-      "title",
-      "win",
-      "zverev"
-    ],
-    "link": "https://www.france24.com/en/sport/20260913-alexander-zverev-ben-shelton-us-open-final-tennis",
-    "title": "Zverev beats Shelton to win US Open 2026 and second Grand Slam title",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-14T09:07:53.329765+00:00"
-  },
-  {
-    "score": 25.26,
-    "bucket": "serious",
-    "tokens": [
-      "'unacceptable'",
-      "altman",
-      "calls",
-      "extinction",
-      "ipo",
-      "openai's",
-      "risk",
-      "won't",
-      "year"
-    ],
-    "link": "https://www.thehindu.com/sci-tech/technology/openais-altman-wont-do-ipo-this-year-calls-ai-extinction-risk-unacceptable/article71462569.ece",
-    "title": "OpenAI's Altman won't do IPO this year, calls AI extinction risk 'unacceptable'",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-14T09:07:53.330013+00:00"
-  },
-  {
-    "score": 24.61,
-    "bucket": "serious",
-    "tokens": [
-      "107",
-      "3pc",
-      "above",
-      "arabia",
-      "brent",
-      "crude",
-      "following",
-      "hormuz",
-      "nearly",
-      "oil",
-      "prices",
-      "saudi",
-      "strait",
-      "strikes"
-    ],
-    "link": "https://www.dawn.com/news/2029863/oil-prices-up-nearly-3pc-with-brent-crude-above-107-following-new-strikes-on-saudi-arabia-strait-of-hormuz",
-    "title": "Oil prices up nearly 3pc, with brent crude above $107 following new strikes on Saudi Arabia, Strait of Hormuz",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-14T09:07:53.330245+00:00"
-  },
-  {
-    "score": 21.09,
-    "bucket": "serious",
-    "tokens": [
-      "attacks",
-      "calls",
-      "causing",
-      "diesel",
-      "fuel",
-      "halt",
-      "russian",
-      "shortage",
-      "strikes",
-      "trump",
-      "ukraine"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-calls-on-ukraine-to-halt-strikes-on-russian-diesel-fuel-says-attacks-causing-shortage/article71464691.ece",
-    "title": "Trump calls on Ukraine to halt strikes on Russian diesel fuel, says attacks causing shortage",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-14T09:07:53.330421+00:00"
-  },
-  {
-    "score": 20.93,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "base",
-      "before",
-      "china",
-      "deadly",
-      "downplays",
-      "intel",
-      "iran",
-      "live",
-      "mideast",
-      "report",
-      "supplied",
-      "trump"
-    ],
-    "link": "https://www.france24.com/en/middle-east/20260914-middle-east-live-houthis-say-hit-saudi-base-after-renewed-fighting-with-yemeni-forces",
-    "title": "Mideast live: Trump downplays report China supplied Iran with intel before deadly US base attack",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-14T09:07:53.330617+00:00"
-  },
-  {
-    "score": 23.35,
-    "bucket": "serious",
-    "tokens": [
-      "blocked",
-      "judge",
-      "mail",
-      "restrictions",
-      "second",
-      "trump",
-      "voting"
-    ],
-    "link": "https://www.theguardian.com/us-news/live/2026/sep/14/donald-trump-mail-in-voting-supreme-court-blocked-ukraine-oil-diplomat-latest-news-updates",
-    "title": "Trump’s mail-in voting restrictions blocked by a second judge",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-14T12:07:46.364400+00:00"
-  },
-  {
-    "score": 21.04,
-    "bucket": "serious",
-    "tokens": [
-      "bursa",
-      "closes",
-      "day",
-      "four",
-      "high",
-      "intraday",
-      "losing",
-      "malaysia",
-      "rebounds",
-      "snap",
-      "streak"
-    ],
-    "link": "https://www.malaymail.com/news/money/2026/09/14/bursa-malaysia-rebounds-to-snap-four-day-losing-streak-closes-at-intraday-high/235212",
-    "title": "Bursa Malaysia rebounds to snap four-day losing streak, closes at intraday high",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-14T12:07:46.364700+00:00"
-  },
-  {
-    "score": 20.41,
-    "bucket": "sport",
-    "tokens": [
-      "bayern",
-      "edge",
-      "elversberg",
-      "european",
-      "football",
-      "helps",
-      "juventus",
-      "kane",
-      "sassuolo",
-      "stun"
-    ],
-    "link": "https://www.theguardian.com/football/2026/sep/13/european-football-barcelona-bayern-munich-napoli-juventus",
-    "title": "European football: Kane helps Bayern edge Elversberg, Sassuolo stun Juventus",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-14T12:07:46.365016+00:00"
-  },
-  {
-    "score": 20.05,
-    "bucket": "serious",
-    "tokens": [
-      "above",
-      "diesel",
-      "facilities",
-      "gallon",
-      "production",
-      "russian",
-      "stop",
-      "targeting",
-      "trump",
-      "ukraine",
-      "urges"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/13/with-u-s-diesel-above-6-a-gallon-trump-urges-ukraine-to-stop-targeting-russian-production-facilities",
-    "title": "With U.S. diesel above $6 a gallon, Trump urges Ukraine to stop targeting Russian production facilities",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-14T12:07:46.365330+00:00"
-  },
-  {
-    "score": 17.86,
-    "bucket": "serious",
-    "tokens": [
-      "american",
-      "downs",
-      "drone",
-      "hormuz",
-      "iran",
-      "strait"
-    ],
-    "link": "https://en.mehrnews.com/news/247732/Iran-downs-American-MQ-1-drone-over-Strait-of-Hormuz",
-    "title": "Iran downs American MQ-1 drone over Strait of Hormuz",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-14T12:07:46.365613+00:00"
-  },
-  {
     "score": 25.26,
     "bucket": "serious",
     "tokens": [
@@ -5408,5 +5196,100 @@
     "posted_title": "",
     "region": "ir",
     "seen_at": "2026-09-19T09:07:45.256768+00:00"
+  },
+  {
+    "score": 25.78,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "dead",
+      "headquarters",
+      "pakistan",
+      "police"
+    ],
+    "link": "https://www.thehindu.com/news/international/many-dead-in-attack-at-police-headquarters-in-pakistan/article71483705.ece",
+    "title": "31 dead in attack at police headquarters in Pakistan",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-19T12:08:26.997962+00:00"
+  },
+  {
+    "score": 16.33,
+    "bucket": "serious",
+    "tokens": [
+      "hyrox"
+    ],
+    "link": "https://www.bbc.com/zhongwen/articles/cq3d7zld42m0o/trad?at_medium=RSS&at_campaign=rss",
+    "title": "Hyrox失禁風波：澳洲選手道歉、主辦方承諾退款",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-19T12:08:26.998286+00:00"
+  },
+  {
+    "score": 16.1,
+    "bucket": "serious",
+    "tokens": [
+      "armies",
+      "around",
+      "back",
+      "battles",
+      "both",
+      "donbas",
+      "farther",
+      "forces",
+      "lyman",
+      "massing",
+      "next",
+      "now",
+      "operation",
+      "pushed",
+      "russian",
+      "south",
+      "troops",
+      "ukraine",
+      "vivaldi"
+    ],
+    "link": "https://meduza.io/en/feature/2026/09/18/ukraine-s-operation-vivaldi-pushed-russian-forces-back-around-lyman-in-the-donbas-now-both-armies-are-massing-troops-for-the-next-battles-farther-south",
+    "title": "Ukraine’s ‘Operation Vivaldi’ pushed Russian forces back around Lyman in the Donbas. Now both armies are massing troops for the next battles farther south.",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-09-19T12:08:26.998571+00:00"
+  },
+  {
+    "score": 15.84,
+    "bucket": "serious",
+    "tokens": [
+      "agency",
+      "custody",
+      "die",
+      "erupt",
+      "miners",
+      "nigeria",
+      "paramilitary",
+      "protests"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-18-protests-erupt-in-nigeria-after-37-miners-die-in-custody-of-paramilitary-agency/",
+    "title": "Protests erupt in Nigeria after 37 miners die in custody of paramilitary agency",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-19T12:08:26.998832+00:00"
+  },
+  {
+    "score": 15.69,
+    "bucket": "serious",
+    "tokens": [
+      "anthropic's",
+      "breach",
+      "claude",
+      "internal",
+      "openai's",
+      "systems",
+      "used"
+    ],
+    "link": "https://www.dailysabah.com/business/economy/anthropics-claude-used-to-breach-openais-internal-systems",
+    "title": "Anthropic's Claude used to breach OpenAI's internal systems",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-09-19T12:08:26.999124+00:00"
   }
 ]

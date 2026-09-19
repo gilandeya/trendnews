@@ -1,0 +1,64 @@
+{
+  "id": "29aa850fd062",
+  "created_at": "2026-09-19T12:08:26.997995+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.33,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hyrox失禁風波：澳洲選手道歉、主辦方承諾退款",
+  "link": "https://www.bbc.com/zhongwen/articles/cq3d7zld42m0o/trad?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC 中文",
+    "Hindustan Times — World"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Hyrox失禁風波：澳洲選手道歉、主辦方承諾退款",
+    "link": "https://www.bbc.com/zhongwen/articles/cq3d7zld42m0o/trad?at_medium=RSS&at_campaign=rss",
+    "summary": "Hyrox已更新賽例，明文規定若參賽者的「血液、嘔吐物、尿液或糞便」構成健康風險，可被要求退賽。",
+    "source_name": "BBC 中文",
+    "region": "cn",
+    "weight": 0.9,
+    "published": "2026-09-18T08:46:00+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/ws/1024/cpsprodpb/ae40/live/65f662f0-b2a5-11f1-bd7d-0f16235ccc4c.jpg",
+    "publisher": "BBC 中文",
+    "cluster_sources": [
+      "BBC 中文",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC 中文",
+        "link": "https://www.bbc.com/zhongwen/articles/cq3d7zld42m0o/trad?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/why-is-australian-athlete-joanna-wietrzyk-facing-criticism-over-hyrox-race-in-beijing-101789715517239.html"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/ws/1024/cpsprodpb/ae40/live/65f662f0-b2a5-11f1-bd7d-0f16235ccc4c.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/ae40/live/65f662f0-b2a5-11f1-bd7d-0f16235ccc4c.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/ae40/live/65f662f0-b2a5-11f1-bd7d-0f16235ccc4c.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 93.01051356222222,
+    "is_stale": true,
+    "score": 16.325163352666667,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

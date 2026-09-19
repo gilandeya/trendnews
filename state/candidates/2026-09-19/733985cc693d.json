@@ -1,0 +1,69 @@
+{
+  "id": "733985cc693d",
+  "created_at": "2026-09-19T12:08:26.997548+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.78,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "هجوم إرهابي مدمّر على مركز شرطة باكستانيين يستحق متابعة الأخبار الإقليمية الكبرى",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "31 dead in attack at police headquarters in Pakistan",
+  "link": "https://www.thehindu.com/news/international/many-dead-in-attack-at-police-headquarters-in-pakistan/article71483705.ece",
+  "publishers": [
+    "South China Morning Post",
+    "The Hindu — International",
+    "Vanguard Nigeria"
+  ],
+  "region": "in",
+  "article": {
+    "title": "31 dead in attack at police headquarters in Pakistan",
+    "link": "https://www.thehindu.com/news/international/many-dead-in-attack-at-police-headquarters-in-pakistan/article71483705.ece",
+    "summary": "Attackers stormed the Old Police Lines complex at Kohat, a town of around 2,20,000 people in Pakistan’s Khyber Pakhtunkhwa (KP) province, on September 18",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-19T08:01:17+00:00",
+    "image_url": "https://th-i.thgim.com/public/news/national/xr71io/article71483707.ece/alternates/LANDSCAPE_1200/AFP__20260918__C8PU2T3__v1__HighRes__PakistanBlastKohatUnrest.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "South China Morning Post",
+      "The Hindu — International",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3368092/31-dead-pakistan-after-suicide-bomber-gunmen-attack-police-complex?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/many-dead-in-attack-at-police-headquarters-in-pakistan/article71483705.ece"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/31-confirmed-dead-after-attack-at-police-hq-in-pakistan/"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/news/national/xr71io/article71483707.ece/alternates/LANDSCAPE_1200/AFP__20260918__C8PU2T3__v1__HighRes__PakistanBlastKohatUnrest.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/AFP__20260918__C8PU2T3__v1__MidRes__PakistanBlastKohatUnrest-1024x683.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1099.9225819491667,
+    "is_stale": false,
+    "score": 25.780365659978283,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "هجوم إرهابي مدمّر على مركز شرطة باكستانيين يستحق متابعة الأخبار الإقليمية الكبرى"
+  }
+}
