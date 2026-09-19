@@ -1,140 +1,5 @@
 [
   {
-    "score": 19.18,
-    "bucket": "serious",
-    "tokens": [
-      "associate",
-      "canada",
-      "carney",
-      "idea",
-      "making",
-      "member",
-      "pushes",
-      "reports",
-      "wsj"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-13-carney-pushes-idea-of-making-canada-associate-member-of-eu-wsj-reports/",
-    "title": "Carney pushes idea of making Canada ‘associate member’ of EU, WSJ reports",
-    "posted_title": "لماذا تبحث كندا عن مقعد قريب من الاتحاد الأوروبي بعد توتر علاقتها بواشنطن",
-    "region": "za",
-    "seen_at": "2026-09-14T02:08:01.102346+00:00"
-  },
-  {
-    "score": 17.41,
-    "bucket": "serious",
-    "tokens": [
-      "border",
-      "diplomatic",
-      "hits",
-      "just",
-      "misses",
-      "passenger",
-      "poland",
-      "russia",
-      "train",
-      "ukraine"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-13-russia-hits-passenger-train-on-ukraines-border-with-poland-just-misses-diplomatic-train/",
-    "title": "Russia hits passenger train on Ukraine’s border with Poland, just misses ‘diplomatic train’",
-    "posted_title": "مسيّرة روسية تصيب قطار ركاب قرب الحدود البولندية بعد دقائق من مرور قطار كان يقل جونسون ودبلوماسيين أوروبيين",
-    "region": "za",
-    "seen_at": "2026-09-14T02:08:25.563348+00:00"
-  },
-  {
-    "score": 24.19,
-    "bucket": "serious",
-    "tokens": [
-      "129",
-      "capsizes",
-      "indonesia",
-      "missing",
-      "passenger",
-      "people",
-      "rescuers",
-      "searching",
-      "ship",
-      "still"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/indonesia-rescuers-search-passenger-ship-capsize-6382206",
-    "title": "Indonesia rescuers searching for 129 people still missing after passenger ship capsizes",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-14T03:07:53.154846+00:00"
-  },
-  {
-    "score": 21.85,
-    "bucket": "serious",
-    "tokens": [
-      "gulf",
-      "hormuz",
-      "iran",
-      "oman",
-      "postpones",
-      "strait",
-      "talks"
-    ],
-    "link": "https://www.malaymail.com/news/world/2026/09/14/oman-postpones-iran-gulf-talks-on-strait-of-hormuz/235105",
-    "title": "Oman postpones Iran-Gulf talks on Strait of Hormuz",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-14T03:07:53.155220+00:00"
-  },
-  {
-    "score": 21.04,
-    "bucket": "serious",
-    "tokens": [
-      "agree",
-      "iran",
-      "page",
-      "turn",
-      "uae",
-      "war"
-    ],
-    "link": "https://www.malaymail.com/news/world/2026/09/14/iran-uae-agree-to-turn-the-page-on-war/235093",
-    "title": "Iran, UAE agree to ‘turn the page’ on war",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-14T03:07:53.155515+00:00"
-  },
-  {
-    "score": 20.28,
-    "bucket": "light",
-    "tokens": [
-      "consider",
-      "families",
-      "records",
-      "releasing",
-      "request",
-      "trump"
-    ],
-    "link": "https://www.thehindu.com/news/trump-says-he-will-consider-releasing-911-records-after-families-request/article71465334.ece",
-    "title": "Trump says he will consider releasing 9/11 records after families request",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-14T03:07:53.155805+00:00"
-  },
-  {
-    "score": 19.01,
-    "bucket": "serious",
-    "tokens": [
-      "commercial",
-      "dead",
-      "hormuz",
-      "iranian",
-      "media",
-      "near",
-      "say",
-      "ship",
-      "strait",
-      "struck"
-    ],
-    "link": "https://www.thehindu.com/news/international/casualties-reported-as-an-iranian-commercial-ship-was-struck-near-the-strait-of-hormuz/article71462672.ece",
-    "title": "Iranian commercial ship struck near Strait of Hormuz with 1 dead, Iranian media say",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-14T03:07:53.156154+00:00"
-  },
-  {
     "score": 21.04,
     "bucket": "serious",
     "tokens": [
@@ -5347,5 +5212,102 @@
     "posted_title": "",
     "region": "ir",
     "seen_at": "2026-09-18T22:07:49.796379+00:00"
+  },
+  {
+    "score": 28.44,
+    "bucket": "light",
+    "tokens": [
+      "banning",
+      "cnn",
+      "house",
+      "politico",
+      "trump",
+      "white"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c6e30580jqjpo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump says he is banning CNN and Politico from White House",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-19T03:08:05.909126+00:00"
+  },
+  {
+    "score": 25.21,
+    "bucket": "serious",
+    "tokens": [
+      "deal",
+      "denmark",
+      "greenland",
+      "reach",
+      "security",
+      "take",
+      "threats",
+      "trump"
+    ],
+    "link": "https://www.theguardian.com/world/2026/sep/18/united-states-denmark-greenland-security",
+    "title": "US and Denmark reach security deal after Trump’s threats to take over Greenland",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-19T03:08:05.909492+00:00"
+  },
+  {
+    "score": 21.41,
+    "bucket": "serious",
+    "tokens": [
+      "allows",
+      "arrest",
+      "house",
+      "jailed",
+      "king",
+      "malaysian",
+      "najib",
+      "razak",
+      "serve"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-18-malaysian-king-allows-jailed-ex-pm-najib-razak-to-serve-house-arrest/",
+    "title": "Malaysian king allows jailed ex-PM Najib Razak to serve house arrest",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-19T03:08:05.909802+00:00"
+  },
+  {
+    "score": 21.28,
+    "bucket": "serious",
+    "tokens": [
+      "action",
+      "baby",
+      "finds",
+      "food",
+      "india",
+      "legal",
+      "nestle",
+      "sample",
+      "substandard",
+      "takes"
+    ],
+    "link": "https://www.channelnewsasia.com/asia/india-nestle-legal-action-baby-food-sample-6396251",
+    "title": "India finds Nestle baby food sample substandard, takes legal action",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-19T03:08:05.910073+00:00"
+  },
+  {
+    "score": 19.53,
+    "bucket": "serious",
+    "tokens": [
+      "balogun",
+      "beat",
+      "continue",
+      "lens",
+      "ligue",
+      "monaco",
+      "returns",
+      "start",
+      "strong"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/sports/2026/09/19/balogun-returns-as-monaco-beat-lens-to-continue-strong-ligue-1-start",
+    "title": "Balogun returns as Monaco beat Lens to continue strong Ligue 1 start",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-19T03:08:05.910366+00:00"
   }
 ]

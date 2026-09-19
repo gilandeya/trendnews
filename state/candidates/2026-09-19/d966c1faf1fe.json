@@ -1,0 +1,107 @@
+{
+  "id": "d966c1faf1fe",
+  "created_at": "2026-09-19T03:08:05.908604+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.44,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "light",
+  "state_media": false,
+  "title": "Trump says he is banning CNN and Politico from White House",
+  "link": "https://www.bbc.co.uk/news/articles/c6e30580jqjpo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Court House News",
+    "Daily Sabah",
+    "Dawn",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump says he is banning CNN and Politico from White House",
+    "link": "https://www.bbc.co.uk/news/articles/c6e30580jqjpo?at_medium=RSS&at_campaign=rss",
+    "summary": "The US president has had a tense and fiery relationship with the US media throughout his political career.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-18T23:26:48+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5034/live/0c472f40-b3aa-11f1-a7fa-c95bcf5935e4.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Court House News",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/18/trump-bans-news-outlets-cnn-ms-now-and-politico-from-white-house?traffic_source=rss"
+      },
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/white-house-to-ban-cnn-ms-now-politico-over-fake-news-claims/"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c6e30580jqjpo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2030930/trump-bans-media-outlets-cnn-ms-now-politico-from-white-house"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368075/trump-says-he-banning-cnn-ms-now-and-politico-white-house?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630095/trump-bans-cnn-ms-now-politico-from-white-house"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5034/live/0c472f40-b3aa-11f1-a7fa-c95bcf5935e4.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/5034/live/0c472f40-b3aa-11f1-a7fa-c95bcf5935e4.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5034/live/0c472f40-b3aa-11f1-a7fa-c95bcf5935e4.jpg",
+      "https://i.dawn.com/large/2026/09/19004331760de56.webp",
+      "https://i.dawn.com/thumbnail/2026/09/19004331760de56.webp",
+      "https://s.france24.com/media/display/d1e5ce1a-b395-11f1-972b-5b4fdf021577/w:1024/p:16x9/2026-08-21T205608Z-444001983-RC283NA7GZ0I-RTRMADP-3-USA-TRUMP.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 14,
+    "velocity": 1.0,
+    "age_hours": 1090.9166108144445,
+    "is_stale": false,
+    "score": 28.442951617376515,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
