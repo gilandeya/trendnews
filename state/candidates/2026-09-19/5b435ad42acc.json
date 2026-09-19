@@ -1,0 +1,89 @@
+{
+  "id": "5b435ad42acc",
+  "created_at": "2026-09-19T17:07:53.467378+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.03,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Olympic Council of Asia President wants to keep politics out of Asian Games",
+  "link": "https://www.japantimes.co.jp/sports/2026/09/20/more-sports/asian-games-politics-out/",
+  "publishers": [
+    "Al Jazeera English",
+    "France24",
+    "Malay Mail",
+    "The Japan Times",
+    "Yonhap News"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Olympic Council of Asia President wants to keep politics out of Asian Games",
+    "link": "https://www.japantimes.co.jp/sports/2026/09/20/more-sports/asian-games-politics-out/",
+    "summary": "The buildup to the Aichi-Nagoya Games has been overshadowed by complaints from national team delegations over organizational issues.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-09-19T15:52:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/20/564011.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "France24",
+      "Malay Mail",
+      "The Japan Times",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/sports/2026/09/20/more-sports/asian-games-politics-out/"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260919003700315"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/japan-under-pressure-amid-accommodation-woes-as-asian-games-kick-off"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/sports/2026/09/19/japan-must-not-lose-money-for-nothing-asian-olympic-official-says-as-nagoya-games-open-amid-room-complaints/235779"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/19/asian-games-2026-top-athletes-and-storylines-to-look-out-for?traffic_source=rss"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260919002500320"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/20/564011.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/20/thumbs/400x400/564011.jpg",
+      "https://img.yna.co.kr/photo/yna/YH/2026/09/19/PYH2026091904620001300_P2.jpg",
+      "https://s.france24.com/media/display/c89f7228-b40f-11f1-b632-0730212ba17f/w:1024/p:16x9/EN-20260919-092208-092418-CS.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/19/363443.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/19/363445.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1104.9130883894445,
+    "is_stale": true,
+    "score": 22.031572656662085,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

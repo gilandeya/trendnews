@@ -1,0 +1,79 @@
+{
+  "id": "8e1861f04c16",
+  "created_at": "2026-09-19T17:07:53.467890+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.7,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran executes man accused of providing missile info to Israel: judiciary",
+  "link": "https://www.thehindu.com/news/international/iran-executes-man-accused-of-providing-missile-info-to-israel-judiciary/article71483946.ece",
+  "publishers": [
+    "IRNA English",
+    "Iran International",
+    "Malay Mail",
+    "Reuters",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran executes man accused of providing missile info to Israel: judiciary",
+    "link": "https://www.thehindu.com/news/international/iran-executes-man-accused-of-providing-missile-info-to-israel-judiciary/article71483946.ece",
+    "summary": "The death penalty was carried out against Hossein Pedaran, who had provided the Mossad with information on missile sites in Isfahan Province",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-19T08:40:16+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/mythay/article71483961.ece/alternates/LANDSCAPE_1200/2026-03-09T014429Z_286053583_RC2H0KASXK65_RTRMADP_3_IRAN-CRISIS-SATELLITE.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "IRNA English",
+      "Iran International",
+      "Malay Mail",
+      "Reuters",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202609191625"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-executes-man-accused-of-providing-missile-info-to-israel-judiciary/article71483946.ece"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/19/iran-executes-man-accused-of-spying-for-israel-on-missile-sites/235774"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86267915/Man-convicted-of-spying-for-Israel-executed-in-Iran"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/mythay/article71483961.ece/alternates/LANDSCAPE_1200/2026-03-09T014429Z_286053583_RC2H0KASXK65_RTRMADP_3_IRAN-CRISIS-SATELLITE.JPG",
+      "https://i.iranintl.com/images/rdk9umy0/production/e88673210cbd0cdc2c1d8c019724f254659e44de-637x358.jpg?rect=0,13,637,333&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/19/363438.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/19/4/173113533.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1104.9131235588889,
+    "is_stale": false,
+    "score": 20.70186895099542,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
