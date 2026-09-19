@@ -1,0 +1,819 @@
+{
+  "run_date": "2026-09-19",
+  "stats": {
+    "points_in": 552,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 402,
+    "issues_clustered": 34,
+    "topics_merged": 4,
+    "topics_out": 5,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 0,
+    "topics_below_min_points": 15,
+    "topics_below_min_channels": 10,
+    "layer_a": 2,
+    "layer_b": 3,
+    "layer_c": 0,
+    "agreement": 5,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "استهداف الحوثيين لمكة المكرمة",
+      "سيطرة الحوثيين على مضيق باب المندب والمخا"
+    ],
+    [
+      "قضية إسطنبول البلدية وتناقضات الاتهامات",
+      "الصراع السياسي حول بلدية إسطنبول والانسحابات الحزبية"
+    ],
+    [
+      "أزمة صناديق الاستثمار التركية والتلاعب المالي",
+      "فرار رئيس شركة بوصلة بورتفوي وتجميد أصوله"
+    ],
+    [
+      "خطة التقشف الفرنسية وتقليص الموازنة",
+      "تفسير ارتفاع أسعار الوقود الفرنسي بين الجيوسياسة والقرارات الحكومية"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "استهداف الحوثيين لمكة المكرمة",
+      "event": "محاولة الحوثيين استهداف مكة المكرمة بطائرة مسيرة واعتراضها من الدفاع الجوي السعودي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        3,
+        7,
+        11,
+        15,
+        16,
+        21,
+        87,
+        88,
+        89,
+        90,
+        94,
+        135,
+        136
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null
+    },
+    {
+      "title": "رفع الفائدة الأمريكية للمرة الأولى منذ سنوات",
+      "event": "قرار البنك المركزي الأمريكي رفع أسعار الفائدة 25 نقطة أساس رغم معارضة ترامب",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        93,
+        101,
+        102,
+        104
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "سياسة ترامب تجاه المنطقة وبيع السلاح بدل التدخل المباشر",
+      "event": "موقف ترامب برفض التدخل العسكري المباشر والتركيز على بيع الأسلحة للحلفاء",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        95,
+        96,
+        97
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "دور مضيق هرمز في تدفق النفط والتصعيد الإيراني",
+      "event": "استمرار عبور النفط عبر هرمز رغم التوترات وتصعيد إيراني باستهداف ناقلة نفط",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        13,
+        64,
+        110,
+        111
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "أزمة صناديق الاستثمار التركية والتلاعب المالي",
+      "event": "أزمة صناديق الاستثمار في تركيا واتهامات بالتلاعب وتضخيم أسعار وهمي",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        40,
+        115,
+        116,
+        117,
+        122,
+        123
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "استهداف الحوثيين لمكة المكرمة",
+      "event": "محاولة الحوثيين استهداف مكة المكرمة بطائرة مسيرة واعتراضها من الدفاع الجوي السعودي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        3,
+        7,
+        11,
+        15,
+        16,
+        21,
+        87,
+        88,
+        89,
+        90,
+        94,
+        135,
+        136
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null
+    },
+    {
+      "title": "رفع الفائدة الأمريكية للمرة الأولى منذ سنوات",
+      "event": "قرار البنك المركزي الأمريكي رفع أسعار الفائدة 25 نقطة أساس رغم معارضة ترامب",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        93,
+        101,
+        102,
+        104
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "سياسة ترامب تجاه المنطقة وبيع السلاح بدل التدخل المباشر",
+      "event": "موقف ترامب برفض التدخل العسكري المباشر والتركيز على بيع الأسلحة للحلفاء",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        95,
+        96,
+        97
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "دور مضيق هرمز في تدفق النفط والتصعيد الإيراني",
+      "event": "استمرار عبور النفط عبر هرمز رغم التوترات وتصعيد إيراني باستهداف ناقلة نفط",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        13,
+        64,
+        110,
+        111
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "ارتفاع أسعار الطاقة وتأثيره على المستهلك الأمريكي",
+      "event": "ارتفاع أسعار الديزل/الوقود في أمريكا وتأثيره على المواطنين",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        17,
+        103
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة صناديق الاستثمار التركية والتلاعب المالي",
+      "event": "أزمة صناديق الاستثمار في تركيا واتهامات بالتلاعب وتضخيم أسعار وهمي",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        40,
+        115,
+        116,
+        117,
+        122,
+        123
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "التحالف البحري الدولي لتأمين الملاحة في البحر الأحمر",
+      "event": "تطور التحالف البحري متعدد الجنسيات لتأمين الملاحة في البحر الأحمر ومشاركة إيطاليا وغياب أمريكا",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "ضعف فعالية الجامعة العربية وأسبابها",
+      "event": "نقاش حول ضعف فعالية الجامعة العربية وأسباب ذلك وسبل إصلاحها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "خطة التقشف الفرنسية وتقليص الموازنة",
+      "event": "خطة الحكومة الفرنسية لتقليص الموازنة وتحميل المتقاعدين جزءًا من العبء",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        106,
+        107,
+        110,
+        113
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة اكتظاظ السجون في تونس ووفيات السجناء",
+      "event": "تفاقم اكتظاظ السجون التونسية ووفيات السجناء خلال الصيف",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مخاطر الذكاء الاصطناعي الوجودية وتطوره الذاتي",
+      "event": "تحذيرات خبراء من مخاطر الذكاء الاصطناعي المتقدم وقدرته على تطوير نفسه بنفسه",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قضية إسطنبول البلدية وتناقضات الاتهامات",
+      "event": "جلسات محاكمة قضية بلدية إسطنبول الكبرى وتناقضات في شهادات الاتهام",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        120,
+        121
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "عملية دمج تيرا وبوصولة لإنقاذ المؤسسات المالية",
+      "event": "استحواذ/دمج مجموعة تيرا مع مجموعة بوصولة المتعثرة لحماية المدخرين",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        124,
+        128
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "نزاع تسمية حزب يني (الجديد)",
+      "event": "دعوى قضائية من حزب يليك ضد تسمية حزب يني بسبب التباس الأسماء",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        43,
+        125
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مقارنة معاملة المعتقلين السياسيين بأوجالان",
+      "event": "جدل حول معايير غير متساوية في معاملة المعتقلين السياسيين مقارنة بأوجالان والدعوة لتحرير ديمرتاش",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        44,
+        127
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مسؤولية القاعدة عن هجمات 11 سبتمبر ومفاوضات طالبان",
+      "event": "تأكيدات استخباراتية بمسؤولية القاعدة عن هجمات سبتمبر وفشل مفاوضات تسليم بن لادن",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        67,
+        68
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دعم هاريس لمرشح ديمقراطي في ميشيغن",
+      "event": "دعم كمالا هاريس لعبد الرحمن السيد المرشح الديمقراطي لمجلس الشيوخ في ميشيغن واستراتيجية الحزب",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        91,
+        92
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دعم فرنسا وأوروبا لأوكرانيا والتهديدات الروسية الهجينة",
+      "event": "استمرار الدعم الفرنسي الأوروبي لأوكرانيا وسط تصاعد التهديدات الروسية الهجينة بما فيها هجوم مطار لابزيش",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        108,
+        109,
+        114
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطط أردوغان المستقبلية والانتخابات الرئاسية 2028",
+      "event": "إعلان أردوغان خططًا مستقبلية وتصريحات وزير العدل عن انتخابات رئاسية 2028",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        118,
+        119
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قضية الشقيقتين المحتجزتين في إيران",
+      "event": "اعتقال ومحاكمة الشقيقتين التوأم تارون وروميناإثر مشاركتهما في احتجاجات إصفهان وتعذيبهما والحكم عليهما",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131,
+        132,
+        133,
+        134
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تدمير الجيش الإسرائيلي لمنشأة حزب الله تحت الأرض في ركس ليتار",
+      "event": "عملية عسكرية إسرائيلية دمرت منشأة حزب الله المحصنة تحت الأرض في ركس ليتار جنوب لبنان",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "All Israel News"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تصاعد العنف الاستيطاني في الضفة الغربية",
+      "event": "تصاعد عنف المستوطنين في الضفة الغربية وتحذير مراكز الفكر الأمنية منه",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حصار المستوطنين لمنزل لويس ري في الضفة الغربية",
+      "event": "حصار مستوطنين إسرائيليين لمنزل الفلسطيني الأمريكي لويس ري ومنعه من التنقل في ممتلكاته",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        145,
+        146,
+        147
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف حاخامات حقوق الإنسان من عنف المستوطنين",
+      "event": "انتقاد حاخام يهودي لأفعال المستوطنين واعتبارها تهديدًا أخلاقيًا داخليًا لإسرائيل",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        148,
+        149
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التصعيد الأمريكي الإيراني المحتمل ومؤشرات التدخل العسكري",
+      "event": "تصريحات ومؤشرات أمريكية توحي باحتمال تدخل عسكري واسع ضد إيران",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتفاق الحوثيين مع الإدارة الأمريكية بشأن الملاحة",
+      "event": "اتفاق أو تفاهم بين الحوثيين والإدارة الأمريكية حول مرور السفن في البحر الأحمر منذ مايو 2025",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        8,
+        12
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قلق الأمريكيين من الذكاء الاصطناعي (استطلاع بيو)",
+      "event": "نتائج استطلاع بيو حول قلق الأمريكيين من الذكاء الاصطناعي وتأثيره على التفكير الإبداعي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        19,
+        20
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استهداف الصحفيين ونزوحهم بسبب الحرب في اليمن",
+      "event": "معاناة الصحفيين اليمنيين من النزوح والاختفاء القسري والتعذيب على يد الحوثيين",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتقادات لنقابة المحامين الإسرائيلية وتسييسها",
+      "event": "اتهامات بتحول نقابة المحامين الإسرائيلية لمنظمة سياسية وتمييزها في الدعم القانوني وتجاهل تسجيل صوتي عن اعتقالات مخالفة",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        52,
+        53,
+        54,
+        55
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تأثير تسجيل صوتي على معاداة السامية عالميًا",
+      "event": "انتشار تسجيل صوتي أدى حسب زعم محامٍ إلى تصاعد معاداة السامية عالميًا",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        57
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
