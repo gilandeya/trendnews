@@ -1,140 +1,5 @@
 [
   {
-    "score": 30.29,
-    "bucket": "light",
-    "tokens": [
-      "dropped",
-      "free",
-      "macklemore",
-      "palestine",
-      "sheeran",
-      "speech",
-      "tour"
-    ],
-    "link": "https://www.theguardian.com/music/2026/sep/14/macklemore-dropped-ed-sheeran-tour-free-palestine",
-    "title": "Macklemore dropped from Ed Sheeran’s US tour after ‘free Palestine’ speech",
-    "posted_title": "",
-    "region": "culture",
-    "seen_at": "2026-09-15T06:08:08.794989+00:00"
-  },
-  {
-    "score": 24.8,
-    "bucket": "serious",
-    "tokens": [
-      "blocks",
-      "duration",
-      "foreign",
-      "journalists",
-      "judge",
-      "limit",
-      "move",
-      "report",
-      "stay",
-      "students",
-      "trump's"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260915000700315",
-    "title": "U.S. judge blocks Trump's move to limit duration of stay for foreign students, journalists: report",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-09-15T06:08:08.795318+00:00"
-  },
-  {
-    "score": 24.44,
-    "bucket": "serious",
-    "tokens": [
-      "'hoax'",
-      "calls",
-      "fears",
-      "greater",
-      "rejects",
-      "safeguards",
-      "safety",
-      "trump"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cw980n0nd0qjo?at_medium=RSS&at_campaign=rss",
-    "title": "Trump says AI safety fears a 'hoax' as he rejects calls for greater safeguards",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-15T06:08:08.795612+00:00"
-  },
-  {
-    "score": 23.7,
-    "bucket": "sport",
-    "tokens": [
-      "league",
-      "leeds",
-      "newcastle",
-      "premier",
-      "united"
-    ],
-    "link": "https://www.theguardian.com/football/live/2026/sep/14/leeds-united-v-newcastle-united-premier-league-live-updates",
-    "title": "Leeds United 4-1 Newcastle United: Premier League",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-15T06:08:08.795978+00:00"
-  },
-  {
-    "score": 21.39,
-    "bucket": "serious",
-    "tokens": [
-      "between",
-      "discuss",
-      "gulf",
-      "hormuz",
-      "iran",
-      "postponed",
-      "states",
-      "strait",
-      "talks"
-    ],
-    "link": "https://www.npr.org/2026/09/14/nx-s1-5968072/talks-between-iran-and-gulf-states-to-discuss-strait-of-hormuz-postponed",
-    "title": "Talks between Iran and Gulf states to discuss Strait of Hormuz postponed",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-09-15T06:08:08.796267+00:00"
-  },
-  {
-    "score": 30.29,
-    "bucket": "light",
-    "tokens": [
-      "dropped",
-      "free",
-      "macklemore",
-      "palestine",
-      "sheeran",
-      "speech",
-      "tour"
-    ],
-    "link": "https://www.theguardian.com/music/2026/sep/14/macklemore-dropped-ed-sheeran-tour-free-palestine",
-    "title": "Macklemore dropped from Ed Sheeran’s US tour after ‘free Palestine’ speech",
-    "posted_title": "لماذا استُبعد ماكلمور من جولة إيد شيران الأميركية بعد كلمته عن غزة",
-    "region": "culture",
-    "seen_at": "2026-09-15T06:47:37.426833+00:00"
-  },
-  {
-    "score": 24.8,
-    "bucket": "serious",
-    "tokens": [
-      "blocks",
-      "duration",
-      "foreign",
-      "journalists",
-      "judge",
-      "limit",
-      "move",
-      "report",
-      "stay",
-      "students",
-      "trump's"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260915000700315",
-    "title": "U.S. judge blocks Trump's move to limit duration of stay for foreign students, journalists: report",
-    "posted_title": "لماذا أوقف قاض فيدرالي قرار ترامب بتحديد مدة إقامة الطلاب والصحفيين الأجانب؟",
-    "region": "kr",
-    "seen_at": "2026-09-15T06:47:59.743089+00:00"
-  },
-  {
     "score": 28.41,
     "bucket": "serious",
     "tokens": [
@@ -5235,5 +5100,105 @@
     "posted_title": "",
     "region": "ru",
     "seen_at": "2026-09-20T06:07:47.868773+00:00"
+  },
+  {
+    "score": 25.71,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "day",
+      "drone",
+      "election",
+      "enters",
+      "final",
+      "kyiv",
+      "live",
+      "massive",
+      "moscow",
+      "russian",
+      "targets"
+    ],
+    "link": "https://www.france24.com/en/europe/20260920-live-russian-election-enters-final-day-in-shadow-of-war-in-ukraine",
+    "title": "Live: Russian election enters final day after Kyiv targets Moscow in massive drone attack",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-20T09:07:45.461524+00:00"
+  },
+  {
+    "score": 23.12,
+    "bucket": "sport",
+    "tokens": [
+      "beats",
+      "flyweight",
+      "pantoja",
+      "retain",
+      "title",
+      "ufc",
+      "van"
+    ],
+    "link": "https://www.bbc.co.uk/sport/mixed-martial-arts/articles/cw770mpl53ezo?at_medium=RSS&at_campaign=rss",
+    "title": "Van beats Pantoja to retain UFC flyweight title",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-20T09:07:45.461815+00:00"
+  },
+  {
+    "score": 22.11,
+    "bucket": "sport",
+    "tokens": [
+      "'stay",
+      "arsenal",
+      "brighton",
+      "huge",
+      "humble'",
+      "hurzeler's",
+      "plea",
+      "win"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/videos/cqx2zd858d7xo?at_medium=RSS&at_campaign=rss",
+    "title": "'Stay humble' - Hurzeler's plea to Brighton after huge Arsenal win",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-20T09:07:45.462124+00:00"
+  },
+  {
+    "score": 21.73,
+    "bucket": "serious",
+    "tokens": [
+      "against",
+      "arsenal",
+      "brighton",
+      "call",
+      "gets",
+      "loss",
+      "upset",
+      "wake"
+    ],
+    "link": "https://www.japantimes.co.jp/sports/2026/09/20/soccer/arsenal-wake-up-call/",
+    "title": "Arsenal gets wake-up call with upset loss against Brighton",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-09-20T09:07:45.462440+00:00"
+  },
+  {
+    "score": 21.26,
+    "bucket": "serious",
+    "tokens": [
+      "additional",
+      "east",
+      "fires",
+      "jcs",
+      "korea",
+      "projectile",
+      "sea",
+      "toward",
+      "unidentified",
+      "urgent"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20260920004200315",
+    "title": "(URGENT) N. Korea fires additional unidentified projectile toward East Sea: JCS",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-09-20T09:07:45.462725+00:00"
   }
 ]

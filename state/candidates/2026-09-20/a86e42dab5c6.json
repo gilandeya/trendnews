@@ -1,0 +1,95 @@
+{
+  "id": "a86e42dab5c6",
+  "created_at": "2026-09-20T09:07:45.461059+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.71,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Live: Russian election enters final day after Kyiv targets Moscow in massive drone attack",
+  "link": "https://www.france24.com/en/europe/20260920-live-russian-election-enters-final-day-in-shadow-of-war-in-ukraine",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CEC chairwoman",
+    "France24",
+    "Mehr News",
+    "The Express Tribune",
+    "The Hindu — International",
+    "governor"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Live: Russian election enters final day after Kyiv targets Moscow in massive drone attack",
+    "link": "https://www.france24.com/en/europe/20260920-live-russian-election-enters-final-day-in-shadow-of-war-in-ukraine",
+    "summary": "Ukraine launched what Moscow’s Mayor Sergei Sobyanin described on Sunday as the “largest ever” attack on the Russian capital. The major attack comes on the third and final day of voting in Russia’s first wartime parliamentary election. Follow our liveblog for the latest updates.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-20T05:16:20+00:00",
+    "image_url": "https://s.france24.com/media/display/7fbde97c-b4be-11f1-b2c6-5b4fdf021577/w:1024/p:16x9/2026-09-20T042905Z-1824787393-RC2QMNA5QBAK-RTRMADP-3-UKRAINE-CRISIS-RUSSIA-REFINERY.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CEC chairwoman",
+      "France24",
+      "Mehr News",
+      "The Express Tribune",
+      "The Hindu — International",
+      "governor"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630346/russian-election-enters-final-day-after-ukraine-targets-moscow-in-massive-drone-attack"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260920-live-russian-election-enters-final-day-in-shadow-of-war-in-ukraine"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247901/VIDEO-Ukraine-launches-massive-drone-attack-on-Moscow"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/20/mass-ukrainian-drone-attack-on-moscow-kills-two-russia-says?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c34gdjk1ne8yo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/mass-drone-barrage-on-moscow-kills-two/article71487158.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/7fbde97c-b4be-11f1-b2c6-5b4fdf021577/w:1024/p:16x9/2026-09-20T042905Z-1824787393-RC2QMNA5QBAK-RTRMADP-3-UKRAINE-CRISIS-RUSSIA-REFINERY.jpg",
+      "https://media.mehrnews.com/d/2026/09/20/4/6180873.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/15c3/live/41153930-b4bb-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/15c3/live/41153930-b4bb-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/15c3/live/41153930-b4bb-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://th-i.thgim.com/public/incoming/9584j0/article71487185.ece/alternates/LANDSCAPE_1200/2026-09-20T042816Z_888155140_RC2QMNA71VDJ_RTRMADP_3_UKRAINE-CRISIS-RUSSIA-REFINERY.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 1120.9108700816666,
+    "is_stale": false,
+    "score": 25.709640423611113,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
