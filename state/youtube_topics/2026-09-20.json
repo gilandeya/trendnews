@@ -1,0 +1,770 @@
+{
+  "run_date": "2026-09-20",
+  "stats": {
+    "points_in": 566,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 416,
+    "issues_clustered": 32,
+    "topics_merged": 3,
+    "topics_out": 5,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 3,
+    "topics_below_min_points": 14,
+    "topics_below_min_channels": 5,
+    "layer_a": 1,
+    "layer_b": 4,
+    "layer_c": 0,
+    "agreement": 4,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "التحالف البحري متعدد الجنسيات وإيطاليا في البحر الأحمر",
+      "عنصر عسكري لتأمين الملاحة ضد الحوثيين"
+    ],
+    [
+      "غياب أمريكا عن التحالف البحري وموقفها من النفط",
+      "ارتفاع أسعار الوقود وإغلاق مضيق هرمز",
+      "تداعيات التصعيد على تأمين وصادرات النفط السعودي"
+    ],
+    [
+      "إيران تستهدف ناقلة نفط وتصعيد المضايق",
+      "استهداف الحوثيين لباب المندب وربطه بإيران",
+      "استهداف الحوثيين للرياض وربطه بورقة هرمز"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "موقف محسن رضائي من الحرب الأمريكية الإيرانية وشروط التفاوض",
+      "event": "تصريحات اللواء محسن رضائي حول الحرب الأمريكية الإيرانية والقدرات العسكرية وشروط التفاوض والتهديدات",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        145
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "غياب أمريكا عن التحالف البحري وموقفها من النفط",
+      "event": "الجدل حول أهمية الحضور الأمريكي العسكري في البحر الأحمر لتأمين تدفق النفط",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        3,
+        4,
+        43,
+        51,
+        52,
+        54,
+        67,
+        105,
+        106
+      ],
+      "total_points": 9,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "التحالف البحري متعدد الجنسيات وإيطاليا في البحر الأحمر",
+      "event": "تعزيز التحالف البحري الدولي وانضمام دول مثل إيطاليا لتأمين الملاحة في باب المندب/البحر الأحمر",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2,
+        94,
+        95,
+        96
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "إيران تستهدف ناقلة نفط وتصعيد المضايق",
+      "event": "إعلان إيران رسمياً عن استهدافها ناقلة نفط وتصعيدها بشأن المضايق",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        6,
+        35,
+        36,
+        38,
+        70,
+        71,
+        72,
+        102
+      ],
+      "total_points": 9,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "أزمة الصناديق الاستثمارية التركية",
+      "event": "أزمة صناديق الاستثمار التركية والتلاعب في أسعار الأسهم والتوقيفات القضائية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        57,
+        58,
+        122,
+        123,
+        124,
+        128,
+        129,
+        130,
+        131,
+        132,
+        134
+      ],
+      "total_points": 12,
+      "fresh_points": 9,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "موقف محسن رضائي من الحرب الأمريكية الإيرانية وشروط التفاوض",
+      "event": "تصريحات اللواء محسن رضائي حول الحرب الأمريكية الإيرانية والقدرات العسكرية وشروط التفاوض والتهديدات",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        145
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "غياب أمريكا عن التحالف البحري وموقفها من النفط",
+      "event": "الجدل حول أهمية الحضور الأمريكي العسكري في البحر الأحمر لتأمين تدفق النفط",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        3,
+        4,
+        43,
+        51,
+        52,
+        54,
+        67,
+        105,
+        106
+      ],
+      "total_points": 9,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "التحالف البحري متعدد الجنسيات وإيطاليا في البحر الأحمر",
+      "event": "تعزيز التحالف البحري الدولي وانضمام دول مثل إيطاليا لتأمين الملاحة في باب المندب/البحر الأحمر",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2,
+        94,
+        95,
+        96
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "إيران تستهدف ناقلة نفط وتصعيد المضايق",
+      "event": "إعلان إيران رسمياً عن استهدافها ناقلة نفط وتصعيدها بشأن المضايق",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        6,
+        35,
+        36,
+        38,
+        70,
+        71,
+        72,
+        102
+      ],
+      "total_points": 9,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "أزمة الصناديق الاستثمارية التركية",
+      "event": "أزمة صناديق الاستثمار التركية والتلاعب في أسعار الأسهم والتوقيفات القضائية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        57,
+        58,
+        122,
+        123,
+        124,
+        128,
+        129,
+        130,
+        131,
+        132,
+        134
+      ],
+      "total_points": 12,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "قرار رفع الفائدة الأمريكية وتداعياته",
+      "event": "قرار الاحتياطي الفيدرالي رفع سعر الفائدة وتأثيره على السندات والاستهلاك",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        34,
+        42,
+        45
+      ],
+      "total_points": 3,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "جدل حول موقف إيران النووي والدعم للميليشيات",
+      "event": "دفاع دبلوماسي إيراني سابق عن عدم تجاوز إيران الخطوط الحمراء نووياً ونفي دعمها للميليشيات مقابل توثيق هجمات الفصائل الموالية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        88,
+        89,
+        90
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "جدل فعالية الجامعة العربية",
+      "event": "تقييم أداء الجامعة العربية وفعاليتها التاريخية والحالية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "حادثة ذكاء اصطناعي كادت تشعل حرباً أمريكية صينية",
+      "event": "تحليل ذكاء اصطناعي خاطئ عن سفينة صينية كاد يشعل مواجهة أمريكية صينية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        97,
+        100
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مسيرة الدكتور العزاوي في المخابرات العراقية",
+      "event": "شهادة مدير المخابرات العراقية السابق فاضل العزاوي عن تجربته وإصلاحاته في الجهاز",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "ظهور المرشد الإيراني الجديد مجتبى خميني",
+      "event": "التساؤل حول ظهور المرشد الإيراني الجديد مجتبى خميني علنًا وتفسير غيابه",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        91,
+        92
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحل السياسي مقابل العسكري في اليمن ودور الوساطات",
+      "event": "نقاش حول ضرورة الوساطة الدبلوماسية (عمان ومصر) بدل الحل العسكري البحت في اليمن",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        101,
+        104,
+        107
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "برامج التسليح اليونانية المدعومة إسرائيليا وقبرصيا تجاه تركيا",
+      "event": "برامج تحديث دفاعي يوناني بدعم إسرائيلي وقبرصي واحتمال استهدافها تركيا",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الانتخابات الإسرائيلية وحملتها ضد تركيا",
+      "event": "انتخابات إسرائيل المقررة في 27 أكتوبر وتقارب استطلاعات نتنياهو والمعارضة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        115,
+        116,
+        117
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تهديد كنديل/كي سي كي بعدم تسليم السلاح",
+      "event": "إعلان كنديل عبر هيكل كي سي كي عدم تسليم السلاح واستعدادهم لحرب إذا فشلت عملية 'تركيا بلا إرهاب'",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        125,
+        126,
+        127
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحصار الجوي والبحري الأمريكي على إيران والعقوبات الجديدة",
+      "event": "إجراءات أمريكية لفرض حصار جوي وبحري على إيران وإلغاء تصاريح طيران وعقوبات ثانوية جديدة",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        146
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تحذير بولندا من هجمات روسية على الناتو",
+      "event": "تحذير بولندا من هجمات روسية بمسيّرات وصواريخ على دول الناتو واستراتيجية روسيا الهجينة",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأزمة الاقتصادية وتسرب الطلاب من التعليم في إيران",
+      "event": "ارتفاع تكاليف التعليم في إيران وتوقعات تسرب مئات آلاف الطلاب بسبب الأزمة الاقتصادية",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        147,
+        148,
+        149
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحولات السي آي إيه بعد 11 سبتمبر",
+      "event": "تحول عمل وكالة الاستخبارات المركزية من التجسس إلى القتل بعد أحداث 11 سبتمبر ودورها في تعقب القاعدة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مخاطر الذكاء الاصطناعي الوجودية",
+      "event": "تحذيرات باحثين وقادة صناعة الذكاء الاصطناعي من مخاطر تطور النماذج دون قيود",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "محاولة استهداف الحوثيين مكة المكرمة",
+      "event": "محاولة ميليشيا الحوثي استهداف مكة المكرمة واعتراض الدفاع الجوي السعودي للمسيرة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31
+      ],
+      "total_points": 4,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "دعم هاريس لمرشح ديمقراطي في ميشيغن",
+      "event": "دعم كمالا هاريس لعبد الرحمن السيد في انتخابات مجلس الشيوخ بميشيغن",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        32,
+        33
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطة تقشف الموازنة الفرنسية",
+      "event": "خطة الحكومة الفرنسية لتقليص الموازنة وتحميل المتقاعدين جزءاً من العبء",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        47,
+        48
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دعم فرنسا وأوروبا لأوكرانيا والتهديدات الروسية الهجينة",
+      "event": "استمرار الدعم الفرنسي الأوروبي لأوكرانيا مقابل تصاعد التهديدات الروسية الهجينة ضد أوروبا",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        49,
+        50,
+        55
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطط أردوغان المستقبلية والانتخابات الرئاسية 2028",
+      "event": "إعلان أردوغان خطة الخمسين عاماً القادمة وتوقعات الانتخابات الرئاسية 2028",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        60
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الصراع حول بلدية إسطنبول الكبرى",
+      "event": "محاولة الحكومة التركية السيطرة على بلدية إسطنبول الكبرى وانسحابات من حزب الشعب الجمهوري",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        61,
+        62
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فرار محمد يارز وقضية بوصلة بورتفوي",
+      "event": "فرار رئيس شركة بوصلة بورتفوي محمد يارز من تركيا وتجميد أصوله ودمج الشركة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        63,
+        64,
+        65
+      ],
+      "total_points": 3,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    }
+  ]
+}
