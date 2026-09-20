@@ -1,104 +1,5 @@
 [
   {
-    "score": 28.41,
-    "bucket": "serious",
-    "tokens": [
-      "bay",
-      "emmy",
-      "glory",
-      "head",
-      "pitt",
-      "widow"
-    ],
-    "link": "https://www.malaymail.com/news/showbiz/2026/09/15/widows-bay-the-pitt-go-head-to-head-for-emmy-glory/235251",
-    "title": "‘Widow’s Bay’, ‘The Pitt’ go head-to-head for Emmy glory",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-15T09:08:42.526152+00:00"
-  },
-  {
-    "score": 24.0,
-    "bucket": "serious",
-    "tokens": [
-      "barcelona",
-      "conseguir",
-      "entradas",
-      "general",
-      "hacer",
-      "hay",
-      "oasis",
-      "para",
-      "precios",
-      "qué",
-      "venta",
-      "vuelve"
-    ],
-    "link": "https://elpais.com/espana/catalunya/2026-09-15/oasis-vuelve-a-barcelona-y-no-hay-venta-general-precios-y-que-hacer-para-conseguir-entradas.html",
-    "title": "Oasis vuelve a Barcelona y no hay venta general: precios y qué hacer para conseguir entradas",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-09-15T09:08:42.526480+00:00"
-  },
-  {
-    "score": 20.48,
-    "bucket": "useful",
-    "tokens": [
-      "administration",
-      "blocks",
-      "grad",
-      "judge",
-      "length",
-      "limit",
-      "plans",
-      "postdocs",
-      "students",
-      "trump",
-      "visa"
-    ],
-    "link": "https://www.statnews.com/2026/09/14/court-halts-dhs-visa-limits-foreign-scholars/?utm_campaign=rss",
-    "title": "Judge blocks Trump administration plans to limit visa length for grad students, postdocs",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-09-15T09:08:42.526788+00:00"
-  },
-  {
-    "score": 18.98,
-    "bucket": "serious",
-    "tokens": [
-      "'kill",
-      "adds",
-      "all",
-      "could",
-      "deepmind",
-      "google",
-      "humans'",
-      "researcher",
-      "warnings"
-    ],
-    "link": "https://www.dawn.com/news/2030082/ex-google-deepmind-researcher-adds-to-warnings-that-ai-could-kill-all-humans",
-    "title": "Ex-Google DeepMind researcher adds to warnings that AI could 'kill all humans'",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-15T09:08:42.527115+00:00"
-  },
-  {
-    "score": 18.14,
-    "bucket": "serious",
-    "tokens": [
-      "downs",
-      "drone",
-      "fourth",
-      "hormuz",
-      "irgc",
-      "strait"
-    ],
-    "link": "https://en.mehrnews.com/news/247772/IRGC-downs-fourth-MQ-1-drone-over-Strait-of-Hormuz",
-    "title": "IRGC downs fourth MQ-1 drone over Strait of Hormuz",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-15T09:08:42.527398+00:00"
-  },
-  {
     "score": 24.81,
     "bucket": "serious",
     "tokens": [
@@ -5200,5 +5101,43 @@
     "posted_title": "",
     "region": "kr",
     "seen_at": "2026-09-20T09:07:45.462725+00:00"
+  },
+  {
+    "score": 20.38,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "could",
+      "help",
+      "meet",
+      "military",
+      "needs",
+      "saudi",
+      "turkiye"
+    ],
+    "link": "https://www.dawn.com/news/2031285/turkiye-says-it-could-help-meet-saudi-arabias-military-needs",
+    "title": "Turkiye says it could help meet Saudi Arabia’s military needs",
+    "posted_title": "وزير الخارجية التركي: لا مانع لدينا من تلبية احتياجات السعودية العسكرية بموجب اتفاق مكة الدفاعي",
+    "region": "pk",
+    "seen_at": "2026-09-20T09:21:30.993065+00:00"
+  },
+  {
+    "score": 19.97,
+    "bucket": "serious",
+    "tokens": [
+      "'catastrophic",
+      "apologises",
+      "controversy",
+      "gaza",
+      "macklemore",
+      "sheeran",
+      "situation",
+      "unjustifiable'"
+    ],
+    "link": "https://www.channelnewsasia.com/world/ed-sheeran-says-situation-in-gaza-catastrophic-and-unjustifiable-apologises-macklemore-controversy-6397136",
+    "title": "Ed Sheeran says situation in Gaza is 'catastrophic and unjustifiable', apologises for Macklemore controversy",
+    "posted_title": "لماذا خرج إد شيران عن صمته بشأن غزة بعد أزمة استبعاد ماكلمور؟",
+    "region": "seasia",
+    "seen_at": "2026-09-20T09:21:52.195569+00:00"
   }
 ]
