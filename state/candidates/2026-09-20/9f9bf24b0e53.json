@@ -1,0 +1,63 @@
+{
+  "id": "9f9bf24b0e53",
+  "created_at": "2026-09-20T03:07:51.041169+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.81,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says will not tolerate attempts to slow AI growth",
+  "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/20/trump-says-will-not-tolerate-attempts-to-slow-ai-growth",
+  "publishers": [
+    "Free Malaysia Today",
+    "Trump"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Trump says will not tolerate attempts to slow AI growth",
+    "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/20/trump-says-will-not-tolerate-attempts-to-slow-ai-growth",
+    "summary": "The US president finds himself out of step with growing public scepticism over AI and dire safety warnings from AI industry leaders.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-19T22:04:38+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/07/81bb1aa5-donald-trump-epa-09072026.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Trump"
+    ],
+    "cluster_members": [
+      {
+        "name": "Trump",
+        "link": "https://www.vanguardngr.com/2026/09/i-wont-tolerate-attempts-to-slow-ai-growth-trump/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/20/trump-says-will-not-tolerate-attempts-to-slow-ai-growth"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/07/81bb1aa5-donald-trump-epa-09072026.webp",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/05/AFP__20260508__2275189503__v2__MidRes__PresidentTrumpHostsAMotherSDayLuncheonAtTheWh.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1114.9125004402779,
+    "is_stale": false,
+    "score": 20.81320126648148,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

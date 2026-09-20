@@ -1,0 +1,79 @@
+{
+  "id": "1051d35a857d",
+  "created_at": "2026-09-20T03:07:51.040579+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.15,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Arsenal score last-minute equaliser to deny Man Utd first WSL win",
+  "link": "https://www.bbc.co.uk/sport/football/videos/c8r4v5y9w1gyo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football",
+    "The Guardian — Sport",
+    "as it happened"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Arsenal score last-minute equaliser to deny Man Utd first WSL win",
+    "link": "https://www.bbc.co.uk/sport/football/videos/c8r4v5y9w1gyo?at_medium=RSS&at_campaign=rss",
+    "summary": "Arsenal steal a last gasp leveller through Smilla Holmberg, denying Eva Olid her first win as Manchester United manager in her third game in charge.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-19T22:40:53+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d405/live/e60c97b0-b459-11f1-a430-4d16ee157c41.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football",
+      "The Guardian — Sport",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/c8r4v5y9w1gyo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/watch/video/13589917/arsenal-1-1-manchester-united-smilla-holmberg-equalises-late-on-for-gunners"
+      },
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/football/live/2026/sep/19/arsenal-v-manchester-united-womens-super-league-live"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/19/arsenal-manchester-united-wsl-match-report"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/d405/live/e60c97b0-b459-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/d405/live/e60c97b0-b459-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/d405/live/e60c97b0-b459-11f1-a430-4d16ee157c41.jpg",
+      "https://e0.365dm.com/26/09/1096x616/skysports-homlberg-arsenal_7356641.jpg?20260919193226",
+      "https://e0.365dm.com/26/09/1920x1080/skysports-homlberg-arsenal_7356641.jpg?20260919193226",
+      "https://i.guim.co.uk/img/media/f2e6db093ce5d626151ced1ade210c94ea86872d/1362_1377_2489_1992/master/2489.jpg?width=700&quality=85&auto=format&fit=max&s=ed5e4d07e2f892e41b295ccfa732a90a"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1114.9124525091665,
+    "is_stale": true,
+    "score": 21.153479048814816,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

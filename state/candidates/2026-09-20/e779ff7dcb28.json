@@ -1,0 +1,99 @@
+{
+  "id": "e779ff7dcb28",
+  "created_at": "2026-09-20T03:07:51.039748+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.59,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "CNN, MS NOW, Politico reporters blocked from White House after Trump ban",
+  "link": "https://www.france24.com/en/americas/20260919-cnn-ms-now-politico-reporters-blocked-from-white-house-after-trump-ban",
+  "publishers": [
+    "BBC World",
+    "Daily Sabah",
+    "Der Spiegel",
+    "France24",
+    "Le Monde",
+    "MercoPress",
+    "MyJoyOnline Ghana",
+    "South China Morning Post",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "CNN, MS NOW, Politico reporters blocked from White House after Trump ban",
+    "link": "https://www.france24.com/en/americas/20260919-cnn-ms-now-politico-reporters-blocked-from-white-house-after-trump-ban",
+    "summary": "White House correspondents for CNN, MS NOW and Politico on Saturday were blocked from entering the US president's office and residence a day after President Donald Trump announced he was banning the three media outlets for what he called \"fake news\" coverage. News organisations and press freedom groups have slammed the move as unconstitutional.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-19T17:02:47+00:00",
+    "image_url": "https://s.france24.com/media/display/eb650650-b447-11f1-8a93-9f514b90f153/w:1024/p:16x9/AP26262504511078.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "BBC World",
+      "Daily Sabah",
+      "Der Spiegel",
+      "France24",
+      "Le Monde",
+      "MercoPress",
+      "MyJoyOnline Ghana",
+      "South China Morning Post",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368128/white-house-bars-cnn-ms-now-and-politico-reporters-after-trump-ban?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-bans-media-outlets-cnn-ms-now-politico-from-white-house/article71482414.ece"
+      },
+      {
+        "name": "MercoPress",
+        "link": "https://en.mercopress.com/2026/09/19/trump-announces-ban-on-cnn-ms-now-and-politico-at-the-white-house-with-no-steps-to-enforce-it?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260919-cnn-ms-now-politico-reporters-blocked-from-white-house-after-trump-ban"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/americas/trump-moves-to-ban-cnn-ms-now-politico-from-white-house"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cj4gklz9dxplo?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/eb650650-b447-11f1-8a93-9f514b90f153/w:1024/p:16x9/AP26262504511078.jpg",
+      "https://th-i.thgim.com/public/incoming/swdmur/article71482416.ece/alternates/LANDSCAPE_1200/Trump_46727.jpg",
+      "https://en.mercopress.com/data/cache/noticias/111506/100x80/dt.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/19/461307.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1b27/live/d8b31f40-b435-11f1-9fa0-111a12dcb7b0.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/1b27/live/d8b31f40-b435-11f1-9fa0-111a12dcb7b0.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 10,
+    "velocity": 1.0,
+    "age_hours": 1114.9124555605556,
+    "is_stale": false,
+    "score": 27.59359666888431,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

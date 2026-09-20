@@ -1,0 +1,71 @@
+{
+  "id": "d299a878bd4a",
+  "created_at": "2026-09-20T03:07:51.040267+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.37,
+  "trend_score": 1.0,
+  "velocity": 0.13,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Donald Trump kündigt »AI Force« zur KI-Überwachung an",
+  "link": "https://www.spiegel.de/ausland/donald-trump-kuendigt-ai-force-zur-ki-ueberwachung-an-a-e2cf0663-c5a1-404b-8910-8605336743e1#ref=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Der Spiegel",
+    "The Guardian — World"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Donald Trump kündigt »AI Force« zur KI-Überwachung an",
+    "link": "https://www.spiegel.de/ausland/donald-trump-kuendigt-ai-force-zur-ki-ueberwachung-an-a-e2cf0663-c5a1-404b-8910-8605336743e1#ref=rss",
+    "summary": "Von Warnungen vor den Risiken künstlicher Intelligenz will der US-Präsident weiter nichts wissen. Trotzdem will er nun ihre Entwicklung mit einer neuen Institution überwachen. Dabei helfen soll auch ein »KI-Zar«.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-09-19T19:39:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/b02fa213-0de9-46ab-be52-a269b9d72faf_w520_r2.08_fpx26_fpy39.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Der Spiegel",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/donald-trump-kuendigt-ai-force-zur-ki-ueberwachung-an-a-e2cf0663-c5a1-404b-8910-8605336743e1#ref=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/19/trump-says-he-will-create-ai-force-with-new-ai-czar?traffic_source=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/sep/19/donald-trump-ai-force"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/b02fa213-0de9-46ab-be52-a269b9d72faf_w520_r2.08_fpx26_fpy39.jpg",
+      "https://i.guim.co.uk/img/media/16036f1089514535d801d2d2f452cc57da7d985c/0_0_1353_1082/master/1353.jpg?width=700&quality=85&auto=format&fit=max&s=390281eab887e15ce46528b73e931323",
+      "https://i.guim.co.uk/img/media/16036f1089514535d801d2d2f452cc57da7d985c/0_0_1353_1082/master/1353.jpg?width=460&quality=85&auto=format&fit=max&s=26e5d12bb926862c8cf6a62184fbaf71",
+      "https://i.guim.co.uk/img/media/16036f1089514535d801d2d2f452cc57da7d985c/0_0_1353_1082/master/1353.jpg?width=140&quality=85&auto=format&fit=max&s=af31914fd31b473855086f5599de2828"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.13328762291323007,
+    "age_hours": 5.001714728611111,
+    "is_stale": false,
+    "score": 22.37271207189629,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
