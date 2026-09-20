@@ -1,0 +1,105 @@
+{
+  "id": "d0c9dac4e7a1",
+  "created_at": "2026-09-20T12:08:05.214582+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.92,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Thick smoke seen near Riyadh airport as Houthis claim attack on Saudi capital",
+  "link": "https://www.theguardian.com/world/2026/sep/19/saudi-arabia-riyadh-airport",
+  "publishers": [
+    "Channel News Asia",
+    "France24",
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد",
+    "NDTV — World",
+    "NPR",
+    "NPR World",
+    "Reuters",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Hindu — International",
+    "Yahoo News Canada",
+    "coalition"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Thick smoke seen near Riyadh airport as Houthis claim attack on Saudi capital",
+    "link": "https://www.theguardian.com/world/2026/sep/19/saudi-arabia-riyadh-airport",
+    "summary": "Authorities issued warnings for city in first such alerts for Riyadh since fighting with Iran-backed Houthis escalated in July Yemen’s Houthis said they attacked “sensitive” sites in the Saudi capital with missiles and drones, hours after flames and a large plume of black smoke were seen rising above Riyadh airport on Saturday. The Saudi government sent air raid alerts to citizens by phone overnight warning of aerial attacks, marking the first time the government has issued such alerts for Riyadh since fighting with the Iran-backed Houthis escalated in July. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-20T00:21:04+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/975477497a09e1bb916ac60ca3ee53fecda3bad3/733_0_2316_1853/master/2316.jpg?width=700&quality=85&auto=format&fit=max&s=b77c44017a2ddaa2a7a9308d4cdcb05a",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Channel News Asia",
+      "France24",
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد",
+      "NDTV — World",
+      "NPR",
+      "NPR World",
+      "Reuters",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Hindu — International",
+      "Yahoo News Canada",
+      "coalition"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/19/saudi-arabia-riyadh-airport"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3368131/houthis-claim-attacks-saudi-capital-after-flames-seen-near-riyadh-airport?utm_source=rss_feed"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/19/nx-s1-5974980/saudi-arabia-houthis-attempted-attack-capital"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/saudi-gulf-stocks-fall-after-houthisclaim-riyadh-attacks-4908151"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/saudi-arabia-confirms-yemens-houthi-rebels-tried-to-attack-its-capital-with-ballistic-missile/article71486051.ece"
+      },
+      {
+        "name": "coalition",
+        "link": "https://tass.com/world/2190145"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/975477497a09e1bb916ac60ca3ee53fecda3bad3/733_0_2316_1853/master/2316.jpg?width=700&quality=85&auto=format&fit=max&s=b77c44017a2ddaa2a7a9308d4cdcb05a",
+      "https://i.guim.co.uk/img/media/975477497a09e1bb916ac60ca3ee53fecda3bad3/733_0_2316_1853/master/2316.jpg?width=460&quality=85&auto=format&fit=max&s=a8141bd23958784e5714340ef35c7dc5",
+      "https://i.guim.co.uk/img/media/975477497a09e1bb916ac60ca3ee53fecda3bad3/733_0_2316_1853/master/2316.jpg?width=140&quality=85&auto=format&fit=max&s=566b3a8e87cc878475430d48f8faa46a",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5974980",
+      "https://content-media.investing.com/trkd-images/LYNXMPEM8J07U_L.jpg",
+      "https://th-i.thgim.com/public/incoming/og15tm/article71486055.ece/alternates/LANDSCAPE_1200/2026-09-19T114802Z_1980126111_RC28MNAXZ2HR_RTRMADP_3_IRAN-CRISIS-SAUDI-YEMEN.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 13,
+    "velocity": 1.0,
+    "age_hours": 1123.9163139433333,
+    "is_stale": false,
+    "score": 32.915855256441795,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

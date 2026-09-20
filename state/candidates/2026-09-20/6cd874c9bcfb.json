@@ -1,0 +1,63 @@
+{
+  "id": "6cd874c9bcfb",
+  "created_at": "2026-09-20T12:08:05.215696+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.72,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Yemen calls for international action over S. Arabia’s crimes",
+  "link": "https://en.mehrnews.com/news/247887/Yemen-calls-for-international-action-over-S-Arabia-s-crimes",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Yemen calls for international action over S. Arabia’s crimes",
+    "link": "https://en.mehrnews.com/news/247887/Yemen-calls-for-international-action-over-S-Arabia-s-crimes",
+    "summary": "TEHRAN, Sep. 19 (MNA) – Yemen’s Foreign Ministry called on the international community to fulfill its responsibilities in response to “criminal” actions by Saudi Arabia in Yemen.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-19T19:29:37+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/19/4/6180391.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247887/Yemen-calls-for-international-action-over-S-Arabia-s-crimes"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86268267/Yemen-calls-for-international-action-over-Saudi-Arabia-s-crimes"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/19/4/6180391.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/19/4/173115217.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1123.9163723691668,
+    "is_stale": false,
+    "score": 20.724036091074073,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

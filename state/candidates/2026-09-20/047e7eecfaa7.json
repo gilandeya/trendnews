@@ -1,0 +1,93 @@
+{
+  "id": "047e7eecfaa7",
+  "created_at": "2026-09-20T12:08:05.215062+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.7,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "On the third day of Russia’s parliamentary elections, Moscow came under what its mayor called the largest Ukrainian drone attack on the capital. Officials reported two deaths.",
+  "link": "https://meduza.io/en/feature/2026/09/20/on-the-third-day-of-russia-s-parliamentary-elections-moscow-came-under-what-its-mayor-called-the-largest-ukrainian-drone-attack-on-the-capital-officials-reported-two-deaths",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "France24",
+    "Meduza English",
+    "Mehr News",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Express Tribune"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "On the third day of Russia’s parliamentary elections, Moscow came under what its mayor called the largest Ukrainian drone attack on the capital. Officials reported two deaths.",
+    "link": "https://meduza.io/en/feature/2026/09/20/on-the-third-day-of-russia-s-parliamentary-elections-moscow-came-under-what-its-mayor-called-the-largest-ukrainian-drone-attack-on-the-capital-officials-reported-two-deaths",
+    "summary": "Russian air defenses repelled the heaviest drone attack Ukraine has ever launched on Moscow, Mayor Sergey Sobyanin said. Since yesterday, he said, “more than 1,600” drones have been “repelled across all defensive lines,” including 450 shot down as they approached Moscow. “This unprecedented attack was clearly planned to disrupt the elections. The enemy did not succeed,” Sobyanin said.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-20T08:12:19+00:00",
+    "image_url": "https://meduza.io/image/attachments/images/012/766/676/small/1c-MAv8N6JQs4N6RnWmiIg",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "France24",
+      "Meduza English",
+      "Mehr News",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/20/mass-ukrainian-drone-attack-on-moscow-kills-two-russia-says?traffic_source=rss"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/feature/2026/09/20/on-the-third-day-of-russia-s-parliamentary-elections-moscow-came-under-what-its-mayor-called-the-largest-ukrainian-drone-attack-on-the-capital-officials-reported-two-deaths"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/russia-ukraine-war-video-massive-ukrainian-drone-barrage-on-moscow-amid-elections-in-russia-12072111#publisher=newsstand"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247901/VIDEO-Ukraine-launches-massive-drone-attack-on-Moscow"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/russia-central-asia/article/3368144/ukraine-pummels-moscow-drones-last-day-russian-election?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630346/russian-election-enters-final-day-after-ukraine-targets-moscow-in-massive-drone-attack"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/image/attachments/images/012/766/676/small/1c-MAv8N6JQs4N6RnWmiIg",
+      "https://c.ndtvimg.com/2026-09/ph9g4s2o_russia_625x300_20_September_26.jpeg",
+      "https://media.mehrnews.com/d/2026/09/20/4/6180873.jpg",
+      "https://s.france24.com/media/display/ad29a23c-b4e8-11f1-bbcc-5b4fdf021577/w:1024/p:16x9/2026-09-20T080755Z-1641565567-RC2VMNAVR4TB-RTRMADP-3-UKRAINE-CRISIS-ATTACK-MOSCOW.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 1123.9163240466667,
+    "is_stale": false,
+    "score": 25.70481387822222,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
