@@ -1,0 +1,56 @@
+{
+  "id": "fa8caef6bba3",
+  "created_at": "2026-09-20T19:07:45.482619+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.82,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Unas 5.000 personas se manifiestan en Barcelona contra la ampliación del aeropuerto",
+  "link": "https://elpais.com/espana/catalunya/2026-09-20/miles-de-personas-se-manifiestan-en-barcelona-contra-la-ampliacion-del-aeropuerto.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Unas 5.000 personas se manifiestan en Barcelona contra la ampliación del aeropuerto",
+    "link": "https://elpais.com/espana/catalunya/2026-09-20/miles-de-personas-se-manifiestan-en-barcelona-contra-la-ampliacion-del-aeropuerto.html",
+    "summary": "La protesta reúne a más de 200 entidades, entre ellas ERC, BComú y la CUP, que reclaman frenar un proyecto al que vinculan con la crisis climática, la vivienda y la masificación turística",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-20T11:54:20+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/IGDLXGJAGRIZ5K77UNCLNEMZTU.jpg?auth=a798e78fc8e5c5ae05273d568605d34ae4677c56901989e86b7596b512871db8",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/espana/catalunya/2026-09-20/miles-de-personas-se-manifiestan-en-barcelona-contra-la-ampliacion-del-aeropuerto.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/IGDLXGJAGRIZ5K77UNCLNEMZTU.jpg?auth=a798e78fc8e5c5ae05273d568605d34ae4677c56901989e86b7596b512871db8"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 6.9945711033333335,
+    "is_stale": false,
+    "score": 16.81852767233333,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
