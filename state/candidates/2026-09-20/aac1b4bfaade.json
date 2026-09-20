@@ -1,0 +1,70 @@
+{
+  "id": "aac1b4bfaade",
+  "created_at": "2026-09-20T18:07:50.236056+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.49,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Taiwan’s minister makes rare trip to China for Apec event",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/09/20/taiwan-s-minister-makes-rare-trip-to-china-for-apec-event",
+  "publishers": [
+    "Free Malaysia Today",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Taiwan’s minister makes rare trip to China for Apec event",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/20/taiwan-s-minister-makes-rare-trip-to-china-for-apec-event",
+    "summary": "The labour ministry confirmed that minister Hung Sun-han had left for China, where he will attend an Asia-Pacific Economic Cooperation human resources ministerial meeting in Nanjing.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-20T11:56:49+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2024/12/a47e370a-3553004.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/senior-taiwan-official-makes-rare-trip-to-china/article71488941.ece"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/20/asia-pacific/taiwans-labor-minister-visits-china/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/20/taiwan-s-minister-makes-rare-trip-to-china-for-apec-event"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2024/12/a47e370a-3553004.webp",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/20/564131.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/20/thumbs/400x400/564131.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1129.911937388611,
+    "is_stale": false,
+    "score": 18.492773624311617,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

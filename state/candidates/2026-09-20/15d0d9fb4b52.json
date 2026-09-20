@@ -1,0 +1,83 @@
+{
+  "id": "15d0d9fb4b52",
+  "created_at": "2026-09-20T18:07:50.235422+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.31,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Meloni promises to ban burqas, niqabs in Italy’s schools",
+  "link": "https://www.aljazeera.com/news/2026/9/20/meloni-promises-to-ban-burqas-niqabs-in-italys-schools?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Dawn",
+    "Punch Nigeria",
+    "Reuters",
+    "South China Morning Post",
+    "The Express Tribune"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Meloni promises to ban burqas, niqabs in Italy’s schools",
+    "link": "https://www.aljazeera.com/news/2026/9/20/meloni-promises-to-ban-burqas-niqabs-in-italys-schools?traffic_source=rss",
+    "summary": "Prime minister of Italy's longest serving government since WW2 faces election threat from far-right rival party.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-20T17:27:53+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/20174725c5f8c40.webp",
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Dawn",
+      "Punch Nigeria",
+      "Reuters",
+      "South China Morning Post",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/20/meloni-promises-to-ban-burqas-niqabs-in-italys-schools?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3368172/italys-meloni-plans-ban-burkas-niqabs-schools-and-cap-foreign-pupils-classrooms?utm_source=rss_feed"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/italy-to-ban-niqabs-in-schools-pm-meloni-says/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2031364/italy-to-ban-veils-in-schools-limit-foreign-students-per-class-meloni-says"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630386/italy-to-ban-veils-in-schools-limit-foreign-students-per-class-meloni-says"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/20174725c5f8c40.webp",
+      "https://i.dawn.com/thumbnail/2026/09/20174725c5f8c40.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 1129.9119097825,
+    "is_stale": false,
+    "score": 22.310625475681988,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
