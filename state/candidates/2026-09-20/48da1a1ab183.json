@@ -1,0 +1,66 @@
+{
+  "id": "48da1a1ab183",
+  "created_at": "2026-09-20T17:07:54.540412+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.72,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran says Strait of Hormuz to remain closed until US fulfills commitments",
+  "link": "https://tribune.com.pk/story/2630382/iran-says-strait-of-hormuz-to-remain-closed-until-us-fulfills-commitments",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Express Tribune",
+    "parliamentary speaker"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Iran says Strait of Hormuz to remain closed until US fulfills commitments",
+    "link": "https://tribune.com.pk/story/2630382/iran-says-strait-of-hormuz-to-remain-closed-until-us-fulfills-commitments",
+    "summary": "Iran has conveyed its conditions to the opposing side through intermediaries, parliament speaker says",
+    "source_name": "The Express Tribune",
+    "region": "pk",
+    "weight": 1.0,
+    "published": "2026-09-20T09:05:48+00:00",
+    "image_url": null,
+    "publisher": "The Express Tribune",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Express Tribune",
+      "parliamentary speaker"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630382/iran-says-strait-of-hormuz-to-remain-closed-until-us-fulfills-commitments"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-wont-reopen-strait-of-hormuz-until-conditions-us-commitments-are-met-qalibaf-101789887576025.html"
+      },
+      {
+        "name": "parliamentary speaker",
+        "link": "https://tass.com/world/2190249"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1128.9135592230555,
+    "is_stale": false,
+    "score": 17.719314580941244,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "id": "9b7cadaecbe9",
+  "created_at": "2026-09-20T17:07:54.539757+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.53,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says his planned triumphal arch will double as a military complex to store ammunition",
+  "link": "https://www.bbc.co.uk/news/articles/cqdj4pez00dzo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Dawn",
+    "Free Malaysia Today",
+    "TASS",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump says his planned triumphal arch will double as a military complex to store ammunition",
+    "link": "https://www.bbc.co.uk/news/articles/cqdj4pez00dzo?at_medium=RSS&at_campaign=rss",
+    "summary": "Trump said the updated plans were at the request of the US military and for national security purposes.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-20T16:36:43+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2e12/live/3a464990-b4f8-11f1-947c-4906c0564be0.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Dawn",
+      "Free Malaysia Today",
+      "TASS",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/sep/20/trump-triumphal-arch-military-complex"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cqdj4pez00dzo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2031374/trump-to-use-washington-triumphal-arch-as-military-complex"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/20/trump-to-use-washington-triumphal-arch-as-military-complex"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2190301"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2e12/live/3a464990-b4f8-11f1-947c-4906c0564be0.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/2e12/live/3a464990-b4f8-11f1-947c-4906c0564be0.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/2e12/live/3a464990-b4f8-11f1-947c-4906c0564be0.jpg",
+      "https://i.guim.co.uk/img/media/7efdc28db9c1a4c1c6c77efdf85563ba6c86bea0/0_0_2575_2059/master/2575.jpg?width=700&quality=85&auto=format&fit=max&s=1db65a0440e209ea09814dadd9d818e2",
+      "https://i.guim.co.uk/img/media/7efdc28db9c1a4c1c6c77efdf85563ba6c86bea0/0_0_2575_2059/master/2575.jpg?width=460&quality=85&auto=format&fit=max&s=9e87a1adb4007a222f13150e225134fd",
+      "https://i.guim.co.uk/img/media/7efdc28db9c1a4c1c6c77efdf85563ba6c86bea0/0_0_2575_2059/master/2575.jpg?width=140&quality=85&auto=format&fit=max&s=89b3a5002b60405f1b72982f9c92f7e9"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1128.913518423611,
+    "is_stale": false,
+    "score": 21.531229886310236,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

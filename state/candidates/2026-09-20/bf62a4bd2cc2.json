@@ -1,0 +1,81 @@
+{
+  "id": "bf62a4bd2cc2",
+  "created_at": "2026-09-20T17:07:54.540050+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.88,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran basketball win bronze at 2026 Asian Games",
+  "link": "https://en.mehrnews.com/news/247921/Iran-basketball-win-bronze-at-2026-Asian-Games",
+  "publishers": [
+    "Al Jazeera English",
+    "IRNA English",
+    "Mehr News",
+    "Tehran Times",
+    "The Express Tribune"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran basketball win bronze at 2026 Asian Games",
+    "link": "https://en.mehrnews.com/news/247921/Iran-basketball-win-bronze-at-2026-Asian-Games",
+    "summary": "TEHRAN, Sep. 20 (MNA) – Iran’s men’s basketball team defeated China 79-70 on Sunday to secure the bronze medal at the 2026 Asian Games in Nagoya, Japan.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-20T15:53:56+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/20/4/6181207.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "IRNA English",
+      "Mehr News",
+      "Tehran Times",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/9/20/iran-win-asian-games-basketball-bronze-amid-emotional-scenes?traffic_source=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630379/iran-secure-asian-games-basketball-bronze"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530201/Iran-basketball-win-bronze-at-2026-Asian-Games"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247921/Iran-basketball-win-bronze-at-2026-Asian-Games"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86269361/Iran-wins-Asian-Games-basketball-bronze"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/20/4/6181207.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/20/4/173116905.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1128.9135239947223,
+    "is_stale": false,
+    "score": 20.88369284849542,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

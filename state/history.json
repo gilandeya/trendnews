@@ -1,220 +1,5 @@
 [
   {
-    "score": 23.89,
-    "bucket": "serious",
-    "tokens": [
-      "confirms",
-      "iran",
-      "munitions",
-      "pentagon",
-      "report",
-      "resulted",
-      "shortfall",
-      "war"
-    ],
-    "link": "https://www.dawn.com/news/2030086/war-on-iran-resulted-in-munitions-shortfall-for-us-confirms-pentagon-report",
-    "title": "War on Iran resulted in munitions shortfall for US, confirms Pentagon report",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-15T15:07:48.492819+00:00"
-  },
-  {
-    "score": 21.68,
-    "bucket": "sport",
-    "tokens": [
-      "alexander",
-      "appears",
-      "campaign",
-      "nhl",
-      "ovechkin",
-      "party",
-      "putin",
-      "russia",
-      "superstar",
-      "united"
-    ],
-    "link": "https://meduza.io/en/feature/2026/09/15/nhl-superstar-alexander-ovechkin-appears-in-campaign-ad-for-putin-s-united-russia-party",
-    "title": "NHL superstar Alexander Ovechkin appears in campaign ad for Putin’s United Russia party",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-15T15:07:48.493118+00:00"
-  },
-  {
-    "score": 21.14,
-    "bucket": "serious",
-    "tokens": [
-      "affected",
-      "bihar",
-      "floods",
-      "india's",
-      "millions",
-      "strike"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/india-east-bihar-state-flood-6386261",
-    "title": "Millions affected as floods strike India's Bihar",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-15T15:07:48.493382+00:00"
-  },
-  {
-    "score": 18.61,
-    "bucket": "serious",
-    "tokens": [
-      "agreed",
-      "attacks",
-      "energy",
-      "russia",
-      "sites",
-      "stop",
-      "trump",
-      "ukraine"
-    ],
-    "link": "https://www.npr.org/2026/09/15/nx-s1-5968728/trump-says-ukraine-and-russia-agreed-to-stop-attacks-on-energy-sites",
-    "title": "Trump says Ukraine and Russia agreed to stop attacks on energy sites",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-09-15T15:07:48.493679+00:00"
-  },
-  {
-    "score": 18.04,
-    "bucket": "serious",
-    "tokens": [
-      "bad",
-      "dozens",
-      "ferry",
-      "hampers",
-      "indonesia",
-      "missing",
-      "rescue",
-      "still",
-      "weather"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/indonesia-rescuers-search-passenger-ship-capsize-6386101",
-    "title": "Bad weather hampers Indonesia ferry rescue, dozens still missing",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-15T15:07:48.493939+00:00"
-  },
-  {
-    "score": 18.61,
-    "bucket": "serious",
-    "tokens": [
-      "agreed",
-      "attacks",
-      "energy",
-      "russia",
-      "sites",
-      "stop",
-      "trump",
-      "ukraine"
-    ],
-    "link": "https://www.npr.org/2026/09/15/nx-s1-5968728/trump-says-ukraine-and-russia-agreed-to-stop-attacks-on-energy-sites",
-    "title": "Trump says Ukraine and Russia agreed to stop attacks on energy sites",
-    "posted_title": "ترامب يزعم اتفاقا روسيا وأوكرانيا على وقف ضرب منشآت الطاقة وزيلينسكي يتحفظ",
-    "region": "us",
-    "seen_at": "2026-09-15T16:54:20.462826+00:00"
-  },
-  {
-    "score": 27.6,
-    "bucket": "useful",
-    "tokens": [
-      "100",
-      "above",
-      "beyond",
-      "creating",
-      "major",
-      "oil",
-      "opportunity",
-      "producers"
-    ],
-    "link": "https://www.investing.com/analysis/oil-above-100-is-creating-a-new-opportunity-beyond-the-major-producers-200687712",
-    "title": "Oil Above $100 Is Creating a New Opportunity Beyond the Major Producers",
-    "posted_title": "",
-    "region": "money",
-    "seen_at": "2026-09-15T17:07:49.689340+00:00"
-  },
-  {
-    "score": 21.34,
-    "bucket": "serious",
-    "tokens": [
-      "blocks",
-      "can",
-      "foreign",
-      "how",
-      "journalists",
-      "judge",
-      "limits",
-      "long",
-      "stay",
-      "students",
-      "trump"
-    ],
-    "link": "https://www.theguardian.com/us-news/2026/sep/15/judge-blocks-trump-limits-foreign-students-journalists",
-    "title": "Judge blocks Trump limits on how long foreign students and journalists can stay in US",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-15T17:07:49.689662+00:00"
-  },
-  {
-    "score": 20.13,
-    "bucket": "useful",
-    "tokens": [
-      "air",
-      "can",
-      "cough",
-      "dry",
-      "help",
-      "hot",
-      "make",
-      "might",
-      "salty",
-      "weather"
-    ],
-    "link": "https://medicalxpress.com/news/2026-09-hot-dry-weather-salty-air.html",
-    "title": "Hot, dry weather can make you cough more—salty air might help",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-09-15T17:07:49.689951+00:00"
-  },
-  {
-    "score": 19.16,
-    "bucket": "sport",
-    "tokens": [
-      "admits",
-      "before",
-      "crash",
-      "dangerous",
-      "driving",
-      "motorway",
-      "sterling"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c52e01k49e8jo?at_medium=RSS&at_campaign=rss",
-    "title": "Sterling admits dangerous driving on motorway before crash",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-15T17:07:49.690225+00:00"
-  },
-  {
-    "score": 18.85,
-    "bucket": "serious",
-    "tokens": [
-      "critical",
-      "infrastructure",
-      "kremlin",
-      "pause",
-      "russia",
-      "spares",
-      "strikes",
-      "ukraine",
-      "zelenskyy"
-    ],
-    "link": "https://www.thehindu.com/news/international/ukraine-wants-specifics-from-partners-over-halting-strikes-on-russia-zelenskyy-after-trumps-post/article71466382.ece",
-    "title": "Zelenskyy says Ukraine will pause strikes on Russia if Kremlin spares critical infrastructure",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-15T17:07:49.690489+00:00"
-  },
-  {
     "score": 20.92,
     "bucket": "serious",
     "tokens": [
@@ -5235,5 +5020,103 @@
     "posted_title": "",
     "region": "ng",
     "seen_at": "2026-09-20T15:07:47.977033+00:00"
+  },
+  {
+    "score": 29.19,
+    "bucket": "serious",
+    "tokens": [
+      "airport",
+      "attack",
+      "capital",
+      "claim",
+      "houthis",
+      "near",
+      "riyadh",
+      "saudi",
+      "seen",
+      "smoke",
+      "thick"
+    ],
+    "link": "https://www.theguardian.com/world/2026/sep/19/saudi-arabia-riyadh-airport",
+    "title": "Thick smoke seen near Riyadh airport as Houthis claim attack on Saudi capital",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-20T17:07:54.539740+00:00"
+  },
+  {
+    "score": 21.53,
+    "bucket": "serious",
+    "tokens": [
+      "ammunition",
+      "arch",
+      "complex",
+      "double",
+      "military",
+      "planned",
+      "store",
+      "triumphal",
+      "trump"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cqdj4pez00dzo?at_medium=RSS&at_campaign=rss",
+    "title": "Trump says his planned triumphal arch will double as a military complex to store ammunition",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-20T17:07:54.540043+00:00"
+  },
+  {
+    "score": 20.88,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "asian",
+      "basketball",
+      "bronze",
+      "games",
+      "iran",
+      "win"
+    ],
+    "link": "https://en.mehrnews.com/news/247921/Iran-basketball-win-bronze-at-2026-Asian-Games",
+    "title": "Iran basketball win bronze at 2026 Asian Games",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-20T17:07:54.540240+00:00"
+  },
+  {
+    "score": 18.46,
+    "bucket": "serious",
+    "tokens": [
+      "activists",
+      "demand",
+      "flotilla",
+      "gaza",
+      "hundreds",
+      "jailed",
+      "release",
+      "tunisians"
+    ],
+    "link": "http://www.africanews.com/2026/09/20/hundreds-of-tunisians-demand-release-of-jailed-gaza-flotilla-activists/",
+    "title": "Hundreds of Tunisians demand release of jailed Gaza flotilla activists",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-09-20T17:07:54.540408+00:00"
+  },
+  {
+    "score": 17.72,
+    "bucket": "serious",
+    "tokens": [
+      "closed",
+      "commitments",
+      "fulfills",
+      "hormuz",
+      "iran",
+      "remain",
+      "strait",
+      "until"
+    ],
+    "link": "https://tribune.com.pk/story/2630382/iran-says-strait-of-hormuz-to-remain-closed-until-us-fulfills-commitments",
+    "title": "Iran says Strait of Hormuz to remain closed until US fulfills commitments",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-20T17:07:54.540563+00:00"
   }
 ]

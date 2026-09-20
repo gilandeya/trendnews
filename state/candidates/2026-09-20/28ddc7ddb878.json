@@ -1,0 +1,68 @@
+{
+  "id": "28ddc7ddb878",
+  "created_at": "2026-09-20T17:07:54.540245+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.46,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hundreds of Tunisians demand release of jailed Gaza flotilla activists",
+  "link": "http://www.africanews.com/2026/09/20/hundreds-of-tunisians-demand-release-of-jailed-gaza-flotilla-activists/",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English",
+    "Hindustan Times — World"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Hundreds of Tunisians demand release of jailed Gaza flotilla activists",
+    "link": "http://www.africanews.com/2026/09/20/hundreds-of-tunisians-demand-release-of-jailed-gaza-flotilla-activists/",
+    "summary": "Hundreds of Tunisians protested on Saturday to demand the release of jailed pro-Palestinian activists accused of money laundering when they helped organise a Gaza-bound humanitarian flotilla.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-20T08:10:33+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/92/02/03/640x360_cmsv2_6e07cb8f-18ba-5f8d-b705-2f4af788ea54-9920203.jpg?1789886063",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/20/hundreds-protest-in-tunisia-for-release-of-jailed-gaza-flotilla-activists?traffic_source=rss"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/20/hundreds-of-tunisians-demand-release-of-jailed-gaza-flotilla-activists/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/hundreds-of-tunisians-demand-release-of-jailed-gaza-flotilla-activists-101789845853705.html"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/92/02/03/640x360_cmsv2_6e07cb8f-18ba-5f8d-b705-2f4af788ea54-9920203.jpg?1789886063"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1128.9135453102779,
+    "is_stale": false,
+    "score": 18.45792569416347,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
