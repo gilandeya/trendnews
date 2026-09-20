@@ -1,0 +1,68 @@
+{
+  "id": "6bf87182eb9d",
+  "created_at": "2026-09-20T15:07:47.976461+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.54,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Anthropic, OpenAI, SpaceXAI, Google Sued Over AI Development Slowdown Calls",
+  "link": "https://www.ndtv.com/world-news/anthropic-openai-spacexai-google-sued-over-ai-development-slowdown-calls-12070198#publisher=newsstand",
+  "publishers": [
+    "Hindustan Times — World",
+    "NDTV — World",
+    "TASS"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Anthropic, OpenAI, SpaceXAI, Google Sued Over AI Development Slowdown Calls",
+    "link": "https://www.ndtv.com/world-news/anthropic-openai-spacexai-google-sued-over-ai-development-slowdown-calls-12070198#publisher=newsstand",
+    "summary": "The coordination largely took place on September 12, the lawsuit argues",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-19T18:42:08+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-09/3apvlv0g_anthropic-ai_625x300_11_September_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "NDTV — World",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/anthropic-openai-spacexai-google-sued-over-ai-development-slowdown-calls-12070198#publisher=newsstand"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/violates-antitrust-laws-anthropic-openai-spacexai-google-face-lawsuit-over-illegal-agreement-on-slowdown-101789874422499.html"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/society/2190093"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-09/3apvlv0g_anthropic-ai_625x300_11_September_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1126.9115338066667,
+    "is_stale": true,
+    "score": 18.543150027941245,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

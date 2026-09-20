@@ -1,0 +1,63 @@
+{
+  "id": "bf6d6f906596",
+  "created_at": "2026-09-20T15:07:47.976774+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.0,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Falana demands prosecution over 37 Niger deaths",
+  "link": "https://www.vanguardngr.com/2026/09/falana-demands-prosecution-over-37-niger-deaths/",
+  "publishers": [
+    "Africanews",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Falana demands prosecution over 37 Niger deaths",
+    "link": "https://www.vanguardngr.com/2026/09/falana-demands-prosecution-over-37-niger-deaths/",
+    "summary": "Seeks action against suspects linked to Ondo deaths ABUJA — Human rights lawyer, Femi Falana, SAN, has called for the immediate investigation and prosecution of persons found culpable in the deaths of 37 suspected illegal miners who died in the custody of the Nigeria Security and Civil Defence Corps, NSCDC, in Minna, Niger State. Falana, […] The post Falana demands prosecution over 37 Niger deaths appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-09-20T12:55:20+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2024/11/falana.jpg",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "Africanews",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/falana-demands-prosecution-over-37-niger-deaths/"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/19/nigeria-gold-miner-deaths-spark-protests-in-niger-state/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2024/11/falana.jpg",
+      "http://images.euronews.com/articles/stories/09/91/97/31/640x360_cmsv2_fde6a3be-3fe7-520a-88cc-642c66536a72-9919731.jpg?1789803455"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1126.9115372036113,
+    "is_stale": true,
+    "score": 18.00292919053704,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
