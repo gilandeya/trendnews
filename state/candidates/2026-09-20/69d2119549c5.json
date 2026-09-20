@@ -1,0 +1,75 @@
+{
+  "id": "69d2119549c5",
+  "created_at": "2026-09-20T22:07:58.782035+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.61,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israeli settler and Palestinian driver killed in West Bank shootings",
+  "link": "https://www.france24.com/en/middle-east/20260920-israeli-settler-and-palestinian-driver-killed-in-west-bank-shootings",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Israeli settler and Palestinian driver killed in West Bank shootings",
+    "link": "https://www.france24.com/en/middle-east/20260920-israeli-settler-and-palestinian-driver-killed-in-west-bank-shootings",
+    "summary": "A suspected Palestinian gunman on Sunday shot dead an Israeli man near a West Bank settlement, according to Israeli officials. The gunman was located at a Ramallah hospital and arrested, police said. Elsewhere in the West Bank, Israeli soldiers killed a Palestinian motorist who the military said was attempting to run them over. The flare up in violence came on the eve of the Jewish holy day of Yom Kippur.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-20T15:30:08+00:00",
+    "image_url": "https://s.france24.com/media/display/95da504c-b504-11f1-bc3f-5b4fdf021577/w:1024/p:16x9/AP26263426242066.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/israel-army-says-arrested-suspected-west-bank-assailant-at-hospital/article71488294.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/an-israeli-settler-and-a-palestinian-driver-killed-in-west-bank-shootings"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260920-israeli-settler-and-palestinian-driver-killed-in-west-bank-shootings"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/21/israeli-settler-killed-in-west-bank-suspect-arrested"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/95da504c-b504-11f1-bc3f-5b4fdf021577/w:1024/p:16x9/AP26263426242066.jpg",
+      "https://th-i.thgim.com/public/incoming/2o3kds/article71488327.ece/alternates/LANDSCAPE_1200/2026-09-20T125042Z_1811516514_RC2ZMNAZF3IC_RTRMADP_3_ISRAEL-PALESTINIANS-WEST-BANK-VIOLENCE.JPG",
+      "https://s.france24.com/media/display/420fc5b2-b4fc-11f1-8b03-9f514b90f153/w:1024/p:16x9/EN-20260920-150528-150741-CS.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/17fc7203-e61c-4b54-8f1e-0403a6008123-AFP__20260920__C8TX2YM__v1__HighRes__PalestinianIsraelConflictWestBank_cropped_1.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1133.9147142191666,
+    "is_stale": false,
+    "score": 18.612939627830137,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

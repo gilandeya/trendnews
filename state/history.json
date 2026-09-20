@@ -1,102 +1,5 @@
 [
   {
-    "score": 22.62,
-    "bucket": "serious",
-    "tokens": [
-      "analysts",
-      "crunch",
-      "houthis",
-      "impending",
-      "islands",
-      "oil",
-      "red",
-      "sea",
-      "seize",
-      "strategic",
-      "warn"
-    ],
-    "link": "https://www.theguardian.com/world/2026/sep/15/houthi-rebels-seize-red-sea-hanish-islands-saudi-oil-warning",
-    "title": "Houthis seize strategic Red Sea islands as analysts warn of impending oil crunch",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-15T19:08:07.056539+00:00"
-  },
-  {
-    "score": 17.22,
-    "bucket": "light",
-    "tokens": [
-      "dropped",
-      "free",
-      "macklemore",
-      "palestine",
-      "sheeran",
-      "speech",
-      "tour"
-    ],
-    "link": "https://www.theguardian.com/music/2026/sep/14/macklemore-dropped-ed-sheeran-tour-free-palestine",
-    "title": "Macklemore dropped from Ed Sheeran’s US tour after ‘free Palestine’ speech",
-    "posted_title": "",
-    "region": "culture",
-    "seen_at": "2026-09-15T19:08:07.056794+00:00"
-  },
-  {
-    "score": 16.99,
-    "bucket": "serious",
-    "tokens": [
-      "ballots",
-      "court",
-      "mail",
-      "push",
-      "rejecting",
-      "restrict",
-      "slams",
-      "supreme",
-      "trump"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-slams-us-supreme-court-for-rejecting-his-push-to-restrict-mail-ballots/article71468926.ece",
-    "title": "Trump slams U.S. Supreme Court for rejecting his push to restrict mail ballots",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-15T19:08:07.056958+00:00"
-  },
-  {
-    "score": 16.65,
-    "bucket": "serious",
-    "tokens": [
-      "2029",
-      "acogerá",
-      "camp",
-      "champions",
-      "final",
-      "nou",
-      "spotify"
-    ],
-    "link": "https://elpais.com/deportes/futbol/2026-09-15/el-camp-nou-acogera-la-final-de-la-champions-en-2029.html",
-    "title": "El Spotify Camp Nou acogerá la final de la Champions en 2029",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-09-15T19:08:07.057103+00:00"
-  },
-  {
-    "score": 16.53,
-    "bucket": "serious",
-    "tokens": [
-      "iraq",
-      "last",
-      "militias",
-      "pack",
-      "signal",
-      "stay",
-      "troops",
-      "weapons"
-    ],
-    "link": "https://www.thehindu.com/news/international/as-the-last-us-troops-pack-up-in-iraq-militias-signal-their-weapons-will-stay/article71467056.ece",
-    "title": "As the last U.S. troops pack up in Iraq, militias signal their weapons will stay",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-15T19:08:07.057232+00:00"
-  },
-  {
     "score": 26.46,
     "bucket": "sport",
     "tokens": [
@@ -5129,5 +5032,98 @@
     "posted_title": "",
     "region": "health",
     "seen_at": "2026-09-20T19:07:45.483169+00:00"
+  },
+  {
+    "score": 25.96,
+    "bucket": "sport",
+    "tokens": [
+      "'kept",
+      "belief'",
+      "carrick",
+      "draw",
+      "earn",
+      "fulham",
+      "impressed",
+      "man",
+      "utd"
+    ],
+    "link": "https://www.bbc.co.uk/sport/football/videos/cwr7d3y11r34o?at_medium=RSS&at_campaign=rss",
+    "title": "Carrick impressed Man Utd 'kept belief' to earn draw at Fulham",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-09-20T22:07:58.781675+00:00"
+  },
+  {
+    "score": 21.38,
+    "bucket": "serious",
+    "tokens": [
+      "ballistic",
+      "east",
+      "fires",
+      "korea",
+      "missile",
+      "north",
+      "sea",
+      "seoul"
+    ],
+    "link": "https://www.dawn.com/news/2031349/north-korea-fires-ballistic-missile-into-east-sea-seoul",
+    "title": "North Korea fires ballistic missile into East Sea: Seoul",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-20T22:07:58.781873+00:00"
+  },
+  {
+    "score": 20.88,
+    "bucket": "serious",
+    "tokens": [
+      "admits",
+      "ahead",
+      "disaster",
+      "elections",
+      "germany",
+      "merz",
+      "press",
+      "reforms",
+      "state",
+      "vows"
+    ],
+    "link": "https://www.france24.com/en/europe/20260920-germany-s-far-right-afd-makes-strong-gains-in-two-state-elections",
+    "title": "Germany’s Merz admits ‘disaster’ in state elections, vows to press ahead with reforms",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-20T22:07:58.782032+00:00"
+  },
+  {
+    "score": 18.61,
+    "bucket": "serious",
+    "tokens": [
+      "bank",
+      "driver",
+      "israeli",
+      "killed",
+      "palestinian",
+      "settler",
+      "shootings",
+      "west"
+    ],
+    "link": "https://www.france24.com/en/middle-east/20260920-israeli-settler-and-palestinian-driver-killed-in-west-bank-shootings",
+    "title": "Israeli settler and Palestinian driver killed in West Bank shootings",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-20T22:07:58.782182+00:00"
+  },
+  {
+    "score": 18.56,
+    "bucket": "serious",
+    "tokens": [
+      "araghchi",
+      "departs",
+      "york"
+    ],
+    "link": "https://en.mehrnews.com/news/247927/Araghchi-departs-for-New-York",
+    "title": "Araghchi departs for New York",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-20T22:07:58.782313+00:00"
   }
 ]
