@@ -3333,12 +3333,17 @@ def test_publish_final_review_back_request() -> None:
     rejections_after = feedback.load()
     check("لا تسجيل رفض لأي من الاثنتين", len(rejections_after) == rejections_before)
 
-def test_publish_final_review_excludes_analysis_origin() -> None:
-    """Issue #858، الجزء الثاني، البند 5: مسودة تحليل (origin=analysis) لا
-    تدخل قائمة المراجعة النهائية إطلاقًا -- حتى لو حمل جسم الـIssue مربع 🎴
-    لها خطأً (لا يبنيه youtube_publish فعليًا؛ محاكى هنا فقط ليثبت أن
-    التوجيه لا يعتمد عليه): التقاطع مع news_ids وحده (publish.main) هو ما
-    يحدّد مرشّحي المراجعة النهائية، ومسار التحليل مستبعَد منه بنيويًا."""
+def test_publish_final_review_excludes_analysis_origin_from_news_path() -> None:
+    """Issue #858 الأصلي، الجزء الثاني، البند 5 (ضيّق نطاقه Issue #1000):
+    التقاطع الخاص بمسار الأخبار وحده (``card_requests = review.parse_card_requests(body)
+    & set(news_ids)`` في ``publish.main``) لا يلتقط معرّف مسودة تحليل أبدًا،
+    حتى لو حمل جسم الـIssue مربع 🎴 له -- ``news_ids`` تُبنى من التوجيه
+    بالأصل (``store.origin_of``) لا من محتوى المربعات، فمعرّف تحليل لا يصل
+    هذا التقاطع إطلاقًا بصرف النظر عمّا عُلِّم عليه. هذا لا يعني أن 🎴
+    بلا أثر لمسودة تحليل -- انظر
+    ``test_publish_analysis_card_request_routes_to_own_final_review`` أدناه
+    لمسارها الخاص (عبر ``youtube_publish.publish_ids``)، الذي صار الآن
+    يعالج 🎴 فعليًا (Issue #1000) بعد أن كان خارج النطاق صراحةً في #858/#860."""
     from src import publish as publish_mod
     from src import youtube_publish as yp
 
@@ -3349,7 +3354,7 @@ def test_publish_final_review_excludes_analysis_origin() -> None:
         "id": "aa0000000006", "status": "pending", "origin": "analysis",
         "arabic": {"post_title": "مقال تحليل", "urgent": False},
         "headlines": ["عنوان ١", "عنوان ٢", "عنوان ٣"], "headline_selected": 0,
-        "caption": "متن", "source": {},
+        "caption": "متن", "source": {"link": "", "publishers": []},
     }
     store.save_draft(yt_draft)
 
@@ -3384,12 +3389,14 @@ def test_publish_final_review_excludes_analysis_origin() -> None:
     create_issue_calls: list = []
     real_create_issue = review.create_issue
     review.create_issue = lambda title, body, labels=None: (
-        create_issue_calls.append(1), {"number": 1, "html_url": "#"})[1]
+        create_issue_calls.append(labels), {"number": 9977, "html_url": "#"})[1]
 
     real_comment = review.comment
     real_close = review.close_issue
+    real_ensure_labels = review.ensure_labels
     review.comment = lambda issue_number, text: None
     review.close_issue = lambda issue_number: None
+    review.ensure_labels = lambda: None
 
     sys.argv = ["publish", "--issue", "8860"]
     try:
@@ -3401,14 +3408,269 @@ def test_publish_final_review_excludes_analysis_origin() -> None:
         review.create_issue = real_create_issue
         review.comment = real_comment
         review.close_issue = real_close
+        review.ensure_labels = real_ensure_labels
 
     check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
     check("مسودة التحليل سلكت مسارها الخاص (بطاقة عنوان بُنيت عبره)",
           card_calls == [yt_draft["id"]], card_calls)
-    check("نُشرت عبر مسار التحليل لا مسار الأخبار",
-          published_ids == [yt_draft["id"]], published_ids)
-    check("لا Issue مراجعة نهائي فُتح لها إطلاقًا رغم مربع 🎴 المُحاكى",
-          create_issue_calls == [], create_issue_calls)
+    check("🎴 يمنع النشر المباشر لمسودة التحليل أيضًا -- لم تُنشر عبر publish_one",
+          published_ids == [], published_ids)
+    check("Issue مراجعة نهائي واحد فُتح عبر مسار التحليل الخاص (لا مسار الأخبار)"
+          " -- بوسم final-review",
+          create_issue_calls == [["final-review"]], create_issue_calls)
+    persisted = store.load_draft(yt_draft["id"])[1]
+    check("المسودة تبقى pending بانتظار الـIssue النهائي", persisted.get("status") == "pending",
+          persisted.get("status"))
+    check("review_issue أصبح رقم الـIssue النهائي المفتوح عبر مسار التحليل",
+          persisted.get("review_issue") == 9977, persisted.get("review_issue"))
+
+def test_publish_analysis_card_request_routes_to_own_final_review() -> None:
+    """Issue #1000: إدخال مسار التحليل في دورة المراجعة الموحَّدة، الجزء الأول
+    -- مقال معتمَد مع 🎴 في Issue مراجعة التحليل (youtube-review) لا يُنشر
+    فورًا: بطاقته تُبنى (ensure_title_card عبر youtube_publish.publish_ids)
+    ثم يُجمَّع في Issue مراجعة نهائية واحد بوسم final-review (عبر
+    publish.open_final_review -- نفس دالة مسار الأخبار حرفيًا، لا باني نصّ
+    ثالث)، وتعليق على Issue التحليل الأصلي يذكر رقمه. غير المؤشَّر بـ🎴 يُنشر
+    فورًا كما كان دومًا."""
+    from src import publish as publish_mod
+    from src import youtube_publish as yp
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    direct_draft = {
+        "id": "bb0000000001", "status": "pending", "origin": "analysis",
+        "title": "مقال ينشر فورًا",
+        "arabic": {"post_title": "مقال ينشر فورًا", "urgent": False},
+        "headlines": ["عنوان ١"], "headline_selected": 0,
+        "caption": "متن ١", "source": {"link": "", "publishers": ["الجزيرة"]},
+        "tier": "c", "blocs": ["arabic"], "channels": ["الجزيرة"],
+        "agreement": "agreement", "warnings": [], "score": 1,
+    }
+    card_draft = {
+        "id": "bb0000000002", "status": "pending", "origin": "analysis",
+        "title": "مقال بانتظار مراجعة نهائية",
+        "arabic": {"post_title": "مقال بانتظار مراجعة نهائية", "urgent": False},
+        "headlines": ["عنوان ٢"], "headline_selected": 0,
+        "caption": "متن ٢", "source": {"link": "", "publishers": ["الجزيرة"]},
+        "tier": "a", "blocs": ["arabic"], "channels": ["الجزيرة"],
+        "agreement": "agreement", "warnings": [], "score": 2,
+    }
+    for d in (direct_draft, card_draft):
+        store.save_draft(d)
+
+    body = yp.build_review_body([direct_draft, card_draft], "user/trendnews", "main", load_config())
+    body = tick_marker(body, f"<!-- draft:{direct_draft['id']} -->")
+    body = tick_marker(body, f"<!-- draft:{card_draft['id']} -->")
+    body = tick_marker(body, f"<!-- card:{card_draft['id']} -->")
+    check("مربع 🎴 يظهر فعليًا في جسم Issue مراجعة التحليل الحقيقي (لا محاكاة)",
+          f"<!-- card:{card_draft['id']} -->" in body, body[:600])
+
+    card_calls: list = []
+    real_ensure_title_card = yp.ensure_title_card
+
+    def fake_ensure_title_card(path, draft, cfg):
+        card_calls.append(draft["id"])
+        store.update_draft(path, image="drafts/x.jpg")
+        draft["image"] = "drafts/x.jpg"
+        return True
+
+    yp.ensure_title_card = fake_ensure_title_card
+
+    published_ids: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_ids.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    create_issue_calls: list = []
+    real_create_issue = review.create_issue
+
+    def fake_create_issue(title, body, labels=None):
+        create_issue_calls.append({"title": title, "body": body, "labels": labels})
+        return {"number": 9978, "html_url": "https://x/issues/9978"}
+
+    review.create_issue = fake_create_issue
+
+    comments: list = []
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_ensure_labels = review.ensure_labels
+    review.comment = lambda issue_number, text: comments.append((issue_number, text))
+    review.close_issue = lambda issue_number: None
+    review.ensure_labels = lambda: None
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "youtube-review"}, {"name": "approved"}]}
+
+    sys.argv = ["publish", "--issue", "7001", "--skip-urgent"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        yp.ensure_title_card = real_ensure_title_card
+        publish_mod.publish_one = real_publish_one
+        review.create_issue = real_create_issue
+        review.comment = real_comment
+        review.close_issue = real_close
+        review.ensure_labels = real_ensure_labels
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("كلا المقالين بُنيت بطاقتهما", set(card_calls) == {direct_draft["id"], card_draft["id"]},
+          card_calls)
+    check("بلا 🎴: نُشر فورًا عبر publish_one", published_ids == [direct_draft["id"]],
+          published_ids)
+    check("مع 🎴: لم يُنشر إطلاقًا", card_draft["id"] not in published_ids, published_ids)
+
+    persisted_direct = store.load_draft(direct_draft["id"])[1]
+    check("بلا 🎴: الحالة published", persisted_direct.get("status") == "published",
+          persisted_direct.get("status"))
+    persisted_card = store.load_draft(card_draft["id"])[1]
+    check("مع 🎴: الحالة تبقى pending", persisted_card.get("status") == "pending",
+          persisted_card.get("status"))
+
+    check("Issue مراجعة نهائي واحد فُتح", len(create_issue_calls) == 1, create_issue_calls)
+    if create_issue_calls:
+        opened = create_issue_calls[0]
+        check("بوسم final-review", opened["labels"] == ["final-review"], opened["labels"])
+        check("جسمه يحوي معرّف المقال المؤجَّل فقط -- لا المنشور مباشرة",
+              f"<!-- draft:{card_draft['id']} -->" in opened["body"]
+              and f"<!-- draft:{direct_draft['id']} -->" not in opened["body"],
+              opened["body"][:400])
+    check("review_issue للمقال المؤجَّل أصبح رقم الـIssue النهائي",
+          persisted_card.get("review_issue") == 9978, persisted_card.get("review_issue"))
+    check("تعليق على Issue مراجعة التحليل الأصلي يذكر رقم الـIssue النهائي",
+          any(i == 7001 and "9978" in t for i, t in comments), comments)
+
+def test_publish_final_review_analysis_origin_no_exceptions_block_it() -> None:
+    """Issue #1000: تحقّق صريح أن cmd_final_review (المعالج الفعلي لـIssue
+    وسمه final-review) يعامل مسودة origin=='analysis' كأي مسودة أخرى بلا أي
+    استثناء يمنعها -- لا فحص origin في الدالة إطلاقًا (خلافًا لمسار
+    publish.main العادي الذي يفصل analysis_ids/news_ids قبل الوصول إلى
+    cmd_burst/cmd_now). يغطّي أربع سلوكيات معًا: النشر الفعلي عبر
+    publish_one، حارس النشر المزدوج (status=='published')، الرفض الضمني
+    لغير المعلَّم (#841)، و↩️ التي تُبقي المسودة pending بلا حقل image فتصبح
+    مؤهَّلة تلقائيًا لـ``youtube_publish.pending_youtube_drafts()`` (مراجعة
+    التحليل التالية) لا لمراجعة الأخبار العامة -- بنية قائمة (استبعاد
+    origin=='analysis' في src.open_review.main، فلترة origin=='analysis'
+    في pending_youtube_drafts) بلا أي تعديل جديد هنا."""
+    from src import feedback, youtube_publish as yp
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # معرّفات hex فعليًا (اصطلاح المشروع، وID_MARKER/CARD_MARKER/BACK_MARKER
+    # في review.py لا تطابق إلا [0-9a-f]+ -- "an..." كانت تسقط بصمت من كل
+    # مربعات هذا الاختبار.
+    approved_analysis = {
+        "id": "aa1000000001", "status": "pending", "origin": "analysis",
+        "arabic": {"post_title": "مقال تحليل جاهز للنشر النهائي"},
+        "caption": "مقال تحليل جاهز للنشر النهائي\nمتن.",
+        "image": "drafts/aa1.jpg", "source": {"link": "", "publishers": ["الجزيرة"]},
+    }
+    already_published = {
+        "id": "aa1000000002", "status": "published", "origin": "analysis",
+        "arabic": {"post_title": "مقال نُشر مسبقًا"}, "caption": "متن",
+        "image": "drafts/aa2.jpg", "source": {"link": "", "publishers": ["الجزيرة"]},
+    }
+    back_analysis = {
+        "id": "aa1000000003", "status": "pending", "origin": "analysis",
+        "arabic": {"post_title": "مقال يعود لمراجعة التحليل"}, "caption": "متن ٣",
+        "image": "drafts/aa3.jpg", "image_info": {"used_original": True},
+        "review_issue": 5001, "source": {"link": "", "publishers": ["الجزيرة"]},
+    }
+    unchecked_analysis = {
+        "id": "aa1000000004", "status": "pending", "origin": "analysis",
+        "arabic": {"post_title": "مقال لم يُعلَّم"}, "caption": "متن ٤",
+        "image": "drafts/aa4.jpg", "source": {"link": "", "publishers": ["الجزيرة"]},
+    }
+    for d in (approved_analysis, already_published, back_analysis, unchecked_analysis):
+        store.save_draft(d)
+    for name in ("aa1.jpg", "aa2.jpg", "aa3.jpg", "aa4.jpg"):
+        (DRAFTS_DIR / name).write_bytes(b"\xff\xd8\xff")
+
+    body = review.build_final_review_body(
+        [approved_analysis, already_published, back_analysis, unchecked_analysis],
+        "u/r", "main")
+    body = tick_marker(body, f"<!-- draft:{approved_analysis['id']} -->")
+    body = tick_marker(body, f"<!-- draft:{already_published['id']} -->")
+    body = tick_marker(body, f"<!-- back:{back_analysis['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "final-review"}]}
+
+    real_root = publish_mod.ROOT
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    real_publish_photo = facebook.publish_photo
+    publish_calls: list = []
+
+    def fake_publish_photo(image_path, caption, api_version, first_comment=None):
+        publish_calls.append(caption)
+        return {"url": "https://fb.example/an", "id": "1"}
+
+    facebook.publish_photo = fake_publish_photo
+
+    real_comment = review.comment
+    real_close = review.close_issue
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+
+    rejections_before = len(feedback.load())
+
+    sys.argv = ["publish", "--issue", "5099", "--now"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main ينتهي بنجاح على Issue نهائي بمسودات تحليل", code == 0, f"exit={code}")
+    check("مسودة التحليل المعلَّمة نُشرت فعليًا عبر publish_one -- بلا أي استثناء origin",
+          store.load_draft(approved_analysis["id"])[1]["status"] == "published",
+          store.load_draft(approved_analysis["id"])[1].get("status"))
+    check("نداء فيسبوك وقع مرة واحدة فقط -- للمعلَّمة الجديدة لا المنشورة مسبقًا",
+          publish_calls == [approved_analysis["caption"]], publish_calls)
+    check("حارس النشر المزدوج: المسودة المنشورة مسبقًا لم تُنشر ثانية",
+          store.load_draft(already_published["id"])[1]["status"] == "published")
+
+    persisted_back = store.load_draft(back_analysis["id"])[1]
+    check("↩️: حقل image حُذف بنيويًا من مسودة التحليل أيضًا",
+          "image" not in persisted_back, persisted_back)
+    check("↩️: review_issue حُذف", "review_issue" not in persisted_back, persisted_back)
+    check("↩️: الحالة تبقى pending", persisted_back.get("status") == "pending",
+          persisted_back.get("status"))
+
+    check("الرفض الضمني: غير المعلَّم في الـIssue النهائي صار rejected رغم origin=analysis",
+          store.load_draft(unchecked_analysis["id"])[1]["status"] == "rejected",
+          store.load_draft(unchecked_analysis["id"])[1].get("status"))
+
+    rejections_after = feedback.load()
+    new_entries = rejections_after[rejections_before:]
+    check("رفض واحد فقط سُجِّل في feedback بوسم «لم يُعتمد»",
+          len(new_entries) == 1 and new_entries[0]["tag"] == "لم يُعتمد", new_entries)
+
+    # ↩️ يجب أن يُعيد المسودة لمراجعة التحليل التالية (youtube_publish) لا
+    # لمراجعة الأخبار العامة (src.open_review) -- بنية قائمة بلا أي تعديل
+    # جديد هنا: pending_youtube_drafts تفلتر origin=='analysis' صراحة،
+    # وopen_review.main يستبعده صراحة (انظر توثيق الوحدتين).
+    yt_pending_ids = {d["id"] for _, d in yp.pending_youtube_drafts()}
+    check("↩️: المسودة مؤهَّلة الآن لمراجعة التحليل التالية (youtube-review)",
+          back_analysis["id"] in yt_pending_ids, yt_pending_ids)
+
+    news_pending_ids = {d["id"] for _, d in store.pending_drafts()
+                        if store.origin_of(d) != "analysis"}
+    check("↩️: المسودة غير مؤهَّلة لمراجعة الأخبار العامة (open_review.main يستبعد analysis)",
+          back_analysis["id"] not in news_pending_ids, news_pending_ids)
 
 def test_first_comment() -> None:
     from src.publish import first_comment_for

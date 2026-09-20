@@ -87,7 +87,9 @@ from tests.test_review import (
     test_decisions_records_rejected_unchecked_via_final_review,
     test_publish_final_review_double_publish_guard,
     test_publish_final_review_back_request,
-    test_publish_final_review_excludes_analysis_origin,
+    test_publish_final_review_excludes_analysis_origin_from_news_path,
+    test_publish_analysis_card_request_routes_to_own_final_review,
+    test_publish_final_review_analysis_origin_no_exceptions_block_it,
     test_first_comment,
     test_burst_inline_cap_zero_defers_without_sleep,
     test_burst_urgent_still_immediate_with_inline_cap_zero,
@@ -369,7 +371,10 @@ def main() -> int:
     test_decisions_records_rejected_unchecked_via_final_review()
     test_publish_final_review_double_publish_guard()
     test_publish_final_review_back_request()
-    test_publish_final_review_excludes_analysis_origin()
+    print("\n── إدخال مسار التحليل في دورة المراجعة الموحَّدة (Issue #1000) ──")
+    test_publish_final_review_excludes_analysis_origin_from_news_path()
+    test_publish_analysis_card_request_routes_to_own_final_review()
+    test_publish_final_review_analysis_origin_no_exceptions_block_it()
     test_first_comment()
     print("\n── نشر الدفعة بلا انتظار داخل مهمة urgent ──")
     test_burst_inline_cap_zero_defers_without_sleep()

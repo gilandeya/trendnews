@@ -623,6 +623,11 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
         "",
         "إغلاق الـ Issue بلا وسم = تجاهل الكل.",
         "",
+        "🎴 ✔️ وحده = تُبنى البطاقة ويُنشر فورًا. مع 🎴 = تُبنى البطاقة "
+        "وتُعرض عليك في Issue ثانٍ قبل النشر.",
+        "",
+        "🚫 **ما لا تعلّمه لن يُنشر** ويُسجَّل مرفوضًا تلقائيًا.",
+        "",
         "✏️ لتعديل نصّ منشور: حرّر هذا الـIssue واكتب داخل كتلة النص مباشرة. "
         "النصّ الذي أراه لحظة الاعتماد هو ما يُنشر. ملاحظة: تعديل النص لا "
         "يغيّر البطاقة — البطاقة تحمل العنوان فقط.",
@@ -643,6 +648,12 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
         score_line = "  " + score_breakdown_text(d["blocs"], d["channels"], d["agreement"], cfg)
         parts += [
             f"- [ ] **{idx}. {d['title']}**  <!-- draft:{d['id']} -->",
+            "",
+            # مربع 🎴 (Issue #1000): نفس علامة/صيغة review.CARD_MARKER
+            # حرفيًا (review.parse_card_requests تقرأه بلا أي تعديل هناك)،
+            # غير معلَّم افتراضيًا -- النشر المباشر عند الاعتماد يبقى الأصل،
+            # كما في مسار الأخبار (review.build_issue_body).
+            f"  - [ ] 🎴 اعرض البطاقة قبل النشر  <!-- card:{d['id']} -->",
             "",
             meta_line,
             "",
@@ -804,7 +815,9 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
 # ──────────────────────────── النشر (بسقف وتباعد) ────────────────────────
 
 
-def publish_ids(ids: list[str], headline_choices: dict[str, int], cfg) -> tuple[list[str], int, int, list[str]]:
+def publish_ids(ids: list[str], headline_choices: dict[str, int], cfg,
+                body: str = "", issue_number: int | None = None,
+                ) -> tuple[list[str], int, int, list[str]]:
     """ينشر دفعة معرّفات مسودات يوتيوب معتمَدة، بسقف youtube.publish.max_per_run
     لكل تشغيلة وتباعد youtube.publish.spacing_minutes بين كل منشور **ناجح
     فعليًا** والتالي (نصّ الإصدار #676 النقطة ٤ + إصلاح Issue #740) — لا سقف
@@ -816,13 +829,53 @@ def publish_ids(ids: list[str], headline_choices: dict[str, int], cfg) -> tuple[
     **الفاصل بعد نشر ناجح فقط:** مسودة غير موجودة، منشورة مسبقًا، أو فشل
     نشرها الفعلي (مثلًا صورة/حقل مفقود يسجّله publish_one كـfailed) تمرّ
     فورًا إلى التالية بلا انتظار — عطل حقيقي وقع (Issue #740): مسودات فشلت
-    فورًا كانت تُهدر فاصل التشغيلة الثابت كاملًا كأنها نشرت بنجاح."""
+    فورًا كانت تُهدر فاصل التشغيلة الثابت كاملًا كأنها نشرت بنجاح.
+
+    **مربع 🎴 (Issue #1000):** ``body``/``issue_number`` اختياريان (افتراضيًا
+    فارغ/None) لأن ``publish.cmd_revival`` يستدعي هذه الدالة بجسم Issue
+    إحياء الفشل لا جسم مراجعة تحليل حقيقي (لا مربعات 🎴 فيه إطلاقًا — انظر
+    ``review.build_revival_body``)، فلا فرق سلوكي حين يغيبان. معرّف عُلِّم
+    عليه 🎴 في ``body`` (نفس ``review.CARD_MARKER``) يُستبعد من دفعة
+    النشر/سقف ``max_per_run`` كليًا -- لا يستهلك محاولة نشر فعلية في هذه
+    التشغيلة -- تُبنى بطاقته عبر ``ensure_title_card`` كالمعتاد ثم يُجمَّع مع
+    بقية معرّفات 🎴 في Issue مراجعة نهائية واحد بوسم ``final-review`` عبر
+    ``publish.open_final_review`` (نفس ``review.build_final_review_body``
+    المستعمل في مسار الأخبار -- لا باني نصّ ثالث). معرّف بلا مسودة أو منشور
+    مسبقًا يُسجَّل سطرًا ويُتخطّى، بنفس حارس النشر المزدوج أدناه."""
     max_per_run = int(cfg.path("youtube.publish.max_per_run", 3))
     spacing_minutes = float(cfg.path("youtube.publish.spacing_minutes", 40))
+
+    lines: list[str] = []
+    card_requests = review.parse_card_requests(body) & set(ids)
+    if card_requests:
+        built_ids: list[str] = []
+        for draft_id in ids:
+            if draft_id not in card_requests:
+                continue
+            found = store.load_draft(draft_id)
+            if not found:
+                lines.append(f"- ❌ `{draft_id}` — المسودة غير موجودة")
+                continue
+            path, draft = found
+            if draft.get("status") == "published":
+                lines.append(f"- ↩️ {draft['arabic']['post_title'][:50]} — منشور مسبقًا")
+                continue
+            if draft_id in headline_choices:
+                draft["headline_selected"] = headline_choices[draft_id]
+            ensure_title_card(path, draft, cfg)
+            built_ids.append(draft_id)
+        if built_ids:
+            if issue_number is not None:
+                publish.open_final_review(issue_number, built_ids, cfg)
+                lines.append(f"- 🎴 {len(built_ids)} مقال بانتظار مراجعة نهائية للبطاقة قبل النشر")
+            else:
+                lines.append(f"- ⚠️ {len(built_ids)} مقال طلب 🎴 لكن لا رقم Issue متاح "
+                             "لفتح المراجعة النهائية")
+        ids = [i for i in ids if i not in card_requests]
+
     batch = ids[:max_per_run]
     remaining = ids[max_per_run:]
 
-    lines: list[str] = []
     published = 0
     wait_before_next = False
     for draft_id in batch:
@@ -887,7 +940,8 @@ def publish_approved(issue_number: int, cfg) -> int:
     # لكل مسودة على حدة، فمصدره نفس نصّ الـIssue الذي جُلب لتوّه أعلاه.
     headline_choices = parse_headline_choice(body)
 
-    lines, published, attempted, remaining = publish_ids(ids, headline_choices, cfg)
+    lines, published, attempted, remaining = publish_ids(
+        ids, headline_choices, cfg, body=body, issue_number=issue_number)
     report_batch(issue_number, lines, published, attempted, remaining, cfg)
     return 0
 
