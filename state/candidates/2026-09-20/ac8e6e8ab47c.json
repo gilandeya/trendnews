@@ -1,0 +1,72 @@
+{
+  "id": "ac8e6e8ab47c",
+  "created_at": "2026-09-20T06:07:47.867962+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.38,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Turkiye says it could help meet Saudi Arabia’s military needs",
+  "link": "https://www.dawn.com/news/2031285/turkiye-says-it-could-help-meet-saudi-arabias-military-needs",
+  "publishers": [
+    "Dawn",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Reuters"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Turkiye says it could help meet Saudi Arabia’s military needs",
+    "link": "https://www.dawn.com/news/2031285/turkiye-says-it-could-help-meet-saudi-arabias-military-needs",
+    "summary": "ANKARA: Turkish Foreign Minister Hakan Fidan said on Saturday that Saudi Arabia may have military needs due to the ongoing attacks by Yemen’s Houthis and that Turkiye was ready to help under a trilateral defence pact that includes Pakistan. “We see there are very serious attacks on Saudi Arabia’s territorial integrity, sovereignty. We have an alliance agreement in our pact. We are in serious solidarity on this point. They may have some military needs, especially on some technical issues. We would have no issues in meeting these,” Fidan told broadcaster NTV . The joint defence agreement, signed last month, stipulates that an armed attack on any one of the three countries will be regarded as an attack on all of them. The Houthis, who control the most populous parts of Yemen, have been launching attacks on Saudi Arabia since declaring a naval blockade against Riyadh in July. The attacks have targeted Saudi cities, energy infrastructure and shipping, threatening global oil supplies and the main alternative Red Sea route for Gulf exports while traffic through the Strait of Hormuz remains disrupted. President Donald Trump has rebuffed pleas from the Saudis for military support to fight t",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-20T05:07:27+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/2010070108d7d38.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2031285/turkiye-says-it-could-help-meet-saudi-arabias-military-needs"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/turkey-says-it-could-help-meet-saudi-military-needs-under-defence-pact-101789845730827.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/20/turkey-says-it-could-help-meet-saudi-military-needs-under-defence-pact"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/2010070108d7d38.webp",
+      "https://i.dawn.com/thumbnail/2026/09/2010070108d7d38.webp",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/10/caa46f14-turkish-foreign-minister-hakan-fidan.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1117.9114726827777,
+    "is_stale": false,
+    "score": 20.38306664138889,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

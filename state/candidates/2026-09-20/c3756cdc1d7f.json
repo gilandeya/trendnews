@@ -1,0 +1,75 @@
+{
+  "id": "c3756cdc1d7f",
+  "created_at": "2026-09-20T06:07:47.868257+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.97,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ed Sheeran says situation in Gaza is 'catastrophic and unjustifiable', apologises for Macklemore controversy",
+  "link": "https://www.channelnewsasia.com/world/ed-sheeran-says-situation-in-gaza-catastrophic-and-unjustifiable-apologises-macklemore-controversy-6397136",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia",
+    "Malay Mail",
+    "South China Morning Post"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Ed Sheeran says situation in Gaza is 'catastrophic and unjustifiable', apologises for Macklemore controversy",
+    "link": "https://www.channelnewsasia.com/world/ed-sheeran-says-situation-in-gaza-catastrophic-and-unjustifiable-apologises-macklemore-controversy-6397136",
+    "summary": "“My heart has been broken by the scale of devastation and loss of civilians’ lives, of children’s lives,” the British singer-songwriter said during his Philadelphia gig.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-20T01:11:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--alMx9x9u--/c_crop,h_627,w_1116,x_0,y_232/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/20/2026-09-20t040207z_1831225387_rc2qmnai21xv_rtrmadp_3_israel-palestinians-macklemore-ed-sheeran.jpg?itok=-6jGERX9",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia",
+      "Malay Mail",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/20/ed-sheeran-calls-gaza-situation-unjustifiable-after-palestine-controversy?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368135/ed-sheeran-calls-gaza-situation-unjustifiable-after-macklemore-exit-furore?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/ed-sheeran-says-situation-in-gaza-catastrophic-and-unjustifiable-apologises-macklemore-controversy-6397136"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/showbiz/2026/09/20/after-backlash-singer-ed-sheeran-says-gaza-situation-unjustifiable/235839"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--alMx9x9u--/c_crop,h_627,w_1116,x_0,y_232/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/20/2026-09-20t040207z_1831225387_rc2qmnai21xv_rtrmadp_3_israel-palestinians-macklemore-ed-sheeran.jpg?itok=-6jGERX9",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/20/363536.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1117.9114776105555,
+    "is_stale": false,
+    "score": 19.97034441927778,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

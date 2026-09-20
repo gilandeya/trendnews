@@ -1,0 +1,60 @@
+{
+  "id": "97e39aa3ab00",
+  "created_at": "2026-09-20T06:07:47.867682+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.39,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran war live: Tehran sets terms for talks; Saudi forces foil Riyadh attack",
+  "link": "https://www.aljazeera.com/news/liveblog/2026/9/20/iran-war-live-tehran-calls-for-end-to-war-lifting-of-us-naval-blockade?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Turkey’s foreign minister"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Iran war live: Tehran sets terms for talks; Saudi forces foil Riyadh attack",
+    "link": "https://www.aljazeera.com/news/liveblog/2026/9/20/iran-war-live-tehran-calls-for-end-to-war-lifting-of-us-naval-blockade?traffic_source=rss",
+    "summary": "Iran security chief says Tehran's demands include an end to war on all fronts and the lifting of the US naval blockade.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-20T00:00:00+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Turkey’s foreign minister"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/liveblog/2026/9/20/iran-war-live-tehran-calls-for-end-to-war-lifting-of-us-naval-blockade?traffic_source=rss"
+      },
+      {
+        "name": "Turkey’s foreign minister",
+        "link": "https://tass.com/world/2190135"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1117.9114710191668,
+    "is_stale": false,
+    "score": 20.39145552938889,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
