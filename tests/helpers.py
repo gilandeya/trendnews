@@ -64,16 +64,60 @@ def tick_marker(body: str, marker: str) -> str:
     return "\n".join(lines)
 
 
+_REAL_LAST_PUBLISH_AT = store.last_publish_at
+
+
 def reset_last_publish() -> None:
-    """يصفّر ``state/last_publish.json`` (Issue #1010) إلى موعد بعيد جدًا في
-    الماضي — لا يمسح الملف: ``store.last_publish_at`` يعيد بناءه تلقائيًا من
-    أحدث ``published_at`` في drafts/ حين يغيب، وDRAFTS_DIR غالبًا ما يحمل
-    مسودات published من سيناريوهات سابقة *داخل نفس دالة الاختبار* (لا تُمحى
-    بين سيناريو وآخر عمدًا)، فمحو الملف وحده يُعيد تسميمه فورًا من تلك
-    المسودات القديمة. موعد بعيد يضمن ألا تدخل البوابة في طريق أي اختبار لا
-    يفحصها هي نفسها. يُستدعى في بداية أي اختبار ينشر عبر publish_one
-    الحقيقية أو عبر cmd_burst/cmd_revival/cmd_due/cmd_now الحقيقية."""
-    store.record_last_publish(datetime(2000, 1, 1, tzinfo=timezone.utc))
+    """تجعل ``store.last_publish_at`` يتجاهل أي مسودة published موجودة فعلًا
+    في drafts/ حتى لحظة هذا الاستدعاء (Issue #1015: لا ملف حالة يُصفَّر —
+    المصدر الوحيد الآن ``published_at`` في drafts/ نفسها). استبدال مؤقت
+    بعتبة زمنية (``floor``) لا استبدال بقيمة ثابتة: مسودة نُشرت قبل هذا
+    الاستدعاء (تسرّبت من سيناريو سابق *داخل نفس دالة الاختبار* لا تُمحى
+    بين سيناريو وآخر عمدًا، أو من دالة اختبار أخرى تتشارك DRAFTS_DIR
+    المؤقتة معها) لا تُحسَب؛ لكن نشرًا فعليًا جديدًا يقع *بعد* هذا الاستدعاء
+    (ضمن الدفعة الحالية نفسها، عبر publish_one الحقيقية) يظل يُحسَب بقيمته
+    الحقيقية، فتستمر بوابة الفاصل تعمل بين عناصر دفعة واحدة كما يُفترض بها
+    — استبدال بقيمة ثابتة (``None`` دومًا) كان يعطّل هذا التتابع بالكامل.
+    يُستدعى في بداية أي اختبار ينشر عبر publish_one الحقيقية أو عبر
+    cmd_burst/cmd_revival/cmd_due/cmd_now الحقيقية ولا يفحص توقيت البوابة
+    نفسه بدقة. اختبارات البوابة الدقيقة تستدعي ``restore_last_publish()``
+    بدل هذه، ثم تتحكّم بآخر منشور عبر مسودة published حقيقية بتاريخ
+    ``published_at`` محدد (``stub_last_publish``)."""
+    floor = datetime.now(timezone.utc)
+
+    def _patched() -> datetime | None:
+        real = _REAL_LAST_PUBLISH_AT()
+        if real is None or real <= floor:
+            return None
+        return real
+
+    store.last_publish_at = _patched
+
+
+def restore_last_publish() -> None:
+    """يستعيد ``store.last_publish_at`` الحقيقية (الحساب من drafts/) بعد
+    اختبار استدعى ``reset_last_publish()`` — تستدعيها اختبارات البوابة قبل
+    أن تتحكّم بآخر منشور فعلي عبر ``stub_last_publish``."""
+    store.last_publish_at = _REAL_LAST_PUBLISH_AT
+
+
+_LAST_PUBLISH_STUB_ID = "_last_publish_stub"
+
+
+def stub_last_publish(when: datetime) -> Path:
+    """يثبّت آخر نشر فعلي في drafts/ عند ``when`` بمسودة published واحدة
+    تُعاد كتابتها بمعرّف ثابت (لا نُسخ جديدة تتراكم) — Issue #1015:
+    ``store.last_publish_at`` الحقيقية تحسب أحدث ``published_at`` بين كل
+    مسودات ``status == "published"``، فلو تراكمت أكثر من مسودة مثبَّتة
+    لفاز الأحدث تاريخًا بينها، لا التي استدعيت أخيرًا. تفترض أن
+    ``restore_last_publish()`` استُدعيت أولًا (أو لم يُستدعَ
+    ``reset_last_publish()`` إطلاقًا في هذا الاختبار)."""
+    draft = {
+        "id": _LAST_PUBLISH_STUB_ID,
+        "status": "published",
+        "published_at": when.isoformat(),
+    }
+    return store.save_draft(draft)
 
 
 # ──────────────────────────── تجهيزات ────────────────────────────

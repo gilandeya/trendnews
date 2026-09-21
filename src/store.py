@@ -227,26 +227,17 @@ def recent_published_titles(days: int) -> list[str]:
 
 # ──────────────────────────── بوابة الفاصل بين المنشورات ─────────────────
 # آخر لحظة نشر فعلي عبر كل المسارات (Issue #1010) — المصدر الوحيد الذي
-# تقرأه بوابة الفاصل في publish.publish_one، بدل أن تحسب كل دفعة معتمَدة
-# فاصلها من «الآن» أو من مواعيد الطابور المحجوزة وحدها فتصطدم بدفعة أخرى
-# اعتُمدت قبلها بدقيقة.
-
-LAST_PUBLISH_FILE = STATE_DIR / "last_publish.json"
+# تقرأه بوابة الفاصل في publish.publish_one. لا يُخزَّن في ملف حالة
+# مشترك (كان state/last_publish.json): workflows النشر تعمل بالتوازي في
+# مجموعات تزامن مختلفة، فأي ملف حالة يُكتب مع كل نشر يتعارض بين تشغيلتين
+# متزامنتين عند git pull --rebase، وحلقة الرفع تحسم التعارض بتفضيل نسخة
+# التشغيلة الحالية (-X theirs) — فقد يعود الملف إلى موعد أقدم ويضعف
+# البوابة (Issue #1015). ``published_at`` في المسودات نفسها هو المصدر
+# الوحيد الموثوق، فيُحسب من drafts/ في كل استدعاء بلا أي تخزين وسيط.
 
 
 def last_publish_at() -> datetime | None:
-    """آخر لحظة نشر فعلي، أو ``None`` إن لم يُنشر شيء قط.
-
-    إن غاب الملف (أول تشغيل بعد إضافة هذه الميزة، أو حالة نظيفة)، يُحسب
-    مرة واحدة من أحدث ``published_at`` بين مسودات drafts/ ثم يُكتب — فلا
-    يُعامَل نشر سابق فعليًا وكأنه لم يقع قط لمجرد غياب الملف الجديد."""
-    if LAST_PUBLISH_FILE.exists():
-        try:
-            data = json.loads(LAST_PUBLISH_FILE.read_text(encoding="utf-8"))
-            return datetime.fromisoformat(data["at"])
-        except (json.JSONDecodeError, KeyError, ValueError):
-            log.warning("ملف آخر نشر تالف — سيُعاد حسابه من drafts/")
-
+    """آخر لحظة نشر فعلي عبر كل مسودات drafts/، أو ``None`` إن لم يُنشر شيء قط."""
     latest: datetime | None = None
     for path in DRAFTS_DIR.glob("*/*.json"):
         try:
@@ -261,16 +252,7 @@ def last_publish_at() -> datetime | None:
             continue
         if latest is None or when > latest:
             latest = when
-    if latest is not None:
-        record_last_publish(latest)
     return latest
-
-
-def record_last_publish(when: datetime) -> None:
-    STATE_DIR.mkdir(parents=True, exist_ok=True)
-    LAST_PUBLISH_FILE.write_text(
-        json.dumps({"at": when.isoformat()}, ensure_ascii=False), encoding="utf-8"
-    )
 
 
 # ──────────────────────────── مرشّحو الاختيار (preselect) ─────────────────

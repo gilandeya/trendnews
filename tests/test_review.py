@@ -15,6 +15,8 @@ from tests.helpers import (
     check,
     tick_marker,
     reset_last_publish,
+    restore_last_publish,
+    stub_last_publish,
     install_fakes,
     _TMP_DATA_DIR,
     collect,
@@ -6472,16 +6474,23 @@ def test_publish_gap_gate_core_scenarios() -> None:
     from src import decisions
     from src import publish as publish_mod
 
-    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
-    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
-    reset_last_publish()
+    # Issue #1015: المصدر أصبح published_at في drafts/ نفسها لا ملف حالة،
+    # فلا سبيل لـ«تجميد» زمن نشر فعلي عبر استدعاء واحد — كل سيناريو يمحو
+    # drafts/ أولًا (بلا هذا يبقى منشور سيناريو سابق الأحدث فعليًا فيفوز في
+    # حساب last_publish_at الحقيقي على القيمة المصطنعة عبر stub_last_publish
+    # أدناه)، ثم يثبّت المسودة المنشورة الوحيدة التي يريد قياس البوابة تجاهها.
+    restore_last_publish()
 
     cfg = load_config()
     real_root = publish_mod.ROOT
     real_publish_photo = facebook.publish_photo
     publish_mod.ROOT = DRAFTS_DIR.parent
-    (DRAFTS_DIR / "gate.jpg").write_bytes(b"\xff\xd8\xff")
     facebook.publish_photo = lambda *a, **k: {"url": "https://fb.example/gate", "id": "1"}
+
+    def reset_drafts_dir() -> None:
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        (DRAFTS_DIR / "gate.jpg").write_bytes(b"\xff\xd8\xff")
 
     def make(did: str, urgent: bool):
         d = {
@@ -6493,15 +6502,19 @@ def test_publish_gap_gate_core_scenarios() -> None:
 
     try:
         # 1) لا منشور سابق ⇒ مسودة عادية تُنشر فورًا
+        reset_drafts_dir()
         path1, draft1 = make("gate_none", False)
         ok1, line1 = publish_mod.publish_one(path1, draft1, cfg)
         check("لا منشور سابق: مسودة عادية تُنشر فورًا", ok1, line1)
         check("حالتها published بعد ذلك",
               store.load_draft("gate_none")[1].get("status") == "published")
+        check("لا ملف حالة last_publish.json — المصدر published_at وحده",
+              not (STATE_DIR / "last_publish.json").exists())
 
         # 2) آخر منشور قبل 5 دقائق (أقل من gap_min=30) ⇒ queued لا published
+        reset_drafts_dir()
         last5 = datetime.now(timezone.utc) - timedelta(minutes=5)
-        store.record_last_publish(last5)
+        stub_last_publish(last5)
         path2, draft2 = make("gate_5min", False)
         ok2, line2 = publish_mod.publish_one(path2, draft2, cfg)
         check("آخر منشور قبل 5 دقائق: لا تُنشر مسودة عادية", not ok2, line2)
@@ -6526,18 +6539,22 @@ def test_publish_gap_gate_core_scenarios() -> None:
               deciding_entries)
 
         # 3) عاجل قبل دقيقة واحدة فقط ⇒ يتجاوز البوابة وينشر فورًا رغم ذلك
-        store.record_last_publish(datetime.now(timezone.utc) - timedelta(minutes=1))
+        reset_drafts_dir()
+        stub_last_publish(datetime.now(timezone.utc) - timedelta(minutes=1))
         path3, draft3 = make("gate_urgent", True)
         ok3, line3 = publish_mod.publish_one(path3, draft3, cfg)
         check("عاجل قبل دقيقة: يتجاوز البوابة وينشر فورًا", ok3, line3)
         check("حالتها published", store.load_draft("gate_urgent")[1].get("status") == "published")
 
         # 4) آخر منشور قبل 45 دقيقة (أكثر من gap_min=30) ⇒ فورًا
-        store.record_last_publish(datetime.now(timezone.utc) - timedelta(minutes=45))
+        reset_drafts_dir()
+        stub_last_publish(datetime.now(timezone.utc) - timedelta(minutes=45))
         path4, draft4 = make("gate_45min", False)
         ok4, line4 = publish_mod.publish_one(path4, draft4, cfg)
         check("آخر منشور قبل 45 دقيقة: مسودة عادية تُنشر فورًا", ok4, line4)
         check("حالتها published", store.load_draft("gate_45min")[1].get("status") == "published")
+        check("بعد نشر ناجح لا يوجد أي ملف state/last_publish.json",
+              not (STATE_DIR / "last_publish.json").exists())
     finally:
         publish_mod.ROOT = real_root
         facebook.publish_photo = real_publish_photo
@@ -6554,9 +6571,9 @@ def test_publish_ids_direct_defers_non_urgent_after_recent_publish() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
-    reset_last_publish()
+    restore_last_publish()
 
-    store.record_last_publish(datetime.now(timezone.utc) - timedelta(minutes=2))
+    stub_last_publish(datetime.now(timezone.utc) - timedelta(minutes=2))
 
     draft = {
         "id": "ids_direct_0001", "status": "pending",
@@ -6594,7 +6611,7 @@ def test_due_captures_gap_gate_deferred_draft_on_later_run() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
-    reset_last_publish()
+    restore_last_publish()
 
     real_root = publish_mod.ROOT
     real_publish_photo = facebook.publish_photo
@@ -6610,8 +6627,10 @@ def test_due_captures_gap_gate_deferred_draft_on_later_run() -> None:
     path = store.save_draft(draft)
 
     try:
-        # يؤجَّل أولًا لأن منشورًا آخر خرج قبل لحظات (أقل من gap_min)
-        store.record_last_publish(datetime.now(timezone.utc) - timedelta(minutes=1))
+        # يؤجَّل أولًا لأن منشورًا آخر خرج قبل لحظات (أقل من gap_min) —
+        # stub_last_publish تُعيد كتابة مسودة published واحدة بمعرّف ثابت،
+        # فاستدعاؤها ثانية أدناه يستبدل هذا الموعد لا يضيف إليه.
+        stub_last_publish(datetime.now(timezone.utc) - timedelta(minutes=1))
         ok, _ = publish_mod.publish_one(path, draft, load_config())
         check("أُجِّلت أولًا (وقت غير مناسب بعد)", not ok)
         deferred = store.load_draft("due_gate_0001")[1]
@@ -6623,7 +6642,7 @@ def test_due_captures_gap_gate_deferred_draft_on_later_run() -> None:
         # اللتان تقرأهما البوابة وcmd_due فعليًا.
         store.update_draft(
             path, publish_at=(datetime.now(timezone.utc) - timedelta(minutes=1)).isoformat())
-        store.record_last_publish(datetime.now(timezone.utc) - timedelta(minutes=40))
+        stub_last_publish(datetime.now(timezone.utc) - timedelta(minutes=40))
 
         code = publish_mod.cmd_due(load_config())
         check("cmd_due ينتهي بنجاح", code == 0, f"exit={code}")
