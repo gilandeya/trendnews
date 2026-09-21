@@ -1,0 +1,62 @@
+{
+  "id": "1b220ef5a1c2",
+  "created_at": "2026-09-21T15:08:00.242036+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.29,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "France and Canada deepen economic and defense ties",
+  "link": "https://www.france24.com/en/france-and-canada-deepen-economic-and-defense-ties",
+  "publishers": [
+    "France24",
+    "Hindustan Times — World"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "France and Canada deepen economic and defense ties",
+    "link": "https://www.france24.com/en/france-and-canada-deepen-economic-and-defense-ties",
+    "summary": "French President Emmanuel Macron and Canadian Prime Minister Mark Carney have announced plans to deepen economic ties between their countries following a meeting at the weekend. Macron welcomed Carney in Saint-Pierre-et-Miquelon, a French territory off the coast of Canada’s Newfoundland. The two leaders discussed opportunities to share infrastructure in the space and defence sectors, as Canada’s trade relationship with the US deteriorates and Europe looks to diversify its energy supplies. Bryan Quinn has more.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-21T14:59:44+00:00",
+    "image_url": "https://s.france24.com/media/display/143f49e8-b5cc-11f1-a741-1d61c7110e09/w:1024/p:16x9/EN-20260921-161348-161545-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/france-and-canada-deepen-economic-and-defense-ties"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/macron-and-carney-to-hold-talks-on-strengthening-canada-france-economic-and-defense-ties-101789894436241.html"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/143f49e8-b5cc-11f1-a741-1d61c7110e09/w:1024/p:16x9/EN-20260921-161348-161545-CS.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1150.91502442,
+    "is_stale": false,
+    "score": 17.29092194888889,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

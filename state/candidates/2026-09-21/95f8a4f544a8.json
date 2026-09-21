@@ -1,0 +1,75 @@
+{
+  "id": "95f8a4f544a8",
+  "created_at": "2026-09-21T15:08:00.241142+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.23,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Las miserias de juego del Real Madrid que se esconden tras su denuncia arbitral: de Vinicius al dúo Valverde-Tchouameni",
+  "link": "https://elpais.com/deportes/futbol/2026-09-21/las-miserias-de-juego-del-real-madrid-que-se-esconden-tras-su-denuncia-arbitral-de-vinicius-al-duo-valverde-tchouameni.html",
+  "publishers": [
+    "BBC Sport",
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Las miserias de juego del Real Madrid que se esconden tras su denuncia arbitral: de Vinicius al dúo Valverde-Tchouameni",
+    "link": "https://elpais.com/deportes/futbol/2026-09-21/las-miserias-de-juego-del-real-madrid-que-se-esconden-tras-su-denuncia-arbitral-de-vinicius-al-duo-valverde-tchouameni.html",
+    "summary": "El derbi perdido por los de Mourinho, más allá de la queja blanca por el colegiado, deja otro partido pobre por parte de varias de las apuestas del club, desde el brasileño a los hombres del centro del campo",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-21T14:02:35+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/QFI4Y6HCEZFRBL2IPPO3HTYY3Q.jpg?auth=abeb1184b6ce7cc97ab5ed790c2bcc21a6dccd167f5cdc6332500e67e241008c",
+    "publisher": "El País",
+    "cluster_sources": [
+      "BBC Sport",
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-21/las-miserias-de-juego-del-real-madrid-que-se-esconden-tras-su-denuncia-arbitral-de-vinicius-al-duo-valverde-tchouameni.html"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/c6m27p9e24zno?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/cqkgxp97nxzno?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/deportes/futbol/2026-09-20/huijsen-condena-al-madrid-en-el-derbi-ante-el-atletico.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/QFI4Y6HCEZFRBL2IPPO3HTYY3Q.jpg?auth=abeb1184b6ce7cc97ab5ed790c2bcc21a6dccd167f5cdc6332500e67e241008c",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/e586/live/33ea4fc0-b524-11f1-b1e2-034207760e32.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/e586/live/33ea4fc0-b524-11f1-b1e2-034207760e32.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/e586/live/33ea4fc0-b524-11f1-b1e2-034207760e32.png",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0c9d/live/54171140-b513-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0c9d/live/54171140-b513-11f1-b1d1-571ed4d7ff2c.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.22742195409259,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

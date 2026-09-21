@@ -1,0 +1,107 @@
+{
+  "id": "ea16baaac907",
+  "created_at": "2026-09-21T15:08:00.240708+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.98,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "CNN, MS NOW and Politico to file lawsuit against Trump's White House ban",
+  "link": "https://www.bbc.co.uk/news/articles/cm0e32rwvrryo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "Channel News Asia",
+    "Dawn",
+    "Der Spiegel",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "Punch Nigeria",
+    "Rappler",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "CNN, MS NOW and Politico to file lawsuit against Trump's White House ban",
+    "link": "https://www.bbc.co.uk/news/articles/cm0e32rwvrryo?at_medium=RSS&at_campaign=rss",
+    "summary": "Major US networks later suspended White House TV coverage of Trump as he heads to New York for the UN summit.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-21T14:30:38+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/34b6/live/7001c260-b5a9-11f1-a430-4d16ee157c41.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "Channel News Asia",
+      "Dawn",
+      "Der Spiegel",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "Punch Nigeria",
+      "Rappler",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/21/cnn-politico-ms-now-to-sue-trump-administration-over-white-house-ban?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cm0e32rwvrryo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2031607/us-media-outlets-to-sue-trump-administration-after-white-house-ban"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630582/cnn-ms-now-and-politico-suing-trump-over-white-house-ban"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/cnn-others-sue-trump-over-white-house-press-ban/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/cnn-ms-now-politico-to-sue-trump-administration-over-white-house-access/article71491230.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/34b6/live/7001c260-b5a9-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/34b6/live/7001c260-b5a9-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/34b6/live/7001c260-b5a9-11f1-a430-4d16ee157c41.jpg",
+      "https://i.dawn.com/large/2026/09/21172517505a3a8.webp",
+      "https://i.dawn.com/thumbnail/2026/09/21172517505a3a8.webp",
+      "https://th-i.thgim.com/public/incoming/6lel8k/article71491291.ece/alternates/LANDSCAPE_1200/2026-09-20T213341Z_1166113885_RC2RXGAW6383_RTRMADP_3_UN-ASSEMBLY-TRUMP.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 14,
+    "velocity": 1.0,
+    "age_hours": 1150.9149733541667,
+    "is_stale": false,
+    "score": 25.980653388061704,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

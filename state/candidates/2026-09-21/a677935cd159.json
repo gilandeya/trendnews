@@ -1,0 +1,56 @@
+{
+  "id": "a677935cd159",
+  "created_at": "2026-09-21T15:08:00.241775+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.33,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oktoberfest in München: Hunderte Frauen feiern lesbisches Wiesn-Fest",
+  "link": "https://www.spiegel.de/panorama/oktoberfest-in-muenchen-hunderte-frauen-feiern-lesbisches-wiesn-fest-a-07023ac0-7fd8-4e56-8bc3-8ca34b9a84b0#ref=rss",
+  "publishers": [
+    "Der Spiegel"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Oktoberfest in München: Hunderte Frauen feiern lesbisches Wiesn-Fest",
+    "link": "https://www.spiegel.de/panorama/oktoberfest-in-muenchen-hunderte-frauen-feiern-lesbisches-wiesn-fest-a-07023ac0-7fd8-4e56-8bc3-8ca34b9a84b0#ref=rss",
+    "summary": "Schwule haben mit dem »Gay Sunday« ein eigenes Wiesn-Event. Nun wollen auch lesbische Frauen ihren Platz auf dem Oktoberfest erobern, Motto: »Bier, Boobs, Brezn«.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-09-21T13:21:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/011e7be5-5379-452c-8100-3bd62b425923_w520_r2.08_fpx70.31_fpy45.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Der Spiegel"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/panorama/oktoberfest-in-muenchen-hunderte-frauen-feiern-lesbisches-wiesn-fest-a-07023ac0-7fd8-4e56-8bc3-8ca34b9a84b0#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/011e7be5-5379-452c-8100-3bd62b425923_w520_r2.08_fpx70.31_fpy45.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.331218250888888,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
