@@ -114,7 +114,7 @@ jobs:
           fi
           git commit -m "chore(drafts): نشر العاجل"
           for attempt in 1 2 3 4 5; do
-            git pull --rebase --autostash -X theirs origin "${{ github.event.repository.default_branch }}" || true
+            git pull --rebase --autostash -X theirs origin "${{ github.event.repository.default_branch }}" || git rebase --abort || true
             if git push origin "HEAD:${{ github.event.repository.default_branch }}"; then
               exit 0
             fi
@@ -180,7 +180,7 @@ jobs:
           fi
           git commit -m "chore(drafts): نشر العادي"
           for attempt in 1 2 3 4 5; do
-            git pull --rebase --autostash -X theirs origin "${{ github.event.repository.default_branch }}" || true
+            git pull --rebase --autostash -X theirs origin "${{ github.event.repository.default_branch }}" || git rebase --abort || true
             if git push origin "HEAD:${{ github.event.repository.default_branch }}"; then
               exit 0
             fi
