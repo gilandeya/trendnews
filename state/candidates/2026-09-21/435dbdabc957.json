@@ -1,0 +1,91 @@
+{
+  "id": "435dbdabc957",
+  "created_at": "2026-09-21T09:08:01.829038+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.21,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Presley Gerber, Cindy Crawford's son, dies aged 27",
+  "link": "https://www.bbc.co.uk/news/articles/cmdx0pqrv72wo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Channel News Asia",
+    "Der Spiegel",
+    "El País",
+    "Hindustan Times — World",
+    "Malay Mail"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Presley Gerber, Cindy Crawford's son, dies aged 27",
+    "link": "https://www.bbc.co.uk/news/articles/cmdx0pqrv72wo?at_medium=RSS&at_campaign=rss",
+    "summary": "His family asked for privacy during a \"very difficult and painful time\" following the model's death.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-21T07:01:25+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4d9b/live/c1bab7b0-b595-11f1-a430-4d16ee157c41.png",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Channel News Asia",
+      "Der Spiegel",
+      "El País",
+      "Hindustan Times — World",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cmdx0pqrv72wo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/entertainment/presley-gerber-cindy-crawford-son-died-6398871"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/showbiz/2026/09/21/cindy-crawfords-only-son-model-presley-gerber-dies-at-27/235954"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/panorama/presley-gerber-sohn-von-cindy-crawford-ist-tot-a-fa226f94-a44e-41d2-b9d1-9337fb8c9171#ref=rss"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/us/entretenimiento/2026-09-21/muere-presley-gerber-hijo-de-cindy-crawford-a-los-27-anos.html"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/presley-gerber-s-last-instagram-posts-in-focus-after-tragic-death-i-was-absolutely-terrified-101789976408929.html"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4d9b/live/c1bab7b0-b595-11f1-a430-4d16ee157c41.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/4d9b/live/c1bab7b0-b595-11f1-a430-4d16ee157c41.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4d9b/live/c1bab7b0-b595-11f1-a430-4d16ee157c41.png",
+      "https://dam.mediacorp.sg/image/upload/s--3ef2I-TE--/c_crop,h_562,w_1000,x_0,y_43/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Presley_Gerber_2_967.jpg?itok=sIgckp0d",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/21/363722.jpg",
+      "https://cdn.prod.www.spiegel.de/images/cd8540f9-0001-0004-0000-000001373016_w520_r2.08_fpx58_fpy40.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 30.21432124590421,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

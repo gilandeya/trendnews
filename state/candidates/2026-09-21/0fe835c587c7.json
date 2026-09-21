@@ -1,0 +1,62 @@
+{
+  "id": "0fe835c587c7",
+  "created_at": "2026-09-21T09:08:01.830236+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.1,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Explosion injures 3 South Korean military officers in DMZ",
+  "link": "https://www.thehindu.com/news/international/three-south-korean-soldiers-injured-in-blast-at-dmz-military/article71490167.ece",
+  "publishers": [
+    "Al Jazeera English",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Explosion injures 3 South Korean military officers in DMZ",
+    "link": "https://www.thehindu.com/news/international/three-south-korean-soldiers-injured-in-blast-at-dmz-military/article71490167.ece",
+    "summary": "Two were ​evacuated by helicopter. The ⁠third is expected to be transported ‌by road before being airlifted by helicopter",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-21T06:08:30+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/lsbq3t/article71490218.ece/alternates/LANDSCAPE_1200/AFP__20260912__C84F3JP__v1__HighRes__SkoreaNkoreaBorder.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/21/three-south-korean-officers-wounded-in-border-explosion?traffic_source=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/three-south-korean-soldiers-injured-in-blast-at-dmz-military/article71490167.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/lsbq3t/article71490218.ece/alternates/LANDSCAPE_1200/AFP__20260912__C84F3JP__v1__HighRes__SkoreaNkoreaBorder.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1144.9153830277778,
+    "is_stale": false,
+    "score": 21.10063744335185,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
