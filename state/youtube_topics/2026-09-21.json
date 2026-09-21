@@ -1,0 +1,758 @@
+{
+  "run_date": "2026-09-21",
+  "stats": {
+    "points_in": 587,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 437,
+    "issues_clustered": 31,
+    "topics_merged": 2,
+    "topics_out": 3,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 4,
+    "topics_below_min_points": 13,
+    "topics_below_min_channels": 9,
+    "layer_a": 3,
+    "layer_b": 0,
+    "layer_c": 0,
+    "agreement": 3,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "استهداف الحوثيين للرياض والمنشآت السعودية",
+      "تفسير استهداف الحوثيين للسعودية بربطه بهرمز"
+    ],
+    [
+      "تعطل صادرات النفط السعودي بسبب الحوثيين",
+      "استيلاء الحوثيين على جزيرة مايون وباب المندب"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "شروط إيران التفاوضية ونقل رسائل عبر وسطاء",
+      "event": "محسن رضائي يكشف عن شروط إيران للتفاوض ونقلها إلى واشنطن عبر قطر وباكستان",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        16,
+        78,
+        125,
+        137
+      ],
+      "total_points": 4,
+      "fresh_points": 2,
+      "dropped_reason": null
+    },
+    {
+      "title": "تعطل صادرات النفط السعودي بسبب الحوثيين",
+      "event": "توقف/تعطل صادرات النفط السعودي بسبب سيطرة الحوثيين وقصف الأنابيب",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        29,
+        38,
+        39,
+        108,
+        109,
+        110,
+        111
+      ],
+      "total_points": 7,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "مبررات وقدرة الحوثيين على مواصلة الصراع",
+      "event": "تحليل دوافع الحوثيين وقدرتهم على الاستمرار في مواجهة السعودية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        40,
+        113,
+        127
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "موقف واشنطن من التصعيد الحوثي-السعودي",
+      "event": "تقييم الموقف الأمريكي (الحياد/خيبة الأمل الخليجية) من دعم السعودية عسكريًا",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        37,
+        123
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حسابات أمريكية خاطئة تجاه إيران",
+      "event": "تقييم مدى دقة الحسابات الاستراتيجية الأمريكية تجاه قوة إيران",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        1,
+        75
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "شروط إيران التفاوضية ونقل رسائل عبر وسطاء",
+      "event": "محسن رضائي يكشف عن شروط إيران للتفاوض ونقلها إلى واشنطن عبر قطر وباكستان",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        16,
+        78,
+        125,
+        137
+      ],
+      "total_points": 4,
+      "fresh_points": 2,
+      "dropped_reason": null
+    },
+    {
+      "title": "استهداف الحوثيين للرياض والمنشآت السعودية",
+      "event": "هجمات الحوثيين الصاروخية والمسيّرة على الرياض ومطاراتها ومنشآتها",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International",
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        3,
+        4,
+        5,
+        35,
+        122,
+        145
+      ],
+      "total_points": 6,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تعطل صادرات النفط السعودي بسبب الحوثيين",
+      "event": "توقف/تعطل صادرات النفط السعودي بسبب سيطرة الحوثيين وقصف الأنابيب",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        29,
+        38,
+        39,
+        108,
+        109,
+        110,
+        111
+      ],
+      "total_points": 7,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "الدعم الدفاعي الدولي للسعودية",
+      "event": "طلب السعودية دعمًا دفاعيًا جويًا من فرنسا وتركيا في مواجهة الحوثيين",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        36,
+        124
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مبررات وقدرة الحوثيين على مواصلة الصراع",
+      "event": "تحليل دوافع الحوثيين وقدرتهم على الاستمرار في مواجهة السعودية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        40,
+        113,
+        127
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "تصريحات خاتم الأنبياء بالرد الحاسم",
+      "event": "تهديد قرارگاه خاتم الأنبياء بالرد غير المحدود على أي استفزاز أمريكي أو إقليمي",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        126,
+        144
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خيارات ترامب الثلاثة تجاه إيران",
+      "event": "إعلان ترامب عن الخيارات الثلاثة تجاه إيران (ضغط، حرب، صفقة)",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        80,
+        143
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "جهود إنهاء حرب اليمن والوساطة",
+      "event": "دعوات ومساعي لإنهاء حرب اليمن عبر الوساطة والحل السياسي",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        2,
+        34
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حصر السلاح في العراق ومواقف الأطراف",
+      "event": "جهود الحكومة العراقية لحصر السلاح بيد الدولة ومواقف الأطراف المحلية والأمريكية منها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موقف الدبلوماسي الإيراني من الملفات الخلافية",
+      "event": "دفاع الدبلوماسي الإيراني شريعة مداري عن مواقف طهران في الملف النووي ودعم الميليشيات وظهور المرشد الجديد",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        21,
+        22,
+        24,
+        25,
+        26
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مسؤولية الحكومة عن تأخر معالجة أزمة الصناديق",
+      "event": "تحميل المسؤولية للحكومة التركية على التأخر في التعامل مع أزمة الصناديق منذ اعتراف الوزير في نوفمبر",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        59,
+        60,
+        64,
+        67
+      ],
+      "total_points": 4,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "دبلوماسية الخروج من الصراع الإيراني الأمريكي",
+      "event": "طرح مخارج دبلوماسية ووساطات لإنهاء الصراع الأمريكي الإيراني",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        81,
+        85
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "محاصرة إيران جوًا وبحرًا",
+      "event": "تقارير عن محاصرة أمريكية جوية وبحرية لإيران وإلغاء تصاريح الطيران",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        142
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تفاوض نيويورك واستراتيجية الائتلاف الأمريكي",
+      "event": "اجتماعات ونقاشات حول ائتلاف عسكري أمريكي-عربي-إسرائيلي ونتائج محادثات نيويورك بشأن إيران",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        138,
+        139,
+        141
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة صناديق الاستثمار التركية والتلاعب بالأسعار",
+      "event": "فضيحة تلاعب صناديق الاستثمار التركية بالأسعار والتحقيقات والخسائر الناتجة عنها",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        55,
+        56,
+        57,
+        61,
+        62,
+        63,
+        64,
+        65,
+        67,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135
+      ],
+      "total_points": 16,
+      "fresh_points": 7,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "صعود اليمين المتطرف في ألمانيا",
+      "event": "صعود حزب البديل للألمانيا في الانتخابات وأسبابه الاقتصادية وسياساته المتوقعة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        115,
+        116,
+        117,
+        118
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتخابات الكونغرس الأمريكية وموقف ترامب",
+      "event": "استطلاعات انتخابات الكونغرس الأمريكية وتقدم الديمقراطيين وتراجع ثقة الناخبين بترامب اقتصاديًا",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        120,
+        121
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "زيارة رئيس وزراء كندا لسان بيير وميكلون وتعزيز العلاقات الكندية الفرنسية",
+      "event": "زيارة رسمية لرئيس وزراء كندا إلى سان بيير وميكلون وإعلان تعزيز التعاون الكندي الفرنسي في عدة مجالات",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "محاضرة إيال وايزمان حول العمارة والاستعمار الاستيطاني في فلسطين",
+      "event": "تحليل إيال وايزمان لدور العمارة والتخطيط في المشروع الاستعماري الإسرائيلي وتداعياته على غزة والقدس والنكبة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موقف رضائي من الحرب الأمريكية-الإيرانية وتقييمها",
+      "event": "تصريحات محسن رضائي حول الحرب الأمريكية ضد إيران وقدرات إيران العسكرية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        13,
+        14,
+        15,
+        18,
+        19
+      ],
+      "total_points": 5,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "استجابة أوروبية للتصعيد في البحر الأحمر",
+      "event": "رفع الاتحاد الأوروبي التأهب لمهمة أسبيدس وتحرك إيطاليا المستقل في باب المندب",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        27,
+        28
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "عقوبات أمريكية إضافية على إيران وروسيا",
+      "event": "فرض الولايات المتحدة عقوبات ثانوية جديدة على إيران وعلى الدول المتعاملة مع روسيا",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        74,
+        79
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مقابلة الدكتور فاضل العزاوي عن تجربته في المخابرات العراقية",
+      "event": "استعادة الدكتور فاضل العزاوي لتجربته الشخصية كمدير للمخابرات العراقية (تعيينه، إصلاحاته، قراراته، ذكرياته)",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "التسلح اليوناني المدعوم إسرائيليًا وقبرصيًا ضد تركيا",
+      "event": "برامج التحديث الدفاعي اليوناني بالشراكة مع إسرائيل وقبرص واحتمال استهدافها لتركيا",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        47
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الانتخابات الإسرائيلية وتقارب الكتل",
+      "event": "الحملة الانتخابية الإسرائيلية في 27 أكتوبر وتقارب كتلتي نتنياهو والمعارضة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        48,
+        49,
+        50
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحذير بولندا من هجمات روسية على الناتو",
+      "event": "تحذير رئيس وزراء بولندا من هجمات روسية بالمسيرات والصواريخ على دول الناتو واستخدام روسيا للحرب الهجينة",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        76,
+        77
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حادثة الذكاء الاصطناعي وتوتر أمريكي-صيني بشأن سفينة",
+      "event": "استخدام الاستخبارات الأمريكية تحليل ذكاء اصطناعي أنتج معلومات خاطئة عن سفينة صينية كاد يشعل توترًا",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        30,
+        33
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
