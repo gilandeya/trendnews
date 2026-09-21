@@ -1,0 +1,101 @@
+{
+  "id": "79829a118189",
+  "created_at": "2026-09-21T18:07:49.524344+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.5,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Google fined more than €400m by Irish regulator over its use of location data",
+  "link": "https://www.theguardian.com/technology/2026/sep/21/google-is-fined-more-than-400m-by-irish-regulator-over-its-use-of-location-data",
+  "publishers": [
+    "BBC World",
+    "Court House News",
+    "Daily Sabah",
+    "El País",
+    "Engadget",
+    "Folha de S.Paulo",
+    "France24",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Google fined more than €400m by Irish regulator over its use of location data",
+    "link": "https://www.theguardian.com/technology/2026/sep/21/google-is-fined-more-than-400m-by-irish-regulator-over-its-use-of-location-data",
+    "summary": "Watchdog says users may have been unaware their information was used to target adverts or infer their interests Google has been fined more than €400m (£345m) over the way it processed users’ location data, following claims that the tech giant had manipulated users into agreeing to be constantly tracked on their mobile phones. The fine, imposed by Ireland’s Data Protection Commission (DPC), comes after complaints from multiple European consumer organisations that Google was following every step users took. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-21T10:57:26+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/c723e9373ad5541713e841d1668422eec041a93f/613_33_3290_2633/master/3290.jpg?width=700&quality=85&auto=format&fit=max&s=869fb8a3b2fdc68c031ec936d171a867",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "BBC World",
+      "Court House News",
+      "Daily Sabah",
+      "El País",
+      "Engadget",
+      "Folha de S.Paulo",
+      "France24",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/technology/2026/sep/21/google-is-fined-more-than-400m-by-irish-regulator-over-its-use-of-location-data"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/sci-tech/technology/irish-privacy-regulator-fines-google-403-million-over-location-data-processing/article71491276.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260921-eu-fines-google-%E2%82%AC403-million-for-improperly-using-location-data"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2263850/google-fined-dollar463-million-for-breaching-eu-location-data-rules/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/09/21/eu-fines-google-403mil-for-location-data-breach"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/google-slapped-with-463-million-eu-fine-over-data-location-breach"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/c723e9373ad5541713e841d1668422eec041a93f/613_33_3290_2633/master/3290.jpg?width=700&quality=85&auto=format&fit=max&s=869fb8a3b2fdc68c031ec936d171a867",
+      "https://i.guim.co.uk/img/media/c723e9373ad5541713e841d1668422eec041a93f/613_33_3290_2633/master/3290.jpg?width=460&quality=85&auto=format&fit=max&s=3da65d66402dad9bcd5920d4a5759bde",
+      "https://i.guim.co.uk/img/media/c723e9373ad5541713e841d1668422eec041a93f/613_33_3290_2633/master/3290.jpg?width=140&quality=85&auto=format&fit=max&s=b06899de17eae96a9e4195a47dd1eb51",
+      "https://th-i.thgim.com/public/incoming/xkra79/article71491307.ece/alternates/LANDSCAPE_1200/2026-09-16T120005Z_294817933_RC2FUHALL57L_RTRMADP_3_BRAZIL-GOOGLE-CARBON.JPG",
+      "https://s.france24.com/media/display/9b61a184-b5ca-11f1-9736-1d61c7110e09/w:1024/p:16x9/AP26264428506639.jpg",
+      "https://www.engadget.com/img/gallery/google-fined-463-million-for-breaching-eu-location-data-rules/l-intro-1790000999.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 11,
+    "velocity": 1.0,
+    "age_hours": 1153.9118916597222,
+    "is_stale": false,
+    "score": 32.50019988237486,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
