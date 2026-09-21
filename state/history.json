@@ -1,97 +1,5 @@
 [
   {
-    "score": 22.06,
-    "bucket": "sport",
-    "tokens": [
-      "aston",
-      "coventry",
-      "live",
-      "villa"
-    ],
-    "link": "https://www.skysports.com/football/coventry-city-vs-aston-villa/live/577573",
-    "title": "Coventry vs Aston Villa LIVE!",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-16T19:07:54.745654+00:00"
-  },
-  {
-    "score": 21.86,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "brilla",
-      "gracias",
-      "grammy",
-      "las",
-      "latinos",
-      "los",
-      "lux",
-      "nominaciones",
-      "rosalía"
-    ],
-    "link": "https://elpais.com/us/entretenimiento/2026-09-16/rosalia-brilla-en-las-nominaciones-a-los-grammy-latinos-de-2026-gracias-a-lux.html",
-    "title": "Rosalía brilla en las nominaciones a los Grammy Latinos de 2026 gracias a ‘Lux’",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-09-16T19:07:54.745880+00:00"
-  },
-  {
-    "score": 18.87,
-    "bucket": "serious",
-    "tokens": [
-      "bus",
-      "drone",
-      "kills",
-      "least",
-      "others",
-      "passenger",
-      "people",
-      "russian",
-      "strike",
-      "ukraine",
-      "wounds"
-    ],
-    "link": "http://www.france24.com/en/video/20260916-russian-drone-strike-on-a-passenger-bus-in-ukraine-kills-5-people-and-wounds-at-least-7-others",
-    "title": "Russian drone strike on a passenger bus in Ukraine kills 5 people and wounds at least 7 others",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-16T19:07:54.746088+00:00"
-  },
-  {
-    "score": 18.34,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "daniel",
-      "drops",
-      "first",
-      "kizz",
-      "single"
-    ],
-    "link": "https://www.premiumtimesng.com/entertainment/naija-fashion/910146-kizz-daniel-drops-first-single-of-2026.html",
-    "title": "Kizz Daniel drops first single of 2026",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-09-16T19:07:54.746283+00:00"
-  },
-  {
-    "score": 18.3,
-    "bucket": "sport",
-    "tokens": [
-      "benfica",
-      "clockwatch",
-      "europa",
-      "league",
-      "milan",
-      "sunderland"
-    ],
-    "link": "https://www.theguardian.com/football/live/2026/sep/16/sunderland-v-az-milan-v-benfica-and-more-europa-league-clockwatch-live",
-    "title": "Sunderland v AZ, Milan v Benfica and more: Europa League clockwatch",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-16T19:07:54.746505+00:00"
-  },
-  {
     "score": 31.48,
     "bucket": "serious",
     "tokens": [
@@ -4890,5 +4798,44 @@
     "posted_title": "",
     "region": "ir",
     "seen_at": "2026-09-21T19:07:47.506948+00:00"
+  },
+  {
+    "score": 19.93,
+    "bucket": "useful",
+    "tokens": [
+      "about",
+      "future",
+      "google",
+      "got",
+      "ideas",
+      "laptops",
+      "see",
+      "wild"
+    ],
+    "link": "https://www.theverge.com/tech/997986/google-googlebooks-android-laptops-dell-hp-lenovo-acer-asus-price-specs",
+    "title": "I got to see Google’s wild ideas about the future of laptops",
+    "posted_title": "غوغل تطلق \"غوغل بوك\": لابتوبات تدمج أندرويد بالحاسوب بأسعار تبدأ من 899 دولارًا",
+    "region": "tech",
+    "seen_at": "2026-09-21T19:29:53.481613+00:00"
+  },
+  {
+    "score": 19.76,
+    "bucket": "serious",
+    "tokens": [
+      "first",
+      "gaza",
+      "person",
+      "return",
+      "schooling",
+      "students",
+      "three",
+      "time",
+      "years"
+    ],
+    "link": "https://www.japantimes.co.jp/news/2026/09/21/world/gaza-students-return-school/",
+    "title": "Gaza students return to in-person schooling for first time in three years",
+    "posted_title": "لأول مرة منذ ثلاث سنوات.. طلاب غزة يعودون إلى مقاعد الدراسة في خيام ومبانٍ متضررة",
+    "region": "jp",
+    "seen_at": "2026-09-21T19:30:08.851535+00:00"
   }
 ]
