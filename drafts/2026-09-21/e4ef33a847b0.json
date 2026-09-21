@@ -1,7 +1,7 @@
 {
   "id": "e4ef33a847b0",
   "created_at": "2026-09-21T04:05:51.061537+00:00",
-  "status": "rejected",
+  "status": "queued",
   "origin": "analysis",
   "title": "هل يؤدي تصعيد الحوثيين إلى شلل كامل لصادرات النفط السعودي عبر باب المندب؟",
   "tier": "a",
@@ -50,5 +50,6 @@
     "chosen_url": null,
     "candidates_tried": 0,
     "manual": false
-  }
+  },
+  "publish_at": "2026-09-21T12:25:38.921843+00:00"
 }

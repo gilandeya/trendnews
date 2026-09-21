@@ -1,7 +1,7 @@
 {
   "id": "aa4b801b9602",
   "created_at": "2026-09-21T04:05:51.061856+00:00",
-  "status": "rejected",
+  "status": "queued",
   "origin": "analysis",
   "title": "هل يملك الحوثيون القدرة على مواصلة الصراع رغم الدفاعات السعودية؟",
   "tier": "a",
@@ -50,5 +50,6 @@
     "chosen_url": null,
     "candidates_tried": 0,
     "manual": false
-  }
+  },
+  "publish_at": "2026-09-21T12:40:02.553830+00:00"
 }
