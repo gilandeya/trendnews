@@ -64,6 +64,18 @@ def tick_marker(body: str, marker: str) -> str:
     return "\n".join(lines)
 
 
+def reset_last_publish() -> None:
+    """يصفّر ``state/last_publish.json`` (Issue #1010) إلى موعد بعيد جدًا في
+    الماضي — لا يمسح الملف: ``store.last_publish_at`` يعيد بناءه تلقائيًا من
+    أحدث ``published_at`` في drafts/ حين يغيب، وDRAFTS_DIR غالبًا ما يحمل
+    مسودات published من سيناريوهات سابقة *داخل نفس دالة الاختبار* (لا تُمحى
+    بين سيناريو وآخر عمدًا)، فمحو الملف وحده يُعيد تسميمه فورًا من تلك
+    المسودات القديمة. موعد بعيد يضمن ألا تدخل البوابة في طريق أي اختبار لا
+    يفحصها هي نفسها. يُستدعى في بداية أي اختبار ينشر عبر publish_one
+    الحقيقية أو عبر cmd_burst/cmd_revival/cmd_due/cmd_now الحقيقية."""
+    store.record_last_publish(datetime(2000, 1, 1, tzinfo=timezone.utc))
+
+
 # ──────────────────────────── تجهيزات ────────────────────────────
 
 RSS_FIXTURE = """<?xml version="1.0"?>

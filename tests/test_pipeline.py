@@ -139,6 +139,10 @@ from tests.test_review import (
     test_retention_insights_still_counts_kept_draft,
     test_retention_config_days_at_least_30,
     test_publish_one_facebook_failure_tags_stage,
+    test_publish_gap_gate_core_scenarios,
+    test_publish_ids_direct_defers_non_urgent_after_recent_publish,
+    test_due_captures_gap_gate_deferred_draft_on_later_run,
+    test_queued_drafts_includes_gap_deferred_analysis_and_guards_missing_image,
     test_open_review_revival_issue_single_and_no_duplicate,
     test_publish_revival_issue_full_flow,
     test_revival_end_to_end,
@@ -447,6 +451,10 @@ def main() -> int:
     test_retention_config_days_at_least_30()
     print("\n── إحياء منشورات فشل نشرها على فيسبوك (Issue #959) ──")
     test_publish_one_facebook_failure_tags_stage()
+    test_publish_gap_gate_core_scenarios()
+    test_publish_ids_direct_defers_non_urgent_after_recent_publish()
+    test_due_captures_gap_gate_deferred_draft_on_later_run()
+    test_queued_drafts_includes_gap_deferred_analysis_and_guards_missing_image()
     test_open_review_revival_issue_single_and_no_duplicate()
     test_publish_revival_issue_full_flow()
     test_revival_end_to_end()

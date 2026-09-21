@@ -92,11 +92,17 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   analysis draft is deliberately built without an `image` field until it's approved (Issue #680,
   `src/youtube_publish.py:build_draft`), so any reader that assumes one crashes with `KeyError`.
   Two different hardening principles apply here, not one:
-  - `open_review.main` and `publish.py` (`queued_drafts`, and `main`'s per-id routing to
-    `youtube_publish.publish_ids`) **exclude** the analysis path from the general pipeline entirely
-    (`store.origin_of(d) != "analysis"` / `== "analysis"`) — these are the news pipeline's own
-    queue/review Issue, and an unapproved analysis draft simply doesn't belong there; it has its
-    own review Issue and its own approval-time routing.
+  - `open_review.main` and `publish.py`'s `main` (per-id routing to `youtube_publish.publish_ids`)
+    **exclude** the analysis path from the general pipeline entirely (`store.origin_of(d) !=
+    "analysis"` / `== "analysis"`) — these are the news pipeline's own queue/review Issue, and an
+    unapproved analysis draft simply doesn't belong there; it has its own review Issue and its own
+    approval-time routing. `publish.queued_drafts` is the one exception to this exclusion, and
+    deliberately so (Issue #1010): once a draft — analysis included — is *approved* and gets
+    deferred by the publish-rate gate (see below), it's `status="queued"` like anything else and
+    needs the same general `--due` flush to pick it up, since its card is already built by then
+    (`youtube_publish.ensure_title_card` runs before the gate can even be reached). Only an
+    `analysis` draft in the queue with **no** `image` field is still skipped there — that's a
+    structural leak (the old blanket exclusion existed to catch), not a normal deferral.
   - `decisions.scan` and `insights.collect` must **not** exclude the analysis path — both are
     themselves analytical, and dropping analysis drafts from them would blind the weekly report on
     a path that's actively being expanded. Neither function reads the `image` field at all, so
@@ -363,6 +369,49 @@ whose scheduled time has come (`python -m src.publish --due`) — publishing its
 synchronously inside `publish.yml` for queued posts. Either way, publishing posts via Graph API
 (`src/facebook.py`), comments with the source link, and closes the Issue once everything in it has
 been handled.
+
+### The publish-rate gate is the single rule for the page's rhythm (Issue #1010)
+
+A single gate inside `publish.publish_one`, ahead of any network call, is now the **only** rule
+that paces how often the page posts, across every content path except breaking: a non-urgent
+draft (`draft["arabic"].get("urgent")` — the same per-draft check `cmd_burst` already used to
+route urgent/normal) is refused if less than `facebook.gap_min_minutes` has passed since the last
+*actual* publish; it comes back `status="queued"` with `publish_at` set to that last publish plus a
+random offset between `gap_min_minutes` and `gap_max_minutes`, and `publish_one` returns
+`(False, "- ⏳ … — مؤجَّل إلى …")`. An urgent draft always bypasses the gate, unchanged. This
+deferral is deliberately **not** a failure: no `status="failed"`, no `failed_stage`, no `error`, no
+`decisions` entry — it behaves like any other `queued` draft, and is picked up by the same
+`--due` flush as anything else in the queue.
+
+The source of truth for "last publish" is `state/last_publish.json` (`store.last_publish_at`/
+`store.record_last_publish`), written by `publish_one` after every *successful* publish — not
+"now" and not the locally-booked queue slots that each caller used to compute independently, which
+is exactly what let two batches approved a minute apart publish a minute apart (25% of gaps between
+posts over 30 days measured under 30 minutes, most of them scheduled). If the file is missing, it's
+computed once from the newest `published_at` across `drafts/` and written, so upgrading to this
+gate doesn't treat real publishing history as if nothing had ever gone out.
+
+Because the gate lives inside `publish_one` itself, it is the *only* place this rule needs to be
+enforced — every caller gets it automatically, with no special-casing per path: `cmd_burst`,
+`cmd_schedule`, `cmd_due`, `cmd_now` (including a direct `publish --ids`, which used to publish a
+non-urgent draft immediately with no spacing at all — a gap Issue #1008 reported and left
+unfixed), `cmd_final_review`, and `cmd_revival` all funnel through it. `cmd_burst`'s and
+`cmd_revival`'s own pre-computed queue slots (`spaced_slots`) now start from
+`max(now, last_publish + gap_min, last_booked_slot + gap_min)` instead of `now`/booked slots alone,
+so a batch doesn't even need the gate to catch it in the common case — but the gate is what
+actually holds the line if two independent runs land close together. `youtube_publish.py` is
+untouched: its own fixed `spacing_minutes` wait between posts in a batch stays exactly as it was:
+the gate simply defers whatever it doesn't catch, which is also why `publish.queued_drafts` no
+longer excludes `analysis`-origin drafts outright — a gate-deferred analysis draft (its card
+already built, since the gate only runs after `youtube_publish.ensure_title_card`) needs to flow
+into the same general queue and get flushed by `--due` like anything else; only an `analysis`
+draft in the queue with **no** `image` field is still skipped (a structural leak, not a normal
+deferral — same reasoning as the exclusion this replaced).
+
+Practically, 🚀 (`collect_finalize.py`'s immediate-publish selection) and a direct `publish --ids`
+no longer mean "publish this instant" for a non-urgent draft — they mean "first available slot":
+either publishes right away if the page hasn't posted recently, or queues for the same
+30–60-minute-scale spacing every other path already gets.
 
 ### Analysis (YouTube) path in detail
 

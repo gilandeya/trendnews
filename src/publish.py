@@ -53,12 +53,16 @@ def queued_drafts() -> list[tuple]:
             continue
         if data.get("status") != "queued":
             continue
-        if store.origin_of(data) == "analysis":
-            # مسار التحليل له طابور ونشر خاصّان بسقف وتباعد مختلفين
-            # (youtube_publish.publish_approved)، ولا تُبنى بطاقته (حقل
-            # image) إلا بعد اعتماد صريح هناك. لو تسرّبت مسودة منه إلى هذا
-            # الطابور العام (خلطًا في فتح Issue المراجعة العام — Issue
-            # #707)، فهي ناقصة الحقول بنيويًا ويجب ألا تُعالَج هنا أصلًا.
+        if store.origin_of(data) == "analysis" and not data.get("image"):
+            # مسار التحليل صار يدخل هذا الطابور العام أيضًا منذ بوابة الفاصل
+            # (Issue #1010): مسودة تحليل تؤجّلها البوابة داخل
+            # youtube_publish.publish_ids مرّت أصلًا بـensure_title_card قبل
+            # محاولة النشر، فحقل image موجود دومًا حين التأجيل طبيعي. غيابه
+            # هنا عطب بنيوي بحت — تسرّب من فتح Issue مراجعة عام قبل الاعتماد
+            # (نفس علّة الاستثناء القديم، Issue #707/#680) — فتُتخطى بسطر
+            # سجل بدل أن تُعالَج هنا بلا بطاقة.
+            log.warning("مسودة تحليل %s بلا صورة — تُتخطّى من الطابور العام",
+                       data.get("id"))
             continue
         out.append((path, data))
     out.sort(key=lambda t: t[1].get("publish_at", ""))
@@ -137,6 +141,28 @@ def _missing_draft_fields(draft: dict) -> list[str]:
     return missing
 
 
+def _is_urgent(draft: dict) -> bool:
+    return bool((draft.get("arabic") or {}).get("urgent"))
+
+
+def _gap_defer_until(cfg) -> datetime | None:
+    """موعد التأجيل إن مرّ على آخر منشور فعلي أقل من
+    ``facebook.gap_min_minutes``، أو ``None`` إن لا داعي للتأجيل (Issue
+    #1010). المصدر ``store.last_publish_at`` — لا «الآن» ولا مواعيد الطابور
+    المحجوزة وحدها — فدفعة اعتُمدت للتو لا يمكنها تجاهل نشر خرج فعلًا قبل
+    لحظات من دفعة أخرى مستقلة تمامًا (Issue، أو /صورة، أو --ids مباشرة)."""
+    fcfg = cfg.get("facebook", {}) or {}
+    gap_min = float(fcfg.get("gap_min_minutes", 30))
+    gap_max = float(fcfg.get("gap_max_minutes", 60))
+    last = store.last_publish_at()
+    if last is None:
+        return None
+    now = datetime.now(timezone.utc)
+    if now - last >= timedelta(minutes=gap_min):
+        return None
+    return last + timedelta(minutes=random.uniform(gap_min, gap_max))
+
+
 def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
     """ينشر مسودة واحدة صورةً أو ريلًا. يعيد (نجح، سطر التقرير).
 
@@ -144,6 +170,15 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
     بلا حقل image — Issue #707) تُسجَّل failed وتُتخطى بدل أن تُسقط
     ``KeyError`` كامل الدفعة: مسودة واحدة معطوبة يجب ألا توقف بقية
     المنشورات السليمة في نفس التشغيلة.
+
+    بوابة الفاصل (Issue #1010) هي القاعدة الوحيدة لإيقاع الصفحة عبر كل
+    المسارات عدا العاجل، وتسبق أي عمل شبكي هنا: مسودة عاجلة (``arabic.urgent``
+    — نفس فحص العجلة الذي يوجّه urgent/normal في ``cmd_burst``) تتجاوزها
+    دومًا بلا أي تغيير. غير ذلك، إن مرّ على آخر منشور فعلي أقل من
+    ``facebook.gap_min_minutes``، لا تُنشر: تصير ``queued`` بموعد جديد ضمن
+    ``gap_min_minutes``-``gap_max_minutes`` بعد ذلك المنشور، والتأجيل ليس
+    فشلًا — لا ``failed``، ولا ``failed_stage``، ولا ``error``، ولا قيد في
+    ``decisions`` (نظير مبدأ ``queued`` الطبيعي في المسار العادي).
     """
     missing = _missing_draft_fields(draft)
     if missing:
@@ -153,9 +188,17 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
         store.update_draft(path, status="failed", error=detail)
         return False, f"- ❌ `{title}` — {detail}"
 
+    title = draft["arabic"]["post_title"][:60]
+
+    if not _is_urgent(draft):
+        when = _gap_defer_until(cfg)
+        if when is not None:
+            tzname = cfg.path("facebook.timezone", "UTC")
+            store.update_draft(path, status="queued", publish_at=when.isoformat())
+            return False, f"- ⏳ {title} — مؤجَّل إلى {describe(when, tzname)}"
+
     api_version = cfg.path("facebook.api_version", "v21.0")
     image_path = ROOT / draft["image"]
-    title = draft["arabic"]["post_title"][:60]
     comment = first_comment_for(draft, cfg)
 
     reel_path = ensure_reel(path, draft, cfg) if draft.get("publish_as_reel") else None
@@ -164,10 +207,12 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
         try:
             res = facebook.publish_reel(reel_path, draft["caption"],
                                         api_version, first_comment=comment)
+            now = datetime.now(timezone.utc)
             store.update_draft(
                 path, status="published",
-                published_at=datetime.now(timezone.utc).isoformat(),
+                published_at=now.isoformat(),
                 facebook=res)
+            store.record_last_publish(now)
             decisions.record_published(draft)
             return True, f"- 🎬 [{title}]({res.get('url') or '#'})"
         except facebook.FacebookError as exc:
@@ -193,11 +238,13 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
         )
         return False, f"- ❌ {title} — {exc}"
 
+    now = datetime.now(timezone.utc)
     store.update_draft(
         path, status="published",
-        published_at=datetime.now(timezone.utc).isoformat(),
+        published_at=now.isoformat(),
         facebook=res,
     )
+    store.record_last_publish(now)
     decisions.record_published(draft)
     note = " ⚠️ بلا تعليق" if res.get("comment_error") else ""
     return True, f"- ✅ [{title}]({res.get('url') or '#'}){note}"
@@ -298,12 +345,24 @@ def cmd_burst(ids: list[str], cfg, issue_number: int | None,
     plan: list[tuple] = [(item, now) for item in urgent]   # كل عاجل فورًا
 
     if normal:
-        # الأعلى مؤشرًا فوري إن لم يسبقه عاجل، وإلا فبعد فاصل
-        first = now if not urgent else None
+        # نقطة الانطلاق تحترم آخر منشور فعلي وآخر موعد محجوز معًا (Issue
+        # #1010)، لا «الآن» وحدها — بوابة publish_one ستؤجِّل على أي حال إن
+        # فاتها هذا، لكن حسابها هنا مسبقًا يمنع دورة تأجيل/إعادة جدولة لا
+        # داعي لها لكل مسودة في الدفعة.
+        last_pub = store.last_publish_at()
+        booked = booked_times()
+        start = now
+        if last_pub is not None:
+            start = max(start, last_pub + timedelta(minutes=gap_min))
+        if booked:
+            start = max(start, max(booked) + timedelta(minutes=gap_min))
+
+        # الأعلى مؤشرًا فوري إن لم يسبقه عاجل ولا فاصل مستحق بعد، وإلا فبعد فاصل
+        first = start if not urgent else None
         slots = spaced_slots(len(normal), gap_min, gap_max,
-                             now=first or now)
+                             now=first or start)
         if urgent:
-            shift = slots[0] - now
+            shift = slots[0] - start
             offset = timedelta(minutes=random.uniform(gap_min, gap_max))
             slots = [t - shift + offset for t in slots]
         plan += list(zip(normal, slots))
@@ -530,8 +589,10 @@ def cmd_final_review(issue_number: int, body: str, cfg) -> int:
     ``issue_number`` فارغان في هذا النداء عمدًا -- جسم Issue المراجعة النهائية
     لا يحمل مربعات 🎴 إطلاقًا (البطاقة والعنوان محسومان مسبقًا، نفس مبدأ
     #858)، فتمرير جسمه الفعلي قد يُقرأ خطأً كمربع 🎴 من نصّ آخر ويعيد فتح
-    Issue نهائي ثانٍ. مسار الأخبار يبقى نشرًا فوريًا بلا سقف كما كان -- هذا
-    قرار قائم منذ #858 ولم يتغيّر.
+    Issue نهائي ثانٍ. مسار الأخبار يبقى بلا سقف دفعة كما كان منذ #858 -- كل
+    معتمَد يُمرَّر إلى publish_one في حلقة واحدة بلا تقطيع؛ الفاصل بين
+    المنشورات غير العاجلة صار مضمونًا من داخل publish_one نفسها (بوابة
+    الفاصل، Issue #1010) لا من هذه الحلقة.
 
     الباقي فوق السقف يُعالَج بنفس آلية cmd_revival حرفيًا (Issue #961): الـ
     Issue لا يُغلق، وسم approved يُزال عبر review.remove_label، وسطر ⏳ لكل
@@ -591,7 +652,9 @@ def cmd_final_review(issue_number: int, body: str, cfg) -> int:
         else:
             news_pending.append((path, draft))
 
-    # مسار الأخبار: نشر فوري بلا سقف ولا فاصل -- بلا تغيير عن #858.
+    # مسار الأخبار: بلا سقف دفعة -- بلا تغيير عن #858. الفاصل بين غير العاجل
+    # تكفّلت به بوابة publish_one (Issue #1010): معتمَد قد يخرج queued بدل
+    # published إن نُشر شيء آخر قبله بلحظات من دفعة مستقلة.
     for path, draft in news_pending:
         ok, line = publish_one(path, draft, cfg)
         published += ok
@@ -671,15 +734,21 @@ def cmd_revival(issue_number: int, body: str, cfg) -> int:
 
         if news_rows:
             # نفس دالة الفواصل ومفاتيح الإعداد اللتين يستعملهما مسار الاعتماد
-            # العادي (cmd_burst) — بلا نشر فوري هنا: تبدأ بعد آخر موعد محجوز
-            # (booked_times) حتى لا تتزاحم مع الطابور القائم.
+            # العادي (cmd_burst) — بلا نشر فوري هنا: تبدأ بعد آخر منشور فعلي
+            # وآخر موعد محجوز معًا (Issue #1010) حتى لا تتزاحم مع الطابور
+            # القائم ولا مع دفعة أخرى نُشرت للتو من مسار مستقل تمامًا.
             fcfg = cfg.get("facebook", {}) or {}
             gap_min = float(fcfg.get("gap_min_minutes", 30))
             gap_max = float(fcfg.get("gap_max_minutes", 60))
             tzname = fcfg.get("timezone", "UTC")
             now = datetime.now(timezone.utc)
+            last_pub = store.last_publish_at()
             booked = booked_times()
-            start = max(now, max(booked) + timedelta(minutes=gap_min)) if booked else now
+            start = now
+            if last_pub is not None:
+                start = max(start, last_pub + timedelta(minutes=gap_min))
+            if booked:
+                start = max(start, max(booked) + timedelta(minutes=gap_min))
             slots = spaced_slots(len(news_rows), gap_min, gap_max, now=start)
             for (path, draft), when in zip(news_rows, slots):
                 store.update_draft(
