@@ -10,6 +10,7 @@ from PIL import Image
 
 from tests.helpers import (
     check,
+    reset_last_publish,
     install_fakes,
     evidence,
     extract,
@@ -3154,6 +3155,7 @@ def test_youtube_publish() -> None:
     Image.new("RGB", (40, 40), (5, 5, 5)).save(img_path, "JPEG")
 
     facebook.publish_photo = fake_publish_photo  # type: ignore
+    reset_last_publish()
     try:
         ok, line = publish_mod.publish_one(live_path, live_draft, cfg)
     finally:

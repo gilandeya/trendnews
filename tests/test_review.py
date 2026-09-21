@@ -14,6 +14,7 @@ from PIL import Image, ImageDraw
 from tests.helpers import (
     check,
     tick_marker,
+    reset_last_publish,
     install_fakes,
     _TMP_DATA_DIR,
     collect,
@@ -289,6 +290,7 @@ def test_preselect_now_builds_card_before_publish() -> None:
         return {"url": "https://fb.example/nowcard", "id": "99"}
 
     facebook.publish_photo = fake_publish_photo
+    reset_last_publish()
 
     try:
         code = collect_finalize.finalize(4868, marked, load_config())
@@ -1365,6 +1367,7 @@ def test_editable_caption_and_image_source() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     # ── parse_captions: تسامح المحاذاة (مسافتان، بلا مسافات، مسافات زائدة) ──
     body_two_spaces = (
@@ -1544,6 +1547,7 @@ def test_editable_caption_and_image_source() -> None:
         f"- [x] 2. بديل أول تقريري  <!-- hl:{hl_news_draft['id']}:1 -->")
 
     publish_calls.clear()
+    reset_last_publish()
     publish_mod.fetch_issue = lambda n: {
         "number": n, "body": marked_hl, "labels": [{"name": "approved"}]}
     sys.argv = ["publish", "--issue", "9004", "--now"]
@@ -1588,6 +1592,7 @@ def test_editable_caption_and_image_source() -> None:
     edited_hl2 = marked_hl2.replace("متن قديم.", "متن محرَّر يدويًا أيضًا.")
 
     publish_calls.clear()
+    reset_last_publish()
     publish_mod.fetch_issue = lambda n: {
         "number": n, "body": edited_hl2, "labels": [{"name": "approved"}]}
     sys.argv = ["publish", "--issue", "9005", "--now"]
@@ -1619,6 +1624,7 @@ def test_editable_caption_and_image_source() -> None:
     edited2 = marked2.replace("نص الخبر الأصلي الثاني.", "نص محرَّر يدويًا في الـIssue.")
 
     publish_calls.clear()
+    reset_last_publish()
     publish_mod.fetch_issue = lambda n: {
         "number": n, "body": edited2, "labels": [{"name": "approved"}]}
     sys.argv = ["publish", "--issue", "9002", "--now"]
@@ -1771,6 +1777,7 @@ def test_setimage_stores_manual_link_without_card() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     draft = {
         "id": "cafe00000001", "status": "pending", "origin": "analysis",
@@ -1818,6 +1825,7 @@ def test_setimage_cli_sync_handles_cardless_draft() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     draft = {
         "id": "d0d0d0d0d0d0", "score": 4.0, "caption": "متن", "bucket": "serious",
@@ -1883,6 +1891,7 @@ def test_setimage_apply_image_keeps_origin_badge() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     cfg = load_config()
     draft = {
@@ -1932,6 +1941,7 @@ def test_publish_builds_cards_at_approval() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     cfg = load_config()
     max_chars = int(cfg.path("image.headline_max_chars", 90))
@@ -2027,8 +2037,12 @@ def test_publish_builds_cards_at_approval() -> None:
         cards._default_build_post_image = real_build
 
     check("publish.main ينتهي بنجاح رغم فشل بناء بطاقة واحدة", code == 0, f"exit={code}")
-    check("publish.main: الثلاثة السليمة نُشرت (الرابعة فشل بناؤها فبقيت معلَّقة)",
-          len(publish_calls) == 3, publish_calls)
+    # بوابة الفاصل (Issue #1010) تنشر الأول فورًا وتؤجِّل الباقي غير العاجل
+    # داخل نفس دفعة --now -- لم تعد الثلاث السليمة تُنشر معًا بلا فاصل؛ هذا
+    # الاختبار يتحقّق من بناء البطاقات والعناوين لا من توقيت النشر (تختبره
+    # test_publish_gap_gate_core_scenarios وأخواتها).
+    check("publish.main: الأول (chosen) نُشر فورًا، والرابعة فشل بناؤها فبقيت معلَّقة",
+          len(publish_calls) == 1, publish_calls)
 
     check("العنوان المختار (فهرس ١) وصل فعليًا إلى بناء البطاقة",
           "عنوان بديل مختار" in build_headlines, build_headlines)
@@ -2047,13 +2061,16 @@ def test_publish_builds_cards_at_approval() -> None:
     persisted_default = store.load_draft(draft_default["id"])[1]
     check("الفهرس الافتراضي (٠): البطاقة بُنيت أيضًا (لم تُبنَ عند الجمع أصلًا)",
           bool(persisted_default.get("image")), persisted_default.get("image"))
+    check("الفهرس الافتراضي (٠): أجَّلتها البوابة (منشور آخر خرج للتوّ في نفس الدفعة)",
+          persisted_default.get("status") == "queued", persisted_default.get("status"))
 
     persisted_long = store.load_draft(draft_long["id"])[1]
     check("عنوان يتجاوز الحدّ: البطاقة بُنيت رغم ذلك (بعنوان arabic.image_headline بدلًا)",
           bool(persisted_long.get("image")), persisted_long.get("image"))
-    check("عنوان يتجاوز الحدّ: النص المنشور أخذ العنوان المختار رغم ذلك",
-          any(c.startswith(long_headline) for c in publish_calls),
-          [c[:40] for c in publish_calls])
+    check("عنوان يتجاوز الحدّ: العنوان المختار وصل النص المخزَّن رغم ذلك "
+          "(أجَّلتها البوابة قبل الوصول لفيسبوك، فالتحقّق من المخزَّن لا publish_calls)",
+          persisted_long.get("caption", "").startswith(long_headline),
+          persisted_long.get("caption", "")[:40])
 
     persisted_fail = store.load_draft(draft_fail["id"])[1]
     check("فشل بناء حقيقي: المسودة تبقى pending بلا نشر (لا تُسقَط صامتًا)",
@@ -2104,6 +2121,7 @@ def test_card_second_badge_offset_with_nonempty_category() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     cfg = load_config()
     W = int(cfg.path("image.width", 1080))
@@ -2166,6 +2184,7 @@ def test_publish_card_search_term_from_image_query_en() -> None:
     # وغيابه يعود لسلوك source.title القائم بلا أي تغيير ──
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
     unit_draft = {
         "id": "aa00000000aa",
         "arabic": {"post_title": "عنوان عربي", "category": "", "urgent": False},
@@ -2199,6 +2218,7 @@ def test_publish_card_search_term_from_image_query_en() -> None:
     # عند بناء البطاقة عند الاعتماد (نحو src/publish.py:749) ──
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     art_draft = {
         "id": "ee00000000ee", "status": "pending", "score": 5.0, "bucket": "serious",
@@ -2552,6 +2572,7 @@ def test_setimage_rebuild_card_uses_all_image_candidates() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
     cfg = load_config()
 
     draft = {
@@ -2603,6 +2624,7 @@ def test_publish_investigation_requires_review() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
     cfg = load_config()
 
     inv_draft = {
@@ -2707,6 +2729,7 @@ def test_publish_unapproved_becomes_rejected() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     approved_draft = {
         "id": "aa00000001", "status": "pending", "origin": "news",
@@ -2811,6 +2834,7 @@ def test_decisions_records_rejected_unchecked_via_publish() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
     if decisions.DECISIONS_FILE.exists():
         decisions.DECISIONS_FILE.unlink()
 
@@ -2938,6 +2962,7 @@ def test_publish_card_request_defers_to_final_review() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     def _draft(id_, title):
         return {
@@ -3049,6 +3074,7 @@ def test_publish_final_review_approve_publishes_without_rebuild() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     approved_draft = {
         "id": "fa0000000001", "status": "pending", "origin": "news",
@@ -3144,6 +3170,7 @@ def test_decisions_records_rejected_unchecked_via_final_review() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
     if decisions.DECISIONS_FILE.exists():
         decisions.DECISIONS_FILE.unlink()
 
@@ -3216,6 +3243,7 @@ def test_publish_final_review_double_publish_guard() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     already_published = {
         "id": "fa0000000003", "status": "published", "origin": "news",
@@ -3267,6 +3295,7 @@ def test_publish_final_review_back_request() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     back_only = {
         "id": "fa0000000004", "status": "pending", "origin": "news",
@@ -3349,6 +3378,7 @@ def test_publish_final_review_excludes_analysis_origin_from_news_path() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     yt_draft = {
         "id": "aa0000000006", "status": "pending", "origin": "analysis",
@@ -3437,6 +3467,7 @@ def test_publish_analysis_card_request_routes_to_own_final_review() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     direct_draft = {
         "id": "bb0000000001", "status": "pending", "origin": "analysis",
@@ -3568,6 +3599,7 @@ def test_publish_final_review_analysis_origin_routes_through_publish_ids() -> No
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     # معرّفات hex فعليًا (اصطلاح المشروع، وID_MARKER/CARD_MARKER/BACK_MARKER
     # في review.py لا تطابق إلا [0-9a-f]+ -- "an..." كانت تسقط بصمت من كل
@@ -3688,6 +3720,7 @@ def test_publish_final_review_analysis_cap_and_spacing_across_two_runs() -> None
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     def _hex_id(i: int) -> str:
         return f"aa2{i:09x}"
@@ -3805,6 +3838,7 @@ def test_publish_final_review_news_origin_immediate_no_cap() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     def _hex_id(i: int) -> str:
         return f"fb3{i:09x}"
@@ -3873,6 +3907,7 @@ def test_publish_final_review_mixed_origin_news_immediate_analysis_capped() -> N
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     news_drafts = []
     for i in range(2):
@@ -3959,6 +3994,7 @@ def test_publish_final_review_analysis_already_published_skipped() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     already = {
         "id": "fd6000000001", "status": "published", "origin": "analysis",
@@ -4025,6 +4061,7 @@ def test_publish_final_review_analysis_unchecked_rejected_once_across_two_runs()
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     unchecked = {
         "id": "fe7000000001", "status": "pending", "origin": "analysis",
@@ -4102,6 +4139,7 @@ def test_burst_inline_cap_zero_defers_without_sleep() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     cfg = load_config()
     drafts = []
@@ -4156,6 +4194,7 @@ def test_burst_urgent_still_immediate_with_inline_cap_zero() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     urgent = {"id": "urg0", "status": "pending", "score": 0.1,
               "arabic": {"post_title": "عاجل", "urgent": True},
@@ -4231,6 +4270,7 @@ def test_due_publishes_one_at_a_time() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     now = datetime.now(timezone.utc)
     ids = ["due_old", "due_mid", "due_new"]
@@ -4286,6 +4326,7 @@ def test_publish_skips_broken_draft_without_stopping_batch() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     # (أ) مسودة يوتيوب متسرّبة إلى الطابور العام (status=queued) بلا حقل
     # image — نفس الحالة الموصوفة في العطل.
@@ -4333,8 +4374,14 @@ def test_publish_skips_broken_draft_without_stopping_batch() -> None:
     check("المسودة الناقصة سُجّلت failed بلا استثناء",
           store.load_draft("bad")[1]["status"] == "failed",
           store.load_draft("bad")[1].get("status"))
-    check("المسودة الثالثة نُشرت رغم تعطّب ما قبلها في نفس الدفعة",
-          store.load_draft("g2")[1]["status"] == "published")
+    # بوابة الفاصل (Issue #1010): g2 تُعالَج فعليًا (لم تتوقف الدفعة عند
+    # المعطوبة) لكنها تصير queued لا published — g1 نشر للتوّ في نفس
+    # الدفعة، فأقل من gap_min مرّ. المهم هنا أنها ليست عالقة pending ولا
+    # سقطت مع المعطوبة، لا توقيت نشرها الدقيق.
+    g2_status = store.load_draft("g2")[1]["status"]
+    check("المسودة الثالثة عولجت رغم تعطّب ما قبلها في نفس الدفعة "
+          "(لم تبقَ pending) — أجّلتها البوابة إذ نُشر g1 للتوّ",
+          g2_status == "queued", g2_status)
 
 def test_burst_skips_broken_draft_without_spacing_sleep() -> None:
     """Issue #740، العطل الثاني الفعلي: أربع مسودات (خرجت failed فورًا داخل
@@ -4347,6 +4394,7 @@ def test_burst_skips_broken_draft_without_spacing_sleep() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     good = {
         "id": "spacing_good", "status": "pending", "score": 0.9,
@@ -4403,6 +4451,7 @@ def test_publish_routes_youtube_origin_by_field_not_label() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     yt_draft = {
         "id": "abc123abcdef", "status": "pending", "origin": "youtube",
@@ -4480,6 +4529,7 @@ def test_publish_routes_news_origin_unaffected() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     news_draft = {
         "id": "beef00000001", "status": "pending",
@@ -4539,6 +4589,7 @@ def test_publish_routes_mixed_origins_in_same_issue() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     yt_draft = {
         "id": "abc123abcdef", "status": "pending", "origin": "youtube",
@@ -4635,6 +4686,7 @@ def test_publish_urgent_only_defers_youtube_to_normal_job() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     yt_draft = {
         "id": "abc123abcdef", "status": "pending", "origin": "youtube",
@@ -4716,6 +4768,7 @@ def test_open_review_excludes_youtube_and_broken_drafts() -> None:
     السليمة معها."""
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     yt_leaked = {
         "id": "facade01", "status": "pending", "origin": "youtube",
@@ -4852,6 +4905,7 @@ def test_open_review_orders_drafts_by_score() -> None:
     مرتَّبة تنازليًا 29.8، 20.4، 17.9، 16.9 -- لا بترتيب القراءة من القرص."""
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     def _draft(id_, score):
         return {
@@ -4974,6 +5028,7 @@ def test_publish_final_review_orders_by_score() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     def _draft(id_, score):
         return {
@@ -5281,6 +5336,7 @@ def test_request_writes_request_origin() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     art = Article(title="زلزال قوي يضرب هرات", link="https://example.com/request-origin-check",
                  summary="", source_name="s", region="global", weight=1.0,
@@ -5329,6 +5385,7 @@ def test_decisions() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
     if decisions.DECISIONS_FILE.exists():
         decisions.DECISIONS_FILE.unlink()
 
@@ -5498,6 +5555,7 @@ def test_decisions_scan_since_ignores_old_batch() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
     if decisions.DECISIONS_FILE.exists():
         decisions.DECISIONS_FILE.unlink()
 
@@ -5593,6 +5651,7 @@ def test_insights_collect_includes_analysis_origin() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     analysis_draft = {
         "id": "ins_analysis1", "status": "published", "origin": "analysis",
@@ -6046,6 +6105,7 @@ def test_collect_feedback_rejects_analysis_draft_without_image() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     analysis_draft = {
         "id": "eeee00000001", "status": "pending", "origin": "analysis",
@@ -6106,6 +6166,7 @@ def test_retention_sweep_ages_and_statuses() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
     shutil.rmtree(store.CANDIDATES_DIR, ignore_errors=True)
 
     now = datetime.now(timezone.utc)
@@ -6233,6 +6294,7 @@ def test_retention_publish_survives_deleted_draft() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     body = "- [x] **1. مسودة حُذفت سلفًا**  <!-- draft:already_gone_00001 -->"
 
@@ -6269,6 +6331,7 @@ def test_retention_insights_still_counts_kept_draft() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     now = datetime.now(timezone.utc)
     folder = store.draft_dir(now - timedelta(days=31))
@@ -6343,6 +6406,7 @@ def test_publish_one_facebook_failure_tags_stage() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     draft = {
         "id": "fb_fail_0001", "status": "pending",
@@ -6397,6 +6461,237 @@ def test_publish_one_facebook_failure_tags_stage() -> None:
     check("«الصورة مفقودة» بلا failed_stage", "failed_stage" not in updated2, updated2)
 
 
+def test_publish_gap_gate_core_scenarios() -> None:
+    """Issue #1010: بوابة الفاصل الواحدة داخل publish_one — عبر الدالة
+    الحقيقية مباشرة (لا معزولة) في أربع حالات: بلا منشور سابق تُنشر فورًا،
+    عاجل يتجاوز البوابة دومًا مهما قرُب آخر منشور، وغير عاجل يُنشر فورًا إن
+    مرّ على آخر منشور أكثر من gap_min أو يُؤجَّل إن مرّ أقل. التأجيل ليس
+    فشلًا: لا failed، ولا failed_stage، ولا error، ولا قيد رفض في
+    decisions، ولا يدخل failed_drafts (فلا يفتح له open_review Issue إحياء
+    — تلك تفحص failed_stage=='facebook' حصرًا)."""
+    from src import decisions
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+
+    cfg = load_config()
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    (DRAFTS_DIR / "gate.jpg").write_bytes(b"\xff\xd8\xff")
+    facebook.publish_photo = lambda *a, **k: {"url": "https://fb.example/gate", "id": "1"}
+
+    def make(did: str, urgent: bool):
+        d = {
+            "id": did, "status": "pending",
+            "arabic": {"post_title": f"خبر {did}", "urgent": urgent},
+            "image": "drafts/gate.jpg", "caption": "متن", "source": {},
+        }
+        return store.save_draft(d), d
+
+    try:
+        # 1) لا منشور سابق ⇒ مسودة عادية تُنشر فورًا
+        path1, draft1 = make("gate_none", False)
+        ok1, line1 = publish_mod.publish_one(path1, draft1, cfg)
+        check("لا منشور سابق: مسودة عادية تُنشر فورًا", ok1, line1)
+        check("حالتها published بعد ذلك",
+              store.load_draft("gate_none")[1].get("status") == "published")
+
+        # 2) آخر منشور قبل 5 دقائق (أقل من gap_min=30) ⇒ queued لا published
+        last5 = datetime.now(timezone.utc) - timedelta(minutes=5)
+        store.record_last_publish(last5)
+        path2, draft2 = make("gate_5min", False)
+        ok2, line2 = publish_mod.publish_one(path2, draft2, cfg)
+        check("آخر منشور قبل 5 دقائق: لا تُنشر مسودة عادية", not ok2, line2)
+        updated2 = store.load_draft("gate_5min")[1]
+        check("تصير queued", updated2.get("status") == "queued", updated2.get("status"))
+        pub_at = updated2.get("publish_at")
+        check("publish_at محفوظ", bool(pub_at), updated2)
+        if pub_at:
+            when = datetime.fromisoformat(pub_at)
+            delta_min = (when - last5).total_seconds() / 60
+            check("الموعد الجديد بين 30 و60 دقيقة بعد آخر منشور فعلي",
+                  30 <= delta_min <= 60, delta_min)
+        check("التأجيل ليس فشلًا: لا status=failed", updated2.get("status") != "failed",
+              updated2)
+        check("التأجيل ليس فشلًا: بلا failed_stage", "failed_stage" not in updated2, updated2)
+        check("التأجيل ليس فشلًا: بلا error", "error" not in updated2, updated2)
+        check("المؤجَّلة لا تدخل failed_drafts (فلا Issue إحياء لها)",
+              all(d.get("id") != "gate_5min" for _, d in store.failed_drafts()),
+              [d.get("id") for _, d in store.failed_drafts()])
+        deciding_entries = [e for e in decisions.load() if e.get("id") == "gate_5min"]
+        check("المؤجَّلة لا تُسجَّل مرفوضة في decisions", deciding_entries == [],
+              deciding_entries)
+
+        # 3) عاجل قبل دقيقة واحدة فقط ⇒ يتجاوز البوابة وينشر فورًا رغم ذلك
+        store.record_last_publish(datetime.now(timezone.utc) - timedelta(minutes=1))
+        path3, draft3 = make("gate_urgent", True)
+        ok3, line3 = publish_mod.publish_one(path3, draft3, cfg)
+        check("عاجل قبل دقيقة: يتجاوز البوابة وينشر فورًا", ok3, line3)
+        check("حالتها published", store.load_draft("gate_urgent")[1].get("status") == "published")
+
+        # 4) آخر منشور قبل 45 دقيقة (أكثر من gap_min=30) ⇒ فورًا
+        store.record_last_publish(datetime.now(timezone.utc) - timedelta(minutes=45))
+        path4, draft4 = make("gate_45min", False)
+        ok4, line4 = publish_mod.publish_one(path4, draft4, cfg)
+        check("آخر منشور قبل 45 دقيقة: مسودة عادية تُنشر فورًا", ok4, line4)
+        check("حالتها published", store.load_draft("gate_45min")[1].get("status") == "published")
+    finally:
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+
+
+def test_publish_ids_direct_defers_non_urgent_after_recent_publish() -> None:
+    """Issue #1008 (لم يُصلَح هناك) + #1010: مسار النشر المباشر بالمعرّفات
+    (``publish --ids`` ← ``cmd_now``، ``issue_number=None``) كان ينشر
+    مسودة غير عاجلة فورًا بلا أي فاصل، متجاوزًا فاصل النشر الذي يطبّقه
+    ``cmd_burst``/``cmd_schedule`` عبر Issue مراجعة. الآن البوابة داخل
+    ``publish_one`` نفسها تحرس هذا المسار أيضًا — لا حاجة لأي تعديل على
+    ``cmd_now``."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+
+    store.record_last_publish(datetime.now(timezone.utc) - timedelta(minutes=2))
+
+    draft = {
+        "id": "ids_direct_0001", "status": "pending",
+        "arabic": {"post_title": "خبر عبر --ids مباشرة", "urgent": False},
+        "image": "drafts/ids.jpg", "caption": "متن", "source": {},
+    }
+    store.save_draft(draft)
+    (DRAFTS_DIR / "ids.jpg").write_bytes(b"\xff\xd8\xff")
+
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    publish_calls: list = []
+    facebook.publish_photo = lambda *a, **k: (publish_calls.append(1),
+                                              {"url": "#", "id": "1"})[1]
+    try:
+        code = publish_mod.cmd_now(["ids_direct_0001"], load_config(), None)
+    finally:
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+
+    check("cmd_now (--ids) ينتهي بنجاح", code == 0, f"exit={code}")
+    check("لا نداء فعلي لفيسبوك — البوابة أجّلت قبل الوصول للشبكة",
+          publish_calls == [], publish_calls)
+    updated = store.load_draft("ids_direct_0001")[1]
+    check("--ids لمسودة غير عاجلة بعد منشور حديث: تصير مجدولة لا منشورة",
+          updated.get("status") == "queued", updated.get("status"))
+
+
+def test_due_captures_gap_gate_deferred_draft_on_later_run() -> None:
+    """Issue #1010: مسودة أجّلتها البوابة (queued بموعد مستقبلي) يلتقطها
+    ``cmd_due`` في تشغيلة لاحقة حين يحين موعدها فعلًا — تمامًا كأي مسودة
+    queued عادية أخرى، بلا أي منطق خاص إضافي في cmd_due نفسها."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    (DRAFTS_DIR / "due_gate.jpg").write_bytes(b"\xff\xd8\xff")
+    facebook.publish_photo = lambda *a, **k: {"url": "https://fb.example/dg", "id": "1"}
+
+    draft = {
+        "id": "due_gate_0001", "status": "pending",
+        "arabic": {"post_title": "خبر يؤجَّل بالبوابة", "urgent": False},
+        "image": "drafts/due_gate.jpg", "caption": "متن", "source": {},
+    }
+    path = store.save_draft(draft)
+
+    try:
+        # يؤجَّل أولًا لأن منشورًا آخر خرج قبل لحظات (أقل من gap_min)
+        store.record_last_publish(datetime.now(timezone.utc) - timedelta(minutes=1))
+        ok, _ = publish_mod.publish_one(path, draft, load_config())
+        check("أُجِّلت أولًا (وقت غير مناسب بعد)", not ok)
+        deferred = store.load_draft("due_gate_0001")[1]
+        check("صارت queued بموعد مستقبلي", deferred.get("status") == "queued",
+              deferred.get("status"))
+
+        # محاكاة تقدّم الساعة: موعدها صار في الماضي (مستحق)، وآخر منشور فعلي
+        # صار بعيدًا كفاية — لا حاجة لمحاكاة datetime.now نفسها، فقط الحالتان
+        # اللتان تقرأهما البوابة وcmd_due فعليًا.
+        store.update_draft(
+            path, publish_at=(datetime.now(timezone.utc) - timedelta(minutes=1)).isoformat())
+        store.record_last_publish(datetime.now(timezone.utc) - timedelta(minutes=40))
+
+        code = publish_mod.cmd_due(load_config())
+        check("cmd_due ينتهي بنجاح", code == 0, f"exit={code}")
+        published = store.load_draft("due_gate_0001")[1]
+        check("cmd_due نشرها فعليًا في التشغيلة اللاحقة", published.get("status") == "published",
+              published.get("status"))
+    finally:
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+
+
+def test_queued_drafts_includes_gap_deferred_analysis_and_guards_missing_image() -> None:
+    """Issue #1010: ``queued_drafts`` لم يعد يستثني أصل ``analysis`` بإطلاق
+    — مسودة تحليل أجّلتها البوابة (``youtube_publish.publish_ids`` يبني
+    البطاقة عبر ``ensure_title_card`` قبل أي محاولة نشر، فحقل ``image``
+    موجود دومًا حين التأجيل طبيعي) تدخل الطابور العام ويلتقطها ``cmd_due``
+    مثل أي مسودة أخرى، مسودةً واحدة في كل تشغيلة. مسودة تحليل queued بلا
+    ``image`` (عطب بنيوي لا تأجيل طبيعي) تبقى مستبعدة كما كانت — الحارس
+    القديم أُبقي بشرط إضافي بدل حذفه بالكامل."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+
+    now = datetime.now(timezone.utc)
+    with_image = {
+        "id": "an_queued_ok01", "status": "queued", "origin": "analysis",
+        "publish_at": (now - timedelta(minutes=1)).isoformat(),
+        "arabic": {"post_title": "تحليل مؤجَّل بالبوابة", "urgent": False},
+        "image": "drafts/an_ok.jpg", "caption": "متن", "source": {},
+    }
+    without_image = {
+        "id": "an_queued_bad01", "status": "queued", "origin": "analysis",
+        "publish_at": (now - timedelta(minutes=1)).isoformat(),
+        "arabic": {"post_title": "تحليل متسرّب بلا بطاقة", "urgent": False},
+        "caption": "متن", "source": {},
+    }
+    store.save_draft(with_image)
+    store.save_draft(without_image)
+
+    rows = publish_mod.queued_drafts()
+    ids = {d["id"] for _, d in rows}
+    check("مسودة تحليل مؤجَّلة (ببطاقة) تدخل الطابور العام",
+          "an_queued_ok01" in ids, ids)
+    check("مسودة تحليل بلا بطاقة تبقى مستبعدة (عطب بنيوي)",
+          "an_queued_bad01" not in ids, ids)
+
+    real_root = publish_mod.ROOT
+    real_publish_photo = facebook.publish_photo
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    (DRAFTS_DIR / "an_ok.jpg").write_bytes(b"\xff\xd8\xff")
+    facebook.publish_photo = lambda *a, **k: {"url": "https://fb.example/an", "id": "1"}
+    try:
+        code = publish_mod.cmd_due(load_config())
+    finally:
+        publish_mod.ROOT = real_root
+        facebook.publish_photo = real_publish_photo
+
+    check("cmd_due ينتهي بنجاح", code == 0, f"exit={code}")
+    check("cmd_due ينشر مسودة التحليل المؤجَّلة مثل أي مسودة queued أخرى",
+          store.load_draft("an_queued_ok01")[1].get("status") == "published",
+          store.load_draft("an_queued_ok01")[1].get("status"))
+    check("المسودة المعطوبة (بلا بطاقة) لم تُلمَس",
+          store.load_draft("an_queued_bad01")[1].get("status") == "queued",
+          store.load_draft("an_queued_bad01")[1].get("status"))
+
+
 def test_open_review_revival_issue_single_and_no_duplicate() -> None:
     """Issue #959 جزء ب: open_review.main يجمع مسودات failed القابلة
     للإحياء (فشل فيسبوك فقط، بلا revival_issue، revival_offers < 2) في
@@ -6405,6 +6700,7 @@ def test_open_review_revival_issue_single_and_no_duplicate() -> None:
     Issue جديدًا لنفس المسودة."""
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     now_iso = datetime.now(timezone.utc).isoformat()
 
@@ -6485,6 +6781,7 @@ def test_publish_revival_issue_full_flow() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     now_iso = datetime.now(timezone.utc).isoformat()
 
@@ -6653,6 +6950,7 @@ def test_revival_end_to_end() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     draft = {
         "id": "eeeebeef0001", "status": "pending",
@@ -6751,6 +7049,7 @@ def test_open_review_revival_offered_twice_then_stops() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     draft = {
         "id": "cececebe0001", "status": "pending",
@@ -6875,6 +7174,7 @@ def test_publish_revival_analysis_batch_cap_defers_remainder() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     issue_number = 9400
     drafts = [_analysis_draft(i, issue_number) for i in range(1, 5)]
@@ -6970,6 +7270,7 @@ def test_publish_revival_analysis_batch_seven_drafts_three_runs() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     issue_number = 9410
     drafts = [_analysis_draft(i, issue_number) for i in range(1, 8)]
@@ -7040,6 +7341,7 @@ def test_publish_revival_mixed_news_and_analysis_batch() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     issue_number = 9420
     now_iso = datetime.now(timezone.utc).isoformat()
@@ -7131,6 +7433,7 @@ def test_publish_revival_batch_member_fails_again_stays_offered() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
 
     issue_number = 9430
     drafts = [_analysis_draft(i, issue_number) for i in range(1, 3)]  # اثنتان ضمن السقف

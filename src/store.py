@@ -225,6 +225,54 @@ def recent_published_titles(days: int) -> list[str]:
     return titles
 
 
+# ──────────────────────────── بوابة الفاصل بين المنشورات ─────────────────
+# آخر لحظة نشر فعلي عبر كل المسارات (Issue #1010) — المصدر الوحيد الذي
+# تقرأه بوابة الفاصل في publish.publish_one، بدل أن تحسب كل دفعة معتمَدة
+# فاصلها من «الآن» أو من مواعيد الطابور المحجوزة وحدها فتصطدم بدفعة أخرى
+# اعتُمدت قبلها بدقيقة.
+
+LAST_PUBLISH_FILE = STATE_DIR / "last_publish.json"
+
+
+def last_publish_at() -> datetime | None:
+    """آخر لحظة نشر فعلي، أو ``None`` إن لم يُنشر شيء قط.
+
+    إن غاب الملف (أول تشغيل بعد إضافة هذه الميزة، أو حالة نظيفة)، يُحسب
+    مرة واحدة من أحدث ``published_at`` بين مسودات drafts/ ثم يُكتب — فلا
+    يُعامَل نشر سابق فعليًا وكأنه لم يقع قط لمجرد غياب الملف الجديد."""
+    if LAST_PUBLISH_FILE.exists():
+        try:
+            data = json.loads(LAST_PUBLISH_FILE.read_text(encoding="utf-8"))
+            return datetime.fromisoformat(data["at"])
+        except (json.JSONDecodeError, KeyError, ValueError):
+            log.warning("ملف آخر نشر تالف — سيُعاد حسابه من drafts/")
+
+    latest: datetime | None = None
+    for path in DRAFTS_DIR.glob("*/*.json"):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if data.get("status") != "published":
+            continue
+        try:
+            when = datetime.fromisoformat(data["published_at"])
+        except (KeyError, ValueError):
+            continue
+        if latest is None or when > latest:
+            latest = when
+    if latest is not None:
+        record_last_publish(latest)
+    return latest
+
+
+def record_last_publish(when: datetime) -> None:
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    LAST_PUBLISH_FILE.write_text(
+        json.dumps({"at": when.isoformat()}, ensure_ascii=False), encoding="utf-8"
+    )
+
+
 # ──────────────────────────── مرشّحو الاختيار (preselect) ─────────────────
 # بنية مطابقة لتخزين المسودات أعلاه، لكن في state/ لا drafts/: مرشّح غير
 # مختار بلا صياغة ولا صورة — حجمه تافه، وبقاؤه في drafts/ لا يفيد شيئًا
