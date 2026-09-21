@@ -51,7 +51,7 @@ jobs:
           fi
           git commit -m "chore(youtube): نشر معتمَد"
           for attempt in 1 2 3 4 5; do
-            git pull --rebase --autostash origin "${{ github.event.repository.default_branch }}" || true
+            git pull --rebase --autostash -X theirs origin "${{ github.event.repository.default_branch }}" || git rebase --abort || true
             if git push origin "HEAD:${{ github.event.repository.default_branch }}"; then exit 0; fi
             sleep $((attempt * 7))
           done
