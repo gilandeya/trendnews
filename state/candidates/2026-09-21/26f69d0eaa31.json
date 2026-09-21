@@ -1,0 +1,59 @@
+{
+  "id": "26f69d0eaa31",
+  "created_at": "2026-09-21T19:07:47.506142+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.42,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Will Europe be as unprepared as Ukraine was?",
+  "link": "https://www.japantimes.co.jp/commentary/2026/09/21/world/europe-security-failures/",
+  "publishers": [
+    "CNN",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Will Europe be as unprepared as Ukraine was?",
+    "link": "https://www.japantimes.co.jp/commentary/2026/09/21/world/europe-security-failures/",
+    "summary": "After decades of peace, Europe has systematically dismantled its defense capabilities.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-09-21T08:15:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/20/561858.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "CNN",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/commentary/2026/09/21/world/europe-security-failures/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/20/561858.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/20/thumbs/400x400/561858.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1154.9116582252777,
+    "is_stale": false,
+    "score": 16.424783363148148,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

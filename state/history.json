@@ -1,69 +1,5 @@
 [
   {
-    "score": 23.36,
-    "bucket": "serious",
-    "tokens": [
-      "among",
-      "building",
-      "children",
-      "collapses",
-      "damaged",
-      "eight",
-      "gaza",
-      "killed",
-      "rescuers",
-      "say",
-      "war"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cvp8d00j9gg5o?at_medium=RSS&at_campaign=rss",
-    "title": "Eight children among 21 killed after war-damaged Gaza building collapses, rescuers say",
-    "posted_title": "لماذا سقط مبنى في غزة كان يميل منذ عام فقتل عشرات النازحين النائمين فيه",
-    "region": "uk",
-    "seen_at": "2026-09-16T18:12:02.279425+00:00"
-  },
-  {
-    "score": 23.8,
-    "bucket": "light",
-    "tokens": [
-      "'red",
-      "arabia",
-      "attack",
-      "attempted",
-      "backed",
-      "calls",
-      "deny",
-      "did",
-      "houthis",
-      "iran",
-      "line'",
-      "mecca",
-      "saudi"
-    ],
-    "link": "https://www.thehindu.com/news/international/saudi-arabia-calls-attempted-mecca-attack-red-line-as-iran-backed-houthis-deny-they-did-it/article71471868.ece",
-    "title": "Saudi Arabia calls attempted Mecca attack 'red line' as Iran-backed Houthis deny they did it",
-    "posted_title": "تحديث: السعودية تصف محاولة استهداف مكة بـ\"الخط الأحمر\" والحوثيون ينفون تنفيذها",
-    "region": "in",
-    "seen_at": "2026-09-16T18:13:00.293574+00:00"
-  },
-  {
-    "score": 21.83,
-    "bucket": "serious",
-    "tokens": [
-      "billion",
-      "budget",
-      "congressional",
-      "cost",
-      "iran",
-      "office",
-      "war"
-    ],
-    "link": "https://www.thehindu.com/news/international/war-on-iran-cost-us-more-than-38b-congressional-budget-office/article71469949.ece",
-    "title": "War on Iran cost U.S. more than $38 billion: Congressional Budget Office",
-    "posted_title": "مكتب الميزانية بالكونغرس: حرب أمريكا ضد إيران كلّفت أكثر من 38 مليار دولار",
-    "region": "in",
-    "seen_at": "2026-09-16T18:13:22.935836+00:00"
-  },
-  {
     "score": 22.06,
     "bucket": "sport",
     "tokens": [
@@ -4867,5 +4803,92 @@
     "posted_title": "",
     "region": "ru",
     "seen_at": "2026-09-21T18:07:49.525980+00:00"
+  },
+  {
+    "score": 17.43,
+    "bucket": "serious",
+    "tokens": [
+      "arrives",
+      "assembly",
+      "attend",
+      "general",
+      "session",
+      "shehbaz",
+      "york"
+    ],
+    "link": "https://www.dawn.com/news/2031579/pm-shehbaz-arrives-in-new-york-to-attend-un-general-assembly-session",
+    "title": "PM Shehbaz arrives in New York to attend UN General Assembly session",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-21T19:07:47.505839+00:00"
+  },
+  {
+    "score": 17.21,
+    "bucket": "light",
+    "tokens": [
+      "2025",
+      "faster",
+      "hit",
+      "move",
+      "must",
+      "record",
+      "renewables",
+      "report",
+      "world"
+    ],
+    "link": "https://www.channelnewsasia.com/world/renewable-energy-record-un-chief-6400261",
+    "title": "Renewables hit record in 2025, but world must move faster: report",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-21T19:07:47.506131+00:00"
+  },
+  {
+    "score": 16.42,
+    "bucket": "serious",
+    "tokens": [
+      "europe",
+      "ukraine",
+      "unprepared"
+    ],
+    "link": "https://www.japantimes.co.jp/commentary/2026/09/21/world/europe-security-failures/",
+    "title": "Will Europe be as unprepared as Ukraine was?",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-09-21T19:07:47.506394+00:00"
+  },
+  {
+    "score": 16.04,
+    "bucket": "serious",
+    "tokens": [
+      "3x3",
+      "basketball",
+      "earn",
+      "iran",
+      "nagoya",
+      "two",
+      "wins",
+      "women"
+    ],
+    "link": "https://en.mehrnews.com/news/247950/Iran-s-women-s-3x3-basketball-earn-two-wins-at-Nagoya",
+    "title": "Iran’s women’s 3x3 basketball earn two wins at Nagoya",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-21T19:07:47.506661+00:00"
+  },
+  {
+    "score": 15.59,
+    "bucket": "serious",
+    "tokens": [
+      "delegation",
+      "departs",
+      "iccima",
+      "tashkent",
+      "trade"
+    ],
+    "link": "https://www.tehrantimes.com/news/530237/ICCIMA-trade-delegation-departs-for-Tashkent",
+    "title": "ICCIMA trade delegation departs for Tashkent",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-21T19:07:47.506948+00:00"
   }
 ]

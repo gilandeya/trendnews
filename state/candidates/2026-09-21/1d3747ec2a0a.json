@@ -1,0 +1,62 @@
+{
+  "id": "1d3747ec2a0a",
+  "created_at": "2026-09-21T19:07:47.506404+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.04,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran’s women’s 3x3 basketball earn two wins at Nagoya",
+  "link": "https://en.mehrnews.com/news/247950/Iran-s-women-s-3x3-basketball-earn-two-wins-at-Nagoya",
+  "publishers": [
+    "Mehr News",
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran’s women’s 3x3 basketball earn two wins at Nagoya",
+    "link": "https://en.mehrnews.com/news/247950/Iran-s-women-s-3x3-basketball-earn-two-wins-at-Nagoya",
+    "summary": "TEHRAN, Sep. 21 (MNA) – Iran’s women’s 3x3 basketball team earned two wins at the 2026 Asian Games on Monday.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-21T12:13:25+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/21/4/6183213.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Mehr News",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530242/Iran-s-women-s-3x3-basketball-earn-two-wins-at-Nagoya"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247950/Iran-s-women-s-3x3-basketball-earn-two-wins-at-Nagoya"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/21/4/6183213.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1154.9116754058334,
+    "is_stale": false,
+    "score": 16.039690765981483,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
