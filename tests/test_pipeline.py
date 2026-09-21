@@ -89,7 +89,12 @@ from tests.test_review import (
     test_publish_final_review_back_request,
     test_publish_final_review_excludes_analysis_origin_from_news_path,
     test_publish_analysis_card_request_routes_to_own_final_review,
-    test_publish_final_review_analysis_origin_no_exceptions_block_it,
+    test_publish_final_review_analysis_origin_routes_through_publish_ids,
+    test_publish_final_review_analysis_cap_and_spacing_across_two_runs,
+    test_publish_final_review_news_origin_immediate_no_cap,
+    test_publish_final_review_mixed_origin_news_immediate_analysis_capped,
+    test_publish_final_review_analysis_already_published_skipped,
+    test_publish_final_review_analysis_unchecked_rejected_once_across_two_runs,
     test_first_comment,
     test_burst_inline_cap_zero_defers_without_sleep,
     test_burst_urgent_still_immediate_with_inline_cap_zero,
@@ -374,7 +379,13 @@ def main() -> int:
     print("\n── إدخال مسار التحليل في دورة المراجعة الموحَّدة (Issue #1000) ──")
     test_publish_final_review_excludes_analysis_origin_from_news_path()
     test_publish_analysis_card_request_routes_to_own_final_review()
-    test_publish_final_review_analysis_origin_no_exceptions_block_it()
+    test_publish_final_review_analysis_origin_routes_through_publish_ids()
+    print("\n── سقف/تباعد مسار التحليل في Issue المراجعة النهائية (Issue #1008) ──")
+    test_publish_final_review_analysis_cap_and_spacing_across_two_runs()
+    test_publish_final_review_news_origin_immediate_no_cap()
+    test_publish_final_review_mixed_origin_news_immediate_analysis_capped()
+    test_publish_final_review_analysis_already_published_skipped()
+    test_publish_final_review_analysis_unchecked_rejected_once_across_two_runs()
     test_first_comment()
     print("\n── نشر الدفعة بلا انتظار داخل مهمة urgent ──")
     test_burst_inline_cap_zero_defers_without_sleep()
