@@ -1,0 +1,70 @@
+{
+  "id": "520477dfdadc",
+  "created_at": "2026-09-21T12:07:43.887431+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.24,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Kazemi: Iran basketball deserve recognition after Asian Games bronze",
+  "link": "https://www.tehrantimes.com/news/530243/Kazemi-Iran-basketball-deserve-recognition-after-Asian-Games",
+  "publishers": [
+    "IRNA English",
+    "Mehr News",
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Kazemi: Iran basketball deserve recognition after Asian Games bronze",
+    "link": "https://www.tehrantimes.com/news/530243/Kazemi-Iran-basketball-deserve-recognition-after-Asian-Games",
+    "summary": "TEHRAN - Iran national basketball team forward Arsalan Kazemi praised his teammates after Iran secured the bronze medal at the 2026 Aichi-Nagoya Asian Games, highlighting the team’s difficult two-month campaign and the numerous injuries they had to overcome.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-21T11:56:59+00:00",
+    "image_url": "https://media.mehrnews.com/d/2023/02/12/4/4426212.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247921/Iran-basketball-win-bronze-at-2026-Asian-Games"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530243/Kazemi-Iran-basketball-deserve-recognition-after-Asian-Games"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86269361/Iran-wins-Asian-Games-basketball-bronze"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2023/02/12/4/4426212.jpg",
+      "https://media.mehrnews.com/d/2026/09/20/4/6181207.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/20/4/173116905.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1147.9104446833335,
+    "is_stale": true,
+    "score": 19.243055853126435,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

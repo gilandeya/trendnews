@@ -1,0 +1,72 @@
+{
+  "id": "2d2a6043ac63",
+  "created_at": "2026-09-21T12:07:43.887073+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.96,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Typhoon approaches eastern Japan, prompting flood and landslide warnings",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-21-typhoon-approaches-eastern-japan-prompting-flood-and-landslide-warnings/",
+  "publishers": [
+    "Daily Maverick",
+    "NDTV — World",
+    "Reuters",
+    "The Hindu — International"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Typhoon approaches eastern Japan, prompting flood and landslide warnings",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-21-typhoon-approaches-eastern-japan-prompting-flood-and-landslide-warnings/",
+    "summary": "TOKYO, Sept 21 (Reuters) - A powerful typhoon was approaching Japan's Pacific coast on Monday, bringing torrential rain, violent winds and a heightened risk of landslides across the Kanto region and other parts of eastern Japan, the weather agency said.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-21T04:44:08+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/4VUwStdlqq9xGBsQ5pfcO9sJaaI=/800x0/smart/filters:strip_exif()/file/attachments/2998/14304613_412305.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "NDTV — World",
+      "Reuters",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-21-typhoon-approaches-eastern-japan-prompting-flood-and-landslide-warnings/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/typhoon-approaches-eastern-japan-prompting-flood-and-landslide-warnings/article71489961.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/flood-landslide-warnings-in-japan-as-typhoon-dujuan-approaches-east-coast-12075114#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/4VUwStdlqq9xGBsQ5pfcO9sJaaI=/800x0/smart/filters:strip_exif()/file/attachments/2998/14304613_412305.jpg",
+      "https://th-i.thgim.com/public/incoming/jbur6w/article71489995.ece/alternates/LANDSCAPE_1200/2018-08-08T082204Z_350208293_RC11467884C0_RTRMADP_3_ASIA-STORM-JAPAN.JPG",
+      "https://c.ndtvimg.com/2026-09/chdmsj2_typhoon-japan_625x300_21_September_26.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1147.9104789122223,
+    "is_stale": false,
+    "score": 19.957223903796297,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

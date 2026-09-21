@@ -1,0 +1,70 @@
+{
+  "id": "597bdcd09365",
+  "created_at": "2026-09-21T12:07:43.887586+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.19,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Poison suspected in deaths of ten lions in game reserve in Tanzania",
+  "link": "https://www.npr.org/2026/09/20/nx-s1-5975478/poison-suspected-in-deaths-of-ten-lions-in-game-reserve-in-tanzania",
+  "publishers": [
+    "CBS News — World",
+    "NPR",
+    "NPR World",
+    "The Hindu — International"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Poison suspected in deaths of ten lions in game reserve in Tanzania",
+    "link": "https://www.npr.org/2026/09/20/nx-s1-5975478/poison-suspected-in-deaths-of-ten-lions-in-game-reserve-in-tanzania",
+    "summary": "The lions were found dead inside the Ngorongoro Conservation Area, a popular wildlife reserve in Tanzania. Deaths raise concerns over wildlife poisonings in East Africa.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-09-20T21:39:24+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5975478",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "CBS News — World",
+      "NPR",
+      "NPR World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/ten-lions-die-in-suspected-poisoning-at-tanzania-wildlife-reserve/article71487470.ece"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/20/nx-s1-5975478/poison-suspected-in-deaths-of-ten-lions-in-game-reserve-in-tanzania"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/lions-killed-suspected-poisoning-ngorongoro-conservation-area-tanzania/"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5975478"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1147.9104875055555,
+    "is_stale": false,
+    "score": 19.18529797798148,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

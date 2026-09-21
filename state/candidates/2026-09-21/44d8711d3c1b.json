@@ -1,0 +1,68 @@
+{
+  "id": "44d8711d3c1b",
+  "created_at": "2026-09-21T12:07:43.887269+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.88,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Dubai declares 10-day mourning after emirate ruler’s brother dies",
+  "link": "https://www.vanguardngr.com/2026/09/dubai-declares-10-day-mourning-after-emirate-rulers-brother-dies/",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Express Tribune",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Dubai declares 10-day mourning after emirate ruler’s brother dies",
+    "link": "https://www.vanguardngr.com/2026/09/dubai-declares-10-day-mourning-after-emirate-rulers-brother-dies/",
+    "summary": "DUBAI — Dubai has declared 10 days of official mourning following the death of Sheikh Ahmed bin Rashid Al Maktoum, younger brother of United Arab Emirates Vice-President, Prime Minister and Dubai ruler, Sheikh Mohammed bin Rashid Al Maktoum. Sheikh Ahmed died at the age of 76. Dubai authorities directed that flags across the emirate be […] The post Dubai declares 10-day mourning after emirate ruler’s brother dies appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-09-21T11:47:17+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/Sheikh-Ahmed-bin-Rashid-Al-Maktoum.png",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Express Tribune",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630549/sheikh-ahmed-bin-rashid-passes-away-at-76-dubai-declares-10-day-mourning"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/dubai-declares-10-day-mourning-after-death-of-uae-pms-brother-sheikh-ahmed-bin-rashid-al-maktoum-101789976509557.html"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/dubai-declares-10-day-mourning-after-emirate-rulers-brother-dies/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/Sheikh-Ahmed-bin-Rashid-Al-Maktoum.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1147.9104434427777,
+    "is_stale": true,
+    "score": 19.882278075459766,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
