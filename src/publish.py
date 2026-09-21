@@ -468,11 +468,17 @@ def cmd_now(ids: list[str], cfg, issue_number: int | None) -> int:
     return 0
 
 
-def _open_final_review(primary_issue: int, draft_ids: list[str], cfg) -> None:
+def open_final_review(primary_issue: int, draft_ids: list[str], cfg) -> None:
     """يفتح Issue مراجعة نهائية واحدًا يعرض بطاقة كل منشور عُلِّم عليه 🎴 في
     هذه الدفعة (Issue #858، الجزء الثاني) -- البطاقة مبنيّة مسبقًا فعليًا
     (publish.main يبنيها لكل معتمَد، بصرف النظر عن 🎴، قبل هذا التفرّع، انظر
-    توثيق CLAUDE.md) فلا بناء هنا، فقط عرض للمراجع قبل النشر الفعلي."""
+    توثيق CLAUDE.md) فلا بناء هنا، فقط عرض للمراجع قبل النشر الفعلي.
+
+    عامة لا خاصة بمسار الأخبار (اسمها بلا شرطة سفلية منذ Issue #1000): مسار
+    التحليل يستدعيها أيضًا (youtube_publish.publish_ids) لمن عُلِّم عليه 🎴
+    هناك -- نفس بناء review.build_final_review_body، لا باني نصّ ثالث
+    (نصّ طلب الإصدار: "لا باني نصّ ثالث"). البطاقة هناك أيضًا مبنيّة مسبقًا
+    (ensure_title_card) قبل هذا النداء، بنفس المبدأ."""
     rows = []
     for draft_id in draft_ids:
         found = store.load_draft(draft_id)
@@ -746,12 +752,17 @@ def main() -> int:
     # فهي تُستدعى من collect_finalize.finalize بعد الصياغة كمسودات عادية.
     labels = {l.get("name") for l in issue.get("labels", [])}
 
-    # Issue #858، الجزء الثاني: Issue المراجعة النهائية (وسم final-review،
-    # يُفتح من داخل هذه الدالة نفسها أدناه لمن عُلِّم عليه 🎴) يميَّز بوسمه
-    # وحده -- لا بمحتوى جسمه (يستعمل نفس صيغة <!-- draft:id --> المشتركة
-    # مع Issue المراجعة الأولية). اعتماده لا يعيد بناء البطاقة ولا يختار
-    # عنوانًا ولا يطبّق تعديل نص -- المسار العادي أدناه يفعل كل ذلك، فيجب
-    # ألا يصله هذا النوع من الـIssues إطلاقًا.
+    # Issue #858، الجزء الثاني (+ Issue #1000 لمسار التحليل): Issue المراجعة
+    # النهائية (وسم final-review) يُفتح إما من داخل هذه الدالة نفسها أدناه
+    # (لمن عُلِّم عليه 🎴 في مسار الأخبار) أو من youtube_publish.publish_ids
+    # (لمن عُلِّم عليه 🎴 في مسار التحليل -- عبر التوجيه بالأصل أدناه، أو عبر
+    # publish_approved المستقلة عن main تمامًا). يميَّز بوسمه وحده -- لا
+    # بمحتوى جسمه (يستعمل نفس صيغة <!-- draft:id --> المشتركة مع Issue
+    # المراجعة الأولية لكلا المسارين). اعتماده لا يعيد بناء البطاقة ولا
+    # يختار عنوانًا ولا يطبّق تعديل نص -- المسار العادي أدناه يفعل كل ذلك،
+    # فيجب ألا يصله هذا النوع من الـIssues إطلاقًا؛ cmd_final_review نفسها
+    # عامة بلا أي فحص origin، فتنشر مسودة تحليل عبر publish_one كأي مسودة
+    # أخرى بلا استثناء.
     if "final-review" in labels:
         return cmd_final_review(args.issue, body, cfg)
 
@@ -970,7 +981,8 @@ def main() -> int:
         # الاستيراد هنا يقع بعد اكتمال تحميل كلا الوحدتين فعليًا فلا دوران.
         from . import youtube_publish
         yt_lines, yt_published, yt_attempted, yt_remaining = youtube_publish.publish_ids(
-            analysis_ids, youtube_publish.parse_headline_choice(body), cfg)
+            analysis_ids, youtube_publish.parse_headline_choice(body), cfg,
+            body=body, issue_number=args.issue)
         youtube_publish.report_batch(
             args.issue, yt_lines, yt_published, yt_attempted, yt_remaining, cfg)
 
@@ -991,7 +1003,7 @@ def main() -> int:
                      "النهائية للمسار العادي (المسار السريع لا يفتحها)",
                      args.issue, len(card_requests))
         else:
-            _open_final_review(args.issue, list(card_requests), cfg)
+            open_final_review(args.issue, list(card_requests), cfg)
 
     if not news_ids:
         return 0
