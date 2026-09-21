@@ -1,117 +1,5 @@
 [
   {
-    "score": 26.46,
-    "bucket": "sport",
-    "tokens": [
-      "carabao",
-      "cup",
-      "hotspur",
-      "liverpool",
-      "round",
-      "third",
-      "tottenham"
-    ],
-    "link": "https://www.theguardian.com/football/live/2026/sep/15/liverpool-v-tottenham-hotspur-carabao-cup-third-round-live",
-    "title": "Liverpool 3-1 Tottenham Hotspur: Carabao Cup third round",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-15T22:07:59.837746+00:00"
-  },
-  {
-    "score": 24.33,
-    "bucket": "sport",
-    "tokens": [
-      "arsenal",
-      "back",
-      "beat",
-      "carabao",
-      "cup",
-      "doubles",
-      "dowman",
-      "ipswich",
-      "max",
-      "ups"
-    ],
-    "link": "https://www.theguardian.com/football/2026/sep/15/ipswich-arsenal-carabao-cup-third-round-match-report",
-    "title": "Max Dowman doubles up for Arsenal’s back-ups to beat Ipswich in Carabao Cup",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-15T22:07:59.837933+00:00"
-  },
-  {
-    "score": 21.97,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "houthi",
-      "intelligence",
-      "israel",
-      "report",
-      "saudi",
-      "shares"
-    ],
-    "link": "https://www.dailysabah.com/world/mid-east/israel-shares-houthi-intelligence-with-saudi-arabia-report",
-    "title": "Israel shares Houthi intelligence with Saudi Arabia: Report",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-09-15T22:07:59.838109+00:00"
-  },
-  {
-    "score": 20.21,
-    "bucket": "serious",
-    "tokens": [
-      "anthropic",
-      "body",
-      "create",
-      "google",
-      "openai",
-      "standards",
-      "working"
-    ],
-    "link": "https://www.dawn.com/news/2030165/openai-anthropic-and-google-are-working-to-create-an-ai-standards-body",
-    "title": "OpenAI, Anthropic and Google are working to create an AI standards body",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-15T22:07:59.838259+00:00"
-  },
-  {
-    "score": 19.13,
-    "bucket": "serious",
-    "tokens": [
-      "administration",
-      "air",
-      "embassy",
-      "monitoring",
-      "pollution",
-      "spiked",
-      "stopped",
-      "trump"
-    ],
-    "link": "https://www.npr.org/2026/09/15/nx-s1-5966503/air-pollution-spiked-after-the-trump-administration-stopped-embassy-monitoring",
-    "title": "Air pollution spiked after the Trump administration stopped embassy monitoring",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-09-15T22:07:59.838391+00:00"
-  },
-  {
-    "score": 20.21,
-    "bucket": "serious",
-    "tokens": [
-      "anthropic",
-      "body",
-      "create",
-      "google",
-      "openai",
-      "standards",
-      "working"
-    ],
-    "link": "https://www.dawn.com/news/2030165/openai-anthropic-and-google-are-working-to-create-an-ai-standards-body",
-    "title": "OpenAI, Anthropic and Google are working to create an AI standards body",
-    "posted_title": "لماذا تتجه أوبن إيه آي وأنثروبيك وغوغل لإنشاء هيئة معايير للذكاء الاصطناعي",
-    "region": "pk",
-    "seen_at": "2026-09-16T01:49:27.865321+00:00"
-  },
-  {
     "score": 31.26,
     "bucket": "serious",
     "tokens": [
@@ -5125,5 +5013,106 @@
     "posted_title": "",
     "region": "ir",
     "seen_at": "2026-09-20T22:07:58.782313+00:00"
+  },
+  {
+    "score": 26.79,
+    "bucket": "serious",
+    "tokens": [
+      "agent",
+      "austin",
+      "ice",
+      "man",
+      "officials",
+      "say",
+      "shoots",
+      "stop",
+      "texas",
+      "traffic",
+      "wounds"
+    ],
+    "link": "https://www.theguardian.com/us-news/2026/sep/20/man-shot-ice-agent-austin-texas",
+    "title": "ICE agent shoots and wounds man at traffic stop in Austin, Texas, officials say",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-21T03:07:46.086290+00:00"
+  },
+  {
+    "score": 22.97,
+    "bucket": "serious",
+    "tokens": [
+      "beach",
+      "dies",
+      "fight",
+      "greece",
+      "man",
+      "old",
+      "sunlounger",
+      "year"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cqm27pnyd294o?at_medium=RSS&at_campaign=rss",
+    "title": "Man, 82, dies after beach fight with 76-year-old over sunlounger in Greece",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-21T03:07:46.086526+00:00"
+  },
+  {
+    "score": 21.24,
+    "bucket": "serious",
+    "tokens": [
+      "administration",
+      "against",
+      "court",
+      "criminal",
+      "international",
+      "prepares",
+      "sanctions",
+      "say",
+      "sources",
+      "trump"
+    ],
+    "link": "https://www.thehindu.com/news/international/trump-administration-prepares-sanctions-against-international-criminal-court-sources-say/article71489890.ece",
+    "title": "Trump administration prepares sanctions against International Criminal Court, sources say",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-21T03:07:46.086748+00:00"
+  },
+  {
+    "score": 20.95,
+    "bucket": "serious",
+    "tokens": [
+      "2nd",
+      "600",
+      "flew",
+      "korean",
+      "military",
+      "missile",
+      "range",
+      "short",
+      "urgent"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20260920004800315",
+    "title": "(URGENT) 2nd N. Korean short-range missile flew more than 600 km: S. Korean military",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-09-21T03:07:46.086997+00:00"
+  },
+  {
+    "score": 20.56,
+    "bucket": "serious",
+    "tokens": [
+      "centre",
+      "closes",
+      "france",
+      "iran",
+      "language",
+      "response",
+      "tehran",
+      "vows"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-21-france-vows-response-after-iran-closes-language-centre-in-tehran/",
+    "title": "France vows response after Iran closes language centre in Tehran",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-21T03:07:46.087194+00:00"
   }
 ]

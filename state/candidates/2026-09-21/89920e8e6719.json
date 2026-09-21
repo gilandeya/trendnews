@@ -1,0 +1,76 @@
+{
+  "id": "89920e8e6719",
+  "created_at": "2026-09-21T03:07:46.087004+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.56,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "France vows response after Iran closes language centre in Tehran",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-21-france-vows-response-after-iran-closes-language-centre-in-tehran/",
+  "publishers": [
+    "Al Jazeera English",
+    "CGTN",
+    "Daily Maverick",
+    "France24"
+  ],
+  "region": "za",
+  "article": {
+    "title": "France vows response after Iran closes language centre in Tehran",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-21-france-vows-response-after-iran-closes-language-centre-in-tehran/",
+    "summary": "UNITED NATIONS, Sept 20 (Reuters) - France will summon Iran's ambassador and take appropriate measures in response after Iranian authorities sealed a French language centre affiliated with its embassy in Tehran, the Foreign Ministry said on Sunday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-21T04:49:09+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/HvKn1NwO7j7JLGoTBomvTqW-nZA=/800x0/smart/filters:strip_exif()/file/dailymaverick/wp-content/uploads/2022/09/h_57916294.jpeg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "CGTN",
+      "Daily Maverick",
+      "France24"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/20/france-to-summon-iran-envoy-after-language-centre-closure-in-tehran?traffic_source=rss"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-21-france-vows-response-after-iran-closes-language-centre-in-tehran/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260920-iran-closes-french-language-centre-in-tehran-for-illegal-acts"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-20/news-1QB4etVTj56/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/HvKn1NwO7j7JLGoTBomvTqW-nZA=/800x0/smart/filters:strip_exif()/file/dailymaverick/wp-content/uploads/2022/09/h_57916294.jpeg",
+      "https://s.france24.com/media/display/d7627854-b4f1-11f1-a6d1-0730212ba17f/w:1024/p:16x9/AP26258653383251.jpg",
+      "https://news.cgtn.com/news/2026-09-20/news-1QB4etVTj56/img/26da239a63ed4ad2a2303db367bca886/26da239a63ed4ad2a2303db367bca886-1280.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1138.9111209166667,
+    "is_stale": false,
+    "score": 20.562754836222226,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

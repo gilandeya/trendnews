@@ -1,0 +1,93 @@
+{
+  "id": "e72adb33c01a",
+  "created_at": "2026-09-21T03:07:46.085859+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.79,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "ICE agent shoots and wounds man at traffic stop in Austin, Texas, officials say",
+  "link": "https://www.theguardian.com/us-news/2026/sep/20/man-shot-ice-agent-austin-texas",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "ICE agent shoots and wounds man at traffic stop in Austin, Texas, officials say",
+    "link": "https://www.theguardian.com/us-news/2026/sep/20/man-shot-ice-agent-austin-texas",
+    "summary": "Anti-ICE protests break out in push for transparency as unnamed man is in serious but stable condition at hospital A US Immigration and Customs Enforcement ( ICE ) officer shot and wounded a man on Sunday afternoon in Texas ’s capital of Austin , local authorities said, and anti-ICE protesters quickly gathered at the scene. The unnamed man was in serious but stable condition at a hospital after being shot once in the torso on the city’s north side, Austin’s police chief, Lisa Davis, said at a news conference with the mayor and other city officials. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-20T23:37:13+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/fba8e7a11fea398e6b62df4efedfaec5e1490daf/844_2_5091_4075/master/5091.jpg?width=700&quality=85&auto=format&fit=max&s=12fd113edc3921cbee585ca2ff14b9d4",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/sep/20/man-shot-ice-agent-austin-texas"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/20/ice-officer-shoots-and-wounds-man-in-austin-texas-officials-say?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368181/ice-agent-shoots-and-wounds-man-austin-texas-officials-say?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/ice-agent-shoots-wounds-man-in-austin/article71489220.ece"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/ice-agent-wounds-man-austin-texas-shooting-6398271"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/21/ice-agent-shoots-man-during-foot-pursuit-in-austin"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/fba8e7a11fea398e6b62df4efedfaec5e1490daf/844_2_5091_4075/master/5091.jpg?width=700&quality=85&auto=format&fit=max&s=12fd113edc3921cbee585ca2ff14b9d4",
+      "https://i.guim.co.uk/img/media/fba8e7a11fea398e6b62df4efedfaec5e1490daf/844_2_5091_4075/master/5091.jpg?width=460&quality=85&auto=format&fit=max&s=002f8c4b9a6d4f58639ecb9eb8573870",
+      "https://i.guim.co.uk/img/media/fba8e7a11fea398e6b62df4efedfaec5e1490daf/844_2_5091_4075/master/5091.jpg?width=140&quality=85&auto=format&fit=max&s=b4ae922332b1a5c32928ad92ab51bc61",
+      "https://th-i.thgim.com/public/incoming/m7wyml/article71489221.ece/alternates/LANDSCAPE_1200/ICE_Shooting_Austin_7_69.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--AIFWitSF--/c_crop,h_1125,w_2000,x_0,y_163/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/21/ap26263821082188.jpg?itok=j9mmWcbA",
+      "https://media.freemalaysiatoday.com/v3/2026/09/53afed8d-66f9-41be-a1ec-8c30c6bd60d3-ICE-agent.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 1138.9110934863888,
+    "is_stale": false,
+    "score": 26.788227013376517,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
