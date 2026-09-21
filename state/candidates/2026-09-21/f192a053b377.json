@@ -1,0 +1,89 @@
+{
+  "id": "f192a053b377",
+  "created_at": "2026-09-21T06:11:41.720152+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.84,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia’s election commission says five parties are on track to enter the State Duma. Ruling United Russia had 57.19% with results in from more than a third of precincts.",
+  "link": "https://meduza.io/en/news/2026/09/21/russia-s-election-commission-says-five-parties-are-on-track-to-enter-the-state-duma-ruling-united-russia-had-57-19-with-results-in-from-more-than-a-third-of-precincts",
+  "publishers": [
+    "Dawn",
+    "France24",
+    "Meduza English",
+    "The Hindu — International",
+    "exit poll"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Russia’s election commission says five parties are on track to enter the State Duma. Ruling United Russia had 57.19% with results in from more than a third of precincts.",
+    "link": "https://meduza.io/en/news/2026/09/21/russia-s-election-commission-says-five-parties-are-on-track-to-enter-the-state-duma-ruling-united-russia-had-57-19-with-results-in-from-more-than-a-third-of-precincts",
+    "summary": "Russia’s Central Election Commission has released results from the State Duma elections after 36.87% of precinct tally sheets had been processed.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-20T23:47:36+00:00",
+    "image_url": "https://meduza.io/imgly/share/1789948056/en/news/2026/09/21/russia-s-election-commission-says-five-parties-are-on-track-to-enter-the-state-duma-ruling-united-russia-had-57-19-with-results-in-from-more-than-a-third-of-precincts",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Dawn",
+      "France24",
+      "Meduza English",
+      "The Hindu — International",
+      "exit poll"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/21/russia-s-election-commission-says-five-parties-are-on-track-to-enter-the-state-duma-ruling-united-russia-had-57-19-with-results-in-from-more-than-a-third-of-precincts"
+      },
+      {
+        "name": "exit poll",
+        "link": "https://tass.com/politics/2190335"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2031561/putins-party-set-to-retain-power-after-russia-vote-hit-by-cyberattacks-drones"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20260920-putin-s-party-set-to-retain-power-after-russia-vote-hit-by-cyberattacks-drones"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russia-elections-votes-counting-september-21-2026/article71489876.ece"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/21/russia-s-election-commission-says-ruling-party-united-russia-leads-in-208-of-225-single-member-districts-and-has-57-82-of-the-party-list-vote"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1789948056/en/news/2026/09/21/russia-s-election-commission-says-five-parties-are-on-track-to-enter-the-state-duma-ruling-united-russia-had-57-19-with-results-in-from-more-than-a-third-of-precincts",
+      "https://i.dawn.com/large/2026/09/2110243235abebd.webp",
+      "https://i.dawn.com/thumbnail/2026/09/2110243235abebd.webp",
+      "https://s.france24.com/media/display/90be9e84-b52b-11f1-b600-9f514b90f153/w:1024/p:16x9/AP26263602850279.jpg",
+      "https://th-i.thgim.com/public/incoming/h576ca/article71489877.ece/alternates/LANDSCAPE_1200/2026-09-20T170747Z_262107364_RC2ZMNA7Z9SY_RTRMADP_3_UKRAINE-CRISIS-RUSSIA-ELECTION.JPG",
+      "https://meduza.io/imgly/share/1789969847/en/news/2026/09/21/russia-s-election-commission-says-ruling-party-united-russia-leads-in-208-of-225-single-member-districts-and-has-57-82-of-the-party-list-vote"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1141.9764839897223,
+    "is_stale": false,
+    "score": 24.839124222162088,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

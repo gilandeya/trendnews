@@ -1,0 +1,91 @@
+{
+  "id": "fb2e05aca5b1",
+  "created_at": "2026-09-21T06:11:41.720620+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.33,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Atletico win feisty Madrid derby against 10-man Real",
+  "link": "https://www.bbc.co.uk/sport/football/videos/cqkgxp97nxzno?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "El País",
+    "Malay Mail",
+    "MyJoyOnline Ghana",
+    "Sky Sports — Football",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Atletico win feisty Madrid derby against 10-man Real",
+    "link": "https://www.bbc.co.uk/sport/football/videos/cqkgxp97nxzno?at_medium=RSS&at_campaign=rss",
+    "summary": "Atletico Madrid beat Real Madrid in a feisty derby to move above their rivals into second place in the La Liga table.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-20T17:00:46+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0c9d/live/54171140-b513-11f1-b1d1-571ed4d7ff2c.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "El País",
+      "Malay Mail",
+      "MyJoyOnline Ghana",
+      "Sky Sports — Football",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/cqkgxp97nxzno?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/20/atletico-madrid-real-madrid-la-liga-match-report"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/atletico-beat-10-man-real-in-feisty-madrid-derby/"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/articles/c6m27p9e24zno?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/mourinho-prints-out-red-card-incidents-after-real-lose-derby/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/sports/2026/09/21/mourinho-blames-ref-committee-for-real-madrid-derby-defeat/235920"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0c9d/live/54171140-b513-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0c9d/live/54171140-b513-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0c9d/live/54171140-b513-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://i.guim.co.uk/img/media/44d3c0cb3ff3146910639e269f973c486b352ce5/276_0_4628_3702/master/4628.jpg?width=700&quality=85&auto=format&fit=max&s=18e047a141d4afea27222e79bf9d5daf",
+      "https://i.guim.co.uk/img/media/44d3c0cb3ff3146910639e269f973c486b352ce5/276_0_4628_3702/master/4628.jpg?width=460&quality=85&auto=format&fit=max&s=19e059165ec48e584f228d577fc33402",
+      "https://i.guim.co.uk/img/media/44d3c0cb3ff3146910639e269f973c486b352ce5/276_0_4628_3702/master/4628.jpg?width=140&quality=85&auto=format&fit=max&s=7254c3bca7d1730008664b9f198fb8df"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 1141.9764807030556,
+    "is_stale": true,
+    "score": 22.32619040792273,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
