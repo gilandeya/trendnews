@@ -383,13 +383,22 @@ deferral is deliberately **not** a failure: no `status="failed"`, no `failed_sta
 `decisions` entry — it behaves like any other `queued` draft, and is picked up by the same
 `--due` flush as anything else in the queue.
 
-The source of truth for "last publish" is `state/last_publish.json` (`store.last_publish_at`/
-`store.record_last_publish`), written by `publish_one` after every *successful* publish — not
-"now" and not the locally-booked queue slots that each caller used to compute independently, which
-is exactly what let two batches approved a minute apart publish a minute apart (25% of gaps between
-posts over 30 days measured under 30 minutes, most of them scheduled). If the file is missing, it's
-computed once from the newest `published_at` across `drafts/` and written, so upgrading to this
-gate doesn't treat real publishing history as if nothing had ever gone out.
+The source of truth for "last publish" is `store.last_publish_at()` (`src/store.py`), which
+recomputes the newest `published_at` across every `status == "published"` draft in `drafts/` on
+every call — not "now" and not the locally-booked queue slots that each caller used to compute
+independently, which is exactly what let two batches approved a minute apart publish a minute
+apart (25% of gaps between posts over 30 days measured under 30 minutes, most of them scheduled).
+
+**Deliberately not backed by a shared state file (Issue #1015; `state/last_publish.json` and
+`store.record_last_publish` existed briefly for Issue #1010 and were removed here).** The publish
+workflows run concurrently in separate concurrency groups, and a file written on every publish
+gets fought over on `git pull --rebase` between two publishes landing close together — and the
+rebase loop resolves that conflict by preferring the current run's copy (`-X theirs`), which can
+silently roll the file *backward* to an older moment and weaken the gate instead of strengthening
+it. `published_at` on the drafts themselves is already the durable, conflict-free record of what
+was actually published — recomputing from it on every call costs a `drafts/` scan instead of one
+file read, which is cheap next to a network-bound publish call and has no write-conflict surface at
+all.
 
 Because the gate lives inside `publish_one` itself, it is the *only* place this rule needs to be
 enforced — every caller gets it automatically, with no special-casing per path: `cmd_burst`,

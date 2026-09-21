@@ -212,7 +212,6 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
                 path, status="published",
                 published_at=now.isoformat(),
                 facebook=res)
-            store.record_last_publish(now)
             decisions.record_published(draft)
             return True, f"- 🎬 [{title}]({res.get('url') or '#'})"
         except facebook.FacebookError as exc:
@@ -244,7 +243,6 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
         published_at=now.isoformat(),
         facebook=res,
     )
-    store.record_last_publish(now)
     decisions.record_published(draft)
     note = " ⚠️ بلا تعليق" if res.get("comment_error") else ""
     return True, f"- ✅ [{title}]({res.get('url') or '#'}){note}"
