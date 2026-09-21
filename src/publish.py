@@ -520,7 +520,22 @@ def cmd_final_review(issue_number: int, body: str, cfg) -> int:
     الاعتماد» القائم قبل Issue #841. حارس النشر المزدوج (status ==
     "published") ضروري هنا تحديدًا لأن publish.yml يُشغّل مساري urgent
     وnormal لنفس حدث وسم approved معًا (Issue #745)، وكلاهما قد يصل هذا
-    الفرع لنفس الـIssue النهائي."""
+    الفرع لنفس الـIssue النهائي.
+
+    **مسودات التحليل تُفصَل عن الباقي وتُنشر عبر youtube_publish.publish_ids
+    (Issue #1008):** نشر المعلَّم هنا كان يستدعي publish_one في حلقة بلا سقف
+    ولا فاصل -- دفعة تحليل واصلة من Issue نهائي (Issue #1000) كانت تخرج دفعة
+    واحدة، متجاوزة youtube.publish.max_per_run/spacing_minutes اللذين يطبّقهما
+    publish_ids في كل مسار تحليل آخر (المسار العادي، وcmd_revival). ``body``/
+    ``issue_number`` فارغان في هذا النداء عمدًا -- جسم Issue المراجعة النهائية
+    لا يحمل مربعات 🎴 إطلاقًا (البطاقة والعنوان محسومان مسبقًا، نفس مبدأ
+    #858)، فتمرير جسمه الفعلي قد يُقرأ خطأً كمربع 🎴 من نصّ آخر ويعيد فتح
+    Issue نهائي ثانٍ. مسار الأخبار يبقى نشرًا فوريًا بلا سقف كما كان -- هذا
+    قرار قائم منذ #858 ولم يتغيّر.
+
+    الباقي فوق السقف يُعالَج بنفس آلية cmd_revival حرفيًا (Issue #961): الـ
+    Issue لا يُغلق، وسم approved يُزال عبر review.remove_label، وسطر ⏳ لكل
+    مسودة باقية + سطر ختامي يطلب إعادة الوسم لمتابعتها."""
     all_ids = review.all_draft_ids(body)
     back_ids = review.parse_back_requests(body)
     approved_ids = [i for i in review.parse_approved(body) if i not in back_ids]
@@ -558,6 +573,8 @@ def cmd_final_review(issue_number: int, body: str, cfg) -> int:
                      issue_number, rejected_now)
 
     published = 0
+    analysis_ids: list[str] = []
+    news_pending: list[tuple] = []
     for draft_id in approved_ids:
         found = store.load_draft(draft_id)
         if not found:
@@ -569,11 +586,36 @@ def cmd_final_review(issue_number: int, body: str, cfg) -> int:
             # youtube_publish.publish_ids.
             lines.append(f"- ↩️ {draft['arabic']['post_title'][:50]} — منشور مسبقًا")
             continue
+        if store.origin_of(draft) == "analysis":
+            analysis_ids.append(draft_id)
+        else:
+            news_pending.append((path, draft))
+
+    # مسار الأخبار: نشر فوري بلا سقف ولا فاصل -- بلا تغيير عن #858.
+    for path, draft in news_pending:
         ok, line = publish_one(path, draft, cfg)
         published += ok
         lines.append(line)
 
-    report(lines, published, len(approved_ids), issue_number, close=True)
+    analysis_remaining: list[str] = []
+    if analysis_ids:
+        from . import youtube_publish
+        yt_lines, yt_published, _, analysis_remaining = youtube_publish.publish_ids(
+            analysis_ids, {}, cfg)
+        lines += yt_lines
+        published += yt_published
+        if analysis_remaining:
+            for rid in analysis_remaining:
+                found = store.load_draft(rid)
+                title = found[1]["arabic"]["post_title"][:50] if found else rid
+                lines.append(f"- ⏳ {title} — ينتظر تشغيلة لاحقة")
+            lines.append("أعد وضع وسم `approved` لمتابعة الباقي")
+
+    report(lines, published, len(approved_ids), issue_number, close=not analysis_remaining)
+    if analysis_remaining:
+        # باقٍ من دفعة التحليل لم يُحاوَل بعد (نفس مبدأ cmd_revival، Issue
+        # #961): الـIssue يبقى مفتوحًا وينتظر وسمًا جديدًا يعالج الباقي وحده.
+        review.remove_label(issue_number, "approved")
     return 0
 
 

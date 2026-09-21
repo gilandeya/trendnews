@@ -3547,18 +3547,22 @@ def test_publish_analysis_card_request_routes_to_own_final_review() -> None:
     check("تعليق على Issue مراجعة التحليل الأصلي يذكر رقم الـIssue النهائي",
           any(i == 7001 and "9978" in t for i, t in comments), comments)
 
-def test_publish_final_review_analysis_origin_no_exceptions_block_it() -> None:
-    """Issue #1000: تحقّق صريح أن cmd_final_review (المعالج الفعلي لـIssue
-    وسمه final-review) يعامل مسودة origin=='analysis' كأي مسودة أخرى بلا أي
-    استثناء يمنعها -- لا فحص origin في الدالة إطلاقًا (خلافًا لمسار
-    publish.main العادي الذي يفصل analysis_ids/news_ids قبل الوصول إلى
-    cmd_burst/cmd_now). يغطّي أربع سلوكيات معًا: النشر الفعلي عبر
-    publish_one، حارس النشر المزدوج (status=='published')، الرفض الضمني
-    لغير المعلَّم (#841)، و↩️ التي تُبقي المسودة pending بلا حقل image فتصبح
-    مؤهَّلة تلقائيًا لـ``youtube_publish.pending_youtube_drafts()`` (مراجعة
-    التحليل التالية) لا لمراجعة الأخبار العامة -- بنية قائمة (استبعاد
-    origin=='analysis' في src.open_review.main، فلترة origin=='analysis'
-    في pending_youtube_drafts) بلا أي تعديل جديد هنا."""
+def test_publish_final_review_analysis_origin_routes_through_publish_ids() -> None:
+    """Issue #1000، ثم #1008: cmd_final_review (المعالج الفعلي لـIssue وسمه
+    final-review) يفصل مسودة origin=='analysis' عن الباقي ويُنشرها عبر
+    youtube_publish.publish_ids -- لا publish_one مباشرة كالمسار العام (Issue
+    #1008: النشر المباشر بلا سقف كان يتجاوز youtube.publish.max_per_run/
+    spacing_minutes لأي دفعة تحليل تصل Issue نهائي). مسودة واحدة هنا وحدها
+    (تحت السقف الافتراضي 3)، فتُنشر فورًا رغم التوجيه الجديد -- سقف/تباعد
+    دفعة أكبر من واحدة مغطّى في
+    test_publish_final_review_analysis_cap_and_spacing_across_two_runs أدناه.
+    يغطّي أربع سلوكيات معًا: النشر الفعلي عبر publish_ids (وبالتالي
+    publish_one داخلها)، حارس النشر المزدوج (status=='published')، الرفض
+    الضمني لغير المعلَّم (#841)، و↩️ التي تُبقي المسودة pending بلا حقل image
+    فتصبح مؤهَّلة تلقائيًا لـ``youtube_publish.pending_youtube_drafts()``
+    (مراجعة التحليل التالية) لا لمراجعة الأخبار العامة -- بنية قائمة
+    (استبعاد origin=='analysis' في src.open_review.main، فلترة
+    origin=='analysis' في pending_youtube_drafts) بلا أي تعديل جديد هنا."""
     from src import feedback, youtube_publish as yp
     from src import publish as publish_mod
 
@@ -3671,6 +3675,395 @@ def test_publish_final_review_analysis_origin_no_exceptions_block_it() -> None:
                         if store.origin_of(d) != "analysis"}
     check("↩️: المسودة غير مؤهَّلة لمراجعة الأخبار العامة (open_review.main يستبعد analysis)",
           back_analysis["id"] not in news_pending_ids, news_pending_ids)
+
+def test_publish_final_review_analysis_cap_and_spacing_across_two_runs() -> None:
+    """Issue #1008: خمس مسودات تحليل معتمَدة في Issue نهائي واحد تُحترم
+    سقفها وتباعدها (youtube.publish.max_per_run=3/spacing_minutes=40) بدل
+    الخروج دفعة واحدة عبر publish_one في حلقة بلا سقف كما كانت cmd_final_review
+    تفعل. الباقي فوق السقف يُعامَل بنفس آلية cmd_revival حرفيًا (Issue #961):
+    الـIssue لا يُغلق، وسم approved يُزال، وسطر ⏳ لكل باقية + سطر ختامي يطلب
+    إعادة الوسم. تشغيلة ثانية بنفس جسم الـIssue تُكمل الباقي وتُغلقه، بلا
+    رفض ضمني جديد (لا رفض هنا أصلًا -- كل الخمسة معتمَدة)."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    def _hex_id(i: int) -> str:
+        return f"aa2{i:09x}"
+
+    drafts = []
+    for i in range(5):
+        d = {
+            "id": _hex_id(i), "status": "pending", "origin": "analysis",
+            "arabic": {"post_title": f"مقال تحليل {i}", "urgent": False},
+            "caption": f"مقال تحليل {i}\nمتن.",
+            "image": f"drafts/cap{i}.jpg", "source": {"link": "", "publishers": ["الجزيرة"]},
+        }
+        store.save_draft(d)
+        drafts.append(d)
+        (DRAFTS_DIR / f"cap{i}.jpg").write_bytes(b"\xff\xd8\xff")
+
+    body = review.build_final_review_body(drafts, "u/r", "main")
+    for d in drafts:
+        body = tick_marker(body, f"<!-- draft:{d['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "final-review"}]}
+
+    published_ids: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_ids.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    real_sleep = youtube_publish.time.sleep
+    sleep_calls: list = []
+    youtube_publish.time.sleep = lambda s: sleep_calls.append(s)
+
+    comments: list = []
+    closed_issues: list = []
+    removed_labels: list = []
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_remove_label = review.remove_label
+    review.comment = lambda issue_number, text: comments.append((issue_number, text))
+    review.close_issue = lambda issue_number: closed_issues.append(issue_number)
+    review.remove_label = lambda issue_number, label: removed_labels.append((issue_number, label))
+
+    sys.argv = ["publish", "--issue", "6001"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.publish_one = real_publish_one
+        youtube_publish.time.sleep = real_sleep
+        review.comment = real_comment
+        review.close_issue = real_close
+        review.remove_label = real_remove_label
+
+    check("publish.main ينتهي بنجاح (التشغيلة الأولى)", code == 0, f"exit={code}")
+    check("التشغيلة الأولى: ثلاث مسودات نُشرت (سقف 3)",
+          published_ids == [_hex_id(0), _hex_id(1), _hex_id(2)], published_ids)
+    statuses1 = {d["id"]: store.load_draft(d["id"])[1]["status"] for d in drafts}
+    check("التشغيلة الأولى: الاثنتان الباقيتان بلا تغيير (pending)",
+          statuses1[_hex_id(3)] == "pending" and statuses1[_hex_id(4)] == "pending",
+          statuses1)
+    check("التشغيلة الأولى: الـIssue لم يُغلق", closed_issues == [], closed_issues)
+    check("التشغيلة الأولى: وسم approved أُزيل", removed_labels == [(6001, "approved")],
+          removed_labels)
+    check("التشغيلة الأولى: التعليق يحوي سطرَي ⏳ للمسودتين الباقيتين",
+          comments and all(f"⏳ مقال تحليل {i}" in comments[-1][1] for i in (3, 4)),
+          comments)
+    check("التشغيلة الأولى: سطر إعادة الوسم موجود",
+          comments and "أعد وضع وسم `approved`" in comments[-1][1], comments)
+
+    # التشغيلة الثانية: نفس جسم الـIssue -- تنشر الباقيتين وتُغلق الـIssue.
+    published_ids.clear()
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "final-review"}]}
+    publish_mod.publish_one = fake_publish_one
+    youtube_publish.time.sleep = lambda s: sleep_calls.append(s)
+    review.comment = lambda issue_number, text: comments.append((issue_number, text))
+    review.close_issue = lambda issue_number: closed_issues.append(issue_number)
+    review.remove_label = lambda issue_number, label: removed_labels.append((issue_number, label))
+
+    from src import feedback
+    rejections_before = len(feedback.load())
+
+    sys.argv = ["publish", "--issue", "6001"]
+    try:
+        code2 = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.publish_one = real_publish_one
+        youtube_publish.time.sleep = real_sleep
+        review.comment = real_comment
+        review.close_issue = real_close
+        review.remove_label = real_remove_label
+
+    check("publish.main ينتهي بنجاح (التشغيلة الثانية)", code2 == 0, f"exit={code2}")
+    check("التشغيلة الثانية: الاثنتان الباقيتان نُشرتا",
+          set(published_ids) == {_hex_id(3), _hex_id(4)}, published_ids)
+    check("التشغيلة الثانية: الـIssue أُغلق", closed_issues == [6001], closed_issues)
+
+    rejections_after = feedback.load()
+    check("لا رفض ضمني جديد عبر التشغيلتين (كل الخمسة معتمَدة أصلًا)",
+          len(rejections_after) == rejections_before,
+          (rejections_before, len(rejections_after)))
+
+def test_publish_final_review_news_origin_immediate_no_cap() -> None:
+    """Issue #1008: مسار الأخبار في cmd_final_review لا يتغيّر إطلاقًا --
+    تثبيت السلوك القائم منذ #858: دفعة أخبار أكبر من سقف التحليل (3) تُنشر
+    كلها فورًا في نفس التشغيلة، بلا سقف ولا فاصل، خلافًا لمسودات التحليل."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    def _hex_id(i: int) -> str:
+        return f"fb3{i:09x}"
+
+    drafts = []
+    for i in range(4):
+        d = {
+            "id": _hex_id(i), "status": "pending", "origin": "news",
+            "arabic": {"post_title": f"خبر {i}", "urgent": False},
+            "caption": f"خبر {i}\nمتن.", "bucket": "serious",
+            "image": f"drafts/news{i}.jpg",
+            "source": {"link": f"https://x/{i}", "publishers": ["BBC"]},
+        }
+        store.save_draft(d)
+        drafts.append(d)
+        (DRAFTS_DIR / f"news{i}.jpg").write_bytes(b"\xff\xd8\xff")
+
+    body = review.build_final_review_body(drafts, "u/r", "main")
+    for d in drafts:
+        body = tick_marker(body, f"<!-- draft:{d['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "final-review"}]}
+
+    published_ids: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_ids.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    closed_issues: list = []
+    removed_labels: list = []
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_remove_label = review.remove_label
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: closed_issues.append(issue_number)
+    review.remove_label = lambda issue_number, label: removed_labels.append((issue_number, label))
+
+    sys.argv = ["publish", "--issue", "6002"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.publish_one = real_publish_one
+        review.comment = real_comment
+        review.close_issue = real_close
+        review.remove_label = real_remove_label
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("الأربعة نُشرت في نفس التشغيلة -- بلا سقف لمسار الأخبار",
+          set(published_ids) == {d["id"] for d in drafts}, published_ids)
+    check("الـIssue أُغلق فورًا", closed_issues == [6002], closed_issues)
+    check("لا إزالة وسم -- لا شيء ينتظر تشغيلة لاحقة", removed_labels == [], removed_labels)
+
+def test_publish_final_review_mixed_origin_news_immediate_analysis_capped() -> None:
+    """Issue #1008: Issue نهائي يخلط الأصلين معًا -- الأخبار تُنشر فورًا بلا
+    سقف، والتحليل يخضع لسقف/تباعد youtube.publish.max_per_run/spacing_minutes
+    في نفس التشغيلة، بصرف النظر عن ترتيب المعرّفات في جسم الـIssue."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    news_drafts = []
+    for i in range(2):
+        d = {
+            "id": f"fc4{i:09x}", "status": "pending", "origin": "news",
+            "arabic": {"post_title": f"خبر مختلط {i}", "urgent": False},
+            "caption": f"خبر مختلط {i}\nمتن.", "bucket": "serious",
+            "image": f"drafts/mixnews{i}.jpg",
+            "source": {"link": f"https://x/mix{i}", "publishers": ["BBC"]},
+        }
+        store.save_draft(d)
+        news_drafts.append(d)
+        (DRAFTS_DIR / f"mixnews{i}.jpg").write_bytes(b"\xff\xd8\xff")
+
+    analysis_drafts = []
+    for i in range(4):
+        d = {
+            "id": f"fc5{i:09x}", "status": "pending", "origin": "analysis",
+            "arabic": {"post_title": f"تحليل مختلط {i}", "urgent": False},
+            "caption": f"تحليل مختلط {i}\nمتن.",
+            "image": f"drafts/mixan{i}.jpg",
+            "source": {"link": "", "publishers": ["الجزيرة"]},
+        }
+        store.save_draft(d)
+        analysis_drafts.append(d)
+        (DRAFTS_DIR / f"mixan{i}.jpg").write_bytes(b"\xff\xd8\xff")
+
+    all_drafts = news_drafts + analysis_drafts
+    body = review.build_final_review_body(all_drafts, "u/r", "main")
+    for d in all_drafts:
+        body = tick_marker(body, f"<!-- draft:{d['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "final-review"}]}
+
+    published_ids: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        published_ids.append(draft["id"])
+        store.update_draft(path, status="published")
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    real_sleep = youtube_publish.time.sleep
+    youtube_publish.time.sleep = lambda s: None
+
+    closed_issues: list = []
+    removed_labels: list = []
+    real_comment = review.comment
+    real_close = review.close_issue
+    real_remove_label = review.remove_label
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: closed_issues.append(issue_number)
+    review.remove_label = lambda issue_number, label: removed_labels.append((issue_number, label))
+
+    sys.argv = ["publish", "--issue", "6003"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.publish_one = real_publish_one
+        youtube_publish.time.sleep = real_sleep
+        review.comment = real_comment
+        review.close_issue = real_close
+        review.remove_label = real_remove_label
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("الخبران نُشرا فورًا", all(d["id"] in published_ids for d in news_drafts),
+          published_ids)
+    check("التحليل: ثلاثة فقط نُشرت (سقف 3) من أربعة معتمَدة",
+          sum(1 for d in analysis_drafts if d["id"] in published_ids) == 3, published_ids)
+    check("الـIssue لم يُغلق -- تحليل باقٍ فوق السقف", closed_issues == [], closed_issues)
+    check("وسم approved أُزيل", removed_labels == [(6003, "approved")], removed_labels)
+
+def test_publish_final_review_analysis_already_published_skipped() -> None:
+    """Issue #1008: مسودة تحليل status=='published' في Issue نهائي معتمَد لا
+    تُنشر ثانية -- لا عبر publish_one مباشرة ولا عبر youtube_publish.publish_ids
+    (نفس حارس النشر المزدوج القائم أصلًا في cmd_revival/publish.main،
+    والمطبَّق الآن أيضًا في التوجيه الجديد داخل cmd_final_review)."""
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    already = {
+        "id": "fd6000000001", "status": "published", "origin": "analysis",
+        "arabic": {"post_title": "تحليل منشور مسبقًا"}, "caption": "متن",
+        "image": "drafts/pub1.jpg", "source": {"link": "", "publishers": ["الجزيرة"]},
+    }
+    store.save_draft(already)
+    (DRAFTS_DIR / "pub1.jpg").write_bytes(b"\xff\xd8\xff")
+
+    body = review.build_final_review_body([already], "u/r", "main")
+    body = tick_marker(body, f"<!-- draft:{already['id']} -->")
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "final-review"}]}
+
+    publish_calls: list = []
+    real_publish_one = publish_mod.publish_one
+
+    def fake_publish_one(path, draft, cfg):
+        publish_calls.append(draft["id"])
+        return True, f"- ✅ {draft['id']}"
+
+    publish_mod.publish_one = fake_publish_one
+
+    called_publish_ids: list = []
+    real_publish_ids = youtube_publish.publish_ids
+
+    def fake_publish_ids(ids, headline_choices, cfg, body="", issue_number=None):
+        called_publish_ids.append(list(ids))
+        return real_publish_ids(ids, headline_choices, cfg, body=body, issue_number=issue_number)
+
+    youtube_publish.publish_ids = fake_publish_ids
+
+    real_comment = review.comment
+    real_close = review.close_issue
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+
+    sys.argv = ["publish", "--issue", "6004"]
+    try:
+        code = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        publish_mod.publish_one = real_publish_one
+        youtube_publish.publish_ids = real_publish_ids
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("publish.main ينتهي بنجاح", code == 0, f"exit={code}")
+    check("publish_one لم يُستدعَ للمسودة المنشورة مسبقًا", publish_calls == [], publish_calls)
+    check("youtube_publish.publish_ids لم يُستدعَ أصلًا -- استُبعدت قبل الفصل",
+          called_publish_ids == [], called_publish_ids)
+    check("الحالة بقيت published",
+          store.load_draft(already["id"])[1]["status"] == "published")
+
+def test_publish_final_review_analysis_unchecked_rejected_once_across_two_runs() -> None:
+    """Issue #1008: مسودة تحليل ظهرت في جسم Issue نهائي لكن لم تُعلَّم ✔️
+    تصير rejected مرة واحدة فقط رغم تشغيلتين متتاليتين على نفس الجسم -- نفس
+    مبدأ الرفض الضمني القائم (#841): يُحسب مرة واحدة عند أول اعتماد، ولا
+    يتكرر لمسودة بقيت pending... ثم rejected من دفعة سابقة."""
+    from src import feedback
+    from src import publish as publish_mod
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    unchecked = {
+        "id": "fe7000000001", "status": "pending", "origin": "analysis",
+        "arabic": {"post_title": "تحليل لم يُعلَّم في النهائي"}, "caption": "متن",
+        "image": "drafts/unch.jpg", "source": {"link": "", "publishers": ["الجزيرة"]},
+    }
+    store.save_draft(unchecked)
+    (DRAFTS_DIR / "unch.jpg").write_bytes(b"\xff\xd8\xff")
+
+    # لا اعتماد ✔️ على هذا المعرّف إطلاقًا -- يبقى ضمن all_draft_ids فقط.
+    body = review.build_final_review_body([unchecked], "u/r", "main")
+
+    real_fetch = publish_mod.fetch_issue
+    publish_mod.fetch_issue = lambda n: {
+        "number": n, "body": body, "labels": [{"name": "final-review"}]}
+
+    real_comment = review.comment
+    real_close = review.close_issue
+    review.comment = lambda issue_number, text: None
+    review.close_issue = lambda issue_number: None
+
+    rejections_before = len(feedback.load())
+
+    sys.argv = ["publish", "--issue", "6005"]
+    try:
+        code1 = publish_mod.main()
+        code2 = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real_fetch
+        review.comment = real_comment
+        review.close_issue = real_close
+
+    check("التشغيلتان تنتهيان بنجاح", code1 == 0 and code2 == 0, (code1, code2))
+    check("المسودة صارت rejected",
+          store.load_draft(unchecked["id"])[1]["status"] == "rejected",
+          store.load_draft(unchecked["id"])[1].get("status"))
+    rejections_after = feedback.load()
+    new_entries = rejections_after[rejections_before:]
+    check("رفض واحد فقط سُجِّل رغم تشغيلتين", len(new_entries) == 1, new_entries)
 
 def test_first_comment() -> None:
     from src.publish import first_comment_for
