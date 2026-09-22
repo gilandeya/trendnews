@@ -1,0 +1,823 @@
+{
+  "run_date": "2026-09-22",
+  "stats": {
+    "points_in": 557,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 407,
+    "issues_clustered": 32,
+    "topics_merged": 3,
+    "topics_out": 5,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 5,
+    "topics_below_min_points": 12,
+    "topics_below_min_channels": 7,
+    "layer_a": 2,
+    "layer_b": 3,
+    "layer_c": 0,
+    "agreement": 5,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "تقييم القدرات والحرب الإيرانية الأمريكية",
+      "جدل حول حسابات أمريكا الاستراتيجية تجاه إيران"
+    ],
+    [
+      "هجمات الحوثيين على الرياض والسعودية",
+      "الحوثيون وخط أنابيب النفط السعودي وباب المندب"
+    ],
+    [
+      "العقوبات الأمريكية على الطيران والاقتصاد الإيراني",
+      "الأزمة الاقتصادية الإيرانية (تضخم وانكماش)"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "صعود اليمين المتطرف الألماني في الانتخابات",
+      "event": "نتائج انتخابات ألمانية أظهرت صعودًا كبيرًا لحزب البديل للألمانيا",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        57,
+        58,
+        59,
+        60,
+        61,
+        120,
+        121,
+        123,
+        124,
+        125,
+        126
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null
+    },
+    {
+      "title": "تهديدات إيران بالرد العسكري",
+      "event": "تهديد إيران بالرد على أي هجوم أمريكي جديد واستهداف السفن الأمريكية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        19,
+        68,
+        86
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": null
+    },
+    {
+      "title": "العقوبات الأمريكية على الطيران والاقتصاد الإيراني",
+      "event": "فرض عقوبات أمريكية على شركات الطيران الإيرانية والاقتصاد الإيراني",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        20,
+        93,
+        106,
+        107,
+        108
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "مشروع لجنة حصر السلاح في العراق وموقف واشنطن",
+      "event": "جهود الحكومة العراقية لحصر السلاح بيد الدولة والضغط الأمريكي المرتبط بذلك",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        110
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "فضيحة تحويلات الصناديق المالية التركية إلى سويسرا",
+      "event": "تحويل مليارات الدولارات من صناديق استثمارية تركية إلى سويسرا قبل انفجار أزمة الصناديق",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        130,
+        136,
+        137,
+        138,
+        139
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "شروط ومواقف إيران التفاوضية مع أمريكا",
+      "event": "طرح إيران شروطًا لاستئناف المفاوضات مع الولايات المتحدة (رفع تجميد الأصول، إنهاء الحرب، عدم التدخل)",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        16,
+        67,
+        79,
+        109
+      ],
+      "total_points": 4,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "خيبة أمل خليجية من الدعم الأمريكي وتحوط أمني",
+      "event": "فقدان دول الخليج الثقة بالمظلة الأمنية الأمريكية والبحث عن بدائل",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        65,
+        96
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "صعود اليمين المتطرف الألماني في الانتخابات",
+      "event": "نتائج انتخابات ألمانية أظهرت صعودًا كبيرًا لحزب البديل للألمانيا",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        57,
+        58,
+        59,
+        60,
+        61,
+        120,
+        121,
+        123,
+        124,
+        125,
+        126
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null
+    },
+    {
+      "title": "تهديدات إيران بالرد العسكري",
+      "event": "تهديد إيران بالرد على أي هجوم أمريكي جديد واستهداف السفن الأمريكية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        19,
+        68,
+        86
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": null
+    },
+    {
+      "title": "هجمات الحوثيين على الرياض والسعودية",
+      "event": "استهداف الحوثيين للرياض ومطار الملك خالد بصواريخ وطائرات مسيّرة",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        3,
+        50,
+        51,
+        52,
+        53,
+        64,
+        87
+      ],
+      "total_points": 7,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "حسابات ترامب الاستراتيجية تجاه إيران خيارات ثلاثة",
+      "event": "طرح ترامب ثلاثة خيارات للتعامل مع إيران (تدمير/تعفن اقتصادي/صفقة)",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        22,
+        85
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحالف مكة ودور تركيا وموقف إسرائيل من التصعيد",
+      "event": "دور تحالف مكة وتركيا وإسرائيل في التصعيد ضد السعودية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        66,
+        128
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دوافع وقدرة الحوثيين على الاستمرار في التصعيد",
+      "event": "تقييم دوافع الحوثيين وقدرتهم على الاستمرار في مواجهة السعودية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        55,
+        69,
+        127
+      ],
+      "total_points": 3,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "العقوبات الأمريكية على الطيران والاقتصاد الإيراني",
+      "event": "فرض عقوبات أمريكية على شركات الطيران الإيرانية والاقتصاد الإيراني",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        20,
+        93,
+        106,
+        107,
+        108
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "مشروع لجنة حصر السلاح في العراق وموقف واشنطن",
+      "event": "جهود الحكومة العراقية لحصر السلاح بيد الدولة والضغط الأمريكي المرتبط بذلك",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        110
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "فضيحة تحويلات الصناديق المالية التركية إلى سويسرا",
+      "event": "تحويل مليارات الدولارات من صناديق استثمارية تركية إلى سويسرا قبل انفجار أزمة الصناديق",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        130,
+        136,
+        137,
+        138,
+        139
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null
+    },
+    {
+      "title": "موقف إيران من البرنامج النووي في ظل التصعيد",
+      "event": "موقف إيران من فتوى تحريم الأسلحة النووية في ظل التهديدات الأمريكية",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        17,
+        21
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تقييم القدرات والحرب الإيرانية الأمريكية",
+      "event": "تقييم مسار الحرب الأمريكية الإيرانية وقدرات إيران العسكرية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        1,
+        13,
+        14,
+        18,
+        94
+      ],
+      "total_points": 5,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "دبلوماسية حل الأزمة الإيرانية الأمريكية",
+      "event": "جهود دبلوماسية دولية وإقليمية لإيجاد مخرج للأزمة الإيرانية الأمريكية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        23,
+        27,
+        92,
+        95,
+        97
+      ],
+      "total_points": 6,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انهيار اتفاق فض الاشتباك الإسرائيلي السوري وانتهاكات القنيطرة",
+      "event": "انهيار اتفاق 1974 بين إسرائيل وسوريا وتوثيق انتهاكات إسرائيلية في المنطقة العازلة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        99,
+        100,
+        105
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مفاوضات وأهداف إسرائيل وسوريا بعد سقوط الأسد",
+      "event": "مفاوضات وأهداف كل من إسرائيل وسوريا بشأن الترتيبات الأمنية بعد سقوط الأسد وقصف وزارة الدفاع السورية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        101,
+        102,
+        103,
+        104
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "لقاء أردوغان وترامب في الأمم المتحدة وملفات الدفاع",
+      "event": "مشاركة أردوغان بالجمعية العامة للأمم المتحدة ولقاؤه المتوقع مع ترامب وملفات إف-35 وكاتسا",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        140,
+        141
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انتقادات حزب السعادة التركي للأوضاع الاقتصادية والاجتماعية",
+      "event": "انتقادات رئيس حزب السعادة التركي للأوضاع الاقتصادية (الضرائب، سعر الصرف، ملفات التنفيذ، الطلاق)",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        131,
+        132,
+        133,
+        134,
+        135
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "سياسات ترحيل المهاجرين الأمريكية في عهد ترامب",
+      "event": "حملة ترحيل المهاجرين غير الشرعيين واسعة النطاق في عهد ترامب واستخدام الضغط على الدول الأفريقية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تجربة عمل سائقي تطبيق اسنپ في إيران",
+      "event": "ظروف عمل سائقي تطبيق النقل اسنپ في إيران (عمولات، غياب تأمين، تمييز)",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144,
+        145,
+        146,
+        147,
+        149
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "ربط تصعيد الحوثيين بملف مضيق هرمز",
+      "event": "ربط استهداف الحوثيين للسعودية بتطورات ورقة مضيق هرمز الإيرانية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        5
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "اجتماع محرمانه أمريكي عربي إسرائيلي بألمانيا لتشكيل ائتلاف عسكري",
+      "event": "اجتماع سري بين أمريكا وست دول عربية وإسرائيل في ألمانيا لبحث ائتلاف عسكري ضد إيران",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        80,
+        83
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مفاوضات نيويورك بين إيران وأمريكا ومستقبل النظام",
+      "event": "احتمالات نتائج لقاءات نيويورك بين قادة إيران وأمريكا ومستقبل النظام الإيراني",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        81,
+        82
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "العمارة والاستعمار الاستيطاني الإسرائيلي",
+      "event": "استخدام العمارة والتخطيط العمراني كأداة للمشروع الاستيطاني الإسرائيلي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        29,
+        31
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "وصف ما يجري في غزة بالإبادة الجماعية والدمار",
+      "event": "وصف الحرب على غزة بالإبادة الجماعية وتدمير مقومات الحياة فيها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        32,
+        33,
+        34
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "زيارة رئيس الوزراء الكندي لفرنسا وتعزيز العلاقات الثنائية",
+      "event": "زيارة رئيس الوزراء الكندي إلى فرنسا وسان بيير وميكلون وتعزيز العلاقات الكندية الفرنسية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتخابات الكونغرس الأمريكية 2026 وموقف ترامب",
+      "event": "استطلاعات الرأي حول انتخابات الكونغرس الأمريكية ومواقف ترامب من الهجرة والاقتصاد",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        62,
+        63
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تجربة الدكتور العزاوي في إدارة المخابرات العراقية",
+      "event": "شهادة الدكتور فاضل العزاوي عن تجربته كمدير للمخابرات العراقية (تعيينه، إصلاحاته، السجون، المراقبة)",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "حملات الذكاء الاصطناعي والإعلام في عهد ترامب",
+      "event": "إعلان ترامب عن مبادرة ذكاء اصطناعي وقيود على الإعلاميين في البيت الأبيض",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        90,
+        91
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
