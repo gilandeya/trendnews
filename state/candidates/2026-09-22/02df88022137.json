@@ -1,0 +1,73 @@
+{
+  "id": "02df88022137",
+  "created_at": "2026-09-22T12:08:07.035204+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.66,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "England fast bowler Wood retires from internationals",
+  "link": "https://www.bbc.co.uk/sport/cricket/articles/c931nq260pxo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Channel News Asia",
+    "Sky Sports — Football"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "England fast bowler Wood retires from internationals",
+    "link": "https://www.bbc.co.uk/sport/cricket/articles/c931nq260pxo?at_medium=RSS&at_campaign=rss",
+    "summary": "England fast bowler Mark Wood announces his retirement from international cricket with immediate effect.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-09-22T08:58:21+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/22c8/live/90b8dd80-f601-11f0-b5f7-49f0357294ff.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Channel News Asia",
+      "Sky Sports — Football"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/cricket/articles/c931nq260pxo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/cricket/news/12040/13590351/mark-wood-england-fast-bowler-announces-retirement-from-international-cricket-due-to-injury"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/england-fast-bowler-wood-retires-internationals-after-battling-injuries-6401951"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/22c8/live/90b8dd80-f601-11f0-b5f7-49f0357294ff.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/22c8/live/90b8dd80-f601-11f0-b5f7-49f0357294ff.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/22c8/live/90b8dd80-f601-11f0-b5f7-49f0357294ff.jpg",
+      "https://e1.365dm.com/26/09/1096x616/skysports-mark-wood-england_7358185.jpg?20260921223521",
+      "https://e1.365dm.com/26/09/1920x1080/skysports-mark-wood-england_7358185.jpg?20260921223521",
+      "https://dam.mediacorp.sg/image/upload/s--CNfZfYic--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-22T094549Z_1_LYNXMPEM8L0LV_RTROPTP_3_CRICKET-ASHES.JPG?itok=pZ5ues-8"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1171.9167912894443,
+    "is_stale": false,
+    "score": 21.6608210797931,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

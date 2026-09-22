@@ -1,0 +1,89 @@
+{
+  "id": "d5d17640e605",
+  "created_at": "2026-09-22T12:08:07.034551+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.83,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthis try to push deeper into western Yemen, upending life, witnesses tell NPR",
+  "link": "https://www.npr.org/2026/09/22/g-s1-144261/yemen-houthis-saudi-iran-humanitarian-crisis",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "Dawn",
+    "Hindustan Times — World",
+    "NPR World",
+    "The Hindu — International"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Houthis try to push deeper into western Yemen, upending life, witnesses tell NPR",
+    "link": "https://www.npr.org/2026/09/22/g-s1-144261/yemen-houthis-saudi-iran-humanitarian-crisis",
+    "summary": "As the U.S. conflict with Iran drags, the Iranian-backed Houthis in Yemen have opened a new front, taking new territory and displacing more than 100,000 people.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-09-22T10:59:37+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-144261",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "Dawn",
+      "Hindustan Times — World",
+      "NPR World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/22/g-s1-144261/yemen-houthis-saudi-iran-humanitarian-crisis"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/saudi-strike-reportedly-hits-key-yemen-port-city-captured-by-houthis"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2031722/houthis-push-for-control-of-yemens-highlands"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/saudi-arabia-houthis-yemen-prison-attack-death-toll/article71495239.ece"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/22/houthis-battle-for-strategic-heights-in-yemen-as-thousands-more-flee-homes?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/houthis-claim-saudi-strikes-kill-civilians-in-northwest-yemen-including-child-101790073968969.html"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-144261",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/22/461720.jpg",
+      "https://i.dawn.com/large/2026/09/2207560856de0d6.webp",
+      "https://i.dawn.com/thumbnail/2026/09/2207560856de0d6.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 1171.9167434072224,
+    "is_stale": true,
+    "score": 22.828895156552356,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "id": "fe471bab8012",
+  "created_at": "2026-09-22T12:08:07.034872+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.15,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "President Pezeshkian heads to New York for UNGA session",
+  "link": "https://en.irna.ir/news/86270693/President-Pezeshkian-heads-to-New-York-for-UNGA-session",
+  "publishers": [
+    "Al Jazeera English",
+    "Hindustan Times — World",
+    "IRNA English",
+    "The Express Tribune",
+    "The Guardian — World",
+    "US politics live"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "President Pezeshkian heads to New York for UNGA session",
+    "link": "https://en.irna.ir/news/86270693/President-Pezeshkian-heads-to-New-York-for-UNGA-session",
+    "summary": "Tehran, IRNA – President Masoud Pezeshkian has left Tehran for New York to attend the 81st session of the United Nations General Assembly (UNGA), where world leaders will discuss global issues and outline their countries’ positions on them.",
+    "source_name": "IRNA English",
+    "region": "ir",
+    "weight": 0.7,
+    "published": "2026-09-22T05:20:31+00:00",
+    "image_url": "https://img9.irna.ir/d/r2/2026/09/22/4/173121342.jpg",
+    "publisher": "IRNA English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Hindustan Times — World",
+      "IRNA English",
+      "The Express Tribune",
+      "The Guardian — World",
+      "US politics live"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630725/publics-memory-will-not-forget-who-initiated-war-of-aggression-iranian-fm-spokesperson"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/trump-media-ban-live-updates-white-house-coverage-boycott-us-iran-war-unga-speech-united-states-latest-update-101790047781052.html"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86270693/President-Pezeshkian-heads-to-New-York-for-UNGA-session"
+      },
+      {
+        "name": "US politics live",
+        "link": "https://www.theguardian.com/us-news/live/2026/sep/22/donald-trump-unga-speech-iran-middle-east-ukraine-latest-news-updates"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/22/trump-united-nations-address"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/22/un-general-assembly-2026-when-is-it-who-is-speaking-and-when?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://img9.irna.ir/d/r2/2026/09/22/4/173121342.jpg",
+      "https://i.guim.co.uk/img/media/a25b42e2be033e6f69d3a2acfe088ab740d153fb/1361_323_5481_4385/master/5481.jpg?width=700&quality=85&auto=format&fit=max&s=1845293a1f6a3c1bcf90a938fd0abfd1",
+      "https://i.guim.co.uk/img/media/a25b42e2be033e6f69d3a2acfe088ab740d153fb/1361_323_5481_4385/master/5481.jpg?width=460&quality=85&auto=format&fit=max&s=f224ec565d12383d3d1ff92092586ed3",
+      "https://i.guim.co.uk/img/media/a25b42e2be033e6f69d3a2acfe088ab740d153fb/1361_323_5481_4385/master/5481.jpg?width=140&quality=85&auto=format&fit=max&s=4fe3130d7216a2378689fceb619c1cbe",
+      "https://i.guim.co.uk/img/media/2cc920ad3c10ae1281dcda215083179814a48120/858_0_4356_3487/master/4356.jpg?width=700&quality=85&auto=format&fit=max&s=5ce7b1c93c1fdfc43554e0912b3c519a",
+      "https://i.guim.co.uk/img/media/2cc920ad3c10ae1281dcda215083179814a48120/858_0_4356_3487/master/4356.jpg?width=460&quality=85&auto=format&fit=max&s=85ef3141d2e85f3cb10ca0b055647d16"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 1171.9167451622222,
+    "is_stale": true,
+    "score": 22.15211738262643,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

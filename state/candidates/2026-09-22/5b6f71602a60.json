@@ -1,0 +1,76 @@
+{
+  "id": "5b6f71602a60",
+  "created_at": "2026-09-22T12:08:07.035492+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.17,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "130,000 displaced by Houthi advance in Yemen, says IOM",
+  "link": "http://www.africanews.com/2026/09/22/130000-displaced-by-houthi-advance-in-yemen-says-iom/",
+  "publishers": [
+    "Africanews",
+    "France24",
+    "TASS",
+    "The Hindu — International"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "130,000 displaced by Houthi advance in Yemen, says IOM",
+    "link": "http://www.africanews.com/2026/09/22/130000-displaced-by-houthi-advance-in-yemen-says-iom/",
+    "summary": "Nearly 130,000 people have been displaced across seven governorates in Yemen due to escalating insecurity, with many of them having been displaced multiple times, the International Organization for Migration (IOM) said on Monday.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-22T10:06:54+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/92/25/61/640x360_cmsv2_3144f349-e04c-5777-a606-510576b11877-9922561.jpg?1790058796",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "France24",
+      "TASS",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/22/130000-displaced-by-houthi-advance-in-yemen-says-iom/"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2190907"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/more-than-10000-could-flee-yemen-fighting-to-djibouti-in-coming-months-un/article71495274.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260922-middle-east-live-yemen-fighting-escalates-as-trump-heads-to-un"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/92/25/61/640x360_cmsv2_3144f349-e04c-5777-a606-510576b11877-9922561.jpg?1790058796",
+      "https://th-i.thgim.com/public/incoming/sw99e3/article71495359.ece/alternates/LANDSCAPE_1200/Mideast_Wars_Yemen_62_55.jpg",
+      "https://s.france24.com/media/display/2c9bb9f2-b673-11f1-a9e6-d5a6f2570fbe/w:1024/p:16x9/Yemen-new-2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1171.9167469105557,
+    "is_stale": true,
+    "score": 21.1654335832963,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

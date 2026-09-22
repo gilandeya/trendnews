@@ -1,0 +1,65 @@
+{
+  "id": "968a3f3152e2",
+  "created_at": "2026-09-22T12:08:07.034138+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.3,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Andy Burnham is set to meet Donald Trump for the first time at the UN in New York",
+  "link": "https://www.thehindu.com/news/international/andy-burnham-is-set-to-meet-donald-trump-for-the-first-time-at-the-un-in-new-york/article71490809.ece",
+  "publishers": [
+    "Le Monde",
+    "The Economist",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Andy Burnham is set to meet Donald Trump for the first time at the UN in New York",
+    "link": "https://www.thehindu.com/news/international/andy-burnham-is-set-to-meet-donald-trump-for-the-first-time-at-the-un-in-new-york/article71490809.ece",
+    "summary": "U.S. officials say the two leaders will hold talks on the sidelines of the United Nations General Assembly",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-21T09:48:40+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/f8w4be/article71490842.ece/alternates/LANDSCAPE_1200/2026-09-18T093639Z_624103304_RC2LLNAKPBUW_RTRMADP_3_BRITAIN-IRELAND.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Le Monde",
+      "The Economist",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/andy-burnham-is-set-to-meet-donald-trump-for-the-first-time-at-the-un-in-new-york/article71490809.ece"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/09/22/a-new-york-donald-trump-et-zohran-mamdani-affichent-une-improbable-complicite_6779934_3210.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/f8w4be/article71490842.ece/alternates/LANDSCAPE_1200/2026-09-18T093639Z_624103304_RC2LLNAKPBUW_RTRMADP_3_BRITAIN-IRELAND.JPG",
+      "https://img.lemde.fr/2026/09/22/291/0/8256/4128/644/322/60/0/cd461b2_ftp-1-wywjmhz7sq2s-5149242-01-06.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1171.9167521280556,
+    "is_stale": false,
+    "score": 25.30006182588569,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
