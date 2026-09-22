@@ -1,0 +1,63 @@
+{
+  "id": "0c83bf9985cb",
+  "created_at": "2026-09-22T06:07:49.512078+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.48,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran FM Araghchi holds phone call with UN chief Guterres",
+  "link": "https://en.mehrnews.com/news/247964/Iran-FM-Araghchi-holds-phone-call-with-UN-chief-Guterres",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran FM Araghchi holds phone call with UN chief Guterres",
+    "link": "https://en.mehrnews.com/news/247964/Iran-FM-Araghchi-holds-phone-call-with-UN-chief-Guterres",
+    "summary": "TEHRAN, Sep. 22 (MNA) – Iranian Foreign Minister Seyyed Abbas Araghchi held a telephone conversation with UN Secretary General Antonio Guterres upon his arrival in New York to participate in the 81st session of the UN General Assembly (UNGA) meeting.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-22T05:49:39+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/22/4/6184434.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247964/Iran-FM-Araghchi-holds-phone-call-with-UN-chief-Guterres"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86270725/Araghchi-holds-phone-call-with-UN-chief-upon-arrival-in-New-York"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/22/4/6184434.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/22/4/173121445.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1165.9122163491668,
+    "is_stale": false,
+    "score": 20.479906698407408,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "41ab06e26cb2",
+  "created_at": "2026-09-22T06:07:49.512462+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.0,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Young users ditch Google for AI, with unknown consequences",
+  "link": "https://phys.org/news/2026-09-young-users-ditch-google-ai.html",
+  "publishers": [
+    "Engadget",
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Young users ditch Google for AI, with unknown consequences",
+    "link": "https://phys.org/news/2026-09-young-users-ditch-google-ai.html",
+    "summary": "Researchers have found that we know very little about how artificial intelligence use impacts younger school children's ability to learn and think.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-09-22T01:40:01+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2025/classroom-2.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Engadget",
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-09-young-users-ditch-google-ai.html"
+      },
+      {
+        "name": "Engadget",
+        "link": "https://www.engadget.com/2261383/how-to-turn-off-google-location-history/"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2025/classroom-2.jpg",
+      "https://www.engadget.com/img/gallery/how-to-turn-off-your-google-location-history/l-intro-1789661432.jpg",
+      "https://www.engadget.com/img/gallery/how-to-turn-off-your-google-location-history/intro-1789661432.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1165.9121499783334,
+    "is_stale": true,
+    "score": 18.002536334703706,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
