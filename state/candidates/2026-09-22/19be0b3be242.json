@@ -1,0 +1,70 @@
+{
+  "id": "19be0b3be242",
+  "created_at": "2026-09-22T09:08:04.319127+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.03,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan, Saudi Arabia sign agreement to abolish visa requirements for diplomatic, official passport holders",
+  "link": "https://www.dawn.com/news/2031777/pakistan-saudi-arabia-sign-agreement-to-abolish-visa-requirements-for-diplomatic-official-passport-holders",
+  "publishers": [
+    "Dawn",
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Pakistan, Saudi Arabia sign agreement to abolish visa requirements for diplomatic, official passport holders",
+    "link": "https://www.dawn.com/news/2031777/pakistan-saudi-arabia-sign-agreement-to-abolish-visa-requirements-for-diplomatic-official-passport-holders",
+    "summary": "Pakistan and Saudi Arabia signed an agreement on Tuesday to abolish visa requirements for holders of diplomatic, official and special passports. Deputy Prime Minister Ishaq Dar signed the agreement with Saudi Foreign Minister Prince Faisal bin Farhan on the sidelines of the United Nations General Assembly (UNGA) in New York, he said in a post on X. DPM Dar hoped the step would “further facilitate high-level engagement and institutional exchanges, and contribute to advancing our enduring and brotherly strategic partnership across all areas of mutual interest”. The two countries share robust bilateral cooperation, with frequent high-level diplomatic exchanges on both sides. On August 7, ​​​​​​​Pakistan and Saudi Arabia, alongside Turkiye, also signed a joint defence agreement pledging to strengthen collective security, deepen defence cooperation and promote peace and stability in the region and beyond. Later that month, the two countries agreed to boost Pakistani agricultural and food exports to the Gulf state up to $3 billion. The agreement was reached during the visit of a Saudi delegation led by Minister of Environment, Water and Agriculture Engineer Abdulrahman Al-Fadley. In July",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-22T06:33:12+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/2207555106b74fb.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2031777/pakistan-saudi-arabia-sign-agreement-to-abolish-visa-requirements-for-diplomatic-official-passport-holders"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630731/pakistan-saudi-arabia-sign-visa-waiver-agreement-for-diplomatic-official-passport-holders"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/683105-pakistan-saudi-arabia-waive-visa-requirements-for-diplomatic-official-passport-holders"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/2207555106b74fb.webp",
+      "https://i.dawn.com/thumbnail/2026/09/2207555106b74fb.webp",
+      "https://www.geo.tv/assets/uploads/2026-09-22/683105_073000_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1168.9162410841668,
+    "is_stale": false,
+    "score": 19.03291443166347,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

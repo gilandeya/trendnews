@@ -1,0 +1,97 @@
+{
+  "id": "9d00408f9607",
+  "created_at": "2026-09-22T09:08:04.318398+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.61,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US TV networks suspend White House pool coverage over Trump media ban",
+  "link": "https://www.theguardian.com/us-news/2026/sep/21/trump-tv-networks-white-house-pool-coverage",
+  "publishers": [
+    "BBC 中文",
+    "Daily Maverick",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Hindu — International",
+    "Vanguard Nigeria"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "US TV networks suspend White House pool coverage over Trump media ban",
+    "link": "https://www.theguardian.com/us-news/2026/sep/21/trump-tv-networks-white-house-pool-coverage",
+    "summary": "White House promoted its own ‘Trump TV’ feed online after ABC, CBS, Fox News and NBC decline to participate The major US television news outlets agreed to suspend their video coverage of Donald Trump after the administration banned journalists from several outlets from entering the White House grounds. The collective decision came after the barred outlets – CNN, MS Now and Politico – sued the administration on Monday, saying the president’s actions were a violation of their first amendment rights. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-22T01:37:29+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/894f4f3744dd16f67635d89714528d052ab9e9ce/535_0_3000_2401/master/3000.jpg?width=700&quality=85&auto=format&fit=max&s=d167028728f283ee56ef7e3684a85b62",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "BBC 中文",
+      "Daily Maverick",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Hindu — International",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/sep/21/trump-tv-networks-white-house-pool-coverage"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/donald-trump-cnn-politico-white-house-press-pool-ban-explained/article71494249.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-networks-halt-trump-coverage-in-revolt-over-white-house-ban/article71492960.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/americas/top-us-networks-suspend-trump-pool-coverage-after-white-house-ban"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/what-is-the-white-house-pool-how-it-works-and-why-it-matters-101790034981909.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/white-house-launches-trump-tv-24-7-streaming-platform-after-us-networks-ban-12078944#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/894f4f3744dd16f67635d89714528d052ab9e9ce/535_0_3000_2401/master/3000.jpg?width=700&quality=85&auto=format&fit=max&s=d167028728f283ee56ef7e3684a85b62",
+      "https://i.guim.co.uk/img/media/894f4f3744dd16f67635d89714528d052ab9e9ce/535_0_3000_2401/master/3000.jpg?width=460&quality=85&auto=format&fit=max&s=9e68fc5b6b7969af9a4a52374fecbed2",
+      "https://i.guim.co.uk/img/media/894f4f3744dd16f67635d89714528d052ab9e9ce/535_0_3000_2401/master/3000.jpg?width=140&quality=85&auto=format&fit=max&s=a02b22a23a92e3d0fad809173df99969",
+      "https://th-i.thgim.com/public/incoming/y8p8f8/article71494269.ece/alternates/LANDSCAPE_1200/CUE%20content%20cards%20on%20the%20clipboard%20httpscuecsapp.thehindu.co.incue-webmainnameiStock-1671099022.jpgurihttps3A2F2Fcuecsapp.thehindu.co.in2Fwebservice2Fescenic2Fcontent2F70757764mimetype.png",
+      "https://th-i.thgim.com/public/incoming/l2kzbx/article71492972.ece/alternates/LANDSCAPE_1200/2026-09-21T151403Z_133715442_RC2RNNA0PIGA_RTRMADP_3_USA-TRUMP-MEDIA.JPG",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/21/461649.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 9,
+    "velocity": 1.0,
+    "age_hours": 1168.9161836416667,
+    "is_stale": false,
+    "score": 23.609227867363973,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

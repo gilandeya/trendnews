@@ -1,0 +1,90 @@
+{
+  "id": "c31ce748cf23",
+  "created_at": "2026-09-22T09:08:04.319270+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.69,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Middle East live: Several killed in Saudi strikes on Yemen port city Mokha, Houthi media says",
+  "link": "https://www.france24.com/en/middle-east/20260922-middle-east-live-yemen-fighting-escalates-as-trump-heads-to-un",
+  "publishers": [
+    "Channel News Asia",
+    "France24",
+    "Free Malaysia Today",
+    "NDTV — World",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Middle East live: Several killed in Saudi strikes on Yemen port city Mokha, Houthi media says",
+    "link": "https://www.france24.com/en/middle-east/20260922-middle-east-live-yemen-fighting-escalates-as-trump-heads-to-un",
+    "summary": "Saudi air strikes on Yemen's Red Sea port of Mokha killed at least six people, the Houthi-affiliated news agency Saba reported Tuesday, as Iran-backed Houthis press their offensive. The escalation comes as the US and its allies face growing pressure to protect Saudi Arabia and regional energy infrastructure, while US President Donald Trump prepares to address the UN in New York. Follow our live blog for the latest developments.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-22T03:41:38+00:00",
+    "image_url": "https://s.france24.com/media/display/e76953e8-b218-11f1-8a7d-0dbbad64a63b/w:1024/p:16x9/2026-09-16T134945Z-1339566980-RC2DKNANTNM5-RTRMADP-3-IRAN-CRISIS-SAUDI-YEMEN.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Channel News Asia",
+      "France24",
+      "Free Malaysia Today",
+      "NDTV — World",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260922-middle-east-live-yemen-fighting-escalates-as-trump-heads-to-un"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/6-killed-8-injured-in-saudi-strikes-in-yemen-port-city-report-12078728#publisher=newsstand"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630749/g7-leaders-condemn-houthi-strikes-on-saudi-arabia"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/houthis-must-immediately-cease-strikes-against-saudi-arabia-g7-foreign-ministers/article71494097.ece"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/g7-houthi-saudi-arabia-condemn-strikes-6401671"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/22/g7-leaders-condemn-houthi-strikes-on-saudi-arabia"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/e76953e8-b218-11f1-8a7d-0dbbad64a63b/w:1024/p:16x9/2026-09-16T134945Z-1339566980-RC2DKNANTNM5-RTRMADP-3-IRAN-CRISIS-SAUDI-YEMEN.jpg",
+      "https://c.ndtvimg.com/2026-09/qbedv0ik_saudi-strikes-yemen_625x300_22_September_26.jpeg",
+      "https://dam.mediacorp.sg/image/upload/s--nvssBEjS--/c_crop,h_562,w_1000,x_0,y_84/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/France_G7_Summit_57693.jpg?itok=TdcMmyvj",
+      "https://th-i.thgim.com/public/incoming/l8dfq6/article71494104.ece/alternates/LANDSCAPE_1200/APTOPIX_Mideast_Wars_Yemen__99_9.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/6c3f3c20-6531-4de5-8583-a40997ef5f72-EPA-Houthis-Yemen-10092026.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 1168.9161778244443,
+    "is_stale": true,
+    "score": 18.692284807367173,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

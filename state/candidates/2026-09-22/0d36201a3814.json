@@ -1,0 +1,63 @@
+{
+  "id": "0d36201a3814",
+  "created_at": "2026-09-22T09:08:04.318810+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.41,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Wirtschaftsweise Monika Schnitzer stützt Reformkurs von Friedrich Merz",
+  "link": "https://www.spiegel.de/wirtschaft/soziales/wirtschaftsweise-monika-schnitzer-stuetzt-reformkurs-von-friedrich-merz-warnt-vor-tankpreisdeckel-a-4abf34b0-7dd8-4016-a847-95763c746fd5#ref=rss",
+  "publishers": [
+    "Der Spiegel",
+    "warnt vor Tankpreisdeckel"
+  ],
+  "region": "de",
+  "article": {
+    "title": "Wirtschaftsweise Monika Schnitzer stützt Reformkurs von Friedrich Merz",
+    "link": "https://www.spiegel.de/wirtschaft/soziales/wirtschaftsweise-monika-schnitzer-stuetzt-reformkurs-von-friedrich-merz-warnt-vor-tankpreisdeckel-a-4abf34b0-7dd8-4016-a847-95763c746fd5#ref=rss",
+    "summary": "Trotz der Wahlergebnisse warnt die Chefin der Wirtschaftsweisen vor einem Kurswechsel bei geplanten Sozialreformen. Monika Schnitzer schlägt außerdem eine Alternative zur Verstaatlichung von Wohnungen in Berlin vor.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-09-22T08:32:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/3eb4aad2-ddac-4ffc-a1e8-66366709e846_w520_r2.08_fpx48_fpy46.jpg",
+    "publisher": "warnt vor Tankpreisdeckel",
+    "cluster_sources": [
+      "Der Spiegel",
+      "warnt vor Tankpreisdeckel"
+    ],
+    "cluster_members": [
+      {
+        "name": "warnt vor Tankpreisdeckel",
+        "link": "https://www.spiegel.de/wirtschaft/soziales/wirtschaftsweise-monika-schnitzer-stuetzt-reformkurs-von-friedrich-merz-warnt-vor-tankpreisdeckel-a-4abf34b0-7dd8-4016-a847-95763c746fd5#ref=rss"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/politik/deutschland/news-friedrich-merz-in-berlin-statt-new-york-boom-in-cottbus-charles-spencer-schreibt-ueber-prinzessin-diana-a-e29cc826-2a3c-43ec-90e6-717c575904b0#ref=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/3eb4aad2-ddac-4ffc-a1e8-66366709e846_w520_r2.08_fpx48_fpy46.jpg",
+      "https://cdn.prod.www.spiegel.de/images/9dd2d089-c73a-4529-9962-19f394c5e158_w520_r2.08_fpx50.63_fpy49.98.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 21.410026937,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

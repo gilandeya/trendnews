@@ -1,0 +1,81 @@
+{
+  "id": "c49469caf7c2",
+  "created_at": "2026-09-22T09:08:04.318977+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.42,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "light",
+  "state_media": false,
+  "title": "Paramount settles lawsuit blocking $110 billion Warner Bros. merger",
+  "link": "https://www.theverge.com/entertainment/998302/paramount-warner-bros-discovery-merger-settlement",
+  "publishers": [
+    "Court House News",
+    "Daily Sabah",
+    "France24",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Paramount settles lawsuit blocking $110 billion Warner Bros. merger",
+    "link": "https://www.theverge.com/entertainment/998302/paramount-warner-bros-discovery-merger-settlement",
+    "summary": "Paramount has reached a settlement with California and the 11 other states that sued to block its planned $110 billion acquisition of Warner Bros. Discovery. The settlement removes a major roadblock standing in the way of the massive media merger. According to the proposed consent decree filed with the court, it includes requirements like minimum […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-09-21T17:42:15+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/02/STKB385_PARAMOUNT_B.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "Court House News",
+      "Daily Sabah",
+      "France24",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/paramount-settles-with-state-ags-over-warner-bros-merger/"
+      },
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/entertainment/998302/paramount-warner-bros-discovery-merger-settlement"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260921-paramount-settles-with-us-states-clearing-path-for-warner-bros-merger"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260921-paramount-settles-with-us-states-to-clear-warner-bros-mega-merger"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/paramount-settles-states-led-lawsuit-clearing-path-for-warner-buyout"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/2026/02/STKB385_PARAMOUNT_B.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://s.france24.com/media/display/ca174cbc-1391-11f1-9093-005056a90284/w:1024/p:16x9/AP26058003516764.jpg",
+      "https://s.france24.com/media/display/7d117c5e-b610-11f1-90c1-d382746d948a/w:1024/p:16x9/capture-10965374426ab1b77789cdb1-95808430.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/21/461654.JPG"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1168.9162343477778,
+    "is_stale": false,
+    "score": 19.421415823129628,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
