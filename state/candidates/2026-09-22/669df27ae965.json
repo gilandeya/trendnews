@@ -1,0 +1,97 @@
+{
+  "id": "669df27ae965",
+  "created_at": "2026-09-22T17:07:57.741201+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.12,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "CNN, MS NOW and Politico sue Trump, challenging White House ban",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-22-cnn-ms-now-and-politico-sue-trump-challenging-white-house-ban/",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "BBC 中文",
+    "Daily Maverick",
+    "Dawn",
+    "Hindustan Times — World",
+    "Le Monde",
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "za",
+  "article": {
+    "title": "CNN, MS NOW and Politico sue Trump, challenging White House ban",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-22-cnn-ms-now-and-politico-sue-trump-challenging-white-house-ban/",
+    "summary": "WASHINGTON, Sept 21 (Reuters) - CNN, MS NOW and Politico sued President Donald Trump and other members of his administration on Monday for banning them from White House grounds, saying the action violated their rights to free speech and a free press under the US Constitution's First Amendment.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-22T04:36:32+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/36klIBC4pp8-ijg43fZV9EW9Kb4=/800x0/smart/filters:strip_exif()/file/attachments/2998/14260418_323658.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "BBC 中文",
+      "Daily Maverick",
+      "Dawn",
+      "Hindustan Times — World",
+      "Le Monde",
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/22/rubio-defends-trumps-white-house-ban-on-cnn-ms-now-and-politico?traffic_source=rss"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-22-cnn-ms-now-and-politico-sue-trump-challenging-white-house-ban/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/cnn-ms-now-politico-to-sue-trump-administration-over-white-house-access/article71491230.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/why-did-cnn-ms-now-and-politico-sue-the-trump-administration-white-house-ban-explained-101790011073538.html"
+      },
+      {
+        "name": "BBC 中文",
+        "link": "https://www.bbc.com/zhongwen/articles/cjp30pv25xd7o/trad?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c8dx5dy5rzz2o?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/36klIBC4pp8-ijg43fZV9EW9Kb4=/800x0/smart/filters:strip_exif()/file/attachments/2998/14260418_323658.jpg",
+      "https://th-i.thgim.com/public/incoming/6lel8k/article71491291.ece/alternates/LANDSCAPE_1200/2026-09-20T213341Z_1166113885_RC2RXGAW6383_RTRMADP_3_UN-ASSEMBLY-TRUMP.JPG",
+      "https://ichef.bbci.co.uk/ace/ws/1024/cpsprodpb/5aa1/live/5ce86ed0-b60e-11f1-a054-8fb9a369004b.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/5aa1/live/5ce86ed0-b60e-11f1-a054-8fb9a369004b.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/5aa1/live/5ce86ed0-b60e-11f1-a054-8fb9a369004b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/8ffa/live/e7abbca0-b665-11f1-b785-7d19738c6de2.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 9,
+    "velocity": 1.0,
+    "age_hours": 1176.914187984722,
+    "is_stale": false,
+    "score": 27.124971690104715,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

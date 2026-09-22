@@ -1,0 +1,62 @@
+{
+  "id": "5973d32b3dcd",
+  "created_at": "2026-09-22T17:07:57.742594+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.0,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump threatens to 'annihilate' Iran if no deal reached after US midterms",
+  "link": "https://www.dailysabah.com/world/americas/trump-threatens-to-annihilate-iran-if-no-deal-reached-after-us-midterms",
+  "publishers": [
+    "Daily Sabah",
+    "TASS"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Trump threatens to 'annihilate' Iran if no deal reached after US midterms",
+    "link": "https://www.dailysabah.com/world/americas/trump-threatens-to-annihilate-iran-if-no-deal-reached-after-us-midterms",
+    "summary": "U.S. President Donald Trump warned Iran on Tuesday that it could face “annihilation” if it fails to reach an agreement to end the Middle East war, while predicting that Tehran woul...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-22T14:49:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/22/461875.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/americas/trump-threatens-to-annihilate-iran-if-no-deal-reached-after-us-midterms"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2191281"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/22/461875.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1176.9142774538889,
+    "is_stale": false,
+    "score": 20.995715197444447,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,207 +1,5 @@
 [
   {
-    "score": 22.91,
-    "bucket": "serious",
-    "tokens": [
-      "atrocity",
-      "behind",
-      "believe",
-      "bombing",
-      "finds",
-      "grounds",
-      "iran",
-      "school"
-    ],
-    "link": "https://www.theguardian.com/world/2026/sep/17/iran-school-bombing-un-mission-us-military-behind-attack",
-    "title": "Iran school bombing: grounds to believe US was behind atrocity, UN finds",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-17T15:07:53.876850+00:00"
-  },
-  {
-    "score": 21.13,
-    "bucket": "serious",
-    "tokens": [
-      "accueille",
-      "associé",
-      "canada",
-      "der",
-      "devenir",
-      "européenne",
-      "favorablement",
-      "leyen",
-      "membre",
-      "proposition",
-      "union",
-      "ursula",
-      "von"
-    ],
-    "link": "https://www.lemonde.fr/international/article/2026/09/17/le-canada-accueille-favorablement-la-proposition-d-ursula-von-der-leyen-d-en-faire-un-membre-associe-de-l-union-europeenne_6776408_3210.html",
-    "title": "Le Canada accueille favorablement la proposition d’Ursula von der Leyen de devenir « membre associé » de l’Union européenne",
-    "posted_title": "",
-    "region": "fr",
-    "seen_at": "2026-09-17T15:07:53.877147+00:00"
-  },
-  {
-    "score": 20.79,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "city",
-      "cuts",
-      "drone",
-      "fire",
-      "oil",
-      "part",
-      "power",
-      "refinery",
-      "russian",
-      "sets",
-      "ukrainian"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/17/ukrainian-drone-attack-sets-russian-oil-refinery-on-fire-cuts-power-to-part-of-russian-city",
-    "title": "Ukrainian drone attack sets Russian oil refinery on fire, cuts power to part of Russian city",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-17T15:07:53.877433+00:00"
-  },
-  {
-    "score": 19.96,
-    "bucket": "serious",
-    "tokens": [
-      "election",
-      "losing",
-      "minister",
-      "prime",
-      "resigns",
-      "sweden"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/17/sweden-s-prime-minister-resigns-after-losing-election",
-    "title": "Sweden’s prime minister resigns after losing election",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-17T15:07:53.877706+00:00"
-  },
-  {
-    "score": 19.81,
-    "bucket": "sport",
-    "tokens": [
-      "barcelona",
-      "hat",
-      "hit",
-      "past",
-      "racing",
-      "raphinha",
-      "santander",
-      "seven",
-      "trick"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/videos/cqy8zgxpp3dko?at_medium=RSS&at_campaign=rss",
-    "title": "Raphinha hat-trick as Barcelona hit seven past Racing Santander",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-17T15:07:53.877978+00:00"
-  },
-  {
-    "score": 24.36,
-    "bucket": "serious",
-    "tokens": [
-      "bangladesh",
-      "crisis",
-      "disruption",
-      "energy",
-      "gulf",
-      "hits",
-      "pakistan",
-      "worsens"
-    ],
-    "link": "https://www.dawn.com/news/2030642/energy-disruption-hits-pakistan-and-bangladesh-as-gulf-crisis-worsens",
-    "title": "Energy disruption hits Pakistan and Bangladesh as Gulf crisis worsens",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-17T17:07:54.736624+00:00"
-  },
-  {
-    "score": 23.37,
-    "bucket": "serious",
-    "tokens": [
-      "100",
-      "bill",
-      "house",
-      "impose",
-      "india",
-      "others",
-      "passes",
-      "russia",
-      "sanctions",
-      "seeking",
-      "tariffs"
-    ],
-    "link": "https://www.thehindu.com/news/international/us-house-passes-russia-sanctions-bill-india-tariffs/article71474350.ece",
-    "title": "U.S. House passes Russia sanctions bill seeking to impose up to 100% tariffs on India, others",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-17T17:07:54.737016+00:00"
-  },
-  {
-    "score": 22.14,
-    "bucket": "serious",
-    "tokens": [
-      "abbas",
-      "again",
-      "assembly",
-      "attend",
-      "denies",
-      "leader",
-      "palestinian",
-      "visa"
-    ],
-    "link": "http://www.africanews.com/2026/09/17/us-again-denies-palestinian-leader-abbas-visa-to-attend-un-assembly/",
-    "title": "US again denies Palestinian leader Abbas visa to attend UN assembly",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-09-17T17:07:54.737328+00:00"
-  },
-  {
-    "score": 21.2,
-    "bucket": "serious",
-    "tokens": [
-      "beijing",
-      "call",
-      "china",
-      "diplomats",
-      "discuss",
-      "high",
-      "interactions",
-      "level",
-      "top"
-    ],
-    "link": "https://www.thehindu.com/news/international/china-us-top-diplomats-discuss-high-level-interactions-in-call-beijing-says/article71477570.ece",
-    "title": "China, U.S. top diplomats discuss ‘high-level interactions’ in call, Beijing says",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-17T17:07:54.737617+00:00"
-  },
-  {
-    "score": 20.28,
-    "bucket": "useful",
-    "tokens": [
-      "'existential",
-      "charles",
-      "danger'",
-      "falling",
-      "hands",
-      "king",
-      "warns",
-      "wrong"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c65ymj7njvl7o?at_medium=RSS&at_campaign=rss",
-    "title": "King Charles warns of 'existential danger' of AI falling into wrong hands",
-    "posted_title": "",
-    "region": "tech",
-    "seen_at": "2026-09-17T17:07:54.737938+00:00"
-  },
-  {
     "score": 31.08,
     "bucket": "serious",
     "tokens": [
@@ -4742,5 +4540,100 @@
     "posted_title": "",
     "region": "my",
     "seen_at": "2026-09-22T15:07:51.639107+00:00"
+  },
+  {
+    "score": 27.12,
+    "bucket": "serious",
+    "tokens": [
+      "ban",
+      "challenging",
+      "cnn",
+      "house",
+      "now",
+      "politico",
+      "sue",
+      "trump",
+      "white"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-22-cnn-ms-now-and-politico-sue-trump-challenging-white-house-ban/",
+    "title": "CNN, MS NOW and Politico sue Trump, challenging White House ban",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-22T17:07:57.741673+00:00"
+  },
+  {
+    "score": 26.61,
+    "bucket": "serious",
+    "tokens": [
+      "assembly",
+      "between",
+      "deal",
+      "deciding",
+      "driving",
+      "general",
+      "hell",
+      "iran",
+      "trump"
+    ],
+    "link": "https://www.thehindu.com/news/international/us-president-trump-un-general-assembly-speech-2026/article71496065.ece",
+    "title": "Deciding between deal or driving Iran ‘into hell’, says Trump at UN General Assembly",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-22T17:07:57.742024+00:00"
+  },
+  {
+    "score": 23.13,
+    "bucket": "useful",
+    "tokens": [
+      "intelligence",
+      "officially",
+      "renaming",
+      "super",
+      "trump"
+    ],
+    "link": "https://www.theverge.com/ai-artificial-intelligence/998816/donald-trump-ai-super-intelligence",
+    "title": "Trump says the US is officially renaming AI to ‘super intelligence’",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-09-22T17:07:57.742314+00:00"
+  },
+  {
+    "score": 21.05,
+    "bucket": "serious",
+    "tokens": [
+      "alam",
+      "asad",
+      "bangladesh",
+      "commissioner",
+      "foreign",
+      "high",
+      "india",
+      "next",
+      "secretary",
+      "siam"
+    ],
+    "link": "https://www.thehindu.com/news/international/bangladesh-foreign-secretary-asad-alam-siam-to-be-the-next-high-commissioner-to-india/article71495071.ece",
+    "title": "Bangladesh Foreign Secretary Asad Alam Siam to be the next High Commissioner to India",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-22T17:07:57.742585+00:00"
+  },
+  {
+    "score": 21.0,
+    "bucket": "serious",
+    "tokens": [
+      "'annihilate'",
+      "deal",
+      "iran",
+      "midterms",
+      "reached",
+      "threatens",
+      "trump"
+    ],
+    "link": "https://www.dailysabah.com/world/americas/trump-threatens-to-annihilate-iran-if-no-deal-reached-after-us-midterms",
+    "title": "Trump threatens to 'annihilate' Iran if no deal reached after US midterms",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-09-22T17:07:57.742849+00:00"
   }
 ]

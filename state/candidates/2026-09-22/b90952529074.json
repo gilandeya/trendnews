@@ -1,0 +1,63 @@
+{
+  "id": "b90952529074",
+  "created_at": "2026-09-22T17:07:57.742324+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.05,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Bangladesh Foreign Secretary Asad Alam Siam to be the next High Commissioner to India",
+  "link": "https://www.thehindu.com/news/international/bangladesh-foreign-secretary-asad-alam-siam-to-be-the-next-high-commissioner-to-india/article71495071.ece",
+  "publishers": [
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Bangladesh Foreign Secretary Asad Alam Siam to be the next High Commissioner to India",
+    "link": "https://www.thehindu.com/news/international/bangladesh-foreign-secretary-asad-alam-siam-to-be-the-next-high-commissioner-to-india/article71495071.ece",
+    "summary": "The development comes in the backdrop of negotiations between New Delhi and Dhaka for a possible India visit by Prime Minister Tarique Rahman sometime in November.",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-22T13:22:37+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/yklle5/article71495120.ece/alternates/LANDSCAPE_1200/Asad_Alam_Siam_presented_credentials_to_IAEA_Director_General_Rafael_Mariano_Grossi_cropped.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/bangladesh-foreign-secretary-asad-alam-siam-to-be-the-next-high-commissioner-to-india/article71495071.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/decks-cleared-for-bangladeshs-new-high-commissioner-to-india-asad-alam-siam-12082981#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/yklle5/article71495120.ece/alternates/LANDSCAPE_1200/Asad_Alam_Siam_presented_credentials_to_IAEA_Director_General_Rafael_Mariano_Grossi_cropped.jpg",
+      "https://c.ndtvimg.com/2026-08/181nc36_india-bangladesh_625x300_24_August_26.png?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1176.9142715836113,
+    "is_stale": false,
+    "score": 21.049733712444443,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
