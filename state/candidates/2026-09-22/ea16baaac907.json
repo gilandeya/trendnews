@@ -1,0 +1,105 @@
+{
+  "id": "ea16baaac907",
+  "created_at": "2026-09-22T03:07:50.673876+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.46,
+  "trend_score": 1.0,
+  "velocity": 0.46,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "CNN, MS NOW and Politico file lawsuit against Trump's White House ban",
+  "link": "https://www.bbc.co.uk/news/articles/cm0e32rwvrryo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "CGTN",
+    "Daily Maverick",
+    "Dawn",
+    "Hindustan Times — World",
+    "Key details here",
+    "Malay Mail",
+    "NDTV — World",
+    "Rappler",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "CNN, MS NOW and Politico file lawsuit against Trump's White House ban",
+    "link": "https://www.bbc.co.uk/news/articles/cm0e32rwvrryo?at_medium=RSS&at_campaign=rss",
+    "summary": "Major US networks later suspended White House TV coverage of Trump as he headed to New York for a UN summit.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-22T00:16:06+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5aa1/live/5ce86ed0-b60e-11f1-a054-8fb9a369004b.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "CGTN",
+      "Daily Maverick",
+      "Dawn",
+      "Hindustan Times — World",
+      "Key details here",
+      "Malay Mail",
+      "NDTV — World",
+      "Rappler",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cm0e32rwvrryo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368294/trump-sued-cnn-ms-now-politico-over-white-house-ban?utm_source=rss_feed"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2031607/us-media-outlets-to-sue-trump-administration-after-white-house-ban"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-22-cnn-ms-now-and-politico-sue-trump-challenging-white-house-ban/"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630582/cnn-ms-now-and-politico-suing-trump-over-white-house-ban"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/us-canada/cnn-ms-now-politico-suing-trump-white-house-ban/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5aa1/live/5ce86ed0-b60e-11f1-a054-8fb9a369004b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/5aa1/live/5ce86ed0-b60e-11f1-a054-8fb9a369004b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5aa1/live/5ce86ed0-b60e-11f1-a054-8fb9a369004b.jpg",
+      "https://i.dawn.com/large/2026/09/21172517505a3a8.webp",
+      "https://i.dawn.com/thumbnail/2026/09/21172517505a3a8.webp",
+      "https://cdn.dailymaverick.co.za/i/36klIBC4pp8-ijg43fZV9EW9Kb4=/800x0/smart/filters:strip_exif()/file/attachments/2998/14260418_323658.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 12,
+    "velocity": 0.4583064997423881,
+    "age_hours": 1162.912341118611,
+    "is_stale": false,
+    "score": 30.455702472708747,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

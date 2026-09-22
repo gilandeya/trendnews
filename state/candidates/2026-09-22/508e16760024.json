@@ -1,0 +1,80 @@
+{
+  "id": "508e16760024",
+  "created_at": "2026-09-22T03:07:50.674320+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.68,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump administration prepares sanctions against International Criminal Court, sources say",
+  "link": "https://www.thehindu.com/news/international/trump-administration-prepares-sanctions-against-international-criminal-court-sources-say/article71489890.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "Mehr News",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Trump administration prepares sanctions against International Criminal Court, sources say",
+    "link": "https://www.thehindu.com/news/international/trump-administration-prepares-sanctions-against-international-criminal-court-sources-say/article71489890.ece",
+    "summary": "Targeting the entire organisation directly could ​severely undermine the court's work; ICC officials warn courtwide sanctions could disrupt IT, insurance, investigators and ‌payments to U.S. employees",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-21T02:47:29+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/2kghcz/article70083988.ece/alternates/LANDSCAPE_1200/2025-09-22T162310Z_450511426_RC2JBDA8NRNG_RTRMADP_3_USA-TRUMP-ICC-SANCTIONS.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Mehr News",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-sanctions-on-international-criminal-court-officials-explained/article71367867.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-administration-prepares-sanctions-against-international-criminal-court-sources-say/article71489890.ece"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630612/trump-administration-prepares-sanctions-against-international-criminal-court-sources-say"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/trump-administration-sanctions-against-international-criminal-court-israel-benjamin-netanyahu-warrant-101789957474534.html"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247935/US-preparing-sanctions-on-entire-International-Criminal-Court"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/2kghcz/article70083988.ece/alternates/LANDSCAPE_1200/2025-09-22T162310Z_450511426_RC2JBDA8NRNG_RTRMADP_3_USA-TRUMP-ICC-SANCTIONS.JPG",
+      "https://th-i.thgim.com/public/incoming/yn8poy/article71367884.ece/alternates/LANDSCAPE_1200/2026-08-19T094555Z_953579557_RC2L1NAHLRS9_RTRMADP_3_USA-ICC-SANCTIONS-JAPAN.JPG",
+      "https://media.mehrnews.com/d/2025/12/19/4/5832742.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1162.9123481983333,
+    "is_stale": false,
+    "score": 26.67748617485185,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

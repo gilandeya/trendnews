@@ -1,0 +1,87 @@
+{
+  "id": "9f06efddd445",
+  "created_at": "2026-09-22T03:07:50.674860+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.8,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump approval falls to career low of 32% as high costs bite, Reuters/Ipsos poll finds",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-21-trump-approval-falls-to-career-low-of-32-as-high-costs-bite-reutersipsos-poll-finds/",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Maverick",
+    "Free Malaysia Today",
+    "Rappler",
+    "Reuters",
+    "South China Morning Post"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Trump approval falls to career low of 32% as high costs bite, Reuters/Ipsos poll finds",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-21-trump-approval-falls-to-career-low-of-32-as-high-costs-bite-reutersipsos-poll-finds/",
+    "summary": "WASHINGTON, Sept 21 (Reuters) - President Donald Trump's approval rating fell to 32% - the lowest of his political career - as his fellow Republicans soured on his handling of the cost of living amid the unpopular Iran war, a new Reuters/Ipsos poll found.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-21T21:06:11+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/urAhMbdmk77MSr1SIws7kxMUR9o=/800x0/smart/filters:strip_exif()/file/attachments/2998/14302320_219216.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Maverick",
+      "Free Malaysia Today",
+      "Rappler",
+      "Reuters",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/21/trumps-approval-rating-hits-record-low-amid-iran-war-economy-fallout?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368305/trumps-approval-rating-falls-career-low-32-high-living-costs-bite-poll-shows?utm_source=rss_feed"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-21-trump-approval-falls-to-career-low-of-32-as-high-costs-bite-reutersipsos-poll-finds/"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/us-canada/trump-approval-falls-record-low-high-costs-bite-poll/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/22/trump-s-approval-falls-to-record-low-of-32-as-high-costs-bite"
+      },
+      {
+        "name": "Reuters",
+        "link": "https://tass.com/world/2190805"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/urAhMbdmk77MSr1SIws7kxMUR9o=/800x0/smart/filters:strip_exif()/file/attachments/2998/14302320_219216.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/05/daf67962-donald-trump-3.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 1162.912392583889,
+    "is_stale": false,
+    "score": 21.803151452404208,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
