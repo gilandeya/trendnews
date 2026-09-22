@@ -1,0 +1,76 @@
+{
+  "id": "88af91306fce",
+  "created_at": "2026-09-22T15:07:51.638259+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.23,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran, US hint at revival of talks as Trump, Pezeshkian due to attend UN",
+  "link": "https://www.channelnewsasia.com/world/iran-us-peace-talk-revival-trump-un-general-assembly-6402351",
+  "publishers": [
+    "Al Jazeera English",
+    "Channel News Asia",
+    "Daily Sabah",
+    "NPR World"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Iran, US hint at revival of talks as Trump, Pezeshkian due to attend UN",
+    "link": "https://www.channelnewsasia.com/world/iran-us-peace-talk-revival-trump-un-general-assembly-6402351",
+    "summary": "Iran could reopen the Strait of Hormuz to Gulf shipping within seven days if the US fulfilled Tehran's demands to ease military pressure and lift the blockade on Iranian ports, says an Iranian official.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-22T14:08:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--JVFWBsBV--/c_crop,h_449,w_799,x_1,y_42/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-22T122001Z_2_LYNXMPEM8L0VR_RTROPTP_3_IRAN-CRISIS.JPG?itok=3JxUVMXx",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Channel News Asia",
+      "Daily Sabah",
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/iran-us-peace-talk-revival-trump-un-general-assembly-6402351"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/iran-us-diplomatic-signals-raise-hopes-for-renewed-peace-talks"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/09/22/nx-s1-5966364/war-between-u-s-and-iran-becomes-a-test-of-who-will-blink-first"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/22/iran-delegation-to-present-narrative-of-resilience-diplomacy-at-unga?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--JVFWBsBV--/c_crop,h_449,w_799,x_1,y_42/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-22T122001Z_2_LYNXMPEM8L0VR_RTROPTP_3_IRAN-CRISIS.JPG?itok=3JxUVMXx",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/22/461821.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5966364"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1174.91265135,
+    "is_stale": true,
+    "score": 21.23359574096296,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

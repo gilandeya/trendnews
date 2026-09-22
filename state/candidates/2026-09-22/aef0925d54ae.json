@@ -1,0 +1,95 @@
+{
+  "id": "aef0925d54ae",
+  "created_at": "2026-09-22T15:07:51.637477+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.86,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Sri Lanka court convicts 15 men over deadly Easter Sunday bombings",
+  "link": "https://www.bbc.co.uk/news/articles/cqy7z275yx65o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC",
+    "BBC World",
+    "Free Malaysia Today",
+    "NDTV — World",
+    "NPR World",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Sri Lanka court convicts 15 men over deadly Easter Sunday bombings",
+    "link": "https://www.bbc.co.uk/news/articles/cqy7z275yx65o?at_medium=RSS&at_campaign=rss",
+    "summary": "Three churches and three luxury hotels were targeted in the 2019 attacks which killed 270.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-22T14:03:20+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c53f/live/e033b760-b684-11f1-b1d1-571ed4d7ff2c.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC",
+      "BBC World",
+      "Free Malaysia Today",
+      "NDTV — World",
+      "NPR World",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/22/sri-lanka-court-convicts-14-over-deadly-easter-bombings?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cqy7z275yx65o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3368385/sri-lanka-trial-2019-easter-sunday-bombings-set-finish?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/sri-lanka-2019-easter-sunday-bombings-convictions-sentencing/article71495581.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/22/sri-lanka-convicts-14-over-easter-sunday-massacre"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/sri-lanka-convicts-14-over-easter-bombings-that-killed-279-12082057#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c53f/live/e033b760-b684-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/c53f/live/e033b760-b684-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/c53f/live/e033b760-b684-11f1-b1d1-571ed4d7ff2c.jpg",
+      "https://th-i.thgim.com/public/incoming/9uly19/article71495688.ece/alternates/LANDSCAPE_1200/Sri_Lanka_Easter_Sunday_Bombings_85_86.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/5381e967-0066-4e64-8ddc-dbf7fd75c256-AFP---Sri-Lanka---Easter---Bombing---22092026.webp",
+      "https://c.ndtvimg.com/2019-04/qhmkiek_sri-lanka-blast-afp_625x300_22_April_19.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 1174.9126478566666,
+    "is_stale": false,
+    "score": 28.861743893037037,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
