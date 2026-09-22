@@ -1,0 +1,75 @@
+{
+  "id": "17815563709b",
+  "created_at": "2026-09-22T18:07:55.000659+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.86,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Cyclist who dressed as man to avoid Taliban wins silver medal",
+  "link": "https://www.bbc.co.uk/sport/cycling/articles/c63eqyvdndwdo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "BBC World",
+    "Malay Mail",
+    "The Guardian — Sport"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Cyclist who dressed as man to avoid Taliban wins silver medal",
+    "link": "https://www.bbc.co.uk/sport/cycling/articles/c63eqyvdndwdo?at_medium=RSS&at_campaign=rss",
+    "summary": "Afghan cyclist Fariba Hashimi wins silver in the women's road race at the Asian Games, having fled oppression in her home country to pursue a sporting dream.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-22T16:57:55+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ebad/live/b5f04860-b69d-11f1-ba3d-1d5c8a47f823.png",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC Sport",
+      "BBC World",
+      "Malay Mail",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/sport/cycling/articles/c63eqyvdndwdo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/sport/2026/sep/22/fariba-hashimi-afghan-cyclist-disguised-as-man-evade-taliban-wins-asian-games-silver"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/sports/2026/09/22/afghan-cyclist-hashimi-wins-asian-games-silver-after-training-disguised-as-man/236123"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ebad/live/b5f04860-b69d-11f1-ba3d-1d5c8a47f823.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/ebad/live/b5f04860-b69d-11f1-ba3d-1d5c8a47f823.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ebad/live/b5f04860-b69d-11f1-ba3d-1d5c8a47f823.png",
+      "https://i.guim.co.uk/img/media/0dd976b75f27c435237d2340596a38ecf1927312/409_0_4031_3226/master/4031.jpg?width=700&quality=85&auto=format&fit=max&s=b3af7454f1f8427f1c24779f293f5691",
+      "https://i.guim.co.uk/img/media/0dd976b75f27c435237d2340596a38ecf1927312/409_0_4031_3226/master/4031.jpg?width=460&quality=85&auto=format&fit=max&s=00d1ad18958c569d42f5be03a13583d5",
+      "https://i.guim.co.uk/img/media/0dd976b75f27c435237d2340596a38ecf1927312/409_0_4031_3226/master/4031.jpg?width=140&quality=85&auto=format&fit=max&s=8b7c7897e55f8ff406ce40748a6206d8"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1177.9132811725,
+    "is_stale": false,
+    "score": 25.855683762296298,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

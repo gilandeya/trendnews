@@ -1,0 +1,76 @@
+{
+  "id": "9839bb98a9dd",
+  "created_at": "2026-09-22T18:07:55.000092+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.81,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "US denies visa for Iran media team to ‘hide truth’: FM spox",
+  "link": "https://en.mehrnews.com/news/247969/US-denies-visa-for-Iran-media-team-to-hide-truth-FM-spox",
+  "publishers": [
+    "Hindustan Times — World",
+    "IRNA English",
+    "Mehr News",
+    "The Hindu — International"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "US denies visa for Iran media team to ‘hide truth’: FM spox",
+    "link": "https://en.mehrnews.com/news/247969/US-denies-visa-for-Iran-media-team-to-hide-truth-FM-spox",
+    "summary": "TEHRAN, Sep. 22 (MNA) – Iran’s foreign ministry spokesman said Monday that Washington’s refusal to issue visas for journalists and the media team accompanying President Masoud Pezeshkian to the UN General Assembly is an attempt to “hide the truth\".",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-22T07:42:50+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/06/14/4/6059900.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "IRNA English",
+      "Mehr News",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/247969/US-denies-visa-for-Iran-media-team-to-hide-truth-FM-spox"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86270589/Baqaei-US-visa-ban-on-Iranian-president-s-media-team-is-an-attempt"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-refuses-visas-for-iran-un-delegation-members-state-media/article71492961.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-refuses-visas-for-iran-un-delegation-members-state-media-reports-masoud-pezeshkian-un-general-assembly-101789992870983.html"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/06/14/4/6059900.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/21/4/173121256.jpg",
+      "https://th-i.thgim.com/public/incoming/emced/article71492978.ece/alternates/LANDSCAPE_1200/2026-09-21T171724Z_991394771_RC2RNNA5V79D_RTRMADP_3_UN-ASSEMBLY.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1177.9132771152779,
+    "is_stale": false,
+    "score": 26.80559116711111,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

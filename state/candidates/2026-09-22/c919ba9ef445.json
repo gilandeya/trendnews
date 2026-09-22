@@ -1,0 +1,63 @@
+{
+  "id": "c919ba9ef445",
+  "created_at": "2026-09-22T18:07:55.001712+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.59,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "light",
+  "state_media": false,
+  "title": "US signs Greenland defense deal with Denmark",
+  "link": "https://www.courthousenews.com/us-signs-greenland-defense-deal-with-denmark/",
+  "publishers": [
+    "Court House News",
+    "Punch Nigeria"
+  ],
+  "region": "court",
+  "article": {
+    "title": "US signs Greenland defense deal with Denmark",
+    "link": "https://www.courthousenews.com/us-signs-greenland-defense-deal-with-denmark/",
+    "summary": "President Donald Trump signs updated defense deal with the Kingdom of Denmark over military presence in Greenland that tucks NATO alliance closer in defending the U.S. northern frontier.",
+    "source_name": "Court House News",
+    "region": "court",
+    "weight": 1.2,
+    "published": "2026-09-22T17:59:17+00:00",
+    "image_url": "https://courthousenews.com/wp-content/uploads/2026/01/denmark-greenland-leaders-at-washington-news-conference-800x600.jpg",
+    "publisher": "Court House News",
+    "cluster_sources": [
+      "Court House News",
+      "Punch Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/us-signs-greenland-defense-deal-with-denmark/"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/trump-signs-security-deal-with-greenland-denmark-at-un/?utm_source=rss.punchng.com&utm_medium=web"
+      }
+    ],
+    "image_candidates": [
+      "https://courthousenews.com/wp-content/uploads/2026/01/denmark-greenland-leaders-at-washington-news-conference-800x600.jpg",
+      "https://courthousenews.com/wp-content/uploads/2026/01/donald-trump-holds-board-of-peace-charter-800x600.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1177.913364486389,
+    "is_stale": false,
+    "score": 21.59053560685185,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

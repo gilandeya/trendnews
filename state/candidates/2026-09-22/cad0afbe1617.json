@@ -1,0 +1,82 @@
+{
+  "id": "cad0afbe1617",
+  "created_at": "2026-09-22T18:07:55.001395+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.73,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Denmark, Greenland, US to sign Arctic security agreement",
+  "link": "https://news.cgtn.com/news/2026-09-22/Denmark-Greenland-US-to-sign-Arctic-security-agreement-1QDxTYKbwhq/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+  "publishers": [
+    "CGTN",
+    "Clarín",
+    "Hindustan Times — World",
+    "South China Morning Post",
+    "TASS"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Denmark, Greenland, US to sign Arctic security agreement",
+    "link": "https://news.cgtn.com/news/2026-09-22/Denmark-Greenland-US-to-sign-Arctic-security-agreement-1QDxTYKbwhq/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+    "summary": "Denmark, its autonomous territory of Greenland and the United States will sign an agreement in New York on Tuesday to strengthen security in the Arctic and North Atlantic region, the Danish Prime Minister's Office said on Monday.",
+    "source_name": "CGTN",
+    "region": "cn",
+    "weight": 0.7,
+    "published": "2026-09-22T01:54:17+00:00",
+    "image_url": "https://news.cgtn.com/news/2026-09-22/Denmark-Greenland-US-to-sign-Arctic-security-agreement-1QDxTYKbwhq/img/5b41aeb689804e49ad80e3624b4a23d3/5b41aeb689804e49ad80e3624b4a23d3-750.png",
+    "publisher": "CGTN",
+    "cluster_sources": [
+      "CGTN",
+      "Clarín",
+      "Hindustan Times — World",
+      "South China Morning Post",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368427/us-greenland-denmark-sign-deal-new-york-bid-end-arctic-stand?utm_source=rss_feed"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/trump-greenland-denmark-sign-deal-in-bid-to-end-arctic-standoff-going-to-be-a-fantastic-relationship-101790094085850.html"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-22/Denmark-Greenland-US-to-sign-Arctic-security-agreement-1QDxTYKbwhq/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2191265"
+      },
+      {
+        "name": "Clarín",
+        "link": "https://www.clarin.com/mundo/donald-trump-firmo-acuerdo-estados-unidos-dinamarca-groenlandia-reforzar-seguridad-artico_0_dxPJwrnVIR.html"
+      }
+    ],
+    "image_candidates": [
+      "https://news.cgtn.com/news/2026-09-22/Denmark-Greenland-US-to-sign-Arctic-security-agreement-1QDxTYKbwhq/img/5b41aeb689804e49ad80e3624b4a23d3/5b41aeb689804e49ad80e3624b4a23d3-750.png",
+      "https://news.cgtn.com/news/2026-09-22/Denmark-Greenland-US-to-sign-Arctic-security-agreement-1QDxTYKbwhq/img/5b41aeb689804e49ad80e3624b4a23d3/5b41aeb689804e49ad80e3624b4a23d3.png",
+      "https://www.clarin.com/img/2026/09/22/P9IBNtnKM_1200x630__1.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1177.91329714,
+    "is_stale": false,
+    "score": 23.7340976749769,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

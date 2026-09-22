@@ -1,10 +1,10 @@
 {
   "id": "228f64a4d4bc",
-  "created_at": "2026-09-22T03:07:50.674613+00:00",
+  "created_at": "2026-09-22T18:07:55.000995+00:00",
   "status": "pending",
-  "selection_issue": 1025,
-  "score": 23.15,
-  "trend_score": 0.0,
+  "selection_issue": null,
+  "score": 23.79,
+  "trend_score": 0.5,
   "velocity": 1.0,
   "impact": 0,
   "proximity": 0,
@@ -12,38 +12,30 @@
   "appeal_note": "",
   "bucket": "serious",
   "state_media": false,
-  "title": "Millions urged to evacuate as powerful Typhoon Dujuan hits Japan",
+  "title": "Four dead after powerful Typhoon Dujuan lashes Japan",
   "link": "https://www.bbc.co.uk/news/articles/cm3wj2lexl97o?at_medium=RSS&at_campaign=rss",
   "publishers": [
-    "BBC",
     "BBC World",
-    "Channel News Asia",
-    "Daily Sabah",
-    "France24",
-    "Free Malaysia Today",
-    "Hindustan Times — World",
-    "South China Morning Post"
+    "MyJoyOnline Ghana",
+    "The Express Tribune",
+    "The Hindu — International"
   ],
   "region": "uk",
   "article": {
-    "title": "Millions urged to evacuate as powerful Typhoon Dujuan hits Japan",
+    "title": "Four dead after powerful Typhoon Dujuan lashes Japan",
     "link": "https://www.bbc.co.uk/news/articles/cm3wj2lexl97o?at_medium=RSS&at_campaign=rss",
-    "summary": "The country's meteorological agency had warned of an \"imminent threat to life,\" but this has now been downgraded.",
+    "summary": "The storm pulled away from Japan after bringing heavy rains and strong winds to Tokyo and surrounding areas.",
     "source_name": "BBC World",
     "region": "uk",
     "weight": 1.2,
-    "published": "2026-09-21T20:26:41+00:00",
+    "published": "2026-09-22T05:58:35+00:00",
     "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0f73/live/802ac5d0-b5de-11f1-88a2-d7d3c19446bf.jpg",
     "publisher": "BBC World",
     "cluster_sources": [
-      "BBC",
       "BBC World",
-      "Channel News Asia",
-      "Daily Sabah",
-      "France24",
-      "Free Malaysia Today",
-      "Hindustan Times — World",
-      "South China Morning Post"
+      "MyJoyOnline Ghana",
+      "The Express Tribune",
+      "The Hindu — International"
     ],
     "cluster_members": [
       {
@@ -51,42 +43,34 @@
         "link": "https://www.bbc.co.uk/news/articles/cm3wj2lexl97o?at_medium=RSS&at_campaign=rss"
       },
       {
-        "name": "South China Morning Post",
-        "link": "https://www.scmp.com/news/asia/east-asia/article/3368271/over-16-million-japan-urged-evacuate-typhoon-dujuan-nears-tokyo?utm_source=rss_feed"
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630786/typhoon-dujuan-leaves-four-dead-in-japan-45000-houses-without-power"
       },
       {
-        "name": "France24",
-        "link": "https://www.france24.com/en/video/20260921-typhoon-dujuan-japan-urges-two-million-to-evacuate"
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/typhoon-dujuan-japan-rains-death/article71494288.ece"
       },
       {
-        "name": "Channel News Asia",
-        "link": "https://www.channelnewsasia.com/east-asia/japan-flights-cancelled-typhoon-dujuan-evacuations-tokyo-6400821"
-      },
-      {
-        "name": "Hindustan Times — World",
-        "link": "https://www.hindustantimes.com/world-news/flights-scrapped-evacuations-urged-as-typhoon-dujuan-nears-japan-101789984647245.html"
-      },
-      {
-        "name": "Daily Sabah",
-        "link": "https://www.dailysabah.com/world/asia-pacific/typhoon-dujuan-lashes-tokyo-over-1m-urged-to-evacuate"
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/four-dead-after-powerful-typhoon-dujuan-lashes-japan/"
       }
     ],
     "image_candidates": [
       "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0f73/live/802ac5d0-b5de-11f1-88a2-d7d3c19446bf.jpg",
       "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0f73/live/802ac5d0-b5de-11f1-88a2-d7d3c19446bf.jpg",
       "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0f73/live/802ac5d0-b5de-11f1-88a2-d7d3c19446bf.jpg",
-      "https://s.france24.com/media/display/dec59e40-b5ce-11f1-895f-e554abee39f5/w:1024/p:16x9/Typhoon-Japan-thumbnail.jpg",
-      "https://dam.mediacorp.sg/image/upload/s--9kzRGUQL--/c_crop,h_450,w_800,x_0,y_0/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-21T164144Z_1_LYNXMPEM8K1G4_RTROPTP_3_ASIA-WEATHER-JAPAN.JPG?itok=sDephmck",
-      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/21/461661.jpg"
+      "https://th-i.thgim.com/public/incoming/s0tjd/article71494303.ece/alternates/LANDSCAPE_1200/2026-09-22T035814Z_1061343650_RC23ONAR6O8C_RTRMADP_3_ASIA-WEATHER-JAPAN.JPG",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-2985.png",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-2981.png"
     ],
     "bucket": "serious",
     "state_media": false,
-    "trend_score": 0.0,
-    "group_sources": 8,
+    "trend_score": 0.5,
+    "group_sources": 4,
     "velocity": 1.0,
-    "age_hours": 1162.9123699844445,
+    "age_hours": 1177.9132951569443,
     "is_stale": false,
-    "score": 23.154375063129628,
+    "score": 23.789757835777777,
     "impact": 0,
     "proximity": 0,
     "intrigue": 0,
