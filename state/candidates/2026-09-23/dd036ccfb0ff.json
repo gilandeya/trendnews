@@ -1,0 +1,70 @@
+{
+  "id": "dd036ccfb0ff",
+  "created_at": "2026-09-23T03:07:52.737898+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.0,
+  "trend_score": 1.0,
+  "velocity": 0.4,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "USA: Donald Trump erwägt Exportstopp für Diesel wegen hoher Spritpreise",
+  "link": "https://www.spiegel.de/ausland/usa-donald-trump-erwaegt-exportstopp-fuer-diesel-wegen-hoher-spritpreise-a-154ac142-90ab-493e-b792-e85e630b00c9#ref=rss",
+  "publishers": [
+    "Daily Maverick",
+    "Der Spiegel",
+    "MyJoyOnline Ghana"
+  ],
+  "region": "de",
+  "article": {
+    "title": "USA: Donald Trump erwägt Exportstopp für Diesel wegen hoher Spritpreise",
+    "link": "https://www.spiegel.de/ausland/usa-donald-trump-erwaegt-exportstopp-fuer-diesel-wegen-hoher-spritpreise-a-154ac142-90ab-493e-b792-e85e630b00c9#ref=rss",
+    "summary": "Die USA exportieren eine Menge Diesel, gleichzeitig ist der Treibstoff im Land teuer wie nie. Donald Trump erwägt daher, die Ausfuhr zu kappen. Doch das könnte nach hinten losgehen.",
+    "source_name": "Der Spiegel",
+    "region": "de",
+    "weight": 1.1,
+    "published": "2026-09-23T00:04:00+00:00",
+    "image_url": "https://cdn.prod.www.spiegel.de/images/e60d5f92-5a98-4fda-8ffe-d77fc1e70aeb_w520_r2.08_fpx62.64_fpy49.99.jpg",
+    "publisher": "Der Spiegel",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Der Spiegel",
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/usa-donald-trump-erwaegt-exportstopp-fuer-diesel-wegen-hoher-spritpreise-a-154ac142-90ab-493e-b792-e85e630b00c9#ref=rss"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-22-trump-says-he-backs-the-idea-of-a-ban-on-diesel-exports/"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/trump-says-he-would-back-ban-on-diesel-exports/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.prod.www.spiegel.de/images/e60d5f92-5a98-4fda-8ffe-d77fc1e70aeb_w520_r2.08_fpx62.64_fpy49.99.jpg",
+      "https://cdn.dailymaverick.co.za/i/u0wR_duJkgzB7UeXJqh1v0Knu_s=/800x0/smart/filters:strip_exif()/file/attachments/2998/14171762_513642.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-3004-1024x576.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.4,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 24.000691269978283,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
