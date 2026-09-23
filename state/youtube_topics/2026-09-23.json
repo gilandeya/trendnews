@@ -1,0 +1,740 @@
+{
+  "run_date": "2026-09-23",
+  "stats": {
+    "points_in": 582,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 432,
+    "issues_clustered": 30,
+    "topics_merged": 5,
+    "topics_out": 5,
+    "dropped_by_bloc_cap": 2,
+    "topics_seen_skipped": 2,
+    "topics_below_min_points": 7,
+    "topics_below_min_channels": 7,
+    "layer_a": 4,
+    "layer_b": 1,
+    "layer_c": 0,
+    "agreement": 4,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "التصعيد الأمريكي الإيراني والعقوبات",
+      "تصريحات ترامب حول الحصار الاقتصادي والنووي الإيراني",
+      "تصريحات ترامب حول خيارات التعامل مع إيران"
+    ],
+    [
+      "الجهود الدبلوماسية لحل الأزمة الإيرانية",
+      "الرحلة السنوية للوفد الإيراني إلى نيويورك ومفاوضاته",
+      "سفر بزشكيان إلى نيويورك ومحاولة لقاء ترامب"
+    ],
+    [
+      "نتائج انتخابات ولاية مكلنبورغ فوربومرن الألمانية",
+      "أزمة الثقة السياسية في ألمانيا وصعود اليمين المتطرف"
+    ],
+    [
+      "خطاب أردوغان بالأمم المتحدة - غزة والقتلى",
+      "خطاب أردوغان - قضايا الإسلاموفوبيا والذكاء الاصطناعي"
+    ],
+    [
+      "دعوات إصلاح الأمم المتحدة ومجلس الأمن",
+      "استضافة تركيا لمؤتمر المناخ كوب 31"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "الجهود الدبلوماسية لحل الأزمة الإيرانية",
+      "event": "مساعي دبلوماسية (باكستانية قطرية) وموقف السفير الإيراني بشأن مفاوضات مع أمريكا",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        2,
+        3,
+        5,
+        17,
+        120,
+        121,
+        122,
+        125,
+        128,
+        129,
+        130,
+        131,
+        135
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null
+    },
+    {
+      "title": "التصعيد الأمريكي الإيراني والعقوبات",
+      "event": "فرض الولايات المتحدة حظرًا على شركات الطيران الإيرانية وتصعيد التهديدات المتبادلة بين ترامب وإيران",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        16,
+        20,
+        63,
+        66,
+        134,
+        146,
+        147
+      ],
+      "total_points": 9,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "خطاب أردوغان بالأمم المتحدة - غزة والقتلى",
+      "event": "خطاب أردوغان أمام الجمعية العامة بشأن ضحايا غزة وأوضاع الأطفال",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        52,
+        56,
+        57,
+        94,
+        95
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "دعوات إصلاح الأمم المتحدة ومجلس الأمن",
+      "event": "دعوات أردوغان وآخرين لإصلاح هيكل الأمم المتحدة ومجلس الأمن وإلغاء حق النقض",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        53,
+        54,
+        55,
+        86,
+        87,
+        88,
+        89,
+        96,
+        97,
+        98
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "التحقيق في صناديق الاستثمار التركية",
+      "event": "فضيحة تحويلات مالية مريبة من صناديق الاستثمار التركية إلى الخارج وتقصير الحكومة في التحقيق",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        92,
+        116,
+        117,
+        118,
+        119
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "الجهود الدبلوماسية لحل الأزمة الإيرانية",
+      "event": "مساعي دبلوماسية (باكستانية قطرية) وموقف السفير الإيراني بشأن مفاوضات مع أمريكا",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        2,
+        3,
+        5,
+        17,
+        120,
+        121,
+        122,
+        125,
+        128,
+        129,
+        130,
+        131,
+        135
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null
+    },
+    {
+      "title": "التصعيد الأمريكي الإيراني والعقوبات",
+      "event": "فرض الولايات المتحدة حظرًا على شركات الطيران الإيرانية وتصعيد التهديدات المتبادلة بين ترامب وإيران",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        16,
+        20,
+        63,
+        66,
+        134,
+        146,
+        147
+      ],
+      "total_points": 9,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "خطاب أردوغان بالأمم المتحدة - غزة والقتلى",
+      "event": "خطاب أردوغان أمام الجمعية العامة بشأن ضحايا غزة وأوضاع الأطفال",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        52,
+        56,
+        57,
+        94,
+        95
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "دعوات إصلاح الأمم المتحدة ومجلس الأمن",
+      "event": "دعوات أردوغان وآخرين لإصلاح هيكل الأمم المتحدة ومجلس الأمن وإلغاء حق النقض",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        53,
+        54,
+        55,
+        86,
+        87,
+        88,
+        89,
+        96,
+        97,
+        98
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "توقعات ترامب بشأن صفقة مع إيران",
+      "event": "تصريح ترامب بتوقع إبرام صفقة مع إيران بعد الانتخابات النصفية ومحادثات جارية معها",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        102,
+        138
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطاب ترامب أمام الجمعية العامة - الإنجازات الاقتصادية والأمنية",
+      "event": "خطاب ترامب في الجمعية العامة للأمم المتحدة سردًا لإنجازاته الاقتصادية والأمنية (استثمار، جريمة، فقر، دخل الأسر)",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        44,
+        45,
+        58,
+        59,
+        60,
+        61,
+        62,
+        103,
+        143,
+        144,
+        145
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "خطاب ترامب - تسوية النزاعات الدولية وغزة",
+      "event": "إعلان ترامب في خطابه عن تسوية 8 حروب من بينها غزة وإعادة الرهائن",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        46,
+        47,
+        64,
+        104,
+        148,
+        149
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "صفقة النفط الأمريكية الفنزويلية",
+      "event": "إبرام صفقة نفط ضخمة بين أمريكا وفنزويلا بقيمة 65 مليار دولار",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "الجزيرة"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        48,
+        105
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التحقيق في صناديق الاستثمار التركية",
+      "event": "فضيحة تحويلات مالية مريبة من صناديق الاستثمار التركية إلى الخارج وتقصير الحكومة في التحقيق",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        92,
+        116,
+        117,
+        118,
+        119
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "الانتخابات البرلمانية المغربية 2026",
+      "event": "الانتخابات البرلمانية المغربية وسياقها الاقتصادي والدستوري",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتقادات فعالية الأمم المتحدة وشلل مؤسساتها",
+      "event": "انتقادات محللين لعجز الأمم المتحدة عن التدخل في النزاعات وشللها المؤسسي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        67,
+        68,
+        69,
+        70,
+        71
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "خطاب ماكرون حول النظام الدولي والإمبريالية",
+      "event": "خطاب ماكرون أمام الجمعية العامة عن عودة الإمبريالية وضرورة النظام الدولي القائم على القواعد",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "خطاب غوتيريش حول إعادة تشكيل النظام العالمي",
+      "event": "خطاب غوتيريش أمام الجمعية العامة عن تعدد الأقطاب وإعادة توزيع القوة والتحديات العالمية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مسار قانون التضامن الاجتماعي وعملية نزع سلاح PKK",
+      "event": "موقف حزب ديم من قانون التضامن الاجتماعي ودور أوجلان في عملية نزع السلاح",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        106,
+        107,
+        108,
+        109
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موقف حزب ديم من الدستور والترشح الرئاسي",
+      "event": "تصريحات حزب ديم بشأن الدستور الديمقراطي التشاركي وعدم البت بترشح الرئاسة 2028",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        111,
+        112
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "هجوم مسلح على مدرسة في تركيا",
+      "event": "إطلاق طالب النار على زملائه في مدرسة تركية وإصابة 11 واعتقال الفاعل وأسرته",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        113,
+        114,
+        115
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حصار إيران العسكري والاقتصادي",
+      "event": "وصف الحصار الجوي والبحري والتهديد بالحرب الواسعة ضد إيران وتأثير الوقت عليها",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        127,
+        133
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تاريخ حزب ديجل هتتورة وموشيه غفني في الكنيست",
+      "event": "نشأة حزب ديجل هتتورة الحريدي وصعود موشيه غفني في الكنيست الإسرائيلي",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        141,
+        142
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحوط دول الخليج الأمني",
+      "event": "فقدان دول الخليج الثقة بالمظلة الأمريكية وسعيها لبدائل أمنية ولقاء ترامب بقادة الخليج",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        6
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انهيار اتفاق فض الاشتباك السوري الإسرائيلي وانتهاكات المنطقة العازلة",
+      "event": "انهيار اتفاق 1974 وتوغلات إسرائيلية وانتهاكات موثقة في المنطقة العازلة بعد سقوط الأسد",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الأزمة الاقتصادية الإيرانية",
+      "event": "تراجع الناتج المحلي الإيراني وارتفاع التضخم كمؤشرات أزمة اقتصادية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "سياسة الترحيل الأمريكية تحت إدارة ترامب",
+      "event": "حملة ترحيل المهاجرين غير الشرعيين بقيادة إدارة ترامب واستخدام أفريقيا كوجهة عبر ضغط المساعدات",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "نتائج انتخابات ولاية مكلنبورغ فوربومرن الألمانية",
+      "event": "خسارة حزب الاتحاد الديمقراطي المسيحي وتصدر حزب البديل في انتخابات الولاية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "total_points": 7,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    }
+  ]
+}
