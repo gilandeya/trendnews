@@ -1,0 +1,63 @@
+{
+  "id": "44ca4b63fc67",
+  "created_at": "2026-09-23T15:07:57.093373+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.63,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Philippine Senate’s lowering of voting threshold raises stakes for Sara Duterte",
+  "link": "https://www.japantimes.co.jp/news/2026/09/23/asia-pacific/politics/sara-duterte-senate-ally-votes/",
+  "publishers": [
+    "Nikkei Asia",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Philippine Senate’s lowering of voting threshold raises stakes for Sara Duterte",
+    "link": "https://www.japantimes.co.jp/news/2026/09/23/asia-pacific/politics/sara-duterte-senate-ally-votes/",
+    "summary": "The Senate cleared a motion making the constitutional requirement for a two-thirds vote to convict cover only the votes of those present.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-09-23T07:19:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/23/564636.JPG",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Nikkei Asia",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/politics/philippine-senate-lowers-conviction-threshold-in-sara-duterte-trial"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/23/asia-pacific/politics/sara-duterte-senate-ally-votes/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/23/564636.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/23/thumbs/400x400/564636.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1198.9138625038888,
+    "is_stale": false,
+    "score": 20.629074459555554,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

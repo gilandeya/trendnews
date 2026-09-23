@@ -1,0 +1,79 @@
+{
+  "id": "b9ba933df88f",
+  "created_at": "2026-09-23T15:07:57.092551+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.5,
+  "trend_score": 1.0,
+  "velocity": 0.11,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UNGA 2026 LIVE: ‘Iran ready for diplomacy, not language of force,' says Pezeshkian at UNGA",
+  "link": "https://www.hindustantimes.com/world-news/unga-2026-live-updates-iran-pezeshkian-speech-ukraine-zelensky-response-trump-india-pakistan-spain-new-york-news-101790160521989.html",
+  "publishers": [
+    "France24",
+    "Hindustan Times — World",
+    "Investing.com — الاقتصاد",
+    "Pezeshkian to Trump"
+  ],
+  "region": "in",
+  "article": {
+    "title": "UNGA 2026 LIVE: ‘Iran ready for diplomacy, not language of force,' says Pezeshkian at UNGA",
+    "link": "https://www.hindustantimes.com/world-news/unga-2026-live-updates-iran-pezeshkian-speech-ukraine-zelensky-response-trump-india-pakistan-spain-new-york-news-101790160521989.html",
+    "summary": "UNGA 2026 LIVE: Iranian President Masoud Pezeshkian addressed the UNGA today and said that Tehran has been a victim of “terrorism”. “We did not hit civilian population,” he said.",
+    "source_name": "Hindustan Times — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-23T12:05:44+00:00",
+    "image_url": "https://s.france24.com/media/display/3cb495ca-b75e-11f1-ab5b-55848da96185/w:1024/p:16x9/EN-20260923-162850-163821-CS.jpg",
+    "publisher": "Hindustan Times — World",
+    "cluster_sources": [
+      "France24",
+      "Hindustan Times — World",
+      "Investing.com — الاقتصاد",
+      "Pezeshkian to Trump"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/unga-2026-live-updates-iran-pezeshkian-speech-ukraine-zelensky-response-trump-india-pakistan-spain-new-york-news-101790160521989.html"
+      },
+      {
+        "name": "Pezeshkian to Trump",
+        "link": "https://www.aljazeera.com/news/liveblog/2026/9/23/un-general-assembly-live-irans-pezeshkian-ukraines-zelenskyy-to-speak?traffic_source=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260923-live-pezeshkian-set-to-address-un-for-the-first-time-since-us-israel-launched-iran-war"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/iran-s-pezeshkian-tells-un-his-country-is-victim-of-us-terrorism"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/irans-pezeshkian-says-country-will-not-surrender-to-us-93CH-4913409"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/3cb495ca-b75e-11f1-ab5b-55848da96185/w:1024/p:16x9/EN-20260923-162850-163821-CS.jpg",
+      "https://content-media.investing.com/news/oil_2_M_1440047844.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.11106515590779499,
+    "age_hours": 1198.9137950163888,
+    "is_stale": false,
+    "score": 23.502992833927863,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
