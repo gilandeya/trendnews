@@ -1,0 +1,93 @@
+{
+  "id": "e25346c57b62",
+  "created_at": "2026-09-23T18:08:05.827413+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.02,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Harvey Weinstein sentenced to 15 years in prison for sexual assault",
+  "link": "https://www.bbc.co.uk/news/articles/cm98626n260yo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "The Guardian — World",
+    "Vanguard Nigeria"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Harvey Weinstein sentenced to 15 years in prison for sexual assault",
+    "link": "https://www.bbc.co.uk/news/articles/cm98626n260yo?at_medium=RSS&at_campaign=rss",
+    "summary": "In court, Miriam Haley said the assault had a \"devastating effect on my life and sense of security that may never go away\".",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-23T18:03:35+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/27d6/live/b340ed80-b766-11f1-a7b2-f3bdba1cd194.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "The Guardian — World",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/23/harvey-weinstein-sentencing-prison"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cm98626n260yo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260923-disgraced-hollywood-mogul-harvey-weinstein-sentenced-to-15-years-for-2006-sex-assault"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/harvey-weinstein-sentenced-movie-mogul-gets-15-years-in-jail-for-2006-new-york-sexual-assault-101790179535161.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/harvey-weinstein-gets-15-years-in-prison-after-retrial-for-2006-sex-crime-12088412#publisher=newsstand"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/harvey-weinstein-resentenced-to-15-years-in-prison-for-2006-sex-assault/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/27d6/live/b340ed80-b766-11f1-a7b2-f3bdba1cd194.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/27d6/live/b340ed80-b766-11f1-a7b2-f3bdba1cd194.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/27d6/live/b340ed80-b766-11f1-a7b2-f3bdba1cd194.jpg",
+      "https://i.guim.co.uk/img/media/17cfa7b190d848b0934df66f77fc7336c288e3b0/596_458_3144_2515/master/3144.jpg?width=700&quality=85&auto=format&fit=max&s=02aad6e327027b8d6c4c8e346f4d34a0",
+      "https://i.guim.co.uk/img/media/17cfa7b190d848b0934df66f77fc7336c288e3b0/596_458_3144_2515/master/3144.jpg?width=460&quality=85&auto=format&fit=max&s=5bae027a896e1b5029a788820fe70fc7",
+      "https://i.guim.co.uk/img/media/17cfa7b190d848b0934df66f77fc7336c288e3b0/596_458_3144_2515/master/3144.jpg?width=140&quality=85&auto=format&fit=max&s=122405d82502841b03aef9f7ad974fde"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 1201.9164980436112,
+    "is_stale": false,
+    "score": 23.01716311322837,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

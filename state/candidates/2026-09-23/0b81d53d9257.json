@@ -1,0 +1,63 @@
+{
+  "id": "0b81d53d9257",
+  "created_at": "2026-09-23T18:08:05.828736+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.7,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "PH to announce Melaka polls candidates 1 to 2 weeks before nomination day",
+  "link": "https://www.freemalaysiatoday.com/category/nation/2026/09/23/ph-to-announce-melaka-polls-candidates-1-to-2-weeks-before-nomination-day",
+  "publishers": [
+    "Free Malaysia Today",
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "PH to announce Melaka polls candidates 1 to 2 weeks before nomination day",
+    "link": "https://www.freemalaysiatoday.com/category/nation/2026/09/23/ph-to-announce-melaka-polls-candidates-1-to-2-weeks-before-nomination-day",
+    "summary": "The prime minister's political secretary, Azman Abidin, says this will allow the coalition to prepare early instead of waiting until the last minute to finalise its candidates.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-23T11:21:00+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/f23724b2-bendera-ph-pakatan-harapan-resize-270426.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/malaysia/2026/09/23/melaka-polls-pakistan-candidates-to-be-announced-one-to-two-weeks-ahead-of-nomination-says-pms-pol-sec/236263"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/nation/2026/09/23/ph-to-announce-melaka-polls-candidates-1-to-2-weeks-before-nomination-day"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/f23724b2-bendera-ph-pakatan-harapan-resize-270426.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/23/364183.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1201.9165367291666,
+    "is_stale": false,
+    "score": 18.697783523537037,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
