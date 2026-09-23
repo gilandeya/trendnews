@@ -1,176 +1,5 @@
 [
   {
-    "score": 25.1,
-    "bucket": "sport",
-    "tokens": [
-      "chair",
-      "cup",
-      "demands",
-      "documents",
-      "infantino",
-      "off",
-      "release",
-      "sell",
-      "world"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/articles/ckqxvd41z93qo?at_medium=RSS&at_campaign=rss",
-    "title": "FA chair demands Infantino release World Cup sell-off documents",
-    "posted_title": "لماذا تطالب الاتحادات الكروية إنفانتينو بفتح ملفات خطة بيع كأس العالم؟",
-    "region": "sport",
-    "seen_at": "2026-09-18T05:31:18.955898+00:00"
-  },
-  {
-    "score": 19.9,
-    "bucket": "serious",
-    "tokens": [
-      "appeal",
-      "china",
-      "help",
-      "houthis",
-      "iran",
-      "presses",
-      "rein",
-      "saudi",
-      "say",
-      "sources"
-    ],
-    "link": "https://tribune.com.pk/story/2629884/china-presses-iran-to-help-rein-in-houthis-after-saudi-appeal-sources-say",
-    "title": "China presses Iran to help rein in Houthis after Saudi appeal, sources say",
-    "posted_title": "بعد تقدم الحوثيين في البحر الأحمر.. الصين تتحرك سريًا لدى إيران بطلب سعودي",
-    "region": "pk",
-    "seen_at": "2026-09-18T05:31:36.049160+00:00"
-  },
-  {
-    "score": 19.01,
-    "bucket": "serious",
-    "tokens": [
-      "duped",
-      "enormous",
-      "husband",
-      "indian",
-      "losses",
-      "man",
-      "origin",
-      "swift's",
-      "taylor"
-    ],
-    "link": "https://www.ndtv.com/world-news/taylor-swifts-husband-travis-kelce-duped-by-indian-origin-man-siddharth-jawahar-weaponised-trust-12058259#publisher=newsstand",
-    "title": "\"Enormous Losses\": Taylor Swift's Husband Duped By Indian-Origin Man",
-    "posted_title": "الحكم بالسجن 11 عاما على رجل أعمال هندي احتال على مستثمرين بينهم لاعب فريق كانساس سيتي تشيفس بمخطط بونزي بقيمة 35 مليون دولار",
-    "region": "in",
-    "seen_at": "2026-09-18T05:31:52.866136+00:00"
-  },
-  {
-    "score": 20.61,
-    "bucket": "serious",
-    "tokens": [
-      "approves",
-      "arabia",
-      "billion",
-      "fighter",
-      "jet",
-      "sale",
-      "saudi"
-    ],
-    "link": "https://www.dailysabah.com/business/economy/us-approves-over-24-billion-f-35-fighter-jet-sale-to-saudi-arabia",
-    "title": "US approves over $24 billion F-35 fighter jet sale to Saudi Arabia",
-    "posted_title": "وزارة الخارجية الأمريكية توافق على صفقة إف-35 للسعودية بقيمة 24.3 مليار دولار",
-    "region": "tr",
-    "seen_at": "2026-09-18T05:32:48.666502+00:00"
-  },
-  {
-    "score": 27.27,
-    "bucket": "light",
-    "tokens": [
-      "cat",
-      "century",
-      "first",
-      "name",
-      "scientists",
-      "species",
-      "time"
-    ],
-    "link": "https://www.livescience.com/animals/cats/scientists-name-a-new-cat-species-for-the-first-time-in-over-a-century",
-    "title": "Scientists name a new cat species for the first time in over a century",
-    "posted_title": "",
-    "region": "odd",
-    "seen_at": "2026-09-18T06:07:51.850566+00:00"
-  },
-  {
-    "score": 22.35,
-    "bucket": "serious",
-    "tokens": [
-      "city",
-      "debut",
-      "efl",
-      "man",
-      "norwich",
-      "samba",
-      "stars",
-      "thrash"
-    ],
-    "link": "https://www.vanguardngr.com/2026/09/efl-samba-stars-on-debut-as-man-city-thrash-norwich-5-0/",
-    "title": "EFL: Samba stars on debut as Man City thrash Norwich 5-0",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-09-18T06:07:51.850814+00:00"
-  },
-  {
-    "score": 21.27,
-    "bucket": "serious",
-    "tokens": [
-      "drags",
-      "election",
-      "parliamentary",
-      "russia",
-      "ukraine",
-      "votes",
-      "war"
-    ],
-    "link": "https://www.france24.com/en/europe/20260918-russia-votes-in-wartime-parliamentary-election-set-to-secure-the-kremlin-power",
-    "title": "Russia votes in parliamentary election as war in Ukraine drags on",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-18T06:07:51.851011+00:00"
-  },
-  {
-    "score": 19.82,
-    "bucket": "serious",
-    "tokens": [
-      "bill",
-      "hell",
-      "house",
-      "imposing",
-      "passes",
-      "russia",
-      "sanctions"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/17/us-house-passes-bill-imposing-sanctions-from-hell-on-russia",
-    "title": "US House passes bill imposing ‘sanctions from hell’ on Russia",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-18T06:07:51.851221+00:00"
-  },
-  {
-    "score": 19.78,
-    "bucket": "serious",
-    "tokens": [
-      "ilhan",
-      "man",
-      "months",
-      "omar",
-      "sentenced",
-      "sprayed",
-      "vinegar",
-      "who"
-    ],
-    "link": "https://www.theguardian.com/us-news/2026/sep/17/man-sentenced-ilhan-omar-vinegar-minneapolis",
-    "title": "Man who sprayed Ilhan Omar with vinegar sentenced to 14 months",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-18T06:07:51.851441+00:00"
-  },
-  {
     "score": 21.93,
     "bucket": "light",
     "tokens": [
@@ -4438,5 +4267,101 @@
     "posted_title": "",
     "region": "kr",
     "seen_at": "2026-09-23T03:07:52.739058+00:00"
+  },
+  {
+    "score": 26.8,
+    "bucket": "serious",
+    "tokens": [
+      "bombings",
+      "convicts",
+      "court",
+      "deadly",
+      "easter",
+      "lanka",
+      "men",
+      "sri",
+      "sunday"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cqy7z275yx65o?at_medium=RSS&at_campaign=rss",
+    "title": "Sri Lanka court convicts 15 men over deadly Easter Sunday bombings",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-23T09:07:45.990026+00:00"
+  },
+  {
+    "score": 25.64,
+    "bucket": "serious",
+    "tokens": [
+      "'annihilate'",
+      "attacks",
+      "icc",
+      "iran",
+      "speech",
+      "threatens",
+      "trump"
+    ],
+    "link": "http://www.africanews.com/2026/09/22/trump-threatens-to-annihilate-iran-attacks-icc-in-un-speech/",
+    "title": "Trump threatens to 'annihilate' Iran, attacks ICC in UN speech",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-09-23T09:07:45.990275+00:00"
+  },
+  {
+    "score": 24.18,
+    "bucket": "serious",
+    "tokens": [
+      "downside",
+      "economy",
+      "imf",
+      "lanka",
+      "remain",
+      "resilient",
+      "risks",
+      "sri",
+      "tilted"
+    ],
+    "link": "https://www.channelnewsasia.com/business/sri-lanka-economy-resilient-risks-remain-tilted-downside-imf-says-6404291",
+    "title": "Sri Lanka economy resilient but risks remain tilted to downside, IMF says",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-23T09:07:45.990500+00:00"
+  },
+  {
+    "score": 24.15,
+    "bucket": "serious",
+    "tokens": [
+      "100",
+      "below",
+      "fall",
+      "good",
+      "hails",
+      "iran",
+      "oil",
+      "prices",
+      "talks",
+      "trump"
+    ],
+    "link": "https://www.vanguardngr.com/2026/09/oil-prices-fall-below-100-after-trump-hails-good-talks-with-iran/",
+    "title": "Oil prices fall below $100 after Trump hails ‘good’ talks with Iran",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-23T09:07:45.990719+00:00"
+  },
+  {
+    "score": 22.29,
+    "bucket": "serious",
+    "tokens": [
+      "ceasefire",
+      "energy",
+      "ready",
+      "russia",
+      "ukraine",
+      "zelensky"
+    ],
+    "link": "https://www.france24.com/en/europe/20260922-zelensky-says-ukraine-is-ready-for-an-energy-ceasefire-with-russia",
+    "title": "Zelensky says Ukraine is ready for an energy ceasefire with Russia",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-23T09:07:45.990921+00:00"
   }
 ]
