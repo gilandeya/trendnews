@@ -48,6 +48,20 @@ _VERSION_RE = re.compile(r"^(.*)-v(\d+)$")
 _UNSET = object()
 
 
+def analysis_card_kwargs() -> dict:
+    """وسائط ``cards.ensure`` الثابتة الخاصة ببطاقة مسار التحليل — مصدر
+    وحيد (Issue #1044) يستدعيه ``youtube_publish.ensure_title_card`` عند
+    البناء الأول و``setimage.rebuild_card`` عند إعادة البناء، بدل تكرار
+    القيم نصًّا في الموضعين. مسودة التحليل لا تحمل ``category``/``bucket``
+    فعليَّين، وبطاقتها تحمل شارة مسار زرقاء واحدة لا شارة تصنيف — تمرير
+    القيم الفارغة/الصريحة هنا (لا الاعتماد على سقوط ``cards.ensure`` إلى
+    ``draft["arabic"]["category"]``) هو ما يمنع رسم شارتين على البطاقة
+    نفسها (كانت ``draft["arabic"]["category"] == "تحليل"`` لكل مسودات
+    التحليل، فتتكرر الكلمة ذاتها بلونين مختلفين عند أي إعادة بناء لم تمرّ
+    هذه الوسائط)."""
+    return {"category": "", "urgent": False, "bucket": "", "origin": "analysis"}
+
+
 def next_image_path(current: str) -> str:
     """مسار جديد لا يستبدل القديم — نُقلت من setimage.py إلى هنا (Issue
     #852)؛ setimage.next_image_path يُعيد تصديرها بلا أي تغيير في سلوكها.

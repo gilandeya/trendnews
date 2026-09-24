@@ -16,6 +16,7 @@ from tests.helpers import (
     tick_marker,
     reset_last_publish,
     restore_last_publish,
+    auto_restore_last_publish,
     stub_last_publish,
     install_fakes,
     _TMP_DATA_DIR,
@@ -252,6 +253,7 @@ def test_preselect_finalize() -> None:
           and unselected_entry["category"] == "" and unselected_entry["body_len"] == 0,
           unselected_entry)
 
+@auto_restore_last_publish
 def test_preselect_now_builds_card_before_publish() -> None:
     """Issue #868: مسار 🚀 «انشر فورًا» يسلّم المعرّفات مباشرة إلى
     publish.cmd_burst/cmd_now/cmd_schedule بلا مرور بـpublish.main (حيث
@@ -1354,6 +1356,7 @@ def test_manual_image() -> None:
     check("الرابط يبقى عند الفشل ليصحَّح", "cdn.site" in kept)
     check("لا تكرار عند الفشل", review.parse_image_requests(kept) == [])
 
+@auto_restore_last_publish
 def test_editable_caption_and_image_source() -> None:
     """Issue #752: تعديل نصّ أي منشور داخل Issue المراجعة نفسه، ورؤية مصدر
     صورته قبل الاعتماد — في مساري الأخبار والتحليل معًا. يغطّي: تسامح
@@ -1769,6 +1772,7 @@ def test_setimage_revives_failed_draft_only_when_image_was_the_cause() -> None:
               updated_other.get("error") == "خطأ فيسبوك: (#1) الخدمة غير متاحة",
               updated_other.get("error"))
 
+@auto_restore_last_publish
 def test_setimage_stores_manual_link_without_card() -> None:
     """Issue #852 (يخلف Issue #749/#680): مسودة بلا حقل image بعد -- الحال
     العامة لكل مسار أخبار الآن، لا مسار التحليل وحده كما كانت قبل هذه
@@ -1816,6 +1820,7 @@ def test_setimage_stores_manual_link_without_card() -> None:
               built.get("image_info", {}).get("chosen_url") == "https://cdn.example/x.jpg",
               built.get("image_info"))
 
+@auto_restore_last_publish
 def test_setimage_cli_sync_handles_cardless_draft() -> None:
     """Issue #852: setimage.main()/sync_issue() (مسار /صورة الكامل عبر
     الـIssue) لم يكونا يتوقعان مسودة بلا حقل image من apply_image --
@@ -1884,6 +1889,7 @@ def test_setimage_cli_sync_handles_cardless_draft() -> None:
     check("تعليق يوضّح أن الرابط خُزّن للبناء لاحقًا لا «حُدّثت الصورة»",
           comments and "ستُبنى البطاقة به عند الاعتماد" in comments[0], comments)
 
+@auto_restore_last_publish
 def test_setimage_apply_image_keeps_origin_badge() -> None:
     """Issue #758: أسهل نقطة يضيع فيها وسم المسار بصمت — apply_image يعيد
     بناء البطاقة لمسودة قائمة بالفعل، فإن لم يمرّر store.origin_of(draft)
@@ -1928,6 +1934,7 @@ def test_setimage_apply_image_keeps_origin_badge() -> None:
     check("apply_image يحافظ على ملصق «تحليل» بعد تبديل الصورة يدويًا (Issue #758)",
           all(abs(a - b) <= 6 for a, b in zip(pixel, analysis_bg)), (pixel, analysis_bg))
 
+@auto_restore_last_publish
 def test_publish_builds_cards_at_approval() -> None:
     """Issue #852، الجزء الأول: البطاقة لم تعد تُبنى عند الجمع -- تُبنى
     الآن في publish.main نفسها، بعد اختيار العنوان مباشرة (الترتيب
@@ -2109,6 +2116,7 @@ def test_publish_builds_cards_at_approval() -> None:
           (cfg.path("cards.request.badge"), cfg.path("cards.verify.badge"),
            cfg.path("cards.article.badge")))
 
+@auto_restore_last_publish
 def test_card_second_badge_offset_with_nonempty_category() -> None:
     """Issue #954: test_publish_builds_cards_at_approval وtest_setimage_apply_image_keeps_origin_badge
     يتركان category فارغة عمدًا (تعليقهما يقول ذلك صراحة)، فيقع probe_xy
@@ -2172,6 +2180,7 @@ def test_card_second_badge_offset_with_nonempty_category() -> None:
           and not all(abs(a - b) <= 6 for a, b in zip(pixel, accent_color)),
           (pixel, request_bg, accent_color, probe_xy))
 
+@auto_restore_last_publish
 def test_publish_card_search_term_from_image_query_en() -> None:
     """Issue #941: البطاقات لمسار article.py كانت تخرج بلا صورة تعبيرية لأن
     البحث الاحتياطي (imagesearch.find_images، Wikimedia/Openverse) كان يجري
@@ -2563,6 +2572,7 @@ def test_review_sibling_alternate_line() -> None:
     check("build_issue_body: مسودة بلا sibling_id لا تحمل سطر «بديل» إطلاقًا",
           "🔀 بديل" not in plain_block, plain_block)
 
+@auto_restore_last_publish
 def test_setimage_rebuild_card_uses_all_image_candidates() -> None:
     """تصحيح من #760 (Issue #765، بند أول): rebuild_card حين لا manual_image
     كانت تمرّر [url] فقط (أول عنصر في image_candidates) لـbuild_post_image
@@ -2615,6 +2625,165 @@ def test_setimage_rebuild_card_uses_all_image_candidates() -> None:
           calls and calls[0] == ["https://cdn.example/manual.jpg"], calls)
     check("apply_image: نجح التحديث فعليًا", updated is not None, updated)
 
+@auto_restore_last_publish
+def test_setimage_rebuild_card_analysis_no_duplicate_badge() -> None:
+    """Issue #1044: setimage.rebuild_card لم تكن تمرّر category=""/urgent=False/
+    bucket=""/origin="analysis" لمسودة أصلها analysis (خلاف
+    youtube_publish.ensure_title_card)، فتسقط cards.ensure لبديل المسودة —
+    draft["arabic"]["category"] == "تحليل" (القيمة الفعلية لكل مسودات
+    التحليل الـ57 على القرص وقت الإبلاغ) وbucket="serious" الافتراضي —
+    فتُرسم شارتان بالكلمة نفسها (كهرمانية للتصنيف، زرقاء للمسار) على كل
+    بطاقة تحليل يُعاد بناؤها عبر /صورة. الاختبار على البطاقة المبنيّة
+    فعليًا (لا الدالة معزولة): بطاقة أولى عبر cards.ensure (المسار الحقيقي
+    الوحيد لبناء بطاقة، بنفس وسائط ensure_title_card عبر
+    cards.analysis_card_kwargs())، ثم تبديل الصورة عبر setimage.apply_image
+    (طريق /صورة الحقيقي، لا rebuild_card معزولة)."""
+    from src import cards, setimage
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+
+    cfg = load_config()
+    draft = {
+        "id": "an0000000001", "status": "pending", "origin": "analysis",
+        "bucket": "serious",
+        # category == "تحليل" عمدًا -- الحالة الحقيقية لكل مسودات التحليل
+        # على القرص (تقرير المهمة)، لا category فارغة كما في اختبارات
+        # #758 الأقدم التي لم تكن لتكشف هذا الخلل.
+        "arabic": {"post_title": "مقال تحليل حقيقي", "category": "تحليل"},
+        "caption": "متن", "source": {"publishers": ["Ch1", "Ch2"]},
+    }
+    path = store.save_draft(draft)
+    built_first = cards.ensure(path, draft, cfg, **cards.analysis_card_kwargs())
+    check("بطاقة أولى بُنيت فعليًا للمسودة (نفس وسائط ensure_title_card)",
+          built_first is not None, built_first)
+    draft = store.load_draft(draft["id"])[1]
+
+    updated = setimage.apply_image(draft["id"], "https://cdn.example/an-new.jpg", cfg)
+    check("apply_image (طريق /صورة الحقيقي) ينجح على مسودة تحليل قائمة",
+          updated is not None, updated)
+
+    # إحداثيات الشارتين محسوبة من src/imaging.py (badge_left، ~الأسطر 753-760)
+    # لا بالتخمين -- نفس صيغة test_card_second_badge_offset_with_nonempty_category.
+    W = int(cfg.path("image.width", 1080))
+    H = int(cfg.path("image.height", 1080))
+    margin = int(W * 0.06)
+    rule = max(4, W // 240)
+    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
+    inner_top = int(header_h * 0.14)
+    inner_bot = header_h - rule - int(header_h * 0.14)
+    handle_in_header = bool(cfg.path("brand.handle") and header_h)
+    by = ((inner_top + inner_bot) // 2 if not handle_in_header
+          else inner_top + int((inner_bot - inner_top) * 0.34))
+
+    f_head = cfg.path("image.font_headline")
+    f_body = cfg.path("image.font_body") or f_head
+    body_weight = cfg.path("image.font_body_weight") or None
+    bdg_font = imaging.load_font(f_body, int(W * 0.026), body_weight)
+    probe_canvas = Image.new("RGB", (W, H))
+    probe_draw = ImageDraw.Draw(probe_canvas)
+    # عرض شارة التصنيف "تحليل" لو رُسمت فعلًا (badge_left: pad_x=22 الافتراضي)
+    # -- هذا هو الموضع الذي كانت ستنزاح إليه الشارة الزرقاء لولا الإصلاح.
+    tw, _ = imaging.measure(probe_draw, "تحليل", bdg_font)
+    category_w = tw + 22 * 2
+    stale_second_badge_xy = (margin + category_w + int(W * 0.014) + 10, by)
+    first_badge_xy = (margin + 10, by)
+
+    analysis_bg = imaging.hex_rgb(cfg.path("cards.analysis.bg"))
+    accent_color = imaging.hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
+    primary_color = imaging.hex_rgb(cfg.path("brand.primary_color", "#12203A"))
+
+    out_path = DRAFTS_DIR / Path(updated["image"]).relative_to("drafts")
+    with Image.open(out_path) as im:
+        rgb = im.convert("RGB")
+        first_pixel = rgb.getpixel(first_badge_xy)
+        stale_pixel = rgb.getpixel(stale_second_badge_xy)
+
+    check("موضع الشارة الأولى يحمل لون خلفية شارة المسار الزرقاء (cards.analysis.bg) "
+          "لا لون brand.accent_color (شارة تصنيف كانت لتُرسم هناك قبل الإصلاح)",
+          all(abs(a - b) <= 6 for a, b in zip(first_pixel, analysis_bg))
+          and not all(abs(a - b) <= 6 for a, b in zip(first_pixel, accent_color)),
+          (first_pixel, analysis_bg, accent_color))
+    check("لا شارة ثانية زائدة في الموضع الذي كانت ستنزاح إليه شارة المسار لولا الإصلاح "
+          "(خلفية الترويسة العادية وحدها هناك -- شارة واحدة فقط على البطاقة)",
+          all(abs(a - b) <= 6 for a, b in zip(stale_pixel, primary_color)),
+          (stale_pixel, primary_color, analysis_bg))
+
+@auto_restore_last_publish
+def test_setimage_rebuild_card_news_category_and_path_badges_unaffected() -> None:
+    """Issue #1044: مسار الأخبار في rebuild_card لا يتغيّر -- تثبيت سلوك قائم.
+    مسودة origin != "analysis" وعليها تصنيف حقيقي: تبديل الصورة عبر
+    setimage.apply_image (نفس الطريق الحقيقي) يُبقي شارتي التصنيف (كهرمانية،
+    عند بداية صف الملصقات) والمسار (لون cards.<origin>.bg المستقل، بعد
+    التصنيف مباشرة) كما كانتا قبل هذه المهمة -- extra في rebuild_card يبقى
+    فارغًا لأي origin غير analysis فتُستعمل قيم المسودة كما اليوم."""
+    from src import cards, setimage
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+
+    cfg = load_config()
+    category = "تصنيف تجريبي"
+    draft = {
+        "id": "nw0000000001", "status": "pending", "origin": "request",
+        "bucket": "serious",
+        "arabic": {"post_title": "خبر عليه تصنيف حقيقي", "category": category,
+                   "urgent": False},
+        "caption": "متن", "source": {"publishers": ["مصدر"],
+                                      "image_candidates": ["https://cdn.example/ok.jpg"]},
+    }
+    path = store.save_draft(draft)
+    built_first = cards.ensure(path, draft, cfg)
+    check("بطاقة أولى بُنيت فعليًا للمسودة (مسار الأخبار العادي)",
+          built_first is not None, built_first)
+    draft = store.load_draft(draft["id"])[1]
+
+    updated = setimage.apply_image(draft["id"], "https://cdn.example/nw-new.jpg", cfg)
+    check("apply_image ينجح على مسودة أخبار قائمة عليها تصنيف حقيقي",
+          updated is not None, updated)
+
+    W = int(cfg.path("image.width", 1080))
+    H = int(cfg.path("image.height", 1080))
+    margin = int(W * 0.06)
+    rule = max(4, W // 240)
+    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
+    inner_top = int(header_h * 0.14)
+    inner_bot = header_h - rule - int(header_h * 0.14)
+    handle_in_header = bool(cfg.path("brand.handle") and header_h)
+    by = ((inner_top + inner_bot) // 2 if not handle_in_header
+          else inner_top + int((inner_bot - inner_top) * 0.34))
+
+    f_head = cfg.path("image.font_headline")
+    f_body = cfg.path("image.font_body") or f_head
+    body_weight = cfg.path("image.font_body_weight") or None
+    bdg_font = imaging.load_font(f_body, int(W * 0.026), body_weight)
+    probe_canvas = Image.new("RGB", (W, H))
+    probe_draw = ImageDraw.Draw(probe_canvas)
+    tw, _ = imaging.measure(probe_draw, category, bdg_font)
+    category_w = tw + 22 * 2
+    first_badge_xy = (margin + 10, by)
+    second_badge_xy = (margin + category_w + int(W * 0.014) + 10, by)
+
+    accent_color = imaging.hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
+    request_bg = imaging.hex_rgb(cfg.path("cards.request.bg"))
+
+    out_path = DRAFTS_DIR / Path(updated["image"]).relative_to("drafts")
+    with Image.open(out_path) as im:
+        rgb = im.convert("RGB")
+        first_pixel = rgb.getpixel(first_badge_xy)
+        second_pixel = rgb.getpixel(second_badge_xy)
+
+    check("مسار الأخبار (بعد تبديل الصورة): شارة التصنيف ما زالت بلون brand.accent_color",
+          all(abs(a - b) <= 6 for a, b in zip(first_pixel, accent_color)),
+          (first_pixel, accent_color))
+    check("مسار الأخبار (بعد تبديل الصورة): شارة المسار الثانية ما زالت بلون "
+          "cards.request.bg المستقل، منزاحة بعد شارة التصنيف كما اليوم",
+          all(abs(a - b) <= 6 for a, b in zip(second_pixel, request_bg)),
+          (second_pixel, request_bg))
+
+@auto_restore_last_publish
 def test_publish_investigation_requires_review() -> None:
     """بند 3، Issue #765: منشور تحقيق لا يُنشر تلقائيًا أبدًا -- publish.
     cmd_now (نشر مباشر بمعرّف عبر --ids، issue_number=None) يرفض مسودة
@@ -2722,6 +2891,7 @@ def test_no_reject_boxes_in_review_issues() -> None:
           not hasattr(preselect, "CREJECT_MARKER")
           and not hasattr(preselect, "parse_candidate_rejects"))
 
+@auto_restore_last_publish
 def test_publish_unapproved_becomes_rejected() -> None:
     """Issue #841، البند 2: عدم الاعتماد داخل Issue موسوم approved يصير
     رفضًا ضمنيًا (status=rejected، وسم feedback «لم يُعتمد») — بصرف النظر
@@ -2824,6 +2994,7 @@ def test_publish_unapproved_becomes_rejected() -> None:
     check("screening_guidance تستبعد مدخلة «لم يُعتمد» (لا تصف شيئًا للفرز)",
           "خبر لم يُعتمد" not in guidance, guidance)
 
+@auto_restore_last_publish
 def test_decisions_records_rejected_unchecked_via_publish() -> None:
     """Issue #954: عدم الاعتماد داخل Issue المراجعة الأولية الموسوم approved
     يُسجَّل أيضًا في state/decisions.json (لا في feedback.py وحدها) بقيمة
@@ -2954,6 +3125,7 @@ def test_review_card_and_back_boxes() -> None:
     check("parse_back_requests تقرأ المعلَّم",
           review.parse_back_requests(marked_back) == {draft["id"]})
 
+@auto_restore_last_publish
 def test_publish_card_request_defers_to_final_review() -> None:
     """Issue #858، الجزء الثاني، البند 1-2: معتمَد بلا 🎴 يُنشر فورًا كسابقًا؛
     معتمَد مع 🎴 لا يُنشر -- بطاقته تُبنى فعلًا (cards.ensure يقع أعلاه في
@@ -3065,6 +3237,7 @@ def test_publish_card_request_defers_to_final_review() -> None:
     check("تعليق على الـIssue الأولي يذكر رقم الـIssue النهائي",
           any(i == 8858 and "9933" in t for i, t in comments), comments)
 
+@auto_restore_last_publish
 def test_publish_final_review_approve_publishes_without_rebuild() -> None:
     """Issue #858، الجزء الثاني، البند 3: اعتماد Issue المراجعة النهائية
     ينشر البطاقة المبنيّة كما هي -- بلا أي استدعاء لـcards.ensure (لا إعادة
@@ -3161,6 +3334,7 @@ def test_publish_final_review_approve_publishes_without_rebuild() -> None:
     check("الرفض بوسم «لم يُعتمد»",
           bool(new_entries) and new_entries[0]["tag"] == "لم يُعتمد", new_entries)
 
+@auto_restore_last_publish
 def test_decisions_records_rejected_unchecked_via_final_review() -> None:
     """Issue #954: نفس مبدأ test_decisions_records_rejected_unchecked_via_publish
     لكن عبر مسار المراجعة النهائية (cmd_final_review، gate C) -- عدم
@@ -3236,6 +3410,7 @@ def test_decisions_records_rejected_unchecked_via_final_review() -> None:
           len(rej_entries) == 1 and rej_entries[0]["decision"] == "rejected_unchecked"
           and rej_entries[0]["reject_tag"] == "لم يُعتمد", rej_entries)
 
+@auto_restore_last_publish
 def test_publish_final_review_double_publish_guard() -> None:
     """Issue #858، الجزء الثاني، البند 3: مسودة نُشرت فعلًا (مثلًا عبر
     تشغيل urgent سابق لنفس حدث وسم approved وصل هذا الـIssue النهائي قبل
@@ -3286,6 +3461,7 @@ def test_publish_final_review_double_publish_guard() -> None:
     check("حالة المسودة تبقى published (لا تغيير)",
           store.load_draft(already_published["id"])[1]["status"] == "published")
 
+@auto_restore_last_publish
 def test_publish_final_review_back_request() -> None:
     """Issue #858، الجزء الثاني، البند 4: ↩️ في الـIssue النهائي يحذف حقل
     image (وimage_info وreview_issue معه) ويُبقي المسودة pending بلا رفض،
@@ -3364,6 +3540,7 @@ def test_publish_final_review_back_request() -> None:
     rejections_after = feedback.load()
     check("لا تسجيل رفض لأي من الاثنتين", len(rejections_after) == rejections_before)
 
+@auto_restore_last_publish
 def test_publish_final_review_excludes_analysis_origin_from_news_path() -> None:
     """Issue #858 الأصلي، الجزء الثاني، البند 5 (ضيّق نطاقه Issue #1000):
     التقاطع الخاص بمسار الأخبار وحده (``card_requests = review.parse_card_requests(body)
@@ -3456,6 +3633,7 @@ def test_publish_final_review_excludes_analysis_origin_from_news_path() -> None:
     check("review_issue أصبح رقم الـIssue النهائي المفتوح عبر مسار التحليل",
           persisted.get("review_issue") == 9977, persisted.get("review_issue"))
 
+@auto_restore_last_publish
 def test_publish_analysis_card_request_routes_to_own_final_review() -> None:
     """Issue #1000: إدخال مسار التحليل في دورة المراجعة الموحَّدة، الجزء الأول
     -- مقال معتمَد مع 🎴 في Issue مراجعة التحليل (youtube-review) لا يُنشر
@@ -3580,6 +3758,7 @@ def test_publish_analysis_card_request_routes_to_own_final_review() -> None:
     check("تعليق على Issue مراجعة التحليل الأصلي يذكر رقم الـIssue النهائي",
           any(i == 7001 and "9978" in t for i, t in comments), comments)
 
+@auto_restore_last_publish
 def test_publish_final_review_analysis_origin_routes_through_publish_ids() -> None:
     """Issue #1000، ثم #1008: cmd_final_review (المعالج الفعلي لـIssue وسمه
     final-review) يفصل مسودة origin=='analysis' عن الباقي ويُنشرها عبر
@@ -3710,6 +3889,7 @@ def test_publish_final_review_analysis_origin_routes_through_publish_ids() -> No
     check("↩️: المسودة غير مؤهَّلة لمراجعة الأخبار العامة (open_review.main يستبعد analysis)",
           back_analysis["id"] not in news_pending_ids, news_pending_ids)
 
+@auto_restore_last_publish
 def test_publish_final_review_analysis_cap_and_spacing_across_two_runs() -> None:
     """Issue #1008: خمس مسودات تحليل معتمَدة في Issue نهائي واحد تُحترم
     سقفها وتباعدها (youtube.publish.max_per_run=3/spacing_minutes=40) بدل
@@ -3832,6 +4012,7 @@ def test_publish_final_review_analysis_cap_and_spacing_across_two_runs() -> None
           len(rejections_after) == rejections_before,
           (rejections_before, len(rejections_after)))
 
+@auto_restore_last_publish
 def test_publish_final_review_news_origin_immediate_no_cap() -> None:
     """Issue #1008: مسار الأخبار في cmd_final_review لا يتغيّر إطلاقًا --
     تثبيت السلوك القائم منذ #858: دفعة أخبار أكبر من سقف التحليل (3) تُنشر
@@ -3901,6 +4082,7 @@ def test_publish_final_review_news_origin_immediate_no_cap() -> None:
     check("الـIssue أُغلق فورًا", closed_issues == [6002], closed_issues)
     check("لا إزالة وسم -- لا شيء ينتظر تشغيلة لاحقة", removed_labels == [], removed_labels)
 
+@auto_restore_last_publish
 def test_publish_final_review_mixed_origin_news_immediate_analysis_capped() -> None:
     """Issue #1008: Issue نهائي يخلط الأصلين معًا -- الأخبار تُنشر فورًا بلا
     سقف، والتحليل يخضع لسقف/تباعد youtube.publish.max_per_run/spacing_minutes
@@ -3987,6 +4169,7 @@ def test_publish_final_review_mixed_origin_news_immediate_analysis_capped() -> N
     check("الـIssue لم يُغلق -- تحليل باقٍ فوق السقف", closed_issues == [], closed_issues)
     check("وسم approved أُزيل", removed_labels == [(6003, "approved")], removed_labels)
 
+@auto_restore_last_publish
 def test_publish_final_review_analysis_already_published_skipped() -> None:
     """Issue #1008: مسودة تحليل status=='published' في Issue نهائي معتمَد لا
     تُنشر ثانية -- لا عبر publish_one مباشرة ولا عبر youtube_publish.publish_ids
@@ -4053,6 +4236,7 @@ def test_publish_final_review_analysis_already_published_skipped() -> None:
     check("الحالة بقيت published",
           store.load_draft(already["id"])[1]["status"] == "published")
 
+@auto_restore_last_publish
 def test_publish_final_review_analysis_unchecked_rejected_once_across_two_runs() -> None:
     """Issue #1008: مسودة تحليل ظهرت في جسم Issue نهائي لكن لم تُعلَّم ✔️
     تصير rejected مرة واحدة فقط رغم تشغيلتين متتاليتين على نفس الجسم -- نفس
@@ -4132,6 +4316,7 @@ def test_first_comment() -> None:
         {"post_title": "عنوان", "post_body": "متن", "hashtags": ["أخبار"]}, art, cfg2)
     check("المتن يحوي الرابط عند التعطيل", "https://bbc.com/a" in body2)
 
+@auto_restore_last_publish
 def test_burst_inline_cap_zero_defers_without_sleep() -> None:
     """Issue #315: finalize يستدعي cmd_burst داخل مهمة urgent (سقفها 20
     دقيقة)، وأصغر فاصل يحسبه spaced_slots هو 30 دقيقة — أي sleep واحد
@@ -4189,6 +4374,7 @@ def test_burst_inline_cap_zero_defers_without_sleep() -> None:
     check("موعد نشر مؤجَّل محفوظ للمتبقي (يلتقطه سيّر نشر الطابور)",
           "publish_at" in store.load_draft("burst1")[1])
 
+@auto_restore_last_publish
 def test_burst_urgent_still_immediate_with_inline_cap_zero() -> None:
     """العاجل يخرج فورًا مهما كان حجم الدفعة — inline_cap_minutes=0 يمسّ
     البقية العادية فقط، ولا يغيّر منطق العاجل (wait=0 بلا شرط) إطلاقًا."""
@@ -4263,6 +4449,7 @@ def test_scheduling() -> None:
     check("is_due يميّز المستقبل", not is_due(dawn + timedelta(hours=1), dawn))
     check("صياغة الموعد بالتوقيت المحلي", "12:00" in describe(slots[0], tz))
 
+@auto_restore_last_publish
 def test_due_publishes_one_at_a_time() -> None:
     """Issue #327 البند 2: لو فاتت queue.yml تشغيلة أو أكثر، تتراكم عدة
     مسودات مستحقة معًا. cmd_due يجب ألا ينشرها كلها في حلقة واحدة بلا
@@ -4314,6 +4501,7 @@ def test_due_publishes_one_at_a_time() -> None:
           statuses == {"due_old": "published", "due_mid": "queued",
                        "due_new": "queued"}, str(statuses))
 
+@auto_restore_last_publish
 def test_publish_skips_broken_draft_without_stopping_batch() -> None:
     """Issue #707: مسودة يوتيوب تُبنى بلا حقل image عمدًا حتى الاعتماد
     (Issue #680)، بينما الأنبوب العام يفترض وجوده. لو تسرّبت مسودة كهذه
@@ -4385,6 +4573,7 @@ def test_publish_skips_broken_draft_without_stopping_batch() -> None:
           "(لم تبقَ pending) — أجّلتها البوابة إذ نُشر g1 للتوّ",
           g2_status == "queued", g2_status)
 
+@auto_restore_last_publish
 def test_burst_skips_broken_draft_without_spacing_sleep() -> None:
     """Issue #740، العطل الثاني الفعلي: أربع مسودات (خرجت failed فورًا داخل
     publish_one لنقصان حقل أساسي) انتظر لها cmd_burst فاصل النشر الكامل
@@ -4439,6 +4628,7 @@ def test_burst_skips_broken_draft_without_spacing_sleep() -> None:
           store.load_draft("spacing_bad")[1]["status"] == "failed",
           store.load_draft("spacing_bad")[1].get("status"))
 
+@auto_restore_last_publish
 def test_publish_routes_youtube_origin_by_field_not_label() -> None:
     """Issue #740، العطل الأول الفعلي: مراجع وسم Issue مراجعة يوتيوب
     (`youtube-review`، يستعمل نفس صيغة ``<!-- draft:id -->`` وreview.parse_approved
@@ -4522,6 +4712,7 @@ def test_publish_routes_youtube_origin_by_field_not_label() -> None:
     check("تعليق تقرير نُشر على الـIssue", bool(comments), comments)
     check("الـIssue أُغلق (سقف يغطي المعتمَد كله)", closed == [7401], closed)
 
+@auto_restore_last_publish
 def test_publish_routes_news_origin_unaffected() -> None:
     """Issue #740 (ضابط): مسودة أخبار عادية (origin != youtube) معتمَدة
     بوسم approved يجب أن تسلك مسار الأخبار تمامًا كسابقًا — التوجيه بالأصل
@@ -4580,6 +4771,7 @@ def test_publish_routes_news_origin_unaffected() -> None:
           store.load_draft(news_draft["id"])[1]["status"] == "published",
           store.load_draft(news_draft["id"])[1].get("status"))
 
+@auto_restore_last_publish
 def test_publish_routes_mixed_origins_in_same_issue() -> None:
     """Issue #745: بعد توحيد وسم الاعتماد إلى `approved` وحده، صار اجتماع
     مسودة ``origin: "youtube"`` ومسودة أخبار عادية معًا، معتمَدتين معًا في
@@ -4675,6 +4867,7 @@ def test_publish_routes_mixed_origins_in_same_issue() -> None:
           store.load_draft(news_draft["id"])[1]["status"] == "published",
           store.load_draft(news_draft["id"])[1].get("status"))
 
+@auto_restore_last_publish
 def test_publish_urgent_only_defers_youtube_to_normal_job() -> None:
     """Issue #745: publish.yml يُشغّل urgent (--urgent-only، مهلة ٢٠ دقيقة)
     ثم normal (--skip-urgent، مهلة ١٥٠) على نفس حدث وسم approved، وكتلة
@@ -4754,6 +4947,7 @@ def test_publish_urgent_only_defers_youtube_to_normal_job() -> None:
     check("--skip-urgent يستدعي publish_ids مرة واحدة (لا مرتين)",
           yt_calls == [1], yt_calls)
 
+@auto_restore_last_publish
 def test_open_review_excludes_youtube_and_broken_drafts() -> None:
     """متابعة Issue #707: تسرّب مسودة يوتيوب لم يقف عند ``publish.py``
     وحده — ``open_review.py`` (المسار العام) كان يجمع كل مسودة ``pending``
@@ -4901,6 +5095,7 @@ def test_review_sort_by_score() -> None:
     check("يعمل عبر key= لصفوف (path, dict)",
           [p for p, _ in ordered4] == ["pb", "pa"], ordered4)
 
+@auto_restore_last_publish
 def test_open_review_orders_drafts_by_score() -> None:
     """Issue #874، الشاهد الحرفي: أربع مسودات بدرجات 20.4، 29.8، 16.9، 17.9
     محفوظة بترتيب مسار ملف عشوائي يجب أن تظهر في نص Issue المراجعة الأولية
@@ -5022,6 +5217,7 @@ def test_open_review_orders_candidates_by_score() -> None:
           ["cafe0298", "cafe0204", "cafe0179", "cafe0169"],
           cand_marker.findall(body))
 
+@auto_restore_last_publish
 def test_publish_final_review_orders_by_score() -> None:
     """Issue #874: مسودات المراجعة النهائية (🎴) تُعرض مرتَّبة تنازليًا
     بالدرجة أيضًا -- سواء عبر publish.py (مسار الاعتماد الأولي مع 🎴) أو
@@ -5330,6 +5526,7 @@ def test_radar_writes_breaking_origin() -> None:
           bool(draft) and draft.get("origin") == "breaking",
           draft.get("origin") if draft else None)
 
+@auto_restore_last_publish
 def test_request_writes_request_origin() -> None:
     """مواضع الكتابة السبعة (Issue #749) — request.py يمرّر origin="request"
     عبر extra إلى radar.build_draft، فيُكتب الحقل "request" لا "breaking"
@@ -5380,6 +5577,7 @@ def test_request_writes_request_origin() -> None:
           saved is not None and saved[1].get("origin") == "request",
           saved[1].get("origin") if saved else None)
 
+@auto_restore_last_publish
 def test_decisions() -> None:
     """Issue #583 — المرحلة الأولى: سجل قرارات تراكمي (state/decisions.json)،
     جمع بلا أي تحليل أو تأثير على الفرز/الترتيب."""
@@ -5546,6 +5744,7 @@ def test_decisions() -> None:
     check("drop_stale_candidates لا يضيف قيدًا في decisions.json (لم يُعرض على مراجع)",
           len(decisions.load()) == decisions_before_stale, decisions.load())
 
+@auto_restore_last_publish
 def test_decisions_scan_since_ignores_old_batch() -> None:
     """Issue #954: config.yaml: decisions.scan_since يمنع تسجيل الدفعة
     القديمة من المسودات المعلَّقة دفعة واحدة عند أول فحص بعد نشر الميزة —
@@ -5644,6 +5843,7 @@ def test_insights_analysis() -> None:
 
     check("لا انهيار مع بيانات فارغة", analyse([], "UTC") == {})
 
+@auto_restore_last_publish
 def test_insights_collect_includes_analysis_origin() -> None:
     """Issue #749: insights.collect لا يستثني مسار التحليل (هو نفسه تحليلي،
     واستبعاده يُعمي التقرير الأسبوعي عن مسار يجري توسيعه)، ولا ينهار على
@@ -6096,6 +6296,7 @@ def test_insights_no_posts_still_shows_why_and_decisions() -> None:
     if insights.REASON_SHOWN_FILE.exists():
         insights.REASON_SHOWN_FILE.unlink()
 
+@auto_restore_last_publish
 def test_collect_feedback_rejects_analysis_draft_without_image() -> None:
     """Issue #749 (تصحيح لاحق): لا src/collect_feedback.py ولا feedback.record
     يقرآن حقل image إطلاقًا — فمسودة تحليل قبل اعتمادها (Issue #680، بلا هذا
@@ -6157,6 +6358,7 @@ def test_collect_feedback_rejects_analysis_draft_without_image() -> None:
           store.load_draft(normal_draft["id"])[1].get("status"))
 
 
+@auto_restore_last_publish
 def test_retention_sweep_ages_and_statuses() -> None:
     """Issue #956: src/retention.py يحذف من drafts/ وstate/candidates/ ما
     تجاوز نافذة retention.days، بقاعدة عمر مختلفة بحسب حالة المسودة —
@@ -6287,6 +6489,7 @@ def test_retention_sweep_ages_and_statuses() -> None:
     check("⑦ مجلد مرشحين أحدث من النافذة ← يبقى", cand_recent.exists())
 
 
+@auto_restore_last_publish
 def test_retention_publish_survives_deleted_draft() -> None:
     """publish.main لا ينهار حين يشير Issue معتمَد إلى معرّف مسودة حذفتها
     retention.py بالفعل — كل نداء store.load_draft على طول المسار العام
@@ -6324,6 +6527,7 @@ def test_retention_publish_survives_deleted_draft() -> None:
           code == 0, f"exit={code}")
 
 
+@auto_restore_last_publish
 def test_retention_insights_still_counts_kept_draft() -> None:
     """بعد تشغيلة حذف حقيقية، insights.collect(30, …) يظل يحسب مسودة
     منشورة لم تتجاوز نافذة الاحتفاظ بعد — الحذف الدوري لا يقتطع من نافذة
@@ -6399,6 +6603,7 @@ def _revival_env(repo: str = "u/r", ref: str = "main"):
     return restore
 
 
+@auto_restore_last_publish
 def test_publish_one_facebook_failure_tags_stage() -> None:
     """Issue #959 جزء أ: فشل facebook.FacebookError عند نشر الصورة تحديدًا
     (لا «حقول مفقودة» ولا «الصورة مفقودة») هو الفشل الوحيد الذي يُعلَّم
@@ -6654,6 +6859,7 @@ def test_due_captures_gap_gate_deferred_draft_on_later_run() -> None:
         facebook.publish_photo = real_publish_photo
 
 
+@auto_restore_last_publish
 def test_queued_drafts_includes_gap_deferred_analysis_and_guards_missing_image() -> None:
     """Issue #1010: ``queued_drafts`` لم يعد يستثني أصل ``analysis`` بإطلاق
     — مسودة تحليل أجّلتها البوابة (``youtube_publish.publish_ids`` يبني
@@ -6711,6 +6917,7 @@ def test_queued_drafts_includes_gap_deferred_analysis_and_guards_missing_image()
           store.load_draft("an_queued_bad01")[1].get("status"))
 
 
+@auto_restore_last_publish
 def test_open_review_revival_issue_single_and_no_duplicate() -> None:
     """Issue #959 جزء ب: open_review.main يجمع مسودات failed القابلة
     للإحياء (فشل فيسبوك فقط، بلا revival_issue، revival_offers < 2) في
@@ -6788,6 +6995,7 @@ def test_open_review_revival_issue_single_and_no_duplicate() -> None:
         restore_env()
 
 
+@auto_restore_last_publish
 def test_publish_revival_issue_full_flow() -> None:
     """Issue #959 جزء ج: اعتماد Issue إحياء يضم مسودة معلَّمة (أخبار)،
     وأخرى غير معلَّمة، ومعرّفًا محذوفًا، ومسودة تحليل معلَّمة — في مسار
@@ -6960,6 +7168,7 @@ def test_publish_revival_issue_full_flow() -> None:
     check("--urgent-only: لا نداء publish_ids", yt_calls == [], yt_calls)
 
 
+@auto_restore_last_publish
 def test_revival_end_to_end() -> None:
     """من البداية إلى النهاية (Issue #959): فشل نشر فيسبوك ← فتح Issue
     الإحياء (open_review) ← اعتماده (publish.main --skip-urgent) ←
@@ -7060,6 +7269,7 @@ def test_revival_end_to_end() -> None:
           final_draft.get("status") == "published", final_draft.get("status"))
 
 
+@auto_restore_last_publish
 def test_open_review_revival_offered_twice_then_stops() -> None:
     """الفشل الثاني يُعرض مرة أخيرة، والثالث لا يُعرض (Issue #959) — عبر
     الأنبوب الفعلي: publish_one يفشل، open_review.main يعرض، publish.main
@@ -7183,6 +7393,7 @@ def _analysis_draft(idx: int, issue_number: int) -> dict:
     }
 
 
+@auto_restore_last_publish
 def test_publish_revival_analysis_batch_cap_defers_remainder() -> None:
     """Issue #961: دفعة إحياء تحليل تتجاوز سقف التشغيلة (youtube.publish.
     max_per_run الافتراضي 3، أربع مسودات معلَّمة) لا تُفقد الرابعة الزائدة —
@@ -7282,6 +7493,7 @@ def test_publish_revival_analysis_batch_cap_defers_remainder() -> None:
     check("الـIssue أُغلق في التشغيلة الثانية", closed == [issue_number], closed)
 
 
+@auto_restore_last_publish
 def test_publish_revival_analysis_batch_seven_drafts_three_runs() -> None:
     """نفس سيناريو سقف الدفعة أعلاه بسبع مسودات معلَّمة: تشغيلتان لا تكفيان
     (٣+٣=٦)، والثالثة تُكمل السابعة وتُغلق الـIssue -- لا قبلها إطلاقًا."""
@@ -7351,6 +7563,7 @@ def test_publish_revival_analysis_batch_seven_drafts_three_runs() -> None:
               final.get("status") == "published", final.get("status"))
 
 
+@auto_restore_last_publish
 def test_publish_revival_mixed_news_and_analysis_batch() -> None:
     """دفعة إحياء مختلطة: خبر معلَّم يُجدول queued فورًا (لا سقف دفعة عليه)،
     وخبر غير معلَّم يموت نهائيًا، وأربع مسودات تحليل تخضع لسقف الدفعة كما في
@@ -7442,6 +7655,7 @@ def test_publish_revival_mixed_news_and_analysis_batch() -> None:
           and marked_after2.get("publish_at") == publish_at_1, marked_after2)
 
 
+@auto_restore_last_publish
 def test_publish_revival_batch_member_fails_again_stays_offered() -> None:
     """مسودة تحليل ضمن الدفعة نفسها (لا تتجاوز السقف) فشلت ثانية أثناء
     التشغيلة: ليست ضمن «الباقي» (remaining خاص بما تجاوز سقف الدفعة فقط، لا

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import atexit
+import functools
 import inspect
 import json
 import logging
@@ -99,6 +100,25 @@ def restore_last_publish() -> None:
     اختبار استدعى ``reset_last_publish()`` — تستدعيها اختبارات البوابة قبل
     أن تتحكّم بآخر منشور فعلي عبر ``stub_last_publish``."""
     store.last_publish_at = _REAL_LAST_PUBLISH_AT
+
+
+def auto_restore_last_publish(fn):
+    """مُزيِّن لأي دالة اختبار تستدعي ``reset_last_publish()`` — يضمن
+    استعادة ``store.last_publish_at`` الحقيقية بعد انتهاء الدالة دومًا،
+    نجاحًا أو استثناءً (Issue #1044). قبل هذا كانت ``reset_last_publish()``
+    تستبدل ``store.last_publish_at`` ولا تُعاد أبدًا ما لم يستدعِ الاختبار
+    نفسه ``restore_last_publish()`` صراحةً (3 اختبارات فقط من أصل 56 كانت
+    تفعل ذلك، وبعضها كان يستدعيها دفاعيًا في *بداية* الاختبار تحسّبًا
+    لتسرّب استبدال اختبار سابق — أثر جانبي لنفس الخلل) — فيبقى الاستبدال
+    ساريًا على كل اختبار لاحق في نفس التشغيلة. استدعاء ``restore_last_publish()``
+    غير مكلف وآمن حتى لو لم يكن ``reset_last_publish()`` استُدعيت أصلًا."""
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        try:
+            return fn(*args, **kwargs)
+        finally:
+            restore_last_publish()
+    return wrapper
 
 
 _LAST_PUBLISH_STUB_ID = "_last_publish_stub"
