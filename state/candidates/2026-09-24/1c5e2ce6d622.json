@@ -1,0 +1,79 @@
+{
+  "id": "1c5e2ce6d622",
+  "created_at": "2026-09-24T09:08:00.554282+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.82,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump's Board of Peace unveils $2.45bn plan to begin Gaza's reconstruction",
+  "link": "https://www.bbc.co.uk/news/articles/cwlyke0mm0x3o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Daily Sabah",
+    "Dawn",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Trump's Board of Peace unveils $2.45bn plan to begin Gaza's reconstruction",
+    "link": "https://www.bbc.co.uk/news/articles/cwlyke0mm0x3o?at_medium=RSS&at_campaign=rss",
+    "summary": "The figure was announced during a meeting of the group's board at the sidelines of the UN General Assembly in New York.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-23T21:26:14+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/77bf/live/26f24db0-b770-11f1-a7b2-f3bdba1cd194.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Daily Sabah",
+      "Dawn",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cwlyke0mm0x3o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2032222/board-of-peace-unveils-245bn-gaza-recovery-plan"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trumps-board-of-peace-proposes-245-billion-blueprint-to-begin-gaza-reconstruction/article71501269.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/us-backed-board-unveils-245b-gaza-reconstruction-plan"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/77bf/live/26f24db0-b770-11f1-a7b2-f3bdba1cd194.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/77bf/live/26f24db0-b770-11f1-a7b2-f3bdba1cd194.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/77bf/live/26f24db0-b770-11f1-a7b2-f3bdba1cd194.jpg",
+      "https://i.dawn.com/large/2026/09/24075354637d696.webp",
+      "https://i.dawn.com/thumbnail/2026/09/24075354637d696.webp",
+      "https://i.dawn.com/large/2026/09/2403354084cade3.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1216.9150525391665,
+    "is_stale": false,
+    "score": 19.820362974462963,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "id": "8fbc8049b033",
+  "created_at": "2026-09-24T09:08:00.554011+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.48,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "light",
+  "state_media": false,
+  "title": "Harvey Weinstein sentenced to 15 years imprisonment in New York case",
+  "link": "https://boingboing.net/2026/09/23/harvey-weinstein-sentenced-to-15-years-imprisonment-in-new-york-case.html",
+  "publishers": [
+    "Boing Boing",
+    "France24",
+    "Hindustan Times — World",
+    "Rappler",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "odd",
+  "article": {
+    "title": "Harvey Weinstein sentenced to 15 years imprisonment in New York case",
+    "link": "https://boingboing.net/2026/09/23/harvey-weinstein-sentenced-to-15-years-imprisonment-in-new-york-case.html",
+    "summary": "Hollywood film producer Harvey Weinstein was today sentenced to 15 years in prison on his most recent sexual assault conviction in New York. His victim, production assistant Miriam Haley, told the Manhattan court in an impact statement that Weinstein abused his position and power and that \"It is a life sentence for me.\" — Read the rest The post Harvey Weinstein sentenced to 15 years imprisonment in New York case appeared first on Boing Boing .",
+    "source_name": "Boing Boing",
+    "region": "odd",
+    "weight": 1.3,
+    "published": "2026-09-23T17:47:23+00:00",
+    "image_url": "https://i0.wp.com/boingboing.net/wp-content/uploads/2024/04/weinstein.jpeg?fit=1500%2C996&quality=60&ssl=1",
+    "publisher": "Boing Boing",
+    "cluster_sources": [
+      "Boing Boing",
+      "France24",
+      "Hindustan Times — World",
+      "Rappler",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Boing Boing",
+        "link": "https://boingboing.net/2026/09/23/harvey-weinstein-sentenced-to-15-years-imprisonment-in-new-york-case.html"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2630992/weinstein-faces-resentencing-in-new-york-for-2006-sex-assault"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260923-disgraced-hollywood-mogul-harvey-weinstein-sentenced-to-15-years-for-2006-sex-assault"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/entertainment/celebrities/harvey-weinstein-sentenced-new-york-sexual-assault-2026/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/harvey-weinstein-sentenced-to-15-years-for-new-york-sexual-assault/article71502949.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/harvey-weinstein-sentenced-movie-mogul-gets-15-years-in-jail-for-2006-new-york-sexual-assault-101790179535161.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i0.wp.com/boingboing.net/wp-content/uploads/2024/04/weinstein.jpeg?fit=1500%2C996&quality=60&ssl=1",
+      "https://i0.wp.com/boingboing.net/wp-content/uploads/2024/04/weinstein.jpeg?fit=1500%2C996&amp;quality=60&amp;ssl=1",
+      "https://th-i.thgim.com/public/incoming/y6f0ua/article71502988.ece/alternates/LANDSCAPE_1200/Sexual_Misconduct_Weinstein_85188.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 1216.9150428086111,
+    "is_stale": false,
+    "score": 21.482083810922727,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

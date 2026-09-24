@@ -1,0 +1,62 @@
+{
+  "id": "9f89ca267c8d",
+  "created_at": "2026-09-24T09:08:00.554734+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.73,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "'Make women feel seen': Why the Dutch have a new word for labia",
+  "link": "https://www.bbc.co.uk/news/articles/cn4klprmr0go?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC",
+    "BBC Health",
+    "BBC World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "'Make women feel seen': Why the Dutch have a new word for labia",
+    "link": "https://www.bbc.co.uk/news/articles/cn4klprmr0go?at_medium=RSS&at_campaign=rss",
+    "summary": "Campaigners hope the new words will lead to less body shaming and more sex positivity.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-23T23:42:38+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3b5f/live/11ea22b0-b736-11f1-aa9c-3d062fa3aea7.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC",
+      "BBC Health",
+      "BBC World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cn4klprmr0go?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3b5f/live/11ea22b0-b736-11f1-aa9c-3d062fa3aea7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/3b5f/live/11ea22b0-b736-11f1-aa9c-3d062fa3aea7.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/3b5f/live/11ea22b0-b736-11f1-aa9c-3d062fa3aea7.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1216.9150835977778,
+    "is_stale": false,
+    "score": 18.726806029385692,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
