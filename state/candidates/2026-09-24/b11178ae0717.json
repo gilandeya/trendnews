@@ -1,0 +1,77 @@
+{
+  "id": "b11178ae0717",
+  "created_at": "2026-09-24T03:08:31.418843+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.21,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(LEAD) Ukraine recently sent 2 N. Korean POWs to S. Korea: Zelenskyy",
+  "link": "https://en.yna.co.kr/view/AEN20260924000851315",
+  "publishers": [
+    "Free Malaysia Today",
+    "Reuters",
+    "The Hindu — International",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(LEAD) Ukraine recently sent 2 N. Korean POWs to S. Korea: Zelenskyy",
+    "link": "https://en.yna.co.kr/view/AEN20260924000851315",
+    "summary": "SEOUL, Sept. 24 (Yonhap) -- Ukraine has recently sent two North Korean soldiers ...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-24T01:51:15+00:00",
+    "image_url": "https://img.yna.co.kr/etc/inner/EN/2026/09/24/AEN20260924000851315_03_i_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Reuters",
+      "The Hindu — International",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260924000800315"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/ukraine-sent-two-captured-north-korean-soldiers-to-south-korea-zelenskyy-says/article71502551.ece"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260924000851315"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/24/ukraine-sent-two-captured-north-korean-soldiers-to-south-korea-says-zelensky"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/24/AEN20260924000851315_03_i_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/09/24/AEN20260924000800315_02_i_P2.jpg",
+      "https://th-i.thgim.com/public/incoming/h809vq/article71502556.ece/alternates/LANDSCAPE_1200/2296802079.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/56ac1334-8f88-45d9-9901-520137567561-EPA-Images---Volodymyr-Zelensky---UN-General-Assembly---24092026.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1210.9235371372222,
+    "is_stale": false,
+    "score": 20.214260678944445,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

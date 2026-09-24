@@ -1,0 +1,86 @@
+{
+  "id": "d0f856e321a1",
+  "created_at": "2026-09-24T03:08:31.418520+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.86,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Kremlin welcomes U.S. invitation for Putin to attend December G20 summit in Miami",
+  "link": "https://meduza.io/en/news/2026/09/23/kremlin-welcomes-u-s-invitation-for-putin-to-attend-december-g20-summit-in-miami",
+  "publishers": [
+    "Al Jazeera English",
+    "Hindustan Times — World",
+    "Meduza English",
+    "NDTV — World",
+    "Rubio"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Kremlin welcomes U.S. invitation for Putin to attend December G20 summit in Miami",
+    "link": "https://meduza.io/en/news/2026/09/23/kremlin-welcomes-u-s-invitation-for-putin-to-attend-december-g20-summit-in-miami",
+    "summary": "Russian presidential spokesman Dmitry Peskov said the Kremlin welcomed the U.S. decision to invite Vladimir Putin to the G20 summit in Miami.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-23T20:59:00+00:00",
+    "image_url": "https://meduza.io/imgly/share/1790197140/en/news/2026/09/23/kremlin-welcomes-u-s-invitation-for-putin-to-attend-december-g20-summit-in-miami",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Hindustan Times — World",
+      "Meduza English",
+      "NDTV — World",
+      "Rubio"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/23/trump-administration-invites-putin-to-attend-g20-summit-in-miami?traffic_source=rss"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/23/u-s-invites-vladimir-putin-to-december-s-g20-summit-in-miami"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/23/kremlin-welcomes-u-s-invitation-for-putin-to-attend-december-g20-summit-in-miami"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/trump-invites-putin-to-g20-summit-in-miami-amid-ukraine-war-12088899#publisher=newsstand"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/invited-putin-for-g20-summit-in-december-rubio-101790191714300.html"
+      },
+      {
+        "name": "Rubio",
+        "link": "https://tass.com/world/2191773"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1790197140/en/news/2026/09/23/kremlin-welcomes-u-s-invitation-for-putin-to-attend-december-g20-summit-in-miami",
+      "https://meduza.io/imgly/share/1790177525/en/news/2026/09/23/u-s-invites-vladimir-putin-to-december-s-g20-summit-in-miami",
+      "https://i.ndtvimg.com/i/2018-03/putin-trump-reuters_650x400_71521582423.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1210.9235332380556,
+    "is_stale": false,
+    "score": 20.855322741884308,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

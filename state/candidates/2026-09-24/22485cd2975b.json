@@ -1,0 +1,69 @@
+{
+  "id": "22485cd2975b",
+  "created_at": "2026-09-24T03:08:31.419432+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.98,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Meta launches camera-free AI glasses amid privacy pushback",
+  "link": "https://www.channelnewsasia.com/business/meta-new-smart-glasses-camera-free-6406896",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "TechCrunch"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Meta launches camera-free AI glasses amid privacy pushback",
+    "link": "https://www.channelnewsasia.com/business/meta-new-smart-glasses-camera-free-6406896",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-24T02:05:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--t1pl4vmB--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/24/meta_new_smartglasses.jpg?itok=1z-limXK",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "TechCrunch"
+    ],
+    "cluster_members": [
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/09/23/meta-introduces-camera-free-ai-glasses/"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/business/meta-new-smart-glasses-camera-free-6406896"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/09/24/meta-launches-camera-free-ai-glasses-amid-privacy-pushback"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--t1pl4vmB--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/09/24/meta_new_smartglasses.jpg?itok=1z-limXK",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/09/dd38dc48-meta-orion-ar-glasses-ap_1600x1000.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1210.9235526544446,
+    "is_stale": false,
+    "score": 18.984425957867174,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

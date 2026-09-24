@@ -1,0 +1,93 @@
+{
+  "id": "7892c5753d01",
+  "created_at": "2026-09-24T03:08:31.418003+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.64,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US says China trade truce extended as Trump welcomes Xi",
+  "link": "https://www.rappler.com/world/us-canada/us-china-trade-truce-extended-trump-xi/",
+  "publishers": [
+    "Al Jazeera English",
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد",
+    "Nikkei Asia",
+    "Rappler",
+    "The Guardian — World",
+    "The Japan Times"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "US says China trade truce extended as Trump welcomes Xi",
+    "link": "https://www.rappler.com/world/us-canada/us-china-trade-truce-extended-trump-xi/",
+    "summary": "US President Donald Trump welcomes Chinese President Xi Jinping for a visit aimed at addressing tensions over trade, technology, Taiwan, and Iran",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-09-24T01:53:56+00:00",
+    "image_url": "https://www.rappler.com/tachyon/2026/09/2026-09-21T024945Z_1909362519_RC2Q8LAI9JN8_RTRMADP_3_USA-CHINA.jpg",
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد",
+      "Nikkei Asia",
+      "Rappler",
+      "The Guardian — World",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/23/trump-meets-chinas-xi-jinping-at-us-airport-on-arrival-for-three-day-trip?traffic_source=rss"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/us-canada/us-china-trade-truce-extended-trump-xi/"
+      },
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/spotlight/trump-xi-summit/us-and-china-agree-to-extend-trade-truce-until-january-bessent"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/09/24/us-to-extend-china-trade-truce-until-january"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/us-china-agree-to-extend-trade-truce-until-january-bessent-says-4914257"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/24/world/politics/us-china-truce-xi-trump/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.rappler.com/tachyon/2026/09/2026-09-21T024945Z_1909362519_RC2Q8LAI9JN8_RTRMADP_3_USA-CHINA.jpg",
+      "https://www.rappler.com/tachyon/2026/09/2026-09-21T024945Z_1909362519_RC2Q8LAI9JN8_RTRMADP_3_USA-CHINA.jpg?resize=75%2C75&crop=429px%2C0px%2C1482px%2C1482px",
+      "https://www.rappler.com/tachyon/2026/09/2026-09-21T024945Z_1909362519_RC2Q8LAI9JN8_RTRMADP_3_USA-CHINA.jpg?fit=449%2C449",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/03/f5a42068-13042164.webp",
+      "https://content-media.investing.com/news/moved_LYNXMPEM2I0V3_1200_L.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/24/564704.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 1210.9235156044444,
+    "is_stale": false,
+    "score": 22.63930692924689,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
