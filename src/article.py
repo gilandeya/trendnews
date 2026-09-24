@@ -1264,6 +1264,17 @@ def _support_call_content(docs: list[dict], variable_text: str) -> list[dict]:
     ]
 
 
+def _support_statement_parts_max_tokens(n_parts: int, n_sources: int, acfg: dict) -> int:
+    """يحسب سقف الرد من حجم المدخلات الفعلي (Issue #1050 — نظير
+    screen._max_tokens_for لـIssue #1047): طول المخرَج يتناسب مع عدد أجزاء
+    التصريح (عنصر لكل جزء) وعدد المصادر (اسم مؤيِّد محتمل لكل جزء)، فسقف
+    ثابت (600) كان يقطع أي تصريح مُدمَج من أكثر من بضعة أجزاء."""
+    tokens_per_part = int(acfg.get("support_tokens_per_part", 100))
+    tokens_per_source = int(acfg.get("support_tokens_per_source", 40))
+    cap = int(acfg.get("support_max_tokens_cap", 4000))
+    return min(cap, tokens_per_part * n_parts + tokens_per_source * n_sources + 300)
+
+
 def _support_statement_parts(merged_excerpts: list[str], docs: list[dict],
                              cfg) -> _PartSupportList:
     """يحكم على كل جزء من أجزاء تصريح مُدمَج (merged_excerpts) منفردًا —
@@ -1272,7 +1283,17 @@ def _support_statement_parts(merged_excerpts: list[str], docs: list[dict],
     المؤيِّدة لذلك الجزء تحديدًا (من docs فعليًا، لا مُختلَقة عبر
     evidence._known_only). فشل نداء تقني يعيد _PartSupportList فارغة
     بـcall_error مضبوطًا — استعمل getattr(result, "call_error", None)
-    للتمييز عن حكم "لا مؤيِّد لأي جزء" فعلي من النموذج."""
+    للتمييز عن حكم "لا مؤيِّد لأي جزء" فعلي من النموذج.
+
+    السقف (Issue #1050) يُحسب من حجم المدخلات
+    (_support_statement_parts_max_tokens) بدل 600 ثابت كان يقطع أي تصريح
+    بعدد أجزاء/مصادر كافٍ (stop_reason == "max_tokens" أو غياب كتلة
+    tool_use صالحة بلا كتلة نص بديلة) — القطع كان يُعامَل بصمت كحكم "لا
+    مؤيِّد لأي جزء" فيسقط سند تصريح مسنود فعليًا من المتن. القطع يُعامَل
+    الآن بإعادة محاولة واحدة بنفس المدخلات وسقف مضاعف (مقصوص عند
+    support_max_tokens_cap) — لا تقسيم للأجزاء (ترقيمها جزء من صحة
+    النتيجة، وإعادة ترقيمها مصدر خطأ أخطر من الفشل نفسه)؛ فشل الإعادة
+    أيضًا يعيد قائمة فارغة بـcall_error يشرح السبب، لا صمتًا."""
     if not docs or not merged_excerpts:
         return _PartSupportList()
     acfg = cfg.get("article", {}) or {}
@@ -1280,10 +1301,14 @@ def _support_statement_parts(merged_excerpts: list[str], docs: list[dict],
     client = _client()
     numbered = "\n".join(f"{i}. {ex}" for i, ex in enumerate(merged_excerpts, start=1))
     content = _support_call_content(docs, f"أجزاء التصريح:\n{numbered}")
-    try:
+    n_parts, n_sources = len(merged_excerpts), len(docs)
+    max_tokens = _support_statement_parts_max_tokens(n_parts, n_sources, acfg)
+    cap = int(acfg.get("support_max_tokens_cap", 4000))
+
+    def _call(tokens: int):
         resp = client.messages.create(
             model=model,
-            max_tokens=600,
+            max_tokens=tokens,
             tools=[STATEMENT_PART_SUPPORT_SCHEMA],
             tool_choice={"type": "tool", "name": "support_statement_parts"},
             system=STATEMENT_PART_SUPPORT_SYSTEM,
@@ -1291,13 +1316,43 @@ def _support_statement_parts(merged_excerpts: list[str], docs: list[dict],
             # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
         )
         writer.record_usage(resp, model)
+        return resp
+
+    def _tool_use_data(resp):
+        return next((b.input for b in resp.content
+                    if getattr(b, "type", "") == "tool_use"), None)
+
+    def _truncated(resp, data) -> bool:
+        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
+
+    try:
+        resp = _call(max_tokens)
     except APIError as exc:
         log.warning("فشل نداء الحكم الجزئي على سند التصريح: %s", exc)
         fail = _PartSupportList()
         fail.call_error = str(exc)
         return fail
-    data = next((b.input for b in resp.content
-                if getattr(b, "type", "") == "tool_use"), None)
+
+    data = _tool_use_data(resp)
+    if _truncated(resp, data):
+        log.error(
+            "سند التصريح مقطوع (stop_reason=max_tokens أو بلا كتلة tool_use "
+            "صالحة) لتصريح من %d جزءًا و%d مصدرًا — السقف %d غير كافٍ",
+            n_parts, n_sources, max_tokens)
+        retry_tokens = min(cap, max_tokens * 2)
+        try:
+            resp = _call(retry_tokens)
+        except APIError as exc:
+            log.warning("فشل نداء إعادة محاولة الحكم الجزئي على سند التصريح: %s", exc)
+            fail = _PartSupportList()
+            fail.call_error = str(exc)
+            return fail
+        data = _tool_use_data(resp)
+        if _truncated(resp, data):
+            fail = _PartSupportList()
+            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
+            return fail
+
     raw_parts = data.get("parts") if isinstance(data, dict) else None
     by_index: dict[int, list[str]] = {}
     if isinstance(raw_parts, list):

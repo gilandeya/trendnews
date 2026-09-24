@@ -941,6 +941,14 @@ article:
   source_extract_enabled: true
   source_extract_max_docs: 8
   source_extract_max_tokens: 2000
+  # سقف رد article._support_statement_parts (حارس سند التصريح، Issue
+  # #1050 — نظير screening.tokens_per_item/max_tokens_cap لـIssue #1047):
+  # طول المخرَج يتناسب مع عدد أجزاء التصريح (عنصر لكل جزء) وعدد المصادر
+  # (اسم مؤيِّد محتمل لكل جزء) لا ثابتًا — 600 القديم كان يُقطع أي تصريح
+  # بعدد أجزاء/مصادر كافٍ، والقطع كان يُقرأ بصمت كحكم "لا مؤيِّد لأي جزء".
+  support_tokens_per_part: 100
+  support_tokens_per_source: 40
+  support_max_tokens_cap: 4000
   # خط أساس ثابت (تشخيص Issue #373، الجولتان الرابعة والخامسة، البند 3):
   # موجز مرجعي واحد يُعاد تشغيله عبر --issue --baseline بعد كل تغيير في
   # article.py/evidence.py/extract.py يمسّ سلّم البحث أو بوابة الاتساق أو
