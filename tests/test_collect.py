@@ -1320,6 +1320,188 @@ def test_appeal_factors_affect_ranking() -> None:
           and [a.link for a in final4[horizon:]] == [a.link for a in tail],
           [a.link for a in final4])
 
+def test_screen_truncation_retry() -> None:
+    """Issue #1047: max_tokens=500 ثابت في screen() لا يتّسع لردّ دفعة كبيرة
+    (كل عنصر بملاحظة عربية ≈ 48 رمزًا، فـ12 عنصرًا يتجاوز 500 رمزًا بسهولة)
+    — الرد يُقطع (stop_reason=max_tokens)، json.loads يفشل، وكانت الدفعة
+    كاملة تمر بأصفار بصمت (WARNING لا ERROR، بلا أي أثر في ملخّص التشغيلة).
+
+    يغطي على مخرَج المرحلة (screen()) لا _parse وحدها:
+    1) سقف الرد المحسوب من حجم الدفعة (_max_tokens_for) ضمن المدى المطلوب.
+    2) دفعة سليمة من 12 عنصرًا: كل خبر ناجٍ يحمل عوامله الثلاثة وappeal_note
+       فعليًا، وغير المذكور في kept يُستبعد.
+    3) قطع مرة ثم نجاح إعادة المحاولة على نصفي الدفعة (6+6): القيم الحقيقية
+       تُقرأ وتُضبط على الأخبار، وERROR واحد فقط يُسجَّل.
+    4) قطع مرتين (الدفعة ثم كلا نصفيها): الدفعة كاملة تمر بأصفار، ERROR
+       واحد فقط، وسطر ملخّص تشغيلة واحد بالصيغة المطلوبة.
+    5) القيم المُستردَّة عبر إعادة المحاولة الناجحة تؤثر فعليًا في
+       collect.rescore_after_screen (لا مجرّد تقدير معزول بلا أثر)."""
+    import os
+    import tempfile
+
+    from src import screen as screen_mod
+    from src.collect import rescore_after_screen
+
+    now = datetime.now(timezone.utc)
+
+    def art(i, link_suffix, **kw):
+        return Article(title=f"خبر رقم {i}", link=f"https://x/{link_suffix}",
+                       summary="ملخص", source_name="X", region="r", weight=1.0,
+                       published=now, **kw)
+
+    class _Block:
+        def __init__(self, text):
+            self.type = "text"
+            self.text = text
+
+    class _Resp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+
+    class _SeqMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            if not self._responses:
+                raise AssertionError("لا رد آخر متاح في التسلسل المزيَّف")
+            return self._responses.pop(0)
+
+    class _SeqClient:
+        def __init__(self, responses):
+            self.messages = _SeqMessages(responses)
+
+    class _FakeLog:
+        def __init__(self):
+            self.errors, self.warnings, self.infos = [], [], []
+
+        def error(self, *a, **kw):
+            self.errors.append(a)
+
+        def warning(self, *a, **kw):
+            self.warnings.append(a)
+
+        def info(self, *a, **kw):
+            self.infos.append(a)
+
+    def kept_json(n, impact, proximity, intrigue):
+        rows = [{"i": i, "impact": impact, "proximity": proximity,
+                 "intrigue": intrigue, "appeal_note": f"سبب {i}"}
+                for i in range(n)]
+        return json.dumps({"kept": rows})
+
+    real_client, real_log = screen_mod._client, screen_mod.log
+    scfg = {"screening": {"enabled": True, "use_feedback": False, "batch_size": 12}}
+
+    # ── 1) سقف الرد المحسوب من حجم الدفعة ──
+    check("max_tokens المحسوب لدفعة 12 ≥ 2000",
+          screen_mod._max_tokens_for(12, {}) >= 2000,
+          screen_mod._max_tokens_for(12, {}))
+    check("max_tokens المحسوب لدفعة 30 ≤ 8000",
+          screen_mod._max_tokens_for(30, {}) <= 8000,
+          screen_mod._max_tokens_for(30, {}))
+
+    # ── 2) دفعة سليمة من 12 عنصرًا: عوامل كاملة للناجين، واستبعاد من لم يُذكر ──
+    batch_clean = [art(i, f"clean{i}") for i in range(12)]
+    clean_rows = [{"i": i, "impact": i % 4, "proximity": (i + 1) % 4,
+                   "intrigue": (i + 2) % 4, "appeal_note": f"سبب {i}"}
+                  for i in range(11)]           # العنصر 11 غير مذكور عمدًا
+    resp_clean = _Resp([_Block(json.dumps({"kept": clean_rows}))])
+    fake_client1 = _SeqClient([resp_clean])
+    screen_mod._client, screen_mod.log = lambda: fake_client1, _FakeLog()
+    try:
+        out_clean = screen_mod.screen(list(batch_clean), scfg)
+    finally:
+        screen_mod._client, screen_mod.log = real_client, real_log
+
+    check("دفعة سليمة: نداء واحد فقط للنموذج (لا قطع)",
+          len(fake_client1.messages.calls) == 1, len(fake_client1.messages.calls))
+    check("دفعة سليمة: العنصر غير المذكور في kept يُستبعد",
+          len(out_clean) == 11 and batch_clean[11] not in out_clean,
+          [a.link for a in out_clean])
+    check("دفعة سليمة: كل ناجٍ يحمل impact/proximity/intrigue/appeal_note فعليًا",
+          all(out_clean[i].appeal_note == f"سبب {i}"
+              and (out_clean[i].impact, out_clean[i].proximity, out_clean[i].intrigue)
+              == (i % 4, (i + 1) % 4, (i + 2) % 4) for i in range(11)),
+          [(a.link, a.impact, a.proximity, a.intrigue, a.appeal_note) for a in out_clean])
+
+    # ── 3) قطع مرة ثم نجاح إعادة المحاولة على نصفي الدفعة (12 ← 6 + 6) ──
+    batch_retry = [art(i, f"retry{i}") for i in range(12)]
+    resp_truncated = _Resp([_Block('{"kept": [')], stop_reason="max_tokens")
+    resp_half1 = _Resp([_Block(kept_json(6, 2, 3, 1))])
+    resp_half2 = _Resp([_Block(kept_json(6, 3, 2, 3))])
+    fake_client2 = _SeqClient([resp_truncated, resp_half1, resp_half2])
+    screen_mod._client, screen_mod.log = lambda: fake_client2, _FakeLog()
+    try:
+        screen_mod.screen(list(batch_retry), scfg)
+        fake_log2 = screen_mod.log
+    finally:
+        screen_mod._client, screen_mod.log = real_client, real_log
+
+    check("قطع مرة ثم إعادة محاولة: 3 نداءات (الدفعة كاملة + نصفان)",
+          len(fake_client2.messages.calls) == 3, len(fake_client2.messages.calls))
+    check("إعادة المحاولة الناجحة: القيم الحقيقية تُقرأ وتُضبط على كل الأخبار الـ12",
+          all((a.impact, a.proximity, a.intrigue) != (0, 0, 0) for a in batch_retry),
+          [(a.link, a.impact, a.proximity, a.intrigue) for a in batch_retry])
+    check("إعادة المحاولة الناجحة: قيم النصف الأول والثاني صحيحة كلٌ على حدة",
+          (batch_retry[0].impact, batch_retry[0].proximity, batch_retry[0].intrigue) == (2, 3, 1)
+          and (batch_retry[6].impact, batch_retry[6].proximity, batch_retry[6].intrigue) == (3, 2, 3),
+          [(a.impact, a.proximity, a.intrigue) for a in batch_retry])
+    check("قطع مع نجاح إعادة المحاولة: ERROR واحد فقط عند الاكتشاف",
+          len(fake_log2.errors) == 1, len(fake_log2.errors))
+
+    # ── 4) قطع مرتين (الدفعة ثم كلا نصفيها): أصفار + ERROR واحد + سطر ملخّص ──
+    batch_giveup = [art(i, f"giveup{i}") for i in range(12)]
+    resp_t0 = _Resp([_Block("")], stop_reason="max_tokens")
+    resp_t1 = _Resp([_Block("")], stop_reason="max_tokens")
+    resp_t2 = _Resp([_Block("")], stop_reason="max_tokens")
+    fake_client3 = _SeqClient([resp_t0, resp_t1, resp_t2])
+    screen_mod._client, screen_mod.log = lambda: fake_client3, _FakeLog()
+
+    tmp_dir = tempfile.mkdtemp()
+    summary_path = str(Path(tmp_dir) / "summary.md")
+    had_env = "GITHUB_STEP_SUMMARY" in os.environ
+    old_env = os.environ.get("GITHUB_STEP_SUMMARY")
+    os.environ["GITHUB_STEP_SUMMARY"] = summary_path
+    try:
+        out_giveup = screen_mod.screen(list(batch_giveup), scfg)
+        fake_log3 = screen_mod.log
+        summary_text = (Path(summary_path).read_text(encoding="utf-8")
+                        if Path(summary_path).exists() else "")
+    finally:
+        screen_mod._client, screen_mod.log = real_client, real_log
+        if had_env:
+            os.environ["GITHUB_STEP_SUMMARY"] = old_env
+        else:
+            os.environ.pop("GITHUB_STEP_SUMMARY", None)
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+
+    check("قطع مرتين: الدفعة كاملة تمر بأصفار",
+          len(out_giveup) == 12 and all(
+              (a.impact, a.proximity, a.intrigue) == (0, 0, 0) for a in out_giveup),
+          [(a.link, a.impact, a.proximity, a.intrigue) for a in out_giveup])
+    check("قطع مرتين: ERROR واحد فقط يُسجَّل",
+          len(fake_log3.errors) == 1, len(fake_log3.errors))
+    check("قطع مرتين: سطر ملخّص التشغيلة يُكتب بالصيغة المطلوبة",
+          "⚠️ الفرز فشل — مرّت 12 أخبار بلا فرز ولا عوامل جذب" in summary_text,
+          summary_text)
+
+    # ── 5) القيم المُستردَّة عبر إعادة المحاولة تؤثر فعليًا في الترتيب ──
+    strong = art(200, "strong-impact", score=10.0, trend_score=0.0,
+                impact=3, proximity=0, intrigue=0)
+    trendy = art(201, "trendy-no-appeal", score=11.5, trend_score=0.5)
+    selection = {"appeal": {"impact_weight": 1.0, "proximity_weight": 1.0,
+                            "intrigue_weight": 1.0}, "region_diversity": False}
+    final = rescore_after_screen([strong, trendy], selection)
+    check("خبر بعوامل جذب عالية (كتلك المُستردَّة عبر إعادة المحاولة) يتقدّم "
+          "فعليًا على خبر بمؤشر ترند أعلى وعوامل صفرية",
+          [a.link for a in final] == [strong.link, trendy.link],
+          [(a.link, a.score) for a in final])
+
+
 def test_radar_gate_check_dedupe() -> None:
     """Issue #303: التشخيص أثبت أن score/group_sources لا يميّزان تحديث
     خبر منشور عن خبر جديد فعلًا — بل مرفوضات الرادار كانت أعلى قليلًا في
