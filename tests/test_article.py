@@ -4053,8 +4053,12 @@ def test_article_statement_kind() -> None:
     real_client_fn = article._client
     captured: list = []
 
+    # كتلة tool_use صالحة (خلافًا لنص عادي) — منذ Issue #1052 غياب كتلة
+    # tool_use صالحة يُعامَل كقطع فيُعيد المحاولة، وهذا الاختبار يفحص نظام
+    # التعليمات المُرسَل في نداء واحد فقط لا آلية القطع
     class _CaptureBlock:
-        type = "text"
+        type = "tool_use"
+        input = {"supporting": [], "mentioned": []}
 
     class _CaptureResp:
         content = [_CaptureBlock()]
@@ -4743,6 +4747,201 @@ def test_article_statement_majority() -> None:
     article._choose_question = real_choose_question
     article._draft_article = real_draft_article
     article.find_images = real_find_images
+
+def test_article_support_sources_retry() -> None:
+    """سند الواقعة/التصريح/التقرير المنقول (article._support_sources، Issue
+    #1052 — النظير المباشر لآلية القطع/الإعادة في _support_statement_parts
+    لIssue #1050، والعطل نفسه بالضبط): سقف الرد يُحسب من عدد الوثائق
+    (_support_sources_max_tokens) بدل 400 ثابت، والقطع (stop_reason=
+    max_tokens أو بلا كتلة tool_use صالحة) يُعامَل بإعادة محاولة واحدة بسقف
+    مضاعف لا حكمًا صامتًا. سلوك المستدعي عند call_error (لا يُسقط الواقعة
+    بـ"سند غير كافٍ"، يكتب "فشل نداء" في trail/dropped) مُثبَّت على مخرَج
+    المسار الكامل (_write_article) في tests/test_guards_golden.py — هنا
+    تُختبر آلية _support_sources نفسها: عدد النداءات، مضاعفة السقف، وحساب
+    السقف من عدد الوثائق."""
+    from src import article
+
+    cfg = load_config()
+
+    # ── حساب السقف: عدد الوثائق فقط (لا أجزاء تصريح — خلافًا لنظيرتها) ──
+    acfg_default = {}
+    check("(#1052) حساب السقف: 8 وثائق ⇒ 620 (40×8 + 300، القيم الافتراضية)",
+          article._support_sources_max_tokens(8, acfg_default) == 620,
+          article._support_sources_max_tokens(8, acfg_default))
+    check("(#1052) حساب السقف: مدخلات ضخمة تُقصّ عند support_max_tokens_cap (4000)",
+          article._support_sources_max_tokens(500, acfg_default) == 4000,
+          article._support_sources_max_tokens(500, acfg_default))
+
+    class _TruncBlock:
+        def __init__(self, input_=None):
+            self.type = "tool_use" if input_ is not None else "text"
+            self.input = input_
+            self.text = ""
+
+    class _TruncResp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = None
+
+    class _TruncSeqMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            if not self._responses:
+                raise AssertionError("لا رد آخر متاح في التسلسل المزيَّف")
+            return self._responses.pop(0)
+
+    class _TruncSeqClient:
+        def __init__(self, responses):
+            self.messages = _TruncSeqMessages(responses)
+
+    class _TruncFakeLog:
+        def __init__(self):
+            self.errors, self.warnings = [], []
+
+        def error(self, *a, **kw):
+            self.errors.append(a)
+
+        def warning(self, *a, **kw):
+            self.warnings.append(a)
+
+        def info(self, *a, **kw):
+            pass
+
+    real_client_fn = article._client
+    real_log_fn = article.log
+    trunc_docs = [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+                 {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}]
+
+    # 1) ردّ مقطوع مرة ثم سليم: نداءان، الثاني بسقف مضاعف، النتيجة تحمل
+    # السند الفعلي، بلا call_error
+    resp_cut_once = _TruncResp([], stop_reason="max_tokens")
+    resp_ok = _TruncResp([_TruncBlock({"supporting": ["مصدر أول", "مصدر ثانٍ"],
+                                       "mentioned": ["مصدر أول", "مصدر ثانٍ"]})])
+    client_retry_ok = _TruncSeqClient([resp_cut_once, resp_ok])
+    article._client, article.log = lambda: client_retry_ok, _TruncFakeLog()
+    try:
+        result_retry_ok = article._support_sources("واقعة اختبار القطع", trunc_docs, cfg)
+        fake_log_retry_ok = article.log
+    finally:
+        article._client, article.log = real_client_fn, real_log_fn
+
+    check("(#1052) قطع مرة ثم سليم: نداءان بالضبط",
+          len(client_retry_ok.messages.calls) == 2, len(client_retry_ok.messages.calls))
+    check("(#1052) قطع مرة ثم سليم: النداء الثاني بسقف مضاعف (لا نفس السقف)",
+          client_retry_ok.messages.calls[1]["max_tokens"]
+          == client_retry_ok.messages.calls[0]["max_tokens"] * 2,
+          [c["max_tokens"] for c in client_retry_ok.messages.calls])
+    check("(#1052) قطع مرة ثم سليم: النتيجة تحمل المصادر المؤيِّدة فعلًا",
+          list(result_retry_ok) == ["مصدر أول", "مصدر ثانٍ"], list(result_retry_ok))
+    check("(#1052) قطع مرة ثم سليم: بلا call_error",
+          getattr(result_retry_ok, "call_error", None) is None,
+          getattr(result_retry_ok, "call_error", None))
+    check("(#1052) قطع مرة ثم سليم: سطر ERROR واحد عند اكتشاف القطع",
+          len(fake_log_retry_ok.errors) == 1, len(fake_log_retry_ok.errors))
+
+    # 2) ردّ مقطوع مرتين: call_error مضبوط، سطر ERROR واحد فقط (لا اثنان)
+    client_cut_twice = _TruncSeqClient([
+        _TruncResp([], stop_reason="max_tokens"),
+        _TruncResp([], stop_reason="max_tokens"),
+    ])
+    article._client, article.log = lambda: client_cut_twice, _TruncFakeLog()
+    try:
+        result_cut_twice = article._support_sources("واقعة اختبار القطع", trunc_docs, cfg)
+        fake_log_cut_twice = article.log
+    finally:
+        article._client, article.log = real_client_fn, real_log_fn
+
+    check("(#1052) قطع مرتين: نداءان بالضبط (بلا محاولة ثالثة)",
+          len(client_cut_twice.messages.calls) == 2, len(client_cut_twice.messages.calls))
+    check("(#1052) قطع مرتين: call_error مضبوط يشرح السبب — لا قائمة فارغة صامتة",
+          bool(getattr(result_cut_twice, "call_error", None))
+          and "قُطع" in result_cut_twice.call_error,
+          getattr(result_cut_twice, "call_error", None))
+    check("(#1052) قطع مرتين: سطر ERROR واحد فقط",
+          len(fake_log_cut_twice.errors) == 1, len(fake_log_cut_twice.errors))
+
+    # 3) ردّ سليم بقائمة فارغة: call_error يبقى None، والسلوك القائم كما هو
+    client_genuine_empty = _TruncSeqClient([
+        _TruncResp([_TruncBlock({"supporting": [], "mentioned": []})]),
+    ])
+    article._client = lambda: client_genuine_empty
+    try:
+        result_genuine_empty = article._support_sources("واقعة اختبار", trunc_docs, cfg)
+    finally:
+        article._client = real_client_fn
+    check("(#1052) ردّ سليم بقائمة فارغة: نداء واحد فقط",
+          len(client_genuine_empty.messages.calls) == 1,
+          len(client_genuine_empty.messages.calls))
+    check("(#1052) ردّ سليم بقائمة فارغة: النتيجة [] كما كانت دومًا",
+          list(result_genuine_empty) == [], list(result_genuine_empty))
+    check("(#1052) ردّ سليم بقائمة فارغة: call_error يبقى None",
+          getattr(result_genuine_empty, "call_error", None) is None,
+          getattr(result_genuine_empty, "call_error", None))
+
+    # 4) بلا كتلة tool_use إطلاقًا (رد سليم الشكل لكن بلا الأداة المطلوبة):
+    # call_error مضبوط أيضًا — لا صمت لمجرد stop_reason == "end_turn"
+    client_no_tool_use = _TruncSeqClient([
+        _TruncResp([_TruncBlock(None)], stop_reason="end_turn"),
+        _TruncResp([_TruncBlock(None)], stop_reason="end_turn"),
+    ])
+    article._client = lambda: client_no_tool_use
+    try:
+        result_no_tool_use = article._support_sources("واقعة اختبار", trunc_docs, cfg)
+    finally:
+        article._client = real_client_fn
+    check("(#1052) بلا كتلة tool_use إطلاقًا: call_error مضبوط (لا صمت)",
+          bool(getattr(result_no_tool_use, "call_error", None)),
+          getattr(result_no_tool_use, "call_error", None))
+
+    # 5) docs كلها snippet_only: العودة المبكرة القائمة كما هي — بلا نداء
+    # نموذج وبلا call_error (حكم بنيوي لا فشل نداء)
+    snippet_docs = [{"name": "مصدر مقتطف", "text": "", "link": "https://s3/1",
+                     "snippet_only": True}]
+    client_should_not_be_called = _TruncSeqClient([])
+    article._client = lambda: client_should_not_be_called
+    try:
+        result_snippet_only = article._support_sources("واقعة اختبار", snippet_docs, cfg)
+    finally:
+        article._client = real_client_fn
+    check("(#1052) docs كلها snippet_only: عودة مبكرة بلا نداء نموذج",
+          len(client_should_not_be_called.messages.calls) == 0,
+          len(client_should_not_be_called.messages.calls))
+    check("(#1052) docs كلها snippet_only: [] بلا call_error",
+          list(result_snippet_only) == []
+          and getattr(result_snippet_only, "call_error", None) is None,
+          (list(result_snippet_only), getattr(result_snippet_only, "call_error", None)))
+
+    # 6) الحالات الثلاث (واقعة/تصريح/تقرير منقول) تمرّ بمسار القطع/الإعادة
+    # نفسه بصرف النظر عن kind الممرَّر
+    report_docs = [{"name": "منصة تقارير", "text": "نص", "link": "https://r1/1"}]
+    for label, kwargs in (
+        ("واقعة", {}),
+        ("تصريح", {"is_statement": True}),
+        ("تقرير منقول", {"is_report": True, "publisher": "منصة تقارير"}),
+    ):
+        docs_for_kind = report_docs if kwargs.get("is_report") else trunc_docs
+        client_kind = _TruncSeqClient([
+            _TruncResp([], stop_reason="max_tokens"),
+            _TruncResp([_TruncBlock({"supporting": [], "mentioned": []})]),
+        ])
+        article._client = lambda c=client_kind: c
+        try:
+            result_kind = article._support_sources("نص اختبار", docs_for_kind, cfg, **kwargs)
+        finally:
+            article._client = real_client_fn
+        check(f"(#1052) القطع/الإعادة يسري لتصنيف «{label}» أيضًا: نداءان، "
+              "الثاني بسقف مضاعف، بلا call_error",
+              len(client_kind.messages.calls) == 2
+              and client_kind.messages.calls[1]["max_tokens"]
+              == client_kind.messages.calls[0]["max_tokens"] * 2
+              and getattr(result_kind, "call_error", None) is None,
+              [c["max_tokens"] for c in client_kind.messages.calls])
+
 
 def test_article_split_statements() -> None:
     """فصل الوقائع المركّبة (تشخيص Issue #373، الجولة الخامسة عشرة، البند
@@ -5838,8 +6037,12 @@ def test_article_support_call_caching() -> None:
 
     cfg = load_config()
 
+    # كتلة tool_use صالحة (خلافًا لنص عادي) — منذ Issue #1052 غياب كتلة
+    # tool_use صالحة يُعامَل كقطع فيُعيد المحاولة، وهذا الاختبار يفحص شكل
+    # الطلب المُرسَل في نداء واحد فقط لا آلية القطع
     class _CaptureBlock:
-        type = "text"
+        type = "tool_use"
+        input = {"supporting": [], "mentioned": []}
 
     class _CaptureResp:
         content = [_CaptureBlock()]
