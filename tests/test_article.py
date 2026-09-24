@@ -4398,11 +4398,18 @@ def test_article_statement_majority() -> None:
     captured: list = []
 
     class _CaptureBlock:
-        type = "text"
+        # tool_use صالحة (لا "text") — منذ Issue #1050 غياب كتلة tool_use
+        # صالحة يُعامَل كقطع فيُعيد المحاولة (انظر توثيق
+        # _support_statement_parts)، فتحتاج هذه المحاكاة (تفحص شكل الطلب
+        # المُرسَل فقط، لا مضمون الرد) ردًّا "ناجحًا" شكليًا كي يبقى نداءً
+        # واحدًا كما صُمِّم هذا الاختبار أصلًا
+        type = "tool_use"
+        input = {"parts": []}
 
     class _CaptureResp:
         content = [_CaptureBlock()]
         stop_reason = "end_turn"
+        usage = None
 
     class _CaptureMessages:
         def create(self, **kw):
@@ -4459,6 +4466,151 @@ def test_article_statement_majority() -> None:
     check("_support_statement_parts: فشل النداء التقني يحمل call_error بنص الاستثناء",
           "انقطاع شبكة اختباري" in (getattr(fail_result, "call_error", "") or ""),
           getattr(fail_result, "call_error", None))
+
+    # ── حارس سند التصريح: القطع (stop_reason=max_tokens) لا يُقرأ حكمًا
+    # صامتًا، وسقف الرد يُحسب من حجم المدخلات لا ثابتًا (Issue #1050 — نظير
+    # screen._max_tokens_for لـIssue #1047). سلوك المستدعي عند call_error
+    # (لا يُسقط أجزاء التصريح، لا يكتب part_support) مُثبَّت على مخرَج
+    # المسار الكامل (_write_article) في tests/test_guards_golden.py —
+    # هنا تُختبر آلية _support_statement_parts نفسها: عدد النداءات، مضاعفة
+    # السقف، وحساب السقف من حجم المدخلات ──
+    acfg_default = {}
+    check("(#1050) حساب السقف: 5 أجزاء و6 مصادر ⇒ 1040 "
+          "(100×5 + 40×6 + 300، القيم الافتراضية)",
+          article._support_statement_parts_max_tokens(5, 6, acfg_default) == 1040,
+          article._support_statement_parts_max_tokens(5, 6, acfg_default))
+    check("(#1050) حساب السقف: مدخلات ضخمة تُقصّ عند support_max_tokens_cap (4000)",
+          article._support_statement_parts_max_tokens(500, 500, acfg_default) == 4000,
+          article._support_statement_parts_max_tokens(500, 500, acfg_default))
+
+    class _TruncBlock:
+        def __init__(self, input_=None):
+            self.type = "tool_use" if input_ is not None else "text"
+            self.input = input_
+            self.text = ""
+
+    class _TruncResp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = None
+
+    class _TruncSeqMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            if not self._responses:
+                raise AssertionError("لا رد آخر متاح في التسلسل المزيَّف")
+            return self._responses.pop(0)
+
+    class _TruncSeqClient:
+        def __init__(self, responses):
+            self.messages = _TruncSeqMessages(responses)
+
+    class _TruncFakeLog:
+        def __init__(self):
+            self.errors, self.warnings = [], []
+
+        def error(self, *a, **kw):
+            self.errors.append(a)
+
+        def warning(self, *a, **kw):
+            self.warnings.append(a)
+
+        def info(self, *a, **kw):
+            pass
+
+    trunc_docs = [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+                 {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}]
+    trunc_parts = ["جزء أول", "جزء ثانٍ"]
+    real_log_fn = article.log
+
+    # 1) ردّ مقطوع مرة ثم سليم: نداءان، الثاني بسقف مضاعف، النتيجة تحمل
+    # السند الفعلي، بلا call_error
+    resp_cut_once = _TruncResp([], stop_reason="max_tokens")
+    resp_ok = _TruncResp([_TruncBlock({"parts": [
+        {"index": 1, "supporting": ["مصدر أول"]},
+        {"index": 2, "supporting": ["مصدر أول", "مصدر ثانٍ"]}]})])
+    client_retry_ok = _TruncSeqClient([resp_cut_once, resp_ok])
+    article._client, article.log = lambda: client_retry_ok, _TruncFakeLog()
+    try:
+        result_retry_ok = article._support_statement_parts(trunc_parts, trunc_docs, cfg)
+        fake_log_retry_ok = article.log
+    finally:
+        article._client, article.log = real_client_fn, real_log_fn
+
+    check("(#1050) قطع مرة ثم سليم: نداءان بالضبط",
+          len(client_retry_ok.messages.calls) == 2, len(client_retry_ok.messages.calls))
+    check("(#1050) قطع مرة ثم سليم: النداء الثاني بسقف مضاعف (لا نفس السقف)",
+          client_retry_ok.messages.calls[1]["max_tokens"]
+          == client_retry_ok.messages.calls[0]["max_tokens"] * 2,
+          [c["max_tokens"] for c in client_retry_ok.messages.calls])
+    check("(#1050) قطع مرة ثم سليم: النتيجة تحمل السند الفعلي المُستعاد",
+          list(result_retry_ok) == [["مصدر أول"], ["مصدر أول", "مصدر ثانٍ"]],
+          list(result_retry_ok))
+    check("(#1050) قطع مرة ثم سليم: بلا call_error",
+          getattr(result_retry_ok, "call_error", None) is None,
+          getattr(result_retry_ok, "call_error", None))
+    check("(#1050) قطع مرة ثم سليم: سطر ERROR واحد عند اكتشاف القطع",
+          len(fake_log_retry_ok.errors) == 1, len(fake_log_retry_ok.errors))
+
+    # 2) ردّ مقطوع مرتين: call_error مضبوط، سطر ERROR واحد فقط (لا اثنان)
+    client_cut_twice = _TruncSeqClient([
+        _TruncResp([], stop_reason="max_tokens"),
+        _TruncResp([], stop_reason="max_tokens"),
+    ])
+    article._client, article.log = lambda: client_cut_twice, _TruncFakeLog()
+    try:
+        result_cut_twice = article._support_statement_parts(trunc_parts, trunc_docs, cfg)
+        fake_log_cut_twice = article.log
+    finally:
+        article._client, article.log = real_client_fn, real_log_fn
+
+    check("(#1050) قطع مرتين: نداءان بالضبط (بلا محاولة ثالثة)",
+          len(client_cut_twice.messages.calls) == 2, len(client_cut_twice.messages.calls))
+    check("(#1050) قطع مرتين: call_error مضبوط يشرح السبب — لا قائمة فارغة صامتة",
+          bool(getattr(result_cut_twice, "call_error", None))
+          and "قُطع" in result_cut_twice.call_error,
+          getattr(result_cut_twice, "call_error", None))
+    check("(#1050) قطع مرتين: سطر ERROR واحد فقط",
+          len(fake_log_cut_twice.errors) == 1, len(fake_log_cut_twice.errors))
+
+    # 3) ردّ سليم بقائمة فارغة: call_error يبقى None، والسلوك القائم كما هو
+    client_genuine_empty = _TruncSeqClient([
+        _TruncResp([_TruncBlock({"parts": [
+            {"index": 1, "supporting": []}, {"index": 2, "supporting": []}]})]),
+    ])
+    article._client = lambda: client_genuine_empty
+    try:
+        result_genuine_empty = article._support_statement_parts(trunc_parts, trunc_docs, cfg)
+    finally:
+        article._client = real_client_fn
+    check("(#1050) حكم حقيقي بلا مؤيِّد: نداء واحد فقط",
+          len(client_genuine_empty.messages.calls) == 1,
+          len(client_genuine_empty.messages.calls))
+    check("(#1050) حكم حقيقي بلا مؤيِّد: النتيجة [[],[]] كما كانت دومًا",
+          list(result_genuine_empty) == [[], []], list(result_genuine_empty))
+    check("(#1050) حكم حقيقي بلا مؤيِّد: call_error يبقى None",
+          getattr(result_genuine_empty, "call_error", None) is None,
+          getattr(result_genuine_empty, "call_error", None))
+
+    # 4) بلا كتلة tool_use إطلاقًا (رد سليم الشكل لكن بلا الأداة المطلوبة):
+    # call_error مضبوط أيضًا — لا صمت لمجرد stop_reason == "end_turn"
+    client_no_tool_use = _TruncSeqClient([
+        _TruncResp([_TruncBlock(None)], stop_reason="end_turn"),
+        _TruncResp([_TruncBlock(None)], stop_reason="end_turn"),
+    ])
+    article._client = lambda: client_no_tool_use
+    try:
+        result_no_tool_use = article._support_statement_parts(trunc_parts, trunc_docs, cfg)
+    finally:
+        article._client = real_client_fn
+    check("(#1050) بلا كتلة tool_use إطلاقًا: call_error مضبوط (لا صمت)",
+          bool(getattr(result_no_tool_use, "call_error", None)),
+          getattr(result_no_tool_use, "call_error", None))
 
     # ── تكامل كامل عبر _write_article: تصريح من خمس دعاوى يجتاز بأغلبية،
     # والجزء غير المؤيَّد لا يدخل نص الصياغة (طلب المراجعة، القيد الأهم) ──
@@ -5765,8 +5917,32 @@ def test_article_support_call_caching() -> None:
           list(out) == ["مصدر أول"], out)
 
     # ── _support_statement_parts: نفس البنية (كتلتان، الوثائق أولًا ومخزَّنة) ──
+    # كتلة tool_use صالحة هنا (خلافًا لـ_CaptureClient العام أعلاه) — منذ
+    # Issue #1050 غياب كتلة tool_use صالحة يُعامَل كقطع فيُعيد المحاولة،
+    # وهذا الاختبار يفحص شكل الطلب المُرسَل في نداء واحد فقط لا آلية القطع
+    class _PartsBlock:
+        type = "tool_use"
+        input = {"parts": []}
+
+    class _PartsResp:
+        content = [_PartsBlock()]
+        stop_reason = "end_turn"
+        usage = None
+
+    class _PartsMessages:
+        def __init__(self, captured):
+            self._captured = captured
+
+        def create(self, **kw):
+            self._captured.append(kw)
+            return _PartsResp()
+
+    class _PartsClient:
+        def __init__(self, captured):
+            self.messages = _PartsMessages(captured)
+
     captured_parts: list = []
-    article._client = lambda: _CaptureClient(captured_parts)
+    article._client = lambda: _PartsClient(captured_parts)
     article._support_statement_parts(["جزء أول", "جزء ثانٍ"], docs, cfg)
     article._client = real_client_fn
 

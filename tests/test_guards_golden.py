@@ -244,3 +244,154 @@ def test_guards_golden() -> None:
         golden_with_sources, cfg)
     check("(#941) مقال فيه ## المصادر ⇒ يُرفض الآن (عكس القاعدة القديمة)",
           ok_with_sources is False and "##" in reason_with_sources, reason_with_sources)
+
+    # ── حارس سند التصريح (article._support_statement_parts عبر _write_article
+    # الحقيقية، Issue #1050): يفصل فشل نداء تقني (قطع الرد) عن حكم حقيقي بلا
+    # مؤيِّد — لا حارس نموذج بذاته، لكن سلوك المستدعي (article.py:3397 وما
+    # حولها) يعتمد كليًا على أن _support_statement_parts تضبط call_error في
+    # كل مسار فشل تقني؛ الحالة الأولى أدناه كانت تفشل *قبل* إصلاح Issue
+    # #1050 (القطع لم يكن يضبط call_error) وتنجح بعده. article._client وحدها
+    # مُموَّهة هنا — _support_statement_parts الحقيقية تُنفَّذ بلا تعديل ──
+    real_client_golden = article._client
+    real_extract_brief3 = article.extract_brief
+    real_search3 = evidence.search
+    real_gather_evidence3 = evidence.gather_evidence
+    real_support_sources3 = article._support_sources
+    real_choose_question3 = article._choose_question
+    real_draft_article3 = article._draft_article
+    real_find_images3 = article.find_images
+
+    golden_statement_text = "متحدث الاختبار يعلن أمرين دفعة واحدة"
+    golden_p1, golden_p2 = "أعلن الأمر الأول", "أعلن الأمر الثاني"
+    # واقعة عادية مجاورة مسنَدة دومًا (عبر article._support_sources المموَّهة
+    # لا article._client) — بلا هذه، سقوط التصريح الوحيد في الموجز يُفعِّل
+    # شبكة أمان درجة ج (Issue #814: "لا واقعة أ/ب في التشغيلة كلها ⇒ يُصاغ
+    # المقال من وقائع الموجز نفسها") فتُزال من outcome['dropped'] فورًا
+    # (article.py:3989-3990) قبل أن يبلغها هذا الاختبار، فيختبر شبكة الأمان
+    # لا حارس السند المقصود هنا
+    golden_plain_fact = "واقعة عادية مسنَدة في نفس الموجز"
+
+    def _install_statement_brief():
+        # speaker/entities فارغان عمدًا (لا تخفيفًا عابرًا): query_text في
+        # article._search_fact_support يُبنى من mandatory_name+entities_text+
+        # f["text"] معًا — بقاؤهما فارغين يجعل query_text مطابقًا لـf["text"]
+        # حرفيًا فيبقى سُلَّم البحث بمحاولة واحدة (search_texts بعنصر واحد لا
+        # اثنين)، فعدد نداءات _support_statement_parts يبقى متوقَّعًا بدقة
+        # لكل سيناريو أدناه بلا تشعب في عدد المحاولات
+        article.extract_brief = lambda body, cfg, retries=3: ({
+            "topic": "اختبار حارس سند التصريح",
+            "statements": [
+                {"text": golden_statement_text, "kind": "تصريح",
+                 "entities": [], "is_unnamed_event": False,
+                 "is_reference": False, "speaker": "",
+                 "merged_excerpts": [golden_p1, golden_p2]},
+                {"text": golden_plain_fact, "kind": "واقعة", "entities": [],
+                 "is_unnamed_event": False, "is_reference": False},
+            ],
+            "questions": [],
+        }, None)
+        evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+        evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+            [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+             {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+            evidence.EVIDENCE_FULL_TEXT)
+        article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+            is_report=False, publisher="": (["مصدر أول", "مصدر ثانٍ"]
+                                             if fact_text == golden_plain_fact else [])
+        article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختباري؟", "")
+        article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+            {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+             "image_headline": "عنوان", "post_title": question,
+             "post_body": "متن اختباري.", "hashtags": ["اختبار"]}, "")
+        article.find_images = lambda title, cfg, terms=None: []
+
+    class _GoldenBlock:
+        def __init__(self, input_):
+            self.type = "tool_use"
+            self.input = input_
+
+    class _GoldenResp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = None
+
+    class _GoldenMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return self._responses.pop(0)
+
+    class _GoldenClient:
+        def __init__(self, responses):
+            self.messages = _GoldenMessages(responses)
+
+    cfg_golden = load_config()
+    # مرحلة استخراج وقائع من المصادر (source_extract_enabled) تستدعي النموذج
+    # أيضًا عبر نفس article._client المموَّه هنا — تُعطَّل صراحة (نظير
+    # test_article_split_statements) فلا تستهلك ردود _GoldenClient المُعدَّة
+    # حصرًا لسند التصريح
+    cfg_golden["article"]["source_extract_enabled"] = False
+
+    # حالة 1 — فشل تقني (قطع الرد مرتين، لا يبقى إلا الاستسلام النهائي):
+    # call_error يُضبط ⇒ لا تُحسب أجزاء التصريح غير مسنودة (سبب السقوط
+    # يذكر «فشل نداء» صراحة لا «سند غير كافٍ»)، ولا يُكتب part_support (يبقى
+    # [] كقيمته الابتدائية، لا قائمة بأجزاء "غير مؤيَّدة" توهم بحكم حقيقي).
+    _install_statement_brief()
+    truncated_client = _GoldenClient([
+        _GoldenResp([], stop_reason="max_tokens"),
+        _GoldenResp([], stop_reason="max_tokens"),
+    ])
+    article._client = lambda: truncated_client
+    out_truncated = article._write_article("موجز اختبار حارس السند (تقني)", 10501, cfg_golden)
+    article._client = real_client_golden
+
+    check("(#1050) فشل نداء تقني (قطع مرتين) ⇒ سبب السقوط «فشل نداء» لا «سند "
+          "غير كافٍ» — لا يُقرأ كحكم حقيقي",
+          any(d["text"] == golden_statement_text
+              and d["reason"].startswith("⚠️ فشل نداء الحكم على السند تقنيًا")
+              for d in out_truncated["dropped"]),
+          out_truncated["dropped"])
+    check("(#1050) فشل نداء تقني ⇒ part_support يبقى [] (لا يُكتب بلاغ سند "
+          "زائف لأجزاء لم تُفحص فعليًا)",
+          all(m["part_support"] == [] for m in out_truncated["merged_statements"]
+              if m["text"] == golden_statement_text),
+          out_truncated["merged_statements"])
+
+    # حالة 2 — حكم حقيقي بلا مؤيِّد (رد سليم، stop_reason=end_turn، قائمة
+    # فارغة فعليًا لكل جزء): يبقى كما هو اليوم تمامًا — نداء واحد، سبب
+    # السقوط «سند غير كافٍ»، وpart_support مكتوب فعليًا بقوائم فارغة (لا [])
+    _install_statement_brief()
+    real_judgment_client = _GoldenClient([
+        _GoldenResp([_GoldenBlock({"parts": [
+            {"index": 1, "supporting": []}, {"index": 2, "supporting": []}]})]),
+    ])
+    article._client = lambda: real_judgment_client
+    out_real = article._write_article("موجز اختبار حارس السند (حكم حقيقي)", 10502, cfg_golden)
+    article._client = real_client_golden
+
+    check("(#1050) حكم حقيقي بلا مؤيِّد ⇒ نداء واحد فقط (بلا إعادة محاولة، "
+          "لا قطع وقع)", len(real_judgment_client.messages.calls) == 1,
+          len(real_judgment_client.messages.calls))
+    check("(#1050) حكم حقيقي بلا مؤيِّد ⇒ سبب السقوط «سند غير كافٍ» لا «فشل نداء»",
+          any(d["text"] == golden_statement_text
+              and d["reason"].startswith("سند غير كافٍ")
+              for d in out_real["dropped"]),
+          out_real["dropped"])
+    check("(#1050) حكم حقيقي بلا مؤيِّد ⇒ part_support مكتوب فعليًا (جزءان "
+          "بقائمة مؤيِّدين فارغة لكل منهما) — يتمايز عن [] حالة الفشل التقني",
+          any(m["part_support"] == [{"excerpt": golden_p1, "supporting": []},
+                                    {"excerpt": golden_p2, "supporting": []}]
+              for m in out_real["merged_statements"]),
+          out_real["merged_statements"])
+
+    article.extract_brief = real_extract_brief3
+    evidence.search = real_search3
+    evidence.gather_evidence = real_gather_evidence3
+    article._support_sources = real_support_sources3
+    article._choose_question = real_choose_question3
+    article._draft_article = real_draft_article3
+    article.find_images = real_find_images3
