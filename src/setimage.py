@@ -100,11 +100,22 @@ def rebuild_card(path: Path, draft: dict, headline: str, cfg) -> str | None:
     # download_image يُمرَّران صراحة (لا cards._default_*) كي يبقى اختبار
     # rebuild_card القائم الذي يستبدل setimage.build_post_image بجاسوس
     # يعمل بلا أي تعديل — تمرير الاسم المحلي هنا يحترم أي استبدال له.
+    #
+    # مسودة أصلها analysis (Issue #1044): بلا هذا الاستثناء تسقط cards.ensure
+    # لبدائلها — draft["arabic"]["category"] (== "تحليل" لكل مسودات التحليل
+    # على القرص) وbucket="serious" الافتراضي — فتُرسم شارة تصنيف كهرمانية
+    # فوق شارة المسار الزرقاء "تحليل" التي يرسمها origin="analysis" أصلًا،
+    # شارتان بالكلمة نفسها على كل بطاقة تحليل يُعاد بناؤها. cards.analysis_card_kwargs()
+    # هو نفس المصدر الذي يستعمله youtube_publish.ensure_title_card عند البناء
+    # الأول، فلا تتكرر القيم نصًّا في موضعين. مسار الأخبار (أي origin آخر) لا
+    # يتأثر: extra يبقى فارغًا فتُستعمل قيم المسودة كما اليوم.
+    extra = cards.analysis_card_kwargs() if store.origin_of(draft) == "analysis" else {}
     return cards.ensure(
         path, draft, cfg, headline=headline,
         force=True, allow_search_fallback=False, check_headline_limit=False,
         persist=False,
         build_post_image=build_post_image, download_image=download_image,
+        **extra,
     )
 
 

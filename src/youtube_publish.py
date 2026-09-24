@@ -540,9 +540,12 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     # لا نسخة رسم منفصلة هنا. image_urls=None بنيويًا (لا صور فيديو/قناة
     # أصلية إطلاقًا -- انظر توثيق الوحدة أعلاه)؛ المرشّحون التعبيريّون
     # (المحاولة الأولى أعلاه) يمرّون عبر fallback_urls. check_headline_limit=False
-    # يستعمل العنوان المختار كما هو (لا فحص طول هنا، كالسابق). bucket=""
-    # صراحةً (لا "serious" الافتراضي في cards.ensure -- مسودة التحليل لا
-    # تحمل حقل bucket إطلاقًا، والقيمة الأصلية هنا كانت الفراغ دومًا).
+    # يستعمل العنوان المختار كما هو (لا فحص طول هنا، كالسابق).
+    # cards.analysis_card_kwargs() (Issue #1044، سابقًا category="" وurgent=False
+    # وbucket="" وorigin="analysis" منثورة هنا نصًّا) -- مصدر وحيد يشاركه
+    # setimage.rebuild_card كي لا تنحرف القيمتان عن بعضهما مجددًا؛ bucket=""
+    # صراحةً لأن مسودة التحليل لا تحمل حقل bucket إطلاقًا (لا "serious"
+    # الافتراضي في cards.ensure).
     # out_dir=run_date لأن مجلد حفظ المسودة الفعلي (store.save_draft) قد
     # يختلف عن run_date في الاختبارات (انظر توثيق cards.ensure).
     #
@@ -557,8 +560,8 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
         path, draft, cfg, headline=headline,
         image_urls=None, fallback_urls=photo_urls, search_term=image_query_en,
         publisher=image_source_line(draft["channels"], cfg),
-        category="", urgent=False, bucket="", origin="analysis",
         out_dir=run_date, check_headline_limit=False,
+        **cards.analysis_card_kwargs(),
     )
     if new_rel is None:
         log.warning("تعذّر بناء بطاقة العنوان لـ%r", headline)

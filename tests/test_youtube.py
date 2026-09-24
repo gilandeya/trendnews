@@ -11,6 +11,7 @@ from PIL import Image
 from tests.helpers import (
     check,
     reset_last_publish,
+    auto_restore_last_publish,
     install_fakes,
     evidence,
     extract,
@@ -2325,6 +2326,7 @@ def test_youtube_article() -> None:
         else:
             ycl.SEEN_PATH.write_text(seen_backup3, encoding="utf-8")
 
+@auto_restore_last_publish
 def test_youtube_publish() -> None:
     """المرحلة الخامسة (src/youtube_publish.py، Issue #676 وIssue #680
     وIssue #732): توصيل المسودة ودورة المراجعة والنشر بما كان قائمًا

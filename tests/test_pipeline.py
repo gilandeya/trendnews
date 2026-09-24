@@ -77,6 +77,8 @@ from tests.test_review import (
     test_headlines_failure_keeps_draft_with_empty_list,
     test_review_sibling_alternate_line,
     test_setimage_rebuild_card_uses_all_image_candidates,
+    test_setimage_rebuild_card_analysis_no_duplicate_badge,
+    test_setimage_rebuild_card_news_category_and_path_badges_unaffected,
     test_publish_investigation_requires_review,
     test_no_reject_boxes_in_review_issues,
     test_publish_unapproved_becomes_rejected,
@@ -368,6 +370,9 @@ def main() -> int:
     test_article_grading_tiers()
     test_review_sibling_alternate_line()
     test_setimage_rebuild_card_uses_all_image_candidates()
+    print("\n── شارة مكررة على بطاقة التحليل بعد إعادة بناء عبر setimage (Issue #1044) ──")
+    test_setimage_rebuild_card_analysis_no_duplicate_badge()
+    test_setimage_rebuild_card_news_category_and_path_badges_unaffected()
     test_publish_investigation_requires_review()
     test_no_reject_boxes_in_review_issues()
     test_publish_unapproved_becomes_rejected()
