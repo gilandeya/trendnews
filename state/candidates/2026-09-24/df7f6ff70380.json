@@ -1,0 +1,83 @@
+{
+  "id": "df7f6ff70380",
+  "created_at": "2026-09-24T15:08:20.761997+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.27,
+  "trend_score": 1.0,
+  "velocity": 0.22,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran threatens to expand war to Indian Ocean if U.S. attacks again",
+  "link": "https://www.thehindu.com/news/international/iran-threatens-to-expand-war-to-indian-ocean-if-us-attacks-again/article71503625.ece",
+  "publishers": [
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "TASS",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran threatens to expand war to Indian Ocean if U.S. attacks again",
+    "link": "https://www.thehindu.com/news/international/iran-threatens-to-expand-war-to-indian-ocean-if-us-attacks-again/article71503625.ece",
+    "summary": "Iran has put forward its conditions for ending the war, including the lifting of sanctions targeting its economy and the unconditional release of its frozen assets abroad",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-24T13:30:40+00:00",
+    "image_url": "https://th-i.thgim.com/public/news/national/lwxpit/article71503641.ece/alternates/LANDSCAPE_1200/iStock-1130746176.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "TASS",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-threatens-to-expand-war-to-indian-ocean-if-us-attacks-again/article71503625.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-may-extend-war-to-indian-ocean-if-us-attacks-again-khameneis-adviser-101790237666091.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/us-iran-war-iran-threatens-to-expand-war-to-indian-ocean-if-us-strikes-again-12091390#publisher=newsstand"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2192245"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/iran-warns-war-could-spread-to-indian-ocean-if-us-attacks-resume"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/news/national/lwxpit/article71503641.ece/alternates/LANDSCAPE_1200/iStock-1130746176.jpg",
+      "https://www.hindustantimes.com/ht-img/img/2026/09/24/1600x900/YEMEN-IRAN-US-ISRAEL-WAR-4_1789564806395_vXD7_1790237751232_LBHG_bbef7cf2-26b4-4b6f-98d8-81184d92b00c_0Nft.jpg",
+      "https://c.ndtvimg.com/2026-09/tmsovjgs_iran-war_625x300_24_September_26.jpeg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/24/462118.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.2220449204018268,
+    "age_hours": 1222.9202645727778,
+    "is_stale": false,
+    "score": 25.267615022337885,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

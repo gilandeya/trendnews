@@ -1,195 +1,5 @@
 [
   {
-    "score": 25.78,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "dead",
-      "headquarters",
-      "pakistan",
-      "police"
-    ],
-    "link": "https://www.thehindu.com/news/international/many-dead-in-attack-at-police-headquarters-in-pakistan/article71483705.ece",
-    "title": "31 dead in attack at police headquarters in Pakistan",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-19T12:08:26.997962+00:00"
-  },
-  {
-    "score": 16.33,
-    "bucket": "serious",
-    "tokens": [
-      "hyrox"
-    ],
-    "link": "https://www.bbc.com/zhongwen/articles/cq3d7zld42m0o/trad?at_medium=RSS&at_campaign=rss",
-    "title": "Hyrox失禁風波：澳洲選手道歉、主辦方承諾退款",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-19T12:08:26.998286+00:00"
-  },
-  {
-    "score": 16.1,
-    "bucket": "serious",
-    "tokens": [
-      "armies",
-      "around",
-      "back",
-      "battles",
-      "both",
-      "donbas",
-      "farther",
-      "forces",
-      "lyman",
-      "massing",
-      "next",
-      "now",
-      "operation",
-      "pushed",
-      "russian",
-      "south",
-      "troops",
-      "ukraine",
-      "vivaldi"
-    ],
-    "link": "https://meduza.io/en/feature/2026/09/18/ukraine-s-operation-vivaldi-pushed-russian-forces-back-around-lyman-in-the-donbas-now-both-armies-are-massing-troops-for-the-next-battles-farther-south",
-    "title": "Ukraine’s ‘Operation Vivaldi’ pushed Russian forces back around Lyman in the Donbas. Now both armies are massing troops for the next battles farther south.",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-19T12:08:26.998571+00:00"
-  },
-  {
-    "score": 15.84,
-    "bucket": "serious",
-    "tokens": [
-      "agency",
-      "custody",
-      "die",
-      "erupt",
-      "miners",
-      "nigeria",
-      "paramilitary",
-      "protests"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-18-protests-erupt-in-nigeria-after-37-miners-die-in-custody-of-paramilitary-agency/",
-    "title": "Protests erupt in Nigeria after 37 miners die in custody of paramilitary agency",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-19T12:08:26.998832+00:00"
-  },
-  {
-    "score": 15.69,
-    "bucket": "serious",
-    "tokens": [
-      "anthropic's",
-      "breach",
-      "claude",
-      "internal",
-      "openai's",
-      "systems",
-      "used"
-    ],
-    "link": "https://www.dailysabah.com/business/economy/anthropics-claude-used-to-breach-openais-internal-systems",
-    "title": "Anthropic's Claude used to breach OpenAI's internal systems",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-09-19T12:08:26.999124+00:00"
-  },
-  {
-    "score": 33.08,
-    "bucket": "serious",
-    "tokens": [
-      "deal",
-      "denmark",
-      "greenland",
-      "reach",
-      "security",
-      "take",
-      "threats",
-      "trump"
-    ],
-    "link": "https://www.theguardian.com/world/2026/sep/18/united-states-denmark-greenland-security",
-    "title": "US and Denmark reach security deal after Trump’s threats to take over Greenland",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-19T15:07:47.122591+00:00"
-  },
-  {
-    "score": 27.47,
-    "bucket": "serious",
-    "tokens": [
-      "aichi",
-      "asiad",
-      "asian",
-      "attends",
-      "ceremony",
-      "games",
-      "korean",
-      "nagoya",
-      "team",
-      "welcome"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260918011500320",
-    "title": "(Asiad) N. Korean team attends welcome ceremony for Aichi-Nagoya Asian Games",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-09-19T15:07:47.122977+00:00"
-  },
-  {
-    "score": 24.48,
-    "bucket": "light",
-    "tokens": [
-      "banning",
-      "cnn",
-      "house",
-      "politico",
-      "trump",
-      "white"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c6e30580jqjpo?at_medium=RSS&at_campaign=rss",
-    "title": "Trump says he is banning CNN and Politico from White House",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-19T15:07:47.123302+00:00"
-  },
-  {
-    "score": 22.9,
-    "bucket": "serious",
-    "tokens": [
-      "aston",
-      "beaten",
-      "despite",
-      "fragile",
-      "late",
-      "rally",
-      "tottenham",
-      "villa"
-    ],
-    "link": "https://www.vanguardngr.com/2026/09/fragile-tottenham-beaten-by-aston-villa-despite-late-rally/",
-    "title": "‘Fragile’ Tottenham beaten by Aston Villa despite late rally",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-09-19T15:07:47.123638+00:00"
-  },
-  {
-    "score": 21.09,
-    "bucket": "serious",
-    "tokens": [
-      "asian",
-      "buildup",
-      "ceremony",
-      "games",
-      "glitzy",
-      "nagoya",
-      "open",
-      "troubled"
-    ],
-    "link": "https://www.rappler.com/people/athletes/asian-games-open-nagoya-after-troubled-buildup-2026/",
-    "title": "Asian Games open in Nagoya with glitzy ceremony after troubled buildup",
-    "posted_title": "",
-    "region": "ph",
-    "seen_at": "2026-09-19T15:07:47.123906+00:00"
-  },
-  {
     "score": 23.85,
     "bucket": "sport",
     "tokens": [
@@ -3700,5 +3510,102 @@
     "posted_title": "",
     "region": "uk",
     "seen_at": "2026-09-24T09:08:00.554929+00:00"
+  },
+  {
+    "score": 26.27,
+    "bucket": "serious",
+    "tokens": [
+      "albanese",
+      "australia",
+      "government",
+      "hacked",
+      "openai",
+      "rebukes",
+      "website"
+    ],
+    "link": "https://www.france24.com/en/video/20260924-australia-s-albanese-rebukes-openai-after-government-website-hacked",
+    "title": "Australia’s Albanese rebukes OpenAI after government website hacked",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-24T15:08:20.761984+00:00"
+  },
+  {
+    "score": 25.27,
+    "bucket": "serious",
+    "tokens": [
+      "again",
+      "attacks",
+      "expand",
+      "indian",
+      "iran",
+      "ocean",
+      "threatens",
+      "war"
+    ],
+    "link": "https://www.thehindu.com/news/international/iran-threatens-to-expand-war-to-indian-ocean-if-us-attacks-again/article71503625.ece",
+    "title": "Iran threatens to expand war to Indian Ocean if U.S. attacks again",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-24T15:08:20.762323+00:00"
+  },
+  {
+    "score": 24.24,
+    "bucket": "serious",
+    "tokens": [
+      "3rd",
+      "korea",
+      "korean",
+      "pows",
+      "recently",
+      "sent",
+      "ukraine",
+      "zelenskyy"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20260924000853315",
+    "title": "(3rd LD) Ukraine recently sent 2 N. Korean POWs to S. Korea: Zelenskyy",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-09-24T15:08:20.762614+00:00"
+  },
+  {
+    "score": 23.82,
+    "bucket": "serious",
+    "tokens": [
+      "200m",
+      "asian",
+      "breaststroke",
+      "games",
+      "japanese",
+      "ohashi",
+      "record",
+      "shin",
+      "smashes",
+      "teenager",
+      "world"
+    ],
+    "link": "https://www.malaymail.com/news/sports/2026/09/24/japanese-teenager-shin-ohashi-smashes-200m-breaststroke-world-record-at-asian-games/236373",
+    "title": "Japanese teenager Shin Ohashi smashes 200m breaststroke world record at Asian Games",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-24T15:08:20.762896+00:00"
+  },
+  {
+    "score": 22.21,
+    "bucket": "serious",
+    "tokens": [
+      "alert",
+      "arabia",
+      "issues",
+      "lifts",
+      "likely",
+      "mecca",
+      "missile",
+      "saudi"
+    ],
+    "link": "https://www.dailysabah.com/world/mid-east/saudi-arabia-issues-then-lifts-likely-missile-alert-for-mecca",
+    "title": "Saudi Arabia issues, then lifts likely missile alert for Mecca",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-09-24T15:08:20.763165+00:00"
   }
 ]

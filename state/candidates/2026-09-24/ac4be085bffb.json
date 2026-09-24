@@ -1,0 +1,97 @@
+{
+  "id": "ac4be085bffb",
+  "created_at": "2026-09-24T15:08:20.761537+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.27,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Australia’s Albanese rebukes OpenAI after government website hacked",
+  "link": "https://www.france24.com/en/video/20260924-australia-s-albanese-rebukes-openai-after-government-website-hacked",
+  "publishers": [
+    "BBC Technology",
+    "BBC World",
+    "BBC 中文",
+    "Daily Sabah",
+    "Deutsche Welle",
+    "Engadget",
+    "France24",
+    "Hindustan Times — World",
+    "Nikkei Asia"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Australia’s Albanese rebukes OpenAI after government website hacked",
+    "link": "https://www.france24.com/en/video/20260924-australia-s-albanese-rebukes-openai-after-government-website-hacked",
+    "summary": "Prime Minister Anthony Albanese said Thursday he was extremely concerned about OpenAI 's breach of an Australian health department website and that the artificial intelligence company took too long to reveal the incident. An OpenAI agent infiltrated the public-facing Medicare Statistics Reporting Service portal on June 18, he said.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-24T12:02:13+00:00",
+    "image_url": "https://s.france24.com/media/display/e9c83ace-b80c-11f1-ac41-6dfe19ed9d2f/w:1024/p:16x9/EN-20260924-104100-104243-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "BBC Technology",
+      "BBC World",
+      "BBC 中文",
+      "Daily Sabah",
+      "Deutsche Welle",
+      "Engadget",
+      "France24",
+      "Hindustan Times — World",
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/openai-agent-hacked-australia-government-portal-pm-albanese/a-79405371?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260924-australia-s-albanese-rebukes-openai-after-government-website-hacked"
+      },
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/australia-reveals-openai-agent-hacked-government-health-website"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/openai-agent-hacked-australia-government-website-in-june-pm-anthony-albanese-101790199374891.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/tech/openai-agent-breached-australian-government-portal-pm-albanese"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/australia-says-openai-agent-breached-medicare-health-data-portal-101790245349094.html"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/e9c83ace-b80c-11f1-ac41-6dfe19ed9d2f/w:1024/p:16x9/EN-20260924-104100-104243-CS.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/23/462081.JPG",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f010/live/69f3ee00-b795-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/f010/live/69f3ee00-b795-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f010/live/69f3ee00-b795-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/1024/cpsprodpb/bc46/live/db50c320-b7db-11f1-9329-25fd53239d64.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 9,
+    "velocity": 1.0,
+    "age_hours": 1222.9202689058334,
+    "is_stale": false,
+    "score": 26.269770027863974,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}

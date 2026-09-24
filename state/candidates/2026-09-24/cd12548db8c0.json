@@ -1,0 +1,63 @@
+{
+  "id": "cd12548db8c0",
+  "created_at": "2026-09-24T15:08:20.762905+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.21,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi Arabia issues, then lifts likely missile alert for Mecca",
+  "link": "https://www.dailysabah.com/world/mid-east/saudi-arabia-issues-then-lifts-likely-missile-alert-for-mecca",
+  "publishers": [
+    "Daily Sabah",
+    "Hindustan Times — World"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Saudi Arabia issues, then lifts likely missile alert for Mecca",
+    "link": "https://www.dailysabah.com/world/mid-east/saudi-arabia-issues-then-lifts-likely-missile-alert-for-mecca",
+    "summary": "Saudi Civil Defense on Thursday issued a series of alerts including for Mecca City, home to Islam's holiest site, in warnings that usually indicate a potential missile threat. \"A w...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-24T11:01:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/24/462140.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/mecca-on-high-alert-saudi-arabia-issues-warning-for-citizens-mecca-jeddah-yanbu-tabuk-among-areas-flagged-101790245804160.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/saudi-arabia-issues-then-lifts-likely-missile-alert-for-mecca"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/24/462140.jpg",
+      "https://www.hindustantimes.com/ht-img/img/2026/09/24/1600x900/Mecca_1790246024265_YB03_1790246024439_tTnA_1d43f027-04e2-4c75-8913-67fe03107a04_B5x8.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1222.920287748889,
+    "is_stale": false,
+    "score": 22.208643170407406,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
