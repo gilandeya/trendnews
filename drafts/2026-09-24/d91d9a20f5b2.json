@@ -38,18 +38,28 @@
       "الجزيرة",
       "العربية",
       "فرانس 24 عربي"
+    ],
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/raw/cpsprodpb/a767/live/b8747eb0-98aa-11f0-a14e-6d2172009a89.jpg",
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/raw/cpsprodpb/a767/live/b8747eb0-98aa-11f0-a14e-6d2172009a89.jpg"
     ]
   },
   "score": 1,
-  "has_photo": false,
+  "has_photo": true,
   "review_issue": 1042,
-  "image": "drafts/2026-09-24/d91d9a20f5b2.jpg",
+  "image": "drafts/2026-09-24/d91d9a20f5b2-v2.jpg",
   "image_info": {
-    "used_original": false,
+    "manual": true,
+    "used_original": true,
     "illustrative": false,
     "composite": false,
-    "chosen_url": null,
-    "candidates_tried": 0,
-    "manual": false
-  }
+    "chosen_url": "https://ichef.bbci.co.uk/ace/standard/raw/cpsprodpb/a767/live/b8747eb0-98aa-11f0-a14e-6d2172009a89.jpg"
+  },
+  "manual_image": "https://ichef.bbci.co.uk/ace/standard/raw/cpsprodpb/a767/live/b8747eb0-98aa-11f0-a14e-6d2172009a89.jpg",
+  "reel_spec": {
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/raw/cpsprodpb/a767/live/b8747eb0-98aa-11f0-a14e-6d2172009a89.jpg"
+    ]
+  },
+  "reel": null
 }
