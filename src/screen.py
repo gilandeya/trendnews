@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import re
 
 from anthropic import Anthropic, APIError
@@ -60,7 +61,7 @@ SYSTEM = """أنت محرر فرز في غرفة أخبار عربية شعبي�
   موثَّقة أو سؤال يفتح فضولًا، بالدهشة لا بالإثارة. 0 = خبر روتيني ·
   3 = يستوقف القارئ حتمًا. الاستبعادات أعلاه (المشاهير، الإثارة الرخيصة)
   تُطبَّق أولًا وتبقى كما هي — هذا الحقل لا ينقضها.
-- appeal_note — سطر واحد يشرح أعلى الثلاثة عندك.
+- appeal_note — سطر واحد بالعربية لا يتجاوز 10 كلمات يشرح أعلى الثلاثة عندك.
 
 أخرج JSON فقط بهذا الشكل، لكل عنوان مقبول عنصر واحد في kept:
 {"kept": [{"i": رقم العنوان, "impact": 0-3, "proximity": 0-3,
@@ -79,6 +80,69 @@ def _clip03(value) -> int:
     except (TypeError, ValueError):
         return 0
     return max(0, min(3, n))
+
+
+def _max_tokens_for(n: int, scfg: dict) -> int:
+    """يحسب سقف الرد من حجم الدفعة الفعلي بدل ثابت واحد (Issue #1047):
+    سقف 500 ثابت كان يقطع أي دفعة تتجاوز نحو 3 عناصر (كل عنصر بملاحظة
+    عربية ≈ 48 رمزًا)، فيفشل json.loads وتمر الدفعة بأصفار."""
+    tokens_per_item = int(scfg.get("tokens_per_item", 150))
+    cap = int(scfg.get("max_tokens_cap", 8000))
+    return min(cap, tokens_per_item * max(n, 1) + 300)
+
+
+def _write_step_summary(text: str) -> None:
+    """يكتب سطرًا في ملخص التشغيلة — نفس النمط المكرَّر محليًا في كل ملف
+    يحتاجه (collect.py/radar.py/publish.py/…)، لا استيراد متبادل يخلق
+    حلقة استيراد مع collect.py الذي يستورد screen() أصلًا."""
+    path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if path:
+        with open(path, "a", encoding="utf-8") as fh:
+            fh.write(text + "\n")
+
+
+def _apply_appeal(batch: list[Article], appeal: dict[int, dict]) -> list[Article]:
+    """يحمل عوامل الجذب على أعضاء ``batch`` من ``appeal`` المفهرس محليًا
+    (0..len(batch)-1)، ويعيد من ورد ذكره في kept فقط."""
+    passed: list[Article] = []
+    for i, a in enumerate(batch):
+        scores = appeal.get(i)
+        if scores is None:
+            continue
+        a.impact = scores["impact"]
+        a.proximity = scores["proximity"]
+        a.intrigue = scores["intrigue"]
+        a.appeal_note = scores["appeal_note"]
+        passed.append(a)
+    return passed
+
+
+def _screen_call(client, model: str, batch: list[Article], system_prompt: str,
+                 scfg: dict) -> tuple[dict[int, dict] | None, bool, int]:
+    """نداء نموذج واحد على ``batch``. يعيد (appeal مفهرس محليًا أو None عند
+    فشل التحليل، هل قُطع الرد (stop_reason == "max_tokens")، السقف
+    المُستخدَم)."""
+    listing = "\n".join(
+        f"{i}. [{a.bucket}] {a.title} — {a.summary[:150]}"
+        for i, a in enumerate(batch)
+    )
+    max_tokens = _max_tokens_for(len(batch), scfg)
+    resp = client.messages.create(
+        model=model,
+        max_tokens=max_tokens,
+        system=system_prompt,
+        messages=[{"role": "user", "content":
+                   f"افحص هذه العناوين:\n\n{listing}"}],
+    )
+    record_usage(resp, model)
+    truncated = getattr(resp, "stop_reason", "") == "max_tokens"
+    text = "".join(b.text for b in resp.content
+                   if getattr(b, "type", "") == "text")
+    try:
+        appeal = _parse(text)
+    except (json.JSONDecodeError, ValueError, KeyError, TypeError):
+        appeal = None
+    return appeal, truncated, max_tokens
 
 
 def _parse(text: str) -> dict[int, dict]:
@@ -106,7 +170,7 @@ def _parse(text: str) -> dict[int, dict]:
     return out
 
 
-def screen(articles: list[Article], cfg, batch_size: int = 30,
+def screen(articles: list[Article], cfg, batch_size: int | None = None,
           recent_titles: list[str] | None = None) -> list[Article]:
     """
     يعيد الأخبار الجديرة بالمعالجة فقط.
@@ -116,13 +180,21 @@ def screen(articles: list[Article], cfg, batch_size: int = 30,
     لأن التكرار هناك يخرج للجمهور بلا مراجعة بشرية. الفحص العادي في
     `collect.py` لا يمرّره فيبقى بلا تغيير، حفاظًا على تكلفته.
 
-    عند أي فشل نُعيد القائمة كاملة — الفشل يجب أن يكلّف مالًا، لا أخبارًا.
+    ``batch_size`` اختياري — إن لم يُمرَّر يُقرأ من ``screening.batch_size``
+    (Issue #1047: 30 عنصرًا كانت تُنتج ردًّا يتجاوز سقف max_tokens الثابت
+    القديم فيُقطع صامتًا).
+
+    عند أي فشل غير ناتج عن القطع نُعيد الدفعة كاملة — الفشل يجب أن يكلّف
+    مالًا، لا أخبارًا. القطع (stop_reason == "max_tokens") يُعامَل بإعادة
+    محاولة واحدة على نصفي الدفعة قبل الاستسلام بنفس المبدأ.
     """
     scfg = cfg.get("screening", {}) or {}
     if not scfg.get("enabled", True) or not articles:
         return articles
 
     model = scfg.get("model", "claude-haiku-4-5-20251001")
+    if batch_size is None:
+        batch_size = int(scfg.get("batch_size", 12))
 
     # إرشاد من أسباب رفضك السابقة — يستبعد ما يشبهها قبل الصياغة المكلفة
     guidance = ""
@@ -151,41 +223,65 @@ def screen(articles: list[Article], cfg, batch_size: int = 30,
         log.warning("فشل الفرز — ستمر كل الأخبار: %s", exc)
         return articles
 
+    system_prompt = SYSTEM + guidance + dedupe_note
     kept: list[Article] = []
+    # عدد الأخبار التي مرّت بلا فرز ولا عوامل جذب بسبب قطع الرد حتى بعد
+    # إعادة المحاولة — لسطر ملخّص التشغيلة الواحد في نهاية الدالة.
+    truncated_dropped = 0
 
     for start in range(0, len(articles), batch_size):
         chunk = articles[start : start + batch_size]
-        listing = "\n".join(
-            f"{i}. [{a.bucket}] {a.title} — {a.summary[:150]}"
-            for i, a in enumerate(chunk)
-        )
         try:
-            resp = client.messages.create(
-                model=model,
-                max_tokens=500,
-                system=SYSTEM + guidance + dedupe_note,
-                messages=[{"role": "user", "content":
-                           f"افحص هذه العناوين:\n\n{listing}"}],
-            )
-            record_usage(resp, model)
-            text = "".join(b.text for b in resp.content
-                           if getattr(b, "type", "") == "text")
-            appeal = _parse(text)
-            passed = []
-            for i, a in enumerate(chunk):
-                scores = appeal.get(i)
-                if scores is None:
-                    continue
-                a.impact = scores["impact"]
-                a.proximity = scores["proximity"]
-                a.intrigue = scores["intrigue"]
-                a.appeal_note = scores["appeal_note"]
-                passed.append(a)
-            log.info("الفرز: مرّ %d من %d", len(passed), len(chunk))
-            kept.extend(passed)
-        except (APIError, json.JSONDecodeError, ValueError, KeyError, TypeError) as exc:
+            appeal, truncated, used_tokens = _screen_call(
+                client, model, chunk, system_prompt, scfg)
+        except APIError as exc:
             log.warning("فشل الفرز — ستمر الدفعة كاملة: %s", exc)
             kept.extend(chunk)
+            continue
+
+        if not truncated and appeal is not None:
+            passed = _apply_appeal(chunk, appeal)
+            log.info("الفرز: مرّ %d من %d", len(passed), len(chunk))
+            kept.extend(passed)
+            continue
+
+        if not truncated:
+            # فشل تحليل غير ناتج عن قطع الرد — السلوك القديم بلا إعادة
+            # محاولة (عطل عرَضي في صياغة النموذج، لا في سقف التوكنات).
+            log.warning("فشل الفرز — ستمر الدفعة كاملة: تعذّر تحليل الرد")
+            kept.extend(chunk)
+            continue
+
+        # القطع (Issue #1047): سقف الرد المحسوب لم يتّسع لحجم الدفعة. سطر
+        # ERROR واحد يذكر الحجم والسقف، ثم إعادة محاولة واحدة على نصفي
+        # الدفعة قبل الاستسلام — الفشل بعدها يكلّف مالًا لا أخبارًا.
+        log.error(
+            "فرز مقطوع (stop_reason=max_tokens) لدفعة من %d — السقف %d "
+            "غير كافٍ", len(chunk), used_tokens)
+
+        half = max(1, len(chunk) // 2)
+        halves = [chunk[:half], chunk[half:]] if len(chunk) > 1 else [chunk]
+        for sub in halves:
+            if not sub:
+                continue
+            try:
+                sub_appeal, sub_truncated, _ = _screen_call(
+                    client, model, sub, system_prompt, scfg)
+            except APIError:
+                sub_appeal, sub_truncated = None, False
+            if not sub_truncated and sub_appeal is not None:
+                passed = _apply_appeal(sub, sub_appeal)
+                kept.extend(passed)
+            else:
+                # استسلام لهذا النصف: الفشل يكلّف مالًا لا أخبارًا.
+                kept.extend(sub)
+                truncated_dropped += len(sub)
 
     log.info("الفرز الأولي: %d من %d خبرًا اجتازوا", len(kept), len(articles))
+
+    if truncated_dropped:
+        _write_step_summary(
+            f"### ⚠️ الفرز فشل — مرّت {truncated_dropped} أخبار بلا فرز "
+            "ولا عوامل جذب")
+
     return kept
