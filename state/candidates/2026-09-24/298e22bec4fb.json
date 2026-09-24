@@ -1,0 +1,67 @@
+{
+  "id": "298e22bec4fb",
+  "created_at": "2026-09-24T18:08:12.900800+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.1,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "عباس يحذر من تهديد حل الدولتين أمام الأمم المتحدة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "REPLAY: Palestinian president Abbas addresses UN General Assembly",
+  "link": "https://www.france24.com/en/video/20260924-replay-palestinian-president-abbas-addresses-un-general-assembly",
+  "publishers": [
+    "France24",
+    "Tehran Times"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "REPLAY: Palestinian president Abbas addresses UN General Assembly",
+    "link": "https://www.france24.com/en/video/20260924-replay-palestinian-president-abbas-addresses-un-general-assembly",
+    "summary": "Palestinian president Mahmud Abbas told the UN on Thursday that Israeli policies no longer just jeopardized a two-state solution but were now threatening the \"very life and existence\" of his people. Abbas delivered prerecorded remarks to the UN’s General Assembly from his office in Ramallah after the United States denied him and other top Palestinian officials visas to attend the gathering for the second year in a row.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-24T15:06:58+00:00",
+    "image_url": "https://s.france24.com/media/display/943e5f68-b828-11f1-ac34-a18ad05a0c45/w:1024/p:16x9/EN-20260924-161505-163726-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260924-live-netanyahu-faces-un-over-gaza-as-abbas-set-to-address-assembly-by-video"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260924-replay-palestinian-president-abbas-addresses-un-general-assembly"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/photo/530358/Iranian-president-addresses-UN-General-Assembly"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/943e5f68-b828-11f1-ac34-a18ad05a0c45/w:1024/p:16x9/EN-20260924-161505-163726-CS.jpg",
+      "https://media.mehrnews.com/d/2026/09/23/4/6188171.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1225.9163586066666,
+    "is_stale": false,
+    "score": 23.098890197740744,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "عباس يحذر من تهديد حل الدولتين أمام الأمم المتحدة"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "9d2ea6a0107d",
+  "created_at": "2026-09-24T18:08:12.901269+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.9,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "متمردو تيغراي يعلنون حرباً شاملة ضد الحكومة الإثيوبية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ethiopia's Tigray rebels in 'full-blown' war with govt",
+  "link": "https://www.france24.com/en/video/20260924-ethiopia-s-tigray-rebels-in-full-blown-war-with-govt",
+  "publishers": [
+    "Daily Sabah",
+    "France24"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Ethiopia's Tigray rebels in 'full-blown' war with govt",
+    "link": "https://www.france24.com/en/video/20260924-ethiopia-s-tigray-rebels-in-full-blown-war-with-govt",
+    "summary": "Tigray rebels in Ethiopia told AFP on Thursday they were in a state of \"full-blown war\" with the federal government, as heavy artillery attacks were reported in neighbouring states. Tensions have been rising for months between the federal government and the authorities in the northern Tigray state, who fought a devastating civil war in 2020-2022 that killed more than 600,000 people, according to African Union estimates.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-24T12:05:06+00:00",
+    "image_url": "https://s.france24.com/media/display/e3f364ce-b80d-11f1-91e1-712f76118fd1/w:1024/p:16x9/EN-20260924-110623-110826-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Daily Sabah",
+      "France24"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260924-ethiopia-s-tigray-rebels-in-full-blown-war-with-govt"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/africa/tigray-rebels-rip-up-truce-for-full-blown-war-with-ethiopia-govt"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/e3f364ce-b80d-11f1-91e1-712f76118fd1/w:1024/p:16x9/EN-20260924-110623-110826-CS.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/24/462136.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1225.9163767816667,
+    "is_stale": false,
+    "score": 20.89681612253704,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "متمردو تيغراي يعلنون حرباً شاملة ضد الحكومة الإثيوبية"
+  }
+}

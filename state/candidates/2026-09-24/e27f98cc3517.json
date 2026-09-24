@@ -1,0 +1,62 @@
+{
+  "id": "e27f98cc3517",
+  "created_at": "2026-09-24T18:08:12.900334+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.27,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "عقوبات أمريكية على الخطوط الجوية الإيرانية وتداعيات إقليمية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "New US sanctions shut down Iranian flights",
+  "link": "https://www.channelnewsasia.com/world/new-us-sanctions-shut-down-iranian-flights-6409036",
+  "publishers": [
+    "Channel News Asia",
+    "The Express Tribune"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "New US sanctions shut down Iranian flights",
+    "link": "https://www.channelnewsasia.com/world/new-us-sanctions-shut-down-iranian-flights-6409036",
+    "summary": "The US sanctions aim to stop Iranian airlines from flying worldwide, while Iran warned this could increase tensions in the region.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-24T17:38:57+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--kN_vdtBo--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-24T152059Z_2_LYNXMPEM8N0XN_RTROPTP_3_IRAN-CRISIS-USA-PROTEST.JPG?itok=mhmOcVvq",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2631215/iranian-flights-cancelled-as-new-us-d-day-sanctions-take-effect"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/new-us-sanctions-shut-down-iranian-flights-6409036"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--kN_vdtBo--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-24T152059Z_2_LYNXMPEM8N0XN_RTROPTP_3_IRAN-CRISIS-USA-PROTEST.JPG?itok=mhmOcVvq"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1225.9163321058334,
+    "is_stale": false,
+    "score": 23.267760569833335,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "عقوبات أمريكية على الخطوط الجوية الإيرانية وتداعيات إقليمية"
+  }
+}
