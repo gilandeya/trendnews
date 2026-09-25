@@ -1,0 +1,73 @@
+{
+  "id": "974fefa1dbb6",
+  "created_at": "2026-09-25T18:08:00.602746+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.84,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran FM Araghchi meets with UK counterpart in New York",
+  "link": "https://en.mehrnews.com/news/248063/Iran-FM-Araghchi-meets-with-UK-counterpart-in-New-York",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran FM Araghchi meets with UK counterpart in New York",
+    "link": "https://en.mehrnews.com/news/248063/Iran-FM-Araghchi-meets-with-UK-counterpart-in-New-York",
+    "summary": "TEHRAN, Sep. 25 (MNA) – Iranian Foreign Minister Seyyed Abbas Araghchi met and held talks with British Foreign Secretary Ed Miliband in New York late on Thursday on the sidelines of the 81st UN General Assembly (UNGA).",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-25T08:15:53+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/25/4/6190115.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248063/Iran-FM-Araghchi-meets-with-UK-counterpart-in-New-York"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86273484/Araghchi-meets-Pakistani-counterpart-in-New-York"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86273731/Araghchi-meets-Jordanian-FM-in-New-York"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86273901/FM-Araghchi-meets-Russian-counterpart-in-New-York"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/25/4/6190115.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/24/4/173127659.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/24/4/173128215.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/25/4/173128541.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1249.9126199524999,
+    "is_stale": false,
+    "score": 15.84238072525926,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
