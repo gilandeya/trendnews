@@ -86,7 +86,7 @@ jobs:
           echo "changed=true" >> "$GITHUB_OUTPUT"
           git commit -m "chore(article): مقال من المصادر لـ Issue #${{ github.event.issue.number }}"
           for attempt in 1 2 3 4 5; do
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}" || true
             if git push origin "HEAD:${GITHUB_REF_NAME}"; then
               echo "✅ رُفع في المحاولة $attempt"
               exit 0
@@ -114,7 +114,7 @@ jobs:
           fi
           git commit -m "chore(drafts): ربط مسودة المقال بـ Issue المراجعة"
           for attempt in 1 2 3 4 5; do
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}" || true
             if git push origin "HEAD:${GITHUB_REF_NAME}"; then exit 0; fi
             sleep $((attempt * 7))
           done
