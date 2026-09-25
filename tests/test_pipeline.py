@@ -201,6 +201,7 @@ from tests.test_article import (
     test_article_snippet_only_sources,
     test_article_source_facts,
     test_article_source_facts_retry,
+    test_article_naming_answer_retry,
     test_article_draft_investigation,
     test_article_no_min_facts_gate,
     test_article_grading_tiers,
@@ -372,6 +373,7 @@ def main() -> int:
     test_article_snippet_only_sources()
     test_article_source_facts()
     test_article_source_facts_retry()
+    test_article_naming_answer_retry()
     print("\n── منشور «تحقيق» من outcome._write_article (Issue #765) ──")
     test_article_draft_investigation()
     print("\n── إلغاء القاعدة 7: المقال لا يمتنع لقلة الوقائع (Issue #814 جزء 1) ──")

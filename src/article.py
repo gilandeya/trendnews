@@ -867,13 +867,37 @@ def _format_docs(docs: list[dict]) -> str:
                        for d in docs if not d.get("snippet_only"))
 
 
+def _naming_max_tokens(n_docs: int, acfg: dict) -> int:
+    """يحسب سقف رد _ask_naming_model من عدد الوثائق (Issue #1061، نظير
+    _support_sources_max_tokens لIssue #1052): المخرَج نص تسمية زائد اسم
+    مصدر مؤيِّد محتمل لكل وثيقة، فسقف ثابت (500) كان يقطع أي تسمية من عدد
+    وثائق كافٍ. تستعمل article.support_tokens_per_source/
+    support_max_tokens_cap القائمين (لا مفاتيح جديدة لهما) —
+    naming_min_tokens حدّ أدنى فقط (500، القيمة الثابتة السابقة) لا سقف،
+    كي لا تنخفض حالة التسمية البسيطة بوثيقة أو وثيقتين عن سقفها الحالي."""
+    min_tokens = int(acfg.get("naming_min_tokens", 500))
+    tokens_per_source = int(acfg.get("support_tokens_per_source", 40))
+    cap = int(acfg.get("support_max_tokens_cap", 4000))
+    return min(cap, max(min_tokens, tokens_per_source * n_docs + 300))
+
+
 def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
                       cfg) -> dict | None:
     """يسأل النموذج: هل تسمّي هذه النصوص حدثًا محدَّدًا؟ يعيد
     {"text":..., "supporting":[...]} عند النجاح، أو قيمة فارغة (None أو
     _ModelCallResult فارغ) — لا تخمين بلا نصوص تسنده. فشل نداء تقني (لا
     حكم "لا" من النموذج) يعيد _ModelCallResult فارغة بـcall_error مضبوطًا
-    بنص الاستثناء — استعمل getattr(result, "call_error", None) للتمييز."""
+    بنص الاستثناء — استعمل getattr(result, "call_error", None) للتمييز.
+
+    السقف (Issue #1061) يُحسب من عدد الوثائق (_naming_max_tokens) بدل 500
+    ثابت كان يقطع أي تسمية من عدد وثائق كافٍ (stop_reason == "max_tokens"
+    أو غياب كتلة tool_use صالحة) — القطع كان يُعامَل بصمت كحكم "لم يُسمَّ
+    من هذه النتائج" فيُتَّهم العطل التقني بأنه حكم على المصادر. القطع
+    يُعامَل الآن بإعادة محاولة واحدة بنفس المدخلات وسقف مضاعف (مقصوص عند
+    support_max_tokens_cap)؛ فشل الإعادة أيضًا يعيد قيمة فارغة بـcall_error
+    يشرح السبب، لا صمتًا. ردّ سليم بـnamed: false، أو بنص فارغ رغم
+    named: true، يبقى None بلا call_error — حكم حقيقي من النموذج لا فشل
+    تقني."""
     if not docs:
         return None
     acfg = cfg.get("article", {}) or {}
@@ -882,10 +906,14 @@ def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
     prompt = (f"الإشارة المبهمة: {vague_text}\n"
              f"الكيانات المرتبطة: {'، '.join(entities)}\n\n"
              f"نصوص المصادر:\n\n{_format_docs(docs)}")
-    try:
+    n_docs = len(docs)
+    max_tokens = _naming_max_tokens(n_docs, acfg)
+    cap = int(acfg.get("support_max_tokens_cap", 4000))
+
+    def _call(tokens: int):
         resp = client.messages.create(
             model=model,
-            max_tokens=500,
+            max_tokens=tokens,
             tools=[NAMING_SCHEMA],
             tool_choice={"type": "tool", "name": "name_event"},
             system=NAMING_SYSTEM,
@@ -897,15 +925,44 @@ def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
             # بنفس شكل "لا نتيجة" الشرعي) قبل أن تُكتشف كسبب الانهيار.
         )
         writer.record_usage(resp, model)
+        return resp
+
+    def _tool_use_data(resp):
+        return next((b.input for b in resp.content
+                    if getattr(b, "type", "") == "tool_use"), None)
+
+    def _truncated(resp, data) -> bool:
+        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
+
+    try:
+        resp = _call(max_tokens)
     except APIError as exc:
         log.warning("فشل نداء تسمية الحدث: %s", exc)
         fail = _ModelCallResult()
         fail.call_error = str(exc)
         return fail
 
-    data = next((b.input for b in resp.content
-                if getattr(b, "type", "") == "tool_use"), None)
-    if not isinstance(data, dict) or not data.get("named"):
+    data = _tool_use_data(resp)
+    if _truncated(resp, data):
+        log.error(
+            "تسمية الحدث مقطوعة (stop_reason=max_tokens أو بلا كتلة "
+            "tool_use صالحة) لـ%d وثيقة — السقف %d غير كافٍ",
+            n_docs, max_tokens)
+        retry_tokens = min(cap, max_tokens * 2)
+        try:
+            resp = _call(retry_tokens)
+        except APIError as exc:
+            log.warning("فشل نداء إعادة محاولة تسمية الحدث: %s", exc)
+            fail = _ModelCallResult()
+            fail.call_error = str(exc)
+            return fail
+        data = _tool_use_data(resp)
+        if _truncated(resp, data):
+            fail = _ModelCallResult()
+            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
+            return fail
+
+    if not data.get("named"):
         return None
     text = str(data.get("text") or "").strip()
     if not text:
@@ -1603,6 +1660,20 @@ ANSWER_SCHEMA = {
 }
 
 
+def _answer_max_tokens(n_docs: int, acfg: dict) -> int:
+    """يحسب سقف رد _ask_answer_model من عدد الوثائق (Issue #1061، نظير
+    _support_sources_max_tokens لIssue #1052): المخرَج نص إجابة زائد اسم
+    مصدر مؤيِّد محتمل لكل وثيقة، فسقف ثابت (400) كان يقطع أي إجابة من عدد
+    وثائق كافٍ. تستعمل article.support_tokens_per_source/
+    support_max_tokens_cap القائمين (لا مفاتيح جديدة لهما) —
+    answer_min_tokens حدّ أدنى فقط (400، القيمة الثابتة السابقة) لا سقف،
+    كي لا تنخفض حالة الإجابة البسيطة بوثيقة أو وثيقتين عن سقفها الحالي."""
+    min_tokens = int(acfg.get("answer_min_tokens", 400))
+    tokens_per_source = int(acfg.get("support_tokens_per_source", 40))
+    cap = int(acfg.get("support_max_tokens_cap", 4000))
+    return min(cap, max(min_tokens, tokens_per_source * n_docs + 300))
+
+
 def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
     """يجيب عن سؤال من الموجز من نصوص بحث فعلية — القاعدة 3: أسئلة الموجز
     مهمة بحث لا حصيلة فشل (البند 5)؛ يعيد {"text":..., "supporting":[...],
@@ -1617,17 +1688,31 @@ def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
 
     فشل نداء تقني (لا حكم "لم تُجب" من النموذج) يعيد _ModelCallResult فارغة
     بـcall_error مضبوطًا بنص الاستثناء — استعمل
-    getattr(result, "call_error", None) للتمييز."""
+    getattr(result, "call_error", None) للتمييز.
+
+    السقف (Issue #1061) يُحسب من عدد الوثائق (_answer_max_tokens) بدل 400
+    ثابت كان يقطع أي إجابة من عدد وثائق كافٍ (stop_reason == "max_tokens"
+    أو غياب كتلة tool_use صالحة) — القطع كان يُعامَل بصمت كحكم "لم تُجب عنه
+    النصوص المقروءة" فيُتَّهم العطل التقني بأنه حكم على المصادر. القطع
+    يُعامَل الآن بإعادة محاولة واحدة بنفس المدخلات وسقف مضاعف (مقصوص عند
+    support_max_tokens_cap)؛ فشل الإعادة أيضًا يعيد قيمة فارغة بـcall_error
+    يشرح السبب، لا صمتًا. ردّ سليم بـanswered: false، أو بنص فارغ رغم
+    answered: true، يبقى None بلا call_error — حكم حقيقي من النموذج لا فشل
+    تقني."""
     if not docs:
         return None
     acfg = cfg.get("article", {}) or {}
     model = acfg.get("model", "claude-sonnet-5")
     client = _client()
     prompt = f"السؤال: {question_text}\n\nنصوص المصادر:\n\n{_format_docs(docs)}"
-    try:
+    n_docs = len(docs)
+    max_tokens = _answer_max_tokens(n_docs, acfg)
+    cap = int(acfg.get("support_max_tokens_cap", 4000))
+
+    def _call(tokens: int):
         resp = client.messages.create(
             model=model,
-            max_tokens=400,
+            max_tokens=tokens,
             tools=[ANSWER_SCHEMA],
             tool_choice={"type": "tool", "name": "answer_question"},
             system=ANSWER_SYSTEM,
@@ -1635,14 +1720,44 @@ def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
             # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
         )
         writer.record_usage(resp, model)
+        return resp
+
+    def _tool_use_data(resp):
+        return next((b.input for b in resp.content
+                    if getattr(b, "type", "") == "tool_use"), None)
+
+    def _truncated(resp, data) -> bool:
+        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
+
+    try:
+        resp = _call(max_tokens)
     except APIError as exc:
         log.warning("فشل نداء الإجابة عن سؤال الموجز: %s", exc)
         fail = _ModelCallResult()
         fail.call_error = str(exc)
         return fail
-    data = next((b.input for b in resp.content
-                if getattr(b, "type", "") == "tool_use"), None)
-    if not isinstance(data, dict) or not data.get("answered"):
+
+    data = _tool_use_data(resp)
+    if _truncated(resp, data):
+        log.error(
+            "الإجابة عن سؤال الموجز مقطوعة (stop_reason=max_tokens أو بلا "
+            "كتلة tool_use صالحة) لـ%d وثيقة — السقف %d غير كافٍ",
+            n_docs, max_tokens)
+        retry_tokens = min(cap, max_tokens * 2)
+        try:
+            resp = _call(retry_tokens)
+        except APIError as exc:
+            log.warning("فشل نداء إعادة محاولة الإجابة عن سؤال الموجز: %s", exc)
+            fail = _ModelCallResult()
+            fail.call_error = str(exc)
+            return fail
+        data = _tool_use_data(resp)
+        if _truncated(resp, data):
+            fail = _ModelCallResult()
+            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
+            return fail
+
+    if not data.get("answered"):
         return None
     text = str(data.get("text") or "").strip()
     if not text:

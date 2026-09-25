@@ -963,6 +963,15 @@ article:
   support_tokens_per_part: 100
   support_tokens_per_source: 40
   support_max_tokens_cap: 4000
+  # naming_min_tokens/answer_min_tokens (Issue #1061، نظير source_extract_max_tokens
+  # لIssue #1054): حدّان أدنيان فقط لسقفَي _ask_naming_model/_ask_answer_model
+  # (article._naming_max_tokens/_answer_max_tokens) — القيمتان الثابتتان
+  # السابقتان لكل دالة (500 للتسمية، 400 للإجابة)، لا سقف. السقف الفعلي
+  # min(support_max_tokens_cap، max(الحدّ الأدنى، support_tokens_per_source ×
+  # عدد الوثائق المعروضة + 300)) — يرتفع عن الحدّ الأدنى فقط حين تكفي
+  # الوثائق لتبرير مخرَج أطول (اسم مصدر مؤيِّد محتمل لكل وثيقة).
+  naming_min_tokens: 500
+  answer_min_tokens: 400
   # خط أساس ثابت (تشخيص Issue #373، الجولتان الرابعة والخامسة، البند 3):
   # موجز مرجعي واحد يُعاد تشغيله عبر --issue --baseline بعد كل تغيير في
   # article.py/evidence.py/extract.py يمسّ سلّم البحث أو بوابة الاتساق أو
