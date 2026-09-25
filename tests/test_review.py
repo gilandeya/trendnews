@@ -5567,6 +5567,149 @@ def test_origin_of_synonyms() -> None:
     check("origin_of: قيمة غير معيارية وغير مرادفة تُسجَّل بتحذير",
           any("typo_value" in m for m in log_handler.messages), log_handler.messages)
 
+def test_names_unify_variant_spellings_through_real_pipeline() -> None:
+    """Issue #1070: توحيد رسم أسماء الأعلام نقطة تطبيقه الوحيدة
+    store.save_draft/update_draft (src/names.py)، فتُختبر هنا على مخرَج
+    الأنبوب الفعلي لا على normalize_names وحدها -- مسودة تُحفظ برسوم
+    بديلة في العنوان والمتن والتعليقين وheadlines، تُقرأ من القرص بعد
+    الحفظ وبعد update_draft، ثم تُبنى بطاقتها عبر المسار الحقيقي
+    (cards.ensure) للتأكد من أن العنوان المستعمل فعليًا موحَّد."""
+    from src import cards
+
+    cfg = load_config()
+    aliases = cfg.path("names.aliases") or {}
+    check("معجم names.aliases يحوي المداخل الثلاثة المبدئية",
+          bool(aliases.get("نتنياهو")) and bool(aliases.get("ترامب"))
+          and bool(aliases.get("أردوغان")), aliases)
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    draft = {
+        "id": "nm1100000011", "status": "pending", "score": 1.0, "bucket": "serious",
+        "state_media": False, "origin": "news",
+        "source": {
+            "title": "نتانياهو يبحث عن ترمب", "link": "https://example.com/نتانياهو-ترمب",
+            "publisher": "نتانياهو نيوز", "publishers": ["نتانياهو نيوز"],
+            "image_candidates": ["https://cdn.example/ok.jpg"],
+        },
+        "arabic": {
+            "post_title": "نتانياهو يهاجم إردوغان",
+            "body": "قال نتانياهو إن ترمب وإردوغان يلتقيان قريبًا",
+            "caption": "تعليق فيه نتانياهو وترمب",
+            "category": "", "urgent": False,
+        },
+        "caption": "تعليق منفصل فيه اردوغان",
+        "headlines": ["نتانياهو وترمب", "اردوغان يردّ"],
+        "headline_selected": 0,
+    }
+    path = store.save_draft(draft)
+    reloaded = json.loads(path.read_text(encoding="utf-8"))
+
+    check("post_title يُوحَّد بعد save_draft",
+          reloaded["arabic"]["post_title"] == "نتنياهو يهاجم أردوغان",
+          reloaded["arabic"]["post_title"])
+    check("arabic.body يُوحَّد بعد save_draft",
+          reloaded["arabic"]["body"] == "قال نتنياهو إن ترامب وأردوغان يلتقيان قريبًا",
+          reloaded["arabic"]["body"])
+    check("arabic.caption يُوحَّد بعد save_draft",
+          reloaded["arabic"]["caption"] == "تعليق فيه نتنياهو وترامب",
+          reloaded["arabic"]["caption"])
+    check("caption (الحقل العلوي) يُوحَّد بعد save_draft",
+          reloaded["caption"] == "تعليق منفصل فيه أردوغان", reloaded["caption"])
+    check("headlines تُوحَّد كلها بعد save_draft",
+          reloaded["headlines"] == ["نتنياهو وترامب", "أردوغان يردّ"], reloaded["headlines"])
+
+    check("source.title لا يتغيّر رغم مطابقته لرسم بديل",
+          reloaded["source"]["title"] == "نتانياهو يبحث عن ترمب", reloaded["source"]["title"])
+    check("source.link لا يتغيّر", reloaded["source"]["link"] == "https://example.com/نتانياهو-ترمب",
+          reloaded["source"]["link"])
+    check("source.publisher/publishers لا يتغيّران",
+          reloaded["source"]["publisher"] == "نتانياهو نيوز"
+          and reloaded["source"]["publishers"] == ["نتانياهو نيوز"], reloaded["source"])
+    check("id لا يتغيّر", reloaded["id"] == "nm1100000011", reloaded["id"])
+
+    # تعديل يدوي (مثلًا من مراجع في review.py) على عنوان فيه رسم بديل --
+    # update_draft يُوحِّده أيضًا، لا save_draft وحدها.
+    store.update_draft(
+        path, arabic={**reloaded["arabic"], "post_title": "نتانياهو يجتمع مع ترمب"})
+    reloaded2 = json.loads(path.read_text(encoding="utf-8"))
+    check("update_draft يوحّد عنوانًا معدَّلًا يدويًا",
+          reloaded2["arabic"]["post_title"] == "نتنياهو يجتمع مع ترامب",
+          reloaded2["arabic"]["post_title"])
+    check("update_draft لا يمسّ source",
+          reloaded2["source"]["title"] == "نتانياهو يبحث عن ترمب", reloaded2["source"]["title"])
+
+    # البطاقة المبنيّة عبر المسار الحقيقي (cards.ensure تشتق chosen_headline
+    # من arabic.post_title المخزَّن) تحمل الرسم المعتمد -- لا حاجة لقراءة
+    # بكسلات الصورة، يكفي رصد النص الممرَّر فعليًا لباني الصورة.
+    real_build = cards._default_build_post_image
+    captured: list = []
+
+    def spy_build(**kwargs):
+        captured.append(kwargs.get("headline"))
+        return real_build(**kwargs)
+
+    cards._default_build_post_image = spy_build
+    try:
+        cards.ensure(path, reloaded2, cfg)
+    finally:
+        cards._default_build_post_image = real_build
+    check("البطاقة الحقيقية تُبنى بعنوان الرسم المعتمد",
+          bool(captured) and captured[0] == "نتنياهو يجتمع مع ترامب", captured)
+
+
+def test_names_longest_variant_first_and_empty_config_noop() -> None:
+    """Issue #1070: مدخل فيه رسمان أحدهما يحتوي الآخر -- الأطول يُستبدل
+    أولًا (حتى لو كُتب الأقصر أولًا في القائمة) فلا استبدال جزئي مشوَّه.
+    ومعجم فارغ أو غائب تمامًا -- لا تغيير في أي نص. كلاهما على مخرَج
+    store.save_draft الفعلي، لا normalize_names وحدها."""
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    real_load_config = store.load_config
+
+    def _draft(id_, text):
+        return {
+            "id": id_, "status": "pending", "score": 1.0, "bucket": "serious",
+            "state_media": False, "origin": "news",
+            "source": {"title": text, "link": f"https://example.com/{id_}",
+                       "publisher": "س", "publishers": ["س"]},
+            "arabic": {"post_title": text, "body": "", "caption": "",
+                       "category": "", "urgent": False},
+            "caption": "", "headlines": [], "headline_selected": 0,
+        }
+
+    try:
+        # "قاهرة" رسم بديل مُحتوًى داخل "قاهرةجديدة" -- مكتوب في المعجم
+        # بالترتيب الأقصر ثم الأطول عمدًا، لفحص أن الأطول يُستبدل فعلًا
+        # أولًا رغم ذلك.
+        store.load_config = lambda path=None: {
+            "names": {"aliases": {"القاهرة": ["قاهرة", "قاهرةجديدة"]}}}
+        d1 = _draft("nm2200000022", "زرت قاهرةجديدة أمس")
+        p1 = store.save_draft(d1)
+        r1 = json.loads(p1.read_text(encoding="utf-8"))
+        check("الرسم الأطول يُستبدل أولًا فلا يبقى ذيل من الرسم الأقصر",
+              r1["arabic"]["post_title"] == "زرت القاهرة أمس", r1["arabic"]["post_title"])
+
+        # معجم غائب تمامًا (لا مفتاح names إطلاقًا)
+        store.load_config = lambda path=None: {}
+        d2 = _draft("nm3300000033", "نتانياهو وترمب")
+        p2 = store.save_draft(d2)
+        r2 = json.loads(p2.read_text(encoding="utf-8"))
+        check("غياب قسم names كليًا -- لا تغيير في النص",
+              r2["arabic"]["post_title"] == "نتانياهو وترمب", r2["arabic"]["post_title"])
+
+        # قسم names فارغ (aliases فارغة)
+        store.load_config = lambda path=None: {"names": {"aliases": {}}}
+        d3 = _draft("nm4400000044", "نتانياهو وترمب")
+        p3 = store.save_draft(d3)
+        r3 = json.loads(p3.read_text(encoding="utf-8"))
+        check("قسم names موجود لكنه فارغ -- لا تغيير في النص",
+              r3["arabic"]["post_title"] == "نتانياهو وترمب", r3["arabic"]["post_title"])
+    finally:
+        store.load_config = real_load_config
+
+
 def test_feedback_records_origin_and_screening_guidance_excludes_analysis() -> None:
     """Issue #749 (تصحيح لاحق): feedback.record يسجّل أصل المسودة عبر
     store.origin_of، وscreening_guidance يبني توجيهه من مدخلات news/breaking/

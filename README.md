@@ -423,8 +423,8 @@ YouTube Data API v3) و`YOUTUBE_DATA_TOKEN` (Personal Access Token بصلاحي�
 `brand` (المصادر ٩٤ خلاصة)، `trends`، `selection` (فيها `selection.appeal`)،
 `preselect`، `writer`، `headlines`، `request`، `verify`، `verify_draft`،
 `article`، `radar`، `merge`، `screening`، `reading`، `analysis`، `image`،
-`cards`، `reel`، `image_search`، `facebook`، `decisions`، وقسما مسار التحليل
-`youtube`/`channels`. أبرزها:
+`cards`، `reel`، `image_search`، `facebook`، `decisions`، `names`، وقسما مسار
+التحليل `youtube`/`channels`. أبرزها:
 
 | الإعداد | ماذا يفعل |
 |---|---|
@@ -450,6 +450,29 @@ YouTube Data API v3) و`YOUTUBE_DATA_TOKEN` (Personal Access Token بصلاحي�
 | `facebook.schedule_mode` | `burst` (فاصل عشوائي بين المنشورات) أو أنماط أخرى |
 | `facebook.gap_min_minutes` / `gap_max_minutes` | الفاصل الأدنى/الأعلى (دقائق) الذي تفرضه بوابة الفاصل الواحدة بين أي منشورَين غير عاجلَين، على كل المسارات |
 | `youtube.lookback_hours` / `channels` | نافذة جلب فيديوهات مسار التحليل، وقائمة القنوات المتابَعة |
+| `names.aliases` | معجم توحيد رسم أسماء الأعلام (راجع القسم التالي) |
+
+### توحيد رسم أسماء الأعلام
+
+كل مسار يصوغ نصه بنموذج مستقل، فقد يخرج اسم العلم نفسه برسمين مختلفين بين
+مسودتين متتاليتين («نتنياهو» مقابل «نتانياهو» مثلًا) — فرق يظهر للقارئ مباشرة
+على البطاقات. `config.yaml: names.aliases` معجم بسيط: "الرسم المعتمد": [كل
+الرسوم البديلة الواجب استبدالها به]. لإضافة اسم جديد، أضف سطرًا هنا بلا لمس
+أي شيفرة:
+
+```yaml
+names:
+  aliases:
+    "نتنياهو": ["نتانياهو", "نيتنياهو"]
+```
+
+يُطبَّق هذا التوحيد مرة واحدة فقط، عند الحفظ (`store.save_draft`/`update_draft`
+في `src/names.py`)، فيشمل كل مسار تلقائيًا — الأخبار والعاجل والتحقيق والطلب
+ومسار التحليل (يوتيوب) على حد سواء — بلا حاجة لتعديل أي كاتب نص بمفرده.
+الاستبدال نصّي مباشر (لا همزات، لا تشكيل، لا أي تطبيع لغوي آخر)، ولا يمسّ إلا
+حقول النص العربي المعروضة على القارئ: `arabic.post_title`/`body`/`caption`،
+`caption`، و`headlines` — أبدًا رابط المصدر أو الصورة أو معرّف المسودة أو اسم
+الناشر.
 
 ### إضافة مصدر جديد
 
