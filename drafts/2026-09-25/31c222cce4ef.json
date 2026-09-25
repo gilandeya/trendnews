@@ -36,18 +36,28 @@
     "publishers": [
       "ILTV",
       "ערוץ 14"
+    ],
+    "image_url": "https://vid.alarabiya.net/images/2026/09/24/9d72d94c-d19a-4c46-94d2-a7d8ce454984/9d72d94c-d19a-4c46-94d2-a7d8ce454984_16x9_1200x676.jpg?width=555",
+    "image_candidates": [
+      "https://vid.alarabiya.net/images/2026/09/24/9d72d94c-d19a-4c46-94d2-a7d8ce454984/9d72d94c-d19a-4c46-94d2-a7d8ce454984_16x9_1200x676.jpg?width=555"
     ]
   },
   "score": 0,
-  "has_photo": false,
+  "has_photo": true,
   "review_issue": 1065,
-  "image": "drafts/2026-09-25/31c222cce4ef.jpg",
+  "image": "drafts/2026-09-25/31c222cce4ef-v2.jpg",
   "image_info": {
-    "used_original": false,
+    "manual": true,
+    "used_original": true,
     "illustrative": false,
     "composite": false,
-    "chosen_url": null,
-    "candidates_tried": 0,
-    "manual": false
-  }
+    "chosen_url": "https://vid.alarabiya.net/images/2026/09/24/9d72d94c-d19a-4c46-94d2-a7d8ce454984/9d72d94c-d19a-4c46-94d2-a7d8ce454984_16x9_1200x676.jpg?width=555"
+  },
+  "manual_image": "https://vid.alarabiya.net/images/2026/09/24/9d72d94c-d19a-4c46-94d2-a7d8ce454984/9d72d94c-d19a-4c46-94d2-a7d8ce454984_16x9_1200x676.jpg?width=555",
+  "reel_spec": {
+    "image_candidates": [
+      "https://vid.alarabiya.net/images/2026/09/24/9d72d94c-d19a-4c46-94d2-a7d8ce454984/9d72d94c-d19a-4c46-94d2-a7d8ce454984_16x9_1200x676.jpg?width=555"
+    ]
+  },
+  "reel": null
 }
