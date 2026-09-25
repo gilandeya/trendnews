@@ -1,7 +1,7 @@
 {
   "id": "8236dd40a28b",
   "created_at": "2026-09-25T04:08:26.333029+00:00",
-  "status": "rejected",
+  "status": "queued",
   "origin": "analysis",
   "title": "هل تشكل منافسة الذكاء الاصطناعي غير المنضبطة تهديدًا للأمن الدولي؟",
   "tier": "a",
@@ -50,5 +50,6 @@
     "chosen_url": null,
     "candidates_tried": 0,
     "manual": false
-  }
+  },
+  "publish_at": "2026-09-25T10:17:15.374964+00:00"
 }
