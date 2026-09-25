@@ -3284,7 +3284,7 @@ def _extract_brief_stage(st: dict, body: str, cfg, acfg, outcome: dict) -> bool:
         entry = {"speaker": s["speaker"] or "؟", "text": s["text"],
                  "merged_excerpts": s["merged_excerpts"],
                  "gaps": _merged_statement_gaps(s["text"], s["merged_excerpts"]),
-                 "part_support": []}
+                 "part_support": [], "part_support_error": None}
         statement_reports[id(s)] = entry
         outcome["merged_statements"].append(entry)
 
@@ -3612,12 +3612,15 @@ def _search_fact_support(f: dict, st: dict, cfg, outcome: dict, _cached_search) 
             # يُؤيَّد — نظير merged_statements، بصرف النظر عن مصير
             # التصريح لاحقًا (فشل تقني يترك القائمة فارغة، لا يُخترع بلاغ)
             report_entry = statement_reports.get(id(f))
-            if report_entry is not None and not fact_call_error:
-                report_entry["part_support"] = [
-                    {"excerpt": ex, "supporting": sup}
-                    for ex, sup in zip_longest(statement_parts, parts_support,
-                                               fillvalue=[])
-                ]
+            if report_entry is not None:
+                if fact_call_error:
+                    report_entry["part_support_error"] = fact_call_error
+                else:
+                    report_entry["part_support"] = [
+                        {"excerpt": ex, "supporting": sup}
+                        for ex, sup in zip_longest(statement_parts, parts_support,
+                                                   fillvalue=[])
+                    ]
         else:
             supporting = (_support_sources(f["text"], docs, cfg, is_statement=False,
                                           is_report=is_report, publisher=f.get("publisher", ""))
@@ -5152,6 +5155,15 @@ def build_report(outcome: dict, investigation: dict | None = None) -> str:
             if m.get("gaps"):
                 gaps_str = "؛ ".join(m["gaps"])
                 lines.append(f"  ⚠️ فجوة دمج — لا أثر لها في النص المدموج: {gaps_str}")
+            # فشل تقني في حكم السند على الأجزاء (Issue #1058، نظير #1050/#1056):
+            # part_support تبقى [] عمدًا حين يفشل _support_statement_parts تقنيًا
+            # (لا بلاغ مخترع)، فبلا هذا السطر تختفي كل أسطر «•» لهذا التصريح
+            # بصمت — لا فرق ظاهر عن حكم حقيقي بلا مؤيِّد لأي جزء (السطران لا
+            # يظهران معًا: عند الفشل part_support فارغة أصلًا فلا حلقة أدناه)
+            if m.get("part_support_error"):
+                lines.append("  ⚠️ تعذّر الحكم على أجزاء هذا التصريح — فشل نداء "
+                              "النموذج تقنيًا، فغياب التفصيل أدناه ليس حكمًا "
+                              "بعدم وجود مؤيِّد.")
             # معيار الأغلبية (طلب المراجعة، تعليق العطل الرابع والعشرون):
             # أي مصدر أيّد كل جزء وأيها لم يُؤيَّده أي مصدر — الأجزاء غير
             # المؤيَّدة (✗) لا تدخل متن المقال بصرف النظر عن اجتياز التصريح

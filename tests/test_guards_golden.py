@@ -361,6 +361,23 @@ def test_guards_golden() -> None:
               if m["text"] == golden_statement_text),
           out_truncated["merged_statements"])
 
+    # (#1058) نظير التمييز أعلاه لكن في التقرير النصّي نفسه (build_report) لا
+    # في outcome وحده: part_support == [] كان يعني اختفاء كل أسطر «•» لهذا
+    # التصريح من التقرير بصمت تام، بلا أي أثر يفرّق فشل النداء التقني عن حكم
+    # حقيقي بلا مؤيِّد لأي جزء (نظير سطر ⚠️ الظاهر بالفعل لـsource_facts_summary
+    # في نفس التقرير عند call_error، article.py:5188 وما بعدها)
+    check("(#1058) فشل نداء تقني ⇒ part_support_error مضبوط في outcome",
+          any(m.get("part_support_error") for m in out_truncated["merged_statements"]
+              if m["text"] == golden_statement_text),
+          out_truncated["merged_statements"])
+    report_truncated = article.build_report(out_truncated)
+    check("(#1058) فشل نداء تقني ⇒ التقرير يحمل سطر تحذير صريح بدل الاختفاء الصامت",
+          "تعذّر الحكم على أجزاء هذا التصريح" in report_truncated, report_truncated)
+    check("(#1058) فشل نداء تقني ⇒ لا سطر «•» واحد لهذا التصريح (part_support فارغة "
+          "فعلًا، لا بلاغ مخترع لأجزاء لم تُفحص)",
+          f"«{golden_p1}»" not in report_truncated and f"«{golden_p2}»" not in report_truncated,
+          report_truncated)
+
     # حالة 2 — حكم حقيقي بلا مؤيِّد (رد سليم، stop_reason=end_turn، قائمة
     # فارغة فعليًا لكل جزء): يبقى كما هو اليوم تمامًا — نداء واحد، سبب
     # السقوط «سند غير كافٍ»، وpart_support مكتوب فعليًا بقوائم فارغة (لا [])
@@ -387,6 +404,22 @@ def test_guards_golden() -> None:
                                     {"excerpt": golden_p2, "supporting": []}]
               for m in out_real["merged_statements"]),
           out_real["merged_statements"])
+
+    # (#1058) نظير حالة الفشل أعلاه: حكم حقيقي بلا مؤيِّد لا يضبط
+    # part_support_error، والتقرير يعرض «✗ لا مصدر» لكل جزء كسابق عهده تمامًا
+    # — بلا سطر التحذير الجديد (السطران لا يظهران معًا)
+    check("(#1058) حكم حقيقي بلا مؤيِّد ⇒ part_support_error يبقى None",
+          all(m.get("part_support_error") is None for m in out_real["merged_statements"]
+              if m["text"] == golden_statement_text),
+          out_real["merged_statements"])
+    report_real = article.build_report(out_real)
+    check("(#1058) حكم حقيقي بلا مؤيِّد ⇒ لا سطر تحذير «تعذّر الحكم»",
+          "تعذّر الحكم على أجزاء هذا التصريح" not in report_real, report_real)
+    check("(#1058) حكم حقيقي بلا مؤيِّد ⇒ التقرير يعرض «✗ لا مصدر» لكلا الجزأين "
+          "كما اليوم حرفيًا",
+          f"«{golden_p1}» — ✗ لا مصدر" in report_real and
+          f"«{golden_p2}» — ✗ لا مصدر" in report_real,
+          report_real)
 
     article.extract_brief = real_extract_brief3
     evidence.search = real_search3
