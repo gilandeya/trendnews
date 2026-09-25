@@ -4197,6 +4197,11 @@ def test_article_statement_kind() -> None:
     check("تصريح: نص الدمج هنا يغطي كلا الجملتين فعليًا — لا فجوة دمج مُبلَّغة "
           "(تفريقًا عن شاهد الانكماش في test_article_merged_statement_gaps)",
           "فجوة دمج" not in report, report)
+    check("(#1058) تصريح مسنَد بمؤيِّدين فعليًا: part_support_error يبقى None، "
+          "ولا سطر تحذير «تعذّر الحكم» في التقرير — التقرير كما اليوم حرفيًا",
+          all(m.get("part_support_error") is None for m in out["merged_statements"])
+          and "تعذّر الحكم على أجزاء هذا التصريح" not in report,
+          (out["merged_statements"], report))
     check("تصريح: trail يسجّل مرحلة «تصريح» (لا «واقعة») للعنصر المصنَّف تصريحًا",
           any(t["stage"] == "تصريح" and t["query"] for t in out["trail"]), out["trail"])
 
@@ -4715,6 +4720,11 @@ def test_article_statement_majority() -> None:
           f"«{p5}» — ✗ لا مصدر" in report, report)
     check("تكامل الأغلبية: التقرير يعرض الأجزاء المؤيَّدة بأسماء مصادرها",
           f"«{p1}» — مصدر أول؛ مصدر ثانٍ" in report, report)
+    check("(#1058) حكم حقيقي بلا مؤيِّد لجزء واحد: part_support_error يبقى None، "
+          "ولا سطر تحذير «تعذّر الحكم» — لا يُلبَس الحكم الحقيقي لباس عطل تقني",
+          all(m.get("part_support_error") is None for m in out["merged_statements"])
+          and "تعذّر الحكم على أجزاء هذا التصريح" not in report,
+          (out["merged_statements"], report))
 
     # judged_by (طلب المراجعة، تعليق العطل الرابع والعشرون بعد ٢٤: "بعد
     # الدمج، النتيجة لم تتغير ولا أثر لمعيار الأغلبية") — بلاغ بنيوي صريح
@@ -4738,6 +4748,111 @@ def test_article_statement_majority() -> None:
           "(لا فائدة تشخيصية إضافية لمرحلة تكون شمولية دومًا)",
           not any("[واقعة]" in ln and "حُكم بـ" in ln for ln in report.splitlines()),
           report)
+
+    article.extract_brief = real_extract_brief
+    evidence.search = real_search
+    evidence.gather_evidence = real_gather_evidence
+    article._support_sources = real_support_sources
+    article._support_statement_parts = real_support_parts
+    article._choose_question = real_choose_question
+    article._draft_article = real_draft_article
+    article.find_images = real_find_images
+
+def test_article_part_support_error_report() -> None:
+    """بلاغ سند التصريح يختفي بصمت عند الفشل التقني (Issue #1058، نظير
+    #1054/#1056 في مسار التقرير): part_support يبقى [] عمدًا حين يفشل
+    _support_statement_parts تقنيًا (لا بلاغ مخترع لأجزاء لم تُفحص) — لكن
+    build_report كان يمرّ على part_support وحدها، فتختفي كل أسطر «•» لذلك
+    التصريح من التقرير بلا أي أثر يفرّقها عن حكم حقيقي بلا مؤيِّد لأي جزء
+    (الذي يظهر بعلامة «✗ لا مصدر» لكل جزء). العلاج: part_support_error يُخزَّن
+    في outcome['merged_statements'] عند الفشل، وbuild_report يكتب سطر تحذير
+    صريح بدلًا من الأسطر الغائبة — السطران (التحذير وأسطر «•») لا يظهران معًا
+    أبدًا، لأن part_support فارغة أصلًا عند الفشل فلا حلقة تُنتج أسطر «•»."""
+    from src import article
+
+    cfg = load_config()
+    cfg["article"]["source_extract_enabled"] = False
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_support_parts = article._support_statement_parts
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+
+    statement_text = "متحدث اختبار العطل التقني يعلن أمرًا واحدًا"
+    merged_excerpts = ["الشطر الأول من التصريح", "الشطر الثاني من التصريح"]
+    speaker_name = "متحدث اختبار العطل"
+    plain_fact_text = "واقعة عادية مسنَدة ترافق تصريح العطل"
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "اختبار بلاغ سند التصريح عند فشل تقني",
+        "statements": [
+            {"text": statement_text, "kind": "تصريح", "entities": ["المتحدث"],
+             "is_unnamed_event": False, "is_reference": False,
+             "speaker": speaker_name, "merged_excerpts": merged_excerpts},
+            {"text": plain_fact_text, "kind": "واقعة", "entities": ["ك2"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+        evidence.EVIDENCE_FULL_TEXT)
+
+    def _fake_support_parts_call_error(merged, docs, cfg):
+        # يحاكي فشل نداء تقني حقيقي (قطع الرد مرتين، Issue #1050) — قائمة
+        # فارغة بـcall_error مضبوطًا، لا حكم "لا مؤيِّد" صامت
+        fail = article._PartSupportList()
+        fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
+        return fail
+
+    # واقعة عادية مرافقة مسنَدة دومًا (نفس سبب golden_plain_fact في
+    # test_guards_golden.py: بلا هذه، سقوط تصريحنا الوحيد يُفعِّل شبكة أمان
+    # درجة ج فيُزال من dropped قبل أن يبلغه هذا الاختبار)
+    article._support_statement_parts = _fake_support_parts_call_error
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": (["مصدر أول", "مصدر ثانٍ"]
+                                        if fact_text == plain_fact_text else [])
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار العطل؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختباري.", "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
+
+    out = article._write_article("موجز اختبار عطل سند التصريح", 9002, cfg)
+
+    check("(#1058) فشل تقني: التصريح يسقط بسبب «فشل نداء» لا «سند غير كافٍ»",
+          any(d["text"] == statement_text
+              and d["reason"].startswith("⚠️ فشل نداء الحكم على السند تقنيًا")
+              for d in out["dropped"]),
+          out["dropped"])
+    check("(#1058) فشل تقني: outcome['merged_statements'][0]['part_support'] "
+          "يبقى [] — لا بلاغ مخترع لأجزاء لم تُفحص فعليًا",
+          any(m["speaker"] == speaker_name and m["part_support"] == []
+              for m in out["merged_statements"]), out["merged_statements"])
+    check("(#1058) فشل تقني: outcome['merged_statements'][0]['part_support_error'] "
+          "مضبوط بنص سبب الفشل التقني",
+          any(m["speaker"] == speaker_name and
+              m.get("part_support_error") ==
+              "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
+              for m in out["merged_statements"]), out["merged_statements"])
+
+    report = article.build_report(out)
+    check("(#1058) فشل تقني: التقرير يحمل سطر التحذير الصريح بدل الاختفاء الصامت",
+          "⚠️ تعذّر الحكم على أجزاء هذا التصريح — فشل نداء النموذج تقنيًا، "
+          "فغياب التفصيل أدناه ليس حكمًا بعدم وجود مؤيِّد." in report, report)
+    check("(#1058) فشل تقني: لا سطر «•» واحد لهذا التصريح — لا الشطر الأول ولا "
+          "الثاني، لأن part_support فارغة أصلًا فلا حلقة تُنتجها",
+          not any(f"«{ex}»" in report for ex in merged_excerpts), report)
+    check("(#1058) فشل تقني: قسم «تصريحات دُمجت من عدة جمل» يظل ظاهرًا (المتحدث "
+          "والجمل الحرفية المُدمَجة) رغم فشل حكم السند — تبليغ الدمج مستقل عنه",
+          speaker_name in report and all(ex in report for ex in merged_excerpts), report)
 
     article.extract_brief = real_extract_brief
     evidence.search = real_search
