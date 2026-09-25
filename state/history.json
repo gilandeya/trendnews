@@ -1,43 +1,5 @@
 [
   {
-    "score": 20.38,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "could",
-      "help",
-      "meet",
-      "military",
-      "needs",
-      "saudi",
-      "turkiye"
-    ],
-    "link": "https://www.dawn.com/news/2031285/turkiye-says-it-could-help-meet-saudi-arabias-military-needs",
-    "title": "Turkiye says it could help meet Saudi Arabia’s military needs",
-    "posted_title": "وزير الخارجية التركي: لا مانع لدينا من تلبية احتياجات السعودية العسكرية بموجب اتفاق مكة الدفاعي",
-    "region": "pk",
-    "seen_at": "2026-09-20T09:21:30.993065+00:00"
-  },
-  {
-    "score": 19.97,
-    "bucket": "serious",
-    "tokens": [
-      "'catastrophic",
-      "apologises",
-      "controversy",
-      "gaza",
-      "macklemore",
-      "sheeran",
-      "situation",
-      "unjustifiable'"
-    ],
-    "link": "https://www.channelnewsasia.com/world/ed-sheeran-says-situation-in-gaza-catastrophic-and-unjustifiable-apologises-macklemore-controversy-6397136",
-    "title": "Ed Sheeran says situation in Gaza is 'catastrophic and unjustifiable', apologises for Macklemore controversy",
-    "posted_title": "لماذا خرج إد شيران عن صمته بشأن غزة بعد أزمة استبعاد ماكلمور؟",
-    "region": "seasia",
-    "seen_at": "2026-09-20T09:21:52.195569+00:00"
-  },
-  {
     "score": 32.92,
     "bucket": "serious",
     "tokens": [
@@ -3188,5 +3150,25 @@
     "posted_title": "",
     "region": "kr",
     "seen_at": "2026-09-25T09:08:02.715736+00:00"
+  },
+  {
+    "score": 27.96,
+    "bucket": "serious",
+    "tokens": [
+      "aramco",
+      "claim",
+      "facilities",
+      "houthis",
+      "riyadh",
+      "saudi",
+      "strikes",
+      "target",
+      "yanbu"
+    ],
+    "link": "https://tass.com/world/2192453",
+    "title": "Houthis claim strikes on target in Riyadh, Saudi Aramco facilities in Yanbu",
+    "posted_title": "لماذا قررت فرنسا إرسال جنود لحماية موقع نفطي سعودي في ينبع",
+    "region": "ru",
+    "seen_at": "2026-09-25T09:35:26.217873+00:00"
   }
 ]
