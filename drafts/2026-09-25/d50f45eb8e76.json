@@ -36,18 +36,28 @@
     "publishers": [
       "الجزيرة",
       "فرانس 24 عربي"
+    ],
+    "image_url": "https://www.aljazeera.net/wp-content/uploads/2025/06/RC2KUEADEX07-1748967932.jpg?resize=770%2C513&quality=80",
+    "image_candidates": [
+      "https://www.aljazeera.net/wp-content/uploads/2025/06/RC2KUEADEX07-1748967932.jpg?resize=770%2C513&quality=80"
     ]
   },
   "score": 5,
-  "has_photo": false,
+  "has_photo": true,
   "review_issue": 1065,
-  "image": "drafts/2026-09-25/d50f45eb8e76.jpg",
+  "image": "drafts/2026-09-25/d50f45eb8e76-v2.jpg",
   "image_info": {
-    "used_original": false,
+    "manual": true,
+    "used_original": true,
     "illustrative": false,
     "composite": false,
-    "chosen_url": null,
-    "candidates_tried": 0,
-    "manual": false
-  }
+    "chosen_url": "https://www.aljazeera.net/wp-content/uploads/2025/06/RC2KUEADEX07-1748967932.jpg?resize=770%2C513&quality=80"
+  },
+  "manual_image": "https://www.aljazeera.net/wp-content/uploads/2025/06/RC2KUEADEX07-1748967932.jpg?resize=770%2C513&quality=80",
+  "reel_spec": {
+    "image_candidates": [
+      "https://www.aljazeera.net/wp-content/uploads/2025/06/RC2KUEADEX07-1748967932.jpg?resize=770%2C513&quality=80"
+    ]
+  },
+  "reel": null
 }
