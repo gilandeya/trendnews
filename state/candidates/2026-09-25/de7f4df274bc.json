@@ -1,0 +1,66 @@
+{
+  "id": "de7f4df274bc",
+  "created_at": "2026-09-25T15:08:03.736449+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.72,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "ستيني يُحاكم على جرائم نازية بعد 80 سنة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "105-year-old investigated for crimes at Nazi PoW camp in Germany",
+  "link": "https://www.bbc.co.uk/news/articles/cwzrzjy3pynvo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC",
+    "BBC World",
+    "CBS News — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "105-year-old investigated for crimes at Nazi PoW camp in Germany",
+    "link": "https://www.bbc.co.uk/news/articles/cwzrzjy3pynvo?at_medium=RSS&at_campaign=rss",
+    "summary": "The suspect is alleged to have been an accessory to murder at the Stalag 326 camp, where tens of thousands of Soviet PoWs died.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-24T14:37:34+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a1b2/live/b86b4a70-b811-11f1-a430-4d16ee157c41.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC",
+      "BBC World",
+      "CBS News — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cwzrzjy3pynvo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/nazi-pow-camp-guard-investigation-germany-stalag/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a1b2/live/b86b4a70-b811-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/a1b2/live/b86b4a70-b811-11f1-a430-4d16ee157c41.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/a1b2/live/b86b4a70-b811-11f1-a430-4d16ee157c41.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1246.9128388080555,
+    "is_stale": false,
+    "score": 27.721323358941248,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "ستيني يُحاكم على جرائم نازية بعد 80 سنة"
+  }
+}

@@ -1,237 +1,5 @@
 [
   {
-    "score": 32.92,
-    "bucket": "serious",
-    "tokens": [
-      "airport",
-      "attack",
-      "capital",
-      "claim",
-      "houthis",
-      "near",
-      "riyadh",
-      "saudi",
-      "seen",
-      "smoke",
-      "thick"
-    ],
-    "link": "https://www.theguardian.com/world/2026/sep/19/saudi-arabia-riyadh-airport",
-    "title": "Thick smoke seen near Riyadh airport as Houthis claim attack on Saudi capital",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-20T12:08:05.215050+00:00"
-  },
-  {
-    "score": 25.7,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "called",
-      "came",
-      "capital",
-      "day",
-      "deaths",
-      "drone",
-      "elections",
-      "largest",
-      "mayor",
-      "moscow",
-      "officials",
-      "parliamentary",
-      "reported",
-      "russia",
-      "third",
-      "two",
-      "ukrainian",
-      "under",
-      "what"
-    ],
-    "link": "https://meduza.io/en/feature/2026/09/20/on-the-third-day-of-russia-s-parliamentary-elections-moscow-came-under-what-its-mayor-called-the-largest-ukrainian-drone-attack-on-the-capital-officials-reported-two-deaths",
-    "title": "On the third day of Russia’s parliamentary elections, Moscow came under what its mayor called the largest Ukrainian drone attack on the capital. Officials repor",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-20T12:08:05.215383+00:00"
-  },
-  {
-    "score": 21.07,
-    "bucket": "serious",
-    "tokens": [
-      "companies",
-      "gemini",
-      "google's",
-      "hacked",
-      "security",
-      "test",
-      "three"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c607l0k72rlvo?at_medium=RSS&at_campaign=rss",
-    "title": "Google's Gemini AI hacked three companies in security test",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-20T12:08:05.215685+00:00"
-  },
-  {
-    "score": 20.72,
-    "bucket": "serious",
-    "tokens": [
-      "action",
-      "arabia",
-      "calls",
-      "crimes",
-      "international",
-      "yemen"
-    ],
-    "link": "https://en.mehrnews.com/news/247887/Yemen-calls-for-international-action-over-S-Arabia-s-crimes",
-    "title": "Yemen calls for international action over S. Arabia’s crimes",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-20T12:08:05.215956+00:00"
-  },
-  {
-    "score": 20.35,
-    "bucket": "serious",
-    "tokens": [
-      "artificial",
-      "changed",
-      "course",
-      "days",
-      "intelligence"
-    ],
-    "link": "https://www.scmp.com/news/world/united-states-canada/article/3368117/ai-10-days-changed-course-artificial-intelligence?utm_source=rss_feed",
-    "title": "AI: 10 days that changed the course of artificial intelligence",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-20T12:08:05.216217+00:00"
-  },
-  {
-    "score": 20.72,
-    "bucket": "serious",
-    "tokens": [
-      "action",
-      "arabia",
-      "calls",
-      "crimes",
-      "international",
-      "yemen"
-    ],
-    "link": "https://en.mehrnews.com/news/247887/Yemen-calls-for-international-action-over-S-Arabia-s-crimes",
-    "title": "Yemen calls for international action over S. Arabia’s crimes",
-    "posted_title": "وزارة خارجية صنعاء تدعو لتحرك دولي إزاء ما وصفته بجرائم سعودية بحق اليمن",
-    "region": "ir",
-    "seen_at": "2026-09-20T13:35:31.924170+00:00"
-  },
-  {
-    "score": 20.35,
-    "bucket": "serious",
-    "tokens": [
-      "artificial",
-      "changed",
-      "course",
-      "days",
-      "intelligence"
-    ],
-    "link": "https://www.scmp.com/news/world/united-states-canada/article/3368117/ai-10-days-changed-course-artificial-intelligence?utm_source=rss_feed",
-    "title": "AI: 10 days that changed the course of artificial intelligence",
-    "posted_title": "استقالة باحث في أنثروبيك تفتح النقاش حول مخاطر الذكاء الاصطناعي الوجودية",
-    "region": "cn",
-    "seen_at": "2026-09-20T13:35:56.291551+00:00"
-  },
-  {
-    "score": 23.28,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "attack",
-      "drones",
-      "ever",
-      "fires",
-      "largest",
-      "moscow",
-      "russia",
-      "ukraine"
-    ],
-    "link": "https://www.france24.com/en/ukraine-fires-over-1-000-drones-at-russia-in-largest-ever-attack-on-moscow",
-    "title": "Ukraine fires over 1,000 drones at Russia in \"largest ever\" attack on Moscow",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-20T15:07:47.975845+00:00"
-  },
-  {
-    "score": 19.66,
-    "bucket": "sport",
-    "tokens": [
-      "atlético",
-      "channels",
-      "how",
-      "liga",
-      "live",
-      "madrid",
-      "real",
-      "stream",
-      "today",
-      "watch"
-    ],
-    "link": "https://www.theguardian.com/football/2026/sep/20/how-to-watch-atletico-madrid-real-madrid-la-liga",
-    "title": "La Liga today: How to watch Atlético Madrid v Real Madrid, TV channels & live stream",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-20T15:07:47.976156+00:00"
-  },
-  {
-    "score": 18.77,
-    "bucket": "serious",
-    "tokens": [
-      "compromise",
-      "deal",
-      "denmark",
-      "greenland",
-      "say",
-      "sovereignty",
-      "trump",
-      "won't"
-    ],
-    "link": "https://www.thehindu.com/news/international/greenland-denmark-say-trump-deal-wont-compromise-sovereignty/article71485651.ece",
-    "title": "Greenland, Denmark say Trump deal won't compromise sovereignty",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-20T15:07:47.976451+00:00"
-  },
-  {
-    "score": 18.54,
-    "bucket": "serious",
-    "tokens": [
-      "anthropic",
-      "calls",
-      "development",
-      "google",
-      "openai",
-      "slowdown",
-      "spacexai",
-      "sued"
-    ],
-    "link": "https://www.ndtv.com/world-news/anthropic-openai-spacexai-google-sued-over-ai-development-slowdown-calls-12070198#publisher=newsstand",
-    "title": "Anthropic, OpenAI, SpaceXAI, Google Sued Over AI Development Slowdown Calls",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-20T15:07:47.976763+00:00"
-  },
-  {
-    "score": 18.0,
-    "bucket": "serious",
-    "tokens": [
-      "deaths",
-      "demands",
-      "falana",
-      "niger",
-      "prosecution"
-    ],
-    "link": "https://www.vanguardngr.com/2026/09/falana-demands-prosecution-over-37-niger-deaths/",
-    "title": "Falana demands prosecution over 37 Niger deaths",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-09-20T15:07:47.977033+00:00"
-  },
-  {
     "score": 29.19,
     "bucket": "serious",
     "tokens": [
@@ -3170,5 +2938,108 @@
     "posted_title": "لماذا قررت فرنسا إرسال جنود لحماية موقع نفطي سعودي في ينبع",
     "region": "ru",
     "seen_at": "2026-09-25T09:35:26.217873+00:00"
+  },
+  {
+    "score": 29.3,
+    "bucket": "serious",
+    "tokens": [
+      "agent",
+      "australia",
+      "government",
+      "hacked",
+      "health",
+      "openai",
+      "reveals",
+      "website"
+    ],
+    "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/australia-reveals-openai-agent-hacked-government-health-website",
+    "title": "Australia reveals OpenAI agent hacked government health website",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-09-25T15:08:03.736435+00:00"
+  },
+  {
+    "score": 27.72,
+    "bucket": "serious",
+    "tokens": [
+      "105",
+      "camp",
+      "crimes",
+      "germany",
+      "investigated",
+      "nazi",
+      "old",
+      "pow",
+      "year"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cwzrzjy3pynvo?at_medium=RSS&at_campaign=rss",
+    "title": "105-year-old investigated for crimes at Nazi PoW camp in Germany",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-25T15:08:03.736785+00:00"
+  },
+  {
+    "score": 27.17,
+    "bucket": "serious",
+    "tokens": [
+      "'paradise",
+      "could",
+      "france",
+      "humanity",
+      "leo",
+      "machines'",
+      "opens",
+      "pope",
+      "trip",
+      "undermine",
+      "warns"
+    ],
+    "link": "https://www.thehindu.com/news/international/pope-leo-warns-paradise-of-machines-could-undermine-humanity-as-he-opens-france-trip/article71508923.ece",
+    "title": "Pope Leo warns 'paradise of machines' could undermine humanity as he opens France trip",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-25T15:08:03.737136+00:00"
+  },
+  {
+    "score": 25.33,
+    "bucket": "serious",
+    "tokens": [
+      "athens",
+      "building",
+      "explosion",
+      "fells",
+      "heart",
+      "injured",
+      "three",
+      "touristic"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-25-explosion-fells-building-in-heart-of-touristic-athens-three-injured/",
+    "title": "Explosion fells building in heart of touristic Athens, three injured",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-09-25T15:08:03.737390+00:00"
+  },
+  {
+    "score": 25.17,
+    "bucket": "serious",
+    "tokens": [
+      "bangladesh",
+      "deepen",
+      "iran",
+      "margins",
+      "meets",
+      "pakistan",
+      "pezeshkian",
+      "rahman",
+      "sharif",
+      "ties",
+      "unga",
+      "vows"
+    ],
+    "link": "https://www.thehindu.com/news/international/pakistan-vows-to-deepen-ties-with-bangladesh-and-iran-as-sharif-meets-rahman-pezeshkian-on-unga-margins/article71507395.ece",
+    "title": "Pakistan vows to deepen ties with Bangladesh and Iran as Sharif meets Rahman, Pezeshkian on UNGA margins",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-25T15:08:03.737656+00:00"
   }
 ]

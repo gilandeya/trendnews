@@ -1,0 +1,74 @@
+{
+  "id": "1bfa41e966bb",
+  "created_at": "2026-09-25T15:08:03.737399+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.17,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "باكستان تعمّق العلاقات مع بنجلاديش وإيران",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan vows to deepen ties with Bangladesh and Iran as Sharif meets Rahman, Pezeshkian on UNGA margins",
+  "link": "https://www.thehindu.com/news/international/pakistan-vows-to-deepen-ties-with-bangladesh-and-iran-as-sharif-meets-rahman-pezeshkian-on-unga-margins/article71507395.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "IRNA English",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Pakistan vows to deepen ties with Bangladesh and Iran as Sharif meets Rahman, Pezeshkian on UNGA margins",
+    "link": "https://www.thehindu.com/news/international/pakistan-vows-to-deepen-ties-with-bangladesh-and-iran-as-sharif-meets-rahman-pezeshkian-on-unga-margins/article71507395.ece",
+    "summary": "The meeting comes as Dhaka seeks to strengthen ties with countries like Pakistan and China, while relations with neighbouring India remain strained",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-25T06:54:50+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/v4hur/article71507464.ece/alternates/LANDSCAPE_1200/2026-09-22T203622Z_1321441058_RC2DONAT5OU8_RTRMADP_3_UN-ASSEMBLY.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "IRNA English",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/pakistan-vows-to-deepen-ties-with-bangladesh-and-iran-as-sharif-meets-rahman-pezeshkian-on-unga-margins/article71507395.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/pak-vows-to-deepen-ties-with-bangladesh-and-iran-as-sharif-meets-rahman-pezeshkian-on-unga-margins-101790314615684.html"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86273644/Pezeshkian-meets-with-Pakistan-PM-in-New-York"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86273661/Pezeshkian-meets-with-Lebanese-PM-in-New-York"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/v4hur/article71507464.ece/alternates/LANDSCAPE_1200/2026-09-22T203622Z_1321441058_RC2DONAT5OU8_RTRMADP_3_UN-ASSEMBLY.JPG",
+      "https://img9.irna.ir/d/r2/2026/09/24/4/173128041.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/24/4/173128058.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1246.9128487380556,
+    "is_stale": false,
+    "score": 25.173841875441248,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "باكستان تعمّق العلاقات مع بنجلاديش وإيران"
+  }
+}

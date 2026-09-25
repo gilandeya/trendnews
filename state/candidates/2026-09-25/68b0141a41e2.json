@@ -1,22 +1,23 @@
 {
   "id": "68b0141a41e2",
-  "created_at": "2026-09-25T03:08:09.826457+00:00",
+  "created_at": "2026-09-25T15:08:03.735827+00:00",
   "status": "pending",
-  "selection_issue": 1059,
-  "score": 23.25,
-  "trend_score": 1.0,
-  "velocity": 0.0,
+  "selection_issue": null,
+  "score": 29.3,
+  "trend_score": 0.5,
+  "velocity": 1.0,
   "impact": 2,
-  "proximity": 0,
+  "proximity": 1,
   "intrigue": 2,
-  "appeal_note": "ذكاء اصطناعي يخترق موقع حكومي — تحذير أمني تقني",
+  "appeal_note": "هاكرز اخترقوا موقع حكومي؛ درس في أمان البيانات",
   "bucket": "serious",
   "state_media": false,
   "title": "Australia reveals OpenAI agent hacked government health website",
   "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/australia-reveals-openai-agent-hacked-government-health-website",
   "publishers": [
-    "Deutsche Welle",
-    "Hindustan Times — World",
+    "BBC Technology",
+    "BBC World",
+    "CBS News — World",
     "Nikkei Asia"
   ],
   "region": "jp",
@@ -27,44 +28,45 @@
     "source_name": "Nikkei Asia",
     "region": "jp",
     "weight": 1.0,
-    "published": "2026-09-25T03:07:44.661260+00:00",
-    "image_url": null,
+    "published": "2026-09-25T15:07:36.833422+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/50c6/live/2164cc30-b804-11f1-97e1-83bf52ec4acd.jpg",
     "publisher": "Nikkei Asia",
     "cluster_sources": [
-      "Deutsche Welle",
-      "Hindustan Times — World",
+      "BBC Technology",
+      "BBC World",
+      "CBS News — World",
       "Nikkei Asia"
     ],
     "cluster_members": [
-      {
-        "name": "Deutsche Welle",
-        "link": "https://www.dw.com/en/openai-agent-hacked-australia-government-portal-pm-albanese/a-79405371?maca=en-rss-en-world-4025-rdf"
-      },
       {
         "name": "Nikkei Asia",
         "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/australia-reveals-openai-agent-hacked-government-health-website"
       },
       {
-        "name": "Hindustan Times — World",
-        "link": "https://www.hindustantimes.com/world-news/openai-agent-hacked-australia-government-website-in-june-pm-anthony-albanese-101790199374891.html"
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/video/australias-prime-minister-slams-openai-after-its-agent-hacked-government-website/"
       },
       {
-        "name": "Hindustan Times — World",
-        "link": "https://www.hindustantimes.com/world-news/australia-says-openai-agent-breached-medicare-health-data-portal-101790245349094.html"
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cr3eqk15ld14o?at_medium=RSS&at_campaign=rss"
       }
     ],
-    "image_candidates": [],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/50c6/live/2164cc30-b804-11f1-97e1-83bf52ec4acd.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/50c6/live/2164cc30-b804-11f1-97e1-83bf52ec4acd.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/50c6/live/2164cc30-b804-11f1-97e1-83bf52ec4acd.jpg"
+    ],
     "bucket": "serious",
     "state_media": false,
-    "trend_score": 1.0,
-    "group_sources": 3,
-    "velocity": 0.0,
-    "age_hours": 1234.9151653105555,
-    "is_stale": true,
-    "score": 23.25469840960791,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1246.9128228691668,
+    "is_stale": false,
+    "score": 29.299821658685186,
     "impact": 2,
-    "proximity": 0,
+    "proximity": 1,
     "intrigue": 2,
-    "appeal_note": "ذكاء اصطناعي يخترق موقع حكومي — تحذير أمني تقني"
+    "appeal_note": "هاكرز اخترقوا موقع حكومي؛ درس في أمان البيانات"
   }
 }

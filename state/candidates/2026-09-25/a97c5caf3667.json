@@ -1,0 +1,62 @@
+{
+  "id": "a97c5caf3667",
+  "created_at": "2026-09-25T15:08:03.737146+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.33,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "انفجار يهدم بناية في قلب أثينا السياحي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Explosion fells building in heart of touristic Athens, three injured",
+  "link": "https://www.dailymaverick.co.za/article/2026-09-25-explosion-fells-building-in-heart-of-touristic-athens-three-injured/",
+  "publishers": [
+    "Daily Maverick",
+    "South China Morning Post"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Explosion fells building in heart of touristic Athens, three injured",
+    "link": "https://www.dailymaverick.co.za/article/2026-09-25-explosion-fells-building-in-heart-of-touristic-athens-three-injured/",
+    "summary": "An explosion caused a residential building to collapse in the crowded touristic centre of Athens on Friday, injuring three people and damaging houses, shops and cars across a historic neighbourhood.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-09-25T13:23:31+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/68H_CNEN10QFJY2En1ojN5Q-9pI=/800x0/smart/filters:strip_exif()/file/attachments/2998/14317244_509427.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3368808/3-injured-after-explosion-causes-building-collapse-athens-tourist-centre?utm_source=rss_feed"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-09-25-explosion-fells-building-in-heart-of-touristic-athens-three-injured/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/68H_CNEN10QFJY2En1ojN5Q-9pI=/800x0/smart/filters:strip_exif()/file/attachments/2998/14317244_509427.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1246.912844821111,
+    "is_stale": false,
+    "score": 25.334158078,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "انفجار يهدم بناية في قلب أثينا السياحي"
+  }
+}
