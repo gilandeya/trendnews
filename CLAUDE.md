@@ -179,6 +179,59 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   unaffected by design: neither is a strict equality/token check, both are free text handed to the
   model for a novelty judgment, so a spelling being unified there is at most a readability
   improvement, never a broken match.
+- **A second, self-learning layer sits on top of `names.aliases` so the dictionary above needs no
+  manual maintenance (Issue #1074).** `names.normalize_names` now merges two dictionaries into one
+  before doing the same plain-`str.replace` substitution described above (unchanged mechanics,
+  unchanged five fields) — **the manual layer always wins on conflict**, applied after the learned
+  one so it silently overwrites any clashing mapping, and `names.blocklist` (new, empty by default)
+  removes a learned entry's effect immediately even if it's still sitting in storage, without
+  touching the manual dictionary at all. `names.learned_enabled` (default `true`) turns the whole
+  learned layer off with no effect on the manual one. A rule-based detector was tried and measured
+  unusable first (331 real drafts): plain textual similarity produces same-shape-different-meaning
+  pairs («الحرب»~«الحزب», «اليمن»~«الأمن»), stemming to a shared root produces grammatical
+  inflections («سعودية»~«سعودي») rather than two spellings of one name, and a naive positional
+  character-by-character compare *misses* the exact case this exists for («نتنياهو»~«نتانياهو») —
+  a single inserted letter shifts every character after it, so real Levenshtein edit distance is
+  required, not positional comparison. The distinction is a linguistic judgment, so it's delegated
+  to `screening.model` (the same cheap model, one call per batch of candidates) rather than a rule.
+  Two new modules split the work: `names.record_seen(draft, cfg)` — called from `store.save_draft`
+  **before** `normalize_draft`, on the **raw** text, because counting after unification would feed
+  the count back into itself and a spelling could never accumulate enough raw occurrences to be
+  learned — counts Arabic words ≥5 characters (after stripping common attached prefixes: ال، وال،
+  بال، لل، و، ب، ل، ف، ك) across `arabic.post_title`/`body`/`caption`/`headlines` into
+  `state/names_seen.json`, a simple month-bucketed cumulative count (`{"YYYY-MM": {word: count}}`,
+  pruned to `names.seen_keep_days` — default 90 — on every write); it's deliberately cheap and
+  silent, catching and logging any error as a WARNING rather than ever blocking a draft save, since
+  saving the draft matters more than the count. `src/names_learn.py` (`run(cfg)`, called from
+  `src.collect`'s `main()` at every exit point of a collection cycle — including the `preselect`
+  early-return path, since that's the default and the *only* path most real cycles take — but
+  self-gated to run at most once per 24 hours via a timestamp stored in
+  `state/names_learned.json` itself, not a separate workflow change) filters candidate pairs
+  through several numeric/structural gates that must *all* pass before any model call happens: both
+  spellings ≥5 characters, the more-frequent one seen ≥5 times and the less-frequent one ≥2, the
+  more-frequent one at least 3× the less-frequent (no learning from a close call with no clear
+  winner), true Levenshtein distance ≤2 after folding أ/إ/آ→ا, ى→ي, ة→ه, neither spelling in
+  `names.blocklist`, and the pair not already judged (learned or rejected) before. Surviving
+  candidates go to the model in one batched call per cycle (response token budget computed from
+  the batch size, `config.yaml: names.learn.tokens_per_pair`/`max_tokens_cap`, same pattern as
+  Issue #1047's screening batches, with one retry-by-splitting-in-half on `stop_reason ==
+  "max_tokens"` and no further retries) asking one three-way question per pair — `same_name` /
+  `inflection` / `different` — and only `same_name` is accepted; the other two verdicts (and any
+  pair that never resolves after a model failure or exhausted retry) are recorded so the pair is
+  never asked about twice, except an unresolved pair, which stays eligible for the next cycle
+  rather than being marked rejected. A `same_name` verdict is written to
+  `state/names_learned.json` keyed by whichever spelling is **currently more frequent** in the
+  stored counts as the canonical form, merging into an existing entry (and re-picking its
+  canonical from all its accumulated variants) if either word already belongs to one, rather than
+  always creating a new entry. A model-call failure (network error, unparseable response) means no
+  learning that cycle — no guessing, no default-accept, one `ERROR`-level log line — and never
+  breaks the collection cycle itself, since `collect.run_names_learning` wraps `names_learn.run`
+  in the same defensive `try/except`-and-log pattern as `decisions.scan`. Reporting: `insights.py`
+  lists every name unified within the last 7 days (`insights.learned_names_section`, independent
+  of the report's own `--days`, same reasoning as `REJECT_SUPPRESS_DAYS` — a display window, not a
+  ranking/publishing tunable) as `"📝 وُحّد الرسم: <variant> ← <canonical> (<n> مقابل <m>)"`, with a
+  line pointing at `names.blocklist` as the way to undo one — and no section at all if nothing was
+  learned that week.
 - **`failed` must stay revivable by fixing its cause.** Any code that records `status="failed"`
   must leave enough in `error` to identify *why*, and a way back to `pending` must exist for it
   (Issue #742: four YouTube-analysis drafts came out `failed` with `حقول مفقودة: image` after
@@ -932,11 +985,19 @@ plus `proxy_config.py`. No path's own files are imported back by another path's 
 `collect.py` is never imported by `article.py`, `radar.py`, or `youtube_publish.py`, and `radar.py`
 is never imported by `article.py` or `youtube_publish.py`. `writer.py`, `imaging.py`, `headlines.py`,
 `schedule.py`, `facebook.py`, `setimage.py`, `feedback.py`/`collect_feedback.py`, `decisions.py`,
-`insights.py`, `retention.py`, and `names.py` are cross-cutting *utilities* rather than
-orchestration entry points, and are reused across paths the same way the five hub files are,
-without being part of that formal list. `names.py` is called from exactly one place — inside
-`store.save_draft`/`update_draft` — never imported directly by any per-path file; that single call
-site is what makes it a utility of `store.py` rather than a sixth hub file in its own right.
+`insights.py`, `retention.py`, `names.py`, and `names_learn.py` (Issue #1074) are cross-cutting
+*utilities* rather than orchestration entry points, and are reused across paths the same way the
+five hub files are, without being part of that formal list. `names.py`'s draft-facing functions
+(`normalize_draft`/`record_seen`) are called from exactly one place — inside
+`store.save_draft`/`update_draft` — never imported directly by any per-path file, the same
+reasoning as `decisions.scan` being called only from `collect.py`'s `main()` despite being a
+cross-cutting utility; that single call site is what makes `names.py` a utility of `store.py`
+rather than a sixth hub file in its own right. `names.py` and `names_learn.py` do import each
+other's non-draft-facing helpers (`names_learn.run` reads `names.seen_totals`/`cfg_get`/
+`blocklist_of`; `names.normalize_names` reads `names_learn`'s stored output file, referenced via
+`names.LEARNED_FILE` — a constant `names_learn.py` imports back rather than duplicating — to avoid
+a real import cycle), and `insights.py` reads `names_learn.load_learned()` directly for the
+weekly report section; none of that makes either module a per-path file.
 
 **One real exception worth knowing before assuming strict isolation**: `src/request.py` — nominally
 the standalone "write about X" path — has quietly become a second shared-utility surface. Its
@@ -972,8 +1033,9 @@ single `tests/test_pipeline.py` had grown past 18,000 lines and become unwieldy 
   `preselect.py` (gate A), `review.py`/`open_review.py` (gates B/C), `publish.py` and scheduling
   (`schedule.py`), `cards.py`, `setimage.py`, `feedback.py`/`collect_feedback.py`, `request.py`,
   the shared `headlines.py`, the `origin` field and `store.origin_of`, `src/names.py`'s
-  name-spelling unification as applied through `store.save_draft`/`update_draft`, `decisions.py`,
-  `insights.py`, and `retention.py`.
+  name-spelling unification as applied through `store.save_draft`/`update_draft`, the self-learning
+  layer on top of it (`src/names_learn.py`, `names.record_seen`/`seen_totals`, Issue #1074) and its
+  weekly-report section in `insights.py`, `decisions.py`, and `retention.py`.
 - **`tests/test_article.py`** — the Investigation domain and the older verify flow: `verify.py`,
   `verify_draft.py` (including `check_originality`), the shared search/read engine `evidence.py`,
   and `article.py` (brief extraction, event naming, source grounding, the A/B/C attribution

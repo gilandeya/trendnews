@@ -26,6 +26,8 @@ from tests.helpers import (
     headlines,
     imagesearch,
     imaging,
+    names,
+    names_learn,
     open_review,
     review,
     store,
@@ -5708,6 +5710,530 @@ def test_names_longest_variant_first_and_empty_config_noop() -> None:
               r3["arabic"]["post_title"] == "نتانياهو وترمب", r3["arabic"]["post_title"])
     finally:
         store.load_config = real_load_config
+
+
+# ──────────────── معجم أسماء يتعلّم نفسه (Issue #1074) ────────────────
+# مساعدات مشتركة بين اختبارات src/names.py: record_seen/seen_totals،
+# وsrc/names_learn.py: find_candidates/run/دمج الطبقة المتعلَّمة في
+# src/names.normalize_names. فاكة نموذج تقرأ الأزواج من محتوى الرسالة
+# نفسها (لا تفترض ترتيب الفهارس) بدل رد ثابت مسبق التركيب.
+
+class _FakeVerdictBlock:
+    def __init__(self, text: str) -> None:
+        self.type = "text"
+        self.text = text
+
+
+class _FakeVerdictResp:
+    def __init__(self, content, stop_reason: str = "end_turn") -> None:
+        self.content = content
+        self.stop_reason = stop_reason
+
+
+class _FakeVerdictMessages:
+    def __init__(self, responder) -> None:
+        self._responder = responder
+
+    def create(self, **kw):
+        return self._responder(kw)
+
+
+class _FakeVerdictClient:
+    def __init__(self, responder) -> None:
+        self.messages = _FakeVerdictMessages(responder)
+
+
+def _fake_verdict_maker(pair_verdicts: dict, calls: list):
+    """رادّ زائف لـnames_learn._ask_batch: يقرأ قائمة الأزواج من محتوى
+    الرسالة نفسها فيردّ حكم كل زوج من ``pair_verdicts`` (مفتاحها
+    frozenset بكلمتي الزوج، والقيمة الافتراضية "different" لزوج غير
+    مذكور) -- بلا افتراض أي ترتيب فهارس ثابت بين تشغيلة وأخرى."""
+    def _respond(kw):
+        calls.append(1)
+        content = kw["messages"][0]["content"]
+        verdicts = []
+        for line in content.splitlines():
+            m = re.match(r'\s*(\d+)\.\s*"(.+)"\s*مقابل\s*"(.+)"\s*$', line)
+            if not m:
+                continue
+            i, a, b = int(m.group(1)), m.group(2), m.group(3)
+            verdict = pair_verdicts.get(frozenset((a, b)), "different")
+            verdicts.append({"i": i, "verdict": verdict})
+        text = json.dumps({"verdicts": verdicts}, ensure_ascii=False)
+        return _FakeVerdictResp([_FakeVerdictBlock(text)])
+    return _respond
+
+
+def _forbid_client():
+    raise AssertionError("لا يجوز نداء النموذج في هذا السيناريو")
+
+
+def _set_seen(totals: dict) -> None:
+    names.SEEN_FILE.parent.mkdir(parents=True, exist_ok=True)
+    names.SEEN_FILE.write_text(
+        json.dumps({"2020-01": totals}, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def _clear_names_learn_state() -> None:
+    names.SEEN_FILE.unlink(missing_ok=True)
+    names_learn.LEARNED_FILE.unlink(missing_ok=True)
+
+
+def test_names_seen_records_raw_spelling_before_normalization() -> None:
+    """Issue #1074 (سيناريو 1): record_seen تُستدعى من store.save_draft
+    قبل normalize_draft -- تُعدّ في state/names_seen.json بالرسم الخام
+    «نتانياهو» لا الرسم المعتمد «نتنياهو» الذي يخرج به المتن بعد التوحيد
+    (المعجم اليدوي الحقيقي في config.yaml يوحّدهما فعلًا، وهذا بالضبط ما
+    يجعل الفارق بين العدّ والمتن قابلًا للفحص)."""
+    _clear_names_learn_state()
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        draft = {
+            "id": "sn1000000001", "status": "pending", "score": 1.0, "bucket": "serious",
+            "state_media": False, "origin": "news",
+            "source": {"title": "خبر", "link": "https://example.com/sn1000000001",
+                       "publisher": "س", "publishers": ["س"]},
+            "arabic": {"post_title": "نتانياهو يبحث عن حل", "body": "قال نتانياهو إن الأمر مهم",
+                       "caption": "", "category": "", "urgent": False},
+            "caption": "", "headlines": ["نتانياهو يرد"], "headline_selected": 0,
+        }
+        path = store.save_draft(draft)
+        reloaded = json.loads(path.read_text(encoding="utf-8"))
+        check("المتن يُوحَّد فعلًا (المعجم اليدوي الحقيقي نتنياهو/نتانياهو)",
+              reloaded["arabic"]["post_title"] == "نتنياهو يبحث عن حل",
+              reloaded["arabic"]["post_title"])
+
+        totals = names.seen_totals()
+        check("العدّ سجّل الرسم الخام «نتانياهو» لا المعتمد",
+              totals.get("نتانياهو", 0) == 3, totals)
+        check("الرسم المعتمد «نتنياهو» لم يُعدّ من هذه المسودة (لم يرد خامًا)",
+              totals.get("نتنياهو", 0) == 0, totals)
+    finally:
+        _clear_names_learn_state()
+
+
+def test_names_learn_cycle_writes_learned_and_next_draft_normalized() -> None:
+    """Issue #1074 (سيناريو 2): دورة تعلّم بنموذج مزيَّف يرد same_name --
+    المدخل يُكتب في names_learned.json بالمعتمد الأكثر ورودًا، والمسودة
+    التالية (رسم أقل ورودًا فقط، بلا أي معجم يدوي لهذا الاسم) تُحفظ
+    موحَّدة عبر الطبقة المتعلَّمة وحدها."""
+    real_load_config = store.load_config
+    _clear_names_learn_state()
+    try:
+        hi, lo = "زيلينسكي", "زيلينيسكي"
+        _set_seen({hi: 70, lo: 2})
+        cfg = dict(load_config())
+
+        calls: list = []
+        real_client = names_learn._client
+        names_learn._client = lambda: _FakeVerdictClient(
+            _fake_verdict_maker({frozenset((hi, lo)): "same_name"}, calls))
+        try:
+            names_learn.run(cfg)
+        finally:
+            names_learn._client = real_client
+
+        check("نداء نموذج واحد لدفعة المرشحين", len(calls) == 1, calls)
+
+        data = names_learn.load_learned()
+        entry = (data.get("entries") or {}).get(hi)
+        check("المدخل المتعلَّم يُكتب بالمعتمد الأكثر ورودًا",
+              entry is not None and entry.get("variants") == [lo], data)
+        check("عدّا الرسمين محفوظان كما وردا",
+              bool(entry) and entry.get("counts") == {hi: 70, lo: 2}, entry)
+        check("حكم same_name محفوظ", bool(entry) and entry.get("verdict") == "same_name", entry)
+
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        store.load_config = lambda path=None: {"names": {}}  # بلا معجم يدوي لهذا الاسم
+        draft = {
+            "id": "nl2000000001", "status": "pending", "score": 1.0, "bucket": "serious",
+            "state_media": False, "origin": "news",
+            "source": {"title": "خبر", "link": "https://example.com/nl2000000001",
+                       "publisher": "س", "publishers": ["س"]},
+            "arabic": {"post_title": f"تصريح {lo} اليوم", "body": f"قال {lo} إن الاتفاق قريب",
+                       "caption": "", "category": "", "urgent": False},
+            "caption": "", "headlines": [f"{lo} يعلّق"], "headline_selected": 0,
+        }
+        p = store.save_draft(draft)
+        r = json.loads(p.read_text(encoding="utf-8"))
+        check("المسودة التالية تُحفظ موحَّدة عبر الطبقة المتعلَّمة وحدها",
+              r["arabic"]["post_title"] == f"تصريح {hi} اليوم"
+              and r["arabic"]["body"] == f"قال {hi} إن الاتفاق قريب"
+              and r["headlines"] == [f"{hi} يعلّق"], r)
+    finally:
+        store.load_config = real_load_config
+        _clear_names_learn_state()
+
+
+def test_names_learn_rejects_inflection_and_different_and_remembers_rejection() -> None:
+    """Issue #1074 (سيناريو 3): النموذج يرد inflection على «سعودية/سعودي»
+    وdifferent على «اليمن/الأمن» -- لا مدخل يُكتب لأي منهما، والزوجان
+    يُسجَّلان مرفوضين فلا يُسألان ثانية في تشغيلة لاحقة (بعد تخطّي بوابة
+    24 ساعة يدويًا) -- يُثبَت بعدّ نداءات النموذج: يبقى عند 1."""
+    _clear_names_learn_state()
+    try:
+        _set_seen({"سعودية": 20, "سعودي": 5, "اليمن": 30, "الأمن": 6})
+        cfg = dict(load_config())
+
+        calls: list = []
+        real_client = names_learn._client
+        names_learn._client = lambda: _FakeVerdictClient(_fake_verdict_maker(
+            {frozenset(("سعودية", "سعودي")): "inflection",
+             frozenset(("اليمن", "الأمن")): "different"}, calls))
+        try:
+            names_learn.run(cfg)
+            check("نداء واحد للدفعة كلها (زوجان معًا)", len(calls) == 1, calls)
+
+            data = names_learn.load_learned()
+            check("inflection/different: لا مدخل متعلَّم يُكتب",
+                  data.get("entries") == {}, data)
+            check("الزوجان يُسجَّلان مرفوضين",
+                  len(data.get("rejected_pairs") or []) == 2, data)
+
+            data["last_run"] = (datetime.now(timezone.utc) - timedelta(hours=25)).isoformat()
+            names_learn.save_learned(data)
+            names_learn.run(cfg)
+            check("زوج مرفوض سلفًا لا يُسأل عنه ثانية", len(calls) == 1, calls)
+        finally:
+            names_learn._client = real_client
+    finally:
+        _clear_names_learn_state()
+
+
+def test_names_learn_numeric_gate_blocks_weak_pair_before_model_call() -> None:
+    """Issue #1074 (سيناريو 4): زوج لا يجتاز الحواجز العددية (هنا 3 مقابل
+    2 -- لا يبلغ الأكثر عتبة 5 ولا النسبة 3×) لا يصل إلى النموذج إطلاقًا
+    -- يُثبَت بجعل _client يرفع استثناءً لو استُدعي أصلًا."""
+    _clear_names_learn_state()
+    try:
+        _set_seen({"زيلينسكي": 3, "زيلينيسكي": 2})
+        cfg = dict(load_config())
+
+        real_client = names_learn._client
+        names_learn._client = _forbid_client
+        try:
+            names_learn.run(cfg)
+        finally:
+            names_learn._client = real_client
+
+        data = names_learn.load_learned()
+        check("زوج ضعيف عدديًا: لا تعلّم ولا رفض (لم يصل للنموذج أصلًا)",
+              data.get("entries") == {} and data.get("rejected_pairs") == [], data)
+    finally:
+        _clear_names_learn_state()
+
+
+def test_names_learn_blocklist_blocks_new_and_disables_existing() -> None:
+    """Issue #1074 (سيناريو 5): اسم في names.blocklist لا يُتعلَّم (لا يصل
+    للنموذج)، وإن كان متعلَّمًا سلفًا فلا يُطبَّق في normalize_names رغم
+    بقائه مخزَّنًا في names_learned.json."""
+    real_load_config = store.load_config
+    _clear_names_learn_state()
+    try:
+        hi, lo = "زيلينسكي", "زيلينيسكي"
+
+        # أ) منع التعلّم الجديد
+        _set_seen({hi: 70, lo: 2})
+        real_client = names_learn._client
+        names_learn._client = _forbid_client
+        try:
+            names_learn.run({"names": {"blocklist": [lo]}})
+        finally:
+            names_learn._client = real_client
+        data = names_learn.load_learned()
+        check("اسم في blocklist لا يُتعلَّم (لم يصل للنموذج)",
+              data.get("entries") == {}, data)
+
+        # ب) إلغاء تطبيق مدخل متعلَّم سلفًا
+        names_learn.save_learned({
+            "entries": {hi: {
+                "variants": [lo], "counts": {hi: 70, lo: 2},
+                "learned_at": datetime.now(timezone.utc).isoformat(),
+                "verdict": "same_name",
+            }},
+            "rejected_pairs": [], "last_run": datetime.now(timezone.utc).isoformat(),
+        })
+
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+        def _draft(id_):
+            return {
+                "id": id_, "status": "pending", "score": 1.0, "bucket": "serious",
+                "state_media": False, "origin": "news",
+                "source": {"title": "خبر", "link": f"https://example.com/{id_}",
+                           "publisher": "س", "publishers": ["س"]},
+                "arabic": {"post_title": f"تصريح {lo} اليوم", "body": "", "caption": "",
+                           "category": "", "urgent": False},
+                "caption": "", "headlines": [], "headline_selected": 0,
+            }
+
+        store.load_config = lambda path=None: {"names": {"blocklist": [lo]}}
+        p1 = store.save_draft(_draft("nl5000000001"))
+        r1 = json.loads(p1.read_text(encoding="utf-8"))
+        check("اسم في blocklist يُلغي تطبيق مدخل متعلَّم سلفًا رغم تخزينه",
+              r1["arabic"]["post_title"] == f"تصريح {lo} اليوم", r1["arabic"]["post_title"])
+
+        # بلا blocklist، المدخل المتعلَّم نفسه يُطبَّق فعليًا -- تحقّق سلبي
+        # أن الإلغاء أعلاه سببه blocklist تحديدًا لا خلل آخر في التخزين.
+        store.load_config = lambda path=None: {"names": {}}
+        p2 = store.save_draft(_draft("nl5000000002"))
+        r2 = json.loads(p2.read_text(encoding="utf-8"))
+        check("بلا blocklist، المدخل المتعلَّم نفسه يُطبَّق فعلًا",
+              r2["arabic"]["post_title"] == f"تصريح {hi} اليوم", r2["arabic"]["post_title"])
+    finally:
+        store.load_config = real_load_config
+        _clear_names_learn_state()
+
+
+def test_names_learn_manual_alias_overrides_learned_conflict() -> None:
+    """Issue #1074 (سيناريو 6): تعارض بين مدخل متعلَّم ومعجم يدوي على
+    الرسم البديل نفسه -- اليدوي يغلب دائمًا."""
+    real_load_config = store.load_config
+    _clear_names_learn_state()
+    try:
+        hi, lo = "زيلينسكي", "زيلينيسكي"
+        names_learn.save_learned({
+            "entries": {hi: {
+                "variants": [lo], "counts": {hi: 70, lo: 2},
+                "learned_at": datetime.now(timezone.utc).isoformat(),
+                "verdict": "same_name",
+            }},
+            "rejected_pairs": [], "last_run": datetime.now(timezone.utc).isoformat(),
+        })
+
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+        manual_canonical = "زيلينسكي الرئيس"
+        store.load_config = lambda path=None: {
+            "names": {"aliases": {manual_canonical: [lo]}}}
+
+        draft = {
+            "id": "nl6000000001", "status": "pending", "score": 1.0, "bucket": "serious",
+            "state_media": False, "origin": "news",
+            "source": {"title": "خبر", "link": "https://example.com/nl6000000001",
+                       "publisher": "س", "publishers": ["س"]},
+            "arabic": {"post_title": f"تصريح {lo} اليوم", "body": "", "caption": "",
+                       "category": "", "urgent": False},
+            "caption": "", "headlines": [], "headline_selected": 0,
+        }
+        p = store.save_draft(draft)
+        r = json.loads(p.read_text(encoding="utf-8"))
+        check("عند التعارض يغلب المعجم اليدوي على المتعلَّم",
+              r["arabic"]["post_title"] == f"تصريح {manual_canonical} اليوم",
+              r["arabic"]["post_title"])
+    finally:
+        store.load_config = real_load_config
+        _clear_names_learn_state()
+
+
+def test_names_learn_disabled_flag_keeps_manual_only() -> None:
+    """Issue #1074 (سيناريو 7): names.learned_enabled=false يوقف طبقة
+    التعلّم كلها (لا تطبيق للمتعلَّم المخزَّن سلفًا) بلا مسّ المعجم اليدوي،
+    الذي يستمر يعمل بلا تغيير في نفس المسودة."""
+    real_load_config = store.load_config
+    _clear_names_learn_state()
+    try:
+        hi, lo = "زيلينسكي", "زيلينيسكي"
+        names_learn.save_learned({
+            "entries": {hi: {
+                "variants": [lo], "counts": {hi: 70, lo: 2},
+                "learned_at": datetime.now(timezone.utc).isoformat(),
+                "verdict": "same_name",
+            }},
+            "rejected_pairs": [], "last_run": datetime.now(timezone.utc).isoformat(),
+        })
+
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+        store.load_config = lambda path=None: {
+            "names": {"learned_enabled": False, "aliases": {"ترامب": ["ترمب"]}}}
+
+        draft = {
+            "id": "nl7000000001", "status": "pending", "score": 1.0, "bucket": "serious",
+            "state_media": False, "origin": "news",
+            "source": {"title": "خبر", "link": "https://example.com/nl7000000001",
+                       "publisher": "س", "publishers": ["س"]},
+            "arabic": {"post_title": f"{lo} وترمب يتفقان", "body": "", "caption": "",
+                       "category": "", "urgent": False},
+            "caption": "", "headlines": [], "headline_selected": 0,
+        }
+        p = store.save_draft(draft)
+        r = json.loads(p.read_text(encoding="utf-8"))
+        check("learned_enabled=false: المتعلَّم لا يُطبَّق", lo in r["arabic"]["post_title"],
+              r["arabic"]["post_title"])
+        check("learned_enabled=false: اليدوي يستمر يعمل",
+              "ترامب" in r["arabic"]["post_title"] and "ترمب" not in r["arabic"]["post_title"],
+              r["arabic"]["post_title"])
+    finally:
+        store.load_config = real_load_config
+        _clear_names_learn_state()
+
+
+def test_names_learn_model_failure_no_learning_logs_error_and_collect_survives() -> None:
+    """Issue #1074 (سيناريو 8): فشل نداء النموذج (عطل شبكة) ⇒ لا تعلّم
+    هذه الدورة، لا تخمين ولا قبول افتراضي، وسطر ERROR واحد بالضبط --
+    ودورة الجمع (عبر collect.run_names_learning، مسار الاستدعاء الحقيقي
+    من collect.main) لا تتعطل بسببه."""
+    from anthropic import APIError
+    import httpx as _httpx
+
+    _clear_names_learn_state()
+    try:
+        _set_seen({"زيلينسكي": 70, "زيلينيسكي": 2})
+        cfg = dict(load_config())
+
+        err = APIError("عطل شبكة اختباري",
+                       request=_httpx.Request("POST", "https://api.anthropic.com/v1/messages"),
+                       body=None)
+
+        class _RaisingMessages:
+            def create(self, **kw):
+                raise err
+
+        class _RaisingClient:
+            def __init__(self) -> None:
+                self.messages = _RaisingMessages()
+
+        real_client = names_learn._client
+        names_learn._client = lambda: _RaisingClient()
+
+        error_lines: list = []
+
+        class _Handler(logging.Handler):
+            def emit(self, record):
+                if record.levelno == logging.ERROR:
+                    error_lines.append(record.getMessage())
+
+        handler = _Handler()
+        names_learn.log.addHandler(handler)
+        try:
+            collect.run_names_learning(cfg)
+        finally:
+            names_learn._client = real_client
+            names_learn.log.removeHandler(handler)
+
+        data = names_learn.load_learned()
+        check("فشل النداء: لا مدخل متعلَّم يُكتب", data.get("entries") == {}, data)
+        check("فشل النداء: لا زوج يُسجَّل مرفوضًا (فشل تقني لا حكم لغوي)",
+              data.get("rejected_pairs") == [], data)
+        check("فشل النداء: سطر ERROR واحد بالضبط", len(error_lines) == 1, error_lines)
+    finally:
+        _clear_names_learn_state()
+
+
+def test_names_learn_runs_at_most_once_per_24_hours() -> None:
+    """Issue #1074 (سيناريو 9): التعلّم لا يعمل مرتين خلال 24 ساعة --
+    تشغيلة ثانية فورية لا تستدعي النموذج إطلاقًا، وبعد تعديل last_run
+    يدويًا إلى ما قبل 25 ساعة تعمل التشغيلة التالية من جديد فعليًا."""
+    _clear_names_learn_state()
+    try:
+        hi1, lo1 = "زيلينسكي", "زيلينيسكي"
+        _set_seen({hi1: 70, lo1: 2})
+        cfg = dict(load_config())
+
+        calls: list = []
+        real_client = names_learn._client
+        names_learn._client = lambda: _FakeVerdictClient(_fake_verdict_maker(
+            {frozenset((hi1, lo1)): "same_name",
+             frozenset(("مايكروسوفت", "ميكروسوفت")): "same_name"}, calls))
+        try:
+            names_learn.run(cfg)
+            check("أول تشغيلة: نداء نموذج واحد", len(calls) == 1, calls)
+
+            names_learn.run(cfg)
+            check("تشغيلة ثانية خلال 24 ساعة: لا نداء إضافي", len(calls) == 1, calls)
+
+            data = names_learn.load_learned()
+            data["last_run"] = (datetime.now(timezone.utc) - timedelta(hours=25)).isoformat()
+            names_learn.save_learned(data)
+
+            # زوج جديد (الأول محكوم عليه سلفًا فلن يُرشَّح ثانية) كي يثبت
+            # الاستدعاء الفعلي للنموذج بعد تخطّي البوابة، لا مجرد مرور
+            # التشغيلة بلا مرشحين.
+            hi2, lo2 = "مايكروسوفت", "ميكروسوفت"
+            _set_seen({hi1: 70, lo1: 2, hi2: 6, lo2: 2})
+            names_learn.run(cfg)
+            check("بعد مرور 24 ساعة: التشغيلة التالية تعمل مجددًا",
+                  len(calls) == 2, calls)
+        finally:
+            names_learn._client = real_client
+    finally:
+        _clear_names_learn_state()
+
+
+def test_names_learn_levenshtein_true_edit_distance_passes_where_positional_would_fail() -> None:
+    """Issue #1074 (سيناريو 10): مسافة ليفنشتاين الحقيقية بين «نتنياهو» و
+    «نتانياهو» = 1 (إدراج حرف واحد) فتجتاز عتبة 2، بينما مقارنة حرف-بحرف
+    موضعية (كانت السبب الموثَّق لضياع هذه الحالة في القياس الأصلي) تُخرج
+    عدة اختلافات وهميّة لأن الإدراج يُزيح كل ما بعده. يُختبَر أولًا مباشرة
+    على المسافة نفسها للتوثيق، ثم على مخرَج find_candidates الفعلي
+    (بوابة الترشيح التي يستعملها run())."""
+    a, b = "نتنياهو", "نتانياهو"
+    positional_diffs = (sum(1 for x, y in zip(a, b) if x != y)
+                        + abs(len(a) - len(b)))
+    real_distance = names_learn._levenshtein(
+        names_learn._unify_structure(a), names_learn._unify_structure(b))
+    check("ليفنشتاين الحقيقية بين نتنياهو/نتانياهو = 1", real_distance == 1, real_distance)
+    check("المقارنة الموضعية الساذجة كانت ستُخرج أكثر من اختلاف واحد ⇐ تفوّت الحالة",
+          positional_diffs > 1, positional_diffs)
+
+    _clear_names_learn_state()
+    try:
+        _set_seen({a: 70, b: 2})
+        candidates = names_learn.find_candidates(
+            names.seen_totals(), {"entries": {}, "rejected_pairs": []}, set())
+        check("الزوج يجتاز بوابة الترشيح الفعلية فيصل ليكون مرشَّحًا لنداء النموذج",
+              (a, b, 70, 2) in candidates, candidates)
+    finally:
+        _clear_names_learn_state()
+
+
+def test_insights_learned_names_section_format_and_empty_when_nothing_this_week() -> None:
+    """Issue #1074 (الإبلاغ الأسبوعي): سطر واحد بالشكل المطلوب حرفيًا لكل
+    اسم وُحِّد خلال آخر 7 أيام، وجملة إلغاء عبر blocklist، ولا قسم إطلاقًا
+    إن لم يتعلّم شيئًا هذا الأسبوع (مدخل قديم خارج النافذة لا يظهر)."""
+    from src import insights
+
+    _clear_names_learn_state()
+    try:
+        now = datetime.now(timezone.utc)
+        names_learn.save_learned({
+            "entries": {
+                "نتنياهو": {
+                    "variants": ["نتانياهو"],
+                    "counts": {"نتنياهو": 70, "نتانياهو": 2},
+                    "learned_at": now.isoformat(),
+                    "verdict": "same_name",
+                },
+                "قديم": {
+                    "variants": ["قديم2"],
+                    "counts": {"قديم": 10, "قديم2": 3},
+                    "learned_at": (now - timedelta(days=30)).isoformat(),
+                    "verdict": "same_name",
+                },
+            },
+            "rejected_pairs": [], "last_run": now.isoformat(),
+        })
+
+        cfg = load_config()
+        lines = insights.learned_names_section(cfg)
+        check("سطر بالشكل المطلوب حرفيًا",
+              "- 📝 وُحّد الرسم: نتانياهو ← نتنياهو (70 مقابل 2)" in lines, lines)
+        check("مدخل خارج نافذة الأسبوع لا يظهر", not any("قديم" in ln for ln in lines), lines)
+        check("جملة إلغاء التعلّم عبر blocklist مذكورة",
+              any("names.blocklist" in ln for ln in lines), lines)
+
+        names_learn.save_learned(
+            {"entries": {}, "rejected_pairs": [], "last_run": now.isoformat()})
+        empty_lines = insights.learned_names_section(cfg)
+        check("لا مدخلات متعلَّمة هذا الأسبوع ⇐ لا قسم إطلاقًا", empty_lines == [], empty_lines)
+    finally:
+        _clear_names_learn_state()
 
 
 def test_feedback_records_origin_and_screening_guidance_excludes_analysis() -> None:
