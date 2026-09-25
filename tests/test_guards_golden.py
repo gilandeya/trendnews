@@ -561,3 +561,172 @@ def test_guards_golden() -> None:
     article._choose_question = real_choose_question4
     article._draft_article = real_draft_article4
     article.find_images = real_find_images4
+
+    # ── حارس تسمية الحدث المبهم (article._ask_naming_model عبر _write_article
+    # الحقيقية، Issue #1061 — نظير حارسَي سند التصريح/الواقعة أعلاه بالضبط):
+    # نفس عطل Issue #1050/#1052 كان قائمًا هنا أيضًا — call_error يُضبط عند
+    # APIError فقط، فالقطع (stop_reason=max_tokens) أو غياب كتلة tool_use
+    # صالحة كانا يُقرآن بصمت كحكم "لم يُسمَّ من هذه النتائج" حقيقي.
+    # article._ask_naming_model الحقيقية تُنفَّذ بلا تعديل — article._client
+    # وحدها مموَّهة، بردٍّ مقطوع دومًا بصرف النظر عن عدد النداءات (تسمية+سياق
+    # مرحلة «مرجعي») كي لا يعتمد الاختبار على عدّ دقيق للنداءات عبر سلّم
+    # الاتساع كله ──
+    real_client_golden5 = article._client
+    real_extract_brief5 = article.extract_brief
+    real_search5 = evidence.search
+    real_gather_evidence5 = evidence.gather_evidence
+
+    golden_unnamed_text = "أشار موجزي إلى تطورات غامضة وقعت مؤخرًا"
+
+    def _install_unnamed_event_brief():
+        # topic="" (لا موجز عام) يُسقط مرحلة «موضوع» الثالثة في _name_event —
+        # تبقى مرحلة «مباشر» وحدها ذات صلة لهذا الاختبار (مرحلة «سياق» تتوقف
+        # من تلقاء نفسها بلا مصطلحات سياق مستخلَصة حين يُخفق _ask_context_model
+        # على نفس العميل المقطوع دومًا أدناه)
+        article.extract_brief = lambda body, cfg, retries=3: ({
+            "topic": "",
+            "statements": [
+                {"text": golden_unnamed_text, "kind": "واقعة",
+                 "entities": ["كيان تجريبي", "10 أيلول"],
+                 "is_unnamed_event": True, "is_reference": False},
+            ],
+            "questions": [],
+        }, None)
+        evidence.search = lambda query, cfg, days, **kwargs: [object()]
+        evidence.gather_evidence = lambda ranked, cfg, query, **kwargs: (
+            [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+             {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}],
+            evidence.EVIDENCE_FULL_TEXT)
+
+    class _GoldenResp5:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = None
+
+    class _AlwaysCutMessages5:
+        def __init__(self):
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return _GoldenResp5([], stop_reason="max_tokens")
+
+    class _AlwaysCutClient5:
+        def __init__(self):
+            self.messages = _AlwaysCutMessages5()
+
+    cfg_golden5 = load_config()
+    cfg_golden5["article"]["source_extract_enabled"] = False
+
+    _install_unnamed_event_brief()
+    client_golden5 = _AlwaysCutClient5()
+    article._client = lambda: client_golden5
+    out_naming = article._write_article("موجز اختبار حارس التسمية (تقني)", 10505, cfg_golden5)
+    article._client = real_client_golden5
+
+    naming_trail = [t for t in out_naming["trail"] if t["stage"] == "مباشر"]
+    check("(#1061) حارس التسمية: فشل نداء تقني مستمر ⇒ trail «مباشر» يكتب "
+          "«⚠️ فشل نداء النموذج تقنيًا» لا «لم يُسمَّ من هذه النتائج»",
+          bool(naming_trail)
+          and "⚠️ فشل نداء النموذج تقنيًا" in naming_trail[0]["outcome"]
+          and "لم يُسمَّ من هذه النتائج" not in naming_trail[0]["outcome"],
+          naming_trail if naming_trail else out_naming["trail"])
+    report_naming = article.build_report(out_naming)
+    check("(#1061) حارس التسمية: التقرير الظاهر (build_report) يحمل عبارة فشل "
+          "النداء التقنية صراحة لا حكمًا على المصادر",
+          "⚠️ فشل نداء النموذج تقنيًا" in report_naming
+          and "لم يُسمَّ من هذه النتائج" not in report_naming,
+          report_naming)
+
+    article.extract_brief = real_extract_brief5
+    evidence.search = real_search5
+    evidence.gather_evidence = real_gather_evidence5
+
+    # ── حارس الإجابة عن سؤال الموجز (article._ask_answer_model عبر
+    # _write_article الحقيقية، Issue #1061 — النظير الثاني هنا بالضبط، لسؤال
+    # الموجز بدل واقعة مبهمة): article._ask_answer_model الحقيقية تُنفَّذ بلا
+    # تعديل — article._client وحدها مموَّهة، بردٍّ مقطوع دومًا. الموجز يحمل
+    # رأيًا لا واقعة (kind: "رأي") كي لا تدخل _ground_brief_facts أي نداء
+    # نموذج مستقل يُشوِّش عدّ نداءات الإجابة ──
+    real_client_golden6 = article._client
+    real_extract_brief6 = article.extract_brief
+    real_search6 = evidence.search
+    real_gather_evidence6 = evidence.gather_evidence
+    real_build_query_for_claim6 = evidence.build_query_for_claim
+    real_entities_text6 = evidence._entities_text
+    real_readable_only6 = evidence.readable_only
+
+    golden_question_text = "هل وقع الحدث المذكور في الموجز فعلًا؟"
+
+    def _install_question_brief():
+        article.extract_brief = lambda body, cfg, retries=3: ({
+            "topic": "",
+            "statements": [
+                {"text": "رأي تجريبي لا يحتاج سندًا", "kind": "رأي",
+                 "entities": [], "is_unnamed_event": False, "is_reference": False},
+            ],
+            "questions": [
+                {"text": golden_question_text, "entities": [], "is_reference": False},
+            ],
+        }, None)
+        evidence.build_query_for_claim = lambda q, max_words: "استعلام اختبار الإجابة"
+        evidence.search = lambda query, cfg, days, **kwargs: [object()]
+        evidence._entities_text = lambda q: ""
+        evidence.gather_evidence = lambda ranked, cfg, query, **kwargs: (
+            [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"}],
+            evidence.EVIDENCE_FULL_TEXT)
+        evidence.readable_only = lambda docs: docs
+
+    class _GoldenResp6:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = None
+
+    class _AlwaysCutMessages6:
+        def __init__(self):
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return _GoldenResp6([], stop_reason="max_tokens")
+
+    class _AlwaysCutClient6:
+        def __init__(self):
+            self.messages = _AlwaysCutMessages6()
+
+    cfg_golden6 = load_config()
+    cfg_golden6["article"]["source_extract_enabled"] = False
+
+    _install_question_brief()
+    client_golden6 = _AlwaysCutClient6()
+    article._client = lambda: client_golden6
+    out_answer = article._write_article("موجز اختبار حارس الإجابة (تقني)", 10506, cfg_golden6)
+    article._client = real_client_golden6
+
+    answer_trail = [t for t in out_answer["trail"] if t["stage"] == "سؤال"]
+    check("(#1061) حارس الإجابة: فشل نداء تقني مستمر ⇒ trail «سؤال» يكتب «⚠️ "
+          "فشل نداء النموذج تقنيًا» لا «لم تُجب عنه النصوص المقروءة»",
+          bool(answer_trail)
+          and "⚠️ فشل نداء النموذج تقنيًا" in answer_trail[0]["outcome"]
+          and "لم تُجب عنه النصوص المقروءة" not in answer_trail[0]["outcome"],
+          answer_trail if answer_trail else out_answer["trail"])
+    check("(#1061) حارس الإجابة: unanswered يكتب فشل نداء صريح — لا «بُحث ولم "
+          "توجد نصوص تجيب عنه بوضوح» ولا عطل تسمية مصدر",
+          bool(out_answer["unanswered"])
+          and "⚠️ فشل نداء الإجابة تقنيًا" in out_answer["unanswered"][0]["reason"],
+          out_answer["unanswered"])
+    report_answer = article.build_report(out_answer)
+    check("(#1061) حارس الإجابة: التقرير الظاهر (build_report) يحمل عبارة فشل "
+          "النداء التقنية صراحة لا حكمًا على المصادر",
+          "⚠️ فشل نداء النموذج تقنيًا" in report_answer
+          and "لم تُجب عنه النصوص المقروءة" not in report_answer,
+          report_answer)
+
+    article.extract_brief = real_extract_brief6
+    evidence.search = real_search6
+    evidence.gather_evidence = real_gather_evidence6
+    evidence.build_query_for_claim = real_build_query_for_claim6
+    evidence._entities_text = real_entities_text6
+    evidence.readable_only = real_readable_only6

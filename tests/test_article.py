@@ -9371,6 +9371,282 @@ def test_article_source_facts_retry() -> None:
           "🔎 استُخرجت" not in report_genuine, report_genuine)
 
 
+def test_article_naming_answer_retry() -> None:
+    """تسمية الحدث المبهم (_ask_naming_model) والإجابة عن سؤال الموجز
+    (_ask_answer_model) — آخر موضعين من نمط Issue #1050/#1052/#1054 (Issue
+    #1061، والعطل نفسه بالضبط): كانتا تضبطان call_error عند APIError فقط
+    (article.py حول 900/1638 في التشخيص الأصلي)؛ القطع (stop_reason ==
+    "max_tokens") أو غياب كتلة tool_use صالحة كانا يُعامَلان بصمت عبر `if
+    not isinstance(data, dict) or not data.get(...): return None` — None
+    عاريًا لا يُميَّز عن حكم حقيقي. مستدعياهما (article._name_event و
+    article._answer_brief_questions) كانا يقرآن call_error فعلًا ويكتبان
+    «⚠️ فشل نداء النموذج تقنيًا» حين يجدونه — العلّة كانت أن الدالتين لا
+    تضبطانه في مساري القطع/الشكل غير المطابق، فتُتَّهم المصادر بأنها لم
+    تُسمِّ/تُجب بينما الرد انقطع فعلًا.
+
+    السقف صار يُحسب من عدد الوثائق (_naming_max_tokens/_answer_max_tokens)
+    بدل 500/400 ثابتين، تتشاركان support_tokens_per_source/
+    support_max_tokens_cap القائمين مع _support_sources (لا مفاتيح جديدة
+    لهما) وحدًّا أدنى خاصًّا بكل منهما (naming_min_tokens/answer_min_tokens).
+    القطع يُعامَل الآن بإعادة محاولة واحدة بسقف مضاعف قبل الاستسلام
+    بـcall_error، بنفس آلية _support_sources/_extract_source_facts تمامًا."""
+    from src import article
+
+    cfg = load_config()
+
+    # ── حساب السقف: حدّ أدنى مختلف لكل دالة (500 للتسمية، 400 للإجابة)،
+    # حساب من عدد الوثائق حين يتجاوزه، وقصّ عند support_max_tokens_cap ──
+    acfg_default = {}
+    check("(#1061) تسمية: 3 وثائق ⇒ الحد الأدنى (500) يغلب (40×3 + 300 = 420 < 500)",
+          article._naming_max_tokens(3, acfg_default) == 500,
+          article._naming_max_tokens(3, acfg_default))
+    check("(#1061) تسمية: 20 وثيقة ⇒ 1100 (40×20 + 300)",
+          article._naming_max_tokens(20, acfg_default) == 1100,
+          article._naming_max_tokens(20, acfg_default))
+    check("(#1061) تسمية: مدخلات ضخمة تُقصّ عند support_max_tokens_cap (4000)",
+          article._naming_max_tokens(500, acfg_default) == 4000,
+          article._naming_max_tokens(500, acfg_default))
+    check("(#1061) إجابة: وثيقة واحدة ⇒ الحد الأدنى (400) يغلب (40×1 + 300 = 340 < 400)",
+          article._answer_max_tokens(1, acfg_default) == 400,
+          article._answer_max_tokens(1, acfg_default))
+    check("(#1061) إجابة: 20 وثيقة ⇒ 1100 (40×20 + 300)",
+          article._answer_max_tokens(20, acfg_default) == 1100,
+          article._answer_max_tokens(20, acfg_default))
+    check("(#1061) إجابة: مدخلات ضخمة تُقصّ عند support_max_tokens_cap (4000)",
+          article._answer_max_tokens(500, acfg_default) == 4000,
+          article._answer_max_tokens(500, acfg_default))
+
+    class _TruncBlock:
+        def __init__(self, input_=None):
+            self.type = "tool_use" if input_ is not None else "text"
+            self.input = input_
+            self.text = ""
+
+    class _TruncResp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = None
+
+    class _TruncSeqMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            if not self._responses:
+                raise AssertionError("لا رد آخر متاح في التسلسل المزيَّف")
+            return self._responses.pop(0)
+
+    class _TruncSeqClient:
+        def __init__(self, responses):
+            self.messages = _TruncSeqMessages(responses)
+
+    class _TruncFakeLog:
+        def __init__(self):
+            self.errors, self.warnings = [], []
+
+        def error(self, *a, **kw):
+            self.errors.append(a)
+
+        def warning(self, *a, **kw):
+            self.warnings.append(a)
+
+        def info(self, *a, **kw):
+            pass
+
+    real_client_fn = article._client
+    real_log_fn = article.log
+    trunc_docs = [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+                 {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}]
+
+    cases = (
+        ("تسمية", article._ask_naming_model,
+         lambda docs: article._ask_naming_model("نص مبهم", ["كيان"], docs, cfg),
+         {"named": True, "text": "حدث تجريبي", "supporting": ["مصدر أول", "مصدر ثانٍ"]},
+         {"named": False}),
+        ("إجابة", article._ask_answer_model,
+         lambda docs: article._ask_answer_model("سؤال اختبار؟", docs, cfg),
+         {"answered": True, "text": "إجابة تجريبية", "supporting": ["مصدر أول", "مصدر ثانٍ"]},
+         {"answered": False, "supporting": []}),
+    )
+
+    for label, _fn, call_fn, ok_input, negative_judgment_input in cases:
+        # 1) قطع مرة ثم نجاح: نداءان، الثاني بسقف مضاعف، النتيجة تصل فعلًا، بلا call_error
+        resp_cut_once = _TruncResp([], stop_reason="max_tokens")
+        resp_ok = _TruncResp([_TruncBlock(ok_input)])
+        client_retry_ok = _TruncSeqClient([resp_cut_once, resp_ok])
+        article._client, article.log = lambda: client_retry_ok, _TruncFakeLog()
+        try:
+            result_retry_ok = call_fn(trunc_docs)
+            fake_log_retry_ok = article.log
+        finally:
+            article._client, article.log = real_client_fn, real_log_fn
+
+        check(f"(#1061) {label}: قطع مرة ثم سليم — نداءان بالضبط",
+              len(client_retry_ok.messages.calls) == 2, len(client_retry_ok.messages.calls))
+        check(f"(#1061) {label}: قطع مرة ثم سليم — النداء الثاني بسقف مضاعف (لا نفس السقف)",
+              client_retry_ok.messages.calls[1]["max_tokens"]
+              == client_retry_ok.messages.calls[0]["max_tokens"] * 2,
+              [c["max_tokens"] for c in client_retry_ok.messages.calls])
+        check(f"(#1061) {label}: قطع مرة ثم سليم — النتيجة تصل فعلًا",
+              bool(result_retry_ok) and bool(result_retry_ok.get("text")),
+              result_retry_ok)
+        check(f"(#1061) {label}: قطع مرة ثم سليم — بلا call_error",
+              getattr(result_retry_ok, "call_error", None) is None,
+              getattr(result_retry_ok, "call_error", None))
+        check(f"(#1061) {label}: قطع مرة ثم سليم — سطر ERROR واحد عند اكتشاف القطع",
+              len(fake_log_retry_ok.errors) == 1, len(fake_log_retry_ok.errors))
+
+        # 2) قطع مرتين: call_error مضبوط، سطر ERROR واحد فقط (لا اثنان)
+        client_cut_twice = _TruncSeqClient([
+            _TruncResp([], stop_reason="max_tokens"),
+            _TruncResp([], stop_reason="max_tokens"),
+        ])
+        article._client, article.log = lambda: client_cut_twice, _TruncFakeLog()
+        try:
+            result_cut_twice = call_fn(trunc_docs)
+            fake_log_cut_twice = article.log
+        finally:
+            article._client, article.log = real_client_fn, real_log_fn
+
+        check(f"(#1061) {label}: قطع مرتين — نداءان بالضبط (بلا محاولة ثالثة)",
+              len(client_cut_twice.messages.calls) == 2, len(client_cut_twice.messages.calls))
+        check(f"(#1061) {label}: قطع مرتين — call_error مضبوط يشرح السبب — لا None صامت",
+              bool(getattr(result_cut_twice, "call_error", None))
+              and "قُطع" in result_cut_twice.call_error,
+              getattr(result_cut_twice, "call_error", None))
+        check(f"(#1061) {label}: قطع مرتين — سطر ERROR واحد فقط",
+              len(fake_log_cut_twice.errors) == 1, len(fake_log_cut_twice.errors))
+
+        # 3) ردّ سليم بحكم سلبي حقيقي (named:false / answered:false): يبقى
+        # None بلا call_error — حكم حقيقي من النموذج، لا فشل تقني (التمييز
+        # الحاسم الذي يمنع الخلط بين الحالتين)
+        client_real_negative = _TruncSeqClient([_TruncResp([_TruncBlock(negative_judgment_input)])])
+        article._client = lambda: client_real_negative
+        try:
+            result_real_negative = call_fn(trunc_docs)
+        finally:
+            article._client = real_client_fn
+        check(f"(#1061) {label}: ردّ سليم بحكم سلبي حقيقي — None كما اليوم",
+              result_real_negative is None, result_real_negative)
+        check(f"(#1061) {label}: ردّ سليم بحكم سلبي حقيقي — نداء واحد فقط (بلا إعادة محاولة)",
+              len(client_real_negative.messages.calls) == 1,
+              len(client_real_negative.messages.calls))
+
+        # 4) بلا كتلة tool_use إطلاقًا (رد سليم الشكل لكن بلا الأداة
+        # المطلوبة، stop_reason="end_turn"): call_error مضبوط أيضًا — لا صمت
+        client_no_tool_use = _TruncSeqClient([
+            _TruncResp([_TruncBlock(None)], stop_reason="end_turn"),
+            _TruncResp([_TruncBlock(None)], stop_reason="end_turn"),
+        ])
+        article._client = lambda: client_no_tool_use
+        try:
+            result_no_tool_use = call_fn(trunc_docs)
+        finally:
+            article._client = real_client_fn
+        check(f"(#1061) {label}: بلا كتلة tool_use إطلاقًا — call_error مضبوط (لا صمت)",
+              bool(getattr(result_no_tool_use, "call_error", None)),
+              getattr(result_no_tool_use, "call_error", None))
+
+    # ── على مخرَج المسار لا على الدالة وحدها: القطع المستمر عبر
+    # article._name_event (تسمية) وarticle._answer_brief_questions (إجابة)
+    # يجب أن يظهر في trail/outcome كفشل نداء صريح، لا كحكم على المصادر ──
+    class _AlwaysCutMessages:
+        def __init__(self):
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return _TruncResp([], stop_reason="max_tokens")
+
+    class _AlwaysCutClient:
+        def __init__(self):
+            self.messages = _AlwaysCutMessages()
+
+    docs_fixture = [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"}]
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+
+    # _name_event عبر مرحلة «مباشر» فقط (topic="" يُسقط مرحلة «موضوع»
+    # الثالثة، ومرحلة «سياق» تتوقف من تلقاء نفسها بلا مصطلحات سياق مستخلَصة
+    # حين يُخفق _ask_context_model على نفس العميل المزيَّف)
+    evidence.search = lambda query, cfg, days, **kwargs: [object()]
+    evidence.gather_evidence = lambda ranked, cfg, query, **kwargs: (
+        docs_fixture, evidence.EVIDENCE_FULL_TEXT)
+    client_always_cut = _AlwaysCutClient()
+    article._client = lambda: client_always_cut
+    try:
+        text, _docs, _supporting, trail = article._name_event(
+            {"text": "حدث مبهم", "entities": ["كيان", "10 أيلول"]}, cfg)
+    finally:
+        article._client = real_client_fn
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+
+    direct_stage = [t for t in trail if t["stage"] == "مباشر"]
+    check("(#1061) _name_event: مرحلة «مباشر» سجّلت في trail",
+          len(direct_stage) == 1, trail)
+    check("(#1061) _name_event: القطع المستمر ⇒ فشل نداء صريح في trail — لا "
+          "«لم يُسمَّ من هذه النتائج»",
+          bool(direct_stage)
+          and "⚠️ فشل نداء النموذج تقنيًا" in direct_stage[0]["outcome"]
+          and "لم يُسمَّ من هذه النتائج" not in direct_stage[0]["outcome"],
+          direct_stage[0]["outcome"] if direct_stage else trail)
+    check("(#1061) _name_event: trail يحمل call_error نفسه",
+          bool(direct_stage) and bool(direct_stage[0].get("call_error")),
+          direct_stage[0] if direct_stage else trail)
+    check("(#1061) _name_event: النتيجة النهائية None (لم يُسمَّ الحدث)",
+          text is None, text)
+
+    # _answer_brief_questions عبر سؤال واحد من الموجز
+    real_build_query_for_claim = evidence.build_query_for_claim
+    real_entities_text = evidence._entities_text
+    real_readable_only = evidence.readable_only
+    evidence.build_query_for_claim = lambda q, max_words: "استعلام اختبار"
+    evidence.search = lambda query, cfg, days, **kwargs: [object()]
+    evidence._entities_text = lambda q: ""
+    evidence.gather_evidence = lambda ranked, cfg, query, **kwargs: (
+        docs_fixture, evidence.EVIDENCE_FULL_TEXT)
+    evidence.readable_only = lambda docs: docs
+    st = {
+        "questions_from_brief": [{"text": "هل وقع الحدث؟", "entities": [],
+                                  "is_reference": False}],
+        "link_questions": [],
+        "days": 21, "query_max_words": 5, "min_confirm": 2,
+        "all_read_docs": [], "trail": [], "grounded": [], "sources_seen": [],
+    }
+    outcome: dict = {}
+    article._client = lambda: client_always_cut
+    try:
+        article._answer_brief_questions(st, cfg, outcome)
+    finally:
+        article._client = real_client_fn
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        evidence.build_query_for_claim = real_build_query_for_claim
+        evidence._entities_text = real_entities_text
+        evidence.readable_only = real_readable_only
+
+    question_trail = [t for t in st["trail"] if t["stage"] == "سؤال"]
+    check("(#1061) _answer_brief_questions: سطر trail لمرحلة «سؤال» موجود",
+          len(question_trail) == 1, st["trail"])
+    check("(#1061) _answer_brief_questions: القطع المستمر ⇒ فشل نداء صريح في trail "
+          "— لا «لم تُجب عنه النصوص المقروءة»",
+          bool(question_trail)
+          and "⚠️ فشل نداء النموذج تقنيًا" in question_trail[0]["outcome"]
+          and "لم تُجب عنه النصوص المقروءة" not in question_trail[0]["outcome"],
+          question_trail[0]["outcome"] if question_trail else st["trail"])
+    check("(#1061) _answer_brief_questions: unanswered يكتب فشل نداء صريح — لا "
+          "«بُحث ولم توجد نصوص تجيب عنه بوضوح» ولا عطل تسمية",
+          bool(outcome.get("unanswered"))
+          and "⚠️ فشل نداء الإجابة تقنيًا" in outcome["unanswered"][0]["reason"],
+          outcome.get("unanswered"))
+    check("(#1061) _answer_brief_questions: لا سؤال دخل grounded (لم يُجب فعليًا)",
+          st["grounded"] == [], st["grounded"])
+
+
 def test_article_draft_investigation() -> None:
     """منشور «تحقيق» من outcome._write_article نفسه (Issue #765): يُصاغ من
     report_statements المؤكَّدة/dropped/diffs/sources/question حصرًا --
