@@ -5,6 +5,28 @@
 البحث في مصدر مستقل عنه، لا على نصه هو ولا على معرفة النموذج السابقة.
 
     python -m src.verify --issue 132
+
+⚠️ مسار متقاعد (Issue #1068): صاحب المشروع قرر تقاعد هذا المسار نهائيًا،
+ومحلّه الآن مسار التحقيق في src/article.py. مشغّله الوحيد —
+.github/workflows/verify.yml، الذي كان يفتح عند وسم Issue بـ«تحقق» — حُذف،
+فلا يعمل هذا الملف إلا بتشغيل يدوي مباشر من سطر الأوامر (--issue أعلاه).
+
+هذا لا يعني حذف الملف: src/verify_draft.py يستورد STATUS_CONFIRMED
+و_TASHKEEL_RE من هنا مباشرة، وverify_draft.py نفسه **ليس متقاعدًا** —
+src/article.py يستورده ويستعمل check_originality/_normalized_words/
+_image_candidates منه فعليًا في مسار التحقيق الحي. حذف verify.py يكسر ذلك
+الاستيراد بالتبعية.
+
+خلل معروف لم يُصلَح عمدًا (توثيق لا إصلاح — القيود أدناه تمنع أي تعديل
+منطقي هنا؛ من أحيا هذا المسار يومًا فليبدأ من هنا، والوصفة في Issues
+#1050 و#1052 و#1061): judge_fact تستدعي النموذج بسقف max_tokens=500 ثابت
+غير مضبوط من config.yaml، ولا تفحص resp.stop_reason إطلاقًا — رد بُتر
+بسبب هذا السقف يعود بنفس بنية "لا مؤيِّد ولا مخالف" (supporting=[]،
+contradicting=[]) التي يعيدها حكم شرعي فعلي، وcall_error يبقى فارغًا
+(None) رغم أن العطل تقني لا حكمي. judge_question أضعف: سقفها
+max_tokens=400 ثابت أيضًا، وقيمتها الافتراضية عند استنفاد المحاولات
+لا تحمل حقل call_error أصلًا — فشل تقني هناك لا يمكن تمييزه عن "لم توجد
+إجابة" بأي شكل حاليًا.
 """
 from __future__ import annotations
 
@@ -927,6 +949,12 @@ def main() -> int:
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s │ %(levelname)-7s │ %(message)s",
                         datefmt="%H:%M:%S")
+
+    # مسار متقاعد (Issue #1068) — تحذير فقط، لا منع تشغيل: راجع رأس هذا
+    # الملف قبل الاعتماد على judge_fact/judge_question عند فشل تقني بُتر
+    log.warning("⚠️ مسار التحقق (verify.py) متقاعد — محلّه مسار التحقيق في "
+               "src/article.py. أحكامه قد تخفي فشلًا تقنيًا في النموذج "
+               "كحكم شرعي (راجع رأس هذا الملف)؛ تشغيله اليوم يدوي فقط.")
 
     cfg = load_config()
     body = review.fetch_issue_body(args.issue)
