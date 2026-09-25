@@ -1,0 +1,852 @@
+{
+  "run_date": "2026-09-25",
+  "stats": {
+    "points_in": 644,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 494,
+    "issues_clustered": 31,
+    "topics_merged": 4,
+    "topics_out": 8,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 4,
+    "topics_below_min_points": 8,
+    "topics_below_min_channels": 6,
+    "layer_a": 4,
+    "layer_b": 4,
+    "layer_c": 0,
+    "agreement": 5,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 2
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "مفاوضات نيويورك الإيرانية الأمريكية",
+      "شروط إيران التفاوضية عبر السفير فردوسي"
+    ],
+    [
+      "إضراب واحتجاجات تونس الاقتصادية",
+      "تقييم الاقتصاد التونسي"
+    ],
+    [
+      "إحصائيات الحرب الروسية الأوكرانية من زيلينسكي",
+      "سردية نتنياهو عن السابع من أكتوبر والعمليات العسكرية الإسرائيلية"
+    ],
+    [
+      "تحقيقات وتفاصيل فضيحة صناديق الاستثمار التركية",
+      "مقترحات حزب الشعب الجديد لتعويض ضحايا الصناديق",
+      "اتهامات بالتستر الحكومي على فضيحة الصناديق"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "مخاطر الذكاء الاصطناعي كأمن دولي",
+      "event": "طرح مخاطر الذكاء الاصطناعي كتهديد أمني عالمي وإمكانية التعاون الدولي بشأنه",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        62,
+        66,
+        128
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "إحصائيات الحرب الروسية الأوكرانية من زيلينسكي",
+      "event": "إحصائيات قدمها زيلينسكي عن خسائر روسيا وهجماتها في الحرب على أوكرانيا وبرنامج الدفاع الجوي فريا",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "ערוץ 14",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        130,
+        131,
+        132,
+        143
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "خطاب نتنياهو في الأمم المتحدة ورد الفعل الدولي",
+      "event": "خطاب نتنياهو أمام الجمعية العامة للأمم المتحدة وتهديداته لإيران وتركيا ومغادرة عدد من الدول القاعة احتجاجًا",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        81,
+        84,
+        85,
+        127
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "تصريحات نتنياهو حول إيران والنووي وسقوط النظام",
+      "event": "تصريحات نتنياهو المتكررة حول الخط الأحمر النووي الإيراني وتوقعه سقوط النظام الإيراني وتحرر الشعب الإيراني",
+      "layer": "a",
+      "blocs": [
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "ILTV",
+        "Iran International",
+        "ערוץ 14"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        122,
+        123,
+        124,
+        129,
+        134,
+        144,
+        148
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "قمة ترامب-شي جين بينغ الثالثة",
+      "event": "اللقاء الثالث بين الرئيسين ترامب وشي جين بينغ والتحليلات حول أهدافه ونتائجه",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        28,
+        29,
+        60,
+        63,
+        64,
+        65
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "تحقيقات وتفاصيل فضيحة صناديق الاستثمار التركية",
+      "event": "تفاصيل فضيحة صناديق الاستثمار التركية (تيرا وغيرها) من نقل أصول مشبوهة، اعتقالات، خسائر مالية، وتقصير الجهات الرقابية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90,
+        91,
+        93,
+        95,
+        96,
+        97,
+        104,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121
+      ],
+      "total_points": 18,
+      "fresh_points": 18,
+      "dropped_reason": null
+    },
+    {
+      "title": "استقالة منصور يافاش من حزب الشعب الجمهوري وتداعياتها",
+      "event": "استقالة رئيس بلدية أنقرة منصور يافاش من الحزب الجمهوري الشعبي واستقالة عدد من رؤساء البلديات معه وتأثيرها على مجلس أنقرة وترشحه للرئاسة",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        98,
+        99,
+        103,
+        105,
+        108,
+        109,
+        110,
+        111
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "دفاع نتنياهو عن إسرائيل ضد اتهامات الإبادة الجماعية",
+      "event": "دفاع نتنياهو عن إسرائيل ضد اتهامات الإبادة الجماعية في غزة واصفًا إياها بأكبر كذبة",
+      "layer": "b",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "ערוץ 14"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        133,
+        145,
+        146,
+        149
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "مفاوضات نيويورك الإيرانية الأمريكية",
+      "event": "محادثات بين مسؤولين إيرانيين وأمريكيين في نيويورك برعاية قطرية بشأن فتح مضيق هرمز ورفع الحصار الاقتصادي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        1,
+        2,
+        6,
+        22,
+        23,
+        25,
+        26,
+        27,
+        126
+      ],
+      "total_points": 9,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "مخاطر الذكاء الاصطناعي كأمن دولي",
+      "event": "طرح مخاطر الذكاء الاصطناعي كتهديد أمني عالمي وإمكانية التعاون الدولي بشأنه",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        62,
+        66,
+        128
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "إحصائيات الحرب الروسية الأوكرانية من زيلينسكي",
+      "event": "إحصائيات قدمها زيلينسكي عن خسائر روسيا وهجماتها في الحرب على أوكرانيا وبرنامج الدفاع الجوي فريا",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "ערוץ 14",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        130,
+        131,
+        132,
+        143
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "تحويل نتنياهو لخطاب الأمم المتحدة نحو إسقاط النظام الإيراني",
+      "event": "تحول خطاب نتنياهو في الأمم المتحدة من الملف النووي إلى الدعوة لإسقاط النظام الإيراني",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        58,
+        80
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطاب نتنياهو في الأمم المتحدة ورد الفعل الدولي",
+      "event": "خطاب نتنياهو أمام الجمعية العامة للأمم المتحدة وتهديداته لإيران وتركيا ومغادرة عدد من الدول القاعة احتجاجًا",
+      "layer": "a",
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        81,
+        84,
+        85,
+        127
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "تصريحات نتنياهو حول إيران والنووي وسقوط النظام",
+      "event": "تصريحات نتنياهو المتكررة حول الخط الأحمر النووي الإيراني وتوقعه سقوط النظام الإيراني وتحرر الشعب الإيراني",
+      "layer": "a",
+      "blocs": [
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "ILTV",
+        "Iran International",
+        "ערוץ 14"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        122,
+        123,
+        124,
+        129,
+        134,
+        144,
+        148
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "قمة ترامب-شي جين بينغ الثالثة",
+      "event": "اللقاء الثالث بين الرئيسين ترامب وشي جين بينغ والتحليلات حول أهدافه ونتائجه",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        28,
+        29,
+        60,
+        63,
+        64,
+        65
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "سيطرة الصين على المعادن النادرة كورقة ضغط",
+      "event": "استخدام الصين لسيطرتها على المعادن النادرة كأداة ضغط في مواجهة أمريكا",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        31,
+        61
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحقيقات وتفاصيل فضيحة صناديق الاستثمار التركية",
+      "event": "تفاصيل فضيحة صناديق الاستثمار التركية (تيرا وغيرها) من نقل أصول مشبوهة، اعتقالات، خسائر مالية، وتقصير الجهات الرقابية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90,
+        91,
+        93,
+        95,
+        96,
+        97,
+        104,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121
+      ],
+      "total_points": 18,
+      "fresh_points": 18,
+      "dropped_reason": null
+    },
+    {
+      "title": "استقالة منصور يافاش من حزب الشعب الجمهوري وتداعياتها",
+      "event": "استقالة رئيس بلدية أنقرة منصور يافاش من الحزب الجمهوري الشعبي واستقالة عدد من رؤساء البلديات معه وتأثيرها على مجلس أنقرة وترشحه للرئاسة",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        98,
+        99,
+        103,
+        105,
+        108,
+        109,
+        110,
+        111
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "دفاع نتنياهو عن إسرائيل ضد اتهامات الإبادة الجماعية",
+      "event": "دفاع نتنياهو عن إسرائيل ضد اتهامات الإبادة الجماعية في غزة واصفًا إياها بأكبر كذبة",
+      "layer": "b",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "ערוץ 14"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        133,
+        145,
+        146,
+        149
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "خطاب الرئيس الإيراني بزشكيان في الأمم المتحدة",
+      "event": "خطاب الرئيس الإيراني مسعود بزشكيان أمام الجمعية العامة للأمم المتحدة مؤكداً الإيمان بالدبلوماسية",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        0,
+        21
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "زيارة البابا فرانسيس إلى فرنسا والجدل حولها",
+      "event": "زيارة البابا فرانسيس لفرنسا والجدل حول العلمانية وحضور المسؤولين القداس ومكانة الكاثوليكية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "طبيعة الانتخابات الإسرائيلية القادمة",
+      "event": "وصف الانتخابات الإسرائيلية المقررة في أكتوبر وطابعها المصيري والتطرف المصاحب لها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        46,
+        47,
+        48
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فرص نتنياهو ودور الفلسطينيين في الانتخابات الإسرائيلية",
+      "event": "تقييم فرص نتنياهو الانتخابية ودور تصويت الفلسطينيين داخل إسرائيل ورأي عام صهيوني إجماعي بشأن يهودية الدولة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        49,
+        50,
+        51
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحظر الجوي الأمريكي على إيران ورد الفعل الإيراني",
+      "event": "فرض أمريكا حظرًا على شركات الطيران الإيرانية والتهديدات الإيرانية بالرد بإغلاق الأجواء أو المضائق",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        53,
+        54,
+        55,
+        56,
+        57
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "خطاب محمود عباس أمام الجمعية العامة للأمم المتحدة",
+      "event": "خطاب الرئيس الفلسطيني محمود عباس بالأمم المتحدة حول أزمة الوفد والتأشيرات، غزة، الأموال المحتجزة، الإصلاح والانتخابات",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "محاكمة قضية بلدية إسطنبول الكبرى",
+      "event": "جلسات محاكمة قضية بلدية إسطنبول الكبرى ودفاع المتهمين فيها",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        87,
+        88
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إيران وسيطرتها على الحوثيين",
+      "event": "تحليل إسرائيلي حول تزويد إيران للحوثيين بالأسلحة والتكنولوجيا وسيطرتها عليهم",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف السعودية من التوتر الإيراني الإسرائيلي وعلاقتها بالحوثيين وإسرائيل",
+      "event": "تحليل موقف السعودية من طلب ترامب المساعدة العسكرية ضد إيران، وهجمات الحوثيين عليها، وشروطها للسلام مع إسرائيل وصفقة إف-35",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موقف ترامب من الضربة العسكرية ضد إيران",
+      "event": "تقييم موقف ترامب من توقيت أي ضربة عسكرية محتملة ضد إيران في ظل الأوضاع الاقتصادية والانتخابية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        3,
+        5
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "أثر مضيق هرمز على الاقتصاد الإيراني",
+      "event": "تأثير إغلاق أو التوترات حول مضيق هرمز على الاقتصاد الإيراني كعامل ضغط تفاوضي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        12
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأهمية الاستراتيجية لباب المندب",
+      "event": "وصف الأهمية الجغرافية والتاريخية والاقتصادية لمضيق باب المندب وجزيرة ميون",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        11,
+        13
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "إضراب واحتجاجات تونس الاقتصادية",
+      "event": "إضراب عمال المحروقات واحتجاجات اجتماعية موسعة في تونس بسبب الأزمة الاقتصادية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        20
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الانفصال الاقتصادي الأمريكي الصيني",
+      "event": "طبيعة العلاقة الاقتصادية الجديدة بين أمريكا والصين القائمة على الانفصال التدريجي بدل الصدام",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        30,
+        32,
+        34
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطاب ترامب أمام الأمم المتحدة (إنجازات ووعود)",
+      "event": "تصريحات ترامب في خطابه بالأمم المتحدة حول الاقتصاد الأمريكي، الفقر، إيران، العمليات العسكرية، تسوية النزاعات، واتفاق جرينلاند",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40
+      ],
+      "total_points": 6,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    }
+  ]
+}
