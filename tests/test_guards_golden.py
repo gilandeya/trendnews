@@ -395,3 +395,136 @@ def test_guards_golden() -> None:
     article._choose_question = real_choose_question3
     article._draft_article = real_draft_article3
     article.find_images = real_find_images3
+
+    # ── حارس سند الواقعة (article._support_sources عبر _write_article
+    # الحقيقية، Issue #1052 — النظير المباشر لحارس سند التصريح أعلاه): نفس
+    # عطل Issue #1050 (سقف 400 ثابت، وقطع الرد لا يضبط call_error) كان قائمًا
+    # هنا أيضًا. article._support_sources وحدها حقيقية هنا؛
+    # article._support_statement_parts مموَّهة كي تُسنِد واقعة مرافقة (تصريح)
+    # دومًا — بلا هذه، سقوط واقعتنا الوحيدة قيد الاختبار يُفعِّل شبكة أمان
+    # درجة ج (Issue #814) فتُزال من outcome['dropped'] فورًا (article.py
+    # ~4033-4045) قبل أن يبلغها هذا الاختبار، فيختبر شبكة الأمان لا حارس
+    # السند المقصود هنا — نفس السبب الموثَّق أعلاه لـgolden_plain_fact، بالضبط
+    # مقلوبًا (هناك التصريح قيد الاختبار والواقعة مرافقة، هنا العكس) ──
+    real_client_golden2 = article._client
+    real_extract_brief4 = article.extract_brief
+    real_search4 = evidence.search
+    real_gather_evidence4 = evidence.gather_evidence
+    real_support_statement_parts4 = article._support_statement_parts
+    real_choose_question4 = article._choose_question
+    real_draft_article4 = article._draft_article
+    real_find_images4 = article.find_images
+
+    golden_source_fact_text = "واقعة اختبار حارس سند الواقعة وقعت أمس"
+    golden_companion_statement = "متحدث مرافق يعلن أمرًا واحدًا"
+
+    def _install_source_fact_brief():
+        article.extract_brief = lambda body, cfg, retries=3: ({
+            "topic": "اختبار حارس سند الواقعة",
+            "statements": [
+                {"text": golden_source_fact_text, "kind": "واقعة", "entities": [],
+                 "is_unnamed_event": False, "is_reference": False},
+                {"text": golden_companion_statement, "kind": "تصريح",
+                 "entities": [], "is_unnamed_event": False,
+                 "is_reference": False, "speaker": "",
+                 "merged_excerpts": [golden_companion_statement]},
+            ],
+            "questions": [],
+        }, None)
+        evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+        evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+            [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1", "from_text": True},
+             {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1", "from_text": True}],
+            evidence.EVIDENCE_FULL_TEXT)
+        # الواقعة المرافقة (تصريح) مسنَدة دومًا عبر _support_statement_parts
+        # المموَّهة — لا تستهلك ردود _GoldenClient2 المُعدَّة حصرًا لـ
+        # _support_sources الحقيقية (واقعتنا قيد الاختبار فقط تستدعي العميل)
+        article._support_statement_parts = lambda parts, docs, cfg: (
+            article._PartSupportList([["مصدر أول", "مصدر ثانٍ"]]))
+        article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختباري؟", "")
+        article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+            {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+             "image_headline": "عنوان", "post_title": question,
+             "post_body": "متن اختباري.", "hashtags": ["اختبار"]}, "")
+        article.find_images = lambda title, cfg, terms=None: []
+
+    class _GoldenBlock2:
+        def __init__(self, input_):
+            self.type = "tool_use"
+            self.input = input_
+
+    class _GoldenResp2:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = None
+
+    class _GoldenMessages2:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return self._responses.pop(0)
+
+    class _GoldenClient2:
+        def __init__(self, responses):
+            self.messages = _GoldenMessages2(responses)
+
+    cfg_golden2 = load_config()
+    cfg_golden2["article"]["source_extract_enabled"] = False
+
+    # حالة 1 — فشل تقني (قطع الرد مرتين): call_error يُضبط ⇒ الواقعة تسقط
+    # بسبب «فشل نداء» لا «سند غير كافٍ»، وتبقى في outcome['dropped'] (لا
+    # تُبتلَع في شبكة أمان درجة ج بفضل الواقعة المرافقة المسنَدة دومًا أعلاه)
+    _install_source_fact_brief()
+    truncated_client2 = _GoldenClient2([
+        _GoldenResp2([], stop_reason="max_tokens"),
+        _GoldenResp2([], stop_reason="max_tokens"),
+    ])
+    article._client = lambda: truncated_client2
+    out_truncated2 = article._write_article(
+        "موجز اختبار حارس سند الواقعة (تقني)", 10503, cfg_golden2)
+    article._client = real_client_golden2
+
+    check("(#1052) فشل نداء تقني (قطع مرتين) في _support_sources ⇒ سبب سقوط "
+          "الواقعة «فشل نداء» لا «سند غير كافٍ»",
+          any(d["text"] == golden_source_fact_text
+              and d["reason"].startswith("⚠️ فشل نداء الحكم على السند تقنيًا")
+              for d in out_truncated2["dropped"]),
+          out_truncated2["dropped"])
+    check("(#1052) فشل نداء تقني ⇒ نداءان فقط (نداء أول + إعادة محاولة واحدة، "
+          "لا صمتًا بقائمة فارغة)",
+          len(truncated_client2.messages.calls) == 2,
+          len(truncated_client2.messages.calls))
+
+    # حالة 2 — حكم حقيقي بقائمة supporting فارغة: يبقى كما هو اليوم حرفيًا —
+    # نداء واحد، سبب السقوط «سند غير كافٍ»، بلا call_error
+    _install_source_fact_brief()
+    real_judgment_client2 = _GoldenClient2([
+        _GoldenResp2([_GoldenBlock2({"supporting": [], "mentioned": []})]),
+    ])
+    article._client = lambda: real_judgment_client2
+    out_real2 = article._write_article(
+        "موجز اختبار حارس سند الواقعة (حكم حقيقي)", 10504, cfg_golden2)
+    article._client = real_client_golden2
+
+    check("(#1052) حكم حقيقي بقائمة supporting فارغة ⇒ نداء واحد فقط (بلا "
+          "إعادة محاولة، لا قطع وقع)",
+          len(real_judgment_client2.messages.calls) == 1,
+          len(real_judgment_client2.messages.calls))
+    check("(#1052) حكم حقيقي بقائمة supporting فارغة ⇒ سبب السقوط «سند غير "
+          "كافٍ» لا «فشل نداء» — يبقى كما هو اليوم",
+          any(d["text"] == golden_source_fact_text
+              and d["reason"].startswith("سند غير كافٍ")
+              for d in out_real2["dropped"]),
+          out_real2["dropped"])
+
+    article.extract_brief = real_extract_brief4
+    evidence.search = real_search4
+    evidence.gather_evidence = real_gather_evidence4
+    article._support_statement_parts = real_support_statement_parts4
+    article._choose_question = real_choose_question4
+    article._draft_article = real_draft_article4
+    article.find_images = real_find_images4

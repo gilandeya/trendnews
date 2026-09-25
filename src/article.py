@@ -1418,6 +1418,19 @@ def _report_identity_kind(publisher: str, doc: dict, cfg) -> str | None:
     return None
 
 
+def _support_sources_max_tokens(n_sources: int, acfg: dict) -> int:
+    """يحسب سقف رد _support_sources من حجم المدخلات الفعلي (Issue #1052 —
+    نظير _support_statement_parts_max_tokens لIssue #1050): طول المخرَج
+    يتناسب مع عدد الوثائق (قائمتا supporting وmentioned، اسم لكل وثيقة
+    مؤيِّدة أو مذكورة)، فسقف ثابت (400) كان يقطع أي حكم على عدد وثائق
+    كافٍ. تستعمل article.support_tokens_per_source/support_max_tokens_cap
+    نفسيهما (لا مفاتيح جديدة) — الدالتان تتشاركان نفس اقتصاد المخرَج (اسم
+    مصدر واحد لكل وثيقة)، والفرق الوحيد أن هذه لا تحسب أجزاء تصريح."""
+    tokens_per_source = int(acfg.get("support_tokens_per_source", 40))
+    cap = int(acfg.get("support_max_tokens_cap", 4000))
+    return min(cap, tokens_per_source * n_sources + 300)
+
+
 def _support_sources(fact_text: str, docs: list[dict], cfg,
                      is_statement: bool = False, is_report: bool = False,
                      publisher: str = "") -> list[str]:
@@ -1434,7 +1447,15 @@ def _support_sources(fact_text: str, docs: list[dict], cfg,
     is_report=True (kind == "تقرير منقول"، الجولة السادسة عشرة): docs تُصفَّى
     أولًا بشرط الهوية البنيوي (_report_identity_kind) — قبل أي نداء نموذج —
     فلا يصل REPORT_SUPPORT_SYSTEM إلا وثائق تطابق هوية publisher فعلًا؛
-    عتبتها (report_min_confirm) مستقلة تُطبَّق خارج هذه الدالة."""
+    عتبتها (report_min_confirm) مستقلة تُطبَّق خارج هذه الدالة.
+
+    السقف (Issue #1052، نظير _support_statement_parts) يُحسب من عدد
+    الوثائق (_support_sources_max_tokens) بدل 400 ثابت كان يقطع أي حكم على
+    عدد وثائق كافٍ (stop_reason == "max_tokens" أو غياب كتلة tool_use
+    صالحة) — القطع كان يُعامَل بصمت كحكم "لا مصادر" فتُتَّهم مصادر لم
+    تُفحص أصلًا بأنها لم تسند الواقعة. القطع يُعامَل الآن بإعادة محاولة
+    واحدة بنفس المدخلات وسقف مضاعف (مقصوص عند support_max_tokens_cap)؛
+    فشل الإعادة أيضًا يعيد قائمة فارغة بـcall_error يشرح السبب، لا صمتًا."""
     if is_report:
         docs = [d for d in docs if _report_identity_kind(publisher, d, cfg)]
     # مقتطف فقط (فشل الجلب، Issue #895) لا يصلح مادة حكم سند — القاعدة
@@ -1454,10 +1475,14 @@ def _support_sources(fact_text: str, docs: list[dict], cfg,
     else:
         system, label = SUPPORT_SYSTEM, "الواقعة"
     content = _support_call_content(docs, f"{label}: {fact_text}")
-    try:
+    n_sources = len(docs)
+    max_tokens = _support_sources_max_tokens(n_sources, acfg)
+    cap = int(acfg.get("support_max_tokens_cap", 4000))
+
+    def _call(tokens: int):
         resp = client.messages.create(
             model=model,
-            max_tokens=400,
+            max_tokens=tokens,
             tools=[SUPPORT_SCHEMA],
             tool_choice={"type": "tool", "name": "support_fact"},
             system=system,
@@ -1465,15 +1490,43 @@ def _support_sources(fact_text: str, docs: list[dict], cfg,
             # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
         )
         writer.record_usage(resp, model)
+        return resp
+
+    def _tool_use_data(resp):
+        return next((b.input for b in resp.content
+                    if getattr(b, "type", "") == "tool_use"), None)
+
+    def _truncated(resp, data) -> bool:
+        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
+
+    try:
+        resp = _call(max_tokens)
     except APIError as exc:
         log.warning("فشل نداء الحكم على السند: %s", exc)
         fail = _ModelCallList()
         fail.call_error = str(exc)
         return fail
-    data = next((b.input for b in resp.content
-                if getattr(b, "type", "") == "tool_use"), None)
-    if not isinstance(data, dict):
-        return []
+
+    data = _tool_use_data(resp)
+    if _truncated(resp, data):
+        log.error(
+            "الحكم على السند مقطوع (stop_reason=max_tokens أو بلا كتلة "
+            "tool_use صالحة) لـ%d وثيقة (%s) — السقف %d غير كافٍ",
+            n_sources, label, max_tokens)
+        retry_tokens = min(cap, max_tokens * 2)
+        try:
+            resp = _call(retry_tokens)
+        except APIError as exc:
+            log.warning("فشل نداء إعادة محاولة الحكم على السند: %s", exc)
+            fail = _ModelCallList()
+            fail.call_error = str(exc)
+            return fail
+        data = _tool_use_data(resp)
+        if _truncated(resp, data):
+            fail = _ModelCallList()
+            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
+            return fail
+
     result = _ModelCallList(evidence._known_only(data.get("supporting"), docs))
     result.mentioned = evidence._known_only(data.get("mentioned"), docs)
     return result

@@ -171,6 +171,7 @@ from tests.test_article import (
     test_article_statement_kind,
     test_article_merged_statement_gaps,
     test_article_statement_majority,
+    test_article_support_sources_retry,
     test_article_split_statements,
     test_article_split_event_condition,
     test_article_mandatory_query_name,
@@ -339,6 +340,7 @@ def main() -> int:
     test_article_statement_kind()
     test_article_merged_statement_gaps()
     test_article_statement_majority()
+    test_article_support_sources_retry()
     test_article_split_statements()
     test_article_split_event_condition()
     test_article_mandatory_query_name()

@@ -941,11 +941,16 @@ article:
   source_extract_enabled: true
   source_extract_max_docs: 8
   source_extract_max_tokens: 2000
-  # سقف رد article._support_statement_parts (حارس سند التصريح، Issue
-  # #1050 — نظير screening.tokens_per_item/max_tokens_cap لـIssue #1047):
-  # طول المخرَج يتناسب مع عدد أجزاء التصريح (عنصر لكل جزء) وعدد المصادر
-  # (اسم مؤيِّد محتمل لكل جزء) لا ثابتًا — 600 القديم كان يُقطع أي تصريح
-  # بعدد أجزاء/مصادر كافٍ، والقطع كان يُقرأ بصمت كحكم "لا مؤيِّد لأي جزء".
+  # سقف رد article._support_statement_parts وarticle._support_sources
+  # (حارسا سند التصريح/الواقعة، Issue #1050 وIssue #1052 — نظير
+  # screening.tokens_per_item/max_tokens_cap لـIssue #1047): طول المخرَج
+  # يتناسب مع عدد الوثائق (اسم مؤيِّد محتمل لكل وثيقة) — و، لـ
+  # _support_statement_parts فقط، عدد أجزاء التصريح أيضًا (عنصر لكل جزء) —
+  # لا ثابتًا. سقف ثابت (600 لـ_support_statement_parts، 400
+  # لـ_support_sources) كان يقطع أي حكم على عدد أجزاء/وثائق كافٍ، والقطع
+  # كان يُقرأ بصمت كحكم حقيقي ("لا مؤيِّد لأي جزء"/"لا مصادر").
+  # support_tokens_per_part تخص _support_statement_parts وحدها؛
+  # support_tokens_per_source وsupport_max_tokens_cap تتشاركهما الدالتان.
   support_tokens_per_part: 100
   support_tokens_per_source: 40
   support_max_tokens_cap: 4000
