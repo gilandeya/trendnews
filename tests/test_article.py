@@ -8768,7 +8768,8 @@ def test_article_source_facts() -> None:
           new_source_text in source_texts, source_texts)
     check("التكامل: ملخّص الاستخراج (البند 5) — 2 استُخرجت، 1 اندمجت، 0 خارج الموضوع، 1 أُضيفت",
           out["source_facts_summary"] == {"extracted": 2, "merged": 1, "off_topic": 0,
-                                          "same_entity_off_topic": 0, "added": 1},
+                                          "same_entity_off_topic": 0, "added": 1,
+                                          "call_error": None},
           out["source_facts_summary"])
 
     report = article.build_report(out)
@@ -8782,6 +8783,12 @@ def test_article_source_facts() -> None:
     check("التقرير: سطر الملخّص الظاهر (البند 5) يذكر الأعداد الثلاثة صراحة",
           ("استُخرجت 2 واقعة" in report and "اندمجت 1" in report and "أُضيفت 1" in report),
           report)
+    # (Issue #1056) استخراج ناجح بوقائع: call_error يبقى None، وسطر التحذير
+    # لا يظهر إلى جانب سطر «🔎» — السطران يتعارضان منطقيًا فلا يجتمعان أبدًا
+    check("(#1056) استخراج ناجح: source_facts_summary['call_error'] يبقى None",
+          out["source_facts_summary"]["call_error"] is None, out["source_facts_summary"])
+    check("(#1056) استخراج ناجح: لا سطر تحذير فشل الاستخراج التقني في التقرير",
+          "تعذّر استخراج وقائع من المصادر المقروءة" not in report, report)
 
     # ── 5) تصحيح تصميم (طلب المراجعة، تعليق العطل الرابع والعشرون): وقائع
     # المصادر لا تُبحَث من جديد — سندها المجمّع المقروء نفسه، وفحص صلة
@@ -8915,7 +8922,14 @@ def test_article_source_facts_retry() -> None:
     المستدعي (_extract_source_facts_stage) كان يميّز الحالتين بـcall_error
     من قبل هذا الإصلاح أصلًا — العلّة كانت أن الدالة نفسها لا تضبطه عند
     القطع؛ يُثبَّت هذا التمييز هنا على مخرَج _write_article الكامل (لا على
-    _extract_source_facts وحدها ولا على _as_text وحدها)."""
+    _extract_source_facts وحدها ولا على _as_text وحدها).
+
+    (Issue #1056) هذا التمييز في trail كان يبقى محجوبًا عن الملخّص الظاهر في
+    build_report — summary['extracted'] == 0 يخفي سطر «🔎» كليًا بصرف النظر
+    عن السبب، فيتطابق فشل تقني مع حكم حقيقي "لا وقائع إضافية" أمام المراجع.
+    أُضيف هنا: call_error في source_facts_summary نفسها، سطر تحذير ظاهر عند
+    ضبطه، وإصلاح الثغرة المضمَّنة (رد بكتلة tool_use صالحة بلا حقل facts
+    مطابق، كان يعيد [] صامتة أيضًا)."""
     from src import article
 
     cfg = load_config()
@@ -9059,6 +9073,28 @@ def test_article_source_facts_retry() -> None:
           bool(getattr(result_no_tool_use, "call_error", None)),
           getattr(result_no_tool_use, "call_error", None))
 
+    # 4.5) كتلة tool_use صالحة (تجتاز فحص القطع) لكن بلا حقل facts مطابق —
+    # الثغرة المضمَّنة (Issue #1056، مراجعة Issue #1054): `if not
+    # isinstance(raw, list): return _ModelCallList()` كانت تعيد فارغة صامتة
+    # بـcall_error=None رغم أن شكل الرد غير مطابق، لا حكم "لا وقائع" فعلي.
+    # نداء واحد فقط (لا إعادة محاولة — الإعادة تخصّ القطع، لا شكل الحقل).
+    client_bad_shape = _TruncSeqClient([
+        _TruncResp([_TruncBlock({"wrong_field": []})], stop_reason="end_turn"),
+    ])
+    article._client, article.log = lambda: client_bad_shape, _TruncFakeLog()
+    try:
+        result_bad_shape = article._extract_source_facts("موضوع", [], trunc_docs, cfg)
+        fake_log_bad_shape = article.log
+    finally:
+        article._client, article.log = real_client_fn, real_log_fn
+    check("(#1056) رد بكتلة tool_use صالحة بلا حقل facts: call_error مضبوط — لا [] صامتة",
+          bool(getattr(result_bad_shape, "call_error", None)),
+          getattr(result_bad_shape, "call_error", None))
+    check("(#1056) رد بكتلة tool_use صالحة بلا حقل facts: نداء واحد فقط (لا إعادة محاولة)",
+          len(client_bad_shape.messages.calls) == 1, len(client_bad_shape.messages.calls))
+    check("(#1056) رد بكتلة tool_use صالحة بلا حقل facts: سطر ERROR واحد",
+          len(fake_log_bad_shape.errors) == 1, len(fake_log_bad_shape.errors))
+
     # 5) بلا وثائق إطلاقًا: العودة المبكرة القائمة كما هي — بلا نداء نموذج وبلا call_error
     client_should_not_be_called = _TruncSeqClient([])
     article._client = lambda: client_should_not_be_called
@@ -9150,6 +9186,74 @@ def test_article_source_facts_retry() -> None:
           "\"لا وقائع إضافية\" حقيقي — call_error في trail هو ما يوثّق الفارق)",
           out_fail["source_facts_summary"]["extracted"] == 0,
           out_fail["source_facts_summary"])
+
+    # (Issue #1056) الملخّص الظاهر في build_report كان يُخفي هذا التمييز رغم
+    # وجوده في trail المطويّ: صفر الاستخراج الناتج عن فشل تقني يبدو للمراجع
+    # مطابقًا لحكم حقيقي "لا وقائع إضافية" — summary['call_error'] وسطر
+    # التحذير الظاهر يُصلحان ذلك
+    check("(#1056) source_facts_summary['call_error'] يحمل سبب الفشل التقني نفسه",
+          out_fail["source_facts_summary"]["call_error"] == truncated_call_error,
+          out_fail["source_facts_summary"])
+    report_fail = article.build_report(out_fail)
+    check("(#1056) فشل تقني: التقرير الظاهر يحوي سطر التحذير",
+          "تعذّر استخراج وقائع من المصادر المقروءة" in report_fail, report_fail)
+    check("(#1056) فشل تقني: التقرير الظاهر لا يحوي سطر «🔎 استُخرجت»",
+          "🔎 استُخرجت" not in report_fail, report_fail)
+
+    # 7) حكم حقيقي بلا وقائع إضافية (لا فشل تقني): call_error يبقى None،
+    # ولا سطر تحذير ولا سطر «🔎» — كما اليوم حرفيًا (Issue #1056). يعيد ضبط
+    # كل المزيَّفات (item 6's finally أعادها جميعًا إلى الحقيقية) لإتمام
+    # التشغيلة بلا نداء شبكة حقيقي
+    def _genuine_empty_extract_source(topic, brief_texts, docs, cfg):
+        return article._ModelCallList()
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "موضوع اختبار القطع",
+        "statements": [
+            {"text": brief_fact_text, "kind": "واقعة", "entities": ["كيان"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": ["مصدر أول", "مصدر ثانٍ"]
+    article._extract_source_facts = _genuine_empty_extract_source
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختبار يجيب عن السؤال بوضوح.",
+         "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
+
+    try:
+        out_genuine = article._write_article("موجز اختبار القطع الحقيقي", 9005, cfg_on)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        article._extract_source_facts = real_extract_source_facts
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+        article.find_images = real_find_images
+
+    check("(#1056) حكم حقيقي بلا وقائع إضافية: source_facts_summary['call_error'] يبقى None",
+          out_genuine["source_facts_summary"]["call_error"] is None,
+          out_genuine["source_facts_summary"])
+    check("(#1056) حكم حقيقي بلا وقائع إضافية: extracted == 0",
+          out_genuine["source_facts_summary"]["extracted"] == 0,
+          out_genuine["source_facts_summary"])
+    report_genuine = article.build_report(out_genuine)
+    check("(#1056) حكم حقيقي بلا وقائع إضافية: لا سطر تحذير",
+          "تعذّر استخراج وقائع من المصادر المقروءة" not in report_genuine, report_genuine)
+    check("(#1056) حكم حقيقي بلا وقائع إضافية: لا سطر «🔎 استُخرجت» (كما اليوم حرفيًا)",
+          "🔎 استُخرجت" not in report_genuine, report_genuine)
 
 
 def test_article_draft_investigation() -> None:
