@@ -154,6 +154,31 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   `path: './docs/site'`). Never add anything to `docs/site/` that isn't meant to be published
   publicly. The config used to be `path: '.'`, which published the entire repository by accident —
   never reintroduce that behavior.
+- **Proper-noun spelling is unified once, at save time — `src/names.py`, applied only inside
+  `store.save_draft`/`store.update_draft` (Issue #1070).** Every content path drafts its Arabic
+  text with an independent model call, so the same public figure's name can come out spelled two
+  different ways between two drafts (measured on 331 real drafts: «نتنياهو»/«نتانياهو»,
+  «ترامب»/«ترمب», «أردوغان»/«إردوغان» — rare, 2–4%, but visible to a reader when two consecutive
+  cards name the same person differently). `names.normalize_names(text, cfg)` does a plain
+  `str.replace` of every alternate spelling in `config.yaml: names.aliases` with its canonical
+  form — no other normalization at all (no hamza folding, no tashkeel stripping, no ة/ه, no
+  whitespace collapsing; this is a name dictionary, not a text normalizer). To add a name, edit
+  `names.aliases` in `config.yaml` — no code change. Because `store.save_draft`/`update_draft` are
+  the single application point every path already funnels through (the same reasoning as the
+  `origin` field above), this needs no per-path wiring and no path can bypass it by construction.
+  It touches exactly five fields and nothing else — `arabic.post_title`, `arabic.body`,
+  `arabic.caption`, the top-level `caption`, and each string in `headlines` — never `source`,
+  `link`, `image`, `id`, or `publishers`; a replacement inside a link or an id would corrupt it,
+  not fix it. Within one alias entry, the longest variant is substituted first, regardless of the
+  order it's written in the config, so a shorter spelling contained in a longer one can't produce a
+  mangled partial replacement. An absent or empty `names` section is a no-op — every text passes
+  through unchanged, matching the project's zero-effect-by-default convention for tunables
+  (`selection.appeal`'s weights above are the same pattern). Two comparisons that read a draft's
+  already-saved `arabic.post_title` back out (`collect.py`/`collect_finalize.py`'s
+  `previous_post`, fed into `writer.py`'s "did we already cover this" prompt instruction) are
+  unaffected by design: neither is a strict equality/token check, both are free text handed to the
+  model for a novelty judgment, so a spelling being unified there is at most a readability
+  improvement, never a broken match.
 - **`failed` must stay revivable by fixing its cause.** Any code that records `status="failed"`
   must leave enough in `error` to identify *why*, and a way back to `pending` must exist for it
   (Issue #742: four YouTube-analysis drafts came out `failed` with `حقول مفقودة: image` after
@@ -907,9 +932,11 @@ plus `proxy_config.py`. No path's own files are imported back by another path's 
 `collect.py` is never imported by `article.py`, `radar.py`, or `youtube_publish.py`, and `radar.py`
 is never imported by `article.py` or `youtube_publish.py`. `writer.py`, `imaging.py`, `headlines.py`,
 `schedule.py`, `facebook.py`, `setimage.py`, `feedback.py`/`collect_feedback.py`, `decisions.py`,
-`insights.py`, and `retention.py` are cross-cutting *utilities* rather than orchestration entry
-points, and are reused across paths the same way the five hub files are, without being part of
-that formal list.
+`insights.py`, `retention.py`, and `names.py` are cross-cutting *utilities* rather than
+orchestration entry points, and are reused across paths the same way the five hub files are,
+without being part of that formal list. `names.py` is called from exactly one place — inside
+`store.save_draft`/`update_draft` — never imported directly by any per-path file; that single call
+site is what makes it a utility of `store.py` rather than a sixth hub file in its own right.
 
 **One real exception worth knowing before assuming strict isolation**: `src/request.py` — nominally
 the standalone "write about X" path — has quietly become a second shared-utility surface. Its
@@ -944,7 +971,8 @@ single `tests/test_pipeline.py` had grown past 18,000 lines and become unwieldy 
 - **`tests/test_review.py`** — the three review gates and everything downstream of them:
   `preselect.py` (gate A), `review.py`/`open_review.py` (gates B/C), `publish.py` and scheduling
   (`schedule.py`), `cards.py`, `setimage.py`, `feedback.py`/`collect_feedback.py`, `request.py`,
-  the shared `headlines.py`, the `origin` field and `store.origin_of`, `decisions.py`,
+  the shared `headlines.py`, the `origin` field and `store.origin_of`, `src/names.py`'s
+  name-spelling unification as applied through `store.save_draft`/`update_draft`, `decisions.py`,
   `insights.py`, and `retention.py`.
 - **`tests/test_article.py`** — the Investigation domain and the older verify flow: `verify.py`,
   `verify_draft.py` (including `check_originality`), the shared search/read engine `evidence.py`,

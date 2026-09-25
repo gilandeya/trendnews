@@ -118,6 +118,8 @@ from tests.test_review import (
     test_publish_final_review_orders_by_score,
     test_collect_finalize_card_review_orders_by_score,
     test_origin_of_synonyms,
+    test_names_unify_variant_spellings_through_real_pipeline,
+    test_names_longest_variant_first_and_empty_config_noop,
     test_feedback_records_origin_and_screening_guidance_excludes_analysis,
     test_feedback_screening_guidance_excludes_not_selected,
     test_radar_writes_breaking_origin,
@@ -431,6 +433,9 @@ def main() -> int:
     test_collect_finalize_card_review_orders_by_score()
     print("\n── حقل origin المعياري وstore.origin_of (Issue #749) ──")
     test_origin_of_synonyms()
+    print("\n── توحيد رسم أسماء الأعلام عند الحفظ (Issue #1070) ──")
+    test_names_unify_variant_spellings_through_real_pipeline()
+    test_names_longest_variant_first_and_empty_config_noop()
     test_feedback_records_origin_and_screening_guidance_excludes_analysis()
     test_feedback_screening_guidance_excludes_not_selected()
     test_radar_writes_breaking_origin()

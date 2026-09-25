@@ -6,7 +6,8 @@ import logging
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from .config import DRAFTS_DIR, STATE_DIR
+from . import names
+from .config import DRAFTS_DIR, STATE_DIR, load_config
 from .rank import similarity, tokens
 
 log = logging.getLogger(__name__)
@@ -146,6 +147,9 @@ def save_draft(draft: dict) -> Path:
     folder = draft_dir()
     folder.mkdir(parents=True, exist_ok=True)
     path = folder / f"{draft['id']}.json"
+    # توحيد رسم أسماء الأعلام هنا فقط (Issue #1070) -- نقطة التطبيق الوحيدة
+    # عبر كل المسارات، فلا يحتاج أي كاتب نص لتكرارها بنفسه.
+    names.normalize_draft(draft, load_config())
     path.write_text(json.dumps(draft, ensure_ascii=False, indent=2), encoding="utf-8")
     return path
 
@@ -193,6 +197,9 @@ def update_draft(path: Path, remove: list[str] | None = None, **changes) -> dict
     data.update(changes)
     for key in remove or ():
         data.pop(key, None)
+    # نفس توحيد save_draft (Issue #1070): تعديل يدوي على عنوان/تعليق فيه
+    # رسم بديل (تحرير المراجع مثلًا) يُوحَّد هنا أيضًا، لا في save_draft وحدها.
+    names.normalize_draft(data, load_config())
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     return data
 
