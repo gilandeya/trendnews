@@ -1,0 +1,99 @@
+{
+  "id": "e09484f092d8",
+  "created_at": "2026-09-25T03:08:09.825021+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 37.65,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "مفاوضات إيرانية أمريكية قد تؤثر على أسعار النفط والطاقة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US-Iran talks focused on phased deal to reopen Hormuz",
+  "link": "https://www.iranintl.com/en/202609249795",
+  "publishers": [
+    "CBS News — World",
+    "Channel News Asia",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "Iran International",
+    "NDTV — World",
+    "The Express Tribune",
+    "The Hindu — International",
+    "The Japan Times",
+    "WSJ"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "US-Iran talks focused on phased deal to reopen Hormuz",
+    "link": "https://www.iranintl.com/en/202609249795",
+    "summary": "US and Iranian negotiators are exploring a phased agreement that could reopen the Strait of Hormuz in exchange for Washington lifting its economic blockade of Iran, Reuters reported Thursday, citing Iranian, regional and Western sources.",
+    "source_name": "Iran International",
+    "region": "ir",
+    "weight": 1.0,
+    "published": "2026-09-24T17:55:14+00:00",
+    "image_url": "https://i.iranintl.com/images/rdk9umy0/production/b23934742b81d81e0d6e1d56492b5b908e9fe2af-1280x853.jpg?rect=187,100,992,519&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+    "publisher": "Iran International",
+    "cluster_sources": [
+      "CBS News — World",
+      "Channel News Asia",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "Iran International",
+      "NDTV — World",
+      "The Express Tribune",
+      "The Hindu — International",
+      "The Japan Times",
+      "WSJ"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2631131/iranian-fm-spokesperson-rebukes-canadian-pm-for-calling-annihilation-threat-language-of-war"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202609249795"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/us-iran-discuss-deal-to-reopen-hormuz-and-lift-economic-blockade-report-12094278#publisher=newsstand"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/25/world/politics/hormuz-phased-reopening/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-threatens-to-expand-war-to-indian-ocean-if-us-attacks-again/article71503625.ece"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202609243363"
+      }
+    ],
+    "image_candidates": [
+      "https://i.iranintl.com/images/rdk9umy0/production/b23934742b81d81e0d6e1d56492b5b908e9fe2af-1280x853.jpg?rect=187,100,992,519&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://c.ndtvimg.com/2026-03/0am20kck_trump-mojtaba_625x300_28_March_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/25/564985.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/25/thumbs/400x400/564985.jpg",
+      "https://i.iranintl.com/images/rdk9umy0/production/798c4960e348f4adb8a2c856b00bd2ecb4872cdd-800x575.jpg?rect=0,79,800,419&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://th-i.thgim.com/public/news/national/lwxpit/article71503641.ece/alternates/LANDSCAPE_1200/iStock-1130746176.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 10,
+    "velocity": 1.0,
+    "age_hours": 1234.9151560541666,
+    "is_stale": false,
+    "score": 37.651694058439865,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "مفاوضات إيرانية أمريكية قد تؤثر على أسعار النفط والطاقة"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "id": "41c2910b00d7",
+  "created_at": "2026-09-25T03:08:09.825884+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.02,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "رئيس نيجيريا يطالب بإصلاح هيكل الأمم المتحدة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Tinubu to UN: We can’t rule 2026 world with 1945 distribution of power",
+  "link": "https://www.premiumtimesng.com/news/top-news/912181-tinubu-to-un-we-cant-rule-2026-world-with-1945-distribution-of-power.html",
+  "publishers": [
+    "Premium Times",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Tinubu to UN: We can’t rule 2026 world with 1945 distribution of power",
+    "link": "https://www.premiumtimesng.com/news/top-news/912181-tinubu-to-un-we-cant-rule-2026-world-with-1945-distribution-of-power.html",
+    "summary": "The president warns that Africa can't continue to fill UN agenda without permanent membership at the Security Council. The post Tinubu to UN: We can’t rule 2026 world with 1945 distribution of power appeared first on Premium Times Nigeria .",
+    "source_name": "Premium Times",
+    "region": "ng",
+    "weight": 1.1,
+    "published": "2026-09-24T20:43:00+00:00",
+    "image_url": "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/09/VP-Shettima-at-UNGA-81.png?fit=1024%2C731&amp;ssl=1",
+    "publisher": "Premium Times",
+    "cluster_sources": [
+      "Premium Times",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Premium Times",
+        "link": "https://www.premiumtimesng.com/news/top-news/912181-tinubu-to-un-we-cant-rule-2026-world-with-1945-distribution-of-power.html"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/09/tinubu-to-un-1945-power-structure-cannot-govern-the-world-in-2026/"
+      }
+    ],
+    "image_candidates": [
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/09/VP-Shettima-at-UNGA-81.png?fit=1024%2C731&amp;ssl=1",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/03/Tinubu-e1774808722246.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1234.9151968675,
+    "is_stale": false,
+    "score": 26.0223171727963,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "رئيس نيجيريا يطالب بإصلاح هيكل الأمم المتحدة"
+  }
+}

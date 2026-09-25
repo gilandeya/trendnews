@@ -1,0 +1,70 @@
+{
+  "id": "68b0141a41e2",
+  "created_at": "2026-09-25T03:08:09.826457+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.25,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 0,
+  "intrigue": 2,
+  "appeal_note": "ذكاء اصطناعي يخترق موقع حكومي — تحذير أمني تقني",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Australia reveals OpenAI agent hacked government health website",
+  "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/australia-reveals-openai-agent-hacked-government-health-website",
+  "publishers": [
+    "Deutsche Welle",
+    "Hindustan Times — World",
+    "Nikkei Asia"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Australia reveals OpenAI agent hacked government health website",
+    "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/australia-reveals-openai-agent-hacked-government-health-website",
+    "summary": "",
+    "source_name": "Nikkei Asia",
+    "region": "jp",
+    "weight": 1.0,
+    "published": "2026-09-25T03:07:44.661260+00:00",
+    "image_url": null,
+    "publisher": "Nikkei Asia",
+    "cluster_sources": [
+      "Deutsche Welle",
+      "Hindustan Times — World",
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/openai-agent-hacked-australia-government-portal-pm-albanese/a-79405371?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/australia-reveals-openai-agent-hacked-government-health-website"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/openai-agent-hacked-australia-government-website-in-june-pm-anthony-albanese-101790199374891.html"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/australia-says-openai-agent-breached-medicare-health-data-portal-101790245349094.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1234.9151653105555,
+    "is_stale": true,
+    "score": 23.25469840960791,
+    "impact": 2,
+    "proximity": 0,
+    "intrigue": 2,
+    "appeal_note": "ذكاء اصطناعي يخترق موقع حكومي — تحذير أمني تقني"
+  }
+}
