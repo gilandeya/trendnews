@@ -25,12 +25,14 @@ review Issue → Facebook publish machinery, routed by each draft's `origin` fie
 
 A single `approved` label on a draft's review Issue drives publishing for all four — the
 isolation between them is structural (the `origin` field, checked via `store.origin_of`, never a
-raw string comparison), not a separate label per path. Two older on-demand paths still exist
-alongside these four and are documented below: `src/request.py` ("write about X" from keywords)
-and `src/verify.py`/`src/verify_draft.py` (fact-check a pasted article). Runs entirely on free
-GitHub Actions — no server, no paid hosting. See `README.md` (in Arabic) for the full
-setup/operations guide; it is the source of truth for user-facing behavior and should stay in
-sync with any workflow changes.
+raw string comparison), not a separate label per path. One older on-demand path still exists
+alongside these four and is documented below: `src/request.py` ("write about X" from keywords). A
+second, `src/verify.py` (fact-check a pasted article), used to sit alongside it the same way but is
+now **retired** (Issue #1068) — see "Retired paths" below; `src/verify_draft.py`, the module it
+used for its second stage, is not retired and stays live, since `src/article.py` imports it
+directly. Runs entirely on free GitHub Actions — no server, no paid hosting. See `README.md` (in
+Arabic) for the full setup/operations guide; it is the source of truth for user-facing behavior and
+should stay in sync with any workflow changes.
 
 ## Commands
 
@@ -332,13 +334,17 @@ comment `/reject <id> <reason>` right away.
 4. **Analysis** (the YouTube pipeline — see its own section below): five stages, ending in a
    normal gate-B draft per article, `origin: "analysis"`.
 
-Two older, still-live on-demand paths sit alongside these four and are not part of the
-gate-A/gate-B/gate-C shape above (both open a normal gate-B review Issue directly, `origin:
-"request"`/`"verify"` respectively) — see their own bullets under "Supporting pieces" further
-below: `src/request.py` ("write about X" from keywords) and `src/verify.py`/`src/verify_draft.py`
-(fact-check a pasted article, report first, draft only if the confirmed facts alone are enough).
-The origin-canonicalization note above already calls `request`/`verify`/`article`
-"candidates for a future `investigation` merge — not merged yet"; that hasn't changed.
+One older, still-live on-demand path sits alongside these four and is not part of the
+gate-A/gate-B/gate-C shape above (opens a normal gate-B review Issue directly, `origin: "request"`)
+— see its own bullet under "Supporting pieces" further below: `src/request.py` ("write about X"
+from keywords). A second path used to sit alongside it the exact same way — `src/verify.py`/
+`src/verify_draft.py` (fact-check a pasted article, `origin: "verify"`, report first, draft only if
+the confirmed facts alone are enough) — but `src/verify.py` is now **retired** (Issue #1068; see
+"Retired paths" below), while `src/verify_draft.py` is not, since `src/article.py` imports it
+directly. The origin-canonicalization note above already calls `request`/`verify`/`article`
+"candidates for a future `investigation` merge — not merged yet"; that hasn't changed — `verify`
+stays a canonical origin value even though the path that used to produce it is retired, since old
+drafts already on disk (and any future manually-run one) still carry it.
 
 ### Editorial appeal factors (`selection.appeal`)
 
@@ -580,9 +586,10 @@ Supporting pieces, each independently triggerable as its own workflow:
   `src/article.py` below. `src/verify.py` imports from it rather than redefining it.
 - `src/article.py` — "article from sources" flow (Issue #348; see the Investigation path above for
   its place in the overall architecture and the three-tier attribution grading). It and
-  `src/verify.py` below are two permanently distinct, both actively-used flows — an early draft of
-  this doc floated removing `verify.py` once `article.py` was proven, but that never happened and
-  isn't planned; don't infer it's still pending. Triggered by an Issue tagged `مقال`. Unlike
+  `src/verify.py` below were designed as two permanently distinct flows — an early draft of this
+  doc floated removing `verify.py` once `article.py` was proven, but that never happened; instead
+  Issue #1068 formally retired `src/verify.py` as a content path (see "Retired paths" below) while
+  `article.py` remains the live one. Triggered by an Issue tagged `مقال`. Unlike
   `verify.py`, the pasted text is
   an **editorial brief** (the poster's idea + information + opinion), not an article to fact-check
   — the output is a new sourced article answering a question, not a verdict table. Pipeline:
@@ -607,13 +614,19 @@ Supporting pieces, each independently triggerable as its own workflow:
   actually finds); `_support_sources`/`_sufficiency` are new, narrower, purely-count-based
   replacements. See the ordering constraint below before changing the grounding/question-selection
   order.
-- `src/verify.py` — fact-check flow for a pasted article (Issue tagged `تحقق`): extracts its
+- `src/verify.py` — **retired** (Issue #1068; see "Retired paths" below for the full reasoning).
+  Fact-check flow for a pasted article (Issue tagged `تحقق`): extracts its
   claims, classifies each (fact/opinion/prediction), searches independent sources for every fact,
   judges each as confirmed (2+ independent sources) / near-confirmed (one strong source) / single
   source / no source / contradicted, and posts a report comment. The pasted article is treated as
   inspiration only, never as a source of information — every judgment comes from independently
-  searched sources, never the article's own text or the model's prior knowledge.
-- `src/verify_draft.py` — stage 2 of the verify flow, run after `src/verify.py`'s report: if the
+  searched sources, never the article's own text or the model's prior knowledge. Its own trigger,
+  `.github/workflows/verify.yml` (`issues: labeled` with label `تحقق`), has been deleted by the
+  project owner; the module was not deleted and cannot be — `src/verify_draft.py` imports
+  `STATUS_CONFIRMED`/`_TASHKEEL_RE` from it directly — so it stays in the tree as a manual-CLI-only
+  tool (`python -m src.verify --issue N`, which now logs a retirement warning on every run).
+- `src/verify_draft.py` — stage 2 of the (now-retired, see "Retired paths" below) verify flow, run
+  after `src/verify.py`'s report: if the
   confirmed facts alone are sufficient for a standalone story (central fact confirmed + a
   configurable minimum count, `config.yaml: verify_draft`), drafts a post from the confirmed facts
   and their supporting sources' excerpts **only** — the drafting function's signature never
@@ -627,15 +640,19 @@ Supporting pieces, each independently triggerable as its own workflow:
   the pasted article or with a source excerpt — attributed quotes verified against a confirmed
   excerpt are exempted. Produces a draft through the exact same path as `collect.py`
   (`store.save_draft` → `drafts/<date>/` → review Issue → `approved` label), tagged with
-  `origin: "verify"` for traceability only (no special treatment in review parsing). Triggered by
-  `.github/workflows/verify.yml` (`issues: labeled` with label `تحقق`), which needs
-  `contents: write` for this stage's draft/image commit and explicitly re-checks the labeling
-  actor's repo permission (defense in depth beyond GitHub's own label-permission gate). Before
-  spending any model/image cost, `verify_draft.attempt()` also requires the workflow to have
-  declared `VERIFY_DRAFT_WRITE_ENABLED=true` in its env — a self-declared, dependency-free guard
-  against the workflow file silently drifting out of sync with the code (e.g. a merge that lands
-  this module without the matching `verify.yml` update, which would otherwise draft content that's
-  quietly discarded because no step exists to commit it).
+  `origin: "verify"` for traceability only (no special treatment in review parsing). Formerly
+  triggered by `.github/workflows/verify.yml` (`issues: labeled` with label `تحقق`), which needed
+  `contents: write` for this stage's draft/image commit and explicitly re-checked the labeling
+  actor's repo permission (defense in depth beyond GitHub's own label-permission gate) — that
+  workflow is now deleted (Issue #1068), so `verify_draft.attempt()`'s own `_write_access_reason()`
+  guard (the `VERIFY_DRAFT_WRITE_ENABLED` env var, never declared by any surviving workflow) now
+  refuses to write a draft on every run reachable through `verify.py`'s CLI path unless an operator
+  exports that variable by hand; the guard's own reasoning (documented at its definition) is
+  otherwise unchanged — it was never a live GitHub-API permission check, just a self-declared flag.
+  **`src/verify_draft.py` itself is not retired**: `src/article.py` imports this module directly
+  and reuses `check_originality`/`_normalized_words`/`_image_candidates` from it (see the
+  Investigation path above) — those functions, and everything else in this file, stay live
+  regardless of `verify.py`'s retirement.
 
 **Everything is driven by `config.yaml`** (see Project-specific conventions above); `src/config.py`
 loads it into a dict subclass with dotted-path lookup.
@@ -834,6 +851,42 @@ follow-up parts of this issue were tracked separately at the time and have since
 facts into tiers by sourcing strength — implemented as the A/B/C grading described in the
 Investigation path above (Issue #835) — and widening the search window on a zero-raw-result ladder
 step (`article.wide_days`).
+
+## Retired paths
+
+- **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the
+  project owner made this call, it isn't open for reconsideration. Its only trigger,
+  `.github/workflows/verify.yml` (Issue labeled `تحقق`), has been deleted; the module now runs only
+  via a direct manual CLI invocation (`python -m src.verify --issue N`), which prints a retirement
+  warning on every run without refusing to run. Its replacement for new work is the Investigation
+  path, `src/article.py` (see above). The module is **not** deleted and must not be:
+  `src/verify_draft.py` imports `STATUS_CONFIRMED`/`_TASHKEEL_RE` from it directly, so removing
+  `verify.py` would break that import and, transitively, `src/article.py` (which imports
+  `verify_draft.py`). For the same reason, `CANONICAL_ORIGINS` (`src/store.py`) and
+  `ORIGIN_LABELS` (`src/review.py`) keep `"verify"` as a canonical origin value — old drafts already
+  on disk, and any future manually-run one, still carry it, and `store.origin_of`/the review-Issue
+  badge need somewhere to resolve it to. `config.yaml`'s `verify:` block, `verify_draft:` block, and
+  `cards.verify` (the "تحقيق" badge/color table entry) are all likewise left in place on purpose —
+  none of their keys are deleted, since doing so would break the live imports above and could hide
+  a value needed if this path is ever revived.
+
+  A known defect, documented at the top of the file and deliberately left unfixed here (this Issue
+  is documentation-only — no logic changed): `judge_fact` calls the model with a hardcoded
+  `max_tokens=500` and never checks `resp.stop_reason`, so a response truncated by that cap comes
+  back with the same empty `supporting`/`contradicting` shape as a legitimate "no support" judgment
+  — and `call_error` stays `None`, indistinguishable from a real verdict. `judge_question` is worse:
+  its hardcoded `max_tokens=400` has the same blind spot, and its failure-path default
+  (`{"answered": False, "answer": "", "source": ""}`) doesn't carry a `call_error` field at all, so
+  a technical failure there can't currently be told apart from "no answer found". Whoever revives
+  this path should start there — the fix recipe is written up in Issues #1050, #1052, and #1061.
+
+- **`src/verify_draft.py` is *not* retired.** It's the module `verify.py` used for its second stage
+  (drafting a post from confirmed facts), but `src/article.py` imports it directly and reuses
+  `check_originality`/`_normalized_words`/`_image_candidates` from it (see the Investigation path
+  above) — none of that depends on `verify.py`'s own trigger. Its `_write_access_reason()` guard
+  (the `VERIFY_DRAFT_WRITE_ENABLED` env var) now always refuses when reached through `verify.py`'s
+  retired CLI path, since no surviving workflow declares that variable — a manual operator who wants
+  stage 2 to actually write a draft has to export it themselves first.
 
 ## File ownership
 
