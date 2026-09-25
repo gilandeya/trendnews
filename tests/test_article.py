@@ -8896,6 +8896,262 @@ def test_article_source_facts() -> None:
           "المفتاح False في نص الكود نفسه، بصرف النظر عمّا يُضبط في config.yaml",
           'acfg.get("source_extract_enabled", False)' in inspect.getsource(article._write_article))
 
+
+def test_article_source_facts_retry() -> None:
+    """استخراج وقائع من المصادر (article._extract_source_facts، Issue #1054
+    — النظير الثالث لـ_support_statement_parts (#1050) وـ_support_sources
+    (#1052)، والعطل نفسه بالضبط): سقفها كان ثابتًا (source_extract_max_tokens
+    = 2000) لا يتحرك مع عدد الوثائق المعروضة، والقطع (stop_reason=
+    max_tokens أو بلا كتلة tool_use صالحة) كان يُعامَل بصمت عبر `if not
+    isinstance(raw, list): return _ModelCallList()` — قائمة فارغة بـ
+    call_error=None لا تُميَّز عن حكم "لا وقائع إضافية" فعلي.
+
+    السقف صار يُحسب من عدد الوثائق (_extract_source_facts_max_tokens)، لكن
+    بخلاف نظيرتيها يبقى له حدّ أدنى ثابت أيضًا (source_extract_max_tokens)
+    لأن المخرَج هنا نصوص وقائع كاملة لا أسماء مصادر فقط — طوله يتبع ما
+    يُستخرَج لا عدد الوثائق وحده. القطع يُعامَل الآن بإعادة محاولة واحدة
+    بسقف مضاعف لا حكمًا صامتًا؛ فشل الإعادة يعيد call_error يشرح السبب.
+
+    المستدعي (_extract_source_facts_stage) كان يميّز الحالتين بـcall_error
+    من قبل هذا الإصلاح أصلًا — العلّة كانت أن الدالة نفسها لا تضبطه عند
+    القطع؛ يُثبَّت هذا التمييز هنا على مخرَج _write_article الكامل (لا على
+    _extract_source_facts وحدها ولا على _as_text وحدها)."""
+    from src import article
+
+    cfg = load_config()
+
+    # ── حساب السقف: حدّ أدنى ثابت يغلب لعدد وثائق قليل، حساب من عدد الوثائق
+    # لعدد أكبر، وسقف أعلى يقصّ مدخلات ضخمة ──
+    acfg_default = {}
+    check("(#1054) حساب السقف: وثيقتان ⇒ 2000 (الحد الأدنى source_extract_max_tokens يغلب)",
+          article._extract_source_facts_max_tokens(2, acfg_default) == 2000,
+          article._extract_source_facts_max_tokens(2, acfg_default))
+    check("(#1054) حساب السقف: 8 وثائق ⇒ 3100 (350×8 + 300 يغلب الحدّ الأدنى)",
+          article._extract_source_facts_max_tokens(8, acfg_default) == 3100,
+          article._extract_source_facts_max_tokens(8, acfg_default))
+    check("(#1054) حساب السقف: مدخلات ضخمة تُقصّ عند source_extract_max_tokens_cap (8000)",
+          article._extract_source_facts_max_tokens(500, acfg_default) == 8000,
+          article._extract_source_facts_max_tokens(500, acfg_default))
+
+    class _TruncBlock:
+        def __init__(self, input_=None):
+            self.type = "tool_use" if input_ is not None else "text"
+            self.input = input_
+            self.text = ""
+
+    class _TruncResp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = None
+
+    class _TruncSeqMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            if not self._responses:
+                raise AssertionError("لا رد آخر متاح في التسلسل المزيَّف")
+            return self._responses.pop(0)
+
+    class _TruncSeqClient:
+        def __init__(self, responses):
+            self.messages = _TruncSeqMessages(responses)
+
+    class _TruncFakeLog:
+        def __init__(self):
+            self.errors, self.warnings = [], []
+
+        def error(self, *a, **kw):
+            self.errors.append(a)
+
+        def warning(self, *a, **kw):
+            self.warnings.append(a)
+
+        def info(self, *a, **kw):
+            pass
+
+    real_client_fn = article._client
+    real_log_fn = article.log
+    trunc_docs = [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+                 {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}]
+
+    # 1) قطع مرة ثم نجاح: نداءان، الثاني بسقف مضاعف، الوقائع تصل فعلًا، بلا call_error
+    resp_cut_once = _TruncResp([], stop_reason="max_tokens")
+    resp_ok = _TruncResp([_TruncBlock({"facts": [
+        {"text": "واقعة وصلت بعد إعادة المحاولة", "entities": ["ك"]}]})])
+    client_retry_ok = _TruncSeqClient([resp_cut_once, resp_ok])
+    article._client, article.log = lambda: client_retry_ok, _TruncFakeLog()
+    try:
+        result_retry_ok = article._extract_source_facts("موضوع", [], trunc_docs, cfg)
+        fake_log_retry_ok = article.log
+    finally:
+        article._client, article.log = real_client_fn, real_log_fn
+
+    check("(#1054) قطع مرة ثم نجاح: نداءان بالضبط",
+          len(client_retry_ok.messages.calls) == 2, len(client_retry_ok.messages.calls))
+    check("(#1054) قطع مرة ثم نجاح: النداء الثاني بسقف مضاعف (لا نفس السقف)",
+          client_retry_ok.messages.calls[1]["max_tokens"]
+          == client_retry_ok.messages.calls[0]["max_tokens"] * 2,
+          [c["max_tokens"] for c in client_retry_ok.messages.calls])
+    check("(#1054) قطع مرة ثم نجاح: الوقائع تصل فعلًا",
+          list(result_retry_ok) == [{"text": "واقعة وصلت بعد إعادة المحاولة",
+                                    "entities": ["ك"]}], list(result_retry_ok))
+    check("(#1054) قطع مرة ثم نجاح: بلا call_error",
+          getattr(result_retry_ok, "call_error", None) is None,
+          getattr(result_retry_ok, "call_error", None))
+    check("(#1054) قطع مرة ثم نجاح: سطر ERROR واحد عند اكتشاف القطع",
+          len(fake_log_retry_ok.errors) == 1, len(fake_log_retry_ok.errors))
+
+    # 2) قطع مرتين: call_error مضبوط، سطر ERROR واحد فقط (لا اثنان)
+    client_cut_twice = _TruncSeqClient([
+        _TruncResp([], stop_reason="max_tokens"),
+        _TruncResp([], stop_reason="max_tokens"),
+    ])
+    article._client, article.log = lambda: client_cut_twice, _TruncFakeLog()
+    try:
+        result_cut_twice = article._extract_source_facts("موضوع", [], trunc_docs, cfg)
+        fake_log_cut_twice = article.log
+    finally:
+        article._client, article.log = real_client_fn, real_log_fn
+
+    check("(#1054) قطع مرتين: نداءان بالضبط (بلا محاولة ثالثة)",
+          len(client_cut_twice.messages.calls) == 2, len(client_cut_twice.messages.calls))
+    check("(#1054) قطع مرتين: call_error مضبوط يشرح السبب — لا قائمة فارغة صامتة",
+          bool(getattr(result_cut_twice, "call_error", None))
+          and "قُطع" in result_cut_twice.call_error,
+          getattr(result_cut_twice, "call_error", None))
+    check("(#1054) قطع مرتين: سطر ERROR واحد فقط",
+          len(fake_log_cut_twice.errors) == 1, len(fake_log_cut_twice.errors))
+
+    # 3) ردّ سليم بقائمة facts فارغة: call_error يبقى None، والسلوك القائم بلا تغيير
+    client_genuine_empty = _TruncSeqClient([
+        _TruncResp([_TruncBlock({"facts": []})]),
+    ])
+    article._client = lambda: client_genuine_empty
+    try:
+        result_genuine_empty = article._extract_source_facts("موضوع", [], trunc_docs, cfg)
+    finally:
+        article._client = real_client_fn
+    check("(#1054) ردّ سليم بقائمة facts فارغة: نداء واحد فقط",
+          len(client_genuine_empty.messages.calls) == 1,
+          len(client_genuine_empty.messages.calls))
+    check("(#1054) ردّ سليم بقائمة facts فارغة: [] كما كانت دومًا",
+          list(result_genuine_empty) == [], list(result_genuine_empty))
+    check("(#1054) ردّ سليم بقائمة facts فارغة: call_error يبقى None",
+          getattr(result_genuine_empty, "call_error", None) is None,
+          getattr(result_genuine_empty, "call_error", None))
+
+    # 4) بلا كتلة tool_use إطلاقًا (رد سليم الشكل لكن بلا الأداة المطلوبة):
+    # call_error مضبوط أيضًا — لا صمت لمجرد stop_reason == "end_turn"
+    client_no_tool_use = _TruncSeqClient([
+        _TruncResp([_TruncBlock(None)], stop_reason="end_turn"),
+        _TruncResp([_TruncBlock(None)], stop_reason="end_turn"),
+    ])
+    article._client = lambda: client_no_tool_use
+    try:
+        result_no_tool_use = article._extract_source_facts("موضوع", [], trunc_docs, cfg)
+    finally:
+        article._client = real_client_fn
+    check("(#1054) بلا كتلة tool_use إطلاقًا: call_error مضبوط (لا صمت)",
+          bool(getattr(result_no_tool_use, "call_error", None)),
+          getattr(result_no_tool_use, "call_error", None))
+
+    # 5) بلا وثائق إطلاقًا: العودة المبكرة القائمة كما هي — بلا نداء نموذج وبلا call_error
+    client_should_not_be_called = _TruncSeqClient([])
+    article._client = lambda: client_should_not_be_called
+    try:
+        result_no_docs = article._extract_source_facts("موضوع", [], [], cfg)
+    finally:
+        article._client = real_client_fn
+    check("(#1054) بلا وثائق: عودة مبكرة بلا نداء نموذج",
+          len(client_should_not_be_called.messages.calls) == 0,
+          len(client_should_not_be_called.messages.calls))
+    check("(#1054) بلا وثائق: [] بلا call_error",
+          list(result_no_docs) == []
+          and getattr(result_no_docs, "call_error", None) is None,
+          (list(result_no_docs), getattr(result_no_docs, "call_error", None)))
+
+    # 6) المستدعي (_extract_source_facts_stage عبر _write_article الكامل —
+    # غير مصدَّرة للاستدعاء المعزول) يميّز فشل النداء عن "لا وقائع إضافية"
+    # فعليًا: trail يكتب "⚠️ فشل نداء النموذج تقنيًا"، لا "واقعة إضافية
+    # مستخرَجة" — نفس الشاهد على مستوى المسار الكامل، لا الدالة وحدها
+    cfg_on = load_config()
+    cfg_on["article"] = {**cfg_on["article"], "source_extract_enabled": True}
+
+    real_extract_brief = article.extract_brief
+    real_search = evidence.search
+    real_gather_evidence = evidence.gather_evidence
+    real_support_sources = article._support_sources
+    real_extract_source_facts = article._extract_source_facts
+    real_choose_question = article._choose_question
+    real_draft_article = article._draft_article
+    real_find_images = article.find_images
+
+    brief_fact_text = "واقعة موجز اختبار القطع"
+
+    article.extract_brief = lambda body, cfg, retries=3: ({
+        "topic": "موضوع اختبار القطع",
+        "statements": [
+            {"text": brief_fact_text, "kind": "واقعة", "entities": ["كيان"],
+             "is_unnamed_event": False, "is_reference": False},
+        ],
+        "questions": [],
+    }, None)
+    evidence.search = lambda query, cfg, days, unrestricted=False: [object()]
+    evidence.gather_evidence = lambda articles, cfg, claim_text="": (
+        [{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"},
+         {"name": "مصدر ثانٍ", "text": "نص", "link": "https://s2/1"}],
+        evidence.EVIDENCE_FULL_TEXT)
+    article._support_sources = lambda fact_text, docs, cfg, is_statement=False, \
+        is_report=False, publisher="": ["مصدر أول", "مصدر ثانٍ"]
+
+    truncated_call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
+
+    def _failing_extract_source(topic, brief_texts, docs, cfg):
+        fail = article._ModelCallList()
+        fail.call_error = truncated_call_error
+        return fail
+
+    article._extract_source_facts = _failing_extract_source
+    article._choose_question = lambda grounded, cfg, retries=2: ("سؤال اختبار؟", "")
+    article._draft_article = lambda grounded, opinions, question, cfg, retries=3, avoid_note="": (
+        {"angle": "تفسير", "analysis": "", "urgent": False, "category": "عالم",
+         "image_headline": "عنوان", "post_title": question,
+         "post_body": "متن اختبار يجيب عن السؤال بوضوح.",
+         "hashtags": ["اختبار"]}, "")
+    article.find_images = lambda title, cfg, terms=None: []
+
+    try:
+        out_fail = article._write_article("موجز اختبار القطع", 9004, cfg_on)
+    finally:
+        article.extract_brief = real_extract_brief
+        evidence.search = real_search
+        evidence.gather_evidence = real_gather_evidence
+        article._support_sources = real_support_sources
+        article._extract_source_facts = real_extract_source_facts
+        article._choose_question = real_choose_question
+        article._draft_article = real_draft_article
+        article.find_images = real_find_images
+
+    source_trail = [t for t in out_fail["trail"] if t["stage"] == "مصادر"]
+    check("(#1054) المستدعي: سطر trail لمرحلة «مصادر» موجود",
+          len(source_trail) == 1, source_trail)
+    check("(#1054) المستدعي: trail يكتب فشلًا تقنيًا صريحًا — لا «واقعة إضافية مستخرَجة»",
+          "⚠️ فشل نداء النموذج تقنيًا" in source_trail[0]["outcome"]
+          and "واقعة إضافية مستخرَجة" not in source_trail[0]["outcome"],
+          source_trail[0]["outcome"])
+    check("(#1054) المستدعي: trail يحمل call_error نفسه لا None",
+          source_trail[0]["call_error"] == truncated_call_error,
+          source_trail[0]["call_error"])
+    check("(#1054) المستدعي: source_facts_summary['extracted'] == 0 (فشل تقني، لا حكم "
+          "\"لا وقائع إضافية\" حقيقي — call_error في trail هو ما يوثّق الفارق)",
+          out_fail["source_facts_summary"]["extracted"] == 0,
+          out_fail["source_facts_summary"])
+
+
 def test_article_draft_investigation() -> None:
     """منشور «تحقيق» من outcome._write_article نفسه (Issue #765): يُصاغ من
     report_statements المؤكَّدة/dropped/diffs/sources/question حصرًا --

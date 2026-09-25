@@ -1790,26 +1790,55 @@ def _rank_docs_for_source_extract(docs: list[dict], wanted: set[str], cfg,
     return [d for _, _, d in scored[:max_docs]]
 
 
+def _extract_source_facts_max_tokens(n_docs: int, acfg: dict) -> int:
+    """يحسب سقف رد _extract_source_facts من عدد الوثائق المعروضة (Issue
+    #1054، نظير _support_sources_max_tokens لIssue #1052): بخلاف
+    _support_sources (اسم مصدر واحد لكل وثيقة)، المخرَج هنا نصوص وقائع
+    كاملة يتناسب طولها بما يُستخرَج فعليًا لا عدد الوثائق وحده — فـ
+    source_extract_max_tokens (2000) صار حدًّا أدنى ثابتًا يُقارَن بحساب
+    من عدد الوثائق (source_extract_tokens_per_doc)، لا سقفًا مباشرًا، ثم
+    يُقصّ الناتج عند source_extract_max_tokens_cap."""
+    min_tokens = int(acfg.get("source_extract_max_tokens", 2000))
+    tokens_per_doc = int(acfg.get("source_extract_tokens_per_doc", 350))
+    cap = int(acfg.get("source_extract_max_tokens_cap", 8000))
+    return min(cap, max(min_tokens, tokens_per_doc * n_docs + 300))
+
+
 def _extract_source_facts(topic: str, brief_fact_texts: list[str], docs: list[dict],
                           cfg) -> list[dict]:
     """يستخرج وقائع إضافية من وثائق مقروءة فعلًا، غائبة عن وقائع الموجز
     المسندة أصلًا (brief_fact_texts) — يعيد _ModelCallList: فارغة مع
     call_error عند فشل تقني، فارغة عادية عند عدم وجود شيء إضافي، أو قائمة
-    {"text":..., "entities":[...]} عند النجاح."""
+    {"text":..., "entities":[...]} عند النجاح.
+
+    السقف (Issue #1054، نظير _support_sources لIssue #1052) يُحسب من عدد
+    الوثائق المعروضة (_extract_source_facts_max_tokens) بدل 2000 ثابت كان
+    يقطع أي استخراج غنيّ من عدد وثائق كافٍ (stop_reason == "max_tokens" أو
+    غياب كتلة tool_use صالحة) — القطع كان يُعامَل بصمت كـ`if not
+    isinstance(raw, list): return _ModelCallList()`، قائمة فارغة بـ
+    call_error=None لا تُميَّز عن حكم "لا وقائع إضافية" فعلي، فيُكتب في
+    أثر التقرير أن المصادر لم تقدّم شيئًا بينما الرد انقطع فعلًا. القطع
+    يُعامَل الآن بإعادة محاولة واحدة بنفس المدخلات وسقف مضاعف (مقصوص عند
+    source_extract_max_tokens_cap)؛ فشل الإعادة أيضًا يعيد قائمة فارغة
+    بـcall_error يشرح السبب، لا صمتًا — المستدعي (_extract_source_facts_stage)
+    يميّز الحالتين بـcall_error بالفعل."""
     if not docs:
         return _ModelCallList()
     acfg = cfg.get("article", {}) or {}
     model = acfg.get("model", "claude-sonnet-5")
-    max_tokens = int(acfg.get("source_extract_max_tokens", 2000))
     client = _client()
     brief_block = "\n".join(f"- {t}" for t in brief_fact_texts) or "لا وقائع"
     prompt = (f"موضوع الموجز: {topic}\n\nوقائع استُخرجت من الموجز أصلًا "
              f"(لا تكرّرها):\n{brief_block}\n\nنصوص مصادر مقروءة:\n\n"
              f"{_format_docs(docs)}")
-    try:
+    n_docs = len(docs)
+    max_tokens = _extract_source_facts_max_tokens(n_docs, acfg)
+    cap = int(acfg.get("source_extract_max_tokens_cap", 8000))
+
+    def _call(tokens: int):
         resp = client.messages.create(
             model=model,
-            max_tokens=max_tokens,
+            max_tokens=tokens,
             tools=[SOURCE_EXTRACT_SCHEMA],
             tool_choice={"type": "tool", "name": "extract_source_facts"},
             system=SOURCE_EXTRACT_SYSTEM,
@@ -1817,13 +1846,43 @@ def _extract_source_facts(topic: str, brief_fact_texts: list[str], docs: list[di
             # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
         )
         writer.record_usage(resp, model)
+        return resp
+
+    def _tool_use_data(resp):
+        return next((b.input for b in resp.content
+                    if getattr(b, "type", "") == "tool_use"), None)
+
+    def _truncated(resp, data) -> bool:
+        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
+
+    try:
+        resp = _call(max_tokens)
     except APIError as exc:
         log.warning("فشل نداء استخراج وقائع من المصادر: %s", exc)
         fail = _ModelCallList()
         fail.call_error = str(exc)
         return fail
-    data = next((b.input for b in resp.content
-                if getattr(b, "type", "") == "tool_use"), None)
+
+    data = _tool_use_data(resp)
+    if _truncated(resp, data):
+        log.error(
+            "استخراج وقائع المصادر مقطوع (stop_reason=max_tokens أو بلا "
+            "كتلة tool_use صالحة) لـ%d وثيقة — السقف %d غير كافٍ",
+            n_docs, max_tokens)
+        retry_tokens = min(cap, max_tokens * 2)
+        try:
+            resp = _call(retry_tokens)
+        except APIError as exc:
+            log.warning("فشل نداء إعادة محاولة استخراج وقائع من المصادر: %s", exc)
+            fail = _ModelCallList()
+            fail.call_error = str(exc)
+            return fail
+        data = _tool_use_data(resp)
+        if _truncated(resp, data):
+            fail = _ModelCallList()
+            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
+            return fail
+
     raw = data.get("facts") if isinstance(data, dict) else None
     if not isinstance(raw, list):
         return _ModelCallList()

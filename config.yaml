@@ -940,7 +940,16 @@ article:
   # نفس السابقة التشغيلية لـinclude_opinion أعلاه.
   source_extract_enabled: true
   source_extract_max_docs: 8
+  # source_extract_max_tokens صار حدًّا أدنى لا سقفًا ثابتًا (Issue #1054،
+  # نظير Issue #1050/#1052 لـ_support_statement_parts/_support_sources):
+  # طول المخرَج هنا نصوص وقائع كاملة يتناسب مع ما يُستخرَج لا عدد الوثائق
+  # المعروضة وحده، فيبقى للسقف حدّ أدنى ثابت إضافةً إلى الحساب من عدد
+  # الوثائق (article._extract_source_facts_max_tokens):
+  # min(source_extract_max_tokens_cap، max(source_extract_max_tokens،
+  # source_extract_tokens_per_doc × عدد الوثائق المعروضة + 300)).
   source_extract_max_tokens: 2000
+  source_extract_tokens_per_doc: 350
+  source_extract_max_tokens_cap: 8000
   # سقف رد article._support_statement_parts وarticle._support_sources
   # (حارسا سند التصريح/الواقعة، Issue #1050 وIssue #1052 — نظير
   # screening.tokens_per_item/max_tokens_cap لـIssue #1047): طول المخرَج
