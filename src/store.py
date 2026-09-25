@@ -147,9 +147,14 @@ def save_draft(draft: dict) -> Path:
     folder = draft_dir()
     folder.mkdir(parents=True, exist_ok=True)
     path = folder / f"{draft['id']}.json"
+    cfg = load_config()
+    # عدّ الأسماء الواردة على النص **الخام** (Issue #1074) -- قبل التوحيد،
+    # وإلا صار كل رسم يُوحَّد فور كتابته بلا أن يُرى برسمه البديل أبدًا،
+    # فلا يتراكم له عدّ يستحق التعلّم منه (names.record_seen لا تُلقي أبدًا).
+    names.record_seen(draft, cfg)
     # توحيد رسم أسماء الأعلام هنا فقط (Issue #1070) -- نقطة التطبيق الوحيدة
     # عبر كل المسارات، فلا يحتاج أي كاتب نص لتكرارها بنفسه.
-    names.normalize_draft(draft, load_config())
+    names.normalize_draft(draft, cfg)
     path.write_text(json.dumps(draft, ensure_ascii=False, indent=2), encoding="utf-8")
     return path
 

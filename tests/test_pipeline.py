@@ -120,6 +120,17 @@ from tests.test_review import (
     test_origin_of_synonyms,
     test_names_unify_variant_spellings_through_real_pipeline,
     test_names_longest_variant_first_and_empty_config_noop,
+    test_names_seen_records_raw_spelling_before_normalization,
+    test_names_learn_cycle_writes_learned_and_next_draft_normalized,
+    test_names_learn_rejects_inflection_and_different_and_remembers_rejection,
+    test_names_learn_numeric_gate_blocks_weak_pair_before_model_call,
+    test_names_learn_blocklist_blocks_new_and_disables_existing,
+    test_names_learn_manual_alias_overrides_learned_conflict,
+    test_names_learn_disabled_flag_keeps_manual_only,
+    test_names_learn_model_failure_no_learning_logs_error_and_collect_survives,
+    test_names_learn_runs_at_most_once_per_24_hours,
+    test_names_learn_levenshtein_true_edit_distance_passes_where_positional_would_fail,
+    test_insights_learned_names_section_format_and_empty_when_nothing_this_week,
     test_feedback_records_origin_and_screening_guidance_excludes_analysis,
     test_feedback_screening_guidance_excludes_not_selected,
     test_radar_writes_breaking_origin,
@@ -436,6 +447,18 @@ def main() -> int:
     print("\n── توحيد رسم أسماء الأعلام عند الحفظ (Issue #1070) ──")
     test_names_unify_variant_spellings_through_real_pipeline()
     test_names_longest_variant_first_and_empty_config_noop()
+    print("\n── معجم أسماء يتعلّم نفسه (Issue #1074) ──")
+    test_names_seen_records_raw_spelling_before_normalization()
+    test_names_learn_cycle_writes_learned_and_next_draft_normalized()
+    test_names_learn_rejects_inflection_and_different_and_remembers_rejection()
+    test_names_learn_numeric_gate_blocks_weak_pair_before_model_call()
+    test_names_learn_blocklist_blocks_new_and_disables_existing()
+    test_names_learn_manual_alias_overrides_learned_conflict()
+    test_names_learn_disabled_flag_keeps_manual_only()
+    test_names_learn_model_failure_no_learning_logs_error_and_collect_survives()
+    test_names_learn_runs_at_most_once_per_24_hours()
+    test_names_learn_levenshtein_true_edit_distance_passes_where_positional_would_fail()
+    test_insights_learned_names_section_format_and_empty_when_nothing_this_week()
     test_feedback_records_origin_and_screening_guidance_excludes_analysis()
     test_feedback_screening_guidance_excludes_not_selected()
     test_radar_writes_breaking_origin()

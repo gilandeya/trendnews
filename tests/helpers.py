@@ -29,7 +29,7 @@ os.environ["TRENDNEWS_DRAFTS_DIR"] = str(_TMP_DATA_DIR / "drafts")
 os.environ["TRENDNEWS_STATE_DIR"] = str(_TMP_DATA_DIR / "state")
 atexit.register(shutil.rmtree, _TMP_DATA_DIR, ignore_errors=True)
 
-from src import collect, evidence, extract, facebook, headlines, imagesearch, imaging, names, open_review, proxy_config, review, sources, store, trends, writer  # noqa: E402
+from src import collect, evidence, extract, facebook, headlines, imagesearch, imaging, names, names_learn, open_review, proxy_config, review, sources, store, trends, writer  # noqa: E402
 from src import youtube_article, youtube_cluster, youtube_collect, youtube_extract  # noqa: E402
 from src import youtube_publish  # noqa: E402
 from src.config import (  # noqa: E402

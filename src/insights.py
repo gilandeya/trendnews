@@ -20,7 +20,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from statistics import median
 
-from . import facebook, review, store
+from . import facebook, names_learn, review, store
 from .config import STATE_DIR, load_config
 from .schedule import tz_of
 
@@ -39,6 +39,11 @@ WHY_ENTRY_LIMIT = 15
 # النشر كبقية ما في ذلك الملف، بل مدة إخفاء مقترح رفضه المستخدم في تقرير
 # الأداء نفسه).
 REJECT_SUPPRESS_DAYS = 56
+
+# نافذة عرض الأسماء التي وحّدها التعلّم الآلي (Issue #1074) — "هذا الأسبوع"
+# حرفيًا بصرف النظر عن --days المطلوبة للتقرير، لنفس سبب REJECT_SUPPRESS_DAYS
+# أعلاه: مدة عرض في التقرير نفسه لا قيمة تضبط الفرز أو الترتيب أو النشر.
+LEARNED_NAMES_WINDOW_DAYS = 7
 
 
 def engagement(metrics: dict) -> int:
@@ -472,6 +477,40 @@ def rejections_section(entries: list[dict], days: int, limit: int = 40) -> list[
     return lines
 
 
+def learned_names_section(cfg) -> list[str]:
+    """قسم «📝 أسماء وحّدها البوت تلقائيًا» (Issue #1074) — سطر واحد لكل
+    رسم وحّده src/names_learn.py خلال آخر LEARNED_NAMES_WINDOW_DAYS أيام
+    (بحسب learned_at في state/names_learned.json، لا وقت توليد هذا
+    التقرير). إن لم يتعلّم شيئًا هذا الأسبوع فلا سطر ولا عنوان إطلاقًا —
+    لا حاجة لتمرير cfg فعليًا هنا (لا شيء يُضبَط من config.yaml في هذا
+    القسم بذاته)، أُبقي للتناسق مع بقية دوال هذا الملف."""
+    entries = names_learn.load_learned().get("entries") or {}
+    cutoff = datetime.now(timezone.utc) - timedelta(days=LEARNED_NAMES_WINDOW_DAYS)
+
+    lines: list[str] = []
+    for canonical in sorted(entries):
+        info = entries[canonical]
+        try:
+            learned_at = datetime.fromisoformat(info.get("learned_at", ""))
+        except ValueError:
+            continue
+        if learned_at < cutoff:
+            continue
+        counts = info.get("counts") or {}
+        canon_n = counts.get(canonical, 0)
+        for variant in sorted(info.get("variants") or []):
+            var_n = counts.get(variant, 0)
+            lines.append(f"- 📝 وُحّد الرسم: {variant} ← {canonical} ({canon_n} مقابل {var_n})")
+
+    if not lines:
+        return []
+    return [
+        "", "#### 📝 أسماء وحّدها البوت تلقائيًا", "",
+        *lines, "",
+        "<sub>لإلغاء أي منها أضف الاسم إلى `names.blocklist` في config.yaml.</sub>",
+    ]
+
+
 # ──────────────── لماذا لم تنشر هذه؟ (Issue #843) ────────────────
 #
 # بعد #841، مدخلتا «لم يُعتمد»/«لم يُختر» في state/rejections.json تُسجَّلان
@@ -621,7 +660,8 @@ def why_not_published_section(entries: list[dict], days: int,
 
 
 def build_report(a: dict, recs: list[dict], days: int,
-                  decisions_lines: list[str] | None = None) -> str:
+                  decisions_lines: list[str] | None = None,
+                  learned_names_lines: list[str] | None = None) -> str:
     """حين لا توجد منشورات (`a` فارغ)، الخروج المبكر السابق كان يُعيد سطر
     «لا منشورات» ويتوقف قبل أي قسم — فيحجب «❓ لماذا لم تنشر هذه؟» في
     الأسبوع الذي لا يُنشر فيه شيء، وهو أحوج الأسابيع إلى السؤال (Issue
@@ -683,6 +723,9 @@ def build_report(a: dict, recs: list[dict], days: int,
     if decisions_lines:
         lines += decisions_lines
 
+    if learned_names_lines:
+        lines += learned_names_lines
+
     from .feedback import load as load_rejections, summarise
     entries = load_rejections()
     patterns = summarise(entries, days=min(days, 14))
@@ -732,7 +775,8 @@ def main() -> int:
         a = {}
         visible_recs = []
 
-    report = build_report(a, visible_recs, args.days, decisions_report(cfg))
+    report = build_report(a, visible_recs, args.days, decisions_report(cfg),
+                          learned_names_section(cfg))
     print(report)
 
     summary = os.environ.get("GITHUB_STEP_SUMMARY")

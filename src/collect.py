@@ -20,7 +20,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import decisions, feedback, headlines as headlines_mod, preselect, store
+from . import decisions, feedback, headlines as headlines_mod, names_learn, preselect, store
 from .config import DRAFTS_DIR, load_config
 from .rank import apply_region_diversity, rank
 from .screen import screen
@@ -49,6 +49,17 @@ def prune_reels(keep_days: int) -> None:
             removed += 1
     if removed:
         log.info("حُذف %d ريل قديم لتخفيف حجم المستودع", removed)
+
+
+def run_names_learning(cfg) -> None:
+    """يشغّل تعلّم توحيد الأسماء (Issue #1074) في نهاية دورة الجمع --
+    محاط بـtry/except بنفس نمط decisions.scan: تعلّم مساعد لا يجوز أن
+    يُسقط دورة جمع حقيقية. names_learn.run نفسها تضبط سقف 24 ساعة، فهذا
+    الاستدعاء آمن من كل نقاط الخروج (preselect ومسار الصياغة الكامل)."""
+    try:
+        names_learn.run(cfg)
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر تعلّم توحيد الأسماء: %s", exc)
 
 
 def step_summary(text: str) -> None:
@@ -237,8 +248,10 @@ def main() -> int:
     # ولا صورة) بدل توليد الدفعة كاملة ثم انتظار رفض نصفها في المراجعة.
     preselect_cfg = cfg.get("preselect", {}) or {}
     if preselect_cfg.get("enabled", False):
-        return run_preselect(candidates, selection, dedupe_days, dupe_threshold,
-                             int(preselect_cfg.get("candidates_per_run", 5)))
+        result = run_preselect(candidates, selection, dedupe_days, dupe_threshold,
+                               int(preselect_cfg.get("candidates_per_run", 5)))
+        run_names_learning(cfg)
+        return result
 
     # 5) التوليد — المؤشر يحكم ما دام قويًا، والحصص تتدخل حين يضعف
     history = store.load_history()
@@ -442,6 +455,7 @@ def main() -> int:
     store.save_history(history, dedupe_days)
     prune_reels(int((cfg.get("reel", {}) or {}).get("keep_days", 3)))
     log.info("الاستهلاك: %s", usage_summary())
+    run_names_learning(cfg)
 
     if not drafts:
         log.warning("لم تُنتج أي مسودة (%d خبر مرفوض)", rejected)
