@@ -95,7 +95,7 @@ jobs:
           echo "changed=true" >> "$GITHUB_OUTPUT"
           git commit -m "chore(youtube): قضايا ومسودات $(date -u '+%Y-%m-%d %H:%M') UTC"
           for attempt in 1 2 3 4 5; do
-            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}" || true
+            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}" || git rebase --abort || true
             if git push origin "HEAD:${GITHUB_REF_NAME}"; then
               echo "✅ رُفع في المحاولة $attempt"
               exit 0
@@ -122,7 +122,7 @@ jobs:
           fi
           git commit -m "chore(youtube): مقالات $(date -u '+%Y-%m-%d %H:%M') UTC"
           for attempt in 1 2 3 4 5; do
-            git pull --rebase --autostash -X theirs origin "$BRANCH" || true
+            git pull --rebase --autostash -X theirs origin "$BRANCH" || git rebase --abort || true
             if git push origin "HEAD:$BRANCH"; then
               echo "✅ رُفع في المحاولة $attempt"
               exit 0
@@ -149,7 +149,7 @@ jobs:
           fi
           git commit -m "chore(youtube): ربط المسودات بـ Issue المراجعة"
           for attempt in 1 2 3 4 5; do
-            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}" || true
+            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}" || git rebase --abort || true
             if git push origin "HEAD:${GITHUB_REF_NAME}"; then exit 0; fi
             sleep $((attempt * 7))
           done
