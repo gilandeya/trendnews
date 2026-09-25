@@ -60,27 +60,75 @@ def _parse(text: str) -> list[list[int]]:
     return [[int(i) for i in g] for g in (data.get("groups") or [])]
 
 
+def _group_titles_max_tokens(n_titles: int, mcfg: dict) -> int:
+    """يحسب سقف رد _group_titles من عدد العناوين (Issue #1063): دفعة قد
+    تصل إلى ``top`` عنوانًا (60 افتراضيًا) كانت تُرسَل بسقف 1500 ثابت —
+    كافٍ لأغلب الدفعات لكنه يقطع دفعة كبيرة من عناوين طويلة بصمت. 1500
+    يبقى حدًّا أدنى (القيمة الثابتة السابقة)؛ tokens_per_title/max_tokens_cap
+    مفتاحان جديدان تحت merge."""
+    tokens_per_title = int(mcfg.get("tokens_per_title", 30))
+    cap = int(mcfg.get("max_tokens_cap", 6000))
+    return min(cap, max(1500, tokens_per_title * n_titles + 300))
+
+
 def _group_titles(titles: list[str], cfg) -> list[list[int]] | None:
-    """يجمّع فهارس العناوين حسب الحدث الذي تصفه؛ يعيد None عند أي فشل."""
+    """يجمّع فهارس العناوين حسب الحدث الذي تصفه؛ يعيد None عند أي فشل.
+
+    السقف (Issue #1063) يُحسب من عدد العناوين (_group_titles_max_tokens) بدل
+    1500 ثابت. القطع (stop_reason == "max_tokens") يُكشف صراحةً **قبل**
+    محاولة تفسير الرد كـJSON — كان يقع ضمن except JSONDecodeError العام
+    فيُسجَّل بتحذير غامض «فشل تجميع العناوين دلاليًا» لا يسمّي القطع سببًا.
+    سطر ERROR يسمّي عدد العناوين والسقف عند الاكتشاف، ثم إعادة محاولة واحدة
+    بسقف مضاعف (مقصوص عند max_tokens_cap). التدهور الآمن يبقى كما هو بعد
+    فشل الإعادة أيضًا: None (لا دمج هذه الدورة)، لكن بسطر ERROR يسمّي القطع
+    سببًا صريحًا لا برسالة عامة."""
     mcfg = cfg.get("merge", {}) or {}
     model = mcfg.get("model", "claude-haiku-4-5-20251001")
     listing = "\n".join(f"{i}. {t}" for i, t in enumerate(titles))
+    n_titles = len(titles)
+    max_tokens = _group_titles_max_tokens(n_titles, mcfg)
+    cap = int(mcfg.get("max_tokens_cap", 6000))
 
-    try:
+    def _call(tokens: int):
         resp = _client().messages.create(
             model=model,
-            max_tokens=1500,
+            max_tokens=tokens,
             system=SYSTEM,
             messages=[{"role": "user", "content": f"العناوين:\n\n{listing}"}],
         )
         from .writer import record_usage
         record_usage(resp, model)
-        text = "".join(b.text for b in resp.content
-                       if getattr(b, "type", "") == "text")
-        return _parse(text)
-    except (APIError, RuntimeError, json.JSONDecodeError, ValueError) as exc:
+        return resp
+
+    try:
+        resp = _call(max_tokens)
+    except (APIError, RuntimeError) as exc:
         # RuntimeError تصدر من _client() نفسه إن غاب ANTHROPIC_API_KEY —
         # يجب أن تتدهور كبقية أعطال النموذج، لا أن تُسقط الجمع كله.
+        log.warning("فشل تجميع العناوين دلاليًا: %s", exc)
+        return None
+
+    if getattr(resp, "stop_reason", "") == "max_tokens":
+        log.error(
+            "تجميع العناوين مقطوع (stop_reason=max_tokens) لـ%d عنوانًا — "
+            "السقف %d غير كافٍ", n_titles, max_tokens)
+        retry_tokens = min(cap, max_tokens * 2)
+        try:
+            resp = _call(retry_tokens)
+        except (APIError, RuntimeError) as exc:
+            log.warning("فشل نداء إعادة محاولة تجميع العناوين: %s", exc)
+            return None
+        if getattr(resp, "stop_reason", "") == "max_tokens":
+            # لا سطر ERROR ثانٍ هنا — الأول أعلاه سمّى القطع سببًا صراحةً
+            # بالفعل (نفس مبدأ screen.py/_ask_naming_model: ERROR واحد لكل
+            # نداء مرحلة، لا واحد لكل محاولة).
+            return None
+
+    text = "".join(b.text for b in resp.content
+                   if getattr(b, "type", "") == "text")
+    try:
+        return _parse(text)
+    except (json.JSONDecodeError, ValueError) as exc:
         log.warning("فشل تجميع العناوين دلاليًا: %s", exc)
         return None
 

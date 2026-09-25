@@ -730,3 +730,89 @@ def test_guards_golden() -> None:
     evidence.build_query_for_claim = real_build_query_for_claim6
     evidence._entities_text = real_entities_text6
     evidence.readable_only = real_readable_only6
+
+    # ── حارس سياق الكيان المبهم (article._ask_context_model عبر _write_article
+    # الحقيقية، Issue #1063 — نظير حارسَي التسمية/الإجابة أعلاه بالضبط، لكن
+    # لمرحلة «مرجعي» الاحتياطية في _name_event لا مرحلة «مباشر»): نفس عطل
+    # Issue #1061 كان قائمًا هنا أيضًا — سقف 200 ثابت والقطع كان يُقرأ بصمت
+    # كـ"لا سياق مستخلَص" حقيقي. مرحلة «مباشر» تُفشَل عمدًا بلا وثائق (بحث
+    # مزيَّف يعيد نتائج فقط حين unrestricted=True، أي لمرحلة «مرجعي» وحدها)
+    # كي يصل التنفيذ إلى _ask_context_model على العميل المقطوع دومًا أدناه
+    # بلا تعقيد إضافي في عدّ النداءات ──
+    real_client_golden7 = article._client
+    real_extract_brief7 = article.extract_brief
+    real_search7 = evidence.search
+    real_gather_evidence7 = evidence.gather_evidence
+
+    golden_context_text = "أشار موجزي إلى تطورات غامضة وقعت مؤخرًا في الإقليم"
+
+    def _install_context_failure_brief():
+        article.extract_brief = lambda body, cfg, retries=3: ({
+            "topic": "",
+            "statements": [
+                {"text": golden_context_text, "kind": "واقعة",
+                 "entities": ["كيان تجريبي", "10 أيلول"],
+                 "is_unnamed_event": True, "is_reference": False},
+            ],
+            "questions": [],
+        }, None)
+
+        def search_stub(query, cfg, days, **kwargs):
+            # unrestricted=True حصرًا لمرحلة «مرجعي» — مرحلة «مباشر» (بلا هذا
+            # المفتاح) تعود بلا نتائج فتُفشَل بـ"لا وثائق للتسمية" العادية،
+            # لا بفشل نداء نموذج، فيبقى العدّ دقيقًا لحارس السياق وحده.
+            return [object()] if kwargs.get("unrestricted") else []
+
+        def gather_stub(ranked, cfg, query, **kwargs):
+            if not ranked:
+                return [], evidence.EVIDENCE_NO_RESULTS
+            return ([{"name": "مصدر أول", "text": "نص", "link": "https://s1/1"}],
+                    evidence.EVIDENCE_FULL_TEXT)
+
+        evidence.search = search_stub
+        evidence.gather_evidence = gather_stub
+
+    class _GoldenResp7:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = None
+
+    class _AlwaysCutMessages7:
+        def __init__(self):
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return _GoldenResp7([], stop_reason="max_tokens")
+
+    class _AlwaysCutClient7:
+        def __init__(self):
+            self.messages = _AlwaysCutMessages7()
+
+    cfg_golden7 = load_config()
+    cfg_golden7["article"]["source_extract_enabled"] = False
+
+    _install_context_failure_brief()
+    client_golden7 = _AlwaysCutClient7()
+    article._client = lambda: client_golden7
+    out_context = article._write_article("موجز اختبار حارس السياق (تقني)", 10507, cfg_golden7)
+    article._client = real_client_golden7
+
+    context_trail = [t for t in out_context["trail"] if t["stage"] == "مرجعي"]
+    check("(#1063) حارس سياق الكيان: فشل نداء تقني مستمر ⇒ trail «مرجعي» يكتب "
+          "«⚠️ فشل نداء النموذج تقنيًا» لا «لا سياق مستخلَص»",
+          bool(context_trail)
+          and "⚠️ فشل نداء النموذج تقنيًا" in context_trail[0]["outcome"]
+          and "لا سياق مستخلَص" not in context_trail[0]["outcome"],
+          context_trail if context_trail else out_context["trail"])
+    report_context = article.build_report(out_context)
+    check("(#1063) حارس سياق الكيان: التقرير الظاهر (build_report) يحمل عبارة فشل "
+          "النداء التقنية صراحة لا حكمًا على السياق",
+          "⚠️ فشل نداء النموذج تقنيًا" in report_context
+          and "لا سياق مستخلَص" not in report_context,
+          report_context)
+
+    article.extract_brief = real_extract_brief7
+    evidence.search = real_search7
+    evidence.gather_evidence = real_gather_evidence7

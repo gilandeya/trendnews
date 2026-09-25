@@ -595,42 +595,101 @@ CONTEXT_SCHEMA = {
 }
 
 
+def _context_max_tokens(n_docs: int, acfg: dict) -> int:
+    """يحسب سقف رد _ask_context_model من عدد الوثائق (Issue #1063، نظير
+    _naming_max_tokens/_answer_max_tokens لIssue #1061): مخرَج قائمة كلمات
+    سياق يتّسع نظريًا مع عدد الوثائق المعروضة — سقف ثابت (200) كان يقطع أي
+    استخلاص من عدد وثائق كافٍ بصمت (لا فحص stop_reason أصلًا). context_min_tokens
+    حدّ أدنى فقط (200، القيمة الثابتة السابقة) لا سقف؛ تستعمل
+    article.support_tokens_per_source/support_max_tokens_cap القائمين (لا
+    مفتاحين جديدين لهما — نفس مبدأ _naming_max_tokens)."""
+    min_tokens = int(acfg.get("context_min_tokens", 200))
+    tokens_per_source = int(acfg.get("support_tokens_per_source", 40))
+    cap = int(acfg.get("support_max_tokens_cap", 4000))
+    return min(cap, max(min_tokens, tokens_per_source * n_docs + 200))
+
+
 def _ask_context_model(entity: str, exclude_entities: list[str], docs: list[dict],
                        cfg, max_terms: int) -> list[str]:
     """يستخلص سياق كيان من نصوص بحث مرجعي فعلية بنداء نموذج (تعليق الموافقة
     الثاني، البند 3، البديل أ) — لا بترجيح تكرار خام (كان يُخرج حشوًا لا
     كيانات مميِّزة فعليًا، فشل «لبّاد» في التشخيص المعتمَد). النصوص مصادر
-    مقروءة لا معرفة نموذج (القاعدة 3) — النداء مقيَّد بها حصرًا."""
+    مقروءة لا معرفة نموذج (القاعدة 3) — النداء مقيَّد بها حصرًا.
+
+    السقف (Issue #1063) يُحسب من عدد الوثائق (_context_max_tokens) بدل 200
+    ثابت، بنفس أسلوب _ask_naming_model بالضبط: قطع الرد (stop_reason ==
+    "max_tokens" أو غياب كتلة tool_use صالحة) يُكشف صراحةً بسطر ERROR ثم
+    إعادة محاولة واحدة بسقف مضاعف (مقصوص عند support_max_tokens_cap). فشل
+    تقني (APIError ابتداءً، أو قطع مستمر بعد الإعادة) يعيد _ModelCallList
+    فارغة بـcall_error مضبوطًا — استعمل getattr(result, "call_error", None)
+    للتمييز عن حكم حقيقي بلا كلمات سياق (قائمة فارغة بلا call_error)، تمامًا
+    كما يميّز مستدعي _ask_naming_model call_error عن حكم named: false."""
     if not docs:
-        return []
+        return _ModelCallList()
     acfg = cfg.get("article", {}) or {}
     model = acfg.get("model", "claude-sonnet-5")
     client = _client()
     narrowed = [{"name": d["name"], "text": _narrow_for_context(d.get("text", ""))}
                for d in docs]
     prompt = f"الكيان: {entity}\n\nنصوص مصادر مرجعية:\n\n{_format_docs(narrowed)}"
-    try:
+    n_docs = len(docs)
+    max_tokens = _context_max_tokens(n_docs, acfg)
+    cap = int(acfg.get("support_max_tokens_cap", 4000))
+
+    def _call(tokens: int):
         resp = client.messages.create(
             model=model,
-            max_tokens=200,
+            max_tokens=tokens,
             tools=[CONTEXT_SCHEMA],
             tool_choice={"type": "tool", "name": "extract_context"},
             system=CONTEXT_SYSTEM,
             messages=[{"role": "user", "content": prompt}],
         )
         writer.record_usage(resp, model)
+        return resp
+
+    def _tool_use_data(resp):
+        return next((b.input for b in resp.content
+                    if getattr(b, "type", "") == "tool_use"), None)
+
+    def _truncated(resp, data) -> bool:
+        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
+
+    try:
+        resp = _call(max_tokens)
     except APIError as exc:
         log.warning("فشل نداء استخلاص سياق الكيان %r: %s", entity, exc)
-        return []
-    data = next((b.input for b in resp.content
-                if getattr(b, "type", "") == "tool_use"), None)
+        fail = _ModelCallList()
+        fail.call_error = str(exc)
+        return fail
+
+    data = _tool_use_data(resp)
+    if _truncated(resp, data):
+        log.error(
+            "استخلاص سياق الكيان %r مقطوع (stop_reason=max_tokens أو بلا كتلة "
+            "tool_use صالحة) لـ%d وثيقة — السقف %d غير كافٍ",
+            entity, n_docs, max_tokens)
+        retry_tokens = min(cap, max_tokens * 2)
+        try:
+            resp = _call(retry_tokens)
+        except APIError as exc:
+            log.warning("فشل نداء إعادة محاولة استخلاص سياق الكيان %r: %s", entity, exc)
+            fail = _ModelCallList()
+            fail.call_error = str(exc)
+            return fail
+        data = _tool_use_data(resp)
+        if _truncated(resp, data):
+            fail = _ModelCallList()
+            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
+            return fail
+
     terms = data.get("terms") if isinstance(data, dict) else None
     if not isinstance(terms, list):
-        return []
+        return _ModelCallList()
     exclude_norm: set[str] = set()
     for e in exclude_entities:
         exclude_norm |= norm_tokens(e)
-    out: list[str] = []
+    out = _ModelCallList()
     for t in terms:
         if not isinstance(t, str):
             continue
@@ -1116,14 +1175,23 @@ def _name_event(statement: dict, cfg, topic: str = "") -> tuple[str | None, list
         ranked = evidence.search(entity, cfg, days, unrestricted=True)
         docs, basis = evidence.gather_evidence(ranked, cfg, entity)
         terms = _ask_context_model(entity, entities, docs, cfg, max_context_terms) if docs else []
+        context_call_error = getattr(terms, "call_error", None)
+        if context_call_error:
+            # فشل نداء تقني (رفض API، انقطاع شبكة، قطع مستمر...) لا حكم
+            # "لا كلمات سياق" حقيقي من النموذج — نفس تمييز _try أعلاه بالضبط
+            # (تشخيص Issue #1063، نظير Issue #373 الجولة الحادية عشرة).
+            outcome = f"⚠️ فشل نداء النموذج تقنيًا: {context_call_error}"
+        elif terms:
+            outcome = f"{len(terms)} كلمة سياق مستخلَصة"
+        else:
+            outcome = "لا سياق مستخلَص"
         trail.append({"stage": "مرجعي", "query": entity, "basis": basis,
                       "sources": [d["name"] for d in docs],
                       "raw_count": getattr(ranked, "raw_count", None),
                       "matched_count": getattr(ranked, "matched_count", None),
                       "fetch_failures": getattr(docs, "fetch_failures", []),
                       "top_candidates": getattr(docs, "top_candidates", []),
-                      "outcome": f"{len(terms)} كلمة سياق مستخلَصة" if terms
-                                else "لا سياق مستخلَص"})
+                      "outcome": outcome})
         context_terms += terms
     context_terms = list(dict.fromkeys(context_terms))
 
