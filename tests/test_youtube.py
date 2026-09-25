@@ -1512,6 +1512,69 @@ def test_youtube_cluster() -> None:
           no_merge_found == [merge_a, merge_unrelated] and no_merge_log == [] and
           no_merge_error is not None, no_merge_error)
 
+    # ── merge_duplicate_events: فحص stop_reason صراحةً بنفس أسلوب cluster_points
+    # أعلاه بالضبط (Issue #1063) -- كانت لا تفحصه إطلاقًا رغم امتلاكها إعادة
+    # محاولة قائمة (merge_max_retries)، فالقطع كان يُعامَل كأي إخراج غير
+    # مهيكل عادي بلا تمييز، بلا رفع السقف في المحاولة التالية ──
+
+    # 1) قطع مرة ثم نجاح إعادة المحاولة: النتيجة (الدمج) تصل فعلًا، والنداء
+    # الثاني بسقف مضاعف عن الأول.
+    merge_truncate_client = _Client([
+        _Resp([_Block("text", text="بلوك ناقص لم يكتمل")], stop_reason="max_tokens",
+              usage=_Usage(input_tokens=500, output_tokens=2000)),
+        _Resp([_Block("tool_use", input_={"merges": [{"issue_indices": [0, 1]}]})],
+              stop_reason="end_turn"),
+    ])
+    merged_t, merge_log_t, merge_error_t = ycl.merge_duplicate_events(
+        [merge_a, merge_b, merge_unrelated], cluster_cfg, merge_truncate_client)
+    check("merge_duplicate_events: قطع مرة ثم نجاح ⇒ الدمج يقع فعليًا بلا خطأ",
+          merge_error_t is None and len(merged_t) == 2, (merged_t, merge_error_t))
+    check("merge_duplicate_events: قطع مرة ثم نجاح ⇒ نداءان فقط، والثاني بسقف مضاعف عن الأول",
+          len(merge_truncate_client.messages.calls) == 2 and
+          merge_truncate_client.messages.calls[1]["max_tokens"] ==
+          merge_truncate_client.messages.calls[0]["max_tokens"] * 2,
+          [c["max_tokens"] for c in merge_truncate_client.messages.calls])
+
+    # 2) قطع مستمر (كلتا المحاولتين، max_retries=2 افتراضيًا): لا دمج —
+    # القضايا كما هي (التدهور الآمن المنصوص عليه)، وسبب الفشل النهائي يسمّي
+    # max_tokens صراحةً في رسالة الفشل (لا "لم يُعِد إخراجًا مهيكلًا صالحًا"
+    # العامة وحدها).
+    merge_giveup_client = _Client([
+        _Resp([_Block("text", text="")], stop_reason="max_tokens"),
+        _Resp([_Block("text", text="")], stop_reason="max_tokens"),
+    ])
+    merged_g, merge_log_g, merge_error_g = ycl.merge_duplicate_events(
+        [merge_a, merge_unrelated], cluster_cfg, merge_giveup_client)
+    check("merge_duplicate_events: قطع مستمر ⇒ لا دمج — القضايا كما هي (التدهور الآمن)",
+          merged_g == [merge_a, merge_unrelated] and merge_log_g == [], merged_g)
+    check("merge_duplicate_events: قطع مستمر ⇒ سبب الفشل النهائي يسمّي max_tokens صراحةً",
+          merge_error_g is not None and "max_tokens" in merge_error_g, merge_error_g)
+    check("merge_duplicate_events: قطع مستمر ⇒ نداءان بالضبط (max_retries)، والثاني بسقف "
+          "مضاعف عن الأول",
+          len(merge_giveup_client.messages.calls) == 2 and
+          merge_giveup_client.messages.calls[1]["max_tokens"] ==
+          merge_giveup_client.messages.calls[0]["max_tokens"] * 2,
+          [c["max_tokens"] for c in merge_giveup_client.messages.calls])
+
+    # 3) السقف المضاعف يُقصّ عند merge_max_tokens_cap -- سقف ابتدائي وcap
+    # قريبان منه كي يظهر أثر القصّ فعليًا في النداء الثاني.
+    from src.config import Config as _CfgClass
+    capped_cfg = _CfgClass({"youtube": {"cluster": {
+        "merge_model": "claude-haiku-4-5-20251001",
+        "merge_max_tokens": 3000, "merge_max_retries": 2,
+        "merge_max_tokens_cap": 4000,
+    }}})
+    merge_cap_client = _Client([
+        _Resp([_Block("text", text="")], stop_reason="max_tokens"),
+        _Resp([_Block("tool_use", input_={"merges": []})], stop_reason="end_turn"),
+    ])
+    ycl.merge_duplicate_events([merge_a, merge_unrelated], capped_cfg, merge_cap_client)
+    check("merge_duplicate_events: السقف المضاعف يُقصّ عند merge_max_tokens_cap "
+          "(3000×2=6000 يُقصّ إلى 4000)",
+          merge_cap_client.messages.calls[0]["max_tokens"] == 3000 and
+          merge_cap_client.messages.calls[1]["max_tokens"] == 4000,
+          [c["max_tokens"] for c in merge_cap_client.messages.calls])
+
     # ── load_points/load_topics: ملف غائب أو تالف لا يُسقِط التشغيلة ──
     check("load_points: تاريخ بلا ملف يعيد قائمة فارغة",
           ycl.load_points("1999-01-01") == [])

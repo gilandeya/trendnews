@@ -608,6 +608,14 @@ preselect:
     # للترجمة — توفير إضافي. 0.4 يكفي لتمييز عنوان عربي مكتوب فعلًا حتى
     # مع وجود أرقام/أسماء أعلام لاتينية داخله.
     arabic_skip_ratio: 0.4
+    # max_tokens صار حدًّا أدنى فقط لا سقفًا ثابتًا (Issue #1063، نظير
+    # article.naming_min_tokens): كان يقطع دفعة كبيرة من العناوين المطلوب
+    # ترجمتها بصمت (except عام). tokens_per_title/max_tokens_cap مفتاحان
+    # جديدان — السقف الفعلي min(max_tokens_cap، max(max_tokens،
+    # tokens_per_title × عدد العناوين غير المترجمة + 300)).
+    max_tokens: 1500
+    tokens_per_title: 60
+    max_tokens_cap: 6000
 
 # ── الصياغة العربية (Claude API) ────────────────────────────
 writer:
@@ -972,6 +980,12 @@ article:
   # الوثائق لتبرير مخرَج أطول (اسم مصدر مؤيِّد محتمل لكل وثيقة).
   naming_min_tokens: 500
   answer_min_tokens: 400
+  # context_min_tokens (Issue #1063، نفس مبدأ naming_min_tokens/answer_min_tokens
+  # أعلاه بالضبط): حدّ أدنى فقط لسقف article._ask_context_model
+  # (article._context_max_tokens) — القيمة الثابتة السابقة (200)، لا سقف.
+  # السقف الفعلي min(support_max_tokens_cap، max(context_min_tokens،
+  # support_tokens_per_source × عدد الوثائق المعروضة + 200)).
+  context_min_tokens: 200
   # خط أساس ثابت (تشخيص Issue #373، الجولتان الرابعة والخامسة، البند 3):
   # موجز مرجعي واحد يُعاد تشغيله عبر --issue --baseline بعد كل تغيير في
   # article.py/evidence.py/extract.py يمسّ سلّم البحث أو بوابة الاتساق أو
@@ -1040,6 +1054,11 @@ merge:
   enabled: true
   model: "claude-haiku-4-5-20251001"
   top: 60                    # عدد المتصدّرين الذين يمرّون بالدمج
+  # سقف رد merge._group_titles (Issue #1063): 1500 كان ثابتًا لدفعة تصل إلى
+  # `top` عنوانًا (60) — يبقى حدًّا أدنى. السقف الفعلي min(max_tokens_cap،
+  # max(1500، tokens_per_title × عدد العناوين + 300)).
+  tokens_per_title: 30
+  max_tokens_cap: 6000
 
 # ── الفرز الأولي (توفير التكلفة) ────────────────────────────
 # استدعاء رخيص واحد بنموذج Haiku يفحص عشرات العناوين دفعة واحدة ويستبعد
@@ -1359,6 +1378,10 @@ youtube:
     merge_model: "claude-haiku-4-5-20251001"
     merge_max_tokens: 2000
     merge_max_retries: 2
+    # سقف أعلى لمضاعفة merge_max_tokens بعد قطع (stop_reason=max_tokens،
+    # Issue #1063) -- المحاولة التالية بعد قطع تستعمل ضعف السقف السابق
+    # مقصوصًا عند هذه القيمة، لا merge_max_tokens نفسه في كل محاولة.
+    merge_max_tokens_cap: 8000
     # حارس عقلانية (Issue #662 متابعة): تشغيلة فعلية أعطت قضية واحدة من ٢٠٩
     # نقطة مدخلة -- إخراج مهيكل (tool_use) صالح الشكل تمامًا، بلا رسالة خطأ
     # ولا stop_reason غير طبيعي، لكن هزيل دلاليًا لدرجة تُبطل قيمة العنقدة.

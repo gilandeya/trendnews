@@ -34,6 +34,7 @@ from tests.test_collect import (
     test_appeal_factors,
     test_appeal_factors_affect_ranking,
     test_screen_truncation_retry,
+    test_merge_group_titles_truncation_retry,
     test_radar_gate_check_dedupe,
     test_radar_preselect_fallback,
     test_radar_auto_publish_builds_card,
@@ -57,6 +58,7 @@ from tests.test_review import (
     test_preselect_card_only_and_three_way_conflicts,
     test_preselect_card_build_failure_keeps_pending,
     test_preselect_translate_titles,
+    test_preselect_translate_titles_truncation_retry,
     test_finalize_format_mismatch_no_silent_fail,
     test_publish_conflicting_labels_no_dispatch,
     test_writer_classifies_write_errors,
@@ -265,6 +267,8 @@ def main() -> int:
     test_appeal_factors_affect_ranking()
     print("\n── سقف رد الفرز يُحسب من حجم الدفعة، وإعادة المحاولة عند القطع (Issue #1047) ──")
     test_screen_truncation_retry()
+    print("\n── سقف رد الدمج الدلالي يُحسب من عدد العناوين، وإعادة المحاولة عند القطع (Issue #1063) ──")
+    test_merge_group_titles_truncation_retry()
     print("\n── كاشف تكرار النشر التلقائي (الرادار) ──")
     test_radar_gate_check_dedupe()
     test_radar_preselect_fallback()
@@ -301,6 +305,8 @@ def main() -> int:
     test_preselect_card_only_and_three_way_conflicts()
     test_preselect_card_build_failure_keeps_pending()
     test_preselect_translate_titles()
+    print("\n── سقف رد ترجمة العناوين يُحسب من عددها، وإعادة المحاولة عند القطع (Issue #1063) ──")
+    test_preselect_translate_titles_truncation_retry()
     test_finalize_format_mismatch_no_silent_fail()
     test_publish_conflicting_labels_no_dispatch()
     print("\n── عطل خارجي عند الصياغة مقابل رفض تحريري (preselect) ──")

@@ -666,17 +666,19 @@ def merge_duplicate_events(issues: list[dict], cfg: Config, client: Anthropic | 
                       cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001"))
     max_tokens = cfg.path("youtube.cluster.merge_max_tokens", 2000)
     max_retries = cfg.path("youtube.cluster.merge_max_retries", 2)
+    merge_max_tokens_cap = cfg.path("youtube.cluster.merge_max_tokens_cap", 8000)
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
     brief = [{"index": i, "event": issue["event"]} for i, issue in enumerate(issues)]
 
     raw_merges: list | None = None
     last_snippet = ""
+    current_tokens = max_tokens
     for attempt in range(1, max_retries + 1):
         try:
             resp = client.messages.create(
                 model=model,
-                max_tokens=max_tokens,
+                max_tokens=current_tokens,
                 tools=[MERGE_SCHEMA],
                 tool_choice={"type": "tool", "name": "merge_duplicate_events"},
                 system=MERGE_SYSTEM,
@@ -687,6 +689,7 @@ def merge_duplicate_events(issues: list[dict], cfg: Config, client: Anthropic | 
             log.warning("فشل نداء دمج الأحداث المتكرّرة -- بلا دمج هذه التشغيلة: %s", exc)
             return issues, [], f"فشل نداء الدمج: {exc}"
 
+        stop_reason = getattr(resp, "stop_reason", None)
         data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None)
         candidate = data.get("merges") if isinstance(data, dict) else None
         if isinstance(candidate, list):
@@ -694,9 +697,21 @@ def merge_duplicate_events(issues: list[dict], cfg: Config, client: Anthropic | 
             break
         text_snippet = "".join(b.text for b in resp.content
                                 if getattr(b, "type", "") == "text")[:500]
-        log.warning("محاولة %d/%d: لم يُعِد نداء الدمج إخراجًا مهيكلًا صالحًا (%d قضية مدخلة)",
-                    attempt, max_retries, len(issues))
-        last_snippet = text_snippet
+        if stop_reason == "max_tokens":
+            # نفس أسلوب cluster_points أعلاه في هذا الملف بالضبط (Issue
+            # #1063، لا نمط article.py) -- القطع سبب صريح في سطر السجل
+            # وفي رسالة الفشل النهائية، لا "لم يُعِد إخراجًا مهيكلًا صالحًا"
+            # العامة وحدها. آلية إعادة المحاولة القائمة (max_retries) تبقى
+            # كما هي عددًا وسلوكًا -- المحاولة التالية فقط تستعمل سقفًا
+            # مضاعفًا مقصوصًا عند merge_max_tokens_cap.
+            log.warning("قُطع إخراج دمج الأحداث (stop_reason: max_tokens) -- %d قضية "
+                        "مدخلة، السقف %d", len(issues), current_tokens)
+            last_snippet = f"[stop_reason=max_tokens] {text_snippet}"
+            current_tokens = min(merge_max_tokens_cap, current_tokens * 2)
+        else:
+            log.warning("محاولة %d/%d: لم يُعِد نداء الدمج إخراجًا مهيكلًا صالحًا (%d قضية مدخلة)",
+                        attempt, max_retries, len(issues))
+            last_snippet = text_snippet
 
     if raw_merges is None:
         return issues, [], (f"لم يُعِد نداء الدمج إخراجًا مهيكلًا صالحًا بعد {max_retries} "

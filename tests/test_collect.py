@@ -1502,6 +1502,139 @@ def test_screen_truncation_retry() -> None:
           [(a.link, a.score) for a in final])
 
 
+def test_merge_group_titles_truncation_retry() -> None:
+    """Issue #1063: merge._group_titles كان يرسل max_tokens=1500 ثابتًا
+    لدفعة تصل إلى `merge.top` عنوانًا (60 افتراضيًا)، والقطع
+    (stop_reason=max_tokens) كان يقع ضمن except JSONDecodeError العام
+    فيُسجَّل بتحذير غامض «فشل تجميع العناوين دلاليًا» بلا تسمية القطع
+    سببًا، وتعود None (لا دمج تلك الدورة) بصمت.
+
+    يغطي على مخرَج المرحلة (merge.semantic_merge) لا _group_titles وحدها:
+    1) سقف الرد المحسوب من عدد العناوين (_group_titles_max_tokens): حالة
+       يغلب فيها الحدّ الأدنى (1500)، وحالة يغلب فيها الحساب من العدد،
+       وحالة تُقصّ عند max_tokens_cap.
+    2) دفعة سليمة: نداء واحد فقط، الدمج يقع كالمعتاد بلا تغيير.
+    3) قطع مرة ثم نجاح إعادة المحاولة: النتيجة (الدمج) تصل فعلًا، والنداء
+       الثاني بسقف مضاعف عن الأول، وERROR واحد فقط.
+    4) قطع مستمر (كلتا المحاولتين): لا دمج — القائمة كما هي (التدهور الآمن
+       المنصوص عليه)، وERROR واحد فقط يسمّي القطع سببًا صريحًا."""
+    from src import merge
+
+    now = datetime.now(timezone.utc)
+
+    def art(i, link_suffix):
+        return Article(title=f"عنوان الخبر رقم {i} بصياغة اختبارية كافية الطول",
+                       link=f"https://x/{link_suffix}",
+                       summary="", source_name="X", region="global", weight=1.0,
+                       published=now)
+
+    class _Block:
+        def __init__(self, text):
+            self.type = "text"
+            self.text = text
+
+    class _Resp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+
+    class _SeqMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            if not self._responses:
+                raise AssertionError("لا رد آخر متاح في التسلسل المزيَّف")
+            return self._responses.pop(0)
+
+    class _SeqClient:
+        def __init__(self, responses):
+            self.messages = _SeqMessages(responses)
+
+    class _FakeLog:
+        def __init__(self):
+            self.errors, self.warnings = [], []
+
+        def error(self, *a, **kw):
+            self.errors.append(a)
+
+        def warning(self, *a, **kw):
+            self.warnings.append(a)
+
+        def info(self, *a, **kw):
+            pass
+
+    real_client, real_log = merge._client, merge.log
+
+    # ── 1) سقف الرد المحسوب ──
+    check("merge._group_titles_max_tokens: الحدّ الأدنى (1500) يغلب لدفعة صغيرة",
+          merge._group_titles_max_tokens(5, {}) == 1500,
+          merge._group_titles_max_tokens(5, {}))
+    check("merge._group_titles_max_tokens: الحساب من العدد يغلب لدفعة كبيرة",
+          merge._group_titles_max_tokens(100, {}) == 30 * 100 + 300,
+          merge._group_titles_max_tokens(100, {}))
+    check("merge._group_titles_max_tokens: يُقصّ عند max_tokens_cap",
+          merge._group_titles_max_tokens(1000, {"max_tokens_cap": 6000}) == 6000,
+          merge._group_titles_max_tokens(1000, {"max_tokens_cap": 6000}))
+
+    # ── 2) دفعة سليمة: نداء واحد فقط، الدمج يقع كالمعتاد ──
+    clean = [art(0, "mclean0"), art(1, "mclean1"), art(2, "mclean2")]
+    resp_clean = _Resp([_Block(json.dumps({"groups": [[0, 1], [2]]}))])
+    fake_client1 = _SeqClient([resp_clean])
+    merge._client, merge.log = lambda: fake_client1, _FakeLog()
+    try:
+        merged_clean = merge.semantic_merge(list(clean), {"merge": {"enabled": True}})
+    finally:
+        merge._client, merge.log = real_client, real_log
+    check("دفعة سليمة: نداء واحد فقط للنموذج (لا قطع)",
+          len(fake_client1.messages.calls) == 1, len(fake_client1.messages.calls))
+    check("دفعة سليمة: الدمج يقع كالمعتاد (3 أخبار ← خبران)",
+          len(merged_clean) == 2, [a.link for a in merged_clean])
+
+    # ── 3) قطع مرة ثم نجاح إعادة المحاولة بسقف مضاعف ──
+    retry_batch = [art(10, "mretry0"), art(11, "mretry1"), art(12, "mretry2")]
+    resp_truncated = _Resp([_Block('{"groups": [[')], stop_reason="max_tokens")
+    resp_ok = _Resp([_Block(json.dumps({"groups": [[0, 1], [2]]}))])
+    fake_client2 = _SeqClient([resp_truncated, resp_ok])
+    merge._client, merge.log = lambda: fake_client2, _FakeLog()
+    try:
+        merged_retry = merge.semantic_merge(list(retry_batch), {"merge": {"enabled": True}})
+        fake_log2 = merge.log
+    finally:
+        merge._client, merge.log = real_client, real_log
+    check("قطع ثم نجاح: نداءان فقط (الأول مقطوع + الإعادة)",
+          len(fake_client2.messages.calls) == 2, len(fake_client2.messages.calls))
+    check("قطع ثم نجاح: النداء الثاني بسقف مضاعف عن الأول",
+          fake_client2.messages.calls[1]["max_tokens"] ==
+          fake_client2.messages.calls[0]["max_tokens"] * 2,
+          [c["max_tokens"] for c in fake_client2.messages.calls])
+    check("قطع ثم نجاح: النتيجة تصل فعلًا (الدمج يقع)",
+          len(merged_retry) == 2, [a.link for a in merged_retry])
+    check("قطع ثم نجاح: ERROR واحد فقط عند الاكتشاف",
+          len(fake_log2.errors) == 1, len(fake_log2.errors))
+
+    # ── 4) قطع مستمر (كلتا المحاولتين): لا دمج، ERROR واحد فقط ──
+    giveup_batch = [art(20, "mgiveup0"), art(21, "mgiveup1")]
+    resp_t0 = _Resp([_Block("")], stop_reason="max_tokens")
+    resp_t1 = _Resp([_Block("")], stop_reason="max_tokens")
+    fake_client3 = _SeqClient([resp_t0, resp_t1])
+    merge._client, merge.log = lambda: fake_client3, _FakeLog()
+    try:
+        merged_giveup = merge.semantic_merge(list(giveup_batch), {"merge": {"enabled": True}})
+        fake_log3 = merge.log
+    finally:
+        merge._client, merge.log = real_client, real_log
+    check("قطع مستمر: لا دمج — القائمة كما هي (التدهور الآمن)",
+          [a.link for a in merged_giveup] == [a.link for a in giveup_batch],
+          [a.link for a in merged_giveup])
+    check("قطع مستمر: ERROR واحد فقط يسمّي القطع سببًا صريحًا",
+          len(fake_log3.errors) == 1
+          and "max_tokens" in fake_log3.errors[0][0],
+          fake_log3.errors)
+
+
 def test_radar_gate_check_dedupe() -> None:
     """Issue #303: التشخيص أثبت أن score/group_sources لا يميّزان تحديث
     خبر منشور عن خبر جديد فعلًا — بل مرفوضات الرادار كانت أعلى قليلًا في

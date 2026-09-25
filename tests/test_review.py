@@ -1069,6 +1069,145 @@ def test_preselect_translate_titles() -> None:
         preselect._client = real_client
     check("فشل الاستدعاء يعيد {} بصمت بلا استثناء يوقف المسار", result == {})
 
+
+def test_preselect_translate_titles_truncation_retry() -> None:
+    """Issue #1063: preselect.translate_titles كانت ترسل سقفًا ثابتًا من
+    preselect.translate.max_tokens (1500) لا يتحرك مع عدد العناوين المطلوب
+    ترجمتها، والقطع (stop_reason=max_tokens) كان يقع ضمن except العام
+    فتُعرض العناوين بلا ترجمة بتحذير عام لا يسمّي القطع سببًا.
+
+    يغطي على مخرَج المرحلة (translate_titles) لا الدالة الداخلية وحدها:
+    1) سقف الرد المحسوب (_translate_max_tokens): حالة يغلب فيها الحدّ
+       الأدنى (max_tokens المضبوط)، وحالة يغلب فيها الحساب من عدد العناوين،
+       وحالة تُقصّ عند max_tokens_cap.
+    2) قطع مرة ثم نجاح إعادة المحاولة: الترجمات تصل فعلًا، والنداء الثاني
+       بسقف مضاعف عن الأول، وERROR واحد فقط.
+    3) قطع مستمر (كلتا المحاولتين): تُعرض العناوين بلا ترجمة كما اليوم
+       (التدهور الآمن)، وERROR واحد فقط يسمّي القطع سببًا صريحًا.
+    4) ترجمة جزئية بلا أي قطع: السلوك القائم يبقى حرفيًا — عنوان غير مذكور
+       في الرد يُعرض بلا ترجمة، بلا إعادة محاولة ولا ERROR."""
+    from src import preselect
+
+    class _Block:
+        def __init__(self, text):
+            self.type = "text"
+            self.text = text
+
+    class _Resp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+
+    class _SeqMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            if not self._responses:
+                raise AssertionError("لا رد آخر متاح في التسلسل المزيَّف")
+            return self._responses.pop(0)
+
+    class _SeqClient:
+        def __init__(self, responses):
+            self.messages = _SeqMessages(responses)
+
+    class _FakeLog:
+        def __init__(self):
+            self.errors, self.warnings = [], []
+
+        def error(self, *a, **kw):
+            self.errors.append(a)
+
+        def warning(self, *a, **kw):
+            self.warnings.append(a)
+
+        def info(self, *a, **kw):
+            pass
+
+    real_client, real_log = preselect._client, preselect.log
+    tcfg_base = {"enabled": True, "arabic_skip_ratio": 0.4}
+
+    # ── 1) سقف الرد المحسوب ──
+    check("preselect._translate_max_tokens: الحدّ الأدنى (max_tokens المضبوط) يغلب لعناوين قليلة",
+          preselect._translate_max_tokens(3, {"max_tokens": 1500}) == 1500,
+          preselect._translate_max_tokens(3, {"max_tokens": 1500}))
+    check("preselect._translate_max_tokens: الحساب من عدد العناوين يغلب لدفعة كبيرة",
+          preselect._translate_max_tokens(50, {"max_tokens": 1500}) == 60 * 50 + 300,
+          preselect._translate_max_tokens(50, {"max_tokens": 1500}))
+    check("preselect._translate_max_tokens: يُقصّ عند max_tokens_cap",
+          preselect._translate_max_tokens(
+              1000, {"max_tokens": 1500, "max_tokens_cap": 6000}) == 6000,
+          preselect._translate_max_tokens(1000, {"max_tokens": 1500, "max_tokens_cap": 6000}))
+
+    def _candidates(n, prefix):
+        return [{"id": f"{prefix}{i}", "title": f"English headline number {i} long enough"}
+                for i in range(n)]
+
+    # ── 2) قطع مرة ثم نجاح إعادة المحاولة بسقف مضاعف ──
+    retry_cands = _candidates(2, "tr")
+    resp_truncated = _Resp([_Block('{"translations": {')], stop_reason="max_tokens")
+    resp_ok = _Resp([_Block(json.dumps({"translations": {"1": "ترجمة أولى", "2": "ترجمة ثانية"}}))])
+    fake_client1 = _SeqClient([resp_truncated, resp_ok])
+    preselect._client, preselect.log = lambda: fake_client1, _FakeLog()
+    cfg1 = load_config()
+    cfg1["preselect"] = {"translate": dict(tcfg_base)}
+    try:
+        result1 = preselect.translate_titles(retry_cands, cfg1)
+        fake_log1 = preselect.log
+    finally:
+        preselect._client, preselect.log = real_client, real_log
+    check("قطع ثم نجاح: نداءان فقط (الأول مقطوع + الإعادة)",
+          len(fake_client1.messages.calls) == 2, len(fake_client1.messages.calls))
+    check("قطع ثم نجاح: النداء الثاني بسقف مضاعف عن الأول",
+          fake_client1.messages.calls[1]["max_tokens"] ==
+          fake_client1.messages.calls[0]["max_tokens"] * 2,
+          [c["max_tokens"] for c in fake_client1.messages.calls])
+    check("قطع ثم نجاح: الترجمات تصل فعلًا لكلا العنوانين",
+          result1 == {"tr0": "ترجمة أولى", "tr1": "ترجمة ثانية"}, result1)
+    check("قطع ثم نجاح: ERROR واحد فقط عند الاكتشاف",
+          len(fake_log1.errors) == 1, len(fake_log1.errors))
+
+    # ── 3) قطع مستمر (كلتا المحاولتين): بلا ترجمة، ERROR واحد فقط ──
+    giveup_cands = _candidates(2, "gu")
+    resp_t0 = _Resp([_Block("")], stop_reason="max_tokens")
+    resp_t1 = _Resp([_Block("")], stop_reason="max_tokens")
+    fake_client2 = _SeqClient([resp_t0, resp_t1])
+    preselect._client, preselect.log = lambda: fake_client2, _FakeLog()
+    cfg2 = load_config()
+    cfg2["preselect"] = {"translate": dict(tcfg_base)}
+    try:
+        result2 = preselect.translate_titles(giveup_cands, cfg2)
+        fake_log2 = preselect.log
+    finally:
+        preselect._client, preselect.log = real_client, real_log
+    check("قطع مستمر: تُعرض العناوين بلا ترجمة (التدهور الآمن)", result2 == {}, result2)
+    check("قطع مستمر: ERROR واحد فقط يسمّي القطع سببًا صريحًا",
+          len(fake_log2.errors) == 1 and "max_tokens" in fake_log2.errors[0][0],
+          fake_log2.errors)
+
+    # ── 4) ترجمة جزئية بلا أي قطع: السلوك القائم يبقى حرفيًا ──
+    partial_cands = _candidates(2, "pt")
+    resp_partial = _Resp([_Block(json.dumps({"translations": {"1": "ترجمة أولى فقط"}}))])
+    fake_client3 = _SeqClient([resp_partial])
+    preselect._client, preselect.log = lambda: fake_client3, _FakeLog()
+    cfg3 = load_config()
+    cfg3["preselect"] = {"translate": dict(tcfg_base)}
+    try:
+        result3 = preselect.translate_titles(partial_cands, cfg3)
+        fake_log3 = preselect.log
+    finally:
+        preselect._client, preselect.log = real_client, real_log
+    check("ترجمة جزئية بلا قطع: نداء واحد فقط بلا إعادة محاولة",
+          len(fake_client3.messages.calls) == 1, len(fake_client3.messages.calls))
+    check("ترجمة جزئية بلا قطع: العنوان المذكور يُترجَم والآخر يبقى بلا ترجمة",
+          result3 == {"pt0": "ترجمة أولى فقط"}, result3)
+    check("ترجمة جزئية بلا قطع: لا ERROR ولا WARNING — ليست فشلًا",
+          len(fake_log3.errors) == 0 and len(fake_log3.warnings) == 0,
+          (fake_log3.errors, fake_log3.warnings))
+
+
 def test_finalize_format_mismatch_no_silent_fail() -> None:
     """جسم Issue بلا أي معرّف <!-- cand:ID --> إطلاقًا (صيغة "مسودات" لا
     "مرشحين" — أحد أعراض Issue #296: وسم pending-selection على Issue من

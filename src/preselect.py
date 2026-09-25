@@ -130,6 +130,17 @@ def _parse_translations(text: str) -> dict:
     return data.get("translations") or {}
 
 
+def _translate_max_tokens(n_todo: int, tcfg: dict) -> int:
+    """يحسب سقف رد translate_titles من عدد العناوين المطلوب ترجمتها (Issue
+    #1063): preselect.translate.max_tokens (1500) كان سقفًا ثابتًا لا يتحرك
+    مع حجم الدفعة — صار حدًّا أدنى فقط. tokens_per_title/max_tokens_cap
+    مفتاحان جديدان تحت preselect.translate."""
+    min_tokens = int(tcfg.get("max_tokens", 1500))
+    tokens_per_title = int(tcfg.get("tokens_per_title", 60))
+    cap = int(tcfg.get("max_tokens_cap", 6000))
+    return min(cap, max(min_tokens, tokens_per_title * n_todo + 300))
+
+
 def translate_titles(candidates: list[dict], cfg) -> dict[str, str]:
     """
     ترجمة عربية مختصرة لعناوين المرشحين — استدعاء Haiku واحد للدفعة كلها
@@ -140,6 +151,15 @@ def translate_titles(candidates: list[dict], cfg) -> dict[str, str]:
     تُستبعد العناوين العربية أصلًا قبل الإرسال (توفير إضافي). أي فشل —
     مفتاح API غائب، عطل شبكة، JSON غير صالح — يُعامَل بصمت: تُعاد {} فتُعرض
     العناوين الأصلية بلا ترجمة ولا يتوقف المسار.
+
+    السقف (Issue #1063) يُحسب من عدد العناوين المطلوب ترجمتها
+    (_translate_max_tokens) بدل ثابت preselect.translate.max_tokens وحده.
+    القطع (stop_reason == "max_tokens") — كان يقع ضمن except العام فتُعرض
+    العناوين بلا ترجمة بتحذير عام — يُكشف الآن صراحةً بسطر ERROR يسمّي عدد
+    العناوين والسقف، ثم إعادة محاولة واحدة بسقف مضاعف (مقصوص عند
+    max_tokens_cap). ترجمة جزئية (بعض العناوين فقط، بلا قطع) ليست فشلًا —
+    السلوك القائم يبقى كما هو حرفيًا: كل عنوان غير مذكور في الرد يُعرض بلا
+    ترجمة، بلا إعادة محاولة.
 
     تعيد {معرّف المرشح: الترجمة} لمن تُرجم فعلًا فقط.
     """
@@ -157,19 +177,47 @@ def translate_titles(candidates: list[dict], cfg) -> dict[str, str]:
 
     model = tcfg.get("model", "claude-haiku-4-5-20251001")
     listing = "\n".join(f"{i}. {c['title']}" for i, c in enumerate(todo, start=1))
+    n_todo = len(todo)
+    max_tokens = _translate_max_tokens(n_todo, tcfg)
+    cap = int(tcfg.get("max_tokens_cap", 6000))
 
-    try:
+    def _call(tokens: int):
         client = _client()
         resp = client.messages.create(
             model=model,
-            max_tokens=int(tcfg.get("max_tokens", 1500)),
+            max_tokens=tokens,
             system=TRANSLATE_SYSTEM,
             messages=[{"role": "user", "content": f"ترجم هذه العناوين:\n\n{listing}"}],
         )
         record_usage(resp, model)
-        text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
+        return resp
+
+    try:
+        resp = _call(max_tokens)
+    except (RuntimeError, APIError) as exc:
+        log.warning("فشلت ترجمة عناوين المرشحين — ستُعرض بلا ترجمة: %s", exc)
+        return {}
+
+    if getattr(resp, "stop_reason", "") == "max_tokens":
+        log.error(
+            "ترجمة العناوين مقطوعة (stop_reason=max_tokens) لـ%d عنوانًا — "
+            "السقف %d غير كافٍ", n_todo, max_tokens)
+        retry_tokens = min(cap, max_tokens * 2)
+        try:
+            resp = _call(retry_tokens)
+        except (RuntimeError, APIError) as exc:
+            log.warning("فشل نداء إعادة محاولة ترجمة العناوين: %s", exc)
+            return {}
+        if getattr(resp, "stop_reason", "") == "max_tokens":
+            # لا سطر ERROR ثانٍ هنا — الأول أعلاه سمّى القطع سببًا صراحةً
+            # بالفعل (نفس مبدأ screen.py/_ask_naming_model: ERROR واحد لكل
+            # نداء مرحلة، لا واحد لكل محاولة).
+            return {}
+
+    text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")
+    try:
         raw = _parse_translations(text)
-    except (RuntimeError, APIError, json.JSONDecodeError, ValueError) as exc:
+    except (json.JSONDecodeError, ValueError) as exc:
         log.warning("فشلت ترجمة عناوين المرشحين — ستُعرض بلا ترجمة: %s", exc)
         return {}
 
