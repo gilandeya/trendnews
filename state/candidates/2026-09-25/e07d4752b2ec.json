@@ -1,0 +1,75 @@
+{
+  "id": "e07d4752b2ec",
+  "created_at": "2026-09-25T09:08:02.715470+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.76,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "اتفاق تجاري أمريكي-صيني جديد قد يؤثر على الأسعار",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(5th LD) Xi says U.S., China reach new trade arrangement during summit with Trump: report",
+  "link": "https://en.yna.co.kr/view/AEN20260924006055315",
+  "publishers": [
+    "CBS News — World",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(5th LD) Xi says U.S., China reach new trade arrangement during summit with Trump: report",
+    "link": "https://en.yna.co.kr/view/AEN20260924006055315",
+    "summary": "WASHINGTON, Sept. 24 (Yonhap) -- Chinese President Xi Jinping said Thursday the ...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-25T00:59:20+00:00",
+    "image_url": "https://img.yna.co.kr/photo/reuters/2026/09/25/PRU20260925032001009_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "CBS News — World",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260924006053315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260924006054315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20260924006055315"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/video/what-to-expect-from-trump-xi-summit-at-white-house/"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/reuters/2026/09/25/PRU20260925032001009_P2.jpg",
+      "https://img.yna.co.kr/photo/reuters/2026/09/24/PRU20260924447001009_P2.jpg",
+      "https://img.yna.co.kr/photo/reuters/2026/09/24/PRU20260924452001009_P2.jpg",
+      "https://img.yna.co.kr/photo/reuters/2026/09/25/PRU20260925199701009_P2.jpg",
+      "https://img.yna.co.kr/photo/reuters/2026/09/25/PRU20260925202301009_P2.jpg",
+      "https://img.yna.co.kr/photo/etc/af/2026/09/24/PAF20260924265901009_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1240.9129784325,
+    "is_stale": false,
+    "score": 21.757292682074073,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "اتفاق تجاري أمريكي-صيني جديد قد يؤثر على الأسعار"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "f0e9724bf2aa",
+  "created_at": "2026-09-25T09:08:02.715169+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.81,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "فيضانات آسيا تحذّر من مخاطر المناخ العالمية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nepal’s catastrophic floods were ‘warning to the world', PM Shah tells UN",
+  "link": "https://www.france24.com/en/asia-pacific/20260925-nepal-floods-warning-world-pm-shah-un",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Reuters"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Nepal’s catastrophic floods were ‘warning to the world', PM Shah tells UN",
+    "link": "https://www.france24.com/en/asia-pacific/20260925-nepal-floods-warning-world-pm-shah-un",
+    "summary": "Nepal’s Prime Minister Balendra Shah said on Thursday that last month’s catastrophic floods were a “warning to the world” of growing climate risks in the Himalayas. He said warming was melting glaciers and permafrost and urged international support to help Nepal adapt to threats it could not face alone.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-25T01:42:59+00:00",
+    "image_url": "https://s.france24.com/media/display/076076f0-b87b-11f1-98d9-91cf9f3cd539/w:1024/p:16x9/AP26268010715411.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/asia-pacific/20260925-nepal-floods-warning-world-pm-shah-un"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/nepal-pm-balendra-shah-tells-un-floods-were-warning-to-world-on-climate-change-we-are-paying-for-it-death-toll-101790300894060.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/25/nepal-seeks-grants-not-loans-for-flood-recovery-after-deadly-glacier-disaster"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/076076f0-b87b-11f1-98d9-91cf9f3cd539/w:1024/p:16x9/AP26268010715411.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/04/0a71d813-13865486_cropped_1.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1240.9127513288888,
+    "is_stale": true,
+    "score": 21.805792696111112,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "فيضانات آسيا تحذّر من مخاطر المناخ العالمية"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "id": "712bf24eab94",
+  "created_at": "2026-09-25T09:08:02.714157+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.96,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "هجمات حوثية على السعودية وأرامكو، تصعيد مباشر بالمنطقة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthis claim strikes on target in Riyadh, Saudi Aramco facilities in Yanbu",
+  "link": "https://tass.com/world/2192453",
+  "publishers": [
+    "Al Jazeera English",
+    "NDTV — World",
+    "Reuters",
+    "South China Morning Post",
+    "TASS"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Houthis claim strikes on target in Riyadh, Saudi Aramco facilities in Yanbu",
+    "link": "https://tass.com/world/2192453",
+    "summary": "Military spokesman Yahya Saree also said that Saudi Arabia had carried out 1,018 air and missile strikes on Yemen since the escalation began",
+    "source_name": "TASS",
+    "region": "ru",
+    "weight": 0.7,
+    "published": "2026-09-24T20:21:25+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-09/4a1eg2s_saudi-arabia-and-houthi-conflict-reuters_625x300_25_September_26.jpeg",
+    "publisher": "TASS",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "NDTV — World",
+      "Reuters",
+      "South China Morning Post",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2192453"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/saudi-arabias-grand-mufti-to-troops-fighting-houthis-souls-may-be-sacrificed-12095168#publisher=newsstand"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3368772/france-protect-key-saudi-oil-terminal-houthis-step-missile-attacks?utm_source=rss_feed"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/economy/2026/9/25/oil-prices-jump-after-yemens-houthis-claim-attacks-on-saudi-facilities?traffic_source=rss"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2192415"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-09/4a1eg2s_saudi-arabia-and-houthi-conflict-reuters_625x300_25_September_26.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1240.9127475999999,
+    "is_stale": true,
+    "score": 27.964280686847275,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "هجمات حوثية على السعودية وأرامكو، تصعيد مباشر بالمنطقة"
+  }
+}
