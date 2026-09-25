@@ -39,18 +39,28 @@
       "ILTV",
       "ערוץ 14",
       "فرانس 24 عربي"
+    ],
+    "image_url": "https://www.aljazeera.net/wp-content/uploads/2026/04/ertyuj-1777385497.jpg?resize=770%2C513&quality=80",
+    "image_candidates": [
+      "https://www.aljazeera.net/wp-content/uploads/2026/04/ertyuj-1777385497.jpg?resize=770%2C513&quality=80"
     ]
   },
   "score": 5,
-  "has_photo": false,
+  "has_photo": true,
   "review_issue": 1065,
-  "image": "drafts/2026-09-25/47ee99fffa8b.jpg",
+  "image": "drafts/2026-09-25/47ee99fffa8b-v2.jpg",
   "image_info": {
-    "used_original": false,
+    "manual": true,
+    "used_original": true,
     "illustrative": false,
     "composite": false,
-    "chosen_url": null,
-    "candidates_tried": 0,
-    "manual": false
-  }
+    "chosen_url": "https://www.aljazeera.net/wp-content/uploads/2026/04/ertyuj-1777385497.jpg?resize=770%2C513&quality=80"
+  },
+  "manual_image": "https://www.aljazeera.net/wp-content/uploads/2026/04/ertyuj-1777385497.jpg?resize=770%2C513&quality=80",
+  "reel_spec": {
+    "image_candidates": [
+      "https://www.aljazeera.net/wp-content/uploads/2026/04/ertyuj-1777385497.jpg?resize=770%2C513&quality=80"
+    ]
+  },
+  "reel": null
 }
