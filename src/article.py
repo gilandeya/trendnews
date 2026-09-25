@@ -1353,16 +1353,26 @@ def _support_statement_parts(merged_excerpts: list[str], docs: list[dict],
             fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
             return fail
 
-    raw_parts = data.get("parts") if isinstance(data, dict) else None
+    raw_parts = data.get("parts")
+    if not isinstance(raw_parts, list):
+        # نفس نمط القطع الصامت في _extract_source_facts أعلاه (طلب
+        # المراجعة، Issue #1056): كتلة tool_use صالحة لكن بلا حقل parts
+        # مطابق — كانت تُعامَل "لا مؤيِّد لأي جزء" حكمًا حقيقيًا رغم أنها
+        # عطل شكل رد
+        log.error(
+            "سند التصريح: شكل الرد غير مطابق — حقل parts غائب أو ليس قائمة "
+            "رغم اجتياز فحص القطع")
+        fail = _PartSupportList()
+        fail.call_error = "شكل رد النموذج غير مطابق (حقل parts غائب أو ليس قائمة)"
+        return fail
     by_index: dict[int, list[str]] = {}
-    if isinstance(raw_parts, list):
-        for item in raw_parts:
-            if not isinstance(item, dict):
-                continue
-            idx = item.get("index")
-            if not isinstance(idx, int):
-                continue
-            by_index[idx] = evidence._known_only(item.get("supporting"), docs)
+    for item in raw_parts:
+        if not isinstance(item, dict):
+            continue
+        idx = item.get("index")
+        if not isinstance(idx, int):
+            continue
+        by_index[idx] = evidence._known_only(item.get("supporting"), docs)
     return _PartSupportList(
         by_index.get(i, []) for i in range(1, len(merged_excerpts) + 1)
     )
@@ -1527,7 +1537,21 @@ def _support_sources(fact_text: str, docs: list[dict], cfg,
             fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
             return fail
 
-    result = _ModelCallList(evidence._known_only(data.get("supporting"), docs))
+    raw_supporting = data.get("supporting")
+    if not isinstance(raw_supporting, list):
+        # نفس نمط القطع الصامت في _extract_source_facts أعلاه (طلب
+        # المراجعة، Issue #1056): كتلة tool_use صالحة لكن بلا حقل supporting
+        # مطابق — evidence._known_only كانت تُعيد [] صامتة فيبدو الحكم "لا
+        # مصادر مؤيِّدة" حقيقيًا رغم أنه عطل شكل رد. supporting وحدها هي ما
+        # يقرر مصير الواقعة (القاعدة 1) — mentioned حقل تشخيصي إضافي فقط
+        # (رسالة الفجوة)، فغيابه وحده لا يُعامَل فشلًا تقنيًا لهذه الواقعة
+        log.error(
+            "الحكم على السند: شكل الرد غير مطابق — حقل supporting غائب أو "
+            "ليس قائمة رغم اجتياز فحص القطع")
+        fail = _ModelCallList()
+        fail.call_error = "شكل رد النموذج غير مطابق (حقل supporting غائب أو ليس قائمة)"
+        return fail
+    result = _ModelCallList(evidence._known_only(raw_supporting, docs))
     result.mentioned = evidence._known_only(data.get("mentioned"), docs)
     return result
 
@@ -1883,9 +1907,18 @@ def _extract_source_facts(topic: str, brief_fact_texts: list[str], docs: list[di
             fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
             return fail
 
-    raw = data.get("facts") if isinstance(data, dict) else None
+    raw = data.get("facts")
     if not isinstance(raw, list):
-        return _ModelCallList()
+        # كتلة tool_use صالحة (اجتازت _truncated) لكن بلا حقل facts مطابق —
+        # نفس نمط القطع الصامت رغم أن tool_choice يفرض الشكل (طلب المراجعة،
+        # Issue #1056): fail لا [] عادية، كي لا يُقرأ عطل شكل الرد "لا وقائع
+        # إضافية" حكمًا حقيقيًا
+        log.error(
+            "استخراج وقائع المصادر: شكل الرد غير مطابق — حقل facts غائب أو "
+            "ليس قائمة رغم اجتياز فحص القطع")
+        fail = _ModelCallList()
+        fail.call_error = "شكل رد النموذج غير مطابق (حقل facts غائب أو ليس قائمة)"
+        return fail
     out = _ModelCallList()
     for item in raw:
         text = _as_text(item)
@@ -3060,7 +3093,12 @@ def _new_outcome() -> dict:
            # _extract_source_facts/_source_fact_duplicate_index. source_origin_facts:
            # ما دخل المقال فعليًا بوسم origin="source" (يظهر في التقرير
            # ليراجعه المستخدم — البند 2)؛ source_facts_summary: عدد ما
-           # استُخرج/اندمج/أُضيف (البند 5 — أثر ظاهر، لا ميزة صامتة).
+           # استُخرج/اندمج/أُضيف (البند 5 — أثر ظاهر، لا ميزة صامتة)، وcall_error:
+           # سبب فشل نداء الاستخراج تقنيًا (extract_call_error) إن قُطع الرد
+           # مرتين، أو None عند عدم وجود فشل — بدونه صفر الاستخراج الناتج عن
+           # فشل تقني يبدو للمراجع مطابقًا لحكم حقيقي "لا وقائع إضافية" (Issue
+           # #1056: سطر «🔎» في build_report مشروط بـextracted فقط، فيختفي
+           # كليًا في الحالتين معًا رغم اختلافهما جذريًا).
            # same_entity_off_topic_facts (حارس الموضوع، Issue #808 البند 4 ثم
            # Issue #824): وقائع شاركت كيانًا مع الموجز لكن حكم نموذج
            # (on_topic في _source_fact_duplicate_index) قرَّر أنها موضوع
@@ -3069,7 +3107,8 @@ def _new_outcome() -> dict:
            # off_topic العام (لا تقاطع كيانات إطلاقًا) كي لا يختلطا
            "source_origin_facts": [],
            "source_facts_summary": {"extracted": 0, "merged": 0, "off_topic": 0,
-                                    "same_entity_off_topic": 0, "added": 0},
+                                    "same_entity_off_topic": 0, "added": 0,
+                                    "call_error": None},
            "same_entity_off_topic_facts": [],
            "originality_retry": {"attempted": False, "succeeded": False, "offending_phrase": ""},
            "jargon_retry": {"attempted": False, "succeeded": False, "detected": [], "remaining": []},
@@ -3941,6 +3980,7 @@ def _extract_source_facts_stage(st: dict, cfg, acfg, outcome: dict,
     extracted_source_count = 0
     merged_source_count = 0
     offtopic_source_count = 0
+    extract_call_error: str | None = None
     same_entity_offtopic_count = 0
     if source_extract_enabled and all_read_docs:
         # كيانات الموجز وكلمات معناه مجموعتان منفصلتان لا مجموعة واحدة —
@@ -4109,6 +4149,7 @@ def _extract_source_facts_stage(st: dict, cfg, acfg, outcome: dict,
         "off_topic": offtopic_source_count,
         "same_entity_off_topic": same_entity_offtopic_count,
         "added": sum(1 for g in grounded if g.get("origin") == "source"),
+        "call_error": extract_call_error,
     }
     outcome["source_origin_facts"] = [
         {"text": g["text"],
@@ -5144,7 +5185,15 @@ def build_report(outcome: dict, investigation: dict | None = None) -> str:
                 lines.append(f"- {r['publisher']}: «{r['text']}» — {label} ({kind_ar})")
 
     summary = outcome.get("source_facts_summary") or {}
-    if summary.get("extracted"):
+    if summary.get("call_error"):
+        # ظاهر خارج <details> عمدًا (Issue #1056): صفر الاستخراج الناتج عن
+        # فشل نداء تقني كان يبدو للمراجع مطابقًا لحكم حقيقي "لا وقائع
+        # إضافية" — سطر «🔎» أدناه لا يظهر أصلًا هنا (العدد صفر بالضبط)،
+        # فالسطران متعارضان منطقيًا ولا يظهران معًا
+        lines += ["", "⚠️ تعذّر استخراج وقائع من المصادر المقروءة — فشل نداء "
+                      "النموذج تقنيًا، فلا يعني خلوّ هذا القسم أن المصادر لم "
+                      "تُضِف شيئًا."]
+    elif summary.get("extracted"):
         # أثر ظاهر لا صامت (طلب المراجعة، البند 5 — "تعلّمنا من judged_by
         # أن الميزة بلا أثر ظاهر لا تُعرف إن كانت تعمل"): يظهر بصرف النظر
         # عن نجاح إضافة أي واقعة فعليًا، فتُعرف حصيلة كل تشغيلة رقميًا
