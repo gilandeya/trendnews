@@ -1,7 +1,7 @@
 {
   "id": "ca32d970e91f",
   "created_at": "2026-09-26T04:05:11.068054+00:00",
-  "status": "pending",
+  "status": "queued",
   "origin": "analysis",
   "title": "هل تقف إيران فعلاً خلف تصعيد الحوثيين في البحر الأحمر؟",
   "tier": "a",
@@ -48,5 +48,6 @@
     "chosen_url": null,
     "candidates_tried": 0,
     "manual": false
-  }
+  },
+  "publish_at": "2026-09-26T10:27:15.985038+00:00"
 }
