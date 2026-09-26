@@ -1,104 +1,5 @@
 [
   {
-    "score": 24.84,
-    "bucket": "serious",
-    "tokens": [
-      "commission",
-      "duma",
-      "election",
-      "enter",
-      "five",
-      "parties",
-      "precincts",
-      "results",
-      "ruling",
-      "russia",
-      "state",
-      "third",
-      "track",
-      "united"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/21/russia-s-election-commission-says-five-parties-are-on-track-to-enter-the-state-duma-ruling-united-russia-had-57-19-with-results-in-from-more-than-a-third-of-precincts",
-    "title": "Russia’s election commission says five parties are on track to enter the State Duma. Ruling United Russia had 57.19% with results in from more than a third of p",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-21T06:11:41.720608+00:00"
-  },
-  {
-    "score": 22.33,
-    "bucket": "sport",
-    "tokens": [
-      "against",
-      "atletico",
-      "derby",
-      "feisty",
-      "madrid",
-      "man",
-      "real",
-      "win"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/videos/cqkgxp97nxzno?at_medium=RSS&at_campaign=rss",
-    "title": "Atletico win feisty Madrid derby against 10-man Real",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-21T06:11:41.720926+00:00"
-  },
-  {
-    "score": 20.67,
-    "bucket": "serious",
-    "tokens": [
-      "aleppo",
-      "army",
-      "depot",
-      "explosions",
-      "massive",
-      "near",
-      "syrian",
-      "weapons"
-    ],
-    "link": "https://www.aljazeera.com/video/newsfeed/2026/9/21/09-21-aleppo-depot-explosions-reported-mp4?traffic_source=rss",
-    "title": "Massive explosions at Syrian army weapons depot near Aleppo",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-21T06:11:41.721212+00:00"
-  },
-  {
-    "score": 19.85,
-    "bucket": "serious",
-    "tokens": [
-      "arrests",
-      "haitian",
-      "killing",
-      "president",
-      "suspects"
-    ],
-    "link": "https://www.vanguardngr.com/2026/09/us-arrests-18-suspects-in-killing-of-haitian-president/",
-    "title": "US arrests 18 suspects in killing of Haitian president",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-09-21T06:11:41.721490+00:00"
-  },
-  {
-    "score": 19.27,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "attack",
-      "drones",
-      "ever",
-      "fires",
-      "largest",
-      "moscow",
-      "russia",
-      "ukraine"
-    ],
-    "link": "https://www.france24.com/en/ukraine-fires-over-1-000-drones-at-russia-in-largest-ever-attack-on-moscow",
-    "title": "Ukraine fires over 1,000 drones at Russia in \"largest ever\" attack on Moscow",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-21T06:11:41.721760+00:00"
-  },
-  {
     "score": 30.21,
     "bucket": "serious",
     "tokens": [
@@ -2791,5 +2692,47 @@
     "posted_title": "",
     "region": "in",
     "seen_at": "2026-09-26T03:07:59.474295+00:00"
+  },
+  {
+    "score": 33.96,
+    "bucket": "serious",
+    "tokens": [
+      "agrees",
+      "can",
+      "days",
+      "deal",
+      "hormuz",
+      "iran",
+      "newest",
+      "reopen",
+      "seven"
+    ],
+    "link": "https://www.malaymail.com/news/world/2026/09/26/iran-says-hormuz-can-reopen-in-seven-days-if-us-agrees-to-newest-deal/236538",
+    "title": "Iran says Hormuz can reopen in seven days if US agrees to newest deal",
+    "posted_title": "إيران: مضيق هرمز يعاد فتحه خلال سبعة أيام إذا وافقت واشنطن على خطتنا",
+    "region": "my",
+    "seen_at": "2026-09-26T08:51:05.193801+00:00"
+  },
+  {
+    "score": 25.5,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "france",
+      "macron",
+      "military",
+      "oil",
+      "protect",
+      "red",
+      "route",
+      "saudi",
+      "sea",
+      "send"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-09-24-france-to-send-military-to-protect-saudi-arabia-on-red-sea-oil-route-macron-says/",
+    "title": "France to send military to protect Saudi Arabia on Red Sea oil route, Macron says",
+    "posted_title": "لماذا قررت فرنسا إرسال جنود وأنظمة دفاعية لحماية ميناء ينبع السعودي",
+    "region": "za",
+    "seen_at": "2026-09-26T08:51:23.944079+00:00"
   }
 ]
