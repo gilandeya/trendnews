@@ -1,0 +1,99 @@
+{
+  "id": "56b370d35a9f",
+  "created_at": "2026-09-26T15:07:59.071145+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 33.55,
+  "trend_score": 1.0,
+  "velocity": 0.5,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "حوار أمريكي-صيني جديد حول الذكاء الاصطناعي والتعريفات",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "China, U.S. agree to $30 billion tariff cut, AI dialogue during Xi visit: Beijing",
+  "link": "https://www.thehindu.com/news/international/us-china-to-set-up-communication-channel-for-ai-incidents/article71511753.ece",
+  "publishers": [
+    "Al Jazeera English",
+    "Der Spiegel",
+    "Folha de S.Paulo",
+    "Free Malaysia Today",
+    "Investing.com — الاقتصاد",
+    "Malay Mail",
+    "Nikkei Asia",
+    "The Express Tribune",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "in",
+  "article": {
+    "title": "China, U.S. agree to $30 billion tariff cut, AI dialogue during Xi visit: Beijing",
+    "link": "https://www.thehindu.com/news/international/us-china-to-set-up-communication-channel-for-ai-incidents/article71511753.ece",
+    "summary": "The two countries established a “U.S.-China Super Intelligence (SI) Dialogue to exchange views on risks and benefits” of AI, the White House said in a fact sheet, noting that their leaders had agreed to use the term SI rather than AI.",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-26T11:53:44+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/rcniue/article71511781.ece/alternates/LANDSCAPE_1200/AP09_26_2026_000002B.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Der Spiegel",
+      "Folha de S.Paulo",
+      "Free Malaysia Today",
+      "Investing.com — الاقتصاد",
+      "Malay Mail",
+      "Nikkei Asia",
+      "The Express Tribune",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2631526/china-us-agree-to-30b-tariff-cut-ai-dialogue-during-xi-visit-beijing-says"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-china-to-set-up-communication-channel-for-ai-incidents/article71511753.ece"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/china-us-agree-to-30-billion-tariff-cut-ai-dialogue-during-xi-visit-4918530"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/china-us-agree-to-30-billion-tariff-cut-launch-ai-dialogue-4918542"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/26/china-us-to-open-ai-communication-channel-after-summit-white-house-says?traffic_source=rss"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/26/world/us-china-ai-communication-line/"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/rcniue/article71511781.ece/alternates/LANDSCAPE_1200/AP09_26_2026_000002B.jpg",
+      "https://content-media.investing.com/trkd-images/LYNXMPEM8P05Z_L.jpg",
+      "https://content-media.investing.com/news/moved_LYNXMPEM8N1YS_1200_L.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/6345d8aa-9452-4fa0-8ef4-1033e7e617d0-14318401_cropped_1.webp",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/26/565198.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/26/thumbs/400x400/565198.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 10,
+    "velocity": 0.49985133979156426,
+    "age_hours": 1270.9116080291667,
+    "is_stale": false,
+    "score": 33.54952047867546,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "حوار أمريكي-صيني جديد حول الذكاء الاصطناعي والتعريفات"
+  }
+}
