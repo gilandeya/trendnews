@@ -1,0 +1,63 @@
+{
+  "id": "e7837e9e6f26",
+  "created_at": "2026-09-26T18:08:00.442260+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.05,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "غرق عبّارة إندونيسية بـ64 قتيلًا في كارثة بحرية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Death toll from Indonesia ferry sinking jumps to 64",
+  "link": "https://www.channelnewsasia.com/asia/indonesia-ferry-sinking-deaths-missing-6412801",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Death toll from Indonesia ferry sinking jumps to 64",
+    "link": "https://www.channelnewsasia.com/asia/indonesia-ferry-sinking-deaths-missing-6412801",
+    "summary": "The Virgo Transport 8 was carrying 213 passengers and 30 crew when it lost contact with its shipping company after departing from Indonesia's second largest city Surabaya on Java island.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-26T14:24:01+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--wy3-1deu--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-20T083526Z_1_LYNXMPEM8J082_RTROPTP_3_INDONESIA-SHIP.JPG?itok=RRqFbNaZ",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/asia/indonesia-ferry-sinking-deaths-missing-6412801"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/09/26/death-toll-from-indonesia-ferry-sinking-jumps-to-64"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--wy3-1deu--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-09-20T083526Z_1_LYNXMPEM8J082_RTROPTP_3_INDONESIA-SHIP.JPG?itok=RRqFbNaZ",
+      "https://media.freemalaysiatoday.com/v3/2026/09/e59a6fa1-848a-4538-837c-d2e64fe2f2d9-AFP__20260918__C8QU3ZL__v1__HighRes__IndonesiaTransportAccident_1_cropped_1.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1273.912307491111,
+    "is_stale": false,
+    "score": 21.051429276,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "غرق عبّارة إندونيسية بـ64 قتيلًا في كارثة بحرية"
+  }
+}

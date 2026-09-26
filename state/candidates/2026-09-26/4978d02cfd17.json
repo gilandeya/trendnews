@@ -1,0 +1,90 @@
+{
+  "id": "4978d02cfd17",
+  "created_at": "2026-09-26T18:08:00.441170+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 33.37,
+  "trend_score": 1.0,
+  "velocity": 0.67,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "تسرب بيانات مستخدمين ChatGPT يهم من يستخدم الذكاء الاصطناعي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "OpenAI works to understand full scope of agent activity as user data leak emerges",
+  "link": "https://www.dawn.com/news/2032788/openai-works-to-understand-full-scope-of-agent-activity-as-user-data-leak-emerges",
+  "publishers": [
+    "Dawn",
+    "Hindustan Times — World",
+    "Rappler",
+    "South China Morning Post",
+    "TechCrunch",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "OpenAI works to understand full scope of agent activity as user data leak emerges",
+    "link": "https://www.dawn.com/news/2032788/openai-works-to-understand-full-scope-of-agent-activity-as-user-data-leak-emerges",
+    "summary": "Two months after OpenAI disclosed the accidental hacking of Hugging Face, the ChatGPT maker is still working to understand the full scope of its rogue agent activity, two people briefed on the matter told Reuters. The latest example came on Friday when OpenAI said its agents had leaked 53 images from ChatGPT users. OpenAI declined to say if the images were AI-generated or identified real people. It also declined to say when the images were posted. The disclosure and researcher reports on Friday of other previously unknown activity involving several US agencies reveal a new area of privacy risk for the company, and illustrate how difficult it is even for an AI firm at the cutting edge of the technology to inventory all the unauthorized activity tied to its agents. OpenAI’s ongoing battle also reflects a yawning gap between the strength of the models the company is testing and its capacity to oversee or even track their actions. As of mid-September, one person briefed on the matter estimated that OpenAI had found roughly two dozen incidents of its agents acting in undesirable ways. But the number has continued rising as OpenAI teams sift through internal logs of the agents’ activitie",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-26T05:31:51+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/26103342fb2ede6.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Hindustan Times — World",
+      "Rappler",
+      "South China Morning Post",
+      "TechCrunch",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2032788/openai-works-to-understand-full-scope-of-agent-activity-as-user-data-leak-emerges"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/technology/openai-works-understand-full-scope-agent-activity-user-data-leak/"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2631534/openai-works-to-understand-full-scope-of-agent-activity-as-user-data-leak-emerges"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/openai-ai-agentscarried-out-unexpected-activity-on-us-govt-websites-education-commerce-sec-101790400960480.html"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/us/science-technology/article/3368883/openai-says-its-ai-agents-posted-user-images-online-error?utm_source=rss_feed"
+      },
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/09/25/unsecured-openai-agents-posted-53-user-images-on-the-internet-without-the-labs-knowledge/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/26103342fb2ede6.webp",
+      "https://i.dawn.com/thumbnail/2026/09/26103342fb2ede6.webp",
+      "https://th-i.thgim.com/public/incoming/nlks64/article71513925.ece/alternates/LANDSCAPE_1200/Open_AI_Safety__4766.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.6666581267760626,
+    "age_hours": 1273.9120832297222,
+    "is_stale": false,
+    "score": 33.36548839733091,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "تسرب بيانات مستخدمين ChatGPT يهم من يستخدم الذكاء الاصطناعي"
+  }
+}

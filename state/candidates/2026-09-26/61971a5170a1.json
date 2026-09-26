@@ -1,0 +1,56 @@
+{
+  "id": "61971a5170a1",
+  "created_at": "2026-09-26T18:08:00.442527+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.32,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Los mejores libros infantiles y juveniles de septiembre 2026",
+  "link": "https://elpais.com/babelia/2026-09-26/los-mejores-libros-infantiles-y-juveniles-de-septiembre-2026.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Los mejores libros infantiles y juveniles de septiembre 2026",
+    "link": "https://elpais.com/babelia/2026-09-26/los-mejores-libros-infantiles-y-juveniles-de-septiembre-2026.html",
+    "summary": "Un clásico de Richard Scarry, fábulas palestinas, mecánica ilustrada y varias aventuras fantásticas, en la selección de este mes de libreros de distintas Comunidades Autónomas",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-09-26T03:30:01+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/YRPJZEKBRVH4FO6SN6ZZSKFDBU.jpg?auth=5897e663af79ec3d0b781bba78970a7158e75c1cc4ef81198d1dda2b59d19af4",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/babelia/2026-09-26/los-mejores-libros-infantiles-y-juveniles-de-septiembre-2026.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/YRPJZEKBRVH4FO6SN6ZZSKFDBU.jpg?auth=5897e663af79ec3d0b781bba78970a7158e75c1cc4ef81198d1dda2b59d19af4"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 9.0024269925,
+    "is_stale": false,
+    "score": 16.324762621888887,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
