@@ -1,99 +1,5 @@
 [
   {
-    "score": 30.21,
-    "bucket": "serious",
-    "tokens": [
-      "aged",
-      "cindy",
-      "crawford's",
-      "dies",
-      "gerber",
-      "presley",
-      "son"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cmdx0pqrv72wo?at_medium=RSS&at_campaign=rss",
-    "title": "Presley Gerber, Cindy Crawford's son, dies aged 27",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-21T09:08:01.829544+00:00"
-  },
-  {
-    "score": 24.25,
-    "bucket": "serious",
-    "tokens": [
-      "ahead",
-      "burnham",
-      "deal",
-      "expected",
-      "first",
-      "greenland",
-      "hails",
-      "meeting",
-      "trump"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c8207255rq5lo?at_medium=RSS&at_campaign=rss",
-    "title": "Burnham hails Greenland deal ahead of expected first Trump meeting",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-21T09:08:01.829880+00:00"
-  },
-  {
-    "score": 21.23,
-    "bucket": "serious",
-    "tokens": [
-      "china",
-      "confirms",
-      "donald",
-      "jinping",
-      "talks",
-      "trump",
-      "visit",
-      "week"
-    ],
-    "link": "https://www.thehindu.com/news/international/china-confirms-xi-jinpings-us-visit-this-week-for-talks-with-donald-trump/article71490624.ece",
-    "title": "China confirms Xi Jinping’s U.S. visit this week for talks with Donald Trump",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-21T09:08:01.830225+00:00"
-  },
-  {
-    "score": 21.1,
-    "bucket": "serious",
-    "tokens": [
-      "dmz",
-      "explosion",
-      "injures",
-      "korean",
-      "military",
-      "officers",
-      "south"
-    ],
-    "link": "https://www.thehindu.com/news/international/three-south-korean-soldiers-injured-in-blast-at-dmz-military/article71490167.ece",
-    "title": "Explosion injures 3 South Korean military officers in DMZ",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-21T09:08:01.830511+00:00"
-  },
-  {
-    "score": 20.27,
-    "bucket": "serious",
-    "tokens": [
-      "children",
-      "exploited",
-      "fear'",
-      "live",
-      "million",
-      "online",
-      "pakistani",
-      "sexually"
-    ],
-    "link": "https://www.dawn.com/news/2031570/i-live-in-fear-15-million-pakistani-children-sexually-exploited-online",
-    "title": "'I live in fear': 1.5 million Pakistani children sexually exploited online",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-21T09:08:01.830808+00:00"
-  },
-  {
     "score": 20.27,
     "bucket": "serious",
     "tokens": [
@@ -2831,5 +2737,23 @@
     "posted_title": "",
     "region": "pk",
     "seen_at": "2026-09-26T09:07:49.423978+00:00"
+  },
+  {
+    "score": 25.01,
+    "bucket": "serious",
+    "tokens": [
+      "agents",
+      "error",
+      "images",
+      "online",
+      "openai",
+      "posted",
+      "user"
+    ],
+    "link": "https://www.channelnewsasia.com/world/openai-agents-post-user-images-online-error-6412516",
+    "title": "OpenAI says its AI agents posted user images online in error",
+    "posted_title": "كيف نشرت أدوات OpenAI صور مستخدمين على الإنترنت دون علمهم",
+    "region": "seasia",
+    "seen_at": "2026-09-26T10:00:09.715501+00:00"
   }
 ]
