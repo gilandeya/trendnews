@@ -1,0 +1,69 @@
+{
+  "id": "ab4adf0e2546",
+  "created_at": "2026-09-26T03:07:59.473759+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.4,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "روسيا تقيل سفراءها لدى بريطانيا وفرنسا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Putin dismisses Russia’s ambassadors to Britain and France. The Kremlin says it’s in no hurry to name replacements.",
+  "link": "https://meduza.io/en/news/2026/09/25/putin-dismisses-russia-s-ambassadors-to-britain-and-france-the-kremlin-says-it-s-in-no-hurry-to-name-replacements",
+  "publishers": [
+    "Daily Sabah",
+    "Meduza English",
+    "TASS"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Putin dismisses Russia’s ambassadors to Britain and France. The Kremlin says it’s in no hurry to name replacements.",
+    "link": "https://meduza.io/en/news/2026/09/25/putin-dismisses-russia-s-ambassadors-to-britain-and-france-the-kremlin-says-it-s-in-no-hurry-to-name-replacements",
+    "summary": "Russia is in no hurry to appoint new ambassadors to the U.K. and France, Russian presidential spokesman Dmitry Peskov said.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-09-25T17:15:23+00:00",
+    "image_url": "https://meduza.io/imgly/share/1790356523/en/news/2026/09/25/putin-dismisses-russia-s-ambassadors-to-britain-and-france-the-kremlin-says-it-s-in-no-hurry-to-name-replacements",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Meduza English",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/09/25/putin-dismisses-russia-s-ambassadors-to-britain-and-france-the-kremlin-says-it-s-in-no-hurry-to-name-replacements"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/macron-denies-us-intel-warned-france-of-russian-drone-attack"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/politics/2192931"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1790356523/en/news/2026/09/25/putin-dismisses-russia-s-ambassadors-to-britain-and-france-the-kremlin-says-it-s-in-no-hurry-to-name-replacements",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/25/462406.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1258.9122544197223,
+    "is_stale": true,
+    "score": 22.39671351068199,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "روسيا تقيل سفراءها لدى بريطانيا وفرنسا"
+  }
+}
