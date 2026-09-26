@@ -1,0 +1,667 @@
+{
+  "run_date": "2026-09-26",
+  "stats": {
+    "points_in": 637,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 487,
+    "issues_clustered": 28,
+    "topics_merged": 3,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 4,
+    "topics_below_min_points": 7,
+    "topics_below_min_channels": 8,
+    "layer_a": 2,
+    "layer_b": 2,
+    "layer_c": 0,
+    "agreement": 4,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "حظر الطيران الأمريكي على إيران وتهديدات إيران بالرد",
+      "تهديد إيران بإغلاق مضيق هرمز أو باب المندب ردًا على الحصار الجوي"
+    ],
+    [
+      "زيارة البابا لفرنسا وطابعها الديني والإنساني",
+      "خطاب البابا حول الذكاء الاصطناعي",
+      "موقف البابا من العلمانية وفصل الدين عن الدولة",
+      "رفض البابا الرسميات السياسية الفرنسية"
+    ],
+    [
+      "نفي إيران علاقتها بتصعيد الحوثيين",
+      "اتهام إيران بالوقوف خلف تصعيد الحوثيين والهجمات على الخليج"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "نفي إيران علاقتها بتصعيد الحوثيين",
+      "event": "نفي إيران أي علاقة بتصعيد الحوثيين في البحر الأحمر وتأكيد استقلالية قرار الحوثي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        88,
+        89,
+        92,
+        93,
+        123
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "خطاب نتنياهو بالأمم المتحدة وتحول الهدف إلى إسقاط النظام الإيراني",
+      "event": "خطاب نتنياهو في الجمعية العامة للأمم المتحدة وتحوله من الملف النووي إلى هدف إسقاط النظام الإيراني",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        12,
+        34,
+        35
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": null
+    },
+    {
+      "title": "حظر الطيران الأمريكي على إيران وتهديدات إيران بالرد",
+      "event": "فرض الولايات المتحدة حظرًا على شركات الطيران الإيرانية وتهديد إيران بالرد بمنع الأجواء ورحلات الجوار",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        87,
+        90,
+        91
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "التنافس الأمريكي الصيني الجيوسياسي والمعادن النادرة",
+      "event": "التنافس الجيوسياسي والاقتصادي بين أمريكا والصين وأهمية المعادن النادرة والذكاء الاصطناعي كساحة تعاون محتمل",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15,
+        16,
+        96,
+        98,
+        99,
+        100
+      ],
+      "total_points": 7,
+      "fresh_points": 5,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "نفي إيران علاقتها بتصعيد الحوثيين",
+      "event": "نفي إيران أي علاقة بتصعيد الحوثيين في البحر الأحمر وتأكيد استقلالية قرار الحوثي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        88,
+        89,
+        92,
+        93,
+        123
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "خطاب نتنياهو بالأمم المتحدة وتحول الهدف إلى إسقاط النظام الإيراني",
+      "event": "خطاب نتنياهو في الجمعية العامة للأمم المتحدة وتحوله من الملف النووي إلى هدف إسقاط النظام الإيراني",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        12,
+        34,
+        35
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": null
+    },
+    {
+      "title": "الموقف الصيني من الملف الإيراني",
+      "event": "تقييم دور الصين وموقفها تجاه الملف الإيراني ودعمها الاقتصادي لإيران",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        13,
+        97
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فضيحة صناديق الاستثمار التركية",
+      "event": "فضيحة تلاعب صناديق الاستثمار التركية وحجم الخسائر والمتضررين والتحقيقات والملاحقات",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        43,
+        44,
+        45,
+        47,
+        49,
+        50,
+        51,
+        54,
+        56,
+        58,
+        132,
+        134,
+        135
+      ],
+      "total_points": 13,
+      "fresh_points": 5,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "استقالة منصور يافاش من حزب الشعب الجمهوري وتداعياتها",
+      "event": "استقالة رئيس بلدية أنقرة منصور يافاش من حزب الشعب الجمهوري واستمراره مستقلًا وتداعيات ذلك على الحزب ومستقبله الرئاسي",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        52,
+        53,
+        57,
+        59,
+        62,
+        63,
+        64,
+        65
+      ],
+      "total_points": 8,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "حظر الطيران الأمريكي على إيران وتهديدات إيران بالرد",
+      "event": "فرض الولايات المتحدة حظرًا على شركات الطيران الإيرانية وتهديد إيران بالرد بمنع الأجواء ورحلات الجوار",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        87,
+        90,
+        91
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "قمة ترامب-شي وهدنة تجارية أمريكية صينية",
+      "event": "قمة ترامب وشي جين بينغ وإعلان تمديد الهدنة التجارية الأمريكية الصينية",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        17,
+        18,
+        19,
+        94,
+        95
+      ],
+      "total_points": 5,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "التنافس الأمريكي الصيني الجيوسياسي والمعادن النادرة",
+      "event": "التنافس الجيوسياسي والاقتصادي بين أمريكا والصين وأهمية المعادن النادرة والذكاء الاصطناعي كساحة تعاون محتمل",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15,
+        16,
+        96,
+        98,
+        99,
+        100
+      ],
+      "total_points": 7,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "زيارة البابا لفرنسا وطابعها الديني والإنساني",
+      "event": "زيارة البابا ليون الرابع عشر إلى فرنسا كأول زيارة بابوية منذ سنوات",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        20,
+        21,
+        23,
+        24,
+        26,
+        101,
+        103,
+        105,
+        106,
+        108,
+        109,
+        110,
+        111,
+        115,
+        117,
+        118,
+        119,
+        120,
+        121
+      ],
+      "total_points": 19,
+      "fresh_points": 18,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الوضع الديني الكاثوليكي في فرنسا",
+      "event": "تراجع التدين الكاثوليكي الممارَس في فرنسا رغم نسبة الانتماء الاسمي المرتفعة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        22,
+        25,
+        113
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "توصيف الإبادة الجماعية في غزة من قبل ألبانيزي",
+      "event": "تقرير المقررة الخاصة فرانشيسكا ألبانيزي الذي يصف ما يحدث في غزة بالإبادة الجماعية والتطهير العرقي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        73,
+        74,
+        75,
+        76
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "منع ألبانيزي من دخول إسرائيل وفرض عقوبات أمريكية عليها",
+      "event": "منع إسرائيل دخول المقررة الخاصة فرانشيسكا ألبانيزي وفرض الولايات المتحدة عقوبات عليها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        77,
+        79
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "نفي شمشك استقالته من وزارة الخزانة",
+      "event": "نفي وزير الخزانة والمالية التركي محمد شمشك شائعات استقالته",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        55,
+        129
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "برنامج التعذيب الأمريكي بعد 11 سبتمبر وقضية كرياكو",
+      "event": "شهادة جون كرياكو حول برنامج التعذيب الأمريكي وقضية أبو زبيدة ومحاكمته الشخصية وتقرير مجلس الشيوخ",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        67,
+        68,
+        69,
+        70,
+        71
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تقييم القدرة العسكرية الإيرانية مقابل حالة الاقتصاد",
+      "event": "تقييم قدرة إيران العسكرية على ضرب الخليج مقابل ضعف اقتصادها ودورها الاستراتيجي مقارنة بدول الخليج",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "اجتماع عسكري عاجل تركيا-السعودية-باكستان (تحالف الحرمين)",
+      "event": "اجتماع عاجل لرؤساء أركان تركيا والسعودية وباكستان في الرياض بطلب سعودي لمواجهة تهديد الحوثيين وموقف تركيا من التدخل",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        124,
+        125,
+        128
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "ضعف النظام الإيراني واحتمال الانتفاضة",
+      "event": "تقييم ضعف النظام الإيراني اقتصاديًا وسياسيًا واحتمال قيام انتفاضة جديدة",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137,
+        139,
+        142
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "نفوذ أمريكا على الصين بشأن العقوبات الإيرانية وانتهاكات الحظر",
+      "event": "الرافعة الأمريكية على الصين بخصوص العقوبات على إيران في مقابل انتهاكات صينية للحظر عبر رحلات ماهان إير",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        138,
+        140,
+        141
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مواقف رؤساء وزراء لبنان والعراق من حصر السلاح",
+      "event": "تصريحات رئيسي وزراء لبنان والعراق حول احتكار الدولة للسلاح ونزع سلاح الفصائل",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الانتخابات الإسرائيلية 2 أكتوبر",
+      "event": "تحليل الانتخابات الإسرائيلية المقررة في الثاني من أكتوبر وفرص نتنياهو ودور العرب الفلسطينيين والتطرف المجتمعي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "خطاب محمود عباس أمام الجمعية العامة",
+      "event": "خطاب الرئيس محمود عباس أمام الجمعية العامة للأمم المتحدة حول أوضاع فلسطين وغزة والمطالب الفلسطينية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "غادرة الدول احتجاجًا على خطاب نتنياهو في الأمم المتحدة",
+      "event": "مغادرة عدد كبير من الدول قاعة الجمعية العامة احتجاجًا على خطاب نتنياهو بينما بقيت الدول الخمس الدائمة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        38,
+        39
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "محاكمة قضية بلدية إسطنبول الكبرى",
+      "event": "استمرار جلسات محاكمة قضية بلدية إسطنبول الكبرى والدفاع الأول لأحد المتهمين",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        42
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
