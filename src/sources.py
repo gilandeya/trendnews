@@ -56,6 +56,12 @@ class Article:
     proximity: int = 0               # قرب هوياتي/عاطفي (العالم العربي والإسلامي)
     intrigue: int = 0                # قوة التشويق — هل يوقف الإصبع عن التمرير؟
     appeal_note: str = ""            # سطر يشرح أعلى الثلاثة — للمراجعة لا للثقة العمياء
+    # True فقط حين جاءت impact/proximity/intrigue من حكم فرز فعلي ناجح
+    # (screen._apply_appeal) — لا حين خرج المرشح خارج أفق الفرز أصلًا ولا
+    # حين فشل نداء الفرز فمرّت الدفعة بأصفار (Issue #1047). حدّ التحرير
+    # min_proximity_or_impact (Issue #1086) يعتمد هذا الحقل تحديدًا كي لا
+    # يُعامل "لم يُسأل عنه" أو "فشل السؤال" كأنه حكم صريح بانعدام الجذب.
+    appeal_judged: bool = False
 
     @property
     def uid(self) -> str:

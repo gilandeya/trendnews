@@ -113,6 +113,10 @@ def _apply_appeal(batch: list[Article], appeal: dict[int, dict]) -> list[Article
         a.proximity = scores["proximity"]
         a.intrigue = scores["intrigue"]
         a.appeal_note = scores["appeal_note"]
+        # حكم فرز فعلي وناجح — يميّزه عن مرور بلا فرز (خارج الأفق) أو
+        # فشل نداء الفرز (Issue #1047)، وكلاهما يبقى بأصفار لا حكم عليها
+        # (Issue #1086: min_proximity_or_impact يعتمد هذا التمييز).
+        a.appeal_judged = True
         passed.append(a)
     return passed
 

@@ -123,6 +123,75 @@ def rescore_after_screen(screened: list, selection: dict) -> list:
     return screened
 
 
+def apply_appeal_floor(pool: list, selection: dict) -> list:
+    """يستبعد مرشحًا فُرز فعليًا (art.appeal_judged) وكانت قيمه
+    proximity == 0 وimpact <= 1 معًا (Issue #1086، config.yaml:
+    selection.appeal.min_proximity_or_impact) — حكم صادر عن الفرز نفسه لا
+    غياب حكم، ومعناه: لا صلة بالقارئ العربي ولا أثر يُذكر.
+
+    مرشح لم يُفرز فعليًا (appeal_judged=False — إما خارج أفق الفرز، أو
+    داخله لكن نداء الفرز فشل فمرّت دفعته بأصفار، Issue #1047) لا يخضع لهذا
+    الحد إطلاقًا: أصفاره لا تعني حكمًا بانعدام الجذب، بل «لم يُسأل عنه»."""
+    appeal_cfg = selection.get("appeal", {}) or {}
+    if not appeal_cfg.get("min_proximity_or_impact", True):
+        return pool
+    return [a for a in pool
+            if not a.appeal_judged or a.proximity > 0 or a.impact > 1]
+
+
+def screen_for_selection(candidates: list, selection: dict, cfg, needed: int) -> tuple[list, int]:
+    """يبني قائمة المرشحين النهائية بعد الفرز والاستبعاد التحريري (Issue
+    #1086) بدل إلحاق كل ما وقع خارج أفق الفرز كما كان يجري سابقًا —
+    22 من 64 مرشحًا حقيقيًا (منذ 24 سبتمبر) لم يُفرزوا إطلاقًا لأنهم خارج
+    الأفق، وأصفارهم في عوامل الجذب لم تكن حكمًا بانعدام الجذب بل «لم
+    يُسألوا عنهم»، ومع هذا كانوا يزاحمون المفروزين في قائمة الاختيار
+    (متوسط درجتهم 19.9 مقابل 25.9 للمفروزين، وأعلاهم داخل مدى المفروزين
+    تمامًا).
+
+    الأفق يتناسب مع ``needed`` (candidates_per_run حين تفعَّل preselect —
+    هي المستهلك الفعلي للقائمة — وإلا drafts_per_run)، بحد أدنى
+    screen_horizon_min وأقصى screen_horizon_max.
+
+    صمّام أمان وحيد إن نقص العدد بعد الفرز والاستبعاد: توسيع الأفق مرة
+    واحدة بدفعة إضافية (screen_per_draft × needed) وإعادة الفرز/الاستبعاد
+    على المجموع الكامل (لا دفعة إعادة فرز منفصلة، كي يبقى تناوب المناطق
+    صحيحًا على القائمة كلها لا على كل دفعة على حدة). إن ظلّ العدد ناقصًا
+    بعد بلوغ screen_horizon_max، يُكمَّل الباقي من غير المفروزين بدرجتهم
+    الخام — استثناء صريح مسجَّل لا صامت.
+
+    تعيد (القائمة النهائية، عدد المكمَّلين من غير المفروزين)."""
+    per_draft = int(selection.get("screen_per_draft", 8))
+    horizon_min = int(selection.get("screen_horizon_min", 40))
+    horizon_max = int(selection.get("screen_horizon_max", 90))
+    horizon = min(horizon_max, max(horizon_min, needed * per_draft))
+
+    screened = screen(candidates[:horizon], cfg)
+    scanned_upto = horizon
+
+    pool = apply_appeal_floor(rescore_after_screen(screened, selection), selection)
+
+    if len(pool) < needed and scanned_upto < min(horizon_max, len(candidates)):
+        new_horizon = min(horizon_max, scanned_upto + per_draft * needed)
+        extra = candidates[scanned_upto:new_horizon]
+        if extra:
+            screened = screened + screen(extra, cfg)
+            scanned_upto = new_horizon
+            pool = apply_appeal_floor(rescore_after_screen(screened, selection), selection)
+
+    backfilled = 0
+    if len(pool) < needed:
+        remainder = candidates[scanned_upto:]
+        top_up = remainder[: needed - len(pool)]
+        if top_up:
+            backfilled = len(top_up)
+            log.warning("اكتمل العدد من %d مرشحًا لم يُفرزوا (نقص بعد توسيع الأفق مرة)",
+                       backfilled)
+            step_summary(f"⚠️ اكتمل العدد من مرشحين لم يُفرزوا: {backfilled}")
+            pool = pool + top_up
+
+    return pool, backfilled
+
+
 def run_preselect(candidates: list, selection: dict, dedupe_days: int,
                   dupe_threshold: float, count: int) -> int:
     """يبني مرشحين خامًا للاختيار بلا صياغة ولا صورة ولا استدعاء نموذج
@@ -231,25 +300,26 @@ def main() -> int:
     save_velocity(vel_entries)
     log.info("مرشّحون بعد الترتيب: %d", len(candidates))
 
-    # 4) فرز أولي رخيص: يستبعد غير الصالح قبل أي قراءة مكلفة
-    # الأفق يتناسب مع المطلوب: فرز 60 مرشحًا لإنتاج مسودتين إسراف
-    per_draft = int(selection.get("screen_per_draft", 8))
-    horizon = min(int(selection.get("screen_horizon_max", 90)),
-                  max(20, target * per_draft))
-    screened = screen(candidates[:horizon], cfg)
-    # عوامل الجذب الثلاثة (Issue #876) تُقدَّر للتو داخل screen() أعلاه —
-    # نفعّلها في الترتيب هنا فعليًا (Issue #881) بدل أن تبقى محسوبة بلا
-    # أثر. المرشحون خارج الأفق (candidates[horizon:]) عواملهم صفر فدرجتهم
-    # لا تتغيّر — يُلحَقون كما هم بلا مرور على rescore_after_screen.
-    candidates = rescore_after_screen(screened, selection) + candidates[horizon:]
+    # preselect.candidates_per_run هو المستهلك الفعلي لقائمة الاختيار حين
+    # تُفعَّل preselect — الأفق والصمّام في screen_for_selection يتناسبان
+    # معه هو لا مع drafts_per_run (Issue #1086).
+    preselect_cfg = cfg.get("preselect", {}) or {}
+    preselect_enabled = preselect_cfg.get("enabled", False)
+    needed = (int(preselect_cfg.get("candidates_per_run", 5)) if preselect_enabled
+             else target)
+
+    # 4) فرز أولي رخيص: يستبعد غير الصالح قبل أي قراءة مكلفة، ثم يستبعد من
+    # النتيجة كل من لم يُفرز أصلًا (Issue #1086 — انظر توثيق
+    # screen_for_selection لتفاصيل القرار وصمّام الأمان).
+    candidates, backfilled = screen_for_selection(candidates, selection, cfg, needed)
+    if backfilled:
+        log.info("قائمة الاختيار اكتملت جزئيًا من غير المفروزين: %d", backfilled)
 
     # 4.5) نقطة توقف قبل الصياغة (Issue #280): بديل لدورة "صُغ ثم راجِع"
     # لا إضافة إليها — يوقف الأنبوب هنا ويفتح Issue اختيار خام (بلا صياغة
     # ولا صورة) بدل توليد الدفعة كاملة ثم انتظار رفض نصفها في المراجعة.
-    preselect_cfg = cfg.get("preselect", {}) or {}
-    if preselect_cfg.get("enabled", False):
-        result = run_preselect(candidates, selection, dedupe_days, dupe_threshold,
-                               int(preselect_cfg.get("candidates_per_run", 5)))
+    if preselect_enabled:
+        result = run_preselect(candidates, selection, dedupe_days, dupe_threshold, needed)
         run_names_learning(cfg)
         return result
 

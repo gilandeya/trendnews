@@ -1502,6 +1502,201 @@ def test_screen_truncation_retry() -> None:
           [(a.link, a.score) for a in final])
 
 
+def test_screen_for_selection_excludes_unscreened() -> None:
+    """Issue #1086: candidates[horizon:] (خارج أفق الفرز أصلًا) كانت
+    تُلحَق بقائمة الاختيار كما هي رغم أن أصفار عوامل الجذب فيها ليست حكمًا
+    بل «لم يُسألوا عنهم» — قياس حقيقي (64 مرشحًا منذ 24 سبتمبر): متوسط
+    درجة غير المفروزين 19.9 مقابل 25.9 للمفروزين، وأعلاهم داخل مدى
+    المفروزين تمامًا، فيزاحمون المفروزين في قائمة الاختيار.
+
+    يغطي على مخرَج collect.screen_for_selection (ما يستدعيه collect.main()
+    فعليًا) لا على دوال معزولة بلا سياق:
+    1) غير المفروز لا يدخل حين يكفي المفروز وحده.
+    2) صمّام الأمان: توسيع الأفق مرة، ثم إكمال من غير المفروزين مع تحذير
+       وسطر ملخّص عند استمرار النقص.
+    3) حدّ القرب/الأثر التحريري بقيمه الحدّية الثلاث (apply_appeal_floor).
+    4) تعطيل الحدّ بمفتاح الإعداد.
+    5) فشل الفرز كليًا لا يُسقط أحدًا بحدّ القرب — أخطر تفاعل في المهمة:
+       أصفار فشل الفرز ليست حكمًا.
+    6) تناوب المناطق ما زال مطبَّقًا على القائمة الناتجة."""
+    import os
+    import tempfile
+
+    from src import screen as screen_mod
+
+    now = datetime.now(timezone.utc)
+
+    def art(i, region="r", **kw):
+        return Article(title=f"مرشح {i}", link=f"https://x/cand{i}",
+                       summary="ملخص", source_name="src", region=region,
+                       weight=1.0, published=now, **kw)
+
+    class _Block:
+        def __init__(self, text):
+            self.type = "text"
+            self.text = text
+
+    class _Resp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+
+    class _SeqMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+
+        def create(self, **kw):
+            return self._responses.pop(0)
+
+    class _SeqClient:
+        def __init__(self, responses):
+            self.messages = _SeqMessages(responses)
+
+    class _FakeLog:
+        def __init__(self):
+            self.warnings = []
+
+        def warning(self, *a, **kw):
+            self.warnings.append(a)
+
+        def info(self, *a, **kw):
+            pass
+
+        def error(self, *a, **kw):
+            pass
+
+    def kept_json(rows):
+        return json.dumps({"kept": rows})
+
+    real_client, real_log = screen_mod._client, collect.log
+    scfg = {"screening": {"enabled": True, "use_feedback": False, "batch_size": 999}}
+
+    # ── 1) 30 مرشحًا، أفق 40 (افتراضي)، الفرز يجيز 6 فقط ──
+    batch1 = [art(i) for i in range(30)]
+    approved1 = (0, 3, 7, 12, 20, 29)
+    kept1 = [{"i": i, "impact": 2, "proximity": 2, "intrigue": 1, "appeal_note": "سبب"}
+             for i in approved1]
+    fake_client1 = _SeqClient([_Resp([_Block(kept_json(kept1))])])
+    selection1 = {"screen_per_draft": 8, "screen_horizon_min": 40, "screen_horizon_max": 90,
+                  "region_diversity": False,
+                  "appeal": {"impact_weight": 0.0, "proximity_weight": 0.0,
+                            "intrigue_weight": 0.0, "min_proximity_or_impact": True}}
+    screen_mod._client = lambda: fake_client1
+    try:
+        pool1, backfilled1 = collect.screen_for_selection(list(batch1), selection1, scfg, 5)
+    finally:
+        screen_mod._client = real_client
+
+    check("30 مرشحًا/أفق 40: القائمة تضم المُجازين الستة فقط",
+          {a.link for a in pool1} == {batch1[i].link for i in approved1},
+          sorted(a.link for a in pool1))
+    check("30 مرشحًا/أفق 40: لا مرشح بأصفار عوامل الجذب في القائمة",
+          all((a.proximity, a.impact, a.intrigue) != (0, 0, 0) for a in pool1),
+          [(a.proximity, a.impact, a.intrigue) for a in pool1])
+    check("30 مرشحًا/أفق 40: بلا إكمال من غير المفروزين (الفرز الأول كفى)",
+          backfilled1 == 0, backfilled1)
+
+    # ── 2) الفرز يجيز 2 فقط والمطلوب 5: توسيع مرة، ثم إكمال من غير المفروزين ──
+    batch2 = [art(100 + i) for i in range(90)]
+    kept2a = [{"i": i, "impact": 2, "proximity": 2, "intrigue": 1, "appeal_note": "سبب"}
+              for i in (0, 1)]
+    kept2b = [{"i": 5, "impact": 3, "proximity": 1, "intrigue": 0, "appeal_note": "سبب"}]
+    fake_client2 = _SeqClient([_Resp([_Block(kept_json(kept2a))]),
+                              _Resp([_Block(kept_json(kept2b))])])
+    selection2 = dict(selection1)
+    fake_log2 = _FakeLog()
+    tmp_dir = tempfile.mkdtemp()
+    summary_path = str(Path(tmp_dir) / "summary.md")
+    had_env = "GITHUB_STEP_SUMMARY" in os.environ
+    old_env = os.environ.get("GITHUB_STEP_SUMMARY")
+    os.environ["GITHUB_STEP_SUMMARY"] = summary_path
+    screen_mod._client, collect.log = lambda: fake_client2, fake_log2
+    try:
+        pool2, backfilled2 = collect.screen_for_selection(list(batch2), selection2, scfg, 5)
+        summary_text = (Path(summary_path).read_text(encoding="utf-8")
+                        if Path(summary_path).exists() else "")
+    finally:
+        screen_mod._client, collect.log = real_client, real_log
+        if had_env:
+            os.environ["GITHUB_STEP_SUMMARY"] = old_env
+        else:
+            os.environ.pop("GITHUB_STEP_SUMMARY", None)
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+
+    check("أفق موسَّع مرة + إكمال: العدد النهائي يطابق المطلوب (5)",
+          len(pool2) == 5, len(pool2))
+    check("أفق موسَّع مرة + إكمال: عدد المكمَّلين من غير المفروزين هو 2",
+          backfilled2 == 2, backfilled2)
+    check("أفق موسَّع مرة + إكمال: WARNING صريح يُسجَّل",
+          len(fake_log2.warnings) == 1, fake_log2.warnings)
+    check("أفق موسَّع مرة + إكمال: سطر ملخّص التشغيلة بالصيغة المطلوبة",
+          "⚠️ اكتمل العدد من مرشحين لم يُفرزوا: 2" in summary_text, summary_text)
+
+    # ── 3) حدّ القرب/الأثر التحريري: proximity==0 وimpact<=1 يسقط، وإلا يبقى ──
+    drop_case = art(200, proximity=0, impact=1, appeal_judged=True)
+    keep_impact = art(201, proximity=0, impact=2, appeal_judged=True)
+    keep_proximity = art(202, proximity=1, impact=0, appeal_judged=True)
+    selection_gate = {"appeal": {"min_proximity_or_impact": True}}
+    gated = collect.apply_appeal_floor([drop_case, keep_impact, keep_proximity], selection_gate)
+    gated_links = [a.link for a in gated]
+    check("proximity=0 وimpact=1: يسقط", drop_case.link not in gated_links, gated_links)
+    check("proximity=0 وimpact=2: يبقى", keep_impact.link in gated_links, gated_links)
+    check("proximity=1 وimpact=0: يبقى", keep_proximity.link in gated_links, gated_links)
+
+    # ── 4) min_proximity_or_impact=false: لا يسقط أحد بهذا الحد ──
+    selection_gate_off = {"appeal": {"min_proximity_or_impact": False}}
+    gated_off = collect.apply_appeal_floor(
+        [drop_case, keep_impact, keep_proximity], selection_gate_off)
+    check("min_proximity_or_impact=false: لا أحد يسقط",
+          {a.link for a in gated_off} == {drop_case.link, keep_impact.link, keep_proximity.link},
+          [a.link for a in gated_off])
+
+    # ── 5) فشل الفرز كليًا (لا مفتاح API): الأصفار ليست حكمًا فلا تُسقط أحدًا ──
+    batch5 = [art(300 + i) for i in range(5)]  # appeal_judged=False افتراضيًا، proximity=impact=0
+    selection5 = {"screen_per_draft": 8, "screen_horizon_min": 5, "screen_horizon_max": 5,
+                 "region_diversity": False,
+                 "appeal": {"impact_weight": 0.0, "proximity_weight": 0.0,
+                           "intrigue_weight": 0.0, "min_proximity_or_impact": True}}
+
+    def _raise_missing_key():
+        raise RuntimeError("ANTHROPIC_API_KEY غير موجود")
+
+    screen_mod._client = _raise_missing_key
+    try:
+        pool5, backfilled5 = collect.screen_for_selection(list(batch5), selection5, scfg, 5)
+    finally:
+        screen_mod._client = real_client
+
+    check("فشل الفرز كليًا: كل المرشحين يبقون رغم أصفارهم (ليست حكمًا)",
+          len(pool5) == 5, len(pool5))
+    check("فشل الفرز كليًا: لا أحد appeal_judged (الفشل لم يُنتج حكمًا فعليًا)",
+          all(not a.appeal_judged for a in pool5),
+          [a.appeal_judged for a in pool5])
+
+    # ── 6) تناوب المناطق ما زال مطبَّقًا على القائمة الناتجة ──
+    r1_items = [art(400 + i, region="r1", score=10.0 - i) for i in range(4)]
+    r2_item = art(410, region="r2", score=6.0)
+    batch6 = r1_items + [r2_item]
+    kept6 = [{"i": i, "impact": 2, "proximity": 2, "intrigue": 0, "appeal_note": "سبب"}
+             for i in range(5)]
+    fake_client6 = _SeqClient([_Resp([_Block(kept_json(kept6))])])
+    selection6 = {"screen_per_draft": 8, "screen_horizon_min": 10, "screen_horizon_max": 10,
+                 "region_diversity": True, "max_per_region": 2,
+                 "appeal": {"impact_weight": 0.0, "proximity_weight": 0.0,
+                           "intrigue_weight": 0.0, "min_proximity_or_impact": True}}
+    screen_mod._client = lambda: fake_client6
+    try:
+        pool6, backfilled6 = collect.screen_for_selection(list(batch6), selection6, scfg, 5)
+    finally:
+        screen_mod._client = real_client
+
+    from collections import Counter as _Counter
+    primary_regions = _Counter(a.region for a in pool6[:3])
+    check("تناوب المناطق محفوظ في القائمة الناتجة عن screen_for_selection",
+          len(pool6) == 5 and primary_regions["r1"] <= 2 and "r2" in primary_regions,
+          [(a.link, a.region) for a in pool6])
+
+
 def test_merge_group_titles_truncation_retry() -> None:
     """Issue #1063: merge._group_titles كان يرسل max_tokens=1500 ثابتًا
     لدفعة تصل إلى `merge.top` عنوانًا (60 افتراضيًا)، والقطع
