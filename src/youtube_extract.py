@@ -74,7 +74,7 @@ from typing import Any
 import requests
 from anthropic import Anthropic, APIError
 
-from . import youtube_collect
+from . import evidence, imagesearch, imaging, youtube_collect
 from .config import YOUTUBE_POINTS_DIR, Config, env, load_config
 from .proxy_config import get_proxy_config
 
@@ -910,6 +910,127 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
         "failed": failed,
         "points": points,
     }
+
+
+# ──────────────── الصورة التعبيرية الحرة الترخيص (Issue #680/#941) ─────────
+#
+# نُقلت هنا من src/youtube_publish.py (Issue #1092) -- الحاجة الجديدة (فحص
+# توفّر صورة *قبل* إنفاق نداء الصياغة في src/youtube_article.py، انظر
+# video_backdrop_available أدناه) تحتاج هذا المنطق من مرحلتين منفصلتين
+# (الكتابة والتوصيل) معًا، وyoutube_publish.py يستورد src/youtube_article.py
+# فعليًا (دورة استيراد لو استوردت العكس) -- هذا الملف (المرحلة الثانية) هو
+# القاعدة المشتركة الآمنة الوحيدة التي تستوردها كلتاهما بلا دورة.
+# youtube_publish._photo_candidates/_photo_search_terms تبقيان كأسماء محلية
+# هناك (إعادة تصدير) كي لا تنكسر استدعاءاتهما أو اختباراتهما القائمة.
+
+
+def photo_search_terms(headline: str, event: str, image_query_en: str | None = None) -> list[str]:
+    """يبني عبارات البحث لمقال تحليل: الكلمات الإنجليزية (image_query_en،
+    Issue #941) أولًا حين تتوفّر -- السبب الجذري الموثَّق للبطاقات بلا صورة
+    كان أن البحث يجري بالعربية في ويكيميديا/Openverse، وكلاهما فهرسة
+    إنجليزية أساسًا فتخدمها كلمات إنجليزية أفضل من عربية مترجَمة آليًا --
+    ثم عبارتَي بحث عربيتين احتياطًا (event ثم headline) عبر evidence.build_query
+    -- نفس أداة استخلاص الكلمات المفتاحية من نص عربي المستعملة أصلًا في
+    article.py/verify.py لبناء استعلامات البحث، لا imagesearch.keywords()
+    التي تستخرج فقط أحرفًا لاتينية كبيرة (مصمَّمة لعناوين RSS الأصلية) ولا
+    تصلح لعنوان/event عربيَّين -- كانت لتعيد قائمة فارغة دومًا (طلب المراجعة
+    على Issue #680). event قبل headline من العربيَّين لأنه يصف الواقعة بعينها
+    (مكان/حدث محدَّد لا موضوعًا عامًا، انظر CLUSTER_SCHEMA في
+    youtube_cluster.py)، أدقّ لصورة تعبيرية من العنوان التحليلي الأعمّ."""
+    terms: list[str] = []
+    if image_query_en:
+        terms.append(image_query_en)
+    for text in (event, headline):
+        q = evidence.build_query(text or "", max_words=6)
+        if q and q not in terms:
+            terms.append(q)
+    return terms
+
+
+def photo_candidates(headline: str, event: str, cfg, image_query_en: str | None = None
+                      ) -> list[str]:
+    """يبحث عن روابط صور تعبيرية حرة الترخيص لبطاقة مقال تحليل (طلب المراجعة
+    على Issue #680) -- imagesearch.py حصرًا (Wikimedia/Openverse)، فلا صلة
+    لها ببيانات الفيديو أو القناة أو أي شخص مذكور في المقال بنيويًا: مصدرا
+    البحث لا يستقبلان شيئًا من ذلك أصلًا، لا مجرّد اتفاق ضمني على تجنّبه.
+    image_query_en (Issue #941) يصل photo_search_terms أولًا فيُبحث به قبل
+    العبارتين العربيتين -- المحاولة نفسها، لا محاولة إضافية.
+
+    كل مرشَّح يظهر فيه وجه بنسبة مساحة ≥ image.face_min_ratio (عتبة "وجه
+    ظاهر" القائمة نفسها، لا عتبة جديدة) يُستبعَد من القائمة: لا سبيل لتطبيق
+    «لا صورة أي شخص مذكور في المقال» بالتعرّف على هوية الشخص فعليًا، فالرفض
+    الآمن رفض أي وجه ظاهر بصرف النظر عمّن يكون -- امتناع بنيويًا لا اجتهادًا،
+    بنفس مبدأ منع صورة الفيديو/القناة أعلاه. **هذه العتبة خاصة بالصورة
+    الرئيسية وحدها** -- خلفية الفيديو المعتّمة (video_backdrop_available
+    أدناه) لا تخضع لها إطلاقًا (Issue #1092، طلب مراجعة صريح: التعتيم كافٍ).
+
+    تعيد **روابط** لا صورًا محمَّلة (خلافًا لتصميم سابق لهذه الدالة قبل
+    Issue #732) كي تُمرَّر مباشرة إلى imaging.build_post_image عبر
+    fallback_urls، فتتولى هي التحميل والتحقّق (حجم/نسبة) والتقرير --
+    نفس آلية المسار العام تمامًا بدل تكرارها هنا. قائمة فارغة (بحث فارغ أو
+    كل المرشّحين فيهم وجه) تعني عودة build_post_image إلى الخلفية المصممة
+    بدل إسقاط المقال (نصّ طلب المراجعة صراحةً) -- أو، منذ Issue #941، محاولة
+    ثانية أعمّ عبر cards.ensure نفسها، أو منذ Issue #1092، خلفية معتّمة من
+    صورة فيديو مصدر (انظر youtube_publish.ensure_title_card)."""
+    terms = photo_search_terms(headline, event, image_query_en)
+    if not terms:
+        return []
+    urls = imagesearch.find_images(headline, cfg, terms=terms)
+    if not urls:
+        return []
+
+    max_face_ratio = float(cfg.path("image.face_min_ratio", 0.02))
+    clean: list[str] = []
+    for url in urls:
+        img = imaging.download_image(url)
+        if img is None:
+            continue
+        if imaging.face_score(img) >= max_face_ratio:
+            log.info("استُبعدت صورة تعبيرية (وجه ظاهر): %s", url[:90])
+            continue
+        clean.append(url)
+    return clean
+
+
+# ──────────────── خلفية معتّمة من صورة فيديو مصدر (Issue #1092) ────────────
+#
+# الدرجة الثالثة/الأخيرة لصورة مقال تحليل: صورة الفيديو المصغّرة الرسمية (لا
+# نداء API، صيغة رابط ثابتة معروفة ليوتيوب) تُستعمَل خلفيةً معتّمة للبطاقة
+# كلها حين تفشل صورة حرة الترخيص أعلاه -- انظر توثيق imaging.build_post_image
+# لماذا لا فحص وجه هنا (خلافًا لـphoto_candidates أعلاه) ولماذا لا تُرسم صورة
+# رئيسية. الدقة العالية (hqdefault) غير متوفرة لكل فيديو (تحديدًا القديم أو
+# القصير جدًا) فتُجرَّب دقة أدنى مضمونة الوجود بعدها (mqdefault) لكل معرّف.
+
+THUMBNAIL_RESOLUTIONS = ("hqdefault", "mqdefault")
+
+
+def thumbnail_urls(video_id: str) -> list[str]:
+    return [f"https://i.ytimg.com/vi/{video_id}/{res}.jpg" for res in THUMBNAIL_RESOLUTIONS]
+
+
+def backdrop_candidate_urls(video_ids: list[str]) -> list[str]:
+    """روابط الصور المصغّرة لقائمة معرّفات فيديو مرتّبة مسبقًا (الأكثر
+    مساهمة بالنقاط أولًا -- انظر youtube_article._video_ids_by_contribution)
+    -- لكل فيديو دقّته العالية ثم الأدنى، بالترتيب حتى ينجح تحميل واحد
+    (Issue #1092). قائمة معرّفات فارغة تعيد قائمة روابط فارغة بلا استثناء."""
+    urls: list[str] = []
+    for vid in video_ids or []:
+        if vid:
+            urls.extend(thumbnail_urls(vid))
+    return urls
+
+
+def video_backdrop_available(video_ids: list[str], cfg) -> bool:
+    """معاينة رخيصة (بلا بناء بطاقة): هل تنجح صورة فيديو مصغّرة واحدة على
+    الأقل تحميلًا (نفس imaging.download_image، فنفس حدّ الأبعاد الأدنى)؟
+    تُستعمَل حصرًا في بوابة src/youtube_article.py قبل نداء الصياغة -- لا
+    فحص وجه هنا كذلك (نفس سبب backdrop_candidate_urls أعلاه)؛ هذا احتمال لا
+    وعد -- البناء الفعلي لاحقًا في youtube_publish.ensure_title_card يعيد
+    التحميل من نفس القائمة، فقد يختلف قليلًا (رابط تعطّل بين اللحظتين)."""
+    for url in backdrop_candidate_urls(video_ids)[:12]:
+        if imaging.download_image(url) is not None:
+            return True
+    return False
 
 
 def save_output(result: dict) -> Path:

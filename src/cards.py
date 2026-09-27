@@ -127,6 +127,7 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
            out_dir: str | None = None,
            check_headline_limit: bool = True,
            persist: bool = True,
+           backdrop_urls: list[str] | None = None,
            build_post_image=None,
            download_image=None) -> str | None:
     """يبني بطاقة المسودة من حقولها المخزَّنة، أو يعيد مسارها الحالي بلا
@@ -217,6 +218,7 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
                    else bool(spec.get("urgent") or ar.get("urgent"))),
             image_urls=urls or None,
             fallback_urls=fallback_urls,
+            backdrop_urls=backdrop_urls,
             publisher=resolved_publisher,
             bucket=bucket if bucket is not None else draft.get("bucket", "serious"),
             origin=origin if origin is not None else store.origin_of(draft),
@@ -237,6 +239,10 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
             "chosen_url": shot.get("chosen_url"),
             "candidates_tried": shot.get("candidates_tried"),
             "manual": bool(manual_url),
+            # Issue #1092: يميّز خلفية فيديو مصدر معتّمة (مسار التحليل وحده)
+            # عن كل الحالات الأخرى -- None حين لم تُستعمَل. انظر
+            # review.image_source_line ودالة backdrop_urls في imaging.py.
+            "kind": shot.get("kind"),
         }
         store.update_draft(path, image=out_rel, has_photo=image_info["used_original"],
                            image_info=image_info)
