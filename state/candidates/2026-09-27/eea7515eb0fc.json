@@ -1,0 +1,70 @@
+{
+  "id": "eea7515eb0fc",
+  "created_at": "2026-09-27T09:08:27.901511+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.85,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 0,
+  "intrigue": 2,
+  "appeal_note": "عاصفة قوية غير معتادة، قد تؤثر على الطقس العالمي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Unusually powerful storm pummels northeast US with heavy rain, high winds",
+  "link": "https://www.france24.com/en/americas/20260926-unusually-powerful-storm-pummels-northeast-us-with-heavy-rain-high-winds",
+  "publishers": [
+    "France24",
+    "Hindustan Times — World",
+    "South China Morning Post"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Unusually powerful storm pummels northeast US with heavy rain, high winds",
+    "link": "https://www.france24.com/en/americas/20260926-unusually-powerful-storm-pummels-northeast-us-with-heavy-rain-high-winds",
+    "summary": "A powerful storm unusual for this time of year intensified on Sunday over the northeastern United States, bringing torrential rain and powerful winds that cut off power to tens of thousands of people and killed one person, according to US media.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-26T15:08:07+00:00",
+    "image_url": "https://s.france24.com/media/display/5f284308-b9ee-11f1-9f6e-11fa9f8a3b4f/w:1024/p:16x9/9a371a7dbd4c6af448fe77d67e88a6972e51d8eb.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Hindustan Times — World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368922/powerful-storm-pummels-northeast-us-rain-and-high-winds?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20260926-unusually-powerful-storm-pummels-northeast-us-with-heavy-rain-high-winds"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/powerful-storm-pummels-northeast-us-with-rain-high-winds-101790456947697.html"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/5f284308-b9ee-11f1-9f6e-11fa9f8a3b4f/w:1024/p:16x9/9a371a7dbd4c6af448fe77d67e88a6972e51d8eb.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1288.9172242786112,
+    "is_stale": false,
+    "score": 21.854982682533837,
+    "impact": 2,
+    "proximity": 0,
+    "intrigue": 2,
+    "appeal_note": "عاصفة قوية غير معتادة، قد تؤثر على الطقس العالمي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "id": "93917dea1a19",
+  "created_at": "2026-09-27T09:08:27.900408+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 33.97,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "عنف جماعي في جنوب أفريقيا، خبر جدي لكن بعيد جغرافيًا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Gunmen killed at least 27 people in two mass shootings in South Africa",
+  "link": "http://www.africanews.com/2026/09/27/gunmen-kill-17-in-south-africa-bar-shooting-15-wounded-police/",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera",
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "Malay Mail",
+    "MyJoyOnline Ghana",
+    "NDTV — World",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Gunmen killed at least 27 people in two mass shootings in South Africa",
+    "link": "http://www.africanews.com/2026/09/27/gunmen-kill-17-in-south-africa-bar-shooting-15-wounded-police/",
+    "summary": "Gunmen killed at least 27 people in two mass shootings in South Africa’s two largest cities, police said Sunday, in the latest violence to strike the crime-weary country",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-27T08:26:28+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/92/52/32/640x360_cmsv2_ea06de9c-f043-59af-ac15-b46c1f9041c5-9925232.jpg?1790491566",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera",
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "Malay Mail",
+      "MyJoyOnline Ghana",
+      "NDTV — World",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/27/several-killed-in-south-africa-shooting?traffic_source=rss"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/27/gunmen-kill-17-in-south-africa-bar-shooting-15-wounded-police/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/south-africa-mass-shootings-update-toll-september-27-2026/article71515410.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/johannesburg-cape-town-shootings-27-killed-in-2-mass-shootings-at-bar-store-in-south-africa-12104508#publisher=newsstand"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/mass-shooting-south-africa-johannesburg-capetown/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/27/world/crime-legal/south-africa-shooting/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/92/52/32/640x360_cmsv2_ea06de9c-f043-59af-ac15-b46c1f9041c5-9925232.jpg?1790491566",
+      "https://c.ndtvimg.com/2024-09/1neck6oo_us-police-generic_625x300_30_September_24.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/27/565314.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/27/thumbs/400x400/565314.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-3448.png",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/27/364957.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 11,
+    "velocity": 1.0,
+    "age_hours": 1288.9170967294444,
+    "is_stale": false,
+    "score": 33.965445602245225,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "عنف جماعي في جنوب أفريقيا، خبر جدي لكن بعيد جغرافيًا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
