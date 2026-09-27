@@ -105,16 +105,29 @@ def rescore_after_screen(screened: list, selection: dict) -> list:
     الحقيقية إلى الدرجة القائمة (لا نعيد حسابها من الصفر) ثم نعيد الفرز
     تنازليًا، ونعيد تطبيق تناوب المناطق بنفس rank.apply_region_diversity —
     لا نسخة ثانية من منطقها — على القائمة المرتَّبة الجديدة، وإلا نقضت
-    إعادة الفرز الساذجة توزيع rank() الجغرافي (Issue #876)."""
+    إعادة الفرز الساذجة توزيع rank() الجغرافي (Issue #876).
+
+    screen_for_selection (Issue #1086) تستدعي هذه الدالة أكثر من مرة عند
+    توسيع الأفق، وفي كل مرة على screened الكاملة (الدفعة الأولى + الجديدة
+    معًا) لا على الجديدة وحدها — عمدًا، كي يبقى الفرز التنازلي وتناوب
+    المناطق مطبَّقين على القائمة كاملة لا على كل دفعة على حدة. بلا وسم
+    art.rescored كانت الدفعة الأولى تتلقّى إضافة الأوزان مرتين (Issue
+    #1088: درجة 10 بقيم 2/2/2 صارت 16 ثم 22). الوسم يجعل الإضافة تقع مرة
+    واحدة فقط لكل مرشح مهما تكرر الاستدعاء، بينما الفرز وتناوب المناطق
+    يُعادان في كل مرة على القائمة الكاملة كما هي، لأنهما بلا حالة متراكمة
+    يخشى تكرارها."""
     appeal_cfg = selection.get("appeal", {}) or {}
     impact_weight = float(appeal_cfg.get("impact_weight", 0.0))
     proximity_weight = float(appeal_cfg.get("proximity_weight", 0.0))
     intrigue_weight = float(appeal_cfg.get("intrigue_weight", 0.0))
 
     for art in screened:
+        if art.rescored:
+            continue
         art.score += (impact_weight * art.impact
                       + proximity_weight * art.proximity
                       + intrigue_weight * art.intrigue)
+        art.rescored = True
 
     screened.sort(key=lambda a: a.score, reverse=True)
 

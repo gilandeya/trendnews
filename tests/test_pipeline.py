@@ -35,6 +35,7 @@ from tests.test_collect import (
     test_appeal_factors_affect_ranking,
     test_screen_truncation_retry,
     test_screen_for_selection_excludes_unscreened,
+    test_rescore_no_double_add_on_horizon_widen,
     test_merge_group_titles_truncation_retry,
     test_radar_gate_check_dedupe,
     test_radar_preselect_fallback,
@@ -283,6 +284,8 @@ def main() -> int:
     test_screen_truncation_retry()
     print("\n── غير المفروز لا يدخل قائمة الاختيار + حدّ القرب/الأثر التحريري (Issue #1086) ──")
     test_screen_for_selection_excludes_unscreened()
+    print("\n── أوزان الجذب لا تُضاف مرتين عند توسيع الأفق (Issue #1088) ──")
+    test_rescore_no_double_add_on_horizon_widen()
     print("\n── سقف رد الدمج الدلالي يُحسب من عدد العناوين، وإعادة المحاولة عند القطع (Issue #1063) ──")
     test_merge_group_titles_truncation_retry()
     print("\n── كاشف تكرار النشر التلقائي (الرادار) ──")

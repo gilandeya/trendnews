@@ -1697,6 +1697,136 @@ def test_screen_for_selection_excludes_unscreened() -> None:
           [(a.link, a.region) for a in pool6])
 
 
+def test_rescore_no_double_add_on_horizon_widen() -> None:
+    """Issue #1088: rescore_after_screen تضيف الأوزان إلى art.score القائمة
+    (score += ...)، وscreen_for_selection (Issue #1086) تستدعيها مرة على
+    الدفعة الأولى ثم مرة ثانية على screened كلها (الدفعة الأولى + الجديدة)
+    بعد توسيع الأفق — فمرشحو الدفعة الأولى كانوا يتلقّون الإضافة مرتين
+    (مثال المهمة: درجة 10 بقيم 2/2/2 تصير 16 ثم 22). Article.rescored
+    (جديد) يسجّل أن مرشحًا بعينه تلقّى إضافته فعلًا فلا تتكرر مهما تكرر
+    الاستدعاء على نفس القائمة.
+
+    يغطي على مخرَج collect.screen_for_selection (لا rescore_after_screen
+    وحدها بمعزل عن سياق التوسيع):
+    1) استدعاء rescore_after_screen مرتين على نفس المرشح: الدرجة كما بعد
+       الاستدعاء الأول تمامًا.
+    2) سيناريو توسيع أفق كامل: مرشح في الدفعة الأولى بقيم عالية، ومرشح في
+       الدفعة الثانية (بعد التوسيع) بقيم حقيقية أعلى منه — الترتيب النهائي
+       يضع الثاني قبل الأول، ما يفشل قطعًا لو عادت الإضافة المزدوجة (الأول
+       كان سيصل 22 فيتصدّر زورًا على 17).
+    3) تناوب المناطق ما زال مطبَّقًا على الناتج النهائي بعد الدمج."""
+    from src import screen as screen_mod
+
+    now = datetime.now(timezone.utc)
+
+    def art(i, region="r", **kw):
+        return Article(title=f"مرشح {i}", link=f"https://x/rescore{i}",
+                       summary="ملخص", source_name="src", region=region,
+                       weight=1.0, published=now, **kw)
+
+    class _Block:
+        def __init__(self, text):
+            self.type = "text"
+            self.text = text
+
+    class _Resp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+
+    class _SeqMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+
+        def create(self, **kw):
+            return self._responses.pop(0)
+
+    class _SeqClient:
+        def __init__(self, responses):
+            self.messages = _SeqMessages(responses)
+
+    def kept_json(rows):
+        return json.dumps({"kept": rows})
+
+    real_client = screen_mod._client
+    scfg = {"screening": {"enabled": True, "use_feedback": False, "batch_size": 999}}
+    selection = {"screen_per_draft": 1, "screen_horizon_min": 2, "screen_horizon_max": 4,
+                "region_diversity": False,
+                "appeal": {"impact_weight": 1.0, "proximity_weight": 1.0,
+                          "intrigue_weight": 1.0}}
+
+    # ── 1) استدعاء rescore_after_screen مرتين على نفس المرشح ──
+    solo = art(0, score=10.0, impact=2, proximity=2, intrigue=2, appeal_judged=True)
+    once = collect.rescore_after_screen([solo], selection)
+    check("rescore_after_screen: الاستدعاء الأول يضيف الأوزان مرة (10 ← 16)",
+          once[0].score == 16.0, once[0].score)
+    twice = collect.rescore_after_screen(once, selection)
+    check("rescore_after_screen: استدعاء ثانٍ على نفس المرشح لا يضيف مجددًا (يبقى 16 لا 22)",
+          twice[0].score == 16.0, twice[0].score)
+
+    # ── 2) سيناريو توسيع الأفق كامل عبر screen_for_selection ──
+    # A في الدفعة الأولى (أفق=2)، C في الدفعة الثانية بعد التوسيع (أفق=4).
+    # قيم C الحقيقية أعلى فعليًا من A، فدرجتها الصحيحة (17) تتجاوز درجة A
+    # الصحيحة (16) — لكن لو أُضيفت أوزان A مرتين لصارت 22 فتتصدّر زورًا.
+    batch_a = art(100, score=10.0)   # يُفرَز ويُقبل في الدفعة الأولى
+    batch_b = art(101, score=9.0)    # يُرفض في الدفعة الأولى
+    batch_c = art(102, score=10.0)   # يُفرَز ويُقبل بعد توسيع الأفق
+    batch_d = art(103, score=8.0)    # يُرفض بعد توسيع الأفق
+    candidates = [batch_a, batch_b, batch_c, batch_d]
+
+    kept_first = [{"i": 0, "impact": 2, "proximity": 2, "intrigue": 2, "appeal_note": "سبب"}]
+    kept_second = [{"i": 0, "impact": 3, "proximity": 2, "intrigue": 2, "appeal_note": "سبب"}]
+    fake_client = _SeqClient([_Resp([_Block(kept_json(kept_first))]),
+                             _Resp([_Block(kept_json(kept_second))])])
+    screen_mod._client = lambda: fake_client
+    try:
+        pool, backfilled = collect.screen_for_selection(list(candidates), selection, scfg, 2)
+    finally:
+        screen_mod._client = real_client
+
+    check("توسيع الأفق: العدد النهائي يطابق المطلوب (2) بلا إكمال من غير المفروزين",
+          len(pool) == 2 and backfilled == 0, (len(pool), backfilled))
+    check("توسيع الأفق: درجة مرشح الدفعة الأولى صحيحة (10+6=16) لا مضاعَفة (22)",
+          any(a.link == batch_a.link and a.score == 16.0 for a in pool),
+          [(a.link, a.score) for a in pool])
+    check("توسيع الأفق: درجة مرشح الدفعة الثانية صحيحة (10+7=17)",
+          any(a.link == batch_c.link and a.score == 17.0 for a in pool),
+          [(a.link, a.score) for a in pool])
+    check("توسيع الأفق: الترتيب النهائي يعكس القيم الحقيقية — مرشح الدفعة "
+          "الثانية (17) يتصدّر الأول (16)، لا العكس كما تُنتج الإضافة المزدوجة (22 مقابل 17)",
+          [a.link for a in pool] == [batch_c.link, batch_a.link],
+          [a.link for a in pool])
+
+    # ── 3) تناوب المناطق ما زال مطبَّقًا على الناتج النهائي بعد الدمج ──
+    selection_div = dict(selection)
+    selection_div["region_diversity"] = True
+    selection_div["max_per_region"] = 1
+    r1_first = art(200, region="r1", score=10.0)          # الدفعة الأولى — r1
+    r1_second_reject = art(201, region="r1", score=9.0)
+    r1_second = art(202, region="r1", score=10.0)         # بعد التوسيع — r1 أيضًا
+    r2_second = art(203, region="r2", score=9.5)          # بعد التوسيع — منطقة مختلفة
+    candidates_div = [r1_first, r1_second_reject, r1_second, r2_second]
+
+    kept_div_first = [{"i": 0, "impact": 1, "proximity": 1, "intrigue": 1, "appeal_note": "سبب"}]
+    kept_div_second = [
+        {"i": 0, "impact": 3, "proximity": 3, "intrigue": 3, "appeal_note": "سبب"},
+        {"i": 1, "impact": 1, "proximity": 1, "intrigue": 1, "appeal_note": "سبب"},
+    ]
+    fake_client_div = _SeqClient([_Resp([_Block(kept_json(kept_div_first))]),
+                                  _Resp([_Block(kept_json(kept_div_second))])])
+    screen_mod._client = lambda: fake_client_div
+    try:
+        pool_div, _ = collect.screen_for_selection(list(candidates_div), selection_div, scfg, 2)
+    finally:
+        screen_mod._client = real_client
+
+    from collections import Counter as _Counter
+    top_regions = _Counter(a.region for a in pool_div[:2])
+    check("تناوب المناطق مطبَّق على الناتج النهائي بعد الدمج (max_per_region=1)",
+          top_regions["r1"] <= 1 and top_regions.get("r2") == 1,
+          [(a.link, a.region, a.score) for a in pool_div])
+
+
 def test_merge_group_titles_truncation_retry() -> None:
     """Issue #1063: merge._group_titles كان يرسل max_tokens=1500 ثابتًا
     لدفعة تصل إلى `merge.top` عنوانًا (60 افتراضيًا)، والقطع
