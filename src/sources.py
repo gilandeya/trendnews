@@ -62,6 +62,12 @@ class Article:
     # min_proximity_or_impact (Issue #1086) يعتمد هذا الحقل تحديدًا كي لا
     # يُعامل "لم يُسأل عنه" أو "فشل السؤال" كأنه حكم صريح بانعدام الجذب.
     appeal_judged: bool = False
+    # يمنع collect.rescore_after_screen من إضافة أوزان الجذب أكثر من مرة
+    # لنفس المرشح (Issue #1088): screen_for_selection تستدعيها على القائمة
+    # الكاملة في كل توسيع أفق لا على الدفعة الجديدة وحدها، فمرشحو الدفعة
+    # الأولى كانوا يتلقّون الإضافة مرتين. لا علاقة له بـappeal_judged —
+    # ذاك يعني "فُرز فعليًا"، وهذا يعني "أُضيفت أوزانه فعليًا"، وقد يفترقان.
+    rescored: bool = False
 
     @property
     def uid(self) -> str:
