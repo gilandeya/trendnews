@@ -2308,14 +2308,17 @@ def test_youtube_article() -> None:
     topics_path.write_text(json.dumps({"run_date": "2099-04-04", "topics": topics_for_run},
                                        ensure_ascii=False), encoding="utf-8")
     seen_backup2 = ycl.SEEN_PATH.read_text(encoding="utf-8") if ycl.SEEN_PATH.exists() else None
-    # بوابة توفّر صورة قبل نداء الصياغة (Issue #1092) -- تستدعيها run() الآن
-    # لكل قضية عبر youtube_extract.photo_candidates (بحث حر حقيقي، فيمرّ
-    # عبر imagesearch.find_images/sources.requests.get غير المموَّهين هنا
-    # لهذا الغرض) قبل youtube_extract.video_backdrop_available (imaging.
-    # download_image المموَّهة عالميًا في install_fakes تعيد صورة صالحة
-    # دومًا، فالخلفية تنجح لكل قضية تحمل نقطة video_id -- كل قضايا هذا
-    # الاختبار تحملها). لا صورة حرة هنا (find_images مموَّهة فارغة) كي لا
-    # يصل نداء بحث حقيقي عبر الفاكة العامة غير المُعِدَّة لصيغة رد ويكيميديا.
+    # بوابة توفّر صورة قبل نداء الصياغة (Issue #1092، الدرجة الثانية استُبدلت
+    # في Issue #1095) -- تستدعيها run() الآن لكل قضية عبر
+    # youtube_extract.photo_candidates (بحث حر حقيقي، فيمرّ عبر
+    # imagesearch.find_images/sources.requests.get غير المموَّهين هنا لهذا
+    # الغرض) قبل youtube_extract.news_photo_available (بحث عبر
+    # request.search_feeds/sources.fetch_source، وsources.requests.get/
+    # image_from_page وimaging.download_image المموَّهة عالميًا في
+    # install_fakes -- الفاكة العامة تعيد خلاصة RSS ثابتة وصورة og:image
+    # صالحة دومًا، فصورة الخبر تنجح لكل قضية بلا استثناء). لا صورة حرة هنا
+    # (find_images مموَّهة فارغة) كي لا يصل نداء بحث حقيقي عبر الفاكة العامة
+    # غير المُعِدَّة لصيغة رد ويكيميديا.
     real_find_images_run = imagesearch.find_images
     imagesearch.find_images = lambda *a, **k: []  # type: ignore
     try:
@@ -3270,38 +3273,42 @@ def test_youtube_publish() -> None:
           bool(cfg.path("youtube.review.headlines.max_retries")))
 
 
-def _backdrop_draft(draft_id: str, source_videos: list[str] | None = None,
-                    run_date: str = "2026-03-01") -> dict:
+def _news_photo_draft(draft_id: str, run_date: str = "2026-03-01") -> dict:
     """مسودة تحليل صالحة الحقول (بلا حقل image -- Issue #680) لاختبارات
-    الخلفية المعتّمة أدناه، بنفس بنية youtube_publish.build_draft الفعلية."""
+    صورة الخبر عن الموضوع أدناه، بنفس بنية youtube_publish.build_draft
+    الفعلية."""
     return {
         "id": draft_id, "created_at": datetime.now(timezone.utc).isoformat(),
         "status": "pending", "origin": "analysis",
-        "title": "سؤال بطاقة اختبار الخلفية؟", "tier": "a", "blocs": ["arabic"],
+        "title": "سؤال بطاقة اختبار صورة الخبر؟", "tier": "a", "blocs": ["arabic"],
         "channels": ["الجزيرة"], "agreement": "agreement",
-        "event": "حدث اختبار الخلفية المعتّمة", "image_query_en": None,
-        "warnings": [], "caption": "# سؤال بطاقة اختبار الخلفية؟\n\nمتن تجريبي.",
-        "run_date": run_date, "headlines": ["سؤال بطاقة اختبار الخلفية؟"],
+        "event": "حدث اختبار صورة الخبر", "image_query_en": None,
+        "warnings": [], "caption": "# سؤال بطاقة اختبار صورة الخبر؟\n\nمتن تجريبي.",
+        "run_date": run_date, "headlines": ["سؤال بطاقة اختبار صورة الخبر؟"],
         "headline_selected": 0,
-        "arabic": {"post_title": "سؤال بطاقة اختبار الخلفية؟", "urgent": False,
+        "arabic": {"post_title": "سؤال بطاقة اختبار صورة الخبر؟", "urgent": False,
                    "category": "تحليل"},
         "source": {"link": "", "publishers": ["الجزيرة"]}, "score": 1.0,
-        "source_videos": source_videos or [],
+        "source_videos": [],
     }
 
 
-def test_youtube_image_backdrop() -> None:
-    """مقال تحليلي بلا صورة — صورة الفيديو المصدر خلفيةً معتّمة، ومنع
-    الصياغة إن تعذّر كل شيء (Issue #1092). القياس الذي فتح هذه المهمة: كل
-    مقال تحليل بلا صورة رُفض (16 من 16) بينما ما حمل صورة نُشر نصفه — ستة
-    عشر مقالًا كاملًا (قراءة + عنقدة + صياغة + بطاقة) ذهبت هدرًا في عشرة
-    أيام. القرار: ثلاث درجات (صورة حرة بلا وجه ← خلفية معتّمة من صورة الفيديو
-    المصدر بلا فحص وجه ← امتناع تام عن الصياغة)، كلها على البطاقة/التشغيلة
-    المبنيّة فعليًا لا على دوال منفردة.
+def test_youtube_image_news_photo() -> None:
+    """مقال تحليلي بلا صورة حرة الترخيص -- صورة خبر صحفي عن الموضوع نفسه
+    بدل خلفية الفيديو الملغاة (Issue #1095، تراجع محسوم عن Issue #1092:
+    محاولتان لرسم خلفية معتّمة فشلتا بصريًا، وصورة الفيديو ليست صورة الحدث
+    بل صورة قناة تتحدث عنه). الدرجات الآن: صورة حرة بلا وجه ← صورة خبر عن
+    الموضوع (تُرسم صورةً رئيسية عادية تمامًا، بلا فحص وجه) ← امتناع تام عن
+    الصياغة.
 
     imagesearch.find_images/cards.find_images (بحث حر) وimaging.download_image/
-    face_score (تحميل/فحص وجه) كلّها مموَّهة محليًا داخل كل سيناريو على حدة --
-    نفس أسلوب test_youtube_publish أعلاه، لا نداء شبكة حقيقي إطلاقًا."""
+    face_score (تحميل/فحص وجه) كلّها مموَّهة محليًا داخل كل سيناريو على حدة
+    -- نفس أسلوب test_youtube_publish أعلاه. سيناريو ٢ (والتحقّق من بوابة
+    run() فيه) لا يمويه شبكة محليًا لصورة الخبر نفسها: يعتمد الفاكات العامة
+    (install_fakes -- خلاصة RSS ثابتة + og:image صالح + تحميل ناجح دومًا)
+    بما أن صورة الخبر الآن بحث RSS حقيقي البنية (request.search_feeds/
+    sources.enrich_image) لا مجرّد رابط مصغّرة ثابت -- لا نداء شبكة حقيقي
+    إطلاقًا مع ذلك."""
     from src import cards, setimage
     yp = youtube_publish
     cfg = load_config()
@@ -3320,65 +3327,81 @@ def test_youtube_image_backdrop() -> None:
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # ── ١) صورة حرة متاحة: السلوك القائم حرفيًا، بلا خلفية فيديو إطلاقًا،
-    # حتى مع وجود source_videos صالحة (الدرجة الأولى تفوز دومًا، الدرجة
-    # الثانية لا تُجرَّب حتى) ──
-    d1 = _backdrop_draft("bd0000000001", source_videos=["vidfree1"])
+    # ── ١) صورة حرة متاحة: السلوك القائم حرفيًا، بلا بحث أخبار إطلاقًا
+    # (تحقّق بعدّ نداءات youtube_extract.news_photo_candidates -- الدرجة
+    # الثانية لا تُجرَّب حتى تفشل الأولى) ──
+    d1 = _news_photo_draft("np0000000001")
     store.save_draft(d1)
     path1, d1 = store.load_draft(d1["id"])
+    real_news_photo_candidates_1 = youtube_extract.news_photo_candidates
+    news_search_calls_1: list = []
+
+    def _spy_news_photo_candidates_1(*a, **k):
+        news_search_calls_1.append(1)
+        return real_news_photo_candidates_1(*a, **k)
+
     try:
         imagesearch.find_images = lambda *a, **k: ["https://example.com/free.jpg"]  # type: ignore
         imaging.download_image = lambda *a, **k: Image.new("RGB", (800, 600), (10, 90, 200))  # type: ignore
         imaging.face_score = lambda img: 0.0  # type: ignore
+        youtube_extract.news_photo_candidates = _spy_news_photo_candidates_1  # type: ignore
         ok1 = yp.ensure_title_card(path1, d1, cfg)
     finally:
         _restore()
+        youtube_extract.news_photo_candidates = real_news_photo_candidates_1  # type: ignore
     check("١) صورة حرة متاحة: البطاقة تُبنى بنجاح", ok1, ok1)
-    check("١) صورة حرة متاحة: used_original=True (صورة تعبيرية حرة فعليًا، لا خلفية)",
+    check("١) صورة حرة متاحة: used_original=True (صورة حرة فعليًا، لا صورة خبر)",
           d1.get("image_info", {}).get("used_original") is True, d1.get("image_info"))
-    check("١) صورة حرة متاحة: kind غائب/None -- ليست خلفية فيديو رغم توفّر source_videos",
+    check("١) صورة حرة متاحة: kind غائب/None -- ليست صورة خبر عن الموضوع",
           d1.get("image_info", {}).get("kind") is None, d1.get("image_info"))
+    check("١) صورة حرة متاحة: صفر نداء بحث أخبار -- الدرجة الثانية لم تُجرَّب إطلاقًا",
+          news_search_calls_1 == [], news_search_calls_1)
 
-    # ── ٢) لا صورة حرة، ومعرّف فيديو صالح: البطاقة تُبنى بخلفية معتّمة،
-    # وimage_info يميّزها صراحةً، والمقال يُصاغ فعليًا (بوابة run() لا تمتنع) ──
-    d2 = _backdrop_draft("bd0000000002", source_videos=["vidback1"])
+    # ── ٢) لا صورة حرة، وخبر بصورة صالحة: البطاقة تُبنى بصورة رئيسية عادية،
+    # وimage_info يميّزها صراحةً، والمقال يُصاغ فعليًا (بوابة run() لا تمتنع).
+    # الفاكات العامة تكفي لإنجاح الدرجة الثانية -- لا تمويه شبكة محلي هنا،
+    # فقط تعطيل الدرجة الأولى (find_images) ──
+    d2 = _news_photo_draft("np0000000002")
     store.save_draft(d2)
     path2, d2 = store.load_draft(d2["id"])
     try:
         imagesearch.find_images = lambda *a, **k: []  # type: ignore
         cards.find_images = lambda *a, **k: []  # type: ignore
-        imaging.download_image = lambda *a, **k: Image.new("RGB", (800, 600), (20, 200, 20))  # type: ignore
         ok2 = yp.ensure_title_card(path2, d2, cfg)
     finally:
         _restore()
-    check("٢) لا صورة حرة + فيديو صالح: البطاقة تُبنى بنجاح", ok2, ok2)
-    check("٢) لا صورة حرة + فيديو صالح: image_info.kind == 'video_backdrop'",
-          d2.get("image_info", {}).get("kind") == "video_backdrop", d2.get("image_info"))
-    check("٢) لا صورة حرة + فيديو صالح: used_original يبقى False (ليست صورة رئيسية)",
+    check("٢) لا صورة حرة + خبر بصورة صالحة: البطاقة تُبنى بنجاح", ok2, ok2)
+    check("٢) لا صورة حرة + خبر بصورة صالحة: image_info.kind == 'news_photo'",
+          d2.get("image_info", {}).get("kind") == "news_photo", d2.get("image_info"))
+    check("٢) لا صورة حرة + خبر بصورة صالحة: ناشر صورة الخبر مسجَّل",
+          bool(d2.get("image_info", {}).get("news_photo_publisher")), d2.get("image_info"))
+    check("٢) لا صورة حرة + خبر بصورة صالحة: used_original يبقى False "
+          "(ليست صورة الناشر الأصلية للمقال)",
           d2.get("image_info", {}).get("used_original") is False, d2.get("image_info"))
-    check("٢) لا صورة حرة + فيديو صالح: has_photo=False (نفس المعيار القائم -- ليست 'صورة الخبر')",
+    check("٢) لا صورة حرة + خبر بصورة صالحة: has_photo=False (نفس المعيار القائم)",
           d2.get("has_photo") is False, d2.get("has_photo"))
 
     # نفس السيناريو، لكن من زاوية بوابة youtube_article.run() قبل الصياغة --
-    # المقال *يُصاغ* فعليًا (لا امتناع) لأن has_backdrop=True يكفي البوابة.
+    # المقال *يُصاغ* فعليًا (لا امتناع) لأن has_news_photo=True يكفي البوابة.
     # جولة run() كاملة حقيقية (لا محاكاة جزئية) -- عدّ نداءات النموذج يثبت
     # أن draft_article/generate_headlines استُدعيا فعلًا لا أن البوابة أسقطتهما.
-    topic_backdrop = {"title": "قضية بلا صورة حرة لكن بفيديو صالح", "event": "حدث تجريبي",
-                      "layer": "a", "blocs": ["arabic", "turkish"],
-                      "channels": ["الجزيرة", "CNN Türk"], "agreement": "agreement",
-                      "point_ids": [0, 1]}
-    points_backdrop = [
-        {"video_id": "vidback1", "bloc": "arabic", "channel": "الجزيرة", "speaker": "ناطق",
+    topic_news_photo = {"title": "قضية بلا صورة حرة لكن بخبر بصورة صالحة",
+                        "event": "حدث تجريبي", "layer": "a",
+                        "blocs": ["arabic", "turkish"],
+                        "channels": ["الجزيرة", "CNN Türk"], "agreement": "agreement",
+                        "point_ids": [0, 1]}
+    points_news_photo = [
+        {"video_id": "vidnp1", "bloc": "arabic", "channel": "الجزيرة", "speaker": "ناطق",
          "statement": "قول تجريبي", "quote_arabic": "اقتباس", "type": "fact",
-         "video_title": "فيديو", "video_url": "https://youtube.com/watch?v=vidback1",
+         "video_title": "فيديو", "video_url": "https://youtube.com/watch?v=vidnp1",
          "timestamp": 3},
-        {"video_id": "vidback1", "bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث",
+        {"video_id": "vidnp1", "bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث",
          "statement": "قول تجريبي ٢", "quote_arabic": "اقتباس ٢", "type": "fact",
-         "video_title": "فيديو ٢", "video_url": "https://youtube.com/watch?v=vidback1",
+         "video_title": "فيديو ٢", "video_url": "https://youtube.com/watch?v=vidnp1",
          "timestamp": 4},
     ]
 
-    class _BResp:
+    class _NPResp:
         def __init__(self, text: str = "", input_: dict | None = None) -> None:
             class _Blk:
                 pass
@@ -3393,7 +3416,7 @@ def test_youtube_image_backdrop() -> None:
             self.stop_reason = "end_turn"
             self.usage = None
 
-    class _BMessages:
+    class _NPMessages:
         def __init__(self, responses: list) -> None:
             self._responses = list(responses)
             self.calls: list = []
@@ -3402,17 +3425,17 @@ def test_youtube_image_backdrop() -> None:
             self.calls.append(kw)
             return self._responses.pop(0)
 
-    class _BClient:
+    class _NPClient:
         def __init__(self, responses: list) -> None:
-            self.messages = _BMessages(responses)
+            self.messages = _NPMessages(responses)
 
-    article_text_backdrop = (
+    article_text_np = (
         "# هل يقع هذا التطور فعلًا؟\n\n" + "كلمة " * 260
         + "\n\nمرجّح أن يقع هذا التطور فعلًا."
     )
-    backdrop_run_client = _BClient([
-        _BResp(text=article_text_backdrop),
-        _BResp(input_={"headlines": ["هل يقع هذا التطور؟", "بديل ١", "بديل ٢"]}),
+    np_run_client = _NPClient([
+        _NPResp(text=article_text_np),
+        _NPResp(input_={"headlines": ["هل يقع هذا التطور؟", "بديل ١", "بديل ٢"]}),
     ])
 
     ycl2 = youtube_cluster
@@ -3420,15 +3443,14 @@ def test_youtube_image_backdrop() -> None:
     ycl2.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
     points_path2 = ycl2.POINTS_DIR / "2099-06-02.json"
     topics_path2 = ycl2.TOPICS_DIR / "2099-06-02.json"
-    points_path2.write_text(json.dumps({"points": points_backdrop}, ensure_ascii=False),
+    points_path2.write_text(json.dumps({"points": points_news_photo}, ensure_ascii=False),
                             encoding="utf-8")
-    topics_path2.write_text(json.dumps({"run_date": "2099-06-02", "topics": [topic_backdrop]},
+    topics_path2.write_text(json.dumps({"run_date": "2099-06-02", "topics": [topic_news_photo]},
                                        ensure_ascii=False), encoding="utf-8")
     seen_backup_r2 = ycl2.SEEN_PATH.read_text(encoding="utf-8") if ycl2.SEEN_PATH.exists() else None
     try:
         imagesearch.find_images = lambda *a, **k: []  # type: ignore
-        imaging.download_image = lambda *a, **k: Image.new("RGB", (800, 600), (20, 200, 20))  # type: ignore
-        result2 = youtube_article.run(cfg, date_str="2099-06-02", client=backdrop_run_client)
+        result2 = youtube_article.run(cfg, date_str="2099-06-02", client=np_run_client)
     finally:
         _restore()
         points_path2.unlink(missing_ok=True)
@@ -3443,33 +3465,42 @@ def test_youtube_image_backdrop() -> None:
     check("٢) بوابة run(): المقال يُصاغ فعليًا (لا امتناع) -- مقال واحد كُتب، صفر تخطٍّ لغياب صورة",
           stats2["articles_written"] == 1 and stats2["no_image_skipped"] == 0, stats2)
     check("٢) بوابة run(): نداء الصياغة فعلًا استُدعي (لا تخطٍّ صامت) -- نداءا نموذج على الأقل",
-          len(backdrop_run_client.messages.calls) >= 1, backdrop_run_client.messages.calls)
+          len(np_run_client.messages.calls) >= 1, np_run_client.messages.calls)
 
-    # ── ٣) أول معرّف فيديو يفشل تحميله والثاني ينجح: تُستعمل الثانية فعليًا ──
-    d3 = _backdrop_draft("bd0000000003", source_videos=["vidbad", "vidgood"])
+    # ── ٣) أول خبر بلا صورة صالحة والثاني بصورة: تُستعمل الثانية فعليًا ──
+    d3 = _news_photo_draft("np0000000003")
     store.save_draft(d3)
     path3, d3 = store.load_draft(d3["id"])
     good_image = Image.new("RGB", (800, 600), (200, 20, 20))
 
     def _dl_second_only(url, *a, **k):
-        return None if "vidbad" in url else good_image
+        return None if "bad-news" in url else good_image
 
+    real_news_photo_candidates_3 = youtube_extract.news_photo_candidates
     try:
         imagesearch.find_images = lambda *a, **k: []  # type: ignore
         cards.find_images = lambda *a, **k: []  # type: ignore
+        youtube_extract.news_photo_candidates = lambda *a, **k: [  # type: ignore
+            {"url": "https://example.com/bad-news.jpg", "publisher": "ناشر أول"},
+            {"url": "https://example.com/good-news.jpg", "publisher": "ناشر ثانٍ"},
+        ]
         imaging.download_image = _dl_second_only  # type: ignore
         ok3 = yp.ensure_title_card(path3, d3, cfg)
     finally:
         _restore()
-    check("٣) أول فيديو يفشل تحميله: البطاقة تُبنى بنجاح مع ذلك", ok3, ok3)
-    check("٣) أول فيديو يفشل تحميله: الرابط المُعتمَد فعليًا من الفيديو الثاني (vidgood) لا الأول",
-          "vidgood" in (d3.get("image_info", {}).get("chosen_url") or ""),
+        youtube_extract.news_photo_candidates = real_news_photo_candidates_3  # type: ignore
+    check("٣) أول خبر بلا صورة صالحة: البطاقة تُبنى بنجاح مع ذلك", ok3, ok3)
+    check("٣) أول خبر بلا صورة صالحة: الرابط المُعتمَد فعليًا من الخبر الثاني (good-news) لا الأول",
+          "good-news" in (d3.get("image_info", {}).get("chosen_url") or ""),
           d3.get("image_info", {}).get("chosen_url"))
-    check("٣) أول فيديو يفشل تحميله: kind لا يزال video_backdrop",
-          d3.get("image_info", {}).get("kind") == "video_backdrop", d3.get("image_info"))
+    check("٣) أول خبر بلا صورة صالحة: ناشر الصورة المسجَّل من الخبر الثاني فعليًا",
+          d3.get("image_info", {}).get("news_photo_publisher") == "ناشر ثانٍ",
+          d3.get("image_info"))
+    check("٣) أول خبر بلا صورة صالحة: kind لا يزال news_photo",
+          d3.get("image_info", {}).get("kind") == "news_photo", d3.get("image_info"))
 
-    # ── ٤) لا صورة حرة ولا أي فيديو صالح: لا نداء صياغة إطلاقًا، والتخطّي
-    # يُسجَّل بسببه، وسطر الملخّص يظهر ──
+    # ── ٤) لا صورة حرة ولا أي خبر بصورة صالحة: لا نداء صياغة إطلاقًا،
+    # والتخطّي يُسجَّل بسببه، وسطر الملخّص يظهر كما هو اليوم ──
     topic_none = {"title": "قضية بلا أي صورة", "event": "حدث بلا صورة", "layer": "a",
                  "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
                  "agreement": "agreement", "point_ids": [0, 1]}
@@ -3507,12 +3538,14 @@ def test_youtube_image_backdrop() -> None:
                                        ensure_ascii=False), encoding="utf-8")
     seen_backup4 = ycl4.SEEN_PATH.read_text(encoding="utf-8") if ycl4.SEEN_PATH.exists() else None
     no_call_client = _NoCallClient()
+    real_news_photo_available_4 = youtube_extract.news_photo_available
     try:
         imagesearch.find_images = lambda *a, **k: []  # type: ignore
-        imaging.download_image = lambda *a, **k: None  # type: ignore
+        youtube_extract.news_photo_available = lambda *a, **k: False  # type: ignore
         result4 = youtube_article.run(cfg, date_str="2099-06-06", client=no_call_client)
     finally:
         _restore()
+        youtube_extract.news_photo_available = real_news_photo_available_4  # type: ignore
         points_path4.unlink(missing_ok=True)
         topics_path4.unlink(missing_ok=True)
         shutil.rmtree(youtube_article.ARTICLES_DIR / "2099-06-06", ignore_errors=True)
@@ -3522,13 +3555,13 @@ def test_youtube_image_backdrop() -> None:
             ycl4.SEEN_PATH.write_text(seen_backup4, encoding="utf-8")
 
     stats4 = result4["stats"]
-    check("٤) لا صورة حرة ولا فيديو صالح: صفر نداءات نموذج (لا صياغة، لا عناوين، لا حارس محظورات)",
+    check("٤) لا صورة حرة ولا خبر صالح: صفر نداءات نموذج (لا صياغة، لا عناوين، لا حارس محظورات)",
           len(no_call_client.messages.calls) == 0, no_call_client.messages.calls)
-    check("٤) لا صورة حرة ولا فيديو صالح: صفر مقالات كُتبت",
+    check("٤) لا صورة حرة ولا خبر صالح: صفر مقالات كُتبت",
           stats4["articles_written"] == 0, stats4)
-    check("٤) لا صورة حرة ولا فيديو صالح: stats.no_image_skipped == 1، لا draft_failures",
+    check("٤) لا صورة حرة ولا خبر صالح: stats.no_image_skipped == 1، لا draft_failures",
           stats4["no_image_skipped"] == 1 and stats4["draft_failures"] == 0, stats4)
-    check("٤) لا صورة حرة ولا فيديو صالح: سبب التخطّي مسجَّل صراحةً («لا صورة متاحة»)",
+    check("٤) لا صورة حرة ولا خبر صالح: سبب التخطّي مسجَّل صراحةً («لا صورة متاحة»)",
           result4["skipped"] and "لا صورة متاحة" in result4["skipped"][0]["reason"],
           result4["skipped"])
     # سطر ملخّص التشغيلة (main()) -- نفس الشرط والصياغة الحرفيَّين المستعملين
@@ -3543,46 +3576,41 @@ def test_youtube_image_backdrop() -> None:
           "⏭️ تُخطّي 1 موضوعًا: لا صورة متاحة" in summary_buf.getvalue(),
           summary_buf.getvalue())
 
-    # ── ٥) التعتيم مطبَّق فعلًا: بكسل في منطقة الخلفية أقرب لـ
-    # brand.primary_color منه إلى لون الصورة الأصلية ──
-    d5 = _backdrop_draft("bd0000000005", source_videos=["vidbackdim"])
-    store.save_draft(d5)
-    path5, d5 = store.load_draft(d5["id"])
-    source_color = (30, 220, 30)  # أخضر صريح لا صلة له بلون العلامة الافتراضي
+    # ── ٥) فشل شبكة في البحث: انتقال هادئ بلا انهيار، وسجل تشخيصي واحد على
+    # الأقل -- يختبر youtube_extract.news_photo_candidates مباشرة (لا عبر
+    # ensure_title_card) لعزل معالجة الفشل الجديدة عن بقية السلسلة. headline/
+    # event فارغان كي تبقى عبارة البحث الوحيدة image_query_en، فيقع الفشل
+    # مرّة واحدة بالضبط (نداء sources.fetch_source واحد) لا مرّات متكرّرة ──
+    class _ListHandler5(logging.Handler):
+        def __init__(self) -> None:
+            super().__init__()
+            self.messages: list[str] = []
+
+        def emit(self, record) -> None:
+            self.messages.append(record.getMessage())
+
+    def _boom(*a, **k):
+        raise RuntimeError("تعطّل الشبكة (محاكاة)")
+
+    log_handler5 = _ListHandler5()
+    prev_level5 = youtube_extract.log.level
+    youtube_extract.log.addHandler(log_handler5)
+    youtube_extract.log.setLevel(logging.INFO)
+    real_fetch_source_5 = sources.fetch_source
     try:
-        imagesearch.find_images = lambda *a, **k: []  # type: ignore
-        cards.find_images = lambda *a, **k: []  # type: ignore
-        imaging.download_image = lambda *a, **k: Image.new("RGB", (800, 600), source_color)  # type: ignore
-        ok5 = yp.ensure_title_card(path5, d5, cfg)
+        sources.fetch_source = _boom  # type: ignore
+        result5 = youtube_extract.news_photo_candidates(
+            "", "", cfg, image_query_en="مصطلح اختباري")
     finally:
-        _restore()
-    check("٥) التعتيم: البطاقة تُبنى بنجاح", ok5, ok5)
+        sources.fetch_source = real_fetch_source_5  # type: ignore
+        youtube_extract.log.removeHandler(log_handler5)
+        youtube_extract.log.setLevel(prev_level5)
+    check("٥) فشل شبكة في البحث: لا انهيار -- تعيد قائمة فارغة",
+          result5 == [], result5)
+    check("٥) فشل شبكة في البحث: سجل تشخيصي واحد على الأقل يوثّق الفشل بدل الصمت",
+          len(log_handler5.messages) >= 1, log_handler5.messages)
 
-    # الإحداثية: منطقة الخلفية (مساحة الصورة الرئيسية في imaging.py) تمتد من
-    # header_h إلى H - footer_h - band_h؛ نقطة قريبة من أعلاها (بعد الترويسة
-    # مباشرة بهامش صغير) تقع داخلها دومًا بصرف النظر عن طول العنوان (الذي
-    # يحدّد band_h وحده، أسفل المساحة لا أعلاها) -- الصيغتان (header_h/footer_h)
-    # محسوبتان حرفيًا من نفس ثوابت imaging.build_post_image (0.160/0.082).
-    W_5 = int(cfg.path("image.width", 1080))
-    H_5 = int(cfg.path("image.height", 1080))
-    brand_name_5 = cfg.path("brand.name", "")
-    header_h_5 = int(H_5 * 0.160) if (brand_name_5 or cfg.path("brand.logo")) else 0
-    probe_xy = (W_5 // 2, header_h_5 + int(H_5 * 0.05))
-    built_path_5 = DRAFTS_DIR / d5["image"].split("drafts/", 1)[-1]
-    with Image.open(built_path_5) as im5:
-        probe_pixel = im5.convert("RGB").getpixel(probe_xy)
-    primary_5 = imaging.hex_rgb(cfg.path("brand.primary_color", "#12203A"))
-    ratio_5 = float(cfg.path("image.background_dim", 0.6))
-    expected_5 = tuple(round(s * (1 - ratio_5) + p * ratio_5) for s, p in zip(source_color, primary_5))
-    dist_to_expected = sum(abs(a - b) for a, b in zip(probe_pixel, expected_5))
-    dist_to_source = sum(abs(a - b) for a, b in zip(probe_pixel, source_color))
-    check(f"٥) التعتيم: البكسل عند {probe_xy} (محسوبة من imaging.py: "
-          f"header_h={header_h_5}) أقرب إلى المزج المتوقَّع مع brand.primary_color "
-          f"({primary_5}, نسبة {ratio_5}) منه إلى لون الصورة الأصلية {source_color}",
-          dist_to_expected < dist_to_source and dist_to_expected <= 15,
-          (probe_pixel, expected_5, source_color))
-
-    # ── ٦) تبديل الصورة يدويًا عبر /صورة على مسودة بخلفية فيديو يعمل ولا ينهار ──
+    # ── ٦) تبديل الصورة يدويًا عبر /صورة على مسودة بصورة خبر يعمل ولا ينهار ──
     # setimage.py يستورد download_image بـ``from .imaging import download_image``
     # (اسم محلي مربوط وقت أول استيراد للوحدة، لا مرجعًا لـimaging.download_image
     # الحالي) -- تمويهي المحلي أعلاه لا يبلغه إطلاقًا؛ الفاكة العامة
@@ -3591,15 +3619,72 @@ def test_youtube_image_backdrop() -> None:
     # test_setimage_revives_failed_draft_only_when_image_was_the_cause القائم
     # (بلا أي تمويه محلي فيه أيضًا).
     manual_url = "https://example.com/manual-swap.jpg"
-    updated6 = setimage.apply_image(d5["id"], manual_url, cfg)
-    check("٦) /صورة على مسودة بخلفية فيديو: لا انهيار، تعيد مسودة محدَّثة",
+    updated6 = setimage.apply_image(d2["id"], manual_url, cfg)
+    check("٦) /صورة على مسودة بصورة خبر: لا انهيار، تعيد مسودة محدَّثة",
           updated6 is not None, updated6)
-    check("٦) /صورة على مسودة بخلفية فيديو: الصورة الجديدة يدوية فعليًا (manual=True)",
+    check("٦) /صورة على مسودة بصورة خبر: الصورة الجديدة يدوية فعليًا (manual=True)",
           bool(updated6) and updated6.get("image_info", {}).get("manual") is True,
           updated6.get("image_info") if updated6 else None)
-    check("٦) /صورة على مسودة بخلفية فيديو: kind لم يعد video_backdrop بعد الاستبدال اليدوي",
-          bool(updated6) and updated6.get("image_info", {}).get("kind") != "video_backdrop",
+    check("٦) /صورة على مسودة بصورة خبر: kind لم يعد news_photo بعد الاستبدال اليدوي",
+          bool(updated6) and updated6.get("image_info", {}).get("kind") != "news_photo",
           updated6.get("image_info") if updated6 else None)
+
+    # ── ٧) فحص التخطيط: بطاقة الدرجة الثانية مطابقة تمامًا لبطاقة مسار
+    # الأخبار في مواضع الترويسة/شريط الصورة/شريط العنوان/التذييل -- الحدود
+    # تُكتشَف من ألوان البطاقتين الفعليَّين المبنيَّين هنا بالبكسل، لا من
+    # أرقام محسوبة يدويًا من صيغ config.yaml (نفس الاحتياط الذي طلبه صاحب
+    # المشروع: فحصان سابقان مرّا ببطاقة معطوبة فعليًا لأنهما اعتمدا فحص
+    # بكسلات مفردة بدل هيكل البطاقة كاملة) ──
+    def _col_colors(img) -> list[tuple[int, int, int]]:
+        px = img.load()
+        x = 4  # قريب من الحافة اليسرى -- خارج منطقة الشعار/الملصقات/النص
+        return [px[x, y] for y in range(img.height)]
+
+    def _band_boundaries(colors, threshold: int = 45) -> list[int]:
+        bounds = []
+        prev = colors[0]
+        for y in range(1, len(colors)):
+            cur = colors[y]
+            if sum(abs(a - b) for a, b in zip(cur, prev)) > threshold:
+                bounds.append(y)
+            prev = cur
+        return bounds
+
+    shared_headline = "عنوان مشترك لفحص تطابق تخطيط بطاقتَي الأخبار والتحليل"
+    photo_fixture = Image.new("RGB", (900, 600), (20, 220, 20))
+    news_card_path = DRAFTS_DIR / "layout_check_news.jpg"
+    analysis_card_path = DRAFTS_DIR / "layout_check_analysis.jpg"
+    news_report: dict = {}
+    analysis_report: dict = {}
+    try:
+        imaging.download_image = lambda *a, **k: photo_fixture.copy()  # type: ignore
+        imaging.build_post_image(
+            headline=shared_headline, category="", urgent=False,
+            image_urls=["https://example.com/news-main.jpg"], publisher=["ناشر تجريبي"],
+            cfg=cfg, out_path=news_card_path, bucket="", report=news_report, origin="news")
+        imaging.build_post_image(
+            headline=shared_headline, category="", urgent=False,
+            image_urls=None, fallback_urls=[], publisher=[], cfg=cfg,
+            out_path=analysis_card_path, bucket="", report=analysis_report, origin="analysis",
+            news_photo_provider=lambda: [{"url": "https://example.com/analysis-photo.jpg",
+                                          "publisher": "ناشر الصورة"}])
+    finally:
+        _restore()
+
+    with Image.open(news_card_path) as im_news:
+        news_bounds = _band_boundaries(_col_colors(im_news.convert("RGB")))
+    with Image.open(analysis_card_path) as im_analysis:
+        analysis_bounds = _band_boundaries(_col_colors(im_analysis.convert("RGB")))
+    news_card_path.unlink(missing_ok=True)
+    analysis_card_path.unlink(missing_ok=True)
+
+    check("٧) فحص التخطيط: بطاقة الدرجة الثانية تحمل kind == 'news_photo' فعليًا",
+          analysis_report.get("kind") == "news_photo", analysis_report)
+    check("٧) فحص التخطيط: حدود الشرائط (ترويسة/صورة/عنوان/تذييل) متطابقة "
+          "تمامًا بين بطاقة أخبار عادية وبطاقة الدرجة الثانية، مكتشَفة من "
+          "الصور الفعلية المبنيّة لا من أرقام مكتوبة يدويًا",
+          news_bounds == analysis_bounds and len(news_bounds) >= 3,
+          (news_bounds, analysis_bounds))
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)

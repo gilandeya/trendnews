@@ -233,7 +233,7 @@ from tests.test_youtube import (
     test_youtube_cluster,
     test_youtube_article,
     test_youtube_publish,
-    test_youtube_image_backdrop,
+    test_youtube_image_news_photo,
 )
 from tests.test_guards_golden import test_guards_golden
 
@@ -550,8 +550,8 @@ def main() -> int:
     test_youtube_article()
     print("\n── مسار يوتيوب: التوصيل (صورة + مسودة + مراجعة + نشر، Issue #676) ──")
     test_youtube_publish()
-    print("\n── مقال تحليلي بلا صورة: خلفية معتّمة من فيديو المصدر (Issue #1092) ──")
-    test_youtube_image_backdrop()
+    print("\n── مقال تحليلي بلا صورة حرة: صورة خبر عن الموضوع (Issue #1095) ──")
+    test_youtube_image_news_photo()
     print("\n── حالات مرجعية (golden) للحُرّاس التحريرية (Issue #893) ──")
     test_guards_golden()
 

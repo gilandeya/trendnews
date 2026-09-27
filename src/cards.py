@@ -127,7 +127,7 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
            out_dir: str | None = None,
            check_headline_limit: bool = True,
            persist: bool = True,
-           backdrop_urls: list[str] | None = None,
+           news_photo_provider=None,
            build_post_image=None,
            download_image=None) -> str | None:
     """يبني بطاقة المسودة من حقولها المخزَّنة، أو يعيد مسارها الحالي بلا
@@ -218,7 +218,7 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
                    else bool(spec.get("urgent") or ar.get("urgent"))),
             image_urls=urls or None,
             fallback_urls=fallback_urls,
-            backdrop_urls=backdrop_urls,
+            news_photo_provider=news_photo_provider,
             publisher=resolved_publisher,
             bucket=bucket if bucket is not None else draft.get("bucket", "serious"),
             origin=origin if origin is not None else store.origin_of(draft),
@@ -239,10 +239,12 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
             "chosen_url": shot.get("chosen_url"),
             "candidates_tried": shot.get("candidates_tried"),
             "manual": bool(manual_url),
-            # Issue #1092: يميّز خلفية فيديو مصدر معتّمة (مسار التحليل وحده)
-            # عن كل الحالات الأخرى -- None حين لم تُستعمَل. انظر
-            # review.image_source_line ودالة backdrop_urls في imaging.py.
+            # Issue #1095: يميّز صورة خبر عن الموضوع (مسار التحليل وحده) عن
+            # كل الحالات الأخرى -- None حين لم تُستعمَل. انظر
+            # review.image_source_line ومعامل news_photo_candidates في
+            # imaging.py.
             "kind": shot.get("kind"),
+            "news_photo_publisher": shot.get("news_photo_publisher"),
         }
         store.update_draft(path, image=out_rel, has_photo=image_info["used_original"],
                            image_info=image_info)
