@@ -1,0 +1,85 @@
+{
+  "id": "f4a2ce0c263f",
+  "created_at": "2026-09-27T18:08:12.331209+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.11,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "صراع إسرائيلي؛ تصريحات سياسية عن الضفة والغزة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israeli minister calls for West Bank war, annexation of Lebanon, Gaza areas",
+  "link": "https://www.dawn.com/news/2033059/israeli-minister-calls-for-west-bank-war-annexation-of-lebanon-gaza-areas",
+  "publishers": [
+    "Al Jazeera English",
+    "Dawn",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Israeli minister calls for West Bank war, annexation of Lebanon, Gaza areas",
+    "link": "https://www.dawn.com/news/2033059/israeli-minister-calls-for-west-bank-war-annexation-of-lebanon-gaza-areas",
+    "summary": "Israel’s far-right finance minister Bezalel Smotrich called on Sunday for the annexation of parts of south Lebanon and the Gaza Strip and for Israeli forces to “go to war” against Palestinians in the occupied West Bank. “I would like us to annex at least as far as the yellow line in Gaza and as far as the Litani River in Lebanon… because if a war ends along the same lines where it began, what will deter the enemy from going to war again?” Smotrich said in a podcast for Israeli news site Ynet . The “yellow line” demarcates the area of Gaza already under Israeli military control after the recent conflict triggered by Hamas’s attack on Israel on Oct 7, 2023. “I think we need to go to war in Judea and Samaria, to dismantle the Palestinian Authority that supports terror,” he added, using the biblical term for the West Bank. Smotrich is the leader of a far-right party that advocates the annexation of the entire West Bank, which has been occupied by Israel since 1967. Various Israeli political leaders, both in the ruling right-wing coalition led by Prime Minister Benjamin Netanyahu and in the opposition, have come out against the establishment of a Palestinian state. The country is headin",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-27T13:30:17+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/27182151bf74f01.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Dawn",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2033059/israeli-minister-calls-for-west-bank-war-annexation-of-lebanon-gaza-areas"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/israeli-minister-calls-for-west-bank-war-annexation-of-lebanon-and-gaza-areas/article71517090.ece"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/27/israeli-judiciary-defers-bidding-deadline-for-west-bank-settlement-project"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/27/israels-smotrich-urges-war-in-west-bank-poll-rhetoric-or-real-threat?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/west-bank-crisis-israel-ministers-call-for-war-e1-settlement-plan-palestine-war-latest-updates-101790510127279.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/27182151bf74f01.webp",
+      "https://i.dawn.com/thumbnail/2026/09/27182151bf74f01.webp",
+      "https://th-i.thgim.com/public/incoming/xr3bu7/article71517157.ece/alternates/LANDSCAPE_1200/2026-09-02T164641Z_788681743_RC22BNAWP49T_RTRMADP_3_ISRAEL-PALESTINIANS-NEW-SETTLEMENT.JPG",
+      "https://media.freemalaysiatoday.com/v3/2026/09/dc1f2438-14a4-4648-90fd-7dd5ab510a3b-13274873_cropped_1.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1297.912898106389,
+    "is_stale": true,
+    "score": 29.10745581362505,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "صراع إسرائيلي؛ تصريحات سياسية عن الضفة والغزة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

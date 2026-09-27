@@ -1,0 +1,64 @@
+{
+  "id": "f95970fb00e1",
+  "created_at": "2026-09-27T18:08:12.332037+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.06,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "أزمة إنسانية حادة في الخرطوم بعد الحرب",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Power cuts, rubble: millions come home to find Sudan's capital unlivable",
+  "link": "http://www.africanews.com/2026/09/27/power-cuts-rubble-millions-come-home-to-find-sudans-capital-unlivable/",
+  "publishers": [
+    "Africanews",
+    "Hindustan Times — World"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Power cuts, rubble: millions come home to find Sudan's capital unlivable",
+    "link": "http://www.africanews.com/2026/09/27/power-cuts-rubble-millions-come-home-to-find-sudans-capital-unlivable/",
+    "summary": "They came home to a war-ruined city determined to rebuild their lives, but a chronic lack of power, water, jobs and medicine has left many residents of Sudan's capital wishing they had stayed away",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-27T14:29:28+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/92/94/41/640x360_cmsv2_7862c568-7d4e-54ab-819c-4ddd9ff9fdf8-9929441.jpg?1790499903",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/27/power-cuts-rubble-millions-come-home-to-find-sudans-capital-unlivable/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/power-cuts-rubble-millions-come-home-to-find-sudan-s-capital-unlivable-101790474911480.html"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/92/94/41/640x360_cmsv2_7862c568-7d4e-54ab-819c-4ddd9ff9fdf8-9929441.jpg?1790499903"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1297.913043156111,
+    "is_stale": false,
+    "score": 23.057430777666667,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "أزمة إنسانية حادة في الخرطوم بعد الحرب",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

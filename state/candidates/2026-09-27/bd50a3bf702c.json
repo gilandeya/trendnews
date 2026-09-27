@@ -1,0 +1,65 @@
+{
+  "id": "bd50a3bf702c",
+  "created_at": "2026-09-27T18:08:12.332313+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.34,
+  "trend_score": 0.12,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "دور النفط في معادلة القوة الإيرانية والإقليمية",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Oil industry plays key role in national power equation",
+  "link": "https://en.mehrnews.com/news/248129/Oil-industry-plays-key-role-in-national-power-equation",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Oil industry plays key role in national power equation",
+    "link": "https://en.mehrnews.com/news/248129/Oil-industry-plays-key-role-in-national-power-equation",
+    "summary": "TEHRAN, Sep. 27 (MNA) – A senior military advisor to the Leader of the Islamic Revolution, says that the oil industry constitutes a part of national strength and security.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-27T15:39:53+00:00",
+    "image_url": "https://media.mehrnews.com/d/2024/07/11/4/5074658.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248129/Oil-industry-plays-key-role-in-national-power-equation"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86276371/Leader-s-aide-highlights-strategic-role-of-Iranian-oil-industry"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2024/07/11/4/5074658.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/27/4/173133499.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.125,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1297.9130142730555,
+    "is_stale": false,
+    "score": 22.335671514092596,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "دور النفط في معادلة القوة الإيرانية والإقليمية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

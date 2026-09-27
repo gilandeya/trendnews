@@ -1,190 +1,5 @@
 [
   {
-    "score": 27.12,
-    "bucket": "serious",
-    "tokens": [
-      "ban",
-      "challenging",
-      "cnn",
-      "house",
-      "now",
-      "politico",
-      "sue",
-      "trump",
-      "white"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-22-cnn-ms-now-and-politico-sue-trump-challenging-white-house-ban/",
-    "title": "CNN, MS NOW and Politico sue Trump, challenging White House ban",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-22T17:07:57.741673+00:00"
-  },
-  {
-    "score": 26.61,
-    "bucket": "serious",
-    "tokens": [
-      "assembly",
-      "between",
-      "deal",
-      "deciding",
-      "driving",
-      "general",
-      "hell",
-      "iran",
-      "trump"
-    ],
-    "link": "https://www.thehindu.com/news/international/us-president-trump-un-general-assembly-speech-2026/article71496065.ece",
-    "title": "Deciding between deal or driving Iran ‘into hell’, says Trump at UN General Assembly",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-22T17:07:57.742024+00:00"
-  },
-  {
-    "score": 23.13,
-    "bucket": "useful",
-    "tokens": [
-      "intelligence",
-      "officially",
-      "renaming",
-      "super",
-      "trump"
-    ],
-    "link": "https://www.theverge.com/ai-artificial-intelligence/998816/donald-trump-ai-super-intelligence",
-    "title": "Trump says the US is officially renaming AI to ‘super intelligence’",
-    "posted_title": "",
-    "region": "tech",
-    "seen_at": "2026-09-22T17:07:57.742314+00:00"
-  },
-  {
-    "score": 21.05,
-    "bucket": "serious",
-    "tokens": [
-      "alam",
-      "asad",
-      "bangladesh",
-      "commissioner",
-      "foreign",
-      "high",
-      "india",
-      "next",
-      "secretary",
-      "siam"
-    ],
-    "link": "https://www.thehindu.com/news/international/bangladesh-foreign-secretary-asad-alam-siam-to-be-the-next-high-commissioner-to-india/article71495071.ece",
-    "title": "Bangladesh Foreign Secretary Asad Alam Siam to be the next High Commissioner to India",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-22T17:07:57.742585+00:00"
-  },
-  {
-    "score": 21.0,
-    "bucket": "serious",
-    "tokens": [
-      "'annihilate'",
-      "deal",
-      "iran",
-      "midterms",
-      "reached",
-      "threatens",
-      "trump"
-    ],
-    "link": "https://www.dailysabah.com/world/americas/trump-threatens-to-annihilate-iran-if-no-deal-reached-after-us-midterms",
-    "title": "Trump threatens to 'annihilate' Iran if no deal reached after US midterms",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-09-22T17:07:57.742849+00:00"
-  },
-  {
-    "score": 26.81,
-    "bucket": "serious",
-    "tokens": [
-      "denies",
-      "hide",
-      "iran",
-      "media",
-      "spox",
-      "team",
-      "truth",
-      "visa"
-    ],
-    "link": "https://en.mehrnews.com/news/247969/US-denies-visa-for-Iran-media-team-to-hide-truth-FM-spox",
-    "title": "US denies visa for Iran media team to ‘hide truth’: FM spox",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-22T18:07:55.000640+00:00"
-  },
-  {
-    "score": 25.86,
-    "bucket": "sport",
-    "tokens": [
-      "avoid",
-      "cyclist",
-      "dressed",
-      "man",
-      "medal",
-      "silver",
-      "taliban",
-      "who",
-      "wins"
-    ],
-    "link": "https://www.bbc.co.uk/sport/cycling/articles/c63eqyvdndwdo?at_medium=RSS&at_campaign=rss",
-    "title": "Cyclist who dressed as man to avoid Taliban wins silver medal",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-22T18:07:55.000984+00:00"
-  },
-  {
-    "score": 23.79,
-    "bucket": "serious",
-    "tokens": [
-      "dead",
-      "dujuan",
-      "four",
-      "japan",
-      "lashes",
-      "powerful",
-      "typhoon"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cm3wj2lexl97o?at_medium=RSS&at_campaign=rss",
-    "title": "Four dead after powerful Typhoon Dujuan lashes Japan",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-22T18:07:55.001382+00:00"
-  },
-  {
-    "score": 23.73,
-    "bucket": "serious",
-    "tokens": [
-      "agreement",
-      "arctic",
-      "denmark",
-      "greenland",
-      "security",
-      "sign"
-    ],
-    "link": "https://news.cgtn.com/news/2026-09-22/Denmark-Greenland-US-to-sign-Arctic-security-agreement-1QDxTYKbwhq/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-    "title": "Denmark, Greenland, US to sign Arctic security agreement",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-22T18:07:55.001702+00:00"
-  },
-  {
-    "score": 21.59,
-    "bucket": "light",
-    "tokens": [
-      "deal",
-      "defense",
-      "denmark",
-      "greenland",
-      "signs"
-    ],
-    "link": "https://www.courthousenews.com/us-signs-greenland-defense-deal-with-denmark/",
-    "title": "US signs Greenland defense deal with Denmark",
-    "posted_title": "",
-    "region": "court",
-    "seen_at": "2026-09-22T18:07:55.001957+00:00"
-  },
-  {
     "score": 25.37,
     "bucket": "serious",
     "tokens": [
@@ -2232,5 +2047,109 @@
     "posted_title": "مستوطنون يحوّلون مياه ينابيع فلسطينية في الضفة الغربية وسط توسع إسرائيلي على مواقع أثرية",
     "region": "global",
     "seen_at": "2026-09-27T15:48:05.976251+00:00"
+  },
+  {
+    "score": 29.11,
+    "bucket": "serious",
+    "tokens": [
+      "annexation",
+      "areas",
+      "bank",
+      "calls",
+      "gaza",
+      "israeli",
+      "lebanon",
+      "minister",
+      "war",
+      "west"
+    ],
+    "link": "https://www.dawn.com/news/2033059/israeli-minister-calls-for-west-bank-war-annexation-of-lebanon-gaza-areas",
+    "title": "Israeli minister calls for West Bank war, annexation of Lebanon, Gaza areas",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-27T18:08:12.331708+00:00"
+  },
+  {
+    "score": 23.64,
+    "bucket": "serious",
+    "tokens": [
+      "arabian",
+      "class",
+      "conducts",
+      "firing",
+      "hangor",
+      "inducted",
+      "ispr",
+      "live",
+      "maiden",
+      "newly",
+      "sea",
+      "submarine",
+      "weapon"
+    ],
+    "link": "https://www.dawn.com/news/2033036/newly-inducted-hangor-class-submarine-conducts-maiden-live-weapon-firing-in-arabian-sea-ispr",
+    "title": "Newly inducted Hangor-class submarine conducts maiden live weapon firing in Arabian Sea: ISPR",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-27T18:08:12.332027+00:00"
+  },
+  {
+    "score": 23.06,
+    "bucket": "serious",
+    "tokens": [
+      "capital",
+      "come",
+      "cuts",
+      "find",
+      "home",
+      "millions",
+      "power",
+      "rubble",
+      "sudan's",
+      "unlivable"
+    ],
+    "link": "http://www.africanews.com/2026/09/27/power-cuts-rubble-millions-come-home-to-find-sudans-capital-unlivable/",
+    "title": "Power cuts, rubble: millions come home to find Sudan's capital unlivable",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-09-27T18:08:12.332303+00:00"
+  },
+  {
+    "score": 22.34,
+    "bucket": "serious",
+    "tokens": [
+      "equation",
+      "industry",
+      "key",
+      "national",
+      "oil",
+      "plays",
+      "power",
+      "role"
+    ],
+    "link": "https://en.mehrnews.com/news/248129/Oil-industry-plays-key-role-in-national-power-equation",
+    "title": "Oil industry plays key role in national power equation",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-27T18:08:12.332607+00:00"
+  },
+  {
+    "score": 21.47,
+    "bucket": "useful",
+    "tokens": [
+      "attacks",
+      "combining",
+      "drones",
+      "korea",
+      "missiles",
+      "north",
+      "swarm",
+      "tests"
+    ],
+    "link": "https://www.investing.com/news/economy-news/north-korea-tests-swarm-attacks-combining-drones-and-missiles--wsj-4918858",
+    "title": "North Korea tests swarm attacks combining drones and missiles",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-09-27T18:08:12.332868+00:00"
   }
 ]

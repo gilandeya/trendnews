@@ -1,0 +1,58 @@
+{
+  "id": "c8398c23e349",
+  "created_at": "2026-09-27T18:08:12.332617+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.47,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "كوريا الشمالية تطور تكتيكات هجوم درونات متطورة",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "North Korea tests swarm attacks combining drones and missiles",
+  "link": "https://www.investing.com/news/economy-news/north-korea-tests-swarm-attacks-combining-drones-and-missiles--wsj-4918858",
+  "publishers": [
+    "WSJ"
+  ],
+  "region": "money",
+  "article": {
+    "title": "North Korea tests swarm attacks combining drones and missiles",
+    "link": "https://www.investing.com/news/economy-news/north-korea-tests-swarm-attacks-combining-drones-and-missiles--wsj-4918858",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-09-27T07:58:44+00:00",
+    "image_url": "https://content-media.investing.com/news/LYNXMPED3N0FO_M.jpg",
+    "publisher": "WSJ",
+    "cluster_sources": [
+      "WSJ"
+    ],
+    "cluster_members": [
+      {
+        "name": "WSJ",
+        "link": "https://www.investing.com/news/economy-news/north-korea-tests-swarm-attacks-combining-drones-and-missiles--wsj-4918858"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/news/LYNXMPED3N0FO_M.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1297.9131020047223,
+    "is_stale": false,
+    "score": 21.47328262938889,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "كوريا الشمالية تطور تكتيكات هجوم درونات متطورة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
