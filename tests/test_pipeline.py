@@ -34,6 +34,7 @@ from tests.test_collect import (
     test_appeal_factors,
     test_appeal_factors_affect_ranking,
     test_screen_truncation_retry,
+    test_screen_for_selection_excludes_unscreened,
     test_merge_group_titles_truncation_retry,
     test_radar_gate_check_dedupe,
     test_radar_preselect_fallback,
@@ -280,6 +281,8 @@ def main() -> int:
     test_appeal_factors_affect_ranking()
     print("\n── سقف رد الفرز يُحسب من حجم الدفعة، وإعادة المحاولة عند القطع (Issue #1047) ──")
     test_screen_truncation_retry()
+    print("\n── غير المفروز لا يدخل قائمة الاختيار + حدّ القرب/الأثر التحريري (Issue #1086) ──")
+    test_screen_for_selection_excludes_unscreened()
     print("\n── سقف رد الدمج الدلالي يُحسب من عدد العناوين، وإعادة المحاولة عند القطع (Issue #1063) ──")
     test_merge_group_titles_truncation_retry()
     print("\n── كاشف تكرار النشر التلقائي (الرادار) ──")
