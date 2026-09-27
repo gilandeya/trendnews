@@ -249,6 +249,21 @@ def dim_backdrop(photo: Image.Image, primary: tuple, ratio: float) -> Image.Imag
     return Image.blend(photo.convert("RGB"), solid, max(0.0, min(1.0, ratio)))
 
 
+def dim_region(canvas: Image.Image, box: tuple[int, int, int, int],
+               color: tuple, ratio: float) -> None:
+    """يعتّم منطقة محدودة من الكانفاس بمزجها بلون صلب بنسبة ``ratio`` مكانها
+    (Issue #1094، خلفية الفيديو مالئة للبطاقة): يضمن وضوح الترويسة/التذييل
+    فوق خلفية عشوائية المحتوى دون رفع تعتيم dim_backdrop العام على البطاقة
+    كلها، ودون رسم مستطيل صلب يقطع الخلفية إلى شرائح منفصلة -- المزج جزئي
+    (بلون فقط، لا مستطيل أسود صلب) فتبقى البطاقة سطحًا بصريًا واحدًا."""
+    if ratio <= 0:
+        return
+    region = canvas.crop(box)
+    solid = Image.new("RGB", region.size, color)
+    blended = Image.blend(region.convert("RGB"), solid, max(0.0, min(1.0, ratio)))
+    canvas.paste(blended, box)
+
+
 # ──────────────────────────── الكارت ────────────────────────────
 
 
@@ -541,7 +556,16 @@ def build_post_image(
     يبقى False)، ولا محاولة تركيب صورة ثانية دائرية -- كلتاهما مقصورتان على
     صورة رئيسية حقيقية. ``report["kind"] = "video_backdrop"`` عند النجاح
     يُميّز الحالة صراحةً عن "بلا صورة إطلاقًا" لمن يقرأ التقرير (راجع
-    review.image_source_line)."""
+    review.image_source_line).
+
+    (تصحيح Issue #1094): "تغطّي البطاقة كلها" أعلاه لم يكن صحيحًا فعليًا قبل
+    هذا التصحيح -- الترويسة وشريط العنوان والتذييل كانت تُرسم فوق الخلفية
+    بمستطيلات صلبة بلون `brand.primary_color` بعد لصق الخلفية، فتمحوها إلا
+    في شريط الصورة الرئيسية وحده (بالضبط ما طلبت مراجعة #1092 تفاديه). الآن
+    الترويسة/التذييل تُعتَّمان موضعيًا فقط (`dim_region`، `image.backdrop_
+    edge_dim`) لضمان وضوح الشعار/الملصقات/سطر المصدر، وشريط العنوان يُرسم
+    بلا خلفية صلبة إطلاقًا (تعتيم `dim_backdrop` العام كافٍ لتباين النص) --
+    فلا مستطيل ولا خطّ فاصل يقطع الخلفية إلى شرائح، والبطاقة سطح واحد."""
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
     primary = hex_rgb(cfg.path("brand.primary_color", "#12203A"))
@@ -763,8 +787,17 @@ def build_post_image(
 
     # ── 2) الترويسة: الشعار واسم الصفحة يمينًا، الملصقات يسارًا ──
     if header_h:
-        draw.rectangle([0, 0, W, header_h], fill=primary)
-        draw.rectangle([0, header_h - rule, W, header_h], fill=accent)
+        if backdrop_used:
+            # خلفية الفيديو تمتد تحت الترويسة أيضًا -- بلا مستطيل صلب ولا
+            # خطّ فاصل يقطع الخلفية (البطاقة سطح واحد، Issue #1094)؛ تعتيم
+            # موضعي خفيف خلفها فقط يضمن وضوح الشعار والملصقات مهما كان
+            # محتوى الصورة، دون رفع تعتيم dim_backdrop العام.
+            dim_region(canvas, (0, 0, W, header_h), (0, 0, 0),
+                       float(cfg.path("image.backdrop_edge_dim", 0.35)))
+            draw = ImageDraw.Draw(canvas)
+        else:
+            draw.rectangle([0, 0, W, header_h], fill=primary)
+            draw.rectangle([0, header_h - rule, W, header_h], fill=accent)
 
         inner_top = int(header_h * 0.14)
         inner_bot = header_h - rule - int(header_h * 0.14)
@@ -834,8 +867,13 @@ def build_post_image(
 
     # ── 4) شريط العنوان ──
     band_top = photo_top + photo_h
-    draw.rectangle([0, band_top, W, band_top + band_h], fill=primary)
-    draw.rectangle([0, band_top, W, band_top + rule], fill=accent)
+    if not backdrop_used:
+        draw.rectangle([0, band_top, W, band_top + band_h], fill=primary)
+        draw.rectangle([0, band_top, W, band_top + rule], fill=accent)
+    # backdrop_used: العنوان يُرسم فوق خلفية الفيديو مباشرة، بلا شريط صلب
+    # تحته ولا خطّ فاصل (طلب المراجعة، Issue #1094) -- تعتيم dim_backdrop
+    # الموحَّد أعلى الدالة يكفي وحده لتباين النص الأبيض، فلا حاجة لتعتيم
+    # موضعي إضافي هنا كما في الترويسة/التذييل.
 
     y = band_top + band_pad + line_h // 2
     for line in head_lines:
@@ -845,7 +883,14 @@ def build_post_image(
     # ── 5) التذييل ──
     if footer_h:
         ft_top = H - footer_h
-        draw.rectangle([0, ft_top, W, H], fill=mix(primary, (0, 0, 0), 0.28))
+        if backdrop_used:
+            # نفس مبدأ الترويسة أعلاه: تعتيم موضعي خفيف بدل شريط صلب، كي
+            # يبقى سطر «المصدر:» مقروءًا دون قطع الخلفية بمستطيل (Issue #1094).
+            dim_region(canvas, (0, ft_top, W, H), (0, 0, 0),
+                       float(cfg.path("image.backdrop_edge_dim", 0.35)))
+            draw = ImageDraw.Draw(canvas)
+        else:
+            draw.rectangle([0, ft_top, W, H], fill=mix(primary, (0, 0, 0), 0.28))
         ff = load_font(f_body, int(W * 0.024), body_weight)
         mid = ft_top + footer_h // 2
 

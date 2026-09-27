@@ -13,6 +13,7 @@ from tests.test_collect import (
     test_image_filtering,
     test_image_report,
     test_card_second_badge_by_origin,
+    test_card_main_image_layout_unchanged,
     test_google_news_link_decode,
     test_trends,
     test_state_media,
@@ -298,6 +299,7 @@ def main() -> int:
     test_image_report()
     print("\n── الملصق الثاني على البطاقة (cards:) ──")
     test_card_second_badge_by_origin()
+    test_card_main_image_layout_unchanged()
     print("\n── فكّ روابط Google News الوسيطة ──")
     test_google_news_link_decode()
     print("\n── إشارة Google Trends ──")

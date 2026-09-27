@@ -890,6 +890,7 @@ def test_guards_golden() -> None:
     card_path_2.parent.mkdir(parents=True, exist_ok=True)
     report_2: dict = {}
     face_score_calls: list = []
+    headline_2 = "بطاقة تحليل بخلفية فيديو"
 
     def _face_score_spy(img):
         face_score_calls.append(1)
@@ -899,17 +900,67 @@ def test_guards_golden() -> None:
         imaging_golden.download_image = lambda *a, **k: face_image  # type: ignore
         imaging_golden.face_score = _face_score_spy  # type: ignore
         imaging_golden.build_post_image(
-            headline="بطاقة تحليل بخلفية فيديو", category="", urgent=False,
+            headline=headline_2, category="", urgent=False,
             image_urls=None, fallback_urls=[], publisher=[], cfg=cfg_card_golden,
             out_path=card_path_2, bucket="", report=report_2, origin="analysis",
             backdrop_urls=["https://i.ytimg.com/vi/golden0001/hqdefault.jpg"])
     finally:
         imaging_golden.download_image = real_download_golden  # type: ignore
         imaging_golden.face_score = real_face_score_golden  # type: ignore
-        card_path_2.unlink(missing_ok=True)
     check("(#1092) صورة فيديو فيها وجه تُقبَل خلفيةً معتّمة (لا فحص وجه على "
           "هذا المصدر إطلاقًا -- استثناء مقصود محصور بالخلفية)",
           report_2.get("kind") == "video_backdrop" and face_score_calls == [], report_2)
     check("(#1092) نفس البطاقة: used_original يبقى False -- الخلفية المعتّمة "
           "ليست صورة رئيسية بنيويًا، بصرف النظر عن نجاح تحميلها",
           report_2.get("used_original") is False, report_2)
+
+    # (تصحيح Issue #1094): الحكم البنيوي أعلاه (kind/used_original) لا يكفي
+    # وحده -- التنفيذ القديم كان يحقّق كلا الشرطين وهو مع ذلك يرسم الخلفية في
+    # شريط الصورة الرئيسية فقط، برسم الترويسة وشريط العنوان والتذييل فوقها
+    # بمستطيلات primary صلبة *بعد* لصقها، فتمحوها إلا في الوسط. الموضع الفعلي
+    # إذن هو الشاهد الحقيقي على الإصلاح، لا الحقلان البنيويان وحدهما.
+    from PIL import ImageDraw as _GoldenImageDraw
+
+    W_g = int(cfg_card_golden.path("image.width", 1080))
+    H_g = int(cfg_card_golden.path("image.height", 1080))
+    margin_g = int(W_g * 0.06)
+    primary_g = imaging_golden.hex_rgb(cfg_card_golden.path("brand.primary_color", "#12203A"))
+    header_h_g = (int(H_g * 0.160)
+                  if (cfg_card_golden.path("brand.name") or cfg_card_golden.path("brand.logo"))
+                  else 0)
+    draw_dummy_g = _GoldenImageDraw.Draw(_GoldenImage.new("RGB", (10, 10)))
+    _head_font_g, head_lines_g, line_h_g = imaging_golden.fit_text(
+        draw_dummy_g, headline_2, cfg_card_golden.path("image.font_headline"),
+        max_width=W_g - margin_g * 2, max_lines=4,
+        start=int(W_g * 0.052), minimum=int(W_g * 0.032),
+        weight=cfg_card_golden.path("image.font_headline_weight") or None,
+    )
+    band_pad_g = int(H_g * 0.045)
+    band_h_g = len(head_lines_g) * line_h_g + band_pad_g * 2
+    footer_h_g = int(H_g * 0.082)
+    photo_h_g = H_g - header_h_g - band_h_g - footer_h_g
+    band_top_g = header_h_g + photo_h_g
+
+    header_probe_g = (W_g // 2, header_h_g // 2)
+    # +20 يتجاوز خطّ التمييز الرفيع (accent، 4 بكسل) عند أعلى شريط العنوان
+    # *وكذلك* تشوّه ضغط JPEG حول حوافه (قِيست حتى +9 عمليًا) -- بلا هذا
+    # الهامش تصادف النقطة بكسلًا انتقاليًا قريبًا من primary فيبدو الفحص
+    # ناجحًا زورًا حتى مع الشريط الصلب القديم الذي هذه الحالة تثبت تصحيحه.
+    band_probe_g = (W_g // 2, band_top_g + 20)
+    with _GoldenImage.open(card_path_2) as im_g:
+        rgb_g = im_g.convert("RGB")
+        header_pixel_g = rgb_g.getpixel(header_probe_g)
+        band_pixel_g = rgb_g.getpixel(band_probe_g)
+    card_path_2.unlink(missing_ok=True)
+
+    def _dist_g(a: tuple, b: tuple) -> int:
+        return sum(abs(x - y) for x, y in zip(a, b))
+
+    check(f"(#1094) الترويسة عند {header_probe_g} (header_h={header_h_g}) ليست "
+          f"primary الصلب {primary_g} -- الخلفية المعتّمة تمتد تحتها فعليًا لا "
+          "مستطيل صلب يمحوها كما كان قبل هذا التصحيح",
+          _dist_g(header_pixel_g, primary_g) > 15, (header_pixel_g, primary_g))
+    check(f"(#1094) شريط العنوان عند {band_probe_g} (band_top={band_top_g}) ليس "
+          f"primary الصلب {primary_g} -- العنوان يُرسم فوق الخلفية الملأى للبطاقة "
+          "لا فوق شريط صلب يقطعها",
+          _dist_g(band_pixel_g, primary_g) > 15, (band_pixel_g, primary_g))

@@ -369,6 +369,75 @@ def test_card_second_badge_by_origin() -> None:
     check("كل مسار له badge وbg صريحان: لونه يختلف عن brand.accent_color",
           not mismatched_bg, mismatched_bg)
 
+
+def test_card_main_image_layout_unchanged() -> None:
+    """اختبار تثبيت (Issue #1094): بطاقة بصورة رئيسية حقيقية (image_urls عادية،
+    لا backdrop_urls) تُرسم اليوم حرفيًا كما قبل تصحيح خلفية الفيديو -- الترويسة
+    وشريط العنوان والتذييل مستطيلات primary/primary-داكن صلبة، والصورة تملأ
+    شريط الصورة الرئيسية وحده بين الترويسة والعنوان. تصحيح #1094 لم يغيّر إلا
+    فرع ``backdrop_used`` في imaging.build_post_image (كل تعديل هناك داخل
+    ``if backdrop_used: ... else:``) فهذا الاختبار يثبّت أن الفرع الآخر —
+    المستعمل في كل بطاقة أخبار/تحقيق/طلب حقيقية — لم يتغيّر بكسل واحد."""
+    cfg = load_config()
+    W = int(cfg.path("image.width", 1080))
+    H = int(cfg.path("image.height", 1080))
+    margin = int(W * 0.06)
+    primary = imaging.hex_rgb(cfg.path("brand.primary_color", "#12203A"))
+    footer_mix = imaging.mix(primary, (0, 0, 0), 0.28)
+    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
+    footer_h = int(H * 0.082)
+    headline = "عنوان تجريبي لصورة رئيسية حقيقية"
+    source_color = (10, 200, 10)  # أخضر صريح لا صلة له بـprimary/accent
+
+    draw_dummy = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+    _font, head_lines, line_h = imaging.fit_text(
+        draw_dummy, headline, cfg.path("image.font_headline"),
+        max_width=W - margin * 2, max_lines=4,
+        start=int(W * 0.052), minimum=int(W * 0.032),
+        weight=cfg.path("image.font_headline_weight") or None,
+    )
+    band_pad = int(H * 0.045)
+    band_h = len(head_lines) * line_h + band_pad * 2
+    photo_h = H - header_h - band_h - footer_h
+    photo_top = header_h
+    band_top = photo_top + photo_h
+
+    installed_download = imaging.download_image
+    out_path = _TMP_DATA_DIR / "main_image_layout_test.jpg"
+    imaging.download_image = lambda *a, **k: Image.new("RGB", (1280, 720), source_color)  # type: ignore
+    try:
+        imaging.build_post_image(
+            headline=headline, category="", urgent=False,
+            image_urls=["https://example.com/real-photo.jpg"], publisher=["مصدر"],
+            bucket="serious", cfg=cfg, out_path=out_path, origin="news",
+        )
+    finally:
+        imaging.download_image = installed_download  # type: ignore
+
+    with Image.open(out_path) as im:
+        rgb = im.convert("RGB")
+        header_pixel = rgb.getpixel((margin // 2, header_h // 2))
+        band_pixel = rgb.getpixel((margin // 2, band_top + band_h // 2))
+        footer_pixel = rgb.getpixel((margin // 2, H - footer_h // 2))
+        photo_pixel = rgb.getpixel((W // 2, photo_top + photo_h // 2))
+    out_path.unlink(missing_ok=True)
+
+    # فارق ±2 مسموح: الحفظ JPEG (subsampling=0 لكن lossy يبقى) قد يحرّف قناة
+    # لونية بمقدار وحدة أو وحدتين حتى على مساحة بلون واحد صلب.
+    def _close(pixel, rgb, tol=2):
+        return all(abs(a - b) <= tol for a, b in zip(pixel, rgb))
+
+    check(f"الترويسة عند ({margin // 2}, {header_h // 2}) primary صلب بلا تغيير "
+          f"(header_h={header_h})", _close(header_pixel, primary), (header_pixel, primary))
+    check(f"شريط العنوان عند ({margin // 2}, {band_top + band_h // 2}) primary صلب "
+          f"بلا تغيير (band_top={band_top})", _close(band_pixel, primary), (band_pixel, primary))
+    check(f"التذييل عند ({margin // 2}, {H - footer_h // 2}) بلونه الداكن المعتاد "
+          "بلا تغيير", _close(footer_pixel, footer_mix), (footer_pixel, footer_mix))
+    check(f"وسط الصورة الرئيسية عند ({W // 2}, {photo_top + photo_h // 2}) لون "
+          f"المصدر {source_color} كما هو -- بلا تعتيم عند مركز الصورة (dim_photo "
+          "يعتّم أعلاها وأسفلها فقط)", _close(photo_pixel, source_color), (photo_pixel, source_color))
+
+
 def test_google_news_link_decode() -> None:
     """فكّ رابط Google News الوسيط بلا شبكة (Issue #132 تعليق لاحق — العطل
     القاتل: extract.py لم يقرأ نص أي مقال قط لأن Google لم يعد يرسل تحويل

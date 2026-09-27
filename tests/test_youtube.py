@@ -6,7 +6,7 @@ import logging
 import os
 import shutil
 from datetime import datetime, timedelta, timezone
-from PIL import Image
+from PIL import Image, ImageDraw
 
 from tests.helpers import (
     check,
@@ -3581,6 +3581,85 @@ def test_youtube_image_backdrop() -> None:
           f"({primary_5}, نسبة {ratio_5}) منه إلى لون الصورة الأصلية {source_color}",
           dist_to_expected < dist_to_source and dist_to_expected <= 15,
           (probe_pixel, expected_5, source_color))
+
+    # ── ٧) البطاقة سطح واحد: الترويسة وشريط العنوان يُرسمان فوق الخلفية لا
+    # مستطيلًا صلبًا يمحوها، ولا ملصق «صورة تعبيرية» على هذا المصدر إطلاقًا
+    # (Issue #1094 -- القياس الذي فتح هذه المهمة: الترويسة وشريط العنوان
+    # والتذييل كانت تُرسم بمستطيلات primary صلبة *فوق* الخلفية الملصوقة
+    # فتمحوها إلا في شريط الصورة الرئيسية وحده، فتُقرأ البطاقة كأن الوسط
+    # فقط صورة). الإحداثيات محسوبة حرفيًا من نفس ثوابت/دوال
+    # imaging.build_post_image (header_h من الثابت 0.160 كما في الفقرة ٥
+    # أعلاه؛ band_top عبر استدعاء imaging.fit_text بنفس الوسائط والعنوان
+    # الفعليَّين، ثم header_h + footer_h + band_h) ──
+    footer_h_5 = int(H_5 * 0.082)
+    margin_5 = int(W_5 * 0.06)
+    draw_dummy_5 = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+    _head_font_5, head_lines_5, line_h_5 = imaging.fit_text(
+        draw_dummy_5, d5["headlines"][d5.get("headline_selected", 0)],
+        cfg.path("image.font_headline"),
+        max_width=W_5 - margin_5 * 2, max_lines=4,
+        start=int(W_5 * 0.052), minimum=int(W_5 * 0.032),
+        weight=cfg.path("image.font_headline_weight") or None,
+    )
+    band_pad_5 = int(H_5 * 0.045)
+    band_h_5 = len(head_lines_5) * line_h_5 + band_pad_5 * 2
+    photo_h_5 = H_5 - header_h_5 - band_h_5 - footer_h_5
+    band_top_5 = header_h_5 + photo_h_5
+
+    header_probe_xy = (W_5 // 2, header_h_5 // 2)
+    # +20 يتجاوز خطّ التمييز الرفيع (accent، 4 بكسل) الذي يرسمه الفرع
+    # غير-backdrop عند أعلى شريط العنوان مباشرة *وكذلك* تشوّه ضغط JPEG حول
+    # حوافه (قِيست حتى +9 عمليًا على تنفيذ ما قبل هذا التصحيح) -- بلا هذا
+    # الهامش تصادف النقطة بكسلًا انتقاليًا قريبًا من primary فيبدو الفحص
+    # ناجحًا زورًا حتى مع الشريط الصلب القديم.
+    band_probe_xy = (W_5 // 2, band_top_5 + 20)
+    with Image.open(built_path_5) as im5b:
+        rgb5 = im5b.convert("RGB")
+        header_pixel = rgb5.getpixel(header_probe_xy)
+        band_pixel = rgb5.getpixel(band_probe_xy)
+        pure_black_pixels = sum(1 for px in rgb5.getdata() if px == (0, 0, 0))
+
+    def _dist(a: tuple, b: tuple) -> int:
+        return sum(abs(x - y) for x, y in zip(a, b))
+
+    check(f"٧) الترويسة عند {header_probe_xy} (header_h={header_h_5}) ليست primary "
+          f"الصلب {primary_5} -- الخلفية تمتد تحتها لا مستطيل صلب يمحوها",
+          _dist(header_pixel, primary_5) > 15, (header_pixel, primary_5))
+    check(f"٧) شريط العنوان عند {band_probe_xy} (band_top={band_top_5}، من "
+          f"header_h={header_h_5} + photo_h={photo_h_5}) ليس primary الصلب {primary_5} "
+          "-- العنوان يُرسم فوق الخلفية لا فوق شريط صلب تحته",
+          _dist(band_pixel, primary_5) > 15, (band_pixel, primary_5))
+    check("٧) لا ملصق «صورة تعبيرية» على بطاقة خلفية الفيديو: صفر بكسل أسود صرف "
+          "(0,0,0) في كل البطاقة -- الملصق يُرسم بمستطيل أسود صلب (fill=(0,0,0)) لو ظهر خطأً",
+          pure_black_pixels == 0, pure_black_pixels)
+    check("٧) image_info.illustrative == False لخلفية الفيديو (بنيويًا لا يجتمع مع "
+          "kind == video_backdrop -- انظر توثيق imaging.build_post_image)",
+          d5.get("image_info", {}).get("illustrative") is False,
+          d5.get("image_info"))
+
+    # تباين نص العنوان الأبيض (255,255,255 في imaging.py) عن متوسط لون
+    # الخلفية خلفه: شريط العنوان لا يحمل تعتيمًا موضعيًا إضافيًا (خلافًا
+    # للترويسة/التذييل)، فتعتيم dim_backdrop الموحَّد وحده يحدّد لون الخلفية
+    # هناك -- نفس expected_5 المحسوبة أعلاه بالفقرة ٥. العتبة 3.0 هي حدّ
+    # WCAG AA الأدنى للنص الكبير (الخط هنا عريض ويبدأ من ~5% من عرض البطاقة).
+    def _srgb_channel(c: float) -> float:
+        c /= 255
+        return c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+
+    def _luminance(rgb: tuple) -> float:
+        r, g, b = rgb
+        return 0.2126 * _srgb_channel(r) + 0.7152 * _srgb_channel(g) + 0.0722 * _srgb_channel(b)
+
+    def _contrast(c1: tuple, c2: tuple) -> float:
+        l1, l2 = _luminance(c1), _luminance(c2)
+        l1, l2 = max(l1, l2), min(l1, l2)
+        return (l1 + 0.05) / (l2 + 0.05)
+
+    text_color_5 = (255, 255, 255)
+    contrast_5 = _contrast(text_color_5, expected_5)
+    check(f"٧) تباين نص العنوان الأبيض عن خلفيته المتوقَّعة {expected_5} = "
+          f"{contrast_5:.2f} -- فوق عتبة WCAG AA للنص الكبير (3.0)",
+          contrast_5 >= 3.0, (contrast_5, expected_5))
 
     # ── ٦) تبديل الصورة يدويًا عبر /صورة على مسودة بخلفية فيديو يعمل ولا ينهار ──
     # setimage.py يستورد download_image بـ``from .imaging import download_image``
