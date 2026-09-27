@@ -37,18 +37,28 @@
     "publishers": [
       "Habertürk",
       "العربية"
+    ],
+    "image_url": "https://www.annahar.com/Assets/ContentPhotos/Photos/AFP__20260924__C9BM3HJ__v4__MidRes__ChinesePresidentXiJinpingMeetsDonaldTrumpAtTheWh_171558_large.webp",
+    "image_candidates": [
+      "https://www.annahar.com/Assets/ContentPhotos/Photos/AFP__20260924__C9BM3HJ__v4__MidRes__ChinesePresidentXiJinpingMeetsDonaldTrumpAtTheWh_171558_large.webp"
     ]
   },
   "score": 4,
-  "has_photo": false,
+  "has_photo": true,
   "review_issue": 1085,
-  "image": "drafts/2026-09-27/a60ebbc0584e.jpg",
+  "image": "drafts/2026-09-27/a60ebbc0584e-v2.jpg",
   "image_info": {
-    "used_original": false,
+    "manual": true,
+    "used_original": true,
     "illustrative": false,
     "composite": false,
-    "chosen_url": null,
-    "candidates_tried": 0,
-    "manual": false
-  }
+    "chosen_url": "https://www.annahar.com/Assets/ContentPhotos/Photos/AFP__20260924__C9BM3HJ__v4__MidRes__ChinesePresidentXiJinpingMeetsDonaldTrumpAtTheWh_171558_large.webp"
+  },
+  "manual_image": "https://www.annahar.com/Assets/ContentPhotos/Photos/AFP__20260924__C9BM3HJ__v4__MidRes__ChinesePresidentXiJinpingMeetsDonaldTrumpAtTheWh_171558_large.webp",
+  "reel_spec": {
+    "image_candidates": [
+      "https://www.annahar.com/Assets/ContentPhotos/Photos/AFP__20260924__C9BM3HJ__v4__MidRes__ChinesePresidentXiJinpingMeetsDonaldTrumpAtTheWh_171558_large.webp"
+    ]
+  },
+  "reel": null
 }

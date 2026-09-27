@@ -38,18 +38,28 @@
     "publishers": [
       "العربية",
       "فرانس 24 عربي"
+    ],
+    "image_url": "https://www.aljazeera.net/wp-content/uploads/2026/05/epa_6a061afd2780-1778785021.jpg?resize=1200%2C630",
+    "image_candidates": [
+      "https://www.aljazeera.net/wp-content/uploads/2026/05/epa_6a061afd2780-1778785021.jpg?resize=1200%2C630"
     ]
   },
   "score": 2,
   "has_photo": true,
   "review_issue": 1085,
-  "image": "drafts/2026-09-27/efc1d1cabdd5.jpg",
+  "image": "drafts/2026-09-27/efc1d1cabdd5-v2.jpg",
   "image_info": {
+    "manual": true,
     "used_original": true,
-    "illustrative": true,
+    "illustrative": false,
     "composite": false,
-    "chosen_url": null,
-    "candidates_tried": 0,
-    "manual": false
-  }
+    "chosen_url": "https://www.aljazeera.net/wp-content/uploads/2026/05/epa_6a061afd2780-1778785021.jpg?resize=1200%2C630"
+  },
+  "manual_image": "https://www.aljazeera.net/wp-content/uploads/2026/05/epa_6a061afd2780-1778785021.jpg?resize=1200%2C630",
+  "reel_spec": {
+    "image_candidates": [
+      "https://www.aljazeera.net/wp-content/uploads/2026/05/epa_6a061afd2780-1778785021.jpg?resize=1200%2C630"
+    ]
+  },
+  "reel": null
 }
