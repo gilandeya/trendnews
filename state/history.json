@@ -1,231 +1,5 @@
 [
   {
-    "score": 17.43,
-    "bucket": "serious",
-    "tokens": [
-      "arrives",
-      "assembly",
-      "attend",
-      "general",
-      "session",
-      "shehbaz",
-      "york"
-    ],
-    "link": "https://www.dawn.com/news/2031579/pm-shehbaz-arrives-in-new-york-to-attend-un-general-assembly-session",
-    "title": "PM Shehbaz arrives in New York to attend UN General Assembly session",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-21T19:07:47.505839+00:00"
-  },
-  {
-    "score": 17.21,
-    "bucket": "light",
-    "tokens": [
-      "2025",
-      "faster",
-      "hit",
-      "move",
-      "must",
-      "record",
-      "renewables",
-      "report",
-      "world"
-    ],
-    "link": "https://www.channelnewsasia.com/world/renewable-energy-record-un-chief-6400261",
-    "title": "Renewables hit record in 2025, but world must move faster: report",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-21T19:07:47.506131+00:00"
-  },
-  {
-    "score": 16.42,
-    "bucket": "serious",
-    "tokens": [
-      "europe",
-      "ukraine",
-      "unprepared"
-    ],
-    "link": "https://www.japantimes.co.jp/commentary/2026/09/21/world/europe-security-failures/",
-    "title": "Will Europe be as unprepared as Ukraine was?",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-09-21T19:07:47.506394+00:00"
-  },
-  {
-    "score": 16.04,
-    "bucket": "serious",
-    "tokens": [
-      "3x3",
-      "basketball",
-      "earn",
-      "iran",
-      "nagoya",
-      "two",
-      "wins",
-      "women"
-    ],
-    "link": "https://en.mehrnews.com/news/247950/Iran-s-women-s-3x3-basketball-earn-two-wins-at-Nagoya",
-    "title": "Iran’s women’s 3x3 basketball earn two wins at Nagoya",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-21T19:07:47.506661+00:00"
-  },
-  {
-    "score": 15.59,
-    "bucket": "serious",
-    "tokens": [
-      "delegation",
-      "departs",
-      "iccima",
-      "tashkent",
-      "trade"
-    ],
-    "link": "https://www.tehrantimes.com/news/530237/ICCIMA-trade-delegation-departs-for-Tashkent",
-    "title": "ICCIMA trade delegation departs for Tashkent",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-21T19:07:47.506948+00:00"
-  },
-  {
-    "score": 19.93,
-    "bucket": "useful",
-    "tokens": [
-      "about",
-      "future",
-      "google",
-      "got",
-      "ideas",
-      "laptops",
-      "see",
-      "wild"
-    ],
-    "link": "https://www.theverge.com/tech/997986/google-googlebooks-android-laptops-dell-hp-lenovo-acer-asus-price-specs",
-    "title": "I got to see Google’s wild ideas about the future of laptops",
-    "posted_title": "غوغل تطلق \"غوغل بوك\": لابتوبات تدمج أندرويد بالحاسوب بأسعار تبدأ من 899 دولارًا",
-    "region": "tech",
-    "seen_at": "2026-09-21T19:29:53.481613+00:00"
-  },
-  {
-    "score": 19.76,
-    "bucket": "serious",
-    "tokens": [
-      "first",
-      "gaza",
-      "person",
-      "return",
-      "schooling",
-      "students",
-      "three",
-      "time",
-      "years"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/09/21/world/gaza-students-return-school/",
-    "title": "Gaza students return to in-person schooling for first time in three years",
-    "posted_title": "لأول مرة منذ ثلاث سنوات.. طلاب غزة يعودون إلى مقاعد الدراسة في خيام ومبانٍ متضررة",
-    "region": "jp",
-    "seen_at": "2026-09-21T19:30:08.851535+00:00"
-  },
-  {
-    "score": 30.46,
-    "bucket": "serious",
-    "tokens": [
-      "against",
-      "ban",
-      "cnn",
-      "file",
-      "house",
-      "lawsuit",
-      "now",
-      "politico",
-      "trump's",
-      "white"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cm0e32rwvrryo?at_medium=RSS&at_campaign=rss",
-    "title": "CNN, MS NOW and Politico file lawsuit against Trump's White House ban",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-22T03:07:50.674305+00:00"
-  },
-  {
-    "score": 26.68,
-    "bucket": "serious",
-    "tokens": [
-      "administration",
-      "against",
-      "court",
-      "criminal",
-      "international",
-      "prepares",
-      "sanctions",
-      "say",
-      "sources",
-      "trump"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-administration-prepares-sanctions-against-international-criminal-court-sources-say/article71489890.ece",
-    "title": "Trump administration prepares sanctions against International Criminal Court, sources say",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-22T03:07:50.674604+00:00"
-  },
-  {
-    "score": 23.15,
-    "bucket": "serious",
-    "tokens": [
-      "dujuan",
-      "evacuate",
-      "hits",
-      "japan",
-      "millions",
-      "powerful",
-      "typhoon",
-      "urged"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cm3wj2lexl97o?at_medium=RSS&at_campaign=rss",
-    "title": "Millions urged to evacuate as powerful Typhoon Dujuan hits Japan",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-22T03:07:50.674852+00:00"
-  },
-  {
-    "score": 21.8,
-    "bucket": "serious",
-    "tokens": [
-      "approval",
-      "bite",
-      "career",
-      "costs",
-      "falls",
-      "finds",
-      "high",
-      "ipsos",
-      "low",
-      "poll",
-      "reuters",
-      "trump"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-21-trump-approval-falls-to-career-low-of-32-as-high-costs-bite-reutersipsos-poll-finds/",
-    "title": "Trump approval falls to career low of 32% as high costs bite, Reuters/Ipsos poll finds",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-22T03:07:50.675079+00:00"
-  },
-  {
-    "score": 21.25,
-    "bucket": "serious",
-    "tokens": [
-      "mamdani",
-      "meeting",
-      "praises",
-      "trump",
-      "york"
-    ],
-    "link": "https://www.thehindu.com/news/international/trump-praises-leftist-mamdani-after-meeting-in-new-york/article71493261.ece",
-    "title": "Trump praises Mamdani after meeting in New York",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-22T03:07:50.675278+00:00"
-  },
-  {
     "score": 27.79,
     "bucket": "serious",
     "tokens": [
@@ -2534,5 +2308,104 @@
     "posted_title": "",
     "region": "es",
     "seen_at": "2026-09-26T18:08:00.442801+00:00"
+  },
+  {
+    "score": 26.58,
+    "bucket": "serious",
+    "tokens": [
+      "iran",
+      "longer",
+      "pezeshkian",
+      "talks",
+      "trusts",
+      "washington"
+    ],
+    "link": "https://www.aljazeera.com/video/newsfeed/2026/9/26/pezeshkian-says-iran-no-longer-trusts-talks-with?traffic_source=rss",
+    "title": "Pezeshkian says Iran ‘no longer trusts talks with Washington’",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-09-27T03:08:27.252674+00:00"
+  },
+  {
+    "score": 19.55,
+    "bucket": "serious",
+    "tokens": [
+      "american",
+      "among",
+      "athens",
+      "blast",
+      "four",
+      "gas",
+      "killed",
+      "leak",
+      "suspected",
+      "tourists"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/9/26/four-american-tourists-among-6-killed-in-suspected-gas-leak-blast-in-athens?traffic_source=rss",
+    "title": "Four American tourists among 6 killed in suspected gas leak blast in Athens",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-09-27T03:08:27.252968+00:00"
+  },
+  {
+    "score": 15.86,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "candidatos",
+      "eleições",
+      "ordem",
+      "quantos",
+      "saiba",
+      "votar",
+      "votação"
+    ],
+    "link": "https://agenciabrasil.ebc.com.br/politica/noticia/2026-09/eleicoes2026-saiba-em-quantos-candidatos-votar-e-ordem-de-votacao",
+    "title": "Eleições 2026: saiba em quantos candidatos votar e a ordem de votação",
+    "posted_title": "",
+    "region": "latam",
+    "seen_at": "2026-09-27T03:08:27.253241+00:00"
+  },
+  {
+    "score": 15.73,
+    "bucket": "serious",
+    "tokens": [
+      "bombing",
+      "checkpoint",
+      "kills",
+      "least",
+      "pakistan",
+      "police",
+      "suicide"
+    ],
+    "link": "https://www.scmp.com/news/asia/south-asia/article/3368910/suicide-bombing-police-checkpoint-pakistan-kills-least-11?utm_source=rss_feed",
+    "title": "Suicide bombing at police checkpoint in Pakistan kills at least 11",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-27T03:08:27.253506+00:00"
+  },
+  {
+    "score": 14.89,
+    "bucket": "serious",
+    "tokens": [
+      "5th",
+      "asiad",
+      "baseball",
+      "consecutive",
+      "goes",
+      "gold",
+      "handball",
+      "japan",
+      "revenge",
+      "seeks",
+      "team",
+      "teams",
+      "women's"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20260926007800315",
+    "title": "(Asiad) Baseball team goes for 5th consecutive gold; women's handball teams seeks revenge vs. Japan",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-09-27T03:08:27.253782+00:00"
   }
 ]

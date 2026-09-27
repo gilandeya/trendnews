@@ -1,0 +1,60 @@
+{
+  "id": "a22b29c36668",
+  "created_at": "2026-09-27T03:08:27.253251+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.73,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 0,
+  "intrigue": 0,
+  "appeal_note": "",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Suicide bombing at police checkpoint in Pakistan kills at least 11",
+  "link": "https://www.scmp.com/news/asia/south-asia/article/3368910/suicide-bombing-police-checkpoint-pakistan-kills-least-11?utm_source=rss_feed",
+  "publishers": [
+    "Deutsche Welle",
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Suicide bombing at police checkpoint in Pakistan kills at least 11",
+    "link": "https://www.scmp.com/news/asia/south-asia/article/3368910/suicide-bombing-police-checkpoint-pakistan-kills-least-11?utm_source=rss_feed",
+    "summary": "A suicide bomber detonated an explosives-laden vehicle at a roadside police checkpoint in northwestern Pakistan on Saturday, killing at least 11 people and wounding about 30 others, officials said, in a sign of increasing violence in the region bordering Afghanistan. The attack occurred in Dera Ismail Khan, a district in Khyber Pakhtunkhwa province, said Bilal Faizi, a spokesman for the provincial emergency service. Local police chief Safdar Baloch said most of those killed and wounded were...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-09-26T13:18:29+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "Deutsche Welle",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3368910/suicide-bombing-police-checkpoint-pakistan-kills-least-11?utm_source=rss_feed"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/pakistan-suicide-attack-at-police-stop-kills-at-least-11/a-79443050?maca=en-rss-en-world-4025-rdf"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1282.9214736788888,
+    "is_stale": false,
+    "score": 15.728012106981481,
+    "impact": 0,
+    "proximity": 0,
+    "intrigue": 0,
+    "appeal_note": ""
+  }
+}
