@@ -74,7 +74,7 @@ from typing import Any
 import requests
 from anthropic import Anthropic, APIError
 
-from . import evidence, imagesearch, imaging, youtube_collect
+from . import evidence, imagesearch, imaging, sources, youtube_collect
 from .config import YOUTUBE_POINTS_DIR, Config, env, load_config
 from .proxy_config import get_proxy_config
 
@@ -916,7 +916,7 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
 #
 # نُقلت هنا من src/youtube_publish.py (Issue #1092) -- الحاجة الجديدة (فحص
 # توفّر صورة *قبل* إنفاق نداء الصياغة في src/youtube_article.py، انظر
-# video_backdrop_available أدناه) تحتاج هذا المنطق من مرحلتين منفصلتين
+# news_photo_available أدناه) تحتاج هذا المنطق من مرحلتين منفصلتين
 # (الكتابة والتوصيل) معًا، وyoutube_publish.py يستورد src/youtube_article.py
 # فعليًا (دورة استيراد لو استوردت العكس) -- هذا الملف (المرحلة الثانية) هو
 # القاعدة المشتركة الآمنة الوحيدة التي تستوردها كلتاهما بلا دورة.
@@ -961,8 +961,8 @@ def photo_candidates(headline: str, event: str, cfg, image_query_en: str | None 
     «لا صورة أي شخص مذكور في المقال» بالتعرّف على هوية الشخص فعليًا، فالرفض
     الآمن رفض أي وجه ظاهر بصرف النظر عمّن يكون -- امتناع بنيويًا لا اجتهادًا،
     بنفس مبدأ منع صورة الفيديو/القناة أعلاه. **هذه العتبة خاصة بالصورة
-    الرئيسية وحدها** -- خلفية الفيديو المعتّمة (video_backdrop_available
-    أدناه) لا تخضع لها إطلاقًا (Issue #1092، طلب مراجعة صريح: التعتيم كافٍ).
+    الرئيسية وحدها** -- صورة الخبر عن الموضوع (news_photo_available أدناه)
+    لا تخضع لها إطلاقًا (Issue #1095، نفس استثناء مسار الأخبار).
 
     تعيد **روابط** لا صورًا محمَّلة (خلافًا لتصميم سابق لهذه الدالة قبل
     Issue #732) كي تُمرَّر مباشرة إلى imaging.build_post_image عبر
@@ -970,8 +970,8 @@ def photo_candidates(headline: str, event: str, cfg, image_query_en: str | None 
     نفس آلية المسار العام تمامًا بدل تكرارها هنا. قائمة فارغة (بحث فارغ أو
     كل المرشّحين فيهم وجه) تعني عودة build_post_image إلى الخلفية المصممة
     بدل إسقاط المقال (نصّ طلب المراجعة صراحةً) -- أو، منذ Issue #941، محاولة
-    ثانية أعمّ عبر cards.ensure نفسها، أو منذ Issue #1092، خلفية معتّمة من
-    صورة فيديو مصدر (انظر youtube_publish.ensure_title_card)."""
+    ثانية أعمّ عبر cards.ensure نفسها، أو منذ Issue #1095، صورة خبر عن
+    الموضوع نفسه (انظر youtube_publish.ensure_title_card)."""
     terms = photo_search_terms(headline, event, image_query_en)
     if not terms:
         return []
@@ -992,43 +992,85 @@ def photo_candidates(headline: str, event: str, cfg, image_query_en: str | None 
     return clean
 
 
-# ──────────────── خلفية معتّمة من صورة فيديو مصدر (Issue #1092) ────────────
+# ──────────────── صورة خبر عن الموضوع نفسه (Issue #1095) ───────────────────
 #
-# الدرجة الثالثة/الأخيرة لصورة مقال تحليل: صورة الفيديو المصغّرة الرسمية (لا
-# نداء API، صيغة رابط ثابتة معروفة ليوتيوب) تُستعمَل خلفيةً معتّمة للبطاقة
-# كلها حين تفشل صورة حرة الترخيص أعلاه -- انظر توثيق imaging.build_post_image
-# لماذا لا فحص وجه هنا (خلافًا لـphoto_candidates أعلاه) ولماذا لا تُرسم صورة
-# رئيسية. الدقة العالية (hqdefault) غير متوفرة لكل فيديو (تحديدًا القديم أو
-# القصير جدًا) فتُجرَّب دقة أدنى مضمونة الوجود بعدها (mqdefault) لكل معرّف.
+# الدرجة الثانية لصورة مقال تحليل -- تخلف خلفية الفيديو الملغاة (Issue
+# #1092: محاولتان لرسمها خلفيةً فشلتا بصريًا، وصورة الفيديو ليست صورة الحدث
+# بل صورة قناة تتحدث عنه). البديل: صورة خبر صحفي حقيقي عن الموضوع نفسه،
+# تُجلب من الويب حين تفشل الصورة الحرة الترخيص أعلاه -- استعمال ما هو قائم
+# لا بناء جديد: عبارات البحث من photo_search_terms أعلاه، آلية البحث من
+# request.py (Google News RSS، search_feeds)، والجلب من sources.fetch_source/
+# sources.enrich_image القائمتين -- لا مستخرج og:image جديد.
 
-THUMBNAIL_RESOLUTIONS = ("hqdefault", "mqdefault")
+def news_photo_candidates(headline: str, event: str, cfg,
+                          image_query_en: str | None = None) -> list[dict]:
+    """يبحث عن صور أخبار صحفية عن الموضوع نفسه -- لا صورة تعبيرية عامة، فلا
+    فحص وجه يسري هنا (نفس استثناء مسار الأخبار). يعيد
+    ``[{"url":..., "publisher":...}, ...]`` أحدثها أولًا وأقربها لعنوان
+    الموضوع (request.relevant، بعتبة request.min_matches القائمة نفسها) --
+    لا صورًا محمَّلة، كي يتولى imaging.build_post_image التحميل/التحقّق/
+    التقرير بنفس آلية fallback_urls تمامًا.
+
+    كل عبارة بحث (من photo_search_terms أعلاه، عربية أو إنجليزية) تُجرَّب
+    بالترتيب حتى تنجح واحدة؛ كل استعلام محاط بمعالجة فشل هادئة (شبكة أو
+    استجابة فارغة أو استثناء غير متوقَّع) فتعذّر عبارة واحدة لا يوقف الباقي
+    ولا التشغيلة -- قائمة فارغة تعني عودة imaging.build_post_image للامتناع
+    التام أو خلفية مصممة (بوابة youtube_article.run() تمنع الصياغة أصلًا
+    قبل هذا)."""
+    # مؤجَّل: request.py يستورد radar.py (مسار مختلف كليًا)، وهذا الملف
+    # قاعدة مشتركة يستوردها youtube_publish.py/youtube_article.py معًا --
+    # لا فائدة من تحميل تلك السلسلة عند كل استيراد لهذا الملف.
+    from . import request as request_mod
+
+    terms = photo_search_terms(headline, event, image_query_en)
+    if not terms:
+        return []
+
+    rcfg = cfg.get("request", {}) or {}
+    days = int(rcfg.get("days", 7))
+    locales = rcfg.get("locales") or request_mod.DEFAULT_LOCALES
+    min_matches = int(rcfg.get("min_matches", 1))
+    wanted = request_mod.norm_tokens(f"{headline} {event or ''}")
+
+    for term in terms:
+        try:
+            articles = []
+            for feed in request_mod.search_feeds(term, days, locales):
+                articles += sources.fetch_source(feed, max_age_hours=days * 24)
+        except Exception as exc:  # noqa: BLE001 -- تعذّر البحث = عبارة تالية، لا انهيار
+            log.info("تعذّر بحث صورة خبر بمصطلح %r: %s", term[:60], exc)
+            continue
+        if not articles:
+            continue
+
+        matched = [a for a in articles if request_mod.relevant(a, wanted, min_matches)]
+        matched.sort(key=lambda a: a.published, reverse=True)
+
+        found: list[dict] = []
+        for art in matched[:6]:
+            try:
+                enriched = sources.enrich_image(art)
+            except Exception as exc:  # noqa: BLE001 -- تعذّر استخراج صورة خبر واحد لا يوقف الباقي
+                log.info("تعذّر استخراج صورة خبر من %s: %s", art.link[:70], exc)
+                continue
+            if enriched.image_url:
+                found.append({"url": enriched.image_url,
+                             "publisher": enriched.publisher or enriched.source_name})
+        if found:
+            return found
+    return []
 
 
-def thumbnail_urls(video_id: str) -> list[str]:
-    return [f"https://i.ytimg.com/vi/{video_id}/{res}.jpg" for res in THUMBNAIL_RESOLUTIONS]
-
-
-def backdrop_candidate_urls(video_ids: list[str]) -> list[str]:
-    """روابط الصور المصغّرة لقائمة معرّفات فيديو مرتّبة مسبقًا (الأكثر
-    مساهمة بالنقاط أولًا -- انظر youtube_article._video_ids_by_contribution)
-    -- لكل فيديو دقّته العالية ثم الأدنى، بالترتيب حتى ينجح تحميل واحد
-    (Issue #1092). قائمة معرّفات فارغة تعيد قائمة روابط فارغة بلا استثناء."""
-    urls: list[str] = []
-    for vid in video_ids or []:
-        if vid:
-            urls.extend(thumbnail_urls(vid))
-    return urls
-
-
-def video_backdrop_available(video_ids: list[str], cfg) -> bool:
-    """معاينة رخيصة (بلا بناء بطاقة): هل تنجح صورة فيديو مصغّرة واحدة على
-    الأقل تحميلًا (نفس imaging.download_image، فنفس حدّ الأبعاد الأدنى)؟
-    تُستعمَل حصرًا في بوابة src/youtube_article.py قبل نداء الصياغة -- لا
-    فحص وجه هنا كذلك (نفس سبب backdrop_candidate_urls أعلاه)؛ هذا احتمال لا
-    وعد -- البناء الفعلي لاحقًا في youtube_publish.ensure_title_card يعيد
-    التحميل من نفس القائمة، فقد يختلف قليلًا (رابط تعطّل بين اللحظتين)."""
-    for url in backdrop_candidate_urls(video_ids)[:12]:
-        if imaging.download_image(url) is not None:
+def news_photo_available(headline: str, event: str, cfg,
+                         image_query_en: str | None = None) -> bool:
+    """معاينة رخيصة (بلا بناء بطاقة): هل ينجح تحميل صورة خبر واحدة على
+    الأقل (نفس imaging.download_image، فنفس حدّ الأبعاد الأدنى)؟ تُستعمَل
+    حصرًا في بوابة src/youtube_article.py قبل نداء الصياغة -- هذا احتمال لا
+    وعد؛ البناء الفعلي لاحقًا في youtube_publish.ensure_title_card يعيد
+    البحث والتحميل من جديد، فقد يختلف قليلًا (نتيجة بحث أو رابط تعطّل بين
+    اللحظتين)."""
+    for cand in news_photo_candidates(headline, event, cfg, image_query_en)[:6]:
+        if imaging.download_image(cand["url"]) is not None:
             return True
     return False
 

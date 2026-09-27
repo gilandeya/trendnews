@@ -317,10 +317,11 @@ def split_headlines(article_text: str) -> tuple[str, list[str]]:
 # نثر نموذج، فتحليله بتعبير نمطي ثابت آمن (خلافًا لأي نصّ من إخراج النموذج).
 
 # عمود «الفيديوهات» (Issue #1092) بين القنوات والخلاف -- معرّفات الفيديو
-# المصدرية مرتّبة أهميةً (youtube_article._video_ids_by_contribution)، مصدر
-# خلفية معتّمة احتياطية عند تعذّر صورة حرة الترخيص (انظر ensure_title_card
-# أدناه). عمود اختياري القيمة (قد يكون خاليًا لصف قديم لا يحمله) لا اختياري
-# الوجود -- (.*?) تطابق سلسلة فارغة بلا كسر بنية الجدول.
+# المصدرية مرتّبة أهميةً (youtube_article._video_ids_by_contribution). لم
+# تعد مصدر صورة بطاقة (Issue #1095 ألغى خلفية الفيديو المعتّمة التي
+# استعملتها)، لكنها تبقى معلومة مفيدة بذاتها على المسودة (source_videos
+# أدناه) -- قد تُستعمل لاحقًا. عمود اختياري القيمة (قد يكون خاليًا لصف قديم
+# لا يحمله) لا اختياري الوجود -- (.*?) تطابق سلسلة فارغة بلا كسر بنية الجدول.
 _INDEX_ROW_RE = re.compile(
     r"^\|\s*(\d+)\s*\|\s*\[(.*?)\]\((.*?)\)\s*\|\s*(.*?)\s*\|\s*([abc])\s*\|\s*(.*?)\s*\|"
     r"\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(\S+)\s*\|\s*(.*?)\s*\|\s*$",
@@ -437,11 +438,12 @@ def build_draft(row: dict, date_str: str, articles_dir: Path, cfg) -> dict | Non
         "source": {"link": "", "publishers": row["channels"]},
         "score": compute_score(row["blocs"], row["channels"], row["agreement"], cfg),
         # معرّفات الفيديوهات المصدرية مرتّبة أهميةً (الأكثر مساهمة بالنقاط
-        # أولًا -- youtube_article._video_ids_by_contribution، عبر index.md)
-        # -- Issue #1092: مصدر الدرجة الثالثة لصورة البطاقة (خلفية معتّمة من
-        # صورة الفيديو المصغّرة) حين تفشل الصورة الحرة الترخيص، انظر
-        # ensure_title_card أدناه. قائمة فارغة لمقال قديم بلا هذا العمود في
-        # index.md (row.get بدل row[..]) -- لا انهيار، يبقى بلا هذه الدرجة فقط.
+        # أولًا -- youtube_article._video_ids_by_contribution، عبر index.md).
+        # لم تعد مصدر صورة بطاقة (Issue #1095 ألغى خلفية الفيديو المعتّمة
+        # التي بُنيت لهذا الغرض في Issue #1092) -- تبقى على المسودة معلومة
+        # مفيدة بذاتها، قد نحتاجها لاحقًا (قرار صريح من صاحب المشروع). قائمة
+        # فارغة لمقال قديم بلا هذا العمود في index.md (row.get بدل row[..])
+        # -- لا انهيار.
         "source_videos": row.get("video_ids", []),
     }
 
@@ -495,12 +497,15 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     if cfg.path("youtube.image.use_photo", True):
         photo_urls = _photo_candidates(headline, draft.get("event", ""), cfg, image_query_en)
 
-    # الدرجة الثالثة (Issue #1092): خلفية معتّمة من صورة فيديو مصدر --
-    # روابط فقط (لا تحميل هنا)، تُجرَّب داخل imaging.build_post_image نفسها
-    # (عبر cards.ensure) بعد فشل الدرجتين الأعلى (photo_urls والمحاولة
-    # الثانية العامة في cards.ensure). قائمة فارغة لمسودة قديمة بلا
-    # source_videos (مقال كُتب قبل هذه المهمة) -- بلا هذه الدرجة فقط، لا انهيار.
-    backdrop_urls = youtube_extract.backdrop_candidate_urls(draft.get("source_videos") or [])
+    # الدرجة الثانية (Issue #1095، تخلف خلفية الفيديو الملغاة #1092): صورة
+    # خبر صحفي عن الموضوع نفسه -- دالة كسولة (لا نداء بحث فعلي هنا)، تُستدعى
+    # داخل imaging.build_post_image نفسها (عبر cards.ensure) فقط بعد فشل
+    # الدرجتين الأعلى (photo_urls والمحاولة الثانية العامة في cards.ensure)؛
+    # بحث الأخبار عملية شبكة حقيقية لا مجرّد روابط، فاستدعاؤه غير المشروط هنا
+    # كان يهدر نداءً كل مرّة تنجح فيها الصورة الحرة الترخيص أعلاه.
+    event = draft.get("event", "")
+    news_photo_provider = (
+        lambda: youtube_extract.news_photo_candidates(headline, event, cfg, image_query_en))
 
     # غلاف رفيع فوق cards.ensure (Issue #852): القالب الموحَّد مع بطاقة
     # الأخبار (Issue #732) -- imaging.build_post_image ذاتها عبر cards.ensure،
@@ -526,7 +531,7 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     new_rel = cards.ensure(
         path, draft, cfg, headline=headline,
         image_urls=None, fallback_urls=photo_urls, search_term=image_query_en,
-        backdrop_urls=backdrop_urls,
+        news_photo_provider=news_photo_provider,
         publisher=image_source_line(draft["channels"], cfg),
         out_dir=run_date, check_headline_limit=False,
         **cards.analysis_card_kwargs(),
@@ -538,12 +543,12 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     # أي محاولة أثمرت (نصّ الطلب، Issue #941) -- تشخيص لاحق: المحاولة الأولى
     # (photo_urls غير فارغة) تُسجَّل فعلًا داخل imaging.build_post_image نفسها
     # ("✅ اعتُمدت صورة تعبيرية حرة")، فلا تكرار هنا؛ التمييز المطلوب فقط هو
-    # بين المحاولة الثانية (بحث عام نجح رغم فراغ photo_urls) وخلفية الفيديو
-    # المعتّمة (Issue #1092) وانعدام أي صورة تمامًا.
+    # بين المحاولة الثانية (بحث عام نجح رغم فراغ photo_urls) وصورة الخبر عن
+    # الموضوع (Issue #1095) وانعدام أي صورة تمامًا.
     if not photo_urls:
         image_info = draft.get("image_info") or {}
-        if image_info.get("kind") == "video_backdrop":
-            log.info("🖼️ خلفية معتّمة من صورة الفيديو المصدر: %r", headline)
+        if image_info.get("kind") == "news_photo":
+            log.info("📰 صورة خبر عن الموضوع: %r", headline)
         elif image_info.get("illustrative"):
             log.info("🖼️ صورة من البحث الإنجليزي: %r", headline)
         else:
@@ -643,13 +648,13 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
             # بطاقة هذا المسار لا تُبنى فعليًا إلا بعده (Issue #680)؛ open_review
             # يبحث الآن مسبقًا (_photo_candidates) ليعرف المراجع الحال قبل أن
             # يوسم لا بعده حين يفوت أوان إضافة صورة. الرسالة تتفرّع (Issue
-            # #1092): مقال بلغ هذه المرحلة أصلًا لضمان توفّر إحدى الدرجتين
+            # #1095): مقال بلغ هذه المرحلة أصلًا لضمان توفّر إحدى الدرجتين
             # (البوابة في youtube_article.run() تمتنع عن الصياغة دون ذلك) --
-            # فمعاينة has_backdrop=True هنا تعني الخلفية المعتّمة ستُستعمَل،
-            # لا خلفية مصممة عادية.
-            if d.get("has_backdrop"):
-                parts.append("  🖼️ **بلا صورة تعبيرية حرة** — ستُستعمَل خلفية "
-                             "معتّمة من صورة الفيديو المصدر بدلًا منها.")
+            # فمعاينة has_news_photo=True هنا تعني صورة خبر عن الموضوع
+            # ستُستعمَل، لا خلفية مصممة عادية.
+            if d.get("has_news_photo"):
+                parts.append("  🖼️ **بلا صورة تعبيرية حرة** — ستُستعمَل صورة "
+                             "خبر عن الموضوع نفسه بدلًا منها.")
             else:
                 parts.append("  🖼️ **بلا صورة تعبيرية متاحة حاليًا** — ستُبنى البطاقة "
                              "على خلفية مصممة.")
@@ -774,20 +779,22 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
             has_photo = bool(_photo_candidates(d["title"], d.get("event", ""), cfg,
                                                d.get("image_query_en")))
             d["has_photo"] = has_photo
-            # معاينة الدرجة الثالثة (Issue #1092) -- لا فائدة من فحصها إن
+            # معاينة الدرجة الثانية (Issue #1095) -- لا فائدة من فحصها إن
             # كانت الأولى متاحة فعلًا (لن تُستعمَل حينها إطلاقًا)؛ نفس مبدأ
             # "معاينة لا وعد" أعلاه، وبلا فحص وجه (انظر توثيق
-            # youtube_extract.video_backdrop_available).
-            has_backdrop = (not has_photo and bool(
-                youtube_extract.video_backdrop_available(d.get("source_videos") or [], cfg)))
-            d["has_backdrop"] = has_backdrop
+            # youtube_extract.news_photo_available).
+            has_news_photo = (not has_photo and bool(
+                youtube_extract.news_photo_available(d["title"], d.get("event", ""), cfg,
+                                                      d.get("image_query_en"))))
+            d["has_news_photo"] = has_news_photo
             store.update_draft(by_id_path[d["id"]], has_photo=has_photo,
-                               has_backdrop=has_backdrop)
+                               has_news_photo=has_news_photo)
     else:
         for d in drafts:
             d["has_photo"] = False
-            d["has_backdrop"] = bool(
-                youtube_extract.video_backdrop_available(d.get("source_videos") or [], cfg))
+            d["has_news_photo"] = bool(
+                youtube_extract.news_photo_available(d["title"], d.get("event", ""), cfg,
+                                                      d.get("image_query_en")))
 
     drafts.sort(key=_review_sort_key)
 

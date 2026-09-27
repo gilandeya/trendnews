@@ -817,13 +817,12 @@ def test_guards_golden() -> None:
     evidence.search = real_search7
     evidence.gather_evidence = real_gather_evidence7
 
-    # ── بطاقة مقال التحليل: وجه ممنوع صورةً رئيسية، مسموح خلفيةً معتّمة
-    # فقط (Issue #1092) -- حالتان على البطاقة المبنيّة فعليًا (Pillow، بلا
-    # شبكة) لا على دالة منفردة، لأن القاعدة الجديدة تُضيّق علّة #680 القائمة
-    # (رفض أي وجه ظاهر في الصورة الرئيسية) لا تُلغيها: الوجه يبقى ممنوعًا في
-    # الصورة الرئيسية حرفيًا كاليوم (الحالة الأولى تثبِّت هذا)، ومسموح على
-    # مصدر الخلفية المعتّمة الجديد وحده (الحالة الثانية) لأن التعتيم يكفي --
-    # طلب مراجعة صريح على الـIssue. ──
+    # ── بطاقة مقال التحليل: وجه ممنوع صورةً رئيسية (Issue #680) -- على
+    # البطاقة المبنيّة فعليًا (Pillow، بلا شبكة) لا على دالة منفردة. حالة
+    # خلفية الفيديو المعتّمة التي كانت تُستثنى من فحص الوجه (Issue #1092)
+    # حُذفت من هنا بعد إلغاء ذلك المسار كليًا (Issue #1095) -- انظر
+    # tests/test_youtube.py:test_youtube_image_news_photo للدرجة الثانية
+    # الجديدة (صورة خبر عن الموضوع). ──
     from src import imaging as imaging_golden
     from src import youtube_extract as yext_golden
     from PIL import Image as _GoldenImage
@@ -879,37 +878,3 @@ def test_guards_golden() -> None:
           "⇒ used_original=False -- خلفية مصممة لا صورة الوجه",
           report_1.get("used_original") is False and report_1.get("kind") is None,
           report_1)
-
-    # الحالة الثانية (#1092 الجديدة): صورة فيديو مصدر *بها وجه* تُقبَل خلفيةً
-    # معتّمة -- بلا فحص وجه إطلاقًا على هذا المصدر (backdrop_urls)، وبلا أن
-    # تصير صورةً رئيسية (used_original يبقى False دومًا لهذا المصدر؛
-    # kind="video_backdrop" يميّزها). التعتيم الفعلي على البكسل يُختبَر عند
-    # اختبارات المشهد الست في tests/test_youtube.py -- هنا الحكم البنيوي فقط:
-    # وجه مقبول + ليست صورة رئيسية معًا.
-    card_path_2 = DRAFTS_DIR / "golden_1092_backdrop_face_allowed.jpg"
-    card_path_2.parent.mkdir(parents=True, exist_ok=True)
-    report_2: dict = {}
-    face_score_calls: list = []
-
-    def _face_score_spy(img):
-        face_score_calls.append(1)
-        return 0.9  # وجه واضح -- لو طُبِّق هذا الفحص هنا لرُفضت الصورة خطأً
-
-    try:
-        imaging_golden.download_image = lambda *a, **k: face_image  # type: ignore
-        imaging_golden.face_score = _face_score_spy  # type: ignore
-        imaging_golden.build_post_image(
-            headline="بطاقة تحليل بخلفية فيديو", category="", urgent=False,
-            image_urls=None, fallback_urls=[], publisher=[], cfg=cfg_card_golden,
-            out_path=card_path_2, bucket="", report=report_2, origin="analysis",
-            backdrop_urls=["https://i.ytimg.com/vi/golden0001/hqdefault.jpg"])
-    finally:
-        imaging_golden.download_image = real_download_golden  # type: ignore
-        imaging_golden.face_score = real_face_score_golden  # type: ignore
-        card_path_2.unlink(missing_ok=True)
-    check("(#1092) صورة فيديو فيها وجه تُقبَل خلفيةً معتّمة (لا فحص وجه على "
-          "هذا المصدر إطلاقًا -- استثناء مقصود محصور بالخلفية)",
-          report_2.get("kind") == "video_backdrop" and face_score_calls == [], report_2)
-    check("(#1092) نفس البطاقة: used_original يبقى False -- الخلفية المعتّمة "
-          "ليست صورة رئيسية بنيويًا، بصرف النظر عن نجاح تحميلها",
-          report_2.get("used_original") is False, report_2)

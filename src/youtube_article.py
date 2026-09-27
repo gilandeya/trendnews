@@ -829,24 +829,28 @@ def run(cfg: Config | None = None, date_str: str | None = None,
                                 "reason": f"محظورة (طبقة ج، مصدر واحد): {reason}"})
                 continue
 
-        # بوابة توفّر صورة (Issue #1092، قرار محسوم لصاحب المشروع): ستة عشر
-        # مقالًا كاملًا (قراءة نصوص + عنقدة + صياغة ~2800 حرف + بطاقة) خرجت
-        # بلا صورة ورُفضت كلّها -- الوفر المقصود هنا هو *قبل* نداء الصياغة لا
-        # بعده. الدرجتان بالضبط كما تُجرَّبان لاحقًا عند الاعتماد (نفس
-        # الدالتين، youtube_extract.photo_candidates/video_backdrop_available)
-        # -- معاينة لا وعد (رابط قد يتعطّل بين اللحظتين)، لكنها الأفضل
+        # بوابة توفّر صورة (Issue #1092، قرار محسوم لصاحب المشروع؛ الدرجة
+        # الثانية استُبدلت في Issue #1095 بصورة خبر عن الموضوع بدل خلفية
+        # الفيديو المعتّمة): ستة عشر مقالًا كاملًا (قراءة نصوص + عنقدة +
+        # صياغة ~2800 حرف + بطاقة) خرجت بلا صورة ورُفضت كلّها -- الوفر
+        # المقصود هنا هو *قبل* نداء الصياغة لا بعده. الدرجتان بالضبط كما
+        # تُجرَّبان لاحقًا عند الاعتماد (نفس الدالتين،
+        # youtube_extract.photo_candidates/news_photo_available) -- معاينة لا
+        # وعد (نتيجة بحث أو رابط قد يتعطّل بين اللحظتين)، لكنها الأفضل
         # المتاحة بلا بناء بطاقة كاملة الآن. video_ids يُحسَب هنا مرة واحدة
         # (لا مكرَّرًا لاحقًا) فيصل to_draft/الفهرس بصرف النظر عن نتيجة هذا
-        # الفحص.
+        # الفحص -- source_videos يبقى على المسودة معلومة مفيدة بذاتها (انظر
+        # youtube_publish.build_draft)، لا مصدر صورة بعد الآن.
         video_ids = _video_ids_by_contribution(member_points)
         has_free_photo = bool(youtube_extract.photo_candidates(
             topic["title"], topic.get("event", ""), cfg))
-        has_backdrop = (not has_free_photo
-                        and youtube_extract.video_backdrop_available(video_ids, cfg))
-        if not (has_free_photo or has_backdrop):
+        has_news_photo = (not has_free_photo
+                          and youtube_extract.news_photo_available(
+                              topic["title"], topic.get("event", ""), cfg))
+        if not (has_free_photo or has_news_photo):
             no_image_skipped_count += 1
             skipped.append({"title": topic["title"], "layer": topic["layer"],
-                            "reason": "لا صورة متاحة (لا صورة حرة الترخيص ولا صورة فيديو صالحة)"})
+                            "reason": "لا صورة متاحة (لا صورة حرة الترخيص ولا صورة خبر صالحة)"})
             # نفس معاملة مقال كُتب ونُشر فعليًا (Issue #658 العطل ١ بند ج) --
             # هذه القضية بعينها لا تُقترَح مجددًا بلا داعٍ طالما نقاطها لم
             # تتجدّد، ولا تُحسَب فشلًا تقنيًا (draft_failures) لأنها لم تصل
