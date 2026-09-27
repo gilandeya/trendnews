@@ -1,0 +1,701 @@
+{
+  "run_date": "2026-09-27",
+  "stats": {
+    "points_in": 641,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 491,
+    "issues_clustered": 29,
+    "topics_merged": 7,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 2,
+    "topics_below_min_points": 9,
+    "topics_below_min_channels": 7,
+    "layer_a": 2,
+    "layer_b": 2,
+    "layer_c": 0,
+    "agreement": 3,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "أحداث السابع من أكتوبر والحرب على غزة",
+      "اتهامات ألبانيزي بالإبادة الجماعية"
+    ],
+    [
+      "تهديدات إيرانية بالبحر الأحمر وباب المندب",
+      "تهديدات محسن رضائي بإغلاق المجال الجوي"
+    ],
+    [
+      "قمة ترامب وشي في واشنطن",
+      "الموقف الصيني من إيران والولايات المتحدة"
+    ],
+    [
+      "زيارة البابا ليون لفرنسا",
+      "دعوات البابا بشأن الذكاء الاصطناعي"
+    ],
+    [
+      "المفاوضات الإيرانية الأمريكية ورفض ترامب المقترح",
+      "تصريحات الرئيس الإيراني بزشكيان"
+    ],
+    [
+      "خطاب أردوغان في الأمم المتحدة",
+      "خطاب نتنياهو في الأمم المتحدة"
+    ],
+    [
+      "قضية احتيال صناديق الاستثمار التركية",
+      "استقالة نائبة حزب العدالة والتنمية بسبب فضيحة أسهم"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "المفاوضات الإيرانية الأمريكية ورفض ترامب المقترح",
+      "event": "رفض ترامب المقترح الإيراني الأخير للتفاوض وتداعياته",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        105,
+        142,
+        143
+      ],
+      "total_points": 18,
+      "fresh_points": 18,
+      "dropped_reason": null
+    },
+    {
+      "title": "قمة ترامب وشي في واشنطن",
+      "event": "استقبال ترامب للرئيس الصيني والتفاهمات التجارية بين البلدين",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        29,
+        31,
+        32,
+        33,
+        107
+      ],
+      "total_points": 6,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "زيارة البابا ليون لفرنسا",
+      "event": "زيارة البابا ليون الرابع عشر الرسمية الأولى لفرنسا وتصريحاته خلالها",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        87
+      ],
+      "total_points": 21,
+      "fresh_points": 21,
+      "dropped_reason": null
+    },
+    {
+      "title": "تأسيس الحزب التركي الجديد بقيادة أوزيل",
+      "event": "إعلان أوزغور أوزيل عن نمو حزبه الجديد وسياساته الداخلية وأرقام العضوية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        132
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "تهديدات إيرانية بالبحر الأحمر وباب المندب",
+      "event": "تهديد مستشار المرشد الإيراني بفتح جبهة في البحر الأحمر ونفي إيران علاقتها بالحوثيين",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        21,
+        22,
+        23,
+        25,
+        26,
+        139,
+        140
+      ],
+      "total_points": 7,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "المفاوضات الإيرانية الأمريكية ورفض ترامب المقترح",
+      "event": "رفض ترامب المقترح الإيراني الأخير للتفاوض وتداعياته",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        105,
+        142,
+        143
+      ],
+      "total_points": 18,
+      "fresh_points": 18,
+      "dropped_reason": null
+    },
+    {
+      "title": "قمة ترامب وشي في واشنطن",
+      "event": "استقبال ترامب للرئيس الصيني والتفاهمات التجارية بين البلدين",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        29,
+        31,
+        32,
+        33,
+        107
+      ],
+      "total_points": 6,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "توقع ضربة عسكرية أمريكية لإيران بعد الانتخابات",
+      "event": "توقع تحول تركيز ترامب لضربات عسكرية ضد إيران بعد الانتخابات الأمريكية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        85,
+        147
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "زيارة البابا ليون لفرنسا",
+      "event": "زيارة البابا ليون الرابع عشر الرسمية الأولى لفرنسا وتصريحاته خلالها",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        87
+      ],
+      "total_points": 21,
+      "fresh_points": 21,
+      "dropped_reason": null
+    },
+    {
+      "title": "معاملة الأمم المتحدة المزدوجة لعباس ونتنياهو",
+      "event": "رفض تأشيرة عباس مقابل تحدث نتنياهو مباشرة في الأمم المتحدة",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        94,
+        114
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تأسيس الحزب التركي الجديد بقيادة أوزيل",
+      "event": "إعلان أوزغور أوزيل عن نمو حزبه الجديد وسياساته الداخلية وأرقام العضوية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        132
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "الصراع الجيوسياسي الدولي الكبير",
+      "event": "تحليل هيكل القوى الدولية والصراع بين أمريكا والصين وإنجلترا",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        96,
+        99,
+        101
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "المفاوضات العراقية الإيرانية 1984",
+      "event": "محاولات التفاوض بين العراق وإيران عام 1984 بوساطة كاسترو وفشلها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        70,
+        71,
+        72,
+        73
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "خسائر الحرب العراقية الإيرانية",
+      "event": "تقدير الخسائر البشرية والمالية للحرب العراقية الإيرانية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        75,
+        76
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطاب أردوغان في الأمم المتحدة",
+      "event": "خطاب الرئيس التركي أردوغان في الجمعية العامة للأمم المتحدة وردود الفعل عليه",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90,
+        91,
+        92,
+        93
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "سيطرة أمريكا على الممرات البحرية والنفط",
+      "event": "سيطرة الولايات المتحدة على الممرات البحرية الحيوية وتصدير النفط لأوروبا",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        98,
+        104
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قضية احتيال صناديق الاستثمار التركية",
+      "event": "فضيحة التلاعب في صناديق الاستثمار التركية وشركة غندغدو الوهمية والتحقيقات القضائية اللاحقة",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "التنازلات الإيرانية بشأن مضيق هرمز",
+      "event": "تراجع إيران عن شروطها المسبقة بشأن فتح مضيق هرمز في المفاوضات",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        141
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحصار الأمريكي على إيران واقتصادها",
+      "event": "تأثير الحصار البحري والجوي الأمريكي على إيران واقتصادها المتراجع",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        137,
+        138,
+        148
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "صادرات النفط السعودي والصيني من إيران",
+      "event": "ارتفاع صادرات النفط السعودي مقابل تراجع واردات الصين من النفط الإيراني",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        144,
+        145
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قضية جون كرياكو والتعذيب",
+      "event": "شهادة جون كرياكو حول برنامج التعذيب الأمريكي ومحاكمته",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أحداث السابع من أكتوبر والحرب على غزة",
+      "event": "هجمات السابع من أكتوبر 2023 والرد العسكري الإسرائيلي على غزة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        13
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تقييم الانتصار على إيران بعد الحرب",
+      "event": "الجدل حول معنى الانتصار على إيران عقب الحرب الأخيرة وقدرات الخليج على الصمود",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "التهديد الإيراني بقطاع الطيران",
+      "event": "تهديد مسؤول إيراني بمنع الرحلات الجوية ردًا على عقوبات أمريكية محتملة على الطيران الإيراني",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        24,
+        25
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "اجتماع رؤساء أركان تحالف الحرمين",
+      "event": "اجتماع رؤساء أركان تركيا والسعودية وباكستان العاجل في الرياض بشأن التهديد الحوثي",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        57,
+        58,
+        59,
+        62
+      ],
+      "total_points": 5,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الدعم الفرنسي والنووي السعودي",
+      "event": "إرسال فرنسا قوات لحماية ينبع ومخاوف أمريكية من تطوير السعودية أسلحة نووية",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        60,
+        61
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
