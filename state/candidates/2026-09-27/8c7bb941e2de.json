@@ -1,0 +1,62 @@
+{
+  "id": "8c7bb941e2de",
+  "created_at": "2026-09-27T15:08:13.814414+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.38,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "إيران تحول تجارتها شرقًا بعد الحصار الأمريكي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran shifts trade north to Caspian Sea as war impairs Strait of Hormuz",
+  "link": "https://www.aljazeera.com/economy/2026/9/27/can-iran-shift-trade-north-to-caspian-sea-as-war-impairs-strait-of-hormuz?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "The Express Tribune"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Iran shifts trade north to Caspian Sea as war impairs Strait of Hormuz",
+    "link": "https://www.aljazeera.com/economy/2026/9/27/can-iran-shift-trade-north-to-caspian-sea-as-war-impairs-strait-of-hormuz?traffic_source=rss",
+    "summary": "Iran is looking for alternatives to export its oil as the US blockades its southern ports.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-27T08:49:32+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/economy/2026/9/27/can-iran-shift-trade-north-to-caspian-sea-as-war-impairs-strait-of-hormuz?traffic_source=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2631647/iran-insists-on-diplomatic-solution-after-trump-rejects-peace-plan"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1294.9128863619444,
+    "is_stale": false,
+    "score": 23.379740841314813,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "إيران تحول تجارتها شرقًا بعد الحصار الأمريكي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

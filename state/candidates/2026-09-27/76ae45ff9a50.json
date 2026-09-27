@@ -1,0 +1,84 @@
+{
+  "id": "76ae45ff9a50",
+  "created_at": "2026-09-27T15:08:13.813926+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.45,
+  "trend_score": 0.33,
+  "velocity": 0.0,
+  "impact": 3,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "فيضانات موسمية تقتل عشرات في الهند ونيبال",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Monsoon floods, landslides kill 68 across India, Nepal in 72 hours",
+  "link": "https://www.dailysabah.com/world/asia-pacific/monsoon-floods-landslides-kill-68-across-india-nepal-in-72-hours",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "Malay Mail",
+    "Mehr News",
+    "The Express Tribune"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Monsoon floods, landslides kill 68 across India, Nepal in 72 hours",
+    "link": "https://www.dailysabah.com/world/asia-pacific/monsoon-floods-landslides-kill-68-across-india-nepal-in-72-hours",
+    "summary": "At least 68 people were killed in northern India and Nepal in the past 72 hours after heavy rain triggered floods and landslides across the region, authorities said Sunday. In Indi...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-27T10:09:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/27/462477.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "Malay Mail",
+      "Mehr News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/27/floods-and-landslides-kill-at-least-56-people-in-india-12-in-nepal?traffic_source=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2631679/floods-landslides-kill-15-in-india-four-in-nepal-as-rivers-rise"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/27/at-least-56-dead-in-indias-uttar-pradesh-after-floods-and-landslides-triggered-by-days-of-heavy-rain/236769"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/asia-pacific/monsoon-floods-landslides-kill-68-across-india-nepal-in-72-hours"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248122/Floods-landslides-kill-19-in-India-Nepal"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/27/462477.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/27/364969.jpg",
+      "https://media.mehrnews.com/d/2026/09/27/4/6193127.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1294.9127027844443,
+    "is_stale": true,
+    "score": 23.450488105069496,
+    "impact": 3,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "فيضانات موسمية تقتل عشرات في الهند ونيبال",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
