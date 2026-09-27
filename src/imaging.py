@@ -239,6 +239,16 @@ def dim_photo(photo: Image.Image, primary: tuple) -> Image.Image:
     return Image.alpha_composite(photo.convert("RGBA"), overlay).convert("RGB")
 
 
+def dim_backdrop(photo: Image.Image, primary: tuple, ratio: float) -> Image.Image:
+    """تعتيم موحَّد على الصورة كاملة (لا تدرّج عند الحواف كـdim_photo أعلاه) --
+    خلفية معتّمة من صورة فيديو مصدر (Issue #1092): مزج مباشر مع لون
+    brand.primary_color بنسبة ``ratio`` عبر Image.blend، فالملامح تبقى غير
+    مميَّزة على كل مساحة البطاقة لا حوافها فقط -- هذا بالضبط ما يسمح بالوجه
+    على هذا المصدر تحديدًا (خلافًا للصورة الرئيسية، انظر build_post_image)."""
+    solid = Image.new("RGB", photo.size, primary)
+    return Image.blend(photo.convert("RGB"), solid, max(0.0, min(1.0, ratio)))
+
+
 # ──────────────────────────── الكارت ────────────────────────────
 
 
@@ -482,6 +492,7 @@ def build_post_image(
     report: dict | None = None,
     badge: str | None = None,
     origin: str = "",
+    backdrop_urls: list[str] | None = None,
 ) -> Path:
     """يبني بطاقة الخبر.
 
@@ -513,7 +524,24 @@ def build_post_image(
     صورة واحدة" (choose_layout) — كانت تُسجَّل في السطر أعلاه للـlog فقط؛
     الآن تُحفَظ في المسودة (image_info.composite) ليعرضها review.image_source_line
     للمراجع قبل الاعتماد بدل أن تبقى أثرًا في سجلّ التشغيل وحده.
-    """
+
+    `backdrop_urls` (Issue #1092، مسار التحليل وحده -- youtube_publish.
+    ensure_title_card): درجة ثالثة تُجرَّب فقط حين تفشل `image_urls`
+    و`fallback_urls`/`fallback_provider` معًا (لا تُبنى `fallback_provider`
+    نفسها حتى تُستنفَد هذه القائمة أولًا -- ترتيب الدرجات الثلاث من طلب
+    المراجعة: حرة بلا وجه، فخلفية فيديو معتّمة، فامتناع). كل رابط فيها
+    يُجرَّب بالترتيب حتى ينجح تحميل واحد (نفس `download_image`، فنفس حدّ
+    الأبعاد الأدنى يسري هنا أيضًا) -- **بلا فحص وجه إطلاقًا**: القاعدة التي
+    ترفض أي وجه ظاهر (`face_min_ratio` أدناه) تبقى حصرًا للصورة الرئيسية
+    (`image_urls`/`fallback_urls`)، لأن الصورة الناجحة هنا لا تُرسم صورةً
+    رئيسية أصلًا -- تُغطّي البطاقة كلها خلفيةً تحت طبقة تعتيم موحَّدة بلون
+    `brand.primary_color` (نسبة `image.background_dim`، عبر `dim_backdrop`
+    لا `dim_photo` المتدرّجة عند الحواف وحدها)، فالوجه غير قابل للتمييز على
+    كل مساحة البطاقة لا حوافها فقط. لا شارة "صورة تعبيرية" (`illustrative`
+    يبقى False)، ولا محاولة تركيب صورة ثانية دائرية -- كلتاهما مقصورتان على
+    صورة رئيسية حقيقية. ``report["kind"] = "video_backdrop"`` عند النجاح
+    يُميّز الحالة صراحةً عن "بلا صورة إطلاقًا" لمن يقرأ التقرير (راجع
+    review.image_source_line)."""
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
     primary = hex_rgb(cfg.path("brand.primary_color", "#12203A"))
@@ -632,18 +660,44 @@ def build_post_image(
                 log.info("✅ اعتُمدت صورة تعبيرية حرة: %s", url[:90])
                 break
 
+    # الدرجة الثالثة (Issue #1092): خلفية معتّمة من صورة فيديو مصدر -- تُجرَّب
+    # فقط بعد فشل الدرجتين أعلاه (لا صورة رئيسية ولا صورة تعبيرية حرة)، وبلا
+    # فحص وجه إطلاقًا (انظر توثيق backdrop_urls أعلى الدالة). النجاح هنا لا
+    # يمرّ عبر متغيّر `source`/`used_original` العام -- تلك تصفان "صورة
+    # رئيسية حقيقية" فقط، وهذه ليست كذلك بنيويًا.
+    backdrop_used = False
+    if source is None:
+        for url in list(backdrop_urls or [])[:12]:
+            candidate = download_image(url, failures=candidate_failures)
+            if candidate is not None:
+                source = candidate
+                backdrop_used = True
+                chosen_url = url
+                log.info("🖼️ خلفية معتّمة من صورة الفيديو المصدر: %s", url[:90])
+                break
+
     if source is None:
         log.info("❌ لا صورة متاحة (ولا بديل حر) — سيُستخدم التصميم المتدرّج")
-    used_original = source is not None
-    photo = (
-        cover(source, W, photo_h) if source
-        else placeholder(W, photo_h, primary, accent)
-    )
-    if used_original and cfg.path("image.sharpen", True):
-        photo = photo.filter(ImageFilter.UnsharpMask(radius=2, percent=55, threshold=3))
+    used_original = source is not None and not backdrop_used
 
-    photo = dim_photo(photo, primary)
-    canvas.paste(photo, (0, photo_top))
+    if backdrop_used:
+        # خلفية للبطاقة كلها لا لمساحة الصورة الرئيسية وحدها (نصّ طلب
+        # المراجعة) -- تعتيم موحَّد (dim_backdrop) لا المتدرّج عند الحواف
+        # وحده (dim_photo) الذي يترك وسط الصورة واضحًا، وهو بالضبط ما يجب
+        # تجنّبه هنا (الوجه المسموح على هذا المصدر يجب أن يبقى غير مميَّز).
+        photo = dim_backdrop(cover(source, W, H),
+                             primary, float(cfg.path("image.background_dim", 0.6)))
+        canvas.paste(photo, (0, 0))
+    else:
+        photo = (
+            cover(source, W, photo_h) if source
+            else placeholder(W, photo_h, primary, accent)
+        )
+        if used_original and cfg.path("image.sharpen", True):
+            photo = photo.filter(ImageFilter.UnsharpMask(radius=2, percent=55, threshold=3))
+
+        photo = dim_photo(photo, primary)
+        canvas.paste(photo, (0, photo_top))
 
     # صورة ثانية في دائرة — تُستخدم حين يوفّر الخبر أكثر من صورة صالحة
     composite_ok = cfg.path("image.composite", True)
@@ -831,6 +885,11 @@ def build_post_image(
         # الفائز، وهو خطأ حين ينجح مرشَّح لاحق (ترتيب الوجوه قد يعيد الترتيب
         # أيضًا) أو حين يأتي image_urls من مجمّع صور بديل (استبعاد إعادة نشر)
         report["chosen_url"] = chosen_url
+        # Issue #1092: يميّز خلفية الفيديو المعتّمة صراحةً عن كل الحالات
+        # الأخرى -- None حين لم تُستعمَل (لا خلفية فيديو أصلًا، أو صورة
+        # رئيسية/تعبيرية حرة نجحت أولًا)، كي لا يُقرأ used_original=False
+        # هنا كـ"بلا صورة إطلاقًا" (انظر review.image_source_line).
+        report["kind"] = "video_backdrop" if backdrop_used else None
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(out_path, "JPEG", quality=90, optimize=True, subsampling=0)

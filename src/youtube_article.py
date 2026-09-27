@@ -255,6 +255,25 @@ def _collect_warnings(member_points: list[dict], cfg: Config) -> list[str]:
             f"له في الاقتباس الأصلي" for name in order]
 
 
+def _video_ids_by_contribution(member_points: list[dict]) -> list[str]:
+    """معرّفات الفيديوهات المصدرية لقضية واحدة، مرتَّبة تنازليًا بعدد النقاط
+    التي ساهم بها كل فيديو (الأكثر مساهمة أولًا -- طلب المراجعة على Issue
+    #1092) -- ترتيب أول ظهور كاسر تعادل عند تساوي المساهمة (sorted مستقرّة)،
+    لا أبجديًا ولا عشوائيًا. تصل drafts/ عبر index.md (source_videos، انظر
+    src/youtube_publish.py:build_draft) بوصفها المصدر الثاني لصورة البطاقة
+    (خلفية معتّمة عند تعذّر صورة حرة الترخيص)."""
+    counts: dict[str, int] = {}
+    order: list[str] = []
+    for p in member_points:
+        vid = p.get("video_id")
+        if not vid:
+            continue
+        if vid not in counts:
+            order.append(vid)
+        counts[vid] = counts.get(vid, 0) + 1
+    return sorted(order, key=lambda v: -counts[v])
+
+
 def _append_warnings(article_text: str, warnings: list[str]) -> str:
     """يضيف قسم تحذيرات في ذيل المقال (بعد متنه مباشرة -- لا قسم ## مصادر
     يفصلهما بعد اليوم، Issue #941)، فقط عند وجود تحذيرات فعلية (Issue #662
@@ -707,9 +726,13 @@ def _slugify(title: str, max_len: int = 60) -> str:
 
 
 def build_index(saved: list[dict]) -> str:
+    # عمود «الفيديوهات» (Issue #1092) بين القنوات والخلاف -- معرّفات الفيديو
+    # المصدرية مرتّبة أهميةً (item.get بلا مفتاح إلزامي: توافقًا مع مسودات/
+    # اختبارات لا تحمله). src/youtube_publish.py:parse_index يقرأه بترتيب
+    # الأعمدة نفسه بالضبط -- تغيير هذا الترتيب يحتاج تعديل _INDEX_ROW_RE هناك.
     lines = ["# فهرس مقالات يوتيوب", "",
-             "| # | العنوان | الحدث | الطبقة | الكتل | القنوات | الخلاف | تنبيهات |",
-             "|---|---|---|---|---|---|---|---|"]
+             "| # | العنوان | الحدث | الطبقة | الكتل | القنوات | الفيديوهات | الخلاف | تنبيهات |",
+             "|---|---|---|---|---|---|---|---|---|"]
     for item in saved:
         warnings_count = item.get("warnings_count", 0)
         # ثلاثة تنبيهات فأكثر تُعلَّم بوضوح (نص الـIssue) -- ⚠️ + رقم بارز
@@ -718,7 +741,8 @@ def build_index(saved: list[dict]) -> str:
         lines.append(
             f"| {item['number']} | [{item['headline']}]({item['filename']}) | "
             f"{item['event']} | {item['layer']} | {', '.join(item['blocs'])} | "
-            f"{', '.join(item['channels'])} | {item['agreement']} | {marker} |")
+            f"{', '.join(item['channels'])} | {', '.join(item.get('video_ids', []))} | "
+            f"{item['agreement']} | {marker} |")
     return "\n".join(lines) + "\n"
 
 
@@ -747,6 +771,10 @@ def save_articles(date_str: str, articles: list[dict]) -> list[dict]:
             "layer": topic["layer"], "blocs": topic["blocs"],
             "channels": topic["channels"], "agreement": topic["agreement"],
             "warnings_count": len(item.get("warnings", [])),
+            # معرّفات الفيديو المصدرية مرتّبة أهميةً (Issue #1092،
+            # _video_ids_by_contribution) -- اختياري (item.get) لا إلزامي:
+            # مقالات قديمة/اختبارات لا تحمل هذا المفتاح تخرج بعمود فارغ فقط.
+            "video_ids": item.get("video_ids", []),
         })
     (out_dir / "index.md").write_text(build_index(saved), encoding="utf-8")
     return saved
@@ -775,6 +803,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     draft_failures = 0
     headline_failures = 0
     speaker_subject_warnings = 0
+    no_image_skipped_count = 0
     seen_keys_to_mark: set[str] = set()
 
     for topic in topics[:count]:
@@ -799,6 +828,31 @@ def run(cfg: Config | None = None, date_str: str | None = None,
                 skipped.append({"title": topic["title"], "layer": topic["layer"],
                                 "reason": f"محظورة (طبقة ج، مصدر واحد): {reason}"})
                 continue
+
+        # بوابة توفّر صورة (Issue #1092، قرار محسوم لصاحب المشروع): ستة عشر
+        # مقالًا كاملًا (قراءة نصوص + عنقدة + صياغة ~2800 حرف + بطاقة) خرجت
+        # بلا صورة ورُفضت كلّها -- الوفر المقصود هنا هو *قبل* نداء الصياغة لا
+        # بعده. الدرجتان بالضبط كما تُجرَّبان لاحقًا عند الاعتماد (نفس
+        # الدالتين، youtube_extract.photo_candidates/video_backdrop_available)
+        # -- معاينة لا وعد (رابط قد يتعطّل بين اللحظتين)، لكنها الأفضل
+        # المتاحة بلا بناء بطاقة كاملة الآن. video_ids يُحسَب هنا مرة واحدة
+        # (لا مكرَّرًا لاحقًا) فيصل to_draft/الفهرس بصرف النظر عن نتيجة هذا
+        # الفحص.
+        video_ids = _video_ids_by_contribution(member_points)
+        has_free_photo = bool(youtube_extract.photo_candidates(
+            topic["title"], topic.get("event", ""), cfg))
+        has_backdrop = (not has_free_photo
+                        and youtube_extract.video_backdrop_available(video_ids, cfg))
+        if not (has_free_photo or has_backdrop):
+            no_image_skipped_count += 1
+            skipped.append({"title": topic["title"], "layer": topic["layer"],
+                            "reason": "لا صورة متاحة (لا صورة حرة الترخيص ولا صورة فيديو صالحة)"})
+            # نفس معاملة مقال كُتب ونُشر فعليًا (Issue #658 العطل ١ بند ج) --
+            # هذه القضية بعينها لا تُقترَح مجددًا بلا داعٍ طالما نقاطها لم
+            # تتجدّد، ولا تُحسَب فشلًا تقنيًا (draft_failures) لأنها لم تصل
+            # نداء الصياغة أصلًا.
+            seen_keys_to_mark |= {youtube_cluster.point_key(p) for p in member_points}
+            continue
 
         text, error = draft_article(topic, member_points, cfg, client)
         if error:
@@ -837,7 +891,8 @@ def run(cfg: Config | None = None, date_str: str | None = None,
         # للبحث بالعربية كما كان (انظر _append_image_query).
         text = _append_image_query(text, image_query_en)
 
-        to_draft.append({"topic": topic, "text": text, "warnings": warnings, "headlines": headlines})
+        to_draft.append({"topic": topic, "text": text, "warnings": warnings,
+                         "headlines": headlines, "video_ids": video_ids})
         # تُسجَّل فقط بعد نجاح الكتابة الفعلي -- قضية عُنقدت أو تجاوزت الحارس
         # لكن فشلت كتابتها لا قيمة في تسجيلها "مستهلكة" (Issue #658 العطل ١
         # بند ج، انظر youtube_cluster.filter_seen_topics).
@@ -871,6 +926,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             "draft_failures": draft_failures,
             "headline_failures": headline_failures,
             "speaker_subject_warnings": speaker_subject_warnings,
+            "no_image_skipped": no_image_skipped_count,
         },
         "skipped": skipped,
         "articles": saved,
@@ -890,6 +946,10 @@ def main() -> int:
           f"· فشل كتابة: {stats['draft_failures']} "
           f"· فشل اقتراح عناوين (احتياط بالعنوان الأصلي): {stats['headline_failures']} "
           f"· تحذير فاعل الجملة متحدث (استرشادي): {stats['speaker_subject_warnings']}")
+    # Issue #1092: الوفر المقصود -- امتناع عن نداء الصياغة قبله لا بعده، حين
+    # لا صورة حرة الترخيص ولا صورة فيديو صالحة معًا.
+    if stats["no_image_skipped"]:
+        print(f"⏭️ تُخطّي {stats['no_image_skipped']} موضوعًا: لا صورة متاحة")
     if result["skipped"]:
         for entry in result["skipped"]:
             print(f"  - {entry['title']} ({entry['layer']}): {entry['reason']}")

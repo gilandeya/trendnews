@@ -126,7 +126,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import cards, evidence, imagesearch, imaging, publish, review, store, youtube_article
+from . import cards, publish, review, store, youtube_article, youtube_extract
 from .config import DRAFTS_DIR, env, load_config
 
 log = logging.getLogger(__name__)
@@ -316,9 +316,14 @@ def split_headlines(article_text: str) -> tuple[str, list[str]]:
 # youtube_article.build_index) — يُقرأ لا يُعاد بناؤه؛ الجدول جدول أكواد لا
 # نثر نموذج، فتحليله بتعبير نمطي ثابت آمن (خلافًا لأي نصّ من إخراج النموذج).
 
+# عمود «الفيديوهات» (Issue #1092) بين القنوات والخلاف -- معرّفات الفيديو
+# المصدرية مرتّبة أهميةً (youtube_article._video_ids_by_contribution)، مصدر
+# خلفية معتّمة احتياطية عند تعذّر صورة حرة الترخيص (انظر ensure_title_card
+# أدناه). عمود اختياري القيمة (قد يكون خاليًا لصف قديم لا يحمله) لا اختياري
+# الوجود -- (.*?) تطابق سلسلة فارغة بلا كسر بنية الجدول.
 _INDEX_ROW_RE = re.compile(
     r"^\|\s*(\d+)\s*\|\s*\[(.*?)\]\((.*?)\)\s*\|\s*(.*?)\s*\|\s*([abc])\s*\|\s*(.*?)\s*\|"
-    r"\s*(.*?)\s*\|\s*(\S+)\s*\|\s*(.*?)\s*\|\s*$",
+    r"\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(\S+)\s*\|\s*(.*?)\s*\|\s*$",
     re.MULTILINE,
 )
 
@@ -326,7 +331,7 @@ _INDEX_ROW_RE = re.compile(
 def parse_index(text: str) -> list[dict]:
     rows = []
     for m in _INDEX_ROW_RE.finditer(text):
-        (number, headline, filename, event, layer, blocs_s, channels_s,
+        (number, headline, filename, event, layer, blocs_s, channels_s, video_ids_s,
          agreement, marker) = m.groups()
         warn_match = re.search(r"(\d+)", marker)
         rows.append({
@@ -334,6 +339,7 @@ def parse_index(text: str) -> list[dict]:
             "event": event, "layer": layer, "agreement": agreement,
             "blocs": [b.strip() for b in blocs_s.split(",") if b.strip()],
             "channels": [c.strip() for c in channels_s.split(",") if c.strip()],
+            "video_ids": [v.strip() for v in video_ids_s.split(",") if v.strip()],
             "warnings_count": int(warn_match.group(1)) if warn_match else 0,
         })
     return rows
@@ -342,68 +348,15 @@ def parse_index(text: str) -> list[dict]:
 # ──────────────────────────── بطاقة العنوان ────────────────────────────
 
 
-def _photo_search_terms(headline: str, event: str, image_query_en: str | None = None) -> list[str]:
-    """يبني عبارات البحث لهذا المقال: الكلمات الإنجليزية (image_query_en،
-    Issue #941) أولًا حين تتوفر -- السبب الجذري الموثَّق للبطاقات بلا صورة
-    كان أن البحث يجري بالعربية في ويكيميديا/Openverse، وكلاهما فهرسة
-    إنجليزية أساسًا فتخدمها كلمات إنجليزية أفضل من عربية مترجَمة آليًا --
-    ثم عبارتَي بحث عربيتين احتياطًا (event ثم headline) عبر evidence.build_query
-    -- نفس أداة استخلاص الكلمات المفتاحية من نص عربي المستعملة أصلًا في
-    article.py/verify.py لبناء استعلامات البحث، لا imagesearch.keywords()
-    التي تستخرج فقط أحرفًا لاتينية كبيرة (مصمَّمة لعناوين RSS الأصلية) ولا
-    تصلح لعنوان/event عربيَّين -- كانت لتعيد قائمة فارغة دومًا (طلب المراجعة
-    على Issue #680). event قبل headline من العربيَّين لأنه يصف الواقعة بعينها
-    (مكان/حدث محدَّد لا موضوعًا عامًا، انظر CLUSTER_SCHEMA في
-    youtube_cluster.py)، أدقّ لصورة تعبيرية من العنوان التحليلي الأعمّ."""
-    terms: list[str] = []
-    if image_query_en:
-        terms.append(image_query_en)
-    for text in (event, headline):
-        q = evidence.build_query(text or "", max_words=6)
-        if q and q not in terms:
-            terms.append(q)
-    return terms
-
-
-def _photo_candidates(headline: str, event: str, cfg, image_query_en: str | None = None) -> list[str]:
-    """يبحث عن روابط صور تعبيرية حرة الترخيص لبطاقة العنوان (طلب المراجعة
-    على Issue #680) -- imagesearch.py حصرًا (Wikimedia/Openverse)، فلا صلة
-    لها ببيانات الفيديو أو القناة أو أي شخص مذكور في المقال بنيويًا: مصدرا
-    البحث لا يستقبلان شيئًا من ذلك أصلًا، لا مجرّد اتفاق ضمني على تجنّبه.
-    image_query_en (Issue #941) يصل _photo_search_terms أولًا فيُبحث به قبل
-    العبارتين العربيتين -- المحاولة نفسها، لا محاولة إضافية.
-
-    كل مرشَّح يظهر فيه وجه بنسبة مساحة ≥ image.face_min_ratio (عتبة "وجه
-    ظاهر" القائمة نفسها، لا عتبة جديدة) يُستبعَد من القائمة: لا سبيل لتطبيق
-    «لا صورة أي شخص مذكور في المقال» بالتعرّف على هوية الشخص فعليًا، فالرفض
-    الآمن رفض أي وجه ظاهر بصرف النظر عمّن يكون -- امتناع بنيويًا لا اجتهادًا،
-    بنفس مبدأ منع صورة الفيديو/القناة أعلاه.
-
-    تعيد **روابط** لا صورًا محمَّلة (خلافًا لتصميم سابق لهذه الدالة قبل
-    Issue #732) كي تُمرَّر مباشرة إلى imaging.build_post_image عبر
-    fallback_urls، فتتولى هي التحميل والتحقّق (حجم/نسبة) والتقرير --
-    نفس آلية المسار العام تمامًا بدل تكرارها هنا. قائمة فارغة (بحث فارغ أو
-    كل المرشّحين فيهم وجه) تعني عودة build_post_image إلى الخلفية المصممة
-    بدل إسقاط المقال (نصّ طلب المراجعة صراحةً) -- أو، منذ Issue #941، محاولة
-    ثانية أعمّ عبر cards.ensure نفسها (انظر ensure_title_card)."""
-    terms = _photo_search_terms(headline, event, image_query_en)
-    if not terms:
-        return []
-    urls = imagesearch.find_images(headline, cfg, terms=terms)
-    if not urls:
-        return []
-
-    max_face_ratio = float(cfg.path("image.face_min_ratio", 0.02))
-    clean: list[str] = []
-    for url in urls:
-        img = imaging.download_image(url)
-        if img is None:
-            continue
-        if imaging.face_score(img) >= max_face_ratio:
-            log.info("استُبعدت صورة تعبيرية (وجه ظاهر): %s", url[:90])
-            continue
-        clean.append(url)
-    return clean
+# نُقلت إلى src/youtube_extract.py (Issue #1092) -- src/youtube_article.py
+# يحتاج المنطق نفسه (بوابة توفّر صورة قبل نداء الصياغة) ولا يستطيع استيراد
+# هذا الملف (youtube_publish.py يستورد youtube_article.py فعليًا، فالعكس
+# دورة استيراد)؛ youtube_extract.py قاعدة مشتركة آمنة تستوردها الوحدتان معًا
+# بلا دورة. الاسمان المحليان هنا إعادة تصدير فقط (نفس مبدأ
+# HEADLINE_BOX_RE/parse_headline_choice أعلاه) كي لا تنكسر استدعاءاتهما أو
+# اختباراتهما القائمة (yp._photo_candidates/yp._photo_search_terms).
+_photo_search_terms = youtube_extract.photo_search_terms
+_photo_candidates = youtube_extract.photo_candidates
 
 
 # ──────────────────────────── المسودة ────────────────────────────
@@ -483,6 +436,13 @@ def build_draft(row: dict, date_str: str, articles_dir: Path, cfg) -> dict | Non
         # تعليق أول له. publishers يبقى (يقرأه decisions.py/insights.py).
         "source": {"link": "", "publishers": row["channels"]},
         "score": compute_score(row["blocs"], row["channels"], row["agreement"], cfg),
+        # معرّفات الفيديوهات المصدرية مرتّبة أهميةً (الأكثر مساهمة بالنقاط
+        # أولًا -- youtube_article._video_ids_by_contribution، عبر index.md)
+        # -- Issue #1092: مصدر الدرجة الثالثة لصورة البطاقة (خلفية معتّمة من
+        # صورة الفيديو المصغّرة) حين تفشل الصورة الحرة الترخيص، انظر
+        # ensure_title_card أدناه. قائمة فارغة لمقال قديم بلا هذا العمود في
+        # index.md (row.get بدل row[..]) -- لا انهيار، يبقى بلا هذه الدرجة فقط.
+        "source_videos": row.get("video_ids", []),
     }
 
 
@@ -535,6 +495,13 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     if cfg.path("youtube.image.use_photo", True):
         photo_urls = _photo_candidates(headline, draft.get("event", ""), cfg, image_query_en)
 
+    # الدرجة الثالثة (Issue #1092): خلفية معتّمة من صورة فيديو مصدر --
+    # روابط فقط (لا تحميل هنا)، تُجرَّب داخل imaging.build_post_image نفسها
+    # (عبر cards.ensure) بعد فشل الدرجتين الأعلى (photo_urls والمحاولة
+    # الثانية العامة في cards.ensure). قائمة فارغة لمسودة قديمة بلا
+    # source_videos (مقال كُتب قبل هذه المهمة) -- بلا هذه الدرجة فقط، لا انهيار.
+    backdrop_urls = youtube_extract.backdrop_candidate_urls(draft.get("source_videos") or [])
+
     # غلاف رفيع فوق cards.ensure (Issue #852): القالب الموحَّد مع بطاقة
     # الأخبار (Issue #732) -- imaging.build_post_image ذاتها عبر cards.ensure،
     # لا نسخة رسم منفصلة هنا. image_urls=None بنيويًا (لا صور فيديو/قناة
@@ -559,6 +526,7 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     new_rel = cards.ensure(
         path, draft, cfg, headline=headline,
         image_urls=None, fallback_urls=photo_urls, search_term=image_query_en,
+        backdrop_urls=backdrop_urls,
         publisher=image_source_line(draft["channels"], cfg),
         out_dir=run_date, check_headline_limit=False,
         **cards.analysis_card_kwargs(),
@@ -570,9 +538,13 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     # أي محاولة أثمرت (نصّ الطلب، Issue #941) -- تشخيص لاحق: المحاولة الأولى
     # (photo_urls غير فارغة) تُسجَّل فعلًا داخل imaging.build_post_image نفسها
     # ("✅ اعتُمدت صورة تعبيرية حرة")، فلا تكرار هنا؛ التمييز المطلوب فقط هو
-    # بين المحاولة الثانية (بحث عام نجح رغم فراغ photo_urls) وانعدام أي صورة.
+    # بين المحاولة الثانية (بحث عام نجح رغم فراغ photo_urls) وخلفية الفيديو
+    # المعتّمة (Issue #1092) وانعدام أي صورة تمامًا.
     if not photo_urls:
-        if draft.get("image_info", {}).get("illustrative"):
+        image_info = draft.get("image_info") or {}
+        if image_info.get("kind") == "video_backdrop":
+            log.info("🖼️ خلفية معتّمة من صورة الفيديو المصدر: %r", headline)
+        elif image_info.get("illustrative"):
             log.info("🖼️ صورة من البحث الإنجليزي: %r", headline)
         else:
             log.info("🖼️ بلا صورة — خلفية مصممة: %r", headline)
@@ -670,9 +642,17 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
             # العام (Issue #732) -- لكن منقولًا هنا إلى ما قبل الاعتماد، لأن
             # بطاقة هذا المسار لا تُبنى فعليًا إلا بعده (Issue #680)؛ open_review
             # يبحث الآن مسبقًا (_photo_candidates) ليعرف المراجع الحال قبل أن
-            # يوسم لا بعده حين يفوت أوان إضافة صورة.
-            parts.append("  🖼️ **بلا صورة تعبيرية متاحة حاليًا** — ستُبنى البطاقة "
-                         "على خلفية مصممة.")
+            # يوسم لا بعده حين يفوت أوان إضافة صورة. الرسالة تتفرّع (Issue
+            # #1092): مقال بلغ هذه المرحلة أصلًا لضمان توفّر إحدى الدرجتين
+            # (البوابة في youtube_article.run() تمتنع عن الصياغة دون ذلك) --
+            # فمعاينة has_backdrop=True هنا تعني الخلفية المعتّمة ستُستعمَل،
+            # لا خلفية مصممة عادية.
+            if d.get("has_backdrop"):
+                parts.append("  🖼️ **بلا صورة تعبيرية حرة** — ستُستعمَل خلفية "
+                             "معتّمة من صورة الفيديو المصدر بدلًا منها.")
+            else:
+                parts.append("  🖼️ **بلا صورة تعبيرية متاحة حاليًا** — ستُبنى البطاقة "
+                             "على خلفية مصممة.")
             parts.append("")
         if d.get("warnings"):
             # هذا بالضبط ما يجعل المراجعة حقيقية (نصّ الـIssue #676) — عدد
@@ -794,10 +774,20 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
             has_photo = bool(_photo_candidates(d["title"], d.get("event", ""), cfg,
                                                d.get("image_query_en")))
             d["has_photo"] = has_photo
-            store.update_draft(by_id_path[d["id"]], has_photo=has_photo)
+            # معاينة الدرجة الثالثة (Issue #1092) -- لا فائدة من فحصها إن
+            # كانت الأولى متاحة فعلًا (لن تُستعمَل حينها إطلاقًا)؛ نفس مبدأ
+            # "معاينة لا وعد" أعلاه، وبلا فحص وجه (انظر توثيق
+            # youtube_extract.video_backdrop_available).
+            has_backdrop = (not has_photo and bool(
+                youtube_extract.video_backdrop_available(d.get("source_videos") or [], cfg)))
+            d["has_backdrop"] = has_backdrop
+            store.update_draft(by_id_path[d["id"]], has_photo=has_photo,
+                               has_backdrop=has_backdrop)
     else:
         for d in drafts:
             d["has_photo"] = False
+            d["has_backdrop"] = bool(
+                youtube_extract.video_backdrop_available(d.get("source_videos") or [], cfg))
 
     drafts.sort(key=_review_sort_key)
 
