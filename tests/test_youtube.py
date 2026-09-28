@@ -2647,22 +2647,32 @@ def test_youtube_publish() -> None:
     yp = youtube_publish
     cfg = load_config()
 
-    # ── image_source_line (Issue #732): لا أسماء قنوات في سطر «المصدر:» --
-    # عدد عربي صحيح التصريف داخل قالب من config.yaml وحده ──
-    check("image_source_line: صيغة config.yaml الافتراضية بعدد عربي صحيح التصريف",
-          yp.image_source_line(["الجزيرة", "CNN Türk", "العربية"], cfg)
-          == "قراءة في تغطية 3 قنوات", yp.image_source_line(["أ", "ب", "ج"], cfg))
-    check("image_source_line: لا اسم قناة واحدًا يظهر في السطر",
-          not any(c in yp.image_source_line(["الجزيرة", "CNN Türk"], cfg)
-                  for c in ["الجزيرة", "CNN Türk"]))
-    check("image_source_line: قناة واحدة بصيغة مفردة صحيحة",
-          yp.image_source_line(["الجزيرة"], cfg) == "قراءة في تغطية قناة واحدة")
-    # Issue #742: {channels} مضاف إليه (مجرور) في كل قوالب هذا السطر، فقناتان
-    # تصير "قناتين" لا "قناتان" — بخلاف score_breakdown_text أدناه حيث الصيغة
-    # مرفوعة (مستقلة لا مضافة) فتبقى "قناتان".
-    check("image_source_line: قناتان تصيران «قناتين» (مجرورة بالإضافة، لا «قناتان»)",
-          yp.image_source_line(["الجزيرة", "العربية"], cfg)
-          == "قراءة في تغطية قناتين", yp.image_source_line(["الجزيرة", "العربية"], cfg))
+    # ── image_source_line (Issue #732، معكوسًا جزئيًا بـIssue #1106): يسمّي
+    # القنوات الآن بدل عدّها -- «تحليل لتغطية» تحلّ علّة القرار القديم
+    # (النسبة الزائفة) بديباجة صريحة بدل إخفاء الأسماء ──
+    check("image_source_line: قناتان -- الصيغة الحرفية من نصّ الـIssue",
+          yp.image_source_line(["الجزيرة", "ILTV"], cfg) == "تحليل لتغطية الجزيرة وILTV",
+          yp.image_source_line(["الجزيرة", "ILTV"], cfg))
+    check("image_source_line: قناة واحدة -- اسمها وحده بلا «و»",
+          yp.image_source_line(["الجزيرة"], cfg) == "تحليل لتغطية الجزيرة",
+          yp.image_source_line(["الجزيرة"], cfg))
+    check("image_source_line: ثلاث قنوات -- فواصل ثم «و» قبل الأخيرة",
+          yp.image_source_line(["الجزيرة", "العربية", "ILTV"], cfg)
+          == "تحليل لتغطية الجزيرة، العربية، وILTV",
+          yp.image_source_line(["الجزيرة", "العربية", "ILTV"], cfg))
+    # سقف الطول (cards.analysis.source_max_chars، افتراضه 48): أسماء طويلة
+    # تتجاوزه ⇐ أول اسمين ثم «وقنوات أخرى» بدل القائمة الكاملة.
+    long_channels = ["قناة تلفزيونية طويلة الاسم جدًا", "قناة أخرى طويلة الاسم أيضًا",
+                      "قناة ثالثة طويلة الاسم كذلك"]
+    long_line = yp.image_source_line(long_channels, cfg)
+    check("image_source_line: أسماء طويلة تتجاوز السقف ⇐ أول اسمين ثم «وقنوات أخرى»",
+          long_line == "تحليل لتغطية " + yp._join_arabic_names(long_channels[:2] + ["قنوات أخرى"]),
+          long_line)
+    check("image_source_line: سطر التجاوز لا يحوي اسم القناة الثالثة",
+          long_channels[2] not in long_line, long_line)
+    check("image_source_line: سطر لا يتجاوز السقف يبقى كاملًا بلا اقتطاع",
+          yp.image_source_line(["الجزيرة", "ILTV"], cfg) == "تحليل لتغطية الجزيرة وILTV")
+
     # Issue #758: cards.analysis.source_template صار له الأولوية على
     # youtube.image.source_line_template -- يُحذَف هنا كي يختبر هذا القالب
     # الأقدم وحده مستوى الأولوية الثاني (المفتاح القديم القائم للتوافق).
@@ -2671,7 +2681,7 @@ def test_youtube_publish() -> None:
     cfg_custom_line["youtube"]["image"]["source_line_template"] = "بعيون {channels}"
     check("image_source_line: بلا cards.analysis.source_template، يُقرأ القالب من "
           "youtube.image.source_line_template (المستوى الثاني، Issue #758)",
-          yp.image_source_line(["الجزيرة", "العربية"], cfg_custom_line) == "بعيون قناتين",
+          yp.image_source_line(["الجزيرة", "العربية"], cfg_custom_line) == "بعيون الجزيرة والعربية",
           yp.image_source_line(["الجزيرة", "العربية"], cfg_custom_line))
 
     cfg_cards_priority = load_config()
@@ -2679,12 +2689,35 @@ def test_youtube_publish() -> None:
     cfg_cards_priority["youtube"]["image"]["source_line_template"] = "بعيون {channels}"
     check("image_source_line: cards.analysis.source_template يفوز على "
           "youtube.image.source_line_template حين يتوفّر كلاهما (Issue #758)",
-          yp.image_source_line(["الجزيرة", "العربية"], cfg_cards_priority) == "نظرة على قناتين",
+          yp.image_source_line(["الجزيرة", "العربية"], cfg_cards_priority) == "نظرة على الجزيرة والعربية",
           yp.image_source_line(["الجزيرة", "العربية"], cfg_cards_priority))
+
+    # سقف طول قابل للتعديل بلا كود (Issue #1106): تعديله في config.yaml
+    # يغيّر عتبة الاقتطاع فعليًا لا رقمًا مزروعًا في الشيفرة -- سطر ٣ قنوات
+    # قصيرة الأسماء لا يتجاوز الافتراضي (48) لكنه يتجاوز سقفًا مخفَّضًا يدويًا.
+    cfg_small_cap = load_config()
+    cfg_small_cap["cards"]["analysis"]["source_max_chars"] = 10
+    small_cap_line = yp.image_source_line(["الجزيرة", "العربية", "ILTV"], cfg_small_cap)
+    check("image_source_line: cards.analysis.source_max_chars قابل للتعديل من config.yaml",
+          small_cap_line == "تحليل لتغطية " + yp._join_arabic_names(["الجزيرة", "العربية", "قنوات أخرى"]),
+          small_cap_line)
+
     check("_arabic_channel_count_phrase: مرفوعة افتراضيًا («قناتان»)",
           yp._arabic_channel_count_phrase(2) == "قناتان")
     check("_arabic_channel_count_phrase: مجرورة صراحة («قناتين»)",
           yp._arabic_channel_count_phrase(2, genitive=True) == "قناتين")
+
+    # ── _join_arabic_names: الوصل العربي وحده، بلا فرز (Issue #1106) ──
+    check("_join_arabic_names: قائمة فارغة تعيد نصًّا فارغًا",
+          yp._join_arabic_names([]) == "")
+    check("_join_arabic_names: اسم واحد بلا وصل",
+          yp._join_arabic_names(["أ"]) == "أ")
+    check("_join_arabic_names: اسمان بـ«و» وحدها",
+          yp._join_arabic_names(["أ", "ب"]) == "أ وب")
+    check("_join_arabic_names: ثلاثة فأكثر بفواصل ثم «و» قبل الأخير",
+          yp._join_arabic_names(["أ", "ب", "ج"]) == "أ، ب، وج")
+    check("_join_arabic_names: يحافظ على ترتيب المُدخَل بلا فرز جديد",
+          yp._join_arabic_names(["ب", "أ"]) == "ب وأ")
 
     # ── split_warnings: قاعدة حاسمة -- caption خالٍ من قسم التنبيهات (Issue #676) ──
     article_with_warnings = (
@@ -3497,6 +3530,8 @@ def test_youtube_publish() -> None:
           cfg.path("youtube.image.use_photo") is True)
     check("config: youtube.image.source_line_template موجود ويحوي {channels} (Issue #732)",
           "{channels}" in (cfg.path("youtube.image.source_line_template") or ""))
+    check("config: cards.analysis.source_max_chars = 48 (Issue #1106)",
+          cfg.path("cards.analysis.source_max_chars") == 48)
 
     # ── إعدادات config.yaml (Issue #680: الدرجة والعناوين) ──
     check("config: youtube.review.scoring.bloc_bonus = 2",
