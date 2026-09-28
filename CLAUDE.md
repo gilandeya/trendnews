@@ -347,7 +347,7 @@ cards:
   request:  { badge: "هام", bg: "#7C3AED", fg: "#FFFFFF" }
   verify:   { badge: "تحقيق", bg: "#157F3B", fg: "#FFFFFF" }
   article:  { badge: "تحقيق", bg: "#157F3B", fg: "#FFFFFF" }
-  analysis: { badge: "تحليل", bg: "#8EC5FF", fg: "#12203A", source_template: "قراءة في تغطية {channels}" }
+  analysis: { badge: "تحليل", bg: "#8EC5FF", fg: "#12203A", source_template: "تحليل لتغطية {channels}" }
 ```
 
 ### No exclude checkbox — rejection is implicit, and the reason is asked for later
