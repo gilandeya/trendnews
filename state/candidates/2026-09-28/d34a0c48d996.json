@@ -1,0 +1,64 @@
+{
+  "id": "d34a0c48d996",
+  "created_at": "2026-09-28T09:08:13.072156+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.19,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "طائرات روسية تقتل 14 بهجوم على كييف وأوديسا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ukraine says Russian drones kill 14, hit Kyiv and Odesa infrastructure",
+  "link": "http://www.africanews.com/2026/09/28/ukraine-says-russian-drones-kill-14-hit-kyiv-and-odesa-infrastructure/",
+  "publishers": [
+    "Africanews",
+    "South China Morning Post"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Ukraine says Russian drones kill 14, hit Kyiv and Odesa infrastructure",
+    "link": "http://www.africanews.com/2026/09/28/ukraine-says-russian-drones-kill-14-hit-kyiv-and-odesa-infrastructure/",
+    "summary": "Ukraine reports 14 dead and 57 injured after a massive Russian drone barrage hits Kyiv and Odesa on 27 September, damaging schools, hospitals and key infrastructure.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-09-28T07:27:58+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/93/00/69/640x360_cmsv2_f02d1895-d5e3-5270-a9bb-e5ae40e29718-9930069.jpg?1790573987",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/russia-central-asia/article/3368982/russian-drones-kill-2-market-outside-kyiv-3-others-different-regions-officials-say?utm_source=rss_feed"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/28/ukraine-says-russian-drones-kill-14-hit-kyiv-and-odesa-infrastructure/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/93/00/69/640x360_cmsv2_f02d1895-d5e3-5270-a9bb-e5ae40e29718-9930069.jpg?1790573987"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1312.9122806494445,
+    "is_stale": false,
+    "score": 24.189152391407408,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "طائرات روسية تقتل 14 بهجوم على كييف وأوديسا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

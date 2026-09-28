@@ -1,0 +1,62 @@
+{
+  "id": "013061630898",
+  "created_at": "2026-09-28T09:08:13.072696+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.35,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "احتجاجات فلسطينية في بريطانيا ضد التصنيف الإرهابي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Palestine Action protesters arrested outside UK Labour Party conference",
+  "link": "https://www.aljazeera.com/news/2026/9/28/palestine-action-protesters-arrested-outside-uk-labour-party-conference?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Palestine Action protesters arrested outside UK Labour Party conference",
+    "link": "https://www.aljazeera.com/news/2026/9/28/palestine-action-protesters-arrested-outside-uk-labour-party-conference?traffic_source=rss",
+    "summary": "Demonstrators protest against UK government's proscription of Palestine Action as a 'terrorist' organisation.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-28T02:23:30+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/28/palestine-action-protesters-arrested-outside-uk-labour-party-conference?traffic_source=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/28/uk-foreign-secretary-confronted-by-activists-over-palestine-action-ban?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1312.9120908436112,
+    "is_stale": true,
+    "score": 23.35085610924074,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "احتجاجات فلسطينية في بريطانيا ضد التصنيف الإرهابي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

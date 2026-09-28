@@ -1,101 +1,5 @@
 [
   {
-    "score": 26.8,
-    "bucket": "serious",
-    "tokens": [
-      "bombings",
-      "convicts",
-      "court",
-      "deadly",
-      "easter",
-      "lanka",
-      "men",
-      "sri",
-      "sunday"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cqy7z275yx65o?at_medium=RSS&at_campaign=rss",
-    "title": "Sri Lanka court convicts 15 men over deadly Easter Sunday bombings",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-23T09:07:45.990026+00:00"
-  },
-  {
-    "score": 25.64,
-    "bucket": "serious",
-    "tokens": [
-      "'annihilate'",
-      "attacks",
-      "icc",
-      "iran",
-      "speech",
-      "threatens",
-      "trump"
-    ],
-    "link": "http://www.africanews.com/2026/09/22/trump-threatens-to-annihilate-iran-attacks-icc-in-un-speech/",
-    "title": "Trump threatens to 'annihilate' Iran, attacks ICC in UN speech",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-09-23T09:07:45.990275+00:00"
-  },
-  {
-    "score": 24.18,
-    "bucket": "serious",
-    "tokens": [
-      "downside",
-      "economy",
-      "imf",
-      "lanka",
-      "remain",
-      "resilient",
-      "risks",
-      "sri",
-      "tilted"
-    ],
-    "link": "https://www.channelnewsasia.com/business/sri-lanka-economy-resilient-risks-remain-tilted-downside-imf-says-6404291",
-    "title": "Sri Lanka economy resilient but risks remain tilted to downside, IMF says",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-23T09:07:45.990500+00:00"
-  },
-  {
-    "score": 24.15,
-    "bucket": "serious",
-    "tokens": [
-      "100",
-      "below",
-      "fall",
-      "good",
-      "hails",
-      "iran",
-      "oil",
-      "prices",
-      "talks",
-      "trump"
-    ],
-    "link": "https://www.vanguardngr.com/2026/09/oil-prices-fall-below-100-after-trump-hails-good-talks-with-iran/",
-    "title": "Oil prices fall below $100 after Trump hails ‘good’ talks with Iran",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-09-23T09:07:45.990719+00:00"
-  },
-  {
-    "score": 22.29,
-    "bucket": "serious",
-    "tokens": [
-      "ceasefire",
-      "energy",
-      "ready",
-      "russia",
-      "ukraine",
-      "zelensky"
-    ],
-    "link": "https://www.france24.com/en/europe/20260922-zelensky-says-ukraine-is-ready-for-an-energy-ceasefire-with-russia",
-    "title": "Zelensky says Ukraine is ready for an energy ceasefire with Russia",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-23T09:07:45.990921+00:00"
-  },
-  {
     "score": 23.5,
     "bucket": "serious",
     "tokens": [
@@ -2254,5 +2158,101 @@
     "posted_title": "لماذا وصلت باندا صينية إلى أتلانتا عقب قمة شي وترامب",
     "region": "uk",
     "seen_at": "2026-09-28T04:28:38.503431+00:00"
+  },
+  {
+    "score": 24.61,
+    "bucket": "serious",
+    "tokens": [
+      "iran",
+      "offer",
+      "oil",
+      "prices",
+      "rejects",
+      "spike",
+      "truce",
+      "trump"
+    ],
+    "link": "https://www.malaymail.com/news/money/2026/09/28/oil-prices-spike-after-trump-rejects-iran-truce-offer/236846",
+    "title": "Oil prices spike after Trump rejects Iran truce offer",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-09-28T09:08:13.072142+00:00"
+  },
+  {
+    "score": 24.19,
+    "bucket": "serious",
+    "tokens": [
+      "drones",
+      "hit",
+      "infrastructure",
+      "kill",
+      "kyiv",
+      "odesa",
+      "russian",
+      "ukraine"
+    ],
+    "link": "http://www.africanews.com/2026/09/28/ukraine-says-russian-drones-kill-14-hit-kyiv-and-odesa-infrastructure/",
+    "title": "Ukraine says Russian drones kill 14, hit Kyiv and Odesa infrastructure",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-09-28T09:08:13.072430+00:00"
+  },
+  {
+    "score": 23.45,
+    "bucket": "serious",
+    "tokens": [
+      "concern",
+      "destroy",
+      "grave",
+      "iran",
+      "made",
+      "threat",
+      "trump",
+      "unga"
+    ],
+    "link": "https://en.mehrnews.com/news/248148/Trump-s-threat-to-annihilate-Iran-made-at-UNGA-grave-concern",
+    "title": "Trump’s threat to destroy Iran made at UNGA \"grave concern\"",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-28T09:08:13.072687+00:00"
+  },
+  {
+    "score": 23.35,
+    "bucket": "serious",
+    "tokens": [
+      "action",
+      "arrested",
+      "conference",
+      "labour",
+      "outside",
+      "palestine",
+      "party",
+      "protesters"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/9/28/palestine-action-protesters-arrested-outside-uk-labour-party-conference?traffic_source=rss",
+    "title": "Palestine Action protesters arrested outside UK Labour Party conference",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-09-28T09:08:13.072955+00:00"
+  },
+  {
+    "score": 23.13,
+    "bucket": "serious",
+    "tokens": [
+      "africa",
+      "deadline",
+      "face",
+      "looms",
+      "mounting",
+      "refugees",
+      "september",
+      "south",
+      "tensions"
+    ],
+    "link": "https://www.myjoyonline.com/refugees-in-south-africa-face-mounting-tensions-as-september-30-deadline-looms/",
+    "title": "Refugees in South Africa face mounting tensions as September 30 deadline looms",
+    "posted_title": "",
+    "region": "gh",
+    "seen_at": "2026-09-28T09:08:13.073209+00:00"
   }
 ]

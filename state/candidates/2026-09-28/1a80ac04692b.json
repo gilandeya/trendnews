@@ -1,0 +1,64 @@
+{
+  "id": "1a80ac04692b",
+  "created_at": "2026-09-28T09:08:13.072965+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.13,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "لاجئون عرب في جنوب أفريقيا يواجهون موعد نهائي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Refugees in South Africa face mounting tensions as September 30 deadline looms",
+  "link": "https://www.myjoyonline.com/refugees-in-south-africa-face-mounting-tensions-as-september-30-deadline-looms/",
+  "publishers": [
+    "Al Jazeera English",
+    "MyJoyOnline Ghana"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "Refugees in South Africa face mounting tensions as September 30 deadline looms",
+    "link": "https://www.myjoyonline.com/refugees-in-south-africa-face-mounting-tensions-as-september-30-deadline-looms/",
+    "summary": "An impending September 30 deadline issued by an anti-immigration movement has ignited profound anxiety across migrant communities in South Africa. The group, known as March and March, has spearheaded protests throughout the year demanding that undocumented foreign nationals leave the country. Organisers warn of further demonstrations if their demands remain unmet. For many refugees, however, […]",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-09-28T08:52:05+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/09/1-23-1024x478.png",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/28/refugees-in-south-africa-fear-new-attacks-as-september-30-deadline-looms?traffic_source=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/refugees-in-south-africa-face-mounting-tensions-as-september-30-deadline-looms/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/1-23-1024x478.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1312.9122867827778,
+    "is_stale": false,
+    "score": 23.132615355944445,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "لاجئون عرب في جنوب أفريقيا يواجهون موعد نهائي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
