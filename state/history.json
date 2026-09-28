@@ -1,100 +1,5 @@
 [
   {
-    "score": 23.02,
-    "bucket": "serious",
-    "tokens": [
-      "assault",
-      "harvey",
-      "prison",
-      "sentenced",
-      "sexual",
-      "weinstein",
-      "years"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cm98626n260yo?at_medium=RSS&at_campaign=rss",
-    "title": "Harvey Weinstein sentenced to 15 years in prison for sexual assault",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-23T18:08:05.827823+00:00"
-  },
-  {
-    "score": 21.53,
-    "bucket": "serious",
-    "tokens": [
-      "'bend",
-      "iran's",
-      "knee'",
-      "never",
-      "president",
-      "tells",
-      "trump"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cqvgyjy23ggjo?at_medium=RSS&at_campaign=rss",
-    "title": "Iran's president tells Trump it will never 'bend the knee'",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-23T18:08:05.828128+00:00"
-  },
-  {
-    "score": 21.14,
-    "bucket": "light",
-    "tokens": [
-      "afar",
-      "airports",
-      "ethiopia",
-      "fighting",
-      "forces",
-      "seize",
-      "spreads",
-      "tigray"
-    ],
-    "link": "http://www.africanews.com/2026/09/23/ethiopia-tigray-forces-seize-airports-as-fighting-spreads-to-afar/",
-    "title": "Ethiopia: Tigray forces seize airports as fighting spreads to Afar",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-09-23T18:08:05.828411+00:00"
-  },
-  {
-    "score": 20.87,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "attackers",
-      "dead",
-      "leaves",
-      "mass",
-      "police",
-      "search",
-      "shooting",
-      "south",
-      "three"
-    ],
-    "link": "http://www.africanews.com/2026/09/23/south-africa-mass-shooting-leaves-11-dead-as-police-search-for-three-attackers/",
-    "title": "South Africa mass shooting leaves 11 dead as police search for three attackers",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-09-23T18:08:05.828726+00:00"
-  },
-  {
-    "score": 18.7,
-    "bucket": "serious",
-    "tokens": [
-      "announce",
-      "before",
-      "candidates",
-      "day",
-      "melaka",
-      "nomination",
-      "polls",
-      "weeks"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/nation/2026/09/23/ph-to-announce-melaka-polls-candidates-1-to-2-weeks-before-nomination-day",
-    "title": "PH to announce Melaka polls candidates 1 to 2 weeks before nomination day",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-23T18:08:05.828989+00:00"
-  },
-  {
     "score": 22.64,
     "bucket": "serious",
     "tokens": [
@@ -2277,5 +2182,95 @@
     "posted_title": "من لورد، البابا لاوون الرابع عشر يصف الموت الرحيم بـ\"التعاطف الزائف\" ويرفض تطبيع الموت",
     "region": "in",
     "seen_at": "2026-09-28T16:43:29.704199+00:00"
+  },
+  {
+    "score": 30.63,
+    "bucket": "serious",
+    "tokens": [
+      "eight",
+      "hormuz",
+      "iranian",
+      "marines",
+      "near",
+      "report",
+      "strait",
+      "strike",
+      "wounded"
+    ],
+    "link": "https://www.tehrantimes.com/news/530521/Report-Eight-US-Marines-wounded-in-Iranian-strike-near-Strait",
+    "title": "Report: Eight US Marines wounded in Iranian strike near Strait of Hormuz",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-09-28T18:08:12.756059+00:00"
+  },
+  {
+    "score": 24.03,
+    "bucket": "serious",
+    "tokens": [
+      "care",
+      "cbn",
+      "handle",
+      "naira",
+      "nigerians",
+      "urges"
+    ],
+    "link": "https://www.premiumtimesng.com/news/more-news/913001-cbn-urges-nigerians-to-handle-naira-with-care.html",
+    "title": "CBN urges Nigerians to handle Naira with care",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-28T18:08:12.756395+00:00"
+  },
+  {
+    "score": 23.52,
+    "bucket": "serious",
+    "tokens": [
+      "alternatives",
+      "export",
+      "hormuz",
+      "iraq",
+      "looks",
+      "oil",
+      "strait",
+      "troubled"
+    ],
+    "link": "https://www.aljazeera.com/economy/2026/9/28/iraq-looks-for-oil-export-alternatives-to-the-troubled-strait-of-hormuz?traffic_source=rss",
+    "title": "Iraq looks for oil export alternatives to the troubled Strait of Hormuz",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-09-28T18:08:12.756656+00:00"
+  },
+  {
+    "score": 23.28,
+    "bucket": "serious",
+    "tokens": [
+      "east",
+      "forced",
+      "iran",
+      "leader",
+      "middle",
+      "state",
+      "supreme"
+    ],
+    "link": "https://www.channelnewsasia.com/world/iran-khamenei-us-middle-east-6416471",
+    "title": "Iran supreme leader says US will be forced out of Middle East: state TV",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-09-28T18:08:12.756910+00:00"
+  },
+  {
+    "score": 23.17,
+    "bucket": "serious",
+    "tokens": [
+      "israeli",
+      "media",
+      "netanyahu",
+      "uae",
+      "visits"
+    ],
+    "link": "https://www.dawn.com/news/2033171/netanyahu-visits-uae-israeli-media",
+    "title": "Netanyahu visits UAE: Israeli media",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-28T18:08:12.757195+00:00"
   }
 ]

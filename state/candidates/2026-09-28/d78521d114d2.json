@@ -1,0 +1,62 @@
+{
+  "id": "d78521d114d2",
+  "created_at": "2026-09-28T18:08:12.756405+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.52,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "العراق يبحث بدائل لتصدير النفط، تأثير على أسعار الطاقة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iraq looks for oil export alternatives to the troubled Strait of Hormuz",
+  "link": "https://www.aljazeera.com/economy/2026/9/28/iraq-looks-for-oil-export-alternatives-to-the-troubled-strait-of-hormuz?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Hindustan Times — World"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Iraq looks for oil export alternatives to the troubled Strait of Hormuz",
+    "link": "https://www.aljazeera.com/economy/2026/9/28/iraq-looks-for-oil-export-alternatives-to-the-troubled-strait-of-hormuz?traffic_source=rss",
+    "summary": "The continued blockade of the Strait of Hormuz has forced Iraq to look for alternatives to export its oil.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-09-28T13:53:28+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/economy/2026/9/28/iraq-looks-for-oil-export-alternatives-to-the-troubled-strait-of-hormuz?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/oil-rises-as-iran-us-remain-divided-on-ceasefire-terms-keeping-strait-of-hormuz-reopening-uncertain-101790602841026.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1321.9120242788888,
+    "is_stale": true,
+    "score": 23.517489940333334,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "العراق يبحث بدائل لتصدير النفط، تأثير على أسعار الطاقة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

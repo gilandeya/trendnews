@@ -1,0 +1,65 @@
+{
+  "id": "efdde7c7f90c",
+  "created_at": "2026-09-28T18:08:12.756664+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.28,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "إيران تتوعد بطرد الأمريكيين من الشرق الأوسط، توتر إقليمي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran supreme leader says US will be forced out of Middle East: state TV",
+  "link": "https://www.channelnewsasia.com/world/iran-khamenei-us-middle-east-6416471",
+  "publishers": [
+    "Channel News Asia",
+    "The Hindu — International"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Iran supreme leader says US will be forced out of Middle East: state TV",
+    "link": "https://www.channelnewsasia.com/world/iran-khamenei-us-middle-east-6416471",
+    "summary": "“They have only brought harm upon themselves,” Iran’s Supreme Leader Mojtaba Khamenei said, claiming the United States will eventually be forced out of the Middle East.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-28T17:49:20+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--jSmOTqB9--/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Iran_War__7192.jpg?itok=JbJI5aNZ",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-supreme-leader-says-us-will-be-forced-out-of-west-asia-state-tv/article71520917.ece"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/iran-khamenei-us-middle-east-6416471"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--jSmOTqB9--/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Iran_War__7192.jpg?itok=JbJI5aNZ",
+      "https://th-i.thgim.com/public/incoming/annpoy/article71520934.ece/alternates/LANDSCAPE_1200/2026-08-25T070547Z_986669700_RC2I5NAYRWBL_RTRMADP_3_IRAN-CRISIS-MOJTABA-ARCHIVE.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1321.9122326541667,
+    "is_stale": false,
+    "score": 23.279564002296297,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "إيران تتوعد بطرد الأمريكيين من الشرق الأوسط، توتر إقليمي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

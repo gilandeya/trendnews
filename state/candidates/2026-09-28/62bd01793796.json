@@ -1,0 +1,89 @@
+{
+  "id": "62bd01793796",
+  "created_at": "2026-09-28T18:08:12.755575+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.63,
+  "trend_score": 1.0,
+  "velocity": 0.33,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "توتر إيراني أمريكي مباشر بمضيق حيوي للعالم العربي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Report: Eight US Marines wounded in Iranian strike near Strait of Hormuz",
+  "link": "https://www.tehrantimes.com/news/530521/Report-Eight-US-Marines-wounded-in-Iranian-strike-near-Strait",
+  "publishers": [
+    "Hindustan Times — World",
+    "IRNA English",
+    "Mehr News",
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Report: Eight US Marines wounded in Iranian strike near Strait of Hormuz",
+    "link": "https://www.tehrantimes.com/news/530521/Report-Eight-US-Marines-wounded-in-Iranian-strike-near-Strait",
+    "summary": "TEHRAN — An Iranian anti-ship cruise missile strike in the Strait of Hormuz has left at least eight US Marines wounded, exposing the mounting operational vulnerabilities of the American military presence in West Asia and puncturing Washington’s carefully curated narrative of naval dominance in the Persian Gulf.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-28T17:28:25+00:00",
+    "image_url": "https://media.tehrantimes.com/d/t/2026/09/28/4/6194962.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "IRNA English",
+      "Mehr News",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/eight-us-marines-injured-after-iranian-missile-strikes-vessel-in-strait-of-hormuz-pentagon-kept-attack-under-wraps-101790561795405.html"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530521/Report-Eight-US-Marines-wounded-in-Iranian-strike-near-Strait"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248131/Ghalibaf-mocks-US-claim-Iran-doesn-t-control-Strait-of-Hormuz"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86276483/Ghalibaf-mocks-US-claim-Iran-doesn-t-control-Strait-of-Hormuz"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530520/The-enemy-s-narrative-of-control-over-the-Strait-of-Hormuz-has"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248145/Iran-controls-both-sides-of-Strait-of-Hormuz-Top-army-cmdr"
+      }
+    ],
+    "image_candidates": [
+      "https://media.tehrantimes.com/d/t/2026/09/28/4/6194962.jpg",
+      "https://media.mehrnews.com/d/2026/09/09/4/6166970.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/20/4/173116220.jpg",
+      "https://media.tehrantimes.com/d/t/2026/09/28/4/6194960.jpg",
+      "https://media.mehrnews.com/d/2026/05/14/4/6022956.jpg",
+      "https://img9.irna.ir/d/r2/2026/09/28/4/173133899.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.3339939303103059,
+    "age_hours": 1321.9120068697223,
+    "is_stale": false,
+    "score": 30.626292928551532,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "توتر إيراني أمريكي مباشر بمضيق حيوي للعالم العربي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
