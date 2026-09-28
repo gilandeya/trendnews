@@ -2245,5 +2245,37 @@
     "posted_title": "",
     "region": "health",
     "seen_at": "2026-09-28T15:08:33.234469+00:00"
+  },
+  {
+    "score": 24.19,
+    "bucket": "serious",
+    "tokens": [
+      "currently",
+      "defections",
+      "freefall",
+      "impossible",
+      "korea",
+      "north"
+    ],
+    "link": "https://www.japantimes.co.jp/news/2026/09/28/asia-pacific/north-korea-defections/",
+    "title": "‘Currently impossible’: North Korea defections in freefall",
+    "posted_title": "لماذا تراجعت هجرة الكوريين الشماليين إلى الحد الأدنى في تاريخها",
+    "region": "jp",
+    "seen_at": "2026-09-28T16:43:14.642920+00:00"
+  },
+  {
+    "score": 22.59,
+    "bucket": "serious",
+    "tokens": [
+      "'normal'",
+      "assisted",
+      "dying",
+      "pope"
+    ],
+    "link": "https://www.thehindu.com/news/international/pope-says-assisted-dying-not-normal/article71517071.ece",
+    "title": "Pope says assisted dying not 'normal'",
+    "posted_title": "من لورد، البابا لاوون الرابع عشر يصف الموت الرحيم بـ\"التعاطف الزائف\" ويرفض تطبيع الموت",
+    "region": "in",
+    "seen_at": "2026-09-28T16:43:29.704199+00:00"
   }
 ]
