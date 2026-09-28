@@ -2220,5 +2220,39 @@
     "posted_title": "",
     "region": "cn",
     "seen_at": "2026-09-28T03:08:23.785047+00:00"
+  },
+  {
+    "score": 30.46,
+    "bucket": "serious",
+    "tokens": [
+      "airbase",
+      "incident",
+      "major",
+      "used"
+    ],
+    "link": "https://www.france24.com/en/major-incident-at-uk-airbase-used-by-us",
+    "title": "Major incident at UK airbase used by US",
+    "posted_title": "لماذا أُخليت قرية بريطانية كاملة بسبب ثلاث شاحنات مشبوهة قرب قاعدة أمريكية",
+    "region": "eu",
+    "seen_at": "2026-09-28T04:28:19.861474+00:00"
+  },
+  {
+    "score": 23.64,
+    "bucket": "serious",
+    "tokens": [
+      "arrive",
+      "atlanta",
+      "china",
+      "giant",
+      "pandas",
+      "summit",
+      "trump",
+      "two"
+    ],
+    "link": "https://www.theguardian.com/us-news/2026/sep/27/giant-pandas-atlanta-zoo-china-xi-trump-summit",
+    "title": "Two giant pandas arrive in Atlanta from China after Xi-Trump summit",
+    "posted_title": "لماذا وصلت باندا صينية إلى أتلانتا عقب قمة شي وترامب",
+    "region": "uk",
+    "seen_at": "2026-09-28T04:28:38.503431+00:00"
   }
 ]
