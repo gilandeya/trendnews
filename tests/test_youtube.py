@@ -2088,6 +2088,67 @@ def test_youtube_article() -> None:
           "مؤشّر الخلاف بين المصادر لهذه القضية: agreement" in
           agreement_client.messages.calls[0]["messages"][0]["content"])
 
+    # ── نظام تعليمات draft_article يُلزم بالوقائع الصلبة، بالاقتباس الحرفي
+    # من quote_arabic وحده، وبتعريف المتحدث باسمه وصفته (Issue #1102) --
+    # قياس على 20 مقال تحليل حقيقي أظهر 16 منها بلا رقم واحد و16 بلا اقتباس
+    # حرفي واحد، ومتحدثين بلا هوية ("محلل" مجرّدة 11 مرة). هذا اختبار على
+    # نصّ التعليمات نفسه (منطق الشيفرة لم يتغيّر) -- لا يُثبت جودة الناتج،
+    # فذلك يحكم عليه صاحب المشروع بعينه على مقالات حقيقية لاحقًا ──
+    article_prompt_text = ya.load_article_prompt()
+    check("برومبت المقال (#1102): ينقل الأرقام/التواريخ/النسب/أسماء الأماكن كما وردت حرفيًا",
+          "كل رقم أو تاريخ أو نسبة أو اسم مكان ورد في النقاط ينتقل إلى المقال كما هو"
+          in article_prompt_text, article_prompt_text)
+    check("برومبت المقال (#1102): يمنع منعًا قاطعًا اختراع رقم أو تاريخ لم يرد في النقاط",
+          "يُمنع منعًا قاطعًا اختراع رقم أو تاريخ أو نسبة لم يرد حرفيًا في النقاط"
+          in article_prompt_text, article_prompt_text)
+    check("برومبت المقال (#1102): يشترط اقتباسًا حرفيًا واحدًا على الأقل من quote_arabic فقط",
+          "اقتباسًا حرفيًا واحدًا على الأقل من نص quote_arabic" in article_prompt_text and
+          "لا يجوز اقتباس أي نص غير quote_arabic" in article_prompt_text, article_prompt_text)
+    check("برومبت المقال (#1102): سقف ثلاثة اقتباسات، وبلا اقتباس إن لم يصلح أيّ منها",
+          "سقفك ثلاثة اقتباسات" in article_prompt_text and
+          "فاكتب المقال بلا اقتباس إطلاقًا -- لا تختلق واحدًا" in article_prompt_text,
+          article_prompt_text)
+    check("برومبت المقال (#1102): يمنع الألقاب المجرّدة (محلل/متحدث/مقدّم البرنامج/الضيف) بلا تعريف",
+          "يُمنع استعمال «محلل» أو «متحدث» أو «مقدّم البرنامج» أو «الضيف» مجرّدة"
+          in article_prompt_text, article_prompt_text)
+    check("برومبت المقال (#1102): لقب عام بلا اسم عَلَم يُنسَب صراحةً إلى القناة",
+          "فانسب القول صراحةً إلى القناة نفسها" in article_prompt_text, article_prompt_text)
+    check("برومبت المقال (#1102): يمنع نسبة رأي إلى «مصادر»/«مراقبين» مبهمة",
+          "لا تنسب رأيًا إلى «مصادر» أو «مراقبين»" in article_prompt_text, article_prompt_text)
+    check("برومبت المقال (#1102): يمنع افتتاح الخاتمة بصيغة قالبية ثابتة",
+          "يُمنع افتتاح الخاتمة بعبارة «في المحصلة» أو «بجمع هذه الخيوط» أو «من حيث الترجيح»"
+          in article_prompt_text, article_prompt_text)
+
+    # ── draft_article: الوقائع الصلبة (رقم)، اسم المتحدث، والاقتباس الحرفي
+    # الواردة في النقاط تصل فعلًا نصّ الطلب المُرسَل إلى النموذج (Issue #1102
+    # -- المادة موجودة أصلًا في _points_block، هذا تثبيت لا يزال يمرّ بعد
+    # تعديل نظام التعليمات وحده بلا مسّ أيّ منطق) ──
+    rich_points = [{
+        "channel": "الجزيرة", "bloc": "arabic", "speaker": "أحمد فلان (محلل سياسي)",
+        "type": "رأي", "statement": "الأزمة تفاقمت خلال ستين عامًا من التوتر",
+        "quote_arabic": "لم نشهد توترًا بهذا الحجم منذ ستين عامًا",
+        "video_title": "فيديو تجريبي", "video_url": "https://example.com/v", "timestamp": 12,
+    }]
+    rich_client = _Client([_Resp([_Block("text", text=_valid_article())])])
+    ya.draft_article(topic_a, rich_points, article_cfg, rich_client)
+    sent_content = rich_client.messages.calls[0]["messages"][0]["content"]
+    check("draft_article: الرقم/التاريخ الوارد في النقطة يصل نصّ الطلب",
+          "ستين عامًا" in sent_content, sent_content)
+    check("draft_article: اسم المتحدث الوارد في speaker يصل نصّ الطلب",
+          "أحمد فلان (محلل سياسي)" in sent_content, sent_content)
+    check("draft_article: الاقتباس الحرفي (quote_arabic) يصل نصّ الطلب",
+          "لم نشهد توترًا بهذا الحجم منذ ستين عامًا" in sent_content, sent_content)
+
+    # ── draft_article: نقطة بلا quote_arabic صالح (مفتاح غائب كليًا) لا
+    # تكسر شيئًا -- المقال يُصاغ كما اليوم (Issue #1102 قيد التثبيت) ──
+    no_quote_points = [{"channel": "الجزيرة", "speaker": "ناطق باسم الحكومة",
+                        "statement": "بيان رسمي بلا اقتباس مسجَّل"}]
+    no_quote_client = _Client([_Resp([_Block("text", text=_valid_article())])])
+    no_quote_text, no_quote_error = ya.draft_article(topic_a, no_quote_points, article_cfg,
+                                                       no_quote_client)
+    check("draft_article: نقطة بلا مفتاح quote_arabic لا تكسر شيئًا (يُصاغ المقال كالمعتاد)",
+          no_quote_error is None and no_quote_text is not None, no_quote_error)
+
     # ── _arabic_point_count_phrase / _collect_warnings / _append_warnings
     # (Issue #662 العطل ٣) ──
     check("_arabic_point_count_phrase: مفرد/مثنى/جمع",
