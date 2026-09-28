@@ -92,14 +92,17 @@ _mark_dropped أعلاه (سبب below_min_channels)، وإحصاء topics_below
 تراجع)."""
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
+import re
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from anthropic import Anthropic, APIError
 
+from . import decisions, review
 from .config import STATE_DIR, YOUTUBE_POINTS_DIR, Config, env, load_config
 
 log = logging.getLogger(__name__)
@@ -942,6 +945,253 @@ def save_output(result: dict) -> Path:
     return path
 
 
+# ──────────────────── بوابة الاختيار قبل الكتابة (Issue #1104) ────────────
+#
+# ٧٢٪ من إنفاق Opus (src/youtube_article.py) كان يذهب لمقالات لا تُنشر --
+# السبب أن الاختيار كان يقع *بعد* الصياغة (كل قضية من youtube.article.count
+# تُكتَب فورًا، ثم يرفض المراجع أغلبها في Issue المراجعة العادي). هذا القسم
+# يفتح بوابة اختيار قبل الكتابة، على غرار preselect.py في مسار الأخبار --
+# لا يمسّ العنقدة (run() أعلاه) ولا سقوفها ولا ترتيبها إطلاقًا، يُستهلَك
+# مخرجها المحفوظ فقط (state/youtube_topics/<date>.json، بعد save_output).
+#
+# الحالة تُخزَّن داخل نفس الملف الذي تكتبه العنقدة أصلًا (لا ملف/مجلد جديد):
+# كل قضية معروضة تكتسب id/created_at/selection_status
+# (pending→selected/unselected)/selection_issue. هذا مقصود لا كسل -- خطوة
+# "رفع القضايا والمسودات" في youtube-articles.yml تُضيف بالفعل
+# state/youtube_topics صراحة إلى git add (بلا تعديل الـworkflow ممكن)، فأي
+# ملف/مجلد جديد هنا لن يُرفَع أصلًا.
+
+SELECTION_DATE_RE = re.compile(r"<!--\s*selection-date:(\d{4}-\d{2}-\d{2})\s*-->")
+SELECTION_TOPIC_RE = re.compile(r"<!--\s*topic:([0-9a-f]+)\s*-->")
+
+_TIER_LABELS = {"a": "أ", "b": "ب", "c": "ج"}
+_SEL_AGREEMENT_LABELS = {
+    "cross_source": "خلاف قنوات", "internal": "خلاف داخلي",
+    "agreement": "اتفاق", "echo": "صدى",
+}
+
+
+def _topics_path(date_str: str) -> Path:
+    return TOPICS_DIR / f"{date_str}.json"
+
+
+def _load_topics_raw(date_str: str) -> dict:
+    """مثل load_topics لكن تعيد الملف الخام كاملًا (topics/all_topics/stats
+    معًا) -- الحالة أدناه تُكتب داخل عناصر topics نفسها فتحتاج إعادة حفظ
+    الملف كاملًا لا الحقل وحده."""
+    path = _topics_path(date_str)
+    if not path.exists():
+        return {"run_date": date_str, "topics": [], "all_topics": []}
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        log.warning("ملف قضايا يوتيوب تالف: %s", path)
+        return {"run_date": date_str, "topics": [], "all_topics": []}
+
+
+def _save_topics_raw(date_str: str, data: dict) -> None:
+    _topics_path(date_str).parent.mkdir(parents=True, exist_ok=True)
+    _topics_path(date_str).write_text(
+        json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def _topic_id(date_str: str, idx: int) -> str:
+    return hashlib.sha1(f"youtube-topic:{date_str}:{idx}".encode("utf-8")).hexdigest()[:12]
+
+
+def _checked_topic_ids(body: str) -> set[str]:
+    chosen: set[str] = set()
+    for line in body.splitlines():
+        match = SELECTION_TOPIC_RE.search(line)
+        if not match:
+            continue
+        checkbox = re.match(r"\s*-\s*\[([ xX])\]", line)
+        if checkbox and checkbox.group(1).lower() == "x":
+            chosen.add(match.group(1))
+    return chosen
+
+
+def _sample_points_lines(topic: dict, points: list[dict], n: int = 3) -> list[str]:
+    member_points = [points[pid] for pid in topic["point_ids"] if 0 <= pid < len(points)]
+    lines = []
+    for p in member_points[:n]:
+        statement = (p.get("statement") or "")[:140]
+        lines.append(f"  - «{statement}» — {p.get('speaker') or '؟'} ({p.get('channel') or '؟'})")
+    return lines
+
+
+def build_selection_body(date_str: str, topics: list[dict], points: list[dict], cfg=None) -> str:
+    """كل معلومة معروضة هنا من بنية القضية المحفوظة أصلًا (title/event/
+    layer/blocs/channels/agreement/point_ids) أو نصّ نقاطها الخام
+    (statement/speaker/channel) -- بلا أي نداء نموذج (نصّ الـIssue #1104
+    الصريح)."""
+    max_per_run = cfg.path("youtube.article.max_per_run") if cfg else None
+    parts = [
+        f"<!-- selection-date:{date_str} -->",
+        "### 🗳️ اختيار مواضيع التحليل",
+        "",
+        "**بلا صياغة بعد** — هذه القضايا كما عنقدتها المرحلة الثالثة، قبل "
+        "إنفاق أي تكلفة كتابة (نموذج Opus، الأغلى في المشروع).",
+        "",
+        "علّم ما تريد كتابته. ما لا تعلّمه لا يُكتب ولا يُقترح ثانيةً.",
+        "",
+        (f"سيكتب البوت حتى {max_per_run:g} موضوعًا مؤشَّرًا لكل تشغيلة "
+         "اعتماد؛ الباقي ينتظر تشغيلة يدوية لاحقة بنفس الوسم."
+         if max_per_run else "سيكتب البوت كل موضوع مؤشَّر دفعة واحدة، بلا سقف."),
+        "",
+        "🚫 **ما لا تعلّمه لن يُكتب** ويُسجَّل «لم يُختر» تلقائيًا.",
+        "",
+        "---",
+        "",
+    ]
+    for idx, t in enumerate(topics, start=1):
+        parts += [
+            f"- [ ] **{idx}. {t['title']}**  <!-- topic:{t['id']} -->",
+            "",
+            f"  {t.get('event', '')}",
+            "",
+            f"  الطبقة {_TIER_LABELS.get(t['layer'], t['layer'])} · "
+            f"{'، '.join(t['blocs']) or '—'} · {'، '.join(t['channels']) or '—'} · "
+            f"{_SEL_AGREEMENT_LABELS.get(t['agreement'], t['agreement'])} · "
+            f"{len(t['point_ids'])} نقطة",
+            "",
+        ]
+        samples = _sample_points_lines(t, points)
+        if samples:
+            parts += samples
+            parts.append("")
+        parts += ["---", ""]
+    parts.append(
+        "<sub>وسم `approved` = كتابة المعلَّم فقط (بسقف إن وُجد) · "
+        "إغلاق الـ Issue بلا تعليم = تجاهل الكل بلا أي كتابة</sub>"
+    )
+    return "\n".join(parts)
+
+
+def open_selection(cfg=None, date_str: str | None = None, now: datetime | None = None) -> dict:
+    """المرحلة قبل الرابعة (Issue #1104): تُستدعى من main() بعد save_output
+    -- تعرض أعلى youtube.article.count قضية للاختيار البشري بدل الكتابة
+    الفورية التي كانت تقع في src/youtube_article.py. لا تمسّ منطق العنقدة
+    نفسه (run() أعلاه) ولا سقوفه -- تقرأ مخرجه المحفوظ فقط، وتعيد كتابة نفس
+    الملف بعد تعليم القضايا المعروضة بمعرّف وحالة (انظر توثيق القسم أعلاه)."""
+    cfg = cfg or load_config()
+    now = now or datetime.now(timezone.utc)
+    date_str = date_str or now.strftime("%Y-%m-%d")
+    count = cfg.path("youtube.article.count", 10)
+
+    data = _load_topics_raw(date_str)
+    # قضية عُرضت في تشغيلة سابقة (تحمل selection_status بالفعل) لا تُعرَض
+    # ثانيةً -- كتابة الملف من جديد بعد تشغيلة سابقة يجب ألا تفتح Issue
+    # اختيار مكرّرًا لنفس القضايا.
+    candidates = [t for t in data.get("topics", []) if not t.get("selection_status")][:count]
+    if not candidates:
+        return {"issue": None, "topics": []}
+
+    points, _ = prepare_window_points(date_str, cfg)
+
+    for idx, t in enumerate(candidates):
+        t["id"] = _topic_id(date_str, idx)
+        t["created_at"] = now.isoformat()
+        t["selection_status"] = "pending"
+        t["selection_issue"] = None
+
+    body = build_selection_body(date_str, candidates, points, cfg)
+    review.ensure_labels()
+    issue = review.create_issue(
+        title=f"🗳️ اختيار مواضيع التحليل {now:%Y-%m-%d} UTC — {len(candidates)}",
+        body=body, labels=["youtube-selection"],
+    )
+    for t in candidates:
+        t["selection_issue"] = issue["number"]
+
+    _save_topics_raw(date_str, data)
+    return {"issue": issue, "topics": candidates}
+
+
+def finalize_selection(issue_number: int, body: str, cfg) -> dict:
+    """يُستدعى عند اعتماد Issue اختيار مواضيع التحليل (وسم youtube-selection
+    + approved، عبر publish.cmd_youtube_selection -- Issue #1104). يحسم كل
+    قضية عُرضت في هذا الـIssue وما زالت pending: معلَّمة ⇐ selected، غير
+    معلَّمة ⇐ unselected -- تُسجَّل «لم يُختر» في decisions.json وتُعلَّم
+    نقاطها مستهلكة بنفس آلية mark_points_seen القائمة (نصّ الـIssue الصريح:
+    استعمال هذه الآلية بعينها) كي لا تُقترَح ثانيةً. **لا كتابة هنا إطلاقًا**
+    -- تعيد فقط دفعة هذه التشغيلة (سقف youtube.article.max_per_run إن وُجد)
+    وما تبقّى بعدها؛ الكتابة الفعلية مسؤولية المستدعي (publish.py، عبر
+    youtube_article._write_one_topic لكل قضية في to_write)."""
+    m = SELECTION_DATE_RE.search(body)
+    if not m:
+        log.error("Issue #%s: لا علامة تاريخ اختيار (<!-- selection-date:... -->) "
+                  "في الجسم -- جسم من نوع آخر وُسم youtube-selection سهوًا على الأرجح",
+                  issue_number)
+        return {"date_str": None, "to_write": [], "still_waiting": [], "unselected_now": 0}
+
+    date_str = m.group(1)
+    checked = _checked_topic_ids(body)
+    data = _load_topics_raw(date_str)
+    topics = data.get("topics", [])
+    offered = [t for t in topics if t.get("selection_issue") == issue_number]
+
+    points, _ = prepare_window_points(date_str, cfg)
+    retention_days = cfg.path("youtube.seen_retention_days", 14)
+
+    def _keys(t: dict) -> set[str]:
+        return {point_key(points[pid]) for pid in t["point_ids"] if 0 <= pid < len(points)}
+
+    changed = False
+    unselected_now = 0
+    for t in offered:
+        # الحارس status == "pending" يقصر المعالجة على ما لم يُحسَم بعد --
+        # نفس مبدأ الحارس في publish.cmd_revival/cmd_final_review: وسم
+        # approved مكرّر (urgent وnormal لنفس الحدث، أو إعادة وسم لمتابعة ما
+        # تجاوز السقف) يجب ألا يُعالج قضية حُسِم مصيرها فعلًا مرة ثانية.
+        if t.get("selection_status") != "pending":
+            continue
+        changed = True
+        if t["id"] in checked:
+            t["selection_status"] = "selected"
+            continue
+        t["selection_status"] = "unselected"
+        decisions.record_unselected_topic(t)
+        keys = _keys(t)
+        if keys:
+            mark_points_seen(keys, date_str, retention_days)
+        unselected_now += 1
+
+    if changed:
+        _save_topics_raw(date_str, data)
+
+    selected = [t for t in offered if t.get("selection_status") == "selected"]
+    max_per_run = cfg.path("youtube.article.max_per_run")
+    if max_per_run:
+        cap = int(max_per_run)
+        to_write, still_waiting = selected[:cap], selected[cap:]
+    else:
+        to_write, still_waiting = selected, []
+
+    return {"date_str": date_str, "to_write": to_write, "still_waiting": still_waiting,
+            "unselected_now": unselected_now}
+
+
+def mark_topics_attempted(date_str: str, topic_ids: set[str]) -> None:
+    """يُستدعى من publish.cmd_youtube_selection بعد محاولة الكتابة الفعلية
+    لكل موضوع في to_write -- سواء نجحت (مسودة كُتبت) أو تخطّتها بوابة
+    الصورة/الحارس أو فشل نداء الكتابة (كلها "محاولة" بمعنى هذه الدالة).
+    يحوّل selection_status من selected إلى attempted كي لا يُعاد اعتبار هذا
+    الموضوع ضمن to_write في أي اعتماد لاحق لنفس الـIssue -- بلا هذا، موضوع
+    كُتب بنجاح في الدفعة الأولى كان سيُعاد "اختياره" وكتابته من جديد في كل
+    إعادة وسم `approved` لاحقة (مثلًا لمتابعة الباقي فوق سقف
+    youtube.article.max_per_run). الموضوعات فوق السقف (still_waiting) تبقى
+    selected عمدًا -- لم تُحاوَل بعد."""
+    data = _load_topics_raw(date_str)
+    changed = False
+    for t in data.get("topics", []):
+        if t.get("id") in topic_ids and t.get("selection_status") == "selected":
+            t["selection_status"] = "attempted"
+            changed = True
+    if changed:
+        _save_topics_raw(date_str, data)
+
+
 def main() -> int:
     logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stderr)
     result = run()
@@ -966,6 +1216,20 @@ def main() -> int:
             print(f"  دُمجت: {' + '.join(pair)}")
     if result["error"]:
         print(f"خطأ: {result['error']}")
+
+    # بوابة الاختيار قبل الكتابة (Issue #1104): العنقدة تنتهي هنا فعليًا --
+    # لا كتابة تلقائية بعد اليوم (انظر توثيق open_selection أعلاه ومنطق
+    # youtube_article.run() الجديد). خطوة "الكتابة" التالية في
+    # youtube-articles.yml (python -m src.youtube_article، بلا خيارات) تبقى
+    # قائمة بلا تعديل على الـworkflow، لكنها صارت بلا عمل فعليًا: لا موضوع
+    # يُكتَب تلقائيًا بعد الآن، فقط ما يُعتمَد لاحقًا من هذا الـIssue.
+    cfg = load_config()
+    selection = open_selection(cfg, result["run_date"])
+    if selection["issue"]:
+        print(f"Issue اختيار المواضيع: #{selection['issue']['number']} "
+              f"({len(selection['topics'])} موضوع)")
+    else:
+        print("لا موضوع جديد بانتظار اختيار")
     return 0
 
 
