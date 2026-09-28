@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import shutil
 from datetime import datetime, timedelta, timezone
 from PIL import Image
@@ -1760,6 +1761,137 @@ def test_youtube_cluster() -> None:
         capped_points_path.unlink(missing_ok=True)
         (ycl.TOPICS_DIR / "2099-02-03.json").unlink(missing_ok=True)
 
+    # ── بوابة الاختيار قبل الكتابة (Issue #1104): open_selection/
+    # finalize_selection -- على مخرَج المسار (Issue مفتوح، ملف القضايا
+    # المحدَّث) لا على تفاصيل داخلية. لا نداء نموذج في أيّ من الدالتين --
+    # كل المعلومات المعروضة من بنية القضية المحفوظة نفسها. ──
+    from src import decisions
+    cfg = load_config()
+    sel_topics = [
+        {"title": f"قضية {i}", "event": f"حدث {i}", "layer": "a",
+         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+         "agreement": "cross_source", "point_ids": [0, 1]}
+        for i in range(1, 5)
+    ]
+    sel_points = [
+        {"video_id": "s0", "bloc": "arabic", "channel": "الجزيرة", "speaker": "متحدث أول",
+         "statement": "قول تجريبي أول", "quote_arabic": "اقتباس", "type": "fact",
+         "video_title": "فيديو", "video_url": "https://youtube.com/watch?v=s0", "timestamp": 1},
+        {"video_id": "s1", "bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث ثانٍ",
+         "statement": "قول تجريبي ثانٍ", "quote_arabic": "اقتباس ٢", "type": "fact",
+         "video_title": "فيديو ٢", "video_url": "https://youtube.com/watch?v=s1", "timestamp": 2},
+    ]
+    ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+    ycl.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+    sel_points_path = ycl.POINTS_DIR / "2099-08-01.json"
+    sel_topics_path = ycl.TOPICS_DIR / "2099-08-01.json"
+    sel_points_path.write_text(json.dumps({"points": sel_points}, ensure_ascii=False),
+                               encoding="utf-8")
+    sel_topics_path.write_text(
+        json.dumps({"run_date": "2099-08-01", "topics": sel_topics}, ensure_ascii=False),
+        encoding="utf-8")
+
+    sel_created_issues: list = []
+    real_create_issue_sel = review.create_issue
+    real_ensure_labels_sel = review.ensure_labels
+    real_repo_sel = os.environ.get("GITHUB_REPOSITORY")
+
+    def _fake_create_issue_sel(title, body, labels=None):
+        sel_created_issues.append({"title": title, "body": body, "labels": labels})
+        return {"number": 4242, "html_url": "https://example.com/issues/4242"}
+
+    review.create_issue = _fake_create_issue_sel  # type: ignore
+    review.ensure_labels = lambda: None  # type: ignore
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+    seen_backup_sel = ycl.SEEN_PATH.read_text(encoding="utf-8") if ycl.SEEN_PATH.exists() else None
+    decisions_backup = decisions.load()
+    decisions_file_backup = (decisions.DECISIONS_FILE.read_text(encoding="utf-8")
+                             if decisions.DECISIONS_FILE.exists() else None)
+    try:
+        sel_result = ycl.open_selection(cfg, date_str="2099-08-01")
+        check("open_selection(): يفتح Issue واحدًا بوسم youtube-selection",
+              len(sel_created_issues) == 1 and sel_created_issues[0]["labels"] == ["youtube-selection"],
+              sel_created_issues)
+        check("open_selection(): أربعة معرّفات <!-- topic:ID --> فريدة في الجسم",
+              len(ycl.SELECTION_TOPIC_RE.findall(sel_created_issues[0]["body"])) == 4 and
+              len(set(ycl.SELECTION_TOPIC_RE.findall(sel_created_issues[0]["body"]))) == 4,
+              sel_created_issues[0]["body"])
+        check("open_selection(): علامة تاريخ الاختيار مضمَّنة في الجسم",
+              "<!-- selection-date:2099-08-01 -->" in sel_created_issues[0]["body"])
+        check("open_selection(): نقطة عيّنة باسم متحدث ظاهرة في الجسم (بلا نداء نموذج)",
+              "متحدث أول" in sel_created_issues[0]["body"], sel_created_issues[0]["body"])
+        check("open_selection(): أربع قضايا أُعيدت وكل واحدة حملت id/selection_issue",
+              len(sel_result["topics"]) == 4 and
+              all(t.get("id") and t.get("selection_issue") == 4242 for t in sel_result["topics"]),
+              sel_result["topics"])
+
+        # نداء ثانٍ لنفس التاريخ: القضايا عُلِّمت بالفعل (selection_status)
+        # فلا تُعرَض ثانيةً ولا يُفتَح Issue جديد.
+        sel_result_again = ycl.open_selection(cfg, date_str="2099-08-01")
+        check("open_selection(): تشغيلة ثانية لنفس التاريخ لا تفتح Issue مكرَّرًا",
+              sel_result_again["issue"] is None and sel_result_again["topics"] == [],
+              sel_result_again)
+
+        # اعتماد باختيار قضيتين من أربع (١ و٣) فقط -- محاكاة تعليم المراجع
+        # لمربعي هذين المعرّفين في نصّ الـIssue الفعلي.
+        chosen_ids = [sel_result["topics"][0]["id"], sel_result["topics"][2]["id"]]
+        approve_body = sel_created_issues[0]["body"]
+        for cid in chosen_ids:
+            approve_body = re.sub(
+                r"- \[ \](.*?)<!-- topic:" + cid + r" -->",
+                lambda m: f"- [x]{m.group(1)}<!-- topic:{cid} -->",
+                approve_body)
+
+        fin_result = ycl.finalize_selection(4242, approve_body, cfg)
+        check("finalize_selection(): تاريخ الاختيار استُخرج صحيحًا من الجسم",
+              fin_result["date_str"] == "2099-08-01", fin_result)
+        check("finalize_selection(): قضيتان معلَّمتان للكتابة، وقضيتان لم تُختارا",
+              len(fin_result["to_write"]) == 2 and fin_result["unselected_now"] == 2,
+              fin_result)
+        written_titles = {t["title"] for t in fin_result["to_write"]}
+        check("finalize_selection(): القضيتان المكتوبتان هما المعلَّمتان فعليًا (١ و٣)",
+              written_titles == {"قضية 1", "قضية 3"}, written_titles)
+
+        persisted = json.loads(sel_topics_path.read_text(encoding="utf-8"))
+        persisted_status = {t["title"]: t.get("selection_status") for t in persisted["topics"]}
+        check("finalize_selection(): الحالة المحفوظة على القرص صحيحة لكل قضية (selected/unselected)",
+              persisted_status == {"قضية 1": "selected", "قضية 2": "unselected",
+                                   "قضية 3": "selected", "قضية 4": "unselected"},
+              persisted_status)
+        check("finalize_selection(): غير المعلَّم سُجِّل «لم يُختر» في decisions.json",
+              len(decisions.load()) - len(decisions_backup) == 2 and
+              all(e["decision"] == "unselected" and e["reject_tag"] == "لم يُختر"
+                  for e in decisions.load()[len(decisions_backup):]),
+              decisions.load()[len(decisions_backup):])
+        check("finalize_selection(): نقاط غير المختار عُلِّمت مستهلكة (mark_points_seen)",
+              ycl.point_key(sel_points[0]) in ycl.load_seen_points(), ycl.load_seen_points())
+
+        # إعادة اعتماد نفس الـIssue بلا تغيير (تكرار الوسم) -- لا يُعاد حسم
+        # ما حُسِم بالفعل، ونفس دفعة الكتابة تعود كما هي (بلا مضاعفة).
+        fin_result_again = ycl.finalize_selection(4242, approve_body, cfg)
+        check("finalize_selection(): إعادة الاعتماد لا تُسجِّل «لم يُختر» مرّة ثانية",
+              fin_result_again["unselected_now"] == 0, fin_result_again)
+        check("finalize_selection(): إعادة الاعتماد تعيد نفس دفعة الكتابة (القضيتان أنفسهما)",
+              {t["title"] for t in fin_result_again["to_write"]} == {"قضية 1", "قضية 3"},
+              fin_result_again)
+    finally:
+        review.create_issue = real_create_issue_sel  # type: ignore
+        review.ensure_labels = real_ensure_labels_sel  # type: ignore
+        if real_repo_sel is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo_sel
+        sel_points_path.unlink(missing_ok=True)
+        sel_topics_path.unlink(missing_ok=True)
+        if seen_backup_sel is None:
+            ycl.SEEN_PATH.unlink(missing_ok=True)
+        else:
+            ycl.SEEN_PATH.write_text(seen_backup_sel, encoding="utf-8")
+        if decisions_file_backup is None:
+            decisions.DECISIONS_FILE.unlink(missing_ok=True)
+        else:
+            decisions.DECISIONS_FILE.write_text(decisions_file_backup, encoding="utf-8")
+
 def test_youtube_article() -> None:
     """المرحلة الرابعة (src/youtube_article.py، Issue #646): كتابة مقالات
     من أعلى القضايا. لا شبكة، لا نموذج فعلي -- الحارس والكتابة كلاهما
@@ -2383,7 +2515,13 @@ def test_youtube_article() -> None:
     real_find_images_run = imagesearch.find_images
     imagesearch.find_images = lambda *a, **k: []  # type: ignore
     try:
-        result = ya.run(article_cfg, date_str="2099-04-04", client=run_client)
+        # Issue #1104: run() لم تعد تقرأ topics[:count] تلقائيًا من ملف
+        # العنقدة -- topics_override يمرّرها صراحةً (بوابة الاختيار قبل
+        # الكتابة تُختبَر بذاتها أدناه في هذا الملف). topics_path لا يزال
+        # يُكتَب أعلاه لأن run() يستهلك نفس ملف النقاط (points_path) عبر
+        # prepare_window_points -- لا علاقة لذلك بقراءة topics نفسها.
+        result = ya.run(article_cfg, date_str="2099-04-04", client=run_client,
+                        topics_override=topics_for_run)
         stats = result["stats"]
         check("run(): طبقة أ لا تستدعي حارس المحظورات إطلاقًا",
               stats["guard_calls"] == 3, stats)
@@ -2463,6 +2601,33 @@ def test_youtube_article() -> None:
             ycl.SEEN_PATH.unlink(missing_ok=True)
         else:
             ycl.SEEN_PATH.write_text(seen_backup3, encoding="utf-8")
+
+    # ── run(): بلا topics_override لا تكتب شيئًا إطلاقًا حتى لو حمل ملف
+    # العنقدة قضايا فعلية (Issue #1104، بوابة الاختيار قبل الكتابة) -- هذا
+    # بالضبط ما يجعل خطوة "الكتابة" في youtube-articles.yml (python -m
+    # src.youtube_article، بلا خيارات) بلا عمل فعليًا بعد اليوم: صفر نداء
+    # نموذج، صفر مقال، بصرف النظر عمّا تحمله state/youtube_topics/<date>.json ──
+    ycl.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+    no_override_topics_path = ycl.TOPICS_DIR / "2099-07-07.json"
+    no_override_topics_path.write_text(
+        json.dumps({"run_date": "2099-07-07", "topics": topics_for_run}, ensure_ascii=False),
+        encoding="utf-8")
+    seen_backup_noverride = ycl.SEEN_PATH.read_text(encoding="utf-8") if ycl.SEEN_PATH.exists() else None
+    try:
+        no_override_client = _Client([])
+        result_no_override = ya.run(article_cfg, date_str="2099-07-07", client=no_override_client)
+        check("run(): بلا topics_override ⇐ صفر مقالات رغم وجود قضايا في ملف العنقدة",
+              result_no_override["stats"]["articles_written"] == 0 and
+              result_no_override["stats"]["topics_considered"] == 0, result_no_override["stats"])
+        check("run(): بلا topics_override ⇐ صفر نداء نموذج إطلاقًا (لا حارس، لا كتابة، لا عناوين)",
+              len(no_override_client.messages.calls) == 0, no_override_client.messages.calls)
+    finally:
+        no_override_topics_path.unlink(missing_ok=True)
+        shutil.rmtree(ya.ARTICLES_DIR / "2099-07-07", ignore_errors=True)
+        if seen_backup_noverride is None:
+            ycl.SEEN_PATH.unlink(missing_ok=True)
+        else:
+            ycl.SEEN_PATH.write_text(seen_backup_noverride, encoding="utf-8")
 
 @auto_restore_last_publish
 def test_youtube_publish() -> None:
@@ -3248,6 +3413,17 @@ def test_youtube_publish() -> None:
     check("publish_approved: سقف يغطي كل المعتمَد (3 من 3) ⇒ الـIssue يُغلَق",
           closed_issues == [4243], closed_issues)
 
+    # مسودتان بقيتا pending بلا review_issue (_hex_id(3)/_hex_id(4)، السيناريو
+    # الأول) وبلا حقل title أصلًا (بنية مبسَّطة لاختبار سقف/تباعد
+    # publish_approved وحده -- لا شكل مسودة حقيقي) -- تُحذَف هنا فورًا كي لا
+    # يلتقطها youtube_publish.open_review() لاحقًا في هذا الملف (Issue #1104:
+    # publish.cmd_youtube_selection يستدعيها فعليًا بعد الكتابة) فتنهار على
+    # d["title"] المفقود.
+    for i in range(8):
+        found_leftover = store.load_draft(_hex_id(i))
+        if found_leftover:
+            found_leftover[0].unlink(missing_ok=True)
+
     # ── لا مُعلَّم ⇒ تعليق تنبيه وإزالة الوسم، بلا نشر ──
     removed_labels: list = []
     real_remove_label = review.remove_label
@@ -3332,6 +3508,239 @@ def test_youtube_publish() -> None:
           cfg.path("youtube.review.headlines.max_words") == 15)
     check("config: youtube.review.headlines.max_retries موجود",
           bool(cfg.path("youtube.review.headlines.max_retries")))
+
+    # ── Issue #1104: publish.cmd_youtube_selection -- الكتابة الفعلية عند
+    # اعتماد Issue اختيار المواضيع. يغطّي: سقف youtube.article.max_per_run،
+    # بوابة الصورة مطبَّقة على المعلَّم وحده (موضوع معلَّم بلا صورة لا
+    # يُكتَب ويُسجَّل سبب التخطّي)، عدم الكتابة مزدوجًا عند تكرار وسم
+    # approved، وإكمال الباقي بعد إعادة الوسم. ──
+    class _Block2:
+        def __init__(self, type_, input_=None, text=None):
+            self.type, self.input, self.text = type_, input_, text
+
+    class _Resp2:
+        def __init__(self, content, stop_reason="end_turn", usage=None):
+            self.content, self.stop_reason, self.usage = content, stop_reason, usage
+
+    class _Messages2:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls: list = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return self._responses.pop(0)
+
+    class _Client2:
+        def __init__(self, responses):
+            self.messages = _Messages2(responses)
+
+    sel2_topics = [
+        {"title": "موضوع بصورة أول", "event": "حدث ١", "layer": "a",
+         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+         "agreement": "cross_source", "point_ids": [0, 1]},
+        {"title": "موضوع بلا صورة متاحة", "event": "حدث ٢", "layer": "a",
+         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+         "agreement": "cross_source", "point_ids": [0, 1]},
+        {"title": "موضوع بصورة ثانٍ فوق السقف", "event": "حدث ٣", "layer": "a",
+         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+         "agreement": "cross_source", "point_ids": [0, 1]},
+        {"title": "موضوع لم يُختر", "event": "حدث ٤", "layer": "a",
+         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+         "agreement": "cross_source", "point_ids": [0, 1]},
+    ]
+    sel2_points = [
+        {"video_id": "sw0", "bloc": "arabic", "channel": "الجزيرة", "speaker": "متحدث",
+         "statement": "قول", "quote_arabic": "اقتباس", "type": "fact",
+         "video_title": "فيديو", "video_url": "https://youtube.com/watch?v=sw0",
+         "timestamp": 1},
+        {"video_id": "sw1", "bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث٢",
+         "statement": "قول٢", "quote_arabic": "اقتباس٢", "type": "fact",
+         "video_title": "فيديو٢", "video_url": "https://youtube.com/watch?v=sw1",
+         "timestamp": 2},
+    ]
+    ycl2 = youtube_cluster
+    ycl2.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+    ycl2.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+    sel2_points_path = ycl2.POINTS_DIR / "2099-09-01.json"
+    sel2_topics_path = ycl2.TOPICS_DIR / "2099-09-01.json"
+    sel2_points_path.write_text(json.dumps({"points": sel2_points}, ensure_ascii=False),
+                                encoding="utf-8")
+    sel2_topics_path.write_text(
+        json.dumps({"run_date": "2099-09-01", "topics": sel2_topics}, ensure_ascii=False),
+        encoding="utf-8")
+
+    sel2_cfg = load_config()
+    sel2_cfg.setdefault("youtube", {}).setdefault("article", {})["max_per_run"] = 2
+
+    sel2_issues: dict = {}
+    issue_counter = {"n": 6000}
+
+    def _fake_create_issue2(title, body, labels=None):
+        issue_counter["n"] += 1
+        num = issue_counter["n"]
+        sel2_issues[num] = {"title": title, "body": body, "labels": labels}
+        return {"number": num, "html_url": f"https://example.com/issues/{num}"}
+
+    comments2: list = []
+    removed_labels2: list = []
+    closed_issues2: list = []
+
+    real_create_issue2 = review.create_issue
+    real_ensure_labels2 = review.ensure_labels
+    real_comment2 = review.comment
+    real_remove_label2 = review.remove_label
+    real_close_issue2 = review.close_issue
+    real_repo2 = os.environ.get("GITHUB_REPOSITORY")
+    real_photo_candidates2 = youtube_extract.photo_candidates
+    real_news_photo_available2 = youtube_extract.news_photo_available
+    real_find_images2 = imagesearch.find_images
+
+    review.create_issue = _fake_create_issue2  # type: ignore
+    review.ensure_labels = lambda: None  # type: ignore
+    review.comment = lambda issue_number, text: comments2.append((issue_number, text))  # type: ignore
+    review.remove_label = lambda issue_number, label: removed_labels2.append((issue_number, label))  # type: ignore
+    review.close_issue = lambda issue_number: closed_issues2.append(issue_number)  # type: ignore
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+    youtube_extract.photo_candidates = lambda *a, **k: (
+        [] if "بلا صورة" in a[0] else ["https://example.com/photo.jpg"])  # type: ignore
+    youtube_extract.news_photo_available = lambda *a, **k: False  # type: ignore
+    imagesearch.find_images = lambda *a, **k: []  # type: ignore
+
+    seen_backup_sel2 = ycl2.SEEN_PATH.read_text(encoding="utf-8") if ycl2.SEEN_PATH.exists() else None
+    try:
+        sel2_result = ycl2.open_selection(sel2_cfg, date_str="2099-09-01")
+        sel_issue_num = sel2_result["issue"]["number"]
+        selection_body = sel2_issues[sel_issue_num]["body"]
+
+        # علّم الثلاثة الأولى (بصورة أول، بلا صورة، بصورة ثانٍ فوق السقف)
+        # ولا تعلّم الرابع (لم يُختر).
+        chosen2 = [sel2_result["topics"][0]["id"], sel2_result["topics"][1]["id"],
+                  sel2_result["topics"][2]["id"]]
+        approve_body2 = selection_body
+        for cid in chosen2:
+            approve_body2 = re.sub(
+                r"- \[ \](.*?)<!-- topic:" + cid + r" -->",
+                lambda m, cid=cid: f"- [x]{m.group(1)}<!-- topic:{cid} -->",
+                approve_body2)
+
+        # الدفعة الأولى (سقف ٢): الأول ناجح (نداءا نموذج: مقال + عناوين)،
+        # الثاني تتخطّاه بوابة الصورة *قبل* أي نداء نموذج، الثالث فوق السقف
+        # فلا يُحاوَل بعد -- عميل بردّين فقط يكفي ويُثبت عدم إهدارهما.
+        w1_article = ("# هل يقع هذا التطوّر فعلًا؟\n\n" + "كلمة " * 260 +
+                     "\n\nمرجّح أن يقع هذا التطوّر فعلًا.")
+        batch1_client = _Client2([
+            _Resp2([_Block2("text", text=w1_article)]),
+            _Resp2([_Block2("tool_use", input_={"headlines": [
+                "هل يقع هذا التطوّر؟", "بديل ١", "بديل ٢"]})]),
+        ])
+
+        result1 = publish_mod.cmd_youtube_selection(sel_issue_num, approve_body2, sel2_cfg,
+                                                     client=batch1_client)
+        check("cmd_youtube_selection(): الدفعة الأولى تُعيد 0 (نجاح)", result1 == 0, result1)
+        check("cmd_youtube_selection(): نداءا نموذج فقط في الدفعة الأولى (مقال+عناوين للأول وحده)",
+              len(batch1_client.messages.calls) == 2, batch1_client.messages.calls)
+
+        report1 = comments2[-1][1]
+        check("cmd_youtube_selection(): تقرير الدفعة الأولى يذكر الموضوع الناجح "
+              "(بعنوانه المكتوب فعليًا) والمتخطّى لغياب الصورة والباقي فوق السقف "
+              "وعدد غير المختار",
+              "هل يقع هذا التطوّر؟" in report1 and "لا صورة متاحة" in report1 and
+              "موضوع بصورة ثانٍ فوق السقف" in report1 and "🚫" in report1,
+              report1)
+        check("cmd_youtube_selection(): سقف الدفعة تجاوَزه موضوع واحد ⇒ وسم approved أُزيل "
+              "والـIssue لم يُغلَق",
+              removed_labels2 == [(sel_issue_num, "approved")] and
+              closed_issues2 == [], (removed_labels2, closed_issues2))
+
+        persisted2 = json.loads(sel2_topics_path.read_text(encoding="utf-8"))
+        status_by_title = {t["title"]: t.get("selection_status") for t in persisted2["topics"]}
+        check("cmd_youtube_selection(): حالة كل موضوع بعد الدفعة الأولى صحيحة على القرص",
+              status_by_title == {
+                  "موضوع بصورة أول": "attempted", "موضوع بلا صورة متاحة": "attempted",
+                  "موضوع بصورة ثانٍ فوق السقف": "selected", "موضوع لم يُختر": "unselected"},
+              status_by_title)
+
+        # مسودة الموضوع الناجح كُتبت فعليًا في drafts/ بمعرّف ثابت (مشتقّ من
+        # id الموضوع)، origin="analysis"، وبلا حقل image (Issue #680 -- تُبنى
+        # لاحقًا عند الاعتماد لا هنا.
+        import hashlib as _hashlib_sel
+        written_topic_id = sel2_result["topics"][0]["id"]
+        written_draft_id = _hashlib_sel.sha1(
+            f"youtube-selection:2099-09-01:{written_topic_id}".encode("utf-8")).hexdigest()[:12]
+        found_draft = store.load_draft(written_draft_id)
+        check("cmd_youtube_selection(): مسودة الموضوع الناجح كُتبت فعليًا في drafts/",
+              found_draft is not None, written_draft_id)
+        if found_draft:
+            check("cmd_youtube_selection(): المسودة المكتوبة origin=analysis وبلا حقل image",
+                  store.origin_of(found_draft[1]) == "analysis" and "image" not in found_draft[1],
+                  found_draft[1])
+
+        # إعادة اعتماد نفس الـIssue (تكرار وسم approved لمتابعة الباقي فوق
+        # السقف، Issue #961/#1008): الأول/الثاني صارا attempted فلن يُعاد
+        # النظر فيهما أو كتابتهما مجددًا -- عميل هذه الدفعة يحمل ردّين فقط
+        # (مقال+عناوين)، فاستهلاكهما بالضبط يثبت أن الثالث وحده كُتب لا هو
+        # وأحد سابقيه معًا (لو أُعيد الأول/الثاني لاستُنفد العميل بردّين
+        # إضافيين مفقودين وانهار الاختبار).
+        w3_article = ("# هل يستمر هذا التطوّر الثاني؟\n\n" + "كلمة " * 260 +
+                     "\n\nمرجّح أن يستمر هذا التطوّر الثاني.")
+        batch2_client = _Client2([
+            _Resp2([_Block2("text", text=w3_article)]),
+            _Resp2([_Block2("tool_use", input_={"headlines": [
+                "هل يستمر هذا التطوّر الثاني؟", "بديل ١", "بديل ٢"]})]),
+        ])
+        result2 = publish_mod.cmd_youtube_selection(sel_issue_num, approve_body2, sel2_cfg,
+                                                     client=batch2_client)
+        check("cmd_youtube_selection(): إعادة الوسم تكمل الباقي فوق السقف (نداءا نموذج للثالث)",
+              len(batch2_client.messages.calls) == 2, batch2_client.messages.calls)
+        check("cmd_youtube_selection(): لا شيء يبقى بعد إكمال الدفعة ⇒ الـIssue أُغلق",
+              sel_issue_num in closed_issues2, closed_issues2)
+
+        # مسار --urgent-only لا يفعل شيئًا بهذا الـIssue (نصّ الـIssue #1104
+        # الصريح: يعمل في مسار normal فقط) -- عبر publish.main فعليًا، بنفس
+        # حارس failed-review (المسار السريع لا يعالج الإحياء) المطابق شكلًا.
+        import sys as _sys
+        selection_calls: list = []
+        real_cmd_selection = publish_mod.cmd_youtube_selection
+        real_fetch_issue = publish_mod.fetch_issue
+        real_argv = _sys.argv
+        publish_mod.cmd_youtube_selection = (  # type: ignore
+            lambda *a, **k: selection_calls.append((a, k)) or 0)
+        publish_mod.fetch_issue = lambda issue_number: {  # type: ignore
+            "body": approve_body2, "labels": [{"name": "youtube-selection"}]}
+        try:
+            _sys.argv = ["publish.py", "--issue", str(sel_issue_num), "--urgent-only"]
+            publish_mod.main()
+            check("main(): --urgent-only لا يستدعي cmd_youtube_selection إطلاقًا لهذا الوسم",
+                  selection_calls == [], selection_calls)
+
+            _sys.argv = ["publish.py", "--issue", str(sel_issue_num), "--skip-urgent"]
+            publish_mod.main()
+            check("main(): --skip-urgent (المسار العادي) يستدعي cmd_youtube_selection فعليًا",
+                  len(selection_calls) == 1, selection_calls)
+        finally:
+            publish_mod.cmd_youtube_selection = real_cmd_selection  # type: ignore
+            publish_mod.fetch_issue = real_fetch_issue  # type: ignore
+            _sys.argv = real_argv
+    finally:
+        review.create_issue = real_create_issue2  # type: ignore
+        review.ensure_labels = real_ensure_labels2  # type: ignore
+        review.comment = real_comment2  # type: ignore
+        review.remove_label = real_remove_label2  # type: ignore
+        review.close_issue = real_close_issue2  # type: ignore
+        youtube_extract.photo_candidates = real_photo_candidates2  # type: ignore
+        youtube_extract.news_photo_available = real_news_photo_available2  # type: ignore
+        imagesearch.find_images = real_find_images2  # type: ignore
+        if real_repo2 is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo2
+        sel2_points_path.unlink(missing_ok=True)
+        sel2_topics_path.unlink(missing_ok=True)
+        if seen_backup_sel2 is None:
+            ycl2.SEEN_PATH.unlink(missing_ok=True)
+        else:
+            ycl2.SEEN_PATH.write_text(seen_backup_sel2, encoding="utf-8")
 
 
 def _news_photo_draft(draft_id: str, run_date: str = "2026-03-01") -> dict:
@@ -3511,7 +3920,9 @@ def test_youtube_image_news_photo() -> None:
     seen_backup_r2 = ycl2.SEEN_PATH.read_text(encoding="utf-8") if ycl2.SEEN_PATH.exists() else None
     try:
         imagesearch.find_images = lambda *a, **k: []  # type: ignore
-        result2 = youtube_article.run(cfg, date_str="2099-06-02", client=np_run_client)
+        # Issue #1104: topics_override صراحة (انظر تعليق مشابه أعلى الملف)
+        result2 = youtube_article.run(cfg, date_str="2099-06-02", client=np_run_client,
+                                      topics_override=[topic_news_photo])
     finally:
         _restore()
         points_path2.unlink(missing_ok=True)
@@ -3603,7 +4014,9 @@ def test_youtube_image_news_photo() -> None:
     try:
         imagesearch.find_images = lambda *a, **k: []  # type: ignore
         youtube_extract.news_photo_available = lambda *a, **k: False  # type: ignore
-        result4 = youtube_article.run(cfg, date_str="2099-06-06", client=no_call_client)
+        # Issue #1104: topics_override صراحة (انظر تعليق مشابه أعلى الملف)
+        result4 = youtube_article.run(cfg, date_str="2099-06-06", client=no_call_client,
+                                      topics_override=[topic_none])
     finally:
         _restore()
         youtube_extract.news_photo_available = real_news_photo_available_4  # type: ignore

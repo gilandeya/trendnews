@@ -183,6 +183,46 @@ def record_rejected_unchecked(draft: dict) -> None:
     save(entries)
 
 
+def _features_topic(topic: dict) -> dict:
+    """سمات موضوع تحليل غير مختار (Issue #1104، بوابة اختيار مسار
+    التحليل) — شكل ثالث مختلف عن ``_features``/``_features_candidate``: لا
+    ``arabic`` ولا ``source`` ولا ``article``، فالموضوع مُعنقَد فقط ولم
+    يُصَغ بعد. السمات التحريرية المتاحة فعلًا قبل الكتابة هي بالضبط ما ذكره
+    نصّ الـIssue: الكتل، القنوات، عدد النقاط، ومؤشر الاتفاق/الخلاف — لا
+    ``score``/``trend_score``/``velocity`` (مفاهيم مسار الأخبار، لا معنى
+    لها هنا)."""
+    return {
+        "origin": "analysis",
+        "category": "", "angle": "", "urgent": False,
+        "bucket": "", "region": "",
+        "score": 0.0, "trend_score": 0.0, "velocity": 0.0,
+        "source_count": len(topic.get("channels") or []),
+        "body_len": 0, "has_photo": False, "state_media": False,
+        "created_hour": _created_hour(topic.get("created_at", "")),
+        "layer": topic.get("layer", ""),
+        "bloc_count": len(topic.get("blocs") or []),
+        "channel_count": len(topic.get("channels") or []),
+        "point_count": len(topic.get("point_ids") or []),
+        "agreement": topic.get("agreement", ""),
+    }
+
+
+def record_unselected_topic(topic: dict) -> None:
+    """رفض قبل الكتابة (Issue #1104) — نظير ``record_unselected`` أعلاه لكن
+    لمسار التحليل: موضوع عُرض في Issue اختيار مواضيع التحليل
+    (``youtube_cluster.open_selection``) فلم يُختَر ضمن دفعته. قيمة
+    ``decision`` نفسها (``"unselected"``) بنصّ الـIssue الحرفي — «نفس قيمة
+    unselected المستعملة في بوابة اختيار الأخبار» — لتبقى قابلة للقياس معًا
+    في أي تقرير لاحق، مع سمات مختلفة (``_features_topic``) تناسب شكل
+    الموضوع لا شكل مرشح الأخبار."""
+    entries = load()
+    if any(e.get("id") == topic.get("id") for e in entries):
+        return
+    _append(entries, topic, "unselected", reject_tag="لم يُختر",
+            features=_features_topic(topic))
+    save(entries)
+
+
 def record_unselected(cand: dict) -> None:
     """رفض قبل الصياغة (Issue #954): مرشح preselect عُرض في Issue اختيار
     (gate A) فلم يُختر ضمن دفعته. قيمة decision منفصلة عمدًا عن

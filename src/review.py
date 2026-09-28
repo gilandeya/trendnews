@@ -649,6 +649,7 @@ def ensure_labels() -> None:
     wanted = [
         ("pending-review", "fbca04", "مسودات بانتظار المراجعة"),
         ("pending-selection", "c5def5", "مرشحون بانتظار الاختيار قبل الصياغة"),
+        ("youtube-selection", "c5def5", "مواضيع تحليل بانتظار الاختيار قبل الكتابة"),
         ("final-review", "1d76db", "مراجعة نهائية للبطاقة قبل النشر"),
         ("failed-review", "b60205", "منشورات فشل نشرها بانتظار إعادة المحاولة"),
         ("approved", "0e8a16", "معتمد للنشر"),

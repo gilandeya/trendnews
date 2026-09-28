@@ -448,6 +448,56 @@ def build_draft(row: dict, date_str: str, articles_dir: Path, cfg) -> dict | Non
     }
 
 
+def build_draft_from_text(topic: dict, text: str, video_ids: list[str],
+                          date_str: str, cfg) -> dict:
+    """مثل build_draft أعلاه لكن من نصّ مقال جاهز في الذاكرة مباشرة -- بلا
+    ملف .md ولا index.md وسيطين في مستودع البيانات الخاص (Issue #1104،
+    بوابة الاختيار قبل الكتابة): الكتابة الفعلية صارت تقع عند اعتماد Issue
+    الاختيار، من داخل publish.yml (طلب صريح على الـIssue) -- سير عمل لا
+    يفتح تسجيل الدخول إلى gilandeya/trendnews-data إطلاقًا (خلافًا لـ
+    youtube-articles.yml)، فلا مكان آمن يُكتب فيه ملف .md وسيط هناك أصلًا،
+    ولا خطوة رفع/دفع لذلك المستودع فيه على أي حال. ``topic`` هنا يحمل
+    بالفعل ``id`` (يُخصَّص في youtube_cluster.open_selection) بدل الاعتماد
+    على رقم صفّ في index.md -- ``draft_id`` يُشتَقّ منه فيبقى ثابتًا حتى لو
+    أُعيدت معالجة نفس القضية (سقف youtube.article.max_per_run يؤجّل باقي
+    الدفعة لتشغيلة لاحقة، انظر youtube_cluster.finalize_selection). شكل
+    المسودة الناتج مطابق لـbuild_draft حرفيًا -- فرق المصدر فقط (نصّ في
+    الذاكرة بدل ملف على القرص)."""
+    raw_text, image_query_en = split_image_query(text)
+    body_no_headlines, headlines = split_headlines(raw_text)
+    caption, warnings = split_warnings(body_no_headlines)
+    if not headlines:
+        headlines = [topic["title"]] * 3
+    default_title = headlines[0]
+
+    draft_id = hashlib.sha1(
+        f"youtube-selection:{date_str}:{topic['id']}".encode("utf-8")
+    ).hexdigest()[:12]
+
+    return {
+        "id": draft_id,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "status": "pending",
+        "origin": "analysis",
+        "title": default_title,
+        "tier": topic["layer"],
+        "blocs": topic["blocs"],
+        "channels": topic["channels"],
+        "agreement": topic["agreement"],
+        "event": topic.get("event", ""),
+        "image_query_en": image_query_en,
+        "warnings": warnings,
+        "caption": caption,
+        "run_date": date_str,
+        "headlines": headlines,
+        "headline_selected": 0,
+        "arabic": {"post_title": default_title, "urgent": False, "category": "تحليل"},
+        "source": {"link": "", "publishers": topic["channels"]},
+        "score": compute_score(topic["blocs"], topic["channels"], topic["agreement"], cfg),
+        "source_videos": video_ids,
+    }
+
+
 def _review_sort_key(d: dict) -> tuple:
     # الدرجة المركّبة تنازليًا أولًا (نصّ الـIssue #680 -- انظر compute_score
     # ولماذا الطبقة وحدها كانت تظلم مقالات قوية)؛ عند تساوٍ تامّ في الدرجة،

@@ -793,6 +793,98 @@ def cmd_revival(issue_number: int, body: str, cfg) -> int:
     return 0
 
 
+def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int:
+    """اعتماد Issue اختيار مواضيع التحليل قبل الكتابة (وسم youtube-selection،
+    Issue #1104): يحسم المعلَّم/غير المعلَّم أولًا (youtube_cluster.
+    finalize_selection -- يسجّل «لم يُختر» في decisions.json ويُعلَّم نقاط
+    غير المختار مستهلكة كي لا يُقترَح ثانيةً، دفعة واحدة بصرف النظر عن سقف
+    الكتابة)، ثم يكتب دفعة هذه التشغيلة فقط (سقف youtube.article.max_per_run
+    إن وُجد) عبر youtube_article._write_one_topic لكل موضوع معلَّم.
+
+    **بلا ملف .md وسيط في مستودع البيانات الخاص عمدًا** (خلافًا لمسار
+    youtube-articles.yml الأصلي): publish.yml -- الذي يملك ANTHROPIC_API_KEY
+    ومهلة كافية لينفّذ هذه الكتابة عند الاعتماد (نصّ الـIssue) -- لا يفتح
+    تسجيل الدخول إلى gilandeya/trendnews-data إطلاقًا، فالمسودة تُبنى مباشرة
+    من النصّ في الذاكرة (youtube_publish.build_draft_from_text) ثم تُحفظ عبر
+    store.save_draft كأي مسودة تحليل أخرى، وتدخل Issue مراجعة عادي
+    (youtube-review) عبر youtube_publish.open_review() -- لا مسار نشر جديد،
+    فقط بوابة كتابة قبل بوابة المراجعة القائمة.
+
+    الباقي فوق سقف youtube.article.max_per_run يُعالَج بنفس آلية
+    cmd_revival/cmd_final_review حرفيًا (Issue #961/#1008): الـIssue لا
+    يُغلق، وسم approved يُزال عبر review.remove_label، وسطر ⏳ لكل موضوع باقٍ
+    + سطر ختامي يطلب إعادة الوسم لمتابعة الباقي."""
+    from . import youtube_article, youtube_cluster, youtube_publish
+
+    result = youtube_cluster.finalize_selection(issue_number, body, cfg)
+    date_str = result["date_str"]
+    to_write = result["to_write"]
+    still_waiting = result["still_waiting"]
+
+    lines: list[str] = []
+    if result["unselected_now"]:
+        lines.append(f"- 🚫 {result['unselected_now']} موضوعًا لم يُختر — سُجّل ولن يُقترح ثانيةً")
+
+    if date_str is None:
+        review.comment(issue_number,
+                       "⚠️ تعذّر تحديد تاريخ هذا الاختيار (لا علامة `<!-- selection-date:"
+                       "... -->` في الجسم) — لم يُكتب شيء. وسم `approved` تُرك كما هو.")
+        return 1
+
+    if not to_write:
+        text = "### 🗳️ نتيجة اعتماد اختيار مواضيع التحليل\n" + "\n".join(
+            lines or ["- لا موضوع معلَّم للكتابة بعد."])
+        review.comment(issue_number, text)
+        if still_waiting:
+            review.remove_label(issue_number, "approved")
+        else:
+            review.close_issue(issue_number)
+        return 0
+
+    points, _ = youtube_cluster.prepare_window_points(date_str, cfg)
+    written = 0
+    for topic in to_write:
+        r = youtube_article._write_one_topic(topic, points, cfg, client)
+        if r["seen_keys"]:
+            youtube_cluster.mark_points_seen(
+                r["seen_keys"], date_str, cfg.path("youtube.seen_retention_days", 14))
+        if r["item"] is None:
+            lines.append(f"- ⏭️ {topic['title'][:50]} — {r['skip_reason']}")
+            continue
+        draft = youtube_publish.build_draft_from_text(
+            topic, r["item"]["text"], r["item"]["video_ids"], date_str, cfg)
+        store.save_draft(draft)
+        written += 1
+        lines.append(f"- ✅ {draft['arabic']['post_title'][:50]} — كُتب، بانتظار المراجعة")
+
+    # يحسم حالة كل موضوع حُوول كتابته فعليًا في هذه الدفعة (نجح أو تخطّته
+    # بوابة الصورة/الحارس أو فشل النداء) إلى attempted -- بلا هذا، إعادة وسم
+    # approved لمتابعة still_waiting (فوق السقف) كانت ستُعيد اعتبار هذه
+    # المواضيع نفسها ضمن to_write من جديد وتكتبها مرّتين (انظر توثيق
+    # youtube_cluster.mark_topics_attempted).
+    youtube_cluster.mark_topics_attempted(date_str, {t["id"] for t in to_write})
+
+    if written:
+        review_result = youtube_publish.open_review(cfg)
+        if review_result["issue"]:
+            lines.append(f"📰 {len(review_result['drafts'])} مقال بانتظار مراجعتك — "
+                         f"Issue #{review_result['issue']['number']}")
+
+    if still_waiting:
+        for t in still_waiting:
+            lines.append(f"- ⏳ {t['title'][:50]} — ينتظر تشغيلة لاحقة")
+        lines.append("أعد وضع وسم `approved` لمتابعة الباقي")
+
+    text = "### 🗳️ نتيجة اعتماد اختيار مواضيع التحليل\n" + "\n".join(lines)
+    review.comment(issue_number, text)
+
+    if still_waiting:
+        review.remove_label(issue_number, "approved")
+    else:
+        review.close_issue(issue_number)
+    return 0
+
+
 def cmd_queue(cfg) -> int:
     tzname = cfg.path("facebook.timezone", "UTC")
     rows = queued_drafts()
@@ -885,6 +977,18 @@ def main() -> int:
                      "(المسار السريع لا يعالج الإحياء)", args.issue)
             return 0
         return cmd_revival(args.issue, body, cfg)
+
+    # Issue #1104: بوابة اختيار مواضيع التحليل قبل الكتابة (وسم
+    # youtube-selection، يُفتح من youtube_cluster.open_selection). يعمل في
+    # المسار normal وحده (--skip-urgent) -- نفس تحفّظ failed-review أعلاه:
+    # دفعة كتابة (حتى نداء Opus واحد لكل موضوع معلَّم) لا تحتمل سقف urgent
+    # الزمني (٢٠ دقيقة)، ونصّ الـIssue صريح: "يعمل في مسار normal فقط".
+    if "youtube-selection" in labels:
+        if args.urgent_only:
+            log.info("Issue #%s: youtube-selection — يُؤجَّل للمسار العادي "
+                     "(المسار السريع لا يعالج اختيار مواضيع التحليل)", args.issue)
+            return 0
+        return cmd_youtube_selection(args.issue, body, cfg)
 
     # Issue #296: الاثنان معًا يعني Issue خُلط أصله (لا أحد في الكود ينشئ
     # Issue بالوسمين معًا عمدًا) — التفويض القديم كان يفوز لـ

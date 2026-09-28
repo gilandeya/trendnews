@@ -780,20 +780,150 @@ def save_articles(date_str: str, articles: list[dict]) -> list[dict]:
     return saved
 
 
+def _write_one_topic(topic: dict, points: list[dict], cfg: Config,
+                     client: Anthropic | None) -> dict:
+    """خطّ أنابيب قضية واحدة كاملًا -- حارس المحظورات (طبقة ج فقط) ← بوابة
+    توفّر صورة ← الكتابة ← التحذيرات ← العناوين المقترحة ← كلمات بحث الصورة.
+    مستخرجة من حلقة run() أدناه (Issue #1104، بوابة الاختيار قبل الكتابة)
+    كي تعيد استعمالها أيضًا src/youtube_cluster.py:finalize_selection عبر
+    src/publish.py -- بلا مضاعفة نفس المنطق. **لا كتابة ملفات هنا إطلاقًا**
+    (لا save_articles ولا mark_points_seen) -- مسؤولية المستدعي وحده، فكل
+    من run() (كتابة على القرص عبر ملف .md/index.md) وبوابة الاختيار (مسودة
+    drafts/ مباشرة بلا ملف وسيط، انظر youtube_publish.build_draft_from_text)
+    تحتاج تأجيل الكتابة الفعلية إلى ما بعد هذه الدالة.
+
+    يعيد قاموسًا: ``item`` (جاهز لـsave_articles/build_draft_from_text، أو
+    None عند التخطّي)، ``skip_reason`` (نصّ أو None)، ``reason_kind`` (فئة
+    التخطّي: no_points/blocked/no_image/draft_failed/None عند النجاح --
+    يميّز المستدعي بين حالات التخطّي المختلفة بلا مطابقة نصّية هشّة على
+    skip_reason)، ``seen_keys`` (نقاط تُسجَّل مستهلكة سواء نجحت الكتابة أو
+    تخطّتها بوابة الصورة تحديدًا -- فارغة في كل تخطٍّ آخر، نفس تمييز التصميم
+    الأصلي)، وguard_called/blocked_no_reason/headline_failed/speaker_warning
+    لإحصاءات run() أدناه."""
+    out = {
+        "item": None, "skip_reason": None, "reason_kind": None,
+        "seen_keys": set(), "guard_called": False, "blocked_no_reason": False,
+        "headline_failed": False, "speaker_warning": False,
+    }
+
+    member_points = [points[pid] for pid in topic["point_ids"] if 0 <= pid < len(points)]
+    if not member_points:
+        out["skip_reason"] = "لا نقاط صالحة لهذه القضية (نقاط/قضايا من تشغيلات مختلفة؟)"
+        out["reason_kind"] = "no_points"
+        return out
+
+    if topic["layer"] == "c":
+        out["guard_called"] = True
+        blocked, reason, guard_error, no_reason_override = check_forbidden(
+            topic, member_points, cfg, client)
+        if guard_error:
+            log.warning("فشل حارس المحظورات لـ%r: %s", topic["title"], guard_error)
+        if no_reason_override:
+            out["blocked_no_reason"] = True
+            log.warning("حارس المحظورات حظر %r بلا سبب مكتوب -- قُبِلت (حارس صامت لا يُطاع)",
+                        topic["title"])
+        if blocked:
+            out["skip_reason"] = f"محظورة (طبقة ج، مصدر واحد): {reason}"
+            out["reason_kind"] = "blocked"
+            return out
+
+    # بوابة توفّر صورة (Issue #1092، قرار محسوم لصاحب المشروع؛ الدرجة
+    # الثانية استُبدلت في Issue #1095 بصورة خبر عن الموضوع بدل خلفية
+    # الفيديو المعتّمة): ستة عشر مقالًا كاملًا (قراءة نصوص + عنقدة + صياغة
+    # ~2800 حرف + بطاقة) خرجت بلا صورة ورُفضت كلّها -- الوفر المقصود هنا هو
+    # *قبل* نداء الصياغة لا بعده. الدرجتان بالضبط كما تُجرَّبان لاحقًا عند
+    # الاعتماد (نفس الدالتين، youtube_extract.photo_candidates/
+    # news_photo_available) -- معاينة لا وعد (نتيجة بحث أو رابط قد يتعطّل
+    # بين اللحظتين)، لكنها الأفضل المتاحة بلا بناء بطاقة كاملة الآن.
+    video_ids = _video_ids_by_contribution(member_points)
+    has_free_photo = bool(youtube_extract.photo_candidates(
+        topic["title"], topic.get("event", ""), cfg))
+    has_news_photo = (not has_free_photo
+                      and youtube_extract.news_photo_available(
+                          topic["title"], topic.get("event", ""), cfg))
+    if not (has_free_photo or has_news_photo):
+        out["skip_reason"] = "لا صورة متاحة (لا صورة حرة الترخيص ولا صورة خبر صالحة)"
+        out["reason_kind"] = "no_image"
+        # نفس معاملة مقال كُتب ونُشر فعليًا (Issue #658 العطل ١ بند ج) --
+        # هذه القضية بعينها لا تُقترَح مجددًا بلا داعٍ طالما نقاطها لم
+        # تتجدّد، ولا تُحسَب فشلًا تقنيًا لأنها لم تصل نداء الصياغة أصلًا.
+        out["seen_keys"] = {youtube_cluster.point_key(p) for p in member_points}
+        return out
+
+    text, error = draft_article(topic, member_points, cfg, client)
+    if error:
+        out["skip_reason"] = error
+        out["reason_kind"] = "draft_failed"
+        log.warning("فشلت كتابة مقال لـ%r: %s", topic["title"], error)
+        return out
+
+    # التحذيرات تُنقَل مع النقاط عبر العنقدة إلى ذيل المقال (Issue #662
+    # العطل ٣) -- بعد نجاح التحقّق من البنية (_validate_article_text داخل
+    # draft_article)، لا قبله: قسم التحذيرات ليس جزءًا من البنية المطلوبة
+    # من النموذج فلا يصح فحصه ضمنها.
+    warnings = _collect_warnings(member_points, cfg)
+    # مؤشّر "فاعل الجملة متحدث" (Issue #695، البند ٣) -- تحذير استرشادي لا
+    # رفض (انظر توثيق _speaker_subject_warning)، فيُلحَق بنفس قائمة تحذيرات
+    # المراجعة الموجودة بدل حارس رفض منفصل.
+    speaker_warning = _speaker_subject_warning(text, member_points, cfg)
+    if speaker_warning:
+        warnings = [*warnings, speaker_warning]
+        out["speaker_warning"] = True
+    text = _append_warnings(text, warnings)
+
+    # عناوين مقترحة (Issue #680) -- فشل هذا النداء الإضافي لا يُسقِط مقالًا
+    # كُتب فعلًا واجتاز التحقّق؛ احتياط بعنوانه الأصلي مكرَّرًا ثلاثًا (نفس
+    # مبدأ عدم إسقاط عمل صالح بسبب خطوة لاحقة، انظر توثيق الوحدة أعلاه).
+    headlines, hl_error, image_query_en = generate_headlines(topic, member_points, cfg, client)
+    if hl_error:
+        out["headline_failed"] = True
+        log.warning("فشلت اقتراحات العناوين لـ%r -- استُعمل العنوان الأصلي مكرَّرًا: %s",
+                    topic["title"], hl_error)
+        fallback = _extract_headline(text) or topic["title"]
+        headlines = [fallback, fallback, fallback]
+    text = _append_headlines(text, headlines)
+    # كلمات بحث الصورة الإنجليزية (Issue #941) -- غيابها (فشل النداء، أو
+    # نجاحه بلا هذا الحقل) لا يُضيف القسم إطلاقًا؛ youtube_publish يعود
+    # للبحث بالعربية كما كان (انظر _append_image_query).
+    text = _append_image_query(text, image_query_en)
+
+    out["item"] = {"topic": topic, "text": text, "warnings": warnings,
+                   "headlines": headlines, "video_ids": video_ids}
+    # تُسجَّل فقط بعد نجاح الكتابة الفعلي -- قضية عُنقدت أو تجاوزت الحارس لكن
+    # فشلت كتابتها لا قيمة في تسجيلها "مستهلكة" (Issue #658 العطل ١ بند ج،
+    # انظر youtube_cluster.filter_seen_topics).
+    out["seen_keys"] = {youtube_cluster.point_key(p) for p in member_points}
+    return out
+
+
 def run(cfg: Config | None = None, date_str: str | None = None,
-        client: Anthropic | None = None, now: datetime | None = None) -> dict:
+        client: Anthropic | None = None, now: datetime | None = None,
+        topics_override: list[dict] | None = None) -> dict:
+    """**Issue #1104 (بوابة الاختيار قبل الكتابة):** لم تعد هذه الدالة
+    تكتب تلقائيًا أعلى youtube.article.count قضية من ملف العنقدة -- قياس
+    ٩١ مقالًا/٣٠ يومًا أظهر أن ٧٢٪ من إنفاق Opus كان يذهب لمقالات لا تُنشر،
+    لأن الاختيار كان يقع بعد الصياغة لا قبلها. الكتابة الفعلية تقع الآن
+    فقط لموضوعات مُعلَّمة صراحة في Issue اختيار
+    (youtube_cluster.open_selection) بعد اعتمادها -- ``topics_override``
+    هو القناة الوحيدة لتمرير تلك الموضوعات هنا (src/publish.py، عبر
+    src/youtube_cluster.py:finalize_selection). **بلا topics_override
+    (الاستدعاء الافتراضي من main()، وهو ما تبقّى من خطوة "الكتابة" القديمة
+    في youtube-articles.yml) هذه الدالة لا تكتب شيئًا إطلاقًا بتصميم --
+    صفر نداء نموذج، صفر مقال** (ولذا هذه الخطوة تحديدًا صارت بلا عمل فعليًا
+    في الـworkflow؛ لم تُحذَف لأن هذه المهمة ممنوعة من تعديل ملفات
+    .github/workflows/)."""
     cfg = cfg or load_config()
     now = now or datetime.now(timezone.utc)
     date_str = date_str or now.strftime("%Y-%m-%d")
 
-    topics_result = youtube_cluster.load_topics(date_str)
-    topics = topics_result.get("topics", [])
+    topics = topics_override or []
     # نفس بناء نافذة العنقدة بالضبط -- youtube_cluster.prepare_window_points
     # تُستدعى بنفس cfg من كلا المرحلتين (Issue #662) لضمان أن point_ids كل
     # قضية تشير لنفس النقاط في القائمتين فهرسًا بفهرس؛ اختلاف أي خطوة فلترة
     # هنا عن العنقدة كان سيربط قضية بنقاط خاطئة تمامًا (انظر توثيق الدالة).
+    # يُحسَب حتى بلا topics (تكلفة قراءة/فلترة فقط، لا نداء نموذج) كي يبقى
+    # سلوك الدالة قابلًا للتنبؤ بصرف النظر عن topics_override.
     points, _ = youtube_cluster.prepare_window_points(date_str, cfg)
-    count = cfg.path("youtube.article.count", 10)
 
     to_draft: list[dict] = []
     skipped: list[dict] = []
@@ -806,101 +936,31 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     no_image_skipped_count = 0
     seen_keys_to_mark: set[str] = set()
 
-    for topic in topics[:count]:
-        member_points = [points[pid] for pid in topic["point_ids"] if 0 <= pid < len(points)]
-        if not member_points:
-            skipped.append({"title": topic["title"], "layer": topic["layer"],
-                            "reason": "لا نقاط صالحة لهذه القضية (نقاط/قضايا من تشغيلات مختلفة؟)"})
-            continue
-
-        if topic["layer"] == "c":
+    for topic in topics:
+        r = _write_one_topic(topic, points, cfg, client)
+        if r["guard_called"]:
             guard_calls += 1
-            blocked, reason, guard_error, no_reason_override = check_forbidden(
-                topic, member_points, cfg, client)
-            if guard_error:
-                log.warning("فشل حارس المحظورات لـ%r: %s", topic["title"], guard_error)
-            if no_reason_override:
-                blocked_no_reason_count += 1
-                log.warning("حارس المحظورات حظر %r بلا سبب مكتوب -- قُبِلت (حارس صامت لا يُطاع)",
-                            topic["title"])
-            if blocked:
-                blocked_count += 1
-                skipped.append({"title": topic["title"], "layer": topic["layer"],
-                                "reason": f"محظورة (طبقة ج، مصدر واحد): {reason}"})
-                continue
+        if r["blocked_no_reason"]:
+            blocked_no_reason_count += 1
 
-        # بوابة توفّر صورة (Issue #1092، قرار محسوم لصاحب المشروع؛ الدرجة
-        # الثانية استُبدلت في Issue #1095 بصورة خبر عن الموضوع بدل خلفية
-        # الفيديو المعتّمة): ستة عشر مقالًا كاملًا (قراءة نصوص + عنقدة +
-        # صياغة ~2800 حرف + بطاقة) خرجت بلا صورة ورُفضت كلّها -- الوفر
-        # المقصود هنا هو *قبل* نداء الصياغة لا بعده. الدرجتان بالضبط كما
-        # تُجرَّبان لاحقًا عند الاعتماد (نفس الدالتين،
-        # youtube_extract.photo_candidates/news_photo_available) -- معاينة لا
-        # وعد (نتيجة بحث أو رابط قد يتعطّل بين اللحظتين)، لكنها الأفضل
-        # المتاحة بلا بناء بطاقة كاملة الآن. video_ids يُحسَب هنا مرة واحدة
-        # (لا مكرَّرًا لاحقًا) فيصل to_draft/الفهرس بصرف النظر عن نتيجة هذا
-        # الفحص -- source_videos يبقى على المسودة معلومة مفيدة بذاتها (انظر
-        # youtube_publish.build_draft)، لا مصدر صورة بعد الآن.
-        video_ids = _video_ids_by_contribution(member_points)
-        has_free_photo = bool(youtube_extract.photo_candidates(
-            topic["title"], topic.get("event", ""), cfg))
-        has_news_photo = (not has_free_photo
-                          and youtube_extract.news_photo_available(
-                              topic["title"], topic.get("event", ""), cfg))
-        if not (has_free_photo or has_news_photo):
-            no_image_skipped_count += 1
+        if r["reason_kind"] is not None:
             skipped.append({"title": topic["title"], "layer": topic["layer"],
-                            "reason": "لا صورة متاحة (لا صورة حرة الترخيص ولا صورة خبر صالحة)"})
-            # نفس معاملة مقال كُتب ونُشر فعليًا (Issue #658 العطل ١ بند ج) --
-            # هذه القضية بعينها لا تُقترَح مجددًا بلا داعٍ طالما نقاطها لم
-            # تتجدّد، ولا تُحسَب فشلًا تقنيًا (draft_failures) لأنها لم تصل
-            # نداء الصياغة أصلًا.
-            seen_keys_to_mark |= {youtube_cluster.point_key(p) for p in member_points}
+                            "reason": r["skip_reason"]})
+            if r["reason_kind"] == "blocked":
+                blocked_count += 1
+            elif r["reason_kind"] == "no_image":
+                no_image_skipped_count += 1
+                seen_keys_to_mark |= r["seen_keys"]
+            elif r["reason_kind"] == "draft_failed":
+                draft_failures += 1
             continue
 
-        text, error = draft_article(topic, member_points, cfg, client)
-        if error:
-            draft_failures += 1
-            skipped.append({"title": topic["title"], "layer": topic["layer"], "reason": error})
-            log.warning("فشلت كتابة مقال لـ%r: %s", topic["title"], error)
-            continue
-
-        # التحذيرات تُنقَل مع النقاط عبر العنقدة إلى ذيل المقال (Issue #662
-        # العطل ٣) -- بعد نجاح التحقّق من البنية (_validate_article_text
-        # داخل draft_article)، لا قبله: قسم التحذيرات ليس جزءًا من البنية
-        # المطلوبة من النموذج فلا يصح فحصه ضمنها.
-        warnings = _collect_warnings(member_points, cfg)
-        # مؤشّر "فاعل الجملة متحدث" (Issue #695، البند ٣) -- تحذير استرشادي
-        # لا رفض (انظر توثيق _speaker_subject_warning)، فيُلحَق بنفس قائمة
-        # تحذيرات المراجعة الموجودة بدل حارس رفض منفصل.
-        speaker_warning = _speaker_subject_warning(text, member_points, cfg)
-        if speaker_warning:
-            warnings = [*warnings, speaker_warning]
-            speaker_subject_warnings += 1
-        text = _append_warnings(text, warnings)
-
-        # عناوين مقترحة (Issue #680) -- فشل هذا النداء الإضافي لا يُسقِط مقالًا
-        # كُتب فعلًا واجتاز التحقّق؛ احتياط بعنوانه الأصلي مكرَّرًا ثلاثًا (نفس
-        # مبدأ عدم إسقاط عمل صالح بسبب خطوة لاحقة، انظر توثيق الوحدة أعلاه).
-        headlines, hl_error, image_query_en = generate_headlines(topic, member_points, cfg, client)
-        if hl_error:
+        if r["headline_failed"]:
             headline_failures += 1
-            log.warning("فشلت اقتراحات العناوين لـ%r -- استُعمل العنوان الأصلي مكرَّرًا: %s",
-                        topic["title"], hl_error)
-            fallback = _extract_headline(text) or topic["title"]
-            headlines = [fallback, fallback, fallback]
-        text = _append_headlines(text, headlines)
-        # كلمات بحث الصورة الإنجليزية (Issue #941) -- غيابها (فشل النداء، أو
-        # نجاحه بلا هذا الحقل) لا يُضيف القسم إطلاقًا؛ youtube_publish يعود
-        # للبحث بالعربية كما كان (انظر _append_image_query).
-        text = _append_image_query(text, image_query_en)
-
-        to_draft.append({"topic": topic, "text": text, "warnings": warnings,
-                         "headlines": headlines, "video_ids": video_ids})
-        # تُسجَّل فقط بعد نجاح الكتابة الفعلي -- قضية عُنقدت أو تجاوزت الحارس
-        # لكن فشلت كتابتها لا قيمة في تسجيلها "مستهلكة" (Issue #658 العطل ١
-        # بند ج، انظر youtube_cluster.filter_seen_topics).
-        seen_keys_to_mark |= {youtube_cluster.point_key(p) for p in member_points}
+        if r["speaker_warning"]:
+            speaker_subject_warnings += 1
+        to_draft.append(r["item"])
+        seen_keys_to_mark |= r["seen_keys"]
 
     saved = save_articles(date_str, to_draft)
     if seen_keys_to_mark:
@@ -921,7 +981,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     return {
         "run_date": date_str,
         "stats": {
-            "topics_considered": min(len(topics), count),
+            "topics_considered": len(topics),
             "articles_written": len(saved),
             "skipped": len(skipped),
             "guard_calls": guard_calls,
@@ -938,6 +998,12 @@ def run(cfg: Config | None = None, date_str: str | None = None,
 
 
 def main() -> int:
+    """Issue #1104: بلا topics_override هذه الدالة لا تكتب شيئًا إطلاقًا
+    بتصميم (انظر توثيق run() أعلاه) -- خطوة "الكتابة" التي تستدعيها في
+    youtube-articles.yml (python -m src.youtube_article، بلا خيارات) بقيت
+    قائمة بلا تعديل على الـworkflow، لكنها صارت بلا عمل فعليًا: 0 قضايا
+    فُحصت، 0 مقال كُتب، في كل تشغيلة. الكتابة الفعلية تقع الآن عند اعتماد
+    Issue اختيار المواضيع (src/publish.py:cmd_youtube_selection)."""
     logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stderr)
     result = run()
     stats = result["stats"]
