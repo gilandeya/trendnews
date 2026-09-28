@@ -2650,15 +2650,15 @@ def test_youtube_publish() -> None:
     # ── image_source_line (Issue #732، معكوسًا جزئيًا بـIssue #1106): يسمّي
     # القنوات الآن بدل عدّها -- «تحليل لتغطية» تحلّ علّة القرار القديم
     # (النسبة الزائفة) بديباجة صريحة بدل إخفاء الأسماء ──
-    check("image_source_line: قناتان -- الصيغة الحرفية من نصّ الـIssue",
-          yp.image_source_line(["الجزيرة", "ILTV"], cfg) == "تحليل لتغطية الجزيرة وILTV",
+    check("image_source_line: قناتان، الثانية لاتينية -- الواو تُفصل بمسافة (Issue #1108)",
+          yp.image_source_line(["الجزيرة", "ILTV"], cfg) == "تحليل لتغطية الجزيرة و ILTV",
           yp.image_source_line(["الجزيرة", "ILTV"], cfg))
     check("image_source_line: قناة واحدة -- اسمها وحده بلا «و»",
           yp.image_source_line(["الجزيرة"], cfg) == "تحليل لتغطية الجزيرة",
           yp.image_source_line(["الجزيرة"], cfg))
-    check("image_source_line: ثلاث قنوات -- فواصل ثم «و» قبل الأخيرة",
+    check("image_source_line: ثلاث قنوات، الأخيرة لاتينية -- فواصل ثم «و» بمسافة قبل الأخيرة",
           yp.image_source_line(["الجزيرة", "العربية", "ILTV"], cfg)
-          == "تحليل لتغطية الجزيرة، العربية، وILTV",
+          == "تحليل لتغطية الجزيرة، العربية، و ILTV",
           yp.image_source_line(["الجزيرة", "العربية", "ILTV"], cfg))
     # سقف الطول (cards.analysis.source_max_chars، افتراضه 48): أسماء طويلة
     # تتجاوزه ⇐ أول اسمين ثم «وقنوات أخرى» بدل القائمة الكاملة.
@@ -2671,7 +2671,7 @@ def test_youtube_publish() -> None:
     check("image_source_line: سطر التجاوز لا يحوي اسم القناة الثالثة",
           long_channels[2] not in long_line, long_line)
     check("image_source_line: سطر لا يتجاوز السقف يبقى كاملًا بلا اقتطاع",
-          yp.image_source_line(["الجزيرة", "ILTV"], cfg) == "تحليل لتغطية الجزيرة وILTV")
+          yp.image_source_line(["الجزيرة", "ILTV"], cfg) == "تحليل لتغطية الجزيرة و ILTV")
 
     # Issue #758: cards.analysis.source_template صار له الأولوية على
     # youtube.image.source_line_template -- يُحذَف هنا كي يختبر هذا القالب
@@ -2718,6 +2718,22 @@ def test_youtube_publish() -> None:
           yp._join_arabic_names(["أ", "ب", "ج"]) == "أ، ب، وج")
     check("_join_arabic_names: يحافظ على ترتيب المُدخَل بلا فرز جديد",
           yp._join_arabic_names(["ب", "أ"]) == "ب وأ")
+
+    # ── واو العطف الملتصقة باسم لاتيني تُرسم مشوَّهة (Issue #1108): تُفصل
+    # بمسافة عند حدّ عربي/لاتيني بلا فاصل، وتبقى ملتصقة حين يكون الاسم
+    # التالي عربيًّا كما كانت دومًا ──
+    check("_join_arabic_names: اسم لاتيني تالٍ -- الواو تُفصل بمسافة",
+          yp._join_arabic_names(["الجزيرة", "ILTV"]) == "الجزيرة و ILTV",
+          yp._join_arabic_names(["الجزيرة", "ILTV"]))
+    check("_join_arabic_names: اسم عربي تالٍ -- الواو ملتصقة كما اليوم",
+          yp._join_arabic_names(["الجزيرة", "العربية"]) == "الجزيرة والعربية",
+          yp._join_arabic_names(["الجزيرة", "العربية"]))
+    check("_join_arabic_names: ثلاثة أسماء، الأخير لاتيني -- فواصل ثم «و» بمسافة",
+          yp._join_arabic_names(["الجزيرة", "العربية", "ILTV"]) == "الجزيرة، العربية، و ILTV",
+          yp._join_arabic_names(["الجزيرة", "العربية", "ILTV"]))
+    check("_join_arabic_names: اسم لاتيني أول ثم عربي تالٍ -- الواو ملتصقة (الاسم التالي عربي)",
+          yp._join_arabic_names(["ILTV", "الجزيرة"]) == "ILTV والجزيرة",
+          yp._join_arabic_names(["ILTV", "الجزيرة"]))
 
     # ── split_warnings: قاعدة حاسمة -- caption خالٍ من قسم التنبيهات (Issue #676) ──
     article_with_warnings = (

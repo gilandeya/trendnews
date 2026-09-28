@@ -230,19 +230,31 @@ def bloc_label(bloc: str, cfg=None) -> str:
     return labels.get(bloc, _DEFAULT_BLOC_LABELS.get(bloc, bloc))
 
 
+_LATIN_START_RE = re.compile(r"^[A-Za-z]")
+
+
+def _wa_prefix(name: str) -> str:
+    """واو العطف تلتصق بالاسم التالي («والعربية») إلا إذا بدأ بحرف لاتيني
+    (Issue #1108): عند حدّ عربي/لاتيني بلا فاصل يشوَّه رسم الواو في محرك
+    التشكيل فيصير أقرب لحرف لاتيني منه لواو عربية -- فاصلها بمسافة واحدة
+    («و ILTV») يزيل التشوّه فورًا. الحالة العربية البحتة لا تتأثر."""
+    return "و " if _LATIN_START_RE.match(name) else "و"
+
+
 def _join_arabic_names(names: list[str]) -> str:
     """يصل قائمة أسماء بصياغة عربية سليمة (Issue #1106): اسم واحد بلا أي
     وصل، اسمان بـ«و» وحدها («الجزيرة وILTV»)، وثلاثة فأكثر بفواصل بين كل
     اسمين ثم «و» قبل الأخير («الجزيرة، ILTV، والعربية»). لا فرز هنا إطلاقًا
     -- تحافظ على ترتيب المُدخَل كما وصلها (بنفس ترتيب حقل channels في
-    المسودة، نصّ الـIssue)."""
+    المسودة، نصّ الـIssue). واو العطف تُفصل بمسافة عن اسم يبدأ بحرف لاتيني
+    (Issue #1108) وتبقى ملتصقة بغير ذلك."""
     if not names:
         return ""
     if len(names) == 1:
         return names[0]
     if len(names) == 2:
-        return f"{names[0]} و{names[1]}"
-    return "، ".join(names[:-1]) + f"، و{names[-1]}"
+        return f"{names[0]} {_wa_prefix(names[1])}{names[1]}"
+    return "، ".join(names[:-1]) + f"، {_wa_prefix(names[-1])}{names[-1]}"
 
 
 def image_source_line(channels: list[str], cfg=None) -> str:
