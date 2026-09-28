@@ -190,6 +190,7 @@ from tests.test_article import (
     test_article_statement_majority,
     test_article_part_support_error_report,
     test_article_support_sources_retry,
+    test_article_call_stage_scaffold,
     test_article_split_statements,
     test_article_split_event_condition,
     test_article_mandatory_query_name,
@@ -371,6 +372,7 @@ def main() -> int:
     test_article_statement_majority()
     test_article_part_support_error_report()
     test_article_support_sources_retry()
+    test_article_call_stage_scaffold()
     test_article_split_statements()
     test_article_split_event_condition()
     test_article_mandatory_query_name()

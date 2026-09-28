@@ -5058,6 +5058,92 @@ def test_article_support_sources_retry() -> None:
               [c["max_tokens"] for c in client_kind.messages.calls])
 
 
+def test_article_call_stage_scaffold() -> None:
+    """السقالة المشتركة article._call_stage (Issue #1111 — دمج النداء/كشف
+    القطع/إعادة المحاولة الذي كان مكرَّرًا حرفيًا ست مرات: _ask_context_model،
+    _ask_naming_model، _support_statement_parts، _support_sources،
+    _ask_answer_model، _extract_source_facts) تُختبر هنا مباشرة، بمعزل عن
+    أي من مستدعيها الستة -- تثبت أن المنطق المشترك (عدد النداءات، مضاعفة
+    السقف عند القطع، وضبط call_error عند الفشل النهائي) يعمل مستقلًا عن
+    أي دالة استدعت به. حساب السقف الخاص بكل دالة والتحقق من شكل الحقل
+    المطلوب في الخرج يبقيان مختبَرين في اختبارات كل دالة على حدة (أعلاه)،
+    لا هنا."""
+    from src import article
+
+    class _Block:
+        def __init__(self, input_=None):
+            self.type = "tool_use" if input_ is not None else "text"
+            self.input = input_
+
+    class _Resp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = None
+
+    class _SeqMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return self._responses.pop(0)
+
+    class _SeqClient:
+        def __init__(self, responses):
+            self.messages = _SeqMessages(responses)
+
+    tools = [{"name": "x", "input_schema": {"type": "object", "properties": {}}}]
+    tool_choice = {"type": "tool", "name": "x"}
+
+    # 1) ردّ سليم من أول محاولة: نداء واحد فقط، بلا call_error، data كما وصل
+    client_ok = _SeqClient([_Resp([_Block({"v": 1})])])
+    result_ok = article._call_stage(
+        client_ok, "m", 100, 400, tools, tool_choice, "sys", "content",
+        stage="اختبار", size_desc="وثيقة واحدة")
+    check("(#1111) _call_stage: ردّ سليم من أول محاولة ⇒ نداء واحد فقط",
+          len(client_ok.messages.calls) == 1, len(client_ok.messages.calls))
+    check("(#1111) _call_stage: ردّ سليم ⇒ call_error يبقى None وdata تصل كما هي",
+          result_ok.call_error is None and result_ok.data == {"v": 1},
+          (result_ok.call_error, result_ok.data))
+
+    # 2) قطع مرة ثم نجاح: نداءان، الثاني بسقف مضاعف، بلا call_error
+    client_retry_ok = _SeqClient([
+        _Resp([], stop_reason="max_tokens"),
+        _Resp([_Block({"v": 2})]),
+    ])
+    result_retry_ok = article._call_stage(
+        client_retry_ok, "m", 100, 400, tools, tool_choice, "sys", "content",
+        stage="اختبار", size_desc="وثيقة واحدة")
+    check("(#1111) _call_stage: قطع مرة ثم نجاح ⇒ نداءان فقط",
+          len(client_retry_ok.messages.calls) == 2,
+          len(client_retry_ok.messages.calls))
+    check("(#1111) _call_stage: قطع مرة ثم نجاح ⇒ السقف تضاعف في الإعادة",
+          client_retry_ok.messages.calls[1]["max_tokens"]
+          == client_retry_ok.messages.calls[0]["max_tokens"] * 2,
+          [c["max_tokens"] for c in client_retry_ok.messages.calls])
+    check("(#1111) _call_stage: قطع مرة ثم نجاح ⇒ call_error يبقى None وdata تصل",
+          result_retry_ok.call_error is None and result_retry_ok.data == {"v": 2},
+          (result_retry_ok.call_error, result_retry_ok.data))
+
+    # 3) قطع مرتين: نداءان فقط (لا نداء ثالث)، call_error مضبوط يشرح السبب
+    client_cut_twice = _SeqClient([
+        _Resp([], stop_reason="max_tokens"),
+        _Resp([], stop_reason="max_tokens"),
+    ])
+    result_cut_twice = article._call_stage(
+        client_cut_twice, "m", 100, 400, tools, tool_choice, "sys", "content",
+        stage="اختبار", size_desc="وثيقة واحدة")
+    check("(#1111) _call_stage: قطع مرتين ⇒ نداءان فقط -- لا محاولة ثالثة",
+          len(client_cut_twice.messages.calls) == 2,
+          len(client_cut_twice.messages.calls))
+    check("(#1111) _call_stage: قطع مرتين ⇒ call_error مضبوط يشرح السبب، وdata تبقى None",
+          bool(result_cut_twice.call_error) and "قُطع" in result_cut_twice.call_error
+          and result_cut_twice.data is None,
+          result_cut_twice.call_error)
+
+
 def test_article_split_statements() -> None:
     """فصل الوقائع المركّبة (تشخيص Issue #373، الجولة الخامسة عشرة، البند
     2): جملة واحدة تحمل أكثر من ادّعاء مستقل (قصف مطار / زيارة وفد تركي)

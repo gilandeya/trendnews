@@ -176,6 +176,88 @@ class _ModelCallList(list):
     mentioned: list[str] = []
 
 
+class _StageResult:
+    """نتيجة _call_stage (Issue #1111): data (خرج tool_use الخام) عند نجاح
+    النداء بعد اجتياز فحص القطع، أو call_error (نص) عند فشل تقني نهائي —
+    استثناء APIError (أول محاولة أو الإعادة) أو قطع مستمر بعد الإعادة. لا
+    تجتمع القيمتان ولا تغيبان معًا؛ لا تحقق شكل الحقل المطلوب هنا — ذلك
+    يبقى خاصًا بكل مستدعٍ بحسب حقله (terms/named/parts/supporting/
+    answered/facts)."""
+    __slots__ = ("data", "call_error")
+
+    def __init__(self, data=None, call_error=None):
+        self.data = data
+        self.call_error = call_error
+
+
+def _call_stage(client, model, max_tokens: int, cap: int, tools: list[dict],
+                tool_choice: dict, system: str, content, *,
+                stage: str, size_desc: str) -> _StageResult:
+    """سقالة مشتركة واحدة (Issue #1111) للنداء وكشف القطع وإعادة المحاولة،
+    كانت مكرَّرة حرفيًا ست مرات (_ask_context_model، _ask_naming_model،
+    _support_statement_parts، _support_sources، _ask_answer_model،
+    _extract_source_facts) عبر سلسلة إصلاحات متتابعة عالجت العلّة نفسها في
+    كل دالة على حدة (Issues #1050، #1052، #1054، #1061، #1063): سقف
+    max_tokens محسوب من حجم المدخلات (يبقى محسوبًا خارج هذه الدالة، بمفاتيح
+    وحدود دنيا مختلفة لكل دالة — لا تُوحَّد)، كشف القطع عبر stop_reason أو
+    غياب كتلة tool_use صالحة، إعادة محاولة واحدة بسقف مضاعف مقصوص عند سقف
+    أعلى، وcall_error عند الفشل النهائي بدل الصمت.
+
+    stage وsize_desc نصّان حرّان لسطر التحذير/الخطأ فقط (لا يؤثران على أي
+    حكم) — صيغتهما محايدة نحويًا (لا تُسنِد صفة لـstage) كي تصلح لأي اسم
+    مرحلة يمرّره المستدعي. التحقق من شكل الحقل المطلوب في الخرج (parts/
+    supporting/facts/terms/named/answered) يبقى في كل دالة على حدة بعد
+    استدعاء هذه الدالة، إذ يختلف تمامًا بين الست ولا يصح توحيده دون تغيير
+    سلوك. لا تُستعمل من _source_fact_duplicate_index — سياستها المعلنة على
+    Issue #824 أن الفشل «يمرّ» بلا إعادة محاولة ولا call_error، مختلفة
+    عمدًا عن هذه الدوال الست."""
+    def _call(tokens: int):
+        resp = client.messages.create(
+            model=model,
+            max_tokens=tokens,
+            tools=tools,
+            tool_choice=tool_choice,
+            system=system,
+            messages=[{"role": "user", "content": content}],
+            # لا تُضِف temperature: نماذج هذا المشروع ترفضها بـ400 — انظر
+            # توثيق _ask_naming_model.
+        )
+        writer.record_usage(resp, model)
+        return resp
+
+    def _tool_use_data(resp):
+        return next((b.input for b in resp.content
+                    if getattr(b, "type", "") == "tool_use"), None)
+
+    def _truncated(resp, data) -> bool:
+        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
+
+    try:
+        resp = _call(max_tokens)
+    except APIError as exc:
+        log.warning("فشل نداء النموذج في مرحلة %s: %s", stage, exc)
+        return _StageResult(call_error=str(exc))
+
+    data = _tool_use_data(resp)
+    if _truncated(resp, data):
+        log.error(
+            "انقطع رد النموذج في مرحلة %s (stop_reason=max_tokens أو بلا "
+            "كتلة tool_use صالحة) لـ%s — السقف %d غير كافٍ",
+            stage, size_desc, max_tokens)
+        retry_tokens = min(cap, max_tokens * 2)
+        try:
+            resp = _call(retry_tokens)
+        except APIError as exc:
+            log.warning("فشل نداء إعادة المحاولة في مرحلة %s: %s", stage, exc)
+            return _StageResult(call_error=str(exc))
+        data = _tool_use_data(resp)
+        if _truncated(resp, data):
+            return _StageResult(
+                call_error="قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة")
+
+    return _StageResult(data=data)
+
+
 # ──────────────────────────── استخراج بنية الموجز ────────────────────────────
 
 WRITEUP_EXTRACT_SYSTEM = """أنت تقرأ موجزًا تحريريًا كتبه صاحب صفحة إخبارية —
@@ -636,52 +718,20 @@ def _ask_context_model(entity: str, exclude_entities: list[str], docs: list[dict
     max_tokens = _context_max_tokens(n_docs, acfg)
     cap = int(acfg.get("support_max_tokens_cap", 4000))
 
-    def _call(tokens: int):
-        resp = client.messages.create(
-            model=model,
-            max_tokens=tokens,
-            tools=[CONTEXT_SCHEMA],
-            tool_choice={"type": "tool", "name": "extract_context"},
-            system=CONTEXT_SYSTEM,
-            messages=[{"role": "user", "content": prompt}],
-        )
-        writer.record_usage(resp, model)
-        return resp
-
-    def _tool_use_data(resp):
-        return next((b.input for b in resp.content
-                    if getattr(b, "type", "") == "tool_use"), None)
-
-    def _truncated(resp, data) -> bool:
-        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
-
-    try:
-        resp = _call(max_tokens)
-    except APIError as exc:
-        log.warning("فشل نداء استخلاص سياق الكيان %r: %s", entity, exc)
+    result = _call_stage(
+        client, model, max_tokens, cap,
+        tools=[CONTEXT_SCHEMA],
+        tool_choice={"type": "tool", "name": "extract_context"},
+        system=CONTEXT_SYSTEM,
+        content=prompt,
+        stage=f"استخلاص سياق الكيان {entity!r}",
+        size_desc=f"{n_docs} وثيقة",
+    )
+    if result.call_error is not None:
         fail = _ModelCallList()
-        fail.call_error = str(exc)
+        fail.call_error = result.call_error
         return fail
-
-    data = _tool_use_data(resp)
-    if _truncated(resp, data):
-        log.error(
-            "استخلاص سياق الكيان %r مقطوع (stop_reason=max_tokens أو بلا كتلة "
-            "tool_use صالحة) لـ%d وثيقة — السقف %d غير كافٍ",
-            entity, n_docs, max_tokens)
-        retry_tokens = min(cap, max_tokens * 2)
-        try:
-            resp = _call(retry_tokens)
-        except APIError as exc:
-            log.warning("فشل نداء إعادة محاولة استخلاص سياق الكيان %r: %s", entity, exc)
-            fail = _ModelCallList()
-            fail.call_error = str(exc)
-            return fail
-        data = _tool_use_data(resp)
-        if _truncated(resp, data):
-            fail = _ModelCallList()
-            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
-            return fail
+    data = result.data
 
     terms = data.get("terms") if isinstance(data, dict) else None
     if not isinstance(terms, list):
@@ -969,57 +1019,20 @@ def _ask_naming_model(vague_text: str, entities: list[str], docs: list[dict],
     max_tokens = _naming_max_tokens(n_docs, acfg)
     cap = int(acfg.get("support_max_tokens_cap", 4000))
 
-    def _call(tokens: int):
-        resp = client.messages.create(
-            model=model,
-            max_tokens=tokens,
-            tools=[NAMING_SCHEMA],
-            tool_choice={"type": "tool", "name": "name_event"},
-            system=NAMING_SYSTEM,
-            messages=[{"role": "user", "content": prompt}],
-            # لا تُضِف temperature: نماذج هذا المشروع ترفضها بـ400
-            # ("temperature is deprecated for this model") — Issue #373،
-            # الجولة الحادية عشرة. جُرِّبت لتخفيف تذبذب الحكم بين نداءين
-            # متطابقين تقريبًا وكسرت النداء صامتًا (يعود ضمن except أدناه
-            # بنفس شكل "لا نتيجة" الشرعي) قبل أن تُكتشف كسبب الانهيار.
-        )
-        writer.record_usage(resp, model)
-        return resp
-
-    def _tool_use_data(resp):
-        return next((b.input for b in resp.content
-                    if getattr(b, "type", "") == "tool_use"), None)
-
-    def _truncated(resp, data) -> bool:
-        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
-
-    try:
-        resp = _call(max_tokens)
-    except APIError as exc:
-        log.warning("فشل نداء تسمية الحدث: %s", exc)
+    result = _call_stage(
+        client, model, max_tokens, cap,
+        tools=[NAMING_SCHEMA],
+        tool_choice={"type": "tool", "name": "name_event"},
+        system=NAMING_SYSTEM,
+        content=prompt,
+        stage="تسمية الحدث",
+        size_desc=f"{n_docs} وثيقة",
+    )
+    if result.call_error is not None:
         fail = _ModelCallResult()
-        fail.call_error = str(exc)
+        fail.call_error = result.call_error
         return fail
-
-    data = _tool_use_data(resp)
-    if _truncated(resp, data):
-        log.error(
-            "تسمية الحدث مقطوعة (stop_reason=max_tokens أو بلا كتلة "
-            "tool_use صالحة) لـ%d وثيقة — السقف %d غير كافٍ",
-            n_docs, max_tokens)
-        retry_tokens = min(cap, max_tokens * 2)
-        try:
-            resp = _call(retry_tokens)
-        except APIError as exc:
-            log.warning("فشل نداء إعادة محاولة تسمية الحدث: %s", exc)
-            fail = _ModelCallResult()
-            fail.call_error = str(exc)
-            return fail
-        data = _tool_use_data(resp)
-        if _truncated(resp, data):
-            fail = _ModelCallResult()
-            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
-            return fail
+    data = result.data
 
     if not data.get("named"):
         return None
@@ -1430,53 +1443,20 @@ def _support_statement_parts(merged_excerpts: list[str], docs: list[dict],
     max_tokens = _support_statement_parts_max_tokens(n_parts, n_sources, acfg)
     cap = int(acfg.get("support_max_tokens_cap", 4000))
 
-    def _call(tokens: int):
-        resp = client.messages.create(
-            model=model,
-            max_tokens=tokens,
-            tools=[STATEMENT_PART_SUPPORT_SCHEMA],
-            tool_choice={"type": "tool", "name": "support_statement_parts"},
-            system=STATEMENT_PART_SUPPORT_SYSTEM,
-            messages=[{"role": "user", "content": content}],
-            # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
-        )
-        writer.record_usage(resp, model)
-        return resp
-
-    def _tool_use_data(resp):
-        return next((b.input for b in resp.content
-                    if getattr(b, "type", "") == "tool_use"), None)
-
-    def _truncated(resp, data) -> bool:
-        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
-
-    try:
-        resp = _call(max_tokens)
-    except APIError as exc:
-        log.warning("فشل نداء الحكم الجزئي على سند التصريح: %s", exc)
+    result = _call_stage(
+        client, model, max_tokens, cap,
+        tools=[STATEMENT_PART_SUPPORT_SCHEMA],
+        tool_choice={"type": "tool", "name": "support_statement_parts"},
+        system=STATEMENT_PART_SUPPORT_SYSTEM,
+        content=content,
+        stage="الحكم الجزئي على سند التصريح",
+        size_desc=f"تصريح من {n_parts} جزءًا و{n_sources} مصدرًا",
+    )
+    if result.call_error is not None:
         fail = _PartSupportList()
-        fail.call_error = str(exc)
+        fail.call_error = result.call_error
         return fail
-
-    data = _tool_use_data(resp)
-    if _truncated(resp, data):
-        log.error(
-            "سند التصريح مقطوع (stop_reason=max_tokens أو بلا كتلة tool_use "
-            "صالحة) لتصريح من %d جزءًا و%d مصدرًا — السقف %d غير كافٍ",
-            n_parts, n_sources, max_tokens)
-        retry_tokens = min(cap, max_tokens * 2)
-        try:
-            resp = _call(retry_tokens)
-        except APIError as exc:
-            log.warning("فشل نداء إعادة محاولة الحكم الجزئي على سند التصريح: %s", exc)
-            fail = _PartSupportList()
-            fail.call_error = str(exc)
-            return fail
-        data = _tool_use_data(resp)
-        if _truncated(resp, data):
-            fail = _PartSupportList()
-            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
-            return fail
+    data = result.data
 
     raw_parts = data.get("parts")
     if not isinstance(raw_parts, list):
@@ -1614,53 +1594,20 @@ def _support_sources(fact_text: str, docs: list[dict], cfg,
     max_tokens = _support_sources_max_tokens(n_sources, acfg)
     cap = int(acfg.get("support_max_tokens_cap", 4000))
 
-    def _call(tokens: int):
-        resp = client.messages.create(
-            model=model,
-            max_tokens=tokens,
-            tools=[SUPPORT_SCHEMA],
-            tool_choice={"type": "tool", "name": "support_fact"},
-            system=system,
-            messages=[{"role": "user", "content": content}],
-            # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
-        )
-        writer.record_usage(resp, model)
-        return resp
-
-    def _tool_use_data(resp):
-        return next((b.input for b in resp.content
-                    if getattr(b, "type", "") == "tool_use"), None)
-
-    def _truncated(resp, data) -> bool:
-        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
-
-    try:
-        resp = _call(max_tokens)
-    except APIError as exc:
-        log.warning("فشل نداء الحكم على السند: %s", exc)
+    result = _call_stage(
+        client, model, max_tokens, cap,
+        tools=[SUPPORT_SCHEMA],
+        tool_choice={"type": "tool", "name": "support_fact"},
+        system=system,
+        content=content,
+        stage="الحكم على السند",
+        size_desc=f"{n_sources} وثيقة ({label})",
+    )
+    if result.call_error is not None:
         fail = _ModelCallList()
-        fail.call_error = str(exc)
+        fail.call_error = result.call_error
         return fail
-
-    data = _tool_use_data(resp)
-    if _truncated(resp, data):
-        log.error(
-            "الحكم على السند مقطوع (stop_reason=max_tokens أو بلا كتلة "
-            "tool_use صالحة) لـ%d وثيقة (%s) — السقف %d غير كافٍ",
-            n_sources, label, max_tokens)
-        retry_tokens = min(cap, max_tokens * 2)
-        try:
-            resp = _call(retry_tokens)
-        except APIError as exc:
-            log.warning("فشل نداء إعادة محاولة الحكم على السند: %s", exc)
-            fail = _ModelCallList()
-            fail.call_error = str(exc)
-            return fail
-        data = _tool_use_data(resp)
-        if _truncated(resp, data):
-            fail = _ModelCallList()
-            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
-            return fail
+    data = result.data
 
     raw_supporting = data.get("supporting")
     if not isinstance(raw_supporting, list):
@@ -1777,53 +1724,20 @@ def _ask_answer_model(question_text: str, docs: list[dict], cfg) -> dict | None:
     max_tokens = _answer_max_tokens(n_docs, acfg)
     cap = int(acfg.get("support_max_tokens_cap", 4000))
 
-    def _call(tokens: int):
-        resp = client.messages.create(
-            model=model,
-            max_tokens=tokens,
-            tools=[ANSWER_SCHEMA],
-            tool_choice={"type": "tool", "name": "answer_question"},
-            system=ANSWER_SYSTEM,
-            messages=[{"role": "user", "content": prompt}],
-            # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
-        )
-        writer.record_usage(resp, model)
-        return resp
-
-    def _tool_use_data(resp):
-        return next((b.input for b in resp.content
-                    if getattr(b, "type", "") == "tool_use"), None)
-
-    def _truncated(resp, data) -> bool:
-        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
-
-    try:
-        resp = _call(max_tokens)
-    except APIError as exc:
-        log.warning("فشل نداء الإجابة عن سؤال الموجز: %s", exc)
+    result = _call_stage(
+        client, model, max_tokens, cap,
+        tools=[ANSWER_SCHEMA],
+        tool_choice={"type": "tool", "name": "answer_question"},
+        system=ANSWER_SYSTEM,
+        content=prompt,
+        stage="الإجابة عن سؤال الموجز",
+        size_desc=f"{n_docs} وثيقة",
+    )
+    if result.call_error is not None:
         fail = _ModelCallResult()
-        fail.call_error = str(exc)
+        fail.call_error = result.call_error
         return fail
-
-    data = _tool_use_data(resp)
-    if _truncated(resp, data):
-        log.error(
-            "الإجابة عن سؤال الموجز مقطوعة (stop_reason=max_tokens أو بلا "
-            "كتلة tool_use صالحة) لـ%d وثيقة — السقف %d غير كافٍ",
-            n_docs, max_tokens)
-        retry_tokens = min(cap, max_tokens * 2)
-        try:
-            resp = _call(retry_tokens)
-        except APIError as exc:
-            log.warning("فشل نداء إعادة محاولة الإجابة عن سؤال الموجز: %s", exc)
-            fail = _ModelCallResult()
-            fail.call_error = str(exc)
-            return fail
-        data = _tool_use_data(resp)
-        if _truncated(resp, data):
-            fail = _ModelCallResult()
-            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
-            return fail
+    data = result.data
 
     if not data.get("answered"):
         return None
@@ -2042,53 +1956,20 @@ def _extract_source_facts(topic: str, brief_fact_texts: list[str], docs: list[di
     max_tokens = _extract_source_facts_max_tokens(n_docs, acfg)
     cap = int(acfg.get("source_extract_max_tokens_cap", 8000))
 
-    def _call(tokens: int):
-        resp = client.messages.create(
-            model=model,
-            max_tokens=tokens,
-            tools=[SOURCE_EXTRACT_SCHEMA],
-            tool_choice={"type": "tool", "name": "extract_source_facts"},
-            system=SOURCE_EXTRACT_SYSTEM,
-            messages=[{"role": "user", "content": prompt}],
-            # لا تُضِف temperature — انظر توثيق _ask_naming_model أعلاه.
-        )
-        writer.record_usage(resp, model)
-        return resp
-
-    def _tool_use_data(resp):
-        return next((b.input for b in resp.content
-                    if getattr(b, "type", "") == "tool_use"), None)
-
-    def _truncated(resp, data) -> bool:
-        return getattr(resp, "stop_reason", "") == "max_tokens" or not isinstance(data, dict)
-
-    try:
-        resp = _call(max_tokens)
-    except APIError as exc:
-        log.warning("فشل نداء استخراج وقائع من المصادر: %s", exc)
+    result = _call_stage(
+        client, model, max_tokens, cap,
+        tools=[SOURCE_EXTRACT_SCHEMA],
+        tool_choice={"type": "tool", "name": "extract_source_facts"},
+        system=SOURCE_EXTRACT_SYSTEM,
+        content=prompt,
+        stage="استخراج وقائع من المصادر",
+        size_desc=f"{n_docs} وثيقة",
+    )
+    if result.call_error is not None:
         fail = _ModelCallList()
-        fail.call_error = str(exc)
+        fail.call_error = result.call_error
         return fail
-
-    data = _tool_use_data(resp)
-    if _truncated(resp, data):
-        log.error(
-            "استخراج وقائع المصادر مقطوع (stop_reason=max_tokens أو بلا "
-            "كتلة tool_use صالحة) لـ%d وثيقة — السقف %d غير كافٍ",
-            n_docs, max_tokens)
-        retry_tokens = min(cap, max_tokens * 2)
-        try:
-            resp = _call(retry_tokens)
-        except APIError as exc:
-            log.warning("فشل نداء إعادة محاولة استخراج وقائع من المصادر: %s", exc)
-            fail = _ModelCallList()
-            fail.call_error = str(exc)
-            return fail
-        data = _tool_use_data(resp)
-        if _truncated(resp, data):
-            fail = _ModelCallList()
-            fail.call_error = "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة"
-            return fail
+    data = result.data
 
     raw = data.get("facts")
     if not isinstance(raw, list):
