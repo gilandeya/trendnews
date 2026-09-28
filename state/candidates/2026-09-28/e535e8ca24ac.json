@@ -1,0 +1,58 @@
+{
+  "id": "e535e8ca24ac",
+  "created_at": "2026-09-28T15:08:33.234293+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 16.4,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "ذكاء اصطناعي ينبئ بعودة أورام الدماغ بعد الجراحة",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "New AI tool can predict where glioblastoma is most likely to return after initial surgery",
+  "link": "https://medicalxpress.com/news/2026-09-ai-tool-glioblastoma-surgery.html",
+  "publishers": [
+    "Medical Xpress"
+  ],
+  "region": "health",
+  "article": {
+    "title": "New AI tool can predict where glioblastoma is most likely to return after initial surgery",
+    "link": "https://medicalxpress.com/news/2026-09-ai-tool-glioblastoma-surgery.html",
+    "summary": "A new AI-based model can predict where glioblastoma is most likely to return after initial surgery, potentially giving doctors a chance to treat it before it becomes visible on MRI.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-09-28T14:20:14+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/new-ai-tool-can-predic-1.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Medical Xpress"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-09-ai-tool-glioblastoma-surgery.html"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/new-ai-tool-can-predic-1.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 1318.9176187599999,
+    "is_stale": true,
+    "score": 16.396862415592594,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "ذكاء اصطناعي ينبئ بعودة أورام الدماغ بعد الجراحة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
