@@ -1,0 +1,798 @@
+"""يجمع أداء المنشورات من فيسبوك ويحوّله إلى توصيات قابلة للتطبيق.
+
+    python -m src.insights            # تقرير عن آخر 30 يومًا
+    python -m src.insights --days 7
+
+الفكرة: البوت يرتّب الأخبار بأوزان خمّناها أنا وأنت. بعد عشرات المنشورات
+تصبح لديك بيانات حقيقية عن جمهورك — أي تصنيف يتفاعل معه، أي مصدر يأتي
+بأفضل الأخبار، وهل إشارة Google Trends تستحق وزنها. هذا التقرير يحوّل
+تلك البيانات إلى أرقام تضبط بها config.yaml.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import logging
+import os
+import re
+from collections import defaultdict
+from datetime import datetime, timedelta, timezone
+from statistics import median
+
+from . import facebook, names_learn, review, store
+from .config import STATE_DIR, load_config
+from .schedule import tz_of
+
+log = logging.getLogger("insights")
+
+PERF_FILE = STATE_DIR / "performance.json"
+LAST_ISSUE_FILE = STATE_DIR / "insights_last_issue.json"
+DECISIONS_FILE = STATE_DIR / "insight_decisions.json"
+# عدّاد ظهور مدخلات «لماذا لم تنشر هذه؟» (Issue #843) — مدخلة تُعرض
+# مرتين على الأكثر عبر تشغيلتين متتاليتين إن تُركت بلا إجابة، ثم تسقط.
+REASON_SHOWN_FILE = STATE_DIR / "insight_reason_shown.json"
+WHY_ENTRY_LIMIT = 15
+
+# ثمانية أسابيع — قيمة ثابتة في الكود لا في config.yaml عمدًا (Issue #769
+# يمنع لمس config.yaml هنا صراحة، وهذه ليست قيمة تضبط الفرز أو الترتيب أو
+# النشر كبقية ما في ذلك الملف، بل مدة إخفاء مقترح رفضه المستخدم في تقرير
+# الأداء نفسه).
+REJECT_SUPPRESS_DAYS = 56
+
+# نافذة عرض الأسماء التي وحّدها التعلّم الآلي (Issue #1074) — "هذا الأسبوع"
+# حرفيًا بصرف النظر عن --days المطلوبة للتقرير، لنفس سبب REJECT_SUPPRESS_DAYS
+# أعلاه: مدة عرض في التقرير نفسه لا قيمة تضبط الفرز أو الترتيب أو النشر.
+LEARNED_NAMES_WINDOW_DAYS = 7
+
+
+def engagement(metrics: dict) -> int:
+    """تفاعل مركّب: المشاركة أثقل من التعليق، والتعليق أثقل من الإعجاب."""
+    return (
+        metrics.get("reactions", 0)
+        + metrics.get("comments", 0) * 3
+        + metrics.get("shares", 0) * 5
+    )
+
+
+def collect(days: int, api_version: str) -> list[dict]:
+    """يجلب مقاييس كل منشور نُشر خلال المدة."""
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+    rows: list[dict] = []
+
+    for path in sorted(store.DRAFTS_DIR.glob("*/*.json")):
+        try:
+            draft = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if draft.get("status") != "published":
+            continue
+        published_at = draft.get("published_at")
+        if not published_at:
+            continue
+        try:
+            when = datetime.fromisoformat(published_at)
+        except ValueError:
+            continue
+        if when < cutoff:
+            continue
+
+        post_id = (draft.get("facebook") or {}).get("post_id")
+        if not post_id:
+            continue
+
+        metrics = facebook.fetch_metrics(post_id, api_version)
+        if metrics.get("error"):
+            continue
+
+        rows.append({
+            "id": draft["id"],
+            "title": draft["arabic"]["post_title"],
+            "category": draft["arabic"].get("category", "؟"),
+            "urgent": bool(draft["arabic"].get("urgent")),
+            "trend_score": float(draft.get("trend_score", 0)),
+            "state_media": bool(draft.get("state_media")),
+            "publishers": (draft.get("source") or {}).get("publishers", []),
+            "published_at": published_at,
+            "has_photo": bool((draft.get("source") or {}).get("image_url")),
+            **metrics,
+            "engagement": engagement(metrics),
+        })
+
+    log.info("جُمعت مقاييس %d منشور", len(rows))
+    return rows
+
+
+def _avg(values: list[float]) -> float:
+    return sum(values) / len(values) if values else 0.0
+
+
+def analyse(rows: list[dict], timezone_name: str) -> dict:
+    """يقسّم الأداء حسب التصنيف والمصدر والترند وساعة النشر."""
+    if not rows:
+        return {}
+
+    overall = _avg([r["engagement"] for r in rows])
+    tz = tz_of(timezone_name)
+
+    by_category: dict[str, list[int]] = defaultdict(list)
+    by_hour: dict[int, list[int]] = defaultdict(list)
+    by_publisher: dict[str, list[int]] = defaultdict(list)
+    for r in rows:
+        by_category[r["category"]].append(r["engagement"])
+        by_publisher_keys = r["publishers"][:2] or ["؟"]
+        for pub in by_publisher_keys:
+            by_publisher[pub].append(r["engagement"])
+        try:
+            hour = datetime.fromisoformat(r["published_at"]).astimezone(tz).hour
+            by_hour[hour].append(r["engagement"])
+        except ValueError:
+            pass
+
+    trending = [r["engagement"] for r in rows if r["trend_score"] >= 0.5]
+    not_trending = [r["engagement"] for r in rows if r["trend_score"] < 0.5]
+    urgent = [r["engagement"] for r in rows if r["urgent"]]
+    calm = [r["engagement"] for r in rows if not r["urgent"]]
+    photo = [r["engagement"] for r in rows if r["has_photo"]]
+    no_photo = [r["engagement"] for r in rows if not r["has_photo"]]
+
+    return {
+        "count": len(rows),
+        "overall_avg": overall,
+        "median": median([r["engagement"] for r in rows]),
+        "top": sorted(rows, key=lambda r: -r["engagement"])[:5],
+        # أدنى خمسة تفاعلًا — نظير "top" أعلاه (Issue #769، قسم "📉 أضعف
+        # أداءً"). الترتيب تصاعدي فالأضعف فعليًا يتصدّر لا يذيّل.
+        "bottom": sorted(rows, key=lambda r: r["engagement"])[:5],
+        "categories": sorted(
+            ((k, _avg(v), len(v)) for k, v in by_category.items()),
+            key=lambda t: -t[1],
+        ),
+        "hours": sorted(
+            ((k, _avg(v), len(v)) for k, v in by_hour.items() if len(v) >= 2),
+            key=lambda t: -t[1],
+        ),
+        "publishers": sorted(
+            ((k, _avg(v), len(v)) for k, v in by_publisher.items() if len(v) >= 2),
+            key=lambda t: -t[1],
+        )[:8],
+        "trend": (_avg(trending), len(trending), _avg(not_trending), len(not_trending)),
+        "urgent": (_avg(urgent), len(urgent), _avg(calm), len(calm)),
+        "photo": (_avg(photo), len(photo), _avg(no_photo), len(no_photo)),
+    }
+
+
+def _fingerprint(text: str) -> str:
+    """بصمة مستقرة لنص مقترح بلا key (Issue #769) — تُجرَّد الأرقام أولًا
+    كي لا يتغيّر المعرّف لمجرد أن متوسطًا تحرّك من 42 إلى 45؛ فقط تغيّر
+    الكلمات نفسها (تصنيف مختلف مثلًا) يُنتج بصمة مختلفة، وهذا مقصود."""
+    stripped = re.sub(r"\d+", "", text)
+    return hashlib.sha1(stripped.encode("utf-8")).hexdigest()[:12]
+
+
+def _rec(text: str, key: str | None = None, current=None, suggested=None) -> dict:
+    """يبني مقترحًا كخيار (قبول/رفض) لا نصًّا فقط (Issue #769). id ثابت
+    عبر الأسابيع: من key إن وُجد (تعديل إعداد فعلي)، وإلا من بصمة النص —
+    شرط عمل الحلقة المغلقة في state/insight_decisions.json بالكامل."""
+    rec_id = key if key else f"fp_{_fingerprint(text)}"
+    return {"id": rec_id, "text": text, "key": key, "current": current, "suggested": suggested}
+
+
+def recommendations(a: dict, cfg) -> list[dict]:
+    """يحوّل الأرقام إلى تعديلات ملموسة في config.yaml — كخيارات (Issue
+    #769)، لا كنصوص فقط: كل مقترح قابل للقبول أو الرفض في تقرير الأداء،
+    ومقترحه key/current/suggested (حين تقابله قيمة إعداد فعلية) يُتيح
+    تتبّع تطبيقه لاحقًا. القبول لا يعدّل config.yaml تلقائيًا (قرار محسوم،
+    انظر توثيق src/insights.py الأعلى) — التقرير يذكّر فقط."""
+    out: list[dict] = []
+    if a["count"] < 10:
+        out.append(_rec(
+            f"البيانات قليلة ({a['count']} منشور). التوصيات تصبح موثوقة بعد 20 منشورًا."
+        ))
+
+    t_avg, t_n, n_avg, n_n = a["trend"]
+    if t_n >= 3 and n_n >= 3:
+        weight = float(cfg.path("trends.weight", 4.0))
+        if t_avg > n_avg * 1.25:
+            suggested = min(weight + 2, 10)
+            out.append(_rec(
+                f"الأخبار الرائجة 🔥 تتفوق ({t_avg:.0f} مقابل {n_avg:.0f}). "
+                f"ارفع `trends.weight` من {weight} إلى {suggested:.0f}.",
+                key="trends.weight", current=weight, suggested=suggested,
+            ))
+        elif n_avg > t_avg * 1.25:
+            suggested = max(weight - 2, 0)
+            out.append(_rec(
+                f"الأخبار الرائجة تتأخر ({t_avg:.0f} مقابل {n_avg:.0f}). "
+                f"اخفض `trends.weight` من {weight} إلى {suggested:.0f}.",
+                key="trends.weight", current=weight, suggested=suggested,
+            ))
+        else:
+            out.append(_rec("إشارة الترند متعادلة مع التغطية — اترك `trends.weight` كما هو."))
+
+    if len(a["categories"]) >= 3:
+        best = a["categories"][0]
+        worst = a["categories"][-1]
+        if best[2] >= 2 and worst[2] >= 2 and best[1] > worst[1] * 1.5:
+            out.append(_rec(
+                f"تصنيف «{best[0]}» يتفوق ({best[1]:.0f}) و«{worst[0]}» يتراجع "
+                f"({worst[1]:.0f}). فكّر في زيادة مصادر الأول."
+            ))
+
+    if a["hours"]:
+        top_hours = [h for h, _, _ in a["hours"][:3]]
+        current = cfg.path("facebook.peak_hours", [])
+        if sorted(top_hours) != sorted(current[: len(top_hours)]):
+            out.append(_rec(
+                f"أفضل ساعات التفاعل فعليًا: {', '.join(map(str, top_hours))}. "
+                f"الإعداد الحالي: {current}. حدّث `facebook.peak_hours`.",
+                key="facebook.peak_hours", current=current, suggested=sorted(top_hours),
+            ))
+
+    p_avg, p_n, np_avg, np_n = a["photo"]
+    if p_n >= 3 and np_n >= 3 and p_avg > np_avg * 1.3:
+        out.append(_rec(
+            f"المنشورات بصورة خبر حقيقية تتفوق ({p_avg:.0f} مقابل {np_avg:.0f}). "
+            "احذف المصادر التي لا توفّر صورًا."
+        ))
+
+    if a["publishers"]:
+        best_pub = a["publishers"][0]
+        out.append(_rec(
+            f"أفضل مصدر أداءً: {best_pub[0]} ({best_pub[1]:.0f} تفاعل، "
+            f"{best_pub[2]} منشور). ارفع وزنه في `sources`."
+        ))
+
+    return out or [_rec("لا توصيات واضحة بعد — واصل النشر وأعد التقرير لاحقًا.")]
+
+
+# ──────────────────────── المقترحات كخيارات: قبول/رفض ────────────────────────
+
+# مربعا قبول/رفض لكل مقترح: <!-- rec:المعرّف:yes --> / <!-- rec:المعرّف:no -->
+# (Issue #769) — بنفس نمط علامات review.py (draft:/hl:/rj:).
+REC_MARKER_RE = re.compile(
+    r"^\s*-\s*\[([ xX])\]\s*.*?<!--\s*rec:([\w.\-]+):(yes|no)\s*-->", re.MULTILINE)
+
+
+def parse_recommendation_choices(body: str) -> dict[str, str]:
+    """يقرأ قرار المراجع (قبول/رفض) على مقترحات تقرير الأداء — بنفس أسلوب
+    review.parse_headline_choice: معرّف المقترح ← "yes"/"no" لآخر مربع
+    معلَّم في ترتيب الظهور (تسامح مع تعليم الاثنين خطأ)؛ مقترح لم يُعلَّم
+    على أيّ من مربعيه لا يظهر في القاموس المُعاد إطلاقًا — يُتجاهل لا
+    يُرفض ولا يُقبل."""
+    chosen: dict[str, str] = {}
+    for mark, rec_id, choice in REC_MARKER_RE.findall(body or ""):
+        if mark.lower() == "x":
+            chosen[rec_id] = choice
+    return chosen
+
+
+def _values_equal(current, suggested) -> bool:
+    """مقارنة تتجاهل ترتيب القوائم (مثل facebook.peak_hours) — المستخدم
+    قد يكتب الساعات بترتيب مختلف عن ترتيب الاقتراح ويبقى التطبيق فعليًا."""
+    if isinstance(current, list) and isinstance(suggested, list):
+        return sorted(current) == sorted(suggested)
+    return current == suggested
+
+
+# ──────────────────────── الحلقة المغلقة: حفظ وقراءة قراراتك ────────────────────────
+
+
+def _load_last_issue() -> dict | None:
+    if not LAST_ISSUE_FILE.exists():
+        return None
+    try:
+        return json.loads(LAST_ISSUE_FILE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        log.warning("ملف آخر Issue تقرير تالف — سيُتجاهل")
+        return None
+
+
+def _save_last_issue(issue_number: int, recs: list[dict]) -> None:
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "issue": issue_number,
+        "recommendations": [
+            {"id": r["id"], "text": r["text"], "key": r.get("key"),
+             "suggested": r.get("suggested")}
+            for r in recs
+        ],
+    }
+    LAST_ISSUE_FILE.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def _load_decisions() -> dict:
+    if not DECISIONS_FILE.exists():
+        return {}
+    try:
+        return json.loads(DECISIONS_FILE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        log.warning("ملف قرارات التوصيات تالف — سيُعاد إنشاؤه")
+        return {}
+
+
+def _save_decisions(decisions: dict) -> None:
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    DECISIONS_FILE.write_text(
+        json.dumps(decisions, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def sync_previous_decisions() -> None:
+    """يُستدعى في بداية كل تشغيلة (Issue #769، الحلقة المغلقة): يقرأ نص
+    Issue تقرير الأسبوع الماضي (معرّفه في state/insights_last_issue.json)،
+    يحلّل مربعات القبول/الرفض، ويحفظ القرارات في state/insight_decisions.json
+    مع تاريخها. أول تشغيلة بعد هذا التغيير لا تجد insights_last_issue.json
+    فتتخطّى الخطوة بصمت؛ وأي عطل شبكة أو JSON تالف هنا لا يُسقط التشغيلة
+    كلها — قراراتك ثانوية أمام التقرير نفسه، لا شرط لتوليده."""
+    last = _load_last_issue()
+    if not last:
+        return
+    try:
+        issue_number = last["issue"]
+        meta_by_id = {r["id"]: r for r in last.get("recommendations", [])}
+    except (KeyError, TypeError):
+        return
+
+    try:
+        body = review.fetch_issue_body(issue_number)
+    except Exception as exc:  # noqa: BLE001 — عطل شبكة هنا لا يُسقط التشغيلة
+        log.warning("تعذّر قراءة Issue #%s لتحليل قراراتك: %s", issue_number, exc)
+        return
+
+    # قراءة مربعات «لماذا لم تنشر هذه؟» من نفس الـIssue (Issue #843) —
+    # مستقلة عن قرارات التوصيات أدناه، فلا ترتبط بوجود `choices` هناك.
+    sync_previous_reason_choices(body)
+
+    choices = parse_recommendation_choices(body)
+    if not choices:
+        return
+
+    decisions = _load_decisions()
+    now = datetime.now(timezone.utc).isoformat()
+    for rec_id, choice in choices.items():
+        meta = meta_by_id.get(rec_id)
+        if not meta:
+            continue
+        decision = "accepted" if choice == "yes" else "rejected"
+        existing = decisions.get(rec_id)
+        if existing and existing.get("decision") == decision:
+            # نفس القرار السابق حرفيًا — لا تُحدَّث decided_at: نفس Issue قد
+            # يُقرأ أكثر من مرة قبل أن يفتح تقرير جديد (لا مسودات هذا
+            # الأسبوع مثلًا)، وتحديث التاريخ في كل قراءة كان سيمدّد نافذة
+            # الثمانية أسابيع بلا نهاية طالما لم يتغيّر شيء فعليًا.
+            continue
+        decisions[rec_id] = {
+            "id": rec_id,
+            "text": meta.get("text", ""),
+            "key": meta.get("key"),
+            "suggested": meta.get("suggested"),
+            "decision": decision,
+            "decided_at": now,
+            "reported": False,
+        }
+    _save_decisions(decisions)
+
+
+def suppressed_ids(decisions: dict) -> set[str]:
+    """معرّفات مقترحات رُفضت خلال آخر REJECT_SUPPRESS_DAYS يومًا — تُستبعد
+    من recommendations() القادمة. رفضك إشارة، وتكرار عرض المرفوض عليك
+    أسبوعيًا يجعلك تتوقف عن قراءة القسم كله."""
+    now = datetime.now(timezone.utc)
+    out = set()
+    for rec_id, e in decisions.items():
+        if e.get("decision") != "rejected":
+            continue
+        try:
+            decided_at = datetime.fromisoformat(e["decided_at"])
+        except (KeyError, ValueError):
+            continue
+        if (now - decided_at).days < REJECT_SUPPRESS_DAYS:
+            out.add(rec_id)
+    return out
+
+
+def decisions_report(cfg) -> list[str]:
+    """يبني قسم «📋 قراراتك السابقة» ويحدّث state/insight_decisions.json في
+    الوقت نفسه (Issue #769): مقترح بلا key يُعرض مرة واحدة (قبول أو رفض
+    مرفوض) فلا يتكرر بعدها — رفض مُعاد كل أسبوع نصًّا يفقد فائدته كإشارة؛
+    مقترح مقبول وله key يُقارَن بقيمة الإعداد الحالية كل أسبوع حتى يُطبَّق
+    فيُعرض ✅ ويُحذف من التتبّع، وقبلها يُعرض ⏳ في كل تقرير. مقترح مرفوض
+    منتهي نافذة الإخفاء يُحذف من الملف؛ سقوطه من هنا هو ما يُتيح ظهوره
+    مجددًا في recommendations() القادمة (انظر suppressed_ids)."""
+    decisions = _load_decisions()
+    if not decisions:
+        return []
+
+    now = datetime.now(timezone.utc)
+    lines: list[str] = []
+    remaining: dict = {}
+
+    for rec_id, e in decisions.items():
+        if e.get("decision") == "accepted" and e.get("key"):
+            current = cfg.path(e["key"])
+            if _values_equal(current, e.get("suggested")):
+                lines.append(f"- ✅ طُبّقت: `{e['key']}` أصبحت {current}")
+                continue  # طُبّقت فعلًا — لا حاجة لتتبّعها بعد الآن
+            lines.append(
+                f"- ⏳ قبلتَها ولم تُطبَّق بعد: `{e['key']}` ما زال {current}")
+            remaining[rec_id] = e
+            continue
+
+        if e.get("decision") == "accepted":
+            # بلا key: لا شيء لتتبّعه — يُعرض مرة ثم يسقط من الملف كليًا
+            if not e.get("reported"):
+                lines.append(f"- ✅ قبلتَ: {e['text']}")
+            continue
+
+        try:
+            decided_at = datetime.fromisoformat(e["decided_at"])
+        except (KeyError, ValueError):
+            continue
+        if (now - decided_at).days >= REJECT_SUPPRESS_DAYS:
+            continue  # انتهت نافذة الإخفاء
+
+        if not e.get("reported"):
+            lines.append(f"- ❌ رفضتَ: {e['text']}")
+            e = {**e, "reported": True}
+        remaining[rec_id] = e
+
+    _save_decisions(remaining)
+    if not lines:
+        return []
+    return ["", "#### 📋 قراراتك السابقة", ""] + lines
+
+
+def rejections_section(entries: list[dict], days: int, limit: int = 40) -> list[str]:
+    """قائمة كاملة بما رُفض ضمن نافذة التقرير (Issue #769) — العنوان، سبب
+    الرفض (tag+note)، المسار (origin)، والتاريخ. تفصيل يكمل «أنماط الرفض»
+    الذي يلخّص فقط أعلاه، وكلاهما مطلوب معًا. مطوية داخل <details> كي لا
+    يتضخّم نص الـIssue، وبسقف `limit` يليه سطر «و N أخرى» عند التجاوز."""
+    from .feedback import REASONS
+
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+    recent = [e for e in entries if datetime.fromisoformat(e["at"]) >= cutoff]
+    if not recent:
+        return []
+
+    recent = sorted(recent, key=lambda e: e["at"], reverse=True)
+    shown, extra = recent[:limit], recent[limit:]
+
+    lines = [
+        "", "#### 🚫 ما رُفض", "",
+        f"<details><summary>{len(recent)} مسودة مرفوضة خلال {days} يومًا "
+        "— التفاصيل</summary>",
+        "",
+    ]
+    for e in shown:
+        reason = REASONS.get(e["tag"], e["tag"])
+        note = f" — {e['note']}" if e.get("note") else ""
+        origin = e.get("origin") or "؟"
+        date = e["at"][:10]
+        title = e.get("title") or e.get("source_title") or "(بلا عنوان)"
+        lines.append(f"- **{title}** — {reason}{note} · المسار: `{origin}` · {date}")
+    if extra:
+        lines.append(f"- و {len(extra)} أخرى")
+    lines += ["", "</details>"]
+    return lines
+
+
+def learned_names_section(cfg) -> list[str]:
+    """قسم «📝 أسماء وحّدها البوت تلقائيًا» (Issue #1074) — سطر واحد لكل
+    رسم وحّده src/names_learn.py خلال آخر LEARNED_NAMES_WINDOW_DAYS أيام
+    (بحسب learned_at في state/names_learned.json، لا وقت توليد هذا
+    التقرير). إن لم يتعلّم شيئًا هذا الأسبوع فلا سطر ولا عنوان إطلاقًا —
+    لا حاجة لتمرير cfg فعليًا هنا (لا شيء يُضبَط من config.yaml في هذا
+    القسم بذاته)، أُبقي للتناسق مع بقية دوال هذا الملف."""
+    entries = names_learn.load_learned().get("entries") or {}
+    cutoff = datetime.now(timezone.utc) - timedelta(days=LEARNED_NAMES_WINDOW_DAYS)
+
+    lines: list[str] = []
+    for canonical in sorted(entries):
+        info = entries[canonical]
+        try:
+            learned_at = datetime.fromisoformat(info.get("learned_at", ""))
+        except ValueError:
+            continue
+        if learned_at < cutoff:
+            continue
+        counts = info.get("counts") or {}
+        canon_n = counts.get(canonical, 0)
+        for variant in sorted(info.get("variants") or []):
+            var_n = counts.get(variant, 0)
+            lines.append(f"- 📝 وُحّد الرسم: {variant} ← {canonical} ({canon_n} مقابل {var_n})")
+
+    if not lines:
+        return []
+    return [
+        "", "#### 📝 أسماء وحّدها البوت تلقائيًا", "",
+        *lines, "",
+        "<sub>لإلغاء أي منها أضف الاسم إلى `names.blocklist` في config.yaml.</sub>",
+    ]
+
+
+# ──────────────── لماذا لم تنشر هذه؟ (Issue #843) ────────────────
+#
+# بعد #841، مدخلتا «لم يُعتمد»/«لم يُختر» في state/rejections.json تُسجَّلان
+# رفضًا صامتًا بلا سبب حقيقي — لا خيارات سبب استبعاد في واجهة المراجعة
+# اليومية بعد اليوم. هذا القسم هو الطريق البديل الوحيد لتحويل ذلك الرفض
+# الصامت إلى وسم حقيقي يفهمه feedback.screening_guidance.
+
+# مربعا سبب لكل مدخلة: <!-- why:معرّف المدخلة:الوسم --> (بنمط review.py
+# نفسه: draft:/hl:/rj:). الوسم عربي حرفيًا لا [\w.\-] كمفاتيح
+# recommendations() الإنكليزية، لذا الحد هنا أي محرف غير فراغ ولا ':'.
+WHY_MARKER_RE = re.compile(
+    r"^\s*-\s*\[([ xX])\]\s*.*?<!--\s*why:([0-9a-f]+):([^\s:]+)\s*-->", re.MULTILINE)
+
+
+def _reason_entry_id(e: dict) -> str:
+    """معرّف ثابت لمدخلة رفض بلا سبب حقيقي، مشتق من محتواها (معرّف
+    المسودة + وقت تسجيلها) لا من ترتيبها في rejections.json — نفس مبدأ
+    _fingerprint أعلاه. يبقى نفسه بين تقرير وآخر طالما لم تتغيّر المدخلة،
+    وهو الرابط الوحيد بين ظهورها في تقرير وقرارك عليها في التقرير التالي."""
+    basis = f"{e.get('id', '')}:{e.get('at', '')}"
+    return hashlib.sha1(basis.encode("utf-8")).hexdigest()[:12]
+
+
+def _load_reason_shown() -> dict:
+    if not REASON_SHOWN_FILE.exists():
+        return {}
+    try:
+        return json.loads(REASON_SHOWN_FILE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        log.warning("ملف عدّاد «لماذا لم تنشر هذه» تالف — سيُعاد إنشاؤه")
+        return {}
+
+
+def _save_reason_shown(shown: dict) -> None:
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    REASON_SHOWN_FILE.write_text(
+        json.dumps(shown, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def parse_reason_choices(body: str) -> dict[str, str]:
+    """يقرأ اختيارك لسبب مدخلة «لماذا لم تنشر هذه؟» — بنفس أسلوب
+    parse_recommendation_choices: معرّف المدخلة الثابت ← الوسم المختار،
+    من آخر مربع معلَّم بترتيب الظهور (تسامح مع تعليم أكثر من سبب لنفس
+    المدخلة خطأً). مدخلة لم تُعلَّم على أي سبب لا تظهر في القاموس
+    المُعاد إطلاقًا — تبقى بلا سبب، لا يُخمَّن."""
+    chosen: dict[str, str] = {}
+    for mark, entry_id, tag in WHY_MARKER_RE.findall(body or ""):
+        if mark.lower() == "x":
+            chosen[entry_id] = tag
+    return chosen
+
+
+def sync_previous_reason_choices(body: str) -> None:
+    """يُطبّق اختياراتك من قسم «لماذا لم تنشر هذه؟» في تقرير الأسبوع
+    الماضي: لكل مدخلة في state/rejections.json لا تزال موسومة NON_REASON_TAGS
+    وعُلِّم عليها سبب حقيقي في ذلك التقرير، يُحدَّث وسمها فتدخل
+    feedback.screening_guidance تلقائيًا من التشغيلة القادمة (البند الأول
+    في #843 يستبعد الوسمين القديمين وحدهما، لا الوسم الجديد). مدخلة لم
+    تُجَب عنها تبقى كما هي بلا تخمين ولا استنتاج من نمط."""
+    from .feedback import NON_REASON_TAGS, REASONS
+    from .feedback import load as load_rejections
+    from .feedback import save as save_rejections
+
+    choices = parse_reason_choices(body)
+    if not choices:
+        return
+
+    entries = load_rejections()
+    changed = False
+    for e in entries:
+        if e.get("tag") not in NON_REASON_TAGS:
+            continue
+        tag = choices.get(_reason_entry_id(e))
+        if not tag or tag not in REASONS or tag in NON_REASON_TAGS:
+            continue
+        e["tag"] = tag
+        e["note"] = "أُسند لاحقًا من تقرير الأداء الأسبوعي"
+        changed = True
+    if changed:
+        save_rejections(entries)
+
+
+def why_not_published_section(entries: list[dict], days: int,
+                               limit: int = WHY_ENTRY_LIMIT) -> list[str]:
+    """يبني قسم «❓ لماذا لم تنشر هذه؟» (Issue #843): مدخلات NON_REASON_TAGS
+    ضمن نافذة التقرير، لكل واحدة صفّ مربعات بالأسباب الحقيقية (نفس قائمة
+    REASONS التي كانت في واجهة المراجعة قبل #841). سقف `limit` مدخلة
+    (الأحدث أولًا) داخل <details> مطوي والفائض بسطر واحد — مدخلات الأسبوع
+    قد تبلغ المئة، ومطالبتك بمئة قرار تقتل القسم.
+
+    مدخلة تُعرض مرتين على الأكثر عبر تشغيلتين متتاليتين إن تُركت بلا
+    إجابة (state/insight_reason_shown.json)، ثم تسقط نهائيًا — سؤالك
+    عنها أسبوعين كافٍ. مدخلة أُجيبت عنها (وسمها تغيّر عبر
+    sync_previous_reason_choices) لا تُعرض ثانيةً، لأنها لم تعد تطابق
+    NON_REASON_TAGS أصلًا."""
+    from .feedback import NON_REASON_TAGS, REASONS
+
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+    candidates = [
+        e for e in entries
+        if e.get("tag") in NON_REASON_TAGS
+        and datetime.fromisoformat(e["at"]) >= cutoff
+    ]
+
+    shown = _load_reason_shown()
+    valid_ids = {_reason_entry_id(e) for e in candidates}
+    # تنظيف دائم: احتفظ بعدادات المدخلات ضمن نافذة الرفض الحالية فقط —
+    # مدخلة أُجيبت أو خرجت من النافذة تُنسى، وإلا تضخّم الملف بلا نهاية.
+    shown = {k: v for k, v in shown.items() if k in valid_ids}
+
+    eligible: list[tuple[str, dict]] = []
+    for e in candidates:
+        eid = _reason_entry_id(e)
+        if shown.get(eid, 0) < 2:
+            eligible.append((eid, e))
+    if not eligible:
+        _save_reason_shown(shown)
+        return []
+
+    eligible.sort(key=lambda t: t[1]["at"], reverse=True)
+    show, extra = eligible[:limit], eligible[limit:]
+
+    reason_tags = [t for t in REASONS if t not in NON_REASON_TAGS]
+
+    lines = [
+        "", "#### ❓ لماذا لم تنشر هذه؟", "",
+        "اختر ما تريد واترك الباقي — المتروك يبقى بلا سبب ولا يضرّ.", "",
+        f"<details><summary>{len(eligible)} مدخلة بلا سبب حقيقي — اختر</summary>",
+        "",
+    ]
+    for eid, e in show:
+        title = e.get("title") or e.get("source_title") or "(بلا عنوان)"
+        lines.append(f"- **{title}**")
+        for tag in reason_tags:
+            lines.append(f"  - [ ] {REASONS[tag]}  <!-- why:{eid}:{tag} -->")
+        lines.append("")
+    if extra:
+        lines.append(f"و {len(extra)} أخرى لم تُعرض")
+        lines.append("")
+    lines.append("</details>")
+
+    for eid, _e in show:
+        shown[eid] = shown.get(eid, 0) + 1
+    _save_reason_shown(shown)
+
+    return lines
+
+
+def build_report(a: dict, recs: list[dict], days: int,
+                  decisions_lines: list[str] | None = None,
+                  learned_names_lines: list[str] | None = None) -> str:
+    """حين لا توجد منشورات (`a` فارغ)، الخروج المبكر السابق كان يُعيد سطر
+    «لا منشورات» ويتوقف قبل أي قسم — فيحجب «❓ لماذا لم تنشر هذه؟» في
+    الأسبوع الذي لا يُنشر فيه شيء، وهو أحوج الأسابيع إلى السؤال (Issue
+    #847). الآن تُبنى أقسام الأداء وحدها (🏆·📉·📂·🕐·📰·🔬·💡) شرطيًا على
+    `a`، بينما «📋 قراراتك السابقة» و«🚫 أنماط الرفض»/«ما رُفض» و«❓ لماذا لم
+    تنشر هذه؟» تُبنى دائمًا — وكلها أصلًا تُعيد قائمة فارغة حين لا مدخلات
+    لها، فلا عناوين فارغة تظهر."""
+    if a:
+        lines = [
+            f"### 📊 تقرير الأداء — آخر {days} يومًا",
+            "",
+            f"**{a['count']} منشور** · متوسط التفاعل **{a['overall_avg']:.0f}** "
+            f"· الوسيط {a['median']:.0f}",
+            "",
+            "<sub>التفاعل = إعجاب + (تعليق × 3) + (مشاركة × 5)</sub>",
+            "",
+            "#### 🏆 الأفضل أداءً",
+            "| التفاعل | التصنيف | العنوان |",
+            "|---|---|---|",
+        ]
+        lines += [f"| {r['engagement']} | {r['category']} | {r['title'][:60]} |"
+                  for r in a["top"]]
+
+        lines += ["", "#### 📉 أضعف أداءً", "| التفاعل | التصنيف | العنوان |", "|---|---|---|"]
+        lines += [f"| {r['engagement']} | {r['category']} | {r['title'][:60]} |"
+                  for r in a["bottom"]]
+
+        lines += ["", "#### 📂 حسب التصنيف", "| التصنيف | متوسط التفاعل | عدد |", "|---|---|---|"]
+        lines += [f"| {c} | {v:.0f} | {n} |" for c, v, n in a["categories"]]
+
+        if a["hours"]:
+            lines += ["", "#### 🕐 حسب ساعة النشر", "| الساعة | متوسط التفاعل | عدد |",
+                      "|---|---|---|"]
+            lines += [f"| {h}:00 | {v:.0f} | {n} |" for h, v, n in a["hours"]]
+
+        if a["publishers"]:
+            lines += ["", "#### 📰 حسب المصدر", "| المصدر | متوسط التفاعل | عدد |",
+                      "|---|---|---|"]
+            lines += [f"| {p} | {v:.0f} | {n} |" for p, v, n in a["publishers"]]
+
+        t_avg, t_n, n_avg, n_n = a["trend"]
+        u_avg, u_n, c_avg, c_n = a["urgent"]
+        lines += [
+            "", "#### 🔬 مقارنات",
+            "| المقارنة | متوسط | مقابل | متوسط |",
+            "|---|---|---|---|",
+            f"| رائج 🔥 ({t_n}) | {t_avg:.0f} | غير رائج ({n_n}) | {n_avg:.0f} |",
+            f"| عاجل ({u_n}) | {u_avg:.0f} | عادي ({c_n}) | {c_avg:.0f} |",
+            "", "#### 💡 توصيات", "",
+        ]
+        for r in recs:
+            lines.append(f"- {r['text']}")
+            lines.append(f"  - [ ] ✅ أقبل  <!-- rec:{r['id']}:yes -->")
+            lines.append(f"  - [ ] ❌ أرفض  <!-- rec:{r['id']}:no -->")
+            lines.append("")
+    else:
+        lines = [f"### 📊 لا منشورات خلال آخر {days} يومًا"]
+
+    if decisions_lines:
+        lines += decisions_lines
+
+    if learned_names_lines:
+        lines += learned_names_lines
+
+    from .feedback import load as load_rejections, summarise
+    entries = load_rejections()
+    patterns = summarise(entries, days=min(days, 14))
+    if patterns:
+        lines += ["", "#### 🚫 أنماط الرفض", ""] + patterns
+    lines += rejections_section(entries, days)
+    lines += why_not_published_section(entries, days)
+
+    return "\n".join(lines)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="تقرير أداء المنشورات")
+    parser.add_argument("--days", type=int, default=30)
+    parser.add_argument("--no-issue", action="store_true", help="اطبع فقط بلا Issue")
+    args = parser.parse_args()
+
+    logging.basicConfig(level=logging.INFO,
+                        format="%(asctime)s │ %(levelname)-7s │ %(message)s",
+                        datefmt="%H:%M:%S")
+    cfg = load_config()
+    api_version = cfg.path("facebook.api_version", "v21.0")
+    tzname = cfg.path("facebook.timezone", "UTC")
+
+    # الحلقة المغلقة (Issue #769) — تُقرأ في بداية كل تشغيلة بصرف النظر عن
+    # وجود مسودات هذه المرة، لأن قراراتك على تقرير الأسبوع الماضي مستقلة
+    # عمّا يُجمَع اليوم.
+    sync_previous_decisions()
+
+    rows = collect(args.days, api_version)
+    if rows:
+        STATE_DIR.mkdir(parents=True, exist_ok=True)
+        PERF_FILE.write_text(
+            json.dumps({"generated_at": datetime.now(timezone.utc).isoformat(),
+                        "rows": rows}, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        a = analyse(rows, tzname)
+        recs = recommendations(a, cfg)
+        hidden = suppressed_ids(_load_decisions())
+        visible_recs = [r for r in recs if r["id"] not in hidden]
+    else:
+        # لا نخرج هنا (Issue #847): الأسبوع الذي لا يُنشر فيه شيء ما زال
+        # يحتاج قسمَي «لماذا لم تنشر هذه؟» و«قراراتك السابقة» أدناه —
+        # build_report(a={}, ...) يبنيهما ويتخطّى أقسام الأداء وحدها.
+        log.warning("لا منشورات لتحليلها")
+        a = {}
+        visible_recs = []
+
+    report = build_report(a, visible_recs, args.days, decisions_report(cfg),
+                          learned_names_section(cfg))
+    print(report)
+
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary:
+        with open(summary, "a", encoding="utf-8") as fh:
+            fh.write(report + "\n")
+
+    if not args.no_issue and os.environ.get("GITHUB_REPOSITORY"):
+        issue = review.create_issue(
+            title=f"📊 تقرير الأداء {datetime.now(timezone.utc):%Y-%m-%d}",
+            body=report,
+            labels=[],
+        )
+        _save_last_issue(issue["number"], visible_recs)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
