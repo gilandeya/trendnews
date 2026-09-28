@@ -1,0 +1,656 @@
+{
+  "run_date": "2026-09-28",
+  "stats": {
+    "points_in": 646,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 496,
+    "issues_clustered": 25,
+    "topics_merged": 2,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 3,
+    "topics_below_min_points": 12,
+    "topics_below_min_channels": 4,
+    "layer_a": 2,
+    "layer_b": 2,
+    "layer_c": 0,
+    "agreement": 3,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "المقترح الإيراني ذو السبعة أيام ورفض ترامب له",
+      "مصير المقترح الإيراني والضغط الميداني"
+    ],
+    [
+      "نمو الحزب الجديد بقيادة أوزغور أوزيل وتعهداته",
+      "أعضاء الحزب الجديد 723 ألف (تكرار الخبر عبر قناتين)"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "أزمة مضيق هرمز والحصار الاقتصادي على إيران",
+      "event": "الجدل حول قدرة إيران على التأثير في الملاحة عبر مضيق هرمز في ظل الحصار الأمريكي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        73,
+        82,
+        83,
+        84,
+        85,
+        98,
+        99
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "نظام لافندر الإسرائيلي للاستهداف في غزة",
+      "event": "استخدام نظام لافندر الإسرائيلي لتوليد الأهداف العسكرية في غزة بإشراف بشري شكلي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        92,
+        143,
+        146,
+        148
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "فضيحة التلاعب في سوق الصناديق الاستثمارية التركية",
+      "event": "كشف تلاعب في سوق صناديق الاستثمار التركية عبر شركات وهمية وتقاعس هيئة رأس المال والتحقيقات القضائية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        68,
+        112,
+        125,
+        128
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null
+    },
+    {
+      "title": "استقالة الوزيرة فاطمة بتول سايان قايا واتهامات التداول بالأسهم",
+      "event": "استقالة نائبة رئيس حزب العدالة والتنمية فاطمة بتول سايان قايا إثر اتهامات بالربح من أسهم أوزاتا للملاحة",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        67,
+        110,
+        111,
+        123,
+        124
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "المقترح الإيراني ذو السبعة أيام ورفض ترامب له",
+      "event": "إيران قدمت مقترحاً لوقف التصعيد مدته سبعة أيام وترامب رفضه علناً",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        21,
+        42,
+        83,
+        87,
+        96,
+        118,
+        136
+      ],
+      "total_points": 13,
+      "fresh_points": 6,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "أزمة مضيق هرمز والحصار الاقتصادي على إيران",
+      "event": "الجدل حول قدرة إيران على التأثير في الملاحة عبر مضيق هرمز في ظل الحصار الأمريكي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        73,
+        82,
+        83,
+        84,
+        85,
+        98,
+        99
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "توقع هجوم إيراني وتأجيل الخيار العسكري الأمريكي",
+      "event": "توقعات بشأن توقيت أي عمل عسكري أمريكي/إيراني قبل أو بعد الانتخابات النصفية الأمريكية",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        22,
+        34
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "وزير الخزانة الأمريكي يهدد بخنق صادرات إيران النفطية",
+      "event": "تصريح سكوت بيسنت بأن العقوبات ستخنق صادرات النفط الإيرانية خلال أسبوعين",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        97,
+        120
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "نظام لافندر الإسرائيلي للاستهداف في غزة",
+      "event": "استخدام نظام لافندر الإسرائيلي لتوليد الأهداف العسكرية في غزة بإشراف بشري شكلي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        92,
+        143,
+        146,
+        148
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "نمو الحزب الجديد بقيادة أوزغور أوزيل وتعهداته",
+      "event": "إعلان أوزغور أوزيل عن نمو عضوية حزبه الجديد وتعهداته الديمقراطية الداخلية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        52,
+        53,
+        54,
+        56,
+        57,
+        58,
+        69,
+        126,
+        127
+      ],
+      "total_points": 9,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "فضيحة التلاعب في سوق الصناديق الاستثمارية التركية",
+      "event": "كشف تلاعب في سوق صناديق الاستثمار التركية عبر شركات وهمية وتقاعس هيئة رأس المال والتحقيقات القضائية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        68,
+        112,
+        125,
+        128
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null
+    },
+    {
+      "title": "استقالة الوزيرة فاطمة بتول سايان قايا واتهامات التداول بالأسهم",
+      "event": "استقالة نائبة رئيس حزب العدالة والتنمية فاطمة بتول سايان قايا إثر اتهامات بالربح من أسهم أوزاتا للملاحة",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        67,
+        110,
+        111,
+        123,
+        124
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "احتجاجات نقابة الشرطة التركية وانتحار عناصر الشرطة",
+      "event": "إضراب نقابة الشرطة التركية بعد انتحار سبعة عناصر خلال خمسة أيام احتجاجاً على الأوضاع الاقتصادية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        71,
+        113,
+        114
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "معايير مزدوجة تجاه عباس ونتنياهو في الأمم المتحدة",
+      "event": "السماح لنتنياهو بالخطاب المباشر مقابل رفض تأشيرة عباس أو إلزامه بالفيديو",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        31,
+        51
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استقبال الرئيس الصيني في واشنطن",
+      "event": "استقبال الرئيس الصيني شي جين بينغ في واشنطن بحفاوة عسكرية استثنائية",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        44,
+        48
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فيلم نيتسا الوثائقي وردود الفعل السياسية عليه",
+      "event": "فيلم نيتسا الوثائقي عن استهداف المدنيين في غزة وهجوم نتنياهو السياسي على صناعه",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        144,
+        145,
+        147,
+        149
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "استياء حزب الله من حظر الطيران الإيراني والفصائل الموالية لإيران في العراق",
+      "event": "اتصالات حزب الله مع قيادات عراقية بشأن حظر الطيران الإيراني وفشل احتواء الفصائل الموالية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        100,
+        101
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تعديلات أمريكية روسية على وثيقة أممية بشأن الأسلحة الذاتية",
+      "event": "إدخال أمريكا وروسيا تعديلات تضعف تنظيم الأسلحة ذاتية التشغيل والذكاء الاصطناعي في الأمم المتحدة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90,
+        91,
+        94,
+        95
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "استضافة وزير الخارجية المصري: أولويات وتهديدات وقناة السويس",
+      "event": "تصريحات وزير الخارجية المصري بدر عبد العاطي حول أولويات السياسة الخارجية والتهديدات الأمنية وخسائر قناة السويس",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        75,
+        76,
+        79,
+        81
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الموقف المصري من القضية الفلسطينية وخطة ترامب للسلام",
+      "event": "موقف مصر من السياسات الإسرائيلية وحل الدولتين وتسليم الفلسطينيين للأسلحة ضمن خطة ترامب",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        77,
+        78,
+        80
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استعدادات الحكومة الإيرانية القمعية لمواجهة الاحتجاجات",
+      "event": "تجهيز الحكومة الإيرانية قوات البسيج بأدوات حرب شارع تحسباً للاحتجاجات الشعبية",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ارتفاع التضخم في إيران",
+      "event": "بلوغ التضخم في إيران أعلى مستوى له منذ 83 عاماً وفق بيانات البنك المركزي",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        138,
+        139
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطاب الرئيس بزشكيان حول الثقة مع أمريكا والمفاوضات",
+      "event": "مقابلة/تصريحات الرئيس الإيراني بزشكيان حول فقدان الثقة برفض اللقاء مع ترامب ومسؤولية الحرب",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        1,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "total_points": 8,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "مفاوضات نيويورك 1984 بين العراق وإيران",
+      "event": "المهمة التفاوضية العراقية في نيويورك عام 1984 بوساطة كاسترو وفشلها",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "خسائر الحرب العراقية الإيرانية",
+      "event": "تقدير الخسائر البشرية والمالية للعراق جراء الحرب مع إيران",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        12,
+        13
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطاب أردوغان في الأمم المتحدة",
+      "event": "خطاب الرئيس التركي أردوغان في الجمعية العامة للأمم المتحدة ورسائله وقصيدته",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        26,
+        27,
+        28
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطاب نتنياهو في الأمم المتحدة ومغادرة المندوبين",
+      "event": "خطاب نتنياهو في الجمعية العامة وانسحاب المندوبين وعرضه جهاز البيجر",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        29,
+        30
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
