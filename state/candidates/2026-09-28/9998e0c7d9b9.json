@@ -1,0 +1,58 @@
+{
+  "id": "9998e0c7d9b9",
+  "created_at": "2026-09-28T03:08:23.784766+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.48,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "نزاع حدودي بين أفغانستان وباكستان حول مصدر المقاتلين",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Afghanistan says 28 dead fighters came from Pakistan as Islamabad denies ties",
+  "link": "https://www.scmp.com/news/asia/south-asia/article/3368972/afghanistan-says-28-dead-fighters-came-pakistan-islamabad-denies-ties?utm_source=rss_feed",
+  "publishers": [
+    "Reuters",
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Afghanistan says 28 dead fighters came from Pakistan as Islamabad denies ties",
+    "link": "https://www.scmp.com/news/asia/south-asia/article/3368972/afghanistan-says-28-dead-fighters-came-pakistan-islamabad-denies-ties?utm_source=rss_feed",
+    "summary": "Afghanistan’s defence ministry said on Sunday its forces had killed 28 fighters and wounded 32 in the eastern province of Nuristan after a group it said included Islamic State militants travelled from Pakistan. The ministry alleged Pakistani militias ‌had supported the fighters and that most of them were former Afghan government security personnel. Pakistan’s information ministry rejected the allegations, describing them as “frivolous, baseless and devoid of any truth” in a post on social...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-09-27T14:37:53+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "Reuters",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3368972/afghanistan-says-28-dead-fighters-came-pakistan-islamabad-denies-ties?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1306.916419805,
+    "is_stale": false,
+    "score": 22.483220122555558,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "نزاع حدودي بين أفغانستان وباكستان حول مصدر المقاتلين",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

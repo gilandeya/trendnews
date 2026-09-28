@@ -1,0 +1,109 @@
+{
+  "id": "fa9c2e8e5738",
+  "created_at": "2026-09-28T03:08:23.784149+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.16,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "عمليات إطلاق نار جماعية تهز جنوب أفريقيا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Two mass shootings in South Africa leave 27 dead",
+  "link": "https://www.bbc.co.uk/news/articles/ck5ywnp075d1o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Africanews",
+    "BBC World",
+    "CBS News — World",
+    "CGTN",
+    "Daily Sabah",
+    "France 24",
+    "France24",
+    "Hindustan Times — World",
+    "Mehr News",
+    "NDTV — World",
+    "NPR World",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Two mass shootings in South Africa leave 27 dead",
+    "link": "https://www.bbc.co.uk/news/articles/ck5ywnp075d1o?at_medium=RSS&at_campaign=rss",
+    "summary": "The two attacks hours apart come as the country struggles to stop high levels of gang-related armed violence.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-27T14:09:22+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ccd0/live/83714c70-ba4b-11f1-952f-c5888b744c34.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Africanews",
+      "BBC World",
+      "CBS News — World",
+      "CGTN",
+      "Daily Sabah",
+      "France 24",
+      "France24",
+      "Hindustan Times — World",
+      "Mehr News",
+      "NDTV — World",
+      "NPR World",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/27/mass-shootings-south-africa-johannesburg-cape-town"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/ck5ywnp075d1o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/27/gunmen-kill-17-in-south-africa-bar-shooting-15-wounded-police/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/south-africa-shootings-leave-27-killed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/south-africa-mass-shootings-update-toll-september-27-2026/article71515410.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/johannesburg-cape-town-shootings-27-killed-in-2-mass-shootings-at-bar-store-in-south-africa-12104508#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ccd0/live/83714c70-ba4b-11f1-952f-c5888b744c34.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/ccd0/live/83714c70-ba4b-11f1-952f-c5888b744c34.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ccd0/live/83714c70-ba4b-11f1-952f-c5888b744c34.jpg",
+      "https://i.guim.co.uk/img/media/561329c2992e032b08d527eff4ceb02c8ab034bb/1132_51_2803_2243/master/2803.jpg?width=700&quality=85&auto=format&fit=max&s=59e55c01a681e6470221914fa8b5c626",
+      "https://i.guim.co.uk/img/media/561329c2992e032b08d527eff4ceb02c8ab034bb/1132_51_2803_2243/master/2803.jpg?width=460&quality=85&auto=format&fit=max&s=f512ab12960bb34979eb7c84b0be3cbf",
+      "https://i.guim.co.uk/img/media/561329c2992e032b08d527eff4ceb02c8ab034bb/1132_51_2803_2243/master/2803.jpg?width=140&quality=85&auto=format&fit=max&s=00c652a730ed72637be82be7f79c5bd4"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 14,
+    "velocity": 1.0,
+    "age_hours": 1306.9163392772223,
+    "is_stale": false,
+    "score": 29.156933045876517,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "عمليات إطلاق نار جماعية تهز جنوب أفريقيا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

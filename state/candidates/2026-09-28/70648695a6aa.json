@@ -1,0 +1,101 @@
+{
+  "id": "70648695a6aa",
+  "created_at": "2026-09-28T03:08:23.783781+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.99,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "ترامب يراهن على مفاوضات إيرانية جديدة رغم الرفض",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump expects new Iran talks despite rejecting deal offer",
+  "link": "https://www.thehindu.com/news/international/iran-stands-firm-on-hormuz-plan-after-us-rejection/article71517156.ece",
+  "publishers": [
+    "CBS News — World",
+    "Deutsche Welle",
+    "France24",
+    "Iran International",
+    "Malay Mail",
+    "NDTV — World",
+    "South China Morning Post",
+    "TASS",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Trump expects new Iran talks despite rejecting deal offer",
+    "link": "https://www.thehindu.com/news/international/iran-stands-firm-on-hormuz-plan-after-us-rejection/article71517156.ece",
+    "summary": "Iran's plan called for a cessation of all hostilities in West Asia, including in Lebanon, according to Foreign Minister Abbas Araghchi, and a return to the conditions in the ceasefire deal that fell apart a few months ago",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-27T23:02:51+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/uu6w3e/article71517424.ece/alternates/LANDSCAPE_1200/2026-09-27T224026Z_1980373082_RC2XRNANGXA3_RTRMADP_3_USA-TRUMP.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "CBS News — World",
+      "Deutsche Welle",
+      "France24",
+      "Iran International",
+      "Malay Mail",
+      "NDTV — World",
+      "South China Morning Post",
+      "TASS",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/united-states-canada/article/3368980/trump-expects-new-iran-talks-despite-rejecting-deal-offer?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260927-trump-expects-iran-talks-next-week-after-rejecting-seven-day-truce-proposal"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-stands-firm-on-hormuz-plan-after-us-rejection/article71517156.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/they-overplayed-their-hand-donald-trump-says-talks-with-iran-to-resume-next-week-12106459#publisher=newsstand"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/live-updates/iran-war-us-trump-strait-of-hormuz-7-day-proposal/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/28/trump-expects-new-iran-talks-despite-rejecting-deal-offer/236799"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/uu6w3e/article71517424.ece/alternates/LANDSCAPE_1200/2026-09-27T224026Z_1980373082_RC2XRNANGXA3_RTRMADP_3_USA-TRUMP.JPG",
+      "https://s.france24.com/media/display/4817a61c-ba8a-11f1-b4fe-8f3418d01115/w:1024/p:16x9/040b658896f965b502ca28b500bf7f44524d2c6c.jpg",
+      "https://c.ndtvimg.com/2025-11/ur5cusps_us-president-donald-trump-_625x300_03_November_25.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/28/365018.jpg",
+      "https://i.guim.co.uk/img/media/2210b6ca25038caad4fe6ef57ca94dcacd18dab6/713_0_4502_3602/master/4502.jpg?width=700&quality=85&auto=format&fit=max&s=3aedd2dbdd0c4877d90cc1780636a57c",
+      "https://i.guim.co.uk/img/media/2210b6ca25038caad4fe6ef57ca94dcacd18dab6/713_0_4502_3602/master/4502.jpg?width=460&quality=85&auto=format&fit=max&s=c0a0a9b600cf5a22446cad26a121dea0"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 10,
+    "velocity": 1.0,
+    "age_hours": 1306.916346835,
+    "is_stale": false,
+    "score": 29.993411822550975,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "ترامب يراهن على مفاوضات إيرانية جديدة رغم الرفض",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

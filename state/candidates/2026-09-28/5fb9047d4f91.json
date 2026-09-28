@@ -1,0 +1,87 @@
+{
+  "id": "5fb9047d4f91",
+  "created_at": "2026-09-28T03:08:23.784465+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.64,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "ملف دبلوماسي: باندتان صينيتان هدية سياسية لأمريكا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Two giant pandas arrive in Atlanta from China after Xi-Trump summit",
+  "link": "https://www.theguardian.com/us-news/2026/sep/27/giant-pandas-atlanta-zoo-china-xi-trump-summit",
+  "publishers": [
+    "Dawn",
+    "Hindustan Times — World",
+    "NDTV — World",
+    "TV",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Two giant pandas arrive in Atlanta from China after Xi-Trump summit",
+    "link": "https://www.theguardian.com/us-news/2026/sep/27/giant-pandas-atlanta-zoo-china-xi-trump-summit",
+    "summary": "Ping Ping and Fu Shuang to live at Atlanta zoo in Georgia as part of loan deal between Chinese and US governments Two giant pandas from China arrived in Atlanta , Georgia, on Sunday morning as part of an agreement between the Chinese and American governments. While in Washington DC for a three - day summit with Donald Trump , Chinese president Xi Jinping announced that the pandas would arrive in Atlanta in the coming days. The loan of the pandas to the Atlanta zoo was one of the few concrete outcomes to come out of Xi’s state visit with the US president, which saw expressions of goodwill between the leaders, but no fixes to any of the longstanding differences between the two countries. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-27T13:14:42+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/0fef6bfcd0d1919c87e1222d7d3511c6a0c5d32c/68_0_1368_1095/master/1368.jpg?width=700&quality=85&auto=format&fit=max&s=9770f4b74a1b59485af740971bdbd2c9",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Dawn",
+      "Hindustan Times — World",
+      "NDTV — World",
+      "TV",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/us-news/2026/sep/27/giant-pandas-atlanta-zoo-china-xi-trump-summit"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2033010/china-sends-2-giant-pandas-to-us-after-washington-summit"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/ping-ping-fu-shuang-2-giant-pandas-from-china-arrive-in-us-12105307#publisher=newsstand"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/two-giant-pandas-emblems-of-china-soft-diplomacy-arrive-in-us-101790539040538.html"
+      },
+      {
+        "name": "TV",
+        "link": "https://tass.com/world/2193567"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/0fef6bfcd0d1919c87e1222d7d3511c6a0c5d32c/68_0_1368_1095/master/1368.jpg?width=700&quality=85&auto=format&fit=max&s=9770f4b74a1b59485af740971bdbd2c9",
+      "https://i.guim.co.uk/img/media/0fef6bfcd0d1919c87e1222d7d3511c6a0c5d32c/68_0_1368_1095/master/1368.jpg?width=460&quality=85&auto=format&fit=max&s=c307d609f01249667d4ec9331445c47b",
+      "https://i.guim.co.uk/img/media/0fef6bfcd0d1919c87e1222d7d3511c6a0c5d32c/68_0_1368_1095/master/1368.jpg?width=140&quality=85&auto=format&fit=max&s=bef841a43a56a9aced25796c2cb98657",
+      "https://i.dawn.com/large/2026/09/271010250b56245.webp",
+      "https://i.dawn.com/large/2026/09/27100918ac8e93f.webp",
+      "https://i.dawn.com/thumbnail/2026/09/271010250b56245.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1306.9163640513889,
+    "is_stale": false,
+    "score": 23.63991182049542,
+    "impact": 0,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "ملف دبلوماسي: باندتان صينيتان هدية سياسية لأمريكا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

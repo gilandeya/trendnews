@@ -1,111 +1,5 @@
 [
   {
-    "score": 25.37,
-    "bucket": "serious",
-    "tokens": [
-      "ban",
-      "challenging",
-      "cnn",
-      "house",
-      "now",
-      "politico",
-      "sue",
-      "trump",
-      "white"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-22-cnn-ms-now-and-politico-sue-trump-challenging-white-house-ban/",
-    "title": "CNN, MS NOW and Politico sue Trump, challenging White House ban",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-23T03:07:52.737886+00:00"
-  },
-  {
-    "score": 24.0,
-    "bucket": "serious",
-    "tokens": [
-      "diesel",
-      "donald",
-      "erwägt",
-      "exportstopp",
-      "für",
-      "hoher",
-      "spritpreise",
-      "trump",
-      "usa",
-      "wegen"
-    ],
-    "link": "https://www.spiegel.de/ausland/usa-donald-trump-erwaegt-exportstopp-fuer-diesel-wegen-hoher-spritpreise-a-154ac142-90ab-493e-b792-e85e630b00c9#ref=rss",
-    "title": "USA: Donald Trump erwägt Exportstopp für Diesel wegen hoher Spritpreise",
-    "posted_title": "",
-    "region": "de",
-    "seen_at": "2026-09-23T03:07:52.738185+00:00"
-  },
-  {
-    "score": 22.01,
-    "bucket": "serious",
-    "tokens": [
-      "aerial",
-      "arabia",
-      "attacks",
-      "counter",
-      "houthi",
-      "offer",
-      "refuelling",
-      "saudi"
-    ],
-    "link": "https://www.thehindu.com/news/international/uk-to-offer-saudi-arabia-aerial-refuelling-to-counter-houthi-attacks/article71494479.ece",
-    "title": "U.K. to offer Saudi Arabia aerial refuelling to counter Houthi attacks",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-23T03:07:52.738485+00:00"
-  },
-  {
-    "score": 21.99,
-    "bucket": "serious",
-    "tokens": [
-      "arctic",
-      "bid",
-      "deal",
-      "denmark",
-      "end",
-      "greenland",
-      "sign",
-      "standoff",
-      "trump"
-    ],
-    "link": "https://www.dawn.com/news/2031897/trump-greenland-denmark-sign-deal-in-bid-to-end-arctic-standoff",
-    "title": "Trump, Greenland, Denmark sign deal in bid to end Arctic standoff",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-23T03:07:52.738797+00:00"
-  },
-  {
-    "score": 21.18,
-    "bucket": "serious",
-    "tokens": [
-      "assembly",
-      "bilateral",
-      "general",
-      "hold",
-      "lee",
-      "official",
-      "progress",
-      "projects",
-      "seoul",
-      "sidelines",
-      "strategic",
-      "summit",
-      "trump",
-      "urgent",
-      "welcome"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260923003500315",
-    "title": "(URGENT) Lee, Trump hold summit on sidelines of U.N. General Assembly, welcome progress in bilateral strategic projects: Seoul official",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-09-23T03:07:52.739058+00:00"
-  },
-  {
     "score": 26.8,
     "bucket": "serious",
     "tokens": [
@@ -2236,5 +2130,95 @@
     "posted_title": "مستشار عسكري لخامنئي: صناعة النفط جزء من معادلة القوة والأمن في إيران",
     "region": "ir",
     "seen_at": "2026-09-27T18:45:04.337222+00:00"
+  },
+  {
+    "score": 30.46,
+    "bucket": "serious",
+    "tokens": [
+      "airbase",
+      "incident",
+      "major",
+      "used"
+    ],
+    "link": "https://www.france24.com/en/major-incident-at-uk-airbase-used-by-us",
+    "title": "Major incident at UK airbase used by US",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-09-28T03:08:23.783769+00:00"
+  },
+  {
+    "score": 29.99,
+    "bucket": "serious",
+    "tokens": [
+      "deal",
+      "despite",
+      "expects",
+      "iran",
+      "offer",
+      "rejecting",
+      "talks",
+      "trump"
+    ],
+    "link": "https://www.thehindu.com/news/international/iran-stands-firm-on-hormuz-plan-after-us-rejection/article71517156.ece",
+    "title": "Trump expects new Iran talks despite rejecting deal offer",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-28T03:08:23.784138+00:00"
+  },
+  {
+    "score": 29.16,
+    "bucket": "serious",
+    "tokens": [
+      "africa",
+      "dead",
+      "leave",
+      "mass",
+      "shootings",
+      "south",
+      "two"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/ck5ywnp075d1o?at_medium=RSS&at_campaign=rss",
+    "title": "Two mass shootings in South Africa leave 27 dead",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-28T03:08:23.784456+00:00"
+  },
+  {
+    "score": 23.64,
+    "bucket": "serious",
+    "tokens": [
+      "arrive",
+      "atlanta",
+      "china",
+      "giant",
+      "pandas",
+      "summit",
+      "trump",
+      "two"
+    ],
+    "link": "https://www.theguardian.com/us-news/2026/sep/27/giant-pandas-atlanta-zoo-china-xi-trump-summit",
+    "title": "Two giant pandas arrive in Atlanta from China after Xi-Trump summit",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-28T03:08:23.784756+00:00"
+  },
+  {
+    "score": 22.48,
+    "bucket": "serious",
+    "tokens": [
+      "afghanistan",
+      "came",
+      "dead",
+      "denies",
+      "fighters",
+      "islamabad",
+      "pakistan",
+      "ties"
+    ],
+    "link": "https://www.scmp.com/news/asia/south-asia/article/3368972/afghanistan-says-28-dead-fighters-came-pakistan-islamabad-denies-ties?utm_source=rss_feed",
+    "title": "Afghanistan says 28 dead fighters came from Pakistan as Islamabad denies ties",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-09-28T03:08:23.785047+00:00"
   }
 ]
