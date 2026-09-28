@@ -1,5 +1,5 @@
 {
-  "issue": 1020,
+  "issue": 1115,
   "recommendations": [
     {
       "id": "fp_5ebc2917eb91",
@@ -8,19 +8,13 @@
       "suggested": null
     },
     {
-      "id": "fp_9d64eaa7456d",
-      "text": "تصنيف «فيروسي» يتفوق (2) و«تحليل» يتراجع (1). فكّر في زيادة مصادر الأول.",
-      "key": null,
-      "suggested": null
-    },
-    {
       "id": "facebook.peak_hours",
-      "text": "أفضل ساعات التفاعل فعليًا: 0, 13, 1. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
+      "text": "أفضل ساعات التفاعل فعليًا: 0, 20, 9. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
       "key": "facebook.peak_hours",
       "suggested": [
         0,
-        1,
-        13
+        9,
+        20
       ]
     },
     {
