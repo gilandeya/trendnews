@@ -1,7 +1,7 @@
 {
   "id": "5e88e8fb1235",
   "created_at": "2026-09-28T04:06:06.158279+00:00",
-  "status": "pending",
+  "status": "queued",
   "origin": "analysis",
   "title": "هل أشرف عسكريون إسرائيليون فعلاً على نظام لافندر الآلي في غزة؟",
   "tier": "a",
@@ -55,5 +55,6 @@
     "manual": false,
     "kind": null,
     "news_photo_publisher": null
-  }
+  },
+  "publish_at": "2026-09-28T05:18:01.671785+00:00"
 }
