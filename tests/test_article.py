@@ -9647,6 +9647,178 @@ def test_article_naming_answer_retry() -> None:
           st["grounded"] == [], st["grounded"])
 
 
+def test_article_ask_model_with_retry() -> None:
+    """السقالة الموحَّدة article._ask_model_with_retry (Issue #1112): ستّ
+    دوال في article.py (_ask_context_model، _ask_naming_model،
+    _support_statement_parts، _support_sources، _ask_answer_model،
+    _extract_source_facts) كانت تكرّر نسخة خاصة بها من نداء
+    client.messages.create وكشف القطع وإعادة المحاولة — نفس آلية القطع
+    المختبَرة من خلف كل واحدة من الست في اختباراتها الخاصة (مثال:
+    test_article_support_sources_retry أعلاه). هذا الاختبار يستدعي السقالة
+    المشتركة نفسها مباشرة، بمعزل عن أي من الست، ليثبت أن المنطق المشترك
+    (النداء، كشف القطع، إعادة المحاولة بسقف مضاعف، ونص call_error) يعمل
+    بذاته لا فقط عبر مستدعٍ بعينه."""
+    from src import article
+
+    class _RetryBlock:
+        def __init__(self, input_=None):
+            self.type = "tool_use" if input_ is not None else "text"
+            self.input = input_
+            self.text = ""
+
+    class _RetryResp:
+        def __init__(self, content, stop_reason="end_turn"):
+            self.content = content
+            self.stop_reason = stop_reason
+            self.usage = None
+
+    class _RetrySeqMessages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            if not self._responses:
+                raise AssertionError("لا رد آخر متاح في التسلسل المزيَّف")
+            return self._responses.pop(0)
+
+    class _RetrySeqClient:
+        def __init__(self, responses):
+            self.messages = _RetrySeqMessages(responses)
+
+    class _RetryFakeLog:
+        def __init__(self):
+            self.errors, self.warnings = [], []
+
+        def error(self, *a, **kw):
+            self.errors.append(a)
+
+        def warning(self, *a, **kw):
+            self.warnings.append(a)
+
+        def info(self, *a, **kw):
+            pass
+
+    real_log_fn = article.log
+    common_kwargs = dict(
+        tools=[{"name": "dummy_tool"}],
+        tool_choice={"type": "tool", "name": "dummy_tool"},
+        system="نظام اختبار",
+        messages=[{"role": "user", "content": "نص اختبار"}],
+        max_tokens=100, cap=400,
+        warn_label="نداء اختبار السقالة",
+        truncation_message="نداء اختبار السقالة مقطوع — رسالة اختبار",
+    )
+
+    # 1) قطع مرة ثم نجاح: نداءان، الثاني بسقف مضاعف، (data, None) عند
+    # النجاح، وسطر ERROR واحد فقط عند اكتشاف القطع الأول
+    client_retry_ok = _RetrySeqClient([
+        _RetryResp([], stop_reason="max_tokens"),
+        _RetryResp([_RetryBlock({"field": "قيمة سليمة"})]),
+    ])
+    article.log = _RetryFakeLog()
+    try:
+        data_ok, error_ok = article._ask_model_with_retry(
+            client_retry_ok, "claude-sonnet-5", **common_kwargs)
+        fake_log_ok = article.log
+    finally:
+        article.log = real_log_fn
+    check("(#1112) قطع مرة ثم نجاح: نداءان بالضبط",
+          len(client_retry_ok.messages.calls) == 2, len(client_retry_ok.messages.calls))
+    check("(#1112) قطع مرة ثم نجاح: النداء الثاني بسقف مضاعف",
+          client_retry_ok.messages.calls[1]["max_tokens"] == 200,
+          client_retry_ok.messages.calls[1]["max_tokens"])
+    check("(#1112) قطع مرة ثم نجاح: data تحمل مخرَج النداء الثاني فعليًا",
+          data_ok == {"field": "قيمة سليمة"}, data_ok)
+    check("(#1112) قطع مرة ثم نجاح: call_error يبقى None",
+          error_ok is None, error_ok)
+    check("(#1112) قطع مرة ثم نجاح: سطر ERROR واحد فقط عند اكتشاف القطع",
+          fake_log_ok.errors == [("%s", "نداء اختبار السقالة مقطوع — رسالة اختبار")],
+          fake_log_ok.errors)
+
+    # 2) قطع مرتين: نداءان فقط (بلا محاولة ثالثة)، call_error بالنص
+    # الموحَّد الثابت (لا رسالة truncation_message المخصَّصة — تلك تُستعمل
+    # فقط عند اكتشاف القطع الأول)
+    client_cut_twice = _RetrySeqClient([
+        _RetryResp([], stop_reason="max_tokens"),
+        _RetryResp([], stop_reason="max_tokens"),
+    ])
+    article.log = _RetryFakeLog()
+    try:
+        data_twice, error_twice = article._ask_model_with_retry(
+            client_cut_twice, "claude-sonnet-5", **common_kwargs)
+        fake_log_twice = article.log
+    finally:
+        article.log = real_log_fn
+    check("(#1112) قطع مرتين: نداءان بالضبط",
+          len(client_cut_twice.messages.calls) == 2, len(client_cut_twice.messages.calls))
+    check("(#1112) قطع مرتين: data تبقى None",
+          data_twice is None, data_twice)
+    check("(#1112) قطع مرتين: call_error هو النص الموحَّد الثابت",
+          error_twice == "قُطع رد النموذج (stop_reason=max_tokens) بعد إعادة المحاولة",
+          error_twice)
+    check("(#1112) قطع مرتين: سطر ERROR واحد فقط (لا اثنان)",
+          len(fake_log_twice.errors) == 1, fake_log_twice.errors)
+
+    # 3) ردّ سليم من أول نداء: نداء واحد فقط، بلا أي سطر ERROR
+    client_clean = _RetrySeqClient([
+        _RetryResp([_RetryBlock({"field": "قيمة أخرى"})]),
+    ])
+    article.log = _RetryFakeLog()
+    try:
+        data_clean, error_clean = article._ask_model_with_retry(
+            client_clean, "claude-sonnet-5", **common_kwargs)
+        fake_log_clean = article.log
+    finally:
+        article.log = real_log_fn
+    check("(#1112) ردّ سليم من أول نداء: نداء واحد فقط",
+          len(client_clean.messages.calls) == 1, len(client_clean.messages.calls))
+    check("(#1112) ردّ سليم من أول نداء: data تحمل مخرَج النداء فعليًا",
+          data_clean == {"field": "قيمة أخرى"}, data_clean)
+    check("(#1112) ردّ سليم من أول نداء: بلا call_error",
+          error_clean is None, error_clean)
+    check("(#1112) ردّ سليم من أول نداء: بلا أي سطر ERROR",
+          fake_log_clean.errors == [], fake_log_clean.errors)
+
+    # 4) فشل APIError من أول نداء: لا محاولة ثانية، call_error نص الاستثناء
+    from anthropic import APIError
+    import httpx as _httpx
+
+    class _RetryAPIErrorMessages:
+        def __init__(self):
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            raise APIError(
+                "فشل شبكة اختباري",
+                request=_httpx.Request("POST", "https://api.anthropic.com/v1/messages"),
+                body=None)
+
+    class _RetryAPIErrorClient:
+        def __init__(self):
+            self.messages = _RetryAPIErrorMessages()
+
+    client_api_error = _RetryAPIErrorClient()
+    article.log = _RetryFakeLog()
+    try:
+        data_err, error_err = article._ask_model_with_retry(
+            client_api_error, "claude-sonnet-5", **common_kwargs)
+        fake_log_err = article.log
+    finally:
+        article.log = real_log_fn
+    check("(#1112) فشل APIError من أول نداء: نداء واحد فقط (لا إعادة محاولة)",
+          len(client_api_error.messages.calls) == 1, len(client_api_error.messages.calls))
+    check("(#1112) فشل APIError من أول نداء: data تبقى None",
+          data_err is None, data_err)
+    check("(#1112) فشل APIError من أول نداء: call_error نص الاستثناء نفسه",
+          error_err == "فشل شبكة اختباري", error_err)
+    check("(#1112) فشل APIError من أول نداء: رسالة تحذير لا خطأ",
+          len(fake_log_err.warnings) == 1 and len(fake_log_err.errors) == 0,
+          (fake_log_err.warnings, fake_log_err.errors))
+
+
 def test_article_draft_investigation() -> None:
     """منشور «تحقيق» من outcome._write_article نفسه (Issue #765): يُصاغ من
     report_statements المؤكَّدة/dropped/diffs/sources/question حصرًا --
