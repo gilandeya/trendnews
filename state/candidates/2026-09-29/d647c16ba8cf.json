@@ -1,0 +1,58 @@
+{
+  "id": "d647c16ba8cf",
+  "created_at": "2026-09-29T18:08:16.674713+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.17,
+  "trend_score": 0.33,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "أسرى كوريون شماليون يصلون الجنوب من أوكرانيا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korean POWs arrive in South Korea from Ukraine: local media",
+  "link": "https://asia.nikkei.com/politics/international-relations/north-korean-pows-arrive-in-south-korea-from-ukraine-local-media",
+  "publishers": [
+    "Al Jazeera",
+    "Nikkei Asia"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "North Korean POWs arrive in South Korea from Ukraine: local media",
+    "link": "https://asia.nikkei.com/politics/international-relations/north-korean-pows-arrive-in-south-korea-from-ukraine-local-media",
+    "summary": "",
+    "source_name": "Nikkei Asia",
+    "region": "jp",
+    "weight": 1.0,
+    "published": "2026-09-29T18:07:35.796248+00:00",
+    "image_url": null,
+    "publisher": "Nikkei Asia",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/politics/international-relations/north-korean-pows-arrive-in-south-korea-from-ukraine-local-media"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1345.9144407630556,
+    "is_stale": true,
+    "score": 18.166363352703705,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "أسرى كوريون شماليون يصلون الجنوب من أوكرانيا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "9f4774d639f2",
+  "created_at": "2026-09-29T18:08:16.674153+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.12,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 3,
+  "appeal_note": "قصة أخلاقية: هولندا تجيز قتل أطفال يعانون",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Severely disabled toddler euthanized in the Netherlands under new rules",
+  "link": "https://www.cbsnews.com/news/child-euthanasia-netherlands-first-case-new-rules/",
+  "publishers": [
+    "CBS News",
+    "CBS News — World"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Severely disabled toddler euthanized in the Netherlands under new rules",
+    "link": "https://www.cbsnews.com/news/child-euthanasia-netherlands-first-case-new-rules/",
+    "summary": "Dutch doctors decided to euthanize a child just under the age of 2 under new rules allowing the procedure for children suffering unbearably.",
+    "source_name": "CBS News — World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-09-29T14:41:16+00:00",
+    "image_url": null,
+    "publisher": "CBS News — World",
+    "cluster_sources": [
+      "CBS News",
+      "CBS News — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/child-euthanasia-netherlands-first-case-new-rules/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1345.9146520869444,
+    "is_stale": false,
+    "score": 21.120441187185186,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 3,
+    "appeal_note": "قصة أخلاقية: هولندا تجيز قتل أطفال يعانون",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "id": "06d1d8ebfe27",
+  "created_at": "2026-09-29T18:08:16.673857+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.65,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "فيضانات بانكوك تنحسر بعد أزمة الشحنات الجوية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Bangkok floodwaters recede as Thai Airways battles baggage chaos",
+  "link": "https://www.dawn.com/news/2033478/bangkok-floodwaters-recede-as-thai-airways-battles-baggage-chaos",
+  "publishers": [
+    "Dawn",
+    "Hindustan Times — World"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Bangkok floodwaters recede as Thai Airways battles baggage chaos",
+    "link": "https://www.dawn.com/news/2033478/bangkok-floodwaters-recede-as-thai-airways-battles-baggage-chaos",
+    "summary": "Standing water in Thailand’s capital is expected to clear within three days if there is no additional rainfall, the government said on Wednesday, as flag carrier Thai Airways struggled to resume regular services following heavy rain and flooding. The cabinet will discuss long-term plans to address flooding and recovery measures on Tuesday, government spokesperson Ekkapob Pianpises told a news briefing. Bangkok was hit by around 320 mm of rain over two to three days last week, nearly as much as the sprawling low-lying city usually gets in the whole of September. People walk through floodwaters in the Bang Kapi district of Bangkok on September 28, 2026. —AFP Although Bangkok’s main airports kept running through the weekend rain and flooding, some baggage handling operations at Suvarnabhumi Airport were severely impacted, with 69 Thai Air Force personnel called in on Monday to support ground operations of flag carrier Thai Airways. Hundreds of bags were still lined up in hallways inside the airport on Tuesday, according to Reuters photographs. Passengers search their delayed baggage from Thai Airways flights at Suvarnabhumi International Airport, after heavy rain and flooding disrupte",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-29T06:05:05+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/29105952bd18e27.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2033478/bangkok-floodwaters-recede-as-thai-airways-battles-baggage-chaos"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/bangkoks-monthly-rain-quota-in-3-days-flights-hit-baggage-chaos-at-airport-inside-thailands-deluge-101790662511955.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/29105952bd18e27.webp",
+      "https://i.dawn.com/thumbnail/2026/09/29105952bd18e27.webp",
+      "https://i.dawn.com/primary/2026/09/29110418c736f3f.webp",
+      "https://i.dawn.com/primary/2026/09/29110005de66e8c.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1345.9144152125,
+    "is_stale": true,
+    "score": 21.646904165462963,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "فيضانات بانكوك تنحسر بعد أزمة الشحنات الجوية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
