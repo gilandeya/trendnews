@@ -1,0 +1,105 @@
+{
+  "id": "b66853ff84fa",
+  "created_at": "2026-09-29T09:08:17.346917+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 36.94,
+  "trend_score": 1.0,
+  "velocity": 0.61,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "مضيق هرمز والعلاقات الأميركية-الإيرانية: أثر على الخليج والملاحة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran says it expects US response Tuesday on plan to reopen Strait of Hormuz",
+  "link": "https://www.france24.com/en/middle-east/20260929-iran-says-expects-us-response-tuesday-plan-reopen-strait-of-hormuz",
+  "publishers": [
+    "Al Jazeera English",
+    "CBS News — World",
+    "Court House News",
+    "Daily Maverick",
+    "Daily Sabah",
+    "France24",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "NDTV — World",
+    "TASS",
+    "Tehran Times",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Iran says it expects US response Tuesday on plan to reopen Strait of Hormuz",
+    "link": "https://www.france24.com/en/middle-east/20260929-iran-says-expects-us-response-tuesday-plan-reopen-strait-of-hormuz",
+    "summary": "Iran's Foreign Minister Abbas Araghchi said Tehran expects Washington to respond to its proposal to reopen the Strait of Hormuz on Tuesday. In exchange for reopening the vital shipping route, Tehran is seeking guarantees including a regional ceasefire, the lifting of sanctions on its oil sector and an end to the US naval blockade.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-29T06:32:31+00:00",
+    "image_url": "https://s.france24.com/media/display/bcc1d708-bbca-11f1-b635-8f3418d01115/w:1024/p:16x9/AP26268737302690.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "CBS News — World",
+      "Court House News",
+      "Daily Maverick",
+      "Daily Sabah",
+      "France24",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "NDTV — World",
+      "TASS",
+      "Tehran Times",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20260929-iran-says-expects-us-response-tuesday-plan-reopen-strait-of-hormuz"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/29/rubio-saudi-arabias-foreign-minister-hold-talks-on-yemen-hormuz-strait?traffic_source=rss"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530520/The-enemy-s-narrative-of-control-over-the-Strait-of-Hormuz-has"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/530521/Report-Eight-US-Marines-wounded-in-Iranian-strike-near-Strait"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/oil-rises-as-iran-us-remain-divided-on-ceasefire-terms-keeping-strait-of-hormuz-reopening-uncertain-101790602841026.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/donald-trump-denies-report-on-iran-sanctions-relief-12111981#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/bcc1d708-bbca-11f1-b635-8f3418d01115/w:1024/p:16x9/AP26268737302690.jpg",
+      "https://media.tehrantimes.com/d/t/2026/09/28/4/6194960.jpg",
+      "https://media.tehrantimes.com/d/t/2026/09/28/4/6194962.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/29/365281.jpg",
+      "https://c.ndtvimg.com/2026-05/su2ndu6o_donald-trump-afp_625x300_12_May_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/28/462623.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 12,
+    "velocity": 0.6107539122227849,
+    "age_hours": 1336.914919836111,
+    "is_stale": false,
+    "score": 36.9360082849811,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "مضيق هرمز والعلاقات الأميركية-الإيرانية: أثر على الخليج والملاحة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

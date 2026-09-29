@@ -1,0 +1,95 @@
+{
+  "id": "01321538bb28",
+  "created_at": "2026-09-29T09:08:17.347441+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.47,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "فرنسا تتصدر دوري الأمم الأوروبية بفوز على بلجيكا",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Nations League: Promising France defeat Belgium thanks to Olise",
+  "link": "https://www.france24.com/en/tv-shows/sports/20260929-nations-league-promising-france-defeat-belgium-thanks-olise",
+  "publishers": [
+    "Channel News Asia",
+    "Daily Sabah",
+    "France24",
+    "Hürriyet (تركي)",
+    "MyJoyOnline Ghana",
+    "The Guardian — Sport",
+    "as it happened"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Nations League: Promising France defeat Belgium thanks to Olise",
+    "link": "https://www.france24.com/en/tv-shows/sports/20260929-nations-league-promising-france-defeat-belgium-thanks-olise",
+    "summary": "Following their victory in Turkey, France won away at Belgium (1-0). Thanks to this victory, Les Bleus are now at the top of Group A in the Nations League.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-09-29T05:21:45+00:00",
+    "image_url": "https://s.france24.com/media/display/e9b0dbb4-bb9e-11f1-8af1-177f79e345bf/w:1024/p:16x9/fra-1-1.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Daily Sabah",
+      "France24",
+      "Hürriyet (تركي)",
+      "MyJoyOnline Ghana",
+      "The Guardian — Sport",
+      "as it happened"
+    ],
+    "cluster_members": [
+      {
+        "name": "as it happened",
+        "link": "https://www.theguardian.com/football/live/2026/sep/28/belgium-v-france-northern-ireland-v-hungary-and-more-nations-league-live"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/sport/20260928-italy-rebound-in-turkey-as-france-win-late-in-belgium"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/football/2026/sep/28/nations-league-belgium-france-turkey-italy-northern-ireland-hungary"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/tv-shows/sports/20260929-nations-league-promising-france-defeat-belgium-thanks-olise"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/late-olise-goal-gives-france-win-over-belgium/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/sports/football/turkiye-concede-4-1-to-italy-in-nations-league-match-in-bursa"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/e9b0dbb4-bb9e-11f1-8af1-177f79e345bf/w:1024/p:16x9/fra-1-1.jpg",
+      "https://i.guim.co.uk/img/media/c697adfd95148b8ec28309b14c19f0c177af321e/789_129_6172_4938/master/6172.jpg?width=700&quality=85&auto=format&fit=max&s=a50355cf42911ad3ecc63e175fcfe4f3",
+      "https://i.guim.co.uk/img/media/c697adfd95148b8ec28309b14c19f0c177af321e/789_129_6172_4938/master/6172.jpg?width=460&quality=85&auto=format&fit=max&s=99073a678495d1e3e0b1ef27f614d417",
+      "https://i.guim.co.uk/img/media/c697adfd95148b8ec28309b14c19f0c177af321e/789_129_6172_4938/master/6172.jpg?width=140&quality=85&auto=format&fit=max&s=eb17a65393e86e2a9b139f312f14b14d",
+      "https://s.france24.com/media/display/8995ab96-bb81-11f1-a917-177f79e345bf/w:1024/p:16x9/7061f5ab976a03337a9ed9ea70acca05fe405af8.jpg",
+      "https://i.guim.co.uk/img/media/c20a9e8ac619afb3d694cf2ec382fd661e488d14/0_0_6556_5245/master/6556.jpg?width=700&quality=85&auto=format&fit=max&s=65d9b1a1f53797f77aa06abb89e65f2c"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.0,
+    "age_hours": 1336.914921606389,
+    "is_stale": true,
+    "score": 25.470786358783926,
+    "impact": 0,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "فرنسا تتصدر دوري الأمم الأوروبية بفوز على بلجيكا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

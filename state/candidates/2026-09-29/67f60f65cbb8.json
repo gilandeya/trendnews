@@ -1,0 +1,64 @@
+{
+  "id": "67f60f65cbb8",
+  "created_at": "2026-09-29T09:08:17.347601+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.35,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "أسعار النفط ترتفع وسط مخاوف الشرق الأوسط",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oil prices rise for second session amid Middle East supply concerns",
+  "link": "https://www.premiumtimesng.com/business/business-news/913172-oil-prices-rise-for-second-session-amid-middle-east-supply-concerns.html",
+  "publishers": [
+    "Premium Times",
+    "The Express Tribune"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Oil prices rise for second session amid Middle East supply concerns",
+    "link": "https://www.premiumtimesng.com/business/business-news/913172-oil-prices-rise-for-second-session-amid-middle-east-supply-concerns.html",
+    "summary": "Global oil prices rose for a second consecutive session on Tuesday as persistent concerns over supply disruptions in the Middle East, amid stalled negotiations between the United States and Iran, continued to drive market uncertainty. The post Oil prices rise for second session amid Middle East supply concerns appeared first on Premium Times Nigeria .",
+    "source_name": "Premium Times",
+    "region": "ng",
+    "weight": 1.1,
+    "published": "2026-09-29T07:39:03+00:00",
+    "image_url": "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/03/Untitled-design-4-1.jpg?fit=1668%2C1078&amp;ssl=1",
+    "publisher": "Premium Times",
+    "cluster_sources": [
+      "Premium Times",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Premium Times",
+        "link": "https://www.premiumtimesng.com/business/business-news/913172-oil-prices-rise-for-second-session-amid-middle-east-supply-concerns.html"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632026/oil-prices-rise-for-second-session-on-continued-middle-east-supply-concern"
+      }
+    ],
+    "image_candidates": [
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/03/Untitled-design-4-1.jpg?fit=1668%2C1078&amp;ssl=1"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1336.91504063,
+    "is_stale": false,
+    "score": 23.35127713938889,
+    "impact": 3,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "أسعار النفط ترتفع وسط مخاوف الشرق الأوسط",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
