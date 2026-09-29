@@ -68,7 +68,7 @@
       "dropped_reason": null,
       "id": "0fabb0faf10d",
       "created_at": "2026-09-29T06:34:31.423741+00:00",
-      "selection_status": "pending",
+      "selection_status": "attempted",
       "selection_issue": 1118
     },
     {
@@ -101,7 +101,7 @@
       "dropped_reason": null,
       "id": "85ced17aa032",
       "created_at": "2026-09-29T06:34:31.423741+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1118
     },
     {
@@ -131,7 +131,7 @@
       "dropped_reason": null,
       "id": "06cb8a328b59",
       "created_at": "2026-09-29T06:34:31.423741+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1118
     },
     {
@@ -157,7 +157,7 @@
       "dropped_reason": null,
       "id": "97c48c16dae6",
       "created_at": "2026-09-29T06:34:31.423741+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1118
     },
     {
@@ -201,7 +201,7 @@
       "dropped_reason": null,
       "id": "9bc305324493",
       "created_at": "2026-09-29T06:34:31.423741+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1118
     }
   ],
