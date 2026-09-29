@@ -517,16 +517,22 @@ def build_post_image(
 
     `news_photo_provider` (Issue #1095، مسار التحليل وحده -- يخلف تصميم
     خلفية الفيديو الملغى، Issue #1092 -- youtube_publish.ensure_title_card):
-    دالة بلا معاملات تعيد ``[{"url":..., "publisher":...}, ...]``، تُستدعى
-    فقط حين تفشل `image_urls` و`fallback_urls`/`fallback_provider` معًا (لا
-    تُستدعى حتى تُستنفَد هذه القائمة أولًا -- نفس مبدأ كسل `fallback_provider`
-    أعلاه بالضبط، بحث الأخبار عملية شبكة حقيقية لا مجرّد بناء روابط، فاستدعاؤها
-    قبل التأكد من فشل الدرجتين الأعلى يهدر نداءً لا حاجة له. ترتيب الدرجات
-    الآن: حرة بلا وجه، فصورة خبر صحفي عن الموضوع نفسه، فامتناع). كل مرشَّح
-    من نتيجتها يُجرَّب بالترتيب حتى ينجح تحميل واحد (نفس `download_image`،
-    فنفس حدّ الأبعاد الأدنى يسري هنا أيضًا) -- **بلا فحص وجه إطلاقًا**، تمامًا
-    كما لا يسري في مسار الأخبار: هذه صورة خبر عن الحدث نفسه لا صورة تعبيرية
-    عامة.
+    دالة بلا معاملات تعيد ``[{"url":..., "publisher":...}, ...]``. **سلّم
+    الصورة (Issue #1123، قُلب ترتيبه): image_urls (صورة الناشر، مسار الأخبار)
+    ← news_photo_provider (صورة خبر عن الموضوع) ← fallback_urls/
+    fallback_provider (حرة الترخيص) ← بلا صورة.** صورة الخبر أقرب للحدث دومًا
+    والحرة عامة بطبيعتها، فكان الترتيب السابق (حرة أولًا) مقلوبًا. الكسل باقٍ
+    في الاتجاهين: `news_photo_provider` لا يُستدعى إن نجحت `image_urls`،
+    و`fallback_provider` لا يُستدعى إن نجحت صورة الخبر -- بحث الأخبار وبحث
+    الصور الحرة كلاهما عملية شبكة حقيقية، فاستدعاء أيٍّ منهما قبل التأكد من
+    فشل الدرجات الأعلى يهدر نداءً لا حاجة له. مسار الأخبار لا يمرّر هذا
+    المعامل أصلًا فترتيبه (الناشر ثم الحرة) لم يتغيّر. كل مرشَّح من نتيجتها
+    يُجرَّب بالترتيب حتى ينجح تحميل واحد (نفس `download_image`، فنفس حدّ
+    الأبعاد الأدنى يسري هنا أيضًا) -- **بلا فحص وجه إطلاقًا**، تمامًا كما
+    لا يسري في مسار الأخبار: هذه صورة خبر عن الحدث نفسه لا صورة تعبيرية
+    عامة. فحص الوجوه يبقى على الصورة الحرة وحدها (في
+    youtube_extract.photo_candidates). الوسم «صورة تعبيرية» يتبع الصورة
+    المستعملة فعلًا: للحرة فقط، لا لصورة الخبر.
 
     الصورة الناجحة هنا تُرسم **صورةً رئيسية عادية تمامًا** -- نفس الموضع
     والنسبة والمعالجة (`cover`/`dim_photo`/`sharpen`) التي تُستعمَل للصورة
@@ -640,28 +646,12 @@ def build_post_image(
             log.info("اعتُمدت صورة الخبر: %s", url[:90])
             break
 
-    # فشلت صورة الناشر → ابحث عن بديل حر الترخيص.
-    # البحث كسول: لا يُنفَّذ إلا هنا، فلا نضيّع طلبات شبكة على أخبار نجحت.
-    if source is None:
-        alternatives = list(fallback_urls or [])
-        if not alternatives and callable(fallback_provider):
-            log.info("صورة الناشر غير متاحة — البحث عن بديل حر الترخيص…")
-            fallback_tried = True
-            alternatives = fallback_provider() or []
-        fallback_candidates_count = len(alternatives)
-
-        for url in alternatives[:6]:
-            source = download_image(url, failures=candidate_failures)
-            if source is not None:
-                illustrative = True
-                log.info("✅ اعتُمدت صورة تعبيرية حرة: %s", url[:90])
-                break
-
-    # الدرجة الثانية الجديدة (Issue #1095، تخلف تصميم خلفية الفيديو الملغى
-    # #1092): صورة خبر صحفي عن الموضوع نفسه -- تُجرَّب فقط بعد فشل الدرجتين
-    # أعلاه (لا صورة رئيسية ولا صورة تعبيرية حرة)، وبلا فحص وجه إطلاقًا (انظر
-    # توثيق news_photo_candidates أعلى الدالة). خلافًا لخلفية الفيديو الملغاة،
-    # هذه تُرسم صورةً رئيسية عادية تمامًا -- تمرّ عبر متغيّر `source` العام
+    # الدرجة الثانية (Issue #1095، ثم قُلب ترتيبها في Issue #1123): صورة خبر
+    # صحفي عن الموضوع نفسه -- تسبق الصورة الحرة الآن، فهي أقرب للحدث دومًا
+    # والحرة عامة بطبيعتها (راجع صاحب المشروع أول مقال فاستبدل الحرة يدويًا
+    # بصورة خبر). تُجرَّب فقط بعد فشل صورة الناشر، وبلا فحص وجه إطلاقًا (انظر
+    # توثيق news_photo_provider أعلى الدالة). خلافًا لخلفية الفيديو الملغاة،
+    # تُرسم صورةً رئيسية عادية تمامًا -- تمرّ عبر متغيّر `source` العام
     # فتُعامَل بنفس مسار الرسم أدناه حرفيًا، لا فرع تخطيط منفصل.
     news_photo_used = False
     news_photo_publisher = None
@@ -678,6 +668,23 @@ def build_post_image(
                 news_photo_used = True
                 news_photo_publisher = cand.get("publisher") if isinstance(cand, dict) else None
                 log.info("📰 اعتُمدت صورة خبر عن الموضوع: %s", url[:90])
+                break
+
+    # الدرجة الثالثة: بديل حر الترخيص، بعد فشل صورة الناشر وصورة الخبر معًا.
+    # البحث كسول: لا يُنفَّذ إلا هنا، فلا نضيّع طلبات شبكة على ما نجح أعلاه.
+    if source is None:
+        alternatives = list(fallback_urls or [])
+        if not alternatives and callable(fallback_provider):
+            log.info("لا صورة ناشر ولا صورة خبر — البحث عن بديل حر الترخيص…")
+            fallback_tried = True
+            alternatives = fallback_provider() or []
+        fallback_candidates_count = len(alternatives)
+
+        for url in alternatives[:6]:
+            source = download_image(url, failures=candidate_failures)
+            if source is not None:
+                illustrative = True
+                log.info("✅ اعتُمدت صورة تعبيرية حرة: %s", url[:90])
                 break
 
     if source is None:

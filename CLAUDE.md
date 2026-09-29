@@ -350,6 +350,23 @@ cards:
   analysis: { badge: "تحليل", bg: "#8EC5FF", fg: "#12203A", source_template: "تحليل لتغطية {channels}" }
 ```
 
+### Image ladder (Issue #1123 — order flipped for Analysis)
+
+`imaging.build_post_image` tries, in order: `image_urls` (publisher photo, News path) →
+`news_photo_provider` (a news photo about the same topic, Analysis only, Issue #1095) →
+`fallback_urls`/`fallback_provider` (free-licence Wikimedia/Openverse) → no image. The news photo
+now precedes the free one because it is always closer to the event while a free photo is generic
+by nature (the owner kept hand-swapping the free one for a news photo). Laziness holds in both
+directions and is asserted by counting calls (`test_image_ladder_order`): `news_photo_provider` is
+never called if `image_urls` succeeded, and the free provider is never called if the news photo
+succeeded — which is why `youtube_publish.ensure_title_card` now passes the free search as a lazy
+`fallback_provider` (via `cards.ensure(fallback_provider=...)`) instead of computing it eagerly.
+The News path never passes `news_photo_provider`, so its order (publisher, then free) is
+unchanged. The face check stays on the free photo alone (`youtube_extract.photo_candidates`); a
+news photo is about the event itself and is not face-checked. The «صورة تعبيرية» tag follows the
+photo actually used (free only; none for a news photo, whose publisher is named in the footer
+source line). The Analysis gate is unchanged: no article is drafted if the whole ladder fails.
+
 ### No exclude checkbox — rejection is implicit, and the reason is asked for later
 
 None of the three review-gate bodies has an "exclude"/reject checkbox. Anything with an id in the

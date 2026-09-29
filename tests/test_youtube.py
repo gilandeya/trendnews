@@ -6,6 +6,8 @@ import logging
 import os
 import re
 import shutil
+import tempfile
+from pathlib import Path
 from datetime import datetime, timedelta, timezone
 from PIL import Image
 
@@ -3293,6 +3295,11 @@ def test_youtube_publish() -> None:
         fallback_search_calls.append(term)
         return []
 
+    # Issue #1123: صورة الخبر صارت تسبق الحرة، وفاكات install_fakes تنجحها
+    # دومًا -- تُعطَّل هنا كي تبقى هذه الفحوص على سلسلة الحرة (الدرجة الثالثة)
+    # كما صُمِّمت؛ ترتيب الدرجات نفسه يُفحص في test_youtube_image_news_photo.
+    real_npc_ctc = youtube_extract.news_photo_candidates
+    youtube_extract.news_photo_candidates = lambda *a, **k: []  # type: ignore
     imagesearch.find_images = fake_find_images_empty  # type: ignore
     cards.find_images = fake_cards_find_images_empty  # type: ignore
     try:
@@ -3300,6 +3307,7 @@ def test_youtube_publish() -> None:
     finally:
         imagesearch.find_images = real_find_images_ctc  # type: ignore
         cards.find_images = real_cards_find_images  # type: ignore
+        youtube_extract.news_photo_candidates = real_npc_ctc  # type: ignore
     check("ensure_title_card: يبني البطاقة بنجاح ويعيد True", ok_card, ok_card)
     check("ensure_title_card: بحثت فعليًا عن صورة تعبيرية بكلمات event/headline",
           photo_search_calls and photo_search_calls[0] and
@@ -3368,11 +3376,13 @@ def test_youtube_publish() -> None:
         lambda title, cfg, limit=6, terms=None: (photo_calls_en.append(terms) or []))
     cards.find_images = (  # type: ignore
         lambda term, cfg: (fallback_calls_en.append(term) or []))
+    youtube_extract.news_photo_candidates = lambda *a, **k: []  # type: ignore
     try:
         ok_query = yp.ensure_title_card(query_path, query_draft, cfg)
     finally:
         imagesearch.find_images = real_find_images_ctc  # type: ignore
         cards.find_images = real_cards_find_images  # type: ignore
+        youtube_extract.news_photo_candidates = real_npc_ctc  # type: ignore
 
     check("ensure_title_card: image_query_en يصل المحاولة الأولى (_photo_candidates) "
           "أول عبارات البحث", photo_calls_en and photo_calls_en[0] and
@@ -3857,9 +3867,9 @@ def test_youtube_image_news_photo() -> None:
     """مقال تحليلي بلا صورة حرة الترخيص -- صورة خبر صحفي عن الموضوع نفسه
     بدل خلفية الفيديو الملغاة (Issue #1095، تراجع محسوم عن Issue #1092:
     محاولتان لرسم خلفية معتّمة فشلتا بصريًا، وصورة الفيديو ليست صورة الحدث
-    بل صورة قناة تتحدث عنه). الدرجات الآن: صورة حرة بلا وجه ← صورة خبر عن
-    الموضوع (تُرسم صورةً رئيسية عادية تمامًا، بلا فحص وجه) ← امتناع تام عن
-    الصياغة.
+    بل صورة قناة تتحدث عنه). الدرجات الآن (قُلب ترتيبها في Issue #1123): صورة
+    خبر عن الموضوع (تُرسم صورةً رئيسية عادية تمامًا، بلا فحص وجه) ← صورة حرة
+    بلا وجه ← امتناع تام عن الصياغة.
 
     imagesearch.find_images/cards.find_images (بحث حر) وimaging.download_image/
     face_score (تحميل/فحص وجه) كلّها مموَّهة محليًا داخل كل سيناريو على حدة
@@ -3887,35 +3897,29 @@ def test_youtube_image_news_photo() -> None:
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # ── ١) صورة حرة متاحة: السلوك القائم حرفيًا، بلا بحث أخبار إطلاقًا
-    # (تحقّق بعدّ نداءات youtube_extract.news_photo_candidates -- الدرجة
-    # الثانية لا تُجرَّب حتى تفشل الأولى) ──
+    # ── ١) المزوّدان متاحان (Issue #1123، الترتيب مقلوب): تُستعمل صورة الخبر،
+    # ومزوّد الصور الحرة لا يُستدعى إطلاقًا (عدّ نداءات imagesearch.find_images
+    # وcards.find_images معًا -- الكسل في الاتجاه الثاني) ──
     d1 = _news_photo_draft("np0000000001")
     store.save_draft(d1)
     path1, d1 = store.load_draft(d1["id"])
-    real_news_photo_candidates_1 = youtube_extract.news_photo_candidates
-    news_search_calls_1: list = []
-
-    def _spy_news_photo_candidates_1(*a, **k):
-        news_search_calls_1.append(1)
-        return real_news_photo_candidates_1(*a, **k)
-
+    free_calls_1: list = []
     try:
-        imagesearch.find_images = lambda *a, **k: ["https://example.com/free.jpg"]  # type: ignore
+        imagesearch.find_images = lambda *a, **k: (free_calls_1.append(1) or ["https://example.com/free.jpg"])  # type: ignore
+        cards.find_images = lambda *a, **k: (free_calls_1.append(2) or ["https://example.com/free.jpg"])  # type: ignore
         imaging.download_image = lambda *a, **k: Image.new("RGB", (800, 600), (10, 90, 200))  # type: ignore
         imaging.face_score = lambda img: 0.0  # type: ignore
-        youtube_extract.news_photo_candidates = _spy_news_photo_candidates_1  # type: ignore
         ok1 = yp.ensure_title_card(path1, d1, cfg)
     finally:
         _restore()
-        youtube_extract.news_photo_candidates = real_news_photo_candidates_1  # type: ignore
-    check("١) صورة حرة متاحة: البطاقة تُبنى بنجاح", ok1, ok1)
-    check("١) صورة حرة متاحة: used_original=True (صورة حرة فعليًا، لا صورة خبر)",
-          d1.get("image_info", {}).get("used_original") is True, d1.get("image_info"))
-    check("١) صورة حرة متاحة: kind غائب/None -- ليست صورة خبر عن الموضوع",
-          d1.get("image_info", {}).get("kind") is None, d1.get("image_info"))
-    check("١) صورة حرة متاحة: صفر نداء بحث أخبار -- الدرجة الثانية لم تُجرَّب إطلاقًا",
-          news_search_calls_1 == [], news_search_calls_1)
+    check("١) المزوّدان متاحان: البطاقة تُبنى بنجاح", ok1, ok1)
+    check("١) المزوّدان متاحان: تُستعمل صورة الخبر (kind == 'news_photo')",
+          d1.get("image_info", {}).get("kind") == "news_photo", d1.get("image_info"))
+    check("١) المزوّدان متاحان: ليست صورة حرة (illustrative=False، used_original=False)",
+          d1.get("image_info", {}).get("illustrative") is False
+          and d1.get("image_info", {}).get("used_original") is False, d1.get("image_info"))
+    check("١) المزوّدان متاحان: مزوّد الصور الحرة لا يُستدعى إطلاقًا (صفر نداء)",
+          free_calls_1 == [], free_calls_1)
 
     # ── ٢) لا صورة حرة، وخبر بصورة صالحة: البطاقة تُبنى بصورة رئيسية عادية،
     # وimage_info يميّزها صراحةً، والمقال يُصاغ فعليًا (بوابة run() لا تمتنع).
@@ -4252,3 +4256,127 @@ def test_youtube_image_news_photo() -> None:
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def test_image_ladder_order() -> None:
+    """سلّم الصورة على imaging.build_post_image نفسها والبطاقة المبنيّة فعليًا
+    (Issue #1123): الناشر ← صورة خبر عن الموضوع ← حرة ← بلا صورة. الكسل في
+    الاتجاهين يُقاس بعدّ نداءات المزوّدَين، لا بمطالعة الكود."""
+    from PIL import Image as _Img
+    cfg = load_config()
+    real_dl = imaging.download_image
+    real_face = imaging.face_score
+    real_draw_text = imaging.draw_text
+    out = DRAFTS_DIR / "ladder_check.jpg"
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    news_img = _Img.new("RGB", (900, 600), (20, 220, 20))
+    FACE_URL = "https://example.com/free-face.jpg"
+
+    def run(*, image_urls=None, news=True, free=True, origin="analysis",
+            news_url="https://example.com/news.jpg", free_url="https://example.com/free.jpg"):
+        calls = {"news": 0, "free": 0}
+        drawn: list[str] = []
+
+        def news_provider():
+            calls["news"] += 1
+            return [{"url": news_url, "publisher": "ناشر الخبر"}] if news else []
+
+        def free_provider():
+            calls["free"] += 1
+            return [free_url] if free else []
+
+        report: dict = {}
+        imaging.download_image = lambda *a, **k: news_img.copy()  # type: ignore
+        imaging.draw_text = (  # type: ignore
+            lambda d, xy, text, *a, **k: (drawn.append(text), real_draw_text(d, xy, text, *a, **k))[1])
+        try:
+            kw = dict(news_photo_provider=news_provider) if origin == "analysis" else {}
+            imaging.build_post_image(
+                headline="عنوان اختبار السلّم", category="", urgent=False,
+                image_urls=image_urls, publisher=["الجزيرة"], cfg=cfg, out_path=out,
+                fallback_provider=free_provider, bucket="", report=report,
+                origin=origin, **kw)
+        finally:
+            imaging.download_image = real_dl  # type: ignore
+            imaging.draw_text = real_draw_text  # type: ignore
+        return calls, report, drawn
+
+    # ١) تحليل، المزوّدان متاحان: صورة الخبر، والحرة صفر نداء
+    calls, rep, drawn = run()
+    check("سلّم الصورة: المزوّدان متاحان ⇒ صورة الخبر", rep.get("kind") == "news_photo", rep)
+    check("سلّم الصورة: المزوّدان متاحان ⇒ مزوّد الحرة لا يُستدعى (عدّ النداءات)",
+          calls == {"news": 1, "free": 0}, calls)
+    check("سلّم الصورة: صورة الخبر بلا وسم «صورة تعبيرية»",
+          "صورة تعبيرية" not in drawn and rep.get("illustrative") is False, (drawn, rep))
+    check("سلّم الصورة: سطر المصدر السفلي يذكر ناشر صورة الخبر",
+          any("صورة: ناشر الخبر" in t for t in drawn), drawn)
+
+    # ٢) تحليل، لا صورة خبر: الحرة بوسم «صورة تعبيرية»
+    calls, rep, drawn = run(news=False)
+    check("سلّم الصورة: لا صورة خبر ⇒ تُستعمل الحرة", rep.get("illustrative") is True
+          and rep.get("kind") is None, rep)
+    check("سلّم الصورة: لا صورة خبر ⇒ المزوّدان استُدعيا مرة واحدة كلٌّ",
+          calls == {"news": 1, "free": 1}, calls)
+    check("سلّم الصورة: الحرة تحمل وسم «صورة تعبيرية»", "صورة تعبيرية" in drawn, drawn)
+
+    # ٣) تحليل، لا الاثنتان: بلا صورة (بوابة المنع تعمل على has_photo/used_original)
+    calls, rep, drawn = run(news=False, free=False)
+    check("سلّم الصورة: لا الاثنتان ⇒ بلا صورة (used_original=False، illustrative=False، kind=None)",
+          rep.get("used_original") is False and rep.get("illustrative") is False
+          and rep.get("kind") is None, rep)
+    check("سلّم الصورة: لا الاثنتان ⇒ لا وسم تعبيرية", "صورة تعبيرية" not in drawn, drawn)
+    # بوابة المنع نفسها (youtube_article) لم تتغيّر: news_photo_available=False
+    # وصورة حرة غائبة ⇒ لا صياغة -- مغطّاة في test_youtube_image_news_photo ٤.
+
+    # ٤) أخبار بصورة ناشر: لا يُستدعى أي مزوّد، والبطاقة كما اليوم
+    calls, rep, drawn = run(image_urls=["https://example.com/publisher.jpg"], origin="news")
+    check("سلّم الصورة (تثبيت): أخبار بصورة ناشر ⇒ لا مزوّد يُستدعى",
+          calls == {"news": 0, "free": 0}, calls)
+    check("سلّم الصورة (تثبيت): صورة الناشر أصلية بلا وسم تعبيرية",
+          rep.get("used_original") is True and rep.get("illustrative") is False
+          and "صورة تعبيرية" not in drawn, (rep, drawn))
+    # وصورة ناشر مع مزوّد أخبار مُمرَّر: لا يُستدعى أيّ منهما
+    calls, rep, _ = run(image_urls=["https://example.com/publisher.jpg"])
+    check("سلّم الصورة: نجاح صورة الناشر ⇒ لا مزوّد أخبار ولا حرة",
+          calls == {"news": 0, "free": 0}, calls)
+    # أخبار بلا صورة ناشر: الحرة مباشرةً كما كان
+    calls, rep, drawn = run(origin="news")
+    check("سلّم الصورة (تثبيت): أخبار بلا صورة ناشر ⇒ الحرة بوسم تعبيرية، بلا خبر",
+          calls == {"news": 0, "free": 1} and rep.get("illustrative") is True
+          and "صورة تعبيرية" in drawn, (calls, rep, drawn))
+
+    # ٥) وجه: صورة الخبر لا تُفحَص، والحرة ذات الوجه تُرفض (فحص photo_candidates)
+    imaging.face_score = lambda img: 0.9  # type: ignore
+    try:
+        calls, rep, _ = run()
+        check("سلّم الصورة: صورة خبر فيها وجه تُستعمل (لا فحص وجوه عليها)",
+              rep.get("kind") == "news_photo", rep)
+        from src import imagesearch as _is
+        real_find = _is.find_images
+        real_dl2 = imaging.download_image
+        _is.find_images = lambda *a, **k: [FACE_URL]  # type: ignore
+        imaging.download_image = lambda *a, **k: news_img.copy()  # type: ignore
+        try:
+            faces = youtube_extract.photo_candidates("عنوان", "حدث", cfg)
+        finally:
+            _is.find_images = real_find  # type: ignore
+            imaging.download_image = real_dl2  # type: ignore
+        check("سلّم الصورة: صورة حرة فيها وجه تُرفض كما اليوم (photo_candidates فارغة)",
+              faces == [], faces)
+    finally:
+        imaging.face_score = real_face  # type: ignore
+
+    # ٦) فحص بصري مكتوب: بطاقة تحليل بصورة خبر مصطنعة نظيفة تُحفظ للفحص العيني
+    visual = Path(tempfile.gettempdir()) / "ladder_visual_check.jpg"
+    imaging.download_image = lambda *a, **k: news_img.copy()  # type: ignore
+    try:
+        imaging.build_post_image(
+            headline="هل تتغير معادلة الطاقة بعد الاتفاق الجديد؟", category="", urgent=False,
+            image_urls=None, publisher=["تحليل لتغطية الجزيرة وTRT"], cfg=cfg,
+            out_path=visual, bucket="", origin="analysis",
+            news_photo_provider=lambda: [{"url": "https://example.com/n.jpg",
+                                          "publisher": "ناشر الخبر"}])
+    finally:
+        imaging.download_image = real_dl  # type: ignore
+    check("سلّم الصورة: بطاقة الفحص البصري بُنيت فعليًا", visual.exists(), str(visual))
+    out.unlink(missing_ok=True)

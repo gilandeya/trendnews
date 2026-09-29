@@ -580,31 +580,30 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     headline = headlines[idx]
     run_date = draft.get("run_date") or datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
-    # صورة تعبيرية حرة الترخيص (طلب المراجعة على Issue #680) -- اختيارية
-    # ومعطَّلة بأمان (youtube.image.use_photo أو بحث فارغ) بدل إسقاط المقال؛
-    # build_post_image يعود للخلفية المصممة القائمة عندها بلا تدخّل هنا.
-    # image_query_en (Issue #941) يصل هنا أولًا (محاولة أولى، عربية+إنجليزية
-    # معًا عبر _photo_search_terms، بحارس الوجه القائم بلا تغيير).
+    # سلّم الصورة (Issue #1123، قُلب ترتيبه): صورة خبر عن الموضوع أولًا (Issue
+    # #1095) ثم صورة حرة الترخيص (Issue #680) ثم امتناع الصياغة. صورة الخبر
+    # أقرب للحدث دومًا والحرة عامة بطبيعتها. كلاهما دالة كسولة تُنفَّذ داخل
+    # imaging.build_post_image (عبر cards.ensure) فقط حين تفشل الدرجة الأعلى --
+    # بحث الأخبار وبحث ويكيميديا/Openverse كلاهما شبكة حقيقية، فإنفاق أيٍّ
+    # منهما قبل معرفة الحاجة يهدر نداءً (كان بحث الحرة هنا مبكرًا وغير مشروط).
+    # الحرة اختيارية ومعطَّلة بأمان (youtube.image.use_photo)، وحارس الوجه
+    # (photo_candidates) يبقى عليها وحدها لا على صورة الخبر.
+    # image_query_en (Issue #941) يصل هنا أولًا (محاولة عربية+إنجليزية معًا
+    # عبر _photo_search_terms).
     image_query_en = draft.get("image_query_en")
-    photo_urls: list[str] = []
-    if cfg.path("youtube.image.use_photo", True):
-        photo_urls = _photo_candidates(headline, draft.get("event", ""), cfg, image_query_en)
-
-    # الدرجة الثانية (Issue #1095، تخلف خلفية الفيديو الملغاة #1092): صورة
-    # خبر صحفي عن الموضوع نفسه -- دالة كسولة (لا نداء بحث فعلي هنا)، تُستدعى
-    # داخل imaging.build_post_image نفسها (عبر cards.ensure) فقط بعد فشل
-    # الدرجتين الأعلى (photo_urls والمحاولة الثانية العامة في cards.ensure)؛
-    # بحث الأخبار عملية شبكة حقيقية لا مجرّد روابط، فاستدعاؤه غير المشروط هنا
-    # كان يهدر نداءً كل مرّة تنجح فيها الصورة الحرة الترخيص أعلاه.
     event = draft.get("event", "")
     news_photo_provider = (
         lambda: youtube_extract.news_photo_candidates(headline, event, cfg, image_query_en))
+    free_photo_provider = None
+    if cfg.path("youtube.image.use_photo", True):
+        free_photo_provider = (
+            lambda: _photo_candidates(headline, event, cfg, image_query_en))
 
     # غلاف رفيع فوق cards.ensure (Issue #852): القالب الموحَّد مع بطاقة
     # الأخبار (Issue #732) -- imaging.build_post_image ذاتها عبر cards.ensure،
     # لا نسخة رسم منفصلة هنا. image_urls=None بنيويًا (لا صور فيديو/قناة
     # أصلية إطلاقًا -- انظر توثيق الوحدة أعلاه)؛ المرشّحون التعبيريّون
-    # (المحاولة الأولى أعلاه) يمرّون عبر fallback_urls. check_headline_limit=False
+    # (free_photo_provider أعلاه) يمرّون عبر fallback_provider الكسول. check_headline_limit=False
     # يستعمل العنوان المختار كما هو (لا فحص طول هنا، كالسابق).
     # cards.analysis_card_kwargs() (Issue #1044، سابقًا category="" وurgent=False
     # وbucket="" وorigin="analysis" منثورة هنا نصًّا) -- مصدر وحيد يشاركه
@@ -615,7 +614,7 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     # يختلف عن run_date في الاختبارات (انظر توثيق cards.ensure).
     #
     # المحاولة الثانية (Issue #941): allow_search_fallback الافتراضي (True)
-    # لم يعد مُلغًى صراحة -- إن عادت photo_urls فارغة، سلسلة cards.ensure
+    # لم يعد مُلغًى صراحة -- إن عاد free_photo_provider فارغًا، سلسلة cards.ensure
     # العامة تجرّب بحثًا مستقلًا بـsearch_term=image_query_en (أو تعود
     # للعنوان العربي إن غاب، فلا فرق سلوكي عمّا كان قبل هذه المهمة حين يغيب
     # الحقل). هذه المحاولة لا تطبّق حارس الوجه في _photo_candidates أعلاه --
@@ -623,8 +622,9 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     # إضافي هنا (القاعدة القديمة تبقى كما هي في _photo_candidates وحدها).
     new_rel = cards.ensure(
         path, draft, cfg, headline=headline,
-        image_urls=None, fallback_urls=photo_urls, search_term=image_query_en,
+        image_urls=None, search_term=image_query_en,
         news_photo_provider=news_photo_provider,
+        fallback_provider=free_photo_provider,
         publisher=image_source_line(draft["channels"], cfg),
         out_dir=run_date, check_headline_limit=False,
         **cards.analysis_card_kwargs(),
@@ -633,19 +633,15 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
         log.warning("تعذّر بناء بطاقة العنوان لـ%r", headline)
         return False
 
-    # أي محاولة أثمرت (نصّ الطلب، Issue #941) -- تشخيص لاحق: المحاولة الأولى
-    # (photo_urls غير فارغة) تُسجَّل فعلًا داخل imaging.build_post_image نفسها
-    # ("✅ اعتُمدت صورة تعبيرية حرة")، فلا تكرار هنا؛ التمييز المطلوب فقط هو
-    # بين المحاولة الثانية (بحث عام نجح رغم فراغ photo_urls) وصورة الخبر عن
-    # الموضوع (Issue #1095) وانعدام أي صورة تمامًا.
-    if not photo_urls:
-        image_info = draft.get("image_info") or {}
-        if image_info.get("kind") == "news_photo":
-            log.info("📰 صورة خبر عن الموضوع: %r", headline)
-        elif image_info.get("illustrative"):
-            log.info("🖼️ صورة من البحث الإنجليزي: %r", headline)
-        else:
-            log.info("🖼️ بلا صورة — خلفية مصممة: %r", headline)
+    # تشخيص لاحق (Issue #941/#1095/#1123): أي درجة أثمرت فعلًا -- صورة خبر عن
+    # الموضوع، أو صورة حرة (من المزوّد أو من البحث العام الاحتياطي)، أو لا شيء.
+    image_info = draft.get("image_info") or {}
+    if image_info.get("kind") == "news_photo":
+        log.info("📰 صورة خبر عن الموضوع: %r", headline)
+    elif image_info.get("illustrative"):
+        log.info("🖼️ صورة تعبيرية حرة: %r", headline)
+    else:
+        log.info("🖼️ بلا صورة — خلفية مصممة: %r", headline)
 
     new_caption = _apply_headline(draft["caption"], headline)
     new_arabic = {**draft["arabic"], "post_title": headline}
