@@ -56,6 +56,8 @@ jobs:
       - name: العنقدة
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # فتح Issue اختيار المواضيع بعد العنقدة يحتاج توكن GitHub
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # يوجّه src.youtube_cluster.POINTS_DIR إلى سحب المستودع الخاص --
           # نافذة lookback_days تُقرأ منه لا من state/youtube_points المحلي
           # (الذي لم يعد موجودًا أصلًا بعد حذفه من الشجرة).
