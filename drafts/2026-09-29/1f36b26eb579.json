@@ -35,6 +35,10 @@
     "publishers": [
       "Iran International",
       "الجزيرة"
+    ],
+    "image_url": "https://www.aljazeera.net/wp-content/uploads/2026/03/moj-1772996135.jpg?resize=1920%2C1280&quality=80",
+    "image_candidates": [
+      "https://www.aljazeera.net/wp-content/uploads/2026/03/moj-1772996135.jpg?resize=1920%2C1280&quality=80"
     ]
   },
   "score": 7,
@@ -46,15 +50,19 @@
   "has_photo": true,
   "has_news_photo": true,
   "review_issue": 1120,
-  "image": "drafts/2026-09-29/1f36b26eb579.jpg",
+  "image": "drafts/2026-09-29/1f36b26eb579-v2.jpg",
   "image_info": {
+    "manual": true,
     "used_original": true,
-    "illustrative": true,
+    "illustrative": false,
     "composite": false,
-    "chosen_url": null,
-    "candidates_tried": 0,
-    "manual": false,
-    "kind": null,
-    "news_photo_publisher": null
-  }
+    "chosen_url": "https://www.aljazeera.net/wp-content/uploads/2026/03/moj-1772996135.jpg?resize=1920%2C1280&quality=80"
+  },
+  "manual_image": "https://www.aljazeera.net/wp-content/uploads/2026/03/moj-1772996135.jpg?resize=1920%2C1280&quality=80",
+  "reel_spec": {
+    "image_candidates": [
+      "https://www.aljazeera.net/wp-content/uploads/2026/03/moj-1772996135.jpg?resize=1920%2C1280&quality=80"
+    ]
+  },
+  "reel": null
 }
