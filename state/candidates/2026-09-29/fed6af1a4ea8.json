@@ -1,0 +1,87 @@
+{
+  "id": "fed6af1a4ea8",
+  "created_at": "2026-09-29T03:08:11.126360+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.35,
+  "trend_score": 1.0,
+  "velocity": 0.8,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "إضراب فرنسي قد يؤثر على المسافرين العرب في أوروبا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Grève du 29 septembre : de « fortes perturbations » à prévoir dans les transports d’Ile-de-France",
+  "link": "https://www.lemonde.fr/economie/article/2026/09/29/greve-du-29-septembre-de-fortes-perturbations-a-prevoir-dans-les-transports-d-ile-de-france_6785107_3235.html",
+  "publishers": [
+    "BBC",
+    "BBC World",
+    "France24",
+    "Le Monde",
+    "MyJoyOnline Ghana"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Grève du 29 septembre : de « fortes perturbations » à prévoir dans les transports d’Ile-de-France",
+    "link": "https://www.lemonde.fr/economie/article/2026/09/29/greve-du-29-septembre-de-fortes-perturbations-a-prevoir-dans-les-transports-d-ile-de-france_6785107_3235.html",
+    "summary": "Echaudées par un nouveau gel du point d’indice, les organisations syndicales représentatives de la fonction publique ont annoncé une journée de grève mardi, avec l’ambition de mettre la pression sur le gouvernement à quelques jours de l’annonce du budget 2027.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-09-29T02:05:39+00:00",
+    "image_url": "https://img.lemde.fr/2026/09/28/1250/0/7488/3744/644/322/60/0/40d1e5f_upload-1-jssqaozqub70-000-a9bq2gr.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "BBC",
+      "BBC World",
+      "France24",
+      "Le Monde",
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/economie/article/2026/09/29/greve-du-29-septembre-de-fortes-perturbations-a-prevoir-dans-les-transports-d-ile-de-france_6785107_3235.html"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/societe/article/2026/09/28/le-blocus-des-lycees-prend-de-l-ampleur-et-oppose-la-france-insoumise-et-le-gouvernement_6785108_3224.html"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/tv-shows/business/20260928-france-braces-for-a-day-of-strikes-and-protests-over-civil-servants-pay"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cmqxvnn49rg2o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/french-pm-warns-against-escalation-of-school-protests-after-164-arrested/"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/09/28/1250/0/7488/3744/644/322/60/0/40d1e5f_upload-1-jssqaozqub70-000-a9bq2gr.jpg",
+      "https://img.lemde.fr/2026/09/28/138/0/3981/1990/644/322/60/0/4d3c9d4_upload-1-u3dhu54it2th-sipa-01301639-000002.jpg",
+      "https://s.france24.com/media/display/8ae006c2-bb7c-11f1-94ae-11fa9f8a3b4f/w:1024/p:16x9/capture-21399766096abad03c306d15-42688400.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f058/live/59b822c0-bb7a-11f1-b505-77b42c904b07.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/f058/live/59b822c0-bb7a-11f1-b505-77b42c904b07.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f058/live/59b822c0-bb7a-11f1-b505-77b42c904b07.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.8,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 32.346885149328756,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "إضراب فرنسي قد يؤثر على المسافرين العرب في أوروبا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

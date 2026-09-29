@@ -1,0 +1,64 @@
+{
+  "id": "6097349697a3",
+  "created_at": "2026-09-29T03:08:11.127864+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.83,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "أمريكا تمنح استثناء عقوبات لرحلات إيران-النجف",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US to grant sanctions waiver for flights between Iran and Iraq’s Najaf, source says",
+  "link": "https://www.scmp.com/news/world/middle-east/article/3369111/us-grant-sanctions-waiver-flights-between-iran-and-iraqs-najaf-source-says?utm_source=rss_feed",
+  "publishers": [
+    "Reuters",
+    "South China Morning Post",
+    "The Express Tribune"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "US to grant sanctions waiver for flights between Iran and Iraq’s Najaf, source says",
+    "link": "https://www.scmp.com/news/world/middle-east/article/3369111/us-grant-sanctions-waiver-flights-between-iran-and-iraqs-najaf-source-says?utm_source=rss_feed",
+    "summary": "US President Donald Trump’s administration was set to grant a limited waiver to its Iran sanctions programme on Monday to allow for flights carrying Shiite Muslim religious pilgrims between Iran and Iraq, a person with direct knowledge of the matter said. The source, who is involved ‌in the deliberations, said the US Treasury Department waiver would allow Iraqi Airways to fly back and forth between Iran and the Shiite holy city of Najaf in Iraq for one month, with a more permanent waiver...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-09-28T18:28:29+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "Reuters",
+      "South China Morning Post",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3369111/us-grant-sanctions-waiver-flights-between-iran-and-iraqs-najaf-source-says?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2631919/us-to-grant-sanctions-waiver-for-flights-between-iran-and-iraqs-najaf-source-says"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1330.9110398794444,
+    "is_stale": false,
+    "score": 23.828025395996804,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "أمريكا تمنح استثناء عقوبات لرحلات إيران-النجف",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
