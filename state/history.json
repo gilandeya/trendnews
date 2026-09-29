@@ -1,97 +1,5 @@
 [
   {
-    "score": 22.64,
-    "bucket": "serious",
-    "tokens": [
-      "china",
-      "extended",
-      "trade",
-      "truce",
-      "trump",
-      "welcomes"
-    ],
-    "link": "https://www.rappler.com/world/us-canada/us-china-trade-truce-extended-trump-xi/",
-    "title": "US says China trade truce extended as Trump welcomes Xi",
-    "posted_title": "",
-    "region": "ph",
-    "seen_at": "2026-09-24T03:08:31.418506+00:00"
-  },
-  {
-    "score": 20.86,
-    "bucket": "serious",
-    "tokens": [
-      "attend",
-      "december",
-      "g20",
-      "invitation",
-      "kremlin",
-      "miami",
-      "putin",
-      "summit",
-      "welcomes"
-    ],
-    "link": "https://meduza.io/en/news/2026/09/23/kremlin-welcomes-u-s-invitation-for-putin-to-attend-december-g20-summit-in-miami",
-    "title": "Kremlin welcomes U.S. invitation for Putin to attend December G20 summit in Miami",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-09-24T03:08:31.418833+00:00"
-  },
-  {
-    "score": 20.21,
-    "bucket": "serious",
-    "tokens": [
-      "korea",
-      "korean",
-      "lead",
-      "pows",
-      "recently",
-      "sent",
-      "ukraine",
-      "zelenskyy"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260924000851315",
-    "title": "(LEAD) Ukraine recently sent 2 N. Korean POWs to S. Korea: Zelenskyy",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-09-24T03:08:31.419153+00:00"
-  },
-  {
-    "score": 19.27,
-    "bucket": "serious",
-    "tokens": [
-      "calls",
-      "drop",
-      "enemy",
-      "japan",
-      "label",
-      "leader",
-      "state"
-    ],
-    "link": "https://www.hindustantimes.com/world-news/japans-leader-calls-on-u-n-to-drop-enemy-state-label-101790146097423.html",
-    "title": "Japan’s Leader Calls on U.N. to Drop ‘Enemy State’ Label",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-24T03:08:31.419423+00:00"
-  },
-  {
-    "score": 18.98,
-    "bucket": "serious",
-    "tokens": [
-      "camera",
-      "free",
-      "glasses",
-      "launches",
-      "meta",
-      "privacy",
-      "pushback"
-    ],
-    "link": "https://www.channelnewsasia.com/business/meta-new-smart-glasses-camera-free-6406896",
-    "title": "Meta launches camera-free AI glasses amid privacy pushback",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-24T03:08:31.419691+00:00"
-  },
-  {
     "score": 22.06,
     "bucket": "serious",
     "tokens": [
@@ -2418,5 +2326,25 @@
     "posted_title": "",
     "region": "cn",
     "seen_at": "2026-09-29T03:08:11.128112+00:00"
+  },
+  {
+    "score": 23.83,
+    "bucket": "serious",
+    "tokens": [
+      "between",
+      "flights",
+      "grant",
+      "iran",
+      "iraq",
+      "najaf",
+      "sanctions",
+      "source",
+      "waiver"
+    ],
+    "link": "https://www.scmp.com/news/world/middle-east/article/3369111/us-grant-sanctions-waiver-flights-between-iran-and-iraqs-najaf-source-says?utm_source=rss_feed",
+    "title": "US to grant sanctions waiver for flights between Iran and Iraq’s Najaf, source says",
+    "posted_title": "واشنطن تستثني رحلات الحجاج بين إيران والنجف من عقوبات إيران لمدة شهر",
+    "region": "cn",
+    "seen_at": "2026-09-29T06:28:08.259523+00:00"
   }
 ]
