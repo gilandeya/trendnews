@@ -130,7 +130,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import cards, publish, review, store, youtube_article, youtube_extract
+from . import cards, publish, review, store, youtube_article, youtube_cluster, youtube_extract
 from .config import DRAFTS_DIR, env, load_config
 
 log = logging.getLogger(__name__)
@@ -145,8 +145,6 @@ _DEFAULT_BLOC_LABELS = {
     "arabic": "عربية", "turkish": "تركية", "persian": "فارسية", "israeli": "إسرائيلية",
 }
 
-_TIER_LABELS = {"a": "أ", "b": "ب", "c": "ج"}
-_TIER_RANK = {"a": 0, "b": 1, "c": 2}
 # نفس ترتيب src.youtube_cluster._AGREEMENT_RANK (لا نستورده — ثابت صغير لا
 # يستحق اعتماد وحدة العنقدة، ونصّ الـIssue يفرض هذا الترتيب صراحةً: خلاف
 # القنوات أولًا، فالخلاف الداخلي، فالاتفاق).
@@ -368,7 +366,7 @@ def split_headlines(article_text: str) -> tuple[str, list[str]]:
 # أدناه) -- قد تُستعمل لاحقًا. عمود اختياري القيمة (قد يكون خاليًا لصف قديم
 # لا يحمله) لا اختياري الوجود -- (.*?) تطابق سلسلة فارغة بلا كسر بنية الجدول.
 _INDEX_ROW_RE = re.compile(
-    r"^\|\s*(\d+)\s*\|\s*\[(.*?)\]\((.*?)\)\s*\|\s*(.*?)\s*\|\s*([abc])\s*\|\s*(.*?)\s*\|"
+    r"^\|\s*(\d+)\s*\|\s*\[(.*?)\]\((.*?)\)\s*\|\s*(.*?)\s*\|\s*([abc123])\s*\|\s*(.*?)\s*\|"
     r"\s*(.*?)\s*\|\s*(.*?)\s*\|\s*(\S+)\s*\|\s*(.*?)\s*\|\s*$",
     re.MULTILINE,
 )
@@ -382,7 +380,7 @@ def parse_index(text: str) -> list[dict]:
         warn_match = re.search(r"(\d+)", marker)
         rows.append({
             "number": int(number), "headline": headline, "filename": filename,
-            "event": event, "layer": layer, "agreement": agreement,
+            "event": event, "layer": youtube_cluster.layer_num(layer), "agreement": agreement,
             "blocs": [b.strip() for b in blocs_s.split(",") if b.strip()],
             "channels": [c.strip() for c in channels_s.split(",") if c.strip()],
             "video_ids": [v.strip() for v in video_ids_s.split(",") if v.strip()],
@@ -448,7 +446,7 @@ def build_draft(row: dict, date_str: str, articles_dir: Path, cfg) -> dict | Non
         # القراءة بلا حاجة لتعديلها؛ الجديدة تُكتب معيارية مباشرة.
         "origin": "analysis",
         "title": default_title,
-        "tier": row["layer"],
+        "tier": youtube_cluster.layer_num(row["layer"]),
         "blocs": row["blocs"],
         "channels": row["channels"],
         "agreement": row["agreement"],
@@ -525,7 +523,7 @@ def build_draft_from_text(topic: dict, text: str, video_ids: list[str],
         "status": "pending",
         "origin": "analysis",
         "title": default_title,
-        "tier": topic["layer"],
+        "tier": youtube_cluster.layer_num(topic["layer"]),
         "blocs": topic["blocs"],
         "channels": topic["channels"],
         "agreement": topic["agreement"],
@@ -548,7 +546,7 @@ def _review_sort_key(d: dict) -> tuple:
     # ولماذا الطبقة وحدها كانت تظلم مقالات قوية)؛ عند تساوٍ تامّ في الدرجة،
     # الطبقة فنوع الخلاف يبقيان كاسر تعادل ثابتًا كسابقًا (Issue #676) بدل
     # الاعتماد على ترتيب وصول القضايا من youtube_cluster وحده.
-    return (-d.get("score", 0), _TIER_RANK.get(d["tier"], 9), _AGREEMENT_RANK.get(d["agreement"], 9))
+    return (-d.get("score", 0), -youtube_cluster.layer_num(d["tier"]), _AGREEMENT_RANK.get(d["agreement"], 9))
 
 
 def _apply_headline(caption: str, headline: str) -> str:
@@ -669,17 +667,18 @@ parse_headline_choice = review.parse_headline_choice
 
 
 def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> str:
-    tier_counts = {"a": 0, "b": 0, "c": 0}
+    tier_counts: dict[int, int] = {}
     cross_source_count = 0
     warnings_total = 0
     for d in drafts:
-        tier_counts[d["tier"]] = tier_counts.get(d["tier"], 0) + 1
+        n = youtube_cluster.layer_num(d["tier"])
+        tier_counts[n] = tier_counts.get(n, 0) + 1
         if d["agreement"] == "cross_source":
             cross_source_count += 1
         warnings_total += len(d.get("warnings") or [])
 
-    health = (f"{len(drafts)} مقالات · أ={tier_counts['a']} ب={tier_counts['b']} "
-              f"ج={tier_counts['c']} · خلاف قنوات={cross_source_count} · "
+    tiers_text = " ".join(f"{n}={c}" for n, c in sorted(tier_counts.items(), reverse=True)) or "—"
+    health = (f"{len(drafts)} مقالات · الكتل المتقاطعة: {tiers_text} · خلاف قنوات={cross_source_count} · "
               f"تنبيهات={warnings_total}")
 
     max_per_run = cfg.path("youtube.publish.max_per_run", 3) if cfg else 3
@@ -713,7 +712,7 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
 
     for idx, d in enumerate(drafts, start=1):
         meta_line = (
-            f"  الطبقة {_TIER_LABELS.get(d['tier'], d['tier'])} · "
+            f"  تقاطع {youtube_cluster.layer_num(d['tier'])} كتل · "
             f"{' · '.join(bloc_label(b, cfg) for b in d['blocs']) or '—'} · "
             f"{'، '.join(d['channels'])} · "
             f"{_AGREEMENT_LABELS.get(d['agreement'], d['agreement'])}"

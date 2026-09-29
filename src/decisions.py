@@ -48,6 +48,18 @@ import requests
 from . import store
 from .config import STATE_DIR, env, load_config
 
+# الحرف القديم مرادف للرقم عند القراءة فقط (Issue #1121) -- decisions لا تستورد
+# youtube_cluster لأن الأخيرة تستوردها (دورة)
+_LEGACY_LAYER = {"a": 2, "b": 1, "c": 1}
+
+
+def _layer_num(layer):
+    if isinstance(layer, int):
+        return layer
+    if isinstance(layer, str) and layer.strip().isdigit():
+        return int(layer.strip())
+    return _LEGACY_LAYER.get(str(layer).strip().lower(), "")
+
 log = logging.getLogger("decisions")
 
 DECISIONS_FILE = STATE_DIR / "decisions.json"
@@ -199,7 +211,7 @@ def _features_topic(topic: dict) -> dict:
         "source_count": len(topic.get("channels") or []),
         "body_len": 0, "has_photo": False, "state_media": False,
         "created_hour": _created_hour(topic.get("created_at", "")),
-        "layer": topic.get("layer", ""),
+        "layer": _layer_num(topic.get("layer", "")),
         "bloc_count": len(topic.get("blocs") or []),
         "channel_count": len(topic.get("channels") or []),
         "point_count": len(topic.get("point_ids") or []),

@@ -1000,11 +1000,49 @@ def test_youtube_cluster() -> None:
 
     # ── _layer_for: الطبقة تُحسَب من عدد الكتل/القنوات الفعلي، لا من حكم النموذج ──
     check("طبقة أ: كتلتان مختلفتان فأكثر",
-          ycl._layer_for({"arabic", "turkish"}, {"الجزيرة"}) == "a")
+          ycl._layer_for({"arabic", "turkish"}, {"الجزيرة"}) == 2)
     check("طبقة ب: كتلة واحدة، قناتان مختلفتان",
-          ycl._layer_for({"arabic"}, {"الجزيرة", "العربية"}) == "b")
+          ycl._layer_for({"arabic"}, {"الجزيرة", "العربية"}) == 1)
     check("طبقة ج: كتلة واحدة وقناة واحدة",
-          ycl._layer_for({"arabic"}, {"الجزيرة"}) == "c")
+          ycl._layer_for({"arabic"}, {"الجزيرة"}) == 1)
+
+    # ── Issue #1121: الطبقة رقم = عدد الكتل المتقاطعة ──
+    check("طبقة ٣: ثلاث كتل",
+          ycl._layer_for({"arabic", "turkish", "persian"}, {"ق1"}) == 3)
+    check("layer_num: الحرف القديم مرادف للرقم (أ⇒2، ب⇒1، ج⇒1) والرقم يمرّ",
+          [ycl.layer_num(x) for x in ("a", "b", "c", 3, "2")] == [2, 1, 1, 3, 2])
+    order_points = [mk_point("arabic", "ق1"), mk_point("turkish", "ق2"),
+                    mk_point("persian", "ق3"), mk_point("arabic", "ق4")]
+    order_issues = [{"title": t, "event": "ح", "agreement": "agreement", "point_ids": ids}
+                    for t, ids in (("واحدة", [0, 3]), ("ثلاث", [0, 1, 2]), ("اثنتان", [0, 1]))]
+    ordered = ycl.build_topics(order_issues, order_points)
+    check("الترتيب: ثلاث كتل ثم كتلتان ثم كتلة",
+          [t["title"] for t in ordered] == ["ثلاث", "اثنتان", "واحدة"] and
+          [t["layer"] for t in ordered] == [3, 2, 1], ordered)
+    thr = ycl.apply_min_points([
+        {"title": "ث", "layer": 3, "point_ids": [0, 1, 2]},
+        {"title": "ن", "layer": 2, "point_ids": [0, 1, 2]},
+        {"title": "و", "layer": 1, "point_ids": [0, 1, 2]},
+        {"title": "قديم", "layer": "a", "point_ids": [0, 1, 2]},
+    ], min_points=4)[0]
+    check("العتبة المخفّفة تنطبق على الطبقة 2 و3 (والحرف القديم أ) لا 1",
+          [t["title"] for t in thr] == ["ث", "ن", "قديم"], thr)
+    sel = ycl.build_selection_body("2099-01-01", [
+        {"id": "a1", "title": "ق", "event": "", "layer": 2, "blocs": ["arabic", "persian"],
+         "channels": ["ق1"], "agreement": "agreement", "point_ids": [0]}], order_points)
+    check("Issue الاختيار يذكر عدد الكتل وأسماءها",
+          "تقاطع 2 كتل: عربية، فارسية" in sel, sel)
+    old_sel = ycl.build_selection_body("2099-01-01", [
+        {"id": "a2", "title": "ق", "event": "", "layer": "a", "blocs": ["arabic", "turkish"],
+         "channels": ["ق1"], "agreement": "agreement", "point_ids": [0]}], order_points)
+    check("ملف قضايا قديم بحرف يُقرأ بلا انهيار", "تقاطع 2 كتل" in old_sel, old_sel)
+    with open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                           "prompts", "youtube_article.md"), encoding="utf-8") as fh:
+        prompt_text = fh.read()
+    check("البرومبت: قصّ النداء من الطرفين فقط",
+          "الحذف من الطرفين فقط" in prompt_text and "إذا سمحتَ أستاذ" in prompt_text)
+    check("البرومبت: لا جملة موضوعها المصادر",
+          "لا تكتب جملة موضوعها المصادر" in prompt_text and "المصادر لا تتفق" in prompt_text)
 
     # ── build_topics: الفرز بالطبقة أولًا ثم مؤشّر الخلاف (خلاف > اتفاق > صدى) ──
     issue_a = {"title": "قضية أ (طبقة أ)", "event": "حدث أ", "agreement": "agreement",
@@ -1020,10 +1058,11 @@ def test_youtube_cluster() -> None:
     check("العدد الكلي للقضايا محفوظ بعد الفرز", len(topics) == 4, len(topics))
     check("الطبقة أ تتصدّر بصرف النظر عن ترتيب الإدخال",
           topics[0]["title"] == issue_a["title"], [t["title"] for t in topics])
-    check("داخل الطبقة ب: الخلاف (cross_source بعد التنقيح) يتقدّم على الصدى (echo)",
-          topics[1]["title"] == issue_b_dispute["title"] and
-          topics[2]["title"] == issue_b_echo["title"], [t["title"] for t in topics])
-    check("الطبقة ج تأتي أخيرًا", topics[3]["title"] == issue_c["title"])
+    # الطبقات ب وج القديمتان صارتا معًا طبقة 1 (كتلة واحدة): يفرز بينهما مؤشّر الخلاف
+    check("داخل الطبقة 1: الخلاف (cross_source) ثم الاتفاق ثم الصدى (echo)",
+          [t["title"] for t in topics[1:]] ==
+          [issue_b_dispute["title"], issue_c["title"], issue_b_echo["title"]],
+          [t["title"] for t in topics])
     check("قوائم الكتل/القنوات تُحسَب من نقاط القضية الفعلية لا من النموذج",
           topics[0]["blocs"] == ["arabic", "turkish"] and
           topics[0]["channels"] == sorted({"الجزيرة", "CNN Türk"}),
@@ -1500,7 +1539,7 @@ def test_youtube_cluster() -> None:
     merged_final_topics = ycl.build_topics(merged, merge_points)
     merged_final = next(t for t in merged_final_topics if t["title"] == merge_a["title"])
     check("merge_duplicate_events + build_topics: القضية المدموجة (كتلتان، ٣ قنوات) خرجت طبقة أ",
-          merged_final["layer"] == "a" and merged_final["channels"] ==
+          merged_final["layer"] == 2 and merged_final["channels"] ==
           sorted({"الجزيرة", "العربية", "CNN Türk"}), merged_final)
 
     check("merge_duplicate_events: أقل من قضيتين لا يستدعي النموذج أصلًا",
@@ -1608,7 +1647,7 @@ def test_youtube_cluster() -> None:
         result = ycl.run(cluster_cfg, date_str="2099-02-02", client=run_client)
         check("run(): إحصاءات متّسقة مع مخرج العنقدة",
               result["stats"]["points_in"] == 4 and result["stats"]["topics_out"] == 1 and
-              result["stats"]["layer_a"] == 1, result["stats"])
+              result["stats"]["layers"].get("2") == 1, result["stats"])
         check("run(): عدّادا سجل الاستهلاك وحدّ النقاط الجديدان صفر عند عدم انطباقهما",
               result["stats"]["topics_seen_skipped"] == 0 and
               result["stats"]["topics_below_min_points"] == 0, result["stats"])
@@ -2796,7 +2835,7 @@ def test_youtube_publish() -> None:
     parsed = yp.parse_index(index_md)
     check("parse_index: عدد الصفوف المقروءة يطابق المُدخَل", len(parsed) == 2, parsed)
     check("parse_index: الحقول الأساسية تُقرأ صحيحة للصفّ الأول",
-          parsed and parsed[0]["filename"] == "01-a.md" and parsed[0]["layer"] == "a" and
+          parsed and parsed[0]["filename"] == "01-a.md" and parsed[0]["layer"] == 2 and
           parsed[0]["blocs"] == ["arabic", "turkish"] and
           parsed[0]["channels"] == ["الجزيرة", "CNN Türk"] and
           parsed[0]["agreement"] == "cross_source", parsed[0] if parsed else None)
@@ -2998,7 +3037,7 @@ def test_youtube_publish() -> None:
     check("Issue المراجعة: has_photo=True لا يُظهر تنبيه غياب صورة لتلك القضية",
           "بلا صورة تعبيرية" not in body[c1_start:c1_end], body[c1_start:c1_end])
     check("سطر الصحة: العدد الكلي وتوزيع الطبقات وعدّاد خلاف القنوات والتنبيهات",
-          "4 مقالات" in body and "أ=2" in body and "ب=1" in body and "ج=1" in body and
+          "4 مقالات" in body and "الكتل المتقاطعة: 2=2 1=2" in body and
           "خلاف قنوات=2" in body and "تنبيهات=1" in body, body[:400])
     check("Issue المراجعة: معرّفات المسودات الأربع كلها مضمّنة",
           set(review.all_draft_ids(body)) ==
