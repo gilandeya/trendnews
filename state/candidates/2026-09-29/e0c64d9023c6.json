@@ -1,0 +1,72 @@
+{
+  "id": "e0c64d9023c6",
+  "created_at": "2026-09-29T15:08:01.575233+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.13,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "كوريا الشمالية تنتهك هدنة بألغام في المنطقة العازلة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Seoul says North Korean DMZ landmine blast ‘violation of armistice’",
+  "link": "https://www.malaymail.com/news/world/2026/09/29/seoul-says-north-korean-dmz-landmine-blast-violation-of-armistice/237004",
+  "publishers": [
+    "Malay Mail",
+    "South China Morning Post",
+    "The Japan Times"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Seoul says North Korean DMZ landmine blast ‘violation of armistice’",
+    "link": "https://www.malaymail.com/news/world/2026/09/29/seoul-says-north-korean-dmz-landmine-blast-violation-of-armistice/237004",
+    "summary": "SEOUL, Sept 29 — South Korea’s defence chief said Tuesday that the preliminary findings of an investigation...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-29T08:29:46+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/09/29/365328.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Malay Mail",
+      "South China Morning Post",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/east-asia/article/3369200/north-korean-mines-behind-dmz-blast-injured-2-south-koreans-seoul-says?utm_source=rss_feed"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/09/29/asia-pacific/north-korea-mines-dmz-explosions/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/29/seoul-says-north-korean-dmz-landmine-blast-violation-of-armistice/237004"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/29/365328.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/29/565634.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/09/29/thumbs/400x400/565634.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1342.9092149955557,
+    "is_stale": false,
+    "score": 27.129564237793097,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "كوريا الشمالية تنتهك هدنة بألغام في المنطقة العازلة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

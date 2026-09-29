@@ -1,0 +1,68 @@
+{
+  "id": "db3da35e0c22",
+  "created_at": "2026-09-29T15:08:01.575701+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.93,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "كارثة طقس في آسيا تقتل العشرات وتدمّر منازل",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "27 killed, 4 missing in Nepal's latest weather disaster; scary visuals surface",
+  "link": "https://www.hindustantimes.com/world-news/nepal-floods-landslide-in-nepal-rains-27-killed-death-toll-manang-baglung-gandaki-river-101790680755632.html",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "27 killed, 4 missing in Nepal's latest weather disaster; scary visuals surface",
+    "link": "https://www.hindustantimes.com/world-news/nepal-floods-landslide-in-nepal-rains-27-killed-death-toll-manang-baglung-gandaki-river-101790680755632.html",
+    "summary": "The disasters affected 1,082 families, destroyed 227 houses and damaged 31 bridges as heavy rain continued across Nepal.",
+    "source_name": "Hindustan Times — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-09-29T11:48:53+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/tzdqfl/article71523627.ece/alternates/LANDSCAPE_1200/2026-09-18T101348Z_224537402_RC2JFNANPS6W_RTRMADP_3_NEPAL-FLOODS-SURVIVORS.JPG",
+    "publisher": "Hindustan Times — World",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/nepal-floods-landslide-in-nepal-rains-27-killed-death-toll-manang-baglung-gandaki-river-101790680755632.html"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/several-killed-across-nepal-due-to-incessant-rainfall-since-sep-24/article71523612.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/27-killed-across-nepal-due-to-incessant-rainfall-since-sep-24-authorities-101790669538906.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/tzdqfl/article71523627.ece/alternates/LANDSCAPE_1200/2026-09-18T101348Z_224537402_RC2JFNANPS6W_RTRMADP_3_NEPAL-FLOODS-SURVIVORS.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1342.9092070372221,
+    "is_stale": true,
+    "score": 23.929250809462964,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "كارثة طقس في آسيا تقتل العشرات وتدمّر منازل",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

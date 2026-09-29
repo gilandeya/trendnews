@@ -1,0 +1,83 @@
+{
+  "id": "6f004bb8a0e5",
+  "created_at": "2026-09-29T15:08:01.575555+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.51,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "روسيا تستهدف دعم أوروبي لأوكرانيا بهجوم حرق",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Estonia blames Russia for arson attack on drone maker supplying Ukraine",
+  "link": "https://www.theguardian.com/world/2026/sep/29/estonia-blames-russia-arson-attack-drone-maker-ukraine",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC",
+    "BBC World",
+    "South China Morning Post",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Estonia blames Russia for arson attack on drone maker supplying Ukraine",
+    "link": "https://www.theguardian.com/world/2026/sep/29/estonia-blames-russia-arson-attack-drone-maker-ukraine",
+    "summary": "European and Nato leaders express support for Estonia after August attack on manufacturer in Tallinn Europe live – latest updates European and Nato leaders have expressed full support for Estonia and Ukraine after the Baltic state said an August arson attack on a drone manufacturer supplying Kyiv was an act of sabotage commissioned by Moscow’s security services. Estonia’s foreign minister, Margus Tsahkna, said on social media on Tuesday that such attacks were “absolutely unacceptable” and that Russia’s chargé d’affaires in the Estonian capital, Tallinn, was being summoned to his ministry. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-29T14:20:39+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/5a010263b29032daec0fa967166cc0c5ecb5c0b9/1010_0_6190_4952/master/6190.jpg?width=700&quality=85&auto=format&fit=max&s=813866cb53df5ddbaf11767c10b8361e",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC",
+      "BBC World",
+      "South China Morning Post",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c6m27l4er4jxo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/29/estonia-says-russia-ordered-august-arson-attack-on-defence?traffic_source=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/29/estonia-blames-russia-arson-attack-drone-maker-ukraine"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3369227/estonia-blames-russia-arson-attack-company-supplying-vehicles-ukraine?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/5a010263b29032daec0fa967166cc0c5ecb5c0b9/1010_0_6190_4952/master/6190.jpg?width=700&quality=85&auto=format&fit=max&s=813866cb53df5ddbaf11767c10b8361e",
+      "https://i.guim.co.uk/img/media/5a010263b29032daec0fa967166cc0c5ecb5c0b9/1010_0_6190_4952/master/6190.jpg?width=460&quality=85&auto=format&fit=max&s=f7fe2b9fd1d50d9790f6b662648bf40f",
+      "https://i.guim.co.uk/img/media/5a010263b29032daec0fa967166cc0c5ecb5c0b9/1010_0_6190_4952/master/6190.jpg?width=140&quality=85&auto=format&fit=max&s=105851f2e295f524e91103b54eaeaaee",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/40f7/live/b696a7d0-bbfe-11f1-90b9-913e4354ed35.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/40f7/live/b696a7d0-bbfe-11f1-90b9-913e4354ed35.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/40f7/live/b696a7d0-bbfe-11f1-90b9-913e4354ed35.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1342.909211006389,
+    "is_stale": false,
+    "score": 26.51366472412505,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "روسيا تستهدف دعم أوروبي لأوكرانيا بهجوم حرق",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
