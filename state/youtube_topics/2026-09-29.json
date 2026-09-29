@@ -1,0 +1,649 @@
+{
+  "run_date": "2026-09-29",
+  "stats": {
+    "points_in": 274,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 124,
+    "issues_clustered": 28,
+    "topics_merged": 4,
+    "topics_out": 5,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 1,
+    "topics_below_min_points": 8,
+    "topics_below_min_channels": 5,
+    "layer_a": 3,
+    "layer_b": 2,
+    "layer_c": 0,
+    "agreement": 4,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "مقترح إيران السبعة أيام والرد الأمريكي",
+      "تصريحات ترامب حول مبالغة إيران بأوراق القوة"
+    ],
+    [
+      "أزمة الصناديق الاستثمارية التركية - الاستقالة والفضيحة",
+      "أزمة الصناديق الاستثمارية التركية - التعويضات والإجراءات الحكومية",
+      "أزمة الصناديق الاستثمارية التركية - تصريحات أردوغان",
+      "أزمة الصناديق الاستثمارية التركية - بداية الأزمة والتحذيرات المبكرة",
+      "أزمة الصناديق الاستثمارية التركية - الإحالات القضائية والتحقيقات",
+      "أزمة الصناديق الاستثمارية التركية - تحويل أموال شركة تيرا",
+      "أزمة الصناديق الاستثمارية التركية - حجم الخسائر الكلي"
+    ],
+    [
+      "زيارة البابا لفرنسا ومدينة مس",
+      "تداعيات زيارة البابا على الكنيسة الفرنسية"
+    ],
+    [
+      "خطاب مجتبى خامنئي حول قوة النظام الإيراني",
+      "تحليل خلفية مجتبى خامنئي وموقعه"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "دور المرشد الإيراني والتهديدات العسكرية",
+      "event": "تصريحات قائد الجيش الإيراني والمرشد الإيراني التهديدية بشأن هرمز والمفاوضات",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        10,
+        42,
+        140
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": null,
+      "id": "0fabb0faf10d",
+      "created_at": "2026-09-29T06:34:31.423741+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1118
+    },
+    {
+      "title": "مقترح إيران السبعة أيام والرد الأمريكي",
+      "event": "إيران تقدم مقترحاً لوقف إطلاق نار/فتح مضيق هرمز لمدة سبعة أيام وترامب يرفضه",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        21,
+        38,
+        39,
+        40,
+        94,
+        114
+      ],
+      "total_points": 8,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "85ced17aa032",
+      "created_at": "2026-09-29T06:34:31.423741+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1118
+    },
+    {
+      "title": "المفاوضات الأمريكية الإيرانية عبر وسطاء في نيويورك",
+      "event": "مفاوضات غير مباشرة بين إيران وأمريكا في نيويورك حول الملف النووي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        95,
+        96,
+        129,
+        130
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "06cb8a328b59",
+      "created_at": "2026-09-29T06:34:31.423741+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1118
+    },
+    {
+      "title": "الحصار الاقتصادي والملاحي على إيران",
+      "event": "تشديد الحصار الاقتصادي والبحري الأمريكي على صادرات النفط الإيرانية",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        9,
+        22,
+        60,
+        61
+      ],
+      "total_points": 4,
+      "fresh_points": 3,
+      "dropped_reason": null,
+      "id": "97c48c16dae6",
+      "created_at": "2026-09-29T06:34:31.423741+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1118
+    },
+    {
+      "title": "أزمة الصناديق الاستثمارية التركية - الاستقالة والفضيحة",
+      "event": "فضيحة صناديق استثمارية تركية واستقالة نائبة رئيس الحزب الحاكم فاطمة بتول بعد اتهامات بأرباح مشبوهة",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        89,
+        90,
+        91,
+        110,
+        111,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121
+      ],
+      "total_points": 22,
+      "fresh_points": 19,
+      "dropped_reason": null,
+      "id": "9bc305324493",
+      "created_at": "2026-09-29T06:34:31.423741+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1118
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "دور المرشد الإيراني والتهديدات العسكرية",
+      "event": "تصريحات قائد الجيش الإيراني والمرشد الإيراني التهديدية بشأن هرمز والمفاوضات",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        10,
+        42,
+        140
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": null
+    },
+    {
+      "title": "مقترح إيران السبعة أيام والرد الأمريكي",
+      "event": "إيران تقدم مقترحاً لوقف إطلاق نار/فتح مضيق هرمز لمدة سبعة أيام وترامب يرفضه",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        21,
+        38,
+        39,
+        40,
+        94,
+        114
+      ],
+      "total_points": 8,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "المفاوضات الأمريكية الإيرانية عبر وسطاء في نيويورك",
+      "event": "مفاوضات غير مباشرة بين إيران وأمريكا في نيويورك حول الملف النووي",
+      "layer": "a",
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        95,
+        96,
+        129,
+        130
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "الحصار الاقتصادي والملاحي على إيران",
+      "event": "تشديد الحصار الاقتصادي والبحري الأمريكي على صادرات النفط الإيرانية",
+      "layer": "b",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        9,
+        22,
+        60,
+        61
+      ],
+      "total_points": 4,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "أزمة الصناديق الاستثمارية التركية - الاستقالة والفضيحة",
+      "event": "فضيحة صناديق استثمارية تركية واستقالة نائبة رئيس الحزب الحاكم فاطمة بتول بعد اتهامات بأرباح مشبوهة",
+      "layer": "b",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        89,
+        90,
+        91,
+        110,
+        111,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121
+      ],
+      "total_points": 22,
+      "fresh_points": 19,
+      "dropped_reason": null
+    },
+    {
+      "title": "الحرب الإثيوبية في تجراي - التطورات الميدانية",
+      "event": "سيطرة الجيش الإثيوبي على مدينة الأماطا وتقدمه في إقليم تجراي والتدخل الإريتري المزعوم",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        52,
+        53,
+        54
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطاب مجتبى خامنئي حول قوة النظام الإيراني",
+      "event": "خطاب مجتبى خامنئي الذي وصف فيه النظام الإيراني بأنه القوة الأولى في العالم وردود الفعل عليه",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        122,
+        125,
+        127,
+        135,
+        136,
+        137,
+        138,
+        139,
+        141,
+        142
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "وضع مضيق هرمز والملاحة فيه",
+      "event": "الجدل حول سيطرة إيران على الملاحة في مضيق هرمز",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        23,
+        24
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تنظيم استخدام الذكاء الاصطناعي العسكري دولياً",
+      "event": "تعديلات أمريكية-روسية على وثيقة أممية تضعف تنظيم الأسلحة ذاتية التشغيل والذكاء الاصطناعي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        14,
+        15,
+        16,
+        19,
+        20
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "استعدادات إسرائيل العسكرية والدبلوماسية تجاه إيران",
+      "event": "تحضيرات إسرائيل المتوازية للاتفاق أو الحرب مع إيران وتحول الخطاب نحو إسقاط النظام",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        43
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استخدام إسرائيل للذكاء الاصطناعي في غزة",
+      "event": "استخدام جيش الاحتلال لأنظمة الذكاء الاصطناعي (لافندر وأدوات أخرى) في حرب غزة وانتهاكها للقانون الدولي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        17,
+        47,
+        50
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مخاطر الذكاء الاصطناعي الخارق المستقبلية",
+      "event": "تحذيرات نيت سواريس من مخاطر تطوير ذكاء اصطناعي خارق دون رقابة دولية",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        48,
+        49,
+        51
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحرب الإثيوبية في تجراي - أسباب استمرار الصراع",
+      "event": "تحليل أسباب استمرار الحرب الإثيوبية التجرابية وفشل اتفاقيات السلام السابقة",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        55,
+        56,
+        57,
+        58
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "زيارة البابا لفرنسا ومدينة مس",
+      "event": "زيارة البابا وماكرون لمدينة مس بمناسبة الذكرى وتصريحاتهما حول السلام الأوروبي",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة انهيار العملة الإيرانية",
+      "event": "انهيار سعر صرف الريال الإيراني وارتفاع الدولار في السوق الحرة بطهران",
+      "layer": "c",
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        126,
+        131
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "سياسات سموتريتش الاقتصادية كوزير مالية",
+      "event": "إنجازات سموتريتش الاقتصادية المزعومة في خفض التضخم وأسعار المساكن",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144,
+        145
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطط سموتريتش لمكافحة السلاح في المجتمع العربي",
+      "event": "خطط سموتريتش لتجريم حيازة السلاح غير القانوني في المجتمع العربي الإسرائيلي",
+      "layer": "c",
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        147,
+        148
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الوضع السياسي التركي بعد الانتخابات",
+      "event": "تحليل احتمالات الانتخابات الرئاسية والتحالفات البرلمانية التركية المستقبلية",
+      "layer": "c",
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تداعيات حظر الطيران الإيراني على حزب الله والفصائل العراقية",
+      "event": "استياء حزب الله من حظر الطيران الإيراني واتصالاته مع قيادات عراقية وفشل احتواء الفصائل الموالية لإيران",
+      "layer": "c",
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        25,
+        26
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
