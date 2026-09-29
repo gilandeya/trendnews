@@ -128,6 +128,7 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
            check_headline_limit: bool = True,
            persist: bool = True,
            news_photo_provider=None,
+           fallback_provider=None,
            build_post_image=None,
            download_image=None) -> str | None:
     """يبني بطاقة المسودة من حقولها المخزَّنة، أو يعيد مسارها الحالي بلا
@@ -204,6 +205,12 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
     if allow_search_fallback and not urls and not fallback_urls:
         term = search_term or src.get("title") or chosen_headline
         fb_provider = lambda t=term: find_images(t, cfg)
+    # مزوّد حر مُمرَّر صراحةً (Issue #1123، مسار التحليل): كسول، فلا يُنفَّذ
+    # بحثه إلا بعد فشل صورة الخبر التي صارت تسبقه؛ وإن أعاد فارغًا يبقى
+    # البحث العام أعلاه احتياطًا كما كان حين تكون القائمة المسبقة فارغة.
+    if callable(fallback_provider) and not fallback_urls:
+        general = fb_provider
+        fb_provider = lambda p=fallback_provider, g=general: (p() or (g() if g else []))
 
     resolved_publisher = (publisher if publisher is not _UNSET
                           else (src.get("publishers") or [src.get("publisher", "")]))
