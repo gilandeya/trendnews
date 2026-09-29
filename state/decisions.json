@@ -9090,5 +9090,26 @@
   "channel_count": 2,
   "point_count": 22,
   "agreement": "agreement"
+ },
+ {
+  "id": "1f36b26eb579",
+  "created_at": "2026-09-29T06:38:00.648814+00:00",
+  "decided_at": "2026-09-29T07:15:38.646534+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "analysis",
+  "category": "تحليل",
+  "angle": "",
+  "urgent": false,
+  "bucket": "",
+  "region": "",
+  "score": 7.0,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "source_count": 2,
+  "body_len": 2797,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 6
  }
 ]
