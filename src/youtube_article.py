@@ -812,7 +812,8 @@ def _write_one_topic(topic: dict, points: list[dict], cfg: Config,
         out["reason_kind"] = "no_points"
         return out
 
-    if topic["layer"] == "c":
+    # مصدر واحد فعليًا: كتلة واحدة وقناة واحدة (كانت طبقة ج قبل ترقيم #1121)
+    if youtube_cluster.layer_num(topic["layer"]) < 2 and len(topic.get("channels") or []) < 2:
         out["guard_called"] = True
         blocked, reason, guard_error, no_reason_override = check_forbidden(
             topic, member_points, cfg, client)
@@ -823,7 +824,7 @@ def _write_one_topic(topic: dict, points: list[dict], cfg: Config,
             log.warning("حارس المحظورات حظر %r بلا سبب مكتوب -- قُبِلت (حارس صامت لا يُطاع)",
                         topic["title"])
         if blocked:
-            out["skip_reason"] = f"محظورة (طبقة ج، مصدر واحد): {reason}"
+            out["skip_reason"] = f"محظورة (كتلة وقناة واحدة، مصدر واحد): {reason}"
             out["reason_kind"] = "blocked"
             return out
 

@@ -137,7 +137,20 @@ _AGREEMENT_RANK = {"cross_source": 0, "internal": 1, "agreement": 2, "echo": 3}
 # ترتيب القيم الخام (قبل تنقيح dispute) -- يُستعمَل فقط في _merge_issue_group
 # لاختيار أعلى مؤشّر خلاف بين قضايا مدموجة، قبل أن يصل الناتج إلى build_topics.
 _RAW_AGREEMENT_RANK = {"dispute": 0, "agreement": 1, "echo": 2}
-_LAYER_RANK = {"a": 0, "b": 1, "c": 2}
+# الطبقة رقم = عدد الكتل اللغوية المتقاطعة (Issue #1121). ملفات القضايا القديمة
+# تحمل الحروف؛ تُقرأ مرادفًا للرقم عند القراءة فقط ولا يُحوَّل ما على القرص.
+_LEGACY_LAYER = {"a": 2, "b": 1, "c": 1}
+
+
+def layer_num(layer) -> int:
+    """يوحّد قيمة الطبقة (رقم جديد أو حرف قديم) إلى رقم. مجهول ⇒ 1."""
+    if isinstance(layer, int):
+        return layer
+    if isinstance(layer, str):
+        if layer.strip().isdigit():
+            return int(layer.strip())
+        return _LEGACY_LAYER.get(layer.strip().lower(), 1)
+    return 1
 
 CLUSTER_SCHEMA = {
     "name": "cluster_points",
@@ -450,7 +463,8 @@ def apply_min_points(topics: list[dict], min_points: int) -> tuple[list[dict], i
     kept: list[dict] = []
     dropped = 0
     for topic in topics:
-        threshold = 3 if topic["layer"] == "a" else min_points
+        # ≥ 2 لا = 2: قضايا الكتل الثلاث تحتفظ بتخفيف العتبة كما كانت في طبقة أ
+        threshold = 3 if layer_num(topic["layer"]) >= 2 else min_points
         if len(topic["point_ids"]) < threshold:
             dropped += 1
             continue
@@ -762,12 +776,9 @@ def merge_duplicate_events(issues: list[dict], cfg: Config, client: Anthropic | 
     return merged_issues, merge_log, None
 
 
-def _layer_for(blocs: set[str], channels: set[str]) -> str:
-    if len(blocs) >= 2:
-        return "a"
-    if len(channels) >= 2:
-        return "b"
-    return "c"
+def _layer_for(blocs: set[str], channels: set[str]) -> int:
+    # عدد الكتل المتقاطعة مهما كان عدد القنوات (Issue #1121)؛ الأدنى 1
+    return max(1, len(blocs))
 
 
 def _agreement_type_for(raw_agreement: str, channels: set[str]) -> str:
@@ -813,7 +824,7 @@ def build_topics(issues: list[dict], points: list[dict],
             "_has_today": has_today,
         })
 
-    topics.sort(key=lambda t: (_LAYER_RANK[t["layer"]], _AGREEMENT_RANK[t["agreement"]],
+    topics.sort(key=lambda t: (-layer_num(t["layer"]), _AGREEMENT_RANK[t["agreement"]],
                                 0 if t["_has_today"] else 1))
     for t in topics:
         del t["_has_today"]
@@ -904,10 +915,11 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     topics, dropped_by_cap = apply_bloc_cap(topics, max_per_bloc)
     _mark_dropped(before_cap, topics, "bloc_cap")
 
-    layer_counts = {"a": 0, "b": 0, "c": 0}
+    layer_counts: dict[int, int] = {}
     agreement_counts = {"agreement": 0, "cross_source": 0, "internal": 0, "echo": 0}
     for t in topics:
-        layer_counts[t["layer"]] += 1
+        n = layer_num(t["layer"])
+        layer_counts[n] = layer_counts.get(n, 0) + 1
         agreement_counts[t["agreement"]] += 1
 
     return {
@@ -924,8 +936,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             "topics_seen_skipped": dropped_by_seen,
             "topics_below_min_points": dropped_by_min_points,
             "topics_below_min_channels": dropped_by_min_channels,
-            "layer_a": layer_counts["a"], "layer_b": layer_counts["b"],
-            "layer_c": layer_counts["c"],
+            "layers": {str(n): c for n, c in sorted(layer_counts.items(), reverse=True)},
             "agreement": agreement_counts["agreement"],
             "cross_source": agreement_counts["cross_source"],
             "internal": agreement_counts["internal"],
@@ -964,11 +975,22 @@ def save_output(result: dict) -> Path:
 SELECTION_DATE_RE = re.compile(r"<!--\s*selection-date:(\d{4}-\d{2}-\d{2})\s*-->")
 SELECTION_TOPIC_RE = re.compile(r"<!--\s*topic:([0-9a-f]+)\s*-->")
 
-_TIER_LABELS = {"a": "أ", "b": "ب", "c": "ج"}
 _SEL_AGREEMENT_LABELS = {
     "cross_source": "خلاف قنوات", "internal": "خلاف داخلي",
     "agreement": "اتفاق", "echo": "صدى",
 }
+
+
+_DEFAULT_BLOC_LABELS = {
+    "arabic": "عربية", "turkish": "تركية", "persian": "فارسية", "israeli": "إسرائيلية",
+}
+
+
+def _bloc_label(bloc: str, cfg=None) -> str:
+    # نسخة محلية من youtube_publish.bloc_label -- استيراده هنا دورة استيراد
+    # (youtube_publish ⇒ youtube_article ⇒ youtube_cluster)
+    labels = (cfg.path("youtube.image.bloc_labels", {}) if cfg else {}) or {}
+    return labels.get(bloc, _DEFAULT_BLOC_LABELS.get(bloc, bloc))
 
 
 def _topics_path(date_str: str) -> Path:
@@ -1050,8 +1072,9 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
             "",
             f"  {t.get('event', '')}",
             "",
-            f"  الطبقة {_TIER_LABELS.get(t['layer'], t['layer'])} · "
-            f"{'، '.join(t['blocs']) or '—'} · {'، '.join(t['channels']) or '—'} · "
+            f"  تقاطع {layer_num(t['layer'])} "
+            f"{'كتلة' if layer_num(t['layer']) == 1 else 'كتل'}: "
+            f"{'، '.join(_bloc_label(b, cfg) for b in t['blocs']) or '—'} · {'، '.join(t['channels']) or '—'} · "
             f"{_SEL_AGREEMENT_LABELS.get(t['agreement'], t['agreement'])} · "
             f"{len(t['point_ids'])} نقطة",
             "",
@@ -1208,7 +1231,9 @@ def main() -> int:
           f"· مستهلكة سابقًا: {stats['topics_seen_skipped']} "
           f"· دون حدّ النقاط: {stats['topics_below_min_points']} "
           f"· دون حدّ القنوات: {stats['topics_below_min_channels']})")
-    print(f"الطبقات: أ={stats['layer_a']} ب={stats['layer_b']} ج={stats['layer_c']}")
+    layers = stats.get("layers", {})
+    print("الكتل المتقاطعة: " + " ".join(
+        f"{n} كتل={layers[n]}" if n != "1" else f"1={layers[n]}" for n in layers))
     print(f"مؤشّر الخلاف: اتفاق={stats['agreement']} خلاف قنوات={stats['cross_source']} "
           f"خلاف داخلي={stats['internal']} صدى={stats['echo']}")
     if result["merged_events"]:
