@@ -1,0 +1,647 @@
+{
+  "run_date": "2026-09-30",
+  "stats": {
+    "points_in": 263,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 113,
+    "issues_clustered": 28,
+    "topics_merged": 4,
+    "topics_out": 2,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 4,
+    "topics_below_min_points": 9,
+    "topics_below_min_channels": 8,
+    "layers": {
+      "1": 2
+    },
+    "agreement": 1,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "اتهامات بتدخل إريتري وسوداني في الحرب الإثيوبية",
+      "أسباب واستمرار الحرب الإثيوبية-التجرابية"
+    ],
+    [
+      "زيارة ماكرون والبابا لمدينة مس (السلام الأوروبي)",
+      "خطاب البابا حول جذور أوروبا والسلام والمساواة",
+      "الرسالة الإنسانية والأخلاقية لزيارة البابا"
+    ],
+    [
+      "أزمة صناديق الاستثمار التركية وفضيحة فاطمة بتول",
+      "بداية أزمة صناديق بوسولا وتيرا والتحذيرات المبكرة"
+    ],
+    [
+      "أزمة اللاجئين الصحراويين وتراجع التمويل الإنساني",
+      "الحماية الدولية للاجئين الصحراويين وتاريخهم"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "اتهامات بتدخل إريتري وسوداني في الحرب الإثيوبية",
+      "event": "اتهامات متبادلة حول تدخل إريتريا والسودان في الحرب الإثيوبية التجرابية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        93,
+        96,
+        97,
+        98,
+        99
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null,
+      "id": "fc43de03bc61",
+      "created_at": "2026-09-30T04:02:19.137535+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1129
+    },
+    {
+      "title": "أزمة صناديق الاستثمار التركية وفضيحة فاطمة بتول",
+      "event": "فضيحة تلاعب صناديق الاستثمار التركية وتورط فاطمة بتول ساينكايا وزوجها بأرباح ضخمة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        53,
+        55,
+        63,
+        72,
+        116,
+        117,
+        119,
+        120,
+        121,
+        126,
+        128
+      ],
+      "total_points": 20,
+      "fresh_points": 10,
+      "dropped_reason": null,
+      "id": "980abc74b446",
+      "created_at": "2026-09-30T04:02:19.137535+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1129
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "مضيق هرمز ومقترح إيران السبعة أيام",
+      "event": "إيران تقدّم مقترحاً بمهلة سبعة أيام حول فتح مضيق هرمز في إطار المفاوضات مع واشنطن، ورفض/تعامل أمريكي معه",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        1,
+        2,
+        56,
+        75,
+        76,
+        77
+      ],
+      "total_points": 7,
+      "fresh_points": 3,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "دور المرشد الإيراني في تصليب الموقف التفاوضي",
+      "event": "رفع المرشد الإيراني سقف مواقفه التفاوضية وتأثيره على مرونة المفاوضين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        57,
+        58
+      ],
+      "total_points": 3,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "عودة صادرات النفط الخليجي لمستويات ما قبل الحرب",
+      "event": "تعافي صادرات النفط من دول الخليج إلى مستويات قريبة من ما قبل الحرب",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        22,
+        134
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتهامات بتدخل إريتري وسوداني في الحرب الإثيوبية",
+      "event": "اتهامات متبادلة حول تدخل إريتريا والسودان في الحرب الإثيوبية التجرابية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        93,
+        96,
+        97,
+        98,
+        99
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null
+    },
+    {
+      "title": "الهدنة السودانية ومواقف متضاربة منها",
+      "event": "طلب هدنة إنسانية في السودان ومواقف متباينة من قبولها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الجدل حول طبيعة مخيمات تندوف وحل النزاع الصحراوي",
+      "event": "الخلاف حول توصيف مخيمات تندوف والحل السياسي المقترح للنزاع الصحراوي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        106,
+        107,
+        108
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف ترامب وشروط رفع الحصار/العقوبات عن إيران",
+      "event": "شروط إدارة ترامب لرفع الحصار والعقوبات عن إيران مقابل تنازلات نووية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        21,
+        88
+      ],
+      "total_points": 3,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "أزمة صادرات النفط الإيرانية والعقوبات",
+      "event": "انخفاض حاد في صادرات النفط الإيراني نتيجة العقوبات والحصار",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        23,
+        78,
+        89
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأزمة الاقتصادية الإيرانية (تضخم وانهيار العملة)",
+      "event": "تدهور الاقتصاد الإيراني عبر ارتفاع التضخم وانهيار قيمة الريال",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        24,
+        79
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة صناديق الاستثمار التركية وفضيحة فاطمة بتول",
+      "event": "فضيحة تلاعب صناديق الاستثمار التركية وتورط فاطمة بتول ساينكايا وزوجها بأرباح ضخمة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        53,
+        55,
+        63,
+        72,
+        116,
+        117,
+        119,
+        120,
+        121,
+        126,
+        128
+      ],
+      "total_points": 20,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "هروب رجل الأعمال محمد يارز ويخوته",
+      "event": "هروب رجل الأعمال محمد يارز إلى اليونان بيخته بعد أمر اعتقال بحقه",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123,
+        124,
+        125
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة اللاجئين الصحراويين وتراجع التمويل الإنساني",
+      "event": "تراجع حاد في التمويل الدولي لمخيمات اللاجئين الصحراويين في تندوف",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        102,
+        103,
+        104,
+        105
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تعيين فاطمة الزهراء المنصوري أول رئيسة حكومة بالمغرب",
+      "event": "تعيين فاطمة الزهراء المنصوري أول رئيسة حكومة في المغرب بعد فوز حزبها بالانتخابات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتقال بردوغو من الإعلام إلى السياسة وتقييماته لنتنياهو",
+      "event": "انتقال يعقوب بردوغو للعمل السياسي وتقييمه لإنجازات نتنياهو وأداء الحكومة",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة انقطاع المعلمين الجدد في إسرائيل",
+      "event": "ارتفاع معدل ترك المعلمين الجدد للتدريس في إسرائيل وأسباب الظاهرة",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تصريحات ترامب وفانس بشأن سقوط النظام الإيراني والعقوبات",
+      "event": "تصريحات أمريكية (ترامب وفانس) حول سقوط النظام الإيراني قريباً وعقوبات جديدة",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131,
+        132
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "التحضيرات الإسرائيلية للحرب أو الاتفاق مع إيران",
+      "event": "استعدادات إسرائيل العسكرية والدبلوماسية المتوازية تجاه إيران",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        3,
+        5
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استخدام بيانات الحرب لتدريب الذكاء الاصطناعي",
+      "event": "استخدام بيانات ميدانية (أوكرانيا وغزة) لتدريب أنظمة الذكاء الاصطناعي العسكرية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        9,
+        12
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحذيرات نيت سواريس من الذكاء الاصطناعي الخارق",
+      "event": "تحذيرات نيت سواريس من مخاطر الذكاء الاصطناعي الخارق وضرورة تنظيمه",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        10,
+        11,
+        13
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "زيارة ماكرون والبابا لمدينة مس (السلام الأوروبي)",
+      "event": "زيارة رمزية لمدينة مس بمناسبة تاريخ مبادرة شومان ورسائل السلام الأوروبية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        39,
+        41
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "إحالات نيابية وتحقيقات في الصناديق المتلاعبة",
+      "event": "إحالة 37 شخصاً للنيابة وتحقيقات في 131 صندوقاً من أصل 3013",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        52
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "أزمة الشرطة المتقاعدين واحتجاجات المعارضة التركية",
+      "event": "دعوة المعارضة التركية للتغيير وأزمة الشرطة المتقاعدين الاقتصادية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        70,
+        71
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فوز الملاكمة التركية حاتجة أقباش ببطولة أوروبا",
+      "event": "فوز حاتجة أقباش ببطولة أوروبا للملاكمة وقصتها مع والدها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        60,
+        61
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
