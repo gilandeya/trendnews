@@ -1,0 +1,90 @@
+{
+  "id": "1a0961ba4606",
+  "created_at": "2026-09-30T15:25:12.847811+00:00",
+  "status": "queued",
+  "review_issue": null,
+  "origin": "news",
+  "score": 27.79,
+  "bucket": "serious",
+  "analysed_sources": [
+    "BBC World",
+    "Malay Mail"
+  ],
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "age_hours": 1366.9,
+  "is_followup": false,
+  "state_media": false,
+  "source": {
+    "title": "Last UK and US troops leave Iraq as anti-Islamic State mission ends",
+    "link": "https://www.bbc.co.uk/news/articles/c65ym1dyn92mo?at_medium=RSS&at_campaign=rss",
+    "publisher": "BBC World",
+    "publishers": [
+      "BBC World",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "MyJoyOnline Ghana",
+      "The Express Tribune",
+      "The Guardian — World"
+    ],
+    "region": "uk",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a1f4/live/bfefaa90-bcba-11f1-babe-4199b0e7ccea.jpg",
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a1f4/live/bfefaa90-bcba-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/a1f4/live/bfefaa90-bcba-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/a1f4/live/bfefaa90-bcba-11f1-babe-4199b0e7ccea.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/30/365543.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/f91529e5-8e1f-4d6e-ae85-023841be63a7-US-military-troops-army.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-3925-1024x576.png"
+    ]
+  },
+  "arabic": {
+    "angle": "خبر",
+    "analysis": "تكشف تصريحات المتحدث باسم البنتاغون شون بارنيل عن انتقال صريح للمسؤولية إذ قال إن معالجة التحديات الأمنية المتبقية في العراق، ومن ضمنها فلول داعش والميليشيات الموالية لإيران التي تقوّض السيادة العراقية والاستقرار الإقليمي، باتت مسؤولية الحكومة العراقية وحدها. وتذهب قراءة الحكومة العراقية لهذه الخطوة إلى أبعد من ذلك، إذ ترى أن انسحاب التحالف يسحب الذريعة التي كانت الفصائل المسلحة المدعومة من إيران تستخدمها لتبرير احتفاظها بسلاحها، في إشارة إلى أن الاختبار الحقيقي القادم سيكون في قدرة بغداد على نزع سلاح هذه الفصائل بعد زوال المبرر الخارجي المعلن لبقائه.",
+    "urgent": false,
+    "category": "عالم",
+    "image_headline": "آخر جنود أمريكا وبريطانيا يغادرون العراق",
+    "post_title": "لماذا أنهت واشنطن ولندن مهمتهما العسكرية في العراق بعد أكثر من عقد",
+    "post_body": "غادر آخر الجنود البريطانيين والأمريكيين العراق الأربعاء، بعد وجود عسكري استمر منذ 2014 ضمن التحالف الدولي لمحاربة تنظيم داعش. خرج نحو 100 جندي بريطاني من أربيل بالتنسيق مع القوات الأمريكية التي غادرت في اليوم نفسه، تنفيذًا لاتفاق وُقّع قبل عامين بين بغداد وواشنطن ينص على انسحاب القوات الأجنبية مع نهاية سبتمبر. رئيس الوزراء العراقي محمد شياع السوداني وصف الخطوة بأنها انتقال العراق إلى مرحلة يتحمل فيها كامل مسؤولية أمنه، فيما أعلنت بغداد أربعة أيام عطلة رسمية بمناسبة \"أيام السيادة\". تقرير أممي حديث قدّر عدد مقاتلي داعش المتبقين في العراق بضع مئات فقط، قادرين على عمليات محدودة غير معقّدة.",
+    "hashtags": [
+      "العراق",
+      "داعش",
+      "انسحاب_القوات",
+      "أربيل"
+    ]
+  },
+  "caption": "لماذا أنهت واشنطن ولندن مهمتهما العسكرية في العراق بعد أكثر من عقد\n\nغادر آخر الجنود البريطانيين والأمريكيين العراق الأربعاء، بعد وجود عسكري استمر منذ 2014 ضمن التحالف الدولي لمحاربة تنظيم داعش. خرج نحو 100 جندي بريطاني من أربيل بالتنسيق مع القوات الأمريكية التي غادرت في اليوم نفسه، تنفيذًا لاتفاق وُقّع قبل عامين بين بغداد وواشنطن ينص على انسحاب القوات الأجنبية مع نهاية سبتمبر. رئيس الوزراء العراقي محمد شياع السوداني وصف الخطوة بأنها انتقال العراق إلى مرحلة يتحمل فيها كامل مسؤولية أمنه، فيما أعلنت بغداد أربعة أيام عطلة رسمية بمناسبة \"أيام السيادة\". تقرير أممي حديث قدّر عدد مقاتلي داعش المتبقين في العراق بضع مئات فقط، قادرين على عمليات محدودة غير معقّدة.\n\nخلف الخبر\nتكشف تصريحات المتحدث باسم البنتاغون شون بارنيل عن انتقال صريح للمسؤولية إذ قال إن معالجة التحديات الأمنية المتبقية في العراق، ومن ضمنها فلول داعش والميليشيات الموالية لإيران التي تقوّض السيادة العراقية والاستقرار الإقليمي، باتت مسؤولية الحكومة العراقية وحدها. وتذهب قراءة الحكومة العراقية لهذه الخطوة إلى أبعد من ذلك، إذ ترى أن انسحاب التحالف يسحب الذريعة التي كانت الفصائل المسلحة المدعومة من إيران تستخدمها لتبرير احتفاظها بسلاحها، في إشارة إلى أن الاختبار الحقيقي القادم سيكون في قدرة بغداد على نزع سلاح هذه الفصائل بعد زوال المبرر الخارجي المعلن لبقائه.\n\n#العراق #داعش #انسحاب_القوات #أربيل",
+  "headlines": [
+    "هل انسحاب القوات الأمريكية والبريطانية يؤشر على نهاية المهمة العسكرية في العراق؟",
+    "انسحاب القوات الأمريكية والبريطانية من العراق يعكس تراجع تهديد داعش",
+    "رئيس الوزراء العراقي يعتبر غياب القوات الأجنبية خطوة نحو تحمل العراق مسؤولية أمنه كاملة"
+  ],
+  "headline_selected": 0,
+  "reel": null,
+  "reel_spec": {
+    "headline": "آخر جنود أمريكا وبريطانيا يغادرون العراق",
+    "category": "عالم",
+    "urgent": false,
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a1f4/live/bfefaa90-bcba-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/a1f4/live/bfefaa90-bcba-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/a1f4/live/bfefaa90-bcba-11f1-babe-4199b0e7ccea.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/30/365543.jpg",
+      "https://media.freemalaysiatoday.com/v3/2026/09/f91529e5-8e1f-4d6e-ae85-023841be63a7-US-military-troops-army.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-3925-1024x576.png"
+    ]
+  },
+  "image": "drafts/2026-09-30/1a0961ba4606.jpg",
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a1f4/live/bfefaa90-bcba-11f1-babe-4199b0e7ccea.jpg",
+    "candidates_tried": 6,
+    "manual": false,
+    "kind": null,
+    "news_photo_publisher": null
+  },
+  "publish_at": "2026-09-30T17:02:11.156438+00:00"
+}
