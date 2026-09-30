@@ -1,0 +1,64 @@
+{
+  "id": "f6c7de715f18",
+  "created_at": "2026-09-30T09:08:10.275187+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.63,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "إيران تدين زيارة نتنياهو الإمارات مباشرة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran condemns Netanyahu's visit to UAE",
+  "link": "https://en.mehrnews.com/news/248197/Iran-condemns-Netanyahu-s-visit-to-UAE",
+  "publishers": [
+    "Hindustan Times — World",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran condemns Netanyahu's visit to UAE",
+    "link": "https://en.mehrnews.com/news/248197/Iran-condemns-Netanyahu-s-visit-to-UAE",
+    "summary": "TEHRAN, Sep. 30 (MNA) – Iran's Foreign Ministry strongly condemned Israeli Prime Minister Benjamin Netanyahu's visit to the United Arab Emirates, warning of the very dangerous consequences of the Israeli regime's presence in the region.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-09-30T03:38:43+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/08/21/4/6141083.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/highly-dangerous-consequences-iran-after-israeli-pm-benjamin-netanyahus-secret-visit-to-uae-101790743616344.html"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248197/Iran-condemns-Netanyahu-s-visit-to-UAE"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/08/21/4/6141083.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1360.9126320574999,
+    "is_stale": false,
+    "score": 21.63440361862963,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "إيران تدين زيارة نتنياهو الإمارات مباشرة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

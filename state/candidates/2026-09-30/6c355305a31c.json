@@ -1,0 +1,65 @@
+{
+  "id": "6c355305a31c",
+  "created_at": "2026-09-30T09:08:10.274640+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.85,
+  "trend_score": 0.2,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "ثلث سكان العالم معرضون لتلوث هواء شديد",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "One-third of world population exposed to harmful air pollution: Monitor",
+  "link": "https://phys.org/news/2026-09-world-population-exposed-air-pollution.html",
+  "publishers": [
+    "NDTV — World",
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "One-third of world population exposed to harmful air pollution: Monitor",
+    "link": "https://phys.org/news/2026-09-world-population-exposed-air-pollution.html",
+    "summary": "Heat waves and wildfires combined with human-caused emissions this year to expose one-third of the world's population to extremely high levels of ozone pollution, a European Union report said Wednesday.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-09-30T08:20:01+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/ozone-most-polluted-co.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "NDTV — World",
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-09-world-population-exposed-air-pollution.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/one-third-of-world-population-exposed-to-high-ozone-pollution-report-12117448#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/ozone-most-polluted-co.jpg",
+      "https://c.ndtvimg.com/2025-08/9r5a6igc_france-wildfire_625x300_10_August_25.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.2,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1360.9125247105555,
+    "is_stale": false,
+    "score": 24.8469591792963,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "ثلث سكان العالم معرضون لتلوث هواء شديد",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
