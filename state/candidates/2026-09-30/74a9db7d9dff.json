@@ -1,0 +1,65 @@
+{
+  "id": "74a9db7d9dff",
+  "created_at": "2026-09-30T03:08:08.969482+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.22,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "شركة ChatGPT تسعى لهيمنة سوق الذكاء الاصطناعي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "ChatGPT maker wants to be the App Store for AI as safety concerns grow",
+  "link": "https://www.channelnewsasia.com/world/openai-chatgpt-app-store-ai-safety-concerns-6420126",
+  "publishers": [
+    "Channel News Asia",
+    "and it’s bringing Adobe along"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "ChatGPT maker wants to be the App Store for AI as safety concerns grow",
+    "link": "https://www.channelnewsasia.com/world/openai-chatgpt-app-store-ai-safety-concerns-6420126",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-09-30T01:55:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--iCDN2tkI--/c_crop,h_561,w_999,x_1,y_1/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Open_AI_Conference_8747_.jpg?itok=l7czZweW",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "and it’s bringing Adobe along"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/openai-chatgpt-app-store-ai-safety-concerns-6420126"
+      },
+      {
+        "name": "and it’s bringing Adobe along",
+        "link": "https://www.malaymail.com/news/tech-gadgets/2026/09/30/openai-wants-chatgpt-to-be-the-app-store-for-ai-and-its-bringing-adobe-along/237082"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--iCDN2tkI--/c_crop,h_561,w_999,x_1,y_1/fl_relative,g_south_east,l_one-cms:core:watermark:ap_data-1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/Open_AI_Conference_8747_.jpg?itok=l7czZweW",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/30/365446.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1354.9121316716667,
+    "is_stale": false,
+    "score": 21.219196434666667,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "شركة ChatGPT تسعى لهيمنة سوق الذكاء الاصطناعي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

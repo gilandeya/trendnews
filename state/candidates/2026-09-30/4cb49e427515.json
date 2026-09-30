@@ -1,0 +1,65 @@
+{
+  "id": "4cb49e427515",
+  "created_at": "2026-09-30T03:08:08.969678+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.14,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "تمرين بسيط أسبوعي قد يخفض ضغط الدم بالفعل",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "A weekly session of isometric exercise training may maintain lower blood pressure",
+  "link": "https://medicalxpress.com/news/2026-09-weekly-session-isometric-blood-pressure.html",
+  "publishers": [
+    "Medical Xpress",
+    "News Medical"
+  ],
+  "region": "health",
+  "article": {
+    "title": "A weekly session of isometric exercise training may maintain lower blood pressure",
+    "link": "https://medicalxpress.com/news/2026-09-weekly-session-isometric-blood-pressure.html",
+    "summary": "Reductions in blood pressure may be maintained over the short term with just one or two sessions of isometric exercise training a week, research published online in the journal BMJ Open Sport & Exercise Medicine suggests.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-09-29T22:30:06+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2025/plank-exercise.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Medical Xpress",
+      "News Medical"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-09-weekly-session-isometric-blood-pressure.html"
+      },
+      {
+        "name": "News Medical",
+        "link": "https://www.news-medical.net/news/20260929/Weekly-isometric-exercise-may-maintain-short-term-blood-pressure-reductions.aspx"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2025/plank-exercise.jpg",
+      "https://www.news-medical.net/image-handler/picture/2016/3/Blood_pressure_-_kurhan_190c9e39c9604c7a8ce4b5999522f80a-620x480.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1354.912140041389,
+    "is_stale": false,
+    "score": 21.141529762555557,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "تمرين بسيط أسبوعي قد يخفض ضغط الدم بالفعل",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

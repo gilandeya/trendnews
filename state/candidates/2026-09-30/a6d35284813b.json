@@ -1,0 +1,105 @@
+{
+  "id": "a6d35284813b",
+  "created_at": "2026-09-30T03:08:08.968745+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 35.73,
+  "trend_score": 1.0,
+  "velocity": 0.41,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "أول رئيسة وزراء بالعالم العربي بعد المغرب",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "First female prime minister named in Morocco after winning elections",
+  "link": "https://www.bbc.co.uk/news/articles/c674kkjllw17o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English",
+    "BBC World",
+    "Daily Sabah",
+    "Dawn",
+    "France24",
+    "Hindustan Times — World",
+    "Le Monde",
+    "South China Morning Post",
+    "The Express Tribune",
+    "Vanguard Nigeria",
+    "aljazeera.com"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "First female prime minister named in Morocco after winning elections",
+    "link": "https://www.bbc.co.uk/news/articles/c674kkjllw17o?at_medium=RSS&at_campaign=rss",
+    "summary": "Her appointment by the king makes her only the second woman to lead a government in the Arab world.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-29T17:14:10+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/89e1/live/1f6a3b30-b8f5-11f1-bd4a-e9ce4be469f6.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English",
+      "BBC World",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Hindustan Times — World",
+      "Le Monde",
+      "South China Morning Post",
+      "The Express Tribune",
+      "Vanguard Nigeria",
+      "aljazeera.com"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c674kkjllw17o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/9/30/king-appoints-moroccos-first-female-prime-minister-2?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/africa/article/3369259/moroccos-king-appoints-el-mansouri-first-woman-prime-minister?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632101/moroccos-king-appoints-first-woman-prime-minister-following-election"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/africa/20260929-morocco-king-appoints-first-woman-prime-minister-el-mansouri-after-parliamentary-vote"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/29/moroccos-king-appoints-the-countrys-first-ever-female-prime-minister/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/89e1/live/1f6a3b30-b8f5-11f1-bd4a-e9ce4be469f6.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/89e1/live/1f6a3b30-b8f5-11f1-bd4a-e9ce4be469f6.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/89e1/live/1f6a3b30-b8f5-11f1-bd4a-e9ce4be469f6.jpg",
+      "https://s.france24.com/media/display/0c40d9ce-b80a-11f1-a259-0fb9a8008200/w:1024/p:16x9/AP26259696087967.jpg",
+      "http://images.euronews.com/articles/stories/09/93/28/86/640x360_cmsv2_92427711-a8ff-5717-9608-9f56dc2db96b-9932886.jpg?1790701953",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/29/463035.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 12,
+    "velocity": 0.4075389892818879,
+    "age_hours": 1354.9119647069444,
+    "is_stale": false,
+    "score": 35.73307519022106,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "أول رئيسة وزراء بالعالم العربي بعد المغرب",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

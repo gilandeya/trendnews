@@ -1,0 +1,64 @@
+{
+  "id": "88dc73876b0c",
+  "created_at": "2026-09-30T03:08:08.969860+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.88,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "منطقة قريبة: هايتي تعاني الفوضى الأمنية والعنف",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UN Security Council extends Haiti anti-gang force by 6 months",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/09/30/un-security-council-extends-haiti-anti-gang-force-by-6-months",
+  "publishers": [
+    "Al Jazeera English",
+    "Free Malaysia Today"
+  ],
+  "region": "my",
+  "article": {
+    "title": "UN Security Council extends Haiti anti-gang force by 6 months",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/30/un-security-council-extends-haiti-anti-gang-force-by-6-months",
+    "summary": "Haiti has been overwhelmed by deadly gang violence in recent years, with swaths of the Caribbean country controlled by heavily armed groups.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-29T23:03:59+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2025/05/4823ab44-kenya-police-epa-050525.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/9/29/un-extends-mandate-of-gang-suppression-force-in-haiti-for-six-months?traffic_source=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/30/un-security-council-extends-haiti-anti-gang-force-by-6-months"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/05/4823ab44-kenya-police-epa-050525.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1354.91219018,
+    "is_stale": false,
+    "score": 20.879177916796294,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "منطقة قريبة: هايتي تعاني الفوضى الأمنية والعنف",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

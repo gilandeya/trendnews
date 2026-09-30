@@ -1,0 +1,64 @@
+{
+  "id": "d2b5889fcd95",
+  "created_at": "2026-09-30T03:08:08.969236+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.25,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "كارثة أمطار في نيبال: عشرات القتلى والمفقودون",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "27 killed across Nepal due to incessant rainfall since September 24: Authorities",
+  "link": "https://www.thehindu.com/news/international/several-killed-across-nepal-due-to-incessant-rainfall-since-sep-24/article71523612.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "27 killed across Nepal due to incessant rainfall since September 24: Authorities",
+    "link": "https://www.thehindu.com/news/international/several-killed-across-nepal-due-to-incessant-rainfall-since-sep-24/article71523612.ece",
+    "summary": "Four people remain missing, while eight people were injured in the monsoon-induced incidents from September 24 to 28, according to the Nepal Home Ministry.",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-29T11:22:29+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/tzdqfl/article71523627.ece/alternates/LANDSCAPE_1200/2026-09-18T101348Z_224537402_RC2JFNANPS6W_RTRMADP_3_NEPAL-FLOODS-SURVIVORS.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/several-killed-across-nepal-due-to-incessant-rainfall-since-sep-24/article71523612.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/27-killed-across-nepal-due-to-incessant-rainfall-since-sep-24-authorities-101790669538906.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/tzdqfl/article71523627.ece/alternates/LANDSCAPE_1200/2026-09-18T101348Z_224537402_RC2JFNANPS6W_RTRMADP_3_NEPAL-FLOODS-SURVIVORS.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1354.9122582408334,
+    "is_stale": false,
+    "score": 21.24973345688889,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "كارثة أمطار في نيبال: عشرات القتلى والمفقودون",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
