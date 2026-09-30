@@ -139,6 +139,8 @@ from tests.test_review import (
     test_request_writes_request_origin,
     test_decisions,
     test_decisions_scan_since_ignores_old_batch,
+    test_decisions_candidate_scan,
+    test_store_load_candidate_prefers_selection_issue,
     test_insights_analysis,
     test_insights_collect_includes_analysis_origin,
     test_insights_weakest_performing_section,
@@ -483,6 +485,8 @@ def main() -> int:
     test_decisions()
     print("\n── decisions.scan_since يتجاهل الدفعة القديمة (Issue #954) ──")
     test_decisions_scan_since_ignores_old_batch()
+    test_decisions_candidate_scan()
+    test_store_load_candidate_prefers_selection_issue()
     print("\n── تحليل الأداء ──")
     test_insights_analysis()
     test_insights_collect_includes_analysis_origin()
