@@ -72,7 +72,7 @@
       "dropped_reason": null,
       "id": "fc43de03bc61",
       "created_at": "2026-09-30T04:02:19.137535+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1129
     },
     {
@@ -116,7 +116,7 @@
       "dropped_reason": null,
       "id": "980abc74b446",
       "created_at": "2026-09-30T04:02:19.137535+00:00",
-      "selection_status": "pending",
+      "selection_status": "attempted",
       "selection_issue": 1129
     }
   ],

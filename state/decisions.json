@@ -9216,5 +9216,31 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 20
+ },
+ {
+  "id": "fc43de03bc61",
+  "created_at": "2026-09-30T04:02:19.137535+00:00",
+  "decided_at": "2026-09-30T06:20:36.273717+00:00",
+  "decision": "unselected",
+  "reject_tag": "لم يُختر",
+  "origin": "analysis",
+  "category": "",
+  "angle": "",
+  "urgent": false,
+  "bucket": "",
+  "region": "",
+  "score": 0.0,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "source_count": 3,
+  "body_len": 0,
+  "has_photo": false,
+  "state_media": false,
+  "created_hour": 4,
+  "layer": 1,
+  "bloc_count": 1,
+  "channel_count": 3,
+  "point_count": 11,
+  "agreement": "cross_source"
  }
 ]
