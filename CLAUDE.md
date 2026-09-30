@@ -646,6 +646,20 @@ Supporting pieces, each independently triggerable as its own workflow:
   a reviewer will approve narrows their coverage instead of improving it, and a small sample of
   decisions locks in a bias rather than revealing a real pattern — the existing `≥3` repetition
   floor in `feedback.screening_guidance`/`summarise` is the model to follow, not a one-off count.
+  **Candidate coverage (Issue #1135):** `scan()` also checks pending candidates that carry a
+  `selection_issue` (gate A), with one API request per Issue (drafts and candidates share the
+  fetch): closed Issue with `approved` → `unselected` (`«لم يُختر»`); closed without it →
+  `dismissed_closed`; open past `ignore_timeout_hours` → `ignored_timeout`; open and younger →
+  nothing. The candidate file is updated to the recorded status so it is never rescanned;
+  `decisions.scan_since` still skips older ones (no new config keys, no backfill script). Candidate
+  entries carry `selection_issue`, and de-duplication is on the pair `(id, selection_issue)`
+  (`decisions._candidate_known`) because the same news id is re-offered in several selection Issues;
+  a legacy entry for an id with no `selection_issue` blocks backfill of that id in every Issue
+  (accepted loss, avoids double counting). `record_published` is blocked only by a prior
+  `published` entry, never by an earlier `unselected`. `store.load_candidate(id, selection_issue=None)`
+  prefers the copy of that Issue (falls back to the oldest); `collect_finalize` passes its own Issue
+  number everywhere. Known gap, out of scope: `record_rejected`/`record_rejected_unchecked` still
+  skip any id already logged, including an earlier `unselected`.
 - `src/insights.py` — pulls Facebook post performance and derives config-tuning recommendations
   (e.g., "raise `trends.weight`").
 - `src/retention.py` (Issue #956, `python -m src.retention`, `--dry-run` prints what would be

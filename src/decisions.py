@@ -148,21 +148,31 @@ def _features_candidate(cand: dict) -> dict:
 
 def _append(entries: list[dict], item: dict, decision: str,
             reject_tag: str | None = None,
-            features: dict | None = None) -> None:
-    entries.append({
+            features: dict | None = None,
+            selection_issue: int | None = None) -> None:
+    entry = {
         "id": item.get("id", ""),
         "created_at": item.get("created_at", ""),
         "decided_at": datetime.now(timezone.utc).isoformat(),
         "decision": decision,
         "reject_tag": reject_tag,
         **(features if features is not None else _features(item)),
-    })
+    }
+    # قيود المرشحين وحدها تحمل الحقل: ظهور المرشح في Issue اختيار قرارٌ
+    # مستقل، والمعرّف وحده لا يميّز ظهورين للخبر نفسه
+    if selection_issue is not None:
+        entry["selection_issue"] = selection_issue
+    entries.append(entry)
     log.info("قرار مسجَّل: %s ← %s", item.get("id", ""), decision)
 
 
 def record_published(draft: dict) -> None:
     entries = load()
-    if any(e.get("id") == draft.get("id") for e in entries):
+    # يمنعه «published» سابق فقط: «unselected» سابق للمعرّف نفسه (ظهور
+    # سابق في Issue اختيار لم يُختر فيه) لا يعني أن النشر الفعلي لاحقًا لا
+    # يُسجَّل — هما قراران مختلفان في لحظتين مختلفتين
+    if any(e.get("id") == draft.get("id") and e.get("decision") == "published"
+           for e in entries):
         return
     _append(entries, draft, "published")
     save(entries)
@@ -235,6 +245,22 @@ def record_unselected_topic(topic: dict) -> None:
     save(entries)
 
 
+def _candidate_known(entries: list[dict], cand: dict) -> bool:
+    """منع تكرار قيد مرشح على الزوج (id، selection_issue) لا على id وحده —
+    الخبر نفسه يُعرض في أكثر من Issue اختيار بالمعرّف نفسه وكل ظهور قرار
+    مستقل. استثناء متحفِّظ عمدًا: أي قيد للمعرّف بلا حقل selection_issue
+    (قديم، سابق لهذا الحقل) يحجب الاستكمال في كل Issue — لا سبيل لمعرفة أي
+    Issue يخصّه فتفاديًا للعدّ المزدوج نقبل خسارة حالات قليلة."""
+    cid = cand.get("id")
+    issue = cand.get("selection_issue")
+    for e in entries:
+        if e.get("id") != cid:
+            continue
+        if "selection_issue" not in e or e.get("selection_issue") == issue:
+            return True
+    return False
+
+
 def record_unselected(cand: dict) -> None:
     """رفض قبل الصياغة (Issue #954): مرشح preselect عُرض في Issue اختيار
     (gate A) فلم يُختر ضمن دفعته. قيمة decision منفصلة عمدًا عن
@@ -242,10 +268,11 @@ def record_unselected(cand: dict) -> None:
     وسماته (`_features_candidate`) مأخوذة من شكل المرشح لا شكل المسودة —
     لا ``arabic`` ولا ``source`` في مرشح لم يُصَغ بعد."""
     entries = load()
-    if any(e.get("id") == cand.get("id") for e in entries):
+    if _candidate_known(entries, cand):
         return
     _append(entries, cand, "unselected", reject_tag="لم يُختر",
-            features=_features_candidate(cand))
+            features=_features_candidate(cand),
+            selection_issue=cand.get("selection_issue"))
     save(entries)
 
 
@@ -279,40 +306,51 @@ def _too_old(draft: dict, since: datetime | None) -> bool:
     return created < since
 
 
+def _has_approved(issue: dict) -> bool:
+    return any((lb.get("name") if isinstance(lb, dict) else lb) == "approved"
+               for lb in issue.get("labels") or [])
+
+
 def scan(cfg) -> int:
-    """يفحص المسودات المعلَّقة المرتبطة بـ Issue مراجعة، ويسجّل قرارًا
-    ضمنيًا لكل ما بُتَّ فيه فعلًا. يُشغَّل كل تشغيلة جمع (حتى بلا مسودة
-    جديدة) — الإغلاق أو انقضاء المهلة قد يقعان بين تشغيلة وأخرى بلا أي
-    حدث آخر يستدعي الفحص. يعيد عدد القرارات الجديدة."""
+    """يفحص المسودات المعلَّقة المرتبطة بـ Issue مراجعة **والمرشحين المعلَّقين**
+    المرتبطين بـ Issue اختيار، ويسجّل قرارًا ضمنيًا لكل ما بُتَّ فيه فعلًا.
+    يُشغَّل كل تشغيلة جمع (حتى بلا مسودة جديدة) — الإغلاق أو انقضاء المهلة قد
+    يقعان بين تشغيلة وأخرى بلا أي حدث آخر يستدعي الفحص. يعيد عدد القرارات
+    الجديدة.
+
+    المرشحون كانوا خارج الفحص فبقي منهم 255 بلا قرار مسجَّل: Issue اختيار
+    أُغلق أو ترك بلا رد لا يمرّ بـ finalize أصلًا. طلب API واحد لكل Issue
+    (مسودات ومرشحين معًا) لا لكل عنصر."""
     repo = os.environ.get("GITHUB_REPOSITORY")
     if not repo or not os.environ.get("GITHUB_TOKEN"):
         return 0  # بيئة محلية بلا Actions — لا شيء يُفحص
 
-    pending = [(p, d) for p, d in store.pending_drafts() if d.get("review_issue")]
-    if not pending:
-        return 0
-
     scan_since_raw = cfg.path("decisions.scan_since", None)
     scan_since = datetime.fromisoformat(scan_since_raw) if scan_since_raw else None
-    pending = [(p, d) for p, d in pending if not _too_old(d, scan_since)]
-    if not pending:
-        return 0
-
     entries = load()
     known = {e["id"] for e in entries}
-    pending = [(p, d) for p, d in pending if d.get("id") not in known]
-    if not pending:
+
+    drafts = [(p, d) for p, d in store.pending_drafts()
+              if d.get("review_issue") and not _too_old(d, scan_since)
+              and d.get("id") not in known]
+    cands = [(p, c) for p, c in store.pending_candidates()
+             if c.get("selection_issue") and not _too_old(c, scan_since)
+             and not _candidate_known(entries, c)]
+    if not drafts and not cands:
         return 0
 
     timeout_hours = float(cfg.path("decisions.ignore_timeout_hours", 48))
     now = datetime.now(timezone.utc)
 
-    by_issue: dict[int, list[dict]] = {}
-    for _, draft in pending:
-        by_issue.setdefault(draft["review_issue"], []).append(draft)
+    # (نوع، مسار، عنصر) — مفتاح المجموعة رقم الـIssue فيُجلب مرة واحدة
+    by_issue: dict[int, list[tuple[str, object, dict]]] = {}
+    for path, draft in drafts:
+        by_issue.setdefault(draft["review_issue"], []).append(("draft", path, draft))
+    for path, cand in cands:
+        by_issue.setdefault(cand["selection_issue"], []).append(("cand", path, cand))
 
     recorded = 0
-    for issue_number, drafts in by_issue.items():
+    for issue_number, items in by_issue.items():
         try:
             issue = _fetch_issue(issue_number)
         except requests.RequestException as exc:
@@ -320,18 +358,34 @@ def scan(cfg) -> int:
             continue
 
         closed = issue.get("state") == "closed"
-        for draft in drafts:
+        approved = _has_approved(issue)
+        for kind, path, item in items:
+            decision = None
             if closed:
-                _append(entries, draft, "dismissed_closed")
-                recorded += 1
+                # مرشح في Issue اختيار مغلق مع approved = لم يُعلَّم عند
+                # الاعتماد (رفض ضمني قبل الصياغة)؛ بلا approved = أُغلق
+                # الـIssue كله بلا بتّ
+                decision = ("unselected" if kind == "cand" and approved
+                            else "dismissed_closed")
+            else:
+                try:
+                    created = datetime.fromisoformat(item["created_at"])
+                except (KeyError, ValueError, TypeError):
+                    continue
+                if (now - created).total_seconds() >= timeout_hours * 3600:
+                    decision = "ignored_timeout"
+            if decision is None:
                 continue
-            try:
-                created = datetime.fromisoformat(draft["created_at"])
-            except (KeyError, ValueError, TypeError):
-                continue
-            if (now - created).total_seconds() >= timeout_hours * 3600:
-                _append(entries, draft, "ignored_timeout")
-                recorded += 1
+            if kind == "draft":
+                _append(entries, item, decision)
+            else:
+                _append(entries, item, decision,
+                        reject_tag="لم يُختر" if decision == "unselected" else None,
+                        features=_features_candidate(item),
+                        selection_issue=issue_number)
+                # تحديث ملف المرشح نفسه كي لا يُعاد فحصه في الدورة التالية
+                store.update_candidate(path, status=decision)
+            recorded += 1
 
     if recorded:
         save(entries)

@@ -588,6 +588,7 @@ python -m tests.test_pipeline
 │   ├── setimage.py                استبدال صورة مسودة بلا إعادة صياغة
 │   ├── feedback.py / collect_feedback.py   تسجيل أسباب الرفض وتغذيتها للفرز
 │   ├── decisions.py               سجل مصير كل مسودة (نُشرت/رُفضت/أُغلق الـIssue دونها/تُجوهلت)
+│   │                              ويشمل مرشحي Issue الاختيار (لم يُختر/أُغلق/تُجوهل) بمفتاح (id، selection_issue) لأن الخبر نفسه يتكرر في Issues عدة
 │   ├── insights.py                تقرير أداء أسبوعي واقتراحات لضبط config.yaml
 │   ├── retention.py               حذف دوري لما تجاوز retention.days من drafts/ وstate/candidates/
 │   ├── radar.py                   مسار العاجل: رادار كل ١٥ دقيقة + عتبات النشر بلا مراجعة

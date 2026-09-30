@@ -6611,6 +6611,194 @@ def test_decisions_scan_since_ignores_old_batch() -> None:
           any(e["id"] == "dec_scan_new" and e["decision"] == "dismissed_closed"
               for e in entries), entries)
 
+@auto_restore_last_publish
+def test_decisions_candidate_scan() -> None:
+    """Issue #1135: decisions.scan يفحص أيضًا المرشحين المعلَّقين المرتبطين
+    بـIssue اختيار، والاختبار على مخرَج الأنبوب: finalize ثم scan بـfakes ثم
+    فحص decisions.json وملفات المرشحين — لا الدالة وحدها."""
+    import shutil as _sh
+    import tempfile
+    from src import collect_finalize, decisions, preselect
+
+    backup = Path(tempfile.mkdtemp()) / "cands"
+    if store.CANDIDATES_DIR.exists():
+        _sh.copytree(store.CANDIDATES_DIR, backup)
+    _sh.rmtree(store.CANDIDATES_DIR, ignore_errors=True)
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
+
+    now = datetime.now(timezone.utc)
+
+    def put(cid, issue, created, folder):
+        art = Article(title=f"مرشح {cid}", link=f"https://x.example/{cid}",
+                      summary="", source_name="A", region="r", weight=1.0,
+                      published=now, bucket="serious", publisher="A")
+        cand = preselect.build_candidate(art)
+        cand.update(id=cid, created_at=created.isoformat(), selection_issue=issue,
+                    publishers=["A", "B"])
+        d = store.CANDIDATES_DIR / folder
+        d.mkdir(parents=True, exist_ok=True)
+        path = d / f"{cid}.json"
+        path.write_text(json.dumps(cand, ensure_ascii=False), encoding="utf-8")
+        return path
+
+    def status(path):
+        return json.loads(path.read_text(encoding="utf-8"))["status"]
+
+    def unmarked_body(cid):
+        return preselect.build_selection_issue_body([store.load_candidate(cid)[1]])
+
+    recent = now - timedelta(hours=1)
+    p_a1 = put("1135a1", 7101, recent, "2026-09-20")
+    p_a2 = put("1135a2", 7101, recent, "2026-09-20")
+    p_b = put("1135b0", 7102, recent, "2026-09-20")
+    p_c1 = put("1135c1", 7103, now - timedelta(hours=100), "2026-09-20")
+    p_c2 = put("1135c2", 7104, recent, "2026-09-20")
+    p_d = put("1135d0", 7105, now - timedelta(days=20), "2026-09-20")
+    # المعرّف نفسه في Issueين: الأقدم في مجلد أقدم — التحميل القديم (أقدم
+    # نسخة) كان سيحدّث ملف 7106 بدل ملف 7107
+    p_e1 = put("1135e0", 7106, recent, "2026-09-20")
+    p_e2 = put("1135e0", 7107, recent, "2026-09-25")
+    p_f = put("1135f0", 7108, recent, "2026-09-25")
+    p_g = put("1135e9", 7109, recent, "2026-09-25")
+
+    # g: قيد قديم بلا selection_issue للمعرّف نفسه
+    decisions.save([{"id": "1135e9", "decision": "unselected",
+                     "reject_tag": "لم يُختر", "created_at": "", "decided_at": ""}])
+
+    # المرور بـfinalize الحقيقي (لا شيء مختار ⇒ كل المعروضين غير مختارين)
+    # تعليقات Issue ووسومه خارج موضوع الاختبار (شبكة) — تُستبدل مؤقتًا
+    from src import review as _review
+    real_comment, real_remove = _review.comment, _review.remove_label
+    _review.comment = lambda *a, **k: None
+    _review.remove_label = lambda *a, **k: None
+    try:
+        code_e = collect_finalize.finalize(7107, unmarked_body("1135e0"), load_config())
+        collect_finalize.finalize(7108, unmarked_body("1135f0"), load_config())
+    finally:
+        _review.comment, _review.remove_label = real_comment, real_remove
+    check("finalize لـ e في Issue 7107 نجح", code_e == 0)
+    check("finalize حدّث نسخة Issue 7107 لا أقدم نسخة",
+          status(p_e2) == "unselected" and status(p_e1) == "pending",
+          (status(p_e2), status(p_e1)))
+    # f: نُشر الخبر نفسه بعد أن لم يُختر
+    decisions.record_published({"id": "1135f0", "created_at": recent.isoformat(),
+                                "status": "pending", "source": {}, "arabic": {}})
+
+    calls: list[int] = []
+
+    def fake_fetch(n):
+        calls.append(n)
+        closed = {7101, 7102, 7105, 7106, 7109}
+        labels = [{"name": "approved"}] if n == 7102 else []
+        return {"state": "closed" if n in closed else "open", "labels": labels}
+
+    saved_env = {k: os.environ.get(k) for k in ("GITHUB_REPOSITORY", "GITHUB_TOKEN")}
+    os.environ["GITHUB_REPOSITORY"] = "u/r"
+    os.environ["GITHUB_TOKEN"] = "tok"
+    real_fetch = decisions._fetch_issue
+    decisions._fetch_issue = fake_fetch
+    cfg = load_config()
+    cfg["decisions"] = {"ignore_timeout_hours": 48,
+                        "scan_since": (now - timedelta(days=10)).isoformat()}
+    try:
+        n1 = decisions.scan(cfg)
+        entries1 = decisions.load()
+        calls_first = list(calls)
+        n2 = decisions.scan(cfg)
+        entries2 = decisions.load()
+    finally:
+        decisions._fetch_issue = real_fetch
+        for k, v in saved_env.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+
+    def dec(cid, issue=None):
+        return [e for e in entries1 if e["id"] == cid
+                and (issue is None or e.get("selection_issue") == issue)]
+
+    check("a: Issue مغلق بلا approved ← dismissed_closed (ملف المرشح أيضًا)",
+          [e["decision"] for e in dec("1135a1")] == ["dismissed_closed"]
+          and status(p_a1) == "dismissed_closed", dec("1135a1"))
+    check("b: Issue مغلق مع approved ← unselected بوسم «لم يُختر»",
+          [(e["decision"], e["reject_tag"]) for e in dec("1135b0")]
+          == [("unselected", "لم يُختر")] and status(p_b) == "unselected",
+          dec("1135b0"))
+    check("c: Issue مفتوح بعد المهلة ← ignored_timeout",
+          [e["decision"] for e in dec("1135c1")] == ["ignored_timeout"]
+          and status(p_c1) == "ignored_timeout", dec("1135c1"))
+    check("c: Issue مفتوح قبل المهلة ← لا شيء والمرشح يبقى pending",
+          not dec("1135c2") and status(p_c2) == "pending")
+    check("d: مرشح أقدم من scan_since ← لا شيء",
+          not dec("1135d0") and status(p_d) == "pending")
+    check("قيد المرشح يحمل selection_issue وسمات المرشح",
+          dec("1135a1")[0]["selection_issue"] == 7101
+          and dec("1135a1")[0]["bucket"] == "serious"
+          and dec("1135a1")[0]["source_count"] == 2, dec("1135a1"))
+    e_entries = dec("1135e0")
+    check("e: قيدان للمعرّف نفسه بـselection_issue مختلفين (7106 و7107)",
+          sorted(e.get("selection_issue") for e in e_entries) == [7106, 7107],
+          e_entries)
+    check("e: نسخة Issue الأول حُسمت dismissed_closed بعد scan",
+          status(p_e1) == "dismissed_closed", status(p_e1))
+    f_entries = dec("1135f0")
+    check("f: unselected ثم published كلاهما موجود",
+          sorted(e["decision"] for e in f_entries) == ["published", "unselected"],
+          f_entries)
+    check("g: قيد قديم بلا selection_issue ← لا استكمال رجعي",
+          len(dec("1135e9")) == 1 and "selection_issue" not in dec("1135e9")[0]
+          and status(p_g) == "pending", dec("1135e9"))
+    check("h: طلب API واحد لكل Issue لا لكل مرشح",
+          sorted(calls_first) == [7101, 7102, 7103, 7104, 7106],
+          calls_first)
+    check("scan الأول سجّل خمسة قرارات (a1/a2/b/c1 وe في Issue 7106)",
+          n1 == 5, n1)
+    check("i: scan ثانٍ لا يضيف قيودًا مكرَّرة", n2 == 0 and len(entries2) == len(entries1),
+          (n2, len(entries2), len(entries1)))
+    pairs = [(e["id"], e.get("selection_issue"), e["decision"]) for e in entries2]
+    check("i: لا زوج (id، selection_issue، decision) مكرَّر",
+          len(pairs) == len(set(pairs)), pairs)
+
+    # record_published يمنعه published سابق فقط
+    before = len(decisions.load())
+    decisions.record_published({"id": "1135f0", "created_at": "", "source": {},
+                                "arabic": {}})
+    check("record_published لا يكرّر published للمعرّف نفسه",
+          len(decisions.load()) == before)
+
+    _sh.rmtree(store.CANDIDATES_DIR, ignore_errors=True)
+    if backup.exists():
+        _sh.copytree(backup, store.CANDIDATES_DIR)
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
+
+
+def test_store_load_candidate_prefers_selection_issue() -> None:
+    """Issue #1135: load_candidate يفضّل نسخة Issue الاختيار المطلوب، ويبقى
+    السلوك القديم (أقدم نسخة) حين لا يُمرَّر المعامل أو لا تطابق نسخة."""
+    import shutil as _sh
+    _sh.rmtree(store.CANDIDATES_DIR / "2026-01-01", ignore_errors=True)
+    _sh.rmtree(store.CANDIDATES_DIR / "2026-01-02", ignore_errors=True)
+    for folder, issue in (("2026-01-01", 1), ("2026-01-02", 2)):
+        d = store.CANDIDATES_DIR / folder
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "lc1135.json").write_text(
+            json.dumps({"id": "lc1135", "selection_issue": issue}), encoding="utf-8")
+    try:
+        check("بلا معامل ← أقدم نسخة (السلوك القديم)",
+              store.load_candidate("lc1135")[1]["selection_issue"] == 1)
+        check("بمعامل ← النسخة المطابقة",
+              store.load_candidate("lc1135", 2)[1]["selection_issue"] == 2)
+        check("معامل بلا مطابقة ← أقدم نسخة",
+              store.load_candidate("lc1135", 99)[1]["selection_issue"] == 1)
+        check("معرّف غير موجود ← None", store.load_candidate("nope1135", 2) is None)
+    finally:
+        _sh.rmtree(store.CANDIDATES_DIR / "2026-01-01", ignore_errors=True)
+        _sh.rmtree(store.CANDIDATES_DIR / "2026-01-02", ignore_errors=True)
+
+
 def test_insights_analysis() -> None:
     from src.insights import analyse, engagement, recommendations
 

@@ -84,23 +84,26 @@ def _build_draft(art, written: dict, docs: list[dict], prev_title: str | None,
     }
 
 
-def _candidate_titles(ids: list[str]) -> list[str]:
+def _candidate_titles(ids: list[str], selection_issue: int | None = None) -> list[str]:
     """عناوين المرشحين — لرسائل تنبيه التعارض وحدها (لا معرّفاتهم، فالمعرّف
     لا يعني شيئًا للمراجع)، تُقرأ *قبل* أي حلقة صياغة تُغيّر حالة المرشح."""
     titles: list[str] = []
     for cid in ids:
-        found = store.load_candidate(cid)
+        found = store.load_candidate(cid, selection_issue)
         if found:
             titles.append(found[1].get("title", cid))
     return titles
 
 
-def _record_rejections(unselected_ids: list[str]) -> None:
+def _record_rejections(unselected_ids: list[str],
+                       selection_issue: int | None = None) -> None:
+    # نسخة Issue الجاري لا أقدم نسخة: الخبر نفسه يتكرر بالمعرّف في Issues عدة،
+    # وتحديث الملف الخطأ يُبقي نسخة هذا الـIssue pending فيُعاد فحصها
     if not unselected_ids:
         return
     entries = feedback.load()
     for cid in unselected_ids:
-        found = store.load_candidate(cid)
+        found = store.load_candidate(cid, selection_issue)
         if not found:
             continue
         path, cand = found
@@ -113,11 +116,12 @@ def _record_rejections(unselected_ids: list[str]) -> None:
 
 def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
                     acfg: dict, rcfg: dict, cfg,
-                    write_errors: list[tuple[str, WriteFailure]]) -> dict | None:
+                    write_errors: list[tuple[str, WriteFailure]],
+                    selection_issue: int | None = None) -> dict | None:
     """يصوغ مرشحًا واحدًا معتمدًا ويبني مسودته — مشتركة بين مساري «انشر
     فورًا» و«صغ واعرض»، فكلاهما يبني نفس شكل المسودة (`_build_draft`) ولا
     يفترق إلا فيما يحدث بعدها (نشر مباشر أم Issue مراجعة)."""
-    found = store.load_candidate(cid)
+    found = store.load_candidate(cid, selection_issue)
     if not found:
         log.warning("مرشح غير موجود: %s", cid)
         return None
@@ -217,7 +221,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
 
     if not now_ids and not draft_ids and not card_ids:
         log.warning("لم يُختر أي مرشح من أصل %d — لا صياغة ولا نشر", len(all_ids))
-        _record_rejections(all_ids)
+        _record_rejections(all_ids, issue_number)
         review.comment(
             issue_number,
             "⚠️ لم يُعلَّم على أي مرشح. لم تُصَغ أي مسودة ولم يُنفق شيء.",
@@ -226,7 +230,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         return 0
 
     if draft_conflict_ids:
-        titles_list = "، ".join(f"«{t}»" for t in _candidate_titles(draft_conflict_ids))
+        titles_list = "، ".join(f"«{t}»" for t in _candidate_titles(draft_conflict_ids, issue_number))
         review.comment(
             issue_number,
             f"⚠️ علّمت المربعين معًا (📝 مع 🚀 و/أو 🎴) على: {titles_list} — "
@@ -234,7 +238,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
             "أوسع، فيها العناوين وتعديل النص).",
         )
     if card_conflict_ids:
-        titles_list = "، ".join(f"«{t}»" for t in _candidate_titles(card_conflict_ids))
+        titles_list = "، ".join(f"«{t}»" for t in _candidate_titles(card_conflict_ids, issue_number))
         review.comment(
             issue_number,
             f"⚠️ علّمت 🚀 مع 🎴 بلا 📝 على: {titles_list} — عوملت كـ«🎴 صُغ "
@@ -266,7 +270,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     now_written = 0
     for cid in now_ids:
         draft = _write_selected(cid, history, dupe_threshold, acfg, rcfg, cfg,
-                                write_errors)
+                                write_errors, issue_number)
         if not draft:
             continue
         now_written += 1
@@ -292,7 +296,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     review_drafts: list[dict] = []
     for cid in draft_ids:
         draft = _write_selected(cid, history, dupe_threshold, acfg, rcfg, cfg,
-                                write_errors)
+                                write_errors, issue_number)
         if draft:
             review_drafts.append(draft)
             log.info("✓ صيغت مسودة (بانتظار مراجعتك): %s",
@@ -308,7 +312,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     card_written = 0
     for cid in card_ids:
         draft = _write_selected(cid, history, dupe_threshold, acfg, rcfg, cfg,
-                                write_errors)
+                                write_errors, issue_number)
         if not draft:
             continue
         card_written += 1
@@ -334,7 +338,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
 
     selected_ids = now_ids + draft_ids + card_ids
     unselected = [i for i in all_ids if i not in selected_ids]
-    _record_rejections(unselected)
+    _record_rejections(unselected, issue_number)
 
     total_drafted = now_written + len(review_drafts) + card_written
     log.info("صيغت %d مسودة من %d معتمد (فشلت الصياغة لـ %d) — %d غير مختار سُجّل في feedback",

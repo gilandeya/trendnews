@@ -288,8 +288,22 @@ def save_candidate(candidate: dict) -> Path:
     return path
 
 
-def load_candidate(candidate_id: str) -> tuple[Path, dict] | None:
-    for path in sorted(CANDIDATES_DIR.glob(f"*/{candidate_id}.json")):
+def load_candidate(candidate_id: str,
+                   selection_issue: int | None = None) -> tuple[Path, dict] | None:
+    """أقدم نسخة للمعرّف افتراضيًا. الخبر نفسه قد يُعرض في أكثر من Issue اختيار
+    بالمعرّف نفسه (كل ظهور ملف في مجلد يوم مختلف)، فمن يعمل على Issue بعينه
+    يمرّر ``selection_issue`` ليُحدَّث ملف ذلك الظهور لا أقدم نسخة. إن لم
+    تطابق أي نسخة عاد السلوك القديم (أقدم نسخة) بدل ضياع المرشح كليًا."""
+    paths = sorted(CANDIDATES_DIR.glob(f"*/{candidate_id}.json"))
+    if selection_issue is not None:
+        for path in paths:
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                continue
+            if data.get("selection_issue") == selection_issue:
+                return path, data
+    for path in paths:
         return path, json.loads(path.read_text(encoding="utf-8"))
     return None
 
