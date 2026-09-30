@@ -1,0 +1,66 @@
+{
+  "id": "79ff067cb14c",
+  "created_at": "2026-09-30T18:08:15.780103+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.35,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "روسيا تمدد حظر صادرات الديزل حتى أكتوبر",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia extends diesel export ban amid global supply crunch",
+  "link": "https://www.dailysabah.com/business/energy/russia-extends-diesel-export-ban-amid-global-supply-crunch",
+  "publishers": [
+    "Daily Sabah",
+    "Financial Times",
+    "TASS"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Russia extends diesel export ban amid global supply crunch",
+    "link": "https://www.dailysabah.com/business/energy/russia-extends-diesel-export-ban-amid-global-supply-crunch",
+    "summary": "Russia extended its ban on diesel exports until the end of October, the government said ⁠on Wednesday, adding ⁠further strain to a global energy market already rocked by ongoing ​c...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-09-30T09:52:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/30/463142.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Financial Times",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/energy/russia-extends-diesel-export-ban-amid-global-supply-crunch"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/economy/2195135"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/30/463142.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1369.913565323611,
+    "is_stale": false,
+    "score": 22.353982568496804,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "روسيا تمدد حظر صادرات الديزل حتى أكتوبر",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "id": "f85d0fae0e23",
+  "created_at": "2026-09-30T18:08:15.779765+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.52,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "روسيا تحذر من استخدام السلاح النووي ضد الناتو",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia sends nuclear warning to Nato as tensions rise in the Baltic",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/09/30/russia-sends-nuclear-warning-to-nato-as-tensions-rise-in-the-baltic",
+  "publishers": [
+    "Free Malaysia Today",
+    "South China Morning Post",
+    "The Moscow Times"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Russia sends nuclear warning to Nato as tensions rise in the Baltic",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/30/russia-sends-nuclear-warning-to-nato-as-tensions-rise-in-the-baltic",
+    "summary": "Moscow warned it would use all available forces, including nuclear weapons, if Nato countries tried to isolate the Kaliningrad region.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-09-30T12:20:53+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2025/04/72073c24-kremlin-2017.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "South China Morning Post",
+      "The Moscow Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3369374/russia-sends-nuclear-warning-nato-over-its-kaliningrad-enclave?utm_source=rss_feed"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/09/30/russia-sends-nuclear-warning-to-nato-as-tensions-rise-in-the-baltic"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/04/72073c24-kremlin-2017.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1369.9135621277778,
+    "is_stale": false,
+    "score": 25.519408494700507,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "روسيا تحذر من استخدام السلاح النووي ضد الناتو",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
