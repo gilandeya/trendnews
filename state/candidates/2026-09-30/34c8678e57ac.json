@@ -1,0 +1,131 @@
+{
+  "id": "34c8678e57ac",
+  "created_at": "2026-09-30T15:08:28.516900+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 42.31,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "حادثة غريبة: طيار وقائد يتقاتلان على متن طائرة إسرائيلية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israel-bound plane rerouted to Saudi Arabia; pilots wounded in reported fight",
+  "link": "https://www.dawn.com/news/2033728/israel-bound-plane-rerouted-to-saudi-arabia-pilots-wounded-in-reported-fight",
+  "publishers": [
+    "Al Jazeera English",
+    "CBS News — World",
+    "Channel News Asia",
+    "Daily Maverick",
+    "Daily Sabah",
+    "Dawn",
+    "Der Spiegel",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Iran International",
+    "Le Monde",
+    "Malay Mail",
+    "NDTV — World",
+    "NPR World",
+    "Netanyahu",
+    "Punch Nigeria",
+    "Reuters",
+    "South China Morning Post",
+    "TASS",
+    "TV",
+    "The Express Tribune",
+    "The Guardian — World",
+    "The Hindu — International",
+    "Vanguard Nigeria",
+    "was über Flug FZ1073 bekannt ist"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Israel-bound plane rerouted to Saudi Arabia; pilots wounded in reported fight",
+    "link": "https://www.dawn.com/news/2033728/israel-bound-plane-rerouted-to-saudi-arabia-pilots-wounded-in-reported-fight",
+    "summary": "Two pilots were wounded after they reportedly fought on board the plane they were flying from Dubai to Tel Aviv, and which was forced to make an emergency landing in Saudi Arabia on Wednesday. The flydubai plane landed in Tabuk at 9:45 am (11:45am PKT) and its “captain and copilot were found to have injuries and were transported to hospital”, a statement from the company operating the airport said. The low-cost carrier had earlier said flight FZ 1073 “experienced an incident while en route”. “The aircraft has landed safely in Tabuk Airport (TUU) and all passengers are safe and accounted for.” Several Israeli media outlets reported that a fight had broken out between the plane’s pilots, reportedly causing a distress signal to be activated. Israeli media also reported that two other pilots were flying on the plane as passengers, and that they had taken over the controls to carry out the emergency landing in Saudi Arabia. Neither the airline nor authorities of the countries involved provided details on what happened on board or on the pilots’ nationalities, but some Israeli media said one was Omani and the other Emirati. According to data from the Flightradar website, the aircraft sud",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-30T14:00:41+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/3013034853267e0.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "CBS News — World",
+      "Channel News Asia",
+      "Daily Maverick",
+      "Daily Sabah",
+      "Dawn",
+      "Der Spiegel",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Iran International",
+      "Le Monde",
+      "Malay Mail",
+      "NDTV — World",
+      "NPR World",
+      "Netanyahu",
+      "Punch Nigeria",
+      "Reuters",
+      "South China Morning Post",
+      "TASS",
+      "TV",
+      "The Express Tribune",
+      "The Guardian — World",
+      "The Hindu — International",
+      "Vanguard Nigeria",
+      "was über Flug FZ1073 bekannt ist"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2033728/israel-bound-plane-rerouted-to-saudi-arabia-pilots-wounded-in-reported-fight"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/israel-bound-commercial-plane-from-dubai-diverted-to-saudi-arabia-after-distress-call/article71527429.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/flydubai-flight-hijack-scare-dubai-tel-aviv-emergency-landing-saudi-arabia-israeli-fighter-jets-netanyahu-news-101790751474783.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/30/flydubai-flight-bound-for-tel-aviv-lands-in-saudi-arabia-after-incident/237149"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/video/flight-from-dubai-to-israel-lands-in-saudi-arabia-after-pilots-fight-midair/"
+      },
+      {
+        "name": "TV",
+        "link": "https://tass.com/emergencies/2195045"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/3013034853267e0.webp",
+      "https://i.dawn.com/large/2026/09/3012483443ce62d.webp",
+      "https://i.dawn.com/thumbnail/2026/09/3013034853267e0.webp",
+      "https://i.dawn.com/thumbnail/2026/09/3012483443ce62d.webp",
+      "https://th-i.thgim.com/public/incoming/lyx750/article71528788.ece/alternates/LANDSCAPE_1200/Mideast_Emergency_Landing_38992.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/30/365540.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 25,
+    "velocity": 1.0,
+    "age_hours": 1366.917507988611,
+    "is_stale": false,
+    "score": 42.30671031213899,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "حادثة غريبة: طيار وقائد يتقاتلان على متن طائرة إسرائيلية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

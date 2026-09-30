@@ -1,128 +1,5 @@
 [
   {
-    "score": 27.96,
-    "bucket": "serious",
-    "tokens": [
-      "aramco",
-      "claim",
-      "facilities",
-      "houthis",
-      "riyadh",
-      "saudi",
-      "strikes",
-      "target",
-      "yanbu"
-    ],
-    "link": "https://tass.com/world/2192453",
-    "title": "Houthis claim strikes on target in Riyadh, Saudi Aramco facilities in Yanbu",
-    "posted_title": "لماذا قررت فرنسا إرسال جنود لحماية موقع نفطي سعودي في ينبع",
-    "region": "ru",
-    "seen_at": "2026-09-25T09:35:26.217873+00:00"
-  },
-  {
-    "score": 29.3,
-    "bucket": "serious",
-    "tokens": [
-      "agent",
-      "australia",
-      "government",
-      "hacked",
-      "health",
-      "openai",
-      "reveals",
-      "website"
-    ],
-    "link": "https://asia.nikkei.com/business/technology/artificial-intelligence/australia-reveals-openai-agent-hacked-government-health-website",
-    "title": "Australia reveals OpenAI agent hacked government health website",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-09-25T15:08:03.736435+00:00"
-  },
-  {
-    "score": 27.72,
-    "bucket": "serious",
-    "tokens": [
-      "105",
-      "camp",
-      "crimes",
-      "germany",
-      "investigated",
-      "nazi",
-      "old",
-      "pow",
-      "year"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cwzrzjy3pynvo?at_medium=RSS&at_campaign=rss",
-    "title": "105-year-old investigated for crimes at Nazi PoW camp in Germany",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-25T15:08:03.736785+00:00"
-  },
-  {
-    "score": 27.17,
-    "bucket": "serious",
-    "tokens": [
-      "'paradise",
-      "could",
-      "france",
-      "humanity",
-      "leo",
-      "machines'",
-      "opens",
-      "pope",
-      "trip",
-      "undermine",
-      "warns"
-    ],
-    "link": "https://www.thehindu.com/news/international/pope-leo-warns-paradise-of-machines-could-undermine-humanity-as-he-opens-france-trip/article71508923.ece",
-    "title": "Pope Leo warns 'paradise of machines' could undermine humanity as he opens France trip",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-25T15:08:03.737136+00:00"
-  },
-  {
-    "score": 25.33,
-    "bucket": "serious",
-    "tokens": [
-      "athens",
-      "building",
-      "explosion",
-      "fells",
-      "heart",
-      "injured",
-      "three",
-      "touristic"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-25-explosion-fells-building-in-heart-of-touristic-athens-three-injured/",
-    "title": "Explosion fells building in heart of touristic Athens, three injured",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-25T15:08:03.737390+00:00"
-  },
-  {
-    "score": 25.17,
-    "bucket": "serious",
-    "tokens": [
-      "bangladesh",
-      "deepen",
-      "iran",
-      "margins",
-      "meets",
-      "pakistan",
-      "pezeshkian",
-      "rahman",
-      "sharif",
-      "ties",
-      "unga",
-      "vows"
-    ],
-    "link": "https://www.thehindu.com/news/international/pakistan-vows-to-deepen-ties-with-bangladesh-and-iran-as-sharif-meets-rahman-pezeshkian-on-unga-margins/article71507395.ece",
-    "title": "Pakistan vows to deepen ties with Bangladesh and Iran as Sharif meets Rahman, Pezeshkian on UNGA margins",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-25T15:08:03.737656+00:00"
-  },
-  {
     "score": 27.11,
     "bucket": "serious",
     "tokens": [
@@ -2369,5 +2246,101 @@
     "posted_title": "",
     "region": "ru",
     "seen_at": "2026-09-30T09:08:10.275595+00:00"
+  },
+  {
+    "score": 42.31,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "bound",
+      "fight",
+      "israel",
+      "pilots",
+      "plane",
+      "reported",
+      "rerouted",
+      "saudi",
+      "wounded"
+    ],
+    "link": "https://www.dawn.com/news/2033728/israel-bound-plane-rerouted-to-saudi-arabia-pilots-wounded-in-reported-fight",
+    "title": "Israel-bound plane rerouted to Saudi Arabia; pilots wounded in reported fight",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-09-30T15:08:28.517351+00:00"
+  },
+  {
+    "score": 33.21,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "denies",
+      "netanyahu",
+      "official",
+      "saudi",
+      "talks",
+      "uae"
+    ],
+    "link": "https://www.thehindu.com/news/international/saudi-arabia-denies-talks-with-netanyahu-in-uae-official/article71527669.ece",
+    "title": "Saudi Arabia denies talks with Netanyahu in UAE: official",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-09-30T15:08:28.517694+00:00"
+  },
+  {
+    "score": 28.06,
+    "bucket": "serious",
+    "tokens": [
+      "appoints",
+      "female",
+      "first",
+      "minister",
+      "morocco",
+      "prime"
+    ],
+    "link": "https://www.premiumtimesng.com/foreign/913504-morocco-appoints-first-female-prime-minister.html",
+    "title": "Morocco appoints first female prime minister",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-09-30T15:08:28.517989+00:00"
+  },
+  {
+    "score": 27.79,
+    "bucket": "serious",
+    "tokens": [
+      "anti",
+      "ends",
+      "iraq",
+      "islamic",
+      "last",
+      "leave",
+      "mission",
+      "state",
+      "troops"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c65ym1dyn92mo?at_medium=RSS&at_campaign=rss",
+    "title": "Last UK and US troops leave Iraq as anti-Islamic State mission ends",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-30T15:08:28.518289+00:00"
+  },
+  {
+    "score": 25.34,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "energy",
+      "infrastructure",
+      "largest",
+      "launches",
+      "russia",
+      "since",
+      "spring",
+      "ukraine"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/ckjw5jx2l393o?at_medium=RSS&at_campaign=rss",
+    "title": "Russia launches largest attack on Ukraine energy infrastructure since spring",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-09-30T15:08:28.518582+00:00"
   }
 ]

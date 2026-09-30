@@ -1,0 +1,79 @@
+{
+  "id": "8a2c58c3fdee",
+  "created_at": "2026-09-30T15:08:28.517704+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.06,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "المغرب يعيّن أول رئيسة حكومة أنثى؛ منعطف تاريخي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Morocco appoints first female prime minister",
+  "link": "https://www.premiumtimesng.com/foreign/913504-morocco-appoints-first-female-prime-minister.html",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera",
+    "AllAfrica",
+    "Hindustan Times — World",
+    "Premium Times"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Morocco appoints first female prime minister",
+    "link": "https://www.premiumtimesng.com/foreign/913504-morocco-appoints-first-female-prime-minister.html",
+    "summary": "Ms El Mansouri described her appointment as “truly historic.” The post Morocco appoints first female prime minister appeared first on Premium Times Nigeria .",
+    "source_name": "Premium Times",
+    "region": "ng",
+    "weight": 1.1,
+    "published": "2026-09-30T09:46:24+00:00",
+    "image_url": "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/09/ea1c2ed7-7d09-4db3-8066-1effaf59eb33.png?fit=1672%2C941&amp;ssl=1",
+    "publisher": "Premium Times",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera",
+      "AllAfrica",
+      "Hindustan Times — World",
+      "Premium Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Premium Times",
+        "link": "https://www.premiumtimesng.com/foreign/913504-morocco-appoints-first-female-prime-minister.html"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/09/29/moroccos-king-appoints-the-countrys-first-ever-female-prime-minister/"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202609300095.html"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/morocco-gets-first-woman-prime-minister-as-king-appoints-fatima-zahra-mansouri-to-top-post-101790702880650.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/09/ea1c2ed7-7d09-4db3-8066-1effaf59eb33.png?fit=1672%2C941&amp;ssl=1",
+      "http://images.euronews.com/articles/stories/09/93/28/86/640x360_cmsv2_92427711-a8ff-5717-9608-9f56dc2db96b-9932886.jpg?1790701953"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1366.9175103580556,
+    "is_stale": true,
+    "score": 28.05838898999542,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "المغرب يعيّن أول رئيسة حكومة أنثى؛ منعطف تاريخي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "id": "34966367f1ce",
+  "created_at": "2026-09-30T15:08:28.517363+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 33.21,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "السعودية تنفي محادثات مع نتنياهو؛ موقف صريح من إسرائيل",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi Arabia denies talks with Netanyahu in UAE: official",
+  "link": "https://www.thehindu.com/news/international/saudi-arabia-denies-talks-with-netanyahu-in-uae-official/article71527669.ece",
+  "publishers": [
+    "Arab News",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Saudi Arabia denies talks with Netanyahu in UAE: official",
+    "link": "https://www.thehindu.com/news/international/saudi-arabia-denies-talks-with-netanyahu-in-uae-official/article71527669.ece",
+    "summary": "No official meetings. No talks. Nothing whatsoever. Our stance on Israel remains unchanged, a Saudi official said",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-09-30T09:19:10+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/n3xnj2/article71527675.ece/alternates/LANDSCAPE_1200/2026-09-17T164658Z_2059624612_RC25ZHAXZGHC_RTRMADP_3_USA-SAUDI-NUCLEARPOWER.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Arab News",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/saudi-arabia-denies-talks-with-netanyahu-in-uae-official/article71527669.ece"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/09/30/saudi-arabia-denies-officials-met-israels-netanyahu-in-uae/237152"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/no-talks-our-stance-on-israel-remains-unchanged-saudi-arabia-denies-talks-with-netanyahu-in-uae-101790763254862.html"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/saudi-official-denies-kingdom-engaged-with-netanyahu-in-uae"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/n3xnj2/article71527675.ece/alternates/LANDSCAPE_1200/2026-09-17T164658Z_2059624612_RC25ZHAXZGHC_RTRMADP_3_USA-SAUDI-NUCLEARPOWER.JPG",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/09/30/365547.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/09/30/463126.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1366.9175143780558,
+    "is_stale": false,
+    "score": 33.211463063717645,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "السعودية تنفي محادثات مع نتنياهو؛ موقف صريح من إسرائيل",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

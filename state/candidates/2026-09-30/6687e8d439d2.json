@@ -1,0 +1,70 @@
+{
+  "id": "6687e8d439d2",
+  "created_at": "2026-09-30T15:08:28.518298+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.34,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "روسيا تشن أضخم هجوم على البنية التحتية الأوكرانية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia launches largest attack on Ukraine energy infrastructure since spring",
+  "link": "https://www.bbc.co.uk/news/articles/ckjw5jx2l393o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC",
+    "BBC World",
+    "MyJoyOnline Ghana"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Russia launches largest attack on Ukraine energy infrastructure since spring",
+    "link": "https://www.bbc.co.uk/news/articles/ckjw5jx2l393o?at_medium=RSS&at_campaign=rss",
+    "summary": "In total 11 regions of the country were attacked overnight, with residential buildings and railways also targeted, the Ukrainian PM says.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-09-30T14:53:02+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4cc3/live/0f9ce800-bcc0-11f1-babe-4199b0e7ccea.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC",
+      "BBC World",
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/ckjw5jx2l393o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/russia-launches-largest-attack-on-ukraine-energy-infrastructure-since-spring/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/4cc3/live/0f9ce800-bcc0-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/4cc3/live/0f9ce800-bcc0-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4cc3/live/0f9ce800-bcc0-11f1-babe-4199b0e7ccea.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-3915-1024x593.png",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/09/image-3916-1024x630.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1366.9175834305556,
+    "is_stale": false,
+    "score": 25.338195906367172,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "روسيا تشن أضخم هجوم على البنية التحتية الأوكرانية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
