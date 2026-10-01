@@ -1,0 +1,831 @@
+{
+  "run_date": "2026-10-01",
+  "stats": {
+    "points_in": 257,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 107,
+    "issues_clustered": 38,
+    "topics_merged": 4,
+    "topics_out": 3,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 3,
+    "topics_below_min_points": 19,
+    "topics_below_min_channels": 9,
+    "layers": {
+      "2": 1,
+      "1": 2
+    },
+    "agreement": 3,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "أزمة تمويل اللاجئين الصحراويين",
+      "وضع اللاجئين الصحراويين القانوني والتاريخي"
+    ],
+    [
+      "فضيحة صناديق الاستثمار التركية وتصفيتها",
+      "أرباح فاطمة بتول سايان كايا من الصناديق"
+    ],
+    [
+      "تهديدات ترامب ونتنياهو بشأن إيران وإسرائيل",
+      "تقييم بردوغو لإنجازات نتنياهو وقراراته"
+    ],
+    [
+      "الانسحاب الأمريكي الكامل من العراق",
+      "مبررات حرب العراق الكاذبة وخسائرها"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "تهديدات ترامب ونتنياهو بشأن إيران وإسرائيل",
+      "event": "تصريحات ترامب بسقوط الجمهورية الإسلامية قريباً وتحذير نتنياهو من هجوم محتمل قبل الانتخابات",
+      "layer": 2,
+      "blocs": [
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        60,
+        64,
+        69,
+        70,
+        73
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "658037d70722",
+      "created_at": "2026-10-01T04:02:22.314312+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1140
+    },
+    {
+      "title": "تحذير من التلاعب المنظم في صناديق الاستثمار التركية",
+      "event": "تحذير من العوائد غير المنطقية في الصناديق كدليل على تلاعب منظم من كيانات كبرى",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        52,
+        116,
+        117,
+        123
+      ],
+      "total_points": 4,
+      "fresh_points": 3,
+      "dropped_reason": null,
+      "id": "c8fb293afcb3",
+      "created_at": "2026-10-01T04:02:22.314312+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1140
+    },
+    {
+      "title": "الانسحاب الأمريكي الكامل من العراق",
+      "event": "إعلان ترامب انسحاب آخر جندي أمريكي من العراق بعد عقدين من الاحتلال وتبعاته",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        108,
+        110,
+        112,
+        113,
+        128
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "338700888d12",
+      "created_at": "2026-10-01T04:02:22.314312+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1140
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "تهديدات ترامب ونتنياهو بشأن إيران وإسرائيل",
+      "event": "تصريحات ترامب بسقوط الجمهورية الإسلامية قريباً وتحذير نتنياهو من هجوم محتمل قبل الانتخابات",
+      "layer": 2,
+      "blocs": [
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        60,
+        64,
+        69,
+        70,
+        73
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "مقترح إيران للتفاوض (سبعة أيام/14 نقطة)",
+      "event": "تقديم إيران مقترحاً تفاوضياً جديداً (مقترح السبعة أيام) وتقييم مدى جدته مقارنة بالمقترح السابق",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        2,
+        8
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الهدنة السودانية ومجلس الأمن",
+      "event": "مطالبة مجلس الأمن والإدارة الأمريكية بهدنة إنسانية في السودان وتوسيع حظر السلاح",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        12,
+        13,
+        14
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "رؤية السلام في السودان ومواقف الأطراف",
+      "event": "تباين الرؤى حول أسس السلام في السودان بين الحسم العسكري ومواقف قوات الدعم السريع والعقلانية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        15,
+        17,
+        18
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الاتهامات السودانية الإثيوبية بدعم الدعم السريع",
+      "event": "اتهام السودان لإثيوبيا بدعم ميليشيا الدعم السريع ورد مصر بشأن السيادة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        23,
+        24
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحالف جبهة تيغراي ضد حكومة آبي أحمد وأسباب الأزمة الإثيوبية",
+      "event": "إعادة تحالف جبهة تحرير تيغراي مع مجموعات مسلحة والإطاحة بحكومة آبي أحمد، وتباين تفسير أسباب الأزمة والدعم الخارجي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        26,
+        27,
+        28,
+        29,
+        31
+      ],
+      "total_points": 5,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تعيين فاطمة الزهراء المنصوري رئيسة حكومة المغرب",
+      "event": "تعيين فاطمة الزهراء المنصوري أول رئيسة حكومة في المغرب وتقييم دلالاته",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        40,
+        41,
+        42,
+        43
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مسار المفاوضات الأمريكية الإيرانية بعد فشل نيويورك",
+      "event": "استمرار الفجوة بين طهران وواشنطن بعد فشل لقاءات نيويورك وانتظار الرد الإيراني",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        88
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحذير من التلاعب المنظم في صناديق الاستثمار التركية",
+      "event": "تحذير من العوائد غير المنطقية في الصناديق كدليل على تلاعب منظم من كيانات كبرى",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        52,
+        116,
+        117,
+        123
+      ],
+      "total_points": 4,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "الإرث الاستعماري البريطاني وأزمة دارفور",
+      "event": "السياسات الاستعمارية البريطانية (المناطق المقفولة والتقسيم العرقي) وأثرها على أزمة دارفور، وتبعات حل الإدارة الأهلية لاحقاً",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        82,
+        83,
+        84
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حادثة طائرة فلاي دبي واستثمار نتنياهو السياسي لها",
+      "event": "تحكم إسرائيل بسردية حادثة طائرة فلاي دبي واستثمار نتنياهو السريع للحادثة سياسياً وانتخابياً",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90,
+        91
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "رفض الفصائل العراقية حصر السلاح والتمديد الحكومي",
+      "event": "رفض الفصائل المسلحة العراقية الالتزام بتوقيتات حصر السلاح وتمديد الحكومة للموعد النهائي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        92,
+        93
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ليبيا ساحة تنافس روسي أمريكي-أوكراني",
+      "event": "تحول ليبيا إلى ساحة تنافس جيوسياسي بين روسيا والغرب وأوكرانيا عبر الوجود العسكري والأسلحة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "زيارة نتنياهو غير المعلنة للإمارات",
+      "event": "تفاصيل زيارة نتنياهو المفاجئة للإمارات رغم طلب إلغائها وربطها بالحملة الانتخابية ودور إسرائيل في اليمن",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        102,
+        103,
+        104,
+        105,
+        106,
+        107
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الانسحاب الأمريكي الكامل من العراق",
+      "event": "إعلان ترامب انسحاب آخر جندي أمريكي من العراق بعد عقدين من الاحتلال وتبعاته",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        108,
+        110,
+        112,
+        113,
+        128
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "رفض تركيا السماح بعبور القوات الأمريكية عام 2003",
+      "event": "رفض تركيا في مارس 2003 السماح للقوات الأمريكية بعبور أراضيها لمهاجمة العراق وتقييم أهمية هذا الموقف",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        109,
+        111
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تعطل قانون الأخلاق السياسية وفساد حزب العدالة والتنمية",
+      "event": "فشل رئيس حزب العدالة والتنمية في تمرير قانون الأخلاق السياسية وربط ذلك بتعطل معالجة فضيحة الصناديق لارتباط المتورطين بالحزب",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        118,
+        119,
+        120
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انتقالات بلدية من المعارضة إلى حزب العدالة والتنمية",
+      "event": "انتقال أعضاء بلديات (أتاشهير وتشيغلي) من حزب الشعب الجمهوري إلى حزب العدالة والتنمية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        126
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "سياسة بازغشت (العودة) للإيرانيين خارج البلاد ومخاطرها",
+      "event": "الجدل حول عودة الإيرانيين المقيمين بالخارج إلى إيران والمخاطر الأمنية المرتبطة بذلك واعتقالات سابقة",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تحديات مكافحة الجريمة المنظمة في إسرائيل",
+      "event": "طبيعة عمل وحدات مكافحة الجريمة المنظمة في إسرائيل وتحدياتها وأساليب العصابات الحديثة",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "استبعاد واستبعاد مرشحين عرب من الانتخابات الإسرائيلية",
+      "event": "قرار لجنة الانتخابات المركزية استبعاد القائمة العربية الموحدة ومنع سامي أبو شحادة من الترشح",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        144,
+        145
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "توجهات الناخبين الإسرائيليين بعد 7 أكتوبر",
+      "event": "تحولات التصويت في مناطق مثل كيبوتس بيري وحي فلورنتين بعد أحداث 7 أكتوبر",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        148,
+        149
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التفاوض الأمريكي الإيراني وفتح هرمز مقابل النووي",
+      "event": "تحول الموقف الأمريكي في المفاوضات مع إيران من اشتراط فتح مضيق هرمز إلى التركيز على الملف النووي وحده، والحصار البحري الأمريكي على إيران",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        6,
+        7
+      ],
+      "total_points": 4,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "دور المرشد الإيراني وتعنت موقف إيران التفاوضي",
+      "event": "تشديد المرشد الإيراني لموقف التفاوض وتأثيره على مرونة المفاوضين وإضاعة إيران فرصة التفاوض رغم نجاحها العسكري",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        11
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأزمة الاقتصادية الإيرانية (نفط وعملة)",
+      "event": "تراجع صادرات النفط الإيرانية وانهيار قيمة الريال نتيجة العقوبات والحصار",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        9,
+        10
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تعاون الحوثيين مع جهات خارجية وداخلية",
+      "event": "ممارسات الحوثيين في نقل العمال قسراً للجبهات وتعاونهم مع حركة الشباب الصومالية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        21,
+        22
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة تمويل اللاجئين الصحراويين",
+      "event": "تراجع حاد في التمويل الدولي لمخيمات اللاجئين الصحراويين وتحذير الأمم المتحدة من تدهور أوضاعهم",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        33,
+        34,
+        35,
+        36,
+        38
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تحديات حكومة المنصوري المقبلة",
+      "event": "التحديات الاقتصادية والاجتماعية والدولية التي تواجه حكومة المنصوري الجديدة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        45,
+        46
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فضيحة صناديق الاستثمار التركية وتصفيتها",
+      "event": "إنشاء مجلس منسق لتصفية صناديق الاستثمار الاحتيالية في تركيا وحماية حقوق المستثمرين",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        47,
+        48,
+        49,
+        57,
+        59
+      ],
+      "total_points": 5,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تعهد إردوغان بمحاسبة المتورطين في فضيحة الصناديق",
+      "event": "تصريحات إردوغان بمتابعة قضية الصناديق حتى النهاية والدفاع عن نزاهة حزبه",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        50,
+        51
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "هروب محمد يارز ويخته إلى اليونان",
+      "event": "فرار رجل الأعمال محمد يارز إلى اليونان بيخته بعد صدور أمر اعتقال بحقه وملكيته لعدة يخوت",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        53,
+        54,
+        55,
+        56
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتقال بردوغو للسياسة ورؤيته للانتخابات الإسرائيلية",
+      "event": "انتقال يعقوب بردوغو من الإعلام للسياسة ورؤيته لأهمية الانتخابات القادمة لهوية إسرائيل",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        67,
+        68
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف بردوغو من احتجاجات الإصلاح القضائي ولجنة تحقيق 7 أكتوبر",
+      "event": "رأي بردوغو بأن احتجاجات الإصلاح القضائي كانت مضللة وبتمويل أجنبي، ودعوته لتشكيل لجنة تحقيق في أحداث 7 أكتوبر",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        71,
+        72
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة انقطاع المعلمين الجدد في إسرائيل",
+      "event": "ارتفاع معدل ترك المعلمين الجدد للتدريس في إسرائيل خلال العقد الأخير وأسبابه وحلوله",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
