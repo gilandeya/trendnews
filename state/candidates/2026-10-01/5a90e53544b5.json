@@ -1,0 +1,68 @@
+{
+  "id": "5a90e53544b5",
+  "created_at": "2026-10-01T09:08:05.750222+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.15,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "كوريا الجنوبية تستثمر بمليارات في الطاقة النووية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(URGENT) Lutnick says S. Korea to invest US$120 billion to build 8 nuclear power plants",
+  "link": "https://en.yna.co.kr/view/AEN20261001001000315",
+  "publishers": [
+    "Nikkei Asia",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(URGENT) Lutnick says S. Korea to invest US$120 billion to build 8 nuclear power plants",
+    "link": "https://en.yna.co.kr/view/AEN20261001001000315",
+    "summary": "(END)",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-09-30T20:53:19+00:00",
+    "image_url": "https://img.yna.co.kr/photo/cms/2023/08/24/07/PCM20230824000107990_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Nikkei Asia",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261001000900315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261001001000315"
+      },
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/economy/trade-war/trump-tariffs/south-korea-to-build-8-nuclear-power-plants-in-us-invest-120bn"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/cms/2023/08/24/07/PCM20230824000107990_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1384.9116127208333,
+    "is_stale": false,
+    "score": 23.150688930555553,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "كوريا الجنوبية تستثمر بمليارات في الطاقة النووية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

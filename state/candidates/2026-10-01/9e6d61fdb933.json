@@ -1,0 +1,68 @@
+{
+  "id": "9e6d61fdb933",
+  "created_at": "2026-10-01T09:08:05.750558+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.11,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "أداة حماية جديدة للآباء على واتس آب",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "WhatsApp introduces optional parental controls for teenagers",
+  "link": "https://www.bbc.co.uk/news/articles/cm986x65we88o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Agência Brasil",
+    "BBC Technology"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "WhatsApp introduces optional parental controls for teenagers",
+    "link": "https://www.bbc.co.uk/news/articles/cm986x65we88o?at_medium=RSS&at_campaign=rss",
+    "summary": "The social messaging app will let parents decide on privacy settings for their child's account.",
+    "source_name": "BBC Technology",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-09-30T13:01:30+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f4b8/live/e7f33150-bcc5-11f1-ae14-0b840f99ba59.jpg",
+    "publisher": "BBC Technology",
+    "cluster_sources": [
+      "Agência Brasil",
+      "BBC Technology"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Technology",
+        "link": "https://www.bbc.co.uk/news/articles/cm986x65we88o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Agência Brasil",
+        "link": "https://agenciabrasil.ebc.com.br/direitos-humanos/noticia/2026-09/whatsapp-lanca-regras-para-controle-parental-no-brasil-saiba-como"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f4b8/live/e7f33150-bcc5-11f1-ae14-0b840f99ba59.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/f4b8/live/e7f33150-bcc5-11f1-ae14-0b840f99ba59.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f4b8/live/e7f33150-bcc5-11f1-ae14-0b840f99ba59.jpg",
+      "https://agenciabrasil.ebc.com.br/ebc.png?id=1703770&amp;o=rss",
+      "https://agenciabrasil.ebc.com.br/ebc.gif?id=1703770&amp;o=rss"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.109781525407406,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "أداة حماية جديدة للآباء على واتس آب",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
