@@ -1,120 +1,5 @@
 [
   {
-    "score": 25.01,
-    "bucket": "serious",
-    "tokens": [
-      "agents",
-      "error",
-      "images",
-      "online",
-      "openai",
-      "posted",
-      "user"
-    ],
-    "link": "https://www.channelnewsasia.com/world/openai-agents-post-user-images-online-error-6412516",
-    "title": "OpenAI says its AI agents posted user images online in error",
-    "posted_title": "كيف نشرت أدوات OpenAI صور مستخدمين على الإنترنت دون علمهم",
-    "region": "seasia",
-    "seen_at": "2026-09-26T10:00:09.715501+00:00"
-  },
-  {
-    "score": 33.55,
-    "bucket": "serious",
-    "tokens": [
-      "agree",
-      "beijing",
-      "billion",
-      "china",
-      "cut",
-      "dialogue",
-      "during",
-      "tariff",
-      "visit"
-    ],
-    "link": "https://www.thehindu.com/news/international/us-china-to-set-up-communication-channel-for-ai-incidents/article71511753.ece",
-    "title": "China, U.S. agree to $30 billion tariff cut, AI dialogue during Xi visit: Beijing",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-26T15:07:59.071578+00:00"
-  },
-  {
-    "score": 27.16,
-    "bucket": "serious",
-    "tokens": [
-      "bombing",
-      "dera",
-      "ismail",
-      "khan",
-      "kills",
-      "least",
-      "pakistan",
-      "people",
-      "suicide"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/9/26/blast-in-pakistans-dera-ismail-khan-kills-several-people?traffic_source=rss",
-    "title": "Suicide bombing in Pakistan’s Dera Ismail Khan kills at least 12 people",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-26T15:07:59.071906+00:00"
-  },
-  {
-    "score": 25.94,
-    "bucket": "serious",
-    "tokens": [
-      "face",
-      "families",
-      "long",
-      "missing",
-      "month",
-      "recovery",
-      "still",
-      "thousands"
-    ],
-    "link": "https://www.france24.com/en/a-month-after-thousands-are-still-missing-and-families-face-a-long-recovery",
-    "title": "A month after, thousands are still missing and families face a long recovery",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-26T15:07:59.072179+00:00"
-  },
-  {
-    "score": 25.84,
-    "bucket": "serious",
-    "tokens": [
-      "airlines",
-      "ban",
-      "exemption",
-      "iran",
-      "iraq",
-      "seeks"
-    ],
-    "link": "https://www.thehindu.com/news/international/iraq-seeks-exemption-from-us-ban-on-iran-airlines/article71512041.ece",
-    "title": "Iraq seeks exemption from U.S. ban on Iran airlines",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-26T15:07:59.072443+00:00"
-  },
-  {
-    "score": 24.8,
-    "bucket": "serious",
-    "tokens": [
-      "besar",
-      "china",
-      "diperkukuh",
-      "kuasa",
-      "laut",
-      "pertahanan",
-      "pertembungan",
-      "risiko",
-      "selatan",
-      "susulan"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/bahasa/tempatan/2026/09/26/pertahanan-diperkukuh-susulan-risiko-pertembungan-kuasa-besar-di-laut-china-selatan",
-    "title": "Pertahanan diperkukuh susulan risiko pertembungan ‘kuasa besar’ di Laut China Selatan",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-26T15:07:59.072713+00:00"
-  },
-  {
     "score": 25.84,
     "bucket": "serious",
     "tokens": [
@@ -2415,5 +2300,101 @@
     "posted_title": "",
     "region": "ng",
     "seen_at": "2026-10-01T09:08:05.751186+00:00"
+  },
+  {
+    "score": 30.11,
+    "bucket": "serious",
+    "tokens": [
+      "'hero'",
+      "bound",
+      "flight",
+      "indian",
+      "israel",
+      "pilot",
+      "stabbed",
+      "who"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cje3r3z7g0zzo?at_medium=RSS&at_campaign=rss",
+    "title": "Who is the 'hero' Indian pilot who was stabbed on Israel-bound flight?",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-01T15:08:09.454789+00:00"
+  },
+  {
+    "score": 27.51,
+    "bucket": "serious",
+    "tokens": [
+      "'terror'",
+      "attack",
+      "flight",
+      "flydubai",
+      "israel",
+      "link",
+      "possible",
+      "probes",
+      "uae"
+    ],
+    "link": "https://www.channelnewsasia.com/world/uae-probes-israel-flydubai-flight-possible-terror-link-6423726",
+    "title": "UAE probes possible 'terror' link in attack on flydubai flight to Israel",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-10-01T15:08:09.455037+00:00"
+  },
+  {
+    "score": 24.93,
+    "bucket": "serious",
+    "tokens": [
+      "bridge",
+      "disrupting",
+      "drones",
+      "hit",
+      "key",
+      "kyiv",
+      "russian",
+      "transport"
+    ],
+    "link": "https://www.malaymail.com/news/world/2026/10/01/russian-drones-hit-key-kyiv-bridge-disrupting-transport/237304",
+    "title": "Russian drones hit key Kyiv bridge, disrupting transport",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-10-01T15:08:09.455247+00:00"
+  },
+  {
+    "score": 24.22,
+    "bucket": "serious",
+    "tokens": [
+      "attacker",
+      "flight",
+      "flydubai",
+      "indoctrination",
+      "netanyahu",
+      "radical",
+      "underwent"
+    ],
+    "link": "https://www.thehindu.com/news/international/netanyahu-says-flydubai-flight-attacker-underwent-radical-indoctrination/article71533277.ece",
+    "title": "Netanyahu says flydubai flight attacker underwent radical indoctrination",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-01T15:08:09.455475+00:00"
+  },
+  {
+    "score": 22.29,
+    "bucket": "serious",
+    "tokens": [
+      "avalanche",
+      "camp",
+      "climbers",
+      "himalayan",
+      "kills",
+      "mountain",
+      "nepali",
+      "preparing",
+      "workers"
+    ],
+    "link": "https://www.thehindu.com/news/international/avalanche-kills-nepali-workers-preparing-himalayan-mountain-camp-for-climbers/article71533255.ece",
+    "title": "Avalanche kills 15 Nepali workers preparing Himalayan mountain camp for climbers",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-01T15:08:09.455671+00:00"
   }
 ]

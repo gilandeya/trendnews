@@ -1,0 +1,99 @@
+{
+  "id": "8bc663610baa",
+  "created_at": "2026-10-01T15:08:09.454363+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.11,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "طيار هندي طعن على متن رحلة إلى إسرائيل — حدث غريب مثير",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Who is the 'hero' Indian pilot who was stabbed on Israel-bound flight?",
+  "link": "https://www.bbc.co.uk/news/articles/cje3r3z7g0zzo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "France24",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "NDTV — World",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Who is the 'hero' Indian pilot who was stabbed on Israel-bound flight?",
+    "link": "https://www.bbc.co.uk/news/articles/cje3r3z7g0zzo?at_medium=RSS&at_campaign=rss",
+    "summary": "Capt Smit Machchhar was attacked by another pilot onboard the Flydubai flight bound for Tel Aviv.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-01T15:04:32+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/861f/live/112640e0-bda1-11f1-babe-4199b0e7ccea.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "France24",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "NDTV — World",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/30/israel-bound-passenger-plane-emergency-landing-saudi-arabia-pilots-feud"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cje3r3z7g0zzo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/israel-bound-commercial-plane-from-dubai-diverted-to-saudi-arabia-after-distress-call/article71527429.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/passenger-on-rerouted-flydubai-flight-claims-pilot-tried-to-crash-plane/article71528815.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/tv-shows/press-review/20261001-israel-s-netanyahu-says-co-pilot-tried-to-crash-tel-aviv-bound-plane"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/religious-extremist-avoided-women-colleague-on-flydubai-pilot-who-tried-to-crash-plane-12124904#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/861f/live/112640e0-bda1-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/861f/live/112640e0-bda1-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/861f/live/112640e0-bda1-11f1-babe-4199b0e7ccea.jpg",
+      "https://i.guim.co.uk/img/media/93b146501a0080ae875800d1e50f24c633046651/0_15_800_639/master/800.jpg?width=700&quality=85&auto=format&fit=max&s=6dad1511f2ec1bceef5084203ca9d092",
+      "https://i.guim.co.uk/img/media/93b146501a0080ae875800d1e50f24c633046651/0_15_800_639/master/800.jpg?width=460&quality=85&auto=format&fit=max&s=6261839a08e6458ae269889bd350f6e5",
+      "https://i.guim.co.uk/img/media/93b146501a0080ae875800d1e50f24c633046651/0_15_800_639/master/800.jpg?width=140&quality=85&auto=format&fit=max&s=6c080e11a2514ed29344d94955e601a5"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 9,
+    "velocity": 1.0,
+    "age_hours": 1390.912134143611,
+    "is_stale": false,
+    "score": 30.106219806975083,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "طيار هندي طعن على متن رحلة إلى إسرائيل — حدث غريب مثير",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

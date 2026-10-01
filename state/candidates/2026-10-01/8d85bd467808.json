@@ -1,0 +1,73 @@
+{
+  "id": "8d85bd467808",
+  "created_at": "2026-10-01T15:08:09.455044+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.93,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "طائرات روسية تضرب جسر رئيسي في كييف",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian drones hit key Kyiv bridge, disrupting transport",
+  "link": "https://www.malaymail.com/news/world/2026/10/01/russian-drones-hit-key-kyiv-bridge-disrupting-transport/237304",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "Malay Mail",
+    "The Kyiv Independent"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Russian drones hit key Kyiv bridge, disrupting transport",
+    "link": "https://www.malaymail.com/news/world/2026/10/01/russian-drones-hit-key-kyiv-bridge-disrupting-transport/237304",
+    "summary": "KYIV, Oct 1 — Two Russian drones hit a major bridge connecting eastern and western Kyiv on Thursday, the Ukrainian...",
+    "source_name": "Malay Mail",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-10-01T11:49:40+00:00",
+    "image_url": "https://www.malaymail.com/malaymail/uploads/images/2026/10/01/365756.jpg",
+    "publisher": "Malay Mail",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "Malay Mail",
+      "The Kyiv Independent"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/10/01/russian-drones-hit-key-kyiv-bridge-disrupting-transport/237304"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/kyiv-school-nuclear-institute-hit-as-russia-ramps-up-attacks"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/1/russian-drone-hits-school-in-ukraines-kyiv-as-moscow-presses-air-assault?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/01/365756.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/01/463344.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1390.9121304294445,
+    "is_stale": true,
+    "score": 24.929926284648147,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "طائرات روسية تضرب جسر رئيسي في كييف",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
