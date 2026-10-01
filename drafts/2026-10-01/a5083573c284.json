@@ -36,6 +36,10 @@
     "publishers": [
       "Habertürk",
       "Halk TV"
+    ],
+    "image_url": "https://www.aljazeera.net/wp-content/uploads/2015/08/ef0b4442-5184-4608-acf9-9323a1361d1b.jpeg?resize=770%2C513&quality=80",
+    "image_candidates": [
+      "https://www.aljazeera.net/wp-content/uploads/2015/08/ef0b4442-5184-4608-acf9-9323a1361d1b.jpeg?resize=770%2C513&quality=80"
     ]
   },
   "score": 2,
@@ -46,15 +50,19 @@
   "has_photo": true,
   "has_news_photo": false,
   "review_issue": 1142,
-  "image": "drafts/2026-10-01/a5083573c284.jpg",
+  "image": "drafts/2026-10-01/a5083573c284-v2.jpg",
   "image_info": {
+    "manual": true,
     "used_original": true,
-    "illustrative": true,
+    "illustrative": false,
     "composite": false,
-    "chosen_url": null,
-    "candidates_tried": 0,
-    "manual": false,
-    "kind": null,
-    "news_photo_publisher": null
-  }
+    "chosen_url": "https://www.aljazeera.net/wp-content/uploads/2015/08/ef0b4442-5184-4608-acf9-9323a1361d1b.jpeg?resize=770%2C513&quality=80"
+  },
+  "manual_image": "https://www.aljazeera.net/wp-content/uploads/2015/08/ef0b4442-5184-4608-acf9-9323a1361d1b.jpeg?resize=770%2C513&quality=80",
+  "reel_spec": {
+    "image_candidates": [
+      "https://www.aljazeera.net/wp-content/uploads/2015/08/ef0b4442-5184-4608-acf9-9323a1361d1b.jpeg?resize=770%2C513&quality=80"
+    ]
+  },
+  "reel": null
 }

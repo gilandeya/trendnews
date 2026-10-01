@@ -37,6 +37,10 @@
     "publishers": [
       "Iran International",
       "ערוץ 14"
+    ],
+    "image_url": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/05/26/thumbs_b_c_3dcba00878c7c277a82ad8732f9a8ecf.jpg",
+    "image_candidates": [
+      "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/05/26/thumbs_b_c_3dcba00878c7c277a82ad8732f9a8ecf.jpg"
     ]
   },
   "score": 4,
@@ -44,19 +48,23 @@
     "5JEV-y7MZ48",
     "8WURxt13J0w"
   ],
-  "has_photo": false,
+  "has_photo": true,
   "has_news_photo": true,
   "review_issue": 1142,
   "caption_edited": true,
-  "image": "drafts/2026-10-01/96cdae9dca18.jpg",
+  "image": "drafts/2026-10-01/96cdae9dca18-v2.jpg",
   "image_info": {
-    "used_original": false,
+    "manual": true,
+    "used_original": true,
     "illustrative": false,
     "composite": false,
-    "chosen_url": null,
-    "candidates_tried": 0,
-    "manual": false,
-    "kind": null,
-    "news_photo_publisher": null
-  }
+    "chosen_url": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/05/26/thumbs_b_c_3dcba00878c7c277a82ad8732f9a8ecf.jpg"
+  },
+  "manual_image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/05/26/thumbs_b_c_3dcba00878c7c277a82ad8732f9a8ecf.jpg",
+  "reel_spec": {
+    "image_candidates": [
+      "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/05/26/thumbs_b_c_3dcba00878c7c277a82ad8732f9a8ecf.jpg"
+    ]
+  },
+  "reel": null
 }
