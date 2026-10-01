@@ -1,0 +1,121 @@
+{
+  "id": "58fca97d859e",
+  "created_at": "2026-10-01T03:08:04.544269+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 40.04,
+  "trend_score": 1.0,
+  "velocity": 0.7,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "حادثة درامية على طائرة متجهة لإسرائيل، هبوط طارئ آمن بالسعودية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "'Hero' pilot stabbed by other pilot on Israel-bound plane, Israeli PM says",
+  "link": "https://www.bbc.co.uk/news/articles/cqgmrm7xd8wyo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera",
+    "Al Jazeera English",
+    "BBC World",
+    "CGTN",
+    "Channel News Asia",
+    "Daily Sabah",
+    "Der Spiegel",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times",
+    "Hindustan Times — World",
+    "Iran International",
+    "Le Monde",
+    "Malay Mail",
+    "NDTV — World",
+    "South China Morning Post",
+    "TASS",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "'Hero' pilot stabbed by other pilot on Israel-bound plane, Israeli PM says",
+    "link": "https://www.bbc.co.uk/news/articles/cqgmrm7xd8wyo?at_medium=RSS&at_campaign=rss",
+    "summary": "Passengers and crew overpowered the attacker and safely landed the plane in Saudi Arabia.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-01T02:29:04+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/49ac/live/21ee8c40-bcff-11f1-babe-4199b0e7ccea.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera",
+      "Al Jazeera English",
+      "BBC World",
+      "CGTN",
+      "Channel News Asia",
+      "Daily Sabah",
+      "Der Spiegel",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times",
+      "Hindustan Times — World",
+      "Iran International",
+      "Le Monde",
+      "Malay Mail",
+      "NDTV — World",
+      "South China Morning Post",
+      "TASS",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/sep/30/israel-bound-passenger-plane-emergency-landing-saudi-arabia-pilots-feud"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cqgmrm7xd8wyo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20260930-israel-pm-says-pilot-of-rerouted-flight-tried-to-crash-plane"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/israel-bound-commercial-plane-from-dubai-diverted-to-saudi-arabia-after-distress-call/article71527429.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/flydubai-co-pilot-tried-to-crash-tel-aviv-flight-netanyahu"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-09-30/news-1QRLPQlO8HS/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/49ac/live/21ee8c40-bcff-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/49ac/live/21ee8c40-bcff-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/49ac/live/21ee8c40-bcff-11f1-babe-4199b0e7ccea.jpg",
+      "https://i.guim.co.uk/img/media/93b146501a0080ae875800d1e50f24c633046651/0_15_800_639/master/800.jpg?width=700&quality=85&auto=format&fit=max&s=6dad1511f2ec1bceef5084203ca9d092",
+      "https://i.guim.co.uk/img/media/93b146501a0080ae875800d1e50f24c633046651/0_15_800_639/master/800.jpg?width=460&quality=85&auto=format&fit=max&s=6261839a08e6458ae269889bd350f6e5",
+      "https://i.guim.co.uk/img/media/93b146501a0080ae875800d1e50f24c633046651/0_15_800_639/master/800.jpg?width=140&quality=85&auto=format&fit=max&s=6c080e11a2514ed29344d94955e601a5"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 20,
+    "velocity": 0.7039508316180346,
+    "age_hours": 1378.9106965894443,
+    "is_stale": false,
+    "score": 40.04267130464115,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "حادثة درامية على طائرة متجهة لإسرائيل، هبوط طارئ آمن بالسعودية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

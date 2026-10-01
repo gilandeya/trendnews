@@ -1,0 +1,65 @@
+{
+  "id": "c46a89937537",
+  "created_at": "2026-10-01T03:08:04.545414+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.71,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "استثمار كوري جنوبي ضخم بـ200 مليار دولار في مشاريع أمريكية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump unveils $200 billion South Korean investment in U.S. projects",
+  "link": "https://www.japantimes.co.jp/news/2026/10/01/world/trump-200-billion-south-korea-investment/",
+  "publishers": [
+    "South China Morning Post",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Trump unveils $200 billion South Korean investment in U.S. projects",
+    "link": "https://www.japantimes.co.jp/news/2026/10/01/world/trump-200-billion-south-korea-investment/",
+    "summary": "Trump said the investment will include the construction of nuclear power plants, an LNG pipeline in Alaska and a power generation facility in Texas.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-10-01T01:32:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/01/566142.JPG",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "South China Morning Post",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/east-asia/article/3369401/trump-touts-us200-billion-south-korean-energy-deal-ahead-us-midterms?utm_source=rss_feed"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/01/world/trump-200-billion-south-korea-investment/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/01/566142.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/01/thumbs/400x400/566142.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1378.9107954169444,
+    "is_stale": false,
+    "score": 24.71039211288889,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "استثمار كوري جنوبي ضخم بـ200 مليار دولار في مشاريع أمريكية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "id": "60a2b921a23d",
+  "created_at": "2026-10-01T03:08:04.545129+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.7,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "باكستان تعد بالدفاع عن السعودية في أي صراع إقليمي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan will be there to defend Saudi Arabia in any conflict: Khawaja Asif",
+  "link": "https://www.dawn.com/news/2033772/pakistan-will-be-there-to-defend-saudi-arabia-in-any-conflict-khawaja-asif",
+  "publishers": [
+    "Dawn",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Pakistan will be there to defend Saudi Arabia in any conflict: Khawaja Asif",
+    "link": "https://www.dawn.com/news/2033772/pakistan-will-be-there-to-defend-saudi-arabia-in-any-conflict-khawaja-asif",
+    "summary": "Defence Minister Khawaja Asif has said that Pakistan was “there to help” Saudi Arabia in any conflict. “We are there to help Saudi Arabia in any conflict, whether it is coming from the Houthis or a country or any other outfit that threatens Saudi Arabia’s security. We will be there to defend them,” he said in a video clip, which appeared to be excerpted from a longer interview, published by Al Jazeera . His remarks come amid fresh fighting between the Houthis and the Yemeni government that has dragged in Riyadh, with the Houthis declaring a maritime blockade on the kingdom and targeting its ships in the Red Sea. Both sides have claimed strikes on each other as tensions remain high. Against this backdrop, Pakistan, which has signed two defence agreements with Riyadh, has expressed solidarity with Saudi Arabia. On Sept 18, Inter-Services Public Relations (ISPR) Director General Lieutenant General Ahmed Sharif Chaudhry said Pakistan would go to “any extent” to defend Saudi Arabia, adding that Islamabad’s commitment to the kingdom’s security was “unconditional”. Earlier, Asif has also reaffirmed that Pakistan would “practically and diplomatically” stand by Saudi Arabia against Yemen’s ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-09-30T15:54:37+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/30204805dcb0a9f.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2033772/pakistan-will-be-there-to-defend-saudi-arabia-in-any-conflict-khawaja-asif"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632283/pakistan-bound-to-defend-saudi-arabia-with-whatever-means-at-disposal-khawaja-asif"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/30204805dcb0a9f.webp",
+      "https://i.dawn.com/thumbnail/2026/09/30204805dcb0a9f.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1378.9107385211112,
+    "is_stale": false,
+    "score": 25.7021884077963,
+    "impact": 0,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "باكستان تعد بالدفاع عن السعودية في أي صراع إقليمي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
