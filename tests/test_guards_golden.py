@@ -878,3 +878,13 @@ def test_guards_golden() -> None:
           "⇒ used_original=False -- خلفية مصممة لا صورة الوجه",
           report_1.get("used_original") is False and report_1.get("kind") is None,
           report_1)
+
+    # ── اسم ناشر بحروف لا يعرفها خط التذييل (Issue #1145): «ערוץ 14» كان
+    # يُرسم مربعات فارغة (منشور 2026-10-01، المسودة 96cdae9dca18). القرار
+    # التحريري: الاسم غير العربي/اللاتيني يُعرض باسمه العربي name_ar دائمًا.
+    from src import imaging as imaging_1145
+    resolver = getattr(imaging_1145, "resolve_publisher_names", None)
+    cfg_1145 = load_config()
+    got_1145 = resolver(["ערוץ 14"], cfg_1145) if resolver else None
+    check("(#1145) «ערוץ 14» يُستبدل باسمه العربي «القناة 14» قبل رسم سطر المصدر",
+          got_1145 == ["القناة 14"], got_1145)

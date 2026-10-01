@@ -2353,3 +2353,86 @@ def test_writer_usage_summary_cache_ratio() -> None:
     finally:
         writer.USAGE.clear()
         writer.USAGE.update(saved)
+
+
+def test_footer_publisher_names() -> None:
+    """Issue #1145: لا خط في assets/fonts/ يملك حروفًا عبرية/صينية، فاسم
+    ناشر بها كان يُرسم مربعات فارغة في تذييل البطاقة. القرار: يُعرض باسمه
+    العربي name_ar؛ وما لا name_ar له ولا يعرفه الخط يُحذف ويُسجَّل."""
+    import logging
+    import unicodedata
+
+    cfg = load_config()
+
+    # ── 5) حارس مستقبلي: كل name في config بحرف خارج العربية/اللاتينية/
+    # الأرقام/الترقيم لا بد له من name_ar.
+    def foreign(name: str) -> bool:
+        for ch in name:
+            if ch.isspace() or not ch.isalpha():
+                continue
+            if "ARABIC" in unicodedata.name(ch, "") or "LATIN" in unicodedata.name(ch, ""):
+                continue
+            return True
+        return False
+
+    offenders = [
+        (key, it.get("name")) for key in ("sources", "channels")
+        for it in (cfg.path(key) or [])
+        if isinstance(it, dict) and foreign(str(it.get("name", ""))) and not it.get("name_ar")
+    ]
+    check("(#1145) لا مصدر/قناة في config.yaml باسم بحروف غير عربية/لاتينية بلا name_ar",
+          not offenders, offenders)
+    check("(#1145) name_ar للقناة 14 وBBC 中文 كما قُرِّر",
+          imaging.resolve_publisher_names(["ערוץ 14", "BBC 中文"], cfg)
+          == ["القناة 14", "بي بي سي الصينية"])
+    check("(#1145) اسم لاتيني بلا name_ar يبقى كما هو",
+          imaging.resolve_publisher_names(["Iran International"], cfg) == ["Iran International"])
+    check("(#1145) اسم داخل عبارة أطول يُستبدل جزئيًا («صورة: ערוץ 14»)",
+          imaging.resolve_publisher_names(["صورة: ערוץ 14"], cfg) == ["صورة: القناة 14"])
+
+    # ── 7) بطاقة كاملة عبر build_post_image بصورة مولَّدة هنا؛ نلتقط نصوص
+    # draw_text فنقرأ سطر المصدر كما رُسم فعلًا.
+    drawn: list[str] = []
+    real_draw_text = imaging.draw_text
+
+    def spy(draw, xy, text, *a, **k):
+        drawn.append(text)
+        return real_draw_text(draw, xy, text, *a, **k)
+
+    records: list[logging.LogRecord] = []
+
+    class Grab(logging.Handler):
+        def emit(self, record):
+            records.append(record)
+
+    handler = Grab(level=logging.WARNING)
+    imaging.log.addHandler(handler)
+
+    def build(publishers, name):
+        drawn.clear()
+        records.clear()
+        out = _TMP_DATA_DIR / name
+        imaging.build_post_image(
+            headline="عنوان تجريبي لفحص سطر المصدر", category="", urgent=False,
+            image_urls=None, publisher=publishers, bucket="serious",
+            cfg=cfg, out_path=out, origin="news")
+        return [t for t in drawn if t.startswith("المصدر:")]
+
+    imaging.draw_text = spy
+    try:
+        lines = build(["Iran International", "ערוץ 14"], "footer_1145_a.jpg")
+        check("(#1145) سطر المصدر المرسوم «المصدر: Iran International، القناة 14»",
+              lines == ["المصدر: Iran International، القناة 14"], lines)
+
+        lines = build(["Iran International", "שם עברי לא معروف"], "footer_1145_b.jpg")
+        check("(#1145) ناشر عبري غير موجود في الإعداد يُحذف من السطر",
+              lines == ["المصدر: Iran International"], lines)
+        check("(#1145) وتُسجَّل log.warning باسمه",
+              any("שם עברי לא معروف" in r.getMessage() for r in records),
+              [r.getMessage() for r in records])
+
+        lines = build(["שם עברי لا معروف"], "footer_1145_c.jpg")
+        check("(#1145) إن حُذفت كل الأسماء لا يُرسم سطر المصدر أصلًا", lines == [], lines)
+    finally:
+        imaging.draw_text = real_draw_text
+        imaging.log.removeHandler(handler)

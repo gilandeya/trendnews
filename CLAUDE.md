@@ -232,6 +232,8 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   ranking/publishing tunable) as `"📝 وُحّد الرسم: <variant> ← <canonical> (<n> مقابل <m>)"`, with a
   line pointing at `names.blocklist` as the way to undo one — and no section at all if nothing was
   learned that week.
+- **Publisher names on a card's «المصدر:» footer line (Issue #1145).** No bundled font has Hebrew or Chinese glyphs, so a source/channel `name` in such a script drew empty boxes; `name_ar` (optional field on any `sources`/`channels` entry in `config.yaml`, e.g. `@C14news` → «القناة 14») is what the footer shows instead, applied in `imaging.resolve_publisher_names` (exact match, else substring so «صورة: ערוץ 14» works) — `name` itself is never changed since the rest of the pipeline keys off it, and a test fails if any `name` outside Arabic/Latin lacks a `name_ar`.
+- **The footer guard (`imaging.drop_unrenderable_names`):** after substitution, any name containing a character absent from the font actually used (checked via its cmap, after any fallback) is dropped from the line and logged with `log.warning`; if every name is dropped the «المصدر:» line is not drawn at all — an empty box must never be rendered. Adding a new non-Arabic/Latin source means adding its `name_ar`, no code change.
 - **`failed` must stay revivable by fixing its cause.** Any code that records `status="failed"`
   must leave enough in `error` to identify *why*, and a way back to `pending` must exist for it
   (Issue #742: four YouTube-analysis drafts came out `failed` with `حقول مفقودة: image` after
