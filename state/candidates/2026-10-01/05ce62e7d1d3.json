@@ -1,0 +1,65 @@
+{
+  "id": "05ce62e7d1d3",
+  "created_at": "2026-10-01T18:08:17.015091+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.12,
+  "trend_score": 0.5,
+  "velocity": 0.2,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "النيابة العامة البوليفية متهمة بحماية تجار المخدرات",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Detenido el fiscal general de Bolivia por supuesto narcotráfico tras una acusación de EE UU",
+  "link": "https://elpais.com/america/2026-10-01/detenido-el-fiscal-general-de-bolivia-por-supuesto-narcotrafico-tras-una-acusacion-de-ee-uu.html",
+  "publishers": [
+    "Clarín",
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Detenido el fiscal general de Bolivia por supuesto narcotráfico tras una acusación de EE UU",
+    "link": "https://elpais.com/america/2026-10-01/detenido-el-fiscal-general-de-bolivia-por-supuesto-narcotrafico-tras-una-acusacion-de-ee-uu.html",
+    "summary": "El Gobierno boliviano imputa al fiscal Roger Mariaca y otros nueve miembros del Ministerio Público de integrar una ‘narcoestructura’ que protegía a líderes del crimen organizado",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-10-01T15:29:26+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/C3DS2JNXMZBCFBYKKBWKHKGSUU.jpg?auth=a77557aa5c667a3e5319d06879d74ad69ce9ba86e0d65a9690dda564a469e872",
+    "publisher": "El País",
+    "cluster_sources": [
+      "Clarín",
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/america/2026-10-01/detenido-el-fiscal-general-de-bolivia-por-supuesto-narcotrafico-tras-una-acusacion-de-ee-uu.html"
+      },
+      {
+        "name": "Clarín",
+        "link": "https://www.clarin.com/estados-unidos/bolivia-investiga-por-narcotrafico-al-fiscal-general-detenido-tras-sanciones-de-eeuu_0_FRds3xG2Yq.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/C3DS2JNXMZBCFBYKKBWKHKGSUU.jpg?auth=a77557aa5c667a3e5319d06879d74ad69ce9ba86e0d65a9690dda564a469e872",
+      "https://www.clarin.com/img/2026/09/03/opG8cy99-_1200x630__1.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 22.124052266870372,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "النيابة العامة البوليفية متهمة بحماية تجار المخدرات",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,118 +1,5 @@
 [
   {
-    "score": 25.84,
-    "bucket": "serious",
-    "tokens": [
-      "airlines",
-      "ban",
-      "exemption",
-      "iran",
-      "iraq",
-      "seeks"
-    ],
-    "link": "https://www.thehindu.com/news/international/iraq-seeks-exemption-from-us-ban-on-iran-airlines/article71512041.ece",
-    "title": "Iraq seeks exemption from U.S. ban on Iran airlines",
-    "posted_title": "بغداد تفاوض واشنطن لاستثناء مطاراتها من حظر الطيران الإيراني بعد تعطل حركة الملايين في النجف",
-    "region": "in",
-    "seen_at": "2026-09-26T17:23:41.938228+00:00"
-  },
-  {
-    "score": 33.37,
-    "bucket": "serious",
-    "tokens": [
-      "activity",
-      "agent",
-      "data",
-      "emerges",
-      "full",
-      "leak",
-      "openai",
-      "scope",
-      "understand",
-      "user",
-      "works"
-    ],
-    "link": "https://www.dawn.com/news/2032788/openai-works-to-understand-full-scope-of-agent-activity-as-user-data-leak-emerges",
-    "title": "OpenAI works to understand full scope of agent activity as user data leak emerges",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-26T18:08:00.441630+00:00"
-  },
-  {
-    "score": 27.33,
-    "bucket": "serious",
-    "tokens": [
-      "acropolis",
-      "among",
-      "athens",
-      "british",
-      "building",
-      "close",
-      "dead",
-      "explosion",
-      "national",
-      "six"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c6p3kk78l4l1o?at_medium=RSS&at_campaign=rss",
-    "title": "British national among six dead in building explosion close to Acropolis in Athens",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-26T18:08:00.441952+00:00"
-  },
-  {
-    "score": 24.67,
-    "bucket": "sport",
-    "tokens": [
-      "chairman",
-      "city",
-      "club",
-      "confident",
-      "innocence",
-      "man",
-      "prove"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/articles/c6d944ylqkkeo?at_medium=RSS&at_campaign=rss",
-    "title": "Man City chairman confident club will prove innocence",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-09-26T18:08:00.442250+00:00"
-  },
-  {
-    "score": 21.05,
-    "bucket": "serious",
-    "tokens": [
-      "death",
-      "ferry",
-      "indonesia",
-      "jumps",
-      "sinking",
-      "toll"
-    ],
-    "link": "https://www.channelnewsasia.com/asia/indonesia-ferry-sinking-deaths-missing-6412801",
-    "title": "Death toll from Indonesia ferry sinking jumps to 64",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-26T18:08:00.442517+00:00"
-  },
-  {
-    "score": 16.32,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "infantiles",
-      "juveniles",
-      "libros",
-      "los",
-      "mejores",
-      "septiembre"
-    ],
-    "link": "https://elpais.com/babelia/2026-09-26/los-mejores-libros-infantiles-y-juveniles-de-septiembre-2026.html",
-    "title": "Los mejores libros infantiles y juveniles de septiembre 2026",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-09-26T18:08:00.442801+00:00"
-  },
-  {
     "score": 26.58,
     "bucket": "serious",
     "tokens": [
@@ -2414,5 +2301,101 @@
     "posted_title": "نتنياهو يكشف تفاصيل جديدة حول واقعة طعن قبطان رحلة فلاي دبي إلى تل أبيب",
     "region": "in",
     "seen_at": "2026-10-01T15:22:27.503916+00:00"
+  },
+  {
+    "score": 23.24,
+    "bucket": "serious",
+    "tokens": [
+      "adopts",
+      "algeria",
+      "arsonists",
+      "death",
+      "forest",
+      "imposing",
+      "law",
+      "penalty"
+    ],
+    "link": "http://www.africanews.com/2026/10/01/algeria-adopts-law-imposing-death-penalty-on-forest-arsonists/",
+    "title": "Algeria adopts law imposing death penalty on forest arsonists",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-10-01T18:08:17.014760+00:00"
+  },
+  {
+    "score": 23.01,
+    "bucket": "sport",
+    "tokens": [
+      "australia",
+      "avoid",
+      "cup",
+      "draw",
+      "england",
+      "india",
+      "world"
+    ],
+    "link": "https://www.bbc.co.uk/sport/cricket/articles/cqlylygyl3pro?at_medium=RSS&at_campaign=rss",
+    "title": "England avoid Australia & India in World Cup draw",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-10-01T18:08:17.015080+00:00"
+  },
+  {
+    "score": 22.12,
+    "bucket": "serious",
+    "tokens": [
+      "acusación",
+      "bolivia",
+      "detenido",
+      "fiscal",
+      "general",
+      "narcotráfico",
+      "por",
+      "supuesto",
+      "tras",
+      "una"
+    ],
+    "link": "https://elpais.com/america/2026-10-01/detenido-el-fiscal-general-de-bolivia-por-supuesto-narcotrafico-tras-una-acusacion-de-ee-uu.html",
+    "title": "Detenido el fiscal general de Bolivia por supuesto narcotráfico tras una acusación de EE UU",
+    "posted_title": "",
+    "region": "es",
+    "seen_at": "2026-10-01T18:08:17.015356+00:00"
+  },
+  {
+    "score": 21.61,
+    "bucket": "serious",
+    "tokens": [
+      "about",
+      "brazil's",
+      "election",
+      "favorite",
+      "picanha",
+      "politics",
+      "prices",
+      "steak",
+      "what"
+    ],
+    "link": "https://www.npr.org/2026/10/01/nx-s1-5986079/picanha-election-brazil-economy",
+    "title": "Picanha, prices and politics: What Brazil's favorite steak says about the election",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-10-01T18:08:17.015616+00:00"
+  },
+  {
+    "score": 21.19,
+    "bucket": "serious",
+    "tokens": [
+      "200b",
+      "commitments",
+      "energy",
+      "korea",
+      "south",
+      "touts",
+      "trump"
+    ],
+    "link": "https://www.dailysabah.com/business/energy/trump-touts-200b-in-us-energy-commitments-by-south-korea",
+    "title": "Trump touts $200B in US energy commitments by South Korea",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-10-01T18:08:17.015892+00:00"
   }
 ]

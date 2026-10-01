@@ -1,0 +1,72 @@
+{
+  "id": "c40eaec272ff",
+  "created_at": "2026-10-01T18:08:17.015625+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.19,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 0,
+  "intrigue": 1,
+  "appeal_note": "استثمارات ضخمة في الطاقة قد تؤثر الأسواق العالمية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump touts $200B in US energy commitments by South Korea",
+  "link": "https://www.dailysabah.com/business/energy/trump-touts-200b-in-us-energy-commitments-by-south-korea",
+  "publishers": [
+    "Daily Sabah",
+    "South China Morning Post",
+    "The Japan Times"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Trump touts $200B in US energy commitments by South Korea",
+    "link": "https://www.dailysabah.com/business/energy/trump-touts-200b-in-us-energy-commitments-by-south-korea",
+    "summary": "U.S. President Donald Trump unveiled on Wednesday a massive $200 billion in South Korean energy investment commitments, including $54 billion for a long-mooted Alaska liquified nat...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-10-01T07:28:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/01/463273.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "South China Morning Post",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/east-asia/article/3369401/trump-touts-us200-billion-south-korean-energy-deal-ahead-us-midterms?utm_source=rss_feed"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/01/world/trump-200-billion-south-korea-investment/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/energy/trump-touts-200b-in-us-energy-commitments-by-south-korea"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/01/463273.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/01/566142.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/01/thumbs/400x400/566142.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1393.9131144855555,
+    "is_stale": false,
+    "score": 21.194013840478284,
+    "impact": 2,
+    "proximity": 0,
+    "intrigue": 1,
+    "appeal_note": "استثمارات ضخمة في الطاقة قد تؤثر الأسواق العالمية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

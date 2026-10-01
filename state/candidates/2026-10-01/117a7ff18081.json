@@ -1,0 +1,68 @@
+{
+  "id": "117a7ff18081",
+  "created_at": "2026-10-01T18:08:17.014772+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.01,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "كأس العالم للكريكيت 2027، رياضة عالمية كبرى",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "England avoid Australia & India in World Cup draw",
+  "link": "https://www.bbc.co.uk/sport/cricket/articles/cqlylygyl3pro?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Sky Sports — Football"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "England avoid Australia & India in World Cup draw",
+    "link": "https://www.bbc.co.uk/sport/cricket/articles/cqlylygyl3pro?at_medium=RSS&at_campaign=rss",
+    "summary": "England avoid defending champions Australia and world number one-ranked side India in the group-stage draw for the 2027 ICC Cricket World Cup.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-10-01T16:31:47+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a040/live/8a45db80-bdaa-11f1-8373-27235719cf2a.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Sky Sports — Football"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/cricket/articles/cqlylygyl3pro?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/cricket/news/12040/13594096/2027-cricket-world-cup-england-avoid-australia-and-india-in-group-stage-as-fixtures-revealed-for-50-over-tournament"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/a040/live/8a45db80-bdaa-11f1-8373-27235719cf2a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/a040/live/8a45db80-bdaa-11f1-8373-27235719cf2a.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/a040/live/8a45db80-bdaa-11f1-8373-27235719cf2a.jpg",
+      "https://e0.365dm.com/26/07/1096x616/skysports-harry-brook-england-mens-odi-cricket_7301839.jpg?20260719200328",
+      "https://e0.365dm.com/26/07/1920x1080/skysports-harry-brook-england-mens-odi-cricket_7301839.jpg?20260719200328"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1393.9130874747223,
+    "is_stale": false,
+    "score": 23.009996708814818,
+    "impact": 0,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "كأس العالم للكريكيت 2027، رياضة عالمية كبرى",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
