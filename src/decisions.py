@@ -178,6 +178,16 @@ def record_published(draft: dict) -> None:
     save(entries)
 
 
+def _blocks_rejection(entries: list[dict], draft: dict) -> bool:
+    """هل يمنع قيدٌ سابق للمعرّف نفسه تسجيل رفض المسودة؟ «unselected» السابق
+    لا يمنع (Issue #1153، بند مؤجَّل من #1135): هو قرار لحظة الاختيار قبل
+    الصياغة، أما رفض المسودة بعد صياغتها فقرار آخر في لحظة أخرى — نفس مبدأ
+    record_published. أي قيد آخر للمعرّف يبقى مانعًا كما كان، حتى لا يُعدّ
+    الرفض مرتين."""
+    return any(e.get("id") == draft.get("id") and e.get("decision") != "unselected"
+               for e in entries)
+
+
 def record_rejected(draft: dict, tag: str) -> None:
     """الرفض الصريح عبر `/reject` — نادر عمليًا (المراجع لا يستعمله اليوم)
     لكنه يُسجَّل للاكتمال: يُميَّز عن ``dismissed_closed``/``ignored_timeout``
@@ -185,7 +195,7 @@ def record_rejected(draft: dict, tag: str) -> None:
     بأن سببه الحقيقي مكتوب يدويًا (`/reject <id> <سبب>`)، لا افتراضيًا
     بمجرَّد عدم التعليم."""
     entries = load()
-    if any(e.get("id") == draft.get("id") for e in entries):
+    if _blocks_rejection(entries, draft):
         return
     _append(entries, draft, "rejected_explicit", reject_tag=tag)
     save(entries)
@@ -199,7 +209,7 @@ def record_rejected_unchecked(draft: dict) -> None:
     publish.yml يُشغّل مساري urgent وnormal لنفس حدث approved، وكلاهما قد
     يصل هذا الفرع لنفس المسودة."""
     entries = load()
-    if any(e.get("id") == draft.get("id") for e in entries):
+    if _blocks_rejection(entries, draft):
         return
     _append(entries, draft, "rejected_unchecked", reject_tag="لم يُعتمد")
     save(entries)
