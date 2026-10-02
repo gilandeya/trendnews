@@ -74,7 +74,7 @@
       "dropped_reason": null,
       "id": "a523fa3e8605",
       "created_at": "2026-10-02T04:01:47.328825+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1148
     },
     {
@@ -107,7 +107,7 @@
       "dropped_reason": null,
       "id": "183eea8c000d",
       "created_at": "2026-10-02T04:01:47.328825+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1148
     },
     {
@@ -138,7 +138,7 @@
       "dropped_reason": null,
       "id": "0adcccb0b599",
       "created_at": "2026-10-02T04:01:47.328825+00:00",
-      "selection_status": "pending",
+      "selection_status": "attempted",
       "selection_issue": 1148
     },
     {
@@ -169,7 +169,7 @@
       "dropped_reason": null,
       "id": "b9eaa049a205",
       "created_at": "2026-10-02T04:01:47.328825+00:00",
-      "selection_status": "pending",
+      "selection_status": "attempted",
       "selection_issue": 1148
     }
   ],
