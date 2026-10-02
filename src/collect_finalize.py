@@ -29,11 +29,6 @@ from .writer import WriteFailure, build_caption, write_arabic
 
 log = logging.getLogger("collect_finalize")
 
-# سقف روابط المقالات الأخرى المحفوظة لكل خبر: كل رابط جلب صفحة عند بناء
-# البطاقة، وثلاثة تكفي لتجاوز فشل ناشر واحد دون إبطاء الاعتماد
-RELATED_LINKS_MAX = 3
-
-
 def _build_draft(art, written: dict, docs: list[dict], prev_title: str | None,
                  cfg) -> dict:
     headline = written["image_headline"] or written["post_title"]
@@ -167,6 +162,9 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
     draft = _build_draft(art, written, docs, prev_title, cfg)
     # روابط مقالات الناشرين الآخرين في العنقود (Issue #1153) لتجرّب cards.ensure
     # صورها حين تفشل صورة الناشر الرئيسي؛ للمسودات الجديدة فقط، بلا ترحيل.
+    # السقف من الإعداد (collect.related_links_max): كل رابط جلب صفحة عند بناء
+    # البطاقة، وثلاثة تكفي لتجاوز فشل ناشر واحد دون إبطاء الاعتماد
+    related_max = int(cfg.path("collect.related_links_max", 3))
     related_links, related_publishers = [], []
     for m in art.cluster_members or []:
         link = (m or {}).get("link")
@@ -174,7 +172,7 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
             continue
         related_links.append(link)
         related_publishers.append(m.get("name") or "")
-        if len(related_links) >= RELATED_LINKS_MAX:
+        if len(related_links) >= related_max:
             break
     if related_links:
         draft["source"]["related_links"] = related_links
