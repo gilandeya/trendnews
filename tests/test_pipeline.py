@@ -169,6 +169,7 @@ from tests.test_review import (
     test_retention_publish_survives_deleted_draft,
     test_retention_insights_still_counts_kept_draft,
     test_retention_config_days_at_least_30,
+    test_stages_module,
     test_publish_one_facebook_failure_tags_stage,
     test_publish_gap_gate_core_scenarios,
     test_publish_ids_direct_defers_non_urgent_after_recent_publish,
@@ -580,6 +581,8 @@ def main() -> int:
     test_youtube_image_news_photo()
     print("\n── سلّم الصورة: الناشر ← خبر ← حرة (Issue #1123) ──")
     test_image_ladder_order()
+    print("\n── وحدة المراحل المشتركة stages.py (Issue #1180) ──")
+    test_stages_module()
     print("\n── حالات مرجعية (golden) للحُرّاس التحريرية (Issue #893) ──")
     test_guards_golden()
 

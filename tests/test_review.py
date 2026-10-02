@@ -9763,3 +9763,170 @@ def test_card_swap_1167() -> None:
                    lambda q: far(q, footer_bg) and not white(q))
     check("(#1167-د) سطر المصدر يبدأ يمين نهاية المعرّف بفاصل",
           h3 is not None and src is not None and src[0] > h3[1] + 10, (h3, src))
+
+
+def test_stages_module() -> None:
+    """Issue #1180 (المهمة 1 من 4): src/stages.py — نص مبني ثم مقروء ذهابًا
+    وإيابًا، وترجمة العلامات القديمة مطابقة لما يفعله القارئ الحالي لنص قضية
+    بنته البناة الفعليون. الوحدة غير مستدعاة من أي باني بعد."""
+    from src import preselect, stages
+    from src import youtube_cluster as ycl
+    from src import youtube_publish as yp
+
+    cfg = load_config()
+    hdr = "⬇️ **الانتقال (علّم واحدًا):**"
+    t_go1 = "↩️ عد إلى مرحلة ترشيح المواضيع المتاحة"
+    t_go2f = "📝 تقدّم إلى مرحلة عرض النص واختيار العناوين"
+    t_go2b = "↩️ عد إلى مرحلة عرض النص واختيار العناوين"
+    t_go3 = "🎴 تقدّم إلى مرحلة عرض البطاقة والمراجعة النهائية"
+
+    def box(text, action, i="ab12"):
+        return f"- [ ] {text}  <!-- go:{action}:{i} -->"
+
+    # (أ) الأسطر والترتيب والنصوص حرفيًا
+    check("(#1180-أ) رأس المرحلة 1",
+          stages.stage_header(1, cfg) == "### المرحلة 1 من 4: مرحلة ترشيح المواضيع المتاحة")
+    check("(#1180-أ) رأس المرحلة 4",
+          stages.stage_header(4, cfg) == "### المرحلة 4 من 4: مرحلة النشر")
+    check("(#1180-أ) خيارات المرحلة 1: بلا go1 ولا خيار المرحلة نفسها",
+          stages.options_block(1, "ab12", cfg) == [
+              hdr, box(t_go2f, "go2"), box(t_go3, "go3"),
+              box("🚀 انشر فورًا", "publish")])
+    check("(#1180-أ) خيارات المرحلة 2: بلا go2",
+          stages.options_block(2, "ab12", cfg) == [
+              hdr, box(t_go1, "go1"), box(t_go3, "go3"),
+              box("🚀 انشر فورًا", "publish")])
+    check("(#1180-أ) خيارات المرحلة 3: go2 بنص العودة، بلا go3",
+          stages.options_block(3, "ab12", cfg) == [
+              hdr, box(t_go1, "go1"), box(t_go2b, "go2"),
+              box("🚀 انشر فورًا", "publish")])
+    check("(#1180-أ) has_stage1=False يحذف go1 فقط",
+          stages.options_block(2, "ab12", cfg, has_stage1=False) == [
+              hdr, box(t_go3, "go3"), box("🚀 انشر فورًا", "publish")])
+    check("(#1180-أ) urgent يضيف لاحقة العاجل على النشر وحده",
+          stages.options_block(3, "ab12", cfg, urgent=True)[-1]
+          == box("🚀 انشر فورًا (عاجل: بلا انتظار)", "publish")
+          and stages.options_block(3, "ab12", cfg, urgent=True)[:-1]
+          == stages.options_block(3, "ab12", cfg)[:-1])
+
+    # (ب) مربع واحد
+    body = "\n".join(stages.options_block(2, "ab12", cfg))
+    check("(#1180-ب) بلا تعليم لا إجراء",
+          stages.parse_actions(body) == ({}, []))
+    one = tick_marker(body, "go:go3:ab12")
+    check("(#1180-ب) مربع واحد يعيده parse_actions بلا تعارض",
+          stages.parse_actions(one) == ({"ab12": "go3"}, []))
+
+    # (ج) مربعان: الأبكر يغلب والتعارض مُبلَّغ
+    two = tick_marker(one, "go:publish:ab12")
+    check("(#1180-ج) go3 + publish: go3 يغلب والتعارض مُبلَّغ",
+          stages.parse_actions(two) == (
+              {"ab12": "go3"}, [{"id": "ab12", "marked": ["go3", "publish"]}]),
+          str(stages.parse_actions(two)))
+
+    # (د) خبران بخيارين مختلفين
+    two_items = "\n".join(stages.options_block(2, "aa01", cfg)
+                          + stages.options_block(2, "bb02", cfg))
+    two_items = tick_marker(two_items, "go:go1:aa01")
+    two_items = tick_marker(two_items, "go:publish:bb02")
+    check("(#1180-د) خبران بخيارين مختلفين",
+          stages.parse_actions(two_items) == ({"aa01": "go1", "bb02": "publish"}, []))
+
+    # (هـ) legacy_actions على نصوص البناة الفعليين
+    now = datetime.now(timezone.utc)
+    cands = []
+    for n in range(4):
+        art = Article(title=f"مرشح قديم {n}", link=f"https://leg.example/{n}",
+                      summary="", source_name="L", region="rl", weight=1.0,
+                      published=now, bucket="serious", publisher="L")
+        cands.append(preselect.build_candidate(art))
+    c0, c1, c2, c3 = (c["id"] for c in cands)
+    sel = preselect.build_selection_issue_body(cands)
+    sel = tick_marker(sel, f"now:{c0}")
+    sel = tick_marker(sel, f"review:{c1}")
+    sel = tick_marker(sel, f"sel-card:{c2}")
+    sel = tick_marker(sel, f"now:{c3}")          # 🚀 + 🎴 ← 🎴 يغلب
+    sel = tick_marker(sel, f"sel-card:{c3}")
+    check("(#1180-هـ) المرحلة 1 أخبار: now/review/sel-card وقاعدة الأحوط",
+          stages.legacy_actions(sel, 1)
+          == {c0: "publish", c1: "go2", c2: "go3", c3: "go3"},
+          str(stages.legacy_actions(sel, 1)))
+    check("(#1180-هـ) المرحلة 1 أخبار: القارئ الحالي يرى المعلَّم نفسه",
+          preselect.parse_publish_now(sel) == [c0, c3]
+          and preselect.parse_draft_review(sel) == [c1]
+          and preselect.selected_card_ids(sel) == [c2, c3])
+    both = tick_marker(tick_marker(
+        preselect.build_selection_issue_body(cands[:1]), f"review:{c0}"), f"sel-card:{c0}")
+    check("(#1180-هـ) المرحلة 1: 📝 تغلب 🎴",
+          stages.legacy_actions(both, 1) == {c0: "go2"})
+
+    topics = [{"id": "a1b1", "title": "ق", "event": "", "layer": 2, "blocs": ["arabic"],
+               "channels": ["ق1"], "agreement": "agreement", "point_ids": [0]},
+              {"id": "a1b2", "title": "ك", "event": "", "layer": 2, "blocs": ["arabic"],
+               "channels": ["ق1"], "agreement": "agreement", "point_ids": [0]}]
+    tsel = tick_marker(ycl.build_selection_body("2099-01-01", topics, [{"statement": "س"}]),
+                       "topic:a1b1")
+    check("(#1180-هـ) المرحلة 1 تحليل: topic: معلَّم ← go2 ومطابق للقارئ الحالي",
+          stages.legacy_actions(tsel, 1) == {"a1b1": "go2"}
+          and ycl._checked_topic_ids(tsel) == {"a1b1"})
+
+    def mk(i, title):
+        return {"id": i, "status": "pending", "origin": "news",
+                "arabic": {"post_title": title}, "caption": "متن",
+                "image": f"drafts/{i}.jpg", "image_info": {"used_original": True},
+                "bucket": "serious", "score": 1, "headlines": [title],
+                "source": {"link": f"https://x/{i}", "publishers": ["BBC"]}}
+    d_pub, d_card, d_cardonly, d_none = (mk(f"c0000000000{n}", f"خبر {n}") for n in range(4))
+    rev = review.build_issue_body([d_pub, d_card, d_cardonly, d_none], "u/r", "main")
+    rev = tick_marker(rev, f"draft:{d_pub['id']}")
+    rev = tick_marker(rev, f"draft:{d_card['id']}")
+    rev = tick_marker(rev, f"card:{d_card['id']}")
+    rev = tick_marker(rev, f"card:{d_cardonly['id']}")
+    check("(#1180-هـ) المرحلة 2: draft وحده publish، draft+card go3، card وحده لا شيء",
+          stages.legacy_actions(rev, 2) == {d_pub["id"]: "publish", d_card["id"]: "go3"},
+          str(stages.legacy_actions(rev, 2)))
+    check("(#1180-هـ) المرحلة 2: القارئ الحالي يرى المعلَّم نفسه",
+          review.parse_approved(rev) == [d_pub["id"], d_card["id"]]
+          and review.parse_card_requests(rev) == {d_card["id"], d_cardonly["id"]})
+
+    yd = {"id": "bb0000000009", "status": "pending", "origin": "analysis",
+          "title": "مقال", "arabic": {"post_title": "مقال", "urgent": False},
+          "headlines": ["ع"], "headline_selected": 0, "caption": "م",
+          "source": {"link": "", "publishers": ["ق"]}, "tier": "c",
+          "blocs": ["arabic"], "channels": ["ق"], "agreement": "agreement",
+          "warnings": [], "score": 1}
+    ybody = yp.build_review_body([yd], "u/r", "main", cfg)
+    y_draft = tick_marker(ybody, f"draft:{yd['id']}")
+    check("(#1180-هـ) المرحلة 2 تحليل: draft وحده publish",
+          stages.legacy_actions(y_draft, 2) == {yd["id"]: "publish"})
+    check("(#1180-هـ) المرحلة 2 تحليل: draft+card go3",
+          stages.legacy_actions(tick_marker(y_draft, f"card:{yd['id']}"), 2)
+          == {yd["id"]: "go3"})
+
+    f_pub, f_back, f_both = (mk(f"d0000000000{n}", f"نهائي {n}") for n in range(3))
+    fin = review.build_final_review_body([f_pub, f_back, f_both], "u/r", "main")
+    fin = tick_marker(fin, f"draft:{f_pub['id']}")
+    fin = tick_marker(fin, f"back:{f_back['id']}")
+    fin = tick_marker(fin, f"draft:{f_both['id']}")
+    fin = tick_marker(fin, f"back:{f_both['id']}")
+    check("(#1180-هـ) المرحلة 3: draft publish، back go2، back يغلب draft",
+          stages.legacy_actions(fin, 3) == {
+              f_pub["id"]: "publish", f_back["id"]: "go2", f_both["id"]: "go2"},
+          str(stages.legacy_actions(fin, 3)))
+    back_ids = review.parse_back_requests(fin)
+    check("(#1180-هـ) المرحلة 3: القارئ الحالي (approved ناقص back) نفسه",
+          [i for i in review.parse_approved(fin) if i not in back_ids] == [f_pub["id"]]
+          and back_ids == {f_back["id"], f_both["id"]})
+
+    # (و) image_field يُقرأ بالقارئ القائم لـimgurl
+    field = stages.image_field("ab12", cfg)
+    check("(#1180-و) سطر حقل الصورة بالنص والعلامة القائمة",
+          field == "🖼️ لاستبدال الصورة الصق الرابط هنا:  <!-- imgurl:ab12 -->", field)
+    pasted = field.replace("هنا:", "هنا: https://img.example/p.jpg")
+    img_box = "- [x] 🖼️ استبدل  <!-- img:ab12 -->"
+    check("(#1180-و) parse_image_requests القائم يعيد الرابط الملصوق",
+          review.parse_image_requests(img_box + "\n" + pasted)
+          == [("ab12", "https://img.example/p.jpg")])
+    # سلوك فعلي موثَّق: القارئ القائم يشترط مربع img: معلَّمًا، فالحقل وحده لا يكفي
+    check("(#1180-و) القارئ القائم لا يعيد شيئًا بلا مربع img: (يحتاج المهمة 2)",
+          review.parse_image_requests(pasted) == [])
