@@ -755,6 +755,75 @@ def test_preselect_card_marker_and_selected_card_ids() -> None:
           preselect.parse_publish_now(marked) == []
           and preselect.parse_draft_review(marked) == [])
 
+def test_preselect_image_line() -> None:
+    """Issue #1174: سطر 🖼️ لكل مرشح في قضية الاختيار — ثلاث صيغ، ولا يغيّر
+    ما تقرؤه دوال القراءة (يُقارَن بنص القضية نفسه بعد حذف السطر)."""
+    from src import preselect
+
+    now = datetime.now(timezone.utc)
+
+    def mk(n, image_url=None, members=()):
+        art = Article(title=f"مرشح الصورة {n}", link=f"https://img.example/{n}",
+                      summary="", source_name="IM", region="ri", weight=1.0,
+                      published=now, bucket="serious", publisher="IM")
+        art.image_url = image_url
+        art.cluster_members = list(members)
+        return preselect.build_candidate(art)
+
+    c_a = mk("a", "https://cdn.pub.example/p/1.jpg")
+    c_b = mk("b", None, [
+        {"name": "X", "link": "https://img.example/b"},   # رابط الخبر نفسه
+        {"name": "Y", "link": "https://y.example/b"},
+        {"name": "Z", "link": "https://z.example/b"}])
+    c_c = mk("c")
+    c_e = mk("e")
+    del c_e["article"]                                    # مرشح قديم بلا article
+
+    def line_of(cand):
+        body = preselect.build_selection_issue_body([cand])
+        return [l for l in body.splitlines() if "🖼️" in l and "سطر" not in l]
+
+    check("صيغة 1: رابط الناشر والنطاق",
+          line_of(c_a) == ["  🖼️ [صورة الناشر](https://cdn.pub.example/p/1.jpg)"
+                           " · cdn.pub.example"], line_of(c_a))
+    check("صيغة 2: N = 2 (يُستثنى رابط الخبر نفسه)",
+          line_of(c_b) == ["  🖼️ بلا صورة من الناشر · ستُجرَّب صور 2 ناشر آخر "
+                           "ثم بحث الويب"], line_of(c_b))
+    check("صيغة 3: بلا صورة ولا بدائل",
+          line_of(c_c) == ["  🖼️ بلا صورة من الناشر ولا بدائل · بحث الويب وحده"],
+          line_of(c_c))
+    check("مرشح قديم بلا مفتاح article ← صيغة 3 بلا خطأ",
+          line_of(c_e) == line_of(c_c))
+    check("السطر بلا علامة HTML ولا مربع",
+          all("<!--" not in l and "[ ]" not in l
+              for c in (c_a, c_b, c_c) for l in line_of(c)))
+
+    body = preselect.build_selection_issue_body([c_a, c_b, c_c])
+    print("\n----- نص قضية الاختبار (d) -----\n" + body + "\n-----")
+    check("جملة الشرح حاضرة",
+          "سطر 🖼️ يبيّن الصورة المتاحة لكل خبر، لا ما سينجح تحميله" in body)
+    marked = tick_marker(body, f"now:{c_a['id']}")
+    marked = tick_marker(marked, f"review:{c_b['id']}")
+    marked = tick_marker(marked, f"sel-card:{c_c['id']}")
+    marked = tick_marker(marked, f"sel-card:{c_b['id']}")
+    stripped = "\n".join(l for l in marked.splitlines()
+                         if not l.startswith("  🖼️"))
+    check("السطر أُزيل فعلًا في النسخة المقارَنة",
+          stripped != marked and "ناشر آخر" not in stripped)
+    check("parse_publish_now نفسها بوجود السطر وبدونه",
+          preselect.parse_publish_now(marked)
+          == preselect.parse_publish_now(stripped) == [c_a["id"]])
+    check("parse_draft_review نفسها",
+          preselect.parse_draft_review(marked)
+          == preselect.parse_draft_review(stripped) == [c_b["id"]])
+    check("selected_card_ids نفسها",
+          preselect.selected_card_ids(marked)
+          == preselect.selected_card_ids(stripped) == [c_b["id"], c_c["id"]])
+    check("all_candidate_ids نفسها",
+          preselect.all_candidate_ids(marked)
+          == preselect.all_candidate_ids(stripped)
+          == [c_a["id"], c_b["id"], c_c["id"]])
+
 def test_preselect_card_only_and_three_way_conflicts() -> None:
     """Issue #860، البنود 2-4 من طلب الاختبارات: 🎴 وحده ⇒ مسودة ببطاقة
     وIssue final-review بلا مراجعة أولية؛ 📝 مع 🎴 ⇒ مراجعة أولية بلا

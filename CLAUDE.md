@@ -269,6 +269,11 @@ already know exactly what they want to draft — there's nothing to *select*).
   When two boxes are checked together, the stricter one wins (📝 beats 🚀 and 🎴; 🎴 beats 🚀
   alone) — `src/collect_finalize.py:finalize()` is what reads this Issue on `approved` and
   dispatches each candidate to one of the three fates above.
+  Each candidate also shows one reviewer-only **🖼️ image line** (`preselect.image_line`, Issue
+  #1174), between the badges/sources line and «↳ الخبر الأصلي»: publisher image link + domain, or
+  «بلا صورة من الناشر · ستُجرَّب صور N ناشر آخر…» (N = other cluster links, ≤3), or «…ولا بدائل ·
+  بحث الويب وحده». It reports what is *available*, not what will download; it carries no HTML
+  marker and no checkbox, so every reader (all marker-based) is unaffected. Analysis is out of scope.
 - **Gate B — preliminary review (📰, label `pending-review`)**, built by `src/review.py`: no card
   yet — an editable caption block, three alternate-headline checkboxes, an image-source note, and
   a manual-image-link box. This is where a normal News/Breaking/Investigation draft (and a
