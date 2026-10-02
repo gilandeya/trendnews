@@ -1,0 +1,62 @@
+{
+  "id": "e6db9c928be4",
+  "created_at": "2026-10-02T09:08:25.543756+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.3,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "قرصنة صينية لخبراء ذكاء اصطناعي أمريكيين",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Chinese hackers impersonated ex-US official to steal emails from AI experts",
+  "link": "https://www.rappler.com/technology/chinese-hackers-impersonate-ex-us-official-steal-emails-ai-experts/",
+  "publishers": [
+    "Rappler",
+    "The Express Tribune"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "Chinese hackers impersonated ex-US official to steal emails from AI experts",
+    "link": "https://www.rappler.com/technology/chinese-hackers-impersonate-ex-us-official-steal-emails-ai-experts/",
+    "summary": "Cybersecurity company Proofpoint says the hackers regularly try to steal passwords from people working for US or Japanese think tanks, defense contractors, universities, and law firms since as far back as 2025",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-10-02T06:05:27+00:00",
+    "image_url": null,
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Rappler",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632459/chinese-hackers-impersonated-ex-us-official-to-steal-emails-from-ai-experts"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/technology/chinese-hackers-impersonate-ex-us-official-steal-emails-ai-experts/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1408.9159629386113,
+    "is_stale": false,
+    "score": 20.297221598722224,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "قرصنة صينية لخبراء ذكاء اصطناعي أمريكيين",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

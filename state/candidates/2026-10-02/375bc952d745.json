@@ -1,0 +1,64 @@
+{
+  "id": "375bc952d745",
+  "created_at": "2026-10-02T09:08:25.543547+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.74,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "أسعار النفط تؤثر على جيب العربي مباشرة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oil rises slightly as market weighs mixed supply signals",
+  "link": "https://www.myjoyonline.com/oil-rises-slightly-as-market-weighs-mixed-supply-signals/",
+  "publishers": [
+    "MyJoyOnline Ghana",
+    "The Express Tribune"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "Oil rises slightly as market weighs mixed supply signals",
+    "link": "https://www.myjoyonline.com/oil-rises-slightly-as-market-weighs-mixed-supply-signals/",
+    "summary": "Oil prices drifted slightly higher on Friday after China halted fuel exports, while the Wall ‌Street Journal reported that the US is sending more troops and carriers to the Middle East as it also tries to make Europe draw down more emergency diesel.",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-10-02T02:56:00+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/06/image-3002-1024x690.png",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "MyJoyOnline Ghana",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632572/oil-treads-water-as-market-weighs-mixed-supply-signals"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/oil-rises-slightly-as-market-weighs-mixed-supply-signals/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/06/image-3002-1024x690.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1408.9159192783334,
+    "is_stale": false,
+    "score": 20.736721601148147,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "أسعار النفط تؤثر على جيب العربي مباشرة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
