@@ -36,6 +36,11 @@ def _option_text(action: str, stage: int, cfg, urgent: bool) -> str:
     return text
 
 
+def action_label(action: str, stage: int, cfg) -> str:
+    """نص خيار الانتقال كما يراه المراجع (لتنبيه التعارض)."""
+    return _option_text(action, stage, cfg, False)
+
+
 def options_block(stage: int, item_id: str, cfg, has_stage1: bool = True,
                   urgent: bool = False) -> list[str]:
     lines = [cfg.path("stages.options_header", "")]
@@ -73,6 +78,16 @@ def parse_actions(body: str) -> tuple[dict[str, str], list[dict]]:
         if len(ordered) > 1:
             conflicts.append({"id": item_id, "marked": ordered})
     return result, conflicts
+
+
+def read_actions(body: str, stage: int) -> tuple[dict[str, str], list[dict]]:
+    """القارئ الموحَّد لقضايا المرحلتين 2 و3: علامات go: إن وُجدت وإلا الترجمة
+    القديمة. التمييز بوجود علامة واحدة على الأقل لا بالمرحلة، لأن قضية مفتوحة
+    قبل التحديث لا تحمل أيًّا منها، وقضية جديدة تحمله دائمًا (options_block)؛
+    فلا يلتبس الأمر ولا تُقرأ قضية واحدة بالطريقتين معًا."""
+    if GO_MARKER.search(body or ""):
+        return parse_actions(body)
+    return legacy_actions(body or "", stage), []
 
 
 def legacy_actions(body: str, stage: int) -> dict[str, str]:
