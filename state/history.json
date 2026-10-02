@@ -1,104 +1,5 @@
 [
   {
-    "score": 26.58,
-    "bucket": "serious",
-    "tokens": [
-      "iran",
-      "longer",
-      "pezeshkian",
-      "talks",
-      "trusts",
-      "washington"
-    ],
-    "link": "https://www.aljazeera.com/video/newsfeed/2026/9/26/pezeshkian-says-iran-no-longer-trusts-talks-with?traffic_source=rss",
-    "title": "Pezeshkian says Iran ‘no longer trusts talks with Washington’",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-27T03:08:27.252674+00:00"
-  },
-  {
-    "score": 19.55,
-    "bucket": "serious",
-    "tokens": [
-      "american",
-      "among",
-      "athens",
-      "blast",
-      "four",
-      "gas",
-      "killed",
-      "leak",
-      "suspected",
-      "tourists"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/9/26/four-american-tourists-among-6-killed-in-suspected-gas-leak-blast-in-athens?traffic_source=rss",
-    "title": "Four American tourists among 6 killed in suspected gas leak blast in Athens",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-27T03:08:27.252968+00:00"
-  },
-  {
-    "score": 15.86,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "candidatos",
-      "eleições",
-      "ordem",
-      "quantos",
-      "saiba",
-      "votar",
-      "votação"
-    ],
-    "link": "https://agenciabrasil.ebc.com.br/politica/noticia/2026-09/eleicoes2026-saiba-em-quantos-candidatos-votar-e-ordem-de-votacao",
-    "title": "Eleições 2026: saiba em quantos candidatos votar e a ordem de votação",
-    "posted_title": "",
-    "region": "latam",
-    "seen_at": "2026-09-27T03:08:27.253241+00:00"
-  },
-  {
-    "score": 15.73,
-    "bucket": "serious",
-    "tokens": [
-      "bombing",
-      "checkpoint",
-      "kills",
-      "least",
-      "pakistan",
-      "police",
-      "suicide"
-    ],
-    "link": "https://www.scmp.com/news/asia/south-asia/article/3368910/suicide-bombing-police-checkpoint-pakistan-kills-least-11?utm_source=rss_feed",
-    "title": "Suicide bombing at police checkpoint in Pakistan kills at least 11",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-27T03:08:27.253506+00:00"
-  },
-  {
-    "score": 14.89,
-    "bucket": "serious",
-    "tokens": [
-      "5th",
-      "asiad",
-      "baseball",
-      "consecutive",
-      "goes",
-      "gold",
-      "handball",
-      "japan",
-      "revenge",
-      "seeks",
-      "team",
-      "teams",
-      "women's"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20260926007800315",
-    "title": "(Asiad) Baseball team goes for 5th consecutive gold; women's handball teams seeks revenge vs. Japan",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-09-27T03:08:27.253782+00:00"
-  },
-  {
     "score": 33.97,
     "bucket": "serious",
     "tokens": [
@@ -2520,5 +2421,24 @@
     "posted_title": "",
     "region": "uk",
     "seen_at": "2026-10-02T03:08:08.206415+00:00"
+  },
+  {
+    "score": 23.96,
+    "bucket": "serious",
+    "tokens": [
+      "blockades",
+      "deepen",
+      "fires",
+      "french",
+      "protests",
+      "school",
+      "spread",
+      "unrest"
+    ],
+    "link": "https://www.thehindu.com/news/international/french-school-protests-spread-as-fires-blockades-deepen-unrest/article71535635.ece",
+    "title": "French school protests spread as fires, blockades deepen unrest",
+    "posted_title": "لماذا تحرق مدارس فرنسا وتُغلق أبوابها منذ أسبوع كامل",
+    "region": "in",
+    "seen_at": "2026-10-02T07:44:00.107428+00:00"
   }
 ]
