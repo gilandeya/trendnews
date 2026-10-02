@@ -15575,5 +15575,27 @@
   "state_media": false,
   "created_hour": 3,
   "selection_issue": 1147
+ },
+ {
+  "id": "b028e348cfea",
+  "created_at": "2026-10-02T03:08:08.205818+00:00",
+  "decided_at": "2026-10-02T08:06:39.469629+00:00",
+  "decision": "unselected",
+  "reject_tag": "لم يُختر",
+  "origin": "news",
+  "category": "",
+  "angle": "",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "in",
+  "score": 23.96,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "source_count": 3,
+  "body_len": 0,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 3,
+  "selection_issue": 1147
  }
 ]
