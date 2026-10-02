@@ -1,0 +1,661 @@
+{
+  "run_date": "2026-10-02",
+  "stats": {
+    "points_in": 234,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 84,
+    "issues_clustered": 23,
+    "topics_merged": 3,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 2,
+    "topics_below_min_points": 3,
+    "topics_below_min_channels": 11,
+    "layers": {
+      "1": 4
+    },
+    "agreement": 4,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "حادثة طائرة فلاي دبي وتوظيفها سياسياً",
+      "زيارة نتنياهو السرية للإمارات"
+    ],
+    [
+      "انتقالات بلدية من المعارضة لحزب العدالة والتنمية",
+      "انتقال جميل توغاي المحتمل للعدالة والتنمية"
+    ],
+    [
+      "دعوات أردوغان لدستور جديد وتوافق سياسي",
+      "افتتاح السنة التشريعية التركية والتوتر مع المعارضة"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "فضيحة صناديق تيرا الاستثمارية التركية",
+      "event": "فضيحة التلاعب المالي في صناديق وشركات بورصة تيرا وتبعاتها الاقتصادية والسياسية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        34,
+        35,
+        36,
+        38,
+        39,
+        42,
+        43,
+        44,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        133,
+        134,
+        135
+      ],
+      "total_points": 19,
+      "fresh_points": 16,
+      "dropped_reason": null,
+      "id": "a523fa3e8605",
+      "created_at": "2026-10-02T04:01:47.328825+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1148
+    },
+    {
+      "title": "انتقالات بلدية من المعارضة لحزب العدالة والتنمية",
+      "event": "انتقال أعضاء بلديات ومسؤولين محليين من حزب الشعب الجمهوري إلى حزب العدالة والتنمية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        45,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        132
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null,
+      "id": "183eea8c000d",
+      "created_at": "2026-10-02T04:01:47.328825+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1148
+    },
+    {
+      "title": "دعوات أردوغان لدستور جديد وتوافق سياسي",
+      "event": "تصريحات أردوغان حول الحاجة لدستور جديد وإنهاء الاستقطاب السياسي في تركيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        117,
+        118
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null,
+      "id": "0adcccb0b599",
+      "created_at": "2026-10-02T04:01:47.328825+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1148
+    },
+    {
+      "title": "حادثة طائرة فلاي دبي وتوظيفها سياسياً",
+      "event": "حادثة طائرة فلاي دبي واستثمار نتنياهو السياسي لها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        9,
+        10,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null,
+      "id": "b9eaa049a205",
+      "created_at": "2026-10-02T04:01:47.328825+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1148
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "الانسحاب الأمريكي من العراق",
+      "event": "إعلان ترامب انسحاب آخر جندي أمريكي من العراق وانتهاء عملية العزم الصلب",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        27,
+        47,
+        68
+      ],
+      "total_points": 3,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "التصعيد الأمريكي الإيراني وتهديد هرمز",
+      "event": "التحشيد العسكري الأمريكي ضد إيران وتأثيره على مضيق هرمز والمفاوضات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        7,
+        13,
+        61,
+        62,
+        63,
+        64,
+        65
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة الرئيس الموريتاني السابق الصحية والقضائية",
+      "event": "رسالة الرئيس الموريتاني السابق من سجنه بشأن وضعه الصحي والجدل القانوني حوله",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موقف الفصائل العراقية من حصر السلاح",
+      "event": "رفض الفصائل المسلحة العراقية الالتزام بمواعيد حصر السلاح وتمديد الحكومة للموعد",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        11,
+        12,
+        66,
+        74
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فضيحة صناديق تيرا الاستثمارية التركية",
+      "event": "فضيحة التلاعب المالي في صناديق وشركات بورصة تيرا وتبعاتها الاقتصادية والسياسية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        34,
+        35,
+        36,
+        38,
+        39,
+        42,
+        43,
+        44,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        133,
+        134,
+        135
+      ],
+      "total_points": 19,
+      "fresh_points": 16,
+      "dropped_reason": null
+    },
+    {
+      "title": "انتقالات بلدية من المعارضة لحزب العدالة والتنمية",
+      "event": "انتقال أعضاء بلديات ومسؤولين محليين من حزب الشعب الجمهوري إلى حزب العدالة والتنمية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        45,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        132
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "استهداف الحوثي لمحطة كهرباء المدينة المنورة",
+      "event": "هجوم الحوثيين على محطة كهرباء تغذي المسجد النبوي في المدينة المنورة وردود الفعل عليه",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "دعوة ستارمر وماكرون لعودة بريطانيا للاتحاد الأوروبي",
+      "event": "تصريحات ستارمر وماكرون حول احتمال عودة بريطانيا للاتحاد الأوروبي وتبعات البريكست",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "دعوات أردوغان لدستور جديد وتوافق سياسي",
+      "event": "تصريحات أردوغان حول الحاجة لدستور جديد وإنهاء الاستقطاب السياسي في تركيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        117,
+        118
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "التضخم وارتفاع الأسعار في تركيا",
+      "event": "ارتفاع معدلات التضخم وأسعار السلع كالليمون في تركيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        121,
+        122
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "العقوبات الأمريكية الجديدة على إيران",
+      "event": "فرض عقوبات أمريكية جديدة على شركات ومؤسسات إيرانية كبرى وتأثيرها الاقتصادي",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137,
+        138,
+        139,
+        140,
+        141
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قضية ابن زير والمحكمة العليا الإسرائيلية",
+      "event": "محاولة رئيس المحكمة العليا إقناع ابن زير بالاستقالة وجدل الإصلاح القضائي وتعيين القضاة",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144,
+        145
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استراتيجية حزب عمي إسرائيل الانتخابية",
+      "event": "طرح حزب عمي إسرائيل نموذج شراكة يهودية عربية وتوصياته الانتخابية لدعم نتنياهو",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تاريخ دارفور الاستعماري وبنيته",
+      "event": "سياسات الإدارة البريطانية والنميري في دارفور وتأثيرها على الصراع الحالي واتفاق جوبا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "النفوذ الإسرائيلي في السودان",
+      "event": "استراتيجية إسرائيل في شد أطراف السودان والسيطرة على موارده",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        6
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حادثة طائرة فلاي دبي وتوظيفها سياسياً",
+      "event": "حادثة طائرة فلاي دبي واستثمار نتنياهو السياسي لها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        9,
+        10,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "ليبيا ساحة تنافس دولي",
+      "event": "التوسع الروسي العسكري في ليبيا ورد الفعل الأوكراني عليه",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موقف تركيا التاريخي من حرب العراق 2003",
+      "event": "رفض تركيا السماح بعبور القوات الأمريكية عام 2003 ومبررات الحرب على العراق",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "total_points": 5,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "بازگشت ایرانیان خارج نشین و پیامدهای امنیتی آن",
+      "event": "دعوة الحكومة الإيرانية للمواطنين في الخارج للعودة ومخاطر اعتقالهم",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مكافحة الجريمة المنظمة في إسرائيل",
+      "event": "عمل وحدة محاربة الجريمة المنظمة الإسرائيلية وتحدياتها وإعادة تنظيمها",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        55,
+        56,
+        57,
+        58,
+        59,
+        60
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
