@@ -2,7 +2,6 @@
   "id": "b028e348cfea",
   "created_at": "2026-10-02T07:44:00.007882+00:00",
   "status": "pending",
-  "review_issue": 1152,
   "origin": "news",
   "score": 23.96,
   "bucket": "serious",
@@ -61,16 +60,5 @@
       "https://th-i.thgim.com/public/incoming/wff19r/article71535642.ece/alternates/LANDSCAPE_1200/France_High_School_Protests_92616.jpg"
     ]
   },
-  "image": "drafts/2026-10-02/b028e348cfea.jpg",
-  "has_photo": true,
-  "image_info": {
-    "used_original": true,
-    "illustrative": false,
-    "composite": false,
-    "chosen_url": "https://th-i.thgim.com/public/incoming/wff19r/article71535642.ece/alternates/LANDSCAPE_1200/France_High_School_Protests_92616.jpg",
-    "candidates_tried": 1,
-    "manual": false,
-    "kind": null,
-    "news_photo_publisher": null
-  }
+  "has_photo": true
 }
