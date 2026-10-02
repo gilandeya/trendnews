@@ -1,104 +1,5 @@
 [
   {
-    "score": 23.45,
-    "bucket": "serious",
-    "tokens": [
-      "across",
-      "floods",
-      "hours",
-      "india",
-      "kill",
-      "landslides",
-      "monsoon",
-      "nepal"
-    ],
-    "link": "https://www.dailysabah.com/world/asia-pacific/monsoon-floods-landslides-kill-68-across-india-nepal-in-72-hours",
-    "title": "Monsoon floods, landslides kill 68 across India, Nepal in 72 hours",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-09-27T15:08:13.814399+00:00"
-  },
-  {
-    "score": 23.38,
-    "bucket": "serious",
-    "tokens": [
-      "caspian",
-      "hormuz",
-      "impairs",
-      "iran",
-      "north",
-      "sea",
-      "shifts",
-      "strait",
-      "trade",
-      "war"
-    ],
-    "link": "https://www.aljazeera.com/economy/2026/9/27/can-iran-shift-trade-north-to-caspian-sea-as-war-impairs-strait-of-hormuz?traffic_source=rss",
-    "title": "Iran shifts trade north to Caspian Sea as war impairs Strait of Hormuz",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-27T15:08:13.814722+00:00"
-  },
-  {
-    "score": 22.35,
-    "bucket": "serious",
-    "tokens": [
-      "bombing",
-      "kills",
-      "least",
-      "northwest",
-      "pakistan",
-      "suicide"
-    ],
-    "link": "https://www.aljazeera.com/video/newsfeed/2026/9/27/suicide-bombing-in-northwest-pakistan-kills-at-least-12?traffic_source=rss",
-    "title": "Suicide bombing in northwest Pakistan kills at least 12",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-27T15:08:13.815064+00:00"
-  },
-  {
-    "score": 20.14,
-    "bucket": "serious",
-    "tokens": [
-      "accuses",
-      "blocking",
-      "europe",
-      "foreign",
-      "minister",
-      "peace",
-      "russian",
-      "talks",
-      "ukraine"
-    ],
-    "link": "https://www.cbsnews.com/news/russia-europe-ukraine-blocking-peace-un-general-assembly-trump/",
-    "title": "Russian foreign minister accuses Europe of blocking Ukraine peace talks",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-09-27T15:08:13.815336+00:00"
-  },
-  {
-    "score": 18.92,
-    "bucket": "serious",
-    "tokens": [
-      "bank",
-      "divert",
-      "heritage",
-      "israel",
-      "pushes",
-      "settlers",
-      "site",
-      "spring",
-      "takeovers",
-      "waters",
-      "west"
-    ],
-    "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNRDU3R2RzclhxTkN6djV6MVZWUWtmR0lIeEJaY25xU19CLUVMRjJUQUJ3Q2pRaU45WVJoRll2TVo1SElJbGJDalBDMGhSSkZ4MmQyN01udC1HOHAxanlGWFU5d3VfZEVrR1dVWFFxbE9uTjBraUdmZldCUXJWcU54dm9tT184QTBBVVJFTzUzWWgzOEI2VlhpS3FuMFlkRkN6c0VvejRIUFk3T3Y3QlRn0gG0AUFVX3lxTE04WGEtMjlOUWRlYlVKSmpkRzZmT1k2enZqYzJGSm1nQ1hVSE9jWEFxNnlwZ1RUckJZQmVTZTZWQmFETFY2SHF0cFZ1cmZ6MTczRHF4Umk4WkNGbHZydzF2QnFYOWNUTzM5ZzlVNXVGbElwNXU2dDEtNTBaLU1RalFVUVpXREl5MF85d241ZzlGdXV6dnBSZ1Vta0NINm5kclg5bDhWTkU1MjlKbF9WVXlIcE9nRw?oc=5",
-    "title": "Settlers divert West Bank spring waters as Israel pushes heritage site takeovers",
-    "posted_title": "",
-    "region": "global",
-    "seen_at": "2026-09-27T15:08:13.815593+00:00"
-  },
-  {
     "score": 18.92,
     "bucket": "serious",
     "tokens": [
@@ -2568,5 +2469,26 @@
     "posted_title": "",
     "region": "us",
     "seen_at": "2026-10-02T15:08:11.527737+00:00"
+  },
+  {
+    "score": 21.58,
+    "bucket": "serious",
+    "tokens": [
+      "additional",
+      "batteries",
+      "energy",
+      "patriot",
+      "protect",
+      "qatari",
+      "report",
+      "saudi",
+      "sends",
+      "sites"
+    ],
+    "link": "https://tribune.com.pk/story/2632573/us-sends-additional-patriot-batteries-to-protect-saudi-qatari-energy-sites-report",
+    "title": "US sends additional Patriot batteries to protect Saudi, Qatari energy sites: report",
+    "posted_title": "لماذا أرسلت واشنطن صواريخ باتريوت إضافية إلى السعودية وقطر؟",
+    "region": "pk",
+    "seen_at": "2026-10-02T15:12:50.003686+00:00"
   }
 ]
