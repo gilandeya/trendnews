@@ -267,13 +267,17 @@ def test_card_second_badge_by_origin() -> None:
     بصرف النظر عن urgent."""
     cfg = load_config()
     W = int(cfg.path("image.width", 1080))
-    H = int(cfg.path("image.height", 1080))
-    # الشارات في وسط الشريط العلوي (Issue #1158)؛ category فارغة في كل
-    # فحص هنا فالشارة الوحيدة هي شارة المسار (أو لا شيء لـnews غير العاجل).
+    H = int(cfg.path("image.height", 1350))
+    # الشارات في صف منطقة العنوان عند الهامش الأيمن (Issue #1160)؛ category
+    # فارغة في كل فحص هنا فالشارة الوحيدة هي شارة المسار (أو لا شيء لـnews
+    # غير العاجل: نفحص بكسلًا وسط منطقة العنوان لا يقع على شارة).
+    probe_headline = "سؤال تجريبي لفحص الملصق الثاني؟"
+
     def probe_xy_for(origin, urgent):
         table = "breaking" if (origin == "news" and urgent) else origin
         text = cfg.path(f"cards.{table}.badge")
-        return badge_probe_xy(cfg, [text], 0) if text else (W // 2, int(H * 0.082) // 2)
+        return (badge_probe_xy(cfg, [text], 0, probe_headline) if text
+                else (W - int(W * 0.045) - 20, H - int(W * 0.082) - 40))
 
     breaking_bg = imaging.hex_rgb(cfg.path("cards.breaking.bg"))
     investigation_bg = imaging.hex_rgb(cfg.path("cards.verify.bg"))
@@ -290,7 +294,7 @@ def test_card_second_badge_by_origin() -> None:
     def probe(origin, urgent=False, out_name="probe.jpg"):
         out_path = _TMP_DATA_DIR / out_name
         imaging.build_post_image(
-            headline="سؤال تجريبي لفحص الملصق الثاني؟", category="", urgent=urgent,
+            headline=probe_headline, category="", urgent=urgent,
             image_urls=None, publisher=["مصدر"], bucket="serious",
             cfg=cfg, out_path=out_path, origin=origin,
         )

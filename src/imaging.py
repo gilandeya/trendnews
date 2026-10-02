@@ -525,7 +525,7 @@ def circular_inset(canvas: Image.Image, photo: Image.Image,
 
 def fit_headline(draw, text: str, font_path: str | None, max_width: int,
                  max_height: float, start: int, weight: str | None = None):
-    """عنوان البطاقة المربعة (Issue #1158): يصغّر بخطوة 2 حتى تتّسع كل
+    """عنوان البطاقة (Issue #1158، #1160): يصغّر بخطوة 2 حتى تتّسع كل
     الأسطر في max_height، بلا حدّ أدنى للحجم ولا حدّ لعدد الأسطر — لا يُقصّ
     النص أبدًا. fit_text القائمة تقصّ عند الحدّ الأدنى وتستعملها الريلز،
     فلا تُعدَّل. يعيد (الخط، الأسطر، ارتفاع السطر = 1.45 × الحجم)."""
@@ -580,6 +580,38 @@ def badge_left(draw, left: int, center_y: int, text: str, font, bg, fg,
     draw.rounded_rectangle([left, y0, left + w, y0 + h], radius=h // 2, fill=bg)
     draw_text(draw, (left + w // 2, center_y), text, font, fg, anchor="mm")
     return left + w
+
+
+def badge_right(draw, right: int, center_y: int, text: str, font, bg, fg,
+                height: int, pad_x: int = 22) -> int:
+    """شارة بارتفاع ثابت ملتصقة بحدّها الأيمن `right` (Issue #1160)؛ تعيد
+    حدّها الأيسر ليبدأ منه ما بعدها. الارتفاع ثابت لا تابع للنص كي يتّسق
+    صف الشارات مهما اختلفت الحروف."""
+    tw, _ = measure(draw, text, font)
+    w = tw + pad_x * 2
+    left = right - w
+    y0 = center_y - height // 2
+    draw.rounded_rectangle([left, y0, right, y0 + height], radius=height // 2, fill=bg)
+    draw_text(draw, (left + w // 2, center_y), text, font, fg, anchor="mm")
+    return left
+
+
+def fade_edges(canvas: Image.Image, top: int, height: int, color,
+               top_frac: float, bottom_frac: float, power: float = 1.6) -> None:
+    """تدرّجان بلون `color` فوق صندوق الصورة (Issue #1160): علوي يغطي أعلى
+    top_frac من ارتفاعه بشفافية 255 عند الحافة إلى 0 بمنحنى (1−t)^power،
+    وسفلي يغطي أسفل bottom_frac من 0 إلى 255 عند الحافة بمنحنى t^power. لا
+    تعتيم غيرهما. يُطبَّقان بعد كل تركيب (دائرة ثانية، قصّ) فتقع كلها تحتهما."""
+    mask = Image.new("L", (1, height), 0)
+    px = mask.load()
+    n_top = max(2, round(height * top_frac))
+    n_bot = max(2, round(height * bottom_frac))
+    for i in range(n_top):
+        px[0, i] = round(255 * (1 - i / (n_top - 1)) ** power)
+    for j in range(n_bot):
+        px[0, height - n_bot + j] = round(255 * (j / (n_bot - 1)) ** power)
+    mask = mask.resize((canvas.width, height), Image.NEAREST)
+    canvas.paste(Image.new("RGB", (canvas.width, height), color), (0, top), mask)
 
 
 def build_post_image(
@@ -660,7 +692,7 @@ def build_post_image(
     المقال عنه (لا ناشر أصلي بنيويًا في مسار التحليل)، بل صورة ناشرٍ آخر
     يغطّي نفس الحدث."""
     W = int(cfg.path("image.width", 1080))
-    H = int(cfg.path("image.height", 1080))
+    H = int(cfg.path("image.height", 1350))
     primary = hex_rgb(cfg.path("brand.primary_color", "#12203A"))
     accent = hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
     handle = cfg.path("brand.handle", "")
@@ -677,6 +709,7 @@ def build_post_image(
     # فتحتفظ الأخبار العاجلة بملصقها بلا مزاحمة، وباقي المسارات (لها ملصقها
     # الخاص من الجدول) لا تتأثر بهذا التحويل إطلاقًا.
     badge_bg, badge_fg = accent, primary
+    from_breaking_table = False
     if badge is None:
         table_origin = "breaking" if (origin == "news" and urgent) else origin
         card = cfg.path(f"cards.{table_origin}") if table_origin else None
@@ -684,14 +717,14 @@ def build_post_image(
             log.warning("لا ملصق ثانٍ: أصل غير معروف أو غير مذكور في جدول cards: %r", origin)
         else:
             badge = card.get("badge")
+            from_breaking_table = bool(badge) and table_origin == "breaking"
             if badge:
                 badge_bg = hex_rgb(card.get("bg") or cfg.path("brand.accent_color", "#F0B429"))
                 badge_fg = hex_rgb(card.get("fg") or cfg.path("brand.primary_color", "#12203A"))
 
     canvas = Image.new("RGB", (W, H), primary)
     draw = ImageDraw.Draw(canvas)
-    margin = int(W * 0.06)
-    rule = max(4, W // 240)
+    margin = int(W * 0.045)
 
     # المصادر كلها لا مصدرًا واحدًا: هذا هو الموضع الوحيد الذي تُذكر فيه
     # بعد أن رُفعت من متن المنشور، فلا يجوز أن يمثّلها ناشر واحد.
@@ -699,22 +732,40 @@ def build_post_image(
                   else [p for p in (publisher or []) if p])
     publishers = [p for p in publishers if str(p).strip()]
 
-    # ── التخطيط (Issue #1158): شريط علوي ← خط ← صورة 16:9 ← خط ← عنوان ←
-    # شريط سفلي. الشريطان بارتفاع واحد (كان ارتفاع التذييل وحده)، والصورة
-    # بنسبة 16:9 ثابتة فلا يتغيّر صندوقها مع طول العنوان؛ العنوان هو الذي
-    # يتكيّف داخل ما تبقّى من ارتفاع.
-    bar = int(H * 0.082)
-    photo_h = round(W * 9 / 16)
-    photo_top = bar + rule
-    title_top = photo_top + photo_h + rule
+    # ── التخطيط العمودي 4:5 (Issue #1160، يخلف مربع #1158): شريط علوي ←
+    # صورة 4:3 بتدرّجين ← منطقة عنوان (شارات + عنوان) ← شريط سفلي. الشريطان
+    # يُحسبان من W لا من H كي لا يكبرا مع الارتفاع (int لا round: 88 لا 89)،
+    # وصندوق الصورة ثابت النسبة فلا يتغيّر مع طول العنوان؛ العنوان هو الذي
+    # يتكيّف داخل ما تبقّى.
+    bar = int(W * 0.082)
+    photo_h = round(W * 3 / 4)
+    photo_top = bar
+    title_top = photo_top + photo_h
     title_bottom = H - bar
+    area_h = title_bottom - title_top
+    pad_v = area_h * 0.08
+
+    # كتلة العنوان = صف الشارات + فاصل + الأسطر. الصف لا يُحجز إن لم توجد
+    # شارة. «عاجل» أولًا (أقصى اليمين) ثم التصنيف ثم شارة المسار.
+    bdg_font = load_font(f_body, int(W * 0.026), body_weight)
+    badge_h = round(bar * 0.56)
+    badge_gap = int(W * 0.014)
+    breaking_first = from_breaking_table
+    row = [(t, bg, fg) for t, bg, fg in (
+        ([(badge, badge_bg, badge_fg)] if breaking_first else [])
+        + [(category, accent, primary)]
+        + ([] if breaking_first else [(badge, badge_bg, badge_fg)])) if t]
+    row_h = badge_h if row else 0
+    spacer = int(W * 0.022) if row else 0
     head_font, head_lines, line_h = fit_headline(
         draw, headline, f_head,
         max_width=W - margin * 2,
-        max_height=(title_bottom - title_top) * 0.8,
-        start=int(W * 0.052),
+        max_height=area_h - 2 * pad_v - row_h - spacer,
+        start=int(W * 0.095),
         weight=head_weight,
     )
+    block_h = row_h + spacer + len(head_lines) * line_h
+    block_top = title_top + (area_h - block_h) / 2
 
     # ── 1) الصورة أو البديل: نجرّب المرشحين بالترتيب ──
     candidates = (
@@ -810,8 +861,8 @@ def build_post_image(
     if source is not None and cfg.path("image.sharpen", True):
         photo = photo.filter(ImageFilter.UnsharpMask(radius=2, percent=55, threshold=3))
 
-    # بلا dim_photo: الصورة تُعرض كما هي (Issue #1158) — الخطّان الذهبيان
-    # هما الفاصل مع الشريطين فلا حاجة لتعتيم الحواف ليمتزج بهما.
+    # بلا dim_photo ولا خطوط ذهبية (Issue #1160): الامتزاج مع الشريطين والعنوان
+    # بتدرّجين بلون primary يُطبَّقان في النهاية فوق كل ما في الصندوق (fade_edges).
     canvas.paste(photo, (0, photo_top))
 
     # صورة ثانية في دائرة — تُستخدم حين يوفّر الخبر أكثر من صورة صالحة
@@ -875,13 +926,14 @@ def build_post_image(
             draw = ImageDraw.Draw(canvas)
             log.info("🖼️ قالب مركّب: صورتان")
 
-    # ── 2) الترويسة: الشعار واسم الصفحة يمينًا، الملصقات يسارًا ──
-    # الشريط العلوي (Issue #1158): الشعار يمينًا، الشارات في الوسط، المعرّف
-    # يسارًا. لا اسم صفحة ولا شعار فرعي نصًّا — الشعار يكفي.
-    # حدود rectangle في Pillow شاملة، فنطرح 1 كي لا يمسّ الخطّ أول صف من الصورة
+    # التدرّجان آخر ما يُلصق في صندوق الصورة: الصورة المركّبة والخلفية المصمَّمة
+    # والدائرة الثانية كلها تحتهما (Issue #1160). لا تعتيم غيرهما.
+    fade_edges(canvas, photo_top, photo_h, primary, top_frac=0.14, bottom_frac=0.30)
+    draw = ImageDraw.Draw(canvas)
+
+    # ── 2) الشريط العلوي: الشعار يمينًا والمعرّف يسارًا، والوسط فارغ ──
+    # لا شارات هنا بعد الآن (انتقلت لمنطقة العنوان). لا اسم صفحة نصًّا.
     draw.rectangle([0, 0, W, bar - 1], fill=primary)
-    draw.rectangle([0, bar, W, bar + rule - 1], fill=accent)
-    draw.rectangle([0, photo_top + photo_h, W, photo_top + photo_h + rule - 1], fill=accent)
     bar_mid = bar // 2
 
     logo_rel = cfg.path("brand.logo")
@@ -896,29 +948,21 @@ def build_post_image(
             ):
                 draw = ImageDraw.Draw(canvas)   # إعادة الربط بعد اللصق
 
-    # مجموعة الشارات كلها متوسطة أفقيًا: نقيس أولًا ثم نرسم من اليسار
-    bdg_font = load_font(f_body, int(W * 0.026), body_weight)
-    pad_x, pad_y, gap = 22, 11, int(W * 0.014)
-    group = [(t, bg, fg) for t, bg, fg in (
-        (category, accent, primary), (badge, badge_bg, badge_fg)) if t]
-    widths = [measure(draw, t, bdg_font)[0] + pad_x * 2 for t, _, _ in group]
-    bx = (W - (sum(widths) + gap * max(len(group) - 1, 0))) // 2
-    for (text, bg, fg), w in zip(group, widths):
-        badge_left(draw, bx, bar_mid, text, bdg_font, bg, fg, pad_x=pad_x, pad_y=pad_y)
-        bx += w + gap
-
     if handle:
         hf = load_font(f_body, int(W * 0.024), body_weight)
         draw_text_ltr(draw, (margin, bar_mid), handle, hf,
                       mix(accent, (255, 255, 255), 0.3), anchor="lm")
 
-    # وسم الصورة التعبيرية: إخفاء أنها ليست من مكان الحدث تضليل
+    # وسم الصورة التعبيرية: إخفاء أنها ليست من مكان الحدث تضليل. يقع في الشريط
+    # الأوسط بين التدرّجين (فوق بداية السفلي بفجوة) فلا يمتزج مع primary ويبقى
+    # مقروءًا على أرضيته السوداء.
     if illustrative:
         tag_font = load_font(f_body, int(W * 0.021), body_weight)
         label = "صورة تعبيرية"
         tw, th = measure(draw, label, tag_font)
         pad = int(W * 0.012)
-        bx, by = margin, photo_top + photo_h - int(W * 0.028) - th - pad * 2
+        fade_bot_start = photo_top + photo_h - round(photo_h * 0.30)
+        bx, by = margin, fade_bot_start - int(W * 0.01) - th - pad * 2
         draw.rounded_rectangle(
             [bx, by, bx + tw + pad * 2, by + th + pad * 2],
             radius=int(W * 0.008), fill=(0, 0, 0, 255),
@@ -926,11 +970,19 @@ def build_post_image(
         draw_text(draw, (bx + pad + tw // 2, by + pad + th // 2), label,
                   tag_font, (225, 228, 235), anchor="mm")
 
-    # ── 4) العنوان: متوسط أفقيًا وعموديًا في كل المساحة بين الخطّين ──
+    # ── 4) منطقة العنوان: كتلة واحدة متوسطة عموديًا، كلها محاذاة لليمين ──
     # fit_headline لا يقصّ نصًّا أبدًا، فالكتلة تتّسع دائمًا لارتفاع المنطقة.
-    y = (title_top + title_bottom) // 2 - len(head_lines) * line_h // 2 + line_h // 2
+    y = round(block_top)
+    if row:
+        right_edge = W - margin
+        row_mid = y + badge_h // 2
+        for text, bg, fg in row:
+            right_edge = badge_right(draw, right_edge, row_mid, text, bdg_font,
+                                     bg, fg, height=badge_h) - badge_gap
+        y += badge_h + spacer
     for line in head_lines:
-        draw_text(draw, (W // 2, y), line, head_font, (255, 255, 255), anchor="mm")
+        draw_text(draw, (W - margin, y + line_h // 2), line, head_font,
+                  (255, 255, 255), anchor="rm")
         y += line_h
 
     # ── 5) الشريط السفلي: المصدر يمينًا، التاريخ يسارًا ──

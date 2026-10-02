@@ -76,7 +76,7 @@ from tests.test_review import (
     test_setimage_apply_image_keeps_origin_badge,
     test_publish_builds_cards_at_approval,
     test_card_second_badge_offset_with_nonempty_category,
-    test_square_card_layout_1158,
+    test_portrait_card_layout_1160,
     test_publish_card_search_term_from_image_query_en,
     test_request_search,
     test_request_and_radar_headlines,
@@ -541,7 +541,7 @@ def main() -> int:
     test_publish_builds_cards_at_approval()
     print("\n── إزاحة الشارة الثانية بعد شارة تصنيف حقيقية (Issue #954) ──")
     test_card_second_badge_offset_with_nonempty_category()
-    test_square_card_layout_1158()
+    test_portrait_card_layout_1160()
     print("\n── بحث الصورة الاحتياطي بكلمات إنجليزية (image_query_en، Issue #941) ──")
     test_publish_card_search_term_from_image_query_en()
     print("\n── حارس temperature (Issue #373) ──")

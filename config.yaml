@@ -1120,8 +1120,8 @@ analysis:
 
 # ── الصورة ─────────────────────────────────────────────────
 image:
-  width: 1080                # مربع 1:1 — الأنسب لخلاصة فيسبوك
-  height: 1080
+  width: 1080                # عمودية 4:5 — أطول نسبة يعرضها فيسبوك دون قصّ
+  height: 1350
   headline_max_chars: 90     # طول العنوان المكتوب على الصورة
   font_headline: "assets/fonts/Cairo.ttf"
   font_headline_weight: "Black"     # الخطوط المتغيرة: Bold / ExtraBold / Black

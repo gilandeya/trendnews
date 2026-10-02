@@ -258,19 +258,37 @@ def install_fakes() -> None:
     headlines.headlines_for_post = fake_headlines_for_post  # type: ignore
 
 
-def badge_probe_xy(cfg, texts: list[str], index: int) -> tuple[int, int]:
-    """بكسل داخل الشارة رقم index من مجموعة الشارات في وسط الشريط العلوي
-    (Issue #1158). تُحسب من نفس هندسة src/imaging.py: المجموعة كلها متوسطة
-    أفقيًا، عرض كل شارة = عرض نصّها + 22×2، والفاصل int(W×0.014)، ومركزها
-    العمودي منتصف الشريط (H×0.082). الاختبارات كانت تحسب موضعًا ثابتًا عند
-    الهامش الأيسر قبل أن تنتقل الشارات للوسط."""
+def badge_probe_xy(cfg, texts: list[str], index: int, headline: str = "") -> tuple[int, int]:
+    """بكسل داخل الشارة رقم index من صف الشارات في منطقة العنوان (Issue #1160).
+    الترتيب من اليمين لليسار: texts[0] أقصى اليمين عند W−m. تُحسب من نفس
+    هندسة src/imaging.py: عرض الشارة = عرض نصّها + 22×2، الفاصل int(W×0.014)،
+    ارتفاعها round(bar×0.56) ومركزها مركز الصف، والصف أول الكتلة المتوسطة
+    عموديًا في منطقة العنوان. موضع الصف يتبع عدد أسطر العنوان، فيُمرَّر
+    `headline` ليُحسب بنفس imaging.fit_headline؛ بلا عنوان يُفترض سطر واحد."""
     W = int(cfg.path("image.width", 1080))
-    H = int(cfg.path("image.height", 1080))
+    H = int(cfg.path("image.height", 1350))
     f_body = cfg.path("image.font_body") or cfg.path("image.font_headline")
     font = imaging.load_font(f_body, int(W * 0.026), cfg.path("image.font_body_weight") or None)
     draw = ImageDraw.Draw(Image.new("RGB", (W, H)))
     widths = [imaging.measure(draw, t, font)[0] + 22 * 2 for t in texts]
     gap = int(W * 0.014)
-    x = (W - (sum(widths) + gap * (len(texts) - 1))) // 2
-    x += sum(widths[:index]) + gap * index
-    return x + 10, int(H * 0.082) // 2
+    bar = int(W * 0.082)
+    badge_h = round(bar * 0.56)
+    spacer = int(W * 0.022)
+    area_top = bar + round(W * 3 / 4)
+    area_h = (H - bar) - area_top
+    margin = int(W * 0.045)
+    if headline:
+        _, lines, line_h = imaging.fit_headline(
+            draw, headline, cfg.path("image.font_headline"),
+            max_width=W - margin * 2,
+            max_height=area_h - 2 * area_h * 0.08 - badge_h - spacer,
+            start=int(W * 0.095), weight=cfg.path("image.font_headline_weight") or None)
+        n_lines = len(lines)
+    else:
+        n_lines, line_h = 1, int(int(W * 0.095) * 1.45)
+    block_h = badge_h + spacer + n_lines * line_h
+    row_top = round(area_top + (area_h - block_h) / 2)
+    right = W - margin - sum(widths[:index]) - gap * index
+    # +10 من الحافة اليسرى للشارة: داخل جسمها وقبل أول حرف من نصّها
+    return right - widths[index] + 10, row_top + badge_h // 2

@@ -352,24 +352,9 @@ cards:
   analysis: { badge: "تحليل", bg: "#8EC5FF", fg: "#12203A", source_template: "تحليل لتغطية {channels}" }
 ```
 
-### Square card layout (Issue #1158)
+### Portrait card layout, 4:5 (Issue #1160 — supersedes the square #1158 layout)
 
-`imaging.build_post_image` (1080×1080), top to bottom: a top bar (`bar = H×0.082`, `primary`; the
-logo on the right at 72% of `bar` after trimming transparent margins by its alpha bbox
-(`imaging.paste_logo_trimmed`, capped by `brand.logo_max_width`), the category badge — with the red
-«عاجل»/origin badge beside it — centered as one group, `brand.handle` on the left drawn LTR via
-`imaging.draw_text_ltr` so bidi doesn't flip it to «almujez@»; no page name/tagline text) → gold
-rule (`rule`) → the photo at full width and exactly 16:9 (`round(W×9/16)`), **no dimming** (the
-placeholder, the composite inset and `vision.choose_layout` all work inside this same box) → gold
-rule → title area (everything between that rule and the bottom bar; `imaging.fit_headline` starts at
-`W×0.052`, shrinks by 2 until all lines fit in 80% of the area's height, line height 1.45×size, no
-minimum size, no line cap, never truncates; centered both ways) → bottom bar (same `bar` height):
-source line on the right, date on the left. The source line is «المصدر: X، Y» on every path (with
-`name_ar` and the footer guard from #1145 unchanged) except `origin == "analysis"`, which shows the
-path's text as-is with no prefix. «صورة: …» is no longer drawn on any path; the photo's publisher
-stays internal (`report`/`image_info`/`review.image_source_line`). `brand.logo_scale` is for
-`reel.py` only. `reel.build_layers` and `imaging.fit_text`/`paste_logo` are untouched (the reel
-shares them); tests that probe badge pixels use `tests.helpers.badge_probe_xy`.
+`imaging.build_post_image` (1080×1350, `config.yaml: image.height: 1350` — the tallest ratio Facebook shows uncropped), top to bottom, horizontal margin `m = W×0.045`: a top bar (`bar = int(W×0.082) = 88`, computed from W so it doesn't grow with H; `primary`; logo on the right at 72% of `bar` after alpha-bbox trim, `brand.handle` on the left via `draw_text_ltr`; **no badges here any more**) → the photo directly below, full width and exactly 4:3 (`round(W×3/4) = 810`), **no gold rules**: two `primary` gradients (`imaging.fade_edges`) over the box instead — top covers the top 14% (alpha 255→0, `(1−t)^1.6`), bottom the bottom 30% (0→255, `t^1.6`), applied last so the placeholder, the composite inset and `vision.choose_layout` all sit under them; no other dimming, `image.sharpen` stays; the «صورة تعبيرية» tag sits between the two gradient zones → title area (everything between the photo and the bottom bar, 8% vertical padding each side): one vertically-centered block of a right-aligned badge row at `W−m` (red «عاجل» when the breaking-table badge applies, then the category, then the origin badge such as «تحليل»; height 56% of `bar`, gap `W×0.014`; no row reserved if there is no badge), a `W×0.022` spacer, and the headline right-aligned at `W−m` (`imaging.fit_headline` starts at `W×0.095`, shrinks by 2 until badges+spacer+lines fit, line height 1.45×size, no minimum, no line cap, never truncates) → bottom bar (same `bar`): source line on the right, date on the left. The source line is «المصدر: X، Y» on every path (with `name_ar` and the footer guard from #1145 unchanged) except `origin == "analysis"`, which shows the path's text as-is with no prefix; «صورة: …» is never drawn (the photo's publisher stays internal: `report`/`image_info`/`review.image_source_line`). `reel.py` is untouched (`reel.build_layers` and `imaging.fit_text`/`paste_logo` unchanged; `brand.logo_scale` is for the reel only). Tests that probe badge pixels use `tests.helpers.badge_probe_xy(cfg, texts, index, headline)` — `texts[0]` is the right-most badge, and `headline` is needed because the row's height depends on how many lines the headline wraps to.
 
 ### Image ladder (Issue #1123 — order flipped for Analysis)
 
