@@ -66,6 +66,72 @@ def load_font(path: str | None, size: int, weight: str | None = None):
     return font
 
 
+# ───────────────────── أسماء الناشرين في التذييل (Issue #1145) ─────────────────────
+
+
+def _display_names(cfg) -> dict[str, str]:
+    """name -> name_ar لكل مصدر/قناة في الإعداد. الاستبدال هنا لا في المصدر
+    نفسه: name يبقى مفتاح مطابقة في بقية الأنبوب (استبعاد، تجميع، تاريخ)."""
+    out: dict[str, str] = {}
+    for key in ("sources", "channels"):
+        for item in (cfg.path(key) or []) if cfg else []:
+            if isinstance(item, dict) and item.get("name") and item.get("name_ar"):
+                out[str(item["name"])] = str(item["name_ar"])
+    return out
+
+
+def resolve_publisher_names(names: list[str], cfg) -> list[str]:
+    """يستبدل كل اسم ناشر بـname_ar إن وُجد. المطابقة تامة أولًا؛ وإن وردت
+    الأسماء داخل عبارة أطول («صورة: ערוץ 14»، «تحليل لتغطية ערוץ 14») تُستبدل
+    كجزء نصي، الأطول أولًا حتى لا يفسد اسم قصير اسمًا يحويه."""
+    mapping = _display_names(cfg)
+    ordered = sorted(mapping, key=len, reverse=True)
+    out = []
+    for n in names:
+        n = str(n)
+        if n in mapping:
+            out.append(mapping[n])
+            continue
+        for orig in ordered:
+            if orig in n:
+                n = n.replace(orig, mapping[orig])
+        out.append(n)
+    return out
+
+
+def _font_codepoints(font) -> set[int] | None:
+    """مجموعة رموز الخط الفعلي (بعد أي رجوع إلى خط احتياطي) أو None إن تعذّر."""
+    path = getattr(font, "path", None)
+    if not path or not isinstance(path, (str, Path)):
+        return None
+    try:
+        from fontTools.ttLib import TTFont
+
+        with TTFont(str(path), lazy=True) as tt:
+            return set(tt.getBestCmap() or {})
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def drop_unrenderable_names(names: list[str], font) -> list[str]:
+    """حارس: اسم فيه حرف ليس في الخط المستعمل فعلًا يُحذف ويُسجَّل باسمه —
+    لا يجوز أن يُرسم مربع فارغ. الفراغات وأحرف التحكم/التشكيل غير المرئية
+    لا تُعدّ نقصًا."""
+    cps = _font_codepoints(font)
+    if cps is None:
+        return list(names)
+    kept = []
+    for n in names:
+        missing = sorted({c for c in n if not c.isspace() and ord(c) not in cps
+                          and ord(c) not in (0x200C, 0x200D, 0x200E, 0x200F, 0x061C)})
+        if missing:
+            log.warning("حُذف اسم الناشر %r من سطر المصدر: حروف غير موجودة في الخط %s",
+                        n, "".join(missing))
+            continue
+        kept.append(n)
+    return kept
+
+
 def _prepare(text: str) -> str:
     """احتياطي فقط: إن غاب Raqm نعود لـ arabic-reshaper رغم نقصه."""
     if HAS_RAQM:
@@ -867,16 +933,20 @@ def build_post_image(
 
         # يمينًا: كل المصادر. المساحة محدودة، فنُسقط الأخير تباعًا حتى
         # تتّسع بدل أن يخرج النص من حدود الصورة أو يركب على ما يساره.
-        if publishers:
+        # الاستبدال بالاسم العربي ثم الحارس على الخط المستعمل فعلًا هنا (ff):
+        # كله قبل القياس كي لا يُقاس نص لن يُرسم.
+        footer_names = drop_unrenderable_names(
+            resolve_publisher_names(publishers, cfg), ff)
+        if footer_names:
             avail = W - margin * 2 - measure(draw, left_text, ff)[0] - int(W * 0.05)
-            shown = list(publishers)
+            shown = list(footer_names)
             while shown:
                 label = f"المصدر: {'، '.join(shown)}"
                 if measure(draw, label, ff)[0] <= avail or len(shown) == 1:
                     break
                 shown.pop()
-            if len(shown) < len(publishers):
-                label = f"المصدر: {'، '.join(shown)} +{len(publishers) - len(shown)}"
+            if len(shown) < len(footer_names):
+                label = f"المصدر: {'، '.join(shown)} +{len(footer_names) - len(shown)}"
             draw_text(draw, (W - margin, mid), label, ff,
                       (168, 180, 200), anchor="rm")
 

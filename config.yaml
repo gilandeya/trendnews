@@ -350,6 +350,8 @@ sources:
     region: "jp"
     weight: 0.9
   - name: "BBC 中文"
+    # اسم عربي يُعرض في تذييل البطاقة بدل name (لا خط يملك حروفًا صينية، Issue #1145)
+    name_ar: "بي بي سي الصينية"
     url: "https://feeds.bbci.co.uk/zhongwen/simp/rss.xml"
     region: "cn"
     weight: 0.9
@@ -1724,6 +1726,7 @@ channels:
   - handle: "@C14news"
     channel_id: "UCKEImtWikw9usC1pl_9m1nQ"
     name: "ערוץ 14"
+    name_ar: "القناة 14"   # الخط لا يملك حروفًا عبرية، Issue #1145
     language: "he"
     bloc: "israeli"
     bias_note: "يمين"
