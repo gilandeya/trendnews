@@ -35,6 +35,7 @@ jobs:
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
         run: |
           ISSUE="${{ inputs.issue || github.event.issue.number }}"
           python -m src.youtube_publish --issue "$ISSUE" --publish
