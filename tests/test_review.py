@@ -2101,7 +2101,7 @@ def test_publish_builds_cards_at_approval() -> None:
             "caption": f"{headlines[0]}\nمتن الخبر.",
             "source": {"link": f"https://x/{id_}", "publishers": ["BBC"],
                        "image_candidates": ["https://cdn.example/ok.jpg"]},
-            # category فارغة عمدًا: badge_left يرسم شارة category أولًا فتزيح
+            # category فارغة عمدًا: شارة category تُرسم أولًا فتزيح
             # موضع ملصق origin يمينًا (src/imaging.py) -- probe_xy أدناه
             # يفترض margin+10 كموضع الملصق مباشرة (نفس صيغة
             # test_setimage_apply_image_keeps_origin_badge).
@@ -2251,8 +2251,8 @@ def test_card_second_badge_offset_with_nonempty_category() -> None:
     فعليًا على بداية صف الملصقات كلها -- وهو موضع الشارة الثانية بمحض غياب
     الأولى، لا دليل أنها تنزاح فعلًا حين تُرسم شارة تصنيف حقيقية قبلها.
     هنا category غير فارغة عمدًا، والإحداثية الصحيحة للشارة الثانية تُحسب
-    من نفس معادلة src/imaging.py (bx = badge_left(..., category, ...) +
-    int(W * 0.014) قبل رسم badge الثاني، ~السطرين 758-760) لا بالتخمين.
+    من plan_card_layout في src/imaging.py (تُرسم شارة category ثم تُزاح
+    الشارة التالية بعرضها + int(W * 0.014)) لا بالتخمين.
     البطاقة تُبنى عبر cards.ensure -- المسار الفعلي الوحيد لبناء بطاقة عند
     الاعتماد لكل المسارات (CLAUDE.md، «توقيت البطاقة»)."""
     from src import cards
@@ -2305,6 +2305,10 @@ def test_tall_card_layout_1161() -> None:
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
     reset_last_publish()
     cfg = load_config()
+    # Issue #1165: هذا الاختبار يقيس هندسة #1161 من استدعاءات draw_text بأسطر
+    # كاملة؛ المدّ يرسم الأسطر كلمة كلمة فيُعطَّل هنا (هندسته مغطّاة في
+    # test_title_kashida_1165) والهندسة نفسها لا تتأثر بالمدّ.
+    cfg["image"]["title_justify"] = False
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1350))
     bar = int(W * 0.082)
@@ -3077,7 +3081,7 @@ def test_setimage_rebuild_card_analysis_no_duplicate_badge() -> None:
     check("apply_image (طريق /صورة الحقيقي) ينجح على مسودة تحليل قائمة",
           updated is not None, updated)
 
-    # إحداثيات الشارتين محسوبة من src/imaging.py (badge_left، ~الأسطر 753-760)
+    # إحداثيات الشارتين محسوبة من plan_card_layout في src/imaging.py
     # لا بالتخمين -- نفس صيغة test_card_second_badge_offset_with_nonempty_category.
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1350))
@@ -9191,3 +9195,107 @@ def test_decisions_unselected_then_rejected() -> None:
     decisions.record_rejected(d3, "ضعيف")
     check("سجل القرارات (g): published يبقى مانعًا للرفض",
           [e["decision"] for e in decisions.load() if e["id"] == "g1153c"] == ["published"])
+
+
+def test_title_kashida_1165() -> None:
+    """Issue #1165: ضبط عنوان البطاقة بالمدّ على مخرَج الأنبوب — بطاقات تُبنى
+    فعليًا عبر cards.ensure بصورة تُولَّد هنا (لا ملف من drafts/). كل سطر عدا
+    الأخير يلتصق بحدّي منطقة العنوان، والأخير محاذى لليمين بلا مدّ، والمدّ على
+    الصورة وحدها (نص المسودة المحفوظ خالٍ من ـ)."""
+    from src import cards
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    cfg = load_config()
+    W = int(cfg.path("image.width", 1080))
+    margin = int(W * 0.06)
+    algeria = "الجزائر تقرّ الإعدام لمفتعلي حرائق الغابات"
+    photo = Image.new("RGB", (1600, 1200), (60, 90, 160))
+    real_dl, real_raqm = imaging.download_image, imaging.HAS_RAQM
+    tat = "ـ"
+
+    def build(id_, headline, cfg_=None, raqm=True):
+        draft = {
+            "id": id_, "status": "pending", "origin": "news", "bucket": "serious",
+            "arabic": {"post_title": headline, "category": "سياسة", "urgent": False},
+            "caption": "متن", "source": {"publishers": ["الجزيرة"]},
+        }
+        path = store.save_draft(draft)
+        imaging.download_image = lambda *a, **k: photo.copy()
+        imaging.HAS_RAQM = real_raqm and raqm
+        try:
+            rel = cards.ensure(path, draft, cfg_ or cfg, check_headline_limit=False,
+                               image_urls=["https://cdn.example/ok.jpg"],
+                               allow_search_fallback=False)
+        finally:
+            imaging.download_image, imaging.HAS_RAQM = real_dl, real_raqm
+        with Image.open(DRAFTS_DIR / Path(rel).relative_to("drafts")) as built:
+            return built.convert("RGB"), json.loads(Path(path).read_text(encoding="utf-8"))
+
+    def ink_cols(im, plan, i, lo=235):
+        """أعمدة الحبر الأبيض في صندوق السطر i: (أقصى يسار، أقصى يمين)."""
+        top = plan["block_top"] + i * plan["line_h"]
+        cols = [x for x in range(W) for y in range(top, top + plan["line_h"], 2)
+                if min(im.getpixel((x, y))) >= lo]
+        return (min(cols), max(cols)) if cols else (None, None)
+
+    plan = card_plan(cfg, algeria, ["سياسة"])
+    check("(#1165) عنوان الجزائر سطران بالحجم النهائي", len(plan["lines"]) == 2,
+          plan["lines"])
+    for name, raqm in (("Raqm", True), ("الاحتياطي بلا Raqm", False)):
+        if raqm and not real_raqm:
+            continue
+        im, _ = build("kg" + ("1" if raqm else "2") + "00000001", algeria, raqm=raqm)
+        imaging.HAS_RAQM = real_raqm and raqm
+        try:
+            plan_r = card_plan(cfg, algeria, ["سياسة"])
+        finally:
+            imaging.HAS_RAQM = real_raqm
+        l0, r0 = ink_cols(im, plan_r, 0)
+        l1, _ = ink_cols(im, plan_r, 1)
+        check("(#1165-a/f) %s: السطر الأول يلامس حدّي المنطقة ±3" % name,
+              l0 is not None and abs(l0 - margin) <= 3 and abs(r0 - (W - margin)) <= 3,
+              (l0, r0, margin, W - margin))
+        check("(#1165-a) %s: السطر الثاني لا يلامس الحدّ الأيسر" % name,
+              l1 is not None and l1 > l0 + 2, (l1, l0))
+
+    # b) المواضع وk المتساوي — على نفس خط البطاقة
+    d = ImageDraw.Draw(Image.new("RGB", (W, 10)))
+    jl = imaging.justify_line(d, plan["lines"][0], plan["font"], W - 2 * margin)
+    k = jl["k"] if jl else 0
+    check("(#1165-b) المدّ: الجزائر بين ئ/ر، تقرّ بين ق/ر، الإعدام بين ع/د، وk متساوٍ",
+          jl is not None and k >= 1
+          and jl["words"] == ["الجزائ" + tat * k + "ر", "تق" + tat * k + "رّ",
+                              "الإع" + tat * k + "دام"],
+          jl and jl["words"])
+    check("(#1165-b) المدّ بعد الشدّة التابعة لحرفها لا قبلها",
+          imaging.kashida_word("بَّر", 2) == "بَّ" + tat * 2 + "ر",
+          imaging.kashida_word("بَّر", 2))
+    # c) لام-ألف ولاتيني
+    check("(#1165-c) لا مدّ بين اللام والألف: «السلام» لا يصبح «السلـام»",
+          "ل" + tat not in imaging.kashida_word("السلام", 3)
+          and tat + "ا" not in imaging.kashida_word("السلام", 3)
+          and imaging.kashida_word("السلام", 3) != "السلام",
+          imaging.kashida_word("السلام", 3))
+    check("(#1165-c) لا مدّ في كلمة لاتينية ولا في أرقام",
+          imaging.kashida_slot("Trump") is None and imaging.kashida_slot("2025") is None)
+    # d) سطر واحد
+    short = "عنوان قصير"
+    p_short = card_plan(cfg, short, ["سياسة"])
+    im_s, _ = build("kg300000001", short)
+    l_s, r_s = ink_cols(im_s, p_short, 0)
+    check("(#1165-d) عنوان من سطر واحد: لا مدّ، محاذى لليمين ولا يلامس الحدّ الأيسر",
+          len(p_short["lines"]) == 1 and l_s > margin + 100
+          and r_s >= W - margin - 12, (p_short["lines"], l_s, r_s))
+    # e) المسودة المحفوظة
+    _, saved = build("kg400000001", algeria)
+    check("(#1165-e) نص العنوان المحفوظ في المسودة خالٍ من ـ",
+          tat not in json.dumps(saved, ensure_ascii=False)
+          and saved["arabic"]["post_title"] == algeria, saved["arabic"]["post_title"])
+    # g) الإيقاف
+    cfg_off = load_config()
+    cfg_off["image"]["title_justify"] = False
+    im_off, _ = build("kg500000001", algeria, cfg_=cfg_off)
+    l_off, _ = ink_cols(im_off, plan, 0)
+    check("(#1165-g) title_justify=false: السطر الأول لا يلامس الحدّ الأيسر (محاذاة لليمين)",
+          l_off > margin + 20, (l_off, margin))

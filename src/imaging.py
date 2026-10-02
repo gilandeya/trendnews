@@ -620,6 +620,115 @@ def plan_card_layout(draw, headline: str, badge_texts: list[str], cfg) -> dict:
     }
 
 
+# ──────────────────────── ضبط العنوان بالمدّ (Issue #1165) ────────────────────────
+
+TATWEEL = "\u0640"
+_TASHKEEL = set("\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0670")
+# ثنائيّة الاتصال: تتصل بما قبلها وما بعدها، فهي وحدها التي يُدرج المدّ بعدها
+_DUAL_JOIN = set("بتثجحخسشصضطظعغفقكلمنهيىئ")
+# ما يقبل الاتصال بحرف سابق: الثنائيّة + اليمينيّة (ا د ذ ر ز و ة ؤ ...)
+_JOINS_PREV = _DUAL_JOIN | set("اأإآٱدذرزوؤة")
+_ALEF = set("اأإآ")
+
+
+def kashida_slot(word: str) -> int | None:
+    """فهرس إدراج المدّ في الكلمة أو None. آخر موضع بين ثنائيّ الاتصال وحرف
+    يقبل الاتصال من اليمين؛ يأتي بعد تشكيل الحرف الأول (الشدّة تلزم حرفها).
+    اللام قبل أي ألف ممنوعة: «السلام» لا تصير «السلـام» لأن اللام-ألف
+    رابطة واحدة. الأخير لأن آخر الكلمة أبعد عن بداية القراءة فيقلّ التشويه."""
+    for i in range(len(word) - 2, -1, -1):
+        c = word[i]
+        if c not in _DUAL_JOIN:
+            continue
+        j = i + 1
+        while j < len(word) and word[j] in _TASHKEEL:
+            j += 1
+        if j >= len(word):
+            continue
+        nxt = word[j]
+        if nxt not in _JOINS_PREV or (c == "ل" and nxt in _ALEF):
+            continue
+        return j
+    return None
+
+
+def _ink(draw, text: str, font) -> tuple[float, float]:
+    """(عرض الحبر الفعلي، إزاحة حافته اليمنى عن نقطة الرسم ra). نضبط بالحبر
+    لا بصندوق textbbox ولا بالتقدّم: Raqm يترك هامشًا جانبيًا يصل ~9 بكسل
+    داخل الصندوق فلا يلتصق السطر بالحافة الحقيقية. القياس برسم الكلمة على
+    لوحة مؤقتة وأخذ bbox قناتها."""
+    size = getattr(font, "size", 40)
+    adv = int(draw.textlength(_prepare(text), font=font, **_kwargs())) + 1
+    pad = size
+    canvas = Image.new("L", (adv + pad * 2, size * 3), 0)
+    anchor_x = adv + pad
+    ImageDraw.Draw(canvas).text((anchor_x, size * 3 // 2), _prepare(text), font=font,
+                                fill=255, anchor="rm", **_kwargs())
+    box = canvas.getbbox()
+    if not box:
+        return float(adv), 0.0
+    return float(box[2] - box[0]), float(box[2] - anchor_x)
+
+
+def kashida_word(word: str, k: int) -> str:
+    slot = kashida_slot(word) if k > 0 else None
+    return word if slot is None else word[:slot] + TATWEEL * k + word[slot:]
+
+
+def justify_line(draw, line: str, font, width: int, max_k: int = 8) -> dict | None:
+    """يحسب ضبط سطر على width كاملًا: k واحد لكل الكلمات الصالحة (الأكبر الذي
+    لا يتجاوز width) ثم يُوزَّع الباقي بالتساوي على المسافات فيلتصق السطر
+    بالحافتين. None للسطر ذي الكلمة الواحدة أو إن تجاوز عرضه الطبيعي width.
+    المدّ لا يغيّر تقسيم الأسطر ولا الحجم — يُحسب بعدهما فقط."""
+    words = line.split()
+    if len(words) < 2:
+        return None
+    space = draw.textlength(_prepare(" "), font=font, **_kwargs())
+    has_tatweel = ord(TATWEEL) in (_font_codepoints(font) or {ord(TATWEEL)})
+    valid = [has_tatweel and kashida_slot(w) is not None for w in words]
+
+    def total(k: int) -> tuple[list[str], list[float], float]:
+        forms = [kashida_word(w, k) if v else w for w, v in zip(words, valid)]
+        widths = [_ink(draw, f, font)[0] for f in forms]
+        return forms, widths, sum(widths) + space * (len(words) - 1)
+
+    best_k, best = 0, total(0)
+    if best[2] > width:
+        return None
+    if any(valid):
+        for k in range(1, max(0, int(max_k)) + 1):
+            trial = total(k)
+            if trial[2] > width:
+                break
+            best_k, best = k, trial
+    forms, widths, natural = best
+    gap = space + (width - natural) / (len(words) - 1)
+    return {"words": forms, "widths": widths, "gap": gap, "k": best_k,
+            "valid": valid}
+
+
+def draw_headline_lines(draw, lines: list[str], font, right: int, left: int,
+                        y_first: int, line_h: int, fill, justify: bool = True,
+                        max_k: int = 8) -> None:
+    """يرسم أسطر العنوان. كل سطر عدا الأخير يُضبط بالمدّ على (right−left)؛
+    الأخير (ومنه سطر العنوان الوحيد) والسطر ذو الكلمة الواحدة محاذاة لليمين.
+    الرسم كلمة كلمة من اليمين بمواضع محسوبة (يعمل بـRaqm وبالاحتياطي معًا)،
+    وعلى الصورة فقط: نص المسودة المحفوظ لا يلمسه شيء."""
+    y = y_first
+    for idx, line in enumerate(lines):
+        plan = (justify_line(draw, line, font, right - left, max_k)
+                if justify and idx < len(lines) - 1 else None)
+        if plan is None:
+            draw_text(draw, (right, y), line, font, fill, anchor="rm")
+        else:
+            x = float(right)  # حافة الحبر اليمنى للكلمة الحالية
+            for form, w in zip(plan["words"], plan["widths"]):
+                draw_text(draw, (round(x - _ink(draw, form, font)[1]), y), form,
+                          font, fill, anchor="rm")
+                x -= w + plan["gap"]
+        y += line_h
+
+
 def draw_text_ltr(draw, xy, text: str, font, fill, anchor: str = "la") -> None:
     """نص لاتيني من اليسار لليمين بلا قلب bidi: draw_text تفرض اتجاه rtl
     فيُقلب «@almujez» إلى «almujez@» (الرمز المحايد يذهب لآخر السطر)."""
@@ -649,17 +758,6 @@ def paste_logo_trimmed(canvas: Image.Image, logo_path: Path, right: int,
                         max(1, round(logo.height * scale))), Image.LANCZOS)
     canvas.paste(logo, (right - logo.width, center_y - logo.height // 2), logo)
     return logo.width
-
-
-def badge_left(draw, left: int, center_y: int, text: str, font, bg, fg,
-               pad_x: int = 22, pad_y: int = 11) -> int:
-    """يرسم ملصقًا بمحاذاة اليسار ومركز عمودي، ويعيد حدّه الأيمن."""
-    tw, th = measure(draw, text, font)
-    w, h = tw + pad_x * 2, th + pad_y * 2
-    y0 = center_y - h // 2
-    draw.rounded_rectangle([left, y0, left + w, y0 + h], radius=h // 2, fill=bg)
-    draw_text(draw, (left + w // 2, center_y), text, font, fg, anchor="mm")
-    return left + w
 
 
 def build_post_image(
@@ -1013,10 +1111,12 @@ def build_post_image(
 
     # ── 4) العنوان: محاذى لليمين عند الهامش، متوسط عموديًا في منطقته ──
     # fit_headline لا يقصّ نصًّا أبدًا، فالكتلة تتّسع دائمًا لارتفاع المنطقة.
-    y = plan["block_top"] + line_h // 2
-    for line in head_lines:
-        draw_text(draw, (W - margin, y), line, head_font, (255, 255, 255), anchor="rm")
-        y += line_h
+    # المدّ يُضبط به كل سطر عدا الأخير على عرض المنطقة (Issue #1165).
+    draw_headline_lines(
+        draw, head_lines, head_font, W - margin, margin,
+        plan["block_top"] + line_h // 2, line_h, (255, 255, 255),
+        justify=bool(cfg.path("image.title_justify", True)),
+        max_k=int(cfg.path("image.kashida_max_per_word", 8)))
 
     # ── 5) الشريط السفلي: المصدر يمينًا، التاريخ يسارًا ──
     ft_top = H - bar
