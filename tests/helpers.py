@@ -256,3 +256,21 @@ def install_fakes() -> None:
         return [f"هل {post_title}؟", f"{post_title} — تقرير أول", f"{post_title} — تقرير ثانٍ"], None
 
     headlines.headlines_for_post = fake_headlines_for_post  # type: ignore
+
+
+def badge_probe_xy(cfg, texts: list[str], index: int) -> tuple[int, int]:
+    """بكسل داخل الشارة رقم index من مجموعة الشارات في وسط الشريط العلوي
+    (Issue #1158). تُحسب من نفس هندسة src/imaging.py: المجموعة كلها متوسطة
+    أفقيًا، عرض كل شارة = عرض نصّها + 22×2، والفاصل int(W×0.014)، ومركزها
+    العمودي منتصف الشريط (H×0.082). الاختبارات كانت تحسب موضعًا ثابتًا عند
+    الهامش الأيسر قبل أن تنتقل الشارات للوسط."""
+    W = int(cfg.path("image.width", 1080))
+    H = int(cfg.path("image.height", 1080))
+    f_body = cfg.path("image.font_body") or cfg.path("image.font_headline")
+    font = imaging.load_font(f_body, int(W * 0.026), cfg.path("image.font_body_weight") or None)
+    draw = ImageDraw.Draw(Image.new("RGB", (W, H)))
+    widths = [imaging.measure(draw, t, font)[0] + 22 * 2 for t in texts]
+    gap = int(W * 0.014)
+    x = (W - (sum(widths) + gap * (len(texts) - 1))) // 2
+    x += sum(widths[:index]) + gap * index
+    return x + 10, int(H * 0.082) // 2

@@ -888,3 +888,50 @@ def test_guards_golden() -> None:
     got_1145 = resolver(["ערוץ 14"], cfg_1145) if resolver else None
     check("(#1145) «ערוץ 14» يُستبدل باسمه العربي «القناة 14» قبل رسم سطر المصدر",
           got_1145 == ["القناة 14"], got_1145)
+
+    # ── تصميم البطاقة المربعة الجديد (Issue #1158): حالتان ذهبيتان على الدالة
+    # الحقيقية. (1) التحليل يعرض نصّ مساره كما هو بلا بادئة «المصدر:»؛
+    # (2) «صورة: …» لناشر الصورة لم يعد يُرسم على أي بطاقة (يبقى داخليًا في
+    # image_info فقط). نلتقط ما رُسم فعلًا عبر draw_text. ──
+    from src import imaging as imaging_1158
+    cfg_1158 = load_config()
+    drawn_1158: list[str] = []
+    real_draw_1158 = imaging_1158.draw_text
+    real_download_1158 = imaging_1158.download_image
+
+    def spy_1158(draw, xy, text, *a, **k):
+        drawn_1158.append(text)
+        return real_draw_1158(draw, xy, text, *a, **k)
+
+    photo_1158 = _GoldenImage.new("RGB", (900, 600), (30, 90, 160))
+    imaging_1158.draw_text = spy_1158  # type: ignore
+    imaging_1158.download_image = lambda *a, **k: photo_1158  # type: ignore
+    out_1158 = DRAFTS_DIR / "golden_1158.jpg"
+    try:
+        analysis_line = "تحليل لتغطية CNN Türk وHalk TV"
+        imaging_1158.build_post_image(
+            headline="عنوان تحليل تجريبي", category="", urgent=False,
+            image_urls=None, fallback_urls=["https://example.com/x.jpg"],
+            publisher=[analysis_line], cfg=cfg_1158, out_path=out_1158,
+            bucket="", origin="analysis")
+        analysis_drawn = list(drawn_1158)
+        drawn_1158.clear()
+        imaging_1158.build_post_image(
+            headline="عنوان خبر تجريبي", category="سياسة", urgent=False,
+            image_urls=None, publisher=["الجزيرة"], cfg=cfg_1158, out_path=out_1158,
+            bucket="serious", origin="news",
+            news_photo_provider=lambda: [{"url": "https://example.com/p.jpg",
+                                          "publisher": "ناشر آخر"}])
+        news_drawn = list(drawn_1158)
+    finally:
+        imaging_1158.draw_text = real_draw_1158  # type: ignore
+        imaging_1158.download_image = real_download_1158  # type: ignore
+        out_1158.unlink(missing_ok=True)
+    check("(#1158) بطاقة التحليل: سطر المصدر يُرسم كما مرّره المسار بلا «المصدر:»",
+          analysis_line in analysis_drawn
+          and not any(str(t).startswith("المصدر:") for t in analysis_drawn),
+          analysis_drawn)
+    check("(#1158) بطاقة خبر بصورة ناشر آخر: لا «صورة:» على البطاقة، والمصدر باقٍ",
+          not any("صورة:" in str(t) for t in news_drawn)
+          and "المصدر: الجزيرة" in news_drawn,
+          news_drawn)

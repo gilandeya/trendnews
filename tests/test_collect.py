@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw
 
 from tests.helpers import (
     check,
+    badge_probe_xy,
     install_fakes,
     RSS_FIXTURE,
     ROOT,
@@ -267,15 +268,12 @@ def test_card_second_badge_by_origin() -> None:
     cfg = load_config()
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
-    margin = int(W * 0.06)
-    rule = max(4, W // 240)
-    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
-    inner_top = int(header_h * 0.14)
-    inner_bot = header_h - rule - int(header_h * 0.14)
-    handle_in_header = bool(cfg.path("brand.handle") and header_h)
-    by = ((inner_top + inner_bot) // 2 if not handle_in_header
-          else inner_top + int((inner_bot - inner_top) * 0.34))
-    probe_xy = (margin + 10, by)
+    # الشارات في وسط الشريط العلوي (Issue #1158)؛ category فارغة في كل
+    # فحص هنا فالشارة الوحيدة هي شارة المسار (أو لا شيء لـnews غير العاجل).
+    def probe_xy_for(origin, urgent):
+        table = "breaking" if (origin == "news" and urgent) else origin
+        text = cfg.path(f"cards.{table}.badge")
+        return badge_probe_xy(cfg, [text], 0) if text else (W // 2, int(H * 0.082) // 2)
 
     breaking_bg = imaging.hex_rgb(cfg.path("cards.breaking.bg"))
     investigation_bg = imaging.hex_rgb(cfg.path("cards.verify.bg"))
@@ -297,7 +295,7 @@ def test_card_second_badge_by_origin() -> None:
             cfg=cfg, out_path=out_path, origin=origin,
         )
         with Image.open(out_path) as im:
-            return im.convert("RGB").getpixel(probe_xy)
+            return im.convert("RGB").getpixel(probe_xy_for(origin, urgent))
 
     analysis_pixel = probe("analysis", out_name="probe_analysis.jpg")
     check("بطاقة analysis تحمل «تحليل» بلونه الأزرق (cards.analysis.bg)",
