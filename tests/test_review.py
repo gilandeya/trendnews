@@ -8730,3 +8730,221 @@ def test_publish_revival_batch_member_fails_again_stays_offered() -> None:
     revivable_ids = {d["id"] for _, d in open_review._revivable_drafts()}
     check("open_review._revivable_drafts تعيدها للعرض مرة أخيرة",
           failing_id in revivable_ids, revivable_ids)
+
+
+def test_news_card_image_chain() -> None:
+    """Issue #1153 — سلّم صورة بطاقة الأخبار على مخرَج الأنبوب: cards.ensure
+    كاملة ثم فحص المسودة المحفوظة والبطاقة الناتجة. التحميل وجلب og:image
+    مزيَّفان، والصور تُولَّد هنا لا من drafts/."""
+    from src import cards, collect_finalize, preselect, sources
+
+    cfg = load_config()
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    good = Image.new("RGB", (900, 600), (30, 160, 60))
+    GOOD_PAGE_IMG = "https://cdn.example.org/other-publisher/photo.jpg"
+    real_dl, real_page = imaging.download_image, sources.image_from_page
+    real_find, real_draw = cards.find_images, imaging.draw_text
+    state = {"find": 0, "drawn": []}
+
+    def fake_dl(url, timeout=20, failures=None):
+        if "other-publisher" in url or "free-photo" in url:
+            return good.copy()
+        if failures is not None:
+            failures.append({"url": url, "reason": "HTTP 403، حجم 0 بايت (دون 15000)"})
+        return None
+
+    def fake_find(term, cfg_):
+        state["find"] += 1
+        return ["https://x.example.org/free-photo.jpg"]
+
+    def run(did, *, manual=None, news_provider=None, related=True,
+            page_img=GOOD_PAGE_IMG, publishers=("Africanews",),
+            related_names=("الجزيرة",), image_url="https://africanews.example/bad.jpg",
+            origin="news"):
+        state["find"] = 0
+        state["drawn"] = []
+        draft = {
+            "id": did, "status": "pending", "origin": origin, "bucket": "serious",
+            "source": {"title": "خبر", "link": "https://africanews.example/a",
+                       "publisher": publishers[0], "publishers": list(publishers),
+                       "image_url": image_url, "image_candidates": [image_url]},
+            "arabic": {"post_title": "عنوان", "image_headline": "عنوان البطاقة",
+                       "category": "عالم", "urgent": False},
+        }
+        if related:
+            draft["source"]["related_links"] = ["https://aljazeera.example/a"]
+            draft["source"]["related_publishers"] = list(related_names)
+        if manual:
+            draft["manual_image"] = manual
+        path = store.save_draft(draft)
+        imaging.download_image = fake_dl  # type: ignore
+        sources.image_from_page = lambda url, timeout=12: page_img  # type: ignore
+        cards.find_images = fake_find  # type: ignore
+        imaging.draw_text = (  # type: ignore
+            lambda d, xy, text, *a, **k: (state["drawn"].append(text),
+                                          real_draw(d, xy, text, *a, **k))[1])
+        try:
+            kw = {"news_photo_provider": news_provider} if news_provider else {}
+            rel = cards.ensure(path, draft, cfg, **kw)
+        finally:
+            imaging.download_image = real_dl  # type: ignore
+            sources.image_from_page = real_page  # type: ignore
+            cards.find_images = real_find  # type: ignore
+            imaging.draw_text = real_draw  # type: ignore
+        return rel, json.loads(path.read_text(encoding="utf-8"))
+
+    # a) صورة الناشر تفشل ومقال ناشر آخر صورته صالحة
+    rel, saved = run("chain_a")
+    info = saved.get("image_info") or {}
+    check("سلّم الأخبار (a): بُنيت بطاقة فعلًا",
+          bool(rel) and (DRAFTS_DIR / Path(rel).relative_to("drafts")).exists(), rel)
+    check("سلّم الأخبار (a): kind=news_photo وناشر الصورة الجزيرة",
+          info.get("kind") == "news_photo" and info.get("news_photo_publisher") == "الجزيرة"
+          and info.get("chosen_url") == GOOD_PAGE_IMG, info)
+    check("سلّم الأخبار (a): لم يُستدعَ البديل الحر (نجحت صورة الناشر الآخر)",
+          state["find"] == 0 and info.get("fallback_tried") is False, (state, info))
+    check("سلّم الأخبار (a): سطر المصدر يذكر «صورة: الجزيرة» لأنها ليست من ناشري الخبر",
+          any("صورة: الجزيرة" in str(t) for t in state["drawn"]), state["drawn"])
+    # d) أسباب الفشل محفوظة في المسودة
+    fails = info.get("candidate_failures") or []
+    check("سلّم الأخبار (d): candidate_failures تحمل رابط صورة الناشر وسببه",
+          any("africanews.example/bad.jpg" in f["url"] and "403" in f["reason"]
+              for f in fails), fails)
+
+    # b) كل الصور ومقالات الناشرين تفشل ⇒ البديل الحر يُستدعى
+    rel, saved = run("chain_b", page_img="https://nowhere.example/none.jpg")
+    info = saved.get("image_info") or {}
+    check("سلّم الأخبار (b): فشل الكل ⇒ البديل الحر يُستدعى وfallback_tried=True",
+          state["find"] == 1 and info.get("fallback_tried") is True
+          and info.get("fallback_candidates") == 1, (state, info))
+    check("سلّم الأخبار (b): صورة الحرة تعبيرية", info.get("illustrative") is True, info)
+    check("سلّم الأخبار (d): كل فشل محفوظ بسببه (صور الناشر والمقال الآخر)",
+          len(info.get("candidate_failures") or []) >= 2
+          and all(f.get("reason") for f in info["candidate_failures"]), info)
+    rel, saved = run("chain_b2", page_img=None)
+    fails = (saved.get("image_info") or {}).get("candidate_failures") or []
+    check("سلّم الأخبار (d): صفحة بلا og:image تُسجَّل سببًا",
+          any("og:image" in f["reason"] for f in fails), fails)
+    # إصلاح البوابة: صور ناشر فاشلة بلا روابط أخرى ⇒ الحرة تُجرَّب أيضًا
+    rel, saved = run("chain_b3", related=False)
+    check("سلّم الأخبار (بوابة): صور ناشر فاشلة بلا روابط أخرى ⇒ الحرة تُجرَّب",
+          state["find"] == 1 and saved["image_info"]["fallback_tried"] is True, state)
+
+    # c) manual_image يفشل ⇒ لا بديل حر ولا مقال آخر
+    rel, saved = run("chain_c", manual="https://manual.example/bad.jpg")
+    info = saved.get("image_info") or {}
+    check("سلّم الأخبار (c): manual_image فاشلة ⇒ لا بديل حر",
+          state["find"] == 0 and info.get("fallback_tried") is False
+          and info.get("illustrative") is False, (state, info))
+    check("سلّم الأخبار (c): manual_image فاشلة ⇒ لا صورة مقال آخر أيضًا",
+          info.get("kind") is None and info.get("manual") is True, info)
+
+    # d) قصّ الرابط الطويل إلى 120 حرفًا
+    long_url = "https://africanews.example/" + "x" * 300 + ".jpg"
+    rel, saved = run("chain_d", related=False, image_url=long_url)
+    fails = (saved.get("image_info") or {}).get("candidate_failures") or []
+    check("سلّم الأخبار (d): الرابط الطويل يُقصّ إلى 120 حرفًا",
+          bool(fails) and all(len(f["url"]) <= 120 for f in fails), fails)
+
+    # e) ناشر الصورة بين ناشري الخبر ⇒ لا «صورة: …» مكرر
+    rel, saved = run("chain_e", publishers=("Africanews", "الجزيرة"))
+    info = saved.get("image_info") or {}
+    check("سلّم الأخبار (e): ناشر الصورة بين ناشري الخبر ⇒ لا «صورة: …» مكرر",
+          info.get("kind") == "news_photo"
+          and not any("صورة:" in str(t) for t in state["drawn"]),
+          (info, state["drawn"]))
+
+    # f) مسار التحليل: المزوّد الممرَّر هو المستعمل ولا تُجلب صفحات related_links
+    called = {"n": 0}
+    page_calls = {"n": 0}
+    own_url = "https://cdn.example.org/other-publisher/analysis.jpg"
+
+    def own_provider():
+        called["n"] += 1
+        return [{"url": own_url, "publisher": "تحليلي"}]
+
+    def counting_page(*a, **k):
+        page_calls["n"] += 1
+        return GOOD_PAGE_IMG
+
+    real_page = sources.image_from_page
+    sources.image_from_page = counting_page  # type: ignore
+    imaging.download_image = fake_dl  # type: ignore
+    try:
+        d = {"id": "chain_f", "status": "pending", "origin": "analysis",
+             "source": {"related_links": ["https://aljazeera.example/a"]},
+             "arabic": {"post_title": "ع", "category": ""}}
+        p2 = store.save_draft(d)
+        cards.ensure(p2, d, cfg, news_photo_provider=own_provider, image_urls=None,
+                     allow_search_fallback=False, check_headline_limit=False,
+                     **cards.analysis_card_kwargs())
+    finally:
+        sources.image_from_page = real_page  # type: ignore
+        imaging.download_image = real_dl  # type: ignore
+    info = d.get("image_info") or {}
+    check("سلّم الأخبار (f): مزوّد التحليل الممرَّر هو المستعمل",
+          called["n"] == 1 and info.get("news_photo_publisher") == "تحليلي"
+          and info.get("chosen_url") == own_url, (called, info))
+    check("سلّم الأخبار (f): مزوّد مُمرَّر ⇒ لا جلب لصفحات related_links",
+          page_calls["n"] == 0, page_calls)
+
+    # 1) _write_selected: related_links من cluster_members (دون الرئيسي، حدّ 3)
+    art = Article(title="خبر لاختبار الروابط ذات الصلة", link="https://m.example/main",
+                  summary="", source_name="M", region="r1", weight=1.0,
+                  published=datetime.now(timezone.utc), bucket="serious", publisher="M")
+    art.cluster_members = [
+        {"name": "M", "link": "https://m.example/main"},
+        {"name": "A", "link": "https://a.example/1"},
+        {"name": "A2", "link": "https://a.example/1"},
+        {"name": "B", "link": "https://b.example/2"},
+        {"name": "C", "link": "https://c.example/3"},
+        {"name": "D", "link": "https://d.example/4"},
+    ]
+    cand = preselect.build_candidate(art)
+    store.save_candidate(cand)
+    rd = collect_finalize._write_selected(
+        cand["id"], store.load_history(), 0.5, {}, {}, cfg, [])
+    src_d = (rd or {}).get("source") or {}
+    check("_write_selected: related_links = روابط العنقود دون الرئيسي ودون تكرار وبحدّ 3",
+          src_d.get("related_links") == ["https://a.example/1", "https://b.example/2",
+                                        "https://c.example/3"], src_d.get("related_links"))
+    check("_write_selected: أسماء الناشرين موازية للروابط",
+          src_d.get("related_publishers") == ["A", "B", "C"], src_d.get("related_publishers"))
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+
+def test_decisions_unselected_then_rejected() -> None:
+    """Issue #1153 (بند مؤجَّل من #1135): «unselected» السابق لا يمنع الرفض
+    اللاحق للمعرّف نفسه؛ أي قيد آخر يبقى مانعًا."""
+    from src import decisions
+
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
+    cand = {"id": "g1153", "created_at": datetime.now(timezone.utc).isoformat(),
+            "selection_issue": 7, "article": {}, "publishers": ["A"]}
+    decisions.record_unselected(cand)
+    draft = {"id": "g1153", "created_at": cand["created_at"], "status": "pending",
+             "source": {"publishers": ["A"]}, "arabic": {}}
+    decisions.record_rejected_unchecked(draft)
+    kinds = [e["decision"] for e in decisions.load() if e["id"] == "g1153"]
+    check("سجل القرارات (g): unselected ثم rejected_unchecked ⇒ القيدان موجودان",
+          kinds == ["unselected", "rejected_unchecked"], kinds)
+    decisions.record_rejected_unchecked(draft)
+    decisions.record_rejected(draft, "ضعيف")
+    kinds = [e["decision"] for e in decisions.load() if e["id"] == "g1153"]
+    check("سجل القرارات (g): rejected_unchecked يبقى مانعًا لما بعده",
+          kinds == ["unselected", "rejected_unchecked"], kinds)
+    d2 = dict(draft, id="g1153b")
+    decisions.record_unselected(dict(cand, id="g1153b"))
+    decisions.record_rejected(d2, "ضعيف")
+    kinds = [e["decision"] for e in decisions.load() if e["id"] == "g1153b"]
+    check("سجل القرارات (g): unselected ثم rejected_explicit ⇒ القيدان موجودان",
+          kinds == ["unselected", "rejected_explicit"], kinds)
+    d3 = dict(draft, id="g1153c")
+    decisions.record_published(d3)
+    decisions.record_rejected(d3, "ضعيف")
+    check("سجل القرارات (g): published يبقى مانعًا للرفض",
+          [e["decision"] for e in decisions.load() if e["id"] == "g1153c"] == ["published"])

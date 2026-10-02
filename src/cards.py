@@ -41,6 +41,7 @@ from .config import DRAFTS_DIR
 from .imaging import build_post_image as _default_build_post_image
 from .imaging import download_image as _default_download_image
 from .imagesearch import find_images
+from . import sources as _sources
 
 log = logging.getLogger("cards")
 
@@ -111,6 +112,29 @@ def _resolve_image_urls(draft: dict) -> tuple[list[str], str | None]:
     if src.get("image_url"):
         return [src["image_url"]], None
     return [], None
+
+
+def _related_photo_provider(links: list[str], names: list[str], failures: list):
+    """مزوّد كسول لصور مقالات ناشرين آخرين عن الخبر نفسه (Issue #1153) —
+    يُمرَّر في خانة news_photo_provider القائمة (الدرجة الثانية) لا في مرحلة
+    جديدة. صورة الناشر الرئيسي تفشل أحيانًا (حظر تحميل مباشر، أبعاد صغيرة)
+    بينما مقال ناشر آخر في العنقود نفسه يحمل صورة صالحة للحدث ذاته؛ كانت
+    تُترك بلا تجربة. لكل رابط: og:image من الصفحة ثم نسخها الأكبر عبر
+    upgrade_image_url (يعيد [الكبرى، الأصل] فنكتفي بأول اثنتين حتى لا تُقصي
+    روابط أولى روابطَ لاحقة من حدّ الستة في build_post_image). فشل صفحة بلا
+    og:image يُسجَّل في failures ليصل image_info.candidate_failures."""
+    def provider() -> list[dict]:
+        found: list[dict] = []
+        for i, link in enumerate(links):
+            img = _sources.image_from_page(link)
+            if not img:
+                failures.append({"url": link, "reason": "لا og:image في صفحة المقال"})
+                continue
+            publisher = names[i] if i < len(names) else None
+            for variant in _sources.upgrade_image_url(img)[:2]:
+                found.append({"url": variant, "publisher": publisher})
+        return found
+    return provider
 
 
 def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
@@ -201,8 +225,13 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
         out_rel = f"drafts/{rel_dir}/{draft['id']}.jpg"
     out_path = DRAFTS_DIR / Path(out_rel).relative_to("drafts")
 
+    # البديل الحر يُجرَّب كلما فشلت كل الدرجات السابقة، حتى لو كان للخبر روابط
+    # صور فشلت (Issue #1153: كان يُبنى فقط حين لا روابط إطلاقًا، فبقي 12 خبرًا
+    # من 69 بخلفية مصمَّمة بلا صورة). الاستثناء الوحيد manual_image: رابط وضعه
+    # المراجع بعينه، فإحلال صورة حرة محله دون علمه أسوأ من الصمت. الكسل باقٍ:
+    # build_post_image لا يستدعيه إلا بعد فشل ما قبله.
     fb_provider = None
-    if allow_search_fallback and not urls and not fallback_urls:
+    if allow_search_fallback and not fallback_urls and not manual_url:
         term = search_term or src.get("title") or chosen_headline
         fb_provider = lambda t=term: find_images(t, cfg)
     # مزوّد حر مُمرَّر صراحةً (Issue #1123، مسار التحليل): كسول، فلا يُنفَّذ
@@ -211,6 +240,15 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
     if callable(fallback_provider) and not fallback_urls:
         general = fb_provider
         fb_provider = lambda p=fallback_provider, g=general: (p() or (g() if g else []))
+
+    # مسار الأخبار (لا مزوّد مُمرَّر): صور مقالات ناشرين آخرين من
+    # source.related_links. مسار التحليل يمرّر مزوّده فلا يُمسّ، وmanual_image
+    # يُستثنى لأنه اختيار بشري صريح.
+    page_failures: list[dict] = []
+    related = [l for l in (src.get("related_links") or []) if l]
+    if news_photo_provider is None and related and not manual_url:
+        news_photo_provider = _related_photo_provider(
+            related, list(src.get("related_publishers") or []), page_failures)
 
     resolved_publisher = (publisher if publisher is not _UNSET
                           else (src.get("publishers") or [src.get("publisher", "")]))
@@ -252,6 +290,13 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
             # imaging.py.
             "kind": shot.get("kind"),
             "news_photo_publisher": shot.get("news_photo_publisher"),
+            # Issue #1153: سبب غياب الصورة من المسودة نفسها لا من سجل التشغيل.
+            # الرابط يُقصّ إلى 120 حرفًا (روابط CDN تطول فتضخّم ملف المسودة).
+            "candidate_failures": [
+                {"url": str(f.get("url", ""))[:120], "reason": f.get("reason", "")}
+                for f in [*(shot.get("candidate_failures") or []), *page_failures]],
+            "fallback_tried": bool(shot.get("fallback_tried")),
+            "fallback_candidates": int(shot.get("fallback_candidates") or 0),
         }
         store.update_draft(path, image=out_rel, has_photo=image_info["used_original"],
                            image_info=image_info)

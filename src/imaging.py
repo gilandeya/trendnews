@@ -761,8 +761,12 @@ def build_post_image(
     # نص القنوات القائم حين تُستعمَل هذه الدرجة -- "صورة: {ناشر}" لا يدّعي
     # أن هذا الناشر مصدر المقال، فقط أن الصورة منه (طلب المراجعة على
     # Issue #1095).
+    # لا يُكرَّر إن كان ناشر الصورة أصلًا بين ناشري الخبر (Issue #1153: صورة
+    # من مقال ناشر آخر في العنقود نفسه صار شائعًا، وهو مذكور في السطر).
     if news_photo_used and news_photo_publisher:
-        publishers = [*publishers, f"صورة: {news_photo_publisher}"]
+        known = {str(p).strip().casefold() for p in publishers}
+        if str(news_photo_publisher).strip().casefold() not in known:
+            publishers = [*publishers, f"صورة: {news_photo_publisher}"]
 
     photo = (
         cover(source, W, photo_h) if source
