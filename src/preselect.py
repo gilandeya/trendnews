@@ -24,6 +24,7 @@ import logging
 import re
 from dataclasses import asdict, fields
 from datetime import datetime, timezone
+from urllib.parse import urlparse
 
 from anthropic import Anthropic, APIError
 
@@ -235,6 +236,36 @@ def translate_titles(candidates: list[dict], cfg) -> dict[str, str]:
 # ──────────────────────────── بناء نص الاختيار ────────────────────────────
 
 
+# نفس سقف collect_finalize.RELATED_LINKS_MAX: العدد المعروض هو عدد ما سيجرّبه
+# cards.ensure فعلًا. نسخة محلية لا استيراد، لأن collect_finalize يستورد هذه
+# الوحدة (استيراد معاكس يصنع دورة).
+RELATED_IMAGE_LINKS_MAX = 3
+
+
+def image_line(c: dict) -> str:
+    """سطر 🖼️ للمراجع فقط (Issue #1174): الصورة المتاحة للمرشح لا ما سينجح
+    تحميله. بلا أي علامة HTML ولا مربع كي لا يلتقطه أي قارئ لجسم القضية."""
+    art = c.get("article") or {}
+    url = art.get("image_url") or next(
+        (u for u in art.get("image_candidates") or [] if u), None)
+    if url:
+        domain = urlparse(url).netloc
+        return f"  🖼️ [صورة الناشر]({url}) · {domain}"
+    own = c.get("link") or art.get("link")
+    others: list[str] = []
+    for m in art.get("cluster_members") or []:
+        link = (m or {}).get("link")
+        if not link or link == own or link in others:
+            continue
+        others.append(link)
+        if len(others) >= RELATED_IMAGE_LINKS_MAX:
+            break
+    if others:
+        return (f"  🖼️ بلا صورة من الناشر · ستُجرَّب صور {len(others)} "
+                "ناشر آخر ثم بحث الويب")
+    return "  🖼️ بلا صورة من الناشر ولا بدائل · بحث الويب وحده"
+
+
 def build_selection_issue_body(candidates: list[dict],
                                translations: dict[str, str] | None = None) -> str:
     translations = translations or {}
@@ -242,7 +273,8 @@ def build_selection_issue_body(candidates: list[dict],
         "### 🗳️ مرشحون بانتظار الاختيار",
         "",
         "**بلا صياغة ولا صورة بعد** — هذه العناوين الخام كما وردت من "
-        "المصادر، قبل أي إنفاق. لكل مرشح ثلاثة مربعات مستقلة — علّم ما "
+        "المصادر، قبل أي إنفاق. سطر 🖼️ يبيّن الصورة المتاحة لكل خبر، لا ما سينجح "
+        "تحميله. لكل مرشح ثلاثة مربعات مستقلة — علّم ما "
         "تريده لكل خبر على حدة (يمكن مزج الطرق الثلاث في نفس الدفعة)، ثم "
         "أضف الوسم `approved`:",
         "",
@@ -295,6 +327,8 @@ def build_selection_issue_body(candidates: list[dict],
             f"{'، '.join(c['publishers'][:3])}",
             "",
             *([f"  <sub>{c['appeal_note']}</sub>", ""] if c.get("appeal_note") else []),
+            image_line(c),
+            "",
             f"  ↳ [الخبر الأصلي]({c['link']})",
             "",
             f"  - [ ] 🚀 انشر فورًا (صياغة ثم نشر مباشر بلا عرض)  "

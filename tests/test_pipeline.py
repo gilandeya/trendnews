@@ -58,6 +58,7 @@ from tests.test_review import (
     test_preselect_two_boxes_now_and_draft_review,
     test_preselect_draft_review_image_swap_works,
     test_preselect_card_marker_and_selected_card_ids,
+    test_preselect_image_line,
     test_preselect_card_only_and_three_way_conflicts,
     test_preselect_card_build_failure_keeps_pending,
     test_preselect_translate_titles,
@@ -334,6 +335,7 @@ def main() -> int:
     test_preselect_two_boxes_now_and_draft_review()
     test_preselect_draft_review_image_swap_works()
     test_preselect_card_marker_and_selected_card_ids()
+    test_preselect_image_line()
     test_preselect_card_only_and_three_way_conflicts()
     test_preselect_card_build_failure_keeps_pending()
     test_preselect_translate_titles()
