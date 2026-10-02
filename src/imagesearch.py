@@ -296,7 +296,16 @@ def search_web_images(query: str, cfg, state: dict | None = None) -> list[dict]:
             break
         page = res.get("url") or ""
         domain = urlparse(page).netloc.lower() or (res.get("source") or "")
-        if _domain_excluded(domain, excluded):
+        # نطاق الصفحة وحده لا يكفي: موقع إخباري قد يعرض صورة مستضافة عند
+        # وكالة بعلامتها المائية، فيُفحص نطاق properties.url أيضًا. المصغّرة
+        # تمرّ دائمًا عبر imgs.search.brave.com فلا يكشفها فحص نطاقها، لذا
+        # تُستبعد النتيجة كاملة (الأصل والمصغّرة معًا) بمطابقة أيٍّ من النطاقين.
+        orig_url = (res.get("properties") or {}).get("url") or ""
+        orig_host = urlparse(orig_url).netloc.lower()
+        hit = next((h for h in (domain, orig_host)
+                    if _domain_excluded(h, excluded)), None)
+        if hit:
+            log.info("Brave: نتيجة مستبعدة (نطاق تجاري: %s)", hit)
             continue
         kept += 1
         for url in ((res.get("properties") or {}).get("url"),
