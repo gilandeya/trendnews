@@ -9117,6 +9117,36 @@ def test_web_search_stage() -> None:
               info.get("web_search_domain") == "www.reuters.com"
               and not any("getty" in u for u in state["dl"]), (info, state["dl"]))
 
+        # إحكام الاستبعاد: نطاق properties.url يُفحص أيضًا والنتيجة تُستبعد كاملة
+        rel, saved = run("web_c2", results=[
+            result("https://www.bbc.com/a", "https://media.gettyimages.com/good-x.jpg",
+                   "https://imgs.search.brave.com/good-thumb-x"),
+            result("https://www.reuters.com/y", "https://img.example/good-2.jpg", "https://t/y")])
+        info = saved["image_info"]
+        check("استبعاد الوكالات: أصل على gettyimages وصفحة إخبارية ⇒ تُستبعد بأصلها ومصغّرتها",
+              info.get("web_search_domain") == "www.reuters.com"
+              and "https://media.gettyimages.com/good-x.jpg" not in state["dl"]
+              and "https://imgs.search.brave.com/good-thumb-x" not in state["dl"], (info, state["dl"]))
+        rel, saved = run("web_c3", results=[
+            result("https://www.gettyimages.com/x", "https://img.example/good-o.jpg", "https://t/x"),
+            result("https://www.reuters.com/y", "https://img.example/good-2.jpg", "https://t/y")])
+        check("استبعاد الوكالات: صفحة gettyimages وصورة على نطاق آخر ⇒ تُستبعد",
+              saved["image_info"].get("web_search_domain") == "www.reuters.com"
+              and "https://img.example/good-o.jpg" not in state["dl"], state["dl"])
+        rel, saved = run("web_c4", results=[
+            result("https://www.bbc.com/a", "https://img.example/good-ok.jpg", "https://t/ok")])
+        check("استبعاد الوكالات: نتيجة سليمة النطاقين تُقبل",
+              saved["image_info"].get("web_search_domain") == "www.bbc.com"
+              and saved["image_info"].get("chosen_url") == "https://img.example/good-ok.jpg",
+              saved["image_info"])
+        rel, saved = run("web_c5", results=[
+            *[result("https://www.bbc.com/a%d" % i, "https://media.gettyimages.com/%d.jpg" % i,
+                     "https://t/%d" % i) for i in range(6)],
+            result("https://www.reuters.com/y", "https://img.example/good-7.jpg", "https://t/y")])
+        check("استبعاد الوكالات: ست نتائج مستبعدة لا تستهلك max_tries والسليمة تُقبل",
+              saved["image_info"].get("web_search_domain") == "www.reuters.com"
+              and saved["image_info"].get("kind") == "web_search", saved["image_info"])
+
         # d) الأصل يفشل والمصغّرة تنجح
         rel, saved = run("web_d", results=[
             result("https://www.bbc.com/a", "https://img.example/bad-orig.jpg",
