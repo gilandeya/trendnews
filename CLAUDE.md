@@ -381,6 +381,10 @@ internal (`report`/`image_info`/`review.image_source_line`). `brand.logo_scale` 
 `reel.build_layers` (its own 1080×1920, never reads `image.height`) and
 `imaging.fit_text`/`paste_logo`/`fit_headline` are untouched (the reel shares them).
 
+### Title kashida justification (Issue #1165)
+
+After the headline is split into lines at its final size (kashida never changes the split or the size), `imaging.draw_headline_lines` justifies every line except the last to the full title width (`W − 2·margin`) with tatweel «ـ»; the last line (so a one-line headline too) and any one-word line stay right-aligned, unstretched. Per word there is exactly one slot (`imaging.kashida_slot`): the last position between a dual-joining letter and a following Arabic letter that joins from the right, inserted after any tashkeel on the first letter (so a shadda stays with its letter); never between ل and any alef; Latin words, digits and slot-less words are never stretched. Every valid word in a line gets the same `k` (the largest ≤ `image.kashida_max_per_word` that keeps the line ≤ the width); the remainder is spread evenly over the word gaps so the line meets both edges. Words are drawn one by one from the right at computed positions, with Raqm and with the arabic_reshaper fallback alike, and aligned by real **ink** (`imaging._ink`, not `textbbox`/advance — Raqm leaves up to ~9 px of side bearing). Kashida exists on the image only: the saved draft title, the Facebook text and every other field never contain «ـ». `image.title_justify: false` restores the old right-aligned look. Not applied: `reel.py` (own `fit_text`), the badges, the source line, the date.
+
 ### Image ladder (Issue #1123 — order flipped for Analysis)
 
 `imaging.build_post_image` tries, in order: `image_urls` (publisher photo, News path) →
