@@ -15905,5 +15905,26 @@
   "state_media": false,
   "created_hour": 15,
   "selection_issue": 1163
+ },
+ {
+  "id": "25929d5468cb",
+  "created_at": "2026-10-02T15:12:49.925907+00:00",
+  "decided_at": "2026-10-02T15:16:07.036946+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "سياسة",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "pk",
+  "score": 21.58,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "source_count": 2,
+  "body_len": 591,
+  "has_photo": false,
+  "state_media": false,
+  "created_hour": 15
  }
 ]
