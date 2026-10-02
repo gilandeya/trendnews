@@ -15445,5 +15445,26 @@
   "channel_count": 3,
   "point_count": 10,
   "agreement": "agreement"
+ },
+ {
+  "id": "7eeaefd745fd",
+  "created_at": "2026-10-02T06:06:00.089127+00:00",
+  "decided_at": "2026-10-02T06:45:42.396037+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "analysis",
+  "category": "تحليل",
+  "angle": "",
+  "urgent": false,
+  "bucket": "",
+  "region": "",
+  "score": 2.0,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "source_count": 2,
+  "body_len": 2874,
+  "has_photo": false,
+  "state_media": false,
+  "created_hour": 6
  }
 ]
