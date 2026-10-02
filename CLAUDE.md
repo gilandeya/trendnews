@@ -352,24 +352,34 @@ cards:
   analysis: { badge: "تحليل", bg: "#8EC5FF", fg: "#12203A", source_template: "تحليل لتغطية {channels}" }
 ```
 
-### Square card layout (Issue #1158)
+### Tall card layout (Issue #1161, supersedes the square layout of #1158)
 
-`imaging.build_post_image` (1080×1080), top to bottom: a top bar (`bar = H×0.082`, `primary`; the
-logo on the right at 72% of `bar` after trimming transparent margins by its alpha bbox
-(`imaging.paste_logo_trimmed`, capped by `brand.logo_max_width`), the category badge — with the red
-«عاجل»/origin badge beside it — centered as one group, `brand.handle` on the left drawn LTR via
-`imaging.draw_text_ltr` so bidi doesn't flip it to «almujez@»; no page name/tagline text) → gold
-rule (`rule`) → the photo at full width and exactly 16:9 (`round(W×9/16)`), **no dimming** (the
-placeholder, the composite inset and `vision.choose_layout` all work inside this same box) → gold
-rule → title area (everything between that rule and the bottom bar; `imaging.fit_headline` starts at
-`W×0.052`, shrinks by 2 until all lines fit in 80% of the area's height, line height 1.45×size, no
-minimum size, no line cap, never truncates; centered both ways) → bottom bar (same `bar` height):
-source line on the right, date on the left. The source line is «المصدر: X، Y» on every path (with
+`imaging.build_post_image` (1080×1350, vertical 4:5 — `config.yaml: image.height`), top to bottom: a
+top bar (`bar = int(W×0.082)` = 88 px, a fixed pixel height that does not grow with the taller card;
+`primary`; the logo on the right at 72% of `bar` after trimming transparent margins by its alpha bbox
+(`imaging.paste_logo_trimmed`, capped by `brand.logo_max_width`), `brand.handle` on the left drawn LTR
+via `imaging.draw_text_ltr`; nothing in the middle) → the photo at full width and exactly 4:3
+(`round(W×3/4)` = 810), starting right under the bar, **no gold rules** — instead two gradients
+(`imaging.fade_photo`, `image.fade_*`): `primary` melts into the top 14% of the photo (alpha
+`255·(1−t)^1.6` → 0) and the bottom 30% melts into `primary` (`255·t^1.6`); no other dimming, and
+`image.sharpen` is unchanged. The placeholder, the composite inset and `vision.choose_layout` all work
+inside this same box (the inset circle is pasted on top of the faded photo, so it stays crisp) → title
+area (from the photo's bottom edge to the bottom bar, 8% vertical padding top and bottom, title
+**right-aligned** at the right margin and centered vertically; starts at `W×0.095`, shrinks by 2 until
+every line fits, line height 1.45×size, no minimum size, no line cap, never truncates) → bottom bar
+(same `bar`): source line on the right, date on the left. The badges (category, the red «عاجل», the
+origin badge such as «تحليل») are **one group, right-aligned at the same margin, above the first title
+line** — order from the right: «عاجل», category, origin badge; the group's bottom edge sits `W×0.022`
+above the title block's top (the first line's box, not its ink), and every badge must lie below the
+start of the bottom gradient, otherwise the title shrinks one more step (which lowers the block and the
+badges with it). All of this geometry lives in `imaging.plan_card_layout` so the drawing and the tests
+read the same numbers (`tests.helpers.card_plan`/`badge_probe_xy`; the badge's vertical position follows
+the headline, hence `badge_probe_xy` takes it). The source line is «المصدر: X، Y» on every path (with
 `name_ar` and the footer guard from #1145 unchanged) except `origin == "analysis"`, which shows the
-path's text as-is with no prefix. «صورة: …» is no longer drawn on any path; the photo's publisher
-stays internal (`report`/`image_info`/`review.image_source_line`). `brand.logo_scale` is for
-`reel.py` only. `reel.build_layers` and `imaging.fit_text`/`paste_logo` are untouched (the reel
-shares them); tests that probe badge pixels use `tests.helpers.badge_probe_xy`.
+path's text as-is with no prefix. «صورة: …» is not drawn on any path; the photo's publisher stays
+internal (`report`/`image_info`/`review.image_source_line`). `brand.logo_scale` is for `reel.py` only.
+`reel.build_layers` (its own 1080×1920, never reads `image.height`) and
+`imaging.fit_text`/`paste_logo`/`fit_headline` are untouched (the reel shares them).
 
 ### Image ladder (Issue #1123 — order flipped for Analysis)
 

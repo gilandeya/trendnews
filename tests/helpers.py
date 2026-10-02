@@ -258,19 +258,19 @@ def install_fakes() -> None:
     headlines.headlines_for_post = fake_headlines_for_post  # type: ignore
 
 
-def badge_probe_xy(cfg, texts: list[str], index: int) -> tuple[int, int]:
-    """بكسل داخل الشارة رقم index من مجموعة الشارات في وسط الشريط العلوي
-    (Issue #1158). تُحسب من نفس هندسة src/imaging.py: المجموعة كلها متوسطة
-    أفقيًا، عرض كل شارة = عرض نصّها + 22×2، والفاصل int(W×0.014)، ومركزها
-    العمودي منتصف الشريط (H×0.082). الاختبارات كانت تحسب موضعًا ثابتًا عند
-    الهامش الأيسر قبل أن تنتقل الشارات للوسط."""
+def card_plan(cfg, headline: str, badge_texts: list[str]) -> dict:
+    """هندسة البطاقة نفسها التي يرسم بها src/imaging.py (Issue #1161):
+    imaging.plan_card_layout على سطح رسم وهمي، فلا نسخة ثانية للصيغة."""
     W = int(cfg.path("image.width", 1080))
-    H = int(cfg.path("image.height", 1080))
-    f_body = cfg.path("image.font_body") or cfg.path("image.font_headline")
-    font = imaging.load_font(f_body, int(W * 0.026), cfg.path("image.font_body_weight") or None)
-    draw = ImageDraw.Draw(Image.new("RGB", (W, H)))
-    widths = [imaging.measure(draw, t, font)[0] + 22 * 2 for t in texts]
-    gap = int(W * 0.014)
-    x = (W - (sum(widths) + gap * (len(texts) - 1))) // 2
-    x += sum(widths[:index]) + gap * index
-    return x + 10, int(H * 0.082) // 2
+    H = int(cfg.path("image.height", 1350))
+    return imaging.plan_card_layout(
+        ImageDraw.Draw(Image.new("RGB", (W, H))), headline, badge_texts, cfg)
+
+
+def badge_probe_xy(cfg, texts: list[str], index: int, headline: str) -> tuple[int, int]:
+    """بكسل داخل الشارة رقم index من مجموعة الشارات (Issue #1161): المجموعة
+    محاذاة لليمين فوق أول سطر من العنوان، فموضعها العمودي يتبع العنوان —
+    لذا يلزم `headline` المرسوم على البطاقة. `texts` بترتيب اليمين ← اليسار
+    (عاجل، التصنيف، شارة الأصل)، و`index` 0 = الأقصى يمينًا."""
+    box = card_plan(cfg, headline, texts)["badges"][index]
+    return box["x0"] + 10, (box["y0"] + box["y1"]) // 2

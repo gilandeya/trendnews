@@ -540,6 +540,86 @@ def fit_headline(draw, text: str, font_path: str | None, max_width: int,
         size -= 2
 
 
+def fade_photo(photo: Image.Image, primary: tuple, top_ratio: float,
+               bottom_ratio: float, power: float) -> Image.Image:
+    """تدرّجا البطاقة العموديّة (Issue #1161): أعلى الصورة يذوب فيه primary
+    (عتامة 255 عند حافة الشريط تنزل إلى 0 بمنحنى (1−t)^power)، وأسفلها تذوب
+    الصورة في primary (0 ← 255 عند الحافة السفلية بمنحنى t^power). الغاية أن
+    تلتحم الصورة بالشريط والعنوان بلا حدّ ظاهر فلا حاجة لخطوط فاصلة. دالة
+    مستقلة عن dim_photo (تعتيم قديم لم يعد يُستعمل) ولا تمسّها الريلز."""
+    w, h = photo.size
+    n_top = max(2, round(h * top_ratio))
+    n_bot = max(2, round(h * bottom_ratio))
+    col = Image.new("L", (1, h), 0)
+    for i in range(n_top):
+        col.putpixel((0, i), round(255 * (1 - i / (n_top - 1)) ** power))
+    for j in range(n_bot):
+        col.putpixel((0, h - n_bot + j), round(255 * (j / (n_bot - 1)) ** power))
+    mask = col.resize((w, h), Image.NEAREST)
+    return Image.composite(Image.new("RGB", (w, h), primary), photo.convert("RGB"), mask)
+
+
+def plan_card_layout(draw, headline: str, badge_texts: list[str], cfg) -> dict:
+    """هندسة بطاقة 4:5 كلّها في مكان واحد (Issue #1161) كي يرسم بها
+    build_post_image وتقيس بها الاختبارات من الدالة نفسها لا من نسخة ثانية.
+
+    الشريطان بارتفاع ثابت بالبكسل (W×0.082) لا يكبر مع طول البطاقة؛ الصورة
+    4:3 تمامًا تبدأ عند الشريط؛ منطقة العنوان من أسفل الصورة إلى الشريط
+    السفلي بحشوة عمودية نسبية أعلى وأسفل. الشارات (badge_texts بترتيب
+    اليمين ← اليسار) مجموعة واحدة محاذاة لليمين حافتها السفلية فوق أول سطر
+    للعنوان بمسافة ثابتة، ويجب أن تقع كلها تحت بداية التدرّج السفلي — وإلا
+    يصغر العنوان خطوة أخرى فيهبط أول سطر والشارات معه. «أول سطر» = أعلى
+    صندوق سطره (block_top)، لا حبر الحروف، فالمسافة قابلة للقياس بلا تخمين."""
+    W = int(cfg.path("image.width", 1080))
+    H = int(cfg.path("image.height", 1350))
+    f_head = cfg.path("image.font_headline")
+    f_body = cfg.path("image.font_body") or f_head
+    head_weight = cfg.path("image.font_headline_weight") or None
+    body_weight = cfg.path("image.font_body_weight") or None
+    margin = int(W * 0.06)
+    bar = int(W * 0.082)
+    photo_top, photo_h = bar, round(W * 3 / 4)
+    photo_bottom = photo_top + photo_h
+    fade_start = photo_bottom - round(
+        photo_h * float(cfg.path("image.fade_bottom_ratio", 0.30)))
+    zone_top, zone_bottom = photo_bottom, H - bar
+    zone_h = zone_bottom - zone_top
+    avail = zone_h * (1 - 2 * float(cfg.path("image.title_pad_ratio", 0.08)))
+    gap_badge = int(W * float(cfg.path("image.badge_gap_ratio", 0.022)))
+
+    bfont = load_font(f_body, int(W * 0.026), body_weight)
+    pad_x, pad_y, gap = 22, 11, int(W * 0.014)
+    sizes = []
+    for t in badge_texts:
+        tw, th = measure(draw, t, bfont)
+        sizes.append((tw + pad_x * 2, th + pad_y * 2))
+    tallest = max((h for _, h in sizes), default=0)
+
+    size = int(W * float(cfg.path("image.title_start_ratio", 0.095)))
+    while True:
+        font, lines, line_h = fit_headline(
+            draw, headline, f_head, W - margin * 2, avail, size, head_weight)
+        block_top = zone_top + (zone_h - len(lines) * line_h) // 2
+        badge_bottom = block_top - gap_badge
+        cur = getattr(font, "size", size)
+        if not sizes or badge_bottom - tallest >= fade_start or cur <= 2:
+            break
+        size = cur - 2
+
+    badges, x1 = [], W - margin
+    for text, (w, h) in zip(badge_texts, sizes):
+        badges.append({"text": text, "x0": x1 - w, "x1": x1,
+                       "y0": badge_bottom - h, "y1": badge_bottom})
+        x1 -= w + gap
+    return {
+        "W": W, "H": H, "margin": margin, "bar": bar,
+        "photo_top": photo_top, "photo_h": photo_h, "fade_start": fade_start,
+        "zone_top": zone_top, "zone_bottom": zone_bottom,
+        "font": font, "lines": lines, "line_h": line_h, "block_top": block_top,
+        "badge_gap": gap_badge, "badges": badges, "badge_font": bfont,
+    }
+
+
 def draw_text_ltr(draw, xy, text: str, font, fill, anchor: str = "la") -> None:
     """نص لاتيني من اليسار لليمين بلا قلب bidi: draw_text تفرض اتجاه rtl
     فيُقلب «@almujez» إلى «almujez@» (الرمز المحايد يذهب لآخر السطر)."""
@@ -660,7 +740,7 @@ def build_post_image(
     المقال عنه (لا ناشر أصلي بنيويًا في مسار التحليل)، بل صورة ناشرٍ آخر
     يغطّي نفس الحدث."""
     W = int(cfg.path("image.width", 1080))
-    H = int(cfg.path("image.height", 1080))
+    H = int(cfg.path("image.height", 1350))
     primary = hex_rgb(cfg.path("brand.primary_color", "#12203A"))
     accent = hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
     handle = cfg.path("brand.handle", "")
@@ -677,8 +757,10 @@ def build_post_image(
     # فتحتفظ الأخبار العاجلة بملصقها بلا مزاحمة، وباقي المسارات (لها ملصقها
     # الخاص من الجدول) لا تتأثر بهذا التحويل إطلاقًا.
     badge_bg, badge_fg = accent, primary
+    badge_is_breaking = False
     if badge is None:
         table_origin = "breaking" if (origin == "news" and urgent) else origin
+        badge_is_breaking = table_origin == "breaking"
         card = cfg.path(f"cards.{table_origin}") if table_origin else None
         if card is None:
             log.warning("لا ملصق ثانٍ: أصل غير معروف أو غير مذكور في جدول cards: %r", origin)
@@ -691,7 +773,6 @@ def build_post_image(
     canvas = Image.new("RGB", (W, H), primary)
     draw = ImageDraw.Draw(canvas)
     margin = int(W * 0.06)
-    rule = max(4, W // 240)
 
     # المصادر كلها لا مصدرًا واحدًا: هذا هو الموضع الوحيد الذي تُذكر فيه
     # بعد أن رُفعت من متن المنشور، فلا يجوز أن يمثّلها ناشر واحد.
@@ -699,22 +780,21 @@ def build_post_image(
                   else [p for p in (publisher or []) if p])
     publishers = [p for p in publishers if str(p).strip()]
 
-    # ── التخطيط (Issue #1158): شريط علوي ← خط ← صورة 16:9 ← خط ← عنوان ←
-    # شريط سفلي. الشريطان بارتفاع واحد (كان ارتفاع التذييل وحده)، والصورة
-    # بنسبة 16:9 ثابتة فلا يتغيّر صندوقها مع طول العنوان؛ العنوان هو الذي
-    # يتكيّف داخل ما تبقّى من ارتفاع.
-    bar = int(H * 0.082)
-    photo_h = round(W * 9 / 16)
-    photo_top = bar + rule
-    title_top = photo_top + photo_h + rule
-    title_bottom = H - bar
-    head_font, head_lines, line_h = fit_headline(
-        draw, headline, f_head,
-        max_width=W - margin * 2,
-        max_height=(title_bottom - title_top) * 0.8,
-        start=int(W * 0.052),
-        weight=head_weight,
-    )
+    # ── التخطيط (Issue #1161، يخلف #1158): شريط علوي ← صورة 4:3 بتدرّجين ←
+    # عنوان محاذى لليمين ← شريط سفلي، بلا خطوط ذهبية (التدرّجان يلحمان الصورة
+    # بما حولها). الشارات صارت فوق أول سطر من العنوان لا في الشريط العلوي.
+    # الهندسة كلها في plan_card_layout كي تقيس بها الاختبارات من الدالة نفسها.
+    # ترتيب الشارات من اليمين: «عاجل» ثم التصنيف ثم شارة الأصل.
+    badge_items = []
+    if badge and badge_is_breaking:
+        badge_items.append((badge, badge_bg, badge_fg))
+    if category:
+        badge_items.append((category, accent, primary))
+    if badge and not badge_is_breaking:
+        badge_items.append((badge, badge_bg, badge_fg))
+    plan = plan_card_layout(draw, headline, [t for t, _, _ in badge_items], cfg)
+    bar, photo_h, photo_top = plan["bar"], plan["photo_h"], plan["photo_top"]
+    head_font, head_lines, line_h = plan["font"], plan["lines"], plan["line_h"]
 
     # ── 1) الصورة أو البديل: نجرّب المرشحين بالترتيب ──
     candidates = (
@@ -810,9 +890,17 @@ def build_post_image(
     if source is not None and cfg.path("image.sharpen", True):
         photo = photo.filter(ImageFilter.UnsharpMask(radius=2, percent=55, threshold=3))
 
-    # بلا dim_photo: الصورة تُعرض كما هي (Issue #1158) — الخطّان الذهبيان
-    # هما الفاصل مع الشريطين فلا حاجة لتعتيم الحواف ليمتزج بهما.
-    canvas.paste(photo, (0, photo_top))
+    # لا تعتيم غير التدرّجين (Issue #1161): fade_photo وحده يلحم الصورة بالشريط
+    # والعنوان. كل ما بعده (الدائرة، quiet_side) يعمل على الصورة الخام نفسها،
+    # فتبقى الدائرة المركّبة حادّة فوق التدرّج لا ذائبة معه.
+    def paste_photo(img: Image.Image) -> None:
+        canvas.paste(fade_photo(
+            img, primary,
+            float(cfg.path("image.fade_top_ratio", 0.14)),
+            float(cfg.path("image.fade_bottom_ratio", 0.30)),
+            float(cfg.path("image.fade_power", 1.6))), (0, photo_top))
+
+    paste_photo(photo)
 
     # صورة ثانية في دائرة — تُستخدم حين يوفّر الخبر أكثر من صورة صالحة
     composite_ok = cfg.path("image.composite", True)
@@ -857,7 +945,7 @@ def build_post_image(
                 if cfg.path("image.sharpen", True):
                     photo = photo.filter(
                         ImageFilter.UnsharpMask(radius=2, percent=55, threshold=3))
-                canvas.paste(photo, (0, photo_top))
+                paste_photo(photo)
                 draw = ImageDraw.Draw(canvas)
 
         if second is not None:
@@ -875,13 +963,11 @@ def build_post_image(
             draw = ImageDraw.Draw(canvas)
             log.info("🖼️ قالب مركّب: صورتان")
 
-    # ── 2) الترويسة: الشعار واسم الصفحة يمينًا، الملصقات يسارًا ──
-    # الشريط العلوي (Issue #1158): الشعار يمينًا، الشارات في الوسط، المعرّف
-    # يسارًا. لا اسم صفحة ولا شعار فرعي نصًّا — الشعار يكفي.
-    # حدود rectangle في Pillow شاملة، فنطرح 1 كي لا يمسّ الخطّ أول صف من الصورة
+    # ── 2) الترويسة: الشعار يمينًا والمعرّف يسارًا، لا شيء في الوسط ──
+    # (الشارات انتقلت فوق العنوان، Issue #1161). لا خطوط ذهبية: التدرّجان
+    # يلحمان الصورة بالشريط. حدود rectangle في Pillow شاملة، فنطرح 1 كي لا
+    # يمسّ الشريط أول صف من الصورة.
     draw.rectangle([0, 0, W, bar - 1], fill=primary)
-    draw.rectangle([0, bar, W, bar + rule - 1], fill=accent)
-    draw.rectangle([0, photo_top + photo_h, W, photo_top + photo_h + rule - 1], fill=accent)
     bar_mid = bar // 2
 
     logo_rel = cfg.path("brand.logo")
@@ -895,17 +981,6 @@ def build_post_image(
                 max_width=int(W * float(cfg.path("brand.logo_max_width", 0.42))),
             ):
                 draw = ImageDraw.Draw(canvas)   # إعادة الربط بعد اللصق
-
-    # مجموعة الشارات كلها متوسطة أفقيًا: نقيس أولًا ثم نرسم من اليسار
-    bdg_font = load_font(f_body, int(W * 0.026), body_weight)
-    pad_x, pad_y, gap = 22, 11, int(W * 0.014)
-    group = [(t, bg, fg) for t, bg, fg in (
-        (category, accent, primary), (badge, badge_bg, badge_fg)) if t]
-    widths = [measure(draw, t, bdg_font)[0] + pad_x * 2 for t, _, _ in group]
-    bx = (W - (sum(widths) + gap * max(len(group) - 1, 0))) // 2
-    for (text, bg, fg), w in zip(group, widths):
-        badge_left(draw, bx, bar_mid, text, bdg_font, bg, fg, pad_x=pad_x, pad_y=pad_y)
-        bx += w + gap
 
     if handle:
         hf = load_font(f_body, int(W * 0.024), body_weight)
@@ -926,11 +1001,21 @@ def build_post_image(
         draw_text(draw, (bx + pad + tw // 2, by + pad + th // 2), label,
                   tag_font, (225, 228, 235), anchor="mm")
 
-    # ── 4) العنوان: متوسط أفقيًا وعموديًا في كل المساحة بين الخطّين ──
+    # ── 3) الشارات: مجموعة واحدة محاذاة لليمين فوق أول سطر من العنوان ──
+    # المواضع من plan_card_layout (حافتها السفلية على مسافة ثابتة من الكتلة).
+    # كل شارة تُرسم بجسمها المحسوب لا بارتفاع نصّها وحده، فتتساوى الحواف السفلية.
+    for box, (text, bg, fg) in zip(plan["badges"], badge_items):
+        draw.rounded_rectangle(
+            [box["x0"], box["y0"], box["x1"], box["y1"]],
+            radius=(box["y1"] - box["y0"]) // 2, fill=bg)
+        draw_text(draw, ((box["x0"] + box["x1"]) // 2, (box["y0"] + box["y1"]) // 2),
+                  text, plan["badge_font"], fg, anchor="mm")
+
+    # ── 4) العنوان: محاذى لليمين عند الهامش، متوسط عموديًا في منطقته ──
     # fit_headline لا يقصّ نصًّا أبدًا، فالكتلة تتّسع دائمًا لارتفاع المنطقة.
-    y = (title_top + title_bottom) // 2 - len(head_lines) * line_h // 2 + line_h // 2
+    y = plan["block_top"] + line_h // 2
     for line in head_lines:
-        draw_text(draw, (W // 2, y), line, head_font, (255, 255, 255), anchor="mm")
+        draw_text(draw, (W - margin, y), line, head_font, (255, 255, 255), anchor="rm")
         y += line_h
 
     # ── 5) الشريط السفلي: المصدر يمينًا، التاريخ يسارًا ──
