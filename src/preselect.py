@@ -28,7 +28,7 @@ from urllib.parse import urlparse
 
 from anthropic import Anthropic, APIError
 
-from .config import env
+from .config import env, load_config
 from .sources import Article
 from .writer import record_usage
 
@@ -236,15 +236,13 @@ def translate_titles(candidates: list[dict], cfg) -> dict[str, str]:
 # ──────────────────────────── بناء نص الاختيار ────────────────────────────
 
 
-# نفس سقف collect_finalize.RELATED_LINKS_MAX: العدد المعروض هو عدد ما سيجرّبه
-# cards.ensure فعلًا. نسخة محلية لا استيراد، لأن collect_finalize يستورد هذه
-# الوحدة (استيراد معاكس يصنع دورة).
-RELATED_IMAGE_LINKS_MAX = 3
-
-
-def image_line(c: dict) -> str:
+def image_line(c: dict, cfg=None) -> str:
     """سطر 🖼️ للمراجع فقط (Issue #1174): الصورة المتاحة للمرشح لا ما سينجح
     تحميله. بلا أي علامة HTML ولا مربع كي لا يلتقطه أي قارئ لجسم القضية."""
+    # السقف من الإعداد نفسه الذي ينسخ به collect_finalize الروابط، فالعدد
+    # المعروض هو عدد ما سيجرّبه cards.ensure فعلًا
+    cfg = cfg if cfg is not None else load_config()
+    related_max = int(cfg.path("collect.related_links_max", 3))
     art = c.get("article") or {}
     url = art.get("image_url") or next(
         (u for u in art.get("image_candidates") or [] if u), None)
@@ -258,16 +256,23 @@ def image_line(c: dict) -> str:
         if not link or link == own or link in others:
             continue
         others.append(link)
-        if len(others) >= RELATED_IMAGE_LINKS_MAX:
+        if len(others) >= related_max:
             break
     if others:
-        return (f"  🖼️ بلا صورة من الناشر · ستُجرَّب صور {len(others)} "
-                "ناشر آخر ثم بحث الويب")
+        n = len(others)
+        if n == 1:
+            tried = "صورة ناشر آخر"
+        elif n == 2:
+            tried = "صور ناشرَين آخرَين"
+        else:
+            tried = f"صور {n} ناشرين آخرين"
+        return f"  🖼️ بلا صورة من الناشر · ستُجرَّب {tried} ثم بحث الويب"
     return "  🖼️ بلا صورة من الناشر ولا بدائل · بحث الويب وحده"
 
 
 def build_selection_issue_body(candidates: list[dict],
-                               translations: dict[str, str] | None = None) -> str:
+                               translations: dict[str, str] | None = None,
+                               cfg=None) -> str:
     translations = translations or {}
     parts = [
         "### 🗳️ مرشحون بانتظار الاختيار",
@@ -327,7 +332,7 @@ def build_selection_issue_body(candidates: list[dict],
             f"{'، '.join(c['publishers'][:3])}",
             "",
             *([f"  <sub>{c['appeal_note']}</sub>", ""] if c.get("appeal_note") else []),
-            image_line(c),
+            image_line(c, cfg),
             "",
             f"  ↳ [الخبر الأصلي]({c['link']})",
             "",

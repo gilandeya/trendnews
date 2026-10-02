@@ -787,7 +787,7 @@ def test_preselect_image_line() -> None:
           line_of(c_a) == ["  🖼️ [صورة الناشر](https://cdn.pub.example/p/1.jpg)"
                            " · cdn.pub.example"], line_of(c_a))
     check("صيغة 2: N = 2 (يُستثنى رابط الخبر نفسه)",
-          line_of(c_b) == ["  🖼️ بلا صورة من الناشر · ستُجرَّب صور 2 ناشر آخر "
+          line_of(c_b) == ["  🖼️ بلا صورة من الناشر · ستُجرَّب صور ناشرَين آخرَين "
                            "ثم بحث الويب"], line_of(c_b))
     check("صيغة 3: بلا صورة ولا بدائل",
           line_of(c_c) == ["  🖼️ بلا صورة من الناشر ولا بدائل · بحث الويب وحده"],
@@ -823,6 +823,62 @@ def test_preselect_image_line() -> None:
           preselect.all_candidate_ids(marked)
           == preselect.all_candidate_ids(stripped)
           == [c_a["id"], c_b["id"], c_c["id"]])
+
+def test_preselect_image_line_count_and_cap() -> None:
+    """Issue #1178: صيغة العدد العربية لـN = 1/2/3، وسقف واحد من الإعداد
+    (collect.related_links_max) يحكم النسخ في _write_selected والعرض معًا."""
+    from src import collect_finalize, preselect
+
+    now = datetime.now(timezone.utc)
+
+    def mk(n, k):
+        art = Article(title=f"مرشح العدد {n}", link=f"https://cnt.example/{n}",
+                      summary="", source_name="CN", region="ri", weight=1.0,
+                      published=now, bucket="serious", publisher="CN")
+        art.cluster_members = [{"name": "CN", "link": art.link}] + [
+            {"name": f"P{i}", "link": f"https://p{i}.example/{n}"}
+            for i in range(k)]
+        return art, preselect.build_candidate(art)
+
+    def line_of(cand, cfg=None):
+        body = preselect.build_selection_issue_body([cand], None, cfg)
+        return [l for l in body.splitlines() if "🖼️" in l and "سطر" not in l]
+
+    for n, expect in ((1, "صورة ناشر آخر"), (2, "صور ناشرَين آخرَين"),
+                      (3, "صور 3 ناشرين آخرين")):
+        _, cand = mk(f"n{n}", n)
+        check(f"صيغة العدد N = {n} حرفيًا",
+              line_of(cand) == [f"  🖼️ بلا صورة من الناشر · ستُجرَّب {expect} "
+                                "ثم بحث الويب"], line_of(cand))
+
+    cfg = load_config()
+    cfg["collect"] = {"related_links_max": 2}
+    art, cand = mk("cap", 5)
+    store.save_candidate(cand)
+    check("سقف الإعداد = 2: سطر 🖼️ يقول «ناشرَين آخرَين» لعنقود من خمسة",
+          line_of(cand, cfg) == ["  🖼️ بلا صورة من الناشر · ستُجرَّب صور "
+                                 "ناشرَين آخرَين ثم بحث الويب"], line_of(cand, cfg))
+    rd = collect_finalize._write_selected(
+        cand["id"], store.load_history(), 0.5, {}, {}, cfg, [])
+    rl = ((rd or {}).get("source") or {}).get("related_links")
+    check("سقف الإعداد = 2: _write_selected ينسخ رابطين فقط",
+          rl == ["https://p0.example/cap", "https://p1.example/cap"], rl)
+
+    # (c) دوال قراءة القضية الأربع نفسها بالسقف المخصّص
+    body = preselect.build_selection_issue_body([cand], None, cfg)
+    marked = tick_marker(body, f"review:{cand['id']}")
+    stripped = "\n".join(l for l in marked.splitlines()
+                         if not l.startswith("  🖼️"))
+    check("دوال القراءة الأربع نفسها بوجود السطر وبدونه",
+          preselect.parse_draft_review(marked)
+          == preselect.parse_draft_review(stripped) == [cand["id"]]
+          and preselect.parse_publish_now(marked)
+          == preselect.parse_publish_now(stripped) == []
+          and preselect.selected_card_ids(marked)
+          == preselect.selected_card_ids(stripped) == []
+          and preselect.all_candidate_ids(marked)
+          == preselect.all_candidate_ids(stripped) == [cand["id"]])
+
 
 def test_preselect_card_only_and_three_way_conflicts() -> None:
     """Issue #860، البنود 2-4 من طلب الاختبارات: 🎴 وحده ⇒ مسودة ببطاقة

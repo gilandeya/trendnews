@@ -153,7 +153,7 @@ def main() -> int:
         issue = review.create_issue(
             title=(f"🗳️ اختيار {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
                    f"— {len(cands)} مرشح"),
-            body=preselect.build_selection_issue_body(cands, translations),
+            body=preselect.build_selection_issue_body(cands, translations, cfg),
             labels=["pending-selection"],
         )
         for path, _ in fresh_candidates:

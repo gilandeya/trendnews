@@ -271,7 +271,9 @@ already know exactly what they want to draft — there's nothing to *select*).
   dispatches each candidate to one of the three fates above.
   Each candidate also shows one reviewer-only **🖼️ image line** (`preselect.image_line`, Issue
   #1174), between the badges/sources line and «↳ الخبر الأصلي»: publisher image link + domain, or
-  «بلا صورة من الناشر · ستُجرَّب صور N ناشر آخر…» (N = other cluster links, ≤3), or «…ولا بدائل ·
+  «بلا صورة من الناشر · ستُجرَّب صورة ناشر آخر / صور ناشرَين آخرَين / صور N ناشرين آخرين ثم بحث
+  الويب» (N = other cluster links, ≤ `collect.related_links_max`, default 3 — the same single
+  config key `collect_finalize._write_selected` copies by, no constants), or «…ولا بدائل ·
   بحث الويب وحده». It reports what is *available*, not what will download; it carries no HTML
   marker and no checkbox, so every reader (all marker-based) is unaffected. Analysis is out of scope.
 - **Gate B — preliminary review (📰, label `pending-review`)**, built by `src/review.py`: no card
@@ -414,7 +416,7 @@ source line). The Analysis gate is unchanged: no article is drafted if the whole
 
 ### News-path image chain (Issue #1153)
 
-`imaging.build_post_image`'s existing stages are unchanged; what changed is what feeds them for News drafts. `collect_finalize._write_selected` copies up to 3 other publishers' article links from the cluster (`cluster_members`, minus the main link; `RELATED_LINKS_MAX`) into `source.related_links` (+ parallel `source.related_publishers`) — new drafts only, no migration. When no `news_photo_provider` is passed and `related_links` exists (and the image isn't a `manual_image`), `cards.ensure` builds a lazy one — `sources.image_from_page` then `upgrade_image_url` per link — and passes it in the same stage-2 slot, so the order is: publisher photo → other-publisher article photo (`kind: "news_photo"`) → free photo → designed background. Analysis passes its own provider and is untouched. The free fallback now runs whenever every earlier stage failed, even if the draft had image URLs that failed; the only exception is a failed `manual_image` (no free substitute, no other-publisher photo). The footer doesn't repeat «صورة: X» when X is already among the story's publishers. `image_info` now stores `candidate_failures` (url cut to 120 chars + reason, including «no og:image» pages), `fallback_tried`, and `fallback_candidates`, so a missing photo is explainable from the draft itself.
+`imaging.build_post_image`'s existing stages are unchanged; what changed is what feeds them for News drafts. `collect_finalize._write_selected` copies up to `collect.related_links_max` (default 3) other publishers' article links from the cluster (`cluster_members`, minus the main link) into `source.related_links` (+ parallel `source.related_publishers`) — new drafts only, no migration. When no `news_photo_provider` is passed and `related_links` exists (and the image isn't a `manual_image`), `cards.ensure` builds a lazy one — `sources.image_from_page` then `upgrade_image_url` per link — and passes it in the same stage-2 slot, so the order is: publisher photo → other-publisher article photo (`kind: "news_photo"`) → free photo → designed background. Analysis passes its own provider and is untouched. The free fallback now runs whenever every earlier stage failed, even if the draft had image URLs that failed; the only exception is a failed `manual_image` (no free substitute, no other-publisher photo). The footer doesn't repeat «صورة: X» when X is already among the story's publishers. `image_info` now stores `candidate_failures` (url cut to 120 chars + reason, including «no og:image» pages), `fallback_tried`, and `fallback_candidates`, so a missing photo is explainable from the draft itself.
 
 ### No exclude checkbox — rejection is implicit, and the reason is asked for later
 
