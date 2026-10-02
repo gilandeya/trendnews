@@ -2855,9 +2855,10 @@ def test_youtube_publish() -> None:
     # يضمنه معيار القبول "بطاقة أخبار قبل التعديل وبعده متطابقتان" ──
     card_cfg = load_config()
     W = int(card_cfg.path("image.width", 1080))
-    H = int(card_cfg.path("image.height", 1080))
-    # الشارة في وسط الشريط العلوي (Issue #1158)
-    probe_pt = badge_probe_xy(card_cfg, ["تحليل"], 0)
+    H = int(card_cfg.path("image.height", 1350))
+    # الشارة فوق أول سطر من العنوان محاذاة لليمين (Issue #1161)
+    probe_pt = badge_probe_xy(card_cfg, ["تحليل"], 0,
+                              "سؤال تجريبي طويل يفحص التفاف النص على البطاقة؟")
 
     no_badge_path = STATE_DIR / "_test_card_no_badge.jpg"
     imaging.build_post_image(
@@ -2869,7 +2870,7 @@ def test_youtube_publish() -> None:
     check("build_post_image: يبني ملف صورة فعليًا (بلا badge)", no_badge_path.exists())
     with Image.open(no_badge_path) as im_no_badge:
         check("build_post_image: أبعاد البطاقة تطابق image.width/height",
-              im_no_badge.size == (W, int(card_cfg.path("image.height", 1080))), str(im_no_badge.size))
+              im_no_badge.size == (W, int(card_cfg.path("image.height", 1350))), str(im_no_badge.size))
         no_badge_pixel = im_no_badge.convert("RGB").getpixel(probe_pt)
     no_badge_path.unlink(missing_ok=True)
 
@@ -4234,19 +4235,27 @@ def test_youtube_image_news_photo() -> None:
         _restore()
 
     with Image.open(news_card_path) as im_news:
-        news_bounds = _band_boundaries(_col_colors(im_news.convert("RGB")))
+        news_col = _col_colors(im_news.convert("RGB"))
     with Image.open(analysis_card_path) as im_analysis:
-        analysis_bounds = _band_boundaries(_col_colors(im_analysis.convert("RGB")))
+        analysis_col = _col_colors(im_analysis.convert("RGB"))
     news_card_path.unlink(missing_ok=True)
     analysis_card_path.unlink(missing_ok=True)
 
     check("٧) فحص التخطيط: بطاقة الدرجة الثانية تحمل kind == 'news_photo' فعليًا",
           analysis_report.get("kind") == "news_photo", analysis_report)
-    check("٧) فحص التخطيط: حدود الشرائط (ترويسة/صورة/عنوان/تذييل) متطابقة "
-          "تمامًا بين بطاقة أخبار عادية وبطاقة الدرجة الثانية، مكتشَفة من "
-          "الصور الفعلية المبنيّة لا من أرقام مكتوبة يدويًا",
-          news_bounds == analysis_bounds and len(news_bounds) >= 3,
-          (news_bounds, analysis_bounds))
+    # Issue #1161: لا خطوط ذهبية بعد الآن والتدرّجان ناعمان، فلا حدود حادّة
+    # تُكتشف (كانت _band_boundaries تعتمد على قفزة الخطّين الذهبيين). المقارنة
+    # صارت على عمود الألوان كاملًا: الصورة المثبَّتة نفسها في البطاقتين، فأي
+    # اختلاف في موضع الشريطين أو الصورة أو التدرّجين يظهر فرقًا لونيًا.
+    col_diff = max(max(abs(a - b) for a, b in zip(n, an))
+                   for n, an in zip(news_col, analysis_col))
+    mid_px = news_col[len(news_col) // 2 - 100]
+    check("٧) فحص التخطيط: عمود ألوان البطاقة (ترويسة/صورة بتدرّجيها/عنوان/تذييل) "
+          "متطابق بين بطاقة أخبار عادية وبطاقة الدرجة الثانية، مقروء من الصور "
+          "الفعلية المبنيّة لا من أرقام مكتوبة يدويًا",
+          len(news_col) == len(analysis_col) and col_diff <= 6
+          and mid_px[1] > mid_px[0] + 60,   # الصورة الخضراء فعلًا في منتصف الصندوق
+          (col_diff, mid_px))
 
     shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
     DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
