@@ -719,7 +719,10 @@ def draw_headline_lines(draw, lines: list[str], font, right: int, left: int,
         plan = (justify_line(draw, line, font, right - left, max_k)
                 if justify and idx < len(lines) - 1 else None)
         if plan is None:
-            draw_text(draw, (right, y), line, font, fill, anchor="rm")
+            # محاذاة بالحبر لا بالتقدّم كبقية الأسطر: Raqm يترك هامشًا ~6 بكسل
+            # فكان حبر الأخير يقع يسار W−margin (Issue #1167).
+            draw_text(draw, (round(right - _ink(draw, line, font)[1]), y), line,
+                      font, fill, anchor="rm")
         else:
             x = float(right)  # حافة الحبر اليمنى للكلمة الحالية
             for form, w in zip(plan["words"], plan["widths"]):
@@ -1080,10 +1083,11 @@ def build_post_image(
             ):
                 draw = ImageDraw.Draw(canvas)   # إعادة الربط بعد اللصق
 
-    if handle:
-        hf = load_font(f_body, int(W * 0.024), body_weight)
-        draw_text_ltr(draw, (margin, bar_mid), handle, hf,
-                      mix(accent, (255, 255, 255), 0.3), anchor="lm")
+    # التاريخ يسارًا في الشريط العلوي (Issue #1167؛ كان في السفلي)، والمعرّف
+    # انتقل إلى السفلي.
+    ff = load_font(f_body, int(W * 0.024), body_weight)
+    date_text = f"{datetime.now(timezone.utc):%Y/%m/%d}"
+    draw_text(draw, (margin, bar_mid), date_text, ff, (168, 180, 200), anchor="lm")
 
     # وسم الصورة التعبيرية: إخفاء أنها ليست من مكان الحدث تضليل
     if illustrative:
@@ -1118,13 +1122,16 @@ def build_post_image(
         justify=bool(cfg.path("image.title_justify", True)),
         max_k=int(cfg.path("image.kashida_max_per_word", 8)))
 
-    # ── 5) الشريط السفلي: المصدر يمينًا، التاريخ يسارًا ──
+    # ── 5) الشريط السفلي: المصدر يمينًا، المعرّف يسارًا ──
     ft_top = H - bar
     draw.rectangle([0, ft_top, W, H], fill=mix(primary, (0, 0, 0), 0.28))
-    ff = load_font(f_body, int(W * 0.024), body_weight)
     mid = ft_top + bar // 2
-    left_text = f"{datetime.now(timezone.utc):%Y/%m/%d}"
-    draw_text(draw, (margin, mid), left_text, ff, (168, 180, 200), anchor="lm")
+    # المعرّف أبيض ويُرسم LTR كي يُقرأ «@…» لا «…@»؛ لا يستعمل accent بعد الآن.
+    if handle:
+        draw_text_ltr(draw, (margin, mid), handle, ff, (255, 255, 255), anchor="lm")
+        left_w = measure(draw, handle, ff)[0]
+    else:
+        left_w = 0
 
     # يمينًا: كل المصادر. المساحة محدودة، فنُسقط الأخير تباعًا حتى
     # تتّسع بدل أن يخرج النص من حدود الصورة أو يركب على ما يساره.
@@ -1136,7 +1143,7 @@ def build_post_image(
     footer_names = drop_unrenderable_names(
         resolve_publisher_names(publishers, cfg), ff)
     if footer_names:
-        avail = W - margin * 2 - measure(draw, left_text, ff)[0] - int(W * 0.05)
+        avail = W - margin * 2 - left_w - int(W * 0.05)
         shown = list(footer_names)
         while shown:
             label = f"{prefix}{'، '.join(shown)}"
