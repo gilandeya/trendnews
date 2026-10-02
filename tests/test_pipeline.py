@@ -78,6 +78,7 @@ from tests.test_review import (
     test_card_second_badge_offset_with_nonempty_category,
     test_tall_card_layout_1161,
     test_title_kashida_1165,
+    test_card_swap_1167,
     test_publish_card_search_term_from_image_query_en,
     test_request_search,
     test_request_and_radar_headlines,
@@ -544,6 +545,7 @@ def main() -> int:
     test_card_second_badge_offset_with_nonempty_category()
     test_tall_card_layout_1161()
     test_title_kashida_1165()
+    test_card_swap_1167()
     print("\n── بحث الصورة الاحتياطي بكلمات إنجليزية (image_query_en، Issue #941) ──")
     test_publish_card_search_term_from_image_query_en()
     print("\n── حارس temperature (Issue #373) ──")

@@ -357,8 +357,7 @@ cards:
 `imaging.build_post_image` (1080×1350, vertical 4:5 — `config.yaml: image.height`), top to bottom: a
 top bar (`bar = int(W×0.082)` = 88 px, a fixed pixel height that does not grow with the taller card;
 `primary`; the logo on the right at 72% of `bar` after trimming transparent margins by its alpha bbox
-(`imaging.paste_logo_trimmed`, capped by `brand.logo_max_width`), `brand.handle` on the left drawn LTR
-via `imaging.draw_text_ltr`; nothing in the middle) → the photo at full width and exactly 4:3
+(`imaging.paste_logo_trimmed`, capped by `brand.logo_max_width`), the date `%Y/%m/%d` on the left in (168,180,200) (Issue #1167: swapped with the handle); nothing in the middle) → the photo at full width and exactly 4:3
 (`round(W×3/4)` = 810), starting right under the bar, **no gold rules** — instead two gradients
 (`imaging.fade_photo`, `image.fade_*`): `primary` melts into the top 14% of the photo (alpha
 `255·(1−t)^1.6` → 0) and the bottom 30% melts into `primary` (`255·t^1.6`); no other dimming, and
@@ -367,7 +366,7 @@ inside this same box (the inset circle is pasted on top of the faded photo, so i
 area (from the photo's bottom edge to the bottom bar, 8% vertical padding top and bottom, title
 **right-aligned** at the right margin and centered vertically; starts at `W×0.095`, shrinks by 2 until
 every line fits, line height 1.45×size, no minimum size, no line cap, never truncates) → bottom bar
-(same `bar`): source line on the right, date on the left. The badges (category, the red «عاجل», the
+(same `bar`): source line on the right, `brand.handle` on the left in white (255,255,255) drawn LTR via `imaging.draw_text_ltr` (Issue #1167; the source line's available width subtracts the handle's width, and the handle no longer uses accent). `brand.accent_color` is `#E4B030`, sampled from the logo's dominant opaque colour; readers: `imaging.py` (category badge + fallback badge colour), `reel.py` (category badge and its gold rule — change is intended). Every title line, the last/only one included (and with `image.title_justify: false`), is aligned by real ink so its right ink edge sits at `W − margin`. The badges (category, the red «عاجل», the
 origin badge such as «تحليل») are **one group, right-aligned at the same margin, above the first title
 line** — order from the right: «عاجل», category, origin badge; the group's bottom edge sits `W×0.022`
 above the title block's top (the first line's box, not its ink), and every badge must lie below the

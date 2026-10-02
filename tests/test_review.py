@@ -2434,7 +2434,7 @@ def test_tall_card_layout_1161() -> None:
     check("(#1161) عنوان قصير يأخذ الحجم الابتدائي W×0.095",
           bool(short) and short[0][3] == start, short)
     check("(#1161) العنوان محاذى لليمين عند الهامش الأيمن (x = W−margin، anchor rm)",
-          bool(short) and all(d[1] == W - margin and d[4] == "rm" for d in short), short)
+          bool(short) and all(abs(d[1] - (W - margin)) <= 12 and d[4] == "rm" for d in short), short)
     plan_s = card_plan(cfg, "عنوان قصير", ["سياسة"])
     zone_top, zone_bottom = photo_bottom, H - bar
     zone_h = zone_bottom - zone_top
@@ -2494,7 +2494,7 @@ def test_tall_card_layout_1161() -> None:
     pad = zone_h * 0.08
     block_top = lines[0][2] - line_h // 2
     check("(#1161) العنوان الطويل محاذى لليمين وكتلته داخل المنطقة بحشوة 8% أعلى وأسفل",
-          all(d[1] == W - margin and d[4] == "rm" for d in lines)
+          all(abs(d[1] - (W - margin)) <= 12 and d[4] == "rm" for d in lines)
           and block_top >= zone_top + pad - 1
           and block_top + len(lines) * line_h <= zone_bottom - pad + 1,
           (block_top, len(lines), line_h, pad))
@@ -2529,10 +2529,10 @@ def test_tall_card_layout_1161() -> None:
           (forced["font"].size, free["font"].size))
 
     # ── المعرّف والشعار في الشريط العلوي (حكم #1158 باقٍ) ──
-    check("(#1158) المعرّف brand.handle يُرسم LTR بلا قلب bidi: «@almujez»",
+    check("(#1158) المعرّف brand.handle يُرسم LTR بلا قلب bidi: «@almujez» (الآن في السفلي، #1167)",
           ltr == ["@almujez"] and not any("almujez" in d[0] for d in drawn), (ltr, drawn))
     left = int(W * 0.06)
-    check("(#1158) المعرّف في الزاوية العلوية اليسرى (بكسلات نصّ فوق الشريط)",
+    check("(#1167) التاريخ في الزاوية العلوية اليسرى (بكسلات نصّ فوق الشريط)",
           any(not close(im_u.getpixel((x, bar // 2)), primary, 12)
               for x in range(left, left + 140)), None)
     right = W - left
@@ -2594,7 +2594,7 @@ def test_tall_card_layout_1161() -> None:
     lines_p = head_lines("كلمة")
     check("(#1161) بلا صورة: عنوان 170 حرفًا محاذى لليمين ويتّسع كاملًا",
           " ".join(d[0] for d in lines_p).split() == long_headline.split()
-          and all(d[1] == W - margin for d in lines_p), None)
+          and all(abs(d[1] - (W - margin)) <= 12 for d in lines_p), None)
 
 
 @auto_restore_last_publish
@@ -9299,3 +9299,109 @@ def test_title_kashida_1165() -> None:
     l_off, _ = ink_cols(im_off, plan, 0)
     check("(#1165-g) title_justify=false: السطر الأول لا يلامس الحدّ الأيسر (محاذاة لليمين)",
           l_off > margin + 20, (l_off, margin))
+
+
+@auto_restore_last_publish
+def test_card_swap_1167() -> None:
+    """Issue #1167 على مخرَج الأنبوب (cards.ensure بصور تُولَّد هنا): (أ) التاريخ
+    في ربع الشريط العلوي الأيسر والمعرّف أبيض في ربع السفلي الأيسر ويُقرأ «@…»،
+    (ب) شارة التصنيف #E4B030، (ج) الحبر الأيمن لكل أسطر العنوان (ومنها الأخير)
+    عند W−margin ±2 مع title_justify صحيحًا وخاطئًا، (د) سطر المصدر لا يتداخل
+    مع المعرّف لثلاثة ناشرين طويلي الأسماء."""
+    from src import cards
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+    W, H = 1080, 1350
+    bar, margin = int(W * 0.082), int(W * 0.06)
+    grad = Image.new("RGB", (1600, 1200), (90, 110, 150))
+    real_dl = imaging.download_image
+    counter = [0]
+
+    def build(headline, justify=True, urgent=False, publishers=("Axios",)):
+        counter[0] += 1
+        cfg = load_config()
+        cfg["image"]["title_justify"] = justify
+        draft = {"id": f"sw00000000{counter[0]:02d}", "status": "pending",
+                 "origin": "news", "bucket": "serious",
+                 "arabic": {"post_title": headline, "category": "سياسة", "urgent": urgent},
+                 "caption": "متن", "source": {"publishers": list(publishers)}}
+        path = store.save_draft(draft)
+        imaging.download_image = lambda *a, **k: grad.copy()
+        try:
+            rel = cards.ensure(path, draft, cfg, check_headline_limit=False,
+                               image_urls=["https://cdn.example/ok.jpg"],
+                               allow_search_fallback=False)
+        finally:
+            imaging.download_image = real_dl
+        with Image.open(DRAFTS_DIR / Path(rel).relative_to("drafts")) as built:
+            return built.convert("RGB"), cfg
+
+    def ink_cols(img, y0, y1, x0, x1, pred):
+        xs = [x for x in range(x0, x1) for y in range(y0, y1, 2)
+              if pred(img.getpixel((x, y)))]
+        return (min(xs), max(xs)) if xs else None
+
+    head = "واشنطن تنشر صواريخ باتريوت لحماية منشآت نفطية سعودية وقطرية"
+    ltr_log: list = []
+    real_ltr = imaging.draw_text_ltr
+    imaging.draw_text_ltr = lambda d, xy, t, *a, **k: (
+        ltr_log.append(t), real_ltr(d, xy, t, *a, **k))[1]
+    try:
+        im, cfg = build(head, publishers=("Axios", "The Express Tribune"))
+    finally:
+        imaging.draw_text_ltr = real_ltr
+    primary = imaging.hex_rgb(cfg.path("brand.primary_color"))
+    footer_bg = imaging.mix(primary, (0, 0, 0), 0.28)
+    far = lambda px, bg: max(abs(a - b) for a, b in zip(px, bg)) > 40
+    white = lambda p: all(c >= 235 for c in p)
+
+    # (أ) التاريخ علويًا يسارًا، والمعرّف سفليًا يسارًا بالأبيض
+    date_ink = ink_cols(im, 10, bar - 10, 0, W // 2, lambda p: far(p, primary))
+    check("(#1167-أ) التاريخ في الربع الأيسر من الشريط العلوي",
+          date_ink is not None and date_ink[1] < W // 4 + margin, date_ink)
+    ft = H - bar
+    h_ink = ink_cols(im, ft + 8, H - 8, 0, W, white)
+    check("(#1167-أ) المعرّف بحبر أبيض في الربع الأيسر من الشريط السفلي",
+          h_ink is not None and h_ink[1] < W // 4 + margin, h_ink)
+    check("(#1167-أ) لا حبر أبيض في الشريط العلوي (المعرّف انتقل إلى السفلي)",
+          ink_cols(im, 10, bar - 10, 0, W // 2, white) is None, None)
+    check("(#1167-أ) المعرّف يُرسم LTR فيُقرأ «@almujez» لا «almujez@»",
+          ltr_log == ["@almujez"], ltr_log)
+
+    # (ب) لون شارة التصنيف
+    check("(#1167-ب) brand.accent_color = #E4B030",
+          cfg.path("brand.accent_color") == "#E4B030", cfg.path("brand.accent_color"))
+    b = card_plan(cfg, head, ["سياسة"])["badges"][0]
+    px = im.getpixel((b["x0"] + 12, (b["y0"] + b["y1"]) // 2))
+    check("(#1167-ب) شارة التصنيف مرسومة بـ#E4B030",
+          all(abs(a - c) <= 8 for a, c in zip(px, (0xE4, 0xB0, 0x30))), px)
+
+    # (ج) الحبر الأيمن لكل سطر عند W−margin ±2
+    for cur, label in ((head, "سطران"), ("عنوان قصير", "سطر واحد")):
+        for just in (True, False):
+            img, c = build(cur, justify=just)
+            p = card_plan(c, cur, ["سياسة"])
+            edges = []
+            for i in range(len(p["lines"])):
+                y0 = p["block_top"] + i * p["line_h"]
+                ink = ink_cols(img, y0 + p["line_h"] // 4, y0 + p["line_h"] * 3 // 4,
+                               0, W, lambda q: all(v >= 225 for v in q))
+                edges.append(ink[1] if ink else None)
+            check(f"(#1167-ج) [{label}، justify={just}] الحبر الأيمن لكل الأسطر عند W−margin ±2",
+                  bool(edges) and all(e is not None and abs(e - (W - margin)) <= 2
+                                      for e in edges), (edges, W - margin))
+            if cur == head and just:
+                check("(#1167-ج) شرط الاختبار: عنوان باتريوت يلتف على سطرين فأكثر",
+                      len(p["lines"]) >= 2, p["lines"])
+
+    # (د) سطر المصدر لا يتداخل مع المعرّف لثلاثة ناشرين طويلي الأسماء
+    longs = ("The Express Tribune Pakistan Edition", "Middle East Monitor Daily",
+             "Al-Quds Al-Arabi International")
+    img3, _ = build(head, publishers=longs)
+    h3 = ink_cols(img3, ft + 8, H - 8, 0, W // 4 + margin, white)
+    src = ink_cols(img3, ft + 8, H - 8, W // 3, W,
+                   lambda q: far(q, footer_bg) and not white(q))
+    check("(#1167-د) سطر المصدر يبدأ يمين نهاية المعرّف بفاصل",
+          h3 is not None and src is not None and src[0] > h3[1] + 10, (h3, src))
