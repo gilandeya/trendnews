@@ -16014,5 +16014,26 @@
   "state_media": false,
   "created_hour": 18,
   "selection_issue": 1175
+ },
+ {
+  "id": "71c311c67586",
+  "created_at": "2026-10-02T18:10:17.067436+00:00",
+  "decided_at": "2026-10-02T18:12:20.493715+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "اقتصاد",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "za",
+  "score": 26.12,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "source_count": 4,
+  "body_len": 593,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 18
  }
 ]
