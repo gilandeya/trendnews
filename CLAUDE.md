@@ -244,6 +244,12 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   `setimage._image_related_failure(error)` recognizes the recorded `error` as image-caused — an
   unrecognized reason must **not** auto-revive, since the actual cause may still be present.
 
+- **`src/stages.py` is the single source for stage and option texts; they are never written in
+  builders (Issue #1180).** Stage names, the «الانتقال» options block, its `<!-- go:action:id -->`
+  markers, the image-URL field, the earliest-wins rule for conflicting boxes and the translation of
+  the old markers (`legacy_actions`) all live there, with the texts in `config.yaml: stages`. Not
+  yet called by any builder or reader (task 1 of 4) — later tasks migrate them.
+
 ## Architecture
 
 **Four content paths, funneled through up to three review gates, all connected by files in
