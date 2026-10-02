@@ -1,0 +1,58 @@
+{
+  "id": "29b80b887b4a",
+  "created_at": "2026-10-02T18:08:07.470980+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.42,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "قرار قضائي يمس حقوق الأقلية العربية في إسرائيل",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israël : la Cour suprême autorise deux formations arabes à se présenter aux élections législatives du 27 octobre",
+  "link": "https://www.lemonde.fr/international/article/2026/10/02/israel-la-cour-supreme-autorise-deux-listes-arabes-a-se-presenter-aux-elections-legislatives-du-27-octobre_6787210_3210.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Israël : la Cour suprême autorise deux formations arabes à se présenter aux élections législatives du 27 octobre",
+    "link": "https://www.lemonde.fr/international/article/2026/10/02/israel-la-cour-supreme-autorise-deux-listes-arabes-a-se-presenter-aux-elections-legislatives-du-27-octobre_6787210_3210.html",
+    "summary": "Saisie par des membres de la coalition de Benyamin Nétanyahou, la commission électorale avait exclu la Liste arabe unie et la Liste unifiée à un mois du scrutin du 27 octobre, une décision annulée à l’unanimité par les juges.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-10-02T17:37:54+00:00",
+    "image_url": "https://img.lemde.fr/2026/09/26/1348/0/8192/4096/644/322/60/0/c530dd2_ftp-1-piob2crxxgv2-5190860-01-06.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/10/02/israel-la-cour-supreme-autorise-deux-listes-arabes-a-se-presenter-aux-elections-legislatives-du-27-octobre_6787210_3210.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/09/26/1348/0/8192/4096/644/322/60/0/c530dd2_ftp-1-piob2crxxgv2-5190860-01-06.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 23.41687346564815,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "قرار قضائي يمس حقوق الأقلية العربية في إسرائيل",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

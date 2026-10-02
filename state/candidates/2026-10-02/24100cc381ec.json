@@ -1,0 +1,62 @@
+{
+  "id": "24100cc381ec",
+  "created_at": "2026-10-02T18:08:07.471256+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.25,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "أزمة صحية عالمية: مليون وفاة سنويًا من العدوى المقاومة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Drug-resistant bacterial infections kill one million people annually",
+  "link": "https://www.premiumtimesng.com/health/health-news/914057-drug-resistant-bacterial-infections-kill-one-million-people-annually-who.html",
+  "publishers": [
+    "WHO"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Drug-resistant bacterial infections kill one million people annually",
+    "link": "https://www.premiumtimesng.com/health/health-news/914057-drug-resistant-bacterial-infections-kill-one-million-people-annually-who.html",
+    "summary": "He said the scale of deaths meant that AMR should no longer be treated as a “silent pandemic”, stressing that “we know what works” to prevent and control the threat. The post Drug-resistant bacterial infections kill one million people annually – WHO appeared first on Premium Times Nigeria .",
+    "source_name": "Premium Times",
+    "region": "ng",
+    "weight": 1.1,
+    "published": "2026-10-02T15:06:52+00:00",
+    "image_url": "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/05/WhatsApp-Image-2026-05-18-at-21.41.48.jpeg?fit=763%2C551&amp;ssl=1",
+    "publisher": "WHO",
+    "cluster_sources": [
+      "WHO"
+    ],
+    "cluster_members": [
+      {
+        "name": "WHO",
+        "link": "https://www.premiumtimesng.com/health/health-news/914057-drug-resistant-bacterial-infections-kill-one-million-people-annually-who.html"
+      },
+      {
+        "name": "WHO",
+        "link": "https://allafrica.com/stories/202610020382.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/05/WhatsApp-Image-2026-05-18-at-21.41.48.jpeg?fit=763%2C551&amp;ssl=1"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1417.9119594058332,
+    "is_stale": false,
+    "score": 22.249058642685185,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "أزمة صحية عالمية: مليون وفاة سنويًا من العدوى المقاومة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

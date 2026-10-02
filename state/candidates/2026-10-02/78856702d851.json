@@ -1,0 +1,64 @@
+{
+  "id": "78856702d851",
+  "created_at": "2026-10-02T18:08:07.471516+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.45,
+  "trend_score": 0.67,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "توتر عسكري: كوريا الشمالية ترفض اتهامات حدود منزوعة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korea rejects South’s accusation over DMZ mine blast, KCNA says",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-02-north-korea-rejects-souths-accusation-over-dmz-mine-blast-kcna-says/",
+  "publishers": [
+    "Daily Maverick",
+    "Deutsche Welle"
+  ],
+  "region": "za",
+  "article": {
+    "title": "North Korea rejects South’s accusation over DMZ mine blast, KCNA says",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-02-north-korea-rejects-souths-accusation-over-dmz-mine-blast-kcna-says/",
+    "summary": "North Korea on Friday rejected as \"groundless\" Seoul's accusation that North Korean mines seriously wounded South Korean soldiers in the Demilitarised Zone and dismissed Seoul's demand for an apology, state news agency KCNA reported.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-02T13:11:35+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/b_u1zliDwsum_dkxjCUCXRU3Uk4=/800x0/smart/filters:strip_exif()/file/attachments/2998/14314005_213973.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Deutsche Welle"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-02-north-korea-rejects-souths-accusation-over-dmz-mine-blast-kcna-says/"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/north-and-south-korea-trade-accusations-over-landmines-that-injured-three-soldiers/a-79503854?maca=en-rss-en-world-4025-rdf"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/b_u1zliDwsum_dkxjCUCXRU3Uk4=/800x0/smart/filters:strip_exif()/file/attachments/2998/14314005_213973.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1417.9118228652778,
+    "is_stale": true,
+    "score": 19.454299389444444,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "توتر عسكري: كوريا الشمالية ترفض اتهامات حدود منزوعة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
