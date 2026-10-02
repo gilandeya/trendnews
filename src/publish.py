@@ -584,6 +584,43 @@ def report_conflicts(issue_number: int, conflicts: list[dict], stage: int, cfg) 
     review.comment(issue_number, "\n".join(lines))
 
 
+def return_to_selection(draft_ids: list[str], stage: int) -> list[str]:
+    """go1 — عودة خبر أخبار من المرحلة 2 أو 3 إلى ترشيح المواضيع (Issue #1184).
+    تعيد سطور تقرير للقضية. لا نداء نموذج هنا ولا بعد: المسودة تُحفظ كما هي
+    (status="returned" ليست pending فلا تدخل مراجعة ولا إحياء ولا نشرًا) ويُعاد
+    استعمالها كما هي حين يتقدّم الخبر من الترشيح (collect_finalize).
+
+    الحارس status == "pending" يجعل إعادة التشغيل (urgent ثم normal لحدث
+    approved واحد) بلا أثر ثانٍ. مسودة بلا أي ملف مرشح (جُمعت بلا preselect)
+    لا يُرجَع بها: لا عرض لها في الترشيح فتضيع — تبقى pending كما هي ويُبلَّغ
+    بذلك بدل أن تموت بصمت."""
+    lines: list[str] = []
+    for draft_id in draft_ids:
+        found = store.load_draft(draft_id)
+        if not found:
+            continue
+        path, draft = found
+        if draft.get("status") != "pending":
+            continue
+        cand = store.latest_candidate(draft_id)
+        title = (draft.get("arabic") or {}).get("post_title", draft_id)[:50]
+        if not cand:
+            lines.append(f"- ⚠️ {title} — لا مرشح محفوظ لهذا الخبر (لم يمرّ بالترشيح)، "
+                         "بقي في مكانه")
+            continue
+        cand_path, cand_data = cand
+        now = datetime.now(timezone.utc).isoformat()
+        store.update_draft(path, status="returned", returned_from_stage=stage,
+                           returned_at=now)
+        store.update_candidate(cand_path, status="pending", selection_issue=None,
+                               returned=True, returned_from_stage=stage,
+                               returned_at=now)
+        decisions.record_returned(draft, stage, cand_data.get("selection_issue"))
+        lines.append(f"- ↩️ {title} — أُعيد إلى مرحلة ترشيح المواضيع "
+                     "(يظهر في أول قضية ترشيح تالية، ولا صياغة جديدة عند تقدّمه)")
+    return lines
+
+
 def cmd_final_review(issue_number: int, body: str, cfg, urgent_only: bool = False) -> int:
     """اعتماد Issue المراجعة النهائية (Issue #858، الجزء الثاني): المعلَّم
     يُنشر مباشرة بلا إعادة بناء بطاقة ولا اختيار عنوان ولا تعديل نص --
@@ -617,12 +654,18 @@ def cmd_final_review(issue_number: int, body: str, cfg, urgent_only: bool = Fals
     actions, conflicts = stages.read_actions(body, 3)
     back_ids = [i for i in all_ids if actions.get(i) == "go2"]
     approved_ids = [i for i in all_ids if actions.get(i) == "publish"]
+    go1_ids = [i for i in all_ids if actions.get(i) == "go1"]
     # urgent وnormal يصلان هذا الفرع لنفس الحدث (Issue #745): التنبيه من
     # المسار العادي وحده كي لا يتكرر.
     if not urgent_only:
         report_conflicts(issue_number, conflicts, 3, cfg)
 
     lines: list[str] = []
+
+    # go1 من المرحلة 3 (Issue #1184): المسار العادي وحده يعالجه — نفس تحفّظ
+    # فتح القضايا والتنبيه، والحارس داخل الدالة يمنع الأثر المزدوج أصلًا.
+    returned_lines = [] if urgent_only else return_to_selection(go1_ids, 3)
+    lines += returned_lines
 
     for draft_id in back_ids:
         found = store.load_draft(draft_id)
@@ -637,7 +680,8 @@ def cmd_final_review(issue_number: int, body: str, cfg, urgent_only: bool = Fals
 
     # عدم الاعتماد (ولا العودة) = رفض ضمني، بنفس مبدأ المسار العادي
     # (Issue #841) — مقيَّد بمعرّفات هذا الـIssue وحده.
-    to_reject = [i for i in all_ids if i not in back_ids and i not in approved_ids]
+    to_reject = [i for i in all_ids if i not in back_ids and i not in approved_ids
+                 and i not in go1_ids]
     if to_reject:
         entries = feedback.load()
         rejected_now = 0
@@ -696,6 +740,9 @@ def cmd_final_review(issue_number: int, body: str, cfg, urgent_only: bool = Fals
             lines.append("أعد وضع وسم `approved` لمتابعة الباقي")
 
     report(lines, published, len(approved_ids), issue_number, close=not analysis_remaining)
+    if returned_lines and not published and not analysis_remaining:
+        # report يغلق عند النشر وحده؛ قضية كلها عودة/رفض لا نشر فيها تُغلق هنا
+        review.close_issue(issue_number)
     if analysis_remaining:
         # باقٍ من دفعة التحليل لم يُحاوَل بعد (نفس مبدأ cmd_revival، Issue
         # #961): الـIssue يبقى مفتوحًا وينتظر وسمًا جديدًا يعالج الباقي وحده.
@@ -1053,8 +1100,13 @@ def main() -> int:
     ids = [i for i in review.all_draft_ids(body)
            if actions.get(i) in ("publish", "go3")]
     go3_ids = {i for i in ids if actions[i] == "go3"}
+    go1_ids = [i for i in review.all_draft_ids(body) if actions.get(i) == "go1"]
     if not args.urgent_only:          # المسار السريع يقرأ بالمثل ولا يكرّر التنبيه
         report_conflicts(args.issue, conflicts, 2, cfg)
+        # go1 (Issue #1184): العودة إلى الترشيح من المسار العادي وحده.
+        returned_lines = return_to_selection(go1_ids, 2)
+        if returned_lines:
+            review.comment(args.issue, "### ↩️ عودة إلى الترشيح\n" + "\n".join(returned_lines))
 
     # تطبيق تعديل النص اليدوي (Issue #752) — مباشرة بعد parse_approved وقبل
     # فصل analysis_ids/news_ids عمدًا: مسار التحليل يستبدل سطر العنوان في
@@ -1157,7 +1209,8 @@ def main() -> int:
     # خارجه؛ ومسار التحليل لا يُستثنى — عدم الاعتماد رفض في كل المسارات.
     # status == "pending" يمنع إعادة الرفض/التسجيل عند إعادة تشغيل هذا
     # المسار لنفس الـIssue (مثلًا مسار urgent ثم normal لنفس حدث approved).
-    unapproved = [i for i in review.all_draft_ids(body) if i not in ids]
+    unapproved = [i for i in review.all_draft_ids(body)
+                  if i not in ids and i not in go1_ids]
     if unapproved:
         entries = feedback.load()
         rejected_now = 0
@@ -1176,6 +1229,12 @@ def main() -> int:
 
     log.info("الـ Issue #%s: %d معتمد من %d (%d كريل)",
              args.issue, len(ids), len(review.all_draft_ids(body)), len(reels))
+
+    if not ids and go1_ids:
+        # كل ما عُلِّم عودة إلى الترشيح: لا نشر ولا «لم يُعلَّم» (Issue #1184)
+        if not args.urgent_only:
+            review.close_issue(args.issue)
+        return 0
 
     if not ids:
         log.warning("لم يُعلَّم على أي منشور")

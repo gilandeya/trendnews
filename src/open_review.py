@@ -110,10 +110,16 @@ def main() -> int:
         (path, d) for path, d in store.pending_drafts()
         if not d.get("review_issue") and store.origin_of(d) != "analysis"
     ]), key=lambda row: row[1])
-    fresh_candidates = review.sort_by_score([
-        (path, c) for path, c in store.pending_candidates()
-        if not c.get("selection_issue")
-    ], key=lambda row: row[1])
+    fresh_rows = [(path, c) for path, c in store.pending_candidates()
+                  if not c.get("selection_issue")]
+    # المُعادون من المرحلة 2/3 (Issue #1184) في أعلى القضية بترتيب عودتهم،
+    # ثم بقية المرشحين بالدرجة. لا سقف على العدد في هذه الدالة أصلًا (السقف
+    # يُطبَّق عند الجمع)، فلا يُزاحَم المُعاد بغيره ولا يُحتسب ضمنه.
+    returned_rows = sorted((r for r in fresh_rows if r[1].get("returned")),
+                           key=lambda r: str(r[1].get("returned_at") or ""))
+    fresh_candidates = returned_rows + review.sort_by_score(
+        [r for r in fresh_rows if not r[1].get("returned")],
+        key=lambda row: row[1])
     # Issue #959: يُجمَع قبل أي return مبكّر — دفعة إحياء بلا مسودات/مرشحين
     # جدد يجب أن تفتح Issue الإحياء وحده، لا أن تُصادَف بالعودة المبكّرة
     # أدناه لغياب النوعين الآخرين.
@@ -156,8 +162,13 @@ def main() -> int:
             body=preselect.build_selection_issue_body(cands, translations, cfg),
             labels=["pending-selection"],
         )
-        for path, _ in fresh_candidates:
-            store.update_candidate(path, selection_issue=issue["number"])
+        for path, c in fresh_candidates:
+            # بعد الربط يصير مرشحًا عاديًا في هذه القضية (Issue #1184): يُزال
+            # returned فلا يُعاد ضمّه ولا يُستثنى من drop_stale لاحقًا، وتبقى
+            # returned_from_stage/returned_at أثرًا لما حدث.
+            store.update_candidate(
+                path, selection_issue=issue["number"],
+                **({"returned": False} if c.get("returned") else {}))
 
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary:

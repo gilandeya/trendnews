@@ -146,6 +146,10 @@ def _features_candidate(cand: dict) -> dict:
     }
 
 
+# قرارات لا تحجب تسجيل أي قرار لاحق للمعرّف نفسه: كلاهما لحظة وسيطة لا مصير.
+_NON_BLOCKING = ("unselected", "returned")
+
+
 def _append(entries: list[dict], item: dict, decision: str,
             reject_tag: str | None = None,
             features: dict | None = None,
@@ -174,6 +178,7 @@ def record_published(draft: dict) -> None:
     if any(e.get("id") == draft.get("id") and e.get("decision") == "published"
            for e in entries):
         return
+    # («returned» لا يمنع أصلًا: الشرط أعلاه يقرأ «published» وحدها.)
     _append(entries, draft, "published")
     save(entries)
 
@@ -182,9 +187,11 @@ def _blocks_rejection(entries: list[dict], draft: dict) -> bool:
     """هل يمنع قيدٌ سابق للمعرّف نفسه تسجيل رفض المسودة؟ «unselected» السابق
     لا يمنع (Issue #1153، بند مؤجَّل من #1135): هو قرار لحظة الاختيار قبل
     الصياغة، أما رفض المسودة بعد صياغتها فقرار آخر في لحظة أخرى — نفس مبدأ
-    record_published. أي قيد آخر للمعرّف يبقى مانعًا كما كان، حتى لا يُعدّ
-    الرفض مرتين."""
-    return any(e.get("id") == draft.get("id") and e.get("decision") != "unselected"
+    record_published. «returned» كذلك (Issue #1184): عودة الخبر إلى الترشيح
+    ليست مصيرًا نهائيًا له، فرفضه لاحقًا بعد تقدّمه ثانية قرار جديد. أي قيد
+    آخر للمعرّف يبقى مانعًا كما كان، حتى لا يُعدّ الرفض مرتين."""
+    return any(e.get("id") == draft.get("id")
+               and e.get("decision") not in _NON_BLOCKING
                for e in entries)
 
 
@@ -255,6 +262,18 @@ def record_unselected_topic(topic: dict) -> None:
     save(entries)
 
 
+def record_returned(draft: dict, from_stage: int,
+                    selection_issue: int | None = None) -> None:
+    """عودة خبر من المرحلة 2 أو 3 إلى الترشيح (Issue #1184). قرار جديد في كل
+    عودة (لا منع تكرار): الخبر قد يعود مرتين وكل عودة حدث مستقل. لا يحجب أي
+    تسجيل لاحق للمعرّف (انظر _NON_BLOCKING). ``selection_issue`` = قضية
+    الترشيح التي جاء منها (يغيب إن لم يمر بترشيح)."""
+    entries = load()
+    _append(entries, draft, "returned", selection_issue=selection_issue)
+    entries[-1]["returned_from_stage"] = from_stage
+    save(entries)
+
+
 def _candidate_known(entries: list[dict], cand: dict) -> bool:
     """منع تكرار قيد مرشح على الزوج (id، selection_issue) لا على id وحده —
     الخبر نفسه يُعرض في أكثر من Issue اختيار بالمعرّف نفسه وكل ظهور قرار
@@ -264,7 +283,7 @@ def _candidate_known(entries: list[dict], cand: dict) -> bool:
     cid = cand.get("id")
     issue = cand.get("selection_issue")
     for e in entries:
-        if e.get("id") != cid:
+        if e.get("id") != cid or e.get("decision") == "returned":
             continue
         if "selection_issue" not in e or e.get("selection_issue") == issue:
             return True
@@ -338,7 +357,9 @@ def scan(cfg) -> int:
     scan_since_raw = cfg.path("decisions.scan_since", None)
     scan_since = datetime.fromisoformat(scan_since_raw) if scan_since_raw else None
     entries = load()
-    known = {e["id"] for e in entries}
+    # «returned» لا يجعل المعرّف «معروفًا»: المسودة التي تقدّمت ثانية بعد
+    # عودتها تحتاج فحص الإغلاق/المهلة كأي مسودة (Issue #1184)
+    known = {e["id"] for e in entries if e.get("decision") != "returned"}
 
     drafts = [(p, d) for p, d in store.pending_drafts()
               if d.get("review_issue") and not _too_old(d, scan_since)

@@ -10071,10 +10071,18 @@ def test_stages_2_3_pipeline() -> None:
     full2 = _stage_news_draft("e18200000e2", "خبر عاجل ثانٍ", urgent=True)
     final_body = review.build_final_review_body([full, full2], "u/r", "main")
     issue_body = review.build_issue_body([full, full2], "u/r", "main")
-    check("(#1182-ط) لا سطر go1 في أي قضية (has_stage1=False مؤقتًا)",
-          "go:go1:" not in issue_body and "go:go1:" not in final_body
-          and "ترشيح المواضيع المتاحة" not in issue_body.split("---", 1)[1]
-          and "ترشيح المواضيع المتاحة" not in final_body.split("---", 1)[1])
+    # Issue #1184 (المهمة 2ب، البند أ): مسودات الأخبار تحمل الآن سطر go1 في
+    # المرحلتين؛ غير الأخبار (الأصل ≠ news) لا تحمله. كان الفحص السابق «لا
+    # go1 لأي قضية» (has_stage1=False مؤقتًا) وانتهى أجله بهذه المهمة.
+    check("(#1182-ط/#1184-أ) سطر go1 لكل خبر أخبار في المرحلتين",
+          f"go:go1:{full['id']}" in issue_body and f"go:go1:{full2['id']}" in issue_body
+          and f"go:go1:{full['id']}" in final_body and f"go:go1:{full2['id']}" in final_body,
+          issue_body[-600:])
+    non_news = [dict(full, origin=o) for o in ("breaking", "request", "article", "analysis")]
+    check("(#1182-ط/#1184-أ) بلا سطر go1 لمسودة رادار/طلب/مقال/تحليل",
+          all("go:go1:" not in review.build_issue_body([d], "u/r", "main")
+              and "go:go1:" not in review.build_final_review_body([d], "u/r", "main")
+              for d in non_news))
     check("(#1182-ط) رأس المرحلتين من stages.stage_header وبلا الرأسين القديمين",
           issue_body.startswith(stages.stage_header(2, cfg))
           and final_body.startswith(stages.stage_header(3, cfg))
@@ -10142,6 +10150,399 @@ def legacy_stage3_body(items: list[tuple[str, str]]) -> str:
             f"  - [ ] ↩️ أعده للمراجعة الأولية  <!-- back:{draft_id} -->", "",
             "---", ""]
     return "\n".join(parts)
+
+
+def _run_publish_issue(body: str, label: str, argv: list[str]) -> dict:
+    """publish.main على قضية وهمية بالوسم المعطى؛ يعيد ما التُقط (تعليقات،
+    قضايا مُنشأة، منشورات، إغلاقات). نسخة وحدة من مُشغِّل test_stages_2_3_pipeline."""
+    from src import publish as publish_mod
+    out = {"comments": [], "created": [], "published": [], "closed": []}
+    reset_last_publish()
+    real = {k: getattr(m, k) for m, k in (
+        (publish_mod, "fetch_issue"), (publish_mod, "ROOT"),
+        (facebook, "publish_photo"), (review, "comment"),
+        (review, "close_issue"), (review, "create_issue"),
+        (review, "ensure_labels"), (review, "remove_label"))}
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    publish_mod.fetch_issue = lambda n: {"number": n, "body": body, "labels": [{"name": label}]}
+    facebook.publish_photo = lambda image_path, caption, api_version, first_comment=None: (
+        out["published"].append(caption) or {"url": "https://fb.example/s", "id": "1"})
+    review.comment = lambda n, t: out["comments"].append((n, t))
+    review.close_issue = lambda n: out["closed"].append(n)
+    review.ensure_labels = lambda: None
+    review.remove_label = lambda n, lbl: None
+
+    def fake_create_issue(title, body, labels=None):
+        out["created"].append({"title": title, "body": body, "labels": labels})
+        return {"number": 9800 + len(out["created"]), "html_url": "https://x/i"}
+    review.create_issue = fake_create_issue
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+    sys.argv = ["publish", "--issue", "8300", *argv]
+    try:
+        out["code"] = publish_mod.main()
+    finally:
+        publish_mod.fetch_issue = real["fetch_issue"]
+        publish_mod.ROOT = real["ROOT"]
+        facebook.publish_photo = real["publish_photo"]
+        review.comment = real["comment"]
+        review.close_issue = real["close_issue"]
+        review.create_issue = real["create_issue"]
+        review.ensure_labels = real["ensure_labels"]
+        review.remove_label = real["remove_label"]
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+    return out
+
+
+@auto_restore_last_publish
+def test_stage1_return_pipeline() -> None:
+    """Issue #1184 (المهمة 2ب): خيار go1 (عد إلى الترشيح) من المرحلتين 2 و3، بالبناة
+    والمستهلكين الحقيقيين (publish.main، collect.drop_stale_candidates،
+    open_review.main، collect_finalize.finalize)، مع عدّاد لنداءات الكاتب. ثم
+    إصلاح رابط الصورة الفاشل في setimage (البند هـ)."""
+    from src import cards, collect_finalize, decisions, preselect
+    from src import publish as publish_mod
+    import src.setimage as setimage_mod
+
+    cfg = load_config()
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    shutil.rmtree(store.CANDIDATES_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
+
+    def state(draft_id: str) -> dict:
+        return store.load_draft(draft_id)[1]
+
+    def cand_state(cid: str) -> dict:
+        return store.latest_candidate(cid)[1]
+
+    def make_news(n: str, title: str, *, stage3: bool = False,
+                  score: float = 1.0) -> tuple[dict, dict]:
+        """مرشح (selected في قضية ترشيح قديمة) + مسودته المصوغة، بالمعرّف نفسه."""
+        art = Article(title=title, link=f"https://ret.example/{n}", summary="",
+                      source_name="P1", region="r1", weight=1.0,
+                      published=datetime.now(timezone.utc), bucket="serious",
+                      publisher="P1")
+        cand = preselect.build_candidate(art)
+        cand.update(status="selected", selection_issue=7000 + int(n), score=score)
+        store.save_candidate(cand)
+        extra = {"headlines": ["عنوان بديل ١", "عنوان بديل ٢", "عنوان بديل ٣"],
+                 "headline_selected": 0, "reel_spec": {"headline": title}}
+        if stage3:
+            extra.update(image=f"drafts/r{n}.jpg", image_info={"used_original": True},
+                         review_issue=9999)
+            (DRAFTS_DIR / f"r{n}.jpg").write_bytes(b"\xff\xd8\xff")
+        draft = _stage_news_draft(cand["id"], title, **extra)
+        store.save_draft(draft)
+        return cand, draft
+
+    # عدّاد نداءات الكاتب والعناوين وبناء البطاقة — يُمرِّر للحقيقي كي لا يتغير السلوك
+    calls = {"write": 0, "headlines": 0, "build": 0}
+    real_write = collect_finalize.write_arabic
+    real_hl = collect_finalize.headlines_mod.headlines_for_post
+    real_build = cards._default_build_post_image
+
+    def counting_write(*a, **k):
+        calls["write"] += 1
+        return real_write(*a, **k)
+
+    def counting_hl(*a, **k):
+        calls["headlines"] += 1
+        return real_hl(*a, **k)
+
+    def counting_build(*a, **k):
+        calls["build"] += 1
+        return real_build(*a, **k)
+
+    def run_open_review() -> dict:
+        out = {"created": []}
+        real_create, real_labels = review.create_issue, review.ensure_labels
+
+        def fake_create(title, body, labels=None):
+            out["created"].append({"title": title, "body": body, "labels": labels})
+            return {"number": 7500 + len(out["created"]), "html_url": "https://x/i"}
+        review.create_issue = fake_create
+        review.ensure_labels = lambda: None
+        real_repo = os.environ.get("GITHUB_REPOSITORY")
+        os.environ["GITHUB_REPOSITORY"] = "u/r"
+        try:
+            out["code"] = open_review.main()
+        finally:
+            review.create_issue, review.ensure_labels = real_create, real_labels
+            if real_repo is None:
+                os.environ.pop("GITHUB_REPOSITORY", None)
+            else:
+                os.environ["GITHUB_REPOSITORY"] = real_repo
+        return out
+
+    def run_finalize(number: int, body: str) -> dict:
+        """finalize الحقيقية؛ cmd_burst تُحوَّل إلى cmd_now الحقيقية (نشر فعلي عبر
+        publish_one) كي يكون «نُشر أم لا» حتميًا بلا نوم ولا جدولة."""
+        out = {"comments": [], "created": [], "published": [], "closed": []}
+        real = {k: getattr(m, k) for m, k in (
+            (publish_mod, "ROOT"), (publish_mod, "cmd_burst"),
+            (facebook, "publish_photo"), (review, "comment"),
+            (review, "close_issue"), (review, "create_issue"),
+            (review, "ensure_labels"))}
+        publish_mod.ROOT = DRAFTS_DIR.parent
+        publish_mod.cmd_burst = (lambda ids, cfg, issue, **kw:
+                                 publish_mod.cmd_now(ids, cfg, issue))
+        facebook.publish_photo = lambda image_path, caption, api_version, first_comment=None: (
+            out["published"].append(caption) or {"url": "https://fb.example/s", "id": "1"})
+        review.comment = lambda n, t: out["comments"].append((n, t))
+        review.close_issue = lambda n: out["closed"].append(n)
+        review.ensure_labels = lambda: None
+
+        def fake_create(title, body, labels=None):
+            out["created"].append({"title": title, "body": body, "labels": labels})
+            return {"number": 7600 + len(out["created"]), "html_url": "https://x/i"}
+        review.create_issue = fake_create
+        real_repo = os.environ.get("GITHUB_REPOSITORY")
+        os.environ["GITHUB_REPOSITORY"] = "u/r"
+        reset_last_publish()
+        try:
+            out["code"] = collect_finalize.finalize(number, body, cfg)
+        finally:
+            publish_mod.ROOT, publish_mod.cmd_burst = real["ROOT"], real["cmd_burst"]
+            facebook.publish_photo = real["publish_photo"]
+            review.comment, review.close_issue = real["comment"], real["close_issue"]
+            review.create_issue, review.ensure_labels = real["create_issue"], real["ensure_labels"]
+            if real_repo is None:
+                os.environ.pop("GITHUB_REPOSITORY", None)
+            else:
+                os.environ["GITHUB_REPOSITORY"] = real_repo
+        return out
+
+    collect_finalize.write_arabic = counting_write
+    collect_finalize.headlines_mod.headlines_for_post = counting_hl
+    cards._default_build_post_image = counting_build
+    try:
+        # ── أ: المرحلة 2، go1 ──
+        cand_a, draft_a = make_news("1", "خبر المرحلة الثانية العائد", score=1.0)
+        # نسخة أقدم للمرشح نفسه (ظهور سابق في قضية أخرى): لا تُحيا، الأحدث وحدها
+        old_dir = store.CANDIDATES_DIR / "2020-01-01"
+        old_dir.mkdir(parents=True, exist_ok=True)
+        old_copy = dict(cand_a, created_at="2020-01-01T00:00:00+00:00",
+                        selection_issue=6000, status="selected")
+        (old_dir / f"{cand_a['id']}.json").write_text(
+            json.dumps(old_copy, ensure_ascii=False), encoding="utf-8")
+        body2 = review.build_issue_body([draft_a], "u/r", "main")
+        go1_line = next((ln for ln in body2.splitlines()
+                         if f"go:go1:{cand_a['id']}" in ln), "")
+        check("(#1184-أ) قضية المرحلة 2 لخبر أخبار فيها خيار «↩️ عد إلى مرحلة ترشيح المواضيع المتاحة»",
+              cfg.path("stages.options.go1") in go1_line and go1_line.lstrip().startswith("- [ ]"),
+              go1_line)
+        res = _run_publish_issue(tick_marker(body2, f"<!-- go:go1:{cand_a['id']} -->"),
+                                 "approved", ["--now"])
+        da, ca = state(cand_a["id"]), cand_state(cand_a["id"])
+        check("(#1184-أ) go1 من المرحلة 2 ← المسودة returned بمرحلتها ولحظتها، بلا نشر",
+              da["status"] == "returned" and da["returned_from_stage"] == 2
+              and bool(da.get("returned_at")) and res["published"] == [], da.get("status"))
+        check("(#1184-أ) نص المسودة وعناوينها محفوظة كما هي",
+              da["caption"] == draft_a["caption"] and da["headlines"] == draft_a["headlines"]
+              and da["arabic"]["post_title"] == draft_a["arabic"]["post_title"])
+        check("(#1184-أ) المرشح (الأحدث وحده): pending بلا selection_issue وreturned ومرحلته",
+              ca["status"] == "pending" and ca["selection_issue"] is None
+              and ca["returned"] is True and ca["returned_from_stage"] == 2
+              and bool(ca.get("returned_at")), ca)
+        old_after = json.loads((old_dir / f"{cand_a['id']}.json").read_text(encoding="utf-8"))
+        check("(#1184-أ) النسخة الأقدم للمرشح لا تُمسّ",
+              old_after["status"] == "selected" and old_after["selection_issue"] == 6000,
+              old_after)
+        rec = [e for e in decisions.load() if e["id"] == cand_a["id"]]
+        check("(#1184-أ) السجل: قرار «returned» بقضية الترشيح التي جاء منها ومرحلة العودة",
+              len(rec) == 1 and rec[0]["decision"] == "returned"
+              and rec[0].get("returned_from_stage") == 2
+              and rec[0].get("selection_issue") == 7001, rec)
+        check("(#1184-أ) returned لا تظهر في قوائم المراجعة/الإحياء/النشر/الطابور",
+              cand_a["id"] not in [d["id"] for _, d in store.pending_drafts()]
+              and cand_a["id"] not in [d["id"] for _, d in store.failed_drafts()]
+              and cand_a["id"] not in [d["id"] for _, d in publish_mod.queued_drafts()]
+              and cand_a["id"] not in [d["id"] for _, d in open_review._revivable_drafts()])
+        check("(#1184-أ) القضية أُغلقت (كل ما عُلِّم عودة)", res["closed"] == [8300], res["closed"])
+
+        # ── ب: الظهور في الترشيح التالي ──
+        fresh = {"id": "ff0000000001", "status": "pending", "title": "خبر جديد عالي الدرجة",
+                 "score": 50.0, "publishers": ["Reuters"], "link": "https://ret.example/fresh",
+                 "bucket": "serious", "selection_issue": None}
+        stale = dict(fresh, id="ff0000000002", title="خبر معلق قديم", score=3.0,
+                     link="https://ret.example/stale")
+        store.save_candidate(stale)
+        dropped = collect.drop_stale_candidates()
+        check("(#1184-ب) drop_stale_candidates لا تُسقط المرشح المُعاد وتُسقط العادي بلا ربط",
+              cand_state(cand_a["id"])["status"] == "pending" and dropped == 1
+              and cand_state("ff0000000002")["status"] == "unselected",
+              (cand_state(cand_a["id"])["status"], dropped))
+        store.save_candidate(fresh)
+        res_or = run_open_review()
+        sel_body = res_or["created"][0]["body"] if res_or["created"] else ""
+        cand_ids = re.findall(r"<!--\s*cand:([0-9a-zA-Z]+)\s*-->", sel_body)
+        badge = cfg.path("stages.returned_badge").format(stage=2)
+        title_line = next((ln for ln in sel_body.splitlines()
+                           if f"cand:{cand_a['id']}" in ln), "")
+        check("(#1184-ب) قضية ترشيح جديدة، المُعاد في أعلاها (فوق أعلى درجة) بـ«↩️ أعدته من المرحلة 2»",
+              len(res_or["created"]) == 1 and res_or["created"][0]["labels"] == ["pending-selection"]
+              and cand_ids == [cand_a["id"], "ff0000000001"]
+              and badge == "↩️ أعدته من المرحلة 2" and badge in title_line,
+              (cand_ids, title_line))
+        check("(#1184-ب) غير المُعاد بلا شارة",
+              not any(badge in ln for ln in sel_body.splitlines()
+                      if "cand:ff0000000001" in ln))
+        ca = cand_state(cand_a["id"])
+        check("(#1184-ب) بعد الربط: selection_issue الجديد وإزالة returned (مرشح عادي)",
+              ca["selection_issue"] == 7501 and not ca.get("returned"), ca)
+        print("\n----- قضية الترشيح من (ب) كما بُنيت -----\n" + sel_body + "\n-----")
+
+        # ── ج: تقدّمه ثانية 📝 ← المسودة نفسها بلا صياغة ──
+        calls.update(write=0, headlines=0, build=0)
+        res_f = run_finalize(7501, tick_marker(sel_body, f"review:{cand_a['id']}"))
+        dc = state(cand_a["id"])
+        check("(#1184-ج) 📝 ← المسودة نفسها pending بنصها وعناوينها",
+              dc["status"] == "pending" and dc["caption"] == draft_a["caption"]
+              and dc["headlines"] == draft_a["headlines"]
+              and dc["arabic"]["post_title"] == draft_a["arabic"]["post_title"],
+              dc.get("status"))
+        check("(#1184-ج) عدّاد الكاتب = 0 ولا عناوين جديدة ولا بناء بطاقة",
+              calls == {"write": 0, "headlines": 0, "build": 0}, calls)
+        check("(#1184-ج) مسودة واحدة بالمعرّف وأُزيلت علامات العودة",
+              len(list(DRAFTS_DIR.glob(f"*/{cand_a['id']}.json"))) == 1
+              and "returned_from_stage" not in dc and "returned_at" not in dc)
+        review_issue = next((c for c in res_f["created"] if c["labels"] == ["pending-review"]), None)
+        check("(#1184-ج) فُتحت قضية المرحلة 2 وفيها المسودة، وربطت review_issue",
+              review_issue is not None and f"<!-- draft:{cand_a['id']} -->" in review_issue["body"]
+              and dc.get("review_issue") == 7601 and cand_state(cand_a["id"])["status"] == "selected",
+              [(c["title"], c["labels"]) for c in res_f["created"]])
+        if review_issue:
+            print("\n----- خبر المرحلة 2 بخيار go1 ظاهرًا -----\n"
+                  + review_issue["body"] + "\n-----")
+
+        # ── و: بعد (أ)، رفض لاحق للخبر نفسه في مرحلة 2 جديدة بلا تعليم ──
+        res_rej = _run_publish_issue((review_issue or {}).get("body", ""), "approved", ["--now"])
+        check("(#1184-و) رفض لاحق بلا تعليم ← rejected_unchecked يُسجَّل رغم «returned» السابق",
+              state(cand_a["id"])["status"] == "rejected"
+              and any(e["id"] == cand_a["id"] and e["decision"] == "rejected_unchecked"
+                      for e in decisions.load())
+              and any(e["id"] == cand_a["id"] and e["decision"] == "returned"
+                      for e in decisions.load()), res_rej["code"])
+
+        # ── د: المرحلة 3، go1 ثم 🚀 ← تُنشر ببطاقتها القائمة ──
+        cand_d, draft_d = make_news("2", "خبر المرحلة الثالثة العائد", stage3=True, score=2.0)
+        body3 = review.build_final_review_body([draft_d], "u/r", "main")
+        check("(#1184-د) قضية المرحلة 3 لخبر أخبار فيها خيار go1",
+              f"go:go1:{cand_d['id']}" in body3)
+        res3 = _run_publish_issue(tick_marker(body3, f"<!-- go:go1:{cand_d['id']} -->"),
+                                  "final-review", ["--now"])
+        dd, cd = state(cand_d["id"]), cand_state(cand_d["id"])
+        check("(#1184-د) go1 من المرحلة 3 ← returned بـreturned_from_stage=3 وصورتها باقية",
+              dd["status"] == "returned" and dd["returned_from_stage"] == 3
+              and dd.get("image") == draft_d["image"] and res3["published"] == [], dd)
+        check("(#1184-د) المرشح pending بلا selection_issue وreturned من المرحلة 3، والسجل returned",
+              cd["status"] == "pending" and cd["selection_issue"] is None
+              and cd["returned"] is True and cd["returned_from_stage"] == 3
+              and any(e["id"] == cand_d["id"] and e["decision"] == "returned"
+                      and e.get("returned_from_stage") == 3 for e in decisions.load()), cd)
+        res_or3 = run_open_review()
+        sel3 = res_or3["created"][0]["body"] if res_or3["created"] else ""
+        check("(#1184-د) يظهر في قضية الترشيح بـ«↩️ أعدته من المرحلة 3»",
+              cfg.path("stages.returned_badge").format(stage=3) in sel3
+              and f"cand:{cand_d['id']}" in sel3, sel3[:300])
+        sel3_no = int(cand_state(cand_d["id"])["selection_issue"])
+        calls.update(write=0, headlines=0, build=0)
+        res_now = run_finalize(sel3_no, tick_marker(sel3, f"now:{cand_d['id']}"))
+        check("(#1184-د) 🚀 ← تُنشر ببطاقتها القائمة دون إعادة بناء ولا نداء كاتب",
+              state(cand_d["id"])["status"] == "published"
+              and res_now["published"] == [draft_d["caption"]]
+              and calls == {"write": 0, "headlines": 0, "build": 0}
+              and state(cand_d["id"])["image"] == draft_d["image"],
+              (calls, res_now["published"]))
+
+        # ── هـ: go1 + publish معًا ← go1، وتعليق التعارض ──
+        cand_e, draft_e = make_news("3", "خبر بتعارض العودة")
+        body_e = review.build_issue_body([draft_e], "u/r", "main")
+        body_e = tick_marker(body_e, f"<!-- go:go1:{cand_e['id']} -->")
+        body_e = tick_marker(body_e, f"<!-- go:publish:{cand_e['id']} -->")
+        res_e = _run_publish_issue(body_e, "approved", ["--now"])
+        notes = [t for n, t in res_e["comments"] if "أكثر من خيار انتقال" in t]
+        check("(#1184-هـ) go1+publish ← عودة (لا نشر)، وتعليق التعارض يذكر الخيارين",
+              state(cand_e["id"])["status"] == "returned" and res_e["published"] == []
+              and len(notes) == 1 and cfg.path("stages.options.go1") in notes[0]
+              and cfg.path("stages.options.publish") in notes[0], notes)
+
+        # ── ز: التحليل والرادار والطلب والمقال بلا سطر go1 ──
+        for origin in ("analysis", "breaking", "request", "article"):
+            d = _stage_news_draft(f"e1840000{origin[:2]}", f"خبر {origin}", origin=origin,
+                                  image="drafts/x.jpg")
+            check(f"(#1184-ز) أصل {origin}: لا سطر go1 في المرحلتين 2 و3",
+                  "go:go1:" not in review.build_issue_body([d], "u/r", "main")
+                  and "go:go1:" not in review.build_final_review_body([d], "u/r", "main"))
+
+        # ── ح: رابط صورة فاشل في الحقل ──
+        d_img = _stage_news_draft("e1840000009f", "خبر برابط صورة فاشل",
+                                  image="drafts/h.jpg", image_info={"used_original": True})
+        (DRAFTS_DIR / "h.jpg").write_bytes(b"\xff\xd8\xff")
+        store.save_draft(d_img)
+        body_h = review.build_issue_body([d_img], "u/r", "main")
+        field = stages.image_field(d_img["id"], cfg)
+        bad_url = "https://cdn.example/not-an-image.html"
+        pasted = body_h.replace(field, field.replace("هنا:", f"هنا: {bad_url}"))
+        sync_path = _TMP_DATA_DIR / "stage1_return_sync.json"
+        real_sync, real_fetch = setimage_mod.SYNC_FILE, review.fetch_issue_body
+        real_upd, real_cmt = review.update_issue_body, review.comment
+        real_rebuild = setimage_mod.rebuild_card
+        attempts: list = []
+        updated: list = []
+        comments: list = []
+        setimage_mod.SYNC_FILE = sync_path
+        setimage_mod.rebuild_card = lambda *a, **k: attempts.append(1)  # None = فشل البناء
+        review.update_issue_body = lambda n, b: updated.append(b)
+        review.comment = lambda n, t: comments.append(t)
+        try:
+            review.fetch_issue_body = lambda n: pasted
+            sys.argv = ["setimage", "--from-issue", "--issue", "8400", "--body", ""]
+            code_fail = setimage_mod.main()
+            setimage_mod.sync_issue(8400)
+            after_fail = updated[-1] if updated else ""
+            # تعديل تالٍ للقضية: يُقرأ جسمها كما تركه sync_issue
+            review.fetch_issue_body = lambda n: after_fail
+            sys.argv = ["setimage", "--from-issue", "--issue", "8401", "--body", ""]
+            code_again = setimage_mod.main()
+            attempts_after_edit = len(attempts)
+            # الصيغة القديمة (مربع img:): يبقى الرابط كما كان
+            legacy = legacy_stage2_body([("e1840000009e", "قديم")]).replace(
+                "- [ ] 🖼️", "- [x] 🖼️").replace(
+                "الرابط:   <!--", f"الرابط: {bad_url}  <!--")
+            d_old = _stage_news_draft("e1840000009e", "قديم", image="drafts/h.jpg",
+                                      image_info={"used_original": True})
+            store.save_draft(d_old)
+            review.fetch_issue_body = lambda n: legacy
+            sys.argv = ["setimage", "--from-issue", "--issue", "8402", "--body", ""]
+            setimage_mod.main()
+            setimage_mod.sync_issue(8402)
+            legacy_after = updated[-1]
+        finally:
+            setimage_mod.SYNC_FILE = real_sync
+            setimage_mod.rebuild_card = real_rebuild
+            review.fetch_issue_body, review.update_issue_body = real_fetch, real_upd
+            review.comment = real_cmt
+            sync_path.unlink(missing_ok=True)
+        check("(#1184-ح) رابط فاشل في الحقل الجديد ← يُمسح الحقل ويعود نصّه",
+              code_fail == 1 and bad_url not in after_fail and field in after_fail,
+              after_fail[-300:])
+        check("(#1184-ح) تعليق الفشل يحوي الرابط الفاشل والسبب",
+              any(bad_url in c and "السبب" in c and d_img["id"] in c for c in comments), comments)
+        check("(#1184-ح) تعديل تالٍ للقضية لا يعيد المحاولة (لا أمر صالح، ولا بناء ثانٍ)",
+              code_again == 2 and attempts_after_edit == 1, (code_again, attempts_after_edit))
+        check("(#1184-ح) الصيغة القديمة (img:) لا تتغير: الرابط يبقى بعد الفشل",
+              bad_url in legacy_after, legacy_after[-300:])
+    finally:
+        collect_finalize.write_arabic = real_write
+        collect_finalize.headlines_mod.headlines_for_post = real_hl
+        cards._default_build_post_image = real_build
 
 
 def test_stages_module() -> None:
