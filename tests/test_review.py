@@ -8977,6 +8977,209 @@ def test_publish_revival_batch_member_fails_again_stays_offered() -> None:
           failing_id in revivable_ids, revivable_ids)
 
 
+def test_web_search_stage() -> None:
+    """مرحلة «بحث صور الويب» (Brave) على مخرَج الأنبوب: cards.ensure كاملة ثم
+    فحص المسودة المحفوظة والبطاقة. requests.get وdownload_image مزيَّفان،
+    والصور تُولَّد هنا، وBRAVE_API_KEY مضبوط داخل الاختبار فقط ويُحذف بعده."""
+    from src import cards, imagesearch, sources
+
+    cfg = load_config()
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    good = Image.new("RGB", (1000, 700), (200, 120, 40))
+    ImageDraw.Draw(good).ellipse([350, 150, 650, 450], fill=(240, 220, 190))
+    real_dl, real_page = imaging.download_image, sources.image_from_page
+    real_find, real_get = cards.find_images, imagesearch.requests.get
+    real_key = os.environ.get("BRAVE_API_KEY")
+    usage_file = imagesearch.BRAVE_USAGE_FILE
+    state = {"find": 0, "brave": [], "dl": [], "results": []}
+
+    def fake_dl(url, timeout=20, failures=None):
+        state["dl"].append(url)
+        if "good" in url:
+            return good.copy()
+        if failures is not None:
+            failures.append({"url": url, "reason": "رفض"})
+        return None
+
+    def fake_get(url, **kw):
+        state["brave"].append((url, kw))
+
+        class R:
+            status_code = 200
+
+            def json(self_):
+                return {"results": state["results"]}
+        return R()
+
+    def result(page, orig, thumb):
+        return {"url": page, "properties": {"url": orig}, "thumbnail": {"src": thumb}}
+
+    def run(did, *, key="k-test", usage=None, origin="news", results=None,
+            extra=None, news_ok=False, publisher_ok=False, source_title="Original Title"):
+        state.update(find=0, brave=[], dl=[])
+        state["results"] = results if results is not None else [
+            result("https://www.bbc.com/a", "https://img.example/good-1.jpg",
+                   "https://img.example/thumb-1.jpg")]
+        usage_file.unlink(missing_ok=True)
+        if usage is not None:
+            usage_file.parent.mkdir(parents=True, exist_ok=True)
+            usage_file.write_text(json.dumps({imagesearch._month_key(): usage}))
+        if key is None:
+            os.environ.pop("BRAVE_API_KEY", None)
+        else:
+            os.environ["BRAVE_API_KEY"] = key
+        img = "https://pub.example/good-pub.jpg" if publisher_ok else "https://pub.example/bad.jpg"
+        draft = {
+            "id": did, "status": "pending", "origin": origin, "bucket": "serious",
+            "source": {"title": source_title, "link": "https://pub.example/a",
+                       "publisher": "ناشر", "publishers": ["ناشر"],
+                       "image_url": img, "image_candidates": [img]},
+            "arabic": {"post_title": "عنوان عربي", "image_headline": "عنوان البطاقة",
+                       "category": "عالم", "urgent": False},
+            **(extra or {}),
+        }
+        path = store.save_draft(draft)
+        imaging.download_image = fake_dl  # type: ignore
+        sources.image_from_page = lambda url, timeout=12: None  # type: ignore
+        imagesearch.requests.get = fake_get  # type: ignore
+
+        def fake_find(term, cfg_):
+            state["find"] += 1
+            return ["https://free.example/good-free.jpg"]
+        cards.find_images = fake_find  # type: ignore
+        kw = {}
+        if news_ok:
+            kw["news_photo_provider"] = lambda: [{"url": "https://news.example/good-n.jpg",
+                                                  "publisher": "ن"}]
+        try:
+            rel = cards.ensure(path, draft, cfg, **kw)
+        finally:
+            imaging.download_image = real_dl  # type: ignore
+            sources.image_from_page = real_page  # type: ignore
+            cards.find_images = real_find  # type: ignore
+            imagesearch.requests.get = real_get  # type: ignore
+        return rel, json.loads(path.read_text(encoding="utf-8"))
+
+    def q_of_first_call():
+        return state["brave"][0][1]["params"]["q"] if state["brave"] else None
+
+    try:
+        # a) المرحلتان 1 و2 تفشلان وBrave يعيد صورة صالحة
+        rel, saved = run("web_a")
+        info = saved.get("image_info") or {}
+        card_file = DRAFTS_DIR / Path(rel).relative_to("drafts") if rel else None
+        check("بحث الويب (a): بُنيت البطاقة", bool(card_file) and card_file.exists(), rel)
+        check("بحث الويب (a): kind=web_search والنطاق محفوظ والرابط المختار",
+              info.get("kind") == "web_search" and info.get("web_search_domain") == "www.bbc.com"
+              and info.get("chosen_url") == "https://img.example/good-1.jpg", info)
+        check("بحث الويب (a): البديل الحر لم يُستدعَ ولا وسم تعبيرية",
+              state["find"] == 0 and info.get("fallback_tried") is False
+              and info.get("illustrative") is False, (state["find"], info))
+        check("بحث الويب (a): has_photo صحيح (لا «بلا صورة للخبر» للمراجع)",
+              saved.get("has_photo") is True, saved.get("has_photo"))
+        check("بحث الويب (a): web_search_query وweb_search_tried وskipped",
+              info.get("web_search_query") == "Original Title"
+              and info.get("web_search_tried") == 1 and info.get("web_search_skipped") is None, info)
+        if card_file and card_file.exists():
+            shutil.copy(card_file, "/tmp/web_search_card_a.jpg")
+        # j) سطر المراجعة
+        line = review.image_source_line(saved)
+        check("بحث الويب (j): image_source_line يعرض النطاق وتنبيه المراجعة",
+              line == "🖼️ **المصدر:** صورة من بحث الويب (النطاق: www.bbc.com) — راجعها قبل الاعتماد",
+              line)
+        # i) معاملات الطلب
+        rel, saved = run("web_i")
+        url, kw = state["brave"][0]
+        check("بحث الويب (i): العنوان والترويسة والمعاملات",
+              url == "https://api.search.brave.com/res/v1/images/search"
+              and kw["headers"]["X-Subscription-Token"] == "k-test"
+              and kw["params"]["safesearch"] == "strict" and kw["params"]["count"] == 10
+              and kw["params"]["q"] == "Original Title", (url, kw))
+        check("بحث الويب: العدّاد زاد 1 وحُفظ فورًا",
+              imagesearch.brave_usage() == 1, imagesearch.brave_usage())
+
+        # b) نجاح المرحلة 1 ← لا طلب
+        rel, saved = run("web_b", publisher_ok=True)
+        check("بحث الويب (b): نجاح صورة الناشر ⇒ لا طلب إلى Brave والعدّاد صفر",
+              not state["brave"] and imagesearch.brave_usage() == 0
+              and saved["image_info"]["kind"] is None, (state["brave"], saved["image_info"]))
+        rel, saved = run("web_b2", news_ok=True)
+        check("بحث الويب (b): نجاح صورة الخبر (المرحلة 2) ⇒ لا طلب أيضًا",
+              not state["brave"] and saved["image_info"]["kind"] == "news_photo", saved["image_info"])
+
+        # c) نتيجة من gettyimages تُتخطى
+        rel, saved = run("web_c", results=[
+            result("https://www.gettyimages.com/x", "https://img.example/good-getty.jpg", "https://t/x"),
+            result("https://www.reuters.com/y", "https://img.example/good-2.jpg", "https://t/y")])
+        info = saved["image_info"]
+        check("بحث الويب (c): gettyimages تُتخطى إلى التالية",
+              info.get("web_search_domain") == "www.reuters.com"
+              and not any("getty" in u for u in state["dl"]), (info, state["dl"]))
+
+        # d) الأصل يفشل والمصغّرة تنجح
+        rel, saved = run("web_d", results=[
+            result("https://www.bbc.com/a", "https://img.example/bad-orig.jpg",
+                   "https://img.example/good-thumb.jpg")])
+        info = saved["image_info"]
+        check("بحث الويب (d): الأصل يفشل فتُستعمل المصغّرة",
+              info.get("kind") == "web_search" and info.get("chosen_url").endswith("good-thumb.jpg")
+              and info.get("web_search_tried") == 2, info)
+
+        # e) السقف
+        rel, saved = run("web_e", usage=800)
+        info = saved["image_info"]
+        check("بحث الويب (e): السقف ⇒ لا طلب وskipped=cap والسلسلة تكمل للحرة",
+              not state["brave"] and info.get("web_search_skipped") == "cap"
+              and state["find"] == 1 and info.get("illustrative") is True
+              and imagesearch.brave_usage() == 800, (info, state))
+        check("بحث الويب (e): سطر المصدر يذكر توقف بحث الويب",
+              review.image_source_line(saved).endswith("(بحث الويب متوقف: بلغ السقف الشهري)"),
+              review.image_source_line(saved))
+
+        # f) بلا مفتاح
+        rel, saved = run("web_f", key=None)
+        info = saved["image_info"]
+        check("بحث الويب (f): بلا مفتاح ⇒ لا طلب وskipped=no_key وبناء ناجح بلا خطأ",
+              bool(rel) and not state["brave"] and info.get("web_search_skipped") == "no_key"
+              and state["find"] == 1, (rel, info))
+
+        # g) manual_image
+        rel, saved = run("web_g", extra={"manual_image": "https://manual.example/bad.jpg"})
+        check("بحث الويب (g): manual_image ⇒ لا طلب",
+              not state["brave"] and saved["image_info"].get("web_search_skipped") is None,
+              state["brave"])
+
+        # setimage.rebuild_card (allow_search_fallback=False): لا بحث ويب أيضًا
+        real_run_kw = cards.ensure
+        cards.ensure = lambda *a, **k: real_run_kw(*a, allow_search_fallback=False, **k)  # type: ignore
+        try:
+            rel, saved = run("web_g2", publisher_ok=False)
+        finally:
+            cards.ensure = real_run_kw  # type: ignore
+        check("بحث الويب: allow_search_fallback=False (إعادة بناء setimage) ⇒ لا طلب",
+              not state["brave"], state["brave"])
+
+        # h) عبارة البحث
+        run("web_h1", origin="analysis", extra={"image_query_en": "Gaza ceasefire talks"})
+        check("بحث الويب (h): تحليل بـimage_query_en يستعملها",
+              q_of_first_call() == "Gaza ceasefire talks", state["brave"])
+        run("web_h2", origin="analysis")
+        check("بحث الويب (h): تحليل بلا image_query_en يستعمل العنوان العربي",
+              q_of_first_call() == "عنوان عربي", state["brave"])
+        run("web_h3", source_title="Original News Title")
+        check("بحث الويب (h): خبر يستعمل source.title",
+              q_of_first_call() == "Original News Title", state["brave"])
+    finally:
+        if real_key is None:
+            os.environ.pop("BRAVE_API_KEY", None)
+        else:
+            os.environ["BRAVE_API_KEY"] = real_key
+        usage_file.unlink(missing_ok=True)
+        imaging.download_image = real_dl  # type: ignore
+        imagesearch.requests.get = real_get  # type: ignore
+
+
 def test_news_card_image_chain() -> None:
     """Issue #1153 — سلّم صورة بطاقة الأخبار على مخرَج الأنبوب: cards.ensure
     كاملة ثم فحص المسودة المحفوظة والبطاقة الناتجة. التحميل وجلب og:image

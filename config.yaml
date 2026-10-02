@@ -1139,6 +1139,15 @@ image:
   font_body_weight: "Bold"          # الخطوط المتغيرة: Regular / Medium / SemiBold / Bold
   sharpen: true              # تحسين حدة صورة الخبر
   composite: true            # صورة ثانية في دائرة إن توفّرت
+  # بحث صور الويب عبر Brave Search API: بعد صورة الناشر/الخبر وقبل الحرة، كسول.
+  # يحتاج سرّ BRAVE_API_KEY في إعدادات المستودع؛ بدونه تُتخطى المرحلة بهدوء.
+  web_search:
+    enabled: true
+    monthly_cap: 800         # حماية لبطاقة الدفع (Brave بلا سقف من جهتها)؛ العدّاد state/brave_usage.json
+    count: 10                # نتائج الطلب الواحد
+    max_tries: 6             # نتائج تُجرَّب بعد الاستبعاد
+    excluded_domains:        # صورها في البحث بعلامة مائية
+      [gettyimages, shutterstock, alamy, istockphoto, dreamstime, depositphotos, 123rf, stock.adobe]
   # الرياضة مستثناة: أخبار الانتقالات تذكر أندية كثيرة، فتُجلب صور
   # أشخاص لا علاقة لهم بالخبر (مدرب نادٍ ذُكر عرضًا مثلًا).
   composite_skip_buckets: ["sport"]

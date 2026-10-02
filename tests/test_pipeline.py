@@ -146,6 +146,7 @@ from tests.test_review import (
     test_decisions_candidate_scan,
     test_decisions_unselected_then_rejected,
     test_news_card_image_chain,
+    test_web_search_stage,
     test_store_load_candidate_prefers_selection_issue,
     test_insights_analysis,
     test_insights_collect_includes_analysis_origin,
@@ -495,6 +496,7 @@ def main() -> int:
     test_decisions_candidate_scan()
     test_decisions_unselected_then_rejected()
     test_news_card_image_chain()
+    test_web_search_stage()
     test_store_load_candidate_prefers_selection_issue()
     print("\n── تحليل الأداء ──")
     test_insights_analysis()

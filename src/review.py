@@ -472,6 +472,15 @@ def parse_captions(body: str) -> dict[str, str]:
 
 
 def image_source_line(draft: dict) -> str:
+    """سطر «المصدر:» مع تنبيه توقف بحث الويب إن بلغ السقف الشهري (يُلحَق بالسطر
+    نفسه أيًّا كانت الصورة المستعملة، فالسلسلة تكمل إلى الحرة بعد التخطي)."""
+    line = _image_source_line(draft)
+    if (draft.get("image_info") or {}).get("web_search_skipped") == "cap":
+        line += " (بحث الويب متوقف: بلغ السقف الشهري)"
+    return line
+
+
+def _image_source_line(draft: dict) -> str:
     """سطر «المصدر:» في نص Issue المراجعة (Issue #752، تصحيح Issue #756) —
     يصف من أين جاءت صورة البطاقة (لا الناشر نفسه، ذاك سطر منفصل) قبل
     الاعتماد. يقرأ حقل ``image_info`` الذي تكتبه مواضع بناء البطاقة
@@ -499,6 +508,9 @@ def image_source_line(draft: dict) -> str:
             return (f"🖼️ **المصدر:** صورة من خبر عن الموضوع نفسه (الناشر: {publisher}) "
                     "— ليست صورة مصدر هذا المقال")
         return ("🖼️ **المصدر:** صورة من خبر عن الموضوع نفسه — ليست صورة مصدر هذا المقال")
+    if info.get("kind") == "web_search":
+        return (f"🖼️ **المصدر:** صورة من بحث الويب (النطاق: {info.get('web_search_domain') or 'غير معروف'}) "
+                "— راجعها قبل الاعتماد")
     if info.get("manual"):
         return "🖼️ **المصدر:** رابط وضعتَه يدويًا — المسؤولية عليك"
     if info.get("illustrative"):

@@ -778,6 +778,7 @@ def build_post_image(
     badge: str | None = None,
     origin: str = "",
     news_photo_provider=None,
+    web_photo_provider=None,
 ) -> Path:
     """يبني بطاقة الخبر.
 
@@ -839,7 +840,14 @@ def build_post_image(
     (`used_original` عادي، غير مضبوطة هنا) لمن يقرأ التقرير (راجع
     review.image_source_line) -- الفرق: هذه ليست صورة الناشر الذي يتحدّث
     المقال عنه (لا ناشر أصلي بنيويًا في مسار التحليل)، بل صورة ناشرٍ آخر
-    يغطّي نفس الحدث."""
+    يغطّي نفس الحدث.
+
+    `web_photo_provider` (جديد): نفس عقد news_photo_provider
+    (``[{"url", "domain"}, ...]``) لكنه يقع **بعده وقبل الحرة**: صور الناشر ←
+    news_photo_provider ← web_photo_provider (Brave) ← fallback ← الخلفية
+    المصمَّمة. صورته تُعامَل كصورة خبر (بلا فحص وجه، بلا «صورة تعبيرية»)
+    ويُسجَّل ``report["kind"] = "web_search"`` مع web_search_domain/
+    web_search_tried. لا شيء منها يُرسم على البطاقة."""
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1350))
     primary = hex_rgb(cfg.path("brand.primary_color", "#12203A"))
@@ -960,7 +968,29 @@ def build_post_image(
                 log.info("📰 اعتُمدت صورة خبر عن الموضوع: %s", url[:90])
                 break
 
-    # الدرجة الثالثة: بديل حر الترخيص، بعد فشل صورة الناشر وصورة الخبر معًا.
+    # الدرجة الثالثة: بحث صور الويب (Brave) — تُعامَل كصورة خبر: بلا فحص وجه
+    # ولا وسم «صورة تعبيرية». كسولة: لا تُستدعى (فلا طلب مدفوع) إلا بعد فشل
+    # صورة الناشر وصورة الخبر معًا. المزوّد يحدّ قائمته بنفسه (max_tries)،
+    # وتحوي كل نتيجة أصلها ثم مصغّرتها، فنجرّبها كلها بالترتيب.
+    web_used = False
+    web_domain = None
+    web_tried = 0
+    if source is None and callable(web_photo_provider):
+        for cand in list(web_photo_provider() or [])[:24]:
+            url = cand.get("url") if isinstance(cand, dict) else cand
+            if not url:
+                continue
+            web_tried += 1
+            found = download_image(url, failures=candidate_failures)
+            if found is not None:
+                source = found
+                chosen_url = url
+                web_used = True
+                web_domain = cand.get("domain") if isinstance(cand, dict) else None
+                log.info("🌐 اعتُمدت صورة من بحث الويب: %s", url[:90])
+                break
+
+    # الدرجة الرابعة: بديل حر الترخيص، بعد فشل ما سبقه كله.
     # البحث كسول: لا يُنفَّذ إلا هنا، فلا نضيّع طلبات شبكة على ما نجح أعلاه.
     if source is None:
         alternatives = list(fallback_urls or [])
@@ -979,7 +1009,7 @@ def build_post_image(
 
     if source is None:
         log.info("❌ لا صورة متاحة (ولا بديل حر) — سيُستخدم التصميم المتدرّج")
-    used_original = source is not None and not news_photo_used
+    used_original = source is not None and not news_photo_used and not web_used
 
     # لا «صورة: {ناشر}» على البطاقة بعد الآن (Issue #1158): مصدر الصورة يبقى
     # داخليًا في report/image_info وreview.image_source_line للمراجع فقط.
@@ -1173,8 +1203,11 @@ def build_post_image(
         # الأخرى -- None حين لم تُستعمَل (لا صورة خبر أصلًا، أو صورة
         # رئيسية/تعبيرية حرة نجحت أولًا)، كي لا يُقرأ used_original=False
         # هنا كـ"بلا صورة إطلاقًا" (انظر review.image_source_line).
-        report["kind"] = "news_photo" if news_photo_used else None
+        report["kind"] = ("news_photo" if news_photo_used
+                          else "web_search" if web_used else None)
         report["news_photo_publisher"] = news_photo_publisher if news_photo_used else None
+        report["web_search_domain"] = web_domain if web_used else None
+        report["web_search_tried"] = web_tried
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(out_path, "JPEG", quality=90, optimize=True, subsampling=0)

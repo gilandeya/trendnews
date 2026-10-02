@@ -40,7 +40,7 @@ from . import store
 from .config import DRAFTS_DIR
 from .imaging import build_post_image as _default_build_post_image
 from .imaging import download_image as _default_download_image
-from .imagesearch import find_images
+from .imagesearch import find_images, search_web_images
 from . import sources as _sources
 
 log = logging.getLogger("cards")
@@ -135,6 +135,16 @@ def _related_photo_provider(links: list[str], names: list[str], failures: list):
                 found.append({"url": variant, "publisher": publisher})
         return found
     return provider
+
+
+def _web_search_query(draft: dict) -> str:
+    """عبارة بحث صور الويب من المسودة: التحليل ← image_query_en ثم عنوان
+    arabic.post_title؛ غيره ← source.title (عنوان الخبر بلغته الأصلية، أدقّ
+    في محرك صور من ترجمتنا) ثم arabic.post_title."""
+    ar = draft.get("arabic") or {}
+    if store.origin_of(draft) == "analysis":
+        return (draft.get("image_query_en") or ar.get("post_title") or "").strip()
+    return (((draft.get("source") or {}).get("title")) or ar.get("post_title") or "").strip()
 
 
 def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
@@ -250,6 +260,19 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
         news_photo_provider = _related_photo_provider(
             related, list(src.get("related_publishers") or []), page_failures)
 
+    # بحث صور الويب (Brave): كسول، بين صور الخبر والحرة، لكل المسارات. لا بحث
+    # مع manual_image (اختيار بشري صريح لا يُستبدل)، ولا حين
+    # allow_search_fallback=False (setimage.rebuild_card: «لا بديل تلقائي» —
+    # الصمت أصدق من إحلال صورة بحث دون علم المراجع). حالتا التخطي (سقف/لا مفتاح)
+    # تصلان إلى image_info عبر web_state لأن المزوّد يُنفَّذ داخل build_fn.
+    web_state: dict = {}
+    web_query = _web_search_query(draft)
+    web_provider = None
+    if (cfg.path("image.web_search.enabled", True) and allow_search_fallback
+            and not manual_url
+            and not draft.get("manual_image") and web_query):
+        web_provider = lambda q=web_query: search_web_images(q, cfg, web_state)
+
     resolved_publisher = (publisher if publisher is not _UNSET
                           else (src.get("publishers") or [src.get("publisher", "")]))
 
@@ -264,6 +287,7 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
             image_urls=urls or None,
             fallback_urls=fallback_urls,
             news_photo_provider=news_photo_provider,
+            web_photo_provider=web_provider,
             publisher=resolved_publisher,
             bucket=bucket if bucket is not None else draft.get("bucket", "serious"),
             origin=origin if origin is not None else store.origin_of(draft),
@@ -297,11 +321,18 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
                 for f in [*(shot.get("candidate_failures") or []), *page_failures]],
             "fallback_tried": bool(shot.get("fallback_tried")),
             "fallback_candidates": int(shot.get("fallback_candidates") or 0),
+            # بحث صور الويب (Brave): داخلي فقط، لا شيء منه على البطاقة.
+            "web_search_domain": shot.get("web_search_domain"),
+            "web_search_query": web_query if web_state or shot.get("web_search_tried") else None,
+            "web_search_tried": int(shot.get("web_search_tried") or 0),
+            "web_search_skipped": web_state.get("skipped"),
         }
-        store.update_draft(path, image=out_rel, has_photo=image_info["used_original"],
+        # صورة بحث الويب صورة خبر حقيقية فلا تُعرَض «بلا صورة للخبر» للمراجع
+        has_photo = image_info["used_original"] or image_info["kind"] == "web_search"
+        store.update_draft(path, image=out_rel, has_photo=has_photo,
                            image_info=image_info)
         draft["image"] = out_rel
-        draft["has_photo"] = image_info["used_original"]
+        draft["has_photo"] = has_photo
         draft["image_info"] = image_info
 
     return out_rel

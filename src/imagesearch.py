@@ -13,17 +13,25 @@
 """
 from __future__ import annotations
 
+import json
 import logging
+import os
 import re
+from datetime import datetime, timezone
+from urllib.parse import urlparse
 
 import requests
 
+from .config import STATE_DIR
 from .sources import HEADERS
 
 log = logging.getLogger(__name__)
 
 WIKI_API = "https://commons.wikimedia.org/w/api.php"
 OPENVERSE_API = "https://api.openverse.org/v1/images/"
+BRAVE_IMAGES_API = "https://api.search.brave.com/res/v1/images/search"
+BRAVE_USAGE_FILE = STATE_DIR / "brave_usage.json"
+_no_key_logged = False
 
 # كلمات لا تصلح للبحث البصري
 STOP = {
@@ -186,3 +194,114 @@ def find_images(title: str, cfg, limit: int = 6, terms: list[str] | None = None)
 
     log.info("صور بديلة: %d نتيجة من %s", len(found), "، ".join(terms))
     return found[:limit]
+
+
+# ───────────────────── بحث صور الويب (Brave) ─────────────────────
+# خلافًا لويكيميديا/Openverse أعلاه، نتائج هذا البحث صور أخبار حقيقية بلا
+# ترخيص حرّ — لذلك تُعامَل في imaging.build_post_image معاملة صورة الخبر
+# (بلا وسم «صورة تعبيرية»، بلا فحص وجه) ويراجعها المراجع قبل الاعتماد
+# (review.image_source_line).
+
+
+def _month_key() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m")
+
+
+def brave_usage(month: str | None = None) -> int:
+    """عدد طلبات Brave هذا الشهر من state/brave_usage.json (0 إن غاب/تلف)."""
+    try:
+        data = json.loads(BRAVE_USAGE_FILE.read_text(encoding="utf-8"))
+        return int(data.get(month or _month_key(), 0))
+    except (OSError, ValueError, TypeError, AttributeError):
+        return 0
+
+
+def _bump_brave_usage() -> int:
+    """يزيد عدّاد الشهر 1 ويحفظه فورًا (قبل الطلب لا بعده): Brave لا تضع سقفًا
+    من جهتها فالسقف حماية لبطاقة الدفع، وطلب فاشل يُحتسب أيضًا لأنه قد يُفوتَر.
+    الكتابة عبر ملف مؤقت ثم استبدال كي لا يُترك JSON نصف مكتوب عند انقطاع."""
+    month = _month_key()
+    try:
+        data = json.loads(BRAVE_USAGE_FILE.read_text(encoding="utf-8"))
+        if not isinstance(data, dict):
+            data = {}
+    except (OSError, ValueError):
+        data = {}
+    data[month] = int(data.get(month, 0) or 0) + 1
+    BRAVE_USAGE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    tmp = BRAVE_USAGE_FILE.with_suffix(".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    os.replace(tmp, BRAVE_USAGE_FILE)
+    return data[month]
+
+
+def _domain_excluded(host: str, excluded: list[str]) -> bool:
+    host = (host or "").lower()
+    return any(ex.lower() in host for ex in excluded if ex)
+
+
+def search_web_images(query: str, cfg, state: dict | None = None) -> list[dict]:
+    """بحث صور الويب عبر Brave Search API → ``[{"url", "domain"}, ...]``.
+
+    لكل نتيجة (بعد استبعاد نطاقات الوكالات ذات العلامة المائية، وحتى
+    ``max_tries`` نتيجة) يُعاد properties.url ثم thumbnail.src مباشرة بعده
+    بالنطاق نفسه — يجرّب المستدعي الأصل فإن فشل تحميله جرّب المصغّرة.
+
+    ``state`` (اختياري) يُملأ بـ``skipped`` = "no_key" | "cap" حين تُتخطى
+    المرحلة دون أي طلب، كي يصل السبب إلى image_info.web_search_skipped. كل
+    فشل شبكة يُسجَّل ويعيد قائمة فارغة — المرحلة اختيارية ولا تُسقط البطاقة."""
+    global _no_key_logged
+    state = state if state is not None else {}
+    wcfg = cfg.path("image.web_search", {}) or {}
+    if not wcfg.get("enabled", True) or not (query or "").strip():
+        return []
+
+    key = os.environ.get("BRAVE_API_KEY", "").strip()
+    if not key:
+        state["skipped"] = "no_key"
+        if not _no_key_logged:
+            log.info("بحث صور الويب متخطّى: لا BRAVE_API_KEY")
+            _no_key_logged = True
+        return []
+
+    cap = int(wcfg.get("monthly_cap", 800))
+    if brave_usage() >= cap:
+        state["skipped"] = "cap"
+        log.warning("بحث صور الويب متوقف: بلغ السقف الشهري (%d)", cap)
+        return []
+
+    _bump_brave_usage()
+    try:
+        resp = requests.get(
+            BRAVE_IMAGES_API,
+            headers={"X-Subscription-Token": key, "Accept": "application/json"},
+            params={"q": query, "safesearch": "strict",
+                    "count": int(wcfg.get("count", 10))},
+            timeout=15,
+        )
+        if resp.status_code != 200:
+            log.info("Brave: HTTP %s", resp.status_code)
+            return []
+        results = (resp.json() or {}).get("results") or []
+    except (requests.RequestException, ValueError) as exc:
+        log.info("Brave: تعذّر البحث: %s", exc)
+        return []
+
+    excluded = list(wcfg.get("excluded_domains") or [])
+    max_tries = int(wcfg.get("max_tries", 6))
+    out: list[dict] = []
+    kept = 0
+    for res in results:
+        if kept >= max_tries:
+            break
+        page = res.get("url") or ""
+        domain = urlparse(page).netloc.lower() or (res.get("source") or "")
+        if _domain_excluded(domain, excluded):
+            continue
+        kept += 1
+        for url in ((res.get("properties") or {}).get("url"),
+                    (res.get("thumbnail") or {}).get("src")):
+            if url and not any(o["url"] == url for o in out):
+                out.append({"url": url, "domain": domain})
+    log.info("Brave «%s»: %d رابطًا من %d نتيجة", query[:60], len(out), len(results))
+    return out
