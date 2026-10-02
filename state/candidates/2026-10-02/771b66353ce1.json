@@ -1,0 +1,95 @@
+{
+  "id": "771b66353ce1",
+  "created_at": "2026-10-02T15:08:11.526272+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.57,
+  "trend_score": 1.0,
+  "velocity": 0.33,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "أمن بحري عالمي بتأثير على أسعار النفط والشحن",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Yet another tanker hit in Hormuz Strait; Ambrey",
+  "link": "https://en.mehrnews.com/news/248250/Yet-another-tanker-hit-in-Hormuz-Strait-Ambrey",
+  "publishers": [
+    "Dawn",
+    "Hindustan Times — World",
+    "Iran International",
+    "Mehr News",
+    "TASS",
+    "The Guardian — World",
+    "The Japan Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Yet another tanker hit in Hormuz Strait; Ambrey",
+    "link": "https://en.mehrnews.com/news/248250/Yet-another-tanker-hit-in-Hormuz-Strait-Ambrey",
+    "summary": "TEHRAN, Oct. 02 (MNA) – British maritime security firm Ambrey reported another incident in the Strait of Hormuz for ships on Friday.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-02T14:47:46+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/07/31/4/6116717.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Dawn",
+      "Hindustan Times — World",
+      "Iran International",
+      "Mehr News",
+      "TASS",
+      "The Guardian — World",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248250/Yet-another-tanker-hit-in-Hormuz-Strait-Ambrey"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/business/2026/oct/01/crude-oil-exports-strait-of-hormuz-transport-gulf-region-diesel"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/the-bond-rout-is-deepening-even-as-oil-tankers-return-to-the-strait-of-hormuz-101790918812833.html"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2196735"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202609305707"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2034154/trump-calls-irans-hormuz-offer-not-enough"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/07/31/4/6116717.jpg",
+      "https://i.guim.co.uk/img/media/e4042e8b36ddea01b752ce79d617e7a4b1705daa/534_0_3634_2909/master/3634.jpg?width=700&quality=85&auto=format&fit=max&s=c69d920b307936550768caf96333c688",
+      "https://i.guim.co.uk/img/media/e4042e8b36ddea01b752ce79d617e7a4b1705daa/534_0_3634_2909/master/3634.jpg?width=460&quality=85&auto=format&fit=max&s=1721b29c53290ec8cc426b439d7e022b",
+      "https://i.guim.co.uk/img/media/e4042e8b36ddea01b752ce79d617e7a4b1705daa/534_0_3634_2909/master/3634.jpg?width=140&quality=85&auto=format&fit=max&s=5dacba8da8769ec1b230d7c1713af4bb",
+      "https://i.iranintl.com/images/rdk9umy0/production/39c53e913441a1c33242a52f2b1c6b8ddf8eec28-1280x853.jpg?rect=0,148,1112,582&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://i.dawn.com/large/2026/10/020746352c4fc84.webp"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.33353010950454487,
+    "age_hours": 1414.9126708419444,
+    "is_stale": false,
+    "score": 32.56749433378813,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "أمن بحري عالمي بتأثير على أسعار النفط والشحن",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

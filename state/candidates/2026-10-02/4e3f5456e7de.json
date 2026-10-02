@@ -1,0 +1,65 @@
+{
+  "id": "4e3f5456e7de",
+  "created_at": "2026-10-02T15:08:11.526703+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.1,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "توترات عسكرية آسيوية وتحديات للاستقرار الإقليمي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "South Korea's Lee urges North Korea to restore dialogue, pledges military buildup",
+  "link": "https://www.thehindu.com/news/international/south-koreas-lee-urges-north-korea-to-restore-dialogue-pledges-military-buildup/article71534238.ece",
+  "publishers": [
+    "The Hindu — International",
+    "Yonhap News"
+  ],
+  "region": "in",
+  "article": {
+    "title": "South Korea's Lee urges North Korea to restore dialogue, pledges military buildup",
+    "link": "https://www.thehindu.com/news/international/south-koreas-lee-urges-north-korea-to-restore-dialogue-pledges-military-buildup/article71534238.ece",
+    "summary": "The comments came after Seoul’s ​military and the ‌UN Command said North Korea violated the Korean War armistice following a landmine blast last week that wounded three South Korean soldiers in the Demilitarized ‌Zone (DMZ).",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-01T16:10:57+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/wlfokk/article71534249.ece/alternates/LANDSCAPE_1200/South_Korea_Armed_Forces_Day_5_852.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "The Hindu — International",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/south-koreas-lee-urges-north-korea-to-restore-dialogue-pledges-military-buildup/article71534238.ece"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261002008200315"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/wlfokk/article71534249.ece/alternates/LANDSCAPE_1200/South_Korea_Armed_Forces_Day_5_852.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/10/02/AEN20261002008200315_02_i_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1414.9126988880557,
+    "is_stale": false,
+    "score": 25.103538274518517,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "توترات عسكرية آسيوية وتحديات للاستقرار الإقليمي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

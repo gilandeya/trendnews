@@ -1,104 +1,5 @@
 [
   {
-    "score": 33.97,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "gunmen",
-      "killed",
-      "least",
-      "mass",
-      "people",
-      "shootings",
-      "south",
-      "two"
-    ],
-    "link": "http://www.africanews.com/2026/09/27/gunmen-kill-17-in-south-africa-bar-shooting-15-wounded-police/",
-    "title": "Gunmen killed at least 27 people in two mass shootings in South Africa",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-09-27T09:08:27.900894+00:00"
-  },
-  {
-    "score": 25.44,
-    "bucket": "serious",
-    "tokens": [
-      "air",
-      "base",
-      "declare",
-      "fairford",
-      "forces",
-      "incident",
-      "major",
-      "police",
-      "uk's",
-      "used"
-    ],
-    "link": "https://www.dawn.com/news/2033037/police-declare-major-incident-at-uks-fairford-air-base-used-by-us-air-forces",
-    "title": "Police declare major incident at UK's Fairford air base, used by US air forces",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-27T09:08:27.901237+00:00"
-  },
-  {
-    "score": 23.32,
-    "bucket": "serious",
-    "tokens": [
-      "'pulled",
-      "again",
-      "him",
-      "khamenei",
-      "killed",
-      "mojtaba",
-      "nearly",
-      "report",
-      "rubble'",
-      "strikes"
-    ],
-    "link": "https://www.hindustantimes.com/world-news/iran-mojtaba-khamenei-health-alive-us-strikes-donald-trump-101790491940088.html",
-    "title": "Mojtaba Khamenei 'pulled from rubble' after US strikes nearly killed him again: Report",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-27T09:08:27.901502+00:00"
-  },
-  {
-    "score": 21.85,
-    "bucket": "serious",
-    "tokens": [
-      "heavy",
-      "high",
-      "northeast",
-      "powerful",
-      "pummels",
-      "rain",
-      "storm",
-      "unusually",
-      "winds"
-    ],
-    "link": "https://www.france24.com/en/americas/20260926-unusually-powerful-storm-pummels-northeast-us-with-heavy-rain-high-winds",
-    "title": "Unusually powerful storm pummels northeast US with heavy rain, high winds",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-27T09:08:27.901758+00:00"
-  },
-  {
-    "score": 21.61,
-    "bucket": "serious",
-    "tokens": [
-      "assassination",
-      "blasts",
-      "iran",
-      "lavrov",
-      "leader",
-      "unacceptable'"
-    ],
-    "link": "https://en.mehrnews.com/news/248097/Lavrov-blasts-assassination-of-Iran-Leader-as-unacceptable",
-    "title": "Lavrov blasts assassination of Iran Leader as ‘unacceptable'",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-27T09:08:27.902005+00:00"
-  },
-  {
     "score": 23.45,
     "bucket": "serious",
     "tokens": [
@@ -2567,5 +2468,105 @@
     "posted_title": "",
     "region": "ph",
     "seen_at": "2026-10-02T09:08:25.543941+00:00"
+  },
+  {
+    "score": 32.57,
+    "bucket": "serious",
+    "tokens": [
+      "ambrey",
+      "another",
+      "hit",
+      "hormuz",
+      "strait",
+      "tanker",
+      "yet"
+    ],
+    "link": "https://en.mehrnews.com/news/248250/Yet-another-tanker-hit-in-Hormuz-Strait-Ambrey",
+    "title": "Yet another tanker hit in Hormuz Strait; Ambrey",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-02T15:08:11.526690+00:00"
+  },
+  {
+    "score": 25.1,
+    "bucket": "serious",
+    "tokens": [
+      "buildup",
+      "dialogue",
+      "korea",
+      "korea's",
+      "lee",
+      "military",
+      "north",
+      "pledges",
+      "restore",
+      "south",
+      "urges"
+    ],
+    "link": "https://www.thehindu.com/news/international/south-koreas-lee-urges-north-korea-to-restore-dialogue-pledges-military-buildup/article71534238.ece",
+    "title": "South Korea's Lee urges North Korea to restore dialogue, pledges military buildup",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-02T15:08:11.526975+00:00"
+  },
+  {
+    "score": 22.04,
+    "bucket": "serious",
+    "tokens": [
+      "ban",
+      "bloc",
+      "diesel",
+      "exports",
+      "fuel",
+      "fully",
+      "rejects",
+      "releases",
+      "stocks",
+      "threat",
+      "unless"
+    ],
+    "link": "https://www.france24.com/en/europe/20261002-eu-fully-rejects-us-threat-to-ban-diesel-exports-unless-bloc-releases-more-fuel-stocks",
+    "title": "EU ‘fully rejects’ US threat to ban diesel exports unless bloc releases more fuel stocks",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-10-02T15:08:11.527264+00:00"
+  },
+  {
+    "score": 21.58,
+    "bucket": "serious",
+    "tokens": [
+      "additional",
+      "batteries",
+      "energy",
+      "patriot",
+      "protect",
+      "qatari",
+      "report",
+      "saudi",
+      "sends",
+      "sites"
+    ],
+    "link": "https://tribune.com.pk/story/2632573/us-sends-additional-patriot-batteries-to-protect-saudi-qatari-energy-sites-report",
+    "title": "US sends additional Patriot batteries to protect Saudi, Qatari energy sites: report",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-02T15:08:11.527506+00:00"
+  },
+  {
+    "score": 20.65,
+    "bucket": "serious",
+    "tokens": [
+      "afghanistan",
+      "airstrikes",
+      "civilians",
+      "kill",
+      "mission",
+      "pakistani"
+    ],
+    "link": "https://www.cbsnews.com/news/afghanistan-pakistan-airstrikes-civilians-children-killed-unama/",
+    "title": "Pakistani airstrikes kill 10 civilians in Afghanistan, U.N. mission says",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-10-02T15:08:11.527737+00:00"
   }
 ]
