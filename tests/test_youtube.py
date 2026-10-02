@@ -13,6 +13,7 @@ from PIL import Image
 
 from tests.helpers import (
     check,
+    badge_probe_xy,
     reset_last_publish,
     auto_restore_last_publish,
     install_fakes,
@@ -2855,15 +2856,8 @@ def test_youtube_publish() -> None:
     card_cfg = load_config()
     W = int(card_cfg.path("image.width", 1080))
     H = int(card_cfg.path("image.height", 1080))
-    margin = int(W * 0.06)
-    rule = max(4, W // 240)
-    header_h = int(H * 0.160) if (card_cfg.path("brand.name") or card_cfg.path("brand.logo")) else 0
-    inner_top = int(header_h * 0.14)
-    inner_bot = header_h - rule - int(header_h * 0.14)
-    handle_in_header = bool(card_cfg.path("brand.handle") and header_h)
-    badge_y = ((inner_top + inner_bot) // 2 if not handle_in_header
-               else inner_top + int((inner_bot - inner_top) * 0.34))
-    badge_probe_xy = (margin + 10, badge_y)
+    # الشارة في وسط الشريط العلوي (Issue #1158)
+    probe_pt = badge_probe_xy(card_cfg, ["تحليل"], 0)
 
     no_badge_path = STATE_DIR / "_test_card_no_badge.jpg"
     imaging.build_post_image(
@@ -2876,7 +2870,7 @@ def test_youtube_publish() -> None:
     with Image.open(no_badge_path) as im_no_badge:
         check("build_post_image: أبعاد البطاقة تطابق image.width/height",
               im_no_badge.size == (W, int(card_cfg.path("image.height", 1080))), str(im_no_badge.size))
-        no_badge_pixel = im_no_badge.convert("RGB").getpixel(badge_probe_xy)
+        no_badge_pixel = im_no_badge.convert("RGB").getpixel(probe_pt)
     no_badge_path.unlink(missing_ok=True)
 
     badge_path = STATE_DIR / "_test_card_badge.jpg"
@@ -2888,7 +2882,7 @@ def test_youtube_publish() -> None:
     )
     check("build_post_image: يبني ملف صورة فعليًا (مع badge)", badge_path.exists())
     with Image.open(badge_path) as im_badge:
-        badge_pixel = im_badge.convert("RGB").getpixel(badge_probe_xy)
+        badge_pixel = im_badge.convert("RGB").getpixel(probe_pt)
     badge_path.unlink(missing_ok=True)
 
     accent = imaging.hex_rgb(card_cfg.path("brand.accent_color", "#F0B429"))
@@ -4308,8 +4302,10 @@ def test_image_ladder_order() -> None:
           calls == {"news": 1, "free": 0}, calls)
     check("سلّم الصورة: صورة الخبر بلا وسم «صورة تعبيرية»",
           "صورة تعبيرية" not in drawn and rep.get("illustrative") is False, (drawn, rep))
-    check("سلّم الصورة: سطر المصدر السفلي يذكر ناشر صورة الخبر",
-          any("صورة: ناشر الخبر" in t for t in drawn), drawn)
+    # Issue #1158: لا «صورة: …» على البطاقة؛ ناشر الصورة يبقى في التقرير
+    check("سلّم الصورة: سطر المصدر لا يذكر ناشر صورة الخبر (داخلي في report فقط)",
+          not any("صورة:" in t for t in drawn)
+          and rep.get("news_photo_publisher") == "ناشر الخبر", (drawn, rep))
 
     # ٢) تحليل، لا صورة خبر: الحرة بوسم «صورة تعبيرية»
     calls, rep, drawn = run(news=False)

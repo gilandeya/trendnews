@@ -13,6 +13,7 @@ from PIL import Image, ImageDraw
 
 from tests.helpers import (
     check,
+    badge_probe_xy,
     tick_marker,
     reset_last_publish,
     restore_last_publish,
@@ -2058,15 +2059,8 @@ def test_setimage_apply_image_keeps_origin_badge() -> None:
 
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
-    margin = int(W * 0.06)
-    rule = max(4, W // 240)
-    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
-    inner_top = int(header_h * 0.14)
-    inner_bot = header_h - rule - int(header_h * 0.14)
-    handle_in_header = bool(cfg.path("brand.handle") and header_h)
-    by = ((inner_top + inner_bot) // 2 if not handle_in_header
-          else inner_top + int((inner_bot - inner_top) * 0.34))
-    probe_xy = (margin + 10, by)
+    # الشارة في وسط الشريط العلوي (Issue #1158)
+    probe_xy = badge_probe_xy(cfg, ["تحليل"], 0)
     analysis_bg = imaging.hex_rgb(cfg.path("cards.analysis.bg"))
 
     out_path = DRAFTS_DIR / Path(updated["image"]).relative_to("drafts")
@@ -2233,15 +2227,7 @@ def test_publish_builds_cards_at_approval() -> None:
     # #758) -- نفس أسلوب فحص البكسل في test_setimage_apply_image_keeps_origin_badge
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
-    margin = int(W * 0.06)
-    rule = max(4, W // 240)
-    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
-    inner_top = int(header_h * 0.14)
-    inner_bot = header_h - rule - int(header_h * 0.14)
-    handle_in_header = bool(cfg.path("brand.handle") and header_h)
-    by = ((inner_top + inner_bot) // 2 if not handle_in_header
-          else inner_top + int((inner_bot - inner_top) * 0.34))
-    probe_xy = (margin + 10, by)
+    probe_xy = badge_probe_xy(cfg, ["هام"], 0)
     # cards.request له لون bg مستقل منذ Issue #954 (بنفسجي، لا يسقط إلى
     # brand.accent_color بعد الآن -- كان يطابق شارة التصنيف بلونها).
     request_bg = imaging.hex_rgb(cfg.path("cards.request.bg"))
@@ -2277,26 +2263,9 @@ def test_card_second_badge_offset_with_nonempty_category() -> None:
     cfg = load_config()
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
-    margin = int(W * 0.06)
-    rule = max(4, W // 240)
-    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
-    inner_top = int(header_h * 0.14)
-    inner_bot = header_h - rule - int(header_h * 0.14)
-    handle_in_header = bool(cfg.path("brand.handle") and header_h)
-    by = ((inner_top + inner_bot) // 2 if not handle_in_header
-          else inner_top + int((inner_bot - inner_top) * 0.34))
-
     category = "تصنيف تجريبي"
-    f_head = cfg.path("image.font_headline")
-    f_body = cfg.path("image.font_body") or f_head
-    body_weight = cfg.path("image.font_body_weight") or None
-    bdg_font = imaging.load_font(f_body, int(W * 0.026), body_weight)
-    probe_canvas = Image.new("RGB", (W, H))
-    probe_draw = ImageDraw.Draw(probe_canvas)
-    tw, _ = imaging.measure(probe_draw, category, bdg_font)
-    category_w = tw + 22 * 2  # pad_x الافتراضي في imaging.badge_left (22)
-    second_badge_x = margin + category_w + int(W * 0.014) + 10
-    probe_xy = (second_badge_x, by)
+    # الشارة الثانية بعد شارة التصنيف، والمجموعة متوسطة (Issue #1158)
+    probe_xy = badge_probe_xy(cfg, [category, "هام"], 1)
 
     draft = {
         "id": "cardoffset01", "status": "pending", "origin": "request",
@@ -2320,6 +2289,233 @@ def test_card_second_badge_offset_with_nonempty_category() -> None:
           all(abs(a - b) <= 6 for a, b in zip(pixel, request_bg))
           and not all(abs(a - b) <= 6 for a, b in zip(pixel, accent_color)),
           (pixel, request_bg, accent_color, probe_xy))
+
+@auto_restore_last_publish
+def test_square_card_layout_1158() -> None:
+    """Issue #1158: تصميم البطاقة المربعة الجديد، على مخرَج الأنبوب: بطاقة
+    تُبنى فعليًا عبر cards.ensure بصور تُولَّد هنا (لا ملف من drafts/).
+    شريط علوي = شريط سفلي (H×0.082)، صورة 16:9 بلا تعتيم، عنوان يتكيّف
+    بلا قصّ، الشارة (+«عاجل») في وسط الشريط العلوي، المعرّف LTR، ولا
+    «صورة:» في أي مسار ولا «المصدر:» في التحليل."""
+    from src import cards
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+    cfg = load_config()
+    W = int(cfg.path("image.width", 1080))
+    H = int(cfg.path("image.height", 1080))
+    bar = int(H * 0.082)
+    rule = max(4, W // 240)
+    photo_h = round(W * 9 / 16)
+    photo_top = bar + rule
+    title_top = photo_top + photo_h + rule
+    title_bottom = H - bar
+    primary = imaging.hex_rgb(cfg.path("brand.primary_color", "#12203A"))
+    accent = imaging.hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
+
+    def close(px, rgb, tol=8):
+        return all(abs(a - b) <= tol for a, b in zip(px, rgb))
+
+    # صورة متدرّجة ناعمة بنسبة 16:9: القصّ/التحجيم وحدهما يعيدانها، فأي فرق
+    # عن cover(المصدر) يكشف تعتيمًا أو تركيبًا. تُولَّد هنا لا من drafts/.
+    gw, gh = 1600, 900
+    grad = Image.new("RGB", (gw, gh))
+    gp = grad.load()
+    for yy in range(gh):
+        for xx in range(gw):
+            gp[xx, yy] = (60 + xx * 120 // gw, 90 + yy * 100 // gh, 160)
+
+    drawn: list[tuple] = []     # (النص، y، حجم الخط)
+    ltr: list[str] = []
+    real_draw, real_ltr = imaging.draw_text, imaging.draw_text_ltr
+    real_dl = imaging.download_image
+
+    def spy(draw, xy, text, font, *a, **k):
+        drawn.append((text, xy[1], getattr(font, "size", None)))
+        return real_draw(draw, xy, text, font, *a, **k)
+
+    def spy_ltr(draw, xy, text, *a, **k):
+        ltr.append(text)
+        return real_ltr(draw, xy, text, *a, **k)
+
+    def build(id_, headline, origin="news", category="سياسة", urgent=False,
+              publishers=("الجزيرة",), image=True, **kw):
+        drawn.clear()
+        ltr.clear()
+        draft = {
+            "id": id_, "status": "pending", "origin": origin, "bucket": "serious",
+            "arabic": {"post_title": headline, "category": category, "urgent": urgent},
+            "caption": "متن", "source": {"publishers": list(publishers)},
+        }
+        path = store.save_draft(draft)
+        imaging.draw_text, imaging.draw_text_ltr = spy, spy_ltr
+        imaging.download_image = ((lambda *a, **k: grad.copy()) if image
+                                  else (lambda *a, **k: None))
+        try:
+            rel = cards.ensure(
+                path, draft, cfg, check_headline_limit=False,
+                image_urls=["https://cdn.example/ok.jpg"] if image else None,
+                allow_search_fallback=False, **kw)
+        finally:
+            imaging.draw_text, imaging.draw_text_ltr = real_draw, real_ltr
+            imaging.download_image = real_dl
+        with Image.open(DRAFTS_DIR / Path(rel).relative_to("drafts")) as built:
+            return built.convert("RGB")
+
+    # ── الأبعاد: شريطان متساويان، خطّان ذهبيان، صندوق صورة 16:9 ──
+    im = build("sq0000000001", "عنوان قصير")
+
+    def px(y):
+        return im.getpixel((5, y))
+
+    check("(#1158) البطاقة مربعة W×H", im.size == (W, H), im.size)
+    check("(#1158) الشريط العلوي بلون primary بارتفاع bar بالضبط",
+          close(px(0), primary) and close(px(bar - 2), primary), (px(0), px(bar - 2)))
+    check("(#1158) خط ذهبي بسماكة rule مباشرة تحت الشريط العلوي",
+          close(px(bar + 1), accent) and close(px(bar + rule - 2), accent),
+          (px(bar + 1), px(bar + rule - 2)))
+    check("(#1158) الصورة بعد الخط الذهبي مباشرة ثم خط ذهبي بعد 16:9 تمامًا",
+          not close(px(photo_top + 1), accent, 20)
+          and not close(px(photo_top + photo_h - 2), accent, 20)
+          and close(px(photo_top + photo_h + 1), accent),
+          (px(photo_top + 1), px(photo_top + photo_h - 2), px(photo_top + photo_h + 1)))
+    check("(#1158) نسبة صندوق الصورة 16:9 (ارتفاعه round(W×9/16))",
+          photo_h == round(W * 9 / 16) and abs(photo_h / W - 9 / 16) < 0.001, photo_h)
+    footer_bg = imaging.mix(primary, (0, 0, 0), 0.28)
+    check("(#1158) ارتفاع الشريط السفلي = ارتفاع العلوي (يبدأ عند H-bar بلونه الحالي)",
+          close(px(H - bar - 2), primary) and close(px(H - bar + 2), footer_bg)
+          and close(px(H - 1), footer_bg),
+          (px(H - bar - 2), px(H - bar + 2), px(H - 1)))
+
+    # ── لا تعتيم: صندوق الصورة = cover(المصدر) ──
+    ref = imaging.cover(grad, W, photo_h)
+    box = im.crop((0, photo_top, W, photo_top + photo_h))
+
+    def mad(a, b):
+        da, db = a.tobytes(), b.tobytes()
+        return sum(abs(x - y) for x, y in zip(da, db)) / len(da)
+
+    # نبدأ بعد 8 صفوف من الحافة: كتل JPEG 8×8 تتقاطع مع الخط الذهبي فتُحدث
+    # رنينًا عند التماس نفسه؛ والتعتيم القديم كان في أقصى قوّته هناك فيظهر
+    edge_top = mad(box.crop((0, 8, W, 48)), ref.crop((0, 8, W, 48)))
+    edge_bot = mad(box.crop((0, photo_h - 48, W, photo_h - 8)),
+                   ref.crop((0, photo_h - 48, W, photo_h - 8)))
+    check("(#1158) بلا تعتيم: بكسلات الصندوق ≈ الصورة المصدر بعد القصّ والتحجيم "
+          "(فرق JPEG/unsharp فقط)", mad(box, ref) < 3.0, mad(box, ref))
+    check("(#1158) بلا تعتيم: حافتا الصندوق العليا والسفلى لا تُظلَّمان",
+          edge_top < 3.0 and edge_bot < 3.0, (edge_top, edge_bot))
+
+    # ── العنوان: قصير بالحجم الابتدائي؛ 190 حرفًا يتّسع كاملًا ──
+    start = int(W * 0.052)
+    head_short = [d for d in drawn if d[0] == "عنوان قصير"]
+    check("(#1158) عنوان قصير يأخذ الحجم الابتدائي",
+          bool(head_short) and head_short[0][2] == start, head_short)
+    check("(#1158) العنوان متوسط عموديًا في منطقة العنوان",
+          bool(head_short) and abs(head_short[0][1] - (title_top + title_bottom) / 2) <= 2,
+          (head_short, (title_top + title_bottom) / 2))
+
+    words = [f"كلمة{i}" for i in range(1, 60)]
+    long_headline = ""
+    for w in words:
+        if len(long_headline) + len(w) + 1 > 190:
+            break
+        long_headline = f"{long_headline} {w}".strip()
+    check("(#1158) شرط الاختبار: عنوان طويل بنحو 190 حرفًا",
+          180 <= len(long_headline) <= 190, len(long_headline))
+    build("sq0000000002", long_headline)
+    lines = [d for d in drawn if d[0] and d[0].split()[0].startswith("كلمة")]
+    joined = " ".join(d[0] for d in lines)
+    check("(#1158) عنوان 190 حرفًا يتّسع كاملًا: كل كلماته مرسومة بلا قصّ",
+          joined.split() == long_headline.split(), (joined, long_headline))
+    sizes = {d[2] for d in lines}
+    size = next(iter(sizes)) if sizes else 0
+    line_h = int(size * 1.45)
+    check("(#1158) العنوان الطويل صغّر حجمه عن الابتدائي بخطوة 2",
+          len(sizes) == 1 and size < start and (start - size) % 2 == 0, sizes)
+    check("(#1158) كتلة العنوان في 80% من ارتفاع المنطقة (حشوة 10% لكل جانب) وفي حدودها",
+          bool(lines) and len(lines) * line_h <= (title_bottom - title_top) * 0.8
+          and min(d[1] for d in lines) - line_h / 2 >= title_top
+          and max(d[1] for d in lines) + line_h / 2 <= title_bottom,
+          (len(lines), line_h))
+
+    # ── الشارات في وسط الشريط العلوي، و«عاجل» بجانب التصنيف ──
+    def pill_extent(img, rgb):
+        y = bar // 2 - 17    # فوق نص الشارة وداخل جسمها
+        xs = [x for x in range(int(W * 0.2), int(W * 0.62))
+              if close(img.getpixel((x, y)), rgb, 10)]
+        return (min(xs), max(xs)) if xs else None
+
+    ext = pill_extent(build("sq0000000003", "عنوان", category="سياسة"), accent)
+    check("(#1158) شارة التصنيف متوسطة أفقيًا في الشريط العلوي",
+          ext is not None and abs((ext[0] + ext[1]) / 2 - W / 2) <= 6, (ext, W / 2))
+    im_u = build("sq0000000004", "عنوان عاجل", category="سياسة", urgent=True,
+                 publishers=("الجزيرة", "BBC"))
+    breaking_bg = imaging.hex_rgb(cfg.path("cards.breaking.bg"))
+    cat_ext, red_ext = pill_extent(im_u, accent), pill_extent(im_u, breaking_bg)
+    check("(#1158) «عاجل» الحمراء بجانب شارة التصنيف والمجموعة كلها متوسطة",
+          cat_ext is not None and red_ext is not None and red_ext[0] > cat_ext[1]
+          and red_ext[0] - cat_ext[1] <= int(W * 0.014) + 30
+          and abs((cat_ext[0] + red_ext[1]) / 2 - W / 2) <= 6, (cat_ext, red_ext))
+    check("(#1158) المعرّف brand.handle يُرسم LTR بلا قلب bidi: «@almujez»",
+          ltr == ["@almujez"] and not any("almujez" in d[0] for d in drawn), (ltr, drawn))
+    left = int(W * 0.06)
+    check("(#1158) المعرّف في الزاوية العلوية اليسرى (بكسلات نصّ فوق الشريط)",
+          any(not close(im_u.getpixel((x, bar // 2)), primary, 12)
+              for x in range(left, left + 140)), None)
+    right = W - left
+    check("(#1158) الشعار في أقصى يمين الشريط العلوي",
+          any(not close(im_u.getpixel((x, bar // 2)), primary, 12)
+              for x in range(right - 120, right)), None)
+
+    # ── سطر المصدر: لا «صورة:» في أي مسار، ولا «المصدر:» في التحليل ──
+    def prov():
+        return [{"url": "https://cdn.example/n.jpg", "publisher": "ناشر آخر"}]
+
+    imaging.download_image = real_dl
+    drawn.clear()
+    # صورة الخبر الأخرى تأتي عبر المزوّد، فتحميلها يجب أن ينجح هنا
+    real_dl2 = imaging.download_image
+    imaging.download_image = lambda url, *a, **k: grad.copy()
+    imaging.draw_text = spy
+    try:
+        draft_n = {"id": "sq0000000005", "status": "pending", "origin": "news",
+                   "bucket": "serious",
+                   "arabic": {"post_title": "خبر", "category": "سياسة", "urgent": False},
+                   "caption": "متن", "source": {"publishers": ["الجزيرة"]}}
+        path_n = store.save_draft(draft_n)
+        cards.ensure(path_n, draft_n, cfg, image_urls=None, allow_search_fallback=False,
+                     news_photo_provider=prov)
+        texts_n = [d[0] for d in drawn]
+        drawn.clear()
+        line = "تحليل لتغطية قناتي CNN Türk و Halk TV"
+        draft_a = {"id": "sq0000000006", "status": "pending", "origin": "analysis",
+                   "arabic": {"post_title": "تحليل", "category": ""},
+                   "caption": "متن", "source": {"publishers": [line]}}
+        path_a = store.save_draft(draft_a)
+        cards.ensure(path_a, draft_a, cfg, image_urls=None, allow_search_fallback=False,
+                     news_photo_provider=prov, **cards.analysis_card_kwargs())
+        texts_a = [d[0] for d in drawn]
+    finally:
+        imaging.draw_text = real_draw
+        imaging.download_image = real_dl2
+    check("(#1158) خبر بصورة ناشر آخر: لا «صورة:» والسطر «المصدر: الجزيرة»",
+          not any("صورة:" in t for t in texts_n) and "المصدر: الجزيرة" in texts_n, texts_n)
+    check("(#1158) التحليل: النص الممرَّر كما هو بلا «المصدر:» ولا «صورة:»",
+          line in texts_a
+          and not any(t.startswith("المصدر") or "صورة:" in t for t in texts_a), texts_a)
+    info_n = store.load_draft("sq0000000005")[1].get("image_info") or {}
+    check("(#1158) ناشر الصورة يبقى داخليًا في image_info رغم حذفه من البطاقة",
+          info_n.get("news_photo_publisher") == "ناشر آخر", info_n)
+
+    # ── بلا صورة: الخلفية المصمَّمة داخل الصندوق نفسه ──
+    im_p = build("sq0000000007", " ".join(["عنوان"] * 31), image=False)
+    check("(#1158) بلا صورة: الخلفية المصمَّمة داخل صندوق 16:9 نفسه والخطّان في مكانهما",
+          not close(im_p.getpixel((5, photo_top + photo_h // 2)), primary, 4)
+          and close(im_p.getpixel((5, photo_top + photo_h + 1)), accent)
+          and close(im_p.getpixel((5, bar + 1)), accent),
+          im_p.getpixel((5, photo_top + photo_h // 2)))
+
 
 @auto_restore_last_publish
 def test_publish_card_search_term_from_image_query_en() -> None:
@@ -2809,27 +3005,10 @@ def test_setimage_rebuild_card_analysis_no_duplicate_badge() -> None:
     # لا بالتخمين -- نفس صيغة test_card_second_badge_offset_with_nonempty_category.
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
-    margin = int(W * 0.06)
-    rule = max(4, W // 240)
-    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
-    inner_top = int(header_h * 0.14)
-    inner_bot = header_h - rule - int(header_h * 0.14)
-    handle_in_header = bool(cfg.path("brand.handle") and header_h)
-    by = ((inner_top + inner_bot) // 2 if not handle_in_header
-          else inner_top + int((inner_bot - inner_top) * 0.34))
-
-    f_head = cfg.path("image.font_headline")
-    f_body = cfg.path("image.font_body") or f_head
-    body_weight = cfg.path("image.font_body_weight") or None
-    bdg_font = imaging.load_font(f_body, int(W * 0.026), body_weight)
-    probe_canvas = Image.new("RGB", (W, H))
-    probe_draw = ImageDraw.Draw(probe_canvas)
-    # عرض شارة التصنيف "تحليل" لو رُسمت فعلًا (badge_left: pad_x=22 الافتراضي)
-    # -- هذا هو الموضع الذي كانت ستنزاح إليه الشارة الزرقاء لولا الإصلاح.
-    tw, _ = imaging.measure(probe_draw, "تحليل", bdg_font)
-    category_w = tw + 22 * 2
-    stale_second_badge_xy = (margin + category_w + int(W * 0.014) + 10, by)
-    first_badge_xy = (margin + 10, by)
+    # شارة المسار وحدها في وسط الشريط (Issue #1158)؛ «المنزاح» نقطة على يمينها
+    # كانت ستشغلها شارة ثانية لو رُسمت.
+    first_badge_xy = badge_probe_xy(cfg, ["تحليل"], 0)
+    stale_second_badge_xy = (W // 2 + 150, int(H * 0.082) // 2)
 
     analysis_bg = imaging.hex_rgb(cfg.path("cards.analysis.bg"))
     accent_color = imaging.hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
@@ -2887,25 +3066,8 @@ def test_setimage_rebuild_card_news_category_and_path_badges_unaffected() -> Non
 
     W = int(cfg.path("image.width", 1080))
     H = int(cfg.path("image.height", 1080))
-    margin = int(W * 0.06)
-    rule = max(4, W // 240)
-    header_h = int(H * 0.160) if (cfg.path("brand.name") or cfg.path("brand.logo")) else 0
-    inner_top = int(header_h * 0.14)
-    inner_bot = header_h - rule - int(header_h * 0.14)
-    handle_in_header = bool(cfg.path("brand.handle") and header_h)
-    by = ((inner_top + inner_bot) // 2 if not handle_in_header
-          else inner_top + int((inner_bot - inner_top) * 0.34))
-
-    f_head = cfg.path("image.font_headline")
-    f_body = cfg.path("image.font_body") or f_head
-    body_weight = cfg.path("image.font_body_weight") or None
-    bdg_font = imaging.load_font(f_body, int(W * 0.026), body_weight)
-    probe_canvas = Image.new("RGB", (W, H))
-    probe_draw = ImageDraw.Draw(probe_canvas)
-    tw, _ = imaging.measure(probe_draw, category, bdg_font)
-    category_w = tw + 22 * 2
-    first_badge_xy = (margin + 10, by)
-    second_badge_xy = (margin + category_w + int(W * 0.014) + 10, by)
+    first_badge_xy = badge_probe_xy(cfg, [category, "هام"], 0)
+    second_badge_xy = badge_probe_xy(cfg, [category, "هام"], 1)
 
     accent_color = imaging.hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
     request_bg = imaging.hex_rgb(cfg.path("cards.request.bg"))
@@ -8804,8 +8966,10 @@ def test_news_card_image_chain() -> None:
           and info.get("chosen_url") == GOOD_PAGE_IMG, info)
     check("سلّم الأخبار (a): لم يُستدعَ البديل الحر (نجحت صورة الناشر الآخر)",
           state["find"] == 0 and info.get("fallback_tried") is False, (state, info))
-    check("سلّم الأخبار (a): سطر المصدر يذكر «صورة: الجزيرة» لأنها ليست من ناشري الخبر",
-          any("صورة: الجزيرة" in str(t) for t in state["drawn"]), state["drawn"])
+    # Issue #1158: «صورة: …» حُذف من البطاقة كليًا؛ المصدر يبقى في image_info
+    check("سلّم الأخبار (a): لا «صورة: …» على البطاقة رغم أن الناشر ليس من ناشري الخبر "
+          "(ناشر الصورة داخلي في image_info فقط)",
+          not any("صورة:" in str(t) for t in state["drawn"]), state["drawn"])
     # d) أسباب الفشل محفوظة في المسودة
     fails = info.get("candidate_failures") or []
     check("سلّم الأخبار (d): candidate_failures تحمل رابط صورة الناشر وسببه",

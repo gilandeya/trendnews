@@ -523,6 +523,54 @@ def circular_inset(canvas: Image.Image, photo: Image.Image,
               outline=ring, width=ring_width)
 
 
+def fit_headline(draw, text: str, font_path: str | None, max_width: int,
+                 max_height: float, start: int, weight: str | None = None):
+    """عنوان البطاقة المربعة (Issue #1158): يصغّر بخطوة 2 حتى تتّسع كل
+    الأسطر في max_height، بلا حدّ أدنى للحجم ولا حدّ لعدد الأسطر — لا يُقصّ
+    النص أبدًا. fit_text القائمة تقصّ عند الحدّ الأدنى وتستعملها الريلز،
+    فلا تُعدَّل. يعيد (الخط، الأسطر، ارتفاع السطر = 1.45 × الحجم)."""
+    size = start
+    while True:
+        font = load_font(font_path, size, weight)
+        lines = wrap(draw, text, font, max_width)
+        line_h = int(size * 1.45)
+        # size <= 2: ضمان إنهاء الحلقة لنص شاذّ لا يتّسع بأي حجم معقول
+        if len(lines) * line_h <= max_height or size <= 2:
+            return font, lines, line_h
+        size -= 2
+
+
+def draw_text_ltr(draw, xy, text: str, font, fill, anchor: str = "la") -> None:
+    """نص لاتيني من اليسار لليمين بلا قلب bidi: draw_text تفرض اتجاه rtl
+    فيُقلب «@almujez» إلى «almujez@» (الرمز المحايد يذهب لآخر السطر)."""
+    kwargs = {"direction": "ltr", "language": "en"} if HAS_RAQM else {}
+    draw.text(xy, text, font=font, fill=fill, anchor=anchor, **kwargs)
+
+
+def paste_logo_trimmed(canvas: Image.Image, logo_path: Path, right: int,
+                       center_y: int, height: int, max_width: int) -> int:
+    """يلصق الشعار بعد قصّ هوامشه الشفافة (bbox قناة alpha) بالارتفاع
+    المطلوب ملتصقًا بـright، ولا يتجاوز max_width. يعيد العرض المستعمل
+    (0 عند الفشل). دالة مستقلة عن paste_logo التي تستعملها الريلز."""
+    try:
+        logo = Image.open(logo_path)
+        logo.load()
+    except (OSError, ValueError) as exc:
+        log.warning("تعذّر فتح الشعار %s: %s", logo_path, exc)
+        return 0
+    logo = logo.convert("RGBA")
+    bbox = logo.getchannel("A").getbbox()
+    if bbox:
+        logo = logo.crop(bbox)
+    scale = min(height / logo.height, max_width / logo.width)
+    if scale <= 0:
+        return 0
+    logo = logo.resize((max(1, round(logo.width * scale)),
+                        max(1, round(logo.height * scale))), Image.LANCZOS)
+    canvas.paste(logo, (right - logo.width, center_y - logo.height // 2), logo)
+    return logo.width
+
+
 def badge_left(draw, left: int, center_y: int, text: str, font, bg, fg,
                pad_x: int = 22, pad_y: int = 11) -> int:
     """يرسم ملصقًا بمحاذاة اليسار ومركز عمودي، ويعيد حدّه الأيمن."""
@@ -601,7 +649,7 @@ def build_post_image(
     المستعملة فعلًا: للحرة فقط، لا لصورة الخبر.
 
     الصورة الناجحة هنا تُرسم **صورةً رئيسية عادية تمامًا** -- نفس الموضع
-    والنسبة والمعالجة (`cover`/`dim_photo`/`sharpen`) التي تُستعمَل للصورة
+    والنسبة والمعالجة (`cover`/`sharpen`، بلا تعتيم منذ Issue #1158) للصورة
     الأصلية أو التعبيرية، لا خلفية مالئة ولا تعتيم موحَّد ولا تخطيط جديد
     إطلاقًا (الفشلان البصريان اللذان أنهيا تصميم خلفية الفيديو كانا بالضبط
     من اختراع تخطيط جديد -- الدرس المستفاد هنا هو استعمال القائم حرفيًا).
@@ -615,8 +663,6 @@ def build_post_image(
     H = int(cfg.path("image.height", 1080))
     primary = hex_rgb(cfg.path("brand.primary_color", "#12203A"))
     accent = hex_rgb(cfg.path("brand.accent_color", "#F0B429"))
-    brand_name = cfg.path("brand.name", "")
-    tagline = cfg.path("brand.tagline", "")
     handle = cfg.path("brand.handle", "")
     f_head = cfg.path("image.font_headline")
     f_body = cfg.path("image.font_body")
@@ -653,25 +699,22 @@ def build_post_image(
                   else [p for p in (publisher or []) if p])
     publishers = [p for p in publishers if str(p).strip()]
 
-    # ── قياس شريط العنوان أولًا لنعرف المساحة المتبقية للصورة ──
-    head_font, head_lines, line_h = fit_text(
+    # ── التخطيط (Issue #1158): شريط علوي ← خط ← صورة 16:9 ← خط ← عنوان ←
+    # شريط سفلي. الشريطان بارتفاع واحد (كان ارتفاع التذييل وحده)، والصورة
+    # بنسبة 16:9 ثابتة فلا يتغيّر صندوقها مع طول العنوان؛ العنوان هو الذي
+    # يتكيّف داخل ما تبقّى من ارتفاع.
+    bar = int(H * 0.082)
+    photo_h = round(W * 9 / 16)
+    photo_top = bar + rule
+    title_top = photo_top + photo_h + rule
+    title_bottom = H - bar
+    head_font, head_lines, line_h = fit_headline(
         draw, headline, f_head,
         max_width=W - margin * 2,
-        max_lines=4,
+        max_height=(title_bottom - title_top) * 0.8,
         start=int(W * 0.052),
-        minimum=int(W * 0.032),
         weight=head_weight,
     )
-    band_pad = int(H * 0.045)
-    band_h = len(head_lines) * line_h + band_pad * 2
-
-    header_h = int(H * 0.160) if (brand_name or cfg.path("brand.logo")) else 0
-    # المعرّف يصعد إلى الترويسة تحت الملصق؛ يبقى في التذييل فقط حين لا
-    # توجد ترويسة أصلًا (شعار فارغ واسم فارغ) فلا مكان له فوق.
-    handle_in_header = bool(handle and header_h)
-    footer_h = int(H * 0.082)
-    photo_top = header_h
-    photo_h = H - header_h - band_h - footer_h
 
     # ── 1) الصورة أو البديل: نجرّب المرشحين بالترتيب ──
     candidates = (
@@ -757,16 +800,8 @@ def build_post_image(
         log.info("❌ لا صورة متاحة (ولا بديل حر) — سيُستخدم التصميم المتدرّج")
     used_original = source is not None and not news_photo_used
 
-    # سطر «المصدر:» السفلي (التذييل أدناه) يذكر ناشر صورة الخبر إلى جانب
-    # نص القنوات القائم حين تُستعمَل هذه الدرجة -- "صورة: {ناشر}" لا يدّعي
-    # أن هذا الناشر مصدر المقال، فقط أن الصورة منه (طلب المراجعة على
-    # Issue #1095).
-    # لا يُكرَّر إن كان ناشر الصورة أصلًا بين ناشري الخبر (Issue #1153: صورة
-    # من مقال ناشر آخر في العنقود نفسه صار شائعًا، وهو مذكور في السطر).
-    if news_photo_used and news_photo_publisher:
-        known = {str(p).strip().casefold() for p in publishers}
-        if str(news_photo_publisher).strip().casefold() not in known:
-            publishers = [*publishers, f"صورة: {news_photo_publisher}"]
+    # لا «صورة: {ناشر}» على البطاقة بعد الآن (Issue #1158): مصدر الصورة يبقى
+    # داخليًا في report/image_info وreview.image_source_line للمراجع فقط.
 
     photo = (
         cover(source, W, photo_h) if source
@@ -775,7 +810,8 @@ def build_post_image(
     if source is not None and cfg.path("image.sharpen", True):
         photo = photo.filter(ImageFilter.UnsharpMask(radius=2, percent=55, threshold=3))
 
-    photo = dim_photo(photo, primary)
+    # بلا dim_photo: الصورة تُعرض كما هي (Issue #1158) — الخطّان الذهبيان
+    # هما الفاصل مع الشريطين فلا حاجة لتعتيم الحواف ليمتزج بهما.
     canvas.paste(photo, (0, photo_top))
 
     # صورة ثانية في دائرة — تُستخدم حين يوفّر الخبر أكثر من صورة صالحة
@@ -821,7 +857,6 @@ def build_post_image(
                 if cfg.path("image.sharpen", True):
                     photo = photo.filter(
                         ImageFilter.UnsharpMask(radius=2, percent=55, threshold=3))
-                photo = dim_photo(photo, primary)
                 canvas.paste(photo, (0, photo_top))
                 draw = ImageDraw.Draw(canvas)
 
@@ -841,61 +876,41 @@ def build_post_image(
             log.info("🖼️ قالب مركّب: صورتان")
 
     # ── 2) الترويسة: الشعار واسم الصفحة يمينًا، الملصقات يسارًا ──
-    if header_h:
-        draw.rectangle([0, 0, W, header_h], fill=primary)
-        draw.rectangle([0, header_h - rule, W, header_h], fill=accent)
+    # الشريط العلوي (Issue #1158): الشعار يمينًا، الشارات في الوسط، المعرّف
+    # يسارًا. لا اسم صفحة ولا شعار فرعي نصًّا — الشعار يكفي.
+    # حدود rectangle في Pillow شاملة، فنطرح 1 كي لا يمسّ الخطّ أول صف من الصورة
+    draw.rectangle([0, 0, W, bar - 1], fill=primary)
+    draw.rectangle([0, bar, W, bar + rule - 1], fill=accent)
+    draw.rectangle([0, photo_top + photo_h, W, photo_top + photo_h + rule - 1], fill=accent)
+    bar_mid = bar // 2
 
-        inner_top = int(header_h * 0.14)
-        inner_bot = header_h - rule - int(header_h * 0.14)
-        text_right = W - margin
+    logo_rel = cfg.path("brand.logo")
+    if logo_rel:
+        logo_file = find_logo(logo_rel)
+        if logo_file:
+            # ارتفاع الشعار نسبة ثابتة من الشريط؛ brand.logo_scale للريلز وحدها
+            if paste_logo_trimmed(
+                canvas, logo_file, right=W - margin, center_y=bar_mid,
+                height=int(bar * 0.72),
+                max_width=int(W * float(cfg.path("brand.logo_max_width", 0.42))),
+            ):
+                draw = ImageDraw.Draw(canvas)   # إعادة الربط بعد اللصق
 
-        # الشعار في أقصى اليمين
-        logo_rel = cfg.path("brand.logo")
-        if logo_rel:
-            logo_file = find_logo(logo_rel)
-            if logo_file:
-                scale = float(cfg.path("brand.logo_scale", 1.0))
-                # الصندوق يرتفع مع scale لكنه لا يتجاوز الترويسة،
-                # وعرضه سخيّ حتى لا تُسحق الشعارات العريضة.
-                box_h = min((inner_bot - inner_top) * scale, header_h - rule * 2)
-                box_w = W * float(cfg.path("brand.logo_max_width", 0.42))
-                center_y = (inner_top + inner_bot) / 2
-                if paste_logo(
-                    canvas, logo_file,
-                    (int(text_right - box_w), int(center_y - box_h / 2),
-                     int(text_right), int(center_y + box_h / 2)),
-                ):
-                    draw = ImageDraw.Draw(canvas)   # إعادة الربط بعد اللصق
-                    used_w = _last_logo_size[0] or int(box_h)
-                    text_right -= used_w + int(W * 0.022)
+    # مجموعة الشارات كلها متوسطة أفقيًا: نقيس أولًا ثم نرسم من اليسار
+    bdg_font = load_font(f_body, int(W * 0.026), body_weight)
+    pad_x, pad_y, gap = 22, 11, int(W * 0.014)
+    group = [(t, bg, fg) for t, bg, fg in (
+        (category, accent, primary), (badge, badge_bg, badge_fg)) if t]
+    widths = [measure(draw, t, bdg_font)[0] + pad_x * 2 for t, _, _ in group]
+    bx = (W - (sum(widths) + gap * max(len(group) - 1, 0))) // 2
+    for (text, bg, fg), w in zip(group, widths):
+        badge_left(draw, bx, bar_mid, text, bdg_font, bg, fg, pad_x=pad_x, pad_y=pad_y)
+        bx += w + gap
 
-        # اسم الصفحة، وتحته الشعار الفرعي — بمحاذاة اليمين
-        if brand_name:
-            nf = load_font(f_head, int(W * 0.050), head_weight)
-            if tagline:
-                draw_text(draw, (text_right, inner_top + int(header_h * 0.30)),
-                          brand_name, nf, accent, anchor="rm")
-                tf = load_font(f_body, int(W * 0.024), body_weight)
-                draw_text(draw, (text_right, inner_top + int(header_h * 0.68)),
-                          tagline, tf, mix(accent, (255, 255, 255), 0.55), anchor="rm")
-            else:
-                draw_text(draw, (text_right, (inner_top + inner_bot) // 2),
-                          brand_name, nf, accent, anchor="rm")
-
-        # الملصقات في أقصى اليسار، والمعرّف تحتها مباشرة
-        bdg_font = load_font(f_body, int(W * 0.026), body_weight)
-        bx = margin
-        by = ((inner_top + inner_bot) // 2 if not handle_in_header
-              else inner_top + int((inner_bot - inner_top) * 0.34))
-        if category:
-            bx = badge_left(draw, bx, by, category, bdg_font, accent, primary) + int(W * 0.014)
-        if badge:
-            badge_left(draw, bx, by, badge, bdg_font, badge_bg, badge_fg)
-
-        if handle_in_header:
-            hf = load_font(f_body, int(W * 0.024), body_weight)
-            draw_text(draw, (margin, inner_top + int((inner_bot - inner_top) * 0.78)),
-                      handle, hf, mix(accent, (255, 255, 255), 0.3), anchor="lm")
+    if handle:
+        hf = load_font(f_body, int(W * 0.024), body_weight)
+        draw_text_ltr(draw, (margin, bar_mid), handle, hf,
+                      mix(accent, (255, 255, 255), 0.3), anchor="lm")
 
     # وسم الصورة التعبيرية: إخفاء أنها ليست من مكان الحدث تضليل
     if illustrative:
@@ -911,48 +926,42 @@ def build_post_image(
         draw_text(draw, (bx + pad + tw // 2, by + pad + th // 2), label,
                   tag_font, (225, 228, 235), anchor="mm")
 
-    # ── 4) شريط العنوان ──
-    band_top = photo_top + photo_h
-    draw.rectangle([0, band_top, W, band_top + band_h], fill=primary)
-    draw.rectangle([0, band_top, W, band_top + rule], fill=accent)
-
-    y = band_top + band_pad + line_h // 2
+    # ── 4) العنوان: متوسط أفقيًا وعموديًا في كل المساحة بين الخطّين ──
+    # fit_headline لا يقصّ نصًّا أبدًا، فالكتلة تتّسع دائمًا لارتفاع المنطقة.
+    y = (title_top + title_bottom) // 2 - len(head_lines) * line_h // 2 + line_h // 2
     for line in head_lines:
         draw_text(draw, (W // 2, y), line, head_font, (255, 255, 255), anchor="mm")
         y += line_h
 
-    # ── 5) التذييل ──
-    if footer_h:
-        ft_top = H - footer_h
-        draw.rectangle([0, ft_top, W, H], fill=mix(primary, (0, 0, 0), 0.28))
-        ff = load_font(f_body, int(W * 0.024), body_weight)
-        mid = ft_top + footer_h // 2
+    # ── 5) الشريط السفلي: المصدر يمينًا، التاريخ يسارًا ──
+    ft_top = H - bar
+    draw.rectangle([0, ft_top, W, H], fill=mix(primary, (0, 0, 0), 0.28))
+    ff = load_font(f_body, int(W * 0.024), body_weight)
+    mid = ft_top + bar // 2
+    left_text = f"{datetime.now(timezone.utc):%Y/%m/%d}"
+    draw_text(draw, (margin, mid), left_text, ff, (168, 180, 200), anchor="lm")
 
-        # يسارًا: المعرّف إن لم يصعد للترويسة، وإلا التاريخ
-        left_text = handle if (handle and not handle_in_header) else \
-            f"{datetime.now(timezone.utc):%Y/%m/%d}"
-        draw_text(draw, (margin, mid), left_text, ff,
-                  mix(accent, (255, 255, 255), 0.3) if left_text == handle
-                  else (168, 180, 200), anchor="lm")
-
-        # يمينًا: كل المصادر. المساحة محدودة، فنُسقط الأخير تباعًا حتى
-        # تتّسع بدل أن يخرج النص من حدود الصورة أو يركب على ما يساره.
-        # الاستبدال بالاسم العربي ثم الحارس على الخط المستعمل فعلًا هنا (ff):
-        # كله قبل القياس كي لا يُقاس نص لن يُرسم.
-        footer_names = drop_unrenderable_names(
-            resolve_publisher_names(publishers, cfg), ff)
-        if footer_names:
-            avail = W - margin * 2 - measure(draw, left_text, ff)[0] - int(W * 0.05)
-            shown = list(footer_names)
-            while shown:
-                label = f"المصدر: {'، '.join(shown)}"
-                if measure(draw, label, ff)[0] <= avail or len(shown) == 1:
-                    break
-                shown.pop()
-            if len(shown) < len(footer_names):
-                label = f"المصدر: {'، '.join(shown)} +{len(footer_names) - len(shown)}"
-            draw_text(draw, (W - margin, mid), label, ff,
-                      (168, 180, 200), anchor="rm")
+    # يمينًا: كل المصادر. المساحة محدودة، فنُسقط الأخير تباعًا حتى
+    # تتّسع بدل أن يخرج النص من حدود الصورة أو يركب على ما يساره.
+    # الاستبدال بالاسم العربي ثم الحارس على الخط المستعمل فعلًا هنا (ff):
+    # كله قبل القياس كي لا يُقاس نص لن يُرسم.
+    # التحليل يمرّر مساره سطرًا جاهزًا («تحليل لتغطية …») فيُعرض بلا بادئة
+    # «المصدر:» التي تنسب المقال إلى القنوات نقلًا لا قراءةً (Issue #1158).
+    prefix = "" if origin == "analysis" else "المصدر: "
+    footer_names = drop_unrenderable_names(
+        resolve_publisher_names(publishers, cfg), ff)
+    if footer_names:
+        avail = W - margin * 2 - measure(draw, left_text, ff)[0] - int(W * 0.05)
+        shown = list(footer_names)
+        while shown:
+            label = f"{prefix}{'، '.join(shown)}"
+            if measure(draw, label, ff)[0] <= avail or len(shown) == 1:
+                break
+            shown.pop()
+        if len(shown) < len(footer_names):
+            label = f"{prefix}{'، '.join(shown)} +{len(footer_names) - len(shown)}"
+        draw_text(draw, (W - margin, mid), label, ff,
+                  (168, 180, 200), anchor="rm")
 
     if report is not None:
         report["used_original"] = bool(used_original)
