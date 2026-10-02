@@ -170,6 +170,7 @@ from tests.test_review import (
     test_retention_insights_still_counts_kept_draft,
     test_retention_config_days_at_least_30,
     test_stages_module,
+    test_stages_2_3_pipeline,
     test_publish_one_facebook_failure_tags_stage,
     test_publish_gap_gate_core_scenarios,
     test_publish_ids_direct_defers_non_urgent_after_recent_publish,
@@ -583,6 +584,8 @@ def main() -> int:
     test_image_ladder_order()
     print("\n── وحدة المراحل المشتركة stages.py (Issue #1180) ──")
     test_stages_module()
+    print("\n── قضايا المرحلتين 2 و3 بالوحدة المشتركة: بناء ← تعليم ← استهلاك (Issue #1182) ──")
+    test_stages_2_3_pipeline()
     print("\n── حالات مرجعية (golden) للحُرّاس التحريرية (Issue #893) ──")
     test_guards_golden()
 

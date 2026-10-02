@@ -42,6 +42,7 @@ from tests.helpers import (
     load_config,
     Article,
 )
+from src import stages
 
 
 def test_review_roundtrip() -> None:
@@ -66,13 +67,16 @@ def test_review_roundtrip() -> None:
     check("مربعات الاختيار فارغة ابتداءً", review.parse_approved(body) == [])
 
     # محاكاة تعليم المستخدم على المسودة الأولى
-    marked = body.replace(f"- [ ] **1.", f"- [x] **1.", 1)
-    approved = review.parse_approved(marked)
-    expected_first = [drafts[0]["id"]] if drafts else []
-    check("قراءة العلامة ✔️ تعمل", approved == expected_first, str(approved))
+    # (#1182) لا مربع على العنوان بعد الآن: الاعتماد بخيار «انشر» تحت الخبر.
+    marked = tick_marker(body, f"<!-- go:publish:{drafts[0]['id']} -->") if drafts else body
+    actions, _ = stages.read_actions(marked, 2)
+    expected_first = {drafts[0]["id"]: "publish"} if drafts else {}
+    check("قراءة خيار «انشر» تعمل", actions == expected_first, str(actions))
 
-    marked_all = marked.replace("- [ ] **2.", "- [x] **2.", 1)
-    check("اعتماد متعدد يعمل", len(review.parse_approved(marked_all)) == min(2, len(drafts)))
+    marked_all = (tick_marker(marked, f"<!-- go:publish:{drafts[1]['id']} -->")
+                  if len(drafts) > 1 else marked)
+    check("اعتماد متعدد يعمل",
+          len(stages.read_actions(marked_all, 2)[0]) == min(2, len(drafts)))
 
 def test_preselect_no_spend_before_selection() -> None:
     """بناء Issue الاختيار لا يستدعي صياغة Sonnet ولا يبني صورة — فقط
@@ -619,9 +623,9 @@ def test_preselect_two_boxes_now_and_draft_review() -> None:
               and f"<!-- draft:{cand_both['id']} -->" in opened["body"])
         # البند 4: خانة تبديل الصورة تظهر فعليًا الآن — المسودة تُعرض في
         # Issue مراجعة حقيقي بدل ألا تُعرض أبدًا كما قبل هذا التغيير.
-        check("مربع تبديل الصورة يظهر في Issue «صغ واعرض»",
-              f"<!-- img:{cand_draft['id']} -->" in opened["body"])
-        check("فراغ رابط الصورة يظهر في Issue «صغ واعرض»",
+        check("مربع تبديل الصورة لم يعد يظهر في Issue «صغ واعرض» (#1182)",
+              f"<!-- img:{cand_draft['id']} -->" not in opened["body"])
+        check("حقل رابط الصورة يظهر في Issue «صغ واعرض»",
               f"<!-- imgurl:{cand_draft['id']} -->" in opened["body"])
 
     check("مسودة صيغت للمنشور فورًا", store.load_draft(cand_now["id"]) is not None)
@@ -1586,43 +1590,72 @@ def test_manual_image() -> None:
             "arabic": {"post_title": "عنوان", "category": "سياسة"}}
 
     body = review.build_issue_body([{**base, "has_photo": False}], "u/r")
-    check("مربع الاستبدال معروض", "<!-- img:abc123def456 -->" in body)
-    check("فراغ الرابط معروض", "<!-- imgurl:abc123def456 -->" in body)
-    check("المربع قابل للنقر (خارج <details>)",
-          any("- [ ]" in ln and "img:abc123def456" in ln
+    # (#1182) الصورة بحقل رابط بلا مربع img: — الصيغة الجديدة.
+    field_text = load_config().path("stages.image_field", "")
+    check("مربع الاستبدال لم يعد يُبنى", "<!-- img:abc123def456 -->" not in body)
+    check("حقل الرابط معروض", "<!-- imgurl:abc123def456 -->" in body)
+    check("حقل الرابط نص لا مربع",
+          any(field_text in ln and "- [" not in ln and "imgurl:abc123def456" in ln
               for ln in body.splitlines()))
     check("تنبيه غياب الصورة يظهر", "بلا صورة للخبر" in body)
     check("لا تنبيه حين توجد صورة",
           "بلا صورة للخبر" not in
           review.build_issue_body([{**base, "has_photo": True}], "u/r"))
 
-    check("المربع الفارغ لا يُنفَّذ", review.parse_image_requests(body) == [])
-    ticked = body.replace("- [ ] 🖼️ استبدل", "- [x] 🖼️ استبدل")
-    check("مربع معلَّم بلا رابط يُهمَل",
-          review.parse_image_requests(ticked) == [])
+    check("الحقل الفارغ لا يُنفَّذ", review.parse_image_requests(body) == [])
 
-    filled = ticked.replace(
-        "الرابط:   <!-- imgurl:abc123def456 -->",
+    filled = body.replace(
+        field_text + "  <!-- imgurl:abc123def456 -->",
         "الرابط: https://cdn.site/p.jpg  <!-- imgurl:abc123def456 -->")
-    check("المربع المعلَّم مع الرابط يُنفَّذ",
+    check("رابط في الحقل بلا أي مربع يُنفَّذ",
           review.parse_image_requests(filled)
           == [("abc123def456", "https://cdn.site/p.jpg")])
+    notlink = body.replace(
+        field_text + "  <!-- imgurl:abc123def456 -->",
+        "هذه صورة جميلة  <!-- imgurl:abc123def456 -->")
+    check("نص غير رابط في الحقل لا يُعدّ طلبًا",
+          review.parse_image_requests(notlink) == [])
+    check("رابط غير http(s) لا يُعدّ طلبًا",
+          review.parse_image_requests(body.replace(
+              field_text + "  <!-- imgurl:abc123def456 -->",
+              "ftp://x/p.jpg  <!-- imgurl:abc123def456 -->")) == [])
 
     # اللصق قبل العلامة أو بعدها — كلاهما يعمل على الهاتف
-    after = ticked.replace(
-        "الرابط:   <!-- imgurl:abc123def456 -->",
+    after = body.replace(
+        field_text + "  <!-- imgurl:abc123def456 -->",
         "الرابط: <!-- imgurl:abc123def456 --> https://cdn.site/p.jpg")
     check("موضع اللصق لا يهم",
           review.parse_image_requests(after)
           == [("abc123def456", "https://cdn.site/p.jpg")])
 
     cleared = review.clear_image_request(filled, "abc123def456")
-    check("المربع يُفرَّغ بعد التنفيذ",
-          review.parse_image_requests(cleared) == [])
-    check("الفراغ يُنظَّف من الرابط", "cdn.site" not in cleared)
+    check("الحقل يُفرَّغ بعد التنفيذ ويعود نصّه",
+          review.parse_image_requests(cleared) == [] and field_text in cleared)
+    check("الحقل يُنظَّف من الرابط", "cdn.site" not in cleared)
     kept = review.clear_image_request(filled, "abc123def456", keep_url=True)
     check("الرابط يبقى عند الفشل ليصحَّح", "cdn.site" in kept)
-    check("لا تكرار عند الفشل", review.parse_image_requests(kept) == [])
+
+    # الصيغة القديمة (قضية مفتوحة قبل التحديث): مربع img: + imgurl كما كانت
+    legacy = ("  - [ ] 🖼️ استبدل الصورة بالرابط أدناه  <!-- img:abc123def456 -->\n\n"
+              "    الرابط:   <!-- imgurl:abc123def456 -->\n")
+    legacy_filled = legacy.replace(
+        "الرابط:   <!--", "الرابط: https://cdn.site/p.jpg  <!--")
+    check("قديم: المربع الفارغ مع رابط لا يُنفَّذ",
+          review.parse_image_requests(legacy_filled) == [])
+    check("قديم: مربع معلَّم بلا رابط يُهمَل",
+          review.parse_image_requests(
+              legacy.replace("- [ ] 🖼️", "- [x] 🖼️")) == [])
+    legacy_ticked = legacy_filled.replace("- [ ] 🖼️", "- [x] 🖼️")
+    check("قديم: المربع المعلَّم مع الرابط يُنفَّذ",
+          review.parse_image_requests(legacy_ticked)
+          == [("abc123def456", "https://cdn.site/p.jpg")])
+    legacy_cleared = review.clear_image_request(legacy_ticked, "abc123def456")
+    check("قديم: يُفرَّغ المربع والرابط بعد التنفيذ",
+          review.parse_image_requests(legacy_cleared) == []
+          and "cdn.site" not in legacy_cleared and "- [ ] 🖼️" in legacy_cleared)
+    check("قديم: لا تكرار عند الفشل",
+          review.parse_image_requests(review.clear_image_request(
+              legacy_ticked, "abc123def456", keep_url=True)) == [])
 
 @auto_restore_last_publish
 def test_editable_caption_and_image_source() -> None:
@@ -1737,7 +1770,7 @@ def test_editable_caption_and_image_source() -> None:
           "افتح ملف" not in body_unedited, None)
     check("build_issue_body: سطر مصدر الصورة ظاهر تحت سطر الشارات",
           "🖼️ **المصدر:** غير مسجَّل (مسودة سابقة)" in body_unedited, body_unedited)
-    marked_unedited = body_unedited.replace("- [ ] **1.", "- [x] **1.", 1)
+    marked_unedited = tick_marker(body_unedited, f"<!-- go:publish:{news_draft['id']} -->")
 
     real_fetch = publish_mod.fetch_issue
     real_root = publish_mod.ROOT
@@ -1811,7 +1844,7 @@ def test_editable_caption_and_image_source() -> None:
 
     # اختيار عنوان بديل (الفهرس ١) بلا تعديل نصّ -- يستبدل السطر الأول فقط
     # ويحدّث arabic.post_title وheadline_selected
-    marked_hl = body_hl.replace("- [ ] **1.", "- [x] **1.", 1)
+    marked_hl = tick_marker(body_hl, f"<!-- go:publish:{hl_news_draft['id']} -->")
     marked_hl = marked_hl.replace(
         f"- [x] 1. هل يتصاعد الموقف؟  <!-- hl:{hl_news_draft['id']}:0 -->",
         f"- [ ] 1. هل يتصاعد الموقف؟  <!-- hl:{hl_news_draft['id']}:0 -->")
@@ -1855,7 +1888,7 @@ def test_editable_caption_and_image_source() -> None:
     (DRAFTS_DIR / "cap6.jpg").write_bytes(b"\xff\xd8\xff")
 
     body_hl2 = review.build_issue_body([hl_edit_draft], "u/r", "main")
-    marked_hl2 = body_hl2.replace("- [ ] **1.", "- [x] **1.", 1)
+    marked_hl2 = tick_marker(body_hl2, f"<!-- go:publish:{hl_edit_draft['id']} -->")
     marked_hl2 = marked_hl2.replace(
         f"- [x] 1. هل يحدث كذا؟  <!-- hl:{hl_edit_draft['id']}:0 -->",
         f"- [ ] 1. هل يحدث كذا؟  <!-- hl:{hl_edit_draft['id']}:0 -->")
@@ -1893,7 +1926,7 @@ def test_editable_caption_and_image_source() -> None:
     (DRAFTS_DIR / "cap2.jpg").write_bytes(b"\xff\xd8\xff")
 
     body2 = review.build_issue_body([news_draft2], "u/r", "main")
-    marked2 = body2.replace("- [ ] **1.", "- [x] **1.", 1)
+    marked2 = tick_marker(body2, f"<!-- go:publish:{news_draft2['id']} -->")
     edited2 = marked2.replace("نص الخبر الأصلي الثاني.", "نص محرَّر يدويًا في الـIssue.")
 
     publish_calls.clear()
@@ -2111,9 +2144,9 @@ def test_setimage_cli_sync_handles_cardless_draft() -> None:
     store.save_draft({**draft, "status": "pending", "id": "d0d0d0d0d0d0"})
 
     body = review.build_issue_body([draft], "u/r", "main")
-    ticked = body.replace("- [ ] 🖼️ استبدل", "- [x] 🖼️ استبدل")
-    filled = ticked.replace(
-        f"الرابط:   <!-- imgurl:{draft['id']} -->",
+    # (#1182) الحقل بلا مربع: يكفي لصق الرابط.
+    filled = body.replace(
+        f"{load_config().path('stages.image_field', '')}  <!-- imgurl:{draft['id']} -->",
         f"الرابط: https://cdn.example/cli-sync.jpg  <!-- imgurl:{draft['id']} -->")
 
     sync_path = _TMP_DATA_DIR / "image_sync_test.json"
@@ -2246,7 +2279,7 @@ def test_publish_builds_cards_at_approval() -> None:
     body = review.build_issue_body(
         [draft_chosen, draft_default, draft_long, draft_fail], "u/r", "main")
     for d in (draft_chosen, draft_default, draft_long, draft_fail):
-        body = tick_marker(body, f"<!-- draft:{d['id']} -->")
+        body = tick_marker(body, f"<!-- go:publish:{d['id']} -->")
 
     def select_headline(text: str, draft_id: str, idx: int) -> str:
         marker = f"<!-- hl:{draft_id}:"
@@ -2788,7 +2821,7 @@ def test_publish_card_search_term_from_image_query_en() -> None:
     store.save_draft(art_draft)
 
     body = review.build_issue_body([art_draft], "u/r", "main")
-    body = tick_marker(body, f"<!-- draft:{art_draft['id']} -->")
+    body = tick_marker(body, f"<!-- go:publish:{art_draft['id']} -->")
 
     real_fetch = publish_mod.fetch_issue
     real_root = publish_mod.ROOT
@@ -3101,14 +3134,14 @@ def test_review_sibling_alternate_line() -> None:
     article_idx = next(i for i, ln in enumerate(lines) if "sib00000001" in ln)
     investigation_idx = next(i for i, ln in enumerate(lines) if "sib00000002" in ln)
     plain_idx = next(i for i, ln in enumerate(lines) if "sib00000003" in ln)
-    # +4 لا +2: مربع 🎴 «اعرض البطاقة قبل النشر» (Issue #858) يقع الآن مباشرة
-    # تحت مربع الاعتماد (سطران: المربع ثم فراغ) قبل سطر «بديل».
-    check("build_issue_body: سطر «بديل» يظهر بعد عنوان مسودة المقال ومربع 🎴 "
+    # +2 (Issue #1182): لا مربع 🎴 تحت العنوان بعد الآن — سطر «بديل» يلي
+    # العنوان مباشرة (سطر العنوان ثم فراغ).
+    check("build_issue_body: سطر «بديل» يظهر بعد عنوان مسودة المقال "
           "مباشرة ويذكر رقم التحقيق (3، ترتيبه الثالث في القائمة)",
-          "🔀 بديل للمنشور رقم 3" in lines[article_idx + 4], lines[article_idx:article_idx + 5])
-    check("build_issue_body: سطر «بديل» يظهر بعد عنوان مسودة التحقيق ومربع 🎴 "
+          "🔀 بديل للمنشور رقم 3" in lines[article_idx + 2], lines[article_idx:article_idx + 5])
+    check("build_issue_body: سطر «بديل» يظهر بعد عنوان مسودة التحقيق "
           "مباشرة ويذكر رقم المقال (1، ترتيبه الأول في القائمة)",
-          "🔀 بديل للمنشور رقم 1" in lines[investigation_idx + 4],
+          "🔀 بديل للمنشور رقم 1" in lines[investigation_idx + 2],
           lines[investigation_idx:investigation_idx + 5])
     plain_block = "\n".join(lines[plain_idx:plain_idx + 4])
     check("build_issue_body: مسودة بلا sibling_id لا تحمل سطر «بديل» إطلاقًا",
@@ -3383,7 +3416,7 @@ def test_no_reject_boxes_in_review_issues() -> None:
     check("لا سطر التعليمات القديم عن سبب الرفض",
           "رفضتَ خبرًا" not in body and "لرفضه" not in body, body)
     check("سطر التعليمات الجديد يقول القاعدة صراحة",
-          "لن يُنشر" in body and "لم يُعتمد" not in body, body)
+          "ما لا تعلّمه يُسجَّل مرفوضًا" in body and "لم يُعتمد" not in body, body)
     check("لا REJECT_CHOICES ولا parse_rejects بعد الآن في review.py",
           not hasattr(review, "REJECT_CHOICES") and not hasattr(review, "parse_rejects"))
 
@@ -3602,39 +3635,42 @@ def test_review_card_and_back_boxes() -> None:
         "headlines": ["عنوان ١", "عنوان ٢"], "headline_selected": 0,
     }
 
+    # (#1182) مربعا 🎴/↩️ حلّ محلّهما خياران من كتلة الانتقال (go3 / go2).
     body = review.build_issue_body([draft], "u/r", "main")
-    check("مربع 🎴 يظهر في المراجعة الأولية غير معلَّم",
-          f"- [ ] 🎴 اعرض البطاقة قبل النشر  <!-- card:{draft['id']} -->" in body,
-          body[:800])
-    check("سطر التعليمات يذكر قاعدة 🎴",
-          "مع 🎴" in body and "Issue ثانٍ" in body, body[:400])
-    check("parse_card_requests فارغة قبل التعليم", review.parse_card_requests(body) == set())
+    check("خيار go3 يظهر في المرحلة 2 غير معلَّم",
+          f"<!-- go:go3:{draft['id']} -->" in body
+          and f"<!-- card:{draft['id']} -->" not in body, body[:800])
+    check("كتلة الانتقال تذكر المرحلة 3", "مرحلة عرض البطاقة والمراجعة النهائية" in body)
+    check("لا خيار مرحلة 2 داخل قضية المرحلة 2", f"<!-- go:go2:{draft['id']} -->" not in body)
+    check("قراءة المرحلة 2 فارغة قبل التعليم", stages.read_actions(body, 2)[0] == {})
 
-    marked = tick_marker(body, f"<!-- card:{draft['id']} -->")
-    check("parse_card_requests تقرأ المعلَّم",
-          review.parse_card_requests(marked) == {draft["id"]})
-    check("تعليم مربع 🎴 وحده لا يُعتبر اعتمادًا", review.parse_approved(marked) == [])
+    marked = tick_marker(body, f"<!-- go:go3:{draft['id']} -->")
+    check("go3 يُقرأ من المرحلة 2",
+          stages.read_actions(marked, 2) == ({draft["id"]: "go3"}, []))
 
     final_body = review.build_final_review_body([draft], "u/r", "main")
     check("لا مربع 🎴 في المراجعة النهائية",
-          f"<!-- card:{draft['id']} -->" not in final_body, final_body[:800])
+          f"<!-- card:{draft['id']} -->" not in final_body
+          and f"<!-- go:go3:{draft['id']} -->" not in final_body, final_body[:800])
     check("لا مربعات عناوين في المراجعة النهائية", "<!-- hl:" not in final_body,
           final_body[:800])
-    check("مربع اعتماد موجود في المراجعة النهائية",
-          f"<!-- draft:{draft['id']} -->" in final_body)
-    check("مربع ↩️ للعودة موجود، غير معلَّم افتراضيًا",
-          f"- [ ] ↩️ أعده للمراجعة الأولية  <!-- back:{draft['id']} -->" in final_body,
-          final_body[:800])
-    check("مربع الصورة اليدوية موجود في المراجعة النهائية",
-          f"<!-- img:{draft['id']} -->" in final_body
+    check("معرّف الخبر موجود في المراجعة النهائية بلا مربع",
+          f"<!-- draft:{draft['id']} -->" in final_body
+          and not any("- [" in ln and "draft:" in ln for ln in final_body.splitlines()))
+    check("خيارا publish وgo2 في المرحلة 3 غير معلَّمين",
+          f"- [ ] ↩️ عد إلى مرحلة عرض النص واختيار العناوين  <!-- go:go2:{draft['id']} -->"
+          in final_body and f"<!-- go:publish:{draft['id']} -->" in final_body,
+          final_body[:900])
+    check("حقل الصورة اليدوية موجود في المراجعة النهائية بلا مربع img",
+          f"<!-- img:{draft['id']} -->" not in final_body
           and f"<!-- imgurl:{draft['id']} -->" in final_body)
     check("البطاقة المبنيّة تظهر (رابط raw.githubusercontent.com)",
           "raw.githubusercontent.com" in final_body and draft["image"] in final_body)
 
-    check("parse_back_requests فارغة قبل التعليم", review.parse_back_requests(final_body) == set())
-    marked_back = tick_marker(final_body, f"<!-- back:{draft['id']} -->")
-    check("parse_back_requests تقرأ المعلَّم",
-          review.parse_back_requests(marked_back) == {draft["id"]})
+    check("قراءة المرحلة 3 فارغة قبل التعليم", stages.read_actions(final_body, 3)[0] == {})
+    marked_back = tick_marker(final_body, f"<!-- go:go2:{draft['id']} -->")
+    check("go2 يُقرأ من المرحلة 3",
+          stages.read_actions(marked_back, 3)[0] == {draft["id"]: "go2"})
 
 @auto_restore_last_publish
 def test_publish_card_request_defers_to_final_review() -> None:
@@ -3665,9 +3701,9 @@ def test_publish_card_request_defers_to_final_review() -> None:
         store.save_draft(d)
 
     body = review.build_issue_body([draft_direct, draft_card], "u/r", "main")
-    body = tick_marker(body, f"<!-- draft:{draft_direct['id']} -->")
-    body = tick_marker(body, f"<!-- draft:{draft_card['id']} -->")
-    body = tick_marker(body, f"<!-- card:{draft_card['id']} -->")
+    # (#1182) go3 وحده = ما كان ✔️ + 🎴 معًا.
+    body = tick_marker(body, f"<!-- go:publish:{draft_direct['id']} -->")
+    body = tick_marker(body, f"<!-- go:go3:{draft_card['id']} -->")
 
     real_fetch = publish_mod.fetch_issue
     real_root = publish_mod.ROOT
@@ -3781,7 +3817,7 @@ def test_publish_final_review_approve_publishes_without_rebuild() -> None:
     (DRAFTS_DIR / "fr2.jpg").write_bytes(b"\xff\xd8\xff")
 
     body = review.build_final_review_body([approved_draft, pending_draft], "u/r", "main")
-    body = tick_marker(body, f"<!-- draft:{approved_draft['id']} -->")
+    body = tick_marker(body, f"<!-- go:publish:{approved_draft['id']} -->")
     # محاولة تسريب تعديل نص عبر كتلة cap -- يجب ألا يصل النشر (بلا تعديل
     # نص على الـIssue النهائي، خلافًا للمراجعة الأولية).
     body = body.replace(approved_draft["caption"], "نص محرَّر تسلّل خطأً")
@@ -3880,7 +3916,7 @@ def test_decisions_records_rejected_unchecked_via_final_review() -> None:
     (DRAFTS_DIR / "dcfin2.jpg").write_bytes(b"\xff\xd8\xff")
 
     body = review.build_final_review_body([approved_draft, pending_draft], "u/r", "main")
-    body = tick_marker(body, f"<!-- draft:{approved_draft['id']} -->")
+    body = tick_marker(body, f"<!-- go:publish:{approved_draft['id']} -->")
 
     real_fetch = publish_mod.fetch_issue
     real_root = publish_mod.ROOT
@@ -3942,7 +3978,7 @@ def test_publish_final_review_double_publish_guard() -> None:
     store.save_draft(already_published)
 
     body = review.build_final_review_body([already_published], "u/r", "main")
-    body = tick_marker(body, f"<!-- draft:{already_published['id']} -->")
+    body = tick_marker(body, f"<!-- go:publish:{already_published['id']} -->")
 
     real_fetch = publish_mod.fetch_issue
     publish_mod.fetch_issue = lambda n: {
@@ -4004,9 +4040,9 @@ def test_publish_final_review_back_request() -> None:
         store.save_draft(d)
 
     body = review.build_final_review_body([back_only, back_and_approved], "u/r", "main")
-    body = tick_marker(body, f"<!-- back:{back_only['id']} -->")
-    body = tick_marker(body, f"<!-- back:{back_and_approved['id']} -->")
-    body = tick_marker(body, f"<!-- draft:{back_and_approved['id']} -->")
+    body = tick_marker(body, f"<!-- go:go2:{back_only['id']} -->")
+    body = tick_marker(body, f"<!-- go:go2:{back_and_approved['id']} -->")
+    body = tick_marker(body, f"<!-- go:publish:{back_and_approved['id']} -->")
 
     real_fetch = publish_mod.fetch_issue
     publish_mod.fetch_issue = lambda n: {
@@ -4326,9 +4362,9 @@ def test_publish_final_review_analysis_origin_routes_through_publish_ids() -> No
     body = review.build_final_review_body(
         [approved_analysis, already_published, back_analysis, unchecked_analysis],
         "u/r", "main")
-    body = tick_marker(body, f"<!-- draft:{approved_analysis['id']} -->")
-    body = tick_marker(body, f"<!-- draft:{already_published['id']} -->")
-    body = tick_marker(body, f"<!-- back:{back_analysis['id']} -->")
+    body = tick_marker(body, f"<!-- go:publish:{approved_analysis['id']} -->")
+    body = tick_marker(body, f"<!-- go:publish:{already_published['id']} -->")
+    body = tick_marker(body, f"<!-- go:go2:{back_analysis['id']} -->")
 
     real_fetch = publish_mod.fetch_issue
     publish_mod.fetch_issue = lambda n: {
@@ -4432,7 +4468,7 @@ def test_publish_final_review_analysis_cap_and_spacing_across_two_runs() -> None
 
     body = review.build_final_review_body(drafts, "u/r", "main")
     for d in drafts:
-        body = tick_marker(body, f"<!-- draft:{d['id']} -->")
+        body = tick_marker(body, f"<!-- go:publish:{d['id']} -->")
 
     real_fetch = publish_mod.fetch_issue
     publish_mod.fetch_issue = lambda n: {
@@ -4552,7 +4588,7 @@ def test_publish_final_review_news_origin_immediate_no_cap() -> None:
 
     body = review.build_final_review_body(drafts, "u/r", "main")
     for d in drafts:
-        body = tick_marker(body, f"<!-- draft:{d['id']} -->")
+        body = tick_marker(body, f"<!-- go:publish:{d['id']} -->")
 
     real_fetch = publish_mod.fetch_issue
     publish_mod.fetch_issue = lambda n: {
@@ -4633,7 +4669,7 @@ def test_publish_final_review_mixed_origin_news_immediate_analysis_capped() -> N
     all_drafts = news_drafts + analysis_drafts
     body = review.build_final_review_body(all_drafts, "u/r", "main")
     for d in all_drafts:
-        body = tick_marker(body, f"<!-- draft:{d['id']} -->")
+        body = tick_marker(body, f"<!-- go:publish:{d['id']} -->")
 
     real_fetch = publish_mod.fetch_issue
     publish_mod.fetch_issue = lambda n: {
@@ -4701,7 +4737,7 @@ def test_publish_final_review_analysis_already_published_skipped() -> None:
     (DRAFTS_DIR / "pub1.jpg").write_bytes(b"\xff\xd8\xff")
 
     body = review.build_final_review_body([already], "u/r", "main")
-    body = tick_marker(body, f"<!-- draft:{already['id']} -->")
+    body = tick_marker(body, f"<!-- go:publish:{already['id']} -->")
 
     real_fetch = publish_mod.fetch_issue
     publish_mod.fetch_issue = lambda n: {
@@ -5760,8 +5796,7 @@ def test_publish_final_review_orders_by_score() -> None:
 
     body = review.build_issue_body(drafts, "u/r", "main")
     for d in drafts:
-        body = tick_marker(body, f"<!-- draft:{d['id']} -->")
-        body = tick_marker(body, f"<!-- card:{d['id']} -->")
+        body = tick_marker(body, f"<!-- go:go3:{d['id']} -->")   # (#1182) ✔️+🎴
 
     real_fetch = publish_mod.fetch_issue
     real_root = publish_mod.ROOT
@@ -9765,6 +9800,350 @@ def test_card_swap_1167() -> None:
           h3 is not None and src is not None and src[0] > h3[1] + 10, (h3, src))
 
 
+def _stage_news_draft(id_: str, title: str, *, urgent: bool = False,
+                      image: str | None = None, **extra) -> dict:
+    return {
+        "id": id_, "status": "pending", "score": 5.0, "bucket": "serious",
+        "state_media": False, "origin": "news",
+        "caption": f"{title}\nمتن الخبر.",
+        "source": {"link": f"https://x/{id_}", "publishers": ["BBC"],
+                   "image_candidates": ["https://cdn.example/ok.jpg"]},
+        "arabic": {"post_title": title, "category": "", "urgent": urgent},
+        **({"image": image} if image else {}), **extra,
+    }
+
+
+@auto_restore_last_publish
+def test_stages_2_3_pipeline() -> None:
+    """Issue #1182 (المهمة 2أ): قضايا المرحلتين 2 و3 تُبنى بالبانيين الحقيقيين،
+    تُعلَّم مربعاتها، ثم تُمرَّر إلى المستهلكين الحقيقيين (publish/setimage)
+    بالـfakes القائمة، ويُفحص أثرها على المسودات والسجل والقضايا المفتوحة."""
+    from src import decisions, feedback
+    from src import publish as publish_mod
+    import src.setimage as setimage_mod
+
+    cfg = load_config()
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
+
+    def run_publish(body: str, label: str, argv: list[str]) -> dict:
+        """publish.main على قضية وهمية بالوسم المعطى؛ يعيد ما التُقط."""
+        out = {"comments": [], "created": [], "published": [], "closed": []}
+        # بوابة الفاصل (#1010) تؤجّل غير العاجل بعد نشر سابق في الاختبار نفسه؛
+        # كل تشغيل هنا يحاكي قضية مستقلة، فيبدأ بلا «آخر نشر».
+        reset_last_publish()
+        real = {k: getattr(m, k) for m, k in (
+            (publish_mod, "fetch_issue"), (publish_mod, "ROOT"),
+            (facebook, "publish_photo"), (review, "comment"),
+            (review, "close_issue"), (review, "create_issue"),
+            (review, "ensure_labels"), (review, "remove_label"))}
+        publish_mod.ROOT = DRAFTS_DIR.parent
+        publish_mod.fetch_issue = lambda n: {
+            "number": n, "body": body, "labels": [{"name": label}]}
+        facebook.publish_photo = lambda image_path, caption, api_version, first_comment=None: (
+            out["published"].append(caption) or {"url": "https://fb.example/s", "id": "1"})
+        review.comment = lambda n, t: out["comments"].append((n, t))
+        review.close_issue = lambda n: out["closed"].append(n)
+        review.ensure_labels = lambda: None
+        review.remove_label = lambda n, lbl: None
+
+        def fake_create_issue(title, body, labels=None):
+            out["created"].append({"title": title, "body": body, "labels": labels})
+            return {"number": 9700 + len(out["created"]), "html_url": "https://x/i"}
+        review.create_issue = fake_create_issue
+        real_repo = os.environ.get("GITHUB_REPOSITORY")
+        os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+        sys.argv = ["publish", "--issue", "8200", *argv]
+        try:
+            out["code"] = publish_mod.main()
+        finally:
+            publish_mod.fetch_issue = real["fetch_issue"]
+            publish_mod.ROOT = real["ROOT"]
+            facebook.publish_photo = real["publish_photo"]
+            review.comment = real["comment"]
+            review.close_issue = real["close_issue"]
+            review.create_issue = real["create_issue"]
+            review.ensure_labels = real["ensure_labels"]
+            review.remove_label = real["remove_label"]
+            if real_repo is None:
+                os.environ.pop("GITHUB_REPOSITORY", None)
+            else:
+                os.environ["GITHUB_REPOSITORY"] = real_repo
+        return out
+
+    def state(draft_id: str) -> dict:
+        return store.load_draft(draft_id)[1]
+
+    # ── المرحلة 2: a publish · b go3 · c go3+publish · d بلا تعليم ──
+    d_pub = _stage_news_draft("e1820000000a", "خبر ينشر")
+    d_go3 = _stage_news_draft("e1820000000b", "خبر إلى البطاقة")
+    d_both = _stage_news_draft("e1820000000c", "خبر بتعارض")
+    d_none = _stage_news_draft("e1820000000d", "خبر بلا تعليم")
+    for d in (d_pub, d_go3, d_both, d_none):
+        store.save_draft(d)
+    body2 = review.build_issue_body([d_pub, d_go3, d_both, d_none], "u/r", "main")
+    body2 = tick_marker(body2, f"<!-- go:publish:{d_pub['id']} -->")
+    body2 = tick_marker(body2, f"<!-- go:go3:{d_go3['id']} -->")
+    body2 = tick_marker(body2, f"<!-- go:go3:{d_both['id']} -->")
+    body2 = tick_marker(body2, f"<!-- go:publish:{d_both['id']} -->")
+    res = run_publish(body2, "approved", ["--now"])
+    check("(#1182-أ) المرحلة 2: publish ← المسودة تُنشر كما كان draft: وحده",
+          res["code"] == 0 and state(d_pub["id"])["status"] == "published"
+          and res["published"] == [d_pub["caption"]], (res["code"], res["published"]))
+    check("(#1182-ب) المرحلة 2: go3 ← بطاقة مبنيّة، بقيت pending، وفي قضية المرحلة 3",
+          state(d_go3["id"])["status"] == "pending" and bool(state(d_go3["id"]).get("image"))
+          and len(res["created"]) == 1
+          and res["created"][0]["labels"] == ["final-review"]
+          and f"<!-- draft:{d_go3['id']} -->" in res["created"][0]["body"],
+          [(c["title"], c["labels"]) for c in res["created"]])
+    check("(#1182-ج) تعارض go3+publish ← go3 (لا نشر) والمسودة في قضية المرحلة 3",
+          state(d_both["id"])["status"] == "pending"
+          and f"<!-- draft:{d_both['id']} -->" in res["created"][0]["body"],
+          state(d_both["id"]).get("status"))
+    conflict_notes = [t for n, t in res["comments"] if "أكثر من خيار انتقال" in t]
+    check("(#1182-ج) تنبيه تعارض واحد يذكر الخبر والمعلَّمات",
+          len(conflict_notes) == 1 and "خبر بتعارض" in conflict_notes[0]
+          and cfg.path("stages.options.go3") in conflict_notes[0]
+          and cfg.path("stages.options.publish") in conflict_notes[0]
+          and "خبر ينشر" not in conflict_notes[0], conflict_notes)
+    check("(#1182-د) المرحلة 2 بلا تعليم ← rejected_unchecked",
+          state(d_none["id"])["status"] == "rejected"
+          and any(e["id"] == d_none["id"] and e["decision"] == "rejected_unchecked"
+                  for e in decisions.load())
+          and any(e.get("tag") == "لم يُعتمد" for e in feedback.load()),
+          state(d_none["id"]).get("status"))
+
+    # ── المرحلة 3: e publish · go2 ← back · غير معلَّم ← رفض ──
+    stage3 = []
+    for n, title in (("1", "نهائي ينشر"), ("2", "نهائي يعود"), ("3", "نهائي لم يُعلَّم")):
+        d = _stage_news_draft(f"e18200000f{n}", title, image=f"drafts/s3{n}.jpg",
+                              image_info={"used_original": True},
+                              review_issue=9999)
+        store.save_draft(d)
+        (DRAFTS_DIR / f"s3{n}.jpg").write_bytes(b"\xff\xd8\xff")
+        stage3.append(d)
+    body3 = review.build_final_review_body(stage3, "u/r", "main")
+    body3 = tick_marker(body3, f"<!-- go:publish:{stage3[0]['id']} -->")
+    body3 = tick_marker(body3, f"<!-- go:go2:{stage3[1]['id']} -->")
+    res3 = run_publish(body3, "final-review", ["--now"])
+    check("(#1182-هـ) المرحلة 3: publish ← نشر",
+          state(stage3[0]["id"])["status"] == "published"
+          and res3["published"] == [stage3[0]["caption"]], res3["published"])
+    back = state(stage3[1]["id"])
+    check("(#1182-هـ) المرحلة 3: go2 ← عودة إلى المرحلة 2 كما كان back:",
+          back["status"] == "pending" and "image" not in back
+          and "review_issue" not in back, back)
+    check("(#1182-هـ) المرحلة 3: غير المعلَّم ← مرفوض",
+          state(stage3[2]["id"])["status"] == "rejected")
+
+    # ── و: رابط في حقل الصورة بلا أي مربع ← setimage يطبّقه ويمسح الحقل ──
+    d_img = _stage_news_draft("e1820000001f", "خبر بحقل صورة")
+    store.save_draft(d_img)
+    body_img = review.build_issue_body([d_img], "u/r", "main")
+    field = stages.image_field(d_img["id"], cfg)
+    check("(#1182-و) حقل الصورة في القضية المبنيّة بلا مربع",
+          field in body_img and f"<!-- img:{d_img['id']} -->" not in body_img)
+    pasted = body_img.replace(field, field.replace("هنا:", "هنا: https://cdn.example/new.jpg"))
+    sync_path = _TMP_DATA_DIR / "stages_2_3_sync.json"
+    real_sync_file = setimage_mod.SYNC_FILE
+    setimage_mod.SYNC_FILE = sync_path
+    real_fetch_body = review.fetch_issue_body
+    real_update = review.update_issue_body
+    real_comment = review.comment
+    updated: list = []
+    review.fetch_issue_body = lambda n: pasted
+    review.update_issue_body = lambda n, b: updated.append(b)
+    review.comment = lambda n, t: None
+    try:
+        sys.argv = ["setimage", "--from-issue", "--issue", "8201", "--body", ""]
+        code_img = setimage_mod.main()
+        setimage_mod.sync_issue(8201)
+        # نص غير رابط في الحقل: لا شيء يُطبَّق
+        review.fetch_issue_body = lambda n: body_img.replace(
+            field, field.replace("هنا:", "هنا: صورة جميلة"))
+        sys.argv = ["setimage", "--from-issue", "--issue", "8202", "--body", ""]
+        code_text = setimage_mod.main()
+    finally:
+        setimage_mod.SYNC_FILE = real_sync_file
+        review.fetch_issue_body = real_fetch_body
+        review.update_issue_body = real_update
+        review.comment = real_comment
+        sync_path.unlink(missing_ok=True)
+    check("(#1182-و) رابط في الحقل بلا مربع ← setimage يطبّقه (manual_image)",
+          code_img == 0 and state(d_img["id"]).get("manual_image")
+          == "https://cdn.example/new.jpg", state(d_img["id"]).get("manual_image"))
+    check("(#1182-و) وبعد التطبيق يُمسح الحقل ويعود نصّه",
+          bool(updated) and "new.jpg" not in updated[-1] and field in updated[-1],
+          updated[-1][-400:] if updated else None)
+    check("(#1182-و) نص غير رابط في الحقل ← لا شيء (لا أمر صالح)", code_text == 2, code_text)
+
+    # ── ز: قضايا مبنية بالباني القديم (نص ثابت منسوخ) ──
+    l_pub, l_card, l_card_only, l_none = (
+        _stage_news_draft(f"e18200000a{n}", f"قديم {n}") for n in "1234")
+    for d in (l_pub, l_card, l_card_only, l_none):
+        store.save_draft(d)
+    legacy2 = legacy_stage2_body([(d["id"], d["arabic"]["post_title"])
+                                  for d in (l_pub, l_card, l_card_only, l_none)])
+    legacy2 = tick_marker(legacy2, f"draft:{l_pub['id']}")
+    legacy2 = tick_marker(legacy2, f"draft:{l_card['id']}")
+    legacy2 = tick_marker(legacy2, f"card:{l_card['id']}")
+    legacy2 = tick_marker(legacy2, f"card:{l_card_only['id']}")
+    resl = run_publish(legacy2, "approved", ["--now"])
+    check("(#1182-ز) قديم المرحلة 2: draft وحده ← نُشر",
+          state(l_pub["id"])["status"] == "published"
+          and resl["published"] == [l_pub["caption"]], resl["published"])
+    check("(#1182-ز) قديم المرحلة 2: draft+card ← قضية مرحلة 3 بلا نشر",
+          state(l_card["id"])["status"] == "pending"
+          and len(resl["created"]) == 1
+          and f"<!-- draft:{l_card['id']} -->" in resl["created"][0]["body"])
+    check("(#1182-ز) قديم المرحلة 2: card وحده بلا draft ← مرفوض كغير معلَّم",
+          state(l_card_only["id"])["status"] == "rejected"
+          and state(l_none["id"])["status"] == "rejected")
+    check("(#1182-ز) قديم: لا تنبيه تعارض (لا تعارض في الترجمة القديمة)",
+          not [t for n, t in resl["comments"] if "أكثر من خيار" in t])
+
+    old3 = []
+    for n, title in (("1", "قديم نهائي ينشر"), ("2", "قديم نهائي يعود"),
+                     ("3", "قديم يجمع ✔️ و↩️"), ("4", "قديم لم يُعلَّم")):
+        d = _stage_news_draft(f"e18200000b{n}", title, image=f"drafts/l3{n}.jpg",
+                              image_info={"used_original": True}, review_issue=9998)
+        store.save_draft(d)
+        (DRAFTS_DIR / f"l3{n}.jpg").write_bytes(b"\xff\xd8\xff")
+        old3.append(d)
+    legacy3 = legacy_stage3_body([(d["id"], d["arabic"]["post_title"]) for d in old3])
+    legacy3 = tick_marker(legacy3, f"draft:{old3[0]['id']}")
+    legacy3 = tick_marker(legacy3, f"back:{old3[1]['id']}")
+    legacy3 = tick_marker(legacy3, f"draft:{old3[2]['id']}")
+    legacy3 = tick_marker(legacy3, f"back:{old3[2]['id']}")
+    resl3 = run_publish(legacy3, "final-review", ["--now"])
+    check("(#1182-ز) قديم المرحلة 3: draft ← نشر",
+          state(old3[0]["id"])["status"] == "published")
+    check("(#1182-ز) قديم المرحلة 3: back ← عودة، وback يغلب draft",
+          all(state(d["id"])["status"] == "pending" and "image" not in state(d["id"])
+              for d in old3[1:3]))
+    check("(#1182-ز) قديم المرحلة 3: غير المعلَّم ← مرفوض",
+          state(old3[3]["id"])["status"] == "rejected")
+    legacy_img = legacy_stage2_body([("e18200000c1", "قديم")]).replace(
+        "- [ ] 🖼️", "- [x] 🖼️").replace(
+        "الرابط:   <!--", "الرابط: https://cdn.example/old.jpg  <!--")
+    check("(#1182-ز) قديم: img: معلَّم + imgurl ← يُنفَّذ كما كان",
+          review.parse_image_requests(legacy_img)
+          == [("e18200000c1", "https://cdn.example/old.jpg")])
+
+    # ── ح: مسودة عاجلة ──
+    urgent = _stage_news_draft("e18200000d1", "خبر عاجل", urgent=True)
+    normal = _stage_news_draft("e18200000d2", "خبر عادي بجانبه")
+    for d in (urgent, normal):
+        store.save_draft(d)
+    body_u = review.build_issue_body([urgent, normal], "u/r", "main")
+    urgent_text = "🚀 انشر فورًا (عاجل: بلا انتظار)"
+    urgent_lines = [ln for ln in body_u.splitlines()
+                    if f"go:publish:{urgent['id']}" in ln]
+    normal_lines = [ln for ln in body_u.splitlines()
+                    if f"go:publish:{normal['id']}" in ln]
+    check("(#1182-ح) المسودة العاجلة ← «🚀 انشر فورًا (عاجل: بلا انتظار)»",
+          len(urgent_lines) == 1 and urgent_text in urgent_lines[0], urgent_lines)
+    check("(#1182-ح) المسودة العادية ← «🚀 انشر فورًا» بلا لاحقة العاجل",
+          len(normal_lines) == 1 and "عاجل" not in normal_lines[0], normal_lines)
+    check("(#1182-ح) قضية المرحلة 3 لعاجل تحمل النص نفسه",
+          urgent_text in review.build_final_review_body([urgent], "u/r", "main"))
+    body_u = tick_marker(body_u, f"<!-- go:publish:{urgent['id']} -->")
+    body_u = tick_marker(body_u, f"<!-- go:publish:{normal['id']} -->")
+    res_u = run_publish(body_u, "approved", ["--urgent-only"])
+    check("(#1182-ح) job urgent: العاجل يُنشر بلا انتظار، والعادي لا يُنشر فيه",
+          state(urgent["id"])["status"] == "published"
+          and state(normal["id"])["status"] == "pending"
+          and res_u["published"] == [urgent["caption"]], res_u["published"])
+    res_n = run_publish(body_u, "approved", ["--skip-urgent", "--now"])
+    check("(#1182-ح) job العادي بعدها ينشر العادي ولا يعيد العاجل",
+          state(normal["id"])["status"] == "published"
+          and res_n["published"] == [normal["caption"]], res_n["published"])
+
+    # ── ط/ي: بلا go1، وترتيب الأقسام ──
+    full = _stage_news_draft(
+        "e18200000e1", "خبر كامل الأقسام", image="drafts/full.jpg",
+        headlines=["عنوان ١", "عنوان ٢"], headline_selected=0,
+        reel_spec={"headline": "ع"}, sibling_id="e18200000e2",
+        has_photo=False)
+    full2 = _stage_news_draft("e18200000e2", "خبر عاجل ثانٍ", urgent=True)
+    final_body = review.build_final_review_body([full, full2], "u/r", "main")
+    issue_body = review.build_issue_body([full, full2], "u/r", "main")
+    check("(#1182-ط) لا سطر go1 في أي قضية (has_stage1=False مؤقتًا)",
+          "go:go1:" not in issue_body and "go:go1:" not in final_body
+          and "ترشيح المواضيع المتاحة" not in issue_body.split("---", 1)[1]
+          and "ترشيح المواضيع المتاحة" not in final_body.split("---", 1)[1])
+    check("(#1182-ط) رأس المرحلتين من stages.stage_header وبلا الرأسين القديمين",
+          issue_body.startswith(stages.stage_header(2, cfg))
+          and final_body.startswith(stages.stage_header(3, cfg))
+          and "مسودات بانتظار المراجعة" not in issue_body
+          and "مراجعة نهائية قبل النشر" not in final_body)
+    check("(#1182-ط) الشرح الموحَّد تحت الرأس في القضيتين، وملاحظة تحرير النص في المرحلة 2 فقط",
+          cfg.path("stages.explainer") in issue_body and cfg.path("stages.explainer") in final_body
+          and "حرّر هذا الـIssue واكتب داخل كتلة النص" in issue_body
+          and "حرّر هذا الـIssue واكتب داخل كتلة النص" not in final_body)
+
+    def first(lines: list[str], needle: str, start: int = 0) -> int:
+        return next((i for i in range(start, len(lines)) if needle in lines[i]), -1)
+
+    lines2 = issue_body.splitlines()
+    start = first(lines2, f"<!-- draft:{full['id']} -->")
+    end = first(lines2, f"<!-- draft:{full2['id']} -->")
+    sect = lines2[start:end]
+    pos = [first(sect, n) for n in (
+        "**1. خبر كامل الأقسام**", "<img", "<details>", "hl:" + full["id"],
+        "imgurl:" + full["id"], "reel:" + full["id"], "go:go3:" + full["id"])]
+    check("(#1182-ي) ترتيب أقسام الخبر في المرحلة 2: العنوان ← الصورة ← النص ← العناوين "
+          "← حقل الصورة ← الريل ← الانتقال", -1 not in pos and pos == sorted(pos), pos)
+    check("(#1182-ي) لا سطر «- [ ]» قبل سطر عنوان الخبر الأول",
+          not any(re.match(r"\s*[-*]\s*\[", ln) for ln in lines2[:start]))
+    check("(#1182-ي) لا سطر «- [ ]» بين بداية الخبر وسطر عنوانه",
+          not re.match(r"\s*[-*]\s*\[", lines2[start]))
+    lines3 = final_body.splitlines()
+    s3 = first(lines3, f"<!-- draft:{full['id']} -->")
+    e3 = first(lines3, f"<!-- draft:{full2['id']} -->")
+    sect3 = lines3[s3:e3]
+    pos3 = [first(sect3, n) for n in (
+        "**1. خبر كامل الأقسام**", "<img", "<details>", "imgurl:" + full["id"],
+        "go:publish:" + full["id"])]
+    check("(#1182-ي) ترتيب أقسام الخبر في المرحلة 3: العنوان ← الصورة ← النص ← حقل الصورة "
+          "← الانتقال", -1 not in pos3 and pos3 == sorted(pos3), pos3)
+    check("(#1182-ي) لا سطر «- [ ]» قبل سطر عنوان الخبر الأول في المرحلة 3",
+          not any(re.match(r"\s*[-*]\s*\[", ln) for ln in lines3[:s3]))
+    check("(#1182-ي) المرحلة 2 بلا خيار المرحلة 2، والمرحلة 3 بلا خيار المرحلة 3",
+          "go:go2:" not in issue_body and "go:go3:" not in final_body)
+
+
+def legacy_stage2_body(items: list[tuple[str, str]]) -> str:
+    """نص ثابت منسوخ من review.build_issue_body قبل Issue #1182: مربع draft:
+    على العنوان ثم 🎴 card: ثم img:/imgurl: — قضية مفتوحة قبل التحديث."""
+    parts = ["### 📋 مسودات بانتظار المراجعة", ""]
+    for idx, (draft_id, title) in enumerate(items, start=1):
+        parts += [
+            f"- [ ] **{idx}. {title}**  <!-- draft:{draft_id} -->", "",
+            f"  - [ ] 🎴 اعرض البطاقة قبل النشر  <!-- card:{draft_id} -->", "",
+            f"  - [ ] 🖼️ استبدل الصورة بالرابط أدناه  <!-- img:{draft_id} -->", "",
+            f"    الرابط:   <!-- imgurl:{draft_id} -->", "",
+            f"  - [ ] 🎬 انشره كريل بدل الصورة  <!-- reel:{draft_id} -->", "",
+            "---", ""]       # كتلة cap محذوفة عمدًا: لا تعديل نص في الترجمة
+    return "\n".join(parts)
+
+
+def legacy_stage3_body(items: list[tuple[str, str]]) -> str:
+    """نص ثابت منسوخ من review.build_final_review_body قبل Issue #1182."""
+    parts = ["### 🎴 مراجعة نهائية قبل النشر", ""]
+    for idx, (draft_id, title) in enumerate(items, start=1):
+        parts += [
+            f"- [ ] **{idx}. {title}**  <!-- draft:{draft_id} -->", "",
+            f"  - [ ] 🖼️ استبدل الصورة بالرابط أدناه  <!-- img:{draft_id} -->", "",
+            f"    الرابط:   <!-- imgurl:{draft_id} -->", "",
+            f"  - [ ] ↩️ أعده للمراجعة الأولية  <!-- back:{draft_id} -->", "",
+            "---", ""]
+    return "\n".join(parts)
+
+
 def test_stages_module() -> None:
     """Issue #1180 (المهمة 1 من 4): src/stages.py — نص مبني ثم مقروء ذهابًا
     وإيابًا، وترجمة العلامات القديمة مطابقة لما يفعله القارئ الحالي لنص قضية
@@ -9877,7 +10256,10 @@ def test_stages_module() -> None:
                 "bucket": "serious", "score": 1, "headlines": [title],
                 "source": {"link": f"https://x/{i}", "publishers": ["BBC"]}}
     d_pub, d_card, d_cardonly, d_none = (mk(f"c0000000000{n}", f"خبر {n}") for n in range(4))
-    rev = review.build_issue_body([d_pub, d_card, d_cardonly, d_none], "u/r", "main")
+    # (#1182) البانيان الجديدان لا يبنيان العلامات القديمة: الترجمة تُفحص على
+    # نص ثابت منسوخ من الباني القديم (قضية مفتوحة قبل التحديث).
+    rev = legacy_stage2_body([(d["id"], d["arabic"]["post_title"])
+                              for d in (d_pub, d_card, d_cardonly, d_none)])
     rev = tick_marker(rev, f"draft:{d_pub['id']}")
     rev = tick_marker(rev, f"draft:{d_card['id']}")
     rev = tick_marker(rev, f"card:{d_card['id']}")
@@ -9904,7 +10286,8 @@ def test_stages_module() -> None:
           == {yd["id"]: "go3"})
 
     f_pub, f_back, f_both = (mk(f"d0000000000{n}", f"نهائي {n}") for n in range(3))
-    fin = review.build_final_review_body([f_pub, f_back, f_both], "u/r", "main")
+    fin = legacy_stage3_body([(d["id"], d["arabic"]["post_title"])
+                              for d in (f_pub, f_back, f_both)])
     fin = tick_marker(fin, f"draft:{f_pub['id']}")
     fin = tick_marker(fin, f"back:{f_back['id']}")
     fin = tick_marker(fin, f"draft:{f_both['id']}")
@@ -9927,6 +10310,6 @@ def test_stages_module() -> None:
     check("(#1180-و) parse_image_requests القائم يعيد الرابط الملصوق",
           review.parse_image_requests(img_box + "\n" + pasted)
           == [("ab12", "https://img.example/p.jpg")])
-    # سلوك فعلي موثَّق: القارئ القائم يشترط مربع img: معلَّمًا، فالحقل وحده لا يكفي
-    check("(#1180-و) القارئ القائم لا يعيد شيئًا بلا مربع img: (يحتاج المهمة 2)",
-          review.parse_image_requests(pasted) == [])
+    # (#1182) القارئ صار يقبل الحقل وحده بلا مربع img:
+    check("(#1180-و) القارئ يعيد الرابط من الحقل وحده بلا مربع img: (#1182)",
+          review.parse_image_requests(pasted) == [("ab12", "https://img.example/p.jpg")])

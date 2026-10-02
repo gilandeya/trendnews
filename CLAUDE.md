@@ -247,8 +247,31 @@ These are enforced by convention, not tooling, so hold to them deliberately:
 - **`src/stages.py` is the single source for stage and option texts; they are never written in
   builders (Issue #1180).** Stage names, the «الانتقال» options block, its `<!-- go:action:id -->`
   markers, the image-URL field, the earliest-wins rule for conflicting boxes and the translation of
-  the old markers (`legacy_actions`) all live there, with the texts in `config.yaml: stages`. Not
-  yet called by any builder or reader (task 1 of 4) — later tasks migrate them.
+  the old markers (`legacy_actions`) all live there, with the texts in `config.yaml: stages`.
+  **Stages 2 and 3 are migrated (Issue #1182, task 2a of 4):** `review.build_issue_body` (stage 2)
+  and `review.build_final_review_body` (stage 3) now take an optional `cfg` (default `load_config()`)
+  and build their header with `stages.stage_header`, one `stages.explainer` paragraph under it, and
+  each item's transitions with `stages.options_block(..., has_stage1=False, urgent=ar.urgent)` —
+  `has_stage1=False` is temporary for every path until task 2b. **No checkbox sits above an item's
+  data and the old `draft:`/`card:`/`img:`/`back:` boxes are gone**: an item is its bold title line
+  (which carries a bare `<!-- draft:id -->` so `review.all_draft_ids` still finds the ids), then
+  badges/sources (+ sibling line), image source line + displayed image, the `<details>` text, stage 2
+  only: the headline `hl:` boxes, then `stages.image_field`, then the stage-2 🎬 reel box (a
+  publishing form, not a transition — stays a separate box), then the options block. Readers go
+  through `stages.read_actions(body, stage)`: `go:` markers → `parse_actions`, else (issues opened
+  before the update) `legacy_actions`. `publish.main` (stage 2) maps `publish` → old `draft:` alone,
+  `go3` → old `draft:`+`card:` (`ids` = those two; `go3_ids` replaces `parse_card_requests`), anything
+  unmarked → `rejected_unchecked` as before; `publish.cmd_final_review` (stage 3) maps `publish` →
+  old `draft:`, `go2` → old `back:`. Conflicts (several boxes on one item) execute what
+  `parse_actions` returns (earliest in `ACTIONS` wins) and `publish.report_conflicts` posts one
+  comment naming the item and its marked options — from the normal job only (`--urgent-only` reads
+  the same way but stays silent, since both jobs run on one `approved` event). `youtube_publish.
+  build_review_body` (analysis stage 2) and gate A are unchanged and still use the old markers; the
+  `youtube-review` body therefore goes through the `legacy_actions` branch and behaves as before.
+  `review.parse_image_requests` accepts a valid http(s) URL in the `imgurl` field **alone** (no
+  box); an item that still has an `img:` box (old issue) needs it ticked, as before — otherwise a
+  URL kept after a failed attempt (`keep_url`) would be re-applied on every edit.
+  `review.clear_image_request` restores the field text (new issues) or `الرابط:` (old ones).
 
 ## Architecture
 
@@ -282,16 +305,18 @@ already know exactly what they want to draft — there's nothing to *select*).
   config key `collect_finalize._write_selected` copies by, no constants), or «…ولا بدائل ·
   بحث الويب وحده». It reports what is *available*, not what will download; it carries no HTML
   marker and no checkbox, so every reader (all marker-based) is unaffected. Analysis is out of scope.
-- **Gate B — preliminary review (📰, label `pending-review`)**, built by `src/review.py`: no card
-  yet — an editable caption block, three alternate-headline checkboxes, an image-source note, and
-  a manual-image-link box. This is where a normal News/Breaking/Investigation draft (and a
-  gate-A 📝 pick) lands. A per-item 🎴 "اعرض البطاقة قبل النشر" checkbox lets a reviewer route an
-  individual draft out to gate C instead of publishing it immediately on `approved`.
-- **Gate C — final review (🎴, label `final-review`)**, built by `src/review.py`
-  (`build_final_review_body`): the card is already built, so there are no headline boxes to edit —
-  just a ✔️ approve box, a manual-image-swap box, and a ↩️ "أعده للمراجعة الأولية" box that sends
-  the draft *back* to gate B (clearing its card and `image`/`review_issue` fields) instead of
-  publishing it. `src/publish.py:cmd_final_review` handles this Issue; it publishes directly with
+- **Gate B — preliminary review (📰, label `pending-review`, header «المرحلة 2 من 4»)**, built by
+  `src/review.py`: no card yet — an editable caption block, three alternate-headline checkboxes,
+  an image-source note, and a paste-a-URL image field (no checkbox; the URL alone replaces the
+  image). This is where a normal News/Breaking/Investigation draft (and a gate-A 📝 pick) lands.
+  Each item ends with the «الانتقال» block (one option to tick): «🚀 انشر فورًا» (publish; urgent
+  items read «(عاجل: بلا انتظار)») or «🎴 تقدّم إلى مرحلة عرض البطاقة…» (route it out to gate C
+  instead of publishing it on `approved`).
+- **Gate C — final review (🎴, label `final-review`, header «المرحلة 3 من 4»)**, built by
+  `src/review.py` (`build_final_review_body`): the card is already built, so there are no
+  headline boxes to edit — just the image field and the options «🚀 انشر فورًا» / «↩️ عد إلى مرحلة
+  عرض النص واختيار العناوين», the latter sending the draft *back* to gate B (clearing its card and
+  `image`/`review_issue` fields) instead of publishing it. `src/publish.py:cmd_final_review` handles this Issue; it publishes directly with
   no rebuild, no headline pick, and no re-drafting.
 
 `src/publish.py:main` dispatches purely by the Issue's label (`final-review` → gate C's handler,

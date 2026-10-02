@@ -5,6 +5,7 @@ import logging
 import os
 import re
 from datetime import datetime, timezone
+from urllib.parse import urlparse
 
 import requests
 
@@ -72,22 +73,21 @@ def blob_url(repo: str, branch: str, path: str) -> str:
 # ──────────────────────────── بناء نص المراجعة ────────────────────────────
 
 
-def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str:
+def build_issue_body(drafts: list[dict], repo: str, branch: str = "main",
+                     cfg=None) -> str:
+    """نص قضية المرحلة 2 (Issue #1182): لا مربع فوق بيانات الخبر؛ الانتقال
+    كله في كتلة stages.options_block أسفل الخبر، والصورة بحقل رابط بلا مربع.
+    has_stage1=False لكل المسارات مؤقتًا حتى المهمة 2ب."""
+    # استيراد مؤجَّل: stages تستورد review على مستوى الوحدة فالعكس يدور.
+    from . import stages
+    if cfg is None:
+        from .config import load_config
+        cfg = load_config()
     run_id = os.environ.get("GITHUB_RUN_ID")
     parts = [
-        "### 📋 مسودات بانتظار المراجعة",
+        stages.stage_header(2, cfg),
         "",
-        "**كيف تعتمد؟** ✔️ ضع علامة على المنشورات التي توافق عليها، ثم أضف "
-        "الوسم `approved` إلى هذا الـ Issue. سيتولى البوت نشر المحدد فقط.",
-        "",
-        "🎴 ✔️ وحده = تُبنى البطاقة ويُنشر فورًا. مع 🎴 = تُبنى البطاقة "
-        "وتُعرض عليك في Issue ثانٍ قبل النشر.",
-        "",
-        "🎬 لكل خبر مربع ثانٍ: علّم عليه لينشر البوت **ريلًا** بدل الصورة. "
-        "الريل يُبنى لحظة النشر (يضيف ~30 ثانية) ولا يُبنى لما لا تختاره.",
-        "",
-        "🚫 **ما لا تعلّمه لن يُنشر** ويُسجَّل مرفوضًا تلقائيًا — وسأسألك عن "
-        "السبب في التقرير الأسبوعي.",
+        cfg.path("stages.explainer", ""),
         "",
         "✏️ لتعديل نصّ منشور: حرّر هذا الـIssue واكتب داخل كتلة النص مباشرة. "
         "النصّ الذي أراه لحظة الاعتماد هو ما يُنشر. ملاحظة: تعديل النص لا "
@@ -126,16 +126,16 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
         badge += (f" · 💰 أثر {d.get('impact', 0)} · 🫱 قرب {d.get('proximity', 0)}"
                   f" · ✨ تشويق {d.get('intrigue', 0)}")
 
+        # العنوان بلا مربع؛ علامة draft: تبقى عليه وحدها كي يجد
+        # review.all_draft_ids معرّفات القضية (الاعتماد كله بعلامات go:).
         parts += [
-            f"- [ ] **{idx}. {ar['post_title']}**  <!-- draft:{d['id']} -->",
-            "",
-            f"  - [ ] 🎴 اعرض البطاقة قبل النشر  <!-- card:{d['id']} -->",
+            f"**{idx}. {ar['post_title']}**  <!-- draft:{d['id']} -->",
             "",
         ]
         if d.get("sibling_id"):
             # Issue #765، بند 3: مقال ومنشور تحقيق من نفس المدخل يظهران
             # كمسودتين منفصلتين تحملان sibling_id متبادلًا — لا واجهة جديدة،
-            # المربعات القائمة تكفي (اعتمد أحدهما أو كليهما أو لا شيء).
+            # خيارات الانتقال القائمة تكفي (اعتمد أحدهما أو كليهما أو لا شيء).
             # تصحيح Issue #769: المسودتان قد لا تتجاوران بين مسودات الأخبار،
             # فالسطر يذكر رقم المنشور المقابل صراحة متى وُجد في نفس الـIssue
             # — لا يكفي القول «بديل لنفس المدخل» بلا تحديد أيّهما.
@@ -149,28 +149,10 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             f"{'، '.join(d['source']['publishers'][:3])}",
             "",
             *([f"  <sub>{d['appeal_note']}</sub>", ""] if d.get("appeal_note") else []),
-            f"  {image_source_line(d)}",
-            "",
-        ]
-        headlines = d.get("headlines") or []
-        if headlines:
-            # عناوين مقترحة (Issue #756) -- نفس صيغة مسار التحليل
-            # (<!-- hl:id:idx -->، الأول معلَّم افتراضيًا)؛ مسودة بقائمة
-            # فارغة (فشل النداء، انظر توثيق src/headlines.py) لا تُعرَض لها
-            # مربعات إطلاقًا. البطاقة هنا مبنية مسبقًا (خلافًا لمسار
-            # التحليل) فتحمل عنوانها القصير الخاص بلا صلة بهذا الاختيار.
-            selected = d.get("headline_selected", 0)
-            parts.append("  📰 **العنوان:** علّم واحدًا — يستبدل السطر الأول من النص.")
-            parts.append("")
-            for h_idx, headline in enumerate(headlines):
-                mark = "x" if h_idx == selected else " "
-                parts.append(f"  - [{mark}] {h_idx + 1}. {headline}  <!-- hl:{d['id']}:{h_idx} -->")
-            parts.append("")
-            parts.append("  <sub>البطاقة تحمل عنوانها القصير الخاص ولا تتغير باختيارك هنا.</sub>")
-            parts.append("")
-        parts += [
             *(["  > ⚠️ **مصدره إعلام رسمي/حكومي فقط** — تحقّق من الرواية قبل النشر.",
                ""] if d.get("state_media") else []),
+            f"  {image_source_line(d)}",
+            "",
         ]
         # البطاقة (image) لم تُبنَ بعد قبل الاعتماد هو الحال العام الآن
         # (Issue #852) -- تُعرَض بدلًا منها أول مرشَّح صورة خام من
@@ -183,9 +165,6 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
                 f"  ↳ [الصورة في المستودع]({blob_url(repo, branch, img_path)}) · "
                 f"[الخبر الأصلي]({d['source']['link']})",
                 "",
-                # صندوق + فراغ: المراجع يفتح تحرير الـ Issue، يلصق الرابط في
-                # الفراغ ويعلّم المربع، فيعيد البوت بناء البطاقة. المعرّف
-                # مخفي في تعليق HTML لأن المراجع لا يحتاج رؤيته.
                 *([f"  🖼️ **بلا صورة للخبر** — البطاقة على خلفية مصممة."]
                   if d.get("has_photo") is False else []),
             ]
@@ -209,12 +188,6 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
                     "",
                 ]
         parts += [
-            f"  - [ ] 🖼️ استبدل الصورة بالرابط أدناه  <!-- img:{d['id']} -->",
-            "",
-            f"    الرابط:   <!-- imgurl:{d['id']} -->",
-            "",
-            *([f"  - [ ] 🎬 انشره كريل بدل الصورة  <!-- reel:{d['id']} -->",
-               ""] if d.get("reel_spec") or d.get("reel") else []),
             "  <details><summary>📝 نص المنشور الكامل</summary>",
             "",
             f"  <!-- cap:{d['id']} -->",
@@ -224,6 +197,32 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
             f"  <!-- /cap:{d['id']} -->",
             "",
             "  </details>",
+            "",
+        ]
+        headlines = d.get("headlines") or []
+        if headlines:
+            # عناوين مقترحة (Issue #756) -- نفس صيغة مسار التحليل
+            # (<!-- hl:id:idx -->، الأول معلَّم افتراضيًا)؛ مسودة بقائمة
+            # فارغة (فشل النداء، انظر توثيق src/headlines.py) لا تُعرَض لها
+            # مربعات إطلاقًا. البطاقة هنا مبنية مسبقًا (خلافًا لمسار
+            # التحليل) فتحمل عنوانها القصير الخاص بلا صلة بهذا الاختيار.
+            selected = d.get("headline_selected", 0)
+            parts.append("  📰 **العنوان:** علّم واحدًا — يستبدل السطر الأول من النص.")
+            parts.append("")
+            for h_idx, headline in enumerate(headlines):
+                mark = "x" if h_idx == selected else " "
+                parts.append(f"  - [{mark}] {h_idx + 1}. {headline}  <!-- hl:{d['id']}:{h_idx} -->")
+            parts.append("")
+            parts.append("  <sub>البطاقة تحمل عنوانها القصير الخاص ولا تتغير باختيارك هنا.</sub>")
+            parts.append("")
+        parts += [
+            stages.image_field(d["id"], cfg),
+            "",
+            # الريل شكل نشر لا انتقال، فيبقى مربعه خارج كتلة الانتقال.
+            *([f"  - [ ] 🎬 انشره كريل بدل الصورة  <!-- reel:{d['id']} -->",
+               ""] if d.get("reel_spec") or d.get("reel") else []),
+            *stages.options_block(2, d["id"], cfg, has_stage1=False,
+                                  urgent=bool(ar.get("urgent"))),
             "",
             "---",
             "",
@@ -239,27 +238,22 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main") -> str
     return "\n".join(parts)
 
 
-def build_final_review_body(drafts: list[dict], repo: str, branch: str = "main") -> str:
-    """نص Issue المراجعة النهائية (Issue #858، الجزء الثاني) — يُفتح لمن
-    عُلِّم عليه 🎴 في المراجعة الأولية، بعد أن بُنيت بطاقته فعلًا (publish.main
-    يبني البطاقة قبل هذا التفرّع، انظر توثيق CLAUDE.md). بلا مربع 🎴 (قرار
-    محسوم بالفعل) وبلا مربعات عناوين (العنوان حُفر على البطاقة المبنيّة) —
-    فقط اعتماد نهائي، تبديل صورة يدوي (نفس مربعي img/imgurl القائمين في
-    build_issue_body، يعمل عبر setimage.py بلا أي تعديل هناك)، وإعادة
-    للمراجعة الأولية (↩️، تغلب الاعتماد إن اجتمعا -- نفس مبدأ الرفض يغلب
-    الاعتماد قبل #841)."""
+def build_final_review_body(drafts: list[dict], repo: str, branch: str = "main",
+                            cfg=None) -> str:
+    """نص قضية المرحلة 3 (Issue #858، أُعيد تشكيله في Issue #1182) — يُفتح
+    لمن بُنيت بطاقته فعلًا (publish.main يبني البطاقة قبل هذا التفرّع). بلا
+    مربعات عناوين (العنوان حُفر على البطاقة)؛ الانتقال كله بكتلة
+    stages.options_block (انشر / عد إلى المرحلة 2) والصورة تُستبدل بحقل
+    الرابط وحده. العودة تغلب النشر إن اجتمعا لأن الأبكر في stages.ACTIONS
+    يغلب."""
+    from . import stages
+    if cfg is None:
+        from .config import load_config
+        cfg = load_config()
     parts = [
-        "### 🎴 مراجعة نهائية قبل النشر",
+        stages.stage_header(3, cfg),
         "",
-        "**كيف تعتمد؟** ✔️ ضع علامة على المنشورات التي توافق عليها، ثم أضف "
-        "الوسم `approved` إلى هذا الـ Issue. تُنشر البطاقة المبنيّة كما هي "
-        "أدناه — بلا إعادة بناء بطاقة ولا اختيار عنوان ولا تعديل نص.",
-        "",
-        "🚫 **ما لا تعلّمه لن يُنشر** ويُسجَّل مرفوضًا تلقائيًا.",
-        "",
-        "↩️ لإعادة منشور إلى المراجعة الأولية (لتعديل عنوانه أو نصّه أو "
-        "إعادة بناء بطاقته): علّم مربع العودة. يغلب هذا المربع الاعتماد "
-        "إن عُلِّم الاثنان معًا على نفس المنشور.",
+        cfg.path("stages.explainer", ""),
         "",
         "---",
         "",
@@ -268,7 +262,7 @@ def build_final_review_body(drafts: list[dict], repo: str, branch: str = "main")
     for idx, d in enumerate(drafts, start=1):
         ar = d["arabic"]
         parts += [
-            f"- [ ] **{idx}. {ar['post_title']}**  <!-- draft:{d['id']} -->",
+            f"**{idx}. {ar['post_title']}**  <!-- draft:{d['id']} -->",
             "",
             f"  {image_source_line(d)}",
             "",
@@ -283,12 +277,6 @@ def build_final_review_body(drafts: list[dict], repo: str, branch: str = "main")
                 "",
             ]
         parts += [
-            f"  - [ ] 🖼️ استبدل الصورة بالرابط أدناه  <!-- img:{d['id']} -->",
-            "",
-            f"    الرابط:   <!-- imgurl:{d['id']} -->",
-            "",
-            f"  - [ ] ↩️ أعده للمراجعة الأولية  <!-- back:{d['id']} -->",
-            "",
             "  <details><summary>📝 نص المنشور الكامل</summary>",
             "",
             f"  <!-- cap:{d['id']} -->",
@@ -299,11 +287,16 @@ def build_final_review_body(drafts: list[dict], repo: str, branch: str = "main")
             "",
             "  </details>",
             "",
+            stages.image_field(d["id"], cfg),
+            "",
+            *stages.options_block(3, d["id"], cfg, has_stage1=False,
+                                  urgent=bool(ar.get("urgent"))),
+            "",
             "---",
             "",
         ]
 
-    parts.append("<sub>وسم `approved` = نشر المعلَّم كما هو بلا تعديل · "
+    parts.append("<sub>وسم `approved` = تنفيذ المعلَّم كما هو بلا تعديل · "
                  "إغلاق الـ Issue = تجاهل الكل</sub>")
     return "\n".join(parts)
 
@@ -582,38 +575,58 @@ IMG_URL_RE = re.compile(r"<!--\s*imgurl:([0-9a-f]+)\s*-->")
 URL_RE = re.compile(r"https?://\S+")
 
 
+def _valid_url(text: str) -> str | None:
+    found = URL_RE.search(text)
+    if not found:
+        return None
+    url = found.group(0).rstrip(").,>،")
+    parsed = urlparse(url)
+    return url if parsed.scheme in ("http", "https") and parsed.netloc else None
+
+
 def parse_image_requests(body: str) -> list[tuple[str, str]]:
     """
-    يقرأ طلبات استبدال الصورة: مربع معلَّم + رابط في سطر الفراغ.
+    يقرأ طلبات استبدال الصورة (Issue #1182): رابط http(s) صالح في حقل imgurl
+    يكفي وحده بلا مربع. الصيغة القديمة تبقى لقضايا مفتوحة قبل التحديث: خبر
+    له مربع img: لا يُطبَّق رابطه إلا إن عُلِّم المربع — وإلا عاد رابط بقي
+    بعد فشل (keep_url) يُطبَّق من جديد في كل تعديل.
 
-    الرابط يُلتقط من أي موضع في سطر الفراغ، لأن اللصق على الهاتف قد يقع
-    قبل العلامة أو بعدها. مربع معلَّم بلا رابط يُهمَل — لا يُخمَّن.
+    الرابط يُلتقط من أي موضع في سطر الحقل، لأن اللصق على الهاتف قد يقع
+    قبل العلامة أو بعدها. نص الحقل الفارغ أو أي نص غير رابط لا يُعدّ طلبًا.
     """
     urls: dict[str, str] = {}
     for line in (body or "").splitlines():
         match = IMG_URL_RE.search(line)
         if not match:
             continue
-        found = URL_RE.search(IMG_URL_RE.sub(" ", line))
-        if found:
-            urls[match.group(1)] = found.group(0).rstrip(").,>،")
+        url = _valid_url(IMG_URL_RE.sub(" ", line))
+        if url:
+            urls[match.group(1)] = url
 
-    out = []
-    for _, mark, _, draft_id in IMG_BOX_RE.findall(body or ""):
-        if mark.lower() == "x" and draft_id in urls:
-            out.append((draft_id, urls[draft_id]))
-    return out
+    boxes = {draft_id: mark.lower() == "x"
+             for _, mark, _, draft_id in IMG_BOX_RE.findall(body or "")}
+    # بلا مربع img: لهذا الخبر = الصيغة الجديدة، فيكفي الرابط.
+    return [(draft_id, url) for draft_id, url in urls.items()
+            if boxes.get(draft_id, True)]
 
 
 def clear_image_request(body: str, draft_id: str, keep_url: bool = False) -> str:
-    """يُفرغ المربع بعد تنفيذه: وإلا أعاد كل تحرير لاحق تنفيذ الطلب نفسه."""
+    """يُفرغ الحقل بعد تنفيذه: وإلا أعاد كل تحرير لاحق تنفيذ الطلب نفسه.
+    الحقل الجديد يعود إلى نصّه من stages.image_field؛ القديم (له مربع img:)
+    إلى «الرابط:» كما كان."""
+    field = None
+    if f"<!-- img:{draft_id} -->" not in body:
+        from . import stages
+        from .config import load_config
+        field = stages.image_field(draft_id, load_config())
     lines = []
     for line in body.splitlines():
         if f"<!-- img:{draft_id} -->" in line:
             line = re.sub(r"-\s*\[[xX]\]", "- [ ]", line, count=1)
         elif f"<!-- imgurl:{draft_id} -->" in line and not keep_url:
             indent = line[:len(line) - len(line.lstrip())]
-            line = f"{indent}الرابط:   <!-- imgurl:{draft_id} -->"
+            line = (f"{indent}{field}" if field
+                    else f"{indent}الرابط:   <!-- imgurl:{draft_id} -->")
         lines.append(line)
     return "\n".join(lines)
 

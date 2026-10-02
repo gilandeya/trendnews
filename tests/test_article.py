@@ -1598,7 +1598,7 @@ def test_verify_draft() -> None:
     check("11) سبب الرفض التحريري يظهر في قسم التقرير أيضًا",
           "خبر مشاهير" in section11)
 
-    # حقل المنشأ لا يمنح أي امتياز في المراجعة: parse_approved يعمل على
+    # حقل المنشأ لا يمنح أي امتياز في المراجعة: قراءة خيارات الانتقال تعمل على
     # المعرّف والمربعات فقط بصرف النظر عن وجوده (نقطة 5 من الموافقة)
     origin_draft = {
         "id": "ab01cd23ef45", "score": 1.0, "trend_score": 0.0, "origin": "verify",
@@ -1607,9 +1607,11 @@ def test_verify_draft() -> None:
         "arabic": {"post_title": "عنوان", "urgent": False, "category": "اقتصاد"},
     }
     origin_body = review.build_issue_body([origin_draft], "u/r", "main")
-    origin_body_checked = tick_marker(origin_body, "draft:ab01cd23ef45")
-    check("حقل origin لا يمنع اعتماد المسودة عبر parse_approved كالمعتاد",
-          review.parse_approved(origin_body_checked) == ["ab01cd23ef45"])
+    # (#1182) لا مربع على العنوان: الاعتماد بخيار «انشر» تحت الخبر.
+    from src import stages
+    origin_body_checked = tick_marker(origin_body, "go:publish:ab01cd23ef45")
+    check("حقل origin لا يمنع اعتماد المسودة عبر خيار «انشر» كالمعتاد",
+          stages.read_actions(origin_body_checked, 2)[0] == {"ab01cd23ef45": "publish"})
 
     # 12) فشل نداء النموذج نفسه (شبكة/حصة/استجابة مشوَّهة) أثناء الصياغة —
     # لا مسودة، ورسالة تذكر المرحلة والسبب المحدد لا رسالة عامة (نقطة 4 من

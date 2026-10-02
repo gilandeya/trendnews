@@ -20,7 +20,7 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
-from . import cards, decisions, facebook, feedback, review, store
+from . import cards, decisions, facebook, feedback, review, stages, store
 from .config import ROOT, env, load_config
 from .reel import build_reel, has_ffmpeg
 from .schedule import assign_slots, describe, is_due, spaced_slots
@@ -555,7 +555,7 @@ def open_final_review(primary_issue: int, draft_ids: list[str], cfg) -> None:
     issue = review.create_issue(
         title=(f"🎴 مراجعة نهائية {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
                f"— {len(drafts)} منشور"),
-        body=review.build_final_review_body(drafts, repo, branch),
+        body=review.build_final_review_body(drafts, repo, branch, cfg),
         labels=["final-review"],
     )
     for path, _ in rows:
@@ -568,7 +568,23 @@ def open_final_review(primary_issue: int, draft_ids: list[str], cfg) -> None:
     )
 
 
-def cmd_final_review(issue_number: int, body: str, cfg) -> int:
+def report_conflicts(issue_number: int, conflicts: list[dict], stage: int, cfg) -> None:
+    """تنبيه واحد على القضية بكل خبر عُلِّم فيه أكثر من خيار انتقال (Issue
+    #1182). المنفَّذ ما أعاده stages.parse_actions (الأبكر يغلب)؛ التنبيه
+    كي لا يمرّ التعارض بلا أثر مرئي."""
+    if not conflicts:
+        return
+    lines = ["⚠️ عُلِّم أكثر من خيار انتقال على بعض الأخبار — نُفِّذ الأبكر ترتيبًا:"]
+    for item in conflicts:
+        found = store.load_draft(item["id"])
+        title = found[1]["arabic"]["post_title"][:50] if found else item["id"]
+        marked = " + ".join(stages.action_label(a, stage, cfg) for a in item["marked"])
+        lines.append(f"- {title}: {marked} ← نُفِّذ: "
+                     f"{stages.action_label(item['marked'][0], stage, cfg)}")
+    review.comment(issue_number, "\n".join(lines))
+
+
+def cmd_final_review(issue_number: int, body: str, cfg, urgent_only: bool = False) -> int:
     """اعتماد Issue المراجعة النهائية (Issue #858، الجزء الثاني): المعلَّم
     يُنشر مباشرة بلا إعادة بناء بطاقة ولا اختيار عنوان ولا تعديل نص --
     البطاقة مبنيّة مسبقًا والعنوان محسوم منذ المراجعة الأولية. ما لم يُعلَّم
@@ -596,8 +612,15 @@ def cmd_final_review(issue_number: int, body: str, cfg) -> int:
     Issue لا يُغلق، وسم approved يُزال عبر review.remove_label، وسطر ⏳ لكل
     مسودة باقية + سطر ختامي يطلب إعادة الوسم لمتابعتها."""
     all_ids = review.all_draft_ids(body)
-    back_ids = review.parse_back_requests(body)
-    approved_ids = [i for i in review.parse_approved(body) if i not in back_ids]
+    # المرحلة 3 (Issue #1182): publish = ما كان ✔️ بلا ↩️، go2 = ↩️ — القراءة
+    # بعلامات go: أو بالترجمة القديمة لقضية مفتوحة قبل التحديث.
+    actions, conflicts = stages.read_actions(body, 3)
+    back_ids = [i for i in all_ids if actions.get(i) == "go2"]
+    approved_ids = [i for i in all_ids if actions.get(i) == "publish"]
+    # urgent وnormal يصلان هذا الفرع لنفس الحدث (Issue #745): التنبيه من
+    # المسار العادي وحده كي لا يتكرر.
+    if not urgent_only:
+        report_conflicts(issue_number, conflicts, 3, cfg)
 
     lines: list[str] = []
 
@@ -965,7 +988,7 @@ def main() -> int:
     # عامة بلا أي فحص origin، فتنشر مسودة تحليل عبر publish_one كأي مسودة
     # أخرى بلا استثناء.
     if "final-review" in labels:
-        return cmd_final_review(args.issue, body, cfg)
+        return cmd_final_review(args.issue, body, cfg, urgent_only=args.urgent_only)
 
     # Issue #959: Issue إحياء الفشل (وسم failed-review، يُفتح من
     # open_review._open_revival_issue) -- يعمل في المسار العادي وحده، بنفس
@@ -1023,7 +1046,15 @@ def main() -> int:
         from . import collect_finalize
         return collect_finalize.finalize(args.issue, body, cfg)
 
-    ids = review.parse_approved(body)
+    # المرحلة 2 (Issue #1182): publish = ما كان ✔️ وحده، go3 = ما كان ✔️ + 🎴،
+    # بلا تعليم = مرفوض. قضية مراجعة التحليل (youtube-review) لم يُغيَّر بانيها
+    # فتُقرأ بالترجمة القديمة نفسها داخل read_actions بالنتيجة ذاتها.
+    actions, conflicts = stages.read_actions(body, 2)
+    ids = [i for i in review.all_draft_ids(body)
+           if actions.get(i) in ("publish", "go3")]
+    go3_ids = {i for i in ids if actions[i] == "go3"}
+    if not args.urgent_only:          # المسار السريع يقرأ بالمثل ولا يكرّر التنبيه
+        report_conflicts(args.issue, conflicts, 2, cfg)
 
     # تطبيق تعديل النص اليدوي (Issue #752) — مباشرة بعد parse_approved وقبل
     # فصل analysis_ids/news_ids عمدًا: مسار التحليل يستبدل سطر العنوان في
@@ -1149,7 +1180,7 @@ def main() -> int:
     if not ids:
         log.warning("لم يُعلَّم على أي منشور")
         review.comment(args.issue,
-                       "⚠️ لم يُعلَّم على أي منشور. أضف ✔️ ثم أعد وسم `approved`.")
+                       "⚠️ لم يُعلَّم على أي منشور. علّم خيار انتقال تحت الخبر ثم أعد وسم `approved`.")
         review.remove_label(args.issue, "approved")
         return 0
 
@@ -1208,7 +1239,7 @@ def main() -> int:
     # نفس نمط حراسة urgent/skip الذي يؤجّل توجيه التحليل أعلاه (Issue #745):
     # المسار السريع لا يفتح Issues مراجعة جديدة، فيُترَك هذا التجميع للمسار
     # العادي فقط -- المسودة تبقى pending فيلتقطها ذلك التشغيل التالي.
-    card_requests = review.parse_card_requests(body) & set(news_ids)
+    card_requests = go3_ids & set(news_ids)
     if card_requests:
         news_ids = [i for i in news_ids if i not in card_requests]
         if args.urgent_only:
