@@ -1,0 +1,73 @@
+{
+  "id": "c6bec9d2476d",
+  "created_at": "2026-10-02T03:08:08.205561+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.56,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "أرتيريا تقطع العلاقات مع إثيوبيا، توتر إقليمي أفريقي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Eritrea severs diplomatic ties with Ethiopia after Addis Ababa orders closure of embassy in Asmara",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-02-eritrea-severs-diplomatic-ties-with-ethiopia-after-addis-ababa-orders-closure-of-embassy-in-asmara/",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Daily Maverick",
+    "France24"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Eritrea severs diplomatic ties with Ethiopia after Addis Ababa orders closure of embassy in Asmara",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-02-eritrea-severs-diplomatic-ties-with-ethiopia-after-addis-ababa-orders-closure-of-embassy-in-asmara/",
+    "summary": "Oct 1 (Reuters) - Ethiopia ordered the closure of its embassy in Eritrea and declared 10 Eritrean diplomats persona non grata on Thursday, prompting Asmara to sever all diplomatic ties with its neighbour after overnight blasts heard in Addis Ababa sparked fears about renewed conflict in northern Ethiopia spreading.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-02T04:45:08+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/pPh341tQBNSaAHRc3Jv5XuV9eek=/800x0/smart/filters:strip_exif()/file/attachments/2998/14158460_854342.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Daily Maverick",
+      "France24"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/1/eritrea-severs-diplomatic-ties-with-ethiopia-in-tit-for-tat-move?traffic_source=rss"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-02-eritrea-severs-diplomatic-ties-with-ethiopia-after-addis-ababa-orders-closure-of-embassy-in-asmara/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/ethiopia-and-eritrea-break-diplomatic-ties-over-conflict"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/pPh341tQBNSaAHRc3Jv5XuV9eek=/800x0/smart/filters:strip_exif()/file/attachments/2998/14158460_854342.jpg",
+      "https://s.france24.com/media/display/3d1693e6-bdd6-11f1-9bfe-69fad0a7cb9f/w:1024/p:16x9/ANGL261001-2140-Live.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1402.9109788655555,
+    "is_stale": false,
+    "score": 26.558300611703704,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "أرتيريا تقطع العلاقات مع إثيوبيا، توتر إقليمي أفريقي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
