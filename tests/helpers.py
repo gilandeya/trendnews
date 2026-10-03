@@ -336,23 +336,37 @@ def badge_probe_xy(cfg, texts: list[str], index: int, headline: str) -> tuple[in
 
 
 class ImportantRig:
-    """يثبّت مزيَّفات الأنبوب كاملًا لـ src/important.py (extract_brief،
-    evidence.search/gather_evidence، article._client) ويسجّل كل نداء نموذج
-    فعلي في ``calls`` — مصدر الحقيقة الوحيد لاختبار عدّاد النداءات المحفوظ
-    في الملف (لا يُحسب العدّاد من الجهتين بالمنطق نفسه).
+    """يثبّت مزيَّفات الأنبوب كاملًا لـ src/important.py (نداء التفكيك
+    extract_points، evidence.search/gather_evidence، Brave web، article._client)
+    ويسجّل كل نداء نموذج فعلي في ``calls`` — مصدر الحقيقة الوحيد لاختبار
+    عدّاد النداءات المحفوظ في الملف (لا يُحسب العدّاد من الجهتين بالمنطق نفسه).
 
-    points: قائمة نقاط تُعاد من extract_brief المزيَّفة.
+    points: نقاط يعيدها نداء التفكيك المزيَّف. الشكل القديم (text/kind/
+    entities…) يُحوَّل إلى شكل رد الأداة (الآراء تُهمَل كما يفعل النموذج
+    الحقيقي، وعبارة البحث هي نص النقطة)؛ ومن فيه مفتاح ``claim`` يُمرَّر
+    كما هو بشكل رد الأداة (انظر important.EXTRACT_SCHEMA).
+
+    brave_results / brave_key: كلمة مميِّزة ← نتائج Brave web الخام؛ بلا
+    brave_key لا مفتاح في البيئة (الافتراضي). searches تسجّل (استعلام،
+    أيام، بلا_قيد) لكل بحث Google؛ unrestricted_only: كلمات لا تُعاد وثائقها
+    إلا من بحث بلا قيد زمني (يحاكي حدثًا قديمًا).
     docs_by_marker: كلمة مميِّزة ← وثائق تُعاد حين يحويها نص الاستعلام (كل
     نقطة تحمل كلمة فريدة في كياناتها فتُبنى الاستعلامات بها أولًا).
     classify(point_text, doc_names) ← مدخلات أداة classify_sources.
     """
 
-    def __init__(self, points, docs_by_marker, classify):
+    def __init__(self, points, docs_by_marker, classify, brave_results=None,
+                 brave_key=None, unrestricted_only=()):
         self.points = points
         self.docs_by_marker = docs_by_marker
         self.classify = classify
+        self.brave_results = brave_results or {}
+        self.brave_key = brave_key
+        self.unrestricted_only = set(unrestricted_only)
         self.calls: list[str] = []
         self.queries: list[str] = []
+        self.searches: list[tuple] = []
+        self.brave_calls: list[str] = []
         self._saved: dict = {}
 
     def __enter__(self):
@@ -371,15 +385,20 @@ class ImportantRig:
 
         def fake_search(query, cfg, days, unrestricted=False, require_relevance=True):
             rig.queries.append(query)
+            rig.searches.append((query, days, unrestricted))
             out = _Ranked()
             for marker, docs in rig.docs_by_marker.items():
-                if marker in query:
+                if marker in query and (unrestricted or marker not in rig.unrestricted_only):
                     out.extend(_Art(d) for d in docs)
             out.raw_count = len(out)
             return out
 
         def fake_gather(articles, cfg, claim_text="", loose_relevance=False):
-            return [a.doc for a in articles], "full"
+            # مقالات Brave حقيقية الشكل (Article) بلا .doc: وثيقتها من حقولها
+            return [a.doc if hasattr(a, "doc") else
+                    {"name": a.publisher or a.source_name, "link": a.link,
+                     "text": f"{a.title}. {a.summary}", "from_text": True}
+                    for a in articles], "full"
 
         class _Block:
             type = "tool_use"
@@ -398,6 +417,8 @@ class ImportantRig:
             def create(self, **kw):
                 rig.calls.append(kw["tool_choice"]["name"])
                 content = kw["messages"][0]["content"]
+                if kw["tool_choice"]["name"] == "extract_points":
+                    return _Resp(rig._extract_input())
                 names = re.findall(r"--- المصدر: (.*?) ---", content[0]["text"])
                 point = content[1]["text"].split(":", 1)[1].strip()
                 return _Resp(rig.classify(point, names))
@@ -405,23 +426,70 @@ class ImportantRig:
         class _Client:
             messages = _Msgs()
 
+        import os
+        import requests as _requests
+
+        class _Http:
+            status_code = 200
+
+            def __init__(self, payload):
+                self._payload = payload
+
+            def json(self):
+                return self._payload
+
+        real_get = _requests.get
+
+        def fake_get(url, **kw):
+            if "search.brave.com/res/v1/web/search" not in url:
+                return real_get(url, **kw)
+            query = kw["params"]["q"]
+            rig.brave_calls.append(query)
+            results = [r for marker, rs in rig.brave_results.items()
+                       if marker in query for r in rs]
+            return _Http({"web": {"results": results}})
+
         self._saved = {
-            "extract_brief": article.extract_brief, "_client": article._client,
-            "search": evidence.search, "gather": evidence.gather_evidence,
+            "_client": article._client, "search": evidence.search,
+            "gather": evidence.gather_evidence, "get": real_get,
+            "env": os.environ.get("BRAVE_API_KEY"),
         }
-        article.extract_brief = lambda body, cfg, retries=3: ({
-            "topic": "موضوع اختبار", "statements": self.points, "questions": []}, None)
         article._client = lambda: _Client()
         evidence.search = fake_search
         evidence.gather_evidence = fake_gather
+        _requests.get = fake_get
+        os.environ.pop("BRAVE_API_KEY", None)
+        if self.brave_key:
+            os.environ["BRAVE_API_KEY"] = self.brave_key
         return self
 
+    def _extract_input(self) -> dict:
+        out = []
+        for p in self.points:
+            if "claim" in p:
+                out.append(p)
+            elif p.get("kind", "واقعة") in ("واقعة", "تصريح", "تقرير منقول"):
+                out.append({
+                    "claim": p["text"], "asserted": p.get("asserted", ""),
+                    "entities": p.get("entities", []), "dates": p.get("dates", []),
+                    "numbers": p.get("numbers", []),
+                    "queries": p.get("queries") or [{"lang": "ar", "q": p["text"]}],
+                    "factcheck_query": p.get("factcheck_query", ""),
+                    "is_unnamed_event": bool(p.get("is_unnamed_event"))})
+        return {"topic": "موضوع اختبار", "points": out}
+
     def __exit__(self, *exc):
+        import os
+        import requests as _requests
         from src import article
-        article.extract_brief = self._saved["extract_brief"]
         article._client = self._saved["_client"]
         evidence.search = self._saved["search"]
         evidence.gather_evidence = self._saved["gather"]
+        _requests.get = self._saved["get"]
+        if self._saved["env"] is None:
+            os.environ.pop("BRAVE_API_KEY", None)
+        else:
+            os.environ["BRAVE_API_KEY"] = self._saved["env"]
         return False
 
 
@@ -440,3 +508,9 @@ def important_doc(name: str, text: str, **extra) -> dict:
 def important_stance(source: str, stance: str, excerpt: str = "", **kw) -> dict:
     return {"source": source, "stance": stance, "excerpt": excerpt,
             "detail": kw.get("detail", ""), "correct_form": kw.get("correct_form", "")}
+
+
+def brave_result(url: str, title: str, description: str, name: str = "") -> dict:
+    """نتيجة خام بشكل Brave web/search (web.results[])."""
+    return {"url": url, "title": title, "description": description,
+            "profile": {"name": name} if name else {}}

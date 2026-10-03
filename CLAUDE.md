@@ -1196,6 +1196,42 @@ Issue #1194، المهمة 1 من 3: `src/important.py` فقط — الحَكَ�
   `important.max_points` = 8). الفحص اليدوي: `python -m src.important --issue N --judge-only` (لا قضايا
   ولا تعليقات). الإعداد كله في `config.yaml: important`.
 
+**المهمة 1ب (Issue #1198) — إصلاح التفكيك والبحث بعد أول تجربة حقيقية (#1197: صفر من خمسة).** السبب
+المقيس: `extract_brief` فكّك الادّعاء وتصحيحه إلى نقطتين، ونقطتان بلا أسماء سقطتا قبل البحث، والبحث
+5 كلمات عربية بأخبار Google وحدها ويتوقف عند أول 3 مصادر. التغيير كله في `src/important.py` + `config.yaml:
+important` — **لا تعديل على `article.py` ولا على `.github/workflows/`**.
+- **التفكيك:** `important.extract_points` نداء Haiku واحد (`important.extract_model`) بأداة `extract_points`
+  بدل `article.extract_brief`. لكل نقطة `claim` (ادّعاء واحد)، و`asserted` (ما قاله النص عن الادّعاء نفسه من
+  تحقق/تكذيب/تصحيح — **للعرض فقط، لا يُمرَّر إلى `_classify` ولا يدخل `decide`**، اختبار g8)، و`entities`
+  و`dates` و`numbers`، و`queries` (عربي/إنجليزي/لغة البلد؛ حد `important.queries_per_lang` لكل لغة يُفرض في
+  الكود `_queries_per_lang`) و`factcheck_query`. النقطة بلا كيانات لا تسقط: تُبحث بعباراتها، وبلا عبارات
+  أيضًا بنصها. `_name_event` لما يصفه النص «حدثًا» مبهمًا فقط (`is_unnamed_event`) وفشله لا يُسقط نقطة لها
+  عبارات (ملاحظة فقط).
+- **البحث الجامع (`_PointSearch.collect`):** عبارة التدقيق أولًا ثم العبارات؛ لكل عبارة أخبار Google
+  (`_google`: نافذة `days`، وتبدأ من `wide_days` إن ذكرت النقطة سنة أقدم من النافذة، وتصعد wide ← بلا قيد عند
+  صفر نتائج خام، وبعد wide دائمًا إن كانت السنة أقدم من `wide_days`) ثم Brave web. يتوقف الجمع عند
+  `important.max_docs_per_point` (8) وثيقة، بلا تكرار رابط، مع فلتر إعادة النشر القائم، ومرتَّبة: جهات التدقيق
+  ثم التطابق مع entities/dates/numbers (`_finalize`). `nearest` يُحسب من هذه الوثائق كلها بشرطه القديم
+  (حدث بمصدرين مستقلين).
+- **Brave web:** `brave_web_articles` (GET `/res/v1/web/search`، `BRAVE_API_KEY` نفسه) يحوّل النتائج إلى
+  `Article` ليقبلها `evidence.gather_evidence`. عدّاد وسقف مستقلان عن صور البطاقات: مفتاح
+  `"important:YYYY-MM"` في `state/brave_usage.json` (كل كاتب يحفظ مفتاح الآخر) وسقف
+  `important.brave_monthly_cap` (300)؛ يزيد العدّاد قبل الطلب. بلا مفتاح أو عند السقف ← Google وحدها ويُسجَّل
+  `brave.skipped` (`no_key`/`cap`) في الملف بلا خطأ. **تنبيه تشغيلي:** كتابة `state/brave_usage.json` تحتاج
+  أن يُودِع الـworkflow المسار `state/` (خارج نطاق المهمة).
+- **نطاقات:** `important.excluded_domains` تُستبعد من الأدلة كليًا من كل محرّك (`_is_excluded_domain`، النطاق
+  أو فرعيّه بنقطة فاصلة) — نفيٌ من facebook.com لا يُحسب (g9). `important.fact_check_domains` تُعرِّف جهة
+  التدقيق بالنطاق أيضًا (`_is_fact_checker(name, icfg, link)`؛ مدخل فيه «/» كـ`reuters.com/fact-check/` يتطلب
+  المسار)، وأُضيفت الصيغ العربية (مسبار/فتبينوا/تييت) إلى `fact_check_publishers` (g7). شروط حارس `false`
+  لم تتغيّر.
+- **الملف:** لكل نقطة `claim`/`asserted`/`queries`/`engines` (`google_news`/`brave_web`)/`windows`/
+  `docs_before`/`docs_after`/`brave_skipped`؛ وللملف `extract_model`، `brave` (`requests`/`skipped`/
+  `monthly_usage`/`monthly_cap`)، و`model_calls.by_model`.
+- **الاختبارات:** g7–g9 في `tests/test_guards_golden.py` (كُتبت قبل الكود)، و`test_important_search_and_extract`
+  في `tests/test_important.py` (انحدار #1197 `regression_1197`، وb–f). `ImportantRig` صارت تزيّف نداء التفكيك
+  وBrave web (`brave_results`/`brave_key`/`unrestricted_only`)؛ عدّلتُ في `test_important_pipeline` أرقام عدّ
+  النداءات فقط (+1 للتفكيك).
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the
