@@ -49,6 +49,21 @@ jobs:
       - name: سحب المستودع
         uses: actions/checkout@v4
 
+      - name: تحقق من صلاحية صاحب الطلب
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.event.sender.login }}
+          REPO: ${{ github.repository }}
+        run: |
+          perm=$(curl -sf -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${REPO}/collaborators/${ACTOR}/permission" \
+            | python3 -c "import json,sys; print(json.load(sys.stdin).get('permission',''))")
+          echo "صلاحية ${ACTOR}: ${perm:-تعذّر الاستعلام}"
+          case "$perm" in
+            admin|maintain|write) ;;
+            *) echo "❌ ${ACTOR} لا يملك صلاحية كتابة — لا تنفيذ"; exit 1 ;;
+          esac
       - name: تهيئة بايثون
         uses: actions/setup-python@v5
         with:
