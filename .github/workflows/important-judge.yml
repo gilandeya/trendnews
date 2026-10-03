@@ -37,7 +37,7 @@ jobs:
         run: |
           git config user.name  "trendnews-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A state/important
+          git add -A state/important state/brave_usage.json
           git diff --quiet --cached && exit 0
           git commit -m "chore(important): نتيجة تجربة الحَكَم #${{ inputs.issue }}"
           for i in 1 2 3; do
