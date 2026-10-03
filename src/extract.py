@@ -29,13 +29,18 @@ MIN_CHARS = 400          # أقل من ذلك = صفحة اشتراك أو حظ�
 MAX_CHARS = 2500         # سقف لكل مصدر — الفقرات الأولى تحمل الجوهر
 
 
-def fetch_text(url: str, timeout: int = 20) -> tuple[str | None, str]:
+def fetch_text(url: str, timeout: int = 20,
+               max_chars: int | None = None) -> tuple[str | None, str]:
     """يجلب النص الأساسي لمقال واحد، بلا قوائم تنقّل ولا إعلانات.
 
     يعيد (النص، "") عند النجاح، أو (None, سبب الفشل) عند الفشل — البند 1
     (تعليق العطل الثاني على Issue #361): سجلّ trail في article.py يحتاج
     سبب فشل كل رابط تعذّر جلبه (رمز HTTP أو نوع العطل) لا صمتًا واحدًا
-    يظهر "عناوين فقط" مجرَّدة بلا تفصيل يشرح لماذا."""
+    يظهر "عناوين فقط" مجرَّدة بلا تفصيل يشرح لماذا.
+
+    max_chars (Issue #1203): سقف اختياري لهذا النداء وحده؛ بلا قيمة يبقى MAX_CHARS
+    كما كان لكل مسار. مسار «هام» وحده يرفعه لأن الرقم الحاسم قد يقع في عمق صفحة
+    طويلة (DataReportal) فلا يبلغه أول 2500 حرف."""
     if not HAS_EXTRACTOR:
         return None, "المستخرج trafilatura غير مثبَّت"
     if not url:
@@ -71,11 +76,11 @@ def fetch_text(url: str, timeout: int = 20) -> tuple[str | None, str]:
         return None, "لم يُستخرَج نص (بنية صفحة غير مدعومة أو محتوى غير نصي)"
     if len(text) < MIN_CHARS:
         return None, f"نص قصير جدًا ({len(text)} حرف) — صفحة اشتراك/حظر محتملة"
-    return text[:MAX_CHARS], ""
+    return text[:max_chars or MAX_CHARS], ""
 
 
 def gather(members: list[dict], limit: int = 2,
-          workers: int = 4) -> tuple[list[dict], list[dict]]:
+          workers: int = 4, max_chars: int | None = None) -> tuple[list[dict], list[dict]]:
     """
     يجلب نصوص عدة نسخ من الخبر نفسه.
 
@@ -108,7 +113,9 @@ def gather(members: list[dict], limit: int = 2,
     out: list[dict] = []
     failures: list[dict] = []
     with ThreadPoolExecutor(max_workers=workers) as pool:
-        results = pool.map(lambda m: fetch_text(m["link"]), candidates)
+        # لا يُمرَّر max_chars إلا إن حُدِّد: مزيَّفات fetch_text القائمة بلا هذا المعامل
+        kw = {"max_chars": max_chars} if max_chars else {}
+        results = pool.map(lambda m: fetch_text(m["link"], **kw), candidates)
         for member, (text, reason) in zip(candidates, results):
             if text:
                 out.append({"name": member.get("name", "؟"), "text": text})
