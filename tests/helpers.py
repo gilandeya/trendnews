@@ -379,6 +379,7 @@ class ImportantRig:
         self.calls: list[str] = []
         self.queries: list[str] = []
         self.searches: list[tuple] = []
+        self.doc_registry: dict = {}
         self.brave_calls: list[str] = []
         # نص الوثائق كما وصل نداء التصنيف فعلًا (Issue #1200: اختبار اختيار الفقرات)
         self.last_content = ""
@@ -386,8 +387,11 @@ class ImportantRig:
         self._saved: dict = {}
 
     def __enter__(self):
-        from src import article, extract
+        from src import article, extract, important
         rig = self
+        # ذاكرة نتائج البحث (#1212) تعيش بين التشغيلات؛ كل rig يبدأ بذاكرة فارغة كي لا تتسرّب
+        # نتائج اختبار إلى آخر. اختبار الذاكرة نفسه يُجري تشغيلتين داخل rig واحد.
+        important._search_cache_file().unlink(missing_ok=True)
 
         class _Ranked(list):
             raw_count = 0
@@ -403,6 +407,7 @@ class ImportantRig:
                 self.title = doc.get("title", "")
                 self.summary = doc.get("summary", "")
                 self.link = doc.get("link", "")
+                rig.doc_registry[(self.publisher, self.title, self.link)] = doc
 
         def fake_search(query, cfg, days, unrestricted=False, require_relevance=True):
             rig.queries.append(query)
@@ -421,7 +426,9 @@ class ImportantRig:
             rig.gathered += [getattr(a, "link", "") or (a.doc.get("link", "") if hasattr(a, "doc") else "")
                              for a in articles]
             # مقالات Brave حقيقية الشكل (Article) بلا .doc: وثيقتها من حقولها
+            # نتيجة أُعيد بناؤها من ذاكرة البحث (#1212) بلا .doc: وثيقتها من سجلّ المزيَّف نفسه
             docs = [a.doc if hasattr(a, "doc") else
+                    rig.doc_registry.get((a.publisher, a.title, a.link)) or
                     {"name": a.publisher or a.source_name, "link": a.link,
                      "text": f"{a.title}. {a.summary}", "from_text": True}
                     for a in articles]
@@ -534,7 +541,8 @@ class ImportantRig:
     def __exit__(self, *exc):
         import os
         import requests as _requests
-        from src import article, extract
+        from src import article, extract, important
+        important._search_cache_file().unlink(missing_ok=True)
         article._client = self._saved["_client"]
         evidence.search = self._saved["search"]
         evidence.gather_evidence = self._saved["gather"]
