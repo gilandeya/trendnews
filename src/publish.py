@@ -956,6 +956,30 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
             review.close_issue(issue_number)
         return 0
 
+    # خيار الانتقال المعلَّم لكل موضوع (Issue #1190): go2 = الكتابة ثم قضية
+    # المرحلة 2 (سلوك اليوم)، go3 = الكتابة ثم بناء البطاقة وقضية المرحلة 3،
+    # publish = الكتابة ثم النشر بسقف youtube.publish.max_per_run وتباعده.
+    # الكتابة نفسها وكل حرّاسها (المحظورات، الحارس النصي، بوابة الصورة، سقف
+    # youtube.article.max_per_run) واحدة في الثلاث؛ ما يفترق هو ما بعدها.
+    actions = result.get("actions") or {}
+    titles = {t["id"]: t["title"] for t in to_write + still_waiting}
+    conflict_rows = [
+        f"- {titles[c['id']][:50]}: "
+        + " + ".join(stages.action_label(a, 1, cfg) for a in c["marked"])
+        + f" ← نُفِّذ: {stages.action_label(c['marked'][0], 1, cfg)}"
+        for c in result.get("conflicts") or [] if c["id"] in titles]
+    if conflict_rows:
+        review.comment(issue_number,
+                       "⚠️ عُلِّم أكثر من خيار انتقال على بعض المواضيع — نُفِّذ الأحوط "
+                       "(الأبكر ترتيبًا):\n" + "\n".join(conflict_rows))
+    review_ids: list[str] = []      # go2: قضية المرحلة 2
+    go3_ids: list[str] = []
+    publish_ids: list[str] = []
+
+    def _route(topic: dict, draft_id: str) -> None:
+        action = actions.get(topic["id"], "go2")
+        {"go3": go3_ids, "publish": publish_ids}.get(action, review_ids).append(draft_id)
+
     points, _ = youtube_cluster.prepare_window_points(date_str, cfg)
     written = 0
     for topic in to_write:
@@ -965,9 +989,16 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
         returned = _returned_analysis_draft(topic["id"])
         if returned is not None:
             r_path, r_draft = returned
-            store.update_draft(
-                r_path, status="pending", topic_date=date_str,
-                remove=["returned_from_stage", "returned_at", "review_issue"])
+            remove = ["returned_from_stage", "returned_at", "review_issue"]
+            extra: dict = {}
+            if topic.get("manual_image"):
+                # صورة وضعها المراجع في الترشيح (Issue #1190) تغلب البطاقة
+                # القديمة: تُحذف لتُبنى من جديد حول الرابط
+                extra["manual_image"] = topic["manual_image"]
+                remove.append("image")
+            store.update_draft(r_path, status="pending", topic_date=date_str,
+                               remove=remove, **extra)
+            _route(topic, r_draft["id"])
             written += 1
             log.info("أُعيد استعمال مسودة التحليل %s بلا كتابة جديدة", r_draft["id"])
             lines.append(f"- ♻️ {r_draft['arabic']['post_title'][:50]} — أُعيدت المسودة "
@@ -983,6 +1014,7 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
         draft = youtube_publish.build_draft_from_text(
             topic, r["item"]["text"], r["item"]["video_ids"], date_str, cfg)
         store.save_draft(draft)
+        _route(topic, draft["id"])
         written += 1
         lines.append(f"- ✅ {draft['arabic']['post_title'][:50]} — كُتب، بانتظار المراجعة")
 
@@ -993,7 +1025,22 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
     # youtube_cluster.mark_topics_attempted).
     youtube_cluster.mark_topics_attempted(date_str, {t["id"] for t in to_write})
 
-    if written:
+    # go3/publish أولًا ثم قضية المرحلة 2: open_review يلتقط كل مسودة تحليل
+    # معلَّقة بلا قضية، فلو سبقهما لابتلع مسودات go3/publish معها. ما فاته
+    # سقف النشر يبقى معلَّقًا فيصل قضية المرحلة 2 بدل أن يضيع بلا مسار.
+    direct_ids = go3_ids + publish_ids
+    if direct_ids:
+        yt_lines, yt_published, yt_attempted, yt_remaining = youtube_publish.publish_ids(
+            direct_ids, {}, cfg, body="", issue_number=issue_number,
+            go3_ids=set(go3_ids))
+        lines.append(f"### 🚀 نُشر {yt_published} من {yt_attempted}")
+        lines += yt_lines
+        for draft_id in yt_remaining:
+            lines.append(f"- ⏳ `{draft_id}` — تجاوز سقف النشر لهذه التشغيلة، "
+                         "أُرسل إلى قضية المرحلة 2 لتعتمده لاحقًا")
+        review_ids += yt_remaining
+
+    if review_ids:
         review_result = youtube_publish.open_review(cfg)
         if review_result["issue"]:
             lines.append(f"📰 {len(review_result['drafts'])} مقال بانتظار مراجعتك — "

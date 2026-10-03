@@ -517,7 +517,7 @@ def build_draft_from_text(topic: dict, text: str, video_ids: list[str],
         f"youtube-selection:{date_str}:{topic['id']}".encode("utf-8")
     ).hexdigest()[:12]
 
-    return {
+    draft = {
         "id": draft_id,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "status": "pending",
@@ -545,6 +545,11 @@ def build_draft_from_text(topic: dict, text: str, video_ids: list[str],
         "topic_id": topic["id"],
         "topic_date": date_str,
     }
+    if topic.get("manual_image"):
+        # رابط صورة وضعه المراجع في قضية الترشيح (Issue #1190): ينتقل إلى
+        # المسودة فيغلب كل مراحل الصورة عند بناء البطاقة (ensure_title_card)
+        draft["manual_image"] = topic["manual_image"]
+    return draft
 
 
 def _review_sort_key(d: dict) -> tuple:

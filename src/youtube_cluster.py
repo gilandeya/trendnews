@@ -102,7 +102,7 @@ from pathlib import Path
 
 from anthropic import Anthropic, APIError
 
-from . import decisions, review
+from . import decisions, review, stages
 from .config import STATE_DIR, YOUTUBE_POINTS_DIR, Config, env, load_config
 
 log = logging.getLogger(__name__)
@@ -1056,21 +1056,17 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
     layer/blocs/channels/agreement/point_ids) أو نصّ نقاطها الخام
     (statement/speaker/channel) -- بلا أي نداء نموذج (نصّ الـIssue #1104
     الصريح)."""
-    max_per_run = cfg.path("youtube.article.max_per_run") if cfg else None
+    cfg = cfg if cfg is not None else load_config()
+    max_per_run = cfg.path("youtube.article.max_per_run")
     parts = [
         f"<!-- selection-date:{date_str} -->",
-        "### 🗳️ اختيار مواضيع التحليل",
+        stages.stage_header(1, cfg),
         "",
-        "**بلا صياغة بعد** — هذه القضايا كما عنقدتها المرحلة الثالثة، قبل "
-        "إنفاق أي تكلفة كتابة (نموذج Opus، الأغلى في المشروع).",
-        "",
-        "علّم ما تريد كتابته. ما لا تعلّمه لا يُكتب ولا يُقترح ثانيةً.",
+        cfg.path("stages.explainer_stage1", ""),
         "",
         (f"سيكتب البوت حتى {max_per_run:g} موضوعًا مؤشَّرًا لكل تشغيلة "
          "اعتماد؛ الباقي ينتظر تشغيلة يدوية لاحقة بنفس الوسم."
          if max_per_run else "سيكتب البوت كل موضوع مؤشَّر دفعة واحدة، بلا سقف."),
-        "",
-        "🚫 **ما لا تعلّمه لن يُكتب** ويُسجَّل «لم يُختر» تلقائيًا.",
         "",
         "---",
         "",
@@ -1079,11 +1075,13 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
         # موضوع أعاده المراجع من المرحلة 2 أو 3 (Issue #1187): الشارة أمام عنوانه
         # من config.yaml: stages.returned_badge، نفسها التي تضعها preselect للأخبار.
         badge = ""
-        if t.get("returned_from_stage") and cfg is not None:
+        if t.get("returned_from_stage"):
             badge = cfg.path("stages.returned_badge", "").format(
                 stage=t["returned_from_stage"]) + " "
+        # العنوان بلا مربع (Issue #1190)؛ علامة topic: وحدها كي يجد
+        # _checked_topic_ids/finalize_selection المعرّفات، والتعليم بعلامات go:
         parts += [
-            f"- [ ] **{idx}. {badge}{t['title']}**  <!-- topic:{t['id']} -->",
+            f"**{idx}. {badge}{t['title']}**  <!-- topic:{t['id']} -->",
             "",
             f"  {t.get('event', '')}",
             "",
@@ -1098,9 +1096,16 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
         if samples:
             parts += samples
             parts.append("")
-        parts += ["---", ""]
+        parts += [
+            stages.image_field(t["id"], cfg),
+            "",
+            *stages.options_block(1, t["id"], cfg, has_stage1=False),
+            "",
+            "---",
+            "",
+        ]
     parts.append(
-        "<sub>وسم `approved` = كتابة المعلَّم فقط (بسقف إن وُجد) · "
+        "<sub>وسم `approved` = تنفيذ ما عُلِّم عليه لكل موضوع (بسقف الكتابة إن وُجد) · "
         "إغلاق الـ Issue بلا تعليم = تجاهل الكل بلا أي كتابة</sub>"
     )
     return "\n".join(parts)
@@ -1245,10 +1250,14 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
         log.error("Issue #%s: لا علامة تاريخ اختيار (<!-- selection-date:... -->) "
                   "في الجسم -- جسم من نوع آخر وُسم youtube-selection سهوًا على الأرجح",
                   issue_number)
-        return {"date_str": None, "to_write": [], "still_waiting": [], "unselected_now": 0}
+        return {"date_str": None, "to_write": [], "still_waiting": [], "unselected_now": 0,
+                "actions": {}, "conflicts": []}
 
     date_str = m.group(1)
-    checked = _checked_topic_ids(body)
+    # القارئ الموحَّد للمرحلة 1 (Issue #1190): go: أو الترجمة القديمة لقضية
+    # فُتحت قبل التحديث؛ أي إجراء مُعلَّم (go2/go3/publish) = «مُختار».
+    actions, conflicts = stages.read_actions(body, 1)
+    checked = {i for i, a in actions.items() if a in ("go2", "go3", "publish")}
     data = _load_topics_raw(date_str)
     topics = data.get("topics", [])
     offered = [t for t in topics if t.get("selection_issue") == issue_number]
@@ -1293,7 +1302,7 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
         to_write, still_waiting = reused + rest, []
 
     return {"date_str": date_str, "to_write": to_write, "still_waiting": still_waiting,
-            "unselected_now": unselected_now}
+            "unselected_now": unselected_now, "actions": actions, "conflicts": conflicts}
 
 
 def mark_topics_attempted(date_str: str, topic_ids: set[str]) -> None:
@@ -1314,6 +1323,25 @@ def mark_topics_attempted(date_str: str, topic_ids: set[str]) -> None:
             changed = True
     if changed:
         _save_topics_raw(date_str, data)
+
+
+def set_topic_manual_image(date_str: str, topic_id: str, url: str,
+                           selection_issue: int | None = None) -> dict | None:
+    """يحفظ رابط صورة المراجع manual_image على موضوع في ملف تاريخه (Issue
+    #1190، setimage في قضية ترشيح التحليل). النسخة "moved" لا تُمسّ (الحيّ هو
+    الأحدث)، وإن مُرِّر رقم القضية اقتُصر على الموضوع المعروض فيها. ينتقل
+    الحقل إلى المسودة عند الكتابة (youtube_publish.build_draft_from_text).
+    يعيد الموضوع أو None إن لم يوجد."""
+    data = _load_topics_raw(date_str)
+    live = [t for t in data.get("topics", [])
+            if t.get("id") == topic_id and t.get("selection_status") != "moved"
+            and (selection_issue is None or t.get("selection_issue") == selection_issue)]
+    if not live:
+        return None
+    topic = live[-1]
+    topic["manual_image"] = url
+    _save_topics_raw(date_str, data)
+    return topic
 
 
 def mark_topic_returned(topic_date: str, topic_id: str, draft_id: str, stage: int,

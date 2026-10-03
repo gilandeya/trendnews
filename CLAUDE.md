@@ -267,13 +267,53 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   comment naming the item and its marked options — from the normal job only (`--urgent-only` reads
   the same way but stays silent, since both jobs run on one `approved` event). `youtube_publish.
   build_review_body` (analysis stage 2) was migrated by Issue #1187 (see the analysis bullet below);
-  gate A (`preselect`, and the analysis `youtube-selection` body) still uses the old markers. A
+  gate A (`preselect`, and the analysis `youtube-selection` body) was migrated by Issue #1190 (see the stage-1 bullet below). A
   `youtube-review` Issue opened *before* #1187 has no `go:` marker and goes through `legacy_actions`.
   `review.parse_image_requests` accepts a valid http(s) URL in the `imgurl` field **alone** (no
   box); an item that still has an `img:` box (old issue) needs it ticked, as before — otherwise a
   URL kept after a failed attempt (`keep_url`) would be re-applied on every edit.
   `review.clear_image_request` restores the field text (new issues) or `الرابط:` (old ones).
 
+- **Stage 1 unified — the four stages are now one shape for every path (Issue #1190, task 4 of 4).**
+  `preselect.build_selection_issue_body` (news, `pending-selection`) and `youtube_cluster.build_selection_body`
+  (analysis, `youtube-selection`) build their header with `stages.stage_header(1)`, one paragraph
+  `config.yaml: stages.explainer_stage1` (the old 🚀/📝/🎴 and «الأحوط» paragraphs are gone), and **no checkbox
+  above an item's data or on its title line** (the title carries only a bare `<!-- cand:id -->` /
+  `<!-- topic:id -->`, which `preselect.all_candidate_ids` / `youtube_cluster.SELECTION_TOPIC_RE` still find).
+  News item order: title → translation → badges/sources → `<img width="520">` of the publisher image when one
+  exists (`preselect.image_display_lines`, marker `<!-- selimg:id -->`) → the 🖼️ line (#1174/#1178) → «الخبر
+  الأصلي» → `stages.image_field` → `stages.options_block(1, id, has_stage1=False)`. Analysis order: title →
+  event → blocs/channels/points → quotes → image field → options block (the `max_per_run` sentence stays,
+  it is a fact not an explainer). Options at stage 1 are `go2`/`go3`/`publish` only (no `go1`).
+  *Reading:* `stages.read_actions(body, 1)` (go: markers, else `legacy_actions` for issues opened before the
+  update; for legacy news issues it now also returns the old 🚀/📝/🎴 conflicts via
+  `_legacy_conflicts_stage1`, so the conflict comment survives). `collect_finalize.finalize`: `go2` = old 📝,
+  `go3` = old 🎴, `publish` = old 🚀, behaviour identical (the earliest-wins rule of `parse_actions` *is*
+  the old «الأحوط»); the conflict comment is one message naming the item by title (no longer two texts).
+  `youtube_cluster.finalize_selection` returns `actions`/`conflicts` besides the old keys; any marked action
+  counts as «selected». *Analysis routing* (`publish.cmd_youtube_selection`): the write step and every write
+  guard are unchanged and shared by the three actions (forbidden-topic guard, text guard, image gate,
+  `youtube.article.max_per_run`); afterwards `go2` → drafts reach `youtube_publish.open_review` (stage-2
+  issue), `go3`+`publish` → `youtube_publish.publish_ids(ids, {}, cfg, body="", issue_number=<selection issue>,
+  go3_ids=...)` (card via `ensure_title_card`, then `publish.open_final_review` / `publish_one` under
+  `youtube.publish.max_per_run` and `spacing_minutes`). `publish_ids` runs **before** `open_review` so the
+  latter (which sweeps every pending analysis draft with no issue) cannot swallow those drafts; whatever the
+  publish cap leaves over stays pending and *is* swept into the stage-2 issue (reported with ⏳), not lost.
+  A returned draft (#1187) is reused without a model call in all three actions.
+  *Image from the selection stage:* `setimage.main` resolves an id that has no draft (or only a `returned`
+  draft, which shares the candidate's id) through `setimage.apply_selection_image`: **news** — the URL is
+  tried at once with `download_image` (image discarded, URL kept); success → `manual_image` on the candidate
+  (`store.update_candidate`), comment «حُفظت الصورة — تُستعمل عند الصياغة», and `sync_issue` rewrites the
+  displayed image in the body (`preselect.show_manual_image`) and clears the field; failure → field cleared and
+  the comment carries URL + reason (as #1184). **analysis** — `youtube_cluster.set_topic_manual_image` stores
+  it on the topic in its date file (date from `<!-- selection-date -->`), no download, comment «…تُستعمل عند
+  بناء البطاقة». Hand-over: `collect_finalize._write_selected` copies the candidate's `manual_image` onto the
+  new draft (for a reused returned draft it also drops the old `image` so the card is rebuilt around it);
+  `youtube_publish.build_draft_from_text` copies the topic's, and `cmd_youtube_selection` does the same for a
+  reused returned draft; `cards.ensure` / `ensure_title_card` then give it priority over every ladder step
+  (#1170/#1187). **Operational caveat:** `.github/workflows/image.yml` commits `git add -A drafts` only, so a
+  `manual_image` written to `state/candidates/` or `state/youtube_topics/` by that run is not pushed until the
+  workflow also adds those two paths (workflows were out of scope of #1190).
 - **Returning a news item to stage 1 — `go1` (Issue #1184, task 2b of 4).** `review.build_issue_body`/
   `build_final_review_body` now pass `has_stage1 = (store.origin_of(d) == "news")` to
   `stages.options_block` (breaking/request/article stay `False`; analysis got it in Issue #1187 — see
@@ -373,17 +413,19 @@ already know exactly what they want to draft — there's nothing to *select*).
   default) or `radar.py` (a story that clears capture thresholds but not auto-publish/immediate
   ones) produces *candidates* rather than full drafts — raw headlines only, no Arabic drafting, no
   image, so the model/imaging cost is spent only on what a human actually picks. Each candidate
-  gets exactly three checkboxes (`src/preselect.py`), and unchecked = dropped (tagged
-  `"لم يُختر"`, distinct from a normal rejection):
+  gets one «⬇️ الانتقال» block with three options (`go2`/`go3`/`publish`, Issue #1190 — no checkboxes
+  above the data any more; header «المرحلة 1 من 4»), and unmarked = dropped (tagged `"لم يُختر"`, distinct
+  from a normal rejection). The old checkbox names below map 1:1 (🚀 = `publish`, 📝 = `go2`, 🎴 = `go3`):
   - 🚀 **immediate publish** — draft it, build its card, publish right away, no further review.
   - 📝 **preliminary review** — draft it and drop it into gate B like any other News/Breaking
     draft.
   - 🎴 **straight to card** — draft it, build its card immediately, and open it directly at gate C
     (skips gate B's headline/text editing).
-  When two boxes are checked together, the stricter one wins (📝 beats 🚀 and 🎴; 🎴 beats 🚀
-  alone) — `src/collect_finalize.py:finalize()` is what reads this Issue on `approved` and
+  When two options are marked together, the earliest in `stages.ACTIONS` wins (`go2` beats `go3` beats
+  `publish`, i.e. 📝 beats 🎴 beats 🚀) — `src/collect_finalize.py:finalize()` is what reads this Issue on `approved` and
   dispatches each candidate to one of the three fates above.
-  Each candidate also shows one reviewer-only **🖼️ image line** (`preselect.image_line`, Issue
+  Analysis selection (`youtube-selection`) uses the same three options (see the #1190 bullet above). Each
+  news candidate also shows one reviewer-only **🖼️ image line** (`preselect.image_line`, Issue
   #1174), between the badges/sources line and «↳ الخبر الأصلي»: publisher image link + domain, or
   «بلا صورة من الناشر · ستُجرَّب صورة ناشر آخر / صور ناشرَين آخرَين / صور N ناشرين آخرين ثم بحث
   الويب» (N = other cluster links, ≤ `collect.related_links_max`, default 3 — the same single

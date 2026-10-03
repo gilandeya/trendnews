@@ -28,6 +28,7 @@ from urllib.parse import urlparse
 
 from anthropic import Anthropic, APIError
 
+from . import stages
 from .config import env, load_config
 from .sources import Article
 from .writer import record_usage
@@ -236,6 +237,28 @@ def translate_titles(candidates: list[dict], cfg) -> dict[str, str]:
 # ──────────────────────────── بناء نص الاختيار ────────────────────────────
 
 
+SELIMG_MARKER = re.compile(r"<!--\s*selimg:([0-9a-f]+)\s*-->")
+
+
+def displayed_image_url(c: dict) -> str | None:
+    """الصورة التي تُعرض في قضية الترشيح: رابط المراجع اليدوي إن وُجد (Issue
+    #1190) وإلا صورة الناشر نفسها التي يعرضها review في المرحلة 2."""
+    if c.get("manual_image"):
+        return c["manual_image"]
+    art = c.get("article") or {}
+    return art.get("image_url") or next(
+        (u for u in art.get("image_candidates") or [] if u), None)
+
+
+def image_display_lines(c: dict) -> list[str]:
+    """<img> بعرض 520 كما في المرحلة 2، بعلامة selimg كي يستبدل setimage
+    الصورة المعروضة في جسم القضية لاحقًا بلا إعادة بناء الجسم كله."""
+    url = displayed_image_url(c)
+    if not url:
+        return []
+    return [f"  <img src=\"{url}\" width=\"520\" />  <!-- selimg:{c['id']} -->", ""]
+
+
 def image_line(c: dict, cfg=None) -> str:
     """سطر 🖼️ للمراجع فقط (Issue #1174): الصورة المتاحة للمرشح لا ما سينجح
     تحميله. بلا أي علامة HTML ولا مربع كي لا يلتقطه أي قارئ لجسم القضية."""
@@ -244,8 +267,13 @@ def image_line(c: dict, cfg=None) -> str:
     cfg = cfg if cfg is not None else load_config()
     related_max = int(cfg.path("collect.related_links_max", 3))
     art = c.get("article") or {}
-    url = art.get("image_url") or next(
-        (u for u in art.get("image_candidates") or [] if u), None)
+    if c.get("manual_image"):
+        # رابط المراجع يغلب كل بدائل الصياغة (cards.ensure يعطي manual_image
+        # الأولوية المطلقة)، فلا معنى لسرد بدائل لن تُجرَّب
+        url = c["manual_image"]
+        return (f"  🖼️ [صورتك]({url}) · {urlparse(url).netloc} — "
+                "تُستعمل عند الصياغة")
+    url = displayed_image_url(c)
     if url:
         domain = urlparse(url).netloc
         return f"  🖼️ [صورة الناشر]({url}) · {domain}"
@@ -270,37 +298,49 @@ def image_line(c: dict, cfg=None) -> str:
     return "  🖼️ بلا صورة من الناشر ولا بدائل · بحث الويب وحده"
 
 
+def show_manual_image(body: str, cand: dict, url: str) -> str:
+    """يبدّل في جسم قضية ترشيح قائمة الصورة المعروضة لمرشح بصورة المراجع
+    (Issue #1190): يحذف <img> الناشر القديم إن وُجد ويضع الجديد قبل سطر 🖼️
+    الذي يُستبدل بسطر الصورة اليدوية. العمل داخل مقطع المرشح وحده."""
+    cid = cand["id"]
+    shown = {**cand, "manual_image": url}
+    lines = body.splitlines()
+    start = next((i for i, ln in enumerate(lines) if f"<!-- cand:{cid} -->" in ln), None)
+    if start is None:
+        return body
+    end = next((i for i in range(start + 1, len(lines)) if lines[i].strip() == "---"),
+               len(lines))
+    out = lines[:start + 1]
+    seg = lines[start + 1:end]
+    i = 0
+    while i < len(seg):
+        ln = seg[i]
+        if f"<!-- selimg:{cid} -->" in ln:
+            i += 2 if i + 1 < len(seg) and not seg[i + 1].strip() else 1
+            continue
+        if ln.lstrip().startswith("🖼️ ") and "<!--" not in ln:
+            out += image_display_lines(shown) + [image_line(shown)]
+            i += 1
+            continue
+        out.append(ln)
+        i += 1
+    return "\n".join(out + lines[end:])
+
+
 def build_selection_issue_body(candidates: list[dict],
                                translations: dict[str, str] | None = None,
                                cfg=None) -> str:
+    """نص قضية المرحلة 1 للأخبار (Issue #1190، المهمة 4 من توحيد المراحل):
+    الرأس والشرح وكتلة الانتقال من stages، ولا مربع فوق بيانات أي مرشح ولا على
+    سطر عنوانه. ترتيب المرشح: العنوان (علامة cand: وحدها) ← الترجمة ← الشارات
+    والمصادر ← الصورة معروضة إن وُجدت ← سطر 🖼️ ← الخبر الأصلي ← حقل رابط
+    الصورة ← خيارات الانتقال."""
+    cfg = cfg if cfg is not None else load_config()
     translations = translations or {}
     parts = [
-        "### 🗳️ مرشحون بانتظار الاختيار",
+        stages.stage_header(1, cfg),
         "",
-        "**بلا صياغة ولا صورة بعد** — هذه العناوين الخام كما وردت من "
-        "المصادر، قبل أي إنفاق. سطر 🖼️ يبيّن الصورة المتاحة لكل خبر، لا ما سينجح "
-        "تحميله. لكل مرشح ثلاثة مربعات مستقلة — علّم ما "
-        "تريده لكل خبر على حدة (يمكن مزج الطرق الثلاث في نفس الدفعة)، ثم "
-        "أضف الوسم `approved`:",
-        "",
-        "🚀 نشر مباشر · 📝 مراجعة أولية (نص وعناوين وتعديل) · 🎴 بطاقة "
-        "مباشرة (بلا اختيار عنوان ولا تعديل نص).",
-        "",
-        "- 🚀 **انشر فورًا** — يُصاغ الخبر وتُبنى صورته وينشر مباشرة بلا "
-        "عرض ثانٍ عليك.",
-        "- 📝 **صغ واعرض عليّ قبل النشر** — يُصاغ الخبر وتُبنى صورته "
-        "وتُحفظ مسودة عادية في Issue مراجعة منفصل تعتمده بنفسك (فيه "
-        "مربعات العناوين وكتلة النص القابلة للتحرير).",
-        "- 🎴 **صُغ واعرض البطاقة (بلا مراجعة أولية)** — يُصاغ الخبر "
-        "وتُبنى بطاقته مباشرة، وتُعرض عليك بطاقة جاهزة في Issue مراجعة "
-        "نهائية للاعتماد قبل النشر فقط — بلا اختيار عنوان ولا تعديل نص.",
-        "",
-        "علّمت أكثر من مربع لخبر واحد بالخطأ؟ الأحوط يغلب: 📝 تغلب 🚀 "
-        "و🎴 معًا (المراجعة الأولية أوسع)، و🎴 تغلب 🚀 وحدها — وسيُعلَّق "
-        "تنبيه بذلك.",
-        "",
-        "🚫 **ما لا تعلّمه لن يُصاغ** ويُسجَّل «لم يُختر» — وسأسألك عن "
-        "السبب في التقرير الأسبوعي.",
+        cfg.path("stages.explainer_stage1", ""),
         "",
         "---",
         "",
@@ -324,7 +364,7 @@ def build_selection_issue_body(candidates: list[dict],
             # مرشح أعاده المراجع من المرحلة 2/3 (Issue #1184): الشارة أمام
             # العنوان فيعرف أنه رآه وقرر الرجوع به، لا أنه خبر جديد.
             from_stage = c.get("returned_from_stage") or 2
-            badge_text = (cfg if cfg is not None else load_config()).path(
+            badge_text = cfg.path(
                 "stages.returned_badge", "↩️ أعدته من المرحلة {stage}"
             ).format(stage=from_stage)
             title_line = f"{badge_text} · {title_line}"
@@ -341,15 +381,14 @@ def build_selection_issue_body(candidates: list[dict],
             f"{'، '.join(c['publishers'][:3])}",
             "",
             *([f"  <sub>{c['appeal_note']}</sub>", ""] if c.get("appeal_note") else []),
+            *image_display_lines(c),
             image_line(c, cfg),
             "",
             f"  ↳ [الخبر الأصلي]({c['link']})",
             "",
-            f"  - [ ] 🚀 انشر فورًا (صياغة ثم نشر مباشر بلا عرض)  "
-            f"<!-- now:{c['id']} -->",
-            f"  - [ ] 📝 صغ واعرض عليّ قبل النشر  <!-- review:{c['id']} -->",
-            f"  - [ ] 🎴 صُغ واعرض البطاقة (بلا مراجعة أولية)  "
-            f"<!-- sel-card:{c['id']} -->",
+            stages.image_field(c["id"], cfg),
+            "",
+            *stages.options_block(1, c["id"], cfg, has_stage1=False),
             "",
             "---",
             "",

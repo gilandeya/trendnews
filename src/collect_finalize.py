@@ -13,6 +13,10 @@ Issue #860: مربع ثالث 🎴 «صُغ واعرض البطاقة» يُصا
 Issue #858) — بلا مرور بالمراجعة الأولية إطلاقًا. الأحوط يغلب عند تعارض
 المربعات الثلاثة: 📝 تغلب 🚀 و🎴 معًا، و🎴 تغلب 🚀 وحدها.
 
+Issue #1190: المرشح يُعلَّم بخيار انتقال واحد من كتلة stages.options_block
+(go2 = 📝، go3 = 🎴، publish = 🚀) بدل المربعات الثلاثة القديمة؛ القضايا
+القديمة تُقرأ بالترجمة نفسها (stages.read_actions)، والأحوط يغلب بلا تغيير.
+
 يُستدعى من src.publish.main() حين يحمل Issue الموسوم `approved` وسم
 `pending-selection` أيضًا — لا سير عمل مستقل، حتى لا يتضاعف عدد الـ
 Issues التي تحتاج مراجعة (استبدال لدورة المراجعة القديمة لا إضافة إليها).
@@ -23,7 +27,7 @@ import logging
 import os
 from datetime import datetime, timezone
 
-from . import cards, decisions, feedback, headlines as headlines_mod, preselect, review, store
+from . import cards, decisions, feedback, headlines as headlines_mod, preselect, review, stages, store
 from .extract import gather as gather_texts
 from .writer import WriteFailure, build_caption, write_arabic
 
@@ -83,17 +87,6 @@ def _build_draft(art, written: dict, docs: list[dict], prev_title: str | None,
     }
 
 
-def _candidate_titles(ids: list[str], selection_issue: int | None = None) -> list[str]:
-    """عناوين المرشحين — لرسائل تنبيه التعارض وحدها (لا معرّفاتهم، فالمعرّف
-    لا يعني شيئًا للمراجع)، تُقرأ *قبل* أي حلقة صياغة تُغيّر حالة المرشح."""
-    titles: list[str] = []
-    for cid in ids:
-        found = store.load_candidate(cid, selection_issue)
-        if found:
-            titles.append(found[1].get("title", cid))
-    return titles
-
-
 def _record_rejections(unselected_ids: list[str],
                        selection_issue: int | None = None) -> None:
     # نسخة Issue الجاري لا أقدم نسخة: الخبر نفسه يتكرر بالمعرّف في Issues عدة،
@@ -133,9 +126,15 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
     # فقط إن لم توجد.
     existing = store.load_draft(cid)
     if existing and existing[1].get("status") == "returned":
-        draft = store.update_draft(
-            existing[0], status="pending",
-            remove=["returned_from_stage", "returned_at", "review_issue"])
+        remove = ["returned_from_stage", "returned_at", "review_issue"]
+        extra: dict = {}
+        if cand.get("manual_image"):
+            # رابط وضعه المراجع في قضية الترشيح (Issue #1190): يغلب كل مراحل
+            # الصورة، فتُترك البطاقة القديمة (بُنيت على صورة أخرى) لتُبنى من
+            # جديد حوله؛ بدونه تبقى البطاقة القائمة كما هي
+            extra["manual_image"] = cand["manual_image"]
+            remove.append("image")
+        draft = store.update_draft(existing[0], status="pending", remove=remove, **extra)
         store.update_candidate(path, status="selected")
         log.info("أُعيد استعمال المسودة المُعادة %s بلا صياغة جديدة", cid)
         return draft
@@ -175,6 +174,10 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
         return None
 
     draft = _build_draft(art, written, docs, prev_title, cfg)
+    if cand.get("manual_image"):
+        # صورة المراجع من قضية الترشيح تنتقل إلى المسودة فتغلب كل مراحل
+        # الصورة عند بناء البطاقة (cards.ensure، Issue #1170/#1190)
+        draft["manual_image"] = cand["manual_image"]
     # روابط مقالات الناشرين الآخرين في العنقود (Issue #1153) لتجرّب cards.ensure
     # صورها حين تفشل صورة الناشر الرئيسي؛ للمسودات الجديدة فقط، بلا ترحيل.
     # السقف من الإعداد (collect.related_links_max): كل رابط جلب صفحة عند بناء
@@ -201,35 +204,25 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
 
 def finalize(issue_number: int, body: str, cfg) -> int:
     all_ids = preselect.all_candidate_ids(body)
-    now_raw = preselect.parse_publish_now(body)
-    draft_raw = preselect.parse_draft_review(body)
-    card_raw = preselect.selected_card_ids(body)
 
-    # ثلاثة مربعات مستقلة لكل مرشح (Issue #860 فوق أساس #319 البند 1):
-    # الأحوط يغلب عند التداخل — draft_ids = draft_raw دومًا (📝 تغلب كل
-    # شيء)؛ card_ids تُستبعد منها ما وقع في draft_raw (📝 تغلب 🎴)؛
-    # now_ids تُستبعد منها ما وقع في draft_raw أو card_raw (📝 و🎴 كلاهما
-    # يغلب 🚀).
-    now_set = set(now_raw)
-    draft_set = set(draft_raw)
-    card_raw_set = set(card_raw)
-
-    draft_ids = draft_raw
-    card_ids = [i for i in card_raw if i not in draft_set]
-    now_ids = [i for i in now_raw if i not in draft_set and i not in card_raw_set]
-
-    # تعارضات للتنبيه والسجل فقط — لا تؤثر على القرار أعلاه (محسوم بالفعل
-    # بالاستبعاد). draft_conflict_ids: عُلِّم 📝 مع 🚀 و/أو 🎴 على نفس
-    # المرشح. card_conflict_ids: عُلِّم 🚀 مع 🎴 بلا 📝 — أي مرشح فيه 📝
-    # معًا يقع في draft_conflict_ids فقط، لا تكرار.
-    draft_conflict_ids = [i for i in draft_raw if i in now_set or i in card_raw_set]
-    card_conflict_ids = [i for i in card_raw if i in now_set and i not in draft_set]
+    # المرحلة 1 (Issue #1190): القراءة بالقارئ الموحَّد — go2 = 📝 سابقًا،
+    # go3 = 🎴، publish = 🚀 — وقضية فُتحت قبل التحديث تُقرأ بالترجمة القديمة
+    # داخل read_actions نفسها بالنتيجة ذاتها. الأحوط يغلب عند تعليم أكثر من
+    # خيار لمرشح واحد: go2 ثم go3 ثم publish، وهو ترتيب ACTIONS الذي
+    # يحسمه parse_actions، فلا استبعاد يدوي هنا.
+    actions, conflicts = stages.read_actions(body, 1)
+    draft_ids = [i for i in all_ids if actions.get(i) == "go2"]
+    card_ids = [i for i in all_ids if actions.get(i) == "go3"]
+    now_ids = [i for i in all_ids if actions.get(i) == "publish"]
+    # مرشح معرّفه خارج الجسم (علامة محرَّفة) لا يُنفَّذ — كان يحدث مع المربعات
+    # القديمة كذلك لأن المعرّفات كانت تُقرأ من الجسم نفسه
+    conflicts = [c for c in conflicts if c["id"] in all_ids]
 
     log.info("Issue اختيار #%s: %d معرّف مرشح في الجسم، "
-             "%d انشر فورًا، %d صغ واعرض (منها %d بمربع آخر معًا)، "
-             "%d صُغ واعرض البطاقة (منها %d مع 🚀 بلا 📝)",
+             "%d انشر فورًا، %d صغ واعرض، %d صُغ واعرض البطاقة، "
+             "%d بتعارض خيارات",
              issue_number, len(all_ids), len(now_ids), len(draft_ids),
-             len(draft_conflict_ids), len(card_ids), len(card_conflict_ids))
+             len(card_ids), len(conflicts))
 
     # جسم بلا أي معرّف <!-- cand:ID --> مطلقًا يعني الصيغة نفسها خاطئة —
     # على الأرجح Issue "مراجعة مسودات" (draft:) حمل وسم pending-selection
@@ -260,21 +253,21 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         review.remove_label(issue_number, "approved")
         return 0
 
-    if draft_conflict_ids:
-        titles_list = "، ".join(f"«{t}»" for t in _candidate_titles(draft_conflict_ids, issue_number))
+    if conflicts:
+        # تنبيه واحد بعناوين الأخبار (لا معرّفاتها فالمعرّف لا يعني شيئًا
+        # للمراجع)، يُقرأ قبل أي صياغة تغيّر حالة المرشح
+        rows = []
+        for item in conflicts:
+            found = store.load_candidate(item["id"], issue_number)
+            title = found[1].get("title", item["id"]) if found else item["id"]
+            marked = " + ".join(stages.action_label(a, 1, cfg) for a in item["marked"])
+            rows.append(f"- «{title}»: {marked} ← نُفِّذ: "
+                        f"{stages.action_label(item['marked'][0], 1, cfg)}")
         review.comment(
             issue_number,
-            f"⚠️ علّمت المربعين معًا (📝 مع 🚀 و/أو 🎴) على: {titles_list} — "
-            "عوملت كـ«📝 صغ واعرض عليّ قبل النشر» (الأحوط: المراجعة الأولية "
-            "أوسع، فيها العناوين وتعديل النص).",
-        )
-    if card_conflict_ids:
-        titles_list = "، ".join(f"«{t}»" for t in _candidate_titles(card_conflict_ids, issue_number))
-        review.comment(
-            issue_number,
-            f"⚠️ علّمت 🚀 مع 🎴 بلا 📝 على: {titles_list} — عوملت كـ«🎴 صُغ "
-            "واعرض البطاقة» (الأحوط: مراجعة نهائية للبطاقة بدل نشر مباشر "
-            "بلا عرض).",
+            "⚠️ عُلِّم أكثر من خيار انتقال على بعض الأخبار — نُفِّذ الأحوط "
+            "(المراجعة الأولية أوسع من البطاقة، والبطاقة أوسع من النشر "
+            "المباشر):\n" + "\n".join(rows),
         )
 
     history = store.load_history()

@@ -16,6 +16,8 @@ from tests.helpers import (
     badge_probe_xy,
     card_plan,
     tick_marker,
+    legacy_selection_body,
+    legacy_youtube_selection_body,
     reset_last_publish,
     restore_last_publish,
     auto_restore_last_publish,
@@ -188,11 +190,12 @@ def test_preselect_finalize() -> None:
     body = preselect.build_selection_issue_body([cand_a, cand_b])
     marked = tick_marker(body, f"now:{cand_a['id']}")   # «انشر فورًا» للمرشح الأول فقط
 
-    now_selected = preselect.parse_publish_now(marked)
+    read_1 = stages.read_actions(marked, 1)[0]
+    now_selected = [i for i, a in read_1.items() if a == "publish"]
     check("تحليل «انشر فورًا» يلتقط المُعلَّم فقط", now_selected == [cand_a["id"]],
           str(now_selected))
     check("لا أحد عُلِّم على «صغ واعرض»",
-          preselect.parse_draft_review(marked) == [])
+          [i for i, a in read_1.items() if a == "go2"] == [])
 
     captured: dict = {}
 
@@ -553,11 +556,21 @@ def test_preselect_two_boxes_now_and_draft_review() -> None:
     marked = tick_marker(marked, f"now:{cand_both['id']}")
     marked = tick_marker(marked, f"review:{cand_both['id']}")
 
+    # القارئ الموحَّد يحسم المزدوج بالأحوط فيعيد go2 للثالث (لا publish)، فيُفحص
+    # الالتقاط الخام للمربعين على قضية بالشكل القديم (الجسم الجديد لا مربعات فيه)
+    old_marked = legacy_selection_body([cand_now, cand_draft, cand_both])
+    for key in (f"now:{cand_now['id']}", f"review:{cand_draft['id']}",
+                f"now:{cand_both['id']}", f"review:{cand_both['id']}"):
+        old_marked = tick_marker(old_marked, key)
     check("«انشر فورًا» يلتقط المرشح الأول والثالث (المزدوج)",
-          preselect.parse_publish_now(marked) == [cand_now["id"], cand_both["id"]])
+          preselect.parse_publish_now(old_marked) == [cand_now["id"], cand_both["id"]])
     check("«صغ واعرض» يلتقط المرشح الثاني والثالث (المزدوج)",
-          preselect.parse_draft_review(marked)
+          preselect.parse_draft_review(old_marked)
           == [cand_draft["id"], cand_both["id"]])
+    check("القارئ الموحَّد على القضية الجديدة: الأحوط للمزدوج = go2",
+          stages.read_actions(marked, 1)[0]
+          == {cand_now["id"]: "publish", cand_draft["id"]: "go2",
+              cand_both["id"]: "go2"})
 
     burst_calls: list = []
 
@@ -646,7 +659,7 @@ def test_preselect_two_boxes_now_and_draft_review() -> None:
 
     conflict_comments = [
         text for _, text in comment_calls
-        if "المربعين معًا" in text
+        if "أكثر من خيار انتقال" in text
     ]
     check("تنبيه التعارض عُلِّق على Issue الاختيار الأصلي",
           len(conflict_comments) == 1, str(comment_calls))
@@ -746,7 +759,12 @@ def test_preselect_card_marker_and_selected_card_ids() -> None:
                  published=now, bucket="serious", publisher="PC")
     cand = preselect.build_candidate(art)
 
-    body = preselect.build_selection_issue_body([cand])
+    new_body = preselect.build_selection_issue_body([cand])
+    check("خيار 🎴 في القضية الجديدة بعلامة go:go3 غير معلَّم (#1190)",
+          f"- [ ] {load_config().path('stages.options.go3')}  <!-- go:go3:{cand['id']} -->"
+          in new_body and f"sel-card:{cand['id']}" not in new_body, new_body)
+    # القارئ القديم يبقى لقضايا فُتحت قبل التحديث: يُفحص على نص الباني القديم
+    body = legacy_selection_body([cand])
     check("علامة sel-card: تظهر في الجسم الخام غير معلَّمة",
           f"- [ ] 🎴 صُغ واعرض البطاقة (بلا مراجعة أولية)  <!-- sel-card:{cand['id']} -->"
           in body, body)
@@ -786,7 +804,8 @@ def test_preselect_image_line() -> None:
 
     def line_of(cand):
         body = preselect.build_selection_issue_body([cand])
-        return [l for l in body.splitlines() if "🖼️" in l and "سطر" not in l]
+        # سطر 🖼️ القائم وحده، لا سطر حقل الصورة (stages.image_field يحمل 🖼️ أيضًا)
+        return [l for l in body.splitlines() if l.startswith("  🖼️")]
 
     check("صيغة 1: رابط الناشر والنطاق",
           line_of(c_a) == ["  🖼️ [صورة الناشر](https://cdn.pub.example/p/1.jpg)"
@@ -806,7 +825,8 @@ def test_preselect_image_line() -> None:
     body = preselect.build_selection_issue_body([c_a, c_b, c_c])
     print("\n----- نص قضية الاختبار (d) -----\n" + body + "\n-----")
     check("جملة الشرح حاضرة",
-          "سطر 🖼️ يبيّن الصورة المتاحة لكل خبر، لا ما سينجح تحميله" in body)
+          load_config().path("stages.explainer_stage1") in body
+          and "سطر 🖼️ يبيّن" not in body)
     marked = tick_marker(body, f"now:{c_a['id']}")
     marked = tick_marker(marked, f"review:{c_b['id']}")
     marked = tick_marker(marked, f"sel-card:{c_c['id']}")
@@ -815,15 +835,12 @@ def test_preselect_image_line() -> None:
                          if not l.startswith("  🖼️"))
     check("السطر أُزيل فعلًا في النسخة المقارَنة",
           stripped != marked and "ناشر آخر" not in stripped)
-    check("parse_publish_now نفسها بوجود السطر وبدونه",
-          preselect.parse_publish_now(marked)
-          == preselect.parse_publish_now(stripped) == [c_a["id"]])
-    check("parse_draft_review نفسها",
-          preselect.parse_draft_review(marked)
-          == preselect.parse_draft_review(stripped) == [c_b["id"]])
-    check("selected_card_ids نفسها",
-          preselect.selected_card_ids(marked)
-          == preselect.selected_card_ids(stripped) == [c_b["id"], c_c["id"]])
+    # القارئ الموحَّد (الأحوط: go2 يغلب go3 للمرشح b) بوجود السطر وبدونه
+    check("القارئ الموحَّد نفسه بوجود السطر وبدونه",
+          stages.read_actions(marked, 1) == stages.read_actions(stripped, 1)
+          == ({c_a["id"]: "publish", c_b["id"]: "go2", c_c["id"]: "go3"},
+              [{"id": c_b["id"], "marked": ["go2", "go3"]}]),
+          str(stages.read_actions(marked, 1)))
     check("all_candidate_ids نفسها",
           preselect.all_candidate_ids(marked)
           == preselect.all_candidate_ids(stripped)
@@ -847,7 +864,8 @@ def test_preselect_image_line_count_and_cap() -> None:
 
     def line_of(cand, cfg=None):
         body = preselect.build_selection_issue_body([cand], None, cfg)
-        return [l for l in body.splitlines() if "🖼️" in l and "سطر" not in l]
+        # سطر 🖼️ القائم وحده، لا سطر حقل الصورة (#1190)
+        return [l for l in body.splitlines() if l.startswith("  🖼️")]
 
     for n, expect in ((1, "صورة ناشر آخر"), (2, "صور ناشرَين آخرَين"),
                       (3, "صور 3 ناشرين آخرين")):
@@ -875,12 +893,8 @@ def test_preselect_image_line_count_and_cap() -> None:
     stripped = "\n".join(l for l in marked.splitlines()
                          if not l.startswith("  🖼️"))
     check("دوال القراءة الأربع نفسها بوجود السطر وبدونه",
-          preselect.parse_draft_review(marked)
-          == preselect.parse_draft_review(stripped) == [cand["id"]]
-          and preselect.parse_publish_now(marked)
-          == preselect.parse_publish_now(stripped) == []
-          and preselect.selected_card_ids(marked)
-          == preselect.selected_card_ids(stripped) == []
+          stages.read_actions(marked, 1)[0]
+          == stages.read_actions(stripped, 1)[0] == {cand["id"]: "go2"}
           and preselect.all_candidate_ids(marked)
           == preselect.all_candidate_ids(stripped) == [cand["id"]])
 
@@ -3428,9 +3442,9 @@ def test_no_reject_boxes_in_review_issues() -> None:
     selection_body = preselect.build_selection_issue_body([cand])
     check("لا مربع رفض واحد في Issue الاختيار", "<!-- crj:" not in selection_body,
           selection_body)
-    check("مربعا المصير (انشر فورًا/صغ واعرض) باقيان",
-          f"<!-- now:{cand['id']} -->" in selection_body
-          and f"<!-- review:{cand['id']} -->" in selection_body,
+    check("خيارا المصير (انشر فورًا/صغ واعرض) باقيان بعلامتي go: (#1190)",
+          f"<!-- go:publish:{cand['id']} -->" in selection_body
+          and f"<!-- go:go2:{cand['id']} -->" in selection_body,
           selection_body)
     check("لا CREJECT_MARKER ولا parse_candidate_rejects بعد الآن في preselect.py",
           not hasattr(preselect, "CREJECT_MARKER")
@@ -10645,7 +10659,9 @@ def test_stages_module() -> None:
                       published=now, bucket="serious", publisher="L")
         cands.append(preselect.build_candidate(art))
     c0, c1, c2, c3 = (c["id"] for c in cands)
-    sel = preselect.build_selection_issue_body(cands)
+    # (#1190) الباني الجديد لا يبني المربعات القديمة: الترجمة القديمة تُفحص على
+    # نص ثابت منسوخ من الباني القديم
+    sel = legacy_selection_body(cands)
     sel = tick_marker(sel, f"now:{c0}")
     sel = tick_marker(sel, f"review:{c1}")
     sel = tick_marker(sel, f"sel-card:{c2}")
@@ -10660,7 +10676,7 @@ def test_stages_module() -> None:
           and preselect.parse_draft_review(sel) == [c1]
           and preselect.selected_card_ids(sel) == [c2, c3])
     both = tick_marker(tick_marker(
-        preselect.build_selection_issue_body(cands[:1]), f"review:{c0}"), f"sel-card:{c0}")
+        legacy_selection_body(cands[:1]), f"review:{c0}"), f"sel-card:{c0}")
     check("(#1180-هـ) المرحلة 1: 📝 تغلب 🎴",
           stages.legacy_actions(both, 1) == {c0: "go2"})
 
@@ -10668,8 +10684,7 @@ def test_stages_module() -> None:
                "channels": ["ق1"], "agreement": "agreement", "point_ids": [0]},
               {"id": "a1b2", "title": "ك", "event": "", "layer": 2, "blocs": ["arabic"],
                "channels": ["ق1"], "agreement": "agreement", "point_ids": [0]}]
-    tsel = tick_marker(ycl.build_selection_body("2099-01-01", topics, [{"statement": "س"}]),
-                       "topic:a1b1")
+    tsel = tick_marker(legacy_youtube_selection_body("2099-01-01", topics), "topic:a1b1")
     check("(#1180-هـ) المرحلة 1 تحليل: topic: معلَّم ← go2 ومطابق للقارئ الحالي",
           stages.legacy_actions(tsel, 1) == {"a1b1": "go2"}
           and ycl._checked_topic_ids(tsel) == {"a1b1"})
@@ -11230,6 +11245,636 @@ def test_analysis_stages_pipeline() -> None:
             os.environ.pop("GITHUB_REPOSITORY", None)
         else:
             os.environ["GITHUB_REPOSITORY"] = real["repo"]
+        if seen_backup is None:
+            ycl.SEEN_PATH.unlink(missing_ok=True)
+        else:
+            ycl.SEEN_PATH.write_text(seen_backup, encoding="utf-8")
+
+
+@auto_restore_last_publish
+def test_stage1_unified_pipeline() -> None:
+    """Issue #1190 (المهمة 4 من 4): المرحلة 1 (قضيتا ترشيح الأخبار والتحليل) بالوحدة
+    المشتركة. قضايا بالبناة الحقيقيين، تُعلَّم، ثم تُمرَّر إلى collect_finalize.finalize
+    وpublish.cmd_youtube_selection وsetimage الحقيقية بالـfakes القائمة، مع عدّاد لنداءات
+    الكاتب (الأخبار) ونداءات النموذج (التحليل). مواضع الاختبار a–i في الطلب."""
+    from src import collect_finalize, decisions, preselect, youtube_cluster as ycl
+    from src import youtube_extract
+    from src import publish as publish_mod
+    import src.setimage as setimage_mod
+
+    cfg = load_config()
+    cfg.setdefault("youtube", {}).setdefault("publish", {}).update(spacing_minutes=0, max_per_run=3)
+    now = datetime.now(timezone.utc)
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    shutil.rmtree(store.CANDIDATES_DIR, ignore_errors=True)
+    shutil.rmtree(ycl.TOPICS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    ycl.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+    ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
+
+    # ── مشترك: التقاط التعليقات والقضايا والنشر، وعدّاد الكاتب ──
+    cap: dict = {}
+
+    def reset_cap() -> None:
+        cap.clear()
+        cap.update(comments=[], created=[], published=[], closed=[], removed=[], updated=[])
+
+    reset_cap()
+    counter = {"issue": 7700}
+
+    def fake_create(title, body, labels=None):
+        counter["issue"] += 1
+        cap["created"].append({"title": title, "body": body, "labels": labels,
+                               "number": counter["issue"]})
+        return {"number": counter["issue"], "html_url": "https://x/i"}
+
+    calls = {"write": 0, "build": []}
+    real_write = collect_finalize.write_arabic
+    real_build = cards_mod._default_build_post_image
+
+    def counting_write(*a, **k):
+        calls["write"] += 1
+        return real_write(*a, **k)
+
+    def counting_build(*a, **k):
+        calls["build"].append(k.get("image_urls"))
+        return real_build(*a, **k)
+
+    photo = {"free": 0, "news": 0}
+
+    def fake_free(*a, **k):
+        photo["free"] += 1
+        return ["https://example.com/photo.jpg"]
+
+    def fake_news(*a, **k):
+        photo["news"] += 1
+        return []
+
+    patched = [
+        (publish_mod, "ROOT"), (publish_mod, "cmd_burst"), (facebook, "publish_photo"),
+        (review, "comment"), (review, "close_issue"), (review, "create_issue"),
+        (review, "ensure_labels"), (review, "remove_label"),
+        (review, "fetch_issue_body"), (review, "update_issue_body"),
+        (youtube_publish, "_photo_candidates"),
+        (youtube_extract, "photo_candidates"), (youtube_extract, "news_photo_available"),
+        (youtube_extract, "news_photo_candidates"), (imagesearch, "find_images"),
+        (setimage_mod, "SYNC_FILE"), (setimage_mod, "download_image")]
+    real = [getattr(m, k) for m, k in patched]
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    real_argv = sys.argv
+    seen_backup = ycl.SEEN_PATH.read_text(encoding="utf-8") if ycl.SEEN_PATH.exists() else None
+    sync_path = _TMP_DATA_DIR / "stage1_sync.json"
+    fetch_real, update_real = review.fetch_issue_body, review.update_issue_body
+
+    publish_mod.ROOT = DRAFTS_DIR.parent
+    publish_mod.cmd_burst = (lambda ids, cfg_, issue, **kw: publish_mod.cmd_now(ids, cfg_, issue))
+    facebook.publish_photo = lambda image_path, caption, api_version, first_comment=None: (
+        cap["published"].append(caption) or dict(url="https://fb.example/s", id="1"))
+    review.comment = lambda n, t: cap["comments"].append((n, t))
+    review.close_issue = lambda n: cap["closed"].append(n)
+    review.ensure_labels = lambda: None
+    review.remove_label = lambda n, lbl: cap["removed"].append((n, lbl))
+    review.create_issue = fake_create
+    youtube_publish._photo_candidates = fake_free
+    youtube_extract.photo_candidates = fake_free
+    youtube_extract.news_photo_available = lambda *a, **k: False
+    youtube_extract.news_photo_candidates = fake_news
+    imagesearch.find_images = lambda *a, **k: []
+    os.environ["GITHUB_REPOSITORY"] = "u/r"
+    collect_finalize.write_arabic = counting_write
+    cards_mod._default_build_post_image = counting_build
+
+    def state(draft_id: str) -> dict:
+        return store.load_draft(draft_id)[1]
+
+    def cand_state(cid: str) -> dict:
+        return store.load_candidate(cid)[1]
+
+    def all_drafts() -> list[dict]:
+        return [json.loads(p.read_text(encoding="utf-8")) for p in DRAFTS_DIR.glob("*/*.json")]
+
+    # ── الأخبار: مرشحون حقيقيون وقضية بالباني الحقيقي ──
+    def mk_cand(tag: str, title: str, *, image: str | None = None, issue: int = 0,
+                returned: bool = False) -> dict:
+        art = Article(title=title, link=f"https://s1.example/{tag}", summary="",
+                      source_name="P1", region="r1", weight=1.0, published=now,
+                      bucket="serious", publisher="P1")
+        art.image_url = image
+        cand = preselect.build_candidate(art)
+        cand["selection_issue"] = issue or None
+        if returned:
+            cand.update(returned=True, returned_from_stage=2, returned_at=now.isoformat())
+        store.save_candidate(cand)
+        return cand
+
+    def run_finalize(number: int, body: str) -> dict:
+        reset_cap()
+        reset_last_publish()
+        cap["code"] = collect_finalize.finalize(number, body, cfg)
+        return dict(cap)
+
+    def run_setimage(number: int, body: str) -> dict:
+        """setimage الحقيقية على قضية (main ثم sync_issue) — الشبكة مزيَّفة."""
+        reset_cap()
+        setimage_mod.SYNC_FILE = sync_path
+        review.fetch_issue_body = lambda n: body
+        review.update_issue_body = lambda n, b: cap["updated"].append(b)
+        try:
+            sys.argv = ["setimage", "--from-issue", "--issue", str(number), "--body", ""]
+            cap["code"] = setimage_mod.main()
+            setimage_mod.sync_issue(number)
+        finally:
+            sys.argv = real_argv
+            review.fetch_issue_body = fetch_real
+            review.update_issue_body = update_real
+            sync_path.unlink(missing_ok=True)
+        return dict(cap)
+
+    fixture_img = Image.open("/tmp/_fixture_photo.jpg").convert("RGB")
+
+    def download_stub(url, timeout=20, failures=None):
+        if "bad" in url:
+            if failures is not None:
+                failures.append(dict(url=url, reason="HTTP 404، حجم 0 بايت (دون 15000)"))
+            return None
+        return fixture_img
+
+    setimage_mod.download_image = download_stub
+
+    def fill_field(body: str, item_id: str, url: str) -> str:
+        field = stages.image_field(item_id, cfg)
+        assert field in body, item_id
+        return body.replace(field, field.replace("هنا:", f"هنا: {url}"))
+
+    def segment(lines: list[str], start: int) -> str:
+        end = next((i for i in range(start + 1, len(lines)) if lines[i].strip() == "---"),
+                   len(lines))
+        return "\n".join(lines[start:end])
+
+    try:
+        # ═══ أ: الشكل — الأخبار: خبران، أحدهما مُعاد وبصورة ═══
+        pub_img = "https://cdn.pub.example/p/ret.jpg"
+        c_ret = mk_cand("ret", "خبر مُعاد بصورة ناشر", image=pub_img, issue=9101, returned=True)
+        d_ret = _stage_news_draft(
+            c_ret["id"], "خبر مُعاد بصورة ناشر",
+            headlines=["عنوان ١", "عنوان ٢", "عنوان ٣"], headline_selected=0,
+            reel_spec={"headline": "خبر مُعاد بصورة ناشر"})
+        d_ret["status"] = "returned"
+        d_ret["returned_from_stage"] = 2
+        store.save_draft(d_ret)
+        c_plain = mk_cand("plain", "خبر عادي بلا صورة", issue=9101)
+        news_body = preselect.build_selection_issue_body([c_ret, c_plain], {}, cfg)
+        print("\n----- قضية ترشيح الأخبار (خبران: الأول مُعاد وبصورة) كما بُنيت -----\n"
+              + news_body + "\n-----")
+        nlines = news_body.splitlines()
+        check("(#1190-أ) الأخبار: الرأس stages.stage_header(1) ثم شرح المرحلة 1 الموحَّد",
+              nlines[0] == stages.stage_header(1, cfg)
+              and cfg.path("stages.explainer_stage1") in news_body, nlines[:4])
+        check("(#1190-أ) فقرات الشرح القديمة (🚀/📝/🎴 والأحوط) حُذفت",
+              "ثلاثة مربعات" not in news_body and "الأحوط يغلب" not in news_body
+              and "سطر 🖼️ يبيّن" not in news_body)
+        titles_at = [i for i, ln in enumerate(nlines) if "<!-- cand:" in ln]
+
+        def box_before_title(lines: list[str], t: int) -> bool:
+            prev = max([i for i in range(t) if lines[i].strip() == "---"], default=0)
+            return any(re.match(r"\s*[-*]\s*\[", lines[j]) for j in range(prev, t + 1))
+        check("(#1190-أ) لا «- [ ]» قبل سطر عنوان أي خبر ولا عليه",
+              len(titles_at) == 2 and not any(box_before_title(nlines, t) for t in titles_at),
+              titles_at)
+        badge = cfg.path("stages.returned_badge").format(stage=2)
+        check("(#1190-أ) الخبر المُعاد: «**1. ↩️ أعدته من المرحلة 2 · العنوان**» بعلامة cand: وحدها",
+              nlines[titles_at[0]].startswith(f"**1. {badge} · خبر مُعاد")
+              and nlines[titles_at[0]].rstrip().endswith(f"<!-- cand:{c_ret['id']} -->"))
+        seg_ret = segment(nlines, titles_at[0])
+        marks = [seg_ret.find(f"cand:{c_ret['id']}"), seg_ret.find("🏷️"),
+                 seg_ret.find(f'<img src="{pub_img}" width="520"'),
+                 seg_ret.find("🖼️ [صورة الناشر]"), seg_ret.find("↳ [الخبر الأصلي]"),
+                 seg_ret.find(f"imgurl:{c_ret['id']}"),
+                 seg_ret.find(cfg.path("stages.options_header"))]
+        check("(#1190-أ) ترتيب أقسام الخبر: العنوان ← الشارات والمصادر ← الصورة معروضة ← سطر 🖼️ ← "
+              "الخبر الأصلي ← حقل الصورة ← الانتقال",
+              -1 not in marks and marks == sorted(marks), marks)
+        seg_plain = segment(nlines, titles_at[1])
+        check("(#1190-أ) خبر بلا صورة ناشر: لا <img> ويبقى سطر 🖼️ القائم",
+              "<img" not in seg_plain and "🖼️ بلا صورة من الناشر" in seg_plain)
+        check("(#1190-أ) كتلة الانتقال: go2 وgo3 وpublish بلا go1 (المرحلة 1)",
+              all(f"<!-- go:{a}:{c_ret['id']} -->" in news_body for a in ("go2", "go3", "publish"))
+              and "go:go1:" not in news_body)
+        check("(#1190-أ) قبل التعليم لا إجراء مقروء من القضية",
+              stages.read_actions(news_body, 1) == ({}, []))
+
+        # ═══ أ: الشكل — التحليل: موضوع واحد ═══
+        D1, D2, D3 = "2099-10-01", "2099-10-02", "2099-10-03"
+        points = [
+            {"video_id": "sw0", "bloc": "arabic", "channel": "الجزيرة", "speaker": "متحدث",
+             "statement": "قول", "quote_arabic": "اقتباس", "type": "fact",
+             "video_title": "فيديو", "video_url": "https://youtube.com/watch?v=sw0", "timestamp": 1},
+            {"video_id": "sw1", "bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث٢",
+             "statement": "قول٢", "quote_arabic": "اقتباس٢", "type": "fact",
+             "video_title": "فيديو٢", "video_url": "https://youtube.com/watch?v=sw1", "timestamp": 2},
+        ]
+        for day in (D1, D2, D3):
+            (ycl.POINTS_DIR / f"{day}.json").write_text(
+                json.dumps(dict(points=points), ensure_ascii=False), encoding="utf-8")
+
+        def mk_topic(title: str, single: bool = False) -> dict:
+            if single:      # كتلة وقناة واحدة ← يمرّ بحارس المحظورات
+                return dict(title=title, event=f"حدث {title}", layer=1, blocs=["arabic"],
+                            channels=["الجزيرة"], agreement="agreement", point_ids=[0])
+            return dict(title=title, event=f"حدث {title}", layer="a",
+                        blocs=["arabic", "turkish"], channels=["الجزيرة", "CNN Türk"],
+                        agreement="cross_source", point_ids=[0, 1])
+
+        def write_topics(day: str, specs: list) -> None:
+            topics = [mk_topic(*s) if isinstance(s, tuple) else mk_topic(s) for s in specs]
+            (ycl.TOPICS_DIR / f"{day}.json").write_text(
+                json.dumps(dict(run_date=day, topics=topics), ensure_ascii=False),
+                encoding="utf-8")
+
+        def topics_file(day: str) -> dict:
+            return json.loads((ycl.TOPICS_DIR / f"{day}.json").read_text(encoding="utf-8"))
+
+        def cfg_with(cap_articles: int, cap_publish: int = 3):
+            c = load_config()
+            c.setdefault("youtube", {}).setdefault("article", {}).update(
+                count=9, max_per_run=cap_articles)
+            c["youtube"].setdefault("publish", {}).update(
+                spacing_minutes=0, max_per_run=cap_publish)
+            return c
+
+        def open_sel(day: str, cfg_a) -> dict:
+            n0 = len(cap["created"])
+            sel = ycl.open_selection(cfg_a, date_str=day)
+            return dict(topics=sel["topics"], body=cap["created"][n0]["body"],
+                        number=sel["issue"]["number"])
+
+        def run_sel(sel: dict, ticks: dict, cfg_a, client, body: str | None = None) -> dict:
+            """يعلّم المواضيع ثم publish.cmd_youtube_selection الحقيقية."""
+            text = body if body is not None else sel["body"]
+            for tid, action in ticks.items():
+                text = tick_marker(text, f"<!-- go:{action}:{tid} -->")
+            reset_cap()
+            reset_last_publish()
+            cap["code"] = publish_mod.cmd_youtube_selection(
+                sel["number"], text, cfg_a, client=client)
+            return dict(cap)
+
+        write_topics(D1, ["موضوع التحليل الأول"])
+        sel_a = open_sel(D1, cfg_with(5))
+        topic_a = sel_a["topics"][0]
+        print("\n----- قضية ترشيح التحليل (موضوع واحد) كما بُنيت -----\n"
+              + sel_a["body"] + "\n-----")
+        alines = sel_a["body"].splitlines()
+        a_title = next(i for i, ln in enumerate(alines) if "<!-- topic:" in ln)
+        check("(#1190-أ) التحليل: الرأس stages.stage_header(1) ثم شرح المرحلة 1 الموحَّد",
+              next(ln for ln in alines if ln.startswith("###")) == stages.stage_header(1, cfg)
+              and cfg.path("stages.explainer_stage1") in sel_a["body"]
+              and "<!-- selection-date:" in alines[0], alines[:5])
+        check("(#1190-أ) لا «- [ ]» قبل عنوان الموضوع ولا عليه، وعنوانه «**1. …**» بعلامة topic: وحدها",
+              not any(re.match(r"\s*[-*]\s*\[", ln) for ln in alines[:a_title + 1])
+              and alines[a_title].startswith("**1. موضوع التحليل الأول**")
+              and alines[a_title].rstrip().endswith(f"<!-- topic:{topic_a['id']} -->"),
+              alines[a_title])
+        seg_a = segment(alines, a_title)
+        marks = [seg_a.find("topic:"), seg_a.find("حدث موضوع"), seg_a.find("تقاطع "),
+                 seg_a.find("«قول»"), seg_a.find(f"imgurl:{topic_a['id']}"),
+                 seg_a.find(cfg.path("stages.options_header"))]
+        check("(#1190-أ) ترتيب أقسام الموضوع: العنوان ← الحدث ← الكتل والقنوات والنقاط ← الاقتباسات ← "
+              "حقل الصورة ← الانتقال",
+              -1 not in marks and marks == sorted(marks), marks)
+        check("(#1190-أ) كتلة الانتقال للتحليل: go2 وgo3 وpublish بلا go1",
+              all(f"<!-- go:{a}:{topic_a['id']} -->" in sel_a["body"]
+                  for a in ("go2", "go3", "publish")) and "go:go1:" not in sel_a["body"])
+        check("(#1190-أ) علامة selection-date باقية وقراءة الإجراءات الموحَّدة فارغة قبل التعليم",
+              ycl.SELECTION_DATE_RE.search(sel_a["body"]).group(1) == D1
+              and stages.read_actions(sel_a["body"], 1) == ({}, []))
+
+        # ═══ ب: الأخبار go2/go3/publish ← السلوك نفسه تمامًا لـ📝/🎴/🚀 القديمة ═══
+        def scenario(kind: str, number: int) -> dict:
+            roles = {"go2": "review", "go3": "sel-card", "publish": "now"}
+            # صورة ناشر لكل خبر كي تُبنى البطاقة حتميًا (لا تتوقف النتيجة على بحث صور)
+            cs = {r: mk_cand(f"{kind}-{r}", f"خبر {kind} دور {r} فريد", issue=number,
+                             image=f"https://cdn.pub.example/p/{kind}-{r}.jpg")
+                  for r in roles}
+            order = [cs["go2"], cs["go3"], cs["publish"]]
+            if kind == "new":
+                body = preselect.build_selection_issue_body(order, {}, cfg)
+                for r in roles:
+                    body = tick_marker(body, f"<!-- go:{r}:{cs[r]['id']} -->")
+            else:
+                body = legacy_selection_body(order)
+                for r, box in roles.items():
+                    body = tick_marker(body, f"{box}:{cs[r]['id']}")
+            calls["write"] = 0
+            out = run_finalize(number, body)
+            final_body = next((c["body"] for c in out["created"]
+                               if c["labels"] == ["final-review"]), "")
+            review_body = next((c["body"] for c in out["created"]
+                                if c["labels"] == ["pending-review"]), "")
+            return dict(
+                writes=calls["write"], code=out["code"],
+                labels=sorted(c["labels"][0] for c in out["created"]),
+                published=len(out["published"]),
+                status={r: state(cs[r]["id"])["status"] for r in roles},
+                has_image={r: bool(state(cs[r]["id"]).get("image")) for r in roles},
+                cand={r: cand_state(cs[r]["id"])["status"] for r in roles},
+                closed=out["closed"] == [number],
+                in_final=f"<!-- draft:{cs['go3']['id']} -->" in final_body,
+                in_review=f"<!-- draft:{cs['go2']['id']} -->" in review_body)
+        new_res, old_res = scenario("new", 9201), scenario("legacy", 9202)
+        check("(#1190-ب) الأخبار: go2/go3/publish ← النتيجة نفسها تمامًا لـ📝/🎴/🚀 على القضية القديمة",
+              new_res == old_res, (new_res, old_res))
+        check("(#1190-ب) تفصيل النتيجة: ثلاث صياغات، go2 مسودة بلا بطاقة، go3 ببطاقة في قضية نهائية، "
+              "publish نُشر",
+              new_res["writes"] == 3 and new_res["labels"] == ["final-review", "pending-review"]
+              and new_res["status"] == dict(go2="pending", go3="pending", publish="published")
+              and new_res["has_image"] == dict(go2=False, go3=True, publish=True)
+              and new_res["published"] == 1 and new_res["in_final"] and new_res["in_review"]
+              and new_res["closed"], new_res)
+
+        # ═══ ج: تعارض go2 + publish ← go2 وتعليق التعارض؛ بلا تعليم ← «لم يُختر» ═══
+        c_conf = mk_cand("conf", "خبر عُلِّم عليه خياران معًا", issue=9301)
+        c_none = mk_cand("none", "خبر ترك بلا تعليم", issue=9301)
+        body_c = preselect.build_selection_issue_body([c_conf, c_none], {}, cfg)
+        body_c = tick_marker(body_c, f"<!-- go:go2:{c_conf['id']} -->")
+        body_c = tick_marker(body_c, f"<!-- go:publish:{c_conf['id']} -->")
+        calls["write"] = 0
+        out_c = run_finalize(9301, body_c)
+        conflict_text = [t for _, t in out_c["comments"] if "أكثر من خيار انتقال" in t]
+        check("(#1190-ج) go2 + publish ← go2 وحده (مسودة للمرحلة 2) بلا نشر وبصياغة واحدة",
+              state(c_conf["id"])["status"] == "pending" and out_c["published"] == []
+              and calls["write"] == 1
+              and [c["labels"] for c in out_c["created"]] == [["pending-review"]],
+              (calls, [c["labels"] for c in out_c["created"]]))
+        check("(#1190-ج) تعليق التعارض يسمّي الخبر بعنوانه وخياريه والمنفَّذ",
+              len(conflict_text) == 1 and c_conf["title"] in conflict_text[0]
+              and stages.action_label("go2", 1, cfg) in conflict_text[0]
+              and stages.action_label("publish", 1, cfg) in conflict_text[0], conflict_text)
+        check("(#1190-ج) غير المُعلَّم ← «لم يُختر»: حالة المرشح وسجل القرارات",
+              cand_state(c_none["id"])["status"] == "unselected"
+              and any(e["id"] == c_none["id"] and e["decision"] == "unselected"
+                      and e["reject_tag"] == "لم يُختر" for e in decisions.load()))
+        body_empty = preselect.build_selection_issue_body(
+            [mk_cand("none2", "خبر وحيد بلا تعليم", issue=9302)], {}, cfg)
+        out_e = run_finalize(9302, body_empty)
+        check("(#1190-ج) قضية بلا أي تعليم: تعليق «لم يُعلَّم على أي مرشح» وإزالة approved ولا صياغة",
+              any("لم يُعلَّم على أي مرشح" in t for _, t in out_e["comments"])
+              and (9302, "approved") in out_e["removed"] and out_e["created"] == [],
+              out_e["comments"])
+
+        # ═══ د: التحليل go2/go3/publish ═══
+        write_topics(D1, ["تحليل ينتقل إلى المرحلة 2", "تحليل ينتقل إلى المرحلة 3", "تحليل ينشر"])
+        cfg_d = cfg_with(5)
+        sel_d = open_sel(D1, cfg_d)
+        t_go2, t_go3, t_pub = sel_d["topics"]
+        client_d = _CountingClient(
+            _analysis_article_responses("هل ينتقل الأول؟", ["هل ينتقل الأول؟", "بديل ١", "بديل ٢"])
+            + _analysis_article_responses("هل ينتقل الثاني؟", ["هل ينتقل الثاني؟", "بديل ١", "بديل ٢"])
+            + _analysis_article_responses("هل ينشر الثالث؟", ["هل ينشر الثالث؟", "بديل ١", "بديل ٢"]))
+        out_d = run_sel(sel_d, {t_go2["id"]: "go2", t_go3["id"]: "go3", t_pub["id"]: "publish"},
+                        cfg_d, client_d)
+        by_topic = {d["topic_id"]: d for d in all_drafts() if d.get("topic_id")}
+        d_go2, d_go3, d_pub = (by_topic[t["id"]] for t in (t_go2, t_go3, t_pub))
+        labels_d = [c["labels"] for c in out_d["created"]]
+        check("(#1190-د) نداءات النموذج: مقال وعناوين لكل من الثلاثة (6) — الكتابة واحدة في الحالات الثلاث",
+              len(client_d.messages.calls) == 6, len(client_d.messages.calls))
+        check("(#1190-د) go2 ← كتابة ثم قضية المرحلة 2 (youtube-review) بلا بطاقة",
+              state(d_go2["id"])["status"] == "pending" and "image" not in state(d_go2["id"])
+              and any(c["labels"] == ["youtube-review"]
+                      and f"<!-- draft:{d_go2['id']} -->" in c["body"] for c in out_d["created"])
+              and state(d_go2["id"]).get("review_issue") is not None, labels_d)
+        check("(#1190-د) go3 ← كتابة ثم بطاقة ثم قضية المرحلة 3 (final-review) بلا نشر",
+              state(d_go3["id"])["status"] == "pending" and bool(state(d_go3["id"]).get("image"))
+              and any(c["labels"] == ["final-review"]
+                      and f"<!-- draft:{d_go3['id']} -->" in c["body"] for c in out_d["created"])
+              and not any(f"<!-- draft:{d_go3['id']} -->" in c["body"]
+                          for c in out_d["created"] if c["labels"] == ["youtube-review"]), labels_d)
+        check("(#1190-د) publish ← كتابة ثم نشر (بطاقة بُنيت ونُشر) ولا قضية لمسودته",
+              state(d_pub["id"])["status"] == "published" and bool(state(d_pub["id"]).get("image"))
+              and len(out_d["published"]) == 1
+              and not any(f"<!-- draft:{d_pub['id']} -->" in c["body"] for c in out_d["created"]),
+              (state(d_pub["id"])["status"], len(out_d["published"])))
+        check("(#1190-د) ترتيب القضايا: المرحلة 3 قبل المرحلة 2 (go3/publish قبل open_review)",
+              labels_d == [["final-review"], ["youtube-review"]], labels_d)
+        check("(#1190-د) الموضوعات الثلاثة attempted والـIssue أُغلق (لا شيء ينتظر)",
+              {t["selection_status"] for t in topics_file(D1)["topics"]} == {"attempted"}
+              and sel_d["number"] in out_d["closed"])
+
+        # سقف النشر (youtube.publish.max_per_run): الفائض لا يضيع بل يصل قضية المرحلة 2
+        write_topics(D1, ["تحليل ينشر أول", "تحليل ينشر ثانٍ"])
+        cfg_cap = cfg_with(5, cap_publish=1)
+        sel_cap = open_sel(D1, cfg_cap)
+        c1, c2 = sel_cap["topics"]
+        client_cap = _CountingClient(
+            _analysis_article_responses("هل ينشر الأول؟", ["هل ينشر الأول؟", "بديل ١", "بديل ٢"])
+            + _analysis_article_responses("هل ينشر الثاني؟", ["هل ينشر الثاني؟", "بديل ١", "بديل ٢"]))
+        out_cap = run_sel(sel_cap, {c1["id"]: "publish", c2["id"]: "publish"}, cfg_cap, client_cap)
+        by_topic = {d["topic_id"]: d for d in all_drafts() if d.get("topic_id")}
+        st_cap = sorted(by_topic[t["id"]]["status"] for t in (c1, c2))
+        check("(#1190-د) publish بسقف النشر (1): نُشر واحد والثاني بقي pending وأُرسل لقضية المرحلة 2",
+              st_cap == ["pending", "published"] and len(out_cap["published"]) == 1
+              and any("تجاوز سقف النشر" in t for _, t in out_cap["comments"])
+              and any(c["labels"] == ["youtube-review"] for c in out_cap["created"]),
+              (st_cap, [c["labels"] for c in out_cap["created"]]))
+
+        # ═══ هـ: حارس المحظورات يرفض موضوعًا ← لا نشر، ويُسجَّل كما اليوم ═══
+        write_topics(D1, [("ممنوع بنشر", True), ("ممنوع بمرحلة 2", True)])
+        cfg_g = cfg_with(5)
+        sel_g = open_sel(D1, cfg_g)
+        g1, g2 = sel_g["topics"]
+
+        def block():
+            return _FakeResp([_FakeBlock("tool_use", input_=dict(
+                blocked=True, category=youtube_article.FORBIDDEN_CATEGORIES[0],
+                reason="اتهام مسمّى بلا مصدر ثانٍ"))])
+        client_g = _CountingClient([block(), block()])
+        drafts_before = len(all_drafts())
+        out_g = run_sel(sel_g, {g1["id"]: "publish", g2["id"]: "go2"}, cfg_g, client_g)
+        skip_lines = [ln for _, t in out_g["comments"] for ln in t.splitlines() if "⏭️" in ln]
+        check("(#1190-هـ) publish مع حارس يرفض ← لا مسودة ولا نشر ولا قضية، ونداء الحارس وحده",
+              len(all_drafts()) == drafts_before and out_g["published"] == []
+              and out_g["created"] == [] and len(client_g.messages.calls) == 2,
+              (len(all_drafts()), drafts_before, len(client_g.messages.calls)))
+        check("(#1190-هـ) يُسجَّل كما اليوم: سطر ⏭️ بسبب «محظورة» لكل من publish وgo2 وحالة attempted",
+              len(skip_lines) == 2 and all("محظورة" in ln for ln in skip_lines)
+              and {t["selection_status"] for t in topics_file(D1)["topics"]} == {"attempted"},
+              skip_lines)
+
+        # ═══ و: قضيتا ترشيح بالشكل القديم ← تعملان كما كانتا ═══
+        # (قضية الأخبار القديمة غُطّيت في (ب) مقارنةً بالجديدة؛ هنا قضية التحليل القديمة)
+        write_topics(D1, ["تحليل بقضية قديمة"])
+        sel_old = open_sel(D1, cfg_with(5))
+        old_tid = sel_old["topics"][0]["id"]
+        old_body = legacy_youtube_selection_body(D1, sel_old["topics"])
+        old_body = tick_marker(old_body, f"topic:{old_tid}")
+        check("(#1190-و) قضية التحليل القديمة: القارئ الموحَّد يعيد go2 للمعلَّم عبر legacy_actions",
+              stages.read_actions(old_body, 1) == ({old_tid: "go2"}, []))
+        client_o = _CountingClient(_analysis_article_responses(
+            "هل تعمل القديمة؟", ["هل تعمل القديمة؟", "بديل ١", "بديل ٢"]))
+        out_o = run_sel(sel_old, {}, cfg_with(5), client_o, body=old_body)
+        d_old = next(d for d in all_drafts() if d.get("topic_id") == old_tid)
+        check("(#1190-و) قضية التحليل القديمة ← كتابة ثم قضية المرحلة 2 كما كانت",
+              len(client_o.messages.calls) == 2 and state(d_old["id"])["status"] == "pending"
+              and any(c["labels"] == ["youtube-review"] for c in out_o["created"])
+              and out_o["published"] == [])
+        legacy_conf = legacy_selection_body([mk_cand("lc", "خبر بقضية قديمة متعارضة", issue=9401)])
+        lc_id = preselect.all_candidate_ids(legacy_conf)[0]
+        legacy_conf = tick_marker(tick_marker(legacy_conf, f"now:{lc_id}"), f"review:{lc_id}")
+        out_lc = run_finalize(9401, legacy_conf)
+        check("(#1190-و) قضية الأخبار القديمة بتعارض: تعليق التعارض باقٍ والأحوط go2",
+              any("أكثر من خيار انتقال" in t for _, t in out_lc["comments"])
+              and state(lc_id)["status"] == "pending" and out_lc["published"] == [])
+
+        # ═══ ز: رابط صورة في ترشيح أخبار ═══
+        mine, mine_b = "https://cdn.example/mine.jpg", "https://cdn.example/mine-b.jpg"
+        c_go2 = mk_cand("img2", "خبر بصورة المراجع ينتقل للمرحلة 2",
+                        image="https://cdn.pub.example/p/a.jpg", issue=9501)
+        c_go3 = mk_cand("img3", "خبر بصورة المراجع ينتقل للبطاقة", issue=9501)
+        body_g = preselect.build_selection_issue_body([c_go2, c_go3], {}, cfg)
+        pasted = fill_field(fill_field(body_g, c_go2["id"], mine), c_go3["id"], mine_b)
+        out_gi = run_setimage(9501, pasted)
+        upd = out_gi["updated"][-1] if out_gi["updated"] else ""
+        check("(#1190-ز) رابط صالح ← manual_image على المرشح (بالتحميل الفوري بقواعد download_image)",
+              out_gi["code"] == 0 and cand_state(c_go2["id"]).get("manual_image") == mine
+              and cand_state(c_go3["id"]).get("manual_image") == mine_b,
+              (out_gi["code"], cand_state(c_go2["id"]).get("manual_image")))
+        check("(#1190-ز) التعليق «حُفظت الصورة — تُستعمل عند الصياغة» ومُسح الحقلان",
+              any("حُفظت الصورة — تُستعمل عند الصياغة" in t for _, t in out_gi["comments"])
+              and stages.image_field(c_go2["id"], cfg) in upd
+              and f"هنا: {mine}" not in upd and f"هنا: {mine_b}" not in upd, out_gi["comments"])
+        check("(#1190-ز) الصورة اليدوية تُعرض في القضية بدل صورة الناشر (استبدال وإدراج)",
+              f'<img src="{mine}" width="520" />' in upd
+              and f'<img src="{mine_b}" width="520" />' in upd
+              and "https://cdn.pub.example/p/a.jpg" not in upd
+              and f"🖼️ [صورتك]({mine})" in upd, upd)
+        check("(#1190-ز) القضية بعد التبديل ما زالت تُقرأ كاملة (المعرّفات والخيارات سليمة)",
+              preselect.all_candidate_ids(upd) == [c_go2["id"], c_go3["id"]]
+              and f"<!-- go:go2:{c_go2['id']} -->" in upd)
+        calls["build"].clear()
+        calls["write"] = 0
+        upd = tick_marker(tick_marker(upd, f"<!-- go:go2:{c_go2['id']} -->"),
+                          f"<!-- go:go3:{c_go3['id']} -->")
+        run_finalize(9501, upd)
+        check("(#1190-ز) go2 ← المسودة تحمل manual_image ونُفِّذت صياغتان",
+              state(c_go2["id"]).get("manual_image") == mine and calls["write"] == 2
+              and state(c_go3["id"]).get("manual_image") == mine_b, calls["write"])
+        check("(#1190-ز) go3 ← بطاقتها بُنيت بالرابط اليدوي وحده (يغلب صورة الناشر)",
+              bool(state(c_go3["id"]).get("image")) and calls["build"] == [[mine_b]],
+              calls["build"])
+        path_go2, draft_go2 = store.load_draft(c_go2["id"])
+        calls["build"].clear()
+        cards_mod.ensure(path_go2, draft_go2, cfg)
+        check("(#1190-ز) بطاقة go2 عند اعتماد المرحلة 2 تُبنى بالرابط اليدوي لا بصورة الناشر",
+              calls["build"] == [[mine]], calls["build"])
+
+        # فشل الرابط: يُمسح الحقل والتعليق فيه الرابط والسبب
+        c_bad = mk_cand("imgbad", "خبر برابط صورة فاشل", issue=9502)
+        body_bad = preselect.build_selection_issue_body([c_bad], {}, cfg)
+        bad = "https://cdn.example/bad-photo.html"
+        out_bad = run_setimage(9502, fill_field(body_bad, c_bad["id"], bad))
+        check("(#1190-ز) رابط فاشل ← لا manual_image والحقل يُمسح",
+              out_bad["code"] == 1 and "manual_image" not in cand_state(c_bad["id"])
+              and bad not in out_bad["updated"][-1]
+              and stages.image_field(c_bad["id"], cfg) in out_bad["updated"][-1],
+              out_bad["code"])
+        check("(#1190-ز) تعليق الفشل فيه الرابط والسبب",
+              any(bad in t and "HTTP 404" in t and "السبب" in t for _, t in out_bad["comments"]),
+              out_bad["comments"])
+
+        # مرشح مُعاد بصورة المراجع ← go3 ← بلا كتابة، والبطاقة تُعاد حول الرابط
+        out_rs = run_setimage(9101, fill_field(news_body, c_ret["id"], mine))
+        check("(#1190-ز) رابط على مرشح مُعاد (له مسودة returned بمعرّفه) يُحفظ على المرشح لا المسودة",
+              cand_state(c_ret["id"]).get("manual_image") == mine
+              and "manual_image" not in state(c_ret["id"])
+              and state(c_ret["id"])["status"] == "returned", out_rs["comments"])
+        body_rs = tick_marker(out_rs["updated"][-1], f"<!-- go:go3:{c_ret['id']} -->")
+        calls["write"], calls["build"] = 0, []
+        out_rf = run_finalize(9101, body_rs)
+        check("(#1190-ط) خبر مُعاد يُختار بـgo3 ← بلا كتابة (العدّاد 0) والبطاقة بالرابط اليدوي",
+              calls["write"] == 0 and state(c_ret["id"])["status"] == "pending"
+              and state(c_ret["id"]).get("manual_image") == mine
+              and calls["build"] == [[mine]]
+              and any(c["labels"] == ["final-review"] for c in out_rf["created"]),
+              (calls, [c["labels"] for c in out_rf["created"]]))
+
+        # ═══ ح: رابط صورة في ترشيح تحليل ═══
+        write_topics(D1, ["تحليل بصورة المراجع"])
+        cfg_h = cfg_with(5)
+        sel_h = open_sel(D1, cfg_h)
+        th = sel_h["topics"][0]
+        calls["build"].clear()
+        out_hi = run_setimage(sel_h["number"], fill_field(sel_h["body"], th["id"], mine))
+        topic_saved = next(t for t in topics_file(D1)["topics"] if t["id"] == th["id"])
+        check("(#1190-ح) رابط في ترشيح تحليل ← manual_image على الموضوع بلا تحميل ولا بناء",
+              out_hi["code"] == 0 and topic_saved.get("manual_image") == mine
+              and calls["build"] == [], (out_hi["code"], topic_saved.get("manual_image")))
+        check("(#1190-ح) التعليق «حُفظت الصورة — تُستعمل عند بناء البطاقة» ومُسح الحقل",
+              any("حُفظت الصورة — تُستعمل عند بناء البطاقة" in t for _, t in out_hi["comments"])
+              and f"هنا: {mine}" not in out_hi["updated"][-1], out_hi["comments"])
+        client_h = _CountingClient(_analysis_article_responses(
+            "هل تظهر صورتي؟", ["هل تظهر صورتي؟", "بديل ١", "بديل ٢"]))
+        photo.update(free=0, news=0)
+        out_h = run_sel(sel_h, {th["id"]: "go3"}, cfg_h, client_h, body=out_hi["updated"][-1])
+        d_h = next(d for d in all_drafts() if d.get("topic_id") == th["id"])
+        check("(#1190-ح) الكتابة تنقل manual_image من الموضوع إلى المسودة",
+              d_h.get("manual_image") == mine, d_h.get("manual_image"))
+        check("(#1190-ح) go3 ← البطاقة بالرابط اليدوي (manual) ولا مزوّد خبر استُدعي، وقضية المرحلة 3",
+              bool(d_h.get("image")) and d_h["image_info"].get("manual") is True
+              and d_h["image_info"].get("chosen_url") == mine and photo["news"] == 0
+              and any(c["labels"] == ["final-review"] for c in out_h["created"]),
+              (d_h.get("image_info"), photo))
+
+        # ═══ ط: موضوع مُعاد يُختار بـgo3 أو publish ← بلا كتابة (العدّاد 0) ═══
+        write_topics(D1, ["تحليل يعود من المرحلة 2", "تحليل يعود من المرحلة 3"])
+        cfg_i = cfg_with(5)
+        sel_i0 = open_sel(D1, cfg_i)
+        ti2, ti3 = sel_i0["topics"]
+        client_i0 = _CountingClient(
+            _analysis_article_responses("هل يعود الأول؟", ["هل يعود الأول؟", "بديل ١", "بديل ٢"])
+            + _analysis_article_responses("هل يعود الثاني؟", ["هل يعود الثاني؟", "بديل ١", "بديل ٢"]))
+        run_sel(sel_i0, {ti2["id"]: "go2", ti3["id"]: "go3"}, cfg_i, client_i0)
+        by_topic = {d["topic_id"]: d for d in all_drafts() if d.get("topic_id")}
+        di2, di3 = by_topic[ti2["id"]], by_topic[ti3["id"]]
+        reset_cap()
+        publish_mod.return_to_selection([di2["id"]], 2)
+        publish_mod.return_to_selection([di3["id"]], 3)
+        check("(#1190-ط) تمهيد: المسودتان returned والموضوعان returned في ملف تاريخهما",
+              state(di2["id"])["status"] == "returned" and state(di3["id"])["status"] == "returned"
+              and {t["selection_status"] for t in topics_file(D1)["topics"]} == {"returned"})
+        sel_i = open_sel(D2, cfg_i)
+        badge2, badge3 = (cfg.path("stages.returned_badge").format(stage=n) for n in (2, 3))
+        check("(#1190-ط) قضية الترشيح التالية: الموضوعان المُعادان بشارتيهما وبلا مربع على العنوان",
+              len(sel_i["topics"]) == 2 and badge2 in sel_i["body"] and badge3 in sel_i["body"]
+              and not any(re.match(r"\s*[-*]\s*\[", ln) and "<!-- topic:" in ln
+                          for ln in sel_i["body"].splitlines()))
+        client_i = _CountingClient([])         # أي نداء نموذج ينهار فيفشل الاختبار
+        out_i = run_sel(sel_i, {ti2["id"]: "go3", ti3["id"]: "publish"}, cfg_i, client_i)
+        check("(#1190-ط) المُعاد يُختار بـgo3 أو publish ← عدّاد النموذج 0 (بلا كتابة)",
+              len(client_i.messages.calls) == 0 and out_i["code"] == 0,
+              len(client_i.messages.calls))
+        check("(#1190-ط) المُعاد بـgo3 ← بطاقة وقضية المرحلة 3 بلا نشر",
+              state(di2["id"])["status"] == "pending" and bool(state(di2["id"]).get("image"))
+              and any(c["labels"] == ["final-review"]
+                      and f"<!-- draft:{di2['id']} -->" in c["body"] for c in out_i["created"]),
+              state(di2["id"]).get("status"))
+        check("(#1190-ط) المُعاد بـpublish ← نُشر بسقف النشر بلا كتابة",
+              state(di3["id"])["status"] == "published" and len(out_i["published"]) == 1,
+              state(di3["id"])["status"])
+        check("(#1190-ط) لا نسخة مسودة ثانية: مسودة واحدة لكل موضوع مُعاد",
+              len([d for d in all_drafts() if d.get("topic_id") in (ti2["id"], ti3["id"])]) == 2)
+    finally:
+        sys.argv = real_argv
+        collect_finalize.write_arabic = real_write
+        cards_mod._default_build_post_image = real_build
+        for (m, k), v in zip(patched, real):
+            setattr(m, k, v)
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
         if seen_backup is None:
             ycl.SEEN_PATH.unlink(missing_ok=True)
         else:

@@ -53,16 +53,72 @@ def check(name: str, condition: bool, detail: str = "") -> None:
     print(f"{mark} {name}" + (f"  → {detail}" if detail and not condition else ""))
 
 
+# علامات مربعات قضية ترشيح الأخبار القديمة ← خيار الانتقال الموحَّد المقابل
+# (Issue #1190): اختبارات كثيرة سابقة تعلّم «now:/review:/sel-card:» بالاسم؛
+# على قضية بالشكل الجديد (لا مربعات قديمة فيها) يُترجَم الطلب إلى علامة go:
+# المقابلة فتعلّم الاختبارات النقر نفسه بلا إعادة كتابة كل موضع.
+_LEGACY_SELECTION_BOX = {"now": "publish", "review": "go2", "sel-card": "go3"}
+_LEGACY_SELECTION_RE = re.compile(r"(now|review|sel-card):([0-9a-f]+)")
+
+
 def tick_marker(body: str, marker: str) -> str:
     """يعلّم أول مربع `- [ ]` في السطر الذي يحوي `marker` — يحاكي نقر
     المراجع على مربع بعينه بلا افتراض شكل السطر بالكامل (Issue #319:
     مربعا preselect.py لا يتشاركان سطرًا مع عنوان المرشح كما في السابق)."""
+    legacy = _LEGACY_SELECTION_RE.search(marker)
+    if legacy and f"<!-- {legacy.group(1)}:{legacy.group(2)} -->" not in body:
+        translated = f"go:{_LEGACY_SELECTION_BOX[legacy.group(1)]}:{legacy.group(2)}"
+        if translated in body:
+            marker = translated
+    topic = re.search(r"topic:([0-9a-f]+)", marker)
+    if topic and f"go:go2:{topic.group(1)}" in body:
+        # قضية ترشيح تحليل بالشكل الجديد: «معلَّم» = go2 (الكتابة ثم المرحلة 2)
+        marker = f"go:go2:{topic.group(1)}"
     lines = body.splitlines()
     for i, line in enumerate(lines):
         if marker in line:
             lines[i] = line.replace("- [ ]", "- [x]", 1)
             break
     return "\n".join(lines)
+
+
+def legacy_selection_body(cands: list[dict]) -> str:
+    """قضية ترشيح أخبار بالشكل القديم (قبل Issue #1190): نص ثابت منسوخ من
+    الباني القديم حرفيًا، لا يمرّ ببناة src — كي يثبت اختبار أن قضية فُتحت
+    قبل التحديث تُقرأ كما كانت. ثلاثة مربعات لكل مرشح."""
+    parts = [
+        "### 🗳️ مرشحون بانتظار الاختيار", "",
+        "**بلا صياغة ولا صورة بعد** — هذه العناوين الخام كما وردت من المصادر.", "",
+        "🚀 نشر مباشر · 📝 مراجعة أولية (نص وعناوين وتعديل) · 🎴 بطاقة مباشرة.", "",
+        "---", "",
+    ]
+    for idx, c in enumerate(cands, start=1):
+        parts += [
+            f"**{idx}. {c['title']}**  <!-- cand:{c['id']} -->", "",
+            f"  🏷️ {c.get('bucket', '')} · مؤشر الترند `{c['score']:.1f}`", "",
+            f"  ↳ [الخبر الأصلي]({c['link']})", "",
+            f"  - [ ] 🚀 انشر فورًا (صياغة ثم نشر مباشر بلا عرض)  <!-- now:{c['id']} -->",
+            f"  - [ ] 📝 صغ واعرض عليّ قبل النشر  <!-- review:{c['id']} -->",
+            f"  - [ ] 🎴 صُغ واعرض البطاقة (بلا مراجعة أولية)  <!-- sel-card:{c['id']} -->",
+            "", "---", "",
+        ]
+    parts.append("<sub>وسم `approved` = تنفيذ ما عُلِّم عليه لكل مرشح</sub>")
+    return "\n".join(parts)
+
+
+def legacy_youtube_selection_body(date_str: str, topics: list[dict]) -> str:
+    """قضية ترشيح تحليل بالشكل القديم (قبل Issue #1190): مربع واحد على سطر
+    عنوان كل موضوع، نص ثابت منسوخ من الباني القديم."""
+    parts = [
+        f"<!-- selection-date:{date_str} -->", "### 🗳️ اختيار مواضيع التحليل", "",
+        "علّم ما تريد كتابته. ما لا تعلّمه لا يُكتب ولا يُقترح ثانيةً.", "",
+        "---", "",
+    ]
+    for idx, t in enumerate(topics, start=1):
+        parts += [f"- [ ] **{idx}. {t['title']}**  <!-- topic:{t['id']} -->", "",
+                  f"  {t.get('event', '')}", "", "---", ""]
+    parts.append("<sub>وسم `approved` = كتابة المعلَّم فقط</sub>")
+    return "\n".join(parts)
 
 
 _REAL_LAST_PUBLISH_AT = store.last_publish_at

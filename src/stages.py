@@ -1,7 +1,7 @@
 """المصدر الوحيد لنصوص مراحل الاعتماد وخياراتها وعلاماتها وقراءتها (Issue #1180).
 
-لا يُستدعى من أي باني أو قارئ قائم بعد (المهمة 1 من 4) — المهام التالية
-تنقل البناة إليه. النصوص كلها في config.yaml: stages، لا هنا.
+بناة المراحل الأربع وقرّاؤها كلها تمرّ من هنا منذ المهمة 4 (Issue #1190:
+المرحلة 1 للأخبار والتحليل). النصوص كلها في config.yaml: stages، لا هنا.
 """
 from __future__ import annotations
 
@@ -87,7 +87,23 @@ def read_actions(body: str, stage: int) -> tuple[dict[str, str], list[dict]]:
     فلا يلتبس الأمر ولا تُقرأ قضية واحدة بالطريقتين معًا."""
     if GO_MARKER.search(body or ""):
         return parse_actions(body)
-    return legacy_actions(body or "", stage), []
+    conflicts = _legacy_conflicts_stage1(body or "") if stage == 1 else []
+    return legacy_actions(body or "", stage), conflicts
+
+
+def _legacy_conflicts_stage1(body: str) -> list[dict]:
+    """تعارض مربعات قضية ترشيح أخبار قديمة (🚀/📝/🎴): الترجمة القديمة تحسمه
+    بالأحوط صامتةً، وكان collect_finalize يعلّق بتنبيه خاص — فيبقى التنبيه
+    لتلك القضايا بإعادة حساب المجموعات نفسها هنا بالقرّاء القائمين."""
+    from . import preselect
+    marked: dict[str, set[str]] = {}
+    for ids, action in ((preselect.parse_publish_now(body), "publish"),
+                        (preselect.selected_card_ids(body), "go3"),
+                        (preselect.parse_draft_review(body), "go2")):
+        for i in ids:
+            marked.setdefault(i, set()).add(action)
+    return [{"id": i, "marked": [a for a in ACTIONS if a in actions]}
+            for i, actions in marked.items() if len(actions) > 1]
 
 
 def legacy_actions(body: str, stage: int) -> dict[str, str]:
