@@ -570,6 +570,8 @@ def important_stance(source: str, stance: str, excerpt: str = "", **kw) -> dict:
             "same_event": kw.get("same_event", True),
             "detail": kw.get("detail", ""), "correct_form": kw.get("correct_form", ""),
             "as_of": kw.get("as_of", ""),
+            # detail_kind (Issue #1214): غيابه يبقي السلوك القديم (يُعامَل رقمًا) كي تمرّ g1–g30
+            **({"detail_kind": kw["detail_kind"]} if "detail_kind" in kw else {}),
             "verdict_label": kw.get("verdict_label", default_label)}
 
 
