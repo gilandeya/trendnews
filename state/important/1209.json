@@ -1,14 +1,16 @@
 {
   "issue": 1209,
-  "created_at": "2026-10-03T15:11:08.442046+00:00",
+  "body_hash": "7be20ba4155371c9eaa00efebb9b53924d985584",
+  "selection_issue": 1220,
+  "created_at": "2026-10-03T17:48:42.779079+00:00",
   "topic": "استكشاف الفضاء والاكتشافات الفلكية",
   "error": null,
   "model": "claude-sonnet-5",
   "extract_model": "claude-haiku-4-5-20251001",
   "brave": {
-    "requests": 25,
+    "requests": 26,
     "skipped": null,
-    "monthly_usage": 168,
+    "monthly_usage": 194,
     "monthly_cap": 300
   },
   "model_calls": {
@@ -19,7 +21,7 @@
     },
     "brief": 1,
     "by_point": {
-      "b94d978c0e82": 1,
+      "9c5d1c45c0a3": 1,
       "4591dfda9524": 1,
       "9185665f38b8": 1,
       "ca1c92ec2f80": 1
@@ -28,21 +30,21 @@
   "truncated": null,
   "points": [
     {
-      "id": "b94d978c0e82",
-      "text": "اكتشاف أبعد مجرة معروفة حتى الآن باسم JADES-GS-z14-0 باستخدام تلسكوب جيمس ويب الفضائي",
-      "claim": "اكتشاف أبعد مجرة معروفة حتى الآن باسم JADES-GS-z14-0 باستخدام تلسكوب جيمس ويب الفضائي",
+      "id": "9c5d1c45c0a3",
+      "text": "اكتشاف أبعد مجرة معروفة حتى الآن باستخدام تلسكوب جيمس ويب الفضائي وتحمل اسم JADES-GS-z14-0",
+      "claim": "اكتشاف أبعد مجرة معروفة حتى الآن باستخدام تلسكوب جيمس ويب الفضائي وتحمل اسم JADES-GS-z14-0",
       "framing": "direct",
       "circulating_context": "",
       "asserted": "",
       "queries": [
-        "اكتشاف مجرة JADES-GS-z14-0 تحقق",
-        "مجرة JADES-GS-z14-0 أبعد مجرة تلسكوب جيمس ويب"
+        "تحقق من اكتشاف مجرة JADES-GS-z14-0 بتلسكوب جيمس ويب",
+        "اكتشاف أبعد مجرة JADES-GS-z14-0 تلسكوب جيمس ويب"
       ],
       "site_queries": [
-        "مجرة JADES-GS-z14-0 أبعد مجرة تلسكوب جيمس ويب تحقق site:misbar.com",
-        "مجرة JADES-GS-z14-0 أبعد مجرة تلسكوب جيمس ويب تحقق site:fatabyyano.net",
-        "JADES-GS-z14-0 galaxy James Webb Space Telescope discovery fact check site:factcheck.afp.com",
-        "JADES-GS-z14-0 galaxy James Webb Space Telescope discovery fact check site:reuters.com/fact-check"
+        "تلسكوب جيمس ويب الفضائي JADES-GS-z14-0 site:misbar.com",
+        "تلسكوب جيمس ويب الفضائي JADES-GS-z14-0 site:fatabyyano.net",
+        "تلسكوب جيمس ويب الفضائي JADES-GS-z14-0 site:factcheck.afp.com",
+        "تلسكوب جيمس ويب الفضائي JADES-GS-z14-0 site:reuters.com/fact-check"
       ],
       "engines": [
         "brave_web",
@@ -55,16 +57,12 @@
         "wide"
       ],
       "brave_skipped": null,
+      "cache_hits": 0,
       "checker_skipped": [
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/en/",
-          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/amp/qna/2024/05/19/%D9%87%D9%84-%D8%B9%D9%85%D8%B1-%D8%A7%D9%84%D9%83%D9%88%D9%86-%D8%AF%D9%82%D9%8A%D9%82",
-          "title": "هل عمر الكون دقيق؟"
+          "link": "https://www.misbar.com/qna/2023/05/08/%D9%85%D8%A7-%D9%87%D9%88-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8",
+          "title": "ما هو تلسكوب جيمس ويب؟"
         },
         {
           "publisher": "Misbar",
@@ -73,33 +71,38 @@
         },
         {
           "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/",
+          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
+        },
+        {
+          "publisher": "Misbar",
           "link": "https://www.misbar.com/qna/2025/03/11/%D9%85%D8%A7-%D9%87%D9%88-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%82%D8%9F",
           "title": "ما هو الفضاء العميق؟"
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/factcheck/2026/09/18/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%84%D9%8A%D8%B3-%D9%84%D8%B3%D9%8A%D8%B7%D8%B1%D8%A9-%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%B9%D9%85%D8%A7%D9%84%D9%82%D8%A9-%D8%B9%D9%84%D9%89-%D8%AC%D8%A8%D8%A7%D9%84-%D9%83%D9%87%D8%A8%D9%88%D8%A8-%D8%AD%D8%AF%D9%8A%D8%AB%D9%8B%D8%A7",
-          "title": "الفيديو قديم وليس لسيطرة قوات العمالقة على جبال كهبوب حديثًا"
+          "link": "https://www.misbar.com/qna/2023/11/01/%D9%85%D8%A7-%D9%87%D9%88-%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D8%B3%D8%AA%D8%A7%D8%B1%D9%84%D9%8A%D9%86%D9%83",
+          "title": "ما هو إنترنت ستارلينك؟"
         },
         {
           "publisher": "Misbar",
-          "link": "https://misbar.com/qna/2022/05/09/%D9%87%D9%84-%D9%85%D8%AC%D8%B1%D8%A9-%D8%AF%D8%B1%D8%A8-%D8%A7%D9%84%D8%AA%D8%A8%D8%A7%D9%86%D8%A9-%D8%A5%D9%87%D9%84%D9%8A%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%B4%D9%83%D9%84",
-          "title": "هل مجرّة درب التبانة إهليجية الشكل؟"
+          "link": "https://www.misbar.com/qna/2024/01/24/%D8%A3%D9%8A%D9%86-%D8%AA%D9%82%D8%B9-%D8%AC%D8%B2%D9%8A%D8%B1%D8%A9-%D8%AC%D9%8A%D9%81%D8%B1%D9%8A-%D8%A7%D8%A8%D8%B3%D8%AA%D9%8A%D9%86",
+          "title": "أين تقع جزيرة جيفري ابستين؟"
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2025/02/17/%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%AA%D8%AF%D9%88%D9%8A%D8%B1-%D8%A7%D9%84%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D8%B9%D8%A8%D8%B1-%D8%A7%D8%AC%D8%AA%D8%B2%D8%A7%D8%A1-%D8%AA%D8%AD%D9%82%D9%8A%D9%82%D8%A7%D8%AA-%D9%81%D9%86%D8%AF%D9%87%D8%A7-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC-%D8%A8%D9%88%D9%84%D9%8A%D8%BA%D8%B1%D8%A7%D9%81",
-          "title": "إعادة تدوير الادعاءات المضللة عبر اجتزاء تحقيقات فندها برنامج بوليغراف"
+          "link": "https://www.misbar.com/qna/2024/12/22/%D9%83%D9%85-%D8%AA%D8%A8%D9%84%D8%BA-%D8%B3%D8%B1%D8%B9%D8%A9-%D8%AF%D9%88%D8%B1%D8%A7%D9%86-%D8%A7%D9%84%D8%A3%D8%B1%D8%B6-%D8%AD%D9%88%D9%84-%D8%A7%D9%84%D8%B4%D9%85%D8%B3",
+          "title": "كم تبلغ سرعة دوران الأرض حول الشمس؟"
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/factcheck/2026/07/14/%D9%87%D9%84-%D9%8A%D9%88%D8%AB%D9%82-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D8%A7%D8%B3%D8%AA%D9%86%D9%81%D8%A7%D8%B1%D9%8B%D8%A7-%D8%A3%D9%85%D9%86%D9%8A%D9%8B%D8%A7-%D8%B9%D9%82%D8%A8-%D9%85%D8%AD%D8%A7%D9%88%D9%84%D8%A9-%D8%A7%D8%BA%D8%AA%D9%8A%D8%A7%D9%84-%D8%AA%D8%B1%D9%85%D8%A8-%D9%85%D8%A4%D8%AE%D8%B1%D9%8B%D8%A7%D8%9F",
-          "title": "هل يوثق الفيديو استنفارًا أمنيًا عقب محاولة اغتيال ترمب مؤخرًا؟"
+          "link": "https://www.misbar.com/en/editorial/2026/09/29/google-maps-update-reveals-widespread-destruction-gaza",
+          "title": "Google Maps Update Reveals Widespread Destruction in Gaza"
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D8%A7%D9%84%D9%85%D8%AA%D8%AF%D8%A7%D9%88%D9%84-%D8%B9%D8%A8%D8%A7%D8%B1%D8%A9-%D8%B9%D9%86-%D8%B9%D9%85%D9%84-%D9%81%D9%86%D9%8A-%D9%88%D9%84/",
-          "title": "هذا المقطع المتداول عبارة عن عمل فني ولا يظهر اصطدام قمر صناعي بمحطة الفضاء الدولية - فتبينوا"
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%B1%D9%83%D8%A8%D8%A9%D8%8C-%D9%88%D8%B5%D9%88%D8%B1-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8/",
+          "title": "هذه الصورة مركبة، وصور تلسكوب جيمس ويب حقيقية وغير معدلة من صور كرتونية - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
@@ -108,43 +111,38 @@
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%84%D9%8A%D8%B3%D8%AA-%D8%AD%D9%82%D9%8A%D9%82%D9%8A%D8%A9-%D9%88%D9%84%D8%A7-%D8%AA%D8%B9%D9%88%D8%AF-%D8%A5%D9%84%D9%89-%D9%83%D9%88%D9%83/",
-          "title": "هذه الصورة ليست حقيقية ولا تعود إلى كوكب اكتشفته وكالة ناسا - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
           "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D8%AA%D9%88%D9%87%D8%AC-%D8%A7%D9%84%D8%B4%D9%85%D8%B3%D9%8A-%D8%A7%D9%84%D8%A3%D8%AE%D9%8A%D8%B1-%D9%84%D9%85-%D9%8A%D8%B0%D8%A8-%D8%A3%D9%8A-%D8%B4%D9%8A%D8%A1-%D8%B9%D9%84%D9%89-%D8%A7/",
           "title": "التوهج الشمسي الأخير لم يذب أي شيء على الأرض ولم يكن له آثار سلبية على صحة البشر - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D8%AC%D8%AB%D8%A9-%D9%85%D8%AE%D9%84%D9%88%D9%82-%D8%BA%D8%B1%D9%8A%D8%A8-%D9%85%D9%86-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A/",
-          "title": "تشريح جثة مخلوق غريب من الفضاء الخارجي - زائف - فتبينوا"
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%B9%D8%A7%D9%84%D8%AC%D8%A9-%D9%84%D9%84%D9%82%D9%85%D8%B1-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D8%AD%D9%82%D9%8A%D9%82%D9%8A%D8%A9-%D9%88%D9%84%D9%85/",
+          "title": "هذه صورة معالجة ومعدلة للقمر وليست حقيقية ولم تصدر عن وكالة ناسا - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D8%B9%D8%A8%D8%A7%D8%B1%D8%A9-%D8%B9%D9%86-%D8%B9%D9%85%D9%84-%D9%81%D9%86%D9%8A-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D8%B5%D9%88%D8%B1%D8%A9-%D8%AD/",
-          "title": "الصورة التي قيل أنها تظهر كسوف الشمس من الفضاء غير حقيقية - فتبينوا"
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%84%D9%8A%D8%B3%D8%AA-%D8%AD%D9%82%D9%8A%D9%82%D9%8A%D8%A9-%D9%88%D9%84%D8%A7-%D8%AA%D8%B9%D9%88%D8%AF-%D8%A5%D9%84%D9%89-%D9%83%D9%88%D9%83/",
+          "title": "هذه الصورة ليست حقيقية ولا تعود إلى كوكب اكتشفته وكالة ناسا - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D8%AC%D8%A7%D8%A6%D8%B2%D8%A9_%D9%85%D8%B4%D8%A7%D8%B1%D9%83%D8%A9_%D9%85%D8%B3%D8%A7%D8%A8%D9%82%D8%A7%D8%AA_%D9%88%D9%87%D9%85%D9%8A%D9%91%D8%A9/",
-          "title": "جائزة ربحتها لأنك تشارك معنا وهذه آخر فرصة لك للاستلام! .. مسابقات زائفة تنتشر بهذه الصياغة - فتبينوا"
+          "link": "https://fatabyyano.net/en/%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%88%D9%84%D8%AF%D8%A9-%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%A7%D9%84%D8%B0%D9%83%D8%A7/",
+          "title": "مشاهد هذا المقطع مولدة باستخدام الذكاء الاصناعي، ولا تصور اكتشاف مدينة تحت أهرامات الجيزة في مصر - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D9%85%D8%A7%D8%B3%D8%AD-%D8%A7%D9%84%D8%B6%D9%88%D8%A6%D9%8A-%D9%84%D8%A7-%D9%8A%D8%B4%D9%8A%D8%B1-%D8%A5%D9%84%D9%89-%D8%B3%D8%AD%D8%A8-%D8%A7%D9%84%D9%85%D8%A3%D9%83%D9%88%D9%84%D8%A7/",
-          "title": "التنبيه الموجود في الماسح الضوئي لفحص الحقائب لا يشير إلى سحب المأكولات والمشروبات - فتبينوا"
+          "link": "https://fatabyyano.net/en/%D9%81%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D8%AA%D9%84%D9%8A%D8%AA%D8%A7%D8%A8%D9%8A%D8%B2-%D9%85%D8%A7%D8%AE%D9%88%D8%B0%D8%A9-%D9%85%D9%86-%D9%85%D8%B5%D8%AD%D8%A9-%D9%84%D8%B0%D9%88%D9%8A-%D8%A7%D9%84/",
+          "title": "فكرة التليتابيز مأخوذة من هبوط الإنسان على القمر وليس مصحة لذوي الإعاقة - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D8%B9%D9%84%D9%8A-%D9%83%D9%8A%D8%A7%D9%84%D9%8A-%D8%A3%D8%A8%D9%88%D8%A7%D8%A8-%D8%A7%D9%84%D8%B3%D9%85%D8%A7%D8%A1-%D9%88%D8%A7%D8%B1%D8%AA%D8%A8%D8%A7%D8%B7%D9%87%D8%A7-%D8%A8%D8%A7%D9%84%D8%B5",
-          "title": "الرئيسة - فتبينوا"
+          "link": "https://fatabyyano.net/%D8%B8%D9%87%D9%88%D8%B1-%D9%81%D8%A3%D8%B1-%D8%B9%D9%84%D9%89-%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D9%81%D9%8A-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D9%84%D9%88%D9%83%D8%A7%D9%84%D8%A9-%D9%86%D8%A7%D8%B3/",
+          "title": "فأر يمشي على صاروخ تابع لوكالة ناسا خلال إطلاقه نحو محطة الفضاء الدولية - مضلل - فتبينوا"
         },
         {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/",
-          "title": "Fact Check"
+          "publisher": "Fatabyyano",
+          "link": "https://staging.fatabyyano.net/about-us/privacy-policy/",
+          "title": "سياسة الخصوصية – فتبينوا"
         },
         {
           "publisher": "AFP Fact Check",
@@ -153,13 +151,28 @@
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.42LQ7G3",
-          "title": "Scientists rubbish claims of 'giant structures' underneath Egyptian pyramids | Fact Check"
+          "link": "https://factcheck.afp.com/Samad-UTHMAN",
+          "title": "Samad UTHMAN | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/Samad-UTHMAN",
-          "title": "Samad UTHMAN | Fact Check"
+          "link": "https://factcheck.afp.com/doc.afp.com.C6PE9G4",
+          "title": "AI-generated video misleadingly shared as real footage of Nepal-Tibet flood | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.A2LT363",
+          "title": "Footage of air strikes in United Arab Emirates near Burj Khalifa is AI-generated | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.677Y7T3",
+          "title": "'Fake' Astronomer CEO statement circulates after viral Coldplay concert video | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.42LQ7G3",
+          "title": "Scientists rubbish claims of 'giant structures' underneath Egyptian pyramids | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
@@ -168,39 +181,34 @@
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.36RH9NT",
-          "title": "How to do a reverse image search | Fact Check"
+          "link": "https://factcheck.afp.com/doc.afp.com.36MC7PJ",
+          "title": "Elon Musk's Starlink falsely accused of rigging US election | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/Climate",
-          "title": "Climate | Fact Check"
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/false-boot-print-comparison-shared-facebook-posts-about-neil-armstrongs-moon-landing",
-          "title": "False ‘boot print’ comparison shared in Facebook posts about Neil Armstrong’s Moon landing | Fact Check"
+          "link": "https://factcheck.afp.com/doc.afp.com.9VE6D7",
+          "title": "UK chef Jamie Oliver did not win legal battle against McDonald’s over 'pink slime', which the company stopped using in 2"
         },
         {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/Page-not-found",
-          "title": "Page not found | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.677Y7T3",
-          "title": "'Fake' Astronomer CEO statement circulates after viral Coldplay concert video | Fact Check"
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/niger-did-not-hike-uranium-price-200-euros-per-kg-after-2023-coup-2023-10-17/",
+          "title": "Fact Check: Niger did not hike uranium price to 200 euros per kg after 2023 coup | Reuters"
         }
       ],
       "read_docs": [
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/qna/2023/05/08/%D9%85%D8%A7-%D9%87%D9%88-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8",
+          "link": "https://www.misbar.com/amp/qna/2024/05/19/%D9%87%D9%84-%D8%B9%D9%85%D8%B1-%D8%A7%D9%84%D9%83%D9%88%D9%86-%D8%AF%D9%82%D9%8A%D9%82",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 130,
-          "excerpt_chars": 130,
+          "page_chars": 6111,
+          "excerpt_chars": 1728,
           "same_event": false,
           "as_of": "",
           "claim_review": null,
@@ -208,16 +216,29 @@
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%B1%D9%83%D8%A8%D8%A9%D8%8C-%D9%88%D8%B5%D9%88%D8%B1-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8/",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D8%B1%D9%83%D8%A8-%D9%88%D9%85%D8%B9%D8%AF%D9%91%D9%84-%D8%B1%D9%82%D9%85%D9%8A%D9%8B%D8%A7%D8%8C-%D9%88%D9%84%D8%A7-%D9%8A%D8%B5%D9%88/",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 213,
-          "excerpt_chars": 213,
+          "page_chars": 229,
+          "excerpt_chars": 229,
           "same_event": false,
           "as_of": "",
           "claim_review": null,
           "stance": "irrelevant"
+        },
+        {
+          "publisher": "okaz.com.sa",
+          "link": "https://www.okaz.com.sa/variety/na/2233512",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 5014,
+          "excerpt_chars": 1695,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "related_other"
         },
         {
           "publisher": "Scientific European",
@@ -226,33 +247,33 @@
           "resolved": true,
           "engine": "brave_web",
           "page_chars": 7429,
-          "excerpt_chars": 1792,
+          "excerpt_chars": 1800,
           "same_event": true,
-          "as_of": "30 مايو 2024",
+          "as_of": "يناير 2024",
           "claim_review": null,
           "stance": "conflicts_detail"
         },
         {
-          "publisher": "RT Arabic",
-          "link": "https://arabic.rt.com/space/1657125-%D8%A7%D9%84%D8%A3%D9%83%D8%B3%D8%AC%D9%8A%D9%86-%D8%A3%D9%82%D8%AF%D9%85-%D9%85%D8%AC%D8%B1%D8%A9-%D8%A7%D9%84%D9%83%D9%88%D9%86/",
+          "publisher": "Masrawy",
+          "link": "https://www.masrawy.com/news/tech-reports/details/2024/6/1/2591450/%D9%85%D8%B9%D8%AC%D8%B2%D8%A9-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D8%A7%D9%83%D8%AA%D8%B4%D8%A7%D9%81-%D8%A3%D9%82%D8%AF%D9%85-%D9%85%D8%AC%D8%B1%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D9%83%D9%88%D9%86-%D8%B9%D9%85%D8%B1%D9%87%D8%A7-13-5-%D9%85%D9%84%D9%8A%D8%A7%D8%B1-%D8%B3%D9%86%D8%A9",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 6621,
-          "excerpt_chars": 1800,
+          "page_chars": 2322,
+          "excerpt_chars": 1673,
           "same_event": true,
           "as_of": "",
           "claim_review": null,
           "stance": "supports"
         },
         {
-          "publisher": "Khabaragency",
-          "link": "https://www.khabaragency.net/news231777.html",
+          "publisher": "Sky News Arabia",
+          "link": "https://www.skynewsarabia.com/technology/1718200-%D8%A7%D9%83%D8%AA%D8%B4%D9%81-%D8%A7%D9%94%D8%A8%D8%B9%D8%AF-%D9%85%D8%AC%D8%B1%D8%A9-%D8%A7%D9%84%D8%A7%D9%95%D8%B7%D9%84%D8%A7%D9%82-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D9%8A%D8%AD%D8%B7%D9%85-%D8%B1%D9%82%D9%85%D9%87-%D8%A7%D9%84%D9%82%D9%8A%D8%A7%D8%B3%D9%8A",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 3253,
-          "excerpt_chars": 1730,
+          "page_chars": 1742,
+          "excerpt_chars": 1742,
           "same_event": true,
           "as_of": "",
           "claim_review": null,
@@ -272,19 +293,6 @@
           "stance": "deduped"
         },
         {
-          "publisher": "okaz.com.sa",
-          "link": "https://www.okaz.com.sa/variety/na/2233512",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 5014,
-          "excerpt_chars": 1695,
-          "same_event": false,
-          "as_of": "حتى وقت قريب (قبل اكتشاف MoM-z14 في 16 مايو 2025)",
-          "claim_review": null,
-          "stance": "related_other"
-        },
-        {
           "publisher": "صحيفة الخليج",
           "link": "https://www.alkhaleej.ae/2025-05-23/%D8%A7%D9%83%D8%AA%D8%B4%D8%A7%D9%81-%D8%A3%D8%A8%D8%B9%D8%AF-%D9%85%D8%AC%D8%B1%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D9%83%D9%88%D9%86-5928356/%D9%85%D8%AD%D8%B7%D8%A7%D8%AA/%D9%85%D9%86%D9%88%D8%B9%D8%A7%D8%AA",
           "orig_link": null,
@@ -298,13 +306,13 @@
           "stance": "related_other"
         },
         {
-          "publisher": "Sky News Arabia",
-          "link": "https://www.skynewsarabia.com/technology/1718200-%D8%A7%D9%83%D8%AA%D8%B4%D9%81-%D8%A7%D9%94%D8%A8%D8%B9%D8%AF-%D9%85%D8%AC%D8%B1%D8%A9-%D8%A7%D9%84%D8%A7%D9%95%D8%B7%D9%84%D8%A7%D9%82-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D9%8A%D8%AD%D8%B7%D9%85-%D8%B1%D9%82%D9%85%D9%87-%D8%A7%D9%84%D9%82%D9%8A%D8%A7%D8%B3%D9%8A",
+          "publisher": "RT Arabic",
+          "link": "https://arabic.rt.com/space/1569897-%D9%86%D8%A7%D9%81%D8%B0%D8%A9-%D8%A7%D9%84%D9%81%D8%AC%D8%B1-%D8%A7%D9%84%D9%83%D9%88%D9%86%D9%8A-%D8%A7%D9%83%D8%AA%D8%B4%D8%A7%D9%81-%D8%A3%D8%A8%D8%B9%D8%AF-%D9%85%D8%AC%D8%B1%D8%A9-%D8%A7%D9%84%D9%83%D9%88%D9%86/",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 1742,
-          "excerpt_chars": 1742,
+          "page_chars": 6408,
+          "excerpt_chars": 1706,
           "same_event": true,
           "as_of": "",
           "claim_review": null,
@@ -324,7 +332,7 @@
           "stance": "supports"
         }
       ],
-      "docs_before": 11,
+      "docs_before": 12,
       "docs_after": 10,
       "verdict": "confirmed",
       "primary_source": false,
@@ -334,46 +342,51 @@
           "publisher": "Scientific European",
           "link": "https://ar.scientificeuropean.co.uk/sciences/space/early-universe-the-most-distant-galaxy-jades-gs-z14-0-challenges-galaxy-formation-models/",
           "stance": "conflicts_detail",
-          "excerpt": "اكتشف تلسكوب جيمس ويب الفضائي التابع لناسا أبعد مجرة معروفة",
-          "detail": "عمر المجرة عند الاكتشاف/الرصد أقل من 300 مليون سنة بعد الانفجار الكبير، وليس 'أبعد مجرة معروفة' مع رقم دقيق محدد في هذا النص، لكنه يتفق مع كونها أقدم مجرة معروفة حسب نص ناسا المذكور",
-          "correct_form": "اكتشف تلسكوب جيمس ويب الفضائي التابع لناسا أبعد مجرة معروفة",
-          "as_of": "30 مايو 2024"
+          "excerpt": "كشف التحليل الطيفي للمجرة المضيئة JADES-GS-z14-0 بناءً على الملاحظات التي تم إجراؤها في يناير 2024 عن انزياح أحمر قدره 14.32 مما يجعلها أبعد مجرة معروفة",
+          "detail": "الانزياح الأحمر لمجرة JADES-GS-z14-0 بلغ 14.32 بناءً على رصد يناير 2024، وتشكلت بعد حوالي 290 مليون سنة من الانفجار العظيم، وليس 300 مليون سنة كما في بعض الروايات",
+          "correct_form": "انزياح أحمر قدره 14.32، وتشكلت بعد حوالي 290 مليون سنة من الانفجار الكبير",
+          "as_of": "يناير 2024",
+          "detail_kind": "number"
         },
         {
-          "publisher": "RT Arabic",
-          "link": "https://arabic.rt.com/space/1657125-%D8%A7%D9%84%D8%A3%D9%83%D8%B3%D8%AC%D9%8A%D9%86-%D8%A3%D9%82%D8%AF%D9%85-%D9%85%D8%AC%D8%B1%D8%A9-%D8%A7%D9%84%D9%83%D9%88%D9%86/",
+          "publisher": "Masrawy",
+          "link": "https://www.masrawy.com/news/tech-reports/details/2024/6/1/2591450/%D9%85%D8%B9%D8%AC%D8%B2%D8%A9-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D8%A7%D9%83%D8%AA%D8%B4%D8%A7%D9%81-%D8%A3%D9%82%D8%AF%D9%85-%D9%85%D8%AC%D8%B1%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D9%83%D9%88%D9%86-%D8%B9%D9%85%D8%B1%D9%87%D8%A7-13-5-%D9%85%D9%84%D9%8A%D8%A7%D8%B1-%D8%B3%D9%86%D8%A9",
           "stance": "supports",
-          "excerpt": "اكتشف علماء الفلك وجود الأكسجين في أقدم مجرة معروفة في الكون حتى الآن. وتم اكتشاف المجرة JADES-GS-z14-0 في عام 2024 بواسطة المرصد المداري \"جيمس ويب\"",
+          "excerpt": "اكتشف تلسكوب جيمس ويب أقدم وأبعد مجرة في الكون المعروف، يعود تاريخها إلى 300 مليون سنة فقط بعد الانفجار الكبير، أي أن عمرها 13.5 مليار سنة. إلى جانب كونها قديمة بشكل استثنائي، فإن المجرات المكتشفة حديثًا - المسماة JADES-GS-z14-0 وJADES-GS-z14-1 - تعد أيضًا كبيرة بشكل غير عادي",
           "detail": "",
           "correct_form": "",
-          "as_of": ""
-        },
-        {
-          "publisher": "Khabaragency",
-          "link": "https://www.khabaragency.net/news231777.html",
-          "stance": "supports",
-          "excerpt": "يدرس العلماء مجرة JADES-GS-z14-0 المتألقة لأنها تعود إلى فجر الكون (بعد 300 مليون سنة فقط من الانفجار العظيم)",
-          "detail": "",
-          "correct_form": "",
-          "as_of": ""
+          "as_of": "",
+          "detail_kind": ""
         },
         {
           "publisher": "Sky News Arabia",
           "link": "https://www.skynewsarabia.com/technology/1718200-%D8%A7%D9%83%D8%AA%D8%B4%D9%81-%D8%A7%D9%94%D8%A8%D8%B9%D8%AF-%D9%85%D8%AC%D8%B1%D8%A9-%D8%A7%D9%84%D8%A7%D9%95%D8%B7%D9%84%D8%A7%D9%82-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D9%8A%D8%AD%D8%B7%D9%85-%D8%B1%D9%82%D9%85%D9%87-%D8%A7%D9%84%D9%82%D9%8A%D8%A7%D8%B3%D9%8A",
           "stance": "supports",
-          "excerpt": "والمجرة، التي أُطلق عليها تسمية JADES-GS-z14-0، ليست \"من أنواع المجرات التي توقعتها النماذج النظرية\"",
+          "excerpt": "والمجرة، التي أُطلق عليها تسمية JADES-GS-z14-0، ليست \"من أنواع المجرات التي توقعتها النماذج النظرية وعمليات المحاكاة الحاسوبية في الكون الناشئ جداً\"... وقد استغرق الضوء المنبعث من المجرة الجديدة أكثر من 13.5 مليار سنة ليصل إلينا.",
           "detail": "",
           "correct_form": "",
-          "as_of": ""
+          "as_of": "",
+          "detail_kind": ""
+        },
+        {
+          "publisher": "RT Arabic",
+          "link": "https://arabic.rt.com/space/1569897-%D9%86%D8%A7%D9%81%D8%B0%D8%A9-%D8%A7%D9%84%D9%81%D8%AC%D8%B1-%D8%A7%D9%84%D9%83%D9%88%D9%86%D9%8A-%D8%A7%D9%83%D8%AA%D8%B4%D8%A7%D9%81-%D8%A3%D8%A8%D8%B9%D8%AF-%D9%85%D8%AC%D8%B1%D8%A9-%D8%A7%D9%84%D9%83%D9%88%D9%86/",
+          "stance": "supports",
+          "excerpt": "اكتشف تلسكوب جيمس ويب أبعد مجرة في الكون، اسمها JADES-GS-z14-0، استغرق إشعاعها حوالي 13.5 مليار سنة للوصول إلينا، حيث بدأ الضوء رحلته بعد 300 مليون سنة فقط من الانفجار الكبير.",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
         },
         {
           "publisher": "A7walspace",
           "link": "https://a7walspace.com/18461/",
           "stance": "supports",
-          "excerpt": "اكتشف تلسكوب جيمس ويب أبعد مجرة في الكون، اسمها JADES-GS-z14-0، استغرق إشعاعها حوالي 13.5 مليار سنة للوصول إلينا، حيث بدأ الضوء رحلته بعد 300 مليون سنة فقط من الانفجار الكبير",
+          "excerpt": "اكتشف تلسكوب جيمس ويب أبعد مجرة في الكون، اسمها JADES-GS-z14-0، استغرق إشعاعها حوالي 13.5 مليار سنة للوصول إلينا، حيث بدأ الضوء رحلته بعد 300 مليون سنة فقط من الانفجار الكبير.",
           "detail": "",
           "correct_form": "",
-          "as_of": ""
+          "as_of": "",
+          "detail_kind": ""
         }
       ],
       "correction": null,
@@ -384,7 +397,9 @@
       "image_candidates": [],
       "sources_read": 10,
       "dropped_reason": null,
-      "model_calls": 1
+      "model_calls": 1,
+      "status": "offered",
+      "selection_issue": 1220
     },
     {
       "id": "4591dfda9524",
@@ -394,13 +409,14 @@
       "circulating_context": "",
       "asserted": "",
       "queries": [
-        "تاريخ إطلاق تلسكوب جيمس ويب تحقق"
+        "تحقق من تاريخ إطلاق تلسكوب جيمس ويب",
+        "إطلاق تلسكوب جيمس ويب الفضائي ديسمبر 2023"
       ],
       "site_queries": [
-        "تلسكوب جيمس ويب إطلاق 25 ديسمبر 2023 تحقق site:misbar.com",
-        "تلسكوب جيمس ويب إطلاق 25 ديسمبر 2023 تحقق site:fatabyyano.net",
-        "James Webb Space Telescope launch December 25 2023 fact check site:factcheck.afp.com",
-        "James Webb Space Telescope launch December 25 2023 fact check site:reuters.com/fact-check"
+        "تلسكوب جيمس ويب الفضائي site:misbar.com",
+        "تلسكوب جيمس ويب الفضائي site:fatabyyano.net",
+        "تلسكوب جيمس ويب الفضائي site:factcheck.afp.com",
+        "تلسكوب جيمس ويب الفضائي site:reuters.com/fact-check"
       ],
       "engines": [
         "brave_web",
@@ -408,24 +424,17 @@
       ],
       "windows": [
         "wide",
+        "unrestricted",
+        "wide",
         "unrestricted"
       ],
       "brave_skipped": null,
+      "cache_hits": 0,
       "checker_skipped": [
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/en/",
-          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2025/02/05/%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D9%88%D8%B2%D8%A7%D8%A6%D9%81%D8%A9-%D8%A7%D9%86%D8%AA%D8%B4%D8%B1%D8%AA-%D8%A8%D8%B9%D8%AF-%D8%A7%D8%AA%D9%81%D8%A7%D9%82-%D9%88%D9%82%D9%81-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%A7%D9%84%D9%86%D8%A7%D8%B1-%D9%81%D9%8A-%D8%BA%D8%B2%D8%A9",
-          "title": "مشاهد مضللة وزائفة انتشرت بعد اتفاق وقف إطلاق النار في غزة"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/qna/2023/10/04/%D9%85%D8%AA-%D9%8A%D8%B8%D9%87%D8%B1-%D9%86%D8%AC%D9%85-%D8%B3%D9%87%D9%8A%D9%84",
-          "title": "متى يظهر نجم سهيل؟"
+          "link": "https://www.misbar.com/qna/2023/05/08/%D9%85%D8%A7-%D9%87%D9%88-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8",
+          "title": "ما هو تلسكوب جيمس ويب؟"
         },
         {
           "publisher": "Misbar",
@@ -434,18 +443,33 @@
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2023/08/22/%D9%85%D8%A7-%D8%AF%D9%82%D8%A9-%D8%A7%D9%84%D8%AF%D9%84%D8%A7%D8%A6%D9%84-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%B4%D9%8A%D8%B1-%D8%A5%D9%84-%D9%88%D8%AC%D9%88%D8%AF-%D9%85%D9%88%D9%82%D8%B9-%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A-%D9%8A%D8%B3%D8%AA%D9%87%D8%AF%D9%81-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D9%8A%D9%86-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7",
-          "title": "ما دقة الدلائل التي تشير إلى وجود موقع إلكتروني يستهدف السوريين في تركيا؟"
+          "link": "https://www.misbar.com/en/",
+          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2025/01/03/%D9%85%D8%A4%D8%B4%D8%B1-%D9%85%D8%B3%D8%A8%D8%A7%D8%B1-%D9%84%D8%A3%D8%A8%D8%B1%D8%B2-%D8%A7%D9%84%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1-%D8%A7%D9%84%D8%B2%D8%A7%D8%A6%D9%81%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D9%81%D9%8A-%D8%B4%D9%87%D8%B1-%D8%AF%D9%8A%D8%B3%D9%85%D8%A8%D8%B1-2024",
-          "title": "مؤشر مسبار لأبرز الأخبار الزائفة والمضللة في شهر ديسمبر 2024"
+          "link": "https://www.misbar.com/factcheck/2020/07/30/%D8%A7%D9%84%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%A7%D9%84%D8%B0%D9%8A-%D9%8A%D8%B5%D9%84-%D8%A8%D9%8A%D9%86-%D9%84%D9%86%D8%AF%D9%86-%D9%88%D9%86%D9%8A%D9%88%D9%8A%D9%88%D8%B1%D9%83-%D8%B9%D8%A8%D8%A7%D8%B1%D8%A9-%D8%B9%D9%86-%D8%A3%D8%AF%D8%A7%D8%A9-%D8%B1%D9%82%D9%85%D9%8A%D8%A9",
+          "title": "التلسكوب الذي يصل بين لندن ونيويورك عبارة عن أداة رقمية"
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2025/08/29/%D8%AA%D8%AA%D9%87%D9%85-%D8%A7%D9%84%D8%B6%D8%AD%D8%A7%D9%8A%D8%A7-%D8%A8%D8%A7%D9%84%D8%A5%D8%B1%D9%87%D8%A7%D8%A8-%D8%A7%D9%84%D8%B3%D8%B1%D8%AF%D9%8A%D8%A9-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D9%84%D8%AA%D8%BA%D8%B7%D9%8A%D8%A9-%D8%AC%D8%B1%D9%8A%D9%85%D8%A9-%D9%85%D8%AC%D9%85%D8%B9-%D9%86%D8%A7%D8%B5%D8%B1-%D8%A7%D9%84%D8%B7%D8%A8%D9%8A",
-          "title": "تتهم الضحايا بالإرهاب: السردية الإسرائيلية لتغطية جريمة مجمع ناصر الطبي"
+          "link": "https://www.misbar.com/qna/2025/03/11/%D9%85%D8%A7-%D9%87%D9%88-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%82%D8%9F",
+          "title": "ما هو الفضاء العميق؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/10/28/%D8%AD%D8%B1%D8%A8-%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA%D9%8A%D8%A9-%D9%88%D8%A3%D8%B3%D8%A7%D9%84%D9%8A%D8%A8-%D8%A7%D8%AE%D8%AA%D8%B1%D8%A7%D9%82-%D9%88%D8%AA%D8%B6%D9%84%D9%8A%D9%84-%D8%B1%D8%A7%D9%81%D9%82%D8%AA-%D8%A7%D9%84%D8%B9%D8%AF%D9%88%D8%A7%D9%86-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A-%D8%A7%D9%84%D8%AC%D8%A7%D8%B1%D9%8A-%D8%B9%D9%84-%D9%84%D8%A8%D9%86%D8%A7%D9%86",
+          "title": "حرب معلوماتية وأساليب اختراق وتضليل رافقت العدوان الإسرائيلي الجاري على لبنان"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/qna/2023/11/01/%D9%85%D8%A7-%D9%87%D9%88-%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D8%B3%D8%AA%D8%A7%D8%B1%D9%84%D9%8A%D9%86%D9%83",
+          "title": "ما هو إنترنت ستارلينك؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/qna/2025/02/16/%D9%85%D8%A7-%D9%87%D9%88-%D8%A3%D9%82%D8%B1%D8%A8-%D9%83%D9%88%D9%83%D8%A8-%D9%84%D9%84%D8%A3%D8%B1%D8%B6%D8%9F",
+          "title": "ما هو أقرب كوكب للأرض؟"
         },
         {
           "publisher": "Fatabyyano",
@@ -454,8 +478,8 @@
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D8%B8%D9%87%D9%88%D8%B1-%D9%81%D8%A3%D8%B1-%D8%B9%D9%84%D9%89-%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D9%81%D9%8A-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D9%84%D9%88%D9%83%D8%A7%D9%84%D8%A9-%D9%86%D8%A7%D8%B3/",
-          "title": "فأر يمشي على صاروخ تابع لوكالة ناسا خلال إطلاقه نحو محطة الفضاء الدولية - مضلل - فتبينوا"
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%B9%D8%A7%D9%84%D8%AC%D8%A9-%D9%84%D9%84%D9%82%D9%85%D8%B1-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D8%AD%D9%82%D9%8A%D9%82%D9%8A%D8%A9-%D9%88%D9%84%D9%85/",
+          "title": "هذه صورة معالجة ومعدلة للقمر وليست حقيقية ولم تصدر عن وكالة ناسا - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
@@ -464,28 +488,8 @@
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D8%B5%D9%88%D8%B1%D8%A9-%D8%A7%D9%84%D8%B4%D9%85%D8%B3-%D9%85%D9%86-%D9%85%D9%82%D8%B7%D8%B9-%D8%A3%D9%86%D8%B4%D8%A3-%D8%B9%D9%86-%D8%B7%D8%B1%D9%8A%D9%82-%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8/",
-          "title": "هذه صورة من مقطع أنشأ عن طريق الحاسوب لشروق الشمس من الفضاء وليست حقيقية - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/page/12/",
-          "title": "الرئيسة - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%B9%D8%A7%D9%84%D8%AC%D8%A9-%D9%84%D9%84%D9%82%D9%85%D8%B1-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D8%AD%D9%82%D9%8A%D9%82%D9%8A%D8%A9-%D9%88%D9%84%D9%85/",
-          "title": "هذه صورة معالجة ومعدلة للقمر وليست حقيقية ولم تصدر عن وكالة ناسا - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%81%D8%AA%D8%A8%D9%8A%D9%86%D9%88%D8%A7-%D8%AA%D8%AA%D8%AD%D9%82%D9%82-%D9%85%D9%86-%D8%B4%D8%A8%D9%83%D8%A9-%D8%A7%D8%AD%D8%AA%D9%8A%D8%A7%D9%84-%D9%85%D8%A7%D9%84%D9%8A-%D8%AA%D8%B3%D8%AA%D9%87/",
-          "title": "فتبينوا تتحقق من شبكة احتيال مالي تستهدف السعوديين على منصة تيكتوك - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85%D8%A9-%D9%85%D9%86%D8%B0-%D8%B9%D8%A7%D9%85-2023%D8%8C-%D9%88%D9%84%D8%A7-%D8%AA%D8%B5/",
-          "title": "مشاهد هذا المقطع قديمة منذ عام 2023، ولا تصور فرحة مقاتلي حماس بعد إعلان الهدنة مؤخرًا - فتبينوا"
+          "link": "https://fatabyyano.net/en/%D8%AC%D8%AB%D8%A9-%D9%85%D8%AE%D9%84%D9%88%D9%82-%D8%BA%D8%B1%D9%8A%D8%A8-%D9%85%D9%86-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A/",
+          "title": "تشريح جثة مخلوق غريب من الفضاء الخارجي - زائف - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
@@ -493,70 +497,50 @@
           "title": "هذه الصورة ليست حقيقية ولا تعود إلى كوكب اكتشفته وكالة ناسا - فتبينوا"
         },
         {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/node/77237",
-          "title": "Fact Check"
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%83%D9%88%D9%83%D8%A8-%D9%86%D9%8A%D8%A8%D9%8A%D8%B1%D9%88-%D8%A7%D9%82%D8%AA%D8%B1%D8%A8-%D9%85%D9%86-%D8%A7%D9%84%D8%A3%D8%B1%D8%B6-%D9%88%D8%B3%D8%B3%D8%A8%D8%A8-%D8%AF%D9%85%D8%A7%D8%B1/",
+          "title": "لا وجود لكوكب باسم نيبيرو ولم يُتنبأ بموعد نهاية العالم - فتبينوا"
         },
         {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/node/57740",
-          "title": "Agence France-Presse ..."
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%AF%D9%84%D9%8A%D9%84-%D9%81%D8%AA%D8%A8%D9%8A%D9%86%D9%88%D8%A7/",
+          "title": "دليل فتبينوا - فتبينوا"
         },
         {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/Samad-UTHMAN",
-          "title": "Samad UTHMAN | Fact Check"
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%81%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D8%AA%D9%84%D9%8A%D8%AA%D8%A7%D8%A8%D9%8A%D8%B2-%D9%85%D8%A7%D8%AE%D9%88%D8%B0%D8%A9-%D9%85%D9%86-%D9%85%D8%B5%D8%AD%D8%A9-%D9%84%D8%B0%D9%88%D9%8A-%D8%A7%D9%84/",
+          "title": "فكرة التليتابيز مأخوذة من هبوط الإنسان على القمر وليس مصحة لذوي الإعاقة - فتبينوا"
         },
         {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/AFP-Spain",
-          "title": "AFP Spain | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.677Y7T3",
-          "title": "'Fake' Astronomer CEO statement circulates after viral Coldplay concert video | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/Page-not-found",
-          "title": "Page not found | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/story-american-plane-reappearing-after-37-years-myth",
-          "title": "The story of an American plane reappearing after 37 years is a myth | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.98LC7NQ",
-          "title": "Posts falsely link email in Epstein files to Covid conspiracy | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.33EU7K3",
-          "title": "Posts falsely claim 'United Nations to lead Papua independence boycott' | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.338A36B",
-          "title": "Old photos falsely linked to Sweden-Denmark Koran burnings | Fact Check"
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%84%D9%85-%D8%AA%D8%B9%D9%84%D9%86-%D9%86%D8%A7%D8%B3%D8%A7-%D8%B9%D9%86-%D8%A7%D9%86%D9%81%D8%AC%D8%A7%D8%B1-%D8%AA%D9%88%D9%87%D8%AC-%D8%B4%D9%85%D8%B3%D9%8A-%D8%B3%D9%8A%D8%B6%D8%B1%D8%A8-%D8%A7/",
+          "title": "لا صحة لإعلان ناسا عن انفجار مرتقب يضرب الأرض الإثنين المقبل وينهي العالم - فتبينوا"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/",
-          "title": "Reuters Fact Check | Reuters"
+          "link": "https://www.reuters.com/fact-check/arabic/YTDOYG4LSVM7RDWV7NXGV5QDV4-2025-08-29/",
+          "title": "تقصي الحقيقة: فيديو يعرض إطلاق مركبة شحن فضائية من الصين وليس تجربة صاروخ إيراني | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/4FDDBTYHLFO4TMJPVAZKHH63AQ-2025-02-06/",
+          "title": "تقصي الحقيقة: فيديو لامرأة تتحدث عن اعتقالها في غزة مولد بالذكاء الاصطناعي | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/KYJ7G22XBFNIHPGBT5GAUDFTSY-2024-03-18/",
+          "title": "تقصي الحقيقة: صورة لطفل يعاني من سوء التغذية من اليمن في 2021 وليست من غزة | رويترز"
         }
       ],
       "read_docs": [
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/qna/2023/05/08/%D9%85%D8%A7-%D9%87%D9%88-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8",
+          "link": "https://www.misbar.com/amp/qna/2024/05/19/%D9%87%D9%84-%D8%B9%D9%85%D8%B1-%D8%A7%D9%84%D9%83%D9%88%D9%86-%D8%AF%D9%82%D9%8A%D9%82",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 84,
-          "excerpt_chars": 84,
+          "page_chars": 6111,
+          "excerpt_chars": 328,
           "same_event": false,
           "as_of": "",
           "claim_review": null,
@@ -568,8 +552,8 @@
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 216,
-          "excerpt_chars": 216,
+          "page_chars": 254,
+          "excerpt_chars": 254,
           "same_event": false,
           "as_of": "",
           "claim_review": null,
@@ -590,16 +574,16 @@
         },
         {
           "publisher": "اليوم السابع",
-          "link": "https://www.youm7.com/story/2026/2/11/%D8%B1%D8%AD%D9%84%D8%A9-%D8%A5%D9%84%D9%89-%D8%A8%D8%AF%D8%A7%D9%8A%D8%A9-%D8%A7%D9%84%D8%B2%D9%85%D9%86-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D9%8A%D8%B9%D8%AB%D8%B1-%D8%B9%D9%84%D9%89-%D9%85%D8%AC%D8%B1%D8%A9/7299143",
+          "link": "https://www.youm7.com/story/2026/2/9/%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D9%8A%D9%83%D8%AA%D8%B4%D9%81-%D8%A3%D8%A8%D8%B9%D8%AF-%D9%85%D8%AC%D8%B1%D8%A9-%D8%B1%D9%8F%D8%B5%D8%AF%D8%AA-%D9%81%D9%89-%D8%AA%D8%A7%D8%B1%D9%8A%D8%AE-%D8%A7%D9%84%D8%A8%D8%B4%D8%B1%D9%8A%D8%A9/7298798",
           "orig_link": null,
           "resolved": true,
           "engine": "google_news",
-          "page_chars": 1444,
-          "excerpt_chars": 0,
-          "same_event": null,
+          "page_chars": 2296,
+          "excerpt_chars": 1152,
+          "same_event": false,
           "as_of": "",
           "claim_review": null,
-          "stance": "deduped"
+          "stance": "irrelevant"
         },
         {
           "publisher": "qna.org.qa",
@@ -641,19 +625,6 @@
           "stance": "conflicts_detail"
         },
         {
-          "publisher": "اليوم السابع",
-          "link": "https://www.youm7.com/story/2026/2/9/%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D9%8A%D9%83%D8%AA%D8%B4%D9%81-%D8%A3%D8%A8%D8%B9%D8%AF-%D9%85%D8%AC%D8%B1%D8%A9-%D8%B1%D9%8F%D8%B5%D8%AF%D8%AA-%D9%81%D9%89-%D8%AA%D8%A7%D8%B1%D9%8A%D8%AE-%D8%A7%D9%84%D8%A8%D8%B4%D8%B1%D9%8A%D8%A9/7298798",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 2296,
-          "excerpt_chars": 1152,
-          "same_event": false,
-          "as_of": "",
-          "claim_review": null,
-          "stance": "irrelevant"
-        },
-        {
           "publisher": "Wikipedia",
           "link": "https://arz.wikipedia.org/wiki/%D8%AA%D9%8A%D9%84%D9%8A%D8%B3%D9%83%D9%88%D8%A8_%D9%81%D8%B6%D8%A7_%D8%AC%D9%8A%D9%85%D8%B3_%D9%88%D9%8A%D8%A8",
           "orig_link": null,
@@ -668,33 +639,137 @@
         },
         {
           "publisher": "DW",
-          "link": "https://www.dw.com/ar/%D8%A7%D8%B3%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%D8%A7%D8%AA-%D9%84%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%A3%D9%82%D9%88%D9%89-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D9%81%D8%B6%D8%A7%D8%A6%D9%8A-%D9%81%D9%8A-%D8%AA%D8%A7%D8%B1%D9%8A%D8%AE-%D8%A7%D9%84%D8%A5%D9%86%D8%B3%D8%A7%D9%86/a-60255421",
+          "link": "https://www.dw.com/ar/%D8%AD%D9%82%D8%A7%D8%A6%D9%82-%D8%AD%D9%88%D9%84-%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D9%88%D9%85%D9%87%D9%85%D8%AA%D9%87-%D8%A7%D9%84%D8%B9%D9%84%D9%85%D9%8A%D8%A9/a-62439406",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 2913,
-          "excerpt_chars": 1676,
+          "page_chars": 4367,
+          "excerpt_chars": 1800,
           "same_event": true,
-          "as_of": "25 ديسمبر 2021",
+          "as_of": "12 يوليو 2022",
+          "claim_review": null,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "شبكة سرمد الإعلامية",
+          "link": "https://sarmad.com/112779/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 3578,
+          "excerpt_chars": 1778,
+          "same_event": true,
+          "as_of": "السبت 25 ديسمبر",
           "claim_review": null,
           "stance": "conflicts_detail"
         }
       ],
-      "docs_before": 11,
+      "docs_before": 17,
       "docs_after": 10,
-      "verdict": "not_found",
+      "verdict": "inaccurate",
       "primary_source": false,
-      "icon": "🔍",
-      "evidence": [],
-      "correction": null,
+      "icon": "✏️",
+      "evidence": [
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/science/2021/12/28/%D9%85%D8%A7-%D9%87%D9%88-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A6%D9%8A-%D9%88%D9%85%D8%A7-%D8%A7%D9%84%D9%81%D8%B1%D9%82",
+          "stance": "conflicts_detail",
+          "excerpt": "ترقّب العالم إطلاق تلسكوب \"جيمس ويب\" (James Webb) الفضائي الذي بلغت تكلفته 10 مليارات دولار أميركي",
+          "detail": "تاريخ الإطلاق",
+          "correct_form": "25 ديسمبر/كانون الأول 2021",
+          "as_of": "25 ديسمبر/كانون الأول",
+          "detail_kind": "date"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/science-and-tech-62645267",
+          "stance": "conflicts_detail",
+          "excerpt": "وأطلق تلسكوب جيمس ويب في ديسمبر/كانون الأول 2021",
+          "detail": "تاريخ الإطلاق",
+          "correct_form": "ديسمبر/كانون الأول 2021",
+          "as_of": "ديسمبر/كانون الأول 2021",
+          "detail_kind": "date"
+        },
+        {
+          "publisher": "Wikipedia",
+          "link": "https://arz.wikipedia.org/wiki/%D8%AA%D9%8A%D9%84%D9%8A%D8%B3%D9%83%D9%88%D8%A8_%D9%81%D8%B6%D8%A7_%D8%AC%D9%8A%D9%85%D8%B3_%D9%88%D9%8A%D8%A8",
+          "stance": "conflicts_detail",
+          "excerpt": "تم إطلاق تلسكوب ويب فى 25 ديسمبر 2021 على صاروخ أريان 5 من كورو ، غيانا الفرنسية",
+          "detail": "تاريخ الإطلاق",
+          "correct_form": "25 ديسمبر 2021",
+          "as_of": "25 ديسمبر 2021",
+          "detail_kind": "date"
+        },
+        {
+          "publisher": "DW",
+          "link": "https://www.dw.com/ar/%D8%AD%D9%82%D8%A7%D8%A6%D9%82-%D8%AD%D9%88%D9%84-%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D9%88%D9%85%D9%87%D9%85%D8%AA%D9%87-%D8%A7%D9%84%D8%B9%D9%84%D9%85%D9%8A%D8%A9/a-62439406",
+          "stance": "conflicts_detail",
+          "excerpt": "بعد نصف عام من إطلاق تلسكوب جيمس ويب إلى الفضاء، تم إطلاق أول صورة ملونة للتلسكوب",
+          "detail": "تاريخ الإطلاق (المقال يشير لمرور نصف عام حتى يوليو 2022، أي الإطلاق كان في ديسمبر 2021)",
+          "correct_form": "ديسمبر 2021 (نصف عام قبل 12 يوليو 2022)",
+          "as_of": "12 يوليو 2022",
+          "detail_kind": "date"
+        },
+        {
+          "publisher": "شبكة سرمد الإعلامية",
+          "link": "https://sarmad.com/112779/",
+          "stance": "conflicts_detail",
+          "excerpt": "تاريخ الإطلاق الجديد هو 25 ديسمبر",
+          "detail": "تاريخ الإطلاق",
+          "correct_form": "25 ديسمبر (2021)",
+          "as_of": "السبت 25 ديسمبر",
+          "detail_kind": "date"
+        }
+      ],
+      "correction": {
+        "error": "تاريخ الإطلاق",
+        "correct": "ديسمبر/كانون الأول 2021",
+        "correct_value": "2,021",
+        "as_of": "ديسمبر/كانون الأول 2021",
+        "detail_kind": "date",
+        "sources": [
+          {
+            "publisher": "Al Jazeera",
+            "link": "https://www.aljazeera.net/science/2021/12/28/%D9%85%D8%A7-%D9%87%D9%88-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A6%D9%8A-%D9%88%D9%85%D8%A7-%D8%A7%D9%84%D9%81%D8%B1%D9%82",
+            "excerpt": "ترقّب العالم إطلاق تلسكوب \"جيمس ويب\" (James Webb) الفضائي الذي بلغت تكلفته 10 مليارات دولار أميركي",
+            "as_of": "25 ديسمبر/كانون الأول"
+          },
+          {
+            "publisher": "BBC",
+            "link": "https://www.bbc.com/arabic/science-and-tech-62645267",
+            "excerpt": "وأطلق تلسكوب جيمس ويب في ديسمبر/كانون الأول 2021",
+            "as_of": "ديسمبر/كانون الأول 2021"
+          },
+          {
+            "publisher": "Wikipedia",
+            "link": "https://arz.wikipedia.org/wiki/%D8%AA%D9%8A%D9%84%D9%8A%D8%B3%D9%83%D9%88%D8%A8_%D9%81%D8%B6%D8%A7_%D8%AC%D9%8A%D9%85%D8%B3_%D9%88%D9%8A%D8%A8",
+            "excerpt": "تم إطلاق تلسكوب ويب فى 25 ديسمبر 2021 على صاروخ أريان 5 من كورو ، غيانا الفرنسية",
+            "as_of": "25 ديسمبر 2021"
+          },
+          {
+            "publisher": "DW",
+            "link": "https://www.dw.com/ar/%D8%AD%D9%82%D8%A7%D8%A6%D9%82-%D8%AD%D9%88%D9%84-%D9%82%D8%AF%D8%B1%D8%A7%D8%AA-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8-%D9%88%D9%85%D9%87%D9%85%D8%AA%D9%87-%D8%A7%D9%84%D8%B9%D9%84%D9%85%D9%8A%D8%A9/a-62439406",
+            "excerpt": "بعد نصف عام من إطلاق تلسكوب جيمس ويب إلى الفضاء، تم إطلاق أول صورة ملونة للتلسكوب",
+            "as_of": "12 يوليو 2022"
+          },
+          {
+            "publisher": "شبكة سرمد الإعلامية",
+            "link": "https://sarmad.com/112779/",
+            "excerpt": "تاريخ الإطلاق الجديد هو 25 ديسمبر",
+            "as_of": "السبت 25 ديسمبر"
+          }
+        ]
+      },
       "refuted_by": null,
       "nearest": null,
       "note": "",
       "named_as": null,
       "image_candidates": [],
-      "sources_read": 8,
-      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
-      "model_calls": 1
+      "sources_read": 9,
+      "dropped_reason": null,
+      "model_calls": 1,
+      "status": "offered",
+      "selection_issue": 1220
     },
     {
       "id": "9185665f38b8",
@@ -704,15 +779,15 @@
       "circulating_context": "",
       "asserted": "",
       "queries": [
-        "الشمس تشرق من المغرب ناسا تحقق",
-        "الشمس تشرق من المغرب انعكاس المجال المغناطيسي",
-        "Sun rising from west Earth magnetic field reversal NASA"
+        "تحقق من ادعاء شروق الشمس من المغرب وانعكاس المجال المغناطيسي",
+        "ناسا الشمس تشرق من المغرب انعكاس المجال المغناطيسي",
+        "NASA sun rising west Earth magnetic field reversal"
       ],
       "site_queries": [
-        "الشمس تشرق من المغرب انعكاس المجال المغناطيسي تحقق site:misbar.com",
-        "الشمس تشرق من المغرب انعكاس المجال المغناطيسي تحقق site:fatabyyano.net",
-        "Sun rising from west Earth magnetic field reversal NASA fact check site:factcheck.afp.com",
-        "Sun rising from west Earth magnetic field reversal NASA fact check site:reuters.com/fact-check"
+        "وكالة ناسا الشمس الأرض site:misbar.com",
+        "وكالة ناسا الشمس الأرض site:fatabyyano.net",
+        "وكالة ناسا الشمس الأرض site:factcheck.afp.com",
+        "وكالة ناسا الشمس الأرض site:reuters.com/fact-check"
       ],
       "engines": [
         "brave_web",
@@ -721,43 +796,15 @@
       "windows": [
         "days",
         "wide",
+        "unrestricted",
         "days",
         "wide",
         "days",
         "wide"
       ],
       "brave_skipped": null,
+      "cache_hits": 0,
       "checker_skipped": [
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/qna/2023/08/05/%D9%85%D8%A7-%D9%87%D9%88-%D8%A7%D9%84%D9%85%D8%AC%D8%A7%D9%84-%D8%A7%D9%84%D9%85%D8%BA%D9%86%D8%A7%D8%B7%D9%8A%D8%B3%D9%8A-%D9%84%D9%84%D8%A3%D8%B1%D8%B6",
-          "title": "ما هو المجال المغناطيسي للأرض؟"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2023/09/23/%D9%85%D8%A7-%D8%AD%D9%82%D9%8A%D9%82%D8%A9-%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D8%A7%D9%84%D9%85%D8%AA%D8%AF%D8%A7%D9%88%D9%84%D8%A9-%D8%B9%D9%84-%D8%A3%D9%86%D9%87%D8%A7-%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%A3%D8%B3%D9%84%D8%AD%D8%A9-%D8%A7%D9%84%D8%B7%D8%A7%D9%82%D8%A9-%D8%A7%D9%84%D9%85%D9%88%D8%AC%D9%87%D8%A9",
-          "title": "ما حقيقة المشاهد المتداولة على أنّها لاستخدام أسلحة الطاقة الموّجهة؟"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://misbar.com/qna/2022/08/07/%D9%87%D9%84-%D8%AC%D9%85%D9%8A%D8%B9-%D8%A3%D9%86%D9%88%D8%A7%D8%B9-%D8%A7%D9%84%D9%85%D9%88%D8%AC%D8%A7%D8%AA-%D8%A7%D9%84%D9%83%D9%87%D8%B1%D9%88%D9%85%D8%BA%D9%86%D8%A7%D8%B7%D9%8A%D8%B3%D9%8A%D8%A9-%D9%85%D8%B6%D8%B1%D8%A9-%D8%B5%D8%AD%D9%8A%D8%A7",
-          "title": "هل جميع أنواع الموجات الكهرومغناطيسية مضرة صحيًا؟"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/en/",
-          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/qna/2023/10/04/%D9%85%D8%AA-%D9%8A%D8%B8%D9%87%D8%B1-%D9%86%D8%AC%D9%85-%D8%B3%D9%87%D9%8A%D9%84",
-          "title": "متى يظهر نجم سهيل؟"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%85%D8%B4%D8%B1%D9%88%D8%B9-%D9%87%D8%A7%D8%B1%D8%A8-%D8%A7%D9%84%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A-%D9%84%D9%84%D8%AA%D8%AD%D9%83%D9%85-%D9%81%D9%8A-%D8%A7%D9%84%D8%B7%D9%82%D8%B3/",
-          "title": "هذه المعلومات المتداولة حول مشروع هارب واستخدامه كسلاح للتحكم بالطقس والتسبب بكوارث طبيعية غير صحيحة - فتبينوا"
-        },
         {
           "publisher": "AFP Fact Check",
           "link": "https://factcheck.afp.com/nasa-refutes-it-confirmed-possibility-sun-rising-west",
@@ -765,13 +812,23 @@
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.36YM2H8",
-          "title": "Experts say 'impossible' for Sun and full Moon to align on horizon | Fact Check"
+          "link": "https://factcheck.afp.com/image-has-been-enhanced-photo-venus-taken-soviet-spacecraft-venera-13",
+          "title": "This image has been enhanced from a photo of Venus taken by Soviet spacecraft Venera 13 | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/Climate",
-          "title": "Climate | Fact Check"
+          "link": "https://factcheck.afp.com/Claire-Line-NASS",
+          "title": "Claire-Line NASS | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/fact-checking-search-results",
+          "title": "Recherche | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
@@ -780,43 +837,18 @@
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.36MY3ZG",
-          "title": "Spain floods prompt torrent of false claims online | Fact Check"
+          "link": "https://factcheck.afp.com/AFP-Canada",
+          "title": "AFP Canada | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.32LD42D",
-          "title": "Crass images of US Congresswoman Lauren Boebert are digitally manipulated | Fact Check"
+          "link": "https://factcheck.afp.com/list/topics/146",
+          "title": "Topics | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/taxonomy/term/7042",
-          "title": "Anna MALPAS | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/AFP-Spain",
-          "title": "AFP Spain | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/debunks-novel-coronavirus-prevention-cures-treatments",
-          "title": "Debunks of novel coronavirus prevention, cures, treatments | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.9J37VH",
-          "title": "The images show waxworks, not a real two-faced man | Fact Check"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/ai-altered-images-earth-misrepresented-photos-apollo-8-artemis-ii-2026-04-15/",
-          "title": "Fact Check: AI-altered images of Earth misrepresented as photos from Apollo 8 and Artemis II | Reuters"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/close-up-depiction-lunar-crater-earthrise-is-not-an-authentic-nasa-photo-2026-04-22/",
-          "title": "Fact Check: Close-up depiction of lunar crater and Earthrise is not an authentic NASA photo | Reuters"
+          "link": "https://factcheck.afp.com/sitemap",
+          "title": "Sitemap | Fact Check"
         },
         {
           "publisher": "Reuters",
@@ -825,28 +857,13 @@
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/ai-image-shared-photo-earth-taken-artemis-ii-2026-04-16/",
-          "title": "Fact Check: AI image shared as photo of Earth taken from Artemis II | Reuters"
+          "link": "https://www.reuters.com/fact-check/arabic",
+          "title": "خدمة \"تقصي الحقيقة\" من رويترز"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/moon-is-not-reflection-earth-2023-11-30/",
-          "title": "Fact Check: The moon is not a reflection of Earth | Reuters"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/humans-knew-earth-was-round-before-satellite-imagery-2023-12-14/",
-          "title": "Fact Check: Humans knew Earth was round before satellite imagery | Reuters"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/washington-post-images-1969-moon-landing-taken-nasa-live-feed-2024-02-27/",
-          "title": "Fact Check: Washington Post images of 1969 moon landing taken from NASA live feed | Reuters"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/elon-musk-video-casting-doubt-moon-landing-is-altered-2024-01-10/",
-          "title": "Fact Check: Elon Musk video casting doubt on moon landing is altered | Reuters"
+          "link": "https://www.reuters.com/fact-check/close-up-depiction-lunar-crater-earthrise-is-not-an-authentic-nasa-photo-2026-04-22/",
+          "title": "Fact Check: Close-up depiction of lunar crater and Earthrise is not an authentic NASA photo | Reuters"
         },
         {
           "publisher": "Reuters",
@@ -855,13 +872,28 @@
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/images-astronauts-moon-themed-movie-set-generated-by-ai-2024-04-27/",
-          "title": "Fact Check: Images of astronauts on moon-themed movie set generated by AI | Reuters"
+          "link": "https://www.reuters.com/fact-check/espanol",
+          "title": "Business & Financial News, U.S & International Breaking News | Reuters"
         },
         {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/nasa-refutes-it-confirmed-possibility-sun-rising-west",
-          "title": "NASA refutes it confirmed the possibility of the sun rising from the west | Fact Check"
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/UZR5ZCDCRFOO3HKYEDNYPUGR7A-2024-05-23/",
+          "title": "تقصي الحقيقة: صورتان لا تظهران انفجارا وحرائق جراء قصف إسرائيلي على الشريط الحدودي لرفح | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/CARG3RBEDRKY5BNL7PQXNL6ZOM-2024-05-04/",
+          "title": "تقصي الحقيقة: فيديو لسعودي رفض التقاط صورة له مع علم فلسطين مُجتزأ من سياقه | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/4UGCOAZDZNKTHJS7OC6E44ALXA-2024-01-14/",
+          "title": "تقصي الحقيقة: فيديو يعرض برج خليفة مضاء بعلم إسرائيل مركب | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/YDSBLRCZHRLVXBUV7R7Z6NHKII-2024-05-22/",
+          "title": "تقصي الحقيقة: صورة يد طفل تتدلى وسط الركام منتجة بالذكاء الاصطناعي | رويترز"
         },
         {
           "publisher": "AFP Fact Check",
@@ -872,16 +904,20 @@
       "read_docs": [
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/amp/qna/2025/02/16/%D9%85%D8%A7-%D9%87%D9%88-%D8%A3%D9%82%D8%B1%D8%A8-%D9%83%D9%88%D9%83%D8%A8-%D9%84%D9%84%D8%A3%D8%B1%D8%B6%D8%9F",
+          "link": "https://www.misbar.com/factcheck/2020/06/05/%D8%A7%D9%84%D8%B4%D9%85%D8%B3-%D8%B3%D8%AA%D8%B4%D8%B1%D9%82-%D9%85%D9%86-%D8%A7%D9%84%D8%BA%D8%B1%D8%A8-%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1-%D8%B2%D8%A7%D8%A6%D9%81",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 6172,
-          "excerpt_chars": 1800,
-          "same_event": false,
+          "page_chars": 559,
+          "excerpt_chars": 677,
+          "same_event": true,
           "as_of": "",
-          "claim_review": null,
-          "stance": "irrelevant"
+          "claim_review": {
+            "claim_reviewed": "وكالة ناسا للفضاء تقول أن الشمس اقتربت من أن تشرق من الغرب.",
+            "label": "fake",
+            "date_published": "2020-06-05T18:22:00+03:00"
+          },
+          "stance": "refutes"
         },
         {
           "publisher": "Fatabyyano",
@@ -889,38 +925,38 @@
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 396,
-          "excerpt_chars": 396,
+          "page_chars": 235,
+          "excerpt_chars": 235,
           "same_event": true,
           "as_of": "",
           "claim_review": null,
           "stance": "refutes"
         },
         {
-          "publisher": "Falestinona",
-          "link": "https://www.falestinona.com/flst/Art/47785",
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/ar/doc.afp.com.32QC6V8",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 1829,
-          "excerpt_chars": 1378,
-          "same_event": true,
+          "page_chars": 286,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "claim_review": null,
-          "stance": "conflicts_detail"
+          "stance": "deduped"
         },
         {
-          "publisher": "Gerasa News",
-          "link": "https://www.gerasanews.com/print/254682",
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/MBWP3NCDR5P7VGCXKOKRTDHQII-2024-04-16/",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 6578,
-          "excerpt_chars": 1797,
-          "same_event": true,
+          "page_chars": 262,
+          "excerpt_chars": 262,
+          "same_event": false,
           "as_of": "",
           "claim_review": null,
-          "stance": "conflicts_detail"
+          "stance": "irrelevant"
         },
         {
           "publisher": "Hibazoom",
@@ -933,7 +969,33 @@
           "same_event": true,
           "as_of": "",
           "claim_review": null,
-          "stance": "conflicts_detail"
+          "stance": "supports"
+        },
+        {
+          "publisher": "Alarrabnews",
+          "link": "https://alarrabnews.com/article/101634",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 942,
+          "excerpt_chars": 942,
+          "same_event": true,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "The lost prophecy",
+          "link": "https://wbaseem.com/2014/01/23/%D8%A7%D9%84%D8%AA%D9%81%D8%B3%D9%8A%D8%B1-%D8%A7%D9%84%D8%B9%D9%84%D9%85%D9%8A-%D9%84%D8%B4%D8%B1%D9%88%D9%82-%D8%A7%D9%84%D8%B4%D9%85%D8%B3-%D9%85%D9%86-%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 10124,
+          "excerpt_chars": 1779,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "related_other"
         },
         {
           "publisher": "بوابة روز اليوسف",
@@ -946,111 +1008,106 @@
           "same_event": false,
           "as_of": "",
           "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "EarthSky",
+          "link": "https://earthsky.org/sun/sun-activity-archive-for-january-2026/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 20000,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Space",
+          "link": "https://www.space.com/astronomy/earth/nasa-satellites-show-antarctica-has-gained-ice-despite-rising-global-temperatures-how-is-that-possible",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 5695,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
           "stance": "irrelevant"
         },
         {
           "publisher": "Live Science",
-          "link": "https://www.livescience.com/space/the-sun/the-sun-is-slowly-waking-up-nasa-warns-that-there-may-be-more-extreme-space-weather-for-decades-to-come",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 5730,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "as_of": "",
-          "claim_review": null,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "EarthSky",
-          "link": "https://earthsky.org/sun/sun-activity-archive-for-february-2026/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 20000,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "as_of": "",
-          "claim_review": null,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "The Times of India",
-          "link": "https://timesofindia.indiatimes.com/science/sun-is-waking-up-nasa-warns-solar-activity-could-disrupt-gps-power-grids-and-satellites/articleshow/124107834.cms",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 2966,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "as_of": "",
-          "claim_review": null,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "The Last Crescent",
-          "link": "https://www.thelastcrescent.com/sunrise-from-the-west-earth-core-reversal-retrograde-motion-switching-of-earths-magnetic-poles-slowing-earth-and-a-nuclear-man-made-sunrise",
+          "link": "https://www.livescience.com/space/the-sun/the-suns-magnetic-field-is-about-to-flip-heres-what-to-expect",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 20000,
+          "page_chars": 6926,
           "excerpt_chars": 1800,
-          "same_event": true,
+          "same_event": false,
           "as_of": "",
           "claim_review": null,
-          "stance": "refutes"
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Express.co.uk",
+          "link": "https://www.express.co.uk/news/science/597607/Sunrise-WEST-Scientists-warn-magnetic-poles-SWITCHING-North-become-south",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 5290,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "related_other"
         }
       ],
-      "docs_before": 12,
-      "docs_after": 10,
+      "docs_before": 15,
+      "docs_after": 12,
       "verdict": "not_found",
       "primary_source": false,
       "icon": "🔍",
       "evidence": [
         {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2020/06/05/%D8%A7%D9%84%D8%B4%D9%85%D8%B3-%D8%B3%D8%AA%D8%B4%D8%B1%D9%82-%D9%85%D9%86-%D8%A7%D9%84%D8%BA%D8%B1%D8%A8-%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1-%D8%B2%D8%A7%D8%A6%D9%81",
+          "stance": "refutes",
+          "excerpt": "fake",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        },
+        {
           "publisher": "Fatabyyano",
           "link": "https://fatabyyano.net/en/%D9%88%D9%83%D8%A7%D9%84%D8%A9-%D9%86%D8%A7%D8%B3%D8%A7-%D9%84%D8%B9%D9%84%D9%88%D9%85-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%AA%D8%A4%D9%83%D8%AF-%D8%A7%D9%82%D8%AA%D8%B1%D8%A7%D8%A8/",
           "stance": "refutes",
-          "excerpt": "وكالة ناسا لعلوم الفضاء تؤكّد اقتراب شروق الشمس من مغربها!..خبر كاذب.",
-          "detail": "الخبر منسوب زورًا لناسا",
-          "correct_form": "ناسا لم تصدر أي تقرير عن اقتراب شروق الشمس من مغربها",
-          "as_of": ""
-        },
-        {
-          "publisher": "Falestinona",
-          "link": "https://www.falestinona.com/flst/Art/47785",
-          "stance": "conflicts_detail",
-          "excerpt": "تقارير إعلامية دولية، نقلا عن وكالة ناسا الفضائية أن الشمس اقتربت من أن تشرق من مغربها... تحذيرًا خطيرًا من وكالة الفضاء الأوروبية",
-          "detail": "الجهة المصدر للتحذير هي وكالة الفضاء الأوروبية حسب التقارير المنقولة، لا ناسا حصرًا",
-          "correct_form": "تحذير من وكالة الفضاء الأوروبية",
-          "as_of": ""
-        },
-        {
-          "publisher": "Gerasa News",
-          "link": "https://www.gerasanews.com/print/254682",
-          "stance": "conflicts_detail",
-          "excerpt": "فيديو بث عبر قناة دبي الفضائية ، يحذر من اقتراب موعد شروق الشمس من مغربها... ووفقاً لتقارير اعلامية دولية نشرتها وكالة ناسا الفضائية",
-          "detail": "المصدر الأساسي المذكور هو فيديو قناة دبي الفضائية نقلًا عن تقارير دولية، والتحذير الفعلي من وكالة الفضاء الأوروبية لا ناسا حصرًا",
-          "correct_form": "فيديو عبر قناة دبي الفضائية نقلًا عن تقارير دولية عن وكالة الفضاء الأوروبية",
-          "as_of": ""
+          "excerpt": "وكالة ناسا لعلوم الفضاء تؤكّد اقتراب شروق الشمس من مغربها!..خبر كاذب",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
         },
         {
           "publisher": "Hibazoom",
           "link": "https://www.hibazoom.com/article-79865/",
-          "stance": "conflicts_detail",
-          "excerpt": "تقارير إعلامية دولية، نقلا عن وكالة ناسا الفضائية أن الشمس اقتربت من أن تشرق من مغربها... تحذيرًا خطيرًا من وكالة الفضاء الأوروبية",
-          "detail": "التحذير الأصلي صادر عن وكالة الفضاء الأوروبية وليس ناسا حصرًا",
-          "correct_form": "وكالة الفضاء الأوروبية",
-          "as_of": ""
+          "stance": "supports",
+          "excerpt": "نقلا عن وكالة ناسا الفضائية أن الشمس اقتربت من أن تشرق من مغربها",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
         },
         {
-          "publisher": "The Last Crescent",
-          "link": "https://www.thelastcrescent.com/sunrise-from-the-west-earth-core-reversal-retrograde-motion-switching-of-earths-magnetic-poles-slowing-earth-and-a-nuclear-man-made-sunrise",
-          "stance": "refutes",
-          "excerpt": "However, this is completely incorrect. Retrograde",
-          "detail": "نفي ادعاء أن ناسا أكدت أن الأرض ستدور عكسيًا وتشرق الشمس من المغرب بسبب الحركة التراجعية",
-          "correct_form": "الادعاء غير صحيح علميًا",
-          "as_of": ""
+          "publisher": "Alarrabnews",
+          "link": "https://alarrabnews.com/article/101634",
+          "stance": "supports",
+          "excerpt": "أعلنت وكالة ناسا لعلوم الفضاء، أن الشمس اقتربت من أن تشرق من مغربها",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
         }
       ],
       "correction": null,
@@ -1059,9 +1116,11 @@
       "note": "أدلة متعارضة: نفي كافٍ وتأييد كافٍ معًا — لا حكم تلقائي",
       "named_as": null,
       "image_candidates": [],
-      "sources_read": 10,
+      "sources_read": 12,
       "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
-      "model_calls": 1
+      "model_calls": 1,
+      "status": "dropped",
+      "selection_issue": null
     },
     {
       "id": "ca1c92ec2f80",
@@ -1071,15 +1130,15 @@
       "circulating_context": "",
       "asserted": "",
       "queries": [
-        "استخراج الألماس من نبتون وكالة الفضاء الأوروبية تحقق",
-        "استخراج الألماس نبتون وكالة الفضاء الأوروبية",
-        "European Space Agency diamond extraction Neptune atmosphere"
+        "تحقق من عقد استخراج الألماس من نبتون الوكالة الأوروبية",
+        "وكالة الفضاء الأوروبية استخراج الألماس نبتون 2030",
+        "European Space Agency diamond mining Neptune 2030 contract"
       ],
       "site_queries": [
-        "استخراج الألماس نبتون وكالة الفضاء الأوروبية تحقق site:misbar.com",
-        "استخراج الألماس نبتون وكالة الفضاء الأوروبية تحقق site:fatabyyano.net",
-        "European Space Agency diamond extraction Neptune atmosphere fact check site:factcheck.afp.com",
-        "European Space Agency diamond extraction Neptune atmosphere fact check site:reuters.com/fact-check"
+        "وكالة الفضاء الأوروبية نبتون site:misbar.com",
+        "وكالة الفضاء الأوروبية نبتون site:fatabyyano.net",
+        "وكالة الفضاء الأوروبية نبتون site:factcheck.afp.com",
+        "وكالة الفضاء الأوروبية نبتون site:reuters.com/fact-check"
       ],
       "engines": [
         "brave_web",
@@ -1097,21 +1156,12 @@
         "unrestricted"
       ],
       "brave_skipped": null,
+      "cache_hits": 0,
       "checker_skipped": [
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/factcheck/2021/03/02/%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%84%D9%85%D9%86%D8%AC%D9%85-%D8%A7%D9%84%D8%A3%D9%84%D9%85%D8%A7%D8%B3-%D9%85%D9%8A%D8%B1-%D9%81%D9%8A-%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D9%84%D8%A8%D8%A6%D8%B1-%D9%83%D9%88%D9%84%D8%A7",
-          "title": "الصورة لمنجم الألماس مير في روسيا وليست لبئر كولا"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/qna/2024/10/20/%D9%85%D8%AA-%D8%AA%D9%85-%D8%A5%D9%86%D8%B4%D8%A7%D8%A1-%D9%85%D8%AD%D8%B7%D8%A9-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%A7%D9%84%D8%AF%D9%88%D9%84%D9%8A%D8%A9",
-          "title": "متى تم إنشاء محطة الفضاء الدولية؟"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2025/04/08/%D9%87%D9%84-%D8%AD%D9%82%D9%91%D9%8B%D8%A7-%D9%84%D9%85-%D9%8A%D9%88%D9%82%D9%91%D8%B9-%D9%82%D9%8A%D8%B3-%D8%B3%D8%B9%D9%8A%D9%91%D8%AF-%D8%A7%D8%AA%D9%81%D8%A7%D9%82%D9%8A%D8%A9-%D9%84%D8%AA%D8%B1%D8%AD%D9%8A%D9%84-%D8%A7%D9%84%D8%AA%D9%88%D9%86%D8%B3%D9%8A%D9%8A%D9%86-%D9%85%D9%86-%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%A7%D8%AA%D8%AD%D8%A7%D8%AF-%D8%A7%D9%84%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D9%8A%D8%9F",
-          "title": "هل حقًّا لم يوقّع قيس سعيّد اتفاقية لترحيل التونسيين من دول الاتحاد الأوروبي؟"
+          "link": "https://misbar.com/qna/2022/07/25/%D9%87%D9%84-%D9%88%D9%83%D8%A7%D9%84%D8%A9-%D9%86%D8%A7%D8%B3%D8%A7-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A6%D9%8A%D8%A9-%D9%88%D9%83%D8%A7%D9%84%D8%A9-%D8%AD%D9%83%D9%88%D9%85%D9%8A%D8%A9",
+          "title": "هل وكالة ناسا الفضائية وكالة حكومية؟"
         },
         {
           "publisher": "Misbar",
@@ -1125,28 +1175,28 @@
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/qna/2024/04/30/%D9%85%D8%A7-%D9%87%D9%8A-%D8%A8%D9%84%D8%AF-%D8%A7%D9%84%D8%A3%D9%84%D9%85%D8%A7%D8%B3-%D9%81%D9%8A-%D8%A3%D9%81%D8%B1%D9%8A%D9%82%D9%8A%D8%A7",
-          "title": "ما هي بلد الألماس في أفريقيا؟"
+          "link": "https://www.misbar.com/qna/2024/10/20/%D9%85%D8%AA-%D8%AA%D9%85-%D8%A5%D9%86%D8%B4%D8%A7%D8%A1-%D9%85%D8%AD%D8%B7%D8%A9-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%A7%D9%84%D8%AF%D9%88%D9%84%D9%8A%D8%A9",
+          "title": "متى تم إنشاء محطة الفضاء الدولية؟"
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2024/02/07/%D9%85%D8%A7-%D8%A3%D8%A8%D8%B1%D8%B2-%D8%A7%D9%84%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B1%D8%AA%D8%A8%D8%B7%D8%A9-%D8%A8%D9%86%D8%B8%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D9%85%D8%A4%D8%A7%D9%85%D8%B1%D8%A9-%D8%AD%D9%88%D9%84-%D9%85%D8%B4%D8%B1%D9%88%D8%B9-%D8%A7%D9%84%D8%B4%D8%B9%D8%A7%D8%B9-%D8%A7%D9%84%D8%A3%D8%B2%D8%B1%D9%82",
-          "title": "ما أبرز الادعاءات المرتبطة بنظرية المؤامرة حول مشروع الشعاع الأزرق؟"
+          "link": "https://www.misbar.com/editorial/2025/04/23/%D8%A7%D9%84%D8%AD%D9%82%D9%8A%D9%82%D8%A9-%D9%85%D9%86-%D8%A7%D9%84%D8%A3%D8%B9%D9%84%D9%89-%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%B5%D9%88%D8%B1-%D8%A7%D9%84%D8%A3%D9%82%D9%85%D8%A7%D8%B1-%D8%A7%D9%84%D8%B5%D9%86%D8%A7%D8%B9%D9%8A%D8%A9-%D9%81%D9%8A-%D8%AA%D8%BA%D8%B7%D9%8A%D8%A9-%D8%A7%D9%84%D8%AD%D8%B1%D9%88%D8%A8",
+          "title": "الحقيقة من الأعلى.. استخدام صور الأقمار الصناعية في تغطية الحروب"
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2025/10/01/%D8%AD%D9%85%D9%84%D8%A9-%D8%AA%D8%B4%D9%88%D9%8A%D9%87-%D9%88%D8%AA%D8%AD%D8%B1%D9%8A%D8%B6-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D8%B6%D8%AF-%D8%A3%D8%B3%D8%B7%D9%88%D9%84-%D8%A7%D9%84%D8%B5%D9%85%D9%88%D8%AF-%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85%D9%8A-%D9%88%D9%86%D8%A7%D8%B4%D8%B7%D9%8A%D9%87",
-          "title": "حملة تشويه وتحريض إسرائيلية ضد أسطول الصمود العالمي وناشطيه"
+          "link": "https://www.misbar.com/qna/2024/08/04/%D9%85%D8%A7-%D9%87%D9%88-%D8%A7%D9%84%D9%85%D8%B3%D8%A8%D8%A7%D8%B1-%D8%A7%D9%84%D9%83%D9%87%D8%B1%D8%A8%D8%A7%D8%A6%D9%8A",
+          "title": "ما هو المسبار الكهربائي؟"
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/qna/2025/03/11/%D9%85%D8%A7-%D9%87%D9%88-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D9%82%D8%9F",
-          "title": "ما هو الفضاء العميق؟"
+          "link": "https://misbar.com/qna/2023/08/17/%D9%85%D9%86-%D8%A3%D9%88%D9%84-%D9%85%D9%86-%D8%B5%D8%B9%D8%AF-%D8%A5%D9%84-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1",
+          "title": "من أول من صعد إلى الفضاء؟"
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/en/our-methodology",
-          "title": "منهجية التحقق"
+          "link": "https://www.misbar.com/editorial/2024/07/11/%D8%AA%D8%AD%D9%82%D9%8A%D9%82-%D9%8A%D9%83%D8%B4%D9%81-%D8%AD%D9%85%D9%84%D8%A9-%D8%AA%D8%B4%D9%88%D9%8A%D9%87-%D8%B6%D8%AE%D9%85%D8%A9-%D8%AA%D8%B3%D8%AA%D9%87%D8%AF%D9%81-%D9%82%D8%B7%D8%B1-%D8%A8%D9%85%D8%B2%D8%A7%D8%B9%D9%85-%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%A7%D9%84%D8%B1%D9%82%D9%85%D9%8A",
+          "title": "تحقيق يكشف حملة تشويه ضخمة تستهدف قطر بمزاعم مضللة في الفضاء الرقمي"
         },
         {
           "publisher": "Fatabyyano",
@@ -1160,8 +1210,18 @@
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%85%D8%B4%D8%B1%D9%88%D8%B9-%D9%87%D8%A7%D8%B1%D8%A8-%D8%A7%D9%84%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A-%D9%84%D9%84%D8%AA%D8%AD%D9%83%D9%85-%D9%81%D9%8A-%D8%A7%D9%84%D8%B7%D9%82%D8%B3/",
-          "title": "هذه المعلومات المتداولة حول مشروع هارب واستخدامه كسلاح للتحكم بالطقس والتسبب بكوارث طبيعية غير صحيحة - فتبينوا"
+          "link": "https://fatabyyano.net/en/%D9%83%D8%AA%D9%84%D8%A9-%D8%AB%D8%A7%D9%86%D9%8A-%D8%A3%D9%83%D8%B3%D9%8A%D8%AF-%D8%A7%D9%84%D9%83%D8%A8%D8%B1%D9%8A%D8%AA-%D8%A7%D9%84%D9%85%D8%A7%D8%B1%D8%A9-%D9%84%D9%8A%D8%B3%D8%AA-%D8%AE%D8%B7/",
+          "title": "الكتلة الهوائية المُحمّلة بغاز ثاني أكسيد الكبريت لن يكون لها تأثير خطير على الشرق الأوسط - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%B9%D8%A7%D9%84%D8%AC%D8%A9-%D9%84%D9%84%D9%82%D9%85%D8%B1-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D8%AD%D9%82%D9%8A%D9%82%D9%8A%D8%A9-%D9%88%D9%84%D9%85/",
+          "title": "هذه صورة معالجة ومعدلة للقمر وليست حقيقية ولم تصدر عن وكالة ناسا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%88%D9%83%D8%A7%D9%84%D8%A9-%D9%86%D8%A7%D8%B3%D8%A7-%D9%84%D8%B9%D9%84%D9%88%D9%85-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%AA%D8%A4%D9%83%D8%AF-%D8%A7%D9%82%D8%AA%D8%B1%D8%A7%D8%A8/",
+          "title": "وكالة ناسا لعلوم الفضاء تؤكّد اقتراب شروق الشمس من مغربها!..خبر كاذب. - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
@@ -1170,33 +1230,38 @@
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D8%B5%D9%88%D8%B1%D8%A9-%D8%A7%D9%84%D8%B4%D9%85%D8%B3-%D9%85%D9%86-%D9%85%D9%82%D8%B7%D8%B9-%D8%A3%D9%86%D8%B4%D8%A3-%D8%B9%D9%86-%D8%B7%D8%B1%D9%8A%D9%82-%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8/",
-          "title": "هذه صورة من مقطع أنشأ عن طريق الحاسوب لشروق الشمس من الفضاء وليست حقيقية - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D8%A7%D9%84%D9%88%D8%A7%D8%B1%D8%AF%D8%A9-%D9%81%D9%8A%D9%87%D8%A7-%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D8%AD%D9%88%D9%84/",
-          "title": "الادعاءات الواردة في هذا المقطع حول اللقاحات ومخاطرها هي ادعاءات زائفة - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%83%D9%88%D9%83%D8%A8-%D9%86%D9%8A%D8%A8%D9%8A%D8%B1%D9%88-%D8%A7%D9%82%D8%AA%D8%B1%D8%A8-%D9%85%D9%86-%D8%A7%D9%84%D8%A3%D8%B1%D8%B6-%D9%88%D8%B3%D8%B3%D8%A8%D8%A8-%D8%AF%D9%85%D8%A7%D8%B1/",
-          "title": "لا وجود لكوكب باسم نيبيرو ولم يُتنبأ بموعد نهاية العالم - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D8%B9%D9%84%D9%8A-%D9%83%D9%8A%D8%A7%D9%84%D9%8A-%D8%A3%D8%A8%D9%88%D8%A7%D8%A8-%D8%A7%D9%84%D8%B3%D9%85%D8%A7%D8%A1-%D9%88%D8%A7%D8%B1%D8%AA%D8%A8%D8%A7%D8%B7%D9%87%D8%A7-%D8%A8%D8%A7%D9%84%D8%B5",
-          "title": "الرئيسة - فتبينوا"
+          "link": "https://fatabyyano.net/en/%D8%B4%D8%A7%D8%A8-%D9%85%D8%B5%D8%B1%D9%8A-%D9%8A%D8%B5%D8%B9%D8%AF-%D8%A7%D9%84%D9%82%D9%85%D8%B1-%D9%88%D9%8A%D8%B1%D9%81%D8%B9-%D8%B9%D9%84%D9%8A%D9%87-%D8%B9%D9%84%D9%85-%D9%85%D8%B5%D8%B1/",
+          "title": "شاب مصري يصعد القمر لإجراء تجربة علمية ويرفع عليه علم مصر - زائف - فتبينوا"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.34TQ637",
-          "title": "Old US and European space agency photos falsely linked to China's Chang'e-6 Moon mission | Fact Check"
+          "link": "https://factcheck.afp.com/doc.afp.com.328Y6DA",
+          "title": "Social media posts falsely claim the Moon 'was once split in two' | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.62RB39E",
-          "title": "Video does not show astronaut exposing 'fake' life in space | Fact Check"
+          "link": "https://factcheck.afp.com/image-has-been-enhanced-photo-venus-taken-soviet-spacecraft-venera-13",
+          "title": "This image has been enhanced from a photo of Venus taken by Soviet spacecraft Venera 13 | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Europe",
+          "title": "AFP Europe | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/false-boot-print-comparison-shared-facebook-posts-about-neil-armstrongs-moon-landing",
+          "title": "False ‘boot print’ comparison shared in Facebook posts about Neil Armstrong’s Moon landing | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Claire-Line-NASS",
+          "title": "Claire-Line NASS | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
@@ -1205,163 +1270,147 @@
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.36MY3ZG",
-          "title": "Spain floods prompt torrent of false claims online | Fact Check"
+          "link": "https://factcheck.afp.com/Meet-team",
+          "title": "Meet the team | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/AFP-Spain",
-          "title": "AFP Spain | Fact Check"
+          "link": "https://factcheck.afp.com/nasa-refutes-it-confirmed-possibility-sun-rising-west",
+          "title": "NASA refutes it confirmed the possibility of the sun rising from the west | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.36RC6T7",
-          "title": "Image of 'couple watching Apollo 8 takeoff' is doctored | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.32LD42D",
-          "title": "Crass images of US Congresswoman Lauren Boebert are digitally manipulated | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/photo-does-not-show-explosion-al-aqsa-mosque-amid-israel-hamas-conflict",
-          "title": "Photo does not show explosion at al-Aqsa mosque amid Israel-Hamas conflict | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.74Q67G4",
-          "title": "Photo shows army cadet training, not Charlie Kirk shooting suspect in keffiyeh | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.9J37VH",
-          "title": "The images show waxworks, not a real two-faced man | Fact Check"
+          "link": "https://factcheck.afp.com/hoax-circulates-about-united-nations-mission-goals",
+          "title": "Hoax circulates about United Nations' 'mission goals' | Fact Check"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/close-up-depiction-lunar-crater-earthrise-is-not-an-authentic-nasa-photo-2026-04-22/",
-          "title": "Fact Check: Close-up depiction of lunar crater and Earthrise is not an authentic NASA photo | Reuters"
+          "link": "https://www.reuters.com/fact-check/arabic",
+          "title": "خدمة \"تقصي الحقيقة\" من رويترز"
         },
         {
           "publisher": "Reuters",
-          "link": "https://reuters.com/fact-check/portugues/UAYSG7KGCFMC7HFHO23QMO2XYQ-2026-04-17",
+          "link": "https://www.reuters.com/fact-check/",
+          "title": "Reuters Fact Check | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/espanol",
           "title": "Business & Financial News, U.S & International Breaking News | Reuters"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/image-based-2017-eclipse-shared-2024-nasa-photo-2024-04-25/",
-          "title": "Fact Check: Image based on 2017 eclipse shared as 2024 NASA photo | Reuters"
+          "link": "https://reuters.com/fact-check/arabic/DKNBXJSYSZOFBH6SVMVKUDO4HQ-2024-01-22",
+          "title": "تقصي الحقيقة: فيديو للتخلص من دجاج فاسد في السعودية ..."
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/portugues/LVJGSAPT6VI6TKJDY5AFYZVD3M-2026-02-19/",
-          "title": "Checagem de fatos: Dossiê atribuído a Campos Neto é invenção de canal de ficção no YouTube | Reuters"
+          "link": "https://www.reuters.com/fact-check/niger-did-not-hike-uranium-price-200-euros-per-kg-after-2023-coup-2023-10-17/",
+          "title": "Fact Check: Niger did not hike uranium price to 200 euros per kg after 2023 coup | Reuters"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/portugues/Q5XVD5OZ6JKYLKCZQDFAO5TJMQ-2025-06-27/",
-          "title": "Checagem de fatos: Imagem de cataratas do Niágara com águas vermelhas é montagem | Reuters"
+          "link": "https://www.reuters.com/fact-check/arabic/XKKC6RSQFVKATBYLELG4DYCQ7M-2024-05-29/",
+          "title": "تقصي الحقيقة: الطائرات الفرنسية تعرض العلم الفرنسي وليس الروسي في سماء مرسيليا للترحيب بالشعلة الأولمبية | رويترز"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/portugues/ON4I6NNLLRO7NL5C3BMTHQRBII-2026-03-13/",
-          "title": "Checagem de fatos: Navios militares em Salvador integravam exercício militar anual já encerrado | Reuters"
+          "link": "https://www.reuters.com/fact-check/arabic/3YZWR25QDBN4XIIFLEQ4RNFCEQ-2024-01-23/",
+          "title": "تقصي الحقيقة: فيديو لصواريخ استهدفت السفارة الأمريكية ببغداد في 2022 وليس القنصلية الأمريكية في أربيل | رويترز"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/portugues/KLG7UAKZMNJNXIYJAGBTPDCEVI-2025-12-04/",
-          "title": "Checagem de fatos: É falso que vídeo mostre petistas invadindo loja da Havan; imagens são de 2022 | Reuters"
+          "link": "https://www.reuters.com/fact-check/arabic/4UGCOAZDZNKTHJS7OC6E44ALXA-2024-01-14/",
+          "title": "تقصي الحقيقة: فيديو يعرض برج خليفة مضاء بعلم إسرائيل مركب | رويترز"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/portugues/HEUPCD5ZDNM4PFHMRXMH7KHLV4-2026-01-30/",
-          "title": "Checagem de fatos: CORREÇÃO-É falso que Gerdau anunciou “saída definitiva” do Brasil | Reuters"
+          "link": "https://www.reuters.com/fact-check/arabic/YDSBLRCZHRLVXBUV7R7Z6NHKII-2024-05-22/",
+          "title": "تقصي الحقيقة: صورة يد طفل تتدلى وسط الركام منتجة بالذكاء الاصطناعي | رويترز"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/espanol/YEAX3FLI4JPKPMLG2PBGQ5CTTE-2026-01-16/",
-          "title": "Verificación: La Marina de México no publicó en redes sociales que “ningún extranjero puede decidir” sobre el país | Reu"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/espanol/IQ3RMXXVN5I55FJHCXJKH3ZWVM-2025-02-17/",
-          "title": "Verificación: Video no muestra avión militar ruso que aterriza en México en 2025 | Reuters"
+          "link": "https://www.reuters.com/fact-check/arabic/MBWP3NCDR5P7VGCXKOKRTDHQII-2024-04-16/",
+          "title": "تقصي الحقيقة: فيديو أشخاص على الشاطئ يشاهدون كسوف الشمس في 2019 على الأقل وليس في 2024 | رويترز"
         }
       ],
       "read_docs": [
         {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2020/04/09/%D9%86%D8%B9%D9%85-%D8%AB%D9%82%D8%A8-%D8%A7%D9%84%D8%A3%D9%88%D8%B2%D9%88%D9%86-%D9%8A%D8%AA%D8%B9%D8%A7%D9%81%D9%89-%D9%84%D9%83%D9%86%D9%87%D8%A7-%D8%AD%D9%82%D9%8A%D9%82%D8%A9-%D9%86%D8%A7%D9%82%D8%B5%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 199,
+          "excerpt_chars": 282,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": {
+            "claim_reviewed": "ثقب الأوزون يتعافى.",
+            "label": "selective",
+            "date_published": "2020-04-09T06:45:00+03:00"
+          },
+          "stance": "irrelevant"
+        },
+        {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%B1%D9%83%D8%A8%D8%A9%D8%8C-%D9%88%D8%B5%D9%88%D8%B1-%D8%AA%D9%84%D8%B3%D9%83%D9%88%D8%A8-%D8%AC%D9%8A%D9%85%D8%B3-%D9%88%D9%8A%D8%A8/",
+          "link": "https://fatabyyano.net/en/%D9%83%D9%88%D9%83%D8%A8-%D9%86%D9%8A%D8%A8%D9%8A%D8%B1%D9%88-%D8%A7%D9%82%D8%AA%D8%B1%D8%A8-%D9%85%D9%86-%D8%A7%D9%84%D8%A3%D8%B1%D8%B6-%D9%88%D8%B3%D8%B3%D8%A8%D8%A8-%D8%AF%D9%85%D8%A7%D8%B1/",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 190,
-          "excerpt_chars": 190,
+          "page_chars": 214,
+          "excerpt_chars": 214,
           "same_event": false,
           "as_of": "",
           "claim_review": null,
           "stance": "irrelevant"
         },
         {
-          "publisher": "RT Arabic",
-          "link": "https://arabic.rt.com/space/1646370-%D9%87%D9%84-%D9%8A%D8%B5%D8%A8%D8%AD-%D8%A7%D9%84%D9%85%D8%A7%D8%B3-%D9%85%D8%A7%D8%AF%D8%A9-%D9%84%D9%84%D8%A8%D9%86%D8%A7%D8%A1-%D9%81%D9%8A-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1/",
+          "publisher": "Marocdroit",
+          "link": "https://www.marocdroit.com/%D8%B9%D9%82%D8%AF-%D8%A7%D9%84%D9%88%D9%83%D8%A7%D9%84%D8%A9-%D9%88-%D8%A7%D9%84%D8%A7%D8%AC%D8%B1%D8%A7%D8%A1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%A8%D8%B9%D8%A9-%D9%81%D9%8A-%D8%AA%D9%88%D8%AB%D9%8A%D9%82%D9%87%D8%A7%E2%80%8F_a3032.html",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 5868,
-          "excerpt_chars": 1737,
+          "page_chars": 20000,
+          "excerpt_chars": 1793,
           "same_event": false,
           "as_of": "",
           "claim_review": null,
           "stance": "irrelevant"
         },
         {
-          "publisher": "Shahbapress",
-          "link": "https://shahbapress.net/archives/24169",
+          "publisher": "Wikipedia",
+          "link": "https://ar.wikipedia.org/wiki/%D9%88%D9%83%D8%A7%D9%84%D8%A9_%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1_%D8%A7%D9%84%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D9%8A%D8%A9",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 3807,
-          "excerpt_chars": 1758,
+          "page_chars": 10470,
+          "excerpt_chars": 1791,
           "same_event": false,
           "as_of": "",
           "claim_review": null,
           "stance": "irrelevant"
         },
         {
-          "publisher": "Smtcenter",
-          "link": "https://smtcenter.net/archives/slider/%D8%AB%D8%B1%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%A7%D9%84%D8%B5%D8%B1%D8%A7%D8%B9-%D8%A7%D9%84%D9%85%D9%82%D8%A8%D9%84-%D8%A8%D9%8A%D9%86-%D8%A7%D9%84%D9%82%D9%88%D9%89-%D8%A7",
+          "publisher": "Akhbar El Yom",
+          "link": "https://akhbarelyom.com/news/newdetails/4715704/1/%D9%88%D9%83%D8%A7%D9%84%D8%A9-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D8%A7%D9%84%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D9%8A%D8%A9-%D8%AA%D8%B7%D9%84%D9%82-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC%D9%8B%D8%A7-%D8%AC%D8%AF%D9%8A",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 19385,
-          "excerpt_chars": 1782,
+          "page_chars": 2467,
+          "excerpt_chars": 1778,
           "same_event": false,
           "as_of": "",
           "claim_review": null,
-          "stance": "irrelevant"
+          "stance": "related_other"
         },
         {
-          "publisher": "Ajnet",
-          "link": "https://www.ajnet.me/science/2020/7/1/%D8%A8%D8%A7%D8%B7%D9%86-%D9%83%D9%88%D9%83%D8%A8-%D9%86%D8%A8%D8%AA%D9%88%D9%86-%D9%8A%D9%85%D8%B7%D8%B1-%D8%A7%D9%84%D8%A3%D9%84%D9%85%D8%A7%D8%B3-%D9%88%D8%A7%D9%84%D8%B9%D9%84%D9%85%D8%A7%D8%A1",
+          "publisher": "Graff",
+          "link": "https://www.graff.com/us-en/guide-to-diamond-certification.html",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 3468,
-          "excerpt_chars": 1546,
-          "same_event": false,
-          "as_of": "",
-          "claim_review": null,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "ScienceAlert",
-          "link": "https://www.sciencealert.com/diamonds-could-be-raining-from-the-sky-on-far-more-planets-than-we-realized",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 3265,
+          "page_chars": 5336,
           "excerpt_chars": 1800,
           "same_event": false,
           "as_of": "",
@@ -1369,34 +1418,60 @@
           "stance": "irrelevant"
         },
         {
-          "publisher": "TASS",
-          "link": "https://tass.com/science/1913455",
+          "publisher": "77 Diamonds",
+          "link": "https://www.77diamonds.com/ar/mokhtbraat-tsneef-almaas.html",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 3477,
-          "excerpt_chars": 1800,
+          "page_chars": 5082,
+          "excerpt_chars": 1440,
           "same_event": false,
           "as_of": "",
           "claim_review": null,
           "stance": "irrelevant"
         },
         {
-          "publisher": "Lawrence Livermore National Laboratory",
-          "link": "https://lasers.llnl.gov/news/mining-diamonds-giant-icy-planets",
+          "publisher": "CNN",
+          "link": "https://arabic.cnn.com/tag/european_space_agency",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 6423,
-          "excerpt_chars": 1800,
+          "page_chars": 1022,
+          "excerpt_chars": 1022,
           "same_event": false,
           "as_of": "",
           "claim_review": null,
           "stance": "irrelevant"
+        },
+        {
+          "publisher": "The Quantum Insider",
+          "link": "https://thequantuminsider.com/2025/11/14/european-space-agency-awards-new-contract-to-sbquantum/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 4745,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Mobility Engineering Technology",
+          "link": "https://www.mobilityengineeringtech.com/component/content/article/51369-esa-to-test-canadian-startups-diamond-quantum-sensors-in-space",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 6144,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "related_other"
         }
       ],
       "docs_before": 10,
-      "docs_after": 8,
+      "docs_after": 10,
       "verdict": "not_found",
       "primary_source": false,
       "icon": "🔍",
@@ -1407,9 +1482,11 @@
       "note": "",
       "named_as": null,
       "image_candidates": [],
-      "sources_read": 8,
+      "sources_read": 10,
       "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
-      "model_calls": 1
+      "model_calls": 1,
+      "status": "dropped",
+      "selection_issue": null
     }
   ]
 }
