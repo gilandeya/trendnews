@@ -69,7 +69,7 @@
       "dropped_reason": null,
       "id": "06e5390fcc24",
       "created_at": "2026-10-03T04:02:05.097302+00:00",
-      "selection_status": "pending",
+      "selection_status": "attempted",
       "selection_issue": 1188
     },
     {
@@ -102,7 +102,7 @@
       "dropped_reason": null,
       "id": "f82483f1b9da",
       "created_at": "2026-10-03T04:02:05.097302+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1188
     },
     {
@@ -129,7 +129,7 @@
       "dropped_reason": null,
       "id": "f149fbbbc71c",
       "created_at": "2026-10-03T04:02:05.097302+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1188
     }
   ],
