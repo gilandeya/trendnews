@@ -1117,7 +1117,7 @@ important:
   # بحث ويب Brave (web/search) بالمفتاح BRAVE_API_KEY نفسه لكن بعدّاد وسقف
   # مستقلين عن صور البطاقات (مفتاح "important:YYYY-MM" في state/brave_usage.json):
   # بلوغ سقف أحدهما لا يوقف الآخر. بلا مفتاح/عند السقف تبقى أخبار Google وحدها.
-  brave_monthly_cap: 300
+  brave_monthly_cap: 600
   brave_count: 10
   max_docs_per_point: 8    # وثائق مقروءة (غير المدقّقين) تُجمع من كل المحاولات قبل التصنيف
   # Issue #1207: ميزانية منفصلة لنتائج عبارات site: ونطاقات المدقّقين — في التجربة الخامسة
@@ -1375,7 +1375,7 @@ image:
   # يحتاج سرّ BRAVE_API_KEY في إعدادات المستودع؛ بدونه تُتخطى المرحلة بهدوء.
   web_search:
     enabled: true
-    monthly_cap: 800         # حماية لبطاقة الدفع (Brave بلا سقف من جهتها)؛ العدّاد state/brave_usage.json
+    monthly_cap: 400         # حماية لبطاقة الدفع (Brave بلا سقف من جهتها)؛ العدّاد state/brave_usage.json
     count: 10                # نتائج الطلب الواحد
     max_tries: 6             # نتائج تُجرَّب بعد الاستبعاد
     excluded_domains:        # صورها في البحث بعلامة مائية
