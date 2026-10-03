@@ -125,6 +125,21 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
         log.warning("مرشح غير موجود: %s", cid)
         return None
     path, cand = found
+
+    # مسودة أعادها المراجع إلى الترشيح (Issue #1184، status="returned"): تُعاد
+    # كما هي — نصها وعناوينها وبطاقتها — بلا جلب مصادر ولا نداء كاتب ولا
+    # عناوين جديدة، فتصير pending وتمضي في المسار المطلوب كأنها صيغت للتو.
+    # البطاقة القائمة تبقى (cards.ensure لا يعيد بناء بطاقة موجودة)، وتُبنى
+    # فقط إن لم توجد.
+    existing = store.load_draft(cid)
+    if existing and existing[1].get("status") == "returned":
+        draft = store.update_draft(
+            existing[0], status="pending",
+            remove=["returned_from_stage", "returned_at", "review_issue"])
+        store.update_candidate(path, status="selected")
+        log.info("أُعيد استعمال المسودة المُعادة %s بلا صياغة جديدة", cid)
+        return draft
+
     art = preselect.article_from_dict(cand["article"])
 
     analysable = (

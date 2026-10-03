@@ -215,12 +215,15 @@ def main() -> int:
     cfg = load_config()
     done: list[dict] = []
     failed: list[str] = []
+    failed_details: list[dict] = []
     for draft_id, url in pairs:
+        reason = "تعذّر بناء البطاقة بهذا الرابط (ليس صورة صالحة أو أبعادها صغيرة)"
         try:
             updated = apply_image(draft_id, url, cfg)
         except Exception as exc:  # noqa: BLE001 — خطأ واحد لا يُسقط الباقي
             log.error("فشل بناء صورة %s: %s", draft_id, exc)
             updated = None
+            reason = f"خطأ أثناء البناء: {exc}"
         if updated:
             # "new" غائب (None) لمسودة بلا بطاقة بعد (Issue #852) — الرابط
             # خُزّن في manual_image بلا بناء، فلا مسار صورة جديد يُستبدَل
@@ -231,9 +234,13 @@ def main() -> int:
                          "title": updated["arabic"]["post_title"][:60]})
         else:
             failed.append(draft_id)
+            # الرابط والسبب يُنقلان إلى sync_issue ليُذكرا في تعليق الفشل
+            # (Issue #1184): الحقل يُمسح فلا يبقى مكانًا لحفظ الرابط الفاشل.
+            failed_details.append({"id": draft_id, "url": url, "reason": reason})
 
     SYNC_FILE.write_text(
-        json.dumps({"done": done, "failed": failed}, ensure_ascii=False),
+        json.dumps({"done": done, "failed": failed, "failed_details": failed_details},
+                   ensure_ascii=False),
         encoding="utf-8")
     return 0 if done else 1
 
@@ -255,15 +262,26 @@ def sync_issue(issue: int) -> int:
                 body = body.replace(item["old"], item["new"])
             body = review.clear_image_request(body, item["id"])
         for draft_id in failed:
-            # يبقى الرابط ليصحّحه المراجع بدل أن يعيد لصقه من جديد
-            body = review.clear_image_request(body, draft_id, keep_url=True)
+            # الحقل الجديد يُمسح بعد الفشل كذلك (Issue #1184): بقاء الرابط فيه
+            # كان يُعيد تطبيقه مع كل تعديل لاحق للقضية، والرابط الفاشل مذكور في
+            # تعليق الفشل. الصيغة القديمة (مربع img:) لا تتغير: يبقى الرابط
+            # ليصحّحه المراجع.
+            body = review.clear_image_request(
+                body, draft_id, keep_url=f"<!-- img:{draft_id} -->" in body)
         review.update_issue_body(issue, body)
 
     notes = [(f"🖼️ حُدّثت الصورة: {item['title']}" if item.get("new") else
              f"🖼️ رابط الصورة اليدوي محفوظ لـ«{item['title']}» — ستُبنى البطاقة به عند الاعتماد.")
             for item in done]
-    notes += [f"⚠️ تعذّر تحديث `{i}` — تأكد أن الرابط لصورة مباشرة "
-              "(ينتهي بـ .jpg أو .png) وأن أبعادها ليست صغيرة." for i in failed]
+    details = {d["id"]: d for d in data.get("failed_details", [])}
+    for i in failed:
+        note = (f"⚠️ تعذّر تحديث `{i}` — تأكد أن الرابط لصورة مباشرة "
+                "(ينتهي بـ .jpg أو .png) وأن أبعادها ليست صغيرة.")
+        if i in details:
+            note += (f"\n  الرابط الفاشل: {details[i]['url']}"
+                     f"\n  السبب: {details[i]['reason']}"
+                     "\n  مُسح الحقل — الصق رابطًا آخر لإعادة المحاولة.")
+        notes.append(note)
     if notes:
         review.comment(issue, "\n".join(notes))
     return 0

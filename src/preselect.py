@@ -319,8 +319,17 @@ def build_selection_issue_body(candidates: list[dict],
         badge += (f" · 💰 أثر {c.get('impact', 0)} · 🫱 قرب {c.get('proximity', 0)}"
                   f" · ✨ تشويق {c.get('intrigue', 0)}")
 
+        title_line = c["title"]
+        if c.get("returned"):
+            # مرشح أعاده المراجع من المرحلة 2/3 (Issue #1184): الشارة أمام
+            # العنوان فيعرف أنه رآه وقرر الرجوع به، لا أنه خبر جديد.
+            from_stage = c.get("returned_from_stage") or 2
+            badge_text = (cfg if cfg is not None else load_config()).path(
+                "stages.returned_badge", "↩️ أعدته من المرحلة {stage}"
+            ).format(stage=from_stage)
+            title_line = f"{badge_text} · {title_line}"
         parts += [
-            f"**{idx}. {c['title']}**  <!-- cand:{c['id']} -->",
+            f"**{idx}. {title_line}**  <!-- cand:{c['id']} -->",
             "",
         ]
         translated = translations.get(c["id"])

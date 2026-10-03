@@ -78,8 +78,10 @@ def drop_stale_candidates() -> int:
     عدد المرشحين المعروضين تصاعديًا (Issue #296: 5 ثم 10 ثم 22) بدل أن
     يبقى ثابتًا عند العدد المطلوب في كل تشغيلة. تُسجَّل في feedback كـ
     "لم يُختر" حتى يستفيد الفرز الأولي منها كما يستفيد من أي مرشح مرفوض."""
+    # returned (Issue #1184): مرشح أعاده المراجع من المرحلة 2/3 ينتظر عرضه
+    # في أول قضية ترشيح — بلا هذا الاستثناء يُسقطه أول جمع قبل أن يراه.
     stale = [(p, c) for p, c in store.pending_candidates()
-             if not c.get("selection_issue")]
+             if not c.get("selection_issue") and not c.get("returned")]
     if not stale:
         return 0
     entries = feedback.load()

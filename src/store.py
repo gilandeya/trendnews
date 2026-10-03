@@ -308,6 +308,23 @@ def load_candidate(candidate_id: str,
     return None
 
 
+def latest_candidate(candidate_id: str) -> tuple[Path, dict] | None:
+    """أحدث نسخة لملف المرشح بالمعرّف (أحدث ``created_at``) — عكس
+    ``load_candidate`` التي تفضّل الأقدم. العودة من المرحلتين 2/3 إلى
+    الترشيح (Issue #1184) تُحيي آخر ظهور للخبر لا أقدمه، لأن الخبر نفسه قد
+    يكون عُرض في أكثر من Issue اختيار وكل ظهور ملف مستقل. عند تساوي
+    ``created_at`` (أو غيابه) يغلب الأحدث مجلدًا ثم الأحدث ترتيبًا."""
+    best = None
+    for path in sorted(CANDIDATES_DIR.glob(f"*/{candidate_id}.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if best is None or str(data.get("created_at") or "") >= str(best[1].get("created_at") or ""):
+            best = (path, data)
+    return best
+
+
 def pending_candidates() -> list[tuple[Path, dict]]:
     out = []
     for path in sorted(CANDIDATES_DIR.glob("*/*.json")):

@@ -252,7 +252,7 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   and `review.build_final_review_body` (stage 3) now take an optional `cfg` (default `load_config()`)
   and build their header with `stages.stage_header`, one `stages.explainer` paragraph under it, and
   each item's transitions with `stages.options_block(..., has_stage1=False, urgent=ar.urgent)` —
-  `has_stage1=False` is temporary for every path until task 2b. **No checkbox sits above an item's
+  `has_stage1` is now `origin == "news"` (task 2b, see the `go1` bullet above). **No checkbox sits above an item's
   data and the old `draft:`/`card:`/`img:`/`back:` boxes are gone**: an item is its bold title line
   (which carries a bare `<!-- draft:id -->` so `review.all_draft_ids` still finds the ids), then
   badges/sources (+ sibling line), image source line + displayed image, the `<details>` text, stage 2
@@ -272,6 +272,41 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   box); an item that still has an `img:` box (old issue) needs it ticked, as before — otherwise a
   URL kept after a failed attempt (`keep_url`) would be re-applied on every edit.
   `review.clear_image_request` restores the field text (new issues) or `الرابط:` (old ones).
+
+- **Returning a news item to stage 1 — `go1` (Issue #1184, task 2b of 4).** `review.build_issue_body`/
+  `build_final_review_body` now pass `has_stage1 = (store.origin_of(d) == "news")` to
+  `stages.options_block` (breaking/request/article/analysis stay `False`; analysis is task 3). On
+  `approved`, `publish.return_to_selection(ids, stage)` (called from `publish.main` stage 2 and
+  `publish.cmd_final_review` stage 3, **normal job only**, guarded by `status == "pending"` so the
+  urgent+normal double run is a no-op) does three things: the draft becomes `status="returned"` +
+  `returned_from_stage` (2|3) + `returned_at`, with text/headlines/image/card untouched; the **newest**
+  copy of the candidate file (`store.latest_candidate`, newest `created_at` — not `load_candidate`'s
+  oldest) becomes `pending`, `selection_issue=None`, `returned=True`, `returned_from_stage`,
+  `returned_at`; `decisions.record_returned` logs a `"returned"` decision (with the `selection_issue`
+  it came from and `returned_from_stage`). A draft with **no** candidate file (collected without
+  preselect) is not returned: it stays `pending` and the Issue comment says so. `go1` items are
+  excluded from the implicit-rejection loops in both stages, and a stage-2 Issue where everything is
+  `go1` is closed with no «لم يُعلَّم» warning. **`"returned"` is neither `pending` nor `failed`**, so
+  `store.pending_drafts`/`failed_drafts`, `open_review` (gate B and revival), `publish.queued_drafts`
+  and `decisions.scan` never see it; `retention` ages it from its day folder like any non-published
+  status (no code change). **`decisions`:** `"returned"` joins `"unselected"` in `_NON_BLOCKING`
+  (`_blocks_rejection`), is ignored by `_candidate_known` and by `scan`'s `known` set, and
+  `record_published` was already blocked only by `"published"` — so a later publish/reject of the same
+  id still records. **Candidates with `returned`:** `collect.drop_stale_candidates` skips
+  `returned=True` (it deletes every selection-less `pending` at the start of each collect);
+  `open_review` puts returned candidates first (by `returned_at`, not subject to any ordering by score
+  — it has no candidate cap, the cap lives in collect), and the selection body prefixes their title
+  with `config.yaml: stages.returned_badge` («↩️ أعدته من المرحلة N»); after linking to the new
+  selection Issue `returned` is set to `False` (it becomes an ordinary candidate there; ignored or
+  closed it is recorded like any). **Re-advancing:** `collect_finalize._write_selected` finds a draft
+  with the same id in `status="returned"` and reuses it — `status="pending"`, `returned_*`/`review_issue`
+  removed, **no writer call, no headlines call, no source fetch**; the card is built only if absent
+  (`cards.ensure` already returns an existing one). Caveat: a stage-3 draft reused via 📝 keeps its old
+  card, so a headline changed in the new stage 2 won't reach it unless the reviewer goes 3→2 again.
+- **Failed pasted image URL (Issue #1184).** In `setimage.sync_issue` a failed URL in the new-format
+  field (no `img:` box) now clears the field like a success, and the failure comment carries the
+  URL and the reason (passed through `SYNC_FILE["failed_details"]`) — it is never re-applied on a later
+  edit. The old `img:`-box format is unchanged (`keep_url=True`).
 
 ## Architecture
 

@@ -77,7 +77,8 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main",
                      cfg=None) -> str:
     """نص قضية المرحلة 2 (Issue #1182): لا مربع فوق بيانات الخبر؛ الانتقال
     كله في كتلة stages.options_block أسفل الخبر، والصورة بحقل رابط بلا مربع.
-    has_stage1=False لكل المسارات مؤقتًا حتى المهمة 2ب."""
+    خيار العودة إلى الترشيح (go1) لمسودات الأخبار وحدها (Issue #1184)؛ غيرها
+    بلا مرحلة ترشيح (التحليل في المهمة 3)."""
     # استيراد مؤجَّل: stages تستورد review على مستوى الوحدة فالعكس يدور.
     from . import stages
     if cfg is None:
@@ -221,7 +222,8 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main",
             # الريل شكل نشر لا انتقال، فيبقى مربعه خارج كتلة الانتقال.
             *([f"  - [ ] 🎬 انشره كريل بدل الصورة  <!-- reel:{d['id']} -->",
                ""] if d.get("reel_spec") or d.get("reel") else []),
-            *stages.options_block(2, d["id"], cfg, has_stage1=False,
+            *stages.options_block(2, d["id"], cfg,
+                                  has_stage1=store.origin_of(d) == "news",
                                   urgent=bool(ar.get("urgent"))),
             "",
             "---",
@@ -289,7 +291,8 @@ def build_final_review_body(drafts: list[dict], repo: str, branch: str = "main",
             "",
             stages.image_field(d["id"], cfg),
             "",
-            *stages.options_block(3, d["id"], cfg, has_stage1=False,
+            *stages.options_block(3, d["id"], cfg,
+                                  has_stage1=store.origin_of(d) == "news",
                                   urgent=bool(ar.get("urgent"))),
             "",
             "---",
