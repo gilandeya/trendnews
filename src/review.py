@@ -73,12 +73,58 @@ def blob_url(repo: str, branch: str, path: str) -> str:
 # ──────────────────────────── بناء نص المراجعة ────────────────────────────
 
 
+def has_stage1(draft: dict) -> bool:
+    """هل يُعرض على المسودة خيار go1 (العودة إلى الترشيح)؟ الأخبار دائمًا
+    (Issue #1184)؛ التحليل حين تحمل المسودة topic_id (Issue #1187) — موضوعها
+    محفوظ في ملف مواضيع فيمكن إعادته. مسودة تحليل قديمة بلا topic_id لا موضوع
+    لها تعود إليه، والبقية بلا مرحلة ترشيح أصلًا. نقطة واحدة تقرؤها قضيتا
+    المرحلتين لكل المسارات كي لا تفترق القاعدتان."""
+    origin = store.origin_of(draft)
+    if origin == "analysis":
+        return bool(draft.get("topic_id"))
+    return origin == "news"
+
+
+def caption_details(d: dict, summary: str) -> list[str]:
+    """كتلة <details> لنص المنشور القابل للتحرير (علامات cap:) — مشتركة بين
+    قضيتي الأخبار وقضية التحليل كي لا تُنسخ."""
+    return [
+        f"  <details><summary>{summary}</summary>",
+        "",
+        f"  <!-- cap:{d['id']} -->",
+        "  ```",
+        *[f"  {line}" for line in d["caption"].splitlines()],
+        "  ```",
+        f"  <!-- /cap:{d['id']} -->",
+        "",
+        "  </details>",
+        "",
+    ]
+
+
+def headline_boxes(d: dict, intro: str, note: str | None = None) -> list[str]:
+    """مربعات اختيار العنوان (hl:) — الأول معلَّم افتراضيًا. تعيد قائمة فارغة
+    لمسودة بلا عناوين. ``intro`` سطر التقديم و``note`` سطر اختياري بعد المربعات."""
+    headlines = d.get("headlines") or []
+    if not headlines:
+        return []
+    selected = d.get("headline_selected", 0)
+    lines = [f"  {intro}", ""]
+    for h_idx, headline in enumerate(headlines):
+        mark = "x" if h_idx == selected else " "
+        lines.append(f"  - [{mark}] {h_idx + 1}. {headline}  <!-- hl:{d['id']}:{h_idx} -->")
+    lines.append("")
+    if note:
+        lines += [f"  <sub>{note}</sub>", ""]
+    return lines
+
+
 def build_issue_body(drafts: list[dict], repo: str, branch: str = "main",
                      cfg=None) -> str:
     """نص قضية المرحلة 2 (Issue #1182): لا مربع فوق بيانات الخبر؛ الانتقال
     كله في كتلة stages.options_block أسفل الخبر، والصورة بحقل رابط بلا مربع.
-    خيار العودة إلى الترشيح (go1) لمسودات الأخبار وحدها (Issue #1184)؛ غيرها
-    بلا مرحلة ترشيح (التحليل في المهمة 3)."""
+    خيار العودة إلى الترشيح (go1) لمسودات الأخبار (Issue #1184) ولمسودة
+    التحليل التي تحمل topic_id (Issue #1187)؛ غيرها بلا مرحلة ترشيح."""
     # استيراد مؤجَّل: stages تستورد review على مستوى الوحدة فالعكس يدور.
     from . import stages
     if cfg is None:
@@ -188,34 +234,15 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main",
                     f"  ↳ [الخبر الأصلي]({d['source']['link']})",
                     "",
                 ]
-        parts += [
-            "  <details><summary>📝 نص المنشور الكامل</summary>",
-            "",
-            f"  <!-- cap:{d['id']} -->",
-            "  ```",
-            *[f"  {line}" for line in d["caption"].splitlines()],
-            "  ```",
-            f"  <!-- /cap:{d['id']} -->",
-            "",
-            "  </details>",
-            "",
-        ]
-        headlines = d.get("headlines") or []
-        if headlines:
-            # عناوين مقترحة (Issue #756) -- نفس صيغة مسار التحليل
-            # (<!-- hl:id:idx -->، الأول معلَّم افتراضيًا)؛ مسودة بقائمة
-            # فارغة (فشل النداء، انظر توثيق src/headlines.py) لا تُعرَض لها
-            # مربعات إطلاقًا. البطاقة هنا مبنية مسبقًا (خلافًا لمسار
-            # التحليل) فتحمل عنوانها القصير الخاص بلا صلة بهذا الاختيار.
-            selected = d.get("headline_selected", 0)
-            parts.append("  📰 **العنوان:** علّم واحدًا — يستبدل السطر الأول من النص.")
-            parts.append("")
-            for h_idx, headline in enumerate(headlines):
-                mark = "x" if h_idx == selected else " "
-                parts.append(f"  - [{mark}] {h_idx + 1}. {headline}  <!-- hl:{d['id']}:{h_idx} -->")
-            parts.append("")
-            parts.append("  <sub>البطاقة تحمل عنوانها القصير الخاص ولا تتغير باختيارك هنا.</sub>")
-            parts.append("")
+        parts += caption_details(d, "📝 نص المنشور الكامل")
+        # عناوين مقترحة (Issue #756) -- نفس صيغة مسار التحليل
+        # (<!-- hl:id:idx -->، الأول معلَّم افتراضيًا)؛ مسودة بقائمة فارغة
+        # (فشل النداء، انظر توثيق src/headlines.py) لا تُعرَض لها مربعات.
+        # البطاقة هنا مبنية مسبقًا (خلافًا لمسار التحليل) فتحمل عنوانها
+        # القصير الخاص بلا صلة بهذا الاختيار.
+        parts += headline_boxes(
+            d, "📰 **العنوان:** علّم واحدًا — يستبدل السطر الأول من النص.",
+            "البطاقة تحمل عنوانها القصير الخاص ولا تتغير باختيارك هنا.")
         parts += [
             stages.image_field(d["id"], cfg),
             "",
@@ -223,7 +250,7 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main",
             *([f"  - [ ] 🎬 انشره كريل بدل الصورة  <!-- reel:{d['id']} -->",
                ""] if d.get("reel_spec") or d.get("reel") else []),
             *stages.options_block(2, d["id"], cfg,
-                                  has_stage1=store.origin_of(d) == "news",
+                                  has_stage1=has_stage1(d),
                                   urgent=bool(ar.get("urgent"))),
             "",
             "---",
@@ -278,21 +305,12 @@ def build_final_review_body(drafts: list[dict], repo: str, branch: str = "main",
                 f"[الخبر الأصلي]({d['source']['link']})",
                 "",
             ]
+        parts += caption_details(d, "📝 نص المنشور الكامل")
         parts += [
-            "  <details><summary>📝 نص المنشور الكامل</summary>",
-            "",
-            f"  <!-- cap:{d['id']} -->",
-            "  ```",
-            *[f"  {line}" for line in d["caption"].splitlines()],
-            "  ```",
-            f"  <!-- /cap:{d['id']} -->",
-            "",
-            "  </details>",
-            "",
             stages.image_field(d["id"], cfg),
             "",
             *stages.options_block(3, d["id"], cfg,
-                                  has_stage1=store.origin_of(d) == "news",
+                                  has_stage1=has_stage1(d),
                                   urgent=bool(ar.get("urgent"))),
             "",
             "---",
@@ -490,6 +508,11 @@ def _image_source_line(draft: dict) -> str:
     info = draft.get("image_info")
     if info is None:
         if not draft.get("image"):
+            if draft.get("manual_image"):
+                # رابط حُفظ في المرحلة 2 قبل بناء البطاقة (Issue #1187): يغلب
+                # كل درجات سلّم الصورة عند البناء، فيُرى هنا أنه سيُستعمل.
+                return ("🖼️ **المصدر:** رابط وضعتَه يدويًا — يُستعمل عند بناء "
+                        "البطاقة، والمسؤولية عليك")
             return "🖼️ **المصدر:** البطاقة لم تُبنَ بعد — تُبنى عند الاعتماد"
         return "🖼️ **المصدر:** غير مسجَّل (مسودة سابقة)"
     # صورة خبر عن الموضوع (Issue #1095، مسار التحليل وحده، يخلف خلفية

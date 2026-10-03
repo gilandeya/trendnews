@@ -271,7 +271,7 @@ def sync_issue(issue: int) -> int:
         review.update_issue_body(issue, body)
 
     notes = [(f"🖼️ حُدّثت الصورة: {item['title']}" if item.get("new") else
-             f"🖼️ رابط الصورة اليدوي محفوظ لـ«{item['title']}» — ستُبنى البطاقة به عند الاعتماد.")
+             f"🖼️ حُفظت الصورة — تُستعمل عند بناء البطاقة: «{item['title']}».")
             for item in done]
     details = {d["id"]: d for d in data.get("failed_details", [])}
     for i in failed:

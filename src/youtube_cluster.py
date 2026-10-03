@@ -952,6 +952,15 @@ def run(cfg: Config | None = None, date_str: str | None = None,
 def save_output(result: dict) -> Path:
     TOPICS_DIR.mkdir(parents=True, exist_ok=True)
     path = TOPICS_DIR / f"{result['run_date']}.json"
+    # موضوع أُعيد إلى الترشيح (Issue #1187) ومازال ينتظر نسخه إلى قضية اختيار
+    # تالية يعيش في ملف تاريخه؛ تشغيلة عنقدة ثانية لليوم نفسه تكتب الملف من
+    # جديد فتمحوه ويبقى مقاله returned بلا موضوع يعود إليه. فتُنقل هذه
+    # المواضيع وحدها إلى الملف الجديد (الحالات الأخرى تُمحى كما كانت دائمًا).
+    if path.exists():
+        kept = [t for t in _load_topics_raw(result["run_date"]).get("topics", [])
+                if t.get("selection_status") == "returned"]
+        if kept:
+            result = {**result, "topics": kept + list(result.get("topics", []))}
     path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     return path
 
@@ -1067,8 +1076,14 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
         "",
     ]
     for idx, t in enumerate(topics, start=1):
+        # موضوع أعاده المراجع من المرحلة 2 أو 3 (Issue #1187): الشارة أمام عنوانه
+        # من config.yaml: stages.returned_badge، نفسها التي تضعها preselect للأخبار.
+        badge = ""
+        if t.get("returned_from_stage") and cfg is not None:
+            badge = cfg.path("stages.returned_badge", "").format(
+                stage=t["returned_from_stage"]) + " "
         parts += [
-            f"- [ ] **{idx}. {t['title']}**  <!-- topic:{t['id']} -->",
+            f"- [ ] **{idx}. {badge}{t['title']}**  <!-- topic:{t['id']} -->",
             "",
             f"  {t.get('event', '')}",
             "",
@@ -1091,29 +1106,108 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
     return "\n".join(parts)
 
 
+def _remap_point_ids(topic: dict, topic_date: str, date_str: str, cfg) -> list[int]:
+    """point_ids فهارس ضمن نافذة نقاط تشغيلة تاريخ الملف (انظر
+    prepare_window_points)، فلا تصلح كما هي في ملف تاريخ آخر: النافذة تنزلق
+    يومًا بعد يوم فيُشير الفهرس نفسه إلى نقطة غيرها. تُترجَم عبر point_key
+    إلى فهارس نافذة ``date_str``؛ نقطة خرجت من نافذته تسقط."""
+    if topic_date == date_str:
+        return list(topic.get("point_ids") or [])
+    old_points, _ = prepare_window_points(topic_date, cfg)
+    new_points, _ = prepare_window_points(date_str, cfg)
+    index_of: dict[str, int] = {}
+    for i, p in enumerate(new_points):
+        index_of.setdefault(point_key(p), i)
+    out: list[int] = []
+    for pid in topic.get("point_ids") or []:
+        if 0 <= pid < len(old_points):
+            j = index_of.get(point_key(old_points[pid]))
+            if j is not None and j not in out:
+                out.append(j)
+    return out
+
+
+def _carry_returned_topics(data: dict, date_str: str, cfg, now: datetime) -> list[dict]:
+    """يجمع مواضيع selection_status == "returned" من ملفات المواضيع الواقعة
+    ضمن نافذة الحذف الدوري (retention.days — موضوع أقدم منها لم يعد مقاله
+    محفوظًا أصلًا) وينسخ كلًّا منها إلى **بداية** topics في ``data`` (ملف اليوم)
+    بالمعرّف نفسه وselection_status فارغًا، ويجعل الأصل "moved" فلا يُنقل ثانيةً.
+    returned_from_stage وdraft_id تبقيان في النسخة للعرض وإعادة الاستعمال.
+    ملف اليوم نفسه يُعالَج كغيره (النسخة والأصل في قائمة واحدة).
+    تعيد النسخ المضافة بالترتيب الأقدم عودةً أولًا."""
+    window = int(cfg.path("retention.days", 30))
+    oldest = (datetime.strptime(date_str, "%Y-%m-%d")
+              - timedelta(days=window)).strftime("%Y-%m-%d")
+    files: dict[str, dict] = {}
+    if TOPICS_DIR.exists():
+        for path in sorted(TOPICS_DIR.glob("*.json")):
+            day = path.stem
+            if oldest <= day <= date_str and day != date_str:
+                files[day] = _load_topics_raw(day)
+    files[date_str] = data
+
+    found: list[tuple[str, dict]] = []           # (تاريخ الملف، الموضوع)
+    for day, doc in files.items():
+        for t in doc.get("topics", []):
+            if t.get("selection_status") == "returned":
+                found.append((day, t))
+    found.sort(key=lambda row: row[1].get("returned_at") or "")
+    copies: list[dict] = []
+    touched: set[str] = set()
+    for day, t in found:
+        copy = {k: v for k, v in t.items()
+                if k not in ("selection_status", "selection_issue", "returned")}
+        copy["point_ids"] = _remap_point_ids(t, day, date_str, cfg)
+        copy["selection_status"] = None
+        copy["selection_issue"] = None
+        copy["moved_from"] = day
+        t["selection_status"] = "moved"
+        t["moved_to"] = date_str
+        copies.append(copy)
+        touched.add(day)
+    # ملف اليوم يحفظه المستدعي (open_selection) مرة واحدة بعد الربط بالقضية.
+    for day in touched - {date_str}:
+        _save_topics_raw(day, files[day])
+    data["topics"] = copies + data.get("topics", [])
+    return copies
+
+
 def open_selection(cfg=None, date_str: str | None = None, now: datetime | None = None) -> dict:
     """المرحلة قبل الرابعة (Issue #1104): تُستدعى من main() بعد save_output
     -- تعرض أعلى youtube.article.count قضية للاختيار البشري بدل الكتابة
     الفورية التي كانت تقع في src/youtube_article.py. لا تمسّ منطق العنقدة
     نفسه (run() أعلاه) ولا سقوفه -- تقرأ مخرجه المحفوظ فقط، وتعيد كتابة نفس
-    الملف بعد تعليم القضايا المعروضة بمعرّف وحالة (انظر توثيق القسم أعلاه)."""
+    الملف بعد تعليم القضايا المعروضة بمعرّف وحالة (انظر توثيق القسم أعلاه).
+
+    **المواضيع المُعادة (Issue #1187):** قبل اختيار مواضيع اليوم تُنقل إلى
+    بداية القائمة نسخٌ من كل موضوع أعاده المراجع من المرحلة 2 أو 3
+    (_carry_returned_topics)، وتُعرض في أعلى القضية **خارج** سقف
+    youtube.article.count (السقف على المواضيع الجديدة وحدها)، ثم تسري عليها
+    قواعد ملف اليوم كأي موضوع."""
     cfg = cfg or load_config()
     now = now or datetime.now(timezone.utc)
     date_str = date_str or now.strftime("%Y-%m-%d")
     count = cfg.path("youtube.article.count", 10)
 
     data = _load_topics_raw(date_str)
+    returned = _carry_returned_topics(data, date_str, cfg, now)
     # قضية عُرضت في تشغيلة سابقة (تحمل selection_status بالفعل) لا تُعرَض
     # ثانيةً -- كتابة الملف من جديد بعد تشغيلة سابقة يجب ألا تفتح Issue
     # اختيار مكرّرًا لنفس القضايا.
-    candidates = [t for t in data.get("topics", []) if not t.get("selection_status")][:count]
+    carried = {id(t) for t in returned}
+    fresh = [t for t in data.get("topics", [])
+             if not t.get("selection_status") and id(t) not in carried][:count]
+    candidates = returned + fresh
     if not candidates:
         return {"issue": None, "topics": []}
 
     points, _ = prepare_window_points(date_str, cfg)
 
-    for idx, t in enumerate(candidates):
+    # معرّف الموضوع الجديد من فهرسه بين الجدد وحدهم: المُعاد يحتفظ بمعرّفه
+    # الأصلي، وإدخاله في العدّ كان سيزيح معرّفات مواضيع اليوم.
+    for idx, t in enumerate(fresh):
         t["id"] = _topic_id(date_str, idx)
+    for t in candidates:
         t["created_at"] = now.isoformat()
         t["selection_status"] = "pending"
         t["selection_issue"] = None
@@ -1131,7 +1225,7 @@ def open_selection(cfg=None, date_str: str | None = None, now: datetime | None =
     return {"issue": issue, "topics": candidates}
 
 
-def finalize_selection(issue_number: int, body: str, cfg) -> dict:
+def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> dict:
     """يُستدعى عند اعتماد Issue اختيار مواضيع التحليل (وسم youtube-selection
     + approved، عبر publish.cmd_youtube_selection -- Issue #1104). يحسم كل
     قضية عُرضت في هذا الـIssue وما زالت pending: معلَّمة ⇐ selected، غير
@@ -1140,7 +1234,12 @@ def finalize_selection(issue_number: int, body: str, cfg) -> dict:
     استعمال هذه الآلية بعينها) كي لا تُقترَح ثانيةً. **لا كتابة هنا إطلاقًا**
     -- تعيد فقط دفعة هذه التشغيلة (سقف youtube.article.max_per_run إن وُجد)
     وما تبقّى بعدها؛ الكتابة الفعلية مسؤولية المستدعي (publish.py، عبر
-    youtube_article._write_one_topic لكل قضية في to_write)."""
+    youtube_article._write_one_topic لكل قضية في to_write).
+
+    ``is_reusable(topic) -> bool`` (Issue #1187، يمرّرها publish): موضوع مُعاد
+    له مسودة returned تُعاد كما هي بلا كتابة، فلا يُحتسب ضمن
+    youtube.article.max_per_run — السقف لتكلفة الكتابة وهنا لا كتابة. تأتي
+    هذه المواضيع أولًا في to_write، والسقف على الباقي وحده."""
     m = SELECTION_DATE_RE.search(body)
     if not m:
         log.error("Issue #%s: لا علامة تاريخ اختيار (<!-- selection-date:... -->) "
@@ -1185,11 +1284,13 @@ def finalize_selection(issue_number: int, body: str, cfg) -> dict:
 
     selected = [t for t in offered if t.get("selection_status") == "selected"]
     max_per_run = cfg.path("youtube.article.max_per_run")
+    reused = [t for t in selected if is_reusable and is_reusable(t)]
+    rest = [t for t in selected if t not in reused]
     if max_per_run:
         cap = int(max_per_run)
-        to_write, still_waiting = selected[:cap], selected[cap:]
+        to_write, still_waiting = reused + rest[:cap], rest[cap:]
     else:
-        to_write, still_waiting = selected, []
+        to_write, still_waiting = reused + rest, []
 
     return {"date_str": date_str, "to_write": to_write, "still_waiting": still_waiting,
             "unselected_now": unselected_now}
@@ -1213,6 +1314,25 @@ def mark_topics_attempted(date_str: str, topic_ids: set[str]) -> None:
             changed = True
     if changed:
         _save_topics_raw(date_str, data)
+
+
+def mark_topic_returned(topic_date: str, topic_id: str, draft_id: str, stage: int,
+                        returned_at: str) -> dict | None:
+    """go1 للتحليل (Issue #1187، publish.return_to_selection): يجعل موضوع
+    المقال في ملف تاريخه selection_status="returned" مع returned=True ومرحلة
+    العودة ولحظتها ومعرّف المسودة. النسخة "moved" (أصل نُقل سابقًا إلى ملف
+    آخر) لا تُمسّ — الحيّ هو النسخة الأحدث. يعيد الموضوع المحدَّث، أو None
+    إن لم يوجد في الملف (حُذف أو لم يُكتب) فلا يُعاد المقال."""
+    data = _load_topics_raw(topic_date)
+    live = [t for t in data.get("topics", [])
+            if t.get("id") == topic_id and t.get("selection_status") != "moved"]
+    if not live:
+        return None
+    t = live[-1]
+    t.update(selection_status="returned", returned=True, returned_from_stage=stage,
+             returned_at=returned_at, draft_id=draft_id)
+    _save_topics_raw(topic_date, data)
+    return t
 
 
 def main() -> int:

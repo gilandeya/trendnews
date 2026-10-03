@@ -130,7 +130,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import cards, publish, review, store, youtube_article, youtube_cluster, youtube_extract
+from . import cards, publish, review, stages, store, youtube_article, youtube_cluster, youtube_extract
 from .config import DRAFTS_DIR, env, load_config
 
 log = logging.getLogger(__name__)
@@ -538,6 +538,12 @@ def build_draft_from_text(topic: dict, text: str, video_ids: list[str],
         "source": {"link": "", "publishers": topic["channels"]},
         "score": compute_score(topic["blocs"], topic["channels"], topic["agreement"], cfg),
         "source_videos": video_ids,
+        # رابطة الموضوع (Issue #1187): بها يعود المقال إلى الترشيح (go1) فيجد
+        # موضوعه في ملف تاريخه، وبها يُعاد استعماله حين يُختار الموضوع ثانية
+        # بلا كتابة جديدة. المسودات القديمة (build_draft/build_draft_from_text
+        # قبل هذا الإصدار) بلا الحقلين فلا تعود ولا يظهر لها go1.
+        "topic_id": topic["id"],
+        "topic_date": date_str,
     }
 
 
@@ -620,9 +626,19 @@ def ensure_title_card(path: Path, draft: dict, cfg) -> bool:
     # الحقل). هذه المحاولة لا تطبّق حارس الوجه في _photo_candidates أعلاه --
     # نفس السلسلة العامة المستعملة في كل مسارات المشروع الأخرى، بلا فحص وجه
     # إضافي هنا (القاعدة القديمة تبقى كما هي في _photo_candidates وحدها).
+    #
+    # رابط يدوي (Issue #1187): صورة الصقها المراجع في حقل المرحلة 2 قبل بناء
+    # البطاقة (setimage.apply_image تحفظها manual_image وتتجنّب البناء). هي
+    # اختيار بشري صريح فتغلب كل درجات السلّم كما في الأخبار: تُمرَّر وحدها في
+    # image_urls، ولا مزوّد خبر ولا حرّ يُستدعى (cards.ensure يمنع بحث الويب
+    # والبديل العام معها). بدونها image_urls=None بنيويًا كما كان.
+    manual = draft.get("manual_image")
+    if manual:
+        news_photo_provider = None
+        free_photo_provider = None
     new_rel = cards.ensure(
         path, draft, cfg, headline=headline,
-        image_urls=None, search_term=image_query_en,
+        image_urls=[manual] if manual else None, search_term=image_query_en,
         news_photo_provider=news_photo_provider,
         fallback_provider=free_photo_provider,
         publisher=image_source_line(draft["channels"], cfg),
@@ -663,6 +679,18 @@ parse_headline_choice = review.parse_headline_choice
 
 
 def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> str:
+    """نص قضية المرحلة 2 للتحليل (Issue #1187، المهمة 3 من توحيد المراحل) —
+    الشكل نفسه الذي ثبّته #1182 لقضية الأخبار (review.build_issue_body): رأس
+    stages.stage_header وشرح stages.explainer، ولا مربع فوق بيانات أي مقال.
+    ترتيب المقال: العنوان (علامة draft: وحدها) ← الشارات والقنوات والدرجة
+    والتنبيهات ← الصورة إن وُجدت مع سطر مصدرها الداخلي ← نص المقال
+    (<details>) ← اختيار العنوان (hl:) ← حقل رابط الصورة ← كتلة الانتقال.
+    الانتقال كله بعلامات go: (stages.options_block)؛ go1 لمن يحمل topic_id
+    وحده (review.has_stage1). الدوال المشتركة (caption_details/headline_boxes/
+    image_source_line/raw_url) من review.py؛ يبقى هنا ما يخصّ التحليل وحده
+    (الدرجة المركّبة، القنوات والكتل، تنبيهات المراجعة، معاينة توفّر الصورة)."""
+    if cfg is None:
+        cfg = load_config()
     tier_counts: dict[int, int] = {}
     cross_source_count = 0
     warnings_total = 0
@@ -677,26 +705,21 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
     health = (f"{len(drafts)} مقالات · الكتل المتقاطعة: {tiers_text} · خلاف قنوات={cross_source_count} · "
               f"تنبيهات={warnings_total}")
 
-    max_per_run = cfg.path("youtube.publish.max_per_run", 3) if cfg else 3
-    spacing = cfg.path("youtube.publish.spacing_minutes", 40) if cfg else 40
+    max_per_run = cfg.path("youtube.publish.max_per_run", 3)
+    spacing = cfg.path("youtube.publish.spacing_minutes", 40)
 
     parts = [
-        "### 📰 مراجعة مقالات تحليلية من القنوات",
+        stages.stage_header(2, cfg),
+        "",
+        cfg.path("stages.explainer", ""),
         "",
         f"**{health}**",
         "",
-        "**كيف تعتمد؟** ✔️ ضع علامة على المقالات التي توافق عليها، ثم أضف "
-        "الوسم `approved` إلى هذا الـ Issue. "
-        f"سيُنشر البوت حتى {max_per_run} مقالات "
-        f"مؤشَّرة لكل تشغيلة، بفاصل {spacing:g} دقيقة بين كل منشور والتالي؛ "
-        "الباقي ينتظر تشغيلة يدوية لاحقة بنفس الوسم.",
-        "",
-        "إغلاق الـ Issue بلا وسم = تجاهل الكل.",
-        "",
-        "🎴 ✔️ وحده = تُبنى البطاقة ويُنشر فورًا. مع 🎴 = تُبنى البطاقة "
-        "وتُعرض عليك في Issue ثانٍ قبل النشر.",
-        "",
-        "🚫 **ما لا تعلّمه لن يُنشر** ويُسجَّل مرفوضًا تلقائيًا.",
+        # سقف النشر وتباعده خاصّان بالتحليل (publish_ids) فيبقيان هنا لا في
+        # الشرح الموحَّد.
+        f"سيُنشر البوت حتى {max_per_run} مقالات مؤشَّرة لكل تشغيلة، بفاصل "
+        f"{spacing:g} دقيقة بين كل منشور والتالي؛ الباقي ينتظر تشغيلة يدوية "
+        "لاحقة بنفس الوسم.",
         "",
         "✏️ لتعديل نصّ منشور: حرّر هذا الـIssue واكتب داخل كتلة النص مباشرة. "
         "النصّ الذي أراه لحظة الاعتماد هو ما يُنشر. ملاحظة: تعديل النص لا "
@@ -713,25 +736,37 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
             f"{'، '.join(d['channels'])} · "
             f"{_AGREEMENT_LABELS.get(d['agreement'], d['agreement'])}"
         )
-        # درجة الأهمية ومكوّناتها (نصّ الـIssue #680) -- لماذا رُتِّب هذا
-        # المقال هكذا، لا الرقم وحده.
+        # درجة الأهمية ومكوّناتها (Issue #680) -- لماذا رُتِّب هذا المقال هكذا،
+        # لا الرقم وحده.
         score_line = "  " + score_breakdown_text(d["blocs"], d["channels"], d["agreement"], cfg)
+        # العنوان بلا مربع؛ علامة draft: تبقى عليه وحدها كي يجد
+        # review.all_draft_ids معرّفات القضية.
         parts += [
-            f"- [ ] **{idx}. {d['title']}**  <!-- draft:{d['id']} -->",
-            "",
-            # مربع 🎴 (Issue #1000): نفس علامة/صيغة review.CARD_MARKER
-            # حرفيًا (review.parse_card_requests تقرأه بلا أي تعديل هناك)،
-            # غير معلَّم افتراضيًا -- النشر المباشر عند الاعتماد يبقى الأصل،
-            # كما في مسار الأخبار (review.build_issue_body).
-            f"  - [ ] 🎴 اعرض البطاقة قبل النشر  <!-- card:{d['id']} -->",
+            f"**{idx}. {d['title']}**  <!-- draft:{d['id']} -->",
             "",
             meta_line,
             "",
             score_line,
             "",
-            f"  {review.image_source_line(d)}",
-            "",
         ]
+        if d.get("warnings"):
+            # هذا بالضبط ما يجعل المراجعة حقيقية (Issue #676) — عدد التنبيهات
+            # ونصّها كاملًا، لا مجرّد إشارة صامتة.
+            parts.append(f"  ⚠️ **{len(d['warnings'])} تنبيه/تنبيهات للمراجعة:**")
+            parts.append("")
+            parts += [f"  - {w}" for w in d["warnings"]]
+            parts.append("")
+        # سطر مصدر الصورة يظهر دومًا: قبل البناء يقول إن البطاقة لم تُبنَ (أو
+        # إن رابطًا يدويًا محفوظًا سيُستعمل)، وبعده مصدر الصورة الفعلي.
+        parts += [f"  {review.image_source_line(d)}", ""]
+        img_path = d.get("image")
+        if img_path:
+            parts += [
+                f"  <img src=\"{review.raw_url(repo, branch, img_path)}\" width=\"520\" />",
+                "",
+                f"  ↳ [الصورة في المستودع]({review.blob_url(repo, branch, img_path)})",
+                "",
+            ]
         if d.get("has_photo") is False:
             # نفس مبدأ تحذير "بلا صورة" في review.build_issue_body للمسار
             # العام (Issue #732) -- لكن منقولًا هنا إلى ما قبل الاعتماد، لأن
@@ -749,43 +784,23 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
                 parts.append("  🖼️ **بلا صورة تعبيرية متاحة حاليًا** — ستُبنى البطاقة "
                              "على خلفية مصممة.")
             parts.append("")
-        if d.get("warnings"):
-            # هذا بالضبط ما يجعل المراجعة حقيقية (نصّ الـIssue #676) — عدد
-            # التنبيهات ونصّها كاملًا، لا مجرّد إشارة صامتة.
-            parts.append(f"  ⚠️ **{len(d['warnings'])} تنبيه/تنبيهات للمراجعة:**")
-            parts.append("")
-            parts += [f"  - {w}" for w in d["warnings"]]
-            parts.append("")
-        headlines = d.get("headlines") or []
-        if headlines:
-            # عناوين بديلة (Issue #680) -- الأول (سؤال) معلَّم افتراضيًا؛
-            # المالك يبدّل العلامة إلى بديل آخر، أو يترك الافتراضي كما هو.
-            # لا صورة هنا إطلاقًا (Issue المراجعة يُفتح بلا صور — انظر توثيق
-            # الوحدة أعلاه)؛ البطاقة تُبنى لاحقًا للمختار فقط بعد الوسم.
-            selected = d.get("headline_selected", 0)
-            parts.append("  🏷️ **العناوين المقترحة** (علّم المختار، الأول افتراضي):")
-            parts.append("")
-            for h_idx, headline in enumerate(headlines):
-                mark = "x" if h_idx == selected else " "
-                parts.append(f"  - [{mark}] {h_idx + 1}. {headline}  <!-- hl:{d['id']}:{h_idx} -->")
-            parts.append("")
+        parts += review.caption_details(d, "📝 نص المقال كاملًا")
+        # عناوين بديلة (Issue #680) -- الأول (سؤال) معلَّم افتراضيًا؛ المالك
+        # يبدّل العلامة إلى بديل آخر. لا صورة هنا إطلاقًا قبل الاعتماد؛
+        # البطاقة تُبنى لاحقًا للمختار فقط.
+        parts += review.headline_boxes(
+            d, "🏷️ **العناوين المقترحة** (علّم المختار، الأول افتراضي):")
         parts += [
-            "  <details><summary>📝 نص المقال كاملًا</summary>",
+            stages.image_field(d["id"], cfg),
             "",
-            f"  <!-- cap:{d['id']} -->",
-            "  ```",
-            *[f"  {line}" for line in d["caption"].splitlines()],
-            "  ```",
-            f"  <!-- /cap:{d['id']} -->",
-            "",
-            "  </details>",
+            *stages.options_block(2, d["id"], cfg, has_stage1=review.has_stage1(d)),
             "",
             "---",
             "",
         ]
 
     parts.append(
-        "<sub>وسم `approved` = نشر المؤشَّر (بسقف وتباعد) · "
+        "<sub>وسم `approved` = تنفيذ المعلَّم (بسقف وتباعد للنشر) · "
         "إغلاق الـ Issue = تجاهل الكل</sub>"
     )
     return "\n".join(parts)
@@ -907,6 +922,7 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
 
 def publish_ids(ids: list[str], headline_choices: dict[str, int], cfg,
                 body: str = "", issue_number: int | None = None,
+                go3_ids: set[str] | None = None,
                 ) -> tuple[list[str], int, int, list[str]]:
     """ينشر دفعة معرّفات مسودات يوتيوب معتمَدة، بسقف youtube.publish.max_per_run
     لكل تشغيلة وتباعد youtube.publish.spacing_minutes بين كل منشور **ناجح
@@ -920,6 +936,11 @@ def publish_ids(ids: list[str], headline_choices: dict[str, int], cfg,
     نشرها الفعلي (مثلًا صورة/حقل مفقود يسجّله publish_one كـfailed) تمرّ
     فورًا إلى التالية بلا انتظار — عطل حقيقي وقع (Issue #740): مسودات فشلت
     فورًا كانت تُهدر فاصل التشغيلة الثابت كاملًا كأنها نشرت بنجاح.
+
+    **خيار go3 (Issue #1187، كان مربع 🎴 في #1000):** المعرّفات المطلوب عرض
+    بطاقتها قبل النشر تأتي ``go3_ids`` من المستدعي (publish.main قرأها
+    بـstages.read_actions)؛ إن لم تُمرَّر قُرئت من ``body`` بالقارئ الموحَّد
+    نفسه (علامات go: أو الترجمة القديمة لقضية مفتوحة قبل التحديث).
 
     **مربع 🎴 (Issue #1000):** ``body``/``issue_number`` اختياريان (افتراضيًا
     فارغ/None) لأن ``publish.cmd_revival`` يستدعي هذه الدالة بجسم Issue
@@ -936,7 +957,9 @@ def publish_ids(ids: list[str], headline_choices: dict[str, int], cfg,
     spacing_minutes = float(cfg.path("youtube.publish.spacing_minutes", 40))
 
     lines: list[str] = []
-    card_requests = review.parse_card_requests(body) & set(ids)
+    if go3_ids is None:
+        go3_ids = {i for i, a in stages.read_actions(body, 2)[0].items() if a == "go3"}
+    card_requests = go3_ids & set(ids)
     if card_requests:
         built_ids: list[str] = []
         for draft_id in ids:
@@ -1017,12 +1040,29 @@ def report_batch(issue_number: int, lines: list[str], published: int, attempted:
 def publish_approved(issue_number: int, cfg) -> int:
     """ينشر ما عُلِّم عليه في Issue مراجعة يوتيوب (وسم approved، موحَّد مع
     المسار العام منذ Issue #745).
-    التنسيق الفعلي (سقف/تباعد/بناء البطاقة) في publish_ids أعلاه."""
+    التنسيق الفعلي (سقف/تباعد/بناء البطاقة) في publish_ids أعلاه.
+
+    القراءة بـstages.read_actions(body, 2) (Issue #1187): publish = الاعتماد
+    وحده، go3 = الاعتماد + البطاقة، go1 = العودة إلى الترشيح (من المسار العادي
+    نفسه، publish.return_to_selection)؛ وقضية قديمة بمربعات draft:/card: تُقرأ
+    بالترجمة القديمة نفسها."""
     body = review.fetch_issue_body(issue_number)
-    ids = review.parse_approved(body)
+    actions, conflicts = stages.read_actions(body, 2)
+    all_ids = review.all_draft_ids(body)
+    ids = [i for i in all_ids if actions.get(i) in ("publish", "go3")]
+    go3_ids = {i for i in ids if actions[i] == "go3"}
+    go1_ids = [i for i in all_ids if actions.get(i) == "go1"]
+    publish.report_conflicts(issue_number, conflicts, 2, cfg)
+    if go1_ids:
+        returned = publish.return_to_selection(go1_ids, 2)
+        if returned:
+            review.comment(issue_number, "### ↩️ عودة إلى الترشيح\n" + "\n".join(returned))
     if not ids:
+        if go1_ids:
+            review.close_issue(issue_number)
+            return 0
         review.comment(issue_number,
-                       "⚠️ لم يُعلَّم على أي مقال. أضف ✔️ ثم أعد وسم `approved`.")
+                       "⚠️ لم يُعلَّم على أي مقال. علّم خيار انتقال تحت المقال ثم أعد وسم `approved`.")
         review.remove_label(issue_number, "approved")
         return 0
 
@@ -1031,7 +1071,8 @@ def publish_approved(issue_number: int, cfg) -> int:
     headline_choices = parse_headline_choice(body)
 
     lines, published, attempted, remaining = publish_ids(
-        ids, headline_choices, cfg, body=body, issue_number=issue_number)
+        ids, headline_choices, cfg, body=body, issue_number=issue_number,
+        go3_ids=go3_ids)
     report_batch(issue_number, lines, published, attempted, remaining, cfg)
     return 0
 
