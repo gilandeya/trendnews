@@ -1377,6 +1377,27 @@ g1–g25 بلا تعديل وشروط `false` لم تُرخَ.
   عبر html_sink) و`late_html` (لا يمرّ، يُخدم عبر `extract.fetch_html` المزيَّفة التي لا تمسّ الشبكة)، ويسجّل
   `fetched_html`/`html_sink_seen`.
 
+**المهمة 1ح (Issue #1212) — ثبات عبارات مواقع المدقّقين وذاكرة نتائج البحث.** السبب المقيس (#1201، التشغيلات
+5–7، النقطة 3): عبارة `site:teyit.org` كان يكتبها النموذج فتتغيّر كل تشغيلة، وفعلها وكلمة «teyit» تضيّقان
+`site:` فضاع مقال Teyit في التشغيل 7. التغيير في `src/important.py` + `config.yaml: important` + الاختبارات؛ لا
+`article.py` ولا `.github/workflows/`. g1–g30 بلا تعديل وحارس `false` لم يُرخَ.
+- **عبارات `site:` تُبنى في الكود (`important.site_phrase`):** لكل لغة من `query_langs` النقطة: أرقام النقطة (بصيغة
+  لغتها: 450 ألف ← `450 bin` / `450 thousand` / `450 ألف`، `site_scale_words`؛ ما لا يُختصر إلى ≤3 أرقام معنوية يُكتب
+  بفواصل الآلاف؛ السنوات تُستثنى) ثم كياناتها بصيغة اللغة (`entity_alias_langs` + مجموعات `entity_aliases`؛ الأقرب موضعًا
+  إلى الكيان في المجموعة إن تعدّد، وللعربية الكيان العربي؛ لا صيغة ← الكيان كما هو) بلا فعل ولا سنة ولا كلمة تدقيق،
+  بترتيب ثابت وحدّ `site_query_max_words` (5، بالكلمات، عناصر كاملة). عبارة النموذج احتياط **فقط** لنقطة بلا كيانات
+  ولا أرقام (حينها كما قبل: مع كلمة التدقيق). `factcheck_query` من النموذج تبقى للبحث العادي غير المقيَّد.
+  أُضيفت مجموعة «جنود/soldiers/asker» إلى `entity_aliases`.
+- **ذاكرة النتائج (`state/important/search_cache.json`):** المفتاح `المحرّك|العبارة المطبَّعة (_fold)|النافذة`
+  (`google_news` بـ`days:r|u`، و`brave_web` بـ`-`). تُحفظ نتائج البحث (Article مسلسَلة) **لا نصوص الصفحات** — الجلب بعد
+  الضربة يجري كالمعتاد. ضربة ← لا طلب Brave ولا أخبار Google ولا عدّاد Brave. `important.search_cache_days` (7؛ 0 يعطّلها):
+  تُنظَّف المنتهية عند بناء `_PointSearch` (كل تشغيل) ويُكتب الملف إن تغيّر. لا يُحفظ نتيجة فارغة ولا فشل Brave
+  (`state["failed"]`) كي لا يُثبَّت عطل عابر أسبوعًا. الملف يسجّل `cache_hits` لكل نقطة. ملف الـworkflow المؤقت يحفظ
+  `state/important` كاملًا فتُحفظ الذاكرة معه.
+- **الاختبارات:** `test_important_1212` في `tests/test_important.py` (a–d على الأنبوب). `ImportantRig` (helpers) يمسح ملف
+  الذاكرة عند الدخول والخروج كي لا تتسرّب نتائج اختبار إلى آخر، ويحفظ سجلّ وثائق لإعادة بناء نتائج الذاكرة. عُدّل في
+  `test_important_search_and_extract` تأكيد عبارة teyit.org (كانت عبارة النموذج + «teyit»).
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the

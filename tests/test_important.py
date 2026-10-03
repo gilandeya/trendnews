@@ -1088,8 +1088,9 @@ def test_important_1205() -> None:
           [q.rsplit("site:", 1)[1] for q in sites3] ==
           ["misbar.com", "fatabyyano.net", "teyit.org", "factcheck.afp.com"]
           and len(sites3) == icfg["factcheck_site_queries"], sites3)
-    check("(b) عبارة teyit.org هي عبارة النقطة التركية مع كلمة تدقيق تركية",
-          f"{claim_tr} teyit site:teyit.org" in sites3, sites3)
+    # #1212: عبارة site: تُبنى في الكود من أرقام النقطة وكياناتها لا من عبارة النموذج (بلا كلمة تدقيق)
+    check("(b) عبارة teyit.org مبنيّة في الكود: رقم النقطة وكياناتها بالتركية بلا «teyit»",
+          "450 bin Türkiye Suriye site:teyit.org" in sites3, sites3)
     check("(b) نقطة بالعربية وحدها: عبارتا misbar وfatabyyano فقط",
           [q.rsplit("site:", 1)[1] for q in p1["site_queries"]] == ["misbar.com", "fatabyyano.net"],
           p1["site_queries"])
@@ -1425,3 +1426,103 @@ def test_important_1210() -> None:
     src = inspect.getsource(article)
     check("(d) article.py لا يعرف ClaimReview (مسار «مقال» لم يُمَسّ)",
           "claim_review" not in src.lower())
+
+
+def test_important_1212() -> None:
+    """المهمة 1ح (Issue #1212): عبارات site: تُبنى في الكود، وذاكرة نتائج البحث بين التشغيلات —
+    على الأنبوب كاملًا. نقطة #1201 (3): «أرسلت تركيا 450 ألف جندي إلى سوريا»."""
+    import inspect
+    import json
+    from datetime import datetime, timedelta, timezone
+    from src import article, important
+
+    cfg = load_config()
+    cache_file = important._search_cache_file
+
+    def irrelevant(p, names):
+        return {"sources": [important_stance(x, "irrelevant") for x in names]}
+
+    def supports(p, names):
+        return {"sources": [important_stance(x, "supports", "افتتح الرئيس") for x in names]}
+
+    # (a) عبارات site: ثابتة عبر تشغيلتين مهما أعاد النموذج من factcheck_query وعبارات
+    def run_a(n: int, factcheck: str, queries: list[dict]):
+        pt = {"claim": "أرسلت تركيا 450 ألف جندي إلى سوريا", "framing": "direct",
+              "entities": ["سوريا", "جنود"], "numbers": ["450 ألف"],
+              "queries": queries, "factcheck_query": factcheck}
+        with ImportantRig([pt], {}, irrelevant):
+            important.judge("نص", 98200 + n, cfg)
+        return important.load_saved(98200 + n)["points"][0]["site_queries"]
+
+    s1 = run_a(1, "Türkiye Suriye'ye 450 bin asker gönderdi teyit",
+               [_q("ar", "تركيا 450 ألف جندي سوريا حقيقة"), _q("tr", "Türkiye 450 bin asker Suriye 2026"),
+                _q("en", "Turkey 450 thousand soldiers Syria")])
+    s2 = run_a(2, "Türkiye 450 bin asker Suriye 2026 teyit yaz",
+               [_q("ar", "هل أرسلت تركيا جنودا"), _q("tr", "Türkiye Suriye'ye asker gönderdi mi"),
+                _q("en", "Turkey sent troops Syria 2026")])
+    teyit = [q for q in s1 if q.endswith("site:teyit.org")]
+    check("(a) عبارات site: ثابتة بين تشغيلتين رغم اختلاف ما أعاده النموذج", s1 == s2 and len(s1) == 4, (s1, s2))
+    check("(a) عبارة teyit.org «450 bin Suriye asker» حرفيًا بلا «teyit» ولا سنة ولا فعل",
+          teyit == ["450 bin Suriye asker site:teyit.org"], teyit)
+    check("(a) الإنجليزية والعربية بصيغة لغتهما: 450 thousand / 450 ألف",
+          "450 thousand Syria soldiers site:factcheck.afp.com" in s1
+          and "450 ألف سوريا جنود site:misbar.com" in s1, s1)
+    check("(a) حد site_query_max_words لا يُتجاوز",
+          all(len(q.split(" site:")[0].split()) <= cfg["important"]["site_query_max_words"] for q in s1), s1)
+    check("(a) نقطة بلا كيانات ولا أرقام: العبارة فارغة (احتياط عبارة النموذج في site_queries)",
+          important.site_phrase({"entities": [], "numbers": []}, "tr", cfg["important"]) == "")
+
+    # (b) تشغيلتان بالنص نفسه: الثانية بلا طلب Brave ولا أخبار Google، والأحكام نفسها
+    marker = "كلمةذاكرة"
+    pt = {"claim": f"افتتح الرئيس جسر {marker}", "entities": [marker],
+          "queries": [_q("ar", f"جسر {marker}")]}
+    docs = {marker: [important_doc("صحيفة الشرق", f"افتتح الرئيس جسر {marker} أمس."),
+                     important_doc("موقع الغرب", f"تقرير مستقل عن افتتاح جسر {marker}.")]}
+    brave = {marker: [brave_result("https://b.example/x", f"جسر {marker}", "افتتاح الجسر", "B")]}
+    rig = ImportantRig([pt], docs, supports, brave_results=brave, brave_key="k")
+    with rig:
+        r1 = important.judge("نص", 98210, cfg)
+        g1, b1 = len(rig.searches), len(rig.brave_calls)
+        usage1 = important.brave_usage()
+        r2 = important.judge("نص", 98211, cfg)
+        g2, b2 = len(rig.searches), len(rig.brave_calls)
+        usage2 = important.brave_usage()
+        saved = json.loads(cache_file().read_text(encoding="utf-8"))
+    p1, p2 = r1["points"][0], r2["points"][0]
+    check("(b) التشغيلة الأولى طلبت فعلًا ولم تضرب الذاكرة",
+          g1 > 0 and b1 > 0 and p1["cache_hits"] == 0, (g1, b1, p1["cache_hits"]))
+    check("(b) الثانية: صفر طلب Google وصفر طلب Brave، وعدّاد Brave لم يتحرّك",
+          g2 == g1 and b2 == b1 and usage2 == usage1 and r2["brave"]["requests"] == 0,
+          (g1, g2, b1, b2, usage1, usage2))
+    check("(b) الثانية سجّلت cache_hits، والأحكام نفسها",
+          p2["cache_hits"] > 0 and p2["verdict"] == p1["verdict"] == "confirmed"
+          and [e["publisher"] for e in p2["evidence"]] == [e["publisher"] for e in p1["evidence"]],
+          (p2["cache_hits"], p1["verdict"], p2["verdict"]))
+    check("(b) الملف يحفظ نتائج بحث لا نصوص صفحات",
+          saved["entries"] and all("text" not in d for e in saved["entries"].values() for d in e["results"]),
+          list(saved["entries"])[:2])
+
+    # (c) عنصر عمره 8 أيام ← طلب جديد ويُحذف القديم؛ والمنتهي غير المستعمل يُنظَّف أيضًا
+    rig2 = ImportantRig([pt], docs, supports, brave_results=brave, brave_key="k")
+    with rig2:
+        important.judge("نص", 98212, cfg)
+        n_g, n_b = len(rig2.searches), len(rig2.brave_calls)
+        data = json.loads(cache_file().read_text(encoding="utf-8"))
+        old = (datetime.now(timezone.utc) - timedelta(days=8)).isoformat()
+        stale_key = "brave_web|مفتاح قديم|-"
+        for e in data["entries"].values():
+            e["at"] = old
+        data["entries"][stale_key] = {"at": old, "results": [], "raw_count": 0}
+        cache_file().write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        r3 = important.judge("نص", 98213, cfg)
+        after = json.loads(cache_file().read_text(encoding="utf-8"))["entries"]
+    check("(c) عمر 8 أيام ← طلبات Google وBrave جديدة بلا ضربة",
+          len(rig2.searches) > n_g and len(rig2.brave_calls) > n_b and r3["points"][0]["cache_hits"] == 0,
+          (n_g, len(rig2.searches), n_b, len(rig2.brave_calls)))
+    check("(c) القديم حُذف: كل ما في الملف حديث ولا أثر لمفتاح المنتهي",
+          after and stale_key not in after and all(e["at"] != old for e in after.values()),
+          list(after)[:3])
+
+    # (d) مسار «مقال» لا يعرف الذاكرة
+    check("(d) article.py لا يعرف ذاكرة البحث (مسار «مقال» لم يُمَسّ)",
+          "search_cache.json" not in inspect.getsource(article))

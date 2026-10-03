@@ -1158,6 +1158,7 @@ important:
     - ["الولايات المتحدة", "أمريكا", "امريكا", "USA", "United States", "ABD", "امريكي", "أمريكي"]
     - ["أردوغان", "اردوغان", "إردوغان", "Erdogan", "Erdoğan"]
     - ["بيرقدار", "Baykar", "Bayraktar", "بايكار", "بيرقدار"]
+    - ["جنود", "جندي", "جيش", "soldiers", "soldier", "troops", "asker", "askerler"]
   # نوع الرقم: مليون/million/milyon وكيلومتر/km… — فقرة فيها رقم ونوعه وكلمة من
   # ادّعاء النقطة تُقدَّم عند اختيار المقتطف
   number_unit_aliases:
@@ -1194,6 +1195,24 @@ important:
     tr: ["teyit", "doğrulama", "yalanlama"]
     en: ["fact check"]
   factcheck_site_queries: 4   # سقف عبارات site: لكل نقطة (كل عبارة طلب Brave في عدّاد «هام»)
+  # Issue #1212: عبارة site: تُبنى في الكود لا بالنموذج — أرقام النقطة ثم كياناتها بصيغة لغة الموقع،
+  # بلا فعل ولا سنة ولا كلمة تدقيق (عبارة النموذج تتغيّر كل تشغيلة، وفعلها يضيّق site: فيضيع المقال).
+  site_query_max_words: 5
+  # صيغ الكيان لكل لغة: عضو مجموعته في entity_aliases الوارد هنا. لا صيغة ← الكيان كما هو.
+  entity_alias_langs:
+    tr: ["Türkiye", "Suriye", "İsrail", "İran", "Irak", "Mısır", "Suudi Arabistan", "Filistin",
+         "Gazze", "Rusya", "Ukrayna", "ABD", "Erdoğan", "Bayraktar", "asker"]
+    en: ["Turkey", "Syria", "Israel", "Iran", "Iraq", "Egypt", "Saudi Arabia", "Palestine",
+         "Gaza", "Russia", "Ukraine", "United States", "Erdogan", "Bayraktar", "soldiers"]
+  # كلمة المقياس لكل لغة (450000 ← 450 bin / 450 thousand / 450 ألف)
+  site_scale_words:
+    "1000": {ar: "ألف", tr: "bin", en: "thousand"}
+    "1000000": {ar: "مليون", tr: "milyon", en: "million"}
+    "1000000000": {ar: "مليار", tr: "milyar", en: "billion"}
+  # Issue #1212: ذاكرة نتائج البحث (state/important/search_cache.json) — المفتاح (المحرّك،
+  # العبارة المطبَّعة، النافذة)؛ تُحفظ النتائج لا نصوص الصفحات هذا العدد من الأيام. ضربة ← لا طلب
+  # Brave ولا أخبار Google ولا عدّاد. 0 يعطّلها.
+  search_cache_days: 7
   # زمن صيغة التصحيح (as_of) مقابل زمن النقطة: كل مجموعة كلمات تعني فترة واحدة. صيغة
   # فيها فترة (أكتوبر) لا تطابق نقطة «نهاية 2025»؛ وبلا فترة تكفي السنة.
   period_groups:

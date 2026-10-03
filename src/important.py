@@ -29,7 +29,7 @@ import os
 import re
 import unicodedata
 from decimal import Decimal, InvalidOperation
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from urllib.parse import urlparse
 
 import requests
@@ -860,10 +860,12 @@ def brave_web_articles(query: str, cfg, state: dict) -> list[Article]:
             timeout=15)
         if resp.status_code != 200:
             log.info("Brave web: HTTP %s", resp.status_code)
+            state["failed"] = True
             return []
         results = (((resp.json() or {}).get("web") or {}).get("results")) or []
     except (requests.RequestException, ValueError) as exc:
         log.info("Brave web: تعذّر البحث: %s", exc)
+        state["failed"] = True
         return []
     now = datetime.now(timezone.utc)
     out: list[Article] = []
@@ -882,6 +884,7 @@ def brave_web_articles(query: str, cfg, state: dict) -> list[Article]:
 
 # ───────────────────────────── جمع الأدلة لنقطة ─────────────────────────────
 
+_AR_CHAR_RE = re.compile(r"[\u0600-\u06FF]")
 _YEAR_RE = re.compile(r"(?<!\d)(1[89]\d\d|20\d\d)(?!\d)")
 _AR_DIGITS = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789")
 
@@ -896,6 +899,146 @@ def _oldest_age_days(dates: list[str]) -> int | None:
         return None
     return (datetime.now(timezone.utc)
             - datetime(min(years), 12, 31, tzinfo=timezone.utc)).days
+
+
+# ───────────────────── ذاكرة نتائج البحث (Issue #1212) ─────────────────────
+
+def _search_cache_file():
+    # يُحسب عند النداء لا عند الاستيراد: IMPORTANT_DIR قد يُوجَّه إلى مجلد مؤقت في الاختبارات
+    return IMPORTANT_DIR / "search_cache.json"
+
+
+def _cache_phrase(phrase: str) -> str:
+    """عبارة مطبَّعة للمفتاح: «Türkiye 450 bin» و«turkiye  450 BIN» عبارة واحدة."""
+    return " ".join(_fold(phrase).split())
+
+
+def _cache_key(engine: str, phrase: str, window: str) -> str:
+    return f"{engine}|{_cache_phrase(phrase)}|{window}"
+
+
+def _article_to_dict(a) -> dict:
+    pub = getattr(a, "published", None)
+    return {"title": str(getattr(a, "title", "") or ""), "link": str(getattr(a, "link", "") or ""),
+            "summary": str(getattr(a, "summary", "") or ""),
+            "source_name": str(getattr(a, "source_name", "") or ""),
+            "publisher": str(getattr(a, "publisher", "") or ""),
+            "region": str(getattr(a, "region", "") or ""),
+            "weight": float(getattr(a, "weight", 1.0) or 1.0),
+            "published": pub.isoformat() if isinstance(pub, datetime) else "",
+            "image_url": getattr(a, "image_url", None),
+            "image_candidates": list(getattr(a, "image_candidates", []) or [])}
+
+
+def _article_from_dict(d: dict) -> Article:
+    try:
+        pub = datetime.fromisoformat(d.get("published") or "")
+    except ValueError:
+        pub = datetime.now(timezone.utc)
+    art = Article(title=d.get("title", ""), link=d.get("link", ""), summary=d.get("summary", ""),
+                  source_name=d.get("source_name", ""), region=d.get("region", ""),
+                  weight=float(d.get("weight", 1.0)), published=pub,
+                  image_url=d.get("image_url"), publisher=d.get("publisher", ""))
+    art.image_candidates = list(d.get("image_candidates") or [])
+    return art
+
+
+def load_search_cache(icfg) -> dict:
+    """يقرأ الذاكرة ويُسقط المنتهية (أقدم من important.search_cache_days) ويكتب الملف إن
+    تغيّر شيء — فالتنظيف يجري عند كل تشغيل بلا مهمة منفصلة."""
+    try:
+        data = json.loads(_search_cache_file().read_text(encoding="utf-8"))
+        entries = data.get("entries") if isinstance(data, dict) else None
+        entries = entries if isinstance(entries, dict) else {}
+    except (OSError, ValueError):
+        return {}
+    limit = timedelta(days=float(icfg.get("search_cache_days", 7)))
+    now = datetime.now(timezone.utc)
+    live = {}
+    for k, e in entries.items():
+        try:
+            at = datetime.fromisoformat(e["at"])
+            if at.tzinfo is None:
+                at = at.replace(tzinfo=timezone.utc)
+        except (KeyError, TypeError, ValueError):
+            continue
+        if now - at <= limit:
+            live[k] = e
+    if len(live) != len(entries):
+        save_search_cache(live)
+    return live
+
+
+def save_search_cache(entries: dict) -> None:
+    path = _search_cache_file()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps({"entries": entries}, ensure_ascii=False, indent=1), encoding="utf-8")
+    os.replace(tmp, path)
+
+
+# ───────────────── عبارات site: تُبنى في الكود (Issue #1212) ─────────────────
+
+def _group_members(entity: str, icfg) -> list[str]:
+    """أعضاء مجموعة entity_aliases (بحروفهم الأصلية) التي يطابق الكيان أحدها، وإلا []."""
+    folded = " ".join(_WORD_RE.findall(_fold(entity)))
+    for group in icfg.get("entity_aliases") or []:
+        members = [str(m) for m in group or []]
+        if folded and folded in [" ".join(_WORD_RE.findall(_fold(m))) for m in members]:
+            return members
+    return []
+
+
+def _entity_in_lang(entity: str, lang: str, icfg) -> str:
+    """صيغة الكيان بلغة lang: عضو مجموعته الوارد في entity_alias_langs[lang]، وإن تعدّد
+    فالأقرب موضعًا إلى الكيان داخل المجموعة («غزة» ← «Gaza» لا «Palestine»). للعربية: الكيان
+    إن كان عربيًا وإلا أول عضو عربي. لا صيغة بتلك اللغة ← الكيان كما هو."""
+    members = _group_members(entity, icfg)
+    if lang == "ar":
+        if _AR_CHAR_RE.search(entity):
+            return entity
+        return next((m for m in members if _AR_CHAR_RE.search(m)), entity)
+    wanted = {_fold(w) for w in (icfg.get("entity_alias_langs") or {}).get(lang) or []}
+    folded = " ".join(_WORD_RE.findall(_fold(entity)))
+    pos = next((i for i, m in enumerate(members)
+                if " ".join(_WORD_RE.findall(_fold(m))) == folded), 0)
+    cands = [(abs(i - pos), i, m) for i, m in enumerate(members) if _fold(m) in wanted]
+    return min(cands)[2] if cands else entity
+
+
+def _number_in_lang(value: Decimal, lang: str, icfg) -> str:
+    """رقم بصيغة لغته: 450000 ← «450 bin» (tr) / «450 thousand» (en) / «450 ألف» (ar). بلا كلمة
+    مقياس لتلك اللغة، أو إن لم يُختصر إلى ≤3 أرقام معنوية (86092168)، يُكتب بفواصل الآلاف."""
+    words = icfg.get("site_scale_words") or {}
+    for factor in sorted((Decimal(str(k)) for k in words), reverse=True):
+        if abs(value) >= factor:
+            word = (words.get(str(int(factor))) or {}).get(lang)
+            q = value / factor
+            if word and _sig_digits(q) <= 3:
+                return f"{format(q.normalize(), 'f')} {word}"
+            break
+    return format_value(value)
+
+
+def site_phrase(f: dict, lang: str, icfg) -> str:
+    """عبارة بحث مواقع المدقّقين للغة lang من كيانات النقطة وأرقامها وحدها — بلا فعل ولا سنة
+    ولا كلمة تدقيق، بترتيب ثابت (الأرقام ثم الكيانات) وحدّ site_query_max_words. تُبنى في
+    الكود لأن عبارة النموذج تتغيّر كل تشغيلة وفعلها يضيّق site:. فارغة إن لم يكن للنقطة
+    كيان ولا رقم."""
+    limit = int(icfg.get("site_query_max_words", 5))
+    parts: list[str] = []
+    for n in f.get("numbers") or []:
+        parts += [_number_in_lang(v, lang, icfg) for v, is_year in parse_numbers(str(n), icfg)
+                  if not is_year]
+    parts += [_entity_in_lang(str(e), lang, icfg) for e in f.get("entities") or [] if str(e).strip()]
+    out: list[str] = []
+    used = 0
+    for p in dict.fromkeys(parts):
+        n = len(p.split())
+        if used + n <= limit:
+            out.append(p)
+            used += n
+    return " ".join(out)
 
 
 def _tag(docs: list[dict], engine: str, **extra) -> list[dict]:
@@ -920,6 +1063,8 @@ class _Collected:
         self.brave_skipped: str | None = None
         # نتائج مدقّقين استُبعدت قبل الجلب لعدم اشتراكها مع النقطة بكيان ولا رقم (#1207)
         self.checker_skipped: list[dict] = []
+        # بحوث أُجيبت من ذاكرة النتائج بلا طلب شبكة (#1212)
+        self.cache_hits = 0
 
 
 class _PointSearch:
@@ -944,10 +1089,39 @@ class _PointSearch:
             verify_draft._normalized_words(body),
             int(acfg.get("brief_reprint_min_shared_words", 40)))
         self._cache: dict[tuple, tuple] = {}
+        # ذاكرة نتائج البحث على القرص بين التشغيلات (#1212)؛ تحميلها ينظّف المنتهية
+        self._disk = load_search_cache(icfg) if int(icfg.get("search_cache_days", 7)) > 0 else None
+        self.cache_hits = 0
         self._resolved: dict[str, str] = {}
         self.brave = {"requests": 0, "skipped": None}
         # HTML خام لصفحات fact_check_domains وحدها، من الجلب نفسه (#1210)؛ None = جُرِّب جلب إضافي وفشل
         self.html: dict[str, str | None] = {}
+
+    def _cache_get(self, engine: str, phrase: str, window: str):
+        """نتائج بحث محفوظة (بلا نصوص صفحات) أو None. الضربة لا تطلب شيئًا من المحرّك
+        ولا تدخل عدّاد Brave."""
+        if self._disk is None:
+            return None
+        e = self._disk.get(_cache_key(engine, phrase, window))
+        if not e:
+            return None
+        arts = [_article_from_dict(d) for d in e.get("results") or []]
+        self.cache_hits += 1
+        if engine == "google_news":
+            return evidence._search_result(arts, int(e.get("raw_count", len(arts))),
+                                           int(e.get("matched_count", len(arts))))
+        return arts
+
+    def _cache_put(self, engine: str, phrase: str, window: str, results) -> None:
+        """يحفظ نتيجة غير فارغة فقط: صفر نتائج قد يكون عطلًا عابرًا فلا يُثبَّت أسبوعًا."""
+        if self._disk is None or not results:
+            return
+        self._disk[_cache_key(engine, phrase, window)] = {
+            "at": datetime.now(timezone.utc).isoformat(),
+            "raw_count": getattr(results, "raw_count", len(results)),
+            "matched_count": getattr(results, "matched_count", len(results)),
+            "results": [_article_to_dict(a) for a in results]}
+        save_search_cache(self._disk)
 
     def _keep_html(self, url: str, html: str) -> None:
         """مستقبِل html_sink: يحفظ HTML صفحات المدقّقين بنطاقها وحدها (لا ذاكرة لصفحات الباقين)."""
@@ -1002,7 +1176,11 @@ class _PointSearch:
         # النقطة جزء من المفتاح: ترشيح المدقّقين قبل الجلب يتبع كيانات النقطة وأرقامها
         key = (query, unrestricted, relevance_text, days, (f or {}).get("text", ""))
         if key not in self._cache:
-            ranked = evidence.search(query, self.cfg, days, unrestricted=unrestricted)
+            window = f"{days}:{'u' if unrestricted else 'r'}"
+            ranked = self._cache_get("google_news", query, window)
+            if ranked is None:
+                ranked = evidence.search(query, self.cfg, days, unrestricted=unrestricted)
+                self._cache_put("google_news", query, window, ranked)
             to_fetch, dropped = self._prefilter(ranked, f)
             raw_docs, _basis = evidence.gather_evidence(
                 to_fetch, self.cfg, relevance_text, max_chars=self.page_max_chars,
@@ -1013,7 +1191,13 @@ class _PointSearch:
 
     def run_brave(self, query: str, relevance_text: str, f: dict | None = None,
                   site: bool = False):
-        arts = brave_web_articles(query, self.cfg, self.brave)
+        arts = self._cache_get("brave_web", query, "-")
+        if arts is None:
+            self.brave.pop("failed", None)
+            arts = brave_web_articles(query, self.cfg, self.brave)
+            # فشل الشبكة لا يُحفظ (سيُعاد المحاولة)، والنتيجة الفارغة لا تُحفظ في _cache_put
+            if not self.brave.get("failed"):
+                self._cache_put("brave_web", query, "-", arts)
         if not arts:
             return [], [], []
         to_fetch, dropped = self._prefilter(arts, f, all_checkers=site)
@@ -1060,18 +1244,21 @@ class _PointSearch:
         for lang, sites in sites_by_lang.items():
             if lang not in langs:
                 continue
-            base = " ".join(str(by_lang.get(lang) or factcheck or "").split()[:self.phrase_max_words])
+            # عبارة الكود أولًا (#1212): ثابتة بين التشغيلات؛ عبارة النموذج احتياط لنقطة بلا كيان ولا رقم
+            base = site_phrase(f, lang, self.icfg)
+            if not base:
+                base = " ".join(str(by_lang.get(lang) or factcheck or "").split()[:self.phrase_max_words])
+                words = [str(w) for w in words_by_lang.get(lang) or [] if str(w).strip()]
+                if base and words and not any(_fold(w) in _fold(base) for w in words):
+                    base = f"{base} {words[0]}"
             if not base:
                 continue
-            words = [str(w) for w in words_by_lang.get(lang) or [] if str(w).strip()]
-            low = _fold(base)
-            if words and not any(_fold(w) in low for w in words):
-                base = f"{base} {words[0]}"
             out += [f"{base} site:{site}" for site in sites or []]
         return out[:int(self.icfg.get("factcheck_site_queries", 4))]
 
     def collect(self, f: dict, topic: str) -> _Collected:
         out = _Collected()
+        hits_before = self.cache_hits
         phrases = [" ".join(str(q).split()[:self.phrase_max_words])
                    for q in f.get("queries") or [] if str(q).strip()]
         factcheck = " ".join(str(f.get("factcheck_query") or "").split()[:self.phrase_max_words])
@@ -1134,6 +1321,7 @@ class _PointSearch:
             out.ranked.extend(arts)
             pooled += _tag(evidence.readable_only(bdocs), "brave_web")
         out.brave_skipped = self.brave["skipped"]
+        out.cache_hits = self.cache_hits - hits_before
 
         out.before = len(pooled)
         out.docs = self._finalize(pooled, f)
@@ -1586,7 +1774,7 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
         # asserted عرض فقط: ما قاله النص عن الادّعاء لا يدخل نداء التصنيف ولا الحكم
         "asserted": f.get("asserted", ""),
         "queries": got.queries, "site_queries": got.site_queries, "engines": got.engines, "windows": got.windows,
-        "brave_skipped": got.brave_skipped,
+        "brave_skipped": got.brave_skipped, "cache_hits": got.cache_hits,
         # مدقّقون استُبعدوا قبل الجلب (لا كيان ولا رقم مشترك): لا قراءة ولا ميزانية (#1207)
         "checker_skipped": got.checker_skipped,
         "read_docs": read_docs, "docs_before": got.before, "docs_after": len(docs),
