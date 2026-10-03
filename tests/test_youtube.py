@@ -13,6 +13,7 @@ from PIL import Image
 
 from tests.helpers import (
     check,
+    tick_marker,
     badge_probe_xy,
     reset_last_publish,
     auto_restore_last_publish,
@@ -1879,10 +1880,7 @@ def test_youtube_cluster() -> None:
         chosen_ids = [sel_result["topics"][0]["id"], sel_result["topics"][2]["id"]]
         approve_body = sel_created_issues[0]["body"]
         for cid in chosen_ids:
-            approve_body = re.sub(
-                r"- \[ \](.*?)<!-- topic:" + cid + r" -->",
-                lambda m: f"- [x]{m.group(1)}<!-- topic:{cid} -->",
-                approve_body)
+            approve_body = tick_marker(approve_body, f"<!-- go:go2:{cid} -->")
 
         fin_result = ycl.finalize_selection(4242, approve_body, cfg)
         check("finalize_selection(): تاريخ الاختيار استُخرج صحيحًا من الجسم",
@@ -3714,10 +3712,7 @@ def test_youtube_publish() -> None:
                   sel2_result["topics"][2]["id"]]
         approve_body2 = selection_body
         for cid in chosen2:
-            approve_body2 = re.sub(
-                r"- \[ \](.*?)<!-- topic:" + cid + r" -->",
-                lambda m, cid=cid: f"- [x]{m.group(1)}<!-- topic:{cid} -->",
-                approve_body2)
+            approve_body2 = tick_marker(approve_body2, f"<!-- go:go2:{cid} -->")
 
         # الدفعة الأولى (سقف ٢): الأول ناجح (نداءا نموذج: مقال + عناوين)،
         # الثاني تتخطّاه بوابة الصورة *قبل* أي نداء نموذج، الثالث فوق السقف

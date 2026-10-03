@@ -19,7 +19,7 @@ import os
 import re
 from pathlib import Path
 
-from . import cards, review, store
+from . import cards, preselect, review, store, youtube_cluster
 from .config import DRAFTS_DIR, load_config
 from .imaging import build_post_image, download_image
 
@@ -119,6 +119,37 @@ def rebuild_card(path: Path, draft: dict, headline: str, cfg) -> str | None:
     )
 
 
+def apply_selection_image(item_id: str, url: str, cfg, issue: int = 0,
+                          issue_body: str = "") -> tuple[dict | None, str]:
+    """صورة المرحلة 1 (Issue #1190): الرابط الملصوق في حقل قضية ترشيح يُحفظ
+    manual_image على المرشح (أخبار) أو الموضوع (تحليل) فينتقل إلى المسودة عند
+    الصياغة ويغلب كل مراحل الصورة (cards.ensure). يعيد (نتيجة، سبب الفشل).
+
+    الأخبار: يُجرَّب التحميل فورًا بقواعد download_image (الصورة تُهمَل بعد
+    الفحص؛ المحفوظ الرابط) لأن المراجع يستحق أن يعرف الآن لا بعد الصياغة أن
+    رابطه مرفوض. التحليل: بلا تحميل فوري — لا يُبنى شيء قبل الكتابة، وبوابة
+    الصورة وسلّمها يحسمان ذلك عند البناء كما في المرحلة 2."""
+    found = store.load_candidate(item_id, issue or None)
+    if found:
+        path, cand = found
+        failures: list[dict] = []
+        if download_image(url, failures=failures) is None:
+            reason = failures[-1]["reason"] if failures else "تعذّر التحميل"
+            return None, f"الصورة مرفوضة: {reason}"
+        store.update_candidate(path, manual_image=url)
+        log.info("✓ صورة يدوية حُفظت على مرشح الأخبار %s (تُستعمل عند الصياغة)", item_id)
+        return {"kind": "candidate", "title": cand.get("title", "")[:60]}, ""
+
+    date_match = youtube_cluster.SELECTION_DATE_RE.search(issue_body or "")
+    if date_match:
+        topic = youtube_cluster.set_topic_manual_image(
+            date_match.group(1), item_id, url, issue or None)
+        if topic:
+            log.info("✓ صورة يدوية حُفظت على موضوع التحليل %s", item_id)
+            return {"kind": "topic", "title": topic.get("title", "")[:60]}, ""
+    return None, "لا مسودة ولا مرشح ولا موضوع بهذا المعرّف"
+
+
 def apply_image(draft_id: str, url: str, cfg) -> dict | None:
     """يعيد بناء بطاقة المسودة على الصورة المعطاة. يعيد المسودة المحدَّثة."""
     found = store.load_draft(draft_id)
@@ -216,15 +247,34 @@ def main() -> int:
     done: list[dict] = []
     failed: list[str] = []
     failed_details: list[dict] = []
+    issue_body: str | None = None
     for draft_id, url in pairs:
         reason = "تعذّر بناء البطاقة بهذا الرابط (ليس صورة صالحة أو أبعادها صغيرة)"
+        selection: dict | None = None
         try:
-            updated = apply_image(draft_id, url, cfg)
+            found_draft = store.load_draft(draft_id)
+            if found_draft is None or found_draft[1].get("status") == "returned":
+                # لا مسودة بهذا المعرّف، أو مسودة أعادها المراجع إلى الترشيح
+                # (تحمل معرّف مرشحها نفسه): قضية ترشيح (المرحلة 1)، معرّفها
+                # مرشح أخبار أو موضوع تحليل (Issue #1190)
+                if issue_body is None:
+                    issue_body = (review.fetch_issue_body(args.issue)
+                                  if args.issue else "")
+                selection, sel_reason = apply_selection_image(
+                    draft_id, url, cfg, args.issue, issue_body)
+                updated = None
+                if selection is None:
+                    reason = sel_reason
+            else:
+                updated = apply_image(draft_id, url, cfg)
         except Exception as exc:  # noqa: BLE001 — خطأ واحد لا يُسقط الباقي
             log.error("فشل بناء صورة %s: %s", draft_id, exc)
             updated = None
             reason = f"خطأ أثناء البناء: {exc}"
-        if updated:
+        if selection:
+            done.append({"id": draft_id, "old": None, "new": None, "url": url,
+                         "kind": selection["kind"], "title": selection["title"]})
+        elif updated:
             # "new" غائب (None) لمسودة بلا بطاقة بعد (Issue #852) — الرابط
             # خُزّن في manual_image بلا بناء، فلا مسار صورة جديد يُستبدَل
             # به في نص الـIssue بعد (لا بطاقة معروضة هناك أصلًا).
@@ -260,6 +310,11 @@ def sync_issue(issue: int) -> int:
             # هناك)، فقط تُفرَغ خانة الطلب.
             if item.get("old") and item.get("new"):
                 body = body.replace(item["old"], item["new"])
+            if item.get("kind") == "candidate":
+                # تُعرض صورة المراجع في القضية بدل صورة الناشر (Issue #1190)
+                found = store.load_candidate(item["id"], issue)
+                if found:
+                    body = preselect.show_manual_image(body, found[1], item["url"])
             body = review.clear_image_request(body, item["id"])
         for draft_id in failed:
             # الحقل الجديد يُمسح بعد الفشل كذلك (Issue #1184): بقاء الرابط فيه
@@ -270,9 +325,14 @@ def sync_issue(issue: int) -> int:
                 body, draft_id, keep_url=f"<!-- img:{draft_id} -->" in body)
         review.update_issue_body(issue, body)
 
-    notes = [(f"🖼️ حُدّثت الصورة: {item['title']}" if item.get("new") else
-             f"🖼️ حُفظت الصورة — تُستعمل عند بناء البطاقة: «{item['title']}».")
-            for item in done]
+    def _done_note(item: dict) -> str:
+        if item.get("new"):
+            return f"🖼️ حُدّثت الصورة: {item['title']}"
+        # مرشح أخبار لا تُبنى له بطاقة قبل الصياغة (Issue #1190)
+        when = "الصياغة" if item.get("kind") == "candidate" else "بناء البطاقة"
+        return f"🖼️ حُفظت الصورة — تُستعمل عند {when}: «{item['title']}»."
+
+    notes = [_done_note(item) for item in done]
     details = {d["id"]: d for d in data.get("failed_details", [])}
     for i in failed:
         note = (f"⚠️ تعذّر تحديث `{i}` — تأكد أن الرابط لصورة مباشرة "

@@ -2104,9 +2104,9 @@ def test_radar_preselect_fallback() -> None:
         # في radar.py نفسه.
         from src import preselect
         radar_body = preselect.build_selection_issue_body(saved_candidates)
-        check("مرشح الرادار يظهر بمربعي «انشر فورًا» و«صغ واعرض» كمرشح collect تمامًا",
-              f"<!-- now:{art.uid} -->" in radar_body
-              and f"<!-- review:{art.uid} -->" in radar_body)
+        check("مرشح الرادار يظهر بخياري «انشر فورًا» و«صغ واعرض» كمرشح collect تمامًا",
+              f"<!-- go:publish:{art.uid} -->" in radar_body
+              and f"<!-- go:go2:{art.uid} -->" in radar_body)
 
     saved_drafts = [d for _, d in store.pending_drafts() if d["id"] == art.uid]
     check("لا مسودة كاملة تُبنى لهذا المرشح", saved_drafts == [], str(saved_drafts))
