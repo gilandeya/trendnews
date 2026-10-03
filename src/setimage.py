@@ -140,6 +140,22 @@ def apply_selection_image(item_id: str, url: str, cfg, issue: int = 0,
         log.info("✓ صورة يدوية حُفظت على مرشح الأخبار %s (تُستعمل عند الصياغة)", item_id)
         return {"kind": "candidate", "title": cand.get("title", "")[:60]}, ""
 
+    # نقطة «هام» (Issue #1221): الرابط يُحفظ manual_image على النقطة في state/important
+    # فيصل إلى مسودتها عند الكتابة (important_write.build_draft) ويغلب كل مراحل الصورة؛
+    # يُجرَّب التحميل فورًا بقواعد download_image كالأخبار (الصورة تُهمَل والمحفوظ الرابط)
+    from . import important, important_finalize
+    hit = important_finalize.find_point(item_id, issue or None)
+    if hit:
+        result, point = hit
+        failures = []
+        if download_image(url, failures=failures) is None:
+            reason = failures[-1]["reason"] if failures else "تعذّر التحميل"
+            return None, f"الصورة مرفوضة: {reason}"
+        point["manual_image"] = url
+        important.save(result)
+        log.info("✓ صورة يدوية حُفظت على نقطة «هام» %s (تُستعمل عند الصياغة)", item_id)
+        return {"kind": "important", "title": (point.get("claim") or "")[:60]}, ""
+
     date_match = youtube_cluster.SELECTION_DATE_RE.search(issue_body or "")
     if date_match:
         topic = youtube_cluster.set_topic_manual_image(
@@ -329,7 +345,7 @@ def sync_issue(issue: int) -> int:
         if item.get("new"):
             return f"🖼️ حُدّثت الصورة: {item['title']}"
         # مرشح أخبار لا تُبنى له بطاقة قبل الصياغة (Issue #1190)
-        when = "الصياغة" if item.get("kind") == "candidate" else "بناء البطاقة"
+        when = "الصياغة" if item.get("kind") in ("candidate", "important") else "بناء البطاقة"
         return f"🖼️ حُفظت الصورة — تُستعمل عند {when}: «{item['title']}»."
 
     notes = [_done_note(item) for item in done]

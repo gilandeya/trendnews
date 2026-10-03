@@ -621,3 +621,156 @@ def claim_review_html(label: str = "Yanlış", claim_reviewed: str = "", shape: 
         script = f'<script type="application/ld+json">{_json.dumps(block, ensure_ascii=False)}</script>'
     return (f"<html><head><title>teyit</title>{script}</head>"
             f"<body><h1>{body}</h1></body></html>")
+
+
+# ───────────── كتابة مسار «هام» (Issue #1221، المهمة 3 من 3) ─────────────
+
+IMPORTANT_FIXTURES = ROOT / "tests" / "fixtures" / "important"
+_IMG = [{"url": "https://img.example/a.jpg", "publisher": "الشرق", "link": "https://s.example/1"}]
+
+
+def important_fixture_point(issue: int, verdict: str, index: int = 0, **over) -> dict:
+    """نقطة حقيقية من ملف حكم ثابت (1209/1201) بحالة «معروضة»، مع صورة ناشر
+    مصطنعة كي لا يمسّ بناء البطاقة الشبكة. index: ترتيبها بين نقاط الحكم نفسه."""
+    import copy
+    data = json.loads((IMPORTANT_FIXTURES / f"{issue}.json").read_text(encoding="utf-8"))
+    point = copy.deepcopy([p for p in data["points"] if p["verdict"] == verdict][index])
+    point.update(status="offered", dropped_reason=None, image_candidates=copy.deepcopy(_IMG), **over)
+    return point
+
+
+def important_synthetic_point(verdict: str, **over) -> dict:
+    """نقطة مصطنعة لحكمَي false وnot_found (لا نقطة حقيقية لهما في الملفات الثابتة)."""
+    from src import important
+    if verdict == "false":
+        text = "أعلنت ناسا أن الشمس ستشرق من الغرب غدًا بسبب انقلاب مغناطيسي"
+        point = {"verdict": "false", "icon": "❌", "evidence": [], "correction": None,
+                 "nearest": None, "primary_source": False,
+                 "refuted_by": [
+                     {"publisher": "Fatabyyano", "link": "https://fatabyyano.net/x",
+                      "excerpt": "لم تصدر ناسا أي بيان بهذا المعنى والصور المتداولة مفبركة",
+                      "verdict_label": "كاذب", "fact_checker": True},
+                     {"publisher": "موقع النفي", "link": "https://m.example/y",
+                      "excerpt": "لا يوجد أي انقلاب مغناطيسي وشيك بحسب الوكالة",
+                      "verdict_label": "", "fact_checker": False}]}
+    else:
+        text = "أعلنت وكالة الفضاء عن اكتشاف حياة على القمر أمس"
+        point = {"verdict": "not_found", "icon": "🔍", "evidence": [], "correction": None,
+                 "refuted_by": None, "primary_source": False,
+                 "nearest": {"title": "رصد جليد مائي في فوهة قطبية على القمر",
+                             "description": "أظهرت بيانات مسبار مدار القمر وجود جليد مائي دائم الظل في فوهة قطبية.",
+                             "shared_entity": "القمر",
+                             "sources": [{"publisher": "مصدر أ", "link": "https://a.example/1",
+                                          "excerpt": "رصد المسبار جليدًا مائيًا في فوهة قطبية دائمة الظل"},
+                                         {"publisher": "مصدر ب", "link": "https://b.example/2",
+                                          "excerpt": "تؤكد البيانات وجود جليد مائي في قطب القمر"}]}}
+    point.update(id=important.point_id(text), text=text, claim=text, framing="direct",
+                 circulating_context="", asserted="", note="", status="offered",
+                 dropped_reason=None, image_candidates=[dict(c) for c in _IMG])
+    point.update(over)
+    return point
+
+
+def important_good_data(point: dict) -> dict:
+    """رد كاتب مزيَّف يستوفي توجيهات الحكم كلها (فحوص g36–g39 تمرّره)."""
+    verdict = point["verdict"]
+    base = {"category": "عالم", "hashtags": ["هام"], "image_query_en": "space telescope galaxy"}
+    if verdict == "inaccurate":
+        c = point["correction"]
+        return {**base, "post_title": f"الصحيح: {c['correct']}",
+                "image_headline": f"الصحيح: {c['correct']}",
+                "post_body": (f"تشير أحدث البيانات إلى أن العدد هو {c['correct']} وفق المصدرين. "
+                              "أما الرقم المتداول فخطأ شائع لا يطابق التقديرات الرسمية.")}
+    if verdict == "false":
+        r = point["refuted_by"][0]
+        return {**base, "post_title": "لا صحة لشروق الشمس من الغرب والمدقّقون يحسمون",
+                "image_headline": "لا صحة لشروق الشمس من الغرب",
+                "post_body": (f"لا أساس لهذا الكلام عند الوكالة، فالشمس تشرق من الشرق كما هو معلوم. "
+                              f"وصنّفت {r['publisher']} الأمر بحكم «{r['verdict_label']}». "
+                              "ويبقى ما جرى تداوله ادّعاءً متداولًا لا سند له.")}
+    if verdict == "not_found":
+        n = point["nearest"]
+        return {**base, "post_title": n["title"], "image_headline": n["title"],
+                "post_body": f"{n['description']} وتؤكد المصادر المستقلة هذه النتائج بالبيانات المنشورة."}
+    return {**base, "post_title": "مجرة جديدة تكسر الأرقام القياسية في الكون",
+            "image_headline": "أبعد مجرة معروفة",
+            "post_body": "اكتشف علماء الفلك أبعد مجرة معروفة باستخدام تلسكوب جيمس ويب الفضائي."}
+
+
+def important_marked_body(result: dict, marks: dict, cfg=None) -> str:
+    """جسم قضية الترشيح كما يبنيه important_issue، مع تعليم خيار الانتقال لكل نقطة
+    ({id: go2|go3|publish}) — محاكاة نقر المراجع."""
+    from src import important_issue
+    body = important_issue.build_selection_body(result, cfg or load_config())
+    for pid, action in marks.items():
+        body = tick_marker(body, f"go:{action}:{pid}")
+    return body
+
+
+class ImportantWriteRig:
+    """مزيَّفات كتابة مسار «هام» ومراحله: عميل Anthropic يلتقط نداء الكاتب فعلًا (النموذج
+    والنظام والبرومبت) فيمرّ article._call_draft_model الحقيقي، وGitHub (قضايا/تعليقات)،
+    ونشر cmd_burst/cmd_now/cmd_schedule، وتجسّس على بناء البطاقة (الناشرون وشارة الأصل).
+    respond(prompt, system) ← قاموس حقول أداة write_article."""
+
+    def __init__(self, respond):
+        self.respond = respond
+        self.calls: list[dict] = []
+        self.created: list[dict] = []
+        self.comments: list[tuple] = []
+        self.other: list[tuple] = []
+        self.builds: list[dict] = []
+        self.published: list[tuple] = []
+        self.next = 7000
+        self._saved: list[tuple] = []
+
+    def _swap(self, mod, name, new):
+        self._saved.append((mod, name, getattr(mod, name)))
+        setattr(mod, name, new)
+
+    def __enter__(self):
+        import types
+        from src import article, cards, publish
+        rig = self
+
+        class _Messages:
+            def create(self, **kw):
+                system = kw["system"][0]["text"] if isinstance(kw.get("system"), list) else kw.get("system")
+                prompt = kw["messages"][0]["content"]
+                rig.calls.append({"model": kw.get("model"), "system": system, "prompt": prompt})
+                data = rig.respond(prompt, system)
+                return types.SimpleNamespace(
+                    stop_reason="end_turn",
+                    content=[types.SimpleNamespace(type="tool_use", input=data)],
+                    usage=types.SimpleNamespace(input_tokens=1, output_tokens=1))
+
+        self._swap(article, "_client", lambda: types.SimpleNamespace(messages=_Messages()))
+
+        def fake_create(title, body, labels=None):
+            rig.next += 1
+            rig.created.append({"number": rig.next, "title": title, "body": body, "labels": labels})
+            return {"number": rig.next, "html_url": f"https://example/issues/{rig.next}"}
+
+        self._swap(review, "create_issue", fake_create)
+        self._swap(review, "comment", lambda n, t: rig.comments.append((n, t)))
+        self._swap(review, "ensure_labels", lambda: None)
+        self._swap(review, "remove_label", lambda *a: rig.other.append(("remove_label", a)))
+        self._swap(review, "close_issue", lambda *a: rig.other.append(("close_issue", a)))
+        for name in ("cmd_burst", "cmd_now", "cmd_schedule"):
+            self._swap(publish, name,
+                       lambda ids, cfg, issue=None, _n=name, **kw: rig.published.append((_n, list(ids), issue)) or 0)
+
+        real_build = cards._default_build_post_image
+
+        def spy_build(**kw):
+            rig.builds.append({k: kw.get(k) for k in ("headline", "publisher", "origin", "category", "image_urls")})
+            return real_build(**kw)
+
+        self._swap(cards, "_default_build_post_image", spy_build)
+        os.environ.setdefault("GITHUB_REPOSITORY", "owner/repo")
+        return self
+
+    def __exit__(self, *exc):
+        for mod, name, old in reversed(self._saved):
+            setattr(mod, name, old)
+        return False

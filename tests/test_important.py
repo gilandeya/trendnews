@@ -7,8 +7,10 @@ from __future__ import annotations
 
 import re
 
-from tests.helpers import (check, load_config, ImportantRig, important_doc,
-                           important_point, important_stance, brave_result)
+from tests.helpers import (check, load_config, ImportantRig, ImportantWriteRig, important_doc,
+                           important_fixture_point, important_good_data, important_marked_body,
+                           important_point, important_stance, important_synthetic_point,
+                           brave_result, DRAFTS_DIR, store)
 
 
 def _body(n: int) -> str:
@@ -1834,21 +1836,7 @@ def test_important_1217() -> None:
               and "🖼️ [صورة الشرق](https://img.example/a.jpg) · img.example" in itext
               and itext.count("🖼️ بلا صورة من المصادر · بحث الويب لاحقًا") == len(offered) - 1)
 
-        # (e) approved على important-selection ← التعليق المؤقت فقط
-        state["comments"].clear()
-        publish.fetch_issue = lambda n: {"number": n, "body": text, "labels": [
-            {"name": "important-selection"}, {"name": "approved"}]}
-        sys.argv = ["publish", "--issue", "9100", "--urgent-only"]
-        c_urgent = publish.main()
-        sys.argv = ["publish", "--issue", "9100", "--skip-urgent"]
-        c_normal = publish.main()
-        msg = "اختيارات «هام» تُنفَّذ بعد اكتمال المهمة 3 — لا شيء ضاع، القضية تبقى كما هي"
-        check("(e) approved على important-selection ← تعليق مؤقت واحد فقط (من المسار السريع)",
-              c_urgent == 0 and c_normal == 0 and state["comments"] == [(9100, msg)],
-              state["comments"])
-        check("(e) لا إغلاق ولا إزالة وسم ولا قرارات مسجَّلة",
-              state["other"] == [] and decisions.DECISIONS_FILE.exists() == had_decisions,
-              state["other"])
+        # (e) تنفيذ approved على important-selection انتقل إلى المهمة 3: test_important_1221
     finally:
         for m, n, fn in saved_fns:
             setattr(m, n, fn)
@@ -1858,3 +1846,253 @@ def test_important_1217() -> None:
 
     check("(e) الوسم مسجَّل في ensure_labels",
           "important-selection" in inspect.getsource(review.ensure_labels))
+
+
+def test_important_1221() -> None:
+    """المهمة 3 (Issue #1221): قراءة اختيارات المرحلة 1 والكتابة بحسب الحكم ثم المرحلتان 2 و3. على
+    مخرَج الأنبوب: important_finalize.finalize بقضية ترشيح معلَّمة من الملفين الثابتين 1209/1201
+    ونقاط مصطنعة لـfalse وnot_found، وكاتب مزيَّف يمرّ عبر article._call_draft_model الحقيقي."""
+    import copy
+    import inspect
+    import sys
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    from src import decisions, important, important_finalize, important_write, publish, setimage
+
+    cfg = load_config()
+    badges = cfg.path("important.badges")
+    number, sel = 97000, 97100
+    now = datetime.now(timezone.utc).isoformat()
+
+    conf = important_fixture_point(1209, "confirmed")
+    inacc = important_fixture_point(1201, "inaccurate")
+    fals = important_synthetic_point("false")
+    near = important_synthetic_point("not_found")
+
+    def make_result(n, s, pts):
+        pts = copy.deepcopy(pts)
+        for pt in pts:
+            pt.update(status="offered", selection_issue=s)
+        r = {"issue": n, "created_at": now, "topic": "", "error": None, "selection_issue": s,
+             "points": pts}
+        important.save(r)
+        return r
+
+    def respond_for(pts):
+        def respond(prompt, system):
+            for pt in pts:
+                key = ((pt.get("correction") or {}).get("correct") or (pt.get("nearest") or {}).get("title")
+                       or pt["claim"])
+                if key in prompt:
+                    return important_good_data(pt)
+            raise AssertionError("نداء كتابة لنقطة مجهولة: " + prompt[:80])
+        return respond
+
+    def entries_for(pid):
+        return [e for e in decisions.load() if e.get("id") == pid]
+
+    def tick(body, action, item_id):
+        text = cfg.path(f"stages.options.{'go2_forward' if action == 'go2' else action}")
+        return body.replace(f"- [ ] {text}  <!-- go:{action}:{item_id} -->",
+                            f"- [x] {text}  <!-- go:{action}:{item_id} -->")
+
+    real_fetch = publish.fetch_issue
+    old_argv = sys.argv
+
+    def run_publish(issue, body, labels, flag="--skip-urgent"):
+        publish.fetch_issue = lambda n: {"number": n, "body": body,
+                                         "labels": [{"name": x} for x in labels]}
+        sys.argv = ["publish", "--issue", str(issue), flag]
+        try:
+            return publish.main()
+        finally:
+            publish.fetch_issue = real_fetch
+            sys.argv = old_argv
+
+    # ── (a) go2 لمؤكَّدة وgo3 لغير دقيقة، وترك الباقي ──
+    pts = [conf, inacc, fals, near]
+    result = make_result(number, sel, pts)
+    body = important_marked_body(result, {conf["id"]: "go2", inacc["id"]: "go3"}, cfg)
+    with ImportantWriteRig(respond_for(pts)) as rig:
+        code = important_finalize.finalize(sel, body, cfg)
+        saved = {p["id"]: p for p in important.load_saved(number)["points"]}
+        drafts = {pid: store.load_draft(saved[pid]["draft_id"])[1] for pid in (conf["id"], inacc["id"])}
+        check("(a) إنهاء بنجاح ومسودتان بشارتيهما (هام/تصحيح) وأصل important",
+              code == 0 and len(drafts) == 2
+              and all(d["origin"] == "important" for d in drafts.values())
+              and drafts[conf["id"]]["badge"] == badges["confirmed"] == "هام"
+              and drafts[inacc["id"]]["badge"] == badges["inaccurate"] == "تصحيح",
+              {k: d.get("badge") for k, d in drafts.items()})
+        check("(a) المسودة تحمل point_id وsource_issue وverdict وselection_issue",
+              all(d["point_id"] == pid and d["source_issue"] == number and d["selection_issue"] == sel
+                  for pid, d in drafts.items())
+              and drafts[conf["id"]]["verdict"] == "confirmed"
+              and drafts[inacc["id"]]["verdict"] == "inaccurate")
+        stage2 = [c for c in rig.created if c["labels"] == ["pending-review"]]
+        stage3 = [c for c in rig.created if c["labels"] == ["final-review"]]
+        check("(a) قضية مرحلة 2 للأولى وحدها (علامة draft: ومربع go1 للعودة إلى الترشيح)",
+              len(stage2) == 1 and f"<!-- draft:{drafts[conf['id']]['id']} -->" in stage2[0]["body"]
+              and drafts[inacc["id"]]["id"] not in stage2[0]["body"]
+              and f"go:go1:{drafts[conf['id']]['id']}" in stage2[0]["body"])
+        inacc_now = store.load_draft(drafts[inacc["id"]]["id"])[1]
+        check("(a) بطاقة وقضية مرحلة 3 للثانية (علامة go1 أيضًا) وملف البطاقة موجود",
+              len(stage3) == 1 and f"<!-- draft:{inacc_now['id']} -->" in stage3[0]["body"]
+              and f"go:go1:{inacc_now['id']}" in stage3[0]["body"]
+              and (inacc_now.get("image") or "").startswith("drafts/")
+              and (DRAFTS_DIR / Path(inacc_now["image"]).relative_to("drafts")).exists())
+        check("(a) المؤكَّدة بلا بطاقة بعد (تُبنى عند الانتقال لا عند الكتابة)",
+              "image" not in store.load_draft(drafts[conf["id"]]["id"])[1])
+        check("(a) حالات النقاط: written/written/unselected/unselected",
+              [saved[p["id"]]["status"] for p in pts] == ["written", "written", "unselected", "unselected"]
+              and saved[conf["id"]]["draft_id"] == drafts[conf["id"]]["id"],
+              [saved[p["id"]]["status"] for p in pts])
+        check("(a) «لم يُختر» للباقي في decisions بأصل important وselection_issue، ولا قيد للمكتوبتين",
+              all(len(entries_for(p["id"])) == 1 and entries_for(p["id"])[0]["decision"] == "unselected"
+                  and entries_for(p["id"])[0]["origin"] == "important"
+                  and entries_for(p["id"])[0]["selection_issue"] == sel
+                  and entries_for(p["id"])[0]["reject_tag"] == "لم يُختر" for p in (fals, near))
+              and not entries_for(conf["id"]) and not entries_for(inacc["id"]))
+        check("(a) قضية الترشيح تُغلق (لا publish) كبقية قضايا المرحلة 1",
+              ("close_issue", (sel,)) in rig.other, rig.other)
+        check("(a) النموذج article.model (Sonnet) لا Opus في كل نداء كتابة، ونداء واحد لكل نقطة",
+              len(rig.calls) == 2 and all(c["model"] == cfg.path("article.model")
+                                          and "opus" not in c["model"].lower() for c in rig.calls),
+              [c["model"] for c in rig.calls])
+        inacc_prompt = next(c["prompt"] for c in rig.calls if "86,092,168" in c["prompt"])
+        check("(a) تعليمات inaccurate في الموجّه: correction.correct بنصّه والخطأ الشائع وعنوان خبري",
+              "«86,092,168 نسمة»" in inacc_prompt and "خطأً شائعًا" in inacc_prompt
+              and "post_title وimage_headline جملتان خبريتان" in inacc_prompt, inacc_prompt[-700:])
+        check("(a) مصادر الكاتب أدلة النقطة وحدها (مقتطفا correction.sources في برومبت التصحيح)",
+              "TRADING ECONOMICS" in inacc_prompt and "Turkish Minute" in inacc_prompt
+              and "RT Arabic" not in inacc_prompt)
+        print("──── مسودة inaccurate (بالنموذج المزيَّف) ────")
+        print(inacc_now["caption"])
+
+    # ── (b) publish لنقطة false: نشر بالفاصل وسطر المصدر يبدأ بالمدقّق ──
+    res_b = make_result(number + 1, sel + 1, [fals])
+    body_b = important_marked_body(res_b, {fals["id"]: "publish"}, cfg)
+    with ImportantWriteRig(respond_for([fals])) as rig:
+        code = important_finalize.finalize(sel + 1, body_b, cfg)
+        d_b = store.load_draft(important.load_saved(number + 1)["points"][0]["draft_id"])[1]
+        check("(b) publish ← تفويض cmd_burst بالمسودة وحدها (فاصل النشر نفسه الذي للأخبار)",
+              code == 0 and rig.published == [("cmd_burst", [d_b["id"]], sel + 1)], rig.published)
+        check("(b) البطاقة بُنيت بأصل important_false (شارة تفنيد) وسطر المصدر يبدأ بالمدقّق Fatabyyano",
+              rig.builds and rig.builds[-1]["origin"] == "important_false"
+              and rig.builds[-1]["publisher"][0] == "Fatabyyano"
+              and d_b["source"]["publishers"] == ["Fatabyyano", "موقع النفي"]
+              and d_b["badge"] == "تفنيد", (rig.builds, d_b["source"]))
+        check("(b) صورة الناشر من image_candidates للنقطة أول سلّم الصورة",
+              rig.builds[-1]["image_urls"] == ["https://img.example/a.jpg"], rig.builds[-1])
+        prompt_b = rig.calls[0]["prompt"]
+        check("(b) تعليمات false: الشائعة مرة واحدة «ادّعاءً متداولًا» وتسمية المدقّق وحكمه",
+              "«ادّعاءً متداولًا»" in prompt_b and "«Fatabyyano»" in prompt_b
+              and "وحكمه «كاذب»" in prompt_b and "لم تصدر ناسا أي بيان بهذا المعنى" in prompt_b,
+              prompt_b[-900:])
+        print("──── مسودة false (بالنموذج المزيَّف) ────")
+        print(d_b["caption"])
+
+    # ── (c) نص كل حكم يمرّ بفحوص g36–g39 ──
+    res_c = make_result(number + 2, sel + 2, pts)
+    body_c = important_marked_body(res_c, {p["id"]: "go2" for p in pts}, cfg)
+    with ImportantWriteRig(respond_for(pts)) as rig:
+        code = important_finalize.finalize(sel + 2, body_c, cfg)
+        saved_c = {p["id"]: p for p in important.load_saved(number + 2)["points"]}
+        verdicts = {}
+        for p in pts:
+            d = store.load_draft(saved_c[p["id"]]["draft_id"])[1]
+            verdicts[p["verdict"]] = important_write.check_text(p, d["arabic"], cfg)
+        check("(c) نص المسودة لكل حكم (confirmed/inaccurate/false/not_found) يمرّ بفحوص g36–g39",
+              code == 0 and len(verdicts) == 4 and all(v is None for v in verdicts.values()), verdicts)
+        stage2_c = rig.created[0]
+        check("(c) قضية المرحلة 2 للأربع، وشارات جدول البطاقات مطابقة لـimportant.badges",
+              all(f"<!-- draft:{saved_c[p['id']]['draft_id']} -->" in stage2_c["body"] for p in pts)
+              and cfg.path("cards.important.badge") == badges["confirmed"] == badges["not_found"]
+              and cfg.path("cards.important_inaccurate.badge") == badges["inaccurate"]
+              and cfg.path("cards.important_false.badge") == badges["false"])
+        print("──── جسم قضية المرحلة 2 (فيها مسودتا inaccurate وfalse) ────")
+        print(stage2_c["body"])
+
+    # ── (d) go1 من المرحلة 2 ثم اختيارها ثانية بلا كتابة ──
+    res_d = make_result(number + 3, sel + 3, [conf, inacc])
+    body_d = important_marked_body(res_d, {conf["id"]: "go2", inacc["id"]: "go2"}, cfg)
+    with ImportantWriteRig(respond_for([conf, inacc])) as rig:
+        important_finalize.finalize(sel + 3, body_d, cfg)
+        saved_d = {p["id"]: p for p in important.load_saved(number + 3)["points"]}
+        d_conf = store.load_draft(saved_d[conf["id"]]["draft_id"])[1]
+        stage2_body = tick(rig.created[0]["body"], "go1", d_conf["id"])
+        writes = len(rig.calls)
+        check("(d) مربع go1 موجود في قضية المرحلة 2 ومُعلَّم", f"[x] {cfg.path('stages.options.go1')}" in stage2_body)
+        code_p = run_publish(9201, stage2_body, ["pending-review", "approved"])
+        returned = store.load_draft(d_conf["id"])[1]
+        reopened = [c for c in rig.created if c["labels"] == ["important-selection"]]
+        pt_after = {p["id"]: p for p in important.load_saved(number + 3)["points"]}[conf["id"]]
+        check("(d) go1 من المرحلة 2: المسودة returned بنصها (لا كتابة) والنقطة offered/returned",
+              code_p == 0 and returned["status"] == "returned" and returned["returned_from_stage"] == 2
+              and returned["arabic"] == d_conf["arabic"] and len(rig.calls) == writes
+              and pt_after["status"] == "offered" and pt_after["returned"] is True
+              and pt_after["draft_id"] == d_conf["id"], (returned["status"], pt_after))
+        check("(d) قرار returned في decisions بأصل important وقضية الترشيح التي جاءت منها",
+              any(e["decision"] == "returned" and e["origin"] == "important"
+                  and e["selection_issue"] == sel + 3 and e["returned_from_stage"] == 2
+                  for e in entries_for(d_conf["id"])), entries_for(d_conf["id"]))
+        new_body = reopened[0]["body"] if reopened else ""
+        new_sel = reopened[0]["number"] if reopened else 0
+        check("(d) قضية ترشيح «هام» جديدة للنص نفسه #N فيها النقطة أعلاها بشارة «↩️ أعدته من المرحلة 2»",
+              len(reopened) == 1 and f"المصدر: نصّك في #{number + 3}" in new_body
+              and "**1. ↩️ أعدته من المرحلة 2 · " in new_body and "**2." not in new_body
+              and pt_after["selection_issue"] == new_sel, new_body[:400])
+        created_before = len(rig.created)
+        code_r = important_finalize.finalize(new_sel, tick(new_body, "go2", conf["id"]), cfg)
+        back = store.load_draft(d_conf["id"])[1]
+        check("(d) اختيارها ثانية يعيد المسودة نفسها بلا كتابة (عدّاد النداءات 0) وقضية مرحلة 2 جديدة",
+              code_r == 0 and len(rig.calls) == writes and back["status"] == "pending"
+              and back["arabic"] == d_conf["arabic"] and "returned_from_stage" not in back
+              and len(rig.created) == created_before + 1
+              and rig.created[-1]["labels"] == ["pending-review"]
+              and f"<!-- draft:{d_conf['id']} -->" in rig.created[-1]["body"])
+    res_d3 = make_result(number + 4, sel + 4, [inacc])
+    body_d3 = important_marked_body(res_d3, {inacc["id"]: "go3"}, cfg)
+    with ImportantWriteRig(respond_for([inacc])) as rig:
+        important_finalize.finalize(sel + 4, body_d3, cfg)
+        pid3 = important.load_saved(number + 4)["points"][0]["draft_id"]
+        run_publish(9202, tick(rig.created[-1]["body"], "go1", pid3), ["final-review", "approved"])
+        reo3 = [c for c in rig.created if c["labels"] == ["important-selection"]]
+        d3 = store.load_draft(pid3)[1]
+        check("(d) go1 من المرحلة 3: returned_from_stage=3 وقضية ترشيح جديدة بشارة «من المرحلة 3»",
+              d3["status"] == "returned" and d3["returned_from_stage"] == 3
+              and len(reo3) == 1 and "↩️ أعدته من المرحلة 3 · " in reo3[0]["body"])
+
+    # ── (e) التعليق المؤقت من #1217 لم يعد يُكتب ──
+    res_e = make_result(number + 5, sel + 5, [conf])
+    body_e = important_marked_body(res_e, {}, cfg)
+    with ImportantWriteRig(respond_for([conf])) as rig:
+        c_normal = run_publish(sel + 5, body_e, ["important-selection", "approved"], "--skip-urgent")
+        quiet = list(rig.comments)
+        c_urgent = run_publish(sel + 5, body_e, ["important-selection", "approved"], "--urgent-only")
+        temp = "تُنفَّذ بعد اكتمال المهمة 3"
+        check("(e) المسار العادي لا يكتب شيئًا والسريع ينفّذ finalize (لا تعليق «بعد اكتمال المهمة 3»)",
+              c_normal == 0 and quiet == [] and c_urgent == 0
+              and rig.comments and all(temp not in t for _, t in rig.comments)
+              and "لم يُعلَّم على أي نقطة" in rig.comments[-1][1]
+              and ("remove_label", (sel + 5, "approved")) in rig.other, rig.comments)
+    check("(e) نص التعليق المؤقت اختفى من publish.py", "المهمة 3 — لا شيء ضاع" not in inspect.getsource(publish))
+
+    # ── (g) صورة المرحلة 1 لنقطة «هام» تنتقل إلى مسودتها (manual_image) ──
+    make_result(number + 6, sel + 6, [near])
+    real_dl = setimage.download_image
+    setimage.download_image = lambda url, failures=None, **kw: object()
+    try:
+        got, why = setimage.apply_selection_image(near["id"], "https://img.example/mine.jpg", cfg, sel + 6)
+    finally:
+        setimage.download_image = real_dl
+    body_g = important_marked_body(important.load_saved(number + 6), {near["id"]: "go2"}, cfg)
+    with ImportantWriteRig(respond_for([near])) as rig:
+        important_finalize.finalize(sel + 6, body_g, cfg)
+        d_g = store.load_draft(important.load_saved(number + 6)["points"][0]["draft_id"])[1]
+        check("(g) رابط المرحلة 1 يُحفظ على النقطة ثم على المسودة manual_image",
+              got and got["kind"] == "important" and why == ""
+              and d_g.get("manual_image") == "https://img.example/mine.jpg", (got, why))
+
+    for n in range(number, number + 7):
+        important.saved_path(n).unlink(missing_ok=True)

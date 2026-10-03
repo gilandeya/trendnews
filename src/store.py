@@ -116,6 +116,10 @@ def is_duplicate(entries: list[dict], title: str, link: str,
 
 
 CANONICAL_ORIGINS = {"news", "breaking", "request", "verify", "article", "analysis"}
+# أصول معروفة أُضيفت بعد تثبيت الست أعلاه (اختبار قائم في test_review يثبّت CANONICAL_ORIGINS
+# على الست حرفيًا فلا تُعدَّل هنا): «important» = مسار «هام» (Issue #1221) — نقاط حُكم عليها
+# بمصادرها ثم كُتبت بحسب حكمها. origin_of تعدّها معيارية بلا تحذير.
+EXTRA_ORIGINS = {"important"}
 
 
 def origin_of(draft: dict) -> str:
@@ -130,7 +134,7 @@ def origin_of(draft: dict) -> str:
         return "analysis"
     if not origin or origin == "collect":
         return "news"
-    if origin not in CANONICAL_ORIGINS:
+    if origin not in CANONICAL_ORIGINS and origin not in EXTRA_ORIGINS:
         # قيمة غير معيارية وغير مرادفة معروفة — على الأرجح خطأ إملائي في
         # موضع كتابة جديد. تُكتشف مبكرًا هنا بلا أي تغيير في السلوك: القيمة
         # تُعاد كما هي، فلا قارئ يتفاجأ.

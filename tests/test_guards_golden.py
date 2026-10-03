@@ -18,7 +18,9 @@ from __future__ import annotations
 import shutil
 
 from tests.helpers import (check, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
-                           important_doc, important_point, important_stance)
+                           ImportantWriteRig, important_doc, important_fixture_point,
+                           important_good_data, important_marked_body, important_point,
+                           important_stance, important_synthetic_point)
 
 
 def test_guards_golden() -> None:
@@ -1398,3 +1400,83 @@ def test_important_false_guard() -> None:
     check("(g35) رقم إحصائي ومصدران detail_kind=number لكن as_of لزمن آخر ⇒ لا inaccurate",
           p35["verdict"] != "inaccurate" and not p35.get("correction"),
           (p35["verdict"], p35.get("correction")))
+
+
+def test_important_write_guards() -> None:
+    """حارس الكتابة التحريري لمسار «هام» (Issue #1221، g36–g39) — يمسّ ما يُنشر، فتُكتب
+    حالاته قبل الكود. تجري على الأنبوب كله: قضية ترشيح معلَّمة ← important_finalize ←
+    كاتب مزيَّف يعيد عمدًا نصًّا مخالفًا ← الفحص في الكود بعد الكتابة لا في الموجّه وحده.
+    كل حالة تتبعها ضابطة: النص السليم نفسه يُقبل (فالحارس ليس رفضًا شاملًا)."""
+    import copy
+    from datetime import datetime, timezone
+
+    from src import important, important_finalize
+
+    cfg = load_config()
+
+    def run(case: int, point: dict, data: dict):
+        number, sel = 96000 + case, 96500 + case
+        point = copy.deepcopy(point)
+        point["selection_issue"] = sel
+        result = {"issue": number, "created_at": datetime.now(timezone.utc).isoformat(),
+                  "topic": "", "error": None, "selection_issue": sel, "points": [point]}
+        important.save(result)
+        body = important_marked_body(result, {point["id"]: "go2"}, cfg)
+        with ImportantWriteRig(lambda prompt, system: data) as rig:
+            code = important_finalize.finalize(sel, body, cfg)
+        saved = important.load_saved(number)["points"][0]
+        return rig, code, saved, store.load_draft(saved["draft_id"]) if saved.get("draft_id") else None
+
+    def rejected(name, rig, saved, draft, reason):
+        notes = " ".join(t for _, t in rig.comments)
+        check(f"({name}) المسودة لا تُقبل: لا مسودة ولا قضية مرحلة 2 والنقطة «selected» بسبب الكتابة الفاشلة",
+              draft is None and rig.created == [] and saved["status"] == "selected"
+              and reason in (saved.get("write_error") or ""), (saved["status"], saved.get("write_error")))
+        check(f"({name}) والسبب «{reason}» في تعليق القضية، ومحاولة إعادة واحدة فقط (نداءان)",
+              reason in notes and len(rig.calls) == 2, (len(rig.calls), notes[:200]))
+
+    def accepted(name, rig, saved, draft):
+        check(f"({name}) ضابطة: النص السليم يُقبل مسودةً origin=important بحكمها وشارتها ومعرّف نقطتها",
+              draft is not None and draft[1]["origin"] == "important" and saved["status"] == "written"
+              and draft[1]["point_id"] == saved["id"] and draft[1]["verdict"] == saved["verdict"],
+              (saved["status"], saved.get("write_error")))
+
+    # g36) false: العنوان يكرّر الشائعة حرفيًا
+    fals = important_synthetic_point("false")
+    bad = {**important_good_data(fals), "post_title": fals["claim"]}
+    rig, _code, saved, draft = run(36, fals, bad)
+    rejected("g36", rig, saved, draft, "عنوان التفنيد يكرّر الادّعاء")
+    rig, _code, saved, draft = run(36, fals, important_good_data(fals))
+    accepted("g36", rig, saved, draft)
+
+    # g37) not_found بأقرب حدث: النص يذكر النقطة الأصلية
+    near = important_synthetic_point("not_found")
+    good = important_good_data(near)
+    bad = {**good, "post_body": good["post_body"] + " علمًا أن " + near["text"] + "."}
+    rig, _code, saved, draft = run(37, near, bad)
+    rejected("g37", rig, saved, draft, "المقال يذكر النقطة الأصلية")
+    rig, _code, saved, draft = run(37, near, good)
+    accepted("g37", rig, saved, draft)
+    check("(g37) المقال عن nearest وحده: عنوانه عنوان الحدث الأقرب لا نص النقطة",
+          draft[1]["arabic"]["post_title"] == near["nearest"]["title"]
+          and draft[1]["source"]["publishers"] == ["مصدر أ", "مصدر ب"], draft[1]["source"])
+
+    # g38) inaccurate: النص لا يحوي correction.correct
+    inacc = important_fixture_point(1201, "inaccurate")
+    good = important_good_data(inacc)
+    bad = {**good, "post_title": "عدد سكان تركيا ارتفع قليلًا",
+           "post_body": "ارتفع عدد السكان بحسب آخر الإحصاءات الرسمية. أما الرقم المتداول فخطأ شائع."}
+    rig, _code, saved, draft = run(38, inacc, bad)
+    rejected("g38", rig, saved, draft, "الصيغة الصحيحة غائبة")
+    rig, _code, saved, draft = run(38, inacc, good)
+    accepted("g38", rig, saved, draft)
+
+    # g39) false: النص لا يسمّي المدقّق
+    good = important_good_data(fals)
+    bad = {**good, "post_body": good["post_body"].replace("Fatabyyano", "جهة معنية")}
+    rig, _code, saved, draft = run(39, fals, bad)
+    rejected("g39", rig, saved, draft, "لا يسمّي المدقّق")
+    rig, _code, saved, draft = run(39, fals, good)
+    accepted("g39", rig, saved, draft)
+    for n in (36, 37, 38, 39):
+        important.saved_path(96000 + n).unlink(missing_ok=True)
