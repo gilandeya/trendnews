@@ -255,7 +255,7 @@ from tests.test_youtube import (
 )
 from tests.test_guards_golden import (test_guards_golden, test_important_false_guard,
                                       test_important_write_guards)
-from tests.test_important import (test_important_1203, test_important_1205, test_important_1207, test_important_1217, test_important_1221,
+from tests.test_important import (test_important_1203, test_important_1205, test_important_1207, test_important_1217, test_important_1221, test_important_1225,
                                   test_important_1210, test_important_1212, test_important_1214,
                                   test_important_pipeline, test_important_same_event_and_excerpts,
                                   test_important_search_and_extract)
@@ -620,6 +620,7 @@ def main() -> int:
     test_important_1217()
     print("\n── «هام»: القراءة والكتابة بحسب الحكم والمرحلتان 2 و3 وgo1 (Issue #1221) ──")
     test_important_1221()
+    test_important_1225()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:

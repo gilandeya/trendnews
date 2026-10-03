@@ -500,7 +500,8 @@ def _sentence_containing(raw_text: str, window: tuple[str, ...]) -> str:
 
 def check_originality(draft_text: str, article_body: str, source_docs: list[dict],
                       max_shared_run_words: int, *, repeat_min_count: int = 2,
-                      extra_docs: list[dict] | None = None, min_core: int = 5
+                      extra_docs: list[dict] | None = None, min_core: int = 5,
+                      allowed_quotes: list[str] | None = None
                       ) -> tuple[bool, str, list[str]]:
     """غلاف رقيق حول `_check_originality_full` يُبقي التوقيع العام (3-tuple)
     كما هو تمامًا — لا تغيير سلوكي، ولا حاجة لتعديل أي مستدعٍ قائم (بما
@@ -511,14 +512,16 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
     نظير استدعائه القائم أصلًا لدوال خاصة أخرى هنا (`_image_candidates`)."""
     ok, reason, notes, _offending = _check_originality_full(
         draft_text, article_body, source_docs, max_shared_run_words,
-        repeat_min_count=repeat_min_count, extra_docs=extra_docs, min_core=min_core)
+        repeat_min_count=repeat_min_count, extra_docs=extra_docs, min_core=min_core,
+        allowed_quotes=allowed_quotes)
     return ok, reason, notes
 
 
 def _check_originality_full(draft_text: str, article_body: str, source_docs: list[dict],
                             max_shared_run_words: int, *, repeat_min_count: int = 2,
                             extra_docs: list[dict] | None = None, min_core: int = 5,
-                            grounded_texts: list[str] | None = None
+                            grounded_texts: list[str] | None = None,
+                            allowed_quotes: list[str] | None = None
                             ) -> tuple[bool, str, list[str], dict | None]:
     """يتحقق أن نص المسودة لا يحمل نسخًا حرفيًا من المقال الملصق ولا من
     مقتطفات المصادر المؤكِّدة (تعليق الموافقة على Issue #334، نقطة 3):
@@ -643,11 +646,14 @@ def _check_originality_full(draft_text: str, article_body: str, source_docs: lis
     source_link_map = {d["name"]: d.get("link", "") for d in source_docs}
     quotes = _quoted_spans(draft_text)
     normalized_sources = [_normalized_words(s) for s in source_texts]
+    # نصوص يجوز الاقتباس منها حرفيًا فوق مقتطفات المصادر (اختيارية — Issue #1225: ادّعاء النقطة
+    # المصحَّح/المفنَّد في «هام»)؛ للاقتباس بين علامتي التنصيص وحده، لا لفحص التتابع أدناه
+    quote_sources = normalized_sources + [_normalized_words(t) for t in (allowed_quotes or []) if t]
     cleaned = draft_text
     for q in quotes:
         q_words = _normalized_words(q)
         if not q_words or not any(_contains_run(src_words, q_words)
-                                  for src_words in normalized_sources):
+                                  for src_words in quote_sources):
             return False, (f"اقتباس بين علامتي تنصيص غير موجود حرفيًا في أي "
                            f"مقتطف مصدر مؤكِّد — يُفترض نسخه من المقال الملصق: "
                            f"«{q[:80]}»"), [], None

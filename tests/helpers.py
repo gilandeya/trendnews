@@ -580,6 +580,8 @@ def important_stance(source: str, stance: str, excerpt: str = "", **kw) -> dict:
             "as_of": kw.get("as_of", ""),
             # detail_kind (Issue #1214): غيابه يبقي السلوك القديم (يُعامَل رقمًا) كي تمرّ g1–g30
             **({"detail_kind": kw["detail_kind"]} if "detail_kind" in kw else {}),
+            # superseded_by (Issue #1225): {fact, date} الحقيقة الأحدث التي تجاوزت ما في النقطة
+            **({"superseded_by": kw["superseded_by"]} if "superseded_by" in kw else {}),
             "verdict_label": kw.get("verdict_label", default_label)}
 
 

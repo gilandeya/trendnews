@@ -85,6 +85,11 @@ CLASSIFY_SYSTEM = f"""أنت تصنّف موقف كل مصدر من «نقطة»
 
 الموقف supports/conflicts_detail/refutes لا يصح إلا مع same_event=true.
 
+superseded_by (لكل مصدر، **حتى مع same_event=false**): إن قال المصدر نفسه إن ما في النقطة
+كان صحيحًا لكن حدثًا أحدث تجاوزه (رقم قياسي حُطّم، «أول» صار له سابق، «أبعد/أكبر/أحدث»
+تجاوزه غيره، منصب تغيّر شاغله) فاملأه: fact = الحقيقة الأحدث كما وردت في النص، وdate = تاريخها.
+لا تملأه إن لم يقل النص ذلك صراحةً، ولا من معرفتك.
+
 excerpt: مقتطف **قصير منسوخ حرفيًا** من نص المصدر نفسه يثبت الموقف (لا صياغتك).
 لـirrelevant اتركه فارغًا.
 
@@ -137,6 +142,11 @@ CLASSIFY_SCHEMA = {
                         "detail_kind": {"type": "string", "enum": list(DETAIL_KINDS)},
                         "excerpt": {"type": "string"},
                         "verdict_label": {"type": "string"},
+                        "superseded_by": {
+                            "type": "object",
+                            "properties": {"fact": {"type": "string"},
+                                           "date": {"type": "string"}},
+                        },
                     },
                     "required": ["source", "same_event", "stance"],
                 },
@@ -783,7 +793,54 @@ def _pick_correction(conflicts: list[str], stances: dict[str, dict], pool: dict[
     return best
 
 
+def _superseded_names(stances: dict[str, dict]) -> list[str]:
+    return [n for n, st in stances.items() if st.get("superseded_by")]
+
+
+def _pick_superseded(names: list[str], stances: dict[str, dict], pool: dict[str, dict],
+                     cfg) -> list[str]:
+    """المصادر التي تتفق على الحقيقة الأحدث نفسها (_agree على نصها) وتكفي مجموعاتها المستقلة
+    (article.min_confirm_sources) — الأكثر استقلالًا أولًا. فارغة = لا تجاوز مثبَت (Issue #1225)."""
+    icfg = cfg.get("important", {}) or {}
+    min_confirm = int((cfg.get("article", {}) or {}).get("min_confirm_sources", 2))
+    best: list[str] = []
+    best_k = 0
+    for anchor in names:
+        cand = [n for n in names
+                if _agree(stances[anchor]["superseded_by"]["fact"],
+                          stances[n]["superseded_by"]["fact"], icfg)]
+        k = len(_independent_groups(cand, pool, cfg))
+        if k >= min_confirm and k > best_k:
+            best, best_k = cand, k
+    return best
+
+
+def _superseded_text(sup: dict) -> str:
+    fact, date = sup["fact"], sup.get("date", "")
+    return f"{fact} ({date})" if date and date not in fact else fact
+
+
 def decide(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | None = None) -> dict:
+    """غلاف الحكم (Issue #1225): الحكم من `_decide_base`، ثم — إن أشار مصدر واحد فقط إلى أن
+    ما في النقطة تجاوزه حدث أحدث ولم يُثبَت التجاوز بمصدرين — يُحفظ تنبيه «قد يكون متجاوَزًا»
+    في note وsuperseded_note دون تغيير الحكم (confirmed/inaccurate وحدهما: غيرهما لا يُنشر
+    على أنه صحيح)."""
+    decision = _decide_base(stances, pool, cfg, point)
+    names = _superseded_names(stances)
+    corr = decision.get("correction") or {}
+    if (names and decision["verdict"] in ("confirmed", "inaccurate")
+            and corr.get("detail_kind") != "superseded"):
+        icfg = cfg.get("important", {}) or {}
+        tmpl = icfg.get("superseded_note", "⚠️ قد يكون متجاوَزًا: {fact} ({publisher})")
+        first = names[0]
+        line = tmpl.format(fact=_superseded_text(stances[first]["superseded_by"]), publisher=first)
+        decision["superseded_note"] = line
+        decision["note"] = " · ".join(x for x in (decision.get("note", ""), line) if x)
+    return decision
+
+
+def _decide_base(stances: dict[str, dict], pool: dict[str, dict], cfg,
+                 point: dict | None = None) -> dict:
     """الحكم النهائي من تصنيفات المصادر بقواعد المهمة 1 — لا يملك النموذج هنا
     إلا التصنيف. يعيد {"verdict","note","correction","refuted_by","primary_source"}.
     point: النقطة نفسها (dates/numbers) لزمن التصحيح والجهة الأصلية.
@@ -856,6 +913,21 @@ def decide(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | N
                     "sources": [{"publisher": n, "link": pool[n].get("link", ""),
                                  "excerpt": stances[n]["excerpt"],
                                  "as_of": stances[n].get("as_of", "")} for n in agreeing]}}
+    # متجاوَز زمنيًا (#1225): مصدران مستقلان يتفقان على حقيقة أحدث تجاوزت النقطة ← inaccurate
+    superseders = _pick_superseded(_superseded_names(stances), stances, pool, cfg)
+    if superseders:
+        best = stances[superseders[0]]["superseded_by"]
+        return {"verdict": "inaccurate", "note": note, "refuted_by": None,
+                "primary_source": False,
+                "correction": {
+                    "error": (point or {}).get("text", ""), "correct": _superseded_text(best),
+                    "correct_value": None, "as_of": best.get("date", ""),
+                    "detail_kind": "superseded",
+                    "sources": [{"publisher": n, "link": pool[n].get("link", ""),
+                                 "excerpt": stances[n]["excerpt"] or
+                                 _superseded_text(stances[n]["superseded_by"]),
+                                 "as_of": stances[n]["superseded_by"].get("date", "")}
+                                for n in superseders]}}
     if n_support >= min_confirm or primary:
         return {"verdict": "confirmed", "note": note, "correction": None,
                 "refuted_by": None, "primary_source": bool(primary)}
@@ -1638,6 +1710,19 @@ def _content_mentioned(text: str, excerpt: str, f: dict, icfg) -> bool:
     return _shared_entity(excerpt, f.get("entities") or [], icfg) is not None
 
 
+def _read_superseded(raw) -> dict | None:
+    """superseded_by (Issue #1225) ← {fact, date} أو None. نص مجرد يُقبل حقيقةً بلا تاريخ؛
+    بلا حقيقة لا شيء — الحارس لا يبني تصحيحًا على تاريخ وحده."""
+    if isinstance(raw, str):
+        raw = {"fact": raw}
+    if not isinstance(raw, dict):
+        return None
+    fact = str(raw.get("fact") or "").strip()
+    if not fact:
+        return None
+    return {"fact": fact, "date": str(raw.get("date") or "").strip()}
+
+
 def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
                   icfg=None) -> dict[str, dict]:
     """يحوّل رد النموذج إلى {اسم_مصدر_فعلي: موقف} — أسماء لا تطابق وثيقة
@@ -1678,6 +1763,9 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
                                  if str(item.get("detail_kind") or "").strip().lower()
                                  in DETAIL_KINDS else ""),
                  "verdict_label": label}
+        sup = _read_superseded(item.get("superseded_by"))
+        if sup:
+            entry["superseded_by"] = sup
         # حكم المدقّق الصريح يغلب العنوان (#1207): للمدقّقين وحدهم، وعلى الحدث نفسه فقط.
         # «صحيح/Doğru» تأييد مهما بدا العنوان نفيًا (سؤال «هل يُظهر…؟»)، و«مضلِّل» مخالفة
         # تفصيل لا نفي — فلا يبلغ أيٌّ منهما حارس false بمدقّق واحد
@@ -1803,6 +1891,7 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
         if decision["verdict"] == "not_found" and data:
             nearest = _nearest(data, pool, cfg, f.get("entities") or [])
     note = " · ".join(x for x in (collect_note, decision["note"]) if x)
+    superseded = [{"publisher": n, **stances[n]["superseded_by"]} for n in _superseded_names(stances)]
 
     # related_other ليس دليلًا: يظهر في read_docs وقد يكون nearest، لا في evidence
     # صيغة تصحيح لزمن آخر (#1205) تبقى في read_docs وحدها: لا تُعرض دليلًا
@@ -1832,6 +1921,7 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
             "excerpt_chars": excerpt_by.get(n, 0) if in_pool else 0,
             "same_event": st.get("same_event") if in_pool else None,
             "as_of": st.get("as_of", "") if in_pool else "",
+            "superseded_by": st.get("superseded_by") if in_pool else None,
             "claim_review": ({k: d["claim_review"][k] for k in
                               ("claim_reviewed", "label", "date_published")}
                              if d.get("claim_review") else None),
@@ -1859,6 +1949,8 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
         "evidence": evidence_rows, "correction": decision["correction"],
         "refuted_by": decision["refuted_by"], "nearest": nearest,
         "note": note, "named_as": named,
+        # تنبيه التجاوز الزمني (#1225): يُعرض سطرًا بارزًا في قضيتي المرحلتين؛ superseded ما ذكره كل مصدر
+        "superseded_note": decision.get("superseded_note", ""), "superseded": superseded,
         "image_candidates": _image_candidates(img_names, ranked, pool, cfg),
         "sources_read": len(pool), "dropped_reason": dropped,
     }

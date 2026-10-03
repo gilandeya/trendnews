@@ -2096,3 +2096,176 @@ def test_important_1221() -> None:
 
     for n in range(number, number + 7):
         important.saved_path(n).unlink(missing_ok=True)
+
+
+def test_important_1225() -> None:
+    """المهمة 3ب (Issue #1225): اقتباس الادّعاء المصحَّح، لا فشل صامت، والادّعاء المتجاوَز زمنيًا.
+    على مخرَج الأنبوب: النقطتان الحقيقيتان 4591dfda9524/9c5d1c45c0a3 من fixture 1225."""
+    import copy
+    import sys
+    from datetime import datetime, timezone
+
+    from src import important, important_finalize, important_issue, important_write, publish
+    from tests.helpers import tick_marker
+
+    cfg = load_config()
+    number, sel = 98000, 98100
+    now = datetime.now(timezone.utc).isoformat()
+    fx_inacc = important_fixture_point(1225, "inaccurate")
+    fx_conf = important_fixture_point(1225, "confirmed")
+
+    def make_result(n, s, pts):
+        pts = copy.deepcopy(pts)
+        for pt in pts:
+            pt.update(status="offered", selection_issue=s)
+            pt.pop("write_error", None)   # الأصل الحقيقي فشلت كتابته؛ هنا يبدأ نظيفًا
+        r = {"issue": n, "created_at": now, "topic": "", "error": None, "selection_issue": s,
+             "points": pts}
+        important.save(r)
+        return r
+
+    real_fetch = publish.fetch_issue
+    old_argv = sys.argv
+
+    def run_publish(issue, body):
+        labels = [{"name": "important-selection"}, {"name": "approved"}]
+        publish.fetch_issue = lambda n: {"number": n, "body": body, "labels": labels}
+        sys.argv = ["publish", "--issue", str(issue), "--urgent-only"]
+        try:
+            return publish.main()
+        finally:
+            publish.fetch_issue = real_fetch
+            sys.argv = old_argv
+
+    # ── (a) النقطة 4591dfda9524: الكاتب يقتبس الادّعاء الخاطئ بين علامتي تنصيص ← تُقبل (كانت تُرفض) ──
+    good = important_good_data(fx_inacc)
+    quoted = dict(good, post_body=good["post_body"]
+                  + f" وقد انتشر أن «{fx_inacc['claim']}» وهذا غير دقيق.")
+    res_a = make_result(number, sel, [fx_inacc])
+    body_a = important_marked_body(res_a, {fx_inacc["id"]: "go3"}, cfg)
+    with ImportantWriteRig(lambda prompt, system: quoted) as rig:
+        code = important_finalize.finalize(sel, body_a, cfg)
+        pt = important.load_saved(number)["points"][0]
+        check("(a) نقطة 4591dfda9524 بنص يقتبس claim ← written (لا failed ولا selected)",
+              fx_inacc["id"] == "4591dfda9524" and code == 0 and pt["status"] == "written"
+              and not pt.get("write_error"), (pt["status"], pt.get("write_error")))
+        d = store.load_draft(pt["draft_id"])[1]
+        stage3 = [c for c in rig.created if c["labels"] == ["final-review"]]
+        check("(a) بطاقة «تصحيح» بُنيت وفُتحت قضية مرحلة 3",
+              rig.builds and rig.builds[-1]["origin"] == "important_inaccurate"
+              and d["badge"] == "تصحيح" and len(stage3) == 1
+              and f"<!-- draft:{d['id']} -->" in stage3[0]["body"], (rig.builds, rig.created))
+        check("(a) نص الكاتب فيه الادّعاء بين علامتي تنصيص فعلًا",
+              f"«{fx_inacc['claim']}»" in d["arabic"]["post_body"])
+    check("(a) السماح لـinaccurate وfalse وحدهما: claim وسياق التداول، وغيرهما فارغ",
+          important_write.allowed_quotes({"verdict": "false", "claim": "ك", "circulating_context": "س"}) == ["ك", "س"]
+          and important_write.allowed_quotes({"verdict": "inaccurate", "claim": "ك"}) == ["ك"]
+          and important_write.allowed_quotes({"verdict": "confirmed", "claim": "ك"}) == []
+          and important_write.allowed_quotes({"verdict": "not_found", "claim": "ك"}) == [])
+
+    # ── (b) كتابة تفشل مرتين ← failed + تعليق على قضية الترشيح + قضية ترشيح جديدة بشارة «فشلت الكتابة» ──
+    bad = dict(good, post_title="عنوان لا يحوي الصيغة", post_body="نص بلا الصيغة المطلوبة.")
+    answer = [bad]
+    res_b = make_result(number + 1, sel + 1, [fx_inacc])
+    body_b = important_marked_body(res_b, {fx_inacc["id"]: "go2"}, cfg)
+    with ImportantWriteRig(lambda prompt, system: answer[0]) as rig:
+        code = run_publish(sel + 1, body_b)
+        pt = important.load_saved(number + 1)["points"][0]
+        reopened = [c for c in rig.created if c["labels"] == ["important-selection"]]
+        why = "الصيغة الصحيحة غائبة عن العنوان أو أول جملة"
+        title = important_issue.display_title(fx_inacc)[:60]
+        note = [t for n, t in rig.comments if n == sel + 1]
+        check("(b) كتابة فشلت مرتين (نداءان) ← failed وwrite_error في الملف ولا مسودة",
+              len(rig.calls) == 2 and pt.get("write_error") == why
+              and "draft_id" not in pt, (len(rig.calls), pt.get("status"), pt.get("write_error")))
+        check("(b) تعليق على قضية الترشيح نفسها: «⚠️ فشلت كتابة: <الموضوع> — السبب: <write_error>»",
+              any(f"⚠️ فشلت كتابة: {title} — السبب: {why}" in t for t in note), note)
+        new_sel = reopened[0]["number"] if reopened else 0
+        check("(b) قضية ترشيح جديدة فيها النقطة بـ«⚠️ فشلت الكتابة: <سبب>» ولا قضية مرحلة 2/3",
+              code == 0 and len(reopened) == 1 and f"⚠️ فشلت الكتابة: {why} · " in reopened[0]["body"]
+              and f"go:go2:{fx_inacc['id']}" in reopened[0]["body"]
+              and all(c["labels"] == ["important-selection"] for c in rig.created)
+              and pt["status"] == "offered" and pt["selection_issue"] == new_sel,
+              (code, [c["labels"] for c in rig.created], pt["status"]))
+        # إعادة اختيارها تعيد المحاولة: الكاتب الآن يكتب سليمًا فتُقبل
+        answer[0] = quoted
+        calls = len(rig.calls)
+        code_r = important_finalize.finalize(
+            new_sel, tick_marker(reopened[0]["body"], f"go:go2:{fx_inacc['id']}"), cfg)
+        pt2 = important.load_saved(number + 1)["points"][0]
+        check("(b) إعادة اختيارها تعيد المحاولة فتُكتب ويُمسح خطؤها",
+              code_r == 0 and len(rig.calls) == calls + 1 and pt2["status"] == "written"
+              and not pt2.get("write_error") and not pt2.get("write_failed"),
+              (pt2["status"], pt2.get("write_error")))
+
+    # ── (c) الادّعاء المتجاوَز زمنيًا: النقطة 9c5d1c45c0a3 بوثائق read_docs الحقيقية ──
+    claim = fx_conf["claim"]
+    marker = "كلمةتجاوز"
+    by_pub = dict((e["publisher"], e) for e in fx_conf["evidence"])
+    real_docs = [d for d in fx_conf["read_docs"] if d["stance"] == "supports"]
+    check("(c) fixture النقطة الحقيقية 9c5d1c45c0a3 بوثائقها المؤيِّدة",
+          fx_conf["id"] == "9c5d1c45c0a3" and len(real_docs) >= 3)
+    docs = [important_doc(d["publisher"], by_pub[d["publisher"]]["excerpt"], link=d["link"])
+            for d in real_docs]
+    newer = {"fact": "تجاوزتها المجرة MoM-z14 المرصودة", "date": "16 مايو 2025"}
+    okaz = important_doc(
+        "okaz.com.sa",
+        "كانت JADES-GS-z14-0 أبعد مجرة معروفة حتى وقت قريب (قبل اكتشاف MoM-z14 في 16 مايو 2025).",
+        link="https://www.okaz.com.sa/variety/na/2233512")
+    second = important_doc("مجلة الفضاء", "المجرة MoM-z14 المرصودة في مايو 2025 أبعد من كل ما سبقها.",
+                           link="https://space.example/mom-z14")
+    pt_in = {"claim": claim, "asserted": "", "entities": [marker], "dates": [], "numbers": [],
+             "queries": [{"lang": "ar", "q": f"{marker} {claim}"}], "factcheck_query": "",
+             "is_unnamed_event": False}
+
+    def judge(n, extra_docs, sup_names):
+        def classify(point, names):
+            rows = []
+            for name in names:
+                if name in sup_names:
+                    rows.append(important_stance(name, "related_other", "", same_event=False,
+                                                 superseded_by=newer))
+                else:
+                    rows.append(important_stance(name, "supports", by_pub[name]["excerpt"]))
+            return {"sources": rows}
+        with ImportantRig([pt_in], {marker: docs + extra_docs}, classify):
+            important.judge("نص الـIssue كاملًا", n, cfg)
+        return important.load_saved(n)["points"][0]
+
+    two = judge(number + 2, [okaz, second], {"okaz.com.sa", "مجلة الفضاء"})
+    cor = two.get("correction") or {}
+    check("(c) مع وثيقة ثانية مستقلة تذكر MoM-z14 ← inaccurate بتصحيح الأحدث بتاريخها وdetail_kind=superseded",
+          two["verdict"] == "inaccurate" and "MoM-z14" in cor.get("correct", "")
+          and "16 مايو 2025" in cor.get("correct", "") and cor.get("detail_kind") == "superseded"
+          and set(s["publisher"] for s in cor.get("sources", [])) == {"okaz.com.sa", "مجلة الفضاء"},
+          (two["verdict"], cor))
+    one = judge(number + 3, [okaz], {"okaz.com.sa"})
+    check("(c) بوثيقة okaz وحدها ← confirmed مع note «قد يكون متجاوَزًا» باسم الناشر",
+          one["verdict"] == "confirmed" and "⚠️ قد يكون متجاوَزًا" in one["note"]
+          and "MoM-z14" in one["note"] and "(okaz.com.sa)" in one["note"]
+          and one["superseded_note"] == one["note"], (one["verdict"], one["note"]))
+    saved_one = important.load_saved(number + 3)
+    saved_one["selection_issue"] = sel + 3
+    for p in saved_one["points"]:
+        p.update(selection_issue=sel + 3, status="offered",
+                 image_candidates=copy.deepcopy(fx_conf["image_candidates"]))
+    important.save(saved_one)
+    sel_body = important_issue.build_selection_body(saved_one, cfg)
+    check("(c) جسم قضية الترشيح يحمل التنبيه سطرًا بارزًا (اقتباس) بعد الشارة",
+          f"  > {one['superseded_note']}" in sel_body, sel_body[:600])
+    print("──── جسم قضية الترشيح لنقطة 9c5d1c45c0a3 بوثيقة okaz وحدها ────")
+    print(sel_body)
+    body_c = important_marked_body(saved_one, {one["id"]: "go2"}, cfg)
+    with ImportantWriteRig(lambda prompt, system: important_good_data(one)) as rig:
+        important_finalize.finalize(sel + 3, body_c, cfg)
+        stage2 = [c for c in rig.created if c["labels"] == ["pending-review"]]
+        dr = store.load_draft(important.load_saved(number + 3)["points"][0]["draft_id"])[1]
+        check("(c) المسودة تحمل superseded_note وقضية المرحلة 2 تعرضه سطرًا بارزًا",
+              dr.get("superseded_note") == one["superseded_note"] and len(stage2) == 1
+              and f"  > {one['superseded_note']}" in stage2[0]["body"], stage2[:1])
+    instr = important_write.instructions(one, cfg)
+    check("(c) تعليمات confirmed تُلزم الكاتب بتأريخ صيغة التفضيل بتاريخ الإعلان",
+          "بتاريخ الإعلان" in instr and "حتى الآن" in instr, instr)
+
+    for n in range(number, number + 4):
+        important.saved_path(n).unlink(missing_ok=True)

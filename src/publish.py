@@ -1214,7 +1214,7 @@ def main() -> int:
                      "(المسار السريع ينفّذ finalize وحده)", args.issue)
             return 0
         from . import important_finalize
-        return important_finalize.finalize(args.issue, body, cfg)
+        return important_finalize.run(args.issue, body, cfg)
 
     # Issue #296: الاثنان معًا يعني Issue خُلط أصله (لا أحد في الكود ينشئ
     # Issue بالوسمين معًا عمدًا) — التفويض القديم كان يفوز لـ
