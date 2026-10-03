@@ -1,0 +1,719 @@
+{
+  "issue": 1201,
+  "created_at": "2026-10-03T10:45:50.278085+00:00",
+  "topic": "التطورات العسكرية والرقمية والديموغرافية في تركيا عام 2026",
+  "error": null,
+  "model": "claude-sonnet-5",
+  "extract_model": "claude-haiku-4-5-20251001",
+  "brave": {
+    "requests": 13,
+    "skipped": null,
+    "monthly_usage": 28,
+    "monthly_cap": 300
+  },
+  "model_calls": {
+    "total": 6,
+    "by_model": {
+      "claude-haiku-4-5-20251001": 1,
+      "claude-sonnet-5": 5
+    },
+    "brief": 1,
+    "by_point": {
+      "e5859c803639": 1,
+      "ff0c8c1b8683": 1,
+      "22504465571f": 1,
+      "a2c03010e109": 1,
+      "1729a93ef132": 1
+    }
+  },
+  "truncated": null,
+  "points": [
+    {
+      "id": "e5859c803639",
+      "text": "أعلنت شركة بايكار أن الطائرة المسيّرة الهجومية بيرقدار أقنجي تمكنت خلال اختبار إطلاق من إصابة هدف يبعد أكثر من 250 كيلومترًا باستخدام صاروخ بالستي فرط صوتي",
+      "claim": "أعلنت شركة بايكار أن الطائرة المسيّرة الهجومية بيرقدار أقنجي تمكنت خلال اختبار إطلاق من إصابة هدف يبعد أكثر من 250 كيلومترًا باستخدام صاروخ بالستي فرط صوتي",
+      "asserted": "",
+      "queries": [
+        "بيرقدار أقنجي إصابة 250 كيلومتر تحقق",
+        "بيرقدار أقنجي صاروخ بالستي فرط صوتي مدى 250"
+      ],
+      "engines": [
+        "google_news",
+        "brave_web"
+      ],
+      "windows": [
+        "days",
+        "wide",
+        "days",
+        "wide"
+      ],
+      "brave_skipped": null,
+      "read_docs": [
+        {
+          "publisher": "Alsaudi",
+          "link": "https://alsaudi.news/international/1109/96875",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1180,
+          "excerpt_chars": 1180,
+          "same_event": true,
+          "stance": "supports"
+        },
+        {
+          "publisher": "News-pravda",
+          "link": "https://syria.news-pravda.com/syria/2026/09/11/323210.html",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1781,
+          "same_event": true,
+          "stance": "supports"
+        },
+        {
+          "publisher": "Yeni Şafak",
+          "link": "https://www.yenisafak.com/ar/economy/4131591",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2019,
+          "excerpt_chars": 598,
+          "same_event": true,
+          "stance": "supports"
+        },
+        {
+          "publisher": "Wikipedia",
+          "link": "https://ar.wikipedia.org/wiki/%D8%A8%D9%8A%D8%B1%D9%82%D8%AF%D8%A7%D8%B1_%D8%A2%D9%82%D9%86%D8%AC%D9%8A",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1796,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "defensehere.com",
+          "link": "https://defensehere.com/ar/%D8%A8%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D8%A8%D8%A7%D9%84%D9%8A%D8%B3%D8%AA%D9%8A-%D9%81%D8%B1%D8%B7-%D8%B5%D9%88%D8%AA%D9%8A-%D8%A3%D9%82%D9%86%D8%AC%D9%8A-%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D8%AA%D8%B5%D9%8A%D8%A8-%D9%87%D8%AF%D9%81%D8%A7-%D8%B9%D9%84%D9%89-%D8%A8%D8%B9%D8%AF-%D8%A3%D9%83%D8%AB%D8%B1-%D9%85%D9%86-250-%D9%83%D9%8A%D9%84%D9%88%D9%85%D8%AA%D8%B1%D8%A7/",
+          "orig_link": "https://news.google.com/rss/articles/CBMitwRBVV95cUxPVG1DYzhNMW5HRVc4cUFYc3dIVjhMdDRpZEw3LUZfU0YyX2NvTFNwNE1KOHk4T0h5T0JFbVhCZGN0aTV6T1ktLWxVM25pdExFdHNSeGhLaUtzYVNtOG5teVUydVFpNXJmR2dfU2hzcUlrUWhIRk5nanFuZHAzU29NenBLaVdzdlhfQkllRnNZWHBxTzR3UnVhX0lrR2l0bmpScUlfYWRWRWk1ZEdvcWpSbFJpUXpZVlpOR29QMUVQMVQtd1BvMWgwLUJHSTdtQ3FYcm5jTW05TDJoMlJibEYxUlEyT3R4TElsbzhnbVVzM0F2UDdBcnZHTDlWOE9WY3EzMVd3ZzlRV3R0WDZCX1RCSXFDUXlIS0ExS2p2djU2a0tUYllCblJQSTMzcHQtbjZvU1ZGZU1ieFdHTldVbVBqUnI2OXljdldVMWFXOEVhS0FRUjRXWURBbnhHaUlmb25JMFFiU2tUbm9ZNEtidXRvQ2ZQMzFWSG9QdnRacTlFeURxay1ENkRlTGd3aTh6UlpjVnlJNHprOGVtWGEwRWNrVGV6aWppMHJmQk1Wa09JMkRJM2Nsa0xNdTl6d1JZRGFVcHhNQ2ludVVaMF9yXzduSUFzMjMzSHVYMndJNmw2aWN4cC16WlVrOVZrMHNRTzdQMVZ2eFZEUGxuMm9xUWhYaUREU3hJbG53X05wbV9DVEw5alVPZTJnTFhHdVBxNEpqM18xSmp2RHhDNXppLW9Ca3Z5UUNxMFU?oc=5",
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 176,
+          "excerpt_chars": 176,
+          "same_event": true,
+          "stance": "supports"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/ckgnep2x8gvo",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1704,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Mshireb",
+          "link": "https://www.mshireb.com/reports/%D9%85%D8%A7-%D8%A7%D9%84%D9%81%D8%B1%D9%82-%D8%A8%D9%8A%D9%86-%D8%A7%D9%84%D8%B5%D9%88%D8%A7%D8%B1%D9%8A%D8%AE-%D8%A7%D9%84%D8%A8%D8%A7%D9%84%D8%B3%D8%AA%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D8%B5%D9%88/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1010,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Wikipedia",
+          "link": "https://ar.wikipedia.org/wiki/%D8%B3%D9%84%D8%A7%D8%AD_%D9%81%D8%B1%D8%B7_%D8%B5%D9%88%D8%AA%D9%8A",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "stance": "deduped"
+        }
+      ],
+      "docs_before": 8,
+      "docs_after": 8,
+      "verdict": "confirmed",
+      "icon": "✅",
+      "evidence": [
+        {
+          "publisher": "Alsaudi",
+          "link": "https://alsaudi.news/international/1109/96875",
+          "stance": "supports",
+          "excerpt": "انطلقت الطائرة من مركز التدريب والاختبار الموجود في تكيرداغ، وتوجهت فوق البحر الأسود باتجاه سواحل سينوب. هناك استهدفت هدفًا بحريًا على بعد أكثر من 250 كيلومترًا باستخدام الصاروخ",
+          "detail": "",
+          "correct_form": ""
+        },
+        {
+          "publisher": "News-pravda",
+          "link": "https://syria.news-pravda.com/syria/2026/09/11/323210.html",
+          "stance": "supports",
+          "excerpt": "أصابت قذيفة من طراز IHA-300 الهدف البحري مباشرة قبالة سواحل سينوب... أصابت تركيا هدفاً على بُعد 250 كيلومتراً",
+          "detail": "",
+          "correct_form": ""
+        },
+        {
+          "publisher": "Yeni Şafak",
+          "link": "https://www.yenisafak.com/ar/economy/4131591",
+          "stance": "supports",
+          "excerpt": "ØªÙ ÙÙØª Ø§ÙÙ Ø³ÙØ±Ø© Ø§ÙÙ Ø·ÙØ±Ø© Ø¨Ø¥Ù ÙØ§ÙØ§Øª Ù ØÙÙØ© Ù Ù Ø¥ØµØ§Ø¨Ø© ÙØ¯ÙÙØ§ Ø¨ØØ±Ù Ø¨Ø¯ÙØ© Ø¹ÙÙ Ù Ø³Ø§ÙØ© ØªØªØ¬Ø§ÙØ² 250 ÙÙÙÙÙ ØªØ±",
+          "detail": "",
+          "correct_form": ""
+        },
+        {
+          "publisher": "defensehere.com",
+          "link": "https://defensehere.com/ar/%D8%A8%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D8%A8%D8%A7%D9%84%D9%8A%D8%B3%D8%AA%D9%8A-%D9%81%D8%B1%D8%B7-%D8%B5%D9%88%D8%AA%D9%8A-%D8%A3%D9%82%D9%86%D8%AC%D9%8A-%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D8%AA%D8%B5%D9%8A%D8%A8-%D9%87%D8%AF%D9%81%D8%A7-%D8%B9%D9%84%D9%89-%D8%A8%D8%B9%D8%AF-%D8%A3%D9%83%D8%AB%D8%B1-%D9%85%D9%86-250-%D9%83%D9%8A%D9%84%D9%88%D9%85%D8%AA%D8%B1%D8%A7/",
+          "stance": "supports",
+          "excerpt": "بصاروخ باليستي فرط صوتي… “أقنجي” التركية تصيب هدفا على بعد أكثر من 250 كيلومترا",
+          "detail": "",
+          "correct_form": ""
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 7,
+      "dropped_reason": null,
+      "model_calls": 1
+    },
+    {
+      "id": "ff0c8c1b8683",
+      "text": "بلغ عدد سكان تركيا في نهاية عام 2025 نحو 85.7 مليون نسمة",
+      "claim": "بلغ عدد سكان تركيا في نهاية عام 2025 نحو 85.7 مليون نسمة",
+      "asserted": "",
+      "queries": [
+        "عدد سكان تركيا 2025 تحقق",
+        "عدد سكان تركيا 2025 85.7 مليون"
+      ],
+      "engines": [
+        "google_news",
+        "brave_web"
+      ],
+      "windows": [
+        "wide",
+        "wide"
+      ],
+      "brave_skipped": null,
+      "read_docs": [
+        {
+          "publisher": "newturkpost.com",
+          "link": "https://newturkpost.com/news/118693-%D8%A8%D8%B2%D9%8A%D8%A7%D8%AF%D8%A9-228-%D8%A3%D9%84%D9%81%D8%A7-%D9%81%D9%8A-%D9%86%D8%B5%D9%81-%D8%B9%D8%A7%D9%85-%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%8A%D8%AA%D8%AC%D8%A7%D9%88%D8%B2-863-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D9%86%D8%B3%D9%85%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 727,
+          "excerpt_chars": 727,
+          "same_event": true,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "TRADING ECONOMICS",
+          "link": "https://ar.tradingeconomics.com/turkey/population",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 852,
+          "same_event": true,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "Zaman Arabic",
+          "link": "https://www.zamanarabic.com/2025/08/14/%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%A7%D9%84%D8%B3%D9%83%D8%A7%D9%86%D9%8A-2025/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 572,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "TurkTT",
+          "link": "https://turktt.com/%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "الترا العراق",
+          "link": "https://ultrairaq.ultrasawt.com/%D8%A7%D9%84%D9%85%D9%81%D9%88%D8%B6%D9%8A%D8%A9-%D8%B9%D8%AF%D8%AF-%D8%A7%D9%84%D9%86%D8%A7%D8%AE%D8%A8%D9%8A%D9%86-%D8%A7%D9%84%D8%B0%D9%8A%D9%86-%D9%8A%D8%AD%D9%82-%D9%84%D9%87%D9%85-%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D8%B1%D9%83%D8%A9-%D9%81%D9%8A-%D8%A7%D9%86%D8%AA%D8%AE%D8%A7%D8%A8%D8%A7%D8%AA-2025-%D9%8A%D8%AA%D8%AC%D8%A7%D9%88%D8%B2-29-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D8%B9%D8%B1%D8%A7%D9%82%D9%8A/%D9%81%D8%B1%D9%8A%D9%82-%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2500,
+          "excerpt_chars": 753,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Zaman Arabic",
+          "link": "https://www.zamanarabic.com/2025/11/24/%D8%AA%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%81%D9%8A-2025-%D9%8A%D8%B1%D8%AA%D9%81%D8%B9-315-%D8%A3%D9%84%D9%81-%D9%86%D8%B3%D9%85%D8%A9/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 667,
+          "excerpt_chars": 667,
+          "same_event": true,
+          "stance": "supports"
+        },
+        {
+          "publisher": "الجزيرة نت",
+          "link": "https://www.aljazeera.net/politics/2025/8/15/%D8%B3%D9%83%D8%A7%D9%86-%D9%85%D8%AE%D9%8A%D9%85-%D9%85%D8%AE%D9%85%D9%88%D8%B1-%D8%A8%D9%8A%D9%86-%D8%A7%D9%84%D8%B6%D8%BA%D9%88%D8%B7-%D8%A7%D9%84%D8%A3%D9%85%D9%86%D9%8A%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2500,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "RT Arabic",
+          "link": "https://arabic.rt.com/middle_east/1756162-%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%8A%D8%AA%D8%AC%D8%A7%D9%88%D8%B2-86-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D9%86%D8%B3%D9%85%D8%A9-%D9%86%D9%87%D8%A7%D9%8A%D8%A9-2025/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 545,
+          "same_event": false,
+          "stance": "irrelevant"
+        }
+      ],
+      "docs_before": 9,
+      "docs_after": 8,
+      "verdict": "not_found",
+      "icon": "🔍",
+      "evidence": [
+        {
+          "publisher": "newturkpost.com",
+          "link": "https://newturkpost.com/news/118693-%D8%A8%D8%B2%D9%8A%D8%A7%D8%AF%D8%A9-228-%D8%A3%D9%84%D9%81%D8%A7-%D9%81%D9%8A-%D9%86%D8%B5%D9%81-%D8%B9%D8%A7%D9%85-%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%8A%D8%AA%D8%AC%D8%A7%D9%88%D8%B2-863-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D9%86%D8%B3%D9%85%D8%A9",
+          "stance": "conflicts_detail",
+          "excerpt": "بلغ عدد السكّان 86 مليوناً و320 ألفاً و602 نسمة اعتباراً من الأوّل من يوليو",
+          "detail": "النص يذكر أن عدد السكان بلغ 86.3 مليون نسمة في الأول من يوليو 2026 (بعد زيادة 228 ألفاً في النصف الأول من العام)، وليس نهاية 2025 بنحو 85.7 مليون كما في النقطة",
+          "correct_form": "86 مليوناً و320 ألفاً و602 نسمة اعتباراً من الأوّل من يوليو 2026، وكان عدد السكان نهاية عام 2025 هو 86 مليوناً و92 ألفاً و168 نسمة"
+        },
+        {
+          "publisher": "TRADING ECONOMICS",
+          "link": "https://ar.tradingeconomics.com/turkey/population",
+          "stance": "conflicts_detail",
+          "excerpt": "تم تقدير إجمالي عدد السكان في تركيا بـ 86.1 مليون نسمة في عام 2025",
+          "detail": "الرقم الوارد لعام 2025 هو 86.1 مليون (أو 85.67 مليون في بيانات أخرى من نفس المصدر)، وليس 85.7 مليون كما ورد في النقطة بشكل دقيق، مع تفاوت بين الأرقام المذكورة في النص نفسه",
+          "correct_form": "86.1 مليون نسمة (أو 85.67 مليون وفق بيانات أخرى في نفس الجدول)"
+        },
+        {
+          "publisher": "Zaman Arabic",
+          "link": "https://www.zamanarabic.com/2025/11/24/%D8%AA%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%81%D9%8A-2025-%D9%8A%D8%B1%D8%AA%D9%81%D8%B9-315-%D8%A3%D9%84%D9%81-%D9%86%D8%B3%D9%85%D8%A9/",
+          "stance": "supports",
+          "excerpt": "بلغ عدد سكان تركيا في نهاية عام 2025 نحو 85.7 مليون نسمة",
+          "detail": "",
+          "correct_form": ""
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 7,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 1
+    },
+    {
+      "id": "22504465571f",
+      "text": "انتشر على مواقع التواصل الاجتماعي خلال صيف 2026 مقطع فيديو قيل إنه يُظهر إرسال تركيا 450 ألف جندي إلى سوريا",
+      "claim": "انتشر على مواقع التواصل الاجتماعي خلال صيف 2026 مقطع فيديو قيل إنه يُظهر إرسال تركيا 450 ألف جندي إلى سوريا",
+      "asserted": "",
+      "queries": [
+        "تركيا 450 ألف جندي سوريا فيديو تحقق",
+        "فيديو 450 ألف جندي تركي سوريا صيف",
+        "video Turkish soldiers 450000 Syria summer 2026"
+      ],
+      "engines": [
+        "google_news",
+        "brave_web"
+      ],
+      "windows": [
+        "days",
+        "wide",
+        "days",
+        "wide",
+        "unrestricted",
+        "days",
+        "wide"
+      ],
+      "brave_skipped": null,
+      "read_docs": [
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/news/2026/8/23/%D8%AF%D8%A8%D8%A7%D8%A8%D8%A7%D8%AA-%D9%88%D9%85%D8%AF%D8%B1%D8%B9%D8%A7%D8%AA-%D9%88%D8%AA%D8%B1%D8%AD%D9%8A%D8%A8-%D8%B4%D8%B9%D8%A8%D9%8A-%D9%87%D9%84-%D8%AA%D9%88%D8%AB%D9%82-%D9%87%D8%B0%D9%87",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "Turkpress",
+          "link": "https://www.turkpress.co/node/112091",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "CNN",
+          "link": "https://arabic.cnn.com/middle-east/article/2026/08/22/circulating-old-video-shows-deployment-of-turkish-military-equipment-in-syria",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1915,
+          "excerpt_chars": 1752,
+          "same_event": true,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/middleeast-51658671",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "رأي اليوم",
+          "link": "https://www.raialyoum.com/%D9%86%D8%AC%D8%A7%D8%AD-%D9%85%D8%AD%D9%85%D8%AF-%D8%B9%D9%84%D9%8A-%D8%B3%D9%88%D8%B1%D9%8A%D8%A7-%D8%B1%D9%88%D8%A7%D9%8A%D8%A9-%D8%B3%D9%82%D9%88%D8%B7-%D9%85%D9%8F%D8%AE%D8%B7%D8%B7-%D9%84/",
+          "orig_link": "https://news.google.com/rss/articles/CBMiwgJBVV95cUxNczI0bzhNbDN3TkZnaUlUZWVFRU9TZmtWVlpfMWRMY0hZa2RxcG1nYTdWTGNIbEpURFJndXU5cWdoazk1X2RSbDExUTVRQl8ydldWVW9CZ190UnhTaHpTeXhpYnNNazJsZDBub1RnZUJJMXpMeFFGeUJZb1JCcFctR1RuWVpHMUpteEF1dTV0QVBmSEdQMnNqSV9WdV9GbDI0R3g2dUlzVFhnaXR3cFRyT1JJaldlaUJqVTIyQ0Y5bnRhRWVldnZ1cDdGWmVpUjBmbXgzbldhUGJ3eWNkMlZJaWdVUUZLcmRMZzFIcXBibnpsUnN5LWtzaXpwOWpDeVJaSnVnVlJJVVpsS3p2R19XT1RoLTJaVEdnSHlqMm0tNjhlM1BaaHd3Vld2NDQ2dl82UkV4YzVKUmhhX0tTZk8waHln?oc=5",
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 162,
+          "excerpt_chars": 162,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Alma Research and Education Center",
+          "link": "https://israel-alma.org/turkeys-axis-of-activity-syria-and-lebanon-july-august-2026-tracker-abu-al-duhur-airbase-strike-at-the-center-of-events/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1780,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/news/videos/cv2g917x2p1o",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 734,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Wikipedia",
+          "link": "https://en.wikipedia.org/wiki/Turkish_involvement_in_the_Syrian_civil_war",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1567,
+          "same_event": false,
+          "stance": "irrelevant"
+        }
+      ],
+      "docs_before": 10,
+      "docs_after": 8,
+      "verdict": "not_found",
+      "icon": "🔍",
+      "evidence": [
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/news/2026/8/23/%D8%AF%D8%A8%D8%A7%D8%A8%D8%A7%D8%AA-%D9%88%D9%85%D8%AF%D8%B1%D8%B9%D8%A7%D8%AA-%D9%88%D8%AA%D8%B1%D8%AD%D9%8A%D8%A8-%D8%B4%D8%B9%D8%A8%D9%8A-%D9%87%D9%84-%D8%AA%D9%88%D8%AB%D9%82-%D9%87%D8%B0%D9%87",
+          "stance": "conflicts_detail",
+          "excerpt": "نقلت حسابات عن صحفي سوري... أن تركيا نشرت ما بين 200 و250 مركبة مسلحة و20 دبابة في المنطقة الجنوبية الغربية من سوريا",
+          "detail": "النقطة تذكر رقم 450 ألف جندي، بينما النص يتحدث عن نشر ما بين 200 و250 مركبة مسلحة و20 دبابة، ولا يذكر عدد جنود أبدًا",
+          "correct_form": "200 إلى 250 مركبة مسلحة و20 دبابة في المنطقة الجنوبية الغربية من سوريا"
+        },
+        {
+          "publisher": "CNN",
+          "link": "https://arabic.cnn.com/middle-east/article/2026/08/22/circulating-old-video-shows-deployment-of-turkish-military-equipment-in-syria",
+          "stance": "conflicts_detail",
+          "excerpt": "زعم المنشور في موقع إكس... أنه لـ\"استمرار شحن الجيش التركي معدات عسكرية مدرعة إلى سوريا\"",
+          "detail": "الادعاء المتداول في هذا النص يتحدث عن معدات عسكرية (شاحنات، مدرعات) وليس عن 450 ألف جندي، والنص يؤكد أن الفيديو قديم ولا يوثق أي نشر لجنود",
+          "correct_form": "استمرار شحن الجيش التركي معدات عسكرية مدرعة إلى سوريا (فيديو قديم من 2022)"
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 7,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 1
+    },
+    {
+      "id": "a2c03010e109",
+      "text": "أعلنت تركيا خلال عام 2026 تشغيل أول شبكة إنترنت فضائي حكومية تركية بالكامل تغطي جميع أنحاء البلاد",
+      "claim": "أعلنت تركيا خلال عام 2026 تشغيل أول شبكة إنترنت فضائي حكومية تركية بالكامل تغطي جميع أنحاء البلاد",
+      "asserted": "",
+      "queries": [
+        "تركيا شبكة إنترنت فضائي حكومية تحقق",
+        "تركيا شبكة إنترنت فضائي حكومية 2026",
+        "Turkey satellite internet government network 2026"
+      ],
+      "engines": [
+        "google_news",
+        "brave_web"
+      ],
+      "windows": [
+        "days",
+        "wide",
+        "days",
+        "wide",
+        "days"
+      ],
+      "brave_skipped": null,
+      "read_docs": [
+        {
+          "publisher": "verify-sy.com",
+          "link": "https://www.verify-sy.com/ar/factcheck/2507112136",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2349,
+          "excerpt_chars": 1646,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Tdapartment",
+          "link": "https://www.tdapartment.com/post/%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83-%D8%A8%D8%AE%D8%AF%D9%85%D8%A9-%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D8%A7%D9%84%D9%85%D9%86%D8%B2%D9%84%D9%8A-%D9%88%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A6%D9%8A-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1769,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Turk",
+          "link": "https://turk.wiki/%D8%A3%D9%81%D8%B6%D9%84-5-%D8%B4%D8%B1%D9%83%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1783,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "الجزيرة نت",
+          "link": "https://www.aljazeera.net/tech/2026/4/22/%D9%83%D9%8A%D9%81-%D8%AA%D8%AD%D9%85%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%A3%D8%B7%D9%81%D8%A7%D9%84%D9%87%D8%A7-%D8%B1%D9%82%D9%85%D9%8A%D8%A7-%D8%A5%D8%AC%D8%B1%D8%A7%D8%A1%D8%A7%D8%AA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2500,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Daily Sabah",
+          "link": "https://www.dailysabah.com/business/tech/turkiye-denies-claims-elon-musks-starlink-will-launch-in-2026",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1271,
+          "excerpt_chars": 1271,
+          "same_event": false,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Eutelsat",
+          "link": "https://www.eutelsat.com/turkiye",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 973,
+          "excerpt_chars": 973,
+          "same_event": false,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "TechGIndia",
+          "link": "https://techgindia.com/claim-starlink-will-provide-controlled-internet-service-in-turkiye-as-of-spring-2026/16127/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1788,
+          "same_event": false,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "اليوم السابع",
+          "link": "https://www.youm7.com/story/2026/8/10/%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%AA%D8%B7%D9%84%D9%82-%D8%B3%D8%AA%D8%A7%D8%B1%D9%84%D9%8A%D9%86%D9%83-%D8%A7%D9%84%D8%AE%D8%A7%D8%B5%D8%A9-%D8%A8%D9%87%D8%A7-%D9%85%D8%B4%D8%B1%D9%88%D8%B9-%D9%81%D8%B6%D8%A7%D8%A6%D9%8A-%D8%B6%D8%AE%D9%85-%D9%8A%D8%AF%D8%AE%D9%84-%D9%85%D8%B1%D8%AD%D9%84%D8%A9/7507706",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2500,
+          "excerpt_chars": 1645,
+          "same_event": false,
+          "stance": "irrelevant"
+        }
+      ],
+      "docs_before": 15,
+      "docs_after": 8,
+      "verdict": "not_found",
+      "icon": "🔍",
+      "evidence": [],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 8,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 1
+    },
+    {
+      "id": "1729a93ef132",
+      "text": "عدد مستخدمي الإنترنت في تركيا بلغ نحو 77.5 مليون مستخدم، أي ما يقارب 88% من السكان",
+      "claim": "عدد مستخدمي الإنترنت في تركيا بلغ نحو 77.5 مليون مستخدم، أي ما يقارب 88% من السكان",
+      "asserted": "",
+      "queries": [
+        "مستخدمو الإنترنت تركيا 77.5 مليون تحقق",
+        "مستخدمو الإنترنت في تركيا 77.5 مليون",
+        "Turkey internet users 77.5 million 88 percent"
+      ],
+      "engines": [
+        "google_news",
+        "brave_web"
+      ],
+      "windows": [
+        "days",
+        "wide",
+        "unrestricted",
+        "days",
+        "wide",
+        "unrestricted",
+        "days",
+        "wide"
+      ],
+      "brave_skipped": null,
+      "read_docs": [
+        {
+          "publisher": "GitHub",
+          "link": "https://github.com/gilandeya/trendnews/issues/1198",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 942,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Turkiye Alaan",
+          "link": "https://www.turkeyalaan.net/2025/05/08/%D8%B2%D9%8A%D8%A7%D8%AF%D8%A9-%D9%85%D9%84%D8%AD%D9%88%D8%B8%D8%A9-%D9%81%D9%8A-%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D9%85%D9%86%D8%B5%D8%A7%D8%AA-%D8%A7%D9%84%D8%B3%D9%88%D8%B4%D9%8A%D8%A7/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2041,
+          "excerpt_chars": 1550,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "SMEX",
+          "link": "https://smex.org/ar/8-%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA-%D8%B9%D9%86-%D9%88%D8%A7%D9%82%D8%B9-%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1737,
+          "excerpt_chars": 1737,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Global Digital Insights",
+          "link": "https://datareportal.com/reports/digital-2026-turkey",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2500,
+          "excerpt_chars": 1578,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "TRADING ECONOMICS",
+          "link": "https://tradingeconomics.com/turkey/individuals-using-the-internet-percent-of-population-wb-data.html",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 524,
+          "same_event": false,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Wikipedia",
+          "link": "https://en.wikipedia.org/wiki/Internet_in_Turkey",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2500,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "stance": "irrelevant"
+        }
+      ],
+      "docs_before": 10,
+      "docs_after": 6,
+      "verdict": "not_found",
+      "icon": "🔍",
+      "evidence": [],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 6,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 1
+    }
+  ]
+}
