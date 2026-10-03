@@ -1007,3 +1007,41 @@ def test_important_false_guard() -> None:
              conflict_all)
     check("(g6) مصدران يؤيدان الحدث ويخالفان الرقم ⇒ inaccurate لا false",
           p6["verdict"] == "inaccurate", p6["verdict"])
+
+    # ── Issue #1198 (المهمة 1ب): الحالات الثلاث التالية تُكتب قبل أي كود ──
+    # g7) مدقّق معروف بنطاقه وحده، والناشر باسم «مسبار» ← false
+    p7 = run(7, [important_doc("مسبار", denial, link="https://misbar.com/factcheck/x")],
+             refute_all)
+    check("(g7) ناشر باسم «مسبار» على نطاق misbar.com ينفي ⇒ false",
+          p7["verdict"] == "false", (p7["verdict"], p7.get("note")))
+    p7b = run(17, [important_doc("موقع التحقق الشرقي", denial,
+                                 link="https://www.misbar.com/factcheck/y")],
+              refute_all)
+    check("(g7) النطاق وحده (اسم ناشر غير معروف) يكفي لجهة التدقيق ⇒ false",
+          p7b["verdict"] == "false", (p7b["verdict"], p7b.get("note")))
+
+    # g8) asserted يقول «كذبة» ولا مصدر ينفي ← لا false (asserted ليس دليلًا)
+    marker8 = "كلمةحارس8"
+    pt8 = important_point(marker8, f"وقعت حادثة {marker8} في المدينة",
+                          asserted="النص الملصق يصفها بأنها كذبة مفضوحة")
+    seen_8: list[str] = []
+
+    def classify_8(point, names):
+        seen_8.append(point)
+        return {"sources": [important_stance(n, "irrelevant") for n in names]}
+
+    with ImportantRig([pt8], {marker8: [important_doc("صحيفة الشرق", "نص عن الحادثة.")]},
+                      classify_8):
+        important.judge("نص الـIssue كاملًا", 94008, cfg)
+    p8 = important.load_saved(94008)["points"][0]
+    check("(g8) asserted «كذبة» بلا مصدر ينفي ⇒ لا false",
+          p8["verdict"] != "false", p8["verdict"])
+    check("(g8) asserted لا يصل نداء التصنيف",
+          seen_8 and all("كذبة" not in s for s in seen_8), seen_8)
+
+    # g9) نتيجة من نطاق مستبعد (facebook.com) تنفي ← لا تُحسب
+    p9 = run(9, [important_doc("صفحة فيسبوك أ", denial, link="https://www.facebook.com/p/1"),
+                 important_doc("صفحة فيسبوك ب", denial, link="https://m.facebook.com/p/2")],
+             refute_all)
+    check("(g9) نفي من facebook.com لا يُحسب ⇒ لا false ولا أدلة منه",
+          p9["verdict"] != "false" and not p9["evidence"], (p9["verdict"], p9["evidence"]))

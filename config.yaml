@@ -1055,7 +1055,50 @@ important:
     - "Snopes"
     - "PolitiFact"
     - "Teyit"
-  max_points: 8        # سقف النقاط المحكومة في الاستدعاء؛ ما بعدها يُقصّ ويُسجَّل
+    # صيغها العربية (Issue #1198): ناشر يُسمّى بالعربية لا يطابق الأسماء اللاتينية
+    - "مسبار"
+    - "فتبينوا"
+    - "تييت"
+  # جهة التدقيق تُعرف أيضًا بنطاق رابطها (Issue #1198) — اسم الناشر في نتائج
+  # البحث غير موثوق (قد يكون النطاق نفسه). مدخل فيه «/» يتطلب أن يحوي المسار
+  # ذلك الجزء: reuters.com وحدها وكالة أنباء، ومسار fact-check فيها تدقيق.
+  fact_check_domains:
+    - "misbar.com"
+    - "fatabyyano.net"
+    - "factuel.afp.com"
+    - "factcheck.afp.com"
+    - "fullfact.org"
+    - "snopes.com"
+    - "politifact.com"
+    - "teyit.org"
+    - "reuters.com/fact-check/"
+  # نطاقات تُستبعد من الأدلة كليًا من كل محرّك: منصات مستخدمين، لا ناشرون —
+  # منشور فيها لا يُعدّ مصدرًا مستقلًا ولا نفيًا يُبنى عليه حكم «false».
+  excluded_domains:
+    - "facebook.com"
+    - "x.com"
+    - "twitter.com"
+    - "tiktok.com"
+    - "instagram.com"
+    - "youtube.com"
+    - "reddit.com"
+    - "quora.com"
+    - "pinterest.com"
+    - "telegram.me"
+    - "t.me"
+  # التفكيك (Issue #1198): استخراج لا حكم، فـHaiku (سياسة الكلفة)
+  extract_model: "claude-haiku-4-5-20251001"
+  extract_max_tokens: 4000
+  extract_max_tokens_cap: 8000
+  queries_per_lang: 2      # عبارات البحث لكل لغة لكل نقطة (كل عبارة طلب Brave محتمل)
+  phrase_max_words: 10     # قصّ عبارة البحث — 5 كلمات كانت تفقد الواقعة
+  # بحث ويب Brave (web/search) بالمفتاح BRAVE_API_KEY نفسه لكن بعدّاد وسقف
+  # مستقلين عن صور البطاقات (مفتاح "important:YYYY-MM" في state/brave_usage.json):
+  # بلوغ سقف أحدهما لا يوقف الآخر. بلا مفتاح/عند السقف تبقى أخبار Google وحدها.
+  brave_monthly_cap: 300
+  brave_count: 10
+  max_docs_per_point: 8    # وثائق مقروءة تُجمع من كل المحاولات قبل التصنيف
+  max_points: 8       # سقف النقاط المحكومة في الاستدعاء؛ ما بعدها يُقصّ ويُسجَّل
   days: 21             # كنافذة article.days
   wide_days: 540       # كـarticle.wide_days — لا تُستعمل إلا عند صفر نتائج خام
   tokens_per_source: 200   # رد الحكم يحمل مقتطفًا لكل مصدر فيتناسب مع عددها

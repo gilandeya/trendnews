@@ -254,7 +254,7 @@ from tests.test_youtube import (
     test_image_ladder_order,
 )
 from tests.test_guards_golden import test_guards_golden, test_important_false_guard
-from tests.test_important import test_important_pipeline
+from tests.test_important import test_important_pipeline, test_important_search_and_extract
 
 
 def main() -> int:
@@ -602,6 +602,8 @@ def main() -> int:
     test_important_false_guard()
     print("\n── مسار «هام»: الحَكَم على النقاط، الأنبوب كاملًا (Issue #1194) ──")
     test_important_pipeline()
+    print("\n── «هام»: التفكيك الخاص والبحث الجامع وBrave (Issue #1198) ──")
+    test_important_search_and_extract()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:
