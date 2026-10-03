@@ -479,7 +479,8 @@ def readable_only(docs: list[dict]) -> list[dict]:
 
 def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
                     loose_relevance: bool = False,
-                    max_chars: int | None = None) -> tuple[list[dict], str]:
+                    max_chars: int | None = None,
+                    html_sink=None) -> tuple[list[dict], str]:
     """يقرأ نصوص أعلى النتائج، متبِّعًا روابط Google News الوسيطة أولًا
     (عبر sources.resolve_final_url).
 
@@ -616,8 +617,11 @@ def gather_evidence(articles: list[Article], cfg, claim_text: str = "",
     # بالمصدر عند النشر، لا اسمه وحده)
     link_by_name = {m["name"]: m["link"] for m in members}
 
-    fulltext, fetch_failures = extract.gather(
-        members, limit=limit, **({"max_chars": max_chars} if max_chars else {}))
+    # html_sink (Issue #1210) يُمرَّر عند الطلب وحده: مزيَّفات extract.gather القائمة بتوقيعها القديم
+    gather_kw = {"max_chars": max_chars} if max_chars else {}
+    if html_sink is not None:
+        gather_kw["html_sink"] = html_sink
+    fulltext, fetch_failures = extract.gather(members, limit=limit, **gather_kw)
     if fulltext:
         log.info("نصوص مُقروءة فعلًا من نافذة القراءة: %s",
                  [d.get("name") for d in fulltext])

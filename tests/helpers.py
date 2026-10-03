@@ -367,6 +367,12 @@ class ImportantRig:
         self.native = native or {}
         self.native_requests: list[str] = []
         self.max_chars_seen: list = []
+        self.html_sink_seen: list = []
+        self.html_pages: list[str] = []
+        # الجلب الإضافي لـHTML الخام (extract.fetch_html): لا شبكة أبدًا في الاختبار؛ late_html صفحات
+        # لم يرها الجلب الأول فتُخدم هنا، وfetched_html يسجّل كل رابط طُلب (#1210)
+        self.late_html: dict[str, str] = {}
+        self.fetched_html: list[str] = []
         # روابط كل ما أُرسل فعلًا إلى الجلب (#1207): ما استُبعد قبل الجلب لا يظهر هنا
         self.gathered: list[str] = []
         self.systems: list[str] = []
@@ -380,7 +386,7 @@ class ImportantRig:
         self._saved: dict = {}
 
     def __enter__(self):
-        from src import article
+        from src import article, extract
         rig = self
 
         class _Ranked(list):
@@ -408,15 +414,31 @@ class ImportantRig:
             out.raw_count = len(out)
             return out
 
-        def fake_gather(articles, cfg, claim_text="", loose_relevance=False, max_chars=None):
+        def fake_gather(articles, cfg, claim_text="", loose_relevance=False, max_chars=None,
+                        html_sink=None):
             rig.max_chars_seen.append(max_chars)
+            rig.html_sink_seen.append(html_sink is not None)
             rig.gathered += [getattr(a, "link", "") or (a.doc.get("link", "") if hasattr(a, "doc") else "")
                              for a in articles]
             # مقالات Brave حقيقية الشكل (Article) بلا .doc: وثيقتها من حقولها
-            return [a.doc if hasattr(a, "doc") else
+            docs = [a.doc if hasattr(a, "doc") else
                     {"name": a.publisher or a.source_name, "link": a.link,
                      "text": f"{a.title}. {a.summary}", "from_text": True}
-                    for a in articles], "full"
+                    for a in articles]
+            out = []
+            for d in docs:
+                if "late_html" in d:
+                    rig.late_html[d.get("link", "")] = d["late_html"]
+                    d = {k: v for k, v in d.items() if k != "late_html"}
+                # «html» حقل اختبار فقط: يحاكي HTML الخام الذي رآه الجلب نفسه (#1210)؛ يصل
+                # المستقبِل عبر html_sink كما في extract.fetch_text الحقيقية ولا يبقى في الوثيقة
+                if "html" in d:
+                    rig.html_pages.append(d.get("link", ""))
+                    if html_sink is not None:
+                        html_sink(d.get("link", ""), d["html"])
+                    d = {k: v for k, v in d.items() if k != "html"}
+                out.append(d)
+            return out, "full"
 
         class _Block:
             type = "tool_use"
@@ -466,6 +488,10 @@ class ImportantRig:
 
         real_get = _requests.get
 
+        def fake_fetch_html(url, timeout=20):
+            rig.fetched_html.append(url)
+            return rig.late_html.get(url)
+
         def fake_get(url, **kw):
             if "search.brave.com/res/v1/web/search" not in url:
                 return real_get(url, **kw)
@@ -478,8 +504,9 @@ class ImportantRig:
         self._saved = {
             "_client": article._client, "search": evidence.search,
             "gather": evidence.gather_evidence, "get": real_get,
-            "env": os.environ.get("BRAVE_API_KEY"),
+            "env": os.environ.get("BRAVE_API_KEY"), "fetch_html": extract.fetch_html,
         }
+        extract.fetch_html = fake_fetch_html
         article._client = lambda: _Client()
         evidence.search = fake_search
         evidence.gather_evidence = fake_gather
@@ -507,10 +534,11 @@ class ImportantRig:
     def __exit__(self, *exc):
         import os
         import requests as _requests
-        from src import article
+        from src import article, extract
         article._client = self._saved["_client"]
         evidence.search = self._saved["search"]
         evidence.gather_evidence = self._saved["gather"]
+        extract.fetch_html = self._saved["fetch_html"]
         _requests.get = self._saved["get"]
         if self._saved["env"] is None:
             os.environ.pop("BRAVE_API_KEY", None)
@@ -549,3 +577,37 @@ def brave_result(url: str, title: str, description: str, name: str = "") -> dict
     """نتيجة خام بشكل Brave web/search (web.results[])."""
     return {"url": url, "title": title, "description": description,
             "profile": {"name": name} if name else {}}
+
+
+def claim_review_html(label: str = "Yanlış", claim_reviewed: str = "", shape: str = "single",
+                      rating_key: str = "alternateName", date_published: str = "2026-08-14",
+                      url: str = "https://teyit.org/analiz/video-turkiyenin-suriyeye-450-bin-asker-gonderdigini-mi-gosteriyor",
+                      body: str = "") -> str:
+    """HTML خام لصفحة مدقّق فيه JSON-LD من نوع ClaimReview بالبنية الحقيقية (Issue #1210):
+    @context schema.org وreviewRating.alternateName (أو name عبر rating_key). shape:
+    single (كتلة وحدها) · graph (داخل @graph مع كتل أخرى) · list (قائمة كتل) ·
+    broken (JSON تالف) · none (بلا JSON-LD). نص الصفحة المرئي ``body`` لا يحمل الحكم —
+    هذا ما يجعل المستخرَج منها عنوانًا فقط."""
+    import json as _json
+    review = {"@type": "ClaimReview", "url": url, "datePublished": date_published,
+              "claimReviewed": claim_reviewed,
+              "author": {"@type": "Organization", "name": "Teyit"},
+              "reviewRating": {"@type": "Rating", "ratingValue": "1", "bestRating": "5",
+                               "worstRating": "1", rating_key: label}}
+    org = {"@type": "Organization", "name": "Teyit", "url": "https://teyit.org"}
+    if shape == "graph":
+        block = {"@context": "https://schema.org", "@graph": [org, review]}
+    elif shape == "list":
+        block = [{"@context": "https://schema.org", **org},
+                 {"@context": "https://schema.org", **review}]
+    else:
+        block = {"@context": "https://schema.org", **review}
+    if shape == "broken":
+        script = ('<script type="application/ld+json">'
+                  '{"@context": "https://schema.org", "@type": "ClaimReview", </script>')
+    elif shape == "none":
+        script = ""
+    else:
+        script = f'<script type="application/ld+json">{_json.dumps(block, ensure_ascii=False)}</script>'
+    return (f"<html><head><title>teyit</title>{script}</head>"
+            f"<body><h1>{body}</h1></body></html>")

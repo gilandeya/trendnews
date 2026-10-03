@@ -1349,6 +1349,34 @@ g1–g20 بلا تعديل في نصوصها، وحارس `false` شُدّ لا 
   g5/g7/g7b (مدقّق واحد ينفي بلا ذكر حكم) تمرّ دون تعديل — الحالات الجديدة تمرّر القيمة صراحةً؛ و`ImportantRig` يسجّل
   `gathered` (روابط ما أُرسل للجلب) ويمرّر `title`/`summary`/`link` من الوثيقة إن وُجدت.
 
+**المهمة 1ز (Issue #1210) — حكم المدقّق من ClaimReview في كود الصفحة.** السبب المقيس (#1201، التشغيل
+السادس، النقطة 3): صفحة Teyit الصحيحة وُجدت لكن `page_chars` = 226 — فشل استخراج النص (أقل من `MIN_CHARS`)
+فسقط الجلب إلى مقتطف العنوان+الملخص، والحكم «Yanlış» في JSON-LD وحده. التغيير في `src/important.py` +
+`src/extract.py`/`src/evidence.py` بمعامل اختياري (كـ#1203) + الاختبارات؛ لا `article.py` ولا `.github/workflows/`.
+g1–g25 بلا تعديل وشروط `false` لم تُرخَ.
+- **طريقة الجلب (الخيار المعتمد):** `extract.fetch_text(..., html_sink=None)` تسلّم `resp.text` الخام لدالة
+  `(رابط، html)` **قبل** الاستخراج، فتصل الصفحة حتى حين يفشل الاستخراج بنص قصير — فلا جلب ثانٍ. يُمرَّر
+  `html_sink` عبر `extract.gather` وـ`evidence.gather_evidence` **عند الطلب وحده** (مزيَّفات الاختبارات القائمة بتوقيعها
+  القديم). `_PointSearch._keep_html` تحفظ HTML لروابط `important.fact_check_domains` وحدها. إن لم يمرّ الجلب الأول
+  على صفحة مدقّق (لم تقع في نافذة القراءة) فـ`_PointSearch.html_for` تجلب مرة واحدة إضافية عبر `extract.fetch_html`
+  (الرأسان والمهلة نفسها)؛ غير المدقّقين بالنطاق لا يُجلب لهم شيء. (قيد: فشل HTTP في الجلب الأول يتبعه جلب إضافي
+  واحد لصفحة المدقّق — مقبول، محصور بنطاقات المدقّقين.)
+- **`important.parse_claim_review(html)`:** يقرأ كل `<script type="application/ld+json">`، مفردة أو `@graph` أو
+  قائمة (بأي عمق)، ويلتقط أول `@type: ClaimReview` له حكم: `claimReviewed`، `reviewRating.alternateName` وإلا `.name`،
+  `datePublished`، `url`، و`in_raw_html` (الحكم موجود حرفيًا في HTML الخام، أو في الكتلة بعد فكّ هروب JSON
+  `ı`). JSON تالف أو كتلة بلا حكم ← `None` بلا خطأ والسلوك كما قبل. يُطبَّق على نطاقات `fact_check_domains` وحدها
+  (`_is_fact_checker_domain`) — لا على اسم الناشر.
+- **الاستعمال:** (1) نص الوثيقة في نداء التصنيف يسبقه سطر «بيانات التدقيق المنظَّمة: الادّعاء المدقَّق: …؛ الحكم: …»
+  و`CLASSIFY_SYSTEM` يوجّه النموذج لـ`same_event` بين النقطة وclaimReviewed. (2) في `_read_stances`: `verdict_label` =
+  الحكم من البيانات مباشرة (يغلب ما يقوله النموذج)، ومقتطف `refutes` = نص الحكم كما هو يُتحقَّق منه بـ`in_raw_html`
+  بدل النص المستخرج (لهذه الحالة وحدها). `true_labels`/`misleading_labels` كما في #1207 على الحكم المنظَّم. بلا
+  ClaimReview لا شيء يتغيّر. (3) `read_docs[*].claim_review` = `{claim_reviewed, label, date_published}` أو `null`.
+- **الاختبارات:** g26–g30 في `tests/test_guards_golden.py:test_important_false_guard` (كُتبت قبل الكود)؛
+  `test_important_1210` في `tests/test_important.py`. في `tests/helpers.py`: `claim_review_html(...)` (shape:
+  single/graph/list/broken/none)، و`ImportantRig` يقبل `html_sink` في مزيَّف الجلب ويقرأ مفتاحَي الوثيقة `html` (يمرّ
+  عبر html_sink) و`late_html` (لا يمرّ، يُخدم عبر `extract.fetch_html` المزيَّفة التي لا تمسّ الشبكة)، ويسجّل
+  `fetched_html`/`html_sink_seen`.
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the
