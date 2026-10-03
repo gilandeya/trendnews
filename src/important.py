@@ -34,7 +34,7 @@ from urllib.parse import urlparse
 
 import requests
 
-from . import article, evidence, imagesearch, review, sources, verify_draft
+from . import article, evidence, extract, imagesearch, review, sources, verify_draft
 from .config import STATE_DIR, load_config
 from .request import norm_tokens
 from .sources import Article
@@ -54,6 +54,8 @@ POINT_KINDS = ("واقعة", "تصريح", "تقرير منقول")
 STANCES = ("supports", "conflicts_detail", "refutes", "related_other", "irrelevant")
 # المواقف التي لا يُعتدّ بها إلا مع same_event=true
 EVENT_BOUND_STANCES = ("supports", "conflicts_detail", "refutes")
+
+CLAIM_REVIEW_PREFIX = "بيانات التدقيق المنظَّمة"
 
 NO_TRACE_REASON = "لا أثر ولا حدث قريب موثَّق"
 INSUFFICIENT_REFUTATION_NOTE = "نفي غير كافٍ"
@@ -89,6 +91,9 @@ verdict_label: لمصدر هو **جهة تدقيق** وحدها: نص حكم ا�
 Yanıltıcı، مضلل، Doğru، صحيح، True). عنوان المقال — وهو كثيرًا سؤال («هل يُظهر الفيديو
 …؟») — ليس حكمًا. إن لم تجد في الصفحة حكمًا صريحًا اتركه فارغًا؛ ولغير المدقّقين اتركه فارغًا.
 وإن كان excerpt لنفي المدقّق فليكن **جملة الحكم** لا العنوان.
+وإن وُجد في نص المصدر سطر «بيانات التدقيق المنظَّمة: الادّعاء المدقَّق: …؛ الحكم: …» فهو ما نشره
+المدقّق نفسه في كود صفحته: قرّر same_event بين النقطة و«الادّعاء المدقَّق» فيه، فإن كان الحدث نفسه
+وحكمه نفي (Yanlış، False، زائف…) فالموقف refutes، وهو يحدّد verdict_label.
 
 nearest_events: إن وُجد في النصوص المعطاة حدث موثَّق قريب من النقطة (ليس
 بالضرورة هو نفسه)، اذكره من النصوص حصرًا: title وdescription مأخوذان من
@@ -410,6 +415,69 @@ def _is_question(text: str) -> bool:
 def _excerpt_in(text: str, excerpt: str) -> bool:
     ex = " ".join((excerpt or "").split())
     return bool(ex) and ex in " ".join((text or "").split())
+
+
+# ───────────────────── ClaimReview من كود صفحة المدقّق (Issue #1210) ─────────────────────
+
+_LD_JSON_RE = re.compile(
+    r"<script\b[^>]*\btype\s*=\s*[\"']application/ld\+json[\"'][^>]*>(.*?)</script\s*>",
+    re.IGNORECASE | re.DOTALL)
+
+
+def _walk_ld(node):
+    """كل كتلة JSON-LD مفردة أو داخل @graph أو قائمة (بأي عمق)."""
+    if isinstance(node, list):
+        for x in node:
+            yield from _walk_ld(x)
+    elif isinstance(node, dict):
+        yield node
+        yield from _walk_ld(node.get("@graph"))
+
+
+def _is_claim_review(node: dict) -> bool:
+    t = node.get("@type")
+    types = t if isinstance(t, list) else [t]
+    return any(str(x).rsplit(":", 1)[-1].rsplit("/", 1)[-1] == "ClaimReview" for x in types)
+
+
+def parse_claim_review(html: str) -> dict | None:
+    """بيانات ClaimReview من JSON-LD في HTML الخام لصفحة مدقّق (Issue #1210) — النص
+    المستخرج لا يحملها: صفحة Teyit نصّها المرئي عنوانها (226 حرفًا) وحكمها «Yanlış» في
+    الكود وحده. يعيد {claim_reviewed, label, date_published, url, in_raw_html} أو None.
+    label = reviewRating.alternateName وإلا reviewRating.name. in_raw_html: الحكم
+    موجود حرفيًا في الـHTML الخام، أو في جسم الكتلة بعد فكّ هروب JSON (\\u0131←ı) —
+    مقتطف النفي يُتحقَّق به بدل النص المستخرج. كتلة تالفة أو غائبة ← None بلا خطأ؛
+    وبلا حكم نصّي لا قيمة للكتلة فتُتجاوز."""
+    if not html:
+        return None
+    for m in _LD_JSON_RE.finditer(html):
+        body = m.group(1).strip()
+        try:
+            data = json.loads(body, strict=False)
+        except (ValueError, RecursionError):
+            continue
+        for node in _walk_ld(data):
+            if not _is_claim_review(node):
+                continue
+            rating = node.get("reviewRating")
+            rating = rating[0] if isinstance(rating, list) and rating else rating
+            if not isinstance(rating, dict):
+                continue
+            label = str(rating.get("alternateName") or rating.get("name") or "").strip()
+            if not label:
+                continue
+            decoded = json.dumps(data, ensure_ascii=False)
+            return {"claim_reviewed": str(node.get("claimReviewed") or "").strip(),
+                    "label": label,
+                    "date_published": str(node.get("datePublished") or "").strip(),
+                    "url": str(node.get("url") or "").strip(),
+                    "in_raw_html": _excerpt_in(html, label) or _excerpt_in(decoded, label)}
+    return None
+
+
+def _claim_review_line(cr: dict) -> str:
+    """السطر الذي يراه نداء التصنيف: الادّعاء المدقَّق وحكمه من بيانات الصفحة المنظَّمة."""
+    return f"{CLAIM_REVIEW_PREFIX}: الادّعاء المدقَّق: {cr['claim_reviewed']}؛ الحكم: {cr['label']}"
 
 
 # ───────────────────────────── محلّل الأرقام (Issue #1203) ─────────────────────────────
@@ -878,6 +946,26 @@ class _PointSearch:
         self._cache: dict[tuple, tuple] = {}
         self._resolved: dict[str, str] = {}
         self.brave = {"requests": 0, "skipped": None}
+        # HTML خام لصفحات fact_check_domains وحدها، من الجلب نفسه (#1210)؛ None = جُرِّب جلب إضافي وفشل
+        self.html: dict[str, str | None] = {}
+
+    def _keep_html(self, url: str, html: str) -> None:
+        """مستقبِل html_sink: يحفظ HTML صفحات المدقّقين بنطاقها وحدها (لا ذاكرة لصفحات الباقين)."""
+        if _is_fact_checker_domain(url, self.icfg):
+            self.html[url] = html
+
+    def html_for(self, doc: dict) -> str | None:
+        """HTML الخام لوثيقة مدقّق: من الجلب نفسه إن مرّ بها، وإلا جلب واحد إضافي بالمهلة نفسها
+        (extract.fetch_html). غير المدقّقين بالنطاق: None بلا أي جلب."""
+        for link in (doc.get("link"), doc.get("orig_link")):
+            if link in self.html and self.html[link]:
+                return self.html[link]
+        link = doc.get("link") or ""
+        if not _is_fact_checker_domain(link, self.icfg):
+            return None
+        if link not in self.html:
+            self.html[link] = extract.fetch_html(link)
+        return self.html[link]
 
     def _checker_relevant(self, art, f: dict) -> bool:
         """نتيجة مدقّق تستحق الجلب إن شارك عنوانها أو مقتطف البحث فيها النقطةَ كيانًا واحدًا
@@ -917,7 +1005,8 @@ class _PointSearch:
             ranked = evidence.search(query, self.cfg, days, unrestricted=unrestricted)
             to_fetch, dropped = self._prefilter(ranked, f)
             raw_docs, _basis = evidence.gather_evidence(
-                to_fetch, self.cfg, relevance_text, max_chars=self.page_max_chars)
+                to_fetch, self.cfg, relevance_text, max_chars=self.page_max_chars,
+                html_sink=self._keep_html)
             kept, _excluded = self.filter_reprints(raw_docs)
             self._cache[key] = (ranked, kept, dropped)
         return self._cache[key]
@@ -931,7 +1020,8 @@ class _PointSearch:
         if not to_fetch:
             return arts, [], dropped
         raw_docs, _basis = evidence.gather_evidence(
-            to_fetch, self.cfg, relevance_text, max_chars=self.page_max_chars)
+            to_fetch, self.cfg, relevance_text, max_chars=self.page_max_chars,
+            html_sink=self._keep_html)
         kept, _excluded = self.filter_reprints(raw_docs)
         return arts, kept, dropped
 
@@ -1314,8 +1404,16 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
         # غياب same_event يُعدّ false: لا يُبنى حكم على مصدر لم يُسأل عن حدثه
         same_event = item.get("same_event") is True
         label = str(item.get("verdict_label") or "").strip()
+        excerpt = str(item.get("excerpt") or "").strip()
+        # ClaimReview (#1210): حكم المدقّق من بيانات صفحته المنظَّمة لا من النموذج، ومقتطف
+        # النفي نصُّه كما هو (لا عنوان الصفحة السؤالي الذي يُنقل عادةً)؛ شروط false كما هي
+        cr = pool[name].get("claim_review")
+        if cr:
+            label = cr["label"]
+            if stance == "refutes":
+                excerpt = cr["label"]
         entry = {"stance": stance, "same_event": same_event,
-                 "excerpt": str(item.get("excerpt") or "").strip(),
+                 "excerpt": excerpt,
                  "detail": str(item.get("detail") or "").strip(),
                  "correct_form": str(item.get("correct_form") or "").strip(),
                  "as_of": str(item.get("as_of") or "").strip(),
@@ -1335,7 +1433,8 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
             # موقف على حدث آخر لا يؤيد ولا يخالف ولا ينفي النقطة (#1200)
             entry["stance"] = "related_other"
             entry["raw_stance"] = stance
-        elif stance == "refutes" and not _excerpt_in(pool[name]["text"], entry["excerpt"]):
+        elif stance == "refutes" and not (
+                cr["in_raw_html"] if cr else _excerpt_in(pool[name]["text"], entry["excerpt"])):
             log.warning("نفي بلا مقتطف مُثبِت في نص %s — يُعامَل irrelevant", name)
             entry["stance"] = "irrelevant"
         elif (stance == "supports" and f and f.get("framing") == "circulating"
@@ -1405,13 +1504,30 @@ def _image_candidates(names: list[str], ranked: list, pool: dict[str, dict], cfg
 def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
     pid = point_id(f["text"])
     got = search.collect(f, topic)
-    docs, ranked, named, collect_note = got.docs, got.ranked, got.named, got.note
+    ranked, named, collect_note = got.ranked, got.named, got.note
+    # ClaimReview لصفحات المدقّقين بالنطاق وحدها، من HTML الخام (#1210). تُحمل على الوثيقة
+    # قبل توحيد الناشر كي تصل pool وread_docs معًا؛ فشل القراءة لا يوقف شيئًا
+    docs = []
+    for d in got.docs:
+        cr = None
+        if _is_fact_checker_domain(d.get("link", ""), search.icfg):
+            try:
+                cr = parse_claim_review(search.html_for(d))
+            except Exception as exc:  # noqa: BLE001 — مساعد: السلوك كما قبل عند أي عطل
+                log.warning("تعذّرت قراءة ClaimReview لـ%s: %s", d.get("link", "")[:80], exc)
+        docs.append({**d, "claim_review": cr})
     pool_docs = article._dedup_docs_by_publisher(docs, cfg)
     pool = {d["name"]: d for d in pool_docs}
 
     icfg = cfg.get("important", {}) or {}
     # للتصنيف مقتطفات مختارة بالفقرات؛ pool يبقى بالنص الكامل لشرط المقتطف الحرفي
-    view_docs = [{**d, "text": select_excerpt(d.get("text", ""), f, icfg)} for d in pool_docs]
+    # وثيقة بـClaimReview يسبق مقتطفَها سطرُ «بيانات التدقيق المنظَّمة» (الادّعاء والحكم)
+    view_docs = []
+    for d in pool_docs:
+        text = select_excerpt(d.get("text", ""), f, icfg)
+        if d.get("claim_review"):
+            text = f"{_claim_review_line(d['claim_review'])}\n{text}"
+        view_docs.append({**d, "text": text})
     data, call_error = _classify(f["text"], view_docs, cfg,
                                  circulating=f.get("framing") == "circulating")
     stances = _read_stances(data, pool, f, icfg) if data else {
@@ -1453,6 +1569,9 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
             "excerpt_chars": excerpt_by.get(n, 0) if in_pool else 0,
             "same_event": st.get("same_event") if in_pool else None,
             "as_of": st.get("as_of", "") if in_pool else "",
+            "claim_review": ({k: d["claim_review"][k] for k in
+                              ("claim_reviewed", "label", "date_published")}
+                             if d.get("claim_review") else None),
             "stance": st.get("stance", "irrelevant") if in_pool else "deduped"})
 
     dropped = None

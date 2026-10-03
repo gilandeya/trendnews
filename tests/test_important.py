@@ -1328,3 +1328,100 @@ def test_important_1207() -> None:
     src = inspect.getsource(article)
     check("(c) article.py لا يعرف verdict_label ولا ميزانية المدقّقين (مسار «مقال» لم يُمَسّ)",
           "verdict_label" not in src and "false_labels" not in src and "max_factcheck" not in src)
+
+
+def test_important_1210() -> None:
+    """المهمة 1ز (Issue #1210): حكم المدقّق من ClaimReview في HTML الخام — على الأنبوب كاملًا
+    بنقطة #1201 (3) ووثيقة Teyit كما جاءت في التشغيل السادس (page_chars=226)."""
+    import inspect
+    from src import article, important
+    from tests.helpers import claim_review_html
+
+    cfg = load_config()
+    teyit_link = ("https://teyit.org/analiz/video-turkiyenin-suriyeye-450-bin-"
+                  "asker-gonderdigini-mi-gosteriyor")
+    q_title = "Türkiye'nin Suriye'ye 450 bin asker gönderdiğini mi gösteriyor?"
+    short_page = (q_title + " Teyit " * 40)[:226]
+    claimed = "Türkiye'nin Suriye'ye 450 bin asker gönderdiği"
+
+    def lazy(point, names):
+        # النموذج كما في التشغيل السادس: نفي بعنوان سؤالي بلا verdict_label
+        return {"sources": [important_stance(n, "refutes", q_title, verdict_label="") for n in names]}
+
+    def run(case: int, doc_extra: dict):
+        marker = "تركياكلمة"
+        pt = {"claim": f"أرسلت {marker} 450 ألف جندي إلى سوريا", "framing": "circulating",
+              "circulating_context": "فيديو انتشر صيف 2026", "entities": [marker],
+              "numbers": ["450 ألف"], "queries": [_q("ar", f"{marker} 450 ألف جندي سوريا")]}
+        docs = [important_doc("Teyit", short_page, link=teyit_link, **doc_extra)]
+        rig = ImportantRig([pt], {marker: docs}, lazy)
+        with rig:
+            important.judge("نص", 98100 + case, cfg)
+        return important.load_saved(98100 + case)["points"][0], rig
+
+    # (a) النقطة (3): false بمقتطف «Yanlış» وclaim_review محفوظ؛ الجلب نفسه سلّم HTML فلا جلب ثانٍ
+    p, rig = run(1, {"html": claim_review_html("Yanlış", claimed)})
+    refuted = p["refuted_by"] or []
+    check("(a) (3) false بمقتطف «Yanlış» لا العنوان السؤالي",
+          p["verdict"] == "false" and len(refuted) == 1 and refuted[0]["excerpt"] == "Yanlış"
+          and refuted[0]["fact_checker"] and refuted[0]["link"] == teyit_link, (p["verdict"], refuted))
+    doc = p["read_docs"][0]
+    check("(a) read_docs.claim_review = {claim_reviewed، label، date_published}",
+          doc["page_chars"] == 226 and doc["claim_review"] == {
+              "claim_reviewed": claimed, "label": "Yanlış", "date_published": "2026-08-14"},
+          doc)
+    check("(a) HTML الخام وصل من الجلب نفسه: html_sink مُمرَّر ولا جلب إضافي",
+          rig.html_sink_seen and all(rig.html_sink_seen) and rig.fetched_html == [], rig.fetched_html)
+    print("refuted_by (3) #1210:", refuted)
+
+    # (b) ClaimReview داخل @graph، وكقائمة، وبـname بدل alternateName
+    for shape, key in (("graph", "alternateName"), ("list", "alternateName"),
+                       ("single", "name"), ("graph", "name")):
+        html = claim_review_html("Yanlış", claimed, shape=shape, rating_key=key)
+        cr = important.parse_claim_review(html)
+        check(f"(b) ClaimReview ({shape}، {key}) يُقرأ",
+              cr and cr["label"] == "Yanlış" and cr["claim_reviewed"] == claimed
+              and cr["date_published"] == "2026-08-14" and cr["url"] == teyit_link
+              and cr["in_raw_html"], cr)
+    pg, _ = run(2, {"html": claim_review_html("Yanlış", claimed, shape="graph", rating_key="name")})
+    check("(b) داخل @graph وبـname ← false عبر الأنبوب", pg["verdict"] == "false", pg["verdict"])
+    esc = ('<script type="application/ld+json">{"@type": "ClaimReview", "claimReviewed": "x", '
+           '"reviewRating": {"alternateName": "Yan\\u0131lt\\u0131c\\u0131"}}</script>')
+    cr_esc = important.parse_claim_review(esc)
+    check("(b) هروب \\uXXXX يُفكّ والحكم يُعدّ موجودًا في الكود الخام",
+          cr_esc and cr_esc["label"] == "Yanıltıcı" and cr_esc["in_raw_html"], cr_esc)
+    check("(b) كتلة غير ClaimReview تُتجاوز",
+          important.parse_claim_review(
+              '<script type="application/ld+json">{"@type": "NewsArticle"}</script>') is None)
+
+    # (c) JSON-LD تالف أو غائب ← لا خطأ والسلوك كما قبل (النص المستخرج وحده، لا false)
+    for n, shape in ((3, "broken"), (4, "none")):
+        pc, _ = run(n, {"html": claim_review_html("Yanlış", claimed, shape=shape)})
+        check(f"(c) JSON-LD {shape}: لا خطأ، claim_review فارغ، والحكم لا يكون false",
+              pc["verdict"] != "false" and pc["read_docs"][0]["claim_review"] is None,
+              (pc["verdict"], pc["read_docs"][0]["claim_review"]))
+    check("(c) محلّل بلا HTML أو بنص فارغ ← None",
+          important.parse_claim_review("") is None and important.parse_claim_review(None) is None)
+
+    # لم يمرّ الجلب الأول على الصفحة ← جلب واحد إضافي للـHTML؛ ونطاق خارج المدقّقين لا يُجلب
+    pl, rig_l = run(5, {"late_html": claim_review_html("Yanlış", claimed)})
+    check("(1) بلا HTML من الجلب الأول: جلب إضافي واحد بالرابط نفسه ثم false",
+          rig_l.fetched_html == [teyit_link] and pl["verdict"] == "false",
+          (rig_l.fetched_html, pl["verdict"]))
+    marker = "كلمةغيرمدقق"
+    other = {"claim": f"ادّعاء {marker}", "entities": [marker], "queries": [_q("ar", marker)]}
+    rig_o = ImportantRig([other], {marker: [important_doc(
+        "Haberler", "نص قصير", link="https://haberler.example/a",
+        late_html=claim_review_html("Yanlış", claimed))]}, lambda p, n: {
+            "sources": [important_stance(x, "irrelevant") for x in n]})
+    with rig_o:
+        important.judge("نص", 98110, cfg)
+    check("(1) نطاق خارج fact_check_domains: لا جلب HTML إضافي ولا claim_review",
+          rig_o.fetched_html == []
+          and important.load_saved(98110)["points"][0]["read_docs"][0]["claim_review"] is None,
+          rig_o.fetched_html)
+
+    # (d) مسار «مقال» لم يُمَسّ
+    src = inspect.getsource(article)
+    check("(d) article.py لا يعرف ClaimReview (مسار «مقال» لم يُمَسّ)",
+          "claim_review" not in src.lower())

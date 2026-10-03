@@ -1259,3 +1259,67 @@ def test_important_false_guard() -> None:
           and important._agree("86.1 مليون", "86 مليوناً و92 ألفاً و168", icfg_1207),
           (important._agree("85.7 مليون", "86.1 مليون", icfg_1207),
            important._agree("86.1 مليون", "86 مليوناً و92 ألفاً و168", icfg_1207)))
+
+    # ── Issue #1210 (المهمة 1ز): g26–g30 تُكتب قبل أي كود ──
+    # حكم المدقّق يُقرأ من ClaimReview في HTML الخام لا من النص المستخرج (226 حرفًا = العنوان)
+    from tests.helpers import claim_review_html
+    short_page = (q_title + " Teyit " * 40)[:226]
+    claimed_ok = "Türkiye'nin Suriye'ye 450 bin asker gönderdiği"
+    claimed_other = "Erdoğan'ın yarın istifa edeceği"
+
+    def lazy_title_refutes(pt, names):
+        # النموذج كما في التجربة الخامسة: ينفي بمقتطف العنوان السؤالي ولا يذكر حكمًا
+        return {"sources": [important_stance(n, "refutes", q_title, verdict_label="")
+                            for n in names]}
+
+    def run_cr(case: int, html: str, link: str = teyit_link, name: str = "Teyit",
+               same_event: bool = True):
+        marker = f"كلمةحارس{case}"
+        claim = {"entities": [marker], "claim": claim_1207["claim"].replace("@", marker),
+                 "numbers": ["450 ألف"]}
+        claim["queries"] = [{"lang": "ar", "q": claim["claim"]}]
+        docs = [important_doc(name, short_page, link=link, html=html)]
+
+        def fn(pt, names):
+            out = lazy_title_refutes(pt, names)
+            for s in out["sources"]:
+                s["same_event"] = same_event
+            return out
+        rig = ImportantRig([claim], {marker: docs}, fn)
+        with rig:
+            important.judge("نص الـIssue كاملًا", 94000 + case, cfg)
+        return important.load_saved(94000 + case)["points"][0], rig
+
+    check("(g26) نص صفحة Teyit المستخرَج 226 حرفًا", len(short_page) == 226, len(short_page))
+    p26, rig26 = run_cr(26, claim_review_html("Yanlış", claimed_ok))
+    check("(g26) ClaimReview «Yanlış» في HTML الخام وclaimReviewed مطابق ⇒ false",
+          p26["verdict"] == "false"
+          and [r["excerpt"] for r in p26.get("refuted_by") or []] == ["Yanlış"],
+          (p26["verdict"], p26.get("refuted_by")))
+    check("(g26) نداء التصنيف يرى سطر «بيانات التدقيق المنظَّمة» بالادّعاء والحكم",
+          "بيانات التدقيق المنظَّمة" in rig26.last_content and claimed_ok in rig26.last_content
+          and "الحكم: Yanlış" in rig26.last_content, rig26.last_content[-300:])
+
+    p27, _ = run_cr(27, claim_review_html("Yanlış", claimed_other), same_event=False)
+    check("(g27) ClaimReview «Yanlış» لكن claimReviewed عن ادّعاء آخر (same_event=false) ⇒ لا false",
+          p27["verdict"] != "false" and not p27.get("refuted_by"),
+          (p27["verdict"], p27.get("refuted_by")))
+
+    p28, _ = run_cr(28, claim_review_html("Yanıltıcı", claimed_ok))
+    check("(g28) ClaimReview «Yanıltıcı» ⇒ لا false",
+          p28["verdict"] != "false" and not p28.get("refuted_by"),
+          (p28["verdict"], p28.get("refuted_by")))
+
+    p29, rig29 = run_cr(29, claim_review_html("Yanlış", claimed_ok),
+                        link="https://haberler.example/analiz/video", name="Haberler")
+    check("(g29) ClaimReview في صفحة نطاقها ليس في fact_check_domains ⇒ يُتجاهل",
+          p29["verdict"] != "false" and not p29.get("refuted_by")
+          and "بيانات التدقيق المنظَّمة" not in rig29.last_content
+          and all(d.get("claim_review") is None for d in p29["read_docs"]),
+          (p29["verdict"], [d.get("claim_review") for d in p29["read_docs"]]))
+
+    p30, _ = run_cr(30, claim_review_html("Doğru", claimed_ok))
+    check("(g30) ClaimReview «Doğru» ⇒ supports لا false",
+          p30["verdict"] != "false" and not p30.get("refuted_by")
+          and {e["stance"] for e in p30["evidence"]} == {"supports"},
+          (p30["verdict"], p30["evidence"]))

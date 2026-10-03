@@ -29,8 +29,23 @@ MIN_CHARS = 400          # أقل من ذلك = صفحة اشتراك أو حظ�
 MAX_CHARS = 2500         # سقف لكل مصدر — الفقرات الأولى تحمل الجوهر
 
 
+def fetch_html(url: str, timeout: int = 20) -> str | None:
+    """HTML الخام لصفحة (Issue #1210) بالرأسين والمهلة نفسيهما اللذين تجلب بهما
+    fetch_text — للحالة الوحيدة التي لم يمرّ فيها الجلب الأول على صفحة مدقّق ثم
+    احتجنا بيانات ClaimReview في كودها. أي فشل ← None بلا استثناء: مساعد لا يوقف حكمًا."""
+    if not url or "news.google.com" in url:
+        return None
+    try:
+        resp = requests.get(
+            url, headers={**HEADERS, "Referer": "https://news.google.com/"},
+            timeout=timeout)
+    except requests.RequestException:
+        return None
+    return resp.text if resp.status_code == 200 else None
+
+
 def fetch_text(url: str, timeout: int = 20,
-               max_chars: int | None = None) -> tuple[str | None, str]:
+               max_chars: int | None = None, html_sink=None) -> tuple[str | None, str]:
     """يجلب النص الأساسي لمقال واحد، بلا قوائم تنقّل ولا إعلانات.
 
     يعيد (النص، "") عند النجاح، أو (None, سبب الفشل) عند الفشل — البند 1
@@ -63,6 +78,13 @@ def fetch_text(url: str, timeout: int = 20,
     if resp.status_code != 200:
         log.debug("تعذّر جلب %s: %s", url[:60], resp.status_code)
         return None, f"HTTP {resp.status_code}"
+    if html_sink is not None:
+        # html_sink (Issue #1210): دالة (رابط، HTML خام) تستلم الصفحة نفسها قبل الاستخراج —
+        # حتى لو فشل الاستخراج بنص قصير (صفحة مدقّق نصها المرئي عنوانها)، فلا جلب ثانٍ
+        try:
+            html_sink(url, resp.text)
+        except Exception as exc:  # noqa: BLE001 — المستقبِل مساعد لا يوقف الجلب
+            log.debug("html_sink فشل لـ%s: %s", url[:60], exc)
     try:
         text = trafilatura.extract(
             resp.text, include_comments=False, include_tables=False,
@@ -80,7 +102,8 @@ def fetch_text(url: str, timeout: int = 20,
 
 
 def gather(members: list[dict], limit: int = 2,
-          workers: int = 4, max_chars: int | None = None) -> tuple[list[dict], list[dict]]:
+          workers: int = 4, max_chars: int | None = None,
+          html_sink=None) -> tuple[list[dict], list[dict]]:
     """
     يجلب نصوص عدة نسخ من الخبر نفسه.
 
@@ -115,6 +138,8 @@ def gather(members: list[dict], limit: int = 2,
     with ThreadPoolExecutor(max_workers=workers) as pool:
         # لا يُمرَّر max_chars إلا إن حُدِّد: مزيَّفات fetch_text القائمة بلا هذا المعامل
         kw = {"max_chars": max_chars} if max_chars else {}
+        if html_sink is not None:
+            kw["html_sink"] = html_sink
         results = pool.map(lambda m: fetch_text(m["link"], **kw), candidates)
         for member, (text, reason) in zip(candidates, results):
             if text:
