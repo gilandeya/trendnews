@@ -63,6 +63,16 @@ def analysis_card_kwargs() -> dict:
     return {"category": "", "urgent": False, "bucket": "", "origin": "analysis"}
 
 
+def card_origin(draft: dict) -> str:
+    """مفتاح جدول cards: لأصل «هام» (Issue #1221) تتبع الشارة الحكمَ — تصحيح/تفنيد/هام —
+    لا الأصل وحده، فيبقى imaging يقرأ الجدول كما هو بلا فرع جديد. بقية الأصول origin_of."""
+    origin = store.origin_of(draft)
+    if origin == "important":
+        return {"inaccurate": "important_inaccurate",
+                "false": "important_false"}.get(draft.get("verdict"), "important")
+    return origin
+
+
 def next_image_path(current: str) -> str:
     """مسار جديد لا يستبدل القديم — نُقلت من setimage.py إلى هنا (Issue
     #852)؛ setimage.next_image_path يُعيد تصديرها بلا أي تغيير في سلوكها.
@@ -290,7 +300,7 @@ def ensure(path: Path, draft: dict, cfg, headline: str | None = None, *,
             web_photo_provider=web_provider,
             publisher=resolved_publisher,
             bucket=bucket if bucket is not None else draft.get("bucket", "serious"),
-            origin=origin if origin is not None else store.origin_of(draft),
+            origin=origin if origin is not None else card_origin(draft),
             fallback_provider=fb_provider,
             cfg=cfg,
             out_path=out_path,

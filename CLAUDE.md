@@ -1438,6 +1438,49 @@ g1–g30 بلا تعديل، وأُضيفت g31–g35 قبل الكود.
 - **الاختبارات:** `test_important_1217` في `tests/test_important.py` على `important.main` بـGitHub مزيَّف وملفّي #1209/#1201 الحقيقيين
   نسخةً ثابتة في `tests/fixtures/important/` بدل الحكم.
 
+**المهمة 3 (Issue #1221) — قراءة اختيارات المرحلة 1 والكتابة بحسب الحكم، ثم المسار الموحَّد.** وحدتان جديدتان:
+`src/important_finalize.py` (القراءة والتوزيع وgo1) و`src/important_write.py` (الكتابة والفحص). لا `article.py` ولا
+`.github/workflows/` ولا تعديل على أي اختبار خارج `test_important`/`test_guards_golden`/`helpers`.
+- **القراءة:** `publish.main` على `important-selection` + `approved` ينفّذ `important_finalize.finalize(issue, body, cfg)`
+  (يحلّ محل التعليق المؤقت، من المسار السريع وحده كـ`pending-selection`). `stages.read_actions(body, 1)` بقاعدة الأحوط:
+  `go2`/`go3`/`publish` ← الكتابة ثم `collect_finalize.dispatch_written` (استُخرجت حرفيًا من `finalize` الأخبار فلا
+  مسار ثانٍ): قضية مرحلة 2 · بطاقة وقضية مرحلة 3 · بطاقة ثم `cmd_burst` (فاصل النشر). غير المعلَّم «لم يُختر»
+  (`decisions.record_unselected` بمرشح مصطنع `origin: "important"` + `selection_issue`؛ لا `feedback.record` فهو لتعلّم
+  فرز الأخبار). النقطة في `state/important/N.json`: `offered` ← `selected` (+`action`) ← `written` (+`draft_id`) أو
+  `unselected`؛ فشل الكتابة يترك `selected` و`write_error` فتُعاد المحاولة بإعادة `approved` (فشل تقني يُبقي الوسم، رفض
+  تحريري يُزيله). الملف المعني تجده `result_for_selection` بمطابقة `selection_issue` النقاط.
+- **الكتابة (`important_write.write_point`):** `article._draft_article` نفسها بنموذج `article.model` (Sonnet) ومصادرها
+  أدلة النقطة وحدها (`ordered_sources`: confirmed ← المؤيِّدة والجهة الأصلية أولًا · inaccurate ← `correction.sources` ·
+  false ← `refuted_by` والمدقّق أولًا · not_found ← `nearest.sources`). التعليمات في `config.yaml:
+  important.writer_instructions` تُلحَق عبر `avoid_note` (فلا تعديل على `article.py`) ومعها `title_note` الذي يلغي صيغة
+  السؤال للعنوان. في inaccurate تُمرَّر `correction.correct` (لا `correct_value`) · في false الشائعة والمدقّق وحكمه ·
+  في not_found عنوان `nearest` وحده. المسودة `origin: "important"` وتحمل `point_id`/`source_issue`/`selection_issue`/
+  `verdict`/`badge`؛ العناوين الثلاثة بـ`headlines_for_post`؛ `source.publishers` بترتيب `ordered_sources` (فسطر
+  «المصدر:» على البطاقة يبدأ بالمدقّق في false)؛ `image_candidates` صور الناشر ثم السلسلة القائمة، و`manual_image` يغلب
+  (يصل من `setimage.apply_selection_image` الذي يحفظه على النقطة).
+- **الفحص بعد الكتابة في الكود (`check_text`، مطابقة مطبَّعة بـ`important._fold`، g36–g39):** false: العنوان لا يحوي الادّعاء
+  حرفيًا («عنوان التفنيد يكرّر الادّعاء») ولا أول جملة، والمتن يسمّي المدقّق ويذكر حكمه؛ not_found: لا يذكر النقطة
+  الأصلية (حرفيًا، أو جملة تحوي ≥ `original_mention_overlap` من كلماتها، أو `not_found_forbidden`)؛ inaccurate:
+  `correction.correct` بنصّه في العنوان وأول جملة. ثم `verify_draft.check_originality` على مقتطفات الأدلة. الرفض يعيد الكتابة
+  مرة واحدة (`write_attempts`) بذكر العلّة ثم يُرفض كتابةً فاشلة بسببها.
+- **البطاقة:** `cards.card_origin(draft)` يختار مفتاح جدول `cards`: `important` (هام) · `important_inaccurate` (تصحيح) ·
+  `important_false` (تفنيد)؛ نص كل شارة مطابق لـ`important.badges` (يتحقق منه اختبار) والألوان في `cards` لأن imaging يقرأ
+  الجدول وحده — لا تعديل على `imaging.py`.
+- **المرحلتان 2 و3 وgo1:** `review.has_stage1` يقبل `important`. go1 ← `publish.return_to_selection` ←
+  `_return_important_to_selection`: المسودة `returned` بنصها (لا كتابة لاحقة) والنقطة `offered`+`returned` بلا قضية،
+  `decisions.record_returned`، ثم `important_finalize.reopen_selection` تفتح فورًا (لا فاتح دوري لقضايا «هام») قضية ترشيح
+  جديدة للنص نفسه من الملف المحفوظ بلا حكم جديد، المعادة وحدها فيها وعناوينها بـ«↩️ أعدته من المرحلة N». اختيارها ثانية
+  يستعمل المسودة نفسها (`_reuse_returned`) بلا نداء كتابة.
+- **الأصل:** `"important"` في `store.EXTRA_ORIGINS` (لا `CANONICAL_ORIGINS`، فاختبار في `test_review` يثبّتها على الست
+  حرفيًا) و`review.ORIGIN_LABELS`؛ `origin_of` تعدّه معياريًا. `feedback.screening_guidance` يقصر نفسه على news/breaking فلا
+  تتأثر به رفوضه.
+- **تنبيه تشغيلي:** `publish.yml` يودِع `drafts state` فيصل `state/important` و`state/decisions.json`؛ لكن `image.yml` يودِع
+  `drafts state/candidates state/youtube_topics` فحسب، فصورة المرحلة 1 لنقطة «هام» (`manual_image` على النقطة) لا تُودَع
+  حتى يضيف صاحب المشروع `state/important` إليه.
+- **الاختبارات:** g36–g39 في `tests/test_guards_golden.py:test_important_write_guards` (كُتبت قبل الكود)، و`test_important_1221`
+  في `tests/test_important.py` (a–e، go1 من المرحلتين، صورة المرحلة 1)؛ `ImportantWriteRig` و`important_*` في `tests/helpers.py`.
+  فقرة (e) القديمة في `test_important_1217` (التعليق المؤقت) حُذفت لأن الفرع الذي تختبره استُبدل.
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the

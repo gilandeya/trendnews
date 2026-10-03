@@ -82,7 +82,8 @@ def has_stage1(draft: dict) -> bool:
     origin = store.origin_of(draft)
     if origin == "analysis":
         return bool(draft.get("topic_id"))
-    return origin == "news"
+    # «هام» (Issue #1221): نقطته محفوظة في state/important فيمكن إعادتها إلى قضية ترشيح جديدة
+    return origin in ("news", "important")
 
 
 def caption_details(d: dict, summary: str) -> list[str]:
@@ -324,7 +325,7 @@ def build_final_review_body(drafts: list[dict], repo: str, branch: str = "main",
 
 ORIGIN_LABELS = {
     "news": "أخبار", "breaking": "عاجل", "request": "طلب",
-    "verify": "تحقق", "article": "مقال", "analysis": "تحليل",
+    "verify": "تحقق", "article": "مقال", "analysis": "تحليل", "important": "هام",
 }
 
 

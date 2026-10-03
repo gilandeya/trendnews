@@ -202,6 +202,106 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
     return draft
 
 
+def dispatch_written(issue_number: int, review_drafts: list[dict], card_drafts: list[dict],
+                     now_published_ids: list[str], cfg) -> int:
+    """ما بعد الكتابة لقضية مرحلة 1 — مشترك بين الأخبار ومسار «هام» (Issue #1221، استُخرج
+    من finalize حرفيًا بلا تغيير سلوك): قضية مرحلة 2 لمسودات go2، وقضية مرحلة 3 لمسودات go3
+    (بطاقتها مبنيّة قبل النداء)، ثم إغلاق قضية الترشيح أو تفويض النشر بالفاصل لمسودات publish."""
+    # «صغ واعرض»: Issue مراجعة عادي واحد لكل مسودات هذه الدفعة معًا (لا
+    # Issue لكل خبر) — نفس نمط radar.py حين يفتح Issue العاجل مباشرة، لأن
+    # finalize يعمل من publish.yml لا من collect.yml فـ open_review.py لا
+    # يُشغَّل بعده. العنوان يحمل بادئة مميّزة («📝 مسودات مطلوبة») حتى
+    # تُميَّز في قائمة الـ Issues عن Issue المراجعة العادي («📰 مسودات»).
+    if review_drafts:
+        repo = os.environ.get("GITHUB_REPOSITORY")
+        if repo:
+            review.ensure_labels()
+            branch = os.environ.get("GITHUB_REF_NAME", "main")
+            review_issue = review.create_issue(
+                title=(f"📝 مسودات مطلوبة "
+                       f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
+                       f"— {len(review_drafts)} منشور"),
+                body=review.build_issue_body(review_drafts, repo, branch),
+                labels=["pending-review"],
+            )
+            for d in review_drafts:
+                found = store.load_draft(d["id"])
+                if found:
+                    store.update_draft(found[0], review_issue=review_issue["number"])
+            review.comment(
+                issue_number,
+                f"📝 صيغت {len(review_drafts)} مسودة بانتظار مراجعتك في "
+                f"Issue #{review_issue['number']}.",
+            )
+            log.info("Issue مراجعة «صغ واعرض»: %s", review_issue["html_url"])
+        else:
+            log.error("GITHUB_REPOSITORY غير موجود — تعذّر فتح Issue مراجعة "
+                      "لـ %d مسودة «صغ واعرض»", len(review_drafts))
+
+    # «صُغ واعرض البطاقة»: Issue مراجعة نهائية واحد يجمع مسودات 🎴 كلها في
+    # هذه الدفعة (لا Issue لكل مسودة) — نفس build_final_review_body الذي
+    # بناه Issue #858 لمسار المراجعة الأولية، بوسم final-review. مسودة
+    # فشل بناء بطاقتها (أعلاه) لا تدخل هذا الـIssue أصلًا — بقيت pending
+    # بلا image وعُلِّق بسببها على Issue الاختيار بدل ذلك.
+    if card_drafts:
+        # تنازليًا بالدرجة للعرض فقط (Issue #874) — لا يمسّ ترتيب البناء
+        # أعلاه (بترتيب المرشحين كما وردت من مربعات الاختيار).
+        card_drafts = review.sort_by_score(card_drafts)
+        repo = os.environ.get("GITHUB_REPOSITORY")
+        if repo:
+            review.ensure_labels()
+            branch = os.environ.get("GITHUB_REF_NAME", "main")
+            final_issue = review.create_issue(
+                title=(f"🎴 مراجعة نهائية "
+                       f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
+                       f"— {len(card_drafts)} منشور"),
+                body=review.build_final_review_body(card_drafts, repo, branch),
+                labels=["final-review"],
+            )
+            for d in card_drafts:
+                found = store.load_draft(d["id"])
+                if found:
+                    store.update_draft(found[0], review_issue=final_issue["number"])
+            review.comment(
+                issue_number,
+                f"🎴 صيغت {len(card_drafts)} مسودة ببطاقتها بانتظار مراجعة "
+                f"نهائية في Issue #{final_issue['number']}.",
+            )
+            log.info("Issue مراجعة نهائية «🎴»: %s", final_issue["html_url"])
+        else:
+            log.error("GITHUB_REPOSITORY غير موجود — تعذّر فتح Issue مراجعة "
+                      "نهائية لـ %d مسودة 🎴", len(card_drafts))
+
+    if not now_published_ids:
+        # لا شيء يبقى معلَّقًا على Issue الاختيار نفسه: كل ما فيه إما
+        # "صغ واعرض" (انتقل لـ Issue مراجعة منفصل) أو فشل صياغة مُبلَّغ
+        # أعلاه — بلا هذا كان يبقى approved+مفتوحًا للأبد بلا سبب.
+        review.close_issue(issue_number)
+        log.info("لا مرشح «انشر فورًا» في هذه الدفعة — أُغلق Issue الاختيار "
+                 "بلا تفويض نشر")
+        return 0
+
+    from . import publish as publish_mod
+    if not cfg.path("facebook.schedule_enabled", True):
+        mode = "فوري (schedule_enabled=false)"
+        log.info("تفويض %d مسودة إلى publish.cmd_now (%s)",
+                 len(now_published_ids), mode)
+        return publish_mod.cmd_now(now_published_ids, cfg, issue_number)
+    if cfg.path("facebook.schedule_mode", "burst") == "burst":
+        # يعمل داخل مهمة urgent (سقفها 20 دقيقة) — بلا هذا القيد كان
+        # cmd_burst ينام 30-60 دقيقة على المنشور الثاني فتُلغى المهمة قبل
+        # أن يكمل (Issue #315). المستحق الآن فقط يُنشر هنا، والبقية تُعلَّم
+        # queued بلا انتظار ويلتقطها سيّر queue.yml كل 30 دقيقة.
+        inline_cap = float(cfg.path("facebook.finalize_inline_minutes", 0))
+        log.info("تفويض %d مسودة إلى publish.cmd_burst (burst، بلا انتظار داخلي)",
+                 len(now_published_ids))
+        return publish_mod.cmd_burst(now_published_ids, cfg, issue_number,
+                                     inline_cap_minutes=inline_cap)
+    log.info("تفويض %d مسودة إلى publish.cmd_schedule (schedule)",
+             len(now_published_ids))
+    return publish_mod.cmd_schedule(now_published_ids, cfg, issue_number)
+
+
 def finalize(issue_number: int, body: str, cfg) -> int:
     all_ids = preselect.all_candidate_ids(body)
 
@@ -396,96 +496,4 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         review.remove_label(issue_number, "approved")
         return 0
 
-    # «صغ واعرض»: Issue مراجعة عادي واحد لكل مسودات هذه الدفعة معًا (لا
-    # Issue لكل خبر) — نفس نمط radar.py حين يفتح Issue العاجل مباشرة، لأن
-    # finalize يعمل من publish.yml لا من collect.yml فـ open_review.py لا
-    # يُشغَّل بعده. العنوان يحمل بادئة مميّزة («📝 مسودات مطلوبة») حتى
-    # تُميَّز في قائمة الـ Issues عن Issue المراجعة العادي («📰 مسودات»).
-    if review_drafts:
-        repo = os.environ.get("GITHUB_REPOSITORY")
-        if repo:
-            review.ensure_labels()
-            branch = os.environ.get("GITHUB_REF_NAME", "main")
-            review_issue = review.create_issue(
-                title=(f"📝 مسودات مطلوبة "
-                       f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
-                       f"— {len(review_drafts)} منشور"),
-                body=review.build_issue_body(review_drafts, repo, branch),
-                labels=["pending-review"],
-            )
-            for d in review_drafts:
-                found = store.load_draft(d["id"])
-                if found:
-                    store.update_draft(found[0], review_issue=review_issue["number"])
-            review.comment(
-                issue_number,
-                f"📝 صيغت {len(review_drafts)} مسودة بانتظار مراجعتك في "
-                f"Issue #{review_issue['number']}.",
-            )
-            log.info("Issue مراجعة «صغ واعرض»: %s", review_issue["html_url"])
-        else:
-            log.error("GITHUB_REPOSITORY غير موجود — تعذّر فتح Issue مراجعة "
-                      "لـ %d مسودة «صغ واعرض»", len(review_drafts))
-
-    # «صُغ واعرض البطاقة»: Issue مراجعة نهائية واحد يجمع مسودات 🎴 كلها في
-    # هذه الدفعة (لا Issue لكل مسودة) — نفس build_final_review_body الذي
-    # بناه Issue #858 لمسار المراجعة الأولية، بوسم final-review. مسودة
-    # فشل بناء بطاقتها (أعلاه) لا تدخل هذا الـIssue أصلًا — بقيت pending
-    # بلا image وعُلِّق بسببها على Issue الاختيار بدل ذلك.
-    if card_drafts:
-        # تنازليًا بالدرجة للعرض فقط (Issue #874) — لا يمسّ ترتيب البناء
-        # أعلاه (بترتيب المرشحين كما وردت من مربعات الاختيار).
-        card_drafts = review.sort_by_score(card_drafts)
-        repo = os.environ.get("GITHUB_REPOSITORY")
-        if repo:
-            review.ensure_labels()
-            branch = os.environ.get("GITHUB_REF_NAME", "main")
-            final_issue = review.create_issue(
-                title=(f"🎴 مراجعة نهائية "
-                       f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC "
-                       f"— {len(card_drafts)} منشور"),
-                body=review.build_final_review_body(card_drafts, repo, branch),
-                labels=["final-review"],
-            )
-            for d in card_drafts:
-                found = store.load_draft(d["id"])
-                if found:
-                    store.update_draft(found[0], review_issue=final_issue["number"])
-            review.comment(
-                issue_number,
-                f"🎴 صيغت {len(card_drafts)} مسودة ببطاقتها بانتظار مراجعة "
-                f"نهائية في Issue #{final_issue['number']}.",
-            )
-            log.info("Issue مراجعة نهائية «🎴»: %s", final_issue["html_url"])
-        else:
-            log.error("GITHUB_REPOSITORY غير موجود — تعذّر فتح Issue مراجعة "
-                      "نهائية لـ %d مسودة 🎴", len(card_drafts))
-
-    if not now_published_ids:
-        # لا شيء يبقى معلَّقًا على Issue الاختيار نفسه: كل ما فيه إما
-        # "صغ واعرض" (انتقل لـ Issue مراجعة منفصل) أو فشل صياغة مُبلَّغ
-        # أعلاه — بلا هذا كان يبقى approved+مفتوحًا للأبد بلا سبب.
-        review.close_issue(issue_number)
-        log.info("لا مرشح «انشر فورًا» في هذه الدفعة — أُغلق Issue الاختيار "
-                 "بلا تفويض نشر")
-        return 0
-
-    from . import publish as publish_mod
-    if not cfg.path("facebook.schedule_enabled", True):
-        mode = "فوري (schedule_enabled=false)"
-        log.info("تفويض %d مسودة إلى publish.cmd_now (%s)",
-                 len(now_published_ids), mode)
-        return publish_mod.cmd_now(now_published_ids, cfg, issue_number)
-    if cfg.path("facebook.schedule_mode", "burst") == "burst":
-        # يعمل داخل مهمة urgent (سقفها 20 دقيقة) — بلا هذا القيد كان
-        # cmd_burst ينام 30-60 دقيقة على المنشور الثاني فتُلغى المهمة قبل
-        # أن يكمل (Issue #315). المستحق الآن فقط يُنشر هنا، والبقية تُعلَّم
-        # queued بلا انتظار ويلتقطها سيّر queue.yml كل 30 دقيقة.
-        inline_cap = float(cfg.path("facebook.finalize_inline_minutes", 0))
-        log.info("تفويض %d مسودة إلى publish.cmd_burst (burst، بلا انتظار داخلي)",
-                 len(now_published_ids))
-        return publish_mod.cmd_burst(now_published_ids, cfg, issue_number,
-                                     inline_cap_minutes=inline_cap)
-    log.info("تفويض %d مسودة إلى publish.cmd_schedule (schedule)",
-             len(now_published_ids))
-    return publish_mod.cmd_schedule(now_published_ids, cfg, issue_number)
+    return dispatch_written(issue_number, review_drafts, card_drafts, now_published_ids, cfg)

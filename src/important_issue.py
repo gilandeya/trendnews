@@ -124,7 +124,13 @@ def build_selection_body(result: dict, cfg=None) -> str:
     dropped = [p for p in result["points"] if p.get("status") == "dropped"]
     for k, p in enumerate(offered, start=1):
         v = p["verdict"]
-        parts += [f"**{k}. {display_title(p)}**", "",
+        title = display_title(p)
+        if p.get("returned"):
+            # نقطة أعادها المراجع من المرحلة 2/3 (Issue #1221، go1): الشارة أمام العنوان فيعرف
+            # أنه رآها وقرّر الرجوع بها، كما يفعل preselect للأخبار
+            title = (cfg.path("stages.returned_badge", "↩️ أعدته من المرحلة {stage}")
+                     .format(stage=p.get("returned_from_stage") or 2) + f" · {title}")
+        parts += [f"**{k}. {title}**", "",
                   f"  🏷️ {badges.get(v, '')} · {p.get('icon', '')} {names.get(v, v)}", ""]
         ctx = _context_line(p)
         if ctx:

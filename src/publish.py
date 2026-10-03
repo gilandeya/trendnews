@@ -620,6 +620,7 @@ def return_to_selection(draft_ids: list[str], stage: int) -> list[str]:
     لا يُرجَع بها: لا عرض لها في الترشيح فتضيع — تبقى pending كما هي ويُبلَّغ
     بذلك بدل أن تموت بصمت."""
     lines: list[str] = []
+    important_sources: set[int] = set()
     for draft_id in draft_ids:
         found = store.load_draft(draft_id)
         if not found:
@@ -630,6 +631,10 @@ def return_to_selection(draft_ids: list[str], stage: int) -> list[str]:
         title = (draft.get("arabic") or {}).get("post_title", draft_id)[:50]
         if store.origin_of(draft) == "analysis":
             lines.append(_return_analysis_to_selection(path, draft, title, stage))
+            continue
+        if store.origin_of(draft) == "important":
+            lines.append(_return_important_to_selection(path, draft, title, stage,
+                                                        important_sources))
             continue
         cand = store.latest_candidate(draft_id)
         if not cand:
@@ -646,7 +651,39 @@ def return_to_selection(draft_ids: list[str], stage: int) -> list[str]:
         decisions.record_returned(draft, stage, cand_data.get("selection_issue"))
         lines.append(f"- ↩️ {title} — أُعيد إلى مرحلة ترشيح المواضيع "
                      "(يظهر في أول قضية ترشيح تالية، ولا صياغة جديدة عند تقدّمه)")
+    if important_sources:
+        # «هام» (Issue #1221): لا فاتح دوري لقضايا ترشيحه كما للأخبار، فتُفتح القضية الجديدة هنا
+        # فورًا من الملف المحفوظ بلا حكم جديد
+        from . import important_finalize
+        cfg = load_config()
+        for source in sorted(important_sources):
+            number = important_finalize.reopen_selection(source, cfg)
+            if number:
+                lines.append(f"- 📌 فُتحت قضية ترشيح «هام» جديدة للنص #{source}: #{number}")
     return lines
+
+
+def _return_important_to_selection(path, draft: dict, title: str, stage: int,
+                                   sources: set[int]) -> str:
+    """go1 لمسودة «هام» (Issue #1221): تصير returned بنصها وعناوينها وبطاقتها (لا كتابة لاحقة)،
+    والنقطة في state/important تعود offered وreturned بلا قضية، فتجمعها reopen_selection."""
+    from . import important
+    source = draft.get("source_issue")
+    result = important.load_saved(source) if source else None
+    point = next((p for p in (result or {}).get("points", [])
+                  if p.get("id") == draft.get("point_id")), None)
+    if not point:
+        return (f"- ⚠️ {title} — لا نقطة محفوظة لهذه المسودة في state/important، بقيت في مكانها")
+    now = datetime.now(timezone.utc).isoformat()
+    previous = point.get("selection_issue") or draft.get("selection_issue")
+    store.update_draft(path, status="returned", returned_from_stage=stage, returned_at=now)
+    point.update(status="offered", selection_issue=None, returned=True,
+                 returned_from_stage=stage, returned_at=now, draft_id=draft["id"])
+    important.save(result)
+    decisions.record_returned(draft, stage, previous)
+    sources.add(source)
+    return (f"- ↩️ {title} — أُعيدت إلى مرحلة ترشيح «هام» "
+            "(قضية ترشيح جديدة، ولا كتابة جديدة عند تقدّمها)")
 
 
 def cmd_final_review(issue_number: int, body: str, cfg, urgent_only: bool = False) -> int:
@@ -1166,18 +1203,18 @@ def main() -> int:
             return 0
         return cmd_youtube_selection(args.issue, body, cfg)
 
-    # Issue #1217 (مسار «هام»، المهمة 2): قضية ترشيح النقاط (وسم important-selection)
-    # تُبنى الآن لكن تنفيذ اختياراتها المهمة 3. إلى ذلك الحين لا يجوز أن تصل المسار
-    # العادي أدناه (فتُرفض كل نقطة ضمنًا وتُسجَّل قرارات) ولا أي فرع آخر: تعليق واحد،
-    # لا إغلاق، لا قرارات، والوسم يبقى. التعليق من المسار السريع وحده لأن publish.yml
-    # يشغّل المسارين لحدث وسم واحد (انظر pending-selection أدناه) فلا يتكرر.
+    # Issue #1221 (مسار «هام»، المهمة 3): قضية ترشيح النقاط (وسم important-selection) تُقرأ
+    # اختياراتها بالقارئ الموحَّد وتُكتب النقاط بحسب حكمها ثم تسلك مسار الأخبار نفسه من
+    # المرحلة 1. لا يجوز أن تصل المسار العادي أدناه (فتُرفض كل نقطة ضمنًا). تنفيذها من المسار
+    # السريع وحده لأن publish.yml يشغّل المسارين لحدث وسم واحد (انظر pending-selection أدناه)
+    # فلا تُكتب النقطة ولا تُنشر مرتين.
     if "important-selection" in labels:
         if args.skip_urgent:
+            log.info("Issue #%s: important-selection — تخطّي المسار العادي "
+                     "(المسار السريع ينفّذ finalize وحده)", args.issue)
             return 0
-        review.comment(
-            args.issue,
-            "اختيارات «هام» تُنفَّذ بعد اكتمال المهمة 3 — لا شيء ضاع، القضية تبقى كما هي")
-        return 0
+        from . import important_finalize
+        return important_finalize.finalize(args.issue, body, cfg)
 
     # Issue #296: الاثنان معًا يعني Issue خُلط أصله (لا أحد في الكود ينشئ
     # Issue بالوسمين معًا عمدًا) — التفويض القديم كان يفوز لـ
