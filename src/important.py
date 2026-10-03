@@ -255,6 +255,19 @@ def point_id(text: str) -> str:
     return hashlib.sha1(norm.encode("utf-8")).hexdigest()[:12]
 
 
+def body_hash(body: str) -> str:
+    """بصمة نص الـIssue (بعد تطبيع المسافات فقط، كـpoint_id): نص لم يتغيّر يُعاد
+    استعمال حكمه بلا أي نداء نموذج أو Brave (المهمة 2، Issue #1217)."""
+    return hashlib.sha1(" ".join((body or "").split()).encode("utf-8")).hexdigest()
+
+
+def mark_status(points: list[dict]) -> None:
+    """dropped = أسقطها الحَكَم (لا أثر ولا حدث قريب)؛ offered = تُعرض في قضية الترشيح."""
+    for rec in points:
+        rec["status"] = "dropped" if rec.get("dropped_reason") else "offered"
+        rec["selection_issue"] = None
+
+
 def saved_path(issue_number: int):
     return IMPORTANT_DIR / f"{issue_number}.json"
 
@@ -812,6 +825,8 @@ def decide(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | N
     if refute_ok and not event_documented:
         refuted_by = [{"publisher": n, "link": pool[n].get("link", ""),
                        "excerpt": stances[n]["excerpt"],
+                       # حكم المدقّق كما في صفحته: تعرضه قضية الترشيح بجانب اسمه (#1217)
+                       "verdict_label": stances[n].get("verdict_label", ""),
                        "fact_checker": _is_fact_checker(n, icfg, pool[n].get("link", ""))}
                       for n in refuters]
         return {"verdict": "false", "note": "", "correction": None,
@@ -2014,8 +2029,12 @@ def judge(body: str, issue_number: int, cfg=None) -> dict:
     finally:
         article._client = real_client
 
+    mark_status(judged)
+
     result = {
         "issue": issue_number,
+        "body_hash": body_hash(body),
+        "selection_issue": None,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "topic": topic, "error": error,
         "model": (cfg.get("article", {}) or {}).get("model", ""),
@@ -2049,12 +2068,16 @@ def summary_lines(result: dict) -> list[str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description="مسار «هام»: الحكم على نقاط نص ملصق")
     parser.add_argument("--issue", type=int, required=True, help="رقم الـ Issue")
-    parser.add_argument("--judge-only", action="store_true", required=True,
+    parser.add_argument("--judge-only", action="store_true",
                         help="يحكم ويحفظ ويطبع ملخصًا — لا ينشئ قضايا ولا يعلّق")
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s │ %(levelname)-7s │ %(message)s",
                         datefmt="%H:%M:%S")
+    if not args.judge_only:
+        # المسار الكامل (حكم أو إعادة استعمال ← قضية ترشيح ← تعليق) في وحدته الخاصة
+        from . import important_issue
+        return important_issue.run(args.issue, load_config())
     body = review.fetch_issue_body(args.issue)
     if not body.strip():
         print("الـ Issue بلا نص")

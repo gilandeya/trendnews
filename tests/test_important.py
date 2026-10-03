@@ -1638,3 +1638,223 @@ def test_important_1214() -> None:
     # (c) مسار «مقال» لم يُمَسّ
     check("(c) article.py لا يعرف detail_kind (مسار «مقال» لم يُمَسّ)",
           "detail_kind" not in inspect.getsource(article))
+
+
+def test_important_1217() -> None:
+    """المهمة 2 (Issue #1217): من الوسم إلى قضية الترشيح. على مخرَج الأنبوب: important.main
+    بنص Issue مزيَّف وGitHub مزيَّف، وملفّا #1209 و#1201 الحقيقيان (نسخة ثابتة في
+    tests/fixtures/important) بدل الحكم — judge المزيَّف يعيد الملف نفسه ويكتبه كما يفعل الحقيقي."""
+    import copy
+    import inspect
+    import json
+    import sys
+    from pathlib import Path
+    from src import article, decisions, important, important_issue, publish, review, stages
+
+    cfg = load_config()
+    fx = Path(__file__).parent / "fixtures" / "important"
+    fixture = {n: json.loads((fx / f"{n}.json").read_text(encoding="utf-8")) for n in (1209, 1201)}
+    state = {"judge": [], "created": [], "comments": [], "open": True, "next": 5000,
+             "model": 0, "brave": 0, "body": "", "other": []}
+
+    def fake_judge(body, issue, cfg=None):
+        state["judge"].append(issue)
+        r = copy.deepcopy(fixture[issue])
+        r.update(issue=issue, body_hash=important.body_hash(body), selection_issue=None)
+        important.mark_status(r["points"])
+        important.save(r)
+        return r
+
+    def fake_client():
+        state["model"] += 1
+        raise AssertionError("نداء نموذج في مسار إعادة الاستعمال")
+
+    def fake_brave(*a, **kw):
+        state["brave"] += 1
+        raise AssertionError("نداء Brave في مسار إعادة الاستعمال")
+
+    def fake_create(title, body, labels=None):
+        state["next"] += 1
+        state["created"].append({"number": state["next"], "title": title, "body": body,
+                                 "labels": labels})
+        return {"number": state["next"]}
+
+    names = [(important, "judge"), (important, "brave_web_articles"), (article, "_client"),
+             (review, "fetch_issue_body"), (review, "create_issue"), (review, "comment"),
+             (review, "ensure_labels"), (review, "remove_label"), (review, "close_issue"),
+             (important_issue, "_issue_open"), (publish, "fetch_issue")]
+    saved_fns = [(m, n, getattr(m, n)) for m, n in names]
+    important.judge = fake_judge
+    important.brave_web_articles = fake_brave
+    article._client = fake_client
+    review.fetch_issue_body = lambda n: state["body"]
+    review.create_issue = fake_create
+    review.comment = lambda n, t: state["comments"].append((n, t))
+    review.ensure_labels = lambda: None
+    review.remove_label = lambda *a: state["other"].append(("remove_label", a))
+    review.close_issue = lambda *a: state["other"].append(("close_issue", a))
+    important_issue._issue_open = lambda n: state["open"]
+    old_argv = sys.argv
+    had_decisions = decisions.DECISIONS_FILE.exists()
+
+    def run_main(issue, body):
+        state["body"] = body
+        sys.argv = ["important", "--issue", str(issue)]
+        return important.main()
+
+    try:
+        # (a)(d) أول تشغيل لنص #1209
+        code = run_main(1209, "نص الموجز لـ1209")
+        iss = state["created"][0]
+        body = iss["body"]
+        print("──── جسم قضية الترشيح لـ1209 كما بُني ────")
+        print(body)
+        print("──── عنوانها:", iss["title"])
+        pts = fixture[1209]["points"]
+        check("(a) إنهاء بنجاح وقضية واحدة بوسم important-selection",
+              code == 0 and len(state["created"]) == 1 and iss["labels"] == ["important-selection"],
+              (code, iss["labels"]))
+        check("(a) العنوان «📌 هام — ترشيح من #1209: …» وموضوعه ≤ 50 حرفًا",
+              iss["title"].startswith("📌 هام — ترشيح من #1209: ")
+              and len(iss["title"].split(": ", 1)[1]) <= 50, iss["title"])
+        order = [body.index(stages.stage_header(1, cfg)),
+                 body.index(cfg.path("stages.explainer_stage1")),
+                 body.index("المصدر: نصّك في #1209"), body.index("**1. "), body.index("🏷️ "),
+                 body.index("https://"), body.index("🖼️ بلا صورة"),
+                 body.index(cfg.path("stages.image_field")),
+                 body.index(cfg.path("stages.options_header")), body.index("<details>")]
+        check("(a) ترتيب الأقسام: رأس ← شرح ← مصدر ← عنوان ← شارة ← أدلة ← صورة ← حقل ← انتقال ← الساقط",
+              order == sorted(order), order)
+        check("(a) نقطة واحدة معروضة (المؤكَّدة) بشارة «هام» وحكمها وثلاثة مصادر مؤيِّدة بروابطها",
+              "**2. " not in body and "🏷️ هام · ✅ مؤكَّدة" in body
+              and "[RT Arabic](" in body and "[Khabaragency](" in body
+              and "[Sky News Arabia](" in body and "A7walspace" not in body, body[:900])
+        check("(a) عنوان المؤكَّدة هو claim", f"**1. {pts[0]['claim']}**" in body)
+        tail = body[body.index("<details>"):]
+        check("(a) الساقط مطويّ: العدد ثلاثة، نصوصها وأسباب سقوطها وملاحظة «أدلة متعارضة»، بلا مربعات",
+              "نقاط سقطت (3)" in tail and all(p["text"] in tail for p in pts[1:])
+              and important.NO_TRACE_REASON in tail and "أدلة متعارضة" in tail
+              and "[ ]" not in tail and "go:" not in tail, tail[:400])
+        lines = body.splitlines()
+        title_idx = [i for i, ln in enumerate(lines) if ln.startswith("**")]
+        check("(a) لا «- [ ]» قبل عنوان أي نقطة ولا عليه",
+              all("[ ]" not in lines[i] and not lines[i - 1].lstrip().startswith(("- [", "* ["))
+                  for i in title_idx)
+              and not any(ln.lstrip().startswith(("- [", "* [")) for ln in lines[:title_idx[0]]),
+              title_idx)
+        check("(a) الشارات من config.yaml: important.badges",
+              cfg.path("important.badges") == {"confirmed": "هام", "not_found": "هام",
+                                               "inaccurate": "تصحيح", "false": "تفنيد"})
+
+        # (b) معرّفات النقاط في علامات go تُقرأ بـread_actions(body, 1)
+        pub = cfg.path("stages.options.publish")
+        marked = body.replace(f"- [ ] {pub}  <!-- go:publish:{pts[0]['id']}",
+                              f"- [x] {pub}  <!-- go:publish:{pts[0]['id']}")
+        ids = stages.GO_MARKER.findall(body)
+        check("(b) معرّف النقطة في علامات go (go2/go3/publish بلا go1) ويُقرأ بـread_actions(body, 1)",
+              {i for _, i in ids} == {pts[0]["id"]} and {a for a, _ in ids} == {"go2", "go3", "publish"}
+              and stages.read_actions(marked, 1) == ({pts[0]["id"]: "publish"}, [])
+              and stages.read_actions(body, 1) == ({}, []), ids)
+
+        # (d) تعليق على الأصلي: رابط + جدول + عدد الساقط
+        n1, c1 = state["comments"][0]
+        check("(d) تعليق على #1209 برابط القضية وجدول (النقطة ← الحكم) وعدد الساقط",
+              n1 == 1209 and f"#{iss['number']}" in c1 and "| النقطة | الحكم |" in c1
+              and "✅ مؤكَّدة" in c1 and "سقط: 3" in c1, c1)
+        f = important.load_saved(1209)
+        check("(a) حالة كل نقطة في الملف: offered/dropped وselection_issue للمعروضة وحدها + البصمة",
+              [p["status"] for p in f["points"]] == ["offered", "dropped", "dropped", "dropped"]
+              and f["selection_issue"] == iss["number"]
+              and [p["selection_issue"] for p in f["points"]] == [iss["number"], None, None, None]
+              and f["body_hash"] == important.body_hash("نص الموجز لـ1209"),
+              [(p["status"], p["selection_issue"]) for p in f["points"]])
+
+        # (c) نفس النص: صفر نموذج وBrave، لا قضية جديدة، تعليق برابط القديمة
+        code = run_main(1209, "نص الموجز  لـ1209\n")     # فرق مسافات فقط: البصمة تُطبِّعها
+        check("(c) نص مطابق ← لا حكم جديد ولا نداء نموذج ولا Brave ولا قضية جديدة",
+              code == 0 and state["judge"] == [1209] and state["model"] == 0
+              and state["brave"] == 0 and len(state["created"]) == 1,
+              (state["judge"], state["model"], state["brave"], len(state["created"])))
+        check("(c) والتعليق يحمل رابط القضية القديمة نفسها",
+              f"#{iss['number']}" in state["comments"][1][1], state["comments"][1][1])
+        state["open"] = False
+        run_main(1209, "نص الموجز لـ1209")
+        check("(c) قضية ترشيح مغلقة ← قضية جديدة بلا حكم جديد",
+              len(state["created"]) == 2 and state["judge"] == [1209], state["judge"])
+        state["open"] = True
+        run_main(1209, "نص مختلف تمامًا لـ1209")
+        check("(c) نص متغيّر ← حكم جديد يستبدل الملف (بصمة جديدة) وقضية ترشيح جديدة",
+              state["judge"] == [1209, 1209]
+              and important.load_saved(1209)["body_hash"] == important.body_hash("نص مختلف تمامًا لـ1209")
+              and len(state["created"]) == 3, state["judge"])
+
+        # (f) أقرب حدث + تصحيح + تفنيد (جسم مركَّب من النقطتين الحقيقيتين وتعديلين مصطنعين)
+        near = {"title": "حدث قريب موثَّق من ناسا", "description": "وصف الحدث الأقرب",
+                "shared_entity": "ناسا",
+                "sources": [{"publisher": "مصدر أ", "link": "https://a.example/1"},
+                            {"publisher": "مصدر ب", "link": "https://b.example/2"}]}
+        mixed = copy.deepcopy(fixture[1201])
+        inacc = next(p for p in mixed["points"] if p["verdict"] == "inaccurate")
+        circ = next(p for p in mixed["points"] if p.get("circulating_context"))
+        circ.update(nearest=near, dropped_reason=None)
+        fals = copy.deepcopy(fixture[1209]["points"][2])
+        fals.update(verdict="false", icon="❌", dropped_reason=None, note="",
+                    refuted_by=[{"publisher": "Fatabyyano", "link": "https://fatabyyano.net/x",
+                                 "excerpt": "خبر كاذب", "verdict_label": "كاذب",
+                                 "fact_checker": True},
+                                {"publisher": "موقع", "link": "https://m.example/y",
+                                 "excerpt": "نفي", "verdict_label": "", "fact_checker": False}])
+        mixed["points"].append(fals)
+        important.mark_status(mixed["points"])
+        text = important_issue.build_selection_body(mixed, cfg)
+        print("──── جسم مركَّب (تصحيح + أقرب حدث + تفنيد) ────")
+        print(text)
+        check("(f) not_found بأقرب حدث يُعرض بعنوان الحدث، و«لا أثر» ومصدراه بروابطهما",
+              f". {near['title']}**" in text
+              and "لا أثر للنقطة كما وردت. الأقرب:" in text and "[مصدر أ](https://a.example/1)" in text
+              and "[مصدر ب](https://b.example/2)" in text and "وصف الحدث الأقرب" in text)
+        check("(f) «كما ورد عندك» تحمل النقطة الأصلية في حالة nearest",
+              f"↳ كما ورد عندك: {circ['text']}" in text, circ["text"])
+        check("(f) شارة «تصحيح» وسطر «الخطأ ← الصحيح (as_of)» ومصدران بروابطهما",
+              "🏷️ تصحيح · ✏️ غير دقيقة" in text
+              and f"← الصحيح: {inacc['correction']['correct']} ({inacc['correction']['as_of']})" in text
+              and all(f"]({s['link']})" in text for s in inacc["correction"]["sources"][:2]))
+        check("(f) شارة «تفنيد» وسطرا «كذّبها» بحكم المدقّق و«(جهة تدقيق)»",
+              "🏷️ تفنيد · ❌ كاذبة" in text
+              and "كذّبها: [Fatabyyano](https://fatabyyano.net/x) (حكم: كاذب) (جهة تدقيق)" in text
+              and "كذّبها: [موقع](https://m.example/y)" in text)
+        img_pt = copy.deepcopy(mixed)
+        img_pt["points"][0]["image_candidates"] = [
+            {"url": "ftp://bad", "publisher": "x", "link": ""},
+            {"url": "https://img.example/a.jpg", "publisher": "الشرق", "link": "https://s/1"}]
+        itext = important_issue.build_selection_body(img_pt, cfg)
+        offered = [p for p in img_pt["points"] if p["status"] == "offered"]
+        check("(f) الصورة: أول عنصر صالح <img width=\"520\"> وسطر 🖼️ بنطاقه، وإلا «بلا صورة من المصادر»",
+              '<img src="https://img.example/a.jpg" width="520" />' in itext
+              and "🖼️ [صورة الشرق](https://img.example/a.jpg) · img.example" in itext
+              and itext.count("🖼️ بلا صورة من المصادر · بحث الويب لاحقًا") == len(offered) - 1)
+
+        # (e) approved على important-selection ← التعليق المؤقت فقط
+        state["comments"].clear()
+        publish.fetch_issue = lambda n: {"number": n, "body": text, "labels": [
+            {"name": "important-selection"}, {"name": "approved"}]}
+        sys.argv = ["publish", "--issue", "9100", "--urgent-only"]
+        c_urgent = publish.main()
+        sys.argv = ["publish", "--issue", "9100", "--skip-urgent"]
+        c_normal = publish.main()
+        msg = "اختيارات «هام» تُنفَّذ بعد اكتمال المهمة 3 — لا شيء ضاع، القضية تبقى كما هي"
+        check("(e) approved على important-selection ← تعليق مؤقت واحد فقط (من المسار السريع)",
+              c_urgent == 0 and c_normal == 0 and state["comments"] == [(9100, msg)],
+              state["comments"])
+        check("(e) لا إغلاق ولا إزالة وسم ولا قرارات مسجَّلة",
+              state["other"] == [] and decisions.DECISIONS_FILE.exists() == had_decisions,
+              state["other"])
+    finally:
+        for m, n, fn in saved_fns:
+            setattr(m, n, fn)
+        sys.argv = old_argv
+        for n in (1209,):
+            important.saved_path(n).unlink(missing_ok=True)
+
+    check("(e) الوسم مسجَّل في ensure_labels",
+          "important-selection" in inspect.getsource(review.ensure_labels))
