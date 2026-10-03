@@ -1,0 +1,62 @@
+{
+  "id": "bcf2916e1d50",
+  "created_at": "2026-10-03T03:08:02.645229+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.31,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "شركة طيران إماراتية تعلق رحلاتها لتل أبيب بعد حادث",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "flydubai suspends Tel Aviv flights after cockpit incident; CEO says ‘investigation will establish facts’",
+  "link": "https://www.hindustantimes.com/world-news/flydubai-suspends-tel-aviv-flights-after-cockpit-incident-ceo-says-investigation-will-establish-facts-101790954378561.html",
+  "publishers": [
+    "CEO",
+    "Hindustan Times — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "flydubai suspends Tel Aviv flights after cockpit incident; CEO says ‘investigation will establish facts’",
+    "link": "https://www.hindustantimes.com/world-news/flydubai-suspends-tel-aviv-flights-after-cockpit-incident-ceo-says-investigation-will-establish-facts-101790954378561.html",
+    "summary": "flydubai Chief Executive Officer Ghaith Al Ghaith said all 172 passengers and crew members on board the Dubai-Tel Aviv flight were safe and receiving support.",
+    "source_name": "Hindustan Times — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-10-02T16:32:16+00:00",
+    "image_url": null,
+    "publisher": "Hindustan Times — World",
+    "cluster_sources": [
+      "CEO",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/flydubai-suspends-tel-aviv-flights-after-cockpit-incident-ceo-says-investigation-will-establish-facts-101790954378561.html"
+      },
+      {
+        "name": "CEO",
+        "link": "https://tass.com/economy/2196825"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1426.9104338619445,
+    "is_stale": false,
+    "score": 23.310710279685182,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "شركة طيران إماراتية تعلق رحلاتها لتل أبيب بعد حادث",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

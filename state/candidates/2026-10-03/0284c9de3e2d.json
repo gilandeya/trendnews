@@ -1,0 +1,60 @@
+{
+  "id": "0284c9de3e2d",
+  "created_at": "2026-10-03T03:08:02.645430+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.57,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "زعيم أوروبي يتهم بوتين بتجاوز القوانين الدولية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Zelensky says Putin ordered Russia’s military chiefs to abandon rules of war in airstrikes on Ukraine",
+  "link": "https://meduza.io/en/news/2026/10/02/zelensky-says-putin-ordered-russia-s-military-chiefs-to-abandon-rules-of-war-in-airstrikes-on-ukraine",
+  "publishers": [
+    "Financial Times",
+    "Meduza English"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Zelensky says Putin ordered Russia’s military chiefs to abandon rules of war in airstrikes on Ukraine",
+    "link": "https://meduza.io/en/news/2026/10/02/zelensky-says-putin-ordered-russia-s-military-chiefs-to-abandon-rules-of-war-in-airstrikes-on-ukraine",
+    "summary": "Vladimir Putin ordered his military commanders to abandon the rules of war in airstrikes on Ukraine, Ukrainian President Volodymyr Zelensky told the Financial Times in an interview. Ukrainian intelligence agencies obtained the information through intercepts, he said.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-10-02T16:13:53+00:00",
+    "image_url": "https://meduza.io/imgly/share/1790957634/en/news/2026/10/02/zelensky-says-putin-ordered-russia-s-military-chiefs-to-abandon-rules-of-war-in-airstrikes-on-ukraine",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Financial Times",
+      "Meduza English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/10/02/zelensky-says-putin-ordered-russia-s-military-chiefs-to-abandon-rules-of-war-in-airstrikes-on-ukraine"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1790957634/en/news/2026/10/02/zelensky-says-putin-ordered-russia-s-military-chiefs-to-abandon-rules-of-war-in-airstrikes-on-ukraine"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1426.9105771177776,
+    "is_stale": false,
+    "score": 22.573617679555554,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "زعيم أوروبي يتهم بوتين بتجاوز القوانين الدولية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

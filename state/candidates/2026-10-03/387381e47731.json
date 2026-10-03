@@ -1,0 +1,65 @@
+{
+  "id": "387381e47731",
+  "created_at": "2026-10-03T03:08:02.645016+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.86,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 3,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "ارتفاع أسعار الوقود يؤثر مباشرة على المعيشة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Govt raises petrol price by Rs2.10 per litre, high-speed diesel by Re0.30 per litre",
+  "link": "https://www.dawn.com/news/2034287/govt-raises-petrol-price-by-rs210-per-litre-high-speed-diesel-by-re030-per-litre",
+  "publishers": [
+    "Dawn",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Govt raises petrol price by Rs2.10 per litre, high-speed diesel by Re0.30 per litre",
+    "link": "https://www.dawn.com/news/2034287/govt-raises-petrol-price-by-rs210-per-litre-high-speed-diesel-by-re030-per-litre",
+    "summary": "The government on Friday raised the price of petrol by Rs2.10 per litre and that of high-speed diesel (HSD) by Re0.30 per litre. Following the revision, petrol will retail at Rs392.76 per litre, while HSD will cost Rs399.64 per litre. The government continues to levy Rs114 per litre in taxes and duties on petrol and Rs100 per litre on diesel. According to the Petroleum Division’s notification, the new prices are applicable from Oct 3 (Saturday) to Oct 5 (Monday). The price of HSD has come down from a peak of Rs520.35 recorded on April 3. Its price had started rising from Rs281 per litre after the US-Iran war broke out on February 28. The petrol price had peaked at Rs458.41 on April 3 after beginning its upward trajectory from Rs266 in the first week of March. Meanwhile, the government has reintroduced a raft of austerity measures in response to rising fuel prices amid the ongoing Middle East conflict. Under these measures, markets are required to close by 9pm and fuel allocations for official vehicles has been cut by 50 per cent for three months. On September 13, Prime Minister Shehbaz Sharif also announced a “ relief scheme ” for users of motorcycles, autos and vehicles of up to 8",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-02T18:12:37+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/02231522e49ebd4.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2034287/govt-raises-petrol-price-by-rs210-per-litre-high-speed-diesel-by-re030-per-litre"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632646/govt-increases-petrol-by-rs21-diesel-by-30-paisas-till-oct-5"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/02231522e49ebd4.webp",
+      "https://i.dawn.com/thumbnail/2026/10/02231522e49ebd4.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1426.9103808066666,
+    "is_stale": true,
+    "score": 23.85554361561111,
+    "impact": 3,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "ارتفاع أسعار الوقود يؤثر مباشرة على المعيشة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
