@@ -367,6 +367,8 @@ class ImportantRig:
         self.native = native or {}
         self.native_requests: list[str] = []
         self.max_chars_seen: list = []
+        # روابط كل ما أُرسل فعلًا إلى الجلب (#1207): ما استُبعد قبل الجلب لا يظهر هنا
+        self.gathered: list[str] = []
         self.systems: list[str] = []
         self.calls: list[str] = []
         self.queries: list[str] = []
@@ -390,6 +392,11 @@ class ImportantRig:
                 self.publisher = doc["name"]
                 self.source_name = doc["name"]
                 self.image_candidates = list(doc.get("images", []))
+                # عنوان ومقتطف بحث ورابط اختيارية (#1207): الترشيح قبل الجلب يقرأ العنوان
+                # والمقتطف؛ وثيقة بلا حقليهما لا يُحكم عليها فتمرّ كما كانت
+                self.title = doc.get("title", "")
+                self.summary = doc.get("summary", "")
+                self.link = doc.get("link", "")
 
         def fake_search(query, cfg, days, unrestricted=False, require_relevance=True):
             rig.queries.append(query)
@@ -403,6 +410,8 @@ class ImportantRig:
 
         def fake_gather(articles, cfg, claim_text="", loose_relevance=False, max_chars=None):
             rig.max_chars_seen.append(max_chars)
+            rig.gathered += [getattr(a, "link", "") or (a.doc.get("link", "") if hasattr(a, "doc") else "")
+                             for a in articles]
             # مقالات Brave حقيقية الشكل (Article) بلا .doc: وثيقتها من حقولها
             return [a.doc if hasattr(a, "doc") else
                     {"name": a.publisher or a.source_name, "link": a.link,
@@ -525,10 +534,15 @@ def important_doc(name: str, text: str, **extra) -> dict:
 def important_stance(source: str, stance: str, excerpt: str = "", **kw) -> dict:
     # same_event (Issue #1200): افتراضه True كي تبقى حالات g1–g9 والاختبارات القائمة
     # كما هي؛ الحالات الجديدة تمرّر same_event=False صراحةً
+    # verdict_label (Issue #1207): حكم المدقّق كما يرد في صفحته. الافتراضي لنفي صريح «False»
+    # كي تبقى حالات g1–g20 (مدقّق واحد ينفي) كما هي دون تعديل؛ الحالات الجديدة تمرّر
+    # القيمة صراحةً (حتى الفارغة) فلا يُستعمل الافتراضي
+    default_label = "False" if stance == "refutes" else ""
     return {"source": source, "stance": stance, "excerpt": excerpt,
             "same_event": kw.get("same_event", True),
             "detail": kw.get("detail", ""), "correct_form": kw.get("correct_form", ""),
-            "as_of": kw.get("as_of", "")}
+            "as_of": kw.get("as_of", ""),
+            "verdict_label": kw.get("verdict_label", default_label)}
 
 
 def brave_result(url: str, title: str, description: str, name: str = "") -> dict:

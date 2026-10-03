@@ -1211,3 +1211,51 @@ def test_important_false_guard() -> None:
     check("(g20) نفي مصدر واحد مستقل بلا مدقّق ⇒ not_found",
           p20["verdict"] == "not_found" and not p20.get("refuted_by"),
           (p20["verdict"], p20.get("refuted_by")))
+
+    # ── Issue #1207 (المهمة 1و): g21–g25 تُكتب قبل أي كود ──
+    # نفي المدقّق الواحد يحتاج حكمًا صريحًا: verdict_label ضمن false_labels ومقتطفًا جملة حكم لا سؤالًا
+    teyit_link = "https://teyit.org/analiz/turkiye-450-bin-asker-suriye"
+    q_title = "Türkiye'nin Suriye'ye 450 bin asker gönderdiğini mi gösteriyor?"
+    claim_1207 = {"claim": "@ أرسلت 450 ألف جندي إلى سوريا", "numbers": ["450 ألف"]}
+
+    def one_checker(case: int, page: str, excerpt: str, label: str, stance: str = "refutes") -> dict:
+        return run_claim(case, claim_1207, [important_doc("Teyit", page, link=teyit_link)],
+                         lambda pt, names: {"sources": [important_stance(
+                             n, stance, excerpt, verdict_label=label) for n in names]})
+
+    # g21) مدقّق واحد، المقتطف عنوانه السؤالي، بلا verdict_label ← لا false
+    p21 = one_checker(21, q_title + " Eski bir video.", q_title, "")
+    check("(g21) مدقّق واحد ومقتطفه عنوان سؤالي بلا verdict_label ⇒ لا false",
+          p21["verdict"] != "false" and not p21.get("refuted_by"),
+          (p21["verdict"], p21.get("refuted_by")))
+    p21b = one_checker(21, q_title + " Eski bir video.", q_title, "Yanlış")
+    check("(g21) حتى مع verdict_label «Yanlış» المقتطف السؤالي ليس جملة حكم ⇒ لا false",
+          p21b["verdict"] != "false", p21b["verdict"])
+
+    # g22) verdict_label «Yanıltıcı» (مضلِّل) ومقتطف حكم ← لا false
+    p22 = one_checker(22, "Bu iddia yanıltıcı. Eski bir video.", "Bu iddia yanıltıcı", "Yanıltıcı")
+    check("(g22) مدقّق واحد بحكم «Yanıltıcı» ⇒ لا false",
+          p22["verdict"] != "false" and not p22.get("refuted_by"),
+          (p22["verdict"], p22.get("refuted_by")))
+
+    # g23) verdict_label «Yanlış» ومقتطف حكم ← false
+    p23 = one_checker(23, "Bu iddia için İddia yanlış. Eski bir video.", "İddia yanlış", "Yanlış")
+    check("(g23) مدقّق واحد بحكم «Yanlış» ومقتطف «İddia yanlış» ⇒ false",
+          p23["verdict"] == "false"
+          and [r["excerpt"] for r in p23.get("refuted_by") or []] == ["İddia yanlış"],
+          (p23["verdict"], p23.get("refuted_by")))
+
+    # g24) مدقّق بعنوان سؤالي وحكمه «Doğru» ← supports لا false
+    p24 = one_checker(24, q_title + " Evet, doğru.", q_title, "Doğru")
+    check("(g24) عنوان سؤالي وحكم «Doğru» ⇒ supports لا false",
+          p24["verdict"] != "false" and not p24.get("refuted_by")
+          and {e["stance"] for e in p24["evidence"]} == {"supports"},
+          (p24["verdict"], p24["evidence"]))
+
+    # g25) صيغتا تصحيح «85.7 مليون» و«86.1 مليون» لا تتفقان (الهامش نفسه: نصف وحدة الأقل دقة)
+    icfg_1207 = cfg.get("important", {})
+    check("(g25) صيغتا تصحيح «85.7 مليون» و«86.1 مليون» لا تتفقان",
+          not important._agree("85.7 مليون", "86.1 مليون", icfg_1207)
+          and important._agree("86.1 مليون", "86 مليوناً و92 ألفاً و168", icfg_1207),
+          (important._agree("85.7 مليون", "86.1 مليون", icfg_1207),
+           important._agree("86.1 مليون", "86 مليوناً و92 ألفاً و168", icfg_1207)))

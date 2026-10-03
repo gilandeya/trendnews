@@ -1124,3 +1124,207 @@ def test_important_1205() -> None:
     src = inspect.getsource(article)
     check("(c) article.py لا يعرف as_of ولا الجهات الأصلية (مسار «مقال» لم يُمَسّ)",
           "as_of" not in src and "primary_data" not in src)
+
+
+# ───────── Issue #1207 (المهمة 1و): ميزانيتا المدقّقين، حكم المدقّق الصريح، هامش _agree ─────────
+
+
+def test_important_1207() -> None:
+    import inspect
+    from src import article, important, imagesearch
+
+    cfg = load_config()
+    icfg = cfg.path("important")
+    imagesearch.BRAVE_USAGE_FILE.unlink(missing_ok=True)
+
+    claim_tr = "Türkiye 450 bin asker Suriye gönderdi"
+
+    def langs(ar: str, tr: str, en: str) -> list[dict]:
+        return [_q("ar", ar), _q("tr", tr), _q("en", en)]
+
+    # نقاط (1) و(2) و(5) بثلاث لغات: أربع عبارات site: كما في التجربة الخامسة (مسبار، فتبيّنوا، Teyit، AFP)
+    points = [
+        {"claim": P1201["baykar"], "entities": ["بيرقدار"], "numbers": ["250 كيلومتر"],
+         "queries": langs("بيرقدار أقنجي إصابة 250 كيلومتر", "Bayraktar Akinci 250 kilometre",
+                          "Bayraktar Akinci 250 km"), "factcheck_query": ""},
+        {"claim": P1201["pop"], "entities": ["سكان"], "numbers": ["85.7 مليون"],
+         "dates": ["نهاية 2025"],
+         "queries": langs("عدد سكان تركيا 2025 85.7 مليون", "Turkiye nufus 2025 85.7 milyon",
+                          "Turkey population 2025 85.7 million"), "factcheck_query": ""},
+        {"claim": P1201["video"], "framing": "circulating", "circulating_context": CTX_1201,
+         "entities": ["تركيا", "سوريا"], "numbers": ["450 ألف"],
+         "queries": [_q("ar", "تركيا 450 ألف جندي سوريا"), _q("en", "Turkey 450000 soldiers Syria"),
+                     _q("tr", claim_tr)],
+         "factcheck_query": "تركيا 450 ألف جندي سوريا تحقق"},
+        {"claim": P1201["space"], "entities": ["فضائي"], "dates": ["2026"],
+         "queries": [_q("ar", "تركيا شبكة إنترنت فضائي حكومية")], "factcheck_query": ""},
+        {"claim": P1201["users"], "entities": ["الإنترنت"], "numbers": ["77.5 مليون"],
+         "queries": langs("مستخدمو الإنترنت في تركيا 77.5 مليون", "Turkiye internet kullanicisi 77.5 milyon",
+                          "Turkey internet users 77.5 million"), "factcheck_query": ""},
+    ]
+
+    # نتائج المدقّقين الأربع غير ذات الصلة (لا كيان ولا رقم من أي نقطة) — تعود لكل عبارة site:
+    junk = {
+        "site:misbar.com": [brave_result("https://misbar.com/factcheck/old-flood",
+                                         "صورة قديمة لفيضان في مدينة بعيدة", "تدقيق في صورة متداولة", "Misbar")],
+        "site:fatabyyano.net": [brave_result("https://fatabyyano.net/old-photo",
+                                             "لا صلة لهذه اللقطة بالحدث المتداول", "تدقيق", "Fatabyyano")],
+        "site:teyit.org": [brave_result("https://teyit.org/analiz/eski-fotograf",
+                                        "Eski bir fotograf yeni gibi paylasildi", "Analiz", "Teyit")],
+        "site:factcheck.afp.com": [brave_result("https://factcheck.afp.com/doc.old-photo",
+                                                "Old photo shared as new", "Fact check", "AFP Fact Check")],
+    }
+    junk_links = {r["url"] for rs in junk.values() for r in rs}
+    # صفحة Teyit للنقطة (3): عنوانها سؤال، وفيها سطر الحكم «Yanlış»
+    q_title = "Türkiye'nin Suriye'ye 450 bin asker gönderdiğini mi gösteriyor?"
+    teyit_link = "https://teyit.org/analiz/turkiye-450-bin-asker-suriye"
+    verdict_line = "İddia yanlış"
+    brave = {**junk, claim_tr: [brave_result(
+        teyit_link, q_title, f"Sonuç: Yanlış. {verdict_line}. Video eski bir görüntüye aittir.", "Teyit")]}
+
+    def decoys(tag: str, entity: str, extra: str, n: int = 5) -> list[dict]:
+        # مشتتات عادية تطابق النقطة أكثر من المؤيِّدين (كيان + حرفية) — كما ازدحمت المقاعد فعلًا
+        return [important_doc(f"Decoy {tag} {i}", f"{entity} {extra} تقرير عام رقم {i}.",
+                              link=f"https://decoy-{tag}-{i}.example/a") for i in range(n)]
+
+    docs = {
+        "بيرقدار": [
+            important_doc("Yeni Şafak", "أعلنت بايكار نجاح الاختبار على بعد 250 كيلومترًا بأقنجي.",
+                          link="https://www.yenisafak.com/ar/economy/4131591"),
+            important_doc("defensehere", "نجحت المسيّرة في إصابة هدف يبعد 250 كيلومترًا بحسب الشركة.",
+                          link="https://defensehere.com/akinci-250"),
+            important_doc("SdArabia", "اختبار ناجح لأقنجي بمدى 250 كيلومترًا وفق بيان الشركة.",
+                          link="https://sdarabia.com/akinci"),
+            important_doc("Alsaudi", "ذكر موقع آخر إصابة هدف على بعد 250 كيلومترًا.",
+                          link="https://alsaudi.news/international/1109/96875"),
+        ] + decoys("a", "بيرقدار", "250 كيلومتر"),
+        "سكان": [
+            important_doc("newturkpost", "بلغ عدد سكان تركيا 86 مليوناً و92 ألفاً و168 نسمة في نهاية 2025.",
+                          link="https://newturkpost.com/news/118693"),
+            important_doc("TRADING ECONOMICS", "عدد سكان تركيا 86.1 مليون نسمة في 2025.",
+                          link="https://ar.tradingeconomics.com/turkey/population"),
+            important_doc("Zaman Arabic", "بلغ التعداد السكاني في تركيا 85 مليون و980 ألف و654 نسمة "
+                          "اعتبارا من الأول من أكتوبر.", link="https://www.zamanarabic.com/2025/11/24/population"),
+        ] + decoys("b", "سكان", "85.7 مليون نهاية 2025"),
+        "فضائي": [important_doc("Eutelsat", "خدمات أقمار صناعية في تركيا.",
+                                link="https://www.eutelsat.com/turkiye")],
+        "الإنترنت": [
+            important_doc("Global Digital Insights",
+                          "Türkiye had 77.5 million internet users at the start of 2026 "
+                          "according to DataReportal Digital 2026.",
+                          link="https://datareportal.com/reports/digital-2026-turkey"),
+            important_doc("Daily Sabah", "Citing Global Digital Insights, 77.5 million Turks use the internet.",
+                          link="https://www.dailysabah.com/turkiye/internet-use"),
+        ] + decoys("c", "الإنترنت", "77.5 مليون"),
+    }
+    forms = {"newturkpost": ("86 مليوناً و92 ألفاً و168 نسمة", "نهاية 2025"),
+             "TRADING ECONOMICS": ("86.1 مليون نسمة", "نهاية 2025"),
+             "Zaman Arabic": ("85 مليوناً و980 ألفاً و654 نسمة", "1 أكتوبر 2025")}
+    supporters = {"Yeni Şafak", "defensehere", "SdArabia", "Alsaudi"}
+
+    def classify(point, names):
+        if "بيرقدار" in point:
+            return {"sources": [important_stance(n, "supports", "250 كيلومترًا")
+                                if n in supporters else important_stance(n, "irrelevant") for n in names]}
+        if "85.7" in point:
+            return {"sources": [important_stance(
+                n, "conflicts_detail", forms[n][0], detail="العدد 85.7 غير دقيق",
+                correct_form=forms[n][0], as_of=forms[n][1]) if n in forms
+                else important_stance(n, "irrelevant") for n in names]}
+        if "450" in point:
+            return {"sources": [important_stance(n, "refutes", verdict_line, verdict_label="Yanlış")
+                                for n in names]}
+        if "فضائي" in point:
+            return {"sources": [important_stance(n, "irrelevant", same_event=False) for n in names]}
+        return {"sources": [important_stance(n, "supports", "77.5 million internet users")
+                            if n == "Global Digital Insights" else important_stance(n, "irrelevant")
+                            for n in names]}
+
+    with ImportantRig(points, docs, classify, brave_results=brave, brave_key="k-test") as rig:
+        important.judge("\n".join(P1201.values()) + "\n" + CTX_1201, 98007, cfg)
+    saved = important.load_saved(98007)
+    p1, p2, p3, p4, p5 = saved["points"]
+
+    # (a) الجدول
+    cor = p2["correction"] or {}
+    check("(a) (1) ← confirmed (يني شفق وdefensehere وSdArabia لم تُزاحَم بالمدقّقين)",
+          p1["verdict"] == "confirmed"
+          and {e["publisher"] for e in p1["evidence"]} >= {"Yeni Şafak", "defensehere", "SdArabia"},
+          (p1["verdict"], [e["publisher"] for e in p1["evidence"]]))
+    check("(a) (2) ← inaccurate بـ86,092,168",
+          p2["verdict"] == "inaccurate" and cor.get("correct_value") == "86,092,168"
+          and {s["publisher"] for s in cor["sources"]} == {"newturkpost", "TRADING ECONOMICS"},
+          p2["correction"])
+    refuted = p3["refuted_by"] or []
+    check("(a) (3) ← false من Teyit وحده (بحكم «Yanlış») ومقتطفه سطر الحكم لا العنوان",
+          p3["verdict"] == "false" and len(refuted) == 1 and refuted[0]["excerpt"] == verdict_line
+          and refuted[0]["link"] == teyit_link and refuted[0]["fact_checker"]
+          and "?" not in refuted[0]["excerpt"], (p3["verdict"], refuted))
+    check("(a) (4) ← not_found وسقطت (لا أثر)",
+          p4["verdict"] == "not_found" and p4["dropped_reason"] == important.NO_TRACE_REASON,
+          (p4["verdict"], p4["dropped_reason"]))
+    check("(a) (5) ← confirmed من datareportal.com وحدها (DataReportal لم يُزاحَم)",
+          p5["verdict"] == "confirmed" and p5["primary_source"] is True
+          and any("datareportal.com" in e["link"] for e in p5["evidence"]),
+          (p5["verdict"], p5["primary_source"]))
+    print("جدول (a) #1207:")
+    for i, p in enumerate(saved["points"], 1):
+        extra = ((p["correction"]["correct_value"], [s["publisher"] for s in p["correction"]["sources"]])
+                 if p["correction"] else [r["excerpt"] for r in p["refuted_by"] or []]
+                 or [e["publisher"] for e in p["evidence"]])
+        print("  ", f"({i})", p["text"][:40], "←", p["verdict"], "←", extra)
+    print("refuted_by (3):", p3["refuted_by"])
+
+    # (b) نتائج المدقّقين غير ذات الصلة: لا تُجلب ولا تُحسب في أي ميزانية
+    check("(b) لا رابط من المدقّقين غير ذوي الصلة أُرسل إلى الجلب",
+          not (set(rig.gathered) & junk_links) and teyit_link in rig.gathered, rig.gathered)
+    junk_names = {"Misbar", "Fatabyyano", "AFP Fact Check", "Teyit"}
+    for i, p in ((1, p1), (2, p2), (5, p5)):
+        names = {d["publisher"] for d in p["read_docs"]}
+        check(f"(b) النقطة {i}: المدقّقون الأربع (مسبار/فتبيّنوا/Teyit/AFP) خارج read_docs ومسجَّلون مستبعَدين",
+              not (names & junk_names) and {s["link"] for s in p["checker_skipped"]} == junk_links,
+              (names, p["checker_skipped"]))
+    check("(b) النقطة 1: 4 مؤيِّدة محتمَلة + 5 مشتتات = 9 وثائق عادية تُقصّ إلى 8 لا إلى 4",
+          p1["docs_before"] == 9 and p1["docs_after"] == 8, (p1["docs_before"], p1["docs_after"]))
+    check("(b) النقطة 3: صفحة Teyit ذات الصلة جُلبت وبقيت، وغير ذات الصلة استُبعدت",
+          [d["publisher"] for d in p3["read_docs"]] == ["Teyit"] and len(p3["checker_skipped"]) == 4,
+          ([d["publisher"] for d in p3["read_docs"]], p3["checker_skipped"]))
+
+    # ميزانيتان منفصلتان: 6 نتائج مدقّقين ذات صلة + 10 وثائق عادية ← 4 + 8
+    ent = "عبارةمدقق"
+    many_fc = {"site:misbar.com": [brave_result(f"https://misbar.com/factcheck/{i}",
+                                                f"تدقيق عن {ent} رقم {i}", "ملخص", f"Misbar {i}")
+                                   for i in range(3)],
+               "site:fatabyyano.net": [brave_result(f"https://fatabyyano.net/check/{i}",
+                                                    f"تحقق من {ent} رقم {i}", "ملخص", f"Fatabyyano {i}")
+                                       for i in range(3)]}
+    pt = {"claim": f"واقعة {ent} كبيرة", "entities": [ent], "queries": [_q("ar", f"واقعة {ent}")],
+          "factcheck_query": ""}
+    regular = {ent: [important_doc(f"ناشر {i}", f"نص عن {ent} رقم {i}.", link=f"https://pub-{i}.example/a")
+                     for i in range(10)]}
+    with ImportantRig([pt], regular, lambda p, n: {"sources": [important_stance(x, "irrelevant") for x in n]},
+                      brave_results=many_fc, brave_key="k-test"):
+        important.judge("نص", 98008, cfg)
+    pb = important.load_saved(98008)["points"][0]
+    n_fc = sum(1 for d in pb["read_docs"] if d["engine"] == "brave_web")
+    n_reg = sum(1 for d in pb["read_docs"] if d["engine"] == "google_news")
+    check("(b) ميزانيتان منفصلتان: max_factcheck_docs (4) للمدقّقين وmax_docs_per_point (8) لغيرهم",
+          icfg["max_factcheck_docs"] == 4 and n_fc == 4 and n_reg == 8 and pb["docs_after"] == 12,
+          (n_fc, n_reg, pb["docs_after"]))
+
+    # حكم المدقّق الصريح: وحدات
+    check("(b) سؤال لا جملة حكم: «؟» أو «?» أو أداة استفهام تركية في الآخر",
+          important._is_question(q_title) and important._is_question("İddia gerçek mi")
+          and important._is_question("هل أرسلت تركيا جنودها؟") and important._is_question("Is it true?")
+          and not important._is_question(verdict_line) and not important._is_question("Bu iddia mı yanlış"))
+    check("(b) false_labels/true_labels/misleading_labels مطبَّعة حرفيًا لا جزئيًا",
+          important._label_in("Yanlış", icfg, "false_labels") and important._label_in("ملفّق", icfg, "false_labels")
+          and not important._label_in("Mostly False", icfg, "false_labels")
+          and important._label_in("Yanıltıcı", icfg, "misleading_labels")
+          and important._label_in("Doğru", icfg, "true_labels")
+          and not important._label_in("", icfg, "false_labels"))
+
+    # (c) مسار «مقال» لم يُمَسّ
+    src = inspect.getsource(article)
+    check("(c) article.py لا يعرف verdict_label ولا ميزانية المدقّقين (مسار «مقال» لم يُمَسّ)",
+          "verdict_label" not in src and "false_labels" not in src and "max_factcheck" not in src)

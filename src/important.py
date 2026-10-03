@@ -84,6 +84,12 @@ CLASSIFY_SYSTEM = f"""أنت تصنّف موقف كل مصدر من «نقطة»
 excerpt: مقتطف **قصير منسوخ حرفيًا** من نص المصدر نفسه يثبت الموقف (لا صياغتك).
 لـirrelevant اتركه فارغًا.
 
+verdict_label: لمصدر هو **جهة تدقيق** وحدها: نص حكم التدقيق كما يرد في الصفحة نفسها
+حرفيًا (مثل Yanlış، Uydurma، زائف، كاذب، مفبرك، False، Fake، Fabricated، Misleading،
+Yanıltıcı، مضلل، Doğru، صحيح، True). عنوان المقال — وهو كثيرًا سؤال («هل يُظهر الفيديو
+…؟») — ليس حكمًا. إن لم تجد في الصفحة حكمًا صريحًا اتركه فارغًا؛ ولغير المدقّقين اتركه فارغًا.
+وإن كان excerpt لنفي المدقّق فليكن **جملة الحكم** لا العنوان.
+
 nearest_events: إن وُجد في النصوص المعطاة حدث موثَّق قريب من النقطة (ليس
 بالضرورة هو نفسه)، اذكره من النصوص حصرًا: title وdescription مأخوذان من
 النصوص، وsources أسماء المصادر التي توثّقه. الأقرب أولًا. اتركها فارغة إن لم
@@ -122,6 +128,7 @@ CLASSIFY_SCHEMA = {
                         "correct_form": {"type": "string"},
                         "as_of": {"type": "string"},
                         "excerpt": {"type": "string"},
+                        "verdict_label": {"type": "string"},
                     },
                     "required": ["source", "same_event", "stance"],
                 },
@@ -376,6 +383,30 @@ def _is_fact_checker(name: str, icfg, link: str = "") -> bool:
     return False
 
 
+def _norm_label(label: str) -> str:
+    """حكم التدقيق مطبَّعًا للمقارنة الحرفية الكاملة (لا جزئية): «Yanlış» = «yanlis»."""
+    return " ".join(_WORD_RE.findall(_fold(label)))
+
+
+def _label_in(label: str, icfg, key: str) -> bool:
+    want = _norm_label(label)
+    return bool(want) and any(_norm_label(x) == want for x in icfg.get(key) or [])
+
+
+_TR_QUESTION_PARTICLES = {"mi", "mu"}  # mı/mi/mu/mü بعد _fold (ı←i وü←u)
+
+
+def _is_question(text: str) -> bool:
+    """مقتطف سؤال لا جملة حكم (#1207): ينتهي بـ«؟»/«?» (ولو بعده علامات اقتباس)، أو آخر كلمة
+    فيه أداة الاستفهام التركية. عنوان «…gönderdiğini mi gösteriyor?» هو ما نقله النموذج
+    نفيًا في التجربة الخامسة — سؤال لا ينفي شيئًا."""
+    stripped = str(text or "").strip().rstrip("\"'”’») \t")
+    if stripped.endswith(("?", "؟")):
+        return True
+    words = _WORD_RE.findall(_fold(stripped))
+    return bool(words) and words[-1] in _TR_QUESTION_PARTICLES
+
+
 def _excerpt_in(text: str, excerpt: str) -> bool:
     ex = " ".join((excerpt or "").split())
     return bool(ex) and ex in " ".join((text or "").split())
@@ -483,12 +514,13 @@ def _agree(a: str, b: str, icfg=None) -> bool:
     if not a.strip() or not b.strip():
         return False
     icfg = icfg or {}
-    va = [v for v, _y in parse_numbers(a, icfg)]
-    vb = [v for v, _y in parse_numbers(b, icfg)]
+    va = _numbers_with_half(a, icfg, years=True)
+    vb = _numbers_with_half(b, icfg, years=True)
     if va and vb:
-        tol = Decimal(str(icfg.get("number_tolerance", 0) or 0))
+        # الهامش نفسه الذي يحكم «تصحيح داخل هامش النقطة» (#1207): نصف وحدة الأقلّ دقة بسقف
+        # number_tolerance. العتبة النسبية وحدها كانت تُوفّق بين 85.7 و86.1 مليونًا (0.46%)
         small, large = (va, vb) if len(va) <= len(vb) else (vb, va)
-        return all(any(_close(x, y, tol) for y in large) for x in small)
+        return all(any(_within_margin(x, y, icfg) for y in large) for x in small)
     return bool(norm_tokens(a) & norm_tokens(b))
 
 
@@ -497,13 +529,14 @@ def _form_precision(form: str, icfg) -> int:
     return _sig_digits(v) if v is not None else 0
 
 
-def _numbers_with_half(text: str, icfg) -> list[tuple[Decimal, Decimal]]:
-    """(القيمة، نصف وحدة آخر رقم معنوي) لكل رقم غير سنة. «86.1 مليون» دقتها ±50,000
+def _numbers_with_half(text: str, icfg, years: bool = False) -> list[tuple[Decimal, Decimal]]:
+    """(القيمة، نصف وحدة آخر رقم معنوي) لكل رقم غير سنة (years=True تُبقي السنوات، وهو
+    ما يحتاجه _agree لأن سنة في صيغة تقابل سنة في أخرى). «86.1 مليون» دقتها ±50,000
     و«86,092,168» ±0.5 — الدقة من الصيغة نفسها (Decimal.normalize)، فكل منهما يقرّب
     الآخر إن وقع داخل مدى تقريبه."""
     out = []
     for v, is_year in parse_numbers(text, icfg):
-        if is_year:
+        if is_year and not years:
             continue
         exp = v.normalize().as_tuple().exponent
         out.append((v, Decimal(5) * Decimal(10) ** (exp - 1) if isinstance(exp, int) else Decimal(0)))
@@ -647,7 +680,10 @@ def decide(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | N
 
     # false: نفي صريح مُثبَت بمقتطف من مصادر مستقلة كافية، أو من جهة تدقيق
     refute_groups = _independent_groups(refuters, pool, cfg) if refuters else []
-    checker_hit = any(_is_fact_checker(n, icfg, pool[n].get("link", "")) for n in refuters)
+    # مدقّق واحد يكفي لـfalse فقط بحكم صريح من false_labels وبمقتطف جملة حكم لا سؤال (#1207)
+    checkers = [n for n in refuters if _is_fact_checker(n, icfg, pool[n].get("link", ""))]
+    checker_hit = any(_label_in(stances[n].get("verdict_label", ""), icfg, "false_labels")
+                      and not _is_question(stances[n]["excerpt"]) for n in checkers)
     refute_ok = len(refute_groups) >= min_refute or checker_hit
 
     event_documented = n_support >= min_confirm or bool(agreeing) or bool(primary)
@@ -665,7 +701,8 @@ def decide(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | N
                 "note": "أدلة متعارضة: نفي كافٍ وتأييد كافٍ معًا — لا حكم تلقائي"}
     if refuters:
         note = (f"{INSUFFICIENT_REFUTATION_NOTE} ({len(refute_groups)} مصدر مستقل "
-                f"من {min_refute} مطلوبة، ولا جهة تدقيق)")
+                f"من {min_refute} مطلوبة، "
+                + ("ومدقّق بلا حكم نفي صريح أو بمقتطف سؤالي)" if checkers else "ولا جهة تدقيق)"))
 
     if agreeing:
         first = stances[agreeing[0]]
@@ -793,9 +830,9 @@ def _oldest_age_days(dates: list[str]) -> int | None:
             - datetime(min(years), 12, 31, tzinfo=timezone.utc)).days
 
 
-def _tag(docs: list[dict], engine: str) -> list[dict]:
+def _tag(docs: list[dict], engine: str, **extra) -> list[dict]:
     """نسخ سطحية موسومة بالمحرّك — الوثائق مشتركة عبر ذاكرة البحث المؤقتة فلا تُعدَّل."""
-    return [{**d, "engine": engine} for d in docs]
+    return [{**d, "engine": engine, **extra} for d in docs]
 
 
 class _Collected:
@@ -813,6 +850,8 @@ class _Collected:
         self.windows: list[str] = []
         self.before = 0
         self.brave_skipped: str | None = None
+        # نتائج مدقّقين استُبعدت قبل الجلب لعدم اشتراكها مع النقطة بكيان ولا رقم (#1207)
+        self.checker_skipped: list[dict] = []
 
 
 class _PointSearch:
@@ -829,6 +868,8 @@ class _PointSearch:
         self.query_max_words = int(acfg.get("query_max_words", 5))
         self.phrase_max_words = int(icfg.get("phrase_max_words", 10))
         self.max_docs = int(icfg.get("max_docs_per_point", 8))
+        # ميزانية مدقّقين مستقلة (#1207): لا تزاحم وثائق البحث العادي ولا تُزاحَم بها
+        self.max_fc_docs = int(icfg.get("max_factcheck_docs", 4))
         # سقف طول الصفحة لهذا المسار وحده (#1203): يُمرَّر صراحة، فلا يتغيّر 2500 لغيره
         self.page_max_chars = int(icfg.get("page_max_chars", 20000))
         self.filter_reprints = article._reprint_filter(
@@ -838,26 +879,64 @@ class _PointSearch:
         self._resolved: dict[str, str] = {}
         self.brave = {"requests": 0, "skipped": None}
 
-    def run(self, query: str, relevance_text: str, unrestricted: bool, days: int):
-        key = (query, unrestricted, relevance_text, days)
+    def _checker_relevant(self, art, f: dict) -> bool:
+        """نتيجة مدقّق تستحق الجلب إن شارك عنوانها أو مقتطف البحث فيها النقطةَ كيانًا واحدًا
+        (مطبَّعًا عبر entity_aliases) أو رقمًا ضمن الهامش. النتيجة بلا عنوان ولا مقتطف لا يُحكم
+        عليها قبل الجلب فتمرّ؛ ونقطة بلا كيانات ولا أرقام لا شيء تُقارَن به فتمرّ كذلك."""
+        text = f"{getattr(art, 'title', '') or ''} {getattr(art, 'summary', '') or ''}".strip()
+        entities, numbers = f.get("entities") or [], _point_numbers(f, self.icfg)
+        if not text or not (entities or numbers):
+            return True
+        if _shared_entity(text, entities, self.icfg) is not None:
+            return True
+        return any(_within_margin(g, w, self.icfg)
+                   for g in _numbers_with_half(text, self.icfg) for w in numbers)
+
+    def _prefilter(self, arts, f: dict | None, all_checkers: bool = False):
+        """(للجلب، المستبعَدة): مدقّق غير ذي صلة لا يُجلب فلا يُقرأ ولا يُحسب في أي ميزانية.
+        all_checkers: كل نتائج الاستعلام من مواقع المدقّقين (عبارات site:)."""
+        if not f:
+            return list(arts), []
+        keep, dropped = [], []
+        for a in arts:
+            name = getattr(a, "publisher", "") or getattr(a, "source_name", "") or ""
+            link = getattr(a, "link", "") or ""
+            if ((all_checkers or _is_fact_checker(name, self.icfg, link))
+                    and not self._checker_relevant(a, f)):
+                dropped.append({"publisher": name, "link": link,
+                                "title": str(getattr(a, "title", "") or "")[:120]})
+            else:
+                keep.append(a)
+        return keep, dropped
+
+    def run(self, query: str, relevance_text: str, unrestricted: bool, days: int,
+            f: dict | None = None):
+        # النقطة جزء من المفتاح: ترشيح المدقّقين قبل الجلب يتبع كيانات النقطة وأرقامها
+        key = (query, unrestricted, relevance_text, days, (f or {}).get("text", ""))
         if key not in self._cache:
             ranked = evidence.search(query, self.cfg, days, unrestricted=unrestricted)
+            to_fetch, dropped = self._prefilter(ranked, f)
             raw_docs, _basis = evidence.gather_evidence(
-                ranked, self.cfg, relevance_text, max_chars=self.page_max_chars)
+                to_fetch, self.cfg, relevance_text, max_chars=self.page_max_chars)
             kept, _excluded = self.filter_reprints(raw_docs)
-            self._cache[key] = (ranked, kept)
+            self._cache[key] = (ranked, kept, dropped)
         return self._cache[key]
 
-    def run_brave(self, query: str, relevance_text: str):
+    def run_brave(self, query: str, relevance_text: str, f: dict | None = None,
+                  site: bool = False):
         arts = brave_web_articles(query, self.cfg, self.brave)
         if not arts:
-            return [], []
+            return [], [], []
+        to_fetch, dropped = self._prefilter(arts, f, all_checkers=site)
+        if not to_fetch:
+            return arts, [], dropped
         raw_docs, _basis = evidence.gather_evidence(
-            arts, self.cfg, relevance_text, max_chars=self.page_max_chars)
+            to_fetch, self.cfg, relevance_text, max_chars=self.page_max_chars)
         kept, _excluded = self.filter_reprints(raw_docs)
-        return arts, kept
+        return arts, kept, dropped
 
-    def _google(self, phrase: str, relevance_text: str, age: int | None, out: _Collected):
+    def _google(self, phrase: str, relevance_text: str, age: int | None, out: _Collected,
+                f: dict | None = None):
         """أخبار Google بنافذة days، فإن ذكرت النقطة تاريخًا أقدم منها بدأ السلّم
         من wide_days؛ ويصعد (wide ثم بلا قيد) عند صفر نتائج خام، وكذلك بعد wide
         إن كان التاريخ أقدم من wide_days نفسها — لا تحويه نافذة محدودة أصلًا."""
@@ -868,9 +947,10 @@ class _PointSearch:
         docs_all: list[dict] = []
         for i in range(start, len(steps)):
             label, days, unrestricted = steps[i]
-            ranked, docs = self.run(phrase, relevance_text, unrestricted, days)
+            ranked, docs, dropped = self.run(phrase, relevance_text, unrestricted, days, f)
             out.windows.append(label)
             out.ranked.extend(ranked)
+            out.checker_skipped += dropped
             docs_all += evidence.readable_only(docs)
             zero = getattr(ranked, "raw_count", None) == 0
             if not (zero or (label == "wide" and beyond_wide)):
@@ -939,22 +1019,26 @@ class _PointSearch:
         # بنطاق المدقّق
         for sq in self.site_queries(f, factcheck):
             out.site_queries.append(sq)
-            arts, bdocs = self.run_brave(sq, relevance_text)
+            arts, bdocs, dropped = self.run_brave(sq, relevance_text, f, site=True)
+            out.checker_skipped += dropped
             if arts and "brave_web" not in out.engines:
                 out.engines.append("brave_web")
             out.ranked.extend(arts)
-            pooled += _tag(evidence.readable_only(bdocs), "brave_web")
+            pooled += _tag(evidence.readable_only(bdocs), "brave_web", from_site=True)
         regular_from = len(pooled)
 
         attempts = list(dict.fromkeys(q for q in [factcheck] + phrases if q))
         for phrase in attempts:
-            if len({d.get("link") or id(d) for d in pooled[regular_from:]}) >= self.max_docs:
+            # وقف الجمع يعدّ وثائق البحث العادي وحدها: ميزانية المدقّقين مستقلة (#1207)
+            if len({d.get("link") or id(d) for d in pooled[regular_from:]
+                    if not self._is_checker_doc(d)}) >= self.max_docs:
                 break
             out.queries.append(phrase)
             if "google_news" not in out.engines:
                 out.engines.append("google_news")
-            pooled += _tag(self._google(phrase, relevance_text, age, out), "google_news")
-            arts, bdocs = self.run_brave(phrase, relevance_text)
+            pooled += _tag(self._google(phrase, relevance_text, age, out, f), "google_news")
+            arts, bdocs, dropped = self.run_brave(phrase, relevance_text, f)
+            out.checker_skipped += dropped
             if arts and "brave_web" not in out.engines:
                 out.engines.append("brave_web")
             out.ranked.extend(arts)
@@ -1007,10 +1091,18 @@ class _PointSearch:
             return (sum(1 for w in wanted_tokens if w and w & tokens)
                     + sum(1 for lit in literals if lit in low))
 
-        kept.sort(key=lambda d: (
-            0 if _is_fact_checker(d.get("name", ""), self.icfg, d.get("link", "")) else 1,
-            -match(d)))
-        return kept[:self.max_docs]
+        # ميزانيتان منفصلتان (#1207): المدقّقون (نتائج site: أو نطاق/اسم مدقّق) بسقفهم، والبقية
+        # بسقفها؛ كل فئة مرتَّبة بتطابقها، والمدقّقون أولًا في القائمة النهائية
+        checkers = [d for d in kept if d.get("from_site")
+                    or _is_fact_checker(d.get("name", ""), self.icfg, d.get("link", ""))]
+        regular = [d for d in kept if d not in checkers]
+        checkers.sort(key=lambda d: -match(d))
+        regular.sort(key=lambda d: -match(d))
+        return checkers[:self.max_fc_docs] + regular[:self.max_docs]
+
+    def _is_checker_doc(self, d: dict) -> bool:
+        return bool(d.get("from_site")
+                    or _is_fact_checker(d.get("name", ""), self.icfg, d.get("link", "")))
 
 
 # ───────────────────── كيانات مطبَّعة واختيار المقتطف (Issue #1200) ─────────────────────
@@ -1207,7 +1299,8 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
     لا يقبل نفيًا لا دليل نصيًا عليه."""
     docs = list(pool.values())
     out: dict[str, dict] = {n: {"stance": "irrelevant", "excerpt": "", "detail": "",
-                                "correct_form": "", "as_of": "", "same_event": False} for n in pool}
+                                "correct_form": "", "as_of": "", "same_event": False,
+                                "verdict_label": ""} for n in pool}
     raw = data.get("sources")
     for item in raw if isinstance(raw, list) else []:
         if not isinstance(item, dict):
@@ -1220,11 +1313,24 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
             stance = "irrelevant"
         # غياب same_event يُعدّ false: لا يُبنى حكم على مصدر لم يُسأل عن حدثه
         same_event = item.get("same_event") is True
+        label = str(item.get("verdict_label") or "").strip()
         entry = {"stance": stance, "same_event": same_event,
                  "excerpt": str(item.get("excerpt") or "").strip(),
                  "detail": str(item.get("detail") or "").strip(),
                  "correct_form": str(item.get("correct_form") or "").strip(),
-                 "as_of": str(item.get("as_of") or "").strip()}
+                 "as_of": str(item.get("as_of") or "").strip(),
+                 "verdict_label": label}
+        # حكم المدقّق الصريح يغلب العنوان (#1207): للمدقّقين وحدهم، وعلى الحدث نفسه فقط.
+        # «صحيح/Doğru» تأييد مهما بدا العنوان نفيًا (سؤال «هل يُظهر…؟»)، و«مضلِّل» مخالفة
+        # تفصيل لا نفي — فلا يبلغ أيٌّ منهما حارس false بمدقّق واحد
+        if (label and same_event and icfg and stance in ("refutes", "conflicts_detail")
+                and _is_fact_checker(name, icfg, pool[name].get("link", ""))):
+            if _label_in(label, icfg, "true_labels"):
+                entry["raw_stance"] = stance
+                stance = entry["stance"] = "supports"
+            elif stance == "refutes" and _label_in(label, icfg, "misleading_labels"):
+                entry["raw_stance"] = stance
+                stance = entry["stance"] = "conflicts_detail"
         if stance in EVENT_BOUND_STANCES and not same_event:
             # موقف على حدث آخر لا يؤيد ولا يخالف ولا ينفي النقطة (#1200)
             entry["stance"] = "related_other"
@@ -1362,6 +1468,8 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
         "asserted": f.get("asserted", ""),
         "queries": got.queries, "site_queries": got.site_queries, "engines": got.engines, "windows": got.windows,
         "brave_skipped": got.brave_skipped,
+        # مدقّقون استُبعدوا قبل الجلب (لا كيان ولا رقم مشترك): لا قراءة ولا ميزانية (#1207)
+        "checker_skipped": got.checker_skipped,
         "read_docs": read_docs, "docs_before": got.before, "docs_after": len(docs),
         "verdict": decision["verdict"],
         "primary_source": bool(decision.get("primary_source")),
