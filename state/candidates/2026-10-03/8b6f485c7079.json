@@ -1,0 +1,66 @@
+{
+  "id": "8b6f485c7079",
+  "created_at": "2026-10-03T09:08:05.365323+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.21,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "مؤامرة إرهابية ضد يهود مانشستر: قضية أمن عام وتوتر ديني",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Two Iranians charged over foiled plot targeting Manchester Jews",
+  "link": "https://www.iranintl.com/en/202610024632",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Iran International"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Two Iranians charged over foiled plot targeting Manchester Jews",
+    "link": "https://www.iranintl.com/en/202610024632",
+    "summary": "Two Iranian men have been charged over a terrorist plot targeting Manchester’s Jewish community that was disrupted before it could be carried out, British police said Friday.",
+    "source_name": "Iran International",
+    "region": "ir",
+    "weight": 1.0,
+    "published": "2026-10-02T20:26:34+00:00",
+    "image_url": "https://i.iranintl.com/images/rdk9umy0/production/4ac1f3cd7048365d01045947bb123d2d2b6276cf-1080x721.jpg?rect=0,79,1080,565&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+    "publisher": "Iran International",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Iran International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/3/two-iranians-charged-over-alleged-plot-targeting-jewish-community-in-uk?traffic_source=rss"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202610024632"
+      }
+    ],
+    "image_candidates": [
+      "https://i.iranintl.com/images/rdk9umy0/production/4ac1f3cd7048365d01045947bb123d2d2b6276cf-1080x721.jpg?rect=0,79,1080,565&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1432.9112350130554,
+    "is_stale": false,
+    "score": 23.20922363353384,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "مؤامرة إرهابية ضد يهود مانشستر: قضية أمن عام وتوتر ديني",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

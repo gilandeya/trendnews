@@ -1,0 +1,67 @@
+{
+  "id": "71c311c67586",
+  "created_at": "2026-10-03T09:08:05.365112+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.88,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "أسعار غذاء عالمية تضغط على جيوب العرب مباشرة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "World food prices near four-year high in September, UN say",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-02-world-food-prices-near-four-year-high-in-september-un-say/",
+  "publishers": [
+    "Daily Maverick",
+    "Daily Sabah",
+    "Reuters"
+  ],
+  "region": "za",
+  "article": {
+    "title": "World food prices near four-year high in September, UN say",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-02-world-food-prices-near-four-year-high-in-september-un-say/",
+    "summary": "World food prices rose in September to their highest in nearly four years as logistics disruptions and weather concerns affected crop markets, the United Nations' Food and Agriculture Organization said.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-02T13:11:29+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/05pl4504p-LAp_Nn3zTDL1zvnL8=/800x0/smart/filters:strip_exif()/file/attachments/2998/14313555_581093.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Daily Sabah",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-02-world-food-prices-near-four-year-high-in-september-un-say/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/global-food-prices-approach-4-year-high-in-september-un-says"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/05pl4504p-LAp_Nn3zTDL1zvnL8=/800x0/smart/filters:strip_exif()/file/attachments/2998/14313555_581093.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/02/463542.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1432.911245161389,
+    "is_stale": false,
+    "score": 23.875797705978286,
+    "impact": 3,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "أسعار غذاء عالمية تضغط على جيوب العرب مباشرة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

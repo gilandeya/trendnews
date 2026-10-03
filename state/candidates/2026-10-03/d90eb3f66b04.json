@@ -1,0 +1,66 @@
+{
+  "id": "d90eb3f66b04",
+  "created_at": "2026-10-03T09:08:05.365568+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.11,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "تايوان تستقبل مقاتلات F-16 لمواجهة التهديد الصيني",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Taiwan’s first two F-16V fighter jets arrive to bolster defences against China",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-02-taiwans-first-two-f-16v-fighter-jets-arrive-to-bolster-defences-against-china/",
+  "publishers": [
+    "Daily Maverick",
+    "The Japan Times"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Taiwan’s first two F-16V fighter jets arrive to bolster defences against China",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-02-taiwans-first-two-f-16v-fighter-jets-arrive-to-bolster-defences-against-china/",
+    "summary": "The first two of a batch of 66 new F-16V Block 70 fighter jets ordered in 2019 arrived in Taiwan on Friday after months of delays, helping to strengthen an air force that has to scramble almost daily to shadow China's military.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-02T13:02:42+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/BppaEIXY1jMA84m3zjhY9zjB8Bo=/800x0/smart/filters:strip_exif()/file/attachments/2998/14333611_848058.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-02-taiwans-first-two-f-16v-fighter-jets-arrive-to-bolster-defences-against-china/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/03/asia-pacific/taiwan-f16v-fighter-jets-arrive/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/BppaEIXY1jMA84m3zjhY9zjB8Bo=/800x0/smart/filters:strip_exif()/file/attachments/2998/14333611_848058.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/03/566508.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/03/thumbs/400x400/566508.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1432.9113611594446,
+    "is_stale": false,
+    "score": 23.111150940907407,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "تايوان تستقبل مقاتلات F-16 لمواجهة التهديد الصيني",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

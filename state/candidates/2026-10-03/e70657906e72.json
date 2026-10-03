@@ -1,0 +1,121 @@
+{
+  "id": "e70657906e72",
+  "created_at": "2026-10-03T09:08:05.364394+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 42.52,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "هجوم مروع داخل طائرة وإنقاذ ركاب — حدث استثنائي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Flydubai co-pilot attacked captain with axe, UAE official says",
+  "link": "https://www.bbc.co.uk/news/articles/c61wv7lgex13o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CEO",
+    "CGTN",
+    "Channel News Asia",
+    "Dawn",
+    "Der Spiegel",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Le Monde",
+    "Malay Mail",
+    "NDTV — World",
+    "Reports",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Guardian — World",
+    "The Hindu — International",
+    "Vanguard Nigeria",
+    "WSJ"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Flydubai co-pilot attacked captain with axe, UAE official says",
+    "link": "https://www.bbc.co.uk/news/articles/c61wv7lgex13o?at_medium=RSS&at_campaign=rss",
+    "summary": "The flydubai plane plunged more than 17,000ft two and a half hours into its journey before passengers and crew overpowered the attacker.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-03T08:26:06+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2448/live/1043b780-befe-11f1-bc2e-018d645d8d21.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CEO",
+      "CGTN",
+      "Channel News Asia",
+      "Dawn",
+      "Der Spiegel",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Le Monde",
+      "Malay Mail",
+      "NDTV — World",
+      "Reports",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Guardian — World",
+      "The Hindu — International",
+      "Vanguard Nigeria",
+      "WSJ"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/3/flydubai-co-pilot-stabbed-pilot-with-crash-axe-in-terrorist-attack-uae?traffic_source=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/oct/03/flydubai-co-pilot-used-crash-axe-to-attack-captain-says-uae"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c61wv7lgex13o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632751/flydubai-co-pilot-attacked-pilot-with-axe-attempted-terrorist-attack-uae-says"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/flydubai-co-pilot-attacked-pilot-with-axe-attempted-terrorist-attack-says-uae/article71539920.ece"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/flydubai-co-pilot-attempted-terrorist-attack-uae-6428876"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/2448/live/1043b780-befe-11f1-bc2e-018d645d8d21.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/2448/live/1043b780-befe-11f1-bc2e-018d645d8d21.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/2448/live/1043b780-befe-11f1-bc2e-018d645d8d21.jpg",
+      "https://i.guim.co.uk/img/media/c4c21545c40a5e97d346e5c87667ec791987a30b/0_110_3200_2559/master/3200.jpg?width=700&quality=85&auto=format&fit=max&s=db7b4e02256d616d3cbb95cb1f2c9d8b",
+      "https://i.guim.co.uk/img/media/c4c21545c40a5e97d346e5c87667ec791987a30b/0_110_3200_2559/master/3200.jpg?width=460&quality=85&auto=format&fit=max&s=2ce392e1b8eb63a7e4899dbf4a016b29",
+      "https://i.guim.co.uk/img/media/c4c21545c40a5e97d346e5c87667ec791987a30b/0_110_3200_2559/master/3200.jpg?width=140&quality=85&auto=format&fit=max&s=a8b6ac3b9338871b83cba2f142537ba5"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 20,
+    "velocity": 1.0,
+    "age_hours": 1432.9109799152777,
+    "is_stale": false,
+    "score": 42.51960191051394,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "هجوم مروع داخل طائرة وإنقاذ ركاب — حدث استثنائي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
