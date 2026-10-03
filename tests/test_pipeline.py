@@ -254,7 +254,8 @@ from tests.test_youtube import (
     test_image_ladder_order,
 )
 from tests.test_guards_golden import test_guards_golden, test_important_false_guard
-from tests.test_important import test_important_pipeline, test_important_search_and_extract
+from tests.test_important import (test_important_pipeline, test_important_same_event_and_excerpts,
+                                  test_important_search_and_extract)
 
 
 def main() -> int:
@@ -604,6 +605,7 @@ def main() -> int:
     test_important_pipeline()
     print("\n── «هام»: التفكيك الخاص والبحث الجامع وBrave (Issue #1198) ──")
     test_important_search_and_extract()
+    test_important_same_event_and_excerpts()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:

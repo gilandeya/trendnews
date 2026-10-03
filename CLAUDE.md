@@ -1232,6 +1232,31 @@ important` — **لا تعديل على `article.py` ولا على `.github/work
   وBrave web (`brave_results`/`brave_key`/`unrestricted_only`)؛ عدّلتُ في `test_important_pipeline` أرقام عدّ
   النداءات فقط (+1 للتفكيك).
 
+**المهمة 1ج (Issue #1200) — إصلاح التصنيف واختيار المقتطفات بعد التجربة الحقيقية الثانية.** التغيير في
+`src/important.py` + `config.yaml: important` + الاختبارات؛ لا `article.py` ولا `.github/workflows/`.
+- **`same_event` أولًا:** أداة `classify_sources` تُرجع لكل مصدر `same_event` (الفاعل والفعل والموضوع نفسها)
+  قبل الموقف. في `_read_stances` (الكود لا النموذج): `supports`/`conflicts_detail`/`refutes` بلا
+  `same_event=true` (أو بغياب الحقل) تتحوّل إلى `related_other` (موقف جديد، `raw_stance` يحفظ الأصل) فلا تدخل
+  inaccurate ولا confirmed ولا false. شروط حارس `false` لم تُرخَ — أُضيف إليها شرط `same_event` فقط.
+  `related_other` لا يظهر في `evidence` بل في `read_docs`.
+- **`nearest` بكيان مشترك:** عنوان الحدث الأقرب ووصفه يجب أن يذكرا كيانًا واحدًا على الأقل من `entities`
+  النقطة (`_shared_entity`)، بمطابقة مطبَّعة (`_fold`: تشكيل، همزات، ü←u…، سوابق عربية) وبصيغ
+  `important.entity_aliases` (تركيا/Turkey/Türkiye). وإلا `null`؛ ونقطة بلا كيانات لا `nearest` لها (فتسقط
+  بـ«لا أثر…»). المحفوظ يحمل `shared_entity`.
+- **اختيار المقتطف (`select_excerpt`):** صفحة الوثيقة فقرات تُرتَّب بكيانات النقطة وأرقامها وكلمات ادّعائها،
+  وفقرة فيها رقم ونوعه (`important.number_unit_aliases`: مليون/million) مع كيان أو كلمة ادّعاء تُقدَّم؛
+  تُؤخذ أعلاها حتى `tokens_per_source` (**600** الآن) × `chars_per_token` (3) أحرف، بترتيبها الأصلي. بلا
+  تطابق يُؤخذ أول النص. التصنيف يرى المقتطف، وشرط المقتطف الحرفي لـ`refutes` يُفحص على النص الكامل.
+- **`read_docs` لكل نقطة (للتشخيص):** كل وثيقة مقروءة — `publisher`، `link` النهائي (+`orig_link`)،
+  `resolved`، `engine`، `page_chars`، `excerpt_chars`، `same_event`، `stance` (بما فيها `irrelevant`،
+  و`deduped` لمن أسقطته إعادة النشر).
+- **حلّ روابط Google:** `_PointSearch.resolve_link` يستعمل `sources.resolve_final_url` قبل الحفظ والاستبعاد
+  والاستقلال؛ تعذّر الحل ← الرابط الأصلي و`resolved=false`. جهة التدقيق بالنطاق تُفحص على المحلول.
+- **الاختبارات:** g10–g12 في `tests/test_guards_golden.py` (كُتبت قبل الكود)؛ `test_important_same_event_and_excerpts`
+  في `tests/test_important.py` (انحدار #1197 الثاني، read_docs، الروابط). `helpers.important_stance` صار
+  يرسل `same_event=True` افتراضيًا (g1–g9 لم تُعدَّل)، و`ImportantRig` يسجّل `last_content`/`contents`؛
+  وعُدّل في `test_important` عنوان nearest ليحمل كيان النقطة، ونقطة بلا كيانات صارت بلا nearest.
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the

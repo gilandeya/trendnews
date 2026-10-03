@@ -97,7 +97,9 @@ def test_important_pipeline() -> None:
     }
 
     def classify_c(point, names):
-        ev = [{"title": "حدث", "description": "وصف", "sources": list(names)}]
+        # العنوان يحمل كيان النقطة (آخر كلمة فيها) — شرط الكيان المشترك (#1200)
+        ev = [{"title": f"حدث قرب {point.split()[-1]}", "description": "وصف",
+               "sources": list(names)}]
         return {"sources": [important_stance(n, "irrelevant") for n in names],
                 "nearest_events": ev}
 
@@ -312,7 +314,7 @@ def regression_1197(issue: int = 96001) -> dict:
                 n, "conflicts_detail", "77.5 مليون", detail="العدد 90 مليونًا لا 77.5",
                 correct_form="77.5 مليون مستخدم") for n in names]}
         return {"sources": [important_stance(n, "irrelevant") for n in names],
-                "nearest_events": [{"title": "أقرب حدث موثَّق", "description": "وصف من النصوص",
+                "nearest_events": [{"title": "أقرب حدث موثَّق في تركيا", "description": "وصف من النصوص",
                                     "sources": list(names[:2])}]}
 
     with ImportantRig(points, docs, classify):
@@ -339,9 +341,12 @@ def test_important_search_and_extract() -> None:
     check("(a) (5) ← inaccurate بتصحيح 77.5 مليون",
           p5["verdict"] == "inaccurate" and "77.5" in p5["correction"]["correct"]
           and len(p5["correction"]["sources"]) == 2, p5["correction"])
-    check("(a) (1) و(2) و(4) ← not_found مع nearest وبلا إسقاط",
+    check("(a) (1) و(4) ← not_found مع nearest وبلا إسقاط",
           all(p["verdict"] == "not_found" and p["nearest"] and p["dropped_reason"] is None
-              for p in (p1, p2, p4)), [(p["verdict"], p["nearest"]) for p in (p1, p2, p4)])
+              for p in (p1, p4)), [(p["verdict"], p["nearest"]) for p in (p1, p4)])
+    # النقطة 2 بلا كيانات: لا كيان مشترك ممكن ← nearest null (#1200) فتسقط بسببها
+    check("(a) (2) بلا كيانات ← not_found بلا nearest",
+          p2["verdict"] == "not_found" and p2["nearest"] is None, p2["nearest"])
     check("(a) asserted محفوظ للعرض (النقطة 2 بلا أسماء ولم تسقط) وclaim حاضر",
           "مارس 2025" in p2["asserted"] and all(p["claim"] == p["text"] for p in pts), p2["asserted"])
     check("(a) النقطة 3 (تاريخ 2016) بُحثت بنافذة أوسع ثم بلا قيد",
@@ -538,3 +543,190 @@ def test_important_search_and_extract() -> None:
     check("حد عبارات البحث لكل لغة يُفرض في الكود",
           len(important._queries_per_lang(
               [_q("ar", "أ"), _q("ar", "ب"), _q("ar", "ج"), _q("en", "d")], 2)) == 3)
+
+
+# ───────────── Issue #1200 (المهمة 1ج): same_event وnearest بكيان ومقتطفات وread_docs ─────────────
+
+def _sections(content: str) -> dict[str, str]:
+    """نص الوثائق كما وصل نداء التصنيف ← {اسم المصدر: ما أُرسل منه}."""
+    parts = re.split(r"--- المصدر: (.*?) ---\n", content)
+    return {parts[i]: parts[i + 1] for i in range(1, len(parts) - 1, 2)}
+
+
+def regression_1197_second(issue: int = 97001) -> dict:
+    """النص نفسه #1197 بالمصادر التي ظهرت فعلًا في التشغيل الحقيقي الثاني: قانون
+    القاصرين (UrduPoint وTRT) للنقطة 1، وCNN عن سوريا للنقطة 2، ومسبار برابط
+    news.google.com للنقطة 3، وA News وTRT للنقطة 4، وصفحة DataReportal طويلة للنقطة 5."""
+    from src import important, sources
+
+    cfg = load_config()
+    points = [
+        {"claim": "تركيا أعلنت في 2026 إطلاق منظومة جديدة لمراقبة المحتوى المضلل على منصات التواصل",
+         "entities": ["تركيا"], "dates": ["2026"], "numbers": [],
+         "queries": [_q("ar", "تركيا تطلق منظومة جديدة لمراقبة المحتوى المضلل")],
+         "factcheck_query": ""},
+        {"claim": "فيديو متداول زُعم أنه يوثق مظاهرات حديثة في تركيا احتجاجًا على ارتفاع أسعار الغذاء والوقود",
+         "entities": ["تركيا"], "dates": [], "numbers": [],
+         "queries": [_q("ar", "فيديو مظاهرات حديثة في تركيا ارتفاع أسعار الغذاء والوقود")],
+         "factcheck_query": ""},
+        {"claim": "صورة لعنصرين من القوات الخاصة التركية يُزعم أنها تتضمن اعترافًا بمجزرة في عفرين",
+         "entities": ["القوات الخاصة التركية", "عفرين"], "dates": ["2016"], "numbers": [],
+         "queries": [_q("ar", "صورة القوات الخاصة التركية اعتراف مجزرة عفرين")],
+         "factcheck_query": ""},
+        {"claim": "تركيا بدأت استخدام طائرات مسيرة جديدة يصل مداها إلى 800 كيلومتر",
+         "entities": ["تركيا"], "dates": [], "numbers": ["800 كيلومتر"],
+         "queries": [_q("ar", "تركيا طائرات مسيرة جديدة مدى 800 كيلومتر")],
+         "factcheck_query": ""},
+        {"claim": "عدد مستخدمي الإنترنت في تركيا تجاوز 90 مليون مستخدم خلال 2026",
+         "entities": ["تركيا"], "dates": ["2026"], "numbers": ["90 مليون"],
+         "queries": [_q("ar", "عدد مستخدمي الإنترنت في تركيا 2026 مليون")],
+         "factcheck_query": ""},
+    ]
+    minors = ("أقرّت تركيا قانونًا يقيّد استخدام القاصرين دون 15 عامًا لمنصات التواصل "
+              "الاجتماعي مع آليات تحقق من الهوية.")
+    syria = "اندلعت احتجاجات في محافظات سورية بعد قرار الحكومة رفع أسعار المحروقات."
+    refute_txt = "الصورة معدّلة، والكتابة عليها مفبركة، وأصلها يعود إلى عام 2016"
+    google_link = "https://news.google.com/rss/articles/CBMiygNBVV95cUxQRVpJLXh"
+    # صفحة DataReportal: 25 فقرة؛ كثير منها يذكر Türkiye بلا الرقم، والرقم في فقرة متأخرة
+    filler = []
+    for i in range(24):
+        if i % 2 == 0:
+            filler.append(f"Digital 2026 overview, section {i}: global social media trends and "
+                          f"ad spending across regions, with Türkiye mentioned in the context "
+                          f"of platform use and time spent online per day, part {i}.")
+        else:
+            filler.append(f"Section {i}: worldwide mobile connections, e-commerce adoption and "
+                          f"streaming habits, a long general discussion of digital behaviour.")
+    filler.insert(21, "Türkiye had 77.5 million internet users at the start of 2026, "
+                      "according to the DataReportal Digital 2026 analysis.")
+    datareportal = "\n\n".join(filler)
+    docs = {
+        "منظومة": [important_doc("UrduPoint", minors, link="https://www.urdupoint.com/arabic/story/1.html"),
+                   important_doc("TRT Arabi", minors + " وفق التقارير.",
+                                 link="https://www.trtarabi.com/article/1")],
+        "مظاهرات": [important_doc("CNN Arabic", syria, link="https://arabic.cnn.com/a/fuel"),
+                    important_doc("عنب بلدي", syria + " مستقل.", link="https://enabbaladi.net/x")],
+        "عفرين": [important_doc("موقع مسبار", refute_txt, link=google_link)],
+        "مسيرة": [important_doc("A News", "K2 has a range of more than 2,000 kilometers (1,240 miles).",
+                                link="https://www.anews.com.tr/k2"),
+                  important_doc("TRT World", "The K2 drone range exceeds 2,000 kilometers, Baykar said.",
+                                link="https://www.trtworld.com/k2")],
+        "الإنترنت": [important_doc("DataReportal", datareportal,
+                                   link="https://datareportal.com/reports/digital-2026-turkiye"),
+                     important_doc("موقع الأرقام", "تقرير Digital 2026: 77.5 مليون مستخدم للإنترنت في تركيا.",
+                                   link="https://raqam.example/t"),
+                     important_doc("موقع الرياضة", "نتائج مباريات الدوري المحلي هذا الأسبوع.",
+                                   link="https://sport.example/s")],
+    }
+
+    def classify(point, names):
+        sec = _sections(rig.last_content)
+        if "منظومة" in point:
+            return {"sources": [important_stance(n, "conflicts_detail", "قانونًا يقيّد", detail="قانون آخر",
+                                                 correct_form="قانون القاصرين", same_event=False)
+                                for n in names],
+                    "nearest_events": [{"title": "قانون تركي لحماية القاصرين على المنصات — تركيا",
+                                        "description": "قانون يقيّد استخدام من هم دون 15 عامًا",
+                                        "sources": list(names)}]}
+        if "مظاهرات" in point:
+            return {"sources": [important_stance(n, "supports", "احتجاجات", same_event=False)
+                                for n in names],
+                    "nearest_events": [{"title": "احتجاجات في سوريا على رفع أسعار المحروقات",
+                                        "description": syria, "sources": list(names)}]}
+        if "عفرين" in point:
+            return {"sources": [important_stance(n, "refutes", "الصورة معدّلة") for n in names]}
+        if "مسيرة" in point:
+            return {"sources": [important_stance(
+                n, "conflicts_detail", "more than 2,000 kilometers", detail="مدى K2",
+                correct_form="range of more than 2,000 kilometers") for n in names]}
+        return {"sources": [
+            important_stance(n, "conflicts_detail", "77.5 million", detail="العدد 90 مليونًا لا 77.5",
+                             correct_form="77.5 مليون مستخدم")
+            if "77.5" in sec.get(n, "") else important_stance(n, "irrelevant", same_event=False)
+            for n in names]}
+
+    real = sources.resolve_final_url
+    sources.resolve_final_url = lambda url, timeout=12: (
+        "https://misbar.com/factcheck/2026/02/19/afrin-photo" if url == google_link else url)
+    try:
+        with ImportantRig(points, docs, classify) as rig:
+            important.judge(BODY_1197, issue, cfg)
+    finally:
+        sources.resolve_final_url = real
+    saved = important.load_saved(issue)
+    saved["_contents"] = list(rig.contents)
+    return saved
+
+
+def test_important_same_event_and_excerpts() -> None:
+    from src import important, sources
+
+    cfg = load_config()
+    saved = regression_1197_second()
+    p1, p2, p3, p4, p5 = saved["points"]
+
+    # (a) انحدار #1197 الثاني
+    check("(a) (1) ← not_found لا inaccurate (قانون القاصرين حدث آخر)",
+          p1["verdict"] == "not_found" and p1["correction"] is None, (p1["verdict"], p1["correction"]))
+    n1 = p1["nearest"]
+    rel = {d["publisher"] for d in p1["read_docs"] if d["stance"] == "related_other"}
+    check("(a) (1) nearest، إن وُجد، يشارك كيانًا ومصدراه related_other",
+          n1 is None or (n1["shared_entity"] and {s["publisher"] for s in n1["sources"]} <= rel), n1)
+    check("(a) (2) nearest ليس سوريا (لا كيان مشترك مع نقطة عن تركيا)",
+          p2["verdict"] == "not_found" and p2["nearest"] is None, p2["nearest"])
+    check("(a) (3) ← false بمدقّق وبرابط misbar.com المحلول",
+          p3["verdict"] == "false" and p3["refuted_by"][0]["link"].startswith("https://misbar.com/")
+          and p3["refuted_by"][0]["fact_checker"], p3["refuted_by"])
+    check("(a) (4) ← inaccurate بـK2 (2000 كم)",
+          p4["verdict"] == "inaccurate" and "2,000" in p4["correction"]["correct"], p4["correction"])
+    check("(a) (5) ← inaccurate بتصحيح 77.5 مليون من الفقرة المتأخرة",
+          p5["verdict"] == "inaccurate" and "77.5" in p5["correction"]["correct"]
+          and len(p5["correction"]["sources"]) == 2, (p5["verdict"], p5["correction"]))
+
+    # اختيار المقتطف: الفقرة المتأخرة وصلت التصنيف والصفحة أطول من المقتطف
+    dr = next(d for d in p5["read_docs"] if d["publisher"] == "DataReportal")
+    budget = cfg.path("important.tokens_per_source") * cfg.path("important.chars_per_token")
+    check("(a) فقرة 77.5 المتأخرة (من أكثر من 20 فقرة) اختيرت ضمن الميزانية",
+          dr["page_chars"] > budget >= dr["excerpt_chars"] > 0
+          and any("77.5 million" in c for c in saved["_contents"]), (dr, budget))
+    check("(a) tokens_per_source الافتراضي 600", cfg.path("important.tokens_per_source") == 600)
+
+    # (b) read_docs بكل الوثائق ومنها irrelevant
+    keys = {"publisher", "link", "engine", "page_chars", "excerpt_chars", "same_event", "stance"}
+    check("(b) read_docs لكل نقطة بالحقول المطلوبة وبعدد الوثائق المقروءة",
+          all(keys <= set(d) for p in saved["points"] for d in p["read_docs"])
+          and all(len(p["read_docs"]) == p["docs_after"] for p in saved["points"]),
+          [(len(p["read_docs"]), p["docs_after"]) for p in saved["points"]])
+    check("(b) read_docs فيها irrelevant والمحرّك مسجَّل",
+          any(d["stance"] == "irrelevant" for d in p5["read_docs"])
+          and all(d["engine"] == "google_news" for d in p5["read_docs"]), p5["read_docs"])
+
+    # (c) رابط Google محلول، ومسبار يُعرف بالنطاق المحلول
+    d3 = p3["read_docs"][0]
+    check("(c) رابط news.google.com يُحفظ محلولًا مع الأصلي",
+          d3["link"].startswith("https://misbar.com/") and d3["resolved"] is True
+          and d3["orig_link"].startswith("https://news.google.com/"), d3)
+    marker = "كلمةهام1200"
+    pt = important_point(marker, f"وقعت حادثة {marker} في المدينة")
+    gl = "https://news.google.com/rss/articles/XYZ"
+    real = sources.resolve_final_url
+    sources.resolve_final_url = lambda url, timeout=12: "https://www.misbar.com/factcheck/q"
+    try:
+        with ImportantRig([pt], {marker: [important_doc(
+                "ناشر مجهول الاسم", "تنفي المصادر وقوع الحادثة وتؤكد أنها لم تحدث إطلاقًا.",
+                link=gl)]}, lambda p, n: {"sources": [
+                    important_stance(x, "refutes", "لم تحدث إطلاقًا") for x in n]}):
+            important.judge("نص", 97002, cfg)
+        pc = important.load_saved(97002)["points"][0]
+        sources.resolve_final_url = lambda url, timeout=12: url
+        with ImportantRig([pt], {marker: [important_doc("ناشر مجهول الاسم", "نص.", link=gl)]},
+                          lambda p, n: {"sources": [important_stance(x, "irrelevant") for x in n]}):
+            important.judge("نص", 97003, cfg)
+        pu = important.load_saved(97003)["points"][0]
+    finally:
+        sources.resolve_final_url = real
+    check("(c) مدقّق معروف بالنطاق المحلول وحده (الاسم مجهول) ⇒ false",
+          pc["verdict"] == "false", (pc["verdict"], pc["note"]))
+    check("(c) تعذّر الحل ← الرابط الأصلي وresolved=false",
+          pu["read_docs"][0]["link"] == gl and pu["read_docs"][0]["resolved"] is False,
+          pu["read_docs"])

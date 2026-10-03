@@ -367,6 +367,9 @@ class ImportantRig:
         self.queries: list[str] = []
         self.searches: list[tuple] = []
         self.brave_calls: list[str] = []
+        # نص الوثائق كما وصل نداء التصنيف فعلًا (Issue #1200: اختبار اختيار الفقرات)
+        self.last_content = ""
+        self.contents: list[str] = []
         self._saved: dict = {}
 
     def __enter__(self):
@@ -419,6 +422,8 @@ class ImportantRig:
                 content = kw["messages"][0]["content"]
                 if kw["tool_choice"]["name"] == "extract_points":
                     return _Resp(rig._extract_input())
+                rig.last_content = content[0]["text"]
+                rig.contents.append(content[0]["text"])
                 names = re.findall(r"--- المصدر: (.*?) ---", content[0]["text"])
                 point = content[1]["text"].split(":", 1)[1].strip()
                 return _Resp(rig.classify(point, names))
@@ -506,7 +511,10 @@ def important_doc(name: str, text: str, **extra) -> dict:
 
 
 def important_stance(source: str, stance: str, excerpt: str = "", **kw) -> dict:
+    # same_event (Issue #1200): افتراضه True كي تبقى حالات g1–g9 والاختبارات القائمة
+    # كما هي؛ الحالات الجديدة تمرّر same_event=False صراحةً
     return {"source": source, "stance": stance, "excerpt": excerpt,
+            "same_event": kw.get("same_event", True),
             "detail": kw.get("detail", ""), "correct_form": kw.get("correct_form", "")}
 
 

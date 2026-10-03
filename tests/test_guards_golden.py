@@ -1045,3 +1045,46 @@ def test_important_false_guard() -> None:
              refute_all)
     check("(g9) نفي من facebook.com لا يُحسب ⇒ لا false ولا أدلة منه",
           p9["verdict"] != "false" and not p9["evidence"], (p9["verdict"], p9["evidence"]))
+
+    # ── Issue #1200 (المهمة 1ج): g10–g12 تُكتب قبل أي كود ──
+    # g10) مصدران مستقلان «يخالفان في تفصيل» لكن same_event=false ← لا inaccurate
+    def conflict_other(point, names):
+        return {"sources": [important_stance(
+            n, "conflicts_detail", "ثلاثة قتلى", detail="عدد القتلى",
+            correct_form="ثلاثة قتلى", same_event=False) for n in names]}
+
+    p10 = run(10, [important_doc("صحيفة الشرق", num_text),
+                   important_doc("موقع الغرب", "تقرير مستقل: " + num_text)],
+              conflict_other)
+    check("(g10) مخالفة تفصيل من مصدرين مستقلين بلا same_event ⇒ لا inaccurate",
+          p10["verdict"] != "inaccurate" and p10["correction"] is None,
+          (p10["verdict"], p10["correction"]))
+
+    # g11) مدقّق ينفي بمقتطف حرفي لكن same_event=false ← لا false
+    def refute_other(point, names):
+        return {"sources": [important_stance(n, "refutes", cut, same_event=False)
+                            for n in names]}
+
+    p11 = run(11, [important_doc("Misbar", denial,
+                                 link="https://misbar.com/factcheck/z")], refute_other)
+    check("(g11) مدقّق ينفي بمقتطف حرفي وsame_event=false ⇒ لا false",
+          p11["verdict"] != "false" and not p11["refuted_by"],
+          (p11["verdict"], p11["refuted_by"]))
+
+    # g12) nearest من بلد آخر بلا كيان مشترك ← null
+    marker12 = "كلمةحارس12"
+    pt12 = important_point(marker12, f"وقعت حادثة {marker12} في تركيا", entities=["تركيا"])
+
+    def classify_12(point, names):
+        return {"sources": [important_stance(n, "irrelevant") for n in names],
+                "nearest_events": [{"title": "احتجاجات في سوريا على رفع أسعار المحروقات",
+                                    "description": "احتجاجات واسعة في محافظات سورية",
+                                    "sources": list(names)}]}
+
+    with ImportantRig([pt12], {marker12: [
+            important_doc("صحيفة الشرق", "احتجاجات سوريا على المحروقات."),
+            important_doc("موقع الغرب", "تقرير مستقل عن احتجاجات سوريا.")]}, classify_12):
+        important.judge("نص الـIssue كاملًا", 94012, cfg)
+    p12 = important.load_saved(94012)["points"][0]
+    check("(g12) nearest من بلد آخر بلا كيان مشترك ⇒ null",
+          p12["nearest"] is None, p12["nearest"])
