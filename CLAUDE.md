@@ -1170,6 +1170,32 @@ facts into tiers by sourcing strength — implemented as the A/B/C grading descr
 Investigation path above (Issue #835) — and widening the search window on a zero-raw-result ladder
 step (`article.wide_days`).
 
+## مسار هام (قيد البناء)
+
+Issue #1194، المهمة 1 من 3: `src/important.py` فقط — الحَكَم على النقاط. نص ملصق ← نقاط (الوقائع فقط،
+الآراء والأسئلة تُتجاهل) ← حكم مسنود لكل نقطة ← `state/important/<issue>.json`. لا ترشيح ولا كتابة ولا
+قضايا ولا workflow بعد (المهمتان 2 و3). يعيد استعمال آلة `article.py` بلا أي تعديل عليها، ويحكم **في
+الكود** من تصنيف النموذج لكل مصدر (`classify_sources`، نموذج `article.model`) لا بحكم النموذج نفسه.
+
+- **الأحكام الأربعة:** `confirmed` ✅ (مصدران مستقلان فأكثر يؤيدان، `article.min_confirm_sources`) ·
+  `inaccurate` ✏️ (الحدث موثَّق بمصدرين مستقلين يتفقان على صيغة صحيحة تخالف تفصيلًا في النقطة؛ يُحفظ
+  `correction` = الخطأ + الصيغة الصحيحة + المصدران) · `false` ❌ (حارس أدناه) · `not_found` 🔍 (يُحفظ
+  `nearest` = أقرب حدث موثَّق بمصدرين مستقلين من نتائج البحث نفسها؛ بلا `nearest` تُسقط النقطة بسبب
+  «لا أثر ولا حدث قريب موثَّق»، إلا عند فشل نداء النموذج تقنيًا فلا إسقاط).
+- **حارس `false` (لا يُخفَّف دون Issue صريح):** لا يصدر إلا بنفي **صريح مُثبَت بمقتطف موجود حرفيًا في
+  نص المصدر** من `important.min_refute_sources` (2) مصادر **مستقلة**، أو من جهة واحدة من
+  `important.fact_check_publishers`. غياب المصادر لا يكفي أبدًا (← `not_found`)، ونفي مصدر واحد غير
+  مدقِّق ← `not_found` بملاحظة «نفي غير كافٍ»، ونفي نسختين من خبر واحد ← مصدر مستقل واحد. الاستقلال =
+  `_dedup_docs_by_publisher` ثم `_report_identity_kind` في الاتجاهين (نصٌّ يسمّي ناشر الآخر = إعادة
+  نشر). مطابقة جهة التدقيق بأن يحوي اسم الناشر كل كلمات اسمها (فـ«AFP» وحدها ليست مدقِّقة). نفي كافٍ مع
+  تأييد كافٍ معًا = `not_found` بملاحظة «أدلة متعارضة» لا `false`. حالات g1–g6 في
+  `tests/test_guards_golden.py:test_important_false_guard` تجري على الأنبوب كاملًا.
+- **الحفظ:** لكل نقطة `id` (12 سداسيًا عشريًا من نص النقطة، يقبله `stages.GO_MARKER`)، `text`، `verdict`،
+  `evidence`، `correction`، `refuted_by`، `nearest`، `image_candidates`، `dropped_reason`؛ وفي الملف
+  `model_calls` (المجموع و`by_point`، من نداءات `messages.create` الفعلية) و`truncated` (سقف
+  `important.max_points` = 8). الفحص اليدوي: `python -m src.important --issue N --judge-only` (لا قضايا
+  ولا تعليقات). الإعداد كله في `config.yaml: important`.
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the
@@ -1291,6 +1317,10 @@ single `tests/test_pipeline.py` had grown past 18,000 lines and become unwieldy 
   `article.draft_investigation`'s negation-word guard (#765), `headlines.validate_headlines`'s
   question-mark guard (#756), and `youtube_article._validate_article_text`'s structure guard
   (#941, forbidding a `## المصادر` section since articles may no longer name their sources).
+
+- **`tests/test_important.py`** (Issue #1194) — مسار «هام»: الأنبوب كاملًا (نص ← `important.judge` ← الملف
+  المحفوظ) بعدّة `ImportantRig` المزيَّفة في `tests/helpers.py`؛ وحالات حارس `false` g1–g6 في
+  `tests/test_guards_golden.py:test_important_false_guard`.
 
 `tests/test_pipeline.py` no longer defines any tests itself — it imports every `test_*()` function
 from the five files above (`test_guards_golden` included) and its `main()` calls them in the exact

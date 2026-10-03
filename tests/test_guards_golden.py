@@ -17,7 +17,8 @@ from __future__ import annotations
 
 import shutil
 
-from tests.helpers import check, load_config, evidence, store, DRAFTS_DIR
+from tests.helpers import (check, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
+                           important_doc, important_point, important_stance)
 
 
 def test_guards_golden() -> None:
@@ -935,3 +936,74 @@ def test_guards_golden() -> None:
           not any("صورة:" in str(t) for t in news_drawn)
           and "المصدر: الجزيرة" in news_drawn,
           news_drawn)
+
+
+def test_important_false_guard() -> None:
+    """حارس حكم «false» لمسار «هام» (Issue #1194) — لا يصدر إلا بنفي صريح
+    من مصدرين مستقلين أو من جهة تدقيق واحدة؛ غياب المصادر أو نفي مصدر واحد
+    غير مدقِّق أو نفي نسختين من خبر واحد لا يكفي أبدًا. تجري الحالات على
+    الأنبوب كله (نص ← important.judge ← الملف المحفوظ) بمزيَّفات الشبكة
+    والنموذج، لا على دالة الحكم وحدها."""
+    try:
+        from src import important
+    except ImportError as exc:
+        check("(#1194) src/important.py موجودة", False, str(exc))
+        return
+
+    cfg = load_config()
+    denial = "تنفي المصادر وقوع الحادثة وتؤكد أنها لم تحدث إطلاقًا في المنطقة."
+    cut = "لم تحدث إطلاقًا"
+
+    def run(case: int, docs, classify) -> dict:
+        marker = f"كلمةحارس{case}"
+        pt = important_point(marker, f"وقعت حادثة {marker} في المدينة")
+        with ImportantRig([pt], {marker: docs}, classify):
+            important.judge("نص الـIssue كاملًا", 94000 + case, cfg)
+        return important.load_saved(94000 + case)["points"][0]
+
+    def refute_all(point, names):
+        return {"sources": [important_stance(n, "refutes", cut) for n in names]}
+
+    # g1) صفر مصادر ← not_found لا false
+    p1 = run(1, [], refute_all)
+    check("(g1) صفر مصادر ⇒ not_found لا false", p1["verdict"] == "not_found", p1["verdict"])
+
+    # g2) مصدر واحد غير مدقِّق ينفي صراحة ← not_found بملاحظة «نفي غير كافٍ»
+    p2 = run(2, [important_doc("وكالة الأنباء الشرقية", denial)], refute_all)
+    check("(g2) نفي مصدر واحد غير مدقِّق ⇒ not_found بملاحظة «نفي غير كافٍ»",
+          p2["verdict"] == "not_found" and "نفي غير كافٍ" in (p2.get("note") or ""),
+          (p2["verdict"], p2.get("note")))
+
+    # g3) مصدران ينفيان لكنهما إعادة نشر للخبر نفسه ← not_found (مستقل واحد)
+    original = important_doc("صحيفة الشرق", denial)
+    reprint = important_doc("موقع الغرب", "نقلًا عن صحيفة الشرق: " + denial)
+    p3 = run(3, [original, reprint], refute_all)
+    check("(g3) نافيان أحدهما إعادة نشر للآخر ⇒ not_found (مصدر مستقل واحد فقط)",
+          p3["verdict"] == "not_found", p3["verdict"])
+
+    # g4) مصدران مستقلان ينفيان صراحة ← false
+    p4 = run(4, [important_doc("صحيفة الشرق", denial),
+                 important_doc("موقع الغرب", "مصدر مستقل يكتب: " + denial)],
+             refute_all)
+    check("(g4) مصدران مستقلان ينفيان صراحة ⇒ false مع refuted_by",
+          p4["verdict"] == "false" and len(p4.get("refuted_by") or []) == 2,
+          (p4["verdict"], p4.get("refuted_by")))
+
+    # g5) جهة تدقيق واحدة من القائمة تنفي ← false
+    p5 = run(5, [important_doc("Misbar", denial)], refute_all)
+    check("(g5) جهة تدقيق واحدة من القائمة تنفي ⇒ false",
+          p5["verdict"] == "false", p5["verdict"])
+
+    # g6) مصدران يؤيدان الحدث ويختلفان مع النقطة في الرقم ← inaccurate لا false
+    num_text = "وقعت الحادثة وأسفرت عن ثلاثة قتلى بحسب الحصيلة الرسمية."
+
+    def conflict_all(point, names):
+        return {"sources": [important_stance(
+            n, "conflicts_detail", "ثلاثة قتلى", detail="عدد القتلى",
+            correct_form="ثلاثة قتلى") for n in names]}
+
+    p6 = run(6, [important_doc("صحيفة الشرق", num_text),
+                 important_doc("موقع الغرب", "تقرير مستقل: " + num_text)],
+             conflict_all)
+    check("(g6) مصدران يؤيدان الحدث ويخالفان الرقم ⇒ inaccurate لا false",
+          p6["verdict"] == "inaccurate", p6["verdict"])
