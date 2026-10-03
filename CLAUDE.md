@@ -1398,6 +1398,23 @@ g1–g25 بلا تعديل وشروط `false` لم تُرخَ.
   الذاكرة عند الدخول والخروج كي لا تتسرّب نتائج اختبار إلى آخر، ويحفظ سجلّ وثائق لإعادة بناء نتائج الذاكرة. عُدّل في
   `test_important_search_and_extract` تأكيد عبارة teyit.org (كانت عبارة النموذج + «teyit»).
 
+**المهمة 1ط (Issue #1214) — شرط as_of للأرقام وحدها، و«أدلة متعارضة» من المؤيِّدين وحدهم (التجربة الثامنة، #1209).**
+التغيير في `src/important.py` + `config.yaml: important.month_names` + الاختبارات؛ لا `article.py` ولا `.github/workflows/`.
+g1–g30 بلا تعديل، وأُضيفت g31–g35 قبل الكود.
+- **`detail_kind`:** أداة `classify_sources` تعيد مع `conflicts_detail` الحقل `number`/`date`/`name`/`place`/`other`
+  (`DETAIL_KINDS`). شرط زمن التصحيح (#1205: `_time_status`، وتحويل التصحيح داخل هامش الرقم إلى `supports`، وإخفاء
+  صيغة «other» من `evidence`) يسري على `number` وحده؛ **غياب الحقل أو قيمة مجهولة تُعامَل `number`** (`_is_number_kind`)
+  إبقاءً للسلوك المتحفّظ السابق. في date/name/place/other يكفي أن يتفق مصدران مستقلان على `correct_form`
+  (`_pick_correction`). التواريخ تُقارَن بقيمتها (`parse_date` → (سنة، شهر، يوم) من «25 ديسمبر 2021»/«2021-12-25»/
+  «December 25, 2021»/أرقام هندية، بأسماء `important.month_names`؛ تعذّر تحليلها كاملةً ← `_agree` القديمة). `correction.detail_kind`
+  محفوظ (وكذلك `evidence[*].detail_kind`).
+- **«أدلة متعارضة» في `decide`:** `event_documented` = تأييد صريح كافٍ (`n_support ≥ min_confirm`) أو جهة أصلية مؤيِّدة
+  (#1205) فقط؛ `conflicts_detail` المتفقة (`agreeing`) لم تعد تُحسب تأييدًا. نفي كافٍ + تأييد غير كافٍ ← `false` (بشروط
+  `refute_ok` كاملةً بلا إرخاء)؛ نفي كافٍ + تأييد كافٍ ← «أدلة متعارضة» كما كان.
+- **الاختبارات:** g31–g35 في `tests/test_guards_golden.py:test_important_false_guard`؛ `test_important_1214` في
+  `tests/test_important.py` (نص #1209 بوثائق التشغيل الثامن؛ نص #1201 بوثائق السابع يبقى في `test_important_1207` بلا تعديل).
+  `helpers.important_stance` يقبل `detail_kind` (يُرسَل عند تمريره وحده).
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the
