@@ -1,0 +1,65 @@
+{
+  "id": "0199531ced05",
+  "created_at": "2026-10-03T18:07:59.432664+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.28,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 3,
+  "appeal_note": "سباق الذكاء الاصطناعي قد يفشل قبل تحقيق الأرباح",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "AI’s race to transform the world before the money runs out",
+  "link": "https://www.japantimes.co.jp/business/2026/10/03/tech/ai-transform-world-money/",
+  "publishers": [
+    "The Express Tribune",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "AI’s race to transform the world before the money runs out",
+    "link": "https://www.japantimes.co.jp/business/2026/10/03/tech/ai-transform-world-money/",
+    "summary": "Assumptions about future profits are driving the AI rush, but economists say there is little evidence to suggest the technology is sure to deliver.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-10-03T05:03:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/03/566520.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "The Express Tribune",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632748/ais-race-to-transform-the-world-before-the-money-runs-out"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/business/2026/10/03/tech/ai-transform-world-money/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/03/566520.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/03/thumbs/400x400/566520.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1441.9108701866667,
+    "is_stale": false,
+    "score": 22.278174989685184,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 3,
+    "appeal_note": "سباق الذكاء الاصطناعي قد يفشل قبل تحقيق الأرباح",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

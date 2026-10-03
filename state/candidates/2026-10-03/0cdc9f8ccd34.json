@@ -1,0 +1,66 @@
+{
+  "id": "0cdc9f8ccd34",
+  "created_at": "2026-10-03T18:07:59.432825+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.89,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "ترامب يهدد كوريا الجنوبية بفرض رسوم على مشروع غاز",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(LEAD) Trump threatens to 'charge' S. Korea 'more' if it rejects Alaska LNG project",
+  "link": "https://en.yna.co.kr/view/AEN20261003000451315",
+  "publishers": [
+    "The Japan Times",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(LEAD) Trump threatens to 'charge' S. Korea 'more' if it rejects Alaska LNG project",
+    "link": "https://en.yna.co.kr/view/AEN20261003000451315",
+    "summary": "WASHINGTON, Oct. 2 (Yonhap) -- U.S. President Donald Trump on Friday threatened ...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-10-02T20:55:27+00:00",
+    "image_url": "https://img.yna.co.kr/photo/ap/2026/10/03/PAP20261003052201009_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "The Japan Times",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261003000451315"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/business/2026/10/03/economy/trump-threatens-south-korea-lng/"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/ap/2026/10/03/PAP20261003052201009_P2.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/03/566511.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/03/thumbs/400x400/566511.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1441.9108958930556,
+    "is_stale": false,
+    "score": 21.886452765833333,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "ترامب يهدد كوريا الجنوبية بفرض رسوم على مشروع غاز",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

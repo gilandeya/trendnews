@@ -1,0 +1,60 @@
+{
+  "id": "fb674b40406b",
+  "created_at": "2026-10-03T18:07:59.432998+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.56,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "تحول في استراتيجية المساعدات الأمريكية الخارجية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "October 1 ushered in a new era in U.S. foreign aid. What's the plan? Will it work?",
+  "link": "https://www.npr.org/2026/10/02/g-s1-146042/foreign-aid-united-states-healthcare-america-first",
+  "publishers": [
+    "NPR",
+    "NPR World"
+  ],
+  "region": "us",
+  "article": {
+    "title": "October 1 ushered in a new era in U.S. foreign aid. What's the plan? Will it work?",
+    "link": "https://www.npr.org/2026/10/02/g-s1-146042/foreign-aid-united-states-healthcare-america-first",
+    "summary": "The America First strategy asks for a Memorandum of Understanding as a condition for healthcare and development aid. It's been praised for promoting self-reliance but criticized for its conditions.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-10-02T18:16:07+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-146042",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "NPR",
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/10/02/g-s1-146042/foreign-aid-united-states-healthcare-america-first"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-146042"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1441.9109237316668,
+    "is_stale": false,
+    "score": 21.559415727185183,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "تحول في استراتيجية المساعدات الأمريكية الخارجية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

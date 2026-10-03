@@ -1,37 +1,5 @@
 [
   {
-    "score": 24.19,
-    "bucket": "serious",
-    "tokens": [
-      "currently",
-      "defections",
-      "freefall",
-      "impossible",
-      "korea",
-      "north"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/09/28/asia-pacific/north-korea-defections/",
-    "title": "‘Currently impossible’: North Korea defections in freefall",
-    "posted_title": "لماذا تراجعت هجرة الكوريين الشماليين إلى الحد الأدنى في تاريخها",
-    "region": "jp",
-    "seen_at": "2026-09-28T16:43:14.642920+00:00"
-  },
-  {
-    "score": 22.59,
-    "bucket": "serious",
-    "tokens": [
-      "'normal'",
-      "assisted",
-      "dying",
-      "pope"
-    ],
-    "link": "https://www.thehindu.com/news/international/pope-says-assisted-dying-not-normal/article71517071.ece",
-    "title": "Pope says assisted dying not 'normal'",
-    "posted_title": "من لورد، البابا لاوون الرابع عشر يصف الموت الرحيم بـ\"التعاطف الزائف\" ويرفض تطبيع الموت",
-    "region": "in",
-    "seen_at": "2026-09-28T16:43:29.704199+00:00"
-  },
-  {
     "score": 30.63,
     "bucket": "serious",
     "tokens": [
@@ -2427,5 +2395,101 @@
     "posted_title": "السعودية تدرس عملية عسكرية محدودة أو واسعة لاستعادة مضيق باب المندب من الحوثيين",
     "region": "tr",
     "seen_at": "2026-10-03T16:25:47.680247+00:00"
+  },
+  {
+    "score": 27.6,
+    "bucket": "serious",
+    "tokens": [
+      "aramco",
+      "facility",
+      "fire",
+      "near",
+      "riyadh",
+      "seen",
+      "smoke",
+      "witness"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/03/fire-smoke-seen-near-aramco-facility-in-riyadh-says-witness",
+    "title": "Fire, smoke seen near Aramco facility in Riyadh, says witness",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-10-03T18:07:59.432465+00:00"
+  },
+  {
+    "score": 23.41,
+    "bucket": "serious",
+    "tokens": [
+      "dismantles",
+      "four",
+      "intelligence",
+      "iran",
+      "kerman",
+      "ministry",
+      "networks",
+      "province",
+      "sabotage"
+    ],
+    "link": "https://www.tehrantimes.com/news/530682/Iran-dismantles-four-sabotage-networks-in-Kerman-Province-Intelligence",
+    "title": "Iran dismantles four sabotage networks in Kerman Province: Intelligence Ministry",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-03T18:07:59.432659+00:00"
+  },
+  {
+    "score": 22.28,
+    "bucket": "serious",
+    "tokens": [
+      "before",
+      "money",
+      "race",
+      "runs",
+      "transform",
+      "world"
+    ],
+    "link": "https://www.japantimes.co.jp/business/2026/10/03/tech/ai-transform-world-money/",
+    "title": "AI’s race to transform the world before the money runs out",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-10-03T18:07:59.432821+00:00"
+  },
+  {
+    "score": 21.89,
+    "bucket": "serious",
+    "tokens": [
+      "'charge'",
+      "'more'",
+      "alaska",
+      "korea",
+      "lead",
+      "lng",
+      "project",
+      "rejects",
+      "threatens",
+      "trump"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20261003000451315",
+    "title": "(LEAD) Trump threatens to 'charge' S. Korea 'more' if it rejects Alaska LNG project",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-10-03T18:07:59.432993+00:00"
+  },
+  {
+    "score": 21.56,
+    "bucket": "serious",
+    "tokens": [
+      "aid",
+      "era",
+      "foreign",
+      "october",
+      "plan",
+      "ushered",
+      "what's",
+      "work"
+    ],
+    "link": "https://www.npr.org/2026/10/02/g-s1-146042/foreign-aid-united-states-healthcare-america-first",
+    "title": "October 1 ushered in a new era in U.S. foreign aid. What's the plan? Will it work?",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-10-03T18:07:59.433142+00:00"
   }
 ]
