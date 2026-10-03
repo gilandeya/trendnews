@@ -584,6 +584,31 @@ def report_conflicts(issue_number: int, conflicts: list[dict], stage: int, cfg) 
     review.comment(issue_number, "\n".join(lines))
 
 
+def _return_analysis_to_selection(path: Path, draft: dict, title: str, stage: int) -> str:
+    """فرع التحليل من go1 (Issue #1187). المسودة تُعلَّم returned بالطريقة نفسها
+    (الحقول ذاتها، لا لمس للنص والعناوين والبطاقة)، وموضوعها في ملف تاريخه
+    يصير returned (youtube_cluster.mark_topic_returned) فتنسخه
+    youtube_cluster.open_selection إلى أول قضية اختيار تالية. مسودة بلا topic_id
+    (كُتبت قبل هذا الإصدار) أو موضوعها غائب من ملفه لا تُرجَع: تبقى pending
+    ويُبلَّغ بذلك — لا شيء تعود إليه فتضيع."""
+    from . import youtube_cluster
+    topic_id, topic_date = draft.get("topic_id"), draft.get("topic_date")
+    if not (topic_id and topic_date):
+        return (f"- ⚠️ {title} — مسودة قديمة بلا رابطة موضوع، لا ترشيح تعود إليه، "
+                "بقيت في مكانها")
+    now = datetime.now(timezone.utc).isoformat()
+    topic = youtube_cluster.mark_topic_returned(
+        topic_date, topic_id, draft["id"], stage, now)
+    if topic is None:
+        return (f"- ⚠️ {title} — موضوعها غير موجود في ملف {topic_date}، "
+                "بقيت في مكانها")
+    store.update_draft(path, status="returned", returned_from_stage=stage,
+                       returned_at=now)
+    decisions.record_returned(draft, stage, topic.get("selection_issue"))
+    return (f"- ↩️ {title} — أُعيد موضوعها إلى مرحلة ترشيح المواضيع "
+            "(يظهر في أعلى أول قضية اختيار تالية، ولا كتابة جديدة عند اختياره)")
+
+
 def return_to_selection(draft_ids: list[str], stage: int) -> list[str]:
     """go1 — عودة خبر أخبار من المرحلة 2 أو 3 إلى ترشيح المواضيع (Issue #1184).
     تعيد سطور تقرير للقضية. لا نداء نموذج هنا ولا بعد: المسودة تُحفظ كما هي
@@ -602,8 +627,11 @@ def return_to_selection(draft_ids: list[str], stage: int) -> list[str]:
         path, draft = found
         if draft.get("status") != "pending":
             continue
-        cand = store.latest_candidate(draft_id)
         title = (draft.get("arabic") or {}).get("post_title", draft_id)[:50]
+        if store.origin_of(draft) == "analysis":
+            lines.append(_return_analysis_to_selection(path, draft, title, stage))
+            continue
+        cand = store.latest_candidate(draft_id)
         if not cand:
             lines.append(f"- ⚠️ {title} — لا مرشح محفوظ لهذا الخبر (لم يمرّ بالترشيح)، "
                          "بقي في مكانه")
@@ -863,6 +891,21 @@ def cmd_revival(issue_number: int, body: str, cfg) -> int:
     return 0
 
 
+def _returned_analysis_draft(topic_id: str) -> tuple[Path, dict] | None:
+    """مسودة تحليل status="returned" بهذا topic_id (Issue #1187) أو None. تمسح
+    كل ملفات drafts/ لأن المعرّف مشتقّ من تاريخ الاختيار الأول لا من تاريخ
+    الموضوع الحالي، فلا سبيل لحسابه من الموضوع."""
+    for path in sorted(store.DRAFTS_DIR.glob("*/*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            continue
+        if (data.get("status") == "returned" and data.get("topic_id") == topic_id
+                and store.origin_of(data) == "analysis"):
+            return path, data
+    return None
+
+
 def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int:
     """اعتماد Issue اختيار مواضيع التحليل قبل الكتابة (وسم youtube-selection،
     Issue #1104): يحسم المعلَّم/غير المعلَّم أولًا (youtube_cluster.
@@ -886,7 +929,9 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
     + سطر ختامي يطلب إعادة الوسم لمتابعة الباقي."""
     from . import youtube_article, youtube_cluster, youtube_publish
 
-    result = youtube_cluster.finalize_selection(issue_number, body, cfg)
+    result = youtube_cluster.finalize_selection(
+        issue_number, body, cfg,
+        is_reusable=lambda t: _returned_analysis_draft(t["id"]) is not None)
     date_str = result["date_str"]
     to_write = result["to_write"]
     still_waiting = result["still_waiting"]
@@ -914,6 +959,20 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
     points, _ = youtube_cluster.prepare_window_points(date_str, cfg)
     written = 0
     for topic in to_write:
+        # موضوع أُعيد من المرحلة 2 أو 3 (Issue #1187): مسودته نفسها تُعاد بلا أي
+        # نداء نموذج (لا Opus ولا عناوين) وتُفتح لها قضية مرحلة 2 جديدة؛ ولا
+        # تُحتسب ضمن youtube.article.max_per_run (استثناها finalize_selection).
+        returned = _returned_analysis_draft(topic["id"])
+        if returned is not None:
+            r_path, r_draft = returned
+            store.update_draft(
+                r_path, status="pending", topic_date=date_str,
+                remove=["returned_from_stage", "returned_at", "review_issue"])
+            written += 1
+            log.info("أُعيد استعمال مسودة التحليل %s بلا كتابة جديدة", r_draft["id"])
+            lines.append(f"- ♻️ {r_draft['arabic']['post_title'][:50]} — أُعيدت المسودة "
+                         "نفسها بلا كتابة جديدة، بانتظار المراجعة")
+            continue
         r = youtube_article._write_one_topic(topic, points, cfg, client)
         if r["seen_keys"]:
             youtube_cluster.mark_points_seen(
@@ -1285,7 +1344,7 @@ def main() -> int:
         from . import youtube_publish
         yt_lines, yt_published, yt_attempted, yt_remaining = youtube_publish.publish_ids(
             analysis_ids, youtube_publish.parse_headline_choice(body), cfg,
-            body=body, issue_number=args.issue)
+            body=body, issue_number=args.issue, go3_ids=go3_ids)
         youtube_publish.report_batch(
             args.issue, yt_lines, yt_published, yt_attempted, yt_remaining, cfg)
 

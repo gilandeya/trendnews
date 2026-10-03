@@ -266,8 +266,9 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   `parse_actions` returns (earliest in `ACTIONS` wins) and `publish.report_conflicts` posts one
   comment naming the item and its marked options — from the normal job only (`--urgent-only` reads
   the same way but stays silent, since both jobs run on one `approved` event). `youtube_publish.
-  build_review_body` (analysis stage 2) and gate A are unchanged and still use the old markers; the
-  `youtube-review` body therefore goes through the `legacy_actions` branch and behaves as before.
+  build_review_body` (analysis stage 2) was migrated by Issue #1187 (see the analysis bullet below);
+  gate A (`preselect`, and the analysis `youtube-selection` body) still uses the old markers. A
+  `youtube-review` Issue opened *before* #1187 has no `go:` marker and goes through `legacy_actions`.
   `review.parse_image_requests` accepts a valid http(s) URL in the `imgurl` field **alone** (no
   box); an item that still has an `img:` box (old issue) needs it ticked, as before — otherwise a
   URL kept after a failed attempt (`keep_url`) would be re-applied on every edit.
@@ -275,7 +276,8 @@ These are enforced by convention, not tooling, so hold to them deliberately:
 
 - **Returning a news item to stage 1 — `go1` (Issue #1184, task 2b of 4).** `review.build_issue_body`/
   `build_final_review_body` now pass `has_stage1 = (store.origin_of(d) == "news")` to
-  `stages.options_block` (breaking/request/article/analysis stay `False`; analysis is task 3). On
+  `stages.options_block` (breaking/request/article stay `False`; analysis got it in Issue #1187 — see
+  below — through the single predicate `review.has_stage1(draft)`). On
   `approved`, `publish.return_to_selection(ids, stage)` (called from `publish.main` stage 2 and
   `publish.cmd_final_review` stage 3, **normal job only**, guarded by `status == "pending"` so the
   urgent+normal double run is a no-op) does three things: the draft becomes `status="returned"` +
@@ -307,6 +309,54 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   field (no `img:` box) now clears the field like a success, and the failure comment carries the
   URL and the reason (passed through `SYNC_FILE["failed_details"]`) — it is never re-applied on a later
   edit. The old `img:`-box format is unchanged (`keep_url=True`).
+- **Analysis in stages 2 and 3, and `go1` back to the analysis selection (Issue #1187, task 3 of 4).**
+  *Stage-2 body:* `youtube_publish.build_review_body` now has the shape of `review.build_issue_body`
+  (header `stages.stage_header(2)` + `stages.explainer`, no checkbox above the article title, which
+  carries only a bare `<!-- draft:id -->`; then meta/score/warnings, the image source line (always) and
+  the image if built, `review.caption_details`, `review.headline_boxes`, `stages.image_field`,
+  `stages.options_block(2, id, has_stage1=review.has_stage1(d))`). The shared display helpers
+  (`has_stage1`, `caption_details`, `headline_boxes`) were extracted into `review.py` and used by the
+  news builders too (their output is byte-identical); the analysis-specific parts (composite score,
+  blocs/channels, review warnings, `has_photo` preview) stay in `youtube_publish`. **`review.has_stage1`
+  is the one rule** read by both stages' builders: `news` → always; `analysis` → only if the draft carries
+  `topic_id` (old analysis drafts have none, so they never show/return `go1`); everything else → no.
+  *Reading:* `youtube_publish.publish_ids` takes `go3_ids` (from `publish.main`'s `stages.read_actions`)
+  instead of `review.parse_card_requests(body)` (still the fallback via `read_actions` when it is not
+  passed); `publish_approved` (manual `--publish`) reads with `stages.read_actions(body, 2)` too and
+  also handles `go1`/conflicts. Old `youtube-review` Issues keep working through `legacy_actions`.
+  *Image:* `setimage.apply_image` already stored `manual_image` without building when the draft has no
+  `image`; the sync comment is now «حُفظت الصورة — تُستعمل عند بناء البطاقة». The real fix is in
+  `youtube_publish.ensure_title_card`: it used to pass `image_urls=None` so `manual_image` was ignored on
+  the analysis path; now a `manual_image` is passed alone (`image_urls=[manual]`, no news/free provider),
+  so it beats every ladder stage as for news. `review._image_source_line` says a saved manual link will be
+  used when the card isn't built yet.
+  *Topic link:* `youtube_publish.build_draft_from_text` (the only analysis writer reached via
+  `publish.cmd_youtube_selection`) saves `topic_id` + `topic_date` (the topics-file date); `build_draft`
+  (the old index.md route) does not. On re-selection `topic_date` is updated to the file the topic now
+  lives in (the copy's date).
+  *`go1`:* `publish.return_to_selection` branches on origin: analysis → `_return_analysis_to_selection`
+  (same `status="returned"`/`returned_from_stage`/`returned_at` update, `decisions.record_returned` with the
+  topic's `selection_issue`) after `youtube_cluster.mark_topic_returned` sets the topic in its file
+  `selection_status="returned"`, `returned=True`, `returned_from_stage`, `returned_at`, `draft_id`
+  (a draft with no `topic_id`, or whose topic is missing from its file, stays `pending` with a warning).
+  `youtube_cluster.open_selection` first calls `_carry_returned_topics`: for every `returned` topic in the
+  topics files within `retention.days` it **prepends a copy** (same `id`, `selection_status` empty,
+  `returned_from_stage`/`draft_id` kept, `point_ids` re-mapped through `point_key` because they index a
+  per-day window) to today's `topics` and marks the original `"moved"`; these copies are outside
+  `youtube.article.count` (the cap applies to new topics only, whose ids are indexed among themselves) and
+  `build_selection_body` prefixes their title with `stages.returned_badge`. `finalize_selection(...,
+  is_reusable=)` exempts topics whose returned draft still exists from `youtube.article.max_per_run`;
+  `cmd_youtube_selection` then reuses the draft with **no model call** (`status="pending"`, `returned_*`/
+  `review_issue` removed, `topic_date` updated), so `youtube_publish.open_review` opens a fresh stage-2
+  Issue for it, and `mark_topics_attempted` marks the topic `attempted`. `youtube_cluster.save_output`
+  carries over `returned` topics of a same-day re-run (it rewrites the day's file, which would otherwise
+  erase them). **`selection_status` values now:** `pending` · `selected` · `unselected` · `attempted`
+  · `returned` (draft came back, waiting to be copied) · `moved` (copied to a later file — never offered
+  again from here). `retention.py` never touches `state/youtube_topics/` (it sweeps `drafts/` and
+  `state/candidates/` only), so it needed no change; a `returned` *draft* ages from its day folder like
+  any non-published status, and if it's gone by re-selection the topic is simply written anew (counts
+  against `max_per_run`). Caveats: a stage-3 draft reused keeps its old card (same as news); an unselected
+  returned topic leaves its draft `returned` (aged out by retention).
 
 ## Architecture
 

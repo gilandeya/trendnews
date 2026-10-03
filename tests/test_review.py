@@ -42,6 +42,7 @@ from tests.helpers import (
     load_config,
     Article,
 )
+from src import cards as cards_mod
 from src import stages
 
 
@@ -2188,7 +2189,7 @@ def test_setimage_cli_sync_handles_cardless_draft() -> None:
           updated_bodies and review.parse_image_requests(updated_bodies[0]) == [],
           updated_bodies)
     check("تعليق يوضّح أن الرابط خُزّن للبناء لاحقًا لا «حُدّثت الصورة»",
-          comments and "ستُبنى البطاقة به عند الاعتماد" in comments[0], comments)
+          comments and "حُفظت الصورة — تُستعمل عند بناء البطاقة" in comments[0], comments)
 
 @auto_restore_last_publish
 def test_setimage_apply_image_keeps_origin_badge() -> None:
@@ -4218,11 +4219,11 @@ def test_publish_analysis_card_request_routes_to_own_final_review() -> None:
         store.save_draft(d)
 
     body = yp.build_review_body([direct_draft, card_draft], "user/trendnews", "main", load_config())
-    body = tick_marker(body, f"<!-- draft:{direct_draft['id']} -->")
-    body = tick_marker(body, f"<!-- draft:{card_draft['id']} -->")
-    body = tick_marker(body, f"<!-- card:{card_draft['id']} -->")
-    check("مربع 🎴 يظهر فعليًا في جسم Issue مراجعة التحليل الحقيقي (لا محاكاة)",
-          f"<!-- card:{card_draft['id']} -->" in body, body[:600])
+    # Issue #1187: الانتقال بعلامات go: (لا draft:/card:) — publish ثم go3.
+    body = tick_marker(body, f"<!-- go:publish:{direct_draft['id']} -->")
+    body = tick_marker(body, f"<!-- go:go3:{card_draft['id']} -->")
+    check("خيار go3 (بطاقة المرحلة 3) يظهر فعليًا في جسم Issue مراجعة التحليل الحقيقي (لا محاكاة)",
+          f"<!-- go:go3:{card_draft['id']} -->" in body, body[:600])
 
     card_calls: list = []
     real_ensure_title_card = yp.ensure_title_card
@@ -10139,6 +10140,29 @@ def legacy_stage2_body(items: list[tuple[str, str]]) -> str:
     return "\n".join(parts)
 
 
+def legacy_youtube_review_body(items: list[tuple[str, str]]) -> str:
+    """نص ثابت منسوخ من youtube_publish.build_review_body قبل Issue #1187: مربع
+    draft: على عنوان المقال ثم 🎴 card: ثم الشارات والعناوين hl: والنص — قضية
+    youtube-review مفتوحة قبل التحديث."""
+    parts = ["### 📰 مراجعة مقالات تحليلية من القنوات", "",
+             "**1 مقالات · الكتل المتقاطعة: 1=1 · خلاف قنوات=0 · تنبيهات=0**", "",
+             "**كيف تعتمد؟** ✔️ ضع علامة على المقالات التي توافق عليها، ثم أضف "
+             "الوسم `approved` إلى هذا الـ Issue.", "", "---", ""]
+    for idx, (draft_id, title) in enumerate(items, start=1):
+        parts += [
+            f"- [ ] **{idx}. {title}**  <!-- draft:{draft_id} -->", "",
+            f"  - [ ] 🎴 اعرض البطاقة قبل النشر  <!-- card:{draft_id} -->", "",
+            "  تقاطع 1 كتل · عربية · الجزيرة · اتفاق", "",
+            "  الدرجة 1 — قناة واحدة · كتلة واحدة · اتفاق بين المصادر", "",
+            "  🖼️ **المصدر:** البطاقة لم تُبنَ بعد — تُبنى عند الاعتماد", "",
+            "  🏷️ **العناوين المقترحة** (علّم المختار، الأول افتراضي):", "",
+            f"  - [x] 1. {title}  <!-- hl:{draft_id}:0 -->", "",
+            "  <details><summary>📝 نص المقال كاملًا</summary>", "",
+            f"  <!-- cap:{draft_id} -->", "  ```", "  متن المقال", "  ```",
+            f"  <!-- /cap:{draft_id} -->", "", "  </details>", "", "---", ""]
+    return "\n".join(parts)
+
+
 def legacy_stage3_body(items: list[tuple[str, str]]) -> str:
     """نص ثابت منسوخ من review.build_final_review_body قبل Issue #1182."""
     parts = ["### 🎴 مراجعة نهائية قبل النشر", ""]
@@ -10678,7 +10702,9 @@ def test_stages_module() -> None:
           "source": {"link": "", "publishers": ["ق"]}, "tier": "c",
           "blocs": ["arabic"], "channels": ["ق"], "agreement": "agreement",
           "warnings": [], "score": 1}
-    ybody = yp.build_review_body([yd], "u/r", "main", cfg)
+    # (#1187) باني التحليل لم يعد يبني العلامات القديمة: الترجمة تُفحص على نص
+    # ثابت منسوخ من بانيه القديم (قضية youtube-review مفتوحة قبل التحديث).
+    ybody = legacy_youtube_review_body([(yd["id"], "مقال")])
     y_draft = tick_marker(ybody, f"draft:{yd['id']}")
     check("(#1180-هـ) المرحلة 2 تحليل: draft وحده publish",
           stages.legacy_actions(y_draft, 2) == {yd["id"]: "publish"})
@@ -10714,3 +10740,497 @@ def test_stages_module() -> None:
     # (#1182) القارئ صار يقبل الحقل وحده بلا مربع img:
     check("(#1180-و) القارئ يعيد الرابط من الحقل وحده بلا مربع img: (#1182)",
           review.parse_image_requests(pasted) == [("ab12", "https://img.example/p.jpg")])
+
+
+class _FakeBlock:
+    def __init__(self, type_, input_=None, text=None):
+        self.type, self.input, self.text = type_, input_, text
+
+
+class _FakeResp:
+    def __init__(self, content, stop_reason="end_turn"):
+        self.content, self.stop_reason, self.usage = content, stop_reason, None
+
+
+class _CountingClient:
+    """عميل نموذج وهمي بردود مرتّبة؛ calls يعدّ كل نداء (مقال Opus أو عناوين)."""
+
+    class _Messages:
+        def __init__(self, responses):
+            self._responses = list(responses)
+            self.calls: list = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return self._responses.pop(0)
+
+    def __init__(self, responses):
+        self.messages = _CountingClient._Messages(responses)
+
+
+def _analysis_article_responses(title: str, headlines: list[str]) -> list:
+    text = (f"# {title}\n\n" + "كلمة " * 260 + "\n\nمرجّح أن يقع هذا التطوّر فعلًا.")
+    return [_FakeResp([_FakeBlock("text", text=text)]),
+            _FakeResp([_FakeBlock("tool_use", input_={"headlines": headlines})])]
+
+
+@auto_restore_last_publish
+def test_analysis_stages_pipeline() -> None:
+    """Issue #1187 (المهمة 3): مسار التحليل في المرحلتين 2 و3 — قضايا بالبناة
+    الحقيقيين، تُعلَّم، ثم تُمرَّر إلى publish.main وyoutube_cluster.open_selection
+    وpublish.cmd_youtube_selection وsetimage الحقيقية بالـfakes القائمة، مع عدّاد
+    لنداءات النموذج (المقال Opus والعناوين). مواضع الاختبار a–h في الطلب."""
+    from src import decisions, youtube_cluster as ycl, youtube_extract
+    from src import publish as publish_mod
+    import src.setimage as setimage_mod
+    yp = youtube_publish
+
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    shutil.rmtree(ycl.TOPICS_DIR, ignore_errors=True)
+    ycl.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+    ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+    if decisions.DECISIONS_FILE.exists():
+        decisions.DECISIONS_FILE.unlink()
+
+    D1, D2, D3 = "2099-10-01", "2099-10-02", "2099-10-03"
+    points = [
+        {"video_id": "sw0", "bloc": "arabic", "channel": "الجزيرة", "speaker": "متحدث",
+         "statement": "قول", "quote_arabic": "اقتباس", "type": "fact",
+         "video_title": "فيديو", "video_url": "https://youtube.com/watch?v=sw0", "timestamp": 1},
+        {"video_id": "sw1", "bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث٢",
+         "statement": "قول٢", "quote_arabic": "اقتباس٢", "type": "fact",
+         "video_title": "فيديو٢", "video_url": "https://youtube.com/watch?v=sw1", "timestamp": 2},
+    ]
+    for day in (D1, D2, D3):
+        (ycl.POINTS_DIR / f"{day}.json").write_text(
+            json.dumps({"points": points}, ensure_ascii=False), encoding="utf-8")
+
+    def mk_topic(title: str) -> dict:
+        return {"title": title, "event": f"حدث {title}", "layer": "a",
+                "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+                "agreement": "cross_source", "point_ids": [0, 1]}
+
+    def write_topics(day: str, titles: list[str]) -> None:
+        (ycl.TOPICS_DIR / f"{day}.json").write_text(
+            json.dumps({"run_date": day, "topics": [mk_topic(t) for t in titles]},
+                       ensure_ascii=False), encoding="utf-8")
+
+    def topics_file(day: str) -> dict:
+        return json.loads((ycl.TOPICS_DIR / f"{day}.json").read_text(encoding="utf-8"))
+
+    def state(draft_id: str) -> dict:
+        return store.load_draft(draft_id)[1]
+
+    # ── fakes: القضايا والتعليقات والشبكة ──
+    created: list[dict] = []
+    comments: list[tuple] = []
+
+    def fake_create_issue(title, body, labels=None):
+        created.append({"title": title, "body": body, "labels": labels,
+                        "number": 5000 + len(created) + 1})
+        return {"number": 5000 + len(created), "html_url": "https://x/i"}
+
+    photo_calls = {"free": 0, "news": 0}
+
+    def fake_free(*a, **k):
+        photo_calls["free"] += 1
+        return ["https://example.com/photo.jpg"]
+
+    def fake_news(*a, **k):
+        photo_calls["news"] += 1
+        return []
+
+    real = {
+        "create_issue": review.create_issue, "ensure_labels": review.ensure_labels,
+        "comment": review.comment, "remove_label": review.remove_label,
+        "close_issue": review.close_issue,
+        "yp_photo": yp._photo_candidates,
+        "ex_photo": youtube_extract.photo_candidates,
+        "ex_news_ok": youtube_extract.news_photo_available,
+        "ex_news": youtube_extract.news_photo_candidates,
+        "find_images": imagesearch.find_images,
+        "repo": os.environ.get("GITHUB_REPOSITORY"),
+    }
+    seen_backup = ycl.SEEN_PATH.read_text(encoding="utf-8") if ycl.SEEN_PATH.exists() else None
+    review.create_issue = fake_create_issue
+    review.ensure_labels = lambda: None
+    review.comment = lambda n, t: comments.append((n, t))
+    review.remove_label = lambda n, lbl: None
+    review.close_issue = lambda n: None
+    yp._photo_candidates = fake_free
+    youtube_extract.photo_candidates = fake_free
+    youtube_extract.news_photo_available = lambda *a, **k: False
+    youtube_extract.news_photo_candidates = fake_news
+    imagesearch.find_images = lambda *a, **k: []
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+
+    def cfg_with(count: int, cap: int):
+        c = load_config()
+        c.setdefault("youtube", {}).setdefault("article", {}).update(count=count, max_per_run=cap)
+        return c
+
+    def resume(sel: dict, body: str, ticks: list[str], cfg_r, client) -> dict:
+        """يعلّم المواضيع ثم publish.cmd_youtube_selection الحقيقية."""
+        for t in sel["topics"]:
+            if t["id"] in ticks:
+                body = tick_marker(body, f"<!-- topic:{t['id']} -->")
+        comments.clear()
+        n0 = len(created)
+        code = publish_mod.cmd_youtube_selection(sel["issue"]["number"], body, cfg_r, client=client)
+        return {"code": code, "new_issues": created[n0:], "number": sel["issue"]["number"]}
+
+    try:
+        # ═══ ج: الكتابة عبر الاختيار تحفظ topic_id/topic_date ═══
+        write_topics(D1, ["موضوع أول", "موضوع ثانٍ"])
+        client1 = _CountingClient(
+            _analysis_article_responses("هل يقع التطوّر الأول؟", ["هل يقع التطوّر الأول؟", "بديل ١", "بديل ٢"])
+            + _analysis_article_responses("هل يقع التطوّر الثاني؟", ["هل يقع التطوّر الثاني؟", "بديل ١", "بديل ٢"]))
+        n_issues = len(created)
+        sel1 = ycl.open_selection(cfg_with(5, 5), date_str=D1)
+        topic1 = next(t for t in sel1["topics"] if t["title"] == "موضوع أول")
+        topic2 = next(t for t in sel1["topics"] if t["title"] == "موضوع ثانٍ")
+        r1 = resume(sel1, created[n_issues]["body"], [topic1["id"], topic2["id"]],
+                    cfg_with(5, 5), client1)
+        drafts_now = {d["topic_id"]: d for _, d in store.pending_drafts()
+                      if store.origin_of(d) == "analysis" and d.get("topic_id")}
+        d_t1, d_t2 = drafts_now.get(topic1["id"]), drafts_now.get(topic2["id"])
+        check("(#1187-ج) مسودتا التحليل المكتوبتان تحملان topic_id وtopic_date (تاريخ ملف الموضوع)",
+              d_t1 is not None and d_t2 is not None
+              and d_t1["topic_date"] == D1 and d_t2["topic_date"] == D1,
+              list(drafts_now))
+        review_issue = next((c for c in r1["new_issues"] if c["labels"] == ["youtube-review"]), None)
+        check("(#1187-ج) فُتحت قضية مرحلة 2 (youtube-review) للمسودتين",
+              review_issue is not None and f"<!-- draft:{d_t1['id']} -->" in review_issue["body"]
+              and f"<!-- draft:{d_t2['id']} -->" in review_issue["body"], len(created))
+        S2 = review_issue["body"]
+        hl_t1 = list(d_t1["headlines"])
+        cap_t1 = d_t1["caption"]
+
+        # ═══ أ: الشكل الجديد للمرحلة 2 ═══
+        cfg = load_config()
+        lines = S2.splitlines()
+        first_title = next(i for i, ln in enumerate(lines) if "<!-- draft:" in ln)
+        check("(#1187-أ) الرأس stages.stage_header(2) ثم الشرح الموحَّد",
+              lines[0] == stages.stage_header(2, cfg) and cfg.path("stages.explainer") in S2, lines[:4])
+        check("(#1187-أ) لا سطر «- [ ]» قبل عنوان المقال الأول، والعنوان نفسه بلا مربع",
+              not any(re.match(r"\s*[-*]\s*\[", ln) for ln in lines[:first_title + 1])
+              and lines[first_title].startswith("**"), lines[first_title])
+        item_end = next((i for i, ln in enumerate(lines) if i > first_title and ln.strip() == "---"),
+                        len(lines))
+        item = "\n".join(lines[first_title:item_end])
+
+        def pos(needle: str) -> int:
+            return item.find(needle)
+        first_id = re.search(r"<!-- draft:([0-9a-f]+) -->", lines[first_title]).group(1)
+        marks = [pos(f"draft:{first_id}"), pos("تقاطع "), pos("الدرجة "), pos("🖼️ **المصدر:**"),
+                 pos("<details>"), pos("العناوين المقترحة"), pos(f"imgurl:{first_id}"),
+                 pos(cfg.path("stages.options_header"))]
+        check("(#1187-أ) ترتيب أقسام المقال: العنوان ← الشارات والقنوات ← مصدر الصورة ← النص ← "
+              "العناوين ← حقل الصورة ← الانتقال",
+              -1 not in marks and marks == sorted(marks), marks)
+        check("(#1187-أ) كتلة الانتقال: publish وgo3 وgo1 (المقال يحمل topic_id) بلا go2",
+              all(f"<!-- go:{a}:{d_t1['id']} -->" in S2 for a in ("publish", "go3", "go1"))
+              and f"<!-- go:go2:{d_t1['id']} -->" not in S2)
+        check("(#1187-أ) لا علامات قديمة: لا card: ولا img: في القضية الجديدة",
+              f"card:{d_t1['id']}" not in S2 and f"img:{d_t1['id']}" not in S2)
+        check("(#1187-أ) مربعات العناوين hl: كما هي (الأول معلَّم)",
+              f"- [x] 1. {hl_t1[0]}  <!-- hl:{d_t1['id']}:0 -->" in S2
+              and f"<!-- hl:{d_t1['id']}:2 -->" in S2)
+        check("(#1187-أ) قبل التعليم لا إجراء مقروء", stages.read_actions(S2, 2)[0] == {})
+        single = yp.build_review_body([d_t1], "user/trendnews", "main", cfg)
+        print("\n----- قضية المرحلة 2 للتحليل بمقال واحد كما بُنيت -----\n" + single + "\n-----")
+
+        # ═══ ح: مقال تحليل قديم بلا topic_id ═══
+        old = yp.build_draft_from_text(
+            {"id": "ab0000000000", "title": "قديم", "layer": "a", "blocs": ["arabic"],
+             "channels": ["الجزيرة"], "agreement": "agreement", "event": "ح"},
+            "# قديم\n\nمتن", [], "2099-09-01", cfg)
+        old.pop("topic_id")
+        old.pop("topic_date")
+        old["id"] = "ab0000000001"
+        store.save_draft(old)
+        old3 = dict(old, image="drafts/old.jpg", image_info={"used_original": True})
+        body_old = yp.build_review_body([old], "u/r", "main", cfg)
+        check("(#1187-ح) مقال قديم بلا topic_id: لا go1 في المرحلة 2 ولا 3",
+              "go:go1:" not in body_old
+              and "go:go1:" not in review.build_final_review_body([old3], "u/r", "main", cfg))
+        check("(#1187-ح) المقال الجديد (topic_id) في المرحلة 3 فيه go1",
+              f"go:go1:{d_t1['id']}" in review.build_final_review_body(
+                  [dict(d_t1, image="drafts/x.jpg")], "u/r", "main", cfg))
+        forged = body_old.replace(
+            f"<!-- go:publish:{old['id']} -->",
+            f"<!-- go:publish:{old['id']} -->\n  - [x] مزوَّر  <!-- go:go1:{old['id']} -->")
+        res_old = _run_publish_issue(forged, "youtube-review", ["--skip-urgent"])
+        check("(#1187-ح) go1 مزوَّر على مقال قديم: يبقى pending ويُبلَّغ بسببه",
+              state(old["id"])["status"] == "pending"
+              and any("بلا رابطة موضوع" in t for n, t in res_old["comments"]),
+              [t for n, t in res_old["comments"]])
+
+        # ═══ ب: publish وgo3 وبلا تعليم (قضية بالباني الحقيقي) ═══
+        def mk_analysis(n: str, title: str) -> dict:
+            d = yp.build_draft_from_text(
+                {"id": f"cc00000000{n}", "title": title, "layer": "a", "blocs": ["arabic"],
+                 "channels": ["الجزيرة"], "agreement": "agreement", "event": "ح"},
+                f"# {title}\n\nمتن {title}\n\n---\n\n{youtube_article.HEADLINES_HEADER}\n\n"
+                f"1. {title}\n2. بديل\n3. بديل ثالث\n", [], "2099-09-05", cfg)
+            store.save_draft(d)
+            return d
+        p_pub, p_go3, p_none = (mk_analysis(n, t) for n, t in
+                                (("1", "مقال ينشر"), ("2", "مقال إلى البطاقة"), ("3", "مقال بلا تعليم")))
+        body_b = yp.build_review_body([p_pub, p_go3, p_none], "u/r", "main", cfg)
+        body_b = tick_marker(body_b, f"<!-- go:publish:{p_pub['id']} -->")
+        body_b = tick_marker(body_b, f"<!-- go:go3:{p_go3['id']} -->")
+        res_b = _run_publish_issue(body_b, "youtube-review", ["--skip-urgent"])
+        check("(#1187-b) publish ← نُشر كما اليوم (بطاقة بُنيت ونُشر)",
+              state(p_pub["id"])["status"] == "published" and bool(state(p_pub["id"]).get("image"))
+              and len(res_b["published"]) == 1, (state(p_pub["id"])["status"], res_b["published"]))
+        check("(#1187-b) go3 ← بطاقة مبنيّة وبقيت pending، وفي قضية مرحلة 3 (final-review) لا نشر",
+              state(p_go3["id"])["status"] == "pending" and bool(state(p_go3["id"]).get("image"))
+              and len(res_b["created"]) == 1 and res_b["created"][0]["labels"] == ["final-review"]
+              and f"<!-- draft:{p_go3['id']} -->" in res_b["created"][0]["body"]
+              and len(res_b["published"]) == 1, [c["labels"] for c in res_b["created"]])
+        check("(#1187-b) بلا تعليم ← rejected_unchecked كما اليوم",
+              state(p_none["id"])["status"] == "rejected"
+              and any(e["id"] == p_none["id"] and e["decision"] == "rejected_unchecked"
+                      for e in decisions.load()))
+
+        # ═══ ج(اختبار c): قضية youtube-review بالشكل القديم ═══
+        l_pub, l_card, l_none = (mk_analysis(n, f"قديم {n}") for n in "456")
+        legacy = legacy_youtube_review_body([(d["id"], d["title"]) for d in (l_pub, l_card, l_none)])
+        legacy = tick_marker(legacy, f"draft:{l_pub['id']}")
+        legacy = tick_marker(legacy, f"draft:{l_card['id']}")
+        legacy = tick_marker(legacy, f"card:{l_card['id']}")
+        res_c = _run_publish_issue(legacy, "youtube-review", ["--skip-urgent"])
+        check("(#1187-c) القضية القديمة: draft وحده ← نشر",
+              state(l_pub["id"])["status"] == "published", state(l_pub["id"])["status"])
+        check("(#1187-c) القضية القديمة: draft+card ← بطاقة وقضية مرحلة 3 بلا نشر",
+              state(l_card["id"])["status"] == "pending" and bool(state(l_card["id"]).get("image"))
+              and len(res_c["created"]) == 1 and res_c["created"][0]["labels"] == ["final-review"])
+        check("(#1187-c) القضية القديمة: بلا تعليم ← مرفوض",
+              state(l_none["id"])["status"] == "rejected")
+        check("(#1187-c) القضية القديمة: القارئ الموحَّد يرى publish وgo3 بلا تعارض",
+              stages.read_actions(legacy, 2) == (
+                  {l_pub["id"]: "publish", l_card["id"]: "go3"}, []))
+
+        # ═══ د: رابط صورة في المرحلة 2 ═══
+        d_img = mk_analysis("7", "مقال بصورة يدوية")
+        body_d = yp.build_review_body([d_img], "u/r", "main", cfg)
+        field = stages.image_field(d_img["id"], cfg)
+        mine = "https://cdn.example/mine.jpg"
+        pasted = body_d.replace(field, field.replace("هنا:", f"هنا: {mine}"))
+        sync_path = _TMP_DATA_DIR / "analysis_stage_sync.json"
+        real_sync, real_fetch = setimage_mod.SYNC_FILE, review.fetch_issue_body
+        real_upd = review.update_issue_body
+        updated: list = []
+        builds = {"n": 0}
+        real_build = cards_mod._default_build_post_image
+        cards_mod._default_build_post_image = lambda *a, **k: (
+            builds.__setitem__("n", builds["n"] + 1) or real_build(*a, **k))
+        setimage_mod.SYNC_FILE = sync_path
+        review.fetch_issue_body = lambda n: pasted
+        review.update_issue_body = lambda n, b: updated.append(b)
+        comments.clear()
+        try:
+            sys.argv = ["setimage", "--from-issue", "--issue", "8500", "--body", ""]
+            code_d = setimage_mod.main()
+            setimage_mod.sync_issue(8500)
+        finally:
+            setimage_mod.SYNC_FILE = real_sync
+            review.fetch_issue_body = real_fetch
+            review.update_issue_body = real_upd
+            sync_path.unlink(missing_ok=True)
+        dd = state(d_img["id"])
+        check("(#1187-d) رابط في الحقل ← manual_image محفوظة بلا بناء بطاقة",
+              code_d == 0 and dd.get("manual_image") == mine and "image" not in dd
+              and builds["n"] == 0, (code_d, dd.get("manual_image"), builds["n"]))
+        check("(#1187-d) التعليق «حُفظت الصورة — تُستعمل عند بناء البطاقة» ومُسح الحقل",
+              any("حُفظت الصورة — تُستعمل عند بناء البطاقة" in t for n, t in comments)
+              and bool(updated) and mine not in updated[-1] and field in updated[-1], comments)
+        check("(#1187-d) سطر مصدر الصورة في القضية يقول إن الرابط اليدوي سيُستعمل",
+              "رابط وضعتَه يدويًا — يُستعمل عند بناء البطاقة" in yp.build_review_body(
+                  [dd], "u/r", "main", cfg))
+        photo_calls.update(free=0, news=0)
+        res_d = _run_publish_issue(tick_marker(body_d, f"<!-- go:go3:{d_img['id']} -->"),
+                                   "youtube-review", ["--skip-urgent"])
+        dd = state(d_img["id"])
+        check("(#1187-d) go3 ← البطاقة بصورتك: manual في image_info ورابطه المختار، "
+              "ولا مزوّد خبر ولا حرّ استُدعي",
+              bool(dd.get("image")) and dd["image_info"].get("manual") is True
+              and dd["image_info"].get("chosen_url") == mine
+              and photo_calls == {"free": 0, "news": 0}
+              and len(res_d["created"]) == 1 and res_d["created"][0]["labels"] == ["final-review"],
+              (dd.get("image_info"), photo_calls))
+        cards_mod._default_build_post_image = real_build
+
+        # الفشل: بطاقة قائمة ورابط لا يُبنى ← يُمسح الحقل والتعليق فيه الرابط والسبب
+        d_fail = mk_analysis("8", "مقال برابط فاشل")
+        store.update_draft(store.load_draft(d_fail["id"])[0], image="drafts/f.jpg",
+                           image_info={"used_original": True})
+        (DRAFTS_DIR / "f.jpg").write_bytes(b"\xff\xd8\xff")
+        body_f = yp.build_review_body([state(d_fail["id"])], "u/r", "main", cfg)
+        bad = "https://cdn.example/not-an-image.html"
+        fail_field = stages.image_field(d_fail["id"], cfg)
+        pasted_f = body_f.replace(fail_field, fail_field.replace("هنا:", f"هنا: {bad}"))
+        real_rebuild = setimage_mod.rebuild_card
+        setimage_mod.rebuild_card = lambda *a, **k: None
+        setimage_mod.SYNC_FILE = sync_path
+        review.fetch_issue_body = lambda n: pasted_f
+        review.update_issue_body = lambda n, b: updated.append(b)
+        comments.clear()
+        try:
+            sys.argv = ["setimage", "--from-issue", "--issue", "8501", "--body", ""]
+            code_fail = setimage_mod.main()
+            setimage_mod.sync_issue(8501)
+        finally:
+            setimage_mod.rebuild_card = real_rebuild
+            setimage_mod.SYNC_FILE = real_sync
+            review.fetch_issue_body = real_fetch
+            review.update_issue_body = real_upd
+            sync_path.unlink(missing_ok=True)
+        check("(#1187-d) فشل الرابط: الحقل يُمسح والتعليق يحوي الرابط والسبب",
+              code_fail == 1 and bad not in updated[-1]
+              and any(bad in t and "السبب" in t for n, t in comments), comments)
+
+        # ═══ e: go1 من المرحلة 2 لمقال topic_date بالأمس ═══
+        body_e = tick_marker(S2, f"<!-- go:go1:{d_t1['id']} -->")
+        body_e = tick_marker(body_e, f"<!-- go:go3:{d_t2['id']} -->")
+        res_e = _run_publish_issue(body_e, "youtube-review", ["--skip-urgent"])
+        de = state(d_t1["id"])
+        check("(#1187-e) go1 من المرحلة 2 ← المسودة returned بمرحلتها ولحظتها، نصّها وعناوينها محفوظة",
+              de["status"] == "returned" and de["returned_from_stage"] == 2
+              and bool(de.get("returned_at")) and de["caption"] == cap_t1
+              and de["headlines"] == hl_t1 and res_e["published"] == [], de.get("status"))
+        tf = next(t for t in topics_file(D1)["topics"] if t["id"] == topic1["id"])
+        check("(#1187-e) الموضوع في ملف أمس: returned وreturned=true ومرحلته ولحظته وdraft_id",
+              tf["selection_status"] == "returned" and tf["returned"] is True
+              and tf["returned_from_stage"] == 2 and bool(tf.get("returned_at"))
+              and tf["draft_id"] == d_t1["id"], tf)
+        rec = [e for e in decisions.load() if e["id"] == d_t1["id"]]
+        check("(#1187-e) السجل: «returned» بقضية الاختيار التي جاء منها، وغير مانع للرفض اللاحق",
+              len(rec) == 1 and rec[0]["decision"] == "returned"
+              and rec[0].get("returned_from_stage") == 2
+              and rec[0].get("selection_issue") == r1["number"]
+              and "returned" in decisions._NON_BLOCKING, rec)
+        check("(#1187-e) returned خارج قوائم المراجعة والنشر والطابور",
+              d_t1["id"] not in [d["id"] for _, d in store.pending_drafts()]
+              and d_t1["id"] not in [d["id"] for _, d in yp.pending_youtube_drafts()]
+              and d_t1["id"] not in [d["id"] for _, d in publish_mod.queued_drafts()])
+        check("(#1187-e) المقال الآخر (go3) بُنيت بطاقته وفُتحت له قضية المرحلة 3",
+              bool(state(d_t2["id"]).get("image")) and len(res_e["created"]) == 1
+              and res_e["created"][0]["labels"] == ["final-review"])
+        S3 = res_e["created"][0]["body"]
+
+        write_topics(D2, ["موضوع اليوم أ", "موضوع اليوم ب"])
+        # سقف العرض 1: المُعاد يظهر خارجه (مُعاد + موضوع جديد واحد)
+        n_before = len(created)
+        sel_e = ycl.open_selection(cfg_with(1, 1), date_str=D2)
+        sel_body = created[n_before]["body"]
+        badge = cfg.path("stages.returned_badge").format(stage=2)
+        order = re.findall(r"<!--\s*topic:([0-9a-f]+)\s*-->", sel_body)
+        title_line = next((ln for ln in sel_body.splitlines() if f"topic:{topic1['id']}" in ln), "")
+        check("(#1187-e) open_selection اليوم: الموضوع المُعاد في أعلى القضية بـ«↩️ أعدته من المرحلة 2» "
+              "وخارج سقف count",
+              len(order) == 2 and order[0] == topic1["id"] and badge == "↩️ أعدته من المرحلة 2"
+              and badge in title_line and "موضوع اليوم أ" in sel_body
+              and "موضوع اليوم ب" not in sel_body
+              and created[n_before]["labels"] == ["youtube-selection"], (order, title_line))
+        f1 = topics_file(D1)["topics"]
+        f2 = topics_file(D2)["topics"]
+        moved = next(t for t in f1 if t["id"] == topic1["id"])
+        check("(#1187-e) ملف اليوم: النسخة في البداية بمعرّفها نفسه pending ومرتبطة بالقضية "
+              "وفيها returned_from_stage وdraft_id؛ ونسخة أمس «moved»",
+              f2[0]["id"] == topic1["id"] and f2[0]["selection_status"] == "pending"
+              and f2[0]["selection_issue"] == sel_e["issue"]["number"]
+              and f2[0]["returned_from_stage"] == 2 and f2[0]["draft_id"] == d_t1["id"]
+              and moved["selection_status"] == "moved", (f2[0], moved))
+        print("\n----- قضية ترشيح التحليل من (e) كما بُنيت -----\n" + sel_body + "\n-----")
+
+        # ═══ f: اختياره ثانية ← المسودة نفسها بلا نداء نموذج ═══
+        first_fresh = next(t for t in sel_e["topics"] if t["id"] != topic1["id"])
+        client2 = _CountingClient(_analysis_article_responses(
+            "هل يقع تطوّر اليوم؟", ["هل يقع تطوّر اليوم؟", "بديل ١", "بديل ٢"]))
+        rf = resume(sel_e, sel_body, [topic1["id"], first_fresh["id"]], cfg_with(1, 1), client2)
+        df = state(d_t1["id"])
+        review_f = next((c for c in rf["new_issues"] if c["labels"] == ["youtube-review"]), None)
+        check("(#1187-f) المسودة نفسها pending، نصّها وعناوينها كما كانت، وعلامات العودة أُزيلت",
+              rf["code"] == 0 and df["status"] == "pending" and df["caption"] == cap_t1
+              and df["headlines"] == hl_t1 and "returned_from_stage" not in df
+              and "returned_at" not in df and len(list(DRAFTS_DIR.glob(f"*/{d_t1['id']}.json"))) == 1,
+              df.get("status"))
+        check("(#1187-f) نداءات النموذج: مقال اليوم الجديد وحده (2) — المُعاد 0 مقال Opus و0 عناوين، "
+              "ولم يُحتسب ضمن max_per_run=1 فكُتب الجديد أيضًا",
+              len(client2.messages.calls) == 2, len(client2.messages.calls))
+        check("(#1187-f) فُتحت قضية مرحلة 2 جديدة فيها المسودة المُعادة وربطت review_issue",
+              review_f is not None and f"<!-- draft:{d_t1['id']} -->" in review_f["body"]
+              and df.get("review_issue") == review_f["number"], [c["labels"] for c in rf["new_issues"]])
+        tf2 = topics_file(D2)["topics"]
+        check("(#1187-f) الموضوع المُعاد في ملف اليوم attempted، وتاريخ موضوع المسودة صار D2",
+              next(t for t in tf2 if t["id"] == topic1["id"])["selection_status"] == "attempted"
+              and df["topic_date"] == D2, df.get("topic_date"))
+
+        # ═══ g: go1 من المرحلة 3 ═══
+        check("(#1187-g) قضية المرحلة 3 لمقال التحليل فيها go1", f"go:go1:{d_t2['id']}" in S3)
+        res_g = _run_publish_issue(tick_marker(S3, f"<!-- go:go1:{d_t2['id']} -->"),
+                                   "final-review", ["--skip-urgent"])
+        dg = state(d_t2["id"])
+        tg = next(t for t in topics_file(D1)["topics"]
+                  if t["id"] == topic2["id"] and t["selection_status"] != "moved")
+        check("(#1187-g) go1 من المرحلة 3 ← returned بـreturned_from_stage=3 وبطاقتها باقية، بلا نشر",
+              dg["status"] == "returned" and dg["returned_from_stage"] == 3
+              and bool(dg.get("image")) and res_g["published"] == [], dg.get("status"))
+        check("(#1187-g) الموضوع returned من المرحلة 3 والسجل returned",
+              tg["selection_status"] == "returned" and tg["returned_from_stage"] == 3
+              and tg["draft_id"] == d_t2["id"]
+              and any(e["id"] == d_t2["id"] and e["decision"] == "returned"
+                      and e.get("returned_from_stage") == 3 for e in decisions.load()), tg)
+        n_before = len(created)
+        sel_g = ycl.open_selection(cfg_with(5, 5), date_str=D3)
+        badge3 = cfg.path("stages.returned_badge").format(stage=3)
+        sel_g_body = created[n_before]["body"]
+        check("(#1187-g) يظهر في قضية ترشيح جديدة بـ«↩️ أعدته من المرحلة 3» ونسخة D1 «moved»؛ "
+              "والمُعاد سابقًا (attempted) لا يعود",
+              badge3 in sel_g_body and f"topic:{topic2['id']}" in sel_g_body
+              and f"topic:{topic1['id']}" not in sel_g_body
+              and next(t for t in topics_file(D1)["topics"] if t["id"] == topic2["id"])
+              ["selection_status"] == "moved", sel_g_body[:300])
+        client3 = _CountingClient([])
+        rg = resume(sel_g, sel_g_body, [topic2["id"]], cfg_with(5, 5), client3)
+        dg = state(d_t2["id"])
+        check("(#1187-g) اختياره ← المسودة نفسها pending بلا أي نداء نموذج وفي قضية مرحلة 2 جديدة",
+              dg["status"] == "pending" and len(client3.messages.calls) == 0
+              and any(c["labels"] == ["youtube-review"] and f"draft:{d_t2['id']}" in c["body"]
+                      for c in rg["new_issues"]), (dg.get("status"), len(client3.messages.calls)))
+
+        # ═══ إعادة تشغيل العنقدة لليوم نفسه لا تمحو موضوعًا أُعيد ═══
+        D4 = "2099-10-04"
+        (ycl.TOPICS_DIR / f"{D4}.json").write_text(json.dumps({"run_date": D4, "topics": [
+            {**mk_topic("أُعيد اليوم"), "id": "aa0000000001", "selection_status": "returned",
+             "returned": True, "returned_from_stage": 2, "draft_id": "x"},
+            {**mk_topic("قديم عُرض"), "id": "aa0000000002", "selection_status": "attempted"}]},
+            ensure_ascii=False), encoding="utf-8")
+        ycl.save_output({"run_date": D4, "topics": [mk_topic("نتيجة عنقدة جديدة")]})
+        kept = topics_file(D4)["topics"]
+        check("(#1187-ط) save_output لتشغيلة ثانية لليوم نفسه تحفظ المواضيع returned وحدها "
+              "في البداية وتمحو الحالات الأخرى كما كانت",
+              [t.get("title") for t in kept] == ["أُعيد اليوم", "نتيجة عنقدة جديدة"], kept)
+    finally:
+        review.create_issue = real["create_issue"]
+        review.ensure_labels = real["ensure_labels"]
+        review.comment = real["comment"]
+        review.remove_label = real["remove_label"]
+        review.close_issue = real["close_issue"]
+        yp._photo_candidates = real["yp_photo"]
+        youtube_extract.photo_candidates = real["ex_photo"]
+        youtube_extract.news_photo_available = real["ex_news_ok"]
+        youtube_extract.news_photo_candidates = real["ex_news"]
+        imagesearch.find_images = real["find_images"]
+        if real["repo"] is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real["repo"]
+        if seen_backup is None:
+            ycl.SEEN_PATH.unlink(missing_ok=True)
+        else:
+            ycl.SEEN_PATH.write_text(seen_backup, encoding="utf-8")

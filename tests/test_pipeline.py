@@ -172,6 +172,7 @@ from tests.test_review import (
     test_stages_module,
     test_stages_2_3_pipeline,
     test_stage1_return_pipeline,
+    test_analysis_stages_pipeline,
     test_publish_one_facebook_failure_tags_stage,
     test_publish_gap_gate_core_scenarios,
     test_publish_ids_direct_defers_non_urgent_after_recent_publish,
@@ -589,6 +590,8 @@ def main() -> int:
     test_stages_2_3_pipeline()
     print("\n── العودة إلى الترشيح go1 وإصلاح رابط الصورة الفاشل (Issue #1184) ──")
     test_stage1_return_pipeline()
+    print("\n── مسار التحليل في المرحلتين 2 و3 وgo1 إلى ترشيح التحليل (Issue #1187) ──")
+    test_analysis_stages_pipeline()
     print("\n── حالات مرجعية (golden) للحُرّاس التحريرية (Issue #893) ──")
     test_guards_golden()
 
