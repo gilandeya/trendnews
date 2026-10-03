@@ -398,8 +398,11 @@
       "sources_read": 10,
       "dropped_reason": null,
       "model_calls": 1,
-      "status": "offered",
-      "selection_issue": 1220
+      "status": "written",
+      "selection_issue": 1220,
+      "action": "go2",
+      "draft_id": "9c5d1c45c0a3",
+      "written_at": "2026-10-03T18:55:44.199051+00:00"
     },
     {
       "id": "4591dfda9524",
@@ -768,8 +771,10 @@
       "sources_read": 9,
       "dropped_reason": null,
       "model_calls": 1,
-      "status": "offered",
-      "selection_issue": 1220
+      "status": "selected",
+      "selection_issue": 1220,
+      "action": "go3",
+      "write_error": "نسخ لفظي من مقتطفات المصادر: اقتباس بين علامتي تنصيص غير موجود حرفيًا في أي مقتطف مصدر مؤكِّد — يُفترض نسخه من المقال الملصق: «تم إطلاق تلسكوب جيمس ويب الفضائي بنجاح في 25 ديسمبر 2023»"
     },
     {
       "id": "9185665f38b8",
