@@ -1,0 +1,93 @@
+{
+  "id": "ff57cb82d99f",
+  "created_at": "2026-10-03T15:08:38.131410+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.82,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "الهند تفوز على باكستان في الألعاب الآسيوية",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "India beat Pakistan to take Asian Games gold",
+  "link": "https://www.bbc.co.uk/sport/cricket/articles/c64g1dpgg247o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "Channel News Asia",
+    "Daily Sabah",
+    "Dawn",
+    "The Express Tribune",
+    "The Guardian — Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "India beat Pakistan to take Asian Games gold",
+    "link": "https://www.bbc.co.uk/sport/cricket/articles/c64g1dpgg247o?at_medium=RSS&at_campaign=rss",
+    "summary": "Abhishek Sharma and Tilak Varma set India on their way to victory as they beat Pakistan to win gold at the Asian Games.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-10-03T09:22:43+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c6b7/live/1139c890-bf04-11f1-babe-4199b0e7ccea.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC Sport",
+      "Channel News Asia",
+      "Daily Sabah",
+      "Dawn",
+      "The Express Tribune",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/cricket/articles/c64g1dpgg247o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632740/india-hammer-211-6-to-set-pakistan-daunting-asian-games-final-chase"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/sport/2026/oct/03/india-beat-pakistan-win-asian-games-cricket-gold-t20"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2034438/hasan-nawazs-fighting-96-against-india-in-vain-as-pakistan-settle-for-asian-games-cricket-silver"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2034446/india-pakistan-blockbuster-brings-cricket-fever-to-japan-baseball-field"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/sports/no-handshakes-no-change-in-result-as-india-beat-pakistan-for-gold/news"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c6b7/live/1139c890-bf04-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/c6b7/live/1139c890-bf04-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/c6b7/live/1139c890-bf04-11f1-babe-4199b0e7ccea.jpg",
+      "https://i.guim.co.uk/img/media/4a31d57511c5970957d94446b435194c1dce36ab/276_0_4124_3300/master/4124.jpg?width=700&quality=85&auto=format&fit=max&s=be89270c626aa07c85ec29e0dc918a74",
+      "https://i.guim.co.uk/img/media/4a31d57511c5970957d94446b435194c1dce36ab/276_0_4124_3300/master/4124.jpg?width=460&quality=85&auto=format&fit=max&s=a27a08b740c06906cea7da0996704b8b",
+      "https://i.guim.co.uk/img/media/4a31d57511c5970957d94446b435194c1dce36ab/276_0_4124_3300/master/4124.jpg?width=140&quality=85&auto=format&fit=max&s=5abbdb00ecb94f69ced1898a3c8e1b56"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 1438.921530105,
+    "is_stale": true,
+    "score": 25.82090942107088,
+    "impact": 0,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "الهند تفوز على باكستان في الألعاب الآسيوية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,193 +1,5 @@
 [
   {
-    "score": 24.61,
-    "bucket": "serious",
-    "tokens": [
-      "iran",
-      "offer",
-      "oil",
-      "prices",
-      "rejects",
-      "spike",
-      "truce",
-      "trump"
-    ],
-    "link": "https://www.malaymail.com/news/money/2026/09/28/oil-prices-spike-after-trump-rejects-iran-truce-offer/236846",
-    "title": "Oil prices spike after Trump rejects Iran truce offer",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-28T09:08:13.072142+00:00"
-  },
-  {
-    "score": 24.19,
-    "bucket": "serious",
-    "tokens": [
-      "drones",
-      "hit",
-      "infrastructure",
-      "kill",
-      "kyiv",
-      "odesa",
-      "russian",
-      "ukraine"
-    ],
-    "link": "http://www.africanews.com/2026/09/28/ukraine-says-russian-drones-kill-14-hit-kyiv-and-odesa-infrastructure/",
-    "title": "Ukraine says Russian drones kill 14, hit Kyiv and Odesa infrastructure",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-09-28T09:08:13.072430+00:00"
-  },
-  {
-    "score": 23.45,
-    "bucket": "serious",
-    "tokens": [
-      "concern",
-      "destroy",
-      "grave",
-      "iran",
-      "made",
-      "threat",
-      "trump",
-      "unga"
-    ],
-    "link": "https://en.mehrnews.com/news/248148/Trump-s-threat-to-annihilate-Iran-made-at-UNGA-grave-concern",
-    "title": "Trump’s threat to destroy Iran made at UNGA \"grave concern\"",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-28T09:08:13.072687+00:00"
-  },
-  {
-    "score": 23.35,
-    "bucket": "serious",
-    "tokens": [
-      "action",
-      "arrested",
-      "conference",
-      "labour",
-      "outside",
-      "palestine",
-      "party",
-      "protesters"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/9/28/palestine-action-protesters-arrested-outside-uk-labour-party-conference?traffic_source=rss",
-    "title": "Palestine Action protesters arrested outside UK Labour Party conference",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-28T09:08:13.072955+00:00"
-  },
-  {
-    "score": 23.13,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "deadline",
-      "face",
-      "looms",
-      "mounting",
-      "refugees",
-      "september",
-      "south",
-      "tensions"
-    ],
-    "link": "https://www.myjoyonline.com/refugees-in-south-africa-face-mounting-tensions-as-september-30-deadline-looms/",
-    "title": "Refugees in South Africa face mounting tensions as September 30 deadline looms",
-    "posted_title": "",
-    "region": "gh",
-    "seen_at": "2026-09-28T09:08:13.073209+00:00"
-  },
-  {
-    "score": 24.83,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "kp's",
-      "martyred",
-      "policemen",
-      "tank",
-      "traffic",
-      "vehicle"
-    ],
-    "link": "https://www.dawn.com/news/2033254/3-traffic-policemen-martyred-in-attack-on-vehicle-in-kps-tank",
-    "title": "3 traffic policemen martyred in attack on vehicle in KP's Tank",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-28T15:08:33.233657+00:00"
-  },
-  {
-    "score": 24.19,
-    "bucket": "serious",
-    "tokens": [
-      "currently",
-      "defections",
-      "freefall",
-      "impossible",
-      "korea",
-      "north"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/09/28/asia-pacific/north-korea-defections/",
-    "title": "‘Currently impossible’: North Korea defections in freefall",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-09-28T15:08:33.233890+00:00"
-  },
-  {
-    "score": 22.59,
-    "bucket": "serious",
-    "tokens": [
-      "'normal'",
-      "assisted",
-      "dying",
-      "pope"
-    ],
-    "link": "https://www.thehindu.com/news/international/pope-says-assisted-dying-not-normal/article71517071.ece",
-    "title": "Pope says assisted dying not 'normal'",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-28T15:08:33.234091+00:00"
-  },
-  {
-    "score": 22.32,
-    "bucket": "serious",
-    "tokens": [
-      "airbase",
-      "attack",
-      "counter",
-      "five",
-      "held",
-      "iran",
-      "men",
-      "police",
-      "question",
-      "terror",
-      "used"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-09-28-uk-counter-terror-police-question-five-men-held-at-airbase-used-by-us-to-attack-iran/",
-    "title": "UK counter-terror police question five men held at airbase used by US to attack Iran",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-09-28T15:08:33.234287+00:00"
-  },
-  {
-    "score": 16.4,
-    "bucket": "useful",
-    "tokens": [
-      "can",
-      "glioblastoma",
-      "initial",
-      "likely",
-      "predict",
-      "return",
-      "surgery",
-      "tool",
-      "where"
-    ],
-    "link": "https://medicalxpress.com/news/2026-09-ai-tool-glioblastoma-surgery.html",
-    "title": "New AI tool can predict where glioblastoma is most likely to return after initial surgery",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-09-28T15:08:33.234469+00:00"
-  },
-  {
     "score": 24.19,
     "bucket": "serious",
     "tokens": [
@@ -2502,5 +2314,99 @@
     "posted_title": "",
     "region": "za",
     "seen_at": "2026-10-03T09:08:05.365782+00:00"
+  },
+  {
+    "score": 30.05,
+    "bucket": "serious",
+    "tokens": [
+      "border",
+      "civilians",
+      "envoy",
+      "indian",
+      "killing",
+      "pakistan",
+      "summons",
+      "troops"
+    ],
+    "link": "https://www.dawn.com/news/2034466/pakistan-summons-indian-envoy-over-killing-of-2-civilians-by-border-troops",
+    "title": "Pakistan summons Indian envoy over killing of 2 civilians by border troops",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-03T15:08:38.131397+00:00"
+  },
+  {
+    "score": 25.82,
+    "bucket": "sport",
+    "tokens": [
+      "asian",
+      "beat",
+      "games",
+      "gold",
+      "india",
+      "pakistan",
+      "take"
+    ],
+    "link": "https://www.bbc.co.uk/sport/cricket/articles/c64g1dpgg247o?at_medium=RSS&at_campaign=rss",
+    "title": "India beat Pakistan to take Asian Games gold",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-10-03T15:08:38.131743+00:00"
+  },
+  {
+    "score": 24.73,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "bab",
+      "mandeb",
+      "offensive",
+      "possible",
+      "retake",
+      "saudi",
+      "weighs"
+    ],
+    "link": "https://www.dailysabah.com/world/mid-east/saudi-arabia-weighs-possible-offensive-to-retake-bab-el-mandeb",
+    "title": "Saudi Arabia weighs possible offensive to retake Bab el-Mandeb",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-10-03T15:08:38.132041+00:00"
+  },
+  {
+    "score": 24.62,
+    "bucket": "useful",
+    "tokens": [
+      "california",
+      "coast",
+      "coastal",
+      "levels",
+      "rise",
+      "sea",
+      "surges",
+      "wave",
+      "west"
+    ],
+    "link": "https://phys.org/news/2026-10-sea-california-coastal-surges-west.html",
+    "title": "Sea levels to rise in California as a coastal wave surges up the West Coast",
+    "posted_title": "",
+    "region": "science",
+    "seen_at": "2026-10-03T15:08:38.132312+00:00"
+  },
+  {
+    "score": 24.19,
+    "bucket": "serious",
+    "tokens": [
+      "aramco",
+      "capital",
+      "facility",
+      "flames",
+      "saudi",
+      "smoke",
+      "south"
+    ],
+    "link": "https://www.thehindu.com/news/international/flames-smoke-at-aramco-facility-south-of-saudi-capital/article71540909.ece",
+    "title": "Flames, smoke at Aramco facility south of Saudi capital",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-03T15:08:38.132599+00:00"
   }
 ]

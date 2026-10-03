@@ -1,0 +1,64 @@
+{
+  "id": "68b0c35cdb7c",
+  "created_at": "2026-10-03T15:08:38.131753+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.73,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "السعودية تعد عملية عسكرية ضد الحوثيين في باب المندب",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi Arabia weighs possible offensive to retake Bab el-Mandeb",
+  "link": "https://www.dailysabah.com/world/mid-east/saudi-arabia-weighs-possible-offensive-to-retake-bab-el-mandeb",
+  "publishers": [
+    "Daily Sabah",
+    "South China Morning Post"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Saudi Arabia weighs possible offensive to retake Bab el-Mandeb",
+    "link": "https://www.dailysabah.com/world/mid-east/saudi-arabia-weighs-possible-offensive-to-retake-bab-el-mandeb",
+    "summary": "Saudi Arabia is preparing for a possible military offensive against Iran-backed Houthi rebels in Yemen, with Riyadh considering a limited operation to retake territory around the s...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-10-03T08:46:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/03/463682.JPG",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/saudi-arabia-weighs-possible-offensive-to-retake-bab-el-mandeb"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/week-asia/politics/article/3369645/saudi-arabia-steps-war-against-yemens-houthis-pakistan-set-play-support-role?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/03/463682.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1438.921539445,
+    "is_stale": true,
+    "score": 24.725225619666666,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "السعودية تعد عملية عسكرية ضد الحوثيين في باب المندب",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

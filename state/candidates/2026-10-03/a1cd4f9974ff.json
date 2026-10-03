@@ -1,0 +1,78 @@
+{
+  "id": "a1cd4f9974ff",
+  "created_at": "2026-10-03T15:08:38.130988+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.05,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "احتجاج دبلوماسي عربي على مقتل مدنيين باشتباك حدودي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan summons Indian envoy over killing of 2 civilians by border troops",
+  "link": "https://www.dawn.com/news/2034466/pakistan-summons-indian-envoy-over-killing-of-2-civilians-by-border-troops",
+  "publishers": [
+    "Al Jazeera English",
+    "Dawn",
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Pakistan summons Indian envoy over killing of 2 civilians by border troops",
+    "link": "https://www.dawn.com/news/2034466/pakistan-summons-indian-envoy-over-killing-of-2-civilians-by-border-troops",
+    "summary": "Pakistan summoned the Indian chargé d’affaires to lodge a strong protest over the killing of two Pakistani civilians by Indian Border Security Force (BSF) personnel in the Bedian sector along the international border, the Foreign Office (FO) said on Saturday. Two unarmed Pakistani civilians were martyred and another was injured in firing by India’s BSF near the border in Kasur on Friday. “The BSF personnel resorted to unprovoked and lethal force against unarmed civilians. Such use of force was wholly unjustified and grossly disproportionate, resulting in the tragic loss of two precious lives,” the FO said. Pakistan categorically rejects any attempt to mischaracterise the deceased as “infiltrators”, it added. The FO said the incident constituted a serious violation of fundamental human rights, including the right to life, and raised concerns over the protection of civilian life under international law. It called on the Indian side to “conduct an immediate, transparent and credible investigation”, take appropriate disciplinary and legal action against those responsible, and formally communicate the findings and action taken to the government of Pakistan. India was further urged to “r",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-03T09:11:15+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/03141310ec5090a.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Dawn",
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/3/pakistan-summons-indian-diplomat-over-border-killing-of-two-pakistanis?traffic_source=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2034466/pakistan-summons-indian-envoy-over-killing-of-2-civilians-by-border-troops"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632752/pakistan-summons-indian-envoy-over-killing-of-two-pakistanis-along-international-border"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/684840-pakistan-lodges-strong-protest-with-india-over-civilians-killing-in-unprovoked-firing"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/03141310ec5090a.webp",
+      "https://i.dawn.com/thumbnail/2026/10/03141310ec5090a.webp",
+      "https://www.geo.tv/assets/uploads/2026-10-03/684840_014237_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1438.9215417747223,
+    "is_stale": false,
+    "score": 30.053281176685186,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "احتجاج دبلوماسي عربي على مقتل مدنيين باشتباك حدودي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

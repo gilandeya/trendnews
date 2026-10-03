@@ -1,0 +1,64 @@
+{
+  "id": "97d8171767ae",
+  "created_at": "2026-10-03T15:08:38.132321+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.19,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "حريق في منشأة أرامكو السعودية العملاقة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Flames, smoke at Aramco facility south of Saudi capital",
+  "link": "https://www.thehindu.com/news/international/flames-smoke-at-aramco-facility-south-of-saudi-capital/article71540909.ece",
+  "publishers": [
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Flames, smoke at Aramco facility south of Saudi capital",
+    "link": "https://www.thehindu.com/news/international/flames-smoke-at-aramco-facility-south-of-saudi-capital/article71540909.ece",
+    "summary": "Aramco remains the flagship company of the Saudi economy and one of the largest firms in the world by market capitalisation",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-03T13:33:45+00:00",
+    "image_url": "https://th-i.thgim.com/public/news/international/pvf47a/article71540922.ece/alternates/LANDSCAPE_1200/Aramco.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3369667/flames-smoke-seen-aramco-facility-south-saudi-capital?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/flames-smoke-at-aramco-facility-south-of-saudi-capital/article71540909.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/news/international/pvf47a/article71540922.ece/alternates/LANDSCAPE_1200/Aramco.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1438.9215371069445,
+    "is_stale": true,
+    "score": 24.194947844296298,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "حريق في منشأة أرامكو السعودية العملاقة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
