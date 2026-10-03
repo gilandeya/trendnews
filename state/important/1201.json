@@ -1,14 +1,14 @@
 {
   "issue": 1201,
-  "created_at": "2026-10-03T11:26:20.549436+00:00",
-  "topic": "تطورات تركيا العسكرية والرقمية عام 2026",
+  "created_at": "2026-10-03T12:00:47.822822+00:00",
+  "topic": "التطورات العسكرية والرقمية والديموغرافية في تركيا عام 2026",
   "error": null,
   "model": "claude-sonnet-5",
   "extract_model": "claude-haiku-4-5-20251001",
   "brave": {
-    "requests": 14,
+    "requests": 33,
     "skipped": null,
-    "monthly_usage": 42,
+    "monthly_usage": 75,
     "monthly_cap": 300
   },
   "model_calls": {
@@ -19,515 +19,36 @@
     },
     "brief": 1,
     "by_point": {
-      "aee5acd483db": 1,
-      "a0adf0bc7890": 1,
+      "32a40ee7a7fb": 1,
+      "ff0c8c1b8683": 1,
       "b4d5b3a28a83": 1,
-      "9a58d12099e5": 1,
-      "aaebf8d8df40": 1
+      "fb1f7179c99e": 1,
+      "1729a93ef132": 1
     }
   },
   "truncated": null,
   "points": [
     {
-      "id": "aee5acd483db",
-      "text": "الطائرة المسيّرة الهجومية بيرقدار أقنجي من إنتاج شركة بايكار تمكنت خلال اختبار إطلاق من إصابة هدف يبعد أكثر من 250 كيلومترًا باستخدام صاروخ بالستي فرط صوتي",
-      "claim": "الطائرة المسيّرة الهجومية بيرقدار أقنجي من إنتاج شركة بايكار تمكنت خلال اختبار إطلاق من إصابة هدف يبعد أكثر من 250 كيلومترًا باستخدام صاروخ بالستي فرط صوتي",
+      "id": "32a40ee7a7fb",
+      "text": "أعلنت شركة بايكار أن الطائرة المسيّرة الهجومية بيرقدار أقنجي تمكنت من إصابة هدف يبعد أكثر من 250 كيلومترًا باستخدام صاروخ بالستي فرط صوتي",
+      "claim": "أعلنت شركة بايكار أن الطائرة المسيّرة الهجومية بيرقدار أقنجي تمكنت من إصابة هدف يبعد أكثر من 250 كيلومترًا باستخدام صاروخ بالستي فرط صوتي",
       "framing": "direct",
       "circulating_context": "",
-      "asserted": "",
+      "asserted": "خلال اختبار إطلاق في سبتمبر/أيلول 2026",
       "queries": [
-        "بيرقدار أقنجي صاروخ 250 كيلومتر 2026 تحقق",
-        "بيرقدار أقنجي صاروخ بالستي فرط صوتي 250 كيلومتر اختبار"
+        "بايكار بيرقدار أقنجي 250 كيلومتر صاروخ فرط صوتي تحقق",
+        "بايكار بيرقدار أقنجي صاروخ بالستي فرط صوتي 2026",
+        "Baykar Bayraktar Akinci hypersonic ballistic missile 2026"
+      ],
+      "site_queries": [
+        "بايكار بيرقدار أقنجي صاروخ بالستي فرط صوتي 2026 تحقق site:misbar.com",
+        "بايكار بيرقدار أقنجي صاروخ بالستي فرط صوتي 2026 تحقق site:fatabyyano.net",
+        "Baykar Bayraktar Akıncı hipersonik balistik roket 2026 teyit site:teyit.org",
+        "Baykar Bayraktar Akinci hypersonic ballistic missile 2026 fact check site:factcheck.afp.com"
       ],
       "engines": [
-        "google_news",
-        "brave_web"
-      ],
-      "windows": [
-        "days",
-        "wide",
-        "days",
-        "wide"
-      ],
-      "brave_skipped": null,
-      "read_docs": [
-        {
-          "publisher": "Alsaudi",
-          "link": "https://alsaudi.news/international/1109/96875",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 1180,
-          "excerpt_chars": 1180,
-          "same_event": true,
-          "stance": "supports"
-        },
-        {
-          "publisher": "SdArabia",
-          "link": "https://sdarabia.com/2026/09/16/%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%AA%D8%AE%D8%AA%D8%A8%D8%B1-%D9%84%D8%A3%D9%88%D9%84-%D9%85%D8%B1%D8%A9-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-300-er-%D8%A7%D9%84%D8%A8/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 2599,
-          "excerpt_chars": 1734,
-          "same_event": true,
-          "stance": "supports"
-        },
-        {
-          "publisher": "Wikipedia",
-          "link": "https://ar.wikipedia.org/wiki/%D8%A8%D9%8A%D8%B1%D9%82%D9%8A%D8%AF%D8%A7%D8%B1_%D8%A2%D9%82%D9%86%D8%AC%D9%8A_(%D8%B7%D8%A7%D8%A6%D8%B1%D8%A9_%D8%A8%D8%AF%D9%88%D9%86_%D8%B7%D9%8A%D8%A7%D8%B1)",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 3439,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "yenisafak.com",
-          "link": "https://www.yenisafak.com/ar/economy/4131591",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 2019,
-          "excerpt_chars": 598,
-          "same_event": true,
-          "stance": "supports"
-        },
-        {
-          "publisher": "Defensehere",
-          "link": "https://defensehere.com/ar/%D8%A8%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D8%A8%D8%A7%D9%84%D9%8A%D8%B3%D8%AA%D9%8A-%D9%81%D8%B1%D8%B7-%D8%B5%D9%88%D8%AA%D9%8A-%D8%A3%D9%82%D9%86%D8%AC%D9%8A-%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D8%AA%D8%B5%D9%8A%D8%A8-%D9%87%D8%AF%D9%81%D8%A7-%D8%B9%D9%84%D9%89-%D8%A8%D8%B9%D8%AF-%D8%A3%D9%83%D8%AB%D8%B1-%D9%85%D9%86-250-%D9%83%D9%8A%D9%84%D9%88%D9%85%D8%AA%D8%B1%D8%A7/",
-          "orig_link": "https://news.google.com/rss/articles/CBMitwRBVV95cUxPVG1DYzhNMW5HRVc4cUFYc3dIVjhMdDRpZEw3LUZfU0YyX2NvTFNwNE1KOHk4T0h5T0JFbVhCZGN0aTV6T1ktLWxVM25pdExFdHNSeGhLaUtzYVNtOG5teVUydVFpNXJmR2dfU2hzcUlrUWhIRk5nanFuZHAzU29NenBLaVdzdlhfQkllRnNZWHBxTzR3UnVhX0lrR2l0bmpScUlfYWRWRWk1ZEdvcWpSbFJpUXpZVlpOR29QMUVQMVQtd1BvMWgwLUJHSTdtQ3FYcm5jTW05TDJoMlJibEYxUlEyT3R4TElsbzhnbVVzM0F2UDdBcnZHTDlWOE9WY3EzMVd3ZzlRV3R0WDZCX1RCSXFDUXlIS0ExS2p2djU2a0tUYllCblJQSTMzcHQtbjZvU1ZGZU1ieFdHTldVbVBqUnI2OXljdldVMWFXOEVhS0FRUjRXWURBbnhHaUlmb25JMFFiU2tUbm9ZNEtidXRvQ2ZQMzFWSG9QdnRacTlFeURxay1ENkRlTGd3aTh6UlpjVnlJNHprOGVtWGEwRWNrVGV6aWppMHJmQk1Wa09JMkRJM2Nsa0xNdTl6d1JZRGFVcHhNQ2ludVVaMF9yXzduSUFzMjMzSHVYMndJNmw2aWN4cC16WlVrOVZrMHNRTzdQMVZ2eFZEUGxuMm9xUWhYaUREU3hJbG53X05wbV9DVEw5alVPZTJnTFhHdVBxNEpqM18xSmp2RHhDNXppLW9Ca3Z5UUNxMFU?oc=5",
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 172,
-          "excerpt_chars": 172,
-          "same_event": true,
-          "stance": "supports"
-        },
-        {
-          "publisher": "BBC",
-          "link": "https://www.bbc.com/arabic/articles/ckgnep2x8gvo",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 9813,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Al Jazeera",
-          "link": "https://www.aljazeera.net/encyclopedia/2024/7/20/%D8%A7%D9%84%D8%B5%D9%88%D8%A7%D8%B1%D9%8A%D8%AE-%D8%A7%D9%84%D9%81%D8%B1%D8%B7-%D8%B5%D9%88%D8%AA%D9%8A%D8%A9-%D8%A3%D8%B3%D9%84%D8%AD%D8%A9-%D8%A3%D8%B3%D8%B1%D8%B9-%D9%85%D9%86",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 5041,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Alaraby",
-          "link": "https://www.alaraby.com/news/%D8%AA%D9%85%D8%AA%D9%84%D9%83%D9%87%D8%A7-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%85%D8%A7-%D8%A7%D9%84%D9%81%D8%B1%D9%82-%D8%A8%D9%8A%D9%86-%D8%A7%D9%84%D8%B5%D9%88%D8%A7%D8%B1%D9%8A%D8%AE-%D8%A7%D9%84%D8%A8%D8%A7%D9%84%D8%B3%D8%AA%D9%8A%D8%A9-%D9%88%D8%A7%D9%84%D9%81%D8%B1%D8%B7-%D8%B5%D9%88%D8%AA%D9%8A%D8%A9",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 3026,
-          "excerpt_chars": 1726,
-          "same_event": false,
-          "stance": "irrelevant"
-        }
-      ],
-      "docs_before": 8,
-      "docs_after": 8,
-      "verdict": "confirmed",
-      "icon": "✅",
-      "evidence": [
-        {
-          "publisher": "Alsaudi",
-          "link": "https://alsaudi.news/international/1109/96875",
-          "stance": "supports",
-          "excerpt": "استهدفت هدفًا بحريًا على بعد أكثر من 250 كيلومترًا باستخدام الصاروخ",
-          "detail": "",
-          "correct_form": ""
-        },
-        {
-          "publisher": "SdArabia",
-          "link": "https://sdarabia.com/2026/09/16/%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%AA%D8%AE%D8%AA%D8%A8%D8%B1-%D9%84%D8%A3%D9%88%D9%84-%D9%85%D8%B1%D8%A9-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-300-er-%D8%A7%D9%84%D8%A8/",
-          "stance": "supports",
-          "excerpt": "إذ أصاب هدفاً بحرياً على مسافة تزيد على 250 كيلومتراً",
-          "detail": "",
-          "correct_form": ""
-        },
-        {
-          "publisher": "yenisafak.com",
-          "link": "https://www.yenisafak.com/ar/economy/4131591",
-          "stance": "supports",
-          "excerpt": "ÙÙÙÙÙ ØªÙØ¯Ù Ø± ÙØ¯Ù Ø¨ØØ±Ù Ø¨ØµØ§Ø±ÙØ® Ø¨Ø§ÙÙØ³ØªÙ ÙÙÙ Ø§ÙØµÙØªÙ Ø¹ÙÙ Ù Ø³Ø§ÙØ© ØªØªØ¬Ø§ÙØ² 250 ÙÙÙÙ Ù Ø±",
-          "detail": "",
-          "correct_form": ""
-        },
-        {
-          "publisher": "Defensehere",
-          "link": "https://defensehere.com/ar/%D8%A8%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D8%A8%D8%A7%D9%84%D9%8A%D8%B3%D8%AA%D9%8A-%D9%81%D8%B1%D8%B7-%D8%B5%D9%88%D8%AA%D9%8A-%D8%A3%D9%82%D9%86%D8%AC%D9%8A-%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D8%AA%D8%B5%D9%8A%D8%A8-%D9%87%D8%AF%D9%81%D8%A7-%D8%B9%D9%84%D9%89-%D8%A8%D8%B9%D8%AF-%D8%A3%D9%83%D8%AB%D8%B1-%D9%85%D9%86-250-%D9%83%D9%8A%D9%84%D9%88%D9%85%D8%AA%D8%B1%D8%A7/",
-          "stance": "supports",
-          "excerpt": "بصاروخ باليستي فرط صوتي… “أقنجي” التركية تصيب هدفا على بعد أكثر من 250 كيلومترا",
-          "detail": "",
-          "correct_form": ""
-        }
-      ],
-      "correction": null,
-      "refuted_by": null,
-      "nearest": null,
-      "note": "",
-      "named_as": null,
-      "image_candidates": [],
-      "sources_read": 8,
-      "dropped_reason": null,
-      "model_calls": 1
-    },
-    {
-      "id": "a0adf0bc7890",
-      "text": "عدد سكان تركيا في نهاية عام 2025 بلغ نحو 85.7 مليون نسمة",
-      "claim": "عدد سكان تركيا في نهاية عام 2025 بلغ نحو 85.7 مليون نسمة",
-      "framing": "direct",
-      "circulating_context": "",
-      "asserted": "",
-      "queries": [
-        "سكان تركيا 85.7 مليون 2025 تحقق",
-        "عدد سكان تركيا 2025 مليون نسمة"
-      ],
-      "engines": [
-        "google_news",
-        "brave_web"
-      ],
-      "windows": [
-        "wide",
-        "wide"
-      ],
-      "brave_skipped": null,
-      "read_docs": [
-        {
-          "publisher": "TRADING ECONOMICS",
-          "link": "https://ar.tradingeconomics.com/turkey/population",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 7022,
-          "excerpt_chars": 902,
-          "same_event": true,
-          "stance": "conflicts_detail"
-        },
-        {
-          "publisher": "Zaman Arabic",
-          "link": "https://www.zamanarabic.com/2025/08/14/%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%A7%D9%84%D8%B3%D9%83%D8%A7%D9%86%D9%8A-2025/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 572,
-          "excerpt_chars": 0,
-          "same_event": null,
-          "stance": "deduped"
-        },
-        {
-          "publisher": "newturkpost.com",
-          "link": "https://newturkpost.com/news/118693-%D8%A8%D8%B2%D9%8A%D8%A7%D8%AF%D8%A9-228-%D8%A3%D9%84%D9%81%D8%A7-%D9%81%D9%8A-%D9%86%D8%B5%D9%81-%D8%B9%D8%A7%D9%85-%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%8A%D8%AA%D8%AC%D8%A7%D9%88%D8%B2-863-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D9%86%D8%B3%D9%85%D8%A9",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 727,
-          "excerpt_chars": 727,
-          "same_event": true,
-          "stance": "conflicts_detail"
-        },
-        {
-          "publisher": "موقع محتويات",
-          "link": "https://mhtwyat.com/%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%B3%D9%88%D8%B1%D9%8A%D8%A7-2021/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 9836,
-          "excerpt_chars": 1799,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Pressbee",
-          "link": "https://arabic.pressbee.net/show10445113.html",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 774,
-          "excerpt_chars": 774,
-          "same_event": true,
-          "stance": "supports"
-        },
-        {
-          "publisher": "Madar21",
-          "link": "https://madar21.com/318159.html",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 1518,
-          "excerpt_chars": 1518,
-          "same_event": false,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "BBC",
-          "link": "https://www.bbc.com/arabic/articles/c62dw76lvvlo",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 3990,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Zaman Arabic",
-          "link": "https://www.zamanarabic.com/2025/11/24/%D8%AA%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%81%D9%8A-2025-%D9%8A%D8%B1%D8%AA%D9%81%D8%B9-315-%D8%A3%D9%84%D9%81-%D9%86%D8%B3%D9%85%D8%A9/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 667,
-          "excerpt_chars": 667,
-          "same_event": true,
-          "stance": "conflicts_detail"
-        }
-      ],
-      "docs_before": 9,
-      "docs_after": 8,
-      "verdict": "inaccurate",
-      "icon": "✏️",
-      "evidence": [
-        {
-          "publisher": "TRADING ECONOMICS",
-          "link": "https://ar.tradingeconomics.com/turkey/population",
-          "stance": "conflicts_detail",
-          "excerpt": "تم تقدير إجمالي عدد السكان في تركيا بـ 86.1 مليون نسمة في عام 2025",
-          "detail": "العدد المذكور لنهاية 2025 هو 86.1 مليون أو 85.67 مليون، وليس 85.7 مليون كما في النقطة (تقارب لكن مصدر آخر في نفس الصفحة يذكر 85.67 أيضاً، الفرق طفيف لذا هو تعارض بسيط في الرقم)",
-          "correct_form": "86.1 مليون نسمة (أو 85.67 مليون بحسب جدول آخر في نفس الصفحة)"
-        },
-        {
-          "publisher": "Zaman Arabic",
-          "link": "https://www.zamanarabic.com/2025/11/24/%D8%AA%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%81%D9%8A-2025-%D9%8A%D8%B1%D8%AA%D9%81%D8%B9-315-%D8%A3%D9%84%D9%81-%D9%86%D8%B3%D9%85%D8%A9/",
-          "stance": "conflicts_detail",
-          "excerpt": "كشفت بيانات هيئة الإحصاء بلوغ التعداد السكاني في تركيا 85 مليون و980 ألف و654 نسمة، اعتبارا من الأول من أكتوبر",
-          "detail": "الرقم المذكور هو 85.98 مليون اعتباراً من أول أكتوبر وليس نهاية 2025 بالضبط، كما أن التعداد نهاية 2024 كان 85.66 مليون",
-          "correct_form": "85 مليون و980 ألف و654 نسمة في أول أكتوبر (أو 85 مليون و664 ألف و944 نسمة نهاية 2024)"
-        },
-        {
-          "publisher": "newturkpost.com",
-          "link": "https://newturkpost.com/news/118693-%D8%A8%D8%B2%D9%8A%D8%A7%D8%AF%D8%A9-228-%D8%A3%D9%84%D9%81%D8%A7-%D9%81%D9%8A-%D9%86%D8%B5%D9%81-%D8%B9%D8%A7%D9%85-%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%8A%D8%AA%D8%AC%D8%A7%D9%88%D8%B2-863-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D9%86%D8%B3%D9%85%D8%A9",
-          "stance": "conflicts_detail",
-          "excerpt": "ارتفع عدد سكّان تركيا الذي كان 86 مليوناً و92 ألفاً و168 نسمة في نهاية عام 2025",
-          "detail": "الرقم المذكور لنهاية 2025 هو 86 مليون و92 ألف وليس 85.7 مليون",
-          "correct_form": "86 مليوناً و92 ألفاً و168 نسمة في نهاية عام 2025"
-        },
-        {
-          "publisher": "Pressbee",
-          "link": "https://arabic.pressbee.net/show10445113.html",
-          "stance": "supports",
-          "excerpt": "عدد سكان تركيا يتجاوز 86 مليون نسمة نهاية 2025",
-          "detail": "",
-          "correct_form": ""
-        }
-      ],
-      "correction": {
-        "error": "العدد المذكور لنهاية 2025 هو 86.1 مليون أو 85.67 مليون، وليس 85.7 مليون كما في النقطة (تقارب لكن مصدر آخر في نفس الصفحة يذكر 85.67 أيضاً، الفرق طفيف لذا هو تعارض بسيط في الرقم)",
-        "correct": "85 مليون و980 ألف و654 نسمة في أول أكتوبر (أو 85 مليون و664 ألف و944 نسمة نهاية 2024)",
-        "correct_value": "85,980,654",
-        "sources": [
-          {
-            "publisher": "TRADING ECONOMICS",
-            "link": "https://ar.tradingeconomics.com/turkey/population",
-            "excerpt": "تم تقدير إجمالي عدد السكان في تركيا بـ 86.1 مليون نسمة في عام 2025"
-          },
-          {
-            "publisher": "Zaman Arabic",
-            "link": "https://www.zamanarabic.com/2025/11/24/%D8%AA%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%81%D9%8A-2025-%D9%8A%D8%B1%D8%AA%D9%81%D8%B9-315-%D8%A3%D9%84%D9%81-%D9%86%D8%B3%D9%85%D8%A9/",
-            "excerpt": "كشفت بيانات هيئة الإحصاء بلوغ التعداد السكاني في تركيا 85 مليون و980 ألف و654 نسمة، اعتبارا من الأول من أكتوبر"
-          },
-          {
-            "publisher": "newturkpost.com",
-            "link": "https://newturkpost.com/news/118693-%D8%A8%D8%B2%D9%8A%D8%A7%D8%AF%D8%A9-228-%D8%A3%D9%84%D9%81%D8%A7-%D9%81%D9%8A-%D9%86%D8%B5%D9%81-%D8%B9%D8%A7%D9%85-%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%8A%D8%AA%D8%AC%D8%A7%D9%88%D8%B2-863-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D9%86%D8%B3%D9%85%D8%A9",
-            "excerpt": "ارتفع عدد سكّان تركيا الذي كان 86 مليوناً و92 ألفاً و168 نسمة في نهاية عام 2025"
-          }
-        ]
-      },
-      "refuted_by": null,
-      "nearest": null,
-      "note": "",
-      "named_as": null,
-      "image_candidates": [],
-      "sources_read": 7,
-      "dropped_reason": null,
-      "model_calls": 1
-    },
-    {
-      "id": "b4d5b3a28a83",
-      "text": "تركيا أرسلت 450 ألف جندي إلى سوريا",
-      "claim": "تركيا أرسلت 450 ألف جندي إلى سوريا",
-      "framing": "circulating",
-      "circulating_context": "مقطع فيديو انتشر على مواقع التواصل الاجتماعي خلال صيف 2026 قيل إنه يُظهر هذا",
-      "asserted": "",
-      "queries": [
-        "تركيا 450 ألف جندي سوريا fact check",
-        "تركيا إرسال 450 ألف جندي سوريا 2026",
-        "Turkey sends 450 thousand soldiers Syria 2026",
-        "Türkiye 450 bin asker Suriye gönderdi"
-      ],
-      "engines": [
-        "google_news",
-        "brave_web"
-      ],
-      "windows": [
-        "days",
-        "wide",
-        "unrestricted",
-        "days",
-        "wide",
-        "unrestricted",
-        "days",
-        "wide",
-        "unrestricted",
-        "days",
-        "wide",
-        "unrestricted"
-      ],
-      "brave_skipped": null,
-      "read_docs": [
-        {
-          "publisher": "Al Jazeera",
-          "link": "https://www.aljazeera.net/news/2026/8/23/%D8%AF%D8%A8%D8%A7%D8%A8%D8%A7%D8%AA-%D9%88%D9%85%D8%AF%D8%B1%D8%B9%D8%A7%D8%AA-%D9%88%D8%AA%D8%B1%D8%AD%D9%8A%D8%A8-%D8%B4%D8%B9%D8%A8%D9%8A-%D9%87%D9%84-%D8%AA%D9%88%D8%AB%D9%82-%D9%87%D8%B0%D9%87",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 6456,
-          "excerpt_chars": 1791,
-          "same_event": true,
-          "stance": "refutes"
-        },
-        {
-          "publisher": "Beiruttime-lb",
-          "link": "https://beiruttime-lb.com/2026/09/%D8%A7%D9%84%D8%AC%D9%8A%D8%B4-%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A-%D9%81%D9%8A-2026-%D8%A3%D9%83%D8%AB%D8%B1-%D9%85%D9%86-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D8%B9%D9%86%D8%B5%D8%B1-%D9%88%D8%A2%D9%84/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 8527,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Noonpost",
-          "link": "https://www.noonpost.com/382786/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 9983,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "BBC",
-          "link": "https://www.bbc.com/arabic/middleeast-51679521",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 5533,
-          "excerpt_chars": 1762,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Al-Awsat",
-          "link": "https://aawsat.com/home/article/4136146/%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%C2%AB%D8%AA%D8%AB%D8%A8%D9%91%D8%AA%C2%BB-%D9%88%D8%AC%D9%88%D8%AF%D9%87%D8%A7-%D9%81%D9%8A-%D8%B3%D9%88%D8%B1%D9%8A%D8%A7-%D8%A8%D9%80-10-%D8%A2%D9%84%D8%A7%D9%81-%D8%AC%D9%86%D8%AF%D9%8A-%D9%88%D8%B9%D8%B4%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D9%82%D9%88%D8%A7%D8%B9%D8%AF-%D8%A7%D9%84%D8%B9%D8%B3%D9%83%D8%B1%D9%8A%D8%A9",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 7385,
-          "excerpt_chars": 1754,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Wikipedia",
-          "link": "https://en.wikipedia.org/wiki/Turkish_occupation_of_northern_Syria",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 20000,
-          "excerpt_chars": 1797,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Nordic Monitor",
-          "link": "https://nordicmonitor.com/2026/03/turkey-admits-military-support-of-syrias-new-islamist-rulers-while-refusing-to-pull-troops-from-iraq-syria/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 6755,
-          "excerpt_chars": 1799,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Evrensel",
-          "link": "https://www.evrensel.net/daily/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 4854,
-          "excerpt_chars": 488,
-          "same_event": false,
-          "stance": "irrelevant"
-        }
-      ],
-      "docs_before": 12,
-      "docs_after": 8,
-      "verdict": "not_found",
-      "icon": "🔍",
-      "evidence": [
-        {
-          "publisher": "Al Jazeera",
-          "link": "https://www.aljazeera.net/news/2026/8/23/%D8%AF%D8%A8%D8%A7%D8%A8%D8%A7%D8%AA-%D9%88%D9%85%D8%AF%D8%B1%D8%B9%D8%A7%D8%AA-%D9%88%D8%AA%D8%B1%D8%AD%D9%8A%D8%A8-%D8%B4%D8%B9%D8%A8%D9%8A-%D9%87%D9%84-%D8%AA%D9%88%D8%AB%D9%82-%D9%87%D8%B0%D9%87",
-          "stance": "refutes",
-          "excerpt": "فما حقيقة المشاهد التي اجتاحت المنصات؟",
-          "detail": "المقال يفند ادعاءات التحشيد العسكري التركي الضخم في سوريا، ويظهر أن الفيديوهات المتداولة قديمة أو من أماكن أخرى ولا علاقة لها بتعزيزات جديدة ضخمة",
-          "correct_form": ""
-        }
-      ],
-      "correction": null,
-      "refuted_by": null,
-      "nearest": null,
-      "note": "نفي غير كافٍ (1 مصدر مستقل من 2 مطلوبة، ولا جهة تدقيق)",
-      "named_as": null,
-      "image_candidates": [],
-      "sources_read": 8,
-      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
-      "model_calls": 1
-    },
-    {
-      "id": "9a58d12099e5",
-      "text": "تركيا شغلت أول شبكة إنترنت فضائي حكومية تركية بالكامل تغطي جميع أنحاء البلاد",
-      "claim": "تركيا شغلت أول شبكة إنترنت فضائي حكومية تركية بالكامل تغطي جميع أنحاء البلاد",
-      "framing": "direct",
-      "circulating_context": "",
-      "asserted": "",
-      "queries": [
-        "تركيا إنترنت فضائي حكومي 2026 تحقق",
-        "تركيا شبكة إنترنت فضائي حكومية 2026",
-        "Turkey satellite internet government network 2026"
-      ],
-      "engines": [
-        "google_news",
-        "brave_web"
+        "brave_web",
+        "google_news"
       ],
       "windows": [
         "days",
@@ -539,97 +60,106 @@
       "brave_skipped": null,
       "read_docs": [
         {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/qna/2024/10/03/%D9%83%D9%85-%D8%AA%D8%A8%D9%84%D8%BA-%D8%B3%D8%B1%D8%B9%D8%A9-%D8%A7%D9%84%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D9%81%D8%B1%D8%B7-%D8%A7%D9%84%D8%B5%D9%88%D8%AA%D9%8A",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 140,
+          "excerpt_chars": 140,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D8%A7-%D9%8A%D9%8F%D8%B8%D9%87%D8%B1-%D8%B5%D8%A7%D8%B1%D9%88%D8%AE%D9%8B%D8%A7-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A%D9%8B%D8%A7/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 550,
+          "excerpt_chars": 550,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/demec-kontrolu/muhalefetin-ihalar-icin-biz-gelince-bunlari-durduracagiz-dedigi-iddiasi",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 415,
+          "excerpt_chars": 415,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.383F462",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 323,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Alsaudi",
+          "link": "https://alsaudi.news/international/1109/96875",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1180,
+          "excerpt_chars": 1180,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Beiruttime-lb",
+          "link": "https://beiruttime-lb.com/2026/09/%D8%B3%D9%84%D8%AC%D9%88%D9%82-%D8%A8%D9%8A%D8%B1%D9%82%D8%AF%D8%A7%D8%B1-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%AA%D8%AC%D8%A7%D9%88%D8%B2%D8%AA-%D8%B3%D8%B1%D8%B9%D8%A9-%D8%A7%D9%84%D8%B5%D9%88%D8%AA/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3713,
+          "excerpt_chars": 1768,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "SdArabia",
+          "link": "https://sdarabia.com/2026/09/16/%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%AA%D8%AE%D8%AA%D8%A8%D8%B1-%D9%84%D8%A3%D9%88%D9%84-%D9%85%D8%B1%D8%A9-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-300-er-%D8%A7%D9%84%D8%A8/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2599,
+          "excerpt_chars": 1698,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
           "publisher": "aljazeera.net",
-          "link": "https://www.aljazeera.net/tech/2026/4/22/%D9%83%D9%8A%D9%81-%D8%AA%D8%AD%D9%85%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%A3%D8%B7%D9%81%D8%A7%D9%84%D9%87%D8%A7-%D8%B1%D9%82%D9%85%D9%8A%D8%A7-%D8%A5%D8%AC%D8%B1%D8%A7%D8%A1%D8%A7%D8%AA",
+          "link": "https://www.aljazeera.net/politics/2026/5/6/3837",
           "orig_link": null,
           "resolved": true,
           "engine": "google_news",
-          "page_chars": 3018,
-          "excerpt_chars": 1748,
+          "page_chars": 2433,
+          "excerpt_chars": 1680,
           "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Esimy",
-          "link": "https://esimy.net/internet-in-turkey-for-digital-nomads-2026-complete-setup-guide/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 9980,
-          "excerpt_chars": 1748,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Starlink-syria",
-          "link": "https://starlink-syria.com/en/blog/starlink-syria-guide/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 14260,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Yallasyrianews",
-          "link": "https://yallasyrianews.com/a/51187",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 8628,
-          "excerpt_chars": 1794,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Daily Sabah",
-          "link": "https://www.dailysabah.com/business/tech/turkiye-denies-claims-elon-musks-starlink-will-launch-in-2026",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 1271,
-          "excerpt_chars": 1271,
-          "same_event": false,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "Eutelsat",
-          "link": "https://www.eutelsat.com/turkiye",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 973,
-          "excerpt_chars": 973,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "TechGIndia",
-          "link": "https://techgindia.com/claim-starlink-will-provide-controlled-internet-service-in-turkiye-as-of-spring-2026/16127/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 4994,
-          "excerpt_chars": 1610,
-          "same_event": false,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "اليوم السابع",
-          "link": "https://www.youm7.com/story/2026/8/10/%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%AA%D8%B7%D9%84%D9%82-%D8%B3%D8%AA%D8%A7%D8%B1%D9%84%D9%8A%D9%86%D9%83-%D8%A7%D9%84%D8%AE%D8%A7%D8%B5%D8%A9-%D8%A8%D9%87%D8%A7-%D9%85%D8%B4%D8%B1%D9%88%D8%B9-%D9%81%D8%B6%D8%A7%D8%A6%D9%8A-%D8%B6%D8%AE%D9%85-%D9%8A%D8%AF%D8%AE%D9%84-%D9%85%D8%B1%D8%AD%D9%84%D8%A9/7507706",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 3445,
-          "excerpt_chars": 1373,
-          "same_event": false,
+          "as_of": "",
           "stance": "irrelevant"
         }
       ],
-      "docs_before": 11,
+      "docs_before": 18,
       "docs_after": 8,
       "verdict": "not_found",
+      "primary_source": false,
       "icon": "🔍",
       "evidence": [],
       "correction": null,
@@ -643,20 +173,489 @@
       "model_calls": 1
     },
     {
-      "id": "aaebf8d8df40",
-      "text": "عدد مستخدمي الإنترنت في تركيا بلغ نحو 77.5 مليون مستخدم أي ما يقارب 88% من السكان",
-      "claim": "عدد مستخدمي الإنترنت في تركيا بلغ نحو 77.5 مليون مستخدم أي ما يقارب 88% من السكان",
+      "id": "ff0c8c1b8683",
+      "text": "بلغ عدد سكان تركيا في نهاية عام 2025 نحو 85.7 مليون نسمة",
+      "claim": "بلغ عدد سكان تركيا في نهاية عام 2025 نحو 85.7 مليون نسمة",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "سكان تركيا 85.7 مليون 2025 تحقق",
+        "عدد سكان تركيا 2025 إحصائيات رسمية"
+      ],
+      "site_queries": [
+        "عدد سكان تركيا 2025 إحصائيات رسمية تحقق site:misbar.com",
+        "عدد سكان تركيا 2025 إحصائيات رسمية تحقق site:fatabyyano.net",
+        "Türkiye nüfusu 2025 resmi istatistikler teyit site:teyit.org",
+        "Turkey population 2025 official statistics fact check site:factcheck.afp.com"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "wide",
+        "wide"
+      ],
+      "brave_skipped": null,
+      "read_docs": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2021/02/18/%D8%A3%D8%B1%D8%AF%D9%88%D8%BA%D8%A7%D9%86-%D9%84%D9%85-%D9%8A%D8%AF%D8%B9%D9%88-%D9%84%D8%B2%D9%8A%D8%A7%D8%AF%D8%A9-%D8%A7%D9%84%D8%B3%D9%83%D8%A7%D9%86-%D8%A5%D9%84%D9%89-300-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D9%88%D9%85%D9%86%D8%AD-%D9%83%D9%84-%D9%85%D9%88%D9%84%D9%88%D8%AF-100-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D8%B4%D9%87%D8%B1%D9%8A%D8%A7",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 412,
+          "excerpt_chars": 412,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%A5%D8%AD%D8%B5%D8%A7%D8%A6%D9%8A%D8%A9-%D8%B2%D8%A7%D8%A6%D9%81%D8%A9%D8%8C-%D9%88%D8%AA%D9%82%D8%B1%D9%8A%D8%B1-%D8%A7%D9%84%D8%A3%D9%85%D9%85-%D8%A7%D9%84%D9%85/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 236,
+          "excerpt_chars": 236,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/dosya/turkiyedeki-siginmaci-sayisi-veriler-ne-soyluyor",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 278,
+          "excerpt_chars": 278,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/taxonomy/term/6662",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 318,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "stance": "deduped"
+        },
+        {
+          "publisher": "RT Arabic",
+          "link": "https://arabic.rt.com/middle_east/1756162-%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%8A%D8%AA%D8%AC%D8%A7%D9%88%D8%B2-86-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D9%86%D8%B3%D9%85%D8%A9-%D9%86%D9%87%D8%A7%D9%8A%D8%A9-2025/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3710,
+          "excerpt_chars": 1475,
+          "same_event": true,
+          "as_of": "الأول من يوليو/تموز 2025",
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "TRADING ECONOMICS",
+          "link": "https://ar.tradingeconomics.com/turkey/population",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 7022,
+          "excerpt_chars": 902,
+          "same_event": true,
+          "as_of": "2025",
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "Zaman Arabic",
+          "link": "https://www.zamanarabic.com/2025/08/14/%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%A7%D9%84%D8%B3%D9%83%D8%A7%D9%86%D9%8A-2025/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 572,
+          "excerpt_chars": 572,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Postanbul",
+          "link": "https://postanbul.com/%D9%83%D9%85-%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%84%D8%B9%D8%A7%D9%85-2024/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1046,
+          "excerpt_chars": 1046,
+          "same_event": true,
+          "as_of": "31 ديسمبر 2024؛ توقعات لعام 2025",
+          "stance": "supports"
+        }
+      ],
+      "docs_before": 13,
+      "docs_after": 8,
+      "verdict": "not_found",
+      "primary_source": false,
+      "icon": "🔍",
+      "evidence": [
+        {
+          "publisher": "TRADING ECONOMICS",
+          "link": "https://ar.tradingeconomics.com/turkey/population",
+          "stance": "conflicts_detail",
+          "excerpt": "تم تقدير إجمالي عدد السكان في تركيا بـ 86.1 مليون نسمة في عام 2025",
+          "detail": "النص يقدّر عدد سكان تركيا بـ86.1 مليون نسمة في عام 2025، وهو رقم أعلى قليلا من 85.7 مليون المذكور في النقطة",
+          "correct_form": "86.1 مليون نسمة",
+          "as_of": "2025"
+        },
+        {
+          "publisher": "Postanbul",
+          "link": "https://postanbul.com/%D9%83%D9%85-%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%84%D8%B9%D8%A7%D9%85-2024/",
+          "stance": "supports",
+          "excerpt": "أعلنت مؤسسة الإحصاء التركية (TÜİK) أن عدد سكان البلاد بلغ 85 مليونا و664 ألفا و944 نسمة حتى 31 ديسمبر 2024 ... وتتوقع تقديرات دولية ... أن يتراوح عدد سكان تركيا خلال عام 2025 بين 87.5 و87.7 مليون نسمة",
+          "detail": "النص يذكر أن عدد سكان تركيا بلغ 85 مليونا و664 ألفا و944 نسمة بنهاية 2024 وليس نهاية 2025، كما يذكر توقعات دولية تتراوح بين 87.5 و87.7 مليون لعام 2025 وليس 85.7 مليون كما في النقطة",
+          "correct_form": "85 مليونا و664 ألفا و944 نسمة (نهاية 2024)؛ وتوقعات 87.5-87.7 مليون نسمة لعام 2025",
+          "as_of": "31 ديسمبر 2024؛ توقعات لعام 2025"
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 8,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 1
+    },
+    {
+      "id": "b4d5b3a28a83",
+      "text": "تركيا أرسلت 450 ألف جندي إلى سوريا",
+      "claim": "تركيا أرسلت 450 ألف جندي إلى سوريا",
+      "framing": "circulating",
+      "circulating_context": "المقطع تسبب في تداول واسع بين المستخدمين على مواقع التواصل",
+      "asserted": "مقطع فيديو انتشر على مواقع التواصل الاجتماعي خلال صيف 2026 قيل إنه يُظهر هذا الادعاء",
+      "queries": [
+        "تركيا 450 ألف جندي سوريا تحقق fact check",
+        "تركيا 450 ألف جندي سوريا 2026",
+        "Turkey 450000 soldiers Syria 2026"
+      ],
+      "site_queries": [
+        "تركيا 450 ألف جندي سوريا 2026 تحقق site:misbar.com",
+        "تركيا 450 ألف جندي سوريا 2026 تحقق site:fatabyyano.net",
+        "Türkiye 450 bin asker Suriye 2026 teyit site:teyit.org",
+        "Turkey 450000 soldiers Syria 2026 fact check site:factcheck.afp.com"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "wide",
+        "unrestricted",
+        "days",
+        "days",
+        "wide"
+      ],
+      "brave_skipped": null,
+      "read_docs": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/12/29/%D8%A3%D8%A8%D8%B1%D8%B2-%D8%A7%D9%84%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D8%A7%D9%84%D9%85%D8%B1%D8%AA%D8%A8%D8%B7%D8%A9-%D8%A8%D9%82%D8%B3%D8%AF-%D8%AE%D9%84%D8%A7%D9%84-%D8%A7%D9%84%D8%AA%D8%B7%D9%88%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D8%AE%D9%8A%D8%B1%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 4560,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D8%A7%D9%84%D9%85%D9%86%D8%B3%D9%88%D8%A8-%D9%84%D9%82%D9%86%D8%A7%D8%A9-%D8%A7%D9%84%D8%AD%D8%AF%D8%AB-%D9%85%D9%81%D8%A8%D8%B1%D9%83%D8%8C-2/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 296,
+          "excerpt_chars": 296,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/analiz/video-turkiyenin-suriyeye-450-bin-asker-gonderdigini-mi-gosteriyor",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 281,
+          "excerpt_chars": 281,
+          "same_event": true,
+          "as_of": "",
+          "stance": "refutes"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 266,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/news/2026/8/23/%D8%AF%D8%A8%D8%A7%D8%A8%D8%A7%D8%AA-%D9%88%D9%85%D8%AF%D8%B1%D8%B9%D8%A7%D8%AA-%D9%88%D8%AA%D8%B1%D8%AD%D9%8A%D8%A8-%D8%B4%D8%B9%D8%A8%D9%8A-%D9%87%D9%84-%D8%AA%D9%88%D8%AB%D9%82-%D9%87%D8%B0%D9%87",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 6456,
+          "excerpt_chars": 1791,
+          "same_event": false,
+          "as_of": "",
+          "stance": "related_other"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/czx55567we9o",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 12344,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "CNN",
+          "link": "https://arabic.cnn.com/middle-east/article/2025/03/07/factchecking-circulating-video-of-a-turkish-army-convoy-entering-syria",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1944,
+          "excerpt_chars": 1480,
+          "same_event": false,
+          "as_of": "",
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Beiruttime-lb",
+          "link": "https://beiruttime-lb.com/2026/09/%D8%A7%D9%84%D8%AC%D9%8A%D8%B4-%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A-%D9%81%D9%8A-2026-%D8%A3%D9%83%D8%AB%D8%B1-%D9%85%D9%86-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D8%B9%D9%86%D8%B5%D8%B1-%D9%88%D8%A2%D9%84/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 8527,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        }
+      ],
+      "docs_before": 16,
+      "docs_after": 8,
+      "verdict": "false",
+      "primary_source": false,
+      "icon": "❌",
+      "evidence": [
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/analiz/video-turkiyenin-suriyeye-450-bin-asker-gonderdigini-mi-gosteriyor",
+          "stance": "refutes",
+          "excerpt": "Video Türkiye'nin Suriye'ye 450 bin asker gönderdiğini mi gösteriyor?",
+          "detail": "",
+          "correct_form": "",
+          "as_of": ""
+        }
+      ],
+      "correction": null,
+      "refuted_by": [
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/analiz/video-turkiyenin-suriyeye-450-bin-asker-gonderdigini-mi-gosteriyor",
+          "excerpt": "Video Türkiye'nin Suriye'ye 450 bin asker gönderdiğini mi gösteriyor?",
+          "fact_checker": true
+        }
+      ],
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 8,
+      "dropped_reason": null,
+      "model_calls": 1
+    },
+    {
+      "id": "fb1f7179c99e",
+      "text": "أعلنت تركيا تشغيل أول شبكة إنترنت فضائي حكومية تركية بالكامل تغطي جميع أنحاء البلاد كبديل وطني عن شبكات الإنترنت الأرضية في المناطق النائية",
+      "claim": "أعلنت تركيا تشغيل أول شبكة إنترنت فضائي حكومية تركية بالكامل تغطي جميع أنحاء البلاد كبديل وطني عن شبكات الإنترنت الأرضية في المناطق النائية",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "خلال عام 2026",
+      "queries": [
+        "تركيا إنترنت فضائي حكومي 2026 تحقق",
+        "تركيا شبكة إنترنت فضائي حكومية 2026 إطلاق"
+      ],
+      "site_queries": [
+        "تركيا شبكة إنترنت فضائي حكومية 2026 إطلاق تحقق site:misbar.com",
+        "تركيا شبكة إنترنت فضائي حكومية 2026 إطلاق تحقق site:fatabyyano.net",
+        "Türkiye devlet uydu interneti ağı 2026 başlatma teyit site:teyit.org",
+        "Turkey government satellite internet network launch 2026 fact check site:factcheck.afp.com"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "wide",
+        "days",
+        "wide"
+      ],
+      "brave_skipped": null,
+      "read_docs": [
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 149,
+          "excerpt_chars": 149,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.98LC7NQ",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 287,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/qna/2023/11/01/%D9%85%D8%A7-%D9%87%D9%88-%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D8%B3%D8%AA%D8%A7%D8%B1%D9%84%D9%8A%D9%86%D9%83",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 130,
+          "excerpt_chars": 130,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://en.teyit.org/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 196,
+          "excerpt_chars": 196,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Newturkpost",
+          "link": "https://newturkpost.com/news/112369-%D9%85%D9%86-%D8%A7%D9%84%D8%A3%D8%B1%D8%B6-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D9%85%D8%AF%D8%A7%D8%B1-%D9%83%D9%8A%D9%81-%D8%AA%D8%AE%D8%B7%D9%91%D8%B7-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%84%D8%BA%D8%B2%D9%88-%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D9%81%D9%8A-2026%D8%9F",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 5822,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Zaman Arabic",
+          "link": "https://www.zamanarabic.com/2025/10/20/%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%AA%D8%AE%D8%B5%D8%B5-8-7-%D9%85%D9%84%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D9%84%D9%8A%D8%B1%D8%A9-%D9%84%D9%84%D9%81%D8%B6%D8%A7%D8%A1-%D9%88%D8%A7%D9%84%D8%B7%D9%8A/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2292,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "aljazeera.net",
+          "link": "https://www.aljazeera.net/tech/2026/4/22/%D9%83%D9%8A%D9%81-%D8%AA%D8%AD%D9%85%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%A3%D8%B7%D9%81%D8%A7%D9%84%D9%87%D8%A7-%D8%B1%D9%82%D9%85%D9%8A%D8%A7-%D8%A5%D8%AC%D8%B1%D8%A7%D8%A1%D8%A7%D8%AA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 3018,
+          "excerpt_chars": 1776,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Tdapartment",
+          "link": "https://www.tdapartment.com/post/%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83-%D8%A8%D8%AE%D8%AF%D9%85%D8%A9-%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D8%A7%D9%84%D9%85%D9%86%D8%B2%D9%84%D9%8A-%D9%88%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A6%D9%8A-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3533,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        }
+      ],
+      "docs_before": 13,
+      "docs_after": 8,
+      "verdict": "not_found",
+      "primary_source": false,
+      "icon": "🔍",
+      "evidence": [],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 8,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 1
+    },
+    {
+      "id": "1729a93ef132",
+      "text": "عدد مستخدمي الإنترنت في تركيا بلغ نحو 77.5 مليون مستخدم، أي ما يقارب 88% من السكان",
+      "claim": "عدد مستخدمي الإنترنت في تركيا بلغ نحو 77.5 مليون مستخدم، أي ما يقارب 88% من السكان",
       "framing": "direct",
       "circulating_context": "",
       "asserted": "",
       "queries": [
         "مستخدمو الإنترنت تركيا 77.5 مليون 88% تحقق",
-        "مستخدمي الإنترنت في تركيا 77.5 مليون",
-        "internet users Turkey 77.5 million 88 percent"
+        "مستخدمو الإنترنت تركيا 77.5 مليون 2026",
+        "Internet users Turkey 77.5 million statistics"
+      ],
+      "site_queries": [
+        "مستخدمو الإنترنت تركيا 77.5 مليون 2026 تحقق site:misbar.com",
+        "مستخدمو الإنترنت تركيا 77.5 مليون 2026 تحقق site:fatabyyano.net",
+        "Türkiye internet kullanıcıları 77.5 milyon istatistik teyit site:teyit.org",
+        "Internet users Turkey 77.5 million statistics fact check site:factcheck.afp.com"
       ],
       "engines": [
-        "google_news",
-        "brave_web"
+        "brave_web",
+        "google_news"
       ],
       "windows": [
         "days",
@@ -665,11 +664,58 @@
         "days",
         "wide",
         "unrestricted",
-        "days",
-        "wide"
+        "days"
       ],
       "brave_skipped": null,
       "read_docs": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2023/08/22/%D9%85%D8%A7-%D8%AF%D9%82%D8%A9-%D8%A7%D9%84%D8%AF%D9%84%D8%A7%D8%A6%D9%84-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%B4%D9%8A%D8%B1-%D8%A5%D9%84-%D9%88%D8%AC%D9%88%D8%AF-%D9%85%D9%88%D9%82%D8%B9-%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A-%D9%8A%D8%B3%D8%AA%D9%87%D8%AF%D9%81-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D9%8A%D9%86-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 5291,
+          "excerpt_chars": 1689,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 132,
+          "excerpt_chars": 132,
+          "same_event": false,
+          "as_of": "",
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/dosya/turkiyenin-internet-hizi-veriler-ne-soyluyor",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 305,
+          "excerpt_chars": 305,
+          "same_event": true,
+          "as_of": "غير محدد في المقتطف",
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 266,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "stance": "deduped"
+        },
         {
           "publisher": "TAGHRIB",
           "link": "https://www.taghribnews.com/en/",
@@ -679,6 +725,7 @@
           "page_chars": 2865,
           "excerpt_chars": 1800,
           "same_event": false,
+          "as_of": "",
           "stance": "irrelevant"
         },
         {
@@ -690,6 +737,7 @@
           "page_chars": 2026,
           "excerpt_chars": 0,
           "same_event": null,
+          "as_of": "",
           "stance": "deduped"
         },
         {
@@ -700,77 +748,46 @@
           "engine": "brave_web",
           "page_chars": 4809,
           "excerpt_chars": 1800,
-          "same_event": false,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "Turkeyhomes",
-          "link": "https://www.turkeyhomes.com/blog/post/technology-social-media-in-turkey",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 10850,
-          "excerpt_chars": 1782,
-          "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Summer Homes",
-          "link": "https://www.summerhomes.com/en/mobile-internet-turkey",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 6410,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "stance": "irrelevant"
+          "same_event": true,
+          "as_of": "يناير 2024",
+          "stance": "conflicts_detail"
         },
         {
           "publisher": "Daily Sabah",
-          "link": "https://www.dailysabah.com/turkiye/internet-use-in-turkiye-rises-to-923-in-2026-survey/news",
+          "link": "https://www.dailysabah.com/turkiye/internet-use-in-turkiye-rises-to-923-in-2026-survey/news/amp",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 2648,
-          "excerpt_chars": 1241,
+          "page_chars": 2694,
+          "excerpt_chars": 1245,
           "same_event": false,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Global Digital Insights",
-          "link": "https://datareportal.com/reports/digital-2026-turkey",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 20000,
-          "excerpt_chars": 1800,
-          "same_event": true,
-          "stance": "supports"
-        },
-        {
-          "publisher": "Mom-rsf",
-          "link": "https://turkey.mom-rsf.org/en/media/online/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 12805,
-          "excerpt_chars": 1655,
-          "same_event": false,
+          "as_of": "",
           "stance": "related_other"
         }
       ],
-      "docs_before": 10,
+      "docs_before": 13,
       "docs_after": 8,
       "verdict": "not_found",
+      "primary_source": false,
       "icon": "🔍",
       "evidence": [
         {
-          "publisher": "Global Digital Insights",
-          "link": "https://datareportal.com/reports/digital-2026-turkey",
-          "stance": "supports",
-          "excerpt": "There were 77.5 million individuals using the internet in Turkey at the end of 2025, when online penetration stood at 88.3 percent.",
-          "detail": "",
-          "correct_form": ""
+          "publisher": "Teyit",
+          "link": "https://teyit.org/dosya/turkiyenin-internet-hizi-veriler-ne-soyluyor",
+          "stance": "conflicts_detail",
+          "excerpt": "Bu veriler toplamda 388 milyon 165 bin 683 tekil kullanıcıya ait test verileri aracılığıyla derlenmiş. Araştırmada Türkiye verileri 389 bin 823 tekil kullanıcının testleri üzerinden hesaplanıyor",
+          "detail": "النص لا يذكر رقم 77.5 مليون مستخدم إنترنت في تركيا، بل يتحدث عن عدد مستخدمين مختبَرين في دراسة سرعة الإنترنت (389,823 مستخدم فريد)",
+          "correct_form": "389 bin 823 tekil kullanıcı (في اختبارات سرعة الإنترنت، وليس إجمالي عدد مستخدمي الإنترنت)",
+          "as_of": "غير محدد في المقتطف"
+        },
+        {
+          "publisher": "Wikipedia",
+          "link": "https://en.wikipedia.org/wiki/Internet_in_Turkey",
+          "stance": "conflicts_detail",
+          "excerpt": "As of January 2024, Turkey had approximately 74.4 million internet users, representing an internet penetration rate of 86.5 percent of the population.",
+          "detail": "الرقم المذكور في النقطة (77.5 مليون، 88%) يختلف عن الرقم الموثق في المصدر",
+          "correct_form": "74.4 مليون مستخدم إنترنت، بنسبة انتشار 86.5% من السكان؛ كما تذكر الويكيبيديا نسبة 88.8% لعام 2024 حسب TÜİK لمن تتراوح أعمارهم بين 16 و74 عامًا",
+          "as_of": "يناير 2024"
         }
       ],
       "correction": null,
