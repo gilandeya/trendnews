@@ -100,7 +100,7 @@ jobs:
         run: |
           git config user.name  "trendnews-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A drafts state/candidates state/youtube_topics
+          git add -A drafts state/candidates state/youtube_topics state/important
           if git diff --quiet --cached; then
             echo "لا تغيير"
             exit 0
